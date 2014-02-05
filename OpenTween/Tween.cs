@@ -121,6 +121,7 @@ namespace OpenTween
         private Color _clFav;               //Fav用文字色
         private Color _clOWL;               //片思い用文字色
         private Color _clRetweet;               //Retweet用文字色
+        private Color _clHighLight = Color.FromKnownColor(KnownColor.HighlightText);         //選択中の行用文字色
         private Font _fntDetail;            //発言詳細部用フォント
         private Color _clDetail;              //発言詳細部用色
         private Color _clDetailLink;          //発言詳細部用リンク文字色
@@ -163,12 +164,6 @@ namespace OpenTween
 
         // 以下DrawItem関連
         private SolidBrush _brsHighLight = new SolidBrush(Color.FromKnownColor(KnownColor.Highlight));
-        private SolidBrush _brsHighLightText = new SolidBrush(Color.FromKnownColor(KnownColor.HighlightText));
-        private SolidBrush _brsForeColorUnread;
-        private SolidBrush _brsForeColorReaded;
-        private SolidBrush _brsForeColorFav;
-        private SolidBrush _brsForeColorOWL;
-        private SolidBrush _brsForeColorRetweet;
         private SolidBrush _brsBackColorMine;
         private SolidBrush _brsBackColorAt;
         private SolidBrush _brsBackColorYou;
@@ -338,12 +333,6 @@ namespace OpenTween
             if (ReplyIcon != null) ReplyIcon.Dispose();
             if (ReplyIconBlink != null) ReplyIconBlink.Dispose();
             _brsHighLight.Dispose();
-            _brsHighLightText.Dispose();
-            if (_brsForeColorUnread != null) _brsForeColorUnread.Dispose();
-            if (_brsForeColorReaded != null) _brsForeColorReaded.Dispose();
-            if (_brsForeColorFav != null) _brsForeColorFav.Dispose();
-            if (_brsForeColorOWL != null) _brsForeColorOWL.Dispose();
-            if (_brsForeColorRetweet != null) _brsForeColorRetweet.Dispose();
             if (_brsBackColorMine != null) _brsBackColorMine.Dispose();
             if (_brsBackColorAt != null) _brsBackColorAt.Dispose();
             if (_brsBackColorYou != null) _brsBackColorYou.Dispose();
@@ -605,11 +594,6 @@ namespace OpenTween
                 this.Font = fontUIGlobal;
             }
 
-            _brsForeColorUnread = new SolidBrush(_clUnread);
-            _brsForeColorReaded = new SolidBrush(_clReaded);
-            _brsForeColorFav = new SolidBrush(_clFav);
-            _brsForeColorOWL = new SolidBrush(_clOWL);
-            _brsForeColorRetweet = new SolidBrush(_clRetweet);
             _brsBackColorMine = new SolidBrush(_clSelf);
             _brsBackColorAt = new SolidBrush(_clAtSelf);
             _brsBackColorYou = new SolidBrush(_clTarget);
@@ -894,16 +878,6 @@ namespace OpenTween
                 _clInputBackcolor = SettingDialog.ColorInputBackcolor;
                 _clInputFont = SettingDialog.ColorInputFont;
                 _fntInputFont = SettingDialog.FontInputFont;
-                _brsForeColorUnread.Dispose();
-                _brsForeColorReaded.Dispose();
-                _brsForeColorFav.Dispose();
-                _brsForeColorOWL.Dispose();
-                _brsForeColorRetweet.Dispose();
-                _brsForeColorUnread = new SolidBrush(_clUnread);
-                _brsForeColorReaded = new SolidBrush(_clReaded);
-                _brsForeColorFav = new SolidBrush(_clFav);
-                _brsForeColorOWL = new SolidBrush(_clOWL);
-                _brsForeColorRetweet = new SolidBrush(_clRetweet);
                 _brsBackColorMine.Dispose();
                 _brsBackColorAt.Dispose();
                 _brsBackColorYou.Dispose();
@@ -4012,16 +3986,6 @@ namespace OpenTween
                         MessageBox.Show(ex.Message);
                     }
 
-                    _brsForeColorUnread.Dispose();
-                    _brsForeColorReaded.Dispose();
-                    _brsForeColorFav.Dispose();
-                    _brsForeColorOWL.Dispose();
-                    _brsForeColorRetweet.Dispose();
-                    _brsForeColorUnread = new SolidBrush(_clUnread);
-                    _brsForeColorReaded = new SolidBrush(_clReaded);
-                    _brsForeColorFav = new SolidBrush(_clFav);
-                    _brsForeColorOWL = new SolidBrush(_clOWL);
-                    _brsForeColorRetweet = new SolidBrush(_clRetweet);
                     _brsBackColorMine.Dispose();
                     _brsBackColorAt.Dispose();
                     _brsBackColorYou.Dispose();
@@ -5277,16 +5241,12 @@ namespace OpenTween
             {
                 //アイコン以外の列
                 RectangleF rct = e.Bounds;
-                RectangleF rctB = e.Bounds;
                 rct.Width = e.Header.Width;
-                rctB.Width = e.Header.Width;
                 if (_iconCol)
                 {
                     rct.Y += e.Item.Font.Height;
                     rct.Height -= e.Item.Font.Height;
-                    rctB.Height = e.Item.Font.Height;
                 }
-
 
                 int heightDiff;
                 int drawLineCount = Math.Max(1, Math.DivRem((int)rct.Height, e.Item.Font.Height, out heightDiff));
@@ -5319,211 +5279,68 @@ namespace OpenTween
                 //    rct.Y += e.Item.Font.Height * 0.2;
                 //    if (heightDiff >= e.Item.Font.Height * 0.8) rct.Height -= e.Item.Font.Height * 0.2;
                 //}
-                if (!e.Item.Selected)     //e.ItemStateでうまく判定できない？？？
-                {
-                    //選択されていない行
-                    //文字色
-                    SolidBrush brs = null;
-                    bool flg = false;
 
-                    if (e.Item.ForeColor == _clUnread)
+                if (rct.Width > 0)
+                {
+                    Color color = (!e.Item.Selected) ? e.Item.ForeColor :   //選択されていない行
+                        (((Control)sender).Focused) ? _clHighLight :        //選択中の行
+                        _clUnread;
+
+                    if (_iconCol)
                     {
-                        brs = _brsForeColorUnread;
+                        RectangleF rctB = e.Bounds;
+                        rctB.Width = e.Header.Width;
+                        rctB.Height = e.Item.Font.Height;
+
+                        using (Font fnt = new Font(e.Item.Font, FontStyle.Bold))
+                        {
+                            TextRenderer.DrawText(e.Graphics,
+                                                    e.Item.SubItems[2].Text,
+                                                    e.Item.Font,
+                                                    Rectangle.Round(rct),
+                                                    color,
+                                                    TextFormatFlags.WordBreak |
+                                                    TextFormatFlags.EndEllipsis |
+                                                    TextFormatFlags.GlyphOverhangPadding |
+                                                    TextFormatFlags.NoPrefix);
+                            TextRenderer.DrawText(e.Graphics,
+                                                    e.Item.SubItems[4].Text + " / " + e.Item.SubItems[1].Text + " (" + e.Item.SubItems[3].Text + ") " + e.Item.SubItems[5].Text + e.Item.SubItems[6].Text + " [" + e.Item.SubItems[7].Text + "]",
+                                                    fnt,
+                                                    Rectangle.Round(rctB),
+                                                    color,
+                                                    TextFormatFlags.SingleLine |
+                                                    TextFormatFlags.EndEllipsis |
+                                                    TextFormatFlags.GlyphOverhangPadding |
+                                                    TextFormatFlags.NoPrefix);
+                        }
                     }
-                    else if (e.Item.ForeColor == _clReaded)
+                    else if (drawLineCount == 1)
                     {
-                        brs = _brsForeColorReaded;
-                    }
-                    else if (e.Item.ForeColor == _clFav)
-                    {
-                        brs = _brsForeColorFav;
-                    }
-                    else if (e.Item.ForeColor == _clOWL)
-                    {
-                        brs = _brsForeColorOWL;
-                    }
-                    else if (e.Item.ForeColor == _clRetweet)
-                    {
-                        brs = _brsForeColorRetweet;
+                        TextRenderer.DrawText(e.Graphics,
+                                                e.SubItem.Text,
+                                                e.Item.Font,
+                                                Rectangle.Round(rct),
+                                                color,
+                                                TextFormatFlags.SingleLine |
+                                                TextFormatFlags.EndEllipsis |
+                                                TextFormatFlags.GlyphOverhangPadding |
+                                                TextFormatFlags.NoPrefix |
+                                                TextFormatFlags.VerticalCenter);
                     }
                     else
                     {
-                        brs = new SolidBrush(e.Item.ForeColor);
-                        flg = true;
+                        TextRenderer.DrawText(e.Graphics,
+                                                e.SubItem.Text,
+                                                e.Item.Font,
+                                                Rectangle.Round(rct),
+                                                color,
+                                                TextFormatFlags.WordBreak |
+                                                TextFormatFlags.EndEllipsis |
+                                                TextFormatFlags.GlyphOverhangPadding |
+                                                TextFormatFlags.NoPrefix);
                     }
-
-                    if (rct.Width > 0)
-                    {
-                        if (_iconCol)
-                        {
-                            using (Font fnt = new Font(e.Item.Font, FontStyle.Bold))
-                            {
-                                //e.Graphics.DrawString(System.Environment.NewLine + e.Item.SubItems[2].Text, e.Item.Font, brs, rct, sf);
-                                //e.Graphics.DrawString(e.Item.SubItems[4].Text + " / " + e.Item.SubItems[1].Text + " (" + e.Item.SubItems[3].Text + ") " + e.Item.SubItems[5].Text + e.Item.SubItems[6].Text + " [" + e.Item.SubItems[7].Text + "]", fnt, brs, rctB, sf);
-                                TextRenderer.DrawText(e.Graphics,
-                                                      e.Item.SubItems[2].Text,
-                                                      e.Item.Font,
-                                                      Rectangle.Round(rct),
-                                                      brs.Color,
-                                                      TextFormatFlags.WordBreak |
-                                                      TextFormatFlags.EndEllipsis |
-                                                      TextFormatFlags.GlyphOverhangPadding |
-                                                      TextFormatFlags.NoPrefix);
-                                TextRenderer.DrawText(e.Graphics,
-                                                      e.Item.SubItems[4].Text + " / " + e.Item.SubItems[1].Text + " (" + e.Item.SubItems[3].Text + ") " + e.Item.SubItems[5].Text + e.Item.SubItems[6].Text + " [" + e.Item.SubItems[7].Text + "]",
-                                                      fnt,
-                                                      Rectangle.Round(rctB),
-                                                      brs.Color,
-                                                      TextFormatFlags.SingleLine |
-                                                      TextFormatFlags.EndEllipsis |
-                                                      TextFormatFlags.GlyphOverhangPadding |
-                                                      TextFormatFlags.NoPrefix);
-                            }
-                        }
-                        else if (drawLineCount == 1)
-                        {
-                            TextRenderer.DrawText(e.Graphics,
-                                                  e.SubItem.Text,
-                                                  e.Item.Font,
-                                                  Rectangle.Round(rct),
-                                                  brs.Color,
-                                                  TextFormatFlags.SingleLine |
-                                                  TextFormatFlags.EndEllipsis |
-                                                  TextFormatFlags.GlyphOverhangPadding |
-                                                  TextFormatFlags.NoPrefix |
-                                                  TextFormatFlags.VerticalCenter);
-                        }
-                        else
-                        {
-                            //e.Graphics.DrawString(e.SubItem.Text, e.Item.Font, brs, rct, sf);
-                            TextRenderer.DrawText(e.Graphics,
-                                                  e.SubItem.Text,
-                                                  e.Item.Font,
-                                                  Rectangle.Round(rct),
-                                                  brs.Color,
-                                                  TextFormatFlags.WordBreak |
-                                                  TextFormatFlags.EndEllipsis |
-                                                  TextFormatFlags.GlyphOverhangPadding |
-                                                  TextFormatFlags.NoPrefix);
-                        }
-                    }
-                    if (flg) brs.Dispose();
+                    //if (e.ColumnIndex == 6) this.DrawListViewItemStateIcon(e, rct);
                 }
-                else
-                {
-                    if (rct.Width > 0)
-                    {
-                        //選択中の行
-                        using (Font fnt = new Font(e.Item.Font, FontStyle.Bold))
-                        {
-                            if (((Control)sender).Focused)
-                            {
-                                if (_iconCol)
-                                {
-                                    //e.Graphics.DrawString(System.Environment.NewLine + e.Item.SubItems[2].Text, e.Item.Font, _brsHighLightText, rct, sf);
-                                    //e.Graphics.DrawString(e.Item.SubItems[4].Text + " / " + e.Item.SubItems[1].Text + " (" + e.Item.SubItems[3].Text + ") " + e.Item.SubItems[5].Text + e.Item.SubItems[6].Text + " [" + e.Item.SubItems[7].Text + "]", fnt, _brsHighLightText, rctB, sf);
-                                    TextRenderer.DrawText(e.Graphics,
-                                                          e.Item.SubItems[2].Text,
-                                                          e.Item.Font,
-                                                          Rectangle.Round(rct),
-                                                          _brsHighLightText.Color,
-                                                          TextFormatFlags.WordBreak |
-                                                          TextFormatFlags.EndEllipsis |
-                                                          TextFormatFlags.GlyphOverhangPadding |
-                                                          TextFormatFlags.NoPrefix);
-                                    TextRenderer.DrawText(e.Graphics,
-                                                          e.Item.SubItems[4].Text + " / " + e.Item.SubItems[1].Text + " (" + e.Item.SubItems[3].Text + ") " + e.Item.SubItems[5].Text + e.Item.SubItems[6].Text + " [" + e.Item.SubItems[7].Text + "]",
-                                                          fnt,
-                                                          Rectangle.Round(rctB),
-                                                          _brsHighLightText.Color,
-                                                          TextFormatFlags.SingleLine |
-                                                          TextFormatFlags.EndEllipsis |
-                                                          TextFormatFlags.GlyphOverhangPadding |
-                                                          TextFormatFlags.NoPrefix);
-                                }
-                                else if (drawLineCount == 1)
-                                {
-                                    TextRenderer.DrawText(e.Graphics,
-                                                          e.SubItem.Text,
-                                                          e.Item.Font,
-                                                          Rectangle.Round(rct),
-                                                          _brsHighLightText.Color,
-                                                          TextFormatFlags.SingleLine |
-                                                          TextFormatFlags.EndEllipsis |
-                                                          TextFormatFlags.GlyphOverhangPadding |
-                                                          TextFormatFlags.NoPrefix |
-                                                          TextFormatFlags.VerticalCenter);
-                                }
-                                else
-                                {
-                                    //e.Graphics.DrawString(e.SubItem.Text, e.Item.Font, _brsHighLightText, rct, sf);
-                                    TextRenderer.DrawText(e.Graphics,
-                                                          e.SubItem.Text,
-                                                          e.Item.Font,
-                                                          Rectangle.Round(rct),
-                                                          _brsHighLightText.Color,
-                                                          TextFormatFlags.WordBreak |
-                                                          TextFormatFlags.EndEllipsis |
-                                                          TextFormatFlags.GlyphOverhangPadding |
-                                                          TextFormatFlags.NoPrefix);
-                                }
-                            }
-                            else
-                            {
-                                if (_iconCol)
-                                {
-                                    //e.Graphics.DrawString(System.Environment.NewLine + e.Item.SubItems[2].Text, e.Item.Font, _brsForeColorUnread, rct, sf);
-                                    //e.Graphics.DrawString(e.Item.SubItems[4].Text + " / " + e.Item.SubItems[1].Text + " (" + e.Item.SubItems[3].Text + ") " + e.Item.SubItems[5].Text + e.Item.SubItems[6].Text + " [" + e.Item.SubItems[7].Text + "]", fnt, _brsForeColorUnread, rctB, sf);
-                                    TextRenderer.DrawText(e.Graphics,
-                                                          e.Item.SubItems[2].Text,
-                                                          e.Item.Font,
-                                                          Rectangle.Round(rct),
-                                                          _brsForeColorUnread.Color,
-                                                          TextFormatFlags.WordBreak |
-                                                          TextFormatFlags.EndEllipsis |
-                                                          TextFormatFlags.GlyphOverhangPadding |
-                                                          TextFormatFlags.NoPrefix);
-                                    TextRenderer.DrawText(e.Graphics,
-                                                          e.Item.SubItems[4].Text + " / " + e.Item.SubItems[1].Text + " (" + e.Item.SubItems[3].Text + ") " + e.Item.SubItems[5].Text + e.Item.SubItems[6].Text + " [" + e.Item.SubItems[7].Text + "]",
-                                                          fnt,
-                                                          Rectangle.Round(rctB),
-                                                          _brsForeColorUnread.Color,
-                                                          TextFormatFlags.SingleLine |
-                                                          TextFormatFlags.EndEllipsis |
-                                                          TextFormatFlags.GlyphOverhangPadding |
-                                                          TextFormatFlags.NoPrefix);
-                                }
-                                else if (drawLineCount == 1)
-                                {
-                                    TextRenderer.DrawText(e.Graphics,
-                                                          e.SubItem.Text,
-                                                          e.Item.Font,
-                                                          Rectangle.Round(rct),
-                                                          _brsForeColorUnread.Color,
-                                                          TextFormatFlags.SingleLine |
-                                                          TextFormatFlags.EndEllipsis |
-                                                          TextFormatFlags.GlyphOverhangPadding |
-                                                          TextFormatFlags.NoPrefix |
-                                                          TextFormatFlags.VerticalCenter);
-                                }
-                                else
-                                {
-                                    //e.Graphics.DrawString(e.SubItem.Text, e.Item.Font, _brsForeColorUnread, rct, sf);
-                                    TextRenderer.DrawText(e.Graphics,
-                                                          e.SubItem.Text,
-                                                          e.Item.Font,
-                                                          Rectangle.Round(rct),
-                                                          _brsForeColorUnread.Color,
-                                                          TextFormatFlags.WordBreak |
-                                                          TextFormatFlags.EndEllipsis |
-                                                          TextFormatFlags.GlyphOverhangPadding |
-                                                          TextFormatFlags.NoPrefix);
-                                }
-                            }
-                        }
-                    }
-                }
-                //if (e.ColumnIndex == 6) this.DrawListViewItemStateIcon(e, rct);
             }
         }
 
