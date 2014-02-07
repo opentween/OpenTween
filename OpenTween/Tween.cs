@@ -9538,6 +9538,9 @@ namespace OpenTween
                         this.IconNameToolStripMenuItem.Enabled = false;
                         this.IconNameToolStripMenuItem.Text = Properties.Resources.ContextMenuStrip3_OpeningText1;
                     }
+
+                    this.ReloadIconToolStripMenuItem.Enabled = true;
+
                     if (this.IconCache.TryGetFromCache(_curPost.ImageUrl) != null)
                     {
                         this.SaveIconPictureToolStripMenuItem.Enabled = true;
@@ -9550,6 +9553,7 @@ namespace OpenTween
                 else
                 {
                     this.IconNameToolStripMenuItem.Enabled = false;
+                    this.ReloadIconToolStripMenuItem.Enabled = false;
                     this.SaveIconPictureToolStripMenuItem.Enabled = false;
                     this.IconNameToolStripMenuItem.Text = Properties.Resources.ContextMenuStrip3_OpeningText1;
                 }
@@ -9557,6 +9561,7 @@ namespace OpenTween
             else
             {
                 this.IconNameToolStripMenuItem.Enabled = false;
+                this.ReloadIconToolStripMenuItem.Enabled = false;
                 this.SaveIconPictureToolStripMenuItem.Enabled = false;
                 this.IconNameToolStripMenuItem.Text = Properties.Resources.ContextMenuStrip3_OpeningText2;
             }
@@ -9601,6 +9606,25 @@ namespace OpenTween
             if (_curPost == null) return;
             string name = _curPost.ImageUrl;
             OpenUriAsync(name.Remove(name.LastIndexOf("_normal"), 7)); // "_normal".Length
+        }
+
+        private /* async */ void ReloadIconToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (this._curPost == null) return;
+
+            var imageUrl = this._curPost.ImageUrl;
+            var uiScheduler = TaskScheduler.FromCurrentSynchronizationContext();
+
+            this.IconCache.DownloadImageAsync(imageUrl, force: true)
+                .ContinueWith(t =>
+                {
+                    if (t.IsFaulted)
+                    {
+                        t.Exception.Flatten().Handle(x => x is InvalidImageException);
+                        return;
+                    }
+                    this.UserPicture.Image = t.Result;
+                }, uiScheduler);
         }
 
         private void SaveOriginalSizeIconPictureToolStripMenuItem_Click(object sender, EventArgs e)

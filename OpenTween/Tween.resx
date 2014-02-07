@@ -1775,6 +1775,12 @@
   <data name="&gt;&gt;IconNameToolStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="&gt;&gt;ReloadIconToolStripMenuItem.Name" xml:space="preserve">
+    <value>ReloadIconToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;ReloadIconToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="&gt;&gt;OpenFavotterOpMenuItem.Name" xml:space="preserve">
     <value>OpenFavotterOpMenuItem</value>
   </data>
@@ -3546,6 +3552,12 @@
   </data>
   <data name="IconNameToolStripMenuItem.Text" xml:space="preserve">
     <value>IconName</value>
+  </data>
+  <data name="ReloadIconToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>239, 22</value>
+  </data>
+  <data name="ReloadIconToolStripMenuItem.Text" xml:space="preserve">
+    <value>再読み込み (&amp;R)</value>
   </data>
   <data name="&gt;&gt;TabRenameMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>

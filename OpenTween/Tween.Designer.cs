@@ -91,6 +91,7 @@
             this.SearchAtPostsDetailNameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
             this.IconNameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ReloadIconToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.SaveIconPictureToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.NameLabel = new System.Windows.Forms.Label();
             this.PostBrowser = new System.Windows.Forms.WebBrowser();
@@ -858,6 +859,7 @@
             this.SearchAtPostsDetailNameToolStripMenuItem,
             this.ToolStripMenuItem1,
             this.IconNameToolStripMenuItem,
+            this.ReloadIconToolStripMenuItem,
             this.SaveIconPictureToolStripMenuItem});
             this.ContextMenuUserPicture.Name = "ContextMenuStrip3";
             this.ContextMenuUserPicture.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
@@ -921,6 +923,12 @@
             resources.ApplyResources(this.IconNameToolStripMenuItem, "IconNameToolStripMenuItem");
             this.IconNameToolStripMenuItem.Name = "IconNameToolStripMenuItem";
             this.IconNameToolStripMenuItem.Click += new System.EventHandler(this.IconNameToolStripMenuItem_Click);
+            // 
+            // ReloadIconToolStripMenuItem
+            // 
+            this.ReloadIconToolStripMenuItem.Name = "ReloadIconToolStripMenuItem";
+            resources.ApplyResources(this.ReloadIconToolStripMenuItem, "ReloadIconToolStripMenuItem");
+            this.ReloadIconToolStripMenuItem.Click += new System.EventHandler(this.ReloadIconToolStripMenuItem_Click);
             // 
             // SaveIconPictureToolStripMenuItem
             // 
@@ -2835,6 +2843,7 @@
         private System.Windows.Forms.ToolStripMenuItem ProtectTbMenuItem;
         private TweetThumbnail tweetThumbnail1;
         private System.Windows.Forms.ToolStripMenuItem TwitterApiStatusToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem ReloadIconToolStripMenuItem;
 
     }
 }
