@@ -5885,7 +5885,7 @@ namespace OpenTween
                 {
                     try
                     {
-                        UserPicture.Image = new Bitmap(img.Image);
+                        UserPicture.Image = img;
                     }
                     catch (Exception)
                     {
@@ -5988,7 +5988,7 @@ namespace OpenTween
                 {
                     try
                     {
-                        UserPicture.Image = new Bitmap(image.Image);
+                        UserPicture.Image = image;
                     }
                     catch (Exception)
                     {

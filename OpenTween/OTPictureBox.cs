@@ -35,7 +35,8 @@ namespace OpenTween
 {
     public class OTPictureBox : PictureBox
     {
-        [Localizable(true)]
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public new MemoryImage Image
         {
             get { return this.memoryImage; }
@@ -84,7 +85,9 @@ namespace OpenTween
             this.SizeMode = this.previousSizeMode;
         }
 
+        [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public new string ImageLocation
         {
             get { throw new NotImplementedException(); }

@@ -1602,7 +1602,7 @@
     <value>298, 6</value>
   </data>
   <data name="&gt;&gt;UserPicture.Type" xml:space="preserve">
-    <value>OpenTween.OpenTweenCustomControl.PictureBoxEx, OpenTween, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>OpenTween.OTPictureBox, OpenTween, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="RefreshOpMenuItem.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
     <value>F5</value>

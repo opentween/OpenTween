@@ -79,7 +79,7 @@
             this.SplitContainer3 = new System.Windows.Forms.SplitContainer();
             this.SplitContainer2 = new System.Windows.Forms.SplitContainer();
             this.TableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.UserPicture = new OpenTween.OpenTweenCustomControl.PictureBoxEx();
+            this.UserPicture = new OpenTween.OTPictureBox();
             this.ContextMenuUserPicture = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.FollowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.UnFollowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -2602,7 +2602,7 @@
         internal System.Windows.Forms.SplitContainer SplitContainer3;
         internal System.Windows.Forms.SplitContainer SplitContainer2;
         internal System.Windows.Forms.TableLayoutPanel TableLayoutPanel1;
-        internal OpenTweenCustomControl.PictureBoxEx UserPicture;
+        internal OTPictureBox UserPicture;
         internal System.Windows.Forms.ContextMenuStrip ContextMenuUserPicture;
         internal System.Windows.Forms.ToolStripMenuItem FollowToolStripMenuItem;
         internal System.Windows.Forms.ToolStripMenuItem UnFollowToolStripMenuItem;
