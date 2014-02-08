@@ -100,7 +100,7 @@ namespace OpenTween
                     if (force)
                         this.innerDictionary.Remove(address);
 
-                    if (this.innerDictionary.ContainsKey(address) && !this.innerDictionary[address].IsFaulted)
+                    if (this.innerDictionary.ContainsKey(address))
                         cachedImageTask = this.innerDictionary[address];
 
                     if (cachedImageTask != null)
@@ -110,19 +110,8 @@ namespace OpenTween
 
                     using (var client = new OTWebClient() { Timeout = 10000 })
                     {
-                        var imageTask = client.DownloadDataAsync(new Uri(address), cancelToken).ContinueWith(t =>
-                        {
-                            if (t.IsFaulted)
-                            {
-                                t.Exception.Handle(e => e is WebException);
-                                return null;
-                            }
-
-                            if (t.Status != TaskStatus.RanToCompletion)
-                                return null;
-
-                            return MemoryImage.CopyFromBytes(t.Result);
-                        }, cancelToken);
+                        var imageTask = client.DownloadDataAsync(new Uri(address), cancelToken)
+                            .ContinueWith(t => MemoryImage.CopyFromBytes(t.Result), TaskScheduler.Default);
 
                         this.innerDictionary[address] = imageTask;
 

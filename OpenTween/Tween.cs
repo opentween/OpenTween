@@ -9625,7 +9625,7 @@ namespace OpenTween
 
                     if (t.IsFaulted)
                     {
-                        t.Exception.Flatten().Handle(x => x is InvalidImageException);
+                        t.Exception.Flatten().Handle(x => x is WebException || x is InvalidImageException || x is TaskCanceledException);
                         this.UserPicture.ShowErrorImage();
                     }
                     else
