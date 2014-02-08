@@ -2942,20 +2942,26 @@ namespace OpenTween
                 {
                     foreach (var ent in entities.Urls)
                     {
+                        var startIndex = ent.Indices[0];
+                        var endIndex = ent.Indices[1];
+
+                        if (etInfo.ContainsKey(startIndex))
+                            continue;
+
                         if (string.IsNullOrEmpty(ent.DisplayUrl))
                         {
-                            etInfo.Add(ent.Indices[0],
-                                       new EntityInfo {StartIndex = ent.Indices[0],
-                                                       EndIndex = ent.Indices[1],
+                            etInfo.Add(startIndex,
+                                       new EntityInfo {StartIndex = startIndex,
+                                                       EndIndex = endIndex,
                                                        Text = ent.Url,
                                                        Html = "<a href=\"" + ent.Url + "\">" + ent.Url + "</a>"});
                         }
                         else
                         {
                             var expanded = ShortUrl.ResolveMedia(ent.ExpandedUrl, false);
-                            etInfo.Add(ent.Indices[0],
-                                       new EntityInfo {StartIndex = ent.Indices[0],
-                                                       EndIndex = ent.Indices[1],
+                            etInfo.Add(startIndex,
+                                       new EntityInfo {StartIndex = startIndex,
+                                                       EndIndex = endIndex,
                                                        Text = ent.Url,
                                                        Html = "<a href=\"" + ent.Url + "\" title=\"" + MyCommon.ConvertToReadableUrl(expanded) + "\">" + ent.DisplayUrl + "</a>",
                                                        Display = ent.DisplayUrl});
@@ -2967,10 +2973,16 @@ namespace OpenTween
                 {
                     foreach (var ent in entities.Hashtags)
                     {
-                        var hash = Text.Substring(ent.Indices[0], ent.Indices[1] - ent.Indices[0]);
-                        etInfo.Add(ent.Indices[0],
-                                   new EntityInfo {StartIndex = ent.Indices[0],
-                                                   EndIndex = ent.Indices[1],
+                        var startIndex = ent.Indices[0];
+                        var endIndex = ent.Indices[1];
+
+                        if (etInfo.ContainsKey(startIndex))
+                            continue;
+
+                        var hash = Text.Substring(startIndex, endIndex - startIndex);
+                        etInfo.Add(startIndex,
+                                   new EntityInfo {StartIndex = startIndex,
+                                                   EndIndex = endIndex,
                                                    Text = hash,
                                                    Html = "<a href=\"https://twitter.com/search?q=%23" + ent.Text + "\">" + hash + "</a>"});
                         lock (LockObj)
@@ -2983,10 +2995,16 @@ namespace OpenTween
                 {
                     foreach (var ent in entities.UserMentions)
                     {
-                        var screenName = Text.Substring(ent.Indices[0] + 1, ent.Indices[1] - ent.Indices[0] - 1);
-                        etInfo.Add(ent.Indices[0] + 1,
-                                   new EntityInfo {StartIndex = ent.Indices[0] + 1,
-                                                   EndIndex = ent.Indices[1],
+                        var startIndex = ent.Indices[0] + 1;
+                        var endIndex = ent.Indices[1];
+
+                        if (etInfo.ContainsKey(startIndex))
+                            continue;
+
+                        var screenName = Text.Substring(startIndex, endIndex - startIndex);
+                        etInfo.Add(startIndex,
+                                   new EntityInfo {StartIndex = startIndex,
+                                                   EndIndex = endIndex,
                                                    Text = ent.ScreenName,
                                                    Html = "<a href=\"/" + ent.ScreenName + "\">" + screenName + "</a>"});
                         if (!AtList.Contains(ent.ScreenName.ToLower())) AtList.Add(ent.ScreenName.ToLower());
@@ -2998,13 +3016,16 @@ namespace OpenTween
                     {
                         if (ent.Type == "photo")
                         {
+                            var startIndex = ent.Indices[0];
+                            var endIndex = ent.Indices[1];
+
                             // entities.Urls との重複を考慮
-                            if (etInfo.ContainsKey(ent.Indices[0]))
+                            if (etInfo.ContainsKey(startIndex))
                                 continue;
 
-                            etInfo.Add(ent.Indices[0],
-                                       new EntityInfo {StartIndex = ent.Indices[0],
-                                                       EndIndex = ent.Indices[1],
+                            etInfo.Add(startIndex,
+                                       new EntityInfo {StartIndex = startIndex,
+                                                       EndIndex = endIndex,
                                                        Text = ent.Url,
                                                        Html = "<a href=\"" + ent.Url + "\" title=\"" + ent.ExpandedUrl + "\">" + ent.DisplayUrl + "</a>",
                                                        Display = ent.DisplayUrl});
