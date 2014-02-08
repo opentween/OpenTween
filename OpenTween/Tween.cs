@@ -5878,23 +5878,16 @@ namespace OpenTween
         {
             if (sender.Equals(displayItem))
             {
-                if (UserPicture.Image != null) UserPicture.Image.Dispose();
+                this.ClearUserPicture();
 
                 var img = displayItem.Image;
-                if (img != null)
+                try
                 {
-                    try
-                    {
-                        UserPicture.Image = img;
-                    }
-                    catch (Exception)
-                    {
-                        UserPicture.Image = null;
-                    }
+                    UserPicture.Image = img != null ? img.Clone() : null;
                 }
-                else
+                catch (Exception)
                 {
-                    UserPicture.Image = null;
+                    UserPicture.ShowErrorImage();
                 }
             }
         }
@@ -5979,21 +5972,18 @@ namespace OpenTween
                 NameLabel.Text += " (RT:" + _curPost.RetweetedBy + ")";
             }
 
-            if (UserPicture.Image != null) UserPicture.Image.Dispose();
-            UserPicture.Image = null;
+            this.ClearUserPicture();
+
             if (!string.IsNullOrEmpty(_curPost.ImageUrl))
             {
                 var image = IconCache.TryGetFromCache(_curPost.ImageUrl);
-                if (image != null)
+                try
                 {
-                    try
-                    {
-                        UserPicture.Image = image;
-                    }
-                    catch (Exception)
-                    {
-                        UserPicture.Image = null;
-                    }
+                    UserPicture.Image = image != null ? image.Clone() : null;
+                }
+                catch (Exception)
+                {
+                    UserPicture.ShowErrorImage();
                 }
             }
 
@@ -9509,6 +9499,19 @@ namespace OpenTween
             doRepliedStatusOpen();
         }
 
+        /// <summary>
+        /// UserPicture.Image に設定されている画像を破棄します。
+        /// </summary>
+        private void ClearUserPicture()
+        {
+            if (this.UserPicture.Image != null)
+            {
+                var oldImage = this.UserPicture.Image;
+                this.UserPicture.Image = null;
+                oldImage.Dispose();
+            }
+        }
+
         private void ContextMenuUserPicture_Opening(object sender, CancelEventArgs e)
         {
             //発言詳細のアイコン右クリック時のメニュー制御
@@ -9618,12 +9621,17 @@ namespace OpenTween
             this.IconCache.DownloadImageAsync(imageUrl, force: true)
                 .ContinueWith(t =>
                 {
+                    this.ClearUserPicture();
+
                     if (t.IsFaulted)
                     {
                         t.Exception.Flatten().Handle(x => x is InvalidImageException);
-                        return;
+                        this.UserPicture.ShowErrorImage();
                     }
-                    this.UserPicture.Image = t.Result;
+                    else
+                    {
+                        this.UserPicture.Image = t.Result.Clone() ;
+                    }
                 }, uiScheduler);
         }
 
