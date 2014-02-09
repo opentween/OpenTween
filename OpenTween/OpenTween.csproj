@@ -106,6 +106,12 @@
     <Compile Include="FilterDialog.Designer.cs">
       <DependentUpon>FilterDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="InputDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="InputDialog.Designer.cs">
+      <DependentUpon>InputDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="OTBaseForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -396,6 +402,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="HashtagManage.zh-CHS.resx">
       <DependentUpon>HashtagManage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="InputDialog.en.resx">
+      <DependentUpon>InputDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="InputDialog.resx">
+      <DependentUpon>InputDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ListAvailable.resx">
       <DependentUpon>ListAvailable.cs</DependentUpon>
