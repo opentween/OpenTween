@@ -7742,6 +7742,51 @@ namespace OpenTween
             tabSetting.Save();
         }
 
+        private /* async */ void OpenURLFileMenuItem_Click(object sender, EventArgs e)
+        {
+            string inputText;
+            var ret = InputDialog.Show(this, Properties.Resources.OpenURL_InputText, Properties.Resources.OpenURL_Caption, out inputText);
+            if (ret != DialogResult.OK)
+                return;
+
+            var match = Twitter.StatusUrlRegex.Match(inputText);
+            if (!match.Success)
+            {
+                MessageBox.Show(this, Properties.Resources.OpenURL_InvalidFormat,
+                    Properties.Resources.OpenURL_Caption, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            var statusId = long.Parse(match.Groups["StatusId"].Value);
+            var uiScheduler = TaskScheduler.FromCurrentSynchronizationContext();
+
+            Task.Factory.StartNew(() =>
+                {
+                    var post = this._statuses[statusId];
+                    if (post == null)
+                    {
+                        var err = this.tw.GetStatusApi(false, statusId, ref post);
+                        if (!string.IsNullOrEmpty(err))
+                            throw new WebApiException(err);
+                    }
+                    return post;
+                }, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default)
+                .ContinueWith(t =>
+                {
+                    if (t.IsFaulted)
+                    {
+                        t.Exception.Flatten().Handle(x => x is WebApiException);
+
+                        var message = t.Exception.InnerException.Message;
+                        MessageBox.Show(this, string.Format(Properties.Resources.OpenURL_LoadFailed, message),
+                            Properties.Resources.OpenURL_Caption, MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                        return;
+                    }
+                    this.OpenRelatedTab(t.Result);
+                }, uiScheduler);
+        }
+
         private void SaveLogMenuItem_Click(object sender, EventArgs e)
         {
             DialogResult rslt = MessageBox.Show(string.Format(Properties.Resources.SaveLogMenuItem_ClickText1, Environment.NewLine),
@@ -12450,49 +12495,43 @@ namespace OpenTween
 
         private void ShowRelatedStatusesMenuItem_Click(object sender, EventArgs e) // Handles ShowRelatedStatusesMenuItem.Click, ShowRelatedStatusesMenuItem2.Click
         {
-            TabClass backToTab = _curTab == null ? _statuses.Tabs[ListTab.SelectedTab.Text] : _statuses.Tabs[_curTab.Text];
             if (this.ExistCurrentPost && !_curPost.IsDm)
             {
-                //PublicSearchも除外した方がよい？
-                if (_statuses.GetTabByType(MyCommon.TabUsageType.Related) == null)
-                {
-                    const string TabName = "Related Tweets";
-                    string tName = TabName;
-                    if (!this.AddNewTab(tName, false, MyCommon.TabUsageType.Related))
-                    {
-                        for (int i = 2; i <= 100; i++)
-                        {
-                            tName = TabName + i.ToString();
-                            if (this.AddNewTab(tName, false, MyCommon.TabUsageType.Related))
-                            {
-                                _statuses.AddTab(tName, MyCommon.TabUsageType.Related, null);
-                                break;
-                            }
-                        }
-                    }
-                    else
-                    {
-                        _statuses.AddTab(tName, MyCommon.TabUsageType.Related, null);
-                    }
-                    _statuses.GetTabByName(tName).UnreadManage = false;
-                    _statuses.GetTabByName(tName).Notify = false;
-                }
-
-                TabClass tb = _statuses.GetTabByType(MyCommon.TabUsageType.Related);
-                tb.RelationTargetPost = _curPost;
-                this.ClearTab(tb.TabName, false);
-                for (int i = 0; i < ListTab.TabPages.Count; i++)
-                {
-                    if (tb.TabName == ListTab.TabPages[i].Text)
-                    {
-                        ListTab.SelectedIndex = i;
-                        ListTabSelect(ListTab.TabPages[i]);
-                        break;
-                    }
-                }
-
-                GetTimeline(MyCommon.WORKERTYPE.Related, 1, 1, tb.TabName);
+                this.OpenRelatedTab(this._curPost);
             }
+        }
+
+        private void OpenRelatedTab(PostClass post)
+        {
+            const string tabName = "Related Tweets";
+
+            var tabRelated = this._statuses.GetTabByType(MyCommon.TabUsageType.Related);
+
+            if (tabRelated == null)
+            {
+                this.AddNewTab(tabName, false, MyCommon.TabUsageType.Related);
+                this._statuses.AddTab(tabName, MyCommon.TabUsageType.Related, null);
+
+                tabRelated = this._statuses.GetTabByType(MyCommon.TabUsageType.Related);
+                tabRelated.UnreadManage = false;
+                tabRelated.Notify = false;
+            }
+
+            tabRelated.RelationTargetPost = post;
+            this.ClearTab(tabName, false);
+
+            for (int i = 0; i < this.ListTab.TabPages.Count; i++)
+            {
+                var tabPage = this.ListTab.TabPages[i];
+                if (tabName == tabPage.Text)
+                {
+                    this.ListTab.SelectedIndex = i;
+                    this.ListTabSelect(tabPage);
+                    break;
+                }
+            }
+
+            this.GetTimeline(MyCommon.WORKERTYPE.Related, 1, 1, tabName);
         }
 
         private void CacheInfoMenuItem_Click(object sender, EventArgs e)

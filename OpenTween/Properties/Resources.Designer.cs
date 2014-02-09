@@ -1713,6 +1713,42 @@ namespace OpenTween.Properties {
         }
         
         /// <summary>
+        ///   ツイートURLを開く に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string OpenURL_Caption {
+            get {
+                return ResourceManager.GetString("OpenURL_Caption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   ツイートの URL を入力して下さい。 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string OpenURL_InputText {
+            get {
+                return ResourceManager.GetString("OpenURL_InputText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   入力された URL が正しくありません。 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string OpenURL_InvalidFormat {
+            get {
+                return ResourceManager.GetString("OpenURL_InvalidFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   ツイートの取得に失敗しました ({0}) に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string OpenURL_LoadFailed {
+            get {
+                return ResourceManager.GetString("OpenURL_LoadFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   発言 {0}  フォロー {1}  フォロワー {2}({3}) に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string OwnStatusTitle {

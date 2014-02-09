@@ -1565,6 +1565,15 @@
   <data name="SettingFileMenuItem.Text" xml:space="preserve">
     <value>設定(&amp;O)</value>
   </data>
+  <data name="toolStripSeparator44.Size" type="System.Drawing.Size, System.Drawing">
+    <value>187, 6</value>
+  </data>
+  <data name="OpenURLFileMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>190, 22</value>
+  </data>
+  <data name="OpenURLFileMenuItem.Text" xml:space="preserve">
+    <value>ツイートURLを開く(&amp;L)...</value>
+  </data>
   <data name="&gt;&gt;MenuItemHelp.Name" xml:space="preserve">
     <value>MenuItemHelp</value>
   </data>
@@ -4195,6 +4204,18 @@
     <value>2</value>
   </data>
   <data name="&gt;&gt;SettingFileMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;toolStripSeparator44.Name" xml:space="preserve">
+    <value>toolStripSeparator44</value>
+  </data>
+  <data name="&gt;&gt;toolStripSeparator44.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;OpenURLFileMenuItem.Name" xml:space="preserve">
+    <value>OpenURLFileMenuItem</value>
+  </data>
+  <data name="&gt;&gt;OpenURLFileMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="MultiLineMenuItem.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">

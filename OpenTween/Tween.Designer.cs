@@ -133,6 +133,8 @@
             this.MenuStrip1 = new System.Windows.Forms.MenuStrip();
             this.MenuItemFile = new System.Windows.Forms.ToolStripMenuItem();
             this.SettingFileMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator44 = new System.Windows.Forms.ToolStripSeparator();
+            this.OpenURLFileMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripSeparator21 = new System.Windows.Forms.ToolStripSeparator();
             this.SaveFileMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripSeparator23 = new System.Windows.Forms.ToolStripSeparator();
@@ -1239,6 +1241,8 @@
             resources.ApplyResources(this.MenuItemFile, "MenuItemFile");
             this.MenuItemFile.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.SettingFileMenuItem,
+            this.toolStripSeparator44,
+            this.OpenURLFileMenuItem,
             this.ToolStripSeparator21,
             this.SaveFileMenuItem,
             this.ToolStripSeparator23,
@@ -1257,6 +1261,17 @@
             resources.ApplyResources(this.SettingFileMenuItem, "SettingFileMenuItem");
             this.SettingFileMenuItem.Name = "SettingFileMenuItem";
             this.SettingFileMenuItem.Click += new System.EventHandler(this.SettingStripMenuItem_Click);
+            // 
+            // toolStripSeparator44
+            // 
+            this.toolStripSeparator44.Name = "toolStripSeparator44";
+            resources.ApplyResources(this.toolStripSeparator44, "toolStripSeparator44");
+            // 
+            // OpenURLFileMenuItem
+            // 
+            this.OpenURLFileMenuItem.Name = "OpenURLFileMenuItem";
+            resources.ApplyResources(this.OpenURLFileMenuItem, "OpenURLFileMenuItem");
+            this.OpenURLFileMenuItem.Click += new System.EventHandler(this.OpenURLFileMenuItem_Click);
             // 
             // ToolStripSeparator21
             // 
@@ -2844,6 +2859,8 @@
         private TweetThumbnail tweetThumbnail1;
         private System.Windows.Forms.ToolStripMenuItem TwitterApiStatusToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem ReloadIconToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator44;
+        private System.Windows.Forms.ToolStripMenuItem OpenURLFileMenuItem;
 
     }
 }

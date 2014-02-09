@@ -1132,4 +1132,16 @@
   <data name="ConfigDirectoryNotExist" xml:space="preserve">
     <value>"/configDir" で指定されたディレクトリ ({0}) は存在しないかアクセスできません。</value>
   </data>
+  <data name="OpenURL_Caption" xml:space="preserve">
+    <value>ツイートURLを開く</value>
+  </data>
+  <data name="OpenURL_InputText" xml:space="preserve">
+    <value>ツイートの URL を入力して下さい。</value>
+  </data>
+  <data name="OpenURL_InvalidFormat" xml:space="preserve">
+    <value>入力された URL が正しくありません。</value>
+  </data>
+  <data name="OpenURL_LoadFailed" xml:space="preserve">
+    <value>ツイートの取得に失敗しました ({0})</value>
+  </data>
 </root>

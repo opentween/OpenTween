@@ -1074,4 +1074,16 @@
   <data name="ConfigDirectoryNotExist" xml:space="preserve">
     <value>The configuration directory ({0}) specified by the "/configDir" option does not exist or is not accessible.</value>
   </data>
+  <data name="OpenURL_Caption" xml:space="preserve">
+    <value>Open URL</value>
+  </data>
+  <data name="OpenURL_InputText" xml:space="preserve">
+    <value>Enter the URL of the tweet you want to open.</value>
+  </data>
+  <data name="OpenURL_InvalidFormat" xml:space="preserve">
+    <value>The input URL is not valid.</value>
+  </data>
+  <data name="OpenURL_LoadFailed" xml:space="preserve">
+    <value>Failed to load the tweet. ({0})</value>
+  </data>
 </root>

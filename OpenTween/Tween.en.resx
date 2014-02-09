@@ -960,6 +960,9 @@
   <data name="SettingFileMenuItem.Text" xml:space="preserve">
     <value>Settings(&amp;O)...</value>
   </data>
+  <data name="OpenURLFileMenuItem.Text" xml:space="preserve">
+    <value>Open URL(&amp;L)...</value>
+  </data>
   <data name="ToolStripSeparator21.Size" type="System.Drawing.Size, System.Drawing">
     <value>239, 6</value>
   </data>
