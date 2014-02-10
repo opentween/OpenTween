@@ -1144,4 +1144,7 @@
   <data name="OpenURL_LoadFailed" xml:space="preserve">
     <value>ツイートの取得に失敗しました ({0})</value>
   </data>
+  <data name="TabNameDuplicate_Text" xml:space="preserve">
+    <value>タブ "{0}" が既に存在するため追加できません。同名のタブを削除して再度やり直して下さい。</value>
+  </data>
 </root>

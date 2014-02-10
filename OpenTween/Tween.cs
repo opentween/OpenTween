@@ -7783,7 +7783,14 @@ namespace OpenTween
 
                         return;
                     }
-                    this.OpenRelatedTab(t.Result);
+                    try
+                    {
+                        this.OpenRelatedTab(t.Result);
+                    }
+                    catch (TabException ex)
+                    {
+                        MessageBox.Show(this, ex.Message, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
                 }, uiScheduler);
         }
 
@@ -12497,24 +12504,41 @@ namespace OpenTween
         {
             if (this.ExistCurrentPost && !_curPost.IsDm)
             {
-                this.OpenRelatedTab(this._curPost);
+                try
+                {
+                    this.OpenRelatedTab(this._curPost);
+                }
+                catch (TabException ex)
+                {
+                    MessageBox.Show(this, ex.Message, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
         }
 
+        /// <summary>
+        /// 指定されたツイートに対する関連発言タブを開きます
+        /// </summary>
+        /// <param name="post">表示する対象となるツイート</param>
+        /// <exception cref="TabException">名前の重複が多すぎてタブを作成できない場合</exception>
         private void OpenRelatedTab(PostClass post)
         {
-            const string tabName = "Related Tweets";
-
             var tabRelated = this._statuses.GetTabByType(MyCommon.TabUsageType.Related);
+            string tabName;
 
             if (tabRelated == null)
             {
+                tabName = this._statuses.MakeTabName("Related Tweets");
+
                 this.AddNewTab(tabName, false, MyCommon.TabUsageType.Related);
                 this._statuses.AddTab(tabName, MyCommon.TabUsageType.Related, null);
 
                 tabRelated = this._statuses.GetTabByType(MyCommon.TabUsageType.Related);
                 tabRelated.UnreadManage = false;
                 tabRelated.Notify = false;
+            }
+            else
+            {
+                tabName = tabRelated.TabName;
             }
 
             tabRelated.RelationTargetPost = post;

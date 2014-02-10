@@ -1086,4 +1086,7 @@
   <data name="OpenURL_LoadFailed" xml:space="preserve">
     <value>Failed to load the tweet. ({0})</value>
   </data>
+  <data name="TabNameDuplicate_Text" xml:space="preserve">
+    <value>The tab "{0}" was already exists. Please remove the tab and try again.</value>
+  </data>
 </root>

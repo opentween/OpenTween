@@ -510,6 +510,42 @@ namespace OpenTween
             return _tabs.ContainsValue(ts);
         }
 
+        /// <summary>
+        /// 指定されたタブ名を元に、既存のタブ名との重複を避けた名前を生成します
+        /// </summary>
+        /// <param name="baseTabName">作成したいタブ名</param>
+        /// <returns>生成されたタブ名</returns>
+        /// <exception cref="TabException">タブ名の生成を 100 回試行して失敗した場合</exception>
+        public string MakeTabName(string baseTabName)
+        {
+            return this.MakeTabName(baseTabName, 100);
+        }
+
+        /// <summary>
+        /// 指定されたタブ名を元に、既存のタブ名との重複を避けた名前を生成します
+        /// </summary>
+        /// <param name="baseTabName">作成したいタブ名</param>
+        /// <param name="retryCount">重複を避けたタブ名を生成する試行回数</param>
+        /// <returns>生成されたタブ名</returns>
+        /// <exception cref="TabException">retryCount で指定された回数だけタブ名の生成を試行して失敗した場合</exception>
+        public string MakeTabName(string baseTabName, int retryCount)
+        {
+            if (!this.ContainsTab(baseTabName))
+                return baseTabName;
+
+            foreach (var i in Enumerable.Range(2, retryCount - 1))
+            {
+                var tabName = baseTabName + i;
+                if (!this.ContainsTab(tabName))
+                {
+                    return tabName;
+                }
+            }
+
+            var message = string.Format(Properties.Resources.TabNameDuplicate_Text, baseTabName);
+            throw new TabException(message);
+        }
+
         public Dictionary<string, TabClass> Tabs
         {
             get

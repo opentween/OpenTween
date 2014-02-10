@@ -2611,6 +2611,15 @@ namespace OpenTween.Properties {
         }
         
         /// <summary>
+        ///   タブ &quot;{0}&quot; が既に存在するため追加できません。同名のタブを削除して再度やり直して下さい。 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string TabNameDuplicate_Text {
+            get {
+                return ResourceManager.GetString("TabNameDuplicate_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   タブ　&quot;&quot;{0}&quot;&quot;　は既に存在するため、変更できません。別の名前を指定してください。 に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string Tabs_DoubleClickText1 {

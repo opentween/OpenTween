@@ -247,6 +247,7 @@
     <Compile Include="Setting\Panel\TweetPrvPanel.Designer.cs">
       <DependentUpon>TweetPrvPanel.cs</DependentUpon>
     </Compile>
+    <Compile Include="TabException.cs" />
     <Compile Include="TabsDialog.cs">
       <SubType>Form</SubType>
     </Compile>
