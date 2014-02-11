@@ -320,5 +320,15 @@ namespace OpenTween
             var expected = "Cafe\u0301 <a href=\"https://twitter.com/search?q=%23test\">#test</a>";
             Assert.Equal(expected, TweetFormatter.AutoLinkHtml(text, entities));
         }
+
+        [Fact]
+        public void AutoLinkHtml_BreakLineTest()
+        {
+            var text = "てすと\nてすと\nてすと";
+            TwitterDataModel.Entities entities = null;
+
+            var expected = "てすと<br>てすと<br>てすと";
+            Assert.Equal(expected, TweetFormatter.AutoLinkHtml(text, entities));
+        }
     }
 }

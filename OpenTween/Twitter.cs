@@ -2965,7 +2965,7 @@ namespace OpenTween
             text = TweetFormatter.AutoLinkHtml(text, entities);
 
             text = Regex.Replace(text, "(^|[^a-zA-Z0-9_/&#＃@＠>=.~])(sm|nm)([0-9]{1,10})", "$1<a href=\"http://www.nicovideo.jp/watch/$2$3\">$2$3</a>");
-            text = AdjustHtml(ShortUrl.Resolve(PreProcessUrl(text), false)); //IDN置換、短縮Uri解決、@リンクを相対→絶対にしてtarget属性付与
+            text = PreProcessUrl(text); //IDN置換
 
             return text;
         }

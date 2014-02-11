@@ -90,7 +90,7 @@ namespace OpenTween
                     continue; // 区間が文字列長を越えている不正なエンティティを無視する
 
                 if (curIndex != startIndex)
-                    yield return e(text.Substring(curIndex, startIndex - curIndex));
+                    yield return t(e(text.Substring(curIndex, startIndex - curIndex)));
 
                 var targetText = text.Substring(startIndex, endIndex - startIndex);
 
@@ -101,13 +101,13 @@ namespace OpenTween
                 else if (entity is TwitterDataModel.UserMentions)
                     yield return FormatMentionEntity(targetText, (TwitterDataModel.UserMentions)entity);
                 else
-                    yield return e(targetText);
+                    yield return t(e(targetText));
 
                 curIndex = endIndex;
             }
 
             if (curIndex != text.Length)
-                yield return e(text.Substring(curIndex));
+                yield return t(e(text.Substring(curIndex)));
         }
 
         /// <summary>
@@ -153,26 +153,27 @@ namespace OpenTween
             if (entity.DisplayUrl == null)
             {
                 expandedUrl = MyCommon.ConvertToReadableUrl(targetText);
-                return "<a href=\"" + e(entity.Url) + "\" title=\"" + e(expandedUrl) + "\">" + e(targetText) + "</a>";
+                return "<a href=\"" + e(entity.Url) + "\" title=\"" + e(expandedUrl) + "\">" + t(e(targetText)) + "</a>";
             }
 
             expandedUrl = MyCommon.ConvertToReadableUrl(entity.ExpandedUrl);
-            return "<a href=\"" + e(entity.Url) + "\" title=\"" + e(expandedUrl) + "\">" + e(entity.DisplayUrl) + "</a>";
+            return "<a href=\"" + e(entity.Url) + "\" title=\"" + e(expandedUrl) + "\">" + t(e(entity.DisplayUrl)) + "</a>";
         }
 
         private static string FormatHashtagEntity(string targetText, TwitterDataModel.Hashtags entity)
         {
-            return "<a href=\"https://twitter.com/search?q=%23" + eu(entity.Text) + "\">" + e(targetText) + "</a>";
+            return "<a href=\"https://twitter.com/search?q=%23" + eu(entity.Text) + "\">" + t(e(targetText)) + "</a>";
         }
 
         private static string FormatMentionEntity(string targetText, TwitterDataModel.UserMentions entity)
         {
-            return "<a href=\"https://twitter.com/" + eu(entity.ScreenName) + "\">" + e(targetText) + "</a>";
+            return "<a href=\"https://twitter.com/" + eu(entity.ScreenName) + "\">" + t(e(targetText)) + "</a>";
         }
 
-        // 長いのでエイリアスとして e(...), eu(...) でエスケープできるようにする
+        // 長いのでエイリアスとして e(...), eu(...), t(...) でエスケープできるようにする
         private static Func<string, string> e = EscapeHtml;
         private static Func<string, string> eu = Uri.EscapeDataString;
+        private static Func<string, string> t = FilterText;
 
         private static string EscapeHtml(string text)
         {
@@ -209,6 +210,17 @@ namespace OpenTween
             }
 
             return result.ToString();
+        }
+
+        /// <summary>
+        /// HTML の属性値ではない、通常のテキストに対するフィルタ処理
+        /// </summary>
+        private static string FilterText(string text)
+        {
+            text = text.Replace("\n", "<br>");
+            text = text.Replace(" ", "&nbsp;");
+
+            return text;
         }
     }
 }
