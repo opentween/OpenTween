@@ -177,9 +177,9 @@ namespace OpenTween
 
         private static string EscapeHtml(string text)
         {
-            // Twitter API は "<" と ">" だけ中途半端にエスケープした状態のテキストを返すため、
+            // Twitter API は "<" ">" "&" だけ中途半端にエスケープした状態のテキストを返すため、
             // これらの文字だけ一旦エスケープを解除する
-            text = text.Replace("&lt;", "<").Replace("&gt;", ">");
+            text = text.Replace("&lt;", "<").Replace("&gt;", ">").Replace("&amp;", "&");
 
             var result = new StringBuilder(100);
             foreach (var c in text)
