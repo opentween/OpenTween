@@ -5009,7 +5009,11 @@ namespace OpenTween
                 }
                 else
                 {
-                    pLen += url.Length - SettingDialog.TwitterConfiguration.ShortUrlLength;
+                    int shortUrlLength = protocol == "https://"
+                        ? SettingDialog.TwitterConfiguration.ShortUrlLengthHttps
+                        : SettingDialog.TwitterConfiguration.ShortUrlLength;
+
+                    pLen += url.Length - shortUrlLength;
                 }
                 
                 //if (m.Result("${url}").Length > SettingDialog.TwitterConfiguration.ShortUrlLength)
