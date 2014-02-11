@@ -1615,7 +1615,7 @@ namespace OpenTween
             }
             //HTMLに整形
             string textFromApi = post.TextFromApi;
-            post.Text = CreateHtmlAnchor(ref textFromApi, post.ReplyToList, entities, post.Media);
+            post.Text = CreateHtmlAnchor(textFromApi, post.ReplyToList, entities, post.Media);
             post.TextFromApi = textFromApi;
             post.TextFromApi = this.ReplaceTextFromApi(post.TextFromApi, entities);
             post.TextFromApi = WebUtility.HtmlDecode(post.TextFromApi);
@@ -2028,7 +2028,7 @@ namespace OpenTween
                     //本文
                     var textFromApi = message.Text;
                     //HTMLに整形
-                    post.Text = CreateHtmlAnchor(ref textFromApi, post.ReplyToList, message.Entities, post.Media);
+                    post.Text = CreateHtmlAnchor(textFromApi, post.ReplyToList, message.Entities, post.Media);
                     post.TextFromApi = this.ReplaceTextFromApi(textFromApi, message.Entities);
                     post.TextFromApi = WebUtility.HtmlDecode(post.TextFromApi);
                     post.TextFromApi = post.TextFromApi.Replace("<3", "\u2661");
@@ -2271,7 +2271,7 @@ namespace OpenTween
                     }
                     //HTMLに整形
                     string textFromApi = post.TextFromApi;
-                    post.Text = CreateHtmlAnchor(ref textFromApi, post.ReplyToList, entities, post.Media);
+                    post.Text = CreateHtmlAnchor(textFromApi, post.ReplyToList, entities, post.Media);
                     post.TextFromApi = textFromApi;
                     post.TextFromApi = this.ReplaceTextFromApi(post.TextFromApi, entities);
                     post.TextFromApi = WebUtility.HtmlDecode(post.TextFromApi);
@@ -2922,144 +2922,52 @@ namespace OpenTween
             return retStr;
         }
 
-        private class EntityInfo
+        public string CreateHtmlAnchor(string text, List<string> AtList, TwitterDataModel.Entities entities, Dictionary<string, string> media)
         {
-            public int StartIndex { get; set; }
-            public int EndIndex { get; set; }
-            public string Text { get; set; }
-            public string Html { get; set; }
-            public string Display { get; set; }
-        }
-        public string CreateHtmlAnchor(ref string Text, List<string> AtList, TwitterDataModel.Entities entities, Dictionary<string, string> media)
-        {
-            var ret = Text;
-
             if (entities != null)
             {
-                var etInfo = new SortedList<int, EntityInfo>();
-                //URL
                 if (entities.Urls != null)
                 {
                     foreach (var ent in entities.Urls)
                     {
-                        var startIndex = ent.Indices[0];
-                        var endIndex = ent.Indices[1];
+                        ent.ExpandedUrl = ShortUrl.ResolveMedia(ent.ExpandedUrl, false);
 
-                        if (etInfo.ContainsKey(startIndex))
-                            continue;
-
-                        if (string.IsNullOrEmpty(ent.DisplayUrl))
-                        {
-                            etInfo.Add(startIndex,
-                                       new EntityInfo {StartIndex = startIndex,
-                                                       EndIndex = endIndex,
-                                                       Text = ent.Url,
-                                                       Html = "<a href=\"" + ent.Url + "\">" + ent.Url + "</a>"});
-                        }
-                        else
-                        {
-                            var expanded = ShortUrl.ResolveMedia(ent.ExpandedUrl, false);
-                            etInfo.Add(startIndex,
-                                       new EntityInfo {StartIndex = startIndex,
-                                                       EndIndex = endIndex,
-                                                       Text = ent.Url,
-                                                       Html = "<a href=\"" + ent.Url + "\" title=\"" + MyCommon.ConvertToReadableUrl(expanded) + "\">" + ent.DisplayUrl + "</a>",
-                                                       Display = ent.DisplayUrl});
-                            if (media != null && !media.ContainsKey(ent.Url)) media.Add(ent.Url, expanded);
-                        }
+                        if (media != null && !media.ContainsKey(ent.Url))
+                            media.Add(ent.Url, ent.ExpandedUrl);
                     }
                 }
                 if (entities.Hashtags != null)
                 {
-                    foreach (var ent in entities.Hashtags)
+                    lock (this.LockObj)
                     {
-                        var startIndex = ent.Indices[0];
-                        var endIndex = ent.Indices[1];
-
-                        if (etInfo.ContainsKey(startIndex))
-                            continue;
-
-                        var hash = Text.Substring(startIndex, endIndex - startIndex);
-                        etInfo.Add(startIndex,
-                                   new EntityInfo {StartIndex = startIndex,
-                                                   EndIndex = endIndex,
-                                                   Text = hash,
-                                                   Html = "<a href=\"https://twitter.com/search?q=%23" + ent.Text + "\">" + hash + "</a>"});
-                        lock (LockObj)
-                        {
-                            _hashList.Add("#" + ent.Text);
-                        }
+                        this._hashList.AddRange(entities.Hashtags.Select(x => "#" + x.Text));
                     }
                 }
                 if (entities.UserMentions != null)
                 {
                     foreach (var ent in entities.UserMentions)
                     {
-                        var startIndex = ent.Indices[0] + 1;
-                        var endIndex = ent.Indices[1];
-
-                        if (etInfo.ContainsKey(startIndex))
-                            continue;
-
-                        var screenName = Text.Substring(startIndex, endIndex - startIndex);
-                        etInfo.Add(startIndex,
-                                   new EntityInfo {StartIndex = startIndex,
-                                                   EndIndex = endIndex,
-                                                   Text = ent.ScreenName,
-                                                   Html = "<a href=\"/" + ent.ScreenName + "\">" + screenName + "</a>"});
-                        if (!AtList.Contains(ent.ScreenName.ToLower())) AtList.Add(ent.ScreenName.ToLower());
+                        var screenName = ent.ScreenName.ToLower();
+                        if (!AtList.Contains(screenName))
+                            AtList.Add(screenName);
                     }
                 }
                 if (entities.Media != null)
                 {
                     foreach (var ent in entities.Media)
                     {
-                        if (ent.Type == "photo")
-                        {
-                            var startIndex = ent.Indices[0];
-                            var endIndex = ent.Indices[1];
-
-                            // entities.Urls との重複を考慮
-                            if (etInfo.ContainsKey(startIndex))
-                                continue;
-
-                            etInfo.Add(startIndex,
-                                       new EntityInfo {StartIndex = startIndex,
-                                                       EndIndex = endIndex,
-                                                       Text = ent.Url,
-                                                       Html = "<a href=\"" + ent.Url + "\" title=\"" + ent.ExpandedUrl + "\">" + ent.DisplayUrl + "</a>",
-                                                       Display = ent.DisplayUrl});
-                            if (media != null && !media.ContainsKey(ent.Url)) media.Add(ent.Url, ent.MediaUrl);
-                        }
-                    }
-                }
-                if (etInfo.Count > 0)
-                {
-                    try
-                    {
-                        var idx = 0;
-                        ret = "";
-                        foreach (var et in etInfo)
-                        {
-                            ret += Text.Substring(idx, et.Key - idx) + et.Value.Html;
-                            idx = et.Value.EndIndex;
-                        }
-                        ret += Text.Substring(idx);
-                    }
-                    catch(ArgumentOutOfRangeException)
-                    {
-                        //Twitterのバグで不正なエンティティ（Index指定範囲が重なっている）が返ってくる場合の対応
-                        ret = Text;
-                        entities = null;
-                        if (media != null) media.Clear();
+                        if (media != null && !media.ContainsKey(ent.Url))
+                            media.Add(ent.Url, ent.MediaUrl);
                     }
                 }
             }
 
-            ret = Regex.Replace(ret, "(^|[^a-zA-Z0-9_/&#＃@＠>=.~])(sm|nm)([0-9]{1,10})", "$1<a href=\"http://www.nicovideo.jp/watch/$2$3\">$2$3</a>");
-            ret = AdjustHtml(ShortUrl.Resolve(PreProcessUrl(ret), false)); //IDN置換、短縮Uri解決、@リンクを相対→絶対にしてtarget属性付与
+            text = TweetFormatter.AutoLinkHtml(text, entities);
 
-            return ret;
+            text = Regex.Replace(text, "(^|[^a-zA-Z0-9_/&#＃@＠>=.~])(sm|nm)([0-9]{1,10})", "$1<a href=\"http://www.nicovideo.jp/watch/$2$3\">$2$3</a>");
+            text = AdjustHtml(ShortUrl.Resolve(PreProcessUrl(text), false)); //IDN置換、短縮Uri解決、@リンクを相対→絶対にしてtarget属性付与
+
+            return text;
         }
 
         //Source整形

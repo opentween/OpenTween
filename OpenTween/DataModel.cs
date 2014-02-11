@@ -41,6 +41,12 @@ namespace OpenTween
         }
 
         [DataContract]
+        public class Entity
+        {
+            [DataMember(Name = "indices")] public int[] Indices = new int[3];
+        }
+
+        [DataContract]
         public class SizeElement
         {
             [DataMember(Name = "w")] public int w;
@@ -58,39 +64,32 @@ namespace OpenTween
         }
 
         [DataContract]
-        public class Media
+        public class Media : Urls
         {
             [DataMember(Name = "id")] public long Id;
             [DataMember(Name = "media_url")] public string MediaUrl;
             [DataMember(Name = "media_url_https")] public string MediaUrlHttps;
-            [DataMember(Name = "url")] public string Url;
-            [DataMember(Name = "display_url")] public string DisplayUrl;
-            [DataMember(Name = "expanded_url")] public string ExpandedUrl;
             [DataMember(Name = "sizes")] public Sizes Sizes;
             [DataMember(Name = "type")] public string Type;
-            [DataMember(Name = "indices")] public int[] Indices = new int[3];
         }
 
         [DataContract]
-        public class Urls
+        public class Urls : Entity
         {
             [DataMember(Name = "url")] public string Url;
             [DataMember(Name = "display_url")] public string DisplayUrl;
             [DataMember(Name = "expanded_url")] public string ExpandedUrl;
-            [DataMember(Name = "indices")] public int[] Indices = new int[3];
         }
 
         [DataContract]
-        public class Hashtags
+        public class Hashtags : Entity
         {
-            [DataMember(Name = "indices")] public int[] Indices = new int[3];
             [DataMember(Name = "text")] public string Text;
         }
 
         [DataContract]
-        public class UserMentions
+        public class UserMentions : Entity
         {
-            [DataMember(Name = "indices")] public int[] Indices = new int[3];
             [DataMember(Name = "screen_name")] public string ScreenName;
             [DataMember(Name = "name")] public string Name;
             [DataMember(Name = "id")] public Int64 Id;

@@ -270,6 +270,7 @@
     <Compile Include="Thumbnail\Services\Youtube.cs" />
     <Compile Include="Thumbnail\ThumbnailGenerator.cs" />
     <Compile Include="Thumbnail\ThumbnailInfo.cs" />
+    <Compile Include="TweetFormatter.cs" />
     <Compile Include="TweetThumbnail.cs">
       <SubType>UserControl</SubType>
     </Compile>

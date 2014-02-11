@@ -75,6 +75,7 @@
     <Compile Include="Thumbnail\Services\SimpleThumbnailServiceTest.cs" />
     <Compile Include="Thumbnail\Services\TinamiTest.cs" />
     <Compile Include="ToolStripAPIGaugeTest.cs" />
+    <Compile Include="TweetFormatterTest.cs" />
     <Compile Include="TweetThumbnailTest.cs" />
     <Compile Include="TwitterTest.cs" />
   </ItemGroup>

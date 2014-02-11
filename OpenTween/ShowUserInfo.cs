@@ -180,7 +180,7 @@ namespace OpenTween
             if (_info.RecentPost != null)
             {
                 recentPostTxt = MyOwner.createDetailHtml(
-                     MyOwner.TwitterInstance.CreateHtmlAnchor(ref _info.RecentPost, atlist, userInfo.Status.Entities, null) +
+                     MyOwner.TwitterInstance.CreateHtmlAnchor(_info.RecentPost, atlist, userInfo.Status.Entities, null) +
                      " Posted at " + _info.PostCreatedAt.ToString() +
                      " via " + _info.PostSource);
             }
