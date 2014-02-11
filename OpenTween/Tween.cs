@@ -4953,7 +4953,10 @@ namespace OpenTween
         private int GetRestStatusCount(bool isAuto, bool isAddFooter)
         {
             //文字数カウント
-            int pLen = 140 - StatusText.Text.Length;
+            var statusText = this.StatusText.Text;
+            statusText = statusText.Replace("\r\n", "\n");
+
+            int pLen = 140 - statusText.Length;
             if (this.NotifyIcon1 == null || !this.NotifyIcon1.Visible) return pLen;
             if ((isAuto && !MyCommon.IsKeyDown(Keys.Control) && SettingDialog.PostShiftEnter) ||
                 (isAuto && !MyCommon.IsKeyDown(Keys.Shift) && !SettingDialog.PostShiftEnter) ||
@@ -4968,11 +4971,11 @@ namespace OpenTween
             {
                 pLen -= HashMgr.UseHash.Length + 1;
             }
-            //foreach (Match m in Regex.Matches(StatusText.Text, "https?:\/\/[-_.!~*//()a-zA-Z0-9;\/?:\@&=+\$,%#^]+"))
+            //foreach (Match m in Regex.Matches(statusText, "https?:\/\/[-_.!~*//()a-zA-Z0-9;\/?:\@&=+\$,%#^]+"))
             //{
             //    pLen += m.Length - SettingDialog.TwitterConfiguration.ShortUrlLength;
             //}
-            foreach (Match m in Regex.Matches(StatusText.Text, Twitter.rgUrl, RegexOptions.IgnoreCase))
+            foreach (Match m in Regex.Matches(statusText, Twitter.rgUrl, RegexOptions.IgnoreCase))
             {
                 string before = m.Result("${before}");
                 string url = m.Result("${url}");
