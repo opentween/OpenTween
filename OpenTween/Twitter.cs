@@ -464,8 +464,6 @@ namespace OpenTween
 
             if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid) return "";
 
-            postStr = postStr.Trim();
-
             if (Regex.Match(postStr, "^DM? +(?<id>[a-zA-Z0-9_]+) +(?<body>.+)", RegexOptions.IgnoreCase | RegexOptions.Singleline).Success)
             {
                 return SendDirectMessage(postStr);
@@ -522,8 +520,6 @@ namespace OpenTween
 
             if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid) return "";
 
-            postStr = postStr.Trim();
-
             HttpStatusCode res;
             var content = "";
             try
@@ -579,8 +575,6 @@ namespace OpenTween
             {
                 return "Auth Err:try to re-authorization.";
             }
-
-            postStr = postStr.Trim();
 
             var mc = Regex.Match(postStr, "^DM? +(?<id>[a-zA-Z0-9_]+) +(?<body>.+)", RegexOptions.IgnoreCase | RegexOptions.Singleline);
 

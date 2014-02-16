@@ -2087,7 +2087,7 @@ namespace OpenTween
                 }
             }
 
-            _history[_history.Count - 1] = new PostingStatus(StatusText.Text.Trim(), _reply_to_id, _reply_to_name);
+            _history[_history.Count - 1] = new PostingStatus(StatusText.Text, _reply_to_id, _reply_to_name);
 
             if (SettingDialog.Nicoms)
             {
@@ -2201,7 +2201,7 @@ namespace OpenTween
                         footer += " " + SettingDialog.Status.Trim();
                 }
             }
-            args.status.status = header + StatusText.Text.Trim() + footer;
+            args.status.status = header + StatusText.Text + footer;
 
             if (ToolStripMenuItemApiCommandEvasion.Checked)
             {
