@@ -130,7 +130,7 @@ namespace OpenTween
             var filePath = GetSettingFilePath(fileId);
             do
             {
-                var tmpfilePath = Path.GetTempFileName();
+                var tmpfilePath = GetSettingFilePath("_" + Path.GetRandomFileName());
                 try
                 {
                     lock (lockObj)
