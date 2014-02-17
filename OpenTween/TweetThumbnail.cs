@@ -70,62 +70,60 @@ namespace OpenTween
             var uiScheduler = TaskScheduler.FromCurrentSynchronizationContext();
 
             this.task = Task.Factory.StartNew(() => this.GetThumbailInfo(post), cancelToken, TaskCreationOptions.None, TaskScheduler.Default)
-                .ContinueWith( /* await使いたい */
-                    t =>
+                .ContinueWith(t => /* await使いたい */
+                {
+                    var thumbnails = t.Result;
+
+                    lock (this.uiLockObj)
                     {
-                        var thumbnails = t.Result;
+                        this.SetThumbnailCount(thumbnails.Count);
+                        if (thumbnails.Count == 0) return;
 
-                        lock (this.uiLockObj)
+                        for (int i = 0; i < thumbnails.Count; i++)
                         {
-                            this.SetThumbnailCount(thumbnails.Count);
-                            if (thumbnails.Count == 0) return;
+                            var thumb = thumbnails[i];
+                            var picbox = this.pictureBox[i];
 
-                            for (int i = 0; i < thumbnails.Count; i++)
-                            {
-                                var thumb = thumbnails[i];
-                                var picbox = this.pictureBox[i];
+                            picbox.Tag = thumb;
+                            picbox.ContextMenu = CreateContextMenu(thumb);
 
-                                picbox.Tag = thumb;
-                                picbox.ContextMenu = CreateContextMenu(thumb);
+                            picbox.ShowInitialImage();
 
-                                picbox.ShowInitialImage();
-
-                                thumb.LoadThumbnailImageAsync(cancelToken)
-                                    .ContinueWith(t2 =>
-                                    {
-                                        if (t2.IsFaulted)
-                                            t2.Exception.Flatten().Handle(x => x is WebException || x is InvalidImageException || x is TaskCanceledException);
-
-                                        if (t2.IsFaulted || t2.IsCanceled)
-                                        {
-                                            picbox.ShowErrorImage();
-                                            return;
-                                        }
-
-                                        picbox.Image = t2.Result;
-                                    },
-                                    CancellationToken.None, TaskContinuationOptions.AttachedToParent, uiScheduler);
-
-                                var tooltipText = thumb.TooltipText;
-                                if (!string.IsNullOrEmpty(tooltipText))
+                            thumb.LoadThumbnailImageAsync(cancelToken)
+                                .ContinueWith(t2 =>
                                 {
-                                    this.toolTip.SetToolTip(picbox, tooltipText);
-                                }
+                                    if (t2.IsFaulted)
+                                        t2.Exception.Flatten().Handle(x => x is WebException || x is InvalidImageException || x is TaskCanceledException);
 
-                                cancelToken.ThrowIfCancellationRequested();
+                                    if (t2.IsFaulted || t2.IsCanceled)
+                                    {
+                                        picbox.ShowErrorImage();
+                                        return;
+                                    }
+
+                                    picbox.Image = t2.Result;
+                                },
+                                CancellationToken.None, TaskContinuationOptions.AttachedToParent, uiScheduler);
+
+                            var tooltipText = thumb.TooltipText;
+                            if (!string.IsNullOrEmpty(tooltipText))
+                            {
+                                this.toolTip.SetToolTip(picbox, tooltipText);
                             }
 
-                            if (thumbnails.Count > 1)
-                                this.scrollBar.Enabled = true;
+                            cancelToken.ThrowIfCancellationRequested();
                         }
 
-                        if (this.ThumbnailLoading != null)
-                            this.ThumbnailLoading(this, new EventArgs());
-                    },
-                    cancelToken,
-                    TaskContinuationOptions.OnlyOnRanToCompletion,
-                    uiScheduler
-                );
+                        if (thumbnails.Count > 1)
+                            this.scrollBar.Enabled = true;
+                    }
+
+                    if (this.ThumbnailLoading != null)
+                        this.ThumbnailLoading(this, EventArgs.Empty);
+                },
+                cancelToken,
+                TaskContinuationOptions.OnlyOnRanToCompletion,
+                uiScheduler);
 
             return this.task;
         }
@@ -141,12 +139,7 @@ namespace OpenTween
         {
             var item = new MenuItem();
             item.Text = Properties.Resources.SearchSimilarImageText;
-            string search_targe_url =
-                thumb.FullSizeImageUrl != null
-                    ? thumb.FullSizeImageUrl
-                    : thumb.ThumbnailUrl != null
-                        ? thumb.ThumbnailUrl
-                        : null;
+            var search_targe_url = thumb.FullSizeImageUrl ?? thumb.ThumbnailUrl ?? null;
 
             if (search_targe_url != null)
             {
