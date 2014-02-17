@@ -67,7 +67,7 @@ namespace OpenTween
 
             var uiScheduler = TaskScheduler.FromCurrentSynchronizationContext();
 
-            this.task = Task.Factory.StartNew(() => this.GetThumbailInfo(post), cancelToken)
+            this.task = Task.Factory.StartNew(() => this.GetThumbailInfo(post), cancelToken, TaskCreationOptions.None, TaskScheduler.Default)
                 .ContinueWith( /* await使いたい */
                     t =>
                     {
