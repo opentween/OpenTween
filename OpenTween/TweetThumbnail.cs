@@ -46,6 +46,8 @@ namespace OpenTween
         public event EventHandler<ThumbnailDoubleClickEventArgs> ThumbnailDoubleClick;
         public event EventHandler<ThumbnailImageSearchEventArgs> ThumbnailImageSearchClick;
 
+        private object uiLockObj = new object();
+
         public ThumbnailInfo Thumbnail
         {
             get { return this.pictureBox[this.scrollBar.Value].Tag as ThumbnailInfo; }
@@ -73,46 +75,49 @@ namespace OpenTween
                     {
                         var thumbnails = t.Result;
 
-                        this.SetThumbnailCount(thumbnails.Count);
-                        if (thumbnails.Count == 0) return;
-
-                        for (int i = 0; i < thumbnails.Count; i++)
+                        lock (this.uiLockObj)
                         {
-                            var thumb = thumbnails[i];
-                            var picbox = this.pictureBox[i];
+                            this.SetThumbnailCount(thumbnails.Count);
+                            if (thumbnails.Count == 0) return;
 
-                            picbox.Tag = thumb;
-                            picbox.ContextMenu = CreateContextMenu(thumb);
-
-                            picbox.ShowInitialImage();
-
-                            thumb.LoadThumbnailImageAsync(cancelToken)
-                                .ContinueWith(t2 =>
-                                {
-                                    if (t2.IsFaulted)
-                                        t2.Exception.Flatten().Handle(x => x is WebException || x is InvalidImageException || x is TaskCanceledException);
-
-                                    if (t2.IsFaulted || t2.IsCanceled)
-                                    {
-                                        picbox.ShowErrorImage();
-                                        return;
-                                    }
-
-                                    picbox.Image = t2.Result;
-                                },
-                                CancellationToken.None, TaskContinuationOptions.AttachedToParent, uiScheduler);
-
-                            var tooltipText = thumb.TooltipText;
-                            if (!string.IsNullOrEmpty(tooltipText))
+                            for (int i = 0; i < thumbnails.Count; i++)
                             {
-                                this.toolTip.SetToolTip(picbox, tooltipText);
+                                var thumb = thumbnails[i];
+                                var picbox = this.pictureBox[i];
+
+                                picbox.Tag = thumb;
+                                picbox.ContextMenu = CreateContextMenu(thumb);
+
+                                picbox.ShowInitialImage();
+
+                                thumb.LoadThumbnailImageAsync(cancelToken)
+                                    .ContinueWith(t2 =>
+                                    {
+                                        if (t2.IsFaulted)
+                                            t2.Exception.Flatten().Handle(x => x is WebException || x is InvalidImageException || x is TaskCanceledException);
+
+                                        if (t2.IsFaulted || t2.IsCanceled)
+                                        {
+                                            picbox.ShowErrorImage();
+                                            return;
+                                        }
+
+                                        picbox.Image = t2.Result;
+                                    },
+                                    CancellationToken.None, TaskContinuationOptions.AttachedToParent, uiScheduler);
+
+                                var tooltipText = thumb.TooltipText;
+                                if (!string.IsNullOrEmpty(tooltipText))
+                                {
+                                    this.toolTip.SetToolTip(picbox, tooltipText);
+                                }
+
+                                cancelToken.ThrowIfCancellationRequested();
                             }
 
-                            cancelToken.ThrowIfCancellationRequested();
+                            if (thumbnails.Count > 1)
+                                this.scrollBar.Enabled = true;
                         }
-
-                        if (thumbnails.Count > 1)
-                            this.scrollBar.Enabled = true;
 
                         if (this.ThumbnailLoading != null)
                             this.ThumbnailLoading(this, new EventArgs());
@@ -177,23 +182,6 @@ namespace OpenTween
             if (this.task == null || this.task.IsCompleted) return;
 
             this.cancelTokenSource.Cancel();
-
-            // this.task.Status は、GetThumbailInfo() の実行中であれば TaskStatus.WaitingForActivation となる。
-            // ContinueWith の処理も含めて終了していれば RanToCompletion などになる。
-            // もしこれが Running である場合は、PictureBox に対する操作の途中である可能性が高いため
-            // 必ず Wait() を実行してタスクの終了を待つ。
-            // (ContinueWith のタスクは ThumbnailLoading イベントが足を引っ張らない限り20ms程で完了する)
-
-            if (this.task.Status != TaskStatus.Running) return;
-
-            try
-            {
-                this.task.Wait();
-            }
-            catch (AggregateException ae)
-            {
-                ae.Handle(e => e is TaskCanceledException);
-            }
         }
 
         /// <summary>
