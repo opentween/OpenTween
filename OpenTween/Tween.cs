@@ -10351,11 +10351,72 @@ namespace OpenTween
                 this.BringToFront();
                 StatusText.Focus();
             }
+            else if (e.Data.GetDataPresent("UniformResourceLocatorW"))
+            {
+                var url = GetUrlFromDataObject(e.Data);
+
+                if (url.Item2 == null)
+                    this.StatusText.Text += " / " + url.Item1;
+                else
+                    this.StatusText.Text += " / " + url.Item2 + " " + url.Item1;
+            }
             else if (e.Data.GetDataPresent(DataFormats.StringFormat))
             {
                 string data = (string)e.Data.GetData(DataFormats.StringFormat, true);
                 if (data != null) StatusText.Text += data;
             }
+        }
+
+        /// <summary>
+        /// IDataObject から URL とタイトルの対を取得します
+        /// </summary>
+        /// <remarks>
+        /// タイトルのみ取得できなかった場合は Value2 が null のタプルを返すことがあります。
+        /// </remarks>
+        /// <exception cref="ArgumentException">不正なフォーマットが入力された場合</exception>
+        /// <exception cref="NotSupportedException">サポートされていないデータが入力された場合</exception>
+        internal static Tuple<string, string> GetUrlFromDataObject(IDataObject data)
+        {
+            if (data.GetDataPresent("text/x-moz-url"))
+            {
+                // Firefox, Google Chrome で利用可能
+                // 参照: https://developer.mozilla.org/ja/docs/DragDrop/Recommended_Drag_Types
+
+                using (var stream = (MemoryStream)data.GetData("text/x-moz-url"))
+                {
+                    var lines = Encoding.Unicode.GetString(stream.ToArray()).TrimEnd('\0').Split('\n');
+                    if (lines.Length < 2)
+                        throw new ArgumentException("不正な text/x-moz-url フォーマットです", "data");
+
+                    return new Tuple<string, string>(lines[0], lines[1]);
+                }
+            }
+            else if (data.GetDataPresent("IESiteModeToUrl"))
+            {
+                // Internet Exproler 用
+                // 保護モードが有効なデフォルトの IE では DragDrop イベントが発火しないため使えない
+
+                using (var stream = (MemoryStream)data.GetData("IESiteModeToUrl"))
+                {
+                    var lines = Encoding.Unicode.GetString(stream.ToArray()).TrimEnd('\0').Split('\0');
+                    if (lines.Length < 2)
+                        throw new ArgumentException("不正な IESiteModeToUrl フォーマットです", "data");
+
+                    return new Tuple<string, string>(lines[0], lines[1]);
+                }
+            }
+            else if (data.GetDataPresent("UniformResourceLocatorW"))
+            {
+                // それ以外のブラウザ向け
+
+                using (var stream = (MemoryStream)data.GetData("UniformResourceLocatorW"))
+                {
+                    var url = Encoding.Unicode.GetString(stream.ToArray()).TrimEnd('\0');
+                    return new Tuple<string, string>(url, null);
+                }
+            }
+
+            throw new NotSupportedException("サポートされていないデータ形式です: " + data.GetFormats()[0]);
         }
 
         private void TweenMain_DragOver(object sender, DragEventArgs e)
@@ -10382,6 +10443,10 @@ namespace OpenTween
                     }
                 }
                 e.Effect = DragDropEffects.None;
+            }
+            else if (e.Data.GetDataPresent("UniformResourceLocatorW"))
+            {
+                e.Effect = DragDropEffects.Copy;
             }
             else if (e.Data.GetDataPresent(DataFormats.StringFormat))
             {
