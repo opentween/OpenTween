@@ -96,15 +96,6 @@ namespace OpenTween
         public const string TwitpicApiKey = "bbc6449ceac87ef10c546e4a0ca06ef4";
 
         //=====================================================================
-        // TwitVideo
-        // http://twitvideo.jp/api_forms/ から申請できます。
-
-        /// <summary>
-        /// TwitVideo コンシューマキー
-        /// </summary>
-        public const string TwitVideoConsumerKey = "7c4dc004a88e821b02c87a0cde2fa85c";
-
-        //=====================================================================
         // yfrog
         // http://stream.imageshack.us/api/ から取得できます。
 

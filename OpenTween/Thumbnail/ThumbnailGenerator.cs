@@ -132,9 +132,6 @@ namespace OpenTween.Thumbnail
                     "http://photozou.jp/p/thumb/${photoId}",
                     "http://photozou.jp/p/img/${photoId}"),
 
-                // TwitVideo
-                new SimpleThumbnailService(@"^http://twitvideo\.jp/(\w+)$", "http://twitvideo.jp/img/thumb/${1}"),
-
                 // Piapro
                 new MetaThumbnailService(@"^http://piapro\.jp/(?:content/[0-9a-z]+|t/[0-9a-zA-Z_\-]+)$"),
 

@@ -137,7 +137,6 @@
     </Compile>
     <Compile Include="Connection\TwitPic.cs" />
     <Compile Include="Connection\TwitterPhoto.cs" />
-    <Compile Include="Connection\TwitVideo.cs" />
     <Compile Include="Connection\yfrog.cs" />
     <Compile Include="DataModel.cs" />
     <Compile Include="DetailsListView.cs">

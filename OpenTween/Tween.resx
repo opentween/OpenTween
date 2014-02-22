@@ -2678,9 +2678,6 @@
   <data name="StatusOpenMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>242, 24</value>
   </data>
-  <data name="ImageServiceCombo.Items1" xml:space="preserve">
-    <value>TwitVideo</value>
-  </data>
   <data name="&gt;&gt;ToolStripSeparator4.Name" xml:space="preserve">
     <value>ToolStripSeparator4</value>
   </data>

@@ -746,8 +746,7 @@
             this.ImageServiceCombo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.ImageServiceCombo.FormattingEnabled = true;
             this.ImageServiceCombo.Items.AddRange(new object[] {
-            resources.GetString("ImageServiceCombo.Items"),
-            resources.GetString("ImageServiceCombo.Items1")});
+            resources.GetString("ImageServiceCombo.Items")});
             this.ImageServiceCombo.Name = "ImageServiceCombo";
             this.ToolTip1.SetToolTip(this.ImageServiceCombo, resources.GetString("ImageServiceCombo.ToolTip"));
             this.ImageServiceCombo.SelectedIndexChanged += new System.EventHandler(this.ImageServiceCombo_SelectedIndexChanged);
