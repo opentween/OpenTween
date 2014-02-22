@@ -2376,7 +2376,16 @@ namespace OpenTween
 
             try
             {
-                return MyCommon.CreateDataFromJson<TwitterDataModel.Ids>(content);
+                var ret = MyCommon.CreateDataFromJson<TwitterDataModel.Ids>(content);
+
+                if (ret.Id == null)
+                {
+                    var ex = new WebApiException("Err: ret.id == null (GetFollowerIdsApi)", content);
+                    MyCommon.ExceptionOut(ex);
+                    throw ex;
+                }
+
+                return ret;
             }
             catch(SerializationException e)
             {
