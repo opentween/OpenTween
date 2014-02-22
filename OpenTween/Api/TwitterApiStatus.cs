@@ -20,6 +20,7 @@
 // Boston, MA 02110-1301, USA.
 
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization.Json;
@@ -157,7 +158,7 @@ namespace OpenTween.Api
         {
             public readonly TwitterApiStatus Owner;
 
-            private Dictionary<string, ApiLimit> innerDict = new Dictionary<string, ApiLimit>();
+            private ConcurrentDictionary<string, ApiLimit> innerDict = new ConcurrentDictionary<string, ApiLimit>();
 
             public EndpointLimits(TwitterApiStatus owner)
             {
@@ -168,10 +169,11 @@ namespace OpenTween.Api
             {
                 get
                 {
-                    if (this.innerDict.ContainsKey(endpoint))
-                        return this.innerDict[endpoint];
+                    ApiLimit value;
+                    if (!this.innerDict.TryGetValue(endpoint, out value))
+                        return null;
 
-                    return null;
+                    return value;
                 }
                 set
                 {
