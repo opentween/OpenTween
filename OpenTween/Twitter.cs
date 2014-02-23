@@ -3164,7 +3164,7 @@ namespace OpenTween
                 var errors = MyCommon.CreateDataFromJson<TwitterDataModel.ErrorResponse>(responseText).Errors;
                 if (errors == null || !errors.Any())
                 {
-                    return "Err:" + responseText + "(" + callerMethodName + ")";
+                    return "Err:" + httpStatus + "(" + callerMethodName + ")";
                 }
 
                 foreach (var error in errors)
@@ -3180,7 +3180,7 @@ namespace OpenTween
             }
             catch (SerializationException) { }
 
-            return "Err:" + responseText + "(" + callerMethodName + ")";
+            return "Err:" + httpStatus + "(" + callerMethodName + ")";
         }
 
 #region "UserStream"
