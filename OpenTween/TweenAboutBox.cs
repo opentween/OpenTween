@@ -57,7 +57,8 @@ namespace OpenTween
             this.LabelCompanyName.Text = Application.CompanyName;
             this.TextBoxDescription.Text = GetApplicationAttribute<AssemblyDescriptionAttribute>().Description;
             this.ChangeLog.Text = Properties.Resources.ChangeLog;
-            this.TextBoxDescription.Text = string.Format(Properties.Resources.Description, ApplicationSettings.FeedbackTwitterName, ApplicationSettings.FeedbackEmailAddress);
+            this.TextBoxDescription.Text = string.Format(Properties.Resources.Description, ApplicationSettings.FeedbackTwitterName, ApplicationSettings.FeedbackEmailAddress) + Environment.NewLine + Environment.NewLine
+                + "This software was created by The OpenTween Project, based on Tween v1.1.0.0, which is licensed under GPLv3.";
         }
 
         protected T GetApplicationAttribute<T>() where T : Attribute

@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("OpenTween")]
-[assembly: AssemblyCopyright("(C) OpenTween Project 2011-")]
+[assembly: AssemblyCopyright("(C) 2011 OpenTween contributors")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
