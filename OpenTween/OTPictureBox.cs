@@ -50,6 +50,16 @@ namespace OpenTween
         }
         private MemoryImage memoryImage;
 
+        public new PictureBoxSizeMode SizeMode
+        {
+            get { return base.SizeMode; }
+            set
+            {
+                base.SizeMode = value;
+                this.previousSizeMode = value;
+            }
+        }
+
         /// <summary>
         /// InitialImage や ErrorImage の表示に SizeMode を一時的に変更するため、
         /// 以前の SizeMode を記憶しておくためのフィールド
@@ -65,7 +75,7 @@ namespace OpenTween
             base.Image = base.InitialImage;
 
             // InitialImage は SizeMode の値に依らず中央等倍に表示する必要がある
-            this.SizeMode = PictureBoxSizeMode.CenterImage;
+            base.SizeMode = PictureBoxSizeMode.CenterImage;
         }
 
         public void ShowErrorImage()
@@ -77,7 +87,7 @@ namespace OpenTween
             base.Image = base.ErrorImage;
 
             // ErrorImage は SizeMode の値に依らず中央等倍に表示する必要がある
-            this.SizeMode = PictureBoxSizeMode.CenterImage;
+            base.SizeMode = PictureBoxSizeMode.CenterImage;
         }
 
         private void RestoreSizeMode()
