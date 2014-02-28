@@ -50,6 +50,8 @@ namespace OpenTween
         }
         private MemoryImage memoryImage;
 
+        [Localizable(true)]
+        [DefaultValue(PictureBoxSizeMode.Normal)]
         public new PictureBoxSizeMode SizeMode
         {
             get { return base.SizeMode; }
