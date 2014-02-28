@@ -30,7 +30,7 @@ using Xunit.Extensions;
 
 namespace OpenTween
 {
-    public class TweenMainText
+    public class TweenMainTest
     {
         [Fact]
         public void GetUrlFromDataObject_XMozUrlTest()
