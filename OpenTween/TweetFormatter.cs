@@ -162,12 +162,12 @@ namespace OpenTween
 
         private static string FormatHashtagEntity(string targetText, TwitterDataModel.Hashtags entity)
         {
-            return "<a href=\"https://twitter.com/search?q=%23" + eu(entity.Text) + "\">" + t(e(targetText)) + "</a>";
+            return "<a class=\"hashtag\" href=\"https://twitter.com/search?q=%23" + eu(entity.Text) + "\">" + t(e(targetText)) + "</a>";
         }
 
         private static string FormatMentionEntity(string targetText, TwitterDataModel.UserMentions entity)
         {
-            return "<a href=\"https://twitter.com/" + eu(entity.ScreenName) + "\">" + t(e(targetText)) + "</a>";
+            return "<a class=\"mention\" href=\"https://twitter.com/" + eu(entity.ScreenName) + "\">" + t(e(targetText)) + "</a>";
         }
 
         // 長いのでエイリアスとして e(...), eu(...), t(...) でエスケープできるようにする
