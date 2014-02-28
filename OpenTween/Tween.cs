@@ -10812,9 +10812,12 @@ namespace OpenTween
                     return;
                 }
                 string rtdata = _curPost.Text;
-                rtdata = CreateRetweetUnofficial(rtdata);
+                rtdata = CreateRetweetUnofficial(rtdata, this.StatusText.Multiline);
 
-                StatusText.Text = "RT @" + _curPost.ScreenName + ": " + WebUtility.HtmlDecode(rtdata);
+                this._reply_to_id = null;
+                this._reply_to_name = null;
+
+                StatusText.Text = "RT @" + _curPost.ScreenName + ": " + rtdata;
 
                 StatusText.SelectionStart = 0;
                 StatusText.Focus();
@@ -10918,26 +10921,34 @@ namespace OpenTween
             }
         }
 
-        private string CreateRetweetUnofficial(string status)
+        /// <summary>
+        /// TweetFormatterクラスによって整形された状態のHTMLを、非公式RT用に元のツイートに復元します
+        /// </summary>
+        /// <param name="statusHtml">TweetFormatterによって整形された状態のHTML</param>
+        /// <param name="multiline">trueであればBRタグを改行に、falseであればスペースに変換します</param>
+        /// <returns>復元されたツイート本文</returns>
+        internal static string CreateRetweetUnofficial(string statusHtml, bool multiline)
         {
-            // Twitterにより省略されているURLを含むaタグをキャプチャしてリンク先URLへ置き換える
-            status = Regex.Replace(status, @"<a target=""_self"" href=""(?<url>[^""]+)"" title=""(?<title>[^""]+)""[^>]*>(?<link>[^<]+)</a>", "${title}");
+            // TweetFormatterクラスによって整形された状態のHTMLを元のツイートに復元します
 
-            //その他のリンク(@IDなど)を置き換える
-            status = Regex.Replace(status, @"@<a target=""_self"" href=""https?://twitter.com/(#!/)?(?<url>[^""]+)""[^>]*>(?<link>[^<]+)</a>", "@${url}");
-            //ハッシュタグ
-            status = Regex.Replace(status, @"<a target=""_self"" href=""(?<url>[^""]+)""[^>]*>(?<link>[^<]+)</a>", "${link}");
-            //<br>タグ除去
-            if (StatusText.Multiline)
-                status = Regex.Replace(status, @"(\r\n|\n|\r)?<br>", "\r\n", RegexOptions.IgnoreCase | RegexOptions.Multiline);
+            // 通常の URL
+            statusHtml = Regex.Replace(statusHtml, "<a href=\"(?<href>.+?)\" title=\"(?<title>.+?)\">(?<text>.+?)</a>", "${title}");
+            // メンション
+            statusHtml = Regex.Replace(statusHtml, "<a class=\"mention\" href=\"(?<href>.+?)\">(?<text>.+?)</a>", "${text}");
+            // ハッシュタグ
+            statusHtml = Regex.Replace(statusHtml, "<a class=\"hashtag\" href=\"(?<href>.+?)\">(?<text>.+?)</a>", "${text}");
+
+            // <br> 除去
+            if (multiline)
+                statusHtml = statusHtml.Replace("<br>", Environment.NewLine);
             else
-                status = Regex.Replace(status, @"(\r\n|\n|\r)?<br>", " ", RegexOptions.IgnoreCase | RegexOptions.Multiline);
+                statusHtml = statusHtml.Replace("<br>", " ");
 
-            _reply_to_id = null;
-            _reply_to_name = null;
-            status = status.Replace("&nbsp;", " ");
+            // &nbsp; は本来であれば U+00A0 (NON-BREAK SPACE) に置換すべきですが、
+            // 現状では半角スペースの代用として &nbsp; を使用しているため U+0020 に置換します
+            statusHtml = statusHtml.Replace("&nbsp;", " ");
 
-            return status;
+            return WebUtility.HtmlDecode(statusHtml);
         }
 
         private void DumpPostClassToolStripMenuItem_Click(object sender, EventArgs e)
@@ -11406,9 +11417,9 @@ namespace OpenTween
                     return;
                 }
                 string rtdata = _curPost.Text;
-                rtdata = CreateRetweetUnofficial(rtdata);
+                rtdata = CreateRetweetUnofficial(rtdata, this.StatusText.Multiline);
 
-                StatusText.Text = " QT @" + _curPost.ScreenName + ": " + WebUtility.HtmlDecode(rtdata);
+                StatusText.Text = " QT @" + _curPost.ScreenName + ": " + rtdata;
                 if (_curPost.RetweetedId == null)
                 {
                     _reply_to_id = _curPost.StatusId;

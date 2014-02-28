@@ -81,5 +81,88 @@ namespace OpenTween
                 Assert.Throws<NotSupportedException>(() => TweenMain.GetUrlFromDataObject(data));
             }
         }
+
+        [Fact]
+        public void CreateRetweetUnofficial_UrlTest()
+        {
+            var statusText = "<a href=\"http://t.co/KYi7vMZzRt\" title=\"http://twitter.com/\">twitter.com</a>";
+
+            Assert.Equal("http://twitter.com/", TweenMain.CreateRetweetUnofficial(statusText, false));
+        }
+
+        [Fact]
+        public void CreateRetweetUnofficial_MentionTest()
+        {
+            var statusText = "<a class=\"mention\" href=\"https://twitter.com/twitterapi\">@TwitterAPI</a>";
+
+            Assert.Equal("@TwitterAPI", TweenMain.CreateRetweetUnofficial(statusText, false));
+        }
+
+        [Fact]
+        public void CreateRetweetUnofficial_HashtagTest()
+        {
+            var statusText = "<a class=\"hashtag\" href=\"https://twitter.com/search?q=%23OpenTween\">#OpenTween</a>";
+
+            Assert.Equal("#OpenTween", TweenMain.CreateRetweetUnofficial(statusText, false));
+        }
+
+        [Fact]
+        public void CreateRetweetUnofficial_SingleLineTest()
+        {
+            var statusText = "123<br>456<br>789";
+
+            Assert.Equal("123 456 789", TweenMain.CreateRetweetUnofficial(statusText, false));
+        }
+
+        [Fact]
+        public void CreateRetweetUnofficial_MultiLineTest()
+        {
+            var statusText = "123<br>456<br>789";
+
+            Assert.Equal("123" + Environment.NewLine + "456" + Environment.NewLine + "789", TweenMain.CreateRetweetUnofficial(statusText, true));
+        }
+
+        [Fact]
+        public void CreateRetweetUnofficial_DecodeTest()
+        {
+            var statusText = "&lt;&gt;&quot;&#39;&nbsp;";
+
+            Assert.Equal("<>\"' ", TweenMain.CreateRetweetUnofficial(statusText, false));
+        }
+
+        [Fact]
+        public void CreateRetweetUnofficial_WithFormatterTest()
+        {
+            // TweetFormatterでHTMLに整形 → CreateRetweetUnofficialで復元 までの動作が正しく行えているか
+
+            var text = "#てすと @TwitterAPI \n http://t.co/KYi7vMZzRt";
+            var entities = new TwitterDataModel.Entity[]
+            {
+                new TwitterDataModel.Hashtags
+                {
+                    Indices = new[] { 0, 4 },
+                    Text = "てすと",
+                },
+                new TwitterDataModel.UserMentions
+                {
+                    Indices = new[] { 5, 16 },
+                    Id = 6253282L,
+                    Name = "Twitter API",
+                    ScreenName = "twitterapi",
+                },
+                new TwitterDataModel.Urls
+                {
+                    Indices = new[] { 19, 41 },
+                    DisplayUrl = "twitter.com",
+                    ExpandedUrl = "http://twitter.com/",
+                    Url = "http://t.co/KYi7vMZzRt",
+                },
+            };
+
+            var html = TweetFormatter.AutoLinkHtml(text, entities);
+
+            var expected = "#てすと @TwitterAPI " + Environment.NewLine + " http://twitter.com/";
+            Assert.Equal(expected, TweenMain.CreateRetweetUnofficial(html, true));
+        }
     }
 }
