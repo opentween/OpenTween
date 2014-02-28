@@ -10355,10 +10355,16 @@ namespace OpenTween
             {
                 var url = GetUrlFromDataObject(e.Data);
 
+                string appendText;
                 if (url.Item2 == null)
-                    this.StatusText.Text += " / " + url.Item1;
+                    appendText = url.Item1;
                 else
-                    this.StatusText.Text += " / " + url.Item2 + " " + url.Item1;
+                    appendText = url.Item2 + " " + url.Item1;
+
+                if (this.StatusText.TextLength == 0)
+                    this.StatusText.Text = appendText;
+                else
+                    this.StatusText.Text += " " + appendText;
             }
             else if (e.Data.GetDataPresent(DataFormats.StringFormat))
             {
