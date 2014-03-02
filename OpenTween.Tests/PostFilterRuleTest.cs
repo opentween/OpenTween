@@ -90,7 +90,7 @@ namespace OpenTween
         }
 
         [Fact]
-        public void PostMatchOptionsTest()
+        public void PostMatchOptions_CopyTest()
         {
             var filter = new PostFilterRule { FilterName = "hogehoge" };
             var post = new PostClass { ScreenName = "hogehoge" };
@@ -98,10 +98,24 @@ namespace OpenTween
             filter.MoveMatches = false;
             filter.MarkMatches = false;
             Assert.Equal(MyCommon.HITRESULT.Copy, filter.ExecFilter(post));
+        }
+
+        [Fact]
+        public void PostMatchOptions_CopyAndMarkTest()
+        {
+            var filter = new PostFilterRule { FilterName = "hogehoge" };
+            var post = new PostClass { ScreenName = "hogehoge" };
 
             filter.MoveMatches = false;
             filter.MarkMatches = true;
             Assert.Equal(MyCommon.HITRESULT.CopyAndMark, filter.ExecFilter(post));
+        }
+
+        [Fact]
+        public void PostMatchOptions_MoveTest()
+        {
+            var filter = new PostFilterRule { FilterName = "hogehoge" };
+            var post = new PostClass { ScreenName = "hogehoge" };
 
             filter.MoveMatches = true;
             filter.MarkMatches = false; // 無視される
@@ -112,92 +126,167 @@ namespace OpenTween
             Assert.Equal(MyCommon.HITRESULT.Move, filter.ExecFilter(post));
         }
 
-        [Theory]
-        [InlineData(false, "hogehoge", false)]
-        [InlineData(false, "hogehoge", true)]
-        [InlineData(true, "(hoge){2}", false)]
-        [InlineData(true, "(hoge){2}", true)]
-        public void NameTest(bool useRegex, string pattern, bool exclude)
+        [Fact]
+        public void FilterName_Test()
         {
             var filter = new PostFilterRule();
             PostClass post;
 
-            if (!exclude)
-            {
-                filter.UseRegex = useRegex;
-                filter.FilterName = pattern;
-            }
-            else
-            {
-                filter.ExUseRegex = useRegex;
-                filter.ExFilterName = pattern;
-            }
+            filter.FilterName = "hogehoge";
 
             post = new PostClass { ScreenName = "hogehoge" };
-            Assert.Equal(exclude ? MyCommon.HITRESULT.Exclude : MyCommon.HITRESULT.CopyAndMark, filter.ExecFilter(post));
+            Assert.Equal(MyCommon.HITRESULT.CopyAndMark, filter.ExecFilter(post));
 
             post = new PostClass { ScreenName = "foo" };
             Assert.Equal(MyCommon.HITRESULT.None, filter.ExecFilter(post));
 
             // FilterName は RetweetedBy にもマッチする
             post = new PostClass { ScreenName = "foo", RetweetedBy = "hogehoge" };
-            Assert.Equal(exclude ? MyCommon.HITRESULT.Exclude : MyCommon.HITRESULT.CopyAndMark, filter.ExecFilter(post));
+            Assert.Equal(MyCommon.HITRESULT.CopyAndMark, filter.ExecFilter(post));
 
             post = new PostClass { ScreenName = "foo", RetweetedBy = "bar" };
             Assert.Equal(MyCommon.HITRESULT.None, filter.ExecFilter(post));
 
-            if (!useRegex)
-            {
-                // FilterName は完全一致 (UseRegex = false の場合)
-                post = new PostClass { ScreenName = "_hogehoge_" };
-                Assert.Equal(MyCommon.HITRESULT.None, filter.ExecFilter(post));
-            }
-            else
-            {
-                // FilterName は部分一致 (UseRegex = true の場合)
-                post = new PostClass { ScreenName = "_hogehoge_" };
-                Assert.Equal(exclude ? MyCommon.HITRESULT.Exclude : MyCommon.HITRESULT.CopyAndMark, filter.ExecFilter(post));
-            }
+            // FilterName は完全一致 (UseRegex = false の場合)
+            post = new PostClass { ScreenName = "_hogehoge_" };
+            Assert.Equal(MyCommon.HITRESULT.None, filter.ExecFilter(post));
 
             // 大小文字を区別する
-            if (!exclude)
-                filter.CaseSensitive = true;
-            else
-                filter.ExCaseSensitive = true;
+            filter.CaseSensitive = true;
 
             post = new PostClass { ScreenName = "HogeHoge" };
             Assert.Equal(MyCommon.HITRESULT.None, filter.ExecFilter(post));
 
             // 大小文字を区別しない
-            if (!exclude)
-                filter.CaseSensitive = false;
-            else
-                filter.ExCaseSensitive = false;
+            filter.CaseSensitive = false;
 
             post = new PostClass { ScreenName = "HogeHoge" };
-            Assert.Equal(exclude ? MyCommon.HITRESULT.Exclude : MyCommon.HITRESULT.CopyAndMark, filter.ExecFilter(post));
+            Assert.Equal(MyCommon.HITRESULT.CopyAndMark, filter.ExecFilter(post));
         }
 
-        [Theory]
-        [InlineData(false, new[] { "aaa", "bbb" }, false)]
-        [InlineData(false, new[] { "aaa", "bbb" }, true)]
-        [InlineData(true, new[] { "a{3}", "b{3}" }, false)]
-        [InlineData(true, new[] { "a{3}", "b{3}" }, true)]
-        public void BodyTest(bool useRegex, string[] pattern, bool exclude)
+        [Fact]
+        public void ExFilterName_Test()
         {
             var filter = new PostFilterRule();
             PostClass post;
 
-            if (!exclude)
-            {
-                filter.UseRegex = useRegex;
-                filter.FilterBody = pattern;
-            }
-            else
-            {
-                filter.ExUseRegex = useRegex;
-                filter.ExFilterBody = pattern;
-            }
+            filter.ExFilterName = "hogehoge";
+
+            post = new PostClass { ScreenName = "hogehoge" };
+            Assert.Equal(MyCommon.HITRESULT.Exclude, filter.ExecFilter(post));
+
+            post = new PostClass { ScreenName = "foo" };
+            Assert.Equal(MyCommon.HITRESULT.None, filter.ExecFilter(post));
+
+            // ExFilterName は RetweetedBy にもマッチする
+            post = new PostClass { ScreenName = "foo", RetweetedBy = "hogehoge" };
+            Assert.Equal(MyCommon.HITRESULT.Exclude, filter.ExecFilter(post));
+
+            post = new PostClass { ScreenName = "foo", RetweetedBy = "bar" };
+            Assert.Equal(MyCommon.HITRESULT.None, filter.ExecFilter(post));
+
+            // ExFilterName は完全一致 (ExUseRegex = false の場合)
+            post = new PostClass { ScreenName = "_hogehoge_" };
+            Assert.Equal(MyCommon.HITRESULT.None, filter.ExecFilter(post));
+
+            // 大小文字を区別する
+            filter.ExCaseSensitive = true;
+
+            post = new PostClass { ScreenName = "HogeHoge" };
+            Assert.Equal(MyCommon.HITRESULT.None, filter.ExecFilter(post));
+
+            // 大小文字を区別しない
+            filter.ExCaseSensitive = false;
+
+            post = new PostClass { ScreenName = "HogeHoge" };
+            Assert.Equal(MyCommon.HITRESULT.Exclude, filter.ExecFilter(post));
+        }
+
+        [Fact]
+        public void FilterName_RegexTest()
+        {
+            var filter = new PostFilterRule();
+            PostClass post;
+
+            filter.UseRegex = true;
+            filter.FilterName = "(hoge){2}";
+
+            post = new PostClass { ScreenName = "hogehoge" };
+            Assert.Equal(MyCommon.HITRESULT.CopyAndMark, filter.ExecFilter(post));
+
+            post = new PostClass { ScreenName = "foo" };
+            Assert.Equal(MyCommon.HITRESULT.None, filter.ExecFilter(post));
+
+            // FilterName は RetweetedBy にもマッチする
+            post = new PostClass { ScreenName = "foo", RetweetedBy = "hogehoge" };
+            Assert.Equal(MyCommon.HITRESULT.CopyAndMark, filter.ExecFilter(post));
+
+            post = new PostClass { ScreenName = "foo", RetweetedBy = "bar" };
+            Assert.Equal(MyCommon.HITRESULT.None, filter.ExecFilter(post));
+
+            // FilterName は部分一致 (UseRegex = true の場合)
+            post = new PostClass { ScreenName = "_hogehoge_" };
+            Assert.Equal(MyCommon.HITRESULT.CopyAndMark, filter.ExecFilter(post));
+
+            // 大小文字を区別する
+            filter.CaseSensitive = true;
+
+            post = new PostClass { ScreenName = "HogeHoge" };
+            Assert.Equal(MyCommon.HITRESULT.None, filter.ExecFilter(post));
+
+            // 大小文字を区別しない
+            filter.CaseSensitive = false;
+
+            post = new PostClass { ScreenName = "HogeHoge" };
+            Assert.Equal(MyCommon.HITRESULT.CopyAndMark, filter.ExecFilter(post));
+        }
+
+        [Fact]
+        public void ExFilterName_RegexTest()
+        {
+            var filter = new PostFilterRule();
+            PostClass post;
+
+            filter.ExUseRegex = true;
+            filter.ExFilterName = "(hoge){2}";
+
+            post = new PostClass { ScreenName = "hogehoge" };
+            Assert.Equal(MyCommon.HITRESULT.Exclude, filter.ExecFilter(post));
+
+            post = new PostClass { ScreenName = "foo" };
+            Assert.Equal(MyCommon.HITRESULT.None, filter.ExecFilter(post));
+
+            // ExFilterName は RetweetedBy にもマッチする
+            post = new PostClass { ScreenName = "foo", RetweetedBy = "hogehoge" };
+            Assert.Equal(MyCommon.HITRESULT.Exclude, filter.ExecFilter(post));
+
+            post = new PostClass { ScreenName = "foo", RetweetedBy = "bar" };
+            Assert.Equal(MyCommon.HITRESULT.None, filter.ExecFilter(post));
+
+            // ExFilterName は部分一致 (ExUseRegex = true の場合)
+            post = new PostClass { ScreenName = "_hogehoge_" };
+            Assert.Equal(MyCommon.HITRESULT.Exclude, filter.ExecFilter(post));
+
+            // 大小文字を区別する
+            filter.ExCaseSensitive = true;
+
+            post = new PostClass { ScreenName = "HogeHoge" };
+            Assert.Equal(MyCommon.HITRESULT.None, filter.ExecFilter(post));
+
+            // 大小文字を区別しない
+            filter.ExCaseSensitive = false;
+
+            post = new PostClass { ScreenName = "HogeHoge" };
+            Assert.Equal(MyCommon.HITRESULT.Exclude, filter.ExecFilter(post));
+        }
+
+        [Fact]
+        public void FilterBody_Test()
+        {
+            var filter = new PostFilterRule();
+            PostClass post;
+
+            filter.FilterBody = new[] { "aaa", "bbb" };
 
             post = new PostClass { TextFromApi = "test" };
             Assert.Equal(MyCommon.HITRESULT.None, filter.ExecFilter(post));
@@ -208,57 +297,145 @@ namespace OpenTween
 
             // FilterBody の文字列が全て含まれている
             post = new PostClass { TextFromApi = "123aaa456bbb" };
-            Assert.Equal(exclude ? MyCommon.HITRESULT.Exclude : MyCommon.HITRESULT.CopyAndMark, filter.ExecFilter(post));
+            Assert.Equal(MyCommon.HITRESULT.CopyAndMark, filter.ExecFilter(post));
 
             // ScreenName にはマッチしない (UseNameField = true の場合)
             post = new PostClass { ScreenName = "aaabbb", TextFromApi = "test" };
             Assert.Equal(MyCommon.HITRESULT.None, filter.ExecFilter(post));
 
             // 大小文字を区別する
-            if (!exclude)
-                filter.CaseSensitive = true;
-            else
-                filter.ExCaseSensitive = true;
+            filter.CaseSensitive = true;
 
             post = new PostClass { TextFromApi = "AaaBbb" };
             Assert.Equal(MyCommon.HITRESULT.None, filter.ExecFilter(post));
 
             // 大小文字を区別しない
-            if (!exclude)
-                filter.CaseSensitive = false;
-            else
-                filter.ExCaseSensitive = false;
+            filter.CaseSensitive = false;
 
             post = new PostClass { TextFromApi = "AaaBbb" };
-            Assert.Equal(exclude ? MyCommon.HITRESULT.Exclude : MyCommon.HITRESULT.CopyAndMark, filter.ExecFilter(post));
+            Assert.Equal(MyCommon.HITRESULT.CopyAndMark, filter.ExecFilter(post));
         }
 
-        [Theory]
-        [InlineData(false, new[] { "aaa", "bbb" }, false)]
-        [InlineData(false, new[] { "aaa", "bbb" }, true)]
-        [InlineData(true, new[] { "a{3}", "b{3}" }, false)]
-        [InlineData(true, new[] { "a{3}", "b{3}" }, true)]
-        public void BodyUrlTest(bool useRegex, string[] pattern, bool exclude)
+        [Fact]
+        public void ExFilterBody_Test()
         {
             var filter = new PostFilterRule();
             PostClass post;
 
-            if (!exclude)
-            {
-                // FilterByUrl = true の場合は TextFromApi ではなく Text がマッチ対象になる
-                filter.FilterByUrl = true;
+            filter.ExFilterBody = new[] { "aaa", "bbb" };
 
-                filter.UseRegex = useRegex;
-                filter.FilterBody = pattern;
-            }
-            else
-            {
-                // ExFilterByUrl = true の場合は TextFromApi ではなく Text がマッチ対象になる
-                filter.ExFilterByUrl = true;
+            post = new PostClass { TextFromApi = "test" };
+            Assert.Equal(MyCommon.HITRESULT.None, filter.ExecFilter(post));
 
-                filter.ExUseRegex = useRegex;
-                filter.ExFilterBody = pattern;
-            }
+            // 片方だけではマッチしない
+            post = new PostClass { TextFromApi = "aaa" };
+            Assert.Equal(MyCommon.HITRESULT.None, filter.ExecFilter(post));
+
+            // ExFilterBody の文字列が全て含まれている
+            post = new PostClass { TextFromApi = "123aaa456bbb" };
+            Assert.Equal(MyCommon.HITRESULT.Exclude, filter.ExecFilter(post));
+
+            // ScreenName にはマッチしない (ExUseNameField = true の場合)
+            post = new PostClass { ScreenName = "aaabbb", TextFromApi = "test" };
+            Assert.Equal(MyCommon.HITRESULT.None, filter.ExecFilter(post));
+
+            // 大小文字を区別する
+            filter.ExCaseSensitive = true;
+
+            post = new PostClass { TextFromApi = "AaaBbb" };
+            Assert.Equal(MyCommon.HITRESULT.None, filter.ExecFilter(post));
+
+            // 大小文字を区別しない
+            filter.ExCaseSensitive = false;
+
+            post = new PostClass { TextFromApi = "AaaBbb" };
+            Assert.Equal(MyCommon.HITRESULT.Exclude, filter.ExecFilter(post));
+        }
+
+        [Fact]
+        public void FilterBody_RegexTest()
+        {
+            var filter = new PostFilterRule();
+            PostClass post;
+
+            filter.UseRegex = true;
+            filter.FilterBody = new[] { "a{3}", "b{3}" };
+
+            post = new PostClass { TextFromApi = "test" };
+            Assert.Equal(MyCommon.HITRESULT.None, filter.ExecFilter(post));
+
+            // 片方だけではマッチしない
+            post = new PostClass { TextFromApi = "aaa" };
+            Assert.Equal(MyCommon.HITRESULT.None, filter.ExecFilter(post));
+
+            // FilterBody の文字列が全て含まれている
+            post = new PostClass { TextFromApi = "123aaa456bbb" };
+            Assert.Equal(MyCommon.HITRESULT.CopyAndMark, filter.ExecFilter(post));
+
+            // ScreenName にはマッチしない (UseNameField = true の場合)
+            post = new PostClass { ScreenName = "aaabbb", TextFromApi = "test" };
+            Assert.Equal(MyCommon.HITRESULT.None, filter.ExecFilter(post));
+
+            // 大小文字を区別する
+            filter.CaseSensitive = true;
+
+            post = new PostClass { TextFromApi = "AaaBbb" };
+            Assert.Equal(MyCommon.HITRESULT.None, filter.ExecFilter(post));
+
+            // 大小文字を区別しない
+            filter.CaseSensitive = false;
+
+            post = new PostClass { TextFromApi = "AaaBbb" };
+            Assert.Equal(MyCommon.HITRESULT.CopyAndMark, filter.ExecFilter(post));
+        }
+
+        [Fact]
+        public void ExFilterBody_RegexTest()
+        {
+            var filter = new PostFilterRule();
+            PostClass post;
+
+            filter.ExUseRegex = true;
+            filter.ExFilterBody = new[] { "a{3}", "b{3}" };
+
+            post = new PostClass { TextFromApi = "test" };
+            Assert.Equal(MyCommon.HITRESULT.None, filter.ExecFilter(post));
+
+            // 片方だけではマッチしない
+            post = new PostClass { TextFromApi = "aaa" };
+            Assert.Equal(MyCommon.HITRESULT.None, filter.ExecFilter(post));
+
+            // ExFilterBody の文字列が全て含まれている
+            post = new PostClass { TextFromApi = "123aaa456bbb" };
+            Assert.Equal(MyCommon.HITRESULT.Exclude, filter.ExecFilter(post));
+
+            // ScreenName にはマッチしない (ExUseNameField = true の場合)
+            post = new PostClass { ScreenName = "aaabbb", TextFromApi = "test" };
+            Assert.Equal(MyCommon.HITRESULT.None, filter.ExecFilter(post));
+
+            // 大小文字を区別する
+            filter.ExCaseSensitive = true;
+
+            post = new PostClass { TextFromApi = "AaaBbb" };
+            Assert.Equal(MyCommon.HITRESULT.None, filter.ExecFilter(post));
+
+            // 大小文字を区別しない
+            filter.ExCaseSensitive = false;
+
+            post = new PostClass { TextFromApi = "AaaBbb" };
+            Assert.Equal(MyCommon.HITRESULT.Exclude, filter.ExecFilter(post));
+        }
+
+        [Fact]
+        public void FilterBody_ByUrlTest()
+        {
+            var filter = new PostFilterRule();
+            PostClass post;
+
+            // FilterByUrl = true の場合は TextFromApi ではなく Text がマッチ対象になる
+            filter.FilterByUrl = true;
+
+            filter.FilterBody = new[] { "aaa", "bbb" };
 
             post = new PostClass { Text = "<a href='http://example.com/123'>t.co/hoge</a>" };
             Assert.Equal(MyCommon.HITRESULT.None, filter.ExecFilter(post));
@@ -269,57 +446,154 @@ namespace OpenTween
 
             // FilterBody の文字列が全て含まれている
             post = new PostClass { Text = "<a href='http://example.com/aaabbb'>t.co/hoge</a>" };
-            Assert.Equal(exclude ? MyCommon.HITRESULT.Exclude : MyCommon.HITRESULT.CopyAndMark, filter.ExecFilter(post));
+            Assert.Equal(MyCommon.HITRESULT.CopyAndMark, filter.ExecFilter(post));
 
             // ScreenName にはマッチしない (UseNameField = true の場合)
             post = new PostClass { ScreenName = "aaabbb", Text = "<a href='http://example.com/123'>t.co/hoge</a>" };
             Assert.Equal(MyCommon.HITRESULT.None, filter.ExecFilter(post));
 
             // 大小文字を区別する
-            if (!exclude)
-                filter.CaseSensitive = true;
-            else
-                filter.ExCaseSensitive = true;
+            filter.CaseSensitive = true;
 
             post = new PostClass { Text = "<a href='http://example.com/AaaBbb'>t.co/hoge</a>" };
             Assert.Equal(MyCommon.HITRESULT.None, filter.ExecFilter(post));
 
             // 大小文字を区別しない
-            if (!exclude)
-                filter.CaseSensitive = false;
-            else
-                filter.ExCaseSensitive = false;
+            filter.CaseSensitive = false;
 
             post = new PostClass { Text = "<a href='http://example.com/AaaBbb'>t.co/hoge</a>" };
-            Assert.Equal(exclude ? MyCommon.HITRESULT.Exclude : MyCommon.HITRESULT.CopyAndMark, filter.ExecFilter(post));
+            Assert.Equal(MyCommon.HITRESULT.CopyAndMark, filter.ExecFilter(post));
         }
 
-        [Theory]
-        [InlineData(false, new[] { "aaa", "bbb" }, false)]
-        [InlineData(false, new[] { "aaa", "bbb" }, true)]
-        [InlineData(true, new[] { "a{3}", "b{3}" }, false)]
-        [InlineData(true, new[] { "a{3}", "b{3}" }, true)]
-        public void BodyAndNameTest(bool useRegex, string[] pattern, bool exclude)
+        [Fact]
+        public void ExFilterBody_ByUrlTest()
         {
             var filter = new PostFilterRule();
             PostClass post;
 
-            if (!exclude)
-            {
-                // UseNameField = false の場合は FilterBody のマッチ対象が Text と ScreenName の両方になる
-                filter.UseNameField = false;
+            // ExFilterByUrl = true の場合は TextFromApi ではなく Text がマッチ対象になる
+            filter.ExFilterByUrl = true;
 
-                filter.UseRegex = useRegex;
-                filter.FilterBody = pattern;
-            }
-            else
-            {
-                // ExUseNameField = false の場合は ExFilterBody のマッチ対象が Text と ScreenName の両方になる
-                filter.ExUseNameField = false;
+            filter.ExFilterBody = new[] { "aaa", "bbb" };
 
-                filter.ExUseRegex = useRegex;
-                filter.ExFilterBody = pattern;
-            }
+            post = new PostClass { Text = "<a href='http://example.com/123'>t.co/hoge</a>" };
+            Assert.Equal(MyCommon.HITRESULT.None, filter.ExecFilter(post));
+
+            // 片方だけではマッチしない
+            post = new PostClass { Text = "<a href='http://example.com/aaa'>t.co/hoge</a>" };
+            Assert.Equal(MyCommon.HITRESULT.None, filter.ExecFilter(post));
+
+            // ExFilterBody の文字列が全て含まれている
+            post = new PostClass { Text = "<a href='http://example.com/aaabbb'>t.co/hoge</a>" };
+            Assert.Equal(MyCommon.HITRESULT.Exclude, filter.ExecFilter(post));
+
+            // ScreenName にはマッチしない (ExUseNameField = true の場合)
+            post = new PostClass { ScreenName = "aaabbb", Text = "<a href='http://example.com/123'>t.co/hoge</a>" };
+            Assert.Equal(MyCommon.HITRESULT.None, filter.ExecFilter(post));
+
+            // 大小文字を区別する
+            filter.ExCaseSensitive = true;
+
+            post = new PostClass { Text = "<a href='http://example.com/AaaBbb'>t.co/hoge</a>" };
+            Assert.Equal(MyCommon.HITRESULT.None, filter.ExecFilter(post));
+
+            // 大小文字を区別しない
+            filter.ExCaseSensitive = false;
+
+            post = new PostClass { Text = "<a href='http://example.com/AaaBbb'>t.co/hoge</a>" };
+            Assert.Equal(MyCommon.HITRESULT.Exclude, filter.ExecFilter(post));
+        }
+
+        [Fact]
+        public void FilterBody_ByUrlRegexTest()
+        {
+            var filter = new PostFilterRule();
+            PostClass post;
+
+            // FilterByUrl = true の場合は TextFromApi ではなく Text がマッチ対象になる
+            filter.FilterByUrl = true;
+
+            filter.UseRegex = true;
+            filter.FilterBody = new[] { "a{3}", "b{3}" };
+
+            post = new PostClass { Text = "<a href='http://example.com/123'>t.co/hoge</a>" };
+            Assert.Equal(MyCommon.HITRESULT.None, filter.ExecFilter(post));
+
+            // 片方だけではマッチしない
+            post = new PostClass { Text = "<a href='http://example.com/aaa'>t.co/hoge</a>" };
+            Assert.Equal(MyCommon.HITRESULT.None, filter.ExecFilter(post));
+
+            // FilterBody の文字列が全て含まれている
+            post = new PostClass { Text = "<a href='http://example.com/aaabbb'>t.co/hoge</a>" };
+            Assert.Equal(MyCommon.HITRESULT.CopyAndMark, filter.ExecFilter(post));
+
+            // ScreenName にはマッチしない (UseNameField = true の場合)
+            post = new PostClass { ScreenName = "aaabbb", Text = "<a href='http://example.com/123'>t.co/hoge</a>" };
+            Assert.Equal(MyCommon.HITRESULT.None, filter.ExecFilter(post));
+
+            // 大小文字を区別する
+            filter.CaseSensitive = true;
+
+            post = new PostClass { Text = "<a href='http://example.com/AaaBbb'>t.co/hoge</a>" };
+            Assert.Equal(MyCommon.HITRESULT.None, filter.ExecFilter(post));
+
+            // 大小文字を区別しない
+            filter.CaseSensitive = false;
+
+            post = new PostClass { Text = "<a href='http://example.com/AaaBbb'>t.co/hoge</a>" };
+            Assert.Equal(MyCommon.HITRESULT.CopyAndMark, filter.ExecFilter(post));
+        }
+
+        [Fact]
+        public void ExFilterBody_ByUrlRegexTest()
+        {
+            var filter = new PostFilterRule();
+            PostClass post;
+
+            // ExFilterByUrl = true の場合は TextFromApi ではなく Text がマッチ対象になる
+            filter.ExFilterByUrl = true;
+
+            filter.ExUseRegex = true;
+            filter.ExFilterBody = new[] { "a{3}", "b{3}" };
+
+            post = new PostClass { Text = "<a href='http://example.com/123'>t.co/hoge</a>" };
+            Assert.Equal(MyCommon.HITRESULT.None, filter.ExecFilter(post));
+
+            // 片方だけではマッチしない
+            post = new PostClass { Text = "<a href='http://example.com/aaa'>t.co/hoge</a>" };
+            Assert.Equal(MyCommon.HITRESULT.None, filter.ExecFilter(post));
+
+            // ExFilterBody の文字列が全て含まれている
+            post = new PostClass { Text = "<a href='http://example.com/aaabbb'>t.co/hoge</a>" };
+            Assert.Equal(MyCommon.HITRESULT.Exclude, filter.ExecFilter(post));
+
+            // ScreenName にはマッチしない (ExUseNameField = true の場合)
+            post = new PostClass { ScreenName = "aaabbb", Text = "<a href='http://example.com/123'>t.co/hoge</a>" };
+            Assert.Equal(MyCommon.HITRESULT.None, filter.ExecFilter(post));
+
+            // 大小文字を区別する
+            filter.ExCaseSensitive = true;
+
+            post = new PostClass { Text = "<a href='http://example.com/AaaBbb'>t.co/hoge</a>" };
+            Assert.Equal(MyCommon.HITRESULT.None, filter.ExecFilter(post));
+
+            // 大小文字を区別しない
+            filter.ExCaseSensitive = false;
+
+            post = new PostClass { Text = "<a href='http://example.com/AaaBbb'>t.co/hoge</a>" };
+            Assert.Equal(MyCommon.HITRESULT.Exclude, filter.ExecFilter(post));
+        }
+
+        [Fact]
+        public void FilterBodyAndName_Test()
+        {
+            var filter = new PostFilterRule();
+            PostClass post;
+
+            // UseNameField = false の場合は FilterBody のマッチ対象が TextFromApi と ScreenName の両方になる
+            filter.UseNameField = false;
+
+            filter.FilterBody = new[] { "aaa", "bbb" };
 
             post = new PostClass { ScreenName = "hoge", TextFromApi = "test" };
             Assert.Equal(MyCommon.HITRESULT.None, filter.ExecFilter(post));
@@ -334,42 +608,30 @@ namespace OpenTween
 
             // TextFromApi に FilterBody の文字列が全て含まれている
             post = new PostClass { ScreenName = "hoge", TextFromApi = "123aaa456bbb" };
-            Assert.Equal(exclude ? MyCommon.HITRESULT.Exclude : MyCommon.HITRESULT.CopyAndMark, filter.ExecFilter(post));
+            Assert.Equal(MyCommon.HITRESULT.CopyAndMark, filter.ExecFilter(post));
 
             // TextFromApi と ScreenName に FilterBody の文字列がそれぞれ含まれている
             post = new PostClass { ScreenName = "aaa", TextFromApi = "bbb" };
-            Assert.Equal(exclude ? MyCommon.HITRESULT.Exclude : MyCommon.HITRESULT.CopyAndMark, filter.ExecFilter(post));
+            Assert.Equal(MyCommon.HITRESULT.CopyAndMark, filter.ExecFilter(post));
 
             // TextFromApi と RetweetedBy に FilterBody の文字列がそれぞれ含まれている
             post = new PostClass { ScreenName = "hoge", TextFromApi = "bbb", RetweetedBy = "aaa" };
-            Assert.Equal(exclude ? MyCommon.HITRESULT.Exclude : MyCommon.HITRESULT.CopyAndMark, filter.ExecFilter(post));
+            Assert.Equal(MyCommon.HITRESULT.CopyAndMark, filter.ExecFilter(post));
 
             // RetweetedBy が null でなくても依然として ScreenName にはマッチする
             post = new PostClass { ScreenName = "aaa", TextFromApi = "bbb", RetweetedBy = "hoge" };
-            Assert.Equal(exclude ? MyCommon.HITRESULT.Exclude : MyCommon.HITRESULT.CopyAndMark, filter.ExecFilter(post));
+            Assert.Equal(MyCommon.HITRESULT.CopyAndMark, filter.ExecFilter(post));
 
-            if (!useRegex)
-            {
-                // ScreenName に対しては完全一致 (UseRegex = false の場合)
-                post = new PostClass { ScreenName = "_aaa_", TextFromApi = "bbb" };
-                Assert.Equal(MyCommon.HITRESULT.None, filter.ExecFilter(post));
-            }
-            else
-            {
-                // ScreenName に対しても部分一致 (UseRegex = true の場合)
-                post = new PostClass { ScreenName = "_aaa_", TextFromApi = "bbb" };
-                Assert.Equal(exclude ? MyCommon.HITRESULT.Exclude : MyCommon.HITRESULT.CopyAndMark, filter.ExecFilter(post));
-            }
+            // ScreenName に対しては完全一致 (UseRegex = false の場合)
+            post = new PostClass { ScreenName = "_aaa_", TextFromApi = "bbb" };
+            Assert.Equal(MyCommon.HITRESULT.None, filter.ExecFilter(post));
 
             // TextFromApi に対しては UseRegex に関わらず常に部分一致
             post = new PostClass { ScreenName = "aaa", TextFromApi = "_bbb_" };
-            Assert.Equal(exclude ? MyCommon.HITRESULT.Exclude : MyCommon.HITRESULT.CopyAndMark, filter.ExecFilter(post));
+            Assert.Equal(MyCommon.HITRESULT.CopyAndMark, filter.ExecFilter(post));
 
             // 大小文字を区別する
-            if (!exclude)
-                filter.CaseSensitive = true;
-            else
-                filter.ExCaseSensitive = true;
+            filter.CaseSensitive = true;
 
             post = new PostClass { ScreenName = "Aaa", TextFromApi = "Bbb" };
             Assert.Equal(MyCommon.HITRESULT.None, filter.ExecFilter(post));
@@ -378,50 +640,225 @@ namespace OpenTween
             Assert.Equal(MyCommon.HITRESULT.None, filter.ExecFilter(post));
 
             // 大小文字を区別しない
-            if (!exclude)
-                filter.CaseSensitive = false;
-            else
-                filter.ExCaseSensitive = false;
+            filter.CaseSensitive = false;
 
             post = new PostClass { ScreenName = "Aaa", TextFromApi = "Bbb" };
-            Assert.Equal(exclude ? MyCommon.HITRESULT.Exclude : MyCommon.HITRESULT.CopyAndMark, filter.ExecFilter(post));
+            Assert.Equal(MyCommon.HITRESULT.CopyAndMark, filter.ExecFilter(post));
 
             post = new PostClass { ScreenName = "hoge", TextFromApi = "Bbb", RetweetedBy = "Aaa" };
-            Assert.Equal(exclude ? MyCommon.HITRESULT.Exclude : MyCommon.HITRESULT.CopyAndMark, filter.ExecFilter(post));
+            Assert.Equal(MyCommon.HITRESULT.CopyAndMark, filter.ExecFilter(post));
         }
 
-        [Theory]
-        [InlineData(false, new[] { "aaa", "bbb" }, false)]
-        [InlineData(false, new[] { "aaa", "bbb" }, true)]
-        [InlineData(true, new[] { "a{3}", "b{3}" }, false)]
-        [InlineData(true, new[] { "a{3}", "b{3}" }, true)]
-        public void BodyUrlAndNameTest(bool useRegex, string[] pattern, bool exclude)
+        [Fact]
+        public void ExFilterBodyAndName_Test()
         {
             var filter = new PostFilterRule();
             PostClass post;
 
-            if (!exclude)
-            {
-                // FilterByUrl = true の場合は TextFromApi ではなく Text がマッチ対象になる
-                filter.FilterByUrl = true;
+            // ExUseNameField = false の場合は ExFilterBody のマッチ対象が TextFromApi と ScreenName の両方になる
+            filter.ExUseNameField = false;
 
-                // UseNameField = false の場合は FilterBody のマッチ対象が Text と ScreenName の両方になる
-                filter.UseNameField = false;
+            filter.ExFilterBody = new[] { "aaa", "bbb" };
 
-                filter.UseRegex = useRegex;
-                filter.FilterBody = pattern;
-            }
-            else
-            {
-                // ExFilterByUrl = true の場合は TextFromApi ではなく Text がマッチ対象になる
-                filter.ExFilterByUrl = true;
+            post = new PostClass { ScreenName = "hoge", TextFromApi = "test" };
+            Assert.Equal(MyCommon.HITRESULT.None, filter.ExecFilter(post));
 
-                // ExUseNameField = false の場合は ExFilterBody のマッチ対象が Text と ScreenName の両方になる
-                filter.ExUseNameField = false;
+            // ExFilterBody の片方だけではマッチしない
+            post = new PostClass { ScreenName = "hoge", TextFromApi = "aaa" };
+            Assert.Equal(MyCommon.HITRESULT.None, filter.ExecFilter(post));
 
-                filter.ExUseRegex = useRegex;
-                filter.ExFilterBody = pattern;
-            }
+            // ExFilterBody の片方だけではマッチしない
+            post = new PostClass { ScreenName = "aaa", TextFromApi = "test" };
+            Assert.Equal(MyCommon.HITRESULT.None, filter.ExecFilter(post));
+
+            // TextFromApi に ExFilterBody の文字列が全て含まれている
+            post = new PostClass { ScreenName = "hoge", TextFromApi = "123aaa456bbb" };
+            Assert.Equal(MyCommon.HITRESULT.Exclude, filter.ExecFilter(post));
+
+            // TextFromApi と ScreenName に ExFilterBody の文字列がそれぞれ含まれている
+            post = new PostClass { ScreenName = "aaa", TextFromApi = "bbb" };
+            Assert.Equal(MyCommon.HITRESULT.Exclude, filter.ExecFilter(post));
+
+            // TextFromApi と RetweetedBy に ExFilterBody の文字列がそれぞれ含まれている
+            post = new PostClass { ScreenName = "hoge", TextFromApi = "bbb", RetweetedBy = "aaa" };
+            Assert.Equal(MyCommon.HITRESULT.Exclude, filter.ExecFilter(post));
+
+            // RetweetedBy が null でなくても依然として ScreenName にはマッチする
+            post = new PostClass { ScreenName = "aaa", TextFromApi = "bbb", RetweetedBy = "hoge" };
+            Assert.Equal(MyCommon.HITRESULT.Exclude, filter.ExecFilter(post));
+
+            // ScreenName に対しては完全一致 (ExUseRegex = false の場合)
+            post = new PostClass { ScreenName = "_aaa_", TextFromApi = "bbb" };
+            Assert.Equal(MyCommon.HITRESULT.None, filter.ExecFilter(post));
+
+            // TextFromApi に対しては ExUseRegex に関わらず常に部分一致
+            post = new PostClass { ScreenName = "aaa", TextFromApi = "_bbb_" };
+            Assert.Equal(MyCommon.HITRESULT.Exclude, filter.ExecFilter(post));
+
+            // 大小文字を区別する
+            filter.ExCaseSensitive = true;
+
+            post = new PostClass { ScreenName = "Aaa", TextFromApi = "Bbb" };
+            Assert.Equal(MyCommon.HITRESULT.None, filter.ExecFilter(post));
+
+            post = new PostClass { ScreenName = "hoge", TextFromApi = "Bbb", RetweetedBy = "Aaa" };
+            Assert.Equal(MyCommon.HITRESULT.None, filter.ExecFilter(post));
+
+            // 大小文字を区別しない
+            filter.ExCaseSensitive = false;
+
+            post = new PostClass { ScreenName = "Aaa", TextFromApi = "Bbb" };
+            Assert.Equal(MyCommon.HITRESULT.Exclude, filter.ExecFilter(post));
+
+            post = new PostClass { ScreenName = "hoge", TextFromApi = "Bbb", RetweetedBy = "Aaa" };
+            Assert.Equal(MyCommon.HITRESULT.Exclude, filter.ExecFilter(post));
+        }
+
+        [Fact]
+        public void FilterBodyAndName_RegexTest()
+        {
+            var filter = new PostFilterRule();
+            PostClass post;
+
+            // UseNameField = false の場合は FilterBody のマッチ対象が TextFromApi と ScreenName の両方になる
+            filter.UseNameField = false;
+
+            filter.UseRegex = true;
+            filter.FilterBody = new[] { "a{3}", "b{3}" };
+
+            post = new PostClass { ScreenName = "hoge", TextFromApi = "test" };
+            Assert.Equal(MyCommon.HITRESULT.None, filter.ExecFilter(post));
+
+            // FilterBody の片方だけではマッチしない
+            post = new PostClass { ScreenName = "hoge", TextFromApi = "aaa" };
+            Assert.Equal(MyCommon.HITRESULT.None, filter.ExecFilter(post));
+
+            // FilterBody の片方だけではマッチしない
+            post = new PostClass { ScreenName = "aaa", TextFromApi = "test" };
+            Assert.Equal(MyCommon.HITRESULT.None, filter.ExecFilter(post));
+
+            // TextFromApi に FilterBody の文字列が全て含まれている
+            post = new PostClass { ScreenName = "hoge", TextFromApi = "123aaa456bbb" };
+            Assert.Equal(MyCommon.HITRESULT.CopyAndMark, filter.ExecFilter(post));
+
+            // TextFromApi と ScreenName に FilterBody の文字列がそれぞれ含まれている
+            post = new PostClass { ScreenName = "aaa", TextFromApi = "bbb" };
+            Assert.Equal(MyCommon.HITRESULT.CopyAndMark, filter.ExecFilter(post));
+
+            // TextFromApi と RetweetedBy に FilterBody の文字列がそれぞれ含まれている
+            post = new PostClass { ScreenName = "hoge", TextFromApi = "bbb", RetweetedBy = "aaa" };
+            Assert.Equal(MyCommon.HITRESULT.CopyAndMark, filter.ExecFilter(post));
+
+            // RetweetedBy が null でなくても依然として ScreenName にはマッチする
+            post = new PostClass { ScreenName = "aaa", TextFromApi = "bbb", RetweetedBy = "hoge" };
+            Assert.Equal(MyCommon.HITRESULT.CopyAndMark, filter.ExecFilter(post));
+
+            // ScreenName に対しても部分一致 (UseRegex = true の場合)
+            post = new PostClass { ScreenName = "_aaa_", TextFromApi = "bbb" };
+            Assert.Equal(MyCommon.HITRESULT.CopyAndMark, filter.ExecFilter(post));
+
+            // TextFromApi に対しては UseRegex に関わらず常に部分一致
+            post = new PostClass { ScreenName = "aaa", TextFromApi = "_bbb_" };
+            Assert.Equal(MyCommon.HITRESULT.CopyAndMark, filter.ExecFilter(post));
+
+            // 大小文字を区別する
+            filter.CaseSensitive = true;
+
+            post = new PostClass { ScreenName = "Aaa", TextFromApi = "Bbb" };
+            Assert.Equal(MyCommon.HITRESULT.None, filter.ExecFilter(post));
+
+            post = new PostClass { ScreenName = "hoge", TextFromApi = "Bbb", RetweetedBy = "Aaa" };
+            Assert.Equal(MyCommon.HITRESULT.None, filter.ExecFilter(post));
+
+            // 大小文字を区別しない
+            filter.CaseSensitive = false;
+
+            post = new PostClass { ScreenName = "Aaa", TextFromApi = "Bbb" };
+            Assert.Equal(MyCommon.HITRESULT.CopyAndMark, filter.ExecFilter(post));
+
+            post = new PostClass { ScreenName = "hoge", TextFromApi = "Bbb", RetweetedBy = "Aaa" };
+            Assert.Equal(MyCommon.HITRESULT.CopyAndMark, filter.ExecFilter(post));
+        }
+
+        [Fact]
+        public void ExFilterBodyAndName_RegexTest()
+        {
+            var filter = new PostFilterRule();
+            PostClass post;
+
+            // ExUseNameField = false の場合は ExFilterBody のマッチ対象が TextFromApi と ScreenName の両方になる
+            filter.ExUseNameField = false;
+
+            filter.ExUseRegex = true;
+            filter.ExFilterBody = new[] { "a{3}", "b{3}" };
+
+            post = new PostClass { ScreenName = "hoge", TextFromApi = "test" };
+            Assert.Equal(MyCommon.HITRESULT.None, filter.ExecFilter(post));
+
+            // ExFilterBody の片方だけではマッチしない
+            post = new PostClass { ScreenName = "hoge", TextFromApi = "aaa" };
+            Assert.Equal(MyCommon.HITRESULT.None, filter.ExecFilter(post));
+
+            // ExFilterBody の片方だけではマッチしない
+            post = new PostClass { ScreenName = "aaa", TextFromApi = "test" };
+            Assert.Equal(MyCommon.HITRESULT.None, filter.ExecFilter(post));
+
+            // TextFromApi に ExFilterBody の文字列が全て含まれている
+            post = new PostClass { ScreenName = "hoge", TextFromApi = "123aaa456bbb" };
+            Assert.Equal(MyCommon.HITRESULT.Exclude, filter.ExecFilter(post));
+
+            // TextFromApi と ScreenName に ExFilterBody の文字列がそれぞれ含まれている
+            post = new PostClass { ScreenName = "aaa", TextFromApi = "bbb" };
+            Assert.Equal(MyCommon.HITRESULT.Exclude, filter.ExecFilter(post));
+
+            // TextFromApi と RetweetedBy に ExFilterBody の文字列がそれぞれ含まれている
+            post = new PostClass { ScreenName = "hoge", TextFromApi = "bbb", RetweetedBy = "aaa" };
+            Assert.Equal(MyCommon.HITRESULT.Exclude, filter.ExecFilter(post));
+
+            // RetweetedBy が null でなくても依然として ScreenName にはマッチする
+            post = new PostClass { ScreenName = "aaa", TextFromApi = "bbb", RetweetedBy = "hoge" };
+            Assert.Equal(MyCommon.HITRESULT.Exclude, filter.ExecFilter(post));
+
+            // ScreenName に対しても部分一致 (ExUseRegex = true の場合)
+            post = new PostClass { ScreenName = "_aaa_", TextFromApi = "bbb" };
+            Assert.Equal(MyCommon.HITRESULT.Exclude, filter.ExecFilter(post));
+
+            // TextFromApi に対しては ExUseRegex に関わらず常に部分一致
+            post = new PostClass { ScreenName = "aaa", TextFromApi = "_bbb_" };
+            Assert.Equal(MyCommon.HITRESULT.Exclude, filter.ExecFilter(post));
+
+            // 大小文字を区別する
+            filter.ExCaseSensitive = true;
+
+            post = new PostClass { ScreenName = "Aaa", TextFromApi = "Bbb" };
+            Assert.Equal(MyCommon.HITRESULT.None, filter.ExecFilter(post));
+
+            post = new PostClass { ScreenName = "hoge", TextFromApi = "Bbb", RetweetedBy = "Aaa" };
+            Assert.Equal(MyCommon.HITRESULT.None, filter.ExecFilter(post));
+
+            // 大小文字を区別しない
+            filter.ExCaseSensitive = false;
+
+            post = new PostClass { ScreenName = "Aaa", TextFromApi = "Bbb" };
+            Assert.Equal(MyCommon.HITRESULT.Exclude, filter.ExecFilter(post));
+
+            post = new PostClass { ScreenName = "hoge", TextFromApi = "Bbb", RetweetedBy = "Aaa" };
+            Assert.Equal(MyCommon.HITRESULT.Exclude, filter.ExecFilter(post));
+        }
+
+        [Fact]
+        public void FilterBodyAndName_ByUrlTest()
+        {
+            var filter = new PostFilterRule();
+            PostClass post;
+
+            // FilterByUrl = true の場合は TextFromApi ではなく Text がマッチ対象になる
+            filter.FilterByUrl = true;
+
+            // UseNameField = false の場合は FilterBody のマッチ対象が Text と ScreenName の両方になる
+            filter.UseNameField = false;
+
+            filter.FilterBody = new[] { "aaa", "bbb" };
 
             post = new PostClass { ScreenName = "hoge", Text = "<a href='http://example.com/123'>t.co/hoge</a>" };
             Assert.Equal(MyCommon.HITRESULT.None, filter.ExecFilter(post));
@@ -436,42 +873,30 @@ namespace OpenTween
 
             // Text に FilterBody の文字列が全て含まれている
             post = new PostClass { ScreenName = "hoge", Text = "<a href='http://example.com/aaabbb'>t.co/hoge</a>" };
-            Assert.Equal(exclude ? MyCommon.HITRESULT.Exclude : MyCommon.HITRESULT.CopyAndMark, filter.ExecFilter(post));
+            Assert.Equal(MyCommon.HITRESULT.CopyAndMark, filter.ExecFilter(post));
 
             // Text と ScreenName に FilterBody の文字列がそれぞれ含まれている
             post = new PostClass { ScreenName = "aaa", Text = "<a href='http://example.com/bbb'>t.co/hoge</a>" };
-            Assert.Equal(exclude ? MyCommon.HITRESULT.Exclude : MyCommon.HITRESULT.CopyAndMark, filter.ExecFilter(post));
+            Assert.Equal(MyCommon.HITRESULT.CopyAndMark, filter.ExecFilter(post));
 
             // Text と ScreenName に FilterBody の文字列がそれぞれ含まれている
             post = new PostClass { ScreenName = "hoge", Text = "<a href='http://example.com/bbb'>t.co/hoge</a>", RetweetedBy = "aaa" };
-            Assert.Equal(exclude ? MyCommon.HITRESULT.Exclude : MyCommon.HITRESULT.CopyAndMark, filter.ExecFilter(post));
+            Assert.Equal(MyCommon.HITRESULT.CopyAndMark, filter.ExecFilter(post));
 
             // RetweetedBy が null でなくても依然として ScreenName にはマッチする
             post = new PostClass { ScreenName = "aaa", Text = "<a href='http://example.com/bbb'>t.co/hoge</a>", RetweetedBy = "hoge" };
-            Assert.Equal(exclude ? MyCommon.HITRESULT.Exclude : MyCommon.HITRESULT.CopyAndMark, filter.ExecFilter(post));
+            Assert.Equal(MyCommon.HITRESULT.CopyAndMark, filter.ExecFilter(post));
 
-            if (!useRegex)
-            {
-                // ScreenName に対しては完全一致 (UseRegex = false の場合)
-                post = new PostClass { ScreenName = "_aaa_", Text = "<a href='http://example.com/bbb'>t.co/hoge</a>" };
-                Assert.Equal(MyCommon.HITRESULT.None, filter.ExecFilter(post));
-            }
-            else
-            {
-                // ScreenName に対しても部分一致 (UseRegex = true の場合)
-                post = new PostClass { ScreenName = "_aaa_", Text = "<a href='http://example.com/bbb'>t.co/hoge</a>" };
-                Assert.Equal(exclude ? MyCommon.HITRESULT.Exclude : MyCommon.HITRESULT.CopyAndMark, filter.ExecFilter(post));
-            }
+            // ScreenName に対しては完全一致 (UseRegex = false の場合)
+            post = new PostClass { ScreenName = "_aaa_", Text = "<a href='http://example.com/bbb'>t.co/hoge</a>" };
+            Assert.Equal(MyCommon.HITRESULT.None, filter.ExecFilter(post));
 
             // Text に対しては UseRegex に関わらず常に部分一致
             post = new PostClass { ScreenName = "aaa", Text = "_bbb_" };
-            Assert.Equal(exclude ? MyCommon.HITRESULT.Exclude : MyCommon.HITRESULT.CopyAndMark, filter.ExecFilter(post));
+            Assert.Equal(MyCommon.HITRESULT.CopyAndMark, filter.ExecFilter(post));
 
             // 大小文字を区別する
-            if (!exclude)
-                filter.CaseSensitive = true;
-            else
-                filter.ExCaseSensitive = true;
+            filter.CaseSensitive = true;
 
             post = new PostClass { ScreenName = "Aaa", Text = "<a href='http://example.com/Bbb'>t.co/hoge</a>" };
             Assert.Equal(MyCommon.HITRESULT.None, filter.ExecFilter(post));
@@ -480,145 +905,498 @@ namespace OpenTween
             Assert.Equal(MyCommon.HITRESULT.None, filter.ExecFilter(post));
 
             // 大小文字を区別しない
-            if (!exclude)
-                filter.CaseSensitive = false;
-            else
-                filter.ExCaseSensitive = false;
+            filter.CaseSensitive = false;
 
             post = new PostClass { ScreenName = "Aaa", Text = "<a href='http://example.com/Bbb'>t.co/hoge</a>" };
-            Assert.Equal(exclude ? MyCommon.HITRESULT.Exclude : MyCommon.HITRESULT.CopyAndMark, filter.ExecFilter(post));
+            Assert.Equal(MyCommon.HITRESULT.CopyAndMark, filter.ExecFilter(post));
 
             post = new PostClass { ScreenName = "hoge", Text = "<a href='http://example.com/Bbb'>t.co/hoge</a>", RetweetedBy = "Aaa" };
-            Assert.Equal(exclude ? MyCommon.HITRESULT.Exclude : MyCommon.HITRESULT.CopyAndMark, filter.ExecFilter(post));
+            Assert.Equal(MyCommon.HITRESULT.CopyAndMark, filter.ExecFilter(post));
         }
 
-        [Theory]
-        [InlineData(false, "hogehoge", false)]
-        [InlineData(false, "hogehoge", true)]
-        [InlineData(true, "(hoge){2}", false)]
-        [InlineData(true, "(hoge){2}", true)]
-        public void SourceTest(bool useRegex, string pattern, bool exclude)
+        [Fact]
+        public void ExFilterBodyAndName_ByUrlTest()
         {
             var filter = new PostFilterRule();
             PostClass post;
 
-            if (!exclude)
-            {
-                filter.UseRegex = useRegex;
-                filter.FilterSource = pattern;
-            }
-            else
-            {
-                filter.ExUseRegex = useRegex;
-                filter.ExFilterSource = pattern;
-            }
+            // ExFilterByUrl = true の場合は TextFromApi ではなく Text がマッチ対象になる
+            filter.ExFilterByUrl = true;
+
+            // ExUseNameField = false の場合は ExFilterBody のマッチ対象が Text と ScreenName の両方になる
+            filter.ExUseNameField = false;
+
+            filter.ExFilterBody = new[] { "aaa", "bbb" };
+
+            post = new PostClass { ScreenName = "hoge", Text = "<a href='http://example.com/123'>t.co/hoge</a>" };
+            Assert.Equal(MyCommon.HITRESULT.None, filter.ExecFilter(post));
+
+            // ExFilterBody の片方だけではマッチしない
+            post = new PostClass { ScreenName = "hoge", Text = "<a href='http://example.com/aaa'>t.co/hoge</a>" };
+            Assert.Equal(MyCommon.HITRESULT.None, filter.ExecFilter(post));
+
+            // ExFilterBody の片方だけではマッチしない
+            post = new PostClass { ScreenName = "aaa", Text = "<a href='http://example.com/123'>t.co/hoge</a>" };
+            Assert.Equal(MyCommon.HITRESULT.None, filter.ExecFilter(post));
+
+            // Text に ExFilterBody の文字列が全て含まれている
+            post = new PostClass { ScreenName = "hoge", Text = "<a href='http://example.com/aaabbb'>t.co/hoge</a>" };
+            Assert.Equal(MyCommon.HITRESULT.Exclude, filter.ExecFilter(post));
+
+            // Text と ScreenName に ExFilterBody の文字列がそれぞれ含まれている
+            post = new PostClass { ScreenName = "aaa", Text = "<a href='http://example.com/bbb'>t.co/hoge</a>" };
+            Assert.Equal(MyCommon.HITRESULT.Exclude, filter.ExecFilter(post));
+
+            // Text と ScreenName に ExFilterBody の文字列がそれぞれ含まれている
+            post = new PostClass { ScreenName = "hoge", Text = "<a href='http://example.com/bbb'>t.co/hoge</a>", RetweetedBy = "aaa" };
+            Assert.Equal(MyCommon.HITRESULT.Exclude, filter.ExecFilter(post));
+
+            // RetweetedBy が null でなくても依然として ScreenName にはマッチする
+            post = new PostClass { ScreenName = "aaa", Text = "<a href='http://example.com/bbb'>t.co/hoge</a>", RetweetedBy = "hoge" };
+            Assert.Equal(MyCommon.HITRESULT.Exclude, filter.ExecFilter(post));
+
+            // ScreenName に対しては完全一致 (ExUseRegex = false の場合)
+            post = new PostClass { ScreenName = "_aaa_", Text = "<a href='http://example.com/bbb'>t.co/hoge</a>" };
+            Assert.Equal(MyCommon.HITRESULT.None, filter.ExecFilter(post));
+
+            // Text に対しては ExUseRegex に関わらず常に部分一致
+            post = new PostClass { ScreenName = "aaa", Text = "_bbb_" };
+            Assert.Equal(MyCommon.HITRESULT.Exclude, filter.ExecFilter(post));
+
+            // 大小文字を区別する
+            filter.ExCaseSensitive = true;
+
+            post = new PostClass { ScreenName = "Aaa", Text = "<a href='http://example.com/Bbb'>t.co/hoge</a>" };
+            Assert.Equal(MyCommon.HITRESULT.None, filter.ExecFilter(post));
+
+            post = new PostClass { ScreenName = "hoge", Text = "<a href='http://example.com/Bbb'>t.co/hoge</a>", RetweetedBy = "Aaa" };
+            Assert.Equal(MyCommon.HITRESULT.None, filter.ExecFilter(post));
+
+            // 大小文字を区別しない
+            filter.ExCaseSensitive = false;
+
+            post = new PostClass { ScreenName = "Aaa", Text = "<a href='http://example.com/Bbb'>t.co/hoge</a>" };
+            Assert.Equal(MyCommon.HITRESULT.Exclude, filter.ExecFilter(post));
+
+            post = new PostClass { ScreenName = "hoge", Text = "<a href='http://example.com/Bbb'>t.co/hoge</a>", RetweetedBy = "Aaa" };
+            Assert.Equal(MyCommon.HITRESULT.Exclude, filter.ExecFilter(post));
+        }
+
+        [Fact]
+        public void FilterBodyAndName_ByUrlRegexTest()
+        {
+            var filter = new PostFilterRule();
+            PostClass post;
+
+            // FilterByUrl = true の場合は TextFromApi ではなく Text がマッチ対象になる
+            filter.FilterByUrl = true;
+
+            // UseNameField = false の場合は FilterBody のマッチ対象が Text と ScreenName の両方になる
+            filter.UseNameField = false;
+
+            filter.UseRegex = true;
+            filter.FilterBody = new[] { "a{3}", "b{3}" };
+
+            post = new PostClass { ScreenName = "hoge", Text = "<a href='http://example.com/123'>t.co/hoge</a>" };
+            Assert.Equal(MyCommon.HITRESULT.None, filter.ExecFilter(post));
+
+            // FilterBody の片方だけではマッチしない
+            post = new PostClass { ScreenName = "hoge", Text = "<a href='http://example.com/aaa'>t.co/hoge</a>" };
+            Assert.Equal(MyCommon.HITRESULT.None, filter.ExecFilter(post));
+
+            // FilterBody の片方だけではマッチしない
+            post = new PostClass { ScreenName = "aaa", Text = "<a href='http://example.com/123'>t.co/hoge</a>" };
+            Assert.Equal(MyCommon.HITRESULT.None, filter.ExecFilter(post));
+
+            // Text に FilterBody の文字列が全て含まれている
+            post = new PostClass { ScreenName = "hoge", Text = "<a href='http://example.com/aaabbb'>t.co/hoge</a>" };
+            Assert.Equal(MyCommon.HITRESULT.CopyAndMark, filter.ExecFilter(post));
+
+            // Text と ScreenName に FilterBody の文字列がそれぞれ含まれている
+            post = new PostClass { ScreenName = "aaa", Text = "<a href='http://example.com/bbb'>t.co/hoge</a>" };
+            Assert.Equal(MyCommon.HITRESULT.CopyAndMark, filter.ExecFilter(post));
+
+            // Text と ScreenName に FilterBody の文字列がそれぞれ含まれている
+            post = new PostClass { ScreenName = "hoge", Text = "<a href='http://example.com/bbb'>t.co/hoge</a>", RetweetedBy = "aaa" };
+            Assert.Equal(MyCommon.HITRESULT.CopyAndMark, filter.ExecFilter(post));
+
+            // RetweetedBy が null でなくても依然として ScreenName にはマッチする
+            post = new PostClass { ScreenName = "aaa", Text = "<a href='http://example.com/bbb'>t.co/hoge</a>", RetweetedBy = "hoge" };
+            Assert.Equal(MyCommon.HITRESULT.CopyAndMark, filter.ExecFilter(post));
+
+            // ScreenName に対しても部分一致 (UseRegex = true の場合)
+            post = new PostClass { ScreenName = "_aaa_", Text = "<a href='http://example.com/bbb'>t.co/hoge</a>" };
+            Assert.Equal(MyCommon.HITRESULT.CopyAndMark, filter.ExecFilter(post));
+
+            // Text に対しては UseRegex に関わらず常に部分一致
+            post = new PostClass { ScreenName = "aaa", Text = "_bbb_" };
+            Assert.Equal(MyCommon.HITRESULT.CopyAndMark, filter.ExecFilter(post));
+
+            // 大小文字を区別する
+            filter.CaseSensitive = true;
+
+            post = new PostClass { ScreenName = "Aaa", Text = "<a href='http://example.com/Bbb'>t.co/hoge</a>" };
+            Assert.Equal(MyCommon.HITRESULT.None, filter.ExecFilter(post));
+
+            post = new PostClass { ScreenName = "hoge", Text = "<a href='http://example.com/Bbb'>t.co/hoge</a>", RetweetedBy = "Aaa" };
+            Assert.Equal(MyCommon.HITRESULT.None, filter.ExecFilter(post));
+
+            // 大小文字を区別しない
+            filter.CaseSensitive = false;
+
+            post = new PostClass { ScreenName = "Aaa", Text = "<a href='http://example.com/Bbb'>t.co/hoge</a>" };
+            Assert.Equal(MyCommon.HITRESULT.CopyAndMark, filter.ExecFilter(post));
+
+            post = new PostClass { ScreenName = "hoge", Text = "<a href='http://example.com/Bbb'>t.co/hoge</a>", RetweetedBy = "Aaa" };
+            Assert.Equal(MyCommon.HITRESULT.CopyAndMark, filter.ExecFilter(post));
+        }
+
+        [Fact]
+        public void ExFilterBodyAndName_ByUrlRegexTest()
+        {
+            var filter = new PostFilterRule();
+            PostClass post;
+
+            // ExFilterByUrl = true の場合は TextFromApi ではなく Text がマッチ対象になる
+            filter.ExFilterByUrl = true;
+
+            // ExUseNameField = false の場合は ExFilterBody のマッチ対象が Text と ScreenName の両方になる
+            filter.ExUseNameField = false;
+
+            filter.ExUseRegex = true;
+            filter.ExFilterBody = new[] { "a{3}", "b{3}" };
+
+            post = new PostClass { ScreenName = "hoge", Text = "<a href='http://example.com/123'>t.co/hoge</a>" };
+            Assert.Equal(MyCommon.HITRESULT.None, filter.ExecFilter(post));
+
+            // ExFilterBody の片方だけではマッチしない
+            post = new PostClass { ScreenName = "hoge", Text = "<a href='http://example.com/aaa'>t.co/hoge</a>" };
+            Assert.Equal(MyCommon.HITRESULT.None, filter.ExecFilter(post));
+
+            // ExFilterBody の片方だけではマッチしない
+            post = new PostClass { ScreenName = "aaa", Text = "<a href='http://example.com/123'>t.co/hoge</a>" };
+            Assert.Equal(MyCommon.HITRESULT.None, filter.ExecFilter(post));
+
+            // Text に ExFilterBody の文字列が全て含まれている
+            post = new PostClass { ScreenName = "hoge", Text = "<a href='http://example.com/aaabbb'>t.co/hoge</a>" };
+            Assert.Equal(MyCommon.HITRESULT.Exclude, filter.ExecFilter(post));
+
+            // Text と ScreenName に ExFilterBody の文字列がそれぞれ含まれている
+            post = new PostClass { ScreenName = "aaa", Text = "<a href='http://example.com/bbb'>t.co/hoge</a>" };
+            Assert.Equal(MyCommon.HITRESULT.Exclude, filter.ExecFilter(post));
+
+            // Text と ScreenName に ExFilterBody の文字列がそれぞれ含まれている
+            post = new PostClass { ScreenName = "hoge", Text = "<a href='http://example.com/bbb'>t.co/hoge</a>", RetweetedBy = "aaa" };
+            Assert.Equal(MyCommon.HITRESULT.Exclude, filter.ExecFilter(post));
+
+            // RetweetedBy が null でなくても依然として ScreenName にはマッチする
+            post = new PostClass { ScreenName = "aaa", Text = "<a href='http://example.com/bbb'>t.co/hoge</a>", RetweetedBy = "hoge" };
+            Assert.Equal(MyCommon.HITRESULT.Exclude, filter.ExecFilter(post));
+
+            // ScreenName に対しても部分一致 (ExUseRegex = true の場合)
+            post = new PostClass { ScreenName = "_aaa_", Text = "<a href='http://example.com/bbb'>t.co/hoge</a>" };
+            Assert.Equal(MyCommon.HITRESULT.Exclude, filter.ExecFilter(post));
+
+            // Text に対しては ExUseRegex に関わらず常に部分一致
+            post = new PostClass { ScreenName = "aaa", Text = "_bbb_" };
+            Assert.Equal(MyCommon.HITRESULT.Exclude, filter.ExecFilter(post));
+
+            // 大小文字を区別する
+            filter.ExCaseSensitive = true;
+
+            post = new PostClass { ScreenName = "Aaa", Text = "<a href='http://example.com/Bbb'>t.co/hoge</a>" };
+            Assert.Equal(MyCommon.HITRESULT.None, filter.ExecFilter(post));
+
+            post = new PostClass { ScreenName = "hoge", Text = "<a href='http://example.com/Bbb'>t.co/hoge</a>", RetweetedBy = "Aaa" };
+            Assert.Equal(MyCommon.HITRESULT.None, filter.ExecFilter(post));
+
+            // 大小文字を区別しない
+            filter.ExCaseSensitive = false;
+
+            post = new PostClass { ScreenName = "Aaa", Text = "<a href='http://example.com/Bbb'>t.co/hoge</a>" };
+            Assert.Equal(MyCommon.HITRESULT.Exclude, filter.ExecFilter(post));
+
+            post = new PostClass { ScreenName = "hoge", Text = "<a href='http://example.com/Bbb'>t.co/hoge</a>", RetweetedBy = "Aaa" };
+            Assert.Equal(MyCommon.HITRESULT.Exclude, filter.ExecFilter(post));
+        }
+
+        [Fact]
+        public void FilterSource_Test()
+        {
+            var filter = new PostFilterRule();
+            PostClass post;
+
+            filter.FilterSource = "hogehoge";
 
             post = new PostClass { Source = "hogehoge" };
-            Assert.Equal(exclude ? MyCommon.HITRESULT.Exclude : MyCommon.HITRESULT.CopyAndMark, filter.ExecFilter(post));
+            Assert.Equal(MyCommon.HITRESULT.CopyAndMark, filter.ExecFilter(post));
 
             post = new PostClass { Source = "foo" };
             Assert.Equal(MyCommon.HITRESULT.None, filter.ExecFilter(post));
 
-            if (!useRegex)
-            {
-                // FilterSource は完全一致 (UseRegex = false の場合)
-                post = new PostClass { Source = "_hogehoge_" };
-                Assert.Equal(MyCommon.HITRESULT.None, filter.ExecFilter(post));
-            }
-            else
-            {
-                // FilterSource は部分一致 (UseRegex = true の場合)
-                post = new PostClass { Source = "_hogehoge_" };
-                Assert.Equal(exclude ? MyCommon.HITRESULT.Exclude : MyCommon.HITRESULT.CopyAndMark, filter.ExecFilter(post));
-            }
+            // FilterSource は完全一致 (UseRegex = false の場合)
+            post = new PostClass { Source = "_hogehoge_" };
+            Assert.Equal(MyCommon.HITRESULT.None, filter.ExecFilter(post));
 
             // 大小文字を区別する
-            if (!exclude)
-                filter.CaseSensitive = true;
-            else
-                filter.ExCaseSensitive = true;
+            filter.CaseSensitive = true;
 
             post = new PostClass { Source = "HogeHoge" };
             Assert.Equal(MyCommon.HITRESULT.None, filter.ExecFilter(post));
 
             // 大小文字を区別しない
-            if (!exclude)
-                filter.CaseSensitive = false;
-            else
-                filter.ExCaseSensitive = false;
+            filter.CaseSensitive = false;
 
             post = new PostClass { Source = "HogeHoge" };
-            Assert.Equal(exclude ? MyCommon.HITRESULT.Exclude : MyCommon.HITRESULT.CopyAndMark, filter.ExecFilter(post));
+            Assert.Equal(MyCommon.HITRESULT.CopyAndMark, filter.ExecFilter(post));
         }
 
-        [Theory]
-        [InlineData(false, "hogehoge", false)]
-        [InlineData(false, "hogehoge", true)]
-        [InlineData(true, "(hoge){2}", false)]
-        [InlineData(true, "(hoge){2}", true)]
-        public void SourceHtmlTest(bool useRegex, string pattern, bool exclude)
+        [Fact]
+        public void ExFilterSource_Test()
         {
             var filter = new PostFilterRule();
             PostClass post;
 
-            if (!exclude)
-            {
-                // FilterByUrl = true の場合は Source ではなく SourceHtml がマッチ対象になる
-                filter.FilterByUrl = true;
+            filter.ExFilterSource = "hogehoge";
 
-                filter.UseRegex = useRegex;
-                filter.FilterSource = pattern;
-            }
-            else
-            {
-                // ExFilterByUrl = true の場合は Source ではなく SourceHtml がマッチ対象になる
-                filter.ExFilterByUrl = true;
+            post = new PostClass { Source = "hogehoge" };
+            Assert.Equal(MyCommon.HITRESULT.Exclude, filter.ExecFilter(post));
 
-                filter.ExUseRegex = useRegex;
-                filter.ExFilterSource = pattern;
-            }
+            post = new PostClass { Source = "foo" };
+            Assert.Equal(MyCommon.HITRESULT.None, filter.ExecFilter(post));
+
+            // ExFilterSource は完全一致 (ExUseRegex = false の場合)
+            post = new PostClass { Source = "_hogehoge_" };
+            Assert.Equal(MyCommon.HITRESULT.None, filter.ExecFilter(post));
+
+            // 大小文字を区別する
+            filter.ExCaseSensitive = true;
+
+            post = new PostClass { Source = "HogeHoge" };
+            Assert.Equal(MyCommon.HITRESULT.None, filter.ExecFilter(post));
+
+            // 大小文字を区別しない
+            filter.ExCaseSensitive = false;
+
+            post = new PostClass { Source = "HogeHoge" };
+            Assert.Equal(MyCommon.HITRESULT.Exclude, filter.ExecFilter(post));
+        }
+
+        [Fact]
+        public void FilterSource_RegexTest()
+        {
+            var filter = new PostFilterRule();
+            PostClass post;
+
+            filter.UseRegex = true;
+            filter.FilterSource = "(hoge){2}";
+
+            post = new PostClass { Source = "hogehoge" };
+            Assert.Equal(MyCommon.HITRESULT.CopyAndMark, filter.ExecFilter(post));
+
+            post = new PostClass { Source = "foo" };
+            Assert.Equal(MyCommon.HITRESULT.None, filter.ExecFilter(post));
+
+            // FilterSource は部分一致 (UseRegex = true の場合)
+            post = new PostClass { Source = "_hogehoge_" };
+            Assert.Equal(MyCommon.HITRESULT.CopyAndMark, filter.ExecFilter(post));
+
+            // 大小文字を区別する
+            filter.CaseSensitive = true;
+
+            post = new PostClass { Source = "HogeHoge" };
+            Assert.Equal(MyCommon.HITRESULT.None, filter.ExecFilter(post));
+
+            // 大小文字を区別しない
+            filter.CaseSensitive = false;
+
+            post = new PostClass { Source = "HogeHoge" };
+            Assert.Equal(MyCommon.HITRESULT.CopyAndMark, filter.ExecFilter(post));
+        }
+
+        [Fact]
+        public void ExFilterSource_RegexTest()
+        {
+            var filter = new PostFilterRule();
+            PostClass post;
+
+            filter.ExUseRegex = true;
+            filter.ExFilterSource = "(hoge){2}";
+
+            post = new PostClass { Source = "hogehoge" };
+            Assert.Equal(MyCommon.HITRESULT.Exclude, filter.ExecFilter(post));
+
+            post = new PostClass { Source = "foo" };
+            Assert.Equal(MyCommon.HITRESULT.None, filter.ExecFilter(post));
+
+            // ExFilterSource は部分一致 (ExUseRegex = true の場合)
+            post = new PostClass { Source = "_hogehoge_" };
+            Assert.Equal(MyCommon.HITRESULT.Exclude, filter.ExecFilter(post));
+
+            // 大小文字を区別する
+            filter.ExCaseSensitive = true;
+
+            post = new PostClass { Source = "HogeHoge" };
+            Assert.Equal(MyCommon.HITRESULT.None, filter.ExecFilter(post));
+
+            // 大小文字を区別しない
+            filter.ExCaseSensitive = false;
+
+            post = new PostClass { Source = "HogeHoge" };
+            Assert.Equal(MyCommon.HITRESULT.Exclude, filter.ExecFilter(post));
+        }
+
+        [Fact]
+        public void FilterSource_ByUrlTest()
+        {
+            var filter = new PostFilterRule();
+            PostClass post;
+
+            // FilterByUrl = true の場合は Source ではなく SourceHtml がマッチ対象になる
+            filter.FilterByUrl = true;
+
+            filter.FilterSource = "hogehoge";
 
             // FilterSource は UseRegex の値に関わらず部分一致
             post = new PostClass { SourceHtml = "<a href='http://example.com/hogehoge'>****</a>" };
-            Assert.Equal(exclude ? MyCommon.HITRESULT.Exclude : MyCommon.HITRESULT.CopyAndMark, filter.ExecFilter(post));
+            Assert.Equal(MyCommon.HITRESULT.CopyAndMark, filter.ExecFilter(post));
 
             post = new PostClass { SourceHtml = "<a href='http://example.com/foo'>****</a>" };
             Assert.Equal(MyCommon.HITRESULT.None, filter.ExecFilter(post));
 
             // 大小文字を区別する
-            if (!exclude)
-                filter.CaseSensitive = true;
-            else
-                filter.ExCaseSensitive = true;
+            filter.CaseSensitive = true;
 
             post = new PostClass { SourceHtml = "<a href='http://example.com/HogeHoge'>****</a>" };
             Assert.Equal(MyCommon.HITRESULT.None, filter.ExecFilter(post));
 
             // 大小文字を区別しない
-            if (!exclude)
-                filter.CaseSensitive = false;
-            else
-                filter.ExCaseSensitive = false;
+            filter.CaseSensitive = false;
 
             post = new PostClass { SourceHtml = "<a href='http://example.com/HogeHoge'>****</a>" };
-            Assert.Equal(exclude ? MyCommon.HITRESULT.Exclude : MyCommon.HITRESULT.CopyAndMark, filter.ExecFilter(post));
+            Assert.Equal(MyCommon.HITRESULT.CopyAndMark, filter.ExecFilter(post));
         }
 
-        [Theory]
-        [InlineData(true)]
-        [InlineData(false)]
-        public void IsRtTest(bool exclude)
+        [Fact]
+        public void ExFilterSource_ByUrlTest()
         {
             var filter = new PostFilterRule();
             PostClass post;
 
-            if (!exclude)
-                filter.FilterRt = true;
-            else
-                filter.ExFilterRt = true;
+            // ExFilterByUrl = true の場合は Source ではなく SourceHtml がマッチ対象になる
+            filter.ExFilterByUrl = true;
+
+            filter.ExFilterSource = "hogehoge";
+
+            // ExFilterSource は ExUseRegex の値に関わらず部分一致
+            post = new PostClass { SourceHtml = "<a href='http://example.com/hogehoge'>****</a>" };
+            Assert.Equal(MyCommon.HITRESULT.Exclude, filter.ExecFilter(post));
+
+            post = new PostClass { SourceHtml = "<a href='http://example.com/foo'>****</a>" };
+            Assert.Equal(MyCommon.HITRESULT.None, filter.ExecFilter(post));
+
+            // 大小文字を区別する
+            filter.ExCaseSensitive = true;
+
+            post = new PostClass { SourceHtml = "<a href='http://example.com/HogeHoge'>****</a>" };
+            Assert.Equal(MyCommon.HITRESULT.None, filter.ExecFilter(post));
+
+            // 大小文字を区別しない
+            filter.ExCaseSensitive = false;
+
+            post = new PostClass { SourceHtml = "<a href='http://example.com/HogeHoge'>****</a>" };
+            Assert.Equal(MyCommon.HITRESULT.Exclude, filter.ExecFilter(post));
+        }
+
+        [Fact]
+        public void FilterSource_ByUrlRegexTest()
+        {
+            var filter = new PostFilterRule();
+            PostClass post;
+
+            // FilterByUrl = true の場合は Source ではなく SourceHtml がマッチ対象になる
+            filter.FilterByUrl = true;
+
+            filter.UseRegex = true;
+            filter.FilterSource = "(hoge){2}";
+
+            // FilterSource は UseRegex の値に関わらず部分一致
+            post = new PostClass { SourceHtml = "<a href='http://example.com/hogehoge'>****</a>" };
+            Assert.Equal(MyCommon.HITRESULT.CopyAndMark, filter.ExecFilter(post));
+
+            post = new PostClass { SourceHtml = "<a href='http://example.com/foo'>****</a>" };
+            Assert.Equal(MyCommon.HITRESULT.None, filter.ExecFilter(post));
+
+            // 大小文字を区別する
+            filter.CaseSensitive = true;
+
+            post = new PostClass { SourceHtml = "<a href='http://example.com/HogeHoge'>****</a>" };
+            Assert.Equal(MyCommon.HITRESULT.None, filter.ExecFilter(post));
+
+            // 大小文字を区別しない
+            filter.CaseSensitive = false;
+
+            post = new PostClass { SourceHtml = "<a href='http://example.com/HogeHoge'>****</a>" };
+            Assert.Equal(MyCommon.HITRESULT.CopyAndMark, filter.ExecFilter(post));
+        }
+
+        [Fact]
+        public void ExFilterSource_ByUrlRegexTest()
+        {
+            var filter = new PostFilterRule();
+            PostClass post;
+
+            // ExFilterByUrl = true の場合は Source ではなく SourceHtml がマッチ対象になる
+            filter.ExFilterByUrl = true;
+
+            filter.ExUseRegex = true;
+            filter.ExFilterSource = "(hoge){2}";
+
+            // ExFilterSource は ExUseRegex の値に関わらず部分一致
+            post = new PostClass { SourceHtml = "<a href='http://example.com/hogehoge'>****</a>" };
+            Assert.Equal(MyCommon.HITRESULT.Exclude, filter.ExecFilter(post));
+
+            post = new PostClass { SourceHtml = "<a href='http://example.com/foo'>****</a>" };
+            Assert.Equal(MyCommon.HITRESULT.None, filter.ExecFilter(post));
+
+            // 大小文字を区別する
+            filter.ExCaseSensitive = true;
+
+            post = new PostClass { SourceHtml = "<a href='http://example.com/HogeHoge'>****</a>" };
+            Assert.Equal(MyCommon.HITRESULT.None, filter.ExecFilter(post));
+
+            // 大小文字を区別しない
+            filter.ExCaseSensitive = false;
+
+            post = new PostClass { SourceHtml = "<a href='http://example.com/HogeHoge'>****</a>" };
+            Assert.Equal(MyCommon.HITRESULT.Exclude, filter.ExecFilter(post));
+        }
+
+        [Fact]
+        public void FilterRt_Test()
+        {
+            var filter = new PostFilterRule();
+            PostClass post;
+
+            filter.FilterRt = true;
 
             post = new PostClass { RetweetedBy = "hogehoge", RetweetedId = 123L };
-            Assert.Equal(exclude ? MyCommon.HITRESULT.Exclude : MyCommon.HITRESULT.CopyAndMark, filter.ExecFilter(post));
+            Assert.Equal(MyCommon.HITRESULT.CopyAndMark, filter.ExecFilter(post));
+
+            post = new PostClass { };
+            Assert.Equal(MyCommon.HITRESULT.None, filter.ExecFilter(post));
+        }
+
+        [Fact]
+        public void ExFilterRt_Test()
+        {
+            var filter = new PostFilterRule();
+            PostClass post;
+
+            filter.ExFilterRt = true;
+
+            post = new PostClass { RetweetedBy = "hogehoge", RetweetedId = 123L };
+            Assert.Equal(MyCommon.HITRESULT.Exclude, filter.ExecFilter(post));
 
             post = new PostClass { };
             Assert.Equal(MyCommon.HITRESULT.None, filter.ExecFilter(post));
