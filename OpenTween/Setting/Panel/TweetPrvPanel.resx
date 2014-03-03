@@ -180,36 +180,6 @@
   <data name="&gt;&gt;HideDuplicatedRetweetsCheck.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
-  <data name="Label47.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="Label47.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="Label47.Location" type="System.Drawing.Point, System.Drawing">
-    <value>241, 198</value>
-  </data>
-  <data name="Label47.Size" type="System.Drawing.Size, System.Drawing">
-    <value>131, 12</value>
-  </data>
-  <data name="Label47.TabIndex" type="System.Int32, mscorlib">
-    <value>28</value>
-  </data>
-  <data name="Label47.Text" xml:space="preserve">
-    <value>再起動後有効になります。</value>
-  </data>
-  <data name="&gt;&gt;Label47.Name" xml:space="preserve">
-    <value>Label47</value>
-  </data>
-  <data name="&gt;&gt;Label47.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;Label47.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;Label47.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
   <data name="LabelDateTimeFormatApplied.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
