@@ -209,8 +209,6 @@ namespace OpenTween
         public int MapThumbnailZoom = 15;
         public MapProvider MapThumbnailProvider = MapProvider.OpenStreetMap;
         public bool IsListsIncludeRts = false;
-        public long GAFirst = 0;
-        public long GALast = 0;
         public bool TabMouseLock = false;
         public bool IsRemoveSameEvent = false;
         public bool IsUseNotifyGrowl = false;
@@ -220,8 +218,6 @@ namespace OpenTween
     {
         public string Username = "";
         public long UserId = 0;
-        public long GAFirst = 0;
-        public long GALast = 0;
         public string Token = "";
         [XmlIgnore]
         public string TokenSecret = "";

@@ -2320,7 +2320,6 @@ namespace OpenTween
             }
             else
             {
-                //Google.GASender.GetInstance().TrackEventWithCategory("post", "end", tw.UserId);
                 _hookGlobalHotkey.UnregisterAllOriginalHotkey();
                 _ignoreConfigSave = true;
                 MyCommon._endingFlag = true;
@@ -3880,11 +3879,7 @@ namespace OpenTween
                                                         SettingDialog.ProxyUser,
                                                         SettingDialog.ProxyPassword);
                     this.CreatePictureServices();
-    #if UA
-                    this.SplitContainer4.Panel2.Controls.RemoveAt(0);
-                    this.ab = new AdsBrowser();
-                    this.SplitContainer4.Panel2.Controls.Add(ab);
-    #endif
+
                     try
                     {
                         if (SettingDialog.TabIconDisp)

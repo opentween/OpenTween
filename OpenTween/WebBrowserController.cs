@@ -416,7 +416,7 @@ namespace OpenTween
                 {
                     pPolicy = WebBrowserAPI.URLPOLICY_DISALLOW;
                 }
-                if (Regex.IsMatch(pwszUrl, @"^https?://((api\.)?twitter\.com/|([a-zA-Z0-9]+\.)?twimg\.com/|ssl\.google-analytics\.com/)")) pPolicy = WebBrowserAPI.URLPOLICY_ALLOW;
+                if (Regex.IsMatch(pwszUrl, @"^https?://((api\.)?twitter\.com/|([a-zA-Z0-9]+\.)?twimg\.com/)")) pPolicy = WebBrowserAPI.URLPOLICY_ALLOW;
                 return HRESULT.S_OK;
             }
             // ActiveX実行状態かを検査しポリシー設定
