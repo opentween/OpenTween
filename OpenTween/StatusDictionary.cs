@@ -47,7 +47,7 @@ namespace OpenTween
             public override bool Equals(object obj)
             {
                 var geo = obj as StatusGeo;
-                return geo != null && geo.Lng == this.Lng && geo.Lat == this.Lng;
+                return geo != null && geo.Lng == this.Lng && geo.Lat == this.Lat;
             }
 
             public override int GetHashCode()
@@ -1604,7 +1604,7 @@ namespace OpenTween
             {
                 if (!_tabs.ContainsKey(TabName)) throw new ArgumentException("TabName=" + TabName + " is not contained.");
                 var id = _tabs[TabName].GetId(Index);
-                if (id < 0) throw new ArgumentException("Index can//t find. Index=" + Index.ToString() + "/TabName=" + TabName);
+                if (id < 0) throw new ArgumentException("Index can't find. Index=" + Index.ToString() + "/TabName=" + TabName);
                 try
                 {
                     if (_tabs[TabName].IsInnerStorageTabType)

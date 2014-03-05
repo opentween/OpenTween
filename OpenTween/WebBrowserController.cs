@@ -167,7 +167,7 @@ namespace OpenTween
         // a set of policies for the action.
         // The only policies supported currently are permissions (i.e. is something allowed)
         // and logging status.
-        // IMPORTANT: If you are defining your own policies don//t overload the meaning of the
+        // IMPORTANT: If you are defining your own policies don't overload the meaning of the
         // loword of the policy. You can use the hiword to store any policy bits which are only
         // meaningful to your action.
         // For an example of how to do this look at the URLPOLICY_JAVA above
