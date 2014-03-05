@@ -948,7 +948,6 @@
             // PostBrowser
             // 
             resources.ApplyResources(this.PostBrowser, "PostBrowser");
-            this.PostBrowser.AllowWebBrowserDrop = false;
             this.TableLayoutPanel1.SetColumnSpan(this.PostBrowser, 3);
             this.PostBrowser.ContextMenuStrip = this.ContextMenuPostBrowser;
             this.PostBrowser.IsWebBrowserContextMenuEnabled = false;
