@@ -189,10 +189,13 @@ namespace OpenTween
             foreach (var picbox in this.pictureBox)
             {
                 var memoryImage = picbox.Image;
+                var contextMenu = picbox.ContextMenu;
                 picbox.Dispose();
 
                 if (memoryImage != null)
                     memoryImage.Dispose();
+                if (contextMenu != null)
+                    contextMenu.Dispose();
             }
             this.pictureBox.Clear();
 
