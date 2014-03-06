@@ -12234,6 +12234,7 @@ namespace OpenTween
             this.ListTab.HandleCreated += (s, e) => Win32Api.SetMinTabWidth((TabControl)s, 40);
 
             this._apiGauge = new ToolStripAPIGauge();
+            this._apiGauge.BorderSides = ToolStripStatusLabelBorderSides.Right;
             this.StatusStrip1.Items.Insert(2, this._apiGauge);
 
             this.ReplaceAppName();

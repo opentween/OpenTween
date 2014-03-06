@@ -1946,9 +1946,6 @@
   <data name="&gt;&gt;SplitContainer1.Panel2.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
-  <data name="ToolStripStatusLabel1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>2, 23</value>
-  </data>
   <data name="UrlCopyContextMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>282, 24</value>
   </data>
@@ -2593,9 +2590,6 @@
   </data>
   <data name="&gt;&gt;ShowRelatedStatusesMenuItem.Name" xml:space="preserve">
     <value>ShowRelatedStatusesMenuItem</value>
-  </data>
-  <data name="&gt;&gt;ToolStripStatusLabel1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripStatusLabel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="SplitContainer2.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -3909,9 +3903,6 @@
   <data name="TableLayoutPanel1.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
     <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="UserPicture" Row="0" RowSpan="2" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="NameLabel" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="PostBrowser" Row="1" RowSpan="1" Column="1" ColumnSpan="3" /&gt;&lt;Control Name="DateTimeLabel" Row="0" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="SourceLinkLabel" Row="0" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Absolute,70,Percent,100,AutoSize,0,AutoSize,0" /&gt;&lt;Rows Styles="AutoSize,0,Percent,100" /&gt;&lt;/TableLayoutSettings&gt;</value>
   </data>
-  <data name="ToolStripStatusLabel1.AutoSize" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
   <data name="&gt;&gt;SearchAtPostsDetailToolStripMenuItem.Name" xml:space="preserve">
     <value>SearchAtPostsDetailToolStripMenuItem</value>
   </data>
@@ -4307,9 +4298,6 @@
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
     <value>765, 570</value>
-  </data>
-  <data name="&gt;&gt;ToolStripStatusLabel1.Name" xml:space="preserve">
-    <value>ToolStripStatusLabel1</value>
   </data>
   <data name="TrackToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>268, 24</value>

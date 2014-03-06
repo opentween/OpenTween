@@ -34,7 +34,6 @@
             this.StatusStrip1 = new System.Windows.Forms.StatusStrip();
             this.StatusLabelUrl = new System.Windows.Forms.ToolStripStatusLabel();
             this.StatusLabel = new OpenTween.OpenTweenCustomControl.ToolStripLabelHistory();
-            this.ToolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.HashStripSplitButton = new System.Windows.Forms.ToolStripSplitButton();
             this.ContextMenuPostMode = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.ToolStripMenuItemUrlMultibyteSplit = new System.Windows.Forms.ToolStripMenuItem();
@@ -390,7 +389,6 @@
             this.StatusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.StatusLabelUrl,
             this.StatusLabel,
-            this.ToolStripStatusLabel1,
             this.HashStripSplitButton});
             this.StatusStrip1.Name = "StatusStrip1";
             this.StatusStrip1.ShowItemToolTips = true;
@@ -414,12 +412,6 @@
             this.StatusLabel.DoubleClickEnabled = true;
             this.StatusLabel.Name = "StatusLabel";
             this.StatusLabel.DoubleClick += new System.EventHandler(this.StatusLabel_DoubleClick);
-            // 
-            // ToolStripStatusLabel1
-            // 
-            resources.ApplyResources(this.ToolStripStatusLabel1, "ToolStripStatusLabel1");
-            this.ToolStripStatusLabel1.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Right;
-            this.ToolStripStatusLabel1.Name = "ToolStripStatusLabel1";
             // 
             // HashStripSplitButton
             // 
@@ -2579,7 +2571,6 @@
         internal System.Windows.Forms.StatusStrip StatusStrip1;
         internal System.Windows.Forms.ToolStripStatusLabel StatusLabelUrl;
         internal OpenTweenCustomControl.ToolStripLabelHistory StatusLabel;
-        internal System.Windows.Forms.ToolStripStatusLabel ToolStripStatusLabel1;
         internal System.Windows.Forms.ToolStripSplitButton HashStripSplitButton;
         internal System.Windows.Forms.ContextMenuStrip ContextMenuPostMode;
         internal System.Windows.Forms.ToolStripMenuItem ToolStripMenuItemUrlMultibyteSplit;

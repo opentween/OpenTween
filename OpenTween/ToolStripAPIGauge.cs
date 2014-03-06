@@ -35,7 +35,7 @@ namespace OpenTween
     /// API 実行回数制限に到達するまでの目安を表示する ToolStripItem
     /// </summary>
     [ToolStripItemDesignerAvailability(ToolStripItemDesignerAvailability.All)]
-    public class ToolStripAPIGauge : ToolStripLabel
+    public class ToolStripAPIGauge : ToolStripStatusLabel
     {
         public ToolStripAPIGauge()
             : base()
