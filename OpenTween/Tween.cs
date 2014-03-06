@@ -1107,46 +1107,50 @@ namespace OpenTween
             //デフォルトタブの存在チェック、ない場合には追加
             if (_statuses.GetTabByType(MyCommon.TabUsageType.Home) == null)
             {
-                if (!_statuses.Tabs.ContainsKey(MyCommon.DEFAULTTAB.RECENT))
+                TabClass tab;
+                if (!_statuses.Tabs.TryGetValue(MyCommon.DEFAULTTAB.RECENT, out tab))
                 {
                     _statuses.AddTab(MyCommon.DEFAULTTAB.RECENT, MyCommon.TabUsageType.Home, null);
                 }
                 else
                 {
-                    _statuses.Tabs[MyCommon.DEFAULTTAB.RECENT].TabType = MyCommon.TabUsageType.Home;
+                    tab.TabType = MyCommon.TabUsageType.Home;
                 }
             }
             if (_statuses.GetTabByType(MyCommon.TabUsageType.Mentions) == null)
             {
-                if (!_statuses.Tabs.ContainsKey(MyCommon.DEFAULTTAB.REPLY))
+                TabClass tab;
+                if (!_statuses.Tabs.TryGetValue(MyCommon.DEFAULTTAB.REPLY, out tab))
                 {
                     _statuses.AddTab(MyCommon.DEFAULTTAB.REPLY, MyCommon.TabUsageType.Mentions, null);
                 }
                 else
                 {
-                    _statuses.Tabs[MyCommon.DEFAULTTAB.REPLY].TabType = MyCommon.TabUsageType.Mentions;
+                    tab.TabType = MyCommon.TabUsageType.Mentions;
                 }
             }
             if (_statuses.GetTabByType(MyCommon.TabUsageType.DirectMessage) == null)
             {
-                if (!_statuses.Tabs.ContainsKey(MyCommon.DEFAULTTAB.DM))
+                TabClass tab;
+                if (!_statuses.Tabs.TryGetValue(MyCommon.DEFAULTTAB.DM, out tab))
                 {
                     _statuses.AddTab(MyCommon.DEFAULTTAB.DM, MyCommon.TabUsageType.DirectMessage, null);
                 }
                 else
                 {
-                    _statuses.Tabs[MyCommon.DEFAULTTAB.DM].TabType = MyCommon.TabUsageType.DirectMessage;
+                    tab.TabType = MyCommon.TabUsageType.DirectMessage;
                 }
             }
             if (_statuses.GetTabByType(MyCommon.TabUsageType.Favorites) == null)
             {
-                if (!_statuses.Tabs.ContainsKey(MyCommon.DEFAULTTAB.FAV))
+                TabClass tab;
+                if (!_statuses.Tabs.TryGetValue(MyCommon.DEFAULTTAB.FAV, out tab))
                 {
                     _statuses.AddTab(MyCommon.DEFAULTTAB.FAV, MyCommon.TabUsageType.Favorites, null);
                 }
                 else
                 {
-                    _statuses.Tabs[MyCommon.DEFAULTTAB.FAV].TabType = MyCommon.TabUsageType.Favorites;
+                    tab.TabType = MyCommon.TabUsageType.Favorites;
                 }
             }
             foreach (string tn in _statuses.Tabs.Keys)
@@ -2408,18 +2412,18 @@ namespace OpenTween
                     if (string.IsNullOrEmpty(ret)) ret = tw.GetDirectMessageApi(read, MyCommon.WORKERTYPE.DirectMessegeSnt, args.page == -1);
                     rslt.addCount = _statuses.DistributePosts();
                     break;
+
                 case MyCommon.WORKERTYPE.FavAdd:
+                {
                     //スレッド処理はしない
-                    if (_statuses.Tabs.ContainsKey(args.tName))
+                    TabClass tab;
+                    if (_statuses.Tabs.TryGetValue(args.tName, out tab))
                     {
-                        TabClass tbc = _statuses.Tabs[args.tName];
                         for (int i = 0; i <= args.ids.Count - 1; i++)
                         {
-                            PostClass post = null;
-                            if (tbc.IsInnerStorageTabType)
-                                post = tbc.Posts[args.ids[i]];
-                            else
-                                post = _statuses[args.ids[i]];
+                            var post = tab.IsInnerStorageTabType
+                                ? tab.Posts[args.ids[i]]
+                                : _statuses[args.ids[i]];
 
                             args.page = i + 1;
                             bw.ReportProgress(50, MakeStatusMessage(args, false));
@@ -2461,18 +2465,19 @@ namespace OpenTween
                     }
                     rslt.sIds = args.sIds;
                     break;
+                }
+
                 case MyCommon.WORKERTYPE.FavRemove:
+                {
                     //スレッド処理はしない
-                    if (_statuses.Tabs.ContainsKey(args.tName))
+                    TabClass tab;
+                    if (_statuses.Tabs.TryGetValue(args.tName, out tab))
                     {
-                        TabClass tbc = _statuses.Tabs[args.tName];
                         for (int i = 0; i <= args.ids.Count - 1; i++)
                         {
-                            PostClass post = null;
-                            if (tbc.IsInnerStorageTabType)
-                                post = tbc.Posts[args.ids[i]];
-                            else
-                                post = _statuses[args.ids[i]];
+                            var post = tab.IsInnerStorageTabType
+                                ? tab.Posts[args.ids[i]]
+                                : _statuses[args.ids[i]];
 
                             args.page = i + 1;
                             bw.ReportProgress(50, MakeStatusMessage(args, false));
@@ -2499,6 +2504,8 @@ namespace OpenTween
                     }
                     rslt.sIds = args.sIds;
                     break;
+                }
+
                 case MyCommon.WORKERTYPE.PostMessage:
                     bw.ReportProgress(200);
                     if (string.IsNullOrEmpty(args.status.imagePath))
@@ -2620,12 +2627,16 @@ namespace OpenTween
                     //振り分け
                     rslt.addCount = _statuses.DistributePosts();
                     break;
+
                 case MyCommon.WORKERTYPE.Related:
+                {
                     bw.ReportProgress(50, MakeStatusMessage(args, false));
                     TabClass tab = _statuses.GetTabByName(args.tName);
                     ret = tw.GetRelatedResult(read, tab);
                     rslt.addCount = _statuses.DistributePosts();
                     break;
+                }
+
                 case MyCommon.WORKERTYPE.BlockIds:
                     bw.ReportProgress(50, Properties.Resources.UpdateBlockUserText1);
                     try

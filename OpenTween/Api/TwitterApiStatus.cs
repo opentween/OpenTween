@@ -169,11 +169,10 @@ namespace OpenTween.Api
             {
                 get
                 {
-                    ApiLimit value;
-                    if (!this.innerDict.TryGetValue(endpoint, out value))
-                        return null;
-
-                    return value;
+                    ApiLimit limit;
+                    return this.innerDict.TryGetValue(endpoint, out limit)
+                        ? limit
+                        : null;
                 }
                 set
                 {

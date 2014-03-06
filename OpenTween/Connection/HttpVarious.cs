@@ -48,14 +48,11 @@ namespace OpenTween
                 string data;
                 Dictionary<string, string> head = new Dictionary<string, string>();
                 HttpStatusCode ret = GetResponse(req, out data, head);
-                if (head.ContainsKey("Location"))
-                {
-                    return head["Location"];
-                }
-                else
-                {
-                    return url;
-                }
+
+                string location;
+                return head.TryGetValue("Location", out location)
+                    ? location
+                    : url;
             }
             catch (Exception)
             {

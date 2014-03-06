@@ -135,11 +135,12 @@ namespace OpenTween
 
             foreach (string orgUrl in urlList)
             {
-                if (urlCache.ContainsKey(orgUrl))
+                string cache;
+                if (urlCache.TryGetValue(orgUrl, out cache))
                 {
                     try
                     {
-                        orgData = orgData.Replace("<a href=\"" + orgUrl + "\"", "<a href=\"" + urlCache[orgUrl] + "\"");
+                        orgData = orgData.Replace("<a href=\"" + orgUrl + "\"", "<a href=\"" + cache + "\"");
                     }
                     catch (Exception)
                     {
@@ -194,9 +195,10 @@ namespace OpenTween
                 {
                     if (!tcoResolve && (orgUrl == "http://t.co/" || orgUrl == "https://t.co/")) return orgData;
                     orgUrl += orgUrlPath;
-                    if (urlCache.ContainsKey(orgUrl))
+                    string cache;
+                    if (urlCache.TryGetValue(orgUrl, out cache))
                     {
-                        return orgData.Replace(orgUrl, urlCache[orgUrl]);
+                        return orgData.Replace(orgUrl, cache);
                     }
                     else
                     {

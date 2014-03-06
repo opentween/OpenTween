@@ -653,26 +653,22 @@ namespace OpenTween
     //    }
         public PostClass RetweetSource(long Id)
         {
-            if (_retweets.ContainsKey(Id))
-            {
-                return _retweets[Id];
-            }
-            else
-            {
-                return null;
-            }
+            PostClass status;
+            return _retweets.TryGetValue(Id, out status)
+                ? status
+                : null;
         }
 
         public void RemoveFavPost(long Id)
         {
             lock (LockObj)
             {
-                PostClass post = null;
+                PostClass post;
                 var tab = this.GetTabByType(MyCommon.TabUsageType.Favorites);
                 var tn = tab.TabName;
-                if (_statuses.ContainsKey(Id))
+
+                if (_statuses.TryGetValue(Id, out post))
                 {
-                    post = _statuses[Id];
                     //指定タブから該当ID削除
                     var tType = tab.TabType;
                     if (tab.Contains(Id))
@@ -823,10 +819,9 @@ namespace OpenTween
         {
             lock (LockObj)
             {
-                PostClass post = null;
-                if (_statuses.ContainsKey(Id))
+                PostClass post;
+                if (_statuses.TryGetValue(Id, out post))
                 {
-                    post = _statuses[Id];
                     post.IsDeleted = true;
                 }
                 foreach (var tb in this.GetTabsInnerStorageType())
@@ -917,9 +912,11 @@ namespace OpenTween
                 {
                     posts = Tab.Posts;
                 }
+
+                PostClass oldestUnreadPost;
                 if (Tab.OldestUnreadId > -1 &&
-                    posts.ContainsKey(Tab.OldestUnreadId) &&
-                    posts[Tab.OldestUnreadId].IsRead &&
+                    posts.TryGetValue(Tab.OldestUnreadId, out oldestUnreadPost) &&
+                    oldestUnreadPost.IsRead &&
                     _sorter.Mode == IdComparerClass.ComparerMode.Id)     //次の未読探索
                 {
                     if (Tab.UnreadCount == 0)
@@ -1230,13 +1227,14 @@ namespace OpenTween
                 {
                     if (!Item.IsDm)
                     {
-                        if (_statuses.ContainsKey(Item.StatusId))
+                        PostClass status;
+                        if (_statuses.TryGetValue(Item.StatusId, out status))
                         {
                             if (Item.IsFav)
                             {
                                 if (Item.RetweetedId == null)
                                 {
-                                    _statuses[Item.StatusId].IsFav = true;
+                                    status.IsFav = true;
                                 }
                                 else
                                 {
@@ -1255,8 +1253,8 @@ namespace OpenTween
                             if (AppendSettingDialog.Instance.HideDuplicatedRetweets &&
                                 !Item.IsMe &&
                                 Item.RetweetedId != null &&
-                                this._retweets.ContainsKey(Item.RetweetedId.Value) &&
-                                this._retweets[Item.RetweetedId.Value].RetweetedCount > 0) return;
+                                this._retweets.TryGetValue(Item.RetweetedId.Value, out status) &&
+                                status.RetweetedCount > 0) return;
                             if (BlockIds.Contains(Item.UserId)) return;
                             _statuses.Add(Item.StatusId, Item);
                         }
@@ -1283,14 +1281,7 @@ namespace OpenTween
                 {
                     //公式検索、リスト、関連発言の場合
                     TabClass tb;
-                    if (this.Tabs.ContainsKey(Item.RelTabName))
-                    {
-                        tb = this.Tabs[Item.RelTabName];
-                    }
-                    else
-                    {
-                        return;
-                    }
+                    this.Tabs.TryGetValue(Item.RelTabName, out tb);
                     if (tb == null) return;
                     if (tb.Contains(Item.StatusId)) return;
                     //tb.Add(Item.StatusId, Item.IsRead, true);
@@ -1304,12 +1295,13 @@ namespace OpenTween
             var retweetedId = item.RetweetedId.Value;
 
             //true:追加、False:保持済み
-            if (_retweets.ContainsKey(retweetedId))
+            PostClass status;
+            if (_retweets.TryGetValue(retweetedId, out status))
             {
-                _retweets[retweetedId].RetweetedCount++;
-                if (_retweets[retweetedId].RetweetedCount > 10)
+                status.RetweetedCount++;
+                if (status.RetweetedCount > 10)
                 {
-                    _retweets[retweetedId].RetweetedCount = 0;
+                    status.RetweetedCount = 0;
                 }
                 return;
             }
@@ -1381,7 +1373,8 @@ namespace OpenTween
                     if (tb.IsInnerStorageTabType)
                     {
                         //一般タブ
-                        if (_statuses.ContainsKey(Id) && !_statuses[Id].IsRead)
+                        PostClass status;
+                        if (_statuses.TryGetValue(Id, out status) && !status.IsRead)
                         {
                             foreach (var key in _tabs.Keys)
                             {
@@ -1393,7 +1386,7 @@ namespace OpenTween
                                     if (_tabs[key].OldestUnreadId == Id) _tabs[key].OldestUnreadId = -1;
                                 }
                             }
-                            _statuses[Id].IsRead = true;
+                            status.IsRead = true;
                         }
                     }
                     else
@@ -1436,7 +1429,8 @@ namespace OpenTween
                     if (tb.IsInnerStorageTabType)
                     {
                         //一般タブ
-                        if (_statuses.ContainsKey(Id) && _statuses[Id].IsRead)
+                        PostClass status;
+                        if (_statuses.TryGetValue(Id, out status) && status.IsRead)
                         {
                             foreach (var key in _tabs.Keys)
                             {
@@ -1448,7 +1442,7 @@ namespace OpenTween
                                     if (_tabs[key].OldestUnreadId > Id) _tabs[key].OldestUnreadId = Id;
                                 }
                             }
-                            _statuses[Id].IsRead = false;
+                            status.IsRead = false;
                         }
                     }
                     else
@@ -1586,15 +1580,12 @@ namespace OpenTween
         {
             get
             {
-                if (_statuses.ContainsKey(ID)) return _statuses[ID];
-                foreach (var tb in this.GetTabsInnerStorageType())
-                {
-                    if (tb.Contains(ID))
-                    {
-                        return tb.Posts[ID];
-                    }
-                }
-                return null;
+                PostClass status;
+                return _statuses.TryGetValue(ID, out status)
+                    ? status
+                    : this.GetTabsInnerStorageType()
+                          .Where(t => t.Contains(ID))
+                          .Select(t => t.Posts[ID]).FirstOrDefault();
             }
         }
 
@@ -1672,14 +1663,8 @@ namespace OpenTween
             //DM,公式検索は対応版
             lock (LockObj)
             {
-                if (_tabs.ContainsKey(TabName))
-                {
-                    return _tabs[TabName].Contains(Id);
-                }
-                else
-                {
-                    return false;
-                }
+                TabClass tab;
+                return _tabs.TryGetValue(TabName, out tab) && tab.Contains(Id);
             }
         }
 
@@ -1992,20 +1977,23 @@ namespace OpenTween
         {
             lock (LockObj)
             {
-                if (_tabs.ContainsKey(tabName)) return _tabs[tabName];
-                return null;
+                TabClass tab;
+                return _tabs.TryGetValue(tabName, out tab)
+                    ? tab
+                    : null;
             }
         }
 
         // デフォルトタブの判定処理
         public bool IsDefaultTab(string tabName)
         {
+            TabClass tab;
             if (tabName != null &&
-               _tabs.ContainsKey(tabName) &&
-               (_tabs[tabName].TabType == MyCommon.TabUsageType.Home ||
-               _tabs[tabName].TabType == MyCommon.TabUsageType.Mentions ||
-               _tabs[tabName].TabType == MyCommon.TabUsageType.DirectMessage ||
-               _tabs[tabName].TabType == MyCommon.TabUsageType.Favorites))
+               _tabs.TryGetValue(tabName, out tab) &&
+               (tab.TabType == MyCommon.TabUsageType.Home ||
+               tab.TabType == MyCommon.TabUsageType.Mentions ||
+               tab.TabType == MyCommon.TabUsageType.DirectMessage ||
+               tab.TabType == MyCommon.TabUsageType.Favorites))
             {
                 return true;
             }

@@ -212,9 +212,8 @@ namespace OpenTween
 
                 var pair = new KeyValuePair<TKey, TValue>(key, value);
 
-                if (this.innerDict.ContainsKey(key))
+                if (this.innerDict.TryGetValue(key, out node))
                 {
-                    node = this.innerDict[key];
                     this.innerList.Remove(node);
                     node.Value = pair;
                 }

@@ -129,10 +129,11 @@ namespace OpenTween
 
             var urlId = Regex.Replace(url, @"https?://(4sq|foursquare)\.com/", "");
 
-            if (CheckInUrlsVenueCollection.ContainsKey(urlId))
+            GlobalLocation location;
+            if (CheckInUrlsVenueCollection.TryGetValue(urlId, out location))
             {
-                refText = CheckInUrlsVenueCollection[urlId].LocateInfo;
-                return MapThumb.GetDefaultInstance().CreateStaticMapUrl(CheckInUrlsVenueCollection[urlId]);
+                refText = location.LocateInfo;
+                return MapThumb.GetDefaultInstance().CreateStaticMapUrl(location);
             }
 
             FourSquareDataModel.Venue curVenue = null;

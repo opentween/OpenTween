@@ -97,8 +97,7 @@ namespace OpenTween
                 Task<MemoryImage> cachedImageTask = null;
                 lock (this.lockObject)
                 {
-                    if (this.innerDictionary.ContainsKey(address))
-                        cachedImageTask = this.innerDictionary[address];
+                    innerDictionary.TryGetValue(address, out cachedImageTask);
 
                     if (force && cachedImageTask != null)
                     {
