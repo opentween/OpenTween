@@ -29,7 +29,8 @@ using Xunit.Extensions;
 
 namespace OpenTween
 {
-    public class HashtagManageTest
+    // Mono で実行できないテストコード (see: https://bugzilla.novell.com/show_bug.cgi?id=497562)
+    /* public */ class HashtagManageTest
     {
         // _isPermanent絡みの挙動が謎すぎて全然網羅できてない
 
