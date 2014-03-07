@@ -372,7 +372,7 @@ namespace OpenTween
             {
                 if (hash.Length > 0)
                 {
-                    if (!hash.StartsWith("#"))
+                    if (!hash.StartsWith("#", StringComparison.Ordinal))
                     {
                         if (isShowWarn) MessageBox.Show("Invalid hashtag. -> " + hash, "Hashtag warning", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                         return false;

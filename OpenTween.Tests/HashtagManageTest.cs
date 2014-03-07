@@ -102,6 +102,28 @@ namespace OpenTween
         }
 
         [Fact]
+        public void AddHashtag_CombiningCharacterSequenceTest()
+        {
+            // ハッシュタグを表す「#」の直後に結合文字 (濁点など) が続いた場合に対するテスト
+
+            using (var atDialog = new AtIdSupplement())
+            using (var hashDialog = new HashtagManage(atDialog, new string[0], "", false, false, false))
+            {
+                hashDialog.RunSilent = true;
+
+                TestUtils.FireEvent(hashDialog.AddButton, "Click"); // 「新規 (&N)」ボタン
+
+                // どんちき└(＾ω＾ )┐♫ ┌( ＾ω＾)┘♫どんちき
+                hashDialog.UseHashText.Text = "#゛t゛e゛s゛a゛b゛u゛";
+
+                TestUtils.FireEvent(hashDialog.PermOK_Button, "Click"); // 「詳細」グループ内の「OK」ボタン
+
+                Assert.Equal(new[] { "#゛t゛e゛s゛a゛b゛u゛" }, hashDialog.HistoryHashList.Items.Cast<string>());
+                Assert.Equal(new[] { "#゛t゛e゛s゛a゛b゛u゛" }, hashDialog.HashHistories);
+            }
+        }
+
+        [Fact]
         public void AddHashtag_MultipleTest()
         {
             using (var atDialog = new AtIdSupplement())
