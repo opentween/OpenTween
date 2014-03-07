@@ -654,6 +654,9 @@
   <data name="&gt;&gt;Label1.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
+  <data name="GroupDetail.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
   <data name="GroupDetail.Location" type="System.Drawing.Point, System.Drawing">
     <value>12, 264</value>
   </data>

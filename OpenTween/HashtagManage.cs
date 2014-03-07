@@ -37,6 +37,11 @@ namespace OpenTween
 {
     public partial class HashtagManage : OTBaseForm
     {
+        /// <summary>
+        /// エラー時にダイアログを表示させない (ユニットテストなどで使用)
+        /// </summary>
+        public bool RunSilent { get; set; }
+
         //入力補助画面
         private AtIdSupplement _hashSupl;
         //I/F用
@@ -82,7 +87,8 @@ namespace OpenTween
         private void DeleteButton_Click(object sender, EventArgs e)
         {
             if (this.HistoryHashList.SelectedIndices.Count == 0) return;
-            if (MessageBox.Show(Properties.Resources.DeleteHashtagsMessage1,
+            if (!this.RunSilent &&
+                MessageBox.Show(Properties.Resources.DeleteHashtagsMessage1,
                                 "Delete Hashtags",
                                 MessageBoxButtons.OKCancel,
                                 MessageBoxIcon.Question) == DialogResult.Cancel)
@@ -304,7 +310,7 @@ namespace OpenTween
         {
             //ハッシュタグの整形
             string hashStr = UseHashText.Text;
-            if (!this.AdjustHashtags(ref hashStr, true)) return;
+            if (!this.AdjustHashtags(ref hashStr, !this.RunSilent)) return;
 
             UseHashText.Text = hashStr;
             int idx = 0;
