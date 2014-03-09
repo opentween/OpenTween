@@ -31,7 +31,6 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TweetPrvPanel));
             this.IsListsIncludeRtsCheckBox = new System.Windows.Forms.CheckBox();
             this.HideDuplicatedRetweetsCheck = new System.Windows.Forms.CheckBox();
-            this.Label47 = new System.Windows.Forms.Label();
             this.LabelDateTimeFormatApplied = new System.Windows.Forms.Label();
             this.Label62 = new System.Windows.Forms.Label();
             this.CmbDateTimeFormat = new System.Windows.Forms.ComboBox();
@@ -57,13 +56,6 @@
             resources.ApplyResources(this.HideDuplicatedRetweetsCheck, "HideDuplicatedRetweetsCheck");
             this.HideDuplicatedRetweetsCheck.Name = "HideDuplicatedRetweetsCheck";
             this.HideDuplicatedRetweetsCheck.UseVisualStyleBackColor = true;
-            // 
-            // Label47
-            // 
-            resources.ApplyResources(this.Label47, "Label47");
-            this.Label47.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.Label47.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.Label47.Name = "Label47";
             // 
             // LabelDateTimeFormatApplied
             // 
@@ -162,7 +154,6 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.Controls.Add(this.IsListsIncludeRtsCheckBox);
             this.Controls.Add(this.HideDuplicatedRetweetsCheck);
-            this.Controls.Add(this.Label47);
             this.Controls.Add(this.LabelDateTimeFormatApplied);
             this.Controls.Add(this.Label62);
             this.Controls.Add(this.CmbDateTimeFormat);
@@ -185,7 +176,6 @@
 
         internal System.Windows.Forms.CheckBox IsListsIncludeRtsCheckBox;
         internal System.Windows.Forms.CheckBox HideDuplicatedRetweetsCheck;
-        internal System.Windows.Forms.Label Label47;
         internal System.Windows.Forms.Label LabelDateTimeFormatApplied;
         internal System.Windows.Forms.Label Label62;
         internal System.Windows.Forms.ComboBox CmbDateTimeFormat;

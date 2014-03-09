@@ -427,6 +427,110 @@ namespace OpenTween
             LoadIcon(ref ReplyIconBlink, "Icons\\ReplyBlink.ico");
         }
 
+        private void InitColumns(ListView list, bool startup)
+        {
+            ColumnHeader _colHd1 = new ColumnHeader();  //アイコン
+            ColumnHeader _colHd2 = new ColumnHeader();  //ニックネーム
+            ColumnHeader _colHd3 = new ColumnHeader();  //本文
+            ColumnHeader _colHd4 = new ColumnHeader();  //日付
+            ColumnHeader _colHd5 = new ColumnHeader();  //ユーザID
+            ColumnHeader _colHd6 = new ColumnHeader();  //未読
+            ColumnHeader _colHd7 = new ColumnHeader();  //マーク＆プロテクト
+            ColumnHeader _colHd8 = new ColumnHeader();  //ソース
+
+            if (!_iconCol)
+            {
+                list.Columns.AddRange(new ColumnHeader[] { _colHd1, _colHd2, _colHd3, _colHd4, _colHd5, _colHd6, _colHd7, _colHd8 });
+            }
+            else
+            {
+                list.Columns.AddRange(new ColumnHeader[] { _colHd1, _colHd3 });
+            }
+
+            InitColumnText();
+            _colHd1.Text = ColumnText[0];
+            _colHd1.Width = 48;
+            _colHd2.Text = ColumnText[1];
+            _colHd2.Width = 80;
+            _colHd3.Text = ColumnText[2];
+            _colHd3.Width = 300;
+            _colHd4.Text = ColumnText[3];
+            _colHd4.Width = 50;
+            _colHd5.Text = ColumnText[4];
+            _colHd5.Width = 50;
+            _colHd6.Text = ColumnText[5];
+            _colHd6.Width = 16;
+            _colHd7.Text = ColumnText[6];
+            _colHd7.Width = 16;
+            _colHd8.Text = ColumnText[7];
+            _colHd8.Width = 50;
+
+            int[] dispOrder = new int[8];
+            if (!startup)
+            {
+                for (int i = 0; i < _curList.Columns.Count; i++)
+                {
+                    for (int j = 0; j < _curList.Columns.Count; j++)
+                    {
+                        if (_curList.Columns[j].DisplayIndex == i)
+                        {
+                            dispOrder[i] = j;
+                            break;
+                        }
+                    }
+                }
+                for (int i = 0; i < _curList.Columns.Count; i++)
+                {
+                    list.Columns[i].Width = _curList.Columns[i].Width;
+                    list.Columns[dispOrder[i]].DisplayIndex = i;
+                }
+            }
+            else
+            {
+                if (_iconCol)
+                {
+                    list.Columns[0].Width = _cfgLocal.Width1;
+                    list.Columns[1].Width = _cfgLocal.Width3;
+                    list.Columns[0].DisplayIndex = 0;
+                    list.Columns[1].DisplayIndex = 1;
+                }
+                else
+                {
+                    for (int i = 0; i <= 7; i++)
+                    {
+                        if (_cfgLocal.DisplayIndex1 == i)
+                            dispOrder[i] = 0;
+                        else if (_cfgLocal.DisplayIndex2 == i)
+                            dispOrder[i] = 1;
+                        else if (_cfgLocal.DisplayIndex3 == i)
+                            dispOrder[i] = 2;
+                        else if (_cfgLocal.DisplayIndex4 == i)
+                            dispOrder[i] = 3;
+                        else if (_cfgLocal.DisplayIndex5 == i)
+                            dispOrder[i] = 4;
+                        else if (_cfgLocal.DisplayIndex6 == i)
+                            dispOrder[i] = 5;
+                        else if (_cfgLocal.DisplayIndex7 == i)
+                            dispOrder[i] = 6;
+                        else if (_cfgLocal.DisplayIndex8 == i)
+                            dispOrder[i] = 7;
+                    }
+                    list.Columns[0].Width = _cfgLocal.Width1;
+                    list.Columns[1].Width = _cfgLocal.Width2;
+                    list.Columns[2].Width = _cfgLocal.Width3;
+                    list.Columns[3].Width = _cfgLocal.Width4;
+                    list.Columns[4].Width = _cfgLocal.Width5;
+                    list.Columns[5].Width = _cfgLocal.Width6;
+                    list.Columns[6].Width = _cfgLocal.Width7;
+                    list.Columns[7].Width = _cfgLocal.Width8;
+                    for (int i = 0; i <= 7; i++)
+                    {
+                        list.Columns[dispOrder[i]].DisplayIndex = i;
+                    }
+                }
+            }
+        }
+
         private void InitColumnText()
         {
             ColumnText[0] = "";
@@ -3941,21 +4045,6 @@ namespace OpenTween
                         throw;
                     }
 
-                    try
-                    {
-                        foreach (TabPage mytab in ListTab.TabPages)
-                        {
-                            DetailsListView lst = (DetailsListView)mytab.Tag;
-                            lst.GridLines = SettingDialog.ShowGrid;
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        ex.Data["Instance"] = "ListTab(ShowGrid)";
-                        ex.Data["IsTerminatePermission"] = false;
-                        throw;
-                    }
-
                     // タブの表示位置の決定
                     SetTabAlignment();
 
@@ -3982,17 +4071,6 @@ namespace OpenTween
                     _clInputBackcolor = SettingDialog.ColorInputBackcolor;
                     _clInputFont = SettingDialog.ColorInputFont;
                     _fntInputFont = SettingDialog.FontInputFont;
-                    try
-                    {
-                        if (StatusText.Focused) StatusText.BackColor = _clInputBackcolor;
-                        StatusText.Font = _fntInputFont;
-                        StatusText.ForeColor = _clInputFont;
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show(ex.Message);
-                    }
-
                     _brsBackColorMine.Dispose();
                     _brsBackColorAt.Dispose();
                     _brsBackColorYou.Dispose();
@@ -4007,6 +4085,18 @@ namespace OpenTween
                     _brsBackColorAtFromTarget = new SolidBrush(_clAtFromTarget);
                     _brsBackColorAtTo = new SolidBrush(_clAtTo);
                     _brsBackColorNone = new SolidBrush(_clListBackcolor);
+
+                    try
+                    {
+                        if (StatusText.Focused) StatusText.BackColor = _clInputBackcolor;
+                        StatusText.Font = _fntInputFont;
+                        StatusText.ForeColor = _clInputFont;
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                    }
+
                     try
                     {
                         if (SettingDialog.IsMonospace)
@@ -4035,6 +4125,7 @@ namespace OpenTween
                         ex.Data["IsTerminatePermission"] = false;
                         throw;
                     }
+
                     try
                     {
                         _statuses.SetUnreadManage(SettingDialog.UnreadManage);
@@ -4057,11 +4148,6 @@ namespace OpenTween
                                 else
                                     tb.ImageIndex = 0;
                             }
-                            if (tb.Tag != null && tb.Controls.Count > 0)
-                            {
-                                ((DetailsListView)tb.Tag).Font = _fntReaded;
-                                ((DetailsListView)tb.Tag).BackColor = _clListBackcolor;
-                            }
                         }
                     }
                     catch (Exception ex)
@@ -4070,6 +4156,92 @@ namespace OpenTween
                         ex.Data["IsTerminatePermission"] = false;
                         throw;
                     }
+
+                    try
+                    {
+                        foreach (TabPage tp in ListTab.TabPages)
+                        {
+                            DetailsListView lst = (DetailsListView)tp.Tag;
+
+                            lst.BeginUpdate();
+                            lst.SuspendLayout();
+
+                            // アイコンサイズの再設定
+                            _iconCol = false;
+                            switch (SettingDialog.IconSz)
+                            {
+                                case MyCommon.IconSizes.IconNone:
+                                    _iconSz = 0;
+                                    break;
+                                case MyCommon.IconSizes.Icon16:
+                                    _iconSz = 16;
+                                    break;
+                                case MyCommon.IconSizes.Icon24:
+                                    _iconSz = 26;
+                                    break;
+                                case MyCommon.IconSizes.Icon48:
+                                    _iconSz = 48;
+                                    break;
+                                case MyCommon.IconSizes.Icon48_2:
+                                    _iconSz = 48;
+                                    _iconCol = true;
+                                    break;
+                            }
+                            if (_iconSz == 0)
+                            {
+                                tw.GetIcon = false;
+                            }
+                            else
+                            {
+                                tw.GetIcon = true;
+                                tw.IconSize = _iconSz;
+                            }
+
+                            if (_iconSz > 0)
+                            {
+                                // ディスプレイの DPI 設定を考慮したサイズを設定する
+                                lst.SmallImageList.ImageSize = new Size(
+                                    (int)Math.Ceiling(this._iconSz * this.currentScaleFactor.Width),
+                                    (int)Math.Ceiling(this._iconSz * this.currentScaleFactor.Height));
+                            }
+                            else
+                            {
+                                lst.SmallImageList.ImageSize = new Size(1, 1);
+                            }
+
+                            lst.GridLines = SettingDialog.ShowGrid;
+                            lst.Font = _fntReaded;
+                            lst.BackColor = _clListBackcolor;
+
+                            // カラムヘッダの再設定
+                            lst.ColumnClick -= MyList_ColumnClick;
+                            lst.DrawColumnHeader -= MyList_DrawColumnHeader;
+                            lst.ColumnReordered -= MyList_ColumnReordered;
+                            lst.ColumnWidthChanged -= MyList_ColumnWidthChanged;
+
+                            var cols = new List<ColumnHeader>(lst.Columns.OfType<ColumnHeader>());
+                            lst.Columns.Clear();
+                            cols.ForEach(col => col.Dispose());
+                            cols.Clear();
+
+                            InitColumns(lst, true);
+
+                            lst.ColumnClick += MyList_ColumnClick;
+                            lst.DrawColumnHeader += MyList_DrawColumnHeader;
+                            lst.ColumnReordered += MyList_ColumnReordered;
+                            lst.ColumnWidthChanged += MyList_ColumnWidthChanged;
+
+                            lst.ResumeLayout(false);
+                            lst.EndUpdate();
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        ex.Data["Instance"] = "ListView(IconSize)";
+                        ex.Data["IsTerminatePermission"] = false;
+                        throw;
+                    }
+
                     SetMainWindowTitle();
                     SetNotifyIconText();
 
@@ -4298,19 +4470,12 @@ namespace OpenTween
 
             TabPage _tabPage = new TabPage();
             DetailsListView _listCustom = new DetailsListView();
-            ColumnHeader _colHd1 = new ColumnHeader();  //アイコン
-            ColumnHeader _colHd2 = new ColumnHeader();   //ニックネーム
-            ColumnHeader _colHd3 = new ColumnHeader();   //本文
-            ColumnHeader _colHd4 = new ColumnHeader();   //日付
-            ColumnHeader _colHd5 = new ColumnHeader();   //ユーザID
-            ColumnHeader _colHd6 = new ColumnHeader();   //未読
-            ColumnHeader _colHd7 = new ColumnHeader();   //マーク＆プロテクト
-            ColumnHeader _colHd8 = new ColumnHeader();   //ソース
 
             int cnt = ListTab.TabPages.Count;
 
             ///ToDo:Create and set controls follow tabtypes
 
+            _listCustom.BeginUpdate();
             this.SplitContainer1.Panel1.SuspendLayout();
             this.SplitContainer1.Panel2.SuspendLayout();
             this.SplitContainer1.SuspendLayout();
@@ -4439,14 +4604,6 @@ namespace OpenTween
             _tabPage.UseVisualStyleBackColor = true;
 
             _listCustom.AllowColumnReorder = true;
-            if (!_iconCol)
-            {
-                _listCustom.Columns.AddRange(new ColumnHeader[] {_colHd1, _colHd2, _colHd3, _colHd4, _colHd5, _colHd6, _colHd7, _colHd8});
-            }
-            else
-            {
-                _listCustom.Columns.AddRange(new ColumnHeader[] {_colHd1, _colHd3});
-            }
             _listCustom.ContextMenuStrip = this.ContextMenuOperate;
             _listCustom.Dock = DockStyle.Fill;
             _listCustom.FullRowSelect = true;
@@ -4466,6 +4623,21 @@ namespace OpenTween
             _listCustom.GridLines = SettingDialog.ShowGrid;
             _listCustom.AllowDrop = true;
 
+            _listCustom.SmallImageList = new ImageList();
+            if (_iconSz > 0)
+            {
+                // ディスプレイの DPI 設定を考慮したサイズを設定する
+                _listCustom.SmallImageList.ImageSize = new Size(
+                    (int)Math.Ceiling(this._iconSz * this.currentScaleFactor.Width),
+                    (int)Math.Ceiling(this._iconSz * this.currentScaleFactor.Height));
+            }
+            else
+            {
+                _listCustom.SmallImageList.ImageSize = new Size(1, 1);
+            }
+
+            InitColumns(_listCustom, startup);
+
             _listCustom.SelectedIndexChanged += MyList_SelectedIndexChanged;
             _listCustom.MouseDoubleClick += MyList_MouseDoubleClick;
             _listCustom.ColumnClick += MyList_ColumnClick;
@@ -4481,102 +4653,6 @@ namespace OpenTween
             _listCustom.DrawSubItem += MyList_DrawSubItem;
             _listCustom.HScrolled += MyList_HScrolled;
 
-            InitColumnText();
-            _colHd1.Text = ColumnText[0];
-            _colHd1.Width = 48;
-            _colHd2.Text = ColumnText[1];
-            _colHd2.Width = 80;
-            _colHd3.Text = ColumnText[2];
-            _colHd3.Width = 300;
-            _colHd4.Text = ColumnText[3];
-            _colHd4.Width = 50;
-            _colHd5.Text = ColumnText[4];
-            _colHd5.Width = 50;
-            _colHd6.Text = ColumnText[5];
-            _colHd6.Width = 16;
-            _colHd7.Text = ColumnText[6];
-            _colHd7.Width = 16;
-            _colHd8.Text = ColumnText[7];
-            _colHd8.Width = 50;
-
-            _listCustom.SmallImageList = new ImageList();
-            if (_iconSz > 0)
-            {
-                // ディスプレイの DPI 設定を考慮したサイズを設定する
-                _listCustom.SmallImageList.ImageSize = new Size(
-                    (int)Math.Ceiling(this._iconSz * this.currentScaleFactor.Width),
-                    (int)Math.Ceiling(this._iconSz * this.currentScaleFactor.Height));
-            }
-            else
-            {
-                _listCustom.SmallImageList.ImageSize = new Size(1, 1);
-            }
-
-            int[] dispOrder = new int[8];
-            if (!startup)
-            {
-                for (int i = 0; i < _curList.Columns.Count; i++)
-                {
-                    for (int j = 0; j < _curList.Columns.Count; j++)
-                    {
-                        if (_curList.Columns[j].DisplayIndex == i)
-                        {
-                            dispOrder[i] = j;
-                            break;
-                        }
-                    }
-                }
-                for (int i = 0; i < _curList.Columns.Count; i++)
-                {
-                    _listCustom.Columns[i].Width = _curList.Columns[i].Width;
-                    _listCustom.Columns[dispOrder[i]].DisplayIndex = i;
-                }
-            }
-            else
-            {
-                if (_iconCol)
-                {
-                    _listCustom.Columns[0].Width = _cfgLocal.Width1;
-                    _listCustom.Columns[1].Width = _cfgLocal.Width3;
-                    _listCustom.Columns[0].DisplayIndex = 0;
-                    _listCustom.Columns[1].DisplayIndex = 1;
-                }
-                else
-                {
-                    for (int i = 0; i <= 7; i++)
-                    {
-                        if (_cfgLocal.DisplayIndex1 == i)
-                            dispOrder[i] = 0;
-                        else if (_cfgLocal.DisplayIndex2 == i)
-                            dispOrder[i] = 1;
-                        else if (_cfgLocal.DisplayIndex3 == i)
-                            dispOrder[i] = 2;
-                        else if (_cfgLocal.DisplayIndex4 == i)
-                            dispOrder[i] = 3;
-                        else if (_cfgLocal.DisplayIndex5 == i)
-                            dispOrder[i] = 4;
-                        else if (_cfgLocal.DisplayIndex6 == i)
-                            dispOrder[i] = 5;
-                        else if (_cfgLocal.DisplayIndex7 == i)
-                            dispOrder[i] = 6;
-                        else if (_cfgLocal.DisplayIndex8 == i)
-                            dispOrder[i] = 7;
-                    }
-                    _listCustom.Columns[0].Width = _cfgLocal.Width1;
-                    _listCustom.Columns[1].Width = _cfgLocal.Width2;
-                    _listCustom.Columns[2].Width = _cfgLocal.Width3;
-                    _listCustom.Columns[3].Width = _cfgLocal.Width4;
-                    _listCustom.Columns[4].Width = _cfgLocal.Width5;
-                    _listCustom.Columns[5].Width = _cfgLocal.Width6;
-                    _listCustom.Columns[6].Width = _cfgLocal.Width7;
-                    _listCustom.Columns[7].Width = _cfgLocal.Width8;
-                    for (int i = 0; i <= 7; i++)
-                    {
-                        _listCustom.Columns[dispOrder[i]].DisplayIndex = i;
-                    }
-                }
-            }
-
             if (tabType == MyCommon.TabUsageType.PublicSearch) pnl.ResumeLayout(false);
         
             _tabPage.ResumeLayout(false);
@@ -4587,6 +4663,7 @@ namespace OpenTween
             this.ListTab.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
+            _listCustom.EndUpdate();
             _tabPage.Tag = _listCustom;
             return true;
         }
