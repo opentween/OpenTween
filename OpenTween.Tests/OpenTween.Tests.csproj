@@ -61,6 +61,7 @@
     <Compile Include="BingTest.cs" />
     <Compile Include="HashtagManageTest.cs" />
     <Compile Include="MyApplicationTest.cs" />
+    <Compile Include="OTPictureBoxTest.cs" />
     <Compile Include="PostFilterRuleTest.cs" />
     <Compile Include="FoursquareTest.cs" />
     <Compile Include="LRUCacheDictionaryTest.cs" />
