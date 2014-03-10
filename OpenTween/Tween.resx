@@ -4761,6 +4761,57 @@
   <data name="DeleteStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>288, 24</value>
   </data>
+  <data name="IconSizeNoneToolStripMenuItem.Text" xml:space="preserve">
+    <value>none</value>
+  </data>
+  <data name="IconSize16ToolStripMenuItem.Text" xml:space="preserve">
+    <value>16*16</value>
+  </data>
+  <data name="IconSize24ToolStripMenuItem.Text" xml:space="preserve">
+    <value>24*24</value>
+  </data>
+  <data name="IconSize48ToolStripMenuItem.Text" xml:space="preserve">
+    <value>48*48</value>
+  </data>
+  <data name="IconSize48_2ToolStripMenuItem.Text" xml:space="preserve">
+    <value>48*48(2Column)</value>
+  </data>
+  <data name="&gt;&gt;ContextMenuColumnHeader.Name" xml:space="preserve">
+    <value>ContextMenuColumnHeader</value>
+  </data>
+  <data name="&gt;&gt;ContextMenuColumnHeader.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;IconSizeNoneToolStripMenuItem.Name" xml:space="preserve">
+    <value>IconSizeNoneToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;IconSizeNoneToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;IconSize16ToolStripMenuItem.Name" xml:space="preserve">
+    <value>IconSize16ToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;IconSize16ToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;IconSize24ToolStripMenuItem.Name" xml:space="preserve">
+    <value>IconSize24ToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;IconSize24ToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;IconSize48ToolStripMenuItem.Name" xml:space="preserve">
+    <value>IconSize48ToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;IconSize48ToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;IconSize48_2ToolStripMenuItem.Name" xml:space="preserve">
+    <value>IconSize48_2ToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;IconSize48_2ToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <metadata name="PostStateImageList.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>143, 17</value>
   </metadata>
