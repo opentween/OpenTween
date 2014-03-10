@@ -3965,6 +3965,7 @@ namespace OpenTween
         {
             DialogResult result;
             string uid = tw.Username.ToLower();
+            var oldIconSz = SettingDialog.IconSz;
 
             try
             {
@@ -4164,74 +4165,14 @@ namespace OpenTween
                             DetailsListView lst = (DetailsListView)tp.Tag;
 
                             lst.BeginUpdate();
-                            lst.SuspendLayout();
-
-                            // アイコンサイズの再設定
-                            _iconCol = false;
-                            switch (SettingDialog.IconSz)
-                            {
-                                case MyCommon.IconSizes.IconNone:
-                                    _iconSz = 0;
-                                    break;
-                                case MyCommon.IconSizes.Icon16:
-                                    _iconSz = 16;
-                                    break;
-                                case MyCommon.IconSizes.Icon24:
-                                    _iconSz = 26;
-                                    break;
-                                case MyCommon.IconSizes.Icon48:
-                                    _iconSz = 48;
-                                    break;
-                                case MyCommon.IconSizes.Icon48_2:
-                                    _iconSz = 48;
-                                    _iconCol = true;
-                                    break;
-                            }
-                            if (_iconSz == 0)
-                            {
-                                tw.GetIcon = false;
-                            }
-                            else
-                            {
-                                tw.GetIcon = true;
-                                tw.IconSize = _iconSz;
-                            }
-
-                            if (_iconSz > 0)
-                            {
-                                // ディスプレイの DPI 設定を考慮したサイズを設定する
-                                lst.SmallImageList.ImageSize = new Size(
-                                    (int)Math.Ceiling(this._iconSz * this.currentScaleFactor.Width),
-                                    (int)Math.Ceiling(this._iconSz * this.currentScaleFactor.Height));
-                            }
-                            else
-                            {
-                                lst.SmallImageList.ImageSize = new Size(1, 1);
-                            }
 
                             lst.GridLines = SettingDialog.ShowGrid;
                             lst.Font = _fntReaded;
                             lst.BackColor = _clListBackcolor;
 
-                            // カラムヘッダの再設定
-                            lst.ColumnClick -= MyList_ColumnClick;
-                            lst.DrawColumnHeader -= MyList_DrawColumnHeader;
-                            lst.ColumnReordered -= MyList_ColumnReordered;
-                            lst.ColumnWidthChanged -= MyList_ColumnWidthChanged;
+                            if (SettingDialog.IconSz != oldIconSz)
+                                ApplyListViewIconSize(lst);
 
-                            var cols = new List<ColumnHeader>(lst.Columns.OfType<ColumnHeader>());
-                            lst.Columns.Clear();
-                            cols.ForEach(col => col.Dispose());
-                            cols.Clear();
-
-                            InitColumns(lst, true);
-
-                            lst.ColumnClick += MyList_ColumnClick;
-                            lst.DrawColumnHeader += MyList_DrawColumnHeader;
-                            lst.ColumnReordered += MyList_ColumnReordered;
-                            lst.ColumnWidthChanged += MyList_ColumnWidthChanged;
-
-                            lst.ResumeLayout(false);
                             lst.EndUpdate();
                         }
                     }
@@ -4288,6 +4229,76 @@ namespace OpenTween
         private void SetTabAlignment()
         {
             ListTab.Alignment = (SettingDialog.ViewTabBottom ? TabAlignment.Bottom : TabAlignment.Top);
+        }
+
+        private void ApplyListViewIconSize(DetailsListView list)
+        {
+            list.BeginUpdate();
+            list.SuspendLayout();
+
+            // アイコンサイズの再設定
+            _iconCol = false;
+            switch (SettingDialog.IconSz)
+            {
+                case MyCommon.IconSizes.IconNone:
+                    _iconSz = 0;
+                    break;
+                case MyCommon.IconSizes.Icon16:
+                    _iconSz = 16;
+                    break;
+                case MyCommon.IconSizes.Icon24:
+                    _iconSz = 26;
+                    break;
+                case MyCommon.IconSizes.Icon48:
+                    _iconSz = 48;
+                    break;
+                case MyCommon.IconSizes.Icon48_2:
+                    _iconSz = 48;
+                    _iconCol = true;
+                    break;
+            }
+            if (_iconSz == 0)
+            {
+                tw.GetIcon = false;
+            }
+            else
+            {
+                tw.GetIcon = true;
+                tw.IconSize = _iconSz;
+            }
+
+            if (_iconSz > 0)
+            {
+                // ディスプレイの DPI 設定を考慮したサイズを設定する
+                list.SmallImageList.ImageSize = new Size(
+                    (int)Math.Ceiling(this._iconSz * this.currentScaleFactor.Width),
+                    (int)Math.Ceiling(this._iconSz * this.currentScaleFactor.Height));
+            }
+            else
+            {
+                list.SmallImageList.ImageSize = new Size(1, 1);
+            }
+
+            // カラムヘッダの再設定
+            list.ColumnClick -= MyList_ColumnClick;
+            list.DrawColumnHeader -= MyList_DrawColumnHeader;
+            list.ColumnReordered -= MyList_ColumnReordered;
+            list.ColumnWidthChanged -= MyList_ColumnWidthChanged;
+
+            var cols = list.Columns.Cast<ColumnHeader>().ToList();
+            list.Columns.Clear();
+            cols.ForEach(col => col.Dispose());
+            cols.Clear();
+
+            InitColumns(list, true);
+
+            list.ColumnClick += MyList_ColumnClick;
+            list.DrawColumnHeader += MyList_DrawColumnHeader;
+            list.ColumnReordered += MyList_ColumnReordered;
+            list.ColumnWidthChanged += MyList_ColumnWidthChanged;
+
+            list.ResumeLayout(false);
+            list.EndUpdate();
         }
 
         private void PostBrowser_Navigated(object sender, WebBrowserNavigatedEventArgs e)
