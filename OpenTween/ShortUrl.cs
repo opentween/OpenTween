@@ -139,7 +139,21 @@ namespace OpenTween
         /// <returns>展開されたURL</returns>
         public string ExpandUrl(string uri)
         {
+            return this.ExpandUrl(uri, 10);
+        }
+
+        /// <summary>
+        /// 短縮 URL を展開します
+        /// </summary>
+        /// <param name="uri">展開するURL</param>
+        /// <param name="redirectLimit">再帰的に展開を試みる上限</param>
+        /// <returns>展開されたURL</returns>
+        public string ExpandUrl(string uri, int redirectLimit)
+        {
             if (this.DisableExpanding)
+                return uri;
+
+            if (redirectLimit <= 0)
                 return uri;
 
             try
@@ -157,7 +171,13 @@ namespace OpenTween
                 expanded = this.http.GetRedirectTo(uri, this.RedirectTimeout);
                 this.urlCache[uri] = expanded;
 
-                return expanded;
+                var recursiveExpanded = this.ExpandUrl(expanded, redirectLimit--);
+
+                // URL1 -> URL2 -> URL3 のように再帰的に展開されたURLを URL1 -> URL3 としてキャッシュに格納する
+                if (recursiveExpanded != expanded)
+                    this.urlCache[uri] = recursiveExpanded;
+
+                return recursiveExpanded;
             }
             catch (UriFormatException)
             {
@@ -172,10 +192,21 @@ namespace OpenTween
         /// <returns>展開されたURLを含むHTML</returns>
         public string ExpandUrlHtml(string html)
         {
+            return this.ExpandUrlHtml(html, 10);
+        }
+
+        /// <summary>
+        /// HTML内に含まれるリンクのURLを展開する
+        /// </summary>
+        /// <param name="html">処理対象のHTML</param>
+        /// <param name="redirectLimit">再帰的に展開を試みる上限</param>
+        /// <returns>展開されたURLを含むHTML</returns>
+        public string ExpandUrlHtml(string html, int redirectLimit)
+        {
             if (this.DisableExpanding)
                 return html;
 
-            return HtmlLinkPattern.Replace(html, m => m.Groups[1].Value + this.ExpandUrl(m.Groups[2].Value) + m.Groups[3].Value);
+            return HtmlLinkPattern.Replace(html, m => m.Groups[1].Value + this.ExpandUrl(m.Groups[2].Value, redirectLimit) + m.Groups[3].Value);
         }
 
         /// <summary>
