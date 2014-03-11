@@ -315,11 +315,14 @@
             this.TimerRefreshIcon = new System.Windows.Forms.Timer(this.components);
             this.PostStateImageList = new System.Windows.Forms.ImageList(this.components);
             this.ContextMenuColumnHeader = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.IconSizeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.IconSizeNoneToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.IconSize16ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.IconSize24ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.IconSize48ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.IconSize48_2ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolStripSeparator45 = new System.Windows.Forms.ToolStripSeparator();
+            this.LockListSortOrderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripContainer1.BottomToolStripPanel.SuspendLayout();
             this.ToolStripContainer1.ContentPanel.SuspendLayout();
             this.ToolStripContainer1.TopToolStripPanel.SuspendLayout();
@@ -2512,14 +2515,23 @@
             // ContextMenuColumnHeader
             // 
             this.ContextMenuColumnHeader.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.IconSizeToolStripMenuItem,
+            this.ToolStripSeparator45,
+            this.LockListSortOrderToolStripMenuItem});
+            this.ContextMenuColumnHeader.Name = "ContextMenuColumnHeader";
+            resources.ApplyResources(this.ContextMenuColumnHeader, "ContextMenuColumnHeader");
+            this.ContextMenuColumnHeader.Opening += new System.ComponentModel.CancelEventHandler(this.ContextMenuColumnHeader_Opening);
+            // 
+            // IconSizeToolStripMenuItem
+            // 
+            this.IconSizeToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.IconSizeNoneToolStripMenuItem,
             this.IconSize16ToolStripMenuItem,
             this.IconSize24ToolStripMenuItem,
             this.IconSize48ToolStripMenuItem,
             this.IconSize48_2ToolStripMenuItem});
-            this.ContextMenuColumnHeader.Name = "ContextMenuColumnHeader";
-            resources.ApplyResources(this.ContextMenuColumnHeader, "ContextMenuColumnHeader");
-            this.ContextMenuColumnHeader.Opening += new System.ComponentModel.CancelEventHandler(this.ContextMenuColumnHeader_Opening);
+            this.IconSizeToolStripMenuItem.Name = "IconSizeToolStripMenuItem";
+            resources.ApplyResources(this.IconSizeToolStripMenuItem, "IconSizeToolStripMenuItem");
             // 
             // IconSizeNoneToolStripMenuItem
             // 
@@ -2550,6 +2562,18 @@
             this.IconSize48_2ToolStripMenuItem.Name = "IconSize48_2ToolStripMenuItem";
             resources.ApplyResources(this.IconSize48_2ToolStripMenuItem, "IconSize48_2ToolStripMenuItem");
             this.IconSize48_2ToolStripMenuItem.Click += new System.EventHandler(this.IconSize48_2ToolStripMenuItem_Click);
+            // 
+            // ToolStripSeparator45
+            // 
+            this.ToolStripSeparator45.Name = "ToolStripSeparator45";
+            resources.ApplyResources(this.ToolStripSeparator45, "ToolStripSeparator45");
+            // 
+            // LockListSortOrderToolStripMenuItem
+            // 
+            this.LockListSortOrderToolStripMenuItem.Name = "LockListSortOrderToolStripMenuItem";
+            this.LockListSortOrderToolStripMenuItem.CheckOnClick = true;
+            resources.ApplyResources(this.LockListSortOrderToolStripMenuItem, "LockListSortOrderToolStripMenuItem");
+            this.LockListSortOrderToolStripMenuItem.Click += new System.EventHandler(this.LockListSortToolStripMenuItem_Click);
             // 
             // TweenMain
             // 
@@ -2901,11 +2925,14 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator44;
         private System.Windows.Forms.ToolStripMenuItem OpenURLFileMenuItem;
         internal System.Windows.Forms.ContextMenuStrip ContextMenuColumnHeader;
+        internal System.Windows.Forms.ToolStripMenuItem IconSizeToolStripMenuItem;
         internal System.Windows.Forms.ToolStripMenuItem IconSizeNoneToolStripMenuItem;
         internal System.Windows.Forms.ToolStripMenuItem IconSize16ToolStripMenuItem;
         internal System.Windows.Forms.ToolStripMenuItem IconSize24ToolStripMenuItem;
         internal System.Windows.Forms.ToolStripMenuItem IconSize48ToolStripMenuItem;
         internal System.Windows.Forms.ToolStripMenuItem IconSize48_2ToolStripMenuItem;
+        internal System.Windows.Forms.ToolStripSeparator ToolStripSeparator45;
+        internal System.Windows.Forms.ToolStripMenuItem LockListSortOrderToolStripMenuItem;
 
     }
 }

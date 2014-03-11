@@ -41,7 +41,7 @@ namespace OpenTween.OpenTweenCustomControl
         private Rectangle changeBounds;
         private EventHandlerList _handlers = new EventHandlerList();
 
-        public ContextMenuStrip ColumnHeaderContextMenuStrip;
+        public ContextMenuStrip ColumnHeaderContextMenuStrip { get; set; }
 
         public event EventHandler VScrolled;
         public event EventHandler HScrolled;

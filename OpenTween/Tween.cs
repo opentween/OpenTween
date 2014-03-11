@@ -13436,6 +13436,8 @@ namespace OpenTween
             this.IconSize24ToolStripMenuItem.Checked = SettingDialog.IconSz == MyCommon.IconSizes.Icon24;
             this.IconSize48ToolStripMenuItem.Checked = SettingDialog.IconSz == MyCommon.IconSizes.Icon48;
             this.IconSize48_2ToolStripMenuItem.Checked = SettingDialog.IconSz == MyCommon.IconSizes.Icon48_2;
+
+            this.LockListSortOrderToolStripMenuItem.Checked = SettingDialog.SortOrderLock;
         }
 
         private void IconSizeNoneToolStripMenuItem_Click(object sender, EventArgs e)
@@ -13475,6 +13477,16 @@ namespace OpenTween
             }
 
             if (_curList != null) _curList.Refresh();
+
+            SaveConfigsCommon();
+        }
+
+        private void LockListSortToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var state = this.LockListSortOrderToolStripMenuItem.Checked;
+            if (SettingDialog.SortOrderLock == state) return;
+
+            SettingDialog.SortOrderLock = state;
 
             SaveConfigsCommon();
         }
