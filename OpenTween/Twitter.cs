@@ -2839,11 +2839,7 @@ namespace OpenTween
                                                           //    sb.Append("http://");
                                                           //}
                                                           var url = mu.Result("${url}");
-                                                          var title = ShortUrl.ResolveMedia(url, true);
-                                                          if (url != title)
-                                                          {
-                                                              title = ShortUrl.ResolveMedia(title, false);
-                                                          }
+                                                          var title = ShortUrl.Instance.ExpandUrl(url).ToString();
                                                           sb.Append(url + "\" title=\"" + MyCommon.ConvertToReadableUrl(title) + "\">").Append(url).Append("</a>");
                                                           if (media != null && !media.ContainsKey(url)) media.Add(url, title);
                                                           return sb.ToString();
@@ -2933,7 +2929,7 @@ namespace OpenTween
                 {
                     foreach (var ent in entities.Urls)
                     {
-                        ent.ExpandedUrl = ShortUrl.ResolveMedia(ent.ExpandedUrl, false);
+                        ent.ExpandedUrl = ShortUrl.Instance.ExpandUrl(ent.ExpandedUrl);
 
                         if (media != null && !media.ContainsKey(ent.Url))
                             media.Add(ent.Url, ent.ExpandedUrl);
@@ -2987,7 +2983,7 @@ namespace OpenTween
                 var mS = Regex.Match(post.Source, ">(?<source>.+)<");
                 if (mS.Success)
                 {
-                    post.SourceHtml = ShortUrl.Resolve(PreProcessUrl(post.Source), false);
+                    post.SourceHtml = ShortUrl.Instance.ExpandUrlHtml(PreProcessUrl(post.Source));
                     post.Source = WebUtility.HtmlDecode(mS.Result("${source}"));
                 }
                 else

@@ -38,12 +38,12 @@ namespace OpenTween
 {
     public class HttpVarious : HttpConnection
     {
-        public string GetRedirectTo(string url)
+        public string GetRedirectTo(string url, int timeout = 5000)
         {
             try
             {
                 HttpWebRequest req = CreateRequest(HeadMethod, new Uri(url), null);
-                req.Timeout = 5000;
+                req.Timeout = timeout;
                 req.AllowAutoRedirect = false;
                 string data;
                 Dictionary<string, string> head = new Dictionary<string, string>();

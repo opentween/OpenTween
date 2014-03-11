@@ -129,7 +129,7 @@ namespace OpenTween
             string webtext;
             string jumpto;
             webtext = MyOwner.TwitterInstance.PreProcessUrl("<a href=\"" + data + "\">Dummy</a>");
-            webtext = ShortUrl.Resolve(webtext, false);
+            webtext = ShortUrl.Instance.ExpandUrlHtml(webtext);
             jumpto = Regex.Match(webtext, @"<a href=""(?<url>.*?)""").Groups["url"].Value;
             ToolTip1.SetToolTip(LinkLabelWeb, jumpto);
             LinkLabelWeb.Tag = jumpto;

@@ -372,7 +372,7 @@ namespace OpenTween
                 SortOrderLock = this.TweetPrvPanel.CheckSortOrderLock.Checked;
                 ViewTabBottom = this.TweetPrvPanel.CheckViewTabBottom.Checked;
                 TinyUrlResolve = this.ShortUrlPanel.CheckTinyURL.Checked;
-                ShortUrl.IsResolve = TinyUrlResolve;
+                ShortUrl.Instance.DisableExpanding = !TinyUrlResolve;
                 if (this.ProxyPanel.RadioProxyNone.Checked)
                 {
                     _MyProxyType = HttpConnection.ProxyType.None;

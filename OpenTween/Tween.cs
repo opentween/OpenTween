@@ -1042,9 +1042,9 @@ namespace OpenTween
 
             tw.RestrictFavCheck = SettingDialog.RestrictFavCheck;
             tw.ReadOwnPost = SettingDialog.ReadOwnPost;
-            ShortUrl.IsResolve = SettingDialog.TinyUrlResolve;
-            ShortUrl.BitlyId = SettingDialog.BitlyUser;
-            ShortUrl.BitlyKey = SettingDialog.BitlyPwd;
+            ShortUrl.Instance.DisableExpanding = !SettingDialog.TinyUrlResolve;
+            ShortUrl.Instance.BitlyId = SettingDialog.BitlyUser;
+            ShortUrl.Instance.BitlyKey = SettingDialog.BitlyPwd;
             HttpTwitter.TwitterUrl = _cfgCommon.TwitterUrl;
             tw.TrackWord = _cfgCommon.TrackWord;
             TrackToolStripMenuItem.Checked = !String.IsNullOrEmpty(tw.TrackWord);
@@ -3983,9 +3983,9 @@ namespace OpenTween
                     tw.TinyUrlResolve = SettingDialog.TinyUrlResolve;
                     tw.RestrictFavCheck = SettingDialog.RestrictFavCheck;
                     tw.ReadOwnPost = SettingDialog.ReadOwnPost;
-                    ShortUrl.IsResolve = SettingDialog.TinyUrlResolve;
-                    ShortUrl.BitlyId = SettingDialog.BitlyUser;
-                    ShortUrl.BitlyKey = SettingDialog.BitlyPwd;
+                    ShortUrl.Instance.DisableExpanding = !SettingDialog.TinyUrlResolve;
+                    ShortUrl.Instance.BitlyId = SettingDialog.BitlyUser;
+                    ShortUrl.Instance.BitlyKey = SettingDialog.BitlyPwd;
                     HttpTwitter.TwitterUrl = _cfgCommon.TwitterUrl;
 
                     HttpConnection.InitializeConnection(SettingDialog.DefaultTimeOut,
@@ -9936,10 +9936,18 @@ namespace OpenTween
                     else if (Converter_Type != MyCommon.UrlConverter.Nicoms)
                     {
                         //短縮URL変換 日本語を含むかもしれないのでURLエンコードする
-                        result = ShortUrl.Make(Converter_Type, tmp);
-                        if (result.Equals("Can't convert"))
+                        try
                         {
-                            StatusLabel.Text = result.Insert(0, Converter_Type.ToString() + ":");
+                            result = ShortUrl.Instance.ShortenUrl(Converter_Type, tmp);
+                        }
+                        catch (WebApiException e)
+                        {
+                            this.StatusLabel.Text = Converter_Type + ":" + e.Message;
+                            return false;
+                        }
+                        catch (UriFormatException e)
+                        {
+                            this.StatusLabel.Text = Converter_Type + ":" + e.Message;
                             return false;
                         }
                     }
@@ -9995,10 +10003,18 @@ namespace OpenTween
                     else if (Converter_Type != MyCommon.UrlConverter.Nicoms)
                     {
                         //短縮URL変換 日本語を含むかもしれないのでURLエンコードする
-                        result = ShortUrl.Make(Converter_Type, tmp);
-                        if (result.Equals("Can't convert"))
+                        try
                         {
-                            StatusLabel.Text = result.Insert(0, Converter_Type.ToString() + ":");
+                            result = ShortUrl.Instance.ShortenUrl(Converter_Type, tmp);
+                        }
+                        catch (WebApiException e)
+                        {
+                            this.StatusLabel.Text = Converter_Type + ":" + e.Message;
+                            continue;
+                        }
+                        catch (UriFormatException e)
+                        {
+                            this.StatusLabel.Text = Converter_Type + ":" + e.Message;
                             continue;
                         }
                     }
