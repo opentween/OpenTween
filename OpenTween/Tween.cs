@@ -1546,26 +1546,27 @@ namespace OpenTween
                 {
                     DetailsListView lst = (DetailsListView)tab.Tag;
                     TabClass tabInfo = _statuses.Tabs[tab.Text];
-                    lst.BeginUpdate();
-                    if (isDelete || lst.VirtualListSize != tabInfo.AllCount)
+                    using (ControlTransaction.Update(lst))
                     {
-                        if (lst.Equals(_curList))
+                        if (isDelete || lst.VirtualListSize != tabInfo.AllCount)
                         {
-                            this.PurgeListViewItemCache();
+                            if (lst.Equals(_curList))
+                            {
+                                this.PurgeListViewItemCache();
+                            }
+                            try
+                            {
+                                lst.VirtualListSize = tabInfo.AllCount; //リスト件数更新
+                            }
+                            catch (Exception)
+                            {
+                                //アイコン描画不具合あり？
+                            }
+                            this.SelectListItem(lst,
+                                                _statuses.IndexOf(tab.Text, selId[tab.Text]),
+                                                _statuses.IndexOf(tab.Text, focusedId[tab.Text]));
                         }
-                        try
-                        {
-                            lst.VirtualListSize = tabInfo.AllCount; //リスト件数更新
-                        }
-                        catch (Exception)
-                        {
-                            //アイコン描画不具合あり？
-                        }
-                        this.SelectListItem(lst,
-                                          _statuses.IndexOf(tab.Text, selId[tab.Text]),
-                                          _statuses.IndexOf(tab.Text, focusedId[tab.Text]));
                     }
-                    lst.EndUpdate();
                     if (tabInfo.UnreadCount > 0)
                         if (SettingDialog.TabIconDisp)
                             if (tab.ImageIndex == -1) tab.ImageIndex = 0; //タブアイコン
@@ -3023,40 +3024,41 @@ namespace OpenTween
                 case MyCommon.WORKERTYPE.FavRemove:
                     if (_curList != null && _curTab != null)
                     {
-                        _curList.BeginUpdate();
-                        if (rslt.type == MyCommon.WORKERTYPE.FavRemove && _statuses.Tabs[_curTab.Text].TabType == MyCommon.TabUsageType.Favorites)
+                        using (ControlTransaction.Update(this._curList))
                         {
-                            //色変えは不要
-                        }
-                        else
-                        {
-                            for (int i = 0; i <= rslt.sIds.Count - 1; i++)
+                            if (rslt.type == MyCommon.WORKERTYPE.FavRemove && _statuses.Tabs[_curTab.Text].TabType == MyCommon.TabUsageType.Favorites)
                             {
-                                if (_curTab.Text.Equals(rslt.tName))
+                                //色変えは不要
+                            }
+                            else
+                            {
+                                for (int i = 0; i <= rslt.sIds.Count - 1; i++)
                                 {
-                                    int idx = _statuses.Tabs[rslt.tName].IndexOf(rslt.sIds[i]);
-                                    if (idx > -1)
+                                    if (_curTab.Text.Equals(rslt.tName))
                                     {
-                                        PostClass post = null;
-                                        TabClass tb = _statuses.Tabs[rslt.tName];
-                                        if (tb != null)
+                                        int idx = _statuses.Tabs[rslt.tName].IndexOf(rslt.sIds[i]);
+                                        if (idx > -1)
                                         {
-                                            if (tb.TabType == MyCommon.TabUsageType.Lists || tb.TabType == MyCommon.TabUsageType.PublicSearch)
+                                            PostClass post = null;
+                                            TabClass tb = _statuses.Tabs[rslt.tName];
+                                            if (tb != null)
                                             {
-                                                post = tb.Posts[rslt.sIds[i]];
+                                                if (tb.TabType == MyCommon.TabUsageType.Lists || tb.TabType == MyCommon.TabUsageType.PublicSearch)
+                                                {
+                                                    post = tb.Posts[rslt.sIds[i]];
+                                                }
+                                                else
+                                                {
+                                                    post = _statuses[rslt.sIds[i]];
+                                                }
+                                                ChangeCacheStyleRead(post.IsRead, idx, _curTab);
                                             }
-                                            else
-                                            {
-                                                post = _statuses[rslt.sIds[i]];
-                                            }
-                                            ChangeCacheStyleRead(post.IsRead, idx, _curTab);
+                                            if (idx == _curItemIndex) DispSelectedPost(true); //選択アイテム再表示
                                         }
-                                        if (idx == _curItemIndex) DispSelectedPost(true); //選択アイテム再表示
                                     }
                                 }
                             }
                         }
-                        _curList.EndUpdate();
                     }
                     break;
                 case MyCommon.WORKERTYPE.PostMessage:
@@ -3812,20 +3814,21 @@ namespace OpenTween
 
         private void ReadedStripMenuItem_Click(object sender, EventArgs e)
         {
-            _curList.BeginUpdate();
-            if (SettingDialog.UnreadManage)
+            using (ControlTransaction.Update(this._curList))
             {
+                if (SettingDialog.UnreadManage)
+                {
+                    foreach (int idx in _curList.SelectedIndices)
+                    {
+                        _statuses.SetReadAllTab(true, _curTab.Text, idx);
+                    }
+                }
                 foreach (int idx in _curList.SelectedIndices)
                 {
-                    _statuses.SetReadAllTab(true, _curTab.Text, idx);
+                    ChangeCacheStyleRead(true, idx, _curTab);
                 }
+                ColorizeList();
             }
-            foreach (int idx in _curList.SelectedIndices)
-            {
-                ChangeCacheStyleRead(true, idx, _curTab);
-            }
-            ColorizeList();
-            _curList.EndUpdate();
             foreach (TabPage tb in ListTab.TabPages)
             {
                 if (_statuses.Tabs[tb.Text].UnreadCount == 0)
@@ -3841,20 +3844,21 @@ namespace OpenTween
 
         private void UnreadStripMenuItem_Click(object sender, EventArgs e)
         {
-            _curList.BeginUpdate();
-            if (SettingDialog.UnreadManage)
+            using (ControlTransaction.Update(this._curList))
             {
+                if (SettingDialog.UnreadManage)
+                {
+                    foreach (int idx in _curList.SelectedIndices)
+                    {
+                        _statuses.SetReadAllTab(false, _curTab.Text, idx);
+                    }
+                }
                 foreach (int idx in _curList.SelectedIndices)
                 {
-                    _statuses.SetReadAllTab(false, _curTab.Text, idx);
+                    ChangeCacheStyleRead(false, idx, _curTab);
                 }
+                ColorizeList();
             }
-            foreach (int idx in _curList.SelectedIndices)
-            {
-                ChangeCacheStyleRead(false, idx, _curTab);
-            }
-            ColorizeList();
-            _curList.EndUpdate();
             foreach (TabPage tb in ListTab.TabPages)
             {
                 if (_statuses.Tabs[tb.Text].UnreadCount > 0)
@@ -4164,16 +4168,15 @@ namespace OpenTween
                         {
                             DetailsListView lst = (DetailsListView)tp.Tag;
 
-                            lst.BeginUpdate();
+                            using (ControlTransaction.Update(lst))
+                            {
+                                lst.GridLines = SettingDialog.ShowGrid;
+                                lst.Font = _fntReaded;
+                                lst.BackColor = _clListBackcolor;
 
-                            lst.GridLines = SettingDialog.ShowGrid;
-                            lst.Font = _fntReaded;
-                            lst.BackColor = _clListBackcolor;
-
-                            if (SettingDialog.IconSz != oldIconSz)
-                                ApplyListViewIconSize(lst);
-
-                            lst.EndUpdate();
+                                if (SettingDialog.IconSz != oldIconSz)
+                                    ApplyListViewIconSize(lst);
+                            }
                         }
                     }
                     catch (Exception ex)
@@ -4233,72 +4236,70 @@ namespace OpenTween
 
         private void ApplyListViewIconSize(DetailsListView list)
         {
-            list.BeginUpdate();
-            list.SuspendLayout();
-
-            // アイコンサイズの再設定
-            _iconCol = false;
-            switch (SettingDialog.IconSz)
+            using (ControlTransaction.Update(list))
+            using (ControlTransaction.Layout(list, false))
             {
-                case MyCommon.IconSizes.IconNone:
-                    _iconSz = 0;
-                    break;
-                case MyCommon.IconSizes.Icon16:
-                    _iconSz = 16;
-                    break;
-                case MyCommon.IconSizes.Icon24:
-                    _iconSz = 26;
-                    break;
-                case MyCommon.IconSizes.Icon48:
-                    _iconSz = 48;
-                    break;
-                case MyCommon.IconSizes.Icon48_2:
-                    _iconSz = 48;
-                    _iconCol = true;
-                    break;
+                // アイコンサイズの再設定
+                _iconCol = false;
+                switch (SettingDialog.IconSz)
+                {
+                    case MyCommon.IconSizes.IconNone:
+                        _iconSz = 0;
+                        break;
+                    case MyCommon.IconSizes.Icon16:
+                        _iconSz = 16;
+                        break;
+                    case MyCommon.IconSizes.Icon24:
+                        _iconSz = 26;
+                        break;
+                    case MyCommon.IconSizes.Icon48:
+                        _iconSz = 48;
+                        break;
+                    case MyCommon.IconSizes.Icon48_2:
+                        _iconSz = 48;
+                        _iconCol = true;
+                        break;
+                }
+                if (_iconSz == 0)
+                {
+                    tw.GetIcon = false;
+                }
+                else
+                {
+                    tw.GetIcon = true;
+                    tw.IconSize = _iconSz;
+                }
+
+                if (_iconSz > 0)
+                {
+                    // ディスプレイの DPI 設定を考慮したサイズを設定する
+                    list.SmallImageList.ImageSize = new Size(
+                        (int)Math.Ceiling(this._iconSz * this.currentScaleFactor.Width),
+                        (int)Math.Ceiling(this._iconSz * this.currentScaleFactor.Height));
+                }
+                else
+                {
+                    list.SmallImageList.ImageSize = new Size(1, 1);
+                }
+
+                // カラムヘッダの再設定
+                list.ColumnClick -= MyList_ColumnClick;
+                list.DrawColumnHeader -= MyList_DrawColumnHeader;
+                list.ColumnReordered -= MyList_ColumnReordered;
+                list.ColumnWidthChanged -= MyList_ColumnWidthChanged;
+
+                var cols = list.Columns.Cast<ColumnHeader>().ToList();
+                list.Columns.Clear();
+                cols.ForEach(col => col.Dispose());
+                cols.Clear();
+
+                InitColumns(list, true);
+
+                list.ColumnClick += MyList_ColumnClick;
+                list.DrawColumnHeader += MyList_DrawColumnHeader;
+                list.ColumnReordered += MyList_ColumnReordered;
+                list.ColumnWidthChanged += MyList_ColumnWidthChanged;
             }
-            if (_iconSz == 0)
-            {
-                tw.GetIcon = false;
-            }
-            else
-            {
-                tw.GetIcon = true;
-                tw.IconSize = _iconSz;
-            }
-
-            if (_iconSz > 0)
-            {
-                // ディスプレイの DPI 設定を考慮したサイズを設定する
-                list.SmallImageList.ImageSize = new Size(
-                    (int)Math.Ceiling(this._iconSz * this.currentScaleFactor.Width),
-                    (int)Math.Ceiling(this._iconSz * this.currentScaleFactor.Height));
-            }
-            else
-            {
-                list.SmallImageList.ImageSize = new Size(1, 1);
-            }
-
-            // カラムヘッダの再設定
-            list.ColumnClick -= MyList_ColumnClick;
-            list.DrawColumnHeader -= MyList_DrawColumnHeader;
-            list.ColumnReordered -= MyList_ColumnReordered;
-            list.ColumnWidthChanged -= MyList_ColumnWidthChanged;
-
-            var cols = list.Columns.Cast<ColumnHeader>().ToList();
-            list.Columns.Clear();
-            cols.ForEach(col => col.Dispose());
-            cols.Clear();
-
-            InitColumns(list, true);
-
-            list.ColumnClick += MyList_ColumnClick;
-            list.DrawColumnHeader += MyList_DrawColumnHeader;
-            list.ColumnReordered += MyList_ColumnReordered;
-            list.ColumnWidthChanged += MyList_ColumnWidthChanged;
-
-            list.ResumeLayout(false);
-            list.EndUpdate();
         }
 
         private void PostBrowser_Navigated(object sender, WebBrowserNavigatedEventArgs e)
@@ -4486,195 +4487,186 @@ namespace OpenTween
 
             ///ToDo:Create and set controls follow tabtypes
 
-            _listCustom.BeginUpdate();
-            this.SplitContainer1.Panel1.SuspendLayout();
-            this.SplitContainer1.Panel2.SuspendLayout();
-            this.SplitContainer1.SuspendLayout();
-            this.ListTab.SuspendLayout();
-            this.SuspendLayout();
-
-            _tabPage.SuspendLayout();
-
-            /// UserTimeline関連
-            Label label = null;
-            if (tabType == MyCommon.TabUsageType.UserTimeline || tabType == MyCommon.TabUsageType.Lists)
+            using (ControlTransaction.Update(_listCustom))
+            using (ControlTransaction.Layout(this.SplitContainer1.Panel1, false))
+            using (ControlTransaction.Layout(this.SplitContainer1.Panel2, false))
+            using (ControlTransaction.Layout(this.SplitContainer1, false))
+            using (ControlTransaction.Layout(this.ListTab, false))
+            using (ControlTransaction.Layout(this))
+            using (ControlTransaction.Layout(_tabPage, false))
             {
-                label = new Label();
-                label.Dock = DockStyle.Top;
-                label.Name = "labelUser";
-                if (tabType == MyCommon.TabUsageType.Lists)
+                /// UserTimeline関連
+                Label label = null;
+                if (tabType == MyCommon.TabUsageType.UserTimeline || tabType == MyCommon.TabUsageType.Lists)
                 {
-                    label.Text = listInfo.ToString();
+                    label = new Label();
+                    label.Dock = DockStyle.Top;
+                    label.Name = "labelUser";
+                    if (tabType == MyCommon.TabUsageType.Lists)
+                    {
+                        label.Text = listInfo.ToString();
+                    }
+                    else
+                    {
+                        label.Text = _statuses.Tabs[tabName].User + "'s Timeline";
+                    }
+                    label.TextAlign = ContentAlignment.MiddleLeft;
+                    using (ComboBox tmpComboBox = new ComboBox())
+                    {
+                        label.Height = tmpComboBox.Height;
+                    }
+                    _tabPage.Controls.Add(label);
+                }
+
+                /// 検索関連の準備
+                Panel pnl = null;
+                if (tabType == MyCommon.TabUsageType.PublicSearch)
+                {
+                    pnl = new Panel();
+
+                    Label lbl = new Label();
+                    ComboBox cmb = new ComboBox();
+                    Button btn = new Button();
+                    ComboBox cmbLang = new ComboBox();
+
+                    pnl.SuspendLayout();
+
+                    pnl.Controls.Add(cmb);
+                    pnl.Controls.Add(cmbLang);
+                    pnl.Controls.Add(btn);
+                    pnl.Controls.Add(lbl);
+                    pnl.Name = "panelSearch";
+                    pnl.Dock = DockStyle.Top;
+                    pnl.Height = cmb.Height;
+                    pnl.Enter += SearchControls_Enter;
+                    pnl.Leave += SearchControls_Leave;
+
+                    cmb.Text = "";
+                    cmb.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+                    cmb.Dock = DockStyle.Fill;
+                    cmb.Name = "comboSearch";
+                    cmb.DropDownStyle = ComboBoxStyle.DropDown;
+                    cmb.ImeMode = ImeMode.NoControl;
+                    cmb.TabStop = false;
+                    cmb.AutoCompleteMode = AutoCompleteMode.None;
+                    cmb.KeyDown += SearchComboBox_KeyDown;
+
+                    if (_statuses.ContainsTab(tabName))
+                    {
+                        cmb.Items.Add(_statuses.Tabs[tabName].SearchWords);
+                        cmb.Text = _statuses.Tabs[tabName].SearchWords;
+                    }
+
+                    cmbLang.Text = "";
+                    cmbLang.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+                    cmbLang.Dock = DockStyle.Right;
+                    cmbLang.Width = 50;
+                    cmbLang.Name = "comboLang";
+                    cmbLang.DropDownStyle = ComboBoxStyle.DropDownList;
+                    cmbLang.TabStop = false;
+                    cmbLang.Items.Add("");
+                    cmbLang.Items.Add("ja");
+                    cmbLang.Items.Add("en");
+                    cmbLang.Items.Add("ar");
+                    cmbLang.Items.Add("da");
+                    cmbLang.Items.Add("nl");
+                    cmbLang.Items.Add("fa");
+                    cmbLang.Items.Add("fi");
+                    cmbLang.Items.Add("fr");
+                    cmbLang.Items.Add("de");
+                    cmbLang.Items.Add("hu");
+                    cmbLang.Items.Add("is");
+                    cmbLang.Items.Add("it");
+                    cmbLang.Items.Add("no");
+                    cmbLang.Items.Add("pl");
+                    cmbLang.Items.Add("pt");
+                    cmbLang.Items.Add("ru");
+                    cmbLang.Items.Add("es");
+                    cmbLang.Items.Add("sv");
+                    cmbLang.Items.Add("th");
+                    if (_statuses.ContainsTab(tabName)) cmbLang.Text = _statuses.Tabs[tabName].SearchLang;
+
+                    lbl.Text = "Search(C-S-f)";
+                    lbl.Name = "label1";
+                    lbl.Dock = DockStyle.Left;
+                    lbl.Width = 90;
+                    lbl.Height = cmb.Height;
+                    lbl.TextAlign = ContentAlignment.MiddleLeft;
+
+                    btn.Text = "Search";
+                    btn.Name = "buttonSearch";
+                    btn.UseVisualStyleBackColor = true;
+                    btn.Dock = DockStyle.Right;
+                    btn.TabStop = false;
+                    btn.Click += SearchButton_Click;
+                }
+
+                this.ListTab.Controls.Add(_tabPage);
+                _tabPage.Controls.Add(_listCustom);
+
+                if (tabType == MyCommon.TabUsageType.PublicSearch) _tabPage.Controls.Add(pnl);
+                if (tabType == MyCommon.TabUsageType.UserTimeline || tabType == MyCommon.TabUsageType.Lists) _tabPage.Controls.Add(label);
+
+                _tabPage.Location = new Point(4, 4);
+                _tabPage.Name = "CTab" + cnt.ToString();
+                _tabPage.Size = new Size(380, 260);
+                _tabPage.TabIndex = 2 + cnt;
+                _tabPage.Text = tabName;
+                _tabPage.UseVisualStyleBackColor = true;
+
+                _listCustom.AllowColumnReorder = true;
+                _listCustom.ContextMenuStrip = this.ContextMenuOperate;
+                _listCustom.Dock = DockStyle.Fill;
+                _listCustom.FullRowSelect = true;
+                _listCustom.HideSelection = false;
+                _listCustom.Location = new Point(0, 0);
+                _listCustom.Margin = new Padding(0);
+                _listCustom.Name = "CList" + Environment.TickCount.ToString();
+                _listCustom.ShowItemToolTips = true;
+                _listCustom.Size = new Size(380, 260);
+                _listCustom.UseCompatibleStateImageBehavior = false;
+                _listCustom.View = View.Details;
+                _listCustom.OwnerDraw = true;
+                _listCustom.VirtualMode = true;
+                _listCustom.Font = _fntReaded;
+                _listCustom.BackColor = _clListBackcolor;
+
+                _listCustom.GridLines = SettingDialog.ShowGrid;
+                _listCustom.AllowDrop = true;
+
+                _listCustom.SmallImageList = new ImageList();
+                if (_iconSz > 0)
+                {
+                    // ディスプレイの DPI 設定を考慮したサイズを設定する
+                    _listCustom.SmallImageList.ImageSize = new Size(
+                        (int)Math.Ceiling(this._iconSz * this.currentScaleFactor.Width),
+                        (int)Math.Ceiling(this._iconSz * this.currentScaleFactor.Height));
                 }
                 else
                 {
-                    label.Text = _statuses.Tabs[tabName].User + "'s Timeline";
-                }
-                label.TextAlign = ContentAlignment.MiddleLeft;
-                using (ComboBox tmpComboBox = new ComboBox())
-                {
-                    label.Height = tmpComboBox.Height;
-                }
-                _tabPage.Controls.Add(label);
-            }
-
-            /// 検索関連の準備
-            Panel pnl = null;
-            if (tabType == MyCommon.TabUsageType.PublicSearch)
-            {
-                pnl = new Panel();
-
-                Label lbl = new Label();
-                ComboBox cmb = new ComboBox();
-                Button btn = new Button();
-                ComboBox cmbLang = new ComboBox();
-
-                pnl.SuspendLayout();
-
-                pnl.Controls.Add(cmb);
-                pnl.Controls.Add(cmbLang);
-                pnl.Controls.Add(btn);
-                pnl.Controls.Add(lbl);
-                pnl.Name = "panelSearch";
-                pnl.Dock = DockStyle.Top;
-                pnl.Height = cmb.Height;
-                pnl.Enter += SearchControls_Enter;
-                pnl.Leave += SearchControls_Leave;
-
-                cmb.Text = "";
-                cmb.Anchor = AnchorStyles.Left | AnchorStyles.Right;
-                cmb.Dock = DockStyle.Fill;
-                cmb.Name = "comboSearch";
-                cmb.DropDownStyle = ComboBoxStyle.DropDown;
-                cmb.ImeMode = ImeMode.NoControl;
-                cmb.TabStop = false;
-                cmb.AutoCompleteMode = AutoCompleteMode.None;
-                cmb.KeyDown += SearchComboBox_KeyDown;
-
-                if (_statuses.ContainsTab(tabName))
-                {
-                    cmb.Items.Add(_statuses.Tabs[tabName].SearchWords);
-                    cmb.Text = _statuses.Tabs[tabName].SearchWords;
+                    _listCustom.SmallImageList.ImageSize = new Size(1, 1);
                 }
 
-                cmbLang.Text = "";
-                cmbLang.Anchor = AnchorStyles.Left | AnchorStyles.Right;
-                cmbLang.Dock = DockStyle.Right;
-                cmbLang.Width = 50;
-                cmbLang.Name = "comboLang";
-                cmbLang.DropDownStyle = ComboBoxStyle.DropDownList;
-                cmbLang.TabStop = false;
-                cmbLang.Items.Add("");
-                cmbLang.Items.Add("ja");
-                cmbLang.Items.Add("en");
-                cmbLang.Items.Add("ar");
-                cmbLang.Items.Add("da");
-                cmbLang.Items.Add("nl");
-                cmbLang.Items.Add("fa");
-                cmbLang.Items.Add("fi");
-                cmbLang.Items.Add("fr");
-                cmbLang.Items.Add("de");
-                cmbLang.Items.Add("hu");
-                cmbLang.Items.Add("is");
-                cmbLang.Items.Add("it");
-                cmbLang.Items.Add("no");
-                cmbLang.Items.Add("pl");
-                cmbLang.Items.Add("pt");
-                cmbLang.Items.Add("ru");
-                cmbLang.Items.Add("es");
-                cmbLang.Items.Add("sv");
-                cmbLang.Items.Add("th");
-                if (_statuses.ContainsTab(tabName)) cmbLang.Text = _statuses.Tabs[tabName].SearchLang;
-            
-                lbl.Text = "Search(C-S-f)";
-                lbl.Name = "label1";
-                lbl.Dock = DockStyle.Left;
-                lbl.Width = 90;
-                lbl.Height = cmb.Height;
-                lbl.TextAlign = ContentAlignment.MiddleLeft;
+                InitColumns(_listCustom, startup);
 
-                btn.Text = "Search";
-                btn.Name = "buttonSearch";
-                btn.UseVisualStyleBackColor = true;
-                btn.Dock = DockStyle.Right;
-                btn.TabStop = false;
-                btn.Click += SearchButton_Click;
+                _listCustom.SelectedIndexChanged += MyList_SelectedIndexChanged;
+                _listCustom.MouseDoubleClick += MyList_MouseDoubleClick;
+                _listCustom.ColumnClick += MyList_ColumnClick;
+                _listCustom.DrawColumnHeader += MyList_DrawColumnHeader;
+                _listCustom.DragDrop += TweenMain_DragDrop;
+                _listCustom.DragOver += TweenMain_DragOver;
+                _listCustom.DrawItem += MyList_DrawItem;
+                _listCustom.MouseClick += MyList_MouseClick;
+                _listCustom.ColumnReordered += MyList_ColumnReordered;
+                _listCustom.ColumnWidthChanged += MyList_ColumnWidthChanged;
+                _listCustom.CacheVirtualItems += MyList_CacheVirtualItems;
+                _listCustom.RetrieveVirtualItem += MyList_RetrieveVirtualItem;
+                _listCustom.DrawSubItem += MyList_DrawSubItem;
+                _listCustom.HScrolled += MyList_HScrolled;
+
+                if (tabType == MyCommon.TabUsageType.PublicSearch) pnl.ResumeLayout(false);
             }
 
-            this.ListTab.Controls.Add(_tabPage);
-            _tabPage.Controls.Add(_listCustom);
-
-            if (tabType == MyCommon.TabUsageType.PublicSearch) _tabPage.Controls.Add(pnl);
-            if (tabType == MyCommon.TabUsageType.UserTimeline || tabType == MyCommon.TabUsageType.Lists) _tabPage.Controls.Add(label);
-
-            _tabPage.Location = new Point(4, 4);
-            _tabPage.Name = "CTab" + cnt.ToString();
-            _tabPage.Size = new Size(380, 260);
-            _tabPage.TabIndex = 2 + cnt;
-            _tabPage.Text = tabName;
-            _tabPage.UseVisualStyleBackColor = true;
-
-            _listCustom.AllowColumnReorder = true;
-            _listCustom.ContextMenuStrip = this.ContextMenuOperate;
-            _listCustom.Dock = DockStyle.Fill;
-            _listCustom.FullRowSelect = true;
-            _listCustom.HideSelection = false;
-            _listCustom.Location = new Point(0, 0);
-            _listCustom.Margin = new Padding(0);
-            _listCustom.Name = "CList" + Environment.TickCount.ToString();
-            _listCustom.ShowItemToolTips = true;
-            _listCustom.Size = new Size(380, 260);
-            _listCustom.UseCompatibleStateImageBehavior = false;
-            _listCustom.View = View.Details;
-            _listCustom.OwnerDraw = true;
-            _listCustom.VirtualMode = true;
-            _listCustom.Font = _fntReaded;
-            _listCustom.BackColor = _clListBackcolor;
-
-            _listCustom.GridLines = SettingDialog.ShowGrid;
-            _listCustom.AllowDrop = true;
-
-            _listCustom.SmallImageList = new ImageList();
-            if (_iconSz > 0)
-            {
-                // ディスプレイの DPI 設定を考慮したサイズを設定する
-                _listCustom.SmallImageList.ImageSize = new Size(
-                    (int)Math.Ceiling(this._iconSz * this.currentScaleFactor.Width),
-                    (int)Math.Ceiling(this._iconSz * this.currentScaleFactor.Height));
-            }
-            else
-            {
-                _listCustom.SmallImageList.ImageSize = new Size(1, 1);
-            }
-
-            InitColumns(_listCustom, startup);
-
-            _listCustom.SelectedIndexChanged += MyList_SelectedIndexChanged;
-            _listCustom.MouseDoubleClick += MyList_MouseDoubleClick;
-            _listCustom.ColumnClick += MyList_ColumnClick;
-            _listCustom.DrawColumnHeader += MyList_DrawColumnHeader;
-            _listCustom.DragDrop += TweenMain_DragDrop;
-            _listCustom.DragOver += TweenMain_DragOver;
-            _listCustom.DrawItem += MyList_DrawItem;
-            _listCustom.MouseClick += MyList_MouseClick;
-            _listCustom.ColumnReordered += MyList_ColumnReordered;
-            _listCustom.ColumnWidthChanged += MyList_ColumnWidthChanged;
-            _listCustom.CacheVirtualItems += MyList_CacheVirtualItems;
-            _listCustom.RetrieveVirtualItem += MyList_RetrieveVirtualItem;
-            _listCustom.DrawSubItem += MyList_DrawSubItem;
-            _listCustom.HScrolled += MyList_HScrolled;
-
-            if (tabType == MyCommon.TabUsageType.PublicSearch) pnl.ResumeLayout(false);
-        
-            _tabPage.ResumeLayout(false);
-
-            this.SplitContainer1.Panel1.ResumeLayout(false);
-            this.SplitContainer1.Panel2.ResumeLayout(false);
-            this.SplitContainer1.ResumeLayout(false);
-            this.ListTab.ResumeLayout(false);
-            this.ResumeLayout(false);
-            this.PerformLayout();
-            _listCustom.EndUpdate();
             _tabPage.Tag = _listCustom;
             return true;
         }
@@ -4701,103 +4693,94 @@ namespace OpenTween
             MyCommon.TabUsageType tabType = _statuses.Tabs[TabName].TabType;
 
             //オブジェクトインスタンスの削除
-            this.SplitContainer1.Panel1.SuspendLayout();
-            this.SplitContainer1.Panel2.SuspendLayout();
-            this.SplitContainer1.SuspendLayout();
-            this.ListTab.SuspendLayout();
-            this.SuspendLayout();
-
             DetailsListView _listCustom = (DetailsListView)_tabPage.Tag;
             _tabPage.Tag = null;
 
-            _tabPage.SuspendLayout();
-
-            if (this.ListTab.SelectedTab == _tabPage)
+            using (ControlTransaction.Layout(this.SplitContainer1.Panel1, false))
+            using (ControlTransaction.Layout(this.SplitContainer1.Panel2, false))
+            using (ControlTransaction.Layout(this.SplitContainer1, false))
+            using (ControlTransaction.Layout(this.ListTab, false))
+            using (ControlTransaction.Layout(this))
+            using (ControlTransaction.Layout(_tabPage, false))
             {
-                this.ListTab.SelectTab((this._beforeSelectedTab != null && this.ListTab.TabPages.Contains(this._beforeSelectedTab)) ? this._beforeSelectedTab : this.ListTab.TabPages[0]);
-                this._beforeSelectedTab = null;
-            }
-            this.ListTab.Controls.Remove(_tabPage);
-
-            // 後付けのコントロールを破棄
-            if (tabType == MyCommon.TabUsageType.UserTimeline || tabType == MyCommon.TabUsageType.Lists)
-            {
-                using (Control label = _tabPage.Controls["labelUser"])
+                if (this.ListTab.SelectedTab == _tabPage)
                 {
-                    _tabPage.Controls.Remove(label);
+                    this.ListTab.SelectTab((this._beforeSelectedTab != null && this.ListTab.TabPages.Contains(this._beforeSelectedTab)) ? this._beforeSelectedTab : this.ListTab.TabPages[0]);
+                    this._beforeSelectedTab = null;
                 }
-            }
-            else if (tabType == MyCommon.TabUsageType.PublicSearch)
-            {
-                using (Control pnl = _tabPage.Controls["panelSearch"])
-                {
-                    pnl.Enter -= SearchControls_Enter;
-                    pnl.Leave -= SearchControls_Leave;
-                    _tabPage.Controls.Remove(pnl);
+                this.ListTab.Controls.Remove(_tabPage);
 
-                    foreach (Control ctrl in pnl.Controls)
+                // 後付けのコントロールを破棄
+                if (tabType == MyCommon.TabUsageType.UserTimeline || tabType == MyCommon.TabUsageType.Lists)
+                {
+                    using (Control label = _tabPage.Controls["labelUser"])
                     {
-                        if (ctrl.Name == "buttonSearch")
-                        {
-                            ctrl.Click -= SearchButton_Click;
-                        }
-                        else if (ctrl.Name == "comboSearch")
-                        {
-                            ctrl.KeyDown -= SearchComboBox_KeyDown;
-                        }
-                        pnl.Controls.Remove(ctrl);
-                        ctrl.Dispose();
+                        _tabPage.Controls.Remove(label);
                     }
                 }
+                else if (tabType == MyCommon.TabUsageType.PublicSearch)
+                {
+                    using (Control pnl = _tabPage.Controls["panelSearch"])
+                    {
+                        pnl.Enter -= SearchControls_Enter;
+                        pnl.Leave -= SearchControls_Leave;
+                        _tabPage.Controls.Remove(pnl);
+
+                        foreach (Control ctrl in pnl.Controls)
+                        {
+                            if (ctrl.Name == "buttonSearch")
+                            {
+                                ctrl.Click -= SearchButton_Click;
+                            }
+                            else if (ctrl.Name == "comboSearch")
+                            {
+                                ctrl.KeyDown -= SearchComboBox_KeyDown;
+                            }
+                            pnl.Controls.Remove(ctrl);
+                            ctrl.Dispose();
+                        }
+                    }
+                }
+
+                _tabPage.Controls.Remove(_listCustom);
+
+                _listCustom.SelectedIndexChanged -= MyList_SelectedIndexChanged;
+                _listCustom.MouseDoubleClick -= MyList_MouseDoubleClick;
+                _listCustom.ColumnClick -= MyList_ColumnClick;
+                _listCustom.DrawColumnHeader -= MyList_DrawColumnHeader;
+                _listCustom.DragDrop -= TweenMain_DragDrop;
+                _listCustom.DragOver -= TweenMain_DragOver;
+                _listCustom.DrawItem -= MyList_DrawItem;
+                _listCustom.MouseClick -= MyList_MouseClick;
+                _listCustom.ColumnReordered -= MyList_ColumnReordered;
+                _listCustom.ColumnWidthChanged -= MyList_ColumnWidthChanged;
+                _listCustom.CacheVirtualItems -= MyList_CacheVirtualItems;
+                _listCustom.RetrieveVirtualItem -= MyList_RetrieveVirtualItem;
+                _listCustom.DrawSubItem -= MyList_DrawSubItem;
+                _listCustom.HScrolled -= MyList_HScrolled;
+
+                var cols = _listCustom.Columns.Cast<ColumnHeader>().ToList<ColumnHeader>();
+                _listCustom.Columns.Clear();
+                cols.ForEach(col => col.Dispose());
+                cols.Clear();
+
+                _listCustom.ContextMenuStrip = null;
+                _listCustom.Font = null;
+
+                _listCustom.SmallImageList.Dispose();
+                _listCustom.SmallImageList = null;
+                _listCustom.ListViewItemSorter = null;
+
+                //キャッシュのクリア
+                if (_curTab.Equals(_tabPage))
+                {
+                    _curTab = null;
+                    _curItemIndex = -1;
+                    _curList = null;
+                    _curPost = null;
+                }
+                this.PurgeListViewItemCache();
             }
-
-            _tabPage.Controls.Remove(_listCustom);
-
-            _listCustom.SelectedIndexChanged -= MyList_SelectedIndexChanged;
-            _listCustom.MouseDoubleClick -= MyList_MouseDoubleClick;
-            _listCustom.ColumnClick -= MyList_ColumnClick;
-            _listCustom.DrawColumnHeader -= MyList_DrawColumnHeader;
-            _listCustom.DragDrop -= TweenMain_DragDrop;
-            _listCustom.DragOver -= TweenMain_DragOver;
-            _listCustom.DrawItem -= MyList_DrawItem;
-            _listCustom.MouseClick -= MyList_MouseClick;
-            _listCustom.ColumnReordered -= MyList_ColumnReordered;
-            _listCustom.ColumnWidthChanged -= MyList_ColumnWidthChanged;
-            _listCustom.CacheVirtualItems -= MyList_CacheVirtualItems;
-            _listCustom.RetrieveVirtualItem -= MyList_RetrieveVirtualItem;
-            _listCustom.DrawSubItem -= MyList_DrawSubItem;
-            _listCustom.HScrolled -= MyList_HScrolled;
-
-            var cols = _listCustom.Columns.Cast<ColumnHeader>().ToList<ColumnHeader>();
-            _listCustom.Columns.Clear();
-            cols.ForEach(col => col.Dispose());
-            cols.Clear();
-
-            _listCustom.ContextMenuStrip = null;
-            _listCustom.Font = null;
-
-            _listCustom.SmallImageList.Dispose();
-            _listCustom.SmallImageList = null;
-            _listCustom.ListViewItemSorter = null;
-
-            //キャッシュのクリア
-            if (_curTab.Equals(_tabPage))
-            {
-                _curTab = null;
-                _curItemIndex = -1;
-                _curList = null;
-                _curPost = null;
-            }
-            this.PurgeListViewItemCache();
-
-            _tabPage.ResumeLayout(false);
-
-            this.SplitContainer1.Panel1.ResumeLayout(false);
-            this.SplitContainer1.Panel2.ResumeLayout(false);
-            this.SplitContainer1.ResumeLayout(false);
-            this.ListTab.ResumeLayout(false);
-            this.ResumeLayout(false);
-            this.PerformLayout();
 
             _tabPage.Dispose();
             _listCustom.Dispose();
@@ -8157,25 +8140,24 @@ namespace OpenTween
                 if (ListTab.TabPages[baseIndex].Text == baseTabText) break;
             }
 
-            ListTab.SuspendLayout();
-
-            TabPage mTp = null;
-            for (int j = 0; j < ListTab.TabPages.Count; j++)
+            using (ControlTransaction.Layout(this.ListTab))
             {
-                if (ListTab.TabPages[j].Text == targetTabText)
+                TabPage mTp = null;
+                for (int j = 0; j < ListTab.TabPages.Count; j++)
                 {
-                    mTp = ListTab.TabPages[j];
-                    ListTab.TabPages.Remove(mTp);
-                    if (j < baseIndex) baseIndex -= 1;
-                    break;
+                    if (ListTab.TabPages[j].Text == targetTabText)
+                    {
+                        mTp = ListTab.TabPages[j];
+                        ListTab.TabPages.Remove(mTp);
+                        if (j < baseIndex) baseIndex -= 1;
+                        break;
+                    }
                 }
+                if (isBeforeBaseTab)
+                    ListTab.TabPages.Insert(baseIndex, mTp);
+                else
+                    ListTab.TabPages.Insert(baseIndex + 1, mTp);
             }
-            if (isBeforeBaseTab)
-                ListTab.TabPages.Insert(baseIndex, mTp);
-            else
-                ListTab.TabPages.Insert(baseIndex + 1, mTp);
-
-            ListTab.ResumeLayout();
 
             SaveConfigsTabs();
         }

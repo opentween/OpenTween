@@ -369,6 +369,7 @@
     <Compile Include="WebApiException.cs" />
     <Compile Include="WebBrowserController.cs" />
     <Compile Include="Win32Api.cs" />
+    <Compile Include="ControlTransaction.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Connection\HttpConnection.cs" />
