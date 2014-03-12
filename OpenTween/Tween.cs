@@ -4616,6 +4616,7 @@ namespace OpenTween
 
                 _listCustom.AllowColumnReorder = true;
                 _listCustom.ContextMenuStrip = this.ContextMenuOperate;
+                _listCustom.ColumnHeaderContextMenuStrip = this.ContextMenuColumnHeader;
                 _listCustom.Dock = DockStyle.Fill;
                 _listCustom.FullRowSelect = true;
                 _listCustom.HideSelection = false;
@@ -4765,6 +4766,7 @@ namespace OpenTween
                 cols.Clear();
 
                 _listCustom.ContextMenuStrip = null;
+                _listCustom.ColumnHeaderContextMenuStrip = null;
                 _listCustom.Font = null;
 
                 _listCustom.SmallImageList.Dispose();
@@ -13423,6 +13425,68 @@ namespace OpenTween
 
                 e.SuppressKeyPress = true;
             }
+        }
+
+        private void ContextMenuColumnHeader_Opening(object sender, CancelEventArgs e)
+        {
+            this.IconSizeNoneToolStripMenuItem.Checked = SettingDialog.IconSz == MyCommon.IconSizes.IconNone;
+            this.IconSize16ToolStripMenuItem.Checked = SettingDialog.IconSz == MyCommon.IconSizes.Icon16;
+            this.IconSize24ToolStripMenuItem.Checked = SettingDialog.IconSz == MyCommon.IconSizes.Icon24;
+            this.IconSize48ToolStripMenuItem.Checked = SettingDialog.IconSz == MyCommon.IconSizes.Icon48;
+            this.IconSize48_2ToolStripMenuItem.Checked = SettingDialog.IconSz == MyCommon.IconSizes.Icon48_2;
+
+            this.LockListSortOrderToolStripMenuItem.Checked = SettingDialog.SortOrderLock;
+        }
+
+        private void IconSizeNoneToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ChangeListViewIconSize(MyCommon.IconSizes.IconNone);
+        }
+
+        private void IconSize16ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ChangeListViewIconSize(MyCommon.IconSizes.Icon16);
+        }
+
+        private void IconSize24ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ChangeListViewIconSize(MyCommon.IconSizes.Icon24);
+        }
+
+        private void IconSize48ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ChangeListViewIconSize(MyCommon.IconSizes.Icon48);
+        }
+
+        private void IconSize48_2ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ChangeListViewIconSize(MyCommon.IconSizes.Icon48_2);
+        }
+
+        private void ChangeListViewIconSize(MyCommon.IconSizes iconSize)
+        {
+            if (SettingDialog.IconSz == iconSize) return;
+
+            SettingDialog.IconSz = iconSize;
+
+            foreach (TabPage tp in ListTab.TabPages)
+            {
+                ApplyListViewIconSize((DetailsListView)tp.Tag);
+            }
+
+            if (_curList != null) _curList.Refresh();
+
+            SaveConfigsCommon();
+        }
+
+        private void LockListSortToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var state = this.LockListSortOrderToolStripMenuItem.Checked;
+            if (SettingDialog.SortOrderLock == state) return;
+
+            SettingDialog.SortOrderLock = state;
+
+            SaveConfigsCommon();
         }
     }
 }

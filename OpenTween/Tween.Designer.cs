@@ -314,6 +314,15 @@
             this.ToolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.TimerRefreshIcon = new System.Windows.Forms.Timer(this.components);
             this.PostStateImageList = new System.Windows.Forms.ImageList(this.components);
+            this.ContextMenuColumnHeader = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.IconSizeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.IconSizeNoneToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.IconSize16ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.IconSize24ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.IconSize48ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.IconSize48_2ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolStripSeparator45 = new System.Windows.Forms.ToolStripSeparator();
+            this.LockListSortOrderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripContainer1.BottomToolStripPanel.SuspendLayout();
             this.ToolStripContainer1.ContentPanel.SuspendLayout();
             this.ToolStripContainer1.TopToolStripPanel.SuspendLayout();
@@ -345,6 +354,7 @@
             this.MenuStrip1.SuspendLayout();
             this.ContextMenuFile.SuspendLayout();
             this.ContextMenuOperate.SuspendLayout();
+            this.ContextMenuColumnHeader.SuspendLayout();
             this.SuspendLayout();
             // 
             // ToolStripContainer1
@@ -2502,6 +2512,69 @@
             this.PostStateImageList.Images.SetKeyName(13, "S13.ico");
             this.PostStateImageList.Images.SetKeyName(14, "S14.ico");
             // 
+            // ContextMenuColumnHeader
+            // 
+            this.ContextMenuColumnHeader.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.IconSizeToolStripMenuItem,
+            this.ToolStripSeparator45,
+            this.LockListSortOrderToolStripMenuItem});
+            this.ContextMenuColumnHeader.Name = "ContextMenuColumnHeader";
+            resources.ApplyResources(this.ContextMenuColumnHeader, "ContextMenuColumnHeader");
+            this.ContextMenuColumnHeader.Opening += new System.ComponentModel.CancelEventHandler(this.ContextMenuColumnHeader_Opening);
+            // 
+            // IconSizeToolStripMenuItem
+            // 
+            this.IconSizeToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.IconSizeNoneToolStripMenuItem,
+            this.IconSize16ToolStripMenuItem,
+            this.IconSize24ToolStripMenuItem,
+            this.IconSize48ToolStripMenuItem,
+            this.IconSize48_2ToolStripMenuItem});
+            this.IconSizeToolStripMenuItem.Name = "IconSizeToolStripMenuItem";
+            resources.ApplyResources(this.IconSizeToolStripMenuItem, "IconSizeToolStripMenuItem");
+            // 
+            // IconSizeNoneToolStripMenuItem
+            // 
+            this.IconSizeNoneToolStripMenuItem.Name = "IconSizeNoneToolStripMenuItem";
+            resources.ApplyResources(this.IconSizeNoneToolStripMenuItem, "IconSizeNoneToolStripMenuItem");
+            this.IconSizeNoneToolStripMenuItem.Click += new System.EventHandler(this.IconSizeNoneToolStripMenuItem_Click);
+            // 
+            // IconSize16ToolStripMenuItem
+            // 
+            this.IconSize16ToolStripMenuItem.Name = "IconSize16ToolStripMenuItem";
+            resources.ApplyResources(this.IconSize16ToolStripMenuItem, "IconSize16ToolStripMenuItem");
+            this.IconSize16ToolStripMenuItem.Click += new System.EventHandler(this.IconSize16ToolStripMenuItem_Click);
+            // 
+            // IconSize24ToolStripMenuItem
+            // 
+            this.IconSize24ToolStripMenuItem.Name = "IconSize24ToolStripMenuItem";
+            resources.ApplyResources(this.IconSize24ToolStripMenuItem, "IconSize24ToolStripMenuItem");
+            this.IconSize24ToolStripMenuItem.Click += new System.EventHandler(this.IconSize24ToolStripMenuItem_Click);
+            // 
+            // IconSize48ToolStripMenuItem
+            // 
+            this.IconSize48ToolStripMenuItem.Name = "IconSize48ToolStripMenuItem";
+            resources.ApplyResources(this.IconSize48ToolStripMenuItem, "IconSize48ToolStripMenuItem");
+            this.IconSize48ToolStripMenuItem.Click += new System.EventHandler(this.IconSize48ToolStripMenuItem_Click);
+            // 
+            // IconSize48_2ToolStripMenuItem
+            // 
+            this.IconSize48_2ToolStripMenuItem.Name = "IconSize48_2ToolStripMenuItem";
+            resources.ApplyResources(this.IconSize48_2ToolStripMenuItem, "IconSize48_2ToolStripMenuItem");
+            this.IconSize48_2ToolStripMenuItem.Click += new System.EventHandler(this.IconSize48_2ToolStripMenuItem_Click);
+            // 
+            // ToolStripSeparator45
+            // 
+            this.ToolStripSeparator45.Name = "ToolStripSeparator45";
+            resources.ApplyResources(this.ToolStripSeparator45, "ToolStripSeparator45");
+            // 
+            // LockListSortOrderToolStripMenuItem
+            // 
+            this.LockListSortOrderToolStripMenuItem.Name = "LockListSortOrderToolStripMenuItem";
+            this.LockListSortOrderToolStripMenuItem.CheckOnClick = true;
+            resources.ApplyResources(this.LockListSortOrderToolStripMenuItem, "LockListSortOrderToolStripMenuItem");
+            this.LockListSortOrderToolStripMenuItem.Click += new System.EventHandler(this.LockListSortToolStripMenuItem_Click);
+            // 
             // TweenMain
             // 
             resources.ApplyResources(this, "$this");
@@ -2560,6 +2633,7 @@
             this.MenuStrip1.PerformLayout();
             this.ContextMenuFile.ResumeLayout(false);
             this.ContextMenuOperate.ResumeLayout(false);
+            this.ContextMenuColumnHeader.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -2850,6 +2924,15 @@
         private System.Windows.Forms.ToolStripMenuItem ReloadIconToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator44;
         private System.Windows.Forms.ToolStripMenuItem OpenURLFileMenuItem;
+        internal System.Windows.Forms.ContextMenuStrip ContextMenuColumnHeader;
+        internal System.Windows.Forms.ToolStripMenuItem IconSizeToolStripMenuItem;
+        internal System.Windows.Forms.ToolStripMenuItem IconSizeNoneToolStripMenuItem;
+        internal System.Windows.Forms.ToolStripMenuItem IconSize16ToolStripMenuItem;
+        internal System.Windows.Forms.ToolStripMenuItem IconSize24ToolStripMenuItem;
+        internal System.Windows.Forms.ToolStripMenuItem IconSize48ToolStripMenuItem;
+        internal System.Windows.Forms.ToolStripMenuItem IconSize48_2ToolStripMenuItem;
+        internal System.Windows.Forms.ToolStripSeparator ToolStripSeparator45;
+        internal System.Windows.Forms.ToolStripMenuItem LockListSortOrderToolStripMenuItem;
 
     }
 }

@@ -41,6 +41,8 @@ namespace OpenTween.OpenTweenCustomControl
         private Rectangle changeBounds;
         private EventHandlerList _handlers = new EventHandlerList();
 
+        public ContextMenuStrip ColumnHeaderContextMenuStrip { get; set; }
+
         public event EventHandler VScrolled;
         public event EventHandler HScrolled;
 
@@ -256,6 +258,7 @@ namespace OpenTween.OpenTweenCustomControl
             const int WM_HSCROLL = 0x114;
             const int WM_VSCROLL = 0x115;
             const int WM_KEYDOWN = 0x100;
+            const int WM_CONTEXTMENU = 0x7B;
             const int LVM_SETITEMCOUNT = 0x102F;
             const long LVSICF_NOSCROLL = 0x2;
             const long LVSICF_NOINVALIDATEALL = 0x1;
@@ -292,6 +295,15 @@ namespace OpenTween.OpenTweenCustomControl
                         vPos = si.nPos;
                     if (GetScrollInfo(this.Handle, ScrollBarDirection.SB_HORZ, ref si) != 0)
                         hPos = si.nPos;
+                    break;
+                case WM_CONTEXTMENU:
+                    if (m.WParam != this.Handle)
+                    {
+                        //カラムヘッダメニューを表示
+                        if (this.ColumnHeaderContextMenuStrip != null)
+                            this.ColumnHeaderContextMenuStrip.Show(new Point(m.LParam.ToInt32()));
+                        return;
+                    }
                     break;
                 case LVM_SETITEMCOUNT:
                     m.LParam = new IntPtr(LVSICF_NOSCROLL | LVSICF_NOINVALIDATEALL);
