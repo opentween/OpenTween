@@ -56,6 +56,8 @@ namespace OpenTween
         public TweetThumbnail()
         {
             InitializeComponent();
+
+            this.cancelTokenSource = new CancellationTokenSource();
         }
 
         public Task ShowThumbnailAsync(PostClass post)
@@ -64,9 +66,7 @@ namespace OpenTween
 
             this.scrollBar.Enabled = false;
 
-            this.cancelTokenSource = new CancellationTokenSource();
             var cancelToken = this.cancelTokenSource.Token;
-
             var uiScheduler = TaskScheduler.FromCurrentSynchronizationContext();
 
             this.task = Task.Factory.StartNew(() => this.GetThumbailInfo(post), cancelToken, TaskCreationOptions.None, TaskScheduler.Default)
@@ -174,7 +174,11 @@ namespace OpenTween
         {
             if (this.task == null || this.task.IsCompleted) return;
 
-            this.cancelTokenSource.Cancel();
+            var oldTokenSource = this.cancelTokenSource;
+            this.cancelTokenSource = new CancellationTokenSource();
+
+            oldTokenSource.Cancel();
+            oldTokenSource.Dispose();
         }
 
         /// <summary>
