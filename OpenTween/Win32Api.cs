@@ -119,6 +119,10 @@ namespace OpenTween
 
             TCM_FIRST = 0x1300,                  //タブコントロールメッセージ
             TCM_SETMINTABWIDTH = TCM_FIRST + 49, //タブアイテムの最小幅を設定
+
+            LVM_FIRST = 0x1000,                    //リストビューメッセージ
+            LVM_GETSELECTIONMARK = LVM_FIRST + 66, //複数選択時の起点になるアイテムの位置を取得
+            LVM_SETSELECTIONMARK = LVM_FIRST + 67, //複数選択時の起点になるアイテムを設定
         }
         // ツールバーボタン構造体
         [StructLayout(LayoutKind.Sequential, Pack = 1)]
@@ -564,6 +568,20 @@ namespace OpenTween
         public static extern bool ValidateRect(
             IntPtr hwnd,
             IntPtr rect);
+
+        #region "selection mark"
+        // 複数選択時の起点になるアイテム (selection mark) の位置を取得する
+        public static int ListView_GetSelectionMark(IntPtr hwndLV)
+        {
+            return SendMessage(hwndLV, SendMessageType.LVM_GETSELECTIONMARK, IntPtr.Zero, IntPtr.Zero).ToInt32();
+        }
+
+        // 複数選択時の起点になるアイテム (selection mark) を設定する
+        public static void ListView_SetSelectionMark(IntPtr hwndLV, int itemIndex)
+        {
+            SendMessage(hwndLV, SendMessageType.LVM_SETSELECTIONMARK, IntPtr.Zero, (IntPtr)itemIndex);
+        }
+        #endregion
 
         #region "スクリーンセーバー起動中か判定"
         [DllImport("user32", CharSet = CharSet.Auto)]

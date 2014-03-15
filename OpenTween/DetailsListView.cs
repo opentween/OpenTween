@@ -98,6 +98,19 @@ namespace OpenTween.OpenTweenCustomControl
         //    }
         //}
 
+        /// <summary>
+        /// 複数選択時の起点になるアイテム (selection mark) の位置を取得・設定する
+        /// </summary>
+        /// <remarks>
+        /// Items[idx].Selected の設定では mark が設定されるが、SelectedIndices.Add(idx) では設定されないため、
+        /// 主に後者と合わせて使用する
+        /// </remarks>
+        public int SelectionMark
+        {
+            get { return Win32Api.ListView_GetSelectionMark(this.Handle); }
+            set { Win32Api.ListView_SetSelectionMark(this.Handle, value); }
+        }
+
         public void ChangeItemBackColor(int index, Color backColor)
         {
             ChangeSubItemBackColor(index, 0, backColor);
