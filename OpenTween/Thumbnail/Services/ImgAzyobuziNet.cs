@@ -50,7 +50,7 @@ namespace OpenTween.Thumbnail.Services
             this.AutoUpdate = autoupdate;
 
             this.Enabled = true;
-            this.DisabledInDM = false;
+            this.DisabledInDM = true;
         }
 
         public bool AutoUpdate
