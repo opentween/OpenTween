@@ -32,9 +32,12 @@ namespace OpenTween.Thumbnail
     {
         public static List<IThumbnailService> Services { get; protected set; }
 
+        internal static readonly Lazy<ImgAzyobuziNet> ImgAzyobuziNetInstance;
+
         static ThumbnailGenerator()
         {
             ThumbnailGenerator.Services = new List<IThumbnailService>();
+            ImgAzyobuziNetInstance = new Lazy<ImgAzyobuziNet>(() => new ImgAzyobuziNet(autoupdate: true));
         }
 
         public static void InitializeGenerator()
@@ -48,7 +51,7 @@ namespace OpenTween.Thumbnail
                 new SimpleThumbnailService(@"^https?://.*(\.jpg|\.jpeg|\.gif|\.png|\.bmp)$", "${0}"),
 
                 // img.azyobuzi.net
-                new ImgAzyobuziNet(autoupdate: true),
+                ImgAzyobuziNetInstance.Value,
 
                 // ImgUr
                 new SimpleThumbnailService(

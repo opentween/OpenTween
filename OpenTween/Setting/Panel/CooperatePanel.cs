@@ -49,5 +49,10 @@ namespace OpenTween.Setting.Panel
                 MessageBox.Show("Text Error:正しいURLではありません");
             }
         }
+
+        private void EnableImgAzyobuziNetCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            this.ImgAzyobuziNetDisabledInDMCheckBox.Enabled = this.EnableImgAzyobuziNetCheckBox.Checked;
+        }
     }
 }

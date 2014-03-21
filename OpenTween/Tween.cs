@@ -634,12 +634,6 @@ namespace OpenTween
             InitializeTraceFrag();
             LoadIcons(); // アイコン読み込み
 
-            ThumbnailGenerator.InitializeGenerator();
-
-            Thumbnail.Services.TonTwitterCom.InitializeOAuthToken = x =>
-                x.Initialize(ApplicationSettings.TwitterConsumerKey, ApplicationSettings.TwitterConsumerSecret,
-                    this.tw.AccessToken, this.tw.AccessTokenSecret, "", "");
-
             //発言保持クラス
             _statuses = TabInformations.GetInstance();
 
@@ -664,6 +658,16 @@ namespace OpenTween
 
             ////設定読み出し
             LoadConfig();
+
+            var imgazyobizinet = ThumbnailGenerator.ImgAzyobuziNetInstance.Value;
+            imgazyobizinet.Enabled = this._cfgCommon.EnableImgAzyobuziNet;
+            imgazyobizinet.DisabledInDM = this._cfgCommon.ImgAzyobuziNetDisabledInDM;
+
+            Thumbnail.Services.TonTwitterCom.InitializeOAuthToken = x =>
+                x.Initialize(ApplicationSettings.TwitterConsumerKey, ApplicationSettings.TwitterConsumerSecret,
+                    this.tw.AccessToken, this.tw.AccessTokenSecret, "", "");
+
+            ThumbnailGenerator.InitializeGenerator();
 
             //新着バルーン通知のチェック状態設定
             NewPostPopMenuItem.Checked = _cfgCommon.NewAllPop;
@@ -912,6 +916,8 @@ namespace OpenTween
             SettingDialog.UserAppointUrl = _cfgCommon.UserAppointUrl;
             SettingDialog.HideDuplicatedRetweets = _cfgCommon.HideDuplicatedRetweets;
 
+            SettingDialog.EnableImgAzyobuziNet = _cfgCommon.EnableImgAzyobuziNet;
+            SettingDialog.ImgAzyobuziNetDisabledInDM = _cfgCommon.ImgAzyobuziNetDisabledInDM;
             SettingDialog.IsPreviewFoursquare = _cfgCommon.IsPreviewFoursquare;
             SettingDialog.MapThumbnailProvider = _cfgCommon.MapThumbnailProvider;
             SettingDialog.MapThumbnailHeight = _cfgCommon.MapThumbnailHeight;
@@ -4055,6 +4061,10 @@ namespace OpenTween
 
                     // タブの表示位置の決定
                     SetTabAlignment();
+
+                    var imgazyobizinet = ThumbnailGenerator.ImgAzyobuziNetInstance.Value;
+                    imgazyobizinet.Enabled = this.SettingDialog.EnableImgAzyobuziNet;
+                    imgazyobizinet.DisabledInDM = this.SettingDialog.ImgAzyobuziNetDisabledInDM;
 
                     PlaySoundMenuItem.Checked = SettingDialog.PlaySound;
                     this.PlaySoundFileMenuItem.Checked = SettingDialog.PlaySound;
@@ -7795,6 +7805,8 @@ namespace OpenTween
                 _cfgCommon.ListDoubleClickAction = SettingDialog.ListDoubleClickAction;
                 _cfgCommon.UserAppointUrl = SettingDialog.UserAppointUrl;
                 _cfgCommon.HideDuplicatedRetweets = SettingDialog.HideDuplicatedRetweets;
+                _cfgCommon.EnableImgAzyobuziNet = SettingDialog.EnableImgAzyobuziNet;
+                _cfgCommon.ImgAzyobuziNetDisabledInDM = SettingDialog.ImgAzyobuziNetDisabledInDM;
                 _cfgCommon.IsPreviewFoursquare = SettingDialog.IsPreviewFoursquare;
                 _cfgCommon.MapThumbnailProvider = SettingDialog.MapThumbnailProvider;
                 _cfgCommon.MapThumbnailHeight = SettingDialog.MapThumbnailHeight;
