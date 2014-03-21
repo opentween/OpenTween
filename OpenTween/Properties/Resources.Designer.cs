@@ -625,6 +625,8 @@ namespace OpenTween.Properties {
         /// <summary>
         ///   更新履歴
         ///
+        ///==== Ver 1.2.0(2014/xx/xx)
+        ///
         ///==== Ver 1.1.9(2014/03/22)
         /// * NEW: 「リストのアイコンサイズ」設定を再起動不要で反映できるようになりました (thx @5px!)
         ///  - カラムヘッダの右クリックメニューからも変更することが出来ます
@@ -634,7 +636,7 @@ namespace OpenTween.Properties {
         /// * CHG: 設定画面で img.azyobuzi.net を有効にするか否かを選択可能にしました
         /// * CHG: デフォルトではDMに含まれる画像URLに対して img.azyobuzi.net を使用しない設定としました
         /// * FIX: 高DPI設定の環境下で発言詳細部のプロフィール画像に余白が表示されてしまう問題を修正 (thx @5px!)
-        /// * FIX: URLやハッシュタグ等を含むツイートを非公式RTする際に、HTMLの [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
+        /// * FIX: URLや [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ChangeLog {
             get {
