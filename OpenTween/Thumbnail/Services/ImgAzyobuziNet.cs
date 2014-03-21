@@ -48,6 +48,9 @@ namespace OpenTween.Thumbnail.Services
         {
             this.UpdateTimer = new Timer(_ => this.LoadRegex());
             this.AutoUpdate = autoupdate;
+
+            this.Enabled = true;
+            this.DisabledInDM = false;
         }
 
         public bool AutoUpdate
@@ -64,6 +67,16 @@ namespace OpenTween.Thumbnail.Services
             }
         }
         private bool _AutoUpdate = false;
+
+        /// <summary>
+        /// img.azyobizi.net によるサムネイル情報の取得を有効にするか
+        /// </summary>
+        public bool Enabled { get; set; }
+
+        /// <summary>
+        /// ダイレクトメッセージに含まれる画像URLに対して img.azyobuzi.net を使用しない
+        /// </summary>
+        public bool DisabledInDM { get; set; }
 
         protected void StartAutoUpdate()
         {
@@ -139,6 +152,12 @@ namespace OpenTween.Thumbnail.Services
 
         public override ThumbnailInfo GetThumbnailInfo(string url, PostClass post)
         {
+            if (!this.Enabled)
+                return null;
+
+            if (this.DisabledInDM && post != null && post.IsDm)
+                return null;
+
             lock (this.LockObj)
             {
                 if (this.UrlRegex == null)

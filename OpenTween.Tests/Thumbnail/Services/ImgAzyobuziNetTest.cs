@@ -121,5 +121,33 @@ namespace OpenTween.Thumbnail.Services
 
             Assert.Null(thumbinfo);
         }
+
+        [Fact]
+        public void DisabledInDM_Test()
+        {
+            var service = new TestImgAzyobuziNet();
+            service.DisabledInDM = true;
+
+            var post = new PostClass
+            {
+                TextFromApi = "http://example.com/abcd",
+                IsDm = true,
+            };
+
+            var thumbinfo = service.GetThumbnailInfo("http://example.com/abcd", post);
+
+            Assert.Null(thumbinfo);
+        }
+
+        [Fact]
+        public void Enabled_FalseTest()
+        {
+            var service = new TestImgAzyobuziNet();
+            service.Enabled = false;
+
+            var thumbinfo = service.GetThumbnailInfo("http://example.com/abcd", null);
+
+            Assert.Null(thumbinfo);
+        }
     }
 }
