@@ -18,5 +18,4 @@ script:
   # Build
   - xbuild /verbosity:quiet
   # Run Tests
-  - if ! grep -q 'Version 11.00' OpenTween.sln; then echo 'OpenTween.sln is not compatible with Visual C# 2010 Express.'; false; fi
   - mono ./OpenTween.Tests/dlls/xunit.console.clr4.x86.exe ./OpenTween.Tests/OpenTween.Tests.xunit
