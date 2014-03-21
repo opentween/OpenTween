@@ -61,7 +61,7 @@ namespace OpenTween.Thumbnail.Services
         {
             public override Task<MemoryImage> LoadThumbnailImageAsync(CancellationToken token)
             {
-                return Task.Factory.StartNew(() =>
+                return Task.Run(() =>
                 {
                     var oauth = new HttpOAuthApiProxy();
                     TonTwitterCom.InitializeOAuthToken(oauth);
@@ -76,8 +76,7 @@ namespace OpenTween.Thumbnail.Services
                         else
                             throw new WebException(statusCode.ToString(), WebExceptionStatus.ProtocolError);
                     }
-                },
-                token, TaskCreationOptions.None, TaskScheduler.Default); // 明示しないと TaskScheduler.Current になり UI スレッド上で実行されてしまう
+                }, token);
             }
         }
     }

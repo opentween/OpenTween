@@ -7898,7 +7898,7 @@ namespace OpenTween
             var statusId = long.Parse(match.Groups["StatusId"].Value);
             var uiScheduler = TaskScheduler.FromCurrentSynchronizationContext();
 
-            Task.Factory.StartNew(() =>
+            Task.Run(() =>
                 {
                     var post = this._statuses[statusId];
                     if (post == null)
@@ -7908,7 +7908,7 @@ namespace OpenTween
                             throw new WebApiException(err);
                     }
                     return post;
-                }, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default)
+                })
                 .ContinueWith(t =>
                 {
                     if (t.IsFaulted)
@@ -10620,7 +10620,7 @@ namespace OpenTween
 
         public Task OpenUriAsync(string UriString)
         {
-            return Task.Factory.StartNew(() =>
+            return Task.Run(() =>
             {
                 string myPath = UriString;
 

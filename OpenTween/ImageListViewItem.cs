@@ -66,7 +66,7 @@ namespace OpenTween
         private Task GetImageAsync(bool force = false)
         {
             if (string.IsNullOrEmpty(this.imageUrl))
-                return Task.Factory.StartNew(() => { });
+                return Task.FromResult(0);
 
             var uiScheduler = TaskScheduler.FromCurrentSynchronizationContext();
 

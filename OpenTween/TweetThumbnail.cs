@@ -69,7 +69,7 @@ namespace OpenTween
             var cancelToken = this.cancelTokenSource.Token;
             var uiScheduler = TaskScheduler.FromCurrentSynchronizationContext();
 
-            this.task = Task.Factory.StartNew(() => this.GetThumbailInfo(post), cancelToken, TaskCreationOptions.None, TaskScheduler.Default)
+            this.task = Task.Run(() => this.GetThumbailInfo(post), cancelToken)
                 .ContinueWith(t => /* await使いたい */
                 {
                     var thumbnails = t.Result;
