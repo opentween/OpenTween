@@ -149,8 +149,6 @@ namespace OpenTween
 
         //プロパティからアクセスされる共通情報
         private string _uname;
-        private int _iconSz;
-        private bool _getIcon;
 
         private bool _tinyUrlResolve;
         private bool _restrictFavCheck;
@@ -1122,14 +1120,6 @@ namespace OpenTween
             }
         }
 
-        public bool GetIcon
-        {
-            set
-            {
-                _getIcon = value;
-            }
-        }
-
         public bool TinyUrlResolve
         {
             set
@@ -1143,14 +1133,6 @@ namespace OpenTween
             set
             {
                 _restrictFavCheck = value;
-            }
-        }
-
-        public int IconSize
-        {
-            set
-            {
-                _iconSz = value;
             }
         }
 
