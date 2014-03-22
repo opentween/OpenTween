@@ -5442,13 +5442,13 @@ namespace OpenTween
             {
                 iconRect = Rectangle.Intersect(new Rectangle(e.Item.GetBounds(ItemBoundsPortion.Icon).Location, realIconSize), itemRect);
                 iconRect.Offset(0, Math.Max(0, (itemRect.Height - realIconSize.Height) / 2));
-                stateRect = Rectangle.Intersect(new Rectangle(new Point(iconRect.X + iconRect.Width + 2, iconRect.Y), realStateSize), itemRect);
+                stateRect = Rectangle.Intersect(new Rectangle(new Point(iconRect.X + realIconSize.Width + 2, iconRect.Y), realStateSize), itemRect);
             }
             else
             {
                 iconRect = Rectangle.Intersect(new Rectangle(e.Item.GetBounds(ItemBoundsPortion.Icon).Location, new Size(1, 1)), itemRect);
                 //iconRect.Offset(0, Math.Max(0, (itemRect.Height - realIconSize.Height) / 2));
-                stateRect = Rectangle.Intersect(new Rectangle(new Point(iconRect.X + iconRect.Width + 2, iconRect.Y), realStateSize), itemRect);
+                stateRect = Rectangle.Intersect(new Rectangle(new Point(iconRect.X + realIconSize.Width + 2, iconRect.Y), realStateSize), itemRect);
             }
 
             var img = item.Image;
