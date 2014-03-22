@@ -63,35 +63,31 @@ namespace OpenTween
             }
         }
 
-        private Task GetImageAsync(bool force = false)
+        private async Task GetImageAsync(bool force = false)
         {
             if (string.IsNullOrEmpty(this.imageUrl))
-                return Task.FromResult(0);
+                return;
 
-            var uiScheduler = TaskScheduler.FromCurrentSynchronizationContext();
+            try
+            {
+                var image = await this.imageCache.DownloadImageAsync(this.imageUrl, force);
 
-            return this.imageCache.DownloadImageAsync(this.imageUrl, force)
-                .ContinueWith(t =>
+                this.imageReference.Target = image;
+
+                if (this.ListView == null || !this.ListView.Created || this.ListView.IsDisposed)
+                    return;
+
+                if (this.Index < this.ListView.VirtualListSize)
                 {
-                    if (t.IsFaulted)
-                    {
-                        t.Exception.Flatten().Handle(x => x is WebException || x is InvalidImageException || x is TaskCanceledException);
-                        return;
-                    }
+                    this.ListView.RedrawItems(this.Index, this.Index, true);
 
-                    this.imageReference.Target = t.Result;
-
-                    if (this.ListView == null || !this.ListView.Created || this.ListView.IsDisposed)
-                        return;
-
-                    if (this.Index < this.ListView.VirtualListSize)
-                    {
-                        this.ListView.RedrawItems(this.Index, this.Index, true);
-
-                        if (this.ImageDownloaded != null)
-                            this.ImageDownloaded(this, EventArgs.Empty);
-                    }
-                }, uiScheduler);
+                    if (this.ImageDownloaded != null)
+                        this.ImageDownloaded(this, EventArgs.Empty);
+                }
+            }
+            catch (WebException) { }
+            catch (InvalidImageException) { }
+            catch (TaskCanceledException) { }
         }
 
         public MemoryImage Image
@@ -102,10 +98,10 @@ namespace OpenTween
             }
         }
 
-        public void RefreshImage()
+        public Task RefreshImageAsync()
         {
             this.imageReference.Target = null;
-            this.GetImageAsync(true);
+            return this.GetImageAsync(true);
         }
     }
 }

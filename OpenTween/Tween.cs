@@ -5507,7 +5507,7 @@ namespace OpenTween
                 }
                 catch (ArgumentException)
                 {
-                    item.RefreshImage();
+                    item.RefreshImageAsync();
                 }
             }
 
@@ -7880,7 +7880,7 @@ namespace OpenTween
             tabSetting.Save();
         }
 
-        private /* async */ void OpenURLFileMenuItem_Click(object sender, EventArgs e)
+        private async void OpenURLFileMenuItem_Click(object sender, EventArgs e)
         {
             string inputText;
             var ret = InputDialog.Show(this, Properties.Resources.OpenURL_InputText, Properties.Resources.OpenURL_Caption, out inputText);
@@ -7896,40 +7896,40 @@ namespace OpenTween
             }
 
             var statusId = long.Parse(match.Groups["StatusId"].Value);
-            var uiScheduler = TaskScheduler.FromCurrentSynchronizationContext();
 
-            Task.Run(() =>
+            var post = this._statuses[statusId];
+            if (post == null)
+            {
+                try
                 {
-                    var post = this._statuses[statusId];
-                    if (post == null)
+                    post = await Task.Run(() =>
                     {
-                        var err = this.tw.GetStatusApi(false, statusId, ref post);
+                        PostClass newPost = null;
+
+                        var err = this.tw.GetStatusApi(false, statusId, ref newPost);
                         if (!string.IsNullOrEmpty(err))
                             throw new WebApiException(err);
-                    }
-                    return post;
-                })
-                .ContinueWith(t =>
+
+                        return newPost;
+                    });
+                }
+                catch (WebApiException ex)
                 {
-                    if (t.IsFaulted)
-                    {
-                        t.Exception.Flatten().Handle(x => x is WebApiException);
+                    var message = ex.InnerException.Message;
+                    MessageBox.Show(this, string.Format(Properties.Resources.OpenURL_LoadFailed, message),
+                        Properties.Resources.OpenURL_Caption, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+            }
 
-                        var message = t.Exception.InnerException.Message;
-                        MessageBox.Show(this, string.Format(Properties.Resources.OpenURL_LoadFailed, message),
-                            Properties.Resources.OpenURL_Caption, MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-                        return;
-                    }
-                    try
-                    {
-                        this.OpenRelatedTab(t.Result);
-                    }
-                    catch (TabException ex)
-                    {
-                        MessageBox.Show(this, ex.Message, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                }, uiScheduler);
+            try
+            {
+                this.OpenRelatedTab(post);
+            }
+            catch (TabException ex)
+            {
+                MessageBox.Show(this, ex.Message, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void SaveLogMenuItem_Click(object sender, EventArgs e)
@@ -9800,28 +9800,21 @@ namespace OpenTween
             OpenUriAsync(name.Remove(name.LastIndexOf("_normal"), 7)); // "_normal".Length
         }
 
-        private /* async */ void ReloadIconToolStripMenuItem_Click(object sender, EventArgs e)
+        private async void ReloadIconToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (this._curPost == null) return;
 
             var imageUrl = this._curPost.ImageUrl;
-            var uiScheduler = TaskScheduler.FromCurrentSynchronizationContext();
+            try
+            {
+                var image = await this.IconCache.DownloadImageAsync(imageUrl, force: true);
 
-            this.IconCache.DownloadImageAsync(imageUrl, force: true)
-                .ContinueWith(t =>
-                {
-                    this.ClearUserPicture();
-
-                    if (t.IsFaulted)
-                    {
-                        t.Exception.Flatten().Handle(x => x is WebException || x is InvalidImageException || x is TaskCanceledException);
-                        this.UserPicture.ShowErrorImage();
-                    }
-                    else
-                    {
-                        this.UserPicture.Image = t.Result.Clone() ;
-                    }
-                }, uiScheduler);
+                this.ClearUserPicture();
+                this.UserPicture.Image = image.Clone();
+            }
+            catch (WebException) { this.UserPicture.ShowErrorImage(); }
+            catch (InvalidImageException) { this.UserPicture.ShowErrorImage(); }
+            catch (TaskCanceledException) { this.UserPicture.ShowErrorImage(); }
         }
 
         private void SaveOriginalSizeIconPictureToolStripMenuItem_Click(object sender, EventArgs e)

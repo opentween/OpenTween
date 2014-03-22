@@ -64,68 +64,71 @@ namespace OpenTween
         {
             this.CancelAsync();
 
-            this.scrollBar.Enabled = false;
-
             var cancelToken = this.cancelTokenSource.Token;
-            var uiScheduler = TaskScheduler.FromCurrentSynchronizationContext();
 
-            this.task = Task.Run(() => this.GetThumbailInfo(post), cancelToken)
-                .ContinueWith(t => /* await使いたい */
-                {
-                    var thumbnails = t.Result;
-
-                    lock (this.uiLockObj)
-                    {
-                        this.SetThumbnailCount(thumbnails.Count);
-                        if (thumbnails.Count == 0) return;
-
-                        for (int i = 0; i < thumbnails.Count; i++)
-                        {
-                            var thumb = thumbnails[i];
-                            var picbox = this.pictureBox[i];
-
-                            picbox.Tag = thumb;
-                            picbox.ContextMenu = CreateContextMenu(thumb);
-
-                            picbox.ShowInitialImage();
-
-                            thumb.LoadThumbnailImageAsync(cancelToken)
-                                .ContinueWith(t2 =>
-                                {
-                                    if (t2.IsFaulted)
-                                        t2.Exception.Flatten().Handle(x => x is WebException || x is InvalidImageException || x is TaskCanceledException);
-
-                                    if (t2.IsFaulted || t2.IsCanceled)
-                                    {
-                                        picbox.ShowErrorImage();
-                                        return;
-                                    }
-
-                                    picbox.Image = t2.Result;
-                                },
-                                CancellationToken.None, TaskContinuationOptions.AttachedToParent, uiScheduler);
-
-                            var tooltipText = thumb.TooltipText;
-                            if (!string.IsNullOrEmpty(tooltipText))
-                            {
-                                this.toolTip.SetToolTip(picbox, tooltipText);
-                            }
-
-                            cancelToken.ThrowIfCancellationRequested();
-                        }
-
-                        if (thumbnails.Count > 1)
-                            this.scrollBar.Enabled = true;
-                    }
-
-                    if (this.ThumbnailLoading != null)
-                        this.ThumbnailLoading(this, EventArgs.Empty);
-                },
-                cancelToken,
-                TaskContinuationOptions.OnlyOnRanToCompletion,
-                uiScheduler);
+            this.task = this.ShowThumbnailAsyncInternal(post, cancelToken);
 
             return this.task;
+        }
+
+        private async Task ShowThumbnailAsyncInternal(PostClass post, CancellationToken cancelToken)
+        {
+            var uiScheduler = TaskScheduler.FromCurrentSynchronizationContext();
+            var loadTasks = new List<Task>();
+
+            this.scrollBar.Enabled = false;
+
+            var thumbnails = await Task.Run(() => this.GetThumbailInfo(post), cancelToken);
+
+            lock (this.uiLockObj)
+            {
+                this.SetThumbnailCount(thumbnails.Count);
+                if (thumbnails.Count == 0) return;
+
+                for (int i = 0; i < thumbnails.Count; i++)
+                {
+                    var thumb = thumbnails[i];
+                    var picbox = this.pictureBox[i];
+
+                    picbox.Tag = thumb;
+                    picbox.ContextMenu = CreateContextMenu(thumb);
+
+                    picbox.ShowInitialImage();
+
+                    var loadTask = thumb.LoadThumbnailImageAsync(cancelToken)
+                        .ContinueWith(t2 =>
+                        {
+                            if (t2.IsFaulted)
+                                t2.Exception.Flatten().Handle(x => x is WebException || x is InvalidImageException || x is TaskCanceledException);
+
+                            if (t2.IsFaulted || t2.IsCanceled)
+                            {
+                                picbox.ShowErrorImage();
+                                return;
+                            }
+
+                            picbox.Image = t2.Result;
+                        }, uiScheduler);
+
+                    loadTasks.Add(loadTask);
+
+                    var tooltipText = thumb.TooltipText;
+                    if (!string.IsNullOrEmpty(tooltipText))
+                    {
+                        this.toolTip.SetToolTip(picbox, tooltipText);
+                    }
+
+                    cancelToken.ThrowIfCancellationRequested();
+                }
+
+                if (thumbnails.Count > 1)
+                    this.scrollBar.Enabled = true;
+            }
+
+            if (this.ThumbnailLoading != null)
+                this.ThumbnailLoading(this, EventArgs.Empty);
+
+            await Task.WhenAll(loadTasks).ConfigureAwait(false);
         }
 
         private ContextMenu CreateContextMenu(ThumbnailInfo thumb)
