@@ -39,9 +39,6 @@ namespace OpenTween
     {
         protected internal List<OTPictureBox> pictureBox = new List<OTPictureBox>();
 
-        private Task task = null;
-        private CancellationTokenSource cancelTokenSource;
-
         public event EventHandler ThumbnailLoading;
         public event EventHandler<ThumbnailDoubleClickEventArgs> ThumbnailDoubleClick;
         public event EventHandler<ThumbnailImageSearchEventArgs> ThumbnailImageSearchClick;
@@ -56,22 +53,14 @@ namespace OpenTween
         public TweetThumbnail()
         {
             InitializeComponent();
-
-            this.cancelTokenSource = new CancellationTokenSource();
         }
 
         public Task ShowThumbnailAsync(PostClass post)
         {
-            this.CancelAsync();
-
-            var cancelToken = this.cancelTokenSource.Token;
-
-            this.task = this.ShowThumbnailAsyncInternal(post, cancelToken);
-
-            return this.task;
+            return this.ShowThumbnailAsync(post, CancellationToken.None);
         }
 
-        private async Task ShowThumbnailAsyncInternal(PostClass post, CancellationToken cancelToken)
+        public async Task ShowThumbnailAsync(PostClass post, CancellationToken cancelToken)
         {
             var uiScheduler = TaskScheduler.FromCurrentSynchronizationContext();
             var loadTasks = new List<Task>();
@@ -173,17 +162,6 @@ namespace OpenTween
         protected virtual List<ThumbnailInfo> GetThumbailInfo(PostClass post)
         {
             return ThumbnailGenerator.GetThumbnails(post);
-        }
-
-        public void CancelAsync()
-        {
-            if (this.task == null || this.task.IsCompleted) return;
-
-            var oldTokenSource = this.cancelTokenSource;
-            this.cancelTokenSource = new CancellationTokenSource();
-
-            oldTokenSource.Cancel();
-            oldTokenSource.Dispose();
         }
 
         /// <summary>

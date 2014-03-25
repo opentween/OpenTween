@@ -6018,6 +6018,16 @@ namespace OpenTween
 
         private static PostClass displaypost = new PostClass();
 
+        /// <summary>
+        /// サムネイルの表示処理を表すタスク
+        /// </summary>
+        private Task thumbnailTask = null;
+
+        /// <summary>
+        /// サムネイル表示に使用する CancellationToken の生成元
+        /// </summary>
+        private CancellationTokenSource thumbnailTokenSource = null;
+
         private void DispSelectedPost(bool forceupdate)
         {
             if (_curList.SelectedIndices.Count == 0 || _curPost == null)
@@ -6167,7 +6177,19 @@ namespace OpenTween
                         this.SplitContainer3.Panel2Collapsed = true;
 
                         if (this.IsPreviewEnable)
-                            this.tweetThumbnail1.ShowThumbnailAsync(_curPost);
+                        {
+                            if (this.thumbnailTokenSource != null)
+                            {
+                                var oldTokenSource = this.thumbnailTokenSource;
+                                oldTokenSource.Cancel();
+                                this.thumbnailTask.ContinueWith(_ => oldTokenSource.Dispose());
+                            }
+
+                            this.thumbnailTokenSource = new CancellationTokenSource();
+
+                            var token = this.thumbnailTokenSource.Token;
+                            this.thumbnailTask = this.tweetThumbnail1.ShowThumbnailAsync(_curPost, token);
+                        }
                     }
                 }
                 catch (System.Runtime.InteropServices.COMException)

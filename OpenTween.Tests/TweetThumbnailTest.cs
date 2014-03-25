@@ -131,11 +131,12 @@ namespace OpenTween
             };
 
             using (var thumbbox = new TweetThumbnail())
+            using (var tokenSource = new CancellationTokenSource())
             {
                 SynchronizationContext.SetSynchronizationContext(new SynchronizationContext());
-                var task = thumbbox.ShowThumbnailAsync(post);
+                var task = thumbbox.ShowThumbnailAsync(post, tokenSource.Token);
 
-                thumbbox.CancelAsync();
+                tokenSource.Cancel();
 
                 await TestUtils.ThrowsAsync<TaskCanceledException>(async () => await task);
                 Assert.True(task.IsCanceled);
