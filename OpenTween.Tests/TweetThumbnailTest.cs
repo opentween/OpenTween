@@ -118,19 +118,26 @@ namespace OpenTween
             }
         }
 
-        [Fact(Skip = "Mono環境でたまに InvaliOperationException: out of sync で異常終了する")]
-        public void CancelAsyncTest()
+        [Fact]
+        public async Task CancelAsyncTest()
         {
+            var post = new PostClass
+            {
+                TextFromApi = "てすと http://foo.example.com/abcd",
+                Media = new Dictionary<string, string>
+                {
+                    {"http://foo.example.com/abcd", "http://foo.example.com/abcd"},
+                },
+            };
+
             using (var thumbbox = new TweetThumbnail())
             {
-                var post = new PostClass();
-
                 SynchronizationContext.SetSynchronizationContext(new SynchronizationContext());
                 var task = thumbbox.ShowThumbnailAsync(post);
 
                 thumbbox.CancelAsync();
 
-                Assert.Throws<AggregateException>(() => task.Wait());
+                await TestUtils.ThrowsAsync<TaskCanceledException>(async () => await task);
                 Assert.True(task.IsCanceled);
             }
         }

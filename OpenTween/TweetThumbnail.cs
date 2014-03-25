@@ -80,6 +80,8 @@ namespace OpenTween
 
             var thumbnails = await Task.Run(() => this.GetThumbailInfo(post), cancelToken);
 
+            cancelToken.ThrowIfCancellationRequested();
+
             lock (this.uiLockObj)
             {
                 this.SetThumbnailCount(thumbnails.Count);
