@@ -5993,7 +5993,7 @@ namespace OpenTween
             return detailHtmlFormatHeader + orgdata + detailHtmlFormatFooter;
         }
 
-        private void DisplayItemImage_Downloaded(object sender, EventArgs e)
+        private async void DisplayItemImage_Downloaded(object sender, EventArgs e)
         {
             if (sender.Equals(displayItem))
             {
@@ -6002,7 +6002,10 @@ namespace OpenTween
                 var img = displayItem.Image;
                 try
                 {
-                    UserPicture.Image = img != null ? img.Clone() : null;
+                    if (img != null)
+                        img = await img.CloneAsync();
+
+                    UserPicture.Image = img;
                 }
                 catch (Exception)
                 {

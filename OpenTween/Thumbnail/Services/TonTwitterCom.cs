@@ -72,7 +72,7 @@ namespace OpenTween.Thumbnail.Services
                     using (response)
                     {
                         if (statusCode == HttpStatusCode.OK)
-                            return MemoryImage.CopyFromStream(response);
+                            return MemoryImage.CopyFromStreamAsync(response);
                         else
                             throw new WebException(statusCode.ToString(), WebExceptionStatus.ProtocolError);
                     }
