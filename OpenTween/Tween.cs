@@ -2335,41 +2335,8 @@ namespace OpenTween
             if (ImageSelectionPanel.Visible)
             {
                 //画像投稿
-                if (ImageSelectedPicture.Image != ImageSelectedPicture.InitialImage &&
-                    ImageServiceCombo.SelectedIndex > -1 &&
-                    !string.IsNullOrEmpty(ImagefilePathText.Text))
-                {
-                    if (MessageBox.Show(Properties.Resources.PostPictureConfirm1,
-                                       Properties.Resources.PostPictureConfirm2,
-                                       MessageBoxButtons.OKCancel,
-                                       MessageBoxIcon.Question,
-                                       MessageBoxDefaultButton.Button1)
-                                   == DialogResult.Cancel)
-                    {
-                        TimelinePanel.Visible = true;
-                        TimelinePanel.Enabled = true;
-                        ImageSelectionPanel.Visible = false;
-                        ImageSelectionPanel.Enabled = false;
-                        if (_curList != null)
-                            _curList.Focus();
-                        return;
-                    }
-                    args.status.imageService = ImageServiceCombo.Text;
-                    args.status.imagePath = ImagefilePathText.Text;
-                    ImageSelectedPicture.Image = ImageSelectedPicture.InitialImage;
-                    ImagefilePathText.Text = "";
-                    TimelinePanel.Visible = true;
-                    TimelinePanel.Enabled = true;
-                    ImageSelectionPanel.Visible = false;
-                    ImageSelectionPanel.Enabled = false;
-                    if (_curList != null)
-                        _curList.Focus();
-                }
-                else
-                {
-                    MessageBox.Show(Properties.Resources.PostPictureWarn1, Properties.Resources.PostPictureWarn2);
+                if (!TryGetSelectedMedia(out args.status.imageService, out args.status.imagePath))
                     return;
-                }
             }
 
             RunAsync(args);
@@ -4624,6 +4591,7 @@ namespace OpenTween
                 _listCustom.ColumnClick += MyList_ColumnClick;
                 _listCustom.DrawColumnHeader += MyList_DrawColumnHeader;
                 _listCustom.DragDrop += TweenMain_DragDrop;
+                _listCustom.DragEnter += TweenMain_DragEnter;
                 _listCustom.DragOver += TweenMain_DragOver;
                 _listCustom.DrawItem += MyList_DrawItem;
                 _listCustom.MouseClick += MyList_MouseClick;
@@ -4719,6 +4687,7 @@ namespace OpenTween
                 _listCustom.ColumnClick -= MyList_ColumnClick;
                 _listCustom.DrawColumnHeader -= MyList_DrawColumnHeader;
                 _listCustom.DragDrop -= TweenMain_DragDrop;
+                _listCustom.DragEnter -= TweenMain_DragEnter;
                 _listCustom.DragOver -= TweenMain_DragOver;
                 _listCustom.DrawItem -= MyList_DrawItem;
                 _listCustom.MouseClick -= MyList_MouseClick;
@@ -10442,15 +10411,7 @@ namespace OpenTween
         {
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
             {
-                ImageSelectionPanel.Visible = true;
-                ImageSelectionPanel.Enabled = true;
-                TimelinePanel.Visible = false;
-                TimelinePanel.Enabled = false;
-                ImagefilePathText.Text = ((string[])e.Data.GetData(DataFormats.FileDrop, false))[0];
-                ImageFromSelectedFile();
-                this.Activate();
-                this.BringToFront();
-                StatusText.Focus();
+                SelectMedia_DragDrop(e);
             }
             else if (e.Data.GetDataPresent("UniformResourceLocatorW"))
             {
@@ -10526,30 +10487,19 @@ namespace OpenTween
             throw new NotSupportedException("サポートされていないデータ形式です: " + data.GetFormats()[0]);
         }
 
+        private void TweenMain_DragEnter(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                SelectMedia_DragEnter(e);
+            }
+        }
+
         private void TweenMain_DragOver(object sender, DragEventArgs e)
         {
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
             {
-                string filename = ((string[])e.Data.GetData(DataFormats.FileDrop, false))[0];
-                FileInfo fl = new FileInfo(filename);
-                string ext = fl.Extension;
-
-                if (!string.IsNullOrEmpty(this.ImageService) && this.pictureService[this.ImageService].CheckValidFilesize(ext, fl.Length))
-                {
-                    e.Effect = DragDropEffects.Copy;
-                    return;
-                }
-                foreach (string svc in ImageServiceCombo.Items)
-                {
-                    if (string.IsNullOrEmpty(svc)) continue;
-                    if (this.pictureService[svc].CheckValidFilesize(ext, fl.Length))
-                    {
-                        ImageServiceCombo.SelectedItem = svc;
-                        e.Effect = DragDropEffects.Copy;
-                        return;
-                    }
-                }
-                e.Effect = DragDropEffects.None;
+                SelectMedia_DragOver(e);
             }
             else if (e.Data.GetDataPresent("UniformResourceLocatorW"))
             {
@@ -12369,24 +12319,76 @@ namespace OpenTween
 #region "画像投稿"
         private void ImageSelectMenuItem_Click(object sender, EventArgs e)
         {
-            if (ImageSelectionPanel.Visible == true)
+            if (ImageSelectionPanel.Visible)
             {
-                ImagefilePathText.CausesValidation = false;
-                TimelinePanel.Visible = true;
-                TimelinePanel.Enabled = true;
-                ImageSelectionPanel.Visible = false;
-                ImageSelectionPanel.Enabled = false;
-                ((DetailsListView)ListTab.SelectedTab.Tag).Focus();
-                ImagefilePathText.CausesValidation = true;
+                CloseImageSelectionPanel();
             }
             else
             {
-                ImageSelectionPanel.Visible = true;
-                ImageSelectionPanel.Enabled = true;
-                TimelinePanel.Visible = false;
-                TimelinePanel.Enabled = false;
+                OpenImageSelectionPanel();
+                ImageFromSelectedFile(true);
                 ImagefilePathText.Focus();
             }
+        }
+
+        private void OpenImageSelectionPanel()
+        {
+            ImageSelectionPanel.Visible = true;
+            ImageSelectionPanel.Enabled = true;
+            TimelinePanel.Visible = false;
+            TimelinePanel.Enabled = false;
+        }
+
+        private void CloseImageSelectionPanel()
+        {
+            ImagefilePathText.CausesValidation = false;
+            TimelinePanel.Visible = true;
+            TimelinePanel.Enabled = true;
+            ImageSelectionPanel.Visible = false;
+            ImageSelectionPanel.Enabled = false;
+            ((DetailsListView)ListTab.SelectedTab.Tag).Focus();
+            ClearImageSelectedPicture(false);
+            ImagefilePathText.CausesValidation = true;
+        }
+
+        private void SelectMedia_DragEnter(DragEventArgs e)
+        {
+            string filename = ((string[])e.Data.GetData(DataFormats.FileDrop, false))[0];
+            FileInfo fl = new FileInfo(filename);
+            string ext = fl.Extension;
+
+            if (!string.IsNullOrEmpty(this.ImageService) &&
+                this.pictureService[this.ImageService].CheckValidFilesize(ext, fl.Length))
+            {
+                e.Effect = DragDropEffects.Copy;
+                return;
+            }
+            foreach (string svc in ImageServiceCombo.Items)
+            {
+                if (!string.IsNullOrEmpty(svc) &&
+                    this.pictureService[svc].CheckValidFilesize(ext, fl.Length))
+                {
+                    //ImageServiceCombo.SelectedItem = svc;
+                    e.Effect = DragDropEffects.Copy;
+                    return;
+                }
+            }
+            e.Effect = DragDropEffects.None;
+        }
+
+        private void SelectMedia_DragOver(DragEventArgs e)
+        {
+            //何も触らない
+        }
+
+        private void SelectMedia_DragDrop(DragEventArgs e)
+        {
+            this.Activate();
+            this.BringToFront();
+            OpenImageSelectionPanel();
+            ImagefilePathText.Text = ((string[])e.Data.GetData(DataFormats.FileDrop, false))[0];
+            ImageFromSelectedFile(false);
+            StatusText.Focus();
         }
 
         private void FilePickButton_Click(object sender, EventArgs e)
@@ -12407,7 +12409,7 @@ namespace OpenTween
             }
 
             ImagefilePathText.Text = OpenFileDialog1.FileName;
-            ImageFromSelectedFile();
+            ImageFromSelectedFile(false);
         }
 
         private void ImagefilePathText_Validating(object sender, CancelEventArgs e)
@@ -12417,55 +12419,60 @@ namespace OpenTween
                 ImagefilePathText.CausesValidation = false;
                 return;
             }
-            ImagefilePathText.Text = ImagefilePathText.Text.Trim();
-            if (string.IsNullOrEmpty(ImagefilePathText.Text))
-            {
-                ImageSelectedPicture.Image = ImageSelectedPicture.InitialImage;
-                ImageSelectedPicture.Tag = MyCommon.UploadFileType.Invalid;
-            }
-            else
-            {
-                ImageFromSelectedFile();
-            }
+
+            ImageFromSelectedFile(false);
         }
 
-        private void ImageFromSelectedFile()
+        private void ImageFromSelectedFile(bool suppressMsgBox)
         {
             try
             {
-                if (string.IsNullOrEmpty(ImagefilePathText.Text.Trim()) || string.IsNullOrEmpty(this.ImageService))
+                ClearImageSelectedPicture(true);
+
+                ImagefilePathText.Text = ImagefilePathText.Text.Trim();
+                if (string.IsNullOrEmpty(ImagefilePathText.Text) || string.IsNullOrEmpty(this.ImageService))
                 {
-                    ImageSelectedPicture.Image = ImageSelectedPicture.InitialImage;
-                    ImageSelectedPicture.Tag = MyCommon.UploadFileType.Invalid;
                     ImagefilePathText.Text = "";
                     return;
                 }
 
-                FileInfo fl = new FileInfo(ImagefilePathText.Text.Trim());
-                if (!this.pictureService[this.ImageService].CheckValidExtension(fl.Extension))
+                FileInfo fl = new FileInfo(ImagefilePathText.Text);
+                string ext = fl.Extension;
+                var imageService = this.pictureService[this.ImageService];
+
+                if (!imageService.CheckValidExtension(ext))
                 {
                     //画像以外の形式
-                    ImageSelectedPicture.Image = ImageSelectedPicture.InitialImage;
-                    ImageSelectedPicture.Tag = MyCommon.UploadFileType.Invalid;
                     ImagefilePathText.Text = "";
+                    if (!suppressMsgBox)
+                    {
+                        MessageBox.Show(
+                            string.Format(Properties.Resources.PostPictureWarn3, MakeAvailableServiceText(ext, fl.Length), ext),
+                            string.Format(Properties.Resources.PostPictureWarn4, this.ImageService),
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Warning);
+                    }
                     return;
                 }
 
-                if (!this.pictureService[this.ImageService].CheckValidFilesize(fl.Extension, fl.Length))
+                if (!imageService.CheckValidFilesize(ext, fl.Length))
                 {
                     // ファイルサイズが大きすぎる
-                    ImageSelectedPicture.Image = ImageSelectedPicture.InitialImage;
-                    ImageSelectedPicture.Tag = MyCommon.UploadFileType.Invalid;
                     ImagefilePathText.Text = "";
-                    MessageBox.Show("File is too large.");
+                    if (!suppressMsgBox)
+                    {
+                        MessageBox.Show(
+                            string.Format(Properties.Resources.PostPictureWarn5, MakeAvailableServiceText(ext, fl.Length)),
+                            string.Format(Properties.Resources.PostPictureWarn4, this.ImageService),
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Warning);
+                    }
                     return;
                 }
 
-                switch (this.pictureService[this.ImageService].GetFileType(fl.Extension))
+                switch (imageService.GetFileType(ext))
                 {
                     case MyCommon.UploadFileType.Invalid:
-                        ImageSelectedPicture.Image = ImageSelectedPicture.InitialImage;
-                        ImageSelectedPicture.Tag = MyCommon.UploadFileType.Invalid;
                         ImagefilePathText.Text = "";
                         break;
                     case MyCommon.UploadFileType.Picture:
@@ -12485,40 +12492,77 @@ namespace OpenTween
                         ImageSelectedPicture.Tag = MyCommon.UploadFileType.MultiMedia;
                         break;
                     default:
-                        ImageSelectedPicture.Image = ImageSelectedPicture.InitialImage;
-                        ImageSelectedPicture.Tag = MyCommon.UploadFileType.Invalid;
                         ImagefilePathText.Text = "";
                         break;
                 }
             }
             catch (FileNotFoundException)
             {
-                ImageSelectedPicture.Image = ImageSelectedPicture.InitialImage;
-                ImageSelectedPicture.Tag = MyCommon.UploadFileType.Invalid;
+                ClearImageSelectedPicture(true);
                 ImagefilePathText.Text = "";
-                MessageBox.Show("File not found.");
+                if (!suppressMsgBox) MessageBox.Show("File not found.");
             }
             catch (Exception)
             {
-                ImageSelectedPicture.Image = ImageSelectedPicture.InitialImage;
-                ImageSelectedPicture.Tag = MyCommon.UploadFileType.Invalid;
+                ClearImageSelectedPicture(true);
                 ImagefilePathText.Text = "";
-                MessageBox.Show("The type of this file is not image.");
+                if (!suppressMsgBox) MessageBox.Show("The type of this file is not image.");
             }
+        }
+
+        private string MakeAvailableServiceText(string ext, long fileSize)
+        {
+            StringBuilder sb = new StringBuilder();
+
+            foreach (string svc in ImageServiceCombo.Items)
+            {
+                if (!string.IsNullOrEmpty(svc) &&
+                    this.pictureService[svc].CheckValidFilesize(ext, fileSize))
+                {
+                    if (sb.Length > 0) sb.Append(", ");
+                    sb.Append(svc);
+                }
+            }
+            if (sb.Length == 0)
+                return Properties.Resources.PostPictureWarn6;
+
+            return sb.ToString();
+        }
+
+        private void ClearImageSelectedPicture(bool invalidate)
+        {
+            Image oldImage = null;
+            if (this.ImageSelectedPicture.Image != null)
+            {
+                if (this.ImageSelectedPicture.Image != ImageSelectedPicture.InitialImage &&
+                    this.ImageSelectedPicture.Image != Properties.Resources.MultiMediaImage)
+                {
+                    oldImage = this.ImageSelectedPicture.Image;
+                }
+            }
+            if (invalidate)
+            {
+                this.ImageSelectedPicture.Image = ImageSelectedPicture.InitialImage;
+                this.ImageSelectedPicture.Tag = MyCommon.UploadFileType.Invalid;
+            }
+            else
+            {
+                this.ImageSelectedPicture.Image = null;
+                this.ImageSelectedPicture.Tag = null;
+            }
+            if (oldImage != null) oldImage.Dispose();
+        }
+
+        private void ImageCancelButton_Click(object sender, EventArgs e)
+        {
+            CloseImageSelectionPanel();
         }
 
         private void ImageSelection_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Escape)
             {
-                ImageSelectedPicture.Image = ImageSelectedPicture.InitialImage;
-                ImageSelectedPicture.Tag = MyCommon.UploadFileType.Invalid;
-                TimelinePanel.Visible = true;
-                TimelinePanel.Enabled = true;
-                ImageSelectionPanel.Visible = false;
-                ImageSelectionPanel.Enabled = false;
-                ((DetailsListView)ListTab.SelectedTab.Tag).Focus();
-                ImagefilePathText.CausesValidation = true;
+                CloseImageSelectionPanel();
             }
         }
 
@@ -12537,6 +12581,37 @@ namespace OpenTween
             {
                 ImagefilePathText.CausesValidation = false;
             }
+        }
+
+        private bool TryGetSelectedMedia(out string imageService, out string imagePath)
+        {
+            if (ImageSelectedPicture.Image != ImageSelectedPicture.InitialImage &&
+                ImageServiceCombo.SelectedIndex > -1 &&
+                !string.IsNullOrEmpty(ImagefilePathText.Text))
+            {
+                if (MessageBox.Show(Properties.Resources.PostPictureConfirm1,
+                                   Properties.Resources.PostPictureConfirm2,
+                                   MessageBoxButtons.OKCancel,
+                                   MessageBoxIcon.Question,
+                                   MessageBoxDefaultButton.Button1)
+                               == DialogResult.OK)
+                {
+                    imageService = ImageServiceCombo.Text;
+                    imagePath = ImagefilePathText.Text;
+                    CloseImageSelectionPanel();
+                    ImagefilePathText.Text = "";
+                    return true;
+                }
+            }
+            else
+            {
+                MessageBox.Show(Properties.Resources.PostPictureWarn1, Properties.Resources.PostPictureWarn2);
+            }
+
+            CloseImageSelectionPanel();
+            imageService = null;
+            imagePath = null;
+            return false;
         }
 
         private void SetImageServiceCombo()
@@ -12582,17 +12657,6 @@ namespace OpenTween
             get { return ImageServiceCombo.SelectedItem.ToString(); }
         }
 
-        private void ImageCancelButton_Click(object sender, EventArgs e)
-        {
-            ImagefilePathText.CausesValidation = false;
-            TimelinePanel.Visible = true;
-            TimelinePanel.Enabled = true;
-            ImageSelectionPanel.Visible = false;
-            ImageSelectionPanel.Enabled = false;
-            ((DetailsListView)ListTab.SelectedTab.Tag).Focus();
-            ImagefilePathText.CausesValidation = true;
-        }
-
         private void ImageServiceCombo_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (ImageSelectedPicture.Tag != null && !string.IsNullOrEmpty(this.ImageService))
@@ -12600,23 +12664,31 @@ namespace OpenTween
                 try
                 {
                     FileInfo fi = new FileInfo(ImagefilePathText.Text.Trim());
-                    if (!this.pictureService[this.ImageService].CheckValidFilesize(fi.Extension, fi.Length))
+                    string ext = fi.Extension;
+                    var imageService = this.pictureService[this.ImageService];
+                    if (!imageService.CheckValidFilesize(ext, fi.Length))
                     {
+                        ClearImageSelectedPicture(true);
                         ImagefilePathText.Text = "";
-                        ImageSelectedPicture.Image = ImageSelectedPicture.InitialImage;
-                        ImageSelectedPicture.Tag = MyCommon.UploadFileType.Invalid;
                     }
                 }
                 catch (Exception)
                 {
+                    ClearImageSelectedPicture(true);
+                    ImagefilePathText.Text = "";
                 }
                 _modifySettingCommon = true;
-                SaveConfigsAll(false);
+                SaveConfigsAll(true);
                 if (this.ImageService == "Twitter")
                 {
                     this.StatusText_TextChanged(null, null);
                 }
             }
+        }
+
+        private void ImageSelectionPanel_VisibleChanged(object sender, EventArgs e)
+        {
+            this.StatusText_TextChanged(null, null);
         }
 #endregion
 
@@ -13294,11 +13366,6 @@ namespace OpenTween
         private void OpenUserSpecifiedUrlMenuItem_Click(object sender, EventArgs e)
         {
             OpenUserAppointUrl();
-        }
-
-        private void ImageSelectionPanel_VisibleChanged(object sender, EventArgs e)
-        {
-            this.StatusText_TextChanged(null, null);
         }
 
         private void SourceCopyMenuItem_Click(object sender, EventArgs e)

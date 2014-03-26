@@ -2591,6 +2591,7 @@
             this.ClientSizeChanged += new System.EventHandler(this.TweenMain_ClientSizeChanged);
             this.LocationChanged += new System.EventHandler(this.TweenMain_LocationChanged);
             this.DragDrop += new System.Windows.Forms.DragEventHandler(this.TweenMain_DragDrop);
+            this.DragEnter += new System.Windows.Forms.DragEventHandler(this.TweenMain_DragEnter);
             this.DragOver += new System.Windows.Forms.DragEventHandler(this.TweenMain_DragOver);
             this.Resize += new System.EventHandler(this.TweenMain_Resize);
             this.Disposed += new System.EventHandler(this.TweenMain_Disposed);

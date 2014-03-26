@@ -1147,4 +1147,20 @@
   <data name="TabNameDuplicate_Text" xml:space="preserve">
     <value>タブ "{0}" が既に存在するため追加できません。同名のタブを削除して再度やり直して下さい。</value>
   </data>
+  <data name="PostPictureWarn3" xml:space="preserve">
+    <value>"{1}" の投稿には対応していません。他の投稿先を使用してください。
+
+使用可能な投稿先: {0}</value>
+  </data>
+  <data name="PostPictureWarn4" xml:space="preserve">
+    <value>投稿画像選択 [投稿先: {0}]</value>
+  </data>
+  <data name="PostPictureWarn5" xml:space="preserve">
+    <value>ファイルが大きすぎます。ファイルサイズを小さくするか、他の投稿先を使用してください。
+
+使用可能な投稿先: {0}</value>
+  </data>
+  <data name="PostPictureWarn6" xml:space="preserve">
+    <value>なし</value>
+  </data>
 </root>
