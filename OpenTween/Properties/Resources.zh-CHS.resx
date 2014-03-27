@@ -868,7 +868,8 @@
     <value>选择要上传的图片</value>
   </data>
   <data name="PostPictureConfirm1" xml:space="preserve">
-    <value>选择的图片将被上传。继续吗？</value>
+    <value>[Service: {0}]
+选择的图片将被上传。继续吗？</value>
   </data>
   <data name="PostPictureConfirm2" xml:space="preserve">
     <value>上传图片确认</value>

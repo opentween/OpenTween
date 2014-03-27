@@ -12447,8 +12447,8 @@ namespace OpenTween
                     if (!suppressMsgBox)
                     {
                         MessageBox.Show(
-                            string.Format(Properties.Resources.PostPictureWarn3, MakeAvailableServiceText(ext, fl.Length), ext),
-                            string.Format(Properties.Resources.PostPictureWarn4, this.ImageService),
+                            string.Format(Properties.Resources.PostPictureWarn3, this.ImageService, MakeAvailableServiceText(ext, fl.Length), ext),
+                            Properties.Resources.PostPictureWarn4,
                             MessageBoxButtons.OK,
                             MessageBoxIcon.Warning);
                     }
@@ -12462,8 +12462,8 @@ namespace OpenTween
                     if (!suppressMsgBox)
                     {
                         MessageBox.Show(
-                            string.Format(Properties.Resources.PostPictureWarn5, MakeAvailableServiceText(ext, fl.Length)),
-                            string.Format(Properties.Resources.PostPictureWarn4, this.ImageService),
+                            string.Format(Properties.Resources.PostPictureWarn5, this.ImageService, MakeAvailableServiceText(ext, fl.Length)),
+                            Properties.Resources.PostPictureWarn4,
                             MessageBoxButtons.OK,
                             MessageBoxIcon.Warning);
                     }
@@ -12589,7 +12589,7 @@ namespace OpenTween
                 ImageServiceCombo.SelectedIndex > -1 &&
                 !string.IsNullOrEmpty(ImagefilePathText.Text))
             {
-                if (MessageBox.Show(Properties.Resources.PostPictureConfirm1,
+                if (MessageBox.Show(string.Format(Properties.Resources.PostPictureConfirm1, this.ImageService),
                                    Properties.Resources.PostPictureConfirm2,
                                    MessageBoxButtons.OKCancel,
                                    MessageBoxIcon.Question,

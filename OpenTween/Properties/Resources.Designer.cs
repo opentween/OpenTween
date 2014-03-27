@@ -626,6 +626,8 @@ namespace OpenTween.Properties {
         ///   更新履歴
         ///
         ///==== Ver 1.2.0(2014/xx/xx)
+        /// * CHG: 画像ファイルをD&amp;Dした際の動作を変更しました
+        ///  - 投稿先がD&amp;Dしたファイルに対応していない場合、勝手に投稿先を切り替えず、エラーダイアログを表示するだけにします
         ///
         ///==== Ver 1.1.9(2014/03/22)
         /// * NEW: 「リストのアイコンサイズ」設定を再起動不要で反映できるようになりました (thx @5px!)
@@ -634,9 +636,7 @@ namespace OpenTween.Properties {
         /// * CHG: ブラウザからのD&amp;Dで入力されるテキストの動作を変更しました
         ///  - 投稿欄に既にテキストが入力されている場合は間に半角スペースを挿入、空であればD&amp;DされたページのタイトルとURLのみを挿入します
         /// * CHG: 設定画面で img.azyobuzi.net を有効にするか否かを選択可能にしました
-        /// * CHG: デフォルトではDMに含まれる画像URLに対して img.azyobuzi.net を使用しない設定としました
-        /// * FIX: 高DPI設定の環境下で発言詳細部のプロフィール画像に余白が表示されてしまう問題を修正 (thx @5px!)
-        /// * FIX: URLや [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
+        /// * CHG: デフォルトではDMに含まれる画像URLに対して img.azyobuzi. [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ChangeLog {
             get {
@@ -1804,7 +1804,8 @@ namespace OpenTween.Properties {
         }
         
         /// <summary>
-        ///   画像を投稿します。よろしいですか？ に類似しているローカライズされた文字列を検索します。
+        ///   [投稿先: {0}]
+        ///画像を投稿します。よろしいですか？ に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string PostPictureConfirm1 {
             get {
@@ -1840,9 +1841,10 @@ namespace OpenTween.Properties {
         }
         
         /// <summary>
-        ///   &quot;{1}&quot; の投稿には対応していません。他の投稿先を使用してください。
+        ///   [投稿先: {0}]
+        ///&quot;{2}&quot; の投稿には対応していません。他の投稿先を使用してください。
         ///
-        ///使用可能な投稿先: {0} に類似しているローカライズされた文字列を検索します。
+        ///使用可能な投稿先: {1} に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string PostPictureWarn3 {
             get {
@@ -1851,7 +1853,7 @@ namespace OpenTween.Properties {
         }
         
         /// <summary>
-        ///   投稿画像選択 [投稿先: {0}] に類似しているローカライズされた文字列を検索します。
+        ///   投稿画像選択 に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string PostPictureWarn4 {
             get {
@@ -1860,9 +1862,10 @@ namespace OpenTween.Properties {
         }
         
         /// <summary>
-        ///   ファイルが大きすぎます。ファイルサイズを小さくするか、他の投稿先を使用してください。
+        ///   [投稿先: {0}]
+        ///ファイルが大きすぎます。ファイルサイズを小さくするか、他の投稿先を使用してください。
         ///
-        ///使用可能な投稿先: {0} に類似しているローカライズされた文字列を検索します。
+        ///使用可能な投稿先: {1} に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string PostPictureWarn5 {
             get {

@@ -703,7 +703,8 @@
     <value>Select a media file to upload</value>
   </data>
   <data name="PostPictureConfirm1" xml:space="preserve">
-    <value>Do you want to upload the selected media file?</value>
+    <value>[Service: {0}]
+Do you want to upload the selected media file?</value>
   </data>
   <data name="PostPictureConfirm2" xml:space="preserve">
     <value>Confirm to upload</value>
@@ -1090,17 +1091,19 @@
     <value>The tab "{0}" was already exists. Please remove the tab and try again.</value>
   </data>
   <data name="PostPictureWarn3" xml:space="preserve">
-    <value>"{1}" is unsupported file type. Use other service.
+    <value>[Service: {0}]
+"{2}" is unsupported file type. Use other service.
 
-Available service: {0}</value>
+Available service: {1}</value>
   </data>
   <data name="PostPictureWarn4" xml:space="preserve">
-    <value>Select media [Service: {0}]</value>
+    <value>Select media</value>
   </data>
   <data name="PostPictureWarn5" xml:space="preserve">
-    <value>File is too large. Reduce the file size, or use other service.
+    <value>[Service: {0}]
+File is too large. Reduce the file size, or use other service.
 
-Available service: {0}</value>
+Available service: {1}</value>
   </data>
   <data name="PostPictureWarn6" xml:space="preserve">
     <value>none</value>
