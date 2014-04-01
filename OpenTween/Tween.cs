@@ -5228,6 +5228,45 @@ namespace OpenTween
             return itm;
         }
 
+        /// <summary>
+        /// 全てのタブの振り分けルールを反映し直します
+        /// </summary>
+        private void ApplyPostFilters()
+        {
+            try
+            {
+                this.Cursor = Cursors.WaitCursor;
+
+                this.PurgeListViewItemCache();
+                this._curPost = null;
+                this._curItemIndex = -1;
+                this._statuses.FilterAll();
+
+                foreach (TabPage tabPage in this.ListTab.TabPages)
+                {
+                    var tab = this._statuses.Tabs[tabPage.Text];
+
+                    var listview = (DetailsListView)tabPage.Tag;
+                    listview.VirtualListSize = tab.AllCount;
+
+                    if (this.SettingDialog.TabIconDisp)
+                    {
+                        if (tab.UnreadCount > 0)
+                            tabPage.ImageIndex = 0;
+                        else
+                            tabPage.ImageIndex = -1;
+                    }
+                }
+
+                if (!this.SettingDialog.TabIconDisp)
+                    this.ListTab.Refresh();
+            }
+            finally
+            {
+                this.Cursor = Cursors.Default;
+            }
+        }
+
         private void MyList_DrawColumnHeader(object sender, DrawListViewColumnHeaderEventArgs e)
         {
             e.DrawDefault = true;
@@ -8689,33 +8728,7 @@ namespace OpenTween
             fltDialog.ShowDialog(this);
             this.TopMost = SettingDialog.AlwaysTop;
 
-            try
-            {
-                this.Cursor = Cursors.WaitCursor;
-                this.PurgeListViewItemCache();
-                _curPost = null;
-                _curItemIndex = -1;
-                _statuses.FilterAll();
-                foreach (TabPage tb in ListTab.TabPages)
-                {
-                    ((DetailsListView)tb.Tag).VirtualListSize = _statuses.Tabs[tb.Text].AllCount;
-                    if (_statuses.Tabs[tb.Text].UnreadCount > 0)
-                    {
-                        if (SettingDialog.TabIconDisp)
-                            tb.ImageIndex = 0;
-                    }
-                    else
-                    {
-                        if (SettingDialog.TabIconDisp)
-                            tb.ImageIndex = -1;
-                    }
-                }
-                if (!SettingDialog.TabIconDisp) ListTab.Refresh();
-            }
-            finally
-            {
-                this.Cursor = Cursors.Default;
-            }
+            this.ApplyPostFilters();
             SaveConfigsTabs();
         }
 
@@ -8793,33 +8806,7 @@ namespace OpenTween
                 this.TopMost = SettingDialog.AlwaysTop;
             }
 
-            try
-            {
-                this.Cursor = Cursors.WaitCursor;
-                this.PurgeListViewItemCache();
-                _curPost = null;
-                _curItemIndex = -1;
-                _statuses.FilterAll();
-                foreach (TabPage tb in ListTab.TabPages)
-                {
-                    ((DetailsListView)tb.Tag).VirtualListSize = _statuses.Tabs[tb.Text].AllCount;
-                    if (_statuses.Tabs[tb.Text].UnreadCount > 0)
-                    {
-                        if (SettingDialog.TabIconDisp)
-                            tb.ImageIndex = 0;
-                    }
-                    else
-                    {
-                        if (SettingDialog.TabIconDisp)
-                            tb.ImageIndex = -1;
-                    }
-                }
-                if (!SettingDialog.TabIconDisp) ListTab.Refresh();
-            }
-            finally
-            {
-                this.Cursor = Cursors.Default;
-            }
+            this.ApplyPostFilters();
             SaveConfigsTabs();
             if (this.ListTab.SelectedTab != null &&
                 ((DetailsListView)this.ListTab.SelectedTab.Tag).SelectedIndices.Count > 0)
@@ -8967,36 +8954,7 @@ namespace OpenTween
                 if (AtIdSupl.ItemCount != cnt) _modifySettingAtId = true;
             }
 
-            try
-            {
-                this.Cursor = Cursors.WaitCursor;
-                this.PurgeListViewItemCache();
-                _curPost = null;
-                _curItemIndex = -1;
-                _statuses.FilterAll();
-                foreach (TabPage tb in ListTab.TabPages)
-                {
-                    ((DetailsListView)tb.Tag).VirtualListSize = _statuses.Tabs[tb.Text].AllCount;
-                    if (_statuses.ContainsTab(tb.Text))
-                    {
-                        if (_statuses.Tabs[tb.Text].UnreadCount > 0)
-                        {
-                            if (SettingDialog.TabIconDisp)
-                                tb.ImageIndex = 0;
-                        }
-                        else
-                        {
-                            if (SettingDialog.TabIconDisp)
-                                tb.ImageIndex = -1;
-                        }
-                    }
-                }
-                if (!SettingDialog.TabIconDisp) ListTab.Refresh();
-            }
-            finally
-            {
-                this.Cursor = Cursors.Default;
-            }
+            this.ApplyPostFilters();
             SaveConfigsTabs();
         }
 
@@ -11675,33 +11633,7 @@ namespace OpenTween
                 fc.FilterByUrl = false;
                 _statuses.Tabs[tabName].AddFilter(fc);
 
-                try
-                {
-                    this.Cursor = Cursors.WaitCursor;
-                    this.PurgeListViewItemCache();
-                    _curPost = null;
-                    _curItemIndex = -1;
-                    _statuses.FilterAll();
-                    foreach (TabPage tb in ListTab.TabPages)
-                    {
-                        ((DetailsListView)tb.Tag).VirtualListSize = _statuses.Tabs[tb.Text].AllCount;
-                        if (_statuses.Tabs[tb.Text].UnreadCount > 0)
-                        {
-                            if (SettingDialog.TabIconDisp)
-                                tb.ImageIndex = 0;
-                        }
-                        else
-                        {
-                            if (SettingDialog.TabIconDisp)
-                                tb.ImageIndex = -1;
-                        }
-                    }
-                    if (!SettingDialog.TabIconDisp) ListTab.Refresh();
-                }
-                finally
-                {
-                    this.Cursor = Cursors.Default;
-                }
+                this.ApplyPostFilters();
                 SaveConfigsTabs();
             }
         }
