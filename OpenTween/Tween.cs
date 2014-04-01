@@ -13439,6 +13439,12 @@ namespace OpenTween
         private void tweetThumbnail1_ThumbnailLoading(object sender, EventArgs e)
         {
             this.SplitContainer3.Panel2Collapsed = false;
+
+            // PreviewDistance が起動のたびに広がっていく問題の回避策
+            // FixedPanel が Panel2 に設定された状態で Panel2 を開くと、初回だけ SplitterDistance が再計算されておかしくなるため、
+            // None で開いた後に設定するようにする
+            if (this.SplitContainer3.FixedPanel == FixedPanel.None)
+                this.SplitContainer3.FixedPanel = FixedPanel.Panel2;
         }
 
         private void tweetThumbnail1_ThumbnailDoubleClick(object sender, ThumbnailDoubleClickEventArgs e)
