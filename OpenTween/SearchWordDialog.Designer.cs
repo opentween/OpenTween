@@ -1,6 +1,6 @@
 ﻿namespace OpenTween
 {
-    partial class SearchWord
+    partial class SearchWordDialog
     {
         /// <summary>
         /// 必要なデザイナー変数です。
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SearchWord));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SearchWordDialog));
             this.CheckSearchRegex = new System.Windows.Forms.CheckBox();
             this.CheckSearchCaseSensitive = new System.Windows.Forms.CheckBox();
             this.Label1 = new System.Windows.Forms.Label();

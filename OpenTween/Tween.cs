@@ -105,7 +105,7 @@ namespace OpenTween
 
         //サブ画面インスタンス
         private AppendSettingDialog SettingDialog = AppendSettingDialog.Instance;       //設定画面インスタンス
-        private SearchWord SearchDialog = new SearchWord();     //検索画面インスタンス
+        private SearchWordDialog SearchDialog = new SearchWordDialog();     //検索画面インスタンス
         private FilterDialog fltDialog = new FilterDialog(); //フィルター編集画面
         private OpenURL UrlDialog = new OpenURL();
         public AtIdSupplement AtIdSupl;     //@id補助
