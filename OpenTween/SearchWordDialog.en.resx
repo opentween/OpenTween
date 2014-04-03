@@ -112,35 +112,56 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="OK_Button.Text" xml:space="preserve">
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="checkTimelineRegex.Size" type="System.Drawing.Size, System.Drawing">
+    <value>123, 16</value>
+  </data>
+  <data name="checkTimelineRegex.Text" xml:space="preserve">
+    <value>Regular Expression</value>
+  </data>
+  <data name="checkTimelineCaseSensitive.Size" type="System.Drawing.Size, System.Drawing">
+    <value>100, 16</value>
+  </data>
+  <data name="checkTimelineCaseSensitive.Text" xml:space="preserve">
+    <value>Case sensitive</value>
+  </data>
+  <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>70, 12</value>
+  </data>
+  <data name="label1.Text" xml:space="preserve">
+    <value>Text to Fi&amp;nd:</value>
+  </data>
+  <data name="buttonSearchTimeline.Text" xml:space="preserve">
     <value>&amp;Find</value>
   </data>
-  <data name="Cancel_Button.Text" xml:space="preserve">
-    <value>Close</value>
+  <data name="buttonSearchTimelineNew.Text" xml:space="preserve">
+    <value>Find in &amp;New Tab</value>
   </data>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="Label1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>78, 12</value>
+  <data name="tabPageTimeline.Text" xml:space="preserve">
+    <value>Timeline Search</value>
   </data>
-  <data name="Label1.Text" xml:space="preserve">
-    <value>Fi&amp;nding String:</value>
+  <data name="linkLabelSearchHelp.Size" type="System.Drawing.Size, System.Drawing">
+    <value>94, 12</value>
   </data>
-  <data name="CheckSearchCaseSensitive.Size" type="System.Drawing.Size, System.Drawing">
-    <value>101, 16</value>
+  <data name="linkLabelSearchHelp.Text" xml:space="preserve">
+    <value>Search Operators</value>
   </data>
-  <data name="CheckSearchCaseSensitive.Text" xml:space="preserve">
-    <value>Case Sensitive</value>
+  <data name="buttonSearchPublic.Text" xml:space="preserve">
+    <value>&amp;Find</value>
   </data>
-  <data name="CheckSearchRegex.Size" type="System.Drawing.Size, System.Drawing">
-    <value>153, 16</value>
+  <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>70, 12</value>
   </data>
-  <data name="CheckSearchRegex.Text" xml:space="preserve">
-    <value>Use Regular Expressions</value>
+  <data name="label2.Text" xml:space="preserve">
+    <value>Text to Fi&amp;nd:</value>
+  </data>
+  <data name="tabPagePublic.Text" xml:space="preserve">
+    <value>Twitter Search</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>Search</value>

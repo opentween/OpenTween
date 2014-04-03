@@ -37,45 +37,175 @@ namespace OpenTween
 {
     public partial class SearchWordDialog : OTBaseForm
     {
+        public enum SearchType
+        {
+            /// <summary>
+            /// タイムライン内を検索
+            /// </summary>
+            Timeline,
+            /// <summary>
+            /// Twitter検索
+            /// </summary>
+            Public,
+        }
+
+        public class SearchOptions
+        {
+            public readonly SearchType Type;
+            public readonly string Query;
+
+            // タイムライン内検索のみで使用する
+            public readonly bool NewTab;
+            public readonly bool CaseSensitive;
+            public readonly bool UseRegex;
+
+            public SearchOptions(SearchType type, string query, bool newTab, bool caseSensitive, bool useRegex)
+            {
+                this.Type = type;
+                this.Query = query;
+                this.NewTab = newTab;
+                this.CaseSensitive = caseSensitive;
+                this.UseRegex = useRegex;
+            }
+        }
+
+        private SearchOptions resultOptoins = null;
+        public SearchOptions ResultOptions
+        {
+            get { return this.resultOptoins; }
+            set
+            {
+                this.resultOptoins = value;
+
+                if (value == null)
+                {
+                    this.Reset();
+                    return;
+                }
+
+                switch (value.Type)
+                {
+                    case SearchType.Timeline:
+                        this.tabControl.SelectedTab = this.tabPageTimeline;
+                        this.textSearchTimeline.Text = value.Query;
+                        this.checkTimelineCaseSensitive.Checked = value.CaseSensitive;
+                        this.checkTimelineRegex.Checked = value.UseRegex;
+                        break;
+                    case SearchType.Public:
+                        this.tabControl.SelectedTab = this.tabPagePublic;
+                        this.textSearchTimeline.Text = value.Query;
+                        break;
+                    default:
+                        throw new InvalidEnumArgumentException("value.Type", (int)value.Type, typeof(SearchType));
+                }
+            }
+        }
+
+        private bool disableNetTabButton = false;
+        public bool DisableNewTabButton
+        {
+            get { return this.disableNetTabButton; }
+            set
+            {
+                this.disableNetTabButton = value;
+                this.buttonSearchTimelineNew.Enabled = !value;
+            }
+        }
+
         public SearchWordDialog()
         {
             InitializeComponent();
         }
 
-        private void OK_Button_Click(object sender, EventArgs e)
+        public void Reset()
         {
+            this.tabControl.SelectedTab = this.tabPageTimeline;
+
+            this.textSearchTimeline.ResetText();
+            this.checkTimelineCaseSensitive.Checked = false;
+            this.checkTimelineRegex.Checked = false;
+
+            this.textSearchPublic.ResetText();
+        }
+
+        private void textSearchTimeline_Shown(object sender, EventArgs e)
+        {
+            this.textSearchTimeline.SelectAll();
+            this.textSearchTimeline.Focus();
+        }
+
+        private void tabControl_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (this.tabControl.SelectedTab == this.tabPageTimeline)
+                this.AcceptButton = this.buttonSearchTimeline;
+            else
+                this.AcceptButton = this.buttonSearchPublic;
+        }
+
+        private void buttonSearchTimeline_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(this.textSearchTimeline.Text))
+            {
+                this.DialogResult = DialogResult.Cancel;
+                return;
+            }
+
             this.DialogResult = DialogResult.OK;
-            this.Close();
+
+            this.ResultOptions = new SearchOptions(
+                SearchType.Timeline,
+                this.textSearchTimeline.Text,
+                false,
+                this.checkTimelineCaseSensitive.Checked,
+                this.checkTimelineRegex.Checked
+            );
         }
 
-        private void Cancel_Button_Click(object sender, EventArgs e)
+        private void buttonSearchTimelineNew_Click(object sender, EventArgs e)
         {
-            this.DialogResult = DialogResult.Cancel;
-            this.Close();
+            if (string.IsNullOrEmpty(this.textSearchTimeline.Text))
+            {
+                this.DialogResult = DialogResult.Cancel;
+                return;
+            }
+
+            this.DialogResult = DialogResult.OK;
+
+            this.ResultOptions = new SearchOptions(
+                SearchType.Timeline,
+                this.textSearchTimeline.Text,
+                true,
+                this.checkTimelineCaseSensitive.Checked,
+                this.checkTimelineRegex.Checked
+            );
         }
 
-        public string SWord
+        private void buttonSearchPublic_Click(object sender, EventArgs e)
         {
-            get { return SWordText.Text; }
-            set { SWordText.Text = value; }
+            if (string.IsNullOrEmpty(this.textSearchPublic.Text))
+            {
+                this.DialogResult = DialogResult.Cancel;
+                return;
+            }
+
+            this.DialogResult = DialogResult.OK;
+
+            this.ResultOptions = new SearchOptions(
+                SearchType.Public,
+                this.textSearchPublic.Text,
+                true,
+                false,
+                false
+            );
         }
 
-        public bool CheckCaseSensitive
+        private /* async */ void linkLabelSearchHelp_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            get { return CheckSearchCaseSensitive.Checked; }
-            set { CheckSearchCaseSensitive.Checked = value; }
-        }
+            // 「検索オプションの使い方」ページのURL
+            const string PublicSearchHelpUrl = "https://support.twitter.com/articles/249059";
 
-        public bool CheckRegex
-        {
-            get { return CheckSearchRegex.Checked; }
-            set { CheckSearchRegex.Checked = value; }
-        }
-
-        private void SearchWord_Shown(object sender, EventArgs e)
-        {
-            SWordText.SelectAll();
-            SWordText.Focus();
+            var tweenMain = (TweenMain)this.Owner;
+            tweenMain.OpenUriAsync(PublicSearchHelpUrl);
         }
     }
 }

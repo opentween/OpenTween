@@ -5677,69 +5677,113 @@ namespace OpenTween
 
         private void MenuItemSubSearch_Click(object sender, EventArgs e)
         {
-            //検索メニュー
-            SearchDialog.Owner = this;
-            if (SearchDialog.ShowDialog() == DialogResult.Cancel)
-            {
-                this.TopMost = SettingDialog.AlwaysTop;
-                return;
-            }
-            this.TopMost = SettingDialog.AlwaysTop;
-
-            if (!string.IsNullOrEmpty(SearchDialog.SWord))
-            {
-                DoTabSearch(SearchDialog.SWord,
-                            SearchDialog.CheckCaseSensitive,
-                            SearchDialog.CheckRegex,
-                            SEARCHTYPE.DialogSearch);
-            }
+            // 検索メニュー
+            this.ShowSearchDialog();
         }
 
         private void MenuItemSearchNext_Click(object sender, EventArgs e)
         {
-            //次を検索
-            if (string.IsNullOrEmpty(SearchDialog.SWord))
+            var previousSearch = this.SearchDialog.ResultOptions;
+            if (previousSearch == null || previousSearch.Type != SearchWordDialog.SearchType.Timeline)
             {
-                if (SearchDialog.ShowDialog() == DialogResult.Cancel)
-                {
-                    this.TopMost = SettingDialog.AlwaysTop;
-                    return;
-                }
-                this.TopMost = SettingDialog.AlwaysTop;
-                if (string.IsNullOrEmpty(SearchDialog.SWord)) return;
+                this.SearchDialog.Reset();
+                this.ShowSearchDialog();
+                return;
+            }
 
-                DoTabSearch(SearchDialog.SWord,
-                            SearchDialog.CheckCaseSensitive,
-                            SearchDialog.CheckRegex,
-                            SEARCHTYPE.DialogSearch);
-            }
-            else
-            {
-                DoTabSearch(SearchDialog.SWord,
-                            SearchDialog.CheckCaseSensitive,
-                            SearchDialog.CheckRegex,
-                            SEARCHTYPE.NextSearch);
-            }
+            // 次を検索
+            this.DoTabSearch(
+                previousSearch.Query,
+                previousSearch.CaseSensitive,
+                previousSearch.UseRegex,
+                SEARCHTYPE.NextSearch);
         }
 
         private void MenuItemSearchPrev_Click(object sender, EventArgs e)
         {
-            //前を検索
-            if (string.IsNullOrEmpty(SearchDialog.SWord))
+            var previousSearch = this.SearchDialog.ResultOptions;
+            if (previousSearch == null || previousSearch.Type != SearchWordDialog.SearchType.Timeline)
             {
-                if (SearchDialog.ShowDialog() == DialogResult.Cancel)
-                {
-                    this.TopMost = SettingDialog.AlwaysTop;
-                    return;
-                }
-                this.TopMost = SettingDialog.AlwaysTop;
-                if (string.IsNullOrEmpty(SearchDialog.SWord)) return;
+                this.SearchDialog.Reset();
+                this.ShowSearchDialog();
+                return;
             }
 
-            DoTabSearch(SearchDialog.SWord,
-                        SearchDialog.CheckCaseSensitive,
-                        SearchDialog.CheckRegex,
-                        SEARCHTYPE.PrevSearch);
+            // 前を検索
+            this.DoTabSearch(
+                previousSearch.Query,
+                previousSearch.CaseSensitive,
+                previousSearch.UseRegex,
+                SEARCHTYPE.PrevSearch);
+        }
+
+        /// <summary>
+        /// 検索ダイアログを表示し、検索を実行します
+        /// </summary>
+        private void ShowSearchDialog()
+        {
+            // Recentタブの検索時以外では「新規タブに表示」ボタンを無効化する
+            if (this._statuses.Tabs[this._curTab.Text].TabType == MyCommon.TabUsageType.Home)
+                this.SearchDialog.DisableNewTabButton = false;
+            else
+                this.SearchDialog.DisableNewTabButton = true;
+
+            if (this.SearchDialog.ShowDialog(this) != DialogResult.OK)
+            {
+                this.TopMost = this.SettingDialog.AlwaysTop;
+                return;
+            }
+            this.TopMost = this.SettingDialog.AlwaysTop;
+
+            var searchOptions = this.SearchDialog.ResultOptions;
+            if (searchOptions.Type == SearchWordDialog.SearchType.Timeline)
+            {
+                if (searchOptions.NewTab)
+                {
+                    var tabName = searchOptions.Query;
+
+                    try
+                    {
+                        tabName = this._statuses.MakeTabName(tabName);
+                    }
+                    catch (TabException ex)
+                    {
+                        MessageBox.Show(this, ex.Message, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+
+                    this.AddNewTab(tabName, false, MyCommon.TabUsageType.UserDefined);
+                    this._statuses.AddTab(tabName, MyCommon.TabUsageType.UserDefined, null);
+
+                    var filter = new PostFilterRule
+                    {
+                        FilterBody = new[] { searchOptions.Query },
+                        UseRegex = searchOptions.UseRegex,
+                        CaseSensitive = searchOptions.CaseSensitive,
+                    };
+                    this._statuses.Tabs[tabName].AddFilter(filter);
+
+                    var tabPage = this.ListTab.TabPages.Cast<TabPage>()
+                        .First(x => x.Text == tabName);
+
+                    this.ListTab.SelectedTab = tabPage;
+                    this.ListTabSelect(tabPage);
+
+                    this.ApplyPostFilters();
+                    this.SaveConfigsTabs();
+                }
+                else
+                {
+                    this.DoTabSearch(
+                        searchOptions.Query,
+                        searchOptions.CaseSensitive,
+                        searchOptions.UseRegex,
+                        SEARCHTYPE.DialogSearch);
+                }
+            }
+            else if (searchOptions.Type == SearchWordDialog.SearchType.Public)
+            {
+                this.AddNewTabForSearch(searchOptions.Query);
+            }
         }
 
         private void AboutMenuItem_Click(object sender, EventArgs e)
@@ -10348,14 +10392,20 @@ namespace OpenTween
 
             if (_selText != null)
             {
-                SearchDialog.SWord = _selText;
-                SearchDialog.CheckCaseSensitive = false;
-                SearchDialog.CheckRegex = false;
+                var searchOptions = new SearchWordDialog.SearchOptions(
+                    SearchWordDialog.SearchType.Timeline,
+                    _selText,
+                    newTab: false,
+                    caseSensitive: false,
+                    useRegex: false);
 
-                DoTabSearch(SearchDialog.SWord,
-                            SearchDialog.CheckCaseSensitive,
-                            SearchDialog.CheckRegex,
-                            SEARCHTYPE.NextSearch);
+                this.SearchDialog.ResultOptions = searchOptions;
+
+                this.DoTabSearch(
+                    searchOptions.Query,
+                    searchOptions.CaseSensitive,
+                    searchOptions.UseRegex,
+                    SEARCHTYPE.NextSearch);
             }
         }
 
