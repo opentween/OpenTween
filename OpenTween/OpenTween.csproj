@@ -327,11 +327,11 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="RadixConvert.cs" />
-    <Compile Include="SearchWord.cs">
+    <Compile Include="SearchWordDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="SearchWord.Designer.cs">
-      <DependentUpon>SearchWord.cs</DependentUpon>
+    <Compile Include="SearchWordDialog.Designer.cs">
+      <DependentUpon>SearchWordDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="Setting\SettingAtIdList.cs" />
     <Compile Include="Setting\SettingBase.cs" />
@@ -646,14 +646,14 @@
     <EmbeddedResource Include="Properties\Resources.zh-CHS.resx">
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="SearchWord.en.resx">
-      <DependentUpon>SearchWord.cs</DependentUpon>
+    <EmbeddedResource Include="SearchWordDialog.en.resx">
+      <DependentUpon>SearchWordDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="SearchWord.resx">
-      <DependentUpon>SearchWord.cs</DependentUpon>
+    <EmbeddedResource Include="SearchWordDialog.resx">
+      <DependentUpon>SearchWordDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="SearchWord.zh-CHS.resx">
-      <DependentUpon>SearchWord.cs</DependentUpon>
+    <EmbeddedResource Include="SearchWordDialog.zh-CHS.resx">
+      <DependentUpon>SearchWordDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ShowUserInfo.en.resx">
       <DependentUpon>ShowUserInfo.cs</DependentUpon>

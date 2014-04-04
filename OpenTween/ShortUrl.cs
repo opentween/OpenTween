@@ -41,7 +41,7 @@ namespace OpenTween
         private static Lazy<ShortUrl> _instance = new Lazy<ShortUrl>(() => new ShortUrl(new HttpVarious()), true);
 
         /// <summary>
-        /// ShortUrl のインストタンスを取得します
+        /// ShortUrl のインスタンスを取得します
         /// </summary>
         public static ShortUrl Instance
         {

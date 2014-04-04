@@ -105,7 +105,7 @@ namespace OpenTween
 
         //サブ画面インスタンス
         private AppendSettingDialog SettingDialog = AppendSettingDialog.Instance;       //設定画面インスタンス
-        private SearchWord SearchDialog = new SearchWord();     //検索画面インスタンス
+        private SearchWordDialog SearchDialog = new SearchWordDialog();     //検索画面インスタンス
         private FilterDialog fltDialog = new FilterDialog(); //フィルター編集画面
         private OpenURL UrlDialog = new OpenURL();
         public AtIdSupplement AtIdSupl;     //@id補助
@@ -5228,6 +5228,45 @@ namespace OpenTween
             return itm;
         }
 
+        /// <summary>
+        /// 全てのタブの振り分けルールを反映し直します
+        /// </summary>
+        private void ApplyPostFilters()
+        {
+            try
+            {
+                this.Cursor = Cursors.WaitCursor;
+
+                this.PurgeListViewItemCache();
+                this._curPost = null;
+                this._curItemIndex = -1;
+                this._statuses.FilterAll();
+
+                foreach (TabPage tabPage in this.ListTab.TabPages)
+                {
+                    var tab = this._statuses.Tabs[tabPage.Text];
+
+                    var listview = (DetailsListView)tabPage.Tag;
+                    listview.VirtualListSize = tab.AllCount;
+
+                    if (this.SettingDialog.TabIconDisp)
+                    {
+                        if (tab.UnreadCount > 0)
+                            tabPage.ImageIndex = 0;
+                        else
+                            tabPage.ImageIndex = -1;
+                    }
+                }
+
+                if (!this.SettingDialog.TabIconDisp)
+                    this.ListTab.Refresh();
+            }
+            finally
+            {
+                this.Cursor = Cursors.Default;
+            }
+        }
+
         private void MyList_DrawColumnHeader(object sender, DrawListViewColumnHeaderEventArgs e)
         {
             e.DrawDefault = true;
@@ -5638,69 +5677,113 @@ namespace OpenTween
 
         private void MenuItemSubSearch_Click(object sender, EventArgs e)
         {
-            //検索メニュー
-            SearchDialog.Owner = this;
-            if (SearchDialog.ShowDialog() == DialogResult.Cancel)
-            {
-                this.TopMost = SettingDialog.AlwaysTop;
-                return;
-            }
-            this.TopMost = SettingDialog.AlwaysTop;
-
-            if (!string.IsNullOrEmpty(SearchDialog.SWord))
-            {
-                DoTabSearch(SearchDialog.SWord,
-                            SearchDialog.CheckCaseSensitive,
-                            SearchDialog.CheckRegex,
-                            SEARCHTYPE.DialogSearch);
-            }
+            // 検索メニュー
+            this.ShowSearchDialog();
         }
 
         private void MenuItemSearchNext_Click(object sender, EventArgs e)
         {
-            //次を検索
-            if (string.IsNullOrEmpty(SearchDialog.SWord))
+            var previousSearch = this.SearchDialog.ResultOptions;
+            if (previousSearch == null || previousSearch.Type != SearchWordDialog.SearchType.Timeline)
             {
-                if (SearchDialog.ShowDialog() == DialogResult.Cancel)
-                {
-                    this.TopMost = SettingDialog.AlwaysTop;
-                    return;
-                }
-                this.TopMost = SettingDialog.AlwaysTop;
-                if (string.IsNullOrEmpty(SearchDialog.SWord)) return;
+                this.SearchDialog.Reset();
+                this.ShowSearchDialog();
+                return;
+            }
 
-                DoTabSearch(SearchDialog.SWord,
-                            SearchDialog.CheckCaseSensitive,
-                            SearchDialog.CheckRegex,
-                            SEARCHTYPE.DialogSearch);
-            }
-            else
-            {
-                DoTabSearch(SearchDialog.SWord,
-                            SearchDialog.CheckCaseSensitive,
-                            SearchDialog.CheckRegex,
-                            SEARCHTYPE.NextSearch);
-            }
+            // 次を検索
+            this.DoTabSearch(
+                previousSearch.Query,
+                previousSearch.CaseSensitive,
+                previousSearch.UseRegex,
+                SEARCHTYPE.NextSearch);
         }
 
         private void MenuItemSearchPrev_Click(object sender, EventArgs e)
         {
-            //前を検索
-            if (string.IsNullOrEmpty(SearchDialog.SWord))
+            var previousSearch = this.SearchDialog.ResultOptions;
+            if (previousSearch == null || previousSearch.Type != SearchWordDialog.SearchType.Timeline)
             {
-                if (SearchDialog.ShowDialog() == DialogResult.Cancel)
-                {
-                    this.TopMost = SettingDialog.AlwaysTop;
-                    return;
-                }
-                this.TopMost = SettingDialog.AlwaysTop;
-                if (string.IsNullOrEmpty(SearchDialog.SWord)) return;
+                this.SearchDialog.Reset();
+                this.ShowSearchDialog();
+                return;
             }
 
-            DoTabSearch(SearchDialog.SWord,
-                        SearchDialog.CheckCaseSensitive,
-                        SearchDialog.CheckRegex,
-                        SEARCHTYPE.PrevSearch);
+            // 前を検索
+            this.DoTabSearch(
+                previousSearch.Query,
+                previousSearch.CaseSensitive,
+                previousSearch.UseRegex,
+                SEARCHTYPE.PrevSearch);
+        }
+
+        /// <summary>
+        /// 検索ダイアログを表示し、検索を実行します
+        /// </summary>
+        private void ShowSearchDialog()
+        {
+            // Recentタブの検索時以外では「新規タブに表示」ボタンを無効化する
+            if (this._statuses.Tabs[this._curTab.Text].TabType == MyCommon.TabUsageType.Home)
+                this.SearchDialog.DisableNewTabButton = false;
+            else
+                this.SearchDialog.DisableNewTabButton = true;
+
+            if (this.SearchDialog.ShowDialog(this) != DialogResult.OK)
+            {
+                this.TopMost = this.SettingDialog.AlwaysTop;
+                return;
+            }
+            this.TopMost = this.SettingDialog.AlwaysTop;
+
+            var searchOptions = this.SearchDialog.ResultOptions;
+            if (searchOptions.Type == SearchWordDialog.SearchType.Timeline)
+            {
+                if (searchOptions.NewTab)
+                {
+                    var tabName = searchOptions.Query;
+
+                    try
+                    {
+                        tabName = this._statuses.MakeTabName(tabName);
+                    }
+                    catch (TabException ex)
+                    {
+                        MessageBox.Show(this, ex.Message, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+
+                    this.AddNewTab(tabName, false, MyCommon.TabUsageType.UserDefined);
+                    this._statuses.AddTab(tabName, MyCommon.TabUsageType.UserDefined, null);
+
+                    var filter = new PostFilterRule
+                    {
+                        FilterBody = new[] { searchOptions.Query },
+                        UseRegex = searchOptions.UseRegex,
+                        CaseSensitive = searchOptions.CaseSensitive,
+                    };
+                    this._statuses.Tabs[tabName].AddFilter(filter);
+
+                    var tabPage = this.ListTab.TabPages.Cast<TabPage>()
+                        .First(x => x.Text == tabName);
+
+                    this.ListTab.SelectedTab = tabPage;
+                    this.ListTabSelect(tabPage);
+
+                    this.ApplyPostFilters();
+                    this.SaveConfigsTabs();
+                }
+                else
+                {
+                    this.DoTabSearch(
+                        searchOptions.Query,
+                        searchOptions.CaseSensitive,
+                        searchOptions.UseRegex,
+                        SEARCHTYPE.DialogSearch);
+                }
+            }
+            else if (searchOptions.Type == SearchWordDialog.SearchType.Public)
+            {
+                this.AddNewTabForSearch(searchOptions.Query);
+            }
         }
 
         private void AboutMenuItem_Click(object sender, EventArgs e)
@@ -8689,33 +8772,7 @@ namespace OpenTween
             fltDialog.ShowDialog(this);
             this.TopMost = SettingDialog.AlwaysTop;
 
-            try
-            {
-                this.Cursor = Cursors.WaitCursor;
-                this.PurgeListViewItemCache();
-                _curPost = null;
-                _curItemIndex = -1;
-                _statuses.FilterAll();
-                foreach (TabPage tb in ListTab.TabPages)
-                {
-                    ((DetailsListView)tb.Tag).VirtualListSize = _statuses.Tabs[tb.Text].AllCount;
-                    if (_statuses.Tabs[tb.Text].UnreadCount > 0)
-                    {
-                        if (SettingDialog.TabIconDisp)
-                            tb.ImageIndex = 0;
-                    }
-                    else
-                    {
-                        if (SettingDialog.TabIconDisp)
-                            tb.ImageIndex = -1;
-                    }
-                }
-                if (!SettingDialog.TabIconDisp) ListTab.Refresh();
-            }
-            finally
-            {
-                this.Cursor = Cursors.Default;
-            }
+            this.ApplyPostFilters();
             SaveConfigsTabs();
         }
 
@@ -8793,33 +8850,7 @@ namespace OpenTween
                 this.TopMost = SettingDialog.AlwaysTop;
             }
 
-            try
-            {
-                this.Cursor = Cursors.WaitCursor;
-                this.PurgeListViewItemCache();
-                _curPost = null;
-                _curItemIndex = -1;
-                _statuses.FilterAll();
-                foreach (TabPage tb in ListTab.TabPages)
-                {
-                    ((DetailsListView)tb.Tag).VirtualListSize = _statuses.Tabs[tb.Text].AllCount;
-                    if (_statuses.Tabs[tb.Text].UnreadCount > 0)
-                    {
-                        if (SettingDialog.TabIconDisp)
-                            tb.ImageIndex = 0;
-                    }
-                    else
-                    {
-                        if (SettingDialog.TabIconDisp)
-                            tb.ImageIndex = -1;
-                    }
-                }
-                if (!SettingDialog.TabIconDisp) ListTab.Refresh();
-            }
-            finally
-            {
-                this.Cursor = Cursors.Default;
-            }
+            this.ApplyPostFilters();
             SaveConfigsTabs();
             if (this.ListTab.SelectedTab != null &&
                 ((DetailsListView)this.ListTab.SelectedTab.Tag).SelectedIndices.Count > 0)
@@ -8967,36 +8998,7 @@ namespace OpenTween
                 if (AtIdSupl.ItemCount != cnt) _modifySettingAtId = true;
             }
 
-            try
-            {
-                this.Cursor = Cursors.WaitCursor;
-                this.PurgeListViewItemCache();
-                _curPost = null;
-                _curItemIndex = -1;
-                _statuses.FilterAll();
-                foreach (TabPage tb in ListTab.TabPages)
-                {
-                    ((DetailsListView)tb.Tag).VirtualListSize = _statuses.Tabs[tb.Text].AllCount;
-                    if (_statuses.ContainsTab(tb.Text))
-                    {
-                        if (_statuses.Tabs[tb.Text].UnreadCount > 0)
-                        {
-                            if (SettingDialog.TabIconDisp)
-                                tb.ImageIndex = 0;
-                        }
-                        else
-                        {
-                            if (SettingDialog.TabIconDisp)
-                                tb.ImageIndex = -1;
-                        }
-                    }
-                }
-                if (!SettingDialog.TabIconDisp) ListTab.Refresh();
-            }
-            finally
-            {
-                this.Cursor = Cursors.Default;
-            }
+            this.ApplyPostFilters();
             SaveConfigsTabs();
         }
 
@@ -10390,14 +10392,20 @@ namespace OpenTween
 
             if (_selText != null)
             {
-                SearchDialog.SWord = _selText;
-                SearchDialog.CheckCaseSensitive = false;
-                SearchDialog.CheckRegex = false;
+                var searchOptions = new SearchWordDialog.SearchOptions(
+                    SearchWordDialog.SearchType.Timeline,
+                    _selText,
+                    newTab: false,
+                    caseSensitive: false,
+                    useRegex: false);
 
-                DoTabSearch(SearchDialog.SWord,
-                            SearchDialog.CheckCaseSensitive,
-                            SearchDialog.CheckRegex,
-                            SEARCHTYPE.NextSearch);
+                this.SearchDialog.ResultOptions = searchOptions;
+
+                this.DoTabSearch(
+                    searchOptions.Query,
+                    searchOptions.CaseSensitive,
+                    searchOptions.UseRegex,
+                    SEARCHTYPE.NextSearch);
             }
         }
 
@@ -11675,33 +11683,7 @@ namespace OpenTween
                 fc.FilterByUrl = false;
                 _statuses.Tabs[tabName].AddFilter(fc);
 
-                try
-                {
-                    this.Cursor = Cursors.WaitCursor;
-                    this.PurgeListViewItemCache();
-                    _curPost = null;
-                    _curItemIndex = -1;
-                    _statuses.FilterAll();
-                    foreach (TabPage tb in ListTab.TabPages)
-                    {
-                        ((DetailsListView)tb.Tag).VirtualListSize = _statuses.Tabs[tb.Text].AllCount;
-                        if (_statuses.Tabs[tb.Text].UnreadCount > 0)
-                        {
-                            if (SettingDialog.TabIconDisp)
-                                tb.ImageIndex = 0;
-                        }
-                        else
-                        {
-                            if (SettingDialog.TabIconDisp)
-                                tb.ImageIndex = -1;
-                        }
-                    }
-                    if (!SettingDialog.TabIconDisp) ListTab.Refresh();
-                }
-                finally
-                {
-                    this.Cursor = Cursors.Default;
-                }
+                this.ApplyPostFilters();
                 SaveConfigsTabs();
             }
         }
