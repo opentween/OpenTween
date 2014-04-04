@@ -1233,13 +1233,13 @@ namespace OpenTween
                     tab.TabType = MyCommon.TabUsageType.Favorites;
                 }
             }
-            foreach (string tn in _statuses.Tabs.Keys)
+            foreach (var tab in _statuses.Tabs.Values)
             {
-                if (_statuses.Tabs[tn].TabType == MyCommon.TabUsageType.Undefined)
+                if (tab.TabType == MyCommon.TabUsageType.Undefined)
                 {
-                    _statuses.Tabs[tn].TabType = MyCommon.TabUsageType.UserDefined;
+                    tab.TabType = MyCommon.TabUsageType.UserDefined;
                 }
-                if (!AddNewTab(tn, true, _statuses.Tabs[tn].TabType, _statuses.Tabs[tn].ListInfo)) throw new Exception(Properties.Resources.TweenMain_LoadText1);
+                if (!AddNewTab(tab.TabName, true, tab.TabType, tab.ListInfo)) throw new Exception(Properties.Resources.TweenMain_LoadText1);
             }
 
             this.JumpReadOpMenuItem.ShortcutKeyDisplayString = "Space";
@@ -9268,10 +9268,10 @@ namespace OpenTween
                 SettingDialog.DispLatestPost != MyCommon.DispTitleEnum.Ver &&
                 SettingDialog.DispLatestPost != MyCommon.DispTitleEnum.OwnStatus)
             {
-                foreach (string key in _statuses.Tabs.Keys)
+                foreach (var tab in _statuses.Tabs.Values)
                 {
-                    ur += _statuses.Tabs[key].UnreadCount;
-                    al += _statuses.Tabs[key].AllCount;
+                    ur += tab.UnreadCount;
+                    al += tab.AllCount;
                 }
             }
 
@@ -9331,14 +9331,14 @@ namespace OpenTween
             StringBuilder slbl = new StringBuilder(256);
             try
             {
-                foreach (string key in _statuses.Tabs.Keys)
+                foreach (var tab in _statuses.Tabs.Values)
                 {
-                    ur += _statuses.Tabs[key].UnreadCount;
-                    al += _statuses.Tabs[key].AllCount;
-                    if (key.Equals(_curTab.Text))
+                    ur += tab.UnreadCount;
+                    al += tab.AllCount;
+                    if (_curTab != null && tab.TabName.Equals(_curTab.Text))
                     {
-                        tur = _statuses.Tabs[key].UnreadCount;
-                        tal = _statuses.Tabs[key].AllCount;
+                        tur = tab.UnreadCount;
+                        tal = tab.AllCount;
                     }
                 }
             }
