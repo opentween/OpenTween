@@ -4110,6 +4110,8 @@ namespace OpenTween
 
                     try
                     {
+                        var oldIconCol = _iconCol;
+
                         if (SettingDialog.IconSz != oldIconSz)
                             ApplyListViewIconSize(SettingDialog.IconSz);
 
@@ -4123,7 +4125,7 @@ namespace OpenTween
                                 lst.Font = _fntReaded;
                                 lst.BackColor = _clListBackcolor;
 
-                                if (SettingDialog.IconSz != oldIconSz)
+                                if (_iconCol != oldIconCol)
                                     ResetColumns(lst);
                             }
                         }
@@ -13490,12 +13492,17 @@ namespace OpenTween
         {
             if (SettingDialog.IconSz == iconSize) return;
 
+            var oldIconCol = _iconCol;
+
             SettingDialog.IconSz = iconSize;
             ApplyListViewIconSize(iconSize);
 
-            foreach (TabPage tp in ListTab.TabPages)
+            if (_iconCol != oldIconCol)
             {
-                ResetColumns((DetailsListView)tp.Tag);
+                foreach (TabPage tp in ListTab.TabPages)
+                {
+                    ResetColumns((DetailsListView)tp.Tag);
+                }
             }
 
             if (_curList != null) _curList.Refresh();
