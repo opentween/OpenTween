@@ -28,8 +28,11 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+using System.Web;
 
 namespace OpenTween
 {
@@ -38,7 +41,7 @@ namespace OpenTween
     /// </summary>
     public class ShortUrl
     {
-        private static Lazy<ShortUrl> _instance = new Lazy<ShortUrl>(() => new ShortUrl(new HttpVarious()), true);
+        private static Lazy<ShortUrl> _instance;
 
         /// <summary>
         /// ShortUrl のインストタンスを取得します
@@ -58,16 +61,11 @@ namespace OpenTween
         /// </summary>
         public int PurgeCount { get; set; }
 
-        /// <summary>
-        /// リダイレクトのタイムアウト時間 (単位: ms)
-        /// </summary>
-        public int RedirectTimeout { get; set; }
-
         public string BitlyId { get; set; }
         public string BitlyKey { get; set; }
 
-        private HttpVarious http;
-        private ConcurrentDictionary<string, string> urlCache = new ConcurrentDictionary<string, string>();
+        private HttpClient http;
+        private ConcurrentDictionary<Uri, Uri> urlCache = new ConcurrentDictionary<Uri, Uri>();
 
         private static readonly Regex HtmlLinkPattern = new Regex(@"(<a href="")(.+?)("")");
 
@@ -121,34 +119,62 @@ namespace OpenTween
             "youtu.be",
         };
 
-        internal ShortUrl(HttpVarious http)
+        static ShortUrl()
+        {
+            _instance = new Lazy<ShortUrl>(() =>
+            {
+                var handler = new HttpClientHandler
+                {
+                    AllowAutoRedirect = false,
+                };
+
+                var http = MyCommon.CreateHttpClient(handler);
+                http.Timeout = new TimeSpan(0, 0, seconds: 5);
+
+                return new ShortUrl(http);
+            }, true);
+        }
+
+        internal ShortUrl(HttpClient http)
         {
             this.DisableExpanding = false;
             this.PurgeCount = 500;
-            this.RedirectTimeout = 1000;
             this.BitlyId = "";
             this.BitlyKey = "";
 
             this.http = http;
         }
 
-        /// <summary>
-        /// 短縮 URL を展開します
-        /// </summary>
-        /// <param name="uri">展開するURL</param>
-        /// <returns>展開されたURL</returns>
+        [Obsolete]
         public string ExpandUrl(string uri)
         {
-            return this.ExpandUrl(uri, 10);
+            try
+            {
+                return this.ExpandUrlAsync(new Uri(uri), 10).Result.ToString();
+            }
+            catch (UriFormatException)
+            {
+                return uri;
+            }
         }
 
         /// <summary>
-        /// 短縮 URL を展開します
+        /// 短縮 URL を非同期に展開します
+        /// </summary>
+        /// <param name="uri">展開するURL</param>
+        /// <returns>URLの展開を行うタスク</returns>
+        public Task<Uri> ExpandUrlAsync(Uri uri)
+        {
+            return this.ExpandUrlAsync(uri, 10);
+        }
+
+        /// <summary>
+        /// 短縮 URL を非同期に展開します
         /// </summary>
         /// <param name="uri">展開するURL</param>
         /// <param name="redirectLimit">再帰的に展開を試みる上限</param>
-        /// <returns>展開されたURL</returns>
-        public string ExpandUrl(string uri, int redirectLimit)
+        /// <returns>URLの展開を行うタスク</returns>
+        public async Task<Uri> ExpandUrlAsync(Uri uri, int redirectLimit)
         {
             if (this.DisableExpanding)
                 return uri;
@@ -158,20 +184,32 @@ namespace OpenTween
 
             try
             {
-                if (!ShortUrlHosts.Contains(new Uri(uri).Host))
+                if (!ShortUrlHosts.Contains(uri.Host))
                     return uri;
 
-                string expanded;
+                Uri expanded;
                 if (this.urlCache.TryGetValue(uri, out expanded))
                     return expanded;
 
                 if (this.urlCache.Count > this.PurgeCount)
                     this.urlCache.Clear();
 
-                expanded = this.http.GetRedirectTo(uri, this.RedirectTimeout);
+                expanded = null;
+                try
+                {
+                    expanded = await this.GetRedirectTo(uri)
+                        .ConfigureAwait(false);
+                }
+                catch (TaskCanceledException) { }
+                catch (HttpRequestException) { }
+
+                if (expanded == null || expanded == uri)
+                    return uri;
+
                 this.urlCache[uri] = expanded;
 
-                var recursiveExpanded = this.ExpandUrl(expanded, redirectLimit--);
+                var recursiveExpanded = await this.ExpandUrlAsync(expanded, --redirectLimit)
+                    .ConfigureAwait(false);
 
                 // URL1 -> URL2 -> URL3 のように再帰的に展開されたURLを URL1 -> URL3 としてキャッシュに格納する
                 if (recursiveExpanded != expanded)
@@ -185,191 +223,216 @@ namespace OpenTween
             }
         }
 
-        /// <summary>
-        /// HTML内に含まれるリンクのURLを展開する
-        /// </summary>
-        /// <param name="html">処理対象のHTML</param>
-        /// <returns>展開されたURLを含むHTML</returns>
+        [Obsolete]
         public string ExpandUrlHtml(string html)
         {
-            return this.ExpandUrlHtml(html, 10);
+            return this.ExpandUrlHtmlAsync(html, 10).Result;
         }
 
         /// <summary>
-        /// HTML内に含まれるリンクのURLを展開する
+        /// HTML内に含まれるリンクのURLを非同期に展開する
+        /// </summary>
+        /// <param name="html">処理対象のHTML</param>
+        /// <returns>URLの展開を行うタスク</returns>
+        public Task<string> ExpandUrlHtmlAsync(string html)
+        {
+            return this.ExpandUrlHtmlAsync(html, 10);
+        }
+
+        /// <summary>
+        /// HTML内に含まれるリンクのURLを非同期に展開する
         /// </summary>
         /// <param name="html">処理対象のHTML</param>
         /// <param name="redirectLimit">再帰的に展開を試みる上限</param>
-        /// <returns>展開されたURLを含むHTML</returns>
-        public string ExpandUrlHtml(string html, int redirectLimit)
+        /// <returns>URLの展開を行うタスク</returns>
+        public Task<string> ExpandUrlHtmlAsync(string html, int redirectLimit)
         {
             if (this.DisableExpanding)
-                return html;
+                return Task.FromResult(html);
 
-            return HtmlLinkPattern.Replace(html, m => m.Groups[1].Value + this.ExpandUrl(m.Groups[2].Value, redirectLimit) + m.Groups[3].Value);
+            return HtmlLinkPattern.ReplaceAsync(html, async m =>
+                m.Groups[1].Value + await this.ExpandUrlAsync(new Uri(m.Groups[2].Value), redirectLimit).ConfigureAwait(false) + m.Groups[3].Value);
         }
 
         /// <summary>
         /// 指定された短縮URLサービスを使用してURLを短縮します
         /// </summary>
         /// <param name="shortenerType">使用する短縮URLサービス</param>
-        /// <param name="srcUrl">短縮するURL</param>
+        /// <param name="srcUri">短縮するURL</param>
         /// <returns>短縮されたURL</returns>
-        public string ShortenUrl(MyCommon.UrlConverter shortenerType, string srcUrl)
+        public Task<Uri> ShortenUrlAsync(MyCommon.UrlConverter shortenerType, Uri srcUri)
         {
-            srcUrl = MyCommon.urlEncodeMultibyteChar(srcUrl);
-
             // 既に短縮されている状態のURLであれば短縮しない
-            if (ShortUrlHosts.Contains(new Uri(srcUrl).Host))
-                return srcUrl;
+            if (ShortUrlHosts.Contains(srcUri.Host))
+                return Task.FromResult(srcUri);
 
-            string result;
             switch (shortenerType)
             {
                 case MyCommon.UrlConverter.TinyUrl:
-                    result = this.ShortenByTinyUrl(srcUrl);
-                    break;
+                    return this.ShortenByTinyUrlAsync(srcUri);
                 case MyCommon.UrlConverter.Isgd:
-                    result = this.ShortenByIsgd(srcUrl);
-                    break;
+                    return this.ShortenByIsgdAsync(srcUri);
                 case MyCommon.UrlConverter.Twurl:
-                    result = this.ShortenByTwurl(srcUrl);
-                    break;
+                    return this.ShortenByTwurlAsync(srcUri);
                 case MyCommon.UrlConverter.Bitly:
-                    result = this.ShortenByBitly(srcUrl, "bit.ly");
-                    break;
+                    return this.ShortenByBitlyAsync(srcUri, "bit.ly");
                 case MyCommon.UrlConverter.Jmp:
-                    result = this.ShortenByBitly(srcUrl, "j.mp");
-                    break;
+                    return this.ShortenByBitlyAsync(srcUri, "j.mp");
                 case MyCommon.UrlConverter.Uxnu:
-                    result = this.ShortenByUxnu(srcUrl);
-                    break;
+                    return this.ShortenByUxnuAsync(srcUri);
                 default:
                     throw new ArgumentException("Unknown shortener.", "shortenerType");
             }
-
-            // 短縮の結果逆に長くなった場合は短縮前のURLを返す
-            if (srcUrl.Length < result.Length)
-                result = srcUrl;
-
-            return result;
         }
 
-        private string ShortenByTinyUrl(string srcUrl)
+        private async Task<Uri> ShortenByTinyUrlAsync(Uri srcUri)
         {
             // 明らかに長くなると推測できる場合は短縮しない
-            if ("http://tinyurl.com/xxxxxx".Length > srcUrl.Length)
-                return srcUrl;
+            if ("http://tinyurl.com/xxxxxx".Length > srcUri.OriginalString.Length)
+                return srcUri;
 
-            var param = new Dictionary<string, string>
+            var content = new FormUrlEncodedContent(new[]
             {
-                {"url", srcUrl},
-            };
+                new KeyValuePair<string, string>("url", srcUri.OriginalString),
+            });
 
-            string response;
-            if (!this.http.PostData("http://tinyurl.com/api-create.php", param, out response))
-                throw new WebApiException("Failed to create URL.", response);
-
-            if (!Regex.IsMatch(response, @"^https?://"))
-                throw new WebApiException("Failed to create URL.", response);
-
-            return response.TrimEnd();
-        }
-
-        private string ShortenByIsgd(string srcUrl)
-        {
-            // 明らかに長くなると推測できる場合は短縮しない
-            if ("http://is.gd/xxxx".Length > srcUrl.Length)
-                return srcUrl;
-
-            var param = new Dictionary<string, string>
+            using (var response = await this.http.PostAsync("http://tinyurl.com/api-create.php", content).ConfigureAwait(false))
             {
-                {"format", "simple"},
-                {"url", srcUrl},
-            };
+                response.EnsureSuccessStatusCode();
 
-            string response;
-            if (!this.http.PostData("http://is.gd/create.php", param, out response))
-                throw new WebApiException("Failed to create URL.", response);
+                var result = await response.Content.ReadAsStringAsync()
+                    .ConfigureAwait(false);
 
-            if (!Regex.IsMatch(response, @"^https?://"))
-                throw new WebApiException("Failed to create URL.", response);
+                if (!Regex.IsMatch(result, @"^https?://"))
+                    throw new WebApiException("Failed to create URL.", result);
 
-            return response.TrimEnd();
+                return new Uri(result.TrimEnd());
+            }
         }
 
-        private string ShortenByTwurl(string srcUrl)
+        private async Task<Uri> ShortenByIsgdAsync(Uri srcUri)
         {
             // 明らかに長くなると推測できる場合は短縮しない
-            if ("http://twurl.nl/xxxxxx".Length > srcUrl.Length)
-                return srcUrl;
+            if ("http://is.gd/xxxx".Length > srcUri.OriginalString.Length)
+                return srcUri;
 
-            var param = new Dictionary<string, string>
+            var content = new FormUrlEncodedContent(new[]
             {
-                {"link[url]", srcUrl},
-            };
+                new KeyValuePair<string, string>("format", "simple"),
+                new KeyValuePair<string, string>("url", srcUri.OriginalString),
+            });
 
-            string response;
-            if (!this.http.PostData("http://tweetburner.com/links", param, out response))
-                throw new WebApiException("Failed to create URL.", response);
+            using (var response = await this.http.PostAsync("http://is.gd/create.php", content).ConfigureAwait(false))
+            {
+                response.EnsureSuccessStatusCode();
 
-            if (!Regex.IsMatch(response, @"^https?://"))
-                throw new WebApiException("Failed to create URL.", response);
+                var result = await response.Content.ReadAsStringAsync()
+                    .ConfigureAwait(false);
 
-            return response.TrimEnd();
+                if (!Regex.IsMatch(result, @"^https?://"))
+                    throw new WebApiException("Failed to create URL.", result);
+
+                return new Uri(result.TrimEnd());
+            }
         }
 
-        private string ShortenByBitly(string srcUrl, string domain = "bit.ly")
+        private async Task<Uri> ShortenByTwurlAsync(Uri srcUri)
         {
             // 明らかに長くなると推測できる場合は短縮しない
-            if ("http://bit.ly/xxxx".Length > srcUrl.Length)
-                return srcUrl;
+            if ("http://twurl.nl/xxxxxx".Length > srcUri.OriginalString.Length)
+                return srcUri;
+
+            var content = new FormUrlEncodedContent(new[]
+            {
+                new KeyValuePair<string, string>("link[url]", srcUri.OriginalString),
+            });
+
+            using (var response = await this.http.PostAsync("http://tweetburner.com/links", content).ConfigureAwait(false))
+            {
+                response.EnsureSuccessStatusCode();
+
+                var result = await response.Content.ReadAsStringAsync()
+                    .ConfigureAwait(false);
+
+                if (!Regex.IsMatch(result, @"^https?://"))
+                    throw new WebApiException("Failed to create URL.", result);
+
+                return new Uri(result.TrimEnd());
+            }
+        }
+
+        private async Task<Uri> ShortenByBitlyAsync(Uri srcUri, string domain = "bit.ly")
+        {
+            // 明らかに長くなると推測できる場合は短縮しない
+            if ("http://bit.ly/xxxx".Length > srcUri.OriginalString.Length)
+                return srcUri;
 
             // bit.ly 短縮機能実装のプライバシー問題の暫定対応
             // ログインIDとAPIキーが指定されていない場合は短縮せずにPOSTする
             // 参照: http://sourceforge.jp/projects/opentween/lists/archive/dev/2012-January/000020.html
             if (string.IsNullOrEmpty(this.BitlyId) || string.IsNullOrEmpty(this.BitlyKey))
-                return srcUrl;
+                return srcUri;
 
-            var param = new Dictionary<string, string>
+            var query = HttpUtility.ParseQueryString(string.Empty);
+            query["login"] = this.BitlyId;
+            query["apiKey"] = this.BitlyKey;
+            query["format"] = "txt";
+            query["domain"] = domain;
+            query["longUrl"] = srcUri.OriginalString;
+
+            using (var response = await this.http.GetAsync("https://api-ssl.bitly.com/v3/shorten?" + query).ConfigureAwait(false))
             {
-                {"login", this.BitlyId},
-                {"apiKey", this.BitlyKey},
-                {"format", "txt"},
-                {"domain", domain},
-                {"longUrl", srcUrl},
-            };
+                response.EnsureSuccessStatusCode();
 
-            string response;
-            if (!this.http.GetData("https://api-ssl.bitly.com/v3/shorten", param, out response))
-                throw new WebApiException("Failed to create URL.", response);
+                var result = await response.Content.ReadAsStringAsync()
+                    .ConfigureAwait(false);
 
-            if (!Regex.IsMatch(response, @"^https?://"))
-                throw new WebApiException("Failed to create URL.", response);
+                if (!Regex.IsMatch(result, @"^https?://"))
+                    throw new WebApiException("Failed to create URL.", result);
 
-            return response.TrimEnd();
+                return new Uri(result.TrimEnd());
+            }
         }
 
-        private string ShortenByUxnu(string srcUrl)
+        private async Task<Uri> ShortenByUxnuAsync(Uri srcUri)
         {
             // 明らかに長くなると推測できる場合は短縮しない
-            if ("http://ux.nx/xxxxxx".Length > srcUrl.Length)
-                return srcUrl;
+            if ("http://ux.nx/xxxxxx".Length > srcUri.OriginalString.Length)
+                return srcUri;
 
-            var param = new Dictionary<string, string>
+            var query = HttpUtility.ParseQueryString(string.Empty);
+            query["format"] = "plain";
+            query["url"] = srcUri.OriginalString;
+
+            using (var response = await this.http.GetAsync("http://ux.nu/api/short?" + query).ConfigureAwait(false))
             {
-                {"format", "plain"},
-                {"url", srcUrl},
-            };
+                response.EnsureSuccessStatusCode();
 
-            string response;
-            if (!this.http.GetData("http://ux.nu/api/short", param, out response))
-                throw new WebApiException("Failed to create URL.", response);
+                var result = await response.Content.ReadAsStringAsync()
+                    .ConfigureAwait(false);
 
-            if (!Regex.IsMatch(response, @"^https?://"))
-                throw new WebApiException("Failed to create URL.", response);
+                if (!Regex.IsMatch(result, @"^https?://"))
+                    throw new WebApiException("Failed to create URL.", result);
 
-            return response.TrimEnd();
+                return new Uri(result.TrimEnd());
+            }
+        }
+
+        private async Task<Uri> GetRedirectTo(Uri url)
+        {
+            var request = new HttpRequestMessage(HttpMethod.Head, url);
+
+            using (var response = await this.http.SendAsync(request).ConfigureAwait(false))
+            {
+                if (!response.IsSuccessStatusCode)
+                {
+                    // ステータスコードが 3xx であれば例外を発生させない
+                    if ((int)response.StatusCode / 100 != 3)
+                        response.EnsureSuccessStatusCode();
+                }
+
+                return response.Headers.Location;
+            }
         }
     }
 }

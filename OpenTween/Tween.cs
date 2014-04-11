@@ -2178,7 +2178,7 @@ namespace OpenTween
             return cl;
         }
 
-        private void PostButton_Click(object sender, EventArgs e)
+        private async void PostButton_Click(object sender, EventArgs e)
         {
             if (StatusText.Text.Trim().Length == 0)
             {
@@ -2211,7 +2211,7 @@ namespace OpenTween
             if (SettingDialog.Nicoms)
             {
                 StatusText.SelectionStart = StatusText.Text.Length;
-                UrlConvert(MyCommon.UrlConverter.Nicoms);
+                await UrlConvertAsync(MyCommon.UrlConverter.Nicoms);
             }
             //if (SettingDialog.UrlConvertAuto)
             //{
@@ -9923,7 +9923,7 @@ namespace OpenTween
             _modifySettingLocal = true;
         }
 
-        private bool UrlConvert(MyCommon.UrlConverter Converter_Type)
+        private async Task<bool> UrlConvertAsync(MyCommon.UrlConverter Converter_Type)
         {
             //t.coで投稿時自動短縮する場合は、外部サービスでの短縮禁止
             //if (SettingDialog.UrlConvertAuto && SettingDialog.ShortenTco) return;
@@ -9955,7 +9955,9 @@ namespace OpenTween
                         //短縮URL変換 日本語を含むかもしれないのでURLエンコードする
                         try
                         {
-                            result = ShortUrl.Instance.ShortenUrl(Converter_Type, tmp);
+                            var srcUri = new Uri(MyCommon.urlEncodeMultibyteChar(tmp));
+                            var resultUri = await ShortUrl.Instance.ShortenUrlAsync(Converter_Type, srcUri);
+                            result = resultUri.ToString();
                         }
                         catch (WebApiException e)
                         {
@@ -10022,7 +10024,9 @@ namespace OpenTween
                         //短縮URL変換 日本語を含むかもしれないのでURLエンコードする
                         try
                         {
-                            result = ShortUrl.Instance.ShortenUrl(Converter_Type, tmp);
+                            var srcUri = new Uri(MyCommon.urlEncodeMultibyteChar(tmp));
+                            var resultUri = await ShortUrl.Instance.ShortenUrlAsync(Converter_Type, srcUri);
+                            result = resultUri.ToString();
                         }
                         catch (WebApiException e)
                         {
@@ -10079,29 +10083,29 @@ namespace OpenTween
             }
         }
 
-        private void TinyURLToolStripMenuItem_Click(object sender, EventArgs e)
+        private async void TinyURLToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            UrlConvert(MyCommon.UrlConverter.TinyUrl);
+            await UrlConvertAsync(MyCommon.UrlConverter.TinyUrl);
         }
 
-        private void IsgdToolStripMenuItem_Click(object sender, EventArgs e)
+        private async void IsgdToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            UrlConvert(MyCommon.UrlConverter.Isgd);
+            await UrlConvertAsync(MyCommon.UrlConverter.Isgd);
         }
 
-        private void TwurlnlToolStripMenuItem_Click(object sender, EventArgs e)
+        private async void TwurlnlToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            UrlConvert(MyCommon.UrlConverter.Twurl);
+            await UrlConvertAsync(MyCommon.UrlConverter.Twurl);
         }
 
-        private void UxnuMenuItem_Click(object sender, EventArgs e)
+        private async void UxnuMenuItem_Click(object sender, EventArgs e)
         {
-            UrlConvert(MyCommon.UrlConverter.Uxnu);
+            await UrlConvertAsync(MyCommon.UrlConverter.Uxnu);
         }
 
-        private void UrlConvertAutoToolStripMenuItem_Click(object sender, EventArgs e) 
+        private async void UrlConvertAutoToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (!UrlConvert(SettingDialog.AutoShortUrlFirst))
+            if (!await UrlConvertAsync(SettingDialog.AutoShortUrlFirst))
             {
                 MyCommon.UrlConverter svc = SettingDialog.AutoShortUrlFirst;
                 Random rnd = new Random();
@@ -10111,7 +10115,7 @@ namespace OpenTween
                     svc = (MyCommon.UrlConverter)rnd.Next(System.Enum.GetNames(typeof(MyCommon.UrlConverter)).Length);
                 }
                 while (svc == SettingDialog.AutoShortUrlFirst || svc == MyCommon.UrlConverter.Nicoms || svc == MyCommon.UrlConverter.Unu);
-                UrlConvert(svc);
+                await UrlConvertAsync(svc);
             }
         }
 
@@ -11166,14 +11170,14 @@ namespace OpenTween
             TabRename(ref _rclickTabName);
         }
 
-        private void BitlyToolStripMenuItem_Click(object sender, EventArgs e)
+        private async void BitlyToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            UrlConvert(MyCommon.UrlConverter.Bitly);
+            await UrlConvertAsync(MyCommon.UrlConverter.Bitly);
         }
 
-        private void JmpToolStripMenuItem_Click(object sender, EventArgs e)
+        private async void JmpToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            UrlConvert(MyCommon.UrlConverter.Jmp);
+            await UrlConvertAsync(MyCommon.UrlConverter.Jmp);
         }
 
 
