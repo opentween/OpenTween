@@ -35,6 +35,7 @@ using System.Runtime.Serialization.Json;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Web;
 using System.Xml;
 using System.Xml.Linq;
@@ -2798,7 +2799,7 @@ namespace OpenTween
                 this.toIndex = toIndex;
             }
         }
-        public string CreateHtmlAnchor(string Text, List<string> AtList, Dictionary<string, string> media)
+        public async Task<string> CreateHtmlAnchorAsync(string Text, List<string> AtList, Dictionary<string, string> media)
         {
             if (Text == null) return null;
             var retStr = Text.Replace("&gt;", "<<<<<tweenだいなり>>>>>").Replace("&lt;", "<<<<<tweenしょうなり>>>>>");
@@ -2830,21 +2831,18 @@ namespace OpenTween
             //                            qry +
             //                            ")"
             //絶対パス表現のUriをリンクに置換
-            retStr = Regex.Replace(retStr,
-                                   rgUrl,
-                                   new MatchEvaluator((Match mu) =>
-                                                      {
-                                                          var sb = new StringBuilder(mu.Result("${before}<a href=\""));
-                                                          //if (mu.Result("${protocol}").StartsWith("w", StringComparison.OrdinalIgnoreCase))
-                                                          //    sb.Append("http://");
-                                                          //}
-                                                          var url = mu.Result("${url}");
-                                                          var title = ShortUrl.Instance.ExpandUrl(url).ToString();
-                                                          sb.Append(url + "\" title=\"" + MyCommon.ConvertToReadableUrl(title) + "\">").Append(url).Append("</a>");
-                                                          if (media != null && !media.ContainsKey(url)) media.Add(url, title);
-                                                          return sb.ToString();
-                                                      }),
-                                   RegexOptions.IgnoreCase);
+            retStr = await new Regex(rgUrl, RegexOptions.IgnoreCase).ReplaceAsync(retStr, async mu =>
+            {
+                var sb = new StringBuilder(mu.Result("${before}<a href=\""));
+                //if (mu.Result("${protocol}").StartsWith("w", StringComparison.OrdinalIgnoreCase))
+                //    sb.Append("http://");
+                //}
+                var url = mu.Result("${url}");
+                var title = await ShortUrl.Instance.ExpandUrlStrAsync(url);
+                sb.Append(url + "\" title=\"" + MyCommon.ConvertToReadableUrl(title) + "\">").Append(url).Append("</a>");
+                if (media != null && !media.ContainsKey(url)) media.Add(url, title);
+                return sb.ToString();
+            });
 
             //@先をリンクに置換（リスト）
             retStr = Regex.Replace(retStr,

@@ -31,6 +31,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Text.RegularExpressions;
 using System.Web;
@@ -49,7 +50,6 @@ namespace OpenTween
         private UserInfo _info = new UserInfo();
         private Image icondata = null;
         private List<string> atlist = new List<string>();
-        private string descriptionTxt;
         private string recentPostTxt;
 
         private const string Mainpath = "https://twitter.com/";
@@ -124,23 +124,25 @@ namespace OpenTween
             return true;
         }
 
-        private void SetLinklabelWeb(string data)
+        private async Task SetLinklabelWebAsync(string data)
         {
             string webtext;
             string jumpto;
             webtext = MyOwner.TwitterInstance.PreProcessUrl("<a href=\"" + data + "\">Dummy</a>");
-            webtext = ShortUrl.Instance.ExpandUrlHtml(webtext);
+            webtext = await ShortUrl.Instance.ExpandUrlHtmlAsync(webtext);
             jumpto = Regex.Match(webtext, @"<a href=""(?<url>.*?)""").Groups["url"].Value;
             ToolTip1.SetToolTip(LinkLabelWeb, jumpto);
             LinkLabelWeb.Tag = jumpto;
             LinkLabelWeb.Text = data;
         }
 
-        private string MakeDescriptionBrowserText(string data)
+        private async Task SetDescriptionAsync(string descriptionText)
         {
-            descriptionTxt = MyOwner.createDetailHtml(
-                                    MyOwner.TwitterInstance.CreateHtmlAnchor(WebUtility.HtmlEncode(data), atlist, null));
-            return descriptionTxt;
+            var html = WebUtility.HtmlEncode(descriptionText);
+            html = await this.MyOwner.TwitterInstance.CreateHtmlAnchorAsync(html, this.atlist, null);
+            html = this.MyOwner.createDetailHtml(html);
+
+            this.DescriptionBrowser.DocumentText = html;
         }
 
         private void ShowUserInfo_FormClosed(object sender, FormClosedEventArgs e)
@@ -149,7 +151,7 @@ namespace OpenTween
             //TweenMain.TopMost = !TweenMain.TopMost;
         }
 
-        private void ShowUserInfo_Load(object sender, EventArgs e)
+        private async void ShowUserInfo_Load(object sender, EventArgs e)
         {
             MyOwner = (TweenMain)this.Owner;
             if (!AnalizeUserInfo(userInfo))
@@ -158,6 +160,9 @@ namespace OpenTween
                 this.Close();
                 return;
             }
+
+            // LabelScreenName のフォントを OTBaseForm.GlobalFont に変更
+            this.LabelScreenName.Font = this.ReplaceToGlobalFont(this.LabelScreenName.Font);
 
             //アイコンロード
             BackgroundWorkerImageLoader.RunWorkerAsync();
@@ -171,10 +176,7 @@ namespace OpenTween
 
             LabelLocation.Text = _info.Location;
 
-            SetLinklabelWeb(_info.Url);
-
-            DescriptionBrowser.Visible = false;
-            MakeDescriptionBrowserText(_info.Description);
+            var linkTask = this.SetLinklabelWebAsync(this._info.Url);
 
             RecentPostBrowser.Visible = false;
             if (_info.RecentPost != null)
@@ -219,8 +221,7 @@ namespace OpenTween
                 ButtonBlockDestroy.Enabled = true;
             }
 
-            // LabelScreenName のフォントを OTBaseForm.GlobalFont に変更
-            this.LabelScreenName.Font = this.ReplaceToGlobalFont(this.LabelScreenName.Font);
+            await linkTask;
         }
 
         private void ButtonClose_Click(object sender, EventArgs e)
@@ -376,10 +377,10 @@ namespace OpenTween
 
         }
 
-        private void ShowUserInfo_Shown(object sender, EventArgs e)
+        private async void ShowUserInfo_Shown(object sender, EventArgs e)
         {
-            DescriptionBrowser.DocumentText = descriptionTxt;
-            DescriptionBrowser.Visible = true;
+            var descriptionTask = this.SetDescriptionAsync(this._info.Description);
+
             if (_info.RecentPost != null)
             {
                 RecentPostBrowser.DocumentText = recentPostTxt;
@@ -390,6 +391,8 @@ namespace OpenTween
                 LabelRecentPost.Text = Properties.Resources.ShowUserInfo2;
             }
             ButtonClose.Focus();
+
+            await descriptionTask;
         }
 
         private void WebBrowser_Navigating(object sender, WebBrowserNavigatingEventArgs e)
@@ -546,10 +549,12 @@ namespace OpenTween
         private bool IsEditing = false;
         private string ButtonEditText = "";
 
-        private void ButtonEdit_Click(object sender, EventArgs e)
+        private async void ButtonEdit_Click(object sender, EventArgs e)
         {
             // 自分以外のプロフィールは変更できない
             if (MyOwner.TwitterInstance.Username != _info.ScreenName) return;
+
+            this.ButtonEdit.Enabled = false;
 
             if (!IsEditing)
             {
@@ -645,13 +650,14 @@ namespace OpenTween
                 TextBoxLocation.Visible = false;
                 LabelLocation.Visible = true;
 
-                SetLinklabelWeb(TextBoxWeb.Text);
+                var linkTask = this.SetLinklabelWebAsync(this.TextBoxWeb.Text);
                 _info.Url = TextBoxWeb.Text;
                 TextBoxWeb.TabStop = false;
                 TextBoxWeb.Visible = false;
                 LinkLabelWeb.Visible = true;
 
-                DescriptionBrowser.DocumentText = MakeDescriptionBrowserText(TextBoxDescription.Text);
+                var descriptionTask = this.SetDescriptionAsync(this.TextBoxDescription.Text);
+
                 _info.Description = TextBoxDescription.Text;
                 TextBoxDescription.TabStop = false;
                 TextBoxDescription.Visible = false;
@@ -660,8 +666,11 @@ namespace OpenTween
                 ButtonEdit.Text = ButtonEditText;
 
                 IsEditing = false;
+
+                await Task.WhenAll(new[] { linkTask, descriptionTask });
             }
 
+            this.ButtonEdit.Enabled = true;
         }
 
         class UpdateProfileImageArgs

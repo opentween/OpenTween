@@ -152,6 +152,62 @@ namespace OpenTween
         }
 
         [Fact]
+        public async Task ExpandUrlStrAsync_Test()
+        {
+            var handler = new HttpMessageHandlerMock();
+            var shortUrl = new ShortUrl(new HttpClient(handler));
+
+            // http://t.co/hoge1 -> http://example.com/hoge2
+            handler.Queue.Enqueue(async x =>
+            {
+                Assert.Equal(HttpMethod.Head, x.Method);
+                Assert.Equal(new Uri("http://t.co/hoge1"), x.RequestUri);
+
+                return this.CreateRedirectResponse("http://example.com/hoge2");
+            });
+
+            Assert.Equal("http://example.com/hoge2",
+                await shortUrl.ExpandUrlStrAsync("http://t.co/hoge1"));
+        }
+
+        [Fact]
+        public async Task ExpandUrlStrAsync_SchemeLessUrlTest()
+        {
+            var handler = new HttpMessageHandlerMock();
+            var shortUrl = new ShortUrl(new HttpClient(handler));
+
+            // http://t.co/hoge1 -> http://example.com/hoge2
+            handler.Queue.Enqueue(async x =>
+            {
+                Assert.Equal(HttpMethod.Head, x.Method);
+                Assert.Equal(new Uri("http://t.co/hoge1"), x.RequestUri);
+
+                return this.CreateRedirectResponse("http://example.com/hoge2");
+            });
+
+            // スキームが省略されたURL
+            Assert.Equal("http://example.com/hoge2",
+                await shortUrl.ExpandUrlStrAsync("t.co/hoge1"));
+        }
+
+        [Fact]
+        public async Task ExpandUrlStrAsync_InvalidUrlTest()
+        {
+            var handler = new HttpMessageHandlerMock();
+            var shortUrl = new ShortUrl(new HttpClient(handler));
+
+            handler.Queue.Enqueue(async x =>
+            {
+                // リクエストは送信されないはず
+                Assert.True(false);
+                return this.CreateRedirectResponse("http://example.com/hoge2");
+            });
+
+            // 不正なURL
+            Assert.Equal("..hogehoge..", await shortUrl.ExpandUrlStrAsync("..hogehoge.."));
+        }
+
+        [Fact]
         public async Task ExpandUrlAsync_HttpErrorTest()
         {
             var handler = new HttpMessageHandlerMock();

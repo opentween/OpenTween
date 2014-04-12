@@ -223,6 +223,33 @@ namespace OpenTween
             }
         }
 
+        /// <summary>
+        /// 短縮 URL を非同期に展開します
+        /// </summary>
+        /// <param name="uriStr">展開するURL</param>
+        /// <returns>URLの展開を行うタスク</returns>
+        public async Task<string> ExpandUrlStrAsync(string uriStr)
+        {
+            Uri uri;
+
+            try
+            {
+                if (!uriStr.StartsWith("http", StringComparison.OrdinalIgnoreCase))
+                    uri = new Uri("http://" + uriStr);
+                else
+                    uri = new Uri(uriStr);
+            }
+            catch (UriFormatException)
+            {
+                return uriStr;
+            }
+
+            var expandedUri = await this.ExpandUrlAsync(uri, 10)
+                .ConfigureAwait(false);
+
+            return expandedUri.OriginalString;
+        }
+
         [Obsolete]
         public string ExpandUrlHtml(string html)
         {
