@@ -53,19 +53,18 @@ namespace OpenTween.Thumbnail.Services
 
         public class Thumbnail : ThumbnailInfo
         {
-            public override Task<MemoryImage> LoadThumbnailImageAsync(CancellationToken token)
+            public async override Task<MemoryImage> LoadThumbnailImageAsync(CancellationToken token)
             {
-                var client = new OTWebClient();
+                using (var client = new OTWebClient())
+                {
+                    client.UserAgent = MyCommon.GetUserAgentString(fakeMSIE: true);
+                    client.Headers[HttpRequestHeader.Referer] = this.ImageUrl;
 
-                client.UserAgent = MyCommon.GetUserAgentString(fakeMSIE: true);
-                client.Headers[HttpRequestHeader.Referer] = this.ImageUrl;
+                    var imageBytes = await client.DownloadDataAsync(new Uri(this.ThumbnailUrl), token)
+                        .ConfigureAwait(false);
 
-                var task = client.DownloadDataAsync(new Uri(this.ThumbnailUrl), token)
-                    .ContinueWith(t => MemoryImage.CopyFromBytes(t.Result), TaskScheduler.Default);
-
-                task.ContinueWith(_ => client.Dispose(), TaskScheduler.Default);
-
-                return task;
+                    return MemoryImage.CopyFromBytes(imageBytes);
+                }
             }
         }
     }

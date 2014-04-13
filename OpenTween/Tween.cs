@@ -2148,7 +2148,7 @@ namespace OpenTween
             return cl;
         }
 
-        private void PostButton_Click(object sender, EventArgs e)
+        private async void PostButton_Click(object sender, EventArgs e)
         {
             if (StatusText.Text.Trim().Length == 0)
             {
@@ -2181,7 +2181,7 @@ namespace OpenTween
             if (SettingDialog.Nicoms)
             {
                 StatusText.SelectionStart = StatusText.Text.Length;
-                UrlConvert(MyCommon.UrlConverter.Nicoms);
+                await UrlConvertAsync(MyCommon.UrlConverter.Nicoms);
             }
             //if (SettingDialog.UrlConvertAuto)
             //{
@@ -2341,13 +2341,6 @@ namespace OpenTween
 
             RunAsync(args);
 
-            //Google検索（試験実装）
-            if (StatusText.Text.StartsWith("Google:", StringComparison.OrdinalIgnoreCase) && StatusText.Text.Trim().Length > 7)
-            {
-                string tmp = string.Format(Properties.Resources.SearchItem2Url, Uri.EscapeUriString(StatusText.Text.Substring(7)));
-                OpenUriAsync(tmp);
-            }
-
             _reply_to_id = null;
             _reply_to_name = null;
             StatusText.Text = "";
@@ -2357,6 +2350,13 @@ namespace OpenTween
                 ((Control)ListTab.SelectedTab.Tag).Focus();
             urlUndoBuffer = null;
             UrlUndoToolStripMenuItem.Enabled = false;  //Undoをできないように設定
+
+            //Google検索（試験実装）
+            if (StatusText.Text.StartsWith("Google:", StringComparison.OrdinalIgnoreCase) && StatusText.Text.Trim().Length > 7)
+            {
+                string tmp = string.Format(Properties.Resources.SearchItem2Url, Uri.EscapeUriString(StatusText.Text.Substring(7)));
+                await this.OpenUriAsync(tmp);
+            }
         }
 
         private void EndToolStripMenuItem_Click(object sender, EventArgs e)
@@ -5086,34 +5086,33 @@ namespace OpenTween
             finally { this.itemCacheLock.ExitUpgradeableReadLock(); }
         }
 
-        private void MyList_RetrieveVirtualItem(object sender, RetrieveVirtualItemEventArgs e)
+        private async void MyList_RetrieveVirtualItem(object sender, RetrieveVirtualItemEventArgs e)
         {
-            ListViewItem cacheItem = null;
+            ListViewItem item = null;
             PostClass cacheItemPost = null;
 
-            this.TryGetListViewItemCache(e.ItemIndex, out cacheItem, out cacheItemPost);
+            this.TryGetListViewItemCache(e.ItemIndex, out item, out cacheItemPost);
 
-            if (cacheItem != null)
-            {
-                e.Item = cacheItem;
-            }
-            else
+            if (item == null)
             {
                 //A cache miss, so create a new ListViewItem and pass it back.
                 TabPage tb = (TabPage)((DetailsListView)sender).Parent;
                 try
                 {
-                    e.Item = CreateItem(tb,
-                                        _statuses[tb.Text, e.ItemIndex],
-                                        e.ItemIndex);
+                    item = this.CreateItem(tb, _statuses[tb.Text, e.ItemIndex], e.ItemIndex);
                 }
                 catch (Exception)
                 {
                     //不正な要求に対する間に合わせの応答
                     string[] sitem = {"", "", "", "", "", "", "", ""};
-                    e.Item = new ImageListViewItem(sitem);
+                    item = new ImageListViewItem(sitem);
                 }
             }
+
+            // e.Item に値をセットする前に await しないこと
+            e.Item = item;
+
+            await ((ImageListViewItem)item).GetImageAsync();
         }
 
         private void CreateCache(int StartIndex, int EndIndex)
@@ -5466,7 +5465,7 @@ namespace OpenTween
                 }
                 catch (ArgumentException)
                 {
-                    item.RefreshImage();
+                    item.RefreshImageAsync();
                 }
             }
 
@@ -5883,9 +5882,9 @@ namespace OpenTween
             }
         }
 
-        private void VerUpMenuItem_Click(object sender, EventArgs e)
+        private async void VerUpMenuItem_Click(object sender, EventArgs e)
         {
-            CheckNewVersion();
+            await this.CheckNewVersion(false);
         }
 
         private void RunTweenUp()
@@ -5905,62 +5904,90 @@ namespace OpenTween
             }
         }
 
-        private void CheckNewVersion(bool startup = false)
+        public class VersionInfo
+        {
+            public Version Version { get; set; }
+            public Uri DownloadUri { get; set; }
+            public string ReleaseNote { get; set; }
+        }
+
+        /// <summary>
+        /// OpenTween の最新バージョンの情報を取得します
+        /// </summary>
+        public async Task<VersionInfo> GetVersionInfoAsync()
+        {
+            var http = MyCommon.CreateHttpClient();
+
+            var versionInfoUrl = new Uri(ApplicationSettings.VersionInfoUrl + "?" +
+                DateTime.Now.ToString("yyMMddHHmmss") + Environment.TickCount);
+
+            var responseText = await http.GetStringAsync(versionInfoUrl)
+                .ConfigureAwait(false);
+
+            // 改行2つで前後パートを分割（前半がバージョン番号など、後半が詳細テキスト）
+            var msgPart = responseText.Split(new[] { "\n\n", "\r\n\r\n" }, 2, StringSplitOptions.None);
+
+            var msgHeader = msgPart[0].Split(new[] { "\n", "\r\n" }, StringSplitOptions.None);
+            var msgBody = msgPart.Length == 2 ? msgPart[1] : "";
+
+            msgBody = Regex.Replace(msgBody, "(?<!\r)\n", "\r\n"); // LF -> CRLF
+
+            return new VersionInfo
+            {
+                Version = Version.Parse(msgHeader[0]),
+                DownloadUri = new Uri(msgHeader[1]),
+                ReleaseNote = msgBody,
+            };
+        }
+
+        private async Task CheckNewVersion(bool startup = false)
         {
             if (ApplicationSettings.VersionInfoUrl == null)
                 return; // 更新チェック無効化
 
             if (string.IsNullOrEmpty(MyCommon.fileVersion))
-            {
                 return;
-            }
 
-            string retMsg;
             try
             {
-                retMsg = tw.GetVersionInfo();
-            }
-            catch
-            {
-                retMsg = "";
-            }
+                var versionInfo = await this.GetVersionInfoAsync();
 
-            if (string.IsNullOrEmpty(retMsg))
-            {
-                StatusLabel.Text = Properties.Resources.CheckNewVersionText9;
-                if (!startup) MessageBox.Show(Properties.Resources.CheckNewVersionText10, MyCommon.ReplaceAppName(Properties.Resources.CheckNewVersionText2), MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2);
-                return;
-            }
+                if (versionInfo.Version <= Version.Parse(MyCommon.fileVersion))
+                {
+                    // 更新不要
+                    if (!startup)
+                    {
+                        var msgtext = string.Format(Properties.Resources.CheckNewVersionText7,
+                            MyCommon.GetReadableVersion(), MyCommon.GetReadableVersion(versionInfo.Version));
+                        msgtext = MyCommon.ReplaceAppName(msgtext);
 
-            // 改行2つで前後パートを分割（前半がバージョン番号など、後半が詳細テキスト）
-            string[] msgPart = retMsg.Split(new string[] {"\n\n", "\r\n\r\n"}, 2, StringSplitOptions.None);
+                        MessageBox.Show(msgtext,
+                            MyCommon.ReplaceAppName(Properties.Resources.CheckNewVersionText2),
+                            MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    return;
+                }
 
-            string[] msgHeader = msgPart[0].Split(new string[] {"\n", "\r\n"}, StringSplitOptions.None);
-            string msgBody = msgPart.Length == 2 ? msgPart[1] : "";
-
-            msgBody = Regex.Replace(msgBody, "(?<!\r)\n", "\r\n"); // LF -> CRLF
-
-            string currentVersion = msgHeader[0];
-            string downloadUrl = msgHeader[1];
-
-            if (currentVersion.Replace(".", "").CompareTo(MyCommon.fileVersion.Replace(".", "")) > 0)
-            {
                 using (var dialog = new UpdateDialog())
                 {
-                    dialog.SummaryText = string.Format(Properties.Resources.CheckNewVersionText3, MyCommon.GetReadableVersion(currentVersion));
-                    dialog.DetailsText = msgBody;
+                    dialog.SummaryText = string.Format(Properties.Resources.CheckNewVersionText3,
+                        MyCommon.GetReadableVersion(versionInfo.Version));
+                    dialog.DetailsText = versionInfo.ReleaseNote;
+
                     if (dialog.ShowDialog(this) == DialogResult.Yes)
                     {
-                        this.OpenUriAsync(downloadUrl);
+                        await this.OpenUriAsync(versionInfo.DownloadUri.OriginalString);
                     }
                 }
             }
-            else
+            catch (Exception)
             {
+                this.StatusLabel.Text = Properties.Resources.CheckNewVersionText9;
                 if (!startup)
                 {
-                    var msgtext = MyCommon.ReplaceAppName(string.Format(Properties.Resources.CheckNewVersionText7, MyCommon.GetReadableVersion(), MyCommon.GetReadableVersion(currentVersion)));
-                    MessageBox.Show(msgtext, MyCommon.ReplaceAppName(Properties.Resources.CheckNewVersionText2), MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show(Properties.Resources.CheckNewVersionText10,
+                        MyCommon.ReplaceAppName(Properties.Resources.CheckNewVersionText2),
+                        MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2);
                 }
             }
         }
@@ -5996,7 +6023,7 @@ namespace OpenTween
             return detailHtmlFormatHeader + orgdata + detailHtmlFormatFooter;
         }
 
-        private void DisplayItemImage_Downloaded(object sender, EventArgs e)
+        private async void DisplayItemImage_Downloaded(object sender, EventArgs e)
         {
             if (sender.Equals(displayItem))
             {
@@ -6005,7 +6032,10 @@ namespace OpenTween
                 var img = displayItem.Image;
                 try
                 {
-                    UserPicture.Image = img != null ? img.Clone() : null;
+                    if (img != null)
+                        img = await img.CloneAsync();
+
+                    UserPicture.Image = img;
                 }
                 catch (Exception)
                 {
@@ -6020,6 +6050,16 @@ namespace OpenTween
         }
 
         private static PostClass displaypost = new PostClass();
+
+        /// <summary>
+        /// サムネイルの表示処理を表すタスク
+        /// </summary>
+        private Task thumbnailTask = null;
+
+        /// <summary>
+        /// サムネイル表示に使用する CancellationToken の生成元
+        /// </summary>
+        private CancellationTokenSource thumbnailTokenSource = null;
 
         private void DispSelectedPost(bool forceupdate)
         {
@@ -6170,7 +6210,19 @@ namespace OpenTween
                         this.SplitContainer3.Panel2Collapsed = true;
 
                         if (this.IsPreviewEnable)
-                            this.tweetThumbnail1.ShowThumbnailAsync(_curPost);
+                        {
+                            if (this.thumbnailTokenSource != null)
+                            {
+                                var oldTokenSource = this.thumbnailTokenSource;
+                                oldTokenSource.Cancel();
+                                this.thumbnailTask.ContinueWith(_ => oldTokenSource.Dispose());
+                            }
+
+                            this.thumbnailTokenSource = new CancellationTokenSource();
+
+                            var token = this.thumbnailTokenSource.Token;
+                            this.thumbnailTask = this.tweetThumbnail1.ShowThumbnailAsync(_curPost, token);
+                        }
                     }
                 }
                 catch (System.Runtime.InteropServices.COMException)
@@ -7878,7 +7930,7 @@ namespace OpenTween
             tabSetting.Save();
         }
 
-        private /* async */ void OpenURLFileMenuItem_Click(object sender, EventArgs e)
+        private async void OpenURLFileMenuItem_Click(object sender, EventArgs e)
         {
             string inputText;
             var ret = InputDialog.Show(this, Properties.Resources.OpenURL_InputText, Properties.Resources.OpenURL_Caption, out inputText);
@@ -7894,40 +7946,40 @@ namespace OpenTween
             }
 
             var statusId = long.Parse(match.Groups["StatusId"].Value);
-            var uiScheduler = TaskScheduler.FromCurrentSynchronizationContext();
 
-            Task.Factory.StartNew(() =>
+            var post = this._statuses[statusId];
+            if (post == null)
+            {
+                try
                 {
-                    var post = this._statuses[statusId];
-                    if (post == null)
+                    post = await Task.Run(() =>
                     {
-                        var err = this.tw.GetStatusApi(false, statusId, ref post);
+                        PostClass newPost = null;
+
+                        var err = this.tw.GetStatusApi(false, statusId, ref newPost);
                         if (!string.IsNullOrEmpty(err))
                             throw new WebApiException(err);
-                    }
-                    return post;
-                }, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default)
-                .ContinueWith(t =>
+
+                        return newPost;
+                    });
+                }
+                catch (WebApiException ex)
                 {
-                    if (t.IsFaulted)
-                    {
-                        t.Exception.Flatten().Handle(x => x is WebApiException);
+                    var message = ex.InnerException.Message;
+                    MessageBox.Show(this, string.Format(Properties.Resources.OpenURL_LoadFailed, message),
+                        Properties.Resources.OpenURL_Caption, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+            }
 
-                        var message = t.Exception.InnerException.Message;
-                        MessageBox.Show(this, string.Format(Properties.Resources.OpenURL_LoadFailed, message),
-                            Properties.Resources.OpenURL_Caption, MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-                        return;
-                    }
-                    try
-                    {
-                        this.OpenRelatedTab(t.Result);
-                    }
-                    catch (TabException ex)
-                    {
-                        MessageBox.Show(this, ex.Message, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                }, uiScheduler);
+            try
+            {
+                this.OpenRelatedTab(post);
+            }
+            catch (TabException ex)
+            {
+                MessageBox.Show(this, ex.Message, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void SaveLogMenuItem_Click(object sender, EventArgs e)
@@ -9717,28 +9769,21 @@ namespace OpenTween
             OpenUriAsync(name.Remove(name.LastIndexOf("_normal"), 7)); // "_normal".Length
         }
 
-        private /* async */ void ReloadIconToolStripMenuItem_Click(object sender, EventArgs e)
+        private async void ReloadIconToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (this._curPost == null) return;
 
             var imageUrl = this._curPost.ImageUrl;
-            var uiScheduler = TaskScheduler.FromCurrentSynchronizationContext();
+            try
+            {
+                var image = await this.IconCache.DownloadImageAsync(imageUrl, force: true);
 
-            this.IconCache.DownloadImageAsync(imageUrl, force: true)
-                .ContinueWith(t =>
-                {
-                    this.ClearUserPicture();
-
-                    if (t.IsFaulted)
-                    {
-                        t.Exception.Flatten().Handle(x => x is WebException || x is InvalidImageException || x is TaskCanceledException);
-                        this.UserPicture.ShowErrorImage();
-                    }
-                    else
-                    {
-                        this.UserPicture.Image = t.Result.Clone() ;
-                    }
-                }, uiScheduler);
+                this.ClearUserPicture();
+                this.UserPicture.Image = image.Clone();
+            }
+            catch (WebException) { this.UserPicture.ShowErrorImage(); }
+            catch (InvalidImageException) { this.UserPicture.ShowErrorImage(); }
+            catch (TaskCanceledException) { this.UserPicture.ShowErrorImage(); }
         }
 
         private void SaveOriginalSizeIconPictureToolStripMenuItem_Click(object sender, EventArgs e)
@@ -9822,7 +9867,7 @@ namespace OpenTween
             _modifySettingLocal = true;
         }
 
-        private bool UrlConvert(MyCommon.UrlConverter Converter_Type)
+        private async Task<bool> UrlConvertAsync(MyCommon.UrlConverter Converter_Type)
         {
             //t.coで投稿時自動短縮する場合は、外部サービスでの短縮禁止
             //if (SettingDialog.UrlConvertAuto && SettingDialog.ShortenTco) return;
@@ -9854,7 +9899,9 @@ namespace OpenTween
                         //短縮URL変換 日本語を含むかもしれないのでURLエンコードする
                         try
                         {
-                            result = ShortUrl.Instance.ShortenUrl(Converter_Type, tmp);
+                            var srcUri = new Uri(MyCommon.urlEncodeMultibyteChar(tmp));
+                            var resultUri = await ShortUrl.Instance.ShortenUrlAsync(Converter_Type, srcUri);
+                            result = resultUri.ToString();
                         }
                         catch (WebApiException e)
                         {
@@ -9921,7 +9968,9 @@ namespace OpenTween
                         //短縮URL変換 日本語を含むかもしれないのでURLエンコードする
                         try
                         {
-                            result = ShortUrl.Instance.ShortenUrl(Converter_Type, tmp);
+                            var srcUri = new Uri(MyCommon.urlEncodeMultibyteChar(tmp));
+                            var resultUri = await ShortUrl.Instance.ShortenUrlAsync(Converter_Type, srcUri);
+                            result = resultUri.ToString();
                         }
                         catch (WebApiException e)
                         {
@@ -9978,29 +10027,29 @@ namespace OpenTween
             }
         }
 
-        private void TinyURLToolStripMenuItem_Click(object sender, EventArgs e)
+        private async void TinyURLToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            UrlConvert(MyCommon.UrlConverter.TinyUrl);
+            await UrlConvertAsync(MyCommon.UrlConverter.TinyUrl);
         }
 
-        private void IsgdToolStripMenuItem_Click(object sender, EventArgs e)
+        private async void IsgdToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            UrlConvert(MyCommon.UrlConverter.Isgd);
+            await UrlConvertAsync(MyCommon.UrlConverter.Isgd);
         }
 
-        private void TwurlnlToolStripMenuItem_Click(object sender, EventArgs e)
+        private async void TwurlnlToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            UrlConvert(MyCommon.UrlConverter.Twurl);
+            await UrlConvertAsync(MyCommon.UrlConverter.Twurl);
         }
 
-        private void UxnuMenuItem_Click(object sender, EventArgs e)
+        private async void UxnuMenuItem_Click(object sender, EventArgs e)
         {
-            UrlConvert(MyCommon.UrlConverter.Uxnu);
+            await UrlConvertAsync(MyCommon.UrlConverter.Uxnu);
         }
 
-        private void UrlConvertAutoToolStripMenuItem_Click(object sender, EventArgs e) 
+        private async void UrlConvertAutoToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (!UrlConvert(SettingDialog.AutoShortUrlFirst))
+            if (!await UrlConvertAsync(SettingDialog.AutoShortUrlFirst))
             {
                 MyCommon.UrlConverter svc = SettingDialog.AutoShortUrlFirst;
                 Random rnd = new Random();
@@ -10010,7 +10059,7 @@ namespace OpenTween
                     svc = (MyCommon.UrlConverter)rnd.Next(System.Enum.GetNames(typeof(MyCommon.UrlConverter)).Length);
                 }
                 while (svc == SettingDialog.AutoShortUrlFirst || svc == MyCommon.UrlConverter.Nicoms || svc == MyCommon.UrlConverter.Unu);
-                UrlConvert(svc);
+                await UrlConvertAsync(svc);
             }
         }
 
@@ -10524,7 +10573,7 @@ namespace OpenTween
 
         public Task OpenUriAsync(string UriString)
         {
-            return Task.Factory.StartNew(() =>
+            return Task.Run(() =>
             {
                 string myPath = UriString;
 
@@ -10740,7 +10789,7 @@ namespace OpenTween
             if (SettingDialog.UserstreamStartup) tw.StartUserStream();
         }
 
-        private void TweenMain_Shown(object sender, EventArgs e)
+        private async void TweenMain_Shown(object sender, EventArgs e)
         {
             try
             {
@@ -10780,21 +10829,17 @@ namespace OpenTween
                 GetTimeline(MyCommon.WORKERTYPE.UserTimeline, 1, 0, "");  //tabname="":全タブ
                 _waitLists = true;
                 GetTimeline(MyCommon.WORKERTYPE.List, 1, 0, "");  //tabname="":全タブ
-                int i = 0;
-                int j = 0;
-                while (IsInitialRead() && !MyCommon._endingFlag)
+
+                var i = 0;
+                while (this.IsInitialRead())
                 {
-                    System.Threading.Thread.Sleep(100);
-                    Application.DoEvents();
+                    await Task.Delay(5000);
+
                     i += 1;
-                    j += 1;
-                    if (j > 1200) break; // 120秒間初期処理が終了しなかったら強制的に打ち切る
-                    if (i > 50)
-                    {
-                        if (MyCommon._endingFlag)
-                            return;
-                        i = 0;
-                    }
+                    if (i > 24) break; // 120秒間初期処理が終了しなかったら強制的に打ち切る
+
+                    if (MyCommon._endingFlag)
+                        return;
                 }
 
                 if (MyCommon._endingFlag) return;
@@ -10803,7 +10848,7 @@ namespace OpenTween
                 {
                     //バージョンチェック（引数：起動時チェックの場合はtrue･･･チェック結果のメッセージを表示しない）
                     if (SettingDialog.StartupVersion)
-                        CheckNewVersion(true);
+                        await this.CheckNewVersion(true);
                 }
                 else
                 {
@@ -11052,14 +11097,14 @@ namespace OpenTween
             TabRename(ref _rclickTabName);
         }
 
-        private void BitlyToolStripMenuItem_Click(object sender, EventArgs e)
+        private async void BitlyToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            UrlConvert(MyCommon.UrlConverter.Bitly);
+            await UrlConvertAsync(MyCommon.UrlConverter.Bitly);
         }
 
-        private void JmpToolStripMenuItem_Click(object sender, EventArgs e)
+        private async void JmpToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            UrlConvert(MyCommon.UrlConverter.Jmp);
+            await UrlConvertAsync(MyCommon.UrlConverter.Jmp);
         }
 
 

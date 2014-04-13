@@ -40,16 +40,15 @@ namespace OpenTween.Thumbnail
             return this.LoadThumbnailImageAsync(CancellationToken.None);
         }
 
-        public virtual Task<MemoryImage> LoadThumbnailImageAsync(CancellationToken token)
+        public async virtual Task<MemoryImage> LoadThumbnailImageAsync(CancellationToken token)
         {
-            var client = new OTWebClient();
+            using (var client = new OTWebClient())
+            {
+                var imageBytes = await client.DownloadDataAsync(new Uri(this.ThumbnailUrl), token)
+                    .ConfigureAwait(false);
 
-            var task = client.DownloadDataAsync(new Uri(this.ThumbnailUrl), token)
-                .ContinueWith(t => MemoryImage.CopyFromBytes(t.Result), TaskScheduler.Default);
-
-            task.ContinueWith(_ => client.Dispose(), TaskScheduler.Default);
-
-            return task;
+                return MemoryImage.CopyFromBytes(imageBytes);
+            }
         }
     }
 }

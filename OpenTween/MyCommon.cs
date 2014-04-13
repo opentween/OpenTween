@@ -42,6 +42,8 @@ using System.Runtime.Serialization.Json;
 using System.Reflection;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
+using System.Net;
+using System.Net.Http;
 using System.Net.NetworkInformation;
 using System.Runtime.InteropServices;
 using OpenTween.Api;
@@ -909,43 +911,54 @@ namespace OpenTween
         /// <returns>
         /// 生成されたバージョン番号の文字列
         /// </returns>
-        public static string GetReadableVersion(string fileVersion = null)
+        public static string GetReadableVersion(string versionStr = null)
         {
-            if (fileVersion == null)
+            if (versionStr == null)
             {
-                fileVersion = MyCommon.fileVersion;
+                if (MyCommon.fileVersion == null)
+                    return null;
+
+                versionStr = MyCommon.fileVersion;
             }
 
-            if (string.IsNullOrEmpty(fileVersion))
-            {
-                return null;
-            }
+            return GetReadableVersion(Version.Parse(versionStr));
+        }
 
-            int[] version = fileVersion.Split('.')
-                .Select(x => int.Parse(x)).ToArray();
+        /// <summary>
+        /// 表示用のバージョン番号の文字列を生成する
+        /// </summary>
+        /// <remarks>
+        /// バージョン1.0.0.1のように末尾が0でない（＝開発版）の場合は「1.0.1-beta1」が出力される
+        /// </remarks>
+        /// <returns>
+        /// 生成されたバージョン番号の文字列
+        /// </returns>
+        public static string GetReadableVersion(Version version)
+        {
+            var versionNum = new[] { version.Major, version.Minor, version.Build, version.Revision };
 
-            if (version[3] == 0)
+            if (versionNum[3] == 0)
             {
-                return string.Format("{0}.{1}.{2}", version[0], version[1], version[2]);
+                return string.Format("{0}.{1}.{2}", versionNum[0], versionNum[1], versionNum[2]);
             }
             else
             {
-                version[2] = version[2] + 1;
+                versionNum[2] = versionNum[2] + 1;
 
                 // 10を越えたら桁上げ
-                if (version[2] >= 10)
+                if (versionNum[2] >= 10)
                 {
-                    version[1] += version[2] / 10;
-                    version[2] %= 10;
+                    versionNum[1] += versionNum[2] / 10;
+                    versionNum[2] %= 10;
 
-                    if (version[1] >= 10)
+                    if (versionNum[1] >= 10)
                     {
-                        version[0] += version[1] / 10;
-                        version[1] %= 10;
+                        versionNum[0] += versionNum[1] / 10;
+                        versionNum[1] %= 10;
                     }
                 }
 
-                return string.Format("{0}.{1}.{2}-beta{3}", version[0], version[1], version[2], version[3]);
+                return string.Format("{0}.{1}.{2}-beta{3}", versionNum[0], versionNum[1], versionNum[2], versionNum[3]);
             }
         }
 
@@ -962,6 +975,41 @@ namespace OpenTween
         public static string GetStatusUrl(string screenName, long statusId)
         {
             return TwitterUrl + screenName + "/status/" + statusId.ToString();
+        }
+
+        /// <summary>
+        /// OpenTween 内で共通して使う設定を施した HttpClient インスタンスを作成します
+        /// </summary>
+        public static HttpClient CreateHttpClient()
+        {
+            return CreateHttpClient(new HttpClientHandler());
+        }
+
+        /// <summary>
+        /// OpenTween 内で共通して使う設定を施した HttpClient インスタンスを作成します
+        /// </summary>
+        public static HttpClient CreateHttpClient(HttpClientHandler handler)
+        {
+            switch (HttpConnection.proxyKind)
+            {
+                case HttpConnection.ProxyType.None:
+                    handler.UseProxy = false;
+                    break;
+                case HttpConnection.ProxyType.Specified:
+                    handler.UseProxy = true;
+                    handler.Proxy = HttpConnection.proxy;
+                    break;
+                case HttpConnection.ProxyType.IE:
+                default:
+                    handler.UseProxy = true;
+                    handler.Proxy = WebRequest.GetSystemWebProxy();
+                    break;
+            }
+
+            var client = new HttpClient(handler);
+            client.DefaultRequestHeaders.Add("User-Agent", MyCommon.GetUserAgentString());
+
+            return client;
         }
     }
 }

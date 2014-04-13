@@ -39,9 +39,6 @@ namespace OpenTween
     {
         protected internal List<OTPictureBox> pictureBox = new List<OTPictureBox>();
 
-        private Task task = null;
-        private CancellationTokenSource cancelTokenSource;
-
         public event EventHandler ThumbnailLoading;
         public event EventHandler<ThumbnailDoubleClickEventArgs> ThumbnailDoubleClick;
         public event EventHandler<ThumbnailImageSearchEventArgs> ThumbnailImageSearchClick;
@@ -56,76 +53,73 @@ namespace OpenTween
         public TweetThumbnail()
         {
             InitializeComponent();
-
-            this.cancelTokenSource = new CancellationTokenSource();
         }
 
         public Task ShowThumbnailAsync(PostClass post)
         {
-            this.CancelAsync();
+            return this.ShowThumbnailAsync(post, CancellationToken.None);
+        }
+
+        public async Task ShowThumbnailAsync(PostClass post, CancellationToken cancelToken)
+        {
+            var uiScheduler = TaskScheduler.FromCurrentSynchronizationContext();
+            var loadTasks = new List<Task>();
 
             this.scrollBar.Enabled = false;
 
-            var cancelToken = this.cancelTokenSource.Token;
-            var uiScheduler = TaskScheduler.FromCurrentSynchronizationContext();
+            var thumbnails = await Task.Run(() => this.GetThumbailInfo(post), cancelToken);
 
-            this.task = Task.Factory.StartNew(() => this.GetThumbailInfo(post), cancelToken, TaskCreationOptions.None, TaskScheduler.Default)
-                .ContinueWith(t => /* await使いたい */
+            cancelToken.ThrowIfCancellationRequested();
+
+            lock (this.uiLockObj)
+            {
+                this.SetThumbnailCount(thumbnails.Count);
+                if (thumbnails.Count == 0) return;
+
+                for (int i = 0; i < thumbnails.Count; i++)
                 {
-                    var thumbnails = t.Result;
+                    var thumb = thumbnails[i];
+                    var picbox = this.pictureBox[i];
 
-                    lock (this.uiLockObj)
-                    {
-                        this.SetThumbnailCount(thumbnails.Count);
-                        if (thumbnails.Count == 0) return;
+                    picbox.Tag = thumb;
+                    picbox.ContextMenu = CreateContextMenu(thumb);
 
-                        for (int i = 0; i < thumbnails.Count; i++)
+                    picbox.ShowInitialImage();
+
+                    var loadTask = thumb.LoadThumbnailImageAsync(cancelToken)
+                        .ContinueWith(t2 =>
                         {
-                            var thumb = thumbnails[i];
-                            var picbox = this.pictureBox[i];
+                            if (t2.IsFaulted)
+                                t2.Exception.Flatten().Handle(x => x is WebException || x is InvalidImageException || x is TaskCanceledException);
 
-                            picbox.Tag = thumb;
-                            picbox.ContextMenu = CreateContextMenu(thumb);
-
-                            picbox.ShowInitialImage();
-
-                            thumb.LoadThumbnailImageAsync(cancelToken)
-                                .ContinueWith(t2 =>
-                                {
-                                    if (t2.IsFaulted)
-                                        t2.Exception.Flatten().Handle(x => x is WebException || x is InvalidImageException || x is TaskCanceledException);
-
-                                    if (t2.IsFaulted || t2.IsCanceled)
-                                    {
-                                        picbox.ShowErrorImage();
-                                        return;
-                                    }
-
-                                    picbox.Image = t2.Result;
-                                },
-                                CancellationToken.None, TaskContinuationOptions.AttachedToParent, uiScheduler);
-
-                            var tooltipText = thumb.TooltipText;
-                            if (!string.IsNullOrEmpty(tooltipText))
+                            if (t2.IsFaulted || t2.IsCanceled)
                             {
-                                this.toolTip.SetToolTip(picbox, tooltipText);
+                                picbox.ShowErrorImage();
+                                return;
                             }
 
-                            cancelToken.ThrowIfCancellationRequested();
-                        }
+                            picbox.Image = t2.Result;
+                        }, uiScheduler);
 
-                        if (thumbnails.Count > 1)
-                            this.scrollBar.Enabled = true;
+                    loadTasks.Add(loadTask);
+
+                    var tooltipText = thumb.TooltipText;
+                    if (!string.IsNullOrEmpty(tooltipText))
+                    {
+                        this.toolTip.SetToolTip(picbox, tooltipText);
                     }
 
-                    if (this.ThumbnailLoading != null)
-                        this.ThumbnailLoading(this, EventArgs.Empty);
-                },
-                cancelToken,
-                TaskContinuationOptions.OnlyOnRanToCompletion,
-                uiScheduler);
+                    cancelToken.ThrowIfCancellationRequested();
+                }
 
-            return this.task;
+                if (thumbnails.Count > 1)
+                    this.scrollBar.Enabled = true;
+            }
+
+            if (this.ThumbnailLoading != null)
+                this.ThumbnailLoading(this, EventArgs.Empty);
+
+            await Task.WhenAll(loadTasks).ConfigureAwait(false);
         }
 
         private ContextMenu CreateContextMenu(ThumbnailInfo thumb)
@@ -168,17 +162,6 @@ namespace OpenTween
         protected virtual List<ThumbnailInfo> GetThumbailInfo(PostClass post)
         {
             return ThumbnailGenerator.GetThumbnails(post);
-        }
-
-        public void CancelAsync()
-        {
-            if (this.task == null || this.task.IsCompleted) return;
-
-            var oldTokenSource = this.cancelTokenSource;
-            this.cancelTokenSource = new CancellationTokenSource();
-
-            oldTokenSource.Cancel();
-            oldTokenSource.Dispose();
         }
 
         /// <summary>

@@ -38,6 +38,7 @@ namespace OpenTween
         protected readonly string imageUrl;
 
         private WeakReference imageReference = new WeakReference(null);
+        private Task imageTask = null;
 
         public event EventHandler ImageDownloaded;
 
@@ -56,42 +57,49 @@ namespace OpenTween
             {
                 var image = imageCache.TryGetFromCache(imageUrl);
 
-                if (image == null)
-                    this.GetImageAsync();
-                else
+                if (image != null)
                     this.imageReference.Target = image;
             }
         }
 
-        private Task GetImageAsync(bool force = false)
+        public Task GetImageAsync(bool force = false)
+        {
+            if (this.imageTask == null || this.imageTask.IsCompleted)
+            {
+                this.imageTask = this.GetImageAsyncInternal(force);
+            }
+
+            return this.imageTask;
+        }
+
+        private async Task GetImageAsyncInternal(bool force)
         {
             if (string.IsNullOrEmpty(this.imageUrl))
-                return Task.Factory.StartNew(() => { });
+                return;
 
-            var uiScheduler = TaskScheduler.FromCurrentSynchronizationContext();
+            if (!force && this.imageReference.Target != null)
+                return;
 
-            return this.imageCache.DownloadImageAsync(this.imageUrl, force)
-                .ContinueWith(t =>
+            try
+            {
+                var image = await this.imageCache.DownloadImageAsync(this.imageUrl, force);
+
+                this.imageReference.Target = image;
+
+                if (this.ListView == null || !this.ListView.Created || this.ListView.IsDisposed)
+                    return;
+
+                if (this.Index < this.ListView.VirtualListSize)
                 {
-                    if (t.IsFaulted)
-                    {
-                        t.Exception.Flatten().Handle(x => x is WebException || x is InvalidImageException || x is TaskCanceledException);
-                        return;
-                    }
+                    this.ListView.RedrawItems(this.Index, this.Index, true);
 
-                    this.imageReference.Target = t.Result;
-
-                    if (this.ListView == null || !this.ListView.Created || this.ListView.IsDisposed)
-                        return;
-
-                    if (this.Index < this.ListView.VirtualListSize)
-                    {
-                        this.ListView.RedrawItems(this.Index, this.Index, true);
-
-                        if (this.ImageDownloaded != null)
-                            this.ImageDownloaded(this, EventArgs.Empty);
-                    }
-                }, uiScheduler);
+                    if (this.ImageDownloaded != null)
+                        this.ImageDownloaded(this, EventArgs.Empty);
+                }
+            }
+            catch (WebException) { }
+            catch (InvalidImageException) { }
+            catch (TaskCanceledException) { }
         }
 
         public MemoryImage Image
@@ -102,10 +110,10 @@ namespace OpenTween
             }
         }
 
-        public void RefreshImage()
+        public Task RefreshImageAsync()
         {
             this.imageReference.Target = null;
-            this.GetImageAsync(true);
+            return this.GetImageAsync(true);
         }
     }
 }

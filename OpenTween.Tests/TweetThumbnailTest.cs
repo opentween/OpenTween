@@ -70,7 +70,7 @@ namespace OpenTween
             {
                 public override Task<MemoryImage> LoadThumbnailImageAsync(CancellationToken token)
                 {
-                    return Task.Factory.StartNew(() => MemoryImage.CopyFromBytes(File.ReadAllBytes("Resources/" + this.ThumbnailUrl)), token);
+                    return Task.Run(() => MemoryImage.CopyFromBytes(File.ReadAllBytes("Resources/" + this.ThumbnailUrl)), token);
                 }
             }
         }
@@ -118,19 +118,32 @@ namespace OpenTween
             }
         }
 
-        [Fact(Skip = "Mono環境でたまに InvaliOperationException: out of sync で異常終了する")]
-        public void CancelAsyncTest()
+        [Fact]
+        public async Task CancelAsyncTest()
         {
-            using (var thumbbox = new TweetThumbnail())
+            var post = new PostClass
             {
-                var post = new PostClass();
+                TextFromApi = "てすと http://foo.example.com/abcd",
+                Media = new Dictionary<string, string>
+                {
+                    {"http://foo.example.com/abcd", "http://foo.example.com/abcd"},
+                },
+            };
 
+            using (var thumbbox = new TweetThumbnail())
+            using (var tokenSource = new CancellationTokenSource())
+            {
                 SynchronizationContext.SetSynchronizationContext(new SynchronizationContext());
-                var task = thumbbox.ShowThumbnailAsync(post);
+                var task = thumbbox.ShowThumbnailAsync(post, tokenSource.Token);
 
-                thumbbox.CancelAsync();
+                tokenSource.Cancel();
 
-                Assert.Throws<AggregateException>(() => task.Wait());
+                // Mono 上で動作しているか否か
+                if (Type.GetType("Mono.Runtime") != null)
+                    await TestUtils.ThrowsAsync<OperationCanceledException>(async () => await task);
+                else
+                    await TestUtils.ThrowsAsync<TaskCanceledException>(async () => await task);
+
                 Assert.True(task.IsCanceled);
             }
         }
@@ -167,7 +180,7 @@ namespace OpenTween
         }
 
         [Fact]
-        public void ShowThumbnailAsyncTest()
+        public async Task ShowThumbnailAsyncTest()
         {
             var post = new PostClass
             {
@@ -181,7 +194,7 @@ namespace OpenTween
             using (var thumbbox = new TweetThumbnail())
             {
                 SynchronizationContext.SetSynchronizationContext(new SynchronizationContext());
-                thumbbox.ShowThumbnailAsync(post).Wait();
+                await thumbbox.ShowThumbnailAsync(post);
 
                 Assert.Equal(0, thumbbox.scrollBar.Maximum);
                 Assert.False(thumbbox.scrollBar.Enabled);
@@ -200,7 +213,7 @@ namespace OpenTween
         }
 
         [Fact]
-        public void ShowThumbnailAsyncTest2()
+        public async Task ShowThumbnailAsyncTest2()
         {
             var post = new PostClass
             {
@@ -215,7 +228,7 @@ namespace OpenTween
             using (var thumbbox = new TweetThumbnail())
             {
                 SynchronizationContext.SetSynchronizationContext(new SynchronizationContext());
-                thumbbox.ShowThumbnailAsync(post).Wait();
+                await thumbbox.ShowThumbnailAsync(post);
 
                 Assert.Equal(1, thumbbox.scrollBar.Maximum);
                 Assert.True(thumbbox.scrollBar.Enabled);
@@ -242,7 +255,7 @@ namespace OpenTween
         }
 
         [Fact]
-        public void ThumbnailLoadingEventTest()
+        public async Task ThumbnailLoadingEventTest()
         {
             using (var thumbbox = new TweetThumbnail())
             {
@@ -260,9 +273,11 @@ namespace OpenTween
                     },
                 };
                 eventCalled = false;
-                thumbbox.ShowThumbnailAsync(post).Wait();
+                await thumbbox.ShowThumbnailAsync(post);
 
                 Assert.False(eventCalled);
+
+                SynchronizationContext.SetSynchronizationContext(new SynchronizationContext());
 
                 var post2 = new PostClass
                 {
@@ -273,14 +288,14 @@ namespace OpenTween
                     },
                 };
                 eventCalled = false;
-                thumbbox.ShowThumbnailAsync(post2).Wait();
+                await thumbbox.ShowThumbnailAsync(post2);
 
                 Assert.True(eventCalled);
             }
         }
 
         [Fact]
-        public void ScrollTest()
+        public async Task ScrollTest()
         {
             var post = new PostClass
             {
@@ -295,7 +310,7 @@ namespace OpenTween
             using (var thumbbox = new TweetThumbnail())
             {
                 SynchronizationContext.SetSynchronizationContext(new SynchronizationContext());
-                thumbbox.ShowThumbnailAsync(post).Wait();
+                await thumbbox.ShowThumbnailAsync(post);
 
                 Assert.Equal(0, thumbbox.scrollBar.Minimum);
                 Assert.Equal(1, thumbbox.scrollBar.Maximum);

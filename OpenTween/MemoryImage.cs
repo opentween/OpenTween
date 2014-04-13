@@ -95,6 +95,21 @@ namespace OpenTween
             return MemoryImage.CopyFromStream(this.Stream);
         }
 
+        /// <summary>
+        /// MemoryImage インスタンスを非同期に複製します
+        /// </summary>
+        /// <remarks>
+        /// メソッド実行中にストリームのシークが行われないよう注意して下さい。
+        /// 特に PictureBox で Gif アニメーションを表示している場合は Enabled に false をセットするなどして更新を止めて下さい。
+        /// </remarks>
+        /// <returns>複製された MemoryImage を返すタスク</returns>
+        public Task<MemoryImage> CloneAsync()
+        {
+            this.Stream.Seek(0, SeekOrigin.Begin);
+
+            return MemoryImage.CopyFromStreamAsync(this.Stream);
+        }
+
         object ICloneable.Clone()
         {
             return this.Clone();
@@ -141,6 +156,25 @@ namespace OpenTween
             var memstream = new MemoryStream();
 
             stream.CopyTo(memstream);
+
+            return new MemoryImage(memstream);
+        }
+
+        /// <summary>
+        /// 指定された Stream から MemoryImage を非同期に作成します。
+        /// </summary>
+        /// <remarks>
+        /// ストリームの内容はメモリ上に展開した後に使用されるため、
+        /// 引数に指定した Stream を MemoryImage より先に破棄しても問題ありません。
+        /// </remarks>
+        /// <param name="stream">読み込む対象となる Stream</param>
+        /// <returns>作成された MemoryImage を返すタスク</returns>
+        /// <exception cref="InvalidImageException">不正な画像データが入力された場合</exception>
+        public async static Task<MemoryImage> CopyFromStreamAsync(Stream stream)
+        {
+            var memstream = new MemoryStream();
+
+            await stream.CopyToAsync(memstream).ConfigureAwait(false);
 
             return new MemoryImage(memstream);
         }
