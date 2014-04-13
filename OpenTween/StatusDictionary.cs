@@ -178,21 +178,27 @@ namespace OpenTween
         {
             get
             {
-                if (this.RetweetedId != null && this.GetRetweetSource(this.RetweetedId.Value) != null)
+                if (this.RetweetedId != null)
                 {
-                    return this.GetRetweetSource(this.RetweetedId.Value).IsFav;
+                    var post = this.GetRetweetSource(this.RetweetedId.Value);
+                    if (post != null)
+                    {
+                        return post.IsFav;
+                    }
                 }
-                else
-                {
-                    return _IsFav;
-                }
+
+                return _IsFav;
             }
             set
             {
                 _IsFav = value;
-                if (this.RetweetedId != null && this.GetRetweetSource(this.RetweetedId.Value) != null)
+                if (this.RetweetedId != null)
                 {
-                    this.GetRetweetSource(this.RetweetedId.Value).IsFav = value;
+                    var post = this.GetRetweetSource(this.RetweetedId.Value);
+                    if (post != null)
+                    {
+                        post.IsFav = value;
+                    }
                 }
             }
         }
@@ -416,7 +422,6 @@ namespace OpenTween
         private TabInformations()
         {
             _sorter = new IdComparerClass();
-            RemovedTab = _removedTab;
         }
 
         public static TabInformations GetInstance()
@@ -453,9 +458,10 @@ namespace OpenTween
         public bool AddTab(string TabName, MyCommon.TabUsageType TabType, ListElement List)
         {
             if (_tabs.ContainsKey(TabName)) return false;
-            _tabs.Add(TabName, new TabClass(TabName, TabType, List));
-            _tabs[TabName].Sorter.Mode = _sorter.Mode;
-            _tabs[TabName].Sorter.Order = _sorter.Order;
+            var tb = new TabClass(TabName, TabType, List);
+            _tabs.Add(TabName, tb);
+            tb.Sorter.Mode = _sorter.Mode;
+            tb.Sorter.Order = _sorter.Order;
             return true;
         }
 
@@ -469,21 +475,22 @@ namespace OpenTween
             lock (LockObj)
             {
                 if (IsDefaultTab(TabName)) return; //念のため
-                if (!_tabs[TabName].IsInnerStorageTabType)
+                var tb = _tabs[TabName];
+                if (!tb.IsInnerStorageTabType)
                 {
                     var homeTab = GetTabByType(MyCommon.TabUsageType.Home);
-                    var dmName = GetTabByType(MyCommon.TabUsageType.DirectMessage).TabName;
+                    var dmTab = GetTabByType(MyCommon.TabUsageType.DirectMessage);
 
-                    for (int idx = 0; idx < _tabs[TabName].AllCount; ++idx)
+                    for (int idx = 0; idx < tb.AllCount; ++idx)
                     {
                         var exist = false;
-                        var Id = _tabs[TabName].GetId(idx);
+                        var Id = tb.GetId(idx);
                         if (Id < 0) continue;
-                        foreach (var key in _tabs.Keys)
+                        foreach (var tab in _tabs.Values)
                         {
-                            if (key != TabName && key != dmName)
+                            if (tab != tb && tab != dmTab)
                             {
-                                if (_tabs[key].Contains(Id))
+                                if (tab.Contains(Id))
                                 {
                                     exist = true;
                                     break;
@@ -493,12 +500,15 @@ namespace OpenTween
                         if (!exist) homeTab.Add(Id, _statuses[Id].IsRead, false);
                     }
                 }
-                _removedTab.Push(_tabs[TabName]);
+                _removedTab.Push(tb);
                 _tabs.Remove(TabName);
             }
         }
 
-        public Stack<TabClass> RemovedTab;
+        public Stack<TabClass> RemovedTab
+        {
+            get { return _removedTab; }
+        }
 
         public bool ContainsTab(string TabText)
         {
@@ -568,9 +578,9 @@ namespace OpenTween
 
         public void SortPosts()
         {
-            foreach (var key in _tabs.Keys)
+            foreach (var tab in _tabs.Values)
             {
-                _tabs[key].Sort();
+                tab.Sort();
             }
         }
 
@@ -583,9 +593,9 @@ namespace OpenTween
             set
             {
                 _sorter.Order = value;
-                foreach (var key in _tabs.Keys)
+                foreach (var tab in _tabs.Values)
                 {
-                    _tabs[key].Sorter.Order = value;
+                    tab.Sorter.Order = value;
                 }
             }
         }
@@ -599,9 +609,9 @@ namespace OpenTween
             set
             {
                 _sorter.Mode = value;
-                foreach (var key in _tabs.Keys)
+                foreach (var tab in _tabs.Values)
                 {
-                    _tabs[key].Sorter.Mode = value;
+                    tab.Sorter.Mode = value;
                 }
             }
         }
@@ -618,19 +628,19 @@ namespace OpenTween
                 {
                     _sorter.Order = SortOrder.Ascending;
                 }
-                foreach (var key in _tabs.Keys)
+                foreach (var tab in _tabs.Values)
                 {
-                    _tabs[key].Sorter.Order = _sorter.Order;
+                    tab.Sorter.Order = _sorter.Order;
                 }
             }
             else
             {
                 _sorter.Mode = SortMode;
                 _sorter.Order = SortOrder.Ascending;
-                foreach (var key in _tabs.Keys)
+                foreach (var tab in _tabs.Values)
                 {
-                    _tabs[key].Sorter.Mode = SortMode;
-                    _tabs[key].Sorter.Order = SortOrder.Ascending;
+                    tab.Sorter.Mode = SortMode;
+                    tab.Sorter.Order = SortOrder.Ascending;
                 }
             }
             this.SortPosts();
@@ -777,11 +787,9 @@ namespace OpenTween
         {
             lock (LockObj)
             {
-                //if (_statuses.ContainsKey(Id))
                 //各タブから該当ID削除
-                foreach (var key in _tabs.Keys)
+                foreach (var tab in _tabs.Values)
                 {
-                    var tab = _tabs[key];
                     if (tab.Contains(Id))
                     {
                         if (tab.UnreadManage && !tab.Posts[Id].IsRead)    //未読管理
@@ -900,30 +908,17 @@ namespace OpenTween
                         {
                             //続きから探索
                             FindUnreadId(idx, Tab);
-                        }
-                        else
-                        {
-                            //頭から探索
-                            FindUnreadId(-1, Tab);
+                            return;
                         }
                     }
-                    else
-                    {
-                        //頭から探索
-                        FindUnreadId(-1, Tab);
-                    }
-                }
-                else
-                {
-                    //頭から探索
-                    FindUnreadId(-1, Tab);
                 }
             }
             catch (KeyNotFoundException)
             {
-                //頭から探索
-                FindUnreadId(-1, Tab);
             }
+
+            //頭から探索
+            FindUnreadId(-1, Tab);
         }
 
         private void FindUnreadId(int StartIdx, TabClass Tab)
@@ -1089,27 +1084,27 @@ namespace OpenTween
                 var mv = false;   //移動フラグ（Recent追加有無）
                 var rslt = MyCommon.HITRESULT.None;
                 post.IsExcludeReply = false;
-                foreach (var tn in _tabs.Keys)
+                foreach (var tab in _tabs.Values)
                 {
-                    rslt = _tabs[tn].AddFiltered(post);
+                    rslt = tab.AddFiltered(post);
                     if (rslt != MyCommon.HITRESULT.None && rslt != MyCommon.HITRESULT.Exclude)
                     {
                         if (rslt == MyCommon.HITRESULT.CopyAndMark) post.IsMark = true; //マークあり
-                        if (rslt == MyCommon.HITRESULT.Move)
+                        else if (rslt == MyCommon.HITRESULT.Move)
                         {
                             mv = true; //移動
                             post.IsMark = false;
                         }
-                        if (_tabs[tn].Notify) add = true; //通知あり
-                        if (!string.IsNullOrEmpty(_tabs[tn].SoundFile) && string.IsNullOrEmpty(_soundFile))
+                        if (tab.Notify) add = true; //通知あり
+                        if (!string.IsNullOrEmpty(tab.SoundFile) && string.IsNullOrEmpty(_soundFile))
                         {
-                            _soundFile = _tabs[tn].SoundFile; //wavファイル（未設定の場合のみ）
+                            _soundFile = tab.SoundFile; //wavファイル（未設定の場合のみ）
                         }
                         post.FilterHit = true;
                     }
                     else
                     {
-                        if (rslt == MyCommon.HITRESULT.Exclude && _tabs[tn].TabType == MyCommon.TabUsageType.Mentions)
+                        if (rslt == MyCommon.HITRESULT.Exclude && tab.TabType == MyCommon.TabUsageType.Mentions)
                         {
                             post.IsExcludeReply = true;
                         }
@@ -1328,14 +1323,14 @@ namespace OpenTween
                         PostClass status;
                         if (_statuses.TryGetValue(Id, out status) && !status.IsRead)
                         {
-                            foreach (var key in _tabs.Keys)
+                            foreach (var tab in _tabs.Values)
                             {
-                                if (_tabs[key].UnreadManage &&
-                                    _tabs[key].Contains(Id) &&
-                                    !_tabs[key].IsInnerStorageTabType)
+                                if (tab.UnreadManage &&
+                                    !tab.IsInnerStorageTabType &&
+                                    tab.Contains(Id))
                                 {
-                                    _tabs[key].UnreadCount--;
-                                    if (_tabs[key].OldestUnreadId == Id) _tabs[key].OldestUnreadId = -1;
+                                    tab.UnreadCount--;
+                                    if (tab.OldestUnreadId == Id) tab.OldestUnreadId = -1;
                                 }
                             }
                             status.IsRead = true;
@@ -1344,32 +1339,35 @@ namespace OpenTween
                     else
                     {
                         //一般タブ
-                        foreach (var key in _tabs.Keys)
+                        foreach (var tab in _tabs.Values)
                         {
-                            if (key != TabName &&
-                                _tabs[key].UnreadManage &&
-                                _tabs[key].Contains(Id) &&
-                                !_tabs[key].IsInnerStorageTabType)
+                            if (tab != tb &&
+                                tab.UnreadManage &&
+                                !tab.IsInnerStorageTabType &&
+                                tab.Contains(Id))
                             {
-                                _tabs[key].UnreadCount--;
-                                if (_tabs[key].OldestUnreadId == Id) _tabs[key].OldestUnreadId = -1;
+                                tab.UnreadCount--;
+                                if (tab.OldestUnreadId == Id) tab.OldestUnreadId = -1;
                             }
                         }
                     }
                     //内部保存タブ
-                    foreach (var key in _tabs.Keys)
+                    foreach (var tab in _tabs.Values)
                     {
-                        if (key != TabName &&
-                            _tabs[key].Contains(Id) &&
-                            _tabs[key].IsInnerStorageTabType &&
-                            !_tabs[key].Posts[Id].IsRead)
+                        if (tab != tb &&
+                            tab.IsInnerStorageTabType &&
+                            tab.Contains(Id))
                         {
-                            if (_tabs[key].UnreadManage)
+                            var tPost = tab.Posts[Id];
+                            if (!tPost.IsRead)
                             {
-                                _tabs[key].UnreadCount--;
-                                if (_tabs[key].OldestUnreadId == Id) _tabs[key].OldestUnreadId = -1;
+                                if (tab.UnreadManage)
+                                {
+                                    tab.UnreadCount--;
+                                    if (tab.OldestUnreadId == Id) tab.OldestUnreadId = -1;
+                                }
+                                tPost.IsRead = true;
                             }
-                            _tabs[key].Posts[Id].IsRead = true;
                         }
                     }
                 }
@@ -1384,14 +1382,14 @@ namespace OpenTween
                         PostClass status;
                         if (_statuses.TryGetValue(Id, out status) && status.IsRead)
                         {
-                            foreach (var key in _tabs.Keys)
+                            foreach (var tab in _tabs.Values)
                             {
-                                if (_tabs[key].UnreadManage &&
-                                   _tabs[key].Contains(Id) &&
-                                   !_tabs[key].IsInnerStorageTabType)
+                                if (tab.UnreadManage &&
+                                    !tab.IsInnerStorageTabType &&
+                                    tab.Contains(Id))
                                 {
-                                    _tabs[key].UnreadCount++;
-                                    if (_tabs[key].OldestUnreadId > Id) _tabs[key].OldestUnreadId = Id;
+                                    tab.UnreadCount++;
+                                    if (tab.OldestUnreadId > Id) tab.OldestUnreadId = Id;
                                 }
                             }
                             status.IsRead = false;
@@ -1400,32 +1398,35 @@ namespace OpenTween
                     else
                     {
                         //一般タブ
-                        foreach (var key in _tabs.Keys)
+                        foreach (var tab in _tabs.Values)
                         {
-                            if (key != TabName &&
-                               _tabs[key].UnreadManage &&
-                               _tabs[key].Contains(Id) &&
-                               !_tabs[key].IsInnerStorageTabType)
+                            if (tab != tb &&
+                                tab.UnreadManage &&
+                                !tab.IsInnerStorageTabType &&
+                                tab.Contains(Id))
                             {
-                                _tabs[key].UnreadCount++;
-                                if (_tabs[key].OldestUnreadId > Id) _tabs[key].OldestUnreadId = Id;
+                                tab.UnreadCount++;
+                                if (tab.OldestUnreadId > Id) tab.OldestUnreadId = Id;
                             }
                         }
                     }
                     //内部保存タブ
-                    foreach (var key in _tabs.Keys)
+                    foreach (var tab in _tabs.Values)
                     {
-                        if (key != TabName &&
-                            _tabs[key].Contains(Id) &&
-                            _tabs[key].IsInnerStorageTabType &&
-                            _tabs[key].Posts[Id].IsRead)
+                        if (tab != tb &&
+                            tab.IsInnerStorageTabType &&
+                            tab.Contains(Id))
                         {
-                            if (_tabs[key].UnreadManage)
+                            var tPost = tab.Posts[Id];
+                            if (tPost.IsRead)
                             {
-                                _tabs[key].UnreadCount++;
-                                if (_tabs[key].OldestUnreadId > Id) _tabs[key].OldestUnreadId = Id;
+                                if (tab.UnreadManage)
+                                {
+                                    tab.UnreadCount++;
+                                    if (tab.OldestUnreadId > Id) tab.OldestUnreadId = Id;
+                                }
+                                tPost.IsRead = false;
                             }
-                            _tabs[key].Posts[Id].IsRead = false;
                         }
                     }
                 }
@@ -1456,15 +1457,15 @@ namespace OpenTween
                     this.SetNextUnreadId(Id, tb);  //次の未読セット
                     //他タブの最古未読ＩＤはタブ切り替え時に。
                     if (tb.IsInnerStorageTabType) return;
-                    foreach (var key in _tabs.Keys)
+                    foreach (var tab in _tabs.Values)
                     {
-                        if (key != TabName &&
-                            _tabs[key].UnreadManage &&
-                            _tabs[key].Contains(Id) &&
-                            !_tabs[key].IsInnerStorageTabType)
+                        if (tab != tb &&
+                            tab.UnreadManage &&
+                            !tab.IsInnerStorageTabType &&
+                            tab.Contains(Id))
                         {
-                            _tabs[key].UnreadCount--;
-                            if (_tabs[key].OldestUnreadId == Id) _tabs[key].OldestUnreadId = -1;
+                            tab.UnreadCount--;
+                            if (tab.OldestUnreadId == Id) tab.OldestUnreadId = -1;
                         }
                     }
                 }
@@ -1474,15 +1475,15 @@ namespace OpenTween
                     //if (tb.OldestUnreadId > Id || tb.OldestUnreadId == -1) tb.OldestUnreadId = Id;
                     if (tb.OldestUnreadId > Id) tb.OldestUnreadId = Id;
                     if (tb.IsInnerStorageTabType) return;
-                    foreach (var key in _tabs.Keys)
+                    foreach (var tab in _tabs.Values)
                     {
-                        if (key != TabName &&
-                            _tabs[key].UnreadManage &&
-                            _tabs[key].Contains(Id) &&
-                            !_tabs[key].IsInnerStorageTabType)
+                        if (tab != tb &&
+                            tab.UnreadManage &&
+                            !tab.IsInnerStorageTabType &&
+                            tab.Contains(Id))
                         {
-                            _tabs[key].UnreadCount++;
-                            if (_tabs[key].OldestUnreadId > Id) _tabs[key].OldestUnreadId = Id;
+                            tab.UnreadCount++;
+                            if (tab.OldestUnreadId > Id) tab.OldestUnreadId = Id;
                         }
                     }
                 }
@@ -1500,19 +1501,20 @@ namespace OpenTween
                 {
                     var id = tb.GetId(i);
                     if (id < 0) return;
-                    if (!_statuses[id].IsReply &&
-                        !_statuses[id].IsRead &&
-                        !_statuses[id].FilterHit)
+                    var tPost = _statuses[id];
+                    if (!tPost.IsReply &&
+                        !tPost.IsRead &&
+                        !tPost.FilterHit)
                     {
-                        _statuses[id].IsRead = true;
+                        tPost.IsRead = true;
                         this.SetNextUnreadId(id, tb);  //次の未読セット
-                        foreach (var key in _tabs.Keys)
+                        foreach (var tab in _tabs.Values)
                         {
-                            if (_tabs[key].UnreadManage &&
-                                _tabs[key].Contains(id))
+                            if (tab.UnreadManage &&
+                                tab.Contains(id))
                             {
-                                _tabs[key].UnreadCount--;
-                                if (_tabs[key].OldestUnreadId == id) _tabs[key].OldestUnreadId = -1;
+                                tab.UnreadCount--;
+                                if (tab.OldestUnreadId == id) tab.OldestUnreadId = -1;
                             }
                         }
                     }
@@ -1537,13 +1539,13 @@ namespace OpenTween
         {
             get
             {
-                if (!_tabs.ContainsKey(TabName)) throw new ArgumentException("TabName=" + TabName + " is not contained.");
-                var tab = _tabs[TabName];
-                var id = tab.GetId(Index);
+                TabClass tb;
+                if (!_tabs.TryGetValue(TabName, out tb)) throw new ArgumentException("TabName=" + TabName + " is not contained.");
+                var id = tb.GetId(Index);
                 if (id < 0) throw new ArgumentException("Index can't find. Index=" + Index.ToString() + "/TabName=" + TabName);
                 try
                 {
-                    return tab.Posts[tab.GetId(Index)];
+                    return tb.Posts[tb.GetId(Index)];
                 }
                 catch (Exception ex)
                 {
@@ -1556,12 +1558,13 @@ namespace OpenTween
         {
             get
             {
+                TabClass tb;
+                if (!_tabs.TryGetValue(TabName, out tb)) throw new ArgumentException("TabName=" + TabName + " is not contained.");
                 var length = EndIndex - StartIndex + 1;
                 var posts = new PostClass[length];
-                var tab = _tabs[TabName];
                 for (int i = 0; i < length; i++)
                 {
-                    posts[i] = tab.Posts[tab.GetId(StartIndex + i)];
+                    posts[i] = tb.Posts[tb.GetId(StartIndex + i)];
                 }
                 return posts;
             }
@@ -1601,17 +1604,16 @@ namespace OpenTween
         {
             if (Manage)
             {
-                foreach (var key in _tabs.Keys)
+                foreach (var tab in _tabs.Values)
                 {
-                    var tb = _tabs[key];
-                    if (tb.UnreadManage)
+                    if (tab.UnreadManage)
                     {
                         lock (LockUnread)
                         {
                             var cnt = 0;
                             var oldest = long.MaxValue;
-                            Dictionary<long, PostClass> posts = tb.Posts;
-                            foreach (var id in tb.BackupIds)
+                            Dictionary<long, PostClass> posts = tab.Posts;
+                            foreach (var id in tab.BackupIds)
                             {
                                 if (!posts[id].IsRead)
                                 {
@@ -1620,23 +1622,22 @@ namespace OpenTween
                                 }
                             }
                             if (oldest == long.MaxValue) oldest = -1;
-                            tb.OldestUnreadId = oldest;
-                            tb.UnreadCount = cnt;
+                            tab.OldestUnreadId = oldest;
+                            tab.UnreadCount = cnt;
                         }
                     }
                 }
             }
             else
             {
-                foreach (var key in _tabs.Keys)
+                foreach (var tab in _tabs.Values)
                 {
-                    var tb = _tabs[key];
-                    if (tb.UnreadManage && tb.UnreadCount > 0)
+                    if (tab.UnreadManage && tab.UnreadCount > 0)
                     {
                         lock (LockUnread)
                         {
-                            tb.UnreadCount = 0;
-                            tb.OldestUnreadId = -1;
+                            tab.UnreadCount = 0;
+                            tab.OldestUnreadId = -1;
                         }
                     }
                 }
@@ -1666,9 +1667,8 @@ namespace OpenTween
                         tb.ClearIDs();
                         //////////////フィルター前のIDsを退避。どのタブにも含まれないidはrecentへ追加
                         //////////////moveフィルターにヒットした際、recentに該当あればrecentから削除
-                        foreach (var id in _statuses.Keys)
+                        foreach (var post in _statuses.Values)
                         {
-                            var post = _statuses[id];
                             if (post.IsDm) continue;
                             var rslt = MyCommon.HITRESULT.None;
                             rslt = tb.AddFiltered(post);
@@ -1759,14 +1759,15 @@ namespace OpenTween
             //不要なPostを削除
             lock (LockObj)
             {
-                if (!_tabs[TabName].IsInnerStorageTabType)
+                var tb = _tabs[TabName];
+                if (!tb.IsInnerStorageTabType)
                 {
-                    foreach (var Id in _tabs[TabName].BackupIds)
+                    foreach (var Id in tb.BackupIds)
                     {
                         var Hit = false;
-                        foreach (var tb in _tabs.Values)
+                        foreach (var tab in _tabs.Values)
                         {
-                            if (tb.Contains(Id))
+                            if (tab.Contains(Id))
                             {
                                 Hit = true;
                                 break;
@@ -1777,7 +1778,7 @@ namespace OpenTween
                 }
 
                 //指定タブをクリア
-                _tabs[TabName].ClearIDs();
+                tb.ClearIDs();
             }
         }
 
@@ -1833,9 +1834,9 @@ namespace OpenTween
                 }
                 else
                 {
-                    foreach (var id in _statuses.Keys)
+                    foreach (var post in _statuses.Values)
                     {
-                        _statuses[id].IsOwl = false;
+                        post.IsOwl = false;
                     }
                 }
             }
@@ -1848,9 +1849,9 @@ namespace OpenTween
             //合致しなければnullを返す
             lock (LockObj)
             {
-                foreach (var tb in _tabs.Values)
+                foreach (var tab in _tabs.Values)
                 {
-                    if (tb != null && tb.TabType == tabType) return tb;
+                    if (tab.TabType == tabType) return tab;
                 }
                 return null;
             }
@@ -1910,19 +1911,23 @@ namespace OpenTween
             {
                 return true;
             }
-            else
-            {
-                return false;
-            }
+
+            return false;
         }
 
         //振り分け可能タブの判定処理
         public bool IsDistributableTab(string tabName)
         {
-            return tabName != null &&
-                this._tabs.ContainsKey(tabName) &&
-                (_tabs[tabName].TabType == MyCommon.TabUsageType.Mentions ||
-                 _tabs[tabName].TabType == MyCommon.TabUsageType.UserDefined);
+            TabClass tab;
+            if (tabName != null &&
+                _tabs.TryGetValue(tabName, out tab) &&
+                (tab.TabType == MyCommon.TabUsageType.Mentions ||
+                tab.TabType == MyCommon.TabUsageType.UserDefined))
+            {
+                return true;
+            }
+
+            return false;
         }
 
         public string GetUniqueTabName()
