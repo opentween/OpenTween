@@ -5955,7 +5955,7 @@ namespace OpenTween
                     if (!startup)
                     {
                         var msgtext = string.Format(Properties.Resources.CheckNewVersionText7,
-                            MyCommon.GetReadableVersion(), MyCommon.GetReadableVersion(versionInfo.Version.ToString()));
+                            MyCommon.GetReadableVersion(), MyCommon.GetReadableVersion(versionInfo.Version));
                         msgtext = MyCommon.ReplaceAppName(msgtext);
 
                         MessageBox.Show(msgtext,
@@ -5968,7 +5968,7 @@ namespace OpenTween
                 using (var dialog = new UpdateDialog())
                 {
                     dialog.SummaryText = string.Format(Properties.Resources.CheckNewVersionText3,
-                        MyCommon.GetReadableVersion(versionInfo.Version.ToString()));
+                        MyCommon.GetReadableVersion(versionInfo.Version));
                     dialog.DetailsText = versionInfo.ReleaseNote;
 
                     if (dialog.ShowDialog(this) == DialogResult.Yes)
