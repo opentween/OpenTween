@@ -5166,34 +5166,33 @@ namespace OpenTween
             finally { this.itemCacheLock.ExitUpgradeableReadLock(); }
         }
 
-        private void MyList_RetrieveVirtualItem(object sender, RetrieveVirtualItemEventArgs e)
+        private async void MyList_RetrieveVirtualItem(object sender, RetrieveVirtualItemEventArgs e)
         {
-            ListViewItem cacheItem = null;
+            ListViewItem item = null;
             PostClass cacheItemPost = null;
 
-            this.TryGetListViewItemCache(e.ItemIndex, out cacheItem, out cacheItemPost);
+            this.TryGetListViewItemCache(e.ItemIndex, out item, out cacheItemPost);
 
-            if (cacheItem != null)
-            {
-                e.Item = cacheItem;
-            }
-            else
+            if (item == null)
             {
                 //A cache miss, so create a new ListViewItem and pass it back.
                 TabPage tb = (TabPage)((DetailsListView)sender).Parent;
                 try
                 {
-                    e.Item = CreateItem(tb,
-                                        _statuses[tb.Text, e.ItemIndex],
-                                        e.ItemIndex);
+                    item = this.CreateItem(tb, _statuses[tb.Text, e.ItemIndex], e.ItemIndex);
                 }
                 catch (Exception)
                 {
                     //不正な要求に対する間に合わせの応答
                     string[] sitem = {"", "", "", "", "", "", "", ""};
-                    e.Item = new ImageListViewItem(sitem);
+                    item = new ImageListViewItem(sitem);
                 }
             }
+
+            // e.Item に値をセットする前に await しないこと
+            e.Item = item;
+
+            await ((ImageListViewItem)item).GetImageAsync();
         }
 
         private void CreateCache(int StartIndex, int EndIndex)

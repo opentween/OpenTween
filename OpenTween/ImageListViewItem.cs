@@ -38,6 +38,7 @@ namespace OpenTween
         protected readonly string imageUrl;
 
         private WeakReference imageReference = new WeakReference(null);
+        private Task imageTask = null;
 
         public event EventHandler ImageDownloaded;
 
@@ -56,16 +57,27 @@ namespace OpenTween
             {
                 var image = imageCache.TryGetFromCache(imageUrl);
 
-                if (image == null)
-                    this.GetImageAsync();
-                else
+                if (image != null)
                     this.imageReference.Target = image;
             }
         }
 
-        private async Task GetImageAsync(bool force = false)
+        public Task GetImageAsync(bool force = false)
+        {
+            if (this.imageTask == null || this.imageTask.IsCompleted)
+            {
+                this.imageTask = this.GetImageAsyncInternal(force);
+            }
+
+            return this.imageTask;
+        }
+
+        private async Task GetImageAsyncInternal(bool force)
         {
             if (string.IsNullOrEmpty(this.imageUrl))
+                return;
+
+            if (!force && this.imageReference.Target != null)
                 return;
 
             try
