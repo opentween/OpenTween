@@ -10925,21 +10925,17 @@ namespace OpenTween
                 GetTimeline(MyCommon.WORKERTYPE.UserTimeline, 1, 0, "");  //tabname="":全タブ
                 _waitLists = true;
                 GetTimeline(MyCommon.WORKERTYPE.List, 1, 0, "");  //tabname="":全タブ
-                int i = 0;
-                int j = 0;
-                while (IsInitialRead() && !MyCommon._endingFlag)
+
+                var i = 0;
+                while (this.IsInitialRead())
                 {
-                    System.Threading.Thread.Sleep(100);
-                    Application.DoEvents();
+                    await Task.Delay(5000);
+
                     i += 1;
-                    j += 1;
-                    if (j > 1200) break; // 120秒間初期処理が終了しなかったら強制的に打ち切る
-                    if (i > 50)
-                    {
-                        if (MyCommon._endingFlag)
-                            return;
-                        i = 0;
-                    }
+                    if (i > 24) break; // 120秒間初期処理が終了しなかったら強制的に打ち切る
+
+                    if (MyCommon._endingFlag)
+                        return;
                 }
 
                 if (MyCommon._endingFlag) return;
