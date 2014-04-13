@@ -5879,9 +5879,9 @@ namespace OpenTween
             }
         }
 
-        private void VerUpMenuItem_Click(object sender, EventArgs e)
+        private async void VerUpMenuItem_Click(object sender, EventArgs e)
         {
-            CheckNewVersion();
+            await this.CheckNewVersion(false);
         }
 
         private void RunTweenUp()
@@ -5901,62 +5901,90 @@ namespace OpenTween
             }
         }
 
-        private void CheckNewVersion(bool startup = false)
+        public class VersionInfo
+        {
+            public Version Version { get; set; }
+            public Uri DownloadUri { get; set; }
+            public string ReleaseNote { get; set; }
+        }
+
+        /// <summary>
+        /// OpenTween の最新バージョンの情報を取得します
+        /// </summary>
+        public async Task<VersionInfo> GetVersionInfoAsync()
+        {
+            var http = MyCommon.CreateHttpClient();
+
+            var versionInfoUrl = new Uri(ApplicationSettings.VersionInfoUrl + "?" +
+                DateTime.Now.ToString("yyMMddHHmmss") + Environment.TickCount);
+
+            var responseText = await http.GetStringAsync(versionInfoUrl)
+                .ConfigureAwait(false);
+
+            // 改行2つで前後パートを分割（前半がバージョン番号など、後半が詳細テキスト）
+            var msgPart = responseText.Split(new[] { "\n\n", "\r\n\r\n" }, 2, StringSplitOptions.None);
+
+            var msgHeader = msgPart[0].Split(new[] { "\n", "\r\n" }, StringSplitOptions.None);
+            var msgBody = msgPart.Length == 2 ? msgPart[1] : "";
+
+            msgBody = Regex.Replace(msgBody, "(?<!\r)\n", "\r\n"); // LF -> CRLF
+
+            return new VersionInfo
+            {
+                Version = Version.Parse(msgHeader[0]),
+                DownloadUri = new Uri(msgHeader[1]),
+                ReleaseNote = msgBody,
+            };
+        }
+
+        private async Task CheckNewVersion(bool startup = false)
         {
             if (ApplicationSettings.VersionInfoUrl == null)
                 return; // 更新チェック無効化
 
             if (string.IsNullOrEmpty(MyCommon.fileVersion))
-            {
                 return;
-            }
 
-            string retMsg;
             try
             {
-                retMsg = tw.GetVersionInfo();
-            }
-            catch
-            {
-                retMsg = "";
-            }
+                var versionInfo = await this.GetVersionInfoAsync();
 
-            if (string.IsNullOrEmpty(retMsg))
-            {
-                StatusLabel.Text = Properties.Resources.CheckNewVersionText9;
-                if (!startup) MessageBox.Show(Properties.Resources.CheckNewVersionText10, MyCommon.ReplaceAppName(Properties.Resources.CheckNewVersionText2), MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2);
-                return;
-            }
+                if (versionInfo.Version <= Version.Parse(MyCommon.fileVersion))
+                {
+                    // 更新不要
+                    if (!startup)
+                    {
+                        var msgtext = string.Format(Properties.Resources.CheckNewVersionText7,
+                            MyCommon.GetReadableVersion(), MyCommon.GetReadableVersion(versionInfo.Version.ToString()));
+                        msgtext = MyCommon.ReplaceAppName(msgtext);
 
-            // 改行2つで前後パートを分割（前半がバージョン番号など、後半が詳細テキスト）
-            string[] msgPart = retMsg.Split(new string[] {"\n\n", "\r\n\r\n"}, 2, StringSplitOptions.None);
+                        MessageBox.Show(msgtext,
+                            MyCommon.ReplaceAppName(Properties.Resources.CheckNewVersionText2),
+                            MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    return;
+                }
 
-            string[] msgHeader = msgPart[0].Split(new string[] {"\n", "\r\n"}, StringSplitOptions.None);
-            string msgBody = msgPart.Length == 2 ? msgPart[1] : "";
-
-            msgBody = Regex.Replace(msgBody, "(?<!\r)\n", "\r\n"); // LF -> CRLF
-
-            string currentVersion = msgHeader[0];
-            string downloadUrl = msgHeader[1];
-
-            if (currentVersion.Replace(".", "").CompareTo(MyCommon.fileVersion.Replace(".", "")) > 0)
-            {
                 using (var dialog = new UpdateDialog())
                 {
-                    dialog.SummaryText = string.Format(Properties.Resources.CheckNewVersionText3, MyCommon.GetReadableVersion(currentVersion));
-                    dialog.DetailsText = msgBody;
+                    dialog.SummaryText = string.Format(Properties.Resources.CheckNewVersionText3,
+                        MyCommon.GetReadableVersion(versionInfo.Version.ToString()));
+                    dialog.DetailsText = versionInfo.ReleaseNote;
+
                     if (dialog.ShowDialog(this) == DialogResult.Yes)
                     {
-                        this.OpenUriAsync(downloadUrl);
+                        await this.OpenUriAsync(versionInfo.DownloadUri.OriginalString);
                     }
                 }
             }
-            else
+            catch (Exception)
             {
+                this.StatusLabel.Text = Properties.Resources.CheckNewVersionText9;
                 if (!startup)
                 {
-                    var msgtext = MyCommon.ReplaceAppName(string.Format(Properties.Resources.CheckNewVersionText7, MyCommon.GetReadableVersion(), MyCommon.GetReadableVersion(currentVersion)));
-                    MessageBox.Show(msgtext, MyCommon.ReplaceAppName(Properties.Resources.CheckNewVersionText2), MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show(Properties.Resources.CheckNewVersionText10,
+                        MyCommon.ReplaceAppName(Properties.Resources.CheckNewVersionText2),
+                        MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2);
                 }
             }
         }
@@ -10857,7 +10885,7 @@ namespace OpenTween
             if (SettingDialog.UserstreamStartup) tw.StartUserStream();
         }
 
-        private void TweenMain_Shown(object sender, EventArgs e)
+        private async void TweenMain_Shown(object sender, EventArgs e)
         {
             try
             {
@@ -10920,7 +10948,7 @@ namespace OpenTween
                 {
                     //バージョンチェック（引数：起動時チェックの場合はtrue･･･チェック結果のメッセージを表示しない）
                     if (SettingDialog.StartupVersion)
-                        CheckNewVersion(true);
+                        await this.CheckNewVersion(true);
                 }
                 else
                 {

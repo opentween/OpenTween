@@ -1156,16 +1156,6 @@ namespace OpenTween
         }
 
 #region "バージョンアップ"
-        public string GetVersionInfo()
-        {
-            var content = "";
-            if (!(new HttpVarious()).GetData(ApplicationSettings.VersionInfoUrl + "?" + DateTime.Now.ToString("yyMMddHHmmss") + Environment.TickCount.ToString(), null, out content, MyCommon.GetUserAgentString()))
-            {
-                throw new Exception("GetVersionInfo Failed");
-            }
-            return content;
-        }
-
         public string GetTweenBinary(string strVer)
         {
             try
