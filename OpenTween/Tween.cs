@@ -2404,13 +2404,6 @@ namespace OpenTween
 
             RunAsync(args);
 
-            //Google検索（試験実装）
-            if (StatusText.Text.StartsWith("Google:", StringComparison.OrdinalIgnoreCase) && StatusText.Text.Trim().Length > 7)
-            {
-                string tmp = string.Format(Properties.Resources.SearchItem2Url, Uri.EscapeUriString(StatusText.Text.Substring(7)));
-                OpenUriAsync(tmp);
-            }
-
             _reply_to_id = null;
             _reply_to_name = null;
             StatusText.Text = "";
@@ -2420,6 +2413,13 @@ namespace OpenTween
                 ((Control)ListTab.SelectedTab.Tag).Focus();
             urlUndoBuffer = null;
             UrlUndoToolStripMenuItem.Enabled = false;  //Undoをできないように設定
+
+            //Google検索（試験実装）
+            if (StatusText.Text.StartsWith("Google:", StringComparison.OrdinalIgnoreCase) && StatusText.Text.Trim().Length > 7)
+            {
+                string tmp = string.Format(Properties.Resources.SearchItem2Url, Uri.EscapeUriString(StatusText.Text.Substring(7)));
+                await this.OpenUriAsync(tmp);
+            }
         }
 
         private void EndToolStripMenuItem_Click(object sender, EventArgs e)
