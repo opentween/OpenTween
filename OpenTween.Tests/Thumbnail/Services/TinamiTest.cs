@@ -24,6 +24,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Xml.Linq;
 using Xunit;
 using Xunit.Extensions;
@@ -50,7 +52,7 @@ namespace OpenTween.Thumbnail.Services
         }
 
         [Fact]
-        public void ApiTest()
+        public async Task ApiTest()
         {
             var service = new TestTinami(@"^http://www\.tinami\.com/view/(?<ContentId>\d+)$",
                 "http://api.tinami.com/content/info?cont_id=${ContentId}&api_key=" + ApplicationSettings.TINAMIApiKey);
@@ -70,7 +72,7 @@ namespace OpenTween.Thumbnail.Services
     </image>
   </content>
 </rsp>";
-            var thumbinfo = service.GetThumbnailInfo("http://www.tinami.com/view/12345", null);
+            var thumbinfo = await service.GetThumbnailInfoAsync("http://www.tinami.com/view/12345", null, CancellationToken.None);
 
             Assert.NotNull(thumbinfo);
             Assert.Equal("http://www.tinami.com/view/12345", thumbinfo.ImageUrl);
@@ -79,7 +81,7 @@ namespace OpenTween.Thumbnail.Services
         }
 
         [Fact]
-        public void ApiErrorTest()
+        public async Task ApiErrorTest()
         {
             var service = new TestTinami(@"^http://www\.tinami\.com/view/(?<ContentId>\d+)$",
                 "http://api.tinami.com/content/info?cont_id=${ContentId}&api_key=" + ApplicationSettings.TINAMIApiKey);
@@ -88,7 +90,7 @@ namespace OpenTween.Thumbnail.Services
 <rsp stat='user_only'>
   <err msg='この作品は登録ユーザー限定の作品です。'/>
 </rsp>";
-            var thumbinfo = service.GetThumbnailInfo("http://www.tinami.com/view/12345", null);
+            var thumbinfo = await service.GetThumbnailInfoAsync("http://www.tinami.com/view/12345", null, CancellationToken.None);
 
             Assert.Null(thumbinfo);
         }

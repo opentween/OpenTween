@@ -23,6 +23,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Runtime.Serialization.Json;
 using System.Xml;
 using System.Xml.Linq;
@@ -38,30 +40,33 @@ namespace OpenTween.Thumbnail.Services
         {
         }
 
-        public override ThumbnailInfo GetThumbnailInfo(string url, PostClass post)
+        public override Task<ThumbnailInfo> GetThumbnailInfoAsync(string url, PostClass post, CancellationToken token)
         {
-            var apiUrl = base.ReplaceUrl(url);
-            if (apiUrl == null) return null;
-
-            var xdoc = this.FetchContentInfoApi(apiUrl);
-
-            if (xdoc.XPathSelectElement("/rsp").Attribute("stat").Value == "ok")
+            return Task.Run(() =>
             {
-                var thumbUrlElm = xdoc.XPathSelectElement("/rsp/content/thumbnails/thumbnail_150x150");
-                if (thumbUrlElm != null)
+                var apiUrl = base.ReplaceUrl(url);
+                if (apiUrl == null) return null;
+
+                var xdoc = this.FetchContentInfoApi(apiUrl);
+
+                if (xdoc.XPathSelectElement("/rsp").Attribute("stat").Value == "ok")
                 {
-                    var descElm = xdoc.XPathSelectElement("/rsp/content/description");
-
-                    return new ThumbnailInfo()
+                    var thumbUrlElm = xdoc.XPathSelectElement("/rsp/content/thumbnails/thumbnail_150x150");
+                    if (thumbUrlElm != null)
                     {
-                        ImageUrl = url,
-                        ThumbnailUrl = thumbUrlElm.Attribute("url").Value,
-                        TooltipText = descElm == null ? null : descElm.Value,
-                    };
-                }
-            }
+                        var descElm = xdoc.XPathSelectElement("/rsp/content/description");
 
-            return null;
+                        return new ThumbnailInfo()
+                        {
+                            ImageUrl = url,
+                            ThumbnailUrl = thumbUrlElm.Attribute("url").Value,
+                            TooltipText = descElm == null ? null : descElm.Value,
+                        };
+                    }
+                }
+
+                return null;
+            }, token);
         }
 
         protected virtual XDocument FetchContentInfoApi(string url)

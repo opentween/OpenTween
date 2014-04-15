@@ -25,8 +25,8 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
-using System.Threading.Tasks;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace OpenTween.Thumbnail.Services
 {
@@ -40,21 +40,24 @@ namespace OpenTween.Thumbnail.Services
         /// </summary>
         internal static Action<HttpConnectionOAuth> InitializeOAuthToken;
 
-        public override ThumbnailInfo GetThumbnailInfo(string url, PostClass post)
+        public override Task<ThumbnailInfo> GetThumbnailInfoAsync(string url, PostClass post, CancellationToken token)
         {
-            if (InitializeOAuthToken == null)
-                return null;
-
-            if (!url.StartsWith(@"https://ton.twitter.com/1.1/ton/data/"))
-                return null;
-
-            return new TonTwitterCom.Thumbnail
+            return Task.Run<ThumbnailInfo>(() =>
             {
-                ImageUrl = url,
-                ThumbnailUrl = url,
-                TooltipText = null,
-                FullSizeImageUrl = url,
-            };
+                if (InitializeOAuthToken == null)
+                    return null;
+
+                if (!url.StartsWith(@"https://ton.twitter.com/1.1/ton/data/"))
+                    return null;
+
+                return new TonTwitterCom.Thumbnail
+                {
+                    ImageUrl = url,
+                    ThumbnailUrl = url,
+                    TooltipText = null,
+                    FullSizeImageUrl = url,
+                };
+            }, token);
         }
 
         public class Thumbnail : ThumbnailInfo

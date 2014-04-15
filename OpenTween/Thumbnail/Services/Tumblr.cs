@@ -28,6 +28,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Xml;
 
 namespace OpenTween.Thumbnail.Services
@@ -39,46 +41,49 @@ namespace OpenTween.Thumbnail.Services
         {
         }
 
-        public override ThumbnailInfo GetThumbnailInfo(string url, PostClass post)
+        public override Task<ThumbnailInfo> GetThumbnailInfoAsync(string url, PostClass post, CancellationToken token)
         {
-            var apiUrl = base.ReplaceUrl(url);
-            if (apiUrl == null) return null;
-
-            var http = new HttpVarious();
-            var src = "";
-            string imgurl = null;
-            string errmsg;
-            if (http.GetData(apiUrl, null, out src, 0, out errmsg, ""))
+            return Task.Run(() =>
             {
-                var xdoc = new XmlDocument();
-                try
-                {
-                    xdoc.LoadXml(src);
+                var apiUrl = base.ReplaceUrl(url);
+                if (apiUrl == null) return null;
 
-                    var type = xdoc.SelectSingleNode("/tumblr/posts/post").Attributes["type"].Value;
-                    if (type == "photo")
+                var http = new HttpVarious();
+                var src = "";
+                string imgurl = null;
+                string errmsg;
+                if (http.GetData(apiUrl, null, out src, 0, out errmsg, ""))
+                {
+                    var xdoc = new XmlDocument();
+                    try
                     {
-                        imgurl = xdoc.SelectSingleNode("/tumblr/posts/post/photo-url").InnerText;
+                        xdoc.LoadXml(src);
+
+                        var type = xdoc.SelectSingleNode("/tumblr/posts/post").Attributes["type"].Value;
+                        if (type == "photo")
+                        {
+                            imgurl = xdoc.SelectSingleNode("/tumblr/posts/post/photo-url").InnerText;
+                        }
+                        else
+                        {
+                            errmsg = "PostType:" + type;
+                            return null;
+                        }
                     }
-                    else
+                    catch (Exception)
                     {
-                        errmsg = "PostType:" + type;
                         return null;
                     }
-                }
-                catch (Exception)
-                {
-                    return null;
-                }
 
-                return new ThumbnailInfo()
-                {
-                    ImageUrl = url,
-                    ThumbnailUrl = imgurl,
-                    TooltipText = null,
-                };
-            }
-            return null;
+                    return new ThumbnailInfo()
+                    {
+                        ImageUrl = url,
+                        ThumbnailUrl = imgurl,
+                        TooltipText = null,
+                    };
+                }
+                return null;
+            }, token);
         }
     }
 }

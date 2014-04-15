@@ -67,16 +67,17 @@ namespace OpenTween
 
             this.scrollBar.Enabled = false;
 
-            var thumbnails = await Task.Run(() => this.GetThumbailInfo(post), cancelToken);
+            var thumbnails = (await this.GetThumbailInfoAsync(post, cancelToken))
+                .ToArray();
 
             cancelToken.ThrowIfCancellationRequested();
 
             lock (this.uiLockObj)
             {
-                this.SetThumbnailCount(thumbnails.Count);
-                if (thumbnails.Count == 0) return;
+                this.SetThumbnailCount(thumbnails.Length);
+                if (thumbnails.Length == 0) return;
 
-                for (int i = 0; i < thumbnails.Count; i++)
+                for (int i = 0; i < thumbnails.Length; i++)
                 {
                     var thumb = thumbnails[i];
                     var picbox = this.pictureBox[i];
@@ -112,7 +113,7 @@ namespace OpenTween
                     cancelToken.ThrowIfCancellationRequested();
                 }
 
-                if (thumbnails.Count > 1)
+                if (thumbnails.Length > 1)
                     this.scrollBar.Enabled = true;
             }
 
@@ -159,9 +160,9 @@ namespace OpenTween
             return @"https://www.google.com/searchbyimage?image_url=" + Uri.EscapeDataString(image_uri);
         }
 
-        protected virtual List<ThumbnailInfo> GetThumbailInfo(PostClass post)
+        protected virtual Task<IEnumerable<ThumbnailInfo>> GetThumbailInfoAsync(PostClass post, CancellationToken token)
         {
-            return ThumbnailGenerator.GetThumbnails(post);
+            return ThumbnailGenerator.GetThumbnailsAsync(post, token);
         }
 
         /// <summary>

@@ -24,6 +24,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
+using System.Threading.Tasks;
 using OpenTween.Thumbnail.Services;
 
 namespace OpenTween.Thumbnail
@@ -203,7 +205,7 @@ namespace OpenTween.Thumbnail
             };
         }
 
-        public static List<ThumbnailInfo> GetThumbnails(PostClass post)
+        public static async Task<IEnumerable<ThumbnailInfo>> GetThumbnailsAsync(PostClass post, CancellationToken token)
         {
             var thumbnails = new List<ThumbnailInfo>();
 
@@ -211,11 +213,13 @@ namespace OpenTween.Thumbnail
             {
                 foreach (var media in post.Media)
                 {
-                    var thumbInfo = ThumbnailGenerator.GetThumbnailInfo(media.Value, post);
+                    var thumbInfo = await ThumbnailGenerator.GetThumbnailInfoAsync(media.Value, post, token)
+                        .ConfigureAwait(false);
+
                     if (thumbInfo != null)
-                    {
                         thumbnails.Add(thumbInfo);
-                    }
+
+                    token.ThrowIfCancellationRequested();
                 }
             }
 
@@ -233,15 +237,17 @@ namespace OpenTween.Thumbnail
             return thumbnails;
         }
 
-        public static ThumbnailInfo GetThumbnailInfo(string url, PostClass post)
+        public static async Task<ThumbnailInfo> GetThumbnailInfoAsync(string url, PostClass post, CancellationToken token)
         {
             foreach (var generator in ThumbnailGenerator.Services)
             {
-                var result = generator.GetThumbnailInfo(url, post);
+                var result = await generator.GetThumbnailInfoAsync(url, post, token)
+                    .ConfigureAwait(false);
+
                 if (result != null)
-                {
                     return result;
-                }
+
+                token.ThrowIfCancellationRequested();
             }
 
             return null;

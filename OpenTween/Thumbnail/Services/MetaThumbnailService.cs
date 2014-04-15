@@ -23,6 +23,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Net;
 using System.Text.RegularExpressions;
 
@@ -46,29 +48,32 @@ namespace OpenTween.Thumbnail.Services
         {
         }
 
-        public override ThumbnailInfo GetThumbnailInfo(string url, PostClass post)
+        public override Task<ThumbnailInfo> GetThumbnailInfoAsync(string url, PostClass post, CancellationToken token)
         {
-            var pageUrl = this.ReplaceUrl(url);
-            if (pageUrl == null) return null;
-
-            try
+            return Task.Run(() =>
             {
-                var content = this.FetchImageUrl(pageUrl);
+                var pageUrl = this.ReplaceUrl(url);
+                if (pageUrl == null) return null;
 
-                var thumbnailUrl = this.GetThumbnailUrl(content);
-                if (string.IsNullOrEmpty(thumbnailUrl)) return null;
-
-                return new ThumbnailInfo()
+                try
                 {
-                    ImageUrl = url,
-                    ThumbnailUrl = thumbnailUrl,
-                    TooltipText = null,
-                };
-            }
-            catch (WebException)
-            {
-                return null;
-            }
+                    var content = this.FetchImageUrl(pageUrl);
+
+                    var thumbnailUrl = this.GetThumbnailUrl(content);
+                    if (string.IsNullOrEmpty(thumbnailUrl)) return null;
+
+                    return new ThumbnailInfo()
+                    {
+                        ImageUrl = url,
+                        ThumbnailUrl = thumbnailUrl,
+                        TooltipText = null,
+                    };
+                }
+                catch (WebException)
+                {
+                    return null;
+                }
+            }, token);
         }
 
         protected virtual string GetThumbnailUrl(string html)

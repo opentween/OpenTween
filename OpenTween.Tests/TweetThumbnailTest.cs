@@ -52,18 +52,21 @@ namespace OpenTween
                 this.replaceTooltip = replaceTooltip;
             }
 
-            public override ThumbnailInfo GetThumbnailInfo(string url, PostClass post)
+            public override Task<ThumbnailInfo> GetThumbnailInfoAsync(string url, PostClass post, CancellationToken token)
             {
-                var match = this.regex.Match(url);
-
-                if (!match.Success) return null;
-
-                return new MockThumbnailInfo
+                return Task.Run<ThumbnailInfo>(() =>
                 {
-                    ImageUrl = url,
-                    ThumbnailUrl = match.Result(this.replaceUrl),
-                    TooltipText = this.replaceTooltip != null ? match.Result(this.replaceTooltip) : null,
-                };
+                    var match = this.regex.Match(url);
+
+                    if (!match.Success) return null;
+
+                    return new MockThumbnailInfo
+                    {
+                        ImageUrl = url,
+                        ThumbnailUrl = match.Result(this.replaceUrl),
+                        TooltipText = this.replaceTooltip != null ? match.Result(this.replaceTooltip) : null,
+                    };
+                });
             }
 
             class MockThumbnailInfo : ThumbnailInfo

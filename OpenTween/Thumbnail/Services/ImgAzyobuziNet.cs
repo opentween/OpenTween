@@ -28,6 +28,7 @@ using System.Xml;
 using System.Xml.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace OpenTween.Thumbnail.Services
 {
@@ -150,34 +151,37 @@ namespace OpenTween.Thumbnail.Services
             }
         }
 
-        public override ThumbnailInfo GetThumbnailInfo(string url, PostClass post)
+        public override Task<ThumbnailInfo> GetThumbnailInfoAsync(string url, PostClass post, CancellationToken token)
         {
-            if (!this.Enabled)
-                return null;
-
-            if (this.DisabledInDM && post != null && post.IsDm)
-                return null;
-
-            lock (this.LockObj)
+            return Task.Run(() =>
             {
-                if (this.UrlRegex == null)
+                if (!this.Enabled)
                     return null;
 
-                foreach (var regex in this.UrlRegex)
+                if (this.DisabledInDM && post != null && post.IsDm)
+                    return null;
+
+                lock (this.LockObj)
                 {
-                    if (regex.IsMatch(url))
+                    if (this.UrlRegex == null)
+                        return null;
+
+                    foreach (var regex in this.UrlRegex)
                     {
-                        return new ThumbnailInfo()
+                        if (regex.IsMatch(url))
                         {
-                            ImageUrl = url,
-                            ThumbnailUrl = this.ApiBase + "redirect?size=large&uri=" + Uri.EscapeDataString(url),
-                            TooltipText = null,
-                        };
+                            return new ThumbnailInfo()
+                            {
+                                ImageUrl = url,
+                                ThumbnailUrl = this.ApiBase + "redirect?size=large&uri=" + Uri.EscapeDataString(url),
+                                TooltipText = null,
+                            };
+                        }
                     }
                 }
-            }
 
-            return null;
+                return null;
+            }, token);
         }
 
         public virtual void Dispose()

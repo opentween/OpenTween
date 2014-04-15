@@ -23,11 +23,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace OpenTween.Thumbnail.Services
 {
     abstract class IThumbnailService
     {
-        public abstract ThumbnailInfo GetThumbnailInfo(string url, PostClass post);
+        public abstract Task<ThumbnailInfo> GetThumbnailInfoAsync(string url, PostClass post, CancellationToken token);
     }
 }

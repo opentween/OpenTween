@@ -23,6 +23,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 using Xunit;
 using Xunit.Extensions;
 
@@ -31,11 +33,11 @@ namespace OpenTween.Thumbnail.Services
     public class SimpleThumbnailServiceTest
     {
         [Fact]
-        public void RegexMatchTest()
+        public async Task RegexMatchTest()
         {
             var service = new SimpleThumbnailService(@"http://example.com/(.+)", @"http://img.example.com/$1");
 
-            var thumbinfo = service.GetThumbnailInfo("http://example.com/abcd", null);
+            var thumbinfo = await service.GetThumbnailInfoAsync("http://example.com/abcd", null, CancellationToken.None);
 
             Assert.NotNull(thumbinfo);
             Assert.Equal("http://example.com/abcd", thumbinfo.ImageUrl);
@@ -44,11 +46,11 @@ namespace OpenTween.Thumbnail.Services
         }
 
         [Fact]
-        public void RegexNotMatchTest()
+        public async Task RegexNotMatchTest()
         {
             var service = new SimpleThumbnailService(@"http://example.com/(.+)", @"http://img.example.com/\1");
 
-            var thumbinfo = service.GetThumbnailInfo("http://hogehoge.com/abcd", null);
+            var thumbinfo = await service.GetThumbnailInfoAsync("http://hogehoge.com/abcd", null, CancellationToken.None);
 
             Assert.Null(thumbinfo);
         }
