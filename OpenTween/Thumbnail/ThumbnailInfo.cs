@@ -22,6 +22,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -35,6 +36,18 @@ namespace OpenTween.Thumbnail
         public string TooltipText { get; set; }
         public string FullSizeImageUrl { get; set; }
 
+        protected readonly HttpClient http;
+
+        public ThumbnailInfo()
+            : this(null)
+        {
+        }
+
+        public ThumbnailInfo(HttpClient http)
+        {
+            this.http = http ?? MyCommon.CreateHttpClient();
+        }
+
         public Task<MemoryImage> LoadThumbnailImageAsync()
         {
             return this.LoadThumbnailImageAsync(CancellationToken.None);
@@ -42,12 +55,15 @@ namespace OpenTween.Thumbnail
 
         public async virtual Task<MemoryImage> LoadThumbnailImageAsync(CancellationToken token)
         {
-            using (var client = new OTWebClient())
+            using (var response = await this.http.GetAsync(this.ThumbnailUrl, token).ConfigureAwait(false))
             {
-                var imageBytes = await client.DownloadDataAsync(new Uri(this.ThumbnailUrl), token)
+                response.EnsureSuccessStatusCode();
+
+                var imageStream = await response.Content.ReadAsStreamAsync()
                     .ConfigureAwait(false);
 
-                return MemoryImage.CopyFromBytes(imageBytes);
+                return await MemoryImage.CopyFromStreamAsync(imageStream)
+                    .ConfigureAwait(false);
             }
         }
     }

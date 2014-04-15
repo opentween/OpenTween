@@ -60,7 +60,7 @@ namespace OpenTween.Thumbnail.Services
 
                     var textElm = xElm.XPathSelectElement("/response/post/text");
 
-                    return new ThumbnailInfo()
+                    return new ThumbnailInfo(this.http)
                     {
                         ImageUrl = url,
                         ThumbnailUrl = thumbUrlElm.Value,

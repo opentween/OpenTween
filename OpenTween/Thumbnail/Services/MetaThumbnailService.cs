@@ -62,7 +62,7 @@ namespace OpenTween.Thumbnail.Services
                     var thumbnailUrl = this.GetThumbnailUrl(content);
                     if (string.IsNullOrEmpty(thumbnailUrl)) return null;
 
-                    return new ThumbnailInfo()
+                    return new ThumbnailInfo(this.http)
                     {
                         ImageUrl = url,
                         ThumbnailUrl = thumbnailUrl,

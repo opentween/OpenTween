@@ -22,6 +22,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -31,10 +32,17 @@ namespace OpenTween.Thumbnail.Services
 {
     class PhotoShareShortlink : IThumbnailService
     {
+        protected readonly HttpClient http;
         protected Regex regex;
 
         public PhotoShareShortlink(string pattern)
+            : this(null, pattern)
         {
+        }
+
+        public PhotoShareShortlink(HttpClient http, string pattern)
+        {
+            this.http = http ?? MyCommon.CreateHttpClient();
             this.regex = new Regex(pattern);
         }
 
@@ -46,7 +54,7 @@ namespace OpenTween.Thumbnail.Services
 
                 if (!match.Success) return null;
 
-                return new ThumbnailInfo()
+                return new ThumbnailInfo(this.http)
                 {
                     ImageUrl = url,
                     ThumbnailUrl = "http://images.bcphotoshare.com/storages/" + RadixConvert.ToInt32(match.Result("${1}"), 36) + "/thumb180.jpg",

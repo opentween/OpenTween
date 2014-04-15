@@ -56,7 +56,7 @@ namespace OpenTween.Thumbnail.Services
                     {
                         var descElm = xdoc.XPathSelectElement("/rsp/content/description");
 
-                        return new ThumbnailInfo()
+                        return new ThumbnailInfo(this.http)
                         {
                             ImageUrl = url,
                             ThumbnailUrl = thumbUrlElm.Attribute("url").Value,

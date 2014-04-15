@@ -22,6 +22,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -38,14 +39,26 @@ namespace OpenTween.Thumbnail.Services
         protected string thumb_replacement;
         protected string fullsize_replacement;
 
+        protected readonly HttpClient http;
+
         public SimpleThumbnailService(string pattern, string replacement)
+            : this(null, pattern, replacement, null)
         {
-            this.regex = new Regex(pattern, RegexOptions.IgnoreCase);
-            this.thumb_replacement = replacement;
+        }
+
+        public SimpleThumbnailService(HttpClient http, string pattern, string replacement)
+            : this(http, pattern, replacement, null)
+        {
         }
 
         public SimpleThumbnailService(string pattern, string replacement, string file_replacement)
+            : this(null, pattern, replacement, file_replacement)
         {
+        }
+
+        public SimpleThumbnailService(HttpClient http, string pattern, string replacement, string file_replacement)
+        {
+            this.http = http ?? MyCommon.CreateHttpClient();
             this.regex = new Regex(pattern, RegexOptions.IgnoreCase);
             this.thumb_replacement = replacement;
             this.fullsize_replacement = file_replacement;
@@ -58,7 +71,7 @@ namespace OpenTween.Thumbnail.Services
                 var thumbnailUrl = this.ReplaceUrl(url);
                 if (thumbnailUrl == null) return null;
 
-                return new ThumbnailInfo()
+                return new ThumbnailInfo(this.http)
                 {
                     ImageUrl = url,
                     ThumbnailUrl = thumbnailUrl,

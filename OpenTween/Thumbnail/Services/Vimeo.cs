@@ -64,7 +64,7 @@ namespace OpenTween.Thumbnail.Services
                         tooltipText = string.Format("{0} ({1:00}:{2:00})", titleElm.Value, minute, second);
                     }
 
-                    return new ThumbnailInfo()
+                    return new ThumbnailInfo(this.http)
                     {
                         ImageUrl = url,
                         ThumbnailUrl = thumbUrlElm.Value,

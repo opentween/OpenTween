@@ -26,6 +26,7 @@ using System.Drawing;
 using System.Data;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Text;
 using System.Windows.Forms;
 using System.Text.RegularExpressions;
@@ -91,7 +92,9 @@ namespace OpenTween
                         .ContinueWith(t2 =>
                         {
                             if (t2.IsFaulted)
-                                t2.Exception.Flatten().Handle(x => x is WebException || x is InvalidImageException || x is TaskCanceledException);
+                                t2.Exception.Flatten().Handle(x => x is HttpRequestException ||
+                                    x is WebException || x is InvalidImageException ||
+                                    x is TaskCanceledException);
 
                             if (t2.IsFaulted || t2.IsCanceled)
                             {

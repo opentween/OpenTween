@@ -75,7 +75,7 @@ namespace OpenTween.Thumbnail.Services
                         return null;
                     }
 
-                    return new ThumbnailInfo()
+                    return new ThumbnailInfo(this.http)
                     {
                         ImageUrl = url,
                         ThumbnailUrl = imgurl,

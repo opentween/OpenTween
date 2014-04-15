@@ -23,6 +23,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -44,7 +45,7 @@ namespace OpenTween.Thumbnail.Services
                 var thumb = await base.GetThumbnailInfoAsync(url, post, token);
                 if (thumb == null) return null;
 
-                return new Pixiv.Thumbnail
+                return new Pixiv.Thumbnail(this.http)
                 {
                     ImageUrl = thumb.ImageUrl,
                     ThumbnailUrl = thumb.ThumbnailUrl,
@@ -56,17 +57,27 @@ namespace OpenTween.Thumbnail.Services
 
         public class Thumbnail : ThumbnailInfo
         {
+            public Thumbnail(HttpClient http)
+                : base(http)
+            {
+            }
+
             public async override Task<MemoryImage> LoadThumbnailImageAsync(CancellationToken token)
             {
-                using (var client = new OTWebClient())
-                {
-                    client.UserAgent = MyCommon.GetUserAgentString(fakeMSIE: true);
-                    client.Headers[HttpRequestHeader.Referer] = this.ImageUrl;
+                var request = new HttpRequestMessage(HttpMethod.Get, this.ThumbnailUrl);
 
-                    var imageBytes = await client.DownloadDataAsync(new Uri(this.ThumbnailUrl), token)
+                request.Headers.Add("User-Agent", MyCommon.GetUserAgentString(fakeMSIE: true));
+                request.Headers.Referrer = new Uri(this.ImageUrl);
+
+                using (var response = await this.http.SendAsync(request, token).ConfigureAwait(false))
+                {
+                    response.EnsureSuccessStatusCode();
+
+                    var imageStream = await response.Content.ReadAsStreamAsync()
                         .ConfigureAwait(false);
 
-                    return MemoryImage.CopyFromBytes(imageBytes);
+                    return await MemoryImage.CopyFromStreamAsync(imageStream)
+                        .ConfigureAwait(false);
                 }
             }
         }
