@@ -11599,8 +11599,8 @@ namespace OpenTween
                 cmb.Text = tb.SearchWords;
                 cmb.SelectAll();
                 DetailsListView lst = (DetailsListView)pnl.Parent.Tag;
+                this.PurgeListViewItemCache();
                 lst.VirtualListSize = 0;
-                lst.Items.Clear();
                 _statuses.ClearTabIds(tbName);
                 SaveConfigsTabs();   //検索条件の保存
             }
