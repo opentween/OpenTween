@@ -22,11 +22,14 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using NSubstitute;
 using Xunit;
 using Xunit.Extensions;
 
@@ -43,12 +46,26 @@ namespace OpenTween.Thumbnail.Services
             {
             }
 
-            protected override XDocument FetchContentInfoApi(string url)
+            protected override Task<XDocument> FetchContentInfoApiAsync(string url, CancellationToken token)
             {
                 Assert.True(Regex.IsMatch(url, @"http://api\.tinami\.com/content/info\?cont_id=.+&api_key=.+"));
 
-                return XDocument.Parse(this.FakeXml);
+                return Task.FromResult(XDocument.Parse(this.FakeXml));
             }
+        }
+
+        public TinamiTest()
+        {
+            this.MyCommonSetup();
+        }
+
+        public void MyCommonSetup()
+        {
+            var mockAssembly = Substitute.For<_Assembly>();
+            mockAssembly.GetName().Returns(new AssemblyName("OpenTween"));
+            MyCommon.EntryAssembly = mockAssembly;
+
+            MyCommon.fileVersion = "1.0.0.0";
         }
 
         [Fact]

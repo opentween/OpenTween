@@ -38,21 +38,20 @@ namespace OpenTween.Thumbnail.Services
         {
         }
 
-        public override Task<ThumbnailInfo> GetThumbnailInfoAsync(string url, PostClass post, CancellationToken token)
+        public override async Task<ThumbnailInfo> GetThumbnailInfoAsync(string url, PostClass post, CancellationToken token)
         {
-            return Task.Run<ThumbnailInfo>(async () =>
-            {
-                var thumb = await base.GetThumbnailInfoAsync(url, post, token);
-                if (thumb == null) return null;
+            var thumb = await base.GetThumbnailInfoAsync(url, post, token)
+                .ConfigureAwait(false);
 
-                return new Pixiv.Thumbnail(this.http)
-                {
-                    ImageUrl = thumb.ImageUrl,
-                    ThumbnailUrl = thumb.ThumbnailUrl,
-                    TooltipText = thumb.TooltipText,
-                    FullSizeImageUrl = thumb.FullSizeImageUrl,
-                };
-            }, token);
+            if (thumb == null) return null;
+
+            return new Pixiv.Thumbnail(this.http)
+            {
+                ImageUrl = thumb.ImageUrl,
+                ThumbnailUrl = thumb.ThumbnailUrl,
+                TooltipText = thumb.TooltipText,
+                FullSizeImageUrl = thumb.FullSizeImageUrl,
+            };
         }
 
         public class Thumbnail : ThumbnailInfo

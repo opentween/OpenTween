@@ -40,34 +40,33 @@ namespace OpenTween.Thumbnail.Services
         {
         }
 
-        public override Task<ThumbnailInfo> GetThumbnailInfoAsync(string url, PostClass post, CancellationToken token)
+        public override async Task<ThumbnailInfo> GetThumbnailInfoAsync(string url, PostClass post, CancellationToken token)
         {
-            return Task.Run(() =>
+            var apiUrl = base.ReplaceUrl(url);
+            if (apiUrl == null) return null;
+
+            var json = await this.http.GetByteArrayAsync(apiUrl)
+                .ConfigureAwait(false);
+
+            using (var jsonReader = JsonReaderWriterFactory.CreateJsonReader(json, XmlDictionaryReaderQuotas.Max))
             {
-                var apiUrl = base.ReplaceUrl(url);
-                if (apiUrl == null) return null;
+                var xElm = XElement.Load(jsonReader);
 
-                using (var client = new OTWebClient())
-                using (var jsonReader = JsonReaderWriterFactory.CreateJsonReader(client.DownloadData(apiUrl), XmlDictionaryReaderQuotas.Max))
+                var thumbUrlElm = xElm.XPathSelectElement("/response/post/thumb_url");
+                if (thumbUrlElm == null)
                 {
-                    var xElm = XElement.Load(jsonReader);
-
-                    var thumbUrlElm = xElm.XPathSelectElement("/response/post/thumb_url");
-                    if (thumbUrlElm == null)
-                    {
-                        return null;
-                    }
-
-                    var textElm = xElm.XPathSelectElement("/response/post/text");
-
-                    return new ThumbnailInfo(this.http)
-                    {
-                        ImageUrl = url,
-                        ThumbnailUrl = thumbUrlElm.Value,
-                        TooltipText = textElm == null ? null : textElm.Value,
-                    };
+                    return null;
                 }
-            }, token);
+
+                var textElm = xElm.XPathSelectElement("/response/post/text");
+
+                return new ThumbnailInfo(this.http)
+                {
+                    ImageUrl = url,
+                    ThumbnailUrl = thumbUrlElm.Value,
+                    TooltipText = textElm == null ? null : textElm.Value,
+                };
+            }
         }
     }
 }

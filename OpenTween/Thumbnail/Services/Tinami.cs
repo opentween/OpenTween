@@ -40,38 +40,44 @@ namespace OpenTween.Thumbnail.Services
         {
         }
 
-        public override Task<ThumbnailInfo> GetThumbnailInfoAsync(string url, PostClass post, CancellationToken token)
+        public override async Task<ThumbnailInfo> GetThumbnailInfoAsync(string url, PostClass post, CancellationToken token)
         {
-            return Task.Run(() =>
+            var apiUrl = base.ReplaceUrl(url);
+            if (apiUrl == null) return null;
+
+            var xdoc = await this.FetchContentInfoApiAsync(apiUrl, token)
+                .ConfigureAwait(false);
+
+            if (xdoc.XPathSelectElement("/rsp").Attribute("stat").Value == "ok")
             {
-                var apiUrl = base.ReplaceUrl(url);
-                if (apiUrl == null) return null;
-
-                var xdoc = this.FetchContentInfoApi(apiUrl);
-
-                if (xdoc.XPathSelectElement("/rsp").Attribute("stat").Value == "ok")
+                var thumbUrlElm = xdoc.XPathSelectElement("/rsp/content/thumbnails/thumbnail_150x150");
+                if (thumbUrlElm != null)
                 {
-                    var thumbUrlElm = xdoc.XPathSelectElement("/rsp/content/thumbnails/thumbnail_150x150");
-                    if (thumbUrlElm != null)
+                    var descElm = xdoc.XPathSelectElement("/rsp/content/description");
+
+                    return new ThumbnailInfo(this.http)
                     {
-                        var descElm = xdoc.XPathSelectElement("/rsp/content/description");
-
-                        return new ThumbnailInfo(this.http)
-                        {
-                            ImageUrl = url,
-                            ThumbnailUrl = thumbUrlElm.Attribute("url").Value,
-                            TooltipText = descElm == null ? null : descElm.Value,
-                        };
-                    }
+                        ImageUrl = url,
+                        ThumbnailUrl = thumbUrlElm.Attribute("url").Value,
+                        TooltipText = descElm == null ? null : descElm.Value,
+                    };
                 }
+            }
 
-                return null;
-            }, token);
+            return null;
         }
 
-        protected virtual XDocument FetchContentInfoApi(string url)
+        protected virtual async Task<XDocument> FetchContentInfoApiAsync(string url, CancellationToken token)
         {
-            return XDocument.Load(url);
+            using (var response = await this.http.GetAsync(url, token).ConfigureAwait(false))
+            {
+                response.EnsureSuccessStatusCode();
+
+                var xmlStr = await response.Content.ReadAsStringAsync()
+                    .ConfigureAwait(false);
+
+                return XDocument.Parse(xmlStr);
+            }
         }
     }
 }

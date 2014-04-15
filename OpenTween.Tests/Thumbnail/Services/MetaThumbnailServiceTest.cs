@@ -22,9 +22,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using NSubstitute;
 using Xunit;
 using Xunit.Extensions;
 
@@ -41,10 +44,24 @@ namespace OpenTween.Thumbnail.Services
             {
             }
 
-            protected override string FetchImageUrl(string url)
+            protected override Task<string> FetchImageUrlAsync(string url, CancellationToken token)
             {
-                return this.FakeHtml;
+                return Task.FromResult(this.FakeHtml);
             }
+        }
+
+        public MetaThumbnailServiceTest()
+        {
+            this.MyCommonSetup();
+        }
+
+        public void MyCommonSetup()
+        {
+            var mockAssembly = Substitute.For<_Assembly>();
+            mockAssembly.GetName().Returns(new AssemblyName("OpenTween"));
+            MyCommon.EntryAssembly = mockAssembly;
+
+            MyCommon.fileVersion = "1.0.0.0";
         }
 
         [Fact]

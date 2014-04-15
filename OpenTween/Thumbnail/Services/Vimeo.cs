@@ -40,40 +40,40 @@ namespace OpenTween.Thumbnail.Services
         {
         }
 
-        public override Task<ThumbnailInfo> GetThumbnailInfoAsync(string url, PostClass post, CancellationToken token)
+        public override async Task<ThumbnailInfo> GetThumbnailInfoAsync(string url, PostClass post, CancellationToken token)
         {
-            return Task.Run(() =>
+            var apiUrl = base.ReplaceUrl(url);
+            if (apiUrl == null) return null;
+
+            var xmlStr = await this.http.GetStringAsync(apiUrl)
+                .ConfigureAwait(false);
+
+            var xdoc = XDocument.Parse(xmlStr);
+
+            var thumbUrlElm = xdoc.XPathSelectElement("/oembed/thumbnail_url");
+            if (thumbUrlElm != null)
             {
-                var apiUrl = base.ReplaceUrl(url);
-                if (apiUrl == null) return null;
+                var titleElm = xdoc.XPathSelectElement("/oembed/title");
+                var durationElm = xdoc.XPathSelectElement("/oembed/duration");
 
-                var xdoc = XDocument.Load(apiUrl);
-
-                var thumbUrlElm = xdoc.XPathSelectElement("/oembed/thumbnail_url");
-                if (thumbUrlElm != null)
+                var tooltipText = "";
+                if (titleElm != null && durationElm != null)
                 {
-                    var titleElm = xdoc.XPathSelectElement("/oembed/title");
-                    var durationElm = xdoc.XPathSelectElement("/oembed/duration");
-
-                    var tooltipText = "";
-                    if (titleElm != null && durationElm != null)
-                    {
-                        var duration = int.Parse(durationElm.Value);
-                        var minute = duration / 60;
-                        var second = duration % 60;
-                        tooltipText = string.Format("{0} ({1:00}:{2:00})", titleElm.Value, minute, second);
-                    }
-
-                    return new ThumbnailInfo(this.http)
-                    {
-                        ImageUrl = url,
-                        ThumbnailUrl = thumbUrlElm.Value,
-                        TooltipText = tooltipText,
-                    };
+                    var duration = int.Parse(durationElm.Value);
+                    var minute = duration / 60;
+                    var second = duration % 60;
+                    tooltipText = string.Format("{0} ({1:00}:{2:00})", titleElm.Value, minute, second);
                 }
 
-                return null;
-            }, token);
+                return new ThumbnailInfo(this.http)
+                {
+                    ImageUrl = url,
+                    ThumbnailUrl = thumbUrlElm.Value,
+                    TooltipText = tooltipText,
+                };
+            }
+
+            return null;
         }
     }
 }

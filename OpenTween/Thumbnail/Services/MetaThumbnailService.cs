@@ -48,32 +48,30 @@ namespace OpenTween.Thumbnail.Services
         {
         }
 
-        public override Task<ThumbnailInfo> GetThumbnailInfoAsync(string url, PostClass post, CancellationToken token)
+        public override async Task<ThumbnailInfo> GetThumbnailInfoAsync(string url, PostClass post, CancellationToken token)
         {
-            return Task.Run(() =>
+            var pageUrl = this.ReplaceUrl(url);
+            if (pageUrl == null) return null;
+
+            try
             {
-                var pageUrl = this.ReplaceUrl(url);
-                if (pageUrl == null) return null;
+                var content = await this.FetchImageUrlAsync(pageUrl, token)
+                    .ConfigureAwait(false);
 
-                try
+                var thumbnailUrl = this.GetThumbnailUrl(content);
+                if (string.IsNullOrEmpty(thumbnailUrl)) return null;
+
+                return new ThumbnailInfo(this.http)
                 {
-                    var content = this.FetchImageUrl(pageUrl);
-
-                    var thumbnailUrl = this.GetThumbnailUrl(content);
-                    if (string.IsNullOrEmpty(thumbnailUrl)) return null;
-
-                    return new ThumbnailInfo(this.http)
-                    {
-                        ImageUrl = url,
-                        ThumbnailUrl = thumbnailUrl,
-                        TooltipText = null,
-                    };
-                }
-                catch (WebException)
-                {
-                    return null;
-                }
-            }, token);
+                    ImageUrl = url,
+                    ThumbnailUrl = thumbnailUrl,
+                    TooltipText = null,
+                };
+            }
+            catch (WebException)
+            {
+                return null;
+            }
         }
 
         protected virtual string GetThumbnailUrl(string html)
@@ -92,11 +90,14 @@ namespace OpenTween.Thumbnail.Services
             return null;
         }
 
-        protected virtual string FetchImageUrl(string url)
+        protected virtual async Task<string> FetchImageUrlAsync(string url, CancellationToken token)
         {
-            using (var client = new OTWebClient())
+            using (var response = await this.http.GetAsync(url, token).ConfigureAwait(false))
             {
-                return client.DownloadString(url);
+                response.EnsureSuccessStatusCode();
+
+                return await response.Content.ReadAsStringAsync()
+                    .ConfigureAwait(false);
             }
         }
     }
