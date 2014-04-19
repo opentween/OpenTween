@@ -63,7 +63,6 @@ namespace OpenTween
 
         public async Task ShowThumbnailAsync(PostClass post, CancellationToken cancelToken)
         {
-            var uiScheduler = TaskScheduler.FromCurrentSynchronizationContext();
             var loadTasks = new List<Task>();
 
             this.scrollBar.Enabled = false;
@@ -86,25 +85,7 @@ namespace OpenTween
                     picbox.Tag = thumb;
                     picbox.ContextMenu = CreateContextMenu(thumb);
 
-                    picbox.ShowInitialImage();
-
-                    var loadTask = thumb.LoadThumbnailImageAsync(cancelToken)
-                        .ContinueWith(t2 =>
-                        {
-                            if (t2.IsFaulted)
-                                t2.Exception.Flatten().Handle(x => x is HttpRequestException ||
-                                    x is WebException || x is InvalidImageException ||
-                                    x is TaskCanceledException);
-
-                            if (t2.IsFaulted || t2.IsCanceled)
-                            {
-                                picbox.ShowErrorImage();
-                                return;
-                            }
-
-                            picbox.Image = t2.Result;
-                        }, uiScheduler);
-
+                    var loadTask = this.SetThumbnailImageAsync(picbox, thumb, cancelToken);
                     loadTasks.Add(loadTask);
 
                     var tooltipText = thumb.TooltipText;
@@ -124,6 +105,27 @@ namespace OpenTween
                 this.ThumbnailLoading(this, EventArgs.Empty);
 
             await Task.WhenAll(loadTasks).ConfigureAwait(false);
+        }
+
+        private async Task SetThumbnailImageAsync(OTPictureBox picbox, ThumbnailInfo thumbInfo,
+            CancellationToken cancelToken)
+        {
+            try
+            {
+                picbox.ShowInitialImage();
+                picbox.Image = await thumbInfo.LoadThumbnailImageAsync(cancelToken);
+            }
+            catch (Exception)
+            {
+                picbox.ShowErrorImage();
+                try
+                {
+                    throw;
+                }
+                catch (HttpRequestException) { }
+                catch (InvalidImageException) { }
+                catch (TaskCanceledException) { }
+            }
         }
 
         private ContextMenu CreateContextMenu(ThumbnailInfo thumb)

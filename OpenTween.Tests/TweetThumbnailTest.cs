@@ -73,7 +73,8 @@ namespace OpenTween
             {
                 public override Task<MemoryImage> LoadThumbnailImageAsync(CancellationToken token)
                 {
-                    return Task.Run(() => MemoryImage.CopyFromBytes(File.ReadAllBytes("Resources/" + this.ThumbnailUrl)), token);
+                    var image = MemoryImage.CopyFromBytes(File.ReadAllBytes("Resources/" + this.ThumbnailUrl));
+                    return Task.FromResult(image);
                 }
             }
         }
