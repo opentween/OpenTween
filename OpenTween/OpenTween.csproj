@@ -259,7 +259,7 @@
     <Compile Include="TabsDialog.Designer.cs">
       <DependentUpon>TabsDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="Thumbnail\Services\Foursquare.cs" />
+    <Compile Include="Thumbnail\Services\FoursquareCheckin.cs" />
     <Compile Include="Thumbnail\Services\ImgAzyobuziNet.cs" />
     <Compile Include="Thumbnail\Services\IThumbnailService.cs" />
     <Compile Include="Thumbnail\Services\MetaThumbnailService.cs" />
@@ -288,7 +288,6 @@
     <Compile Include="UpdateDialog.Designer.cs">
       <DependentUpon>UpdateDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="Foursquare.cs" />
     <Compile Include="FormInfo.cs">
       <SubType>Form</SubType>
     </Compile>

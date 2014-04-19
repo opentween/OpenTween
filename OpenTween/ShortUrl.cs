@@ -71,6 +71,7 @@ namespace OpenTween
 
         private static readonly HashSet<string> ShortUrlHosts = new HashSet<string>()
         {
+            "4sq.com",
             "airme.us",
             "amzn.to",
             "bctiny.com",

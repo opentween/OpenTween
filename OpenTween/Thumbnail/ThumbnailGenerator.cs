@@ -171,7 +171,7 @@ namespace OpenTween.Thumbnail
                     "http://pikubo.me/l/${1}"),
 
                 // Foursquare
-                new Services.Foursquare(@"^https?://(4sq|foursquare)\.com/.+"),
+                new FoursquareCheckin(),
 
                 // TINAMI
                 new Tinami(@"^http://www\.tinami\.com/view/(?<ContentId>\d+)$", "http://api.tinami.com/content/info?cont_id=${ContentId}&api_key=" + ApplicationSettings.TINAMIApiKey),
