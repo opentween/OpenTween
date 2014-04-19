@@ -87,5 +87,28 @@ namespace OpenTween
 
             return (T)exception;
         }
+
+        public static async Task<T> ThrowsAnyAsync<T>(Func<Task> testCode) where T : Exception
+        {
+            var expectedType = typeof(T);
+            Exception exception = null;
+
+            try
+            {
+                await testCode();
+            }
+            catch (Exception ex)
+            {
+                exception = ex;
+            }
+
+            if (exception == null)
+                throw new ThrowsException(expectedType);
+
+            if (!expectedType.IsAssignableFrom(exception.GetType()))
+                throw new ThrowsException(expectedType, exception);
+
+            return (T)exception;
+        }
     }
 }

@@ -138,12 +138,7 @@ namespace OpenTween
 
                 tokenSource.Cancel();
 
-                // Mono 上で動作しているか否か
-                if (Type.GetType("Mono.Runtime") != null)
-                    await TestUtils.ThrowsAsync<OperationCanceledException>(async () => await task);
-                else
-                    await TestUtils.ThrowsAsync<TaskCanceledException>(async () => await task);
-
+                await TestUtils.ThrowsAnyAsync<OperationCanceledException>(async () => await task);
                 Assert.True(task.IsCanceled);
             }
         }
