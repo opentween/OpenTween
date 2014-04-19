@@ -118,38 +118,8 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="IsPreviewFoursquareCheckBox.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="IsPreviewFoursquareCheckBox.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="IsPreviewFoursquareCheckBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>23, 181</value>
-  </data>
-  <data name="IsPreviewFoursquareCheckBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>327, 16</value>
-  </data>
-  <data name="IsPreviewFoursquareCheckBox.TabIndex" type="System.Int32, mscorlib">
-    <value>7</value>
-  </data>
-  <data name="IsPreviewFoursquareCheckBox.Text" xml:space="preserve">
-    <value>FoursquareのURLからプレビューを表示する（非常に重くなります）</value>
-  </data>
-  <data name="&gt;&gt;IsPreviewFoursquareCheckBox.Name" xml:space="preserve">
-    <value>IsPreviewFoursquareCheckBox</value>
-  </data>
-  <data name="&gt;&gt;IsPreviewFoursquareCheckBox.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;IsPreviewFoursquareCheckBox.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;IsPreviewFoursquareCheckBox.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
   <data name="MapThumbnailProviderComboBox.Items" xml:space="preserve">
     <value>OpenStreetMap</value>
   </data>
@@ -370,7 +340,7 @@
     <value>473, 80</value>
   </data>
   <data name="MapThumbnailGroupBox.TabIndex" type="System.Int32, mscorlib">
-    <value>8</value>
+    <value>7</value>
   </data>
   <data name="MapThumbnailGroupBox.Text" xml:space="preserve">
     <value>地図サムネイル</value>
@@ -385,7 +355,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;MapThumbnailGroupBox.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>2</value>
   </data>
   <data name="Label39.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -415,7 +385,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;Label39.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>3</value>
   </data>
   <data name="UserAppointUrlText.Location" type="System.Drawing.Point, System.Drawing">
     <value>218, 102</value>
@@ -436,7 +406,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;UserAppointUrlText.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>4</value>
   </data>
   <data name="ComboBoxTranslateLanguage.Items" xml:space="preserve">
     <value>Afrikaans</value>
@@ -829,7 +799,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;ComboBoxTranslateLanguage.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>5</value>
   </data>
   <data name="Label29.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -859,7 +829,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;Label29.ZOrder" xml:space="preserve">
-    <value>7</value>
+    <value>6</value>
   </data>
   <data name="CheckNicoms.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -889,7 +859,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;CheckNicoms.ZOrder" xml:space="preserve">
-    <value>8</value>
+    <value>7</value>
   </data>
   <data name="EnableImgAzyobuziNetCheckBox.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>

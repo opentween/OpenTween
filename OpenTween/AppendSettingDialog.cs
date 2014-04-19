@@ -56,7 +56,6 @@ namespace OpenTween
 
         public bool EnableImgAzyobuziNet { get; set; }
         public bool ImgAzyobuziNetDisabledInDM { get; set; }
-        public bool IsPreviewFoursquare;
         public MapProvider MapThumbnailProvider;
         public int MapThumbnailHeight;
         public int MapThumbnailWidth;
@@ -475,7 +474,6 @@ namespace OpenTween
                 this.HideDuplicatedRetweets = this.TweetPrvPanel.HideDuplicatedRetweetsCheck.Checked;
                 this.EnableImgAzyobuziNet = this.CooperatePanel.EnableImgAzyobuziNetCheckBox.Checked;
                 this.ImgAzyobuziNetDisabledInDM = this.CooperatePanel.ImgAzyobuziNetDisabledInDMCheckBox.Checked;
-                this.IsPreviewFoursquare = this.CooperatePanel.IsPreviewFoursquareCheckBox.Checked;
                 this.MapThumbnailProvider = (MapProvider)this.CooperatePanel.MapThumbnailProviderComboBox.SelectedIndex;
                 this.MapThumbnailHeight = int.Parse(this.CooperatePanel.MapThumbnailHeightTextBox.Text);
                 this.MapThumbnailWidth = int.Parse(this.CooperatePanel.MapThumbnailWidthTextBox.Text);
@@ -856,7 +854,6 @@ namespace OpenTween
             this.TweetPrvPanel.HideDuplicatedRetweetsCheck.Checked = this.HideDuplicatedRetweets;
             this.CooperatePanel.EnableImgAzyobuziNetCheckBox.Checked = this.EnableImgAzyobuziNet;
             this.CooperatePanel.ImgAzyobuziNetDisabledInDMCheckBox.Checked = this.ImgAzyobuziNetDisabledInDM;
-            this.CooperatePanel.IsPreviewFoursquareCheckBox.Checked = this.IsPreviewFoursquare;
             this.CooperatePanel.MapThumbnailProviderComboBox.SelectedIndex = (int)this.MapThumbnailProvider;
             this.CooperatePanel.MapThumbnailHeightTextBox.Text = this.MapThumbnailHeight.ToString();
             this.CooperatePanel.MapThumbnailWidthTextBox.Text = this.MapThumbnailWidth.ToString();

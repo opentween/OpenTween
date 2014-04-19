@@ -205,7 +205,6 @@ namespace OpenTween
         public bool HideDuplicatedRetweets = false;
         public bool EnableImgAzyobuziNet = true;
         public bool ImgAzyobuziNetDisabledInDM = true;
-        public bool IsPreviewFoursquare = false;
         public int MapThumbnailHeight = 200;
         public int MapThumbnailWidth = 200;
         public int MapThumbnailZoom = 15;

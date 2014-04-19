@@ -42,13 +42,7 @@ namespace OpenTween.Thumbnail.Services
     {
         public FoursquareCheckinTest()
         {
-            this.SettingsSetup();
             this.MyCommonSetup();
-        }
-
-        public void SettingsSetup()
-        {
-            AppendSettingDialog.Instance.IsPreviewFoursquare = true;
         }
 
         public void MyCommonSetup()
@@ -151,32 +145,6 @@ namespace OpenTween.Thumbnail.Services
 
             var thumb = await service.GetThumbnailInfoAsync(
                 "https://foursquare.com/checkin/hogehoge/xxxxxxxx?s=aaaaaaa",
-                post, CancellationToken.None);
-        }
-
-        [Fact]
-        public async Task GetThumbnailInfoAsync_DisabledTest()
-        {
-            var handler = new HttpMessageHandlerMock();
-            var service = new FoursquareCheckin(new HttpClient(handler));
-
-            handler.Queue.Enqueue(async x =>
-            {
-                // このリクエストは実行されないはず
-                Assert.True(false);
-                return new HttpResponseMessage(HttpStatusCode.NotFound);
-            });
-
-            var post = new PostClass
-            {
-                PostGeo = new PostClass.StatusGeo { },
-            };
-
-            // 設定により無効化されている場合は何もしない
-            AppendSettingDialog.Instance.IsPreviewFoursquare = false;
-
-            var thumb = await service.GetThumbnailInfoAsync(
-                "https://foursquare.com/checkin/hogehoge/xxxxxxxx",
                 post, CancellationToken.None);
         }
 
