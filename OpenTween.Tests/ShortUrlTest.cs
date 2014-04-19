@@ -30,24 +30,12 @@ using System.Threading.Tasks;
 using Xunit;
 using Xunit.Extensions;
 
+#pragma warning disable 1998 // awaitが無いasyncラムダ式に対する警告を抑制
+
 namespace OpenTween
 {
     public class ShortUrlTest
     {
-        class HttpMessageHandlerMock : HttpMessageHandler
-        {
-            public readonly Queue<Func<HttpRequestMessage, Task<HttpResponseMessage>>> Queue =
-                new Queue<Func<HttpRequestMessage, Task<HttpResponseMessage>>>();
-
-            protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
-            {
-                var handler = this.Queue.Dequeue();
-                return handler(request);
-            }
-        }
-
-#pragma warning disable 1998 // awaitが無いasyncラムダ式に対する警告を抑制
-
         [Fact]
         public async Task ExpandUrlAsync_Test()
         {

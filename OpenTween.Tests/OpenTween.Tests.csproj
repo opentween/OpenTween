@@ -65,6 +65,7 @@
     <Compile Include="Api\TwitterApiStatusTest.cs" />
     <Compile Include="BingTest.cs" />
     <Compile Include="HashtagManageTest.cs" />
+    <Compile Include="HttpMessageHandlerMock.cs" />
     <Compile Include="MyApplicationTest.cs" />
     <Compile Include="OTPictureBoxTest.cs" />
     <Compile Include="PostFilterRuleTest.cs" />
