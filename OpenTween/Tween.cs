@@ -607,7 +607,7 @@ namespace OpenTween
             TraceOutToolStripMenuItem.Checked = true;
             MyCommon.TraceFlag = true;
 #endif
-            if (!MyCommon.fileVersion.EndsWith("0"))
+            if (!MyCommon.FileVersion.EndsWith("0"))
             {
                 TraceOutToolStripMenuItem.Checked = true;
                 MyCommon.TraceFlag = true;
@@ -876,7 +876,7 @@ namespace OpenTween
             this.ToolStripFocusLockMenuItem.Checked = _cfgCommon.FocusLockToStatusText;
 
             //Regex statregex = new Regex("^0*");
-            SettingDialog.RecommendStatusText = " [TWNv" + Regex.Replace(MyCommon.fileVersion.Replace(".", ""), "^0*", "") + "]";
+            SettingDialog.RecommendStatusText = " [TWNv" + Regex.Replace(MyCommon.FileVersion.Replace(".", ""), "^0*", "") + "]";
 
             //書式指定文字列エラーチェック
             try
@@ -5947,7 +5947,7 @@ namespace OpenTween
             {
                 var versionInfo = await this.GetVersionInfoAsync();
 
-                if (versionInfo.Version <= Version.Parse(MyCommon.fileVersion))
+                if (versionInfo.Version <= Version.Parse(MyCommon.FileVersion))
                 {
                     // 更新不要
                     if (!startup)

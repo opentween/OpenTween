@@ -260,7 +260,7 @@ namespace OpenTween
             mockAssembly.GetName().Returns(new AssemblyName("OpenTween"));
 
             MyCommon.EntryAssembly = mockAssembly;
-            MyCommon.fileVersion = "1.0.0.0";
+            MyCommon.FileVersion = "1.0.0.0";
 
             Assert.Equal("OpenTween/1.0.0.0", MyCommon.GetUserAgentString());
         }
@@ -272,7 +272,7 @@ namespace OpenTween
             mockAssembly.GetName().Returns(new AssemblyName("OpenTween"));
 
             MyCommon.EntryAssembly = mockAssembly;
-            MyCommon.fileVersion = "1.0.0.0";
+            MyCommon.FileVersion = "1.0.0.0";
 
             Assert.Equal("OpenTween/1.0.0.0 (compatible; MSIE 10.0)", MyCommon.GetUserAgentString(fakeMSIE: true));
         }

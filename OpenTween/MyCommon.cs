@@ -221,7 +221,7 @@ namespace OpenTween
         }
 
         public static _Assembly EntryAssembly { get; internal set; }
-        public static string fileVersion { get; internal set; }
+        public static string FileVersion { get; internal set; }
 
         static MyCommon()
         {
@@ -230,7 +230,7 @@ namespace OpenTween
 
             var fileVersionAttribute = (AssemblyFileVersionAttribute)assembly
                 .GetCustomAttributes(typeof(AssemblyFileVersionAttribute)).First();
-            MyCommon.fileVersion = fileVersionAttribute.Version;
+            MyCommon.FileVersion = fileVersionAttribute.Version;
         }
 
         public static string GetErrorLogPath()
@@ -282,7 +282,7 @@ namespace OpenTween
                     writer.WriteLine(Properties.Resources.TraceOutText3);
                     writer.WriteLine(Properties.Resources.TraceOutText4, Environment.OSVersion.VersionString);
                     writer.WriteLine(Properties.Resources.TraceOutText5, Environment.Version.ToString());
-                    writer.WriteLine(Properties.Resources.TraceOutText6, MyCommon.GetAssemblyName(), fileVersion);
+                    writer.WriteLine(Properties.Resources.TraceOutText6, MyCommon.GetAssemblyName(), FileVersion);
                     writer.WriteLine(Message);
                     writer.WriteLine();
                 }
@@ -404,7 +404,7 @@ namespace OpenTween
                     writer.WriteLine(Properties.Resources.UnhandledExceptionText4);
                     writer.WriteLine(Properties.Resources.UnhandledExceptionText5, Environment.OSVersion.VersionString);
                     writer.WriteLine(Properties.Resources.UnhandledExceptionText6, Environment.Version.ToString());
-                    writer.WriteLine(Properties.Resources.UnhandledExceptionText7, MyCommon.GetAssemblyName(), fileVersion);
+                    writer.WriteLine(Properties.Resources.UnhandledExceptionText7, MyCommon.GetAssemblyName(), FileVersion);
 
                     writer.Write(ExceptionOutMessage(ex, ref IsTerminatePermission));
                     writer.Flush();
@@ -755,9 +755,9 @@ namespace OpenTween
         public static string GetUserAgentString(bool fakeMSIE = false)
         {
             if (fakeMSIE)
-                return GetAssemblyName() + "/" + fileVersion + " (compatible; MSIE 10.0)";
+                return GetAssemblyName() + "/" + FileVersion + " (compatible; MSIE 10.0)";
             else
-                return GetAssemblyName() + "/" + fileVersion;
+                return GetAssemblyName() + "/" + FileVersion;
         }
 
         public static TwitterApiStatus TwitterApiInfo = new TwitterApiStatus();
@@ -917,7 +917,7 @@ namespace OpenTween
         /// </returns>
         public static string GetReadableVersion(string versionStr = null)
         {
-            var version = Version.Parse(versionStr ?? MyCommon.fileVersion);
+            var version = Version.Parse(versionStr ?? MyCommon.FileVersion);
 
             return GetReadableVersion(version);
         }
