@@ -59,7 +59,6 @@ namespace OpenTween
         private int _mySpDis;           //区切り位置
         private int _mySpDis2;          //発言欄区切り位置
         private int _mySpDis3;          //プレビュー区切り位置
-        private int _myAdSpDis;         //Ad区切り位置
         private int _iconSz;            //アイコンサイズ（現在は16、24、48の3種類。将来直接数字指定可能とする 注：24x24の場合に26と指定しているのはMSゴシック系フォントのための仕様）
         private bool _iconCol;          //1列表示の時true（48サイズのとき）
 
@@ -1103,7 +1102,6 @@ namespace OpenTween
                 if (_mySpDis3 < 1) _mySpDis3 = 50;
                 _cfgLocal.PreviewDistance = _mySpDis3;
             }
-            _myAdSpDis = _cfgLocal.AdSplitterDistance;
             MultiLineMenuItem.Checked = _cfgLocal.StatusMultiline;
             //this.Tween_ClientSizeChanged(this, null);
             PlaySoundMenuItem.Checked = SettingDialog.PlaySound;
@@ -7883,7 +7881,6 @@ namespace OpenTween
                 _cfgLocal.PreviewDistance = _mySpDis3;
                 _cfgLocal.StatusMultiline = StatusText.Multiline;
                 _cfgLocal.StatusTextHeight = _mySpDis2;
-                _cfgLocal.AdSplitterDistance = _myAdSpDis;
                 _cfgLocal.StatusText = SettingDialog.Status;
 
                 _cfgLocal.FontUnread = _fntUnread;
@@ -9559,11 +9556,6 @@ namespace OpenTween
                 //_mySize = this.ClientSize;                     //サイズ保持（最小化・最大化されたまま終了した場合の対応用）
                 this.DesktopLocation = _cfgLocal.FormLocation;
                 //_myLoc = this.DesktopLocation;                        //位置保持（最小化・最大化されたまま終了した場合の対応用）
-                //if (_cfgLocal.AdSplitterDistance > this.SplitContainer4.Panel1MinSize &&
-                //    _cfgLocal.AdSplitterDistance < this.SplitContainer4.Height - this.SplitContainer4.Panel2MinSize - this.SplitContainer4.SplitterWidth)
-                //{
-                //    this.SplitContainer4.SplitterDistance = _cfgLocal.AdSplitterDistance; //Splitterの位置設定
-                //}
                 if (_cfgLocal.SplitterDistance > this.SplitContainer1.Panel1MinSize &&
                     _cfgLocal.SplitterDistance < this.SplitContainer1.Height - this.SplitContainer1.Panel2MinSize - this.SplitContainer1.SplitterWidth)
                 {

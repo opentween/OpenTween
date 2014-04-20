@@ -50,7 +50,6 @@ namespace OpenTween
 
         public Point FormLocation = new Point(0, 0);
         public int SplitterDistance = 200;
-        public int AdSplitterDistance = 350;
         public Size FormSize = new Size(600, 500);
         public string StatusText = "";
         public bool UseRecommendStatus = false;
