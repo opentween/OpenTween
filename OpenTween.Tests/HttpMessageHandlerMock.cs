@@ -41,13 +41,13 @@ namespace OpenTween
 
         public void Enqueue(Func<HttpRequestMessage, HttpResponseMessage> handler)
         {
-            this.Queue.Enqueue(x => Task.FromResult(handler(x)));
+            this.Queue.Enqueue(x => Task.Run(() => handler(x)));
         }
 
-        protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+        protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
             var handler = this.Queue.Dequeue();
-            return handler(request);
+            return await handler(request);
         }
     }
 }

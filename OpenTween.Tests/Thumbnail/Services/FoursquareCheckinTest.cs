@@ -67,7 +67,7 @@ namespace OpenTween.Thumbnail.Services
             };
 
             var thumb = await service.GetThumbnailInfoAsync(
-                "https://foursquare.com/checkin/hogehoge/xxxxxxxx",
+                "https://foursquare.com/hogehoge/checkin/xxxxxxxx",
                 post, CancellationToken.None);
         }
 
@@ -100,7 +100,7 @@ namespace OpenTween.Thumbnail.Services
             };
 
             var thumb = await service.GetThumbnailInfoAsync(
-                "https://foursquare.com/checkin/hogehoge/xxxxxxxx?s=aaaaaaa",
+                "https://foursquare.com/hogehoge/checkin/xxxxxxxx?s=aaaaaaa",
                 post, CancellationToken.None);
         }
 
@@ -128,7 +128,7 @@ namespace OpenTween.Thumbnail.Services
             };
 
             var thumb = await service.GetThumbnailInfoAsync(
-                "https://foursquare.com/checkin/hogehoge/xxxxxxxx?s=aaaaaaa",
+                "https://foursquare.com/hogehoge/checkin/xxxxxxxx?s=aaaaaaa",
                 post, CancellationToken.None);
         }
 
