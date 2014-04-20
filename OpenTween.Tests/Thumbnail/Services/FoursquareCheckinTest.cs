@@ -34,8 +34,6 @@ using NSubstitute;
 using Xunit;
 using Xunit.Extensions;
 
-#pragma warning disable 1998 // awaitが無いasyncラムダ式に対する警告を抑制
-
 namespace OpenTween.Thumbnail.Services
 {
     public class FoursquareCheckinTest
@@ -60,7 +58,7 @@ namespace OpenTween.Thumbnail.Services
             var handler = new HttpMessageHandlerMock();
             var service = new FoursquareCheckin(new HttpClient(handler));
 
-            handler.Queue.Enqueue(async x =>
+            handler.Enqueue(x =>
             {
                 Assert.Equal(HttpMethod.Get, x.Method);
                 Assert.Equal("https://api.foursquare.com/v2/checkins/xxxxxxxx",
@@ -93,7 +91,7 @@ namespace OpenTween.Thumbnail.Services
             var handler = new HttpMessageHandlerMock();
             var service = new FoursquareCheckin(new HttpClient(handler));
 
-            handler.Queue.Enqueue(async x =>
+            handler.Enqueue(x =>
             {
                 Assert.Equal(HttpMethod.Get, x.Method);
                 Assert.Equal("https://api.foursquare.com/v2/checkins/xxxxxxxx",
@@ -126,7 +124,7 @@ namespace OpenTween.Thumbnail.Services
             var handler = new HttpMessageHandlerMock();
             var service = new FoursquareCheckin(new HttpClient(handler));
 
-            handler.Queue.Enqueue(async x =>
+            handler.Enqueue(x =>
             {
                 // このリクエストは実行されないはず
                 Assert.True(false);

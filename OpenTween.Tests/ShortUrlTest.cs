@@ -30,8 +30,6 @@ using System.Threading.Tasks;
 using Xunit;
 using Xunit.Extensions;
 
-#pragma warning disable 1998 // awaitが無いasyncラムダ式に対する警告を抑制
-
 namespace OpenTween
 {
     public class ShortUrlTest
@@ -43,7 +41,7 @@ namespace OpenTween
             var shortUrl = new ShortUrl(new HttpClient(handler));
 
             // http://t.co/hoge1 -> http://example.com/hoge2
-            handler.Queue.Enqueue(async x =>
+            handler.Enqueue(x =>
             {
                 Assert.Equal(HttpMethod.Head, x.Method);
                 Assert.Equal(new Uri("http://t.co/hoge1"), x.RequestUri);
@@ -64,7 +62,7 @@ namespace OpenTween
             shortUrl.DisableExpanding = true;
 
             // http://t.co/hoge1 -> http://example.com/hoge2
-            handler.Queue.Enqueue(async x =>
+            handler.Enqueue(x =>
             {
                 // このリクエストは実行されないはず
                 Assert.True(false);
@@ -82,7 +80,7 @@ namespace OpenTween
             var shortUrl = new ShortUrl(new HttpClient(handler));
 
             // http://t.co/hoge1 -> http://bit.ly/hoge2
-            handler.Queue.Enqueue(async x =>
+            handler.Enqueue(x =>
             {
                 Assert.Equal(HttpMethod.Head, x.Method);
                 Assert.Equal(new Uri("http://t.co/hoge1"), x.RequestUri);
@@ -91,7 +89,7 @@ namespace OpenTween
             });
 
             // http://bit.ly/hoge2 -> http://example.com/hoge3
-            handler.Queue.Enqueue(async x =>
+            handler.Enqueue(x =>
             {
                 Assert.Equal(HttpMethod.Head, x.Method);
                 Assert.Equal(new Uri("http://bit.ly/hoge2"), x.RequestUri);
@@ -110,7 +108,7 @@ namespace OpenTween
             var shortUrl = new ShortUrl(new HttpClient(handler));
 
             // http://t.co/hoge1 -> http://bit.ly/hoge2
-            handler.Queue.Enqueue(async x =>
+            handler.Enqueue(x =>
             {
                 Assert.Equal(HttpMethod.Head, x.Method);
                 Assert.Equal(new Uri("http://t.co/hoge1"), x.RequestUri);
@@ -119,7 +117,7 @@ namespace OpenTween
             });
 
             // http://bit.ly/hoge2 -> http://tinyurl.com/hoge3
-            handler.Queue.Enqueue(async x =>
+            handler.Enqueue(x =>
             {
                 Assert.Equal(HttpMethod.Head, x.Method);
                 Assert.Equal(new Uri("http://bit.ly/hoge2"), x.RequestUri);
@@ -128,7 +126,7 @@ namespace OpenTween
             });
 
             // http://tinyurl.com/hoge3 -> http://example.com/hoge4
-            handler.Queue.Enqueue(async x =>
+            handler.Enqueue(x =>
             {
                 // このリクエストは実行されないはず
                 Assert.True(false);
@@ -146,7 +144,7 @@ namespace OpenTween
             var shortUrl = new ShortUrl(new HttpClient(handler));
 
             // http://t.co/hoge1 -> http://example.com/hoge2
-            handler.Queue.Enqueue(async x =>
+            handler.Enqueue(x =>
             {
                 Assert.Equal(HttpMethod.Head, x.Method);
                 Assert.Equal(new Uri("http://t.co/hoge1"), x.RequestUri);
@@ -165,7 +163,7 @@ namespace OpenTween
             var shortUrl = new ShortUrl(new HttpClient(handler));
 
             // http://t.co/hoge1 -> http://example.com/hoge2
-            handler.Queue.Enqueue(async x =>
+            handler.Enqueue(x =>
             {
                 Assert.Equal(HttpMethod.Head, x.Method);
                 Assert.Equal(new Uri("http://t.co/hoge1"), x.RequestUri);
@@ -184,7 +182,7 @@ namespace OpenTween
             var handler = new HttpMessageHandlerMock();
             var shortUrl = new ShortUrl(new HttpClient(handler));
 
-            handler.Queue.Enqueue(async x =>
+            handler.Enqueue(x =>
             {
                 // リクエストは送信されないはず
                 Assert.True(false);
@@ -202,7 +200,7 @@ namespace OpenTween
             var shortUrl = new ShortUrl(new HttpClient(handler));
 
             // http://t.co/hoge1 -> 503 Service Unavailable
-            handler.Queue.Enqueue(async x =>
+            handler.Enqueue(x =>
             {
                 return new HttpResponseMessage(HttpStatusCode.ServiceUnavailable);
             });
@@ -218,7 +216,7 @@ namespace OpenTween
             var shortUrl = new ShortUrl(new HttpClient(handler));
 
             // http://t.co/hoge1 -> http://example.com/hoge2
-            handler.Queue.Enqueue(async x =>
+            handler.Enqueue(x =>
             {
                 Assert.Equal(HttpMethod.Head, x.Method);
                 Assert.Equal(new Uri("http://t.co/hoge1"), x.RequestUri);
@@ -243,7 +241,7 @@ namespace OpenTween
             var handler = new HttpMessageHandlerMock();
             var shortUrl = new ShortUrl(new HttpClient(handler));
 
-            handler.Queue.Enqueue(async x =>
+            handler.Enqueue(async x =>
             {
                 Assert.Equal(HttpMethod.Post, x.Method);
                 Assert.Equal(new Uri("http://tinyurl.com/api-create.php"), x.RequestUri);
@@ -265,7 +263,7 @@ namespace OpenTween
             var handler = new HttpMessageHandlerMock();
             var shortUrl = new ShortUrl(new HttpClient(handler));
 
-            handler.Queue.Enqueue(async x =>
+            handler.Enqueue(x =>
             {
                 Assert.Equal(HttpMethod.Get, x.Method);
                 Assert.Equal("http://ux.nu/api/short?format=plain&url=http://example.com/hogehoge",

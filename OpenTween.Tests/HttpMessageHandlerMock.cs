@@ -31,8 +31,18 @@ namespace OpenTween
 {
     public class HttpMessageHandlerMock : HttpMessageHandler
     {
-        public readonly Queue<Func<HttpRequestMessage, Task<HttpResponseMessage>>> Queue =
+        private readonly Queue<Func<HttpRequestMessage, Task<HttpResponseMessage>>> Queue =
             new Queue<Func<HttpRequestMessage, Task<HttpResponseMessage>>>();
+
+        public void Enqueue(Func<HttpRequestMessage, Task<HttpResponseMessage>> handler)
+        {
+            this.Queue.Enqueue(handler);
+        }
+
+        public void Enqueue(Func<HttpRequestMessage, HttpResponseMessage> handler)
+        {
+            this.Queue.Enqueue(x => Task.FromResult(handler(x)));
+        }
 
         protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
