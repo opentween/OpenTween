@@ -37,13 +37,13 @@ using System.IO;
 using System.Linq;
 using System.Media;
 using System.Net;
+using System.Net.Http;
 using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
 using OpenTween.Api;
 using OpenTween.Connection;
 using OpenTween.OpenTweenCustomControl;
@@ -53,6 +53,8 @@ namespace OpenTween
 {
     public partial class TweenMain : OTBaseForm
     {
+        private readonly HttpClient http;
+
         //各種設定
         private Size _mySize;           //画面サイズ
         private Point _myLoc;           //画面位置
@@ -941,7 +943,7 @@ namespace OpenTween
             _initial = true;
 
             //アイコンリスト作成
-            this.IconCache = new ImageCache();
+            this.IconCache = new ImageCache(this.http);
 
             bool saveRequired = false;
             bool firstRun = false;
@@ -9769,9 +9771,17 @@ namespace OpenTween
                 this.ClearUserPicture();
                 this.UserPicture.Image = image.Clone();
             }
-            catch (WebException) { this.UserPicture.ShowErrorImage(); }
-            catch (InvalidImageException) { this.UserPicture.ShowErrorImage(); }
-            catch (TaskCanceledException) { this.UserPicture.ShowErrorImage(); }
+            catch (Exception)
+            {
+                this.UserPicture.ShowErrorImage();
+                try
+                {
+                    throw;
+                }
+                catch (HttpRequestException) { }
+                catch (InvalidImageException) { }
+                catch (TaskCanceledException) { }
+            }
         }
 
         private void SaveOriginalSizeIconPictureToolStripMenuItem_Click(object sender, EventArgs e)
@@ -12251,7 +12261,9 @@ namespace OpenTween
         private HookGlobalHotkey _hookGlobalHotkey;
         public TweenMain()
         {
+            this.http = MyCommon.CreateHttpClient();
             _hookGlobalHotkey = new HookGlobalHotkey(this);
+
             // この呼び出しは、Windows フォーム デザイナで必要です。
             InitializeComponent();
 

@@ -27,11 +27,17 @@ using System.Threading.Tasks;
 using System.Net;
 using System.Threading;
 using System.Xml.Serialization;
+using System.Net.Http;
 
 namespace OpenTween
 {
     public class ImageCache : IDisposable
     {
+        /// <summary>
+        /// 画像の取得に使用する HttpClient インスタンス
+        /// </summary>
+        private readonly HttpClient http;
+
         /// <summary>
         /// キャッシュとして URL と取得した画像を対に保持する辞書
         /// </summary>
@@ -52,20 +58,17 @@ namespace OpenTween
         /// </summary>
         private bool disposed = false;
 
-        public ImageCache()
+        public ImageCache(HttpClient http)
         {
-            lock (this.lockObject)
-            {
-                this.innerDictionary = new LRUCacheDictionary<string, Task<MemoryImage>>(trimLimit: 300, autoTrimCount: 100);
+            this.http = http;
 
-                this.innerDictionary.CacheRemoved += (s, e) => {
-                    // まだ参照されている場合もあるのでDisposeはファイナライザ任せ
+            this.innerDictionary = new LRUCacheDictionary<string, Task<MemoryImage>>(trimLimit: 300, autoTrimCount: 100);
+            this.innerDictionary.CacheRemoved += (s, e) => {
+                // まだ参照されている場合もあるのでDisposeはファイナライザ任せ
+                this.CacheRemoveCount++;
+            };
 
-                    this.CacheRemoveCount++;
-                };
-
-                this.cancelTokenSource = new CancellationTokenSource();
-            }
+            this.cancelTokenSource = new CancellationTokenSource();
         }
 
         /// <summary>
@@ -125,12 +128,13 @@ namespace OpenTween
 
         private async Task<MemoryImage> FetchImageAsync(string uri, CancellationToken cancelToken)
         {
-            using (var client = new OTWebClient { Timeout = 10000 })
+            using (var response = await this.http.GetAsync(uri, cancelToken).ConfigureAwait(false))
             {
-                var imageData = await client.DownloadDataAsync(new Uri(uri), cancelToken)
+                var imageStream = await response.Content.ReadAsStreamAsync()
                     .ConfigureAwait(false);
 
-                return MemoryImage.CopyFromBytes(imageData);
+                return await MemoryImage.CopyFromStreamAsync(imageStream)
+                    .ConfigureAwait(false);
             }
         }
 

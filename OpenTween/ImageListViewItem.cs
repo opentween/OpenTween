@@ -25,10 +25,9 @@
 // Boston, MA 02110-1301, USA.
 
 using System;
-using System.Drawing;
-using System.Net;
-using System.Windows.Forms;
+using System.Net.Http;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace OpenTween
 {
@@ -97,7 +96,7 @@ namespace OpenTween
                         this.ImageDownloaded(this, EventArgs.Empty);
                 }
             }
-            catch (WebException) { }
+            catch (HttpRequestException) { }
             catch (InvalidImageException) { }
             catch (TaskCanceledException) { }
         }
