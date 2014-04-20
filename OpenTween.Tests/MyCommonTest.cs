@@ -254,6 +254,30 @@ namespace OpenTween
         }
 
         [Fact]
+        public void GetUserAgentString_Test()
+        {
+            var mockAssembly = Substitute.For<_Assembly>();
+            mockAssembly.GetName().Returns(new AssemblyName("OpenTween"));
+
+            MyCommon.EntryAssembly = mockAssembly;
+            MyCommon.fileVersion = "1.0.0.0";
+
+            Assert.Equal("OpenTween/1.0.0.0", MyCommon.GetUserAgentString());
+        }
+
+        [Fact]
+        public void GetUserAgentString_FakeMSIETest()
+        {
+            var mockAssembly = Substitute.For<_Assembly>();
+            mockAssembly.GetName().Returns(new AssemblyName("OpenTween"));
+
+            MyCommon.EntryAssembly = mockAssembly;
+            MyCommon.fileVersion = "1.0.0.0";
+
+            Assert.Equal("OpenTween/1.0.0.0 (compatible; MSIE 10.0)", MyCommon.GetUserAgentString(fakeMSIE: true));
+        }
+
+        [Fact]
         public void GetErrorLogPathTest()
         {
             if (Environment.OSVersion.Platform == PlatformID.Win32NT)

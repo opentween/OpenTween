@@ -82,7 +82,6 @@ namespace OpenTween
         public TweetThumbnailTest()
         {
             this.ThumbnailGeneratorSetup();
-            this.MyCommonSetup();
         }
 
         public void ThumbnailGeneratorSetup()
@@ -93,15 +92,6 @@ namespace OpenTween
                 new TestThumbnailService(@"^https?://foo.example.com/(.+)$", @"dot.gif", null),
                 new TestThumbnailService(@"^https?://bar.example.com/(.+)$", @"dot.gif", @"${1}"),
             });
-        }
-
-        public void MyCommonSetup()
-        {
-            var mockAssembly = Substitute.For<_Assembly>();
-            mockAssembly.GetName().Returns(new AssemblyName("OpenTween"));
-            MyCommon.EntryAssembly = mockAssembly;
-
-            MyCommon.fileVersion = "1.0.0.0";
         }
 
         [Fact]

@@ -54,20 +54,6 @@ namespace OpenTween.Thumbnail.Services
             }
         }
 
-        public TinamiTest()
-        {
-            this.MyCommonSetup();
-        }
-
-        public void MyCommonSetup()
-        {
-            var mockAssembly = Substitute.For<_Assembly>();
-            mockAssembly.GetName().Returns(new AssemblyName("OpenTween"));
-            MyCommon.EntryAssembly = mockAssembly;
-
-            MyCommon.fileVersion = "1.0.0.0";
-        }
-
         [Fact]
         public async Task ApiTest()
         {

@@ -220,6 +220,19 @@ namespace OpenTween
                    ListUserSubscribed | ListUserUnsubscribed | ListDestroyed),
         }
 
+        public static _Assembly EntryAssembly { get; internal set; }
+        public static string fileVersion { get; internal set; }
+
+        static MyCommon()
+        {
+            var assembly = Assembly.GetExecutingAssembly();
+            MyCommon.EntryAssembly = assembly;
+
+            var fileVersionAttribute = (AssemblyFileVersionAttribute)assembly
+                .GetCustomAttributes(typeof(AssemblyFileVersionAttribute)).First();
+            MyCommon.fileVersion = fileVersionAttribute.Version;
+        }
+
         public static string GetErrorLogPath()
         {
             return Path.Combine(Path.GetDirectoryName(MyCommon.EntryAssembly.Location), "ErrorLogs");
@@ -739,15 +752,8 @@ namespace OpenTween
             //RTByMe
         }
 
-        public static string fileVersion = "";
-
         public static string GetUserAgentString(bool fakeMSIE = false)
         {
-            if (string.IsNullOrEmpty(fileVersion))
-            {
-                throw new Exception("fileversion is not Initialized.");
-            }
-
             if (fakeMSIE)
                 return GetAssemblyName() + "/" + fileVersion + " (compatible; MSIE 10.0)";
             else
@@ -879,8 +885,6 @@ namespace OpenTween
             return MyCommon.EntryAssembly.GetName().Name;
         }
 
-        internal static _Assembly EntryAssembly = Assembly.GetEntryAssembly();
-
         /// <summary>
         /// 文字列中に含まれる %AppName% をアプリケーション名に置換する
         /// </summary>
@@ -913,15 +917,9 @@ namespace OpenTween
         /// </returns>
         public static string GetReadableVersion(string versionStr = null)
         {
-            if (versionStr == null)
-            {
-                if (MyCommon.fileVersion == null)
-                    return null;
+            var version = Version.Parse(versionStr ?? MyCommon.fileVersion);
 
-                versionStr = MyCommon.fileVersion;
-            }
-
-            return GetReadableVersion(Version.Parse(versionStr));
+            return GetReadableVersion(version);
         }
 
         /// <summary>

@@ -632,7 +632,6 @@ namespace OpenTween
 
             Regex.CacheSize = 100;
 
-            MyCommon.fileVersion = ((AssemblyFileVersionAttribute)Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyFileVersionAttribute), false)[0]).Version;
             InitializeTraceFrag();
             LoadIcons(); // アイコン読み込み
 
@@ -5943,9 +5942,6 @@ namespace OpenTween
         {
             if (ApplicationSettings.VersionInfoUrl == null)
                 return; // 更新チェック無効化
-
-            if (string.IsNullOrEmpty(MyCommon.fileVersion))
-                return;
 
             try
             {
