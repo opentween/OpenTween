@@ -34,6 +34,11 @@ namespace OpenTween
         private readonly Queue<Func<HttpRequestMessage, Task<HttpResponseMessage>>> Queue =
             new Queue<Func<HttpRequestMessage, Task<HttpResponseMessage>>>();
 
+        public int QueueCount
+        {
+            get { return this.Queue.Count; }
+        }
+
         public void Enqueue(Func<HttpRequestMessage, Task<HttpResponseMessage>> handler)
         {
             this.Queue.Enqueue(handler);

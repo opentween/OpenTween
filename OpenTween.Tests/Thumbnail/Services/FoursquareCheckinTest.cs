@@ -69,6 +69,8 @@ namespace OpenTween.Thumbnail.Services
             var thumb = await service.GetThumbnailInfoAsync(
                 "https://foursquare.com/hogehoge/checkin/xxxxxxxx",
                 post, CancellationToken.None);
+
+            Assert.Equal(0, handler.QueueCount);
         }
 
         [Fact]
@@ -102,6 +104,8 @@ namespace OpenTween.Thumbnail.Services
             var thumb = await service.GetThumbnailInfoAsync(
                 "https://foursquare.com/hogehoge/checkin/xxxxxxxx?s=aaaaaaa",
                 post, CancellationToken.None);
+
+            Assert.Equal(0, handler.QueueCount);
         }
 
         [Fact]
@@ -130,6 +134,8 @@ namespace OpenTween.Thumbnail.Services
             var thumb = await service.GetThumbnailInfoAsync(
                 "https://foursquare.com/hogehoge/checkin/xxxxxxxx?s=aaaaaaa",
                 post, CancellationToken.None);
+
+            Assert.Equal(1, handler.QueueCount);
         }
 
         [Fact]

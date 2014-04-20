@@ -51,6 +51,8 @@ namespace OpenTween
 
             Assert.Equal(new Uri("http://example.com/hoge2"),
                 await shortUrl.ExpandUrlAsync(new Uri("http://t.co/hoge1")));
+
+            Assert.Equal(0, handler.QueueCount);
         }
 
         [Fact]
@@ -71,6 +73,8 @@ namespace OpenTween
 
             Assert.Equal(new Uri("http://t.co/hoge1"),
                 await shortUrl.ExpandUrlAsync(new Uri("http://t.co/hoge1")));
+
+            Assert.Equal(1, handler.QueueCount);
         }
 
         [Fact]
@@ -99,6 +103,8 @@ namespace OpenTween
 
             Assert.Equal(new Uri("http://example.com/hoge3"),
                 await shortUrl.ExpandUrlAsync(new Uri("http://t.co/hoge1")));
+
+            Assert.Equal(0, handler.QueueCount);
         }
 
         [Fact]
@@ -135,6 +141,8 @@ namespace OpenTween
 
             Assert.Equal(new Uri("http://tinyurl.com/hoge3"),
                 await shortUrl.ExpandUrlAsync(new Uri("http://t.co/hoge1"), redirectLimit: 2));
+
+            Assert.Equal(1, handler.QueueCount);
         }
 
         [Fact]
@@ -154,6 +162,8 @@ namespace OpenTween
 
             Assert.Equal("http://example.com/hoge2",
                 await shortUrl.ExpandUrlStrAsync("http://t.co/hoge1"));
+
+            Assert.Equal(0, handler.QueueCount);
         }
 
         [Fact]
@@ -174,6 +184,8 @@ namespace OpenTween
             // スキームが省略されたURL
             Assert.Equal("http://example.com/hoge2",
                 await shortUrl.ExpandUrlStrAsync("t.co/hoge1"));
+
+            Assert.Equal(0, handler.QueueCount);
         }
 
         [Fact]
@@ -191,6 +203,8 @@ namespace OpenTween
 
             // 不正なURL
             Assert.Equal("..hogehoge..", await shortUrl.ExpandUrlStrAsync("..hogehoge.."));
+
+            Assert.Equal(1, handler.QueueCount);
         }
 
         [Fact]
@@ -207,6 +221,8 @@ namespace OpenTween
 
             Assert.Equal(new Uri("http://t.co/hoge1"),
                 await shortUrl.ExpandUrlAsync(new Uri("http://t.co/hoge1")));
+
+            Assert.Equal(0, handler.QueueCount);
         }
 
         [Fact]
@@ -226,6 +242,8 @@ namespace OpenTween
 
             Assert.Equal("<a href=\"http://example.com/hoge2\">hogehoge</a>",
                 await shortUrl.ExpandUrlHtmlAsync("<a href=\"http://t.co/hoge1\">hogehoge</a>"));
+
+            Assert.Equal(0, handler.QueueCount);
         }
 
         private HttpResponseMessage CreateRedirectResponse(string uriStr)
@@ -255,6 +273,8 @@ namespace OpenTween
 
             Assert.Equal(new Uri("http://tinyurl.com/hoge"),
                 await shortUrl.ShortenUrlAsync(MyCommon.UrlConverter.TinyUrl, new Uri("http://example.com/hogehoge")));
+
+            Assert.Equal(0, handler.QueueCount);
         }
 
         [Fact]
@@ -277,6 +297,8 @@ namespace OpenTween
 
             Assert.Equal(new Uri("http://ux.nu/hoge"),
                 await shortUrl.ShortenUrlAsync(MyCommon.UrlConverter.Uxnu, new Uri("http://example.com/hogehoge")));
+
+            Assert.Equal(0, handler.QueueCount);
         }
     }
 }
