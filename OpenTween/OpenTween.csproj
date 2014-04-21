@@ -152,9 +152,6 @@
     <Compile Include="OTPictureBox.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="OTWebClient.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="RegexAsync.cs" />
     <Compile Include="Setting\Panel\ActionPanel.cs">
       <SubType>UserControl</SubType>
