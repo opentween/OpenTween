@@ -26,17 +26,19 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
-using System.Net;
-using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+using System.Web;
+using System.Xml.Linq;
 
 namespace OpenTween
 {
     public class Bing
     {
-        #region 言語テーブル定義
-        private static readonly List<string> LanguageTable = new List<string>() {
+        private static readonly List<string> LanguageTable = new List<string>
+        {
             "af",
             "sq",
             "ar-sa",
@@ -160,49 +162,63 @@ namespace OpenTween
             "vi",
             "xh",
             "ji",
-            "zu"
+            "zu",
         };
-        #endregion
 
-        #region Translation
-        private const string TranslateUri = "https://api.datamarket.azure.com/Data.ashx/Bing/MicrosoftTranslator/v1/Translate";
+        private static readonly string TranslateUri =
+            "https://api.datamarket.azure.com/Data.ashx/Bing/MicrosoftTranslator/v1/Translate";
 
-        public bool Translate(string _from, string _to, string _text, out string buf)
+        private readonly HttpClient http;
+
+        public Bing(HttpClient http)
         {
-            var apiurl = TranslateUri +
-                "?Text=" + Uri.EscapeDataString("'" + _text + "'") +
-                "&To=" + Uri.EscapeDataString("'" + _to + "'") +
-                "&$format=Raw";
+            this.http = http;
+        }
 
-            using (var client = new OTWebClient())
+        /// <summary>
+        /// Microsoft Translator API を使用した翻訳を非同期に行います
+        /// </summary>
+        /// <exception cref="HttpRequestException"/>
+        public async Task<string> TranslateAsync(string text, string langFrom, string langTo)
+        {
+            var param = HttpUtility.ParseQueryString(string.Empty);
+            param["Text"] = "'" + text + "'";
+            param["To"] = "'" + langTo + "'";
+            param["$format"] = "Raw";
+
+            if (langFrom != null)
+                param["From"] = "'" + langFrom + "'";
+
+            var request = new HttpRequestMessage(HttpMethod.Get, TranslateUri + "?" + param);
+            request.Headers.Authorization = CreateBasicAuthHeaderValue(ApplicationSettings.AzureMarketplaceKey, ApplicationSettings.AzureMarketplaceKey);
+
+            using (var response = await this.http.SendAsync(request).ConfigureAwait(false))
             {
-                client.Credentials = new NetworkCredential(ApplicationSettings.AzureMarketplaceKey, ApplicationSettings.AzureMarketplaceKey);
-                client.Encoding = Encoding.UTF8;
+                response.EnsureSuccessStatusCode();
 
-                try
-                {
-                    var content = client.DownloadString(apiurl);
+                var xmlStr = await response.Content.ReadAsStringAsync()
+                    .ConfigureAwait(false);
 
-                    buf = Regex.Replace(content, @"^<string[^>]*>(.*)</string>$", "$1");
-                    return true;
-                }
-                catch (WebException)
-                {
-                    buf = null;
-                    return false;
-                }
+                var xdoc = XDocument.Parse(xmlStr);
+
+                return xdoc.Root.Value;
             }
         }
 
-        public string GetLanguageEnumFromIndex(int index)
+        public static string GetLanguageEnumFromIndex(int index)
         {
             return LanguageTable[index];
         }
 
-        public int GetIndexFromLanguageEnum(string lang)
+        public static int GetIndexFromLanguageEnum(string lang)
         {
             return LanguageTable.IndexOf(lang);
         }
-        #endregion
+
+        internal static AuthenticationHeaderValue CreateBasicAuthHeaderValue(string user, string pass)
+        {
+            var paramBytes = Encoding.UTF8.GetBytes(user + ":" + pass);
+            return new AuthenticationHeaderValue("Basic", Convert.ToBase64String(paramBytes));
+        }
     }
 }

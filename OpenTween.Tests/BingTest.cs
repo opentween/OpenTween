@@ -1,5 +1,6 @@
 ﻿// OpenTween - Client of Twitter
 // Copyright (c) 2012 the40san <http://sourceforge.jp/users/the40san/>
+//           (c) 2014 kim_upsilon (@kim_upsilon) <https://upsilo.net/~upsilon/>
 // All rights reserved.
 //
 // This file is part of OpenTween.
@@ -20,10 +21,11 @@
 // Boston, MA 02110-1301, USA.
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
+using System.Net;
+using System.Net.Http;
 using System.Text;
+using System.Threading.Tasks;
+using System.Web;
 using Xunit;
 using Xunit.Extensions;
 
@@ -31,169 +33,81 @@ namespace OpenTween
 {
     /// <summary>
     /// Bingクラスのテストクラス
-    /// Translate(string _from, string _to, string _text, out string buf)のテスト未実装です
     /// </summary>
     public class BingTest
     {
-        List<string> LanguageTable;
-        Bing bing;
-
-        public BingTest()
-        {
-            bing = new Bing();
-            //リフレクション使ってインスタンスから取得するようにしたい
-            #region 言語テーブル定義
-            LanguageTable = new List<string>() {
-            "af",
-            "sq",
-            "ar-sa",
-            "ar-iq",
-            "ar-eg",
-            "ar-ly",
-            "ar-dz",
-            "ar-ma",
-            "ar-tn",
-            "ar-om",
-            "ar-ye",
-            "ar-sy",
-            "ar-jo",
-            "ar-lb",
-            "ar-kw",
-            "ar-ae",
-            "ar-bh",
-            "ar-qa",
-            "eu",
-            "bg",
-            "be",
-            "ca",
-            "zh-tw",
-            "zh-cn",
-            "zh-hk",
-            "zh-sg",
-            "hr",
-            "cs",
-            "da",
-            "nl",
-            "nl-be",
-            "en",
-            "en-us",
-            "en-gb",
-            "en-au",
-            "en-ca",
-            "en-nz",
-            "en-ie",
-            "en-za",
-            "en-jm",
-            "en",
-            "en-bz",
-            "en-tt",
-            "et",
-            "fo",
-            "fa",
-            "fi",
-            "fr",
-            "fr-be",
-            "fr-ca",
-            "fr-ch",
-            "fr-lu",
-            "gd",
-            "ga",
-            "de",
-            "de-ch",
-            "de-at",
-            "de-lu",
-            "de-li",
-            "el",
-            "he",
-            "hi",
-            "hu",
-            "is",
-            "id",
-            "it",
-            "it-ch",
-            "ja",
-            "ko",
-            "ko",
-            "lv",
-            "lt",
-            "mk",
-            "ms",
-            "mt",
-            "no",
-            "no",
-            "pl",
-            "pt-br",
-            "pt",
-            "rm",
-            "ro",
-            "ro-mo",
-            "ru",
-            "ru-mo",
-            "sz",
-            "sr",
-            "sr",
-            "sk",
-            "sl",
-            "sb",
-            "es",
-            "es-mx",
-            "es-gt",
-            "es-cr",
-            "es-pa",
-            "es-do",
-            "es-ve",
-            "es-co",
-            "es-pe",
-            "es-ar",
-            "es-ec",
-            "es-cl",
-            "es-uy",
-            "es-py",
-            "es-bo",
-            "es-sv",
-            "es-hn",
-            "es-ni",
-            "es-pr",
-            "sx",
-            "sv",
-            "sv-fi",
-            "th",
-            "ts",
-            "tn",
-            "tr",
-            "uk",
-            "ur",
-            "ve",
-            "vi",
-            "xh",
-            "ji",
-            "zu"
-        };
-        #endregion
-
-        }
-
-        //public bool TranslateTest(string _from, string _to, string _text, out string buf)
-        //{
-
-        //}
-
         [Fact]
-        public void GetLanguageEnumFromIndexTest()
+        public async Task TranslateAsync_Test()
         {
-            Assert.Equal(LanguageTable[0], bing.GetLanguageEnumFromIndex(0));
-            Assert.Equal(LanguageTable[1], bing.GetLanguageEnumFromIndex(1));
-            Assert.Equal(LanguageTable[LanguageTable.Count - 1], bing.GetLanguageEnumFromIndex(LanguageTable.Count - 1));
+            var handler = new HttpMessageHandlerMock();
+            var bing = new Bing(new HttpClient(handler));
+
+            handler.Enqueue(x =>
+            {
+                Assert.Equal(HttpMethod.Get, x.Method);
+                Assert.Equal("https://api.datamarket.azure.com/Data.ashx/Bing/MicrosoftTranslator/v1/Translate",
+                    x.RequestUri.GetLeftPart(UriPartial.Path));
+
+                var query = HttpUtility.ParseQueryString(x.RequestUri.Query);
+
+                Assert.Equal("'hogehoge'", query["Text"]);
+                Assert.Equal("'ja'", query["To"]);
+                Assert.Equal("Raw", query["$format"]);
+
+                return new HttpResponseMessage(HttpStatusCode.OK)
+                {
+                    Content = new StringContent("<string>ほげほげ</string>"),
+                };
+            });
+
+            var translatedText = await bing.TranslateAsync("hogehoge", langFrom: null, langTo: "ja");
+            Assert.Equal("ほげほげ", translatedText);
+
+            Assert.Equal(0, handler.QueueCount);
         }
 
         [Fact]
-        public void GetIndexFromLanguageEnumTest()
+        public async Task TranslateAsync_HttpErrorTest()
         {
-            Assert.Equal(0, bing.GetIndexFromLanguageEnum(LanguageTable[0]));
-            Assert.Equal(1, bing.GetIndexFromLanguageEnum(LanguageTable[1]));
-            Assert.Equal(LanguageTable.Count - 1, bing.GetIndexFromLanguageEnum(LanguageTable[LanguageTable.Count - 1]));
+            var handler = new HttpMessageHandlerMock();
+            var bing = new Bing(new HttpClient(handler));
+
+            handler.Enqueue(x =>
+            {
+                return new HttpResponseMessage(HttpStatusCode.ServiceUnavailable);
+            });
+
+            await TestUtils.ThrowsAsync<HttpRequestException>(async () =>
+                await bing.TranslateAsync("hogehoge", langFrom: null, langTo: "ja"));
+
+            Assert.Equal(0, handler.QueueCount);
         }
 
+        [Theory]
+        [InlineData("af", 0)]
+        [InlineData("sq", 1)]
+        [InlineData("ja", 67)]
+        public void GetLanguageEnumFromIndex_Test(string expected, int index)
+        {
+            Assert.Equal(expected, Bing.GetLanguageEnumFromIndex(index));
+        }
 
+        [Theory]
+        [InlineData(0, "af")]
+        [InlineData(1, "sq")]
+        [InlineData(67, "ja")]
+        public void GetIndexFromLanguageEnum_Test(int expected, string lang)
+        {
+            Assert.Equal(expected, Bing.GetIndexFromLanguageEnum(lang));
+        }
+
+        [Fact]
+        public void CreateBasicAuthHeaderValue_Test()
+        {
+            var value = Bing.CreateBasicAuthHeaderValue("user", "pass");
+
+            Assert.Equal("Basic", value.Scheme);
+            Assert.Equal("user:pass", Encoding.UTF8.GetString(Convert.FromBase64String(value.Parameter)));
+        }
     }
 }

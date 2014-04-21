@@ -13195,34 +13195,38 @@ namespace OpenTween
             OpenUriAsync(MyCommon.TwitterUrl + tw.Username);
         }
 
-        private void doTranslation(string str)
+        private async Task doTranslation(string str)
         {
-            Bing _bing = new Bing();
-            string buf = "";
-            if (string.IsNullOrEmpty(str)) return;
-            string srclng = "";
-            string dstlng = SettingDialog.TranslateLanguage;
-            string msg = "";
-            if (srclng != dstlng && _bing.Translate("", dstlng, str, out buf))
+            if (string.IsNullOrEmpty(str))
+                return;
+
+            var bing = new Bing(this.http);
+            try
             {
-                PostBrowser.DocumentText = createDetailHtml(buf);
+                var translatedText = await bing.TranslateAsync(str,
+                    langFrom: null,
+                    langTo: this.SettingDialog.TranslateLanguage);
+
+                this.PostBrowser.DocumentText = translatedText;
             }
-            else
+            catch (HttpRequestException e)
             {
-                if (msg.StartsWith("Err:"))
-                    StatusLabel.Text = msg;
+                this.StatusLabel.Text = "Err:" + e.Message;
             }
         }
 
-        private void TranslationToolStripMenuItem_Click(object sender, EventArgs e)
+        private async void TranslationToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (!this.ExistCurrentPost) return;
-            doTranslation(_curPost.TextFromApi);
+            if (!this.ExistCurrentPost)
+                return;
+
+            await this.doTranslation(this._curPost.TextFromApi);
         }
 
-        private void SelectionTranslationToolStripMenuItem_Click(object sender, EventArgs e)
+        private async void SelectionTranslationToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            doTranslation(WebBrowser_GetSelectionText(ref PostBrowser));
+            var text = this.WebBrowser_GetSelectionText(ref this.PostBrowser);
+            await this.doTranslation(text);
         }
 
         private bool ExistCurrentPost

@@ -407,7 +407,7 @@ namespace OpenTween
                 GetEventNotifyFlag(ref _MyEventNotifyFlag, ref _isMyEventNotifyFlag);
                 ForceEventNotify = this.NotifyPanel.CheckForceEventNotify.Checked;
                 FavEventUnread = this.NotifyPanel.CheckFavEventUnread.Checked;
-                TranslateLanguage = (new Bing()).GetLanguageEnumFromIndex(this.CooperatePanel.ComboBoxTranslateLanguage.SelectedIndex);
+                TranslateLanguage = Bing.GetLanguageEnumFromIndex(this.CooperatePanel.ComboBoxTranslateLanguage.SelectedIndex);
                 EventSoundFile = (string)this.NotifyPanel.ComboBoxEventNotifySound.SelectedItem;
                 AutoShortUrlFirst = (MyCommon.UrlConverter)this.ShortUrlPanel.ComboBoxAutoShortUrlFirst.SelectedIndex;
                 TabIconDisp = this.PreviewPanel.chkTabIconDisp.Checked;
@@ -766,7 +766,7 @@ namespace OpenTween
             ApplyEventNotifyFlag(EventNotifyEnabled, EventNotifyFlag, IsMyEventNotifyFlag);
             this.NotifyPanel.CheckForceEventNotify.Checked = ForceEventNotify;
             this.NotifyPanel.CheckFavEventUnread.Checked = FavEventUnread;
-            this.CooperatePanel.ComboBoxTranslateLanguage.SelectedIndex = (new Bing()).GetIndexFromLanguageEnum(TranslateLanguage);
+            this.CooperatePanel.ComboBoxTranslateLanguage.SelectedIndex = Bing.GetIndexFromLanguageEnum(TranslateLanguage);
             SoundFileListup();
             this.ShortUrlPanel.ComboBoxAutoShortUrlFirst.SelectedIndex = (int)AutoShortUrlFirst;
             this.PreviewPanel.chkTabIconDisp.Checked = TabIconDisp;
@@ -1222,7 +1222,7 @@ namespace OpenTween
             set
             {
                 _MyTranslateLanguage = value;
-                this.CooperatePanel.ComboBoxTranslateLanguage.SelectedIndex = (new Bing()).GetIndexFromLanguageEnum(value);
+                this.CooperatePanel.ComboBoxTranslateLanguage.SelectedIndex = Bing.GetIndexFromLanguageEnum(value);
             }
         }
 
