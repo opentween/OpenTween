@@ -22,7 +22,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Net.Http;
 using System.Runtime.Serialization.Json;
 using System.Xml;
@@ -65,7 +64,7 @@ namespace OpenTween.Thumbnail.Services
 
         public ImgAzyobuziNet(HttpClient http, bool autoupdate)
         {
-            this.UpdateTimer = new Timer(_ => this.LoadRegex());
+            this.UpdateTimer = new Timer(async _ => await this.LoadRegexAsync());
             this.AutoUpdate = autoupdate;
 
             this.Enabled = true;
@@ -109,13 +108,15 @@ namespace OpenTween.Thumbnail.Services
             this.UpdateTimer.Change(Timeout.Infinite, Timeout.Infinite);
         }
 
-        public void LoadRegex()
+        public async Task LoadRegexAsync()
         {
             foreach (var host in this.ApiHosts)
             {
                 try
                 {
-                    var result = this.LoadRegex(host);
+                    var result = await this.LoadRegexAsync(host)
+                        .ConfigureAwait(false);
+
                     if (result) return;
                 }
                 catch (Exception)
@@ -134,11 +135,14 @@ namespace OpenTween.Thumbnail.Services
             }
         }
 
-        public bool LoadRegex(string apiBase)
+        public async Task<bool> LoadRegexAsync(string apiBase)
         {
             try
             {
-                using (var jsonReader = JsonReaderWriterFactory.CreateJsonReader(this.FetchRegex(apiBase), XmlDictionaryReaderQuotas.Max))
+                var jsonBytes = await this.FetchRegexAsync(apiBase)
+                    .ConfigureAwait(false);
+
+                using (var jsonReader = JsonReaderWriterFactory.CreateJsonReader(jsonBytes, XmlDictionaryReaderQuotas.Max))
                 {
                     var xElm = XElement.Load(jsonReader);
 
@@ -157,17 +161,23 @@ namespace OpenTween.Thumbnail.Services
 
                 return true;
             }
-            catch (WebException) { } // サーバーが2xx以外のステータスコードを返した場合
+            catch (HttpRequestException) { } // サーバーが2xx以外のステータスコードを返した場合
+            catch (OperationCanceledException) { } // リクエストがタイムアウトした場合
             catch (XmlException) { } // サーバーが不正なJSONを返した場合
 
             return false;
         }
 
-        protected virtual byte[] FetchRegex(string apiBase)
+        protected virtual async Task<byte[]> FetchRegexAsync(string apiBase)
         {
-            using (var client = new OTWebClient() { Timeout = 1000 })
+            using (var cts = new CancellationTokenSource(millisecondsDelay: 1000))
+            using (var response = await this.http.GetAsync(apiBase + "regex.json", cts.Token)
+                .ConfigureAwait(false))
             {
-                return client.DownloadData(apiBase + "regex.json");
+                response.EnsureSuccessStatusCode();
+
+                return await response.Content.ReadAsByteArrayAsync()
+                    .ConfigureAwait(false);
             }
         }
 

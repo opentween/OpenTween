@@ -22,7 +22,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
+using System.Net.Http;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -47,7 +47,7 @@ namespace OpenTween.Thumbnail.Services
                 : base(autoupdate: false)
             {
                 this.ApiHosts = apiHosts;
-                this.LoadRegex();
+                this.LoadRegexAsync().Wait();
             }
 
             public string GetApiBase()
@@ -55,42 +55,45 @@ namespace OpenTween.Thumbnail.Services
                 return this.ApiBase;
             }
 
-            protected override byte[] FetchRegex(string apiBase)
+            protected override Task<byte[]> FetchRegexAsync(string apiBase)
             {
-                if (apiBase == "http://down.example.com/api/")
-                    throw new WebException();
+                return Task.Run(() =>
+                {
+                    if (apiBase == "http://down.example.com/api/")
+                        throw new HttpRequestException();
 
-                if (apiBase == "http://error.example.com/api/")
-                    return Encoding.UTF8.GetBytes("{\"error\": {\"code\": 5001}}");
+                    if (apiBase == "http://error.example.com/api/")
+                        return Encoding.UTF8.GetBytes("{\"error\": {\"code\": 5001}}");
 
-                if (apiBase == "http://invalid.example.com/api/")
-                    return Encoding.UTF8.GetBytes("<<<INVALID JSON>>>");
+                    if (apiBase == "http://invalid.example.com/api/")
+                        return Encoding.UTF8.GetBytes("<<<INVALID JSON>>>");
 
-                return Encoding.UTF8.GetBytes("[{\"name\": \"hogehoge\", \"regex\": \"^https?://example.com/(.+)$\"}]");
+                    return Encoding.UTF8.GetBytes("[{\"name\": \"hogehoge\", \"regex\": \"^https?://example.com/(.+)$\"}]");
+                });
             }
         }
 
         [Fact]
-        public void HostFallbackTest()
+        public async Task HostFallbackTest()
         {
             var service = new TestImgAzyobuziNet(new[] { "http://avail1.example.com/api/", "http://avail2.example.com/api/" });
-            service.LoadRegex();
+            await service.LoadRegexAsync();
             Assert.Equal("http://avail1.example.com/api/", service.GetApiBase());
 
             service = new TestImgAzyobuziNet(new[] { "http://down.example.com/api/", "http://avail.example.com/api/" });
-            service.LoadRegex();
+            await service.LoadRegexAsync();
             Assert.Equal("http://avail.example.com/api/", service.GetApiBase());
 
             service = new TestImgAzyobuziNet(new[] { "http://error.example.com/api/", "http://avail.example.com/api/" });
-            service.LoadRegex();
+            await service.LoadRegexAsync();
             Assert.Equal("http://avail.example.com/api/", service.GetApiBase());
 
             service = new TestImgAzyobuziNet(new[] { "http://invalid.example.com/api/", "http://avail.example.com/api/" });
-            service.LoadRegex();
+            await service.LoadRegexAsync();
             Assert.Equal("http://avail.example.com/api/", service.GetApiBase());
 
             service = new TestImgAzyobuziNet(new[] { "http://down.example.com/api/" });
-            service.LoadRegex();
+            await service.LoadRegexAsync();
             Assert.Null(service.GetApiBase());
         }
 
@@ -99,7 +102,7 @@ namespace OpenTween.Thumbnail.Services
         {
             var service = new TestImgAzyobuziNet(new[] { "http://down.example.com/api/" });
 
-            service.LoadRegex();
+            await service.LoadRegexAsync();
             Assert.Null(service.GetApiBase());
 
             var thumbinfo = await service.GetThumbnailInfoAsync("http://example.com/abcd", null, CancellationToken.None);

@@ -662,6 +662,8 @@ namespace OpenTween
             ////設定読み出し
             LoadConfig();
 
+            ThumbnailGenerator.InitializeGenerator();
+
             var imgazyobizinet = ThumbnailGenerator.ImgAzyobuziNetInstance.Value;
             imgazyobizinet.Enabled = this._cfgCommon.EnableImgAzyobuziNet;
             imgazyobizinet.DisabledInDM = this._cfgCommon.ImgAzyobuziNetDisabledInDM;
@@ -669,8 +671,6 @@ namespace OpenTween
             Thumbnail.Services.TonTwitterCom.InitializeOAuthToken = x =>
                 x.Initialize(ApplicationSettings.TwitterConsumerKey, ApplicationSettings.TwitterConsumerSecret,
                     this.tw.AccessToken, this.tw.AccessTokenSecret, "", "");
-
-            ThumbnailGenerator.InitializeGenerator();
 
             //新着バルーン通知のチェック状態設定
             NewPostPopMenuItem.Checked = _cfgCommon.NewAllPop;
