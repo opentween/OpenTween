@@ -706,15 +706,6 @@ namespace OpenTween
                 this.Font = fontUIGlobal;
             }
 
-            _brsBackColorMine = new SolidBrush(_clSelf);
-            _brsBackColorAt = new SolidBrush(_clAtSelf);
-            _brsBackColorYou = new SolidBrush(_clTarget);
-            _brsBackColorAtYou = new SolidBrush(_clAtTarget);
-            _brsBackColorAtFromTarget = new SolidBrush(_clAtFromTarget);
-            _brsBackColorAtTo = new SolidBrush(_clAtTo);
-            //_brsBackColorNone = new SolidBrush(Color.FromKnownColor(KnownColor.Window));
-            _brsBackColorNone = new SolidBrush(_clListBackcolor);
-
             // StringFormatオブジェクトへの事前設定
             //sf.Alignment = StringAlignment.Near;             // Textを近くへ配置（左から右の場合は左寄せ）
             //sf.LineAlignment = StringAlignment.Near;         // Textを近くへ配置（上寄せ）
@@ -855,25 +846,7 @@ namespace OpenTween
             AtIdSupl = new AtIdSupplement(SettingAtIdList.Load().AtIdList, "@");
 
             SettingDialog.IsMonospace = _cfgCommon.IsMonospace;
-            if (SettingDialog.IsMonospace)
-            {
-                detailHtmlFormatHeader = detailHtmlFormatMono1;
-                detailHtmlFormatFooter = detailHtmlFormatMono7;
-            }
-            else
-            {
-                detailHtmlFormatHeader = detailHtmlFormat1;
-                detailHtmlFormatFooter = detailHtmlFormat7;
-            }
-            detailHtmlFormatHeader += _fntDetail.Name + detailHtmlFormat2 + _fntDetail.Size.ToString() + detailHtmlFormat3 + _clDetail.R.ToString() + "," + _clDetail.G.ToString() + "," + _clDetail.B.ToString() + detailHtmlFormat4 + _clDetailLink.R.ToString() + "," + _clDetailLink.G.ToString() + "," + _clDetailLink.B.ToString() + detailHtmlFormat5 + _clDetailBackcolor.R.ToString() + "," + _clDetailBackcolor.G.ToString() + "," + _clDetailBackcolor.B.ToString();
-            if (SettingDialog.IsMonospace)
-            {
-                detailHtmlFormatHeader += detailHtmlFormatMono6;
-            }
-            else
-            {
-                detailHtmlFormatHeader += detailHtmlFormat6;
-            }
+
             this.IdeographicSpaceToSpaceToolStripMenuItem.Checked = _cfgCommon.WideSpaceConvert;
             this.ToolStripFocusLockMenuItem.Checked = _cfgCommon.FocusLockToStatusText;
 
@@ -968,6 +941,7 @@ namespace OpenTween
                     return;
                 }
                 SettingDialog.ShowInTaskbar = false;
+
                 //新しい設定を反映
                 //フォント＆文字色＆背景色保持
                 _fntUnread = SettingDialog.FontUnread;
@@ -991,42 +965,20 @@ namespace OpenTween
                 _clInputBackcolor = SettingDialog.ColorInputBackcolor;
                 _clInputFont = SettingDialog.ColorInputFont;
                 _fntInputFont = SettingDialog.FontInputFont;
-                _brsBackColorMine.Dispose();
-                _brsBackColorAt.Dispose();
-                _brsBackColorYou.Dispose();
-                _brsBackColorAtYou.Dispose();
-                _brsBackColorAtFromTarget.Dispose();
-                _brsBackColorAtTo.Dispose();
-                _brsBackColorNone.Dispose();
-                _brsBackColorMine = new SolidBrush(_clSelf);
-                _brsBackColorAt = new SolidBrush(_clAtSelf);
-                _brsBackColorYou = new SolidBrush(_clTarget);
-                _brsBackColorAtYou = new SolidBrush(_clAtTarget);
-                _brsBackColorAtFromTarget = new SolidBrush(_clAtFromTarget);
-                _brsBackColorAtTo = new SolidBrush(_clAtTo);
-                _brsBackColorNone = new SolidBrush(_clListBackcolor);
 
-                if (SettingDialog.IsMonospace)
-                {
-                    detailHtmlFormatHeader = detailHtmlFormatMono1;
-                    detailHtmlFormatFooter = detailHtmlFormatMono7;
-                }
-                else
-                {
-                    detailHtmlFormatHeader = detailHtmlFormat1;
-                    detailHtmlFormatFooter = detailHtmlFormat7;
-                }
-                detailHtmlFormatHeader += _fntDetail.Name + detailHtmlFormat2 + _fntDetail.Size.ToString() + detailHtmlFormat3 + _clDetail.R.ToString() + "," + _clDetail.G.ToString() + "," + _clDetail.B.ToString() + detailHtmlFormat4 + _clDetailLink.R.ToString() + "," + _clDetailLink.G.ToString() + "," + _clDetailLink.B.ToString() + detailHtmlFormat5 + _clDetailBackcolor.R.ToString() + "," + _clDetailBackcolor.G.ToString() + "," + _clDetailBackcolor.B.ToString();
-                if (SettingDialog.IsMonospace)
-                {
-                    detailHtmlFormatHeader += detailHtmlFormatMono6;
-                }
-                else
-                {
-                    detailHtmlFormatHeader += detailHtmlFormat6;
-                }
                 //他の設定項目は、随時設定画面で保持している値を読み出して使用
             }
+
+            _brsBackColorMine = new SolidBrush(_clSelf);
+            _brsBackColorAt = new SolidBrush(_clAtSelf);
+            _brsBackColorYou = new SolidBrush(_clTarget);
+            _brsBackColorAtYou = new SolidBrush(_clAtTarget);
+            _brsBackColorAtFromTarget = new SolidBrush(_clAtFromTarget);
+            _brsBackColorAtTo = new SolidBrush(_clAtTo);
+            //_brsBackColorNone = new SolidBrush(Color.FromKnownColor(KnownColor.Window));
+            _brsBackColorNone = new SolidBrush(_clListBackcolor);
+
+            InitDetailHtmlFormat();
 
             if (SettingDialog.HotkeyEnabled)
             {
@@ -1299,6 +1251,29 @@ namespace OpenTween
 
             // タブの位置を調整する
             SetTabAlignment();
+        }
+
+        private void InitDetailHtmlFormat()
+        {
+            if (SettingDialog.IsMonospace)
+            {
+                detailHtmlFormatHeader = detailHtmlFormatMono1;
+                detailHtmlFormatFooter = detailHtmlFormatMono7;
+            }
+            else
+            {
+                detailHtmlFormatHeader = detailHtmlFormat1;
+                detailHtmlFormatFooter = detailHtmlFormat7;
+            }
+            detailHtmlFormatHeader += _fntDetail.Name + detailHtmlFormat2 + _fntDetail.Size.ToString() + detailHtmlFormat3 + _clDetail.R.ToString() + "," + _clDetail.G.ToString() + "," + _clDetail.B.ToString() + detailHtmlFormat4 + _clDetailLink.R.ToString() + "," + _clDetailLink.G.ToString() + "," + _clDetailLink.B.ToString() + detailHtmlFormat5 + _clDetailBackcolor.R.ToString() + "," + _clDetailBackcolor.G.ToString() + "," + _clDetailBackcolor.B.ToString();
+            if (SettingDialog.IsMonospace)
+            {
+                detailHtmlFormatHeader += detailHtmlFormatMono6;
+            }
+            else
+            {
+                detailHtmlFormatHeader += detailHtmlFormat6;
+            }
         }
 
         private void CreatePictureServices()
@@ -4048,25 +4023,7 @@ namespace OpenTween
 
                     try
                     {
-                        if (SettingDialog.IsMonospace)
-                        {
-                            detailHtmlFormatHeader = detailHtmlFormatMono1;
-                            detailHtmlFormatFooter = detailHtmlFormatMono7;
-                        }
-                        else
-                        {
-                            detailHtmlFormatHeader = detailHtmlFormat1;
-                            detailHtmlFormatFooter = detailHtmlFormat7;
-                        }
-                        detailHtmlFormatHeader += _fntDetail.Name + detailHtmlFormat2 + _fntDetail.Size.ToString() + detailHtmlFormat3 + _clDetail.R.ToString() + "," + _clDetail.G.ToString() + "," + _clDetail.B.ToString() + detailHtmlFormat4 + _clDetailLink.R.ToString() + "," + _clDetailLink.G.ToString() + "," + _clDetailLink.B.ToString() + detailHtmlFormat5 + _clDetailBackcolor.R.ToString() + "," + _clDetailBackcolor.G.ToString() + "," + _clDetailBackcolor.B.ToString();
-                        if (SettingDialog.IsMonospace)
-                        {
-                            detailHtmlFormatHeader += detailHtmlFormatMono6;
-                        }
-                        else
-                        {
-                            detailHtmlFormatHeader += detailHtmlFormat6;
-                        }
+                        InitDetailHtmlFormat();
                     }
                     catch (Exception ex)
                     {
