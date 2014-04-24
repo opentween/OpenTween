@@ -5048,7 +5048,8 @@ namespace OpenTween
             ListViewItem item = null;
             PostClass cacheItemPost = null;
 
-            this.TryGetListViewItemCache(e.ItemIndex, out item, out cacheItemPost);
+            if (_curList.Equals(sender))
+                this.TryGetListViewItemCache(e.ItemIndex, out item, out cacheItemPost);
 
             if (item == null)
             {
