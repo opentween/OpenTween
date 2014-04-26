@@ -22,40 +22,45 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Net;
-using System.Text.RegularExpressions;
 
 namespace OpenTween.Thumbnail.Services
 {
     /// <summary>
     /// og:image や twitter:image をスクレイピングしてサムネイルURLを抽出する
     /// </summary>
-    class MetaThumbnailService : SimpleThumbnailService
+    class MetaThumbnailService : IThumbnailService
     {
         protected static Regex metaPattern = new Regex("<meta (name|property)=[\"'](?<name>.+?)[\"'] (content|value)=[\"'](?<content>.+?)[\"']");
         protected static string[] propertyNames = { "twitter:image", "og:image" };
 
-        public MetaThumbnailService(string url)
-            : this(url, "${0}")
+        protected readonly HttpClient http;
+        protected readonly Regex regex;
+
+        public MetaThumbnailService(string urlPattern)
+            : this(null, urlPattern)
         {
         }
 
-        public MetaThumbnailService(string pattern, string replacement)
-            : base(pattern, replacement)
+        public MetaThumbnailService(HttpClient http, string urlPattern)
         {
+            this.http = http ?? MyCommon.CreateHttpClient();
+            this.regex = new Regex(urlPattern);
         }
 
         public override async Task<ThumbnailInfo> GetThumbnailInfoAsync(string url, PostClass post, CancellationToken token)
         {
-            var pageUrl = this.ReplaceUrl(url);
-            if (pageUrl == null) return null;
+            if (!this.regex.IsMatch(url))
+                return null;
 
             try
             {
-                var content = await this.FetchImageUrlAsync(pageUrl, token)
+                var content = await this.FetchImageUrlAsync(url, token)
                     .ConfigureAwait(false);
 
                 var thumbnailUrl = this.GetThumbnailUrl(content);

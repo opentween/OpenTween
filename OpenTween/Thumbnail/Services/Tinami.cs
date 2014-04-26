@@ -22,30 +22,42 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Runtime.Serialization.Json;
-using System.Xml;
+using System.Web;
 using System.Xml.Linq;
 using System.Xml.XPath;
-using System.Net;
 
 namespace OpenTween.Thumbnail.Services
 {
-    class Tinami : SimpleThumbnailService
+    class Tinami : IThumbnailService
     {
-        public Tinami(string pattern, string replacement = "${0}")
-            : base(pattern, replacement)
+        protected readonly HttpClient http;
+        protected readonly Regex regex;
+
+        public Tinami(string urlPattern)
+            : this(null, urlPattern)
         {
+        }
+
+        public Tinami(HttpClient http, string urlPattern)
+        {
+            this.http = http ?? MyCommon.CreateHttpClient();
+            this.regex = new Regex(urlPattern);
         }
 
         public override async Task<ThumbnailInfo> GetThumbnailInfoAsync(string url, PostClass post, CancellationToken token)
         {
-            var apiUrl = base.ReplaceUrl(url);
-            if (apiUrl == null) return null;
+            var match = this.regex.Match(url);
+            if (!match.Success)
+                return null;
 
-            var xdoc = await this.FetchContentInfoApiAsync(apiUrl, token)
+            var contentId = match.Groups["ContentId"].Value;
+
+            var xdoc = await this.FetchContentInfoApiAsync(contentId, token)
                 .ConfigureAwait(false);
 
             if (xdoc.XPathSelectElement("/rsp").Attribute("stat").Value == "ok")
@@ -67,9 +79,15 @@ namespace OpenTween.Thumbnail.Services
             return null;
         }
 
-        protected virtual async Task<XDocument> FetchContentInfoApiAsync(string url, CancellationToken token)
+        protected virtual async Task<XDocument> FetchContentInfoApiAsync(string contentId, CancellationToken token)
         {
-            using (var response = await this.http.GetAsync(url, token).ConfigureAwait(false))
+            var query = HttpUtility.ParseQueryString(string.Empty);
+            query["api_key"] = ApplicationSettings.TINAMIApiKey;
+            query["cont_id"] = contentId;
+
+            var apiUrl = "http://api.tinami.com/content/info?" + query;
+
+            using (var response = await this.http.GetAsync(apiUrl, token).ConfigureAwait(false))
             {
                 response.EnsureSuccessStatusCode();
 

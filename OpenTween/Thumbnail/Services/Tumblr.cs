@@ -28,25 +28,31 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Xml;
 
 namespace OpenTween.Thumbnail.Services
 {
-    class Tumblr : SimpleThumbnailService
+    class Tumblr : IThumbnailService
     {
-        public Tumblr(string pattern, string replacement = "${0}")
-            : base(pattern, replacement)
+        protected readonly Regex regex;
+
+        public Tumblr(string urlPattern)
         {
+            this.regex = new Regex(urlPattern);
         }
 
         public override Task<ThumbnailInfo> GetThumbnailInfoAsync(string url, PostClass post, CancellationToken token)
         {
             return Task.Run(() =>
             {
-                var apiUrl = base.ReplaceUrl(url);
-                if (apiUrl == null) return null;
+                var match = this.regex.Match(url);
+                if (!match.Success)
+                    return null;
+
+                var apiUrl = match.Result("${base}api/read?id=${postID}");
 
                 var http = new HttpVarious();
                 var src = "";

@@ -41,15 +41,13 @@ namespace OpenTween.Thumbnail.Services
         {
             public string FakeXml { get; set; }
 
-            public TestTinami(string pattern, string replacement)
-                : base(pattern, replacement)
+            public TestTinami(string pattern)
+                : base(null, pattern)
             {
             }
 
-            protected override Task<XDocument> FetchContentInfoApiAsync(string url, CancellationToken token)
+            protected override Task<XDocument> FetchContentInfoApiAsync(string contentId, CancellationToken token)
             {
-                Assert.True(Regex.IsMatch(url, @"http://api\.tinami\.com/content/info\?cont_id=.+&api_key=.+"));
-
                 return Task.FromResult(XDocument.Parse(this.FakeXml));
             }
         }
@@ -57,8 +55,7 @@ namespace OpenTween.Thumbnail.Services
         [Fact]
         public async Task ApiTest()
         {
-            var service = new TestTinami(@"^http://www\.tinami\.com/view/(?<ContentId>\d+)$",
-                "http://api.tinami.com/content/info?cont_id=${ContentId}&api_key=" + ApplicationSettings.TINAMIApiKey);
+            var service = new TestTinami(@"^http://www\.tinami\.com/view/(?<ContentId>\d+)$");
 
             service.FakeXml = @"<?xml version='1.0' encoding='utf-8' ?>
 <rsp stat='ok'>
@@ -86,8 +83,7 @@ namespace OpenTween.Thumbnail.Services
         [Fact]
         public async Task ApiErrorTest()
         {
-            var service = new TestTinami(@"^http://www\.tinami\.com/view/(?<ContentId>\d+)$",
-                "http://api.tinami.com/content/info?cont_id=${ContentId}&api_key=" + ApplicationSettings.TINAMIApiKey);
+            var service = new TestTinami(@"^http://www\.tinami\.com/view/(?<ContentId>\d+)$");
 
             service.FakeXml = @"<?xml version='1.0' encoding='utf-8'?>
 <rsp stat='user_only'>

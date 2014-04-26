@@ -22,28 +22,43 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Runtime.Serialization.Json;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Runtime.Serialization.Json;
 using System.Xml;
 using System.Xml.Linq;
 using System.Xml.XPath;
-using System.Net;
 
 namespace OpenTween.Thumbnail.Services
 {
-    class ViaMe : SimpleThumbnailService
+    class ViaMe : IThumbnailService
     {
-        public ViaMe(string pattern, string replacement = "${0}")
-            : base(pattern, replacement)
+        protected readonly HttpClient http;
+        protected readonly Regex regex;
+
+        public ViaMe(string urlPattern)
+            : this(null, urlPattern)
         {
+        }
+
+        public ViaMe(HttpClient http, string urlPattern)
+        {
+            this.http = http ?? MyCommon.CreateHttpClient();
+            this.regex = new Regex(urlPattern);
         }
 
         public override async Task<ThumbnailInfo> GetThumbnailInfoAsync(string url, PostClass post, CancellationToken token)
         {
-            var apiUrl = base.ReplaceUrl(url);
-            if (apiUrl == null) return null;
+            var match = this.regex.Match(url);
+            if (!match.Success)
+                return null;
+
+            var postId = match.Groups[1].Value;
+            var apiUrl = "http://via.me/api/v1/posts/" + postId;
 
             var json = await this.http.GetByteArrayAsync(apiUrl)
                 .ConfigureAwait(false);

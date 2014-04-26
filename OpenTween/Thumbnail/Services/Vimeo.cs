@@ -22,28 +22,42 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Runtime.Serialization.Json;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Runtime.Serialization.Json;
 using System.Xml;
 using System.Xml.Linq;
 using System.Xml.XPath;
-using System.Net;
 
 namespace OpenTween.Thumbnail.Services
 {
-    class Vimeo : SimpleThumbnailService
+    class Vimeo : IThumbnailService
     {
-        public Vimeo(string pattern, string replacement = "${0}")
-            : base(pattern, replacement)
+        protected readonly HttpClient http;
+        protected readonly Regex regex;
+
+        public Vimeo(string urlPattern)
+            : this(null, urlPattern)
         {
+        }
+
+        public Vimeo(HttpClient http, string urlPattern)
+        {
+            this.http = http ?? MyCommon.CreateHttpClient();
+            this.regex = new Regex(urlPattern);
         }
 
         public override async Task<ThumbnailInfo> GetThumbnailInfoAsync(string url, PostClass post, CancellationToken token)
         {
-            var apiUrl = base.ReplaceUrl(url);
-            if (apiUrl == null) return null;
+            var match = this.regex.Match(url);
+            if (!match.Success)
+                return null;
+
+            var apiUrl = "http://vimeo.com/api/oembed.xml?url=" + Uri.EscapeDataString(url);
 
             var xmlStr = await this.http.GetStringAsync(apiUrl)
                 .ConfigureAwait(false);

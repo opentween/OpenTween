@@ -114,10 +114,10 @@ namespace OpenTween.Thumbnail
                     "http://twitgoo.com/${1}/img"),
 
                 // youtube
-                new Youtube(@"^http://(?:(www\.youtube\.com)|(youtu\.be))/(watch\?v=)?(?<videoid>([\w\-]+))", "http://i.ytimg.com/vi/${videoid}/default.jpg"),
+                new Youtube(@"^http://(?:(www\.youtube\.com)|(youtu\.be))/(watch\?v=)?(?<videoid>([\w\-]+))"),
 
                 // ニコニコ動画
-                new Nicovideo(@"^http://(?:(www|ext)\.nicovideo\.jp/watch|nico\.ms)/(?:sm|nm)?([0-9]+)(\?.+)?$", "http://www.nicovideo.jp/api/getthumbinfo/${id}"),
+                new Nicovideo(@"^http://(?:(www|ext)\.nicovideo\.jp/watch|nico\.ms)/(?<id>(?:sm|nm)?[0-9]+)(\?.+)?$"),
 
                 // ニコニコ静画
                 new SimpleThumbnailService(
@@ -141,7 +141,7 @@ namespace OpenTween.Thumbnail
                 new MetaThumbnailService(@"^http://piapro\.jp/(?:content/[0-9a-z]+|t/[0-9a-zA-Z_\-]+)$"),
 
                 // Tumblr
-                new Tumblr(@"(?<base>http://.+?\.tumblr\.com/)post/(?<postID>[0-9]+)(/(?<subject>.+?)/)?", "${base}api/read?id=${postID}"),
+                new Tumblr(@"(?<base>http://.+?\.tumblr\.com/)post/(?<postID>[0-9]+)(/(?<subject>.+?)/)?"),
 
                 // ついっぷるフォト
                 new SimpleThumbnailService(@"^http://p\.twipple\.jp/(?<contentId>[0-9a-z]+)", "http://p.twipple.jp/show/large/${contentId}"),
@@ -153,7 +153,7 @@ namespace OpenTween.Thumbnail
                 new SimpleThumbnailService(@"^http://ow\.ly/i/(\w+)$", "http://static.ow.ly/photos/thumb/${1}.jpg"),
 
                 // vimeo
-                new Vimeo(@"http://vimeo\.com/(?<postID>[0-9]+)", "http://vimeo.com/api/oembed.xml?url=${0}"),
+                new Vimeo(@"http://vimeo\.com/(?<postID>[0-9]+)"),
 
                 // cloudfiles
                 new SimpleThumbnailService(@"^http://c[0-9]+\.cdn[0-9]+\.cloudfiles\.rackspacecloud\.com/[a-z_0-9]+", "${0}"),
@@ -174,7 +174,7 @@ namespace OpenTween.Thumbnail
                 new FoursquareCheckin(),
 
                 // TINAMI
-                new Tinami(@"^http://www\.tinami\.com/view/(?<ContentId>\d+)$", "http://api.tinami.com/content/info?cont_id=${ContentId}&api_key=" + ApplicationSettings.TINAMIApiKey),
+                new Tinami(@"^http://www\.tinami\.com/view/(?<ContentId>\d+)$"),
 
                 // pic.twitter.com
                 new SimpleThumbnailService(
@@ -195,7 +195,7 @@ namespace OpenTween.Thumbnail
                     "${0}.jpg"),
 
                 // via.me
-                new ViaMe(@"^https?://via\.me/-(\w+)$", "http://via.me/api/v1/posts/$1"),
+                new ViaMe(@"^https?://via\.me/-(\w+)$"),
 
                 // tuna.be
                 new SimpleThumbnailService(@"^http://tuna\.be/t/(?<entryId>[a-zA-Z0-9\.\-_]+)$", "http://tuna.be/show/thumb/${entryId}"),
