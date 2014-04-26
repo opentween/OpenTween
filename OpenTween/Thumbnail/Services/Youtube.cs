@@ -171,7 +171,7 @@ namespace OpenTween.Thumbnail.Services
 
                         }
 
-                        return new ThumbnailInfo(this.http)
+                        return new ThumbnailInfo
                         {
                             ImageUrl = url,
                             ThumbnailUrl = imgUrl,

@@ -24,6 +24,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -62,8 +63,9 @@ namespace OpenTween.Thumbnail.Services
 
         public class Thumbnail : ThumbnailInfo
         {
-            public override Task<MemoryImage> LoadThumbnailImageAsync(CancellationToken token)
+            public override Task<MemoryImage> LoadThumbnailImageAsync(HttpClient http, CancellationToken cancellationToken)
             {
+                // TODO: HttpClient を使用したコードに置き換えたい
                 return Task.Run(() =>
                 {
                     var oauth = new HttpOAuthApiProxy();
@@ -79,7 +81,7 @@ namespace OpenTween.Thumbnail.Services
                         else
                             throw new WebException(statusCode.ToString(), WebExceptionStatus.ProtocolError);
                     }
-                }, token);
+                }, cancellationToken);
             }
         }
     }

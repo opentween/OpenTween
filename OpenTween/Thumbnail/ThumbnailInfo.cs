@@ -36,26 +36,23 @@ namespace OpenTween.Thumbnail
         public string TooltipText { get; set; }
         public string FullSizeImageUrl { get; set; }
 
-        protected readonly HttpClient http;
-
-        public ThumbnailInfo()
-            : this(null)
-        {
-        }
-
-        public ThumbnailInfo(HttpClient http)
-        {
-            this.http = http ?? MyCommon.CreateHttpClient();
-        }
-
         public Task<MemoryImage> LoadThumbnailImageAsync()
         {
             return this.LoadThumbnailImageAsync(CancellationToken.None);
         }
 
-        public async virtual Task<MemoryImage> LoadThumbnailImageAsync(CancellationToken token)
+        public async Task<MemoryImage> LoadThumbnailImageAsync(CancellationToken cancellationToken)
         {
-            using (var response = await this.http.GetAsync(this.ThumbnailUrl, token).ConfigureAwait(false))
+            using (var http = MyCommon.CreateHttpClient())
+            {
+                return await this.LoadThumbnailImageAsync(http, cancellationToken)
+                    .ConfigureAwait(false);
+            }
+        }
+
+        public async virtual Task<MemoryImage> LoadThumbnailImageAsync(HttpClient http, CancellationToken cancellationToken)
+        {
+            using (var response = await http.GetAsync(this.ThumbnailUrl, cancellationToken).ConfigureAwait(false))
             {
                 response.EnsureSuccessStatusCode();
 

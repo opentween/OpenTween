@@ -93,7 +93,7 @@ namespace OpenTween.Thumbnail.Services
 
                     var map = MapThumb.GetDefaultInstance();
 
-                    return new ThumbnailInfo(this.http)
+                    return new ThumbnailInfo
                     {
                         ImageUrl = map.CreateMapLinkUrl(location.Latitude, location.Longitude),
                         ThumbnailUrl = map.CreateStaticMapUrl(location.Latitude, location.Longitude),

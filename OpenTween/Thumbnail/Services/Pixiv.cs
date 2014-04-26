@@ -45,7 +45,7 @@ namespace OpenTween.Thumbnail.Services
 
             if (thumb == null) return null;
 
-            return new Pixiv.Thumbnail(this.http)
+            return new Pixiv.Thumbnail
             {
                 ImageUrl = thumb.ImageUrl,
                 ThumbnailUrl = thumb.ThumbnailUrl,
@@ -56,19 +56,14 @@ namespace OpenTween.Thumbnail.Services
 
         public class Thumbnail : ThumbnailInfo
         {
-            public Thumbnail(HttpClient http)
-                : base(http)
-            {
-            }
-
-            public async override Task<MemoryImage> LoadThumbnailImageAsync(CancellationToken token)
+            public async override Task<MemoryImage> LoadThumbnailImageAsync(HttpClient http, CancellationToken cancellationToken)
             {
                 var request = new HttpRequestMessage(HttpMethod.Get, this.ThumbnailUrl);
 
                 request.Headers.Add("User-Agent", MyCommon.GetUserAgentString(fakeMSIE: true));
                 request.Headers.Referrer = new Uri(this.ImageUrl);
 
-                using (var response = await this.http.SendAsync(request, token).ConfigureAwait(false))
+                using (var response = await http.SendAsync(request, cancellationToken).ConfigureAwait(false))
                 {
                     response.EnsureSuccessStatusCode();
 

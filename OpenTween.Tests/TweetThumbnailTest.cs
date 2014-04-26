@@ -23,6 +23,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
@@ -71,7 +72,7 @@ namespace OpenTween
 
             class MockThumbnailInfo : ThumbnailInfo
             {
-                public override Task<MemoryImage> LoadThumbnailImageAsync(CancellationToken token)
+                public override Task<MemoryImage> LoadThumbnailImageAsync(HttpClient http, CancellationToken cancellationToken)
                 {
                     var image = MemoryImage.CopyFromBytes(File.ReadAllBytes("Resources/" + this.ThumbnailUrl));
                     return Task.FromResult(image);
@@ -82,6 +83,7 @@ namespace OpenTween
         public TweetThumbnailTest()
         {
             this.ThumbnailGeneratorSetup();
+            this.MyCommonSetup();
         }
 
         public void ThumbnailGeneratorSetup()
@@ -92,6 +94,14 @@ namespace OpenTween
                 new TestThumbnailService(@"^https?://foo.example.com/(.+)$", @"dot.gif", null),
                 new TestThumbnailService(@"^https?://bar.example.com/(.+)$", @"dot.gif", @"${1}"),
             });
+        }
+
+        public void MyCommonSetup()
+        {
+            var mockAssembly = Substitute.For<_Assembly>();
+            mockAssembly.GetName().Returns(new AssemblyName("OpenTween"));
+
+            MyCommon.EntryAssembly = mockAssembly;
         }
 
         [Fact]

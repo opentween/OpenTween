@@ -200,7 +200,7 @@ namespace OpenTween.Thumbnail.Services
                     {
                         if (regex.IsMatch(url))
                         {
-                            return new ThumbnailInfo(this.http)
+                            return new ThumbnailInfo
                             {
                                 ImageUrl = url,
                                 ThumbnailUrl = this.ApiBase + "redirect?size=large&uri=" + Uri.EscapeDataString(url),
