@@ -37,18 +37,14 @@ namespace OpenTween.Thumbnail.Services
 {
     class Tumblr : IThumbnailService
     {
-        protected readonly Regex regex;
-
-        public Tumblr(string urlPattern)
-        {
-            this.regex = new Regex(urlPattern);
-        }
+        public static readonly Regex UrlPatternRegex =
+            new Regex(@"(?<base>http://.+?\.tumblr\.com/)post/(?<postID>[0-9]+)(/(?<subject>.+?)/)?");
 
         public override Task<ThumbnailInfo> GetThumbnailInfoAsync(string url, PostClass post, CancellationToken token)
         {
             return Task.Run(() =>
             {
-                var match = this.regex.Match(url);
+                var match = Tumblr.UrlPatternRegex.Match(url);
                 if (!match.Success)
                     return null;
 

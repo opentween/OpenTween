@@ -37,18 +37,19 @@ namespace OpenTween.Thumbnail.Services
 {
     class Vimeo : IThumbnailService
     {
-        protected readonly HttpClient http;
-        protected readonly Regex regex;
+        public static readonly Regex UrlPatternRegex =
+            new Regex(@"http://vimeo\.com/(?<postID>[0-9]+)");
 
-        public Vimeo(HttpClient http, string urlPattern)
+        protected readonly HttpClient http;
+
+        public Vimeo(HttpClient http)
         {
             this.http = http;
-            this.regex = new Regex(urlPattern);
         }
 
         public override async Task<ThumbnailInfo> GetThumbnailInfoAsync(string url, PostClass post, CancellationToken token)
         {
-            var match = this.regex.Match(url);
+            var match = Vimeo.UrlPatternRegex.Match(url);
             if (!match.Success)
                 return null;
 

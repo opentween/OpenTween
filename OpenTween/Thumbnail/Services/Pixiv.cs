@@ -33,8 +33,11 @@ namespace OpenTween.Thumbnail.Services
 {
     class Pixiv : MetaThumbnailService
     {
-        public Pixiv(HttpClient http, string urlPattern)
-            : base(http, urlPattern)
+        public static readonly string UrlPattern =
+            @"^http://www\.pixiv\.net/(member_illust|index)\.php\?(?=.*mode=(medium|big))(?=.*illust_id=(?<illustId>[0-9]+)).*$";
+
+        public Pixiv(HttpClient http)
+            : base(http, Pixiv.UrlPattern)
         {
         }
 

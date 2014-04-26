@@ -41,8 +41,8 @@ namespace OpenTween.Thumbnail.Services
         {
             public string FakeXml { get; set; }
 
-            public TestTinami(string pattern)
-                : base(null, pattern)
+            public TestTinami()
+                : base(null)
             {
             }
 
@@ -55,7 +55,7 @@ namespace OpenTween.Thumbnail.Services
         [Fact]
         public async Task ApiTest()
         {
-            var service = new TestTinami(@"^http://www\.tinami\.com/view/(?<ContentId>\d+)$");
+            var service = new TestTinami();
 
             service.FakeXml = @"<?xml version='1.0' encoding='utf-8' ?>
 <rsp stat='ok'>
@@ -83,7 +83,7 @@ namespace OpenTween.Thumbnail.Services
         [Fact]
         public async Task ApiErrorTest()
         {
-            var service = new TestTinami(@"^http://www\.tinami\.com/view/(?<ContentId>\d+)$");
+            var service = new TestTinami();
 
             service.FakeXml = @"<?xml version='1.0' encoding='utf-8'?>
 <rsp stat='user_only'>

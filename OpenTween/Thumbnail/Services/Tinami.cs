@@ -35,18 +35,19 @@ namespace OpenTween.Thumbnail.Services
 {
     class Tinami : IThumbnailService
     {
-        protected readonly HttpClient http;
-        protected readonly Regex regex;
+        public static readonly Regex UrlPatternRegex =
+            new Regex(@"^http://www\.tinami\.com/view/(?<ContentId>\d+)$");
 
-        public Tinami(HttpClient http, string urlPattern)
+        protected readonly HttpClient http;
+
+        public Tinami(HttpClient http)
         {
             this.http = http;
-            this.regex = new Regex(urlPattern);
         }
 
         public override async Task<ThumbnailInfo> GetThumbnailInfoAsync(string url, PostClass post, CancellationToken token)
         {
-            var match = this.regex.Match(url);
+            var match = Tinami.UrlPatternRegex.Match(url);
             if (!match.Success)
                 return null;
 

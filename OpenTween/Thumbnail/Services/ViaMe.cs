@@ -37,18 +37,19 @@ namespace OpenTween.Thumbnail.Services
 {
     class ViaMe : IThumbnailService
     {
-        protected readonly HttpClient http;
-        protected readonly Regex regex;
+        public static readonly Regex UrlPatternRegex =
+            new Regex(@"^https?://via\.me/-(\w+)$");
 
-        public ViaMe(HttpClient http, string urlPattern)
+        protected readonly HttpClient http;
+
+        public ViaMe(HttpClient http)
         {
             this.http = http;
-            this.regex = new Regex(urlPattern);
         }
 
         public override async Task<ThumbnailInfo> GetThumbnailInfoAsync(string url, PostClass post, CancellationToken token)
         {
-            var match = this.regex.Match(url);
+            var match = ViaMe.UrlPatternRegex.Match(url);
             if (!match.Success)
                 return null;
 

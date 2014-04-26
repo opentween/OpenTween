@@ -32,20 +32,16 @@ namespace OpenTween.Thumbnail.Services
 {
     class PhotoShareShortlink : IThumbnailService
     {
-        protected Regex regex;
-
-        public PhotoShareShortlink(string pattern)
-        {
-            this.regex = new Regex(pattern);
-        }
+        public static readonly Regex UrlPatternRegex = new Regex(@"^http://bctiny\.com/p(\w+)$");
 
         public override Task<ThumbnailInfo> GetThumbnailInfoAsync(string url, PostClass post, CancellationToken token)
         {
             return Task.Run(() =>
             {
-                var match = this.regex.Match(url);
+                var match = PhotoShareShortlink.UrlPatternRegex.Match(url);
 
-                if (!match.Success) return null;
+                if (!match.Success)
+                    return null;
 
                 return new ThumbnailInfo
                 {
