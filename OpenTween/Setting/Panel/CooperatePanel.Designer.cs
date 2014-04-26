@@ -264,6 +264,8 @@
             // EnableImgAzyobuziNetCheckBox
             // 
             resources.ApplyResources(this.EnableImgAzyobuziNetCheckBox, "EnableImgAzyobuziNetCheckBox");
+            this.EnableImgAzyobuziNetCheckBox.Checked = true;
+            this.EnableImgAzyobuziNetCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
             this.EnableImgAzyobuziNetCheckBox.Name = "EnableImgAzyobuziNetCheckBox";
             this.EnableImgAzyobuziNetCheckBox.UseVisualStyleBackColor = true;
             this.EnableImgAzyobuziNetCheckBox.CheckedChanged += new System.EventHandler(this.EnableImgAzyobuziNetCheckBox_CheckedChanged);
@@ -271,6 +273,8 @@
             // ImgAzyobuziNetDisabledInDMCheckBox
             // 
             resources.ApplyResources(this.ImgAzyobuziNetDisabledInDMCheckBox, "ImgAzyobuziNetDisabledInDMCheckBox");
+            this.ImgAzyobuziNetDisabledInDMCheckBox.Checked = true;
+            this.ImgAzyobuziNetDisabledInDMCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
             this.ImgAzyobuziNetDisabledInDMCheckBox.Name = "ImgAzyobuziNetDisabledInDMCheckBox";
             this.ImgAzyobuziNetDisabledInDMCheckBox.UseVisualStyleBackColor = true;
             // 
