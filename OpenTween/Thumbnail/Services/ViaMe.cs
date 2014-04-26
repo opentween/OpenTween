@@ -54,30 +54,35 @@ namespace OpenTween.Thumbnail.Services
                 return null;
 
             var postId = match.Groups[1].Value;
-            var apiUrl = "http://via.me/api/v1/posts/" + postId;
 
-            var json = await this.http.GetByteArrayAsync(apiUrl)
-                .ConfigureAwait(false);
-
-            using (var jsonReader = JsonReaderWriterFactory.CreateJsonReader(json, XmlDictionaryReaderQuotas.Max))
+            try
             {
-                var xElm = XElement.Load(jsonReader);
+                var apiUrl = "http://via.me/api/v1/posts/" + postId;
 
-                var thumbUrlElm = xElm.XPathSelectElement("/response/post/thumb_url");
-                if (thumbUrlElm == null)
+                var json = await this.http.GetByteArrayAsync(apiUrl)
+                    .ConfigureAwait(false);
+
+                using (var jsonReader = JsonReaderWriterFactory.CreateJsonReader(json, XmlDictionaryReaderQuotas.Max))
                 {
-                    return null;
+                    var xElm = XElement.Load(jsonReader);
+
+                    var thumbUrlElm = xElm.XPathSelectElement("/response/post/thumb_url");
+                    if (thumbUrlElm == null)
+                        return null;
+
+                    var textElm = xElm.XPathSelectElement("/response/post/text");
+
+                    return new ThumbnailInfo
+                    {
+                        ImageUrl = url,
+                        ThumbnailUrl = thumbUrlElm.Value,
+                        TooltipText = textElm == null ? null : textElm.Value,
+                    };
                 }
-
-                var textElm = xElm.XPathSelectElement("/response/post/text");
-
-                return new ThumbnailInfo
-                {
-                    ImageUrl = url,
-                    ThumbnailUrl = thumbUrlElm.Value,
-                    TooltipText = textElm == null ? null : textElm.Value,
-                };
             }
+            catch (HttpRequestException) { }
+
+            return null;
         }
     }
 }

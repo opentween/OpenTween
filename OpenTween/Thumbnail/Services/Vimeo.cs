@@ -53,16 +53,19 @@ namespace OpenTween.Thumbnail.Services
             if (!match.Success)
                 return null;
 
-            var apiUrl = "http://vimeo.com/api/oembed.xml?url=" + Uri.EscapeDataString(url);
-
-            var xmlStr = await this.http.GetStringAsync(apiUrl)
-                .ConfigureAwait(false);
-
-            var xdoc = XDocument.Parse(xmlStr);
-
-            var thumbUrlElm = xdoc.XPathSelectElement("/oembed/thumbnail_url");
-            if (thumbUrlElm != null)
+            try
             {
+                var apiUrl = "http://vimeo.com/api/oembed.xml?url=" + Uri.EscapeDataString(url);
+
+                var xmlStr = await this.http.GetStringAsync(apiUrl)
+                    .ConfigureAwait(false);
+
+                var xdoc = XDocument.Parse(xmlStr);
+
+                var thumbUrlElm = xdoc.XPathSelectElement("/oembed/thumbnail_url");
+                if (thumbUrlElm == null)
+                    return null;
+
                 var titleElm = xdoc.XPathSelectElement("/oembed/title");
                 var durationElm = xdoc.XPathSelectElement("/oembed/duration");
 
@@ -82,6 +85,7 @@ namespace OpenTween.Thumbnail.Services
                     TooltipText = tooltipText,
                 };
             }
+            catch (HttpRequestException) { }
 
             return null;
         }

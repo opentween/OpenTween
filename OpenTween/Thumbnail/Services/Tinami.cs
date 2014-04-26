@@ -53,24 +53,28 @@ namespace OpenTween.Thumbnail.Services
 
             var contentId = match.Groups["ContentId"].Value;
 
-            var xdoc = await this.FetchContentInfoApiAsync(contentId, token)
-                .ConfigureAwait(false);
-
-            if (xdoc.XPathSelectElement("/rsp").Attribute("stat").Value == "ok")
+            try
             {
-                var thumbUrlElm = xdoc.XPathSelectElement("/rsp/content/thumbnails/thumbnail_150x150");
-                if (thumbUrlElm != null)
-                {
-                    var descElm = xdoc.XPathSelectElement("/rsp/content/description");
+                var xdoc = await this.FetchContentInfoApiAsync(contentId, token)
+                    .ConfigureAwait(false);
 
-                    return new ThumbnailInfo
-                    {
-                        ImageUrl = url,
-                        ThumbnailUrl = thumbUrlElm.Attribute("url").Value,
-                        TooltipText = descElm == null ? null : descElm.Value,
-                    };
-                }
+                if (xdoc.XPathSelectElement("/rsp").Attribute("stat").Value != "ok")
+                    return null;
+
+                var thumbUrlElm = xdoc.XPathSelectElement("/rsp/content/thumbnails/thumbnail_150x150");
+                if (thumbUrlElm == null)
+                    return null;
+
+                var descElm = xdoc.XPathSelectElement("/rsp/content/description");
+
+                return new ThumbnailInfo
+                {
+                    ImageUrl = url,
+                    ThumbnailUrl = thumbUrlElm.Attribute("url").Value,
+                    TooltipText = descElm == null ? null : descElm.Value,
+                };
             }
+            catch (HttpRequestException) { }
 
             return null;
         }

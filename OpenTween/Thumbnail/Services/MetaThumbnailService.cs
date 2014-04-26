@@ -68,10 +68,9 @@ namespace OpenTween.Thumbnail.Services
                     TooltipText = null,
                 };
             }
-            catch (WebException)
-            {
-                return null;
-            }
+            catch (HttpRequestException) { }
+
+            return null;
         }
 
         protected virtual string GetThumbnailUrl(string html)
