@@ -38,14 +38,9 @@ namespace OpenTween.Thumbnail.Services
         protected readonly HttpClient http;
         protected readonly Regex regex;
 
-        public Tinami(string urlPattern)
-            : this(null, urlPattern)
-        {
-        }
-
         public Tinami(HttpClient http, string urlPattern)
         {
-            this.http = http ?? MyCommon.CreateHttpClient();
+            this.http = http;
             this.regex = new Regex(urlPattern);
         }
 

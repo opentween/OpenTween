@@ -41,14 +41,9 @@ namespace OpenTween.Thumbnail.Services
 
         protected readonly HttpClient http;
 
-        public FoursquareCheckin()
-            : this(null)
-        {
-        }
-
         public FoursquareCheckin(HttpClient http)
         {
-            this.http = http ?? MyCommon.CreateHttpClient();
+            this.http = http;
         }
 
         public override async Task<ThumbnailInfo> GetThumbnailInfoAsync(string url, PostClass post, CancellationToken token)

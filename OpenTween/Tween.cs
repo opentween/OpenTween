@@ -362,6 +362,9 @@ namespace OpenTween
                 this.IconCache.CancelAsync();
                 this.IconCache.Dispose();
             }
+
+            this.http.Dispose();
+
             // 終了時にRemoveHandlerしておかないとメモリリークする
             // http://msdn.microsoft.com/ja-jp/library/microsoft.win32.systemevents.powermodechanged.aspx
             Microsoft.Win32.SystemEvents.PowerModeChanged -= SystemEvents_PowerModeChanged;
@@ -662,9 +665,9 @@ namespace OpenTween
             ////設定読み出し
             LoadConfig();
 
-            ThumbnailGenerator.InitializeGenerator();
+            ThumbnailGenerator.InitializeGenerator(this.http);
 
-            var imgazyobizinet = ThumbnailGenerator.ImgAzyobuziNetInstance.Value;
+            var imgazyobizinet = ThumbnailGenerator.ImgAzyobuziNetInstance;
             imgazyobizinet.Enabled = this._cfgCommon.EnableImgAzyobuziNet;
             imgazyobizinet.DisabledInDM = this._cfgCommon.ImgAzyobuziNetDisabledInDM;
 
@@ -3968,7 +3971,7 @@ namespace OpenTween
                     // タブの表示位置の決定
                     SetTabAlignment();
 
-                    var imgazyobizinet = ThumbnailGenerator.ImgAzyobuziNetInstance.Value;
+                    var imgazyobizinet = ThumbnailGenerator.ImgAzyobuziNetInstance;
                     imgazyobizinet.Enabled = this.SettingDialog.EnableImgAzyobuziNet;
                     imgazyobizinet.DisabledInDM = this.SettingDialog.ImgAzyobuziNetDisabledInDM;
 
@@ -5874,12 +5877,10 @@ namespace OpenTween
         /// </summary>
         public async Task<VersionInfo> GetVersionInfoAsync()
         {
-            var http = MyCommon.CreateHttpClient();
-
             var versionInfoUrl = new Uri(ApplicationSettings.VersionInfoUrl + "?" +
                 DateTime.Now.ToString("yyMMddHHmmss") + Environment.TickCount);
 
-            var responseText = await http.GetStringAsync(versionInfoUrl)
+            var responseText = await this.http.GetStringAsync(versionInfoUrl)
                 .ConfigureAwait(false);
 
             // 改行2つで前後パートを分割（前半がバージョン番号など、後半が詳細テキスト）

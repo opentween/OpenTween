@@ -44,7 +44,7 @@ namespace OpenTween.Thumbnail.Services
             }
 
             public TestImgAzyobuziNet(string[] apiHosts)
-                : base(autoupdate: false)
+                : base(null, autoupdate: false)
             {
                 this.ApiHosts = apiHosts;
                 this.LoadRegexAsync().Wait();

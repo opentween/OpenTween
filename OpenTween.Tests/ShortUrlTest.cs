@@ -38,212 +38,239 @@ namespace OpenTween
         public async Task ExpandUrlAsync_Test()
         {
             var handler = new HttpMessageHandlerMock();
-            var shortUrl = new ShortUrl(new HttpClient(handler));
-
-            // http://t.co/hoge1 -> http://example.com/hoge2
-            handler.Enqueue(x =>
+            using (var http = new HttpClient(handler))
             {
-                Assert.Equal(HttpMethod.Head, x.Method);
-                Assert.Equal(new Uri("http://t.co/hoge1"), x.RequestUri);
+                var shortUrl = new ShortUrl(http);
 
-                return this.CreateRedirectResponse("http://example.com/hoge2");
-            });
+                // http://t.co/hoge1 -> http://example.com/hoge2
+                handler.Enqueue(x =>
+                {
+                    Assert.Equal(HttpMethod.Head, x.Method);
+                    Assert.Equal(new Uri("http://t.co/hoge1"), x.RequestUri);
 
-            Assert.Equal(new Uri("http://example.com/hoge2"),
-                await shortUrl.ExpandUrlAsync(new Uri("http://t.co/hoge1")));
+                    return this.CreateRedirectResponse("http://example.com/hoge2");
+                });
 
-            Assert.Equal(0, handler.QueueCount);
+                Assert.Equal(new Uri("http://example.com/hoge2"),
+                    await shortUrl.ExpandUrlAsync(new Uri("http://t.co/hoge1")));
+
+                Assert.Equal(0, handler.QueueCount);
+            }
         }
 
         [Fact]
         public async Task ExpandUrlAsync_DisableExpandingTest()
         {
             var handler = new HttpMessageHandlerMock();
-            var shortUrl = new ShortUrl(new HttpClient(handler));
-
-            shortUrl.DisableExpanding = true;
-
-            // http://t.co/hoge1 -> http://example.com/hoge2
-            handler.Enqueue(x =>
+            using (var http = new HttpClient(handler))
             {
-                // このリクエストは実行されないはず
-                Assert.True(false);
-                return this.CreateRedirectResponse("http://example.com/hoge2");
-            });
+                var shortUrl = new ShortUrl(http);
 
-            Assert.Equal(new Uri("http://t.co/hoge1"),
-                await shortUrl.ExpandUrlAsync(new Uri("http://t.co/hoge1")));
+                shortUrl.DisableExpanding = true;
 
-            Assert.Equal(1, handler.QueueCount);
+                // http://t.co/hoge1 -> http://example.com/hoge2
+                handler.Enqueue(x =>
+                {
+                    // このリクエストは実行されないはず
+                    Assert.True(false);
+                    return this.CreateRedirectResponse("http://example.com/hoge2");
+                });
+
+                Assert.Equal(new Uri("http://t.co/hoge1"),
+                    await shortUrl.ExpandUrlAsync(new Uri("http://t.co/hoge1")));
+
+                Assert.Equal(1, handler.QueueCount);
+            }
         }
 
         [Fact]
         public async Task ExpandUrlAsync_RecursiveTest()
         {
             var handler = new HttpMessageHandlerMock();
-            var shortUrl = new ShortUrl(new HttpClient(handler));
-
-            // http://t.co/hoge1 -> http://bit.ly/hoge2
-            handler.Enqueue(x =>
+            using (var http = new HttpClient(handler))
             {
-                Assert.Equal(HttpMethod.Head, x.Method);
-                Assert.Equal(new Uri("http://t.co/hoge1"), x.RequestUri);
+                var shortUrl = new ShortUrl(http);
 
-                return this.CreateRedirectResponse("http://bit.ly/hoge2");
-            });
+                // http://t.co/hoge1 -> http://bit.ly/hoge2
+                handler.Enqueue(x =>
+                {
+                    Assert.Equal(HttpMethod.Head, x.Method);
+                    Assert.Equal(new Uri("http://t.co/hoge1"), x.RequestUri);
 
-            // http://bit.ly/hoge2 -> http://example.com/hoge3
-            handler.Enqueue(x =>
-            {
-                Assert.Equal(HttpMethod.Head, x.Method);
-                Assert.Equal(new Uri("http://bit.ly/hoge2"), x.RequestUri);
+                    return this.CreateRedirectResponse("http://bit.ly/hoge2");
+                });
 
-                return this.CreateRedirectResponse("http://example.com/hoge3");
-            });
+                // http://bit.ly/hoge2 -> http://example.com/hoge3
+                handler.Enqueue(x =>
+                {
+                    Assert.Equal(HttpMethod.Head, x.Method);
+                    Assert.Equal(new Uri("http://bit.ly/hoge2"), x.RequestUri);
 
-            Assert.Equal(new Uri("http://example.com/hoge3"),
-                await shortUrl.ExpandUrlAsync(new Uri("http://t.co/hoge1")));
+                    return this.CreateRedirectResponse("http://example.com/hoge3");
+                });
 
-            Assert.Equal(0, handler.QueueCount);
+                Assert.Equal(new Uri("http://example.com/hoge3"),
+                    await shortUrl.ExpandUrlAsync(new Uri("http://t.co/hoge1")));
+
+                Assert.Equal(0, handler.QueueCount);
+            }
         }
 
         [Fact]
         public async Task ExpandUrlAsync_RecursiveLimitTest()
         {
             var handler = new HttpMessageHandlerMock();
-            var shortUrl = new ShortUrl(new HttpClient(handler));
-
-            // http://t.co/hoge1 -> http://bit.ly/hoge2
-            handler.Enqueue(x =>
+            using (var http = new HttpClient(handler))
             {
-                Assert.Equal(HttpMethod.Head, x.Method);
-                Assert.Equal(new Uri("http://t.co/hoge1"), x.RequestUri);
+                var shortUrl = new ShortUrl(http);
 
-                return this.CreateRedirectResponse("http://bit.ly/hoge2");
-            });
+                // http://t.co/hoge1 -> http://bit.ly/hoge2
+                handler.Enqueue(x =>
+                {
+                    Assert.Equal(HttpMethod.Head, x.Method);
+                    Assert.Equal(new Uri("http://t.co/hoge1"), x.RequestUri);
 
-            // http://bit.ly/hoge2 -> http://tinyurl.com/hoge3
-            handler.Enqueue(x =>
-            {
-                Assert.Equal(HttpMethod.Head, x.Method);
-                Assert.Equal(new Uri("http://bit.ly/hoge2"), x.RequestUri);
+                    return this.CreateRedirectResponse("http://bit.ly/hoge2");
+                });
 
-                return this.CreateRedirectResponse("http://tinyurl.com/hoge3");
-            });
+                // http://bit.ly/hoge2 -> http://tinyurl.com/hoge3
+                handler.Enqueue(x =>
+                {
+                    Assert.Equal(HttpMethod.Head, x.Method);
+                    Assert.Equal(new Uri("http://bit.ly/hoge2"), x.RequestUri);
 
-            // http://tinyurl.com/hoge3 -> http://example.com/hoge4
-            handler.Enqueue(x =>
-            {
-                // このリクエストは実行されないはず
-                Assert.True(false);
-                return this.CreateRedirectResponse("http://example.com/hoge4");
-            });
+                    return this.CreateRedirectResponse("http://tinyurl.com/hoge3");
+                });
 
-            Assert.Equal(new Uri("http://tinyurl.com/hoge3"),
-                await shortUrl.ExpandUrlAsync(new Uri("http://t.co/hoge1"), redirectLimit: 2));
+                // http://tinyurl.com/hoge3 -> http://example.com/hoge4
+                handler.Enqueue(x =>
+                {
+                    // このリクエストは実行されないはず
+                    Assert.True(false);
+                    return this.CreateRedirectResponse("http://example.com/hoge4");
+                });
 
-            Assert.Equal(1, handler.QueueCount);
+                Assert.Equal(new Uri("http://tinyurl.com/hoge3"),
+                    await shortUrl.ExpandUrlAsync(new Uri("http://t.co/hoge1"), redirectLimit: 2));
+
+                Assert.Equal(1, handler.QueueCount);
+            }
         }
 
         [Fact]
         public async Task ExpandUrlStrAsync_Test()
         {
             var handler = new HttpMessageHandlerMock();
-            var shortUrl = new ShortUrl(new HttpClient(handler));
-
-            // http://t.co/hoge1 -> http://example.com/hoge2
-            handler.Enqueue(x =>
+            using (var http = new HttpClient(handler))
             {
-                Assert.Equal(HttpMethod.Head, x.Method);
-                Assert.Equal(new Uri("http://t.co/hoge1"), x.RequestUri);
+                var shortUrl = new ShortUrl(http);
 
-                return this.CreateRedirectResponse("http://example.com/hoge2");
-            });
+                // http://t.co/hoge1 -> http://example.com/hoge2
+                handler.Enqueue(x =>
+                {
+                    Assert.Equal(HttpMethod.Head, x.Method);
+                    Assert.Equal(new Uri("http://t.co/hoge1"), x.RequestUri);
 
-            Assert.Equal("http://example.com/hoge2",
-                await shortUrl.ExpandUrlStrAsync("http://t.co/hoge1"));
+                    return this.CreateRedirectResponse("http://example.com/hoge2");
+                });
 
-            Assert.Equal(0, handler.QueueCount);
+                Assert.Equal("http://example.com/hoge2",
+                    await shortUrl.ExpandUrlStrAsync("http://t.co/hoge1"));
+
+                Assert.Equal(0, handler.QueueCount);
+            }
         }
 
         [Fact]
         public async Task ExpandUrlStrAsync_SchemeLessUrlTest()
         {
             var handler = new HttpMessageHandlerMock();
-            var shortUrl = new ShortUrl(new HttpClient(handler));
-
-            // http://t.co/hoge1 -> http://example.com/hoge2
-            handler.Enqueue(x =>
+            using (var http = new HttpClient(handler))
             {
-                Assert.Equal(HttpMethod.Head, x.Method);
-                Assert.Equal(new Uri("http://t.co/hoge1"), x.RequestUri);
+                var shortUrl = new ShortUrl(http);
 
-                return this.CreateRedirectResponse("http://example.com/hoge2");
-            });
+                // http://t.co/hoge1 -> http://example.com/hoge2
+                handler.Enqueue(x =>
+                {
+                    Assert.Equal(HttpMethod.Head, x.Method);
+                    Assert.Equal(new Uri("http://t.co/hoge1"), x.RequestUri);
 
-            // スキームが省略されたURL
-            Assert.Equal("http://example.com/hoge2",
-                await shortUrl.ExpandUrlStrAsync("t.co/hoge1"));
+                    return this.CreateRedirectResponse("http://example.com/hoge2");
+                });
 
-            Assert.Equal(0, handler.QueueCount);
+                // スキームが省略されたURL
+                Assert.Equal("http://example.com/hoge2",
+                    await shortUrl.ExpandUrlStrAsync("t.co/hoge1"));
+
+                Assert.Equal(0, handler.QueueCount);
+            }
         }
 
         [Fact]
         public async Task ExpandUrlStrAsync_InvalidUrlTest()
         {
             var handler = new HttpMessageHandlerMock();
-            var shortUrl = new ShortUrl(new HttpClient(handler));
-
-            handler.Enqueue(x =>
+            using (var http = new HttpClient(handler))
             {
-                // リクエストは送信されないはず
-                Assert.True(false);
-                return this.CreateRedirectResponse("http://example.com/hoge2");
-            });
+                var shortUrl = new ShortUrl(http);
 
-            // 不正なURL
-            Assert.Equal("..hogehoge..", await shortUrl.ExpandUrlStrAsync("..hogehoge.."));
+                handler.Enqueue(x =>
+                {
+                    // リクエストは送信されないはず
+                    Assert.True(false);
+                    return this.CreateRedirectResponse("http://example.com/hoge2");
+                });
 
-            Assert.Equal(1, handler.QueueCount);
+                // 不正なURL
+                Assert.Equal("..hogehoge..", await shortUrl.ExpandUrlStrAsync("..hogehoge.."));
+
+                Assert.Equal(1, handler.QueueCount);
+            }
         }
 
         [Fact]
         public async Task ExpandUrlAsync_HttpErrorTest()
         {
             var handler = new HttpMessageHandlerMock();
-            var shortUrl = new ShortUrl(new HttpClient(handler));
-
-            // http://t.co/hoge1 -> 503 Service Unavailable
-            handler.Enqueue(x =>
+            using (var http = new HttpClient(handler))
             {
-                return new HttpResponseMessage(HttpStatusCode.ServiceUnavailable);
-            });
+                var shortUrl = new ShortUrl(http);
 
-            Assert.Equal(new Uri("http://t.co/hoge1"),
-                await shortUrl.ExpandUrlAsync(new Uri("http://t.co/hoge1")));
+                // http://t.co/hoge1 -> 503 Service Unavailable
+                handler.Enqueue(x =>
+                {
+                    return new HttpResponseMessage(HttpStatusCode.ServiceUnavailable);
+                });
 
-            Assert.Equal(0, handler.QueueCount);
+                Assert.Equal(new Uri("http://t.co/hoge1"),
+                    await shortUrl.ExpandUrlAsync(new Uri("http://t.co/hoge1")));
+
+                Assert.Equal(0, handler.QueueCount);
+            }
         }
 
         [Fact]
         public async Task ExpandUrlHtmlAsync_Test()
         {
             var handler = new HttpMessageHandlerMock();
-            var shortUrl = new ShortUrl(new HttpClient(handler));
-
-            // http://t.co/hoge1 -> http://example.com/hoge2
-            handler.Enqueue(x =>
+            using (var http = new HttpClient(handler))
             {
-                Assert.Equal(HttpMethod.Head, x.Method);
-                Assert.Equal(new Uri("http://t.co/hoge1"), x.RequestUri);
+                var shortUrl = new ShortUrl(http);
 
-                return this.CreateRedirectResponse("http://example.com/hoge2");
-            });
+                // http://t.co/hoge1 -> http://example.com/hoge2
+                handler.Enqueue(x =>
+                {
+                    Assert.Equal(HttpMethod.Head, x.Method);
+                    Assert.Equal(new Uri("http://t.co/hoge1"), x.RequestUri);
 
-            Assert.Equal("<a href=\"http://example.com/hoge2\">hogehoge</a>",
-                await shortUrl.ExpandUrlHtmlAsync("<a href=\"http://t.co/hoge1\">hogehoge</a>"));
+                    return this.CreateRedirectResponse("http://example.com/hoge2");
+                });
 
-            Assert.Equal(0, handler.QueueCount);
+                Assert.Equal("<a href=\"http://example.com/hoge2\">hogehoge</a>",
+                    await shortUrl.ExpandUrlHtmlAsync("<a href=\"http://t.co/hoge1\">hogehoge</a>"));
+
+                Assert.Equal(0, handler.QueueCount);
+            }
         }
 
         private HttpResponseMessage CreateRedirectResponse(string uriStr)
@@ -257,48 +284,54 @@ namespace OpenTween
         public async Task ShortenUrlAsync_TinyUrlTest()
         {
             var handler = new HttpMessageHandlerMock();
-            var shortUrl = new ShortUrl(new HttpClient(handler));
-
-            handler.Enqueue(async x =>
+            using (var http = new HttpClient(handler))
             {
-                Assert.Equal(HttpMethod.Post, x.Method);
-                Assert.Equal(new Uri("http://tinyurl.com/api-create.php"), x.RequestUri);
-                Assert.Equal("url=http%3A%2F%2Fexample.com%2Fhogehoge", await x.Content.ReadAsStringAsync());
+                var shortUrl = new ShortUrl(http);
 
-                return new HttpResponseMessage(HttpStatusCode.OK)
+                handler.Enqueue(async x =>
                 {
-                    Content = new ByteArrayContent(Encoding.UTF8.GetBytes("http://tinyurl.com/hoge")),
-                };
-            });
+                    Assert.Equal(HttpMethod.Post, x.Method);
+                    Assert.Equal(new Uri("http://tinyurl.com/api-create.php"), x.RequestUri);
+                    Assert.Equal("url=http%3A%2F%2Fexample.com%2Fhogehoge", await x.Content.ReadAsStringAsync());
 
-            Assert.Equal(new Uri("http://tinyurl.com/hoge"),
-                await shortUrl.ShortenUrlAsync(MyCommon.UrlConverter.TinyUrl, new Uri("http://example.com/hogehoge")));
+                    return new HttpResponseMessage(HttpStatusCode.OK)
+                    {
+                        Content = new ByteArrayContent(Encoding.UTF8.GetBytes("http://tinyurl.com/hoge")),
+                    };
+                });
 
-            Assert.Equal(0, handler.QueueCount);
+                Assert.Equal(new Uri("http://tinyurl.com/hoge"),
+                    await shortUrl.ShortenUrlAsync(MyCommon.UrlConverter.TinyUrl, new Uri("http://example.com/hogehoge")));
+
+                Assert.Equal(0, handler.QueueCount);
+            }
         }
 
         [Fact]
         public async Task ShortenUrlAsync_UxnuUrlTest()
         {
             var handler = new HttpMessageHandlerMock();
-            var shortUrl = new ShortUrl(new HttpClient(handler));
-
-            handler.Enqueue(x =>
+            using (var http = new HttpClient(handler))
             {
-                Assert.Equal(HttpMethod.Get, x.Method);
-                Assert.Equal("http://ux.nu/api/short?format=plain&url=http://example.com/hogehoge",
-                    x.RequestUri.ToString());
+                var shortUrl = new ShortUrl(http);
 
-                return new HttpResponseMessage(HttpStatusCode.OK)
+                handler.Enqueue(x =>
                 {
-                    Content = new ByteArrayContent(Encoding.UTF8.GetBytes("http://ux.nu/hoge")),
-                };
-            });
+                    Assert.Equal(HttpMethod.Get, x.Method);
+                    Assert.Equal("http://ux.nu/api/short?format=plain&url=http://example.com/hogehoge",
+                        x.RequestUri.ToString());
 
-            Assert.Equal(new Uri("http://ux.nu/hoge"),
-                await shortUrl.ShortenUrlAsync(MyCommon.UrlConverter.Uxnu, new Uri("http://example.com/hogehoge")));
+                    return new HttpResponseMessage(HttpStatusCode.OK)
+                    {
+                        Content = new ByteArrayContent(Encoding.UTF8.GetBytes("http://ux.nu/hoge")),
+                    };
+                });
 
-            Assert.Equal(0, handler.QueueCount);
+                Assert.Equal(new Uri("http://ux.nu/hoge"),
+                    await shortUrl.ShortenUrlAsync(MyCommon.UrlConverter.Uxnu, new Uri("http://example.com/hogehoge")));
+
+                Assert.Equal(0, handler.QueueCount);
+            }
         }
     }
 }

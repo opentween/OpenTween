@@ -33,11 +33,6 @@ namespace OpenTween.Thumbnail.Services
 {
     class Pixiv : MetaThumbnailService
     {
-        public Pixiv(string urlPattern)
-            : base(urlPattern)
-        {
-        }
-
         public Pixiv(HttpClient http, string urlPattern)
             : base(http, urlPattern)
         {

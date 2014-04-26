@@ -42,100 +42,109 @@ namespace OpenTween.Thumbnail.Services
         public async Task GetThumbnailInfoAsync_RequestTest()
         {
             var handler = new HttpMessageHandlerMock();
-            var service = new FoursquareCheckin(new HttpClient(handler));
-
-            handler.Enqueue(x =>
+            using (var http = new HttpClient(handler))
             {
-                Assert.Equal(HttpMethod.Get, x.Method);
-                Assert.Equal("https://api.foursquare.com/v2/checkins/xxxxxxxx",
-                    x.RequestUri.GetLeftPart(UriPartial.Path));
+                var service = new FoursquareCheckin(http);
 
-                var query = HttpUtility.ParseQueryString(x.RequestUri.Query);
+                handler.Enqueue(x =>
+                {
+                    Assert.Equal(HttpMethod.Get, x.Method);
+                    Assert.Equal("https://api.foursquare.com/v2/checkins/xxxxxxxx",
+                        x.RequestUri.GetLeftPart(UriPartial.Path));
 
-                Assert.Equal(ApplicationSettings.FoursquareClientId, query["client_id"]);
-                Assert.Equal(ApplicationSettings.FoursquareClientSecret, query["client_secret"]);
-                Assert.NotNull(query["v"]);
-                Assert.Null(query["signature"]);
+                    var query = HttpUtility.ParseQueryString(x.RequestUri.Query);
 
-                // リクエストに対するテストなのでレスポンスは適当に返す
-                return new HttpResponseMessage(HttpStatusCode.NotFound);
-            });
+                    Assert.Equal(ApplicationSettings.FoursquareClientId, query["client_id"]);
+                    Assert.Equal(ApplicationSettings.FoursquareClientSecret, query["client_secret"]);
+                    Assert.NotNull(query["v"]);
+                    Assert.Null(query["signature"]);
 
-            var post = new PostClass
-            {
-                PostGeo = new PostClass.StatusGeo { },
-            };
+                    // リクエストに対するテストなのでレスポンスは適当に返す
+                    return new HttpResponseMessage(HttpStatusCode.NotFound);
+                });
 
-            var thumb = await service.GetThumbnailInfoAsync(
-                "https://foursquare.com/hogehoge/checkin/xxxxxxxx",
-                post, CancellationToken.None);
+                var post = new PostClass
+                {
+                    PostGeo = new PostClass.StatusGeo { },
+                };
 
-            Assert.Equal(0, handler.QueueCount);
+                var thumb = await service.GetThumbnailInfoAsync(
+                    "https://foursquare.com/hogehoge/checkin/xxxxxxxx",
+                    post, CancellationToken.None);
+
+                Assert.Equal(0, handler.QueueCount);
+            }
         }
 
         [Fact]
         public async Task GetThumbnailInfoAsync_RequestWithSignatureTest()
         {
             var handler = new HttpMessageHandlerMock();
-            var service = new FoursquareCheckin(new HttpClient(handler));
-
-            handler.Enqueue(x =>
+            using (var http = new HttpClient(handler))
             {
-                Assert.Equal(HttpMethod.Get, x.Method);
-                Assert.Equal("https://api.foursquare.com/v2/checkins/xxxxxxxx",
-                    x.RequestUri.GetLeftPart(UriPartial.Path));
+                var service = new FoursquareCheckin(http);
 
-                var query = HttpUtility.ParseQueryString(x.RequestUri.Query);
+                handler.Enqueue(x =>
+                {
+                    Assert.Equal(HttpMethod.Get, x.Method);
+                    Assert.Equal("https://api.foursquare.com/v2/checkins/xxxxxxxx",
+                        x.RequestUri.GetLeftPart(UriPartial.Path));
 
-                Assert.Equal(ApplicationSettings.FoursquareClientId, query["client_id"]);
-                Assert.Equal(ApplicationSettings.FoursquareClientSecret, query["client_secret"]);
-                Assert.NotNull(query["v"]);
-                Assert.Equal("aaaaaaa", query["signature"]);
+                    var query = HttpUtility.ParseQueryString(x.RequestUri.Query);
 
-                // リクエストに対するテストなのでレスポンスは適当に返す
-                return new HttpResponseMessage(HttpStatusCode.NotFound);
-            });
+                    Assert.Equal(ApplicationSettings.FoursquareClientId, query["client_id"]);
+                    Assert.Equal(ApplicationSettings.FoursquareClientSecret, query["client_secret"]);
+                    Assert.NotNull(query["v"]);
+                    Assert.Equal("aaaaaaa", query["signature"]);
 
-            var post = new PostClass
-            {
-                PostGeo = new PostClass.StatusGeo { },
-            };
+                    // リクエストに対するテストなのでレスポンスは適当に返す
+                    return new HttpResponseMessage(HttpStatusCode.NotFound);
+                });
 
-            var thumb = await service.GetThumbnailInfoAsync(
-                "https://foursquare.com/hogehoge/checkin/xxxxxxxx?s=aaaaaaa",
-                post, CancellationToken.None);
+                var post = new PostClass
+                {
+                    PostGeo = new PostClass.StatusGeo { },
+                };
 
-            Assert.Equal(0, handler.QueueCount);
+                var thumb = await service.GetThumbnailInfoAsync(
+                    "https://foursquare.com/hogehoge/checkin/xxxxxxxx?s=aaaaaaa",
+                    post, CancellationToken.None);
+
+                Assert.Equal(0, handler.QueueCount);
+            }
         }
 
         [Fact]
         public async Task GetThumbnailInfoAsync_GeoLocatedTweetTest()
         {
             var handler = new HttpMessageHandlerMock();
-            var service = new FoursquareCheckin(new HttpClient(handler));
-
-            handler.Enqueue(x =>
+            using (var http = new HttpClient(handler))
             {
-                // このリクエストは実行されないはず
-                Assert.True(false);
-                return new HttpResponseMessage(HttpStatusCode.NotFound);
-            });
+                var service = new FoursquareCheckin(http);
 
-            // 既にジオタグが付いているツイートに対しては何もしない
-            var post = new PostClass
-            {
-                PostGeo = new PostClass.StatusGeo
+                handler.Enqueue(x =>
                 {
-                    Lat = 34.35067978344854,
-                    Lng = 134.04693603515625,
-                },
-            };
+                    // このリクエストは実行されないはず
+                    Assert.True(false);
+                    return new HttpResponseMessage(HttpStatusCode.NotFound);
+                });
 
-            var thumb = await service.GetThumbnailInfoAsync(
-                "https://foursquare.com/hogehoge/checkin/xxxxxxxx?s=aaaaaaa",
-                post, CancellationToken.None);
+                // 既にジオタグが付いているツイートに対しては何もしない
+                var post = new PostClass
+                {
+                    PostGeo = new PostClass.StatusGeo
+                    {
+                        Lat = 34.35067978344854,
+                        Lng = 134.04693603515625,
+                    },
+                };
 
-            Assert.Equal(1, handler.QueueCount);
+                var thumb = await service.GetThumbnailInfoAsync(
+                    "https://foursquare.com/hogehoge/checkin/xxxxxxxx?s=aaaaaaa",
+                    post, CancellationToken.None);
+
+                Assert.Equal(1, handler.QueueCount);
+            }
         }
 
         [Fact]

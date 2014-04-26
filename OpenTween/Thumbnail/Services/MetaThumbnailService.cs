@@ -42,14 +42,9 @@ namespace OpenTween.Thumbnail.Services
         protected readonly HttpClient http;
         protected readonly Regex regex;
 
-        public MetaThumbnailService(string urlPattern)
-            : this(null, urlPattern)
-        {
-        }
-
         public MetaThumbnailService(HttpClient http, string urlPattern)
         {
-            this.http = http ?? MyCommon.CreateHttpClient();
+            this.http = http;
             this.regex = new Regex(urlPattern);
         }
 

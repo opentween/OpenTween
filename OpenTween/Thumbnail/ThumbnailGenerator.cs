@@ -22,6 +22,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -34,16 +35,17 @@ namespace OpenTween.Thumbnail
     {
         public static List<IThumbnailService> Services { get; protected set; }
 
-        internal static readonly Lazy<ImgAzyobuziNet> ImgAzyobuziNetInstance;
+        internal static ImgAzyobuziNet ImgAzyobuziNetInstance { get; private set; }
 
         static ThumbnailGenerator()
         {
             ThumbnailGenerator.Services = new List<IThumbnailService>();
-            ImgAzyobuziNetInstance = new Lazy<ImgAzyobuziNet>(() => new ImgAzyobuziNet(autoupdate: true));
         }
 
-        public static void InitializeGenerator()
+        public static void InitializeGenerator(HttpClient http)
         {
+            ImgAzyobuziNetInstance = new ImgAzyobuziNet(http, autoupdate: true);
+
             ThumbnailGenerator.Services = new List<IThumbnailService>()
             {
                 // ton.twitter.com
@@ -53,7 +55,7 @@ namespace OpenTween.Thumbnail
                 new SimpleThumbnailService(@"^https?://.*(\.jpg|\.jpeg|\.gif|\.png|\.bmp)$", "${0}"),
 
                 // img.azyobuzi.net
-                ImgAzyobuziNetInstance.Value,
+                ImgAzyobuziNetInstance,
 
                 // ImgUr
                 new SimpleThumbnailService(
@@ -126,10 +128,10 @@ namespace OpenTween.Thumbnail
                     "http://lohas.nicoseiga.jp/thumb/${id}l?"),
 
                 // pixiv
-                new Pixiv(@"^http://www\.pixiv\.net/(member_illust|index)\.php\?(?=.*mode=(medium|big))(?=.*illust_id=(?<illustId>[0-9]+)).*$"),
+                new Pixiv(http, @"^http://www\.pixiv\.net/(member_illust|index)\.php\?(?=.*mode=(medium|big))(?=.*illust_id=(?<illustId>[0-9]+)).*$"),
 
                 // flickr
-                new MetaThumbnailService(@"^http://www\.flickr\.com/.+$"),
+                new MetaThumbnailService(http, @"^http://www\.flickr\.com/.+$"),
 
                 // フォト蔵
                 new SimpleThumbnailService(
@@ -138,7 +140,7 @@ namespace OpenTween.Thumbnail
                     "http://photozou.jp/p/img/${photoId}"),
 
                 // Piapro
-                new MetaThumbnailService(@"^http://piapro\.jp/(?:content/[0-9a-z]+|t/[0-9a-zA-Z_\-]+)$"),
+                new MetaThumbnailService(http, @"^http://piapro\.jp/(?:content/[0-9a-z]+|t/[0-9a-zA-Z_\-]+)$"),
 
                 // Tumblr
                 new Tumblr(@"(?<base>http://.+?\.tumblr\.com/)post/(?<postID>[0-9]+)(/(?<subject>.+?)/)?"),
@@ -153,7 +155,7 @@ namespace OpenTween.Thumbnail
                 new SimpleThumbnailService(@"^http://ow\.ly/i/(\w+)$", "http://static.ow.ly/photos/thumb/${1}.jpg"),
 
                 // vimeo
-                new Vimeo(@"http://vimeo\.com/(?<postID>[0-9]+)"),
+                new Vimeo(http, @"http://vimeo\.com/(?<postID>[0-9]+)"),
 
                 // cloudfiles
                 new SimpleThumbnailService(@"^http://c[0-9]+\.cdn[0-9]+\.cloudfiles\.rackspacecloud\.com/[a-z_0-9]+", "${0}"),
@@ -171,10 +173,10 @@ namespace OpenTween.Thumbnail
                     "http://pikubo.me/l/${1}"),
 
                 // Foursquare
-                new FoursquareCheckin(),
+                new FoursquareCheckin(http),
 
                 // TINAMI
-                new Tinami(@"^http://www\.tinami\.com/view/(?<ContentId>\d+)$"),
+                new Tinami(http, @"^http://www\.tinami\.com/view/(?<ContentId>\d+)$"),
 
                 // pic.twitter.com
                 new SimpleThumbnailService(
@@ -195,13 +197,13 @@ namespace OpenTween.Thumbnail
                     "${0}.jpg"),
 
                 // via.me
-                new ViaMe(@"^https?://via\.me/-(\w+)$"),
+                new ViaMe(http, @"^https?://via\.me/-(\w+)$"),
 
                 // tuna.be
                 new SimpleThumbnailService(@"^http://tuna\.be/t/(?<entryId>[a-zA-Z0-9\.\-_]+)$", "http://tuna.be/show/thumb/${entryId}"),
 
                 // Path (path.com)
-                new MetaThumbnailService(@"^https?://path.com/p/\w+$"),
+                new MetaThumbnailService(http, @"^https?://path.com/p/\w+$"),
             };
         }
 

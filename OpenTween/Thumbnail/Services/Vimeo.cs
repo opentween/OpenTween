@@ -40,14 +40,9 @@ namespace OpenTween.Thumbnail.Services
         protected readonly HttpClient http;
         protected readonly Regex regex;
 
-        public Vimeo(string urlPattern)
-            : this(null, urlPattern)
-        {
-        }
-
         public Vimeo(HttpClient http, string urlPattern)
         {
-            this.http = http ?? MyCommon.CreateHttpClient();
+            this.http = http;
             this.regex = new Regex(urlPattern);
         }
 

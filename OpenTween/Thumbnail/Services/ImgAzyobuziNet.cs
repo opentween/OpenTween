@@ -47,16 +47,6 @@ namespace OpenTween.Thumbnail.Services
 
         private object LockObj = new object();
 
-        public ImgAzyobuziNet()
-            : this(autoupdate: false)
-        {
-        }
-
-        public ImgAzyobuziNet(bool autoupdate)
-            : this(null, autoupdate)
-        {
-        }
-
         public ImgAzyobuziNet(HttpClient http)
             : this(http, autoupdate: false)
         {
@@ -70,7 +60,7 @@ namespace OpenTween.Thumbnail.Services
             this.Enabled = true;
             this.DisabledInDM = true;
 
-            this.http = http ?? MyCommon.CreateHttpClient();
+            this.http = http;
         }
 
         public bool AutoUpdate

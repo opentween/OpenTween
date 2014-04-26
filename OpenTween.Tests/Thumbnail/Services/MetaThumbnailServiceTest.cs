@@ -39,8 +39,8 @@ namespace OpenTween.Thumbnail.Services
         {
             public string FakeHtml { get; set; }
 
-            public TestMetaThumbnailService(string url)
-                : base(url)
+            public TestMetaThumbnailService(string urlPattern)
+                : base(null, urlPattern)
             {
             }
 
