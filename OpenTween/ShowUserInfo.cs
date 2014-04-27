@@ -133,6 +133,24 @@ namespace OpenTween
             return true;
         }
 
+        private async Task SetDescriptionAsync(string descriptionText)
+        {
+            if (descriptionText != null)
+            {
+                var atlist = new List<string>();
+
+                var html = WebUtility.HtmlEncode(descriptionText);
+                html = await this.Twitter.CreateHtmlAnchorAsync(html, atlist, null);
+                html = this.Owner.createDetailHtml(html);
+
+                this.DescriptionBrowser.DocumentText = html;
+            }
+            else
+            {
+                this.DescriptionBrowser.DocumentText = "";
+            }
+        }
+
         private async Task SetUserImageAsync(string imageUri)
         {
             var oldImage = this.UserPicture.Image;
@@ -159,15 +177,6 @@ namespace OpenTween
             ToolTip1.SetToolTip(LinkLabelWeb, jumpto);
             LinkLabelWeb.Tag = jumpto;
             LinkLabelWeb.Text = data;
-        }
-
-        private async Task SetDescriptionAsync(string descriptionText)
-        {
-            var html = WebUtility.HtmlEncode(descriptionText);
-            html = await this.Twitter.CreateHtmlAnchorAsync(html, this.atlist, null);
-            html = this.Owner.createDetailHtml(html);
-
-            this.DescriptionBrowser.DocumentText = html;
         }
 
         private async Task SetRecentStatusAsync(TwitterDataModel.Status status)
