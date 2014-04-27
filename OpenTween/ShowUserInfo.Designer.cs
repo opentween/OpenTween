@@ -30,7 +30,6 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ShowUserInfo));
-            this.BackgroundWorkerImageLoader = new System.ComponentModel.BackgroundWorker();
             this.LinkLabel2 = new System.Windows.Forms.LinkLabel();
             this.ButtonBlockDestroy = new System.Windows.Forms.Button();
             this.ButtonReportSpam = new System.Windows.Forms.Button();
@@ -84,11 +83,6 @@
             this.ContextMenuUserPicture.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.UserPicture)).BeginInit();
             this.SuspendLayout();
-            // 
-            // BackgroundWorkerImageLoader
-            // 
-            this.BackgroundWorkerImageLoader.DoWork += new System.ComponentModel.DoWorkEventHandler(this.BackgroundWorkerImageLoader_DoWork);
-            this.BackgroundWorkerImageLoader.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.BackgroundWorkerImageLoader_RunWorkerCompleted);
             // 
             // LinkLabel2
             // 
@@ -489,7 +483,6 @@
 
         #endregion
 
-        internal System.ComponentModel.BackgroundWorker BackgroundWorkerImageLoader;
         internal System.Windows.Forms.LinkLabel LinkLabel2;
         internal System.Windows.Forms.Button ButtonBlockDestroy;
         internal System.Windows.Forms.Button ButtonReportSpam;

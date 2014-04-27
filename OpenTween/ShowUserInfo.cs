@@ -61,7 +61,6 @@ namespace OpenTween
         }
         private TwitterDataModel.User userInfo = null;
         private UserInfo _info = new UserInfo();
-        private Image icondata = null;
         private List<string> atlist = new List<string>();
         private string recentPostTxt;
 
@@ -133,6 +132,20 @@ namespace OpenTween
                 return false;
             }
             return true;
+        }
+
+        private async Task SetUserImageAsync(string imageUri)
+        {
+            var oldImage = this.UserPicture.Image;
+            if (oldImage != null)
+            {
+                this.UserPicture.Image = null;
+                oldImage.Dispose();
+            }
+
+            var image = await Task.Run(() => (new HttpVarious()).GetImage(imageUri.Replace("_normal", "_bigger")));
+
+            this.UserPicture.Image = image;
         }
 
         private async Task SetLinklabelWebAsync(string data)
@@ -212,9 +225,6 @@ namespace OpenTween
                 return;
             }
 
-            //アイコンロード
-            BackgroundWorkerImageLoader.RunWorkerAsync();
-
             InitPath();
             InitTooltip();
             this.Text = this.Text.Insert(0, _info.ScreenName + " ");
@@ -272,6 +282,7 @@ namespace OpenTween
             await Task.WhenAll(new[]
             {
                 linkTask,
+                this.SetUserImageAsync(_info.ImageUrl.OriginalString),
                 this.LoadFriendshipAsync(_info.ScreenName),
             });
         }
@@ -358,27 +369,11 @@ namespace OpenTween
 
         private void ShowUserInfo_FormClosing(object sender, FormClosingEventArgs e)
         {
-            UserPicture.Image = null;
-            if (icondata != null)
-                icondata.Dispose();
-        }
-
-        private void BackgroundWorkerImageLoader_DoWork(object sender, DoWorkEventArgs e)
-        {
-            string name = _info.ImageUrl.ToString();
-            icondata = (new HttpVarious()).GetImage(name.Replace("_normal", "_bigger"));
-        }
-
-        private void BackgroundWorkerImageLoader_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-        {
-            try
+            var oldImage = this.UserPicture.Image;
+            if (oldImage != null)
             {
-                if (icondata != null)
-                    UserPicture.Image = icondata;
-            }
-            catch (Exception)
-            {
-                UserPicture.Image = null;
+                this.UserPicture.Image = null;
+                oldImage.Dispose();
             }
         }
 
