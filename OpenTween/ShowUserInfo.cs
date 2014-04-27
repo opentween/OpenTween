@@ -55,6 +55,9 @@ namespace OpenTween
         public ShowUserInfo()
         {
             InitializeComponent();
+
+            // LabelScreenName のフォントを OTBaseForm.GlobalFont に変更
+            this.LabelScreenName.Font = this.ReplaceToGlobalFont(this.LabelScreenName.Font);
         }
         private TwitterDataModel.User userInfo = null;
         private UserInfo _info = new UserInfo();
@@ -168,9 +171,6 @@ namespace OpenTween
                 this.Close();
                 return;
             }
-
-            // LabelScreenName のフォントを OTBaseForm.GlobalFont に変更
-            this.LabelScreenName.Font = this.ReplaceToGlobalFont(this.LabelScreenName.Font);
 
             //アイコンロード
             BackgroundWorkerImageLoader.RunWorkerAsync();
