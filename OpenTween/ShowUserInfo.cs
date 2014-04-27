@@ -74,7 +74,6 @@ namespace OpenTween
         private string Following;
         private string Followers;
         private string Favorites;
-        private string FriendshipResult = "";
 
         private void InitPath()
         {
@@ -157,6 +156,47 @@ namespace OpenTween
             this.DescriptionBrowser.DocumentText = html;
         }
 
+        private async Task LoadFriendshipAsync(string screenName)
+        {
+            this.LabelIsFollowing.Text = "";
+            this.LabelIsFollowed.Text = "";
+            this.ButtonFollow.Enabled = false;
+            this.ButtonUnFollow.Enabled = false;
+
+            if (this.Twitter.Username == screenName)
+                return;
+
+            var friendship = await Task.Run(() =>
+            {
+                var IsFollowing = false;
+                var IsFollowedBy = false;
+
+                var ret = this.Twitter.GetFriendshipInfo(screenName, ref IsFollowing, ref IsFollowedBy);
+                if (!string.IsNullOrEmpty(ret))
+                    return null;
+
+                return new { IsFollowing, IsFollowedBy };
+            });
+
+            if (friendship == null)
+            {
+                LabelIsFollowed.Text = Properties.Resources.GetFriendshipInfo6;
+                LabelIsFollowing.Text = Properties.Resources.GetFriendshipInfo6;
+                return;
+            }
+
+            this.LabelIsFollowing.Text = friendship.IsFollowing
+                ? Properties.Resources.GetFriendshipInfo1
+                : Properties.Resources.GetFriendshipInfo2;
+
+            this.LabelIsFollowed.Text = friendship.IsFollowedBy
+                ? Properties.Resources.GetFriendshipInfo3
+                : Properties.Resources.GetFriendshipInfo4;
+
+            this.ButtonFollow.Enabled = !friendship.IsFollowing;
+            this.ButtonUnFollow.Enabled = friendship.IsFollowing;
+        }
+
         private void ShowUserInfo_FormClosed(object sender, FormClosedEventArgs e)
         {
             //TweenMain.TopMost = !TweenMain.TopMost;
@@ -229,7 +269,11 @@ namespace OpenTween
                 ButtonBlockDestroy.Enabled = true;
             }
 
-            await linkTask;
+            await Task.WhenAll(new[]
+            {
+                linkTask,
+                this.LoadFriendshipAsync(_info.ScreenName),
+            });
         }
 
         private void ButtonClose_Click(object sender, EventArgs e)
@@ -323,11 +367,6 @@ namespace OpenTween
         {
             string name = _info.ImageUrl.ToString();
             icondata = (new HttpVarious()).GetImage(name.Replace("_normal", "_bigger"));
-            if (this.Twitter.Username == _info.ScreenName) return;
-
-            _info.isFollowing = false;
-            _info.isFollowed = false;
-            FriendshipResult = this.Twitter.GetFriendshipInfo(_info.ScreenName, ref _info.isFollowing, ref _info.isFollowed);
         }
 
         private void BackgroundWorkerImageLoader_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
@@ -341,48 +380,6 @@ namespace OpenTween
             {
                 UserPicture.Image = null;
             }
-
-            if (this.Twitter.Username == _info.ScreenName)
-            {
-                // 自分の場合
-                LabelIsFollowing.Text = "";
-                LabelIsFollowed.Text = "";
-                ButtonFollow.Enabled = false;
-                ButtonUnFollow.Enabled = false;
-            }
-            else
-            {
-                if (string.IsNullOrEmpty(FriendshipResult))
-                {
-                    if (_info.isFollowing)
-                    {
-                        LabelIsFollowing.Text = Properties.Resources.GetFriendshipInfo1;
-                    }
-                    else
-                    {
-                        LabelIsFollowing.Text = Properties.Resources.GetFriendshipInfo2;
-                    }
-                    ButtonFollow.Enabled = !_info.isFollowing;
-                    if (_info.isFollowed)
-                    {
-                        LabelIsFollowed.Text = Properties.Resources.GetFriendshipInfo3;
-                    }
-                    else
-                    {
-                        LabelIsFollowed.Text = Properties.Resources.GetFriendshipInfo4;
-                    }
-                    ButtonUnFollow.Enabled = _info.isFollowing;
-                }
-                else
-                {
-                    MessageBox.Show(FriendshipResult);
-                    ButtonUnFollow.Enabled = false;
-                    ButtonFollow.Enabled = false;
-                    LabelIsFollowed.Text = Properties.Resources.GetFriendshipInfo6;
-                    LabelIsFollowing.Text = Properties.Resources.GetFriendshipInfo6;
-                }
-            }
-
         }
 
         private async void ShowUserInfo_Shown(object sender, EventArgs e)
