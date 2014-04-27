@@ -55,7 +55,7 @@
             this.LabelRecentPost = new System.Windows.Forms.Label();
             this.ButtonClose = new System.Windows.Forms.Button();
             this.ContextMenuUserPicture = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.UserPicture = new System.Windows.Forms.PictureBox();
+            this.UserPicture = new OpenTween.OTPictureBox();
             this.LinkLabelFav = new System.Windows.Forms.LinkLabel();
             this.Label9 = new System.Windows.Forms.Label();
             this.LabelIsProtected = new System.Windows.Forms.Label();
@@ -508,7 +508,7 @@
         internal System.Windows.Forms.Label LabelRecentPost;
         internal System.Windows.Forms.Button ButtonClose;
         internal System.Windows.Forms.ContextMenuStrip ContextMenuUserPicture;
-        internal System.Windows.Forms.PictureBox UserPicture;
+        internal OTPictureBox UserPicture;
         internal System.Windows.Forms.LinkLabel LinkLabelFav;
         internal System.Windows.Forms.Label Label9;
         internal System.Windows.Forms.Label LabelIsProtected;

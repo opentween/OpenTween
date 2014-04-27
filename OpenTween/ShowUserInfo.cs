@@ -143,9 +143,11 @@ namespace OpenTween
                 oldImage.Dispose();
             }
 
-            var image = await Task.Run(() => (new HttpVarious()).GetImage(imageUri.Replace("_normal", "_bigger")));
-
-            this.UserPicture.Image = image;
+            using (var http = MyCommon.CreateHttpClient())
+            {
+                var imageStream = await http.GetStreamAsync(imageUri.Replace("_normal", "_bigger"));
+                this.UserPicture.Image = await MemoryImage.CopyFromStreamAsync(imageStream);
+            }
         }
 
         private async Task SetLinklabelWebAsync(string data)
@@ -685,7 +687,7 @@ namespace OpenTween
             e.Result = arg.tw.PostUpdateProfileImage(arg.FileName);
         }
 
-        private void UpdateProfileImage_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        private async void UpdateProfileImage_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             string res = "";
             TwitterDataModel.User user = null;
@@ -702,11 +704,7 @@ namespace OpenTween
             try
             {
                 res = this.Twitter.GetUserInfo(_info.ScreenName, ref user);
-                Image img = (new HttpVarious()).GetImage(user.ProfileImageUrlHttps);
-                if (img != null)
-                {
-                    UserPicture.Image = img;
-                }
+                await this.SetUserImageAsync(user.ProfileImageUrlHttps);
             }
             catch (Exception)
             {
