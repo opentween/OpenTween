@@ -42,6 +42,16 @@ namespace OpenTween
 {
     public partial class ShowUserInfo : OTBaseForm
     {
+        private new TweenMain Owner
+        {
+            get { return (TweenMain)base.Owner; }
+        }
+
+        private Twitter Twitter
+        {
+            get { return this.Owner.TwitterInstance; }
+        }
+
         public ShowUserInfo()
         {
             InitializeComponent();
@@ -61,7 +71,6 @@ namespace OpenTween
         private string Following;
         private string Followers;
         private string Favorites;
-        private TweenMain MyOwner;
         private string FriendshipResult = "";
 
         private void InitPath()
@@ -128,7 +137,7 @@ namespace OpenTween
         {
             string webtext;
             string jumpto;
-            webtext = MyOwner.TwitterInstance.PreProcessUrl("<a href=\"" + data + "\">Dummy</a>");
+            webtext = this.Twitter.PreProcessUrl("<a href=\"" + data + "\">Dummy</a>");
             webtext = await ShortUrl.Instance.ExpandUrlHtmlAsync(webtext);
             jumpto = Regex.Match(webtext, @"<a href=""(?<url>.*?)""").Groups["url"].Value;
             ToolTip1.SetToolTip(LinkLabelWeb, jumpto);
@@ -139,8 +148,8 @@ namespace OpenTween
         private async Task SetDescriptionAsync(string descriptionText)
         {
             var html = WebUtility.HtmlEncode(descriptionText);
-            html = await this.MyOwner.TwitterInstance.CreateHtmlAnchorAsync(html, this.atlist, null);
-            html = this.MyOwner.createDetailHtml(html);
+            html = await this.Twitter.CreateHtmlAnchorAsync(html, this.atlist, null);
+            html = this.Owner.createDetailHtml(html);
 
             this.DescriptionBrowser.DocumentText = html;
         }
@@ -153,7 +162,6 @@ namespace OpenTween
 
         private async void ShowUserInfo_Load(object sender, EventArgs e)
         {
-            MyOwner = (TweenMain)this.Owner;
             if (!AnalizeUserInfo(userInfo))
             {
                 MessageBox.Show(Properties.Resources.ShowUserInfo1);
@@ -181,8 +189,8 @@ namespace OpenTween
             RecentPostBrowser.Visible = false;
             if (_info.RecentPost != null)
             {
-                recentPostTxt = MyOwner.createDetailHtml(
-                     MyOwner.TwitterInstance.CreateHtmlAnchor(_info.RecentPost, atlist, userInfo.Status.Entities, null) +
+                recentPostTxt = this.Owner.createDetailHtml(
+                     this.Twitter.CreateHtmlAnchor(_info.RecentPost, atlist, userInfo.Status.Entities, null) +
                      " Posted at " + _info.PostCreatedAt.ToString() +
                      " via " + _info.PostSource);
             }
@@ -204,7 +212,7 @@ namespace OpenTween
             else
                 LabelIsVerified.Text = Properties.Resources.No;
 
-            if (MyOwner.TwitterInstance.Username == _info.ScreenName)
+            if (this.Twitter.Username == _info.ScreenName)
             {
                 ButtonEdit.Enabled = true;
                 ChangeIconToolStripMenuItem.Enabled = true;
@@ -237,32 +245,32 @@ namespace OpenTween
         private void LinkLabelWeb_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             if (_info.Url != null)
-                MyOwner.OpenUriAsync(LinkLabelWeb.Text);
+                this.Owner.OpenUriAsync(LinkLabelWeb.Text);
         }
 
         private void LinkLabelFollowing_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            MyOwner.OpenUriAsync(Following);
+            this.Owner.OpenUriAsync(Following);
         }
 
         private void LinkLabelFollowers_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            MyOwner.OpenUriAsync(Followers);
+            this.Owner.OpenUriAsync(Followers);
         }
 
         private void LinkLabelTweet_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            MyOwner.OpenUriAsync(Home);
+            this.Owner.OpenUriAsync(Home);
         }
 
         private void LinkLabelFav_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            MyOwner.OpenUriAsync(Favorites);
+            this.Owner.OpenUriAsync(Favorites);
         }
 
         private void ButtonFollow_Click(object sender, EventArgs e)
         {
-            string ret = MyOwner.TwitterInstance.PostFollowCommand(_info.ScreenName);
+            string ret = this.Twitter.PostFollowCommand(_info.ScreenName);
             if (!string.IsNullOrEmpty(ret))
             {
                 MessageBox.Show(Properties.Resources.FRMessage2 + ret);
@@ -282,7 +290,7 @@ namespace OpenTween
                                Properties.Resources.ButtonUnFollow_ClickText2,
                                MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2) == DialogResult.Yes)
             {
-                string ret = MyOwner.TwitterInstance.PostRemoveCommand(_info.ScreenName);
+                string ret = this.Twitter.PostRemoveCommand(_info.ScreenName);
                 if (!string.IsNullOrEmpty(ret))
                 {
                     MessageBox.Show(Properties.Resources.FRMessage2 + ret);
@@ -315,11 +323,11 @@ namespace OpenTween
         {
             string name = _info.ImageUrl.ToString();
             icondata = (new HttpVarious()).GetImage(name.Replace("_normal", "_bigger"));
-            if (MyOwner.TwitterInstance.Username == _info.ScreenName) return;
+            if (this.Twitter.Username == _info.ScreenName) return;
 
             _info.isFollowing = false;
             _info.isFollowed = false;
-            FriendshipResult = MyOwner.TwitterInstance.GetFriendshipInfo(_info.ScreenName, ref _info.isFollowing, ref _info.isFollowed);
+            FriendshipResult = this.Twitter.GetFriendshipInfo(_info.ScreenName, ref _info.isFollowing, ref _info.isFollowed);
         }
 
         private void BackgroundWorkerImageLoader_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
@@ -334,7 +342,7 @@ namespace OpenTween
                 UserPicture.Image = null;
             }
 
-            if (MyOwner.TwitterInstance.Username == _info.ScreenName)
+            if (this.Twitter.Username == _info.ScreenName)
             {
                 // 自分の場合
                 LabelIsFollowing.Text = "";
@@ -407,21 +415,21 @@ namespace OpenTween
                     //ハッシュタグの場合は、タブで開く
                     string urlStr = Uri.UnescapeDataString(e.Url.AbsoluteUri);
                     string hash = urlStr.Substring(urlStr.IndexOf("#"));
-                    MyOwner.HashSupl.AddItem(hash);
-                    MyOwner.HashMgr.AddHashToHistory(hash.Trim(), false);
-                    MyOwner.AddNewTabForSearch(hash);
+                    this.Owner.HashSupl.AddItem(hash);
+                    this.Owner.HashMgr.AddHashToHistory(hash.Trim(), false);
+                    this.Owner.AddNewTabForSearch(hash);
                     return;
                 }
                 else
                 {
                     Match m = Regex.Match(e.Url.AbsoluteUri, @"^https?://twitter.com/(#!/)?(?<ScreenName>[a-zA-Z0-9_]+)$");
-                    if (AppendSettingDialog.Instance.OpenUserTimeline && m.Success && MyOwner.IsTwitterId(m.Result("${ScreenName}")))
+                    if (AppendSettingDialog.Instance.OpenUserTimeline && m.Success && this.Owner.IsTwitterId(m.Result("${ScreenName}")))
                     {
-                        MyOwner.AddNewTabForUserTimeline(m.Result("${ScreenName}"));
+                        this.Owner.AddNewTabForUserTimeline(m.Result("${ScreenName}"));
                     }
                     else
                     {
-                        MyOwner.OpenUriAsync(e.Url.OriginalString);
+                        this.Owner.OpenUriAsync(e.Url.OriginalString);
                     }
                 }
             }
@@ -452,7 +460,7 @@ namespace OpenTween
             WebBrowser sc = ContextMenuRecentPostBrowser.SourceControl as WebBrowser;
             if (sc != null)
             {
-                string _selText = MyOwner.WebBrowser_GetSelectionText(ref sc);
+                string _selText = this.Owner.WebBrowser_GetSelectionText(ref sc);
                 if (_selText != null)
                 {
                     try
@@ -472,7 +480,7 @@ namespace OpenTween
             WebBrowser sc = ContextMenuRecentPostBrowser.SourceControl as WebBrowser;
             if (sc != null)
             {
-                string _selText = MyOwner.WebBrowser_GetSelectionText(ref sc);
+                string _selText = this.Owner.WebBrowser_GetSelectionText(ref sc);
                 if (_selText == null)
                     SelectionCopyToolStripMenuItem.Enabled = false;
                 else
@@ -487,17 +495,17 @@ namespace OpenTween
 
         private void LinkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            MyOwner.OpenUriAsync("https://support.twitter.com/groups/31-twitter-basics/topics/111-features/articles/268350-x8a8d-x8a3c-x6e08-x307f-x30a2-x30ab-x30a6-x30f3-x30c8-x306b-x3064-x3044-x3066");
+            this.Owner.OpenUriAsync("https://support.twitter.com/groups/31-twitter-basics/topics/111-features/articles/268350-x8a8d-x8a3c-x6e08-x307f-x30a2-x30ab-x30a6-x30f3-x30c8-x306b-x3064-x3044-x3066");
         }
 
         private void LinkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            MyOwner.OpenUriAsync("https://support.twitter.com/groups/31-twitter-basics/topics/107-my-profile-account-settings/articles/243055-x516c-x958b-x3001-x975e-x516c-x958b-x30a2-x30ab-x30a6-x30f3-x30c8-x306b-x3064-x3044-x3066");
+            this.Owner.OpenUriAsync("https://support.twitter.com/groups/31-twitter-basics/topics/107-my-profile-account-settings/articles/243055-x516c-x958b-x3001-x975e-x516c-x958b-x30a2-x30ab-x30a6-x30f3-x30c8-x306b-x3064-x3044-x3066");
         }
 
         private void ButtonSearchPosts_Click(object sender, EventArgs e)
         {
-            MyOwner.AddNewTabForUserTimeline(_info.ScreenName);
+            this.Owner.AddNewTabForUserTimeline(_info.ScreenName);
         }
 
         private void UserPicture_DoubleClick(object sender, EventArgs e)
@@ -505,7 +513,7 @@ namespace OpenTween
             if (UserPicture.Image != null)
             {
                 string name = _info.ImageUrl.ToString();
-                MyOwner.OpenUriAsync(name.Remove(name.LastIndexOf("_normal"), 7));
+                this.Owner.OpenUriAsync(name.Remove(name.LastIndexOf("_normal"), 7));
             }
         }
 
@@ -552,7 +560,7 @@ namespace OpenTween
         private async void ButtonEdit_Click(object sender, EventArgs e)
         {
             // 自分以外のプロフィールは変更できない
-            if (MyOwner.TwitterInstance.Username != _info.ScreenName) return;
+            if (this.Twitter.Username != _info.ScreenName) return;
 
             this.ButtonEdit.Enabled = false;
 
@@ -565,7 +573,7 @@ namespace OpenTween
                 TextBoxName.Location = LabelName.Location;
                 TextBoxName.Height = LabelName.Height;
                 TextBoxName.Width = LabelName.Width;
-                TextBoxName.BackColor = MyOwner.InputBackColor;
+                TextBoxName.BackColor = this.Owner.InputBackColor;
                 TextBoxName.MaxLength = 20;
                 TextBoxName.Text = LabelName.Text;
                 TextBoxName.TabStop = true;
@@ -575,7 +583,7 @@ namespace OpenTween
                 TextBoxLocation.Location = LabelLocation.Location;
                 TextBoxLocation.Height = LabelLocation.Height;
                 TextBoxLocation.Width = LabelLocation.Width;
-                TextBoxLocation.BackColor = MyOwner.InputBackColor;
+                TextBoxLocation.BackColor = this.Owner.InputBackColor;
                 TextBoxLocation.MaxLength = 30;
                 TextBoxLocation.Text = LabelLocation.Text;
                 TextBoxLocation.TabStop = true;
@@ -585,7 +593,7 @@ namespace OpenTween
                 TextBoxWeb.Location = LinkLabelWeb.Location;
                 TextBoxWeb.Height = LinkLabelWeb.Height;
                 TextBoxWeb.Width = LinkLabelWeb.Width;
-                TextBoxWeb.BackColor = MyOwner.InputBackColor;
+                TextBoxWeb.BackColor = this.Owner.InputBackColor;
                 TextBoxWeb.MaxLength = 100;
                 TextBoxWeb.Text = _info.Url;
                 TextBoxWeb.TabStop = true;
@@ -595,7 +603,7 @@ namespace OpenTween
                 TextBoxDescription.Location = DescriptionBrowser.Location;
                 TextBoxDescription.Height = DescriptionBrowser.Height;
                 TextBoxDescription.Width = DescriptionBrowser.Width;
-                TextBoxDescription.BackColor = MyOwner.InputBackColor;
+                TextBoxDescription.BackColor = this.Owner.InputBackColor;
                 TextBoxDescription.MaxLength = 160;
                 TextBoxDescription.Text = _info.Description;
                 TextBoxDescription.Multiline = true;
@@ -618,7 +626,7 @@ namespace OpenTween
                     TextBoxWeb.Modified ||
                     TextBoxDescription.Modified)
                 {
-                    arg.tw = MyOwner.TwitterInstance;
+                    arg.tw = this.Twitter;
                     arg.name = TextBoxName.Text.Trim();
                     arg.url = TextBoxWeb.Text.Trim();
                     arg.location = TextBoxLocation.Text.Trim();
@@ -701,7 +709,7 @@ namespace OpenTween
 
             try
             {
-                res = MyOwner.TwitterInstance.GetUserInfo(_info.ScreenName, ref user);
+                res = this.Twitter.GetUserInfo(_info.ScreenName, ref user);
                 Image img = (new HttpVarious()).GetImage(user.ProfileImageUrlHttps);
                 if (img != null)
                 {
@@ -716,7 +724,7 @@ namespace OpenTween
         private void doChangeIcon(string filename)
         {
             string res = "";
-            UpdateProfileImageArgs arg = new UpdateProfileImageArgs() { tw = MyOwner.TwitterInstance, FileName = filename };
+            UpdateProfileImageArgs arg = new UpdateProfileImageArgs() { tw = this.Twitter, FileName = filename };
 
             using (FormInfo dlg = new FormInfo(this, Properties.Resources.ChangeIconToolStripMenuItem_ClickText3,
                                                UpdateProfileImage_Dowork,
@@ -767,7 +775,7 @@ namespace OpenTween
                                 Properties.Resources.ButtonBlock_ClickText2,
                                 MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2) == DialogResult.Yes)
             {
-                string res = MyOwner.TwitterInstance.PostCreateBlock(_info.ScreenName);
+                string res = this.Twitter.PostCreateBlock(_info.ScreenName);
                 if (!string.IsNullOrEmpty(res))
                 {
                     MessageBox.Show(res + Environment.NewLine + Properties.Resources.ButtonBlock_ClickText3);
@@ -785,7 +793,7 @@ namespace OpenTween
                                 Properties.Resources.ButtonReportSpam_ClickText2,
                                 MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2) == DialogResult.Yes)
             {
-                string res = MyOwner.TwitterInstance.PostReportSpam(_info.ScreenName);
+                string res = this.Twitter.PostReportSpam(_info.ScreenName);
                 if (!string.IsNullOrEmpty(res))
                 {
                     MessageBox.Show(res + Environment.NewLine + Properties.Resources.ButtonReportSpam_ClickText3);
@@ -803,7 +811,7 @@ namespace OpenTween
                                 Properties.Resources.ButtonBlockDestroy_ClickText2,
                                 MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2) == DialogResult.Yes)
             {
-                string res = MyOwner.TwitterInstance.PostDestroyBlock(_info.ScreenName);
+                string res = this.Twitter.PostDestroyBlock(_info.ScreenName);
                 if (!string.IsNullOrEmpty(res))
                 {
                     MessageBox.Show(res + Environment.NewLine + Properties.Resources.ButtonBlockDestroy_ClickText3);
