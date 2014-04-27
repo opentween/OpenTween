@@ -2891,7 +2891,7 @@ namespace OpenTween
             return retStr;
         }
 
-        public string CreateHtmlAnchor(string text, List<string> AtList, TwitterDataModel.Entities entities, Dictionary<string, string> media)
+        public async Task<string> CreateHtmlAnchorAsync(string text, List<string> AtList, TwitterDataModel.Entities entities, Dictionary<string, string> media)
         {
             if (entities != null)
             {
@@ -2899,7 +2899,8 @@ namespace OpenTween
                 {
                     foreach (var ent in entities.Urls)
                     {
-                        ent.ExpandedUrl = ShortUrl.Instance.ExpandUrl(ent.ExpandedUrl);
+                        ent.ExpandedUrl = await ShortUrl.Instance.ExpandUrlStrAsync(ent.ExpandedUrl)
+                            .ConfigureAwait(false);
 
                         if (media != null && !media.ContainsKey(ent.Url))
                             media.Add(ent.Url, ent.ExpandedUrl);
@@ -2937,6 +2938,12 @@ namespace OpenTween
             text = PreProcessUrl(text); //IDN置換
 
             return text;
+        }
+
+        [Obsolete]
+        public string CreateHtmlAnchor(string text, List<string> AtList, TwitterDataModel.Entities entities, Dictionary<string, string> media)
+        {
+            return this.CreateHtmlAnchorAsync(text, AtList, entities, media).Result;
         }
 
         //Source整形

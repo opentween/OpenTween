@@ -62,7 +62,6 @@ namespace OpenTween
         private TwitterDataModel.User userInfo = null;
         private UserInfo _info = new UserInfo();
         private List<string> atlist = new List<string>();
-        private string recentPostTxt;
 
         private const string Mainpath = "https://twitter.com/";
         private const string Followingpath = "/following";
@@ -171,6 +170,25 @@ namespace OpenTween
             this.DescriptionBrowser.DocumentText = html;
         }
 
+        private async Task SetRecentStatusAsync(TwitterDataModel.Status status)
+        {
+            var atlist = new List<string>();
+
+            if (status != null)
+            {
+                var html = await this.Twitter.CreateHtmlAnchorAsync(status.Text, atlist, status.Entities, null);
+                html = this.Owner.createDetailHtml(html +
+                    " Posted at " + MyCommon.DateTimeParse(status.CreatedAt) +
+                    " via " + status.Source);
+
+                this.RecentPostBrowser.DocumentText = html;
+            }
+            else
+            {
+                this.RecentPostBrowser.DocumentText = Properties.Resources.ShowUserInfo2;
+            }
+        }
+
         private async Task LoadFriendshipAsync(string screenName)
         {
             this.LabelIsFollowing.Text = "";
@@ -238,15 +256,6 @@ namespace OpenTween
 
             var linkTask = this.SetLinklabelWebAsync(this._info.Url);
 
-            RecentPostBrowser.Visible = false;
-            if (_info.RecentPost != null)
-            {
-                recentPostTxt = this.Owner.createDetailHtml(
-                     this.Twitter.CreateHtmlAnchor(_info.RecentPost, atlist, userInfo.Status.Entities, null) +
-                     " Posted at " + _info.PostCreatedAt.ToString() +
-                     " via " + _info.PostSource);
-            }
-
             LinkLabelFollowing.Text = _info.FriendsCount.ToString();
             LinkLabelFollowers.Text = _info.FollowersCount.ToString();
             LinkLabelFav.Text = _info.FavoriteCount.ToString();
@@ -283,6 +292,7 @@ namespace OpenTween
 
             await Task.WhenAll(new[]
             {
+                this.SetRecentStatusAsync(userInfo.Status),
                 linkTask,
                 this.SetUserImageAsync(_info.ImageUrl.OriginalString),
                 this.LoadFriendshipAsync(_info.ScreenName),
@@ -383,15 +393,6 @@ namespace OpenTween
         {
             var descriptionTask = this.SetDescriptionAsync(this._info.Description);
 
-            if (_info.RecentPost != null)
-            {
-                RecentPostBrowser.DocumentText = recentPostTxt;
-                RecentPostBrowser.Visible = true;
-            }
-            else
-            {
-                LabelRecentPost.Text = Properties.Resources.ShowUserInfo2;
-            }
             ButtonClose.Focus();
 
             await descriptionTask;
