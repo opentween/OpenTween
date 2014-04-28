@@ -42,6 +42,20 @@ namespace OpenTween
 {
     public partial class ShowUserInfo : OTBaseForm
     {
+        private TwitterDataModel.User _displayUser;
+        public TwitterDataModel.User DisplayUser
+        {
+            get { return this._displayUser; }
+            set
+            {
+                if (this._displayUser != value)
+                {
+                    this._displayUser = value;
+                    this.OnDisplayUserChanged();
+                }
+            }
+        }
+
         private new TweenMain Owner
         {
             get { return (TweenMain)base.Owner; }
@@ -59,7 +73,78 @@ namespace OpenTween
             // LabelScreenName のフォントを OTBaseForm.GlobalFont に変更
             this.LabelScreenName.Font = this.ReplaceToGlobalFont(this.LabelScreenName.Font);
         }
-        private TwitterDataModel.User userInfo = null;
+
+        protected virtual async void OnDisplayUserChanged()
+        {
+            if (this._displayUser == null)
+                return;
+
+            this.AnalizeUserInfo(this._displayUser);
+
+            this.Text = this.Text.Insert(0, _info.ScreenName + " ");
+            this.LabelId.Text = _info.Id.ToString();
+            this.LabelScreenName.Text = _info.ScreenName;
+            this.LabelName.Text = _info.Name;
+            this.LabelLocation.Text = _info.Location;
+            this.LabelCreatedAt.Text = _info.CreatedAt.ToString();
+
+            if (_info.Protect)
+                this.LabelIsProtected.Text = Properties.Resources.Yes;
+            else
+                this.LabelIsProtected.Text = Properties.Resources.No;
+
+            if (_info.Verified)
+                this.LabelIsVerified.Text = Properties.Resources.Yes;
+            else
+                this.LabelIsVerified.Text = Properties.Resources.No;
+
+            var followingUrl = "https://twitter.com/" + _info.ScreenName + "/following";
+            this.LinkLabelFollowing.Text = _info.FriendsCount.ToString();
+            this.LinkLabelFollowing.Tag = followingUrl;
+            this.ToolTip1.SetToolTip(this.LinkLabelFollowing, followingUrl);
+
+            var followersUrl = "https://twitter.com/" + _info.ScreenName + "/followers";
+            this.LinkLabelFollowers.Text = _info.FollowersCount.ToString();
+            this.LinkLabelFollowers.Tag = followersUrl;
+            this.ToolTip1.SetToolTip(this.LinkLabelFollowers, followersUrl);
+
+            var favoritesUrl = "https://twitter.com/" + _info.ScreenName + "/favorites";
+            this.LinkLabelFav.Text = _info.FavoriteCount.ToString();
+            this.LinkLabelFav.Tag = favoritesUrl;
+            this.ToolTip1.SetToolTip(this.LinkLabelFav, favoritesUrl);
+
+            var profileUrl = "https://twitter.com/" + _info.ScreenName;
+            this.LinkLabelTweet.Text = _info.StatusesCount.ToString();
+            this.LinkLabelTweet.Tag = profileUrl;
+            this.ToolTip1.SetToolTip(this.LinkLabelTweet, profileUrl);
+
+            if (this.Twitter.Username == _info.ScreenName)
+            {
+                this.ButtonEdit.Enabled = true;
+                this.ChangeIconToolStripMenuItem.Enabled = true;
+                this.ButtonBlock.Enabled = false;
+                this.ButtonReportSpam.Enabled = false;
+                this.ButtonBlockDestroy.Enabled = false;
+            }
+            else
+            {
+                this.ButtonEdit.Enabled = false;
+                this.ChangeIconToolStripMenuItem.Enabled = false;
+                this.ButtonBlock.Enabled = true;
+                this.ButtonReportSpam.Enabled = true;
+                this.ButtonBlockDestroy.Enabled = true;
+            }
+
+            await Task.WhenAll(new[]
+            {
+                this.SetDescriptionAsync(_info.Description),
+                this.SetRecentStatusAsync(this._displayUser.Status),
+                this.SetLinkLabelWebAsync(_info.Url),
+                this.SetUserImageAsync(_info.ImageUrl.OriginalString),
+                this.LoadFriendshipAsync(_info.ScreenName),
+            });
+        }
+
         private UserInfo _info = new UserInfo();
 
         private bool AnalizeUserInfo(TwitterDataModel.User user)
@@ -224,69 +309,8 @@ namespace OpenTween
             //TweenMain.TopMost = !TweenMain.TopMost;
         }
 
-        private async void ShowUserInfo_Load(object sender, EventArgs e)
+        private void ShowUserInfo_Load(object sender, EventArgs e)
         {
-            if (!AnalizeUserInfo(userInfo))
-            {
-                MessageBox.Show(Properties.Resources.ShowUserInfo1);
-                this.Close();
-                return;
-            }
-
-            this.Text = this.Text.Insert(0, _info.ScreenName + " ");
-            LabelId.Text = _info.Id.ToString();
-            LabelScreenName.Text = _info.ScreenName;
-            LabelName.Text = _info.Name;
-            LabelLocation.Text = _info.Location;
-            LabelCreatedAt.Text = _info.CreatedAt.ToString();
-
-            if (_info.Protect)
-                LabelIsProtected.Text = Properties.Resources.Yes;
-            else
-                LabelIsProtected.Text = Properties.Resources.No;
-
-            if (_info.Verified)
-                LabelIsVerified.Text = Properties.Resources.Yes;
-            else
-                LabelIsVerified.Text = Properties.Resources.No;
-
-            var followingUrl = "https://twitter.com/" + _info.ScreenName + "/following";
-            this.LinkLabelFollowing.Text = _info.FriendsCount.ToString();
-            this.LinkLabelFollowing.Tag = followingUrl;
-            this.ToolTip1.SetToolTip(this.LinkLabelFollowing, followingUrl);
-
-            var followersUrl = "https://twitter.com/" + _info.ScreenName + "/followers";
-            this.LinkLabelFollowers.Text = _info.FollowersCount.ToString();
-            this.LinkLabelFollowers.Tag = followersUrl;
-            this.ToolTip1.SetToolTip(this.LinkLabelFollowers, followersUrl);
-
-            var favoritesUrl = "https://twitter.com/" + _info.ScreenName + "/favorites";
-            this.LinkLabelFav.Text = _info.FavoriteCount.ToString();
-            this.LinkLabelFav.Tag = favoritesUrl;
-            this.ToolTip1.SetToolTip(this.LinkLabelFav, favoritesUrl);
-
-            var profileUrl = "https://twitter.com/" + _info.ScreenName;
-            this.LinkLabelTweet.Text = _info.StatusesCount.ToString();
-            this.LinkLabelTweet.Tag = profileUrl;
-            this.ToolTip1.SetToolTip(this.LinkLabelTweet, profileUrl);
-
-            if (this.Twitter.Username == _info.ScreenName)
-            {
-                ButtonEdit.Enabled = true;
-                ChangeIconToolStripMenuItem.Enabled = true;
-                ButtonBlock.Enabled = false;
-                ButtonReportSpam.Enabled = false;
-                ButtonBlockDestroy.Enabled = false;
-            }
-            else
-            {
-                ButtonEdit.Enabled = false;
-                ChangeIconToolStripMenuItem.Enabled = false;
-                ButtonBlock.Enabled = true;
-                ButtonReportSpam.Enabled = true;
-                ButtonBlockDestroy.Enabled = true;
-            }
-
             this.TextBoxName.Location = this.LabelName.Location;
             this.TextBoxName.Height = this.LabelName.Height;
             this.TextBoxName.Width = this.LabelName.Width;
@@ -312,25 +336,11 @@ namespace OpenTween
             this.TextBoxDescription.MaxLength = 160;
             this.TextBoxDescription.Multiline = true;
             this.TextBoxDescription.ScrollBars = ScrollBars.Vertical;
-
-            await Task.WhenAll(new[]
-            {
-                this.SetDescriptionAsync(_info.Description),
-                this.SetRecentStatusAsync(userInfo.Status),
-                this.SetLinkLabelWebAsync(_info.Url),
-                this.SetUserImageAsync(_info.ImageUrl.OriginalString),
-                this.LoadFriendshipAsync(_info.ScreenName),
-            });
         }
 
         private void ButtonClose_Click(object sender, EventArgs e)
         {
             this.Close();
-        }
-
-        public TwitterDataModel.User User
-        {
-            set { this.userInfo = value; }
         }
 
         private async void LinkLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
