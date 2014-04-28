@@ -61,7 +61,6 @@ namespace OpenTween
         }
         private TwitterDataModel.User userInfo = null;
         private UserInfo _info = new UserInfo();
-        private List<string> atlist = new List<string>();
 
         private const string Mainpath = "https://twitter.com/";
         private const string Followingpath = "/following";
@@ -263,8 +262,6 @@ namespace OpenTween
 
             LabelLocation.Text = _info.Location;
 
-            var linkTask = this.SetLinklabelWebAsync(this._info.Url);
-
             LinkLabelFollowing.Text = _info.FriendsCount.ToString();
             LinkLabelFollowers.Text = _info.FollowersCount.ToString();
             LinkLabelFav.Text = _info.FavoriteCount.ToString();
@@ -301,8 +298,9 @@ namespace OpenTween
 
             await Task.WhenAll(new[]
             {
+                this.SetDescriptionAsync(_info.Description),
                 this.SetRecentStatusAsync(userInfo.Status),
-                linkTask,
+                this.SetLinklabelWebAsync(_info.Url),
                 this.SetUserImageAsync(_info.ImageUrl.OriginalString),
                 this.LoadFriendshipAsync(_info.ScreenName),
             });
@@ -398,13 +396,9 @@ namespace OpenTween
             }
         }
 
-        private async void ShowUserInfo_Shown(object sender, EventArgs e)
+        private void ShowUserInfo_Shown(object sender, EventArgs e)
         {
-            var descriptionTask = this.SetDescriptionAsync(this._info.Description);
-
             ButtonClose.Focus();
-
-            await descriptionTask;
         }
 
         private void WebBrowser_Navigating(object sender, WebBrowserNavigatingEventArgs e)
@@ -662,13 +656,10 @@ namespace OpenTween
                 TextBoxLocation.Visible = false;
                 LabelLocation.Visible = true;
 
-                var linkTask = this.SetLinklabelWebAsync(this.TextBoxWeb.Text);
                 _info.Url = TextBoxWeb.Text;
                 TextBoxWeb.TabStop = false;
                 TextBoxWeb.Visible = false;
                 LinkLabelWeb.Visible = true;
-
-                var descriptionTask = this.SetDescriptionAsync(this.TextBoxDescription.Text);
 
                 _info.Description = TextBoxDescription.Text;
                 TextBoxDescription.TabStop = false;
@@ -679,7 +670,11 @@ namespace OpenTween
 
                 IsEditing = false;
 
-                await Task.WhenAll(new[] { linkTask, descriptionTask });
+                await Task.WhenAll(new[]
+                {
+                    this.SetLinklabelWebAsync(this.TextBoxWeb.Text),
+                    this.SetDescriptionAsync(this.TextBoxDescription.Text),
+                });
             }
 
             this.ButtonEdit.Enabled = true;
