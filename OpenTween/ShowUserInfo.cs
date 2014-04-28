@@ -166,18 +166,15 @@ namespace OpenTween
             }
         }
 
-        private async Task SetLinklabelWebAsync(string data)
+        private async Task SetLinkLabelWebAsync(string uri)
         {
-            if (data != null)
+            if (uri != null)
             {
-                string webtext;
-                string jumpto;
-                webtext = this.Twitter.PreProcessUrl("<a href=\"" + data + "\">Dummy</a>");
-                webtext = await ShortUrl.Instance.ExpandUrlHtmlAsync(webtext);
-                jumpto = Regex.Match(webtext, @"<a href=""(?<url>.*?)""").Groups["url"].Value;
-                ToolTip1.SetToolTip(LinkLabelWeb, jumpto);
-                LinkLabelWeb.Tag = jumpto;
-                LinkLabelWeb.Text = data;
+                var expandedUrl = await ShortUrl.Instance.ExpandUrlStrAsync(uri);
+
+                this.LinkLabelWeb.Text = uri;
+                this.LinkLabelWeb.Tag = expandedUrl;
+                this.ToolTip1.SetToolTip(this.LinkLabelWeb, expandedUrl);
             }
             else
             {
@@ -309,7 +306,7 @@ namespace OpenTween
             {
                 this.SetDescriptionAsync(_info.Description),
                 this.SetRecentStatusAsync(userInfo.Status),
-                this.SetLinklabelWebAsync(_info.Url),
+                this.SetLinkLabelWebAsync(_info.Url),
                 this.SetUserImageAsync(_info.ImageUrl.OriginalString),
                 this.LoadFriendshipAsync(_info.ScreenName),
             });
@@ -681,7 +678,7 @@ namespace OpenTween
 
                 await Task.WhenAll(new[]
                 {
-                    this.SetLinklabelWebAsync(this.TextBoxWeb.Text),
+                    this.SetLinkLabelWebAsync(this.TextBoxWeb.Text),
                     this.SetDescriptionAsync(this.TextBoxDescription.Text),
                 });
             }
