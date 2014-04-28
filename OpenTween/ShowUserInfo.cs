@@ -168,14 +168,23 @@ namespace OpenTween
 
         private async Task SetLinklabelWebAsync(string data)
         {
-            string webtext;
-            string jumpto;
-            webtext = this.Twitter.PreProcessUrl("<a href=\"" + data + "\">Dummy</a>");
-            webtext = await ShortUrl.Instance.ExpandUrlHtmlAsync(webtext);
-            jumpto = Regex.Match(webtext, @"<a href=""(?<url>.*?)""").Groups["url"].Value;
-            ToolTip1.SetToolTip(LinkLabelWeb, jumpto);
-            LinkLabelWeb.Tag = jumpto;
-            LinkLabelWeb.Text = data;
+            if (data != null)
+            {
+                string webtext;
+                string jumpto;
+                webtext = this.Twitter.PreProcessUrl("<a href=\"" + data + "\">Dummy</a>");
+                webtext = await ShortUrl.Instance.ExpandUrlHtmlAsync(webtext);
+                jumpto = Regex.Match(webtext, @"<a href=""(?<url>.*?)""").Groups["url"].Value;
+                ToolTip1.SetToolTip(LinkLabelWeb, jumpto);
+                LinkLabelWeb.Tag = jumpto;
+                LinkLabelWeb.Text = data;
+            }
+            else
+            {
+                this.LinkLabelWeb.Text = "";
+                this.LinkLabelWeb.Tag = null;
+                this.ToolTip1.SetToolTip(this.LinkLabelWeb, null);
+            }
         }
 
         private async Task SetRecentStatusAsync(TwitterDataModel.Status status)
