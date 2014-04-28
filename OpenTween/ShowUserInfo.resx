@@ -224,6 +224,9 @@
   <data name="&gt;&gt;ButtonBlock.ZOrder" xml:space="preserve">
     <value>5</value>
   </data>
+  <data name="TextBoxDescription.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
   <data name="TextBoxDescription.Location" type="System.Drawing.Point, System.Drawing">
     <value>12, 186</value>
   </data>
@@ -247,6 +250,9 @@
   </data>
   <data name="&gt;&gt;TextBoxDescription.ZOrder" xml:space="preserve">
     <value>6</value>
+  </data>
+  <data name="TextBoxWeb.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
   </data>
   <data name="TextBoxWeb.Location" type="System.Drawing.Point, System.Drawing">
     <value>12, 163</value>
@@ -351,6 +357,9 @@
   <data name="SelectAllToolStripMenuItem.Text" xml:space="preserve">
     <value>すべて選択</value>
   </data>
+  <data name="TextBoxLocation.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
   <data name="TextBoxLocation.Location" type="System.Drawing.Point, System.Drawing">
     <value>34, 188</value>
   </data>
@@ -378,6 +387,9 @@
   <metadata name="ToolTip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>230, 17</value>
   </metadata>
+  <data name="TextBoxName.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
   <data name="TextBoxName.Location" type="System.Drawing.Point, System.Drawing">
     <value>34, 163</value>
   </data>

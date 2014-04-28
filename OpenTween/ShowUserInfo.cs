@@ -570,22 +570,22 @@ namespace OpenTween
                 ButtonEdit.Text = Properties.Resources.UserInfoButtonEdit_ClickText1;
 
                 TextBoxName.Text = LabelName.Text;
-                TextBoxName.TabStop = true;
+                TextBoxName.Enabled = true;
                 TextBoxName.Visible = true;
                 LabelName.Visible = false;
 
                 TextBoxLocation.Text = LabelLocation.Text;
-                TextBoxLocation.TabStop = true;
+                TextBoxLocation.Enabled = true;
                 TextBoxLocation.Visible = true;
                 LabelLocation.Visible = false;
 
                 TextBoxWeb.Text = _info.Url;
-                TextBoxWeb.TabStop = true;
+                TextBoxWeb.Enabled = true;
                 TextBoxWeb.Visible = true;
                 LinkLabelWeb.Visible = false;
 
                 TextBoxDescription.Text = _info.Description;
-                TextBoxDescription.TabStop = true;
+                TextBoxDescription.Enabled = true;
                 TextBoxDescription.Visible = true;
                 DescriptionBrowser.Visible = false;
 
@@ -625,23 +625,23 @@ namespace OpenTween
 
                 LabelName.Text = TextBoxName.Text;
                 _info.Name = LabelName.Text;
-                TextBoxName.TabStop = false;
+                TextBoxName.Enabled = false;
                 TextBoxName.Visible = false;
                 LabelName.Visible = true;
 
                 LabelLocation.Text = TextBoxLocation.Text;
                 _info.Location = LabelLocation.Text;
-                TextBoxLocation.TabStop = false;
+                TextBoxLocation.Enabled = false;
                 TextBoxLocation.Visible = false;
                 LabelLocation.Visible = true;
 
                 _info.Url = TextBoxWeb.Text;
-                TextBoxWeb.TabStop = false;
+                TextBoxWeb.Enabled = false;
                 TextBoxWeb.Visible = false;
                 LinkLabelWeb.Visible = true;
 
                 _info.Description = TextBoxDescription.Text;
-                TextBoxDescription.TabStop = false;
+                TextBoxDescription.Enabled = false;
                 TextBoxDescription.Visible = false;
                 DescriptionBrowser.Visible = true;
 

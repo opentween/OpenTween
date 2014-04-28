@@ -122,13 +122,11 @@
             // 
             resources.ApplyResources(this.TextBoxDescription, "TextBoxDescription");
             this.TextBoxDescription.Name = "TextBoxDescription";
-            this.TextBoxDescription.TabStop = false;
             // 
             // TextBoxWeb
             // 
             resources.ApplyResources(this.TextBoxWeb, "TextBoxWeb");
             this.TextBoxWeb.Name = "TextBoxWeb";
-            this.TextBoxWeb.TabStop = false;
             // 
             // ButtonEdit
             // 
@@ -162,7 +160,6 @@
             // 
             resources.ApplyResources(this.TextBoxLocation, "TextBoxLocation");
             this.TextBoxLocation.Name = "TextBoxLocation";
-            this.TextBoxLocation.TabStop = false;
             // 
             // ToolTip1
             // 
@@ -172,7 +169,6 @@
             // 
             resources.ApplyResources(this.TextBoxName, "TextBoxName");
             this.TextBoxName.Name = "TextBoxName";
-            this.TextBoxName.TabStop = false;
             // 
             // Label12
             // 
