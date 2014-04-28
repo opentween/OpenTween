@@ -62,32 +62,6 @@ namespace OpenTween
         private TwitterDataModel.User userInfo = null;
         private UserInfo _info = new UserInfo();
 
-        private const string Mainpath = "https://twitter.com/";
-        private const string Followingpath = "/following";
-        private const string Followerspath = "/followers";
-        private const string Favpath = "/favorites";
-
-        private string Home;
-        private string Following;
-        private string Followers;
-        private string Favorites;
-
-        private void InitPath()
-        {
-            Home = Mainpath + _info.ScreenName;
-            Following = Home + Followingpath;
-            Followers = Home + Followerspath;
-            Favorites = Home + Favpath;
-        }
-
-        private void InitTooltip()
-        {
-            ToolTip1.SetToolTip(LinkLabelTweet, Home);
-            ToolTip1.SetToolTip(LinkLabelFollowing, Following);
-            ToolTip1.SetToolTip(LinkLabelFollowers, Followers);
-            ToolTip1.SetToolTip(LinkLabelFav, Favorites);
-        }
-
         private bool AnalizeUserInfo(TwitterDataModel.User user)
         {
             if (user == null) return false;
@@ -259,20 +233,11 @@ namespace OpenTween
                 return;
             }
 
-            InitPath();
-            InitTooltip();
             this.Text = this.Text.Insert(0, _info.ScreenName + " ");
             LabelId.Text = _info.Id.ToString();
             LabelScreenName.Text = _info.ScreenName;
             LabelName.Text = _info.Name;
-
             LabelLocation.Text = _info.Location;
-
-            LinkLabelFollowing.Text = _info.FriendsCount.ToString();
-            LinkLabelFollowers.Text = _info.FollowersCount.ToString();
-            LinkLabelFav.Text = _info.FavoriteCount.ToString();
-            LinkLabelTweet.Text = _info.StatusesCount.ToString();
-
             LabelCreatedAt.Text = _info.CreatedAt.ToString();
 
             if (_info.Protect)
@@ -284,6 +249,26 @@ namespace OpenTween
                 LabelIsVerified.Text = Properties.Resources.Yes;
             else
                 LabelIsVerified.Text = Properties.Resources.No;
+
+            var followingUrl = "https://twitter.com/" + _info.ScreenName + "/following";
+            this.LinkLabelFollowing.Text = _info.FriendsCount.ToString();
+            this.LinkLabelFollowing.Tag = followingUrl;
+            this.ToolTip1.SetToolTip(this.LinkLabelFollowing, followingUrl);
+
+            var followersUrl = "https://twitter.com/" + _info.ScreenName + "/followers";
+            this.LinkLabelFollowers.Text = _info.FollowersCount.ToString();
+            this.LinkLabelFollowers.Tag = followersUrl;
+            this.ToolTip1.SetToolTip(this.LinkLabelFollowers, followersUrl);
+
+            var favoritesUrl = "https://twitter.com/" + _info.ScreenName + "/favorites";
+            this.LinkLabelFav.Text = _info.FavoriteCount.ToString();
+            this.LinkLabelFav.Tag = favoritesUrl;
+            this.ToolTip1.SetToolTip(this.LinkLabelFav, favoritesUrl);
+
+            var profileUrl = "https://twitter.com/" + _info.ScreenName;
+            this.LinkLabelTweet.Text = _info.StatusesCount.ToString();
+            this.LinkLabelTweet.Tag = profileUrl;
+            this.ToolTip1.SetToolTip(this.LinkLabelTweet, profileUrl);
 
             if (this.Twitter.Username == _info.ScreenName)
             {
@@ -322,30 +307,15 @@ namespace OpenTween
             set { this.userInfo = value; }
         }
 
-        private void LinkLabelWeb_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private async void LinkLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            if (_info.Url != null)
-                this.Owner.OpenUriAsync(LinkLabelWeb.Text);
-        }
+            var linkLabel = (LinkLabel)sender;
 
-        private void LinkLabelFollowing_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            this.Owner.OpenUriAsync(Following);
-        }
+            var linkUrl = (string)linkLabel.Tag;
+            if (linkUrl == null)
+                return;
 
-        private void LinkLabelFollowers_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            this.Owner.OpenUriAsync(Followers);
-        }
-
-        private void LinkLabelTweet_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            this.Owner.OpenUriAsync(Home);
-        }
-
-        private void LinkLabelFav_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            this.Owner.OpenUriAsync(Favorites);
+            await this.Owner.OpenUriAsync(linkUrl);
         }
 
         private void ButtonFollow_Click(object sender, EventArgs e)

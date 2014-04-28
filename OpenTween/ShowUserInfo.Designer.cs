@@ -277,7 +277,7 @@
             resources.ApplyResources(this.LinkLabelFav, "LinkLabelFav");
             this.LinkLabelFav.Name = "LinkLabelFav";
             this.LinkLabelFav.TabStop = true;
-            this.LinkLabelFav.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LinkLabelFav_LinkClicked);
+            this.LinkLabelFav.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LinkLabel_LinkClicked);
             // 
             // Label9
             // 
@@ -301,7 +301,7 @@
             resources.ApplyResources(this.LinkLabelTweet, "LinkLabelTweet");
             this.LinkLabelTweet.Name = "LinkLabelTweet";
             this.LinkLabelTweet.TabStop = true;
-            this.LinkLabelTweet.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LinkLabelTweet_LinkClicked);
+            this.LinkLabelTweet.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LinkLabel_LinkClicked);
             // 
             // LabelIsFollowed
             // 
@@ -323,7 +323,7 @@
             resources.ApplyResources(this.LinkLabelFollowers, "LinkLabelFollowers");
             this.LinkLabelFollowers.Name = "LinkLabelFollowers";
             this.LinkLabelFollowers.TabStop = true;
-            this.LinkLabelFollowers.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LinkLabelFollowers_LinkClicked);
+            this.LinkLabelFollowers.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LinkLabel_LinkClicked);
             // 
             // ButtonUnFollow
             // 
@@ -337,7 +337,7 @@
             resources.ApplyResources(this.LinkLabelFollowing, "LinkLabelFollowing");
             this.LinkLabelFollowing.Name = "LinkLabelFollowing";
             this.LinkLabelFollowing.TabStop = true;
-            this.LinkLabelFollowing.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LinkLabelFollowing_LinkClicked);
+            this.LinkLabelFollowing.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LinkLabel_LinkClicked);
             // 
             // Label6
             // 
@@ -392,7 +392,7 @@
             this.LinkLabelWeb.Name = "LinkLabelWeb";
             this.LinkLabelWeb.TabStop = true;
             this.LinkLabelWeb.UseMnemonic = false;
-            this.LinkLabelWeb.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LinkLabelWeb_LinkClicked);
+            this.LinkLabelWeb.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LinkLabel_LinkClicked);
             // 
             // Label1
             // 
