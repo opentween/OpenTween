@@ -287,6 +287,32 @@ namespace OpenTween
                 ButtonBlockDestroy.Enabled = true;
             }
 
+            this.TextBoxName.Location = this.LabelName.Location;
+            this.TextBoxName.Height = this.LabelName.Height;
+            this.TextBoxName.Width = this.LabelName.Width;
+            this.TextBoxName.BackColor = this.Owner.InputBackColor;
+            this.TextBoxName.MaxLength = 20;
+
+            this.TextBoxLocation.Location = this.LabelLocation.Location;
+            this.TextBoxLocation.Height = this.LabelLocation.Height;
+            this.TextBoxLocation.Width = this.LabelLocation.Width;
+            this.TextBoxLocation.BackColor = this.Owner.InputBackColor;
+            this.TextBoxLocation.MaxLength = 30;
+
+            this.TextBoxWeb.Location = this.LinkLabelWeb.Location;
+            this.TextBoxWeb.Height = this.LinkLabelWeb.Height;
+            this.TextBoxWeb.Width = this.LinkLabelWeb.Width;
+            this.TextBoxWeb.BackColor = this.Owner.InputBackColor;
+            this.TextBoxWeb.MaxLength = 100;
+
+            this.TextBoxDescription.Location = this.DescriptionBrowser.Location;
+            this.TextBoxDescription.Height = this.DescriptionBrowser.Height;
+            this.TextBoxDescription.Width = this.DescriptionBrowser.Width;
+            this.TextBoxDescription.BackColor = this.Owner.InputBackColor;
+            this.TextBoxDescription.MaxLength = 160;
+            this.TextBoxDescription.Multiline = true;
+            this.TextBoxDescription.ScrollBars = ScrollBars.Vertical;
+
             await Task.WhenAll(new[]
             {
                 this.SetDescriptionAsync(_info.Description),
@@ -543,45 +569,22 @@ namespace OpenTween
                 ButtonEditText = ButtonEdit.Text;
                 ButtonEdit.Text = Properties.Resources.UserInfoButtonEdit_ClickText1;
 
-                //座標初期化,プロパティ設定
-                TextBoxName.Location = LabelName.Location;
-                TextBoxName.Height = LabelName.Height;
-                TextBoxName.Width = LabelName.Width;
-                TextBoxName.BackColor = this.Owner.InputBackColor;
-                TextBoxName.MaxLength = 20;
                 TextBoxName.Text = LabelName.Text;
                 TextBoxName.TabStop = true;
                 TextBoxName.Visible = true;
                 LabelName.Visible = false;
 
-                TextBoxLocation.Location = LabelLocation.Location;
-                TextBoxLocation.Height = LabelLocation.Height;
-                TextBoxLocation.Width = LabelLocation.Width;
-                TextBoxLocation.BackColor = this.Owner.InputBackColor;
-                TextBoxLocation.MaxLength = 30;
                 TextBoxLocation.Text = LabelLocation.Text;
                 TextBoxLocation.TabStop = true;
                 TextBoxLocation.Visible = true;
                 LabelLocation.Visible = false;
 
-                TextBoxWeb.Location = LinkLabelWeb.Location;
-                TextBoxWeb.Height = LinkLabelWeb.Height;
-                TextBoxWeb.Width = LinkLabelWeb.Width;
-                TextBoxWeb.BackColor = this.Owner.InputBackColor;
-                TextBoxWeb.MaxLength = 100;
                 TextBoxWeb.Text = _info.Url;
                 TextBoxWeb.TabStop = true;
                 TextBoxWeb.Visible = true;
                 LinkLabelWeb.Visible = false;
 
-                TextBoxDescription.Location = DescriptionBrowser.Location;
-                TextBoxDescription.Height = DescriptionBrowser.Height;
-                TextBoxDescription.Width = DescriptionBrowser.Width;
-                TextBoxDescription.BackColor = this.Owner.InputBackColor;
-                TextBoxDescription.MaxLength = 160;
                 TextBoxDescription.Text = _info.Description;
-                TextBoxDescription.Multiline = true;
-                TextBoxDescription.ScrollBars = ScrollBars.Vertical;
                 TextBoxDescription.TabStop = true;
                 TextBoxDescription.Visible = true;
                 DescriptionBrowser.Visible = false;
