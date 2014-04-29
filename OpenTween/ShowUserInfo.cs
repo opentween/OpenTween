@@ -256,12 +256,6 @@ namespace OpenTween
             this.ButtonUnFollow.Enabled = friendship.IsFollowing;
         }
 
-        private void ShowUserInfo_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            //TweenMain.TopMost = !TweenMain.TopMost;
-            //TweenMain.TopMost = !TweenMain.TopMost;
-        }
-
         private void ShowUserInfo_Load(object sender, EventArgs e)
         {
             this.TextBoxName.Location = this.LabelName.Location;

@@ -463,7 +463,6 @@
             this.TopMost = true;
             this.Activated += new System.EventHandler(this.ShowUserInfo_Activated);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ShowUserInfo_FormClosing);
-            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.ShowUserInfo_FormClosed);
             this.Load += new System.EventHandler(this.ShowUserInfo_Load);
             this.Shown += new System.EventHandler(this.ShowUserInfo_Shown);
             this.DragDrop += new System.Windows.Forms.DragEventHandler(this.ShowUserInfo_DragDrop);
