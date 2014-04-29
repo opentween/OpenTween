@@ -447,16 +447,6 @@ namespace OpenTween
             }
         }
 
-        private void UserPicture_MouseEnter(object sender, EventArgs e)
-        {
-            UserPicture.Cursor = Cursors.Hand;
-        }
-
-        private void UserPicture_MouseLeave(object sender, EventArgs e)
-        {
-            UserPicture.Cursor = Cursors.Default;
-        }
-
         private bool IsEditing = false;
         private string ButtonEditText = "";
 

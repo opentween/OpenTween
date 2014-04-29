@@ -259,12 +259,11 @@
             this.UserPicture.BackColor = System.Drawing.Color.White;
             this.UserPicture.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.UserPicture.ContextMenuStrip = this.ContextMenuUserPicture;
+            this.UserPicture.Cursor = System.Windows.Forms.Cursors.Hand;
             resources.ApplyResources(this.UserPicture, "UserPicture");
             this.UserPicture.Name = "UserPicture";
             this.UserPicture.TabStop = false;
             this.UserPicture.DoubleClick += new System.EventHandler(this.UserPicture_DoubleClick);
-            this.UserPicture.MouseEnter += new System.EventHandler(this.UserPicture_MouseEnter);
-            this.UserPicture.MouseLeave += new System.EventHandler(this.UserPicture_MouseLeave);
             // 
             // LinkLabelFav
             // 
