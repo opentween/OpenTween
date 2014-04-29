@@ -579,67 +579,44 @@ namespace OpenTween
             this.ButtonEdit.Enabled = true;
         }
 
-        class UpdateProfileImageArgs
+        private async Task DoChangeIcon(string filename)
         {
-            public Twitter tw;
-            public string FileName;
-        }
+            var ret = await Task.Run(() =>
+                this.Twitter.PostUpdateProfileImage(filename));
 
-        private void UpdateProfileImage_Dowork(object sender, DoWorkEventArgs e)
-        {
-            UpdateProfileImageArgs arg = (UpdateProfileImageArgs)e.Argument;
-            e.Result = arg.tw.PostUpdateProfileImage(arg.FileName);
-        }
-
-        private async void UpdateProfileImage_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-        {
-            string res = "";
-            TwitterDataModel.User user = null;
-
-            if (e.Result == null)
+            if (!string.IsNullOrEmpty(ret))
             {
-                return;
+                // "Err:"が付いたエラーメッセージが返ってくる
+                MessageBox.Show(ret + Environment.NewLine + Properties.Resources.ChangeIconToolStripMenuItem_ClickText4);
             }
-
-
-            // アイコンを取得してみる
-            // が、古いアイコンのユーザーデータが返ってくるため反映/判断できない
+            else
+            {
+                MessageBox.Show(Properties.Resources.ChangeIconToolStripMenuItem_ClickText5);
+            }
 
             try
             {
-                res = this.Twitter.GetUserInfo(this._displayUser.ScreenName, ref user);
-                await this.SetUserImageAsync(user.ProfileImageUrlHttps);
+                var user = await Task.Run(() =>
+                {
+                    TwitterDataModel.User result = null;
+
+                    var err = this.Twitter.GetUserInfo(this._displayUser.ScreenName, ref result);
+                    if (!string.IsNullOrEmpty(err))
+                        throw new WebApiException(err);
+
+                    return result;
+                });
+
+                if (user != null)
+                    this.DisplayUser = user;
             }
-            catch (Exception)
+            catch (WebApiException ex)
             {
+                MessageBox.Show(ex.Message);
             }
         }
 
-        private void doChangeIcon(string filename)
-        {
-            string res = "";
-            UpdateProfileImageArgs arg = new UpdateProfileImageArgs() { tw = this.Twitter, FileName = filename };
-
-            using (FormInfo dlg = new FormInfo(this, Properties.Resources.ChangeIconToolStripMenuItem_ClickText3,
-                                               UpdateProfileImage_Dowork,
-                                               UpdateProfileImage_RunWorkerCompleted,
-                                               arg))
-            {
-                dlg.ShowDialog();
-                res = dlg.Result as string;
-                if (!string.IsNullOrEmpty(res))
-                {
-                    // "Err:"が付いたエラーメッセージが返ってくる
-                    MessageBox.Show(res + "\r\n" + Properties.Resources.ChangeIconToolStripMenuItem_ClickText4);
-                }
-                else
-                {
-                    MessageBox.Show(Properties.Resources.ChangeIconToolStripMenuItem_ClickText5);
-                }
-            }
-        }
-
-        private void ChangeIconToolStripMenuItem_Click(object sender, EventArgs e)
+        private async void ChangeIconToolStripMenuItem_Click(object sender, EventArgs e)
         {
             OpenFileDialogIcon.Filter = Properties.Resources.ChangeIconToolStripMenuItem_ClickText1;
             OpenFileDialogIcon.Title = Properties.Resources.ChangeIconToolStripMenuItem_ClickText2;
@@ -655,7 +632,7 @@ namespace OpenTween
             string fn = OpenFileDialogIcon.FileName;
             if (isValidIconFile(new FileInfo(fn)))
             {
-                doChangeIcon(fn);
+                await this.DoChangeIcon(fn);
             }
             else
             {
@@ -747,12 +724,12 @@ namespace OpenTween
             }
         }
 
-        private void ShowUserInfo_DragDrop(object sender, DragEventArgs e)
+        private async void ShowUserInfo_DragDrop(object sender, DragEventArgs e)
         {
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
             {
                 string filename = ((string[])e.Data.GetData(DataFormats.FileDrop, false))[0];
-                doChangeIcon(filename);
+                await this.DoChangeIcon(filename);
             }
         }
     }
