@@ -672,18 +672,15 @@ namespace OpenTween
         {
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
             {
-                string filename = ((string[])e.Data.GetData(DataFormats.FileDrop, false))[0];
-                FileInfo fl = new FileInfo(filename);
+                var files = (string[])e.Data.GetData(DataFormats.FileDrop, false);
+                if (files.Length != 1)
+                    return;
 
-                e.Effect = DragDropEffects.None;
-                if (this.IsValidIconFile(fl))
+                var finfo = new FileInfo(files[0]);
+                if (this.IsValidIconFile(finfo))
                 {
                     e.Effect = DragDropEffects.Copy;
                 }
-            }
-            else
-            {
-                e.Effect = DragDropEffects.None;
             }
         }
 
