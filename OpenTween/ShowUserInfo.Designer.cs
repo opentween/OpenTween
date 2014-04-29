@@ -201,7 +201,6 @@
             this.RecentPostBrowser.Url = new System.Uri("about:blank", System.UriKind.Absolute);
             this.RecentPostBrowser.WebBrowserShortcutsEnabled = false;
             this.RecentPostBrowser.Navigating += new System.Windows.Forms.WebBrowserNavigatingEventHandler(this.WebBrowser_Navigating);
-            this.RecentPostBrowser.StatusTextChanged += new System.EventHandler(this.WebBrowser_StatusTextChanged);
             // 
             // ChangeIconToolStripMenuItem
             // 
@@ -227,7 +226,6 @@
             this.DescriptionBrowser.Url = new System.Uri("about:blank", System.UriKind.Absolute);
             this.DescriptionBrowser.WebBrowserShortcutsEnabled = false;
             this.DescriptionBrowser.Navigating += new System.Windows.Forms.WebBrowserNavigatingEventHandler(this.WebBrowser_Navigating);
-            this.DescriptionBrowser.StatusTextChanged += new System.EventHandler(this.WebBrowser_StatusTextChanged);
             // 
             // LabelScreenName
             // 
@@ -467,7 +465,6 @@
             this.Shown += new System.EventHandler(this.ShowUserInfo_Shown);
             this.DragDrop += new System.Windows.Forms.DragEventHandler(this.ShowUserInfo_DragDrop);
             this.DragOver += new System.Windows.Forms.DragEventHandler(this.ShowUserInfo_DragOver);
-            this.MouseEnter += new System.EventHandler(this.ShowUserInfo_MouseEnter);
             this.ContextMenuRecentPostBrowser.ResumeLayout(false);
             this.ContextMenuUserPicture.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.UserPicture)).EndInit();

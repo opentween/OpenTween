@@ -392,19 +392,6 @@ namespace OpenTween
             }
         }
 
-        private void WebBrowser_StatusTextChanged(object sender, EventArgs e)
-        {
-            var browser = (WebBrowser)sender;
-            if (browser.StatusText.StartsWith("http"))
-            {
-                ToolTip1.Show(browser.StatusText, this, PointToClient(MousePosition));
-            }
-            else if (string.IsNullOrEmpty(DescriptionBrowser.StatusText))
-            {
-                ToolTip1.Hide(this);
-            }
-        }
-
         private void SelectAllToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var browser = (WebBrowser)this.ContextMenuRecentPostBrowser.SourceControl;
@@ -434,11 +421,6 @@ namespace OpenTween
             var selectedText = this.Owner.WebBrowser_GetSelectionText(ref browser);
 
             this.SelectionCopyToolStripMenuItem.Enabled = selectedText != null;
-        }
-
-        private void ShowUserInfo_MouseEnter(object sender, EventArgs e)
-        {
-            ToolTip1.Hide(this);
         }
 
         private void LinkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
