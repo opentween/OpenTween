@@ -148,7 +148,7 @@
             this.SelectAllToolStripMenuItem});
             this.ContextMenuRecentPostBrowser.Name = "ContextMenuStrip1";
             resources.ApplyResources(this.ContextMenuRecentPostBrowser, "ContextMenuRecentPostBrowser");
-            this.ContextMenuRecentPostBrowser.Opening += new System.ComponentModel.CancelEventHandler(this.ContextMenuStrip1_Opening);
+            this.ContextMenuRecentPostBrowser.Opening += new System.ComponentModel.CancelEventHandler(this.ContextMenuRecentPostBrowser_Opening);
             // 
             // SelectAllToolStripMenuItem
             // 

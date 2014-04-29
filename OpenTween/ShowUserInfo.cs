@@ -400,10 +400,10 @@ namespace OpenTween
 
         private void WebBrowser_StatusTextChanged(object sender, EventArgs e)
         {
-            WebBrowser ComponentInstance = (WebBrowser)sender;
-            if (ComponentInstance.StatusText.StartsWith("http"))
+            var browser = (WebBrowser)sender;
+            if (browser.StatusText.StartsWith("http"))
             {
-                ToolTip1.Show(ComponentInstance.StatusText, this, PointToClient(MousePosition));
+                ToolTip1.Show(browser.StatusText, this, PointToClient(MousePosition));
             }
             else if (string.IsNullOrEmpty(DescriptionBrowser.StatusText))
             {
@@ -413,42 +413,33 @@ namespace OpenTween
 
         private void SelectAllToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            WebBrowser sc = ContextMenuRecentPostBrowser.SourceControl as WebBrowser;
-            if (sc != null)
-                sc.Document.ExecCommand("SelectAll", false, null);
+            var browser = (WebBrowser)this.ContextMenuRecentPostBrowser.SourceControl;
+            browser.Document.ExecCommand("SelectAll", false, null);
         }
 
         private void SelectionCopyToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            WebBrowser sc = ContextMenuRecentPostBrowser.SourceControl as WebBrowser;
-            if (sc != null)
+            var browser = (WebBrowser)this.ContextMenuRecentPostBrowser.SourceControl;
+            var selectedText = this.Owner.WebBrowser_GetSelectionText(ref browser);
+            if (selectedText != null)
             {
-                string _selText = this.Owner.WebBrowser_GetSelectionText(ref sc);
-                if (_selText != null)
+                try
                 {
-                    try
-                    {
-                        Clipboard.SetDataObject(_selText, false, 5, 100);
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show(ex.Message);
-                    }
+                    Clipboard.SetDataObject(selectedText, false, 5, 100);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
                 }
             }
         }
 
-        private void ContextMenuStrip1_Opening(object sender, CancelEventArgs e)
+        private void ContextMenuRecentPostBrowser_Opening(object sender, CancelEventArgs e)
         {
-            WebBrowser sc = ContextMenuRecentPostBrowser.SourceControl as WebBrowser;
-            if (sc != null)
-            {
-                string _selText = this.Owner.WebBrowser_GetSelectionText(ref sc);
-                if (_selText == null)
-                    SelectionCopyToolStripMenuItem.Enabled = false;
-                else
-                    SelectionCopyToolStripMenuItem.Enabled = true;
-            }
+            var browser = (WebBrowser)this.ContextMenuRecentPostBrowser.SourceControl;
+            var selectedText = this.Owner.WebBrowser_GetSelectionText(ref browser);
+
+            this.SelectionCopyToolStripMenuItem.Enabled = selectedText != null;
         }
 
         private void ShowUserInfo_MouseEnter(object sender, EventArgs e)
