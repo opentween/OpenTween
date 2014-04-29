@@ -1378,7 +1378,7 @@
     <value>CenterParent</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value> のユーザー情報</value>
+    <value>ユーザー情報</value>
   </data>
   <data name="&gt;&gt;SelectionCopyToolStripMenuItem.Name" xml:space="preserve">
     <value>SelectionCopyToolStripMenuItem</value>

@@ -81,7 +81,6 @@ namespace OpenTween
 
             var user = this._displayUser;
 
-            this.Text = this.Text.Insert(0, user.ScreenName + " ");
             this.LabelId.Text = user.IdStr;
             this.LabelScreenName.Text = user.ScreenName;
             this.LabelName.Text = WebUtility.HtmlDecode(user.Name);
