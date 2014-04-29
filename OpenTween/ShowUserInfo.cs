@@ -537,39 +537,36 @@ namespace OpenTween
                     TextBoxWeb.Modified ||
                     TextBoxDescription.Modified)
                 {
-                    var err = await Task.Run(() =>
-                        this.Twitter.PostUpdateProfile(
-                            this.TextBoxName.Text,
-                            this.TextBoxWeb.Text,
-                            this.TextBoxLocation.Text,
-                            this.TextBoxDescription.Text));
-
-                    if (!string.IsNullOrEmpty(err))
+                    try
                     {
-                        MessageBox.Show(err);
+                        var user = await Task.Run(() =>
+                            this.Twitter.PostUpdateProfile(
+                                this.TextBoxName.Text,
+                                this.TextBoxWeb.Text,
+                                this.TextBoxLocation.Text,
+                                this.TextBoxDescription.Text));
+
+                        this.DisplayUser = user;
+                    }
+                    catch (WebApiException ex)
+                    {
+                        MessageBox.Show(ex.Message);
                         return;
                     }
                 }
 
-
-                LabelName.Text = TextBoxName.Text;
-                this._displayUser.Name = LabelName.Text;
                 TextBoxName.Enabled = false;
                 TextBoxName.Visible = false;
                 LabelName.Visible = true;
 
-                LabelLocation.Text = TextBoxLocation.Text;
-                this._displayUser.Location = LabelLocation.Text;
                 TextBoxLocation.Enabled = false;
                 TextBoxLocation.Visible = false;
                 LabelLocation.Visible = true;
 
-                this._displayUser.Url = TextBoxWeb.Text;
                 TextBoxWeb.Enabled = false;
                 TextBoxWeb.Visible = false;
                 LinkLabelWeb.Visible = true;
 
-                this._displayUser.Description = TextBoxDescription.Text;
                 TextBoxDescription.Enabled = false;
                 TextBoxDescription.Visible = false;
                 DescriptionBrowser.Visible = true;
@@ -577,12 +574,6 @@ namespace OpenTween
                 ButtonEdit.Text = ButtonEditText;
 
                 IsEditing = false;
-
-                await Task.WhenAll(new[]
-                {
-                    this.SetLinkLabelWebAsync(this.TextBoxWeb.Text),
-                    this.SetDescriptionAsync(this.TextBoxDescription.Text),
-                });
             }
 
             this.ButtonEdit.Enabled = true;
