@@ -587,7 +587,7 @@ namespace OpenTween
             }
 
             string fn = OpenFileDialogIcon.FileName;
-            if (isValidIconFile(new FileInfo(fn)))
+            if (this.IsValidIconFile(new FileInfo(fn)))
             {
                 await this.DoChangeIcon(fn);
             }
@@ -651,15 +651,21 @@ namespace OpenTween
             }
         }
 
-        private bool isValidExtension(string ext)
+        private bool IsValidExtension(string ext)
         {
-            return ext.Equals(".jpg") || ext.Equals(".jpeg") || ext.Equals(".png") || ext.Equals(".gif");
+            ext = ext.ToLower();
+
+            return ext.Equals(".jpg", StringComparison.Ordinal) ||
+                ext.Equals(".jpeg", StringComparison.Ordinal) ||
+                ext.Equals(".png", StringComparison.Ordinal) ||
+                ext.Equals(".gif", StringComparison.Ordinal);
         }
 
-        private bool isValidIconFile(FileInfo info)
+        private bool IsValidIconFile(FileInfo info)
         {
-            string ext = info.Extension.ToLower();
-            return isValidExtension(ext) && info.Length < 700 * 1024 && !MyCommon.IsAnimatedGif(info.FullName);
+            return this.IsValidExtension(info.Extension) &&
+                info.Length < 700 * 1024 &&
+                !MyCommon.IsAnimatedGif(info.FullName);
         }
 
         private void ShowUserInfo_DragOver(object sender, DragEventArgs e)
@@ -670,7 +676,7 @@ namespace OpenTween
                 FileInfo fl = new FileInfo(filename);
 
                 e.Effect = DragDropEffects.None;
-                if (isValidIconFile(fl))
+                if (this.IsValidIconFile(fl))
                 {
                     e.Effect = DragDropEffects.Copy;
                 }
