@@ -491,33 +491,6 @@ namespace OpenTween
             UserPicture.Cursor = Cursors.Default;
         }
 
-        private class UpdateProfileArgs
-        {
-            public Twitter tw;
-            public string name;
-            public string location;
-            public string url;
-            public string description;
-        }
-
-        private void UpdateProfile_Dowork(object sender, DoWorkEventArgs e)
-        {
-            UpdateProfileArgs arg = (UpdateProfileArgs)e.Argument;
-            e.Result = arg.tw.PostUpdateProfile(arg.name,
-                                                arg.url,
-                                                arg.location,
-                                                arg.description);
-        }
-
-        private void UpddateProfile_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-        {
-            string res = (string)e.Result;
-            if (res.StartsWith("err:", StringComparison.CurrentCultureIgnoreCase))
-            {
-                MessageBox.Show(res);
-            }
-        }
-
         private bool IsEditing = false;
         private string ButtonEditText = "";
 
@@ -560,29 +533,22 @@ namespace OpenTween
             }
             else
             {
-                UpdateProfileArgs arg = new UpdateProfileArgs();
-
                 if (TextBoxName.Modified ||
                     TextBoxLocation.Modified ||
                     TextBoxWeb.Modified ||
                     TextBoxDescription.Modified)
                 {
-                    arg.tw = this.Twitter;
-                    arg.name = TextBoxName.Text.Trim();
-                    arg.url = TextBoxWeb.Text.Trim();
-                    arg.location = TextBoxLocation.Text.Trim();
-                    arg.description = TextBoxDescription.Text.Trim();
+                    var err = await Task.Run(() =>
+                        this.Twitter.PostUpdateProfile(
+                            this.TextBoxName.Text,
+                            this.TextBoxWeb.Text,
+                            this.TextBoxLocation.Text,
+                            this.TextBoxDescription.Text));
 
-                    using (FormInfo dlg = new FormInfo(this, Properties.Resources.UserInfoButtonEdit_ClickText2,
-                                                       UpdateProfile_Dowork,
-                                                       UpddateProfile_RunWorkerCompleted,
-                                                       arg))
+                    if (!string.IsNullOrEmpty(err))
                     {
-                        dlg.ShowDialog();
-                        if (!string.IsNullOrEmpty(dlg.Result.ToString()))
-                        {
-                            return;
-                        }
+                        MessageBox.Show(err);
+                        return;
                     }
                 }
 
