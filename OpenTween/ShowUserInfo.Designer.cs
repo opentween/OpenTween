@@ -250,7 +250,7 @@
             resources.ApplyResources(this.UserPicture, "UserPicture");
             this.UserPicture.Name = "UserPicture";
             this.UserPicture.TabStop = false;
-            this.UserPicture.DoubleClick += new System.EventHandler(this.UserPicture_DoubleClick);
+            this.UserPicture.Click += new System.EventHandler(this.UserPicture_Click);
             // 
             // LinkLabelFav
             // 

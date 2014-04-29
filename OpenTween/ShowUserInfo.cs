@@ -428,7 +428,7 @@ namespace OpenTween
             this.Owner.AddNewTabForUserTimeline(this._displayUser.ScreenName);
         }
 
-        private void UserPicture_DoubleClick(object sender, EventArgs e)
+        private void UserPicture_Click(object sender, EventArgs e)
         {
             if (UserPicture.Image != null)
             {
