@@ -428,13 +428,12 @@ namespace OpenTween
             this.Owner.AddNewTabForUserTimeline(this._displayUser.ScreenName);
         }
 
-        private void UserPicture_Click(object sender, EventArgs e)
+        private async void UserPicture_Click(object sender, EventArgs e)
         {
-            if (UserPicture.Image != null)
-            {
-                string name = this._displayUser.ProfileImageUrlHttps;
-                this.Owner.OpenUriAsync(name.Remove(name.LastIndexOf("_normal"), 7));
-            }
+            var imageUrl = this._displayUser.ProfileImageUrlHttps;
+            imageUrl = imageUrl.Remove(imageUrl.LastIndexOf("_normal"), 7);
+
+            await this.Owner.OpenUriAsync(imageUrl);
         }
 
         private bool IsEditing = false;
