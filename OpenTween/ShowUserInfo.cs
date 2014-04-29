@@ -345,16 +345,6 @@ namespace OpenTween
                 UserPicture.Invalidate(false);
         }
 
-        private void ShowUserInfo_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            var oldImage = this.UserPicture.Image;
-            if (oldImage != null)
-            {
-                this.UserPicture.Image = null;
-                oldImage.Dispose();
-            }
-        }
-
         private void ShowUserInfo_Shown(object sender, EventArgs e)
         {
             ButtonClose.Focus();
@@ -692,6 +682,24 @@ namespace OpenTween
                 string filename = ((string[])e.Data.GetData(DataFormats.FileDrop, false))[0];
                 await this.DoChangeIcon(filename);
             }
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                var oldImage = this.UserPicture.Image;
+                if (oldImage != null)
+                {
+                    this.UserPicture.Image = null;
+                    oldImage.Dispose();
+                }
+
+                if (this.components != null)
+                    this.components.Dispose();
+            }
+
+            base.Dispose(disposing);
         }
     }
 }

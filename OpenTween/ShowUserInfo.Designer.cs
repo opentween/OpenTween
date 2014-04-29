@@ -7,19 +7,6 @@
         /// </summary>
         private System.ComponentModel.IContainer components = null;
 
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing && (components != null))
-            {
-                components.Dispose();
-            }
-            base.Dispose(disposing);
-        }
-
         #region Windows Form Designer generated code
 
         /// <summary>
@@ -459,7 +446,6 @@
             this.ShowInTaskbar = false;
             this.TopMost = true;
             this.Activated += new System.EventHandler(this.ShowUserInfo_Activated);
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ShowUserInfo_FormClosing);
             this.Load += new System.EventHandler(this.ShowUserInfo_Load);
             this.Shown += new System.EventHandler(this.ShowUserInfo_Shown);
             this.DragDrop += new System.Windows.Forms.DragEventHandler(this.ShowUserInfo_DragDrop);
