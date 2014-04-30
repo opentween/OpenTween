@@ -1279,20 +1279,6 @@ namespace OpenTween
             }
         }
 
-        private void CreatePictureServices()
-        {
-            if (this.pictureService != null) this.pictureService.Clear();
-            this.pictureService = null;
-            this.pictureService = new Dictionary<string, IMultimediaShareService> {
-                {"TwitPic", new TwitPic(tw)},
-                {"img.ly", new imgly(tw)},
-                {"yfrog", new yfrog(tw)},
-                {"Twitter", new TwitterPhoto(tw)},
-                {"ついっぷるフォト", new TwipplePhoto(tw)},
-                {"Imgur", new Imgur(tw)},
-            };
-        }
-
         private void ListTab_DrawItem(object sender, DrawItemEventArgs e)
         {
             string txt;
@@ -12294,6 +12280,20 @@ namespace OpenTween
         }
 
 #region "画像投稿"
+        private void CreatePictureServices()
+        {
+            if (this.pictureService != null) this.pictureService.Clear();
+            this.pictureService = null;
+            this.pictureService = new Dictionary<string, IMultimediaShareService> {
+                {"TwitPic", new TwitPic(tw)},
+                {"img.ly", new imgly(tw)},
+                {"yfrog", new yfrog(tw)},
+                {"Twitter", new TwitterPhoto(tw)},
+                {"ついっぷるフォト", new TwipplePhoto(tw)},
+                {"Imgur", new Imgur(tw)},
+            };
+        }
+
         private void ImageSelectMenuItem_Click(object sender, EventArgs e)
         {
             if (ImageSelectionPanel.Visible)
@@ -12511,7 +12511,7 @@ namespace OpenTween
             Image oldImage = null;
             if (this.ImageSelectedPicture.Image != null)
             {
-                if (this.ImageSelectedPicture.Image != ImageSelectedPicture.InitialImage &&
+                if (this.ImageSelectedPicture.Image != Properties.Resources.InitialImage &&
                     this.ImageSelectedPicture.Image != Properties.Resources.MultiMediaImage)
                 {
                     oldImage = this.ImageSelectedPicture.Image;
@@ -12519,7 +12519,7 @@ namespace OpenTween
             }
             if (invalidate)
             {
-                this.ImageSelectedPicture.Image = ImageSelectedPicture.InitialImage;
+                this.ImageSelectedPicture.Image = Properties.Resources.InitialImage;
                 this.ImageSelectedPicture.Tag = MyCommon.UploadFileType.Invalid;
             }
             else
@@ -12562,7 +12562,7 @@ namespace OpenTween
 
         private bool TryGetSelectedMedia(out string imageService, out string imagePath)
         {
-            if (ImageSelectedPicture.Image != ImageSelectedPicture.InitialImage &&
+            if (ImageSelectedPicture.Image != Properties.Resources.InitialImage &&
                 ImageServiceCombo.SelectedIndex > -1 &&
                 !string.IsNullOrEmpty(ImagefilePathText.Text))
             {
