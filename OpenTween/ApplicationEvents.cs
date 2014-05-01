@@ -68,7 +68,7 @@ namespace OpenTween
                     var text = string.Format(MyCommon.ReplaceAppName(Properties.Resources.StartupText1), MyCommon.GetAssemblyName());
                     MessageBox.Show(text, MyCommon.ReplaceAppName(Properties.Resources.StartupText2), MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                    ShowPreviousWindow();
+                    TryActivatePreviousWindow();
                     return 1;
                 }
 
@@ -107,24 +107,38 @@ namespace OpenTween
                 .ToDictionary(x => x.Key, x => x.Last().Groups[2].Value);
         }
 
-        private static void ShowPreviousWindow()
+        private static void TryActivatePreviousWindow()
         {
             // 実行中の同じアプリケーションのウィンドウ・ハンドルの取得
-            var prevProcess = Win32Api.GetPreviousProcess();
-            if (prevProcess == null)
+            var prevProcess = GetPreviousProcess();
+            if (prevProcess == null || prevProcess.MainWindowHandle == IntPtr.Zero)
+            {
                 return;
-
-            if (prevProcess.MainWindowHandle != IntPtr.Zero)
-            {
-                // 起動中のアプリケーションを最前面に表示
-                Win32Api.WakeupWindow(prevProcess.MainWindowHandle);
             }
-            else
+
+            var form = Control.FromHandle(prevProcess.MainWindowHandle) as Form;
+            if (form != null)
             {
-                //プロセス特定は出来たが、ウィンドウハンドルが取得できなかった（アイコン化されている）
-                //タスクトレイアイコンのクリックをエミュレート
-                //注：アイコン特定はTooltipの文字列で行うため、多重起動時は先に見つけた物がアクティブになる
-                Win32Api.ClickTasktrayIcon(Application.ProductName);
+                if (form.WindowState == FormWindowState.Minimized)
+                {
+                    Win32Api.RestoreWindow(form);
+                }
+                form.Activate();
+            }
+        }
+
+        private static Process GetPreviousProcess()
+        {
+            var currentProcess = Process.GetCurrentProcess();
+            try
+            {
+                return Process.GetProcessesByName(currentProcess.ProcessName)
+                    .Where(p => p.Id != currentProcess.Id)
+                    .FirstOrDefault(p => p.MainModule.FileName.Equals(currentProcess.MainModule.FileName, StringComparison.OrdinalIgnoreCase));
+            }
+            catch
+            {
+                return null;
             }
         }
 
