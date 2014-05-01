@@ -35,6 +35,7 @@
             this.TableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.YesButton = new System.Windows.Forms.Button();
             this.NoButton = new System.Windows.Forms.Button();
+            this.DoNotShowAgainCheckBox = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.PictureBox1)).BeginInit();
             this.TableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
@@ -77,12 +78,19 @@
             this.NoButton.Name = "NoButton";
             this.NoButton.Click += new System.EventHandler(this.NoButton_Click);
             // 
+            // DoNotShowAgainCheckBox
+            // 
+            resources.ApplyResources(this.DoNotShowAgainCheckBox, "DoNotShowAgainCheckBox");
+            this.DoNotShowAgainCheckBox.Name = "DoNotShowAgainCheckBox";
+            this.DoNotShowAgainCheckBox.UseVisualStyleBackColor = true;
+            // 
             // UpdateDialog
             // 
             this.AcceptButton = this.YesButton;
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.CancelButton = this.NoButton;
+            this.Controls.Add(this.DoNotShowAgainCheckBox);
             this.Controls.Add(this.TextDetail);
             this.Controls.Add(this.LabelSummary);
             this.Controls.Add(this.PictureBox1);
@@ -93,6 +101,7 @@
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.TopMost = true;
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.UpdateDialog_FormClosed);
             this.Shown += new System.EventHandler(this.UpdateDialog_Shown);
             ((System.ComponentModel.ISupportInitialize)(this.PictureBox1)).EndInit();
             this.TableLayoutPanel1.ResumeLayout(false);
@@ -109,5 +118,6 @@
         internal System.Windows.Forms.TableLayoutPanel TableLayoutPanel1;
         internal System.Windows.Forms.Button YesButton;
         internal System.Windows.Forms.Button NoButton;
+        private System.Windows.Forms.CheckBox DoNotShowAgainCheckBox;
     }
 }
