@@ -5920,11 +5920,6 @@ namespace OpenTween
                     {
                         await this.OpenUriAsync(versionInfo.DownloadUri.OriginalString);
                     }
-
-                    if (dialog.DoNotShowAgain)
-                    {
-                        SettingDialog.StartupVersion = false;
-                    }
                 }
             }
             catch (Exception)

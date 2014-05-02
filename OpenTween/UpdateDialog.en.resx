@@ -126,7 +126,4 @@
   <data name="$this.Text" xml:space="preserve">
     <value>%AppName% Update Check</value>
   </data>
-  <data name="DoNotShowAgainCheckBox.Text" xml:space="preserve">
-    <value>Don't show this dialog again</value>
-  </data>
 </root>

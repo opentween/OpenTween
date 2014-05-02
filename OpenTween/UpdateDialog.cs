@@ -50,8 +50,6 @@ namespace OpenTween
             set { this.TextDetail.Text = value; }
         }
 
-        public bool DoNotShowAgain { get; private set; }
-
         public UpdateDialog()
         {
             InitializeComponent();
@@ -74,11 +72,6 @@ namespace OpenTween
         {
             // デフォルトではテキストが全選択されるため抑制
             this.TextDetail.SelectionLength = 0;
-        }
-
-        private void UpdateDialog_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            this.DoNotShowAgain = this.DoNotShowAgainCheckBox.Checked;
         }
     }
 }
