@@ -341,11 +341,11 @@
     <Compile Include="Setting\SettingTabs.cs" />
     <Compile Include="Setting\SettingLocal.cs" />
     <Compile Include="ShortUrl.cs" />
-    <Compile Include="ShowUserInfo.cs">
+    <Compile Include="UserInfoDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ShowUserInfo.Designer.cs">
-      <DependentUpon>ShowUserInfo.cs</DependentUpon>
+    <Compile Include="UserInfoDialog.Designer.cs">
+      <DependentUpon>UserInfoDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="StatusDictionary.cs" />
     <Compile Include="ToolStripAPIGauge.cs">
@@ -657,14 +657,14 @@
     <EmbeddedResource Include="SearchWordDialog.zh-CHS.resx">
       <DependentUpon>SearchWordDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ShowUserInfo.en.resx">
-      <DependentUpon>ShowUserInfo.cs</DependentUpon>
+    <EmbeddedResource Include="UserInfoDialog.en.resx">
+      <DependentUpon>UserInfoDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ShowUserInfo.resx">
-      <DependentUpon>ShowUserInfo.cs</DependentUpon>
+    <EmbeddedResource Include="UserInfoDialog.resx">
+      <DependentUpon>UserInfoDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ShowUserInfo.zh-CHS.resx">
-      <DependentUpon>ShowUserInfo.cs</DependentUpon>
+    <EmbeddedResource Include="UserInfoDialog.zh-CHS.resx">
+      <DependentUpon>UserInfoDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Tween.en.resx">
       <DependentUpon>Tween.cs</DependentUpon>

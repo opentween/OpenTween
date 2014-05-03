@@ -1,6 +1,6 @@
 ﻿namespace OpenTween
 {
-    partial class ShowUserInfo
+    partial class UserInfoDialog
     {
         /// <summary>
         /// Required designer variable.
@@ -16,7 +16,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ShowUserInfo));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UserInfoDialog));
             this.LinkLabel2 = new System.Windows.Forms.LinkLabel();
             this.ButtonBlockDestroy = new System.Windows.Forms.Button();
             this.ButtonReportSpam = new System.Windows.Forms.Button();

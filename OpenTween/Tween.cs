@@ -12070,7 +12070,7 @@ namespace OpenTween
 
         private void doShowUserStatus(TwitterDataModel.User user)
         {
-            using (ShowUserInfo userinfo = new ShowUserInfo())
+            using (var userinfo = new UserInfoDialog())
             {
                 userinfo.Owner = this;
                 userinfo.DisplayUser = user;

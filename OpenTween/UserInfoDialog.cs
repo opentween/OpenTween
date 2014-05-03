@@ -40,7 +40,7 @@ using System.Net;
 
 namespace OpenTween
 {
-    public partial class ShowUserInfo : OTBaseForm
+    public partial class UserInfoDialog : OTBaseForm
     {
         private TwitterDataModel.User _displayUser;
         public TwitterDataModel.User DisplayUser
@@ -66,7 +66,7 @@ namespace OpenTween
             get { return this.Owner.TwitterInstance; }
         }
 
-        public ShowUserInfo()
+        public UserInfoDialog()
         {
             InitializeComponent();
 
