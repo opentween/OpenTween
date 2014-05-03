@@ -285,11 +285,6 @@ namespace OpenTween
             this.TextBoxDescription.ScrollBars = ScrollBars.Vertical;
         }
 
-        private void ButtonClose_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
-
         private async void LinkLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             var linkLabel = (LinkLabel)sender;

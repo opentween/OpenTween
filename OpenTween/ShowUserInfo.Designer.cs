@@ -226,11 +226,10 @@
             // 
             // ButtonClose
             // 
-            this.ButtonClose.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             resources.ApplyResources(this.ButtonClose, "ButtonClose");
+            this.ButtonClose.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.ButtonClose.Name = "ButtonClose";
             this.ButtonClose.UseVisualStyleBackColor = true;
-            this.ButtonClose.Click += new System.EventHandler(this.ButtonClose_Click);
             // 
             // ContextMenuUserPicture
             // 
