@@ -1429,7 +1429,6 @@ namespace OpenTween
                 doGetFollowersMenu();
                 GetTimeline(MyCommon.WORKERTYPE.NoRetweetIds, 0, 0, "");
                 GetTimeline(MyCommon.WORKERTYPE.Configuration, 0, 0, "");
-                if (InvokeRequired && !IsDisposed) this.Invoke(new MethodInvoker(this.TrimPostChain));
             }
             if (osResumed)
             {
@@ -1446,7 +1445,6 @@ namespace OpenTween
                     GetTimeline(MyCommon.WORKERTYPE.List, 1, 0, "");
                     doGetFollowersMenu();
                     GetTimeline(MyCommon.WORKERTYPE.Configuration, 0, 0, "");
-                    if (InvokeRequired && !IsDisposed) this.Invoke(new MethodInvoker(this.TrimPostChain));
                 }
             }
         }
@@ -7521,35 +7519,78 @@ namespace OpenTween
 
         private void GoBackSelectPostChain()
         {
-            try
+            if (this.selectPostChains.Count > 1)
             {
-                this.selectPostChains.Pop();
-                Tuple<TabPage, PostClass> tabPostPair = this.selectPostChains.Pop();
-                if (!this.ListTab.TabPages.Contains(tabPostPair.Item1)) return;
-                this.ListTab.SelectedTab = tabPostPair.Item1;
-                if (tabPostPair.Item2 != null && this._statuses.Tabs[this._curTab.Text].IndexOf(tabPostPair.Item2.StatusId) > -1)
+                var idx = -1;
+                TabPage tp = null;
+
+                do
                 {
-                    this.SelectListItem(this._curList, this._statuses.Tabs[this._curTab.Text].IndexOf(tabPostPair.Item2.StatusId));
-                    this._curList.EnsureVisible(this._statuses.Tabs[this._curTab.Text].IndexOf(tabPostPair.Item2.StatusId));
+                    try
+                    {
+                        this.selectPostChains.Pop();
+                        var tabPostPair = this.selectPostChains.Peek();
+
+                        if (!this.ListTab.TabPages.Contains(tabPostPair.Item1)) continue;  //該当タブが存在しないので無視
+
+                        if (tabPostPair.Item2 != null)
+                        {
+                            idx = this._statuses.Tabs[tabPostPair.Item1.Text].IndexOf(tabPostPair.Item2.StatusId);
+                            if (idx == -1) continue;  //該当ポストが存在しないので無視
+                        }
+
+                        tp = tabPostPair.Item1;
+
+                        this.selectPostChains.Pop();
+                    }
+                    catch (InvalidOperationException)
+                    {
+                    }
+
+                    break;
                 }
-            }
-            catch (InvalidOperationException)
-            {
+                while (this.selectPostChains.Count > 1);
+
+                if (tp == null)
+                {
+                    //状態がおかしいので処理を中断
+                    //履歴が残り1つであればクリアしておく
+                    if (this.selectPostChains.Count == 1)
+                        this.selectPostChains.Clear();
+                    return;
+                }
+
+                DetailsListView lst = (DetailsListView)tp.Tag;
+                this.ListTab.SelectedTab = tp;
+                if (idx > -1)
+                {
+                    SelectListItem(lst, idx);
+                    lst.EnsureVisible(idx);
+                }
+                lst.Focus();
             }
         }
 
         private void PushSelectPostChain()
         {
-            if (this.selectPostChains.Count == 0 || (this.selectPostChains.Peek().Item1.Text != this._curTab.Text || this._curPost != this.selectPostChains.Peek().Item2))
+            int count = this.selectPostChains.Count;
+            if (count > 0)
             {
-                this.selectPostChains.Push(Tuple.Create(this._curTab, _curPost));
+                var p = this.selectPostChains.Peek();
+                if (p.Item1 == this._curTab)
+                {
+                    if (p.Item2 == this._curPost) return;  //最新の履歴と同一
+                    if (p.Item2 == null) this.selectPostChains.Pop();  //置き換えるため削除
+                }
             }
+            if (count >= 2500) TrimPostChain();
+            this.selectPostChains.Push(Tuple.Create(this._curTab, this._curPost));
         }
 
         private void TrimPostChain()
         {
-            if (this.selectPostChains.Count < 2000) return;
-            Stack<Tuple<TabPage, PostClass>> p = new Stack<Tuple<TabPage, PostClass>>();
+            if (this.selectPostChains.Count <= 2000) return;
+            var p = new Stack<Tuple<TabPage, PostClass>>(2000);
             for (int i = 0; i < 2000; i++)
             {
                 p.Push(this.selectPostChains.Pop());
