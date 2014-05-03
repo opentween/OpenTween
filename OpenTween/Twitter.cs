@@ -1044,11 +1044,10 @@ namespace OpenTween
             return this.CheckStatusCode(res, content) ?? "";
         }
 
-        public string PostUpdateProfile(string name, string url, string location, string description)
+        public TwitterDataModel.User PostUpdateProfile(string name, string url, string location, string description)
         {
-            if (MyCommon._endingFlag) return "";
-
-            if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid) return "";
+            if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid)
+                throw new WebApiException("AccountState invalid");
 
             HttpStatusCode res;
             var content = "";
@@ -1058,10 +1057,29 @@ namespace OpenTween
             }
             catch(Exception ex)
             {
-                return "Err:" + ex.Message;
+                throw new WebApiException("Err:" + ex.Message, content, ex);
             }
 
-            return this.CheckStatusCode(res, content) ?? "";
+            var err = this.CheckStatusCode(res, content);
+            if (err != null)
+                throw new WebApiException(err, content);
+
+            try
+            {
+                return MyCommon.CreateDataFromJson<TwitterDataModel.User>(content);
+            }
+            catch (SerializationException e)
+            {
+                var ex = new WebApiException("Err:Json Parse Error(DataContractJsonSerializer)", content, e);
+                MyCommon.TraceOut(ex);
+                throw ex;
+            }
+            catch (Exception e)
+            {
+                var ex = new WebApiException("Err:Invalid Json!", content, e);
+                MyCommon.TraceOut(ex);
+                throw ex;
+            }
         }
 
         public string PostUpdateProfileImage(string filename)
@@ -2891,7 +2909,7 @@ namespace OpenTween
             return retStr;
         }
 
-        public string CreateHtmlAnchor(string text, List<string> AtList, TwitterDataModel.Entities entities, Dictionary<string, string> media)
+        public async Task<string> CreateHtmlAnchorAsync(string text, List<string> AtList, TwitterDataModel.Entities entities, Dictionary<string, string> media)
         {
             if (entities != null)
             {
@@ -2899,7 +2917,8 @@ namespace OpenTween
                 {
                     foreach (var ent in entities.Urls)
                     {
-                        ent.ExpandedUrl = ShortUrl.Instance.ExpandUrl(ent.ExpandedUrl);
+                        ent.ExpandedUrl = await ShortUrl.Instance.ExpandUrlStrAsync(ent.ExpandedUrl)
+                            .ConfigureAwait(false);
 
                         if (media != null && !media.ContainsKey(ent.Url))
                             media.Add(ent.Url, ent.ExpandedUrl);
@@ -2937,6 +2956,12 @@ namespace OpenTween
             text = PreProcessUrl(text); //IDN置換
 
             return text;
+        }
+
+        [Obsolete]
+        public string CreateHtmlAnchor(string text, List<string> AtList, TwitterDataModel.Entities entities, Dictionary<string, string> media)
+        {
+            return this.CreateHtmlAnchorAsync(text, AtList, entities, media).Result;
         }
 
         //Source整形

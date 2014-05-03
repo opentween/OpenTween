@@ -12073,7 +12073,7 @@ namespace OpenTween
             using (ShowUserInfo userinfo = new ShowUserInfo())
             {
                 userinfo.Owner = this;
-                userinfo.User = user;
+                userinfo.DisplayUser = user;
                 userinfo.ShowDialog(this);
                 this.Activate();
                 this.BringToFront();

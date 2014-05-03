@@ -7,19 +7,6 @@
         /// </summary>
         private System.ComponentModel.IContainer components = null;
 
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing && (components != null))
-            {
-                components.Dispose();
-            }
-            base.Dispose(disposing);
-        }
-
         #region Windows Form Designer generated code
 
         /// <summary>
@@ -30,7 +17,6 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ShowUserInfo));
-            this.BackgroundWorkerImageLoader = new System.ComponentModel.BackgroundWorker();
             this.LinkLabel2 = new System.Windows.Forms.LinkLabel();
             this.ButtonBlockDestroy = new System.Windows.Forms.Button();
             this.ButtonReportSpam = new System.Windows.Forms.Button();
@@ -56,7 +42,7 @@
             this.LabelRecentPost = new System.Windows.Forms.Label();
             this.ButtonClose = new System.Windows.Forms.Button();
             this.ContextMenuUserPicture = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.UserPicture = new System.Windows.Forms.PictureBox();
+            this.UserPicture = new OpenTween.OTPictureBox();
             this.LinkLabelFav = new System.Windows.Forms.LinkLabel();
             this.Label9 = new System.Windows.Forms.Label();
             this.LabelIsProtected = new System.Windows.Forms.Label();
@@ -84,11 +70,6 @@
             this.ContextMenuUserPicture.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.UserPicture)).BeginInit();
             this.SuspendLayout();
-            // 
-            // BackgroundWorkerImageLoader
-            // 
-            this.BackgroundWorkerImageLoader.DoWork += new System.ComponentModel.DoWorkEventHandler(this.BackgroundWorkerImageLoader_DoWork);
-            this.BackgroundWorkerImageLoader.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.BackgroundWorkerImageLoader_RunWorkerCompleted);
             // 
             // LinkLabel2
             // 
@@ -128,13 +109,11 @@
             // 
             resources.ApplyResources(this.TextBoxDescription, "TextBoxDescription");
             this.TextBoxDescription.Name = "TextBoxDescription";
-            this.TextBoxDescription.TabStop = false;
             // 
             // TextBoxWeb
             // 
             resources.ApplyResources(this.TextBoxWeb, "TextBoxWeb");
             this.TextBoxWeb.Name = "TextBoxWeb";
-            this.TextBoxWeb.TabStop = false;
             // 
             // ButtonEdit
             // 
@@ -156,7 +135,7 @@
             this.SelectAllToolStripMenuItem});
             this.ContextMenuRecentPostBrowser.Name = "ContextMenuStrip1";
             resources.ApplyResources(this.ContextMenuRecentPostBrowser, "ContextMenuRecentPostBrowser");
-            this.ContextMenuRecentPostBrowser.Opening += new System.ComponentModel.CancelEventHandler(this.ContextMenuStrip1_Opening);
+            this.ContextMenuRecentPostBrowser.Opening += new System.ComponentModel.CancelEventHandler(this.ContextMenuRecentPostBrowser_Opening);
             // 
             // SelectAllToolStripMenuItem
             // 
@@ -168,7 +147,6 @@
             // 
             resources.ApplyResources(this.TextBoxLocation, "TextBoxLocation");
             this.TextBoxLocation.Name = "TextBoxLocation";
-            this.TextBoxLocation.TabStop = false;
             // 
             // ToolTip1
             // 
@@ -178,7 +156,6 @@
             // 
             resources.ApplyResources(this.TextBoxName, "TextBoxName");
             this.TextBoxName.Name = "TextBoxName";
-            this.TextBoxName.TabStop = false;
             // 
             // Label12
             // 
@@ -205,13 +182,10 @@
             this.RecentPostBrowser.ContextMenuStrip = this.ContextMenuRecentPostBrowser;
             this.RecentPostBrowser.IsWebBrowserContextMenuEnabled = false;
             resources.ApplyResources(this.RecentPostBrowser, "RecentPostBrowser");
-            this.RecentPostBrowser.MinimumSize = new System.Drawing.Size(20, 20);
             this.RecentPostBrowser.Name = "RecentPostBrowser";
             this.RecentPostBrowser.TabStop = false;
-            this.RecentPostBrowser.Url = new System.Uri("about:blank", System.UriKind.Absolute);
             this.RecentPostBrowser.WebBrowserShortcutsEnabled = false;
             this.RecentPostBrowser.Navigating += new System.Windows.Forms.WebBrowserNavigatingEventHandler(this.WebBrowser_Navigating);
-            this.RecentPostBrowser.StatusTextChanged += new System.EventHandler(this.WebBrowser_StatusTextChanged);
             // 
             // ChangeIconToolStripMenuItem
             // 
@@ -231,13 +205,10 @@
             this.DescriptionBrowser.ContextMenuStrip = this.ContextMenuRecentPostBrowser;
             this.DescriptionBrowser.IsWebBrowserContextMenuEnabled = false;
             resources.ApplyResources(this.DescriptionBrowser, "DescriptionBrowser");
-            this.DescriptionBrowser.MinimumSize = new System.Drawing.Size(20, 20);
             this.DescriptionBrowser.Name = "DescriptionBrowser";
             this.DescriptionBrowser.TabStop = false;
-            this.DescriptionBrowser.Url = new System.Uri("about:blank", System.UriKind.Absolute);
             this.DescriptionBrowser.WebBrowserShortcutsEnabled = false;
             this.DescriptionBrowser.Navigating += new System.Windows.Forms.WebBrowserNavigatingEventHandler(this.WebBrowser_Navigating);
-            this.DescriptionBrowser.StatusTextChanged += new System.EventHandler(this.WebBrowser_StatusTextChanged);
             // 
             // LabelScreenName
             // 
@@ -253,11 +224,10 @@
             // 
             // ButtonClose
             // 
-            this.ButtonClose.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             resources.ApplyResources(this.ButtonClose, "ButtonClose");
+            this.ButtonClose.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.ButtonClose.Name = "ButtonClose";
             this.ButtonClose.UseVisualStyleBackColor = true;
-            this.ButtonClose.Click += new System.EventHandler(this.ButtonClose_Click);
             // 
             // ContextMenuUserPicture
             // 
@@ -271,19 +241,18 @@
             this.UserPicture.BackColor = System.Drawing.Color.White;
             this.UserPicture.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.UserPicture.ContextMenuStrip = this.ContextMenuUserPicture;
+            this.UserPicture.Cursor = System.Windows.Forms.Cursors.Hand;
             resources.ApplyResources(this.UserPicture, "UserPicture");
             this.UserPicture.Name = "UserPicture";
             this.UserPicture.TabStop = false;
-            this.UserPicture.DoubleClick += new System.EventHandler(this.UserPicture_DoubleClick);
-            this.UserPicture.MouseEnter += new System.EventHandler(this.UserPicture_MouseEnter);
-            this.UserPicture.MouseLeave += new System.EventHandler(this.UserPicture_MouseLeave);
+            this.UserPicture.Click += new System.EventHandler(this.UserPicture_Click);
             // 
             // LinkLabelFav
             // 
             resources.ApplyResources(this.LinkLabelFav, "LinkLabelFav");
             this.LinkLabelFav.Name = "LinkLabelFav";
             this.LinkLabelFav.TabStop = true;
-            this.LinkLabelFav.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LinkLabelFav_LinkClicked);
+            this.LinkLabelFav.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LinkLabel_LinkClicked);
             // 
             // Label9
             // 
@@ -307,7 +276,7 @@
             resources.ApplyResources(this.LinkLabelTweet, "LinkLabelTweet");
             this.LinkLabelTweet.Name = "LinkLabelTweet";
             this.LinkLabelTweet.TabStop = true;
-            this.LinkLabelTweet.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LinkLabelTweet_LinkClicked);
+            this.LinkLabelTweet.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LinkLabel_LinkClicked);
             // 
             // LabelIsFollowed
             // 
@@ -329,7 +298,7 @@
             resources.ApplyResources(this.LinkLabelFollowers, "LinkLabelFollowers");
             this.LinkLabelFollowers.Name = "LinkLabelFollowers";
             this.LinkLabelFollowers.TabStop = true;
-            this.LinkLabelFollowers.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LinkLabelFollowers_LinkClicked);
+            this.LinkLabelFollowers.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LinkLabel_LinkClicked);
             // 
             // ButtonUnFollow
             // 
@@ -343,7 +312,7 @@
             resources.ApplyResources(this.LinkLabelFollowing, "LinkLabelFollowing");
             this.LinkLabelFollowing.Name = "LinkLabelFollowing";
             this.LinkLabelFollowing.TabStop = true;
-            this.LinkLabelFollowing.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LinkLabelFollowing_LinkClicked);
+            this.LinkLabelFollowing.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LinkLabel_LinkClicked);
             // 
             // Label6
             // 
@@ -398,7 +367,7 @@
             this.LinkLabelWeb.Name = "LinkLabelWeb";
             this.LinkLabelWeb.TabStop = true;
             this.LinkLabelWeb.UseMnemonic = false;
-            this.LinkLabelWeb.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LinkLabelWeb_LinkClicked);
+            this.LinkLabelWeb.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LinkLabel_LinkClicked);
             // 
             // Label1
             // 
@@ -472,13 +441,10 @@
             this.ShowInTaskbar = false;
             this.TopMost = true;
             this.Activated += new System.EventHandler(this.ShowUserInfo_Activated);
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ShowUserInfo_FormClosing);
-            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.ShowUserInfo_FormClosed);
             this.Load += new System.EventHandler(this.ShowUserInfo_Load);
             this.Shown += new System.EventHandler(this.ShowUserInfo_Shown);
             this.DragDrop += new System.Windows.Forms.DragEventHandler(this.ShowUserInfo_DragDrop);
             this.DragOver += new System.Windows.Forms.DragEventHandler(this.ShowUserInfo_DragOver);
-            this.MouseEnter += new System.EventHandler(this.ShowUserInfo_MouseEnter);
             this.ContextMenuRecentPostBrowser.ResumeLayout(false);
             this.ContextMenuUserPicture.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.UserPicture)).EndInit();
@@ -489,7 +455,6 @@
 
         #endregion
 
-        internal System.ComponentModel.BackgroundWorker BackgroundWorkerImageLoader;
         internal System.Windows.Forms.LinkLabel LinkLabel2;
         internal System.Windows.Forms.Button ButtonBlockDestroy;
         internal System.Windows.Forms.Button ButtonReportSpam;
@@ -515,7 +480,7 @@
         internal System.Windows.Forms.Label LabelRecentPost;
         internal System.Windows.Forms.Button ButtonClose;
         internal System.Windows.Forms.ContextMenuStrip ContextMenuUserPicture;
-        internal System.Windows.Forms.PictureBox UserPicture;
+        internal OTPictureBox UserPicture;
         internal System.Windows.Forms.LinkLabel LinkLabelFav;
         internal System.Windows.Forms.Label Label9;
         internal System.Windows.Forms.Label LabelIsProtected;
