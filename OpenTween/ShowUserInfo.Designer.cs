@@ -185,7 +185,6 @@
             this.RecentPostBrowser.MinimumSize = new System.Drawing.Size(20, 20);
             this.RecentPostBrowser.Name = "RecentPostBrowser";
             this.RecentPostBrowser.TabStop = false;
-            this.RecentPostBrowser.Url = new System.Uri("about:blank", System.UriKind.Absolute);
             this.RecentPostBrowser.WebBrowserShortcutsEnabled = false;
             this.RecentPostBrowser.Navigating += new System.Windows.Forms.WebBrowserNavigatingEventHandler(this.WebBrowser_Navigating);
             // 
@@ -210,7 +209,6 @@
             this.DescriptionBrowser.MinimumSize = new System.Drawing.Size(20, 20);
             this.DescriptionBrowser.Name = "DescriptionBrowser";
             this.DescriptionBrowser.TabStop = false;
-            this.DescriptionBrowser.Url = new System.Uri("about:blank", System.UriKind.Absolute);
             this.DescriptionBrowser.WebBrowserShortcutsEnabled = false;
             this.DescriptionBrowser.Navigating += new System.Windows.Forms.WebBrowserNavigatingEventHandler(this.WebBrowser_Navigating);
             // 
