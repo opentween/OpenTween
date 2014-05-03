@@ -146,11 +146,14 @@
   <data name="&gt;&gt;LinkLabel2.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
+  <data name="ButtonBlockDestroy.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
   <data name="ButtonBlockDestroy.Location" type="System.Drawing.Point, System.Drawing">
     <value>335, 182</value>
   </data>
   <data name="ButtonBlockDestroy.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 23</value>
+    <value>75, 25</value>
   </data>
   <data name="ButtonBlockDestroy.TabIndex" type="System.Int32, mscorlib">
     <value>20</value>
@@ -170,11 +173,14 @@
   <data name="&gt;&gt;ButtonBlockDestroy.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
+  <data name="ButtonReportSpam.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
   <data name="ButtonReportSpam.Location" type="System.Drawing.Point, System.Drawing">
     <value>497, 182</value>
   </data>
   <data name="ButtonReportSpam.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 23</value>
+    <value>75, 25</value>
   </data>
   <data name="ButtonReportSpam.TabIndex" type="System.Int32, mscorlib">
     <value>22</value>
@@ -195,16 +201,19 @@
     <value>4</value>
   </data>
   <data name="SelectionCopyToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>166, 22</value>
+    <value>170, 22</value>
   </data>
   <data name="SelectionCopyToolStripMenuItem.Text" xml:space="preserve">
     <value>選択文字列をコピー</value>
+  </data>
+  <data name="ButtonBlock.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
   </data>
   <data name="ButtonBlock.Location" type="System.Drawing.Point, System.Drawing">
     <value>416, 182</value>
   </data>
   <data name="ButtonBlock.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 23</value>
+    <value>75, 25</value>
   </data>
   <data name="ButtonBlock.TabIndex" type="System.Int32, mscorlib">
     <value>21</value>
@@ -228,7 +237,7 @@
     <value>False</value>
   </data>
   <data name="TextBoxDescription.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 186</value>
+    <value>12, 182</value>
   </data>
   <data name="TextBoxDescription.Size" type="System.Drawing.Size, System.Drawing">
     <value>16, 19</value>
@@ -255,7 +264,7 @@
     <value>False</value>
   </data>
   <data name="TextBoxWeb.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 163</value>
+    <value>12, 153</value>
   </data>
   <data name="TextBoxWeb.Size" type="System.Drawing.Size, System.Drawing">
     <value>16, 19</value>
@@ -278,15 +287,18 @@
   <data name="&gt;&gt;TextBoxWeb.ZOrder" xml:space="preserve">
     <value>7</value>
   </data>
+  <data name="ButtonEdit.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="ButtonEdit.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="ButtonEdit.Location" type="System.Drawing.Point, System.Drawing">
-    <value>16, 431</value>
+    <value>12, 429</value>
   </data>
   <data name="ButtonEdit.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 23</value>
+    <value>75, 25</value>
   </data>
   <data name="ButtonEdit.TabIndex" type="System.Int32, mscorlib">
     <value>35</value>
@@ -313,10 +325,10 @@
     <value>NoControl</value>
   </data>
   <data name="LabelId.Location" type="System.Drawing.Point, System.Drawing">
-    <value>446, 60</value>
+    <value>446, 56</value>
   </data>
   <data name="LabelId.Size" type="System.Drawing.Size, System.Drawing">
-    <value>126, 14</value>
+    <value>126, 17</value>
   </data>
   <data name="LabelId.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
@@ -325,7 +337,7 @@
     <value>LabelId</value>
   </data>
   <data name="LabelId.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>TopRight</value>
+    <value>MiddleRight</value>
   </data>
   <data name="&gt;&gt;LabelId.Name" xml:space="preserve">
     <value>LabelId</value>
@@ -340,10 +352,16 @@
     <value>9</value>
   </data>
   <metadata name="ContextMenuRecentPostBrowser.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>326, 17</value>
+    <value>120, 17</value>
   </metadata>
+  <data name="SelectAllToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>170, 22</value>
+  </data>
+  <data name="SelectAllToolStripMenuItem.Text" xml:space="preserve">
+    <value>すべて選択</value>
+  </data>
   <data name="ContextMenuRecentPostBrowser.Size" type="System.Drawing.Size, System.Drawing">
-    <value>167, 48</value>
+    <value>171, 48</value>
   </data>
   <data name="&gt;&gt;ContextMenuRecentPostBrowser.Name" xml:space="preserve">
     <value>ContextMenuRecentPostBrowser</value>
@@ -351,17 +369,11 @@
   <data name="&gt;&gt;ContextMenuRecentPostBrowser.Type" xml:space="preserve">
     <value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="SelectAllToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>166, 22</value>
-  </data>
-  <data name="SelectAllToolStripMenuItem.Text" xml:space="preserve">
-    <value>すべて選択</value>
-  </data>
   <data name="TextBoxLocation.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
   <data name="TextBoxLocation.Location" type="System.Drawing.Point, System.Drawing">
-    <value>34, 188</value>
+    <value>34, 182</value>
   </data>
   <data name="TextBoxLocation.Size" type="System.Drawing.Size, System.Drawing">
     <value>16, 19</value>
@@ -385,13 +397,13 @@
     <value>10</value>
   </data>
   <metadata name="ToolTip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>230, 17</value>
+    <value>17, 17</value>
   </metadata>
   <data name="TextBoxName.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
   <data name="TextBoxName.Location" type="System.Drawing.Point, System.Drawing">
-    <value>34, 163</value>
+    <value>34, 153</value>
   </data>
   <data name="TextBoxName.Size" type="System.Drawing.Size, System.Drawing">
     <value>16, 19</value>
@@ -421,10 +433,10 @@
     <value>NoControl</value>
   </data>
   <data name="Label12.Location" type="System.Drawing.Point, System.Drawing">
-    <value>452, 44</value>
+    <value>446, 41</value>
   </data>
   <data name="Label12.Size" type="System.Drawing.Size, System.Drawing">
-    <value>120, 12</value>
+    <value>126, 15</value>
   </data>
   <data name="Label12.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -447,6 +459,9 @@
   <data name="&gt;&gt;Label12.ZOrder" xml:space="preserve">
     <value>12</value>
   </data>
+  <data name="ButtonSearchPosts.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
   <data name="ButtonSearchPosts.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
@@ -454,7 +469,7 @@
     <value>243, 182</value>
   </data>
   <data name="ButtonSearchPosts.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 23</value>
+    <value>75, 25</value>
   </data>
   <data name="ButtonSearchPosts.TabIndex" type="System.Int32, mscorlib">
     <value>19</value>
@@ -481,7 +496,7 @@
     <value>NoControl</value>
   </data>
   <data name="LinkLabel1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>391, 127</value>
+    <value>384, 127</value>
   </data>
   <data name="LinkLabel1.Size" type="System.Drawing.Size, System.Drawing">
     <value>100, 12</value>
@@ -526,7 +541,7 @@
     <value>15</value>
   </data>
   <data name="ChangeIconToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 22</value>
+    <value>143, 22</value>
   </data>
   <data name="ChangeIconToolStripMenuItem.Text" xml:space="preserve">
     <value>アイコンの変更</value>
@@ -541,13 +556,16 @@
     <value>497, 126</value>
   </data>
   <data name="LabelIsVerified.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 15</value>
+    <value>75, 17</value>
   </data>
   <data name="LabelIsVerified.TabIndex" type="System.Int32, mscorlib">
     <value>14</value>
   </data>
   <data name="LabelIsVerified.Text" xml:space="preserve">
     <value>LabelIsVerified</value>
+  </data>
+  <data name="LabelIsVerified.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
   </data>
   <data name="&gt;&gt;LabelIsVerified.Name" xml:space="preserve">
     <value>LabelIsVerified</value>
@@ -592,13 +610,16 @@
     <value>9, 20</value>
   </data>
   <data name="LabelScreenName.Size" type="System.Drawing.Size, System.Drawing">
-    <value>431, 20</value>
+    <value>431, 22</value>
   </data>
   <data name="LabelScreenName.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
   </data>
   <data name="LabelScreenName.Text" xml:space="preserve">
     <value>ScreenName</value>
+  </data>
+  <data name="LabelScreenName.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
   </data>
   <data name="&gt;&gt;LabelScreenName.Name" xml:space="preserve">
     <value>LabelScreenName</value>
@@ -642,14 +663,17 @@
   <data name="&gt;&gt;LabelRecentPost.ZOrder" xml:space="preserve">
     <value>19</value>
   </data>
+  <data name="ButtonClose.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
   <data name="ButtonClose.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="ButtonClose.Location" type="System.Drawing.Point, System.Drawing">
-    <value>497, 431</value>
+    <value>497, 429</value>
   </data>
   <data name="ButtonClose.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 23</value>
+    <value>75, 25</value>
   </data>
   <data name="ButtonClose.TabIndex" type="System.Int32, mscorlib">
     <value>36</value>
@@ -670,10 +694,10 @@
     <value>20</value>
   </data>
   <metadata name="ContextMenuUserPicture.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>697, 15</value>
+    <value>534, 17</value>
   </metadata>
   <data name="ContextMenuUserPicture.Size" type="System.Drawing.Size, System.Drawing">
-    <value>140, 26</value>
+    <value>144, 26</value>
   </data>
   <data name="&gt;&gt;ContextMenuUserPicture.Name" xml:space="preserve">
     <value>ContextMenuUserPicture</value>
@@ -775,16 +799,19 @@
     <value>NoControl</value>
   </data>
   <data name="LabelIsProtected.Location" type="System.Drawing.Point, System.Drawing">
-    <value>246, 126</value>
+    <value>253, 126</value>
   </data>
   <data name="LabelIsProtected.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 15</value>
+    <value>75, 17</value>
   </data>
   <data name="LabelIsProtected.TabIndex" type="System.Int32, mscorlib">
     <value>12</value>
   </data>
   <data name="LabelIsProtected.Text" xml:space="preserve">
     <value>LabelIsProtected</value>
+  </data>
+  <data name="LabelIsProtected.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
   </data>
   <data name="&gt;&gt;LabelIsProtected.Name" xml:space="preserve">
     <value>LabelIsProtected</value>
@@ -808,7 +835,7 @@
     <value>446, 24</value>
   </data>
   <data name="LabelCreatedAt.Size" type="System.Drawing.Size, System.Drawing">
-    <value>126, 14</value>
+    <value>126, 17</value>
   </data>
   <data name="LabelCreatedAt.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -817,7 +844,7 @@
     <value>LabelCreatedAt</value>
   </data>
   <data name="LabelCreatedAt.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>TopRight</value>
+    <value>MiddleRight</value>
   </data>
   <data name="&gt;&gt;LabelCreatedAt.Name" xml:space="preserve">
     <value>LabelCreatedAt</value>
@@ -981,6 +1008,9 @@
   <data name="&gt;&gt;LinkLabelFollowers.ZOrder" xml:space="preserve">
     <value>30</value>
   </data>
+  <data name="ButtonUnFollow.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
   <data name="ButtonUnFollow.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
@@ -988,7 +1018,7 @@
     <value>154, 182</value>
   </data>
   <data name="ButtonUnFollow.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 23</value>
+    <value>76, 25</value>
   </data>
   <data name="ButtonUnFollow.TabIndex" type="System.Int32, mscorlib">
     <value>18</value>
@@ -1072,16 +1102,19 @@
     <value>NoControl</value>
   </data>
   <data name="LabelName.Location" type="System.Drawing.Point, System.Drawing">
-    <value>154, 60</value>
+    <value>154, 56</value>
   </data>
   <data name="LabelName.Size" type="System.Drawing.Size, System.Drawing">
-    <value>286, 14</value>
+    <value>286, 17</value>
   </data>
   <data name="LabelName.TabIndex" type="System.Int32, mscorlib">
     <value>6</value>
   </data>
   <data name="LabelName.Text" xml:space="preserve">
     <value>LabelName</value>
+  </data>
+  <data name="LabelName.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
   </data>
   <data name="&gt;&gt;LabelName.Name" xml:space="preserve">
     <value>LabelName</value>
@@ -1095,6 +1128,9 @@
   <data name="&gt;&gt;LabelName.ZOrder" xml:space="preserve">
     <value>34</value>
   </data>
+  <data name="ButtonFollow.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
   <data name="ButtonFollow.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
@@ -1102,7 +1138,7 @@
     <value>72, 182</value>
   </data>
   <data name="ButtonFollow.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 23</value>
+    <value>75, 25</value>
   </data>
   <data name="ButtonFollow.TabIndex" type="System.Int32, mscorlib">
     <value>17</value>
@@ -1159,10 +1195,10 @@
     <value>NoControl</value>
   </data>
   <data name="Label7.Location" type="System.Drawing.Point, System.Drawing">
-    <value>452, 8</value>
+    <value>446, 9</value>
   </data>
   <data name="Label7.Size" type="System.Drawing.Size, System.Drawing">
-    <value>120, 12</value>
+    <value>126, 15</value>
   </data>
   <data name="Label7.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -1219,16 +1255,19 @@
     <value>NoControl</value>
   </data>
   <data name="LabelLocation.Location" type="System.Drawing.Point, System.Drawing">
-    <value>154, 81</value>
+    <value>154, 80</value>
   </data>
   <data name="LabelLocation.Size" type="System.Drawing.Size, System.Drawing">
-    <value>418, 13</value>
+    <value>418, 17</value>
   </data>
   <data name="LabelLocation.TabIndex" type="System.Int32, mscorlib">
     <value>8</value>
   </data>
   <data name="LabelLocation.Text" xml:space="preserve">
     <value>LabelLocation</value>
+  </data>
+  <data name="LabelLocation.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
   </data>
   <data name="&gt;&gt;LabelLocation.Name" xml:space="preserve">
     <value>LabelLocation</value>
@@ -1243,7 +1282,7 @@
     <value>39</value>
   </data>
   <metadata name="OpenFileDialogIcon.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>547, 15</value>
+    <value>367, 17</value>
   </metadata>
   <data name="LinkLabelWeb.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -1252,13 +1291,16 @@
     <value>154, 103</value>
   </data>
   <data name="LinkLabelWeb.Size" type="System.Drawing.Size, System.Drawing">
-    <value>418, 14</value>
+    <value>418, 17</value>
   </data>
   <data name="LinkLabelWeb.TabIndex" type="System.Int32, mscorlib">
     <value>10</value>
   </data>
   <data name="LinkLabelWeb.Text" xml:space="preserve">
     <value>LinkLabelWeb</value>
+  </data>
+  <data name="LinkLabelWeb.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
   </data>
   <data name="&gt;&gt;LinkLabelWeb.Name" xml:space="preserve">
     <value>LinkLabelWeb</value>
@@ -1279,7 +1321,7 @@
     <value>NoControl</value>
   </data>
   <data name="Label1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>100, 60</value>
+    <value>100, 57</value>
   </data>
   <data name="Label1.Size" type="System.Drawing.Size, System.Drawing">
     <value>29, 12</value>
@@ -1339,7 +1381,7 @@
     <value>NoControl</value>
   </data>
   <data name="Label2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>100, 82</value>
+    <value>100, 81</value>
   </data>
   <data name="Label2.Size" type="System.Drawing.Size, System.Drawing">
     <value>41, 12</value>

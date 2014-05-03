@@ -182,7 +182,6 @@
             this.RecentPostBrowser.ContextMenuStrip = this.ContextMenuRecentPostBrowser;
             this.RecentPostBrowser.IsWebBrowserContextMenuEnabled = false;
             resources.ApplyResources(this.RecentPostBrowser, "RecentPostBrowser");
-            this.RecentPostBrowser.MinimumSize = new System.Drawing.Size(20, 20);
             this.RecentPostBrowser.Name = "RecentPostBrowser";
             this.RecentPostBrowser.TabStop = false;
             this.RecentPostBrowser.WebBrowserShortcutsEnabled = false;
@@ -206,7 +205,6 @@
             this.DescriptionBrowser.ContextMenuStrip = this.ContextMenuRecentPostBrowser;
             this.DescriptionBrowser.IsWebBrowserContextMenuEnabled = false;
             resources.ApplyResources(this.DescriptionBrowser, "DescriptionBrowser");
-            this.DescriptionBrowser.MinimumSize = new System.Drawing.Size(20, 20);
             this.DescriptionBrowser.Name = "DescriptionBrowser";
             this.DescriptionBrowser.TabStop = false;
             this.DescriptionBrowser.WebBrowserShortcutsEnabled = false;
