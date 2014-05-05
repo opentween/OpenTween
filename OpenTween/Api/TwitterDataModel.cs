@@ -28,6 +28,7 @@
 using System;
 using System.Runtime.Serialization;
 using System.Collections.Generic;
+using OpenTween.Api;
 
 namespace OpenTween.Api
 {
@@ -105,46 +106,6 @@ namespace OpenTween.Api
         }
 
         [DataContract]
-        public class User
-        {
-            [DataMember(Name = "statuses_count")] public int StatusesCount;
-            [DataMember(Name = "profile_sidebar_fill_color")] public string ProfileSidebarFillColor;
-            [DataMember(Name = "show_all_inline_media")] public bool ShowAllInlineMedia;
-            [DataMember(Name = "profile_use_background_image")] public bool ProfileUseBackgroundImage;
-            [DataMember(Name = "contributors_enabled")] public bool ContributorsEnabled;
-            [DataMember(Name = "profile_sidebar_border_color")] public string ProfileSidebarBorderColor;
-            [DataMember(Name = "location")] public string Location;
-            [DataMember(Name = "geo_enabled")] public bool GeoEnabled;
-            [DataMember(Name = "description")] public string Description;
-            [DataMember(Name = "friends_count")] public int FriendsCount;
-            [DataMember(Name = "verified")] public bool Verified;
-            [DataMember(Name = "favourites_count")] public int FavouritesCount;
-            [DataMember(Name = "created_at")] public string CreatedAt;
-            [DataMember(Name = "profile_background_color")] public string ProfileBackgroundColor;
-            [DataMember(Name = "follow_request_sent")] public string FollowRequestSent;
-            [DataMember(Name = "time_zone")] public string TimeZone;
-            [DataMember(Name = "followers_count")] public int FollowersCount;
-            [DataMember(Name = "url")] public string Url;
-            [DataMember(Name = "profile_image_url_https")] public string ProfileImageUrlHttps;
-            [DataMember(Name = "notifications")] public string Notifications;
-            [DataMember(Name = "profile_text_color")] public string ProfileTextColor;
-            [DataMember(Name = "protected")] public bool Protected;
-            [DataMember(Name = "id_str")] public string IdStr;
-            [DataMember(Name = "lang")] public string Lang;
-            [DataMember(Name = "profile_background_image_url_https")] public string ProfileBackgroundImageUrlHttps;
-            [DataMember(Name = "screen_name")] public string ScreenName;
-            [DataMember(Name = "name")] public string Name;
-            [DataMember(Name = "following")] public bool? Following;
-            [DataMember(Name = "profile_link_color")] public string ProfileLinkColor;
-            [DataMember(Name = "id")] public Int64 Id;
-            [DataMember(Name = "listed_count")] public int ListedCount;
-            [DataMember(Name = "profile_background_tile")] public bool ProfileBackgroundTile;
-            [DataMember(Name = "utc_offset")] public int? UtcOffset;
-            [DataMember(Name = "place", IsRequired = false)] public Place Place;
-            [DataMember(Name = "status", IsRequired = false)] public Status Status;
-        }
-
-        [DataContract]
         public class Coordinates
         {
             [DataMember(Name = "type", IsRequired = false)] public string Type;
@@ -185,7 +146,7 @@ namespace OpenTween.Api
             [DataMember(Name = "coordinates", IsRequired = false)] public Coordinates Coordinates;
             [DataMember(Name = "in_reply_to_user_id")] public long? InReplyToUserId;
             [DataMember(Name = "source")] public string Source;
-            [DataMember(Name = "user")] public User User;
+            [DataMember(Name = "user")] public TwitterUser User;
             [DataMember(Name = "in_reply_to_screen_name")] public string InReplyToScreenName;
             [DataMember(Name = "created_at")] public string CreatedAt;
             [DataMember(Name = "contributors")] public int[] Contributors;
@@ -216,7 +177,7 @@ namespace OpenTween.Api
             [DataMember(Name = "coordinates", IsRequired = false)] public Coordinates Coordinates;
             [DataMember(Name = "truncated")] public string Truncated;
             [DataMember(Name = "place", IsRequired = false)] public Place Place;
-            [DataMember(Name = "user")] public User User;
+            [DataMember(Name = "user")] public TwitterUser User;
             [DataMember(Name = "retweeted_status", IsRequired = false)] public RetweetedStatus RetweetedStatus;
             [DataMember(Name = "id")] public Int64 Id;
             [DataMember(Name = "favorited")] public bool Favorited;
@@ -244,9 +205,9 @@ namespace OpenTween.Api
             [DataMember(Name = "created_at")] public string CreatedAt;
             [DataMember(Name = "sender_id")] public Int64 SenderId;
             [DataMember(Name = "sender_screen_name")] public string SenderScreenName;
-            [DataMember(Name = "sender")] public User Sender;
+            [DataMember(Name = "sender")] public TwitterUser Sender;
             [DataMember(Name = "id_str")] public string IdStr;
-            [DataMember(Name = "recipient")] public User Recipient;
+            [DataMember(Name = "recipient")] public TwitterUser Recipient;
             [DataMember(Name = "recipient_screen_name")] public string RecipientScreenName;
             [DataMember(Name = "recipient_id")] public Int64 RecipientId;
             [DataMember(Name = "id")] public Int64 Id;
@@ -311,11 +272,11 @@ namespace OpenTween.Api
         [DataContract]
         public class EventData
         {
-            [DataMember(Name = "target")] public User Target;
+            [DataMember(Name = "target")] public TwitterUser Target;
             [DataMember(Name = "target_object", IsRequired = false)] public TargetObject TargetObject;
             [DataMember(Name = "created_at")] public string CreatedAt;
             [DataMember(Name = "event")] public string Event;
-            [DataMember(Name = "source")] public User Source;
+            [DataMember(Name = "source")] public TwitterUser Source;
         }
 
         [DataContract]
@@ -392,7 +353,7 @@ namespace OpenTween.Api
             [DataMember(Name = "member_count")] public int MemberCount;
             [DataMember(Name = "slug")] public string Slug;
             [DataMember(Name = "full_name")] public string FullName;
-            [DataMember(Name = "user")] public User User;
+            [DataMember(Name = "user")] public TwitterUser User;
             [DataMember(Name = "following")] public bool Following;
             [DataMember(Name = "subscriber_count")] public int SubscriberCount;
             [DataMember(Name = "description")] public string Description;
@@ -411,7 +372,7 @@ namespace OpenTween.Api
         [DataContract]
         public class Users
         {
-            [DataMember(Name = "users")] public User[] users;
+            [DataMember(Name = "users")] public TwitterUser[] users;
             [DataMember(Name = "next_cursor")] public long NextCursor;
             [DataMember(Name = "previous_cursor")] public long PreviousCursor;
         }

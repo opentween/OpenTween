@@ -268,10 +268,10 @@ namespace OpenTween
             if (res == HttpStatusCode.OK)
             {
                 Twitter.AccountState = MyCommon.ACCOUNT_STATE.Valid;
-                TwitterDataModel.User user;
+                TwitterUser user;
                 try
                 {
-                    user = MyCommon.CreateDataFromJson<TwitterDataModel.User>(content);
+                    user = TwitterUser.ParseJson(content);
                 }
                 catch(SerializationException)
                 {
@@ -872,7 +872,7 @@ namespace OpenTween
             }
         }
 
-        public string GetUserInfo(string screenName, ref TwitterDataModel.User user)
+        public string GetUserInfo(string screenName, ref TwitterUser user)
         {
             if (MyCommon._endingFlag) return "";
 
@@ -896,7 +896,7 @@ namespace OpenTween
 
             try
             {
-                user = MyCommon.CreateDataFromJson<TwitterDataModel.User>(content);
+                user = TwitterUser.ParseJson(content);
             }
             catch (SerializationException ex)
             {
@@ -1044,7 +1044,7 @@ namespace OpenTween
             return this.CheckStatusCode(res, content) ?? "";
         }
 
-        public TwitterDataModel.User PostUpdateProfile(string name, string url, string location, string description)
+        public TwitterUser PostUpdateProfile(string name, string url, string location, string description)
         {
             if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid)
                 throw new WebApiException("AccountState invalid");
@@ -1066,7 +1066,7 @@ namespace OpenTween
 
             try
             {
-                return MyCommon.CreateDataFromJson<TwitterDataModel.User>(content);
+                return TwitterUser.ParseJson(content);
             }
             catch (SerializationException e)
             {
@@ -2020,7 +2020,7 @@ namespace OpenTween
                     post.IsFav = false;
 
                     //以下、ユーザー情報
-                    TwitterDataModel.User user;
+                    TwitterUser user;
                     if (gType == MyCommon.WORKERTYPE.UserStream)
                     {
                         if (twCon.AuthenticatedUsername.Equals(message.Recipient.ScreenName, StringComparison.CurrentCultureIgnoreCase))
@@ -2645,9 +2645,9 @@ namespace OpenTween
             try
             {
                 var users = MyCommon.CreateDataFromJson<TwitterDataModel.Users>(content);
-                Array.ForEach<TwitterDataModel.User>(
+                Array.ForEach<TwitterUser>(
                     users.users,
-                    new Action<TwitterDataModel.User>(u => lists.Add(new UserInfo(u))));
+                    u => lists.Add(new UserInfo(u)));
                 cursor = users.NextCursor;
                 return "";
             }
@@ -2728,7 +2728,7 @@ namespace OpenTween
 
             try
             {
-                var u = MyCommon.CreateDataFromJson<TwitterDataModel.User>(content);
+                var u = TwitterUser.ParseJson(content);
                 value = true;
                 return "";
             }

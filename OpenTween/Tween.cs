@@ -12002,7 +12002,7 @@ namespace OpenTween
         {
             public Twitter tw;
             public string id;
-            public TwitterDataModel.User user;
+            public TwitterUser user;
         }
 
         private void GetUserInfo_DoWork(object sender, DoWorkEventArgs e)
@@ -12013,7 +12013,7 @@ namespace OpenTween
 
         private void doShowUserStatus(string id, bool ShowInputDialog)
         {
-            TwitterDataModel.User user = null;
+            TwitterUser user = null;
             GetUserInfoArgs args = new GetUserInfoArgs();
             if (ShowInputDialog)
             {
@@ -12068,7 +12068,7 @@ namespace OpenTween
             }
         }
 
-        private void doShowUserStatus(TwitterDataModel.User user)
+        private void doShowUserStatus(TwitterUser user)
         {
             using (var userinfo = new UserInfoDialog())
             {

@@ -36,7 +36,7 @@ namespace OpenTween
         {
         }
 
-        public UserInfo(TwitterDataModel.User user)
+        public UserInfo(TwitterUser user)
         {
             this.Id = user.Id;
             this.Name = WebUtility.HtmlDecode(user.Name).Trim();

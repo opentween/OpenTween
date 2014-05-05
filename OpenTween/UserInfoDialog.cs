@@ -43,8 +43,8 @@ namespace OpenTween
 {
     public partial class UserInfoDialog : OTBaseForm
     {
-        private TwitterDataModel.User _displayUser;
-        public TwitterDataModel.User DisplayUser
+        private TwitterUser _displayUser;
+        public TwitterUser DisplayUser
         {
             get { return this._displayUser; }
             set
@@ -541,7 +541,7 @@ namespace OpenTween
             {
                 var user = await Task.Run(() =>
                 {
-                    TwitterDataModel.User result = null;
+                    TwitterUser result = null;
 
                     var err = this.Twitter.GetUserInfo(this._displayUser.ScreenName, ref result);
                     if (!string.IsNullOrEmpty(err))
