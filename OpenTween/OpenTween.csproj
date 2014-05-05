@@ -65,6 +65,7 @@
     <Compile Include="Api\GeoJson.cs" />
     <Compile Include="Api\TwitterConfiguration.cs" />
     <Compile Include="Api\TwitterEntity.cs" />
+    <Compile Include="Api\TwitterError.cs" />
     <Compile Include="Api\TwitterList.cs" />
     <Compile Include="Api\TwitterPageable.cs">
       <SubType>Code</SubType>

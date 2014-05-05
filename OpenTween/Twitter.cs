@@ -3152,7 +3152,7 @@ namespace OpenTween
 
             try
             {
-                var errors = MyCommon.CreateDataFromJson<TwitterDataModel.ErrorResponse>(responseText).Errors;
+                var errors = TwitterError.ParseJson(responseText).Errors;
                 if (errors == null || !errors.Any())
                 {
                     return "Err:" + httpStatus + "(" + callerMethodName + ")";
@@ -3160,8 +3160,8 @@ namespace OpenTween
 
                 foreach (var error in errors)
                 {
-                    if (error.Code == TwitterDataModel.ErrorCode.InvalidToken ||
-                        error.Code == TwitterDataModel.ErrorCode.SuspendedAccount)
+                    if (error.Code == TwitterErrorCode.InvalidToken ||
+                        error.Code == TwitterErrorCode.SuspendedAccount)
                     {
                         Twitter.AccountState = MyCommon.ACCOUNT_STATE.Invalid;
                     }
