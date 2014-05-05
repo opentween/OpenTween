@@ -42,13 +42,6 @@ namespace OpenTween.Api
         }
 
         [DataContract]
-        public class Coordinates
-        {
-            [DataMember(Name = "type", IsRequired = false)] public string Type;
-            [DataMember(Name = "coordinates", IsRequired = false)] public double[] coordinates = new double[2];
-        }
-
-        [DataContract]
         public class BoundingBox
         {
             [DataMember(Name = "type", IsRequired = false)] public string Type;
@@ -77,52 +70,7 @@ namespace OpenTween.Api
         }
 
         [DataContract]
-        public class RetweetedStatus
-        {
-            [DataMember(Name = "coordinates", IsRequired = false)] public Coordinates Coordinates;
-            [DataMember(Name = "in_reply_to_user_id")] public long? InReplyToUserId;
-            [DataMember(Name = "source")] public string Source;
-            [DataMember(Name = "user")] public TwitterUser User;
-            [DataMember(Name = "in_reply_to_screen_name")] public string InReplyToScreenName;
-            [DataMember(Name = "created_at")] public string CreatedAt;
-            [DataMember(Name = "contributors")] public int[] Contributors;
-            [DataMember(Name = "favorited")] public bool Favorited;
-            [DataMember(Name = "truncated")] public bool? Truncated;
-            [DataMember(Name = "id")] public Int64 Id;
-            [DataMember(Name = "annotations", IsRequired = false)] public Annotations Annotations;
-            [DataMember(Name = "place", IsRequired = false)] public Place Place;
-            [DataMember(Name = "in_reply_to_status_id")] public long? InReplyToStatusId;
-            [DataMember(Name = "text")] public string Text;
-            [DataMember(Name = "entities", IsRequired = false)] public TwitterEntities Entities;
-        }
-
-        [DataContract]
-        public class Status
-        {
-            [DataMember(Name = "in_reply_to_status_id_str")] public string InReplyToStatusIdStr;
-            [DataMember(Name = "contributors", IsRequired = false)] public int[] Contributors;
-            [DataMember(Name = "in_reply_to_screen_name")] public string InReplyToScreenName;
-            [DataMember(Name = "in_reply_to_status_id")] public long? InReplyToStatusId;
-            [DataMember(Name = "in_reply_to_user_id_str")] public string InReplyToUserIdStr;
-            [DataMember(Name = "retweet_count")] public int RetweetCount;
-            [DataMember(Name = "created_at")] public string CreatedAt;
-            [DataMember(Name = "retweeted")] public bool Retweeted;
-            [DataMember(Name = "in_reply_to_user_id")] public long? InReplyToUserId;
-            [DataMember(Name = "source")] public string Source;
-            [DataMember(Name = "id_str")] public string IdStr;
-            [DataMember(Name = "coordinates", IsRequired = false)] public Coordinates Coordinates;
-            [DataMember(Name = "truncated")] public string Truncated;
-            [DataMember(Name = "place", IsRequired = false)] public Place Place;
-            [DataMember(Name = "user")] public TwitterUser User;
-            [DataMember(Name = "retweeted_status", IsRequired = false)] public RetweetedStatus RetweetedStatus;
-            [DataMember(Name = "id")] public Int64 Id;
-            [DataMember(Name = "favorited")] public bool Favorited;
-            [DataMember(Name = "text")] public string Text;
-            [DataMember(Name = "entities", IsRequired = false)] public TwitterEntities Entities;
-        }
-
-        [DataContract]
-        public class TargetObject : Status
+        public class TargetObject : TwitterStatus
         {
             [DataMember(Name = "mode")] public string Mode;
             [DataMember(Name = "description")] public string Description;
@@ -221,7 +169,7 @@ namespace OpenTween.Api
             [DataMember(Name = "annotations")] public Annotations Annotations;
             [DataMember(Name = "kind")] public string Kind;
             [DataMember(Name = "score")] public double Score;
-            [DataMember(Name = "value")] public Status Status;
+            [DataMember(Name = "value")] public TwitterStatus Status;
         }
 
         [DataContract]
@@ -391,7 +339,7 @@ namespace OpenTween.Api
         [DataContract]
         public class SearchResult
         {
-            [DataMember(Name = "statuses")] public List<Status> Statuses;
+            [DataMember(Name = "statuses")] public List<TwitterStatus> Statuses;
             [DataMember(Name = "search_metadata")] public SearchMetadata SearchMetadata;
         }
 

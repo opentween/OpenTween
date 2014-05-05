@@ -133,7 +133,7 @@ namespace OpenTween.Api
         public bool ShowAllInlineMedia { get; set; }
 
         [DataMember(Name = "status", IsRequired = false)]
-        public TwitterDataModel.Status Status { get; set; } // Nullable
+        public TwitterStatus Status { get; set; } // Nullable
 
         [DataMember(Name = "statuses_count")]
         public int StatusesCount { get; set; }

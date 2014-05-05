@@ -197,7 +197,7 @@ namespace OpenTween
             }
         }
 
-        private async Task SetRecentStatusAsync(TwitterDataModel.Status status)
+        private async Task SetRecentStatusAsync(TwitterStatus status)
         {
             var atlist = new List<string>();
 

@@ -429,7 +429,7 @@ namespace OpenTween
         }
 
         static private PostInfo _prev = new PostInfo("", "", "", "");
-        private bool IsPostRestricted(TwitterDataModel.Status status)
+        private bool IsPostRestricted(TwitterStatus status)
         {
             var _current = new PostInfo("", "", "", "");
 
@@ -485,10 +485,10 @@ namespace OpenTween
             var err = this.CheckStatusCode(res, content);
             if (err != null) return err;
 
-            TwitterDataModel.Status status;
+            TwitterStatus status;
             try
             {
-                status = MyCommon.CreateDataFromJson<TwitterDataModel.Status>(content);
+                status = TwitterStatus.ParseJson(content);
             }
             catch(SerializationException ex)
             {
@@ -536,10 +536,10 @@ namespace OpenTween
             var err = this.CheckStatusCode(res, content);
             if (err != null) return err;
 
-            TwitterDataModel.Status status;
+            TwitterStatus status;
             try
             {
-                status = MyCommon.CreateDataFromJson<TwitterDataModel.Status>(content);
+                status = TwitterStatus.ParseJson(content);
             }
             catch(SerializationException ex)
             {
@@ -665,10 +665,10 @@ namespace OpenTween
             var err = this.CheckStatusCode(res, content);
             if (err != null) return err;
 
-            TwitterDataModel.Status status;
+            TwitterStatus status;
             try
             {
-                status = MyCommon.CreateDataFromJson<TwitterDataModel.Status>(content);
+                status = TwitterStatus.ParseJson(content);
             }
             catch(SerializationException ex)
             {
@@ -931,10 +931,10 @@ namespace OpenTween
             var err = this.CheckStatusCode(res, content);
             if (err != null) return err;
 
-            TwitterDataModel.Status status;
+            TwitterStatus status;
             try
             {
-                status = MyCommon.CreateDataFromJson<TwitterDataModel.Status>(content);
+                status = TwitterStatus.ParseJson(content);
             }
             catch (SerializationException ex)
             {
@@ -992,10 +992,10 @@ namespace OpenTween
             err = this.CheckStatusCode(res, content);
             if (err != null) return err;
 
-            TwitterDataModel.Status status;
+            TwitterStatus status;
             try
             {
-                status = MyCommon.CreateDataFromJson<TwitterDataModel.Status>(content);
+                status = TwitterStatus.ParseJson(content);
             }
             catch (SerializationException ex)
             {
@@ -1007,7 +1007,7 @@ namespace OpenTween
                 MyCommon.TraceOut(ex, MethodBase.GetCurrentMethod().Name + " " + content);
                 return "Err:Invalid Json!";
             }
-            if (status.Favorited)
+            if (status.Favorited == true)
             {
                 return "";
             }
@@ -1424,10 +1424,10 @@ namespace OpenTween
             var err = this.CheckStatusCode(res, content);
             if (err != null) return err;
 
-            List<TwitterDataModel.Status> items;
+            TwitterStatus[] items;
             try
             {
-                items = MyCommon.CreateDataFromJson<List<TwitterDataModel.Status>>(content);
+                items = TwitterStatus.ParseJsonArray(content);
             }
             catch(SerializationException ex)
             {
@@ -1480,10 +1480,10 @@ namespace OpenTween
             var err = this.CheckStatusCode(res, content);
             if (err != null) return err;
 
-            TwitterDataModel.Status status;
+            TwitterStatus status;
             try
             {
-                status = MyCommon.CreateDataFromJson<TwitterDataModel.Status>(content);
+                status = TwitterStatus.ParseJson(content);
             }
             catch(SerializationException ex)
             {
@@ -1522,7 +1522,7 @@ namespace OpenTween
             return r;
         }
 
-        private PostClass CreatePostsFromStatusData(TwitterDataModel.Status status)
+        private PostClass CreatePostsFromStatusData(TwitterStatus status)
         {
             var post = new PostClass();
             TwitterEntities entities;
@@ -1550,7 +1550,7 @@ namespace OpenTween
                 var tc = TabInformations.GetInstance().GetTabByType(MyCommon.TabUsageType.Favorites);
                 post.IsFav = tc.Contains(retweeted.Id);
 
-                if (retweeted.Coordinates != null) post.PostGeo = new PostClass.StatusGeo { Lng = retweeted.Coordinates.coordinates[0], Lat = retweeted.Coordinates.coordinates[1] };
+                if (retweeted.Coordinates != null) post.PostGeo = new PostClass.StatusGeo { Lng = retweeted.Coordinates.Coordinates[0], Lat = retweeted.Coordinates.Coordinates[1] };
 
                 //以下、ユーザー情報
                 var user = retweeted.User;
@@ -1580,7 +1580,7 @@ namespace OpenTween
                 post.InReplyToUser = status.InReplyToScreenName;
                 post.InReplyToUserId = status.InReplyToUserId;
 
-                if (status.Coordinates != null) post.PostGeo = new PostClass.StatusGeo { Lng = status.Coordinates.coordinates[0], Lat = status.Coordinates.coordinates[1] };
+                if (status.Coordinates != null) post.PostGeo = new PostClass.StatusGeo { Lng = status.Coordinates.Coordinates[0], Lat = status.Coordinates.Coordinates[1] };
 
                 //以下、ユーザー情報
                 var user = status.User;
@@ -1627,10 +1627,10 @@ namespace OpenTween
 
         private string CreatePostsFromJson(string content, MyCommon.WORKERTYPE gType, TabClass tab, bool read, int count, ref long minimumId)
         {
-            List<TwitterDataModel.Status> items;
+            TwitterStatus[] items;
             try
             {
-                items = MyCommon.CreateDataFromJson<List<TwitterDataModel.Status>>(content);
+                items = TwitterStatus.ParseJsonArray(content);
             }
             catch(SerializationException ex)
             {
@@ -2170,10 +2170,10 @@ namespace OpenTween
             var err = this.CheckStatusCode(res, content);
             if (err != null) return err;
 
-            List<TwitterDataModel.Status> item;
+            TwitterStatus[] item;
             try
             {
-                item = MyCommon.CreateDataFromJson<List<TwitterDataModel.Status>>(content);
+                item = TwitterStatus.ParseJsonArray(content);
             }
             catch(SerializationException ex)
             {
