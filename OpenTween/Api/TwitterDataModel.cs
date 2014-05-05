@@ -175,14 +175,6 @@ namespace OpenTween.Api
         }
 
         [DataContract]
-        public class Ids
-        {
-            [DataMember(Name = "ids")] public long[] Id;
-            [DataMember(Name = "next_cursor")] public long NextCursor;
-            [DataMember(Name = "previous_cursor")] public long PreviousCursor;
-        }
-
-        [DataContract]
         public class RateLimitStatus
         {
             [DataMember(Name = "reset_time_in_seconds")] public int ResetTimeInSeconds;
@@ -199,22 +191,6 @@ namespace OpenTween.Api
             [DataMember(Name = "remaining_hits")] public int RemainingHits;
             [DataMember(Name = "reset_time")] public string ResetTime;
             [DataMember(Name = "daily_limit")] public int DailyLimit;
-        }
-
-        [DataContract]
-        public class Lists
-        {
-            [DataMember(Name = "lists")] public TwitterList[] lists;
-            [DataMember(Name = "next_cursor")] public long NextCursor;
-            [DataMember(Name = "previous_cursor")] public long PreviousCursor;
-        }
-
-        [DataContract]
-        public class Users
-        {
-            [DataMember(Name = "users")] public TwitterUser[] users;
-            [DataMember(Name = "next_cursor")] public long NextCursor;
-            [DataMember(Name = "previous_cursor")] public long PreviousCursor;
         }
 
         [DataContract]

@@ -2327,7 +2327,7 @@ namespace OpenTween
             do
             {
                 var ret = this.GetFollowerIdsApi(ref cursor);
-                newFollowerIds.AddRange(ret.Id);
+                newFollowerIds.AddRange(ret.Ids);
                 cursor = ret.NextCursor;
             } while (cursor != 0);
 
@@ -2345,7 +2345,7 @@ namespace OpenTween
             }
         }
 
-        private TwitterDataModel.Ids GetFollowerIdsApi(ref long cursor)
+        private TwitterIds GetFollowerIdsApi(ref long cursor)
         {
             if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid)
                 throw new WebApiException("AccountState invalid");
@@ -2367,9 +2367,9 @@ namespace OpenTween
 
             try
             {
-                var ret = MyCommon.CreateDataFromJson<TwitterDataModel.Ids>(content);
+                var ret = TwitterIds.ParseJson(content);
 
-                if (ret.Id == null)
+                if (ret.Ids == null)
                 {
                     var ex = new WebApiException("Err: ret.id == null (GetFollowerIdsApi)", content);
                     MyCommon.ExceptionOut(ex);
@@ -2644,9 +2644,9 @@ namespace OpenTween
 
             try
             {
-                var users = MyCommon.CreateDataFromJson<TwitterDataModel.Users>(content);
+                var users = TwitterUsers.ParseJson(content);
                 Array.ForEach<TwitterUser>(
-                    users.users,
+                    users.Users,
                     u => lists.Add(new UserInfo(u)));
                 cursor = users.NextCursor;
                 return "";
@@ -3051,7 +3051,7 @@ namespace OpenTween
             do
             {
                 var ret = this.GetBlockIdsApi(cursor);
-                newBlockIds.AddRange(ret.Id);
+                newBlockIds.AddRange(ret.Ids);
                 cursor = ret.NextCursor;
             } while (cursor != 0);
 
@@ -3060,7 +3060,7 @@ namespace OpenTween
             TabInformations.GetInstance().BlockIds = newBlockIds;
         }
 
-        public TwitterDataModel.Ids GetBlockIdsApi(long cursor)
+        public TwitterIds GetBlockIdsApi(long cursor)
         {
             if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid)
                 throw new WebApiException("AccountState invalid");
@@ -3082,7 +3082,7 @@ namespace OpenTween
 
             try
             {
-                return MyCommon.CreateDataFromJson<TwitterDataModel.Ids>(content);
+                return TwitterIds.ParseJson(content);
             }
             catch(SerializationException e)
             {

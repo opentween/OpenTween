@@ -66,6 +66,9 @@
     <Compile Include="Api\TwitterConfiguration.cs" />
     <Compile Include="Api\TwitterEntity.cs" />
     <Compile Include="Api\TwitterList.cs" />
+    <Compile Include="Api\TwitterPageable.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Api\TwitterPlace.cs" />
     <Compile Include="Api\TwitterStatus.cs" />
     <Compile Include="Api\TwitterUser.cs" />
