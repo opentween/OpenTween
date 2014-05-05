@@ -97,6 +97,11 @@ namespace OpenTween.Api
         InvalidToken = 89,
 
         /// <summary>
+        /// SSLを使わずにAPIに接続することはできません
+        /// </summary>
+        SslIsRequired = 92,
+
+        /// <summary>
         /// サーバーの過負荷によって一時的にアクセスできません
         /// </summary>
         OverCapacity = 130,
@@ -127,6 +132,11 @@ namespace OpenTween.Api
         FollowLimit = 161,
 
         /// <summary>
+        /// 非公開ユーザーのため閲覧できません
+        /// </summary>
+        Protected = 179,
+
+        /// <summary>
         /// 投稿されたステータスが重複しています
         /// </summary>
         DuplicateStatus = 187,
@@ -135,6 +145,11 @@ namespace OpenTween.Api
         /// 認証が必要な API で認証データが含まれていない、または認証データが不正
         /// </summary>
         AuthenticationRequired = 215,
+
+        /// <summary>
+        /// スパムの疑いのあるリクエストがブロックされました
+        /// </summary>
+        RequestBlocked = 226,
 
         /// <summary>
         /// 廃止されたエンドポイント
