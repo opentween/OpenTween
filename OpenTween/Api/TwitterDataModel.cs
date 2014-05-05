@@ -176,26 +176,5 @@ namespace OpenTween.Api
             [DataMember(Name = "reset_time")] public string ResetTime;
             [DataMember(Name = "daily_limit")] public int DailyLimit;
         }
-
-        [DataContract]
-        public class SearchResult
-        {
-            [DataMember(Name = "statuses")] public List<TwitterStatus> Statuses;
-            [DataMember(Name = "search_metadata")] public SearchMetadata SearchMetadata;
-        }
-
-        [DataContract]
-        public class SearchMetadata
-        {
-            [DataMember(Name = "max_id")] public long MaxId;
-            [DataMember(Name = "since_id")] public long SinceId;
-            [DataMember(Name = "refresh_url")] public string RefreshUrl;
-            [DataMember(Name = "next_results")] public string NextResults;
-            [DataMember(Name = "count")] public int Count;
-            [DataMember(Name = "completed_in")] public double CompletedIn;
-            [DataMember(Name = "since_id_str")] public string SinceIdStr;
-            [DataMember(Name = "query")] public string Query;
-            [DataMember(Name = "max_id_str")] public string MaxIdStr;
-        }
     }
 }

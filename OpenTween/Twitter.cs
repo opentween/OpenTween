@@ -1679,10 +1679,10 @@ namespace OpenTween
 
         private string CreatePostsFromSearchJson(string content, TabClass tab, bool read, int count, ref long minimumId, bool more)
         {
-            TwitterDataModel.SearchResult items;
+            TwitterSearchResult items;
             try
             {
-                items = MyCommon.CreateDataFromJson<TwitterDataModel.SearchResult>(content);
+                items = TwitterSearchResult.ParseJson(content);
             }
             catch (SerializationException ex)
             {
