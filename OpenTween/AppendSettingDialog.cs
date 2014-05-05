@@ -35,6 +35,7 @@ using System.Windows.Forms;
 using System.Threading;
 using System.IO;
 using System.Resources;
+using OpenTween.Api;
 using OpenTween.Thumbnail;
 using System.Threading.Tasks;
 using OpenTween.Setting.Panel;
@@ -67,7 +68,7 @@ namespace OpenTween
         public bool IsRemoveSameEvent;
         public bool IsNotifyUseGrowl;
 
-        public TwitterDataModel.Configuration TwitterConfiguration = new TwitterDataModel.Configuration();
+        public TwitterConfiguration TwitterConfiguration = TwitterConfiguration.DefaultConfiguration();
 
         private string _pin;
 

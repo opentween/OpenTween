@@ -37,13 +37,14 @@ using System.Text.RegularExpressions;
 using System.Web;
 using System.IO;
 using System.Net;
+using OpenTween.Api;
 
 namespace OpenTween
 {
     public partial class UserInfoDialog : OTBaseForm
     {
-        private TwitterDataModel.User _displayUser;
-        public TwitterDataModel.User DisplayUser
+        private TwitterUser _displayUser;
+        public TwitterUser DisplayUser
         {
             get { return this._displayUser; }
             set
@@ -196,7 +197,7 @@ namespace OpenTween
             }
         }
 
-        private async Task SetRecentStatusAsync(TwitterDataModel.Status status)
+        private async Task SetRecentStatusAsync(TwitterStatus status)
         {
             var atlist = new List<string>();
 
@@ -540,7 +541,7 @@ namespace OpenTween
             {
                 var user = await Task.Run(() =>
                 {
-                    TwitterDataModel.User result = null;
+                    TwitterUser result = null;
 
                     var err = this.Twitter.GetUserInfo(this._displayUser.ScreenName, ref result);
                     if (!string.IsNullOrEmpty(err))

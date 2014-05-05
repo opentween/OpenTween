@@ -23,6 +23,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using OpenTween.Api;
 using Xunit;
 using Xunit.Extensions;
 
@@ -36,7 +37,7 @@ namespace OpenTween
             var text = "http://t.co/KYi7vMZzRt";
             var entities = new[]
             {
-                new TwitterDataModel.Urls
+                new TwitterEntityUrl
                 {
                     Indices = new[] { 0, 22 },
                     DisplayUrl = "twitter.com",
@@ -55,7 +56,7 @@ namespace OpenTween
             var text = "#OpenTween";
             var entities = new[]
             {
-                new TwitterDataModel.Hashtags
+                new TwitterEntityHashtag
                 {
                     Indices = new[] { 0, 10 },
                     Text = "OpenTween",
@@ -72,7 +73,7 @@ namespace OpenTween
             var text = "@TwitterAPI";
             var entities = new[]
             {
-                new TwitterDataModel.UserMentions
+                new TwitterEntityMention
                 {
                     Indices = new[] { 0, 11 },
                     Id = 6253282L,
@@ -91,15 +92,15 @@ namespace OpenTween
             var text = "http://t.co/h5dCr4ftN4";
             var entities = new[]
             {
-                new TwitterDataModel.Media
+                new TwitterEntityMedia
                 {
                     Indices = new[] { 0, 22 },
-                    Sizes = new TwitterDataModel.Sizes
+                    Sizes = new TwitterMediaSizes
                     {
-                        Large = new TwitterDataModel.SizeElement { Resize = "fit", h = 329, w = 1024 },
-                        Medium = new TwitterDataModel.SizeElement { Resize = "fit", h = 204, w = 600 },
-                        Small = new TwitterDataModel.SizeElement { Resize = "fit", h = 116, w = 340 },
-                        Thumb = new TwitterDataModel.SizeElement { Resize = "crop", h = 150, w = 150 },
+                        Large = new TwitterMediaSizes.Size { Resize = "fit", Height = 329, Width = 1024 },
+                        Medium = new TwitterMediaSizes.Size { Resize = "fit", Height = 204, Width = 600 },
+                        Small = new TwitterMediaSizes.Size { Resize = "fit", Height = 116, Width = 340 },
+                        Thumb = new TwitterMediaSizes.Size { Resize = "crop", Height = 150, Width = 150 },
                     },
                     Type = "photo",
                     Id = 426404550379986940L,
@@ -119,7 +120,7 @@ namespace OpenTween
         public void AutoLinkHtml_EntityNullTest()
         {
             var text = "てすとてすとー";
-            TwitterDataModel.Entities entities = null;
+            TwitterEntities entities = null;
 
             var expected = "てすとてすとー";
             Assert.Equal(expected, TweetFormatter.AutoLinkHtml(text, entities));
@@ -129,7 +130,7 @@ namespace OpenTween
         public void AutoLinkHtml_EntityNullTest2()
         {
             var text = "てすとてすとー";
-            TwitterDataModel.Entities entities = new TwitterDataModel.Entities
+            TwitterEntities entities = new TwitterEntities
             {
                 Urls = null,
                 Hashtags = null,
@@ -145,7 +146,7 @@ namespace OpenTween
         public void AutoLinkHtml_EntityNullTest3()
         {
             var text = "てすとてすとー";
-            IEnumerable<TwitterDataModel.Entity> entities = null;
+            IEnumerable<TwitterEntity> entities = null;
 
             var expected = "てすとてすとー";
             Assert.Equal(expected, TweetFormatter.AutoLinkHtml(text, entities));
@@ -155,7 +156,7 @@ namespace OpenTween
         public void AutoLinkHtml_EntityNullTest4()
         {
             var text = "てすとてすとー";
-            IEnumerable<TwitterDataModel.Entity> entities = new TwitterDataModel.Entity[] { null };
+            IEnumerable<TwitterEntity> entities = new TwitterEntity[] { null };
 
             var expected = "てすとてすとー";
             Assert.Equal(expected, TweetFormatter.AutoLinkHtml(text, entities));
@@ -168,7 +169,7 @@ namespace OpenTween
             var text = "\"\'@twitterapi\'\"";
             var entities = new[]
             {
-                new TwitterDataModel.UserMentions
+                new TwitterEntityMention
                 {
                     Indices = new[] { 2, 13 },
                     Id = 6253282L,
@@ -188,7 +189,7 @@ namespace OpenTween
             var text = "&lt;b&gt; @twitterapi &lt;/b&gt;";
             var entities = new[]
             {
-                new TwitterDataModel.UserMentions
+                new TwitterEntityMention
                 {
                     Indices = new[] { 10, 21 },
                     Id = 6253282L,
@@ -208,7 +209,7 @@ namespace OpenTween
             var text = "<b> @twitterapi </b>";
             var entities = new[]
             {
-                new TwitterDataModel.UserMentions
+                new TwitterEntityMention
                 {
                     Indices = new[] { 4, 15 },
                     Id = 6253282L,
@@ -228,7 +229,7 @@ namespace OpenTween
             var text = "#ぜんぶ雪のせいだ";
             var entities = new[]
             {
-                new TwitterDataModel.Hashtags
+                new TwitterEntityHashtag
                 {
                     Indices = new[] { 0, 9 },
                     Text = "ぜんぶ雪のせいだ",
@@ -247,7 +248,7 @@ namespace OpenTween
             var text = "🐬🐬 @irucame 🐬🐬";
             var entities = new[]
             {
-                new TwitterDataModel.UserMentions
+                new TwitterEntityMention
                 {
                     Indices = new[] { 3, 11 },
                     Id = 89942943L,
@@ -266,12 +267,12 @@ namespace OpenTween
             var text = "🐬🐬 #🐬🐬 🐬🐬 #🐬🐬 🐬🐬";
             var entities = new[]
             {
-                new TwitterDataModel.Hashtags
+                new TwitterEntityHashtag
                 {
                     Indices = new[] { 3, 6 },
                     Text = "🐬🐬",
                 },
-                new TwitterDataModel.Hashtags
+                new TwitterEntityHashtag
                 {
                     Indices = new[] { 10, 13 },
                     Text = "🐬🐬",
@@ -291,7 +292,7 @@ namespace OpenTween
             var text = "Caf\u00e9 #test";
             var entities = new[]
             {
-                new TwitterDataModel.Hashtags
+                new TwitterEntityHashtag
                 {
                     Indices = new[] { 5, 10 },
                     Text = "test",
@@ -310,7 +311,7 @@ namespace OpenTween
             var text = "Cafe\u0301 #test";
             var entities = new[]
             {
-                new TwitterDataModel.Hashtags
+                new TwitterEntityHashtag
                 {
                     Indices = new[] { 6, 11 },
                     Text = "test",
@@ -325,7 +326,7 @@ namespace OpenTween
         public void AutoLinkHtml_BreakLineTest()
         {
             var text = "てすと\nてすと\nてすと";
-            TwitterDataModel.Entities entities = null;
+            TwitterEntities entities = null;
 
             var expected = "てすと<br>てすと<br>てすと";
             Assert.Equal(expected, TweetFormatter.AutoLinkHtml(text, entities));

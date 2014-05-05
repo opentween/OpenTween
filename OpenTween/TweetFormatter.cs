@@ -24,6 +24,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using OpenTween.Api;
 
 namespace OpenTween
 {
@@ -32,37 +33,30 @@ namespace OpenTween
     /// </summary>
     public class TweetFormatter
     {
-        public static string AutoLinkHtml(string text, TwitterDataModel.Entities entities)
+        public static string AutoLinkHtml(string text, TwitterEntities entities)
         {
             if (entities == null)
-                return AutoLinkHtml(text, Enumerable.Empty<TwitterDataModel.Entity>());
+                return AutoLinkHtml(text, Enumerable.Empty<TwitterEntity>());
 
-            if (entities.Urls == null)
-                entities.Urls = new TwitterDataModel.Urls[0];
+            var urls = entities.Urls ?? new TwitterEntityUrl[0];
+            var hashtags = entities.Hashtags ?? new TwitterEntityHashtag[0];
+            var mentions = entities.UserMentions ?? new TwitterEntityMention[0];
+            var media = entities.Media ?? new TwitterEntityMedia[0];
 
-            if (entities.Hashtags == null)
-                entities.Hashtags = new TwitterDataModel.Hashtags[0];
-
-            if (entities.UserMentions == null)
-                entities.UserMentions = new TwitterDataModel.UserMentions[0];
-
-            if (entities.Media == null)
-                entities.Media = new TwitterDataModel.Media[0];
-
-            var entitiesQuery = entities.Urls.Cast<TwitterDataModel.Entity>()
-                .Concat(entities.Hashtags)
-                .Concat(entities.UserMentions)
-                .Concat(entities.Media)
+            var entitiesQuery = urls.Cast<TwitterEntity>()
+                .Concat(hashtags)
+                .Concat(mentions)
+                .Concat(media)
                 .Where(x => x != null)
                 .Where(x => x.Indices != null && x.Indices.Length == 2);
 
             return string.Concat(AutoLinkHtmlInternal(text, entitiesQuery));
         }
 
-        public static string AutoLinkHtml(string text, IEnumerable<TwitterDataModel.Entity> entities)
+        public static string AutoLinkHtml(string text, IEnumerable<TwitterEntity> entities)
         {
             if (entities == null)
-                entities = Enumerable.Empty<TwitterDataModel.Entity>();
+                entities = Enumerable.Empty<TwitterEntity>();
 
             var entitiesQuery = entities
                 .Where(x => x != null)
@@ -71,7 +65,7 @@ namespace OpenTween
             return string.Concat(AutoLinkHtmlInternal(text, entitiesQuery));
         }
 
-        private static IEnumerable<string> AutoLinkHtmlInternal(string text, IEnumerable<TwitterDataModel.Entity> entities)
+        private static IEnumerable<string> AutoLinkHtmlInternal(string text, IEnumerable<TwitterEntity> entities)
         {
             var curIndex = 0;
 
@@ -94,12 +88,12 @@ namespace OpenTween
 
                 var targetText = text.Substring(startIndex, endIndex - startIndex);
 
-                if (entity is TwitterDataModel.Urls)
-                    yield return FormatUrlEntity(targetText, (TwitterDataModel.Urls)entity);
-                else if (entity is TwitterDataModel.Hashtags)
-                    yield return FormatHashtagEntity(targetText, (TwitterDataModel.Hashtags)entity);
-                else if (entity is TwitterDataModel.UserMentions)
-                    yield return FormatMentionEntity(targetText, (TwitterDataModel.UserMentions)entity);
+                if (entity is TwitterEntityUrl)
+                    yield return FormatUrlEntity(targetText, (TwitterEntityUrl)entity);
+                else if (entity is TwitterEntityHashtag)
+                    yield return FormatHashtagEntity(targetText, (TwitterEntityHashtag)entity);
+                else if (entity is TwitterEntityMention)
+                    yield return FormatMentionEntity(targetText, (TwitterEntityMention)entity);
                 else
                     yield return t(e(targetText));
 
@@ -113,7 +107,7 @@ namespace OpenTween
         /// <summary>
         /// エンティティの Indices をサロゲートペアを考慮して調整します
         /// </summary>
-        private static IEnumerable<TwitterDataModel.Entity> FixEntityIndices(string text, IEnumerable<TwitterDataModel.Entity> entities)
+        private static IEnumerable<TwitterEntity> FixEntityIndices(string text, IEnumerable<TwitterEntity> entities)
         {
             var curIndex = 0;
             var indexOffset = 0; // サロゲートペアによる indices のズレを表す
@@ -144,7 +138,7 @@ namespace OpenTween
             }
         }
 
-        private static string FormatUrlEntity(string targetText, TwitterDataModel.Urls entity)
+        private static string FormatUrlEntity(string targetText, TwitterEntityUrl entity)
         {
             string expandedUrl;
 
@@ -160,12 +154,12 @@ namespace OpenTween
             return "<a href=\"" + e(entity.Url) + "\" title=\"" + e(expandedUrl) + "\">" + t(e(entity.DisplayUrl)) + "</a>";
         }
 
-        private static string FormatHashtagEntity(string targetText, TwitterDataModel.Hashtags entity)
+        private static string FormatHashtagEntity(string targetText, TwitterEntityHashtag entity)
         {
             return "<a class=\"hashtag\" href=\"https://twitter.com/search?q=%23" + eu(entity.Text) + "\">" + t(e(targetText)) + "</a>";
         }
 
-        private static string FormatMentionEntity(string targetText, TwitterDataModel.UserMentions entity)
+        private static string FormatMentionEntity(string targetText, TwitterEntityMention entity)
         {
             return "<a class=\"mention\" href=\"https://twitter.com/" + eu(entity.ScreenName) + "\">" + t(e(targetText)) + "</a>";
         }
