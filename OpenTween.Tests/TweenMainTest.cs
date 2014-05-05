@@ -137,21 +137,21 @@ namespace OpenTween
             // TweetFormatterでHTMLに整形 → CreateRetweetUnofficialで復元 までの動作が正しく行えているか
 
             var text = "#てすと @TwitterAPI \n http://t.co/KYi7vMZzRt";
-            var entities = new TwitterDataModel.Entity[]
+            var entities = new TwitterEntity[]
             {
-                new TwitterDataModel.Hashtags
+                new TwitterEntityHashtag
                 {
                     Indices = new[] { 0, 4 },
                     Text = "てすと",
                 },
-                new TwitterDataModel.UserMentions
+                new TwitterEntityMention
                 {
                     Indices = new[] { 5, 16 },
                     Id = 6253282L,
                     Name = "Twitter API",
                     ScreenName = "twitterapi",
                 },
-                new TwitterDataModel.Urls
+                new TwitterEntityUrl
                 {
                     Indices = new[] { 19, 41 },
                     DisplayUrl = "twitter.com",

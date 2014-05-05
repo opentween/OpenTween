@@ -1525,7 +1525,7 @@ namespace OpenTween
         private PostClass CreatePostsFromStatusData(TwitterDataModel.Status status)
         {
             var post = new PostClass();
-            TwitterDataModel.Entities entities;
+            TwitterEntities entities;
 
             post.StatusId = status.Id;
             if (status.RetweetedStatus != null)
@@ -2189,7 +2189,7 @@ namespace OpenTween
             foreach (var status in item)
             {
                 var post = new PostClass();
-                TwitterDataModel.Entities entities;
+                TwitterEntities entities;
 
                 try
                 {
@@ -2292,7 +2292,7 @@ namespace OpenTween
             return "";
         }
 
-        private string ReplaceTextFromApi(string text, TwitterDataModel.Entities entities)
+        private string ReplaceTextFromApi(string text, TwitterEntities entities)
         {
             if (entities != null)
             {
@@ -2909,7 +2909,7 @@ namespace OpenTween
             return retStr;
         }
 
-        public async Task<string> CreateHtmlAnchorAsync(string text, List<string> AtList, TwitterDataModel.Entities entities, Dictionary<string, string> media)
+        public async Task<string> CreateHtmlAnchorAsync(string text, List<string> AtList, TwitterEntities entities, Dictionary<string, string> media)
         {
             if (entities != null)
             {
@@ -2959,7 +2959,7 @@ namespace OpenTween
         }
 
         [Obsolete]
-        public string CreateHtmlAnchor(string text, List<string> AtList, TwitterDataModel.Entities entities, Dictionary<string, string> media)
+        public string CreateHtmlAnchor(string text, List<string> AtList, TwitterEntities entities, Dictionary<string, string> media)
         {
             return this.CreateHtmlAnchorAsync(text, AtList, entities, media).Result;
         }

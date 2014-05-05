@@ -42,70 +42,6 @@ namespace OpenTween.Api
         }
 
         [DataContract]
-        public class Entity
-        {
-            [DataMember(Name = "indices")] public int[] Indices = new int[3];
-        }
-
-        [DataContract]
-        public class SizeElement
-        {
-            [DataMember(Name = "w")] public int w;
-            [DataMember(Name = "h")] public int h;
-            [DataMember(Name = "resize")] public string Resize;
-        }
-
-        [DataContract]
-        public class Sizes
-        {
-            [DataMember(Name = "large")] public SizeElement Large;
-            [DataMember(Name = "medium")] public SizeElement Medium;
-            [DataMember(Name = "small")] public SizeElement Small;
-            [DataMember(Name = "thumb")] public SizeElement Thumb;
-        }
-
-        [DataContract]
-        public class Media : Urls
-        {
-            [DataMember(Name = "id")] public long Id;
-            [DataMember(Name = "media_url")] public string MediaUrl;
-            [DataMember(Name = "media_url_https")] public string MediaUrlHttps;
-            [DataMember(Name = "sizes")] public Sizes Sizes;
-            [DataMember(Name = "type")] public string Type;
-        }
-
-        [DataContract]
-        public class Urls : Entity
-        {
-            [DataMember(Name = "url")] public string Url;
-            [DataMember(Name = "display_url")] public string DisplayUrl;
-            [DataMember(Name = "expanded_url")] public string ExpandedUrl;
-        }
-
-        [DataContract]
-        public class Hashtags : Entity
-        {
-            [DataMember(Name = "text")] public string Text;
-        }
-
-        [DataContract]
-        public class UserMentions : Entity
-        {
-            [DataMember(Name = "screen_name")] public string ScreenName;
-            [DataMember(Name = "name")] public string Name;
-            [DataMember(Name = "id")] public Int64 Id;
-        }
-
-        [DataContract]
-        public class Entities
-        {
-            [DataMember(Name = "urls")] public Urls[] Urls;
-            [DataMember(Name = "hashtags")] public Hashtags[] Hashtags;
-            [DataMember(Name = "user_mentions")] public UserMentions[] UserMentions;
-            [DataMember(Name = "media", IsRequired = false)] public Media[] Media;
-        }
-
-        [DataContract]
         public class Coordinates
         {
             [DataMember(Name = "type", IsRequired = false)] public string Type;
@@ -157,7 +93,7 @@ namespace OpenTween.Api
             [DataMember(Name = "place", IsRequired = false)] public Place Place;
             [DataMember(Name = "in_reply_to_status_id")] public long? InReplyToStatusId;
             [DataMember(Name = "text")] public string Text;
-            [DataMember(Name = "entities", IsRequired = false)] public Entities Entities;
+            [DataMember(Name = "entities", IsRequired = false)] public TwitterEntities Entities;
         }
 
         [DataContract]
@@ -182,7 +118,7 @@ namespace OpenTween.Api
             [DataMember(Name = "id")] public Int64 Id;
             [DataMember(Name = "favorited")] public bool Favorited;
             [DataMember(Name = "text")] public string Text;
-            [DataMember(Name = "entities", IsRequired = false)] public Entities Entities;
+            [DataMember(Name = "entities", IsRequired = false)] public TwitterEntities Entities;
         }
 
         [DataContract]
@@ -212,7 +148,7 @@ namespace OpenTween.Api
             [DataMember(Name = "recipient_id")] public Int64 RecipientId;
             [DataMember(Name = "id")] public Int64 Id;
             [DataMember(Name = "text")] public string Text;
-            [DataMember(Name = "entities", IsRequired = false)] public Entities Entities;
+            [DataMember(Name = "entities", IsRequired = false)] public TwitterEntities Entities;
         }
 
         [DataContract]
