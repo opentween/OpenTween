@@ -139,26 +139,6 @@ namespace OpenTween.Api
         }
 
         [DataContract]
-        public class RelationshipResult
-        {
-            [DataMember(Name = "followed_by")] public bool FollowedBy;
-            [DataMember(Name = "following")] public bool Following;
-        }
-
-        [DataContract]
-        public class RelationshipUsers
-        {
-            [DataMember(Name = "target")] public RelationshipResult Target;
-            [DataMember(Name = "source")] public RelationshipResult Source;
-        }
-
-        [DataContract]
-        public class Relationship
-        {
-            [DataMember(Name = "relationship")] public RelationshipUsers relationship;
-        }
-
-        [DataContract]
         public class RateLimitStatus
         {
             [DataMember(Name = "reset_time_in_seconds")] public int ResetTimeInSeconds;

@@ -855,9 +855,9 @@ namespace OpenTween
 
             try
             {
-                var relation = MyCommon.CreateDataFromJson<TwitterDataModel.Relationship>(content);
-                isFollowing = relation.relationship.Source.Following;
-                isFollowed = relation.relationship.Source.FollowedBy;
+                var friendship = TwitterFriendship.ParseJson(content);
+                isFollowing = friendship.Relationship.Source.Following;
+                isFollowed = friendship.Relationship.Source.FollowedBy;
                 return "";
             }
             catch(SerializationException ex)
