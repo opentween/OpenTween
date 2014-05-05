@@ -282,25 +282,9 @@ namespace OpenTween.Api
         }
 
         [DataContract]
-        public class ListElementData
-        {
-            [DataMember(Name = "mode")] public string Mode;
-            [DataMember(Name = "uri")] public string Uri;
-            [DataMember(Name = "member_count")] public int MemberCount;
-            [DataMember(Name = "slug")] public string Slug;
-            [DataMember(Name = "full_name")] public string FullName;
-            [DataMember(Name = "user")] public TwitterUser User;
-            [DataMember(Name = "following")] public bool Following;
-            [DataMember(Name = "subscriber_count")] public int SubscriberCount;
-            [DataMember(Name = "description")] public string Description;
-            [DataMember(Name = "name")] public string Name;
-            [DataMember(Name = "id")] public long Id;
-        }
-
-        [DataContract]
         public class Lists
         {
-            [DataMember(Name = "lists")] public ListElementData[] lists;
+            [DataMember(Name = "lists")] public TwitterList[] lists;
             [DataMember(Name = "next_cursor")] public long NextCursor;
             [DataMember(Name = "previous_cursor")] public long PreviousCursor;
         }

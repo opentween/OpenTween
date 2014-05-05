@@ -52,7 +52,7 @@ namespace OpenTween
         {
         }
 
-        public ListElement(TwitterDataModel.ListElementData listElementData, dynamic tw)
+        public ListElement(TwitterList listElementData, dynamic tw)
         {
             this.Description = listElementData.Description;
             this.Id = listElementData.Id;

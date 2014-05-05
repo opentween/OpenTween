@@ -63,6 +63,7 @@
   <ItemGroup>
     <Compile Include="Api\ApiLimit.cs" />
     <Compile Include="Api\TwitterEntity.cs" />
+    <Compile Include="Api\TwitterList.cs" />
     <Compile Include="Api\TwitterUser.cs" />
     <Compile Include="Api\TwitterApiAccessLevel.cs" />
     <Compile Include="Api\TwitterApiStatus.cs" />

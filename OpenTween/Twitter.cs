@@ -2512,7 +2512,7 @@ namespace OpenTween
 
             try
             {
-                lists = MyCommon.CreateDataFromJson<List<TwitterDataModel.ListElementData>>(content)
+                lists = TwitterList.ParseJsonArray(content)
                     .Select(x => new ListElement(x, this));
             }
             catch (SerializationException ex)
@@ -2540,7 +2540,7 @@ namespace OpenTween
 
             try
             {
-                lists = lists.Concat(MyCommon.CreateDataFromJson<List<TwitterDataModel.ListElementData>>(content)
+                lists = lists.Concat(TwitterList.ParseJsonArray(content)
                     .Select(x => new ListElement(x, this)));
             }
             catch (SerializationException ex)
@@ -2597,7 +2597,7 @@ namespace OpenTween
 
             try
             {
-                var le = MyCommon.CreateDataFromJson<TwitterDataModel.ListElementData>(content);
+                var le = TwitterList.ParseJson(content);
                 var newList = new ListElement(le, this);
                 list.Description = newList.Description;
                 list.Id = newList.Id;
@@ -2683,7 +2683,7 @@ namespace OpenTween
 
             try
             {
-                var le = MyCommon.CreateDataFromJson<TwitterDataModel.ListElementData>(content);
+                var le = TwitterList.ParseJson(content);
                 TabInformations.GetInstance().SubscribableLists.Add(new ListElement(le, this));
                 return "";
             }
