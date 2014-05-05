@@ -82,7 +82,6 @@ namespace OpenTween
         /// <summary>
         /// 破棄されたキャッシュの件数
         /// </summary>
-        [XmlIgnore] // これ付けないと sgen.exe がエラーを吐く
         public int CacheRemoveCount { get; private set; }
 
         /// <summary>
