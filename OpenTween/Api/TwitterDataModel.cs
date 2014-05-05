@@ -42,34 +42,6 @@ namespace OpenTween.Api
         }
 
         [DataContract]
-        public class BoundingBox
-        {
-            [DataMember(Name = "type", IsRequired = false)] public string Type;
-            [DataMember(Name = "coordinates", IsRequired = false)] public double[][][] Coordinates;
-        }
-
-        [DataContract]
-        public class Attributes
-        {
-            [DataMember(Name = "street_address", IsRequired = false)] public string StreetAddress;
-        }
-
-        [DataContract]
-        public class Place
-        {
-            [DataMember(Name = "url")] public string Url;
-            [DataMember(Name = "bounding_box", IsRequired = false)] public BoundingBox BoundingBox;
-            [DataMember(Name = "street_address", IsRequired = false)] public string StreetAddress;
-            [DataMember(Name = "full_name")] public string FullName;
-            [DataMember(Name = "name")] public string Name;
-            //[DataMember(Name = "attributes", IsRequired = false)] public attributes attributes;
-            [DataMember(Name = "country_code", IsRequired = false)] public string CountryCode;
-            [DataMember(Name = "id")] public string Id;
-            [DataMember(Name = "country")] public string Country;
-            [DataMember(Name = "place_type")] public string PlaceType;
-        }
-
-        [DataContract]
         public class TargetObject : TwitterStatus
         {
             [DataMember(Name = "mode")] public string Mode;

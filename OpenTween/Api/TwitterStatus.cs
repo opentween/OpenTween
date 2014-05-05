@@ -92,7 +92,7 @@ namespace OpenTween.Api
         public string Lang { get; set; } // Nullable
 
         [DataMember(Name = "place", IsRequired = false)]
-        public TwitterDataModel.Place Place { get; set; }
+        public TwitterPlace Place { get; set; }
 
         [DataMember(Name = "possibly_sensitive")]
         public bool? PossiblySensitive { get; set; }
