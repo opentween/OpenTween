@@ -139,4 +139,59 @@ namespace OpenTween.Api
             return MyCommon.CreateDataFromJson<TwitterStatus[]>(json);
         }
     }
+
+    [DataContract]
+    public class TwitterDirectMessage
+    {
+        [DataMember(Name = "entities", IsRequired = false)]
+        public TwitterEntities Entities { get; set; }
+
+        [DataMember(Name = "created_at")]
+        public string CreatedAt { get; set; }
+
+        [DataMember(Name = "id")]
+        public long Id { get; set; }
+
+        [DataMember(Name = "id_str")]
+        public string IdStr { get; set; }
+
+        [DataMember(Name = "text")]
+        public string Text { get; set; }
+
+        [DataMember(Name = "sender_id")]
+        public long SenderId { get; set; }
+
+        [DataMember(Name = "sender_id_str")]
+        public string SenderIdStr { get; set; }
+
+        [DataMember(Name = "sender_screen_name")]
+        public string SenderScreenName { get; set; }
+
+        [DataMember(Name = "sender", IsRequired = false)]
+        public TwitterUser Sender { get; set; }
+
+        [DataMember(Name = "recipient_id")]
+        public long RecipientId { get; set; }
+
+        [DataMember(Name = "recipient_id_str")]
+        public string RecipientIdStr { get; set; }
+
+        [DataMember(Name = "recipient_screen_name")]
+        public string RecipientScreenName { get; set; }
+
+        [DataMember(Name = "recipient", IsRequired = false)]
+        public TwitterUser Recipient { get; set; }
+
+        /// <exception cref="SerializationException"/>
+        public static TwitterDirectMessage ParseJson(string json)
+        {
+            return MyCommon.CreateDataFromJson<TwitterDirectMessage>(json);
+        }
+
+        /// <exception cref="SerializationException"/>
+        public static TwitterDirectMessage[] ParseJsonArray(string json)
+        {
+            return MyCommon.CreateDataFromJson<TwitterDirectMessage[]>(json);
+        }
+    }
 }

@@ -591,10 +591,10 @@ namespace OpenTween
             var err = this.CheckStatusCode(res, content);
             if (err != null) return err;
 
-            TwitterDataModel.Directmessage status;
+            TwitterDirectMessage status;
             try
             {
-                status = MyCommon.CreateDataFromJson<TwitterDataModel.Directmessage>(content);
+                status = TwitterDirectMessage.ParseJson(content);
             }
             catch(SerializationException ex)
             {
@@ -1956,21 +1956,17 @@ namespace OpenTween
 
         private string CreateDirectMessagesFromJson(string content, MyCommon.WORKERTYPE gType, bool read)
         {
-            List<TwitterDataModel.Directmessage> item;
+            TwitterDirectMessage[] item;
             try
             {
                 if (gType == MyCommon.WORKERTYPE.UserStream)
                 {
                     var itm = MyCommon.CreateDataFromJson<List<TwitterDataModel.DirectmessageEvent>>(content);
-                    item = new List<TwitterDataModel.Directmessage>();
-                    foreach (var dat in itm)
-                    {
-                        item.Add(dat.Directmessage);
-                    }
+                    item = itm.Select(x => x.Directmessage).ToArray();
                 }
                 else
                 {
-                    item = MyCommon.CreateDataFromJson<List<TwitterDataModel.Directmessage>>(content);
+                    item = TwitterDirectMessage.ParseJsonArray(content);
                 }
             }
             catch(SerializationException ex)

@@ -56,22 +56,6 @@ namespace OpenTween.Api
         }
 
         [DataContract]
-        public class Directmessage
-        {
-            [DataMember(Name = "created_at")] public string CreatedAt;
-            [DataMember(Name = "sender_id")] public Int64 SenderId;
-            [DataMember(Name = "sender_screen_name")] public string SenderScreenName;
-            [DataMember(Name = "sender")] public TwitterUser Sender;
-            [DataMember(Name = "id_str")] public string IdStr;
-            [DataMember(Name = "recipient")] public TwitterUser Recipient;
-            [DataMember(Name = "recipient_screen_name")] public string RecipientScreenName;
-            [DataMember(Name = "recipient_id")] public Int64 RecipientId;
-            [DataMember(Name = "id")] public Int64 Id;
-            [DataMember(Name = "text")] public string Text;
-            [DataMember(Name = "entities", IsRequired = false)] public TwitterEntities Entities;
-        }
-
-        [DataContract]
         public class Friendsevent
         {
             [DataMember(Name = "friends")] public Int64[] Friends;
@@ -110,7 +94,7 @@ namespace OpenTween.Api
         [DataContract]
         public class DirectmessageEvent
         {
-            [DataMember(Name = "direct_message")] public Directmessage Directmessage;
+            [DataMember(Name = "direct_message")] public TwitterDirectMessage Directmessage;
         }
 
         [DataContract]
