@@ -157,7 +157,6 @@
     <Compile Include="Connection\TwitPic.cs" />
     <Compile Include="Connection\TwitterPhoto.cs" />
     <Compile Include="Connection\yfrog.cs" />
-    <Compile Include="Api\TwitterDataModel.cs" />
     <Compile Include="DetailsListView.cs">
       <SubType>Component</SubType>
     </Compile>
