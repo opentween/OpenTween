@@ -35,6 +35,7 @@ using System.Windows.Forms;
 using System.Threading;
 using System.IO;
 using System.Resources;
+using OpenTween.Api;
 using OpenTween.Thumbnail;
 using System.Threading.Tasks;
 using OpenTween.Setting.Panel;

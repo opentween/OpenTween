@@ -29,7 +29,7 @@ using System;
 using System.Runtime.Serialization;
 using System.Collections.Generic;
 
-namespace OpenTween
+namespace OpenTween.Api
 {
     public class TwitterDataModel
     {

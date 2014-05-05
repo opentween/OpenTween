@@ -23,6 +23,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using OpenTween.Api;
 using Xunit;
 using Xunit.Extensions;
 

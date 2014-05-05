@@ -37,6 +37,7 @@ using System.Text.RegularExpressions;
 using System.Web;
 using System.IO;
 using System.Net;
+using OpenTween.Api;
 
 namespace OpenTween
 {

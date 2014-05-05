@@ -26,6 +26,7 @@
 
 using System;
 using System.Net;
+using OpenTween.Api;
 
 namespace OpenTween
 {
