@@ -408,34 +408,5 @@ namespace OpenTween.Api
             [DataMember(Name = "query")] public string Query;
             [DataMember(Name = "max_id_str")] public string MaxIdStr;
         }
-
-        [DataContract]
-        public class PhotoSize
-        {
-            [DataMember(Name = "h")] public int Height;
-            [DataMember(Name = "w")] public int Width;
-            [DataMember(Name = "resize")] public string Resize;
-        }
-
-        [DataContract]
-        public class PhotoType
-        {
-            [DataMember(Name = "large")] public PhotoSize LargeSize;
-            [DataMember(Name = "medium")] public PhotoSize MediumSize;
-            [DataMember(Name = "small")] public PhotoSize SmallSize;
-            [DataMember(Name = "thumb")] public PhotoSize ThumbSize;
-        }
-
-        [DataContract]
-        public class Configuration
-        {
-            [DataMember(Name = "characters_reserved_per_media")] public int CharactersReservedPerMedia = 20;
-            [DataMember(Name = "photo_size_limit")] public int PhotoSizeLimit;
-            [DataMember(Name = "photo_sizes")] public PhotoType PhotoSizes;
-            [DataMember(Name = "non_username_paths")] public string[] NonUsernamePaths;
-            [DataMember(Name = "short_url_length")] public int ShortUrlLength = 19;
-            [DataMember(Name = "short_url_length_https")] public int ShortUrlLengthHttps = 20;
-            [DataMember(Name = "max_media_per_upload")] public int MaxMediaPerUpload;
-        }
     }
 }

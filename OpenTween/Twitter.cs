@@ -2455,7 +2455,7 @@ namespace OpenTween
         /// t.co の文字列長などの設定情報を取得します
         /// </summary>
         /// <exception cref="WebApiException"/>
-        public TwitterDataModel.Configuration ConfigurationApi()
+        public TwitterConfiguration ConfigurationApi()
         {
             HttpStatusCode res;
             var content = "";
@@ -2474,7 +2474,7 @@ namespace OpenTween
 
             try
             {
-                return MyCommon.CreateDataFromJson<TwitterDataModel.Configuration>(content);
+                return TwitterConfiguration.ParseJson(content);
             }
             catch(SerializationException e)
             {

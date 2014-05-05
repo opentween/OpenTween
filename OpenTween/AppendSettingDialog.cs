@@ -68,7 +68,7 @@ namespace OpenTween
         public bool IsRemoveSameEvent;
         public bool IsNotifyUseGrowl;
 
-        public TwitterDataModel.Configuration TwitterConfiguration = new TwitterDataModel.Configuration();
+        public TwitterConfiguration TwitterConfiguration = TwitterConfiguration.DefaultConfiguration();
 
         private string _pin;
 
