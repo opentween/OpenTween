@@ -42,20 +42,6 @@ namespace OpenTween.Api
         }
 
         [DataContract]
-        public class TargetObject : TwitterStatus
-        {
-            [DataMember(Name = "mode")] public string Mode;
-            [DataMember(Name = "description")] public string Description;
-            [DataMember(Name = "slug")] public string Slug;
-            [DataMember(Name = "uri")] public string Uri;
-            [DataMember(Name = "member_count")] public int MemberCount;
-            [DataMember(Name = "full_name")] public string FullName;
-            [DataMember(Name = "subscriber_count")] public int SubscriberCount;
-            [DataMember(Name = "name")] public string Name;
-            [DataMember(Name = "following")] public bool Following;
-        }
-
-        [DataContract]
         public class Friendsevent
         {
             [DataMember(Name = "friends")] public Int64[] Friends;
@@ -107,16 +93,6 @@ namespace OpenTween.Api
         public class LimitEvent
         {
             [DataMember(Name = "limit")] public TrackCount Limit;
-        }
-
-        [DataContract]
-        public class EventData
-        {
-            [DataMember(Name = "target")] public TwitterUser Target;
-            [DataMember(Name = "target_object", IsRequired = false)] public TargetObject TargetObject;
-            [DataMember(Name = "created_at")] public string CreatedAt;
-            [DataMember(Name = "event")] public string Event;
-            [DataMember(Name = "source")] public TwitterUser Source;
         }
 
         [DataContract]

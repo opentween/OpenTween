@@ -1961,8 +1961,7 @@ namespace OpenTween
             {
                 if (gType == MyCommon.WORKERTYPE.UserStream)
                 {
-                    var itm = MyCommon.CreateDataFromJson<List<TwitterDataModel.DirectmessageEvent>>(content);
-                    item = itm.Select(x => x.Directmessage).ToArray();
+                    item = new[] { TwitterStreamEventDirectMessage.ParseJson(content).DirectMessage };
                 }
                 else
                 {
@@ -3358,20 +3357,14 @@ namespace OpenTween
                     }
                 }
 
-                var res = new StringBuilder();
-                res.Length = 0;
-                res.Append("[");
-                res.Append(line);
-                res.Append("]");
-
                 if (isDm)
                 {
-                    CreateDirectMessagesFromJson(res.ToString(), MyCommon.WORKERTYPE.UserStream, false);
+                    CreateDirectMessagesFromJson(line, MyCommon.WORKERTYPE.UserStream, false);
                 }
                 else
                 {
                     long dummy = 0;
-                    CreatePostsFromJson(res.ToString(), MyCommon.WORKERTYPE.Timeline, null, false, 0, ref dummy);
+                    CreatePostsFromJson("[" + line + "]", MyCommon.WORKERTYPE.Timeline, null, false, 0, ref dummy);
                 }
             }
             catch(NullReferenceException)
@@ -3387,10 +3380,10 @@ namespace OpenTween
 
         private void CreateEventFromJson(string content)
         {
-            TwitterDataModel.EventData eventData = null;
+            TwitterStreamEvent eventData = null;
             try
             {
-                eventData = MyCommon.CreateDataFromJson<TwitterDataModel.EventData>(content);
+                eventData = TwitterStreamEvent.ParseJson(content);
             }
             catch(SerializationException ex)
             {
@@ -3427,8 +3420,9 @@ namespace OpenTween
                     break;
                 case "favorite":
                 case "unfavorite":
-                    evt.Target = "@" + eventData.TargetObject.User.ScreenName + ":" + WebUtility.HtmlDecode(eventData.TargetObject.Text);
-                    evt.Id = eventData.TargetObject.Id;
+                    var tweetEvent = TwitterStreamEvent<TwitterStatus>.ParseJson(content);
+                    evt.Target = "@" + tweetEvent.TargetObject.User.ScreenName + ":" + WebUtility.HtmlDecode(tweetEvent.TargetObject.Text);
+                    evt.Id = tweetEvent.TargetObject.Id;
                     if (AppendSettingDialog.Instance.IsRemoveSameEvent)
                     {
                         if (StoredEvent.Any(ev =>
@@ -3436,9 +3430,9 @@ namespace OpenTween
                                                return ev.Username == evt.Username && ev.Eventtype == evt.Eventtype && ev.Target == evt.Target;
                                            })) return;
                     }
-                    if (TabInformations.GetInstance().ContainsKey(eventData.TargetObject.Id))
+                    if (TabInformations.GetInstance().ContainsKey(tweetEvent.TargetObject.Id))
                     {
-                        var post = TabInformations.GetInstance()[eventData.TargetObject.Id];
+                        var post = TabInformations.GetInstance()[tweetEvent.TargetObject.Id];
                         if (eventData.Event == "favorite")
                         {
                             if (evt.Username.ToLower().Equals(_uname))
@@ -3486,7 +3480,8 @@ namespace OpenTween
                 case "list_updated":
                 case "list_user_subscribed":
                 case "list_user_unsubscribed":
-                    evt.Target = eventData.TargetObject.FullName;
+                    var listEvent = TwitterStreamEvent<TwitterList>.ParseJson(content);
+                    evt.Target = listEvent.TargetObject.FullName;
                     break;
                 case "block":
                     if (!TabInformations.GetInstance().BlockIds.Contains(eventData.Target.Id)) TabInformations.GetInstance().BlockIds.Add(eventData.Target.Id);
