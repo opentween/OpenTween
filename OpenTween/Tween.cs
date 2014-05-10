@@ -12445,10 +12445,10 @@ namespace OpenTween
 
         private void ImageFromSelectedFile(bool suppressMsgBox)
         {
+            this.ClearImageSelectedPicture();
+
             try
             {
-                ClearImageSelectedPicture();
-
                 ImagefilePathText.Text = ImagefilePathText.Text.Trim();
                 if (string.IsNullOrEmpty(ImagefilePathText.Text) || string.IsNullOrEmpty(this.ImageService))
                 {
@@ -12503,20 +12503,17 @@ namespace OpenTween
                         ImageSelectedPicture.Tag = MyCommon.UploadFileType.MultiMedia;
                         break;
                     default:
-                        ClearImageSelectedPicture();
                         ImagefilePathText.Text = "";
                         break;
                 }
             }
             catch (FileNotFoundException)
             {
-                ClearImageSelectedPicture();
                 ImagefilePathText.Text = "";
                 if (!suppressMsgBox) MessageBox.Show("File not found.");
             }
             catch (Exception)
             {
-                ClearImageSelectedPicture();
                 ImagefilePathText.Text = "";
                 if (!suppressMsgBox) MessageBox.Show("The type of this file is not image.");
             }
