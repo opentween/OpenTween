@@ -102,9 +102,6 @@ namespace OpenTween.Thumbnail
                 // PhotoShare
                 new SimpleThumbnailService(@"^http://(?:www\.)?bcphotoshare\.com/photos/\d+/(\d+)$", "http://images.bcphotoshare.com/storages/${1}/thumb180.jpg"),
 
-                // PhotoShare
-                new PhotoShareShortlink(),
-
                 // img.ly
                 new SimpleThumbnailService(@"^http://img\.ly/(\w+)$",
                     "http://img.ly/show/thumb/${1}",

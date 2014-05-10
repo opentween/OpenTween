@@ -275,7 +275,6 @@
     <Compile Include="Thumbnail\Services\IThumbnailService.cs" />
     <Compile Include="Thumbnail\Services\MetaThumbnailService.cs" />
     <Compile Include="Thumbnail\Services\Nicovideo.cs" />
-    <Compile Include="Thumbnail\Services\PhotoShareShortlink.cs" />
     <Compile Include="Thumbnail\Services\Pixiv.cs" />
     <Compile Include="Thumbnail\Services\SimpleThumbnailService.cs" />
     <Compile Include="Thumbnail\Services\Tinami.cs" />
@@ -342,7 +341,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="RadixConvert.cs" />
     <Compile Include="SearchWordDialog.cs">
       <SubType>Form</SubType>
     </Compile>
