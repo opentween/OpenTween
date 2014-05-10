@@ -66,7 +66,7 @@
             this.DeleteTabMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.TabImage = new System.Windows.Forms.ImageList(this.components);
             this.ImageSelectionPanel = new System.Windows.Forms.Panel();
-            this.ImageSelectedPicture = new OpenTween.OpenTweenCustomControl.PictureBoxEx();
+            this.ImageSelectedPicture = new OpenTween.OTPictureBox();
             this.ImagePathPanel = new System.Windows.Forms.Panel();
             this.ImagefilePathText = new System.Windows.Forms.TextBox();
             this.FilePickButton = new System.Windows.Forms.Button();
@@ -2677,7 +2677,7 @@
         internal System.Windows.Forms.ToolStripMenuItem DeleteTabMenuItem;
         internal System.Windows.Forms.ImageList TabImage;
         internal System.Windows.Forms.Panel ImageSelectionPanel;
-        internal OpenTweenCustomControl.PictureBoxEx ImageSelectedPicture;
+        internal OTPictureBox ImageSelectedPicture;
         internal System.Windows.Forms.Panel ImagePathPanel;
         internal System.Windows.Forms.TextBox ImagefilePathText;
         internal System.Windows.Forms.Button FilePickButton;

@@ -4407,7 +4407,7 @@
     <value />
   </data>
   <data name="&gt;&gt;ImageSelectedPicture.Type" xml:space="preserve">
-    <value>OpenTween.OpenTweenCustomControl.PictureBoxEx, OpenTween, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>OpenTween.OTPictureBox, OpenTween, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="ShowUserTimelineToolStripMenuItem.Text" xml:space="preserve">
     <value>ユーザーのタイムラインを表示</value>

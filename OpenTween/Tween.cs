@@ -12267,6 +12267,8 @@ namespace OpenTween
             this._apiGauge.BorderSides = ToolStripStatusLabelBorderSides.Right;
             this.StatusStrip1.Items.Insert(2, this._apiGauge);
 
+            this.ImageSelectedPicture.InitialImage = Properties.Resources.InitialImage;
+
             this.ReplaceAppName();
         }
 
@@ -12365,7 +12367,7 @@ namespace OpenTween
             ImageSelectionPanel.Visible = false;
             ImageSelectionPanel.Enabled = false;
             ((DetailsListView)ListTab.SelectedTab.Tag).Focus();
-            ClearImageSelectedPicture(false);
+            ClearImageSelectedPicture();
             ImagefilePathText.CausesValidation = true;
         }
 
@@ -12445,7 +12447,7 @@ namespace OpenTween
         {
             try
             {
-                ClearImageSelectedPicture(true);
+                ClearImageSelectedPicture();
 
                 ImagefilePathText.Text = ImagefilePathText.Text.Trim();
                 if (string.IsNullOrEmpty(ImagefilePathText.Text) || string.IsNullOrEmpty(this.ImageService))
@@ -12490,39 +12492,31 @@ namespace OpenTween
 
                 switch (imageService.GetFileType(ext))
                 {
-                    case MyCommon.UploadFileType.Invalid:
-                        ImagefilePathText.Text = "";
-                        break;
                     case MyCommon.UploadFileType.Picture:
-                        Image img = null;
-                        using (FileStream fs = new FileStream(ImagefilePathText.Text, FileMode.Open, FileAccess.Read))
+                        using (var fs = File.OpenRead(ImagefilePathText.Text))
                         {
-                            img = Image.FromStream(fs);
+                            ImageSelectedPicture.Image = MemoryImage.CopyFromStream(fs);
                         }
-                        ImageSelectedPicture.Image = (new HttpVarious()).CheckValidImage(
-                                    img,
-                                    img.Width,
-                                    img.Height);
                         ImageSelectedPicture.Tag = MyCommon.UploadFileType.Picture;
                         break;
                     case MyCommon.UploadFileType.MultiMedia:
-                        ImageSelectedPicture.Image = Properties.Resources.MultiMediaImage;
                         ImageSelectedPicture.Tag = MyCommon.UploadFileType.MultiMedia;
                         break;
                     default:
+                        ClearImageSelectedPicture();
                         ImagefilePathText.Text = "";
                         break;
                 }
             }
             catch (FileNotFoundException)
             {
-                ClearImageSelectedPicture(true);
+                ClearImageSelectedPicture();
                 ImagefilePathText.Text = "";
                 if (!suppressMsgBox) MessageBox.Show("File not found.");
             }
             catch (Exception)
             {
-                ClearImageSelectedPicture(true);
+                ClearImageSelectedPicture();
                 ImagefilePathText.Text = "";
                 if (!suppressMsgBox) MessageBox.Show("The type of this file is not image.");
             }
@@ -12547,28 +12541,17 @@ namespace OpenTween
             return sb.ToString();
         }
 
-        private void ClearImageSelectedPicture(bool invalidate)
+        private void ClearImageSelectedPicture()
         {
-            Image oldImage = null;
-            if (this.ImageSelectedPicture.Image != null)
-            {
-                if (this.ImageSelectedPicture.Image != Properties.Resources.InitialImage &&
-                    this.ImageSelectedPicture.Image != Properties.Resources.MultiMediaImage)
-                {
-                    oldImage = this.ImageSelectedPicture.Image;
-                }
-            }
-            if (invalidate)
-            {
-                this.ImageSelectedPicture.Image = Properties.Resources.InitialImage;
-                this.ImageSelectedPicture.Tag = MyCommon.UploadFileType.Invalid;
-            }
-            else
+            var oldImage = this.ImageSelectedPicture.Image;
+            if (oldImage != null)
             {
                 this.ImageSelectedPicture.Image = null;
-                this.ImageSelectedPicture.Tag = null;
+                oldImage.Dispose();
             }
-            if (oldImage != null) oldImage.Dispose();
+
+            this.ImageSelectedPicture.Tag = null;
+            this.ImageSelectedPicture.ShowInitialImage();
         }
 
         private void ImageCancelButton_Click(object sender, EventArgs e)
@@ -12603,7 +12586,7 @@ namespace OpenTween
 
         private bool TryGetSelectedMedia(out string imageService, out string imagePath)
         {
-            if (ImageSelectedPicture.Image != Properties.Resources.InitialImage &&
+            if (ImageSelectedPicture.Tag != null &&
                 ImageServiceCombo.SelectedIndex > -1 &&
                 !string.IsNullOrEmpty(ImagefilePathText.Text))
             {
@@ -12686,13 +12669,13 @@ namespace OpenTween
                     var imageService = this.pictureService[this.ImageService];
                     if (!imageService.CheckValidFilesize(ext, fi.Length))
                     {
-                        ClearImageSelectedPicture(true);
+                        ClearImageSelectedPicture();
                         ImagefilePathText.Text = "";
                     }
                 }
                 catch (Exception)
                 {
-                    ClearImageSelectedPicture(true);
+                    ClearImageSelectedPicture();
                     ImagefilePathText.Text = "";
                 }
                 _modifySettingCommon = true;
