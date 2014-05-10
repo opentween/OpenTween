@@ -385,7 +385,7 @@
             resources.ApplyResources(this.Label2, "Label2");
             this.Label2.Name = "Label2";
             // 
-            // ShowUserInfo
+            // UserInfoDialog
             // 
             this.AllowDrop = true;
             resources.ApplyResources(this, "$this");
@@ -436,7 +436,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "ShowUserInfo";
+            this.Name = "UserInfoDialog";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.TopMost = true;
