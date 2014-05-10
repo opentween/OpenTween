@@ -157,8 +157,12 @@ namespace OpenTween
                 }
                 finally
                 {
-                    if (File.Exists(tmpfilePath))
-                        File.Delete(tmpfilePath);
+                    try
+                    {
+                        if (File.Exists(tmpfilePath))
+                            File.Delete(tmpfilePath);
+                    }
+                    catch (Exception) { }
                 }
 
                 // リトライ
