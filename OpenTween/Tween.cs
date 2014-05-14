@@ -1946,13 +1946,13 @@ namespace OpenTween
 
             if (SettingDialog.UnreadManage) _statuses.SetReadAllTab(true, _curTab.Text, _curItemIndex);
             //キャッシュの書き換え
-            ChangeCacheStyleRead(true, _curItemIndex, _curTab);   //既読へ（フォント、文字色）
+            ChangeCacheStyleRead(true, _curItemIndex);   //既読へ（フォント、文字色）
 
             ColorizeList();
             _colorize = true;
         }
 
-        private void ChangeCacheStyleRead(bool Read, int Index, TabPage Tab)
+        private void ChangeCacheStyleRead(bool Read, int Index)
         {
             //Read:true=既読 false=未読
             //未読管理していなかったら既読として扱う
@@ -1963,18 +1963,15 @@ namespace OpenTween
             ListViewItem itm = null;
             PostClass post = null;
 
-            if (Tab.Equals(this._curTab))
-            {
-                this.TryGetListViewItemCache(Index, out itm, out post);
-            }
+            this.TryGetListViewItemCache(Index, out itm, out post);
 
             if (itm == null || post == null)
             {
-                itm = ((DetailsListView)Tab.Tag).Items[Index];
-                post = _statuses[Tab.Text, Index];
+                itm = ((DetailsListView)_curTab.Tag).Items[Index];
+                post = _statuses[_curTab.Text, Index];
             }
 
-            ChangeItemStyleRead(Read, itm, post, ((DetailsListView)Tab.Tag));
+            ChangeItemStyleRead(Read, itm, post, ((DetailsListView)_curTab.Tag));
         }
 
         private void ChangeItemStyleRead(bool Read, ListViewItem Item, PostClass Post, DetailsListView DList)
@@ -2953,7 +2950,7 @@ namespace OpenTween
                                                 {
                                                     post = _statuses[rslt.sIds[i]];
                                                 }
-                                                ChangeCacheStyleRead(post.IsRead, idx, _curTab);
+                                                ChangeCacheStyleRead(post.IsRead, idx);
                                             }
                                             if (idx == _curItemIndex) DispSelectedPost(true); //選択アイテム再表示
                                         }
@@ -3727,7 +3724,7 @@ namespace OpenTween
                 }
                 foreach (int idx in _curList.SelectedIndices)
                 {
-                    ChangeCacheStyleRead(true, idx, _curTab);
+                    ChangeCacheStyleRead(true, idx);
                 }
                 ColorizeList();
             }
@@ -3757,7 +3754,7 @@ namespace OpenTween
                 }
                 foreach (int idx in _curList.SelectedIndices)
                 {
-                    ChangeCacheStyleRead(false, idx, _curTab);
+                    ChangeCacheStyleRead(false, idx);
                 }
                 ColorizeList();
             }
