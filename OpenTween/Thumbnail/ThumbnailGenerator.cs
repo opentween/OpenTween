@@ -128,7 +128,7 @@ namespace OpenTween.Thumbnail
                 new Pixiv(http),
 
                 // flickr
-                new MetaThumbnailService(http, @"^http://www\.flickr\.com/.+$"),
+                new MetaThumbnailService(http, @"^https?://www\.flickr\.com/.+$"),
 
                 // フォト蔵
                 new SimpleThumbnailService(
