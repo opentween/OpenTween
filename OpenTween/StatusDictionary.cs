@@ -403,6 +403,7 @@ namespace OpenTween
         }
 
         public List<long> BlockIds = new List<long>();
+        public List<long> MuteUserIds = new List<long>();
 
         //発言の追加
         //AddPost(複数回) -> DistributePosts          -> SubmitUpdate
@@ -1210,7 +1211,10 @@ namespace OpenTween
                                 Item.RetweetedId != null &&
                                 this._retweets.TryGetValue(Item.RetweetedId.Value, out status) &&
                                 status.RetweetedCount > 0) return;
-                            if (BlockIds.Contains(Item.UserId)) return;
+
+                            if (BlockIds.Contains(Item.UserId) || MuteUserIds.Contains(Item.UserId))
+                                return;
+
                             _statuses.Add(Item.StatusId, Item);
                         }
                         if (Item.RetweetedId != null)

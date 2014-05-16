@@ -3089,6 +3089,23 @@ namespace OpenTween
             }
         }
 
+        private async Task RefreshMuteUserIdsAsync()
+        {
+            this.StatusLabel.Text = Properties.Resources.UpdateMuteUserIds_Start;
+
+            try
+            {
+                await tw.RefreshMuteUserIdsAsync();
+            }
+            catch (WebApiException ex)
+            {
+                this.StatusLabel.Text = string.Format(Properties.Resources.UpdateMuteUserIds_Error, ex.Message);
+                return;
+            }
+
+            this.StatusLabel.Text = Properties.Resources.UpdateMuteUserIds_Finish;
+        }
+
         private void RemovePostFromFavTab(Int64[] ids)
         {
             string favTabName = _statuses.GetTabByType(MyCommon.TabUsageType.Favorites).TabName;
@@ -10785,6 +10802,7 @@ namespace OpenTween
 
             if (this.IsNetworkAvailable())
             {
+                this.RefreshMuteUserIdsAsync();
                 GetTimeline(MyCommon.WORKERTYPE.BlockIds, 0, 0, "");
                 GetTimeline(MyCommon.WORKERTYPE.NoRetweetIds, 0, 0, "");
                 if (SettingDialog.StartupFollowers)

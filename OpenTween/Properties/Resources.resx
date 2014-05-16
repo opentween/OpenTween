@@ -1166,4 +1166,13 @@
   <data name="PostPictureWarn6" xml:space="preserve">
     <value>なし</value>
   </data>
+  <data name="UpdateMuteUserIds_Error" xml:space="preserve">
+    <value>MuteUserIds取得エラー: {0}</value>
+  </data>
+  <data name="UpdateMuteUserIds_Finish" xml:space="preserve">
+    <value>MuteUserIds取得完了</value>
+  </data>
+  <data name="UpdateMuteUserIds_Start" xml:space="preserve">
+    <value>MuteUserIds取得中...</value>
+  </data>
 </root>

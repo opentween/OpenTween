@@ -3087,6 +3087,33 @@ namespace OpenTween.Properties {
         }
         
         /// <summary>
+        ///   MuteUserIds取得エラー: {0} に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string UpdateMuteUserIds_Error {
+            get {
+                return ResourceManager.GetString("UpdateMuteUserIds_Error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   MuteUserIds取得完了 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string UpdateMuteUserIds_Finish {
+            get {
+                return ResourceManager.GetString("UpdateMuteUserIds_Finish", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   MuteUserIds取得中... に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string UpdateMuteUserIds_Start {
+            get {
+                return ResourceManager.GetString("UpdateMuteUserIds_Start", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   適用 に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string UserInfoButtonEdit_ClickText1 {

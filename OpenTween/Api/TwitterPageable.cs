@@ -44,6 +44,26 @@ namespace OpenTween.Api
 
         [DataMember(Name = "previous_cursor_str")]
         public string PreviousCursorStr { get; set; }
+
+        /// <summary>
+        /// cursorを引数に持つメソッドを使用してアイテムを全件取得します
+        /// </summary>
+        public static async Task<IEnumerable<T>> GetAllItemsAsync<TResult>(Func<long, Task<TResult>> pageMethod)
+            where TResult : TwitterPageable<T>
+        {
+            var results = Enumerable.Empty<T>();
+
+            var cursor = -1L;
+            do
+            {
+                var page = await pageMethod(cursor).ConfigureAwait(false);
+                results = results.Concat(page.Items);
+                cursor = page.NextCursor;
+            }
+            while (cursor != 0L);
+
+            return results;
+        }
     }
 
     [DataContract]

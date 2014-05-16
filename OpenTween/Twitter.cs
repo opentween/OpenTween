@@ -3093,6 +3093,42 @@ namespace OpenTween
             }
         }
 
+        /// <summary>
+        /// ミュート中のユーザーIDを更新します
+        /// </summary>
+        /// <exception cref="WebApiException"/>
+        public async Task RefreshMuteUserIdsAsync()
+        {
+            if (MyCommon._endingFlag) return;
+
+            var ids = await TwitterIds.GetAllItemsAsync(this.GetMuteUserIdsApiAsync)
+                .ConfigureAwait(false);
+
+            TabInformations.GetInstance().MuteUserIds = ids.ToList();
+        }
+
+        public async Task<TwitterIds> GetMuteUserIdsApiAsync(long cursor)
+        {
+            var content = "";
+            var res = await Task.Run(() => twCon.GetMuteUserIds(ref content, cursor))
+                .ConfigureAwait(false);
+
+            var err = this.CheckStatusCode(res, content);
+            if (err != null)
+                throw new WebApiException(err, content);
+
+            try
+            {
+                return TwitterIds.ParseJson(content);
+            }
+            catch (SerializationException ex)
+            {
+                var ex2 = new WebApiException("Err:Json Parse Error(DataContractJsonSerializer)", content, ex);
+                MyCommon.TraceOut(ex2);
+                throw ex2;
+            }
+        }
+
         public string[] GetHashList()
         {
             string[] hashArray;

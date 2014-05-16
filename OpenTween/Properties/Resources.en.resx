@@ -1108,4 +1108,13 @@ Available service: {1}</value>
   <data name="PostPictureWarn6" xml:space="preserve">
     <value>none</value>
   </data>
+  <data name="UpdateMuteUserIds_Error" xml:space="preserve">
+    <value>Failed to get MuteUserIds: {0}</value>
+  </data>
+  <data name="UpdateMuteUserIds_Finish" xml:space="preserve">
+    <value>Done to get MuteUserIds</value>
+  </data>
+  <data name="UpdateMuteUserIds_Start" xml:space="preserve">
+    <value>Getting MuteUserIds...</value>
+  </data>
 </root>
