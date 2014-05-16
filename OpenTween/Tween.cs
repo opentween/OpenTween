@@ -5256,10 +5256,10 @@ namespace OpenTween
         {
             if (e.State == 0) return;
             e.DrawDefault = false;
+
+            SolidBrush brs2 = null;
             if (!e.Item.Selected)     //e.ItemStateでうまく判定できない？？？
             {
-                SolidBrush brs2 = null;
-
                 if (e.Item.BackColor == _clSelf)
                     brs2 = _brsBackColorMine;
                 else if (e.Item.BackColor == _clAtSelf)
@@ -5274,18 +5274,17 @@ namespace OpenTween
                     brs2 = _brsBackColorAtTo;
                 else
                     brs2 = _brsBackColorNone;
-
-                e.Graphics.FillRectangle(brs2, e.Bounds);
             }
             else
             {
                 //選択中の行
                 if (((Control)sender).Focused)
-                    e.Graphics.FillRectangle(_brsHighLight, e.Bounds);
+                    brs2 = _brsHighLight;
                 else
-                    e.Graphics.FillRectangle(_brsDeactiveSelection, e.Bounds);
+                    brs2 = _brsDeactiveSelection;
             }
-            if ((e.State & ListViewItemStates.Focused) == ListViewItemStates.Focused) e.DrawFocusRectangle();
+            e.Graphics.FillRectangle(brs2, e.Bounds);
+            e.DrawFocusRectangle();
             this.DrawListViewItemIcon(e);
         }
 
@@ -5298,18 +5297,19 @@ namespace OpenTween
                 //アイコン以外の列
                 RectangleF rct = e.Bounds;
                 rct.Width = e.Header.Width;
+                int fontHeight = e.Item.Font.Height;
                 if (_iconCol)
                 {
-                    rct.Y += e.Item.Font.Height;
-                    rct.Height -= e.Item.Font.Height;
+                    rct.Y += fontHeight;
+                    rct.Height -= fontHeight;
                 }
 
                 int heightDiff;
-                int drawLineCount = Math.Max(1, Math.DivRem((int)rct.Height, e.Item.Font.Height, out heightDiff));
+                int drawLineCount = Math.Max(1, Math.DivRem((int)rct.Height, fontHeight, out heightDiff));
 
-                //if (heightDiff > e.Item.Font.Height * 0.7)
+                //if (heightDiff > fontHeight * 0.7)
                 //{
-                //    rct.Height += e.Item.Font.Height;
+                //    rct.Height += fontHeight;
                 //    drawLineCount += 1;
                 //}
 
@@ -5317,13 +5317,13 @@ namespace OpenTween
                 if (!_iconCol && drawLineCount <= 1)
                 {
                     //rct.Inflate(0, heightDiff / -2);
-                    //rct.Height += e.Item.Font.Height / 2;
+                    //rct.Height += fontHeight / 2;
                 }
-                else if (heightDiff < e.Item.Font.Height * 0.7)
+                else if (heightDiff < fontHeight * 0.7)
                 {
                     //最終行が70%以上欠けていたら、最終行は表示しない
-                    //rct.Height = (float)((e.Item.Font.Height * drawLineCount) + (e.Item.Font.Height / 2));
-                    rct.Height = (e.Item.Font.Height * drawLineCount) - 1;
+                    //rct.Height = (float)((fontHeight * drawLineCount) + (fontHeight / 2));
+                    rct.Height = (fontHeight * drawLineCount) - 1;
                 }
                 else
                 {
@@ -5332,8 +5332,8 @@ namespace OpenTween
 
                 //if (!_iconCol && drawLineCount > 1)
                 //{
-                //    rct.Y += e.Item.Font.Height * 0.2;
-                //    if (heightDiff >= e.Item.Font.Height * 0.8) rct.Height -= e.Item.Font.Height * 0.2;
+                //    rct.Y += fontHeight * 0.2;
+                //    if (heightDiff >= fontHeight * 0.8) rct.Height -= fontHeight * 0.2;
                 //}
 
                 if (rct.Width > 0)
@@ -5344,9 +5344,9 @@ namespace OpenTween
 
                     if (_iconCol)
                     {
-                        RectangleF rctB = e.Bounds;
+                        Rectangle rctB = e.Bounds;
                         rctB.Width = e.Header.Width;
-                        rctB.Height = e.Item.Font.Height;
+                        rctB.Height = fontHeight;
 
                         using (Font fnt = new Font(e.Item.Font, FontStyle.Bold))
                         {
@@ -5362,7 +5362,7 @@ namespace OpenTween
                             TextRenderer.DrawText(e.Graphics,
                                                     e.Item.SubItems[4].Text + " / " + e.Item.SubItems[1].Text + " (" + e.Item.SubItems[3].Text + ") " + e.Item.SubItems[5].Text + e.Item.SubItems[6].Text + " [" + e.Item.SubItems[7].Text + "]",
                                                     fnt,
-                                                    Rectangle.Round(rctB),
+                                                    rctB,
                                                     color,
                                                     TextFormatFlags.SingleLine |
                                                     TextFormatFlags.EndEllipsis |
@@ -5402,16 +5402,22 @@ namespace OpenTween
 
         private void DrawListViewItemIcon(DrawListViewItemEventArgs e)
         {
+            if (_iconSz == 0) return;
+
             ImageListViewItem item = (ImageListViewItem)e.Item;
 
             //e.Bounds.Leftが常に0を指すから自前で計算
             Rectangle itemRect = item.Bounds;
-            itemRect.Width = e.Item.ListView.Columns[0].Width;
+            var col0 = e.Item.ListView.Columns[0];
+            itemRect.Width = col0.Width;
 
-            foreach (ColumnHeader clm in e.Item.ListView.Columns)
+            if (col0.DisplayIndex > 0)
             {
-                if (clm.DisplayIndex < e.Item.ListView.Columns[0].DisplayIndex)
-                    itemRect.X += clm.Width;
+                foreach (ColumnHeader clm in e.Item.ListView.Columns)
+                {
+                    if (clm.DisplayIndex < col0.DisplayIndex)
+                        itemRect.X += clm.Width;
+                }
             }
 
             // ディスプレイの DPI 設定を考慮したアイコンサイズ
@@ -5419,37 +5425,35 @@ namespace OpenTween
             var realStateSize = new SizeF(16 * this.currentScaleFactor.Width, 16 * this.currentScaleFactor.Height).ToSize();
 
             Rectangle iconRect;
-            Rectangle stateRect;
-            if (item.Image != null)
+            var img = item.Image;
+            if (img != null)
             {
                 iconRect = Rectangle.Intersect(new Rectangle(e.Item.GetBounds(ItemBoundsPortion.Icon).Location, realIconSize), itemRect);
                 iconRect.Offset(0, Math.Max(0, (itemRect.Height - realIconSize.Height) / 2));
-                stateRect = Rectangle.Intersect(new Rectangle(new Point(iconRect.X + realIconSize.Width + 2, iconRect.Y), realStateSize), itemRect);
+
+                if (iconRect.Width > 0)
+                {
+                    e.Graphics.FillRectangle(Brushes.White, iconRect);
+                    e.Graphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.High;
+                    try
+                    {
+                        e.Graphics.DrawImage(img.Image, iconRect);
+                    }
+                    catch (ArgumentException)
+                    {
+                        item.RefreshImageAsync();
+                    }
+                }
             }
             else
             {
                 iconRect = Rectangle.Intersect(new Rectangle(e.Item.GetBounds(ItemBoundsPortion.Icon).Location, new Size(1, 1)), itemRect);
                 //iconRect.Offset(0, Math.Max(0, (itemRect.Height - realIconSize.Height) / 2));
-                stateRect = Rectangle.Intersect(new Rectangle(new Point(iconRect.X + realIconSize.Width + 2, iconRect.Y), realStateSize), itemRect);
-            }
-
-            var img = item.Image;
-            if (img != null && iconRect.Width > 0)
-            {
-                e.Graphics.FillRectangle(Brushes.White, iconRect);
-                e.Graphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.High;
-                try
-                {
-                    e.Graphics.DrawImage(img.Image, iconRect);
-                }
-                catch (ArgumentException)
-                {
-                    item.RefreshImageAsync();
-                }
             }
 
             if (item.StateImageIndex > -1)
             {
+                Rectangle stateRect = Rectangle.Intersect(new Rectangle(new Point(iconRect.X + realIconSize.Width + 2, iconRect.Y), realStateSize), itemRect);
                 if (stateRect.Width > 0)
                 {
                     //e.Graphics.FillRectangle(Brushes.White, stateRect);
