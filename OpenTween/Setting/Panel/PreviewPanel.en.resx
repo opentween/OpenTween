@@ -290,13 +290,13 @@ This file is released for developers in Growl for Windows web site.</value>
   <data name="CheckDispUsername.ToolTip" xml:space="preserve">
     <value />
   </data>
-  <data name="CheckBox3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>148, 16</value>
+  <data name="CheckStatusAreaAtBottom.Size" type="System.Drawing.Size, System.Drawing">
+    <value>278, 16</value>
   </data>
-  <data name="CheckBox3.Text" xml:space="preserve">
-    <value>Show icon in detail view</value>
+  <data name="CheckStatusAreaAtBottom.Text" xml:space="preserve">
+    <value>Locate tweet detail and input area at the bottom</value>
   </data>
-  <data name="CheckBox3.ToolTip" xml:space="preserve">
+  <data name="CheckStatusAreaAtBottom.ToolTip" xml:space="preserve">
     <value />
   </data>
   <data name="$this.ToolTip" xml:space="preserve">

@@ -422,6 +422,7 @@ namespace OpenTween
                 UseAtIdSupplement = this.TweetActPanel.CheckAtIdSupple.Checked;
                 UseHashSupplement = this.TweetActPanel.CheckHashSupple.Checked;
                 PreviewEnable = this.PreviewPanel.CheckPreviewEnable.Checked;
+                StatusAreaAtBottom = this.PreviewPanel.CheckStatusAreaAtBottom.Checked;
                 TwitterApiUrl = this.ConnectionPanel.TwitterAPIText.Text.Trim();
                 switch (this.PreviewPanel.ReplyIconStateCombo.SelectedIndex)
                 {
@@ -783,6 +784,7 @@ namespace OpenTween
             this.TweetActPanel.CheckAtIdSupple.Checked = UseAtIdSupplement;
             this.TweetActPanel.CheckHashSupple.Checked = UseHashSupplement;
             this.PreviewPanel.CheckPreviewEnable.Checked = PreviewEnable;
+            this.PreviewPanel.CheckStatusAreaAtBottom.Checked = StatusAreaAtBottom;
             this.ConnectionPanel.TwitterAPIText.Text = TwitterApiUrl;
             switch (ReplyIconState)
             {
@@ -1179,6 +1181,7 @@ namespace OpenTween
         public bool UseAtIdSupplement { get; set; }
         public bool UseHashSupplement { get; set; }
         public bool PreviewEnable { get; set; }
+        public bool StatusAreaAtBottom { get; set; }
         public bool UseAdditionalCount { get; set; }
         public bool OpenUserTimeline { get; set; }
         public string TwitterApiUrl { get; set; }

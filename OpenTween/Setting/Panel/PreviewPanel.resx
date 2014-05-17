@@ -687,37 +687,34 @@ Growl.CoreLibrary.DLL</value>
   <data name="&gt;&gt;CheckDispUsername.ZOrder" xml:space="preserve">
     <value>17</value>
   </data>
-  <data name="CheckBox3.AutoSize" type="System.Boolean, mscorlib">
+  <data name="CheckStatusAreaAtBottom.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="CheckBox3.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="CheckBox3.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+  <data name="CheckStatusAreaAtBottom.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="CheckBox3.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="CheckStatusAreaAtBottom.Location" type="System.Drawing.Point, System.Drawing">
     <value>23, 225</value>
   </data>
-  <data name="CheckBox3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>180, 16</value>
+  <data name="CheckStatusAreaAtBottom.Size" type="System.Drawing.Size, System.Drawing">
+    <value>257, 16</value>
   </data>
-  <data name="CheckBox3.TabIndex" type="System.Int32, mscorlib">
+  <data name="CheckStatusAreaAtBottom.TabIndex" type="System.Int32, mscorlib">
     <value>30</value>
   </data>
-  <data name="CheckBox3.Text" xml:space="preserve">
-    <value>発言詳細部にアイコンを表示する</value>
+  <data name="CheckStatusAreaAtBottom.Text" xml:space="preserve">
+    <value>発言詳細部・入力欄を発言一覧の下に配置する</value>
   </data>
-  <data name="&gt;&gt;CheckBox3.Name" xml:space="preserve">
-    <value>CheckBox3</value>
+  <data name="&gt;&gt;CheckStatusAreaAtBottom.Name" xml:space="preserve">
+    <value>CheckStatusAreaAtBottom</value>
   </data>
-  <data name="&gt;&gt;CheckBox3.Type" xml:space="preserve">
+  <data name="&gt;&gt;CheckStatusAreaAtBottom.Type" xml:space="preserve">
     <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;CheckBox3.Parent" xml:space="preserve">
+  <data name="&gt;&gt;CheckStatusAreaAtBottom.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="&gt;&gt;CheckBox3.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;CheckStatusAreaAtBottom.ZOrder" xml:space="preserve">
     <value>18</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">

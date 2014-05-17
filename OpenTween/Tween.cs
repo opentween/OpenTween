@@ -846,6 +846,7 @@ namespace OpenTween
             SettingDialog.UseAtIdSupplement = _cfgCommon.UseAtIdSupplement;
             SettingDialog.UseHashSupplement = _cfgCommon.UseHashSupplement;
             SettingDialog.PreviewEnable = _cfgCommon.PreviewEnable;
+            SettingDialog.StatusAreaAtBottom = _cfgCommon.StatusAreaAtBottom;
             AtIdSupl = new AtIdSupplement(SettingAtIdList.Load().AtIdList, "@");
 
             SettingDialog.IsMonospace = _cfgCommon.IsMonospace;
@@ -1068,6 +1069,9 @@ namespace OpenTween
 
             // NameLabel のフォントを OTBaseForm.GlobalFont に変更
             this.NameLabel.Font = this.ReplaceToGlobalFont(this.NameLabel.Font);
+
+            // 必要であれば、発言一覧と発言詳細部・入力欄の上下を入れ替える
+            SplitContainer1.IsPanelInverted = !SettingDialog.StatusAreaAtBottom;
 
             //全新着通知のチェック状態により、Reply＆DMの新着通知有効無効切り替え（タブ別設定にするため削除予定）
             if (SettingDialog.UnreadManage == false)
@@ -3968,6 +3972,8 @@ namespace OpenTween
 
                     // タブの表示位置の決定
                     SetTabAlignment();
+
+                    SplitContainer1.IsPanelInverted = !SettingDialog.StatusAreaAtBottom;
 
                     var imgazyobizinet = ThumbnailGenerator.ImgAzyobuziNetInstance;
                     imgazyobizinet.Enabled = this.SettingDialog.EnableImgAzyobuziNet;
@@ -7815,6 +7821,7 @@ namespace OpenTween
                 _cfgCommon.UseAtIdSupplement = SettingDialog.UseAtIdSupplement;
                 _cfgCommon.UseHashSupplement = SettingDialog.UseHashSupplement;
                 _cfgCommon.PreviewEnable = SettingDialog.PreviewEnable;
+                _cfgCommon.StatusAreaAtBottom = SettingDialog.StatusAreaAtBottom;
                 _cfgCommon.Language = SettingDialog.Language;
 
                 _cfgCommon.SortOrder = (int)_statuses.SortOrder;

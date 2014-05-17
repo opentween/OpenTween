@@ -48,7 +48,7 @@
             this.Label45 = new System.Windows.Forms.Label();
             this.cmbNameBalloon = new System.Windows.Forms.ComboBox();
             this.CheckDispUsername = new System.Windows.Forms.CheckBox();
-            this.CheckBox3 = new System.Windows.Forms.CheckBox();
+            this.CheckStatusAreaAtBottom = new System.Windows.Forms.CheckBox();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.SuspendLayout();
             // 
@@ -183,11 +183,11 @@
             this.CheckDispUsername.Name = "CheckDispUsername";
             this.CheckDispUsername.UseVisualStyleBackColor = true;
             // 
-            // CheckBox3
+            // CheckStatusAreaAtBottom
             // 
-            resources.ApplyResources(this.CheckBox3, "CheckBox3");
-            this.CheckBox3.Name = "CheckBox3";
-            this.CheckBox3.UseVisualStyleBackColor = true;
+            resources.ApplyResources(this.CheckStatusAreaAtBottom, "CheckStatusAreaAtBottom");
+            this.CheckStatusAreaAtBottom.Name = "CheckStatusAreaAtBottom";
+            this.CheckStatusAreaAtBottom.UseVisualStyleBackColor = true;
             // 
             // PreviewPanel
             // 
@@ -211,7 +211,7 @@
             this.Controls.Add(this.Label45);
             this.Controls.Add(this.cmbNameBalloon);
             this.Controls.Add(this.CheckDispUsername);
-            this.Controls.Add(this.CheckBox3);
+            this.Controls.Add(this.CheckStatusAreaAtBottom);
             this.Name = "PreviewPanel";
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -238,7 +238,7 @@
         internal System.Windows.Forms.Label Label45;
         internal System.Windows.Forms.ComboBox cmbNameBalloon;
         internal System.Windows.Forms.CheckBox CheckDispUsername;
-        internal System.Windows.Forms.CheckBox CheckBox3;
+        internal System.Windows.Forms.CheckBox CheckStatusAreaAtBottom;
         private System.Windows.Forms.ToolTip toolTip;
     }
 }

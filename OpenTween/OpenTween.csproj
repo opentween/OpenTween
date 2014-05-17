@@ -135,6 +135,9 @@
     <Compile Include="OTBaseForm.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="OTSplitContainer.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="PostFilterRule.cs" />
     <Compile Include="HashtagManage.cs">
       <SubType>Form</SubType>
