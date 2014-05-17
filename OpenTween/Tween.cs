@@ -7984,7 +7984,7 @@ namespace OpenTween
                 }
                 catch (WebApiException ex)
                 {
-                    var message = ex.InnerException.Message;
+                    var message = ex.Message;
                     MessageBox.Show(this, string.Format(Properties.Resources.OpenURL_LoadFailed, message),
                         Properties.Resources.OpenURL_Caption, MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
