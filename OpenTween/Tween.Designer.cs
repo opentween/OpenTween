@@ -1214,6 +1214,7 @@
             // 
             resources.ApplyResources(this.tweetThumbnail1, "tweetThumbnail1");
             this.tweetThumbnail1.Name = "tweetThumbnail1";
+            this.tweetThumbnail1.TabStop = false;
             this.ToolTip1.SetToolTip(this.tweetThumbnail1, resources.GetString("tweetThumbnail1.ToolTip"));
             this.tweetThumbnail1.ThumbnailLoading += new System.EventHandler(this.tweetThumbnail1_ThumbnailLoading);
             this.tweetThumbnail1.ThumbnailDoubleClick += new System.EventHandler<OpenTween.ThumbnailDoubleClickEventArgs>(this.tweetThumbnail1_ThumbnailDoubleClick);
