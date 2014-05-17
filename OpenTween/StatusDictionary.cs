@@ -1212,7 +1212,10 @@ namespace OpenTween
                                 this._retweets.TryGetValue(Item.RetweetedId.Value, out status) &&
                                 status.RetweetedCount > 0) return;
 
-                            if (BlockIds.Contains(Item.UserId) || MuteUserIds.Contains(Item.UserId))
+                            if (BlockIds.Contains(Item.UserId))
+                                return;
+
+                            if (MuteUserIds.Contains(Item.UserId) && !Item.IsReply)
                                 return;
 
                             _statuses.Add(Item.StatusId, Item);
