@@ -3110,16 +3110,23 @@ namespace OpenTween
         public async Task<TwitterIds> GetMuteUserIdsApiAsync(long cursor)
         {
             var content = "";
-            var res = await Task.Run(() => twCon.GetMuteUserIds(ref content, cursor))
-                .ConfigureAwait(false);
-
-            var err = this.CheckStatusCode(res, content);
-            if (err != null)
-                throw new WebApiException(err, content);
 
             try
             {
+                var res = await Task.Run(() => twCon.GetMuteUserIds(ref content, cursor))
+                    .ConfigureAwait(false);
+
+                var err = this.CheckStatusCode(res, content);
+                if (err != null)
+                    throw new WebApiException(err, content);
+
                 return TwitterIds.ParseJson(content);
+            }
+            catch (WebException ex)
+            {
+                var ex2 = new WebApiException("Err:" + ex.Message, ex);
+                MyCommon.TraceOut(ex2);
+                throw ex2;
             }
             catch (SerializationException ex)
             {
