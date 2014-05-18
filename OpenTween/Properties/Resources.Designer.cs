@@ -625,6 +625,8 @@ namespace OpenTween.Properties {
         /// <summary>
         ///   更新履歴
         ///
+        ///==== Ver 1.2.1(2014/xx/xx)
+        ///
         ///==== Ver 1.2.0(2014/05/18)
         /// * このバージョン以降のOpenTweenは .NET Framework 4.5.1 が必要となります
         /// * .NET Framework 4.5.1 は Windows XP にはインストールできないためご注意下さい
@@ -636,7 +638,7 @@ namespace OpenTween.Properties {
         ///  - 現状、取得のみでミュートの設定は行えません
         /// * NEW: 発言詳細部・入力欄を発言一覧の上に配置できるようになりました
         ///  - 上部に配置する場合は、「発言詳細部・入力欄を発言一覧の下に配置する」のチェックを外してください
-        /// * CHG: 使用する.NET Frameworkのバージョンが 4.0 から 4. [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
+        /// * CHG: 使用する. [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ChangeLog {
             get {

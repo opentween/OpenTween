@@ -1,5 +1,7 @@
 ﻿更新履歴
 
+==== Ver 1.2.1-beta1(2014/xx/xx)
+
 ==== Ver 1.2.0(2014/05/18)
  * このバージョン以降のOpenTweenは .NET Framework 4.5.1 が必要となります
  * .NET Framework 4.5.1 は Windows XP にはインストールできないためご注意下さい
