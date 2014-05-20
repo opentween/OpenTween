@@ -530,7 +530,7 @@ namespace OpenTween
             StringBuilder query = new StringBuilder();
             foreach (string key in param.Keys)
             {
-                query.AppendFormat("{0}={1}&", UrlEncode(key), UrlEncode(param[key]));
+                query.AppendFormat("{0}={1}&", QueryEncode(key), QueryEncode(param[key]));
             }
             return query.ToString(0, query.Length - 1);
         }
@@ -563,6 +563,28 @@ namespace OpenTween
         protected string UrlEncode(string stringToEncode)
         {
             const string UnreservedChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_.~";
+            StringBuilder sb = new StringBuilder();
+            byte[] bytes = Encoding.UTF8.GetBytes(stringToEncode);
+
+            foreach (byte b in bytes)
+            {
+                if (UnreservedChars.IndexOf((char)b) != -1)
+                    sb.Append((char)b);
+                else
+                    sb.AppendFormat("%{0:X2}", b);
+            }
+            return sb.ToString();
+        }
+
+        ///<summary>
+        ///2バイト文字も考慮したクエリ用エンコード
+        ///</summary>
+        ///<param name="stringToEncode">エンコードする文字列</param>
+        ///<returns>エンコード結果文字列</returns>
+        protected string QueryEncode(string stringToEncode)
+        {
+            // .NET 4.5+: Reserved characters のうち、Uriクラスによってエスケープ強制解除されてしまうものも最初から Unreserved として扱う
+            const string UnreservedChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_.~!'()*:";
             StringBuilder sb = new StringBuilder();
             byte[] bytes = Encoding.UTF8.GetBytes(stringToEncode);
 
