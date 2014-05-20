@@ -11823,7 +11823,7 @@ namespace OpenTween
             Match m = Regex.Match(this._postBrowserStatusText, @"^https?://twitter.com/search\?q=%23(?<hash>.+)$");
             if (m.Success)
             {
-                HashMgr.SetPermanentHash("#" + m.Result("${hash}"));
+                HashMgr.SetPermanentHash("#" + Uri.UnescapeDataString(m.Result("${hash}")));
                 HashStripSplitButton.Text = HashMgr.UseHash;
                 HashToggleMenuItem.Checked = true;
                 HashToggleToolStripMenuItem.Checked = true;
