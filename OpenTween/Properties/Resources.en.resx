@@ -1117,4 +1117,7 @@ Available service: {1}</value>
   <data name="UpdateMuteUserIds_Start" xml:space="preserve">
     <value>Getting MuteUserIds...</value>
   </data>
+  <data name="CheckRuntimeVersion_Error" xml:space="preserve">
+    <value>This software requires {0} or later version.</value>
+  </data>
 </root>

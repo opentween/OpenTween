@@ -36,6 +36,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Globalization;
 using System.Reflection;
+using Microsoft.Win32;
 
 namespace OpenTween
 {
@@ -52,6 +53,13 @@ namespace OpenTween
         [STAThread]
         static int Main(string[] args)
         {
+            if (!CheckRuntimeVersion())
+            {
+                var message = string.Format(Properties.Resources.CheckRuntimeVersion_Error, ".NET Framework 4.5.1");
+                MessageBox.Show(message, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return 1;
+            }
+
             StartupOptions = ParseArguments(args);
 
             if (!SetConfigDirectoryPath())
@@ -87,6 +95,26 @@ namespace OpenTween
                 mt.ReleaseMutex();
 
                 return 0;
+            }
+        }
+
+        /// <summary>
+        /// 動作中の .NET Framework のバージョンが適切かチェックします
+        /// </summary>
+        private static bool CheckRuntimeVersion()
+        {
+            // Mono 上で動作している場合はバージョンチェックを無視します
+            if (Type.GetType("Mono.Runtime", false) != null)
+                return true;
+
+            // .NET Framework 4.5.1 以降で動作しているかチェックする
+            // 参照: http://msdn.microsoft.com/en-us/library/hh925568%28v=vs.110%29.aspx
+
+            using (var lmKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry32))
+            using (var ndpKey = lmKey.OpenSubKey(@"SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full\"))
+            {
+                var releaseKey = (int)ndpKey.GetValue("Release");
+                return releaseKey >= 378675;
             }
         }
 

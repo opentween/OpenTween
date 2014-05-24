@@ -1175,4 +1175,7 @@
   <data name="UpdateMuteUserIds_Start" xml:space="preserve">
     <value>MuteUserIds取得中...</value>
   </data>
+  <data name="CheckRuntimeVersion_Error" xml:space="preserve">
+    <value>このソフトウェアは {0} 以降が必要です。</value>
+  </data>
 </root>

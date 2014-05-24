@@ -728,6 +728,15 @@ namespace OpenTween.Properties {
         }
         
         /// <summary>
+        ///   このソフトウェアは {0} 以降が必要です。 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string CheckRuntimeVersion_Error {
+            get {
+                return ResourceManager.GetString("CheckRuntimeVersion_Error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   このタブの発言をクリアしてもよろしいですか？{0}（サーバーから発言は削除しません。） に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ClearTabMenuItem_ClickText1 {
