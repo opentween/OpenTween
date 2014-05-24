@@ -401,14 +401,17 @@ namespace OpenTween
             if (string.IsNullOrEmpty(this.BitlyId) || string.IsNullOrEmpty(this.BitlyKey))
                 return srcUri;
 
-            var query = HttpUtility.ParseQueryString(string.Empty);
-            query["login"] = this.BitlyId;
-            query["apiKey"] = this.BitlyKey;
-            query["format"] = "txt";
-            query["domain"] = domain;
-            query["longUrl"] = srcUri.OriginalString;
+            var query = new Dictionary<string, string>
+            {
+                {"login", this.BitlyId},
+                {"apiKey", this.BitlyKey},
+                {"format", "txt"},
+                {"domain", domain},
+                {"longUrl", srcUri.OriginalString},
+            };
 
-            using (var response = await this.http.GetAsync("https://api-ssl.bitly.com/v3/shorten?" + query).ConfigureAwait(false))
+            var uri = new Uri("https://api-ssl.bitly.com/v3/shorten?" + MyCommon.BuildQueryString(query));
+            using (var response = await this.http.GetAsync(uri).ConfigureAwait(false))
             {
                 response.EnsureSuccessStatusCode();
 
@@ -428,11 +431,14 @@ namespace OpenTween
             if ("http://ux.nx/xxxxxx".Length > srcUri.OriginalString.Length)
                 return srcUri;
 
-            var query = HttpUtility.ParseQueryString(string.Empty);
-            query["format"] = "plain";
-            query["url"] = srcUri.OriginalString;
+            var query = new Dictionary<string, string>
+            {
+                {"format", "plain"},
+                {"url", srcUri.OriginalString},
+            };
 
-            using (var response = await this.http.GetAsync("http://ux.nu/api/short?" + query).ConfigureAwait(false))
+            var uri = new Uri("http://ux.nu/api/short?" + MyCommon.BuildQueryString(query));
+            using (var response = await this.http.GetAsync(uri).ConfigureAwait(false))
             {
                 response.EnsureSuccessStatusCode();
 

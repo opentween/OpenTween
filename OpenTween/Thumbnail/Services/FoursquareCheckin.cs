@@ -20,6 +20,7 @@
 // Boston, MA 02110-1301, USA.
 
 using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Runtime.Serialization.Json;
 using System.Text.RegularExpressions;
@@ -65,15 +66,17 @@ namespace OpenTween.Thumbnail.Services
                 // Foursquare のベニュー情報を取得
                 // 参照: https://developer.foursquare.com/docs/venues/venues
 
-                var query = HttpUtility.ParseQueryString(string.Empty);
-                query["client_id"] = ApplicationSettings.FoursquareClientId;
-                query["client_secret"] = ApplicationSettings.FoursquareClientSecret;
-                query["v"] = "20140419"; // https://developer.foursquare.com/overview/versioning
+                var query = new Dictionary<string, string>
+                {
+                    {"client_id", ApplicationSettings.FoursquareClientId},
+                    {"client_secret", ApplicationSettings.FoursquareClientSecret},
+                    {"v", "20140419"}, // https://developer.foursquare.com/overview/versioning
+                };
 
                 if (signatureGroup.Success)
                     query["signature"] = signatureGroup.Value;
 
-                var apiUrl = new Uri(ApiBase + "/checkins/" + checkinIdGroup.Value + "?" + query);
+                var apiUrl = new Uri(ApiBase + "/checkins/" + checkinIdGroup.Value + "?" + MyCommon.BuildQueryString(query));
 
                 using (var response = await this.http.GetAsync(apiUrl, token).ConfigureAwait(false))
                 {

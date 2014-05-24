@@ -81,11 +81,13 @@ namespace OpenTween.Thumbnail.Services
 
         protected virtual async Task<XDocument> FetchContentInfoApiAsync(string contentId, CancellationToken token)
         {
-            var query = HttpUtility.ParseQueryString(string.Empty);
-            query["api_key"] = ApplicationSettings.TINAMIApiKey;
-            query["cont_id"] = contentId;
+            var query = new Dictionary<string, string>
+            {
+                {"api_key", ApplicationSettings.TINAMIApiKey},
+                {"cont_id", contentId},
+            };
 
-            var apiUrl = "http://api.tinami.com/content/info?" + query;
+            var apiUrl = new Uri("http://api.tinami.com/content/info?" + MyCommon.BuildQueryString(query));
 
             using (var response = await this.http.GetAsync(apiUrl, token).ConfigureAwait(false))
             {

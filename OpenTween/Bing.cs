@@ -181,15 +181,18 @@ namespace OpenTween
         /// <exception cref="HttpRequestException"/>
         public async Task<string> TranslateAsync(string text, string langFrom, string langTo)
         {
-            var param = HttpUtility.ParseQueryString(string.Empty);
-            param["Text"] = "'" + text + "'";
-            param["To"] = "'" + langTo + "'";
-            param["$format"] = "Raw";
+            var param = new Dictionary<string, string>
+            {
+                {"Text", "'" + text + "'"},
+                {"To", "'" + langTo + "'"},
+                {"$format", "Raw"},
+            };
 
             if (langFrom != null)
                 param["From"] = "'" + langFrom + "'";
 
-            var request = new HttpRequestMessage(HttpMethod.Get, TranslateUri + "?" + param);
+            var uri = new Uri(TranslateUri + "?" + MyCommon.BuildQueryString(param));
+            var request = new HttpRequestMessage(HttpMethod.Get, uri);
             request.Headers.Authorization = CreateBasicAuthHeaderValue(ApplicationSettings.AzureMarketplaceKey, ApplicationSettings.AzureMarketplaceKey);
 
             using (var response = await this.http.SendAsync(request).ConfigureAwait(false))
