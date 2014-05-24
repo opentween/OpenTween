@@ -1009,5 +1009,45 @@ namespace OpenTween
 
             return client;
         }
+
+        /// <summary>
+        /// 指定された IDictionary を元にクエリ文字列を生成します
+        /// </summary>
+        /// <param name="param">生成するクエリの key-value コレクション</param>
+        public static string BuildQueryString(IDictionary<string, string> param)
+        {
+            if (param == null || param.Count == 0)
+                return string.Empty;
+
+            var query = param
+                .Where(x => x.Value != null)
+                .Select(x => EscapeQueryString(x.Key) + '=' + EscapeQueryString(x.Value));
+
+            return string.Join("&", query);
+        }
+
+        // .NET 4.5+: Reserved characters のうち、Uriクラスによってエスケープ強制解除されてしまうものも最初から Unreserved として扱う
+        private static readonly HashSet<char> UnreservedChars =
+            new HashSet<char>("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_.~!'()*:");
+
+        /// <summary>
+        /// 2バイト文字も考慮したクエリ用エンコード
+        /// </summary>
+        /// <param name="stringToEncode">エンコードする文字列</param>
+        /// <returns>エンコード結果文字列</returns>
+        public static string EscapeQueryString(string stringToEncode)
+        {
+            var sb = new StringBuilder(stringToEncode.Length * 2);
+
+            foreach (var b in Encoding.UTF8.GetBytes(stringToEncode))
+            {
+                if (UnreservedChars.Contains((char)b))
+                    sb.Append((char)b);
+                else
+                    sb.AppendFormat("%{0:X2}", b);
+            }
+
+            return sb.ToString();
+        }
     }
 }

@@ -102,7 +102,7 @@ namespace OpenTween
             UriBuilder ub = new UriBuilder(requestUri.AbsoluteUri);
             if (param != null && (method == "GET" || method == "DELETE" || method == "HEAD"))
             {
-                ub.Query = CreateQueryString(param);
+                ub.Query = MyCommon.BuildQueryString(param);
             }
 
             HttpWebRequest webReq = (HttpWebRequest)WebRequest.Create(ub.Uri);
@@ -119,7 +119,7 @@ namespace OpenTween
                 //POST/PUTメソッドの場合は、ボディデータとしてクエリ構成して書き込み
                 using (StreamWriter writer = new StreamWriter(webReq.GetRequestStream()))
                 {
-                    writer.Write(CreateQueryString(param));
+                    writer.Write(MyCommon.BuildQueryString(param));
                 }
             }
             //cookie設定
@@ -520,22 +520,6 @@ namespace OpenTween
         }
 
         ///<summary>
-        ///クエリコレクションをkey=value形式の文字列に構成して戻す
-        ///</summary>
-        ///<param name="param">クエリ、またはポストデータとなるkey-valueコレクション</param>
-        protected string CreateQueryString(IDictionary<string, string> param)
-        {
-            if (param == null || param.Count == 0) return string.Empty;
-
-            StringBuilder query = new StringBuilder();
-            foreach (string key in param.Keys)
-            {
-                query.AppendFormat("{0}={1}&", QueryEncode(key), QueryEncode(param[key]));
-            }
-            return query.ToString(0, query.Length - 1);
-        }
-
-        ///<summary>
         ///クエリ形式（key1=value1&key2=value2&...）の文字列をkey-valueコレクションに詰め直し
         ///</summary>
         ///<param name="queryString">クエリ文字列</param>
@@ -563,28 +547,6 @@ namespace OpenTween
         protected string UrlEncode(string stringToEncode)
         {
             const string UnreservedChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_.~";
-            StringBuilder sb = new StringBuilder();
-            byte[] bytes = Encoding.UTF8.GetBytes(stringToEncode);
-
-            foreach (byte b in bytes)
-            {
-                if (UnreservedChars.IndexOf((char)b) != -1)
-                    sb.Append((char)b);
-                else
-                    sb.AppendFormat("%{0:X2}", b);
-            }
-            return sb.ToString();
-        }
-
-        ///<summary>
-        ///2バイト文字も考慮したクエリ用エンコード
-        ///</summary>
-        ///<param name="stringToEncode">エンコードする文字列</param>
-        ///<returns>エンコード結果文字列</returns>
-        protected string QueryEncode(string stringToEncode)
-        {
-            // .NET 4.5+: Reserved characters のうち、Uriクラスによってエスケープ強制解除されてしまうものも最初から Unreserved として扱う
-            const string UnreservedChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_.~!'()*:";
             StringBuilder sb = new StringBuilder();
             byte[] bytes = Encoding.UTF8.GetBytes(stringToEncode);
 

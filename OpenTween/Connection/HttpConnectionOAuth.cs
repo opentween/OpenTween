@@ -531,7 +531,7 @@ namespace OpenTween
 			// パラメタをソート済みディクショナリに詰替（OAuthの仕様）
 			SortedDictionary< string, string > sorted = new SortedDictionary< string, string >( parameter );
 			// URLエンコード済みのクエリ形式文字列に変換
-			string paramString = this.CreateQueryString( sorted );
+			string paramString = MyCommon.BuildQueryString( sorted );
 			// アクセス先URLの整形
 			string url = string.Format( "{0}://{1}{2}", uri.Scheme, uri.Host, uri.AbsolutePath );
 			// 署名のベース文字列生成（&区切り）。クエリ形式文字列は再エンコードする
