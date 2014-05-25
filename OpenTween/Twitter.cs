@@ -1538,7 +1538,7 @@ namespace OpenTween
                 post.RetweetedId = retweeted.Id;
                 //本文
                 post.TextFromApi = retweeted.Text;
-                entities = retweeted.Entities;
+                entities = retweeted.MergedEntities;
                 //Source取得（htmlの場合は、中身を取り出し）
                 post.Source = retweeted.Source;
                 //Reply先
@@ -1573,7 +1573,7 @@ namespace OpenTween
                 post.CreatedAt = MyCommon.DateTimeParse(status.CreatedAt);
                 //本文
                 post.TextFromApi = status.Text;
-                entities = status.Entities;
+                entities = status.MergedEntities;
                 //Source取得（htmlの場合は、中身を取り出し）
                 post.Source = status.Source;
                 post.InReplyToStatusId = status.InReplyToStatusId;
@@ -2204,7 +2204,7 @@ namespace OpenTween
                         post.RetweetedId = post.StatusId;
                         //本文
                         post.TextFromApi = retweeted.Text;
-                        entities = retweeted.Entities;
+                        entities = retweeted.MergedEntities;
                         //Source取得（htmlの場合は、中身を取り出し）
                         post.Source = retweeted.Source;
                         //Reply先
@@ -2231,7 +2231,7 @@ namespace OpenTween
 
                         //本文
                         post.TextFromApi = status.Text;
-                        entities = status.Entities;
+                        entities = status.MergedEntities;
                         //Source取得（htmlの場合は、中身を取り出し）
                         post.Source = status.Source;
                         post.InReplyToStatusId = status.InReplyToStatusId;

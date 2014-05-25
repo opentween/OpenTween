@@ -208,7 +208,7 @@ namespace OpenTween
 
             if (status != null)
             {
-                var html = await this.Twitter.CreateHtmlAnchorAsync(status.Text, atlist, status.Entities, null);
+                var html = await this.Twitter.CreateHtmlAnchorAsync(status.Text, atlist, status.MergedEntities, null);
                 html = this.Owner.createDetailHtml(html +
                     " Posted at " + MyCommon.DateTimeParse(status.CreatedAt) +
                     " via " + status.Source);

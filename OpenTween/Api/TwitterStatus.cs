@@ -58,6 +58,9 @@ namespace OpenTween.Api
         [DataMember(Name = "entities")]
         public TwitterEntities Entities { get; set; }
 
+        [DataMember(Name = "extended_entities", IsRequired = false)]
+        public TwitterEntities ExtendedEntities { get; set; }
+
         [DataMember(Name = "favorite_count")]
         public int? FavoriteCount { get; set; }
 
@@ -126,6 +129,27 @@ namespace OpenTween.Api
 
         [DataMember(Name = "withheld_scope")]
         public string WithheldScope { get; set; }
+
+        /// <summary>
+        /// Entities と ExtendedEntities をマージした状態のエンティティを返します
+        /// </summary>
+        [IgnoreDataMember]
+        public TwitterEntities MergedEntities
+        {
+            get
+            {
+                if (this.ExtendedEntities == null)
+                    return this.Entities;
+
+                return new TwitterEntities
+                {
+                    Hashtags = this.ExtendedEntities.Hashtags ?? this.Entities.Hashtags,
+                    Media = this.ExtendedEntities.Media ?? this.Entities.Media,
+                    Urls = this.ExtendedEntities.Urls ?? this.Entities.Urls,
+                    UserMentions = this.ExtendedEntities.UserMentions ?? this.Entities.UserMentions,
+                };
+            }
+        }
 
         /// <exception cref="SerializationException"/>
         public static TwitterStatus ParseJson(string json)

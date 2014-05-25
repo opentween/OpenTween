@@ -33,16 +33,16 @@ namespace OpenTween.Api
     [DataContract]
     public class TwitterEntities
     {
-        [DataMember(Name = "hashtags")]
+        [DataMember(Name = "hashtags", IsRequired = false)]
         public TwitterEntityHashtag[] Hashtags { get; set; }
 
         [DataMember(Name = "media", IsRequired = false)]
         public TwitterEntityMedia[] Media { get; set; }
 
-        [DataMember(Name = "urls")]
+        [DataMember(Name = "urls", IsRequired = false)]
         public TwitterEntityUrl[] Urls { get; set; }
 
-        [DataMember(Name = "user_mentions")]
+        [DataMember(Name = "user_mentions", IsRequired = false)]
         public TwitterEntityMention[] UserMentions { get; set; }
     }
 
