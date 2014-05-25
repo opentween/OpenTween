@@ -66,7 +66,7 @@ namespace OpenTween.Thumbnail.Services
             public override Task<MemoryImage> LoadThumbnailImageAsync(HttpClient http, CancellationToken cancellationToken)
             {
                 // TODO: HttpClient を使用したコードに置き換えたい
-                return Task.Run(() =>
+                return Task.Run(async () =>
                 {
                     var oauth = new HttpOAuthApiProxy();
                     TonTwitterCom.InitializeOAuthToken(oauth);
@@ -76,10 +76,11 @@ namespace OpenTween.Thumbnail.Services
 
                     using (response)
                     {
-                        if (statusCode == HttpStatusCode.OK)
-                            return MemoryImage.CopyFromStreamAsync(response);
-                        else
+                        if (statusCode != HttpStatusCode.OK)
                             throw new WebException(statusCode.ToString(), WebExceptionStatus.ProtocolError);
+
+                        return await MemoryImage.CopyFromStreamAsync(response)
+                            .ConfigureAwait(false);
                     }
                 }, cancellationToken);
             }
