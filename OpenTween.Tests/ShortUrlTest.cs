@@ -158,6 +158,29 @@ namespace OpenTween
         }
 
         [Fact]
+        public async Task ExpandUrlAsync_RelativeUriTest()
+        {
+            var handler = new HttpMessageHandlerMock();
+            using (var http = new HttpClient(handler))
+            {
+                var shortUrl = new ShortUrl(http);
+
+                handler.Enqueue(x =>
+                {
+                    // このリクエストは実行されないはず
+                    Assert.True(false);
+                    return this.CreateRedirectResponse("");
+                });
+
+                // 相対 URI に対しては何も行わない
+                Assert.Equal(new Uri("./foo/bar", UriKind.Relative),
+                    await shortUrl.ExpandUrlAsync(new Uri("./foo/bar", UriKind.Relative)));
+
+                Assert.Equal(1, handler.QueueCount);
+            }
+        }
+
+        [Fact]
         public async Task ExpandUrlStrAsync_Test()
         {
             var handler = new HttpMessageHandlerMock();

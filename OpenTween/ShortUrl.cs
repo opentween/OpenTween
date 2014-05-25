@@ -183,6 +183,9 @@ namespace OpenTween
             if (redirectLimit <= 0)
                 return uri;
 
+            if (!uri.IsAbsoluteUri)
+                return uri;
+
             try
             {
                 if (!ShortUrlHosts.Contains(uri.Host))
