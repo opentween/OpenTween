@@ -22,6 +22,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
 using System.ComponentModel;
@@ -91,6 +92,20 @@ namespace OpenTween
         private void RestoreSizeMode()
         {
             base.SizeMode = this.currentSizeMode;
+        }
+
+        protected override void OnPaint(PaintEventArgs pe)
+        {
+            try
+            {
+                base.OnPaint(pe);
+            }
+            catch (ExternalException)
+            {
+                // アニメーション GIF 再生中に発生するエラーの対策
+                // 参照: https://sourceforge.jp/ticket/browse.php?group_id=6526&tid=32894
+                this.ShowErrorImage();
+            }
         }
 
         [Browsable(false)]
