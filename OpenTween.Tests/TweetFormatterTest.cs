@@ -331,5 +331,53 @@ namespace OpenTween
             var expected = "てすと<br>てすと<br>てすと";
             Assert.Equal(expected, TweetFormatter.AutoLinkHtml(text, entities));
         }
+
+        [Fact]
+        public void AutoLinkHtml_OverlappedEntitiesTest()
+        {
+            // extended_entities で追加される、区間が重複したエンティティを考慮
+            // 参照: https://dev.twitter.com/docs/api/multiple-media-extended-entities
+
+            var text = "\"I hope you'll keep...building bonds of friendship that will enrich your lives &amp; enrich our world\" \u2014FLOTUS in China, http://t.co/fxmuQN9JL9";
+            var entities = new[]
+            {
+                new TwitterEntityMedia
+                {
+                    DisplayUrl = "pic.twitter.com/fxmuQN9JL9",
+                    ExpandedUrl = "http://twitter.com/FLOTUS/status/449660889793581056/photo/1",
+                    Indices = new[] { 121, 143 },
+                    MediaUrlHttps = "https://pbs.twimg.com/media/Bj2EH6yIQAEYvxu.jpg",
+                    Url = "http://t.co/fxmuQN9JL9",
+                },
+                new TwitterEntityMedia
+                {
+                    DisplayUrl = "pic.twitter.com/fxmuQN9JL9",
+                    ExpandedUrl = "http://twitter.com/FLOTUS/status/449660889793581056/photo/1",
+                    Indices = new[] { 121, 143 },
+                    MediaUrlHttps = "https://pbs.twimg.com/media/Bj2EHxAIIAE8dtg.jpg",
+                    Url = "http://t.co/fxmuQN9JL9",
+                },
+                new TwitterEntityMedia
+                {
+                    DisplayUrl = "pic.twitter.com/fxmuQN9JL9",
+                    ExpandedUrl = "http://twitter.com/FLOTUS/status/449660889793581056/photo/1",
+                    Indices = new[] { 121, 143 },
+                    MediaUrlHttps = "https://pbs.twimg.com/media/Bj2EH3pIYAE4LQn.jpg",
+                    Url = "http://t.co/fxmuQN9JL9",
+                },
+                new TwitterEntityMedia
+                {
+                    DisplayUrl = "pic.twitter.com/fxmuQN9JL9",
+                    ExpandedUrl = "http://twitter.com/FLOTUS/status/449660889793581056/photo/1",
+                    Indices = new[] { 121, 143 },
+                    MediaUrlHttps = "https://pbs.twimg.com/media/Bj2EL3DIEAAzGAX.jpg",
+                    Url = "http://t.co/fxmuQN9JL9",
+                },
+            };
+
+            var expected = "&quot;I hope you&#39;ll keep...building bonds of friendship that will enrich your lives &amp; enrich our world&quot; \u2014FLOTUS in China, " +
+                "<a href=\"http://t.co/fxmuQN9JL9\" title=\"http://twitter.com/FLOTUS/status/449660889793581056/photo/1\">pic.twitter.com/fxmuQN9JL9</a>";
+            Assert.Equal(expected, TweetFormatter.AutoLinkHtml(text, entities));
+        }
     }
 }
