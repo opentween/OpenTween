@@ -1215,7 +1215,7 @@ namespace OpenTween
                             if (BlockIds.Contains(Item.UserId))
                                 return;
 
-                            if (MuteUserIds.Contains(Item.UserId) && !Item.IsReply)
+                            if (this.IsMuted(Item))
                                 return;
 
                             _statuses.Add(Item.StatusId, Item);
@@ -1250,6 +1250,22 @@ namespace OpenTween
                     tb.AddPostToInnerStorage(Item);
                 }
             }
+        }
+
+        private bool IsMuted(PostClass post)
+        {
+            // Recent以外のツイートと、リプライはミュート対象外
+            // 参照: https://support.twitter.com/articles/20171399-muting-users-on-twitter
+            if (string.IsNullOrEmpty(post.RelTabName) || post.IsReply)
+                return false;
+
+            if (this.MuteUserIds.Contains(post.UserId))
+                return true;
+
+            if (post.RetweetedByUserId != null && this.MuteUserIds.Contains(post.RetweetedByUserId.Value))
+                return true;
+
+            return false;
         }
 
         private void AddRetweet(PostClass item)
