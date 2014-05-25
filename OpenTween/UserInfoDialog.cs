@@ -172,6 +172,11 @@ namespace OpenTween
                 oldImage.Dispose();
             }
 
+            // ProfileImageUrlHttps が null になる場合があるらしい
+            // 参照: https://sourceforge.jp/ticket/browse.php?group_id=6526&tid=33871
+            if (imageUri == null)
+                return;
+
             using (var http = MyCommon.CreateHttpClient())
             {
                 var imageStream = await http.GetStreamAsync(imageUri.Replace("_normal", "_bigger"));
