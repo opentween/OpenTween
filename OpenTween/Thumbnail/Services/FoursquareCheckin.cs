@@ -36,7 +36,7 @@ namespace OpenTween.Thumbnail.Services
     class FoursquareCheckin : IThumbnailService
     {
         public static readonly Regex UrlPatternRegex =
-            new Regex(@"^https?://foursquare\.com/.+?/checkin/(?<checkin_id>[0-9a-z]+)(?:\?s=(?<signature>[^&]+))?");
+            new Regex(@"^https?://(?:foursquare\.com|www\.swarmapp\.com)/.+?/checkin/(?<checkin_id>[0-9a-z]+)(?:\?s=(?<signature>[^&]+))?");
 
         public static readonly string ApiBase = "https://api.foursquare.com/v2";
 
