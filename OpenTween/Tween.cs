@@ -12160,9 +12160,8 @@ namespace OpenTween
 
         private void doShowUserStatus(TwitterUser user)
         {
-            using (var userinfo = new UserInfoDialog())
+            using (var userinfo = new UserInfoDialog(this, this.tw))
             {
-                userinfo.Owner = this;
                 userinfo.DisplayUser = user;
                 userinfo.ShowDialog(this);
                 this.Activate();

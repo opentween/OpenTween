@@ -57,18 +57,14 @@ namespace OpenTween
             }
         }
 
-        private new TweenMain Owner
-        {
-            get { return (TweenMain)base.Owner; }
-        }
+        private readonly TweenMain mainForm;
+        private readonly Twitter twitter;
 
-        private Twitter Twitter
+        public UserInfoDialog(TweenMain mainForm, Twitter twitter)
         {
-            get { return this.Owner.TwitterInstance; }
-        }
+            this.mainForm = mainForm;
+            this.twitter = twitter;
 
-        public UserInfoDialog()
-        {
             InitializeComponent();
 
             // LabelScreenName のフォントを OTBaseForm.GlobalFont に変更
@@ -118,7 +114,7 @@ namespace OpenTween
             this.LinkLabelTweet.Tag = profileUrl;
             this.ToolTip1.SetToolTip(this.LinkLabelTweet, profileUrl);
 
-            if (this.Twitter.UserId == user.Id)
+            if (this.twitter.UserId == user.Id)
             {
                 this.ButtonEdit.Enabled = true;
                 this.ChangeIconToolStripMenuItem.Enabled = true;
@@ -152,8 +148,8 @@ namespace OpenTween
                 var atlist = new List<string>();
 
                 var html = WebUtility.HtmlEncode(descriptionText);
-                html = await this.Twitter.CreateHtmlAnchorAsync(html, atlist, null);
-                html = this.Owner.createDetailHtml(html);
+                html = await this.twitter.CreateHtmlAnchorAsync(html, atlist, null);
+                html = this.mainForm.createDetailHtml(html);
 
                 this.DescriptionBrowser.DocumentText = html;
             }
@@ -208,8 +204,8 @@ namespace OpenTween
 
             if (status != null)
             {
-                var html = await this.Twitter.CreateHtmlAnchorAsync(status.Text, atlist, status.MergedEntities, null);
-                html = this.Owner.createDetailHtml(html +
+                var html = await this.twitter.CreateHtmlAnchorAsync(status.Text, atlist, status.MergedEntities, null);
+                html = this.mainForm.createDetailHtml(html +
                     " Posted at " + MyCommon.DateTimeParse(status.CreatedAt) +
                     " via " + status.Source);
 
@@ -228,7 +224,7 @@ namespace OpenTween
             this.ButtonFollow.Enabled = false;
             this.ButtonUnFollow.Enabled = false;
 
-            if (this.Twitter.Username == screenName)
+            if (this.twitter.Username == screenName)
                 return;
 
             var friendship = await Task.Run(() =>
@@ -236,7 +232,7 @@ namespace OpenTween
                 var IsFollowing = false;
                 var IsFollowedBy = false;
 
-                var ret = this.Twitter.GetFriendshipInfo(screenName, ref IsFollowing, ref IsFollowedBy);
+                var ret = this.twitter.GetFriendshipInfo(screenName, ref IsFollowing, ref IsFollowedBy);
                 if (!string.IsNullOrEmpty(ret))
                     return null;
 
@@ -267,25 +263,25 @@ namespace OpenTween
             this.TextBoxName.Location = this.LabelName.Location;
             this.TextBoxName.Height = this.LabelName.Height;
             this.TextBoxName.Width = this.LabelName.Width;
-            this.TextBoxName.BackColor = this.Owner.InputBackColor;
+            this.TextBoxName.BackColor = this.mainForm.InputBackColor;
             this.TextBoxName.MaxLength = 20;
 
             this.TextBoxLocation.Location = this.LabelLocation.Location;
             this.TextBoxLocation.Height = this.LabelLocation.Height;
             this.TextBoxLocation.Width = this.LabelLocation.Width;
-            this.TextBoxLocation.BackColor = this.Owner.InputBackColor;
+            this.TextBoxLocation.BackColor = this.mainForm.InputBackColor;
             this.TextBoxLocation.MaxLength = 30;
 
             this.TextBoxWeb.Location = this.LinkLabelWeb.Location;
             this.TextBoxWeb.Height = this.LinkLabelWeb.Height;
             this.TextBoxWeb.Width = this.LinkLabelWeb.Width;
-            this.TextBoxWeb.BackColor = this.Owner.InputBackColor;
+            this.TextBoxWeb.BackColor = this.mainForm.InputBackColor;
             this.TextBoxWeb.MaxLength = 100;
 
             this.TextBoxDescription.Location = this.DescriptionBrowser.Location;
             this.TextBoxDescription.Height = this.DescriptionBrowser.Height;
             this.TextBoxDescription.Width = this.DescriptionBrowser.Width;
-            this.TextBoxDescription.BackColor = this.Owner.InputBackColor;
+            this.TextBoxDescription.BackColor = this.mainForm.InputBackColor;
             this.TextBoxDescription.MaxLength = 160;
             this.TextBoxDescription.Multiline = true;
             this.TextBoxDescription.ScrollBars = ScrollBars.Vertical;
@@ -299,12 +295,12 @@ namespace OpenTween
             if (linkUrl == null)
                 return;
 
-            await this.Owner.OpenUriAsync(linkUrl);
+            await this.mainForm.OpenUriAsync(linkUrl);
         }
 
         private void ButtonFollow_Click(object sender, EventArgs e)
         {
-            string ret = this.Twitter.PostFollowCommand(this._displayUser.ScreenName);
+            string ret = this.twitter.PostFollowCommand(this._displayUser.ScreenName);
             if (!string.IsNullOrEmpty(ret))
             {
                 MessageBox.Show(Properties.Resources.FRMessage2 + ret);
@@ -324,7 +320,7 @@ namespace OpenTween
                                Properties.Resources.ButtonUnFollow_ClickText2,
                                MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2) == DialogResult.Yes)
             {
-                string ret = this.Twitter.PostRemoveCommand(this._displayUser.ScreenName);
+                string ret = this.twitter.PostRemoveCommand(this._displayUser.ScreenName);
                 if (!string.IsNullOrEmpty(ret))
                 {
                     MessageBox.Show(Properties.Resources.FRMessage2 + ret);
@@ -363,21 +359,21 @@ namespace OpenTween
                     //ハッシュタグの場合は、タブで開く
                     string urlStr = Uri.UnescapeDataString(e.Url.AbsoluteUri);
                     string hash = urlStr.Substring(urlStr.IndexOf("#"));
-                    this.Owner.HashSupl.AddItem(hash);
-                    this.Owner.HashMgr.AddHashToHistory(hash.Trim(), false);
-                    this.Owner.AddNewTabForSearch(hash);
+                    this.mainForm.HashSupl.AddItem(hash);
+                    this.mainForm.HashMgr.AddHashToHistory(hash.Trim(), false);
+                    this.mainForm.AddNewTabForSearch(hash);
                     return;
                 }
                 else
                 {
                     Match m = Regex.Match(e.Url.AbsoluteUri, @"^https?://twitter.com/(#!/)?(?<ScreenName>[a-zA-Z0-9_]+)$");
-                    if (AppendSettingDialog.Instance.OpenUserTimeline && m.Success && this.Owner.IsTwitterId(m.Result("${ScreenName}")))
+                    if (AppendSettingDialog.Instance.OpenUserTimeline && m.Success && this.mainForm.IsTwitterId(m.Result("${ScreenName}")))
                     {
-                        this.Owner.AddNewTabForUserTimeline(m.Result("${ScreenName}"));
+                        this.mainForm.AddNewTabForUserTimeline(m.Result("${ScreenName}"));
                     }
                     else
                     {
-                        this.Owner.OpenUriAsync(e.Url.OriginalString);
+                        this.mainForm.OpenUriAsync(e.Url.OriginalString);
                     }
                 }
             }
@@ -392,7 +388,7 @@ namespace OpenTween
         private void SelectionCopyToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var browser = (WebBrowser)this.ContextMenuRecentPostBrowser.SourceControl;
-            var selectedText = this.Owner.WebBrowser_GetSelectionText(ref browser);
+            var selectedText = this.mainForm.WebBrowser_GetSelectionText(ref browser);
             if (selectedText != null)
             {
                 try
@@ -409,24 +405,24 @@ namespace OpenTween
         private void ContextMenuRecentPostBrowser_Opening(object sender, CancelEventArgs e)
         {
             var browser = (WebBrowser)this.ContextMenuRecentPostBrowser.SourceControl;
-            var selectedText = this.Owner.WebBrowser_GetSelectionText(ref browser);
+            var selectedText = this.mainForm.WebBrowser_GetSelectionText(ref browser);
 
             this.SelectionCopyToolStripMenuItem.Enabled = selectedText != null;
         }
 
         private void LinkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            this.Owner.OpenUriAsync("https://support.twitter.com/groups/31-twitter-basics/topics/111-features/articles/268350-x8a8d-x8a3c-x6e08-x307f-x30a2-x30ab-x30a6-x30f3-x30c8-x306b-x3064-x3044-x3066");
+            this.mainForm.OpenUriAsync("https://support.twitter.com/groups/31-twitter-basics/topics/111-features/articles/268350-x8a8d-x8a3c-x6e08-x307f-x30a2-x30ab-x30a6-x30f3-x30c8-x306b-x3064-x3044-x3066");
         }
 
         private void LinkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            this.Owner.OpenUriAsync("https://support.twitter.com/groups/31-twitter-basics/topics/107-my-profile-account-settings/articles/243055-x516c-x958b-x3001-x975e-x516c-x958b-x30a2-x30ab-x30a6-x30f3-x30c8-x306b-x3064-x3044-x3066");
+            this.mainForm.OpenUriAsync("https://support.twitter.com/groups/31-twitter-basics/topics/107-my-profile-account-settings/articles/243055-x516c-x958b-x3001-x975e-x516c-x958b-x30a2-x30ab-x30a6-x30f3-x30c8-x306b-x3064-x3044-x3066");
         }
 
         private void ButtonSearchPosts_Click(object sender, EventArgs e)
         {
-            this.Owner.AddNewTabForUserTimeline(this._displayUser.ScreenName);
+            this.mainForm.AddNewTabForUserTimeline(this._displayUser.ScreenName);
         }
 
         private async void UserPicture_Click(object sender, EventArgs e)
@@ -434,7 +430,7 @@ namespace OpenTween
             var imageUrl = this._displayUser.ProfileImageUrlHttps;
             imageUrl = imageUrl.Remove(imageUrl.LastIndexOf("_normal"), 7);
 
-            await this.Owner.OpenUriAsync(imageUrl);
+            await this.mainForm.OpenUriAsync(imageUrl);
         }
 
         private bool IsEditing = false;
@@ -443,7 +439,7 @@ namespace OpenTween
         private async void ButtonEdit_Click(object sender, EventArgs e)
         {
             // 自分以外のプロフィールは変更できない
-            if (this.Twitter.UserId != this._displayUser.Id)
+            if (this.twitter.UserId != this._displayUser.Id)
                 return;
 
             this.ButtonEdit.Enabled = false;
@@ -488,7 +484,7 @@ namespace OpenTween
                     try
                     {
                         var user = await Task.Run(() =>
-                            this.Twitter.PostUpdateProfile(
+                            this.twitter.PostUpdateProfile(
                                 this.TextBoxName.Text,
                                 this.TextBoxWeb.Text,
                                 this.TextBoxLocation.Text,
@@ -530,7 +526,7 @@ namespace OpenTween
         private async Task DoChangeIcon(string filename)
         {
             var ret = await Task.Run(() =>
-                this.Twitter.PostUpdateProfileImage(filename));
+                this.twitter.PostUpdateProfileImage(filename));
 
             if (!string.IsNullOrEmpty(ret))
             {
@@ -548,7 +544,7 @@ namespace OpenTween
                 {
                     TwitterUser result = null;
 
-                    var err = this.Twitter.GetUserInfo(this._displayUser.ScreenName, ref result);
+                    var err = this.twitter.GetUserInfo(this._displayUser.ScreenName, ref result);
                     if (!string.IsNullOrEmpty(err))
                         throw new WebApiException(err);
 
@@ -594,7 +590,7 @@ namespace OpenTween
                                 Properties.Resources.ButtonBlock_ClickText2,
                                 MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2) == DialogResult.Yes)
             {
-                string res = this.Twitter.PostCreateBlock(this._displayUser.ScreenName);
+                string res = this.twitter.PostCreateBlock(this._displayUser.ScreenName);
                 if (!string.IsNullOrEmpty(res))
                 {
                     MessageBox.Show(res + Environment.NewLine + Properties.Resources.ButtonBlock_ClickText3);
@@ -612,7 +608,7 @@ namespace OpenTween
                                 Properties.Resources.ButtonReportSpam_ClickText2,
                                 MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2) == DialogResult.Yes)
             {
-                string res = this.Twitter.PostReportSpam(this._displayUser.ScreenName);
+                string res = this.twitter.PostReportSpam(this._displayUser.ScreenName);
                 if (!string.IsNullOrEmpty(res))
                 {
                     MessageBox.Show(res + Environment.NewLine + Properties.Resources.ButtonReportSpam_ClickText3);
@@ -630,7 +626,7 @@ namespace OpenTween
                                 Properties.Resources.ButtonBlockDestroy_ClickText2,
                                 MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2) == DialogResult.Yes)
             {
-                string res = this.Twitter.PostDestroyBlock(this._displayUser.ScreenName);
+                string res = this.twitter.PostDestroyBlock(this._displayUser.ScreenName);
                 if (!string.IsNullOrEmpty(res))
                 {
                     MessageBox.Show(res + Environment.NewLine + Properties.Resources.ButtonBlockDestroy_ClickText3);
