@@ -625,6 +625,8 @@ namespace OpenTween.Properties {
         /// <summary>
         ///   更新履歴
         ///
+        ///==== Ver 1.2.2-beta1(2014/xx/xx)
+        ///
         ///==== Ver 1.2.1(2014/05/26)
         /// * NEW: 5月28日(太平洋夏時間, UTC-7)から追加される予定の pic.twitter.com の複数枚画像表示に対応しました
         ///  - pic.twitter.com への複数枚画像の投稿は未対応です
@@ -632,8 +634,7 @@ namespace OpenTween.Properties {
         /// * CHG: Foursquareの地図表示を swarmapp.com のURLでも表示可能にしました
         /// * FIX: 発言詳細欄から右クリックで日本語ハッシュタグを固定すると、エンコード状態のハッシュタグが登録される問題を修正
         /// * FIX: PublicSearchタブでの検索時に Err:Unauthorized(GetSearch) が表示される問題の回避策を追加
-        /// * FIX: サムネイル画像の読み込み中に別のツイートに選択を移動した際に動作が固まる現象の回避 (thx @_1t_, @Tan90909090, @suzushin!)
-        /// * FIX: 日本語等を含むツイートでBing翻訳 [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
+        /// * FIX: サムネイル画像の読み込み中に別のツイートに選択を移動した際に動作が固まる現象の回避 (thx @_1t_, @Tan90909090, @su [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ChangeLog {
             get {
