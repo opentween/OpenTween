@@ -330,9 +330,6 @@
   <data name="ShowUserStatusContextMenuItem.Text" xml:space="preserve">
     <value>プロフィール表示(&amp;P)</value>
   </data>
-  <data name="Label1.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>MiddleLeft</value>
-  </data>
   <data name="FriendshipAllMenuItem.Text" xml:space="preserve">
     <value>全ユーザーのフォロー状態(&amp;A)</value>
   </data>
@@ -435,14 +432,14 @@
   <data name="&gt;&gt;SplitContainer1.Panel1.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="&gt;&gt;Label1.ZOrder" xml:space="preserve">
-    <value>5</value>
+  <data name="&gt;&gt;ImagePageCombo.ZOrder" xml:space="preserve">
+    <value>1</value>
   </data>
   <data name="&gt;&gt;HashStripSplitButton.Name" xml:space="preserve">
     <value>HashStripSplitButton</value>
   </data>
-  <data name="&gt;&gt;Label1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;ImagePageCombo.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;TabMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -457,7 +454,7 @@
     <value>306, 24</value>
   </data>
   <data name="&gt;&gt;ImageCancelButton.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>5</value>
   </data>
   <data name="RefreshMoreStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>288, 24</value>
@@ -851,9 +848,6 @@
   </data>
   <data name="&gt;&gt;ContextMenuFile.Name" xml:space="preserve">
     <value>ContextMenuFile</value>
-  </data>
-  <data name="Label1.Text" xml:space="preserve">
-    <value>ファイル</value>
   </data>
   <data name="&gt;&gt;ToolStripSeparator37.Name" xml:space="preserve">
     <value>ToolStripSeparator37</value>
@@ -1260,7 +1254,7 @@
   <data name="&gt;&gt;TabMenuItem.Name" xml:space="preserve">
     <value>TabMenuItem</value>
   </data>
-  <data name="Label1.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="ImagePageCombo.Location" type="System.Drawing.Point, System.Drawing">
     <value>4, 4</value>
   </data>
   <data name="NameLabel.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
@@ -1287,7 +1281,7 @@
   <data name="&gt;&gt;ToolStripSeparator22.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="Label1.ToolTip" xml:space="preserve">
+  <data name="ImagePageCombo.ToolTip" xml:space="preserve">
     <value />
   </data>
   <data name="UserFavorareToolStripMenuItem.Text" xml:space="preserve">
@@ -1770,7 +1764,7 @@
   <data name="ToolStripSeparator43.Size" type="System.Drawing.Size, System.Drawing">
     <value>203, 6</value>
   </data>
-  <data name="Label1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+  <data name="ImagePageCombo.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Left</value>
   </data>
   <data name="&gt;&gt;ToolStripSeparator8.Name" xml:space="preserve">
@@ -1878,7 +1872,7 @@
   <data name="ShowUserTimelineContextMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>288, 24</value>
   </data>
-  <data name="Label1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+  <data name="ImagePageCombo.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>Off</value>
   </data>
   <data name="&gt;&gt;ImageSelectionPanel.Name" xml:space="preserve">
@@ -1890,7 +1884,7 @@
   <data name="&gt;&gt;FriendshipMenuItem.Name" xml:space="preserve">
     <value>FriendshipMenuItem</value>
   </data>
-  <data name="&gt;&gt;Label1.Parent" xml:space="preserve">
+  <data name="&gt;&gt;ImagePageCombo.Parent" xml:space="preserve">
     <value>ImagePathPanel</value>
   </data>
   <data name="&gt;&gt;JumpReadOpMenuItem.Type" xml:space="preserve">
@@ -2059,7 +2053,7 @@
     <value>210, 24</value>
   </data>
   <data name="&gt;&gt;FilePickButton.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>2</value>
   </data>
   <data name="SelectAllMenuItem.Text" xml:space="preserve">
     <value>全て選択(&amp;A)</value>
@@ -2124,8 +2118,8 @@
   <data name="UxnuMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>269, 24</value>
   </data>
-  <data name="&gt;&gt;Label1.Name" xml:space="preserve">
-    <value>Label1</value>
+  <data name="&gt;&gt;ImagePageCombo.Name" xml:space="preserve">
+    <value>ImagePageCombo</value>
   </data>
   <data name="SourceLinkLabel.TabIndex" type="System.Int32, mscorlib">
     <value>7</value>
@@ -2349,7 +2343,7 @@
   <data name="&gt;&gt;ToolStripSeparator6.Name" xml:space="preserve">
     <value>ToolStripSeparator6</value>
   </data>
-  <data name="Label1.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+  <data name="ImagePageCombo.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>4, 0, 4, 0</value>
   </data>
   <data name="DmOpMenuItem.Text" xml:space="preserve">
@@ -2394,7 +2388,7 @@
   <data name="&gt;&gt;SearchWikipediaContextMenuItem.Name" xml:space="preserve">
     <value>SearchWikipediaContextMenuItem</value>
   </data>
-  <data name="Label1.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="ImagePageCombo.Size" type="System.Drawing.Size, System.Drawing">
     <value>72, 27</value>
   </data>
   <data name="IdFilterAddMenuItem.Size" type="System.Drawing.Size, System.Drawing">
@@ -2410,7 +2404,7 @@
     <value>LockListFileMenuItem</value>
   </data>
   <data name="&gt;&gt;Label2.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>3</value>
   </data>
   <data name="&gt;&gt;ToolStripSeparator11.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -3681,9 +3675,9 @@
     <value>ToolStripContainer1</value>
   </data>
   <data name="&gt;&gt;ImageServiceCombo.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>4</value>
   </data>
-  <data name="Label1.TabIndex" type="System.Int32, mscorlib">
+  <data name="ImagePageCombo.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
   </data>
   <data name="&gt;&gt;ImagePathPanel.Name" xml:space="preserve">

@@ -331,12 +331,6 @@
   <data name="ImageCancelButton.ToolTip" xml:space="preserve">
     <value />
   </data>
-  <data name="Label1.Text" xml:space="preserve">
-    <value>FilePath</value>
-  </data>
-  <data name="Label1.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="ImagePathPanel.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 114</value>
   </data>

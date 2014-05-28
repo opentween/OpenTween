@@ -1018,7 +1018,7 @@ namespace OpenTween
             //画像投稿サービス
             this.CreatePictureServices();
             SetImageServiceCombo();
-            ImageSelectionPanel.Enabled = false;
+            SetImagePageCombo();
 
             SelectImageServiceComboItem(_cfgCommon.UseImageServiceName, _cfgCommon.UseImageService);
 
@@ -2296,8 +2296,12 @@ namespace OpenTween
             if (ImageSelectionPanel.Visible)
             {
                 //画像投稿
-                if (!TryGetSelectedMedia(out args.status.imageService, out args.status.imagePath))
+                string[] imagePaths;
+                if (!TryGetSelectedMedia(out args.status.imageService, out imagePaths))
                     return;
+
+                // TODO: 複数画像投稿への対応
+                args.status.imagePath = imagePaths[0];
             }
 
             RunAsync(args);
@@ -5040,7 +5044,7 @@ namespace OpenTween
                 //    pLen += m.Result("${url}").Length - SettingDialog.TwitterConfiguration.ShortUrlLength;
                 //}
             }
-            if (ImageSelectionPanel.Visible && ImageSelectedPicture.Tag != null && !string.IsNullOrEmpty(this.ImageService))
+            if (ImageSelectionPanel.Visible && !string.IsNullOrEmpty(this.ImageService))
             {
                 pLen -= SettingDialog.TwitterConfiguration.CharactersReservedPerMedia;
             }
@@ -12315,6 +12319,7 @@ namespace OpenTween
             this._apiGauge.BorderSides = ToolStripStatusLabelBorderSides.Right;
             this.StatusStrip1.Items.Insert(2, this._apiGauge);
 
+            ImageSelectionPanel.Enabled = false;
             this.ImageSelectedPicture.InitialImage = Properties.Resources.InitialImage;
 
             this.ReplaceAppName();
@@ -12385,6 +12390,35 @@ namespace OpenTween
             };
         }
 
+        private class SelectedMedia
+        {
+            public string Path { get; set; }
+            public MyCommon.UploadFileType Type { get; set; }
+            public string Text { get; set; }
+
+            public SelectedMedia(string path, MyCommon.UploadFileType type, string text)
+            {
+                this.Path = path;
+                this.Type = type;
+                this.Text = text;
+            }
+
+            public SelectedMedia(string text)
+                : this("", MyCommon.UploadFileType.Invalid, text)
+            {
+            }
+
+            public bool IsValid
+            {
+                get { return this.Type != MyCommon.UploadFileType.Invalid; }
+            }
+
+            public override string ToString()
+            {
+                return this.Text;
+            }
+        }
+
         private void ImageSelectMenuItem_Click(object sender, EventArgs e)
         {
             if (ImageSelectionPanel.Visible)
@@ -12451,6 +12485,11 @@ namespace OpenTween
 
         private void SelectMedia_DragDrop(DragEventArgs e)
         {
+            if (!ImageSelectionPanel.Visible)
+            {
+                // 画像選択パネル非表示時のドロップは新規選択として扱う
+                SetImagePageCombo();
+            }
             this.Activate();
             this.BringToFront();
             OpenImageSelectionPanel();
@@ -12498,24 +12537,25 @@ namespace OpenTween
             try
             {
                 ImagefilePathText.Text = ImagefilePathText.Text.Trim();
-                if (string.IsNullOrEmpty(ImagefilePathText.Text) || string.IsNullOrEmpty(this.ImageService))
+                var serviceName = this.ImageService;
+                if (string.IsNullOrEmpty(ImagefilePathText.Text) || string.IsNullOrEmpty(serviceName))
                 {
-                    ImagefilePathText.Text = "";
+                    ClearSelectedImagePage();
                     return;
                 }
 
                 FileInfo fl = new FileInfo(ImagefilePathText.Text);
                 string ext = fl.Extension;
-                var imageService = this.pictureService[this.ImageService];
+                var imageService = this.pictureService[serviceName];
 
                 if (!imageService.CheckValidExtension(ext))
                 {
                     //画像以外の形式
-                    ImagefilePathText.Text = "";
+                    ClearSelectedImagePage();
                     if (!suppressMsgBox)
                     {
                         MessageBox.Show(
-                            string.Format(Properties.Resources.PostPictureWarn3, this.ImageService, MakeAvailableServiceText(ext, fl.Length), ext),
+                            string.Format(Properties.Resources.PostPictureWarn3, serviceName, MakeAvailableServiceText(ext, fl.Length), ext),
                             Properties.Resources.PostPictureWarn4,
                             MessageBoxButtons.OK,
                             MessageBoxIcon.Warning);
@@ -12526,11 +12566,11 @@ namespace OpenTween
                 if (!imageService.CheckValidFilesize(ext, fl.Length))
                 {
                     // ファイルサイズが大きすぎる
-                    ImagefilePathText.Text = "";
+                    ClearSelectedImagePage();
                     if (!suppressMsgBox)
                     {
                         MessageBox.Show(
-                            string.Format(Properties.Resources.PostPictureWarn5, this.ImageService, MakeAvailableServiceText(ext, fl.Length)),
+                            string.Format(Properties.Resources.PostPictureWarn5, serviceName, MakeAvailableServiceText(ext, fl.Length)),
                             Properties.Resources.PostPictureWarn4,
                             MessageBoxButtons.OK,
                             MessageBoxIcon.Warning);
@@ -12545,24 +12585,24 @@ namespace OpenTween
                         {
                             ImageSelectedPicture.Image = MemoryImage.CopyFromStream(fs);
                         }
-                        ImageSelectedPicture.Tag = MyCommon.UploadFileType.Picture;
+                        SetSelectedImagePage(ImagefilePathText.Text, MyCommon.UploadFileType.Picture);
                         break;
                     case MyCommon.UploadFileType.MultiMedia:
-                        ImageSelectedPicture.Tag = MyCommon.UploadFileType.MultiMedia;
+                        SetSelectedImagePage(ImagefilePathText.Text, MyCommon.UploadFileType.MultiMedia);
                         break;
                     default:
-                        ImagefilePathText.Text = "";
+                        ClearSelectedImagePage();
                         break;
                 }
             }
             catch (FileNotFoundException)
             {
-                ImagefilePathText.Text = "";
+                ClearSelectedImagePage();
                 if (!suppressMsgBox) MessageBox.Show("File not found.");
             }
             catch (Exception)
             {
-                ImagefilePathText.Text = "";
+                ClearSelectedImagePage();
                 if (!suppressMsgBox) MessageBox.Show("The type of this file is not image.");
             }
         }
@@ -12595,7 +12635,6 @@ namespace OpenTween
                 oldImage.Dispose();
             }
 
-            this.ImageSelectedPicture.Tag = null;
             this.ImageSelectedPicture.ShowInitialImage();
         }
 
@@ -12629,23 +12668,26 @@ namespace OpenTween
             }
         }
 
-        private bool TryGetSelectedMedia(out string imageService, out string imagePath)
+        private bool TryGetSelectedMedia(out string imageService, out string[] imagePath)
         {
-            if (ImageSelectedPicture.Tag != null &&
-                ImageServiceCombo.SelectedIndex > -1 &&
-                !string.IsNullOrEmpty(ImagefilePathText.Text))
+            var validPaths = ImagePageCombo.Items.Cast<SelectedMedia>()
+                             .Where(x => x.IsValid).Select(x => x.Path).ToArray();
+
+            if (validPaths.Length > 0 &&
+                ImageServiceCombo.SelectedIndex > -1)
             {
-                if (MessageBox.Show(string.Format(Properties.Resources.PostPictureConfirm1, this.ImageService),
+                var serviceName = this.ImageService;
+                if (MessageBox.Show(string.Format(Properties.Resources.PostPictureConfirm1, serviceName, validPaths.Length),
                                    Properties.Resources.PostPictureConfirm2,
                                    MessageBoxButtons.OKCancel,
                                    MessageBoxIcon.Question,
                                    MessageBoxDefaultButton.Button1)
                                == DialogResult.OK)
                 {
-                    imageService = ImageServiceCombo.Text;
-                    imagePath = ImagefilePathText.Text;
+                    imageService = serviceName;
+                    imagePath = validPaths;
                     CloseImageSelectionPanel();
-                    ImagefilePathText.Text = "";
+                    SetImagePageCombo();
                     return true;
                 }
             }
@@ -12662,17 +12704,20 @@ namespace OpenTween
 
         private void SetImageServiceCombo()
         {
-            string svc = "";
-            if (ImageServiceCombo.SelectedIndex > -1) svc = ImageServiceCombo.SelectedItem.ToString();
-            ImageServiceCombo.Items.Clear();
-            
-            // Add service names to combobox
-            foreach (var key in pictureService.Keys)
+            using (ControlTransaction.Update(ImageServiceCombo))
             {
-                ImageServiceCombo.Items.Add(key);
-            }
+                string svc = "";
+                if (ImageServiceCombo.SelectedIndex > -1) svc = ImageServiceCombo.SelectedItem.ToString();
+                ImageServiceCombo.Items.Clear();
 
-            SelectImageServiceComboItem(svc);
+                // Add service names to combobox
+                foreach (var key in pictureService.Keys)
+                {
+                    ImageServiceCombo.Items.Add(key);
+                }
+
+                SelectImageServiceComboItem(svc);
+            }
         }
 
         private void SelectImageServiceComboItem(string svc, int? index = null)
@@ -12705,31 +12750,126 @@ namespace OpenTween
 
         private void ImageServiceCombo_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (ImageSelectedPicture.Tag != null && !string.IsNullOrEmpty(this.ImageService))
+            if (ImageSelectionPanel.Visible)
             {
-                try
+                var serviceName = this.ImageService;
+                if (!string.IsNullOrEmpty(serviceName))
                 {
-                    FileInfo fi = new FileInfo(ImagefilePathText.Text.Trim());
-                    string ext = fi.Extension;
-                    var imageService = this.pictureService[this.ImageService];
-                    if (!imageService.CheckValidFilesize(ext, fi.Length))
+                    // 画像が選択された投稿先に対応しているかをチェックする
+                    // TODO: 複数の選択済み画像があるなら、できれば全てを再チェックしたほうがいい
+                    var isTwitter = serviceName.Equals("Twitter");
+                    var invalidate = true;
+
+                    if (ImagePageCombo.Items.Count == 0)
+                        SetImagePageCombo();
+
+                    if (isTwitter)
                     {
-                        ClearImageSelectedPicture();
-                        ImagefilePathText.Text = "";
+                        ValidateSelectedImagePage();
+                        invalidate = false;
                     }
-                }
-                catch (Exception)
-                {
-                    ClearImageSelectedPicture();
-                    ImagefilePathText.Text = "";
-                }
-                _modifySettingCommon = true;
-                SaveConfigsAll(true);
-                if (this.ImageService == "Twitter")
-                {
-                    this.StatusText_TextChanged(null, null);
+                    else
+                    {
+                        if (ImagePageCombo.Items.Count > 1)
+                            SetImagePageCombo((SelectedMedia)ImagePageCombo.Items[0]);
+                        else
+                            ImagePageCombo.Enabled = false;
+                    }
+
+                    if (invalidate)
+                    {
+                        try
+                        {
+                            FileInfo fi = new FileInfo(ImagefilePathText.Text.Trim());
+                            string ext = fi.Extension;
+                            var imageService = this.pictureService[serviceName];
+                            if (!imageService.CheckValidFilesize(ext, fi.Length))
+                            {
+                                ClearImageSelectedPicture();
+                                ClearSelectedImagePage();
+                            }
+                        }
+                        catch (Exception)
+                        {
+                            ClearImageSelectedPicture();
+                            ClearSelectedImagePage();
+                        }
+                    }
+
+                    _modifySettingCommon = true;
+                    SaveConfigsAll(true);
+
+                    if (isTwitter)
+                        this.StatusText_TextChanged(null, null);
                 }
             }
+        }
+
+        private void SetImagePageCombo(SelectedMedia media = null)
+        {
+            using (ControlTransaction.Update(ImagePageCombo))
+            {
+                ImagePageCombo.Enabled = false;
+                ImagePageCombo.Items.Clear();
+                if (media != null)
+                {
+                    ImagePageCombo.Items.Add(media);
+                    ImagefilePathText.Text = media.Path;
+                }
+                else
+                {
+                    ImagePageCombo.Items.Add(new SelectedMedia("1"));
+                    ImagefilePathText.Text = "";
+                }
+                ImagePageCombo.SelectedIndex = 0;
+            }
+        }
+
+        private void AddNewImagePage(int selectedIndex)
+        {
+            if (this.ImageService.Equals("Twitter") && selectedIndex < 3)
+            {
+                // 投稿先が Twitter であれば、最大 4 枚まで選択できるようにする
+                var count = ImagePageCombo.Items.Count;
+                if (selectedIndex == count - 1)
+                {
+                    count++;
+                    ImagePageCombo.Items.Add(new SelectedMedia(count.ToString()));
+                    ImagePageCombo.Enabled = true;
+                }
+            }
+        }
+
+        private void SetSelectedImagePage(string path, MyCommon.UploadFileType type)
+        {
+            var idx = ImagePageCombo.SelectedIndex;
+            var item = (SelectedMedia)ImagePageCombo.Items[idx];
+            item.Path = path;
+            item.Type = type;
+
+            AddNewImagePage(idx);
+        }
+
+        private void ClearSelectedImagePage()
+        {
+            var item = (SelectedMedia)ImagePageCombo.SelectedItem;
+            item.Path = "";
+            item.Type = MyCommon.UploadFileType.Invalid;
+            ImagefilePathText.Text = "";
+        }
+
+        private void ValidateSelectedImagePage()
+        {
+            var idx = ImagePageCombo.SelectedIndex;
+            var item = (SelectedMedia)ImagePageCombo.Items[idx];
+            ImageServiceCombo.Enabled = (idx == 0);  // idx == 0 以外では投稿先サービスを選べないようにする
+            ImagefilePathText.Text = item.Path;
+            ImageFromSelectedFile(true);
+        }
+
+        private void ImagePageCombo_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ValidateSelectedImagePage();
         }
 
         private void ImageSelectionPanel_VisibleChanged(object sender, EventArgs e)

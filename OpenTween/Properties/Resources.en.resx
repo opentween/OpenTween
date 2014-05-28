@@ -704,7 +704,7 @@
   </data>
   <data name="PostPictureConfirm1" xml:space="preserve">
     <value>[Service: {0}]
-Do you want to upload the selected media file?</value>
+Do you want to upload the {1} selected media file(s)?</value>
   </data>
   <data name="PostPictureConfirm2" xml:space="preserve">
     <value>Confirm to upload</value>

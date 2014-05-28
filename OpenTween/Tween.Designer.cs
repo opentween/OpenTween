@@ -69,11 +69,11 @@
             this.ImageSelectedPicture = new OpenTween.OTPictureBox();
             this.ImagePathPanel = new System.Windows.Forms.Panel();
             this.ImagefilePathText = new System.Windows.Forms.TextBox();
+            this.ImagePageCombo = new System.Windows.Forms.ComboBox();
             this.FilePickButton = new System.Windows.Forms.Button();
             this.Label2 = new System.Windows.Forms.Label();
             this.ImageServiceCombo = new System.Windows.Forms.ComboBox();
             this.ImageCancelButton = new System.Windows.Forms.Button();
-            this.Label1 = new System.Windows.Forms.Label();
             this.ProfilePanel = new System.Windows.Forms.Panel();
             this.SplitContainer3 = new System.Windows.Forms.SplitContainer();
             this.SplitContainer2 = new System.Windows.Forms.SplitContainer();
@@ -707,11 +707,11 @@
             // 
             resources.ApplyResources(this.ImagePathPanel, "ImagePathPanel");
             this.ImagePathPanel.Controls.Add(this.ImagefilePathText);
+            this.ImagePathPanel.Controls.Add(this.ImagePageCombo);
             this.ImagePathPanel.Controls.Add(this.FilePickButton);
             this.ImagePathPanel.Controls.Add(this.Label2);
             this.ImagePathPanel.Controls.Add(this.ImageServiceCombo);
             this.ImagePathPanel.Controls.Add(this.ImageCancelButton);
-            this.ImagePathPanel.Controls.Add(this.Label1);
             this.ImagePathPanel.Name = "ImagePathPanel";
             this.ToolTip1.SetToolTip(this.ImagePathPanel, resources.GetString("ImagePathPanel.ToolTip"));
             // 
@@ -724,6 +724,17 @@
             this.ImagefilePathText.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.ImageSelection_KeyPress);
             this.ImagefilePathText.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.ImageSelection_PreviewKeyDown);
             this.ImagefilePathText.Validating += new System.ComponentModel.CancelEventHandler(this.ImagefilePathText_Validating);
+            // 
+            // ImagePageCombo
+            // 
+            resources.ApplyResources(this.ImagePageCombo, "ImagePageCombo");
+            this.ImagePageCombo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.ImagePageCombo.FormattingEnabled = true;
+            this.ImagePageCombo.Name = "ImagePageCombo";
+            this.ImagePageCombo.SelectedIndexChanged += new System.EventHandler(this.ImagePageCombo_SelectedIndexChanged);
+            this.ImagePageCombo.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ImageSelection_KeyDown);
+            this.ImagePageCombo.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.ImageSelection_KeyPress);
+            this.ImagePageCombo.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.ImageSelection_PreviewKeyDown);
             // 
             // FilePickButton
             // 
@@ -763,12 +774,6 @@
             this.ToolTip1.SetToolTip(this.ImageCancelButton, resources.GetString("ImageCancelButton.ToolTip"));
             this.ImageCancelButton.UseVisualStyleBackColor = true;
             this.ImageCancelButton.Click += new System.EventHandler(this.ImageCancelButton_Click);
-            // 
-            // Label1
-            // 
-            resources.ApplyResources(this.Label1, "Label1");
-            this.Label1.Name = "Label1";
-            this.ToolTip1.SetToolTip(this.Label1, resources.GetString("Label1.ToolTip"));
             // 
             // ProfilePanel
             // 
@@ -2681,11 +2686,11 @@
         internal OTPictureBox ImageSelectedPicture;
         internal System.Windows.Forms.Panel ImagePathPanel;
         internal System.Windows.Forms.TextBox ImagefilePathText;
+        internal System.Windows.Forms.ComboBox ImagePageCombo;
         internal System.Windows.Forms.Button FilePickButton;
         internal System.Windows.Forms.Label Label2;
         internal System.Windows.Forms.ComboBox ImageServiceCombo;
         internal System.Windows.Forms.Button ImageCancelButton;
-        internal System.Windows.Forms.Label Label1;
         internal System.Windows.Forms.Panel ProfilePanel;
         internal System.Windows.Forms.SplitContainer SplitContainer3;
         internal System.Windows.Forms.SplitContainer SplitContainer2;
