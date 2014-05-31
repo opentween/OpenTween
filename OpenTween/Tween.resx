@@ -3006,6 +3006,9 @@
   <data name="ApiUsageInfoMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>301, 24</value>
   </data>
+  <data name="UserPicture.InitialImage" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
   <data name="UserPicture.Location" type="System.Drawing.Point, System.Drawing">
     <value>4, 4</value>
   </data>

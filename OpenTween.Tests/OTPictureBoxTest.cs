@@ -23,6 +23,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using Xunit;
 using Xunit.Extensions;
@@ -87,6 +89,49 @@ namespace OpenTween
 
                 Assert.Equal(PictureBoxSizeMode.Zoom, picbox.SizeMode);
                 Assert.Equal(PictureBoxSizeMode.Zoom, ((PictureBox)picbox).SizeMode);
+            }
+        }
+
+        [Fact]
+        public async Task SetImageFromAsync_Test()
+        {
+            using (var picbox = new OTPictureBox())
+            {
+                // Mono でのテスト実行時にデッドロックする問題の対策
+                SynchronizationContext.SetSynchronizationContext(new SynchronizationContext());
+
+                var tcs = new TaskCompletionSource<MemoryImage>();
+
+                var setImageTask = picbox.SetImageFromTask(() => tcs.Task);
+
+                Assert.Equal(picbox.InitialImage, ((PictureBox)picbox).Image);
+
+                var image = this.CreateDummyImage();
+                tcs.SetResult(image);
+                await setImageTask;
+
+                Assert.Equal(image, picbox.Image);
+            }
+        }
+
+        [Fact]
+        public async Task SetImageFromAsync_ErrorTest()
+        {
+            using (var picbox = new OTPictureBox())
+            {
+                // Mono でのテスト実行時にデッドロックする問題の対策
+                SynchronizationContext.SetSynchronizationContext(new SynchronizationContext());
+
+                var tcs = new TaskCompletionSource<MemoryImage>();
+
+                var setImageTask = picbox.SetImageFromTask(() => tcs.Task);
+
+                Assert.Equal(picbox.InitialImage, ((PictureBox)picbox).Image);
+
+                tcs.SetException(new InvalidImageException());
+                await setImageTask;
+
+                Assert.Equal(picbox.ErrorImage, ((PictureBox)picbox).Image);
             }
         }
 

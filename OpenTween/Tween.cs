@@ -9797,25 +9797,16 @@ namespace OpenTween
         {
             if (this._curPost == null) return;
 
-            var imageUrl = this._curPost.ImageUrl;
-            try
+            await this.UserPicture.SetImageFromTask(async () =>
             {
-                var image = await this.IconCache.DownloadImageAsync(imageUrl, force: true);
+                var imageUrl = this._curPost.ImageUrl;
 
-                this.ClearUserPicture();
-                this.UserPicture.Image = image.Clone();
-            }
-            catch (Exception)
-            {
-                this.UserPicture.ShowErrorImage();
-                try
-                {
-                    throw;
-                }
-                catch (HttpRequestException) { }
-                catch (InvalidImageException) { }
-                catch (TaskCanceledException) { }
-            }
+                var image = await this.IconCache.DownloadImageAsync(imageUrl, force: true)
+                    .ConfigureAwait(false);
+
+                return await image.CloneAsync()
+                    .ConfigureAwait(false);
+            });
         }
 
         private void SaveOriginalSizeIconPictureToolStripMenuItem_Click(object sender, EventArgs e)

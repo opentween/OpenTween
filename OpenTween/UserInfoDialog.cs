@@ -173,11 +173,17 @@ namespace OpenTween
             if (imageUri == null)
                 return;
 
-            using (var http = MyCommon.CreateHttpClient())
+            await this.UserPicture.SetImageFromTask(async () =>
             {
-                var imageStream = await http.GetStreamAsync(imageUri.Replace("_normal", "_bigger"));
-                this.UserPicture.Image = await MemoryImage.CopyFromStreamAsync(imageStream);
-            }
+                using (var http = MyCommon.CreateHttpClient())
+                {
+                    var imageStream = await http.GetStreamAsync(imageUri.Replace("_normal", "_bigger"))
+                        .ConfigureAwait(false);
+
+                    return await MemoryImage.CopyFromStreamAsync(imageStream)
+                        .ConfigureAwait(false);
+                }
+            });
         }
 
         private async Task SetLinkLabelWebAsync(string uri)

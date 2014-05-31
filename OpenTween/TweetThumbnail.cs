@@ -85,7 +85,7 @@ namespace OpenTween
                     picbox.Tag = thumb;
                     picbox.ContextMenu = CreateContextMenu(thumb);
 
-                    var loadTask = this.SetThumbnailImageAsync(picbox, thumb, cancelToken);
+                    var loadTask = picbox.SetImageFromTask(() => thumb.LoadThumbnailImageAsync(cancelToken));
                     loadTasks.Add(loadTask);
 
                     var tooltipText = thumb.TooltipText;
@@ -105,27 +105,6 @@ namespace OpenTween
                 this.ThumbnailLoading(this, EventArgs.Empty);
 
             await Task.WhenAll(loadTasks).ConfigureAwait(false);
-        }
-
-        private async Task SetThumbnailImageAsync(OTPictureBox picbox, ThumbnailInfo thumbInfo,
-            CancellationToken cancelToken)
-        {
-            try
-            {
-                picbox.ShowInitialImage();
-                picbox.Image = await thumbInfo.LoadThumbnailImageAsync(cancelToken);
-            }
-            catch (Exception)
-            {
-                picbox.ShowErrorImage();
-                try
-                {
-                    throw;
-                }
-                catch (HttpRequestException) { }
-                catch (InvalidImageException) { }
-                catch (TaskCanceledException) { }
-            }
         }
 
         private ContextMenu CreateContextMenu(ThumbnailInfo thumb)

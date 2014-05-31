@@ -30,6 +30,7 @@ using System.Drawing;
 using System.Threading.Tasks;
 using System.Threading;
 using System.Net;
+using System.Net.Http;
 using System.IO;
 
 namespace OpenTween
@@ -92,6 +93,27 @@ namespace OpenTween
         private void RestoreSizeMode()
         {
             base.SizeMode = this.currentSizeMode;
+        }
+
+        public async Task SetImageFromTask(Func<Task<MemoryImage>> imageTask)
+        {
+            try
+            {
+                this.ShowInitialImage();
+                this.Image = await imageTask();
+            }
+            catch (Exception)
+            {
+                this.ShowErrorImage();
+                try
+                {
+                    throw;
+                }
+                catch (HttpRequestException) { }
+                catch (InvalidImageException) { }
+                catch (TaskCanceledException) { }
+                catch (WebException) { }
+            }
         }
 
         protected override void OnPaint(PaintEventArgs pe)
