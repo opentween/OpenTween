@@ -172,18 +172,8 @@ namespace OpenTween
             param.Add("include_entities", "true");
             //if (AppendSettingDialog.Instance.ShortenTco && AppendSettingDialog.Instance.UrlConvertAuto) param.Add("wrap_links", "true")
 
-            if (mediaIds != null)
-            {
-                StringBuilder sb = new StringBuilder();
-                foreach (var idStr in mediaIds.Select(x => x.ToString()))
-                {
-                    if (string.IsNullOrEmpty(idStr)) continue;
-                    if (sb.Length > 0) sb.Append(",");
-                    sb.Append(idStr);
-                }
-
-                if (sb.Length > 0) param.Add("media_ids", sb.ToString());
-            }
+            if (mediaIds != null && mediaIds.Count > 0)
+                param.Add("media_ids", string.Join(",", mediaIds));
 
             return httpCon.GetContent(PostMethod,
                 this.CreateTwitterUri("/1.1/statuses/update.json"),
