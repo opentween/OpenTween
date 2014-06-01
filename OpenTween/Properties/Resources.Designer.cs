@@ -2292,15 +2292,6 @@ namespace OpenTween.Properties {
         }
         
         /// <summary>
-        ///   類似画像を検索 に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string SearchSimilarImageText {
-            get {
-                return ResourceManager.GetString("SearchSimilarImageText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   [ユーザ･･･{0}]   に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string SetFiltersText1 {

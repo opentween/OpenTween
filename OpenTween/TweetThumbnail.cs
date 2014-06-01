@@ -83,7 +83,7 @@ namespace OpenTween
                     var picbox = this.pictureBox[i];
 
                     picbox.Tag = thumb;
-                    picbox.ContextMenu = CreateContextMenu(thumb);
+                    picbox.ContextMenuStrip = this.contextMenuStrip;
 
                     var loadTask = picbox.SetImageFromTask(() => thumb.LoadThumbnailImageAsync(cancelToken));
                     loadTasks.Add(loadTask);
@@ -105,38 +105,6 @@ namespace OpenTween
                 this.ThumbnailLoading(this, EventArgs.Empty);
 
             await Task.WhenAll(loadTasks).ConfigureAwait(false);
-        }
-
-        private ContextMenu CreateContextMenu(ThumbnailInfo thumb)
-        {
-            var contextMenu = new ContextMenu();
-            contextMenu.MenuItems.Add(CreateImageSearchMenuItem(thumb));
-            return contextMenu;
-        }
-
-        private MenuItem CreateImageSearchMenuItem(ThumbnailInfo thumb)
-        {
-            var item = new MenuItem();
-            item.Text = Properties.Resources.SearchSimilarImageText;
-            var search_targe_url = thumb.FullSizeImageUrl ?? thumb.ThumbnailUrl ?? null;
-
-            if (search_targe_url != null)
-            {
-                item.Click += (sender, e) =>
-                {
-                    string uri = GetImageSearchUri(search_targe_url);
-                    if (this.ThumbnailImageSearchClick != null)
-                    {
-                        this.ThumbnailImageSearchClick(this, new ThumbnailImageSearchEventArgs(uri));
-                    }
-                };
-            }
-            else
-            {
-                item.Enabled = false;
-            }
-
-            return item;
         }
 
         private string GetImageSearchUri(string image_uri)
@@ -161,13 +129,10 @@ namespace OpenTween
                 foreach (var picbox in this.pictureBox)
                 {
                     var memoryImage = picbox.Image;
-                    var contextMenu = picbox.ContextMenu;
                     picbox.Dispose();
 
                     if (memoryImage != null)
                         memoryImage.Dispose();
-                    if (contextMenu != null)
-                        contextMenu.Dispose();
                 }
                 this.pictureBox.Clear();
 
@@ -239,6 +204,32 @@ namespace OpenTween
             {
                 this.ThumbnailDoubleClick(this, new ThumbnailDoubleClickEventArgs(thumb));
             }
+        }
+
+        private void contextMenuStrip_Opening(object sender, CancelEventArgs e)
+        {
+            var picbox = (OTPictureBox)this.contextMenuStrip.SourceControl;
+            var thumb = (ThumbnailInfo)picbox.Tag;
+
+            var searchTargetUri = thumb.FullSizeImageUrl ?? thumb.ThumbnailUrl ?? null;
+            if (searchTargetUri != null)
+            {
+                this.searchSimilarImageMenuItem.Enabled = true;
+                this.searchSimilarImageMenuItem.Tag = searchTargetUri;
+            }
+            else
+            {
+                this.searchSimilarImageMenuItem.Enabled = false;
+            }
+        }
+
+        private void searchSimilarImageMenuItem_Click(object sender, EventArgs e)
+        {
+            var searchTargetUri = (string)this.searchSimilarImageMenuItem.Tag;
+            var searchUri = this.GetImageSearchUri(searchTargetUri);
+
+            if (this.ThumbnailImageSearchClick != null)
+                this.ThumbnailImageSearchClick(this, new ThumbnailImageSearchEventArgs(searchUri));
         }
     }
 
