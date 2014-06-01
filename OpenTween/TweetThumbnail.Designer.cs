@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TweetThumbnail));
             this.scrollBar = new System.Windows.Forms.VScrollBar();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.panelPictureBox = new System.Windows.Forms.Panel();
@@ -36,32 +37,27 @@
             // 
             // scrollBar
             // 
-            this.scrollBar.Dock = System.Windows.Forms.DockStyle.Right;
+            resources.ApplyResources(this.scrollBar, "scrollBar");
             this.scrollBar.LargeChange = 1;
-            this.scrollBar.Location = new System.Drawing.Point(183, 0);
             this.scrollBar.Maximum = 10;
             this.scrollBar.Name = "scrollBar";
-            this.scrollBar.Size = new System.Drawing.Size(17, 188);
-            this.scrollBar.TabIndex = 0;
+            this.toolTip.SetToolTip(this.scrollBar, resources.GetString("scrollBar.ToolTip"));
             this.scrollBar.ValueChanged += new System.EventHandler(this.scrollBar_ValueChanged);
             // 
             // panelPictureBox
             // 
-            this.panelPictureBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelPictureBox.Location = new System.Drawing.Point(0, 0);
+            resources.ApplyResources(this.panelPictureBox, "panelPictureBox");
             this.panelPictureBox.Name = "panelPictureBox";
-            this.panelPictureBox.Size = new System.Drawing.Size(183, 188);
-            this.panelPictureBox.TabIndex = 1;
+            this.toolTip.SetToolTip(this.panelPictureBox, resources.GetString("panelPictureBox.ToolTip"));
             // 
             // TweetThumbnail
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
+            resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.Controls.Add(this.panelPictureBox);
             this.Controls.Add(this.scrollBar);
-            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "TweetThumbnail";
-            this.Size = new System.Drawing.Size(200, 188);
+            this.toolTip.SetToolTip(this, resources.GetString("$this.ToolTip"));
             this.ResumeLayout(false);
 
         }
