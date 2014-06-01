@@ -12149,14 +12149,18 @@ namespace OpenTween
             }
         }
 
-        private void doShowUserStatus(TwitterUser user)
+        private async void doShowUserStatus(TwitterUser user)
         {
-            using (var userinfo = new UserInfoDialog(this, this.tw))
+            using (var userDialog = new UserInfoDialog(this, this.tw))
             {
-                userinfo.DisplayUser = user;
-                userinfo.ShowDialog(this);
+                var showUserTask = userDialog.ShowUserAsync(user);
+                userDialog.ShowDialog(this);
+
                 this.Activate();
                 this.BringToFront();
+
+                // ユーザー情報の表示が完了するまで userDialog を破棄しない
+                await showUserTask;
             }
         }
 
