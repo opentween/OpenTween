@@ -130,7 +130,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;scrollBar.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>2</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
     <value>System.Windows.Forms.UserControl, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -148,12 +148,24 @@
   <data name="&gt;&gt;panelPictureBox.Type" xml:space="preserve">
     <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="contextMenuStrip.ToolTip" xml:space="preserve">
+    <value />
+  </data>
   <data name="&gt;&gt;panelPictureBox.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;contextMenuStrip.Name" xml:space="preserve">
+    <value>contextMenuStrip</value>
+  </data>
+  <data name="&gt;&gt;contextMenuStrip.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="panelPictureBox.Size" type="System.Drawing.Size, System.Drawing">
     <value>143, 150</value>
+  </data>
+  <data name="searchSimilarImageMenuItem.Text" xml:space="preserve">
+    <value>類似画像を検索</value>
   </data>
   <data name="&gt;&gt;scrollBar.Type" xml:space="preserve">
     <value>System.Windows.Forms.VScrollBar, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -177,14 +189,26 @@
   <data name="panelPictureBox.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
   </data>
+  <data name="&gt;&gt;searchSimilarImageMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="panelPictureBox.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
+  </data>
+  <data name="contextMenuStrip.Size" type="System.Drawing.Size, System.Drawing">
+    <value>156, 26</value>
   </data>
   <data name="scrollBar.Location" type="System.Drawing.Point, System.Drawing">
     <value>143, 0</value>
   </data>
+  <data name="searchSimilarImageMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>155, 22</value>
+  </data>
   <data name="scrollBar.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Right</value>
+  </data>
+  <data name="&gt;&gt;searchSimilarImageMenuItem.Name" xml:space="preserve">
+    <value>searchSimilarImageMenuItem</value>
   </data>
   <data name="&gt;&gt;toolTip.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolTip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -203,5 +227,8 @@
   </metadata>
   <metadata name="toolTip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
+  </metadata>
+  <metadata name="contextMenuStrip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>110, 17</value>
   </metadata>
 </root>

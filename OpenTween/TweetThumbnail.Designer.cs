@@ -33,6 +33,9 @@
             this.scrollBar = new System.Windows.Forms.VScrollBar();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.panelPictureBox = new System.Windows.Forms.Panel();
+            this.contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.searchSimilarImageMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.contextMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // scrollBar
@@ -50,6 +53,19 @@
             this.panelPictureBox.Name = "panelPictureBox";
             this.toolTip.SetToolTip(this.panelPictureBox, resources.GetString("panelPictureBox.ToolTip"));
             // 
+            // contextMenuStrip
+            // 
+            resources.ApplyResources(this.contextMenuStrip, "contextMenuStrip");
+            this.contextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.searchSimilarImageMenuItem});
+            this.contextMenuStrip.Name = "contextMenuStrip";
+            this.toolTip.SetToolTip(this.contextMenuStrip, resources.GetString("contextMenuStrip.ToolTip"));
+            // 
+            // searchSimilarImageMenuItem
+            // 
+            resources.ApplyResources(this.searchSimilarImageMenuItem, "searchSimilarImageMenuItem");
+            this.searchSimilarImageMenuItem.Name = "searchSimilarImageMenuItem";
+            // 
             // TweetThumbnail
             // 
             resources.ApplyResources(this, "$this");
@@ -58,6 +74,7 @@
             this.Controls.Add(this.scrollBar);
             this.Name = "TweetThumbnail";
             this.toolTip.SetToolTip(this, resources.GetString("$this.ToolTip"));
+            this.contextMenuStrip.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -67,5 +84,7 @@
         protected internal System.Windows.Forms.VScrollBar scrollBar;
         protected internal System.Windows.Forms.ToolTip toolTip;
         protected internal System.Windows.Forms.Panel panelPictureBox;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip;
+        private System.Windows.Forms.ToolStripMenuItem searchSimilarImageMenuItem;
     }
 }

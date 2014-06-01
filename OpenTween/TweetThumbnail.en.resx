@@ -123,6 +123,19 @@
   <data name="panelPictureBox.ToolTip" xml:space="preserve">
     <value />
   </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="searchSimilarImageMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>203, 22</value>
+  </data>
+  <data name="searchSimilarImageMenuItem.Text" xml:space="preserve">
+    <value>Search similar images</value>
+  </data>
+  <data name="contextMenuStrip.Size" type="System.Drawing.Size, System.Drawing">
+    <value>204, 26</value>
+  </data>
+  <data name="contextMenuStrip.ToolTip" xml:space="preserve">
+    <value />
+  </data>
   <data name="$this.ToolTip" xml:space="preserve">
     <value />
   </data>
