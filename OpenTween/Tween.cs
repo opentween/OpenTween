@@ -296,7 +296,7 @@ namespace OpenTween
             public long? inReplyToId = null;
             public string inReplyToName = null;
             public string imageService = "";      //画像投稿サービス名
-            public string imagePath = "";
+            public string[] imagePath = null;
             public PostingStatus()
             {
             }
@@ -2296,12 +2296,8 @@ namespace OpenTween
             if (ImageSelectionPanel.Visible)
             {
                 //画像投稿
-                string[] imagePaths;
-                if (!TryGetSelectedMedia(out args.status.imageService, out imagePaths))
+                if (!TryGetSelectedMedia(out args.status.imageService, out args.status.imagePath))
                     return;
-
-                // TODO: 複数画像投稿への対応
-                args.status.imagePath = imagePaths[0];
             }
 
             RunAsync(args);
@@ -2520,15 +2516,27 @@ namespace OpenTween
 
                 case MyCommon.WORKERTYPE.PostMessage:
                     bw.ReportProgress(200);
-                    if (string.IsNullOrEmpty(args.status.imagePath))
+                    if (args.status.imagePath == null || args.status.imagePath.Length == 0 || string.IsNullOrEmpty(args.status.imagePath[0]))
                     {
                         ret = tw.PostStatus(args.status.status, args.status.inReplyToId);
                     }
                     else
                     {
-                        ret = this.pictureService[args.status.imageService].Upload(ref args.status.imagePath,
-                                                                                   ref args.status.status,
-                                                                                   args.status.inReplyToId);
+                        var service = this.pictureService[args.status.imageService];
+                        if (args.status.imagePath.Length > 1 &&
+                            args.status.imageService.Equals("Twitter"))
+                        {
+                            //複数画像投稿
+                            ret = ((TwitterPhoto)service).Upload(ref args.status.imagePath,
+                                                                 ref args.status.status,
+                                                                 args.status.inReplyToId);
+                        }
+                        else
+                        {
+                            ret = service.Upload(ref args.status.imagePath[0],
+                                                 ref args.status.status,
+                                                 args.status.inReplyToId);
+                        }
                     }
                     bw.ReportProgress(300);
                     rslt.status = args.status;

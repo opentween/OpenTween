@@ -76,6 +76,7 @@
     <Compile Include="Api\TwitterSearchResult.cs" />
     <Compile Include="Api\TwitterStatus.cs" />
     <Compile Include="Api\TwitterStreamEvent.cs" />
+    <Compile Include="Api\TwitterUploadMediaResult.cs" />
     <Compile Include="Api\TwitterUser.cs" />
     <Compile Include="Api\TwitterApiAccessLevel.cs" />
     <Compile Include="Api\TwitterApiStatus.cs" />

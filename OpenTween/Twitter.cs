@@ -457,13 +457,14 @@ namespace OpenTween
             return false;
         }
 
-        public string PostStatus(string postStr, long? reply_to)
+        public string PostStatus(string postStr, long? reply_to, List<long> mediaIds = null)
         {
             if (MyCommon._endingFlag) return "";
 
             if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid) return "";
 
-            if (Regex.Match(postStr, "^DM? +(?<id>[a-zA-Z0-9_]+) +(?<body>.+)", RegexOptions.IgnoreCase | RegexOptions.Singleline).Success)
+            if (mediaIds == null &&
+                Regex.Match(postStr, "^DM? +(?<id>[a-zA-Z0-9_]+) +(?<body>.+)", RegexOptions.IgnoreCase | RegexOptions.Singleline).Success)
             {
                 return SendDirectMessage(postStr);
             }
@@ -472,7 +473,7 @@ namespace OpenTween
             var content = "";
             try
             {
-                res = twCon.UpdateStatus(postStr, reply_to, ref content);
+                res = twCon.UpdateStatus(postStr, reply_to, mediaIds, ref content);
             }
             catch(Exception ex)
             {
@@ -561,6 +562,68 @@ namespace OpenTween
             {
                 return "OK:Delaying?";
             }
+            return "";
+        }
+
+        public string PostStatusWithMultipleMedia(string postStr, long? reply_to, List<FileInfo> mediaFiles)
+        {
+            if (MyCommon._endingFlag) return "";
+
+            if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid) return "";
+
+            var mediaIds = new List<long>();
+
+            foreach (var mediaFile in mediaFiles)
+            {
+                long? mediaId = null;
+                var err = UploadMedia(mediaFile, ref mediaId);
+                if (!mediaId.HasValue || !string.IsNullOrEmpty(err)) return err;
+                mediaIds.Add(mediaId.Value);
+            }
+
+            if (mediaIds.Count == 0)
+                return "Err:Invalid Files!";
+
+            return PostStatus(postStr, reply_to, mediaIds);
+        }
+
+        public string UploadMedia(FileInfo mediaFile, ref long? mediaId)
+        {
+            if (MyCommon._endingFlag) return "";
+
+            if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid) return "";
+
+            HttpStatusCode res;
+            var content = "";
+            try
+            {
+                res = twCon.UploadMedia(mediaFile, ref content);
+            }
+            catch (Exception ex)
+            {
+                return "Err:" + ex.Message;
+            }
+
+            var err = this.CheckStatusCode(res, content);
+            if (err != null) return err;
+
+            TwitterUploadMediaResult status;
+            try
+            {
+                status = TwitterUploadMediaResult.ParseJson(content);
+            }
+            catch (SerializationException ex)
+            {
+                MyCommon.TraceOut(ex.Message + Environment.NewLine + content);
+                return "Err:Json Parse Error(DataContractJsonSerializer)";
+            }
+            catch (Exception ex)
+            {
+                MyCommon.TraceOut(ex, MethodBase.GetCurrentMethod().Name + " " + content);
+                return "Err:Invalid Json!";
+            }
+
+            mediaId = status.MediaId;
             return "";
         }
 
