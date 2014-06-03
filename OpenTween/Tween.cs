@@ -12327,6 +12327,7 @@ namespace OpenTween
             this._apiGauge.BorderSides = ToolStripStatusLabelBorderSides.Right;
             this.StatusStrip1.Items.Insert(2, this._apiGauge);
 
+            ImageSelectionPanel.Visible = false;
             ImageSelectionPanel.Enabled = false;
             this.ImageSelectedPicture.InitialImage = Properties.Resources.InitialImage;
 
