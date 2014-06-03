@@ -12758,44 +12758,44 @@ namespace OpenTween
                 var serviceName = this.ImageService;
                 if (!string.IsNullOrEmpty(serviceName))
                 {
-                    // 画像が選択された投稿先に対応しているかをチェックする
-                    // TODO: 複数の選択済み画像があるなら、できれば全てを再チェックしたほうがいい
                     var isTwitter = serviceName.Equals("Twitter");
-                    var invalidate = true;
 
-                    if (ImagePageCombo.Items.Count == 0)
-                        SetImagePageCombo();
-
-                    if (isTwitter)
+                    if (ImagePageCombo.Items.Count > 0)
                     {
-                        ValidateSelectedImagePage();
-                        invalidate = false;
-                    }
-                    else
-                    {
-                        if (ImagePageCombo.Items.Count > 1)
-                            SetImagePageCombo((SelectedMedia)ImagePageCombo.Items[0]);
-                        else
-                            ImagePageCombo.Enabled = false;
-                    }
-
-                    if (invalidate)
-                    {
-                        try
+                        // 画像が選択された投稿先に対応しているかをチェックする
+                        // TODO: 複数の選択済み画像があるなら、できれば全てを再チェックしたほうがいい
+                        if (isTwitter)
                         {
-                            FileInfo fi = new FileInfo(ImagefilePathText.Text.Trim());
-                            string ext = fi.Extension;
-                            var imageService = this.pictureService[serviceName];
-                            if (!imageService.CheckValidFilesize(ext, fi.Length))
-                            {
-                                ClearImageSelectedPicture();
-                                ClearSelectedImagePage();
-                            }
+                            ValidateSelectedImagePage();
                         }
-                        catch (Exception)
+                        else
                         {
-                            ClearImageSelectedPicture();
-                            ClearSelectedImagePage();
+                            if (ImagePageCombo.Items.Count > 1)
+                            {
+                                // 複数の選択済み画像のうち、1枚目のみを残す
+                                SetImagePageCombo((SelectedMedia)ImagePageCombo.Items[0]);
+                            }
+                            else
+                            {
+                                ImagePageCombo.Enabled = false;
+
+                                try
+                                {
+                                    FileInfo fi = new FileInfo(ImagefilePathText.Text.Trim());
+                                    string ext = fi.Extension;
+                                    var imageService = this.pictureService[serviceName];
+                                    if (!imageService.CheckValidFilesize(ext, fi.Length))
+                                    {
+                                        ClearImageSelectedPicture();
+                                        ClearSelectedImagePage();
+                                    }
+                                }
+                                catch (Exception)
+                                {
+                                    ClearImageSelectedPicture();
+                                    ClearSelectedImagePage();
+                                }
+                            }
                         }
                     }
 
