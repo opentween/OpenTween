@@ -12617,21 +12617,14 @@ namespace OpenTween
 
         private string MakeAvailableServiceText(string ext, long fileSize)
         {
-            StringBuilder sb = new StringBuilder();
+            var text = string.Join(", ",
+                ImageServiceCombo.Items.Cast<string>()
+                    .Where(x => !string.IsNullOrEmpty(x) && this.pictureService[x].CheckValidFilesize(ext, fileSize)));
 
-            foreach (string svc in ImageServiceCombo.Items)
-            {
-                if (!string.IsNullOrEmpty(svc) &&
-                    this.pictureService[svc].CheckValidFilesize(ext, fileSize))
-                {
-                    if (sb.Length > 0) sb.Append(", ");
-                    sb.Append(svc);
-                }
-            }
-            if (sb.Length == 0)
+            if (string.IsNullOrEmpty(text))
                 return Properties.Resources.PostPictureWarn6;
 
-            return sb.ToString();
+            return text;
         }
 
         private void ClearImageSelectedPicture()
