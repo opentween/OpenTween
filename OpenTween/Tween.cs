@@ -12546,14 +12546,15 @@ namespace OpenTween
             try
             {
                 ImagefilePathText.Text = ImagefilePathText.Text.Trim();
+                var fileName = ImagefilePathText.Text;
                 var serviceName = this.ImageService;
-                if (string.IsNullOrEmpty(ImagefilePathText.Text) || string.IsNullOrEmpty(serviceName))
+                if (string.IsNullOrEmpty(fileName) || string.IsNullOrEmpty(serviceName))
                 {
                     ClearSelectedImagePage();
                     return;
                 }
 
-                FileInfo fl = new FileInfo(ImagefilePathText.Text);
+                FileInfo fl = new FileInfo(fileName);
                 string ext = fl.Extension;
                 var imageService = this.pictureService[serviceName];
 
@@ -12590,14 +12591,14 @@ namespace OpenTween
                 switch (imageService.GetFileType(ext))
                 {
                     case MyCommon.UploadFileType.Picture:
-                        using (var fs = File.OpenRead(ImagefilePathText.Text))
+                        using (var fs = File.OpenRead(fileName))
                         {
                             ImageSelectedPicture.Image = MemoryImage.CopyFromStream(fs);
                         }
-                        SetSelectedImagePage(ImagefilePathText.Text, MyCommon.UploadFileType.Picture);
+                        SetSelectedImagePage(fileName, MyCommon.UploadFileType.Picture);
                         break;
                     case MyCommon.UploadFileType.MultiMedia:
-                        SetSelectedImagePage(ImagefilePathText.Text, MyCommon.UploadFileType.MultiMedia);
+                        SetSelectedImagePage(fileName, MyCommon.UploadFileType.MultiMedia);
                         break;
                     default:
                         ClearSelectedImagePage();
