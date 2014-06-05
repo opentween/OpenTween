@@ -121,9 +121,6 @@
     <value>MenuItemSearchNext</value>
   </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="FilePickButton.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Right</value>
-  </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="NotifyDispMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>233, 24</value>
@@ -146,9 +143,6 @@
   <data name="&gt;&gt;ReadOpMenuItem.Name" xml:space="preserve">
     <value>ReadOpMenuItem</value>
   </data>
-  <data name="ImageCancelButton.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>Off</value>
-  </data>
   <data name="&gt;&gt;ToolStripContainer1.RightToolStripPanel.Name" xml:space="preserve">
     <value>ToolStripContainer1.RightToolStripPanel</value>
   </data>
@@ -160,9 +154,6 @@
   </data>
   <data name="&gt;&gt;ListManageUserContextToolStripMenuItem2.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="ImagefilePathText.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
   </data>
   <data name="&gt;&gt;HashToggleMenuItem.Name" xml:space="preserve">
     <value>HashToggleMenuItem</value>
@@ -193,9 +184,6 @@
   </data>
   <data name="&gt;&gt;ClearTbMenuItem.Name" xml:space="preserve">
     <value>ClearTbMenuItem</value>
-  </data>
-  <data name="FilePickButton.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>Off</value>
   </data>
   <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="TableLayoutPanel1.ColumnCount" type="System.Int32, mscorlib">
@@ -288,9 +276,6 @@
   <data name="&gt;&gt;RtUnOpMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="ImagePathPanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>761, 35</value>
-  </data>
   <data name="DebugModeToolStripMenuItem.Text" xml:space="preserve">
     <value>デバッグモード</value>
   </data>
@@ -351,9 +336,6 @@
   <data name="AboutMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>301, 24</value>
   </data>
-  <data name="FilePickButton.Size" type="System.Drawing.Size, System.Drawing">
-    <value>29, 27</value>
-  </data>
   <data name="ContextMenuOperate.ToolTip" xml:space="preserve">
     <value />
   </data>
@@ -362,9 +344,6 @@
   </data>
   <data name="TabRenameMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>233, 24</value>
-  </data>
-  <data name="ImagePathPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Bottom</value>
   </data>
   <data name="NotifyDispMenuItem.Text" xml:space="preserve">
     <value>新着通知表示(&amp;Q)</value>
@@ -381,9 +360,6 @@
   <data name="PostButton.Text" xml:space="preserve">
     <value>Post</value>
   </data>
-  <data name="Label2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>478, 4</value>
-  </data>
   <data name="ToolStripMenuItemUrlMultibyteSplit.Text" xml:space="preserve">
     <value>URLからの全角文字列の切り離し</value>
   </data>
@@ -392,9 +368,6 @@
   </data>
   <data name="&gt;&gt;FollowToolStripMenuItem.Name" xml:space="preserve">
     <value>FollowToolStripMenuItem</value>
-  </data>
-  <data name="&gt;&gt;ImageSelectedPicture.Name" xml:space="preserve">
-    <value>ImageSelectedPicture</value>
   </data>
   <data name="ToolStripContainer1.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
@@ -432,14 +405,8 @@
   <data name="&gt;&gt;SplitContainer1.Panel1.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="&gt;&gt;ImagePageCombo.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
   <data name="&gt;&gt;HashStripSplitButton.Name" xml:space="preserve">
     <value>HashStripSplitButton</value>
-  </data>
-  <data name="&gt;&gt;ImagePageCombo.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;TabMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -452,9 +419,6 @@
   </data>
   <data name="HashToggleToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>306, 24</value>
-  </data>
-  <data name="&gt;&gt;ImageCancelButton.ZOrder" xml:space="preserve">
-    <value>5</value>
   </data>
   <data name="RefreshMoreStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>288, 24</value>
@@ -488,9 +452,6 @@
   </data>
   <data name="&gt;&gt;FriendshipAllMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="ImagefilePathText.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
   </data>
   <data name="&gt;&gt;ToolStripSeparator25.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -570,9 +531,6 @@
   <data name="&gt;&gt;CreateTbMenuItem.Name" xml:space="preserve">
     <value>CreateTbMenuItem</value>
   </data>
-  <data name="ImagePathPanel.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>4, 4, 4, 4</value>
-  </data>
   <data name="DeleteTabMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>233, 24</value>
   </data>
@@ -615,13 +573,10 @@
   <data name="RepliedStatusOpenMenuItem.Text" xml:space="preserve">
     <value>返信元ステータスを開く(&amp;I)</value>
   </data>
-  <data name="ImagePathPanel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 356</value>
-  </data>
   <data name="&gt;&gt;FavoriteRetweetUnofficialMenuItem.Name" xml:space="preserve">
     <value>FavoriteRetweetUnofficialMenuItem</value>
   </data>
-  <data name="ImageSelectionPanel.TabIndex" type="System.Int32, mscorlib">
+  <data name="ImageSelector.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
   </data>
   <data name="ToolStripSeparator4.Size" type="System.Drawing.Size, System.Drawing">
@@ -629,9 +584,6 @@
   </data>
   <data name="ListTab.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
-  </data>
-  <data name="ImageSelectedPicture.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>4, 4, 4, 4</value>
   </data>
   <data name="SplitContainer2.SplitterDistance" type="System.Int32, mscorlib">
     <value>87</value>
@@ -699,17 +651,11 @@
   <data name="&gt;&gt;ListManageToolStripMenuItem.Name" xml:space="preserve">
     <value>ListManageToolStripMenuItem</value>
   </data>
-  <data name="&gt;&gt;ImageCancelButton.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="ShowUserTimelineToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>377, 24</value>
   </data>
   <data name="&gt;&gt;OpenHomeOpMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="ImageSelectionPanel.ToolTip" xml:space="preserve">
-    <value />
   </data>
   <data name="ListManageMenuItem.Text" xml:space="preserve">
     <value>リスト管理(&amp;L)</value>
@@ -774,9 +720,6 @@
   <data name="ToolStripFocusLockMenuItem.Text" xml:space="preserve">
     <value>フォーカスを発言欄へロックする</value>
   </data>
-  <data name="&gt;&gt;ImagePathPanel.Parent" xml:space="preserve">
-    <value>ImageSelectionPanel</value>
-  </data>
   <data name="SplitContainer1.ToolTip" xml:space="preserve">
     <value />
   </data>
@@ -825,9 +768,6 @@
   <data name="&gt;&gt;MatomeMenuItem.Name" xml:space="preserve">
     <value>MatomeMenuItem</value>
   </data>
-  <data name="ImageCancelButton.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Right</value>
-  </data>
   <data name="DeleteStripMenuItem.Text" xml:space="preserve">
     <value>削除(&amp;D)</value>
   </data>
@@ -867,7 +807,7 @@
   <data name="lblLen.ToolTip" xml:space="preserve">
     <value />
   </data>
-  <data name="ImageSelectionPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+  <data name="ImageSelector.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
   </data>
   <data name="&gt;&gt;FriendshipContextMenuItem.Type" xml:space="preserve">
@@ -948,9 +888,6 @@
   <data name="&gt;&gt;StatusStrip1.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="&gt;&gt;ImagefilePathText.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="&gt;&gt;IdeographicSpaceToSpaceToolStripMenuItem.Name" xml:space="preserve">
     <value>IdeographicSpaceToSpaceToolStripMenuItem</value>
   </data>
@@ -1019,9 +956,6 @@
   </data>
   <data name="ImageSelectMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>306, 24</value>
-  </data>
-  <data name="ImageServiceCombo.Items" xml:space="preserve">
-    <value>TwitPic</value>
   </data>
   <data name="TableLayoutPanel1.RowCount" type="System.Int32, mscorlib">
     <value>2</value>
@@ -1176,9 +1110,6 @@
   <data name="UseHashtagMenuItem.Text" xml:space="preserve">
     <value>ハッシュタグを固定(&amp;H)</value>
   </data>
-  <data name="Label2.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>4, 0, 4, 0</value>
-  </data>
   <data name="tweetThumbnail1.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>5, 5, 5, 5</value>
   </data>
@@ -1200,13 +1131,10 @@
   <data name="SearchPostsDetailNameToolStripMenuItem.Text" xml:space="preserve">
     <value>ユーザーのタイムラインを表示(&amp;T)</value>
   </data>
-  <data name="&gt;&gt;ImagefilePathText.Name" xml:space="preserve">
-    <value>ImagefilePathText</value>
-  </data>
   <data name="&gt;&gt;lblLen.Name" xml:space="preserve">
     <value>lblLen</value>
   </data>
-  <data name="&gt;&gt;ImageSelectionPanel.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;ImageSelector.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
   <data name="FilterEditMenuItem.Size" type="System.Drawing.Size, System.Drawing">
@@ -1217,9 +1145,6 @@
   </data>
   <data name="&gt;&gt;MenuItemSubSearch.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="ImageSelectedPicture.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
   </data>
   <data name="UrlCopyContextMenuItem.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -1232,9 +1157,6 @@
   </data>
   <data name="EndFileMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>206, 24</value>
-  </data>
-  <data name="&gt;&gt;ImageCancelButton.Parent" xml:space="preserve">
-    <value>ImagePathPanel</value>
   </data>
   <data name="&gt;&gt;ToolStripSeparator41.Name" xml:space="preserve">
     <value>ToolStripSeparator41</value>
@@ -1253,9 +1175,6 @@
   </data>
   <data name="&gt;&gt;TabMenuItem.Name" xml:space="preserve">
     <value>TabMenuItem</value>
-  </data>
-  <data name="ImagePageCombo.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 4</value>
   </data>
   <data name="NameLabel.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>Off</value>
@@ -1280,9 +1199,6 @@
   </data>
   <data name="&gt;&gt;ToolStripSeparator22.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="ImagePageCombo.ToolTip" xml:space="preserve">
-    <value />
   </data>
   <data name="UserFavorareToolStripMenuItem.Text" xml:space="preserve">
     <value>ユーザーのふぁぼられを開く</value>
@@ -1317,9 +1233,6 @@
   <data name="&gt;&gt;SaveFileMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;ImageSelectedPicture.Parent" xml:space="preserve">
-    <value>ImageSelectionPanel</value>
-  </data>
   <data name="&gt;&gt;ToolStripSeparator32.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -1347,9 +1260,6 @@
   <data name="StatusText.Size" type="System.Drawing.Size, System.Drawing">
     <value>643, 22</value>
   </data>
-  <data name="ImageCancelButton.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="&gt;&gt;ApiUsageInfoMenuItem.Name" xml:space="preserve">
     <value>ApiUsageInfoMenuItem</value>
   </data>
@@ -1361,9 +1271,6 @@
   </data>
   <data name="ToolStripSeparator5.Size" type="System.Drawing.Size, System.Drawing">
     <value>279, 6</value>
-  </data>
-  <data name="ImageSelectedPicture.TabIndex" type="System.Int32, mscorlib">
-    <value>5</value>
   </data>
   <data name="&gt;&gt;DMStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -1400,9 +1307,6 @@
   </data>
   <data name="UserStatusToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>306, 24</value>
-  </data>
-  <data name="ImageServiceCombo.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>4, 4, 4, 4</value>
   </data>
   <data name="ShowProfileMenuItem.Text" xml:space="preserve">
     <value>プロフィール表示</value>
@@ -1494,9 +1398,6 @@
   <data name="&gt;&gt;RefreshPrevOpMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="ImageCancelButton.TabIndex" type="System.Int32, mscorlib">
-    <value>5</value>
-  </data>
   <data name="OpenRepSourceOpMenuItem.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
     <value>Ctrl+I</value>
   </data>
@@ -1505,9 +1406,6 @@
   </data>
   <data name="SaveFileMenuItem.Text" xml:space="preserve">
     <value>ファイル保存(&amp;S)</value>
-  </data>
-  <data name="Label2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>Off</value>
   </data>
   <data name="&gt;&gt;SettingStripMenuItem.Name" xml:space="preserve">
     <value>SettingStripMenuItem</value>
@@ -1535,9 +1433,6 @@
   </data>
   <data name="&gt;&gt;ToolStripSeparator12.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="ImagePathPanel.ToolTip" xml:space="preserve">
-    <value />
   </data>
   <data name="&gt;&gt;ProfilePanel.Type" xml:space="preserve">
     <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -1704,12 +1599,6 @@
   <data name="&gt;&gt;ToolStripSeparator32.Name" xml:space="preserve">
     <value>ToolStripSeparator32</value>
   </data>
-  <data name="ImageSelectedPicture.Size" type="System.Drawing.Size, System.Drawing">
-    <value>761, 356</value>
-  </data>
-  <data name="&gt;&gt;FilePickButton.Parent" xml:space="preserve">
-    <value>ImagePathPanel</value>
-  </data>
   <data name="&gt;&gt;SelectionAllContextMenuItem.Name" xml:space="preserve">
     <value>SelectionAllContextMenuItem</value>
   </data>
@@ -1763,9 +1652,6 @@
   </data>
   <data name="ToolStripSeparator43.Size" type="System.Drawing.Size, System.Drawing">
     <value>203, 6</value>
-  </data>
-  <data name="ImagePageCombo.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Left</value>
   </data>
   <data name="&gt;&gt;ToolStripSeparator8.Name" xml:space="preserve">
     <value>ToolStripSeparator8</value>
@@ -1830,9 +1716,6 @@
   <data name="&gt;&gt;StatusLabelUrl.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripStatusLabel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="Label2.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>MiddleRight</value>
-  </data>
   <data name="&gt;&gt;DebugModeToolStripMenuItem.Name" xml:space="preserve">
     <value>DebugModeToolStripMenuItem</value>
   </data>
@@ -1854,9 +1737,6 @@
   <data name="&gt;&gt;TwurlnlToolStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;Label2.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="&gt;&gt;OpenRterHomeMenuItem.Name" xml:space="preserve">
     <value>OpenRterHomeMenuItem</value>
   </data>
@@ -1872,20 +1752,11 @@
   <data name="ShowUserTimelineContextMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>288, 24</value>
   </data>
-  <data name="ImagePageCombo.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>Off</value>
-  </data>
-  <data name="&gt;&gt;ImageSelectionPanel.Name" xml:space="preserve">
-    <value>ImageSelectionPanel</value>
-  </data>
-  <data name="ImagePathPanel.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>4, 4, 4, 4</value>
+  <data name="&gt;&gt;ImageSelector.Name" xml:space="preserve">
+    <value>ImageSelector</value>
   </data>
   <data name="&gt;&gt;FriendshipMenuItem.Name" xml:space="preserve">
     <value>FriendshipMenuItem</value>
-  </data>
-  <data name="&gt;&gt;ImagePageCombo.Parent" xml:space="preserve">
-    <value>ImagePathPanel</value>
   </data>
   <data name="&gt;&gt;JumpReadOpMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -1910,9 +1781,6 @@
   </data>
   <data name="&gt;&gt;NameLabel.Name" xml:space="preserve">
     <value>NameLabel</value>
-  </data>
-  <data name="ImagePathPanel.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
   </data>
   <data name="ToolStripMenuItem1.Size" type="System.Drawing.Size, System.Drawing">
     <value>279, 6</value>
@@ -1947,7 +1815,7 @@
   <data name="UrlUndoToolStripMenuItem.Text" xml:space="preserve">
     <value>元に戻す</value>
   </data>
-  <data name="ImageSelectionPanel.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="ImageSelector.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
   </data>
   <data name="&gt;&gt;HashManageMenuItem.Type" xml:space="preserve">
@@ -2043,17 +1911,11 @@
   <data name="&gt;&gt;SplitContainer2.Panel2.Parent" xml:space="preserve">
     <value>SplitContainer2</value>
   </data>
-  <data name="ImagefilePathText.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>4, 4, 4, 4</value>
-  </data>
   <data name="StatusStrip1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>None</value>
   </data>
   <data name="SearchWikipediaContextMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>210, 24</value>
-  </data>
-  <data name="&gt;&gt;FilePickButton.ZOrder" xml:space="preserve">
-    <value>2</value>
   </data>
   <data name="SelectAllMenuItem.Text" xml:space="preserve">
     <value>全て選択(&amp;A)</value>
@@ -2103,10 +1965,7 @@
   <data name="&gt;&gt;OpenUserSpecifiedUrlMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="FilePickButton.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>4, 4, 4, 4</value>
-  </data>
-  <data name="ImageSelectionPanel.AutoScroll" type="System.Boolean, mscorlib">
+  <data name="ImageSelector.AutoScroll" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
   <data name="ListTab.Location" type="System.Drawing.Point, System.Drawing">
@@ -2117,9 +1976,6 @@
   </data>
   <data name="UxnuMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>269, 24</value>
-  </data>
-  <data name="&gt;&gt;ImagePageCombo.Name" xml:space="preserve">
-    <value>ImagePageCombo</value>
   </data>
   <data name="SourceLinkLabel.TabIndex" type="System.Int32, mscorlib">
     <value>7</value>
@@ -2145,9 +2001,6 @@
   <data name="&gt;&gt;SelAllOpMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="FilePickButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>449, 4</value>
-  </data>
   <data name="ToolStripSeparator17.Size" type="System.Drawing.Size, System.Drawing">
     <value>203, 6</value>
   </data>
@@ -2159,9 +2012,6 @@
   </data>
   <data name="ToolStripMenuItemUrlMultibyteSplit.Size" type="System.Drawing.Size, System.Drawing">
     <value>306, 24</value>
-  </data>
-  <data name="&gt;&gt;ImageServiceCombo.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="FriendshipContextMenuItem.Text" xml:space="preserve">
     <value>相互フォロー状態表示(&amp;R)</value>
@@ -2193,8 +2043,8 @@
   <data name="DMStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>288, 24</value>
   </data>
-  <data name="&gt;&gt;ImageSelectionPanel.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;ImageSelector.Type" xml:space="preserve">
+    <value>OpenTween.MediaSelector, OpenTween, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="ToolStripSeparator37.Size" type="System.Drawing.Size, System.Drawing">
     <value>279, 6</value>
@@ -2222,9 +2072,6 @@
   </data>
   <data name="&gt;&gt;ReplyAllStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;ImageSelectedPicture.ZOrder" xml:space="preserve">
-    <value>0</value>
   </data>
   <data name="NameLabel.Font" type="System.Drawing.Font, System.Drawing">
     <value>MS UI Gothic, 9pt, style=Bold</value>
@@ -2298,9 +2145,6 @@
   <data name="&gt;&gt;UserFavorareToolStripMenuItem.Name" xml:space="preserve">
     <value>UserFavorareToolStripMenuItem</value>
   </data>
-  <data name="ImageSelectedPicture.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>Off</value>
-  </data>
   <data name="&gt;&gt;MoveToRTHomeMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -2309,9 +2153,6 @@
   </data>
   <data name="CacheInfoMenuItem.Text" xml:space="preserve">
     <value>アイコンキャッシュ使用状況</value>
-  </data>
-  <data name="ImageCancelButton.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>4, 4, 4, 4</value>
   </data>
   <data name="SaveLogMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>206, 24</value>
@@ -2322,9 +2163,6 @@
   <data name="StatusStrip1.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
   </data>
-  <data name="Label2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>76, 27</value>
-  </data>
   <data name="&gt;&gt;OpenURLMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -2334,17 +2172,11 @@
   <data name="&gt;&gt;SourceCopyMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="ImageSelectedPicture.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
   <data name="&gt;&gt;OpenStatusOpMenuItem.Name" xml:space="preserve">
     <value>OpenStatusOpMenuItem</value>
   </data>
   <data name="&gt;&gt;ToolStripSeparator6.Name" xml:space="preserve">
     <value>ToolStripSeparator6</value>
-  </data>
-  <data name="ImagePageCombo.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>4, 0, 4, 0</value>
   </data>
   <data name="DmOpMenuItem.Text" xml:space="preserve">
     <value>DM送信(&amp;M)</value>
@@ -2388,9 +2220,6 @@
   <data name="&gt;&gt;SearchWikipediaContextMenuItem.Name" xml:space="preserve">
     <value>SearchWikipediaContextMenuItem</value>
   </data>
-  <data name="ImagePageCombo.Size" type="System.Drawing.Size, System.Drawing">
-    <value>72, 27</value>
-  </data>
   <data name="IdFilterAddMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>282, 24</value>
   </data>
@@ -2402,9 +2231,6 @@
   </data>
   <data name="&gt;&gt;LockListFileMenuItem.Name" xml:space="preserve">
     <value>LockListFileMenuItem</value>
-  </data>
-  <data name="&gt;&gt;Label2.ZOrder" xml:space="preserve">
-    <value>3</value>
   </data>
   <data name="&gt;&gt;ToolStripSeparator11.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -2426,9 +2252,6 @@
   </data>
   <data name="&gt;&gt;ToolStripContainer1.RightToolStripPanel.ZOrder" xml:space="preserve">
     <value>2</value>
-  </data>
-  <data name="Label2.ToolTip" xml:space="preserve">
-    <value />
   </data>
   <data name="&gt;&gt;ToolStripSeparator37.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -2496,9 +2319,6 @@
   <data name="ToolStripSeparator13.Size" type="System.Drawing.Size, System.Drawing">
     <value>279, 6</value>
   </data>
-  <data name="ImagefilePathText.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="&gt;&gt;StatusOpenMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -2511,7 +2331,7 @@
   <data name="&gt;&gt;IdFilterAddMenuItem.Name" xml:space="preserve">
     <value>IdFilterAddMenuItem</value>
   </data>
-  <data name="ImageSelectionPanel.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+  <data name="ImageSelector.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>4, 4, 4, 4</value>
   </data>
   <data name="ToolStripSeparator30.Size" type="System.Drawing.Size, System.Drawing">
@@ -2564,9 +2384,6 @@
   </data>
   <data name="&gt;&gt;StatusStrip1.Type" xml:space="preserve">
     <value>System.Windows.Forms.StatusStrip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="FilePickButton.ToolTip" xml:space="preserve">
-    <value />
   </data>
   <data name="&gt;&gt;ToolStripSeparator5.Name" xml:space="preserve">
     <value>ToolStripSeparator5</value>
@@ -2676,9 +2493,6 @@
   <data name="ListTab.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
   </data>
-  <data name="ImageServiceCombo.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="MatomeMenuItem.Text" xml:space="preserve">
     <value>%AppName% ウェブサイト(&amp;H)</value>
   </data>
@@ -2721,9 +2535,6 @@
   <data name="MenuItemUserStream.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
-  <data name="&gt;&gt;ImagePathPanel.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
   <data name="UnreadOpMenuItem.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
     <value>Ctrl+Shift+B</value>
   </data>
@@ -2763,14 +2574,11 @@
   <data name="ProfilePanel.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>4, 4, 4, 4</value>
   </data>
-  <data name="&gt;&gt;ImageSelectionPanel.Parent" xml:space="preserve">
+  <data name="&gt;&gt;ImageSelector.Parent" xml:space="preserve">
     <value>SplitContainer1.Panel1</value>
   </data>
   <data name="SplitContainer2.SplitterWidth" type="System.Int32, mscorlib">
     <value>2</value>
-  </data>
-  <data name="ImageCancelButton.Text" xml:space="preserve">
-    <value>Cancel</value>
   </data>
   <data name="SearchPostsDetailToolStripMenuItem.Text" xml:space="preserve">
     <value>このユーザーのTLを取得(&amp;F)</value>
@@ -2799,9 +2607,6 @@
   <data name="ToolStripSeparator2.Size" type="System.Drawing.Size, System.Drawing">
     <value>285, 6</value>
   </data>
-  <data name="FilePickButton.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
   <data name="StatusOpenMenuItem.Text" xml:space="preserve">
     <value>ステータスを開く(&amp;O)</value>
   </data>
@@ -2813,9 +2618,6 @@
   </data>
   <data name="JumpUnreadMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>288, 24</value>
-  </data>
-  <data name="ImageSelectedPicture.SizeMode" type="System.Windows.Forms.PictureBoxSizeMode, System.Windows.Forms">
-    <value>Zoom</value>
   </data>
   <data name="AddTabMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>233, 24</value>
@@ -2895,9 +2697,6 @@
   <data name="&gt;&gt;SettingFileMenuItem.Name" xml:space="preserve">
     <value>SettingFileMenuItem</value>
   </data>
-  <data name="ImageCancelButton.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 27</value>
-  </data>
   <data name="&gt;&gt;TinyURLToolStripMenuItem.Name" xml:space="preserve">
     <value>TinyURLToolStripMenuItem</value>
   </data>
@@ -2951,9 +2750,6 @@
   </data>
   <data name="&gt;&gt;PostButton.Parent" xml:space="preserve">
     <value>SplitContainer2.Panel2</value>
-  </data>
-  <data name="&gt;&gt;FilePickButton.Name" xml:space="preserve">
-    <value>FilePickButton</value>
   </data>
   <data name="EditRuleTbMenuItem.Text" xml:space="preserve">
     <value>振り分けルール編集(&amp;F)...</value>
@@ -3015,9 +2811,6 @@
   <data name="&gt;&gt;JumpUnreadMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;ImagefilePathText.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
   <data name="ToolStripSeparator9.Size" type="System.Drawing.Size, System.Drawing">
     <value>203, 6</value>
   </data>
@@ -3047,9 +2840,6 @@
   </data>
   <data name="PublicSearchQueryMenuItem.Text" xml:space="preserve">
     <value>抽出条件入力(&amp;Q)</value>
-  </data>
-  <data name="ImageCancelButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>682, 4</value>
   </data>
   <data name="ToolStripSeparator21.Size" type="System.Drawing.Size, System.Drawing">
     <value>203, 6</value>
@@ -3210,9 +3000,6 @@
   <data name="NewPostPopMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>206, 24</value>
   </data>
-  <data name="Label2.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Right</value>
-  </data>
   <data name="MenuStrip1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>None</value>
   </data>
@@ -3264,9 +3051,6 @@
   <data name="FollowToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>282, 24</value>
   </data>
-  <data name="ImagefilePathText.Location" type="System.Drawing.Point, System.Drawing">
-    <value>76, 4</value>
-  </data>
   <data name="&gt;&gt;ToolStripSeparator33.Name" xml:space="preserve">
     <value>ToolStripSeparator33</value>
   </data>
@@ -3293,9 +3077,6 @@
   </data>
   <data name="&gt;&gt;TabRenameMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="ImageServiceCombo.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
   </data>
   <data name="StatusLabel.Size" type="System.Drawing.Size, System.Drawing">
     <value>87, 23</value>
@@ -3329,12 +3110,6 @@
   </data>
   <data name="SplitContainer1.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>4, 4, 4, 4</value>
-  </data>
-  <data name="ImageServiceCombo.Location" type="System.Drawing.Point, System.Drawing">
-    <value>554, 4</value>
-  </data>
-  <data name="ImageServiceCombo.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Right</value>
   </data>
   <data name="&gt;&gt;ToolStripSeparator27.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -3423,9 +3198,6 @@
   <data name="&gt;&gt;MenuItemFile.Name" xml:space="preserve">
     <value>MenuItemFile</value>
   </data>
-  <data name="&gt;&gt;ImagefilePathText.Parent" xml:space="preserve">
-    <value>ImagePathPanel</value>
-  </data>
   <data name="ProtectTbMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>233, 24</value>
   </data>
@@ -3440,9 +3212,6 @@
   </data>
   <data name="LockListFileMenuItem.Text" xml:space="preserve">
     <value>新着時リスト固定(&amp;L)</value>
-  </data>
-  <data name="&gt;&gt;ImageServiceCombo.Name" xml:space="preserve">
-    <value>ImageServiceCombo</value>
   </data>
   <data name="PostButton.ToolTip" xml:space="preserve">
     <value />
@@ -3593,9 +3362,6 @@
   <data name="IdFilterAddMenuItem.Text" xml:space="preserve">
     <value>ID振分ルール作成(&amp;I)</value>
   </data>
-  <data name="&gt;&gt;ImageServiceCombo.Parent" xml:space="preserve">
-    <value>ImagePathPanel</value>
-  </data>
   <data name="ShowFriendShipToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>282, 24</value>
   </data>
@@ -3617,9 +3383,6 @@
   <data name="RenameTbMenuItem.Text" xml:space="preserve">
     <value>タブ名変更(&amp;R)</value>
   </data>
-  <data name="&gt;&gt;ImagePathPanel.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="&gt;&gt;TimelinePanel.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
@@ -3638,10 +3401,7 @@
   <data name="&gt;&gt;SearchAtPostsDetailToolStripMenuItem.Name" xml:space="preserve">
     <value>SearchAtPostsDetailToolStripMenuItem</value>
   </data>
-  <data name="&gt;&gt;ImageCancelButton.Name" xml:space="preserve">
-    <value>ImageCancelButton</value>
-  </data>
-  <data name="ImageSelectionPanel.Visible" type="System.Boolean, mscorlib">
+  <data name="ImageSelector.Visible" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
   <data name="&gt;&gt;OpenRepSourceOpMenuItem.Type" xml:space="preserve">
@@ -3673,15 +3433,6 @@
   </data>
   <data name="ToolStripContainer1.Text" xml:space="preserve">
     <value>ToolStripContainer1</value>
-  </data>
-  <data name="&gt;&gt;ImageServiceCombo.ZOrder" xml:space="preserve">
-    <value>4</value>
-  </data>
-  <data name="ImagePageCombo.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;ImagePathPanel.Name" xml:space="preserve">
-    <value>ImagePathPanel</value>
   </data>
   <data name="&gt;&gt;ToolStripSeparator17.Name" xml:space="preserve">
     <value>ToolStripSeparator17</value>
@@ -4007,9 +3758,6 @@
   <data name="&gt;&gt;EndFileMenuItem.Name" xml:space="preserve">
     <value>EndFileMenuItem</value>
   </data>
-  <data name="&gt;&gt;Label2.Parent" xml:space="preserve">
-    <value>ImagePathPanel</value>
-  </data>
   <data name="&gt;&gt;ToolStripContainer1.ContentPanel.Parent" xml:space="preserve">
     <value>ToolStripContainer1</value>
   </data>
@@ -4097,9 +3845,6 @@
   <data name="&gt;&gt;ShowFriendShipToolStripMenuItem.Name" xml:space="preserve">
     <value>ShowFriendShipToolStripMenuItem</value>
   </data>
-  <data name="Label2.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
-  </data>
   <data name="&gt;&gt;SplitContainer1.Name" xml:space="preserve">
     <value>SplitContainer1</value>
   </data>
@@ -4151,9 +3896,6 @@
   <data name="SplitContainer2.Orientation" type="System.Windows.Forms.Orientation, System.Windows.Forms">
     <value>Horizontal</value>
   </data>
-  <data name="&gt;&gt;FilePickButton.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="&gt;&gt;UnreadMngTbMenuItem.Name" xml:space="preserve">
     <value>UnreadMngTbMenuItem</value>
   </data>
@@ -4190,9 +3932,6 @@
   <data name="&gt;&gt;TableLayoutPanel1.Parent" xml:space="preserve">
     <value>SplitContainer2.Panel1</value>
   </data>
-  <data name="&gt;&gt;Label2.Name" xml:space="preserve">
-    <value>Label2</value>
-  </data>
   <data name="&gt;&gt;ToolStripSeparator28.Name" xml:space="preserve">
     <value>ToolStripSeparator28</value>
   </data>
@@ -4208,13 +3947,10 @@
   <data name="&gt;&gt;UreadManageMenuItem.Name" xml:space="preserve">
     <value>UreadManageMenuItem</value>
   </data>
-  <data name="Label2.Text" xml:space="preserve">
-    <value>投稿先</value>
-  </data>
   <data name="&gt;&gt;IDRuleMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="ImageSelectionPanel.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="ImageSelector.Size" type="System.Drawing.Size, System.Drawing">
     <value>761, 391</value>
   </data>
   <data name="&gt;&gt;SplitContainer2.Name" xml:space="preserve">
@@ -4277,9 +4013,6 @@
   <data name="RtOpMenuItem.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
     <value>Alt+R</value>
   </data>
-  <data name="ImageSelectedPicture.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="&gt;&gt;TwitterApiStatusToolStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -4306,9 +4039,6 @@
   </data>
   <data name="TraceOutToolStripMenuItem.Text" xml:space="preserve">
     <value>TraceOut出力</value>
-  </data>
-  <data name="ImageServiceCombo.Size" type="System.Drawing.Size, System.Drawing">
-    <value>128, 23</value>
   </data>
   <data name="ProfilePanel.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
@@ -4400,9 +4130,6 @@
   <data name="ContextMenuUserPicture.ToolTip" xml:space="preserve">
     <value />
   </data>
-  <data name="&gt;&gt;ImageSelectedPicture.Type" xml:space="preserve">
-    <value>OpenTween.OTPictureBox, OpenTween, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
   <data name="ShowUserTimelineToolStripMenuItem.Text" xml:space="preserve">
     <value>ユーザーのタイムラインを表示</value>
   </data>
@@ -4424,9 +4151,6 @@
   <data name="&gt;&gt;IsgdToolStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="ImagefilePathText.Size" type="System.Drawing.Size, System.Drawing">
-    <value>373, 22</value>
-  </data>
   <data name="&gt;&gt;DeleteStripMenuItem.Name" xml:space="preserve">
     <value>DeleteStripMenuItem</value>
   </data>
@@ -4444,9 +4168,6 @@
   </data>
   <data name="&gt;&gt;UxnuMenuItem.Name" xml:space="preserve">
     <value>UxnuMenuItem</value>
-  </data>
-  <data name="FilePickButton.Text" xml:space="preserve">
-    <value>...</value>
   </data>
   <data name="ToolStripContainer1.Size" type="System.Drawing.Size, System.Drawing">
     <value>765, 570</value>
