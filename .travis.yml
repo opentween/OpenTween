@@ -5,7 +5,7 @@ cache:
     - monopkg/
 
 env:
-  - MONO_VERSION=3.2.7
+  - MONO_VERSION=3.4.0
 
 install:
   - mkdir -p monopkg
