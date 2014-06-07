@@ -915,7 +915,7 @@
   </data>
   <data name="PostPictureConfirm1" xml:space="preserve">
     <value>[投稿先: {0}]
-画像を投稿します。よろしいですか？</value>
+{1} 枚の画像を投稿します。よろしいですか？</value>
   </data>
   <data name="PostPictureConfirm2" xml:space="preserve">
     <value>画像投稿確認</value>

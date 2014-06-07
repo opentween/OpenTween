@@ -164,13 +164,16 @@ namespace OpenTween
             this.Initialize("", "", "", 0);
         }
 
-        public HttpStatusCode UpdateStatus(string status, long? replyToId, ref string content)
+        public HttpStatusCode UpdateStatus(string status, long? replyToId, List<long> mediaIds, ref string content)
         {
             Dictionary<string, string> param = new Dictionary<string, string>();
             param.Add("status", status);
             if (replyToId != null) param.Add("in_reply_to_status_id", replyToId.ToString());
             param.Add("include_entities", "true");
             //if (AppendSettingDialog.Instance.ShortenTco && AppendSettingDialog.Instance.UrlConvertAuto) param.Add("wrap_links", "true")
+
+            if (mediaIds != null && mediaIds.Count > 0)
+                param.Add("media_ids", string.Join(",", mediaIds));
 
             return httpCon.GetContent(PostMethod,
                 this.CreateTwitterUri("/1.1/statuses/update.json"),
@@ -199,6 +202,21 @@ namespace OpenTween
                 ref content,
                 this.CreateRatelimitHeadersDict(),
                 this.CreateApiCalllback("/statuses/update_with_media"));
+        }
+
+        public HttpStatusCode UploadMedia(FileInfo mediaFile, ref string content)
+        {
+            //画像投稿専用エンドポイント
+            List<KeyValuePair<string, FileInfo>> binary = new List<KeyValuePair<string, FileInfo>>();
+            binary.Add(new KeyValuePair<string, FileInfo>("media", mediaFile));
+
+            return httpCon.GetContent(PostMethod,
+                this.CreateTwitterUploadUri("/1.1/media/upload.json"),
+                null,
+                binary,
+                ref content,
+                null,
+                null);
         }
 
         public HttpStatusCode DestroyStatus(long id)
@@ -840,6 +858,7 @@ namespace OpenTween
         private static string _twitterUrl = "api.twitter.com";
         private static string _twitterUserStreamUrl = "userstream.twitter.com";
         private static string _twitterStreamUrl = "stream.twitter.com";
+        private static string _twitterUploadUrl = "upload.twitter.com";
 
         private Uri CreateTwitterUri(string path)
         {
@@ -854,6 +873,11 @@ namespace OpenTween
         private Uri CreateTwitterStreamUri(string path)
         {
             return new Uri(string.Format("{0}{1}{2}", "http://", _twitterStreamUrl, path));
+        }
+
+        private Uri CreateTwitterUploadUri(string path)
+        {
+            return new Uri(string.Format("{0}{1}{2}", "https://", _twitterUploadUrl, path));
         }
 
         public static string TwitterUrl

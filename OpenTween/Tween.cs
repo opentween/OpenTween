@@ -211,7 +211,6 @@ namespace OpenTween
 
         private bool _DoFavRetweetFlags = false;
         private bool osResumed = false;
-        private Dictionary<string, IMultimediaShareService> pictureService;
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////
         private string _postBrowserStatusText = "";
@@ -296,7 +295,7 @@ namespace OpenTween
             public long? inReplyToId = null;
             public string inReplyToName = null;
             public string imageService = "";      //画像投稿サービス名
-            public string imagePath = "";
+            public string[] imagePath = null;
             public PostingStatus()
             {
             }
@@ -1016,11 +1015,7 @@ namespace OpenTween
             AllrepliesToolStripMenuItem.Checked = tw.AllAtReply;
 
             //画像投稿サービス
-            this.CreatePictureServices();
-            SetImageServiceCombo();
-            ImageSelectionPanel.Enabled = false;
-
-            SelectImageServiceComboItem(_cfgCommon.UseImageServiceName, _cfgCommon.UseImageService);
+            ImageSelector.Initialize(tw, _cfgCommon.UseImageServiceName, _cfgCommon.UseImageService);
 
             //ウィンドウ設定
             this.ClientSize = _cfgLocal.FormSize;
@@ -2113,7 +2108,7 @@ namespace OpenTween
         {
             if (StatusText.Text.Trim().Length == 0)
             {
-                if (!ImageSelectionPanel.Enabled)
+                if (!ImageSelector.Enabled)
                 {
                     DoRefresh();
                     return;
@@ -2293,10 +2288,10 @@ namespace OpenTween
 
             args.status.inReplyToId = _reply_to_id;
             args.status.inReplyToName = _reply_to_name;
-            if (ImageSelectionPanel.Visible)
+            if (ImageSelector.Visible)
             {
                 //画像投稿
-                if (!TryGetSelectedMedia(out args.status.imageService, out args.status.imagePath))
+                if (!ImageSelector.TryGetSelectedMedia(out args.status.imageService, out args.status.imagePath))
                     return;
             }
 
@@ -2516,15 +2511,27 @@ namespace OpenTween
 
                 case MyCommon.WORKERTYPE.PostMessage:
                     bw.ReportProgress(200);
-                    if (string.IsNullOrEmpty(args.status.imagePath))
+                    if (args.status.imagePath == null || args.status.imagePath.Length == 0 || string.IsNullOrEmpty(args.status.imagePath[0]))
                     {
                         ret = tw.PostStatus(args.status.status, args.status.inReplyToId);
                     }
                     else
                     {
-                        ret = this.pictureService[args.status.imageService].Upload(ref args.status.imagePath,
-                                                                                   ref args.status.status,
-                                                                                   args.status.inReplyToId);
+                        var service = ImageSelector.GetService(args.status.imageService);
+                        if (args.status.imagePath.Length > 1 &&
+                            args.status.imageService.Equals("Twitter"))
+                        {
+                            //複数画像投稿
+                            ret = ((TwitterPhoto)service).Upload(ref args.status.imagePath,
+                                                                 ref args.status.status,
+                                                                 args.status.inReplyToId);
+                        }
+                        else
+                        {
+                            ret = service.Upload(ref args.status.imagePath[0],
+                                                 ref args.status.status,
+                                                 args.status.inReplyToId);
+                        }
                     }
                     bw.ReportProgress(300);
                     rslt.status = args.status;
@@ -3061,7 +3068,9 @@ namespace OpenTween
                     //_waitFollower = false
                     if (SettingDialog.TwitterConfiguration.PhotoSizeLimit != 0)
                     {
-                        pictureService["Twitter"].Configuration("MaxUploadFilesize", SettingDialog.TwitterConfiguration.PhotoSizeLimit);
+                        var service = ImageSelector.GetService("Twitter");
+                        if (service != null)
+                            service.Configuration("MaxUploadFilesize", SettingDialog.TwitterConfiguration.PhotoSizeLimit);
                     }
                     this.PurgeListViewItemCache();
                     if (_curList != null) _curList.Refresh();
@@ -3918,7 +3927,8 @@ namespace OpenTween
                                                         SettingDialog.ProxyPort,
                                                         SettingDialog.ProxyUser,
                                                         SettingDialog.ProxyPassword);
-                    this.CreatePictureServices();
+
+                    ImageSelector.Reset(tw);
 
                     try
                     {
@@ -4121,7 +4131,6 @@ namespace OpenTween
 
                     if (uid != tw.Username) this.doGetFollowersMenu();
 
-                    SetImageServiceCombo();
                     if (SettingDialog.IsNotifyUseGrowl) gh.RegisterGrowl();
                     try
                     {
@@ -5040,7 +5049,7 @@ namespace OpenTween
                 //    pLen += m.Result("${url}").Length - SettingDialog.TwitterConfiguration.ShortUrlLength;
                 //}
             }
-            if (ImageSelectionPanel.Visible && ImageSelectedPicture.Tag != null && !string.IsNullOrEmpty(this.ImageService))
+            if (ImageSelector.Visible && !string.IsNullOrEmpty(ImageSelector.ServiceName))
             {
                 pLen -= SettingDialog.TwitterConfiguration.CharactersReservedPerMedia;
             }
@@ -5785,7 +5794,7 @@ namespace OpenTween
             int idx = -1;
             DetailsListView lst = null;
 
-            if (ImageSelectionPanel.Enabled)
+            if (ImageSelector.Enabled)
                 return;
 
             //現在タブから最終タブまで探索
@@ -7881,8 +7890,8 @@ namespace OpenTween
                 _cfgCommon.AllAtReply = tw.AllAtReply;
                 _cfgCommon.OpenUserTimeline = SettingDialog.OpenUserTimeline;
                 _cfgCommon.ListCountApi = SettingDialog.ListCountApi;
-                _cfgCommon.UseImageService = ImageServiceCombo.SelectedIndex;
-                _cfgCommon.UseImageServiceName = this.ImageService;
+                _cfgCommon.UseImageService = ImageSelector.ServiceIndex;
+                _cfgCommon.UseImageServiceName = ImageSelector.ServiceName;
                 _cfgCommon.ListDoubleClickAction = SettingDialog.ListDoubleClickAction;
                 _cfgCommon.UserAppointUrl = SettingDialog.UserAppointUrl;
                 _cfgCommon.HideDuplicatedRetweets = SettingDialog.HideDuplicatedRetweets;
@@ -12310,7 +12319,9 @@ namespace OpenTween
             this._apiGauge.BorderSides = ToolStripStatusLabelBorderSides.Right;
             this.StatusStrip1.Items.Insert(2, this._apiGauge);
 
-            this.ImageSelectedPicture.InitialImage = Properties.Resources.InitialImage;
+            this.ImageSelector.Visible = false;
+            this.ImageSelector.Enabled = false;
+            this.ImageSelector.FilePickDialog = OpenFileDialog1;
 
             this.ReplaceAppName();
         }
@@ -12366,75 +12377,20 @@ namespace OpenTween
         }
 
 #region "画像投稿"
-        private void CreatePictureServices()
-        {
-            if (this.pictureService != null) this.pictureService.Clear();
-            this.pictureService = null;
-            this.pictureService = new Dictionary<string, IMultimediaShareService> {
-                {"TwitPic", new TwitPic(tw)},
-                {"img.ly", new imgly(tw)},
-                {"yfrog", new yfrog(tw)},
-                {"Twitter", new TwitterPhoto(tw)},
-                {"ついっぷるフォト", new TwipplePhoto(tw)},
-                {"Imgur", new Imgur(tw)},
-            };
-        }
-
         private void ImageSelectMenuItem_Click(object sender, EventArgs e)
         {
-            if (ImageSelectionPanel.Visible)
-            {
-                CloseImageSelectionPanel();
-            }
+            if (ImageSelector.Visible)
+                ImageSelector.EndSelection();
             else
-            {
-                OpenImageSelectionPanel();
-                ImageFromSelectedFile(true);
-                ImagefilePathText.Focus();
-            }
-        }
-
-        private void OpenImageSelectionPanel()
-        {
-            ImageSelectionPanel.Visible = true;
-            ImageSelectionPanel.Enabled = true;
-            TimelinePanel.Visible = false;
-            TimelinePanel.Enabled = false;
-        }
-
-        private void CloseImageSelectionPanel()
-        {
-            ImagefilePathText.CausesValidation = false;
-            TimelinePanel.Visible = true;
-            TimelinePanel.Enabled = true;
-            ImageSelectionPanel.Visible = false;
-            ImageSelectionPanel.Enabled = false;
-            ((DetailsListView)ListTab.SelectedTab.Tag).Focus();
-            ClearImageSelectedPicture();
-            ImagefilePathText.CausesValidation = true;
+                ImageSelector.BeginSelection();
         }
 
         private void SelectMedia_DragEnter(DragEventArgs e)
         {
-            string filename = ((string[])e.Data.GetData(DataFormats.FileDrop, false))[0];
-            FileInfo fl = new FileInfo(filename);
-            string ext = fl.Extension;
-
-            if (!string.IsNullOrEmpty(this.ImageService) &&
-                this.pictureService[this.ImageService].CheckValidFilesize(ext, fl.Length))
+            if (ImageSelector.HasUploadableService(((string[])e.Data.GetData(DataFormats.FileDrop, false))[0]))
             {
                 e.Effect = DragDropEffects.Copy;
                 return;
-            }
-            foreach (string svc in ImageServiceCombo.Items)
-            {
-                if (!string.IsNullOrEmpty(svc) &&
-                    this.pictureService[svc].CheckValidFilesize(ext, fl.Length))
-                {
-                    //ImageServiceCombo.SelectedItem = svc;
-                    e.Effect = DragDropEffects.Copy;
-                    return;
-                }
             }
             e.Effect = DragDropEffects.None;
         }
@@ -12448,286 +12404,46 @@ namespace OpenTween
         {
             this.Activate();
             this.BringToFront();
-            OpenImageSelectionPanel();
-            ImagefilePathText.Text = ((string[])e.Data.GetData(DataFormats.FileDrop, false))[0];
-            ImageFromSelectedFile(false);
+            ImageSelector.BeginSelection(((string[])e.Data.GetData(DataFormats.FileDrop, false))[0]);
             StatusText.Focus();
         }
 
-        private void FilePickButton_Click(object sender, EventArgs e)
+        private void ImageSelector_BeginSelecting(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(this.ImageService)) return;
-            OpenFileDialog1.Filter = this.pictureService[this.ImageService].GetFileOpenDialogFilter();
-            OpenFileDialog1.Title = Properties.Resources.PickPictureDialog1;
-            OpenFileDialog1.FileName = "";
-
-            try
-            {
-                this.AllowDrop = false;
-                if (OpenFileDialog1.ShowDialog() == DialogResult.Cancel) return;
-            }
-            finally
-            {
-                this.AllowDrop = true;
-            }
-
-            ImagefilePathText.Text = OpenFileDialog1.FileName;
-            ImageFromSelectedFile(false);
+            TimelinePanel.Visible = false;
+            TimelinePanel.Enabled = false;
         }
 
-        private void ImagefilePathText_Validating(object sender, CancelEventArgs e)
+        private void ImageSelector_EndSelecting(object sender, EventArgs e)
         {
-            if (ImageCancelButton.Focused)
-            {
-                ImagefilePathText.CausesValidation = false;
-                return;
-            }
-
-            ImageFromSelectedFile(false);
+            TimelinePanel.Visible = true;
+            TimelinePanel.Enabled = true;
+            ((DetailsListView)ListTab.SelectedTab.Tag).Focus();
         }
 
-        private void ImageFromSelectedFile(bool suppressMsgBox)
+        private void ImageSelector_FilePickDialogOpening(object sender, EventArgs e)
         {
-            this.ClearImageSelectedPicture();
-
-            try
-            {
-                ImagefilePathText.Text = ImagefilePathText.Text.Trim();
-                if (string.IsNullOrEmpty(ImagefilePathText.Text) || string.IsNullOrEmpty(this.ImageService))
-                {
-                    ImagefilePathText.Text = "";
-                    return;
-                }
-
-                FileInfo fl = new FileInfo(ImagefilePathText.Text);
-                string ext = fl.Extension;
-                var imageService = this.pictureService[this.ImageService];
-
-                if (!imageService.CheckValidExtension(ext))
-                {
-                    //画像以外の形式
-                    ImagefilePathText.Text = "";
-                    if (!suppressMsgBox)
-                    {
-                        MessageBox.Show(
-                            string.Format(Properties.Resources.PostPictureWarn3, this.ImageService, MakeAvailableServiceText(ext, fl.Length), ext),
-                            Properties.Resources.PostPictureWarn4,
-                            MessageBoxButtons.OK,
-                            MessageBoxIcon.Warning);
-                    }
-                    return;
-                }
-
-                if (!imageService.CheckValidFilesize(ext, fl.Length))
-                {
-                    // ファイルサイズが大きすぎる
-                    ImagefilePathText.Text = "";
-                    if (!suppressMsgBox)
-                    {
-                        MessageBox.Show(
-                            string.Format(Properties.Resources.PostPictureWarn5, this.ImageService, MakeAvailableServiceText(ext, fl.Length)),
-                            Properties.Resources.PostPictureWarn4,
-                            MessageBoxButtons.OK,
-                            MessageBoxIcon.Warning);
-                    }
-                    return;
-                }
-
-                switch (imageService.GetFileType(ext))
-                {
-                    case MyCommon.UploadFileType.Picture:
-                        using (var fs = File.OpenRead(ImagefilePathText.Text))
-                        {
-                            ImageSelectedPicture.Image = MemoryImage.CopyFromStream(fs);
-                        }
-                        ImageSelectedPicture.Tag = MyCommon.UploadFileType.Picture;
-                        break;
-                    case MyCommon.UploadFileType.MultiMedia:
-                        ImageSelectedPicture.Tag = MyCommon.UploadFileType.MultiMedia;
-                        break;
-                    default:
-                        ImagefilePathText.Text = "";
-                        break;
-                }
-            }
-            catch (FileNotFoundException)
-            {
-                ImagefilePathText.Text = "";
-                if (!suppressMsgBox) MessageBox.Show("File not found.");
-            }
-            catch (Exception)
-            {
-                ImagefilePathText.Text = "";
-                if (!suppressMsgBox) MessageBox.Show("The type of this file is not image.");
-            }
+            this.AllowDrop = false;
         }
 
-        private string MakeAvailableServiceText(string ext, long fileSize)
+        private void ImageSelector_FilePickDialogClosed(object sender, EventArgs e)
         {
-            StringBuilder sb = new StringBuilder();
-
-            foreach (string svc in ImageServiceCombo.Items)
-            {
-                if (!string.IsNullOrEmpty(svc) &&
-                    this.pictureService[svc].CheckValidFilesize(ext, fileSize))
-                {
-                    if (sb.Length > 0) sb.Append(", ");
-                    sb.Append(svc);
-                }
-            }
-            if (sb.Length == 0)
-                return Properties.Resources.PostPictureWarn6;
-
-            return sb.ToString();
+            this.AllowDrop = true;
         }
 
-        private void ClearImageSelectedPicture()
+        private void ImageSelector_SelectedServiceChanged(object sender, EventArgs e)
         {
-            var oldImage = this.ImageSelectedPicture.Image;
-            if (oldImage != null)
+            if (ImageSelector.Visible)
             {
-                this.ImageSelectedPicture.Image = null;
-                oldImage.Dispose();
-            }
-
-            this.ImageSelectedPicture.Tag = null;
-            this.ImageSelectedPicture.ShowInitialImage();
-        }
-
-        private void ImageCancelButton_Click(object sender, EventArgs e)
-        {
-            CloseImageSelectionPanel();
-        }
-
-        private void ImageSelection_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Escape)
-            {
-                CloseImageSelectionPanel();
-            }
-        }
-
-        private void ImageSelection_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (Convert.ToInt32(e.KeyChar) == 0x1B)
-            {
-                ImagefilePathText.CausesValidation = false;
-                e.Handled = true;
-            }
-        }
-
-        private void ImageSelection_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
-        {
-            if (e.KeyCode == Keys.Escape)
-            {
-                ImagefilePathText.CausesValidation = false;
-            }
-        }
-
-        private bool TryGetSelectedMedia(out string imageService, out string imagePath)
-        {
-            if (ImageSelectedPicture.Tag != null &&
-                ImageServiceCombo.SelectedIndex > -1 &&
-                !string.IsNullOrEmpty(ImagefilePathText.Text))
-            {
-                if (MessageBox.Show(string.Format(Properties.Resources.PostPictureConfirm1, this.ImageService),
-                                   Properties.Resources.PostPictureConfirm2,
-                                   MessageBoxButtons.OKCancel,
-                                   MessageBoxIcon.Question,
-                                   MessageBoxDefaultButton.Button1)
-                               == DialogResult.OK)
-                {
-                    imageService = ImageServiceCombo.Text;
-                    imagePath = ImagefilePathText.Text;
-                    CloseImageSelectionPanel();
-                    ImagefilePathText.Text = "";
-                    return true;
-                }
-            }
-            else
-            {
-                MessageBox.Show(Properties.Resources.PostPictureWarn1, Properties.Resources.PostPictureWarn2);
-            }
-
-            CloseImageSelectionPanel();
-            imageService = null;
-            imagePath = null;
-            return false;
-        }
-
-        private void SetImageServiceCombo()
-        {
-            string svc = "";
-            if (ImageServiceCombo.SelectedIndex > -1) svc = ImageServiceCombo.SelectedItem.ToString();
-            ImageServiceCombo.Items.Clear();
-            
-            // Add service names to combobox
-            foreach (var key in pictureService.Keys)
-            {
-                ImageServiceCombo.Items.Add(key);
-            }
-
-            SelectImageServiceComboItem(svc);
-        }
-
-        private void SelectImageServiceComboItem(string svc, int? index = null)
-        {
-            int idx;
-            if (string.IsNullOrEmpty(svc))
-            {
-                idx = index ?? 0;
-            }
-            else
-            {
-                idx = ImageServiceCombo.Items.IndexOf(svc);
-                if (idx == -1) idx = index ?? 0;
-            }
-
-            try
-            {
-                ImageServiceCombo.SelectedIndex = idx;
-            }
-            catch (ArgumentOutOfRangeException)
-            {
-                ImageServiceCombo.SelectedIndex = 0;
-            }
-        }
-
-        private string ImageService
-        {
-            get { return ImageServiceCombo.SelectedItem.ToString(); }
-        }
-
-        private void ImageServiceCombo_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (ImageSelectedPicture.Tag != null && !string.IsNullOrEmpty(this.ImageService))
-            {
-                try
-                {
-                    FileInfo fi = new FileInfo(ImagefilePathText.Text.Trim());
-                    string ext = fi.Extension;
-                    var imageService = this.pictureService[this.ImageService];
-                    if (!imageService.CheckValidFilesize(ext, fi.Length))
-                    {
-                        ClearImageSelectedPicture();
-                        ImagefilePathText.Text = "";
-                    }
-                }
-                catch (Exception)
-                {
-                    ClearImageSelectedPicture();
-                    ImagefilePathText.Text = "";
-                }
                 _modifySettingCommon = true;
                 SaveConfigsAll(true);
-                if (this.ImageService == "Twitter")
-                {
+
+                if (ImageSelector.ServiceName.Equals("Twitter"))
                     this.StatusText_TextChanged(null, null);
-                }
             }
         }
 
-        private void ImageSelectionPanel_VisibleChanged(object sender, EventArgs e)
+        private void ImageSelector_VisibleChanged(object sender, EventArgs e)
         {
             this.StatusText_TextChanged(null, null);
         }

@@ -32,6 +32,7 @@ using UploadFileType = OpenTween.MyCommon.UploadFileType;
 using MyCommon = OpenTween.MyCommon;
 using FileInfo = System.IO.FileInfo;
 using NotSupportedException = System.NotSupportedException;
+using System.Collections.Generic;
 
 namespace OpenTween
 {
@@ -130,7 +131,43 @@ namespace OpenTween
 			return tw.PostStatusWithMedia( message, reply_to, mediaFile );
 		}
 
-		public TwitterPhoto( Twitter twitter )
+        public string Upload(ref string[] filePaths, ref string message, long? reply_to)
+        {
+            if (filePaths == null || filePaths.Length == 0 || string.IsNullOrEmpty(filePaths[0]))
+                return "Err:File isn't specified.";
+
+            if (string.IsNullOrEmpty(message))
+                message = "";
+
+            var mediaFiles = new List<FileInfo>();
+
+            foreach (var filePath in filePaths)
+            {
+                if (string.IsNullOrEmpty(filePath)) continue;
+
+                FileInfo mediaFile;
+                try
+                {
+                    mediaFile = new FileInfo(filePath);
+                }
+                catch (NotSupportedException ex)
+                {
+                    return "Err:" + ex.Message;
+                }
+
+                if (!mediaFile.Exists)
+                    return "Err:File isn't exists.";
+
+                if (MyCommon.IsAnimatedGif(filePath))
+                    return "Err:Don't support animatedGIF.";
+
+                mediaFiles.Add(mediaFile);
+            }
+
+            return tw.PostStatusWithMultipleMedia(message, reply_to, mediaFiles);
+        }
+        
+        public TwitterPhoto(Twitter twitter)
 		{
 			this.tw = twitter;
 		}

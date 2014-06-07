@@ -65,15 +65,7 @@
             this.ToolStripSeparator11 = new System.Windows.Forms.ToolStripSeparator();
             this.DeleteTabMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.TabImage = new System.Windows.Forms.ImageList(this.components);
-            this.ImageSelectionPanel = new System.Windows.Forms.Panel();
-            this.ImageSelectedPicture = new OpenTween.OTPictureBox();
-            this.ImagePathPanel = new System.Windows.Forms.Panel();
-            this.ImagefilePathText = new System.Windows.Forms.TextBox();
-            this.FilePickButton = new System.Windows.Forms.Button();
-            this.Label2 = new System.Windows.Forms.Label();
-            this.ImageServiceCombo = new System.Windows.Forms.ComboBox();
-            this.ImageCancelButton = new System.Windows.Forms.Button();
-            this.Label1 = new System.Windows.Forms.Label();
+            this.ImageSelector = new MediaSelector();
             this.ProfilePanel = new System.Windows.Forms.Panel();
             this.SplitContainer3 = new System.Windows.Forms.SplitContainer();
             this.SplitContainer2 = new System.Windows.Forms.SplitContainer();
@@ -335,9 +327,7 @@
             this.SplitContainer1.SuspendLayout();
             this.TimelinePanel.SuspendLayout();
             this.ContextMenuTabProperty.SuspendLayout();
-            this.ImageSelectionPanel.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.ImageSelectedPicture)).BeginInit();
-            this.ImagePathPanel.SuspendLayout();
+            this.ImageSelector.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.SplitContainer3)).BeginInit();
             this.SplitContainer3.Panel1.SuspendLayout();
             this.SplitContainer3.Panel2.SuspendLayout();
@@ -537,7 +527,7 @@
             // 
             resources.ApplyResources(this.SplitContainer1.Panel1, "SplitContainer1.Panel1");
             this.SplitContainer1.Panel1.Controls.Add(this.TimelinePanel);
-            this.SplitContainer1.Panel1.Controls.Add(this.ImageSelectionPanel);
+            this.SplitContainer1.Panel1.Controls.Add(this.ImageSelector);
             this.SplitContainer1.Panel1.Controls.Add(this.ProfilePanel);
             this.ToolTip1.SetToolTip(this.SplitContainer1.Panel1, resources.GetString("SplitContainer1.Panel1.ToolTip"));
             // 
@@ -687,88 +677,16 @@
             resources.ApplyResources(this.TabImage, "TabImage");
             this.TabImage.TransparentColor = System.Drawing.Color.Transparent;
             // 
-            // ImageSelectionPanel
+            // ImageSelector
             // 
-            resources.ApplyResources(this.ImageSelectionPanel, "ImageSelectionPanel");
-            this.ImageSelectionPanel.Controls.Add(this.ImageSelectedPicture);
-            this.ImageSelectionPanel.Controls.Add(this.ImagePathPanel);
-            this.ImageSelectionPanel.Name = "ImageSelectionPanel";
-            this.ToolTip1.SetToolTip(this.ImageSelectionPanel, resources.GetString("ImageSelectionPanel.ToolTip"));
-            this.ImageSelectionPanel.VisibleChanged += new System.EventHandler(this.ImageSelectionPanel_VisibleChanged);
-            // 
-            // ImageSelectedPicture
-            // 
-            resources.ApplyResources(this.ImageSelectedPicture, "ImageSelectedPicture");
-            this.ImageSelectedPicture.Name = "ImageSelectedPicture";
-            this.ImageSelectedPicture.TabStop = false;
-            this.ToolTip1.SetToolTip(this.ImageSelectedPicture, resources.GetString("ImageSelectedPicture.ToolTip"));
-            // 
-            // ImagePathPanel
-            // 
-            resources.ApplyResources(this.ImagePathPanel, "ImagePathPanel");
-            this.ImagePathPanel.Controls.Add(this.ImagefilePathText);
-            this.ImagePathPanel.Controls.Add(this.FilePickButton);
-            this.ImagePathPanel.Controls.Add(this.Label2);
-            this.ImagePathPanel.Controls.Add(this.ImageServiceCombo);
-            this.ImagePathPanel.Controls.Add(this.ImageCancelButton);
-            this.ImagePathPanel.Controls.Add(this.Label1);
-            this.ImagePathPanel.Name = "ImagePathPanel";
-            this.ToolTip1.SetToolTip(this.ImagePathPanel, resources.GetString("ImagePathPanel.ToolTip"));
-            // 
-            // ImagefilePathText
-            // 
-            resources.ApplyResources(this.ImagefilePathText, "ImagefilePathText");
-            this.ImagefilePathText.Name = "ImagefilePathText";
-            this.ToolTip1.SetToolTip(this.ImagefilePathText, resources.GetString("ImagefilePathText.ToolTip"));
-            this.ImagefilePathText.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ImageSelection_KeyDown);
-            this.ImagefilePathText.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.ImageSelection_KeyPress);
-            this.ImagefilePathText.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.ImageSelection_PreviewKeyDown);
-            this.ImagefilePathText.Validating += new System.ComponentModel.CancelEventHandler(this.ImagefilePathText_Validating);
-            // 
-            // FilePickButton
-            // 
-            resources.ApplyResources(this.FilePickButton, "FilePickButton");
-            this.FilePickButton.Name = "FilePickButton";
-            this.ToolTip1.SetToolTip(this.FilePickButton, resources.GetString("FilePickButton.ToolTip"));
-            this.FilePickButton.UseVisualStyleBackColor = true;
-            this.FilePickButton.Click += new System.EventHandler(this.FilePickButton_Click);
-            this.FilePickButton.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ImageSelection_KeyDown);
-            this.FilePickButton.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.ImageSelection_KeyPress);
-            this.FilePickButton.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.ImageSelection_PreviewKeyDown);
-            // 
-            // Label2
-            // 
-            resources.ApplyResources(this.Label2, "Label2");
-            this.Label2.Name = "Label2";
-            this.ToolTip1.SetToolTip(this.Label2, resources.GetString("Label2.ToolTip"));
-            // 
-            // ImageServiceCombo
-            // 
-            resources.ApplyResources(this.ImageServiceCombo, "ImageServiceCombo");
-            this.ImageServiceCombo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.ImageServiceCombo.FormattingEnabled = true;
-            this.ImageServiceCombo.Items.AddRange(new object[] {
-            resources.GetString("ImageServiceCombo.Items")});
-            this.ImageServiceCombo.Name = "ImageServiceCombo";
-            this.ToolTip1.SetToolTip(this.ImageServiceCombo, resources.GetString("ImageServiceCombo.ToolTip"));
-            this.ImageServiceCombo.SelectedIndexChanged += new System.EventHandler(this.ImageServiceCombo_SelectedIndexChanged);
-            this.ImageServiceCombo.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ImageSelection_KeyDown);
-            this.ImageServiceCombo.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.ImageSelection_KeyPress);
-            this.ImageServiceCombo.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.ImageSelection_PreviewKeyDown);
-            // 
-            // ImageCancelButton
-            // 
-            resources.ApplyResources(this.ImageCancelButton, "ImageCancelButton");
-            this.ImageCancelButton.Name = "ImageCancelButton";
-            this.ToolTip1.SetToolTip(this.ImageCancelButton, resources.GetString("ImageCancelButton.ToolTip"));
-            this.ImageCancelButton.UseVisualStyleBackColor = true;
-            this.ImageCancelButton.Click += new System.EventHandler(this.ImageCancelButton_Click);
-            // 
-            // Label1
-            // 
-            resources.ApplyResources(this.Label1, "Label1");
-            this.Label1.Name = "Label1";
-            this.ToolTip1.SetToolTip(this.Label1, resources.GetString("Label1.ToolTip"));
+            resources.ApplyResources(this.ImageSelector, "ImageSelector");
+            this.ImageSelector.Name = "ImageSelector";
+            this.ImageSelector.BeginSelecting += new System.EventHandler(this.ImageSelector_BeginSelecting);
+            this.ImageSelector.EndSelecting += new System.EventHandler(this.ImageSelector_EndSelecting);
+            this.ImageSelector.FilePickDialogClosed += new System.EventHandler(ImageSelector_FilePickDialogClosed);
+            this.ImageSelector.FilePickDialogOpening += new System.EventHandler(ImageSelector_FilePickDialogOpening);
+            this.ImageSelector.SelectedServiceChanged += new System.EventHandler(this.ImageSelector_SelectedServiceChanged);
+            this.ImageSelector.VisibleChanged += new System.EventHandler(this.ImageSelector_VisibleChanged);
             // 
             // ProfilePanel
             // 
@@ -2612,10 +2530,7 @@
             this.SplitContainer1.ResumeLayout(false);
             this.TimelinePanel.ResumeLayout(false);
             this.ContextMenuTabProperty.ResumeLayout(false);
-            this.ImageSelectionPanel.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.ImageSelectedPicture)).EndInit();
-            this.ImagePathPanel.ResumeLayout(false);
-            this.ImagePathPanel.PerformLayout();
+            this.ImageSelector.ResumeLayout(false);
             this.SplitContainer3.Panel1.ResumeLayout(false);
             this.SplitContainer3.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.SplitContainer3)).EndInit();
@@ -2677,15 +2592,7 @@
         internal System.Windows.Forms.ToolStripSeparator ToolStripSeparator11;
         internal System.Windows.Forms.ToolStripMenuItem DeleteTabMenuItem;
         internal System.Windows.Forms.ImageList TabImage;
-        internal System.Windows.Forms.Panel ImageSelectionPanel;
-        internal OTPictureBox ImageSelectedPicture;
-        internal System.Windows.Forms.Panel ImagePathPanel;
-        internal System.Windows.Forms.TextBox ImagefilePathText;
-        internal System.Windows.Forms.Button FilePickButton;
-        internal System.Windows.Forms.Label Label2;
-        internal System.Windows.Forms.ComboBox ImageServiceCombo;
-        internal System.Windows.Forms.Button ImageCancelButton;
-        internal System.Windows.Forms.Label Label1;
+        internal MediaSelector ImageSelector;
         internal System.Windows.Forms.Panel ProfilePanel;
         internal System.Windows.Forms.SplitContainer SplitContainer3;
         internal System.Windows.Forms.SplitContainer SplitContainer2;

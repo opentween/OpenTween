@@ -76,6 +76,7 @@
     <Compile Include="Api\TwitterSearchResult.cs" />
     <Compile Include="Api\TwitterStatus.cs" />
     <Compile Include="Api\TwitterStreamEvent.cs" />
+    <Compile Include="Api\TwitterUploadMediaResult.cs" />
     <Compile Include="Api\TwitterUser.cs" />
     <Compile Include="Api\TwitterApiAccessLevel.cs" />
     <Compile Include="Api\TwitterApiStatus.cs" />
@@ -131,6 +132,12 @@
     </Compile>
     <Compile Include="InputDialog.Designer.cs">
       <DependentUpon>InputDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MediaSelector.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="MediaSelector.Designer.cs">
+      <DependentUpon>MediaSelector.cs</DependentUpon>
     </Compile>
     <Compile Include="OTBaseForm.cs">
       <SubType>Form</SubType>
@@ -462,6 +469,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ListManage.zh-CHS.resx">
       <DependentUpon>ListManage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MediaSelector.en.resx">
+      <DependentUpon>MediaSelector.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MediaSelector.resx">
+      <DependentUpon>MediaSelector.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MediaSelector.zh-CHS.resx">
+      <DependentUpon>MediaSelector.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Setting\Panel\ActionPanel.en.resx">
       <DependentUpon>ActionPanel.cs</DependentUpon>
