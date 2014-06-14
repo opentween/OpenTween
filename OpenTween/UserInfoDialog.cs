@@ -178,7 +178,7 @@ namespace OpenTween
         {
             if (uri != null)
             {
-                var expandedUrl = await ShortUrl.Instance.ExpandUrlStrAsync(uri);
+                var expandedUrl = await ShortUrl.Instance.ExpandUrlAsync(uri);
 
                 this.LinkLabelWeb.Text = uri;
                 this.LinkLabelWeb.Tag = expandedUrl;

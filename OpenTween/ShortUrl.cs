@@ -230,20 +230,26 @@ namespace OpenTween
         /// <summary>
         /// 短縮 URL を非同期に展開します
         /// </summary>
+        /// <remarks>
+        /// 不正なURLが渡された場合は例外を投げず uriStr をそのまま返します
+        /// </remarks>
         /// <param name="uriStr">展開するURL</param>
         /// <returns>URLの展開を行うタスク</returns>
-        public Task<string> ExpandUrlStrAsync(string uriStr)
+        public Task<string> ExpandUrlAsync(string uriStr)
         {
-            return this.ExpandUrlStrAsync(uriStr, 10);
+            return this.ExpandUrlAsync(uriStr, 10);
         }
 
         /// <summary>
         /// 短縮 URL を非同期に展開します
         /// </summary>
+        /// <remarks>
+        /// 不正なURLが渡された場合は例外を投げず uriStr をそのまま返します
+        /// </remarks>
         /// <param name="uriStr">展開するURL</param>
         /// <param name="redirectLimit">再帰的に展開を試みる上限</param>
         /// <returns>URLの展開を行うタスク</returns>
-        public async Task<string> ExpandUrlStrAsync(string uriStr, int redirectLimit)
+        public async Task<string> ExpandUrlAsync(string uriStr, int redirectLimit)
         {
             Uri uri;
 
@@ -293,7 +299,7 @@ namespace OpenTween
                 return Task.FromResult(html);
 
             return HtmlLinkPattern.ReplaceAsync(html, async m =>
-                m.Groups[1].Value + await this.ExpandUrlStrAsync(m.Groups[2].Value, redirectLimit).ConfigureAwait(false) + m.Groups[3].Value);
+                m.Groups[1].Value + await this.ExpandUrlAsync(m.Groups[2].Value, redirectLimit).ConfigureAwait(false) + m.Groups[3].Value);
         }
 
         /// <summary>
