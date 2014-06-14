@@ -1015,7 +1015,7 @@ namespace OpenTween
             AllrepliesToolStripMenuItem.Checked = tw.AllAtReply;
 
             //画像投稿サービス
-            ImageSelector.Initialize(tw, _cfgCommon.UseImageServiceName, _cfgCommon.UseImageService);
+            ImageSelector.Initialize(tw, SettingDialog.TwitterConfiguration, _cfgCommon.UseImageServiceName, _cfgCommon.UseImageService);
 
             //ウィンドウ設定
             this.ClientSize = _cfgLocal.FormSize;
@@ -2518,19 +2518,14 @@ namespace OpenTween
                     else
                     {
                         var service = ImageSelector.GetService(args.status.imageService);
-                        if (args.status.imagePath.Length > 1 &&
-                            args.status.imageService.Equals("Twitter"))
+                        try
                         {
-                            //複数画像投稿
-                            ret = ((TwitterPhoto)service).Upload(ref args.status.imagePath,
-                                                                 ref args.status.status,
-                                                                 args.status.inReplyToId);
+                            service.PostStatusAsync(args.status.status, args.status.inReplyToId, args.status.imagePath)
+                                .Wait();
                         }
-                        else
+                        catch (AggregateException ex)
                         {
-                            ret = service.Upload(ref args.status.imagePath[0],
-                                                 ref args.status.status,
-                                                 args.status.inReplyToId);
+                            ret = ex.InnerException.Message;
                         }
                     }
                     bw.ReportProgress(300);
@@ -3068,9 +3063,10 @@ namespace OpenTween
                     //_waitFollower = false
                     if (SettingDialog.TwitterConfiguration.PhotoSizeLimit != 0)
                     {
-                        var service = ImageSelector.GetService("Twitter");
-                        if (service != null)
-                            service.Configuration("MaxUploadFilesize", SettingDialog.TwitterConfiguration.PhotoSizeLimit);
+                        foreach (var service in this.ImageSelector.GetServices())
+                        {
+                            service.UpdateTwitterConfiguration(this.SettingDialog.TwitterConfiguration);
+                        }
                     }
                     this.PurgeListViewItemCache();
                     if (_curList != null) _curList.Refresh();
@@ -3928,7 +3924,7 @@ namespace OpenTween
                                                         SettingDialog.ProxyUser,
                                                         SettingDialog.ProxyPassword);
 
-                    ImageSelector.Reset(tw);
+                    ImageSelector.Reset(tw, SettingDialog.TwitterConfiguration);
 
                     try
                     {

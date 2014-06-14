@@ -5,139 +5,81 @@
 //           (c) 2010-2011 anis774 (@anis774) <http://d.hatena.ne.jp/anis774/>
 //           (c) 2010-2011 fantasticswallow (@f_swallow) <http://twitter.com/f_swallow>
 //           (c) 2011      spinor (@tplantd) <http://d.hatena.ne.jp/spinor/>
+//           (c) 2014      kim_upsilon (@kim_upsilon) <https://upsilo.net/~upsilon/>
 // All rights reserved.
-// 
+//
 // This file is part of OpenTween.
-// 
+//
 // This program is free software; you can redistribute it and/or modify it
 // under the terms of the GNU General Public License as published by the Free
 // Software Foundation; either version 3 of the License, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful, but
 // WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
 // or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
-// for more details. 
-// 
+// for more details.
+//
 // You should have received a copy of the GNU General Public License along
 // with this program. If not, see <http://www.gnu.org/licenses/>, or write to
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
-using IMultimediaShareService = OpenTween.IMultimediaShareService;
-using Array = System.Array;
-using Convert = System.Convert;
-using Exception = System.Exception;
-using UploadFileType = OpenTween.MyCommon.UploadFileType;
-using MyCommon = OpenTween.MyCommon;
-using FileInfo = System.IO.FileInfo;
-using NotSupportedException = System.NotSupportedException;
+using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
+using OpenTween.Api;
 
-namespace OpenTween
+namespace OpenTween.Connection
 {
-	public class TwitterPhoto : IMultimediaShareService
-	{
-		private string[] pictureExt = new string[] { ".jpg", ".jpeg", ".gif", ".png" };
+    public class TwitterPhoto : IMediaUploadService
+    {
+        private readonly string[] pictureExt = new[] { ".jpg", ".jpeg", ".gif", ".png" };
 
-		private const long MaxfilesizeDefault = 3145728;
+        private readonly Twitter tw;
+        private TwitterConfiguration twitterConfig;
 
-		// help/configurationにより取得されコンストラクタへ渡される
-		private long _MaxFileSize = 3145728;
+        public TwitterPhoto(Twitter twitter, TwitterConfiguration twitterConfig)
+        {
+            this.tw = twitter;
+            this.twitterConfig = twitterConfig;
+        }
 
-		private Twitter tw;
+        public int MaxMediaCount
+        {
+            get { return 4; }
+        }
 
-		public bool CheckValidExtension( string ext )
-		{
-			if ( Array.IndexOf( this.pictureExt, ext.ToLower() ) > -1 )
-				return true;
+        public string SupportedFormatsStrForDialog
+        {
+            get
+            {
+                return "Image Files(*.gif;*.jpg;*.jpeg;*.png)|*.gif;*.jpg;*.jpeg;*.png";
+            }
+        }
 
-			return false;
-		}
+        public bool CheckFileExtension(string fileExtension)
+        {
+            return this.pictureExt.Contains(fileExtension.ToLower());
+        }
 
-		public bool CheckValidFilesize( string ext, long fileSize )
-		{
-			if ( this.CheckValidExtension( ext ) )
-				return fileSize <= this._MaxFileSize;
+        public bool CheckFileSize(string fileExtension, long fileSize)
+        {
+            var maxFileSize = this.GetMaxFileSize(fileExtension);
+            return maxFileSize == null || fileSize <= maxFileSize.Value;
+        }
 
-			return false;
-		}
+        public long? GetMaxFileSize(string fileExtension)
+        {
+            return this.twitterConfig.PhotoSizeLimit;
+        }
 
-		public bool Configuration( string key, object value )
-		{
-			if ( key == "MaxUploadFilesize" )
-			{
-				long val;
-				try
-				{
-					val = Convert.ToInt64( value );
-					if ( val > 0 )
-						this._MaxFileSize = val;
-					else
-					this._MaxFileSize = TwitterPhoto.MaxfilesizeDefault;
-				}
-				catch ( Exception )
-				{
-					this._MaxFileSize = TwitterPhoto.MaxfilesizeDefault;
-					return false; // error
-				}
-				return true; // 正常に設定終了
-			}
-			return true; // 設定項目がない場合はとりあえずエラー扱いにしない
-		}
-
-		public string GetFileOpenDialogFilter()
-		{
-			return "Image Files(*.gif;*.jpg;*.jpeg;*.png)|*.gif;*.jpg;*.jpeg;*.png";
-		}
-
-		public UploadFileType GetFileType( string ext )
-		{
-			if ( this.CheckValidExtension( ext ) )
-				return UploadFileType.Picture;
-
-			return UploadFileType.Invalid;
-		}
-
-		public bool IsSupportedFileType( UploadFileType type )
-		{
-			return type.Equals( UploadFileType.Picture );
-		}
-
-		public string Upload( ref string filePath, ref string message, long? reply_to )
-		{
-			if ( string.IsNullOrEmpty( filePath ) )
-				return "Err:File isn't specified.";
-
-			if ( string.IsNullOrEmpty( message ) )
-				message =  "";
-
-			FileInfo mediaFile;
-			try
-			{
-				mediaFile = new FileInfo( filePath );
-			}
-			catch ( NotSupportedException ex )
-			{
-				return "Err:" + ex.Message;
-			}
-
-			if ( !mediaFile.Exists )
-				return "Err:File isn't exists.";
-
-			if ( MyCommon.IsAnimatedGif( filePath ) )
-				return "Err:Don't support animatedGIF.";
-
-			return tw.PostStatusWithMedia( message, reply_to, mediaFile );
-		}
-
-        public string Upload(ref string[] filePaths, ref string message, long? reply_to)
+        public async Task PostStatusAsync(string text, long? inReplyToStatusId, string[] filePaths)
         {
             if (filePaths == null || filePaths.Length == 0 || string.IsNullOrEmpty(filePaths[0]))
-                return "Err:File isn't specified.";
-
-            if (string.IsNullOrEmpty(message))
-                message = "";
+                throw new ArgumentException("Err:File isn't specified.", "filePaths");
 
             var mediaFiles = new List<FileInfo>();
 
@@ -145,31 +87,30 @@ namespace OpenTween
             {
                 if (string.IsNullOrEmpty(filePath)) continue;
 
-                FileInfo mediaFile;
-                try
-                {
-                    mediaFile = new FileInfo(filePath);
-                }
-                catch (NotSupportedException ex)
-                {
-                    return "Err:" + ex.Message;
-                }
+                var mediaFile = new FileInfo(filePath);
 
                 if (!mediaFile.Exists)
-                    return "Err:File isn't exists.";
+                    throw new ArgumentException("Err:File isn't exists.", "filePaths");
 
                 if (MyCommon.IsAnimatedGif(filePath))
-                    return "Err:Don't support animatedGIF.";
+                    throw new ArgumentException("Err:Don't support animatedGIF.", "filePaths");
 
                 mediaFiles.Add(mediaFile);
             }
 
-            return tw.PostStatusWithMultipleMedia(message, reply_to, mediaFiles);
+            await Task.Run(() => this.tw.PostStatusWithMultipleMedia(text, inReplyToStatusId, mediaFiles))
+                .ConfigureAwait(false);
         }
-        
-        public TwitterPhoto(Twitter twitter)
-		{
-			this.tw = twitter;
-		}
-	}
+
+        public int GetReservedTextLength(int mediaCount)
+        {
+            // 枚数に関わらず文字数は一定
+            return this.twitterConfig.ShortUrlLength;
+        }
+
+        public void UpdateTwitterConfiguration(TwitterConfiguration config)
+        {
+            this.twitterConfig = config;
+        }
+    }
 }

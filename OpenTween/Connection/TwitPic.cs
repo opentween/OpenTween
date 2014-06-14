@@ -5,195 +5,173 @@
 //           (c) 2010-2011 anis774 (@anis774) <http://d.hatena.ne.jp/anis774/>
 //           (c) 2010-2011 fantasticswallow (@f_swallow) <http://twitter.com/f_swallow>
 //           (c) 2011      spinor (@tplantd) <http://d.hatena.ne.jp/spinor/>
+//           (c) 2014      kim_upsilon (@kim_upsilon) <https://upsilo.net/~upsilon/>
 // All rights reserved.
-// 
+//
 // This file is part of OpenTween.
-// 
+//
 // This program is free software; you can redistribute it and/or modify it
 // under the terms of the GNU General Public License as published by the Free
 // Software Foundation; either version 3 of the License, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful, but
 // WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
 // or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
-// for more details. 
-// 
+// for more details.
+//
 // You should have received a copy of the GNU General Public License along
 // with this program. If not, see <http://www.gnu.org/licenses/>, or write to
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
-using HttpConnectionOAuthEcho = OpenTween.HttpConnectionOAuthEcho;
-using IMultimediaShareService = OpenTween.IMultimediaShareService;
-using FileInfo = System.IO.FileInfo;
-using NotSupportedException = System.NotSupportedException;
-using HttpStatusCode = System.Net.HttpStatusCode;
-using Exception = System.Exception;
-using XmlDocument = System.Xml.XmlDocument;
-using XmlException = System.Xml.XmlException;
-using ArgumentException = System.ArgumentException;
-using System.Collections.Generic; // for Dictionary<TKey, TValue>, List<T>, KeyValuePair<TKey, TValue>
-using UploadFileType = OpenTween.MyCommon.UploadFileType;
-using Uri = System.Uri;
-using Array = System.Array;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Net;
+using System.Threading.Tasks;
+using System.Xml;
+using System.Xml.Linq;
+using System.Xml.XPath;
+using OpenTween.Api;
 
-namespace OpenTween
+namespace OpenTween.Connection
 {
-	public class TwitPic : HttpConnectionOAuthEcho, IMultimediaShareService
-	{
-		private string[] pictureExt = new string[] { ".jpg", ".jpeg", ".gif", ".png" };
+    public class TwitPic : IMediaUploadService
+    {
+        private readonly string[] pictureExt = new[] { ".jpg", ".jpeg", ".gif", ".png" };
 
-		private string[] multimediaExt = new string[] { ".avi", ".wmv", ".flv", ".m4v", ".mov", ".mp4", ".rm", ".mpeg", ".mpg", ".3gp", ".3g2" };
+        private readonly string[] multimediaExt = new[] { ".avi", ".wmv", ".flv", ".m4v", ".mov", ".mp4", ".rm", ".mpeg", ".mpg", ".3gp", ".3g2" };
 
-		private const long MaxFileSize = 10 * 1024 * 1024; // Image only
-		// Multimedia filesize limit unknown. But length limit is 1:30.
+        private readonly long MaxFileSize = 10L * 1024 * 1024; // Image only
+        // Multimedia filesize limit unknown. But length limit is 1:30.
 
-		private Twitter tw;
+        private readonly Twitter tw;
+        private readonly TwitpicApi twitpicApi;
 
-		public string Upload( ref string filePath, ref string message, long? reply_to )
-		{
-			if ( string.IsNullOrEmpty( filePath ) )
-				return "Err:File isn't specified.";
-			if ( string.IsNullOrEmpty( message ) )
-				message = "";
+        private TwitterConfiguration twitterConfig;
 
-			FileInfo mediaFile;
-			try
-			{
-				mediaFile = new FileInfo( filePath );
-			}
-			catch ( NotSupportedException ex )
-			{
-				return "Err:" + ex.Message;
-			}
-			if ( mediaFile == null || !mediaFile.Exists )
-				return "Err:File isn't exists.";
+        public TwitPic(Twitter twitter, TwitterConfiguration twitterConfig)
+        {
+            this.tw = twitter;
+            this.twitterConfig = twitterConfig;
 
-			string content = "";
-			HttpStatusCode ret;
-			// TwitPicへの投稿
-			try
-			{
-				ret = this.UploadFile( mediaFile, message, ref content );
-			}
-			catch ( Exception ex )
-			{
-				return "Err:" + ex.Message;
-			}
-			string url = "";
-			if ( ret == HttpStatusCode.OK )
-			{
-				XmlDocument xd = new XmlDocument();
-				try
-				{
-					xd.LoadXml( content );
-					// URLの取得
-					url = xd.SelectSingleNode( "/image/url" ).InnerText;
-				}
-				catch ( XmlException ex )
-				{
-					return "Err:" + ex.Message;
-				}
-				catch ( Exception ex )
-				{
-					return "Err:" + ex.Message;
-				}
-			}
-			else
-				return "Err:" + ret.ToString();
+            this.twitpicApi = new TwitpicApi(twitter.AccessToken, twitter.AccessTokenSecret);
+        }
 
-			// アップロードまでは成功
-			filePath = "";
-			if ( string.IsNullOrEmpty( message ) )
-				message = "";
-			if ( string.IsNullOrEmpty( url ) )
-				url = "";
-			// Twitterへの投稿
-			// 投稿メッセージの再構成
-			if ( message.Length + AppendSettingDialog.Instance.TwitterConfiguration.CharactersReservedPerMedia + 1 > 140 )
-				message = message.Substring( 0, 140 - AppendSettingDialog.Instance.TwitterConfiguration.CharactersReservedPerMedia - 1 ) + " " + url;
-			else
-				message += " " + url;
+        public int MaxMediaCount
+        {
+            get { return 1; }
+        }
 
-			return tw.PostStatus( message, reply_to );
-		}
+        public string SupportedFormatsStrForDialog
+        {
+            get
+            {
+                return "Image Files(*" + string.Join(";*", this.pictureExt) + ")|*" + string.Join(";*", this.pictureExt)
+                    + "|Videos(*" + string.Join(";*", this.multimediaExt) + ")|*" + string.Join(";*", this.multimediaExt);
+            }
+        }
 
-		private HttpStatusCode UploadFile( FileInfo mediaFile, string message, ref string content )
-		{
-			// Message必須
-			if ( string.IsNullOrEmpty( message ) )
-				message = "";
-			// Check filetype and size(Max 5MB)
-			if ( !this.CheckValidExtension( mediaFile.Extension ) )
-				throw new ArgumentException( "Service don't support this filetype." );
-			if ( !this.CheckValidFilesize( mediaFile.Extension, mediaFile.Length ) )
-				throw new ArgumentException( "File is too large." );
+        public bool CheckFileExtension(string fileExtension)
+        {
+            fileExtension = fileExtension.ToLower();
 
-			Dictionary< string, string > param = new Dictionary< string, string >();
-			param.Add( "key", ApplicationSettings.TwitpicApiKey );
-			param.Add( "message", message );
-			List< KeyValuePair< string, FileInfo > > binary = new List< KeyValuePair< string, FileInfo > >();
-			binary.Add( new KeyValuePair< string, FileInfo >( "media", mediaFile ) );
-			if ( this.GetFileType( mediaFile.Extension ) == UploadFileType.Picture )
-				this.InstanceTimeout = 60000; // タイムアウト60秒
-			else
-				this.InstanceTimeout = 120000;
+            return this.pictureExt.Contains(fileExtension) ||
+                this.multimediaExt.Contains(fileExtension);
+        }
 
-			return this.GetContent( HttpConnection.PostMethod, new Uri( "http://api.twitpic.com/2/upload.xml" ), param, binary, ref content, null, null );
-		}
+        public bool CheckFileSize(string fileExtension, long fileSize)
+        {
+            var maxFileSize = this.GetMaxFileSize(fileExtension);
+            return maxFileSize == null || fileSize <= maxFileSize.Value;
+        }
 
-		public bool CheckValidExtension( string ext )
-		{
-			if ( Array.IndexOf( this.pictureExt, ext.ToLower() ) > -1 )
-				return true;
-			if ( Array.IndexOf( this.multimediaExt, ext.ToLower() ) > -1 )
-				return true;
+        public long? GetMaxFileSize(string fileExtension)
+        {
+            if (this.multimediaExt.Contains(fileExtension))
+                return null; // Multimedia : no check
 
-			return false;
-		}
+            return MaxFileSize;
+        }
 
-		public string GetFileOpenDialogFilter()
-		{
-			return "Image Files(*" + string.Join( ";*", this.pictureExt ) + ")|*" + string.Join( ";*", this.pictureExt )
-			       + "|Videos(*" + string.Join( ";*", this.multimediaExt ) + ")|*" + string.Join( ";*", this.multimediaExt );
-		}
+        public async Task PostStatusAsync(string text, long? inReplyToStatusId, string[] filePaths)
+        {
+            if (filePaths.Length != 1)
+                throw new ArgumentOutOfRangeException("filePaths");
 
-		public UploadFileType GetFileType( string ext )
-		{
-			if ( Array.IndexOf( this.pictureExt, ext.ToLower() ) > -1 )
-				return UploadFileType.Picture;
-			if ( Array.IndexOf( this.multimediaExt, ext.ToLower() ) > -1 )
-				return UploadFileType.MultiMedia;
+            var file = new FileInfo(filePaths[0]);
 
-			return UploadFileType.Invalid;
-		}
+            if (!file.Exists)
+                throw new ArgumentException("Err:File isn't exists.", "filePaths[0]");
 
-		public bool IsSupportedFileType( UploadFileType type )
-		{
-			return !type.Equals( UploadFileType.Invalid );
-		}
+            var xml = await this.twitpicApi.UploadFileAsync(file, text)
+                .ConfigureAwait(false);
 
-		public bool CheckValidFilesize( string ext, long fileSize )
-		{
-			if ( Array.IndexOf( this.pictureExt, ext.ToLower() ) > -1 )
-				return fileSize <= TwitPic.MaxFileSize;
-			if ( Array.IndexOf( this.multimediaExt, ext.ToLower() ) > -1 )
-				return true; // Multimedia : no check
+            var imageUrlElm = xml.XPathSelectElement("/image/url");
+            if (imageUrlElm == null)
+                throw new WebApiException("Invalid API response", xml.ToString());
 
-			return false;
-		}
+            var textWithImageUrl = text + " " + imageUrlElm.Value.Trim();
 
-		public bool Configuration( string key, object value )
-		{
-			return true;
-		}
+            await Task.Run(() => this.tw.PostStatus(textWithImageUrl, inReplyToStatusId))
+                .ConfigureAwait(false);
+        }
 
-		public TwitPic( Twitter twitter )
-			: base( new Uri( "http://api.twitter.com/" ), new Uri( "https://api.twitter.com/1.1/account/verify_credentials.json" ) )
-		{
-			this.tw = twitter;
-            this.Initialize( ApplicationSettings.TwitterConsumerKey, ApplicationSettings.TwitterConsumerSecret, tw.AccessToken, tw.AccessTokenSecret, "", "" );
-		}
-	}
+        public int GetReservedTextLength(int mediaCount)
+        {
+            return this.twitterConfig.ShortUrlLength;
+        }
+
+        public void UpdateTwitterConfiguration(TwitterConfiguration config)
+        {
+            this.twitterConfig = config;
+        }
+
+        public class TwitpicApi : HttpConnectionOAuthEcho
+        {
+            private static readonly Uri UploadEndpoint = new Uri("http://api.twitpic.com/2/upload.xml");
+
+            public TwitpicApi(string twitterAccessToken, string twitterAccessTokenSecret)
+                : base(new Uri("http://api.twitter.com/"), new Uri("https://api.twitter.com/1.1/account/verify_credentials.json"))
+            {
+                this.Initialize(ApplicationSettings.TwitterConsumerKey, ApplicationSettings.TwitterConsumerSecret,
+                    twitterAccessToken, twitterAccessTokenSecret, "", "");
+
+                this.InstanceTimeout = 120000;
+            }
+
+            /// <summary>
+            /// 画像のアップロードを行います
+            /// </summary>
+            /// <exception cref="WebApiException"/>
+            /// <exception cref="XmlException"/>
+            public async Task<XDocument> UploadFileAsync(FileInfo file, string message)
+            {
+                // 参照: http://dev.twitpic.com/docs/2/upload/
+
+                var param = new Dictionary<string, string>
+                {
+                    {"key", ApplicationSettings.TwitpicApiKey},
+                    {"message", message},
+                };
+                var paramFiles = new List<KeyValuePair<string, FileInfo>>
+                {
+                    new KeyValuePair<string, FileInfo>("media", file),
+                };
+                var response = "";
+
+                var uploadTask = Task.Run(() => this.GetContent(HttpConnection.PostMethod,
+                    UploadEndpoint, param, paramFiles, ref response, null, null));
+
+                var ret = await uploadTask.ConfigureAwait(false);
+
+                if (ret != HttpStatusCode.OK)
+                    throw new WebApiException("Err:" + ret, response);
+
+                return XDocument.Parse(response);
+            }
+        }
+    }
 }

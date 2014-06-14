@@ -41,7 +41,7 @@ namespace OpenTween.Api
         public int CharactersReservedPerMedia { get; set; }
 
         [DataMember(Name = "photo_size_limit")]
-        public int PhotoSizeLimit { get; set; }
+        public long PhotoSizeLimit { get; set; }
 
         [DataMember(Name = "photo_sizes")]
         public TwitterMediaSizes PhotoSizes { get; set; }

@@ -111,9 +111,9 @@
     <Compile Include="Connection\HttpConnectionOAuth.cs" />
     <Compile Include="Connection\HttpConnectionOAuthEcho.cs" />
     <Compile Include="Connection\IHttpConnection.cs" />
+    <Compile Include="Connection\IMediaUploadService.cs" />
     <Compile Include="Connection\imgly.cs" />
     <Compile Include="Connection\Imgur.cs" />
-    <Compile Include="Connection\IMultimediaShareService.cs" />
     <Compile Include="Connection\TwipplePhoto.cs" />
     <Compile Include="EventViewerDialog.cs">
       <SubType>Form</SubType>

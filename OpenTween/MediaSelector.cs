@@ -29,6 +29,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using OpenTween.Api;
 using OpenTween.Connection;
 
 namespace OpenTween
@@ -68,13 +69,21 @@ namespace OpenTween
         }
 
         /// <summary>
-        /// 指定された投稿先名から、作成済みの IMultimediaShareService インスタンスを取得する。
+        /// 指定された投稿先名から、作成済みの IMediaUploadService インスタンスを取得する。
         /// </summary>
-        public IMultimediaShareService GetService(string serviceName)
+        public IMediaUploadService GetService(string serviceName)
         {
-            IMultimediaShareService service;
+            IMediaUploadService service;
             this.pictureService.TryGetValue(serviceName, out service);
             return service;
+        }
+
+        /// <summary>
+        /// 利用可能な全ての IMediaUploadService インスタンスを取得する。
+        /// </summary>
+        public ICollection<IMediaUploadService> GetServices()
+        {
+            return this.pictureService.Values;
         }
 
         private class SelectedMedia
@@ -106,20 +115,20 @@ namespace OpenTween
             }
         }
 
-        private Dictionary<string, IMultimediaShareService> pictureService;
+        private Dictionary<string, IMediaUploadService> pictureService;
 
-        private void CreateServices(Twitter tw)
+        private void CreateServices(Twitter tw, TwitterConfiguration twitterConfig)
         {
             if (this.pictureService != null) this.pictureService.Clear();
             this.pictureService = null;
 
-            this.pictureService = new Dictionary<string, IMultimediaShareService> {
-                {"TwitPic", new TwitPic(tw)},
-                {"img.ly", new imgly(tw)},
-                {"yfrog", new yfrog(tw)},
-                {"Twitter", new TwitterPhoto(tw)},
-                {"ついっぷるフォト", new TwipplePhoto(tw)},
-                {"Imgur", new Imgur(tw)},
+            this.pictureService = new Dictionary<string, IMediaUploadService> {
+                {"TwitPic", new TwitPic(tw, twitterConfig)},
+                {"img.ly", new imgly(tw, twitterConfig)},
+                {"yfrog", new yfrog(tw, twitterConfig)},
+                {"Twitter", new TwitterPhoto(tw, twitterConfig)},
+                {"ついっぷるフォト", new TwipplePhoto(tw, twitterConfig)},
+                {"Imgur", new Imgur(tw, twitterConfig)},
             };
         }
 
@@ -133,9 +142,9 @@ namespace OpenTween
         /// <summary>
         /// 投稿先サービスなどを初期化する。
         /// </summary>
-        public void Initialize(Twitter tw, string svc, int? index = null)
+        public void Initialize(Twitter tw, TwitterConfiguration twitterConfig, string svc, int? index = null)
         {
-            CreateServices(tw);
+            CreateServices(tw, twitterConfig);
 
             SetImageServiceCombo();
             SetImagePageCombo();
@@ -146,9 +155,9 @@ namespace OpenTween
         /// <summary>
         /// 投稿先サービスを再作成する。
         /// </summary>
-        public void Reset(Twitter tw)
+        public void Reset(Twitter tw, TwitterConfiguration twitterConfig)
         {
-            CreateServices(tw);
+            CreateServices(tw, twitterConfig);
 
             SetImageServiceCombo();
         }
@@ -163,7 +172,7 @@ namespace OpenTween
 
             var serviceName = this.ServiceName;
             if (!string.IsNullOrEmpty(serviceName) &&
-                this.pictureService[serviceName].CheckValidFilesize(ext, fl.Length))
+                this.pictureService[serviceName].CheckFileSize(ext, fl.Length))
             {
                 return true;
             }
@@ -171,7 +180,7 @@ namespace OpenTween
             foreach (string svc in ImageServiceCombo.Items)
             {
                 if (!string.IsNullOrEmpty(svc) &&
-                    this.pictureService[svc].CheckValidFilesize(ext, fl.Length))
+                    this.pictureService[svc].CheckFileSize(ext, fl.Length))
                 {
                     return true;
                 }
@@ -277,7 +286,7 @@ namespace OpenTween
         private void FilePickButton_Click(object sender, EventArgs e)
         {
             if (FilePickDialog == null || string.IsNullOrEmpty(this.ServiceName)) return;
-            FilePickDialog.Filter = this.pictureService[this.ServiceName].GetFileOpenDialogFilter();
+            FilePickDialog.Filter = this.pictureService[this.ServiceName].SupportedFormatsStrForDialog;
             FilePickDialog.Title = Properties.Resources.PickPictureDialog1;
             FilePickDialog.FileName = "";
 
@@ -328,7 +337,7 @@ namespace OpenTween
                 string ext = fl.Extension;
                 var imageService = this.pictureService[serviceName];
 
-                if (!imageService.CheckValidExtension(ext))
+                if (!imageService.CheckFileExtension(ext))
                 {
                     //画像以外の形式
                     ClearSelectedImagePage();
@@ -343,7 +352,7 @@ namespace OpenTween
                     return;
                 }
 
-                if (!imageService.CheckValidFilesize(ext, fl.Length))
+                if (!imageService.CheckFileSize(ext, fl.Length))
                 {
                     // ファイルサイズが大きすぎる
                     ClearSelectedImagePage();
@@ -358,21 +367,17 @@ namespace OpenTween
                     return;
                 }
 
-                switch (imageService.GetFileType(ext))
+                try
                 {
-                    case MyCommon.UploadFileType.Picture:
-                        using (var fs = File.OpenRead(fileName))
-                        {
-                            ImageSelectedPicture.Image = MemoryImage.CopyFromStream(fs);
-                        }
-                        SetSelectedImagePage(fileName, MyCommon.UploadFileType.Picture);
-                        break;
-                    case MyCommon.UploadFileType.MultiMedia:
-                        SetSelectedImagePage(fileName, MyCommon.UploadFileType.MultiMedia);
-                        break;
-                    default:
-                        ClearSelectedImagePage();
-                        break;
+                    using (var fs = File.OpenRead(fileName))
+                    {
+                        ImageSelectedPicture.Image = MemoryImage.CopyFromStream(fs);
+                    }
+                    SetSelectedImagePage(fileName, MyCommon.UploadFileType.Picture);
+                }
+                catch (InvalidImageException)
+                {
+                    SetSelectedImagePage(fileName, MyCommon.UploadFileType.MultiMedia);
                 }
             }
             catch (FileNotFoundException)
@@ -391,7 +396,7 @@ namespace OpenTween
         {
             var text = string.Join(", ",
                 ImageServiceCombo.Items.Cast<string>()
-                    .Where(x => !string.IsNullOrEmpty(x) && this.pictureService[x].CheckValidFilesize(ext, fileSize)));
+                    .Where(x => !string.IsNullOrEmpty(x) && this.pictureService[x].CheckFileSize(ext, fileSize)));
 
             if (string.IsNullOrEmpty(text))
                 return Properties.Resources.PostPictureWarn6;
@@ -513,7 +518,7 @@ namespace OpenTween
                                     FileInfo fi = new FileInfo(ImagefilePathText.Text.Trim());
                                     string ext = fi.Extension;
                                     var imageService = this.pictureService[serviceName];
-                                    if (!imageService.CheckValidFilesize(ext, fi.Length))
+                                    if (!imageService.CheckFileSize(ext, fi.Length))
                                     {
                                         ClearImageSelectedPicture();
                                         ClearSelectedImagePage();

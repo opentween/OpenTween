@@ -5,183 +5,161 @@
 //           (c) 2010-2011 anis774 (@anis774) <http://d.hatena.ne.jp/anis774/>
 //           (c) 2010-2011 fantasticswallow (@f_swallow) <http://twitter.com/f_swallow>
 //           (c) 2011      spinor (@tplantd) <http://d.hatena.ne.jp/spinor/>
+//           (c) 2014      kim_upsilon (@kim_upsilon) <https://upsilo.net/~upsilon/>
 // All rights reserved.
-// 
+//
 // This file is part of OpenTween.
-// 
+//
 // This program is free software; you can redistribute it and/or modify it
 // under the terms of the GNU General Public License as published by the Free
 // Software Foundation; either version 3 of the License, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful, but
 // WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
 // or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
-// for more details. 
-// 
+// for more details.
+//
 // You should have received a copy of the GNU General Public License along
 // with this program. If not, see <http://www.gnu.org/licenses/>, or write to
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
-using HttpConnectionOAuthEcho = OpenTween.HttpConnectionOAuthEcho;
-using IMultimediaShareService = OpenTween.IMultimediaShareService;
-using FileInfo = System.IO.FileInfo;
-using NotSupportedException = System.NotSupportedException;
-using HttpStatusCode = System.Net.HttpStatusCode;
-using Exception = System.Exception;
-using XmlDocument = System.Xml.XmlDocument;
-using XmlException = System.Xml.XmlException;
-using ArgumentException = System.ArgumentException;
-using System.Collections.Generic; // for Dictionary<TKey, TValue>, List<T>, KeyValuePair<TKey, TValue>
-using Uri = System.Uri;
-using Array = System.Array;
-using UploadFileType = OpenTween.MyCommon.UploadFileType;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Net;
+using System.Threading.Tasks;
+using System.Xml;
+using System.Xml.Linq;
+using System.Xml.XPath;
+using OpenTween.Api;
 
-namespace OpenTween
+namespace OpenTween.Connection
 {
-	public class imgly : HttpConnectionOAuthEcho, IMultimediaShareService
-	{
-		private string[] pictureExt = new string[] { ".jpg", ".jpeg", ".gif", ".png" };
+    public class imgly : IMediaUploadService
+    {
+        private readonly string[] pictureExt = new[] { ".jpg", ".jpeg", ".gif", ".png" };
+        private readonly long MaxFileSize = 4L * 1024 * 1024;
 
-		private const long MaxFileSize = 4 * 1024 * 1024;
+        private readonly Twitter tw;
+        private readonly ImglyApi imglyApi;
 
-		private Twitter tw;
+        private TwitterConfiguration twitterConfig;
 
-		public string Upload( ref string filePath, ref string message, long? reply_to )
-		{
-			if ( string.IsNullOrEmpty( filePath ) )
-				return "Err:File isn't specified.";
-			if ( string.IsNullOrEmpty( message ) )
-				message = "";
+        public imgly(Twitter twitter, TwitterConfiguration twitterConfig)
+        {
+            this.tw = twitter;
+            this.twitterConfig = twitterConfig;
 
-			FileInfo mediaFile;
-			try
-			{
-				mediaFile = new FileInfo( filePath );
-			}
-			catch ( NotSupportedException ex )
-			{
-				return "Err:" + ex.Message;
-			}
-			if ( mediaFile == null || !mediaFile.Exists )
-				return "Err:File isn't exists.";
+            this.imglyApi = new ImglyApi(twitter.AccessToken, twitter.AccessTokenSecret);
+        }
 
-			string content = "";
-			HttpStatusCode ret;
-			// img.lyへの投稿
-			try
-			{
-				ret = this.UploadFile( mediaFile, message, ref content );
-			}
-			catch ( Exception ex )
-			{
-				return "Err:" + ex.Message;
-			}
+        public int MaxMediaCount
+        {
+            get { return 1; }
+        }
 
-			string url = "";
-			if ( ret == HttpStatusCode.OK )
-			{
-				XmlDocument xd = new XmlDocument();
-				try
-				{
-					xd.LoadXml( content );
-					// URLの取得
-					url = xd.SelectSingleNode( "/image/url" ).InnerText;
-				}
-				catch ( XmlException ex )
-				{
-					return "Err:" + ex.Message;
-				}
-				catch ( Exception ex )
-				{
-					return "Err:" + ex.Message;
-				}
-			}
-			else
-			{
-				return "Err:" + ret.ToString();
-			}
-			// アップロードまでは成功
-			filePath = "";
-			if ( string.IsNullOrEmpty( url ) )
-				url = "";
-			// Twitterへの投稿
-			// 投稿メッセージの再構成
-			if ( string.IsNullOrEmpty( message ) )
-				message = "";
-			if ( message.Length + AppendSettingDialog.Instance.TwitterConfiguration.CharactersReservedPerMedia + 1 > 140 )
-				message = message.Substring( 0, 140 - AppendSettingDialog.Instance.TwitterConfiguration.CharactersReservedPerMedia - 1 ) + " " + url;
-			else
-				message += " " + url;
+        public string SupportedFormatsStrForDialog
+        {
+            get
+            {
+                return "Image Files(*.gif;*.jpg;*.jpeg;*.png)|*.gif;*.jpg;*.jpeg;*.png";
+            }
+        }
 
-			return tw.PostStatus( message, reply_to );
-		}
+        public bool CheckFileExtension(string fileExtension)
+        {
+            return this.pictureExt.Contains(fileExtension.ToLower());
+        }
 
-		private HttpStatusCode UploadFile( FileInfo mediaFile, string message, ref string content )
-		{
-			// Message必須
-			if ( string.IsNullOrEmpty( message ) )
-				message = "";
-			// Check filetype and size(Max 4MB)
-			if ( !this.CheckValidExtension( mediaFile.Extension ) )
-				throw new ArgumentException( "Service don't support this filetype." );
-			if ( !this.CheckValidFilesize( mediaFile.Extension, mediaFile.Length ) )
-				throw new ArgumentException( "File is too large." );
+        public bool CheckFileSize(string fileExtension, long fileSize)
+        {
+            var maxFileSize = this.GetMaxFileSize(fileExtension);
+            return maxFileSize == null || fileSize <= maxFileSize.Value;
+        }
 
-			Dictionary< string, string > param = new Dictionary< string, string >();
-			param.Add( "message", message );
-			List< KeyValuePair< string, FileInfo > > binary = new List< KeyValuePair< string, FileInfo > >();
-			binary.Add( new KeyValuePair< string, FileInfo >( "media", mediaFile ) );
-			this.InstanceTimeout = 60000; // タイムアウト60秒
+        public long? GetMaxFileSize(string fileExtension)
+        {
+            return MaxFileSize;
+        }
 
-			return this.GetContent( HttpConnection.PostMethod, new Uri( "http://img.ly/api/2/upload.xml" ), param, binary, ref content, null, null );
-		}
+        public async Task PostStatusAsync(string text, long? inReplyToStatusId, string[] filePaths)
+        {
+            if (filePaths.Length != 1)
+                throw new ArgumentOutOfRangeException("filePaths");
 
-		public bool CheckValidExtension( string ext )
-		{
-			if ( Array.IndexOf( this.pictureExt, ext.ToLower() ) > -1 )
-				return true;
+            var file = new FileInfo(filePaths[0]);
 
-			return false;
-		}
+            if (!file.Exists)
+                throw new ArgumentException("Err:File isn't exists.", "filePaths[0]");
 
-		public string GetFileOpenDialogFilter()
-		{
-			return "Image Files(*.gif;*.jpg;*.jpeg;*.png)|*.gif;*.jpg;*.jpeg;*.png";
-		}
+            var xml = await this.imglyApi.UploadFileAsync(file, text)
+                .ConfigureAwait(false);
 
-		public UploadFileType GetFileType( string ext )
-		{
-			if ( this.CheckValidExtension( ext ) )
-				return UploadFileType.Picture;
+            var imageUrlElm = xml.XPathSelectElement("/image/url");
+            if (imageUrlElm == null)
+                throw new WebApiException("Invalid API response", xml.ToString());
 
-			return UploadFileType.Invalid;
-		}
+            var textWithImageUrl = text + " " + imageUrlElm.Value.Trim();
 
-		public bool IsSupportedFileType( UploadFileType type )
-		{
-			return type.Equals( UploadFileType.Picture );
-		}
+            await Task.Run(() => this.tw.PostStatus(textWithImageUrl, inReplyToStatusId))
+                .ConfigureAwait(false);
+        }
 
-		public bool CheckValidFilesize( string ext, long fileSize )
-		{
-			if ( this.CheckValidExtension( ext ) )
-				return fileSize <= imgly.MaxFileSize;
+        public int GetReservedTextLength(int mediaCount)
+        {
+            return this.twitterConfig.ShortUrlLength;
+        }
 
-			return false;
-		}
+        public void UpdateTwitterConfiguration(TwitterConfiguration config)
+        {
+            this.twitterConfig = config;
+        }
 
-		public bool Configuration( string key, object value )
-		{
-			return true;
-		}
+        public class ImglyApi : HttpConnectionOAuthEcho
+        {
+            private static readonly Uri UploadEndpoint = new Uri("http://img.ly/api/2/upload.xml");
 
-		public imgly( Twitter twitter )
-			: base( new Uri( "http://api.twitter.com/" ), new Uri( "https://api.twitter.com/1.1/account/verify_credentials.json" ) )
-		{
-			this.tw = twitter;
-            this.Initialize( ApplicationSettings.TwitterConsumerKey, ApplicationSettings.TwitterConsumerSecret, tw.AccessToken, tw.AccessTokenSecret, "", "" );
-		}
-	}
+            public ImglyApi(string twitterAccessToken, string twitterAccessTokenSecret)
+                : base(new Uri("http://api.twitter.com/"), new Uri("https://api.twitter.com/1.1/account/verify_credentials.json"))
+            {
+                this.Initialize(ApplicationSettings.TwitterConsumerKey, ApplicationSettings.TwitterConsumerSecret,
+                    twitterAccessToken, twitterAccessTokenSecret, "", "");
+
+                this.InstanceTimeout = 60000;
+            }
+
+            /// <summary>
+            /// 画像のアップロードを行います
+            /// </summary>
+            /// <exception cref="WebApiException"/>
+            /// <exception cref="XmlException"/>
+            public async Task<XDocument> UploadFileAsync(FileInfo file, string message)
+            {
+                // 参照: http://img.ly/api
+
+                var param = new Dictionary<string, string>
+                {
+                    {"message", message},
+                };
+                var paramFiles = new List<KeyValuePair<string, FileInfo>>
+                {
+                    new KeyValuePair<string, FileInfo>("media", file),
+                };
+                var response = "";
+
+                var uploadTask = Task.Run(() => this.GetContent(HttpConnection.PostMethod,
+                    UploadEndpoint, param, paramFiles, ref response, null, null));
+
+                var ret = await uploadTask.ConfigureAwait(false);
+
+                if (ret != HttpStatusCode.OK)
+                    throw new WebApiException("Err:" + ret, response);
+
+                return XDocument.Parse(response);
+            }
+        }
+    }
 }

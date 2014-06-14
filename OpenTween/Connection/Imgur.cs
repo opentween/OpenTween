@@ -21,16 +21,18 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Net;
 using System.IO;
+using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Text;
+using System.Threading.Tasks;
 using System.Xml.Linq;
-using System.Xml;
+using OpenTween.Api;
 
 namespace OpenTween.Connection
 {
-    public class Imgur : HttpConnectionOAuth, IMultimediaShareService
+    public class Imgur : IMediaUploadService
     {
         private readonly static long MaxFileSize = 10L * 1024 * 1024;
         private readonly static Uri UploadEndpoint = new Uri("https://api.imgur.com/3/image.xml");
@@ -48,132 +50,123 @@ namespace OpenTween.Connection
             ".xcf",
         };
 
-        private readonly Twitter _twitter;
+        private readonly Twitter twitter;
+        private TwitterConfiguration twitterConfig;
 
-        public Imgur(Twitter tw)
+        public Imgur(Twitter tw, TwitterConfiguration twitterConfig)
         {
-            this._twitter = tw;
-
-            Initialize(ApplicationSettings.TwitterConsumerKey, ApplicationSettings.TwitterConsumerSecret,
-                       tw.AccessToken, tw.AccessTokenSecret,
-                       "", "");
+            this.twitter = tw;
+            this.twitterConfig = twitterConfig;
         }
 
-        protected override void AppendOAuthInfo(HttpWebRequest webRequest, Dictionary<string, string> query, string token, string tokenSecret)
+        public int MaxMediaCount
         {
-            webRequest.Headers[HttpRequestHeader.Authorization] =
-                string.Format("Client-ID {0}", ApplicationSettings.ImgurClientID);
+            get { return 1; }
         }
 
-        public string Upload(ref string filePath, ref string message, long? reply_to)
+        public string SupportedFormatsStrForDialog
         {
-            if (!File.Exists(filePath))
-                return "Err:File isn't exists.";
+            get
+            {
+                var formats = new StringBuilder();
 
-            var mediaFile = new FileInfo(filePath);
-            var content = "";
-            HttpStatusCode result;
+                foreach (var extension in SupportedExtensions)
+                    formats.AppendFormat("*{0};", extension);
+
+                return "Image Files(" + formats + ")|" + formats;
+            }
+        }
+
+        public bool CheckFileExtension(string fileExtension)
+        {
+            return SupportedExtensions.Contains(fileExtension, StringComparer.OrdinalIgnoreCase);
+        }
+
+        public bool CheckFileSize(string fileExtension, long fileSize)
+        {
+            var maxFileSize = this.GetMaxFileSize(fileExtension);
+            return maxFileSize == null || fileSize <= maxFileSize.Value;
+        }
+
+        public long? GetMaxFileSize(string fileExtension)
+        {
+            return MaxFileSize;
+        }
+
+        public async Task PostStatusAsync(string text, long? inReplyToStatusId, string[] filePaths)
+        {
+            if (filePaths.Length != 1)
+                throw new ArgumentOutOfRangeException("filePaths");
+
+            var file = new FileInfo(filePaths[0]);
+
+            if (!file.Exists)
+                throw new ArgumentException("File isn't exists.", "filePaths[0]");
+
+            XDocument xml;
             try
             {
-                result = this.UploadFile(mediaFile, message, ref content);
+                xml = await this.UploadFileAsync(file, text)
+                    .ConfigureAwait(false);
             }
-            catch (Exception ex)
+            catch (HttpRequestException ex)
             {
-                return "Err:" + ex.Message;
-            }
-
-            if (result != HttpStatusCode.OK)
-            {
-                return "Err:" + result;
+                throw new WebApiException("Err:" + ex.Message, ex);
             }
 
-            var imageUrl = "";
-            try
+            var imageElm = xml.Element("data");
+
+            if (imageElm.Attribute("success").Value != "1")
+                throw new WebApiException("Err:" + imageElm.Attribute("status").Value);
+
+            var imageUrl = imageElm.Element("link").Value;
+
+            var textWithImageUrl = text + " " + imageUrl.Trim();
+
+            await Task.Run(() => this.twitter.PostStatus(textWithImageUrl, inReplyToStatusId))
+                .ConfigureAwait(false);
+        }
+
+        public int GetReservedTextLength(int mediaCount)
+        {
+            return this.twitterConfig.ShortUrlLength;
+        }
+
+        public void UpdateTwitterConfiguration(TwitterConfiguration config)
+        {
+            this.twitterConfig = config;
+        }
+
+        public async Task<XDocument> UploadFileAsync(FileInfo file, string title)
+        {
+            using (var content = new MultipartFormDataContent())
+            using (var fileStream = file.OpenRead())
+            using (var fileContent = new StreamContent(fileStream))
+            using (var titleContent = new StringContent(title))
             {
-                var xdoc = XDocument.Parse(content);
-                var image = xdoc.Element("data");
-                if (image.Attribute("success").Value != "1")
+                content.Add(fileContent, "image", file.Name);
+                content.Add(titleContent, "title");
+
+                using (var http = MyCommon.CreateHttpClient())
+                using (var request = new HttpRequestMessage(HttpMethod.Post, UploadEndpoint))
                 {
-                    return "APIErr:" + image.Attribute("status").Value;
+                    http.Timeout = TimeSpan.FromMinutes(1);
+
+                    request.Headers.Authorization =
+                        new AuthenticationHeaderValue("Client-ID", ApplicationSettings.ImgurClientID);
+                    request.Content = content;
+
+                    using (var response = await http.SendAsync(request).ConfigureAwait(false))
+                    {
+                        response.EnsureSuccessStatusCode();
+
+                        using (var stream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false))
+                        {
+                            return XDocument.Load(stream);
+                        }
+                    }
                 }
-                imageUrl = image.Element("link").Value;
             }
-            catch (XmlException ex)
-            {
-                return "XmlErr:" + ex.Message;
-            }
-
-            filePath = "";
-            if (message == null)
-                message = "";
-
-            // Post to twitter
-            if (message.Length + AppendSettingDialog.Instance.TwitterConfiguration.CharactersReservedPerMedia + 1 > 140)
-            {
-                message = message.Substring(0, 140 - AppendSettingDialog.Instance.TwitterConfiguration.CharactersReservedPerMedia - 1) + " " + imageUrl;
-            }
-            else
-            {
-                message += " " + imageUrl;
-            }
-            return _twitter.PostStatus(message, reply_to);
-        }
-
-        private HttpStatusCode UploadFile(FileInfo mediaFile, string message, ref string content)
-        {
-            if (!CheckValidExtension(mediaFile.Extension))
-                throw new ArgumentException("Service don't support this filetype", "mediaFile");
-            if (!CheckValidFilesize(mediaFile.Extension, mediaFile.Length))
-                throw new ArgumentException("File is too large", "mediaFile");
-
-            var param = new Dictionary<string, string>
-            {
-                {"title", message},
-            };
-            var binary = new List<KeyValuePair<string, FileInfo>>
-            {
-                new KeyValuePair<string, FileInfo>("image", mediaFile)
-            };
-            this.InstanceTimeout = 60000;
-
-            return this.GetContent(PostMethod, UploadEndpoint, param, binary, ref content, null, null);
-        }
-
-        public bool CheckValidExtension(string ext)
-        {
-            return SupportedExtensions.Contains(ext, StringComparer.OrdinalIgnoreCase);
-        }
-
-        public string GetFileOpenDialogFilter()
-        {
-            var formats = new StringBuilder();
-
-            foreach (var extension in SupportedExtensions)
-                formats.AppendFormat("*{0};", extension);
-
-            return "Image Files(" + formats + ")|" + formats;
-        }
-
-        public MyCommon.UploadFileType GetFileType(string ext)
-        {
-            return this.CheckValidExtension(ext)
-                ? MyCommon.UploadFileType.Picture
-                : MyCommon.UploadFileType.Invalid;
-        }
-
-        public bool IsSupportedFileType(MyCommon.UploadFileType type)
-        {
-            return type == MyCommon.UploadFileType.Picture;
-        }
-
-        public bool CheckValidFilesize(string ext, long fileSize)
-        {
-            return CheckValidExtension(ext) && fileSize <= MaxFileSize;
-        }
-
-        public bool Configuration(string key, object value)
-        {
-            throw new NotImplementedException();
         }
     }
 }
