@@ -296,6 +296,28 @@ namespace OpenTween
             }
         }
 
+        [Fact]
+        public async Task ExpandUrlHtmlAsync_RelativeUriTest()
+        {
+            var handler = new HttpMessageHandlerMock();
+            using (var http = new HttpClient(handler))
+            {
+                var shortUrl = new ShortUrl(http);
+
+                handler.Enqueue(x =>
+                {
+                    // リクエストは送信されないはず
+                    Assert.True(false);
+                    return this.CreateRedirectResponse("http://example.com/hoge");
+                });
+
+                Assert.Equal("<a href=\"./hoge\">hogehoge</a>",
+                    await shortUrl.ExpandUrlHtmlAsync("<a href=\"./hoge\">hogehoge</a>"));
+
+                Assert.Equal(1, handler.QueueCount);
+            }
+        }
+
         private HttpResponseMessage CreateRedirectResponse(string uriStr)
         {
             var response = new HttpResponseMessage(HttpStatusCode.TemporaryRedirect);

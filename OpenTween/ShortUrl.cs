@@ -232,7 +232,18 @@ namespace OpenTween
         /// </summary>
         /// <param name="uriStr">展開するURL</param>
         /// <returns>URLの展開を行うタスク</returns>
-        public async Task<string> ExpandUrlStrAsync(string uriStr)
+        public Task<string> ExpandUrlStrAsync(string uriStr)
+        {
+            return this.ExpandUrlStrAsync(uriStr, 10);
+        }
+
+        /// <summary>
+        /// 短縮 URL を非同期に展開します
+        /// </summary>
+        /// <param name="uriStr">展開するURL</param>
+        /// <param name="redirectLimit">再帰的に展開を試みる上限</param>
+        /// <returns>URLの展開を行うタスク</returns>
+        public async Task<string> ExpandUrlStrAsync(string uriStr, int redirectLimit)
         {
             Uri uri;
 
@@ -248,7 +259,7 @@ namespace OpenTween
                 return uriStr;
             }
 
-            var expandedUri = await this.ExpandUrlAsync(uri, 10)
+            var expandedUri = await this.ExpandUrlAsync(uri, redirectLimit)
                 .ConfigureAwait(false);
 
             return expandedUri.OriginalString;
@@ -282,7 +293,7 @@ namespace OpenTween
                 return Task.FromResult(html);
 
             return HtmlLinkPattern.ReplaceAsync(html, async m =>
-                m.Groups[1].Value + await this.ExpandUrlAsync(new Uri(m.Groups[2].Value), redirectLimit).ConfigureAwait(false) + m.Groups[3].Value);
+                m.Groups[1].Value + await this.ExpandUrlStrAsync(m.Groups[2].Value, redirectLimit).ConfigureAwait(false) + m.Groups[3].Value);
         }
 
         /// <summary>
