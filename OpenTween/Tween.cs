@@ -10000,6 +10000,15 @@ namespace OpenTween
                             var resultUri = await ShortUrl.Instance.ShortenUrlAsync(Converter_Type, srcUri);
                             result = resultUri.ToString();
                         }
+                        catch (HttpRequestException e)
+                        {
+                            // 例外のメッセージが「Response status code does not indicate success: 500 (Internal Server Error).」
+                            // のように長いので「:」が含まれていればそれ以降のみを抽出する
+                            var message = e.Message.Split(new[] { ':' }, count: 2).Last();
+
+                            this.StatusLabel.Text = Converter_Type + ":" + message;
+                            continue;
+                        }
                         catch (WebApiException e)
                         {
                             this.StatusLabel.Text = Converter_Type + ":" + e.Message;
