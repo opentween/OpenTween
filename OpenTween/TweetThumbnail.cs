@@ -133,6 +133,9 @@ namespace OpenTween
 
                     if (memoryImage != null)
                         memoryImage.Dispose();
+
+                    // メモリリーク対策 (http://stackoverflow.com/questions/2792427#2793714)
+                    picbox.ContextMenuStrip = null;
                 }
                 this.pictureBox.Clear();
 
