@@ -6204,8 +6204,7 @@ namespace OpenTween
                             {
                                 var oldTokenSource = this.thumbnailTokenSource;
 
-                                // TODO: キャンセルを行うとUIスレッドが阻害される問題を調査
-                                //oldTokenSource.Cancel();
+                                oldTokenSource.Cancel();
 
                                 this.thumbnailTask.ContinueWith(_ => oldTokenSource.Dispose());
                             }
