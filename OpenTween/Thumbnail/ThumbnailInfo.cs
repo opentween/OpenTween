@@ -41,13 +41,16 @@ namespace OpenTween.Thumbnail
             return this.LoadThumbnailImageAsync(CancellationToken.None);
         }
 
-        public async Task<MemoryImage> LoadThumbnailImageAsync(CancellationToken cancellationToken)
+        public Task<MemoryImage> LoadThumbnailImageAsync(CancellationToken cancellationToken)
         {
-            using (var http = MyCommon.CreateHttpClient())
+            return Task.Run(async () =>
             {
-                return await this.LoadThumbnailImageAsync(http, cancellationToken)
-                    .ConfigureAwait(false);
-            }
+                using (var http = MyCommon.CreateHttpClient())
+                {
+                    return await this.LoadThumbnailImageAsync(http, cancellationToken)
+                        .ConfigureAwait(false);
+                }
+            }, cancellationToken);
         }
 
         public async virtual Task<MemoryImage> LoadThumbnailImageAsync(HttpClient http, CancellationToken cancellationToken)
