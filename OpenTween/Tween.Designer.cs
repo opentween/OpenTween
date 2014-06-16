@@ -1071,7 +1071,6 @@
             this.SourceLinkLabel.AutoEllipsis = true;
             this.SourceLinkLabel.ContextMenuStrip = this.ContextMenuSource;
             this.SourceLinkLabel.Name = "SourceLinkLabel";
-            this.SourceLinkLabel.TabStop = true;
             this.ToolTip1.SetToolTip(this.SourceLinkLabel, resources.GetString("SourceLinkLabel.ToolTip"));
             this.SourceLinkLabel.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.SourceLinkLabel_LinkClicked);
             this.SourceLinkLabel.MouseEnter += new System.EventHandler(this.SourceLinkLabel_MouseEnter);

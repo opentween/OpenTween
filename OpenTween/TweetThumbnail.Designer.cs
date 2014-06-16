@@ -42,7 +42,7 @@
             // 
             resources.ApplyResources(this.scrollBar, "scrollBar");
             this.scrollBar.LargeChange = 1;
-            this.scrollBar.Maximum = 10;
+            this.scrollBar.Maximum = 0;
             this.scrollBar.Name = "scrollBar";
             this.toolTip.SetToolTip(this.scrollBar, resources.GetString("scrollBar.ToolTip"));
             this.scrollBar.ValueChanged += new System.EventHandler(this.scrollBar_ValueChanged);

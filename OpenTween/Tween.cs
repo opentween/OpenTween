@@ -6038,7 +6038,7 @@ namespace OpenTween
             DispSelectedPost(false);
         }
 
-        private static PostClass displaypost = new PostClass();
+        private PostClass displayPost = new PostClass();
 
         /// <summary>
         /// サムネイルの表示処理を表すタスク
@@ -6055,10 +6055,12 @@ namespace OpenTween
             if (_curList.SelectedIndices.Count == 0 || _curPost == null)
                 return;
 
-            if (!forceupdate && _curPost.Equals(displaypost))
+            var oldDisplayPost = this.displayPost;
+            this.displayPost = this._curPost;
+
+            if (!forceupdate && this._curPost.Equals(oldDisplayPost))
                 return;
 
-            displaypost = _curPost;
             if (displayItem != null)
             {
                 displayItem.ImageDownloaded -= this.DisplayItemImage_Downloaded;
@@ -6067,61 +6069,54 @@ namespace OpenTween
             displayItem = (ImageListViewItem)_curList.Items[_curList.SelectedIndices[0]];
             displayItem.ImageDownloaded += this.DisplayItemImage_Downloaded;
 
-            string dTxt = createDetailHtml(_curPost.IsDeleted ? "(DELETED)" : _curPost.Text);
-            if (_curPost.IsDm)
+            var sourceText = "";
+            string sourceUrl = null;
+            if (!_curPost.IsDm)
             {
-                SourceLinkLabel.Tag = null;
-                SourceLinkLabel.Text = "";
-            }
-            else
-            {
-                Match mc = Regex.Match(_curPost.SourceHtml, "<a href=\"(?<sourceurl>.+?)\"");
+                var mc = Regex.Match(_curPost.SourceHtml, "<a href=\"(?<sourceurl>.+?)\"");
                 if (mc.Success)
                 {
-                    string src = mc.Groups["sourceurl"].Value;
-                    SourceLinkLabel.Tag = mc.Groups["sourceurl"].Value;
-                    mc = Regex.Match(src, "^https?://");
-                    if (!mc.Success)
-                    {
-                        src = src.Insert(0, "https://twitter.com");
-                    }
-                    SourceLinkLabel.Tag = src;
+                    var src = mc.Groups["sourceurl"].Value;
+                    if (Regex.IsMatch(src, "^https?://"))
+                        sourceUrl = src;
+                    else
+                        sourceUrl = "https://twitter.com/" + src;
                 }
-                else
-                {
-                    SourceLinkLabel.Tag = null;
-                }
-                if (string.IsNullOrEmpty(_curPost.Source))
-                {
-                    SourceLinkLabel.Text = "";
-                    //SourceLinkLabel.Visible = false;
-                }
-                else
-                {
-                    SourceLinkLabel.Text = _curPost.Source;
-                    //SourceLinkLabel.Visible = true;
-                }
-            }
-            SourceLinkLabel.TabStop = false;
 
-            if (_statuses.Tabs[_curTab.Text].TabType == MyCommon.TabUsageType.DirectMessage && !_curPost.IsOwl)
-            {
-                NameLabel.Text = "DM TO -> ";
+                if (_curPost.Source != null)
+                    sourceText = _curPost.Source;
             }
-            else if (_statuses.Tabs[_curTab.Text].TabType == MyCommon.TabUsageType.DirectMessage)
+            SourceLinkLabel.Text = sourceText;
+            SourceLinkLabel.Tag = sourceUrl;
+            SourceLinkLabel.TabStop = false; // Text を更新すると勝手に true にされる
+
+            string nameText;
+            if (_curPost.IsDm)
             {
-                NameLabel.Text = "DM FROM <- ";
+                if (_curPost.IsOwl)
+                    nameText = "DM FROM <- ";
+                else
+                    nameText = "DM TO -> ";
             }
             else
             {
-                NameLabel.Text = "";
+                nameText = "";
             }
-            NameLabel.Text += _curPost.ScreenName + "/" + _curPost.Nickname;
+            nameText += _curPost.ScreenName + "/" + _curPost.Nickname;
+            if (_curPost.RetweetedId != null)
+                nameText += " (RT:" + _curPost.RetweetedBy + ")";
+
+            NameLabel.Text = nameText;
             NameLabel.Tag = _curPost.ScreenName;
-            if (!string.IsNullOrEmpty(_curPost.RetweetedBy))
-            {
-                NameLabel.Text += " (RT:" + _curPost.RetweetedBy + ")";
-            }
+
+            var nameForeColor = SystemColors.ControlText;
+            if (_curPost.IsOwl && (this.SettingDialog.OneWayLove || _curPost.IsDm))
+                nameForeColor = this._clOWL;
+            if (_curPost.RetweetedId != null)
+                nameForeColor = this._clRetweet;
+            if (_curPost.IsFav)
+                nameForeColor = this._clFav;
+            NameLabel.ForeColor = nameForeColor;
 
             this.ClearUserPicture();
 
@@ -6138,11 +6133,7 @@ namespace OpenTween
                 }
             }
 
-            NameLabel.ForeColor = System.Drawing.SystemColors.ControlText;
             DateTimeLabel.Text = _curPost.CreatedAt.ToString();
-            if (_curPost.IsOwl && (SettingDialog.OneWayLove || _statuses.Tabs[_curTab.Text].TabType == MyCommon.TabUsageType.DirectMessage)) NameLabel.ForeColor = _clOWL;
-            if (_curPost.RetweetedId != null) NameLabel.ForeColor = _clRetweet;
-            if (_curPost.IsFav) NameLabel.ForeColor = _clFav;
 
             if (DumpPostClassToolStripMenuItem.Checked)
             {
@@ -6164,7 +6155,7 @@ namespace OpenTween
                 sb.AppendFormat("IsProtect      : {0}<br>", _curPost.IsProtect.ToString());
                 sb.AppendFormat("IsRead         : {0}<br>", _curPost.IsRead.ToString());
                 sb.AppendFormat("IsReply        : {0}<br>", _curPost.IsReply.ToString());
-            
+
                 foreach (string nm in _curPost.ReplyToList)
                 {
                     sb.AppendFormat("ReplyToList    : {0}<br>", nm);
@@ -6183,50 +6174,35 @@ namespace OpenTween
                 sb.AppendFormat("SearchTabName  : {0}<br>", _curPost.RelTabName);
                 sb.Append("-----End PostClass Dump<br>");
 
-                PostBrowser.Visible = false;
                 PostBrowser.DocumentText = detailHtmlFormatHeader + sb.ToString() + detailHtmlFormatFooter;
-                PostBrowser.Visible = true;
             }
             else
             {
-                try
+                // 同じIDのツイートであれば WebBrowser とサムネイルの更新を行わない
+                // (同一ツイートの RT は文面が同じであるため同様に更新しない)
+                if (_curPost.StatusId != oldDisplayPost.StatusId)
                 {
-                    if (PostBrowser.DocumentText != dTxt)
+                    this.PostBrowser.DocumentText =
+                        this.createDetailHtml(_curPost.IsDeleted ? "(DELETED)" : _curPost.Text);
+
+                    this.SplitContainer3.Panel2Collapsed = true;
+
+                    if (this.IsPreviewEnable)
                     {
-                        PostBrowser.Visible = false;
-                        PostBrowser.DocumentText = dTxt;
-
-                        this.SplitContainer3.Panel2Collapsed = true;
-
-                        if (this.IsPreviewEnable)
+                        if (this.thumbnailTokenSource != null)
                         {
-                            if (this.thumbnailTokenSource != null)
-                            {
-                                var oldTokenSource = this.thumbnailTokenSource;
+                            var oldTokenSource = this.thumbnailTokenSource;
 
-                                oldTokenSource.Cancel();
+                            oldTokenSource.Cancel();
 
-                                this.thumbnailTask.ContinueWith(_ => oldTokenSource.Dispose());
-                            }
-
-                            this.thumbnailTokenSource = new CancellationTokenSource();
-
-                            var token = this.thumbnailTokenSource.Token;
-                            this.thumbnailTask = this.tweetThumbnail1.ShowThumbnailAsync(_curPost, token);
+                            this.thumbnailTask.ContinueWith(_ => oldTokenSource.Dispose());
                         }
+
+                        this.thumbnailTokenSource = new CancellationTokenSource();
+
+                        var token = this.thumbnailTokenSource.Token;
+                        this.thumbnailTask = this.tweetThumbnail1.ShowThumbnailAsync(_curPost, token);
                     }
-                }
-                catch (System.Runtime.InteropServices.COMException)
-                {
-                    //原因不明
-                }
-                catch (UriFormatException)
-                {
-                    PostBrowser.DocumentText = dTxt;
-                }
-                finally
-                {
-                    PostBrowser.Visible = true;
                 }
             }
         }

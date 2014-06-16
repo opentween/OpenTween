@@ -69,6 +69,12 @@ namespace OpenTween
 
             this.scrollBar.Enabled = false;
 
+            if (post.Media.Count == 0 && post.PostGeo.Lat == 0 && post.PostGeo.Lng == 0)
+            {
+                this.SetThumbnailCount(0);
+                return;
+            }
+
             var thumbnails = (await this.GetThumbailInfoAsync(post, cancelToken))
                 .ToArray();
 
@@ -123,7 +129,10 @@ namespace OpenTween
         /// <param name="count">表示するサムネイルの数</param>
         protected void SetThumbnailCount(int count)
         {
-            using (ControlTransaction.Layout(this, false))
+            if (count == 0 && this.pictureBox.Count == 0)
+                return;
+
+            using (ControlTransaction.Layout(this.panelPictureBox, false))
             {
                 this.panelPictureBox.Controls.Clear();
                 foreach (var picbox in this.pictureBox)
