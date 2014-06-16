@@ -74,34 +74,32 @@ namespace OpenTween
 
             cancelToken.ThrowIfCancellationRequested();
 
-            lock (this.uiLockObj)
+            this.SetThumbnailCount(thumbnails.Length);
+            if (thumbnails.Length == 0)
+                return;
+
+            for (int i = 0; i < thumbnails.Length; i++)
             {
-                this.SetThumbnailCount(thumbnails.Length);
-                if (thumbnails.Length == 0) return;
+                var thumb = thumbnails[i];
+                var picbox = this.pictureBox[i];
 
-                for (int i = 0; i < thumbnails.Length; i++)
+                picbox.Tag = thumb;
+                picbox.ContextMenuStrip = this.contextMenuStrip;
+
+                var loadTask = picbox.SetImageFromTask(() => thumb.LoadThumbnailImageAsync(this.http, cancelToken));
+                loadTasks.Add(loadTask);
+
+                var tooltipText = thumb.TooltipText;
+                if (!string.IsNullOrEmpty(tooltipText))
                 {
-                    var thumb = thumbnails[i];
-                    var picbox = this.pictureBox[i];
-
-                    picbox.Tag = thumb;
-                    picbox.ContextMenuStrip = this.contextMenuStrip;
-
-                    var loadTask = picbox.SetImageFromTask(() => thumb.LoadThumbnailImageAsync(this.http, cancelToken));
-                    loadTasks.Add(loadTask);
-
-                    var tooltipText = thumb.TooltipText;
-                    if (!string.IsNullOrEmpty(tooltipText))
-                    {
-                        this.toolTip.SetToolTip(picbox, tooltipText);
-                    }
-
-                    cancelToken.ThrowIfCancellationRequested();
+                    this.toolTip.SetToolTip(picbox, tooltipText);
                 }
 
-                if (thumbnails.Length > 1)
-                    this.scrollBar.Enabled = true;
+                cancelToken.ThrowIfCancellationRequested();
             }
+
+            if (thumbnails.Length > 1)
+                this.scrollBar.Enabled = true;
 
             if (this.ThumbnailLoading != null)
                 this.ThumbnailLoading(this, EventArgs.Empty);
