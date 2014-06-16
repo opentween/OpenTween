@@ -47,6 +47,7 @@ namespace OpenTween
         // SendMessageで送信するメッセージ
         private enum SendMessageType : uint
         {
+            WM_SETREDRAW = 0x000B,               //再描画を許可するかを設定
             WM_USER = 0x400,                     //ユーザー定義メッセージ
 
             TCM_FIRST = 0x1300,                  //タブコントロールメッセージ
@@ -55,6 +56,18 @@ namespace OpenTween
             LVM_FIRST = 0x1000,                    //リストビューメッセージ
             LVM_GETSELECTIONMARK = LVM_FIRST + 66, //複数選択時の起点になるアイテムの位置を取得
             LVM_SETSELECTIONMARK = LVM_FIRST + 67, //複数選択時の起点になるアイテムを設定
+        }
+
+        /// <summary>
+        /// コントロールの再描画を許可するかを設定します
+        /// </summary>
+        /// <param name="control">対象となるコントロール</param>
+        /// <param name="redraw">再描画を許可する場合は true、抑制する場合は false</param>
+        /// <returns>このメッセージを処理する場合、アプリケーションは 0 を返します</returns>
+        public static int SetRedrawState(Control control, bool redraw)
+        {
+            var state = redraw ? new IntPtr(1) : IntPtr.Zero;
+            return (int)SendMessage(control.Handle, SendMessageType.WM_SETREDRAW, state, IntPtr.Zero);
         }
 
         /// <summary>

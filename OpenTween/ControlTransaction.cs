@@ -53,6 +53,15 @@ namespace OpenTween
             return new Transaction<TreeView>(control, x => x.BeginUpdate(), x => x.EndUpdate());
         }
 
+        public static IDisposable Update(Control control)
+        {
+            // Begin/EndUpdate メソッドを持たないコントロールに対しては、
+            // WM_SETREDRAW メッセージを直接コントロールに送信する。
+            return new Transaction<Control>(control,
+                x => Win32Api.SetRedrawState(x, false),
+                x => { Win32Api.SetRedrawState(x, true); x.Invalidate(true); });
+        }
+
         public static IDisposable Layout(Control control)
         {
             return Layout(control, performLayout: true);

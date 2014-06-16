@@ -6069,139 +6069,142 @@ namespace OpenTween
             displayItem = (ImageListViewItem)_curList.Items[_curList.SelectedIndices[0]];
             displayItem.ImageDownloaded += this.DisplayItemImage_Downloaded;
 
-            var sourceText = "";
-            string sourceUrl = null;
-            if (!_curPost.IsDm)
+            using (ControlTransaction.Update(this.TableLayoutPanel1))
             {
-                var mc = Regex.Match(_curPost.SourceHtml, "<a href=\"(?<sourceurl>.+?)\"");
-                if (mc.Success)
+                var sourceText = "";
+                string sourceUrl = null;
+                if (!_curPost.IsDm)
                 {
-                    var src = mc.Groups["sourceurl"].Value;
-                    if (Regex.IsMatch(src, "^https?://"))
-                        sourceUrl = src;
-                    else
-                        sourceUrl = "https://twitter.com/" + src;
-                }
-
-                if (_curPost.Source != null)
-                    sourceText = _curPost.Source;
-            }
-            SourceLinkLabel.Text = sourceText;
-            SourceLinkLabel.Tag = sourceUrl;
-            SourceLinkLabel.TabStop = false; // Text を更新すると勝手に true にされる
-
-            string nameText;
-            if (_curPost.IsDm)
-            {
-                if (_curPost.IsOwl)
-                    nameText = "DM FROM <- ";
-                else
-                    nameText = "DM TO -> ";
-            }
-            else
-            {
-                nameText = "";
-            }
-            nameText += _curPost.ScreenName + "/" + _curPost.Nickname;
-            if (_curPost.RetweetedId != null)
-                nameText += " (RT:" + _curPost.RetweetedBy + ")";
-
-            NameLabel.Text = nameText;
-            NameLabel.Tag = _curPost.ScreenName;
-
-            var nameForeColor = SystemColors.ControlText;
-            if (_curPost.IsOwl && (this.SettingDialog.OneWayLove || _curPost.IsDm))
-                nameForeColor = this._clOWL;
-            if (_curPost.RetweetedId != null)
-                nameForeColor = this._clRetweet;
-            if (_curPost.IsFav)
-                nameForeColor = this._clFav;
-            NameLabel.ForeColor = nameForeColor;
-
-            this.ClearUserPicture();
-
-            if (!string.IsNullOrEmpty(_curPost.ImageUrl))
-            {
-                var image = IconCache.TryGetFromCache(_curPost.ImageUrl);
-                try
-                {
-                    UserPicture.Image = image != null ? image.Clone() : null;
-                }
-                catch (Exception)
-                {
-                    UserPicture.ShowErrorImage();
-                }
-            }
-
-            DateTimeLabel.Text = _curPost.CreatedAt.ToString();
-
-            if (DumpPostClassToolStripMenuItem.Checked)
-            {
-                StringBuilder sb = new StringBuilder(512);
-
-                sb.Append("-----Start PostClass Dump<br>");
-                sb.AppendFormat("TextFromApi           : {0}<br>", _curPost.TextFromApi);
-                sb.AppendFormat("(PlainText)    : <xmp>{0}</xmp><br>", _curPost.TextFromApi);
-                sb.AppendFormat("StatusId             : {0}<br>", _curPost.StatusId.ToString());
-                //sb.AppendFormat("ImageIndex     : {0}<br>", _curPost.ImageIndex.ToString());
-                sb.AppendFormat("ImageUrl       : {0}<br>", _curPost.ImageUrl);
-                sb.AppendFormat("InReplyToStatusId    : {0}<br>", _curPost.InReplyToStatusId.ToString());
-                sb.AppendFormat("InReplyToUser  : {0}<br>", _curPost.InReplyToUser);
-                sb.AppendFormat("IsDM           : {0}<br>", _curPost.IsDm.ToString());
-                sb.AppendFormat("IsFav          : {0}<br>", _curPost.IsFav.ToString());
-                sb.AppendFormat("IsMark         : {0}<br>", _curPost.IsMark.ToString());
-                sb.AppendFormat("IsMe           : {0}<br>", _curPost.IsMe.ToString());
-                sb.AppendFormat("IsOwl          : {0}<br>", _curPost.IsOwl.ToString());
-                sb.AppendFormat("IsProtect      : {0}<br>", _curPost.IsProtect.ToString());
-                sb.AppendFormat("IsRead         : {0}<br>", _curPost.IsRead.ToString());
-                sb.AppendFormat("IsReply        : {0}<br>", _curPost.IsReply.ToString());
-
-                foreach (string nm in _curPost.ReplyToList)
-                {
-                    sb.AppendFormat("ReplyToList    : {0}<br>", nm);
-                }
-
-                sb.AppendFormat("ScreenName           : {0}<br>", _curPost.ScreenName);
-                sb.AppendFormat("NickName       : {0}<br>", _curPost.Nickname);
-                sb.AppendFormat("Text   : {0}<br>", _curPost.Text);
-                sb.AppendFormat("(PlainText)    : <xmp>{0}</xmp><br>", _curPost.Text);
-                sb.AppendFormat("CreatedAt          : {0}<br>", _curPost.CreatedAt.ToString());
-                sb.AppendFormat("Source         : {0}<br>", _curPost.Source);
-                sb.AppendFormat("UserId            : {0}<br>", _curPost.UserId);
-                sb.AppendFormat("FilterHit      : {0}<br>", _curPost.FilterHit);
-                sb.AppendFormat("RetweetedBy    : {0}<br>", _curPost.RetweetedBy);
-                sb.AppendFormat("RetweetedId    : {0}<br>", _curPost.RetweetedId);
-                sb.AppendFormat("SearchTabName  : {0}<br>", _curPost.RelTabName);
-                sb.Append("-----End PostClass Dump<br>");
-
-                PostBrowser.DocumentText = detailHtmlFormatHeader + sb.ToString() + detailHtmlFormatFooter;
-            }
-            else
-            {
-                // 同じIDのツイートであれば WebBrowser とサムネイルの更新を行わない
-                // (同一ツイートの RT は文面が同じであるため同様に更新しない)
-                if (_curPost.StatusId != oldDisplayPost.StatusId)
-                {
-                    this.PostBrowser.DocumentText =
-                        this.createDetailHtml(_curPost.IsDeleted ? "(DELETED)" : _curPost.Text);
-
-                    this.SplitContainer3.Panel2Collapsed = true;
-
-                    if (this.IsPreviewEnable)
+                    var mc = Regex.Match(_curPost.SourceHtml, "<a href=\"(?<sourceurl>.+?)\"");
+                    if (mc.Success)
                     {
-                        if (this.thumbnailTokenSource != null)
+                        var src = mc.Groups["sourceurl"].Value;
+                        if (Regex.IsMatch(src, "^https?://"))
+                            sourceUrl = src;
+                        else
+                            sourceUrl = "https://twitter.com/" + src;
+                    }
+
+                    if (_curPost.Source != null)
+                        sourceText = _curPost.Source;
+                }
+                SourceLinkLabel.Text = sourceText;
+                SourceLinkLabel.Tag = sourceUrl;
+                SourceLinkLabel.TabStop = false; // Text を更新すると勝手に true にされる
+
+                string nameText;
+                if (_curPost.IsDm)
+                {
+                    if (_curPost.IsOwl)
+                        nameText = "DM FROM <- ";
+                    else
+                        nameText = "DM TO -> ";
+                }
+                else
+                {
+                    nameText = "";
+                }
+                nameText += _curPost.ScreenName + "/" + _curPost.Nickname;
+                if (_curPost.RetweetedId != null)
+                    nameText += " (RT:" + _curPost.RetweetedBy + ")";
+
+                NameLabel.Text = nameText;
+                NameLabel.Tag = _curPost.ScreenName;
+
+                var nameForeColor = SystemColors.ControlText;
+                if (_curPost.IsOwl && (this.SettingDialog.OneWayLove || _curPost.IsDm))
+                    nameForeColor = this._clOWL;
+                if (_curPost.RetweetedId != null)
+                    nameForeColor = this._clRetweet;
+                if (_curPost.IsFav)
+                    nameForeColor = this._clFav;
+                NameLabel.ForeColor = nameForeColor;
+
+                this.ClearUserPicture();
+
+                if (!string.IsNullOrEmpty(_curPost.ImageUrl))
+                {
+                    var image = IconCache.TryGetFromCache(_curPost.ImageUrl);
+                    try
+                    {
+                        UserPicture.Image = image != null ? image.Clone() : null;
+                    }
+                    catch (Exception)
+                    {
+                        UserPicture.ShowErrorImage();
+                    }
+                }
+
+                DateTimeLabel.Text = _curPost.CreatedAt.ToString();
+
+                if (DumpPostClassToolStripMenuItem.Checked)
+                {
+                    StringBuilder sb = new StringBuilder(512);
+
+                    sb.Append("-----Start PostClass Dump<br>");
+                    sb.AppendFormat("TextFromApi           : {0}<br>", _curPost.TextFromApi);
+                    sb.AppendFormat("(PlainText)    : <xmp>{0}</xmp><br>", _curPost.TextFromApi);
+                    sb.AppendFormat("StatusId             : {0}<br>", _curPost.StatusId.ToString());
+                    //sb.AppendFormat("ImageIndex     : {0}<br>", _curPost.ImageIndex.ToString());
+                    sb.AppendFormat("ImageUrl       : {0}<br>", _curPost.ImageUrl);
+                    sb.AppendFormat("InReplyToStatusId    : {0}<br>", _curPost.InReplyToStatusId.ToString());
+                    sb.AppendFormat("InReplyToUser  : {0}<br>", _curPost.InReplyToUser);
+                    sb.AppendFormat("IsDM           : {0}<br>", _curPost.IsDm.ToString());
+                    sb.AppendFormat("IsFav          : {0}<br>", _curPost.IsFav.ToString());
+                    sb.AppendFormat("IsMark         : {0}<br>", _curPost.IsMark.ToString());
+                    sb.AppendFormat("IsMe           : {0}<br>", _curPost.IsMe.ToString());
+                    sb.AppendFormat("IsOwl          : {0}<br>", _curPost.IsOwl.ToString());
+                    sb.AppendFormat("IsProtect      : {0}<br>", _curPost.IsProtect.ToString());
+                    sb.AppendFormat("IsRead         : {0}<br>", _curPost.IsRead.ToString());
+                    sb.AppendFormat("IsReply        : {0}<br>", _curPost.IsReply.ToString());
+
+                    foreach (string nm in _curPost.ReplyToList)
+                    {
+                        sb.AppendFormat("ReplyToList    : {0}<br>", nm);
+                    }
+
+                    sb.AppendFormat("ScreenName           : {0}<br>", _curPost.ScreenName);
+                    sb.AppendFormat("NickName       : {0}<br>", _curPost.Nickname);
+                    sb.AppendFormat("Text   : {0}<br>", _curPost.Text);
+                    sb.AppendFormat("(PlainText)    : <xmp>{0}</xmp><br>", _curPost.Text);
+                    sb.AppendFormat("CreatedAt          : {0}<br>", _curPost.CreatedAt.ToString());
+                    sb.AppendFormat("Source         : {0}<br>", _curPost.Source);
+                    sb.AppendFormat("UserId            : {0}<br>", _curPost.UserId);
+                    sb.AppendFormat("FilterHit      : {0}<br>", _curPost.FilterHit);
+                    sb.AppendFormat("RetweetedBy    : {0}<br>", _curPost.RetweetedBy);
+                    sb.AppendFormat("RetweetedId    : {0}<br>", _curPost.RetweetedId);
+                    sb.AppendFormat("SearchTabName  : {0}<br>", _curPost.RelTabName);
+                    sb.Append("-----End PostClass Dump<br>");
+
+                    PostBrowser.DocumentText = detailHtmlFormatHeader + sb.ToString() + detailHtmlFormatFooter;
+                }
+                else
+                {
+                    // 同じIDのツイートであれば WebBrowser とサムネイルの更新を行わない
+                    // (同一ツイートの RT は文面が同じであるため同様に更新しない)
+                    if (_curPost.StatusId != oldDisplayPost.StatusId)
+                    {
+                        this.PostBrowser.DocumentText =
+                            this.createDetailHtml(_curPost.IsDeleted ? "(DELETED)" : _curPost.Text);
+
+                        this.SplitContainer3.Panel2Collapsed = true;
+
+                        if (this.IsPreviewEnable)
                         {
-                            var oldTokenSource = this.thumbnailTokenSource;
+                            if (this.thumbnailTokenSource != null)
+                            {
+                                var oldTokenSource = this.thumbnailTokenSource;
 
-                            oldTokenSource.Cancel();
+                                oldTokenSource.Cancel();
 
-                            this.thumbnailTask.ContinueWith(_ => oldTokenSource.Dispose());
+                                this.thumbnailTask.ContinueWith(_ => oldTokenSource.Dispose());
+                            }
+
+                            this.thumbnailTokenSource = new CancellationTokenSource();
+
+                            var token = this.thumbnailTokenSource.Token;
+                            this.thumbnailTask = this.tweetThumbnail1.ShowThumbnailAsync(_curPost, token);
                         }
-
-                        this.thumbnailTokenSource = new CancellationTokenSource();
-
-                        var token = this.thumbnailTokenSource.Token;
-                        this.thumbnailTask = this.tweetThumbnail1.ShowThumbnailAsync(_curPost, token);
                     }
                 }
             }
