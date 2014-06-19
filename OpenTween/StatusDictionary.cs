@@ -85,7 +85,7 @@ namespace OpenTween
         public int RetweetedCount { get; set; }
         public long? RetweetedByUserId { get; set; }
         public long? InReplyToUserId { get; set; }
-        public Dictionary<string, List<string>> Media { get; set; }
+        public List<string> Media { get; set; }
 
         public string RelTabName { get; set; }
         public int FavoritedCount { get; set; }
@@ -162,7 +162,7 @@ namespace OpenTween
         {
             RetweetedBy = "";
             RelTabName = "";
-            Media = new Dictionary<string, List<string>>();
+            Media = new List<string>();
             ReplyToList = new List<string>();
         }
 
@@ -377,7 +377,7 @@ namespace OpenTween
             var clone = (PostClass)this.MemberwiseClone();
             clone.ReplyToList = new List<string>(this.ReplyToList);
             clone.PostGeo = new StatusGeo { Lng = this.PostGeo.Lng, Lat = this.PostGeo.Lat };
-            clone.Media = new Dictionary<string, List<string>>(this.Media);
+            clone.Media = new List<string>(this.Media);
 
             return clone;
         }
