@@ -92,9 +92,6 @@ namespace OpenTween.Connection
                 if (!mediaFile.Exists)
                     throw new ArgumentException("Err:File isn't exists.", "filePaths");
 
-                if (MyCommon.IsAnimatedGif(filePath))
-                    throw new ArgumentException("Err:Don't support animatedGIF.", "filePaths");
-
                 mediaFiles.Add(mediaFile);
             }
 
