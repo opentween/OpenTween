@@ -6187,6 +6187,8 @@ namespace OpenTween
                         this.PostBrowser.DocumentText =
                             this.createDetailHtml(_curPost.IsDeleted ? "(DELETED)" : _curPost.Text);
 
+                        this.PostBrowser.Document.Window.ScrollTo(0, 0);
+
                         this.SplitContainer3.Panel2Collapsed = true;
 
                         if (this.IsPreviewEnable)
