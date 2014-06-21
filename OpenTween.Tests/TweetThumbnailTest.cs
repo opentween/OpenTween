@@ -128,9 +128,9 @@ namespace OpenTween
             var post = new PostClass
             {
                 TextFromApi = "てすと http://foo.example.com/abcd",
-                Media = new Dictionary<string, string>
+                Media = new List<string>
                 {
-                    {"http://foo.example.com/abcd", "http://foo.example.com/abcd"},
+                    "http://foo.example.com/abcd",
                 },
             };
 
@@ -184,9 +184,9 @@ namespace OpenTween
             var post = new PostClass
             {
                 TextFromApi = "てすと http://foo.example.com/abcd",
-                Media = new Dictionary<string, string>
+                Media = new List<string>
                 {
-                    {"http://foo.example.com/abcd", "http://foo.example.com/abcd"},
+                    "http://foo.example.com/abcd",
                 },
             };
 
@@ -217,10 +217,10 @@ namespace OpenTween
             var post = new PostClass
             {
                 TextFromApi = "てすと http://foo.example.com/abcd http://bar.example.com/efgh",
-                Media = new Dictionary<string, string>
+                Media = new List<string>
                 {
-                    {"http://foo.example.com/abcd", "http://foo.example.com/abcd"},
-                    {"http://bar.example.com/efgh", "http://bar.example.com/efgh"},
+                    "http://foo.example.com/abcd",
+                    "http://bar.example.com/efgh",
                 },
             };
 
@@ -267,7 +267,7 @@ namespace OpenTween
                 var post = new PostClass
                 {
                     TextFromApi = "てすと",
-                    Media = new Dictionary<string, string>
+                    Media = new List<string>
                     {
                     },
                 };
@@ -281,9 +281,9 @@ namespace OpenTween
                 var post2 = new PostClass
                 {
                     TextFromApi = "てすと http://foo.example.com/abcd",
-                    Media = new Dictionary<string, string>
+                    Media = new List<string>
                     {
-                        {"http://foo.example.com/abcd", "http://foo.example.com/abcd"},
+                        "http://foo.example.com/abcd",
                     },
                 };
                 eventCalled = false;
@@ -299,10 +299,10 @@ namespace OpenTween
             var post = new PostClass
             {
                 TextFromApi = "てすと http://foo.example.com/abcd http://foo.example.com/efgh",
-                Media = new Dictionary<string, string>
+                Media = new List<string>
                 {
-                    {"http://foo.example.com/abcd", "http://foo.example.com/abcd"},
-                    {"http://foo.example.com/efgh", "http://foo.example.com/efgh"},
+                    "http://foo.example.com/abcd",
+                    "http://foo.example.com/efgh",
                 },
             };
 
