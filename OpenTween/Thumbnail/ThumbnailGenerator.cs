@@ -203,7 +203,7 @@ namespace OpenTween.Thumbnail
                 new MetaThumbnailService(http, @"^https?://path.com/p/\w+$"),
 
                 // GIFMAGAZINE
-                new MetaThumbnailService(http, @"^http?://gifmagazine\.net/post_images/\d+$"),
+                new SimpleThumbnailService(@"^http://gifmagazine\.net/post_images/(\d+)", "http://img.gifmagazine.net/gifmagazine/images/${1}/original.gif"),
             };
         }
 
