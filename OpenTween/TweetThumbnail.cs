@@ -44,8 +44,6 @@ namespace OpenTween
         public event EventHandler<ThumbnailDoubleClickEventArgs> ThumbnailDoubleClick;
         public event EventHandler<ThumbnailImageSearchEventArgs> ThumbnailImageSearchClick;
 
-        private readonly HttpClient http = MyCommon.CreateHttpClient();
-
         private object uiLockObj = new object();
 
         public ThumbnailInfo Thumbnail
@@ -92,7 +90,7 @@ namespace OpenTween
                 picbox.Tag = thumb;
                 picbox.ContextMenuStrip = this.contextMenuStrip;
 
-                var loadTask = picbox.SetImageFromTask(() => thumb.LoadThumbnailImageAsync(this.http, cancelToken));
+                var loadTask = picbox.SetImageFromTask(() => thumb.LoadThumbnailImageAsync(cancelToken));
                 loadTasks.Add(loadTask);
 
                 var tooltipText = thumb.TooltipText;

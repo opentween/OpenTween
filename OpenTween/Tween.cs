@@ -53,7 +53,7 @@ namespace OpenTween
 {
     public partial class TweenMain : OTBaseForm
     {
-        private readonly HttpClient http;
+        private HttpClient http;
 
         //各種設定
         private Size _mySize;           //画面サイズ
@@ -12289,7 +12289,14 @@ namespace OpenTween
         private HookGlobalHotkey _hookGlobalHotkey;
         public TweenMain()
         {
-            this.http = MyCommon.CreateHttpClient();
+            this.http = HttpConnection.CreateHttpClient(new HttpClientHandler());
+            HttpConnection.WebProxyChanged += (o, e) =>
+            {
+                var newClient = HttpConnection.CreateHttpClient(new HttpClientHandler());
+                var oldClient = Interlocked.Exchange(ref this.http, newClient);
+                oldClient.Dispose();
+            };
+
             _hookGlobalHotkey = new HookGlobalHotkey(this);
 
             // この呼び出しは、Windows フォーム デザイナで必要です。

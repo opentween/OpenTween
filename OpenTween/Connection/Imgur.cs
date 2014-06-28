@@ -147,16 +147,13 @@ namespace OpenTween.Connection
                 content.Add(fileContent, "image", file.Name);
                 content.Add(titleContent, "title");
 
-                using (var http = MyCommon.CreateHttpClient())
                 using (var request = new HttpRequestMessage(HttpMethod.Post, UploadEndpoint))
                 {
-                    http.Timeout = TimeSpan.FromMinutes(1);
-
                     request.Headers.Authorization =
                         new AuthenticationHeaderValue("Client-ID", ApplicationSettings.ImgurClientID);
                     request.Content = content;
 
-                    using (var response = await http.SendAsync(request).ConfigureAwait(false))
+                    using (var response = await HttpConnection.GlobalHttpClient.SendAsync(request).ConfigureAwait(false))
                     {
                         response.EnsureSuccessStatusCode();
 

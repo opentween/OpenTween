@@ -163,14 +163,13 @@ namespace OpenTween
 
             await this.UserPicture.SetImageFromTask(async () =>
             {
-                using (var http = MyCommon.CreateHttpClient())
-                {
-                    var imageStream = await http.GetStreamAsync(imageUri.Replace("_normal", "_bigger"))
-                        .ConfigureAwait(false);
+                var uri = imageUri.Replace("_normal", "_bigger");
 
-                    return await MemoryImage.CopyFromStreamAsync(imageStream)
-                        .ConfigureAwait(false);
-                }
+                var imageStream = await HttpConnection.GlobalHttpClient.GetStreamAsync(uri)
+                    .ConfigureAwait(false);
+
+                return await MemoryImage.CopyFromStreamAsync(imageStream)
+                    .ConfigureAwait(false);
             });
         }
 

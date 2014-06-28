@@ -27,7 +27,9 @@
 using System.Collections.Specialized;
 using System.IO;
 using System.Net;
+using System.Net.Http;
 using System.Text;
+using System.Threading;
 using System;
 using System.Collections.Generic;
 using System.IO.Compression;
@@ -47,12 +49,12 @@ namespace OpenTween
         ///<summary>
         ///プロキシ
         ///</summary>
-        internal static WebProxy proxy = null;
+        private static IWebProxy proxy = null;
 
         ///<summary>
         ///ユーザーが選択したプロキシの方式
         ///</summary>
-        internal static ProxyType proxyKind = ProxyType.IE;
+        private static ProxyType proxyKind = ProxyType.IE;
 
         ///<summary>
         ///初期化済みフラグ
@@ -610,6 +612,21 @@ namespace OpenTween
         }
         #endregion
 
+        /// <summary>
+        /// OpenTween 内で共通して使用する HttpClient インスタンス
+        /// </summary>
+        public static HttpClient GlobalHttpClient
+        {
+            get { return globalHttpClient; }
+        }
+
+        /// <summary>
+        /// Webプロキシの設定が変更された場合に発生します
+        /// </summary>
+        public static event EventHandler WebProxyChanged;
+
+        private static HttpClient globalHttpClient = CreateHttpClient(new HttpClientHandler());
+
         ///<summary>
         ///通信クラスの初期化処理。タイムアウト値とプロキシを設定する
         ///</summary>
@@ -622,34 +639,80 @@ namespace OpenTween
         ///<param name="proxyPort">プロキシのポート番号</param>
         ///<param name="proxyUser">プロキシ認証が必要な場合のユーザ名。不要なら空文字</param>
         ///<param name="proxyPassword">プロキシ認証が必要な場合のパスワード。不要なら空文字</param>
-        public static void InitializeConnection(
-                int timeout,
-                ProxyType proxyType,
-                string proxyAddress,
-                int proxyPort,
-                string proxyUser,
-                string proxyPassword)
+        public static void InitializeConnection(int timeout,
+            ProxyType proxyType, string proxyAddress, int proxyPort,
+            string proxyUser, string proxyPassword)
         {
-            isInitialize = true;
+            HttpConnection.isInitialize = true;
+            HttpConnection.DefaultTimeout = timeout * 1000; // s -> ms
+
             ServicePointManager.Expect100Continue = false;
-            DefaultTimeout = timeout * 1000;     //s -> ms
+
+            SetWebProxy(proxyType, proxyAddress, proxyPort, proxyUser, proxyPassword);
+        }
+
+        public static void SetWebProxy(ProxyType proxyType, string proxyAddress, int proxyPort,
+            string proxyUser, string proxyPassword)
+        {
+            IWebProxy proxy;
             switch (proxyType)
             {
                 case ProxyType.None:
                     proxy = null;
                     break;
                 case ProxyType.Specified:
-                    proxy = new WebProxy("http://" + proxyAddress + ":" + proxyPort);
-                    if (!String.IsNullOrEmpty(proxyUser) || !String.IsNullOrEmpty(proxyPassword))
+                    proxy = new WebProxy(proxyAddress, proxyPort);
+                    if (!string.IsNullOrEmpty(proxyUser) || !string.IsNullOrEmpty(proxyPassword))
                         proxy.Credentials = new NetworkCredential(proxyUser, proxyPassword);
                     break;
                 case ProxyType.IE:
-                    //IE設定（システム設定）はデフォルト値なので処理しない
+                default:
+                    proxy = WebRequest.GetSystemWebProxy();
                     break;
             }
-            proxyKind = proxyType;
+
+            HttpConnection.proxyKind = proxyType;
+            HttpConnection.proxy = proxy;
 
             Win32Api.SetProxy(proxyType, proxyAddress, proxyPort, proxyUser, proxyPassword);
+
+            OnWebProxyChanged(EventArgs.Empty);
+        }
+
+        /// <summary>
+        /// プロキシ等の設定を施した HttpClient インスタンスを生成します
+        /// </summary>
+        /// <remarks>
+        /// 通常は HttpConnection.GlobalHttpClient を使用すべきです。
+        /// このメソッドを使用する場合は、WebProxyChanged イベントが発生する度に HttpClient を生成し直すように実装してください。
+        /// </remarks>
+        public static HttpClient CreateHttpClient(HttpClientHandler handler)
+        {
+            if (HttpConnection.proxy != null)
+            {
+                handler.UseProxy = true;
+                handler.Proxy = HttpConnection.proxy;
+            }
+            else
+            {
+                handler.UseProxy = false;
+            }
+
+            var client = new HttpClient(handler);
+            client.Timeout = TimeSpan.FromMilliseconds(HttpConnection.DefaultTimeout);
+            client.DefaultRequestHeaders.Add("User-Agent", MyCommon.GetUserAgentString());
+
+            return client;
+        }
+
+        private static void OnWebProxyChanged(EventArgs e)
+        {
+            var newClient = HttpConnection.CreateHttpClient(new HttpClientHandler());
+            var oldClient = Interlocked.Exchange(ref globalHttpClient, newClient);
+            oldClient.Dispose();
+
+            if (WebProxyChanged != null)
+                WebProxyChanged(null, e);
         }
     }
 }

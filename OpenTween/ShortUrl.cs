@@ -31,6 +31,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
 
@@ -122,18 +123,18 @@ namespace OpenTween
 
         static ShortUrl()
         {
-            _instance = new Lazy<ShortUrl>(() =>
+            _instance = new Lazy<ShortUrl>(() => new ShortUrl(), true);
+        }
+
+        internal ShortUrl()
+            : this(CreateDefaultHttpClient())
+        {
+            HttpConnection.WebProxyChanged += (o, e) =>
             {
-                var handler = new HttpClientHandler
-                {
-                    AllowAutoRedirect = false,
-                };
-
-                var http = MyCommon.CreateHttpClient(handler);
-                http.Timeout = new TimeSpan(0, 0, seconds: 5);
-
-                return new ShortUrl(http);
-            }, true);
+                var newClient = CreateDefaultHttpClient();
+                var oldClient = Interlocked.Exchange(ref this.http, newClient);
+                oldClient.Dispose();
+            };
         }
 
         internal ShortUrl(HttpClient http)
@@ -487,6 +488,19 @@ namespace OpenTween
 
                 return response.Headers.Location;
             }
+        }
+
+        private static HttpClient CreateDefaultHttpClient()
+        {
+            var handler = new HttpClientHandler
+            {
+                AllowAutoRedirect = false,
+            };
+
+            var http = HttpConnection.CreateHttpClient(handler);
+            http.Timeout = TimeSpan.FromSeconds(5);
+
+            return http;
         }
     }
 }

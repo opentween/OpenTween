@@ -976,41 +976,6 @@ namespace OpenTween
         }
 
         /// <summary>
-        /// OpenTween 内で共通して使う設定を施した HttpClient インスタンスを作成します
-        /// </summary>
-        public static HttpClient CreateHttpClient()
-        {
-            return CreateHttpClient(new HttpClientHandler());
-        }
-
-        /// <summary>
-        /// OpenTween 内で共通して使う設定を施した HttpClient インスタンスを作成します
-        /// </summary>
-        public static HttpClient CreateHttpClient(HttpClientHandler handler)
-        {
-            switch (HttpConnection.proxyKind)
-            {
-                case HttpConnection.ProxyType.None:
-                    handler.UseProxy = false;
-                    break;
-                case HttpConnection.ProxyType.Specified:
-                    handler.UseProxy = true;
-                    handler.Proxy = HttpConnection.proxy;
-                    break;
-                case HttpConnection.ProxyType.IE:
-                default:
-                    handler.UseProxy = true;
-                    handler.Proxy = WebRequest.GetSystemWebProxy();
-                    break;
-            }
-
-            var client = new HttpClient(handler);
-            client.DefaultRequestHeaders.Add("User-Agent", MyCommon.GetUserAgentString());
-
-            return client;
-        }
-
-        /// <summary>
         /// 指定された IDictionary を元にクエリ文字列を生成します
         /// </summary>
         /// <param name="param">生成するクエリの key-value コレクション</param>
