@@ -36,6 +36,11 @@ namespace OpenTween.Thumbnail.Services
         public static readonly string UrlPattern =
             @"^http://www\.pixiv\.net/(member_illust|index)\.php\?(?=.*mode=(medium|big))(?=.*illust_id=(?<illustId>[0-9]+)).*$";
 
+        public Pixiv()
+            : base(Pixiv.UrlPattern)
+        {
+        }
+
         public Pixiv(HttpClient http)
             : base(http, Pixiv.UrlPattern)
         {

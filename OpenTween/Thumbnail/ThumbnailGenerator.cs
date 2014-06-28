@@ -42,9 +42,9 @@ namespace OpenTween.Thumbnail
             ThumbnailGenerator.Services = new List<IThumbnailService>();
         }
 
-        public static void InitializeGenerator(HttpClient http)
+        public static void InitializeGenerator()
         {
-            ImgAzyobuziNetInstance = new ImgAzyobuziNet(http, autoupdate: true);
+            ImgAzyobuziNetInstance = new ImgAzyobuziNet(autoupdate: true);
 
             ThumbnailGenerator.Services = new List<IThumbnailService>()
             {
@@ -125,10 +125,10 @@ namespace OpenTween.Thumbnail
                     "http://lohas.nicoseiga.jp/thumb/${id}l?"),
 
                 // pixiv
-                new Pixiv(http),
+                new Pixiv(),
 
                 // flickr
-                new MetaThumbnailService(http, @"^https?://www\.flickr\.com/.+$"),
+                new MetaThumbnailService(@"^https?://www\.flickr\.com/.+$"),
 
                 // フォト蔵
                 new SimpleThumbnailService(
@@ -137,7 +137,7 @@ namespace OpenTween.Thumbnail
                     "http://photozou.jp/p/img/${photoId}"),
 
                 // Piapro
-                new MetaThumbnailService(http, @"^http://piapro\.jp/(?:content/[0-9a-z]+|t/[0-9a-zA-Z_\-]+)$"),
+                new MetaThumbnailService(@"^http://piapro\.jp/(?:content/[0-9a-z]+|t/[0-9a-zA-Z_\-]+)$"),
 
                 // Tumblr
                 new Tumblr(),
@@ -152,7 +152,7 @@ namespace OpenTween.Thumbnail
                 new SimpleThumbnailService(@"^http://ow\.ly/i/(\w+)$", "http://static.ow.ly/photos/thumb/${1}.jpg"),
 
                 // vimeo
-                new Vimeo(http),
+                new Vimeo(),
 
                 // cloudfiles
                 new SimpleThumbnailService(@"^http://c[0-9]+\.cdn[0-9]+\.cloudfiles\.rackspacecloud\.com/[a-z_0-9]+", "${0}"),
@@ -170,10 +170,10 @@ namespace OpenTween.Thumbnail
                     "http://pikubo.me/l/${1}"),
 
                 // Foursquare
-                new FoursquareCheckin(http),
+                new FoursquareCheckin(),
 
                 // TINAMI
-                new Tinami(http),
+                new Tinami(),
 
                 // pic.twitter.com
                 new SimpleThumbnailService(
@@ -194,13 +194,13 @@ namespace OpenTween.Thumbnail
                     "${0}.jpg"),
 
                 // via.me
-                new ViaMe(http),
+                new ViaMe(),
 
                 // tuna.be
                 new SimpleThumbnailService(@"^http://tuna\.be/t/(?<entryId>[a-zA-Z0-9\.\-_]+)$", "http://tuna.be/show/thumb/${entryId}"),
 
                 // Path (path.com)
-                new MetaThumbnailService(http, @"^https?://path.com/p/\w+$"),
+                new MetaThumbnailService(@"^https?://path.com/p/\w+$"),
 
                 // GIFMAGAZINE
                 new SimpleThumbnailService(@"^http://gifmagazine\.net/post_images/(\d+)", "http://img.gifmagazine.net/gifmagazine/images/${1}/original.gif"),

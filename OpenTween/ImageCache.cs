@@ -34,11 +34,6 @@ namespace OpenTween
     public class ImageCache : IDisposable
     {
         /// <summary>
-        /// 画像の取得に使用する HttpClient インスタンス
-        /// </summary>
-        private readonly HttpClient http;
-
-        /// <summary>
         /// キャッシュとして URL と取得した画像を対に保持する辞書
         /// </summary>
         internal LRUCacheDictionary<string, Task<MemoryImage>> innerDictionary;
@@ -58,10 +53,8 @@ namespace OpenTween
         /// </summary>
         private bool disposed = false;
 
-        public ImageCache(HttpClient http)
+        public ImageCache()
         {
-            this.http = http;
-
             this.innerDictionary = new LRUCacheDictionary<string, Task<MemoryImage>>(trimLimit: 300, autoTrimCount: 100);
             this.innerDictionary.CacheRemoved += (s, e) => {
                 // まだ参照されている場合もあるのでDisposeはファイナライザ任せ
@@ -129,7 +122,7 @@ namespace OpenTween
 
         private async Task<MemoryImage> FetchImageAsync(string uri, CancellationToken cancelToken)
         {
-            using (var response = await this.http.GetAsync(uri, cancelToken).ConfigureAwait(false))
+            using (var response = await HttpConnection.GlobalHttpClient.GetAsync(uri, cancelToken).ConfigureAwait(false))
             {
                 var imageStream = await response.Content.ReadAsStreamAsync()
                     .ConfigureAwait(false);

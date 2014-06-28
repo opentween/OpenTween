@@ -38,11 +38,20 @@ namespace OpenTween.Thumbnail.Services
         public static readonly Regex UrlPatternRegex =
             new Regex(@"^http://www\.tinami\.com/view/(?<ContentId>\d+)$");
 
-        protected readonly HttpClient http;
+        protected HttpClient http
+        {
+            get { return this.localHttpClient ?? HttpConnection.GlobalHttpClient; }
+        }
+        private readonly HttpClient localHttpClient;
+
+        public Tinami()
+            : this(null)
+        {
+        }
 
         public Tinami(HttpClient http)
         {
-            this.http = http;
+            this.localHttpClient = http;
         }
 
         public override async Task<ThumbnailInfo> GetThumbnailInfoAsync(string url, PostClass post, CancellationToken token)

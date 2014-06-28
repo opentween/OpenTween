@@ -53,8 +53,6 @@ namespace OpenTween
 {
     public partial class TweenMain : OTBaseForm
     {
-        private HttpClient http;
-
         //各種設定
         private Size _mySize;           //画面サイズ
         private Point _myLoc;           //画面位置
@@ -362,8 +360,6 @@ namespace OpenTween
                 this.IconCache.Dispose();
             }
 
-            this.http.Dispose();
-
             // 終了時にRemoveHandlerしておかないとメモリリークする
             // http://msdn.microsoft.com/ja-jp/library/microsoft.win32.systemevents.powermodechanged.aspx
             Microsoft.Win32.SystemEvents.PowerModeChanged -= SystemEvents_PowerModeChanged;
@@ -664,7 +660,7 @@ namespace OpenTween
             ////設定読み出し
             LoadConfig();
 
-            ThumbnailGenerator.InitializeGenerator(this.http);
+            ThumbnailGenerator.InitializeGenerator();
 
             var imgazyobizinet = ThumbnailGenerator.ImgAzyobuziNetInstance;
             imgazyobizinet.Enabled = this._cfgCommon.EnableImgAzyobuziNet;
@@ -919,7 +915,7 @@ namespace OpenTween
             _initial = true;
 
             //アイコンリスト作成
-            this.IconCache = new ImageCache(this.http);
+            this.IconCache = new ImageCache();
 
             bool saveRequired = false;
             bool firstRun = false;
@@ -5918,7 +5914,7 @@ namespace OpenTween
             var versionInfoUrl = new Uri(ApplicationSettings.VersionInfoUrl + "?" +
                 DateTime.Now.ToString("yyMMddHHmmss") + Environment.TickCount);
 
-            var responseText = await this.http.GetStringAsync(versionInfoUrl)
+            var responseText = await HttpConnection.GlobalHttpClient.GetStringAsync(versionInfoUrl)
                 .ConfigureAwait(false);
 
             // 改行2つで前後パートを分割（前半がバージョン番号など、後半が詳細テキスト）
@@ -12289,14 +12285,6 @@ namespace OpenTween
         private HookGlobalHotkey _hookGlobalHotkey;
         public TweenMain()
         {
-            this.http = HttpConnection.CreateHttpClient(new HttpClientHandler());
-            HttpConnection.WebProxyChanged += (o, e) =>
-            {
-                var newClient = HttpConnection.CreateHttpClient(new HttpClientHandler());
-                var oldClient = Interlocked.Exchange(ref this.http, newClient);
-                oldClient.Dispose();
-            };
-
             _hookGlobalHotkey = new HookGlobalHotkey(this);
 
             // この呼び出しは、Windows フォーム デザイナで必要です。
@@ -12978,7 +12966,7 @@ namespace OpenTween
             if (string.IsNullOrEmpty(str))
                 return;
 
-            var bing = new Bing(this.http);
+            var bing = new Bing();
             try
             {
                 var translatedText = await bing.TranslateAsync(str,

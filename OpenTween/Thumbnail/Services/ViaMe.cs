@@ -40,11 +40,20 @@ namespace OpenTween.Thumbnail.Services
         public static readonly Regex UrlPatternRegex =
             new Regex(@"^https?://via\.me/-(\w+)$");
 
-        protected readonly HttpClient http;
+        protected HttpClient http
+        {
+            get { return this.localHttpClient ?? HttpConnection.GlobalHttpClient; }
+        }
+        private readonly HttpClient localHttpClient;
+
+        public ViaMe()
+            : this(null)
+        {
+        }
 
         public ViaMe(HttpClient http)
         {
-            this.http = http;
+            this.localHttpClient = http;
         }
 
         public override async Task<ThumbnailInfo> GetThumbnailInfoAsync(string url, PostClass post, CancellationToken token)
