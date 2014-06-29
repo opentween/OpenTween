@@ -32,6 +32,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using System.Xml.Linq;
+using OpenTween.Connection;
 
 namespace OpenTween
 {
@@ -170,7 +171,7 @@ namespace OpenTween
 
         protected HttpClient http
         {
-            get { return this.localHttpClient ?? HttpConnection.GlobalHttpClient; }
+            get { return this.localHttpClient ?? Networking.Http; }
         }
         private readonly HttpClient localHttpClient;
 

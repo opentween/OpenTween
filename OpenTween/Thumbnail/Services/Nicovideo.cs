@@ -32,6 +32,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Xml;
+using OpenTween.Connection;
 
 namespace OpenTween.Thumbnail.Services
 {
@@ -54,7 +55,7 @@ namespace OpenTween.Thumbnail.Services
                 var src = "";
                 var imgurl = "";
                 string errmsg;
-                if ((new HttpVarious()).GetData(apiUrl, null, out src, 0, out errmsg, MyCommon.GetUserAgentString()))
+                if ((new HttpVarious()).GetData(apiUrl, null, out src, 0, out errmsg, Networking.GetUserAgentString()))
                 {
                     var sb = new StringBuilder();
                     var xdoc = new XmlDocument();

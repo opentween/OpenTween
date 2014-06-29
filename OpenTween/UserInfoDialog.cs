@@ -38,6 +38,7 @@ using System.Web;
 using System.IO;
 using System.Net;
 using OpenTween.Api;
+using OpenTween.Connection;
 
 namespace OpenTween
 {
@@ -165,7 +166,7 @@ namespace OpenTween
             {
                 var uri = imageUri.Replace("_normal", "_bigger");
 
-                var imageStream = await HttpConnection.GlobalHttpClient.GetStreamAsync(uri)
+                var imageStream = await Networking.Http.GetStreamAsync(uri)
                     .ConfigureAwait(false);
 
                 return await MemoryImage.CopyFromStreamAsync(imageStream)

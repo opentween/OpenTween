@@ -34,6 +34,7 @@ using System;
 using System.Collections.Generic;
 using System.IO.Compression;
 using System.Drawing;
+using OpenTween.Connection;
 
 ///<summary>
 ///HttpWebRequest,HttpWebResponseを使用した基本的な通信機能を提供する
@@ -46,28 +47,6 @@ namespace OpenTween
 {
     public class HttpConnection
     {
-        ///<summary>
-        ///プロキシ
-        ///</summary>
-        private static IWebProxy proxy = null;
-
-        ///<summary>
-        ///ユーザーが選択したプロキシの方式
-        ///</summary>
-        private static ProxyType proxyKind = ProxyType.IE;
-
-        ///<summary>
-        ///初期化済みフラグ
-        ///</summary>
-        private static bool isInitialize = false;
-
-        public enum ProxyType
-        {
-            None,
-            IE,
-            Specified,
-        }
-
         /// <summary>
         /// リクエスト間で Cookie を保持するか否か
         /// </summary>
@@ -98,7 +77,7 @@ namespace OpenTween
                                                Uri requestUri,
                                                Dictionary<string, string> param)
         {
-            if (!isInitialize) throw new Exception("Sequence error.(not initialized)");
+            Networking.CheckInitialized();
 
             //GETメソッドの場合はクエリとurlを結合
             UriBuilder ub = new UriBuilder(requestUri.AbsoluteUri);
@@ -112,7 +91,7 @@ namespace OpenTween
             webReq.ReadWriteTimeout = 90 * 1000; //Streamの読み込みは90秒でタイムアウト（デフォルト5分）
 
             //プロキシ設定
-            if (proxyKind != ProxyType.IE) webReq.Proxy = proxy;
+            if (Networking.ProxyType != ProxyType.IE) webReq.Proxy = Networking.Proxy;
 
             webReq.Method = method;
             if (method == "POST" || method == "PUT")
@@ -127,9 +106,9 @@ namespace OpenTween
             //cookie設定
             if (this.UseCookie) webReq.CookieContainer = this.cookieContainer;
             //タイムアウト設定
-            webReq.Timeout = this.InstanceTimeout ?? HttpConnection.DefaultTimeout;
+            webReq.Timeout = this.InstanceTimeout ?? (int)Networking.DefaultTimeout.TotalMilliseconds;
 
-            webReq.UserAgent = MyCommon.GetUserAgentString();
+            webReq.UserAgent = Networking.GetUserAgentString();
 
             return webReq;
         }
@@ -150,7 +129,7 @@ namespace OpenTween
                                                Dictionary<string, string> param,
                                                List<KeyValuePair<String, FileInfo>> binaryFileInfo)
         {
-            if (!isInitialize) throw new Exception("Sequence error.(not initialized)");
+            Networking.CheckInitialized();
 
             //methodはPOST,PUTのみ許可
             UriBuilder ub = new UriBuilder(requestUri.AbsoluteUri);
@@ -162,7 +141,7 @@ namespace OpenTween
             HttpWebRequest webReq = (HttpWebRequest)WebRequest.Create(ub.Uri);
 
             //プロキシ設定
-            if (proxyKind != ProxyType.IE) webReq.Proxy = proxy;
+            if (Networking.ProxyType != ProxyType.IE) webReq.Proxy = Networking.Proxy;
 
             webReq.Method = method;
             if (method == "POST" || method == "PUT")
@@ -277,7 +256,7 @@ namespace OpenTween
             //cookie設定
             if (this.UseCookie) webReq.CookieContainer = this.cookieContainer;
             //タイムアウト設定
-            webReq.Timeout = this.InstanceTimeout ?? HttpConnection.DefaultTimeout;
+            webReq.Timeout = this.InstanceTimeout ?? (int)Networking.DefaultTimeout.TotalMilliseconds;
 
             return webReq;
         }
@@ -585,134 +564,5 @@ namespace OpenTween
             }
         }
         #endregion
-
-        #region "DefaultTimeout"
-        ///<summary>
-        ///通信タイムアウト時間（ms）
-        ///</summary>
-        private static int timeout = 20000;
-
-        ///<summary>
-        ///通信タイムアウト時間（ms）。10～120秒の範囲で指定。範囲外は20秒とする
-        ///</summary>
-        protected static int DefaultTimeout
-        {
-            get { return timeout; }
-            set
-            {
-                const int TimeoutMinValue = 10000;
-                const int TimeoutMaxValue = 120000;
-                const int TimeoutDefaultValue = 20000;
-                if (value < TimeoutMinValue || value > TimeoutMaxValue)
-                    // 範囲外ならデフォルト値設定
-                    timeout = TimeoutDefaultValue;
-                else
-                    timeout = value;
-            }
-        }
-        #endregion
-
-        /// <summary>
-        /// OpenTween 内で共通して使用する HttpClient インスタンス
-        /// </summary>
-        public static HttpClient GlobalHttpClient
-        {
-            get { return globalHttpClient; }
-        }
-
-        /// <summary>
-        /// Webプロキシの設定が変更された場合に発生します
-        /// </summary>
-        public static event EventHandler WebProxyChanged;
-
-        private static HttpClient globalHttpClient = CreateHttpClient(new HttpClientHandler());
-
-        ///<summary>
-        ///通信クラスの初期化処理。タイムアウト値とプロキシを設定する
-        ///</summary>
-        ///<remarks>
-        ///通信開始前に最低一度呼び出すこと
-        ///</remarks>
-        ///<param name="timeout">タイムアウト値（秒）</param>
-        ///<param name="proxyType">なし・指定・IEデフォルト</param>
-        ///<param name="proxyAddress">プロキシのホスト名orIPアドレス</param>
-        ///<param name="proxyPort">プロキシのポート番号</param>
-        ///<param name="proxyUser">プロキシ認証が必要な場合のユーザ名。不要なら空文字</param>
-        ///<param name="proxyPassword">プロキシ認証が必要な場合のパスワード。不要なら空文字</param>
-        public static void InitializeConnection(int timeout,
-            ProxyType proxyType, string proxyAddress, int proxyPort,
-            string proxyUser, string proxyPassword)
-        {
-            HttpConnection.isInitialize = true;
-            HttpConnection.DefaultTimeout = timeout * 1000; // s -> ms
-
-            ServicePointManager.Expect100Continue = false;
-
-            SetWebProxy(proxyType, proxyAddress, proxyPort, proxyUser, proxyPassword);
-        }
-
-        public static void SetWebProxy(ProxyType proxyType, string proxyAddress, int proxyPort,
-            string proxyUser, string proxyPassword)
-        {
-            IWebProxy proxy;
-            switch (proxyType)
-            {
-                case ProxyType.None:
-                    proxy = null;
-                    break;
-                case ProxyType.Specified:
-                    proxy = new WebProxy(proxyAddress, proxyPort);
-                    if (!string.IsNullOrEmpty(proxyUser) || !string.IsNullOrEmpty(proxyPassword))
-                        proxy.Credentials = new NetworkCredential(proxyUser, proxyPassword);
-                    break;
-                case ProxyType.IE:
-                default:
-                    proxy = WebRequest.GetSystemWebProxy();
-                    break;
-            }
-
-            HttpConnection.proxyKind = proxyType;
-            HttpConnection.proxy = proxy;
-
-            Win32Api.SetProxy(proxyType, proxyAddress, proxyPort, proxyUser, proxyPassword);
-
-            OnWebProxyChanged(EventArgs.Empty);
-        }
-
-        /// <summary>
-        /// プロキシ等の設定を施した HttpClient インスタンスを生成します
-        /// </summary>
-        /// <remarks>
-        /// 通常は HttpConnection.GlobalHttpClient を使用すべきです。
-        /// このメソッドを使用する場合は、WebProxyChanged イベントが発生する度に HttpClient を生成し直すように実装してください。
-        /// </remarks>
-        public static HttpClient CreateHttpClient(HttpClientHandler handler)
-        {
-            if (HttpConnection.proxy != null)
-            {
-                handler.UseProxy = true;
-                handler.Proxy = HttpConnection.proxy;
-            }
-            else
-            {
-                handler.UseProxy = false;
-            }
-
-            var client = new HttpClient(handler);
-            client.Timeout = TimeSpan.FromMilliseconds(HttpConnection.DefaultTimeout);
-            client.DefaultRequestHeaders.Add("User-Agent", MyCommon.GetUserAgentString());
-
-            return client;
-        }
-
-        private static void OnWebProxyChanged(EventArgs e)
-        {
-            var newClient = HttpConnection.CreateHttpClient(new HttpClientHandler());
-            var oldClient = Interlocked.Exchange(ref globalHttpClient, newClient);
-            oldClient.Dispose();
-
-            if (WebProxyChanged != null)
-                WebProxyChanged(null, e);
-        }
     }
 }

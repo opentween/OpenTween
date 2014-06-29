@@ -28,6 +28,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
+using OpenTween.Connection;
 
 namespace OpenTween.Thumbnail.Services
 {
@@ -68,7 +69,7 @@ namespace OpenTween.Thumbnail.Services
             {
                 var request = new HttpRequestMessage(HttpMethod.Get, this.ThumbnailUrl);
 
-                request.Headers.Add("User-Agent", MyCommon.GetUserAgentString(fakeMSIE: true));
+                request.Headers.Add("User-Agent", Networking.GetUserAgentString(fakeMSIE: true));
                 request.Headers.Referrer = new Uri(this.ImageUrl);
 
                 using (var response = await http.SendAsync(request, cancellationToken).ConfigureAwait(false))

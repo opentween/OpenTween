@@ -30,6 +30,7 @@ using System.Linq;
 using System.Text;
 using System.Drawing;
 using System.Xml.Serialization;
+using OpenTween.Connection;
 
 namespace OpenTween
 {
@@ -70,7 +71,7 @@ namespace OpenTween
         public int DisplayIndex7 = 0;
         public int DisplayIndex8 = 7;
         public string BrowserPath = "";
-        public HttpConnection.ProxyType ProxyType = HttpConnection.ProxyType.IE;
+        public ProxyType ProxyType = ProxyType.IE;
         public string ProxyAddress = "127.0.0.1";
         public int ProxyPort = 80;
         public string ProxyUser = "";

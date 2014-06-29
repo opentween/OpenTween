@@ -28,6 +28,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
+using OpenTween.Connection;
 
 namespace OpenTween.Thumbnail.Services
 {
@@ -41,7 +42,7 @@ namespace OpenTween.Thumbnail.Services
 
         protected HttpClient http
         {
-            get { return this.localHttpClient ?? HttpConnection.GlobalHttpClient; }
+            get { return this.localHttpClient ?? Networking.Http; }
         }
         private readonly HttpClient localHttpClient;
 

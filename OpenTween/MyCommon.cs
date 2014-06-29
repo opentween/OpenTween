@@ -752,14 +752,6 @@ namespace OpenTween
             //RTByMe
         }
 
-        public static string GetUserAgentString(bool fakeMSIE = false)
-        {
-            if (fakeMSIE)
-                return GetAssemblyName() + "/" + FileVersion + " (compatible; MSIE 10.0)";
-            else
-                return GetAssemblyName() + "/" + FileVersion;
-        }
-
         public static TwitterApiStatus TwitterApiInfo = new TwitterApiStatus();
 
         public static bool IsAnimatedGif(string filename)

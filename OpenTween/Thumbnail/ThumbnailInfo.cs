@@ -26,6 +26,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using OpenTween.Connection;
 
 namespace OpenTween.Thumbnail
 {
@@ -43,7 +44,7 @@ namespace OpenTween.Thumbnail
 
         public Task<MemoryImage> LoadThumbnailImageAsync(CancellationToken cancellationToken)
         {
-            return this.LoadThumbnailImageAsync(HttpConnection.GlobalHttpClient, cancellationToken);
+            return this.LoadThumbnailImageAsync(Networking.Http, cancellationToken);
         }
 
         public async virtual Task<MemoryImage> LoadThumbnailImageAsync(HttpClient http, CancellationToken cancellationToken)

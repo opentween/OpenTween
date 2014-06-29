@@ -34,6 +34,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
+using OpenTween.Connection;
 
 namespace OpenTween
 {
@@ -129,7 +130,7 @@ namespace OpenTween
         internal ShortUrl()
             : this(CreateDefaultHttpClient())
         {
-            HttpConnection.WebProxyChanged += (o, e) =>
+            Networking.WebProxyChanged += (o, e) =>
             {
                 var newClient = CreateDefaultHttpClient();
                 var oldClient = Interlocked.Exchange(ref this.http, newClient);
@@ -497,7 +498,7 @@ namespace OpenTween
                 AllowAutoRedirect = false,
             };
 
-            var http = HttpConnection.CreateHttpClient(handler);
+            var http = Networking.CreateHttpClient(handler);
             http.Timeout = TimeSpan.FromSeconds(5);
 
             return http;

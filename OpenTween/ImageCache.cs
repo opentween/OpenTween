@@ -28,6 +28,7 @@ using System.Net;
 using System.Threading;
 using System.Xml.Serialization;
 using System.Net.Http;
+using OpenTween.Connection;
 
 namespace OpenTween
 {
@@ -122,7 +123,7 @@ namespace OpenTween
 
         private async Task<MemoryImage> FetchImageAsync(string uri, CancellationToken cancelToken)
         {
-            using (var response = await HttpConnection.GlobalHttpClient.GetAsync(uri, cancelToken).ConfigureAwait(false))
+            using (var response = await Networking.Http.GetAsync(uri, cancelToken).ConfigureAwait(false))
             {
                 var imageStream = await response.Content.ReadAsStreamAsync()
                     .ConfigureAwait(false);

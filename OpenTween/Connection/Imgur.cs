@@ -153,7 +153,7 @@ namespace OpenTween.Connection
                         new AuthenticationHeaderValue("Client-ID", ApplicationSettings.ImgurClientID);
                     request.Content = content;
 
-                    using (var response = await HttpConnection.GlobalHttpClient.SendAsync(request).ConfigureAwait(false))
+                    using (var response = await Networking.Http.SendAsync(request).ConfigureAwait(false))
                     {
                         response.EnsureSuccessStatusCode();
 

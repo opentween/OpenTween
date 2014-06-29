@@ -31,6 +31,7 @@ using System.Net;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
+using OpenTween.Connection;
 
 namespace OpenTween
 {
@@ -365,18 +366,18 @@ namespace OpenTween
             }
         }
 
-        public static void SetProxy(HttpConnection.ProxyType pType, string host, int port, string username, string password)
+        public static void SetProxy(ProxyType pType, string host, int port, string username, string password)
         {
             string proxy = null;
             switch (pType)
             {
-            case HttpConnection.ProxyType.IE:
+            case ProxyType.IE:
                 proxy = null;
                 break;
-            case HttpConnection.ProxyType.None:
+            case ProxyType.None:
                 proxy = "";
                 break;
-            case HttpConnection.ProxyType.Specified:
+            case ProxyType.Specified:
                 proxy = host + (port > 0 ? ":" + port.ToString() : "");
                 break;
             }

@@ -32,6 +32,7 @@ using System.Text;
 using System.Drawing;
 using System.IO;
 using System.Drawing.Drawing2D;
+using OpenTween.Connection;
 
 
 namespace OpenTween
@@ -228,7 +229,7 @@ namespace OpenTween
             {
                 HttpWebRequest req = CreateRequest(GetMethod, new Uri(Url), null);
                 req.AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip;
-                req.UserAgent = MyCommon.GetUserAgentString();
+                req.UserAgent = Networking.GetUserAgentString();
                 using (FileStream strm = new FileStream(savePath, FileMode.Create, FileAccess.Write))
                 {
                     try

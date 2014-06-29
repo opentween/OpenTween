@@ -914,6 +914,8 @@ namespace OpenTween
 
             _initial = true;
 
+            Networking.Initialize();
+
             //アイコンリスト作成
             this.IconCache = new ImageCache();
 
@@ -992,12 +994,10 @@ namespace OpenTween
             }
 
             //Twitter用通信クラス初期化
-            HttpConnection.InitializeConnection(SettingDialog.DefaultTimeOut,
-                                                SettingDialog.SelectedProxyType,
-                                                SettingDialog.ProxyAddress,
-                                                SettingDialog.ProxyPort,
-                                                SettingDialog.ProxyUser,
-                                                SettingDialog.ProxyPassword);
+            Networking.DefaultTimeout = TimeSpan.FromSeconds(this.SettingDialog.DefaultTimeOut);
+            Networking.SetWebProxy(this.SettingDialog.SelectedProxyType,
+                this.SettingDialog.ProxyAddress, this.SettingDialog.ProxyPort,
+                this.SettingDialog.ProxyUser, this.SettingDialog.ProxyPassword);
 
             tw.RestrictFavCheck = SettingDialog.RestrictFavCheck;
             tw.ReadOwnPost = SettingDialog.ReadOwnPost;
@@ -3915,12 +3915,10 @@ namespace OpenTween
                     ShortUrl.Instance.BitlyKey = SettingDialog.BitlyPwd;
                     HttpTwitter.TwitterUrl = _cfgCommon.TwitterUrl;
 
-                    HttpConnection.InitializeConnection(SettingDialog.DefaultTimeOut,
-                                                        SettingDialog.SelectedProxyType,
-                                                        SettingDialog.ProxyAddress,
-                                                        SettingDialog.ProxyPort,
-                                                        SettingDialog.ProxyUser,
-                                                        SettingDialog.ProxyPassword);
+                    Networking.DefaultTimeout = TimeSpan.FromSeconds(this.SettingDialog.DefaultTimeOut);
+                    Networking.SetWebProxy(this.SettingDialog.SelectedProxyType,
+                        this.SettingDialog.ProxyAddress, this.SettingDialog.ProxyPort,
+                        this.SettingDialog.ProxyUser, this.SettingDialog.ProxyPassword);
 
                     ImageSelector.Reset(tw, SettingDialog.TwitterConfiguration);
 
@@ -5914,7 +5912,7 @@ namespace OpenTween
             var versionInfoUrl = new Uri(ApplicationSettings.VersionInfoUrl + "?" +
                 DateTime.Now.ToString("yyMMddHHmmss") + Environment.TickCount);
 
-            var responseText = await HttpConnection.GlobalHttpClient.GetStringAsync(versionInfoUrl)
+            var responseText = await Networking.Http.GetStringAsync(versionInfoUrl)
                 .ConfigureAwait(false);
 
             // 改行2つで前後パートを分割（前半がバージョン番号など、後半が詳細テキスト）

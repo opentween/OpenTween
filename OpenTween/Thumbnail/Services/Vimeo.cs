@@ -32,6 +32,7 @@ using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Linq;
 using System.Xml.XPath;
+using OpenTween.Connection;
 
 namespace OpenTween.Thumbnail.Services
 {
@@ -42,7 +43,7 @@ namespace OpenTween.Thumbnail.Services
 
         protected HttpClient http
         {
-            get { return this.localHttpClient ?? HttpConnection.GlobalHttpClient; }
+            get { return this.localHttpClient ?? Networking.Http; }
         }
         private readonly HttpClient localHttpClient;
 

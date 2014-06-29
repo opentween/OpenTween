@@ -28,6 +28,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using OpenTween.Connection;
 
 namespace OpenTween.Thumbnail.Services
 {
@@ -72,7 +73,7 @@ namespace OpenTween.Thumbnail.Services
                     TonTwitterCom.InitializeOAuthToken(oauth);
 
                     Stream response = null;
-                    var statusCode = oauth.GetContent("GET", new Uri(this.ThumbnailUrl), null, ref response, MyCommon.GetUserAgentString());
+                    var statusCode = oauth.GetContent("GET", new Uri(this.ThumbnailUrl), null, ref response, Networking.GetUserAgentString());
 
                     using (response)
                     {

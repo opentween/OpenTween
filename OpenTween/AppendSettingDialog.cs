@@ -36,6 +36,7 @@ using System.Threading;
 using System.IO;
 using System.Resources;
 using OpenTween.Api;
+using OpenTween.Connection;
 using OpenTween.Thumbnail;
 using System.Threading.Tasks;
 using OpenTween.Setting.Panel;
@@ -46,7 +47,7 @@ namespace OpenTween
     {
         private static AppendSettingDialog _instance = new AppendSettingDialog();
         private Twitter tw;
-        private HttpConnection.ProxyType _MyProxyType;
+        private ProxyType _MyProxyType;
 
         private bool _ValidationError = false;
         private MyCommon.EVENTTYPE _MyEventNotifyFlag;
@@ -377,15 +378,15 @@ namespace OpenTween
                 ShortUrl.Instance.DisableExpanding = !TinyUrlResolve;
                 if (this.ProxyPanel.RadioProxyNone.Checked)
                 {
-                    _MyProxyType = HttpConnection.ProxyType.None;
+                    _MyProxyType = ProxyType.None;
                 }
                 else if (this.ProxyPanel.RadioProxyIE.Checked)
                 {
-                    _MyProxyType = HttpConnection.ProxyType.IE;
+                    _MyProxyType = ProxyType.IE;
                 }
                 else
                 {
-                    _MyProxyType = HttpConnection.ProxyType.Specified;
+                    _MyProxyType = ProxyType.Specified;
                 }
                 ProxyAddress = this.ProxyPanel.TextProxyAddress.Text.Trim();
                 ProxyPort = int.Parse(this.ProxyPanel.TextProxyPort.Text.Trim());
@@ -723,10 +724,10 @@ namespace OpenTween
             this.ShortUrlPanel.CheckTinyURL.Checked = TinyUrlResolve;
             switch (_MyProxyType)
             {
-                case HttpConnection.ProxyType.None:
+                case ProxyType.None:
                     this.ProxyPanel.RadioProxyNone.Checked = true;
                     break;
-                case HttpConnection.ProxyType.IE:
+                case ProxyType.IE:
                     this.ProxyPanel.RadioProxyIE.Checked = true;
                     break;
                 default:
@@ -1139,7 +1140,7 @@ namespace OpenTween
         public bool TinyUrlResolve { get; set; }
 
         public bool SortOrderLock { get; set; }
-        public HttpConnection.ProxyType SelectedProxyType
+        public ProxyType SelectedProxyType
         {
             get {
                 return _MyProxyType;
@@ -1237,18 +1238,18 @@ namespace OpenTween
         private bool StartAuth()
         {
             //現在の設定内容で通信
-            HttpConnection.ProxyType ptype;
+            ProxyType ptype;
             if (this.ProxyPanel.RadioProxyNone.Checked)
             {
-                ptype = HttpConnection.ProxyType.None;
+                ptype = ProxyType.None;
             }
             else if (this.ProxyPanel.RadioProxyIE.Checked)
             {
-                ptype = HttpConnection.ProxyType.IE;
+                ptype = ProxyType.IE;
             }
             else
             {
-                ptype = HttpConnection.ProxyType.Specified;
+                ptype = ProxyType.Specified;
             }
             string padr = this.ProxyPanel.TextProxyAddress.Text.Trim();
             int pport = int.Parse(this.ProxyPanel.TextProxyPort.Text.Trim());
@@ -1256,7 +1257,8 @@ namespace OpenTween
             string ppw = this.ProxyPanel.TextProxyPassword.Text.Trim();
 
             //通信基底クラス初期化
-            HttpConnection.InitializeConnection(20, ptype, padr, pport, pusr, ppw);
+            Networking.DefaultTimeout = TimeSpan.FromSeconds(20);
+            Networking.SetWebProxy(ptype, padr, pport, pusr, ppw);
             HttpTwitter.TwitterUrl = this.ConnectionPanel.TwitterAPIText.Text.Trim();
             tw.Initialize("", "", "", 0);
             //this.AuthStateLabel.Text = Properties.Resources.AuthorizeButton_Click4;
