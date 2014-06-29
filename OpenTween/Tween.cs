@@ -6196,9 +6196,10 @@ namespace OpenTween
                             {
                                 var oldTokenSource = this.thumbnailTokenSource;
 
-                                oldTokenSource.Cancel();
+                                var cancelTask = Task.Run(() => oldTokenSource.Cancel());
 
-                                this.thumbnailTask.ContinueWith(_ => oldTokenSource.Dispose());
+                                Task.WhenAll(this.thumbnailTask, cancelTask)
+                                    .ContinueWith(_ => oldTokenSource.Dispose(), TaskScheduler.Default);
                             }
 
                             this.thumbnailTokenSource = new CancellationTokenSource();
