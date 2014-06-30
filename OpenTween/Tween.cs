@@ -1498,8 +1498,8 @@ namespace OpenTween
                                 //アイコン描画不具合あり？
                             }
                             this.SelectListItem(lst,
-                                                _statuses.IndexOf(tab.Text, selId[tab.Text]),
-                                                _statuses.IndexOf(tab.Text, focusedId[tab.Text]));
+                                                tabInfo.IndexOf(selId[tab.Text]),
+                                                tabInfo.IndexOf(focusedId[tab.Text]));
                         }
                     }
                     if (tabInfo.UnreadCount > 0)
@@ -1648,10 +1648,11 @@ namespace OpenTween
             if (MyCommon._endingFlag) return;
             foreach (TabPage tab in ListTab.TabPages)
             {
-                DetailsListView lst = (DetailsListView)tab.Tag;
+                var lst = (DetailsListView)tab.Tag;
+                var tabInfo = _statuses.Tabs[tab.Text];
                 if (lst.SelectedIndices.Count > 0 && lst.SelectedIndices.Count < 61)
                 {
-                    selId.Add(tab.Text, _statuses.GetId(tab.Text, lst.SelectedIndices));
+                    selId.Add(tab.Text, tabInfo.GetId(lst.SelectedIndices));
                 }
                 else
                 {
@@ -1660,9 +1661,9 @@ namespace OpenTween
 
                 var fIds = new long[2];  // 0 = focus, 1 = selection mark
                 var item = lst.FocusedItem;
-                fIds[0] = (item != null) ? _statuses.GetId(tab.Text, item.Index) : -2;
+                fIds[0] = (item != null) ? tabInfo.GetId(item.Index) : -2;
                 var mIdx = lst.SelectionMark;
-                fIds[1] = (mIdx > -1) ? _statuses.GetId(tab.Text, mIdx) : -2;
+                fIds[1] = (mIdx > -1) ? tabInfo.GetId(mIdx) : -2;
                 focusedId.Add(tab.Text, fIds);
             }
 
@@ -1953,9 +1954,10 @@ namespace OpenTween
 
         private void ChangeCacheStyleRead(bool Read, int Index)
         {
+            var tabInfo = _statuses.Tabs[_curTab.Text];
             //Read:true=既読 false=未読
             //未読管理していなかったら既読として扱う
-            if (!_statuses.Tabs[_curTab.Text].UnreadManage ||
+            if (!tabInfo.UnreadManage ||
                !SettingDialog.UnreadManage) Read = true;
 
             //対象の特定
@@ -1967,7 +1969,7 @@ namespace OpenTween
             if (itm == null || post == null)
             {
                 itm = ((DetailsListView)_curTab.Tag).Items[Index];
-                post = _statuses[_curTab.Text, Index];
+                post = tabInfo[Index];
             }
 
             ChangeItemStyleRead(Read, itm, post, ((DetailsListView)_curTab.Tag));
@@ -4163,11 +4165,12 @@ namespace OpenTween
             foreach (TabPage tab in ListTab.TabPages)
             {
                 DetailsListView lst = (DetailsListView)tab.Tag;
+                TabClass tabInfo = _statuses.Tabs[tab.Text];
                 using (ControlTransaction.Update(lst))
                 {
                     this.SelectListItem(lst,
-                                        _statuses.IndexOf(tab.Text, selId[tab.Text]),
-                                        _statuses.IndexOf(tab.Text, focusedId[tab.Text]));
+                                        tabInfo.IndexOf(selId[tab.Text]),
+                                        tabInfo.IndexOf(focusedId[tab.Text]));
                 }
             }
         }
@@ -5110,12 +5113,14 @@ namespace OpenTween
             this.itemCacheLock.EnterWriteLock();
             try
             {
+                var tabInfo = _statuses.Tabs[_curTab.Text];
+
                 //キャッシュ要求（要求範囲±30を作成）
                 StartIndex -= 30;
                 if (StartIndex < 0) StartIndex = 0;
                 EndIndex += 30;
-                if (EndIndex >= _statuses.Tabs[_curTab.Text].AllCount) EndIndex = _statuses.Tabs[_curTab.Text].AllCount - 1;
-                _postCache = _statuses[_curTab.Text, StartIndex, EndIndex]; //配列で取得
+                if (EndIndex >= tabInfo.AllCount) EndIndex = tabInfo.AllCount - 1;
+                _postCache = tabInfo[StartIndex, EndIndex]; //配列で取得
                 _itemCacheIndex = StartIndex;
 
                 _itemCache = new ListViewItem[0] {};
