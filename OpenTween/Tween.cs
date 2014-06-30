@@ -5203,7 +5203,7 @@ namespace OpenTween
                                   Post.Source};
                 itm = new ImageListViewItem(sitem, this.IconCache, Post.ImageUrl);
             }
-            itm.StateImageIndex = Post.StateIndex;
+            itm.StateIndex = Post.StateIndex;
 
             bool read = Post.IsRead;
             //未読管理していなかったら既読として扱う
@@ -5462,14 +5462,14 @@ namespace OpenTween
                 //iconRect.Offset(0, Math.Max(0, (itemRect.Height - realIconSize.Height) / 2));
             }
 
-            if (item.StateImageIndex > -1)
+            if (item.StateIndex > -1)
             {
                 Rectangle stateRect = Rectangle.Intersect(new Rectangle(new Point(iconRect.X + realIconSize.Width + 2, iconRect.Y), realStateSize), itemRect);
                 if (stateRect.Width > 0)
                 {
                     //e.Graphics.FillRectangle(Brushes.White, stateRect);
                     //e.Graphics.InterpolationMode = Drawing2D.InterpolationMode.High;
-                    e.Graphics.DrawImage(this.PostStateImageList.Images[item.StateImageIndex], stateRect);
+                    e.Graphics.DrawImage(this.PostStateImageList.Images[item.StateIndex], stateRect);
                 }
             }
         }

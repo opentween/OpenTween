@@ -36,6 +36,14 @@ namespace OpenTween
         protected readonly ImageCache imageCache;
         protected readonly string imageUrl;
 
+        /// <summary>
+        /// 状態表示に使用するアイコンのインデックスを取得・設定する。
+        /// </summary>
+        /// <remarks>
+        /// StateImageIndex は不必要な処理が挟まるため、使用しないようにする。
+        /// </remarks>
+        public int StateIndex { get; set; }
+
         private WeakReference imageReference = new WeakReference(null);
         private Task imageTask = null;
 
@@ -47,10 +55,11 @@ namespace OpenTween
         }
 
         public ImageListViewItem(string[] items, ImageCache imageCache, string imageUrl)
-            : base(items, imageUrl)
+            : base(items)
         {
             this.imageCache = imageCache;
             this.imageUrl = imageUrl;
+            this.StateIndex = -1;
 
             if (imageCache != null)
             {
