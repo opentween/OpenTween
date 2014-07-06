@@ -625,6 +625,8 @@ namespace OpenTween.Properties {
         /// <summary>
         ///   更新履歴
         ///
+        ///==== Ver 1.2.3-beta1(2014/xx/xx)
+        ///
         ///==== Ver 1.2.2(2014/07/06)
         /// * このバージョンのOpenTweenは pic.twitter.com に複数枚の画像が含まれている場合の表示に対応していますが、
         ///   現状では「ユーザーのタイムラインを表示」やUserStreamsを無効にした状態で取得されたツイートのみ表示できます。
@@ -635,8 +637,7 @@ namespace OpenTween.Properties {
         ///  - 投稿するファイルの数・サイズによっては、投稿完了までに若干の時間がかかります
         /// * NEW: GIFMAGAZINE のサムネイル表示に対応
         ///  - pic.twitter.com に投稿されたアニメーションGIFはTwitterAPI側の対応待ちで当面の間表示はできません
-        /// * CHG: 発言詳細部の更新時のパフォーマンスを改善
-        /// * FIX: pic. [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
+        /// * CHG [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ChangeLog {
             get {
