@@ -1,6 +1,6 @@
 ﻿更新履歴
 
-==== Ver 1.2.2-beta1(2014/xx/xx)
+==== Ver 1.2.2(2014/07/06)
  * このバージョンのOpenTweenは pic.twitter.com に複数枚の画像が含まれている場合の表示に対応していますが、
    現状では「ユーザーのタイムラインを表示」やUserStreamsを無効にした状態で取得されたツイートのみ表示できます。
    UserStreamsやPublicSearchについてはTwitterAPI側の対応待ちです。
