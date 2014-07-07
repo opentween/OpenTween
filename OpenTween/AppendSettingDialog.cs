@@ -84,8 +84,7 @@ namespace OpenTween
             public bool UserTimeline;
         }
 
-        public delegate void IntervalChangedEventHandler(object sender, IntervalChangedEventArgs e);
-        public event IntervalChangedEventHandler IntervalChanged;
+        public event EventHandler<IntervalChangedEventArgs> IntervalChanged;
 
         private void TreeViewSetting_BeforeSelect(object sender, TreeViewCancelEventArgs e)
         {
