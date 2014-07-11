@@ -194,11 +194,12 @@ namespace OpenTween
     /// <summary>
     /// 不正な画像データに対してスローされる例外
     /// </summary>
+    [Serializable]
     public class InvalidImageException : Exception
     {
         public InvalidImageException() : base() { }
         public InvalidImageException(string message) : base(message) { }
         public InvalidImageException(string message, Exception innerException) : base(message, innerException) { }
-        public InvalidImageException(SerializationInfo info, StreamingContext context) : base(info, context) { }
+        protected InvalidImageException(SerializationInfo info, StreamingContext context) : base(info, context) { }
     }
 }

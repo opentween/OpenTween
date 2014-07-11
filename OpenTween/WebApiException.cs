@@ -22,6 +22,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 
 namespace OpenTween
@@ -29,6 +30,7 @@ namespace OpenTween
     /// <summary>
     /// Twitter などの API 実行時に発生した例外を扱うクラス
     /// </summary>
+    [Serializable]
     public class WebApiException : Exception
     {
         public readonly string ResponseText = null;
@@ -36,6 +38,7 @@ namespace OpenTween
         public WebApiException() : base() { }
         public WebApiException(string message) : base(message) { }
         public WebApiException(string message, Exception innerException) : base(message, innerException) { }
+        protected WebApiException(SerializationInfo info, StreamingContext context) : base(info, context) { }
 
         public WebApiException(string message, string responseText)
             : this(message)
