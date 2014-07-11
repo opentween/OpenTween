@@ -50,7 +50,7 @@ using OpenTween.Api;
 
 namespace OpenTween
 {
-    public sealed class MyCommon
+    public static class MyCommon
     {
         private static readonly object LockObj = new object();
         public static bool _endingFlag;        //終了フラグ

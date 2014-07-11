@@ -31,7 +31,7 @@ namespace OpenTween
     /// <summary>
     /// WinformsコントロールのBegin/EndUpdate等のメソッドをusingブロックによって呼び出すためのクラス
     /// </summary>
-    public class ControlTransaction
+    public static class ControlTransaction
     {
         public static IDisposable Update(ListView control)
         {
