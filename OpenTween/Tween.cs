@@ -12587,7 +12587,7 @@ namespace OpenTween
 #region "Userstream"
         private bool _isActiveUserstream = false;
 
-        private void tw_PostDeleted(long id)
+        private void tw_PostDeleted(object sender, PostDeletedEventArgs e)
         {
             try
             {
@@ -12595,12 +12595,12 @@ namespace OpenTween
                 {
                     Invoke((Action) (() =>
                            {
-                               _statuses.RemovePostReserve(id);
-                               if (_curTab != null && _statuses.Tabs[_curTab.Text].Contains(id))
+                               _statuses.RemovePostReserve(e.StatusId);
+                               if (_curTab != null && _statuses.Tabs[_curTab.Text].Contains(e.StatusId))
                                {
                                    this.PurgeListViewItemCache();
                                    ((DetailsListView)_curTab.Tag).Update();
-                                   if (_curPost != null && _curPost.StatusId == id) DispSelectedPost(true);
+                                   if (_curPost != null && _curPost.StatusId == e.StatusId) DispSelectedPost(true);
                                }
                            }));
                     return;
@@ -12616,7 +12616,7 @@ namespace OpenTween
             }
         }
 
-        private void tw_NewPostFromStream()
+        private void tw_NewPostFromStream(object sender, EventArgs e)
         {
             if (SettingDialog.ReadOldPosts)
             {
@@ -12676,14 +12676,14 @@ namespace OpenTween
             }
         }
 
-        private void tw_UserStreamStarted()
+        private void tw_UserStreamStarted(object sender, EventArgs e)
         {
             this._isActiveUserstream = true;
             try
             {
                 if (InvokeRequired && !IsDisposed)
                 {
-                    Invoke(new MethodInvoker(tw_UserStreamStarted));
+                    Invoke((Action)(() => this.tw_UserStreamStarted(sender, e)));
                     return;
                 }
             }
@@ -12704,14 +12704,14 @@ namespace OpenTween
             StatusLabel.Text = "UserStream Started.";
         }
 
-        private void tw_UserStreamStopped()
+        private void tw_UserStreamStopped(object sender, EventArgs e)
         {
             this._isActiveUserstream = false;
             try
             {
                 if (InvokeRequired && !IsDisposed)
                 {
-                    Invoke(new MethodInvoker(tw_UserStreamStopped));
+                    Invoke((Action)(() => this.tw_UserStreamStopped(sender, e)));
                     return;
                 }
             }
@@ -12732,13 +12732,13 @@ namespace OpenTween
             StatusLabel.Text = "UserStream Stopped.";
         }
 
-        private void tw_UserStreamEventArrived(Twitter.FormattedEvent ev)
+        private void tw_UserStreamEventArrived(object sender, UserStreamEventReceivedEventArgs e)
         {
             try
             {
                 if (InvokeRequired && !IsDisposed)
                 {
-                    Invoke(new Action<Twitter.FormattedEvent>(tw_UserStreamEventArrived), ev);
+                    Invoke((Action)(() => this.tw_UserStreamEventArrived(sender, e)));
                     return;
                 }
             }
@@ -12750,6 +12750,7 @@ namespace OpenTween
             {
                 return;
             }
+            var ev = e.EventData;
             StatusLabel.Text = "Event: " + ev.Event;
             //if (ev.Event == "favorite")
             //{
