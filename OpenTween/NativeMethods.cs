@@ -35,7 +35,7 @@ using OpenTween.Connection;
 
 namespace OpenTween
 {
-    public static class Win32Api
+    internal static class NativeMethods
     {
         // 指定されたウィンドウへ、指定されたメッセージを送信します
         [DllImport("user32.dll")]

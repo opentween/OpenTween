@@ -107,7 +107,7 @@ namespace OpenTween.Connection
             Networking.proxyType = proxyType;
             Networking.proxy = proxy;
 
-            Win32Api.SetProxy(proxyType, proxyAddress, proxyPort, proxyUser, proxyPassword);
+            NativeMethods.SetProxy(proxyType, proxyAddress, proxyPort, proxyUser, proxyPassword);
 
             OnWebProxyChanged(EventArgs.Empty);
         }

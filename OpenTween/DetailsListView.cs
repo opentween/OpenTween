@@ -107,8 +107,8 @@ namespace OpenTween.OpenTweenCustomControl
         /// </remarks>
         public int SelectionMark
         {
-            get { return Win32Api.ListView_GetSelectionMark(this.Handle); }
-            set { Win32Api.ListView_SetSelectionMark(this.Handle, value); }
+            get { return NativeMethods.ListView_GetSelectionMark(this.Handle); }
+            set { NativeMethods.ListView_SetSelectionMark(this.Handle, value); }
         }
 
         public void ChangeItemBackColor(int index, Color backColor)
@@ -288,7 +288,7 @@ namespace OpenTween.OpenTweenCustomControl
                 case WM_PAINT:
                     if (this.changeBounds != Rectangle.Empty)
                     {
-                        Win32Api.ValidateRect(this.Handle, IntPtr.Zero);
+                        NativeMethods.ValidateRect(this.Handle, IntPtr.Zero);
                         this.Invalidate(this.changeBounds);
                         this.changeBounds = Rectangle.Empty;
                     }

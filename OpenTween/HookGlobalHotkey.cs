@@ -124,7 +124,7 @@ namespace OpenTween
             {
                 if (kvp.Value.KeyEvent.KeyData == key.KeyData && kvp.Value.Value == hotkeyValue) return true; // 登録済みなら正常終了
             }
-            var hotkeyId = Win32Api.RegisterGlobalHotKey(hotkeyValue, (int)modifiers, this._targetForm);
+            var hotkeyId = NativeMethods.RegisterGlobalHotKey(hotkeyValue, (int)modifiers, this._targetForm);
             if (hotkeyId > 0)
             {
                 this._hotkeyID.Add(hotkeyId, new KeyEventValue(key, hotkeyValue));
@@ -137,7 +137,7 @@ namespace OpenTween
         {
             foreach (ushort hotkeyId in this._hotkeyID.Keys)
             {
-                Win32Api.UnregisterGlobalHotKey(hotkeyId, this._targetForm);
+                NativeMethods.UnregisterGlobalHotKey(hotkeyId, this._targetForm);
             }
             this._hotkeyID.Clear();
         }

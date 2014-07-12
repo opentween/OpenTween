@@ -1701,7 +1701,7 @@ namespace OpenTween
                     !SettingDialog.LimitBalloon
                     )
                 ) &&
-                !Win32Api.IsScreenSaverRunning())
+                !NativeMethods.IsScreenSaverRunning())
             {
                 return true;
             }
@@ -1918,7 +1918,7 @@ namespace OpenTween
             //mentions新着時に画面ブリンク
             if (!_initial && SettingDialog.BlinkNewMentions && newMentions && Form.ActiveForm == null)
             {
-                Win32Api.FlashMyWindow(this.Handle, Win32Api.FlashSpecification.FlashTray, 3);
+                NativeMethods.FlashMyWindow(this.Handle, NativeMethods.FlashSpecification.FlashTray, 3);
             }
         }
 
@@ -12297,7 +12297,7 @@ namespace OpenTween
             this.gh.NotifyClicked += GrowlHelper_Callback;
 
             // メイリオフォント指定時にタブの最小幅が広くなる問題の対策
-            this.ListTab.HandleCreated += (s, e) => Win32Api.SetMinTabWidth((TabControl)s, 40);
+            this.ListTab.HandleCreated += (s, e) => NativeMethods.SetMinTabWidth((TabControl)s, 40);
 
             this._apiGauge = new ToolStripAPIGauge();
             this._apiGauge.BorderSides = ToolStripStatusLabelBorderSides.Right;
