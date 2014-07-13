@@ -25,6 +25,7 @@
 // Boston, MA 02110-1301, USA.
 
 using System;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Net;
@@ -385,5 +386,52 @@ namespace OpenTween
             RefreshProxyAccount(username, password);
         }
 #endregion
+
+        [StructLayout(LayoutKind.Sequential)]
+        private struct SCROLLINFO
+        {
+            public int cbSize;
+            public ScrollInfoMask fMask;
+            public int nMin;
+            public int nMax;
+            public int nPage;
+            public int nPos;
+            public int nTrackPos;
+        }
+
+        public enum ScrollBarDirection
+        {
+            SB_HORZ = 0,
+            SB_VERT = 1,
+            SB_CTL = 2,
+            SB_BOTH = 3,
+        }
+
+        private enum ScrollInfoMask
+        {
+            SIF_RANGE = 0x1,
+            SIF_PAGE = 0x2,
+            SIF_POS = 0x4,
+            SIF_DISABLENOSCROLL = 0x8,
+            SIF_TRACKPOS = 0x10,
+            SIF_ALL = (SIF_RANGE | SIF_PAGE | SIF_POS | SIF_TRACKPOS),
+        }
+
+        [DllImport("user32.dll")]
+        private static extern int GetScrollInfo(IntPtr hWnd, ScrollBarDirection fnBar, ref SCROLLINFO lpsi);
+
+        public static int GetScrollPosition(Control control, ScrollBarDirection direction)
+        {
+            var si = new SCROLLINFO
+            {
+                cbSize = Marshal.SizeOf<SCROLLINFO>(),
+                fMask = ScrollInfoMask.SIF_POS,
+            };
+
+            if (NativeMethods.GetScrollInfo(control.Handle, direction, ref si) == 0)
+                throw new Win32Exception();
+
+            return si.nPos;
+        }
     }
 }
