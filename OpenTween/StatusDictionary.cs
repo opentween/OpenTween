@@ -2493,14 +2493,7 @@ namespace OpenTween
             {
                 var id = GetId(Index);
                 if (id < 0) throw new ArgumentException("Index can't find. Index=" + Index.ToString() + "/TabName=" + TabName);
-                try
-                {
-                    return Posts[id];
-                }
-                catch (Exception ex)
-                {
-                    throw new Exception("Index=" + Index.ToString() + "/TabName=" + TabName, ex);
-                }
+                return Posts[id];
             }
         }
 
