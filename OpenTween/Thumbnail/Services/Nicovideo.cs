@@ -55,7 +55,7 @@ namespace OpenTween.Thumbnail.Services
                 var src = "";
                 var imgurl = "";
                 string errmsg;
-                if ((new HttpVarious()).GetData(apiUrl, null, out src, 0, out errmsg, Networking.GetUserAgentString()))
+                if (http.GetData(apiUrl, null, out src, 0, out errmsg, Networking.GetUserAgentString()))
                 {
                     var sb = new StringBuilder();
                     var xdoc = new XmlDocument();

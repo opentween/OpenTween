@@ -209,12 +209,12 @@ namespace OpenTween
         public string StartAuthentication(ref string pinPageUrl)
         {
             //OAuth PIN Flow
-            bool res;
-
             this.ResetApiStatus();
             try
             {
-                res = twCon.AuthGetRequestToken(ref pinPageUrl);
+                var res = twCon.AuthGetRequestToken(ref pinPageUrl);
+                if (!res)
+                    return "Err:Failed to access auth server.";
             }
             catch(Exception)
             {
@@ -2787,7 +2787,7 @@ namespace OpenTween
 
             try
             {
-                var u = TwitterUser.ParseJson(content);
+                TwitterUser.ParseJson(content);
                 value = true;
                 return "";
             }

@@ -1076,7 +1076,6 @@ namespace OpenTween
             //notifyPosts = new List<PostClass>();
             var homeTab = GetTabByType(MyCommon.TabUsageType.Home);
             var replyTab = GetTabByType(MyCommon.TabUsageType.Mentions);
-            var dmTab = GetTabByType(MyCommon.TabUsageType.DirectMessage);
             var favTab = GetTabByType(MyCommon.TabUsageType.Favorites);
             foreach (var id in _addedIds)
             {

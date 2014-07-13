@@ -11569,7 +11569,6 @@ namespace OpenTween
             TabClass tb = _statuses.Tabs[tbName];
             ComboBox cmb = (ComboBox)pnl.Controls["comboSearch"];
             ComboBox cmbLang = (ComboBox)pnl.Controls["comboLang"];
-            ComboBox cmbusline = (ComboBox)pnl.Controls["comboUserline"];
             cmb.Text = cmb.Text.Trim();
             // 検索式演算子 OR についてのみ大文字しか認識しないので強制的に大文字とする
             bool Quote = false;

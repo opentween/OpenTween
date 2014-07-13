@@ -199,7 +199,6 @@ namespace OpenTween
                         "Growl.CoreLibrary.BinaryData").GetConstructor(
                         BindingFlags.Public | BindingFlags.Instance,
                         null, new Type[] { typeof(byte[]) }, null);
-                    TypeConverter tc = new TypeConverter();
                     object bdata = cibd.Invoke(
                         new object[] { IconToByteArray(Path.Combine(Application.StartupPath, "Icons\\MIcon.ico")) });
 
@@ -219,7 +218,6 @@ namespace OpenTween
                         "Growl.CoreLibrary.BinaryData").GetConstructor(
                         BindingFlags.Public | BindingFlags.Instance,
                         null, new Type[] { typeof(byte[]) }, null);
-                    TypeConverter tc = new TypeConverter();
                     object bdata = cibd.Invoke(
                         new object[] { IconToByteArray(Properties.Resources.MIcon) });
 

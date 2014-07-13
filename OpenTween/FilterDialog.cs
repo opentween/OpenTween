@@ -661,7 +661,7 @@ namespace OpenTween
         {
             try
             {
-                Regex rgx = new Regex(text);
+                new Regex(text);
             }
             catch (Exception ex)
             {
@@ -1052,7 +1052,6 @@ namespace OpenTween
             if (ListTabs.SelectedIndex > -1 && ListFilters.SelectedItem != null && ListFilters.SelectedIndex > 0)
             {
                 string tabname = ListTabs.SelectedItem.ToString();
-                PostFilterRule selected = _sts.Tabs[tabname].Filters[ListFilters.SelectedIndex];
                 PostFilterRule target = _sts.Tabs[tabname].Filters[ListFilters.SelectedIndex - 1];
                 int idx = ListFilters.SelectedIndex;
                 ListFilters.Items.RemoveAt(idx - 1);
@@ -1067,7 +1066,6 @@ namespace OpenTween
             if (ListTabs.SelectedIndex > -1 && ListFilters.SelectedItem != null && ListFilters.SelectedIndex < ListFilters.Items.Count - 1)
             {
                 string tabname = ListTabs.SelectedItem.ToString();
-                PostFilterRule selected = _sts.Tabs[tabname].Filters[ListFilters.SelectedIndex];
                 PostFilterRule target = _sts.Tabs[tabname].Filters[ListFilters.SelectedIndex + 1];
                 int idx = ListFilters.SelectedIndex;
                 ListFilters.Items.RemoveAt(idx + 1);

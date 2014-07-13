@@ -324,10 +324,8 @@ namespace OpenTween
                 {
                     // Converting structure to IntPtr
                     Marshal.StructureToPtr(ipi, pIpi, true);
-                    var ret = InternetSetOption(IntPtr.Zero,
-                                                           INTERNET_OPTION_PROXY,
-                                                           pIpi,
-                                                           Marshal.SizeOf(ipi));
+                    if (!InternetSetOption(IntPtr.Zero, INTERNET_OPTION_PROXY, pIpi, Marshal.SizeOf(ipi)))
+                        throw new Win32Exception();
                 }
                 finally
                 {
@@ -347,8 +345,11 @@ namespace OpenTween
 
             if (!string.IsNullOrEmpty(username) || !string.IsNullOrEmpty(password))
             {
-                var ret = InternetSetOption(IntPtr.Zero, INTERNET_OPTION_PROXY_USERNAME, IntPtr.Zero, 0);
-                ret = InternetSetOption(IntPtr.Zero, INTERNET_OPTION_PROXY_PASSWORD, IntPtr.Zero, 0);
+                if (!InternetSetOption(IntPtr.Zero, INTERNET_OPTION_PROXY_USERNAME, IntPtr.Zero, 0))
+                    throw new Win32Exception();
+
+                if (!InternetSetOption(IntPtr.Zero, INTERNET_OPTION_PROXY_PASSWORD, IntPtr.Zero, 0))
+                    throw new Win32Exception();
             }
             else
             {
@@ -356,8 +357,11 @@ namespace OpenTween
                 var pPass = Marshal.StringToBSTR(password);
                 try
                 {
-                    var ret = InternetSetOption(IntPtr.Zero, INTERNET_OPTION_PROXY_USERNAME, pUser, username.Length + 1);
-                    ret = InternetSetOption(IntPtr.Zero, INTERNET_OPTION_PROXY_PASSWORD, pPass, password.Length + 1);
+                    if (!InternetSetOption(IntPtr.Zero, INTERNET_OPTION_PROXY_USERNAME, pUser, username.Length + 1))
+                        throw new Win32Exception();
+
+                    if (!InternetSetOption(IntPtr.Zero, INTERNET_OPTION_PROXY_PASSWORD, pPass, password.Length + 1))
+                        throw new Win32Exception();
                 }
                 finally
                 {

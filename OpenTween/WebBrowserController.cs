@@ -291,7 +291,6 @@ namespace OpenTween
         {
             // ActiveXコントロール取得
             _WebBrowser.DocumentText = "about:blank"; //ActiveXを初期化する
-            int hresult = 0;
 
             do
             {
@@ -306,9 +305,9 @@ namespace OpenTween
 
             try
             {
-                hresult = ocxServiceProvider.QueryService(
-                                ref WebBrowserAPI.SID_SProfferService,
-                                ref WebBrowserAPI.IID_IProfferService, out profferServicePtr);
+                ocxServiceProvider.QueryService(
+                    ref WebBrowserAPI.SID_SProfferService,
+                    ref WebBrowserAPI.IID_IProfferService, out profferServicePtr);
             }
             catch (SEHException ex)
             {
@@ -329,8 +328,8 @@ namespace OpenTween
             try
             {
                 int cookie = 0;
-                hresult = profferService.ProfferService(
-                                ref WebBrowserAPI.IID_IInternetSecurityManager, this, out cookie);
+                profferService.ProfferService(
+                    ref WebBrowserAPI.IID_IInternetSecurityManager, this, out cookie);
             }
             catch (SEHException ex)
             {
