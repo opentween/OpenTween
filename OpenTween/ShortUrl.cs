@@ -27,6 +27,7 @@
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
@@ -127,6 +128,7 @@ namespace OpenTween
             _instance = new Lazy<ShortUrl>(() => new ShortUrl(), true);
         }
 
+        [SuppressMessage("Microsoft.Reliability", "CA2000:DisposeObjectsBeforeLosingScope")]
         internal ShortUrl()
             : this(CreateDefaultHttpClient())
         {
@@ -491,6 +493,7 @@ namespace OpenTween
             }
         }
 
+        [SuppressMessage("Microsoft.Reliability", "CA2000:DisposeObjectsBeforeLosingScope")]
         private static HttpClient CreateDefaultHttpClient()
         {
             var handler = new HttpClientHandler

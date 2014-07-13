@@ -22,6 +22,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Data;
 using System.Linq;
@@ -159,6 +160,7 @@ namespace OpenTween
             }
         }
 
+        [SuppressMessage("Microsoft.Reliability", "CA2000:DisposeObjectsBeforeLosingScope")]
         protected virtual OTPictureBox CreatePictureBox(string name)
         {
             return new OTPictureBox()
