@@ -199,7 +199,6 @@ namespace OpenTween
         private bool _waitLists = false;
         private BackgroundWorker[] _bw = new BackgroundWorker[20];
         private BackgroundWorker _bwFollower;
-        private InternetSecurityManager SecurityManager;
 
         private int UnreadCounter = -1;
         private int UnreadAtCounter = -1;
@@ -615,7 +614,7 @@ namespace OpenTween
 
             //Win32Api.SetProxy(HttpConnection.ProxyType.Specified, "127.0.0.1", 8080, "user", "pass")
 
-            SecurityManager = new InternetSecurityManager(PostBrowser);
+            new InternetSecurityManager(PostBrowser);
             this.PostBrowser.AllowWebBrowserDrop = false;  // COMException を回避するため、ActiveX の初期化が終わってから設定する
 
             MyCommon.TwitterApiInfo.AccessLimitUpdated += TwitterApiStatus_AccessLimitUpdated;
@@ -1116,8 +1115,6 @@ namespace OpenTween
             ////////////////////////////////////////////////////////////////////////////////
 
             ApplyListViewIconSize(SettingDialog.IconSz);
-
-            tw.TinyUrlResolve = SettingDialog.TinyUrlResolve;
 
             StatusLabel.Text = Properties.Resources.Form1_LoadText1;       //画面右下の状態表示を変更
             StatusLabelUrl.Text = "";            //画面左下のリンク先URL表示部を初期化
@@ -3890,7 +3887,6 @@ namespace OpenTween
             {
                 lock (_syncObject)
                 {
-                    tw.TinyUrlResolve = SettingDialog.TinyUrlResolve;
                     tw.RestrictFavCheck = SettingDialog.RestrictFavCheck;
                     tw.ReadOwnPost = SettingDialog.ReadOwnPost;
                     ShortUrl.Instance.DisableExpanding = !SettingDialog.TinyUrlResolve;
@@ -11270,7 +11266,6 @@ namespace OpenTween
                 public string id = "";
                 public bool isFollowing = false;
                 public bool isFollowed = false;
-                public bool isError = false;
                 public FriendshipInfo(string id)
                 {
                     this.id = id;
@@ -11289,7 +11284,6 @@ namespace OpenTween
                 if (!string.IsNullOrEmpty(rt))
                 {
                     if (string.IsNullOrEmpty(result)) result = rt;
-                    fInfo.isError = true;
                 }
             }
             e.Result = result;

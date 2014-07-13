@@ -152,7 +152,6 @@ namespace OpenTween
         //プロパティからアクセスされる共通情報
         private string _uname;
 
-        private bool _tinyUrlResolve;
         private bool _restrictFavCheck;
 
         private bool _readOwnPost;
@@ -1200,14 +1199,6 @@ namespace OpenTween
             set
             {
                 _accountState = value;
-            }
-        }
-
-        public bool TinyUrlResolve
-        {
-            set
-            {
-                _tinyUrlResolve = value;
             }
         }
 

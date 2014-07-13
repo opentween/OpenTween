@@ -39,7 +39,6 @@ namespace OpenTween.OpenTweenCustomControl
     public sealed class DetailsListView : ListView
     {
         private Rectangle changeBounds;
-        private EventHandlerList _handlers = new EventHandlerList();
 
         public ContextMenuStrip ColumnHeaderContextMenuStrip { get; set; }
 

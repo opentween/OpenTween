@@ -50,7 +50,6 @@ namespace OpenTween
         private object _growlApp;
 
         private object _targetConnector;
-        private object _targetCore;
 
         private string _appName = "";
         bool _initialized = false;
@@ -155,7 +154,6 @@ namespace OpenTween
             try
             {
                 _targetConnector = _connector.CreateInstance("Growl.Connector.GrowlConnector");
-                _targetCore = _core.CreateInstance("Growl.CoreLibrary");
                 Type _t = _connector.GetType("Growl.Connector.NotificationType");
 
                 _growlNTreply = _t.InvokeMember(null,

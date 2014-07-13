@@ -44,8 +44,6 @@ namespace OpenTween
         public event EventHandler<ThumbnailDoubleClickEventArgs> ThumbnailDoubleClick;
         public event EventHandler<ThumbnailImageSearchEventArgs> ThumbnailImageSearchClick;
 
-        private object uiLockObj = new object();
-
         public ThumbnailInfo Thumbnail
         {
             get { return this.pictureBox[this.scrollBar.Value].Tag as ThumbnailInfo; }

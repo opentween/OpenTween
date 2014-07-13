@@ -394,13 +394,6 @@ namespace OpenTween
         private List<long> _deletedIds = new List<long>();
         private Dictionary<long, PostClass> _retweets = new Dictionary<long, PostClass>();
         private Stack<TabClass> _removedTab = new Stack<TabClass>();
-        private List<ScrubGeoInfo> _scrubGeo = new List<ScrubGeoInfo>();
-
-        private class ScrubGeoInfo
-        {
-            public long UserId = 0;
-            public long UpToStatusId = 0;
-        }
 
         public List<long> BlockIds = new List<long>();
         public List<long> MuteUserIds = new List<long>();

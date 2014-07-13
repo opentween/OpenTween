@@ -265,12 +265,12 @@ namespace OpenTween
     public class InternetSecurityManager : WebBrowserAPI.IServiceProvider, WebBrowserAPI.IInternetSecurityManager
     {
     #region "HRESULT"
-        private class HRESULT
+        private enum HRESULT
         {
-            public static int S_OK = 0x0;
-            public static int S_FALSE = 0x1;
-            public static int E_NOTIMPL = unchecked((int)0x80004001);
-            public static int E_NOINTERFACE = unchecked((int)0x80004002);
+            S_OK = 0x0,
+            S_FALSE = 0x1,
+            E_NOTIMPL = unchecked((int)0x80004001),
+            E_NOINTERFACE = unchecked((int)0x80004002),
         }
     #endregion
 
@@ -356,7 +356,7 @@ namespace OpenTween
                 var punk = Marshal.GetIUnknownForObject(this);
                 return Marshal.QueryInterface(punk, ref riid, out ppvObject);
             }
-            return HRESULT.E_NOINTERFACE;
+            return (int)HRESULT.E_NOINTERFACE;
         }
 
         int WebBrowserAPI.IInternetSecurityManager.GetSecurityId(string pwszUrl, byte[] pbSecurityId, ref uint pcbSecurityId, uint dwReserved)
@@ -416,7 +416,7 @@ namespace OpenTween
                     pPolicy = WebBrowserAPI.URLPOLICY_DISALLOW;
                 }
                 if (Regex.IsMatch(pwszUrl, @"^https?://((api\.)?twitter\.com/|([a-zA-Z0-9]+\.)?twimg\.com/)")) pPolicy = WebBrowserAPI.URLPOLICY_ALLOW;
-                return HRESULT.S_OK;
+                return (int)HRESULT.S_OK;
             }
             // ActiveX実行状態かを検査しポリシー設定
             if (WebBrowserAPI.URLACTION_ACTIVEX_MIN <= dwAction &
@@ -431,7 +431,7 @@ namespace OpenTween
                 {
                     pPolicy = WebBrowserAPI.URLPOLICY_DISALLOW;
                 }
-                return HRESULT.S_OK;
+                return (int)HRESULT.S_OK;
             }
             //他のものについてはデフォルト処理
             return WebBrowserAPI.INET_E_DEFAULT_ACTION;

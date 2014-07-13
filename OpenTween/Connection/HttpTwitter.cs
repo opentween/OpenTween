@@ -48,7 +48,6 @@ namespace OpenTween
         private const string GetMethod = "GET";
 
         private IHttpConnection httpCon; //HttpConnectionApi or HttpConnectionOAuth
-        private HttpVarious httpConVar = new HttpVarious();
 
         private enum AuthMethod
         {
