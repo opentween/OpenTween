@@ -387,7 +387,8 @@ namespace OpenTween
                 break;
             }
             RefreshProxySettings(proxy);
-            RefreshProxyAccount(username, password);
+            // グローバルプロキシ (NULL = IntPtr.Zero) にユーザー名・パスワードをセットできないため無効化
+            //RefreshProxyAccount(username, password);
         }
 #endregion
 
