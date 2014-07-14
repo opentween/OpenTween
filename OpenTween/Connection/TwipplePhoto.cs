@@ -56,7 +56,7 @@ namespace OpenTween.Connection
             if (twitter == null)
                 throw new ArgumentNullException("twitter");
             if (twitterConfig == null)
-                throw new ArgumentNullException("config");
+                throw new ArgumentNullException("twitterConfig");
 
             this.twitter = twitter;
             this.twitterConfig = twitterConfig;
