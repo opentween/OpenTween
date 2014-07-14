@@ -419,9 +419,8 @@ namespace OpenTween
                     case DialogResult.No:
                         return false;
                     case DialogResult.Cancel:
-                        return IsTerminatePermission;
                     default:
-                        throw new Exception("");
+                        return IsTerminatePermission;
                 }
             }
         }

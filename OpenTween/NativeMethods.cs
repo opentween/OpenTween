@@ -217,15 +217,13 @@ namespace OpenTween
                 hotkeyID = GlobalAddAtom(atomName);
                 if (hotkeyID == 0)
                 {
-                    throw new Exception("Unable to generate unique hotkey ID. Error code: " +
-                       Marshal.GetLastWin32Error().ToString());
+                    throw new Win32Exception();
                 }
 
                 // register the hotkey, throw if any error
                 if (RegisterHotKey(targetForm.Handle, hotkeyID, modifiers, hotkeyValue) == 0)
                 {
-                    throw new Exception("Unable to register hotkey. Error code: " +
-                       Marshal.GetLastWin32Error().ToString());
+                    throw new Win32Exception();
                 }
                 return hotkeyID;
             }

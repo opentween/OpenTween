@@ -1178,7 +1178,8 @@ namespace OpenTween
                 {
                     tab.TabType = MyCommon.TabUsageType.UserDefined;
                 }
-                if (!AddNewTab(tab.TabName, true, tab.TabType, tab.ListInfo)) throw new Exception(Properties.Resources.TweenMain_LoadText1);
+                if (!AddNewTab(tab.TabName, true, tab.TabType, tab.ListInfo))
+                    throw new TabException(Properties.Resources.TweenMain_LoadText1);
             }
 
             this.JumpReadOpMenuItem.ShortcutKeyDisplayString = "Space";
