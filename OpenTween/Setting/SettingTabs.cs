@@ -31,7 +31,6 @@ using System.Text;
 
 namespace OpenTween
 {
-    [Serializable]
     public class SettingTabs : SettingBase<SettingTabs>
     {
 #region Settingクラス基本

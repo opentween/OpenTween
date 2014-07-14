@@ -34,7 +34,6 @@ using OpenTween.Connection;
 
 namespace OpenTween
 {
-    [Serializable]
     public class SettingLocal : SettingBase<SettingLocal>, IDisposable
     {
 #region Settingクラス基本

@@ -32,7 +32,6 @@ using OpenTween.Thumbnail;
 
 namespace OpenTween
 {
-    [Serializable]
     public class SettingCommon : SettingBase<SettingCommon>
     {
 
