@@ -165,27 +165,43 @@ namespace OpenTween
         /// <summary>
         /// 指定されたファイルの投稿に対応した投稿先があるかどうかを示す値を取得する。
         /// </summary>
-        public bool HasUploadableService(string fileName)
+        public bool HasUploadableService(string fileName, bool ignoreSize)
         {
             FileInfo fl = new FileInfo(fileName);
             string ext = fl.Extension;
+            long? size = ignoreSize ? (long?)null : fl.Length;
 
-            var serviceName = this.ServiceName;
-            if (!string.IsNullOrEmpty(serviceName) &&
-                this.pictureService[serviceName].CheckFileSize(ext, fl.Length))
-            {
+            if (IsUploadable(this.ServiceName, ext, size))
                 return true;
-            }
 
             foreach (string svc in ImageServiceCombo.Items)
             {
-                if (!string.IsNullOrEmpty(svc) &&
-                    this.pictureService[svc].CheckFileSize(ext, fl.Length))
-                {
+                if (IsUploadable(svc, ext, size))
                     return true;
-                }
             }
 
+            return false;
+        }
+
+        /// <summary>
+        /// 指定された投稿先に投稿可能かどうかを示す値を取得する。
+        /// ファイルサイズの指定がなければ拡張子だけで判定する。
+        /// </summary>
+        private bool IsUploadable(string serviceName, string ext, long? size)
+        {
+            if (!string.IsNullOrEmpty(serviceName))
+            {
+                if (size.HasValue)
+                {
+                    if (this.pictureService[serviceName].CheckFileSize(ext, size.Value))
+                        return true;
+                }
+                else
+                {
+                    if (this.pictureService[serviceName].CheckFileExtension(ext))
+                        return true;
+                }
+            }
             return false;
         }
 

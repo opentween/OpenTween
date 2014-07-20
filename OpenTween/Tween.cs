@@ -12371,7 +12371,7 @@ namespace OpenTween
 
         private void SelectMedia_DragEnter(DragEventArgs e)
         {
-            if (ImageSelector.HasUploadableService(((string[])e.Data.GetData(DataFormats.FileDrop, false))[0]))
+            if (ImageSelector.HasUploadableService(((string[])e.Data.GetData(DataFormats.FileDrop, false))[0], true))
             {
                 e.Effect = DragDropEffects.Copy;
                 return;
