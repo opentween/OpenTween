@@ -368,6 +368,11 @@ namespace OpenTween
                     this.IconCache.CancelAsync();
                     this.IconCache.Dispose();
                 }
+
+                this.thumbnailTokenSource.Dispose();
+                this.itemCacheLock.Dispose();
+                this.tw.Dispose();
+                this._hookGlobalHotkey.Dispose();
             }
 
             // 終了時にRemoveHandlerしておかないとメモリリークする
