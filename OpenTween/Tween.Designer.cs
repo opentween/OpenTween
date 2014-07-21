@@ -7,19 +7,6 @@
         /// </summary>
         private System.ComponentModel.IContainer components = null;
 
-        /// <summary>
-        /// 使用中のリソースをすべてクリーンアップします。
-        /// </summary>
-        /// <param name="disposing">マネージ リソースが破棄される場合 true、破棄されない場合は false です。</param>
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing && (components != null))
-            {
-                components.Dispose();
-            }
-            base.Dispose(disposing);
-        }
-
         #region Windows フォーム デザイナーで生成されたコード
 
         /// <summary>
@@ -2512,7 +2499,6 @@
             this.DragEnter += new System.Windows.Forms.DragEventHandler(this.TweenMain_DragEnter);
             this.DragOver += new System.Windows.Forms.DragEventHandler(this.TweenMain_DragOver);
             this.Resize += new System.EventHandler(this.TweenMain_Resize);
-            this.Disposed += new System.EventHandler(this.TweenMain_Disposed);
             this.ToolStripContainer1.BottomToolStripPanel.ResumeLayout(false);
             this.ToolStripContainer1.BottomToolStripPanel.PerformLayout();
             this.ToolStripContainer1.ContentPanel.ResumeLayout(false);

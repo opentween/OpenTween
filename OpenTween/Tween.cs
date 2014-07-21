@@ -307,55 +307,74 @@ namespace OpenTween
             }
         }
 
-        private void TweenMain_Disposed(object sender, EventArgs e)
+        private bool disposed = false;
+
+        /// <summary>
+        /// 使用中のリソースをすべてクリーンアップします。
+        /// </summary>
+        /// <param name="disposing">マネージ リソースが破棄される場合 true、破棄されない場合は false です。</param>
+        protected override void Dispose(bool disposing)
         {
-            //後始末
-            SettingDialog.Dispose();
-            SearchDialog.Dispose();
-            fltDialog.Dispose();
-            UrlDialog.Dispose();
-            if (NIconAt != null) NIconAt.Dispose();
-            if (NIconAtRed != null) NIconAtRed.Dispose();
-            if (NIconAtSmoke != null) NIconAtSmoke.Dispose();
-            if (NIconRefresh[0] != null) NIconRefresh[0].Dispose();
-            if (NIconRefresh[1] != null) NIconRefresh[1].Dispose();
-            if (NIconRefresh[2] != null) NIconRefresh[2].Dispose();
-            if (NIconRefresh[3] != null) NIconRefresh[3].Dispose();
-            if (TabIcon != null) TabIcon.Dispose();
-            if (MainIcon != null) MainIcon.Dispose();
-            if (ReplyIcon != null) ReplyIcon.Dispose();
-            if (ReplyIconBlink != null) ReplyIconBlink.Dispose();
-            _listViewImageList.Dispose();
-            _brsHighLight.Dispose();
-            if (_brsBackColorMine != null) _brsBackColorMine.Dispose();
-            if (_brsBackColorAt != null) _brsBackColorAt.Dispose();
-            if (_brsBackColorYou != null) _brsBackColorYou.Dispose();
-            if (_brsBackColorAtYou != null) _brsBackColorAtYou.Dispose();
-            if (_brsBackColorAtFromTarget != null) _brsBackColorAtFromTarget.Dispose();
-            if (_brsBackColorAtTo != null) _brsBackColorAtTo.Dispose();
-            if (_brsBackColorNone != null) _brsBackColorNone.Dispose();
-            if (_brsDeactiveSelection != null) _brsDeactiveSelection.Dispose();
-            //sf.Dispose();
-            sfTab.Dispose();
-            foreach (BackgroundWorker bw in _bw)
+            base.Dispose(disposing);
+
+            if (this.disposed)
+                return;
+
+            if (disposing)
             {
-                if (bw != null)
-                    bw.Dispose();
-            }
-            if (_bwFollower != null)
-            {
-                _bwFollower.Dispose();
-            }
-            this._apiGauge.Dispose();
-            if (IconCache != null)
-            {
-                this.IconCache.CancelAsync();
-                this.IconCache.Dispose();
+                if (this.components != null)
+                    this.components.Dispose();
+
+                //後始末
+                SettingDialog.Dispose();
+                SearchDialog.Dispose();
+                fltDialog.Dispose();
+                UrlDialog.Dispose();
+                if (NIconAt != null) NIconAt.Dispose();
+                if (NIconAtRed != null) NIconAtRed.Dispose();
+                if (NIconAtSmoke != null) NIconAtSmoke.Dispose();
+                if (NIconRefresh[0] != null) NIconRefresh[0].Dispose();
+                if (NIconRefresh[1] != null) NIconRefresh[1].Dispose();
+                if (NIconRefresh[2] != null) NIconRefresh[2].Dispose();
+                if (NIconRefresh[3] != null) NIconRefresh[3].Dispose();
+                if (TabIcon != null) TabIcon.Dispose();
+                if (MainIcon != null) MainIcon.Dispose();
+                if (ReplyIcon != null) ReplyIcon.Dispose();
+                if (ReplyIconBlink != null) ReplyIconBlink.Dispose();
+                _listViewImageList.Dispose();
+                _brsHighLight.Dispose();
+                if (_brsBackColorMine != null) _brsBackColorMine.Dispose();
+                if (_brsBackColorAt != null) _brsBackColorAt.Dispose();
+                if (_brsBackColorYou != null) _brsBackColorYou.Dispose();
+                if (_brsBackColorAtYou != null) _brsBackColorAtYou.Dispose();
+                if (_brsBackColorAtFromTarget != null) _brsBackColorAtFromTarget.Dispose();
+                if (_brsBackColorAtTo != null) _brsBackColorAtTo.Dispose();
+                if (_brsBackColorNone != null) _brsBackColorNone.Dispose();
+                if (_brsDeactiveSelection != null) _brsDeactiveSelection.Dispose();
+                //sf.Dispose();
+                sfTab.Dispose();
+                foreach (BackgroundWorker bw in _bw)
+                {
+                    if (bw != null)
+                        bw.Dispose();
+                }
+                if (_bwFollower != null)
+                {
+                    _bwFollower.Dispose();
+                }
+                this._apiGauge.Dispose();
+                if (IconCache != null)
+                {
+                    this.IconCache.CancelAsync();
+                    this.IconCache.Dispose();
+                }
             }
 
             // 終了時にRemoveHandlerしておかないとメモリリークする
             // http://msdn.microsoft.com/ja-jp/library/microsoft.win32.systemevents.powermodechanged.aspx
             Microsoft.Win32.SystemEvents.PowerModeChanged -= SystemEvents_PowerModeChanged;
+
+            this.disposed = true;
         }
 
         private void LoadIcon(ref Icon IconInstance, string FileName)
