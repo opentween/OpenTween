@@ -31,7 +31,7 @@ namespace OpenTween
     /// <summary>
     /// WinformsコントロールのBegin/EndUpdate等のメソッドをusingブロックによって呼び出すためのクラス
     /// </summary>
-    public class ControlTransaction
+    public static class ControlTransaction
     {
         public static IDisposable Update(ListView control)
         {
@@ -58,8 +58,8 @@ namespace OpenTween
             // Begin/EndUpdate メソッドを持たないコントロールに対しては、
             // WM_SETREDRAW メッセージを直接コントロールに送信する。
             return new Transaction<Control>(control,
-                x => Win32Api.SetRedrawState(x, false),
-                x => { Win32Api.SetRedrawState(x, true); x.Invalidate(true); });
+                x => NativeMethods.SetRedrawState(x, false),
+                x => { NativeMethods.SetRedrawState(x, true); x.Invalidate(true); });
         }
 
         public static IDisposable Layout(Control control)

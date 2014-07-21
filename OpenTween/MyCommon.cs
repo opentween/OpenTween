@@ -50,7 +50,7 @@ using OpenTween.Api;
 
 namespace OpenTween
 {
-    public sealed class MyCommon
+    public static class MyCommon
     {
         private static readonly object LockObj = new object();
         public static bool _endingFlag;        //終了フラグ
@@ -419,9 +419,8 @@ namespace OpenTween
                     case DialogResult.No:
                         return false;
                     case DialogResult.Cancel:
-                        return IsTerminatePermission;
                     default:
-                        throw new Exception("");
+                        return IsTerminatePermission;
                 }
             }
         }

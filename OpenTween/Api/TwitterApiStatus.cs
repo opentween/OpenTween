@@ -78,6 +78,10 @@ namespace OpenTween.Api
             if (!header.ContainsKey(headerName))
                 return null;
 
+            // たまに出てくる空文字列は無視する
+            if (string.IsNullOrEmpty(header[headerName]))
+                return null;
+
             switch (header[headerName])
             {
                 case "read-write-directmessages":
@@ -87,9 +91,6 @@ namespace OpenTween.Api
                     return TwitterApiAccessLevel.ReadWrite;
                 case "read":
                     return TwitterApiAccessLevel.Read;
-                case "":
-                    // たまに出てくる空文字列は無視する
-                    return null;
                 default:
                     MyCommon.TraceOut("Unknown ApiAccessLevel:" + header[headerName]);
                     return TwitterApiAccessLevel.ReadWriteAndDirectMessage;

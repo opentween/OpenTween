@@ -25,6 +25,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Runtime.Serialization;
 using System.Text;
+using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.IO;
 using System.Threading.Tasks;
@@ -151,6 +152,7 @@ namespace OpenTween
         /// <param name="stream">読み込む対象となる Stream</param>
         /// <returns>作成された MemoryImage</returns>
         /// <exception cref="InvalidImageException">不正な画像データが入力された場合</exception>
+        [SuppressMessage("Microsoft.Reliability", "CA2000:DisposeObjectsBeforeLosingScope")]
         public static MemoryImage CopyFromStream(Stream stream)
         {
             var memstream = new MemoryStream();
@@ -185,6 +187,7 @@ namespace OpenTween
         /// <param name="bytes">読み込む対象となるバイト列</param>
         /// <returns>作成された MemoryImage</returns>
         /// <exception cref="InvalidImageException">不正な画像データが入力された場合</exception>
+        [SuppressMessage("Microsoft.Reliability", "CA2000:DisposeObjectsBeforeLosingScope")]
         public static MemoryImage CopyFromBytes(byte[] bytes)
         {
             return new MemoryImage(new MemoryStream(bytes));
@@ -194,11 +197,12 @@ namespace OpenTween
     /// <summary>
     /// 不正な画像データに対してスローされる例外
     /// </summary>
+    [Serializable]
     public class InvalidImageException : Exception
     {
         public InvalidImageException() : base() { }
         public InvalidImageException(string message) : base(message) { }
         public InvalidImageException(string message, Exception innerException) : base(message, innerException) { }
-        public InvalidImageException(SerializationInfo info, StreamingContext context) : base(info, context) { }
+        protected InvalidImageException(SerializationInfo info, StreamingContext context) : base(info, context) { }
     }
 }

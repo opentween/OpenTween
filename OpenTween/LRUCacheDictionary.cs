@@ -240,13 +240,13 @@ namespace OpenTween
         public void CopyTo(KeyValuePair<TKey, TValue>[] array, int arrayIndex)
         {
             if (array == null)
-                throw new ArgumentNullException();
+                throw new ArgumentNullException("array");
             if (arrayIndex < 0)
-                throw new ArgumentOutOfRangeException();
+                throw new ArgumentOutOfRangeException("arrayIndex");
             if (arrayIndex >= array.Length)
-                throw new ArgumentException("arrayIndex is equal to or greater than array.Length.");
+                throw new ArgumentException("arrayIndex is equal to or greater than array.Length.", "arrayIndex");
             if (array.Length - arrayIndex < this.Count)
-                throw new ArgumentException("The destination array is too small.");
+                throw new ArgumentException("The destination array is too small.", "array");
 
             foreach (var pair in this)
                 array[arrayIndex++] = pair;

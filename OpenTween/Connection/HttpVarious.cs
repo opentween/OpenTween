@@ -48,7 +48,7 @@ namespace OpenTween
                 req.AllowAutoRedirect = false;
                 string data;
                 Dictionary<string, string> head = new Dictionary<string, string>();
-                HttpStatusCode ret = GetResponse(req, out data, head);
+                GetResponse(req, out data, head);
 
                 string location;
                 return head.TryGetValue("Location", out location)

@@ -31,7 +31,6 @@ using System.Text;
 
 namespace OpenTween
 {
-    [Serializable]
     public class SettingAtIdList : SettingBase<SettingAtIdList>
     {
 #region Settingクラス基本

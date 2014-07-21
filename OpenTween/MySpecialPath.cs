@@ -34,7 +34,7 @@ using System.IO;
 
 namespace OpenTween
 {
-    public class MySpecialPath
+    public static class MySpecialPath
     {
         //public static string UserAppDataPath
         //{

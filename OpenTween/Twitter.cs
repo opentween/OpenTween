@@ -152,7 +152,6 @@ namespace OpenTween
         //プロパティからアクセスされる共通情報
         private string _uname;
 
-        private bool _tinyUrlResolve;
         private bool _restrictFavCheck;
 
         private bool _readOwnPost;
@@ -209,12 +208,12 @@ namespace OpenTween
         public string StartAuthentication(ref string pinPageUrl)
         {
             //OAuth PIN Flow
-            bool res;
-
             this.ResetApiStatus();
             try
             {
-                res = twCon.AuthGetRequestToken(ref pinPageUrl);
+                var res = twCon.AuthGetRequestToken(ref pinPageUrl);
+                if (!res)
+                    return "Err:Failed to access auth server.";
             }
             catch(Exception)
             {
@@ -1200,14 +1199,6 @@ namespace OpenTween
             set
             {
                 _accountState = value;
-            }
-        }
-
-        public bool TinyUrlResolve
-        {
-            set
-            {
-                _tinyUrlResolve = value;
             }
         }
 
@@ -2787,7 +2778,7 @@ namespace OpenTween
 
             try
             {
-                var u = TwitterUser.ParseJson(content);
+                TwitterUser.ParseJson(content);
                 value = true;
                 return "";
             }
@@ -3305,11 +3296,11 @@ namespace OpenTween
             }
         }
 
-        public event Action NewPostFromStream;
-        public event Action UserStreamStarted;
-        public event Action UserStreamStopped;
-        public event Action<long> PostDeleted;
-        public event Action<FormattedEvent> UserStreamEventReceived;
+        public event EventHandler NewPostFromStream;
+        public event EventHandler UserStreamStarted;
+        public event EventHandler UserStreamStopped;
+        public event EventHandler<PostDeletedEventArgs> PostDeleted;
+        public event EventHandler<UserStreamEventReceivedEventArgs> UserStreamEventReceived;
         private DateTime _lastUserstreamDataReceived;
         private TwitterUserstream userStream;
 
@@ -3406,20 +3397,18 @@ namespace OpenTween
                         {
                             id = 0;
                             long.TryParse(xElm.Element("delete").Element("direct_message").Element("id").Value, out id);
-                            if (PostDeleted != null)
-                            {
-                                PostDeleted(id);
-                            }
+
+                            if (this.PostDeleted != null)
+                                this.PostDeleted(this, new PostDeletedEventArgs(id));
                         }
                         else if (xElm.Element("delete").Element("status") != null &&
                             xElm.Element("delete").Element("status").Element("id") != null)
                         {
                             id = 0;
                             long.TryParse(xElm.Element("delete").Element("status").Element("id").Value, out id);
-                            if (PostDeleted != null)
-                            {
-                                PostDeleted(id);
-                            }
+
+                            if (this.PostDeleted != null)
+                                this.PostDeleted(this, new PostDeletedEventArgs(id));
                         }
                         else
                         {
@@ -3482,10 +3471,8 @@ namespace OpenTween
                 MyCommon.TraceOut("NullRef StatusArrived: " + line);
             }
 
-            if (NewPostFromStream != null)
-            {
-                NewPostFromStream();
-            }
+            if (this.NewPostFromStream != null)
+                this.NewPostFromStream(this, EventArgs.Empty);
         }
 
         private void CreateEventFromJson(string content)
@@ -3612,26 +3599,21 @@ namespace OpenTween
                     break;
             }
             this.StoredEvent.Insert(0, evt);
-            if (UserStreamEventReceived != null)
-            {
-                UserStreamEventReceived(evt);
-            }
+
+            if (this.UserStreamEventReceived != null)
+                this.UserStreamEventReceived(this, new UserStreamEventReceivedEventArgs(evt));
         }
 
         private void userStream_Started()
         {
-            if (UserStreamStarted != null)
-            {
-                UserStreamStarted();
-            }
+            if (this.UserStreamStarted != null)
+                this.UserStreamStarted(this, EventArgs.Empty);
         }
 
         private void userStream_Stopped()
         {
-            if (UserStreamStopped != null)
-            {
-                UserStreamStopped();
-            }
+            if (this.UserStreamStopped != null)
+                this.UserStreamStopped(this, EventArgs.Empty);
         }
 
         public bool UserStreamEnabled
@@ -3661,10 +3643,8 @@ namespace OpenTween
             userStream = null;
             if (!MyCommon._endingFlag)
             {
-                if (UserStreamStopped != null)
-                {
-                    UserStreamStopped();
-                }
+                if (this.UserStreamStopped != null)
+                    this.UserStreamStopped(this, EventArgs.Empty);
             }
         }
 
@@ -3939,5 +3919,35 @@ namespace OpenTween
             GC.SuppressFinalize(this);
         }
 #endregion
+    }
+
+    public class PostDeletedEventArgs : EventArgs
+    {
+        public long StatusId
+        {
+            get { return this.statusId; }
+        }
+
+        private readonly long statusId;
+
+        public PostDeletedEventArgs(long statusId)
+        {
+            this.statusId = statusId;
+        }
+    }
+
+    public class UserStreamEventReceivedEventArgs : EventArgs
+    {
+        public Twitter.FormattedEvent EventData
+        {
+            get { return this.eventData; }
+        }
+
+        private readonly Twitter.FormattedEvent eventData;
+
+        public UserStreamEventReceivedEventArgs(Twitter.FormattedEvent eventData)
+        {
+            this.eventData = eventData;
+        }
     }
 }

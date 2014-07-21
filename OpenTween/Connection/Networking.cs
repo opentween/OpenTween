@@ -21,6 +21,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -68,6 +69,7 @@ namespace OpenTween.Connection
         private static ProxyType proxyType = ProxyType.IE;
         private static IWebProxy proxy = null;
 
+        [SuppressMessage("Microsoft.Reliability", "CA2000:DisposeObjectsBeforeLosingScope")]
         static Networking()
         {
             DefaultTimeout = TimeSpan.FromSeconds(20);
@@ -107,7 +109,7 @@ namespace OpenTween.Connection
             Networking.proxyType = proxyType;
             Networking.proxy = proxy;
 
-            Win32Api.SetProxy(proxyType, proxyAddress, proxyPort, proxyUser, proxyPassword);
+            NativeMethods.SetProxy(proxyType, proxyAddress, proxyPort, proxyUser, proxyPassword);
 
             OnWebProxyChanged(EventArgs.Empty);
         }
@@ -119,6 +121,7 @@ namespace OpenTween.Connection
         /// 通常は Networking.Http を使用すべきです。
         /// このメソッドを使用する場合は、WebProxyChanged イベントが発生する度に HttpClient を生成し直すように実装してください。
         /// </remarks>
+        [SuppressMessage("Microsoft.Reliability", "CA2000:DisposeObjectsBeforeLosingScope")]
         public static HttpClient CreateHttpClient(HttpClientHandler handler)
         {
             if (Networking.Proxy != null)
@@ -155,6 +158,7 @@ namespace OpenTween.Connection
                 throw new InvalidOperationException("Sequence error.(not initialized)");
         }
 
+        [SuppressMessage("Microsoft.Reliability", "CA2000:DisposeObjectsBeforeLosingScope")]
         private static void OnWebProxyChanged(EventArgs e)
         {
             var newClient = Networking.CreateHttpClient(new HttpClientHandler());

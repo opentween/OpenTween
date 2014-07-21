@@ -50,6 +50,7 @@ using StringBuilder = System.Text.StringBuilder;
 using HttpRequestHeader = System.Net.HttpRequestHeader;
 using HMACSHA1 = System.Security.Cryptography.HMACSHA1;
 using Encoding = System.Text.Encoding;
+using System;
 
 namespace OpenTween
 {
@@ -280,7 +281,7 @@ namespace OpenTween
 		{
 			// PIN-based flow
 			if ( string.IsNullOrEmpty( requestToken ) )
-				throw new Exception( "Sequence error.(requestToken is blank)" );
+				throw new InvalidOperationException( "Sequence error.(requestToken is blank)" );
 
 			// アクセストークン取得
 			string content = "";
@@ -342,8 +343,10 @@ namespace OpenTween
 		public HttpStatusCode AuthenticateXAuth( Uri accessTokenUrl, string username, string password, ref string content )
 		{
 			// ユーザー・パスワードチェック
-			if ( string.IsNullOrEmpty( username ) || string.IsNullOrEmpty( password ) )
-				throw new Exception( "Sequence error.(username or password is blank)" );
+			if ( string.IsNullOrEmpty( username ) )
+				throw new ArgumentException( "username is null or empty", "username" );
+            if ( string.IsNullOrEmpty( password ) )
+                throw new ArgumentException( "password is null or empty", "password" );
 
 			// xAuthの拡張パラメータ設定
 			Dictionary< string, string > parameter = new Dictionary< string, string >();

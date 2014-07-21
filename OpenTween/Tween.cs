@@ -199,7 +199,6 @@ namespace OpenTween
         private bool _waitLists = false;
         private BackgroundWorker[] _bw = new BackgroundWorker[20];
         private BackgroundWorker _bwFollower;
-        private InternetSecurityManager SecurityManager;
 
         private int UnreadCounter = -1;
         private int UnreadAtCounter = -1;
@@ -254,12 +253,8 @@ namespace OpenTween
         private class GetWorkerResult
         {
             public string retMsg = "";                     //処理結果詳細メッセージ。エラー時に値がセットされる
-            public int page;                      //取得対象ページ番号
-            public int endPage = 0;                   //取得終了ページ番号（継続可能ならインクリメントされて返る。pageと比較して継続判定）
             public MyCommon.WORKERTYPE type;                   //処理種別
-            public Dictionary<string, Image> imgs = null;                    //新規取得したアイコンイメージ
             public string tName = "";                  //Fav追加・削除時のタブ名
-            public List<long> ids = null;               //Fav追加・削除時のID
             public List<long> sIds = null;                  //Fav追加・削除成功分のID
             public bool newDM = false;
             public int addCount;
@@ -270,9 +265,7 @@ namespace OpenTween
         private class GetWorkerArg
         {
             public int page;                      //処理対象ページ番号
-            public int endPage;                   //処理終了ページ番号（起動時の読み込みページ数。通常時はpageと同じ値をセット）
             public MyCommon.WORKERTYPE type;                   //処理種別
-            public string url = "";            //URLをブラウザで開くときのアドレス
             public PostingStatus status = new PostingStatus();          //発言POST時の発言内容
             public List<long> ids;               //Fav追加・削除時のItemIndex
             public List<long> sIds;              //Fav追加・削除成功分のItemIndex
@@ -621,7 +614,7 @@ namespace OpenTween
 
             //Win32Api.SetProxy(HttpConnection.ProxyType.Specified, "127.0.0.1", 8080, "user", "pass")
 
-            SecurityManager = new InternetSecurityManager(PostBrowser);
+            new InternetSecurityManager(PostBrowser);
             this.PostBrowser.AllowWebBrowserDrop = false;  // COMException を回避するため、ActiveX の初期化が終わってから設定する
 
             MyCommon.TwitterApiInfo.AccessLimitUpdated += TwitterApiStatus_AccessLimitUpdated;
@@ -1123,8 +1116,6 @@ namespace OpenTween
 
             ApplyListViewIconSize(SettingDialog.IconSz);
 
-            tw.TinyUrlResolve = SettingDialog.TinyUrlResolve;
-
             StatusLabel.Text = Properties.Resources.Form1_LoadText1;       //画面右下の状態表示を変更
             StatusLabelUrl.Text = "";            //画面左下のリンク先URL表示部を初期化
             NameLabel.Text = "";                 //発言詳細部名前ラベル初期化
@@ -1187,7 +1178,8 @@ namespace OpenTween
                 {
                     tab.TabType = MyCommon.TabUsageType.UserDefined;
                 }
-                if (!AddNewTab(tab.TabName, true, tab.TabType, tab.ListInfo)) throw new Exception(Properties.Resources.TweenMain_LoadText1);
+                if (!AddNewTab(tab.TabName, true, tab.TabType, tab.ListInfo))
+                    throw new TabException(Properties.Resources.TweenMain_LoadText1);
             }
 
             this.JumpReadOpMenuItem.ShortcutKeyDisplayString = "Space";
@@ -1379,37 +1371,37 @@ namespace OpenTween
             if (ResetTimers.Timeline || homeCounter <= 0 && SettingDialog.TimelinePeriodInt > 0)
             {
                 Interlocked.Exchange(ref homeCounter, SettingDialog.TimelinePeriodInt);
-                if (!tw.IsUserstreamDataReceived && !ResetTimers.Timeline) GetTimeline(MyCommon.WORKERTYPE.Timeline, 1, 0, "");
+                if (!tw.IsUserstreamDataReceived && !ResetTimers.Timeline) GetTimeline(MyCommon.WORKERTYPE.Timeline, 1, "");
                 ResetTimers.Timeline = false;
             }
             if (ResetTimers.Reply || mentionCounter <= 0 && SettingDialog.ReplyPeriodInt > 0)
             {
                 Interlocked.Exchange(ref mentionCounter, SettingDialog.ReplyPeriodInt);
-                if (!tw.IsUserstreamDataReceived && !ResetTimers.Reply) GetTimeline(MyCommon.WORKERTYPE.Reply, 1, 0, "");
+                if (!tw.IsUserstreamDataReceived && !ResetTimers.Reply) GetTimeline(MyCommon.WORKERTYPE.Reply, 1, "");
                 ResetTimers.Reply = false;
             }
             if (ResetTimers.DirectMessage || dmCounter <= 0 && SettingDialog.DMPeriodInt > 0)
             {
                 Interlocked.Exchange(ref dmCounter, SettingDialog.DMPeriodInt);
-                if (!tw.IsUserstreamDataReceived && !ResetTimers.DirectMessage) GetTimeline(MyCommon.WORKERTYPE.DirectMessegeRcv, 1, 0, "");
+                if (!tw.IsUserstreamDataReceived && !ResetTimers.DirectMessage) GetTimeline(MyCommon.WORKERTYPE.DirectMessegeRcv, 1, "");
                 ResetTimers.DirectMessage = false;
             }
             if (ResetTimers.PublicSearch || pubSearchCounter <= 0 && SettingDialog.PubSearchPeriodInt > 0)
             {
                 Interlocked.Exchange(ref pubSearchCounter, SettingDialog.PubSearchPeriodInt);
-                if (!ResetTimers.PublicSearch) GetTimeline(MyCommon.WORKERTYPE.PublicSearch, 1, 0, "");
+                if (!ResetTimers.PublicSearch) GetTimeline(MyCommon.WORKERTYPE.PublicSearch, 1, "");
                 ResetTimers.PublicSearch = false;
             }
             if (ResetTimers.UserTimeline || userTimelineCounter <= 0 && SettingDialog.UserTimelinePeriodInt > 0)
             {
                 Interlocked.Exchange(ref userTimelineCounter, SettingDialog.UserTimelinePeriodInt);
-                if (!ResetTimers.UserTimeline) GetTimeline(MyCommon.WORKERTYPE.UserTimeline, 1, 0, "");
+                if (!ResetTimers.UserTimeline) GetTimeline(MyCommon.WORKERTYPE.UserTimeline, 1, "");
                 ResetTimers.UserTimeline = false;
             }
             if (ResetTimers.Lists || listsCounter <= 0 && SettingDialog.ListsPeriodInt > 0)
             {
                 Interlocked.Exchange(ref listsCounter, SettingDialog.ListsPeriodInt);
-                if (!ResetTimers.Lists) GetTimeline(MyCommon.WORKERTYPE.List, 1, 0, "");
+                if (!ResetTimers.Lists) GetTimeline(MyCommon.WORKERTYPE.List, 1, "");
                 ResetTimers.Lists = false;
             }
             if (ResetTimers.UserStream || usCounter <= 0 && SettingDialog.UserstreamPeriodInt > 0)
@@ -1422,8 +1414,8 @@ namespace OpenTween
             {
                 Interlocked.Exchange(ref refreshFollowers, 0);
                 doGetFollowersMenu();
-                GetTimeline(MyCommon.WORKERTYPE.NoRetweetIds, 0, 0, "");
-                GetTimeline(MyCommon.WORKERTYPE.Configuration, 0, 0, "");
+                GetTimeline(MyCommon.WORKERTYPE.NoRetweetIds, 0, "");
+                GetTimeline(MyCommon.WORKERTYPE.Configuration, 0, "");
             }
             if (osResumed)
             {
@@ -1432,14 +1424,14 @@ namespace OpenTween
                 {
                     osResumed = false;
                     Interlocked.Exchange(ref ResumeWait, 0);
-                    GetTimeline(MyCommon.WORKERTYPE.Timeline, 1, 0, "");
-                    GetTimeline(MyCommon.WORKERTYPE.Reply, 1, 0, "");
-                    GetTimeline(MyCommon.WORKERTYPE.DirectMessegeRcv, 1, 0, "");
-                    GetTimeline(MyCommon.WORKERTYPE.PublicSearch, 1, 0, "");
-                    GetTimeline(MyCommon.WORKERTYPE.UserTimeline, 1, 0, "");
-                    GetTimeline(MyCommon.WORKERTYPE.List, 1, 0, "");
+                    GetTimeline(MyCommon.WORKERTYPE.Timeline, 1, "");
+                    GetTimeline(MyCommon.WORKERTYPE.Reply, 1, "");
+                    GetTimeline(MyCommon.WORKERTYPE.DirectMessegeRcv, 1, "");
+                    GetTimeline(MyCommon.WORKERTYPE.PublicSearch, 1, "");
+                    GetTimeline(MyCommon.WORKERTYPE.UserTimeline, 1, "");
+                    GetTimeline(MyCommon.WORKERTYPE.List, 1, "");
                     doGetFollowersMenu();
-                    GetTimeline(MyCommon.WORKERTYPE.Configuration, 0, 0, "");
+                    GetTimeline(MyCommon.WORKERTYPE.Configuration, 0, "");
                 }
             }
         }
@@ -1701,7 +1693,7 @@ namespace OpenTween
                     !SettingDialog.LimitBalloon
                     )
                 ) &&
-                !Win32Api.IsScreenSaverRunning())
+                !NativeMethods.IsScreenSaverRunning())
             {
                 return true;
             }
@@ -1918,7 +1910,7 @@ namespace OpenTween
             //mentions新着時に画面ブリンク
             if (!_initial && SettingDialog.BlinkNewMentions && newMentions && Form.ActiveForm == null)
             {
-                Win32Api.FlashMyWindow(this.Handle, Win32Api.FlashSpecification.FlashTray, 3);
+                NativeMethods.FlashMyWindow(this.Handle, NativeMethods.FlashSpecification.FlashTray, 3);
             }
         }
 
@@ -2150,7 +2142,6 @@ namespace OpenTween
             StatusText.SelectionStart = StatusText.Text.Length;
             GetWorkerArg args = new GetWorkerArg();
             args.page = 0;
-            args.endPage = 0;
             args.type = MyCommon.WORKERTYPE.PostMessage;
             CheckReplyTo(StatusText.Text);
 
@@ -2711,14 +2702,6 @@ namespace OpenTween
             rslt.retMsg = ret;
             rslt.type = args.type;
             rslt.tName = args.tName;
-            if (args.type == MyCommon.WORKERTYPE.DirectMessegeRcv ||
-                args.type == MyCommon.WORKERTYPE.DirectMessegeSnt ||
-                args.type == MyCommon.WORKERTYPE.Reply ||
-                args.type == MyCommon.WORKERTYPE.Timeline ||
-                args.type == MyCommon.WORKERTYPE.Favorites)
-            {
-                rslt.page = args.page - 1;   //値が正しいか後でチェック。10ページ毎の継続確認
-            }
 
             e.Result = rslt;
         }
@@ -2914,7 +2897,7 @@ namespace OpenTween
                     _waitReply = false;
                     if (rslt.newDM && !_initial)
                     {
-                        GetTimeline(MyCommon.WORKERTYPE.DirectMessegeRcv, 1, 0, "");
+                        GetTimeline(MyCommon.WORKERTYPE.DirectMessegeRcv, 1, "");
                     }
                     break;
                 case MyCommon.WORKERTYPE.Favorites:
@@ -3009,7 +2992,6 @@ namespace OpenTween
                         {
                             GetWorkerArg args = new GetWorkerArg();
                             args.page = 0;
-                            args.endPage = 0;
                             args.type = MyCommon.WORKERTYPE.PostMessage;
                             args.status = rslt.status;
                             RunAsync(args);
@@ -3031,7 +3013,7 @@ namespace OpenTween
                         }
                         else
                         {
-                            GetTimeline(MyCommon.WORKERTYPE.Timeline, 1, 0, "");
+                            GetTimeline(MyCommon.WORKERTYPE.Timeline, 1, "");
                         }
                     }
                     break;
@@ -3047,7 +3029,7 @@ namespace OpenTween
                                 _postTimestamps.RemoveAt(i);
                             }
                         }
-                        if (!_isActiveUserstream && SettingDialog.PostAndGet) GetTimeline(MyCommon.WORKERTYPE.Timeline, 1, 0, "");
+                        if (!_isActiveUserstream && SettingDialog.PostAndGet) GetTimeline(MyCommon.WORKERTYPE.Timeline, 1, "");
                     }
                     break;
                 case MyCommon.WORKERTYPE.Follower:
@@ -3181,14 +3163,13 @@ namespace OpenTween
 
         private static Dictionary<MyCommon.WORKERTYPE, DateTime> lastTime = new Dictionary<MyCommon.WORKERTYPE, DateTime>();
 
-        private void GetTimeline(MyCommon.WORKERTYPE WkType, int fromPage, int toPage, string tabName)
+        private void GetTimeline(MyCommon.WORKERTYPE WkType, int fromPage, string tabName)
         {
             if (!this.IsNetworkAvailable()) return;
 
             //非同期実行引数設定
             GetWorkerArg args = new GetWorkerArg();
             args.page = fromPage;
-            args.endPage = toPage;
             args.type = WkType;
             args.tName = tabName;
 
@@ -3807,13 +3788,13 @@ namespace OpenTween
                 switch (_statuses.Tabs[_curTab.Text].TabType)
                 {
                     case MyCommon.TabUsageType.Mentions:
-                        GetTimeline(MyCommon.WORKERTYPE.Reply, 1, 0, "");
+                        GetTimeline(MyCommon.WORKERTYPE.Reply, 1, "");
                         break;
                     case MyCommon.TabUsageType.DirectMessage:
-                        GetTimeline(MyCommon.WORKERTYPE.DirectMessegeRcv, 1, 0, "");
+                        GetTimeline(MyCommon.WORKERTYPE.DirectMessegeRcv, 1, "");
                         break;
                     case MyCommon.TabUsageType.Favorites:
-                        GetTimeline(MyCommon.WORKERTYPE.Favorites, 1, 0, "");
+                        GetTimeline(MyCommon.WORKERTYPE.Favorites, 1, "");
                         break;
                     //case MyCommon.TabUsageType.Profile:
                         //// TODO
@@ -3821,25 +3802,25 @@ namespace OpenTween
                         //// TODO
                         TabClass tb = _statuses.Tabs[_curTab.Text];
                         if (string.IsNullOrEmpty(tb.SearchWords)) return;
-                        GetTimeline(MyCommon.WORKERTYPE.PublicSearch, 1, 0, _curTab.Text);
+                        GetTimeline(MyCommon.WORKERTYPE.PublicSearch, 1, _curTab.Text);
                         break;
                     case MyCommon.TabUsageType.UserTimeline:
-                        GetTimeline(MyCommon.WORKERTYPE.UserTimeline, 1, 0, _curTab.Text);
+                        GetTimeline(MyCommon.WORKERTYPE.UserTimeline, 1, _curTab.Text);
                         break;
                     case MyCommon.TabUsageType.Lists:
                         //// TODO
                         TabClass tab = _statuses.Tabs[_curTab.Text];
                         if (tab.ListInfo == null || tab.ListInfo.Id == 0) return;
-                        GetTimeline(MyCommon.WORKERTYPE.List, 1, 0, _curTab.Text);
+                        GetTimeline(MyCommon.WORKERTYPE.List, 1, _curTab.Text);
                         break;
                     default:
-                        GetTimeline(MyCommon.WORKERTYPE.Timeline, 1, 0, "");
+                        GetTimeline(MyCommon.WORKERTYPE.Timeline, 1, "");
                         break;
                 }
             }
             else
             {
-                GetTimeline(MyCommon.WORKERTYPE.Timeline, 1, 0, "");
+                GetTimeline(MyCommon.WORKERTYPE.Timeline, 1, "");
             }
         }
 
@@ -3851,13 +3832,13 @@ namespace OpenTween
                 switch (_statuses.Tabs[_curTab.Text].TabType)
                 {
                     case MyCommon.TabUsageType.Mentions:
-                        GetTimeline(MyCommon.WORKERTYPE.Reply, -1, 0, "");
+                        GetTimeline(MyCommon.WORKERTYPE.Reply, -1, "");
                         break;
                     case MyCommon.TabUsageType.DirectMessage:
-                        GetTimeline(MyCommon.WORKERTYPE.DirectMessegeRcv, -1, 0, "");
+                        GetTimeline(MyCommon.WORKERTYPE.DirectMessegeRcv, -1, "");
                         break;
                     case MyCommon.TabUsageType.Favorites:
-                        GetTimeline(MyCommon.WORKERTYPE.Favorites, -1, 0, "");
+                        GetTimeline(MyCommon.WORKERTYPE.Favorites, -1, "");
                         break;
                     case MyCommon.TabUsageType.Profile:
                         //// TODO
@@ -3866,25 +3847,25 @@ namespace OpenTween
                         // TODO
                         TabClass tb = _statuses.Tabs[_curTab.Text];
                         if (string.IsNullOrEmpty(tb.SearchWords)) return;
-                        GetTimeline(MyCommon.WORKERTYPE.PublicSearch, -1, 0, _curTab.Text);
+                        GetTimeline(MyCommon.WORKERTYPE.PublicSearch, -1, _curTab.Text);
                         break;
                     case MyCommon.TabUsageType.UserTimeline:
-                        GetTimeline(MyCommon.WORKERTYPE.UserTimeline, -1, 0, _curTab.Text);
+                        GetTimeline(MyCommon.WORKERTYPE.UserTimeline, -1, _curTab.Text);
                         break;
                     case MyCommon.TabUsageType.Lists:
                         //// TODO
                         TabClass tab = _statuses.Tabs[_curTab.Text];
                         if (tab.ListInfo == null || tab.ListInfo.Id == 0) return;
-                        GetTimeline(MyCommon.WORKERTYPE.List, -1, 0, _curTab.Text);
+                        GetTimeline(MyCommon.WORKERTYPE.List, -1, _curTab.Text);
                         break;
                     default:
-                        GetTimeline(MyCommon.WORKERTYPE.Timeline, -1, 0, "");
+                        GetTimeline(MyCommon.WORKERTYPE.Timeline, -1, "");
                         break;
                 }
             }
             else
             {
-                GetTimeline(MyCommon.WORKERTYPE.Timeline, -1, 0, "");
+                GetTimeline(MyCommon.WORKERTYPE.Timeline, -1, "");
             }
         }
 
@@ -3907,7 +3888,6 @@ namespace OpenTween
             {
                 lock (_syncObject)
                 {
-                    tw.TinyUrlResolve = SettingDialog.TinyUrlResolve;
                     tw.RestrictFavCheck = SettingDialog.RestrictFavCheck;
                     tw.ReadOwnPost = SettingDialog.ReadOwnPost;
                     ShortUrl.Instance.DisableExpanding = !SettingDialog.TinyUrlResolve;
@@ -4382,7 +4362,7 @@ namespace OpenTween
             SaveConfigsTabs();
             //検索実行
 
-            GetTimeline(MyCommon.WORKERTYPE.UserTimeline, 1, 0, tabName);
+            GetTimeline(MyCommon.WORKERTYPE.UserTimeline, 1, tabName);
         }
 
         public bool AddNewTab(string tabName, bool startup, MyCommon.TabUsageType tabType, ListElement listInfo = null)
@@ -6337,10 +6317,10 @@ namespace OpenTween
                             DoRefresh();
                             return true;
                         case Keys.F6:
-                            GetTimeline(MyCommon.WORKERTYPE.Reply, 1, 0, "");
+                            GetTimeline(MyCommon.WORKERTYPE.Reply, 1, "");
                             return true;
                         case Keys.F7:
-                            GetTimeline(MyCommon.WORKERTYPE.DirectMessegeRcv, 1, 0, "");
+                            GetTimeline(MyCommon.WORKERTYPE.DirectMessegeRcv, 1, "");
                             return true;
                     }
                     if (Focused != FocusedControl.StatusText)
@@ -6636,10 +6616,10 @@ namespace OpenTween
                             DoRefreshMore();
                             return true;
                         case Keys.F6:
-                            GetTimeline(MyCommon.WORKERTYPE.Reply, -1, 0, "");
+                            GetTimeline(MyCommon.WORKERTYPE.Reply, -1, "");
                             return true;
                         case Keys.F7:
-                            GetTimeline(MyCommon.WORKERTYPE.DirectMessegeRcv, -1, 0, "");
+                            GetTimeline(MyCommon.WORKERTYPE.DirectMessegeRcv, -1, "");
                             return true;
                     }
                     //フォーカスStatusText以外
@@ -8879,7 +8859,7 @@ namespace OpenTween
                     {
                         ListTab.SelectedIndex = ListTab.TabPages.Count - 1;
                         ListTabSelect(ListTab.TabPages[ListTab.TabPages.Count - 1]);
-                        GetTimeline(MyCommon.WORKERTYPE.List, 1, 0, tabName);
+                        GetTimeline(MyCommon.WORKERTYPE.List, 1, tabName);
                     }
                 }
             }
@@ -10822,31 +10802,31 @@ namespace OpenTween
             if (this.IsNetworkAvailable())
             {
                 this.RefreshMuteUserIdsAsync();
-                GetTimeline(MyCommon.WORKERTYPE.BlockIds, 0, 0, "");
-                GetTimeline(MyCommon.WORKERTYPE.NoRetweetIds, 0, 0, "");
+                GetTimeline(MyCommon.WORKERTYPE.BlockIds, 0, "");
+                GetTimeline(MyCommon.WORKERTYPE.NoRetweetIds, 0, "");
                 if (SettingDialog.StartupFollowers)
                 {
-                    GetTimeline(MyCommon.WORKERTYPE.Follower, 0, 0, "");
+                    GetTimeline(MyCommon.WORKERTYPE.Follower, 0, "");
                 }
-                GetTimeline(MyCommon.WORKERTYPE.Configuration, 0, 0, "");
+                GetTimeline(MyCommon.WORKERTYPE.Configuration, 0, "");
                 StartUserStream();
                 _waitTimeline = true;
-                GetTimeline(MyCommon.WORKERTYPE.Timeline, 1, 1, "");
+                GetTimeline(MyCommon.WORKERTYPE.Timeline, 1, "");
                 _waitReply = true;
-                GetTimeline(MyCommon.WORKERTYPE.Reply, 1, 1, "");
+                GetTimeline(MyCommon.WORKERTYPE.Reply, 1, "");
                 _waitDm = true;
-                GetTimeline(MyCommon.WORKERTYPE.DirectMessegeRcv, 1, 1, "");
+                GetTimeline(MyCommon.WORKERTYPE.DirectMessegeRcv, 1, "");
                 if (SettingDialog.GetFav)
                 {
                     _waitFav = true;
-                    GetTimeline(MyCommon.WORKERTYPE.Favorites, 1, 1, "");
+                    GetTimeline(MyCommon.WORKERTYPE.Favorites, 1, "");
                 }
                 _waitPubSearch = true;
-                GetTimeline(MyCommon.WORKERTYPE.PublicSearch, 1, 0, "");  //tabname="":全タブ
+                GetTimeline(MyCommon.WORKERTYPE.PublicSearch, 1, "");  //tabname="":全タブ
                 _waitUserTimeline = true;
-                GetTimeline(MyCommon.WORKERTYPE.UserTimeline, 1, 0, "");  //tabname="":全タブ
+                GetTimeline(MyCommon.WORKERTYPE.UserTimeline, 1, "");  //tabname="":全タブ
                 _waitLists = true;
-                GetTimeline(MyCommon.WORKERTYPE.List, 1, 0, "");  //tabname="":全タブ
+                GetTimeline(MyCommon.WORKERTYPE.List, 1, "");  //tabname="":全タブ
 
                 var i = 0;
                 while (this.IsInitialRead())
@@ -10878,15 +10858,15 @@ namespace OpenTween
 
                 // 取得失敗の場合は再試行する
                 if (!tw.GetFollowersSuccess && SettingDialog.StartupFollowers)
-                    GetTimeline(MyCommon.WORKERTYPE.Follower, 0, 0, "");
+                    GetTimeline(MyCommon.WORKERTYPE.Follower, 0, "");
 
                 // 取得失敗の場合は再試行する
                 if (!tw.GetNoRetweetSuccess)
-                    GetTimeline(MyCommon.WORKERTYPE.NoRetweetIds, 0, 0, "");
+                    GetTimeline(MyCommon.WORKERTYPE.NoRetweetIds, 0, "");
 
                 // 取得失敗の場合は再試行する
                 if (SettingDialog.TwitterConfiguration.PhotoSizeLimit == 0)
-                    GetTimeline(MyCommon.WORKERTYPE.Configuration, 0, 0, "");
+                    GetTimeline(MyCommon.WORKERTYPE.Configuration, 0, "");
 
                 // 権限チェック read/write権限(xAuthで取得したトークン)の場合は再認証を促す
                 if (MyCommon.TwitterApiInfo.AccessLevel == TwitterApiAccessLevel.ReadWrite)
@@ -10909,7 +10889,7 @@ namespace OpenTween
 
         private void doGetFollowersMenu()
         {
-            GetTimeline(MyCommon.WORKERTYPE.Follower, 1, 0, "");
+            GetTimeline(MyCommon.WORKERTYPE.Follower, 1, "");
             DispSelectedPost(true);
         }
 
@@ -11287,7 +11267,6 @@ namespace OpenTween
                 public string id = "";
                 public bool isFollowing = false;
                 public bool isFollowed = false;
-                public bool isError = false;
                 public FriendshipInfo(string id)
                 {
                     this.id = id;
@@ -11306,7 +11285,6 @@ namespace OpenTween
                 if (!string.IsNullOrEmpty(rt))
                 {
                     if (string.IsNullOrEmpty(result)) result = rt;
-                    fInfo.isError = true;
                 }
             }
             e.Result = result;
@@ -11569,7 +11547,6 @@ namespace OpenTween
             TabClass tb = _statuses.Tabs[tbName];
             ComboBox cmb = (ComboBox)pnl.Controls["comboSearch"];
             ComboBox cmbLang = (ComboBox)pnl.Controls["comboLang"];
-            ComboBox cmbusline = (ComboBox)pnl.Controls["comboUserline"];
             cmb.Text = cmb.Text.Trim();
             // 検索式演算子 OR についてのみ大文字しか認識しないので強制的に大文字とする
             bool Quote = false;
@@ -11621,7 +11598,7 @@ namespace OpenTween
                 SaveConfigsTabs();   //検索条件の保存
             }
 
-            GetTimeline(MyCommon.WORKERTYPE.PublicSearch, 1, 0, tbName);
+            GetTimeline(MyCommon.WORKERTYPE.PublicSearch, 1, tbName);
             ((DetailsListView)ListTab.SelectedTab.Tag).Focus();
         }
 
@@ -12297,7 +12274,7 @@ namespace OpenTween
             this.gh.NotifyClicked += GrowlHelper_Callback;
 
             // メイリオフォント指定時にタブの最小幅が広くなる問題の対策
-            this.ListTab.HandleCreated += (s, e) => Win32Api.SetMinTabWidth((TabControl)s, 40);
+            this.ListTab.HandleCreated += (s, e) => NativeMethods.SetMinTabWidth((TabControl)s, 40);
 
             this._apiGauge = new ToolStripAPIGauge();
             this._apiGauge.BorderSides = ToolStripStatusLabelBorderSides.Right;
@@ -12566,7 +12543,7 @@ namespace OpenTween
                 }
             }
 
-            this.GetTimeline(MyCommon.WORKERTYPE.Related, 1, 1, tabName);
+            this.GetTimeline(MyCommon.WORKERTYPE.Related, 1, tabName);
         }
 
         private void CacheInfoMenuItem_Click(object sender, EventArgs e)
@@ -12587,7 +12564,7 @@ namespace OpenTween
 #region "Userstream"
         private bool _isActiveUserstream = false;
 
-        private void tw_PostDeleted(long id)
+        private void tw_PostDeleted(object sender, PostDeletedEventArgs e)
         {
             try
             {
@@ -12595,12 +12572,12 @@ namespace OpenTween
                 {
                     Invoke((Action) (() =>
                            {
-                               _statuses.RemovePostReserve(id);
-                               if (_curTab != null && _statuses.Tabs[_curTab.Text].Contains(id))
+                               _statuses.RemovePostReserve(e.StatusId);
+                               if (_curTab != null && _statuses.Tabs[_curTab.Text].Contains(e.StatusId))
                                {
                                    this.PurgeListViewItemCache();
                                    ((DetailsListView)_curTab.Tag).Update();
-                                   if (_curPost != null && _curPost.StatusId == id) DispSelectedPost(true);
+                                   if (_curPost != null && _curPost.StatusId == e.StatusId) DispSelectedPost(true);
                                }
                            }));
                     return;
@@ -12616,7 +12593,7 @@ namespace OpenTween
             }
         }
 
-        private void tw_NewPostFromStream()
+        private void tw_NewPostFromStream(object sender, EventArgs e)
         {
             if (SettingDialog.ReadOldPosts)
             {
@@ -12676,14 +12653,14 @@ namespace OpenTween
             }
         }
 
-        private void tw_UserStreamStarted()
+        private void tw_UserStreamStarted(object sender, EventArgs e)
         {
             this._isActiveUserstream = true;
             try
             {
                 if (InvokeRequired && !IsDisposed)
                 {
-                    Invoke(new MethodInvoker(tw_UserStreamStarted));
+                    Invoke((Action)(() => this.tw_UserStreamStarted(sender, e)));
                     return;
                 }
             }
@@ -12704,14 +12681,14 @@ namespace OpenTween
             StatusLabel.Text = "UserStream Started.";
         }
 
-        private void tw_UserStreamStopped()
+        private void tw_UserStreamStopped(object sender, EventArgs e)
         {
             this._isActiveUserstream = false;
             try
             {
                 if (InvokeRequired && !IsDisposed)
                 {
-                    Invoke(new MethodInvoker(tw_UserStreamStopped));
+                    Invoke((Action)(() => this.tw_UserStreamStopped(sender, e)));
                     return;
                 }
             }
@@ -12732,13 +12709,13 @@ namespace OpenTween
             StatusLabel.Text = "UserStream Stopped.";
         }
 
-        private void tw_UserStreamEventArrived(Twitter.FormattedEvent ev)
+        private void tw_UserStreamEventArrived(object sender, UserStreamEventReceivedEventArgs e)
         {
             try
             {
                 if (InvokeRequired && !IsDisposed)
                 {
-                    Invoke(new Action<Twitter.FormattedEvent>(tw_UserStreamEventArrived), ev);
+                    Invoke((Action)(() => this.tw_UserStreamEventArrived(sender, e)));
                     return;
                 }
             }
@@ -12750,6 +12727,7 @@ namespace OpenTween
             {
                 return;
             }
+            var ev = e.EventData;
             StatusLabel.Text = "Event: " + ev.Event;
             //if (ev.Event == "favorite")
             //{

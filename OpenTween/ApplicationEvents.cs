@@ -149,7 +149,7 @@ namespace OpenTween
             {
                 if (form.WindowState == FormWindowState.Minimized)
                 {
-                    Win32Api.RestoreWindow(form);
+                    NativeMethods.RestoreWindow(form);
                 }
                 form.Activate();
             }

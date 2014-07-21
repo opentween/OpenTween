@@ -135,14 +135,14 @@ namespace OpenTween
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public new string ImageLocation
         {
-            get { throw new NotImplementedException(); }
-            set { throw new NotImplementedException(); }
+            get { throw new NotSupportedException(); }
+            set { throw new NotSupportedException(); }
         }
 
         [EditorBrowsable(EditorBrowsableState.Never)]
         public new void Load(string url)
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
     }
 }

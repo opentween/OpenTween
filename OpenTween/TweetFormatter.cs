@@ -31,7 +31,7 @@ namespace OpenTween
     /// <summary>
     /// ツイートの Entity 情報をもとにリンク化などを施すクラス
     /// </summary>
-    public class TweetFormatter
+    public static class TweetFormatter
     {
         public static string AutoLinkHtml(string text, TwitterEntities entities)
         {

@@ -84,8 +84,7 @@ namespace OpenTween
             public bool UserTimeline;
         }
 
-        public delegate void IntervalChangedEventHandler(object sender, IntervalChangedEventArgs e);
-        public event IntervalChangedEventHandler IntervalChanged;
+        public event EventHandler<IntervalChangedEventArgs> IntervalChanged;
 
         private void TreeViewSetting_BeforeSelect(object sender, TreeViewCancelEventArgs e)
         {
@@ -552,10 +551,6 @@ namespace OpenTween
         private void Setting_Load(object sender, EventArgs e)
         {
             tw = ((TweenMain)this.Owner).TwitterInstance;
-            string uname = tw.Username;
-            string pw = tw.Password;
-            string tk = tw.AccessToken;
-            string tks = tw.AccessTokenSecret;
             //this.AuthStateLabel.Enabled = true;
             //this.AuthUserLabel.Enabled = true;
             this.BasedPanel.AuthClearButton.Enabled = true;

@@ -26,6 +26,7 @@
     <WarningLevel>4</WarningLevel>
     <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
     <Prefer32Bit>false</Prefer32Bit>
+    <CodeAnalysisRuleSet>OpenTween.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -139,6 +140,9 @@
     </Compile>
     <Compile Include="MediaSelector.Designer.cs">
       <DependentUpon>MediaSelector.cs</DependentUpon>
+    </Compile>
+    <Compile Include="NativeMethods.cs">
+      <SubType>Code</SubType>
     </Compile>
     <Compile Include="OTBaseForm.cs">
       <SubType>Form</SubType>
@@ -390,7 +394,6 @@
     <Compile Include="UserInfo.cs" />
     <Compile Include="WebApiException.cs" />
     <Compile Include="WebBrowserController.cs" />
-    <Compile Include="Win32Api.cs" />
     <Compile Include="ControlTransaction.cs" />
   </ItemGroup>
   <ItemGroup>

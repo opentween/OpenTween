@@ -22,6 +22,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 
 namespace OpenTween
@@ -29,10 +30,12 @@ namespace OpenTween
     /// <summary>
     /// タブの操作時に問題が発生した場合にスローされる例外
     /// </summary>
+    [Serializable]
     public class TabException : Exception
     {
         public TabException() : base() { }
         public TabException(string message) : base(message) { }
         public TabException(string message, Exception innerException) : base(message, innerException) { }
+        protected TabException(SerializationInfo info, StreamingContext context) : base(info, context) { }
     }
 }

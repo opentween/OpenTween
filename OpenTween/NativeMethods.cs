@@ -25,6 +25,7 @@
 // Boston, MA 02110-1301, USA.
 
 using System;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Net;
@@ -35,7 +36,7 @@ using OpenTween.Connection;
 
 namespace OpenTween
 {
-    public static class Win32Api
+    internal static class NativeMethods
     {
         // 指定されたウィンドウへ、指定されたメッセージを送信します
         [DllImport("user32.dll")]
@@ -216,15 +217,13 @@ namespace OpenTween
                 hotkeyID = GlobalAddAtom(atomName);
                 if (hotkeyID == 0)
                 {
-                    throw new Exception("Unable to generate unique hotkey ID. Error code: " +
-                       Marshal.GetLastWin32Error().ToString());
+                    throw new Win32Exception();
                 }
 
                 // register the hotkey, throw if any error
                 if (RegisterHotKey(targetForm.Handle, hotkeyID, modifiers, hotkeyValue) == 0)
                 {
-                    throw new Exception("Unable to register hotkey. Error code: " +
-                       Marshal.GetLastWin32Error().ToString());
+                    throw new Win32Exception();
                 }
                 return hotkeyID;
             }
@@ -323,10 +322,8 @@ namespace OpenTween
                 {
                     // Converting structure to IntPtr
                     Marshal.StructureToPtr(ipi, pIpi, true);
-                    var ret = InternetSetOption(IntPtr.Zero,
-                                                           INTERNET_OPTION_PROXY,
-                                                           pIpi,
-                                                           Marshal.SizeOf(ipi));
+                    if (!InternetSetOption(IntPtr.Zero, INTERNET_OPTION_PROXY, pIpi, Marshal.SizeOf(ipi)))
+                        throw new Win32Exception();
                 }
                 finally
                 {
@@ -346,8 +343,11 @@ namespace OpenTween
 
             if (!string.IsNullOrEmpty(username) || !string.IsNullOrEmpty(password))
             {
-                var ret = InternetSetOption(IntPtr.Zero, INTERNET_OPTION_PROXY_USERNAME, IntPtr.Zero, 0);
-                ret = InternetSetOption(IntPtr.Zero, INTERNET_OPTION_PROXY_PASSWORD, IntPtr.Zero, 0);
+                if (!InternetSetOption(IntPtr.Zero, INTERNET_OPTION_PROXY_USERNAME, IntPtr.Zero, 0))
+                    throw new Win32Exception();
+
+                if (!InternetSetOption(IntPtr.Zero, INTERNET_OPTION_PROXY_PASSWORD, IntPtr.Zero, 0))
+                    throw new Win32Exception();
             }
             else
             {
@@ -355,8 +355,11 @@ namespace OpenTween
                 var pPass = Marshal.StringToBSTR(password);
                 try
                 {
-                    var ret = InternetSetOption(IntPtr.Zero, INTERNET_OPTION_PROXY_USERNAME, pUser, username.Length + 1);
-                    ret = InternetSetOption(IntPtr.Zero, INTERNET_OPTION_PROXY_PASSWORD, pPass, password.Length + 1);
+                    if (!InternetSetOption(IntPtr.Zero, INTERNET_OPTION_PROXY_USERNAME, pUser, username.Length + 1))
+                        throw new Win32Exception();
+
+                    if (!InternetSetOption(IntPtr.Zero, INTERNET_OPTION_PROXY_PASSWORD, pPass, password.Length + 1))
+                        throw new Win32Exception();
                 }
                 finally
                 {
@@ -382,8 +385,56 @@ namespace OpenTween
                 break;
             }
             RefreshProxySettings(proxy);
-            RefreshProxyAccount(username, password);
+            // グローバルプロキシ (NULL = IntPtr.Zero) にユーザー名・パスワードをセットできないため無効化
+            //RefreshProxyAccount(username, password);
         }
 #endregion
+
+        [StructLayout(LayoutKind.Sequential)]
+        private struct SCROLLINFO
+        {
+            public int cbSize;
+            public ScrollInfoMask fMask;
+            public int nMin;
+            public int nMax;
+            public int nPage;
+            public int nPos;
+            public int nTrackPos;
+        }
+
+        public enum ScrollBarDirection
+        {
+            SB_HORZ = 0,
+            SB_VERT = 1,
+            SB_CTL = 2,
+            SB_BOTH = 3,
+        }
+
+        private enum ScrollInfoMask
+        {
+            SIF_RANGE = 0x1,
+            SIF_PAGE = 0x2,
+            SIF_POS = 0x4,
+            SIF_DISABLENOSCROLL = 0x8,
+            SIF_TRACKPOS = 0x10,
+            SIF_ALL = (SIF_RANGE | SIF_PAGE | SIF_POS | SIF_TRACKPOS),
+        }
+
+        [DllImport("user32.dll")]
+        private static extern int GetScrollInfo(IntPtr hWnd, ScrollBarDirection fnBar, ref SCROLLINFO lpsi);
+
+        public static int GetScrollPosition(Control control, ScrollBarDirection direction)
+        {
+            var si = new SCROLLINFO
+            {
+                cbSize = Marshal.SizeOf<SCROLLINFO>(),
+                fMask = ScrollInfoMask.SIF_POS,
+            };
+
+            if (NativeMethods.GetScrollInfo(control.Handle, direction, ref si) == 0)
+                throw new Win32Exception();
+
+            return si.nPos;
+        }
     }
 }

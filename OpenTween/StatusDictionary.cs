@@ -394,13 +394,6 @@ namespace OpenTween
         private List<long> _deletedIds = new List<long>();
         private Dictionary<long, PostClass> _retweets = new Dictionary<long, PostClass>();
         private Stack<TabClass> _removedTab = new Stack<TabClass>();
-        private List<ScrubGeoInfo> _scrubGeo = new List<ScrubGeoInfo>();
-
-        private class ScrubGeoInfo
-        {
-            public long UserId = 0;
-            public long UpToStatusId = 0;
-        }
 
         public List<long> BlockIds = new List<long>();
         public List<long> MuteUserIds = new List<long>();
@@ -1076,7 +1069,6 @@ namespace OpenTween
             //notifyPosts = new List<PostClass>();
             var homeTab = GetTabByType(MyCommon.TabUsageType.Home);
             var replyTab = GetTabByType(MyCommon.TabUsageType.Mentions);
-            var dmTab = GetTabByType(MyCommon.TabUsageType.DirectMessage);
             var favTab = GetTabByType(MyCommon.TabUsageType.Favorites);
             foreach (var id in _addedIds)
             {
@@ -2493,14 +2485,7 @@ namespace OpenTween
             {
                 var id = GetId(Index);
                 if (id < 0) throw new ArgumentException("Index can't find. Index=" + Index.ToString() + "/TabName=" + TabName);
-                try
-                {
-                    return Posts[id];
-                }
-                catch (Exception ex)
-                {
-                    throw new Exception("Index=" + Index.ToString() + "/TabName=" + TabName, ex);
-                }
+                return Posts[id];
             }
         }
 

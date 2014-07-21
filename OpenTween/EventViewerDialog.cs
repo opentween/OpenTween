@@ -28,6 +28,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -53,7 +54,7 @@ namespace OpenTween
             InitializeComponent();
 
             // メイリオフォント指定時にタブの最小幅が広くなる問題の対策
-            this.TabEventType.HandleCreated += (s, e) => Win32Api.SetMinTabWidth((TabControl)s, 40);
+            this.TabEventType.HandleCreated += (s, e) => NativeMethods.SetMinTabWidth((TabControl)s, 40);
         }
 
         private void OK_Button_Click(object sender, EventArgs e)
@@ -276,6 +277,7 @@ namespace OpenTween
             }
         }
 
+        [SuppressMessage("Microsoft.Reliability", "CA2000:DisposeObjectsBeforeLosingScope")]
         private static IEnumerable<TabPage> CreateTabsFromUserStreamsEvent()
         {
             return Enum.GetNames(typeof(MyCommon.EVENTTYPE))

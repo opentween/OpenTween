@@ -96,7 +96,7 @@ namespace OpenTween
                         this.textSearchTimeline.Text = value.Query;
                         break;
                     default:
-                        throw new InvalidEnumArgumentException("value.Type", (int)value.Type, typeof(SearchType));
+                        throw new InvalidEnumArgumentException("value", (int)value.Type, typeof(SearchType));
                 }
             }
         }

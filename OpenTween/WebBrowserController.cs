@@ -265,12 +265,12 @@ namespace OpenTween
     public class InternetSecurityManager : WebBrowserAPI.IServiceProvider, WebBrowserAPI.IInternetSecurityManager
     {
     #region "HRESULT"
-        private class HRESULT
+        private enum HRESULT
         {
-            public static int S_OK = 0x0;
-            public static int S_FALSE = 0x1;
-            public static int E_NOTIMPL = unchecked((int)0x80004001);
-            public static int E_NOINTERFACE = unchecked((int)0x80004002);
+            S_OK = 0x0,
+            S_FALSE = 0x1,
+            E_NOTIMPL = unchecked((int)0x80004001),
+            E_NOINTERFACE = unchecked((int)0x80004002),
         }
     #endregion
 
@@ -291,7 +291,6 @@ namespace OpenTween
         {
             // ActiveXコントロール取得
             _WebBrowser.DocumentText = "about:blank"; //ActiveXを初期化する
-            int hresult = 0;
 
             do
             {
@@ -306,9 +305,9 @@ namespace OpenTween
 
             try
             {
-                hresult = ocxServiceProvider.QueryService(
-                                ref WebBrowserAPI.SID_SProfferService,
-                                ref WebBrowserAPI.IID_IProfferService, out profferServicePtr);
+                ocxServiceProvider.QueryService(
+                    ref WebBrowserAPI.SID_SProfferService,
+                    ref WebBrowserAPI.IID_IProfferService, out profferServicePtr);
             }
             catch (SEHException ex)
             {
@@ -329,8 +328,8 @@ namespace OpenTween
             try
             {
                 int cookie = 0;
-                hresult = profferService.ProfferService(
-                                ref WebBrowserAPI.IID_IInternetSecurityManager, this, out cookie);
+                profferService.ProfferService(
+                    ref WebBrowserAPI.IID_IInternetSecurityManager, this, out cookie);
             }
             catch (SEHException ex)
             {
@@ -357,7 +356,7 @@ namespace OpenTween
                 var punk = Marshal.GetIUnknownForObject(this);
                 return Marshal.QueryInterface(punk, ref riid, out ppvObject);
             }
-            return HRESULT.E_NOINTERFACE;
+            return (int)HRESULT.E_NOINTERFACE;
         }
 
         int WebBrowserAPI.IInternetSecurityManager.GetSecurityId(string pwszUrl, byte[] pbSecurityId, ref uint pcbSecurityId, uint dwReserved)
@@ -417,7 +416,7 @@ namespace OpenTween
                     pPolicy = WebBrowserAPI.URLPOLICY_DISALLOW;
                 }
                 if (Regex.IsMatch(pwszUrl, @"^https?://((api\.)?twitter\.com/|([a-zA-Z0-9]+\.)?twimg\.com/)")) pPolicy = WebBrowserAPI.URLPOLICY_ALLOW;
-                return HRESULT.S_OK;
+                return (int)HRESULT.S_OK;
             }
             // ActiveX実行状態かを検査しポリシー設定
             if (WebBrowserAPI.URLACTION_ACTIVEX_MIN <= dwAction &
@@ -432,7 +431,7 @@ namespace OpenTween
                 {
                     pPolicy = WebBrowserAPI.URLPOLICY_DISALLOW;
                 }
-                return HRESULT.S_OK;
+                return (int)HRESULT.S_OK;
             }
             //他のものについてはデフォルト処理
             return WebBrowserAPI.INET_E_DEFAULT_ACTION;

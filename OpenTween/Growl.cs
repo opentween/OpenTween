@@ -50,7 +50,6 @@ namespace OpenTween
         private object _growlApp;
 
         private object _targetConnector;
-        private object _targetCore;
 
         private string _appName = "";
         bool _initialized = false;
@@ -69,8 +68,7 @@ namespace OpenTween
             }
         }
 
-        public delegate void NotifyClickedEventHandler(object sender, NotifyCallbackEventArgs e);
-        public event NotifyClickedEventHandler NotifyClicked;
+        public event EventHandler<NotifyCallbackEventArgs> NotifyClicked;
 
         public string AppName
         {
@@ -156,7 +154,6 @@ namespace OpenTween
             try
             {
                 _targetConnector = _connector.CreateInstance("Growl.Connector.GrowlConnector");
-                _targetCore = _core.CreateInstance("Growl.CoreLibrary");
                 Type _t = _connector.GetType("Growl.Connector.NotificationType");
 
                 _growlNTreply = _t.InvokeMember(null,
@@ -200,7 +197,6 @@ namespace OpenTween
                         "Growl.CoreLibrary.BinaryData").GetConstructor(
                         BindingFlags.Public | BindingFlags.Instance,
                         null, new Type[] { typeof(byte[]) }, null);
-                    TypeConverter tc = new TypeConverter();
                     object bdata = cibd.Invoke(
                         new object[] { IconToByteArray(Path.Combine(Application.StartupPath, "Icons\\MIcon.ico")) });
 
@@ -220,7 +216,6 @@ namespace OpenTween
                         "Growl.CoreLibrary.BinaryData").GetConstructor(
                         BindingFlags.Public | BindingFlags.Instance,
                         null, new Type[] { typeof(byte[]) }, null);
-                    TypeConverter tc = new TypeConverter();
                     object bdata = cibd.Invoke(
                         new object[] { IconToByteArray(Properties.Resources.MIcon) });
 
