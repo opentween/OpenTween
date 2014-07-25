@@ -12974,7 +12974,7 @@ namespace OpenTween
                     langFrom: null,
                     langTo: this.SettingDialog.TranslateLanguage);
 
-                this.PostBrowser.DocumentText = translatedText;
+                this.PostBrowser.DocumentText = this.createDetailHtml(translatedText);
             }
             catch (HttpRequestException e)
             {
