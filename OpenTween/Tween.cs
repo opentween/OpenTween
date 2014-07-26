@@ -1327,6 +1327,7 @@ namespace OpenTween
         private void LoadConfig()
         {
             _cfgCommon = SettingCommon.Load();
+            SettingCommon.Instance = this._cfgCommon;
             if (_cfgCommon.UserAccounts == null || _cfgCommon.UserAccounts.Count == 0)
             {
                 _cfgCommon.UserAccounts = new List<UserAccount>();
