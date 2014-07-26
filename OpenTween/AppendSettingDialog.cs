@@ -73,18 +73,17 @@ namespace OpenTween
 
         private string _pin;
 
-        public class IntervalChangedEventArgs : EventArgs
+        public event EventHandler<IntervalChangedEventArgs> IntervalChanged;
+
+        public void LoadConfig(SettingCommon settingCommon, SettingLocal settingLocal)
         {
-            public bool UserStream;
-            public bool Timeline;
-            public bool Reply;
-            public bool DirectMessage;
-            public bool PublicSearch;
-            public bool Lists;
-            public bool UserTimeline;
+            this.GetPeriodPanel.LoadConfig(settingCommon);
         }
 
-        public event EventHandler<IntervalChangedEventArgs> IntervalChanged;
+        public void SaveConfig(SettingCommon settingCommon, SettingLocal settingLocal)
+        {
+            this.GetPeriodPanel.SaveConfig(settingCommon);
+        }
 
         private void TreeViewSetting_BeforeSelect(object sender, TreeViewCancelEventArgs e)
         {
@@ -207,62 +206,8 @@ namespace OpenTween
                 string ret = tw.PostFollowCommand(ApplicationSettings.FeedbackTwitterName);
             }
 #endif
-            IntervalChangedEventArgs arg = new IntervalChangedEventArgs();
-            bool isIntervalChanged = false;
-
             try
             {
-                UserstreamStartup = this.GetPeriodPanel.StartupUserstreamCheck.Checked;
-
-                if (UserstreamPeriodInt != int.Parse(this.GetPeriodPanel.UserstreamPeriod.Text))
-                {
-                    UserstreamPeriodInt = int.Parse(this.GetPeriodPanel.UserstreamPeriod.Text);
-                    arg.UserStream = true;
-                    isIntervalChanged = true;
-                }
-                if (TimelinePeriodInt != int.Parse(this.GetPeriodPanel.TimelinePeriod.Text))
-                {
-                    TimelinePeriodInt = int.Parse(this.GetPeriodPanel.TimelinePeriod.Text);
-                    arg.Timeline = true;
-                    isIntervalChanged = true;
-                }
-                if (DMPeriodInt != int.Parse(this.GetPeriodPanel.DMPeriod.Text))
-                {
-                    DMPeriodInt = int.Parse(this.GetPeriodPanel.DMPeriod.Text);
-                    arg.DirectMessage = true;
-                    isIntervalChanged = true;
-                }
-                if (PubSearchPeriodInt != int.Parse(this.GetPeriodPanel.PubSearchPeriod.Text))
-                {
-                    PubSearchPeriodInt = int.Parse(this.GetPeriodPanel.PubSearchPeriod.Text);
-                    arg.PublicSearch = true;
-                    isIntervalChanged = true;
-                }
-
-                if (ListsPeriodInt != int.Parse(this.GetPeriodPanel.ListsPeriod.Text))
-                {
-                    ListsPeriodInt = int.Parse(this.GetPeriodPanel.ListsPeriod.Text);
-                    arg.Lists = true;
-                    isIntervalChanged = true;
-                }
-                if (ReplyPeriodInt != int.Parse(this.GetPeriodPanel.ReplyPeriod.Text))
-                {
-                    ReplyPeriodInt = int.Parse(this.GetPeriodPanel.ReplyPeriod.Text);
-                    arg.Reply = true;
-                    isIntervalChanged = true;
-                }
-                if (UserTimelinePeriodInt != int.Parse(this.GetPeriodPanel.UserTimelinePeriod.Text))
-                {
-                    UserTimelinePeriodInt = int.Parse(this.GetPeriodPanel.UserTimelinePeriod.Text);
-                    arg.UserTimeline = true;
-                    isIntervalChanged = true;
-                }
-
-                if (isIntervalChanged && IntervalChanged != null)
-                {
-                    IntervalChanged(this, arg);
-                }
-
                 Readed = this.StartupPanel.StartupReaded.Checked;
                 switch (this.TweetPrvPanel.IconSize.SelectedIndex)
                 {
@@ -339,7 +284,6 @@ namespace OpenTween
                 CountApi = int.Parse(this.GetCountPanel.TextCountApi.Text);
                 CountApiReply = int.Parse(this.GetCountPanel.TextCountApiReply.Text);
                 BrowserPath = this.ActionPanel.BrowserPathText.Text.Trim();
-                PostAndGet = this.GetPeriodPanel.CheckPostAndGet.Checked;
                 UseRecommendStatus = this.TweetActPanel.CheckUseRecommendStatus.Checked;
                 DispUsername = this.PreviewPanel.CheckDispUsername.Checked;
                 CloseToExit = this.ActionPanel.CheckCloseToExit.Checked;
@@ -590,15 +534,6 @@ namespace OpenTween
                 }
             }
 
-            this.GetPeriodPanel.StartupUserstreamCheck.Checked = UserstreamStartup;
-            this.GetPeriodPanel.UserstreamPeriod.Text = UserstreamPeriodInt.ToString();
-            this.GetPeriodPanel.TimelinePeriod.Text = TimelinePeriodInt.ToString();
-            this.GetPeriodPanel.ReplyPeriod.Text = ReplyPeriodInt.ToString();
-            this.GetPeriodPanel.DMPeriod.Text = DMPeriodInt.ToString();
-            this.GetPeriodPanel.PubSearchPeriod.Text = PubSearchPeriodInt.ToString();
-            this.GetPeriodPanel.ListsPeriod.Text = ListsPeriodInt.ToString();
-            this.GetPeriodPanel.UserTimelinePeriod.Text = UserTimelinePeriodInt.ToString();
-
             this.StartupPanel.StartupReaded.Checked = Readed;
             switch (IconSz)
             {
@@ -682,7 +617,6 @@ namespace OpenTween
             this.GetCountPanel.TextCountApi.Text = CountApi.ToString();
             this.GetCountPanel.TextCountApiReply.Text = CountApiReply.ToString();
             this.ActionPanel.BrowserPathText.Text = BrowserPath;
-            this.GetPeriodPanel.CheckPostAndGet.Checked = PostAndGet;
             this.TweetActPanel.CheckUseRecommendStatus.Checked = UseRecommendStatus;
             this.PreviewPanel.CheckDispUsername.Checked = DispUsername;
             this.ActionPanel.CheckCloseToExit.Checked = CloseToExit;
@@ -1078,14 +1012,6 @@ namespace OpenTween
             }
         }
 
-        public int UserstreamPeriodInt { get; set; }
-        public bool UserstreamStartup { get; set; }
-        public int TimelinePeriodInt { get; set; }
-        public int ReplyPeriodInt { get; set; }
-        public int DMPeriodInt { get; set; }
-        public int PubSearchPeriodInt { get; set; }
-        public int ListsPeriodInt { get; set; }
-        public int UserTimelinePeriodInt { get; set; }
         public bool Readed { get; set; }
         public MyCommon.IconSizes IconSz { get; set; }
         public string Status { get; set; }
@@ -1124,7 +1050,6 @@ namespace OpenTween
         public int FavoritesCountApi { get; set; }
         public int UserTimelineCountApi { get; set; }
         public int ListCountApi { get; set; }
-        public bool PostAndGet { get; set; }
         public bool UseRecommendStatus { get; set; }
         public string RecommendStatusText { get; set; }
         public bool DispUsername { get; set; }
@@ -1649,5 +1574,22 @@ namespace OpenTween
 
             this.Icon = Properties.Resources.MIcon;
         }
+
+        private void GetPeriodPanel_IntervalChanged(object sender, IntervalChangedEventArgs e)
+        {
+            if (this.IntervalChanged != null)
+                this.IntervalChanged(sender, e);
+        }
+    }
+
+    public class IntervalChangedEventArgs : EventArgs
+    {
+        public bool UserStream;
+        public bool Timeline;
+        public bool Reply;
+        public bool DirectMessage;
+        public bool PublicSearch;
+        public bool Lists;
+        public bool UserTimeline;
     }
 }

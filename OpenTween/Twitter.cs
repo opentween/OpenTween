@@ -201,7 +201,7 @@ namespace OpenTween
             if (err != null) return err;
 
             _uname = username.ToLower();
-            if (AppendSettingDialog.Instance.UserstreamStartup) this.ReconnectUserStream();
+            if (SettingCommon.Instance.UserstreamStartup) this.ReconnectUserStream();
             return "";
         }
 
@@ -241,7 +241,7 @@ namespace OpenTween
             if (err != null) return err;
 
             _uname = Username.ToLower();
-            if (AppendSettingDialog.Instance.UserstreamStartup) this.ReconnectUserStream();
+            if (SettingCommon.Instance.UserstreamStartup) this.ReconnectUserStream();
             return "";
         }
 
@@ -291,7 +291,7 @@ namespace OpenTween
             this.ResetApiStatus();
             twCon.Initialize(token, tokenSecret, username, userId);
             _uname = username.ToLower();
-            if (AppendSettingDialog.Instance.UserstreamStartup) this.ReconnectUserStream();
+            if (SettingCommon.Instance.UserstreamStartup) this.ReconnectUserStream();
         }
 
         public string PreProcessUrl(string orgData)

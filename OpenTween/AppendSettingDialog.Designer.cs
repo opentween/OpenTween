@@ -179,6 +179,7 @@
             // 
             resources.ApplyResources(this.GetPeriodPanel, "GetPeriodPanel");
             this.GetPeriodPanel.Name = "GetPeriodPanel";
+            this.GetPeriodPanel.IntervalChanged += new System.EventHandler<OpenTween.IntervalChangedEventArgs>(this.GetPeriodPanel_IntervalChanged);
             this.ToolTip1.SetToolTip(this.GetPeriodPanel, resources.GetString("GetPeriodPanel.ToolTip"));
             // 
             // ActionPanel

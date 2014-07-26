@@ -730,7 +730,30 @@ namespace OpenTween
             sfTab.Alignment = StringAlignment.Center;
             sfTab.LineAlignment = StringAlignment.Center;
 
+            //不正値チェック
+            if (!MyApplication.StartupOptions.ContainsKey("nolimit"))
+            {
+                if (this._cfgCommon.TimelinePeriod < 15 && this._cfgCommon.TimelinePeriod > 0)
+                    this._cfgCommon.TimelinePeriod = 15;
+
+                if (this._cfgCommon.ReplyPeriod < 15 && this._cfgCommon.ReplyPeriod > 0)
+                    this._cfgCommon.ReplyPeriod = 15;
+
+                if (this._cfgCommon.DMPeriod < 15 && this._cfgCommon.DMPeriod > 0)
+                    this._cfgCommon.DMPeriod = 15;
+
+                if (this._cfgCommon.PubSearchPeriod < 30 && this._cfgCommon.PubSearchPeriod > 0)
+                    this._cfgCommon.PubSearchPeriod = 30;
+
+                if (this._cfgCommon.UserTimelinePeriod < 15 && this._cfgCommon.UserTimelinePeriod > 0)
+                    this._cfgCommon.UserTimelinePeriod = 15;
+
+                if (this._cfgCommon.ListsPeriod < 15 && this._cfgCommon.ListsPeriod > 0)
+                    this._cfgCommon.ListsPeriod = 15;
+            }
+
             //設定画面への反映
+            this.SettingDialog.LoadConfig(this._cfgCommon, this._cfgLocal);
             HttpTwitter.TwitterUrl = _cfgCommon.TwitterUrl;
             SettingDialog.TwitterApiUrl = _cfgCommon.TwitterUrl;
 
@@ -739,23 +762,6 @@ namespace OpenTween
             tw.Initialize(_cfgCommon.Token, _cfgCommon.TokenSecret, _cfgCommon.UserName, _cfgCommon.UserId);
 
             SettingDialog.UserAccounts = _cfgCommon.UserAccounts;
-
-            SettingDialog.TimelinePeriodInt = _cfgCommon.TimelinePeriod;
-            SettingDialog.ReplyPeriodInt = _cfgCommon.ReplyPeriod;
-            SettingDialog.DMPeriodInt = _cfgCommon.DMPeriod;
-            SettingDialog.PubSearchPeriodInt = _cfgCommon.PubSearchPeriod;
-            SettingDialog.UserTimelinePeriodInt = _cfgCommon.UserTimelinePeriod;
-            SettingDialog.ListsPeriodInt = _cfgCommon.ListsPeriod;
-            //不正値チェック
-            if (!MyApplication.StartupOptions.ContainsKey("nolimit"))
-            {
-                if (SettingDialog.TimelinePeriodInt < 15 && SettingDialog.TimelinePeriodInt > 0) SettingDialog.TimelinePeriodInt = 15;
-                if (SettingDialog.ReplyPeriodInt < 15 && SettingDialog.ReplyPeriodInt > 0) SettingDialog.ReplyPeriodInt = 15;
-                if (SettingDialog.DMPeriodInt < 15 && SettingDialog.DMPeriodInt > 0) SettingDialog.DMPeriodInt = 15;
-                if (SettingDialog.PubSearchPeriodInt < 30 && SettingDialog.PubSearchPeriodInt > 0) SettingDialog.PubSearchPeriodInt = 30;
-                if (SettingDialog.UserTimelinePeriodInt < 15 && SettingDialog.UserTimelinePeriodInt > 0) SettingDialog.UserTimelinePeriodInt = 15;
-                if (SettingDialog.ListsPeriodInt < 15 && SettingDialog.ListsPeriodInt > 0) SettingDialog.ListsPeriodInt = 15;
-            }
 
             //起動時読み込み分を既読にするか。trueなら既読として処理
             SettingDialog.Readed = _cfgCommon.Read;
@@ -903,8 +909,6 @@ namespace OpenTween
             SettingDialog.UserTimelineCountApi = _cfgCommon.UserTimelineCountApi;
             SettingDialog.ListCountApi = _cfgCommon.ListCountApi;
 
-            SettingDialog.UserstreamStartup = _cfgCommon.UserstreamStartup;
-            SettingDialog.UserstreamPeriodInt = _cfgCommon.UserstreamPeriod;
             SettingDialog.OpenUserTimeline = _cfgCommon.OpenUserTimeline;
             SettingDialog.ListDoubleClickAction = _cfgCommon.ListDoubleClickAction;
             SettingDialog.UserAppointUrl = _cfgCommon.UserAppointUrl;
@@ -1365,13 +1369,13 @@ namespace OpenTween
             }
         }
 
-        private void TimerInterval_Changed(object sender, AppendSettingDialog.IntervalChangedEventArgs e) //Handles SettingDialog.IntervalChanged
+        private void TimerInterval_Changed(object sender, IntervalChangedEventArgs e) //Handles SettingDialog.IntervalChanged
         {
             if (!TimerTimeline.Enabled) return;
             ResetTimers = e;
         }
 
-        private AppendSettingDialog.IntervalChangedEventArgs ResetTimers = new AppendSettingDialog.IntervalChangedEventArgs();
+        private IntervalChangedEventArgs ResetTimers = new IntervalChangedEventArgs();
 
         private static int homeCounter = 0;
         private static int mentionCounter = 0;
@@ -1395,45 +1399,45 @@ namespace OpenTween
             Interlocked.Increment(ref refreshFollowers);
 
             ////タイマー初期化
-            if (ResetTimers.Timeline || homeCounter <= 0 && SettingDialog.TimelinePeriodInt > 0)
+            if (ResetTimers.Timeline || homeCounter <= 0 && this._cfgCommon.TimelinePeriod > 0)
             {
-                Interlocked.Exchange(ref homeCounter, SettingDialog.TimelinePeriodInt);
+                Interlocked.Exchange(ref homeCounter, this._cfgCommon.TimelinePeriod);
                 if (!tw.IsUserstreamDataReceived && !ResetTimers.Timeline) GetTimeline(MyCommon.WORKERTYPE.Timeline, 1, "");
                 ResetTimers.Timeline = false;
             }
-            if (ResetTimers.Reply || mentionCounter <= 0 && SettingDialog.ReplyPeriodInt > 0)
+            if (ResetTimers.Reply || mentionCounter <= 0 && this._cfgCommon.ReplyPeriod > 0)
             {
-                Interlocked.Exchange(ref mentionCounter, SettingDialog.ReplyPeriodInt);
+                Interlocked.Exchange(ref mentionCounter, this._cfgCommon.ReplyPeriod);
                 if (!tw.IsUserstreamDataReceived && !ResetTimers.Reply) GetTimeline(MyCommon.WORKERTYPE.Reply, 1, "");
                 ResetTimers.Reply = false;
             }
-            if (ResetTimers.DirectMessage || dmCounter <= 0 && SettingDialog.DMPeriodInt > 0)
+            if (ResetTimers.DirectMessage || dmCounter <= 0 && this._cfgCommon.DMPeriod > 0)
             {
-                Interlocked.Exchange(ref dmCounter, SettingDialog.DMPeriodInt);
+                Interlocked.Exchange(ref dmCounter, this._cfgCommon.DMPeriod);
                 if (!tw.IsUserstreamDataReceived && !ResetTimers.DirectMessage) GetTimeline(MyCommon.WORKERTYPE.DirectMessegeRcv, 1, "");
                 ResetTimers.DirectMessage = false;
             }
-            if (ResetTimers.PublicSearch || pubSearchCounter <= 0 && SettingDialog.PubSearchPeriodInt > 0)
+            if (ResetTimers.PublicSearch || pubSearchCounter <= 0 && this._cfgCommon.PubSearchPeriod > 0)
             {
-                Interlocked.Exchange(ref pubSearchCounter, SettingDialog.PubSearchPeriodInt);
+                Interlocked.Exchange(ref pubSearchCounter, this._cfgCommon.PubSearchPeriod);
                 if (!ResetTimers.PublicSearch) GetTimeline(MyCommon.WORKERTYPE.PublicSearch, 1, "");
                 ResetTimers.PublicSearch = false;
             }
-            if (ResetTimers.UserTimeline || userTimelineCounter <= 0 && SettingDialog.UserTimelinePeriodInt > 0)
+            if (ResetTimers.UserTimeline || userTimelineCounter <= 0 && this._cfgCommon.UserTimelinePeriod > 0)
             {
-                Interlocked.Exchange(ref userTimelineCounter, SettingDialog.UserTimelinePeriodInt);
+                Interlocked.Exchange(ref userTimelineCounter, this._cfgCommon.UserTimelinePeriod);
                 if (!ResetTimers.UserTimeline) GetTimeline(MyCommon.WORKERTYPE.UserTimeline, 1, "");
                 ResetTimers.UserTimeline = false;
             }
-            if (ResetTimers.Lists || listsCounter <= 0 && SettingDialog.ListsPeriodInt > 0)
+            if (ResetTimers.Lists || listsCounter <= 0 && this._cfgCommon.ListsPeriod > 0)
             {
-                Interlocked.Exchange(ref listsCounter, SettingDialog.ListsPeriodInt);
+                Interlocked.Exchange(ref listsCounter, this._cfgCommon.ListsPeriod);
                 if (!ResetTimers.Lists) GetTimeline(MyCommon.WORKERTYPE.List, 1, "");
                 ResetTimers.Lists = false;
             }
-            if (ResetTimers.UserStream || usCounter <= 0 && SettingDialog.UserstreamPeriodInt > 0)
+            if (ResetTimers.UserStream || usCounter <= 0 && this._cfgCommon.UserstreamPeriod > 0)
             {
-                Interlocked.Exchange(ref usCounter, SettingDialog.UserstreamPeriodInt);
+                Interlocked.Exchange(ref usCounter, this._cfgCommon.UserstreamPeriod);
                 if (this._isActiveUserstream) RefreshTimeline(true);
                 ResetTimers.UserStream = false;
             }
@@ -3032,7 +3036,7 @@ namespace OpenTween
                             }
                         }
                     }
-                    if (rslt.retMsg.Length == 0 && SettingDialog.PostAndGet)
+                    if (rslt.retMsg.Length == 0 && this._cfgCommon.PostAndGet)
                     {
                         if (_isActiveUserstream)
                         {
@@ -3056,7 +3060,7 @@ namespace OpenTween
                                 _postTimestamps.RemoveAt(i);
                             }
                         }
-                        if (!_isActiveUserstream && SettingDialog.PostAndGet) GetTimeline(MyCommon.WORKERTYPE.Timeline, 1, "");
+                        if (!_isActiveUserstream && this._cfgCommon.PostAndGet) GetTimeline(MyCommon.WORKERTYPE.Timeline, 1, "");
                     }
                     break;
                 case MyCommon.WORKERTYPE.Follower:
@@ -3915,6 +3919,8 @@ namespace OpenTween
             {
                 lock (_syncObject)
                 {
+                    this.SettingDialog.SaveConfig(this._cfgCommon, this._cfgLocal);
+
                     tw.RestrictFavCheck = SettingDialog.RestrictFavCheck;
                     tw.ReadOwnPost = SettingDialog.ReadOwnPost;
                     ShortUrl.Instance.DisableExpanding = !SettingDialog.TinyUrlResolve;
@@ -7754,14 +7760,6 @@ namespace OpenTween
                 _cfgCommon.Token = tw.AccessToken;
                 _cfgCommon.TokenSecret = tw.AccessTokenSecret;
                 _cfgCommon.UserAccounts = SettingDialog.UserAccounts;
-                _cfgCommon.UserstreamStartup = SettingDialog.UserstreamStartup;
-                _cfgCommon.UserstreamPeriod = SettingDialog.UserstreamPeriodInt;
-                _cfgCommon.TimelinePeriod = SettingDialog.TimelinePeriodInt;
-                _cfgCommon.ReplyPeriod = SettingDialog.ReplyPeriodInt;
-                _cfgCommon.DMPeriod = SettingDialog.DMPeriodInt;
-                _cfgCommon.PubSearchPeriod = SettingDialog.PubSearchPeriodInt;
-                _cfgCommon.ListsPeriod = SettingDialog.ListsPeriodInt;
-                _cfgCommon.UserTimelinePeriod = SettingDialog.UserTimelinePeriodInt;
                 _cfgCommon.Read = SettingDialog.Readed;
                 _cfgCommon.IconSize = SettingDialog.IconSz;
                 _cfgCommon.UnreadManage = SettingDialog.UnreadManage;
@@ -7773,7 +7771,6 @@ namespace OpenTween
                 _cfgCommon.PostShiftEnter = SettingDialog.PostShiftEnter;
                 _cfgCommon.CountApi = SettingDialog.CountApi;
                 _cfgCommon.CountApiReply = SettingDialog.CountApiReply;
-                _cfgCommon.PostAndGet = SettingDialog.PostAndGet;
                 _cfgCommon.DispUsername = SettingDialog.DispUsername;
                 _cfgCommon.MinimizeToTray = SettingDialog.MinimizeToTray;
                 _cfgCommon.CloseToExit = SettingDialog.CloseToExit;
@@ -9424,13 +9421,13 @@ namespace OpenTween
             UnreadAtCounter = urat;
 
             slbl.AppendFormat(Properties.Resources.SetStatusLabelText1, tur, tal, ur, al, urat, _postTimestamps.Count, _favTimestamps.Count, _tlCount);
-            if (SettingDialog.TimelinePeriodInt == 0)
+            if (this._cfgCommon.TimelinePeriod == 0)
             {
                 slbl.Append(Properties.Resources.SetStatusLabelText2);
             }
             else
             {
-                slbl.Append(SettingDialog.TimelinePeriodInt.ToString() + Properties.Resources.SetStatusLabelText3);
+                slbl.Append(this._cfgCommon.TimelinePeriod + Properties.Resources.SetStatusLabelText3);
             }
             return slbl.ToString();
         }
@@ -10810,7 +10807,7 @@ namespace OpenTween
             MenuItemUserStream.Enabled = true;
             StopToolStripMenuItem.Text = "&Start";
             StopToolStripMenuItem.Enabled = true;
-            if (SettingDialog.UserstreamStartup) tw.StartUserStream();
+            if (this._cfgCommon.UserstreamStartup) tw.StartUserStream();
         }
 
         private async void TweenMain_Shown(object sender, EventArgs e)
@@ -12660,7 +12657,7 @@ namespace OpenTween
                 //before = Now;
             }
 
-            if (SettingDialog.UserstreamPeriodInt > 0) return;
+            if (this._cfgCommon.UserstreamPeriod > 0) return;
 
             try
             {
