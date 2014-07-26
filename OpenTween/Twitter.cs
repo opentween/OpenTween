@@ -1824,11 +1824,11 @@ namespace OpenTween
             {
                 if (more)
                 {
-                    res = twCon.GetListsStatuses(tab.ListInfo.UserId, tab.ListInfo.Id, count, tab.OldestId, null, AppendSettingDialog.Instance.IsListStatusesIncludeRts, ref content);
+                    res = twCon.GetListsStatuses(tab.ListInfo.UserId, tab.ListInfo.Id, count, tab.OldestId, null, SettingCommon.Instance.IsListsIncludeRts, ref content);
                 }
                 else
                 {
-                    res = twCon.GetListsStatuses(tab.ListInfo.UserId, tab.ListInfo.Id, count, null, null, AppendSettingDialog.Instance.IsListStatusesIncludeRts, ref content);
+                    res = twCon.GetListsStatuses(tab.ListInfo.UserId, tab.ListInfo.Id, count, null, null, SettingCommon.Instance.IsListsIncludeRts, ref content);
                 }
             }
             catch(Exception ex)

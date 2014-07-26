@@ -54,15 +54,12 @@ namespace OpenTween
         private MyCommon.EVENTTYPE _isMyEventNotifyFlag;
         private string _MyTranslateLanguage;
 
-        public bool HideDuplicatedRetweets;
-
         public bool EnableImgAzyobuziNet { get; set; }
         public bool ImgAzyobuziNetDisabledInDM { get; set; }
         public MapProvider MapThumbnailProvider;
         public int MapThumbnailHeight;
         public int MapThumbnailWidth;
         public int MapThumbnailZoom;
-        public bool IsListStatusesIncludeRts;
         public List<UserAccount> UserAccounts;
         private long? InitialUserId;
         public bool TabMouseLock;
@@ -79,12 +76,14 @@ namespace OpenTween
         {
             this.GetPeriodPanel.LoadConfig(settingCommon);
             this.StartupPanel.LoadConfig(settingCommon);
+            this.TweetPrvPanel.LoadConfig(settingCommon);
         }
 
         public void SaveConfig(SettingCommon settingCommon, SettingLocal settingLocal)
         {
             this.GetPeriodPanel.SaveConfig(settingCommon);
             this.StartupPanel.SaveConfig(settingCommon);
+            this.TweetPrvPanel.SaveConfig(settingCommon);
         }
 
         private void TreeViewSetting_BeforeSelect(object sender, TreeViewCancelEventArgs e)
@@ -210,28 +209,9 @@ namespace OpenTween
 #endif
             try
             {
-                switch (this.TweetPrvPanel.IconSize.SelectedIndex)
-                {
-                    case 0:
-                        IconSz = MyCommon.IconSizes.IconNone;
-                        break;
-                    case 1:
-                        IconSz = MyCommon.IconSizes.Icon16;
-                        break;
-                    case 2:
-                        IconSz = MyCommon.IconSizes.Icon24;
-                        break;
-                    case 3:
-                        IconSz = MyCommon.IconSizes.Icon48;
-                        break;
-                    case 4:
-                        IconSz = MyCommon.IconSizes.Icon48_2;
-                        break;
-                }
                 Status = this.TweetActPanel.StatusText.Text;
                 PlaySound = this.ActionPanel.PlaySnd.Checked;
                 UnreadManage = this.ActionPanel.UReadMng.Checked;
-                OneWayLove = this.TweetPrvPanel.OneWayLv.Checked;
 
                 FontUnread = this.FontPanel.lblUnread.Font;     //未使用
                 ColorUnread = this.FontPanel.lblUnread.ForeColor;
@@ -316,8 +296,6 @@ namespace OpenTween
                         DispLatestPost = MyCommon.DispTitleEnum.OwnStatus;
                         break;
                 }
-                SortOrderLock = this.TweetPrvPanel.CheckSortOrderLock.Checked;
-                ViewTabBottom = this.TweetPrvPanel.CheckViewTabBottom.Checked;
                 TinyUrlResolve = this.ShortUrlPanel.CheckTinyURL.Checked;
                 ShortUrl.Instance.DisableExpanding = !TinyUrlResolve;
                 if (this.ProxyPanel.RadioProxyNone.Checked)
@@ -342,8 +320,6 @@ namespace OpenTween
                 ShortenTco = this.ShortUrlPanel.ShortenTcoCheck.Checked;
 
                 Nicoms = this.CooperatePanel.CheckNicoms.Checked;
-                UseUnreadStyle = this.TweetPrvPanel.chkUnreadStyle.Checked;
-                DateTimeFormat = this.TweetPrvPanel.CmbDateTimeFormat.Text;
                 DefaultTimeOut = int.Parse(this.ConnectionPanel.ConnectionTimeOut.Text);
                 RetweetNoConfirm = this.TweetActPanel.CheckRetweetNoConfirm.Checked;
                 LimitBalloon = this.PreviewPanel.CheckBalloonLimit.Checked;
@@ -360,7 +336,6 @@ namespace OpenTween
                 ReadOldPosts = this.ActionPanel.CheckReadOldPosts.Checked;
                 BitlyUser = this.ShortUrlPanel.TextBitlyId.Text;
                 BitlyPwd = this.ShortUrlPanel.TextBitlyPw.Text;
-                ShowGrid = this.TweetPrvPanel.CheckShowGrid.Checked;
                 UseAtIdSupplement = this.TweetActPanel.CheckAtIdSupple.Checked;
                 UseHashSupplement = this.TweetActPanel.CheckHashSupple.Checked;
                 PreviewEnable = this.PreviewPanel.CheckPreviewEnable.Checked;
@@ -415,14 +390,12 @@ namespace OpenTween
                 OpenUserTimeline = this.ActionPanel.CheckOpenUserTimeline.Checked;
                 ListDoubleClickAction = this.ActionPanel.ListDoubleClickActionComboBox.SelectedIndex;
                 UserAppointUrl = this.CooperatePanel.UserAppointUrlText.Text;
-                this.HideDuplicatedRetweets = this.TweetPrvPanel.HideDuplicatedRetweetsCheck.Checked;
                 this.EnableImgAzyobuziNet = this.CooperatePanel.EnableImgAzyobuziNetCheckBox.Checked;
                 this.ImgAzyobuziNetDisabledInDM = this.CooperatePanel.ImgAzyobuziNetDisabledInDMCheckBox.Checked;
                 this.MapThumbnailProvider = (MapProvider)this.CooperatePanel.MapThumbnailProviderComboBox.SelectedIndex;
                 this.MapThumbnailHeight = int.Parse(this.CooperatePanel.MapThumbnailHeightTextBox.Text);
                 this.MapThumbnailWidth = int.Parse(this.CooperatePanel.MapThumbnailWidthTextBox.Text);
                 this.MapThumbnailZoom = int.Parse(this.CooperatePanel.MapThumbnailZoomTextBox.Text);
-                this.IsListStatusesIncludeRts = this.TweetPrvPanel.IsListsIncludeRtsCheckBox.Checked;
                 this.TabMouseLock = this.ActionPanel.TabMouseLockCheck.Checked;
                 this.IsRemoveSameEvent = this.NotifyPanel.IsRemoveSameFavEventCheckBox.Checked;
                 this.IsNotifyUseGrowl = this.PreviewPanel.IsNotifyUseGrowlCheckBox.Checked;
@@ -532,28 +505,9 @@ namespace OpenTween
                 }
             }
 
-            switch (IconSz)
-            {
-                case MyCommon.IconSizes.IconNone:
-                    this.TweetPrvPanel.IconSize.SelectedIndex = 0;
-                    break;
-                case MyCommon.IconSizes.Icon16:
-                    this.TweetPrvPanel.IconSize.SelectedIndex = 1;
-                    break;
-                case MyCommon.IconSizes.Icon24:
-                    this.TweetPrvPanel.IconSize.SelectedIndex = 2;
-                    break;
-                case MyCommon.IconSizes.Icon48:
-                    this.TweetPrvPanel.IconSize.SelectedIndex = 3;
-                    break;
-                case MyCommon.IconSizes.Icon48_2:
-                    this.TweetPrvPanel.IconSize.SelectedIndex = 4;
-                    break;
-            }
             this.TweetActPanel.StatusText.Text = Status;
             this.ActionPanel.UReadMng.Checked = UnreadManage;
             this.ActionPanel.PlaySnd.Checked = PlaySound;
-            this.TweetPrvPanel.OneWayLv.Checked = OneWayLove;
 
             this.FontPanel.lblListFont.Font = FontReaded;
             this.FontPanel.lblUnread.Font = FontUnread;
@@ -637,8 +591,6 @@ namespace OpenTween
                     this.PreviewPanel.ComboDispTitle.SelectedIndex = 7;
                     break;
             }
-            this.TweetPrvPanel.CheckSortOrderLock.Checked = SortOrderLock;
-            this.TweetPrvPanel.CheckViewTabBottom.Checked = ViewTabBottom;
             this.ShortUrlPanel.CheckTinyURL.Checked = TinyUrlResolve;
             switch (_MyProxyType)
             {
@@ -674,8 +626,6 @@ namespace OpenTween
             this.ShortUrlPanel.ShortenTcoCheck.Enabled = this.ShortUrlPanel.CheckAutoConvertUrl.Checked;
 
             this.CooperatePanel.CheckNicoms.Checked = Nicoms;
-            this.TweetPrvPanel.chkUnreadStyle.Checked = UseUnreadStyle;
-            this.TweetPrvPanel.CmbDateTimeFormat.Text = DateTimeFormat;
             this.ConnectionPanel.ConnectionTimeOut.Text = DefaultTimeOut.ToString();
             this.TweetActPanel.CheckRetweetNoConfirm.Checked = RetweetNoConfirm;
             this.PreviewPanel.CheckBalloonLimit.Checked = LimitBalloon;
@@ -694,7 +644,6 @@ namespace OpenTween
             this.ShortUrlPanel.TextBitlyPw.Text = BitlyPwd;
             this.ShortUrlPanel.TextBitlyId.Modified = false;
             this.ShortUrlPanel.TextBitlyPw.Modified = false;
-            this.TweetPrvPanel.CheckShowGrid.Checked = ShowGrid;
             this.TweetActPanel.CheckAtIdSupple.Checked = UseAtIdSupplement;
             this.TweetActPanel.CheckHashSupple.Checked = UseHashSupplement;
             this.PreviewPanel.CheckPreviewEnable.Checked = PreviewEnable;
@@ -768,14 +717,12 @@ namespace OpenTween
             this.ActionPanel.CheckOpenUserTimeline.Checked = OpenUserTimeline;
             this.ActionPanel.ListDoubleClickActionComboBox.SelectedIndex = ListDoubleClickAction;
             this.CooperatePanel.UserAppointUrlText.Text = UserAppointUrl;
-            this.TweetPrvPanel.HideDuplicatedRetweetsCheck.Checked = this.HideDuplicatedRetweets;
             this.CooperatePanel.EnableImgAzyobuziNetCheckBox.Checked = this.EnableImgAzyobuziNet;
             this.CooperatePanel.ImgAzyobuziNetDisabledInDMCheckBox.Checked = this.ImgAzyobuziNetDisabledInDM;
             this.CooperatePanel.MapThumbnailProviderComboBox.SelectedIndex = (int)this.MapThumbnailProvider;
             this.CooperatePanel.MapThumbnailHeightTextBox.Text = this.MapThumbnailHeight.ToString();
             this.CooperatePanel.MapThumbnailWidthTextBox.Text = this.MapThumbnailWidth.ToString();
             this.CooperatePanel.MapThumbnailZoomTextBox.Text = this.MapThumbnailZoom.ToString();
-            this.TweetPrvPanel.IsListsIncludeRtsCheckBox.Checked = this.IsListStatusesIncludeRts;
             this.ActionPanel.TabMouseLockCheck.Checked = this.TabMouseLock;
             this.NotifyPanel.IsRemoveSameFavEventCheckBox.Checked = this.IsRemoveSameEvent;
             this.PreviewPanel.IsNotifyUseGrowlCheckBox.Checked = this.IsNotifyUseGrowl;
@@ -996,11 +943,9 @@ namespace OpenTween
             }
         }
 
-        public MyCommon.IconSizes IconSz { get; set; }
         public string Status { get; set; }
         public bool UnreadManage { get; set; }
         public bool PlaySound { get; set; }
-        public bool OneWayLove { get; set; }
         public Font FontUnread { get; set; } /////未使用
         public Color ColorUnread { get; set; }
         public Font FontReaded { get; set; } /////リストフォントとして使用
@@ -1042,7 +987,6 @@ namespace OpenTween
         public string BrowserPath { get; set; }
         public bool TinyUrlResolve { get; set; }
 
-        public bool SortOrderLock { get; set; }
         public ProxyType SelectedProxyType
         {
             get {
@@ -1052,10 +996,6 @@ namespace OpenTween
                 _MyProxyType = value;
             }
         }
-        /// <summary>
-        /// タブを下部に表示するかどうかを取得または設定する
-        /// </summary>
-        public bool ViewTabBottom { get; set; }
 
         public string ProxyAddress { get; set; }
         public int ProxyPort { get; set; }
@@ -1067,8 +1007,6 @@ namespace OpenTween
         public bool ShortenTco { get; set; }
         public bool Nicoms { get; set; }
         public MyCommon.UrlConverter AutoShortUrlFirst { get; set; }
-        public bool UseUnreadStyle { get; set; }
-        public string DateTimeFormat { get; set; }
         public int DefaultTimeOut { get; set; }
         public bool RetweetNoConfirm { get; set; }
         public bool TabIconDisp { get; set; }
@@ -1078,7 +1016,6 @@ namespace OpenTween
         public bool ReadOldPosts { get; set; }
         public string BitlyUser { get; set; }
         public string BitlyPwd { get; set; }
-        public bool ShowGrid { get; set; }
         public bool UseAtIdSupplement { get; set; }
         public bool UseHashSupplement { get; set; }
         public bool PreviewEnable { get; set; }

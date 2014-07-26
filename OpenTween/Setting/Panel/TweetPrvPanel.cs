@@ -42,6 +42,86 @@ namespace OpenTween.Setting.Panel
             InitializeComponent();
         }
 
+        public void LoadConfig(SettingCommon settingCommon)
+        {
+            switch (settingCommon.IconSize)
+            {
+                case MyCommon.IconSizes.IconNone:
+                    this.IconSize.SelectedIndex = 0;
+                    break;
+                case MyCommon.IconSizes.Icon16:
+                    this.IconSize.SelectedIndex = 1;
+                    break;
+                case MyCommon.IconSizes.Icon24:
+                    this.IconSize.SelectedIndex = 2;
+                    break;
+                case MyCommon.IconSizes.Icon48:
+                    this.IconSize.SelectedIndex = 3;
+                    break;
+                case MyCommon.IconSizes.Icon48_2:
+                    this.IconSize.SelectedIndex = 4;
+                    break;
+            }
+
+            this.OneWayLv.Checked = settingCommon.OneWayLove;
+            this.CheckSortOrderLock.Checked = settingCommon.SortOrderLock;
+            this.CheckViewTabBottom.Checked = settingCommon.ViewTabBottom;
+            this.chkUnreadStyle.Checked = settingCommon.UseUnreadStyle;
+
+            //書式指定文字列エラーチェック
+            var dateTimeFormat = settingCommon.DateTimeFormat;
+            try
+            {
+                if (DateTime.Now.ToString(dateTimeFormat).Length == 0)
+                {
+                    // このブロックは絶対に実行されないはず
+                    // 変換が成功した場合にLengthが0にならない
+                    dateTimeFormat = "yyyy/MM/dd H:mm:ss";
+                }
+            }
+            catch (FormatException)
+            {
+                // FormatExceptionが発生したら初期値を設定 (=yyyy/MM/dd H:mm:ssとみなされる)
+                dateTimeFormat = "yyyy/MM/dd H:mm:ss";
+            }
+            this.CmbDateTimeFormat.Text = dateTimeFormat;
+
+            this.CheckShowGrid.Checked = settingCommon.ShowGrid;
+            this.HideDuplicatedRetweetsCheck.Checked = settingCommon.HideDuplicatedRetweets;
+            this.IsListsIncludeRtsCheckBox.Checked = settingCommon.IsListsIncludeRts;
+        }
+
+        public void SaveConfig(SettingCommon settingCommon)
+        {
+            switch (this.IconSize.SelectedIndex)
+            {
+                case 0:
+                    settingCommon.IconSize = MyCommon.IconSizes.IconNone;
+                    break;
+                case 1:
+                    settingCommon.IconSize = MyCommon.IconSizes.Icon16;
+                    break;
+                case 2:
+                    settingCommon.IconSize = MyCommon.IconSizes.Icon24;
+                    break;
+                case 3:
+                    settingCommon.IconSize = MyCommon.IconSizes.Icon48;
+                    break;
+                case 4:
+                    settingCommon.IconSize = MyCommon.IconSizes.Icon48_2;
+                    break;
+            }
+
+            settingCommon.OneWayLove = this.OneWayLv.Checked;
+            settingCommon.SortOrderLock = this.CheckSortOrderLock.Checked;
+            settingCommon.ViewTabBottom = this.CheckViewTabBottom.Checked;
+            settingCommon.UseUnreadStyle = this.chkUnreadStyle.Checked;
+            settingCommon.DateTimeFormat = this.CmbDateTimeFormat.Text;
+            settingCommon.ShowGrid = this.CheckShowGrid.Checked;
+            settingCommon.HideDuplicatedRetweets = this.HideDuplicatedRetweetsCheck.Checked;
+            settingCommon.IsListsIncludeRts = this.IsListsIncludeRtsCheckBox.Checked;
+        }
+
         private bool CreateDateTimeFormatSample()
         {
             try

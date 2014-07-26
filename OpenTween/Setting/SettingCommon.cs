@@ -134,7 +134,12 @@ namespace OpenTween
         public string EventSoundFile = "";
         public bool PlaySound = false;
         public bool UnreadManage = true;
+
+        /// <summary>
+        /// 片思い表示。trueなら片思い表示する
+        /// </summary>
         public bool OneWayLove = true;
+
         public MyCommon.NameBalloonEnum NameBalloon = MyCommon.NameBalloonEnum.NickName;
         public bool PostCtrlEnter = false;
         public bool PostShiftEnter = false;

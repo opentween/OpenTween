@@ -766,7 +766,6 @@ namespace OpenTween
             //新着取得時のリストスクロールをするか。trueならスクロールしない
             ListLockMenuItem.Checked = _cfgCommon.ListLock;
             this.LockListFileMenuItem.Checked = _cfgCommon.ListLock;
-            SettingDialog.IconSz = _cfgCommon.IconSize;
             //文末ステータス
             SettingDialog.Status = _cfgLocal.StatusText;
             //未読管理。trueなら未読管理する
@@ -775,8 +774,6 @@ namespace OpenTween
             SettingDialog.PlaySound = _cfgCommon.PlaySound;
             PlaySoundMenuItem.Checked = SettingDialog.PlaySound;
             this.PlaySoundFileMenuItem.Checked = SettingDialog.PlaySound;
-            //片思い表示。trueなら片思い表示する
-            SettingDialog.OneWayLove = _cfgCommon.OneWayLove;
             //フォント＆文字色＆背景色
             SettingDialog.FontUnread = _fntUnread;
             SettingDialog.ColorUnread = _clUnread;
@@ -816,8 +813,6 @@ namespace OpenTween
             SettingDialog.CloseToExit = _cfgCommon.CloseToExit;
             SettingDialog.MinimizeToTray = _cfgCommon.MinimizeToTray;
             SettingDialog.DispLatestPost = _cfgCommon.DispLatestPost;
-            SettingDialog.SortOrderLock = _cfgCommon.SortOrderLock;
-            SettingDialog.ViewTabBottom = _cfgCommon.ViewTabBottom;
             SettingDialog.TinyUrlResolve = _cfgCommon.TinyUrlResolve;
 
             SettingDialog.SelectedProxyType = _cfgLocal.ProxyType;
@@ -831,11 +826,9 @@ namespace OpenTween
             SettingDialog.UrlConvertAuto = false;
             //SettingDialog.UrlConvertAuto = _cfgCommon.UrlConvertAuto;
 
-            SettingDialog.UseUnreadStyle = _cfgCommon.UseUnreadStyle;
             SettingDialog.DefaultTimeOut = _cfgCommon.DefaultTimeOut;
             SettingDialog.RetweetNoConfirm = _cfgCommon.RetweetNoConfirm;
             SettingDialog.PlaySound = _cfgCommon.PlaySound;
-            SettingDialog.DateTimeFormat = _cfgCommon.DateTimeFormat;
             SettingDialog.LimitBalloon = _cfgCommon.LimitBalloon;
             SettingDialog.EventNotifyEnabled = _cfgCommon.EventNotifyEnabled;
             SettingDialog.EventNotifyFlag = _cfgCommon.EventNotifyFlag;
@@ -856,7 +849,6 @@ namespace OpenTween
             SettingDialog.ReadOldPosts = _cfgCommon.ReadOldPosts;
             SettingDialog.BitlyUser = _cfgCommon.BilyUser;
             SettingDialog.BitlyPwd = _cfgCommon.BitlyPwd;
-            SettingDialog.ShowGrid = _cfgCommon.ShowGrid;
             SettingDialog.Language = _cfgCommon.Language;
             SettingDialog.UseAtIdSupplement = _cfgCommon.UseAtIdSupplement;
             SettingDialog.UseHashSupplement = _cfgCommon.UseHashSupplement;
@@ -871,22 +863,6 @@ namespace OpenTween
 
             //Regex statregex = new Regex("^0*");
             SettingDialog.RecommendStatusText = " [TWNv" + Regex.Replace(MyCommon.FileVersion.Replace(".", ""), "^0*", "") + "]";
-
-            //書式指定文字列エラーチェック
-            try
-            {
-                if (DateTime.Now.ToString(SettingDialog.DateTimeFormat).Length == 0)
-                {
-                    // このブロックは絶対に実行されないはず
-                    // 変換が成功した場合にLengthが0にならない
-                    SettingDialog.DateTimeFormat = "yyyy/MM/dd H:mm:ss";
-                }
-            }
-            catch (FormatException)
-            {
-                // FormatExceptionが発生したら初期値を設定 (=yyyy/MM/dd H:mm:ssとみなされる)
-                SettingDialog.DateTimeFormat = "yyyy/MM/dd H:mm:ss";
-            }
 
             SettingDialog.Nicoms = _cfgCommon.Nicoms;
             SettingDialog.HotkeyEnabled = _cfgCommon.HotkeyEnabled;
@@ -907,7 +883,6 @@ namespace OpenTween
             SettingDialog.OpenUserTimeline = _cfgCommon.OpenUserTimeline;
             SettingDialog.ListDoubleClickAction = _cfgCommon.ListDoubleClickAction;
             SettingDialog.UserAppointUrl = _cfgCommon.UserAppointUrl;
-            SettingDialog.HideDuplicatedRetweets = _cfgCommon.HideDuplicatedRetweets;
 
             SettingDialog.EnableImgAzyobuziNet = _cfgCommon.EnableImgAzyobuziNet;
             SettingDialog.ImgAzyobuziNetDisabledInDM = _cfgCommon.ImgAzyobuziNetDisabledInDM;
@@ -915,7 +890,6 @@ namespace OpenTween
             SettingDialog.MapThumbnailHeight = _cfgCommon.MapThumbnailHeight;
             SettingDialog.MapThumbnailWidth = _cfgCommon.MapThumbnailWidth;
             SettingDialog.MapThumbnailZoom = _cfgCommon.MapThumbnailZoom;
-            SettingDialog.IsListStatusesIncludeRts = _cfgCommon.IsListsIncludeRts;
             SettingDialog.TabMouseLock = _cfgCommon.TabMouseLock;
             SettingDialog.IsRemoveSameEvent = _cfgCommon.IsRemoveSameEvent;
             SettingDialog.IsNotifyUseGrowl = _cfgCommon.IsUseNotifyGrowl;
@@ -1139,7 +1113,7 @@ namespace OpenTween
             _statuses.SortMode = mode;
             ////////////////////////////////////////////////////////////////////////////////
 
-            ApplyListViewIconSize(SettingDialog.IconSz);
+            ApplyListViewIconSize(this._cfgCommon.IconSize);
 
             StatusLabel.Text = Properties.Resources.Form1_LoadText1;       //画面右下の状態表示を変更
             StatusLabelUrl.Text = "";            //画面左下のリンク先URL表示部を初期化
@@ -2009,9 +1983,9 @@ namespace OpenTween
                 cl = _clFav;
             else if (Post.RetweetedId != null)
                 cl = _clRetweet;
-            else if (Post.IsOwl && (Post.IsDm || SettingDialog.OneWayLove))
+            else if (Post.IsOwl && (Post.IsDm || this._cfgCommon.OneWayLove))
                 cl = _clOWL;
-            else if (Read || !SettingDialog.UseUnreadStyle)
+            else if (Read || !this._cfgCommon.UseUnreadStyle)
                 cl = _clReaded;
             else
                 cl = _clUnread;
@@ -2019,13 +1993,13 @@ namespace OpenTween
             if (DList == null || Item.Index == -1)
             {
                 Item.ForeColor = cl;
-                if (SettingDialog.UseUnreadStyle)
+                if (this._cfgCommon.UseUnreadStyle)
                     Item.Font = fnt;
             }
             else
             {
                 DList.Update();
-                if (SettingDialog.UseUnreadStyle)
+                if (this._cfgCommon.UseUnreadStyle)
                     DList.ChangeItemFontAndColor(Item.Index, cl, fnt);
                 else
                     DList.ChangeItemForeColor(Item.Index, cl);
@@ -3408,7 +3382,7 @@ namespace OpenTween
 
         private void MyList_ColumnClick(object sender, ColumnClickEventArgs e)
         {
-            if (SettingDialog.SortOrderLock) return;
+            if (this._cfgCommon.SortOrderLock) return;
             IdComparerClass.ComparerMode mode = IdComparerClass.ComparerMode.Id;
             if (_iconCol)
             {
@@ -3899,7 +3873,6 @@ namespace OpenTween
         {
             DialogResult result;
             string uid = tw.Username.ToLower();
-            var oldIconSz = SettingDialog.IconSz;
 
             try
             {
@@ -3914,6 +3887,8 @@ namespace OpenTween
             {
                 lock (_syncObject)
                 {
+                    var oldIconSz = this._cfgCommon.IconSize;
+
                     this.SettingDialog.SaveConfig(this._cfgCommon, this._cfgLocal);
 
                     tw.RestrictFavCheck = SettingDialog.RestrictFavCheck;
@@ -4084,8 +4059,8 @@ namespace OpenTween
                     {
                         var oldIconCol = _iconCol;
 
-                        if (SettingDialog.IconSz != oldIconSz)
-                            ApplyListViewIconSize(SettingDialog.IconSz);
+                        if (this._cfgCommon.IconSize != oldIconSz)
+                            ApplyListViewIconSize(this._cfgCommon.IconSize);
 
                         foreach (TabPage tp in ListTab.TabPages)
                         {
@@ -4093,7 +4068,7 @@ namespace OpenTween
 
                             using (ControlTransaction.Update(lst))
                             {
-                                lst.GridLines = SettingDialog.ShowGrid;
+                                lst.GridLines = this._cfgCommon.ShowGrid;
                                 lst.Font = _fntReaded;
                                 lst.BackColor = _clListBackcolor;
 
@@ -4153,7 +4128,7 @@ namespace OpenTween
         /// </summary>
         private void SetTabAlignment()
         {
-            var newAlignment = SettingDialog.ViewTabBottom ? TabAlignment.Bottom : TabAlignment.Top;
+            var newAlignment = this._cfgCommon.ViewTabBottom ? TabAlignment.Bottom : TabAlignment.Top;
             if (ListTab.Alignment == newAlignment) return;
 
             //現在の選択状態を退避
@@ -4569,7 +4544,7 @@ namespace OpenTween
                 _listCustom.Font = _fntReaded;
                 _listCustom.BackColor = _clListBackcolor;
 
-                _listCustom.GridLines = SettingDialog.ShowGrid;
+                _listCustom.GridLines = this._cfgCommon.ShowGrid;
                 _listCustom.AllowDrop = true;
 
                 _listCustom.SmallImageList = _listViewImageList;
@@ -5191,7 +5166,7 @@ namespace OpenTween
                 string[] sitem= {"",
                                  Post.Nickname,
                                  Post.IsDeleted ? "(DELETED)" : Post.TextSingleLine,
-                                 Post.CreatedAt.ToString(SettingDialog.DateTimeFormat),
+                                 Post.CreatedAt.ToString(this._cfgCommon.DateTimeFormat),
                                  Post.ScreenName,
                                  "",
                                  mk.ToString(),
@@ -5203,7 +5178,7 @@ namespace OpenTween
                 string[] sitem = {"",
                                   Post.Nickname,
                                   Post.IsDeleted ? "(DELETED)" : Post.TextSingleLine,
-                                  Post.CreatedAt.ToString(SettingDialog.DateTimeFormat),
+                                  Post.CreatedAt.ToString(this._cfgCommon.DateTimeFormat),
                                   Post.ScreenName + Environment.NewLine + "(RT:" + Post.RetweetedBy + ")",
                                   "",
                                   mk.ToString(),
@@ -6119,7 +6094,7 @@ namespace OpenTween
                 NameLabel.Tag = _curPost.ScreenName;
 
                 var nameForeColor = SystemColors.ControlText;
-                if (_curPost.IsOwl && (this.SettingDialog.OneWayLove || _curPost.IsDm))
+                if (_curPost.IsOwl && (this._cfgCommon.OneWayLove || _curPost.IsDm))
                     nameForeColor = this._clOWL;
                 if (_curPost.RetweetedId != null)
                     nameForeColor = this._clRetweet;
@@ -7755,10 +7730,8 @@ namespace OpenTween
                 _cfgCommon.Token = tw.AccessToken;
                 _cfgCommon.TokenSecret = tw.AccessTokenSecret;
                 _cfgCommon.UserAccounts = SettingDialog.UserAccounts;
-                _cfgCommon.IconSize = SettingDialog.IconSz;
                 _cfgCommon.UnreadManage = SettingDialog.UnreadManage;
                 _cfgCommon.PlaySound = SettingDialog.PlaySound;
-                _cfgCommon.OneWayLove = SettingDialog.OneWayLove;
 
                 _cfgCommon.NameBalloon = SettingDialog.NameBalloon;
                 _cfgCommon.PostCtrlEnter = SettingDialog.PostCtrlEnter;
@@ -7769,14 +7742,10 @@ namespace OpenTween
                 _cfgCommon.MinimizeToTray = SettingDialog.MinimizeToTray;
                 _cfgCommon.CloseToExit = SettingDialog.CloseToExit;
                 _cfgCommon.DispLatestPost = SettingDialog.DispLatestPost;
-                _cfgCommon.SortOrderLock = SettingDialog.SortOrderLock;
-                _cfgCommon.ViewTabBottom = SettingDialog.ViewTabBottom;
                 _cfgCommon.TinyUrlResolve = SettingDialog.TinyUrlResolve;
                 _cfgCommon.RestrictFavCheck = SettingDialog.RestrictFavCheck;
                 _cfgCommon.AlwaysTop = SettingDialog.AlwaysTop;
                 _cfgCommon.UrlConvertAuto = SettingDialog.UrlConvertAuto;
-                _cfgCommon.UseUnreadStyle = SettingDialog.UseUnreadStyle;
-                _cfgCommon.DateTimeFormat = SettingDialog.DateTimeFormat;
                 _cfgCommon.DefaultTimeOut = SettingDialog.DefaultTimeOut;
                 _cfgCommon.RetweetNoConfirm = SettingDialog.RetweetNoConfirm;
                 _cfgCommon.LimitBalloon = SettingDialog.LimitBalloon;
@@ -7800,7 +7769,6 @@ namespace OpenTween
                 _cfgCommon.ReadOldPosts = SettingDialog.ReadOldPosts;
                 _cfgCommon.BilyUser = SettingDialog.BitlyUser;
                 _cfgCommon.BitlyPwd = SettingDialog.BitlyPwd;
-                _cfgCommon.ShowGrid = SettingDialog.ShowGrid;
                 _cfgCommon.UseAtIdSupplement = SettingDialog.UseAtIdSupplement;
                 _cfgCommon.UseHashSupplement = SettingDialog.UseHashSupplement;
                 _cfgCommon.PreviewEnable = SettingDialog.PreviewEnable;
@@ -7865,14 +7833,12 @@ namespace OpenTween
                 _cfgCommon.UseImageServiceName = ImageSelector.ServiceName;
                 _cfgCommon.ListDoubleClickAction = SettingDialog.ListDoubleClickAction;
                 _cfgCommon.UserAppointUrl = SettingDialog.UserAppointUrl;
-                _cfgCommon.HideDuplicatedRetweets = SettingDialog.HideDuplicatedRetweets;
                 _cfgCommon.EnableImgAzyobuziNet = SettingDialog.EnableImgAzyobuziNet;
                 _cfgCommon.ImgAzyobuziNetDisabledInDM = SettingDialog.ImgAzyobuziNetDisabledInDM;
                 _cfgCommon.MapThumbnailProvider = SettingDialog.MapThumbnailProvider;
                 _cfgCommon.MapThumbnailHeight = SettingDialog.MapThumbnailHeight;
                 _cfgCommon.MapThumbnailWidth = SettingDialog.MapThumbnailWidth;
                 _cfgCommon.MapThumbnailZoom = SettingDialog.MapThumbnailZoom;
-                _cfgCommon.IsListsIncludeRts = SettingDialog.IsListStatusesIncludeRts;
                 _cfgCommon.TabMouseLock = SettingDialog.TabMouseLock;
                 _cfgCommon.IsRemoveSameEvent = SettingDialog.IsRemoveSameEvent;
                 _cfgCommon.IsUseNotifyGrowl = SettingDialog.IsNotifyUseGrowl;
@@ -13217,13 +13183,13 @@ namespace OpenTween
 
         private void ContextMenuColumnHeader_Opening(object sender, CancelEventArgs e)
         {
-            this.IconSizeNoneToolStripMenuItem.Checked = SettingDialog.IconSz == MyCommon.IconSizes.IconNone;
-            this.IconSize16ToolStripMenuItem.Checked = SettingDialog.IconSz == MyCommon.IconSizes.Icon16;
-            this.IconSize24ToolStripMenuItem.Checked = SettingDialog.IconSz == MyCommon.IconSizes.Icon24;
-            this.IconSize48ToolStripMenuItem.Checked = SettingDialog.IconSz == MyCommon.IconSizes.Icon48;
-            this.IconSize48_2ToolStripMenuItem.Checked = SettingDialog.IconSz == MyCommon.IconSizes.Icon48_2;
+            this.IconSizeNoneToolStripMenuItem.Checked = this._cfgCommon.IconSize == MyCommon.IconSizes.IconNone;
+            this.IconSize16ToolStripMenuItem.Checked = this._cfgCommon.IconSize == MyCommon.IconSizes.Icon16;
+            this.IconSize24ToolStripMenuItem.Checked = this._cfgCommon.IconSize == MyCommon.IconSizes.Icon24;
+            this.IconSize48ToolStripMenuItem.Checked = this._cfgCommon.IconSize == MyCommon.IconSizes.Icon48;
+            this.IconSize48_2ToolStripMenuItem.Checked = this._cfgCommon.IconSize == MyCommon.IconSizes.Icon48_2;
 
-            this.LockListSortOrderToolStripMenuItem.Checked = SettingDialog.SortOrderLock;
+            this.LockListSortOrderToolStripMenuItem.Checked = this._cfgCommon.SortOrderLock;
         }
 
         private void IconSizeNoneToolStripMenuItem_Click(object sender, EventArgs e)
@@ -13253,11 +13219,11 @@ namespace OpenTween
 
         private void ChangeListViewIconSize(MyCommon.IconSizes iconSize)
         {
-            if (SettingDialog.IconSz == iconSize) return;
+            if (this._cfgCommon.IconSize == iconSize) return;
 
             var oldIconCol = _iconCol;
 
-            SettingDialog.IconSz = iconSize;
+            this._cfgCommon.IconSize = iconSize;
             ApplyListViewIconSize(iconSize);
 
             if (_iconCol != oldIconCol)
@@ -13276,9 +13242,9 @@ namespace OpenTween
         private void LockListSortToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var state = this.LockListSortOrderToolStripMenuItem.Checked;
-            if (SettingDialog.SortOrderLock == state) return;
+            if (this._cfgCommon.SortOrderLock == state) return;
 
-            SettingDialog.SortOrderLock = state;
+            this._cfgCommon.SortOrderLock = state;
 
             _modifySettingCommon = true;
         }
