@@ -116,7 +116,12 @@ namespace OpenTween
         public int DMPeriod = 600;
         public int PubSearchPeriod = 180;
         public int ListsPeriod = 180;
+
+        /// <summary>
+        /// 起動時読み込み分を既読にするか。trueなら既読として処理
+        /// </summary>
         public bool Read = true;
+
         public bool ListLock = false;
         public MyCommon.IconSizes IconSize = MyCommon.IconSizes.Icon16;
         public bool NewAllPop = true;

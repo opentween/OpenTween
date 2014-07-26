@@ -78,11 +78,13 @@ namespace OpenTween
         public void LoadConfig(SettingCommon settingCommon, SettingLocal settingLocal)
         {
             this.GetPeriodPanel.LoadConfig(settingCommon);
+            this.StartupPanel.LoadConfig(settingCommon);
         }
 
         public void SaveConfig(SettingCommon settingCommon, SettingLocal settingLocal)
         {
             this.GetPeriodPanel.SaveConfig(settingCommon);
+            this.StartupPanel.SaveConfig(settingCommon);
         }
 
         private void TreeViewSetting_BeforeSelect(object sender, TreeViewCancelEventArgs e)
@@ -208,7 +210,6 @@ namespace OpenTween
 #endif
             try
             {
-                Readed = this.StartupPanel.StartupReaded.Checked;
                 switch (this.TweetPrvPanel.IconSize.SelectedIndex)
                 {
                     case 0:
@@ -335,8 +336,6 @@ namespace OpenTween
                 ProxyPort = int.Parse(this.ProxyPanel.TextProxyPort.Text.Trim());
                 ProxyUser = this.ProxyPanel.TextProxyUser.Text.Trim();
                 ProxyPassword = this.ProxyPanel.TextProxyPassword.Text.Trim();
-                StartupVersion = this.StartupPanel.CheckStartupVersion.Checked;
-                StartupFollowers = this.StartupPanel.CheckStartupFollowers.Checked;
                 RestrictFavCheck = this.ActionPanel.CheckFavRestrict.Checked;
                 AlwaysTop = this.PreviewPanel.CheckAlwaysTop.Checked;
                 UrlConvertAuto = this.ShortUrlPanel.CheckAutoConvertUrl.Checked;
@@ -357,7 +356,6 @@ namespace OpenTween
                 AutoShortUrlFirst = (MyCommon.UrlConverter)this.ShortUrlPanel.ComboBoxAutoShortUrlFirst.SelectedIndex;
                 TabIconDisp = this.PreviewPanel.chkTabIconDisp.Checked;
                 ReadOwnPost = this.ActionPanel.chkReadOwnPost.Checked;
-                GetFav = this.StartupPanel.chkGetFav.Checked;
                 IsMonospace = this.PreviewPanel.CheckMonospace.Checked;
                 ReadOldPosts = this.ActionPanel.CheckReadOldPosts.Checked;
                 BitlyUser = this.ShortUrlPanel.TextBitlyId.Text;
@@ -534,7 +532,6 @@ namespace OpenTween
                 }
             }
 
-            this.StartupPanel.StartupReaded.Checked = Readed;
             switch (IconSz)
             {
                 case MyCommon.IconSizes.IconNone:
@@ -555,14 +552,6 @@ namespace OpenTween
             }
             this.TweetActPanel.StatusText.Text = Status;
             this.ActionPanel.UReadMng.Checked = UnreadManage;
-            if (UnreadManage == false)
-            {
-                this.StartupPanel.StartupReaded.Enabled = false;
-            }
-            else
-            {
-                this.StartupPanel.StartupReaded.Enabled = true;
-            }
             this.ActionPanel.PlaySnd.Checked = PlaySound;
             this.TweetPrvPanel.OneWayLv.Checked = OneWayLove;
 
@@ -678,10 +667,6 @@ namespace OpenTween
             this.ProxyPanel.TextProxyUser.Text = ProxyUser;
             this.ProxyPanel.TextProxyPassword.Text = ProxyPassword;
 
-            this.StartupPanel.CheckStartupVersion.Checked = StartupVersion;
-            if (ApplicationSettings.VersionInfoUrl == null)
-                this.StartupPanel.CheckStartupVersion.Enabled = false; // 更新チェック無効化
-            this.StartupPanel.CheckStartupFollowers.Checked = StartupFollowers;
             this.ActionPanel.CheckFavRestrict.Checked = RestrictFavCheck;
             this.PreviewPanel.CheckAlwaysTop.Checked = AlwaysTop;
             this.ShortUrlPanel.CheckAutoConvertUrl.Checked = UrlConvertAuto;
@@ -703,7 +688,6 @@ namespace OpenTween
             this.ShortUrlPanel.ComboBoxAutoShortUrlFirst.SelectedIndex = (int)AutoShortUrlFirst;
             this.PreviewPanel.chkTabIconDisp.Checked = TabIconDisp;
             this.ActionPanel.chkReadOwnPost.Checked = ReadOwnPost;
-            this.StartupPanel.chkGetFav.Checked = GetFav;
             this.PreviewPanel.CheckMonospace.Checked = IsMonospace;
             this.ActionPanel.CheckReadOldPosts.Checked = ReadOldPosts;
             this.ShortUrlPanel.TextBitlyId.Text = BitlyUser;
@@ -1012,7 +996,6 @@ namespace OpenTween
             }
         }
 
-        public bool Readed { get; set; }
         public MyCommon.IconSizes IconSz { get; set; }
         public string Status { get; set; }
         public bool UnreadManage { get; set; }
@@ -1078,8 +1061,6 @@ namespace OpenTween
         public int ProxyPort { get; set; }
         public string ProxyUser { get; set; }
         public string ProxyPassword { get; set; }
-        public bool StartupVersion { get; set; }
-        public bool StartupFollowers { get; set; }
         public bool RestrictFavCheck { get; set; }
         public bool AlwaysTop { get; set; }
         public bool UrlConvertAuto { get; set; }
@@ -1093,7 +1074,6 @@ namespace OpenTween
         public bool TabIconDisp { get; set; }
         public MyCommon.REPLY_ICONSTATE ReplyIconState { get; set; }
         public bool ReadOwnPost { get; set; }
-        public bool GetFav { get; set; }
         public bool IsMonospace { get; set; }
         public bool ReadOldPosts { get; set; }
         public string BitlyUser { get; set; }

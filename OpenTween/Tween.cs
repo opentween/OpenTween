@@ -763,8 +763,6 @@ namespace OpenTween
 
             SettingDialog.UserAccounts = _cfgCommon.UserAccounts;
 
-            //起動時読み込み分を既読にするか。trueなら既読として処理
-            SettingDialog.Readed = _cfgCommon.Read;
             //新着取得時のリストスクロールをするか。trueならスクロールしない
             ListLockMenuItem.Checked = _cfgCommon.ListLock;
             this.LockListFileMenuItem.Checked = _cfgCommon.ListLock;
@@ -828,8 +826,6 @@ namespace OpenTween
             SettingDialog.ProxyUser = _cfgLocal.ProxyUser;
             SettingDialog.ProxyPassword = _cfgLocal.ProxyPassword;
 
-            SettingDialog.StartupVersion = _cfgCommon.StartupVersion;
-            SettingDialog.StartupFollowers = _cfgCommon.StartupFollowers;
             SettingDialog.RestrictFavCheck = _cfgCommon.RestrictFavCheck;
             SettingDialog.AlwaysTop = _cfgCommon.AlwaysTop;
             SettingDialog.UrlConvertAuto = false;
@@ -857,7 +853,6 @@ namespace OpenTween
             SettingDialog.TabIconDisp = _cfgCommon.TabIconDisp;
             SettingDialog.ReplyIconState = _cfgCommon.ReplyIconState;
             SettingDialog.ReadOwnPost = _cfgCommon.ReadOwnPost;
-            SettingDialog.GetFav = _cfgCommon.GetFav;
             SettingDialog.ReadOldPosts = _cfgCommon.ReadOldPosts;
             SettingDialog.BitlyUser = _cfgCommon.BilyUser;
             SettingDialog.BitlyPwd = _cfgCommon.BitlyPwd;
@@ -2406,7 +2401,7 @@ namespace OpenTween
             GetWorkerResult rslt = new GetWorkerResult();
 
             bool read = !SettingDialog.UnreadManage;
-            if (_initial && SettingDialog.UnreadManage) read = SettingDialog.Readed;
+            if (_initial && SettingDialog.UnreadManage) read = this._cfgCommon.Read;
 
             GetWorkerArg args = (GetWorkerArg)e.Argument;
 
@@ -7760,7 +7755,6 @@ namespace OpenTween
                 _cfgCommon.Token = tw.AccessToken;
                 _cfgCommon.TokenSecret = tw.AccessTokenSecret;
                 _cfgCommon.UserAccounts = SettingDialog.UserAccounts;
-                _cfgCommon.Read = SettingDialog.Readed;
                 _cfgCommon.IconSize = SettingDialog.IconSz;
                 _cfgCommon.UnreadManage = SettingDialog.UnreadManage;
                 _cfgCommon.PlaySound = SettingDialog.PlaySound;
@@ -7778,8 +7772,6 @@ namespace OpenTween
                 _cfgCommon.SortOrderLock = SettingDialog.SortOrderLock;
                 _cfgCommon.ViewTabBottom = SettingDialog.ViewTabBottom;
                 _cfgCommon.TinyUrlResolve = SettingDialog.TinyUrlResolve;
-                _cfgCommon.StartupVersion = SettingDialog.StartupVersion;
-                _cfgCommon.StartupFollowers = SettingDialog.StartupFollowers;
                 _cfgCommon.RestrictFavCheck = SettingDialog.RestrictFavCheck;
                 _cfgCommon.AlwaysTop = SettingDialog.AlwaysTop;
                 _cfgCommon.UrlConvertAuto = SettingDialog.UrlConvertAuto;
@@ -7799,7 +7791,6 @@ namespace OpenTween
                 _cfgCommon.TabIconDisp = SettingDialog.TabIconDisp;
                 _cfgCommon.ReplyIconState = SettingDialog.ReplyIconState;
                 _cfgCommon.ReadOwnPost = SettingDialog.ReadOwnPost;
-                _cfgCommon.GetFav = SettingDialog.GetFav;
                 _cfgCommon.IsMonospace = SettingDialog.IsMonospace;
                 if (IdeographicSpaceToSpaceToolStripMenuItem != null &&
                    IdeographicSpaceToSpaceToolStripMenuItem.IsDisposed == false)
@@ -10828,7 +10819,7 @@ namespace OpenTween
                 this.RefreshMuteUserIdsAsync();
                 GetTimeline(MyCommon.WORKERTYPE.BlockIds, 0, "");
                 GetTimeline(MyCommon.WORKERTYPE.NoRetweetIds, 0, "");
-                if (SettingDialog.StartupFollowers)
+                if (this._cfgCommon.StartupFollowers)
                 {
                     GetTimeline(MyCommon.WORKERTYPE.Follower, 0, "");
                 }
@@ -10840,7 +10831,7 @@ namespace OpenTween
                 GetTimeline(MyCommon.WORKERTYPE.Reply, 1, "");
                 _waitDm = true;
                 GetTimeline(MyCommon.WORKERTYPE.DirectMessegeRcv, 1, "");
-                if (SettingDialog.GetFav)
+                if (this._cfgCommon.GetFav)
                 {
                     _waitFav = true;
                     GetTimeline(MyCommon.WORKERTYPE.Favorites, 1, "");
@@ -10869,7 +10860,7 @@ namespace OpenTween
                 if (ApplicationSettings.VersionInfoUrl != null)
                 {
                     //バージョンチェック（引数：起動時チェックの場合はtrue･･･チェック結果のメッセージを表示しない）
-                    if (SettingDialog.StartupVersion)
+                    if (this._cfgCommon.StartupVersion)
                         await this.CheckNewVersion(true);
                 }
                 else
@@ -10881,7 +10872,7 @@ namespace OpenTween
                 }
 
                 // 取得失敗の場合は再試行する
-                if (!tw.GetFollowersSuccess && SettingDialog.StartupFollowers)
+                if (!tw.GetFollowersSuccess && this._cfgCommon.StartupFollowers)
                     GetTimeline(MyCommon.WORKERTYPE.Follower, 0, "");
 
                 // 取得失敗の場合は再試行する
