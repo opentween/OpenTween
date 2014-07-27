@@ -32,6 +32,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using OpenTween.Connection;
 
 namespace OpenTween.Setting.Panel
 {
@@ -40,6 +41,58 @@ namespace OpenTween.Setting.Panel
         public ProxyPanel()
         {
             InitializeComponent();
+        }
+
+        public void LoadConfig(SettingLocal settingLocal)
+        {
+            switch (settingLocal.ProxyType)
+            {
+                case ProxyType.None:
+                    this.RadioProxyNone.Checked = true;
+                    break;
+                case ProxyType.IE:
+                    this.RadioProxyIE.Checked = true;
+                    break;
+                default:
+                    this.RadioProxySpecified.Checked = true;
+                    break;
+            }
+
+            var chk = this.RadioProxySpecified.Checked;
+            this.LabelProxyAddress.Enabled = chk;
+            this.TextProxyAddress.Enabled = chk;
+            this.LabelProxyPort.Enabled = chk;
+            this.TextProxyPort.Enabled = chk;
+            this.LabelProxyUser.Enabled = chk;
+            this.TextProxyUser.Enabled = chk;
+            this.LabelProxyPassword.Enabled = chk;
+            this.TextProxyPassword.Enabled = chk;
+
+            this.TextProxyAddress.Text = settingLocal.ProxyAddress;
+            this.TextProxyPort.Text = settingLocal.ProxyPort.ToString();
+            this.TextProxyUser.Text = settingLocal.ProxyUser;
+            this.TextProxyPassword.Text = settingLocal.ProxyPassword;
+        }
+
+        public void SaveConfig(SettingLocal settingLocal)
+        {
+            if (this.RadioProxyNone.Checked)
+            {
+                settingLocal.ProxyType = ProxyType.None;
+            }
+            else if (this.RadioProxyIE.Checked)
+            {
+                settingLocal.ProxyType = ProxyType.IE;
+            }
+            else
+            {
+                settingLocal.ProxyType = ProxyType.Specified;
+            }
+
+            settingLocal.ProxyAddress = this.TextProxyAddress.Text.Trim();
+            settingLocal.ProxyPort = int.Parse(this.TextProxyPort.Text.Trim());
+            settingLocal.ProxyUser = this.TextProxyUser.Text.Trim();
+            settingLocal.ProxyPassword = this.TextProxyPassword.Text.Trim();
         }
 
         private void RadioProxySpecified_CheckedChanged(object sender, EventArgs e)

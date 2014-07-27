@@ -47,7 +47,6 @@ namespace OpenTween
     {
         private static AppendSettingDialog _instance = new AppendSettingDialog();
         private Twitter tw;
-        private ProxyType _MyProxyType;
 
         private bool _ValidationError = false;
         private MyCommon.EVENTTYPE _MyEventNotifyFlag;
@@ -82,6 +81,7 @@ namespace OpenTween
             this.PreviewPanel.LoadConfig(settingCommon);
             this.GetCountPanel.LoadConfig(settingCommon);
             this.ShortUrlPanel.LoadConfig(settingCommon);
+            this.ProxyPanel.LoadConfig(settingLocal);
         }
 
         public void SaveConfig(SettingCommon settingCommon, SettingLocal settingLocal)
@@ -96,6 +96,7 @@ namespace OpenTween
             this.PreviewPanel.SaveConfig(settingCommon);
             this.GetCountPanel.SaveConfig(settingCommon);
             this.ShortUrlPanel.SaveConfig(settingCommon);
+            this.ProxyPanel.SaveConfig(settingLocal);
         }
 
         private void TreeViewSetting_BeforeSelect(object sender, TreeViewCancelEventArgs e)
@@ -221,23 +222,6 @@ namespace OpenTween
 #endif
             try
             {
-                if (this.ProxyPanel.RadioProxyNone.Checked)
-                {
-                    _MyProxyType = ProxyType.None;
-                }
-                else if (this.ProxyPanel.RadioProxyIE.Checked)
-                {
-                    _MyProxyType = ProxyType.IE;
-                }
-                else
-                {
-                    _MyProxyType = ProxyType.Specified;
-                }
-                ProxyAddress = this.ProxyPanel.TextProxyAddress.Text.Trim();
-                ProxyPort = int.Parse(this.ProxyPanel.TextProxyPort.Text.Trim());
-                ProxyUser = this.ProxyPanel.TextProxyUser.Text.Trim();
-                ProxyPassword = this.ProxyPanel.TextProxyPassword.Text.Trim();
-
                 Nicoms = this.CooperatePanel.CheckNicoms.Checked;
                 DefaultTimeOut = int.Parse(this.ConnectionPanel.ConnectionTimeOut.Text);
                 EventNotifyEnabled = this.NotifyPanel.CheckEventNotify.Checked;
@@ -360,33 +344,6 @@ namespace OpenTween
                     }
                 }
             }
-
-            switch (_MyProxyType)
-            {
-                case ProxyType.None:
-                    this.ProxyPanel.RadioProxyNone.Checked = true;
-                    break;
-                case ProxyType.IE:
-                    this.ProxyPanel.RadioProxyIE.Checked = true;
-                    break;
-                default:
-                    this.ProxyPanel.RadioProxySpecified.Checked = true;
-                    break;
-            }
-            bool chk = this.ProxyPanel.RadioProxySpecified.Checked;
-            this.ProxyPanel.LabelProxyAddress.Enabled = chk;
-            this.ProxyPanel.TextProxyAddress.Enabled = chk;
-            this.ProxyPanel.LabelProxyPort.Enabled = chk;
-            this.ProxyPanel.TextProxyPort.Enabled = chk;
-            this.ProxyPanel.LabelProxyUser.Enabled = chk;
-            this.ProxyPanel.TextProxyUser.Enabled = chk;
-            this.ProxyPanel.LabelProxyPassword.Enabled = chk;
-            this.ProxyPanel.TextProxyPassword.Enabled = chk;
-
-            this.ProxyPanel.TextProxyAddress.Text = ProxyAddress;
-            this.ProxyPanel.TextProxyPort.Text = ProxyPort.ToString();
-            this.ProxyPanel.TextProxyUser.Text = ProxyUser;
-            this.ProxyPanel.TextProxyPassword.Text = ProxyPassword;
 
             this.CooperatePanel.CheckNicoms.Checked = Nicoms;
             this.ConnectionPanel.ConnectionTimeOut.Text = DefaultTimeOut.ToString();
@@ -616,20 +573,6 @@ namespace OpenTween
 
         public string RecommendStatusText { get; set; }
 
-        public ProxyType SelectedProxyType
-        {
-            get {
-                return _MyProxyType;
-            }
-            set {
-                _MyProxyType = value;
-            }
-        }
-
-        public string ProxyAddress { get; set; }
-        public int ProxyPort { get; set; }
-        public string ProxyUser { get; set; }
-        public string ProxyPassword { get; set; }
         public bool Nicoms { get; set; }
         public int DefaultTimeOut { get; set; }
         public string TwitterApiUrl { get; set; }

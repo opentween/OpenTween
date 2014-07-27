@@ -775,12 +775,6 @@ namespace OpenTween
             this.PlaySoundMenuItem.Checked = this._cfgCommon.PlaySound;
             this.PlaySoundFileMenuItem.Checked = this._cfgCommon.PlaySound;
 
-            SettingDialog.SelectedProxyType = _cfgLocal.ProxyType;
-            SettingDialog.ProxyAddress = _cfgLocal.ProxyAddress;
-            SettingDialog.ProxyPort = _cfgLocal.ProxyPort;
-            SettingDialog.ProxyUser = _cfgLocal.ProxyUser;
-            SettingDialog.ProxyPassword = _cfgLocal.ProxyPassword;
-
             SettingDialog.DefaultTimeOut = _cfgCommon.DefaultTimeOut;
             SettingDialog.EventNotifyEnabled = _cfgCommon.EventNotifyEnabled;
             SettingDialog.EventNotifyFlag = _cfgCommon.EventNotifyFlag;
@@ -911,9 +905,9 @@ namespace OpenTween
 
             //Twitter用通信クラス初期化
             Networking.DefaultTimeout = TimeSpan.FromSeconds(this.SettingDialog.DefaultTimeOut);
-            Networking.SetWebProxy(this.SettingDialog.SelectedProxyType,
-                this.SettingDialog.ProxyAddress, this.SettingDialog.ProxyPort,
-                this.SettingDialog.ProxyUser, this.SettingDialog.ProxyPassword);
+            Networking.SetWebProxy(this._cfgLocal.ProxyType,
+                this._cfgLocal.ProxyAddress, this._cfgLocal.ProxyPort,
+                this._cfgLocal.ProxyUser, this._cfgLocal.ProxyPassword);
 
             tw.RestrictFavCheck = this._cfgCommon.RestrictFavCheck;
             tw.ReadOwnPost = this._cfgCommon.ReadOwnPost;
@@ -3824,9 +3818,9 @@ namespace OpenTween
                     HttpTwitter.TwitterUrl = _cfgCommon.TwitterUrl;
 
                     Networking.DefaultTimeout = TimeSpan.FromSeconds(this.SettingDialog.DefaultTimeOut);
-                    Networking.SetWebProxy(this.SettingDialog.SelectedProxyType,
-                        this.SettingDialog.ProxyAddress, this.SettingDialog.ProxyPort,
-                        this.SettingDialog.ProxyUser, this.SettingDialog.ProxyPassword);
+                    Networking.SetWebProxy(this._cfgLocal.ProxyType,
+                        this._cfgLocal.ProxyAddress, this._cfgLocal.ProxyPort,
+                        this._cfgLocal.ProxyUser, this._cfgLocal.ProxyPassword);
 
                     ImageSelector.Reset(tw, SettingDialog.TwitterConfiguration);
 
@@ -7765,11 +7759,6 @@ namespace OpenTween
                 _cfgLocal.ColorInputFont = _clInputFont;
                 _cfgLocal.FontInputFont = _fntInputFont;
 
-                _cfgLocal.ProxyType = SettingDialog.SelectedProxyType;
-                _cfgLocal.ProxyAddress = SettingDialog.ProxyAddress;
-                _cfgLocal.ProxyPort = SettingDialog.ProxyPort;
-                _cfgLocal.ProxyUser = SettingDialog.ProxyUser;
-                _cfgLocal.ProxyPassword = SettingDialog.ProxyPassword;
                 if (_ignoreConfigSave) return;
                 _cfgLocal.Save();
             }
