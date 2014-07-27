@@ -79,6 +79,7 @@ namespace OpenTween
             this.TweetActPanel.LoadConfig(settingCommon, settingLocal);
             this.ActionPanel.LoadConfig(settingCommon, settingLocal);
             this.FontPanel.LoadConfig(settingLocal);
+            this.FontPanel2.LoadConfig(settingLocal);
         }
 
         public void SaveConfig(SettingCommon settingCommon, SettingLocal settingLocal)
@@ -89,6 +90,7 @@ namespace OpenTween
             this.TweetActPanel.SaveConfig(settingCommon, settingLocal);
             this.ActionPanel.SaveConfig(settingCommon, settingLocal);
             this.FontPanel.SaveConfig(settingLocal);
+            this.FontPanel2.SaveConfig(settingLocal);
         }
 
         private void TreeViewSetting_BeforeSelect(object sender, TreeViewCancelEventArgs e)
@@ -214,16 +216,6 @@ namespace OpenTween
 #endif
             try
             {
-                ColorSelf = this.FontPanel2.lblSelf.BackColor;
-                ColorAtSelf = this.FontPanel2.lblAtSelf.BackColor;
-                ColorTarget = this.FontPanel2.lblTarget.BackColor;
-                ColorAtTarget = this.FontPanel2.lblAtTarget.BackColor;
-                ColorAtFromTarget = this.FontPanel2.lblAtFromTarget.BackColor;
-                ColorAtTo = this.FontPanel2.lblAtTo.BackColor;
-                ColorInputBackcolor = this.FontPanel2.lblInputBackcolor.BackColor;
-                ColorInputFont = this.FontPanel2.lblInputFont.ForeColor;
-                ColorListBackcolor = this.FontPanel2.lblListBackcolor.BackColor;
-                FontInputFont = this.FontPanel2.lblInputFont.Font;
                 switch (this.PreviewPanel.cmbNameBalloon.SelectedIndex)
                 {
                     case 0:
@@ -458,17 +450,6 @@ namespace OpenTween
                     }
                 }
             }
-
-            this.FontPanel2.lblSelf.BackColor = ColorSelf;
-            this.FontPanel2.lblAtSelf.BackColor = ColorAtSelf;
-            this.FontPanel2.lblTarget.BackColor = ColorTarget;
-            this.FontPanel2.lblAtTarget.BackColor = ColorAtTarget;
-            this.FontPanel2.lblAtFromTarget.BackColor = ColorAtFromTarget;
-            this.FontPanel2.lblAtTo.BackColor = ColorAtTo;
-            this.FontPanel2.lblInputBackcolor.BackColor = ColorInputBackcolor;
-            this.FontPanel2.lblInputFont.ForeColor = ColorInputFont;
-            this.FontPanel2.lblInputFont.Font = FontInputFont;
-            this.FontPanel2.lblListBackcolor.BackColor = ColorListBackcolor;
 
             switch (NameBalloon)
             {
@@ -842,16 +823,6 @@ namespace OpenTween
             }
         }
 
-        public Color ColorSelf { get; set; }
-        public Color ColorAtSelf { get; set; }
-        public Color ColorTarget { get; set; }
-        public Color ColorAtTarget { get; set; }
-        public Color ColorAtFromTarget { get; set; }
-        public Color ColorAtTo { get; set; }
-        public Color ColorInputBackcolor { get; set; }
-        public Color ColorInputFont { get; set; }
-        public Font FontInputFont { get; set; }
-        public Color ColorListBackcolor { get; set; }
         public MyCommon.NameBalloonEnum NameBalloon { get; set; }
         public int CountApi { get; set; }
         public int CountApiReply { get; set; }

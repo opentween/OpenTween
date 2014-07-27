@@ -769,17 +769,6 @@ namespace OpenTween
             //サウンド再生（タブ別設定より優先）
             this.PlaySoundMenuItem.Checked = this._cfgCommon.PlaySound;
             this.PlaySoundFileMenuItem.Checked = this._cfgCommon.PlaySound;
-            //フォント＆文字色＆背景色
-            SettingDialog.ColorSelf = _clSelf;
-            SettingDialog.ColorAtSelf = _clAtSelf;
-            SettingDialog.ColorTarget = _clTarget;
-            SettingDialog.ColorAtTarget = _clAtTarget;
-            SettingDialog.ColorAtFromTarget = _clAtFromTarget;
-            SettingDialog.ColorAtTo = _clAtTo;
-            SettingDialog.ColorListBackcolor = _clListBackcolor;
-            SettingDialog.ColorInputBackcolor = _clInputBackcolor;
-            SettingDialog.ColorInputFont = _clInputFont;
-            SettingDialog.FontInputFont = _fntInputFont;
 
             SettingDialog.NameBalloon = _cfgCommon.NameBalloon;
 
@@ -912,16 +901,16 @@ namespace OpenTween
                 _clDetail = this._cfgLocal.ColorDetail;
                 _clDetailLink = this._cfgLocal.ColorDetailLink;
                 _clDetailBackcolor = this._cfgLocal.ColorDetailBackcolor;
-                _clSelf = SettingDialog.ColorSelf;
-                _clAtSelf = SettingDialog.ColorAtSelf;
-                _clTarget = SettingDialog.ColorTarget;
-                _clAtTarget = SettingDialog.ColorAtTarget;
-                _clAtFromTarget = SettingDialog.ColorAtFromTarget;
-                _clAtTo = SettingDialog.ColorAtTo;
-                _clListBackcolor = SettingDialog.ColorListBackcolor;
-                _clInputBackcolor = SettingDialog.ColorInputBackcolor;
-                _clInputFont = SettingDialog.ColorInputFont;
-                _fntInputFont = SettingDialog.FontInputFont;
+                _clSelf = this._cfgLocal.ColorSelf;
+                _clAtSelf = this._cfgLocal.ColorAtSelf;
+                _clTarget = this._cfgLocal.ColorTarget;
+                _clAtTarget = this._cfgLocal.ColorAtTarget;
+                _clAtFromTarget = this._cfgLocal.ColorAtFromTarget;
+                _clAtTo = this._cfgLocal.ColorAtTo;
+                _clListBackcolor = this._cfgLocal.ColorListBackcolor;
+                _clInputBackcolor = this._cfgLocal.ColorInputBackcolor;
+                _clInputFont = this._cfgLocal.ColorInputFont;
+                _fntInputFont = this._cfgLocal.FontInputFont;
 
                 //他の設定項目は、随時設定画面で保持している値を読み出して使用
             }
@@ -3945,16 +3934,16 @@ namespace OpenTween
                     _clDetail = this._cfgLocal.ColorDetail;
                     _clDetailLink = this._cfgLocal.ColorDetailLink;
                     _clDetailBackcolor = this._cfgLocal.ColorDetailBackcolor;
-                    _clSelf = SettingDialog.ColorSelf;
-                    _clAtSelf = SettingDialog.ColorAtSelf;
-                    _clTarget = SettingDialog.ColorTarget;
-                    _clAtTarget = SettingDialog.ColorAtTarget;
-                    _clAtFromTarget = SettingDialog.ColorAtFromTarget;
-                    _clAtTo = SettingDialog.ColorAtTo;
-                    _clListBackcolor = SettingDialog.ColorListBackcolor;
-                    _clInputBackcolor = SettingDialog.ColorInputBackcolor;
-                    _clInputFont = SettingDialog.ColorInputFont;
-                    _fntInputFont = SettingDialog.FontInputFont;
+                    _clSelf = this._cfgLocal.ColorSelf;
+                    _clAtSelf = this._cfgLocal.ColorAtSelf;
+                    _clTarget = this._cfgLocal.ColorTarget;
+                    _clAtTarget = this._cfgLocal.ColorAtTarget;
+                    _clAtFromTarget = this._cfgLocal.ColorAtFromTarget;
+                    _clAtTo = this._cfgLocal.ColorAtTo;
+                    _clListBackcolor = this._cfgLocal.ColorListBackcolor;
+                    _clInputBackcolor = this._cfgLocal.ColorInputBackcolor;
+                    _clInputFont = this._cfgLocal.ColorInputFont;
+                    _fntInputFont = this._cfgLocal.FontInputFont;
                     _brsBackColorMine.Dispose();
                     _brsBackColorAt.Dispose();
                     _brsBackColorYou.Dispose();
