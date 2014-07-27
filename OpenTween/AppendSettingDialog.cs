@@ -81,6 +81,7 @@ namespace OpenTween
             this.FontPanel2.LoadConfig(settingLocal);
             this.PreviewPanel.LoadConfig(settingCommon);
             this.GetCountPanel.LoadConfig(settingCommon);
+            this.ShortUrlPanel.LoadConfig(settingCommon);
         }
 
         public void SaveConfig(SettingCommon settingCommon, SettingLocal settingLocal)
@@ -94,6 +95,7 @@ namespace OpenTween
             this.FontPanel2.SaveConfig(settingLocal);
             this.PreviewPanel.SaveConfig(settingCommon);
             this.GetCountPanel.SaveConfig(settingCommon);
+            this.ShortUrlPanel.SaveConfig(settingCommon);
         }
 
         private void TreeViewSetting_BeforeSelect(object sender, TreeViewCancelEventArgs e)
@@ -219,8 +221,6 @@ namespace OpenTween
 #endif
             try
             {
-                TinyUrlResolve = this.ShortUrlPanel.CheckTinyURL.Checked;
-                ShortUrl.Instance.DisableExpanding = !TinyUrlResolve;
                 if (this.ProxyPanel.RadioProxyNone.Checked)
                 {
                     _MyProxyType = ProxyType.None;
@@ -237,8 +237,6 @@ namespace OpenTween
                 ProxyPort = int.Parse(this.ProxyPanel.TextProxyPort.Text.Trim());
                 ProxyUser = this.ProxyPanel.TextProxyUser.Text.Trim();
                 ProxyPassword = this.ProxyPanel.TextProxyPassword.Text.Trim();
-                UrlConvertAuto = this.ShortUrlPanel.CheckAutoConvertUrl.Checked;
-                ShortenTco = this.ShortUrlPanel.ShortenTcoCheck.Checked;
 
                 Nicoms = this.CooperatePanel.CheckNicoms.Checked;
                 DefaultTimeOut = int.Parse(this.ConnectionPanel.ConnectionTimeOut.Text);
@@ -248,9 +246,6 @@ namespace OpenTween
                 FavEventUnread = this.NotifyPanel.CheckFavEventUnread.Checked;
                 TranslateLanguage = Bing.GetLanguageEnumFromIndex(this.CooperatePanel.ComboBoxTranslateLanguage.SelectedIndex);
                 EventSoundFile = (string)this.NotifyPanel.ComboBoxEventNotifySound.SelectedItem;
-                AutoShortUrlFirst = (MyCommon.UrlConverter)this.ShortUrlPanel.ComboBoxAutoShortUrlFirst.SelectedIndex;
-                BitlyUser = this.ShortUrlPanel.TextBitlyId.Text;
-                BitlyPwd = this.ShortUrlPanel.TextBitlyPw.Text;
                 TwitterApiUrl = this.ConnectionPanel.TwitterAPIText.Text.Trim();
                 UserAppointUrl = this.CooperatePanel.UserAppointUrlText.Text;
                 this.EnableImgAzyobuziNet = this.CooperatePanel.EnableImgAzyobuziNetCheckBox.Checked;
@@ -366,7 +361,6 @@ namespace OpenTween
                 }
             }
 
-            this.ShortUrlPanel.CheckTinyURL.Checked = TinyUrlResolve;
             switch (_MyProxyType)
             {
                 case ProxyType.None:
@@ -394,10 +388,6 @@ namespace OpenTween
             this.ProxyPanel.TextProxyUser.Text = ProxyUser;
             this.ProxyPanel.TextProxyPassword.Text = ProxyPassword;
 
-            this.ShortUrlPanel.CheckAutoConvertUrl.Checked = UrlConvertAuto;
-            this.ShortUrlPanel.ShortenTcoCheck.Checked = ShortenTco;
-            this.ShortUrlPanel.ShortenTcoCheck.Enabled = this.ShortUrlPanel.CheckAutoConvertUrl.Checked;
-
             this.CooperatePanel.CheckNicoms.Checked = Nicoms;
             this.ConnectionPanel.ConnectionTimeOut.Text = DefaultTimeOut.ToString();
 
@@ -406,11 +396,6 @@ namespace OpenTween
             this.NotifyPanel.CheckFavEventUnread.Checked = FavEventUnread;
             this.CooperatePanel.ComboBoxTranslateLanguage.SelectedIndex = Bing.GetIndexFromLanguageEnum(TranslateLanguage);
             SoundFileListup();
-            this.ShortUrlPanel.ComboBoxAutoShortUrlFirst.SelectedIndex = (int)AutoShortUrlFirst;
-            this.ShortUrlPanel.TextBitlyId.Text = BitlyUser;
-            this.ShortUrlPanel.TextBitlyPw.Text = BitlyPwd;
-            this.ShortUrlPanel.TextBitlyId.Modified = false;
-            this.ShortUrlPanel.TextBitlyPw.Modified = false;
             this.ConnectionPanel.TwitterAPIText.Text = TwitterApiUrl;
 
             this.CooperatePanel.UserAppointUrlText.Text = UserAppointUrl;
@@ -630,7 +615,6 @@ namespace OpenTween
         }
 
         public string RecommendStatusText { get; set; }
-        public bool TinyUrlResolve { get; set; }
 
         public ProxyType SelectedProxyType
         {
@@ -646,13 +630,8 @@ namespace OpenTween
         public int ProxyPort { get; set; }
         public string ProxyUser { get; set; }
         public string ProxyPassword { get; set; }
-        public bool UrlConvertAuto { get; set; }
-        public bool ShortenTco { get; set; }
         public bool Nicoms { get; set; }
-        public MyCommon.UrlConverter AutoShortUrlFirst { get; set; }
         public int DefaultTimeOut { get; set; }
-        public string BitlyUser { get; set; }
-        public string BitlyPwd { get; set; }
         public string TwitterApiUrl { get; set; }
 
         public bool EventNotifyEnabled { get; set; }

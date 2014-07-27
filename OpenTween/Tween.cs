@@ -775,16 +775,11 @@ namespace OpenTween
             this.PlaySoundMenuItem.Checked = this._cfgCommon.PlaySound;
             this.PlaySoundFileMenuItem.Checked = this._cfgCommon.PlaySound;
 
-            SettingDialog.TinyUrlResolve = _cfgCommon.TinyUrlResolve;
-
             SettingDialog.SelectedProxyType = _cfgLocal.ProxyType;
             SettingDialog.ProxyAddress = _cfgLocal.ProxyAddress;
             SettingDialog.ProxyPort = _cfgLocal.ProxyPort;
             SettingDialog.ProxyUser = _cfgLocal.ProxyUser;
             SettingDialog.ProxyPassword = _cfgLocal.ProxyPassword;
-
-            SettingDialog.UrlConvertAuto = false;
-            //SettingDialog.UrlConvertAuto = _cfgCommon.UrlConvertAuto;
 
             SettingDialog.DefaultTimeOut = _cfgCommon.DefaultTimeOut;
             SettingDialog.EventNotifyEnabled = _cfgCommon.EventNotifyEnabled;
@@ -799,9 +794,6 @@ namespace OpenTween
             if (_cfgCommon.AutoShortUrlFirst < 0)
                 _cfgCommon.AutoShortUrlFirst = MyCommon.UrlConverter.Uxnu;
 
-            SettingDialog.AutoShortUrlFirst = _cfgCommon.AutoShortUrlFirst;
-            SettingDialog.BitlyUser = _cfgCommon.BilyUser;
-            SettingDialog.BitlyPwd = _cfgCommon.BitlyPwd;
             AtIdSupl = new AtIdSupplement(SettingAtIdList.Load().AtIdList, "@");
 
             this.IdeographicSpaceToSpaceToolStripMenuItem.Checked = _cfgCommon.WideSpaceConvert;
@@ -925,9 +917,9 @@ namespace OpenTween
 
             tw.RestrictFavCheck = this._cfgCommon.RestrictFavCheck;
             tw.ReadOwnPost = this._cfgCommon.ReadOwnPost;
-            ShortUrl.Instance.DisableExpanding = !SettingDialog.TinyUrlResolve;
-            ShortUrl.Instance.BitlyId = SettingDialog.BitlyUser;
-            ShortUrl.Instance.BitlyKey = SettingDialog.BitlyPwd;
+            ShortUrl.Instance.DisableExpanding = !this._cfgCommon.TinyUrlResolve;
+            ShortUrl.Instance.BitlyId = this._cfgCommon.BilyUser;
+            ShortUrl.Instance.BitlyKey = this._cfgCommon.BitlyPwd;
             HttpTwitter.TwitterUrl = _cfgCommon.TwitterUrl;
             tw.TrackWord = _cfgCommon.TrackWord;
             TrackToolStripMenuItem.Checked = !String.IsNullOrEmpty(tw.TrackWord);
@@ -3826,9 +3818,9 @@ namespace OpenTween
 
                     tw.RestrictFavCheck = this._cfgCommon.RestrictFavCheck;
                     tw.ReadOwnPost = this._cfgCommon.ReadOwnPost;
-                    ShortUrl.Instance.DisableExpanding = !SettingDialog.TinyUrlResolve;
-                    ShortUrl.Instance.BitlyId = SettingDialog.BitlyUser;
-                    ShortUrl.Instance.BitlyKey = SettingDialog.BitlyPwd;
+                    ShortUrl.Instance.DisableExpanding = !this._cfgCommon.TinyUrlResolve;
+                    ShortUrl.Instance.BitlyId = this._cfgCommon.BilyUser;
+                    ShortUrl.Instance.BitlyKey = this._cfgCommon.BitlyPwd;
                     HttpTwitter.TwitterUrl = _cfgCommon.TwitterUrl;
 
                     Networking.DefaultTimeout = TimeSpan.FromSeconds(this.SettingDialog.DefaultTimeOut);
@@ -7668,8 +7660,6 @@ namespace OpenTween
                 _cfgCommon.TokenSecret = tw.AccessTokenSecret;
                 _cfgCommon.UserAccounts = SettingDialog.UserAccounts;
 
-                _cfgCommon.TinyUrlResolve = SettingDialog.TinyUrlResolve;
-                _cfgCommon.UrlConvertAuto = SettingDialog.UrlConvertAuto;
                 _cfgCommon.DefaultTimeOut = SettingDialog.DefaultTimeOut;
                 _cfgCommon.EventNotifyEnabled = SettingDialog.EventNotifyEnabled;
                 _cfgCommon.EventNotifyFlag = SettingDialog.EventNotifyFlag;
@@ -7678,14 +7668,11 @@ namespace OpenTween
                 _cfgCommon.FavEventUnread = SettingDialog.FavEventUnread;
                 _cfgCommon.TranslateLanguage = SettingDialog.TranslateLanguage;
                 _cfgCommon.EventSoundFile = SettingDialog.EventSoundFile;
-                _cfgCommon.AutoShortUrlFirst = SettingDialog.AutoShortUrlFirst;
                 if (IdeographicSpaceToSpaceToolStripMenuItem != null &&
                    IdeographicSpaceToSpaceToolStripMenuItem.IsDisposed == false)
                 {
                     _cfgCommon.WideSpaceConvert = this.IdeographicSpaceToSpaceToolStripMenuItem.Checked;
                 }
-                _cfgCommon.BilyUser = SettingDialog.BitlyUser;
-                _cfgCommon.BitlyPwd = SettingDialog.BitlyPwd;
 
                 _cfgCommon.SortOrder = (int)_statuses.SortOrder;
                 switch (_statuses.SortMode)
@@ -9920,16 +9907,16 @@ namespace OpenTween
 
         private async void UrlConvertAutoToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (!await UrlConvertAsync(SettingDialog.AutoShortUrlFirst))
+            if (!await UrlConvertAsync(this._cfgCommon.AutoShortUrlFirst))
             {
-                MyCommon.UrlConverter svc = SettingDialog.AutoShortUrlFirst;
+                MyCommon.UrlConverter svc = this._cfgCommon.AutoShortUrlFirst;
                 Random rnd = new Random();
                 // 前回使用した短縮URLサービス以外を選択する
                 do
                 {
                     svc = (MyCommon.UrlConverter)rnd.Next(System.Enum.GetNames(typeof(MyCommon.UrlConverter)).Length);
                 }
-                while (svc == SettingDialog.AutoShortUrlFirst || svc == MyCommon.UrlConverter.Nicoms || svc == MyCommon.UrlConverter.Unu);
+                while (svc == this._cfgCommon.AutoShortUrlFirst || svc == MyCommon.UrlConverter.Nicoms || svc == MyCommon.UrlConverter.Unu);
                 await UrlConvertAsync(svc);
             }
         }
@@ -10941,12 +10928,12 @@ namespace OpenTween
 
         private void ToolStripMenuItemUrlAutoShorten_CheckedChanged(object sender, EventArgs e)
         {
-            SettingDialog.UrlConvertAuto = ToolStripMenuItemUrlAutoShorten.Checked;
+            this._cfgCommon.UrlConvertAuto = ToolStripMenuItemUrlAutoShorten.Checked;
         }
 
         private void ContextMenuPostMode_Opening(object sender, CancelEventArgs e)
         {
-            ToolStripMenuItemUrlAutoShorten.Checked = SettingDialog.UrlConvertAuto;
+            ToolStripMenuItemUrlAutoShorten.Checked = this._cfgCommon.UrlConvertAuto;
         }
 
         private void TraceOutToolStripMenuItem_Click(object sender, EventArgs e)
