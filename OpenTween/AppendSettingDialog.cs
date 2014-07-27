@@ -77,6 +77,7 @@ namespace OpenTween
             this.GetPeriodPanel.LoadConfig(settingCommon);
             this.StartupPanel.LoadConfig(settingCommon);
             this.TweetPrvPanel.LoadConfig(settingCommon);
+            this.TweetActPanel.LoadConfig(settingCommon, settingLocal);
         }
 
         public void SaveConfig(SettingCommon settingCommon, SettingLocal settingLocal)
@@ -84,6 +85,7 @@ namespace OpenTween
             this.GetPeriodPanel.SaveConfig(settingCommon);
             this.StartupPanel.SaveConfig(settingCommon);
             this.TweetPrvPanel.SaveConfig(settingCommon);
+            this.TweetActPanel.SaveConfig(settingCommon, settingLocal);
         }
 
         private void TreeViewSetting_BeforeSelect(object sender, TreeViewCancelEventArgs e)
@@ -209,7 +211,6 @@ namespace OpenTween
 #endif
             try
             {
-                Status = this.TweetActPanel.StatusText.Text;
                 PlaySound = this.ActionPanel.PlaySnd.Checked;
                 UnreadManage = this.ActionPanel.UReadMng.Checked;
 
@@ -247,25 +248,9 @@ namespace OpenTween
                         break;
                 }
 
-                switch (this.TweetActPanel.ComboBoxPostKeySelect.SelectedIndex)
-                {
-                    case 2:
-                        PostShiftEnter = true;
-                        PostCtrlEnter = false;
-                        break;
-                    case 1:
-                        PostCtrlEnter = true;
-                        PostShiftEnter = false;
-                        break;
-                    case 0:
-                        PostCtrlEnter = false;
-                        PostShiftEnter = false;
-                        break;
-                }
                 CountApi = int.Parse(this.GetCountPanel.TextCountApi.Text);
                 CountApiReply = int.Parse(this.GetCountPanel.TextCountApiReply.Text);
                 BrowserPath = this.ActionPanel.BrowserPathText.Text.Trim();
-                UseRecommendStatus = this.TweetActPanel.CheckUseRecommendStatus.Checked;
                 DispUsername = this.PreviewPanel.CheckDispUsername.Checked;
                 CloseToExit = this.ActionPanel.CheckCloseToExit.Checked;
                 MinimizeToTray = this.ActionPanel.CheckMinimizeToTray.Checked;
@@ -321,7 +306,6 @@ namespace OpenTween
 
                 Nicoms = this.CooperatePanel.CheckNicoms.Checked;
                 DefaultTimeOut = int.Parse(this.ConnectionPanel.ConnectionTimeOut.Text);
-                RetweetNoConfirm = this.TweetActPanel.CheckRetweetNoConfirm.Checked;
                 LimitBalloon = this.PreviewPanel.CheckBalloonLimit.Checked;
                 EventNotifyEnabled = this.NotifyPanel.CheckEventNotify.Checked;
                 GetEventNotifyFlag(ref _MyEventNotifyFlag, ref _isMyEventNotifyFlag);
@@ -336,8 +320,6 @@ namespace OpenTween
                 ReadOldPosts = this.ActionPanel.CheckReadOldPosts.Checked;
                 BitlyUser = this.ShortUrlPanel.TextBitlyId.Text;
                 BitlyPwd = this.ShortUrlPanel.TextBitlyPw.Text;
-                UseAtIdSupplement = this.TweetActPanel.CheckAtIdSupple.Checked;
-                UseHashSupplement = this.TweetActPanel.CheckHashSupple.Checked;
                 PreviewEnable = this.PreviewPanel.CheckPreviewEnable.Checked;
                 StatusAreaAtBottom = this.PreviewPanel.CheckStatusAreaAtBottom.Checked;
                 TwitterApiUrl = this.ConnectionPanel.TwitterAPIText.Text.Trim();
@@ -505,7 +487,6 @@ namespace OpenTween
                 }
             }
 
-            this.TweetActPanel.StatusText.Text = Status;
             this.ActionPanel.UReadMng.Checked = UnreadManage;
             this.ActionPanel.PlaySnd.Checked = PlaySound;
 
@@ -544,23 +525,9 @@ namespace OpenTween
                     break;
             }
 
-            if (PostCtrlEnter)
-            {
-                this.TweetActPanel.ComboBoxPostKeySelect.SelectedIndex = 1;
-            }
-            else if (PostShiftEnter)
-            {
-                this.TweetActPanel.ComboBoxPostKeySelect.SelectedIndex = 2;
-            }
-            else
-            {
-                this.TweetActPanel.ComboBoxPostKeySelect.SelectedIndex = 0;
-            }
-
             this.GetCountPanel.TextCountApi.Text = CountApi.ToString();
             this.GetCountPanel.TextCountApiReply.Text = CountApiReply.ToString();
             this.ActionPanel.BrowserPathText.Text = BrowserPath;
-            this.TweetActPanel.CheckUseRecommendStatus.Checked = UseRecommendStatus;
             this.PreviewPanel.CheckDispUsername.Checked = DispUsername;
             this.ActionPanel.CheckCloseToExit.Checked = CloseToExit;
             this.ActionPanel.CheckMinimizeToTray.Checked = MinimizeToTray;
@@ -627,7 +594,6 @@ namespace OpenTween
 
             this.CooperatePanel.CheckNicoms.Checked = Nicoms;
             this.ConnectionPanel.ConnectionTimeOut.Text = DefaultTimeOut.ToString();
-            this.TweetActPanel.CheckRetweetNoConfirm.Checked = RetweetNoConfirm;
             this.PreviewPanel.CheckBalloonLimit.Checked = LimitBalloon;
 
             ApplyEventNotifyFlag(EventNotifyEnabled, EventNotifyFlag, IsMyEventNotifyFlag);
@@ -644,8 +610,6 @@ namespace OpenTween
             this.ShortUrlPanel.TextBitlyPw.Text = BitlyPwd;
             this.ShortUrlPanel.TextBitlyId.Modified = false;
             this.ShortUrlPanel.TextBitlyPw.Modified = false;
-            this.TweetActPanel.CheckAtIdSupple.Checked = UseAtIdSupplement;
-            this.TweetActPanel.CheckHashSupple.Checked = UseHashSupplement;
             this.PreviewPanel.CheckPreviewEnable.Checked = PreviewEnable;
             this.PreviewPanel.CheckStatusAreaAtBottom.Checked = StatusAreaAtBottom;
             this.ConnectionPanel.TwitterAPIText.Text = TwitterApiUrl;
@@ -943,7 +907,6 @@ namespace OpenTween
             }
         }
 
-        public string Status { get; set; }
         public bool UnreadManage { get; set; }
         public bool PlaySound { get; set; }
         public Font FontUnread { get; set; } /////未使用
@@ -968,8 +931,6 @@ namespace OpenTween
         public Color ColorListBackcolor { get; set; }
         public Color ColorDetailBackcolor { get; set; }
         public MyCommon.NameBalloonEnum NameBalloon { get; set; }
-        public bool PostCtrlEnter { get; set; }
-        public bool PostShiftEnter { get; set; }
         public int CountApi { get; set; }
         public int CountApiReply { get; set; }
         public int MoreCountApi { get; set; }
@@ -978,7 +939,6 @@ namespace OpenTween
         public int FavoritesCountApi { get; set; }
         public int UserTimelineCountApi { get; set; }
         public int ListCountApi { get; set; }
-        public bool UseRecommendStatus { get; set; }
         public string RecommendStatusText { get; set; }
         public bool DispUsername { get; set; }
         public bool CloseToExit { get; set; }
@@ -1008,7 +968,6 @@ namespace OpenTween
         public bool Nicoms { get; set; }
         public MyCommon.UrlConverter AutoShortUrlFirst { get; set; }
         public int DefaultTimeOut { get; set; }
-        public bool RetweetNoConfirm { get; set; }
         public bool TabIconDisp { get; set; }
         public MyCommon.REPLY_ICONSTATE ReplyIconState { get; set; }
         public bool ReadOwnPost { get; set; }
@@ -1016,8 +975,6 @@ namespace OpenTween
         public bool ReadOldPosts { get; set; }
         public string BitlyUser { get; set; }
         public string BitlyPwd { get; set; }
-        public bool UseAtIdSupplement { get; set; }
-        public bool UseHashSupplement { get; set; }
         public bool PreviewEnable { get; set; }
         public bool StatusAreaAtBottom { get; set; }
         public bool UseAdditionalCount { get; set; }

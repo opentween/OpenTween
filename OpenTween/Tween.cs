@@ -766,8 +766,6 @@ namespace OpenTween
             //新着取得時のリストスクロールをするか。trueならスクロールしない
             ListLockMenuItem.Checked = _cfgCommon.ListLock;
             this.LockListFileMenuItem.Checked = _cfgCommon.ListLock;
-            //文末ステータス
-            SettingDialog.Status = _cfgLocal.StatusText;
             //未読管理。trueなら未読管理する
             SettingDialog.UnreadManage = _cfgCommon.UnreadManage;
             //サウンド再生（タブ別設定より優先）
@@ -798,8 +796,6 @@ namespace OpenTween
             SettingDialog.FontInputFont = _fntInputFont;
 
             SettingDialog.NameBalloon = _cfgCommon.NameBalloon;
-            SettingDialog.PostCtrlEnter = _cfgCommon.PostCtrlEnter;
-            SettingDialog.PostShiftEnter = _cfgCommon.PostShiftEnter;
 
             SettingDialog.CountApi = _cfgCommon.CountApi;
             SettingDialog.CountApiReply = _cfgCommon.CountApiReply;
@@ -808,7 +804,6 @@ namespace OpenTween
 
             SettingDialog.BrowserPath = _cfgLocal.BrowserPath;
             SettingDialog.PostAndGet = _cfgCommon.PostAndGet;
-            SettingDialog.UseRecommendStatus = _cfgLocal.UseRecommendStatus;
             SettingDialog.DispUsername = _cfgCommon.DispUsername;
             SettingDialog.CloseToExit = _cfgCommon.CloseToExit;
             SettingDialog.MinimizeToTray = _cfgCommon.MinimizeToTray;
@@ -827,7 +822,6 @@ namespace OpenTween
             //SettingDialog.UrlConvertAuto = _cfgCommon.UrlConvertAuto;
 
             SettingDialog.DefaultTimeOut = _cfgCommon.DefaultTimeOut;
-            SettingDialog.RetweetNoConfirm = _cfgCommon.RetweetNoConfirm;
             SettingDialog.PlaySound = _cfgCommon.PlaySound;
             SettingDialog.LimitBalloon = _cfgCommon.LimitBalloon;
             SettingDialog.EventNotifyEnabled = _cfgCommon.EventNotifyEnabled;
@@ -850,8 +844,6 @@ namespace OpenTween
             SettingDialog.BitlyUser = _cfgCommon.BilyUser;
             SettingDialog.BitlyPwd = _cfgCommon.BitlyPwd;
             SettingDialog.Language = _cfgCommon.Language;
-            SettingDialog.UseAtIdSupplement = _cfgCommon.UseAtIdSupplement;
-            SettingDialog.UseHashSupplement = _cfgCommon.UseHashSupplement;
             SettingDialog.PreviewEnable = _cfgCommon.PreviewEnable;
             SettingDialog.StatusAreaAtBottom = _cfgCommon.StatusAreaAtBottom;
             AtIdSupl = new AtIdSupplement(SettingAtIdList.Load().AtIdList, "@");
@@ -2165,12 +2157,12 @@ namespace OpenTween
 
             bool isCutOff = false;
             bool isRemoveFooter = MyCommon.IsKeyDown(Keys.Shift);
-            if (StatusText.Multiline && !SettingDialog.PostCtrlEnter)
+            if (StatusText.Multiline && !this._cfgCommon.PostCtrlEnter)
             {
                 //複数行でEnter投稿の場合、Ctrlも押されていたらフッタ付加しない
                 isRemoveFooter = MyCommon.IsKeyDown(Keys.Control);
             }
-            if (SettingDialog.PostShiftEnter)
+            if (this._cfgCommon.PostShiftEnter)
             {
                 isRemoveFooter = MyCommon.IsKeyDown(Keys.Control);
             }
@@ -2227,12 +2219,12 @@ namespace OpenTween
                 }
                 if (!isRemoveFooter)
                 {
-                    if (SettingDialog.UseRecommendStatus)
+                    if (this._cfgLocal.UseRecommendStatus)
                         // 推奨ステータスを使用する
                         footer += SettingDialog.RecommendStatusText;
                     else
                         // テキストボックスに入力されている文字列を使用する
-                        footer += " " + SettingDialog.Status.Trim();
+                        footer += " " + this._cfgLocal.StatusText.Trim();
                 }
             }
             args.status.status = header + StatusText.Text + footer;
@@ -4825,7 +4817,7 @@ namespace OpenTween
         {
             if (e.KeyChar == '@')
             {
-                if (!SettingDialog.UseAtIdSupplement) return;
+                if (!this._cfgCommon.UseAtIdSupplement) return;
                 //@マーク
                 int cnt = AtIdSupl.ItemCount;
                 ShowSuplDialog(StatusText, AtIdSupl);
@@ -4834,7 +4826,7 @@ namespace OpenTween
             }
             else if (e.KeyChar == '#')
             {
-                if (!SettingDialog.UseHashSupplement) return;
+                if (!this._cfgCommon.UseHashSupplement) return;
                 ShowSuplDialog(StatusText, HashSupl);
                 e.Handled = true;
             }
@@ -4959,14 +4951,14 @@ namespace OpenTween
 
             int pLen = 140 - statusText.Length;
             if (this.NotifyIcon1 == null || !this.NotifyIcon1.Visible) return pLen;
-            if ((isAuto && !MyCommon.IsKeyDown(Keys.Control) && SettingDialog.PostShiftEnter) ||
-                (isAuto && !MyCommon.IsKeyDown(Keys.Shift) && !SettingDialog.PostShiftEnter) ||
+            if ((isAuto && !MyCommon.IsKeyDown(Keys.Control) && this._cfgCommon.PostShiftEnter) ||
+                (isAuto && !MyCommon.IsKeyDown(Keys.Shift) && !this._cfgCommon.PostShiftEnter) ||
                 (!isAuto && isAddFooter))
             {
-                if (SettingDialog.UseRecommendStatus)
+                if (this._cfgLocal.UseRecommendStatus)
                     pLen -= SettingDialog.RecommendStatusText.Length;
-                else if (SettingDialog.Status.Length > 0)
-                    pLen -= SettingDialog.Status.Length + 1;
+                else if (this._cfgLocal.StatusText.Length > 0)
+                    pLen -= this._cfgLocal.StatusText.Length + 1;
             }
             if (!string.IsNullOrEmpty(HashMgr.UseHash))
             {
@@ -7710,7 +7702,7 @@ namespace OpenTween
 
         private void SaveConfigsAtId()
         {
-            if (_ignoreConfigSave || !SettingDialog.UseAtIdSupplement && AtIdSupl == null) return;
+            if (_ignoreConfigSave || !this._cfgCommon.UseAtIdSupplement && AtIdSupl == null) return;
 
             _modifySettingAtId = false;
             SettingAtIdList cfgAtId = new SettingAtIdList(AtIdSupl.GetItemList());
@@ -7734,8 +7726,6 @@ namespace OpenTween
                 _cfgCommon.PlaySound = SettingDialog.PlaySound;
 
                 _cfgCommon.NameBalloon = SettingDialog.NameBalloon;
-                _cfgCommon.PostCtrlEnter = SettingDialog.PostCtrlEnter;
-                _cfgCommon.PostShiftEnter = SettingDialog.PostShiftEnter;
                 _cfgCommon.CountApi = SettingDialog.CountApi;
                 _cfgCommon.CountApiReply = SettingDialog.CountApiReply;
                 _cfgCommon.DispUsername = SettingDialog.DispUsername;
@@ -7747,7 +7737,6 @@ namespace OpenTween
                 _cfgCommon.AlwaysTop = SettingDialog.AlwaysTop;
                 _cfgCommon.UrlConvertAuto = SettingDialog.UrlConvertAuto;
                 _cfgCommon.DefaultTimeOut = SettingDialog.DefaultTimeOut;
-                _cfgCommon.RetweetNoConfirm = SettingDialog.RetweetNoConfirm;
                 _cfgCommon.LimitBalloon = SettingDialog.LimitBalloon;
                 _cfgCommon.EventNotifyEnabled = SettingDialog.EventNotifyEnabled;
                 _cfgCommon.EventNotifyFlag = SettingDialog.EventNotifyFlag;
@@ -7769,8 +7758,6 @@ namespace OpenTween
                 _cfgCommon.ReadOldPosts = SettingDialog.ReadOldPosts;
                 _cfgCommon.BilyUser = SettingDialog.BitlyUser;
                 _cfgCommon.BitlyPwd = SettingDialog.BitlyPwd;
-                _cfgCommon.UseAtIdSupplement = SettingDialog.UseAtIdSupplement;
-                _cfgCommon.UseHashSupplement = SettingDialog.UseHashSupplement;
                 _cfgCommon.PreviewEnable = SettingDialog.PreviewEnable;
                 _cfgCommon.StatusAreaAtBottom = SettingDialog.StatusAreaAtBottom;
                 _cfgCommon.Language = SettingDialog.Language;
@@ -7859,7 +7846,6 @@ namespace OpenTween
                 _cfgLocal.PreviewDistance = _mySpDis3;
                 _cfgLocal.StatusMultiline = StatusText.Multiline;
                 _cfgLocal.StatusTextHeight = _mySpDis2;
-                _cfgLocal.StatusText = SettingDialog.Status;
 
                 _cfgLocal.FontUnread = _fntUnread;
                 _cfgLocal.ColorUnread = _clUnread;
@@ -7884,7 +7870,6 @@ namespace OpenTween
                 _cfgLocal.FontInputFont = _fntInputFont;
 
                 _cfgLocal.BrowserPath = SettingDialog.BrowserPath;
-                _cfgLocal.UseRecommendStatus = SettingDialog.UseRecommendStatus;
                 _cfgLocal.ProxyType = SettingDialog.SelectedProxyType;
                 _cfgLocal.ProxyAddress = SettingDialog.ProxyAddress;
                 _cfgLocal.ProxyPort = SettingDialog.ProxyPort;
@@ -8887,7 +8872,7 @@ namespace OpenTween
                     bool _NewLine = false;
                     bool _Post = false;
 
-                    if (SettingDialog.PostCtrlEnter) //Ctrl+Enter投稿時
+                    if (this._cfgCommon.PostCtrlEnter) //Ctrl+Enter投稿時
                     {
                         if (StatusText.Multiline)
                         {
@@ -8901,7 +8886,7 @@ namespace OpenTween
                         }
 
                     }
-                    else if (SettingDialog.PostShiftEnter) //SHift+Enter投稿時
+                    else if (this._cfgCommon.PostShiftEnter) //SHift+Enter投稿時
                     {
                         if (StatusText.Multiline)
                         {
@@ -9476,7 +9461,7 @@ namespace OpenTween
             // 本当にリプライ先指定すべきかどうかの判定
             m = Regex.Matches(StatusText, "(^|[ -/:-@[-^`{-~])(?<id>@[a-zA-Z0-9_]+)");
 
-            if (SettingDialog.UseAtIdSupplement)
+            if (this._cfgCommon.UseAtIdSupplement)
             {
                 int bCnt = AtIdSupl.ItemCount;
                 foreach (Match mid in m)
@@ -10946,7 +10931,7 @@ namespace OpenTween
                         _DoFavRetweetFlags = false;
                         return;
                     }
-                    if (!SettingDialog.RetweetNoConfirm)
+                    if (!this._cfgCommon.RetweetNoConfirm)
                     {
                         string Questiontext = Properties.Resources.RetweetQuestion1;
                         if (_DoFavRetweetFlags) Questiontext = Properties.Resources.FavoritesRetweetQuestionText2;
