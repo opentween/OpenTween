@@ -63,7 +63,6 @@ namespace OpenTween
         public List<UserAccount> UserAccounts;
         private long? InitialUserId;
         public bool IsRemoveSameEvent;
-        public bool IsNotifyUseGrowl;
 
         public TwitterConfiguration TwitterConfiguration = TwitterConfiguration.DefaultConfiguration();
 
@@ -80,6 +79,7 @@ namespace OpenTween
             this.ActionPanel.LoadConfig(settingCommon, settingLocal);
             this.FontPanel.LoadConfig(settingLocal);
             this.FontPanel2.LoadConfig(settingLocal);
+            this.PreviewPanel.LoadConfig(settingCommon);
         }
 
         public void SaveConfig(SettingCommon settingCommon, SettingLocal settingLocal)
@@ -91,6 +91,7 @@ namespace OpenTween
             this.ActionPanel.SaveConfig(settingCommon, settingLocal);
             this.FontPanel.SaveConfig(settingLocal);
             this.FontPanel2.SaveConfig(settingLocal);
+            this.PreviewPanel.SaveConfig(settingCommon);
         }
 
         private void TreeViewSetting_BeforeSelect(object sender, TreeViewCancelEventArgs e)
@@ -216,49 +217,8 @@ namespace OpenTween
 #endif
             try
             {
-                switch (this.PreviewPanel.cmbNameBalloon.SelectedIndex)
-                {
-                    case 0:
-                        NameBalloon = MyCommon.NameBalloonEnum.None;
-                        break;
-                    case 1:
-                        NameBalloon = MyCommon.NameBalloonEnum.UserID;
-                        break;
-                    case 2:
-                        NameBalloon = MyCommon.NameBalloonEnum.NickName;
-                        break;
-                }
-
                 CountApi = int.Parse(this.GetCountPanel.TextCountApi.Text);
                 CountApiReply = int.Parse(this.GetCountPanel.TextCountApiReply.Text);
-                DispUsername = this.PreviewPanel.CheckDispUsername.Checked;
-                switch (this.PreviewPanel.ComboDispTitle.SelectedIndex)
-                {
-                    case 0:  //None
-                        DispLatestPost = MyCommon.DispTitleEnum.None;
-                        break;
-                    case 1:  //Ver
-                        DispLatestPost = MyCommon.DispTitleEnum.Ver;
-                        break;
-                    case 2:  //Post
-                        DispLatestPost = MyCommon.DispTitleEnum.Post;
-                        break;
-                    case 3:  //RepCount
-                        DispLatestPost = MyCommon.DispTitleEnum.UnreadRepCount;
-                        break;
-                    case 4:  //AllCount
-                        DispLatestPost = MyCommon.DispTitleEnum.UnreadAllCount;
-                        break;
-                    case 5:  //Rep+All
-                        DispLatestPost = MyCommon.DispTitleEnum.UnreadAllRepCount;
-                        break;
-                    case 6:  //Unread/All
-                        DispLatestPost = MyCommon.DispTitleEnum.UnreadCountAllCount;
-                        break;
-                    case 7: //Count of Status/Follow/Follower
-                        DispLatestPost = MyCommon.DispTitleEnum.OwnStatus;
-                        break;
-                }
                 TinyUrlResolve = this.ShortUrlPanel.CheckTinyURL.Checked;
                 ShortUrl.Instance.DisableExpanding = !TinyUrlResolve;
                 if (this.ProxyPanel.RadioProxyNone.Checked)
@@ -277,13 +237,11 @@ namespace OpenTween
                 ProxyPort = int.Parse(this.ProxyPanel.TextProxyPort.Text.Trim());
                 ProxyUser = this.ProxyPanel.TextProxyUser.Text.Trim();
                 ProxyPassword = this.ProxyPanel.TextProxyPassword.Text.Trim();
-                AlwaysTop = this.PreviewPanel.CheckAlwaysTop.Checked;
                 UrlConvertAuto = this.ShortUrlPanel.CheckAutoConvertUrl.Checked;
                 ShortenTco = this.ShortUrlPanel.ShortenTcoCheck.Checked;
 
                 Nicoms = this.CooperatePanel.CheckNicoms.Checked;
                 DefaultTimeOut = int.Parse(this.ConnectionPanel.ConnectionTimeOut.Text);
-                LimitBalloon = this.PreviewPanel.CheckBalloonLimit.Checked;
                 EventNotifyEnabled = this.NotifyPanel.CheckEventNotify.Checked;
                 GetEventNotifyFlag(ref _MyEventNotifyFlag, ref _isMyEventNotifyFlag);
                 ForceEventNotify = this.NotifyPanel.CheckForceEventNotify.Checked;
@@ -291,44 +249,9 @@ namespace OpenTween
                 TranslateLanguage = Bing.GetLanguageEnumFromIndex(this.CooperatePanel.ComboBoxTranslateLanguage.SelectedIndex);
                 EventSoundFile = (string)this.NotifyPanel.ComboBoxEventNotifySound.SelectedItem;
                 AutoShortUrlFirst = (MyCommon.UrlConverter)this.ShortUrlPanel.ComboBoxAutoShortUrlFirst.SelectedIndex;
-                TabIconDisp = this.PreviewPanel.chkTabIconDisp.Checked;
-                IsMonospace = this.PreviewPanel.CheckMonospace.Checked;
                 BitlyUser = this.ShortUrlPanel.TextBitlyId.Text;
                 BitlyPwd = this.ShortUrlPanel.TextBitlyPw.Text;
-                PreviewEnable = this.PreviewPanel.CheckPreviewEnable.Checked;
-                StatusAreaAtBottom = this.PreviewPanel.CheckStatusAreaAtBottom.Checked;
                 TwitterApiUrl = this.ConnectionPanel.TwitterAPIText.Text.Trim();
-                switch (this.PreviewPanel.ReplyIconStateCombo.SelectedIndex)
-                {
-                    case 0:
-                        ReplyIconState = MyCommon.REPLY_ICONSTATE.None;
-                        break;
-                    case 1:
-                        ReplyIconState = MyCommon.REPLY_ICONSTATE.StaticIcon;
-                        break;
-                    case 2:
-                        ReplyIconState = MyCommon.REPLY_ICONSTATE.BlinkIcon;
-                        break;
-                }
-                switch (this.PreviewPanel.LanguageCombo.SelectedIndex)
-                {
-                    case 0:
-                        Language = "OS";
-                        break;
-                    case 1:
-                        Language = "ja";
-                        break;
-                    case 2:
-                        Language = "en";
-                        break;
-                    case 3:
-                        Language = "zh-CN";
-                        break;
-                    default:
-                        Language = "en";
-                        break;
-                }
-                BlinkNewMentions = this.PreviewPanel.ChkNewMentionsBlink.Checked;
                 UseAdditionalCount = this.GetCountPanel.UseChangeGetCount.Checked;
                 MoreCountApi = int.Parse(this.GetCountPanel.GetMoreTextCountApi.Text);
                 FirstCountApi = int.Parse(this.GetCountPanel.FirstTextCountApi.Text);
@@ -344,7 +267,6 @@ namespace OpenTween
                 this.MapThumbnailWidth = int.Parse(this.CooperatePanel.MapThumbnailWidthTextBox.Text);
                 this.MapThumbnailZoom = int.Parse(this.CooperatePanel.MapThumbnailZoomTextBox.Text);
                 this.IsRemoveSameEvent = this.NotifyPanel.IsRemoveSameFavEventCheckBox.Checked;
-                this.IsNotifyUseGrowl = this.PreviewPanel.IsNotifyUseGrowlCheckBox.Checked;
             }
             catch(Exception)
             {
@@ -451,49 +373,8 @@ namespace OpenTween
                 }
             }
 
-            switch (NameBalloon)
-            {
-                case MyCommon.NameBalloonEnum.None:
-                    this.PreviewPanel.cmbNameBalloon.SelectedIndex = 0;
-                    break;
-                case MyCommon.NameBalloonEnum.UserID:
-                    this.PreviewPanel.cmbNameBalloon.SelectedIndex = 1;
-                    break;
-                case MyCommon.NameBalloonEnum.NickName:
-                    this.PreviewPanel.cmbNameBalloon.SelectedIndex = 2;
-                    break;
-            }
-
             this.GetCountPanel.TextCountApi.Text = CountApi.ToString();
             this.GetCountPanel.TextCountApiReply.Text = CountApiReply.ToString();
-            this.PreviewPanel.CheckDispUsername.Checked = DispUsername;
-            switch (DispLatestPost)
-            {
-                case MyCommon.DispTitleEnum.None:
-                    this.PreviewPanel.ComboDispTitle.SelectedIndex = 0;
-                    break;
-                case MyCommon.DispTitleEnum.Ver:
-                    this.PreviewPanel.ComboDispTitle.SelectedIndex = 1;
-                    break;
-                case MyCommon.DispTitleEnum.Post:
-                    this.PreviewPanel.ComboDispTitle.SelectedIndex = 2;
-                    break;
-                case MyCommon.DispTitleEnum.UnreadRepCount:
-                    this.PreviewPanel.ComboDispTitle.SelectedIndex = 3;
-                    break;
-                case MyCommon.DispTitleEnum.UnreadAllCount:
-                    this.PreviewPanel.ComboDispTitle.SelectedIndex = 4;
-                    break;
-                case MyCommon.DispTitleEnum.UnreadAllRepCount:
-                    this.PreviewPanel.ComboDispTitle.SelectedIndex = 5;
-                    break;
-                case MyCommon.DispTitleEnum.UnreadCountAllCount:
-                    this.PreviewPanel.ComboDispTitle.SelectedIndex = 6;
-                    break;
-                case MyCommon.DispTitleEnum.OwnStatus:
-                    this.PreviewPanel.ComboDispTitle.SelectedIndex = 7;
-                    break;
-            }
             this.ShortUrlPanel.CheckTinyURL.Checked = TinyUrlResolve;
             switch (_MyProxyType)
             {
@@ -522,14 +403,12 @@ namespace OpenTween
             this.ProxyPanel.TextProxyUser.Text = ProxyUser;
             this.ProxyPanel.TextProxyPassword.Text = ProxyPassword;
 
-            this.PreviewPanel.CheckAlwaysTop.Checked = AlwaysTop;
             this.ShortUrlPanel.CheckAutoConvertUrl.Checked = UrlConvertAuto;
             this.ShortUrlPanel.ShortenTcoCheck.Checked = ShortenTco;
             this.ShortUrlPanel.ShortenTcoCheck.Enabled = this.ShortUrlPanel.CheckAutoConvertUrl.Checked;
 
             this.CooperatePanel.CheckNicoms.Checked = Nicoms;
             this.ConnectionPanel.ConnectionTimeOut.Text = DefaultTimeOut.ToString();
-            this.PreviewPanel.CheckBalloonLimit.Checked = LimitBalloon;
 
             ApplyEventNotifyFlag(EventNotifyEnabled, EventNotifyFlag, IsMyEventNotifyFlag);
             this.NotifyPanel.CheckForceEventNotify.Checked = ForceEventNotify;
@@ -537,46 +416,11 @@ namespace OpenTween
             this.CooperatePanel.ComboBoxTranslateLanguage.SelectedIndex = Bing.GetIndexFromLanguageEnum(TranslateLanguage);
             SoundFileListup();
             this.ShortUrlPanel.ComboBoxAutoShortUrlFirst.SelectedIndex = (int)AutoShortUrlFirst;
-            this.PreviewPanel.chkTabIconDisp.Checked = TabIconDisp;
-            this.PreviewPanel.CheckMonospace.Checked = IsMonospace;
             this.ShortUrlPanel.TextBitlyId.Text = BitlyUser;
             this.ShortUrlPanel.TextBitlyPw.Text = BitlyPwd;
             this.ShortUrlPanel.TextBitlyId.Modified = false;
             this.ShortUrlPanel.TextBitlyPw.Modified = false;
-            this.PreviewPanel.CheckPreviewEnable.Checked = PreviewEnable;
-            this.PreviewPanel.CheckStatusAreaAtBottom.Checked = StatusAreaAtBottom;
             this.ConnectionPanel.TwitterAPIText.Text = TwitterApiUrl;
-            switch (ReplyIconState)
-            {
-                case MyCommon.REPLY_ICONSTATE.None:
-                    this.PreviewPanel.ReplyIconStateCombo.SelectedIndex = 0;
-                    break;
-                case MyCommon.REPLY_ICONSTATE.StaticIcon:
-                    this.PreviewPanel.ReplyIconStateCombo.SelectedIndex = 1;
-                    break;
-                case MyCommon.REPLY_ICONSTATE.BlinkIcon:
-                    this.PreviewPanel.ReplyIconStateCombo.SelectedIndex = 2;
-                    break;
-            }
-            switch (Language)
-            {
-                case "OS":
-                    this.PreviewPanel.LanguageCombo.SelectedIndex = 0;
-                    break;
-                case "ja":
-                    this.PreviewPanel.LanguageCombo.SelectedIndex = 1;
-                    break;
-                case "en":
-                    this.PreviewPanel.LanguageCombo.SelectedIndex = 2;
-                    break;
-                case "zh-CN":
-                    this.PreviewPanel.LanguageCombo.SelectedIndex = 3;
-                    break;
-                default:
-                    this.PreviewPanel.LanguageCombo.SelectedIndex = 0;
-                    break;
-            }
-            this.PreviewPanel.ChkNewMentionsBlink.Checked = BlinkNewMentions;
 
             this.GetCountPanel.GetMoreTextCountApi.Text = MoreCountApi.ToString();
             this.GetCountPanel.FirstTextCountApi.Text = FirstCountApi.ToString();
@@ -605,16 +449,6 @@ namespace OpenTween
             this.CooperatePanel.MapThumbnailWidthTextBox.Text = this.MapThumbnailWidth.ToString();
             this.CooperatePanel.MapThumbnailZoomTextBox.Text = this.MapThumbnailZoom.ToString();
             this.NotifyPanel.IsRemoveSameFavEventCheckBox.Checked = this.IsRemoveSameEvent;
-            this.PreviewPanel.IsNotifyUseGrowlCheckBox.Checked = this.IsNotifyUseGrowl;
-
-            if (GrowlHelper.IsDllExists)
-            {
-                this.PreviewPanel.IsNotifyUseGrowlCheckBox.Enabled = true;
-            }
-            else
-            {
-                this.PreviewPanel.IsNotifyUseGrowlCheckBox.Enabled = false;
-            }
 
             this.TreeViewSetting.Nodes["BasedNode"].Tag = BasedPanel;
             this.TreeViewSetting.Nodes["BasedNode"].Nodes["PeriodNode"].Tag = GetPeriodPanel;
@@ -823,7 +657,6 @@ namespace OpenTween
             }
         }
 
-        public MyCommon.NameBalloonEnum NameBalloon { get; set; }
         public int CountApi { get; set; }
         public int CountApiReply { get; set; }
         public int MoreCountApi { get; set; }
@@ -833,8 +666,6 @@ namespace OpenTween
         public int UserTimelineCountApi { get; set; }
         public int ListCountApi { get; set; }
         public string RecommendStatusText { get; set; }
-        public bool DispUsername { get; set; }
-        public MyCommon.DispTitleEnum DispLatestPost { get; set; }
         public bool TinyUrlResolve { get; set; }
 
         public ProxyType SelectedProxyType
@@ -851,24 +682,16 @@ namespace OpenTween
         public int ProxyPort { get; set; }
         public string ProxyUser { get; set; }
         public string ProxyPassword { get; set; }
-        public bool AlwaysTop { get; set; }
         public bool UrlConvertAuto { get; set; }
         public bool ShortenTco { get; set; }
         public bool Nicoms { get; set; }
         public MyCommon.UrlConverter AutoShortUrlFirst { get; set; }
         public int DefaultTimeOut { get; set; }
-        public bool TabIconDisp { get; set; }
-        public MyCommon.REPLY_ICONSTATE ReplyIconState { get; set; }
-        public bool IsMonospace { get; set; }
         public string BitlyUser { get; set; }
         public string BitlyPwd { get; set; }
-        public bool PreviewEnable { get; set; }
-        public bool StatusAreaAtBottom { get; set; }
         public bool UseAdditionalCount { get; set; }
         public string TwitterApiUrl { get; set; }
-        public string Language { get; set; }
 
-        public bool LimitBalloon { get; set; }
         public bool EventNotifyEnabled { get; set; }
 
         public MyCommon.EVENTTYPE EventNotifyFlag
@@ -1042,7 +865,7 @@ namespace OpenTween
                 Thread.Sleep(10);
                 if (this.Disposing || this.IsDisposed) return;
             } while (!this.IsHandleCreated);
-            this.TopMost = this.AlwaysTop;
+            this.TopMost = this.PreviewPanel.CheckAlwaysTop.Checked;
 
             this.GetPeriodPanel.LabelPostAndGet.Visible = this.GetPeriodPanel.CheckPostAndGet.Checked && !tw.UserStreamEnabled;
             this.GetPeriodPanel.LabelUserStreamActive.Visible = tw.UserStreamEnabled;
@@ -1092,8 +915,6 @@ namespace OpenTween
         {
             _ValidationError = false;
         }
-
-        public bool BlinkNewMentions;
 
         //private void CheckEventNotify_CheckedChanged(object sender, EventArgs e)
         //                Handles CheckEventNotify.CheckedChanged, CheckFavoritesEvent.CheckStateChanged,

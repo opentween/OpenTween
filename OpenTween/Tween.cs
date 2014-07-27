@@ -770,16 +770,12 @@ namespace OpenTween
             this.PlaySoundMenuItem.Checked = this._cfgCommon.PlaySound;
             this.PlaySoundFileMenuItem.Checked = this._cfgCommon.PlaySound;
 
-            SettingDialog.NameBalloon = _cfgCommon.NameBalloon;
-
             SettingDialog.CountApi = _cfgCommon.CountApi;
             SettingDialog.CountApiReply = _cfgCommon.CountApiReply;
             if (SettingDialog.CountApi < 20 || SettingDialog.CountApi > 200) SettingDialog.CountApi = 60;
             if (SettingDialog.CountApiReply < 20 || SettingDialog.CountApiReply > 200) SettingDialog.CountApiReply = 40;
 
             SettingDialog.PostAndGet = _cfgCommon.PostAndGet;
-            SettingDialog.DispUsername = _cfgCommon.DispUsername;
-            SettingDialog.DispLatestPost = _cfgCommon.DispLatestPost;
             SettingDialog.TinyUrlResolve = _cfgCommon.TinyUrlResolve;
 
             SettingDialog.SelectedProxyType = _cfgLocal.ProxyType;
@@ -788,12 +784,10 @@ namespace OpenTween
             SettingDialog.ProxyUser = _cfgLocal.ProxyUser;
             SettingDialog.ProxyPassword = _cfgLocal.ProxyPassword;
 
-            SettingDialog.AlwaysTop = _cfgCommon.AlwaysTop;
             SettingDialog.UrlConvertAuto = false;
             //SettingDialog.UrlConvertAuto = _cfgCommon.UrlConvertAuto;
 
             SettingDialog.DefaultTimeOut = _cfgCommon.DefaultTimeOut;
-            SettingDialog.LimitBalloon = _cfgCommon.LimitBalloon;
             SettingDialog.EventNotifyEnabled = _cfgCommon.EventNotifyEnabled;
             SettingDialog.EventNotifyFlag = _cfgCommon.EventNotifyFlag;
             SettingDialog.IsMyEventNotifyFlag = _cfgCommon.IsMyEventNotifyFlag;
@@ -807,16 +801,9 @@ namespace OpenTween
                 _cfgCommon.AutoShortUrlFirst = MyCommon.UrlConverter.Uxnu;
 
             SettingDialog.AutoShortUrlFirst = _cfgCommon.AutoShortUrlFirst;
-            SettingDialog.TabIconDisp = _cfgCommon.TabIconDisp;
-            SettingDialog.ReplyIconState = _cfgCommon.ReplyIconState;
             SettingDialog.BitlyUser = _cfgCommon.BilyUser;
             SettingDialog.BitlyPwd = _cfgCommon.BitlyPwd;
-            SettingDialog.Language = _cfgCommon.Language;
-            SettingDialog.PreviewEnable = _cfgCommon.PreviewEnable;
-            SettingDialog.StatusAreaAtBottom = _cfgCommon.StatusAreaAtBottom;
             AtIdSupl = new AtIdSupplement(SettingAtIdList.Load().AtIdList, "@");
-
-            SettingDialog.IsMonospace = _cfgCommon.IsMonospace;
 
             this.IdeographicSpaceToSpaceToolStripMenuItem.Checked = _cfgCommon.WideSpaceConvert;
             this.ToolStripFocusLockMenuItem.Checked = _cfgCommon.FocusLockToStatusText;
@@ -825,8 +812,6 @@ namespace OpenTween
             SettingDialog.RecommendStatusText = " [TWNv" + Regex.Replace(MyCommon.FileVersion.Replace(".", ""), "^0*", "") + "]";
 
             SettingDialog.Nicoms = _cfgCommon.Nicoms;
-
-            SettingDialog.BlinkNewMentions = _cfgCommon.BlinkNewMentions;
 
             SettingDialog.UseAdditionalCount = _cfgCommon.UseAdditionalCount;
             SettingDialog.MoreCountApi = _cfgCommon.MoreCountApi;
@@ -845,7 +830,6 @@ namespace OpenTween
             SettingDialog.MapThumbnailWidth = _cfgCommon.MapThumbnailWidth;
             SettingDialog.MapThumbnailZoom = _cfgCommon.MapThumbnailZoom;
             SettingDialog.IsRemoveSameEvent = _cfgCommon.IsRemoveSameEvent;
-            SettingDialog.IsNotifyUseGrowl = _cfgCommon.IsUseNotifyGrowl;
 
             //ハッシュタグ関連
             HashSupl = new AtIdSupplement(_cfgCommon.HashTags, "#");
@@ -989,7 +973,7 @@ namespace OpenTween
                     }
                 }
             }
-            this.TopMost = SettingDialog.AlwaysTop;
+            this.TopMost = this._cfgCommon.AlwaysTop;
             _mySpDis = _cfgLocal.SplitterDistance;
             _mySpDis2 = _cfgLocal.StatusTextHeight;
             _mySpDis3 = _cfgLocal.PreviewDistance;
@@ -1011,7 +995,7 @@ namespace OpenTween
             this.NameLabel.Font = this.ReplaceToGlobalFont(this.NameLabel.Font);
 
             // 必要であれば、発言一覧と発言詳細部・入力欄の上下を入れ替える
-            SplitContainer1.IsPanelInverted = !SettingDialog.StatusAreaAtBottom;
+            SplitContainer1.IsPanelInverted = !this._cfgCommon.StatusAreaAtBottom;
 
             //全新着通知のチェック状態により、Reply＆DMの新着通知有効無効切り替え（タブ別設定にするため削除予定）
             if (this._cfgCommon.UnreadManage == false)
@@ -1020,7 +1004,8 @@ namespace OpenTween
                 UnreadStripMenuItem.Enabled = false;
             }
 
-            if (SettingDialog.IsNotifyUseGrowl) gh.RegisterGrowl();
+            if (this._cfgCommon.IsUseNotifyGrowl)
+                gh.RegisterGrowl();
 
             //タイマー設定
             TimerTimeline.AutoReset = true;
@@ -1153,7 +1138,7 @@ namespace OpenTween
             SetMainWindowTitle();
             SetNotifyIconText();
 
-            if (SettingDialog.TabIconDisp)
+            if (this._cfgCommon.TabIconDisp)
             {
                 ListTab.DrawMode = TabDrawMode.Normal;
             }
@@ -1201,7 +1186,7 @@ namespace OpenTween
 
         private void InitDetailHtmlFormat()
         {
-            if (SettingDialog.IsMonospace)
+            if (this._cfgCommon.IsMonospace)
             {
                 detailHtmlFormatHeader = detailHtmlFormatMono1;
                 detailHtmlFormatFooter = detailHtmlFormatMono7;
@@ -1212,7 +1197,7 @@ namespace OpenTween
                 detailHtmlFormatFooter = detailHtmlFormat7;
             }
             detailHtmlFormatHeader += _fntDetail.Name + detailHtmlFormat2 + _fntDetail.Size.ToString() + detailHtmlFormat3 + _clDetail.R.ToString() + "," + _clDetail.G.ToString() + "," + _clDetail.B.ToString() + detailHtmlFormat4 + _clDetailLink.R.ToString() + "," + _clDetailLink.G.ToString() + "," + _clDetailLink.B.ToString() + detailHtmlFormat5 + _clDetailBackcolor.R.ToString() + "," + _clDetailBackcolor.G.ToString() + "," + _clDetailBackcolor.B.ToString();
-            if (SettingDialog.IsMonospace)
+            if (this._cfgCommon.IsMonospace)
             {
                 detailHtmlFormatHeader += detailHtmlFormatMono6;
             }
@@ -1448,10 +1433,10 @@ namespace OpenTween
                         }
                     }
                     if (tabInfo.UnreadCount > 0)
-                        if (SettingDialog.TabIconDisp)
+                        if (this._cfgCommon.TabIconDisp)
                             if (tab.ImageIndex == -1) tab.ImageIndex = 0; //タブアイコン
                 }
-                if (!SettingDialog.TabIconDisp) ListTab.Refresh();
+                if (!this._cfgCommon.TabIconDisp) ListTab.Refresh();
             }
             catch (Exception)
             {
@@ -1640,14 +1625,14 @@ namespace OpenTween
                 !_initial &&
                 (
                     (
-                        SettingDialog.LimitBalloon &&
+                        this._cfgCommon.LimitBalloon &&
                         (
                             this.WindowState == FormWindowState.Minimized ||
                             !this.Visible ||
                             Form.ActiveForm == null
                             )
                         ) ||
-                    !SettingDialog.LimitBalloon
+                    !this._cfgCommon.LimitBalloon
                     )
                 ) &&
                 !NativeMethods.IsScreenSaverRunning())
@@ -1676,7 +1661,7 @@ namespace OpenTween
                 if (notifyPosts != null && notifyPosts.Length > 0)
                 {
                     //Growlは一個ずつばらして通知。ただし、3ポスト以上あるときはまとめる
-                    if (SettingDialog.IsNotifyUseGrowl)
+                    if (this._cfgCommon.IsUseNotifyGrowl)
                     {
                         StringBuilder sb = new StringBuilder();
                         bool reply = false;
@@ -1693,7 +1678,7 @@ namespace OpenTween
                             if (post.IsReply && !post.IsExcludeReply) reply = true;
                             if (post.IsDm) dm = true;
                             if (sb.Length > 0) sb.Append(System.Environment.NewLine);
-                            switch (SettingDialog.NameBalloon)
+                            switch (this._cfgCommon.NameBalloon)
                             {
                                 case MyCommon.NameBalloonEnum.UserID:
                                     sb.Append(post.ScreenName).Append(" : ");
@@ -1710,7 +1695,7 @@ namespace OpenTween
 
                             StringBuilder title = new StringBuilder();
                             GrowlHelper.NotifyType nt;
-                            if (SettingDialog.DispUsername)
+                            if (this._cfgCommon.DispUsername)
                             {
                                 title.Append(tw.Username);
                                 title.Append(" - ");
@@ -1772,7 +1757,7 @@ namespace OpenTween
                             if (post.IsReply && !post.IsExcludeReply) reply = true;
                             if (post.IsDm) dm = true;
                             if (sb.Length > 0) sb.Append(System.Environment.NewLine);
-                            switch (SettingDialog.NameBalloon)
+                            switch (this._cfgCommon.NameBalloon)
                             {
                                 case MyCommon.NameBalloonEnum.UserID:
                                     sb.Append(post.ScreenName).Append(" : ");
@@ -1787,7 +1772,7 @@ namespace OpenTween
                         //if (SettingDialog.DispUsername) { NotifyIcon1.BalloonTipTitle = tw.Username + " - "; } else { NotifyIcon1.BalloonTipTitle = ""; }
                         StringBuilder title = new StringBuilder();
                         ToolTipIcon ntIcon;
-                        if (SettingDialog.DispUsername)
+                        if (this._cfgCommon.DispUsername)
                         {
                             title.Append(tw.Username);
                             title.Append(" - ");
@@ -1865,7 +1850,7 @@ namespace OpenTween
             }
 
             //mentions新着時に画面ブリンク
-            if (!_initial && SettingDialog.BlinkNewMentions && newMentions && Form.ActiveForm == null)
+            if (!_initial && this._cfgCommon.BlinkNewMentions && newMentions && Form.ActiveForm == null)
             {
                 NativeMethods.FlashMyWindow(this.Handle, NativeMethods.FlashSpecification.FlashTray, 3);
             }
@@ -3654,13 +3639,13 @@ namespace OpenTween
                     }
                     if (_statuses.Tabs[tb.Text].UnreadCount == 0)
                     {
-                        if (SettingDialog.TabIconDisp)
+                        if (this._cfgCommon.TabIconDisp)
                         {
                             if (tb.ImageIndex == 0) tb.ImageIndex = -1; //タブアイコン
                         }
                     }
                 }
-                if (!SettingDialog.TabIconDisp) ListTab.Refresh();
+                if (!this._cfgCommon.TabIconDisp) ListTab.Refresh();
             }
             finally
             {
@@ -3694,13 +3679,13 @@ namespace OpenTween
             {
                 if (_statuses.Tabs[tb.Text].UnreadCount == 0)
                 {
-                    if (SettingDialog.TabIconDisp)
+                    if (this._cfgCommon.TabIconDisp)
                     {
                         if (tb.ImageIndex == 0) tb.ImageIndex = -1; //タブアイコン
                     }
                 }
             }
-            if (!SettingDialog.TabIconDisp) ListTab.Refresh();
+            if (!this._cfgCommon.TabIconDisp) ListTab.Refresh();
         }
 
         private void UnreadStripMenuItem_Click(object sender, EventArgs e)
@@ -3724,13 +3709,13 @@ namespace OpenTween
             {
                 if (_statuses.Tabs[tb.Text].UnreadCount > 0)
                 {
-                    if (SettingDialog.TabIconDisp)
+                    if (this._cfgCommon.TabIconDisp)
                     {
                         if (tb.ImageIndex == -1) tb.ImageIndex = 0; //タブアイコン
                     }
                 }
             }
-            if (!SettingDialog.TabIconDisp) ListTab.Refresh();
+            if (!this._cfgCommon.TabIconDisp) ListTab.Refresh();
         }
 
         private void RefreshStripMenuItem_Click(object sender, EventArgs e)
@@ -3864,7 +3849,7 @@ namespace OpenTween
 
                     try
                     {
-                        if (SettingDialog.TabIconDisp)
+                        if (this._cfgCommon.TabIconDisp)
                         {
                             ListTab.DrawItem -= ListTab_DrawItem;
                             ListTab.DrawMode = TabDrawMode.Normal;
@@ -3891,7 +3876,7 @@ namespace OpenTween
                         {
                             ReadedStripMenuItem.Enabled = false;
                             UnreadStripMenuItem.Enabled = false;
-                            if (SettingDialog.TabIconDisp)
+                            if (this._cfgCommon.TabIconDisp)
                             {
                                 foreach (TabPage myTab in ListTab.TabPages)
                                 {
@@ -3915,7 +3900,7 @@ namespace OpenTween
                     // タブの表示位置の決定
                     SetTabAlignment();
 
-                    SplitContainer1.IsPanelInverted = !SettingDialog.StatusAreaAtBottom;
+                    SplitContainer1.IsPanelInverted = !this._cfgCommon.StatusAreaAtBottom;
 
                     var imgazyobizinet = ThumbnailGenerator.ImgAzyobuziNetInstance;
                     imgazyobizinet.Enabled = this.SettingDialog.EnableImgAzyobuziNet;
@@ -3996,7 +3981,7 @@ namespace OpenTween
                     {
                         foreach (TabPage tb in ListTab.TabPages)
                         {
-                            if (SettingDialog.TabIconDisp)
+                            if (this._cfgCommon.TabIconDisp)
                             {
                                 if (_statuses.Tabs[tb.Text].UnreadCount == 0)
                                     tb.ImageIndex = -1;
@@ -4067,7 +4052,7 @@ namespace OpenTween
 
                     if (uid != tw.Username) this.doGetFollowersMenu();
 
-                    if (SettingDialog.IsNotifyUseGrowl) gh.RegisterGrowl();
+                    if (this._cfgCommon.IsUseNotifyGrowl) gh.RegisterGrowl();
                     try
                     {
                         StatusText_TextChanged(null, null);
@@ -4080,7 +4065,7 @@ namespace OpenTween
 
             Twitter.AccountState = MyCommon.ACCOUNT_STATE.Valid;
 
-            this.TopMost = SettingDialog.AlwaysTop;
+            this.TopMost = this._cfgCommon.AlwaysTop;
             SaveConfigsAll(false);
         }
 
@@ -4822,7 +4807,7 @@ namespace OpenTween
             {
                 dialog.ShowDialog();
             }
-            this.TopMost = SettingDialog.AlwaysTop;
+            this.TopMost = this._cfgCommon.AlwaysTop;
             int selStart = owner.SelectionStart;
             string fHalf = "";
             string eHalf = "";
@@ -5177,7 +5162,7 @@ namespace OpenTween
                     var listview = (DetailsListView)tabPage.Tag;
                     listview.VirtualListSize = tab.AllCount;
 
-                    if (this.SettingDialog.TabIconDisp)
+                    if (this._cfgCommon.TabIconDisp)
                     {
                         if (tab.UnreadCount > 0)
                             tabPage.ImageIndex = 0;
@@ -5186,7 +5171,7 @@ namespace OpenTween
                     }
                 }
 
-                if (!this.SettingDialog.TabIconDisp)
+                if (!this._cfgCommon.TabIconDisp)
                     this.ListTab.Refresh();
             }
             finally
@@ -5662,10 +5647,10 @@ namespace OpenTween
 
             if (this.SearchDialog.ShowDialog(this) != DialogResult.OK)
             {
-                this.TopMost = this.SettingDialog.AlwaysTop;
+                this.TopMost = this._cfgCommon.AlwaysTop;
                 return;
             }
-            this.TopMost = this.SettingDialog.AlwaysTop;
+            this.TopMost = this._cfgCommon.AlwaysTop;
 
             var searchOptions = this.SearchDialog.ResultOptions;
             if (searchOptions.Type == SearchWordDialog.SearchType.Timeline)
@@ -5724,7 +5709,7 @@ namespace OpenTween
             {
                 about.ShowDialog(this);
             }
-            this.TopMost = SettingDialog.AlwaysTop;
+            this.TopMost = this._cfgCommon.AlwaysTop;
         }
 
         private void JumpUnreadMenuItem_Click(object sender, EventArgs e)
@@ -5929,10 +5914,10 @@ namespace OpenTween
             _colorize = false;
             DispSelectedPost();
             //件数関連の場合、タイトル即時書き換え
-            if (SettingDialog.DispLatestPost != MyCommon.DispTitleEnum.None &&
-               SettingDialog.DispLatestPost != MyCommon.DispTitleEnum.Post &&
-               SettingDialog.DispLatestPost != MyCommon.DispTitleEnum.Ver &&
-               SettingDialog.DispLatestPost != MyCommon.DispTitleEnum.OwnStatus)
+            if (this._cfgCommon.DispLatestPost != MyCommon.DispTitleEnum.None &&
+               this._cfgCommon.DispLatestPost != MyCommon.DispTitleEnum.Post &&
+               this._cfgCommon.DispLatestPost != MyCommon.DispTitleEnum.Ver &&
+               this._cfgCommon.DispLatestPost != MyCommon.DispTitleEnum.OwnStatus)
             {
                 SetMainWindowTitle();
             }
@@ -5941,13 +5926,13 @@ namespace OpenTween
             {
                 if (_statuses.Tabs[tb.Text].UnreadCount == 0)
                 {
-                    if (SettingDialog.TabIconDisp)
+                    if (this._cfgCommon.TabIconDisp)
                     {
                         if (tb.ImageIndex == 0) tb.ImageIndex = -1;
                     }
                 }
             }
-            if (!SettingDialog.TabIconDisp) ListTab.Refresh();
+            if (!this._cfgCommon.TabIconDisp) ListTab.Refresh();
         }
 
         public string createDetailHtml(string orgdata)
@@ -6134,7 +6119,7 @@ namespace OpenTween
 
                         this.SplitContainer3.Panel2Collapsed = true;
 
-                        if (this.IsPreviewEnable)
+                        if (this._cfgCommon.PreviewEnable)
                         {
                             if (this.thumbnailTokenSource != null)
                             {
@@ -7692,16 +7677,11 @@ namespace OpenTween
                 _cfgCommon.TokenSecret = tw.AccessTokenSecret;
                 _cfgCommon.UserAccounts = SettingDialog.UserAccounts;
 
-                _cfgCommon.NameBalloon = SettingDialog.NameBalloon;
                 _cfgCommon.CountApi = SettingDialog.CountApi;
                 _cfgCommon.CountApiReply = SettingDialog.CountApiReply;
-                _cfgCommon.DispUsername = SettingDialog.DispUsername;
-                _cfgCommon.DispLatestPost = SettingDialog.DispLatestPost;
                 _cfgCommon.TinyUrlResolve = SettingDialog.TinyUrlResolve;
-                _cfgCommon.AlwaysTop = SettingDialog.AlwaysTop;
                 _cfgCommon.UrlConvertAuto = SettingDialog.UrlConvertAuto;
                 _cfgCommon.DefaultTimeOut = SettingDialog.DefaultTimeOut;
-                _cfgCommon.LimitBalloon = SettingDialog.LimitBalloon;
                 _cfgCommon.EventNotifyEnabled = SettingDialog.EventNotifyEnabled;
                 _cfgCommon.EventNotifyFlag = SettingDialog.EventNotifyFlag;
                 _cfgCommon.IsMyEventNotifyFlag = SettingDialog.IsMyEventNotifyFlag;
@@ -7710,9 +7690,6 @@ namespace OpenTween
                 _cfgCommon.TranslateLanguage = SettingDialog.TranslateLanguage;
                 _cfgCommon.EventSoundFile = SettingDialog.EventSoundFile;
                 _cfgCommon.AutoShortUrlFirst = SettingDialog.AutoShortUrlFirst;
-                _cfgCommon.TabIconDisp = SettingDialog.TabIconDisp;
-                _cfgCommon.ReplyIconState = SettingDialog.ReplyIconState;
-                _cfgCommon.IsMonospace = SettingDialog.IsMonospace;
                 if (IdeographicSpaceToSpaceToolStripMenuItem != null &&
                    IdeographicSpaceToSpaceToolStripMenuItem.IsDisposed == false)
                 {
@@ -7720,9 +7697,6 @@ namespace OpenTween
                 }
                 _cfgCommon.BilyUser = SettingDialog.BitlyUser;
                 _cfgCommon.BitlyPwd = SettingDialog.BitlyPwd;
-                _cfgCommon.PreviewEnable = SettingDialog.PreviewEnable;
-                _cfgCommon.StatusAreaAtBottom = SettingDialog.StatusAreaAtBottom;
-                _cfgCommon.Language = SettingDialog.Language;
 
                 _cfgCommon.SortOrder = (int)_statuses.SortOrder;
                 switch (_statuses.SortMode)
@@ -7758,7 +7732,6 @@ namespace OpenTween
                 _cfgCommon.HashIsPermanent = HashMgr.IsPermanent;
                 _cfgCommon.HashIsNotAddToAtReply = HashMgr.IsNotAddToAtReply;
                 _cfgCommon.TwitterUrl = SettingDialog.TwitterApiUrl;
-                _cfgCommon.BlinkNewMentions = SettingDialog.BlinkNewMentions;
                 if (ToolStripFocusLockMenuItem != null &&
                         ToolStripFocusLockMenuItem.IsDisposed == false)
                 {
@@ -7783,7 +7756,6 @@ namespace OpenTween
                 _cfgCommon.MapThumbnailWidth = SettingDialog.MapThumbnailWidth;
                 _cfgCommon.MapThumbnailZoom = SettingDialog.MapThumbnailZoom;
                 _cfgCommon.IsRemoveSameEvent = SettingDialog.IsRemoveSameEvent;
-                _cfgCommon.IsUseNotifyGrowl = SettingDialog.IsNotifyUseGrowl;
 
                 _cfgCommon.Save();
             }
@@ -7952,7 +7924,7 @@ namespace OpenTween
                     }
                 }
             }
-            this.TopMost = SettingDialog.AlwaysTop;
+            this.TopMost = this._cfgCommon.AlwaysTop;
         }
 
         private void PostBrowser_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
@@ -7976,7 +7948,7 @@ namespace OpenTween
                 if (inputName.DialogResult == DialogResult.Cancel) return false;
                 newTabText = inputName.TabName;
             }
-            this.TopMost = SettingDialog.AlwaysTop;
+            this.TopMost = this._cfgCommon.AlwaysTop;
             if (!string.IsNullOrEmpty(newTabText))
             {
                 //新タブ名存在チェック
@@ -8517,11 +8489,11 @@ namespace OpenTween
             }
 
             TabClass tb = _statuses.GetTabByType(MyCommon.TabUsageType.Mentions);
-            if (SettingDialog.ReplyIconState != MyCommon.REPLY_ICONSTATE.None && tb != null && tb.UnreadCount > 0)
+            if (this._cfgCommon.ReplyIconState != MyCommon.REPLY_ICONSTATE.None && tb != null && tb.UnreadCount > 0)
             {
                 if (blinkCnt > 0) return;
                 blink = !blink;
-                if (blink || SettingDialog.ReplyIconState == MyCommon.REPLY_ICONSTATE.StaticIcon)
+                if (blink || this._cfgCommon.ReplyIconState == MyCommon.REPLY_ICONSTATE.StaticIcon)
                 {
                     NotifyIcon1.Icon = ReplyIcon;
                 }
@@ -8674,7 +8646,7 @@ namespace OpenTween
             }
 
             _statuses.SetTabUnreadManage(tabName, isManage);
-            if (SettingDialog.TabIconDisp)
+            if (this._cfgCommon.TabIconDisp)
             {
                 if (_statuses.Tabs[tabName].UnreadCount > 0)
                     ListTab.TabPages[idx].ImageIndex = 0;
@@ -8690,7 +8662,7 @@ namespace OpenTween
 
             SetMainWindowTitle();
             SetStatusLabelUrl();
-            if (!SettingDialog.TabIconDisp) ListTab.Refresh();
+            if (!this._cfgCommon.TabIconDisp) ListTab.Refresh();
         }
 
         private void NotifyDispMenuItem_Click(object sender, EventArgs e)
@@ -8727,7 +8699,7 @@ namespace OpenTween
             if (string.IsNullOrEmpty(_rclickTabName)) _rclickTabName = _statuses.GetTabByType(MyCommon.TabUsageType.Home).TabName;
             fltDialog.SetCurrent(_rclickTabName);
             fltDialog.ShowDialog(this);
-            this.TopMost = SettingDialog.AlwaysTop;
+            this.TopMost = this._cfgCommon.AlwaysTop;
 
             this.ApplyPostFilters();
             SaveConfigsTabs();
@@ -8746,7 +8718,7 @@ namespace OpenTween
                 tabName = inputName.TabName;
                 tabUsage = inputName.Usage;
             }
-            this.TopMost = SettingDialog.AlwaysTop;
+            this.TopMost = this._cfgCommon.AlwaysTop;
             if (!string.IsNullOrEmpty(tabName))
             {
                 //List対応
@@ -8804,7 +8776,7 @@ namespace OpenTween
                     fltDialog.AddNewFilter(_statuses[_curTab.Text, idx].RetweetedBy, _statuses[_curTab.Text, idx].TextFromApi);
                 }
                 fltDialog.ShowDialog(this);
-                this.TopMost = SettingDialog.AlwaysTop;
+                this.TopMost = this._cfgCommon.AlwaysTop;
             }
 
             this.ApplyPostFilters();
@@ -8985,7 +8957,7 @@ namespace OpenTween
                         if (inputName.DialogResult == DialogResult.Cancel) return false;
                         tabName = inputName.TabName;
                     }
-                    this.TopMost = SettingDialog.AlwaysTop;
+                    this.TopMost = this._cfgCommon.AlwaysTop;
                     if (!string.IsNullOrEmpty(tabName))
                     {
                         if (!_statuses.AddTab(tabName, MyCommon.TabUsageType.UserDefined, null) || !AddNewTab(tabName, false, MyCommon.TabUsageType.UserDefined))
@@ -9153,7 +9125,7 @@ namespace OpenTween
                     {
                         return;
                     }
-                    this.TopMost = SettingDialog.AlwaysTop;
+                    this.TopMost = this._cfgCommon.AlwaysTop;
                 }
                 if (string.IsNullOrEmpty(openUrlStr)) return;
 
@@ -9215,7 +9187,7 @@ namespace OpenTween
                     break;
                 }
             }
-            if (!SettingDialog.TabIconDisp) ListTab.Refresh();
+            if (!this._cfgCommon.TabIconDisp) ListTab.Refresh();
 
             SetMainWindowTitle();
             SetStatusLabelUrl();
@@ -9229,10 +9201,10 @@ namespace OpenTween
             StringBuilder ttl = new StringBuilder(256);
             int ur = 0;
             int al = 0;
-            if (SettingDialog.DispLatestPost != MyCommon.DispTitleEnum.None &&
-                SettingDialog.DispLatestPost != MyCommon.DispTitleEnum.Post &&
-                SettingDialog.DispLatestPost != MyCommon.DispTitleEnum.Ver &&
-                SettingDialog.DispLatestPost != MyCommon.DispTitleEnum.OwnStatus)
+            if (this._cfgCommon.DispLatestPost != MyCommon.DispTitleEnum.None &&
+                this._cfgCommon.DispLatestPost != MyCommon.DispTitleEnum.Post &&
+                this._cfgCommon.DispLatestPost != MyCommon.DispTitleEnum.Ver &&
+                this._cfgCommon.DispLatestPost != MyCommon.DispTitleEnum.OwnStatus)
             {
                 foreach (var tab in _statuses.Tabs.Values)
                 {
@@ -9241,10 +9213,10 @@ namespace OpenTween
                 }
             }
 
-            if (SettingDialog.DispUsername) ttl.Append(tw.Username).Append(" - ");
+            if (this._cfgCommon.DispUsername) ttl.Append(tw.Username).Append(" - ");
             ttl.Append(Application.ProductName);
             ttl.Append("  ");
-            switch (SettingDialog.DispLatestPost)
+            switch (this._cfgCommon.DispLatestPost)
             {
                 case MyCommon.DispTitleEnum.Ver:
                     ttl.Append("Ver:").Append(MyCommon.GetReadableVersion());
@@ -9372,7 +9344,7 @@ namespace OpenTween
             // タスクトレイアイコンのツールチップテキスト書き換え
             // Tween [未読/@]
             ur.Remove(0, ur.Length);
-            if (SettingDialog.DispUsername)
+            if (this._cfgCommon.DispUsername)
             {
                 ur.Append(tw.Username);
                 ur.Append(" - ");
@@ -11733,7 +11705,7 @@ namespace OpenTween
             {
                 return;
             }
-            this.TopMost = SettingDialog.AlwaysTop;
+            this.TopMost = this._cfgCommon.AlwaysTop;
             if (rslt == DialogResult.Cancel) return;
             if (!string.IsNullOrEmpty(HashMgr.UseHash))
             {
@@ -12252,11 +12224,6 @@ namespace OpenTween
             get { return _curPost; }
         }
 
-        public bool IsPreviewEnable
-        {
-            get { return SettingDialog.PreviewEnable; }
-        }
-
 #region "画像投稿"
         private void ImageSelectMenuItem_Click(object sender, EventArgs e)
         {
@@ -12677,7 +12644,7 @@ namespace OpenTween
                 //if (SettingDialog.DispUsername) NotifyIcon1.BalloonTipTitle = tw.Username + " - "; else NotifyIcon1.BalloonTipTitle = "";
                 //NotifyIcon1.BalloonTipTitle += Application.ProductName + " [" + ev.Event.ToUpper() + "] by " + ((string)(!string.IsNullOrEmpty(ev.Username) ? ev.Username : ""), string);
                 StringBuilder title = new StringBuilder();
-                if (SettingDialog.DispUsername)
+                if (this._cfgCommon.DispUsername)
                 {
                     title.Append(tw.Username);
                     title.Append(" - ");
@@ -12710,7 +12677,7 @@ namespace OpenTween
                     text = " ";
                 }
                 //NotifyIcon1.ShowBalloonTip(500);
-                if (SettingDialog.IsNotifyUseGrowl)
+                if (this._cfgCommon.IsUseNotifyGrowl)
                 {
                     gh.Notify(GrowlHelper.NotifyType.UserStreamEvent,
                               ev.Id.ToString(), title.ToString(), text);
@@ -12830,7 +12797,7 @@ namespace OpenTween
             {
                 evtDialog.Activate();
             }
-            this.TopMost = this.SettingDialog.AlwaysTop;
+            this.TopMost = this._cfgCommon.AlwaysTop;
         }
 #endregion
 

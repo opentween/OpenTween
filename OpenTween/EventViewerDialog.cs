@@ -87,7 +87,7 @@ namespace OpenTween
             _curTab = TabEventType.SelectedTab;
             CreateFilterdEventSource();
             EventList.EndUpdate();
-            this.TopMost = AppendSettingDialog.Instance.AlwaysTop;
+            this.TopMost = SettingCommon.Instance.AlwaysTop;
         }
 
         private void EventList_DoubleClick(object sender, EventArgs e)
@@ -261,7 +261,7 @@ namespace OpenTween
                     }
                 }
             }
-            this.TopMost = AppendSettingDialog.Instance.AlwaysTop;
+            this.TopMost = SettingCommon.Instance.AlwaysTop;
         }
 
         private void SaveEventLog(List<Twitter.FormattedEvent> source, StreamWriter sw)
