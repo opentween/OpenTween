@@ -42,6 +42,45 @@ namespace OpenTween.Setting.Panel
             InitializeComponent();
         }
 
+        public void LoadConfig(SettingCommon settingCommon)
+        {
+            this.TextCountApi.Text = settingCommon.CountApi.ToString();
+            this.TextCountApiReply.Text = settingCommon.CountApiReply.ToString();
+            this.GetMoreTextCountApi.Text = settingCommon.MoreCountApi.ToString();
+            this.FirstTextCountApi.Text = settingCommon.FirstCountApi.ToString();
+            this.SearchTextCountApi.Text = settingCommon.SearchCountApi.ToString();
+            this.FavoritesTextCountApi.Text = settingCommon.FavoritesCountApi.ToString();
+            this.UserTimelineTextCountApi.Text = settingCommon.UserTimelineCountApi.ToString();
+            this.ListTextCountApi.Text = settingCommon.ListCountApi.ToString();
+            this.UseChangeGetCount.Checked = settingCommon.UseAdditionalCount;
+
+            this.Label28.Enabled = this.UseChangeGetCount.Checked;
+            this.Label30.Enabled = this.UseChangeGetCount.Checked;
+            this.Label53.Enabled = this.UseChangeGetCount.Checked;
+            this.Label66.Enabled = this.UseChangeGetCount.Checked;
+            this.Label17.Enabled = this.UseChangeGetCount.Checked;
+            this.Label25.Enabled = this.UseChangeGetCount.Checked;
+            this.GetMoreTextCountApi.Enabled = this.UseChangeGetCount.Checked;
+            this.FirstTextCountApi.Enabled = this.UseChangeGetCount.Checked;
+            this.SearchTextCountApi.Enabled = this.UseChangeGetCount.Checked;
+            this.FavoritesTextCountApi.Enabled = this.UseChangeGetCount.Checked;
+            this.UserTimelineTextCountApi.Enabled = this.UseChangeGetCount.Checked;
+            this.ListTextCountApi.Enabled = this.UseChangeGetCount.Checked;
+        }
+
+        public void SaveConfig(SettingCommon settingCommon)
+        {
+            settingCommon.CountApi = int.Parse(this.TextCountApi.Text);
+            settingCommon.CountApiReply = int.Parse(this.TextCountApiReply.Text);
+            settingCommon.UseAdditionalCount = this.UseChangeGetCount.Checked;
+            settingCommon.MoreCountApi = int.Parse(this.GetMoreTextCountApi.Text);
+            settingCommon.FirstCountApi = int.Parse(this.FirstTextCountApi.Text);
+            settingCommon.SearchCountApi = int.Parse(this.SearchTextCountApi.Text);
+            settingCommon.FavoritesCountApi = int.Parse(this.FavoritesTextCountApi.Text);
+            settingCommon.UserTimelineCountApi = int.Parse(this.UserTimelineTextCountApi.Text);
+            settingCommon.ListCountApi = int.Parse(this.ListTextCountApi.Text);
+        }
+
         private void TextCountApi_Validating(object sender, CancelEventArgs e)
         {
             int cnt;

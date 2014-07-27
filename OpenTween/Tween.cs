@@ -752,6 +752,11 @@ namespace OpenTween
                     this._cfgCommon.ListsPeriod = 15;
             }
 
+            if (this._cfgCommon.CountApi < 20 || this._cfgCommon.CountApi > 200)
+                this._cfgCommon.CountApi = 60;
+            if (this._cfgCommon.CountApiReply < 20 || this._cfgCommon.CountApiReply > 200)
+                this._cfgCommon.CountApiReply = 40;
+
             //設定画面への反映
             this.SettingDialog.LoadConfig(this._cfgCommon, this._cfgLocal);
             HttpTwitter.TwitterUrl = _cfgCommon.TwitterUrl;
@@ -770,12 +775,6 @@ namespace OpenTween
             this.PlaySoundMenuItem.Checked = this._cfgCommon.PlaySound;
             this.PlaySoundFileMenuItem.Checked = this._cfgCommon.PlaySound;
 
-            SettingDialog.CountApi = _cfgCommon.CountApi;
-            SettingDialog.CountApiReply = _cfgCommon.CountApiReply;
-            if (SettingDialog.CountApi < 20 || SettingDialog.CountApi > 200) SettingDialog.CountApi = 60;
-            if (SettingDialog.CountApiReply < 20 || SettingDialog.CountApiReply > 200) SettingDialog.CountApiReply = 40;
-
-            SettingDialog.PostAndGet = _cfgCommon.PostAndGet;
             SettingDialog.TinyUrlResolve = _cfgCommon.TinyUrlResolve;
 
             SettingDialog.SelectedProxyType = _cfgLocal.ProxyType;
@@ -812,14 +811,6 @@ namespace OpenTween
             SettingDialog.RecommendStatusText = " [TWNv" + Regex.Replace(MyCommon.FileVersion.Replace(".", ""), "^0*", "") + "]";
 
             SettingDialog.Nicoms = _cfgCommon.Nicoms;
-
-            SettingDialog.UseAdditionalCount = _cfgCommon.UseAdditionalCount;
-            SettingDialog.MoreCountApi = _cfgCommon.MoreCountApi;
-            SettingDialog.FirstCountApi = _cfgCommon.FirstCountApi;
-            SettingDialog.SearchCountApi = _cfgCommon.SearchCountApi;
-            SettingDialog.FavoritesCountApi = _cfgCommon.FavoritesCountApi;
-            SettingDialog.UserTimelineCountApi = _cfgCommon.UserTimelineCountApi;
-            SettingDialog.ListCountApi = _cfgCommon.ListCountApi;
 
             SettingDialog.UserAppointUrl = _cfgCommon.UserAppointUrl;
 
@@ -2527,7 +2518,7 @@ namespace OpenTween
                 case MyCommon.WORKERTYPE.UserTimeline:
                     bw.ReportProgress(50, MakeStatusMessage(args, false));
                     int count = 20;
-                    if (SettingDialog.UseAdditionalCount) count = SettingDialog.UserTimelineCountApi;
+                    if (this._cfgCommon.UseAdditionalCount) count = this._cfgCommon.UserTimelineCountApi;
                     if (string.IsNullOrEmpty(args.tName))
                     {
                         foreach (TabClass tb in _statuses.GetTabsByType(MyCommon.TabUsageType.UserTimeline))
@@ -7677,8 +7668,6 @@ namespace OpenTween
                 _cfgCommon.TokenSecret = tw.AccessTokenSecret;
                 _cfgCommon.UserAccounts = SettingDialog.UserAccounts;
 
-                _cfgCommon.CountApi = SettingDialog.CountApi;
-                _cfgCommon.CountApiReply = SettingDialog.CountApiReply;
                 _cfgCommon.TinyUrlResolve = SettingDialog.TinyUrlResolve;
                 _cfgCommon.UrlConvertAuto = SettingDialog.UrlConvertAuto;
                 _cfgCommon.DefaultTimeOut = SettingDialog.DefaultTimeOut;
@@ -7737,15 +7726,8 @@ namespace OpenTween
                 {
                     _cfgCommon.FocusLockToStatusText = this.ToolStripFocusLockMenuItem.Checked;
                 }
-                _cfgCommon.UseAdditionalCount = SettingDialog.UseAdditionalCount;
-                _cfgCommon.MoreCountApi = SettingDialog.MoreCountApi;
-                _cfgCommon.FirstCountApi = SettingDialog.FirstCountApi;
-                _cfgCommon.SearchCountApi = SettingDialog.SearchCountApi;
-                _cfgCommon.FavoritesCountApi = SettingDialog.FavoritesCountApi;
-                _cfgCommon.UserTimelineCountApi = SettingDialog.UserTimelineCountApi;
                 _cfgCommon.TrackWord = tw.TrackWord;
                 _cfgCommon.AllAtReply = tw.AllAtReply;
-                _cfgCommon.ListCountApi = SettingDialog.ListCountApi;
                 _cfgCommon.UseImageService = ImageSelector.ServiceIndex;
                 _cfgCommon.UseImageServiceName = ImageSelector.ServiceName;
                 _cfgCommon.UserAppointUrl = SettingDialog.UserAppointUrl;

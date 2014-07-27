@@ -80,6 +80,7 @@ namespace OpenTween
             this.FontPanel.LoadConfig(settingLocal);
             this.FontPanel2.LoadConfig(settingLocal);
             this.PreviewPanel.LoadConfig(settingCommon);
+            this.GetCountPanel.LoadConfig(settingCommon);
         }
 
         public void SaveConfig(SettingCommon settingCommon, SettingLocal settingLocal)
@@ -92,6 +93,7 @@ namespace OpenTween
             this.FontPanel.SaveConfig(settingLocal);
             this.FontPanel2.SaveConfig(settingLocal);
             this.PreviewPanel.SaveConfig(settingCommon);
+            this.GetCountPanel.SaveConfig(settingCommon);
         }
 
         private void TreeViewSetting_BeforeSelect(object sender, TreeViewCancelEventArgs e)
@@ -217,8 +219,6 @@ namespace OpenTween
 #endif
             try
             {
-                CountApi = int.Parse(this.GetCountPanel.TextCountApi.Text);
-                CountApiReply = int.Parse(this.GetCountPanel.TextCountApiReply.Text);
                 TinyUrlResolve = this.ShortUrlPanel.CheckTinyURL.Checked;
                 ShortUrl.Instance.DisableExpanding = !TinyUrlResolve;
                 if (this.ProxyPanel.RadioProxyNone.Checked)
@@ -252,13 +252,6 @@ namespace OpenTween
                 BitlyUser = this.ShortUrlPanel.TextBitlyId.Text;
                 BitlyPwd = this.ShortUrlPanel.TextBitlyPw.Text;
                 TwitterApiUrl = this.ConnectionPanel.TwitterAPIText.Text.Trim();
-                UseAdditionalCount = this.GetCountPanel.UseChangeGetCount.Checked;
-                MoreCountApi = int.Parse(this.GetCountPanel.GetMoreTextCountApi.Text);
-                FirstCountApi = int.Parse(this.GetCountPanel.FirstTextCountApi.Text);
-                SearchCountApi = int.Parse(this.GetCountPanel.SearchTextCountApi.Text);
-                FavoritesCountApi = int.Parse(this.GetCountPanel.FavoritesTextCountApi.Text);
-                UserTimelineCountApi = int.Parse(this.GetCountPanel.UserTimelineTextCountApi.Text);
-                ListCountApi = int.Parse(this.GetCountPanel.ListTextCountApi.Text);
                 UserAppointUrl = this.CooperatePanel.UserAppointUrlText.Text;
                 this.EnableImgAzyobuziNet = this.CooperatePanel.EnableImgAzyobuziNetCheckBox.Checked;
                 this.ImgAzyobuziNetDisabledInDM = this.CooperatePanel.ImgAzyobuziNetDisabledInDMCheckBox.Checked;
@@ -373,8 +366,6 @@ namespace OpenTween
                 }
             }
 
-            this.GetCountPanel.TextCountApi.Text = CountApi.ToString();
-            this.GetCountPanel.TextCountApiReply.Text = CountApiReply.ToString();
             this.ShortUrlPanel.CheckTinyURL.Checked = TinyUrlResolve;
             switch (_MyProxyType)
             {
@@ -422,25 +413,6 @@ namespace OpenTween
             this.ShortUrlPanel.TextBitlyPw.Modified = false;
             this.ConnectionPanel.TwitterAPIText.Text = TwitterApiUrl;
 
-            this.GetCountPanel.GetMoreTextCountApi.Text = MoreCountApi.ToString();
-            this.GetCountPanel.FirstTextCountApi.Text = FirstCountApi.ToString();
-            this.GetCountPanel.SearchTextCountApi.Text = SearchCountApi.ToString();
-            this.GetCountPanel.FavoritesTextCountApi.Text = FavoritesCountApi.ToString();
-            this.GetCountPanel.UserTimelineTextCountApi.Text = UserTimelineCountApi.ToString();
-            this.GetCountPanel.ListTextCountApi.Text = ListCountApi.ToString();
-            this.GetCountPanel.UseChangeGetCount.Checked = UseAdditionalCount;
-            this.GetCountPanel.Label28.Enabled = this.GetCountPanel.UseChangeGetCount.Checked;
-            this.GetCountPanel.Label30.Enabled = this.GetCountPanel.UseChangeGetCount.Checked;
-            this.GetCountPanel.Label53.Enabled = this.GetCountPanel.UseChangeGetCount.Checked;
-            this.GetCountPanel.Label66.Enabled = this.GetCountPanel.UseChangeGetCount.Checked;
-            this.GetCountPanel.Label17.Enabled = this.GetCountPanel.UseChangeGetCount.Checked;
-            this.GetCountPanel.Label25.Enabled = this.GetCountPanel.UseChangeGetCount.Checked;
-            this.GetCountPanel.GetMoreTextCountApi.Enabled = this.GetCountPanel.UseChangeGetCount.Checked;
-            this.GetCountPanel.FirstTextCountApi.Enabled = this.GetCountPanel.UseChangeGetCount.Checked;
-            this.GetCountPanel.SearchTextCountApi.Enabled = this.GetCountPanel.UseChangeGetCount.Checked;
-            this.GetCountPanel.FavoritesTextCountApi.Enabled = this.GetCountPanel.UseChangeGetCount.Checked;
-            this.GetCountPanel.UserTimelineTextCountApi.Enabled = this.GetCountPanel.UseChangeGetCount.Checked;
-            this.GetCountPanel.ListTextCountApi.Enabled = this.GetCountPanel.UseChangeGetCount.Checked;
             this.CooperatePanel.UserAppointUrlText.Text = UserAppointUrl;
             this.CooperatePanel.EnableImgAzyobuziNetCheckBox.Checked = this.EnableImgAzyobuziNet;
             this.CooperatePanel.ImgAzyobuziNetDisabledInDMCheckBox.Checked = this.ImgAzyobuziNetDisabledInDM;
@@ -657,14 +629,6 @@ namespace OpenTween
             }
         }
 
-        public int CountApi { get; set; }
-        public int CountApiReply { get; set; }
-        public int MoreCountApi { get; set; }
-        public int FirstCountApi { get; set; }
-        public int SearchCountApi { get; set; }
-        public int FavoritesCountApi { get; set; }
-        public int UserTimelineCountApi { get; set; }
-        public int ListCountApi { get; set; }
         public string RecommendStatusText { get; set; }
         public bool TinyUrlResolve { get; set; }
 
@@ -689,7 +653,6 @@ namespace OpenTween
         public int DefaultTimeOut { get; set; }
         public string BitlyUser { get; set; }
         public string BitlyPwd { get; set; }
-        public bool UseAdditionalCount { get; set; }
         public string TwitterApiUrl { get; set; }
 
         public bool EventNotifyEnabled { get; set; }
