@@ -62,7 +62,6 @@ namespace OpenTween
         public int MapThumbnailZoom;
         public List<UserAccount> UserAccounts;
         private long? InitialUserId;
-        public bool TabMouseLock;
         public bool IsRemoveSameEvent;
         public bool IsNotifyUseGrowl;
 
@@ -78,6 +77,7 @@ namespace OpenTween
             this.StartupPanel.LoadConfig(settingCommon);
             this.TweetPrvPanel.LoadConfig(settingCommon);
             this.TweetActPanel.LoadConfig(settingCommon, settingLocal);
+            this.ActionPanel.LoadConfig(settingCommon, settingLocal);
         }
 
         public void SaveConfig(SettingCommon settingCommon, SettingLocal settingLocal)
@@ -86,6 +86,7 @@ namespace OpenTween
             this.StartupPanel.SaveConfig(settingCommon);
             this.TweetPrvPanel.SaveConfig(settingCommon);
             this.TweetActPanel.SaveConfig(settingCommon, settingLocal);
+            this.ActionPanel.SaveConfig(settingCommon, settingLocal);
         }
 
         private void TreeViewSetting_BeforeSelect(object sender, TreeViewCancelEventArgs e)
@@ -211,9 +212,6 @@ namespace OpenTween
 #endif
             try
             {
-                PlaySound = this.ActionPanel.PlaySnd.Checked;
-                UnreadManage = this.ActionPanel.UReadMng.Checked;
-
                 FontUnread = this.FontPanel.lblUnread.Font;     //未使用
                 ColorUnread = this.FontPanel.lblUnread.ForeColor;
                 FontReaded = this.FontPanel.lblListFont.Font;     //リストフォントとして使用
@@ -250,10 +248,7 @@ namespace OpenTween
 
                 CountApi = int.Parse(this.GetCountPanel.TextCountApi.Text);
                 CountApiReply = int.Parse(this.GetCountPanel.TextCountApiReply.Text);
-                BrowserPath = this.ActionPanel.BrowserPathText.Text.Trim();
                 DispUsername = this.PreviewPanel.CheckDispUsername.Checked;
-                CloseToExit = this.ActionPanel.CheckCloseToExit.Checked;
-                MinimizeToTray = this.ActionPanel.CheckMinimizeToTray.Checked;
                 switch (this.PreviewPanel.ComboDispTitle.SelectedIndex)
                 {
                     case 0:  //None
@@ -299,7 +294,6 @@ namespace OpenTween
                 ProxyPort = int.Parse(this.ProxyPanel.TextProxyPort.Text.Trim());
                 ProxyUser = this.ProxyPanel.TextProxyUser.Text.Trim();
                 ProxyPassword = this.ProxyPanel.TextProxyPassword.Text.Trim();
-                RestrictFavCheck = this.ActionPanel.CheckFavRestrict.Checked;
                 AlwaysTop = this.PreviewPanel.CheckAlwaysTop.Checked;
                 UrlConvertAuto = this.ShortUrlPanel.CheckAutoConvertUrl.Checked;
                 ShortenTco = this.ShortUrlPanel.ShortenTcoCheck.Checked;
@@ -315,9 +309,7 @@ namespace OpenTween
                 EventSoundFile = (string)this.NotifyPanel.ComboBoxEventNotifySound.SelectedItem;
                 AutoShortUrlFirst = (MyCommon.UrlConverter)this.ShortUrlPanel.ComboBoxAutoShortUrlFirst.SelectedIndex;
                 TabIconDisp = this.PreviewPanel.chkTabIconDisp.Checked;
-                ReadOwnPost = this.ActionPanel.chkReadOwnPost.Checked;
                 IsMonospace = this.PreviewPanel.CheckMonospace.Checked;
-                ReadOldPosts = this.ActionPanel.CheckReadOldPosts.Checked;
                 BitlyUser = this.ShortUrlPanel.TextBitlyId.Text;
                 BitlyPwd = this.ShortUrlPanel.TextBitlyPw.Text;
                 PreviewEnable = this.PreviewPanel.CheckPreviewEnable.Checked;
@@ -353,14 +345,6 @@ namespace OpenTween
                         Language = "en";
                         break;
                 }
-                HotkeyEnabled = this.ActionPanel.HotkeyCheck.Checked;
-                HotkeyMod = Keys.None;
-                if (this.ActionPanel.HotkeyAlt.Checked) HotkeyMod = HotkeyMod | Keys.Alt;
-                if (this.ActionPanel.HotkeyShift.Checked) HotkeyMod = HotkeyMod | Keys.Shift;
-                if (this.ActionPanel.HotkeyCtrl.Checked) HotkeyMod = HotkeyMod | Keys.Control;
-                if (this.ActionPanel.HotkeyWin.Checked) HotkeyMod = HotkeyMod | Keys.LWin;
-                int.TryParse(this.ActionPanel.HotkeyCode.Text, out HotkeyValue);
-                HotkeyKey = (Keys)this.ActionPanel.HotkeyText.Tag;
                 BlinkNewMentions = this.PreviewPanel.ChkNewMentionsBlink.Checked;
                 UseAdditionalCount = this.GetCountPanel.UseChangeGetCount.Checked;
                 MoreCountApi = int.Parse(this.GetCountPanel.GetMoreTextCountApi.Text);
@@ -369,8 +353,6 @@ namespace OpenTween
                 FavoritesCountApi = int.Parse(this.GetCountPanel.FavoritesTextCountApi.Text);
                 UserTimelineCountApi = int.Parse(this.GetCountPanel.UserTimelineTextCountApi.Text);
                 ListCountApi = int.Parse(this.GetCountPanel.ListTextCountApi.Text);
-                OpenUserTimeline = this.ActionPanel.CheckOpenUserTimeline.Checked;
-                ListDoubleClickAction = this.ActionPanel.ListDoubleClickActionComboBox.SelectedIndex;
                 UserAppointUrl = this.CooperatePanel.UserAppointUrlText.Text;
                 this.EnableImgAzyobuziNet = this.CooperatePanel.EnableImgAzyobuziNetCheckBox.Checked;
                 this.ImgAzyobuziNetDisabledInDM = this.CooperatePanel.ImgAzyobuziNetDisabledInDMCheckBox.Checked;
@@ -378,7 +360,6 @@ namespace OpenTween
                 this.MapThumbnailHeight = int.Parse(this.CooperatePanel.MapThumbnailHeightTextBox.Text);
                 this.MapThumbnailWidth = int.Parse(this.CooperatePanel.MapThumbnailWidthTextBox.Text);
                 this.MapThumbnailZoom = int.Parse(this.CooperatePanel.MapThumbnailZoomTextBox.Text);
-                this.TabMouseLock = this.ActionPanel.TabMouseLockCheck.Checked;
                 this.IsRemoveSameEvent = this.NotifyPanel.IsRemoveSameFavEventCheckBox.Checked;
                 this.IsNotifyUseGrowl = this.PreviewPanel.IsNotifyUseGrowlCheckBox.Checked;
             }
@@ -487,9 +468,6 @@ namespace OpenTween
                 }
             }
 
-            this.ActionPanel.UReadMng.Checked = UnreadManage;
-            this.ActionPanel.PlaySnd.Checked = PlaySound;
-
             this.FontPanel.lblListFont.Font = FontReaded;
             this.FontPanel.lblUnread.Font = FontUnread;
             this.FontPanel.lblUnread.ForeColor = ColorUnread;
@@ -527,10 +505,7 @@ namespace OpenTween
 
             this.GetCountPanel.TextCountApi.Text = CountApi.ToString();
             this.GetCountPanel.TextCountApiReply.Text = CountApiReply.ToString();
-            this.ActionPanel.BrowserPathText.Text = BrowserPath;
             this.PreviewPanel.CheckDispUsername.Checked = DispUsername;
-            this.ActionPanel.CheckCloseToExit.Checked = CloseToExit;
-            this.ActionPanel.CheckMinimizeToTray.Checked = MinimizeToTray;
             switch (DispLatestPost)
             {
                 case MyCommon.DispTitleEnum.None:
@@ -586,7 +561,6 @@ namespace OpenTween
             this.ProxyPanel.TextProxyUser.Text = ProxyUser;
             this.ProxyPanel.TextProxyPassword.Text = ProxyPassword;
 
-            this.ActionPanel.CheckFavRestrict.Checked = RestrictFavCheck;
             this.PreviewPanel.CheckAlwaysTop.Checked = AlwaysTop;
             this.ShortUrlPanel.CheckAutoConvertUrl.Checked = UrlConvertAuto;
             this.ShortUrlPanel.ShortenTcoCheck.Checked = ShortenTco;
@@ -603,9 +577,7 @@ namespace OpenTween
             SoundFileListup();
             this.ShortUrlPanel.ComboBoxAutoShortUrlFirst.SelectedIndex = (int)AutoShortUrlFirst;
             this.PreviewPanel.chkTabIconDisp.Checked = TabIconDisp;
-            this.ActionPanel.chkReadOwnPost.Checked = ReadOwnPost;
             this.PreviewPanel.CheckMonospace.Checked = IsMonospace;
-            this.ActionPanel.CheckReadOldPosts.Checked = ReadOldPosts;
             this.ShortUrlPanel.TextBitlyId.Text = BitlyUser;
             this.ShortUrlPanel.TextBitlyPw.Text = BitlyPwd;
             this.ShortUrlPanel.TextBitlyId.Modified = false;
@@ -643,20 +615,6 @@ namespace OpenTween
                     this.PreviewPanel.LanguageCombo.SelectedIndex = 0;
                     break;
             }
-            this.ActionPanel.HotkeyCheck.Checked = HotkeyEnabled;
-            this.ActionPanel.HotkeyAlt.Checked = ((HotkeyMod & Keys.Alt) == Keys.Alt);
-            this.ActionPanel.HotkeyCtrl.Checked = ((HotkeyMod & Keys.Control) == Keys.Control);
-            this.ActionPanel.HotkeyShift.Checked = ((HotkeyMod & Keys.Shift) == Keys.Shift);
-            this.ActionPanel.HotkeyWin.Checked = ((HotkeyMod & Keys.LWin) == Keys.LWin);
-            this.ActionPanel.HotkeyCode.Text = HotkeyValue.ToString();
-            this.ActionPanel.HotkeyText.Text = HotkeyKey.ToString();
-            this.ActionPanel.HotkeyText.Tag = HotkeyKey;
-            this.ActionPanel.HotkeyAlt.Enabled = HotkeyEnabled;
-            this.ActionPanel.HotkeyShift.Enabled = HotkeyEnabled;
-            this.ActionPanel.HotkeyCtrl.Enabled = HotkeyEnabled;
-            this.ActionPanel.HotkeyWin.Enabled = HotkeyEnabled;
-            this.ActionPanel.HotkeyText.Enabled = HotkeyEnabled;
-            this.ActionPanel.HotkeyCode.Enabled = HotkeyEnabled;
             this.PreviewPanel.ChkNewMentionsBlink.Checked = BlinkNewMentions;
 
             this.GetCountPanel.GetMoreTextCountApi.Text = MoreCountApi.ToString();
@@ -678,8 +636,6 @@ namespace OpenTween
             this.GetCountPanel.FavoritesTextCountApi.Enabled = this.GetCountPanel.UseChangeGetCount.Checked;
             this.GetCountPanel.UserTimelineTextCountApi.Enabled = this.GetCountPanel.UseChangeGetCount.Checked;
             this.GetCountPanel.ListTextCountApi.Enabled = this.GetCountPanel.UseChangeGetCount.Checked;
-            this.ActionPanel.CheckOpenUserTimeline.Checked = OpenUserTimeline;
-            this.ActionPanel.ListDoubleClickActionComboBox.SelectedIndex = ListDoubleClickAction;
             this.CooperatePanel.UserAppointUrlText.Text = UserAppointUrl;
             this.CooperatePanel.EnableImgAzyobuziNetCheckBox.Checked = this.EnableImgAzyobuziNet;
             this.CooperatePanel.ImgAzyobuziNetDisabledInDMCheckBox.Checked = this.ImgAzyobuziNetDisabledInDM;
@@ -687,7 +643,6 @@ namespace OpenTween
             this.CooperatePanel.MapThumbnailHeightTextBox.Text = this.MapThumbnailHeight.ToString();
             this.CooperatePanel.MapThumbnailWidthTextBox.Text = this.MapThumbnailWidth.ToString();
             this.CooperatePanel.MapThumbnailZoomTextBox.Text = this.MapThumbnailZoom.ToString();
-            this.ActionPanel.TabMouseLockCheck.Checked = this.TabMouseLock;
             this.NotifyPanel.IsRemoveSameFavEventCheckBox.Checked = this.IsRemoveSameEvent;
             this.PreviewPanel.IsNotifyUseGrowlCheckBox.Checked = this.IsNotifyUseGrowl;
 
@@ -907,8 +862,6 @@ namespace OpenTween
             }
         }
 
-        public bool UnreadManage { get; set; }
-        public bool PlaySound { get; set; }
         public Font FontUnread { get; set; } /////未使用
         public Color ColorUnread { get; set; }
         public Font FontReaded { get; set; } /////リストフォントとして使用
@@ -941,10 +894,7 @@ namespace OpenTween
         public int ListCountApi { get; set; }
         public string RecommendStatusText { get; set; }
         public bool DispUsername { get; set; }
-        public bool CloseToExit { get; set; }
-        public bool MinimizeToTray { get; set; }
         public MyCommon.DispTitleEnum DispLatestPost { get; set; }
-        public string BrowserPath { get; set; }
         public bool TinyUrlResolve { get; set; }
 
         public ProxyType SelectedProxyType
@@ -961,7 +911,6 @@ namespace OpenTween
         public int ProxyPort { get; set; }
         public string ProxyUser { get; set; }
         public string ProxyPassword { get; set; }
-        public bool RestrictFavCheck { get; set; }
         public bool AlwaysTop { get; set; }
         public bool UrlConvertAuto { get; set; }
         public bool ShortenTco { get; set; }
@@ -970,15 +919,12 @@ namespace OpenTween
         public int DefaultTimeOut { get; set; }
         public bool TabIconDisp { get; set; }
         public MyCommon.REPLY_ICONSTATE ReplyIconState { get; set; }
-        public bool ReadOwnPost { get; set; }
         public bool IsMonospace { get; set; }
-        public bool ReadOldPosts { get; set; }
         public string BitlyUser { get; set; }
         public string BitlyPwd { get; set; }
         public bool PreviewEnable { get; set; }
         public bool StatusAreaAtBottom { get; set; }
         public bool UseAdditionalCount { get; set; }
-        public bool OpenUserTimeline { get; set; }
         public string TwitterApiUrl { get; set; }
         public string Language { get; set; }
 
@@ -1026,7 +972,6 @@ namespace OpenTween
         }
 
         public string EventSoundFile { get; set; }
-        public int ListDoubleClickAction { get; set; }
         public string UserAppointUrl { get; set; }
 
         private bool StartAuth()
@@ -1208,11 +1153,6 @@ namespace OpenTween
             _ValidationError = false;
         }
 
-        public bool HotkeyEnabled;
-        public Keys HotkeyKey;
-        public int HotkeyValue;
-        public Keys HotkeyMod;
-
         public bool BlinkNewMentions;
 
         //private void CheckEventNotify_CheckedChanged(object sender, EventArgs e)
@@ -1384,7 +1324,7 @@ namespace OpenTween
             string path = this.ActionPanel.BrowserPathText.Text;
             try
             {
-                if (!string.IsNullOrEmpty(BrowserPath))
+                if (!string.IsNullOrEmpty(path))
                 {
                     if (path.StartsWith("\"") && path.Length > 2 && path.IndexOf("\"", 2) > -1)
                     {

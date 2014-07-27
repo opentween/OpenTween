@@ -132,7 +132,15 @@ namespace OpenTween
         public bool FavEventUnread = true;
         public string TranslateLanguage = Properties.Resources.TranslateDefaultLanguage;
         public string EventSoundFile = "";
+
+        /// <summary>
+        /// サウンド再生（タブ別設定より優先）
+        /// </summary>
         public bool PlaySound = false;
+
+        /// <summary>
+        /// 未読管理。trueなら未読管理する
+        /// </summary>
         public bool UnreadManage = true;
 
         /// <summary>

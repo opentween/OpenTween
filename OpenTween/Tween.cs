@@ -766,12 +766,9 @@ namespace OpenTween
             //新着取得時のリストスクロールをするか。trueならスクロールしない
             ListLockMenuItem.Checked = _cfgCommon.ListLock;
             this.LockListFileMenuItem.Checked = _cfgCommon.ListLock;
-            //未読管理。trueなら未読管理する
-            SettingDialog.UnreadManage = _cfgCommon.UnreadManage;
             //サウンド再生（タブ別設定より優先）
-            SettingDialog.PlaySound = _cfgCommon.PlaySound;
-            PlaySoundMenuItem.Checked = SettingDialog.PlaySound;
-            this.PlaySoundFileMenuItem.Checked = SettingDialog.PlaySound;
+            this.PlaySoundMenuItem.Checked = this._cfgCommon.PlaySound;
+            this.PlaySoundFileMenuItem.Checked = this._cfgCommon.PlaySound;
             //フォント＆文字色＆背景色
             SettingDialog.FontUnread = _fntUnread;
             SettingDialog.ColorUnread = _clUnread;
@@ -802,11 +799,8 @@ namespace OpenTween
             if (SettingDialog.CountApi < 20 || SettingDialog.CountApi > 200) SettingDialog.CountApi = 60;
             if (SettingDialog.CountApiReply < 20 || SettingDialog.CountApiReply > 200) SettingDialog.CountApiReply = 40;
 
-            SettingDialog.BrowserPath = _cfgLocal.BrowserPath;
             SettingDialog.PostAndGet = _cfgCommon.PostAndGet;
             SettingDialog.DispUsername = _cfgCommon.DispUsername;
-            SettingDialog.CloseToExit = _cfgCommon.CloseToExit;
-            SettingDialog.MinimizeToTray = _cfgCommon.MinimizeToTray;
             SettingDialog.DispLatestPost = _cfgCommon.DispLatestPost;
             SettingDialog.TinyUrlResolve = _cfgCommon.TinyUrlResolve;
 
@@ -816,13 +810,11 @@ namespace OpenTween
             SettingDialog.ProxyUser = _cfgLocal.ProxyUser;
             SettingDialog.ProxyPassword = _cfgLocal.ProxyPassword;
 
-            SettingDialog.RestrictFavCheck = _cfgCommon.RestrictFavCheck;
             SettingDialog.AlwaysTop = _cfgCommon.AlwaysTop;
             SettingDialog.UrlConvertAuto = false;
             //SettingDialog.UrlConvertAuto = _cfgCommon.UrlConvertAuto;
 
             SettingDialog.DefaultTimeOut = _cfgCommon.DefaultTimeOut;
-            SettingDialog.PlaySound = _cfgCommon.PlaySound;
             SettingDialog.LimitBalloon = _cfgCommon.LimitBalloon;
             SettingDialog.EventNotifyEnabled = _cfgCommon.EventNotifyEnabled;
             SettingDialog.EventNotifyFlag = _cfgCommon.EventNotifyFlag;
@@ -839,8 +831,6 @@ namespace OpenTween
             SettingDialog.AutoShortUrlFirst = _cfgCommon.AutoShortUrlFirst;
             SettingDialog.TabIconDisp = _cfgCommon.TabIconDisp;
             SettingDialog.ReplyIconState = _cfgCommon.ReplyIconState;
-            SettingDialog.ReadOwnPost = _cfgCommon.ReadOwnPost;
-            SettingDialog.ReadOldPosts = _cfgCommon.ReadOldPosts;
             SettingDialog.BitlyUser = _cfgCommon.BilyUser;
             SettingDialog.BitlyPwd = _cfgCommon.BitlyPwd;
             SettingDialog.Language = _cfgCommon.Language;
@@ -857,10 +847,6 @@ namespace OpenTween
             SettingDialog.RecommendStatusText = " [TWNv" + Regex.Replace(MyCommon.FileVersion.Replace(".", ""), "^0*", "") + "]";
 
             SettingDialog.Nicoms = _cfgCommon.Nicoms;
-            SettingDialog.HotkeyEnabled = _cfgCommon.HotkeyEnabled;
-            SettingDialog.HotkeyMod = _cfgCommon.HotkeyModifier;
-            SettingDialog.HotkeyKey = _cfgCommon.HotkeyKey;
-            SettingDialog.HotkeyValue = _cfgCommon.HotkeyValue;
 
             SettingDialog.BlinkNewMentions = _cfgCommon.BlinkNewMentions;
 
@@ -872,8 +858,6 @@ namespace OpenTween
             SettingDialog.UserTimelineCountApi = _cfgCommon.UserTimelineCountApi;
             SettingDialog.ListCountApi = _cfgCommon.ListCountApi;
 
-            SettingDialog.OpenUserTimeline = _cfgCommon.OpenUserTimeline;
-            SettingDialog.ListDoubleClickAction = _cfgCommon.ListDoubleClickAction;
             SettingDialog.UserAppointUrl = _cfgCommon.UserAppointUrl;
 
             SettingDialog.EnableImgAzyobuziNet = _cfgCommon.EnableImgAzyobuziNet;
@@ -882,7 +866,6 @@ namespace OpenTween
             SettingDialog.MapThumbnailHeight = _cfgCommon.MapThumbnailHeight;
             SettingDialog.MapThumbnailWidth = _cfgCommon.MapThumbnailWidth;
             SettingDialog.MapThumbnailZoom = _cfgCommon.MapThumbnailZoom;
-            SettingDialog.TabMouseLock = _cfgCommon.TabMouseLock;
             SettingDialog.IsRemoveSameEvent = _cfgCommon.IsRemoveSameEvent;
             SettingDialog.IsNotifyUseGrowl = _cfgCommon.IsUseNotifyGrowl;
 
@@ -965,16 +948,20 @@ namespace OpenTween
 
             InitDetailHtmlFormat();
 
-            if (SettingDialog.HotkeyEnabled)
+            if (this._cfgCommon.HotkeyEnabled)
             {
                 //////グローバルホットキーの登録
                 HookGlobalHotkey.ModKeys modKey = HookGlobalHotkey.ModKeys.None;
-                if ((SettingDialog.HotkeyMod & Keys.Alt) == Keys.Alt) modKey = modKey | HookGlobalHotkey.ModKeys.Alt;
-                if ((SettingDialog.HotkeyMod & Keys.Control) == Keys.Control) modKey = modKey | HookGlobalHotkey.ModKeys.Ctrl;
-                if ((SettingDialog.HotkeyMod & Keys.Shift) == Keys.Shift) modKey = modKey | HookGlobalHotkey.ModKeys.Shift;
-                if ((SettingDialog.HotkeyMod & Keys.LWin) == Keys.LWin) modKey = modKey | HookGlobalHotkey.ModKeys.Win;
+                if ((this._cfgCommon.HotkeyModifier & Keys.Alt) == Keys.Alt)
+                    modKey |= HookGlobalHotkey.ModKeys.Alt;
+                if ((this._cfgCommon.HotkeyModifier & Keys.Control) == Keys.Control)
+                    modKey |= HookGlobalHotkey.ModKeys.Ctrl;
+                if ((this._cfgCommon.HotkeyModifier & Keys.Shift) == Keys.Shift)
+                    modKey |= HookGlobalHotkey.ModKeys.Shift;
+                if ((this._cfgCommon.HotkeyModifier & Keys.LWin) == Keys.LWin)
+                    modKey |= HookGlobalHotkey.ModKeys.Win;
 
-                _hookGlobalHotkey.RegisterOriginalHotkey(SettingDialog.HotkeyKey, SettingDialog.HotkeyValue, modKey);
+                _hookGlobalHotkey.RegisterOriginalHotkey(this._cfgCommon.HotkeyKey, this._cfgCommon.HotkeyValue, modKey);
             }
 
             //Twitter用通信クラス初期化
@@ -983,8 +970,8 @@ namespace OpenTween
                 this.SettingDialog.ProxyAddress, this.SettingDialog.ProxyPort,
                 this.SettingDialog.ProxyUser, this.SettingDialog.ProxyPassword);
 
-            tw.RestrictFavCheck = SettingDialog.RestrictFavCheck;
-            tw.ReadOwnPost = SettingDialog.ReadOwnPost;
+            tw.RestrictFavCheck = this._cfgCommon.RestrictFavCheck;
+            tw.ReadOwnPost = this._cfgCommon.ReadOwnPost;
             ShortUrl.Instance.DisableExpanding = !SettingDialog.TinyUrlResolve;
             ShortUrl.Instance.BitlyId = SettingDialog.BitlyUser;
             ShortUrl.Instance.BitlyKey = SettingDialog.BitlyPwd;
@@ -1036,8 +1023,8 @@ namespace OpenTween
             }
             MultiLineMenuItem.Checked = _cfgLocal.StatusMultiline;
             //this.Tween_ClientSizeChanged(this, null);
-            PlaySoundMenuItem.Checked = SettingDialog.PlaySound;
-            this.PlaySoundFileMenuItem.Checked = SettingDialog.PlaySound;
+            this.PlaySoundMenuItem.Checked = this._cfgCommon.PlaySound;
+            this.PlaySoundFileMenuItem.Checked = this._cfgCommon.PlaySound;
             //入力欄
             StatusText.Font = _fntInputFont;
             StatusText.ForeColor = _clInputFont;
@@ -1049,7 +1036,7 @@ namespace OpenTween
             SplitContainer1.IsPanelInverted = !SettingDialog.StatusAreaAtBottom;
 
             //全新着通知のチェック状態により、Reply＆DMの新着通知有効無効切り替え（タブ別設定にするため削除予定）
-            if (SettingDialog.UnreadManage == false)
+            if (this._cfgCommon.UnreadManage == false)
             {
                 ReadedStripMenuItem.Enabled = false;
                 UnreadStripMenuItem.Enabled = false;
@@ -1178,7 +1165,7 @@ namespace OpenTween
             CopyURLMenuItem.ShortcutKeyDisplayString = "Ctrl+Shift+C";
             CopyUserIdStripMenuItem.ShortcutKeyDisplayString = "Shift+Alt+C";
 
-            if (SettingDialog.MinimizeToTray == false || this.WindowState != FormWindowState.Minimized)
+            if (!this._cfgCommon.MinimizeToTray || this.WindowState != FormWindowState.Minimized)
             {
                 this.Visible = true;
             }
@@ -1699,7 +1686,7 @@ namespace OpenTween
         {
             if (notifyPosts != null &&
                 notifyPosts.Length > 0 &&
-                this.SettingDialog.ReadOwnPost &&
+                this._cfgCommon.ReadOwnPost &&
                 notifyPosts.All((post) => { return post.UserId == tw.UserId || post.ScreenName == tw.Username; }))
             {
                 return;
@@ -1880,7 +1867,7 @@ namespace OpenTween
             }
 
             //サウンド再生
-            if (!_initial && SettingDialog.PlaySound && !string.IsNullOrEmpty(soundFile))
+            if (!_initial && this._cfgCommon.PlaySound && !string.IsNullOrEmpty(soundFile))
             {
                 try
                 {
@@ -1924,7 +1911,7 @@ namespace OpenTween
 
             this.PushSelectPostChain();
 
-            if (SettingDialog.UnreadManage) _statuses.SetReadAllTab(true, _curTab.Text, _curItemIndex);
+            if (this._cfgCommon.UnreadManage) _statuses.SetReadAllTab(true, _curTab.Text, _curItemIndex);
             //キャッシュの書き換え
             ChangeCacheStyleRead(true, _curItemIndex);   //既読へ（フォント、文字色）
 
@@ -1938,7 +1925,7 @@ namespace OpenTween
             //Read:true=既読 false=未読
             //未読管理していなかったら既読として扱う
             if (!tabInfo.UnreadManage ||
-               !SettingDialog.UnreadManage) Read = true;
+               !this._cfgCommon.UnreadManage) Read = true;
 
             //対象の特定
             ListViewItem itm = null;
@@ -2304,7 +2291,7 @@ namespace OpenTween
 
         private void TweenMain_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (!SettingDialog.CloseToExit && e.CloseReason == CloseReason.UserClosing && MyCommon._endingFlag == false)
+            if (!this._cfgCommon.CloseToExit && e.CloseReason == CloseReason.UserClosing && MyCommon._endingFlag == false)
             {
                 //_endingFlag=false:フォームの×ボタン
                 e.Cancel = true;
@@ -2366,8 +2353,8 @@ namespace OpenTween
             string ret = "";
             GetWorkerResult rslt = new GetWorkerResult();
 
-            bool read = !SettingDialog.UnreadManage;
-            if (_initial && SettingDialog.UnreadManage) read = this._cfgCommon.Read;
+            bool read = !this._cfgCommon.UnreadManage;
+            if (_initial && this._cfgCommon.UnreadManage) read = this._cfgCommon.Read;
 
             GetWorkerArg args = (GetWorkerArg)e.Argument;
 
@@ -2389,7 +2376,7 @@ namespace OpenTween
                     bw.ReportProgress(50, MakeStatusMessage(args, false));
                     ret = tw.GetTimelineApi(read, args.type, args.page == -1, _initial);
                     //新着時未読クリア
-                    if (string.IsNullOrEmpty(ret) && args.type == MyCommon.WORKERTYPE.Timeline && SettingDialog.ReadOldPosts)
+                    if (string.IsNullOrEmpty(ret) && args.type == MyCommon.WORKERTYPE.Timeline && this._cfgCommon.ReadOldPosts)
                         _statuses.SetRead();
                     //振り分け
                     rslt.addCount = _statuses.DistributePosts();
@@ -3205,7 +3192,7 @@ namespace OpenTween
 
         private void MyList_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            switch (SettingDialog.ListDoubleClickAction)
+            switch (this._cfgCommon.ListDoubleClickAction)
             {
                 case 0:
                     MakeReplyOrDirectStatus();
@@ -3712,7 +3699,7 @@ namespace OpenTween
         {
             using (ControlTransaction.Update(this._curList))
             {
-                if (SettingDialog.UnreadManage)
+                if (this._cfgCommon.UnreadManage)
                 {
                     foreach (int idx in _curList.SelectedIndices)
                     {
@@ -3742,7 +3729,7 @@ namespace OpenTween
         {
             using (ControlTransaction.Update(this._curList))
             {
-                if (SettingDialog.UnreadManage)
+                if (this._cfgCommon.UnreadManage)
                 {
                     foreach (int idx in _curList.SelectedIndices)
                     {
@@ -3883,8 +3870,8 @@ namespace OpenTween
 
                     this.SettingDialog.SaveConfig(this._cfgCommon, this._cfgLocal);
 
-                    tw.RestrictFavCheck = SettingDialog.RestrictFavCheck;
-                    tw.ReadOwnPost = SettingDialog.ReadOwnPost;
+                    tw.RestrictFavCheck = this._cfgCommon.RestrictFavCheck;
+                    tw.ReadOwnPost = this._cfgCommon.ReadOwnPost;
                     ShortUrl.Instance.DisableExpanding = !SettingDialog.TinyUrlResolve;
                     ShortUrl.Instance.BitlyId = SettingDialog.BitlyUser;
                     ShortUrl.Instance.BitlyKey = SettingDialog.BitlyPwd;
@@ -3922,7 +3909,7 @@ namespace OpenTween
 
                     try
                     {
-                        if (!SettingDialog.UnreadManage)
+                        if (!this._cfgCommon.UnreadManage)
                         {
                             ReadedStripMenuItem.Enabled = false;
                             UnreadStripMenuItem.Enabled = false;
@@ -3956,8 +3943,8 @@ namespace OpenTween
                     imgazyobizinet.Enabled = this.SettingDialog.EnableImgAzyobuziNet;
                     imgazyobizinet.DisabledInDM = this.SettingDialog.ImgAzyobuziNetDisabledInDM;
 
-                    PlaySoundMenuItem.Checked = SettingDialog.PlaySound;
-                    this.PlaySoundFileMenuItem.Checked = SettingDialog.PlaySound;
+                    this.PlaySoundMenuItem.Checked = this._cfgCommon.PlaySound;
+                    this.PlaySoundFileMenuItem.Checked = this._cfgCommon.PlaySound;
                     _fntUnread = SettingDialog.FontUnread;
                     _clUnread = SettingDialog.ColorUnread;
                     _fntReaded = SettingDialog.FontReaded;
@@ -4018,7 +4005,7 @@ namespace OpenTween
 
                     try
                     {
-                        _statuses.SetUnreadManage(SettingDialog.UnreadManage);
+                        _statuses.SetUnreadManage(this._cfgCommon.UnreadManage);
                     }
                     catch (Exception ex)
                     {
@@ -4084,16 +4071,20 @@ namespace OpenTween
                     ListTab.Refresh();
 
                     _hookGlobalHotkey.UnregisterAllOriginalHotkey();
-                    if (SettingDialog.HotkeyEnabled)
+                    if (this._cfgCommon.HotkeyEnabled)
                     {
                         ///グローバルホットキーの登録。設定で変更可能にするかも
                         HookGlobalHotkey.ModKeys modKey = HookGlobalHotkey.ModKeys.None;
-                        if ((SettingDialog.HotkeyMod & Keys.Alt) == Keys.Alt) modKey = modKey | HookGlobalHotkey.ModKeys.Alt;
-                        if ((SettingDialog.HotkeyMod & Keys.Control) == Keys.Control) modKey = modKey | HookGlobalHotkey.ModKeys.Ctrl;
-                        if ((SettingDialog.HotkeyMod & Keys.Shift) == Keys.Shift) modKey = modKey | HookGlobalHotkey.ModKeys.Shift;
-                        if ((SettingDialog.HotkeyMod & Keys.LWin) == Keys.LWin) modKey = modKey | HookGlobalHotkey.ModKeys.Win;
+                        if ((this._cfgCommon.HotkeyModifier & Keys.Alt) == Keys.Alt)
+                            modKey |= HookGlobalHotkey.ModKeys.Alt;
+                        if ((this._cfgCommon.HotkeyModifier & Keys.Control) == Keys.Control)
+                            modKey |= HookGlobalHotkey.ModKeys.Ctrl;
+                        if ((this._cfgCommon.HotkeyModifier & Keys.Shift) == Keys.Shift)
+                            modKey |=  HookGlobalHotkey.ModKeys.Shift;
+                        if ((this._cfgCommon.HotkeyModifier & Keys.LWin) == Keys.LWin)
+                            modKey |= HookGlobalHotkey.ModKeys.Win;
 
-                        _hookGlobalHotkey.RegisterOriginalHotkey(SettingDialog.HotkeyKey, SettingDialog.HotkeyValue, modKey);
+                        _hookGlobalHotkey.RegisterOriginalHotkey(this._cfgCommon.HotkeyKey, this._cfgCommon.HotkeyValue, modKey);
                     }
 
                     if (uid != tw.Username) this.doGetFollowersMenu();
@@ -4245,7 +4236,7 @@ namespace OpenTween
                     if (m.Success && IsTwitterId(m.Result("${ScreenName}")))
                     {
                         // Ctrlを押しながらリンクをクリックした場合は設定と逆の動作をする
-                        if (SettingDialog.OpenUserTimeline)
+                        if (this._cfgCommon.OpenUserTimeline)
                         {
                             if (MyCommon.IsKeyDown(Keys.Control))
                                 OpenUriAsync(e.Url.OriginalString);
@@ -4705,7 +4696,7 @@ namespace OpenTween
         {
             //タブのD&D
 
-            if (!SettingDialog.TabMouseLock && e.Button == MouseButtons.Left && _tabDrag)
+            if (!this._cfgCommon.TabMouseLock && e.Button == MouseButtons.Left && _tabDrag)
             {
                 string tn = "";
                 Rectangle dragEnableRectangle = new Rectangle((int)(_tabMouseDownPoint.X - (SystemInformation.DragSize.Width / 2)), (int)(_tabMouseDownPoint.Y - (SystemInformation.DragSize.Height / 2)), SystemInformation.DragSize.Width, SystemInformation.DragSize.Height);
@@ -5181,7 +5172,7 @@ namespace OpenTween
 
             bool read = Post.IsRead;
             //未読管理していなかったら既読として扱う
-            if (!_statuses.Tabs[Tab.Text].UnreadManage || !SettingDialog.UnreadManage) read = true;
+            if (!_statuses.Tabs[Tab.Text].UnreadManage || !this._cfgCommon.UnreadManage) read = true;
             ChangeItemStyleRead(read, itm, Post, null);
             if (Tab.Equals(_curTab)) ColorizeList(itm, Index);
             return itm;
@@ -7722,18 +7713,13 @@ namespace OpenTween
                 _cfgCommon.Token = tw.AccessToken;
                 _cfgCommon.TokenSecret = tw.AccessTokenSecret;
                 _cfgCommon.UserAccounts = SettingDialog.UserAccounts;
-                _cfgCommon.UnreadManage = SettingDialog.UnreadManage;
-                _cfgCommon.PlaySound = SettingDialog.PlaySound;
 
                 _cfgCommon.NameBalloon = SettingDialog.NameBalloon;
                 _cfgCommon.CountApi = SettingDialog.CountApi;
                 _cfgCommon.CountApiReply = SettingDialog.CountApiReply;
                 _cfgCommon.DispUsername = SettingDialog.DispUsername;
-                _cfgCommon.MinimizeToTray = SettingDialog.MinimizeToTray;
-                _cfgCommon.CloseToExit = SettingDialog.CloseToExit;
                 _cfgCommon.DispLatestPost = SettingDialog.DispLatestPost;
                 _cfgCommon.TinyUrlResolve = SettingDialog.TinyUrlResolve;
-                _cfgCommon.RestrictFavCheck = SettingDialog.RestrictFavCheck;
                 _cfgCommon.AlwaysTop = SettingDialog.AlwaysTop;
                 _cfgCommon.UrlConvertAuto = SettingDialog.UrlConvertAuto;
                 _cfgCommon.DefaultTimeOut = SettingDialog.DefaultTimeOut;
@@ -7748,14 +7734,12 @@ namespace OpenTween
                 _cfgCommon.AutoShortUrlFirst = SettingDialog.AutoShortUrlFirst;
                 _cfgCommon.TabIconDisp = SettingDialog.TabIconDisp;
                 _cfgCommon.ReplyIconState = SettingDialog.ReplyIconState;
-                _cfgCommon.ReadOwnPost = SettingDialog.ReadOwnPost;
                 _cfgCommon.IsMonospace = SettingDialog.IsMonospace;
                 if (IdeographicSpaceToSpaceToolStripMenuItem != null &&
                    IdeographicSpaceToSpaceToolStripMenuItem.IsDisposed == false)
                 {
                     _cfgCommon.WideSpaceConvert = this.IdeographicSpaceToSpaceToolStripMenuItem.Checked;
                 }
-                _cfgCommon.ReadOldPosts = SettingDialog.ReadOldPosts;
                 _cfgCommon.BilyUser = SettingDialog.BitlyUser;
                 _cfgCommon.BitlyPwd = SettingDialog.BitlyPwd;
                 _cfgCommon.PreviewEnable = SettingDialog.PreviewEnable;
@@ -7796,10 +7780,6 @@ namespace OpenTween
                 _cfgCommon.HashIsPermanent = HashMgr.IsPermanent;
                 _cfgCommon.HashIsNotAddToAtReply = HashMgr.IsNotAddToAtReply;
                 _cfgCommon.TwitterUrl = SettingDialog.TwitterApiUrl;
-                _cfgCommon.HotkeyEnabled = SettingDialog.HotkeyEnabled;
-                _cfgCommon.HotkeyModifier = SettingDialog.HotkeyMod;
-                _cfgCommon.HotkeyKey = SettingDialog.HotkeyKey;
-                _cfgCommon.HotkeyValue = SettingDialog.HotkeyValue;
                 _cfgCommon.BlinkNewMentions = SettingDialog.BlinkNewMentions;
                 if (ToolStripFocusLockMenuItem != null &&
                         ToolStripFocusLockMenuItem.IsDisposed == false)
@@ -7814,11 +7794,9 @@ namespace OpenTween
                 _cfgCommon.UserTimelineCountApi = SettingDialog.UserTimelineCountApi;
                 _cfgCommon.TrackWord = tw.TrackWord;
                 _cfgCommon.AllAtReply = tw.AllAtReply;
-                _cfgCommon.OpenUserTimeline = SettingDialog.OpenUserTimeline;
                 _cfgCommon.ListCountApi = SettingDialog.ListCountApi;
                 _cfgCommon.UseImageService = ImageSelector.ServiceIndex;
                 _cfgCommon.UseImageServiceName = ImageSelector.ServiceName;
-                _cfgCommon.ListDoubleClickAction = SettingDialog.ListDoubleClickAction;
                 _cfgCommon.UserAppointUrl = SettingDialog.UserAppointUrl;
                 _cfgCommon.EnableImgAzyobuziNet = SettingDialog.EnableImgAzyobuziNet;
                 _cfgCommon.ImgAzyobuziNetDisabledInDM = SettingDialog.ImgAzyobuziNetDisabledInDM;
@@ -7826,7 +7804,6 @@ namespace OpenTween
                 _cfgCommon.MapThumbnailHeight = SettingDialog.MapThumbnailHeight;
                 _cfgCommon.MapThumbnailWidth = SettingDialog.MapThumbnailWidth;
                 _cfgCommon.MapThumbnailZoom = SettingDialog.MapThumbnailZoom;
-                _cfgCommon.TabMouseLock = SettingDialog.TabMouseLock;
                 _cfgCommon.IsRemoveSameEvent = SettingDialog.IsRemoveSameEvent;
                 _cfgCommon.IsUseNotifyGrowl = SettingDialog.IsNotifyUseGrowl;
 
@@ -7869,7 +7846,6 @@ namespace OpenTween
                 _cfgLocal.ColorInputFont = _clInputFont;
                 _cfgLocal.FontInputFont = _fntInputFont;
 
-                _cfgLocal.BrowserPath = SettingDialog.BrowserPath;
                 _cfgLocal.ProxyType = SettingDialog.SelectedProxyType;
                 _cfgLocal.ProxyAddress = SettingDialog.ProxyAddress;
                 _cfgLocal.ProxyPort = SettingDialog.ProxyPort;
@@ -8091,7 +8067,7 @@ namespace OpenTween
 
         private void ListTab_MouseDown(object sender, MouseEventArgs e)
         {
-            if (SettingDialog.TabMouseLock) return;
+            if (this._cfgCommon.TabMouseLock) return;
             Point cpos = new Point(e.X, e.Y);
             if (e.Button == MouseButtons.Left)
             {
@@ -9217,7 +9193,7 @@ namespace OpenTween
                 else
                 {
                     Match m = Regex.Match(openUrlStr, "^https?://twitter.com/(#!/)?(?<ScreenName>[a-zA-Z0-9_]+)$");
-                    if (SettingDialog.OpenUserTimeline && m.Success && IsTwitterId(m.Result("${ScreenName}")))
+                    if (this._cfgCommon.OpenUserTimeline && m.Success && IsTwitterId(m.Result("${ScreenName}")))
                         this.AddNewTabForUserTimeline(m.Result("${ScreenName}"));
                     else
                         OpenUriAsync(openUrlStr);
@@ -9509,7 +9485,7 @@ namespace OpenTween
 
         private void TweenMain_Resize(object sender, EventArgs e)
         {
-            if (!_initialLayout && SettingDialog.MinimizeToTray && WindowState == FormWindowState.Minimized)
+            if (!_initialLayout && this._cfgCommon.MinimizeToTray && WindowState == FormWindowState.Minimized)
             {
                 this.Visible = false;
             }
@@ -9560,11 +9536,11 @@ namespace OpenTween
             this.PlaySoundFileMenuItem.Checked = PlaySoundMenuItem.Checked;
             if (PlaySoundMenuItem.Checked)
             {
-                SettingDialog.PlaySound = true;
+                this._cfgCommon.PlaySound = true;
             }
             else
             {
-                SettingDialog.PlaySound = false;
+                this._cfgCommon.PlaySound = false;
             }
             _modifySettingCommon = true;
         }
@@ -10542,7 +10518,7 @@ namespace OpenTween
 
                 try
                 {
-                    var configBrowserPath = SettingDialog.BrowserPath;
+                    var configBrowserPath = this._cfgLocal.BrowserPath;
                     if (!string.IsNullOrEmpty(configBrowserPath))
                     {
                         if (configBrowserPath.StartsWith("\"") && configBrowserPath.Length > 2 && configBrowserPath.IndexOf("\"", 2) > -1)
@@ -12561,7 +12537,7 @@ namespace OpenTween
 
         private void tw_NewPostFromStream(object sender, EventArgs e)
         {
-            if (SettingDialog.ReadOldPosts)
+            if (this._cfgCommon.ReadOldPosts)
             {
                 _statuses.SetRead(); //新着時未読クリア
             }
@@ -12772,7 +12748,7 @@ namespace OpenTween
 
             //サウンド再生
             string snd = SettingDialog.EventSoundFile;
-            if (!_initial && SettingDialog.PlaySound && !string.IsNullOrEmpty(snd))
+            if (!_initial && this._cfgCommon.PlaySound && !string.IsNullOrEmpty(snd))
             {
                 if ((ev.Eventtype & SettingDialog.EventNotifyFlag) != 0 && IsMyEventNotityAsEventType(ev))
                 {
