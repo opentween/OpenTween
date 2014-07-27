@@ -770,17 +770,6 @@ namespace OpenTween
             this.PlaySoundMenuItem.Checked = this._cfgCommon.PlaySound;
             this.PlaySoundFileMenuItem.Checked = this._cfgCommon.PlaySound;
             //フォント＆文字色＆背景色
-            SettingDialog.FontUnread = _fntUnread;
-            SettingDialog.ColorUnread = _clUnread;
-            SettingDialog.FontReaded = _fntReaded;
-            SettingDialog.ColorReaded = _clReaded;
-            SettingDialog.ColorFav = _clFav;
-            SettingDialog.ColorOWL = _clOWL;
-            SettingDialog.ColorRetweet = _clRetweet;
-            SettingDialog.FontDetail = _fntDetail;
-            SettingDialog.ColorDetail = _clDetail;
-            SettingDialog.ColorDetailLink = _clDetailLink;
-            SettingDialog.ColorDetailBackcolor = _clDetailBackcolor;
             SettingDialog.ColorSelf = _clSelf;
             SettingDialog.ColorAtSelf = _clAtSelf;
             SettingDialog.ColorTarget = _clTarget;
@@ -912,17 +901,17 @@ namespace OpenTween
 
                 //新しい設定を反映
                 //フォント＆文字色＆背景色保持
-                _fntUnread = SettingDialog.FontUnread;
-                _clUnread = SettingDialog.ColorUnread;
-                _fntReaded = SettingDialog.FontReaded;
-                _clReaded = SettingDialog.ColorReaded;
-                _clFav = SettingDialog.ColorFav;
-                _clOWL = SettingDialog.ColorOWL;
-                _clRetweet = SettingDialog.ColorRetweet;
-                _fntDetail = SettingDialog.FontDetail;
-                _clDetail = SettingDialog.ColorDetail;
-                _clDetailLink = SettingDialog.ColorDetailLink;
-                _clDetailBackcolor = SettingDialog.ColorDetailBackcolor;
+                _fntUnread = this._cfgLocal.FontUnread;
+                _clUnread = this._cfgLocal.ColorUnread;
+                _fntReaded = this._cfgLocal.FontRead;
+                _clReaded = this._cfgLocal.ColorRead;
+                _clFav = this._cfgLocal.ColorFav;
+                _clOWL = this._cfgLocal.ColorOWL;
+                _clRetweet = this._cfgLocal.ColorRetweet;
+                _fntDetail = this._cfgLocal.FontDetail;
+                _clDetail = this._cfgLocal.ColorDetail;
+                _clDetailLink = this._cfgLocal.ColorDetailLink;
+                _clDetailBackcolor = this._cfgLocal.ColorDetailBackcolor;
                 _clSelf = SettingDialog.ColorSelf;
                 _clAtSelf = SettingDialog.ColorAtSelf;
                 _clTarget = SettingDialog.ColorTarget;
@@ -3945,17 +3934,17 @@ namespace OpenTween
 
                     this.PlaySoundMenuItem.Checked = this._cfgCommon.PlaySound;
                     this.PlaySoundFileMenuItem.Checked = this._cfgCommon.PlaySound;
-                    _fntUnread = SettingDialog.FontUnread;
-                    _clUnread = SettingDialog.ColorUnread;
-                    _fntReaded = SettingDialog.FontReaded;
-                    _clReaded = SettingDialog.ColorReaded;
-                    _clFav = SettingDialog.ColorFav;
-                    _clOWL = SettingDialog.ColorOWL;
-                    _clRetweet = SettingDialog.ColorRetweet;
-                    _fntDetail = SettingDialog.FontDetail;
-                    _clDetail = SettingDialog.ColorDetail;
-                    _clDetailLink = SettingDialog.ColorDetailLink;
-                    _clDetailBackcolor = SettingDialog.ColorDetailBackcolor;
+                    _fntUnread = this._cfgLocal.FontUnread;
+                    _clUnread = this._cfgLocal.ColorUnread;
+                    _fntReaded = this._cfgLocal.FontRead;
+                    _clReaded = this._cfgLocal.ColorRead;
+                    _clFav = this._cfgLocal.ColorFav;
+                    _clOWL = this._cfgLocal.ColorOWL;
+                    _clRetweet = this._cfgLocal.ColorRetweet;
+                    _fntDetail = this._cfgLocal.FontDetail;
+                    _clDetail = this._cfgLocal.ColorDetail;
+                    _clDetailLink = this._cfgLocal.ColorDetailLink;
+                    _clDetailBackcolor = this._cfgLocal.ColorDetailBackcolor;
                     _clSelf = SettingDialog.ColorSelf;
                     _clAtSelf = SettingDialog.ColorAtSelf;
                     _clTarget = SettingDialog.ColorTarget;
@@ -6896,9 +6885,9 @@ namespace OpenTween
             if (tags.Count > 0)
             {
                 if (forward)
-                    tags[0].ScrollTop += SettingDialog.FontDetail.Height;
+                    tags[0].ScrollTop += this._fntDetail.Height;
                 else
-                    tags[0].ScrollTop -= SettingDialog.FontDetail.Height;
+                    tags[0].ScrollTop -= this._fntDetail.Height;
             }
         }
 
@@ -6911,9 +6900,9 @@ namespace OpenTween
             if (tags.Count > 0)
             {
                 if (forward)
-                    tags[0].ScrollTop += PostBrowser.ClientRectangle.Height - SettingDialog.FontDetail.Height;
+                    tags[0].ScrollTop += PostBrowser.ClientRectangle.Height - this._fntDetail.Height;
                 else
-                    tags[0].ScrollTop -= PostBrowser.ClientRectangle.Height - SettingDialog.FontDetail.Height;
+                    tags[0].ScrollTop -= PostBrowser.ClientRectangle.Height - this._fntDetail.Height;
             }
         }
 

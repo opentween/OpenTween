@@ -78,6 +78,7 @@ namespace OpenTween
             this.TweetPrvPanel.LoadConfig(settingCommon);
             this.TweetActPanel.LoadConfig(settingCommon, settingLocal);
             this.ActionPanel.LoadConfig(settingCommon, settingLocal);
+            this.FontPanel.LoadConfig(settingLocal);
         }
 
         public void SaveConfig(SettingCommon settingCommon, SettingLocal settingLocal)
@@ -87,6 +88,7 @@ namespace OpenTween
             this.TweetPrvPanel.SaveConfig(settingCommon);
             this.TweetActPanel.SaveConfig(settingCommon, settingLocal);
             this.ActionPanel.SaveConfig(settingCommon, settingLocal);
+            this.FontPanel.SaveConfig(settingLocal);
         }
 
         private void TreeViewSetting_BeforeSelect(object sender, TreeViewCancelEventArgs e)
@@ -212,14 +214,6 @@ namespace OpenTween
 #endif
             try
             {
-                FontUnread = this.FontPanel.lblUnread.Font;     //未使用
-                ColorUnread = this.FontPanel.lblUnread.ForeColor;
-                FontReaded = this.FontPanel.lblListFont.Font;     //リストフォントとして使用
-                ColorReaded = this.FontPanel.lblListFont.ForeColor;
-                ColorFav = this.FontPanel.lblFav.ForeColor;
-                ColorOWL = this.FontPanel.lblOWL.ForeColor;
-                ColorRetweet = this.FontPanel.lblRetweet.ForeColor;
-                FontDetail = this.FontPanel.lblDetail.Font;
                 ColorSelf = this.FontPanel2.lblSelf.BackColor;
                 ColorAtSelf = this.FontPanel2.lblAtSelf.BackColor;
                 ColorTarget = this.FontPanel2.lblTarget.BackColor;
@@ -229,9 +223,6 @@ namespace OpenTween
                 ColorInputBackcolor = this.FontPanel2.lblInputBackcolor.BackColor;
                 ColorInputFont = this.FontPanel2.lblInputFont.ForeColor;
                 ColorListBackcolor = this.FontPanel2.lblListBackcolor.BackColor;
-                ColorDetailBackcolor = this.FontPanel.lblDetailBackcolor.BackColor;
-                ColorDetail = this.FontPanel.lblDetail.ForeColor;
-                ColorDetailLink = this.FontPanel.lblDetailLink.ForeColor;
                 FontInputFont = this.FontPanel2.lblInputFont.Font;
                 switch (this.PreviewPanel.cmbNameBalloon.SelectedIndex)
                 {
@@ -468,14 +459,6 @@ namespace OpenTween
                 }
             }
 
-            this.FontPanel.lblListFont.Font = FontReaded;
-            this.FontPanel.lblUnread.Font = FontUnread;
-            this.FontPanel.lblUnread.ForeColor = ColorUnread;
-            this.FontPanel.lblListFont.ForeColor = ColorReaded;
-            this.FontPanel.lblFav.ForeColor = ColorFav;
-            this.FontPanel.lblOWL.ForeColor = ColorOWL;
-            this.FontPanel.lblRetweet.ForeColor = ColorRetweet;
-            this.FontPanel.lblDetail.Font = FontDetail;
             this.FontPanel2.lblSelf.BackColor = ColorSelf;
             this.FontPanel2.lblAtSelf.BackColor = ColorAtSelf;
             this.FontPanel2.lblTarget.BackColor = ColorTarget;
@@ -486,9 +469,6 @@ namespace OpenTween
             this.FontPanel2.lblInputFont.ForeColor = ColorInputFont;
             this.FontPanel2.lblInputFont.Font = FontInputFont;
             this.FontPanel2.lblListBackcolor.BackColor = ColorListBackcolor;
-            this.FontPanel.lblDetailBackcolor.BackColor = ColorDetailBackcolor;
-            this.FontPanel.lblDetail.ForeColor = ColorDetail;
-            this.FontPanel.lblDetailLink.ForeColor = ColorDetailLink;
 
             switch (NameBalloon)
             {
@@ -862,16 +842,6 @@ namespace OpenTween
             }
         }
 
-        public Font FontUnread { get; set; } /////未使用
-        public Color ColorUnread { get; set; }
-        public Font FontReaded { get; set; } /////リストフォントとして使用
-        public Color ColorReaded { get; set; }
-        public Color ColorFav { get; set; }
-        public Color ColorOWL { get; set; }
-        public Color ColorRetweet { get; set; }
-        public Font FontDetail { get; set; }
-        public Color ColorDetail { get; set; }
-        public Color ColorDetailLink { get; set; }
         public Color ColorSelf { get; set; }
         public Color ColorAtSelf { get; set; }
         public Color ColorTarget { get; set; }
@@ -882,7 +852,6 @@ namespace OpenTween
         public Color ColorInputFont { get; set; }
         public Font FontInputFont { get; set; }
         public Color ColorListBackcolor { get; set; }
-        public Color ColorDetailBackcolor { get; set; }
         public MyCommon.NameBalloonEnum NameBalloon { get; set; }
         public int CountApi { get; set; }
         public int CountApiReply { get; set; }

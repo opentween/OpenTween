@@ -42,6 +42,36 @@ namespace OpenTween.Setting.Panel
             InitializeComponent();
         }
 
+        public void LoadConfig(SettingLocal settingLocal)
+        {
+            this.lblListFont.Font = settingLocal.FontRead;
+            this.lblUnread.Font = settingLocal.FontUnread;
+            this.lblUnread.ForeColor = settingLocal.ColorUnread;
+            this.lblListFont.ForeColor = settingLocal.ColorRead;
+            this.lblFav.ForeColor = settingLocal.ColorFav;
+            this.lblOWL.ForeColor = settingLocal.ColorOWL;
+            this.lblRetweet.ForeColor = settingLocal.ColorRetweet;
+            this.lblDetail.Font = settingLocal.FontDetail;
+            this.lblDetailBackcolor.BackColor = settingLocal.ColorDetailBackcolor;
+            this.lblDetail.ForeColor = settingLocal.ColorDetail;
+            this.lblDetailLink.ForeColor = settingLocal.ColorDetailLink;
+        }
+
+        public void SaveConfig(SettingLocal settingLocal)
+        {
+            settingLocal.FontUnread = this.lblUnread.Font; // 未使用
+            settingLocal.ColorUnread = this.lblUnread.ForeColor;
+            settingLocal.FontRead = this.lblListFont.Font; // リストフォントとして使用
+            settingLocal.ColorRead = this.lblListFont.ForeColor;
+            settingLocal.ColorFav = this.lblFav.ForeColor;
+            settingLocal.ColorOWL = this.lblOWL.ForeColor;
+            settingLocal.ColorRetweet = this.lblRetweet.ForeColor;
+            settingLocal.FontDetail = this.lblDetail.Font;
+            settingLocal.ColorDetailBackcolor = this.lblDetailBackcolor.BackColor;
+            settingLocal.ColorDetail = this.lblDetail.ForeColor;
+            settingLocal.ColorDetailLink = this.lblDetailLink.ForeColor;
+        }
+
         private void ButtonBackToDefaultFontColor_Click(object sender, EventArgs e)
         {
             lblUnread.ForeColor = SystemColors.ControlText;
