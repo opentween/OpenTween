@@ -49,12 +49,9 @@ namespace OpenTween
         private Twitter tw;
 
         private bool _ValidationError = false;
-        private MyCommon.EVENTTYPE _MyEventNotifyFlag;
-        private MyCommon.EVENTTYPE _isMyEventNotifyFlag;
 
         public List<UserAccount> UserAccounts;
         private long? InitialUserId;
-        public bool IsRemoveSameEvent;
 
         public TwitterConfiguration TwitterConfiguration = TwitterConfiguration.DefaultConfiguration();
 
@@ -77,6 +74,7 @@ namespace OpenTween
             this.ProxyPanel.LoadConfig(settingLocal);
             this.CooperatePanel.LoadConfig(settingCommon);
             this.ConnectionPanel.LoadConfig(settingCommon);
+            this.NotifyPanel.LoadConfig(settingCommon);
         }
 
         public void SaveConfig(SettingCommon settingCommon, SettingLocal settingLocal)
@@ -94,6 +92,7 @@ namespace OpenTween
             this.ProxyPanel.SaveConfig(settingLocal);
             this.CooperatePanel.SaveConfig(settingCommon);
             this.ConnectionPanel.SaveConfig(settingCommon);
+            this.NotifyPanel.SaveConfig(settingCommon);
         }
 
         private void TreeViewSetting_BeforeSelect(object sender, TreeViewCancelEventArgs e)
@@ -217,21 +216,6 @@ namespace OpenTween
                 string ret = tw.PostFollowCommand(ApplicationSettings.FeedbackTwitterName);
             }
 #endif
-            try
-            {
-                EventNotifyEnabled = this.NotifyPanel.CheckEventNotify.Checked;
-                GetEventNotifyFlag(ref _MyEventNotifyFlag, ref _isMyEventNotifyFlag);
-                ForceEventNotify = this.NotifyPanel.CheckForceEventNotify.Checked;
-                FavEventUnread = this.NotifyPanel.CheckFavEventUnread.Checked;
-                EventSoundFile = (string)this.NotifyPanel.ComboBoxEventNotifySound.SelectedItem;
-                this.IsRemoveSameEvent = this.NotifyPanel.IsRemoveSameFavEventCheckBox.Checked;
-            }
-            catch(Exception)
-            {
-                MessageBox.Show(Properties.Resources.Save_ClickText3);
-                this.DialogResult = DialogResult.Cancel;
-                return;
-            }
         }
 
         private void Setting_FormClosing(object sender, FormClosingEventArgs e)
@@ -330,13 +314,6 @@ namespace OpenTween
                     }
                 }
             }
-
-            ApplyEventNotifyFlag(EventNotifyEnabled, EventNotifyFlag, IsMyEventNotifyFlag);
-            this.NotifyPanel.CheckForceEventNotify.Checked = ForceEventNotify;
-            this.NotifyPanel.CheckFavEventUnread.Checked = FavEventUnread;
-            SoundFileListup();
-
-            this.NotifyPanel.IsRemoveSameFavEventCheckBox.Checked = this.IsRemoveSameEvent;
 
             this.TreeViewSetting.Nodes["BasedNode"].Tag = BasedPanel;
             this.TreeViewSetting.Nodes["BasedNode"].Nodes["PeriodNode"].Tag = GetPeriodPanel;
@@ -547,37 +524,6 @@ namespace OpenTween
 
         public string RecommendStatusText { get; set; }
 
-        public bool EventNotifyEnabled { get; set; }
-
-        public MyCommon.EVENTTYPE EventNotifyFlag
-        {
-            get
-            {
-                return _MyEventNotifyFlag;
-            }
-            set
-            {
-                _MyEventNotifyFlag = value;
-            }
-        }
-
-        public MyCommon.EVENTTYPE IsMyEventNotifyFlag
-        {
-            get
-            {
-                return _isMyEventNotifyFlag;
-            }
-            set
-            {
-                _isMyEventNotifyFlag = value;
-            }
-        }
-
-        public bool ForceEventNotify { get; set; }
-        public bool FavEventUnread { get; set; }
-
-        public string EventSoundFile { get; set; }
-
         private bool StartAuth()
         {
             //現在の設定内容で通信
@@ -768,112 +714,6 @@ namespace OpenTween
         //    ApplyEventNotifyFlag(EventNotifyEnabled, EventNotifyFlag, IsMyEventNotifyFlag);
         //}
 
-        private class EventCheckboxTblElement
-        {
-            public CheckBox CheckBox;
-            public MyCommon.EVENTTYPE Type;
-        }
-
-        private EventCheckboxTblElement[] GetEventCheckboxTable()
-        {
-            EventCheckboxTblElement[] _eventCheckboxTable = new EventCheckboxTblElement[8];
-
-            _eventCheckboxTable[0] = new EventCheckboxTblElement();
-            _eventCheckboxTable[0].CheckBox = this.NotifyPanel.CheckFavoritesEvent;
-            _eventCheckboxTable[0].Type = MyCommon.EVENTTYPE.Favorite;
-
-            _eventCheckboxTable[1] = new EventCheckboxTblElement();
-            _eventCheckboxTable[1].CheckBox = this.NotifyPanel.CheckUnfavoritesEvent;
-            _eventCheckboxTable[1].Type = MyCommon.EVENTTYPE.Unfavorite;
-
-            _eventCheckboxTable[2] = new EventCheckboxTblElement();
-            _eventCheckboxTable[2].CheckBox = this.NotifyPanel.CheckFollowEvent;
-            _eventCheckboxTable[2].Type = MyCommon.EVENTTYPE.Follow;
-
-            _eventCheckboxTable[3] = new EventCheckboxTblElement();
-            _eventCheckboxTable[3].CheckBox = this.NotifyPanel.CheckListMemberAddedEvent;
-            _eventCheckboxTable[3].Type = MyCommon.EVENTTYPE.ListMemberAdded;
-
-            _eventCheckboxTable[4] = new EventCheckboxTblElement();
-            _eventCheckboxTable[4].CheckBox = this.NotifyPanel.CheckListMemberRemovedEvent;
-            _eventCheckboxTable[4].Type = MyCommon.EVENTTYPE.ListMemberRemoved;
-
-            _eventCheckboxTable[5] = new EventCheckboxTblElement();
-            _eventCheckboxTable[5].CheckBox = this.NotifyPanel.CheckBlockEvent;
-            _eventCheckboxTable[5].Type = MyCommon.EVENTTYPE.Block;
-
-            _eventCheckboxTable[6] = new EventCheckboxTblElement();
-            _eventCheckboxTable[6].CheckBox = this.NotifyPanel.CheckUserUpdateEvent;
-            _eventCheckboxTable[6].Type = MyCommon.EVENTTYPE.UserUpdate;
-
-            _eventCheckboxTable[7] = new EventCheckboxTblElement();
-            _eventCheckboxTable[7].CheckBox = this.NotifyPanel.CheckListCreatedEvent;
-            _eventCheckboxTable[7].Type = MyCommon.EVENTTYPE.ListCreated;
-
-            return _eventCheckboxTable;
-        }
-
-        private void GetEventNotifyFlag(ref MyCommon.EVENTTYPE eventnotifyflag, ref MyCommon.EVENTTYPE isMyeventnotifyflag)
-        {
-            MyCommon.EVENTTYPE evt = MyCommon.EVENTTYPE.None;
-            MyCommon.EVENTTYPE myevt = MyCommon.EVENTTYPE.None;
-
-            foreach (EventCheckboxTblElement tbl in GetEventCheckboxTable())
-            {
-                switch (tbl.CheckBox.CheckState)
-                {
-                    case CheckState.Checked:
-                        evt = evt | tbl.Type;
-                        myevt = myevt | tbl.Type;
-                        break;
-                    case CheckState.Indeterminate:
-                        evt = evt | tbl.Type;
-                        break;
-                    case CheckState.Unchecked:
-                        break;
-                }
-            }
-            eventnotifyflag = evt;
-            isMyeventnotifyflag = myevt;
-        }
-
-        private void ApplyEventNotifyFlag(bool rootEnabled, MyCommon.EVENTTYPE eventnotifyflag, MyCommon.EVENTTYPE isMyeventnotifyflag)
-        {
-            MyCommon.EVENTTYPE evt = eventnotifyflag;
-            MyCommon.EVENTTYPE myevt = isMyeventnotifyflag;
-
-            this.NotifyPanel.CheckEventNotify.Checked = rootEnabled;
-
-            foreach (EventCheckboxTblElement tbl in GetEventCheckboxTable())
-            {
-                if ((evt & tbl.Type) != 0)
-                {
-                    if ((myevt & tbl.Type) != 0)
-                    {
-                        tbl.CheckBox.CheckState = CheckState.Checked;
-                    }
-                    else
-                    {
-                        tbl.CheckBox.CheckState = CheckState.Indeterminate;
-                    }
-                }
-                else
-                {
-                    tbl.CheckBox.CheckState = CheckState.Unchecked;
-                }
-                tbl.CheckBox.Enabled = rootEnabled;
-            }
-
-        }
-
-        private void CheckEventNotify_CheckedChanged(object sender, EventArgs e)
-        {
-            foreach (EventCheckboxTblElement tbl in GetEventCheckboxTable())
-            {
-                tbl.CheckBox.Enabled = this.NotifyPanel.CheckEventNotify.Checked;
-            }
-        }
-
         //private void CheckForceEventNotify_CheckedChanged(object sender, EventArgs e)
         //{
         //    _MyForceEventNotify = CheckEventNotify.Checked;
@@ -888,25 +728,6 @@ namespace OpenTween
         //{
         //    _MyTranslateLanguage = (new Google()).GetLanguageEnumFromIndex(ComboBoxTranslateLanguage.SelectedIndex);
         //}
-
-        private void SoundFileListup()
-        {
-            if (EventSoundFile == null) EventSoundFile = "";
-            this.NotifyPanel.ComboBoxEventNotifySound.Items.Clear();
-            this.NotifyPanel.ComboBoxEventNotifySound.Items.Add("");
-            DirectoryInfo oDir = new DirectoryInfo(Application.StartupPath + Path.DirectorySeparatorChar);
-            if (Directory.Exists(Path.Combine(Application.StartupPath, "Sounds")))
-            {
-                oDir = oDir.GetDirectories("Sounds")[0];
-            }
-            foreach (FileInfo oFile in oDir.GetFiles("*.wav"))
-            {
-                this.NotifyPanel.ComboBoxEventNotifySound.Items.Add(oFile.Name);
-            }
-            int idx = this.NotifyPanel.ComboBoxEventNotifySound.Items.IndexOf(EventSoundFile);
-            if (idx == -1) idx = 0;
-            this.NotifyPanel.ComboBoxEventNotifySound.SelectedIndex = idx;
-        }
 
         //private void ComboBoxEventNotifySound_VisibleChanged(object sender, EventArgs e)
         //{
@@ -967,7 +788,6 @@ namespace OpenTween
 
             this.BasedPanel.StartAuthButton.Click += this.StartAuthButton_Click;
             this.BasedPanel.CreateAccountButton.Click += this.CreateAccountButton_Click;
-            this.NotifyPanel.CheckEventNotify.CheckedChanged += this.CheckEventNotify_CheckedChanged;
             this.GetPeriodPanel.CheckPostAndGet.CheckedChanged += this.CheckPostAndGet_CheckedChanged;
             this.ActionPanel.UReadMng.CheckedChanged += this.UReadMng_CheckedChanged;
             this.FontPanel.btnUnread.Click += this.btnFontAndColor_Click;

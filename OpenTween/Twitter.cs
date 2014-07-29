@@ -3520,7 +3520,7 @@ namespace OpenTween
                     var tweetEvent = TwitterStreamEvent<TwitterStatus>.ParseJson(content);
                     evt.Target = "@" + tweetEvent.TargetObject.User.ScreenName + ":" + WebUtility.HtmlDecode(tweetEvent.TargetObject.Text);
                     evt.Id = tweetEvent.TargetObject.Id;
-                    if (AppendSettingDialog.Instance.IsRemoveSameEvent)
+                    if (SettingCommon.Instance.IsRemoveSameEvent)
                     {
                         if (StoredEvent.Any(ev =>
                                            {
@@ -3542,7 +3542,7 @@ namespace OpenTween
                                 post.FavoritedCount++;
                                 if (!TabInformations.GetInstance().GetTabByType(MyCommon.TabUsageType.Favorites).Contains(post.StatusId))
                                 {
-                                    if (AppendSettingDialog.Instance.FavEventUnread && post.IsRead)
+                                    if (SettingCommon.Instance.FavEventUnread && post.IsRead)
                                     {
                                         post.IsRead = false;
                                     }
@@ -3550,7 +3550,7 @@ namespace OpenTween
                                 }
                                 else
                                 {
-                                    if (AppendSettingDialog.Instance.FavEventUnread)
+                                    if (SettingCommon.Instance.FavEventUnread)
                                     {
                                         TabInformations.GetInstance().SetRead(false, TabInformations.GetInstance().GetTabByType(MyCommon.TabUsageType.Favorites).TabName, TabInformations.GetInstance().GetTabByType(MyCommon.TabUsageType.Favorites).IndexOf(post.StatusId));
                                     }

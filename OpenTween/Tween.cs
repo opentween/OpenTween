@@ -774,13 +774,6 @@ namespace OpenTween
             this.PlaySoundMenuItem.Checked = this._cfgCommon.PlaySound;
             this.PlaySoundFileMenuItem.Checked = this._cfgCommon.PlaySound;
 
-            SettingDialog.EventNotifyEnabled = _cfgCommon.EventNotifyEnabled;
-            SettingDialog.EventNotifyFlag = _cfgCommon.EventNotifyFlag;
-            SettingDialog.IsMyEventNotifyFlag = _cfgCommon.IsMyEventNotifyFlag;
-            SettingDialog.ForceEventNotify = _cfgCommon.ForceEventNotify;
-            SettingDialog.FavEventUnread = _cfgCommon.FavEventUnread;
-            SettingDialog.EventSoundFile = _cfgCommon.EventSoundFile;
-
             //廃止サービスが選択されていた場合bit.lyへ読み替え
             if (_cfgCommon.AutoShortUrlFirst < 0)
                 _cfgCommon.AutoShortUrlFirst = MyCommon.UrlConverter.Uxnu;
@@ -792,8 +785,6 @@ namespace OpenTween
 
             //Regex statregex = new Regex("^0*");
             SettingDialog.RecommendStatusText = " [TWNv" + Regex.Replace(MyCommon.FileVersion.Replace(".", ""), "^0*", "") + "]";
-
-            SettingDialog.IsRemoveSameEvent = _cfgCommon.IsRemoveSameEvent;
 
             //ハッシュタグ関連
             HashSupl = new AtIdSupplement(_cfgCommon.HashTags, "#");
@@ -1573,19 +1564,19 @@ namespace OpenTween
 
         private bool IsEventNotifyAsEventType(MyCommon.EVENTTYPE type)
         {
-            return SettingDialog.EventNotifyEnabled && (type & SettingDialog.EventNotifyFlag) != 0 || type == MyCommon.EVENTTYPE.None;
+            return this._cfgCommon.EventNotifyEnabled && (type & this._cfgCommon.EventNotifyFlag) != 0 || type == MyCommon.EVENTTYPE.None;
         }
 
         private bool IsMyEventNotityAsEventType(Twitter.FormattedEvent ev)
         {
-            return (ev.Eventtype & SettingDialog.IsMyEventNotifyFlag) != 0 ? true : !ev.IsMe;
+            return (ev.Eventtype & this._cfgCommon.IsMyEventNotifyFlag) != 0 ? true : !ev.IsMe;
         }
 
         private bool BalloonRequired(Twitter.FormattedEvent ev)
         {
             if ((
                 IsEventNotifyAsEventType(ev.Eventtype) && IsMyEventNotityAsEventType(ev) &&
-                (NewPostPopMenuItem.Checked || (SettingDialog.ForceEventNotify && ev.Eventtype != MyCommon.EVENTTYPE.None)) &&
+                (NewPostPopMenuItem.Checked || (this._cfgCommon.ForceEventNotify && ev.Eventtype != MyCommon.EVENTTYPE.None)) &&
                 !_initial &&
                 (
                     (
@@ -7641,12 +7632,6 @@ namespace OpenTween
                 _cfgCommon.TokenSecret = tw.AccessTokenSecret;
                 _cfgCommon.UserAccounts = SettingDialog.UserAccounts;
 
-                _cfgCommon.EventNotifyEnabled = SettingDialog.EventNotifyEnabled;
-                _cfgCommon.EventNotifyFlag = SettingDialog.EventNotifyFlag;
-                _cfgCommon.IsMyEventNotifyFlag = SettingDialog.IsMyEventNotifyFlag;
-                _cfgCommon.ForceEventNotify = SettingDialog.ForceEventNotify;
-                _cfgCommon.FavEventUnread = SettingDialog.FavEventUnread;
-                _cfgCommon.EventSoundFile = SettingDialog.EventSoundFile;
                 if (IdeographicSpaceToSpaceToolStripMenuItem != null &&
                    IdeographicSpaceToSpaceToolStripMenuItem.IsDisposed == false)
                 {
@@ -7694,7 +7679,6 @@ namespace OpenTween
                 _cfgCommon.AllAtReply = tw.AllAtReply;
                 _cfgCommon.UseImageService = ImageSelector.ServiceIndex;
                 _cfgCommon.UseImageServiceName = ImageSelector.ServiceName;
-                _cfgCommon.IsRemoveSameEvent = SettingDialog.IsRemoveSameEvent;
 
                 _cfgCommon.Save();
             }
@@ -12626,10 +12610,10 @@ namespace OpenTween
             }
 
             //サウンド再生
-            string snd = SettingDialog.EventSoundFile;
+            string snd = this._cfgCommon.EventSoundFile;
             if (!_initial && this._cfgCommon.PlaySound && !string.IsNullOrEmpty(snd))
             {
-                if ((ev.Eventtype & SettingDialog.EventNotifyFlag) != 0 && IsMyEventNotityAsEventType(ev))
+                if ((ev.Eventtype & this._cfgCommon.EventNotifyFlag) != 0 && IsMyEventNotityAsEventType(ev))
                 {
                     try
                     {
@@ -12806,11 +12790,6 @@ namespace OpenTween
         private void ShowUserTimelineToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ShowUserTimeline();
-        }
-
-        public bool FavEventChangeUnread
-        {
-            get { return SettingDialog.FavEventUnread; }
         }
 
         private string GetUserIdFromCurPostOrInput(string caption)
