@@ -42,6 +42,18 @@ namespace OpenTween.Setting.Panel
             InitializeComponent();
         }
 
+        public void LoadConfig(SettingCommon settingCommon)
+        {
+            this.ConnectionTimeOut.Text = settingCommon.DefaultTimeOut.ToString();
+            this.TwitterAPIText.Text = settingCommon.TwitterUrl;
+        }
+
+        public void SaveConfig(SettingCommon settingCommon)
+        {
+            settingCommon.DefaultTimeOut = int.Parse(this.ConnectionTimeOut.Text);
+            settingCommon.TwitterUrl = this.TwitterAPIText.Text.Trim();
+        }
+
         private void ConnectionTimeOut_Validating(object sender, CancelEventArgs e)
         {
             int tm;

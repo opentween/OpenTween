@@ -760,7 +760,6 @@ namespace OpenTween
             //設定画面への反映
             this.SettingDialog.LoadConfig(this._cfgCommon, this._cfgLocal);
             HttpTwitter.TwitterUrl = _cfgCommon.TwitterUrl;
-            SettingDialog.TwitterApiUrl = _cfgCommon.TwitterUrl;
 
             //認証関連
             if (string.IsNullOrEmpty(_cfgCommon.Token)) _cfgCommon.UserName = "";
@@ -775,7 +774,6 @@ namespace OpenTween
             this.PlaySoundMenuItem.Checked = this._cfgCommon.PlaySound;
             this.PlaySoundFileMenuItem.Checked = this._cfgCommon.PlaySound;
 
-            SettingDialog.DefaultTimeOut = _cfgCommon.DefaultTimeOut;
             SettingDialog.EventNotifyEnabled = _cfgCommon.EventNotifyEnabled;
             SettingDialog.EventNotifyFlag = _cfgCommon.EventNotifyFlag;
             SettingDialog.IsMyEventNotifyFlag = _cfgCommon.IsMyEventNotifyFlag;
@@ -893,7 +891,7 @@ namespace OpenTween
             }
 
             //Twitter用通信クラス初期化
-            Networking.DefaultTimeout = TimeSpan.FromSeconds(this.SettingDialog.DefaultTimeOut);
+            Networking.DefaultTimeout = TimeSpan.FromSeconds(this._cfgCommon.DefaultTimeOut);
             Networking.SetWebProxy(this._cfgLocal.ProxyType,
                 this._cfgLocal.ProxyAddress, this._cfgLocal.ProxyPort,
                 this._cfgLocal.ProxyUser, this._cfgLocal.ProxyPassword);
@@ -3806,7 +3804,7 @@ namespace OpenTween
                     ShortUrl.Instance.BitlyKey = this._cfgCommon.BitlyPwd;
                     HttpTwitter.TwitterUrl = _cfgCommon.TwitterUrl;
 
-                    Networking.DefaultTimeout = TimeSpan.FromSeconds(this.SettingDialog.DefaultTimeOut);
+                    Networking.DefaultTimeout = TimeSpan.FromSeconds(this._cfgCommon.DefaultTimeOut);
                     Networking.SetWebProxy(this._cfgLocal.ProxyType,
                         this._cfgLocal.ProxyAddress, this._cfgLocal.ProxyPort,
                         this._cfgLocal.ProxyUser, this._cfgLocal.ProxyPassword);
@@ -7643,7 +7641,6 @@ namespace OpenTween
                 _cfgCommon.TokenSecret = tw.AccessTokenSecret;
                 _cfgCommon.UserAccounts = SettingDialog.UserAccounts;
 
-                _cfgCommon.DefaultTimeOut = SettingDialog.DefaultTimeOut;
                 _cfgCommon.EventNotifyEnabled = SettingDialog.EventNotifyEnabled;
                 _cfgCommon.EventNotifyFlag = SettingDialog.EventNotifyFlag;
                 _cfgCommon.IsMyEventNotifyFlag = SettingDialog.IsMyEventNotifyFlag;
@@ -7688,7 +7685,6 @@ namespace OpenTween
                 _cfgCommon.HashIsHead = HashMgr.IsHead;
                 _cfgCommon.HashIsPermanent = HashMgr.IsPermanent;
                 _cfgCommon.HashIsNotAddToAtReply = HashMgr.IsNotAddToAtReply;
-                _cfgCommon.TwitterUrl = SettingDialog.TwitterApiUrl;
                 if (ToolStripFocusLockMenuItem != null &&
                         ToolStripFocusLockMenuItem.IsDisposed == false)
                 {

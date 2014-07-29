@@ -76,6 +76,7 @@ namespace OpenTween
             this.ShortUrlPanel.LoadConfig(settingCommon);
             this.ProxyPanel.LoadConfig(settingLocal);
             this.CooperatePanel.LoadConfig(settingCommon);
+            this.ConnectionPanel.LoadConfig(settingCommon);
         }
 
         public void SaveConfig(SettingCommon settingCommon, SettingLocal settingLocal)
@@ -92,6 +93,7 @@ namespace OpenTween
             this.ShortUrlPanel.SaveConfig(settingCommon);
             this.ProxyPanel.SaveConfig(settingLocal);
             this.CooperatePanel.SaveConfig(settingCommon);
+            this.ConnectionPanel.SaveConfig(settingCommon);
         }
 
         private void TreeViewSetting_BeforeSelect(object sender, TreeViewCancelEventArgs e)
@@ -217,13 +219,11 @@ namespace OpenTween
 #endif
             try
             {
-                DefaultTimeOut = int.Parse(this.ConnectionPanel.ConnectionTimeOut.Text);
                 EventNotifyEnabled = this.NotifyPanel.CheckEventNotify.Checked;
                 GetEventNotifyFlag(ref _MyEventNotifyFlag, ref _isMyEventNotifyFlag);
                 ForceEventNotify = this.NotifyPanel.CheckForceEventNotify.Checked;
                 FavEventUnread = this.NotifyPanel.CheckFavEventUnread.Checked;
                 EventSoundFile = (string)this.NotifyPanel.ComboBoxEventNotifySound.SelectedItem;
-                TwitterApiUrl = this.ConnectionPanel.TwitterAPIText.Text.Trim();
                 this.IsRemoveSameEvent = this.NotifyPanel.IsRemoveSameFavEventCheckBox.Checked;
             }
             catch(Exception)
@@ -331,13 +331,10 @@ namespace OpenTween
                 }
             }
 
-            this.ConnectionPanel.ConnectionTimeOut.Text = DefaultTimeOut.ToString();
-
             ApplyEventNotifyFlag(EventNotifyEnabled, EventNotifyFlag, IsMyEventNotifyFlag);
             this.NotifyPanel.CheckForceEventNotify.Checked = ForceEventNotify;
             this.NotifyPanel.CheckFavEventUnread.Checked = FavEventUnread;
             SoundFileListup();
-            this.ConnectionPanel.TwitterAPIText.Text = TwitterApiUrl;
 
             this.NotifyPanel.IsRemoveSameFavEventCheckBox.Checked = this.IsRemoveSameEvent;
 
@@ -549,9 +546,6 @@ namespace OpenTween
         }
 
         public string RecommendStatusText { get; set; }
-
-        public int DefaultTimeOut { get; set; }
-        public string TwitterApiUrl { get; set; }
 
         public bool EventNotifyEnabled { get; set; }
 
