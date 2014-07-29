@@ -30,9 +30,9 @@ namespace OpenTween.Thumbnail
     {
         public override string CreateStaticMapUrl(double latitude, double longitude)
         {
-            var width = AppendSettingDialog.Instance.MapThumbnailWidth;
-            var height = AppendSettingDialog.Instance.MapThumbnailHeight;
-            var zoom = AppendSettingDialog.Instance.MapThumbnailZoom;
+            var width = SettingCommon.Instance.MapThumbnailWidth;
+            var height = SettingCommon.Instance.MapThumbnailHeight;
+            var zoom = SettingCommon.Instance.MapThumbnailZoom;
             var location = latitude.ToString() + "," + longitude.ToString();
 
             return "http://ojw.dev.openstreetmap.org/StaticMap/?show=1&att=none&center=" + location + "&size=" + width + "x" + height + "&zoom=" + zoom + "&mlat0=" + latitude.ToString() + "&mlon0=" + longitude.ToString() + "&mico0=18479";
@@ -40,7 +40,7 @@ namespace OpenTween.Thumbnail
 
         public override string CreateMapLinkUrl(double latitude, double longitude)
         {
-            var zoom = AppendSettingDialog.Instance.MapThumbnailZoom;
+            var zoom = SettingCommon.Instance.MapThumbnailZoom;
 
             return "http://www.openstreetmap.org/index.html?lat=" + latitude.ToString() + "&lon=" + longitude.ToString() + "&zoom=" + zoom + "&mlat=" + latitude.ToString() + "&mlon=" + longitude.ToString();
         }

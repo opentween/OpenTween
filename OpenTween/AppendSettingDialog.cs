@@ -51,14 +51,7 @@ namespace OpenTween
         private bool _ValidationError = false;
         private MyCommon.EVENTTYPE _MyEventNotifyFlag;
         private MyCommon.EVENTTYPE _isMyEventNotifyFlag;
-        private string _MyTranslateLanguage;
 
-        public bool EnableImgAzyobuziNet { get; set; }
-        public bool ImgAzyobuziNetDisabledInDM { get; set; }
-        public MapProvider MapThumbnailProvider;
-        public int MapThumbnailHeight;
-        public int MapThumbnailWidth;
-        public int MapThumbnailZoom;
         public List<UserAccount> UserAccounts;
         private long? InitialUserId;
         public bool IsRemoveSameEvent;
@@ -82,6 +75,7 @@ namespace OpenTween
             this.GetCountPanel.LoadConfig(settingCommon);
             this.ShortUrlPanel.LoadConfig(settingCommon);
             this.ProxyPanel.LoadConfig(settingLocal);
+            this.CooperatePanel.LoadConfig(settingCommon);
         }
 
         public void SaveConfig(SettingCommon settingCommon, SettingLocal settingLocal)
@@ -97,6 +91,7 @@ namespace OpenTween
             this.GetCountPanel.SaveConfig(settingCommon);
             this.ShortUrlPanel.SaveConfig(settingCommon);
             this.ProxyPanel.SaveConfig(settingLocal);
+            this.CooperatePanel.SaveConfig(settingCommon);
         }
 
         private void TreeViewSetting_BeforeSelect(object sender, TreeViewCancelEventArgs e)
@@ -222,22 +217,13 @@ namespace OpenTween
 #endif
             try
             {
-                Nicoms = this.CooperatePanel.CheckNicoms.Checked;
                 DefaultTimeOut = int.Parse(this.ConnectionPanel.ConnectionTimeOut.Text);
                 EventNotifyEnabled = this.NotifyPanel.CheckEventNotify.Checked;
                 GetEventNotifyFlag(ref _MyEventNotifyFlag, ref _isMyEventNotifyFlag);
                 ForceEventNotify = this.NotifyPanel.CheckForceEventNotify.Checked;
                 FavEventUnread = this.NotifyPanel.CheckFavEventUnread.Checked;
-                TranslateLanguage = Bing.GetLanguageEnumFromIndex(this.CooperatePanel.ComboBoxTranslateLanguage.SelectedIndex);
                 EventSoundFile = (string)this.NotifyPanel.ComboBoxEventNotifySound.SelectedItem;
                 TwitterApiUrl = this.ConnectionPanel.TwitterAPIText.Text.Trim();
-                UserAppointUrl = this.CooperatePanel.UserAppointUrlText.Text;
-                this.EnableImgAzyobuziNet = this.CooperatePanel.EnableImgAzyobuziNetCheckBox.Checked;
-                this.ImgAzyobuziNetDisabledInDM = this.CooperatePanel.ImgAzyobuziNetDisabledInDMCheckBox.Checked;
-                this.MapThumbnailProvider = (MapProvider)this.CooperatePanel.MapThumbnailProviderComboBox.SelectedIndex;
-                this.MapThumbnailHeight = int.Parse(this.CooperatePanel.MapThumbnailHeightTextBox.Text);
-                this.MapThumbnailWidth = int.Parse(this.CooperatePanel.MapThumbnailWidthTextBox.Text);
-                this.MapThumbnailZoom = int.Parse(this.CooperatePanel.MapThumbnailZoomTextBox.Text);
                 this.IsRemoveSameEvent = this.NotifyPanel.IsRemoveSameFavEventCheckBox.Checked;
             }
             catch(Exception)
@@ -345,23 +331,14 @@ namespace OpenTween
                 }
             }
 
-            this.CooperatePanel.CheckNicoms.Checked = Nicoms;
             this.ConnectionPanel.ConnectionTimeOut.Text = DefaultTimeOut.ToString();
 
             ApplyEventNotifyFlag(EventNotifyEnabled, EventNotifyFlag, IsMyEventNotifyFlag);
             this.NotifyPanel.CheckForceEventNotify.Checked = ForceEventNotify;
             this.NotifyPanel.CheckFavEventUnread.Checked = FavEventUnread;
-            this.CooperatePanel.ComboBoxTranslateLanguage.SelectedIndex = Bing.GetIndexFromLanguageEnum(TranslateLanguage);
             SoundFileListup();
             this.ConnectionPanel.TwitterAPIText.Text = TwitterApiUrl;
 
-            this.CooperatePanel.UserAppointUrlText.Text = UserAppointUrl;
-            this.CooperatePanel.EnableImgAzyobuziNetCheckBox.Checked = this.EnableImgAzyobuziNet;
-            this.CooperatePanel.ImgAzyobuziNetDisabledInDMCheckBox.Checked = this.ImgAzyobuziNetDisabledInDM;
-            this.CooperatePanel.MapThumbnailProviderComboBox.SelectedIndex = (int)this.MapThumbnailProvider;
-            this.CooperatePanel.MapThumbnailHeightTextBox.Text = this.MapThumbnailHeight.ToString();
-            this.CooperatePanel.MapThumbnailWidthTextBox.Text = this.MapThumbnailWidth.ToString();
-            this.CooperatePanel.MapThumbnailZoomTextBox.Text = this.MapThumbnailZoom.ToString();
             this.NotifyPanel.IsRemoveSameFavEventCheckBox.Checked = this.IsRemoveSameEvent;
 
             this.TreeViewSetting.Nodes["BasedNode"].Tag = BasedPanel;
@@ -573,7 +550,6 @@ namespace OpenTween
 
         public string RecommendStatusText { get; set; }
 
-        public bool Nicoms { get; set; }
         public int DefaultTimeOut { get; set; }
         public string TwitterApiUrl { get; set; }
 
@@ -606,21 +582,7 @@ namespace OpenTween
         public bool ForceEventNotify { get; set; }
         public bool FavEventUnread { get; set; }
 
-        public string TranslateLanguage
-        {
-            get
-            {
-                return _MyTranslateLanguage;
-            }
-            set
-            {
-                _MyTranslateLanguage = value;
-                this.CooperatePanel.ComboBoxTranslateLanguage.SelectedIndex = Bing.GetIndexFromLanguageEnum(value);
-            }
-        }
-
         public string EventSoundFile { get; set; }
-        public string UserAppointUrl { get; set; }
 
         private bool StartAuth()
         {

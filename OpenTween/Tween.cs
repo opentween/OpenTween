@@ -781,7 +781,6 @@ namespace OpenTween
             SettingDialog.IsMyEventNotifyFlag = _cfgCommon.IsMyEventNotifyFlag;
             SettingDialog.ForceEventNotify = _cfgCommon.ForceEventNotify;
             SettingDialog.FavEventUnread = _cfgCommon.FavEventUnread;
-            SettingDialog.TranslateLanguage = _cfgCommon.TranslateLanguage;
             SettingDialog.EventSoundFile = _cfgCommon.EventSoundFile;
 
             //廃止サービスが選択されていた場合bit.lyへ読み替え
@@ -796,16 +795,6 @@ namespace OpenTween
             //Regex statregex = new Regex("^0*");
             SettingDialog.RecommendStatusText = " [TWNv" + Regex.Replace(MyCommon.FileVersion.Replace(".", ""), "^0*", "") + "]";
 
-            SettingDialog.Nicoms = _cfgCommon.Nicoms;
-
-            SettingDialog.UserAppointUrl = _cfgCommon.UserAppointUrl;
-
-            SettingDialog.EnableImgAzyobuziNet = _cfgCommon.EnableImgAzyobuziNet;
-            SettingDialog.ImgAzyobuziNetDisabledInDM = _cfgCommon.ImgAzyobuziNetDisabledInDM;
-            SettingDialog.MapThumbnailProvider = _cfgCommon.MapThumbnailProvider;
-            SettingDialog.MapThumbnailHeight = _cfgCommon.MapThumbnailHeight;
-            SettingDialog.MapThumbnailWidth = _cfgCommon.MapThumbnailWidth;
-            SettingDialog.MapThumbnailZoom = _cfgCommon.MapThumbnailZoom;
             SettingDialog.IsRemoveSameEvent = _cfgCommon.IsRemoveSameEvent;
 
             //ハッシュタグ関連
@@ -2043,7 +2032,7 @@ namespace OpenTween
 
             _history[_history.Count - 1] = new PostingStatus(StatusText.Text, _reply_to_id, _reply_to_name);
 
-            if (SettingDialog.Nicoms)
+            if (this._cfgCommon.Nicoms)
             {
                 StatusText.SelectionStart = StatusText.Text.Length;
                 await UrlConvertAsync(MyCommon.UrlConverter.Nicoms);
@@ -3880,8 +3869,8 @@ namespace OpenTween
                     SplitContainer1.IsPanelInverted = !this._cfgCommon.StatusAreaAtBottom;
 
                     var imgazyobizinet = ThumbnailGenerator.ImgAzyobuziNetInstance;
-                    imgazyobizinet.Enabled = this.SettingDialog.EnableImgAzyobuziNet;
-                    imgazyobizinet.DisabledInDM = this.SettingDialog.ImgAzyobuziNetDisabledInDM;
+                    imgazyobizinet.Enabled = this._cfgCommon.EnableImgAzyobuziNet;
+                    imgazyobizinet.DisabledInDM = this._cfgCommon.ImgAzyobuziNetDisabledInDM;
 
                     this.PlaySoundMenuItem.Checked = this._cfgCommon.PlaySound;
                     this.PlaySoundFileMenuItem.Checked = this._cfgCommon.PlaySound;
@@ -7660,7 +7649,6 @@ namespace OpenTween
                 _cfgCommon.IsMyEventNotifyFlag = SettingDialog.IsMyEventNotifyFlag;
                 _cfgCommon.ForceEventNotify = SettingDialog.ForceEventNotify;
                 _cfgCommon.FavEventUnread = SettingDialog.FavEventUnread;
-                _cfgCommon.TranslateLanguage = SettingDialog.TranslateLanguage;
                 _cfgCommon.EventSoundFile = SettingDialog.EventSoundFile;
                 if (IdeographicSpaceToSpaceToolStripMenuItem != null &&
                    IdeographicSpaceToSpaceToolStripMenuItem.IsDisposed == false)
@@ -7688,7 +7676,6 @@ namespace OpenTween
                         break;
                 }
 
-                _cfgCommon.Nicoms = SettingDialog.Nicoms;
                 _cfgCommon.HashTags = HashMgr.HashHistories;
                 if (HashMgr.IsPermanent)
                 {
@@ -7711,13 +7698,6 @@ namespace OpenTween
                 _cfgCommon.AllAtReply = tw.AllAtReply;
                 _cfgCommon.UseImageService = ImageSelector.ServiceIndex;
                 _cfgCommon.UseImageServiceName = ImageSelector.ServiceName;
-                _cfgCommon.UserAppointUrl = SettingDialog.UserAppointUrl;
-                _cfgCommon.EnableImgAzyobuziNet = SettingDialog.EnableImgAzyobuziNet;
-                _cfgCommon.ImgAzyobuziNetDisabledInDM = SettingDialog.ImgAzyobuziNetDisabledInDM;
-                _cfgCommon.MapThumbnailProvider = SettingDialog.MapThumbnailProvider;
-                _cfgCommon.MapThumbnailHeight = SettingDialog.MapThumbnailHeight;
-                _cfgCommon.MapThumbnailWidth = SettingDialog.MapThumbnailWidth;
-                _cfgCommon.MapThumbnailZoom = SettingDialog.MapThumbnailZoom;
                 _cfgCommon.IsRemoveSameEvent = SettingDialog.IsRemoveSameEvent;
 
                 _cfgCommon.Save();
@@ -9728,7 +9708,7 @@ namespace OpenTween
                     // 文字列が選択されている場合はその文字列について処理
 
                     //nico.ms使用、nicovideoにマッチしたら変換
-                    if (SettingDialog.Nicoms && Regex.IsMatch(tmp, nico))
+                    if (this._cfgCommon.Nicoms && Regex.IsMatch(tmp, nico))
                     {
                         result = nicoms.Shorten(tmp);
                     }
@@ -9797,7 +9777,7 @@ namespace OpenTween
                     StatusText.Select(StatusText.Text.IndexOf(mt.Result("${url}"), StringComparison.Ordinal), mt.Result("${url}").Length);
 
                     //nico.ms使用、nicovideoにマッチしたら変換
-                    if (SettingDialog.Nicoms && Regex.IsMatch(tmp, nico))
+                    if (this._cfgCommon.Nicoms && Regex.IsMatch(tmp, nico))
                     {
                         result = nicoms.Shorten(tmp);
                     }
@@ -12793,7 +12773,7 @@ namespace OpenTween
             {
                 var translatedText = await bing.TranslateAsync(str,
                     langFrom: null,
-                    langTo: this.SettingDialog.TranslateLanguage);
+                    langTo: this._cfgCommon.TranslateLanguage);
 
                 this.PostBrowser.DocumentText = this.createDetailHtml(translatedText);
             }
@@ -12905,13 +12885,13 @@ namespace OpenTween
 
         private void OpenUserAppointUrl()
         {
-            if (SettingDialog.UserAppointUrl != null)
+            if (this._cfgCommon.UserAppointUrl != null)
             {
-                if (SettingDialog.UserAppointUrl.Contains("{ID}") || SettingDialog.UserAppointUrl.Contains("{STATUS}"))
+                if (this._cfgCommon.UserAppointUrl.Contains("{ID}") || this._cfgCommon.UserAppointUrl.Contains("{STATUS}"))
                 {
                     if (_curPost != null)
                     {
-                        string xUrl = SettingDialog.UserAppointUrl;
+                        string xUrl = this._cfgCommon.UserAppointUrl;
                         xUrl = xUrl.Replace("{ID}", _curPost.ScreenName);
                         if (_curPost.RetweetedId != null)
                         {
@@ -12926,7 +12906,7 @@ namespace OpenTween
                 }
                 else
                 {
-                    OpenUriAsync(SettingDialog.UserAppointUrl);
+                    OpenUriAsync(this._cfgCommon.UserAppointUrl);
                 }
             }
         }

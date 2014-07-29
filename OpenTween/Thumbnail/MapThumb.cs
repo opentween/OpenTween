@@ -61,7 +61,7 @@ namespace OpenTween.Thumbnail
         {
             Type classType;
 
-            MapProvider confValue = AppendSettingDialog.Instance.MapThumbnailProvider;
+            MapProvider confValue = SettingCommon.Instance.MapThumbnailProvider;
             switch (confValue)
             {
                 case MapProvider.OpenStreetMap:
