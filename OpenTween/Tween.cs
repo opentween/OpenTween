@@ -369,7 +369,9 @@ namespace OpenTween
                     this.IconCache.Dispose();
                 }
 
-                this.thumbnailTokenSource.Dispose();
+                if (this.thumbnailTokenSource != null)
+                    this.thumbnailTokenSource.Dispose();
+
                 this.itemCacheLock.Dispose();
                 this.tw.Dispose();
                 this._hookGlobalHotkey.Dispose();
