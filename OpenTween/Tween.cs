@@ -103,7 +103,7 @@ namespace OpenTween
         private GrowlHelper gh = new GrowlHelper(Application.ProductName);
 
         //サブ画面インスタンス
-        private AppendSettingDialog SettingDialog = AppendSettingDialog.Instance;       //設定画面インスタンス
+        private AppendSettingDialog SettingDialog = new AppendSettingDialog();       //設定画面インスタンス
         private SearchWordDialog SearchDialog = new SearchWordDialog();     //検索画面インスタンス
         private FilterDialog fltDialog = new FilterDialog(); //フィルター編集画面
         private OpenURL UrlDialog = new OpenURL();
@@ -850,8 +850,6 @@ namespace OpenTween
                 _clInputBackcolor = this._cfgLocal.ColorInputBackcolor;
                 _clInputFont = this._cfgLocal.ColorInputFont;
                 _fntInputFont = this._cfgLocal.FontInputFont;
-
-                //他の設定項目は、随時設定画面で保持している値を読み出して使用
             }
 
             _brsBackColorMine = new SolidBrush(_clSelf);

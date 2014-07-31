@@ -45,7 +45,6 @@ namespace OpenTween
 {
     public partial class AppendSettingDialog : OTBaseForm
     {
-        private static AppendSettingDialog _instance = new AppendSettingDialog();
         internal Twitter tw;
 
         private bool _ValidationError = false;
@@ -412,11 +411,6 @@ namespace OpenTween
 
             this.GetPeriodPanel.LabelPostAndGet.Visible = this.GetPeriodPanel.CheckPostAndGet.Checked && !tw.UserStreamEnabled;
             this.GetPeriodPanel.LabelUserStreamActive.Visible = tw.UserStreamEnabled;
-        }
-
-        public static AppendSettingDialog Instance
-        {
-            get { return _instance; }
         }
 
         private bool BitlyValidation(string id, string apikey)
