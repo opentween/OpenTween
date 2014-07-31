@@ -91,5 +91,50 @@ namespace OpenTween.Setting.Panel
 
             lblListBackcolor.BackColor = Color.FromKnownColor(System.Drawing.KnownColor.Window);
         }
+
+        private void btnSelf_Click(object sender, EventArgs e)
+        {
+            this.ShowBackColorDialog(this.lblSelf);
+        }
+
+        private void btnAtSelf_Click(object sender, EventArgs e)
+        {
+            this.ShowBackColorDialog(this.lblAtSelf);
+        }
+
+        private void btnTarget_Click(object sender, EventArgs e)
+        {
+            this.ShowBackColorDialog(this.lblTarget);
+        }
+
+        private void btnAtTarget_Click(object sender, EventArgs e)
+        {
+            this.ShowBackColorDialog(this.lblAtTarget);
+        }
+
+        private void btnAtFromTarget_Click(object sender, EventArgs e)
+        {
+            this.ShowBackColorDialog(this.lblAtFromTarget);
+        }
+
+        private void btnAtTo_Click(object sender, EventArgs e)
+        {
+            this.ShowBackColorDialog(this.lblAtTo);
+        }
+
+        private void btnListBack_Click(object sender, EventArgs e)
+        {
+            this.ShowBackColorDialog(this.lblListBackcolor);
+        }
+
+        private void btnInputBackcolor_Click(object sender, EventArgs e)
+        {
+            this.ShowBackColorDialog(this.lblInputBackcolor);
+        }
+
+        private void btnInputFont_Click(object sender, EventArgs e)
+        {
+            this.ShowFontDialog(this.lblInputFont);
+        }
     }
 }

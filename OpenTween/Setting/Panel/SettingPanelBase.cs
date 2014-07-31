@@ -41,5 +41,58 @@ namespace OpenTween.Setting.Panel
         {
             InitializeComponent();
         }
+
+        protected void ShowFontDialog(Label targetLabel)
+        {
+            var dialog = ((AppendSettingDialog)this.ParentForm).FontDialog1;
+
+            dialog.Font = targetLabel.Font;
+            dialog.Color = targetLabel.ForeColor;
+
+            DialogResult ret;
+            try
+            {
+                ret = dialog.ShowDialog(this.ParentForm);
+            }
+            catch (ArgumentException ex)
+            {
+                MessageBox.Show(this.ParentForm, ex.Message);
+                return;
+            }
+
+            if (ret == DialogResult.OK)
+            {
+                targetLabel.Font = dialog.Font;
+                targetLabel.ForeColor = dialog.Color;
+            }
+        }
+
+        protected void ShowForeColorDialog(Label targetLabel)
+        {
+            var dialog = ((AppendSettingDialog)this.ParentForm).ColorDialog1;
+
+            dialog.Color = targetLabel.ForeColor;
+
+            var ret = dialog.ShowDialog(this.ParentForm);
+
+            if (ret == DialogResult.OK)
+            {
+                targetLabel.ForeColor = dialog.Color;
+            }
+        }
+
+        protected void ShowBackColorDialog(Label targetLabel)
+        {
+            var dialog = ((AppendSettingDialog)this.ParentForm).ColorDialog1;
+
+            dialog.Color = targetLabel.BackColor;
+
+            var ret = dialog.ShowDialog(this.ParentForm);
+
+            if (ret == DialogResult.OK)
+            {
+                targetLabel.BackColor = dialog.Color;
+            }
+        }
     }
 }

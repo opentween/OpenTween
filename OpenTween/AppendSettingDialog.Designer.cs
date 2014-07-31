@@ -219,6 +219,16 @@
             this.Cancel.UseVisualStyleBackColor = true;
             this.Cancel.Click += new System.EventHandler(this.Cancel_Click);
             // 
+            // ColorDialog1
+            // 
+            this.ColorDialog1.AnyColor = true;
+            // 
+            // FontDialog1
+            // 
+            this.FontDialog1.AllowVerticalFonts = false;
+            this.FontDialog1.FontMustExist = true;
+            this.FontDialog1.ShowColor = true;
+            // 
             // AppendSettingDialog
             // 
             resources.ApplyResources(this, "$this");
