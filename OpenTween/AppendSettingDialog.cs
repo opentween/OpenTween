@@ -46,11 +46,10 @@ namespace OpenTween
     public partial class AppendSettingDialog : OTBaseForm
     {
         private static AppendSettingDialog _instance = new AppendSettingDialog();
-        private Twitter tw;
+        internal Twitter tw;
 
         private bool _ValidationError = false;
 
-        public List<UserAccount> UserAccounts;
         private long? InitialUserId;
 
         public TwitterConfiguration TwitterConfiguration = TwitterConfiguration.DefaultConfiguration();
@@ -61,6 +60,7 @@ namespace OpenTween
 
         public void LoadConfig(SettingCommon settingCommon, SettingLocal settingLocal)
         {
+            this.BasedPanel.LoadConfig(settingCommon);
             this.GetPeriodPanel.LoadConfig(settingCommon);
             this.StartupPanel.LoadConfig(settingCommon);
             this.TweetPrvPanel.LoadConfig(settingCommon);
@@ -75,10 +75,18 @@ namespace OpenTween
             this.CooperatePanel.LoadConfig(settingCommon);
             this.ConnectionPanel.LoadConfig(settingCommon);
             this.NotifyPanel.LoadConfig(settingCommon);
+
+            var activeUser = settingCommon.UserAccounts.FirstOrDefault(x => x.UserId == this.tw.UserId);
+            if (activeUser != null)
+            {
+                this.BasedPanel.AuthUserCombo.SelectedItem = activeUser;
+                this.InitialUserId = activeUser.UserId;
+            }
         }
 
         public void SaveConfig(SettingCommon settingCommon, SettingLocal settingLocal)
         {
+            this.BasedPanel.SaveConfig(settingCommon);
             this.GetPeriodPanel.SaveConfig(settingCommon);
             this.StartupPanel.SaveConfig(settingCommon);
             this.TweetPrvPanel.SaveConfig(settingCommon);
@@ -93,6 +101,24 @@ namespace OpenTween
             this.CooperatePanel.SaveConfig(settingCommon);
             this.ConnectionPanel.SaveConfig(settingCommon);
             this.NotifyPanel.SaveConfig(settingCommon);
+
+            var userAccountIdx = this.BasedPanel.AuthUserCombo.SelectedIndex;
+            if (userAccountIdx != -1)
+            {
+                var u = settingCommon.UserAccounts[userAccountIdx];
+                this.tw.Initialize(u.Token, u.TokenSecret, u.Username, u.UserId);
+
+                if (u.UserId == 0)
+                {
+                    this.tw.VerifyCredentials();
+                    u.UserId = this.tw.UserId;
+                }
+            }
+            else
+            {
+                this.tw.ClearAuthInfo();
+                this.tw.Initialize("", "", "", 0);
+            }
         }
 
         private void TreeViewSetting_BeforeSelect(object sender, TreeViewCancelEventArgs e)
@@ -162,33 +188,6 @@ namespace OpenTween
                 _ValidationError = false;
             }
 
-            this.UserAccounts.Clear();
-            foreach (object u in this.BasedPanel.AuthUserCombo.Items)
-            {
-                this.UserAccounts.Add((UserAccount)u);
-            }
-            if (this.BasedPanel.AuthUserCombo.SelectedIndex > -1)
-            {
-                foreach (UserAccount u in this.UserAccounts)
-                {
-                    if (u.Username.ToLower() == ((UserAccount)this.BasedPanel.AuthUserCombo.SelectedItem).Username.ToLower())
-                    {
-                        tw.Initialize(u.Token, u.TokenSecret, u.Username, u.UserId);
-                        if (u.UserId == 0)
-                        {
-                            tw.VerifyCredentials();
-                            u.UserId = tw.UserId;
-                        }
-                        break;
-                    }
-                }
-            }
-            else
-            {
-                tw.ClearAuthInfo();
-                tw.Initialize("", "", "", 0);
-            }
-
 #if UA
             //フォロー
             if (this.FollowCheckBox.Checked)
@@ -222,38 +221,6 @@ namespace OpenTween
         {
             if (MyCommon._endingFlag) return;
 
-            if (this.DialogResult == DialogResult.Cancel)
-            {
-                //キャンセル時は画面表示時のアカウントに戻す
-                //キャンセル時でも認証済みアカウント情報は保存する
-                this.UserAccounts.Clear();
-                foreach (object u in this.BasedPanel.AuthUserCombo.Items)
-                {
-                    this.UserAccounts.Add((UserAccount)u);
-                }
-                //アクティブユーザーを起動時のアカウントに戻す（起動時アカウントなければ何もしない）
-                bool userSet = false;
-                if (this.InitialUserId != null)
-                {
-                    foreach (UserAccount u in this.UserAccounts)
-                    {
-                        if (u.UserId == this.InitialUserId)
-                        {
-                            tw.Initialize(u.Token, u.TokenSecret, u.Username, u.UserId);
-                            userSet = true;
-                            break;
-                        }
-                    }
-                }
-                //認証済みアカウントが削除されていた場合、もしくは起動時アカウントがなかった場合は、
-                //アクティブユーザーなしとして初期化
-                if (!userSet)
-                {
-                    tw.ClearAuthInfo();
-                    tw.Initialize("", "", "", 0);
-                }
-            }
-
             if (tw != null && string.IsNullOrEmpty(tw.Username) && e.CloseReason == CloseReason.None)
             {
                 if (MessageBox.Show(Properties.Resources.Setting_FormClosing1, "Confirm", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.Cancel)
@@ -275,46 +242,6 @@ namespace OpenTween
 
         private void Setting_Load(object sender, EventArgs e)
         {
-            tw = ((TweenMain)this.Owner).TwitterInstance;
-            //this.AuthStateLabel.Enabled = true;
-            //this.AuthUserLabel.Enabled = true;
-            this.BasedPanel.AuthClearButton.Enabled = true;
-
-            //if (tw.Username == "")
-            //{
-            //    //this.AuthStateLabel.Text = Properties.Resources.AuthorizeButton_Click4
-            //    //this.AuthUserLabel.Text = ""
-            //    //this.Save.Enabled = false
-            //}
-            //else
-            //{
-            //    //this.AuthStateLabel.Text = Properties.Resources.AuthorizeButton_Click3;
-            //    //if (TwitterApiInfo.AccessLevel == ApiAccessLevel.ReadWrite)
-            //    //{
-            //    //    this.AuthStateLabel.Text += "(xAuth)";
-            //    //}
-            //    //else if (TwitterApiInfo.AccessLevel == ApiAccessLevel.ReadWriteAndDirectMessage)
-            //    //{
-            //    //    this.AuthStateLabel.Text += "(OAuth)";
-            //    //}
-            //    //this.AuthUserLabel.Text = tw.Username;
-            //}
-
-            this.BasedPanel.AuthUserCombo.Items.Clear();
-            if (this.UserAccounts.Count > 0)
-            {
-                this.BasedPanel.AuthUserCombo.Items.AddRange(this.UserAccounts.ToArray());
-                foreach (UserAccount u in this.UserAccounts)
-                {
-                    if (u.UserId == tw.UserId)
-                    {
-                        this.BasedPanel.AuthUserCombo.SelectedItem = u;
-                        this.InitialUserId = u.UserId;
-                        break;
-                    }
-                }
-            }
-
             this.TreeViewSetting.Nodes["BasedNode"].Tag = BasedPanel;
             this.TreeViewSetting.Nodes["BasedNode"].Nodes["PeriodNode"].Tag = GetPeriodPanel;
             this.TreeViewSetting.Nodes["BasedNode"].Nodes["StartUpNode"].Tag = StartupPanel;

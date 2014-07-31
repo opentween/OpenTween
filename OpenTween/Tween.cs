@@ -757,15 +757,15 @@ namespace OpenTween
             if (this._cfgCommon.CountApiReply < 20 || this._cfgCommon.CountApiReply > 200)
                 this._cfgCommon.CountApiReply = 40;
 
-            //設定画面への反映
-            this.SettingDialog.LoadConfig(this._cfgCommon, this._cfgLocal);
             HttpTwitter.TwitterUrl = _cfgCommon.TwitterUrl;
 
             //認証関連
             if (string.IsNullOrEmpty(_cfgCommon.Token)) _cfgCommon.UserName = "";
             tw.Initialize(_cfgCommon.Token, _cfgCommon.TokenSecret, _cfgCommon.UserName, _cfgCommon.UserId);
 
-            SettingDialog.UserAccounts = _cfgCommon.UserAccounts;
+            //設定画面への反映
+            this.SettingDialog.tw = this.tw;
+            this.SettingDialog.LoadConfig(this._cfgCommon, this._cfgLocal);
 
             //新着取得時のリストスクロールをするか。trueならスクロールしない
             ListLockMenuItem.Checked = _cfgCommon.ListLock;
@@ -1109,18 +1109,9 @@ namespace OpenTween
             if (saveRequired) SaveConfigsAll(false);
 
             if (tw.UserId == 0)
-            {
                 tw.VerifyCredentials();
-                foreach (UserAccount ua in _cfgCommon.UserAccounts)
-                {
-                    if (ua.Username.ToLower() == tw.Username.ToLower())
-                    {
-                        ua.UserId = tw.UserId;
-                        break;
-                    }
-                }
-            }
-            foreach (UserAccount ua in SettingDialog.UserAccounts)
+
+            foreach (var ua in this._cfgCommon.UserAccounts)
             {
                 if (ua.UserId == 0 && ua.Username.ToLower() == tw.Username.ToLower())
                 {
@@ -3769,7 +3760,9 @@ namespace OpenTween
         private void SettingStripMenuItem_Click(object sender, EventArgs e)
         {
             DialogResult result;
-            string uid = tw.Username.ToLower();
+
+            // 設定画面表示前のユーザー情報
+            var oldUser = new { tw.AccessToken, tw.AccessTokenSecret, tw.Username, tw.UserId };
 
             try
             {
@@ -4005,7 +3998,8 @@ namespace OpenTween
                         _hookGlobalHotkey.RegisterOriginalHotkey(this._cfgCommon.HotkeyKey, this._cfgCommon.HotkeyValue, modKey);
                     }
 
-                    if (uid != tw.Username) this.doGetFollowersMenu();
+                    if (tw.Username != oldUser.Username)
+                        this.doGetFollowersMenu();
 
                     if (this._cfgCommon.IsUseNotifyGrowl) gh.RegisterGrowl();
                     try
@@ -4016,6 +4010,11 @@ namespace OpenTween
                     {
                     }
                 }
+            }
+            else
+            {
+                // キャンセル時は Twitter クラスの認証情報を画面表示前の状態に戻す
+                this.tw.Initialize(oldUser.AccessToken, oldUser.AccessTokenSecret, oldUser.Username, oldUser.UserId);
             }
 
             Twitter.AccountState = MyCommon.ACCOUNT_STATE.Valid;
@@ -7630,7 +7629,6 @@ namespace OpenTween
                 _cfgCommon.Password = tw.Password;
                 _cfgCommon.Token = tw.AccessToken;
                 _cfgCommon.TokenSecret = tw.AccessTokenSecret;
-                _cfgCommon.UserAccounts = SettingDialog.UserAccounts;
 
                 if (IdeographicSpaceToSpaceToolStripMenuItem != null &&
                    IdeographicSpaceToSpaceToolStripMenuItem.IsDisposed == false)
