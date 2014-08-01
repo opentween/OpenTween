@@ -899,7 +899,7 @@ namespace OpenTween
             AllrepliesToolStripMenuItem.Checked = tw.AllAtReply;
 
             //画像投稿サービス
-            ImageSelector.Initialize(tw, SettingDialog.TwitterConfiguration, _cfgCommon.UseImageServiceName, _cfgCommon.UseImageService);
+            ImageSelector.Initialize(tw, this.tw.Configuration, _cfgCommon.UseImageServiceName, _cfgCommon.UseImageService);
 
             //ウィンドウ設定
             this.ClientSize = _cfgLocal.FormSize;
@@ -2434,7 +2434,7 @@ namespace OpenTween
                 case MyCommon.WORKERTYPE.Configuration:
                     try
                     {
-                        this.SettingDialog.TwitterConfiguration = tw.ConfigurationApi();
+                        this.tw.RefreshConfiguration();
                     }
                     catch (WebApiException ex) { ret = ex.Message; }
                     break;
@@ -2929,11 +2929,11 @@ namespace OpenTween
                     break;
                 case MyCommon.WORKERTYPE.Configuration:
                     //_waitFollower = false
-                    if (SettingDialog.TwitterConfiguration.PhotoSizeLimit != 0)
+                    if (this.tw.Configuration.PhotoSizeLimit != 0)
                     {
                         foreach (var service in this.ImageSelector.GetServices())
                         {
-                            service.UpdateTwitterConfiguration(this.SettingDialog.TwitterConfiguration);
+                            service.UpdateTwitterConfiguration(this.tw.Configuration);
                         }
                     }
                     this.PurgeListViewItemCache();
@@ -3793,7 +3793,7 @@ namespace OpenTween
                         this._cfgLocal.ProxyAddress, this._cfgLocal.ProxyPort,
                         this._cfgLocal.ProxyUser, this._cfgLocal.ProxyPassword);
 
-                    ImageSelector.Reset(tw, SettingDialog.TwitterConfiguration);
+                    ImageSelector.Reset(tw, this.tw.Configuration);
 
                     try
                     {
@@ -4898,7 +4898,7 @@ namespace OpenTween
                         last_url_invalid_match = Regex.IsMatch(lasturl, Twitter.url_invalid_short_domain, RegexOptions.IgnoreCase);
                         if (!last_url_invalid_match)
                         {
-                            pLen += lasturl.Length - SettingDialog.TwitterConfiguration.ShortUrlLength;
+                            pLen += lasturl.Length - this.tw.Configuration.ShortUrlLength;
                         }
                     }
 
@@ -4906,7 +4906,7 @@ namespace OpenTween
                     {
                         if (last_url_invalid_match)
                         {
-                            pLen += lasturl.Length - SettingDialog.TwitterConfiguration.ShortUrlLength;
+                            pLen += lasturl.Length - this.tw.Configuration.ShortUrlLength;
                         }
                         pLen += path.Length;
                     }
@@ -4914,8 +4914,8 @@ namespace OpenTween
                 else
                 {
                     int shortUrlLength = protocol == "https://"
-                        ? SettingDialog.TwitterConfiguration.ShortUrlLengthHttps
-                        : SettingDialog.TwitterConfiguration.ShortUrlLength;
+                        ? this.tw.Configuration.ShortUrlLengthHttps
+                        : this.tw.Configuration.ShortUrlLength;
 
                     pLen += url.Length - shortUrlLength;
                 }
@@ -4927,7 +4927,7 @@ namespace OpenTween
             }
             if (ImageSelector.Visible && !string.IsNullOrEmpty(ImageSelector.ServiceName))
             {
-                pLen -= SettingDialog.TwitterConfiguration.CharactersReservedPerMedia;
+                pLen -= this.tw.Configuration.CharactersReservedPerMedia;
             }
             return pLen;
         }
@@ -10673,7 +10673,7 @@ namespace OpenTween
                     GetTimeline(MyCommon.WORKERTYPE.NoRetweetIds, 0, "");
 
                 // 取得失敗の場合は再試行する
-                if (SettingDialog.TwitterConfiguration.PhotoSizeLimit == 0)
+                if (this.tw.Configuration.PhotoSizeLimit == 0)
                     GetTimeline(MyCommon.WORKERTYPE.Configuration, 0, "");
 
                 // 権限チェック read/write権限(xAuthで取得したトークン)の場合は再認証を促す
@@ -11233,10 +11233,10 @@ namespace OpenTween
 
         public bool IsTwitterId(string name)
         {
-            if (SettingDialog.TwitterConfiguration.NonUsernamePaths == null || SettingDialog.TwitterConfiguration.NonUsernamePaths.Length == 0)
+            if (this.tw.Configuration.NonUsernamePaths == null || this.tw.Configuration.NonUsernamePaths.Length == 0)
                 return !Regex.Match(name, @"^(about|jobs|tos|privacy|who_to_follow|download|messages)$", RegexOptions.IgnoreCase).Success;
             else
-                return !SettingDialog.TwitterConfiguration.NonUsernamePaths.Contains(name.ToLower());
+                return !this.tw.Configuration.NonUsernamePaths.Contains(name.ToLower());
         }
 
         private string GetUserId()

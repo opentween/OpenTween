@@ -51,8 +51,6 @@ namespace OpenTween
 
         private long? InitialUserId;
 
-        public TwitterConfiguration TwitterConfiguration = TwitterConfiguration.DefaultConfiguration();
-
         private string _pin;
 
         public event EventHandler<IntervalChangedEventArgs> IntervalChanged;

@@ -136,6 +136,8 @@ namespace OpenTween
 | frtrt\.net/solo_status\.php\?status=          # RtRT
 )(?<StatusId>[0-9]+)", RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace);
 
+        public TwitterConfiguration Configuration { get; private set; }
+
         delegate void GetIconImageDelegate(PostClass post);
         private readonly object LockObj = new object();
         private List<long> followerId = new List<long>();
@@ -168,6 +170,11 @@ namespace OpenTween
         private HttpTwitter twCon = new HttpTwitter();
 
         //private List<PostClass> _deletemessages = new List<PostClass>();
+
+        public Twitter()
+        {
+            this.Configuration = TwitterConfiguration.DefaultConfiguration();
+        }
 
         public TwitterApiAccessLevel AccessLevel
         {
@@ -2502,10 +2509,15 @@ namespace OpenTween
         }
 
         /// <summary>
-        /// t.co の文字列長などの設定情報を取得します
+        /// t.co の文字列長などの設定情報を更新します
         /// </summary>
         /// <exception cref="WebApiException"/>
-        public TwitterConfiguration ConfigurationApi()
+        public void RefreshConfiguration()
+        {
+            this.Configuration = this.ConfigurationApi();
+        }
+
+        private TwitterConfiguration ConfigurationApi()
         {
             HttpStatusCode res;
             var content = "";
