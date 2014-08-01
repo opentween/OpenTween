@@ -218,6 +218,8 @@ namespace OpenTween
 
         private ImageListViewItem displayItem;
 
+        private string recommendedStatusFooter;
+
         /// <summary>
         /// デザイン時の DPI (96dpi) と実際の表示時の DPI との比を表します
         /// </summary>
@@ -784,7 +786,7 @@ namespace OpenTween
             this.ToolStripFocusLockMenuItem.Checked = _cfgCommon.FocusLockToStatusText;
 
             //Regex statregex = new Regex("^0*");
-            SettingDialog.RecommendStatusText = " [TWNv" + Regex.Replace(MyCommon.FileVersion.Replace(".", ""), "^0*", "") + "]";
+            this.recommendedStatusFooter = " [TWNv" + Regex.Replace(MyCommon.FileVersion.Replace(".", ""), "^0*", "") + "]";
 
             //ハッシュタグ関連
             HashSupl = new AtIdSupplement(_cfgCommon.HashTags, "#");
@@ -2115,7 +2117,7 @@ namespace OpenTween
                 {
                     if (this._cfgLocal.UseRecommendStatus)
                         // 推奨ステータスを使用する
-                        footer += SettingDialog.RecommendStatusText;
+                        footer += this.recommendedStatusFooter;
                     else
                         // テキストボックスに入力されている文字列を使用する
                         footer += " " + this._cfgLocal.StatusText.Trim();
@@ -4862,7 +4864,7 @@ namespace OpenTween
                 (!isAuto && isAddFooter))
             {
                 if (this._cfgLocal.UseRecommendStatus)
-                    pLen -= SettingDialog.RecommendStatusText.Length;
+                    pLen -= this.recommendedStatusFooter.Length;
                 else if (this._cfgLocal.StatusText.Length > 0)
                     pLen -= this._cfgLocal.StatusText.Length + 1;
             }

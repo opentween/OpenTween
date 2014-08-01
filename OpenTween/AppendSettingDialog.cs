@@ -277,8 +277,6 @@ namespace OpenTween
             }
         }
 
-        public string RecommendStatusText { get; set; }
-
         private bool StartAuth()
         {
             //現在の設定内容で通信
