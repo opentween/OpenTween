@@ -626,6 +626,7 @@ namespace OpenTween.Properties {
         ///   更新履歴
         ///
         ///==== Ver 1.2.3-beta1(2014/xx/xx)
+        /// * FIX: 翻訳機能使用時に発言詳細部のフォント設定が適用されない問題を修正
         ///
         ///==== Ver 1.2.2(2014/07/06)
         /// * このバージョンのOpenTweenは pic.twitter.com に複数枚の画像が含まれている場合の表示に対応していますが、
@@ -636,8 +637,7 @@ namespace OpenTween.Properties {
         ///  - 投稿先に Twitter を選択し、左端のコンボボックスを切り替えることで、最大 4 枚まで選択可能です
         ///  - 投稿するファイルの数・サイズによっては、投稿完了までに若干の時間がかかります
         /// * NEW: GIFMAGAZINE のサムネイル表示に対応
-        ///  - pic.twitter.com に投稿されたアニメーションGIFはTwitterAPI側の対応待ちで当面の間表示はできません
-        /// * CHG [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
+        ///  - pic.twitter.com に投稿されたアニメーショ [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ChangeLog {
             get {
@@ -1854,6 +1854,7 @@ namespace OpenTween.Properties {
         ///   [投稿先: {0}]
         ///&quot;{2}&quot; の投稿には対応していません。他の投稿先を使用してください。
         ///
+        ///ファイル名: {3}
         ///使用可能な投稿先: {1} に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string PostPictureWarn3 {
@@ -1875,6 +1876,7 @@ namespace OpenTween.Properties {
         ///   [投稿先: {0}]
         ///ファイルが大きすぎます。ファイルサイズを小さくするか、他の投稿先を使用してください。
         ///
+        ///ファイル名: {2}
         ///使用可能な投稿先: {1} に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string PostPictureWarn5 {

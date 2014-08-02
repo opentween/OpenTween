@@ -12391,7 +12391,7 @@ namespace OpenTween
         {
             this.Activate();
             this.BringToFront();
-            ImageSelector.BeginSelection(((string[])e.Data.GetData(DataFormats.FileDrop, false))[0]);
+            ImageSelector.BeginSelection((string[])e.Data.GetData(DataFormats.FileDrop, false));
             StatusText.Focus();
         }
 

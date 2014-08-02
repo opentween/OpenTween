@@ -1091,6 +1091,7 @@ Do you want to upload the {1} selected media file(s)?</value>
     <value>[Service: {0}]
 "{2}" is unsupported file type. Use other service.
 
+File: {3}
 Available service: {1}</value>
   </data>
   <data name="PostPictureWarn4" xml:space="preserve">
@@ -1100,6 +1101,7 @@ Available service: {1}</value>
     <value>[Service: {0}]
 File is too large. Reduce the file size, or use other service.
 
+File: {2}
 Available service: {1}</value>
   </data>
   <data name="PostPictureWarn6" xml:space="preserve">

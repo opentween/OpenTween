@@ -209,13 +209,18 @@ namespace OpenTween
         /// 投稿するファイルとその投稿先を選択するためのコントロールを表示する。
         /// D&Dをサポートする場合は引数にドロップされたファイル名を指定して呼ぶこと。
         /// </summary>
-        public void BeginSelection(string fileName = null)
+        public void BeginSelection(string[] fileNames = null)
         {
-            if (!string.IsNullOrEmpty(fileName))
+            if (fileNames != null && fileNames.Length > 0)
             {
-                if (!this.Visible)
+                var serviceName = this.ServiceName;
+                if (string.IsNullOrEmpty(serviceName)) return;
+                var service = this.pictureService[serviceName];
+
+                var count = Math.Min(fileNames.Length, service.MaxMediaCount);
+                if (!this.Visible || count > 1)
                 {
-                    // 非表示時のファイル指定は新規選択として扱う
+                    // 非表示時または複数のファイル指定は新規選択として扱う
                     SetImagePageCombo();
 
                     if (this.BeginSelecting != null)
@@ -224,8 +229,21 @@ namespace OpenTween
                     this.Visible = true;
                 }
                 this.Enabled = true;
-                ImagefilePathText.Text = fileName;
-                ImageFromSelectedFile(false);
+
+                if (count == 1)
+                {
+                    ImagefilePathText.Text = fileNames[0];
+                    ImageFromSelectedFile(false);
+                }
+                else
+                {
+                    for (int i = 0; i < count; i++)
+                    {
+                        var index = ImagePageCombo.Items.Count - 1;
+                        if (index == 0) ImagefilePathText.Text = fileNames[i];
+                        ImageFromSelectedFile(index, fileNames[i], false);
+                    }
+                }
             }
             else
             {
@@ -336,31 +354,46 @@ namespace OpenTween
 
         private void ImageFromSelectedFile(bool suppressMsgBox)
         {
-            this.ClearImageSelectedPicture();
+            ImagefilePathText.Text = ImagefilePathText.Text.Trim();
+            ImageFromSelectedFile(-1, ImagefilePathText.Text, suppressMsgBox);
+        }
+
+        private void ImageFromSelectedFile(int index, string fileName, bool suppressMsgBox)
+        {
+            var serviceName = this.ServiceName;
+            if (string.IsNullOrEmpty(serviceName)) return;
+
+            var selectedIndex = ImagePageCombo.SelectedIndex;
+            if (index < 0) index = selectedIndex;
+
+            if (index >= ImagePageCombo.Items.Count)
+                throw new ArgumentOutOfRangeException("index");
+
+            var imageService = this.pictureService[serviceName];
+            var isSelectedPage = (index == selectedIndex);
+
+            if (isSelectedPage)
+                this.ClearImageSelectedPicture();
+
+            if (string.IsNullOrEmpty(fileName))
+            {
+                ClearImagePage(index);
+                return;
+            }
 
             try
             {
-                ImagefilePathText.Text = ImagefilePathText.Text.Trim();
-                var fileName = ImagefilePathText.Text;
-                var serviceName = this.ServiceName;
-                if (string.IsNullOrEmpty(fileName) || string.IsNullOrEmpty(serviceName))
-                {
-                    ClearSelectedImagePage();
-                    return;
-                }
-
                 FileInfo fl = new FileInfo(fileName);
                 string ext = fl.Extension;
-                var imageService = this.pictureService[serviceName];
 
                 if (!imageService.CheckFileExtension(ext))
                 {
                     //画像以外の形式
-                    ClearSelectedImagePage();
+                    ClearImagePage(index);
                     if (!suppressMsgBox)
                     {
                         MessageBox.Show(
-                            string.Format(Properties.Resources.PostPictureWarn3, serviceName, MakeAvailableServiceText(ext, fl.Length), ext),
+                            string.Format(Properties.Resources.PostPictureWarn3, serviceName, MakeAvailableServiceText(ext, fl.Length), ext, fl.Name),
                             Properties.Resources.PostPictureWarn4,
                             MessageBoxButtons.OK,
                             MessageBoxIcon.Warning);
@@ -371,11 +404,11 @@ namespace OpenTween
                 if (!imageService.CheckFileSize(ext, fl.Length))
                 {
                     // ファイルサイズが大きすぎる
-                    ClearSelectedImagePage();
+                    ClearImagePage(index);
                     if (!suppressMsgBox)
                     {
                         MessageBox.Show(
-                            string.Format(Properties.Resources.PostPictureWarn5, serviceName, MakeAvailableServiceText(ext, fl.Length)),
+                            string.Format(Properties.Resources.PostPictureWarn5, serviceName, MakeAvailableServiceText(ext, fl.Length), fl.Name),
                             Properties.Resources.PostPictureWarn4,
                             MessageBoxButtons.OK,
                             MessageBoxIcon.Warning);
@@ -387,23 +420,27 @@ namespace OpenTween
                 {
                     using (var fs = File.OpenRead(fileName))
                     {
-                        ImageSelectedPicture.Image = MemoryImage.CopyFromStream(fs);
+                        var image = MemoryImage.CopyFromStream(fs);
+                        if (isSelectedPage)
+                            ImageSelectedPicture.Image = image;
+                        else
+                            image.Dispose();  //画像チェック後は使わないので破棄する
                     }
-                    SetSelectedImagePage(fileName, MyCommon.UploadFileType.Picture);
+                    SetImagePage(index, fileName, MyCommon.UploadFileType.Picture);
                 }
                 catch (InvalidImageException)
                 {
-                    SetSelectedImagePage(fileName, MyCommon.UploadFileType.MultiMedia);
+                    SetImagePage(index, fileName, MyCommon.UploadFileType.MultiMedia);
                 }
             }
             catch (FileNotFoundException)
             {
-                ClearSelectedImagePage();
+                ClearImagePage(index);
                 if (!suppressMsgBox) MessageBox.Show("File not found.");
             }
             catch (Exception)
             {
-                ClearSelectedImagePage();
+                ClearImagePage(index);
                 if (!suppressMsgBox) MessageBox.Show("The type of this file is not image.");
             }
         }
@@ -577,9 +614,12 @@ namespace OpenTween
 
         private void AddNewImagePage(int selectedIndex)
         {
-            if (this.ServiceName.Equals("Twitter") && selectedIndex < 3)
+            var serviceName = this.ServiceName;
+            if (string.IsNullOrEmpty(serviceName)) return;
+
+            if (selectedIndex < this.pictureService[serviceName].MaxMediaCount - 1)
             {
-                // 投稿先が Twitter であれば、最大 4 枚まで選択できるようにする
+                // 投稿先の投稿可能枚数まで選択できるようにする
                 var count = ImagePageCombo.Items.Count;
                 if (selectedIndex == count - 1)
                 {
@@ -592,20 +632,36 @@ namespace OpenTween
 
         private void SetSelectedImagePage(string path, MyCommon.UploadFileType type)
         {
-            var idx = ImagePageCombo.SelectedIndex;
-            var item = (SelectedMedia)ImagePageCombo.Items[idx];
+            SetImagePage(-1, path, type);
+        }
+
+        private void SetImagePage(int index, string path, MyCommon.UploadFileType type)
+        {
+            var selectedIndex = ImagePageCombo.SelectedIndex;
+            if (index < 0) index = selectedIndex;
+
+            var item = (SelectedMedia)ImagePageCombo.Items[index];
             item.Path = path;
             item.Type = type;
 
-            AddNewImagePage(idx);
+            AddNewImagePage(index);
         }
 
         private void ClearSelectedImagePage()
         {
-            var item = (SelectedMedia)ImagePageCombo.SelectedItem;
+            ClearImagePage(-1);
+        }
+
+        private void ClearImagePage(int index)
+        {
+            var selectedIndex = ImagePageCombo.SelectedIndex;
+            if (index < 0) index = selectedIndex;
+
+            var item = (SelectedMedia)ImagePageCombo.Items[index];
             item.Path = "";
             item.Type = MyCommon.UploadFileType.Invalid;
-            ImagefilePathText.Text = "";
+
+            if (index == selectedIndex) ImagefilePathText.Text = "";
         }
 
         private void ValidateSelectedImagePage()
