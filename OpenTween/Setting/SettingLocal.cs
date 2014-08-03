@@ -51,7 +51,12 @@ namespace OpenTween
         public Point FormLocation = new Point(0, 0);
         public int SplitterDistance = 200;
         public Size FormSize = new Size(600, 500);
+
+        /// <summary>
+        /// 文末ステータス
+        /// </summary>
         public string StatusText = "";
+
         public bool UseRecommendStatus = false;
         public int Width1 = 48;
         public int Width2 = 80;

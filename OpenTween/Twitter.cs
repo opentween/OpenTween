@@ -136,6 +136,8 @@ namespace OpenTween
 | frtrt\.net/solo_status\.php\?status=          # RtRT
 )(?<StatusId>[0-9]+)", RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace);
 
+        public TwitterConfiguration Configuration { get; private set; }
+
         delegate void GetIconImageDelegate(PostClass post);
         private readonly object LockObj = new object();
         private List<long> followerId = new List<long>();
@@ -169,6 +171,11 @@ namespace OpenTween
 
         //private List<PostClass> _deletemessages = new List<PostClass>();
 
+        public Twitter()
+        {
+            this.Configuration = TwitterConfiguration.DefaultConfiguration();
+        }
+
         public TwitterApiAccessLevel AccessLevel
         {
             get
@@ -201,7 +208,7 @@ namespace OpenTween
             if (err != null) return err;
 
             _uname = username.ToLower();
-            if (AppendSettingDialog.Instance.UserstreamStartup) this.ReconnectUserStream();
+            if (SettingCommon.Instance.UserstreamStartup) this.ReconnectUserStream();
             return "";
         }
 
@@ -241,7 +248,7 @@ namespace OpenTween
             if (err != null) return err;
 
             _uname = Username.ToLower();
-            if (AppendSettingDialog.Instance.UserstreamStartup) this.ReconnectUserStream();
+            if (SettingCommon.Instance.UserstreamStartup) this.ReconnectUserStream();
             return "";
         }
 
@@ -291,7 +298,7 @@ namespace OpenTween
             this.ResetApiStatus();
             twCon.Initialize(token, tokenSecret, username, userId);
             _uname = username.ToLower();
-            if (AppendSettingDialog.Instance.UserstreamStartup) this.ReconnectUserStream();
+            if (SettingCommon.Instance.UserstreamStartup) this.ReconnectUserStream();
         }
 
         public string PreProcessUrl(string orgData)
@@ -1377,17 +1384,17 @@ namespace OpenTween
 
             HttpStatusCode res;
             var content = "";
-            var count = AppendSettingDialog.Instance.CountApi;
-            if (gType == MyCommon.WORKERTYPE.Reply) count = AppendSettingDialog.Instance.CountApiReply;
-            if (AppendSettingDialog.Instance.UseAdditionalCount)
+            var count = SettingCommon.Instance.CountApi;
+            if (gType == MyCommon.WORKERTYPE.Reply) count = SettingCommon.Instance.CountApiReply;
+            if (SettingCommon.Instance.UseAdditionalCount)
             {
-                if (more && AppendSettingDialog.Instance.MoreCountApi != 0)
+                if (more && SettingCommon.Instance.MoreCountApi != 0)
                 {
-                    count = AppendSettingDialog.Instance.MoreCountApi;
+                    count = SettingCommon.Instance.MoreCountApi;
                 }
-                else if (startup && AppendSettingDialog.Instance.FirstCountApi != 0 && gType == MyCommon.WORKERTYPE.Timeline)
+                else if (startup && SettingCommon.Instance.FirstCountApi != 0 && gType == MyCommon.WORKERTYPE.Timeline)
                 {
-                    count = AppendSettingDialog.Instance.FirstCountApi;
+                    count = SettingCommon.Instance.FirstCountApi;
                 }
             }
             try
@@ -1797,38 +1804,38 @@ namespace OpenTween
             HttpStatusCode res;
             var content = "";
             int count;
-            if (AppendSettingDialog.Instance.UseAdditionalCount)
+            if (SettingCommon.Instance.UseAdditionalCount)
             {
-                count = AppendSettingDialog.Instance.ListCountApi;
+                count = SettingCommon.Instance.ListCountApi;
                 if (count == 0)
                 {
-                    if (more && AppendSettingDialog.Instance.MoreCountApi != 0)
+                    if (more && SettingCommon.Instance.MoreCountApi != 0)
                     {
-                        count = AppendSettingDialog.Instance.MoreCountApi;
+                        count = SettingCommon.Instance.MoreCountApi;
                     }
-                    else if (startup && AppendSettingDialog.Instance.FirstCountApi != 0)
+                    else if (startup && SettingCommon.Instance.FirstCountApi != 0)
                     {
-                        count = AppendSettingDialog.Instance.FirstCountApi;
+                        count = SettingCommon.Instance.FirstCountApi;
                     }
                     else
                     {
-                        count = AppendSettingDialog.Instance.CountApi;
+                        count = SettingCommon.Instance.CountApi;
                     }
                 }
             }
             else
             {
-                count = AppendSettingDialog.Instance.CountApi;
+                count = SettingCommon.Instance.CountApi;
             }
             try
             {
                 if (more)
                 {
-                    res = twCon.GetListsStatuses(tab.ListInfo.UserId, tab.ListInfo.Id, count, tab.OldestId, null, AppendSettingDialog.Instance.IsListStatusesIncludeRts, ref content);
+                    res = twCon.GetListsStatuses(tab.ListInfo.UserId, tab.ListInfo.Id, count, tab.OldestId, null, SettingCommon.Instance.IsListsIncludeRts, ref content);
                 }
                 else
                 {
-                    res = twCon.GetListsStatuses(tab.ListInfo.UserId, tab.ListInfo.Id, count, null, null, AppendSettingDialog.Instance.IsListStatusesIncludeRts, ref content);
+                    res = twCon.GetListsStatuses(tab.ListInfo.UserId, tab.ListInfo.Id, count, null, null, SettingCommon.Instance.IsListsIncludeRts, ref content);
                 }
             }
             catch(Exception ex)
@@ -1963,14 +1970,14 @@ namespace OpenTween
             long? maxId = null;
             long? sinceId = null;
             var count = 100;
-            if (AppendSettingDialog.Instance.UseAdditionalCount &&
-                AppendSettingDialog.Instance.SearchCountApi != 0)
+            if (SettingCommon.Instance.UseAdditionalCount &&
+                SettingCommon.Instance.SearchCountApi != 0)
             {
-                count = AppendSettingDialog.Instance.SearchCountApi;
+                count = SettingCommon.Instance.SearchCountApi;
             }
             else
             {
-                count = AppendSettingDialog.Instance.CountApi;
+                count = SettingCommon.Instance.CountApi;
             }
             if (more)
             {
@@ -2189,11 +2196,11 @@ namespace OpenTween
 
             if (MyCommon._endingFlag) return "";
 
-            var count = AppendSettingDialog.Instance.CountApi;
-            if (AppendSettingDialog.Instance.UseAdditionalCount &&
-                AppendSettingDialog.Instance.FavoritesCountApi != 0)
+            var count = SettingCommon.Instance.CountApi;
+            if (SettingCommon.Instance.UseAdditionalCount &&
+                SettingCommon.Instance.FavoritesCountApi != 0)
             {
-                count = AppendSettingDialog.Instance.FavoritesCountApi;
+                count = SettingCommon.Instance.FavoritesCountApi;
             }
 
             // 前ページ取得の場合はページカウンタをインクリメント、それ以外の場合はページカウンタリセット
@@ -2502,10 +2509,15 @@ namespace OpenTween
         }
 
         /// <summary>
-        /// t.co の文字列長などの設定情報を取得します
+        /// t.co の文字列長などの設定情報を更新します
         /// </summary>
         /// <exception cref="WebApiException"/>
-        public TwitterConfiguration ConfigurationApi()
+        public void RefreshConfiguration()
+        {
+            this.Configuration = this.ConfigurationApi();
+        }
+
+        private TwitterConfiguration ConfigurationApi()
         {
             HttpStatusCode res;
             var content = "";
@@ -3520,7 +3532,7 @@ namespace OpenTween
                     var tweetEvent = TwitterStreamEvent<TwitterStatus>.ParseJson(content);
                     evt.Target = "@" + tweetEvent.TargetObject.User.ScreenName + ":" + WebUtility.HtmlDecode(tweetEvent.TargetObject.Text);
                     evt.Id = tweetEvent.TargetObject.Id;
-                    if (AppendSettingDialog.Instance.IsRemoveSameEvent)
+                    if (SettingCommon.Instance.IsRemoveSameEvent)
                     {
                         if (StoredEvent.Any(ev =>
                                            {
@@ -3542,7 +3554,7 @@ namespace OpenTween
                                 post.FavoritedCount++;
                                 if (!TabInformations.GetInstance().GetTabByType(MyCommon.TabUsageType.Favorites).Contains(post.StatusId))
                                 {
-                                    if (AppendSettingDialog.Instance.FavEventUnread && post.IsRead)
+                                    if (SettingCommon.Instance.FavEventUnread && post.IsRead)
                                     {
                                         post.IsRead = false;
                                     }
@@ -3550,7 +3562,7 @@ namespace OpenTween
                                 }
                                 else
                                 {
-                                    if (AppendSettingDialog.Instance.FavEventUnread)
+                                    if (SettingCommon.Instance.FavEventUnread)
                                     {
                                         TabInformations.GetInstance().SetRead(false, TabInformations.GetInstance().GetTabByType(MyCommon.TabUsageType.Favorites).TabName, TabInformations.GetInstance().GetTabByType(MyCommon.TabUsageType.Favorites).IndexOf(post.StatusId));
                                     }

@@ -32,6 +32,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using OpenTween.Thumbnail;
 
 namespace OpenTween.Setting.Panel
 {
@@ -40,6 +41,32 @@ namespace OpenTween.Setting.Panel
         public CooperatePanel()
         {
             InitializeComponent();
+        }
+
+        public void LoadConfig(SettingCommon settingCommon)
+        {
+            this.CheckNicoms.Checked = settingCommon.Nicoms;
+            this.ComboBoxTranslateLanguage.SelectedIndex = Bing.GetIndexFromLanguageEnum(settingCommon.TranslateLanguage);
+            this.UserAppointUrlText.Text = settingCommon.UserAppointUrl;
+            this.EnableImgAzyobuziNetCheckBox.Checked = settingCommon.EnableImgAzyobuziNet;
+            this.ImgAzyobuziNetDisabledInDMCheckBox.Checked = settingCommon.ImgAzyobuziNetDisabledInDM;
+            this.MapThumbnailProviderComboBox.SelectedIndex = (int)settingCommon.MapThumbnailProvider;
+            this.MapThumbnailHeightTextBox.Text = settingCommon.MapThumbnailHeight.ToString();
+            this.MapThumbnailWidthTextBox.Text = settingCommon.MapThumbnailWidth.ToString();
+            this.MapThumbnailZoomTextBox.Text = settingCommon.MapThumbnailZoom.ToString();
+        }
+
+        public void SaveConfig(SettingCommon settingCommon)
+        {
+            settingCommon.Nicoms = this.CheckNicoms.Checked;
+            settingCommon.TranslateLanguage = Bing.GetLanguageEnumFromIndex(this.ComboBoxTranslateLanguage.SelectedIndex);
+            settingCommon.UserAppointUrl = this.UserAppointUrlText.Text;
+            settingCommon.EnableImgAzyobuziNet = this.EnableImgAzyobuziNetCheckBox.Checked;
+            settingCommon.ImgAzyobuziNetDisabledInDM = this.ImgAzyobuziNetDisabledInDMCheckBox.Checked;
+            settingCommon.MapThumbnailProvider = (MapProvider)this.MapThumbnailProviderComboBox.SelectedIndex;
+            settingCommon.MapThumbnailHeight = int.Parse(this.MapThumbnailHeightTextBox.Text);
+            settingCommon.MapThumbnailWidth = int.Parse(this.MapThumbnailWidthTextBox.Text);
+            settingCommon.MapThumbnailZoom = int.Parse(this.MapThumbnailZoomTextBox.Text);
         }
 
         private void UserAppointUrlText_Validating(object sender, CancelEventArgs e)

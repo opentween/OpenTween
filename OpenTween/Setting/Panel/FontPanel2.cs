@@ -42,6 +42,34 @@ namespace OpenTween.Setting.Panel
             InitializeComponent();
         }
 
+        public void LoadConfig(SettingLocal settingLocal)
+        {
+            this.lblSelf.BackColor = settingLocal.ColorSelf;
+            this.lblAtSelf.BackColor = settingLocal.ColorAtSelf;
+            this.lblTarget.BackColor = settingLocal.ColorTarget;
+            this.lblAtTarget.BackColor = settingLocal.ColorAtTarget;
+            this.lblAtFromTarget.BackColor = settingLocal.ColorAtFromTarget;
+            this.lblAtTo.BackColor = settingLocal.ColorAtTo;
+            this.lblInputBackcolor.BackColor = settingLocal.ColorInputBackcolor;
+            this.lblInputFont.ForeColor = settingLocal.ColorInputFont;
+            this.lblInputFont.Font = settingLocal.FontInputFont;
+            this.lblListBackcolor.BackColor = settingLocal.ColorListBackcolor;
+        }
+
+        public void SaveConfig(SettingLocal settingLocal)
+        {
+            settingLocal.ColorSelf = this.lblSelf.BackColor;
+            settingLocal.ColorAtSelf = this.lblAtSelf.BackColor;
+            settingLocal.ColorTarget = this.lblTarget.BackColor;
+            settingLocal.ColorAtTarget = this.lblAtTarget.BackColor;
+            settingLocal.ColorAtFromTarget = this.lblAtFromTarget.BackColor;
+            settingLocal.ColorAtTo = this.lblAtTo.BackColor;
+            settingLocal.ColorInputBackcolor = this.lblInputBackcolor.BackColor;
+            settingLocal.ColorInputFont = this.lblInputFont.ForeColor;
+            settingLocal.ColorListBackcolor = this.lblListBackcolor.BackColor;
+            settingLocal.FontInputFont = this.lblInputFont.Font;
+        }
+
         private void ButtonBackToDefaultFontColor2_Click(object sender, EventArgs e)
         {
             lblInputFont.ForeColor = Color.FromKnownColor(System.Drawing.KnownColor.ControlText);
@@ -62,6 +90,51 @@ namespace OpenTween.Setting.Panel
             lblAtTo.BackColor = Color.FromKnownColor(System.Drawing.KnownColor.Pink);
 
             lblListBackcolor.BackColor = Color.FromKnownColor(System.Drawing.KnownColor.Window);
+        }
+
+        private void btnSelf_Click(object sender, EventArgs e)
+        {
+            this.ShowBackColorDialog(this.lblSelf);
+        }
+
+        private void btnAtSelf_Click(object sender, EventArgs e)
+        {
+            this.ShowBackColorDialog(this.lblAtSelf);
+        }
+
+        private void btnTarget_Click(object sender, EventArgs e)
+        {
+            this.ShowBackColorDialog(this.lblTarget);
+        }
+
+        private void btnAtTarget_Click(object sender, EventArgs e)
+        {
+            this.ShowBackColorDialog(this.lblAtTarget);
+        }
+
+        private void btnAtFromTarget_Click(object sender, EventArgs e)
+        {
+            this.ShowBackColorDialog(this.lblAtFromTarget);
+        }
+
+        private void btnAtTo_Click(object sender, EventArgs e)
+        {
+            this.ShowBackColorDialog(this.lblAtTo);
+        }
+
+        private void btnListBack_Click(object sender, EventArgs e)
+        {
+            this.ShowBackColorDialog(this.lblListBackcolor);
+        }
+
+        private void btnInputBackcolor_Click(object sender, EventArgs e)
+        {
+            this.ShowBackColorDialog(this.lblInputBackcolor);
+        }
+
+        private void btnInputFont_Click(object sender, EventArgs e)
+        {
+            this.ShowFontDialog(this.lblInputFont);
         }
     }
 }

@@ -42,6 +42,20 @@ namespace OpenTween.Setting.Panel
             InitializeComponent();
         }
 
+        public void LoadConfig(SettingCommon settingCommon)
+        {
+            using (ControlTransaction.Update(this.AuthUserCombo))
+            {
+                this.AuthUserCombo.Items.Clear();
+                this.AuthUserCombo.Items.AddRange(settingCommon.UserAccounts.ToArray());
+            }
+        }
+
+        public void SaveConfig(SettingCommon settingCommon)
+        {
+            settingCommon.UserAccounts = this.AuthUserCombo.Items.Cast<UserAccount>().ToList();
+        }
+
         private void AuthClearButton_Click(object sender, EventArgs e)
         {
             //tw.ClearAuthInfo();

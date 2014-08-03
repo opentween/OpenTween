@@ -34,6 +34,12 @@ namespace OpenTween
 {
     public class SettingCommon : SettingBase<SettingCommon>
     {
+        public static SettingCommon Instance { get; internal set; }
+
+        static SettingCommon()
+        {
+            Instance = new SettingCommon();
+        }
 
         #region "Settingクラス基本"
         public static SettingCommon Load()
@@ -110,7 +116,12 @@ namespace OpenTween
         public int DMPeriod = 600;
         public int PubSearchPeriod = 180;
         public int ListsPeriod = 180;
+
+        /// <summary>
+        /// 起動時読み込み分を既読にするか。trueなら既読として処理
+        /// </summary>
         public bool Read = true;
+
         public bool ListLock = false;
         public MyCommon.IconSizes IconSize = MyCommon.IconSizes.Icon16;
         public bool NewAllPop = true;
@@ -121,9 +132,22 @@ namespace OpenTween
         public bool FavEventUnread = true;
         public string TranslateLanguage = Properties.Resources.TranslateDefaultLanguage;
         public string EventSoundFile = "";
+
+        /// <summary>
+        /// サウンド再生（タブ別設定より優先）
+        /// </summary>
         public bool PlaySound = false;
+
+        /// <summary>
+        /// 未読管理。trueなら未読管理する
+        /// </summary>
         public bool UnreadManage = true;
+
+        /// <summary>
+        /// 片思い表示。trueなら片思い表示する
+        /// </summary>
         public bool OneWayLove = true;
+
         public MyCommon.NameBalloonEnum NameBalloon = MyCommon.NameBalloonEnum.NickName;
         public bool PostCtrlEnter = false;
         public bool PostShiftEnter = false;

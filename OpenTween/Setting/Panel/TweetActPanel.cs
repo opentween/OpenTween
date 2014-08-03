@@ -42,6 +42,55 @@ namespace OpenTween.Setting.Panel
             InitializeComponent();
         }
 
+        public void LoadConfig(SettingCommon settingCommon, SettingLocal settingLocal)
+        {
+            this.StatusText.Text = settingLocal.StatusText;
+
+            if (settingCommon.PostCtrlEnter)
+            {
+                this.ComboBoxPostKeySelect.SelectedIndex = 1;
+            }
+            else if (settingCommon.PostShiftEnter)
+            {
+                this.ComboBoxPostKeySelect.SelectedIndex = 2;
+            }
+            else
+            {
+                this.ComboBoxPostKeySelect.SelectedIndex = 0;
+            }
+
+            this.CheckUseRecommendStatus.Checked = settingLocal.UseRecommendStatus;
+            this.CheckRetweetNoConfirm.Checked = settingCommon.RetweetNoConfirm;
+            this.CheckAtIdSupple.Checked = settingCommon.UseAtIdSupplement;
+            this.CheckHashSupple.Checked = settingCommon.UseHashSupplement;
+        }
+
+        public void SaveConfig(SettingCommon settingCommon, SettingLocal settingLocal)
+        {
+            settingLocal.StatusText = this.StatusText.Text;
+
+            switch (this.ComboBoxPostKeySelect.SelectedIndex)
+            {
+                case 2:
+                    settingCommon.PostShiftEnter = true;
+                    settingCommon.PostCtrlEnter = false;
+                    break;
+                case 1:
+                    settingCommon.PostCtrlEnter = true;
+                    settingCommon.PostShiftEnter = false;
+                    break;
+                case 0:
+                    settingCommon.PostCtrlEnter = false;
+                    settingCommon.PostShiftEnter = false;
+                    break;
+            }
+
+            settingLocal.UseRecommendStatus = this.CheckUseRecommendStatus.Checked;
+            settingCommon.RetweetNoConfirm = this.CheckRetweetNoConfirm.Checked;
+            settingCommon.UseAtIdSupplement = this.CheckAtIdSupple.Checked;
+            settingCommon.UseHashSupplement = this.CheckHashSupple.Checked;
+        }
+
         private void CheckUseRecommendStatus_CheckedChanged(object sender, EventArgs e)
         {
             if (CheckUseRecommendStatus.Checked == true)

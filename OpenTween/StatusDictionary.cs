@@ -855,7 +855,7 @@ namespace OpenTween
             {
                 //一見未読なさそうだが、未読カウントはあるので探索
                 //if (tb.UnreadCount > 0)
-                if (!(tb.UnreadManage && AppendSettingDialog.Instance.UnreadManage)) return -1;
+                if (!(tb.UnreadManage && SettingCommon.Instance.UnreadManage)) return -1;
                 lock (LockUnread)
                 {
                     this.SetNextUnreadId(-1, tb);
@@ -1198,7 +1198,7 @@ namespace OpenTween
                         {
                             if (Item.IsFav && Item.RetweetedId != null) Item.IsFav = false;
                             //既に持っている公式RTは捨てる
-                            if (AppendSettingDialog.Instance.HideDuplicatedRetweets &&
+                            if (SettingCommon.Instance.HideDuplicatedRetweets &&
                                 !Item.IsMe &&
                                 Item.RetweetedId != null &&
                                 this._retweets.TryGetValue(Item.RetweetedId.Value, out status) &&
@@ -2356,7 +2356,7 @@ namespace OpenTween
         {
             get
             {
-                return this.UnreadManage && AppendSettingDialog.Instance.UnreadManage ? _unreadCount : 0;
+                return this.UnreadManage && SettingCommon.Instance.UnreadManage ? _unreadCount : 0;
             }
             set
             {

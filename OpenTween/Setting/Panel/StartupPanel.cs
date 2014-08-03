@@ -41,5 +41,26 @@ namespace OpenTween.Setting.Panel
         {
             InitializeComponent();
         }
+
+        public void LoadConfig(SettingCommon settingCommon)
+        {
+            this.StartupReaded.Checked = settingCommon.Read;
+            this.StartupReaded.Enabled = settingCommon.UnreadManage;
+
+            this.CheckStartupVersion.Checked = settingCommon.StartupVersion;
+            if (ApplicationSettings.VersionInfoUrl == null)
+                this.CheckStartupVersion.Enabled = false; // 更新チェック無効化
+
+            this.CheckStartupFollowers.Checked = settingCommon.StartupFollowers;
+            this.chkGetFav.Checked = settingCommon.GetFav;
+        }
+
+        public void SaveConfig(SettingCommon settingCommon)
+        {
+            settingCommon.Read = this.StartupReaded.Checked;
+            settingCommon.StartupVersion = this.CheckStartupVersion.Checked;
+            settingCommon.StartupFollowers = this.CheckStartupFollowers.Checked;
+            settingCommon.GetFav = this.chkGetFav.Checked;
+        }
     }
 }

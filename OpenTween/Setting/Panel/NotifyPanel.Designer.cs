@@ -157,6 +157,7 @@
             this.CheckEventNotify.CheckState = System.Windows.Forms.CheckState.Checked;
             this.CheckEventNotify.Name = "CheckEventNotify";
             this.CheckEventNotify.UseVisualStyleBackColor = true;
+            this.CheckEventNotify.CheckedChanged += new System.EventHandler(this.CheckEventNotify_CheckedChanged);
             // 
             // NotifyPanel
             // 

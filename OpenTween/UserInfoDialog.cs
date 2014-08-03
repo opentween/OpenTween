@@ -361,7 +361,7 @@ namespace OpenTween
                 else
                 {
                     Match m = Regex.Match(e.Url.AbsoluteUri, @"^https?://twitter.com/(#!/)?(?<ScreenName>[a-zA-Z0-9_]+)$");
-                    if (AppendSettingDialog.Instance.OpenUserTimeline && m.Success && this.mainForm.IsTwitterId(m.Result("${ScreenName}")))
+                    if (SettingCommon.Instance.OpenUserTimeline && m.Success && this.mainForm.IsTwitterId(m.Result("${ScreenName}")))
                     {
                         this.mainForm.AddNewTabForUserTimeline(m.Result("${ScreenName}"));
                     }

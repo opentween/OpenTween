@@ -42,6 +42,33 @@ namespace OpenTween.Setting.Panel
             InitializeComponent();
         }
 
+        public void LoadConfig(SettingCommon settingCommon)
+        {
+            this.CheckTinyURL.Checked = settingCommon.TinyUrlResolve;
+
+            // 使われていない設定項目 (Tween v1.0.5.0)
+            this.CheckAutoConvertUrl.Checked = false;
+            //this.CheckAutoConvertUrl.Checked = settingCommon.UrlConvertAuto;
+            //this.ShortenTcoCheck.Checked = settingCommon.ShortenTco;
+            this.ShortenTcoCheck.Enabled = this.CheckAutoConvertUrl.Checked;
+
+            this.ComboBoxAutoShortUrlFirst.SelectedIndex = (int)settingCommon.AutoShortUrlFirst;
+            this.TextBitlyId.Text = settingCommon.BilyUser;
+            this.TextBitlyPw.Text = settingCommon.BitlyPwd;
+            this.TextBitlyId.Modified = false;
+            this.TextBitlyPw.Modified = false;
+        }
+
+        public void SaveConfig(SettingCommon settingCommon)
+        {
+            settingCommon.TinyUrlResolve = this.CheckTinyURL.Checked;
+            settingCommon.UrlConvertAuto = this.CheckAutoConvertUrl.Checked;
+            //settingCommon.ShortenTco = this.ShortenTcoCheck.Checked;
+            settingCommon.AutoShortUrlFirst = (MyCommon.UrlConverter)this.ComboBoxAutoShortUrlFirst.SelectedIndex;
+            settingCommon.BilyUser = this.TextBitlyId.Text;
+            settingCommon.BitlyPwd = this.TextBitlyPw.Text;
+        }
+
         private void ComboBoxAutoShortUrlFirst_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (ComboBoxAutoShortUrlFirst.SelectedIndex == (int)MyCommon.UrlConverter.Bitly ||

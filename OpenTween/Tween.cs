@@ -103,7 +103,7 @@ namespace OpenTween
         private GrowlHelper gh = new GrowlHelper(Application.ProductName);
 
         //サブ画面インスタンス
-        private AppendSettingDialog SettingDialog = AppendSettingDialog.Instance;       //設定画面インスタンス
+        private AppendSettingDialog SettingDialog = new AppendSettingDialog();       //設定画面インスタンス
         private SearchWordDialog SearchDialog = new SearchWordDialog();     //検索画面インスタンス
         private FilterDialog fltDialog = new FilterDialog(); //フィルター編集画面
         private OpenURL UrlDialog = new OpenURL();
@@ -217,6 +217,8 @@ namespace OpenTween
         private System.Timers.Timer TimerTimeline = new System.Timers.Timer();
 
         private ImageListViewItem displayItem;
+
+        private string recommendedStatusFooter;
 
         /// <summary>
         /// デザイン時の DPI (96dpi) と実際の表示時の DPI との比を表します
@@ -730,196 +732,61 @@ namespace OpenTween
             sfTab.Alignment = StringAlignment.Center;
             sfTab.LineAlignment = StringAlignment.Center;
 
-            //設定画面への反映
+            //不正値チェック
+            if (!MyApplication.StartupOptions.ContainsKey("nolimit"))
+            {
+                if (this._cfgCommon.TimelinePeriod < 15 && this._cfgCommon.TimelinePeriod > 0)
+                    this._cfgCommon.TimelinePeriod = 15;
+
+                if (this._cfgCommon.ReplyPeriod < 15 && this._cfgCommon.ReplyPeriod > 0)
+                    this._cfgCommon.ReplyPeriod = 15;
+
+                if (this._cfgCommon.DMPeriod < 15 && this._cfgCommon.DMPeriod > 0)
+                    this._cfgCommon.DMPeriod = 15;
+
+                if (this._cfgCommon.PubSearchPeriod < 30 && this._cfgCommon.PubSearchPeriod > 0)
+                    this._cfgCommon.PubSearchPeriod = 30;
+
+                if (this._cfgCommon.UserTimelinePeriod < 15 && this._cfgCommon.UserTimelinePeriod > 0)
+                    this._cfgCommon.UserTimelinePeriod = 15;
+
+                if (this._cfgCommon.ListsPeriod < 15 && this._cfgCommon.ListsPeriod > 0)
+                    this._cfgCommon.ListsPeriod = 15;
+            }
+
+            if (this._cfgCommon.CountApi < 20 || this._cfgCommon.CountApi > 200)
+                this._cfgCommon.CountApi = 60;
+            if (this._cfgCommon.CountApiReply < 20 || this._cfgCommon.CountApiReply > 200)
+                this._cfgCommon.CountApiReply = 40;
+
             HttpTwitter.TwitterUrl = _cfgCommon.TwitterUrl;
-            SettingDialog.TwitterApiUrl = _cfgCommon.TwitterUrl;
 
             //認証関連
             if (string.IsNullOrEmpty(_cfgCommon.Token)) _cfgCommon.UserName = "";
             tw.Initialize(_cfgCommon.Token, _cfgCommon.TokenSecret, _cfgCommon.UserName, _cfgCommon.UserId);
 
-            SettingDialog.UserAccounts = _cfgCommon.UserAccounts;
+            //設定画面への反映
+            this.SettingDialog.tw = this.tw;
+            this.SettingDialog.LoadConfig(this._cfgCommon, this._cfgLocal);
 
-            SettingDialog.TimelinePeriodInt = _cfgCommon.TimelinePeriod;
-            SettingDialog.ReplyPeriodInt = _cfgCommon.ReplyPeriod;
-            SettingDialog.DMPeriodInt = _cfgCommon.DMPeriod;
-            SettingDialog.PubSearchPeriodInt = _cfgCommon.PubSearchPeriod;
-            SettingDialog.UserTimelinePeriodInt = _cfgCommon.UserTimelinePeriod;
-            SettingDialog.ListsPeriodInt = _cfgCommon.ListsPeriod;
-            //不正値チェック
-            if (!MyApplication.StartupOptions.ContainsKey("nolimit"))
-            {
-                if (SettingDialog.TimelinePeriodInt < 15 && SettingDialog.TimelinePeriodInt > 0) SettingDialog.TimelinePeriodInt = 15;
-                if (SettingDialog.ReplyPeriodInt < 15 && SettingDialog.ReplyPeriodInt > 0) SettingDialog.ReplyPeriodInt = 15;
-                if (SettingDialog.DMPeriodInt < 15 && SettingDialog.DMPeriodInt > 0) SettingDialog.DMPeriodInt = 15;
-                if (SettingDialog.PubSearchPeriodInt < 30 && SettingDialog.PubSearchPeriodInt > 0) SettingDialog.PubSearchPeriodInt = 30;
-                if (SettingDialog.UserTimelinePeriodInt < 15 && SettingDialog.UserTimelinePeriodInt > 0) SettingDialog.UserTimelinePeriodInt = 15;
-                if (SettingDialog.ListsPeriodInt < 15 && SettingDialog.ListsPeriodInt > 0) SettingDialog.ListsPeriodInt = 15;
-            }
-
-            //起動時読み込み分を既読にするか。trueなら既読として処理
-            SettingDialog.Readed = _cfgCommon.Read;
             //新着取得時のリストスクロールをするか。trueならスクロールしない
             ListLockMenuItem.Checked = _cfgCommon.ListLock;
             this.LockListFileMenuItem.Checked = _cfgCommon.ListLock;
-            SettingDialog.IconSz = _cfgCommon.IconSize;
-            //文末ステータス
-            SettingDialog.Status = _cfgLocal.StatusText;
-            //未読管理。trueなら未読管理する
-            SettingDialog.UnreadManage = _cfgCommon.UnreadManage;
             //サウンド再生（タブ別設定より優先）
-            SettingDialog.PlaySound = _cfgCommon.PlaySound;
-            PlaySoundMenuItem.Checked = SettingDialog.PlaySound;
-            this.PlaySoundFileMenuItem.Checked = SettingDialog.PlaySound;
-            //片思い表示。trueなら片思い表示する
-            SettingDialog.OneWayLove = _cfgCommon.OneWayLove;
-            //フォント＆文字色＆背景色
-            SettingDialog.FontUnread = _fntUnread;
-            SettingDialog.ColorUnread = _clUnread;
-            SettingDialog.FontReaded = _fntReaded;
-            SettingDialog.ColorReaded = _clReaded;
-            SettingDialog.ColorFav = _clFav;
-            SettingDialog.ColorOWL = _clOWL;
-            SettingDialog.ColorRetweet = _clRetweet;
-            SettingDialog.FontDetail = _fntDetail;
-            SettingDialog.ColorDetail = _clDetail;
-            SettingDialog.ColorDetailLink = _clDetailLink;
-            SettingDialog.ColorDetailBackcolor = _clDetailBackcolor;
-            SettingDialog.ColorSelf = _clSelf;
-            SettingDialog.ColorAtSelf = _clAtSelf;
-            SettingDialog.ColorTarget = _clTarget;
-            SettingDialog.ColorAtTarget = _clAtTarget;
-            SettingDialog.ColorAtFromTarget = _clAtFromTarget;
-            SettingDialog.ColorAtTo = _clAtTo;
-            SettingDialog.ColorListBackcolor = _clListBackcolor;
-            SettingDialog.ColorInputBackcolor = _clInputBackcolor;
-            SettingDialog.ColorInputFont = _clInputFont;
-            SettingDialog.FontInputFont = _fntInputFont;
-
-            SettingDialog.NameBalloon = _cfgCommon.NameBalloon;
-            SettingDialog.PostCtrlEnter = _cfgCommon.PostCtrlEnter;
-            SettingDialog.PostShiftEnter = _cfgCommon.PostShiftEnter;
-
-            SettingDialog.CountApi = _cfgCommon.CountApi;
-            SettingDialog.CountApiReply = _cfgCommon.CountApiReply;
-            if (SettingDialog.CountApi < 20 || SettingDialog.CountApi > 200) SettingDialog.CountApi = 60;
-            if (SettingDialog.CountApiReply < 20 || SettingDialog.CountApiReply > 200) SettingDialog.CountApiReply = 40;
-
-            SettingDialog.BrowserPath = _cfgLocal.BrowserPath;
-            SettingDialog.PostAndGet = _cfgCommon.PostAndGet;
-            SettingDialog.UseRecommendStatus = _cfgLocal.UseRecommendStatus;
-            SettingDialog.DispUsername = _cfgCommon.DispUsername;
-            SettingDialog.CloseToExit = _cfgCommon.CloseToExit;
-            SettingDialog.MinimizeToTray = _cfgCommon.MinimizeToTray;
-            SettingDialog.DispLatestPost = _cfgCommon.DispLatestPost;
-            SettingDialog.SortOrderLock = _cfgCommon.SortOrderLock;
-            SettingDialog.ViewTabBottom = _cfgCommon.ViewTabBottom;
-            SettingDialog.TinyUrlResolve = _cfgCommon.TinyUrlResolve;
-
-            SettingDialog.SelectedProxyType = _cfgLocal.ProxyType;
-            SettingDialog.ProxyAddress = _cfgLocal.ProxyAddress;
-            SettingDialog.ProxyPort = _cfgLocal.ProxyPort;
-            SettingDialog.ProxyUser = _cfgLocal.ProxyUser;
-            SettingDialog.ProxyPassword = _cfgLocal.ProxyPassword;
-
-            SettingDialog.StartupVersion = _cfgCommon.StartupVersion;
-            SettingDialog.StartupFollowers = _cfgCommon.StartupFollowers;
-            SettingDialog.RestrictFavCheck = _cfgCommon.RestrictFavCheck;
-            SettingDialog.AlwaysTop = _cfgCommon.AlwaysTop;
-            SettingDialog.UrlConvertAuto = false;
-            //SettingDialog.UrlConvertAuto = _cfgCommon.UrlConvertAuto;
-
-            SettingDialog.UseUnreadStyle = _cfgCommon.UseUnreadStyle;
-            SettingDialog.DefaultTimeOut = _cfgCommon.DefaultTimeOut;
-            SettingDialog.RetweetNoConfirm = _cfgCommon.RetweetNoConfirm;
-            SettingDialog.PlaySound = _cfgCommon.PlaySound;
-            SettingDialog.DateTimeFormat = _cfgCommon.DateTimeFormat;
-            SettingDialog.LimitBalloon = _cfgCommon.LimitBalloon;
-            SettingDialog.EventNotifyEnabled = _cfgCommon.EventNotifyEnabled;
-            SettingDialog.EventNotifyFlag = _cfgCommon.EventNotifyFlag;
-            SettingDialog.IsMyEventNotifyFlag = _cfgCommon.IsMyEventNotifyFlag;
-            SettingDialog.ForceEventNotify = _cfgCommon.ForceEventNotify;
-            SettingDialog.FavEventUnread = _cfgCommon.FavEventUnread;
-            SettingDialog.TranslateLanguage = _cfgCommon.TranslateLanguage;
-            SettingDialog.EventSoundFile = _cfgCommon.EventSoundFile;
+            this.PlaySoundMenuItem.Checked = this._cfgCommon.PlaySound;
+            this.PlaySoundFileMenuItem.Checked = this._cfgCommon.PlaySound;
 
             //廃止サービスが選択されていた場合bit.lyへ読み替え
             if (_cfgCommon.AutoShortUrlFirst < 0)
                 _cfgCommon.AutoShortUrlFirst = MyCommon.UrlConverter.Uxnu;
 
-            SettingDialog.AutoShortUrlFirst = _cfgCommon.AutoShortUrlFirst;
-            SettingDialog.TabIconDisp = _cfgCommon.TabIconDisp;
-            SettingDialog.ReplyIconState = _cfgCommon.ReplyIconState;
-            SettingDialog.ReadOwnPost = _cfgCommon.ReadOwnPost;
-            SettingDialog.GetFav = _cfgCommon.GetFav;
-            SettingDialog.ReadOldPosts = _cfgCommon.ReadOldPosts;
-            SettingDialog.BitlyUser = _cfgCommon.BilyUser;
-            SettingDialog.BitlyPwd = _cfgCommon.BitlyPwd;
-            SettingDialog.ShowGrid = _cfgCommon.ShowGrid;
-            SettingDialog.Language = _cfgCommon.Language;
-            SettingDialog.UseAtIdSupplement = _cfgCommon.UseAtIdSupplement;
-            SettingDialog.UseHashSupplement = _cfgCommon.UseHashSupplement;
-            SettingDialog.PreviewEnable = _cfgCommon.PreviewEnable;
-            SettingDialog.StatusAreaAtBottom = _cfgCommon.StatusAreaAtBottom;
             AtIdSupl = new AtIdSupplement(SettingAtIdList.Load().AtIdList, "@");
-
-            SettingDialog.IsMonospace = _cfgCommon.IsMonospace;
 
             this.IdeographicSpaceToSpaceToolStripMenuItem.Checked = _cfgCommon.WideSpaceConvert;
             this.ToolStripFocusLockMenuItem.Checked = _cfgCommon.FocusLockToStatusText;
 
             //Regex statregex = new Regex("^0*");
-            SettingDialog.RecommendStatusText = " [TWNv" + Regex.Replace(MyCommon.FileVersion.Replace(".", ""), "^0*", "") + "]";
-
-            //書式指定文字列エラーチェック
-            try
-            {
-                if (DateTime.Now.ToString(SettingDialog.DateTimeFormat).Length == 0)
-                {
-                    // このブロックは絶対に実行されないはず
-                    // 変換が成功した場合にLengthが0にならない
-                    SettingDialog.DateTimeFormat = "yyyy/MM/dd H:mm:ss";
-                }
-            }
-            catch (FormatException)
-            {
-                // FormatExceptionが発生したら初期値を設定 (=yyyy/MM/dd H:mm:ssとみなされる)
-                SettingDialog.DateTimeFormat = "yyyy/MM/dd H:mm:ss";
-            }
-
-            SettingDialog.Nicoms = _cfgCommon.Nicoms;
-            SettingDialog.HotkeyEnabled = _cfgCommon.HotkeyEnabled;
-            SettingDialog.HotkeyMod = _cfgCommon.HotkeyModifier;
-            SettingDialog.HotkeyKey = _cfgCommon.HotkeyKey;
-            SettingDialog.HotkeyValue = _cfgCommon.HotkeyValue;
-
-            SettingDialog.BlinkNewMentions = _cfgCommon.BlinkNewMentions;
-
-            SettingDialog.UseAdditionalCount = _cfgCommon.UseAdditionalCount;
-            SettingDialog.MoreCountApi = _cfgCommon.MoreCountApi;
-            SettingDialog.FirstCountApi = _cfgCommon.FirstCountApi;
-            SettingDialog.SearchCountApi = _cfgCommon.SearchCountApi;
-            SettingDialog.FavoritesCountApi = _cfgCommon.FavoritesCountApi;
-            SettingDialog.UserTimelineCountApi = _cfgCommon.UserTimelineCountApi;
-            SettingDialog.ListCountApi = _cfgCommon.ListCountApi;
-
-            SettingDialog.UserstreamStartup = _cfgCommon.UserstreamStartup;
-            SettingDialog.UserstreamPeriodInt = _cfgCommon.UserstreamPeriod;
-            SettingDialog.OpenUserTimeline = _cfgCommon.OpenUserTimeline;
-            SettingDialog.ListDoubleClickAction = _cfgCommon.ListDoubleClickAction;
-            SettingDialog.UserAppointUrl = _cfgCommon.UserAppointUrl;
-            SettingDialog.HideDuplicatedRetweets = _cfgCommon.HideDuplicatedRetweets;
-
-            SettingDialog.EnableImgAzyobuziNet = _cfgCommon.EnableImgAzyobuziNet;
-            SettingDialog.ImgAzyobuziNetDisabledInDM = _cfgCommon.ImgAzyobuziNetDisabledInDM;
-            SettingDialog.MapThumbnailProvider = _cfgCommon.MapThumbnailProvider;
-            SettingDialog.MapThumbnailHeight = _cfgCommon.MapThumbnailHeight;
-            SettingDialog.MapThumbnailWidth = _cfgCommon.MapThumbnailWidth;
-            SettingDialog.MapThumbnailZoom = _cfgCommon.MapThumbnailZoom;
-            SettingDialog.IsListStatusesIncludeRts = _cfgCommon.IsListsIncludeRts;
-            SettingDialog.TabMouseLock = _cfgCommon.TabMouseLock;
-            SettingDialog.IsRemoveSameEvent = _cfgCommon.IsRemoveSameEvent;
-            SettingDialog.IsNotifyUseGrowl = _cfgCommon.IsUseNotifyGrowl;
+            this.recommendedStatusFooter = " [TWNv" + Regex.Replace(MyCommon.FileVersion.Replace(".", ""), "^0*", "") + "]";
 
             //ハッシュタグ関連
             HashSupl = new AtIdSupplement(_cfgCommon.HashTags, "#");
@@ -964,29 +831,27 @@ namespace OpenTween
 
                 //新しい設定を反映
                 //フォント＆文字色＆背景色保持
-                _fntUnread = SettingDialog.FontUnread;
-                _clUnread = SettingDialog.ColorUnread;
-                _fntReaded = SettingDialog.FontReaded;
-                _clReaded = SettingDialog.ColorReaded;
-                _clFav = SettingDialog.ColorFav;
-                _clOWL = SettingDialog.ColorOWL;
-                _clRetweet = SettingDialog.ColorRetweet;
-                _fntDetail = SettingDialog.FontDetail;
-                _clDetail = SettingDialog.ColorDetail;
-                _clDetailLink = SettingDialog.ColorDetailLink;
-                _clDetailBackcolor = SettingDialog.ColorDetailBackcolor;
-                _clSelf = SettingDialog.ColorSelf;
-                _clAtSelf = SettingDialog.ColorAtSelf;
-                _clTarget = SettingDialog.ColorTarget;
-                _clAtTarget = SettingDialog.ColorAtTarget;
-                _clAtFromTarget = SettingDialog.ColorAtFromTarget;
-                _clAtTo = SettingDialog.ColorAtTo;
-                _clListBackcolor = SettingDialog.ColorListBackcolor;
-                _clInputBackcolor = SettingDialog.ColorInputBackcolor;
-                _clInputFont = SettingDialog.ColorInputFont;
-                _fntInputFont = SettingDialog.FontInputFont;
-
-                //他の設定項目は、随時設定画面で保持している値を読み出して使用
+                _fntUnread = this._cfgLocal.FontUnread;
+                _clUnread = this._cfgLocal.ColorUnread;
+                _fntReaded = this._cfgLocal.FontRead;
+                _clReaded = this._cfgLocal.ColorRead;
+                _clFav = this._cfgLocal.ColorFav;
+                _clOWL = this._cfgLocal.ColorOWL;
+                _clRetweet = this._cfgLocal.ColorRetweet;
+                _fntDetail = this._cfgLocal.FontDetail;
+                _clDetail = this._cfgLocal.ColorDetail;
+                _clDetailLink = this._cfgLocal.ColorDetailLink;
+                _clDetailBackcolor = this._cfgLocal.ColorDetailBackcolor;
+                _clSelf = this._cfgLocal.ColorSelf;
+                _clAtSelf = this._cfgLocal.ColorAtSelf;
+                _clTarget = this._cfgLocal.ColorTarget;
+                _clAtTarget = this._cfgLocal.ColorAtTarget;
+                _clAtFromTarget = this._cfgLocal.ColorAtFromTarget;
+                _clAtTo = this._cfgLocal.ColorAtTo;
+                _clListBackcolor = this._cfgLocal.ColorListBackcolor;
+                _clInputBackcolor = this._cfgLocal.ColorInputBackcolor;
+                _clInputFont = this._cfgLocal.ColorInputFont;
+                _fntInputFont = this._cfgLocal.FontInputFont;
             }
 
             _brsBackColorMine = new SolidBrush(_clSelf);
@@ -1000,29 +865,33 @@ namespace OpenTween
 
             InitDetailHtmlFormat();
 
-            if (SettingDialog.HotkeyEnabled)
+            if (this._cfgCommon.HotkeyEnabled)
             {
                 //////グローバルホットキーの登録
                 HookGlobalHotkey.ModKeys modKey = HookGlobalHotkey.ModKeys.None;
-                if ((SettingDialog.HotkeyMod & Keys.Alt) == Keys.Alt) modKey = modKey | HookGlobalHotkey.ModKeys.Alt;
-                if ((SettingDialog.HotkeyMod & Keys.Control) == Keys.Control) modKey = modKey | HookGlobalHotkey.ModKeys.Ctrl;
-                if ((SettingDialog.HotkeyMod & Keys.Shift) == Keys.Shift) modKey = modKey | HookGlobalHotkey.ModKeys.Shift;
-                if ((SettingDialog.HotkeyMod & Keys.LWin) == Keys.LWin) modKey = modKey | HookGlobalHotkey.ModKeys.Win;
+                if ((this._cfgCommon.HotkeyModifier & Keys.Alt) == Keys.Alt)
+                    modKey |= HookGlobalHotkey.ModKeys.Alt;
+                if ((this._cfgCommon.HotkeyModifier & Keys.Control) == Keys.Control)
+                    modKey |= HookGlobalHotkey.ModKeys.Ctrl;
+                if ((this._cfgCommon.HotkeyModifier & Keys.Shift) == Keys.Shift)
+                    modKey |= HookGlobalHotkey.ModKeys.Shift;
+                if ((this._cfgCommon.HotkeyModifier & Keys.LWin) == Keys.LWin)
+                    modKey |= HookGlobalHotkey.ModKeys.Win;
 
-                _hookGlobalHotkey.RegisterOriginalHotkey(SettingDialog.HotkeyKey, SettingDialog.HotkeyValue, modKey);
+                _hookGlobalHotkey.RegisterOriginalHotkey(this._cfgCommon.HotkeyKey, this._cfgCommon.HotkeyValue, modKey);
             }
 
             //Twitter用通信クラス初期化
-            Networking.DefaultTimeout = TimeSpan.FromSeconds(this.SettingDialog.DefaultTimeOut);
-            Networking.SetWebProxy(this.SettingDialog.SelectedProxyType,
-                this.SettingDialog.ProxyAddress, this.SettingDialog.ProxyPort,
-                this.SettingDialog.ProxyUser, this.SettingDialog.ProxyPassword);
+            Networking.DefaultTimeout = TimeSpan.FromSeconds(this._cfgCommon.DefaultTimeOut);
+            Networking.SetWebProxy(this._cfgLocal.ProxyType,
+                this._cfgLocal.ProxyAddress, this._cfgLocal.ProxyPort,
+                this._cfgLocal.ProxyUser, this._cfgLocal.ProxyPassword);
 
-            tw.RestrictFavCheck = SettingDialog.RestrictFavCheck;
-            tw.ReadOwnPost = SettingDialog.ReadOwnPost;
-            ShortUrl.Instance.DisableExpanding = !SettingDialog.TinyUrlResolve;
-            ShortUrl.Instance.BitlyId = SettingDialog.BitlyUser;
-            ShortUrl.Instance.BitlyKey = SettingDialog.BitlyPwd;
+            tw.RestrictFavCheck = this._cfgCommon.RestrictFavCheck;
+            tw.ReadOwnPost = this._cfgCommon.ReadOwnPost;
+            ShortUrl.Instance.DisableExpanding = !this._cfgCommon.TinyUrlResolve;
+            ShortUrl.Instance.BitlyId = this._cfgCommon.BilyUser;
+            ShortUrl.Instance.BitlyKey = this._cfgCommon.BitlyPwd;
             HttpTwitter.TwitterUrl = _cfgCommon.TwitterUrl;
             tw.TrackWord = _cfgCommon.TrackWord;
             TrackToolStripMenuItem.Checked = !String.IsNullOrEmpty(tw.TrackWord);
@@ -1030,7 +899,7 @@ namespace OpenTween
             AllrepliesToolStripMenuItem.Checked = tw.AllAtReply;
 
             //画像投稿サービス
-            ImageSelector.Initialize(tw, SettingDialog.TwitterConfiguration, _cfgCommon.UseImageServiceName, _cfgCommon.UseImageService);
+            ImageSelector.Initialize(tw, this.tw.Configuration, _cfgCommon.UseImageServiceName, _cfgCommon.UseImageService);
 
             //ウィンドウ設定
             this.ClientSize = _cfgLocal.FormSize;
@@ -1059,7 +928,7 @@ namespace OpenTween
                     }
                 }
             }
-            this.TopMost = SettingDialog.AlwaysTop;
+            this.TopMost = this._cfgCommon.AlwaysTop;
             _mySpDis = _cfgLocal.SplitterDistance;
             _mySpDis2 = _cfgLocal.StatusTextHeight;
             _mySpDis3 = _cfgLocal.PreviewDistance;
@@ -1071,8 +940,8 @@ namespace OpenTween
             }
             MultiLineMenuItem.Checked = _cfgLocal.StatusMultiline;
             //this.Tween_ClientSizeChanged(this, null);
-            PlaySoundMenuItem.Checked = SettingDialog.PlaySound;
-            this.PlaySoundFileMenuItem.Checked = SettingDialog.PlaySound;
+            this.PlaySoundMenuItem.Checked = this._cfgCommon.PlaySound;
+            this.PlaySoundFileMenuItem.Checked = this._cfgCommon.PlaySound;
             //入力欄
             StatusText.Font = _fntInputFont;
             StatusText.ForeColor = _clInputFont;
@@ -1081,16 +950,17 @@ namespace OpenTween
             this.NameLabel.Font = this.ReplaceToGlobalFont(this.NameLabel.Font);
 
             // 必要であれば、発言一覧と発言詳細部・入力欄の上下を入れ替える
-            SplitContainer1.IsPanelInverted = !SettingDialog.StatusAreaAtBottom;
+            SplitContainer1.IsPanelInverted = !this._cfgCommon.StatusAreaAtBottom;
 
             //全新着通知のチェック状態により、Reply＆DMの新着通知有効無効切り替え（タブ別設定にするため削除予定）
-            if (SettingDialog.UnreadManage == false)
+            if (this._cfgCommon.UnreadManage == false)
             {
                 ReadedStripMenuItem.Enabled = false;
                 UnreadStripMenuItem.Enabled = false;
             }
 
-            if (SettingDialog.IsNotifyUseGrowl) gh.RegisterGrowl();
+            if (this._cfgCommon.IsUseNotifyGrowl)
+                gh.RegisterGrowl();
 
             //タイマー設定
             TimerTimeline.AutoReset = true;
@@ -1140,7 +1010,7 @@ namespace OpenTween
             _statuses.SortMode = mode;
             ////////////////////////////////////////////////////////////////////////////////
 
-            ApplyListViewIconSize(SettingDialog.IconSz);
+            ApplyListViewIconSize(this._cfgCommon.IconSize);
 
             StatusLabel.Text = Properties.Resources.Form1_LoadText1;       //画面右下の状態表示を変更
             StatusLabelUrl.Text = "";            //画面左下のリンク先URL表示部を初期化
@@ -1213,7 +1083,7 @@ namespace OpenTween
             CopyURLMenuItem.ShortcutKeyDisplayString = "Ctrl+Shift+C";
             CopyUserIdStripMenuItem.ShortcutKeyDisplayString = "Shift+Alt+C";
 
-            if (SettingDialog.MinimizeToTray == false || this.WindowState != FormWindowState.Minimized)
+            if (!this._cfgCommon.MinimizeToTray || this.WindowState != FormWindowState.Minimized)
             {
                 this.Visible = true;
             }
@@ -1223,7 +1093,7 @@ namespace OpenTween
             SetMainWindowTitle();
             SetNotifyIconText();
 
-            if (SettingDialog.TabIconDisp)
+            if (this._cfgCommon.TabIconDisp)
             {
                 ListTab.DrawMode = TabDrawMode.Normal;
             }
@@ -1239,18 +1109,9 @@ namespace OpenTween
             if (saveRequired) SaveConfigsAll(false);
 
             if (tw.UserId == 0)
-            {
                 tw.VerifyCredentials();
-                foreach (UserAccount ua in _cfgCommon.UserAccounts)
-                {
-                    if (ua.Username.ToLower() == tw.Username.ToLower())
-                    {
-                        ua.UserId = tw.UserId;
-                        break;
-                    }
-                }
-            }
-            foreach (UserAccount ua in SettingDialog.UserAccounts)
+
+            foreach (var ua in this._cfgCommon.UserAccounts)
             {
                 if (ua.UserId == 0 && ua.Username.ToLower() == tw.Username.ToLower())
                 {
@@ -1271,7 +1132,7 @@ namespace OpenTween
 
         private void InitDetailHtmlFormat()
         {
-            if (SettingDialog.IsMonospace)
+            if (this._cfgCommon.IsMonospace)
             {
                 detailHtmlFormatHeader = detailHtmlFormatMono1;
                 detailHtmlFormatFooter = detailHtmlFormatMono7;
@@ -1282,7 +1143,7 @@ namespace OpenTween
                 detailHtmlFormatFooter = detailHtmlFormat7;
             }
             detailHtmlFormatHeader += _fntDetail.Name + detailHtmlFormat2 + _fntDetail.Size.ToString() + detailHtmlFormat3 + _clDetail.R.ToString() + "," + _clDetail.G.ToString() + "," + _clDetail.B.ToString() + detailHtmlFormat4 + _clDetailLink.R.ToString() + "," + _clDetailLink.G.ToString() + "," + _clDetailLink.B.ToString() + detailHtmlFormat5 + _clDetailBackcolor.R.ToString() + "," + _clDetailBackcolor.G.ToString() + "," + _clDetailBackcolor.B.ToString();
-            if (SettingDialog.IsMonospace)
+            if (this._cfgCommon.IsMonospace)
             {
                 detailHtmlFormatHeader += detailHtmlFormatMono6;
             }
@@ -1327,6 +1188,7 @@ namespace OpenTween
         private void LoadConfig()
         {
             _cfgCommon = SettingCommon.Load();
+            SettingCommon.Instance = this._cfgCommon;
             if (_cfgCommon.UserAccounts == null || _cfgCommon.UserAccounts.Count == 0)
             {
                 _cfgCommon.UserAccounts = new List<UserAccount>();
@@ -1364,13 +1226,13 @@ namespace OpenTween
             }
         }
 
-        private void TimerInterval_Changed(object sender, AppendSettingDialog.IntervalChangedEventArgs e) //Handles SettingDialog.IntervalChanged
+        private void TimerInterval_Changed(object sender, IntervalChangedEventArgs e) //Handles SettingDialog.IntervalChanged
         {
             if (!TimerTimeline.Enabled) return;
             ResetTimers = e;
         }
 
-        private AppendSettingDialog.IntervalChangedEventArgs ResetTimers = new AppendSettingDialog.IntervalChangedEventArgs();
+        private IntervalChangedEventArgs ResetTimers = new IntervalChangedEventArgs();
 
         private static int homeCounter = 0;
         private static int mentionCounter = 0;
@@ -1394,45 +1256,45 @@ namespace OpenTween
             Interlocked.Increment(ref refreshFollowers);
 
             ////タイマー初期化
-            if (ResetTimers.Timeline || homeCounter <= 0 && SettingDialog.TimelinePeriodInt > 0)
+            if (ResetTimers.Timeline || homeCounter <= 0 && this._cfgCommon.TimelinePeriod > 0)
             {
-                Interlocked.Exchange(ref homeCounter, SettingDialog.TimelinePeriodInt);
+                Interlocked.Exchange(ref homeCounter, this._cfgCommon.TimelinePeriod);
                 if (!tw.IsUserstreamDataReceived && !ResetTimers.Timeline) GetTimeline(MyCommon.WORKERTYPE.Timeline, 1, "");
                 ResetTimers.Timeline = false;
             }
-            if (ResetTimers.Reply || mentionCounter <= 0 && SettingDialog.ReplyPeriodInt > 0)
+            if (ResetTimers.Reply || mentionCounter <= 0 && this._cfgCommon.ReplyPeriod > 0)
             {
-                Interlocked.Exchange(ref mentionCounter, SettingDialog.ReplyPeriodInt);
+                Interlocked.Exchange(ref mentionCounter, this._cfgCommon.ReplyPeriod);
                 if (!tw.IsUserstreamDataReceived && !ResetTimers.Reply) GetTimeline(MyCommon.WORKERTYPE.Reply, 1, "");
                 ResetTimers.Reply = false;
             }
-            if (ResetTimers.DirectMessage || dmCounter <= 0 && SettingDialog.DMPeriodInt > 0)
+            if (ResetTimers.DirectMessage || dmCounter <= 0 && this._cfgCommon.DMPeriod > 0)
             {
-                Interlocked.Exchange(ref dmCounter, SettingDialog.DMPeriodInt);
+                Interlocked.Exchange(ref dmCounter, this._cfgCommon.DMPeriod);
                 if (!tw.IsUserstreamDataReceived && !ResetTimers.DirectMessage) GetTimeline(MyCommon.WORKERTYPE.DirectMessegeRcv, 1, "");
                 ResetTimers.DirectMessage = false;
             }
-            if (ResetTimers.PublicSearch || pubSearchCounter <= 0 && SettingDialog.PubSearchPeriodInt > 0)
+            if (ResetTimers.PublicSearch || pubSearchCounter <= 0 && this._cfgCommon.PubSearchPeriod > 0)
             {
-                Interlocked.Exchange(ref pubSearchCounter, SettingDialog.PubSearchPeriodInt);
+                Interlocked.Exchange(ref pubSearchCounter, this._cfgCommon.PubSearchPeriod);
                 if (!ResetTimers.PublicSearch) GetTimeline(MyCommon.WORKERTYPE.PublicSearch, 1, "");
                 ResetTimers.PublicSearch = false;
             }
-            if (ResetTimers.UserTimeline || userTimelineCounter <= 0 && SettingDialog.UserTimelinePeriodInt > 0)
+            if (ResetTimers.UserTimeline || userTimelineCounter <= 0 && this._cfgCommon.UserTimelinePeriod > 0)
             {
-                Interlocked.Exchange(ref userTimelineCounter, SettingDialog.UserTimelinePeriodInt);
+                Interlocked.Exchange(ref userTimelineCounter, this._cfgCommon.UserTimelinePeriod);
                 if (!ResetTimers.UserTimeline) GetTimeline(MyCommon.WORKERTYPE.UserTimeline, 1, "");
                 ResetTimers.UserTimeline = false;
             }
-            if (ResetTimers.Lists || listsCounter <= 0 && SettingDialog.ListsPeriodInt > 0)
+            if (ResetTimers.Lists || listsCounter <= 0 && this._cfgCommon.ListsPeriod > 0)
             {
-                Interlocked.Exchange(ref listsCounter, SettingDialog.ListsPeriodInt);
+                Interlocked.Exchange(ref listsCounter, this._cfgCommon.ListsPeriod);
                 if (!ResetTimers.Lists) GetTimeline(MyCommon.WORKERTYPE.List, 1, "");
                 ResetTimers.Lists = false;
             }
-            if (ResetTimers.UserStream || usCounter <= 0 && SettingDialog.UserstreamPeriodInt > 0)
+            if (ResetTimers.UserStream || usCounter <= 0 && this._cfgCommon.UserstreamPeriod > 0)
             {
-                Interlocked.Exchange(ref usCounter, SettingDialog.UserstreamPeriodInt);
+                Interlocked.Exchange(ref usCounter, this._cfgCommon.UserstreamPeriod);
                 if (this._isActiveUserstream) RefreshTimeline(true);
                 ResetTimers.UserStream = false;
             }
@@ -1517,10 +1379,10 @@ namespace OpenTween
                         }
                     }
                     if (tabInfo.UnreadCount > 0)
-                        if (SettingDialog.TabIconDisp)
+                        if (this._cfgCommon.TabIconDisp)
                             if (tab.ImageIndex == -1) tab.ImageIndex = 0; //タブアイコン
                 }
-                if (!SettingDialog.TabIconDisp) ListTab.Refresh();
+                if (!this._cfgCommon.TabIconDisp) ListTab.Refresh();
             }
             catch (Exception)
             {
@@ -1693,30 +1555,30 @@ namespace OpenTween
 
         private bool IsEventNotifyAsEventType(MyCommon.EVENTTYPE type)
         {
-            return SettingDialog.EventNotifyEnabled && (type & SettingDialog.EventNotifyFlag) != 0 || type == MyCommon.EVENTTYPE.None;
+            return this._cfgCommon.EventNotifyEnabled && (type & this._cfgCommon.EventNotifyFlag) != 0 || type == MyCommon.EVENTTYPE.None;
         }
 
         private bool IsMyEventNotityAsEventType(Twitter.FormattedEvent ev)
         {
-            return (ev.Eventtype & SettingDialog.IsMyEventNotifyFlag) != 0 ? true : !ev.IsMe;
+            return (ev.Eventtype & this._cfgCommon.IsMyEventNotifyFlag) != 0 ? true : !ev.IsMe;
         }
 
         private bool BalloonRequired(Twitter.FormattedEvent ev)
         {
             if ((
                 IsEventNotifyAsEventType(ev.Eventtype) && IsMyEventNotityAsEventType(ev) &&
-                (NewPostPopMenuItem.Checked || (SettingDialog.ForceEventNotify && ev.Eventtype != MyCommon.EVENTTYPE.None)) &&
+                (NewPostPopMenuItem.Checked || (this._cfgCommon.ForceEventNotify && ev.Eventtype != MyCommon.EVENTTYPE.None)) &&
                 !_initial &&
                 (
                     (
-                        SettingDialog.LimitBalloon &&
+                        this._cfgCommon.LimitBalloon &&
                         (
                             this.WindowState == FormWindowState.Minimized ||
                             !this.Visible ||
                             Form.ActiveForm == null
                             )
                         ) ||
-                    !SettingDialog.LimitBalloon
+                    !this._cfgCommon.LimitBalloon
                     )
                 ) &&
                 !NativeMethods.IsScreenSaverRunning())
@@ -1733,7 +1595,7 @@ namespace OpenTween
         {
             if (notifyPosts != null &&
                 notifyPosts.Length > 0 &&
-                this.SettingDialog.ReadOwnPost &&
+                this._cfgCommon.ReadOwnPost &&
                 notifyPosts.All((post) => { return post.UserId == tw.UserId || post.ScreenName == tw.Username; }))
             {
                 return;
@@ -1745,7 +1607,7 @@ namespace OpenTween
                 if (notifyPosts != null && notifyPosts.Length > 0)
                 {
                     //Growlは一個ずつばらして通知。ただし、3ポスト以上あるときはまとめる
-                    if (SettingDialog.IsNotifyUseGrowl)
+                    if (this._cfgCommon.IsUseNotifyGrowl)
                     {
                         StringBuilder sb = new StringBuilder();
                         bool reply = false;
@@ -1762,7 +1624,7 @@ namespace OpenTween
                             if (post.IsReply && !post.IsExcludeReply) reply = true;
                             if (post.IsDm) dm = true;
                             if (sb.Length > 0) sb.Append(System.Environment.NewLine);
-                            switch (SettingDialog.NameBalloon)
+                            switch (this._cfgCommon.NameBalloon)
                             {
                                 case MyCommon.NameBalloonEnum.UserID:
                                     sb.Append(post.ScreenName).Append(" : ");
@@ -1779,7 +1641,7 @@ namespace OpenTween
 
                             StringBuilder title = new StringBuilder();
                             GrowlHelper.NotifyType nt;
-                            if (SettingDialog.DispUsername)
+                            if (this._cfgCommon.DispUsername)
                             {
                                 title.Append(tw.Username);
                                 title.Append(" - ");
@@ -1841,7 +1703,7 @@ namespace OpenTween
                             if (post.IsReply && !post.IsExcludeReply) reply = true;
                             if (post.IsDm) dm = true;
                             if (sb.Length > 0) sb.Append(System.Environment.NewLine);
-                            switch (SettingDialog.NameBalloon)
+                            switch (this._cfgCommon.NameBalloon)
                             {
                                 case MyCommon.NameBalloonEnum.UserID:
                                     sb.Append(post.ScreenName).Append(" : ");
@@ -1856,7 +1718,7 @@ namespace OpenTween
                         //if (SettingDialog.DispUsername) { NotifyIcon1.BalloonTipTitle = tw.Username + " - "; } else { NotifyIcon1.BalloonTipTitle = ""; }
                         StringBuilder title = new StringBuilder();
                         ToolTipIcon ntIcon;
-                        if (SettingDialog.DispUsername)
+                        if (this._cfgCommon.DispUsername)
                         {
                             title.Append(tw.Username);
                             title.Append(" - ");
@@ -1914,7 +1776,7 @@ namespace OpenTween
             }
 
             //サウンド再生
-            if (!_initial && SettingDialog.PlaySound && !string.IsNullOrEmpty(soundFile))
+            if (!_initial && this._cfgCommon.PlaySound && !string.IsNullOrEmpty(soundFile))
             {
                 try
                 {
@@ -1934,7 +1796,7 @@ namespace OpenTween
             }
 
             //mentions新着時に画面ブリンク
-            if (!_initial && SettingDialog.BlinkNewMentions && newMentions && Form.ActiveForm == null)
+            if (!_initial && this._cfgCommon.BlinkNewMentions && newMentions && Form.ActiveForm == null)
             {
                 NativeMethods.FlashMyWindow(this.Handle, NativeMethods.FlashSpecification.FlashTray, 3);
             }
@@ -1958,7 +1820,7 @@ namespace OpenTween
 
             this.PushSelectPostChain();
 
-            if (SettingDialog.UnreadManage) _statuses.SetReadAllTab(true, _curTab.Text, _curItemIndex);
+            if (this._cfgCommon.UnreadManage) _statuses.SetReadAllTab(true, _curTab.Text, _curItemIndex);
             //キャッシュの書き換え
             ChangeCacheStyleRead(true, _curItemIndex);   //既読へ（フォント、文字色）
 
@@ -1972,7 +1834,7 @@ namespace OpenTween
             //Read:true=既読 false=未読
             //未読管理していなかったら既読として扱う
             if (!tabInfo.UnreadManage ||
-               !SettingDialog.UnreadManage) Read = true;
+               !this._cfgCommon.UnreadManage) Read = true;
 
             //対象の特定
             ListViewItem itm = null;
@@ -2009,9 +1871,9 @@ namespace OpenTween
                 cl = _clFav;
             else if (Post.RetweetedId != null)
                 cl = _clRetweet;
-            else if (Post.IsOwl && (Post.IsDm || SettingDialog.OneWayLove))
+            else if (Post.IsOwl && (Post.IsDm || this._cfgCommon.OneWayLove))
                 cl = _clOWL;
-            else if (Read || !SettingDialog.UseUnreadStyle)
+            else if (Read || !this._cfgCommon.UseUnreadStyle)
                 cl = _clReaded;
             else
                 cl = _clUnread;
@@ -2019,13 +1881,13 @@ namespace OpenTween
             if (DList == null || Item.Index == -1)
             {
                 Item.ForeColor = cl;
-                if (SettingDialog.UseUnreadStyle)
+                if (this._cfgCommon.UseUnreadStyle)
                     Item.Font = fnt;
             }
             else
             {
                 DList.Update();
-                if (SettingDialog.UseUnreadStyle)
+                if (this._cfgCommon.UseUnreadStyle)
                     DList.ChangeItemFontAndColor(Item.Index, cl, fnt);
                 else
                     DList.ChangeItemForeColor(Item.Index, cl);
@@ -2150,7 +2012,7 @@ namespace OpenTween
 
             _history[_history.Count - 1] = new PostingStatus(StatusText.Text, _reply_to_id, _reply_to_name);
 
-            if (SettingDialog.Nicoms)
+            if (this._cfgCommon.Nicoms)
             {
                 StatusText.SelectionStart = StatusText.Text.Length;
                 await UrlConvertAsync(MyCommon.UrlConverter.Nicoms);
@@ -2191,12 +2053,12 @@ namespace OpenTween
 
             bool isCutOff = false;
             bool isRemoveFooter = MyCommon.IsKeyDown(Keys.Shift);
-            if (StatusText.Multiline && !SettingDialog.PostCtrlEnter)
+            if (StatusText.Multiline && !this._cfgCommon.PostCtrlEnter)
             {
                 //複数行でEnter投稿の場合、Ctrlも押されていたらフッタ付加しない
                 isRemoveFooter = MyCommon.IsKeyDown(Keys.Control);
             }
-            if (SettingDialog.PostShiftEnter)
+            if (this._cfgCommon.PostShiftEnter)
             {
                 isRemoveFooter = MyCommon.IsKeyDown(Keys.Control);
             }
@@ -2253,12 +2115,12 @@ namespace OpenTween
                 }
                 if (!isRemoveFooter)
                 {
-                    if (SettingDialog.UseRecommendStatus)
+                    if (this._cfgLocal.UseRecommendStatus)
                         // 推奨ステータスを使用する
-                        footer += SettingDialog.RecommendStatusText;
+                        footer += this.recommendedStatusFooter;
                     else
                         // テキストボックスに入力されている文字列を使用する
-                        footer += " " + SettingDialog.Status.Trim();
+                        footer += " " + this._cfgLocal.StatusText.Trim();
                 }
             }
             args.status.status = header + StatusText.Text + footer;
@@ -2338,7 +2200,7 @@ namespace OpenTween
 
         private void TweenMain_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (!SettingDialog.CloseToExit && e.CloseReason == CloseReason.UserClosing && MyCommon._endingFlag == false)
+            if (!this._cfgCommon.CloseToExit && e.CloseReason == CloseReason.UserClosing && MyCommon._endingFlag == false)
             {
                 //_endingFlag=false:フォームの×ボタン
                 e.Cancel = true;
@@ -2400,8 +2262,8 @@ namespace OpenTween
             string ret = "";
             GetWorkerResult rslt = new GetWorkerResult();
 
-            bool read = !SettingDialog.UnreadManage;
-            if (_initial && SettingDialog.UnreadManage) read = SettingDialog.Readed;
+            bool read = !this._cfgCommon.UnreadManage;
+            if (_initial && this._cfgCommon.UnreadManage) read = this._cfgCommon.Read;
 
             GetWorkerArg args = (GetWorkerArg)e.Argument;
 
@@ -2423,7 +2285,7 @@ namespace OpenTween
                     bw.ReportProgress(50, MakeStatusMessage(args, false));
                     ret = tw.GetTimelineApi(read, args.type, args.page == -1, _initial);
                     //新着時未読クリア
-                    if (string.IsNullOrEmpty(ret) && args.type == MyCommon.WORKERTYPE.Timeline && SettingDialog.ReadOldPosts)
+                    if (string.IsNullOrEmpty(ret) && args.type == MyCommon.WORKERTYPE.Timeline && this._cfgCommon.ReadOldPosts)
                         _statuses.SetRead();
                     //振り分け
                     rslt.addCount = _statuses.DistributePosts();
@@ -2572,7 +2434,7 @@ namespace OpenTween
                 case MyCommon.WORKERTYPE.Configuration:
                     try
                     {
-                        this.SettingDialog.TwitterConfiguration = tw.ConfigurationApi();
+                        this.tw.RefreshConfiguration();
                     }
                     catch (WebApiException ex) { ret = ex.Message; }
                     break;
@@ -2611,7 +2473,7 @@ namespace OpenTween
                 case MyCommon.WORKERTYPE.UserTimeline:
                     bw.ReportProgress(50, MakeStatusMessage(args, false));
                     int count = 20;
-                    if (SettingDialog.UseAdditionalCount) count = SettingDialog.UserTimelineCountApi;
+                    if (this._cfgCommon.UseAdditionalCount) count = this._cfgCommon.UserTimelineCountApi;
                     if (string.IsNullOrEmpty(args.tName))
                     {
                         foreach (TabClass tb in _statuses.GetTabsByType(MyCommon.TabUsageType.UserTimeline))
@@ -3031,7 +2893,7 @@ namespace OpenTween
                             }
                         }
                     }
-                    if (rslt.retMsg.Length == 0 && SettingDialog.PostAndGet)
+                    if (rslt.retMsg.Length == 0 && this._cfgCommon.PostAndGet)
                     {
                         if (_isActiveUserstream)
                         {
@@ -3055,7 +2917,7 @@ namespace OpenTween
                                 _postTimestamps.RemoveAt(i);
                             }
                         }
-                        if (!_isActiveUserstream && SettingDialog.PostAndGet) GetTimeline(MyCommon.WORKERTYPE.Timeline, 1, "");
+                        if (!_isActiveUserstream && this._cfgCommon.PostAndGet) GetTimeline(MyCommon.WORKERTYPE.Timeline, 1, "");
                     }
                     break;
                 case MyCommon.WORKERTYPE.Follower:
@@ -3067,11 +2929,11 @@ namespace OpenTween
                     break;
                 case MyCommon.WORKERTYPE.Configuration:
                     //_waitFollower = false
-                    if (SettingDialog.TwitterConfiguration.PhotoSizeLimit != 0)
+                    if (this.tw.Configuration.PhotoSizeLimit != 0)
                     {
                         foreach (var service in this.ImageSelector.GetServices())
                         {
-                            service.UpdateTwitterConfiguration(this.SettingDialog.TwitterConfiguration);
+                            service.UpdateTwitterConfiguration(this.tw.Configuration);
                         }
                     }
                     this.PurgeListViewItemCache();
@@ -3239,7 +3101,7 @@ namespace OpenTween
 
         private void MyList_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            switch (SettingDialog.ListDoubleClickAction)
+            switch (this._cfgCommon.ListDoubleClickAction)
             {
                 case 0:
                     MakeReplyOrDirectStatus();
@@ -3408,7 +3270,7 @@ namespace OpenTween
 
         private void MyList_ColumnClick(object sender, ColumnClickEventArgs e)
         {
-            if (SettingDialog.SortOrderLock) return;
+            if (this._cfgCommon.SortOrderLock) return;
             IdComparerClass.ComparerMode mode = IdComparerClass.ComparerMode.Id;
             if (_iconCol)
             {
@@ -3723,13 +3585,13 @@ namespace OpenTween
                     }
                     if (_statuses.Tabs[tb.Text].UnreadCount == 0)
                     {
-                        if (SettingDialog.TabIconDisp)
+                        if (this._cfgCommon.TabIconDisp)
                         {
                             if (tb.ImageIndex == 0) tb.ImageIndex = -1; //タブアイコン
                         }
                     }
                 }
-                if (!SettingDialog.TabIconDisp) ListTab.Refresh();
+                if (!this._cfgCommon.TabIconDisp) ListTab.Refresh();
             }
             finally
             {
@@ -3746,7 +3608,7 @@ namespace OpenTween
         {
             using (ControlTransaction.Update(this._curList))
             {
-                if (SettingDialog.UnreadManage)
+                if (this._cfgCommon.UnreadManage)
                 {
                     foreach (int idx in _curList.SelectedIndices)
                     {
@@ -3763,20 +3625,20 @@ namespace OpenTween
             {
                 if (_statuses.Tabs[tb.Text].UnreadCount == 0)
                 {
-                    if (SettingDialog.TabIconDisp)
+                    if (this._cfgCommon.TabIconDisp)
                     {
                         if (tb.ImageIndex == 0) tb.ImageIndex = -1; //タブアイコン
                     }
                 }
             }
-            if (!SettingDialog.TabIconDisp) ListTab.Refresh();
+            if (!this._cfgCommon.TabIconDisp) ListTab.Refresh();
         }
 
         private void UnreadStripMenuItem_Click(object sender, EventArgs e)
         {
             using (ControlTransaction.Update(this._curList))
             {
-                if (SettingDialog.UnreadManage)
+                if (this._cfgCommon.UnreadManage)
                 {
                     foreach (int idx in _curList.SelectedIndices)
                     {
@@ -3793,13 +3655,13 @@ namespace OpenTween
             {
                 if (_statuses.Tabs[tb.Text].UnreadCount > 0)
                 {
-                    if (SettingDialog.TabIconDisp)
+                    if (this._cfgCommon.TabIconDisp)
                     {
                         if (tb.ImageIndex == -1) tb.ImageIndex = 0; //タブアイコン
                     }
                 }
             }
-            if (!SettingDialog.TabIconDisp) ListTab.Refresh();
+            if (!this._cfgCommon.TabIconDisp) ListTab.Refresh();
         }
 
         private void RefreshStripMenuItem_Click(object sender, EventArgs e)
@@ -3898,8 +3760,9 @@ namespace OpenTween
         private void SettingStripMenuItem_Click(object sender, EventArgs e)
         {
             DialogResult result;
-            string uid = tw.Username.ToLower();
-            var oldIconSz = SettingDialog.IconSz;
+
+            // 設定画面表示前のユーザー情報
+            var oldUser = new { tw.AccessToken, tw.AccessTokenSecret, tw.Username, tw.UserId };
 
             try
             {
@@ -3914,23 +3777,27 @@ namespace OpenTween
             {
                 lock (_syncObject)
                 {
-                    tw.RestrictFavCheck = SettingDialog.RestrictFavCheck;
-                    tw.ReadOwnPost = SettingDialog.ReadOwnPost;
-                    ShortUrl.Instance.DisableExpanding = !SettingDialog.TinyUrlResolve;
-                    ShortUrl.Instance.BitlyId = SettingDialog.BitlyUser;
-                    ShortUrl.Instance.BitlyKey = SettingDialog.BitlyPwd;
+                    var oldIconSz = this._cfgCommon.IconSize;
+
+                    this.SettingDialog.SaveConfig(this._cfgCommon, this._cfgLocal);
+
+                    tw.RestrictFavCheck = this._cfgCommon.RestrictFavCheck;
+                    tw.ReadOwnPost = this._cfgCommon.ReadOwnPost;
+                    ShortUrl.Instance.DisableExpanding = !this._cfgCommon.TinyUrlResolve;
+                    ShortUrl.Instance.BitlyId = this._cfgCommon.BilyUser;
+                    ShortUrl.Instance.BitlyKey = this._cfgCommon.BitlyPwd;
                     HttpTwitter.TwitterUrl = _cfgCommon.TwitterUrl;
 
-                    Networking.DefaultTimeout = TimeSpan.FromSeconds(this.SettingDialog.DefaultTimeOut);
-                    Networking.SetWebProxy(this.SettingDialog.SelectedProxyType,
-                        this.SettingDialog.ProxyAddress, this.SettingDialog.ProxyPort,
-                        this.SettingDialog.ProxyUser, this.SettingDialog.ProxyPassword);
+                    Networking.DefaultTimeout = TimeSpan.FromSeconds(this._cfgCommon.DefaultTimeOut);
+                    Networking.SetWebProxy(this._cfgLocal.ProxyType,
+                        this._cfgLocal.ProxyAddress, this._cfgLocal.ProxyPort,
+                        this._cfgLocal.ProxyUser, this._cfgLocal.ProxyPassword);
 
-                    ImageSelector.Reset(tw, SettingDialog.TwitterConfiguration);
+                    ImageSelector.Reset(tw, this.tw.Configuration);
 
                     try
                     {
-                        if (SettingDialog.TabIconDisp)
+                        if (this._cfgCommon.TabIconDisp)
                         {
                             ListTab.DrawItem -= ListTab_DrawItem;
                             ListTab.DrawMode = TabDrawMode.Normal;
@@ -3953,11 +3820,11 @@ namespace OpenTween
 
                     try
                     {
-                        if (!SettingDialog.UnreadManage)
+                        if (!this._cfgCommon.UnreadManage)
                         {
                             ReadedStripMenuItem.Enabled = false;
                             UnreadStripMenuItem.Enabled = false;
-                            if (SettingDialog.TabIconDisp)
+                            if (this._cfgCommon.TabIconDisp)
                             {
                                 foreach (TabPage myTab in ListTab.TabPages)
                                 {
@@ -3981,35 +3848,35 @@ namespace OpenTween
                     // タブの表示位置の決定
                     SetTabAlignment();
 
-                    SplitContainer1.IsPanelInverted = !SettingDialog.StatusAreaAtBottom;
+                    SplitContainer1.IsPanelInverted = !this._cfgCommon.StatusAreaAtBottom;
 
                     var imgazyobizinet = ThumbnailGenerator.ImgAzyobuziNetInstance;
-                    imgazyobizinet.Enabled = this.SettingDialog.EnableImgAzyobuziNet;
-                    imgazyobizinet.DisabledInDM = this.SettingDialog.ImgAzyobuziNetDisabledInDM;
+                    imgazyobizinet.Enabled = this._cfgCommon.EnableImgAzyobuziNet;
+                    imgazyobizinet.DisabledInDM = this._cfgCommon.ImgAzyobuziNetDisabledInDM;
 
-                    PlaySoundMenuItem.Checked = SettingDialog.PlaySound;
-                    this.PlaySoundFileMenuItem.Checked = SettingDialog.PlaySound;
-                    _fntUnread = SettingDialog.FontUnread;
-                    _clUnread = SettingDialog.ColorUnread;
-                    _fntReaded = SettingDialog.FontReaded;
-                    _clReaded = SettingDialog.ColorReaded;
-                    _clFav = SettingDialog.ColorFav;
-                    _clOWL = SettingDialog.ColorOWL;
-                    _clRetweet = SettingDialog.ColorRetweet;
-                    _fntDetail = SettingDialog.FontDetail;
-                    _clDetail = SettingDialog.ColorDetail;
-                    _clDetailLink = SettingDialog.ColorDetailLink;
-                    _clDetailBackcolor = SettingDialog.ColorDetailBackcolor;
-                    _clSelf = SettingDialog.ColorSelf;
-                    _clAtSelf = SettingDialog.ColorAtSelf;
-                    _clTarget = SettingDialog.ColorTarget;
-                    _clAtTarget = SettingDialog.ColorAtTarget;
-                    _clAtFromTarget = SettingDialog.ColorAtFromTarget;
-                    _clAtTo = SettingDialog.ColorAtTo;
-                    _clListBackcolor = SettingDialog.ColorListBackcolor;
-                    _clInputBackcolor = SettingDialog.ColorInputBackcolor;
-                    _clInputFont = SettingDialog.ColorInputFont;
-                    _fntInputFont = SettingDialog.FontInputFont;
+                    this.PlaySoundMenuItem.Checked = this._cfgCommon.PlaySound;
+                    this.PlaySoundFileMenuItem.Checked = this._cfgCommon.PlaySound;
+                    _fntUnread = this._cfgLocal.FontUnread;
+                    _clUnread = this._cfgLocal.ColorUnread;
+                    _fntReaded = this._cfgLocal.FontRead;
+                    _clReaded = this._cfgLocal.ColorRead;
+                    _clFav = this._cfgLocal.ColorFav;
+                    _clOWL = this._cfgLocal.ColorOWL;
+                    _clRetweet = this._cfgLocal.ColorRetweet;
+                    _fntDetail = this._cfgLocal.FontDetail;
+                    _clDetail = this._cfgLocal.ColorDetail;
+                    _clDetailLink = this._cfgLocal.ColorDetailLink;
+                    _clDetailBackcolor = this._cfgLocal.ColorDetailBackcolor;
+                    _clSelf = this._cfgLocal.ColorSelf;
+                    _clAtSelf = this._cfgLocal.ColorAtSelf;
+                    _clTarget = this._cfgLocal.ColorTarget;
+                    _clAtTarget = this._cfgLocal.ColorAtTarget;
+                    _clAtFromTarget = this._cfgLocal.ColorAtFromTarget;
+                    _clAtTo = this._cfgLocal.ColorAtTo;
+                    _clListBackcolor = this._cfgLocal.ColorListBackcolor;
+                    _clInputBackcolor = this._cfgLocal.ColorInputBackcolor;
+                    _clInputFont = this._cfgLocal.ColorInputFont;
+                    _fntInputFont = this._cfgLocal.FontInputFont;
                     _brsBackColorMine.Dispose();
                     _brsBackColorAt.Dispose();
                     _brsBackColorYou.Dispose();
@@ -4049,7 +3916,7 @@ namespace OpenTween
 
                     try
                     {
-                        _statuses.SetUnreadManage(SettingDialog.UnreadManage);
+                        _statuses.SetUnreadManage(this._cfgCommon.UnreadManage);
                     }
                     catch (Exception ex)
                     {
@@ -4062,7 +3929,7 @@ namespace OpenTween
                     {
                         foreach (TabPage tb in ListTab.TabPages)
                         {
-                            if (SettingDialog.TabIconDisp)
+                            if (this._cfgCommon.TabIconDisp)
                             {
                                 if (_statuses.Tabs[tb.Text].UnreadCount == 0)
                                     tb.ImageIndex = -1;
@@ -4082,8 +3949,8 @@ namespace OpenTween
                     {
                         var oldIconCol = _iconCol;
 
-                        if (SettingDialog.IconSz != oldIconSz)
-                            ApplyListViewIconSize(SettingDialog.IconSz);
+                        if (this._cfgCommon.IconSize != oldIconSz)
+                            ApplyListViewIconSize(this._cfgCommon.IconSize);
 
                         foreach (TabPage tp in ListTab.TabPages)
                         {
@@ -4091,7 +3958,7 @@ namespace OpenTween
 
                             using (ControlTransaction.Update(lst))
                             {
-                                lst.GridLines = SettingDialog.ShowGrid;
+                                lst.GridLines = this._cfgCommon.ShowGrid;
                                 lst.Font = _fntReaded;
                                 lst.BackColor = _clListBackcolor;
 
@@ -4115,21 +3982,26 @@ namespace OpenTween
                     ListTab.Refresh();
 
                     _hookGlobalHotkey.UnregisterAllOriginalHotkey();
-                    if (SettingDialog.HotkeyEnabled)
+                    if (this._cfgCommon.HotkeyEnabled)
                     {
                         ///グローバルホットキーの登録。設定で変更可能にするかも
                         HookGlobalHotkey.ModKeys modKey = HookGlobalHotkey.ModKeys.None;
-                        if ((SettingDialog.HotkeyMod & Keys.Alt) == Keys.Alt) modKey = modKey | HookGlobalHotkey.ModKeys.Alt;
-                        if ((SettingDialog.HotkeyMod & Keys.Control) == Keys.Control) modKey = modKey | HookGlobalHotkey.ModKeys.Ctrl;
-                        if ((SettingDialog.HotkeyMod & Keys.Shift) == Keys.Shift) modKey = modKey | HookGlobalHotkey.ModKeys.Shift;
-                        if ((SettingDialog.HotkeyMod & Keys.LWin) == Keys.LWin) modKey = modKey | HookGlobalHotkey.ModKeys.Win;
+                        if ((this._cfgCommon.HotkeyModifier & Keys.Alt) == Keys.Alt)
+                            modKey |= HookGlobalHotkey.ModKeys.Alt;
+                        if ((this._cfgCommon.HotkeyModifier & Keys.Control) == Keys.Control)
+                            modKey |= HookGlobalHotkey.ModKeys.Ctrl;
+                        if ((this._cfgCommon.HotkeyModifier & Keys.Shift) == Keys.Shift)
+                            modKey |=  HookGlobalHotkey.ModKeys.Shift;
+                        if ((this._cfgCommon.HotkeyModifier & Keys.LWin) == Keys.LWin)
+                            modKey |= HookGlobalHotkey.ModKeys.Win;
 
-                        _hookGlobalHotkey.RegisterOriginalHotkey(SettingDialog.HotkeyKey, SettingDialog.HotkeyValue, modKey);
+                        _hookGlobalHotkey.RegisterOriginalHotkey(this._cfgCommon.HotkeyKey, this._cfgCommon.HotkeyValue, modKey);
                     }
 
-                    if (uid != tw.Username) this.doGetFollowersMenu();
+                    if (tw.Username != oldUser.Username)
+                        this.doGetFollowersMenu();
 
-                    if (SettingDialog.IsNotifyUseGrowl) gh.RegisterGrowl();
+                    if (this._cfgCommon.IsUseNotifyGrowl) gh.RegisterGrowl();
                     try
                     {
                         StatusText_TextChanged(null, null);
@@ -4139,10 +4011,15 @@ namespace OpenTween
                     }
                 }
             }
+            else
+            {
+                // キャンセル時は Twitter クラスの認証情報を画面表示前の状態に戻す
+                this.tw.Initialize(oldUser.AccessToken, oldUser.AccessTokenSecret, oldUser.Username, oldUser.UserId);
+            }
 
             Twitter.AccountState = MyCommon.ACCOUNT_STATE.Valid;
 
-            this.TopMost = SettingDialog.AlwaysTop;
+            this.TopMost = this._cfgCommon.AlwaysTop;
             SaveConfigsAll(false);
         }
 
@@ -4151,7 +4028,7 @@ namespace OpenTween
         /// </summary>
         private void SetTabAlignment()
         {
-            var newAlignment = SettingDialog.ViewTabBottom ? TabAlignment.Bottom : TabAlignment.Top;
+            var newAlignment = this._cfgCommon.ViewTabBottom ? TabAlignment.Bottom : TabAlignment.Top;
             if (ListTab.Alignment == newAlignment) return;
 
             //現在の選択状態を退避
@@ -4276,7 +4153,7 @@ namespace OpenTween
                     if (m.Success && IsTwitterId(m.Result("${ScreenName}")))
                     {
                         // Ctrlを押しながらリンクをクリックした場合は設定と逆の動作をする
-                        if (SettingDialog.OpenUserTimeline)
+                        if (this._cfgCommon.OpenUserTimeline)
                         {
                             if (MyCommon.IsKeyDown(Keys.Control))
                                 OpenUriAsync(e.Url.OriginalString);
@@ -4567,7 +4444,7 @@ namespace OpenTween
                 _listCustom.Font = _fntReaded;
                 _listCustom.BackColor = _clListBackcolor;
 
-                _listCustom.GridLines = SettingDialog.ShowGrid;
+                _listCustom.GridLines = this._cfgCommon.ShowGrid;
                 _listCustom.AllowDrop = true;
 
                 _listCustom.SmallImageList = _listViewImageList;
@@ -4736,7 +4613,7 @@ namespace OpenTween
         {
             //タブのD&D
 
-            if (!SettingDialog.TabMouseLock && e.Button == MouseButtons.Left && _tabDrag)
+            if (!this._cfgCommon.TabMouseLock && e.Button == MouseButtons.Left && _tabDrag)
             {
                 string tn = "";
                 Rectangle dragEnableRectangle = new Rectangle((int)(_tabMouseDownPoint.X - (SystemInformation.DragSize.Width / 2)), (int)(_tabMouseDownPoint.Y - (SystemInformation.DragSize.Height / 2)), SystemInformation.DragSize.Width, SystemInformation.DragSize.Height);
@@ -4848,7 +4725,7 @@ namespace OpenTween
         {
             if (e.KeyChar == '@')
             {
-                if (!SettingDialog.UseAtIdSupplement) return;
+                if (!this._cfgCommon.UseAtIdSupplement) return;
                 //@マーク
                 int cnt = AtIdSupl.ItemCount;
                 ShowSuplDialog(StatusText, AtIdSupl);
@@ -4857,7 +4734,7 @@ namespace OpenTween
             }
             else if (e.KeyChar == '#')
             {
-                if (!SettingDialog.UseHashSupplement) return;
+                if (!this._cfgCommon.UseHashSupplement) return;
                 ShowSuplDialog(StatusText, HashSupl);
                 e.Handled = true;
             }
@@ -4884,7 +4761,7 @@ namespace OpenTween
             {
                 dialog.ShowDialog();
             }
-            this.TopMost = SettingDialog.AlwaysTop;
+            this.TopMost = this._cfgCommon.AlwaysTop;
             int selStart = owner.SelectionStart;
             string fHalf = "";
             string eHalf = "";
@@ -4982,14 +4859,14 @@ namespace OpenTween
 
             int pLen = 140 - statusText.Length;
             if (this.NotifyIcon1 == null || !this.NotifyIcon1.Visible) return pLen;
-            if ((isAuto && !MyCommon.IsKeyDown(Keys.Control) && SettingDialog.PostShiftEnter) ||
-                (isAuto && !MyCommon.IsKeyDown(Keys.Shift) && !SettingDialog.PostShiftEnter) ||
+            if ((isAuto && !MyCommon.IsKeyDown(Keys.Control) && this._cfgCommon.PostShiftEnter) ||
+                (isAuto && !MyCommon.IsKeyDown(Keys.Shift) && !this._cfgCommon.PostShiftEnter) ||
                 (!isAuto && isAddFooter))
             {
-                if (SettingDialog.UseRecommendStatus)
-                    pLen -= SettingDialog.RecommendStatusText.Length;
-                else if (SettingDialog.Status.Length > 0)
-                    pLen -= SettingDialog.Status.Length + 1;
+                if (this._cfgLocal.UseRecommendStatus)
+                    pLen -= this.recommendedStatusFooter.Length;
+                else if (this._cfgLocal.StatusText.Length > 0)
+                    pLen -= this._cfgLocal.StatusText.Length + 1;
             }
             if (!string.IsNullOrEmpty(HashMgr.UseHash))
             {
@@ -5021,7 +4898,7 @@ namespace OpenTween
                         last_url_invalid_match = Regex.IsMatch(lasturl, Twitter.url_invalid_short_domain, RegexOptions.IgnoreCase);
                         if (!last_url_invalid_match)
                         {
-                            pLen += lasturl.Length - SettingDialog.TwitterConfiguration.ShortUrlLength;
+                            pLen += lasturl.Length - this.tw.Configuration.ShortUrlLength;
                         }
                     }
 
@@ -5029,7 +4906,7 @@ namespace OpenTween
                     {
                         if (last_url_invalid_match)
                         {
-                            pLen += lasturl.Length - SettingDialog.TwitterConfiguration.ShortUrlLength;
+                            pLen += lasturl.Length - this.tw.Configuration.ShortUrlLength;
                         }
                         pLen += path.Length;
                     }
@@ -5037,8 +4914,8 @@ namespace OpenTween
                 else
                 {
                     int shortUrlLength = protocol == "https://"
-                        ? SettingDialog.TwitterConfiguration.ShortUrlLengthHttps
-                        : SettingDialog.TwitterConfiguration.ShortUrlLength;
+                        ? this.tw.Configuration.ShortUrlLengthHttps
+                        : this.tw.Configuration.ShortUrlLength;
 
                     pLen += url.Length - shortUrlLength;
                 }
@@ -5050,7 +4927,7 @@ namespace OpenTween
             }
             if (ImageSelector.Visible && !string.IsNullOrEmpty(ImageSelector.ServiceName))
             {
-                pLen -= SettingDialog.TwitterConfiguration.CharactersReservedPerMedia;
+                pLen -= this.tw.Configuration.CharactersReservedPerMedia;
             }
             return pLen;
         }
@@ -5189,7 +5066,7 @@ namespace OpenTween
                 string[] sitem= {"",
                                  Post.Nickname,
                                  Post.IsDeleted ? "(DELETED)" : Post.TextSingleLine,
-                                 Post.CreatedAt.ToString(SettingDialog.DateTimeFormat),
+                                 Post.CreatedAt.ToString(this._cfgCommon.DateTimeFormat),
                                  Post.ScreenName,
                                  "",
                                  mk.ToString(),
@@ -5201,7 +5078,7 @@ namespace OpenTween
                 string[] sitem = {"",
                                   Post.Nickname,
                                   Post.IsDeleted ? "(DELETED)" : Post.TextSingleLine,
-                                  Post.CreatedAt.ToString(SettingDialog.DateTimeFormat),
+                                  Post.CreatedAt.ToString(this._cfgCommon.DateTimeFormat),
                                   Post.ScreenName + Environment.NewLine + "(RT:" + Post.RetweetedBy + ")",
                                   "",
                                   mk.ToString(),
@@ -5212,7 +5089,7 @@ namespace OpenTween
 
             bool read = Post.IsRead;
             //未読管理していなかったら既読として扱う
-            if (!_statuses.Tabs[Tab.Text].UnreadManage || !SettingDialog.UnreadManage) read = true;
+            if (!_statuses.Tabs[Tab.Text].UnreadManage || !this._cfgCommon.UnreadManage) read = true;
             ChangeItemStyleRead(read, itm, Post, null);
             if (Tab.Equals(_curTab)) ColorizeList(itm, Index);
             return itm;
@@ -5239,7 +5116,7 @@ namespace OpenTween
                     var listview = (DetailsListView)tabPage.Tag;
                     listview.VirtualListSize = tab.AllCount;
 
-                    if (this.SettingDialog.TabIconDisp)
+                    if (this._cfgCommon.TabIconDisp)
                     {
                         if (tab.UnreadCount > 0)
                             tabPage.ImageIndex = 0;
@@ -5248,7 +5125,7 @@ namespace OpenTween
                     }
                 }
 
-                if (!this.SettingDialog.TabIconDisp)
+                if (!this._cfgCommon.TabIconDisp)
                     this.ListTab.Refresh();
             }
             finally
@@ -5724,10 +5601,10 @@ namespace OpenTween
 
             if (this.SearchDialog.ShowDialog(this) != DialogResult.OK)
             {
-                this.TopMost = this.SettingDialog.AlwaysTop;
+                this.TopMost = this._cfgCommon.AlwaysTop;
                 return;
             }
-            this.TopMost = this.SettingDialog.AlwaysTop;
+            this.TopMost = this._cfgCommon.AlwaysTop;
 
             var searchOptions = this.SearchDialog.ResultOptions;
             if (searchOptions.Type == SearchWordDialog.SearchType.Timeline)
@@ -5786,7 +5663,7 @@ namespace OpenTween
             {
                 about.ShowDialog(this);
             }
-            this.TopMost = SettingDialog.AlwaysTop;
+            this.TopMost = this._cfgCommon.AlwaysTop;
         }
 
         private void JumpUnreadMenuItem_Click(object sender, EventArgs e)
@@ -5991,10 +5868,10 @@ namespace OpenTween
             _colorize = false;
             DispSelectedPost();
             //件数関連の場合、タイトル即時書き換え
-            if (SettingDialog.DispLatestPost != MyCommon.DispTitleEnum.None &&
-               SettingDialog.DispLatestPost != MyCommon.DispTitleEnum.Post &&
-               SettingDialog.DispLatestPost != MyCommon.DispTitleEnum.Ver &&
-               SettingDialog.DispLatestPost != MyCommon.DispTitleEnum.OwnStatus)
+            if (this._cfgCommon.DispLatestPost != MyCommon.DispTitleEnum.None &&
+               this._cfgCommon.DispLatestPost != MyCommon.DispTitleEnum.Post &&
+               this._cfgCommon.DispLatestPost != MyCommon.DispTitleEnum.Ver &&
+               this._cfgCommon.DispLatestPost != MyCommon.DispTitleEnum.OwnStatus)
             {
                 SetMainWindowTitle();
             }
@@ -6003,13 +5880,13 @@ namespace OpenTween
             {
                 if (_statuses.Tabs[tb.Text].UnreadCount == 0)
                 {
-                    if (SettingDialog.TabIconDisp)
+                    if (this._cfgCommon.TabIconDisp)
                     {
                         if (tb.ImageIndex == 0) tb.ImageIndex = -1;
                     }
                 }
             }
-            if (!SettingDialog.TabIconDisp) ListTab.Refresh();
+            if (!this._cfgCommon.TabIconDisp) ListTab.Refresh();
         }
 
         public string createDetailHtml(string orgdata)
@@ -6117,7 +5994,7 @@ namespace OpenTween
                 NameLabel.Tag = _curPost.ScreenName;
 
                 var nameForeColor = SystemColors.ControlText;
-                if (_curPost.IsOwl && (this.SettingDialog.OneWayLove || _curPost.IsDm))
+                if (_curPost.IsOwl && (this._cfgCommon.OneWayLove || _curPost.IsDm))
                     nameForeColor = this._clOWL;
                 if (_curPost.RetweetedId != null)
                     nameForeColor = this._clRetweet;
@@ -6196,7 +6073,7 @@ namespace OpenTween
 
                         this.SplitContainer3.Panel2Collapsed = true;
 
-                        if (this.IsPreviewEnable)
+                        if (this._cfgCommon.PreviewEnable)
                         {
                             if (this.thumbnailTokenSource != null)
                             {
@@ -6936,9 +6813,9 @@ namespace OpenTween
             if (tags.Count > 0)
             {
                 if (forward)
-                    tags[0].ScrollTop += SettingDialog.FontDetail.Height;
+                    tags[0].ScrollTop += this._fntDetail.Height;
                 else
-                    tags[0].ScrollTop -= SettingDialog.FontDetail.Height;
+                    tags[0].ScrollTop -= this._fntDetail.Height;
             }
         }
 
@@ -6951,9 +6828,9 @@ namespace OpenTween
             if (tags.Count > 0)
             {
                 if (forward)
-                    tags[0].ScrollTop += PostBrowser.ClientRectangle.Height - SettingDialog.FontDetail.Height;
+                    tags[0].ScrollTop += PostBrowser.ClientRectangle.Height - this._fntDetail.Height;
                 else
-                    tags[0].ScrollTop -= PostBrowser.ClientRectangle.Height - SettingDialog.FontDetail.Height;
+                    tags[0].ScrollTop -= PostBrowser.ClientRectangle.Height - this._fntDetail.Height;
             }
         }
 
@@ -7733,7 +7610,7 @@ namespace OpenTween
 
         private void SaveConfigsAtId()
         {
-            if (_ignoreConfigSave || !SettingDialog.UseAtIdSupplement && AtIdSupl == null) return;
+            if (_ignoreConfigSave || !this._cfgCommon.UseAtIdSupplement && AtIdSupl == null) return;
 
             _modifySettingAtId = false;
             SettingAtIdList cfgAtId = new SettingAtIdList(AtIdSupl.GetItemList());
@@ -7752,71 +7629,12 @@ namespace OpenTween
                 _cfgCommon.Password = tw.Password;
                 _cfgCommon.Token = tw.AccessToken;
                 _cfgCommon.TokenSecret = tw.AccessTokenSecret;
-                _cfgCommon.UserAccounts = SettingDialog.UserAccounts;
-                _cfgCommon.UserstreamStartup = SettingDialog.UserstreamStartup;
-                _cfgCommon.UserstreamPeriod = SettingDialog.UserstreamPeriodInt;
-                _cfgCommon.TimelinePeriod = SettingDialog.TimelinePeriodInt;
-                _cfgCommon.ReplyPeriod = SettingDialog.ReplyPeriodInt;
-                _cfgCommon.DMPeriod = SettingDialog.DMPeriodInt;
-                _cfgCommon.PubSearchPeriod = SettingDialog.PubSearchPeriodInt;
-                _cfgCommon.ListsPeriod = SettingDialog.ListsPeriodInt;
-                _cfgCommon.UserTimelinePeriod = SettingDialog.UserTimelinePeriodInt;
-                _cfgCommon.Read = SettingDialog.Readed;
-                _cfgCommon.IconSize = SettingDialog.IconSz;
-                _cfgCommon.UnreadManage = SettingDialog.UnreadManage;
-                _cfgCommon.PlaySound = SettingDialog.PlaySound;
-                _cfgCommon.OneWayLove = SettingDialog.OneWayLove;
 
-                _cfgCommon.NameBalloon = SettingDialog.NameBalloon;
-                _cfgCommon.PostCtrlEnter = SettingDialog.PostCtrlEnter;
-                _cfgCommon.PostShiftEnter = SettingDialog.PostShiftEnter;
-                _cfgCommon.CountApi = SettingDialog.CountApi;
-                _cfgCommon.CountApiReply = SettingDialog.CountApiReply;
-                _cfgCommon.PostAndGet = SettingDialog.PostAndGet;
-                _cfgCommon.DispUsername = SettingDialog.DispUsername;
-                _cfgCommon.MinimizeToTray = SettingDialog.MinimizeToTray;
-                _cfgCommon.CloseToExit = SettingDialog.CloseToExit;
-                _cfgCommon.DispLatestPost = SettingDialog.DispLatestPost;
-                _cfgCommon.SortOrderLock = SettingDialog.SortOrderLock;
-                _cfgCommon.ViewTabBottom = SettingDialog.ViewTabBottom;
-                _cfgCommon.TinyUrlResolve = SettingDialog.TinyUrlResolve;
-                _cfgCommon.StartupVersion = SettingDialog.StartupVersion;
-                _cfgCommon.StartupFollowers = SettingDialog.StartupFollowers;
-                _cfgCommon.RestrictFavCheck = SettingDialog.RestrictFavCheck;
-                _cfgCommon.AlwaysTop = SettingDialog.AlwaysTop;
-                _cfgCommon.UrlConvertAuto = SettingDialog.UrlConvertAuto;
-                _cfgCommon.UseUnreadStyle = SettingDialog.UseUnreadStyle;
-                _cfgCommon.DateTimeFormat = SettingDialog.DateTimeFormat;
-                _cfgCommon.DefaultTimeOut = SettingDialog.DefaultTimeOut;
-                _cfgCommon.RetweetNoConfirm = SettingDialog.RetweetNoConfirm;
-                _cfgCommon.LimitBalloon = SettingDialog.LimitBalloon;
-                _cfgCommon.EventNotifyEnabled = SettingDialog.EventNotifyEnabled;
-                _cfgCommon.EventNotifyFlag = SettingDialog.EventNotifyFlag;
-                _cfgCommon.IsMyEventNotifyFlag = SettingDialog.IsMyEventNotifyFlag;
-                _cfgCommon.ForceEventNotify = SettingDialog.ForceEventNotify;
-                _cfgCommon.FavEventUnread = SettingDialog.FavEventUnread;
-                _cfgCommon.TranslateLanguage = SettingDialog.TranslateLanguage;
-                _cfgCommon.EventSoundFile = SettingDialog.EventSoundFile;
-                _cfgCommon.AutoShortUrlFirst = SettingDialog.AutoShortUrlFirst;
-                _cfgCommon.TabIconDisp = SettingDialog.TabIconDisp;
-                _cfgCommon.ReplyIconState = SettingDialog.ReplyIconState;
-                _cfgCommon.ReadOwnPost = SettingDialog.ReadOwnPost;
-                _cfgCommon.GetFav = SettingDialog.GetFav;
-                _cfgCommon.IsMonospace = SettingDialog.IsMonospace;
                 if (IdeographicSpaceToSpaceToolStripMenuItem != null &&
                    IdeographicSpaceToSpaceToolStripMenuItem.IsDisposed == false)
                 {
                     _cfgCommon.WideSpaceConvert = this.IdeographicSpaceToSpaceToolStripMenuItem.Checked;
                 }
-                _cfgCommon.ReadOldPosts = SettingDialog.ReadOldPosts;
-                _cfgCommon.BilyUser = SettingDialog.BitlyUser;
-                _cfgCommon.BitlyPwd = SettingDialog.BitlyPwd;
-                _cfgCommon.ShowGrid = SettingDialog.ShowGrid;
-                _cfgCommon.UseAtIdSupplement = SettingDialog.UseAtIdSupplement;
-                _cfgCommon.UseHashSupplement = SettingDialog.UseHashSupplement;
-                _cfgCommon.PreviewEnable = SettingDialog.PreviewEnable;
-                _cfgCommon.StatusAreaAtBottom = SettingDialog.StatusAreaAtBottom;
-                _cfgCommon.Language = SettingDialog.Language;
 
                 _cfgCommon.SortOrder = (int)_statuses.SortOrder;
                 switch (_statuses.SortMode)
@@ -7838,7 +7656,6 @@ namespace OpenTween
                         break;
                 }
 
-                _cfgCommon.Nicoms = SettingDialog.Nicoms;
                 _cfgCommon.HashTags = HashMgr.HashHistories;
                 if (HashMgr.IsPermanent)
                 {
@@ -7851,42 +7668,15 @@ namespace OpenTween
                 _cfgCommon.HashIsHead = HashMgr.IsHead;
                 _cfgCommon.HashIsPermanent = HashMgr.IsPermanent;
                 _cfgCommon.HashIsNotAddToAtReply = HashMgr.IsNotAddToAtReply;
-                _cfgCommon.TwitterUrl = SettingDialog.TwitterApiUrl;
-                _cfgCommon.HotkeyEnabled = SettingDialog.HotkeyEnabled;
-                _cfgCommon.HotkeyModifier = SettingDialog.HotkeyMod;
-                _cfgCommon.HotkeyKey = SettingDialog.HotkeyKey;
-                _cfgCommon.HotkeyValue = SettingDialog.HotkeyValue;
-                _cfgCommon.BlinkNewMentions = SettingDialog.BlinkNewMentions;
                 if (ToolStripFocusLockMenuItem != null &&
                         ToolStripFocusLockMenuItem.IsDisposed == false)
                 {
                     _cfgCommon.FocusLockToStatusText = this.ToolStripFocusLockMenuItem.Checked;
                 }
-                _cfgCommon.UseAdditionalCount = SettingDialog.UseAdditionalCount;
-                _cfgCommon.MoreCountApi = SettingDialog.MoreCountApi;
-                _cfgCommon.FirstCountApi = SettingDialog.FirstCountApi;
-                _cfgCommon.SearchCountApi = SettingDialog.SearchCountApi;
-                _cfgCommon.FavoritesCountApi = SettingDialog.FavoritesCountApi;
-                _cfgCommon.UserTimelineCountApi = SettingDialog.UserTimelineCountApi;
                 _cfgCommon.TrackWord = tw.TrackWord;
                 _cfgCommon.AllAtReply = tw.AllAtReply;
-                _cfgCommon.OpenUserTimeline = SettingDialog.OpenUserTimeline;
-                _cfgCommon.ListCountApi = SettingDialog.ListCountApi;
                 _cfgCommon.UseImageService = ImageSelector.ServiceIndex;
                 _cfgCommon.UseImageServiceName = ImageSelector.ServiceName;
-                _cfgCommon.ListDoubleClickAction = SettingDialog.ListDoubleClickAction;
-                _cfgCommon.UserAppointUrl = SettingDialog.UserAppointUrl;
-                _cfgCommon.HideDuplicatedRetweets = SettingDialog.HideDuplicatedRetweets;
-                _cfgCommon.EnableImgAzyobuziNet = SettingDialog.EnableImgAzyobuziNet;
-                _cfgCommon.ImgAzyobuziNetDisabledInDM = SettingDialog.ImgAzyobuziNetDisabledInDM;
-                _cfgCommon.MapThumbnailProvider = SettingDialog.MapThumbnailProvider;
-                _cfgCommon.MapThumbnailHeight = SettingDialog.MapThumbnailHeight;
-                _cfgCommon.MapThumbnailWidth = SettingDialog.MapThumbnailWidth;
-                _cfgCommon.MapThumbnailZoom = SettingDialog.MapThumbnailZoom;
-                _cfgCommon.IsListsIncludeRts = SettingDialog.IsListStatusesIncludeRts;
-                _cfgCommon.TabMouseLock = SettingDialog.TabMouseLock;
-                _cfgCommon.IsRemoveSameEvent = SettingDialog.IsRemoveSameEvent;
-                _cfgCommon.IsUseNotifyGrowl = SettingDialog.IsNotifyUseGrowl;
 
                 _cfgCommon.Save();
             }
@@ -7904,7 +7694,6 @@ namespace OpenTween
                 _cfgLocal.PreviewDistance = _mySpDis3;
                 _cfgLocal.StatusMultiline = StatusText.Multiline;
                 _cfgLocal.StatusTextHeight = _mySpDis2;
-                _cfgLocal.StatusText = SettingDialog.Status;
 
                 _cfgLocal.FontUnread = _fntUnread;
                 _cfgLocal.ColorUnread = _clUnread;
@@ -7928,13 +7717,6 @@ namespace OpenTween
                 _cfgLocal.ColorInputFont = _clInputFont;
                 _cfgLocal.FontInputFont = _fntInputFont;
 
-                _cfgLocal.BrowserPath = SettingDialog.BrowserPath;
-                _cfgLocal.UseRecommendStatus = SettingDialog.UseRecommendStatus;
-                _cfgLocal.ProxyType = SettingDialog.SelectedProxyType;
-                _cfgLocal.ProxyAddress = SettingDialog.ProxyAddress;
-                _cfgLocal.ProxyPort = SettingDialog.ProxyPort;
-                _cfgLocal.ProxyUser = SettingDialog.ProxyUser;
-                _cfgLocal.ProxyPassword = SettingDialog.ProxyPassword;
                 if (_ignoreConfigSave) return;
                 _cfgLocal.Save();
             }
@@ -8058,7 +7840,7 @@ namespace OpenTween
                     }
                 }
             }
-            this.TopMost = SettingDialog.AlwaysTop;
+            this.TopMost = this._cfgCommon.AlwaysTop;
         }
 
         private void PostBrowser_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
@@ -8082,7 +7864,7 @@ namespace OpenTween
                 if (inputName.DialogResult == DialogResult.Cancel) return false;
                 newTabText = inputName.TabName;
             }
-            this.TopMost = SettingDialog.AlwaysTop;
+            this.TopMost = this._cfgCommon.AlwaysTop;
             if (!string.IsNullOrEmpty(newTabText))
             {
                 //新タブ名存在チェック
@@ -8151,7 +7933,7 @@ namespace OpenTween
 
         private void ListTab_MouseDown(object sender, MouseEventArgs e)
         {
-            if (SettingDialog.TabMouseLock) return;
+            if (this._cfgCommon.TabMouseLock) return;
             Point cpos = new Point(e.X, e.Y);
             if (e.Button == MouseButtons.Left)
             {
@@ -8623,11 +8405,11 @@ namespace OpenTween
             }
 
             TabClass tb = _statuses.GetTabByType(MyCommon.TabUsageType.Mentions);
-            if (SettingDialog.ReplyIconState != MyCommon.REPLY_ICONSTATE.None && tb != null && tb.UnreadCount > 0)
+            if (this._cfgCommon.ReplyIconState != MyCommon.REPLY_ICONSTATE.None && tb != null && tb.UnreadCount > 0)
             {
                 if (blinkCnt > 0) return;
                 blink = !blink;
-                if (blink || SettingDialog.ReplyIconState == MyCommon.REPLY_ICONSTATE.StaticIcon)
+                if (blink || this._cfgCommon.ReplyIconState == MyCommon.REPLY_ICONSTATE.StaticIcon)
                 {
                     NotifyIcon1.Icon = ReplyIcon;
                 }
@@ -8780,7 +8562,7 @@ namespace OpenTween
             }
 
             _statuses.SetTabUnreadManage(tabName, isManage);
-            if (SettingDialog.TabIconDisp)
+            if (this._cfgCommon.TabIconDisp)
             {
                 if (_statuses.Tabs[tabName].UnreadCount > 0)
                     ListTab.TabPages[idx].ImageIndex = 0;
@@ -8796,7 +8578,7 @@ namespace OpenTween
 
             SetMainWindowTitle();
             SetStatusLabelUrl();
-            if (!SettingDialog.TabIconDisp) ListTab.Refresh();
+            if (!this._cfgCommon.TabIconDisp) ListTab.Refresh();
         }
 
         private void NotifyDispMenuItem_Click(object sender, EventArgs e)
@@ -8833,7 +8615,7 @@ namespace OpenTween
             if (string.IsNullOrEmpty(_rclickTabName)) _rclickTabName = _statuses.GetTabByType(MyCommon.TabUsageType.Home).TabName;
             fltDialog.SetCurrent(_rclickTabName);
             fltDialog.ShowDialog(this);
-            this.TopMost = SettingDialog.AlwaysTop;
+            this.TopMost = this._cfgCommon.AlwaysTop;
 
             this.ApplyPostFilters();
             SaveConfigsTabs();
@@ -8852,7 +8634,7 @@ namespace OpenTween
                 tabName = inputName.TabName;
                 tabUsage = inputName.Usage;
             }
-            this.TopMost = SettingDialog.AlwaysTop;
+            this.TopMost = this._cfgCommon.AlwaysTop;
             if (!string.IsNullOrEmpty(tabName))
             {
                 //List対応
@@ -8910,7 +8692,7 @@ namespace OpenTween
                     fltDialog.AddNewFilter(_statuses[_curTab.Text, idx].RetweetedBy, _statuses[_curTab.Text, idx].TextFromApi);
                 }
                 fltDialog.ShowDialog(this);
-                this.TopMost = SettingDialog.AlwaysTop;
+                this.TopMost = this._cfgCommon.AlwaysTop;
             }
 
             this.ApplyPostFilters();
@@ -8932,7 +8714,7 @@ namespace OpenTween
                     bool _NewLine = false;
                     bool _Post = false;
 
-                    if (SettingDialog.PostCtrlEnter) //Ctrl+Enter投稿時
+                    if (this._cfgCommon.PostCtrlEnter) //Ctrl+Enter投稿時
                     {
                         if (StatusText.Multiline)
                         {
@@ -8946,7 +8728,7 @@ namespace OpenTween
                         }
 
                     }
-                    else if (SettingDialog.PostShiftEnter) //SHift+Enter投稿時
+                    else if (this._cfgCommon.PostShiftEnter) //SHift+Enter投稿時
                     {
                         if (StatusText.Multiline)
                         {
@@ -9091,7 +8873,7 @@ namespace OpenTween
                         if (inputName.DialogResult == DialogResult.Cancel) return false;
                         tabName = inputName.TabName;
                     }
-                    this.TopMost = SettingDialog.AlwaysTop;
+                    this.TopMost = this._cfgCommon.AlwaysTop;
                     if (!string.IsNullOrEmpty(tabName))
                     {
                         if (!_statuses.AddTab(tabName, MyCommon.TabUsageType.UserDefined, null) || !AddNewTab(tabName, false, MyCommon.TabUsageType.UserDefined))
@@ -9259,7 +9041,7 @@ namespace OpenTween
                     {
                         return;
                     }
-                    this.TopMost = SettingDialog.AlwaysTop;
+                    this.TopMost = this._cfgCommon.AlwaysTop;
                 }
                 if (string.IsNullOrEmpty(openUrlStr)) return;
 
@@ -9277,7 +9059,7 @@ namespace OpenTween
                 else
                 {
                     Match m = Regex.Match(openUrlStr, "^https?://twitter.com/(#!/)?(?<ScreenName>[a-zA-Z0-9_]+)$");
-                    if (SettingDialog.OpenUserTimeline && m.Success && IsTwitterId(m.Result("${ScreenName}")))
+                    if (this._cfgCommon.OpenUserTimeline && m.Success && IsTwitterId(m.Result("${ScreenName}")))
                         this.AddNewTabForUserTimeline(m.Result("${ScreenName}"));
                     else
                         OpenUriAsync(openUrlStr);
@@ -9321,7 +9103,7 @@ namespace OpenTween
                     break;
                 }
             }
-            if (!SettingDialog.TabIconDisp) ListTab.Refresh();
+            if (!this._cfgCommon.TabIconDisp) ListTab.Refresh();
 
             SetMainWindowTitle();
             SetStatusLabelUrl();
@@ -9335,10 +9117,10 @@ namespace OpenTween
             StringBuilder ttl = new StringBuilder(256);
             int ur = 0;
             int al = 0;
-            if (SettingDialog.DispLatestPost != MyCommon.DispTitleEnum.None &&
-                SettingDialog.DispLatestPost != MyCommon.DispTitleEnum.Post &&
-                SettingDialog.DispLatestPost != MyCommon.DispTitleEnum.Ver &&
-                SettingDialog.DispLatestPost != MyCommon.DispTitleEnum.OwnStatus)
+            if (this._cfgCommon.DispLatestPost != MyCommon.DispTitleEnum.None &&
+                this._cfgCommon.DispLatestPost != MyCommon.DispTitleEnum.Post &&
+                this._cfgCommon.DispLatestPost != MyCommon.DispTitleEnum.Ver &&
+                this._cfgCommon.DispLatestPost != MyCommon.DispTitleEnum.OwnStatus)
             {
                 foreach (var tab in _statuses.Tabs.Values)
                 {
@@ -9347,10 +9129,10 @@ namespace OpenTween
                 }
             }
 
-            if (SettingDialog.DispUsername) ttl.Append(tw.Username).Append(" - ");
+            if (this._cfgCommon.DispUsername) ttl.Append(tw.Username).Append(" - ");
             ttl.Append(Application.ProductName);
             ttl.Append("  ");
-            switch (SettingDialog.DispLatestPost)
+            switch (this._cfgCommon.DispLatestPost)
             {
                 case MyCommon.DispTitleEnum.Ver:
                     ttl.Append("Ver:").Append(MyCommon.GetReadableVersion());
@@ -9423,13 +9205,13 @@ namespace OpenTween
             UnreadAtCounter = urat;
 
             slbl.AppendFormat(Properties.Resources.SetStatusLabelText1, tur, tal, ur, al, urat, _postTimestamps.Count, _favTimestamps.Count, _tlCount);
-            if (SettingDialog.TimelinePeriodInt == 0)
+            if (this._cfgCommon.TimelinePeriod == 0)
             {
                 slbl.Append(Properties.Resources.SetStatusLabelText2);
             }
             else
             {
-                slbl.Append(SettingDialog.TimelinePeriodInt.ToString() + Properties.Resources.SetStatusLabelText3);
+                slbl.Append(this._cfgCommon.TimelinePeriod + Properties.Resources.SetStatusLabelText3);
             }
             return slbl.ToString();
         }
@@ -9478,7 +9260,7 @@ namespace OpenTween
             // タスクトレイアイコンのツールチップテキスト書き換え
             // Tween [未読/@]
             ur.Remove(0, ur.Length);
-            if (SettingDialog.DispUsername)
+            if (this._cfgCommon.DispUsername)
             {
                 ur.Append(tw.Username);
                 ur.Append(" - ");
@@ -9521,7 +9303,7 @@ namespace OpenTween
             // 本当にリプライ先指定すべきかどうかの判定
             m = Regex.Matches(StatusText, "(^|[ -/:-@[-^`{-~])(?<id>@[a-zA-Z0-9_]+)");
 
-            if (SettingDialog.UseAtIdSupplement)
+            if (this._cfgCommon.UseAtIdSupplement)
             {
                 int bCnt = AtIdSupl.ItemCount;
                 foreach (Match mid in m)
@@ -9569,7 +9351,7 @@ namespace OpenTween
 
         private void TweenMain_Resize(object sender, EventArgs e)
         {
-            if (!_initialLayout && SettingDialog.MinimizeToTray && WindowState == FormWindowState.Minimized)
+            if (!_initialLayout && this._cfgCommon.MinimizeToTray && WindowState == FormWindowState.Minimized)
             {
                 this.Visible = false;
             }
@@ -9620,11 +9402,11 @@ namespace OpenTween
             this.PlaySoundFileMenuItem.Checked = PlaySoundMenuItem.Checked;
             if (PlaySoundMenuItem.Checked)
             {
-                SettingDialog.PlaySound = true;
+                this._cfgCommon.PlaySound = true;
             }
             else
             {
-                SettingDialog.PlaySound = false;
+                this._cfgCommon.PlaySound = false;
             }
             _modifySettingCommon = true;
         }
@@ -9904,7 +9686,7 @@ namespace OpenTween
                     // 文字列が選択されている場合はその文字列について処理
 
                     //nico.ms使用、nicovideoにマッチしたら変換
-                    if (SettingDialog.Nicoms && Regex.IsMatch(tmp, nico))
+                    if (this._cfgCommon.Nicoms && Regex.IsMatch(tmp, nico))
                     {
                         result = nicoms.Shorten(tmp);
                     }
@@ -9973,7 +9755,7 @@ namespace OpenTween
                     StatusText.Select(StatusText.Text.IndexOf(mt.Result("${url}"), StringComparison.Ordinal), mt.Result("${url}").Length);
 
                     //nico.ms使用、nicovideoにマッチしたら変換
-                    if (SettingDialog.Nicoms && Regex.IsMatch(tmp, nico))
+                    if (this._cfgCommon.Nicoms && Regex.IsMatch(tmp, nico))
                     {
                         result = nicoms.Shorten(tmp);
                     }
@@ -10072,16 +9854,16 @@ namespace OpenTween
 
         private async void UrlConvertAutoToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (!await UrlConvertAsync(SettingDialog.AutoShortUrlFirst))
+            if (!await UrlConvertAsync(this._cfgCommon.AutoShortUrlFirst))
             {
-                MyCommon.UrlConverter svc = SettingDialog.AutoShortUrlFirst;
+                MyCommon.UrlConverter svc = this._cfgCommon.AutoShortUrlFirst;
                 Random rnd = new Random();
                 // 前回使用した短縮URLサービス以外を選択する
                 do
                 {
                     svc = (MyCommon.UrlConverter)rnd.Next(System.Enum.GetNames(typeof(MyCommon.UrlConverter)).Length);
                 }
-                while (svc == SettingDialog.AutoShortUrlFirst || svc == MyCommon.UrlConverter.Nicoms || svc == MyCommon.UrlConverter.Unu);
+                while (svc == this._cfgCommon.AutoShortUrlFirst || svc == MyCommon.UrlConverter.Nicoms || svc == MyCommon.UrlConverter.Unu);
                 await UrlConvertAsync(svc);
             }
         }
@@ -10602,7 +10384,7 @@ namespace OpenTween
 
                 try
                 {
-                    var configBrowserPath = SettingDialog.BrowserPath;
+                    var configBrowserPath = this._cfgLocal.BrowserPath;
                     if (!string.IsNullOrEmpty(configBrowserPath))
                     {
                         if (configBrowserPath.StartsWith("\"") && configBrowserPath.Length > 2 && configBrowserPath.IndexOf("\"", 2) > -1)
@@ -10809,7 +10591,7 @@ namespace OpenTween
             MenuItemUserStream.Enabled = true;
             StopToolStripMenuItem.Text = "&Start";
             StopToolStripMenuItem.Enabled = true;
-            if (SettingDialog.UserstreamStartup) tw.StartUserStream();
+            if (this._cfgCommon.UserstreamStartup) tw.StartUserStream();
         }
 
         private async void TweenMain_Shown(object sender, EventArgs e)
@@ -10830,7 +10612,7 @@ namespace OpenTween
                 this.RefreshMuteUserIdsAsync();
                 GetTimeline(MyCommon.WORKERTYPE.BlockIds, 0, "");
                 GetTimeline(MyCommon.WORKERTYPE.NoRetweetIds, 0, "");
-                if (SettingDialog.StartupFollowers)
+                if (this._cfgCommon.StartupFollowers)
                 {
                     GetTimeline(MyCommon.WORKERTYPE.Follower, 0, "");
                 }
@@ -10842,7 +10624,7 @@ namespace OpenTween
                 GetTimeline(MyCommon.WORKERTYPE.Reply, 1, "");
                 _waitDm = true;
                 GetTimeline(MyCommon.WORKERTYPE.DirectMessegeRcv, 1, "");
-                if (SettingDialog.GetFav)
+                if (this._cfgCommon.GetFav)
                 {
                     _waitFav = true;
                     GetTimeline(MyCommon.WORKERTYPE.Favorites, 1, "");
@@ -10871,7 +10653,7 @@ namespace OpenTween
                 if (ApplicationSettings.VersionInfoUrl != null)
                 {
                     //バージョンチェック（引数：起動時チェックの場合はtrue･･･チェック結果のメッセージを表示しない）
-                    if (SettingDialog.StartupVersion)
+                    if (this._cfgCommon.StartupVersion)
                         await this.CheckNewVersion(true);
                 }
                 else
@@ -10883,7 +10665,7 @@ namespace OpenTween
                 }
 
                 // 取得失敗の場合は再試行する
-                if (!tw.GetFollowersSuccess && SettingDialog.StartupFollowers)
+                if (!tw.GetFollowersSuccess && this._cfgCommon.StartupFollowers)
                     GetTimeline(MyCommon.WORKERTYPE.Follower, 0, "");
 
                 // 取得失敗の場合は再試行する
@@ -10891,7 +10673,7 @@ namespace OpenTween
                     GetTimeline(MyCommon.WORKERTYPE.NoRetweetIds, 0, "");
 
                 // 取得失敗の場合は再試行する
-                if (SettingDialog.TwitterConfiguration.PhotoSizeLimit == 0)
+                if (this.tw.Configuration.PhotoSizeLimit == 0)
                     GetTimeline(MyCommon.WORKERTYPE.Configuration, 0, "");
 
                 // 権限チェック read/write権限(xAuthで取得したトークン)の場合は再認証を促す
@@ -10991,7 +10773,7 @@ namespace OpenTween
                         _DoFavRetweetFlags = false;
                         return;
                     }
-                    if (!SettingDialog.RetweetNoConfirm)
+                    if (!this._cfgCommon.RetweetNoConfirm)
                     {
                         string Questiontext = Properties.Resources.RetweetQuestion1;
                         if (_DoFavRetweetFlags) Questiontext = Properties.Resources.FavoritesRetweetQuestionText2;
@@ -11093,12 +10875,12 @@ namespace OpenTween
 
         private void ToolStripMenuItemUrlAutoShorten_CheckedChanged(object sender, EventArgs e)
         {
-            SettingDialog.UrlConvertAuto = ToolStripMenuItemUrlAutoShorten.Checked;
+            this._cfgCommon.UrlConvertAuto = ToolStripMenuItemUrlAutoShorten.Checked;
         }
 
         private void ContextMenuPostMode_Opening(object sender, CancelEventArgs e)
         {
-            ToolStripMenuItemUrlAutoShorten.Checked = SettingDialog.UrlConvertAuto;
+            ToolStripMenuItemUrlAutoShorten.Checked = this._cfgCommon.UrlConvertAuto;
         }
 
         private void TraceOutToolStripMenuItem_Click(object sender, EventArgs e)
@@ -11451,10 +11233,10 @@ namespace OpenTween
 
         public bool IsTwitterId(string name)
         {
-            if (SettingDialog.TwitterConfiguration.NonUsernamePaths == null || SettingDialog.TwitterConfiguration.NonUsernamePaths.Length == 0)
+            if (this.tw.Configuration.NonUsernamePaths == null || this.tw.Configuration.NonUsernamePaths.Length == 0)
                 return !Regex.Match(name, @"^(about|jobs|tos|privacy|who_to_follow|download|messages)$", RegexOptions.IgnoreCase).Success;
             else
-                return !SettingDialog.TwitterConfiguration.NonUsernamePaths.Contains(name.ToLower());
+                return !this.tw.Configuration.NonUsernamePaths.Contains(name.ToLower());
         }
 
         private string GetUserId()
@@ -11839,7 +11621,7 @@ namespace OpenTween
             {
                 return;
             }
-            this.TopMost = SettingDialog.AlwaysTop;
+            this.TopMost = this._cfgCommon.AlwaysTop;
             if (rslt == DialogResult.Cancel) return;
             if (!string.IsNullOrEmpty(HashMgr.UseHash))
             {
@@ -12358,11 +12140,6 @@ namespace OpenTween
             get { return _curPost; }
         }
 
-        public bool IsPreviewEnable
-        {
-            get { return SettingDialog.PreviewEnable; }
-        }
-
 #region "画像投稿"
         private void ImageSelectMenuItem_Click(object sender, EventArgs e)
         {
@@ -12621,7 +12398,7 @@ namespace OpenTween
 
         private void tw_NewPostFromStream(object sender, EventArgs e)
         {
-            if (SettingDialog.ReadOldPosts)
+            if (this._cfgCommon.ReadOldPosts)
             {
                 _statuses.SetRead(); //新着時未読クリア
             }
@@ -12659,7 +12436,7 @@ namespace OpenTween
                 //before = Now;
             }
 
-            if (SettingDialog.UserstreamPeriodInt > 0) return;
+            if (this._cfgCommon.UserstreamPeriod > 0) return;
 
             try
             {
@@ -12783,7 +12560,7 @@ namespace OpenTween
                 //if (SettingDialog.DispUsername) NotifyIcon1.BalloonTipTitle = tw.Username + " - "; else NotifyIcon1.BalloonTipTitle = "";
                 //NotifyIcon1.BalloonTipTitle += Application.ProductName + " [" + ev.Event.ToUpper() + "] by " + ((string)(!string.IsNullOrEmpty(ev.Username) ? ev.Username : ""), string);
                 StringBuilder title = new StringBuilder();
-                if (SettingDialog.DispUsername)
+                if (this._cfgCommon.DispUsername)
                 {
                     title.Append(tw.Username);
                     title.Append(" - ");
@@ -12816,7 +12593,7 @@ namespace OpenTween
                     text = " ";
                 }
                 //NotifyIcon1.ShowBalloonTip(500);
-                if (SettingDialog.IsNotifyUseGrowl)
+                if (this._cfgCommon.IsUseNotifyGrowl)
                 {
                     gh.Notify(GrowlHelper.NotifyType.UserStreamEvent,
                               ev.Id.ToString(), title.ToString(), text);
@@ -12831,10 +12608,10 @@ namespace OpenTween
             }
 
             //サウンド再生
-            string snd = SettingDialog.EventSoundFile;
-            if (!_initial && SettingDialog.PlaySound && !string.IsNullOrEmpty(snd))
+            string snd = this._cfgCommon.EventSoundFile;
+            if (!_initial && this._cfgCommon.PlaySound && !string.IsNullOrEmpty(snd))
             {
-                if ((ev.Eventtype & SettingDialog.EventNotifyFlag) != 0 && IsMyEventNotityAsEventType(ev))
+                if ((ev.Eventtype & this._cfgCommon.EventNotifyFlag) != 0 && IsMyEventNotityAsEventType(ev))
                 {
                     try
                     {
@@ -12936,7 +12713,7 @@ namespace OpenTween
             {
                 evtDialog.Activate();
             }
-            this.TopMost = this.SettingDialog.AlwaysTop;
+            this.TopMost = this._cfgCommon.AlwaysTop;
         }
 #endregion
 
@@ -12974,7 +12751,7 @@ namespace OpenTween
             {
                 var translatedText = await bing.TranslateAsync(str,
                     langFrom: null,
-                    langTo: this.SettingDialog.TranslateLanguage);
+                    langTo: this._cfgCommon.TranslateLanguage);
 
                 this.PostBrowser.DocumentText = this.createDetailHtml(translatedText);
             }
@@ -13011,11 +12788,6 @@ namespace OpenTween
         private void ShowUserTimelineToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ShowUserTimeline();
-        }
-
-        public bool FavEventChangeUnread
-        {
-            get { return SettingDialog.FavEventUnread; }
         }
 
         private string GetUserIdFromCurPostOrInput(string caption)
@@ -13086,13 +12858,13 @@ namespace OpenTween
 
         private void OpenUserAppointUrl()
         {
-            if (SettingDialog.UserAppointUrl != null)
+            if (this._cfgCommon.UserAppointUrl != null)
             {
-                if (SettingDialog.UserAppointUrl.Contains("{ID}") || SettingDialog.UserAppointUrl.Contains("{STATUS}"))
+                if (this._cfgCommon.UserAppointUrl.Contains("{ID}") || this._cfgCommon.UserAppointUrl.Contains("{STATUS}"))
                 {
                     if (_curPost != null)
                     {
-                        string xUrl = SettingDialog.UserAppointUrl;
+                        string xUrl = this._cfgCommon.UserAppointUrl;
                         xUrl = xUrl.Replace("{ID}", _curPost.ScreenName);
                         if (_curPost.RetweetedId != null)
                         {
@@ -13107,7 +12879,7 @@ namespace OpenTween
                 }
                 else
                 {
-                    OpenUriAsync(SettingDialog.UserAppointUrl);
+                    OpenUriAsync(this._cfgCommon.UserAppointUrl);
                 }
             }
         }
@@ -13228,13 +13000,13 @@ namespace OpenTween
 
         private void ContextMenuColumnHeader_Opening(object sender, CancelEventArgs e)
         {
-            this.IconSizeNoneToolStripMenuItem.Checked = SettingDialog.IconSz == MyCommon.IconSizes.IconNone;
-            this.IconSize16ToolStripMenuItem.Checked = SettingDialog.IconSz == MyCommon.IconSizes.Icon16;
-            this.IconSize24ToolStripMenuItem.Checked = SettingDialog.IconSz == MyCommon.IconSizes.Icon24;
-            this.IconSize48ToolStripMenuItem.Checked = SettingDialog.IconSz == MyCommon.IconSizes.Icon48;
-            this.IconSize48_2ToolStripMenuItem.Checked = SettingDialog.IconSz == MyCommon.IconSizes.Icon48_2;
+            this.IconSizeNoneToolStripMenuItem.Checked = this._cfgCommon.IconSize == MyCommon.IconSizes.IconNone;
+            this.IconSize16ToolStripMenuItem.Checked = this._cfgCommon.IconSize == MyCommon.IconSizes.Icon16;
+            this.IconSize24ToolStripMenuItem.Checked = this._cfgCommon.IconSize == MyCommon.IconSizes.Icon24;
+            this.IconSize48ToolStripMenuItem.Checked = this._cfgCommon.IconSize == MyCommon.IconSizes.Icon48;
+            this.IconSize48_2ToolStripMenuItem.Checked = this._cfgCommon.IconSize == MyCommon.IconSizes.Icon48_2;
 
-            this.LockListSortOrderToolStripMenuItem.Checked = SettingDialog.SortOrderLock;
+            this.LockListSortOrderToolStripMenuItem.Checked = this._cfgCommon.SortOrderLock;
         }
 
         private void IconSizeNoneToolStripMenuItem_Click(object sender, EventArgs e)
@@ -13264,11 +13036,11 @@ namespace OpenTween
 
         private void ChangeListViewIconSize(MyCommon.IconSizes iconSize)
         {
-            if (SettingDialog.IconSz == iconSize) return;
+            if (this._cfgCommon.IconSize == iconSize) return;
 
             var oldIconCol = _iconCol;
 
-            SettingDialog.IconSz = iconSize;
+            this._cfgCommon.IconSize = iconSize;
             ApplyListViewIconSize(iconSize);
 
             if (_iconCol != oldIconCol)
@@ -13287,9 +13059,9 @@ namespace OpenTween
         private void LockListSortToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var state = this.LockListSortOrderToolStripMenuItem.Checked;
-            if (SettingDialog.SortOrderLock == state) return;
+            if (this._cfgCommon.SortOrderLock == state) return;
 
-            SettingDialog.SortOrderLock = state;
+            this._cfgCommon.SortOrderLock = state;
 
             _modifySettingCommon = true;
         }
