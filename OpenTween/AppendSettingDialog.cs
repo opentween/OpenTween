@@ -45,15 +45,25 @@ namespace OpenTween
 {
     public partial class AppendSettingDialog : OTBaseForm
     {
+        public event EventHandler<IntervalChangedEventArgs> IntervalChanged;
+
         internal Twitter tw;
 
         private bool _ValidationError = false;
-
         private long? InitialUserId;
-
         private string _pin;
 
-        public event EventHandler<IntervalChangedEventArgs> IntervalChanged;
+        public AppendSettingDialog()
+        {
+            this.InitializeComponent();
+
+            this.BasedPanel.StartAuthButton.Click += this.StartAuthButton_Click;
+            this.BasedPanel.CreateAccountButton.Click += this.CreateAccountButton_Click;
+            this.GetPeriodPanel.CheckPostAndGet.CheckedChanged += this.CheckPostAndGet_CheckedChanged;
+            this.ActionPanel.UReadMng.CheckedChanged += this.UReadMng_CheckedChanged;
+
+            this.Icon = Properties.Resources.MIcon;
+        }
 
         public void LoadConfig(SettingCommon settingCommon, SettingLocal settingLocal)
         {
@@ -184,34 +194,6 @@ namespace OpenTween
             {
                 _ValidationError = false;
             }
-
-#if UA
-            //フォロー
-            if (this.FollowCheckBox.Checked)
-            {
-                //現在の設定内容で通信
-                HttpConnection.ProxyType ptype;
-                if (RadioProxyNone.Checked)
-                {
-                    ptype = HttpConnection.ProxyType.None;
-                }
-                else if (RadioProxyIE.Checked)
-                {
-                    ptype = HttpConnection.ProxyType.IE;
-                }
-                else
-                {
-                    ptype = HttpConnection.ProxyType.Specified;
-                }
-                string padr = TextProxyAddress.Text.Trim();
-                int pport = int.Parse(TextProxyPort.Text.Trim());
-                string pusr = TextProxyUser.Text.Trim();
-                string ppw = TextProxyPassword.Text.Trim();
-                HttpConnection.InitializeConnection(20, ptype, padr, pport, pusr, ppw);
-
-                string ret = tw.PostFollowCommand(ApplicationSettings.FeedbackTwitterName);
-            }
-#endif
         }
 
         private void Setting_FormClosing(object sender, FormClosingEventArgs e)
@@ -243,7 +225,6 @@ namespace OpenTween
             this.TreeViewSetting.Nodes["BasedNode"].Nodes["PeriodNode"].Tag = GetPeriodPanel;
             this.TreeViewSetting.Nodes["BasedNode"].Nodes["StartUpNode"].Tag = StartupPanel;
             this.TreeViewSetting.Nodes["BasedNode"].Nodes["GetCountNode"].Tag = GetCountPanel;
-            //this.TreeViewSetting.Nodes["BasedNode"].Nodes["UserStreamNode"].Tag = UserStreamPanel;
             this.TreeViewSetting.Nodes["ActionNode"].Tag = ActionPanel;
             this.TreeViewSetting.Nodes["ActionNode"].Nodes["TweetActNode"].Tag = TweetActPanel;
             this.TreeViewSetting.Nodes["PreviewNode"].Tag = PreviewPanel;
@@ -259,7 +240,6 @@ namespace OpenTween
             this.TreeViewSetting.SelectedNode = this.TreeViewSetting.Nodes[0];
             this.TreeViewSetting.ExpandAll();
 
-            //TreeViewSetting.SelectedNode = TreeViewSetting.TopNode;
             ActiveControl = BasedPanel.StartAuthButton;
         }
 
@@ -301,8 +281,6 @@ namespace OpenTween
             Networking.SetWebProxy(ptype, padr, pport, pusr, ppw);
             HttpTwitter.TwitterUrl = this.ConnectionPanel.TwitterAPIText.Text.Trim();
             tw.Initialize("", "", "", 0);
-            //this.AuthStateLabel.Text = Properties.Resources.AuthorizeButton_Click4;
-            //this.AuthUserLabel.Text = "";
             string pinPageUrl = "";
             string rslt = tw.StartAuthentication(ref pinPageUrl);
             if (string.IsNullOrEmpty(rslt))
@@ -333,8 +311,6 @@ namespace OpenTween
             if (string.IsNullOrEmpty(rslt))
             {
                 MessageBox.Show(Properties.Resources.AuthorizeButton_Click1, "Authenticate", MessageBoxButtons.OK);
-                //this.AuthStateLabel.Text = Properties.Resources.AuthorizeButton_Click3;
-                //this.AuthUserLabel.Text = tw.Username;
                 int idx = -1;
                 UserAccount user = new UserAccount();
                 user.Username = tw.Username;
@@ -360,33 +336,21 @@ namespace OpenTween
                 {
                     this.BasedPanel.AuthUserCombo.SelectedIndex = this.BasedPanel.AuthUserCombo.Items.Add(user);
                 }
-                //if (TwitterApiInfo.AccessLevel = ApiAccessLevel.ReadWrite)
-                //{
-                //    this.AuthStateLabel.Text += "(xAuth)";
-                //}
-                //else if (TwitterApiInfo.AccessLevel == ApiAccessLevel.ReadWriteAndDirectMessage)
-                //{
-                //    this.AuthStateLabel.Text += "(OAuth)";
-                //}
                 return true;
             }
             else
             {
                 MessageBox.Show(Properties.Resources.AuthorizeButton_Click2 + Environment.NewLine + rslt, "Authenticate", MessageBoxButtons.OK);
-                //this.AuthStateLabel.Text = Properties.Resources.AuthorizeButton_Click4;
-                //this.AuthUserLabel.Text = "";
                 return false;
             }
         }
 
         private void StartAuthButton_Click(object sender, EventArgs e)
         {
-            //this.Save.Enabled = false;
             if (StartAuth())
             {
                 if (PinAuth())
                 {
-                    //this.Save.Enabled = true;
                 }
             }
         }
@@ -449,44 +413,6 @@ namespace OpenTween
             _ValidationError = false;
         }
 
-        //private void CheckEventNotify_CheckedChanged(object sender, EventArgs e)
-        //                Handles CheckEventNotify.CheckedChanged, CheckFavoritesEvent.CheckStateChanged,
-        //                        CheckUnfavoritesEvent.CheckStateChanged, CheckFollowEvent.CheckStateChanged,
-        //                        CheckListMemberAddedEvent.CheckStateChanged, CheckListMemberRemovedEvent.CheckStateChanged,
-        //                        CheckListCreatedEvent.CheckStateChanged, CheckUserUpdateEvent.CheckStateChanged
-        //{
-        //    EventNotifyEnabled = CheckEventNotify.Checked;
-        //    GetEventNotifyFlag(EventNotifyFlag, IsMyEventNotifyFlag);
-        //    ApplyEventNotifyFlag(EventNotifyEnabled, EventNotifyFlag, IsMyEventNotifyFlag);
-        //}
-
-        //private void CheckForceEventNotify_CheckedChanged(object sender, EventArgs e)
-        //{
-        //    _MyForceEventNotify = CheckEventNotify.Checked;
-        //}
-
-        //private void CheckFavEventUnread_CheckedChanged(object sender, EventArgs e)
-        //{
-        //    _MyFavEventUnread = CheckFavEventUnread.Checked;
-        //}
-
-        //private void ComboBoxTranslateLanguage_SelectedIndexChanged(object sender, EventArgs e)
-        //{
-        //    _MyTranslateLanguage = (new Google()).GetLanguageEnumFromIndex(ComboBoxTranslateLanguage.SelectedIndex);
-        //}
-
-        //private void ComboBoxEventNotifySound_VisibleChanged(object sender, EventArgs e)
-        //{
-        //    SoundFileListup();
-        //}
-
-        //private void ComboBoxEventNotifySound_SelectedIndexChanged(object sender, EventArgs e)
-        //{
-        //   if (_soundfileListup) return;
-
-        //    _MyEventSoundFile = (string)ComboBoxEventNotifySound.SelectedItem;
-        //}
-
         private void OpenUrl(string url)
         {
             string myPath = url;
@@ -519,25 +445,12 @@ namespace OpenTween
             }
             catch(Exception)
             {
-//              MessageBox.Show("ブラウザの起動に失敗、またはタイムアウトしました。" + ex.ToString());
             }
         }
 
         private void CreateAccountButton_Click(object sender, EventArgs e)
         {
             this.OpenUrl("https://twitter.com/signup");
-        }
-
-        public AppendSettingDialog()
-        {
-            InitializeComponent();
-
-            this.BasedPanel.StartAuthButton.Click += this.StartAuthButton_Click;
-            this.BasedPanel.CreateAccountButton.Click += this.CreateAccountButton_Click;
-            this.GetPeriodPanel.CheckPostAndGet.CheckedChanged += this.CheckPostAndGet_CheckedChanged;
-            this.ActionPanel.UReadMng.CheckedChanged += this.UReadMng_CheckedChanged;
-
-            this.Icon = Properties.Resources.MIcon;
         }
 
         private void GetPeriodPanel_IntervalChanged(object sender, IntervalChangedEventArgs e)
