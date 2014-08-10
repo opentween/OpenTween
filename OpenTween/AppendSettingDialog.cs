@@ -51,7 +51,6 @@ namespace OpenTween
 
         private bool _ValidationError = false;
         private long? InitialUserId;
-        private string _pin;
 
         public AppendSettingDialog()
         {
@@ -200,7 +199,7 @@ namespace OpenTween
         {
             if (MyCommon._endingFlag) return;
 
-            if (tw != null && string.IsNullOrEmpty(tw.Username) && e.CloseReason == CloseReason.None)
+            if (this.BasedPanel.AuthUserCombo.SelectedIndex == -1 && e.CloseReason == CloseReason.None)
             {
                 if (MessageBox.Show(Properties.Resources.Setting_FormClosing1, "Confirm", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.Cancel)
                 {
@@ -255,104 +254,93 @@ namespace OpenTween
             }
         }
 
-        private bool StartAuth()
-        {
-            //現在の設定内容で通信
-            ProxyType ptype;
-            if (this.ProxyPanel.RadioProxyNone.Checked)
-            {
-                ptype = ProxyType.None;
-            }
-            else if (this.ProxyPanel.RadioProxyIE.Checked)
-            {
-                ptype = ProxyType.IE;
-            }
-            else
-            {
-                ptype = ProxyType.Specified;
-            }
-            string padr = this.ProxyPanel.TextProxyAddress.Text.Trim();
-            int pport = int.Parse(this.ProxyPanel.TextProxyPort.Text.Trim());
-            string pusr = this.ProxyPanel.TextProxyUser.Text.Trim();
-            string ppw = this.ProxyPanel.TextProxyPassword.Text.Trim();
-
-            //通信基底クラス初期化
-            Networking.DefaultTimeout = TimeSpan.FromSeconds(20);
-            Networking.SetWebProxy(ptype, padr, pport, pusr, ppw);
-            HttpTwitter.TwitterUrl = this.ConnectionPanel.TwitterAPIText.Text.Trim();
-            tw.Initialize("", "", "", 0);
-            string pinPageUrl = "";
-            string rslt = tw.StartAuthentication(ref pinPageUrl);
-            if (string.IsNullOrEmpty(rslt))
-            {
-                string pin = AuthDialog.DoAuth(this, pinPageUrl);
-                if (!string.IsNullOrEmpty(pin))
-                {
-                    this._pin = pin;
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-            else
-            {
-                MessageBox.Show(Properties.Resources.AuthorizeButton_Click2 + Environment.NewLine + rslt, "Authenticate", MessageBoxButtons.OK);
-                return false;
-            }
-        }
-
-        private bool PinAuth()
-        {
-            string pin = this._pin;   //PIN Code
-
-            string rslt = tw.Authenticate(pin);
-            if (string.IsNullOrEmpty(rslt))
-            {
-                MessageBox.Show(Properties.Resources.AuthorizeButton_Click1, "Authenticate", MessageBoxButtons.OK);
-                int idx = -1;
-                UserAccount user = new UserAccount();
-                user.Username = tw.Username;
-                user.UserId = tw.UserId;
-                user.Token = tw.AccessToken;
-                user.TokenSecret = tw.AccessTokenSecret;
-
-                foreach (object u in this.BasedPanel.AuthUserCombo.Items)
-                {
-                    if (((UserAccount)u).Username.ToLower() == tw.Username.ToLower())
-                    {
-                        idx = this.BasedPanel.AuthUserCombo.Items.IndexOf(u);
-                        break;
-                    }
-                }
-                if (idx > -1)
-                {
-                    this.BasedPanel.AuthUserCombo.Items.RemoveAt(idx);
-                    this.BasedPanel.AuthUserCombo.Items.Insert(idx, user);
-                    this.BasedPanel.AuthUserCombo.SelectedIndex = idx;
-                }
-                else
-                {
-                    this.BasedPanel.AuthUserCombo.SelectedIndex = this.BasedPanel.AuthUserCombo.Items.Add(user);
-                }
-                return true;
-            }
-            else
-            {
-                MessageBox.Show(Properties.Resources.AuthorizeButton_Click2 + Environment.NewLine + rslt, "Authenticate", MessageBoxButtons.OK);
-                return false;
-            }
-        }
-
         private void StartAuthButton_Click(object sender, EventArgs e)
         {
-            if (StartAuth())
+            try
             {
-                if (PinAuth())
+                this.ApplyNetworkSettings();
+
+                var newAccount = this.PinAuth();
+                if (newAccount == null)
+                    return;
+
+                var authUserCombo = this.BasedPanel.AuthUserCombo;
+
+                var oldAccount = authUserCombo.Items.Cast<UserAccount>()
+                    .FirstOrDefault(x => x.UserId == this.tw.UserId);
+
+                int idx;
+                if (oldAccount != null)
                 {
+                    idx = authUserCombo.Items.IndexOf(oldAccount);
+                    authUserCombo.Items[idx] = newAccount;
                 }
+                else
+                {
+                    idx = authUserCombo.Items.Add(newAccount);
+                }
+
+                authUserCombo.SelectedIndex = idx;
+
+                MessageBox.Show(this, Properties.Resources.AuthorizeButton_Click1,
+                    "Authenticate", MessageBoxButtons.OK);
             }
+            catch (WebApiException ex)
+            {
+                var message = Properties.Resources.AuthorizeButton_Click2 + Environment.NewLine + ex.Message;
+                MessageBox.Show(this, message, "Authenticate", MessageBoxButtons.OK);
+            }
+        }
+
+        /// <summary>
+        /// 現在設定画面に入力されているネットワーク関係の設定を適用します
+        /// </summary>
+        public void ApplyNetworkSettings()
+        {
+            ProxyType proxyType;
+            if (this.ProxyPanel.RadioProxyNone.Checked)
+                proxyType = ProxyType.None;
+            else if (this.ProxyPanel.RadioProxyIE.Checked)
+                proxyType = ProxyType.IE;
+            else
+                proxyType = ProxyType.Specified;
+
+            var proxyAddress = this.ProxyPanel.TextProxyAddress.Text.Trim();
+            var proxyPort = int.Parse(this.ProxyPanel.TextProxyPort.Text.Trim());
+            var proxyUser = this.ProxyPanel.TextProxyUser.Text.Trim();
+            var proxyPassword = this.ProxyPanel.TextProxyPassword.Text.Trim();
+            Networking.SetWebProxy(proxyType, proxyAddress, proxyPort, proxyUser, proxyPassword);
+
+            var timeout = int.Parse(this.ConnectionPanel.ConnectionTimeOut.Text.Trim());
+            Networking.DefaultTimeout = TimeSpan.FromSeconds(timeout);
+
+            HttpTwitter.TwitterUrl = this.ConnectionPanel.TwitterAPIText.Text.Trim();
+        }
+
+        private UserAccount PinAuth()
+        {
+            this.tw.Initialize("", "", "", 0);
+
+            var pinPageUrl = "";
+            var err = this.tw.StartAuthentication(ref pinPageUrl);
+            if (!string.IsNullOrEmpty(err))
+                throw new WebApiException(err);
+
+            var pin = AuthDialog.DoAuth(this, pinPageUrl);
+            if (string.IsNullOrEmpty(pin))
+                return null; // キャンセルされた場合
+
+            var err2 = this.tw.Authenticate(pin);
+            if (!string.IsNullOrEmpty(err2))
+                throw new WebApiException(err2);
+
+            return new UserAccount
+            {
+                Username = this.tw.Username,
+                UserId = this.tw.UserId,
+                Token = this.tw.AccessToken,
+                TokenSecret = this.tw.AccessTokenSecret,
+            };
         }
 
         private void CheckPostAndGet_CheckedChanged(object sender, EventArgs e)
