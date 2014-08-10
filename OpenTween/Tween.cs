@@ -765,10 +765,6 @@ namespace OpenTween
             if (string.IsNullOrEmpty(_cfgCommon.Token)) _cfgCommon.UserName = "";
             tw.Initialize(_cfgCommon.Token, _cfgCommon.TokenSecret, _cfgCommon.UserName, _cfgCommon.UserId);
 
-            //設定画面への反映
-            this.SettingDialog.tw = this.tw;
-            this.SettingDialog.LoadConfig(this._cfgCommon, this._cfgLocal);
-
             //新着取得時のリストスクロールをするか。trueならスクロールしない
             ListLockMenuItem.Checked = _cfgCommon.ListLock;
             this.LockListFileMenuItem.Checked = _cfgCommon.ListLock;
@@ -814,6 +810,9 @@ namespace OpenTween
                 saveRequired = true;
                 firstRun = true;
                 SettingDialog.ShowInTaskbar = true;
+
+                this.SettingDialog.tw = this.tw;
+                this.SettingDialog.LoadConfig(this._cfgCommon, this._cfgLocal);
 
                 //設定せずにキャンセルされた場合はプログラム終了
                 if (SettingDialog.ShowDialog(this) == DialogResult.Cancel)
@@ -3763,6 +3762,9 @@ namespace OpenTween
 
             // 設定画面表示前のユーザー情報
             var oldUser = new { tw.AccessToken, tw.AccessTokenSecret, tw.Username, tw.UserId };
+
+            this.SettingDialog.tw = this.tw;
+            this.SettingDialog.LoadConfig(this._cfgCommon, this._cfgLocal);
 
             try
             {
