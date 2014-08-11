@@ -116,6 +116,10 @@
     <Compile Include="Connection\Imgur.cs" />
     <Compile Include="Connection\Networking.cs" />
     <Compile Include="Connection\TwipplePhoto.cs" />
+    <Compile Include="EditNgDialog.cs" />
+    <Compile Include="EditNgDialog.Designer.cs">
+      <DependentUpon>EditNgDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="EventViewerDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -402,6 +406,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="AuthDialog.resx">
       <DependentUpon>AuthDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditNgDialog.resx">
+      <DependentUpon>EditNgDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="EventViewerDialog.en.resx">
       <DependentUpon>EventViewerDialog.cs</DependentUpon>

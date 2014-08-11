@@ -61,6 +61,8 @@
             this.ToolStripSeparator18 = new System.Windows.Forms.ToolStripSeparator();
             this.FilterEditMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripSeparator19 = new System.Windows.Forms.ToolStripSeparator();
+            this.NgEditMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator46 = new System.Windows.Forms.ToolStripSeparator();
             this.ClearTabMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripSeparator11 = new System.Windows.Forms.ToolStripSeparator();
             this.DeleteTabMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -199,6 +201,8 @@
             this.ToolStripSeparator29 = new System.Windows.Forms.ToolStripSeparator();
             this.EditRuleTbMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripSeparator30 = new System.Windows.Forms.ToolStripSeparator();
+            this.NgEditTabMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator47 = new System.Windows.Forms.ToolStripSeparator();
             this.ClearTbMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripSeparator31 = new System.Windows.Forms.ToolStripSeparator();
             this.DeleteTbMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -584,6 +588,8 @@
             this.ToolStripSeparator18,
             this.FilterEditMenuItem,
             this.ToolStripSeparator19,
+            this.NgEditMenuItem,
+            this.toolStripSeparator46,
             this.ClearTabMenuItem,
             this.ToolStripSeparator11,
             this.DeleteTabMenuItem});
@@ -653,6 +659,17 @@
             // 
             resources.ApplyResources(this.ToolStripSeparator19, "ToolStripSeparator19");
             this.ToolStripSeparator19.Name = "ToolStripSeparator19";
+            // 
+            // NgEditMenuItem
+            // 
+            resources.ApplyResources(this.NgEditMenuItem, "NgEditMenuItem");
+            this.NgEditMenuItem.Name = "NgEditMenuItem";
+            this.NgEditMenuItem.Click += new System.EventHandler(this.NgEditMenuItem_Click);
+            // 
+            // toolStripSeparator46
+            // 
+            resources.ApplyResources(this.toolStripSeparator46, "toolStripSeparator46");
+            this.toolStripSeparator46.Name = "toolStripSeparator46";
             // 
             // ClearTabMenuItem
             // 
@@ -1621,6 +1638,8 @@
             this.ToolStripSeparator29,
             this.EditRuleTbMenuItem,
             this.ToolStripSeparator30,
+            this.NgEditTabMenuItem,
+            this.toolStripSeparator47,
             this.ClearTbMenuItem,
             this.ToolStripSeparator31,
             this.DeleteTbMenuItem});
@@ -1687,6 +1706,17 @@
             // 
             resources.ApplyResources(this.ToolStripSeparator30, "ToolStripSeparator30");
             this.ToolStripSeparator30.Name = "ToolStripSeparator30";
+            // 
+            // NgEditTabMenuItem
+            // 
+            resources.ApplyResources(this.NgEditTabMenuItem, "NgEditTabMenuItem");
+            this.NgEditTabMenuItem.Name = "NgEditTabMenuItem";
+            this.NgEditTabMenuItem.Click += new System.EventHandler(this.NgEditMenuItem_Click);
+            // 
+            // toolStripSeparator47
+            // 
+            resources.ApplyResources(this.toolStripSeparator47, "toolStripSeparator47");
+            this.toolStripSeparator47.Name = "toolStripSeparator47";
             // 
             // ClearTbMenuItem
             // 
@@ -2841,6 +2871,10 @@
         internal System.Windows.Forms.ToolStripMenuItem IconSize48_2ToolStripMenuItem;
         internal System.Windows.Forms.ToolStripSeparator ToolStripSeparator45;
         internal System.Windows.Forms.ToolStripMenuItem LockListSortOrderToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem NgEditMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator46;
+        private System.Windows.Forms.ToolStripMenuItem NgEditTabMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator47;
 
     }
 }

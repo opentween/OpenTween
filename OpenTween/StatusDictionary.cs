@@ -1247,6 +1247,34 @@ namespace OpenTween
                     if (tb == null) return;
                     if (tb.Contains(Item.StatusId)) return;
                     //tb.Add(Item.StatusId, Item.IsRead, true);
+                    //TODO:ここで弾く処理。
+                    if (tb.TabType == MyCommon.TabUsageType.PublicSearch)
+                    {
+                        // NG ID
+                        if (tb.SearchNgScreenNames.Count > 0 &&
+                            tb.SearchNgScreenNames.Contains(Item.ScreenName))
+                        {
+                            return;
+                        }
+                        // NG ワード
+                        if (tb.SearchNgWords.Count > 0)
+                        {
+                            // TODO: なんか処理重そう
+                            foreach (string word in tb.SearchNgWords)
+                            {
+                                if (Item.Text.Contains(word))
+                                {
+                                    return;
+                                }
+                            }
+                        }
+                        // NG ソース
+                        if (tb.SearchNgSources.Count > 0 &&
+                            tb.SearchNgSources.Contains(Item.Source))
+                        {
+                            return;
+                        }
+                    }
                     tb.AddPostToInnerStorage(Item);
                 }
             }
@@ -1972,6 +2000,10 @@ namespace OpenTween
         private string _searchWords = "";
         private string _nextPageQuery = "";
 
+        private List<string> _searchNgScreenNames = new List<string>();
+        private List<string> _searchNgWords = new List<string>();
+        private List<string> _searchNgSources = new List<string>();
+
         public string SearchLang
         {
             get
@@ -1994,6 +2026,39 @@ namespace OpenTween
             {
                 SinceId = 0;
                 _searchWords = value.Trim();
+            }
+        }
+        public List<string> SearchNgScreenNames
+        {
+            get
+            {
+                return _searchNgScreenNames;
+            }
+            set
+            {
+                _searchNgScreenNames = value;
+            }
+        }
+        public List<string> SearchNgWords
+        {
+            get
+            {
+                return _searchNgWords;
+            }
+            set
+            {
+                _searchNgWords = value;
+            }
+        }
+        public List<string> SearchNgSources
+        {
+            get
+            {
+                return _searchNgSources;
+            }
+            set
+            {
+                _searchNgSources = value;
             }
         }
 

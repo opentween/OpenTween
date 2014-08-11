@@ -429,6 +429,18 @@
   <data name="&gt;&gt;ToolStripSeparator19.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="&gt;&gt;NgEditMenuItem.Name" xml:space="preserve">
+    <value>NgEditMenuItem</value>
+  </data>
+  <data name="&gt;&gt;NgEditMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;toolStripSeparator46.Name" xml:space="preserve">
+    <value>toolStripSeparator46</value>
+  </data>
+  <data name="&gt;&gt;toolStripSeparator46.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="DeleteTbMenuItem.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
     <value>Ctrl+W</value>
   </data>
@@ -2337,6 +2349,12 @@
   <data name="ToolStripSeparator30.Size" type="System.Drawing.Size, System.Drawing">
     <value>230, 6</value>
   </data>
+  <data name="NgEditTabMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>226, 22</value>
+  </data>
+  <data name="NgEditTabMenuItem.Text" xml:space="preserve">
+    <value>NG設定...</value>
+  </data>
   <data name="&gt;&gt;ProfilePanel.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
@@ -2372,6 +2390,15 @@
   </data>
   <data name="ToolStripSeparator19.Size" type="System.Drawing.Size, System.Drawing">
     <value>230, 6</value>
+  </data>
+  <data name="NgEditMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>226, 22</value>
+  </data>
+  <data name="NgEditMenuItem.Text" xml:space="preserve">
+    <value>NG設定...</value>
+  </data>
+  <data name="toolStripSeparator46.Size" type="System.Drawing.Size, System.Drawing">
+    <value>223, 6</value>
   </data>
   <data name="&gt;&gt;CacheInfoMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -3358,6 +3385,12 @@
   </data>
   <data name="&gt;&gt;ToolStripSeparator30.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;NgEditTabMenuItem.Name" xml:space="preserve">
+    <value>NgEditTabMenuItem</value>
+  </data>
+  <data name="&gt;&gt;NgEditTabMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;UndoRemoveTabMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>

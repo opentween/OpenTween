@@ -8702,6 +8702,17 @@ namespace OpenTween
             this.UnreadMngTbMenuItem.Checked = tb.UnreadManage;
 
             TabMenuControl(_rclickTabName);
+            // TODO:TabMenuControl(string) で同じ事をやってるのでスマートじゃない。
+            if (tb.TabType == MyCommon.TabUsageType.PublicSearch)
+            {
+                NgEditMenuItem.Enabled = true;
+                NgEditTabMenuItem.Enabled = true;
+            }
+            else
+            {
+                NgEditMenuItem.Enabled = false;
+                NgEditTabMenuItem.Enabled = false;
+            }
         }
 
         private void TabMenuControl(string tabName)
@@ -13288,6 +13299,47 @@ namespace OpenTween
             SettingDialog.SortOrderLock = state;
 
             _modifySettingCommon = true;
+        }
+
+        private void NgEditMenuItem_Click(object sender, EventArgs e)
+        {
+            // TODO: TabClass 取得したかったから ContextMenuTabProperty_Opening から一部コピペ。汚い。
+            if (string.IsNullOrEmpty(_rclickTabName))
+            {
+                if (ListTab != null && ListTab.SelectedTab != null)
+                    _rclickTabName = ListTab.SelectedTab.Text;
+                else
+                    return;
+            }
+
+            if (_statuses == null) return;
+            if (_statuses.Tabs == null) return;
+
+            TabClass tb = _statuses.Tabs[_rclickTabName];
+            if (tb == null) return;
+
+            // TODO: めんどいのでここで new
+            using (EditNgDialog dialog = new EditNgDialog())
+            {
+                dialog.TabClass = tb;
+                if (dialog.ShowDialog(this) == DialogResult.OK)
+                {
+                    // 保存
+                    SaveConfigsTabs();
+
+                    // 選択されたタブをアクティブにする。
+                    foreach (TabPage tab in ListTab.TabPages)
+                    {
+                        if (tab.Text == tb.TabName)
+                        {
+                            ListTab.SelectedTab = tab;
+                            // TODO: 再度検索をかける。API消費しちゃう。でもNG解除の事とか考えると妥当か。
+                            SearchButton_Click(ListTab.SelectedTab.Controls["panelSearch"].Controls["comboSearch"], null);
+                            break;
+                        }
+                    }
+                }
+            }
         }
     }
 }
