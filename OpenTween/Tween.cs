@@ -12558,7 +12558,7 @@ namespace OpenTween
             //新着通知 
             if (BalloonRequired(ev))
             {
-                NotifyIcon1.BalloonTipIcon = ToolTipIcon.Warning;
+                NotifyIcon1.BalloonTipIcon = ToolTipIcon.Info;
                 //if (SettingDialog.DispUsername) NotifyIcon1.BalloonTipTitle = tw.Username + " - "; else NotifyIcon1.BalloonTipTitle = "";
                 //NotifyIcon1.BalloonTipTitle += Application.ProductName + " [" + ev.Event.ToUpper() + "] by " + ((string)(!string.IsNullOrEmpty(ev.Username) ? ev.Username : ""), string);
                 StringBuilder title = new StringBuilder();
@@ -12602,7 +12602,7 @@ namespace OpenTween
                 }
                 else
                 {
-                    NotifyIcon1.BalloonTipIcon = ToolTipIcon.Warning;
+                    NotifyIcon1.BalloonTipIcon = ToolTipIcon.Info;
                     NotifyIcon1.BalloonTipTitle = title.ToString();
                     NotifyIcon1.BalloonTipText = text;
                     NotifyIcon1.ShowBalloonTip(500);
