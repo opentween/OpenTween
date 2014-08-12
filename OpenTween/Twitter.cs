@@ -3340,40 +3340,24 @@ namespace OpenTween
             }
         }
 
-        private class EventTypeTableElement
+        private readonly IReadOnlyDictionary<string, MyCommon.EVENTTYPE> eventTable = new Dictionary<string, MyCommon.EVENTTYPE>
         {
-            public string Name;
-            public MyCommon.EVENTTYPE Type;
-
-            public EventTypeTableElement(string name, MyCommon.EVENTTYPE type)
-            {
-                this.Name = name;
-                this.Type = type;
-            }
-        }
-
-        private EventTypeTableElement[] EventTable = {
-            new EventTypeTableElement("favorite", MyCommon.EVENTTYPE.Favorite),
-            new EventTypeTableElement("unfavorite", MyCommon.EVENTTYPE.Unfavorite),
-            new EventTypeTableElement("follow", MyCommon.EVENTTYPE.Follow),
-            new EventTypeTableElement("list_member_added", MyCommon.EVENTTYPE.ListMemberAdded),
-            new EventTypeTableElement("list_member_removed", MyCommon.EVENTTYPE.ListMemberRemoved),
-            new EventTypeTableElement("block", MyCommon.EVENTTYPE.Block),
-            new EventTypeTableElement("unblock", MyCommon.EVENTTYPE.Unblock),
-            new EventTypeTableElement("user_update", MyCommon.EVENTTYPE.UserUpdate),
-            new EventTypeTableElement("deleted", MyCommon.EVENTTYPE.Deleted),
-            new EventTypeTableElement("list_created", MyCommon.EVENTTYPE.ListCreated),
-            new EventTypeTableElement("list_destroyed", MyCommon.EVENTTYPE.ListDestroyed), 
-            new EventTypeTableElement("list_updated", MyCommon.EVENTTYPE.ListUpdated),
-            new EventTypeTableElement("unfollow", MyCommon.EVENTTYPE.Unfollow),
-            new EventTypeTableElement("list_user_subscribed", MyCommon.EVENTTYPE.ListUserSubscribed),
-            new EventTypeTableElement("list_user_unsubscribed", MyCommon.EVENTTYPE.ListUserUnsubscribed),
+            { "favorite", MyCommon.EVENTTYPE.Favorite },
+            { "unfavorite", MyCommon.EVENTTYPE.Unfavorite },
+            { "follow", MyCommon.EVENTTYPE.Follow },
+            { "list_member_added", MyCommon.EVENTTYPE.ListMemberAdded },
+            { "list_member_removed", MyCommon.EVENTTYPE.ListMemberRemoved },
+            { "block", MyCommon.EVENTTYPE.Block },
+            { "unblock", MyCommon.EVENTTYPE.Unblock },
+            { "user_update", MyCommon.EVENTTYPE.UserUpdate },
+            { "deleted", MyCommon.EVENTTYPE.Deleted },
+            { "list_created", MyCommon.EVENTTYPE.ListCreated },
+            { "list_destroyed", MyCommon.EVENTTYPE.ListDestroyed },
+            { "list_updated", MyCommon.EVENTTYPE.ListUpdated },
+            { "unfollow", MyCommon.EVENTTYPE.Unfollow },
+            { "list_user_subscribed", MyCommon.EVENTTYPE.ListUserSubscribed },
+            { "list_user_unsubscribed", MyCommon.EVENTTYPE.ListUserUnsubscribed },
         };
-
-        public MyCommon.EVENTTYPE EventNameToEventType(string EventName)
-        {
-            return (from tbl in EventTable where tbl.Name.Equals(EventName) select tbl.Type).FirstOrDefault();
-        }
 
         public bool IsUserstreamDataReceived
         {
@@ -3508,7 +3492,11 @@ namespace OpenTween
             evt.Event = eventData.Event;
             evt.Username = eventData.Source.ScreenName;
             evt.IsMe = evt.Username.ToLower().Equals(this.Username.ToLower());
-            evt.Eventtype = EventNameToEventType(evt.Event);
+
+            MyCommon.EVENTTYPE eventType;
+            eventTable.TryGetValue(eventData.Event, out eventType);
+            evt.Eventtype = eventType;
+
             switch (eventData.Event)
             {
                 case "access_revoked":
