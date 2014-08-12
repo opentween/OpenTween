@@ -3357,6 +3357,8 @@ namespace OpenTween
             { "unfollow", MyCommon.EVENTTYPE.Unfollow },
             { "list_user_subscribed", MyCommon.EVENTTYPE.ListUserSubscribed },
             { "list_user_unsubscribed", MyCommon.EVENTTYPE.ListUserUnsubscribed },
+            { "mute", MyCommon.EVENTTYPE.Mute },
+            { "unmute", MyCommon.EVENTTYPE.Unmute }
         };
 
         public bool IsUserstreamDataReceived
@@ -3500,6 +3502,9 @@ namespace OpenTween
             switch (eventData.Event)
             {
                 case "access_revoked":
+                case "access_unrevoked":
+                case "user_delete":
+                case "user_suspend":
                     return;
                 case "follow":
                     if (eventData.Target.ScreenName.ToLower().Equals(_uname))
@@ -3573,6 +3578,7 @@ namespace OpenTween
                     break;
                 case "list_member_added":
                 case "list_member_removed":
+                case "list_created":
                 case "list_destroyed":
                 case "list_updated":
                 case "list_user_subscribed":
@@ -3591,9 +3597,23 @@ namespace OpenTween
                 case "user_update":
                     evt.Target = "";
                     break;
-                case "list_created":
-                    evt.Target = "";
+                
+                // Mute / Unmute
+                case "mute":
+                    evt.Target = "@" + eventData.Target.ScreenName;
+                    if (!TabInformations.GetInstance().MuteUserIds.Contains(eventData.Target.Id))
+                    {
+                        TabInformations.GetInstance().MuteUserIds.Add(eventData.Target.Id);
+                    }
                     break;
+                case "unmute":
+                    evt.Target = "@" + eventData.Target.ScreenName;
+                    if (TabInformations.GetInstance().MuteUserIds.Contains(eventData.Target.Id))
+                    {
+                        TabInformations.GetInstance().MuteUserIds.Remove(eventData.Target.Id);
+                    }
+                    break;
+
                 default:
                     MyCommon.TraceOut("Unknown Event:" + evt.Event + Environment.NewLine + content);
                     break;

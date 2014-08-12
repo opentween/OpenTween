@@ -214,10 +214,13 @@ namespace OpenTween
             ListUserSubscribed = 4096,
             ListUserUnsubscribed = 8192,
             ListDestroyed = 16384,
+            Mute = 32768,
+            Unmute = 65536,
 
             All = (None | Favorite | Unfavorite | Follow | ListMemberAdded | ListMemberRemoved |
                    Block | Unblock | UserUpdate | Deleted | ListCreated | ListUpdated | Unfollow |
-                   ListUserSubscribed | ListUserUnsubscribed | ListDestroyed),
+                   ListUserSubscribed | ListUserUnsubscribed | ListDestroyed |
+                   Mute | Unmute),
         }
 
         public static _Assembly EntryAssembly { get; internal set; }
