@@ -136,6 +136,11 @@ namespace OpenTween
 | frtrt\.net/solo_status\.php\?status=          # RtRT
 )(?<StatusId>[0-9]+)", RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace);
 
+        /// <summary>
+        /// DM送信かどうかを判定する正規表現
+        /// </summary>
+        public static readonly Regex DMSendTextRegex = new Regex(@"^DM? +(?<id>[a-zA-Z0-9_]+) +(?<body>.+)", RegexOptions.IgnoreCase | RegexOptions.Singleline);
+
         public TwitterConfiguration Configuration { get; private set; }
 
         delegate void GetIconImageDelegate(PostClass post);
@@ -471,7 +476,7 @@ namespace OpenTween
             if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid) return "";
 
             if (mediaIds == null &&
-                Regex.Match(postStr, "^DM? +(?<id>[a-zA-Z0-9_]+) +(?<body>.+)", RegexOptions.IgnoreCase | RegexOptions.Singleline).Success)
+                Twitter.DMSendTextRegex.Match(postStr).Success)
             {
                 return SendDirectMessage(postStr);
             }
@@ -578,6 +583,11 @@ namespace OpenTween
 
             if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid) return "";
 
+            if (Twitter.DMSendTextRegex.Match(postStr).Success)
+            {
+                return SendDirectMessage(postStr);
+            }
+
             var mediaIds = new List<long>();
 
             foreach (var mediaFile in mediaFiles)
@@ -645,7 +655,7 @@ namespace OpenTween
                 return "Auth Err:try to re-authorization.";
             }
 
-            var mc = Regex.Match(postStr, "^DM? +(?<id>[a-zA-Z0-9_]+) +(?<body>.+)", RegexOptions.IgnoreCase | RegexOptions.Singleline);
+            var mc = Twitter.DMSendTextRegex.Match(postStr);
 
             HttpStatusCode res;
             var content = "";
