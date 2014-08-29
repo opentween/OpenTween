@@ -476,7 +476,7 @@ namespace OpenTween
             if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid) return "";
 
             if (mediaIds == null &&
-                Twitter.DMSendTextRegex.Match(postStr).Success)
+                Twitter.DMSendTextRegex.IsMatch(postStr))
             {
                 return SendDirectMessage(postStr);
             }
@@ -583,7 +583,7 @@ namespace OpenTween
 
             if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid) return "";
 
-            if (Twitter.DMSendTextRegex.Match(postStr).Success)
+            if (Twitter.DMSendTextRegex.IsMatch(postStr))
             {
                 return SendDirectMessage(postStr);
             }
