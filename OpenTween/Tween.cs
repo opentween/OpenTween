@@ -820,6 +820,9 @@ namespace OpenTween
                     Application.Exit();  //強制終了
                     return;
                 }
+
+                this.SettingDialog.SaveConfig(this._cfgCommon, this._cfgLocal);
+
                 //設定されたが、依然ユーザー名とパスワードが未設定ならプログラム終了
                 if (string.IsNullOrEmpty(tw.Username))
                 {
