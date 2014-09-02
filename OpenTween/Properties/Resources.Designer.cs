@@ -625,6 +625,8 @@ namespace OpenTween.Properties {
         /// <summary>
         ///   更新履歴
         ///
+        ///==== Ver 1.2.4-beta1(2014/xx/xx)
+        ///
         ///==== Ver 1.2.3(2014/09/03)
         /// * NEW: UserSteams の (un)mute イベント追加に対応
         ///  - 再起動せずにミュートの追加・解除が反映されるようになります
@@ -635,8 +637,7 @@ namespace OpenTween.Properties {
         /// * CHG: UserSteams のイベント通知に使用される NotifyIcon のバルーンアイコンを Warning から Info に変更
         ///
         ///==== Ver 1.2.2(2014/07/06)
-        /// * このバージョンのOpenTweenは pic.twitter.com に複数枚の画像が含まれている場合の表示に対応していますが、
-        ///   現状では「ユーザーのタイムラインを表示」 [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
+        /// * このバージョンのOpenTweenは pic.twitter.com に複数枚の画像が含まれている場合の表 [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ChangeLog {
             get {
