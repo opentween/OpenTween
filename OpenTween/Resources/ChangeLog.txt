@@ -1,6 +1,7 @@
 ﻿更新履歴
 
 ==== Ver 1.2.4-beta1(2014/xx/xx)
+ * NEW: Mobypicture (mobypicture.com) への画像投稿に対応
  * CHG: サービス終了のため、Twitpic を画像の投稿先から削除
   - それに伴い、デフォルトの投稿先を Twitter に変更しました
 

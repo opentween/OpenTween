@@ -128,6 +128,7 @@ namespace OpenTween
                 {"yfrog", new yfrog(tw, twitterConfig)},
                 {"ついっぷるフォト", new TwipplePhoto(tw, twitterConfig)},
                 {"Imgur", new Imgur(tw, twitterConfig)},
+                {"Mobypicture", new Mobypicture(tw, twitterConfig)},
             };
         }
 
