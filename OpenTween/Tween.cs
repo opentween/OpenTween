@@ -2118,11 +2118,15 @@ namespace OpenTween
                 if (!isRemoveFooter)
                 {
                     if (this._cfgLocal.UseRecommendStatus)
+                    {
                         // 推奨ステータスを使用する
                         footer += this.recommendedStatusFooter;
-                    else
+                    }
+                    else if (!string.IsNullOrEmpty(this._cfgLocal.StatusText))
+                    {
                         // テキストボックスに入力されている文字列を使用する
                         footer += " " + this._cfgLocal.StatusText.Trim();
+                    }
                 }
             }
             args.status.status = header + StatusText.Text + footer;

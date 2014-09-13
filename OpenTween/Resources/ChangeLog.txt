@@ -4,6 +4,7 @@
  * NEW: Mobypicture (mobypicture.com) への画像投稿に対応
  * CHG: サービス終了のため、Twitpic を画像の投稿先から削除
   - それに伴い、デフォルトの投稿先を Twitter に変更しました
+ * FIX: 画像投稿時に、入力したツイートと画像URLの間に空白が2文字入ってしまう不具合を修正
 
 ==== Ver 1.2.3(2014/09/03)
  * NEW: UserSteams の (un)mute イベント追加に対応
