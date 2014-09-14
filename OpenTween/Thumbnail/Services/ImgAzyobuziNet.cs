@@ -152,6 +152,7 @@ namespace OpenTween.Thumbnail.Services
                     lock (this.LockObj)
                     {
                         this.UrlRegex = xElm.Elements("item")
+                            .Where(x => x.Element("name").Value != "Tubmlr") // Tumblrのサムネイル表示には img.azyobuzi.net を使用しない
                             .Select(e => new Regex(e.Element("regex").Value, RegexOptions.IgnoreCase))
                             .ToArray();
 
