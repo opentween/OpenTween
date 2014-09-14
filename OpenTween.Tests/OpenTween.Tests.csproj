@@ -86,6 +86,7 @@
     <Compile Include="Thumbnail\Services\MetaThumbnailServiceTest.cs" />
     <Compile Include="Thumbnail\Services\SimpleThumbnailServiceTest.cs" />
     <Compile Include="Thumbnail\Services\TinamiTest.cs" />
+    <Compile Include="Thumbnail\Services\TumblrTest.cs" />
     <Compile Include="ToolStripAPIGaugeTest.cs" />
     <Compile Include="TweenMainTest.cs" />
     <Compile Include="TweetFormatterTest.cs" />

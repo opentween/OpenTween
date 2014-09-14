@@ -172,5 +172,14 @@ namespace OpenTween
         /// Mobypicture Developer Key
         /// </summary>
         public readonly static string MobypictureKey = "quPWTX0UrPHxqdH7";
+
+        //=====================================================================
+        // Tumblr
+        // https://www.tumblr.com/oauth/apps から取得できます
+
+        /// <summary>
+        /// Tumblr OAuth Consumer Key
+        /// </summary>
+        public readonly static string TumblrConsumerKey = "Nsk62V6wMIqVNbiGyN0g3aDGBlgU7Fcb9GJ8Se0z2MUDHAY15l";
     }
 }

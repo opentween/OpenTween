@@ -30,7 +30,7 @@ using OpenTween.Connection;
 
 namespace OpenTween.Thumbnail
 {
-    public class ThumbnailInfo
+    public class ThumbnailInfo : IEquatable<ThumbnailInfo>
     {
         public string ImageUrl { get; set; }
         public string ThumbnailUrl { get; set; }
@@ -59,6 +59,25 @@ namespace OpenTween.Thumbnail
                 return await MemoryImage.CopyFromStreamAsync(imageStream)
                     .ConfigureAwait(false);
             }
+        }
+
+        public override bool Equals(object obj)
+        {
+            return this.Equals(obj as ThumbnailInfo);
+        }
+
+        public bool Equals(ThumbnailInfo other)
+        {
+            return other != null &&
+                other.ImageUrl == this.ImageUrl &&
+                other.ThumbnailUrl == this.ThumbnailUrl &&
+                other.TooltipText == this.TooltipText &&
+                other.FullSizeImageUrl == this.FullSizeImageUrl;
+        }
+
+        public override int GetHashCode()
+        {
+            return this.ImageUrl.GetHashCode() ^ this.ThumbnailUrl.GetHashCode();
         }
     }
 }
