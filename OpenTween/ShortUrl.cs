@@ -112,6 +112,7 @@ namespace OpenTween
             "tiny.cc",
             "tinyurl.com",
             "tl.gd",
+            "tmblr.co",
             "traceurl.com",
             "tumblr.com",
             "twitthis.com",
@@ -120,6 +121,7 @@ namespace OpenTween
             "ustre.am",
             "ux.nu",
             "www.qurl.com",
+            "www.tumblr.com",
             "youtu.be",
         };
 
