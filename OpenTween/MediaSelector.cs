@@ -124,6 +124,7 @@ namespace OpenTween
 
             this.pictureService = new Dictionary<string, IMediaUploadService> {
                 {"Twitter", new TwitterPhoto(tw, twitterConfig)},
+                {"TwitPic", new TwitPic(tw, twitterConfig)},
                 {"img.ly", new imgly(tw, twitterConfig)},
                 {"yfrog", new yfrog(tw, twitterConfig)},
                 {"ついっぷるフォト", new TwipplePhoto(tw, twitterConfig)},
