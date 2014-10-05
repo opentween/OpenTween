@@ -3,6 +3,7 @@
 ==== Ver 1.2.4-beta1(2014/xx/xx)
  * NEW: Mobypicture (mobypicture.com) への画像投稿に対応
  * NEW: tmblr.co で短縮されたTumblrのURLに対してもサムネイル表示できるようにしました
+ * NEW: i.instagram.com ドメインのURLのサムネイル表示に対応
  * CHG: デフォルトの画像投稿先を Twitter (pic.twitter.com) に変更しました
  * FIX: 画像投稿時に、入力したツイートと画像URLの間に空白が2文字入ってしまう不具合を修正
  * FIX: 画像が紐付いていないTumblrのURLに対してサムネイル画像欄が表示され読み込みに失敗する不具合を修正
