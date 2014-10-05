@@ -110,8 +110,10 @@
             // 
             // TweenAboutBox
             // 
+            this.AcceptButton = this.OKButton;
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
+            this.CancelButton = this.OKButton;
             this.Controls.Add(this.TableLayoutPanel);
             this.Name = "TweenAboutBox";
             this.ShowIcon = false;

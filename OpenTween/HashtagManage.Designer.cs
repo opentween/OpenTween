@@ -205,6 +205,7 @@
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
+            this.CancelButton = this.Cancel_Button;
             this.Controls.Add(this.TableLayoutButtons);
             this.Controls.Add(this.GroupHashtag);
             this.Controls.Add(this.CheckNotAddToAtReply);

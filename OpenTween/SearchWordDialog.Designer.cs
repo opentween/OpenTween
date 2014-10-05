@@ -157,11 +157,13 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.Controls.Add(this.tabControl);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.KeyPreview = true;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "SearchWordDialog";
             this.ShowInTaskbar = false;
             this.Shown += new System.EventHandler(this.textSearchTimeline_Shown);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.SearchWordDialog_KeyDown);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             this.tabControl.ResumeLayout(false);

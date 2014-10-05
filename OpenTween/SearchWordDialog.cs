@@ -207,5 +207,11 @@ namespace OpenTween
             var tweenMain = (TweenMain)this.Owner;
             tweenMain.OpenUriAsync(PublicSearchHelpUrl);
         }
+
+        private void SearchWordDialog_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Escape)
+                this.DialogResult = DialogResult.Cancel;
+        }
     }
 }

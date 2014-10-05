@@ -233,6 +233,7 @@
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
+            this.CancelButton = this.Cancel;
             this.Controls.Add(this.SplitContainer1);
             this.Controls.Add(this.Save);
             this.Controls.Add(this.Cancel);
