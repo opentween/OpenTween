@@ -50,7 +50,9 @@ namespace OpenTween.Setting.Panel
             this.CheckFavEventUnread.Checked = settingCommon.FavEventUnread;
 
             this.SoundFileListup();
-            var soundFileIdx = this.ComboBoxEventNotifySound.Items.IndexOf(settingCommon.EventSoundFile);
+
+            var soundFile = settingCommon.EventSoundFile ?? "";
+            var soundFileIdx = this.ComboBoxEventNotifySound.Items.IndexOf(soundFile);
             if (soundFileIdx != -1)
                 this.ComboBoxEventNotifySound.SelectedIndex = soundFileIdx;
 
