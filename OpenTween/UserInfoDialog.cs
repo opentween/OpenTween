@@ -69,7 +69,7 @@ namespace OpenTween
 
             this.LabelId.Text = user.IdStr;
             this.LabelScreenName.Text = user.ScreenName;
-            this.LabelName.Text = WebUtility.HtmlDecode(user.Name);
+            this.LabelName.Text = user.Name;
             this.LabelLocation.Text = user.Location ?? "";
             this.LabelCreatedAt.Text = MyCommon.DateTimeParse(user.CreatedAt).ToString();
 
@@ -136,7 +136,10 @@ namespace OpenTween
             {
                 var atlist = new List<string>();
 
-                var html = WebUtility.HtmlEncode(descriptionText);
+                // description に含まれる < > " の記号のみエスケープを一旦解除する
+                var decodedText = descriptionText.Replace("&lt;", "<").Replace("&gt;", ">").Replace("&quot;", "\"");
+
+                var html = WebUtility.HtmlEncode(decodedText);
                 html = await this.twitter.CreateHtmlAnchorAsync(html, atlist, null);
                 html = this.mainForm.createDetailHtml(html);
 

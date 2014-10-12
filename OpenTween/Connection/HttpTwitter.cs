@@ -775,10 +775,15 @@ namespace OpenTween
         {
             Dictionary<string, string> param = new Dictionary<string, string>();
 
-            param.Add("name", WebUtility.HtmlEncode(name));
+            param.Add("name", name);
             param.Add("url", url);
-            param.Add("location", WebUtility.HtmlEncode(location));
-            param.Add("description", WebUtility.HtmlEncode(description));
+            param.Add("location", location);
+
+            // name, location, description に含まれる < > " の文字はTwitter側で除去されるが、
+            // twitter.com の挙動では description でのみ &lt; 等の文字参照を使って表示することができる
+            var escapedDescription = description.Replace("<", "&lt;").Replace(">", "&gt;").Replace("\"", "&quot;");
+            param.Add("description", escapedDescription);
+
             param.Add("include_entities", "true");
 
             return httpCon.GetContent(PostMethod,
