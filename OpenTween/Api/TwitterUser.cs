@@ -84,7 +84,7 @@ namespace OpenTween.Api
         public string Lang { get; set; }
 
         [DataMember(Name = "listed_count")]
-        public int ListedCount { get; set; }
+        public int? ListedCount { get; set; }
 
         [DataMember(Name = "location")]
         public string Location { get; set; } // Nullable
