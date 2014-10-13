@@ -169,11 +169,11 @@ namespace OpenTween
             {
                 var uri = imageUri.Replace("_normal", "_bigger");
 
-                var imageStream = await Networking.Http.GetStreamAsync(uri)
-                    .ConfigureAwait(false);
-
-                return await MemoryImage.CopyFromStreamAsync(imageStream)
-                    .ConfigureAwait(false);
+                using (var imageStream = await Networking.Http.GetStreamAsync(uri).ConfigureAwait(false))
+                {
+                    return await MemoryImage.CopyFromStreamAsync(imageStream)
+                        .ConfigureAwait(false);
+                }
             });
         }
 

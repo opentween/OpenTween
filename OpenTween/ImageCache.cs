@@ -125,11 +125,13 @@ namespace OpenTween
         {
             using (var response = await Networking.Http.GetAsync(uri, cancelToken).ConfigureAwait(false))
             {
-                var imageStream = await response.Content.ReadAsStreamAsync()
-                    .ConfigureAwait(false);
+                response.EnsureSuccessStatusCode();
 
-                return await MemoryImage.CopyFromStreamAsync(imageStream)
-                    .ConfigureAwait(false);
+                using (var imageStream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false))
+                {
+                    return await MemoryImage.CopyFromStreamAsync(imageStream)
+                        .ConfigureAwait(false);
+                }
             }
         }
 

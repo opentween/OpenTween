@@ -76,11 +76,11 @@ namespace OpenTween.Thumbnail.Services
                 {
                     response.EnsureSuccessStatusCode();
 
-                    var imageStream = await response.Content.ReadAsStreamAsync()
-                        .ConfigureAwait(false);
-
-                    return await MemoryImage.CopyFromStreamAsync(imageStream)
-                        .ConfigureAwait(false);
+                    using (var imageStream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false))
+                    {
+                        return await MemoryImage.CopyFromStreamAsync(imageStream)
+                            .ConfigureAwait(false);
+                    }
                 }
             }
         }
