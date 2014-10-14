@@ -1844,11 +1844,9 @@ namespace OpenTween
 
             this.TryGetListViewItemCache(Index, out itm, out post);
 
-            if (itm == null || post == null)
-            {
-                itm = ((DetailsListView)_curTab.Tag).Items[Index];
-                post = tabInfo[Index];
-            }
+            // キャッシュに含まれていないアイテムは対象外
+            if (itm == null)
+                return;
 
             ChangeItemStyleRead(Read, itm, post, ((DetailsListView)_curTab.Tag));
         }
