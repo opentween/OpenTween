@@ -316,22 +316,22 @@ namespace OpenTween
 
                 thumbbox.scrollBar.Value = 0;
 
-                thumbbox.ScrollUp();
-                Assert.Equal(1, thumbbox.scrollBar.Value);
-                Assert.False(thumbbox.pictureBox[0].Visible);
-                Assert.True(thumbbox.pictureBox[1].Visible);
-
-                thumbbox.ScrollUp();
+                thumbbox.ScrollDown();
                 Assert.Equal(1, thumbbox.scrollBar.Value);
                 Assert.False(thumbbox.pictureBox[0].Visible);
                 Assert.True(thumbbox.pictureBox[1].Visible);
 
                 thumbbox.ScrollDown();
+                Assert.Equal(1, thumbbox.scrollBar.Value);
+                Assert.False(thumbbox.pictureBox[0].Visible);
+                Assert.True(thumbbox.pictureBox[1].Visible);
+
+                thumbbox.ScrollUp();
                 Assert.Equal(0, thumbbox.scrollBar.Value);
                 Assert.True(thumbbox.pictureBox[0].Visible);
                 Assert.False(thumbbox.pictureBox[1].Visible);
 
-                thumbbox.ScrollDown();
+                thumbbox.ScrollUp();
                 Assert.Equal(0, thumbbox.scrollBar.Value);
                 Assert.True(thumbbox.pictureBox[0].Visible);
                 Assert.False(thumbbox.pictureBox[1].Visible);

@@ -174,20 +174,20 @@ namespace OpenTween
 
         public void ScrollUp()
         {
-            var newval = this.scrollBar.Value + this.scrollBar.SmallChange;
+            var newval = this.scrollBar.Value - this.scrollBar.SmallChange;
 
-            if (newval > this.scrollBar.Maximum)
-                newval = this.scrollBar.Maximum;
+            if (newval < this.scrollBar.Minimum)
+                newval = this.scrollBar.Minimum;
 
             this.scrollBar.Value = newval;
         }
 
         public void ScrollDown()
         {
-            var newval = this.scrollBar.Value - this.scrollBar.SmallChange;
+            var newval = this.scrollBar.Value + this.scrollBar.SmallChange;
 
-            if (newval < this.scrollBar.Minimum)
-                newval = this.scrollBar.Minimum;
+            if (newval > this.scrollBar.Maximum)
+                newval = this.scrollBar.Maximum;
 
             this.scrollBar.Value = newval;
         }
