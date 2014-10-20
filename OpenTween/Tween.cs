@@ -2307,12 +2307,14 @@ namespace OpenTween
                     TabClass tab;
                     if (_statuses.Tabs.TryGetValue(args.tName, out tab))
                     {
-                        for (int i = 0; i <= args.ids.Count - 1; i++)
+                        var count = 0;
+                        foreach (var statusId in args.ids)
                         {
-                            var post = tab.Posts[args.ids[i]];
+                            var post = tab.Posts[statusId];
 
-                            args.page = i + 1;
+                            args.page = ++count;
                             bw.ReportProgress(50, MakeStatusMessage(args, false));
+
                             if (!post.IsFav)
                             {
                                 if (post.RetweetedId == null)
@@ -2320,30 +2322,30 @@ namespace OpenTween
                                 else
                                     ret = tw.PostFavAdd(post.RetweetedId.Value);
 
-                                if (ret.Length == 0)
+                                if (string.IsNullOrEmpty(ret))
                                 {
-                                    args.sIds.Add(post.StatusId);
+                                    args.sIds.Add(statusId);
                                     post.IsFav = true;    //リスト再描画必要
                                     _favTimestamps.Add(DateTime.Now);
                                     if (string.IsNullOrEmpty(post.RelTabName))
                                     {
                                         //検索,リストUserTimeline.Relatedタブからのfavは、favタブへ追加せず。それ以外は追加
-                                        _statuses.GetTabByType(MyCommon.TabUsageType.Favorites).Add(post.StatusId, post.IsRead, false);
+                                        _statuses.GetTabByType(MyCommon.TabUsageType.Favorites).Add(statusId, post.IsRead, false);
                                     }
                                     else
                                     {
                                         //検索,リスト,UserTimeline.Relatedタブからのfavで、TLでも取得済みならfav反映
-                                        if (_statuses.ContainsKey(post.StatusId))
+                                        if (_statuses.ContainsKey(statusId))
                                         {
-                                            PostClass postTl = _statuses[post.StatusId];
+                                            PostClass postTl = _statuses[statusId];
                                             postTl.IsFav = true;
-                                            _statuses.GetTabByType(MyCommon.TabUsageType.Favorites).Add(postTl.StatusId, postTl.IsRead, false);
+                                            _statuses.GetTabByType(MyCommon.TabUsageType.Favorites).Add(statusId, postTl.IsRead, false);
                                         }
                                     }
                                     //検索,リスト,UserTimeline,Relatedの各タブに反映
                                     foreach (TabClass tb in _statuses.GetTabsByType(MyCommon.TabUsageType.PublicSearch | MyCommon.TabUsageType.Lists | MyCommon.TabUsageType.UserTimeline | MyCommon.TabUsageType.Related))
                                     {
-                                        if (tb.Contains(post.StatusId)) tb.Posts[post.StatusId].IsFav = true;
+                                        if (tb.Contains(statusId)) tb.Posts[statusId].IsFav = true;
                                     }
                                 }
                             }
@@ -2359,12 +2361,14 @@ namespace OpenTween
                     TabClass tab;
                     if (_statuses.Tabs.TryGetValue(args.tName, out tab))
                     {
-                        for (int i = 0; i <= args.ids.Count - 1; i++)
+                        var count = 0;
+                        foreach (var statusId in args.ids)
                         {
-                            var post = tab.Posts[args.ids[i]];
+                            var post = tab.Posts[statusId];
 
-                            args.page = i + 1;
+                            args.page = ++count;
                             bw.ReportProgress(50, MakeStatusMessage(args, false));
+
                             if (post.IsFav)
                             {
                                 if (post.RetweetedId == null)
@@ -2372,15 +2376,15 @@ namespace OpenTween
                                 else
                                     ret = tw.PostFavRemove(post.RetweetedId.Value);
 
-                                if (ret.Length == 0)
+                                if (string.IsNullOrEmpty(ret))
                                 {
-                                    args.sIds.Add(post.StatusId);
+                                    args.sIds.Add(statusId);
                                     post.IsFav = false;    //リスト再描画必要
-                                    if (_statuses.ContainsKey(post.StatusId)) _statuses[post.StatusId].IsFav = false;
+                                    if (_statuses.ContainsKey(statusId)) _statuses[statusId].IsFav = false;
                                     //検索,リスト,UserTimeline,Relatedの各タブに反映
                                     foreach (TabClass tb in _statuses.GetTabsByType(MyCommon.TabUsageType.PublicSearch | MyCommon.TabUsageType.Lists | MyCommon.TabUsageType.UserTimeline | MyCommon.TabUsageType.Related))
                                     {
-                                        if (tb.Contains(post.StatusId)) tb.Posts[post.StatusId].IsFav = false;
+                                        if (tb.Contains(statusId)) tb.Posts[statusId].IsFav = false;
                                     }
                                 }
                             }
@@ -2475,6 +2479,7 @@ namespace OpenTween
                     rslt.addCount = _statuses.DistributePosts();
                     break;
                 case MyCommon.WORKERTYPE.UserTimeline:
+                {
                     bw.ReportProgress(50, MakeStatusMessage(args, false));
                     int count = 20;
                     if (this._cfgCommon.UseAdditionalCount) count = this._cfgCommon.UserTimelineCountApi;
@@ -2496,6 +2501,7 @@ namespace OpenTween
                     //振り分け
                     rslt.addCount = _statuses.DistributePosts();
                     break;
+                }
                 case MyCommon.WORKERTYPE.List:
                     bw.ReportProgress(50, MakeStatusMessage(args, false));
                     if (string.IsNullOrEmpty(args.tName))
@@ -2803,41 +2809,32 @@ namespace OpenTween
                     break;
                 case MyCommon.WORKERTYPE.FavAdd:
                 case MyCommon.WORKERTYPE.FavRemove:
-                    if (_curList != null && _curTab != null)
+                    if (_curList != null && _curTab != null && _curTab.Text == rslt.tName)
                     {
-                        using (ControlTransaction.Update(this._curList))
+                        TabClass tb;
+                        if (this._statuses.Tabs.TryGetValue(rslt.tName, out tb))
                         {
-                            if (rslt.type == MyCommon.WORKERTYPE.FavRemove && _statuses.Tabs[_curTab.Text].TabType == MyCommon.TabUsageType.Favorites)
+                            if (rslt.type == MyCommon.WORKERTYPE.FavRemove && tb.TabType == MyCommon.TabUsageType.Favorites)
                             {
                                 //色変えは不要
                             }
                             else
                             {
-                                for (int i = 0; i <= rslt.sIds.Count - 1; i++)
+                                using (ControlTransaction.Update(this._curList))
                                 {
-                                    if (_curTab.Text.Equals(rslt.tName))
+                                    foreach (var statusId in rslt.sIds)
                                     {
-                                        int idx = _statuses.Tabs[rslt.tName].IndexOf(rslt.sIds[i]);
-                                        if (idx > -1)
-                                        {
-                                            PostClass post = null;
-                                            TabClass tb = _statuses.Tabs[rslt.tName];
-                                            if (tb != null)
-                                            {
-                                                if (tb.TabType == MyCommon.TabUsageType.Lists || tb.TabType == MyCommon.TabUsageType.PublicSearch)
-                                                {
-                                                    post = tb.Posts[rslt.sIds[i]];
-                                                }
-                                                else
-                                                {
-                                                    post = _statuses[rslt.sIds[i]];
-                                                }
-                                                ChangeCacheStyleRead(post.IsRead, idx);
-                                            }
-                                            if (idx == _curItemIndex) DispSelectedPost(true); //選択アイテム再表示
-                                        }
+                                        int idx = tb.IndexOf(statusId);
+                                        if (idx == -1)
+                                            continue;
+
+                                        var post = tb.Posts[statusId];
+                                        this.ChangeCacheStyleRead(post.IsRead, idx);
                                     }
                                 }
+
+                                if (rslt.sIds.Contains(this._curPost.StatusId))
+                                    this.DispSelectedPost(true); //選択アイテム再表示
                             }
                         }
                     }
