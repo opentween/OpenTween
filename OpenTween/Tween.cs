@@ -2765,15 +2765,18 @@ namespace OpenTween
                 rslt.type == MyCommon.WORKERTYPE.DirectMessegeSnt ||
                 rslt.type == MyCommon.WORKERTYPE.Favorites ||
                 rslt.type == MyCommon.WORKERTYPE.Follower ||
-                rslt.type == MyCommon.WORKERTYPE.NoRetweetIds ||
-                rslt.type == MyCommon.WORKERTYPE.FavAdd ||
-                rslt.type == MyCommon.WORKERTYPE.FavRemove ||
                 rslt.type == MyCommon.WORKERTYPE.Related ||
-                rslt.type == MyCommon.WORKERTYPE.UserTimeline ||
-                rslt.type == MyCommon.WORKERTYPE.BlockIds ||
-                rslt.type == MyCommon.WORKERTYPE.Configuration)
+                rslt.type == MyCommon.WORKERTYPE.UserTimeline)
             {
                 RefreshTimeline(false); //リスト反映
+            }
+
+            if (rslt.type == MyCommon.WORKERTYPE.FavAdd ||
+                rslt.type == MyCommon.WORKERTYPE.FavRemove)
+            {
+                // 流速表示等の更新のみ行う
+                SetMainWindowTitle();
+                if (!StatusLabelUrl.Text.StartsWith("http")) SetStatusLabelUrl();
             }
 
             switch (rslt.type)
