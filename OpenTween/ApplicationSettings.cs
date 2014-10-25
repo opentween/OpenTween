@@ -87,15 +87,6 @@ namespace OpenTween
         public const string TwitterConsumerSecret = "BJMEiivrXlqGESzdb8D0bvLfNYf3fifXRDMFjMogXg";
 
         //=====================================================================
-        // Twitpic
-        // http://dev.twitpic.com/apps/new から取得できます。
-
-        /// <summary>
-        /// Twitpic APIキー
-        /// </summary>
-        public const string TwitpicApiKey = "bbc6449ceac87ef10c546e4a0ca06ef4";
-
-        //=====================================================================
         // yfrog
         // http://stream.imageshack.us/api/ から取得できます。
 

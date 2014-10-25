@@ -4,7 +4,8 @@
  * NEW: Mobypicture (mobypicture.com) への画像投稿に対応
  * NEW: tmblr.co で短縮されたTumblrのURLに対してもサムネイル表示できるようにしました
  * NEW: i.instagram.com ドメインのURLのサムネイル表示に対応
- * CHG: デフォルトの画像投稿先を Twitter (pic.twitter.com) に変更しました
+ * CHG: サービス終了のため、Twitpic を画像の投稿先から削除
+  - それに伴い、デフォルトの投稿先を Twitter (pic.twitter.com) に変更しました
  * CHG: プロフィール表示・編集でのエスケープ処理を twitter.com での挙動に合わせました
   - 名前および現在地に < > " の記号を使うことはできません (Twitter側で削除されます)
   - 自己紹介では < > " の記号はそれぞれ &lt; &gt; &quot; に変換した上で設定されます

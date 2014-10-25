@@ -265,7 +265,7 @@
     <value>Right</value>
   </data>
   <data name="ImageServiceCombo.Items" xml:space="preserve">
-    <value>TwitPic</value>
+    <value>Twitter</value>
   </data>
   <data name="ImageServiceCombo.Location" type="System.Drawing.Point, System.Drawing">
     <value>442, 3</value>
