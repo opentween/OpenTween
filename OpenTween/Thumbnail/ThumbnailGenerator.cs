@@ -63,12 +63,6 @@ namespace OpenTween.Thumbnail
                     "http://img.imgur.com/${1}l.jpg",
                     "http://img.imgur.com/${1}.jpg"),
 
-                // Twitpic
-                new SimpleThumbnailService(
-                    @"^http://(www\.)?twitpic\.com/(?<photoId>\w+)(/full/?)?$",
-                    "http://twitpic.com/show/thumb/${photoId}",
-                    "http://twitpic.com/show/large/${photoId}"),
-
                 // yfrog
                 new SimpleThumbnailService(
                     @"^http://yfrog\.com/(\w+)$",
