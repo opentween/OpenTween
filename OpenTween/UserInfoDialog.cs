@@ -31,6 +31,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Text.RegularExpressions;
@@ -45,6 +46,7 @@ namespace OpenTween
     public partial class UserInfoDialog : OTBaseForm
     {
         private TwitterUser _displayUser;
+        private CancellationTokenSource cancellationTokenSource = null;
 
         private readonly TweenMain mainForm;
         private readonly Twitter twitter;
@@ -60,10 +62,26 @@ namespace OpenTween
             this.LabelScreenName.Font = this.ReplaceToGlobalFont(this.LabelScreenName.Font);
         }
 
+        private void CancelLoading()
+        {
+            var newTokenSource = new CancellationTokenSource();
+            var oldTokenSource = Interlocked.Exchange(ref this.cancellationTokenSource, newTokenSource);
+
+            if (oldTokenSource != null)
+            {
+                oldTokenSource.Cancel();
+                oldTokenSource.Dispose();
+            }
+        }
+
         public async Task ShowUserAsync(TwitterUser user)
         {
             if (user == null || user == this._displayUser)
                 return;
+
+            this.CancelLoading();
+
+            var cancellationToken = this.cancellationTokenSource.Token;
 
             this._displayUser = user;
 
@@ -122,15 +140,15 @@ namespace OpenTween
 
             await Task.WhenAll(new[]
             {
-                this.SetDescriptionAsync(user.Description),
-                this.SetRecentStatusAsync(user.Status),
-                this.SetLinkLabelWebAsync(user.Url),
-                this.SetUserImageAsync(user.ProfileImageUrlHttps),
-                this.LoadFriendshipAsync(user.ScreenName),
+                this.SetDescriptionAsync(user.Description, cancellationToken),
+                this.SetRecentStatusAsync(user.Status, cancellationToken),
+                this.SetLinkLabelWebAsync(user.Url, cancellationToken),
+                this.SetUserImageAsync(user.ProfileImageUrlHttps, cancellationToken),
+                this.LoadFriendshipAsync(user.ScreenName, cancellationToken),
             });
         }
 
-        private async Task SetDescriptionAsync(string descriptionText)
+        private async Task SetDescriptionAsync(string descriptionText, CancellationToken cancellationToken)
         {
             if (descriptionText != null)
             {
@@ -143,6 +161,9 @@ namespace OpenTween
                 html = await this.twitter.CreateHtmlAnchorAsync(html, atlist, null);
                 html = this.mainForm.createDetailHtml(html);
 
+                if (cancellationToken.IsCancellationRequested)
+                    return;
+
                 this.DescriptionBrowser.DocumentText = html;
             }
             else
@@ -151,7 +172,7 @@ namespace OpenTween
             }
         }
 
-        private async Task SetUserImageAsync(string imageUri)
+        private async Task SetUserImageAsync(string imageUri, CancellationToken cancellationToken)
         {
             var oldImage = this.UserPicture.Image;
             if (oldImage != null)
@@ -171,17 +192,28 @@ namespace OpenTween
 
                 using (var imageStream = await Networking.Http.GetStreamAsync(uri).ConfigureAwait(false))
                 {
-                    return await MemoryImage.CopyFromStreamAsync(imageStream)
+                    var image = await MemoryImage.CopyFromStreamAsync(imageStream)
                         .ConfigureAwait(false);
+
+                    if (cancellationToken.IsCancellationRequested)
+                    {
+                        image.Dispose();
+                        throw new OperationCanceledException(cancellationToken);
+                    }
+
+                    return image;
                 }
             });
         }
 
-        private async Task SetLinkLabelWebAsync(string uri)
+        private async Task SetLinkLabelWebAsync(string uri, CancellationToken cancellationToken)
         {
             if (uri != null)
             {
                 var expandedUrl = await ShortUrl.Instance.ExpandUrlAsync(uri);
+
+                if (cancellationToken.IsCancellationRequested)
+                    return;
 
                 this.LinkLabelWeb.Text = uri;
                 this.LinkLabelWeb.Tag = expandedUrl;
@@ -195,7 +227,7 @@ namespace OpenTween
             }
         }
 
-        private async Task SetRecentStatusAsync(TwitterStatus status)
+        private async Task SetRecentStatusAsync(TwitterStatus status, CancellationToken cancellationToken)
         {
             var atlist = new List<string>();
 
@@ -206,6 +238,9 @@ namespace OpenTween
                     " Posted at " + MyCommon.DateTimeParse(status.CreatedAt) +
                     " via " + status.Source);
 
+                if (cancellationToken.IsCancellationRequested)
+                    return;
+
                 this.RecentPostBrowser.DocumentText = html;
             }
             else
@@ -214,7 +249,7 @@ namespace OpenTween
             }
         }
 
-        private async Task LoadFriendshipAsync(string screenName)
+        private async Task LoadFriendshipAsync(string screenName, CancellationToken cancellationToken)
         {
             this.LabelIsFollowing.Text = "";
             this.LabelIsFollowed.Text = "";
@@ -235,6 +270,9 @@ namespace OpenTween
 
                 return new { IsFollowing, IsFollowedBy };
             });
+
+            if (cancellationToken.IsCancellationRequested)
+                return;
 
             if (friendship == null)
             {
@@ -686,6 +724,10 @@ namespace OpenTween
         {
             if (disposing)
             {
+                var cts = this.cancellationTokenSource;
+                cts.Cancel();
+                cts.Dispose();
+
                 var oldImage = this.UserPicture.Image;
                 if (oldImage != null)
                 {
