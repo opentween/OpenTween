@@ -3243,8 +3243,8 @@ namespace OpenTween
             }
         }
 
-        [MethodImpl(MethodImplOptions.NoInlining)] // 呼び出し元の取得に必要
-        private string CheckStatusCode(HttpStatusCode httpStatus, string responseText)
+        private string CheckStatusCode(HttpStatusCode httpStatus, string responseText,
+            [CallerMemberName] string callerMethodName = "")
         {
             if (httpStatus == HttpStatusCode.OK)
             {
@@ -3254,11 +3254,6 @@ namespace OpenTween
 
             // 404エラーの挙動が変なので無視: https://dev.twitter.com/discussions/1213
             if (httpStatus == HttpStatusCode.NotFound) return null;
-
-            var callerMethod = new StackTrace(false).GetFrame(1).GetMethod();
-            var callerMethodName = callerMethod != null
-                ? callerMethod.Name
-                : "";
 
             if (string.IsNullOrWhiteSpace(responseText))
             {
