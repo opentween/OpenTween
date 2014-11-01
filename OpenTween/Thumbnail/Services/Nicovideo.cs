@@ -39,7 +39,7 @@ namespace OpenTween.Thumbnail.Services
     class Nicovideo : IThumbnailService
     {
         public static readonly Regex UrlPatternRegex =
-            new Regex(@"^http://(?:(www|ext)\.nicovideo\.jp/watch|nico\.ms)/(?<id>(?:sm|nm)?[0-9]+)(\?.+)?$");
+            new Regex(@"^https?://(?:(www|ext)\.nicovideo\.jp/watch|nico\.ms)/(?<id>(?:sm|nm)?[0-9]+)(\?.+)?$");
 
         public override Task<ThumbnailInfo> GetThumbnailInfoAsync(string url, PostClass post, CancellationToken token)
         {

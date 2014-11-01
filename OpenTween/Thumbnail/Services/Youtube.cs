@@ -38,7 +38,7 @@ namespace OpenTween.Thumbnail.Services
     class Youtube : IThumbnailService
     {
         public static readonly Regex UrlPatternRegex =
-            new Regex(@"^http://(?:(www\.youtube\.com)|(youtu\.be))/(watch\?v=)?(?<videoid>([\w\-]+))");
+            new Regex(@"^https?://(?:(www\.youtube\.com)|(youtu\.be))/(watch\?v=)?(?<videoid>([\w\-]+))");
 
         public override Task<ThumbnailInfo> GetThumbnailInfoAsync(string url, PostClass post, CancellationToken token)
         {
