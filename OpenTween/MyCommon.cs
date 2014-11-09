@@ -1008,5 +1008,37 @@ namespace OpenTween
 
             return sb.ToString();
         }
+
+        /// <summary>
+        /// 指定された範囲の整数を昇順に列挙します
+        /// </summary>
+        /// <remarks>
+        /// start, start + 1, start + 2, ..., end の範囲の数列を生成します
+        /// </remarks>
+        /// <param name="from">数列の先頭の値 (最小値)</param>
+        /// <param name="to">数列の末尾の値 (最大値)</param>
+        /// <returns>整数を列挙する IEnumerable インスタンス</returns>
+        public static IEnumerable<int> CountUp(int from, int to)
+        {
+            if (from > to)
+                return Enumerable.Empty<int>();
+
+            return Enumerable.Range(from, to - from + 1);
+        }
+
+        /// <summary>
+        /// 指定された範囲の整数を降順に列挙します
+        /// </summary>
+        /// <remarks>
+        /// start, start - 1, start - 2, ..., end の範囲の数列を生成します
+        /// </remarks>
+        /// <param name="from">数列の先頭の値 (最大値)</param>
+        /// <param name="to">数列の末尾の値 (最小値)</param>
+        /// <returns>整数を列挙する IEnumerable インスタンス</returns>
+        public static IEnumerable<int> CountDown(int from, int to)
+        {
+            for (var i = from; i >= to; i--)
+                yield return i;
+        }
     }
 }

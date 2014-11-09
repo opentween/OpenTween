@@ -273,5 +273,53 @@ namespace OpenTween
                 Assert.Equal(@"/hogehoge/OpenTween/ErrorLogs", MyCommon.GetErrorLogPath());
             }
         }
+
+        [Fact]
+        public void CountUp_Test()
+        {
+            var actual = MyCommon.CountUp(from: 1, to: 5);
+
+            Assert.Equal(new[] { 1, 2, 3, 4, 5 }, actual);
+        }
+
+        [Fact]
+        public void CountUp_FromAndToAreEqualTest()
+        {
+            var actual = MyCommon.CountUp(from: 1, to: 1);
+
+            Assert.Equal(new[] { 1 }, actual);
+        }
+
+        [Fact]
+        public void CountUp_ToIsLessThanFromTest()
+        {
+            var actual = MyCommon.CountUp(from: 1, to: 0);
+
+            Assert.Empty(actual);
+        }
+
+        [Fact]
+        public void CountDown_Test()
+        {
+            var actual = MyCommon.CountDown(from: 5, to: 1);
+
+            Assert.Equal(new[] { 5, 4, 3, 2, 1 }, actual);
+        }
+
+        [Fact]
+        public void CountDown_FromAndToAreEqualTest()
+        {
+            var actual = MyCommon.CountDown(from: 5, to: 5);
+
+            Assert.Equal(new[] { 5 }, actual);
+        }
+
+        [Fact]
+        public void CountDown_ToIsGreaterThanFromTest()
+        {
+            var actual = MyCommon.CountDown(from: 5, to: 6);
+
+            Assert.Empty(actual);
+        }
     }
 }

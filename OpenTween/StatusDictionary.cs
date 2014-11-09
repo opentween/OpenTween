@@ -901,7 +901,7 @@ namespace OpenTween
                         if (idx > -1)
                         {
                             //続きから探索
-                            FindUnreadId(idx, Tab);
+                            Tab.OldestUnreadId = this.FindUnreadId(Tab, idx) ?? -1;
                             return;
                         }
                     }
@@ -912,63 +912,49 @@ namespace OpenTween
             }
 
             //頭から探索
-            FindUnreadId(-1, Tab);
+            Tab.OldestUnreadId = this.FindUnreadId(Tab, null) ?? -1;
         }
 
-        private void FindUnreadId(int StartIdx, TabClass Tab)
+        /// <summary>
+        /// 指定されたタブ内の未読発言を検索し、該当する発言のIDを返します
+        /// </summary>
+        /// <param name="tab">検索対象のタブ</param>
+        /// <param name="startIdx">検索を開始するインデックス。全範囲から検索する場合は null を指定する</param>
+        /// <returns>未読発言のID、未読がなければ null</returns>
+        private long? FindUnreadId(TabClass tab, int? startIdx)
         {
-            if (Tab.AllCount == 0)
+            if (startIdx != null && (startIdx.Value < 0 || startIdx.Value + 1 > tab.AllCount))
+                throw new ArgumentOutOfRangeException("startIdx");
+
+            if (tab.AllCount == 0)
+                return null;
+
+            IEnumerable<int> searchRange;
+            if (this._sorter.Order == SortOrder.Ascending)
             {
-                Tab.OldestUnreadId = -1;
-                Tab.UnreadCount = 0;
-                return;
-            }
-            var toIdx = 0;
-            var stp = 1;
-            Tab.OldestUnreadId = -1;
-            if (_sorter.Order == SortOrder.Ascending)
-            {
-                if (StartIdx == -1)
-                {
-                    StartIdx = 0;
-                }
+                if (startIdx != null)
+                    searchRange = MyCommon.CountUp(startIdx.Value, tab.AllCount - 1);
                 else
-                {
-                    //StartIdx++;
-                    if (StartIdx > Tab.AllCount - 1) StartIdx = Tab.AllCount - 1; //念のため
-                }
-                toIdx = Tab.AllCount - 1;
-                if (toIdx < 0) toIdx = 0; //念のため
-                stp = 1;
+                    searchRange = MyCommon.CountUp(0, tab.AllCount - 1);
             }
             else
             {
-                if (StartIdx == -1)
-                {
-                    StartIdx = Tab.AllCount - 1;
-                }
+                if (startIdx != null)
+                    searchRange = MyCommon.CountDown(startIdx.Value, 0);
                 else
-                {
-                    //StartIdx--;
-                }
-                if (StartIdx < 0) StartIdx = 0; //念のため
-                toIdx = 0;
-                stp = -1;
+                    searchRange = MyCommon.CountDown(tab.AllCount - 1, 0);
             }
 
-            Dictionary<long, PostClass> posts = Tab.Posts;
-
-            for (int i = StartIdx; ; i+= stp)
+            var tabPosts = tab.Posts;
+            foreach (var idx in searchRange)
             {
-                var id = Tab.GetId(i);
-                if (id > -1 && !posts[id].IsRead)
-                {
-                    Tab.OldestUnreadId = id;
-                    break;
-                }
-
-                if (i == toIdx) break;
+                var postId = tab.GetId(idx);
+                if (postId != -1 && !tabPosts[postId].IsRead)
+                    return postId;
             }
+
+            // 未読なし
+            return null;
         }
 
         public int DistributePosts()
