@@ -110,6 +110,26 @@ namespace OpenTween.OpenTweenCustomControl
             set { NativeMethods.ListView_SetSelectionMark(this.Handle, value); }
         }
 
+        public void SelectItems(int[] indices)
+        {
+            foreach (var index in indices)
+            {
+                if (index < 0 || index >= this.VirtualListSize)
+                    throw new ArgumentOutOfRangeException("indices");
+
+                NativeMethods.SelectItem(this, index);
+            }
+
+            this.OnSelectedIndexChanged(EventArgs.Empty);
+        }
+
+        public void SelectAllItems()
+        {
+            NativeMethods.SelectAllItems(this);
+
+            this.OnSelectedIndexChanged(EventArgs.Empty);
+        }
+
         public void ChangeItemBackColor(int index, Color backColor)
         {
             ChangeSubItemBackColor(index, 0, backColor);

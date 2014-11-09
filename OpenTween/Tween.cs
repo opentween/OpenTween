@@ -1376,7 +1376,7 @@ namespace OpenTween
                                 //アイコン描画不具合あり？
                             }
                             this.SelectListItem(lst,
-                                                tabInfo.IndexOf(selId[tab.Text]),
+                                                tabInfo.IndexOf(selId[tab.Text]).Where(x => x != -1).ToArray(),
                                                 tabInfo.IndexOf(focusedId[tab.Text]));
                         }
                     }
@@ -8943,10 +8943,7 @@ namespace OpenTween
             else
             {
                 // ListView上でのCtrl+A
-                for (int i = 0; i < _curList.VirtualListSize; i++)
-                {
-                    _curList.SelectedIndices.Add(i);
-                }
+                NativeMethods.SelectAllItems(this._curList);
             }
         }
 
@@ -10498,22 +10495,14 @@ namespace OpenTween
                 flg = true;
             }
 
-            int fIdx = -1;
-            if (Index != null && !(Index.Length == 1 && Index[0] == -1))
+            if (Index != null)
             {
                 do
                 {
                     LView.SelectedIndices.Clear();
                 }
                 while (LView.SelectedIndices.Count > 0);
-                foreach (int idx in Index)
-                {
-                    if (idx > -1 && LView.VirtualListSize > idx)
-                    {
-                        LView.SelectedIndices.Add(idx);
-                        if (fIdx == -1) fIdx = idx;
-                    }
-                }
+                LView.SelectItems(Index);
             }
             if (FocusedIndex[1] > -1 && LView.VirtualListSize > FocusedIndex[1])
             {
@@ -10523,9 +10512,9 @@ namespace OpenTween
             {
                 LView.Items[FocusedIndex[0]].Focused = true;
             }
-            else if (fIdx > -1)
+            else if (Index != null && Index.Length != 0)
             {
-                LView.Items[fIdx].Focused = true;
+                LView.Items[Index.Last()].Focused = true;
             }
 
             if (flg) LView.Invalidate(bnd);

@@ -5,6 +5,7 @@
 //           (c) 2010-2011 anis774 (@anis774) <http://d.hatena.ne.jp/anis774/>
 //           (c) 2010-2011 fantasticswallow (@f_swallow) <http://twitter.com/f_swallow>
 //           (c) 2011      Egtra (@egtra) <http://dev.activebasic.com/egtra/>
+//           (c) 2014      kim_upsilon (@kim_upsilon) <https://upsilo.net/~upsilon/>
 // All rights reserved.
 // 
 // This file is part of OpenTween.
@@ -46,6 +47,13 @@ namespace OpenTween
             IntPtr wParam,
             IntPtr lParam);
 
+        [DllImport("user32.dll")]
+        private extern static IntPtr SendMessage(
+            IntPtr hwnd,
+            SendMessageType wMsg,
+            IntPtr wParam,
+            ref LVITEM lParam);
+
         // SendMessageで送信するメッセージ
         private enum SendMessageType : uint
         {
@@ -56,6 +64,7 @@ namespace OpenTween
             TCM_SETMINTABWIDTH = TCM_FIRST + 49, //タブアイテムの最小幅を設定
 
             LVM_FIRST = 0x1000,                    //リストビューメッセージ
+            LVM_SETITEMSTATE = LVM_FIRST + 43,     //アイテムの状態を設定
             LVM_GETSELECTIONMARK = LVM_FIRST + 66, //複数選択時の起点になるアイテムの位置を取得
             LVM_SETSELECTIONMARK = LVM_FIRST + 67, //複数選択時の起点になるアイテムを設定
         }
@@ -81,6 +90,66 @@ namespace OpenTween
         public static int SetMinTabWidth(TabControl tabControl, int width)
         {
             return (int)SendMessage(tabControl.Handle, SendMessageType.TCM_SETMINTABWIDTH, IntPtr.Zero, (IntPtr)width);
+        }
+
+        // 参照: LVITEM structure (Windows)
+        // http://msdn.microsoft.com/en-us/library/windows/desktop/bb774760%28v=vs.85%29.aspx
+        [StructLayout(LayoutKind.Sequential)]
+        [BestFitMapping(false, ThrowOnUnmappableChar = true)]
+        private struct LVITEM
+        {
+            public uint mask;
+            public int iItem;
+            public int iSubItem;
+            public LVIS state;
+            public LVIS stateMask;
+            public string pszText;
+            public int cchTextMax;
+            public int iImage;
+            public IntPtr lParam;
+            public int iIndent;
+            public int iGroupId;
+            public uint cColumns;
+            public uint puColumns;
+            public int piColFmt;
+            public int iGroup;
+        }
+
+        // 参照: List-View Item States (Windows)
+        // http://msdn.microsoft.com/en-us/library/windows/desktop/bb774733%28v=vs.85%29.aspx
+        [Flags]
+        private enum LVIS : uint
+        {
+            SELECTED = 0x02,
+        }
+
+        /// <summary>
+        /// ListView のアイテムを選択された状態にします
+        /// </summary>
+        /// <param name="listView">対象となる ListView</param>
+        /// <param name="index">選択するアイテムのインデックス</param>
+        /// <returns>成功した場合は true、それ以外の場合は false</returns>
+        public static bool SelectItem(ListView listView, int index)
+        {
+            // LVM_SETITEMSTATE では stateMask, state 以外のメンバーは無視される
+            var lvitem = new LVITEM
+            {
+                stateMask = LVIS.SELECTED,
+                state = LVIS.SELECTED,
+            };
+
+            var ret = (int)SendMessage(listView.Handle, SendMessageType.LVM_SETITEMSTATE, (IntPtr)index, ref lvitem);
+            return ret != 0;
+        }
+
+        /// <summary>
+        /// ListView の全アイテムを選択された状態にします
+        /// </summary>
+        /// <param name="listView">対象となる ListView</param>
+        /// <returns>成功した場合は true、それ以外の場合は false</returns>
+        public static bool SelectAllItems(ListView listView)
+        {
+            return SelectItem(listView, -1 /* all items */);
         }
 
         [DllImport("user32")]
