@@ -1375,9 +1375,14 @@ namespace OpenTween
                             {
                                 //アイコン描画不具合あり？
                             }
-                            this.SelectListItem(lst,
-                                                tabInfo.IndexOf(selId[tab.Text]).Where(x => x != -1).ToArray(),
-                                                tabInfo.IndexOf(focusedId[tab.Text]));
+
+                            // status_id から ListView 上のインデックスに変換
+                            var selectedIndices = selId[tab.Text] != null
+                                ? tabInfo.IndexOf(selId[tab.Text]).Where(x => x != -1).ToArray()
+                                : null;
+                            var focusedIndices = tabInfo.IndexOf(focusedId[tab.Text]);
+
+                            this.SelectListItem(lst, selectedIndices, focusedIndices);
                         }
                     }
                     if (tabInfo.UnreadCount > 0)
@@ -1534,7 +1539,7 @@ namespace OpenTween
                 }
                 else
                 {
-                    selId.Add(tab.Text, new long[1] {-2});
+                    selId.Add(tab.Text, null);
                 }
 
                 var fIds = new long[2];  // 0 = focus, 1 = selection mark
@@ -4052,9 +4057,13 @@ namespace OpenTween
                 TabClass tabInfo = _statuses.Tabs[tab.Text];
                 using (ControlTransaction.Update(lst))
                 {
-                    this.SelectListItem(lst,
-                                        tabInfo.IndexOf(selId[tab.Text]),
-                                        tabInfo.IndexOf(focusedId[tab.Text]));
+                    // status_id から ListView 上のインデックスに変換
+                    var selectedIndices = selId[tab.Text] != null
+                        ? tabInfo.IndexOf(selId[tab.Text]).Where(x => x != -1).ToArray()
+                        : null;
+                    var focusedIndices = tabInfo.IndexOf(focusedId[tab.Text]);
+
+                    this.SelectListItem(lst, selectedIndices, focusedIndices);
                 }
             }
         }
