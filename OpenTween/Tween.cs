@@ -1335,8 +1335,8 @@ namespace OpenTween
             int befCnt = _curList.VirtualListSize;
 
             //現在の選択状態を退避
-            Dictionary<string, long[]> selId = new Dictionary<string, long[]>();
-            Dictionary<string, long[]> focusedId = new Dictionary<string, long[]>();
+            var selId = new Dictionary<string, long[]>();
+            var focusedId = new Dictionary<string, Tuple<long, long>>();
             SaveSelectedStatus(selId, focusedId);
 
             //mentionsの更新前件数を保持
@@ -1380,9 +1380,10 @@ namespace OpenTween
                             var selectedIndices = selId[tab.Text] != null
                                 ? tabInfo.IndexOf(selId[tab.Text]).Where(x => x != -1).ToArray()
                                 : null;
-                            var focusedIndices = tabInfo.IndexOf(focusedId[tab.Text]);
+                            var focusedIndex = tabInfo.IndexOf(focusedId[tab.Text].Item1);
+                            var selectionMarkIndex = tabInfo.IndexOf(focusedId[tab.Text].Item2);
 
-                            this.SelectListItem(lst, selectedIndices, focusedIndices);
+                            this.SelectListItem(lst, selectedIndices, focusedIndex, selectionMarkIndex);
                         }
                     }
                     if (tabInfo.UnreadCount > 0)
@@ -1526,7 +1527,7 @@ namespace OpenTween
             return topId;
         }
 
-        private void SaveSelectedStatus(Dictionary<string, long[]> selId, Dictionary<string, long[]> focusedId)
+        private void SaveSelectedStatus(Dictionary<string, long[]> selId, Dictionary<string, Tuple<long, long>> focusedIdDict)
         {
             if (MyCommon._endingFlag) return;
             foreach (TabPage tab in ListTab.TabPages)
@@ -1542,12 +1543,13 @@ namespace OpenTween
                     selId.Add(tab.Text, null);
                 }
 
-                var fIds = new long[2];  // 0 = focus, 1 = selection mark
-                var item = lst.FocusedItem;
-                fIds[0] = (item != null) ? tabInfo.GetId(item.Index) : -2;
-                var mIdx = lst.SelectionMark;
-                fIds[1] = (mIdx > -1) ? tabInfo.GetId(mIdx) : -2;
-                focusedId.Add(tab.Text, fIds);
+                var focusedItem = lst.FocusedItem;
+                var focusedId = focusedItem != null ? tabInfo.GetId(focusedItem.Index) : -2;
+
+                var selectionMarkIndex = lst.SelectionMark;
+                var selectionMarkId = selectionMarkIndex != -1 ? tabInfo.GetId(selectionMarkIndex) : -2;
+
+                focusedIdDict[tab.Text] = Tuple.Create(focusedId, selectionMarkId);
             }
 
         }
@@ -4044,8 +4046,8 @@ namespace OpenTween
             if (ListTab.Alignment == newAlignment) return;
 
             //現在の選択状態を退避
-            Dictionary<string, long[]> selId = new Dictionary<string, long[]>();
-            Dictionary<string, long[]> focusedId = new Dictionary<string, long[]>();
+            var selId = new Dictionary<string, long[]>();
+            var focusedId = new Dictionary<string, Tuple<long, long>>();
             SaveSelectedStatus(selId, focusedId);
 
             ListTab.Alignment = newAlignment;
@@ -4061,9 +4063,10 @@ namespace OpenTween
                     var selectedIndices = selId[tab.Text] != null
                         ? tabInfo.IndexOf(selId[tab.Text]).Where(x => x != -1).ToArray()
                         : null;
-                    var focusedIndices = tabInfo.IndexOf(focusedId[tab.Text]);
+                    var focusedIndex = tabInfo.IndexOf(focusedId[tab.Text].Item1);
+                    var selectionMarkIndex = tabInfo.IndexOf(focusedId[tab.Text].Item2);
 
-                    this.SelectListItem(lst, selectedIndices, focusedIndices);
+                    this.SelectListItem(lst, selectedIndices, focusedIndex, selectionMarkIndex);
                 }
             }
         }
@@ -10492,7 +10495,7 @@ namespace OpenTween
             if (flg) LView.Invalidate(bnd);
         }
 
-        private void SelectListItem(DetailsListView LView , int[] Index, int[] FocusedIndex)
+        private void SelectListItem(DetailsListView LView , int[] Index, int focusedIndex, int selectionMarkIndex)
         {
             //複数
             Rectangle bnd = new Rectangle();
@@ -10513,13 +10516,13 @@ namespace OpenTween
                 while (LView.SelectedIndices.Count > 0);
                 LView.SelectItems(Index);
             }
-            if (FocusedIndex[1] > -1 && LView.VirtualListSize > FocusedIndex[1])
+            if (selectionMarkIndex > -1 && LView.VirtualListSize > selectionMarkIndex)
             {
-                LView.SelectionMark = FocusedIndex[1];
+                LView.SelectionMark = selectionMarkIndex;
             }
-            if (FocusedIndex[0] > -1 && LView.VirtualListSize > FocusedIndex[0])
+            if (focusedIndex > -1 && LView.VirtualListSize > focusedIndex)
             {
-                LView.Items[FocusedIndex[0]].Focused = true;
+                LView.Items[focusedIndex].Focused = true;
             }
             else if (Index != null && Index.Length != 0)
             {
