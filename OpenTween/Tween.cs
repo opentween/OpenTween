@@ -7169,6 +7169,9 @@ namespace OpenTween
 
         private void GoTopEnd(bool GoTop)
         {
+            if (_curList.VirtualListSize == 0)
+                return;
+
             ListViewItem _item;
             int idx;
 
@@ -7193,6 +7196,9 @@ namespace OpenTween
 
         private void GoMiddle()
         {
+            if (_curList.VirtualListSize == 0)
+                return;
+
             ListViewItem _item;
             int idx1;
             int idx2;
