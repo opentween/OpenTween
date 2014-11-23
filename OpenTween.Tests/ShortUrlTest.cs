@@ -59,6 +59,30 @@ namespace OpenTween
         }
 
         [Fact]
+        public async Task ExpandUrlAsync_IrregularUrlTest()
+        {
+            var handler = new HttpMessageHandlerMock();
+            using (var http = new HttpClient(handler))
+            {
+                var shortUrl = new ShortUrl(http);
+
+                // https://www.flickr.com/photo.gne?short=hoge -> /photos/foo/11111/
+                handler.Enqueue(x =>
+                {
+                    Assert.Equal(HttpMethod.Head, x.Method);
+                    Assert.Equal(new Uri("https://www.flickr.com/photo.gne?short=hoge"), x.RequestUri);
+
+                    return this.CreateRedirectResponse("/photos/foo/11111/");
+                });
+
+                Assert.Equal(new Uri("https://www.flickr.com/photos/foo/11111/"),
+                    await shortUrl.ExpandUrlAsync(new Uri("https://www.flickr.com/photo.gne?short=hoge")));
+
+                Assert.Equal(0, handler.QueueCount);
+            }
+        }
+
+        [Fact]
         public async Task ExpandUrlAsync_DisableExpandingTest()
         {
             var handler = new HttpMessageHandlerMock();

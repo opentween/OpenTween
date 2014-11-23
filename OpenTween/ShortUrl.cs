@@ -194,7 +194,7 @@ namespace OpenTween
 
             try
             {
-                if (!ShortUrlHosts.Contains(uri.Host))
+                if (!ShortUrlHosts.Contains(uri.Host) && !IsIrregularShortUrl(uri))
                     return uri;
 
                 Uri expanded;
@@ -476,6 +476,17 @@ namespace OpenTween
 
                 return new Uri(result.TrimEnd());
             }
+        }
+
+        private bool IsIrregularShortUrl(Uri uri)
+        {
+            // Flickrの https://www.flickr.com/photo.gne?short=... 形式のURL
+            // flic.kr ドメインのURLを展開する途中に経由する
+            if (uri.Host.EndsWith("flickr.com", StringComparison.OrdinalIgnoreCase) &&
+                uri.PathAndQuery.StartsWith("/photo.gne", StringComparison.OrdinalIgnoreCase))
+                return true;
+
+            return false;
         }
 
         private async Task<Uri> GetRedirectTo(Uri url)

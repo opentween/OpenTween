@@ -21,6 +21,7 @@
  * FIX: UserStreamsから時々不正なJSONが送られてくる問題への対処
  * FIX: ミュート機能がRecentタブで正しく動作していなかった不具合を修正
  * FIX: 空のタブを表示した状態で Shift+H, Shift+M, Shift+L (画面上,中央,下のツイートを選択) を押下するとエラーが発生する不具合を修正
+ * FIX: flic.kr ドメインのURLでサムネイル表示が出来なくなっていた問題を修正
 
 ==== Ver 1.2.3(2014/09/03)
  * NEW: UserSteams の (un)mute イベント追加に対応
