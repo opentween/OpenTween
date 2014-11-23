@@ -4974,7 +4974,7 @@ namespace OpenTween
             finally { this.itemCacheLock.ExitUpgradeableReadLock(); }
         }
 
-        private async void MyList_RetrieveVirtualItem(object sender, RetrieveVirtualItemEventArgs e)
+        private void MyList_RetrieveVirtualItem(object sender, RetrieveVirtualItemEventArgs e)
         {
             ListViewItem item = null;
             PostClass cacheItemPost = null;
