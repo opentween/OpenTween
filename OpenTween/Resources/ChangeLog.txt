@@ -1,6 +1,6 @@
 ﻿更新履歴
 
-==== Ver 1.2.4-beta1(2014/xx/xx)
+==== Ver 1.2.4(2014/11/23)
  * NEW: Mobypicture (mobypicture.com) への画像投稿に対応
  * NEW: tmblr.co で短縮されたTumblrのURLに対してもサムネイル表示できるようにしました
  * NEW: i.instagram.com ドメインのURLのサムネイル表示に対応

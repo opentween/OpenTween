@@ -634,19 +634,17 @@ namespace OpenTween.Properties {
         /// <summary>
         ///   更新履歴
         ///
-        ///==== Ver 1.2.4-beta1(2014/xx/xx)
-        ///
-        ///==== Ver 1.2.3(2014/09/03)
-        /// * NEW: UserSteams の (un)mute イベント追加に対応
-        ///  - 再起動せずにミュートの追加・解除が反映されるようになります
-        /// * CHG: 複数選択状態の画像ファイルをD&amp;Dした際の動作を変更しました
-        ///  - ドロップされたファイルを一度に読み込むようにしました（投稿先の投稿可能枚数までで、現状は pic.twitter.com のみ）
-        /// * FIX: 翻訳機能使用時に発言詳細部のフォント設定が適用されない問題を修正
-        /// * FIX: ツイート投稿時などに接続エラーが発生する現象の対策 (thx @moccos!)
-        /// * CHG: UserSteams のイベント通知に使用される NotifyIcon のバルーンアイコンを Warning から Info に変更
-        ///
-        ///==== Ver 1.2.2(2014/07/06)
-        /// * このバージョンのOpenTweenは pic.twitter.com に複数枚の画像が含まれている場合の表 [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
+        ///==== Ver 1.2.4(2014/11/23)
+        /// * NEW: Mobypicture (mobypicture.com) への画像投稿に対応
+        /// * NEW: tmblr.co で短縮されたTumblrのURLに対してもサムネイル表示できるようにしました
+        /// * NEW: i.instagram.com ドメインのURLのサムネイル表示に対応
+        /// * CHG: サービス終了のため、Twitpic を画像の投稿先から削除
+        ///  - それに伴い、デフォルトの投稿先を Twitter (pic.twitter.com) に変更しました
+        /// * CHG: プロフィール表示・編集でのエスケープ処理を twitter.com での挙動に合わせました
+        ///  - 名前および現在地に &lt; &gt; &quot; の記号を使うことはできません (Twitter側で削除されます)
+        ///  - 自己紹介では &lt; &gt; &quot; の記号はそれぞれ &amp;lt; &amp;gt; &amp;quot; に変換した上で設定されます
+        /// * CHG: プロフィール画面へのD&amp;Dによるアイコン変更時に確認ダイアログを出すようにしました
+        /// * FIX: 画像投稿 [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ChangeLog {
             get {
