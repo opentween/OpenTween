@@ -78,5 +78,89 @@ namespace OpenTween
             var baseTabName = "NewTab";
             Assert.Throws<TabException>(() => this.tabinfo.MakeTabName(baseTabName, 5));
         }
+
+        [Fact]
+        public void IsMuted_Test()
+        {
+            this.tabinfo.MuteUserIds = new List<long> { 12345L };
+
+            var post = new PostClass
+            {
+                UserId = 12345L,
+                Text = "hogehoge",
+            };
+            Assert.True(this.tabinfo.IsMuted(post));
+        }
+
+        [Fact]
+        public void IsMuted_NotMutingTest()
+        {
+            this.tabinfo.MuteUserIds = new List<long> { 12345L };
+
+            var post = new PostClass
+            {
+                UserId = 11111L,
+                Text = "hogehoge",
+            };
+            Assert.False(this.tabinfo.IsMuted(post));
+        }
+
+        [Fact]
+        public void IsMuted_RetweetTest()
+        {
+            this.tabinfo.MuteUserIds = new List<long> { 12345L };
+
+            var post = new PostClass
+            {
+                UserId = 11111L,
+                RetweetedByUserId = 12345L,
+                Text = "hogehoge",
+            };
+            Assert.True(this.tabinfo.IsMuted(post));
+        }
+
+        [Fact]
+        public void IsMuted_RetweetNotMutingTest()
+        {
+            this.tabinfo.MuteUserIds = new List<long> { 12345L };
+
+            var post = new PostClass
+            {
+                UserId = 11111L,
+                RetweetedByUserId = 22222L,
+                Text = "hogehoge",
+            };
+            Assert.False(this.tabinfo.IsMuted(post));
+        }
+
+        [Fact]
+        public void IsMuted_ReplyTest()
+        {
+            this.tabinfo.MuteUserIds = new List<long> { 12345L };
+
+            // ミュート対象のユーザーであってもリプライの場合は対象外とする
+            var post = new PostClass
+            {
+                UserId = 12345L,
+                Text = "@foo hogehoge",
+                IsReply = true,
+            };
+            Assert.False(this.tabinfo.IsMuted(post));
+        }
+
+        [Fact]
+        public void IsMuted_NotInHomeTimelineTest()
+        {
+            this.tabinfo.MuteUserIds = new List<long> { 12345L };
+
+            // Recent以外のタブ（検索など）の場合は対象外とする
+            var post = new PostClass
+            {
+                UserId = 12345L,
+                Text = "hogehoge",
+                RelTabName = "Search",
+            };
+            Assert.False(this.tabinfo.IsMuted(post));
+        }
     }
 }

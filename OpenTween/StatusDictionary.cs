@@ -1230,11 +1230,11 @@ namespace OpenTween
             }
         }
 
-        private bool IsMuted(PostClass post)
+        public bool IsMuted(PostClass post)
         {
             // Recent以外のツイートと、リプライはミュート対象外
             // 参照: https://support.twitter.com/articles/20171399-muting-users-on-twitter
-            if (string.IsNullOrEmpty(post.RelTabName) || post.IsReply)
+            if (!string.IsNullOrEmpty(post.RelTabName) || post.IsReply)
                 return false;
 
             if (this.MuteUserIds.Contains(post.UserId))
