@@ -9034,10 +9034,6 @@ namespace OpenTween
                             href = MyCommon.IDNEncode(linkElm.GetAttribute("href"));
                             if (string.IsNullOrEmpty(urlStr)) urlStr = href;
                             linkText = linkElm.InnerText;
-                            if (!linkText.StartsWith("http") && !linkText.StartsWith("#") && !linkText.Contains("."))
-                            {
-                                linkText = "@" + linkText;
-                            }
                         }
                         catch (ArgumentException)
                         {
