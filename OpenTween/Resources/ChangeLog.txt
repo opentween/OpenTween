@@ -1,5 +1,7 @@
 ﻿更新履歴
 
+==== Ver 1.2.5-beta1(20xx/xx/xx)
+
 ==== Ver 1.2.4(2014/11/23)
  * NEW: Mobypicture (mobypicture.com) への画像投稿に対応
  * NEW: tmblr.co で短縮されたTumblrのURLに対してもサムネイル表示できるようにしました

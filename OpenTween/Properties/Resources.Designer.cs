@@ -634,6 +634,8 @@ namespace OpenTween.Properties {
         /// <summary>
         ///   更新履歴
         ///
+        ///==== Ver 1.2.5-beta1(20xx/xx/xx)
+        ///
         ///==== Ver 1.2.4(2014/11/23)
         /// * NEW: Mobypicture (mobypicture.com) への画像投稿に対応
         /// * NEW: tmblr.co で短縮されたTumblrのURLに対してもサムネイル表示できるようにしました
@@ -643,8 +645,7 @@ namespace OpenTween.Properties {
         /// * CHG: プロフィール表示・編集でのエスケープ処理を twitter.com での挙動に合わせました
         ///  - 名前および現在地に &lt; &gt; &quot; の記号を使うことはできません (Twitter側で削除されます)
         ///  - 自己紹介では &lt; &gt; &quot; の記号はそれぞれ &amp;lt; &amp;gt; &amp;quot; に変換した上で設定されます
-        /// * CHG: プロフィール画面へのD&amp;Dによるアイコン変更時に確認ダイアログを出すようにしました
-        /// * FIX: 画像投稿 [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
+        /// * CHG: プロフィール画面へのD&amp;Dによるアイコ [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ChangeLog {
             get {
