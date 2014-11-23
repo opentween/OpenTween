@@ -623,6 +623,15 @@ namespace OpenTween.Properties {
         }
         
         /// <summary>
+        ///   アイコンを変更します。よろしいですか？ に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ChangeIconToolStripMenuItem_Confirm {
+            get {
+                return ResourceManager.GetString("ChangeIconToolStripMenuItem_Confirm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   更新履歴
         ///
         ///==== Ver 1.2.4-beta1(2014/xx/xx)

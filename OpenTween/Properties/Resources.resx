@@ -1177,4 +1177,7 @@
   <data name="CheckRuntimeVersion_Error" xml:space="preserve">
     <value>このソフトウェアは {0} 以降が必要です。</value>
   </data>
+  <data name="ChangeIconToolStripMenuItem_Confirm" xml:space="preserve">
+    <value>アイコンを変更します。よろしいですか？</value>
+  </data>
 </root>

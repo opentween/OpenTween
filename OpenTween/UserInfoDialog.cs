@@ -715,6 +715,11 @@ namespace OpenTween
         {
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
             {
+                var ret = MessageBox.Show(this, Properties.Resources.ChangeIconToolStripMenuItem_Confirm,
+                    Application.ProductName, MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+                if (ret != DialogResult.OK)
+                    return;
+
                 string filename = ((string[])e.Data.GetData(DataFormats.FileDrop, false))[0];
                 await this.DoChangeIcon(filename);
             }

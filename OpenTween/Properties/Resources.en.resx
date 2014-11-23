@@ -1119,4 +1119,7 @@ Available service: {1}</value>
   <data name="CheckRuntimeVersion_Error" xml:space="preserve">
     <value>This software requires {0} or later version.</value>
   </data>
+  <data name="ChangeIconToolStripMenuItem_Confirm" xml:space="preserve">
+    <value>Do you really want to change icon?</value>
+  </data>
 </root>
