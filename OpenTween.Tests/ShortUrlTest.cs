@@ -72,7 +72,7 @@ namespace OpenTween
                     Assert.Equal(HttpMethod.Head, x.Method);
                     Assert.Equal(new Uri("https://www.flickr.com/photo.gne?short=hoge"), x.RequestUri);
 
-                    return this.CreateRedirectResponse("/photos/foo/11111/");
+                    return this.CreateRedirectResponse("/photos/foo/11111/", UriKind.Relative);
                 });
 
                 Assert.Equal(new Uri("https://www.flickr.com/photos/foo/11111/"),
@@ -219,7 +219,7 @@ namespace OpenTween
                     Assert.Equal(HttpMethod.Head, x.Method);
                     Assert.Equal(new Uri("https://t.co/hogehoge"), x.RequestUri);
 
-                    return this.CreateRedirectResponse("/tetetete");
+                    return this.CreateRedirectResponse("/tetetete", UriKind.Relative);
                 });
 
                 // https://t.co/tetetete -> http://example.com/tetetete
@@ -378,8 +378,13 @@ namespace OpenTween
 
         private HttpResponseMessage CreateRedirectResponse(string uriStr)
         {
+            return this.CreateRedirectResponse(uriStr, UriKind.Absolute);
+        }
+
+        private HttpResponseMessage CreateRedirectResponse(string uriStr, UriKind uriKind)
+        {
             var response = new HttpResponseMessage(HttpStatusCode.TemporaryRedirect);
-            response.Headers.Location = new Uri(uriStr, UriKind.RelativeOrAbsolute);
+            response.Headers.Location = new Uri(uriStr, uriKind);
             return response;
         }
 
