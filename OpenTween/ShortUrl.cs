@@ -491,7 +491,15 @@ namespace OpenTween
                         response.EnsureSuccessStatusCode();
                 }
 
-                return response.Headers.Location;
+                var redirectedUrl = response.Headers.Location;
+
+                if (redirectedUrl == null)
+                    return null;
+
+                if (redirectedUrl.IsAbsoluteUri)
+                    return redirectedUrl;
+                else
+                    return new Uri(url, redirectedUrl);
             }
         }
 

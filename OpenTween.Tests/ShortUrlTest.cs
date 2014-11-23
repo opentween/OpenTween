@@ -181,6 +181,40 @@ namespace OpenTween
         }
 
         [Fact]
+        public async Task ExpandUrlAsync_RelativeRedirectTest()
+        {
+            var handler = new HttpMessageHandlerMock();
+            using (var http = new HttpClient(handler))
+            {
+                var shortUrl = new ShortUrl(http);
+
+                // Location に相対 URL を指定したリダイレクト (テストに使う URL は適当)
+                // https://t.co/hogehoge -> /tetetete
+                handler.Enqueue(x =>
+                {
+                    Assert.Equal(HttpMethod.Head, x.Method);
+                    Assert.Equal(new Uri("https://t.co/hogehoge"), x.RequestUri);
+
+                    return this.CreateRedirectResponse("/tetetete");
+                });
+
+                // https://t.co/tetetete -> http://example.com/tetetete
+                handler.Enqueue(x =>
+                {
+                    Assert.Equal(HttpMethod.Head, x.Method);
+                    Assert.Equal(new Uri("https://t.co/tetetete"), x.RequestUri);
+
+                    return this.CreateRedirectResponse("http://example.com/tetetete");
+                });
+
+                Assert.Equal(new Uri("http://example.com/tetetete"),
+                    await shortUrl.ExpandUrlAsync(new Uri("https://t.co/hogehoge")));
+
+                Assert.Equal(0, handler.QueueCount);
+            }
+        }
+
+        [Fact]
         public async Task ExpandUrlAsync_String_Test()
         {
             var handler = new HttpMessageHandlerMock();
@@ -321,7 +355,7 @@ namespace OpenTween
         private HttpResponseMessage CreateRedirectResponse(string uriStr)
         {
             var response = new HttpResponseMessage(HttpStatusCode.TemporaryRedirect);
-            response.Headers.Location = new Uri(uriStr);
+            response.Headers.Location = new Uri(uriStr, UriKind.RelativeOrAbsolute);
             return response;
         }
 
