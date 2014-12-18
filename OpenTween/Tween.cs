@@ -5146,6 +5146,9 @@ namespace OpenTween
 
                 if (!this._cfgCommon.TabIconDisp)
                     this.ListTab.Refresh();
+
+                SetMainWindowTitle();
+                SetStatusLabelUrl();
             }
             finally
             {
