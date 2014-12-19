@@ -3512,10 +3512,8 @@ namespace OpenTween
             else
                 focusedIndex = 0;
 
-            try
+            using (ControlTransaction.Cursor(this, Cursors.WaitCursor))
             {
-                this.Cursor = Cursors.WaitCursor;
-
                 string lastError = null;
                 foreach (var post in posts)
                 {
@@ -3592,10 +3590,6 @@ namespace OpenTween
 
                 if (!this._cfgCommon.TabIconDisp)
                     this.ListTab.Refresh();
-            }
-            finally
-            {
-                this.Cursor = Cursors.Default;
             }
         }
 
@@ -5105,10 +5099,8 @@ namespace OpenTween
         /// </summary>
         private void ApplyPostFilters()
         {
-            try
+            using (ControlTransaction.Cursor(this, Cursors.WaitCursor))
             {
-                this.Cursor = Cursors.WaitCursor;
-
                 this.PurgeListViewItemCache();
                 this._curPost = null;
                 this._curItemIndex = -1;
@@ -5138,10 +5130,6 @@ namespace OpenTween
 
                 SetMainWindowTitle();
                 SetStatusLabelUrl();
-            }
-            finally
-            {
-                this.Cursor = Cursors.Default;
             }
         }
 

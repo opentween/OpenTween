@@ -77,6 +77,13 @@ namespace OpenTween
             return new Transaction<ISupportInitialize>(control, x => x.BeginInit(), x => x.EndInit());
         }
 
+        public static IDisposable Cursor(Control control, Cursor newCursor)
+        {
+            var oldCursor = control.Cursor;
+
+            return new Transaction<Control>(control, x => x.Cursor = newCursor, x => x.Cursor = oldCursor);
+        }
+
         private class Transaction<T> : IDisposable
         {
             private readonly T control;
