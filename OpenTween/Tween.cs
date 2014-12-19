@@ -3387,7 +3387,6 @@ namespace OpenTween
                 ReadedStripMenuItem.Enabled = true;
                 UnreadStripMenuItem.Enabled = true;
             }
-            DeleteStripMenuItem.Text = Properties.Resources.DeleteMenuText1;
             if (_statuses.Tabs[ListTab.SelectedTab.Text].TabType == MyCommon.TabUsageType.DirectMessage || !this.ExistCurrentPost || _curPost.IsDm)
             {
                 FavAddToolStripMenuItem.Enabled = false;
@@ -3401,10 +3400,6 @@ namespace OpenTween
                 QuoteStripMenuItem.Enabled = false;
                 FavoriteRetweetContextMenu.Enabled = false;
                 FavoriteRetweetUnofficialContextMenu.Enabled = false;
-                if (this.ExistCurrentPost && _curPost.IsDm)
-                    DeleteStripMenuItem.Enabled = true;
-                else
-                    DeleteStripMenuItem.Enabled = false;
             }
             else
             {
@@ -3418,27 +3413,9 @@ namespace OpenTween
                 {
                     ReTweetOriginalStripMenuItem.Enabled = false;
                     FavoriteRetweetContextMenu.Enabled = false;
-                    if (string.IsNullOrEmpty(_curPost.RetweetedBy))
-                    {
-                        DeleteStripMenuItem.Text = Properties.Resources.DeleteMenuText1;
-                    }
-                    else
-                    {
-                        DeleteStripMenuItem.Text = Properties.Resources.DeleteMenuText2;
-                    }
-                    DeleteStripMenuItem.Enabled = true;
                 }
                 else
                 {
-                    if (string.IsNullOrEmpty(_curPost.RetweetedBy))
-                    {
-                        DeleteStripMenuItem.Text = Properties.Resources.DeleteMenuText1;
-                    }
-                    else
-                    {
-                        DeleteStripMenuItem.Text = Properties.Resources.DeleteMenuText2;
-                    }
-                    DeleteStripMenuItem.Enabled = false;
                     if (_curPost.IsProtect)
                     {
                         ReTweetOriginalStripMenuItem.Enabled = false;
@@ -3482,6 +3459,15 @@ namespace OpenTween
             {
                 MoveToRTHomeMenuItem.Enabled = true;
             }
+
+            if (this.ExistCurrentPost)
+            {
+                this.DeleteStripMenuItem.Enabled = this._curPost.CanDeleteBy(this.tw.UserId);
+                if (this._curPost.RetweetedByUserId == this.tw.UserId)
+                    this.DeleteStripMenuItem.Text = Properties.Resources.DeleteMenuText2;
+                else
+                    this.DeleteStripMenuItem.Text = Properties.Resources.DeleteMenuText1;
+            }
         }
 
         private void ReplyStripMenuItem_Click(object sender, EventArgs e)
@@ -3496,113 +3482,116 @@ namespace OpenTween
 
         private void doStatusDelete()
         {
-            if (_curTab == null || _curList == null) return;
-            if (_statuses.Tabs[_curTab.Text].TabType != MyCommon.TabUsageType.DirectMessage)
-            {
-                bool myPost = false;
-                foreach (int idx in _curList.SelectedIndices)
-                {
-                    if (GetCurTabPost(idx).IsMe ||
-                       GetCurTabPost(idx).RetweetedBy.ToLower() == tw.Username.ToLower())
-                    {
-                        myPost = true;
-                        break;
-                    }
-                }
-                if (!myPost) return;
-            }
+            if (this._curTab == null || this._curList == null)
+                return;
+
+            if (this._curList.SelectedIndices.Count == 0)
+                return;
+
+            var posts = this._curList.SelectedIndices.Cast<int>()
+                .Select(x => this.GetCurTabPost(x))
+                .ToArray();
+
+            // 選択されたツイートの中に削除可能なものが一つでもあるか
+            if (!posts.Any(x => x.CanDeleteBy(this.tw.UserId)))
+                return;
+
+            var ret = MessageBox.Show(this,
+                string.Format(Properties.Resources.DeleteStripMenuItem_ClickText1, Environment.NewLine),
+                Properties.Resources.DeleteStripMenuItem_ClickText2,
+                MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+
+            if (ret != DialogResult.OK)
+                return;
+
+            int focusedIndex;
+            if (this._curList.FocusedItem != null)
+                focusedIndex = this._curList.FocusedItem.Index;
+            else if (this._curList.TopItem != null)
+                focusedIndex = this._curList.TopItem.Index;
             else
-            {
-                if (_curList.SelectedIndices.Count == 0)
-                    return;
-            }
-
-            string tmp = string.Format(Properties.Resources.DeleteStripMenuItem_ClickText1, Environment.NewLine);
-
-            if (MessageBox.Show(tmp, Properties.Resources.DeleteStripMenuItem_ClickText2,
-                  MessageBoxButtons.OKCancel,
-                  MessageBoxIcon.Question) == DialogResult.Cancel) return;
-
-            int fidx;
-            if (_curList.FocusedItem != null)
-                fidx = _curList.FocusedItem.Index;
-            else if (_curList.TopItem != null)
-                fidx = _curList.TopItem.Index;
-            else
-                fidx = 0;
+                focusedIndex = 0;
 
             try
             {
                 this.Cursor = Cursors.WaitCursor;
 
-                bool rslt = true;
-                foreach (long Id in _statuses.GetId(_curTab.Text, _curList.SelectedIndices))
+                string lastError = null;
+                foreach (var post in posts)
                 {
-                    string rtn = "";
-                    if (_statuses.Tabs[_curTab.Text].TabType == MyCommon.TabUsageType.DirectMessage)
+                    if (!post.CanDeleteBy(this.tw.UserId))
+                        continue;
+
+                    string err;
+                    if (post.IsDm)
                     {
-                        rtn = tw.RemoveDirectMessage(Id, _statuses[Id]);
+                        err = this.tw.RemoveDirectMessage(post.StatusId, post);
                     }
                     else
                     {
-                        if (_statuses[Id].IsMe || _statuses[Id].RetweetedBy.ToLower() == tw.Username.ToLower())
-                            rtn = tw.RemoveStatus(Id);
+                        if (post.RetweetedId != null && post.UserId == this.tw.UserId)
+                            // 他人に RT された自分のツイート
+                            err = this.tw.RemoveStatus(post.RetweetedId.Value);
                         else
-                            continue;
+                            // 自分のツイート or 自分が RT したツイート
+                            err = this.tw.RemoveStatus(post.StatusId);
                     }
-                    if (rtn.Length > 0)
+
+                    if (!string.IsNullOrEmpty(err))
                     {
-                        //エラー
-                        rslt = false;
+                        lastError = err;
+                        continue;
                     }
-                    else
-                    {
-                        _statuses.RemovePost(Id);
-                    }
+
+                    this._statuses.RemovePost(post.StatusId);
                 }
 
-                if (!rslt)
-                    StatusLabel.Text = Properties.Resources.DeleteStripMenuItem_ClickText3;  //失敗
+                if (lastError == null)
+                    this.StatusLabel.Text = Properties.Resources.DeleteStripMenuItem_ClickText4; // 成功
                 else
-                    StatusLabel.Text = Properties.Resources.DeleteStripMenuItem_ClickText4;  //成功
+                    this.StatusLabel.Text = Properties.Resources.DeleteStripMenuItem_ClickText3; // 失敗
 
                 this.PurgeListViewItemCache();
-                _curPost = null;
-                _curItemIndex = -1;
-                foreach (TabPage tb in ListTab.TabPages)
+                this._curPost = null;
+                this._curItemIndex = -1;
+
+                foreach (var tabPage in this.ListTab.TabPages.Cast<TabPage>())
                 {
-                    ((DetailsListView)tb.Tag).VirtualListSize = _statuses.Tabs[tb.Text].AllCount;
-                    if (_curTab.Equals(tb))
+                    var listView = (DetailsListView)tabPage.Tag;
+                    var tab = this._statuses.Tabs[tabPage.Text];
+
+                    using (ControlTransaction.Update(listView))
                     {
-                        do
-                        {
-                            _curList.SelectedIndices.Clear();
-                        }
-                        while (_curList.SelectedIndices.Count > 0);
+                        listView.VirtualListSize = tab.AllCount;
 
-                        if (_statuses.Tabs[tb.Text].AllCount > 0)
+                        if (tabPage == this._curTab)
                         {
-                            if (_statuses.Tabs[tb.Text].AllCount - 1 > fidx && fidx > -1)
-                                _curList.SelectedIndices.Add(fidx);
-                            else
-                                _curList.SelectedIndices.Add(_statuses.Tabs[tb.Text].AllCount - 1);
+                            listView.SelectedIndices.Clear();
 
-                            if (_curList.SelectedIndices.Count > 0)
+                            if (tab.AllCount != 0)
                             {
-                                _curList.EnsureVisible(_curList.SelectedIndices[0]);
-                                _curList.FocusedItem = _curList.Items[_curList.SelectedIndices[0]];
+                                int selectedIndex;
+                                if (tab.AllCount - 1 > focusedIndex && focusedIndex > -1)
+                                    selectedIndex = focusedIndex;
+                                else
+                                    selectedIndex = tab.AllCount - 1;
+
+                                listView.SelectedIndices.Add(selectedIndex);
+                                listView.EnsureVisible(selectedIndex);
+                                listView.FocusedItem = listView.Items[selectedIndex];
                             }
                         }
                     }
-                    if (_statuses.Tabs[tb.Text].UnreadCount == 0)
+
+                    if (this._cfgCommon.TabIconDisp && tab.UnreadCount == 0)
                     {
-                        if (this._cfgCommon.TabIconDisp)
-                        {
-                            if (tb.ImageIndex == 0) tb.ImageIndex = -1; //タブアイコン
-                        }
+                        if (tabPage.ImageIndex == 0)
+                            tabPage.ImageIndex = -1; // タブアイコン
                     }
                 }
-                if (!this._cfgCommon.TabIconDisp) ListTab.Refresh();
+
+                if (!this._cfgCommon.TabIconDisp)
+                    this.ListTab.Refresh();
             }
             finally
             {
@@ -11755,7 +11744,6 @@ namespace OpenTween
                 this.QtOpMenuItem.Enabled = false;
                 this.FavoriteRetweetMenuItem.Enabled = false;
                 this.FavoriteRetweetUnofficialMenuItem.Enabled = false;
-                if (this.ExistCurrentPost && _curPost.IsDm) this.DelOpMenuItem.Enabled = true;
             }
             else
             {
@@ -11769,11 +11757,9 @@ namespace OpenTween
                 {
                     this.RtOpMenuItem.Enabled = false;
                     this.FavoriteRetweetMenuItem.Enabled = false;
-                    this.DelOpMenuItem.Enabled = true;
                 }
                 else
                 {
-                    this.DelOpMenuItem.Enabled = false;
                     if (_curPost.IsProtect)
                     {
                         this.RtOpMenuItem.Enabled = false;
@@ -11817,6 +11803,11 @@ namespace OpenTween
             else
             {
                 OpenRterHomeMenuItem.Enabled = true;
+            }
+
+            if (this.ExistCurrentPost)
+            {
+                this.DelOpMenuItem.Enabled = this._curPost.CanDeleteBy(this.tw.UserId);
             }
         }
 

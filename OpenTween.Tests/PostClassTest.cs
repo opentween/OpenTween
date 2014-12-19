@@ -182,5 +182,89 @@ namespace OpenTween
             Assert.Empty(post.ReplyToList);
             Assert.Equal(-1, post.StateIndex);
         }
+
+        [Fact]
+        public void CanDeleteBy_SentDMTest()
+        {
+            var post = new TestPostClass
+            {
+                IsDm = true,
+                IsMe = true, // 自分が送信した DM
+                UserId = 222L, // 送信先ユーザーID
+            };
+
+            Assert.True(post.CanDeleteBy(selfUserId: 111L));
+        }
+
+        [Fact]
+        public void CanDeleteBy_ReceivedDMTest()
+        {
+            var post = new TestPostClass
+            {
+                IsDm = true,
+                IsMe = false, // 自分が受け取った DM
+                UserId = 222L, // 送信元ユーザーID
+            };
+
+            Assert.True(post.CanDeleteBy(selfUserId: 111L));
+        }
+
+        [Fact]
+        public void CanDeleteBy_MyTweetTest()
+        {
+            var post = new TestPostClass
+            {
+                UserId = 111L, // 自分のツイート
+            };
+
+            Assert.True(post.CanDeleteBy(selfUserId: 111L));
+        }
+
+        [Fact]
+        public void CanDeleteBy_OthersTweetTest()
+        {
+            var post = new TestPostClass
+            {
+                UserId = 222L, // 他人のツイート
+            };
+
+            Assert.False(post.CanDeleteBy(selfUserId: 111L));
+        }
+
+        [Fact]
+        public void CanDeleteBy_RetweetedByMeTest()
+        {
+            var post = new TestPostClass
+            {
+                RetweetedByUserId = 111L, // 自分がリツイートした
+                UserId = 222L, // 他人のツイート
+            };
+
+            Assert.True(post.CanDeleteBy(selfUserId: 111L));
+        }
+
+        [Fact]
+        public void CanDeleteBy_RetweetedByOthersTest()
+        {
+            var post = new TestPostClass
+            {
+                RetweetedByUserId = 333L, // 他人がリツイートした
+                UserId = 222L, // 他人のツイート
+            };
+
+            Assert.False(post.CanDeleteBy(selfUserId: 111L));
+        }
+
+        [Fact]
+        public void CanDeleteBy_MyTweetHaveBeenRetweetedByOthersTest()
+        {
+            var post = new TestPostClass
+            {
+                RetweetedByUserId = 222L, // 他人がリツイートした
+                UserId = 111L, // 自分のツイート
+            };
+
+            Assert.True(post.CanDeleteBy(selfUserId: 111L));
+        }
     }
 }

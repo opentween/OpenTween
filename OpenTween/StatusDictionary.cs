@@ -310,6 +310,28 @@ namespace OpenTween
             }
         }
 
+        /// <summary>
+        /// このツイートが指定したユーザーによって削除可能であるかを判定します
+        /// </summary>
+        /// <param name="selfUserId">ツイートを削除しようとするユーザーのID</param>
+        /// <returns>削除可能であれば true、そうでなければ false</returns>
+        public bool CanDeleteBy(long selfUserId)
+        {
+            // 自分が送った DM と自分に届いた DM のどちらも削除可能
+            if (this.IsDm)
+                return true;
+
+            // 自分のツイート or 他人に RT された自分のツイート
+            if (this.UserId == selfUserId)
+                return true;
+
+            // 自分が RT したツイート
+            if (this.RetweetedByUserId == selfUserId)
+                return true;
+
+            return false;
+        }
+
         protected virtual PostClass GetRetweetSource(long statusId)
         {
             return TabInformations.GetInstance().RetweetSource(statusId);
