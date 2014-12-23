@@ -27,6 +27,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
@@ -409,7 +410,6 @@ namespace OpenTween
     public sealed class TabInformations
     {
         //個別タブの情報をDictionaryで保持
-        private IdComparerClass _sorter;
         private Dictionary<string, TabClass> _tabs = new Dictionary<string, TabClass>();
         private Dictionary<long, PostClass> _statuses = new Dictionary<long, PostClass>();
         private List<long> _addedIds;
@@ -437,7 +437,6 @@ namespace OpenTween
 
         private TabInformations()
         {
-            _sorter = new IdComparerClass();
         }
 
         public static TabInformations GetInstance()
@@ -476,8 +475,8 @@ namespace OpenTween
             if (_tabs.ContainsKey(TabName)) return false;
             var tb = new TabClass(TabName, TabType, List);
             _tabs.Add(TabName, tb);
-            tb.Sorter.Mode = _sorter.Mode;
-            tb.Sorter.Order = _sorter.Order;
+            tb.SortMode = this.SortMode;
+            tb.SortOrder = this.SortOrder;
             return true;
         }
 
@@ -600,67 +599,56 @@ namespace OpenTween
             }
         }
 
+        private SortOrder _sortOrder = SortOrder.Ascending;
         public SortOrder SortOrder
         {
-            get
-            {
-                return _sorter.Order;
-            }
+            get { return this._sortOrder; }
             set
             {
-                _sorter.Order = value;
+                this._sortOrder = value;
                 foreach (var tab in _tabs.Values)
                 {
-                    tab.Sorter.Order = value;
+                    tab.SortOrder = value;
                 }
             }
         }
 
-        public IdComparerClass.ComparerMode SortMode
+        private ComparerMode _sortMode = ComparerMode.Id;
+        public ComparerMode SortMode
         {
-            get
-            {
-                return _sorter.Mode;
-            }
+            get { return this._sortMode; }
             set
             {
-                _sorter.Mode = value;
+                this._sortMode = value;
                 foreach (var tab in _tabs.Values)
                 {
-                    tab.Sorter.Mode = value;
+                    tab.SortMode = value;
                 }
             }
         }
 
-        public SortOrder ToggleSortOrder(IdComparerClass.ComparerMode SortMode)
+        public SortOrder ToggleSortOrder(ComparerMode sortMode)
         {
-            if (_sorter.Mode == SortMode)
+            if (this.SortMode == sortMode)
             {
-                if (_sorter.Order == SortOrder.Ascending)
+                if (this.SortOrder == SortOrder.Ascending)
                 {
-                    _sorter.Order = SortOrder.Descending;
+                    this.SortOrder = SortOrder.Descending;
                 }
                 else
                 {
-                    _sorter.Order = SortOrder.Ascending;
-                }
-                foreach (var tab in _tabs.Values)
-                {
-                    tab.Sorter.Order = _sorter.Order;
+                    this.SortOrder = SortOrder.Ascending;
                 }
             }
             else
             {
-                _sorter.Mode = SortMode;
-                _sorter.Order = SortOrder.Ascending;
-                foreach (var tab in _tabs.Values)
-                {
-                    tab.Sorter.Mode = SortMode;
-                    tab.Sorter.Order = SortOrder.Ascending;
-                }
+                this.SortMode = sortMode;
+                this.SortOrder = SortOrder.Ascending;
             }
+
             this.SortPosts();
-            return _sorter.Order;
+
+            return this.SortOrder;
         }
 
     //    public PostClass RetweetSource(long Id)
@@ -909,7 +897,7 @@ namespace OpenTween
                 if (Tab.OldestUnreadId > -1 &&
                     posts.TryGetValue(Tab.OldestUnreadId, out oldestUnreadPost) &&
                     oldestUnreadPost.IsRead &&
-                    _sorter.Mode == IdComparerClass.ComparerMode.Id)     //次の未読探索
+                    this.SortMode == ComparerMode.Id)     //次の未読探索
                 {
                     if (Tab.UnreadCount == 0)
                     {
@@ -952,7 +940,7 @@ namespace OpenTween
                 return null;
 
             IEnumerable<int> searchRange;
-            if (this._sorter.Order == SortOrder.Ascending)
+            if (this.SortOrder == SortOrder.Ascending)
             {
                 if (startIdx != null)
                     searchRange = MyCommon.CountUp(startIdx.Value, tab.AllCount - 1);
@@ -1044,7 +1032,7 @@ namespace OpenTween
                 //{
                 //    isUserStream = false;
                 //}
-                if (!isUserStream || this.SortMode != IdComparerClass.ComparerMode.Id)
+                if (!isUserStream || this.SortMode != ComparerMode.Id)
                 {
                     this.SortPosts();
                 }
@@ -1959,9 +1947,6 @@ namespace OpenTween
         private List<TemporaryId> _tmpIds = new List<TemporaryId>();
         private MyCommon.TabUsageType _tabType = MyCommon.TabUsageType.Undefined;
 
-        [NonSerialized]
-        private IdComparerClass _sorter = new IdComparerClass();
-
         private readonly object _lockObj = new object();
 
         public string User { get; set; }
@@ -2133,67 +2118,68 @@ namespace OpenTween
 
         public void Sort()
         {
-            if (_sorter.Mode == IdComparerClass.ComparerMode.Id)
+            IEnumerable<long> sortedIds;
+            if (this.SortOrder == SortOrder.Ascending)
             {
-                _ids.Sort(_sorter.CmpMethod());
-                return;
-            }
-            long[] ar = null;
-            if (_sorter.Order == SortOrder.Ascending)
-            {
-                switch (_sorter.Mode)
+                switch (this.SortMode)
                 {
-                    case IdComparerClass.ComparerMode.Data:
-                        ar = _ids.OrderBy(n => _sorter.posts[n].TextFromApi).ToArray();
+                    case ComparerMode.Id:
+                        sortedIds = this._ids.OrderBy(x => x);
                         break;
-                    case IdComparerClass.ComparerMode.Name:
-                        ar = _ids.OrderBy(n => _sorter.posts[n].ScreenName).ToArray();
+                    case ComparerMode.Data:
+                        sortedIds = this._ids.OrderBy(x => this.Posts[x].TextFromApi);
                         break;
-                    case IdComparerClass.ComparerMode.Nickname:
-                        ar = _ids.OrderBy(n => _sorter.posts[n].Nickname).ToArray();
+                    case ComparerMode.Name:
+                        sortedIds = this._ids.OrderBy(x => this.Posts[x].ScreenName);
                         break;
-                    case IdComparerClass.ComparerMode.Source:
-                        ar = _ids.OrderBy(n => _sorter.posts[n].Source).ToArray();
+                    case ComparerMode.Nickname:
+                        sortedIds = this._ids.OrderBy(x => this.Posts[x].Nickname);
                         break;
+                    case ComparerMode.Source:
+                        sortedIds = this._ids.OrderBy(x => this.Posts[x].Source);
+                        break;
+                    default:
+                        throw new InvalidEnumArgumentException();
                 }
             }
             else
             {
-                switch (_sorter.Mode)
+                switch (this.SortMode)
                 {
-                    case IdComparerClass.ComparerMode.Data:
-                        ar = _ids.OrderByDescending(n => _sorter.posts[n].TextFromApi).ToArray();
+                    case ComparerMode.Id:
+                        sortedIds = this._ids.OrderByDescending(x => x);
                         break;
-                    case IdComparerClass.ComparerMode.Name:
-                        ar = _ids.OrderByDescending(n => _sorter.posts[n].ScreenName).ToArray();
+                    case ComparerMode.Data:
+                        sortedIds = this._ids.OrderByDescending(x => this.Posts[x].TextFromApi);
                         break;
-                    case IdComparerClass.ComparerMode.Nickname:
-                        ar = _ids.OrderByDescending(n => _sorter.posts[n].Nickname).ToArray();
+                    case ComparerMode.Name:
+                        sortedIds = this._ids.OrderByDescending(x => this.Posts[x].ScreenName);
                         break;
-                    case IdComparerClass.ComparerMode.Source:
-                        ar = _ids.OrderByDescending(n => _sorter.posts[n].Source).ToArray();
+                    case ComparerMode.Nickname:
+                        sortedIds = this._ids.OrderByDescending(x => this.Posts[x].Nickname);
                         break;
+                    case ComparerMode.Source:
+                        sortedIds = this._ids.OrderByDescending(x => this.Posts[x].Source);
+                        break;
+                    default:
+                        throw new InvalidEnumArgumentException();
                 }
             }
-            _ids = new List<long>(ar);
+
+            this._ids = sortedIds.ToList();
         }
 
-        public IdComparerClass Sorter
-        {
-            get
-            {
-                return _sorter;
-            }
-        }
+        public ComparerMode SortMode { get; set; }
+        public SortOrder SortOrder { get; set; }
 
         //無条件に追加
         private void Add(long ID, bool Read)
         {
             if (this._ids.Contains(ID)) return;
 
-            if (this.Sorter.Mode == IdComparerClass.ComparerMode.Id)
+            if (this.SortMode == ComparerMode.Id)
             {
-                if (this.Sorter.Order == SortOrder.Ascending)
+                if (this.SortOrder == SortOrder.Ascending)
                 {
                     this._ids.Add(ID);
                 }
@@ -2574,7 +2560,6 @@ namespace OpenTween
                 {
                     Posts = TabInformations.GetInstance().Posts;
                 }
-                _sorter.posts = Posts;
             }
         }
 
@@ -2598,236 +2583,15 @@ namespace OpenTween
         }
     }
 
-    //ソート比較クラス：ID比較のみ
-    public sealed class IdComparerClass : IComparer<long>
+    /// <summary>
+    /// 比較する方法
+    /// </summary>
+    public enum ComparerMode
     {
-        /// <summary>
-        /// 比較する方法
-        /// </summary>
-        public enum ComparerMode
-        {
-            Id,
-            Data,
-            Name,
-            Nickname,
-            Source,
-        }
-
-        private SortOrder _order;
-        private ComparerMode _mode;
-        private Dictionary<long, PostClass> _statuses;
-        private Comparison<long> _CmpMethod;
-
-        /// <summary>
-        /// 昇順か降順か Setの際は同時に比較関数の切り替えを行う
-        /// </summary>
-        public SortOrder Order
-        {
-            get
-            {
-                return _order;
-            }
-            set
-            {
-                _order = value;
-                SetCmpMethod(_mode, _order);
-            }
-        }
-
-        /// <summary>
-        /// 並び替えの方法 Setの際は同時に比較関数の切り替えを行う
-        /// </summary>
-        public ComparerMode Mode
-        {
-            get
-            {
-                return _mode;
-            }
-            set
-            {
-                _mode = value;
-                SetCmpMethod(_mode, _order);
-            }
-        }
-
-        /// <summary>
-        /// ListViewItemComparerクラスのコンストラクタ（引数付は未使用）
-        /// </summary>
-        /// <param name="col">並び替える列番号</param>
-        /// <param name="ord">昇順か降順か</param>
-        /// <param name="cmod">並び替えの方法</param>
-
-        public IdComparerClass()
-        {
-            _order = SortOrder.Ascending;
-            _mode = ComparerMode.Id;
-            SetCmpMethod(_mode, _order);
-        }
-
-        public Dictionary<long, PostClass> posts
-        {
-            set
-            {
-                _statuses = value;
-            }
-            get
-            {
-                return _statuses;
-            }
-        }
-
-        // 指定したソートモードとソートオーダーに従い使用する比較関数のアドレスを返す
-        public Comparison<long> CmpMethod(ComparerMode _sortmode, SortOrder _sortorder)
-        {
-            //get
-            {
-                Comparison<long> _method = null;
-                if (_sortorder == SortOrder.Ascending)
-                {
-                    // 昇順
-                    switch (_sortmode)
-                    {
-                    case ComparerMode.Data:
-                        _method = Compare_ModeData_Ascending;
-                        break;
-                    case ComparerMode.Id:
-                        _method = Compare_ModeId_Ascending;
-                        break;
-                    case ComparerMode.Name:
-                        _method = Compare_ModeName_Ascending;
-                        break;
-                    case ComparerMode.Nickname:
-                        _method = Compare_ModeNickName_Ascending;
-                        break;
-                    case ComparerMode.Source:
-                        _method = Compare_ModeSource_Ascending;
-                        break;
-                    }
-                }
-                else
-                {
-                    // 降順
-                    switch (_sortmode)
-                    {
-                    case ComparerMode.Data:
-                        _method = Compare_ModeData_Descending;
-                        break;
-                    case ComparerMode.Id:
-                        _method = Compare_ModeId_Descending;
-                        break;
-                    case ComparerMode.Name:
-                        _method = Compare_ModeName_Descending;
-                        break;
-                    case ComparerMode.Nickname:
-                        _method = Compare_ModeNickName_Descending;
-                        break;
-                    case ComparerMode.Source:
-                        _method = Compare_ModeSource_Descending;
-                        break;
-                    }
-                }
-                return _method;
-            }
-        }
-
-        // ソートモードとソートオーダーに従い使用する比較関数のアドレスを返す
-        // (overload 現在の使用中の比較関数のアドレスを返す)
-        public Comparison<long> CmpMethod()
-        {
-            //get
-            {
-                return _CmpMethod;
-            }
-        }
-
-        // ソートモードとソートオーダーに従い比較関数のアドレスを切り替え
-        private void SetCmpMethod(ComparerMode mode, SortOrder order)
-        {
-            _CmpMethod = this.CmpMethod(mode, order);
-        }
-
-        //xがyより小さいときはマイナスの数、大きいときはプラスの数、
-        //同じときは0を返す (こちらは未使用 一応比較関数群呼び出しの形のまま残しておく)
-        int IComparer<long>.Compare(long x, long y)
-        {
-            return _CmpMethod(x, y);
-        }
-
-        // 比較用関数群 いずれもステータスIDの順序を考慮する
-        // 本文比較　昇順
-        public int Compare_ModeData_Ascending(long x, long y)
-        {
-            var result = string.Compare(_statuses[x].TextFromApi, _statuses[y].TextFromApi);
-            if (result == 0) result = x.CompareTo(y);
-            return result;
-        }
-
-        // 本文比較　降順
-        public int Compare_ModeData_Descending(long x, long y)
-        {
-            var result = string.Compare(_statuses[y].TextFromApi, _statuses[x].TextFromApi);
-            if (result == 0) result = y.CompareTo(x);
-            return result;
-        }
-
-        // ステータスID比較　昇順
-        public int Compare_ModeId_Ascending(long x, long y)
-        {
-            return x.CompareTo(y);
-        }
-
-        // ステータスID比較　降順
-        public int Compare_ModeId_Descending(long x, long y)
-        {
-            return y.CompareTo(x);
-        }
-
-        // 表示名比較　昇順
-        public int Compare_ModeName_Ascending(long x, long y)
-        {
-            var result = string.Compare(_statuses[x].ScreenName, _statuses[y].ScreenName);
-            if (result == 0) result = x.CompareTo(y);
-            return result;
-        }
-
-        // 表示名比較　降順
-        public int Compare_ModeName_Descending(long x, long y)
-        {
-            var result = string.Compare(_statuses[y].ScreenName, _statuses[x].ScreenName);
-            if (result == 0) result = y.CompareTo(x);
-            return result;
-        }
-
-        // ユーザー名比較　昇順
-        public int Compare_ModeNickName_Ascending(long x, long y)
-        {
-            var result = string.Compare(_statuses[x].Nickname, _statuses[y].Nickname);
-            if (result == 0) result = x.CompareTo(y);
-            return result;
-        }
-
-        // ユーザー名比較　降順
-        public int Compare_ModeNickName_Descending(long x, long y)
-        {
-            var result = string.Compare(_statuses[y].Nickname, _statuses[x].Nickname);
-            if (result == 0) result = y.CompareTo(x);
-            return result;
-        }
-
-        // Source比較　昇順
-        public int Compare_ModeSource_Ascending(long x, long y)
-        {
-            var result = string.Compare(_statuses[x].Source, _statuses[y].Source);
-            if (result == 0) result = x.CompareTo(y);
-            return result;
-        }
-
-        // Source比較　降順
-        public int Compare_ModeSource_Descending(long x, long y)
-        {
-            var result = string.Compare(_statuses[y].Source, _statuses[x].Source);
-            if (result == 0) result = y.CompareTo(x);
-            return result;
-        }
+        Id,
+        Data,
+        Name,
+        Nickname,
+        Source,
     }
 }

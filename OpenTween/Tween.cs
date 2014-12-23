@@ -577,19 +577,19 @@ namespace OpenTween
             int c = 0;
             switch (_statuses.SortMode)
             {
-                case IdComparerClass.ComparerMode.Nickname:  //ニックネーム
+                case ComparerMode.Nickname:  //ニックネーム
                     c = 1;
                     break;
-                case IdComparerClass.ComparerMode.Data:  //本文
+                case ComparerMode.Data:  //本文
                     c = 2;
                     break;
-                case IdComparerClass.ComparerMode.Id:  //時刻=発言Id
+                case ComparerMode.Id:  //時刻=発言Id
                     c = 3;
                     break;
-                case IdComparerClass.ComparerMode.Name:  //名前
+                case ComparerMode.Name:  //名前
                     c = 4;
                     break;
-                case IdComparerClass.ComparerMode.Source:  //Source
+                case ComparerMode.Source:  //Source
                     c = 7;
                     break;
             }
@@ -984,29 +984,29 @@ namespace OpenTween
 
             ////////////////////////////////////////////////////////////////////////////////
             _statuses.SortOrder = (SortOrder)_cfgCommon.SortOrder;
-            IdComparerClass.ComparerMode mode = IdComparerClass.ComparerMode.Id;
+            var mode = ComparerMode.Id;
             switch (_cfgCommon.SortColumn)
             {
                 case 0:    //0:アイコン,5:未読マーク,6:プロテクト・フィルターマーク
                 case 5:
                 case 6:
                     //ソートしない
-                    mode = IdComparerClass.ComparerMode.Id;  //Idソートに読み替え
+                    mode = ComparerMode.Id;  //Idソートに読み替え
                     break;
                 case 1:  //ニックネーム
-                    mode = IdComparerClass.ComparerMode.Nickname;
+                    mode = ComparerMode.Nickname;
                     break;
                 case 2:  //本文
-                    mode = IdComparerClass.ComparerMode.Data;
+                    mode = ComparerMode.Data;
                     break;
                 case 3:  //時刻=発言Id
-                    mode = IdComparerClass.ComparerMode.Id;
+                    mode = ComparerMode.Id;
                     break;
                 case 4:  //名前
-                    mode = IdComparerClass.ComparerMode.Name;
+                    mode = ComparerMode.Name;
                     break;
                 case 7:  //Source
-                    mode = IdComparerClass.ComparerMode.Source;
+                    mode = ComparerMode.Source;
                     break;
             }
             _statuses.SortMode = mode;
@@ -1454,7 +1454,7 @@ namespace OpenTween
             long topId = -1;
             if (_curList != null && _curTab != null && _curList.VirtualListSize > 0)
             {
-                if (_statuses.SortMode == IdComparerClass.ComparerMode.Id)
+                if (_statuses.SortMode == ComparerMode.Id)
                 {
                     if (_statuses.SortOrder == SortOrder.Ascending)
                     {
@@ -3282,10 +3282,10 @@ namespace OpenTween
         private void MyList_ColumnClick(object sender, ColumnClickEventArgs e)
         {
             if (this._cfgCommon.SortOrderLock) return;
-            IdComparerClass.ComparerMode mode = IdComparerClass.ComparerMode.Id;
+            var mode = ComparerMode.Id;
             if (_iconCol)
             {
-                mode = IdComparerClass.ComparerMode.Id;
+                mode = ComparerMode.Id;
             }
             else
             {
@@ -3297,19 +3297,19 @@ namespace OpenTween
                         //ソートしない
                         return;
                     case 1:  //ニックネーム
-                        mode = IdComparerClass.ComparerMode.Nickname;
+                        mode = ComparerMode.Nickname;
                         break;
                     case 2:  //本文
-                        mode = IdComparerClass.ComparerMode.Data;
+                        mode = ComparerMode.Data;
                         break;
                     case 3:  //時刻=発言Id
-                        mode = IdComparerClass.ComparerMode.Id;
+                        mode = ComparerMode.Id;
                         break;
                     case 4:  //名前
-                        mode = IdComparerClass.ComparerMode.Name;
+                        mode = ComparerMode.Name;
                         break;
                     case 7:  //Source
-                        mode = IdComparerClass.ComparerMode.Source;
+                        mode = ComparerMode.Source;
                         break;
                 }
             }
@@ -5721,7 +5721,7 @@ namespace OpenTween
             if (lst.VirtualListSize > 0 && idx > -1 && lst.VirtualListSize > idx)
             {
                 SelectListItem(lst, idx);
-                if (_statuses.SortMode == IdComparerClass.ComparerMode.Id)
+                if (_statuses.SortMode == ComparerMode.Id)
                 {
                     if (_statuses.SortOrder == SortOrder.Ascending && lst.Items[idx].Position.Y > lst.ClientSize.Height - _iconSz - 10 ||
                        _statuses.SortOrder == SortOrder.Descending && lst.Items[idx].Position.Y < _iconSz + 10)
@@ -7646,19 +7646,19 @@ namespace OpenTween
                 _cfgCommon.SortOrder = (int)_statuses.SortOrder;
                 switch (_statuses.SortMode)
                 {
-                    case IdComparerClass.ComparerMode.Nickname:  //ニックネーム
+                    case ComparerMode.Nickname:  //ニックネーム
                         _cfgCommon.SortColumn = 1;
                         break;
-                    case IdComparerClass.ComparerMode.Data:  //本文
+                    case ComparerMode.Data:  //本文
                         _cfgCommon.SortColumn = 2;
                         break;
-                    case IdComparerClass.ComparerMode.Id:  //時刻=発言Id
+                    case ComparerMode.Id:  //時刻=発言Id
                         _cfgCommon.SortColumn = 3;
                         break;
-                    case IdComparerClass.ComparerMode.Name:  //名前
+                    case ComparerMode.Name:  //名前
                         _cfgCommon.SortColumn = 4;
                         break;
-                    case IdComparerClass.ComparerMode.Source:  //Source
+                    case ComparerMode.Source:  //Source
                         _cfgCommon.SortColumn = 7;
                         break;
                 }
