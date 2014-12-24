@@ -1508,7 +1508,7 @@ namespace OpenTween
 
             lock (LockObj)
             {
-                for (int i = 0; i < tb.AllCount - 1; i++)
+                for (int i = 0; i < tb.AllCount; i++)
                 {
                     var id = tb.GetId(i);
                     if (id < 0) return;
