@@ -428,7 +428,6 @@ namespace OpenTween
         private string _soundFile;
         private List<PostClass> _notifyPosts;
         private readonly object LockObj = new object();
-        private readonly object LockUnread = new object();
 
         private static TabInformations _instance = new TabInformations();
 
@@ -686,17 +685,8 @@ namespace OpenTween
                     //指定タブから該当ID削除
                     var tType = tab.TabType;
                     if (tab.Contains(Id))
-                    {
-                        if (tab.UnreadManage && !post.IsRead)    //未読管理
-                        {
-                            lock (LockUnread)
-                            {
-                                tab.UnreadCount--;
-                                this.SetNextUnreadId(Id, tab);
-                            }
-                        }
                         tab.Remove(Id);
-                    }
+
                     //FavタブからRetweet発言を削除する場合は、他の同一参照Retweetも削除
                     if (tType == MyCommon.TabUsageType.Favorites && post.RetweetedId != null)
                     {
@@ -713,14 +703,6 @@ namespace OpenTween
                             }
                             if (rPost.RetweetedId != null && rPost.RetweetedId == post.RetweetedId)
                             {
-                                if (tab.UnreadManage && !rPost.IsRead)    //未読管理
-                                {
-                                    lock (LockUnread)
-                                    {
-                                        tab.UnreadCount--;
-                                        this.SetNextUnreadId(rPost.StatusId, tab);
-                                    }
-                                }
                                 tab.Remove(rPost.StatusId);
                             }
                         }
@@ -730,15 +712,6 @@ namespace OpenTween
                 //if (tab.Contains(StatusId) &&
                 //   (tab.TabType = MyCommon.TabUsageType.PublicSearch || tab.TabType = MyCommon.TabUsageType.DirectMessage))
                 //{
-                //    post = tab.Posts[StatusId];
-                //    if (tab.UnreadManage && !post.IsRead)    //未読管理
-                //    {
-                //        lock (LockUnread)
-                //        {
-                //            tab.UnreadCount--;
-                //            this.SetNextUnreadId(StatusId, tab);
-                //        }
-                //    }
                 //    tab.Remove(StatusId);
                 //}
             }
@@ -795,17 +768,7 @@ namespace OpenTween
                 foreach (var tab in _tabs.Values)
                 {
                     if (tab.Contains(Id))
-                    {
-                        if (tab.UnreadManage && !tab.Posts[Id].IsRead)    //未読管理
-                        {
-                            lock (LockUnread)
-                            {
-                                tab.UnreadCount--;
-                                this.SetNextUnreadId(Id, tab);
-                            }
-                        }
                         tab.Remove(Id);
-                    }
                 }
                 if (_statuses.ContainsKey(Id)) _statuses.Remove(Id);
             }
@@ -829,142 +792,6 @@ namespace OpenTween
                     }
                 }
             }
-        }
-
-        public int GetOldestUnreadIndex(string TabName)
-        {
-            var tb = _tabs[TabName];
-            if (tb.OldestUnreadId > -1 &&
-                tb.Contains(tb.OldestUnreadId) &&
-                tb.UnreadCount > 0)
-            {
-                //未読アイテムへ
-                bool isRead = tb.Posts[tb.OldestUnreadId].IsRead;
-                if (isRead)
-                {
-                    //状態不整合（最古未読ＩＤが実は既読）
-                    lock (LockUnread)
-                    {
-                        this.SetNextUnreadId(-1, tb);  //頭から探索
-                    }
-                    if (tb.OldestUnreadId == -1)
-                    {
-                        return -1;
-                    }
-                    else
-                    {
-                        return tb.IndexOf(tb.OldestUnreadId);
-                    }
-                }
-                else
-                {
-                    return tb.IndexOf(tb.OldestUnreadId);    //最短経路;
-                }
-            }
-            else
-            {
-                //一見未読なさそうだが、未読カウントはあるので探索
-                //if (tb.UnreadCount > 0)
-                if (!(tb.UnreadManage && SettingCommon.Instance.UnreadManage)) return -1;
-                lock (LockUnread)
-                {
-                    this.SetNextUnreadId(-1, tb);
-                }
-                if (tb.OldestUnreadId == -1)
-                {
-                    return -1;
-                }
-                else
-                {
-                    return tb.IndexOf(tb.OldestUnreadId);
-                }
-                //else
-                //{
-                //    return -1;
-                //}
-            }
-        }
-
-        private void SetNextUnreadId(long CurrentId, TabClass Tab)
-        {
-            //CurrentID:今既読にしたID(OldestIDの可能性あり)
-            //最古未読が設定されていて、既読の場合（1発言以上存在）
-            try
-            {
-                Dictionary<long, PostClass> posts = Tab.Posts;
-
-                PostClass oldestUnreadPost;
-                if (Tab.OldestUnreadId > -1 &&
-                    posts.TryGetValue(Tab.OldestUnreadId, out oldestUnreadPost) &&
-                    oldestUnreadPost.IsRead &&
-                    this.SortMode == ComparerMode.Id)     //次の未読探索
-                {
-                    if (Tab.UnreadCount == 0)
-                    {
-                        //未読数０→最古未読なし
-                        Tab.OldestUnreadId = -1;
-                    }
-                    else if (Tab.OldestUnreadId == CurrentId && CurrentId > -1)
-                    {
-                        //最古IDを既読にしたタイミング→次のIDから続けて探索
-                        var idx = Tab.IndexOf(CurrentId);
-                        if (idx > -1)
-                        {
-                            //続きから探索
-                            Tab.OldestUnreadId = this.FindUnreadId(Tab, idx) ?? -1;
-                            return;
-                        }
-                    }
-                }
-            }
-            catch (KeyNotFoundException)
-            {
-            }
-
-            //頭から探索
-            Tab.OldestUnreadId = this.FindUnreadId(Tab, null) ?? -1;
-        }
-
-        /// <summary>
-        /// 指定されたタブ内の未読発言を検索し、該当する発言のIDを返します
-        /// </summary>
-        /// <param name="tab">検索対象のタブ</param>
-        /// <param name="startIdx">検索を開始するインデックス。全範囲から検索する場合は null を指定する</param>
-        /// <returns>未読発言のID、未読がなければ null</returns>
-        private long? FindUnreadId(TabClass tab, int? startIdx)
-        {
-            if (startIdx != null && (startIdx.Value < 0 || startIdx.Value + 1 > tab.AllCount))
-                throw new ArgumentOutOfRangeException("startIdx");
-
-            if (tab.AllCount == 0)
-                return null;
-
-            IEnumerable<int> searchRange;
-            if (this.SortOrder == SortOrder.Ascending)
-            {
-                if (startIdx != null)
-                    searchRange = MyCommon.CountUp(startIdx.Value, tab.AllCount - 1);
-                else
-                    searchRange = MyCommon.CountUp(0, tab.AllCount - 1);
-            }
-            else
-            {
-                if (startIdx != null)
-                    searchRange = MyCommon.CountDown(startIdx.Value, 0);
-                else
-                    searchRange = MyCommon.CountDown(tab.AllCount - 1, 0);
-            }
-
-            var tabPosts = tab.Posts;
-            foreach (var idx in searchRange)
-            {
-                var postId = tab.GetId(idx);
-                if (postId != -1 && !tabPosts[postId].IsRead)
-                    return postId;
-            }
-
-            // 未読なし
-            return null;
         }
 
         public int DistributePosts()
@@ -1306,229 +1133,44 @@ namespace OpenTween
             _retweets[retweetedId].RetweetedCount++;
         }
 
-        public void SetReadAllTab(bool Read, string TabName, int Index)
+        /// <summary>
+        /// 全てのタブを横断して既読状態を変更します
+        /// </summary>
+        /// <param name="statusId">変更するツイートのID</param>
+        /// <param name="read">既読状態</param>
+        /// <returns>既読状態に変化があれば true、変化がなければ false</returns>
+        public bool SetReadAllTab(long statusId, bool read)
         {
-            //Read:true=既読へ　false=未読へ
-            var tb = _tabs[TabName];
-
-            if (tb.UnreadManage == false) return; //未読管理していなければ終了
-
-            var Id = tb.GetId(Index);
-            if (Id < 0) return;
-            PostClass post = tb.Posts[Id];
-
-            if (post.IsRead == Read) return; //状態変更なければ終了
-
-            post.IsRead = Read;
-
-            lock (LockUnread)
+            lock (LockObj)
             {
-                if (Read)
+                foreach (var tab in this._tabs.Values)
                 {
-                    tb.UnreadCount--;
-                    this.SetNextUnreadId(Id, tb);  //次の未読セット
-                    //他タブの最古未読ＩＤはタブ切り替え時に。
-                    if (tb.IsInnerStorageTabType)
-                    {
-                        //一般タブ
-                        PostClass status;
-                        if (_statuses.TryGetValue(Id, out status) && !status.IsRead)
-                        {
-                            foreach (var tab in _tabs.Values)
-                            {
-                                if (tab.UnreadManage &&
-                                    !tab.IsInnerStorageTabType &&
-                                    tab.Contains(Id))
-                                {
-                                    tab.UnreadCount--;
-                                    if (tab.OldestUnreadId == Id) tab.OldestUnreadId = -1;
-                                }
-                            }
-                            status.IsRead = true;
-                        }
-                    }
-                    else
-                    {
-                        //一般タブ
-                        foreach (var tab in _tabs.Values)
-                        {
-                            if (tab != tb &&
-                                tab.UnreadManage &&
-                                !tab.IsInnerStorageTabType &&
-                                tab.Contains(Id))
-                            {
-                                tab.UnreadCount--;
-                                if (tab.OldestUnreadId == Id) tab.OldestUnreadId = -1;
-                            }
-                        }
-                    }
-                    //内部保存タブ
-                    foreach (var tab in _tabs.Values)
-                    {
-                        if (tab != tb &&
-                            tab.IsInnerStorageTabType &&
-                            tab.Contains(Id))
-                        {
-                            var tPost = tab.Posts[Id];
-                            if (!tPost.IsRead)
-                            {
-                                if (tab.UnreadManage)
-                                {
-                                    tab.UnreadCount--;
-                                    if (tab.OldestUnreadId == Id) tab.OldestUnreadId = -1;
-                                }
-                                tPost.IsRead = true;
-                            }
-                        }
-                    }
+                    if (!tab.Contains(statusId))
+                        continue;
+
+                    tab.SetReadState(statusId, read);
                 }
-                else
-                {
-                    tb.UnreadCount++;
-                    //if (tb.OldestUnreadId > Id || tb.OldestUnreadId = -1) tb.OldestUnreadId = Id
-                    if (tb.OldestUnreadId > Id) tb.OldestUnreadId = Id;
-                    if (tb.IsInnerStorageTabType)
-                    {
-                        //一般タブ
-                        PostClass status;
-                        if (_statuses.TryGetValue(Id, out status) && status.IsRead)
-                        {
-                            foreach (var tab in _tabs.Values)
-                            {
-                                if (tab.UnreadManage &&
-                                    !tab.IsInnerStorageTabType &&
-                                    tab.Contains(Id))
-                                {
-                                    tab.UnreadCount++;
-                                    if (tab.OldestUnreadId > Id) tab.OldestUnreadId = Id;
-                                }
-                            }
-                            status.IsRead = false;
-                        }
-                    }
-                    else
-                    {
-                        //一般タブ
-                        foreach (var tab in _tabs.Values)
-                        {
-                            if (tab != tb &&
-                                tab.UnreadManage &&
-                                !tab.IsInnerStorageTabType &&
-                                tab.Contains(Id))
-                            {
-                                tab.UnreadCount++;
-                                if (tab.OldestUnreadId > Id) tab.OldestUnreadId = Id;
-                            }
-                        }
-                    }
-                    //内部保存タブ
-                    foreach (var tab in _tabs.Values)
-                    {
-                        if (tab != tb &&
-                            tab.IsInnerStorageTabType &&
-                            tab.Contains(Id))
-                        {
-                            var tPost = tab.Posts[Id];
-                            if (tPost.IsRead)
-                            {
-                                if (tab.UnreadManage)
-                                {
-                                    tab.UnreadCount++;
-                                    if (tab.OldestUnreadId > Id) tab.OldestUnreadId = Id;
-                                }
-                                tPost.IsRead = false;
-                            }
-                        }
-                    }
-                }
+
+                return true;
             }
         }
 
-        // TODO: パフォーマンスを勘案して、戻すか決める
-        public void SetRead(bool Read, string TabName, int Index)
+        /// <summary>
+        /// Home タブのツイートを全て既読にします。
+        /// ただし IsReply または FilterHit が true なものを除きます。
+        /// </summary>
+        public void SetReadHomeTab()
         {
-            //Read:true=既読へ　false=未読へ
-            var tb = _tabs[TabName];
-
-            if (tb.UnreadManage == false) return; //未読管理していなければ終了
-
-            var Id = tb.GetId(Index);
-            if (Id < 0) return;
-            PostClass post = tb.Posts[Id];
-
-            if (post.IsRead == Read) return; //状態変更なければ終了
-
-            post.IsRead = Read; //指定の状態に変更
-
-            lock (LockUnread)
-            {
-                if (Read)
-                {
-                    tb.UnreadCount--;
-                    this.SetNextUnreadId(Id, tb);  //次の未読セット
-                    //他タブの最古未読ＩＤはタブ切り替え時に。
-                    if (tb.IsInnerStorageTabType) return;
-                    foreach (var tab in _tabs.Values)
-                    {
-                        if (tab != tb &&
-                            tab.UnreadManage &&
-                            !tab.IsInnerStorageTabType &&
-                            tab.Contains(Id))
-                        {
-                            tab.UnreadCount--;
-                            if (tab.OldestUnreadId == Id) tab.OldestUnreadId = -1;
-                        }
-                    }
-                }
-                else
-                {
-                    tb.UnreadCount++;
-                    //if (tb.OldestUnreadId > Id || tb.OldestUnreadId == -1) tb.OldestUnreadId = Id;
-                    if (tb.OldestUnreadId > Id) tb.OldestUnreadId = Id;
-                    if (tb.IsInnerStorageTabType) return;
-                    foreach (var tab in _tabs.Values)
-                    {
-                        if (tab != tb &&
-                            tab.UnreadManage &&
-                            !tab.IsInnerStorageTabType &&
-                            tab.Contains(Id))
-                        {
-                            tab.UnreadCount++;
-                            if (tab.OldestUnreadId > Id) tab.OldestUnreadId = Id;
-                        }
-                    }
-                }
-            }
-        }
-
-        public void SetRead()
-        {
-            var tb = GetTabByType(MyCommon.TabUsageType.Home);
-            if (tb.UnreadManage == false) return;
+            var homeTab = this.GetTabByType(MyCommon.TabUsageType.Home);
 
             lock (LockObj)
             {
-                for (int i = 0; i < tb.AllCount; i++)
+                foreach (var post in homeTab.Posts.Values)
                 {
-                    var id = tb.GetId(i);
-                    if (id < 0) return;
-                    var tPost = _statuses[id];
-                    if (!tPost.IsReply &&
-                        !tPost.IsRead &&
-                        !tPost.FilterHit)
-                    {
-                        tPost.IsRead = true;
-                        this.SetNextUnreadId(id, tb);  //次の未読セット
-                        foreach (var tab in _tabs.Values)
-                        {
-                            if (tab.UnreadManage &&
-                                tab.Contains(id))
-                            {
-                                tab.UnreadCount--;
-                                if (tab.OldestUnreadId == id) tab.OldestUnreadId = -1;
-                            }
-                        }
-                    }
+                    if (post.IsReply || post.FilterHit)
+                        continue;
+
+                    this.SetReadAllTab(post.StatusId, read: true);
                 }
             }
         }
@@ -1596,50 +1238,6 @@ namespace OpenTween
             }
         }
 
-        public void SetUnreadManage(bool Manage)
-        {
-            if (Manage)
-            {
-                foreach (var tab in _tabs.Values)
-                {
-                    if (tab.UnreadManage)
-                    {
-                        lock (LockUnread)
-                        {
-                            var cnt = 0;
-                            var oldest = long.MaxValue;
-                            Dictionary<long, PostClass> posts = tab.Posts;
-                            foreach (var id in tab.BackupIds)
-                            {
-                                if (!posts[id].IsRead)
-                                {
-                                    cnt++;
-                                    if (oldest > id) oldest = id;
-                                }
-                            }
-                            if (oldest == long.MaxValue) oldest = -1;
-                            tab.OldestUnreadId = oldest;
-                            tab.UnreadCount = cnt;
-                        }
-                    }
-                }
-            }
-            else
-            {
-                foreach (var tab in _tabs.Values)
-                {
-                    if (tab.UnreadManage && tab.UnreadCount > 0)
-                    {
-                        lock (LockUnread)
-                        {
-                            tab.UnreadCount = 0;
-                            tab.OldestUnreadId = -1;
-                        }
-                    }
-                }
-            }
-        }
-
         public void RenameTab(string Original, string NewName)
         {
             var tb = _tabs[Original];
@@ -1675,7 +1273,7 @@ namespace OpenTween
                                 post.FilterHit = true;
                                 break;
                                 case MyCommon.HITRESULT.Move:
-                                tbr.Remove(post.StatusId, post.IsRead);
+                                tbr.Remove(post.StatusId);
                                 post.IsMark = false;
                                 post.FilterHit = true;
                                 break;
@@ -1761,37 +1359,6 @@ namespace OpenTween
                 //指定タブをクリア
                 tb.ClearIDs();
             }
-        }
-
-        public void SetTabUnreadManage(string TabName, bool Manage)
-        {
-            var tb = _tabs[TabName];
-            lock (LockUnread)
-            {
-                if (Manage)
-                {
-                    var cnt = 0;
-                    var oldest = long.MaxValue;
-                    Dictionary<long, PostClass> posts = tb.Posts;
-                    foreach (var id in tb.BackupIds)
-                    {
-                        if (!posts[id].IsRead)
-                        {
-                            cnt++;
-                            if (oldest > id) oldest = id;
-                        }
-                    }
-                    if (oldest == long.MaxValue) oldest = -1;
-                    tb.OldestUnreadId = oldest;
-                    tb.UnreadCount = cnt;
-                }
-                else
-                {
-                    tb.OldestUnreadId = -1;
-                    tb.UnreadCount = 0;
-                }
-            }
-            tb.UnreadManage = Manage;
         }
 
         public void RefreshOwl(List<long> follower)
@@ -1940,11 +1507,10 @@ namespace OpenTween
     [Serializable]
     public sealed class TabClass
     {
-        private bool _unreadManage = false;
         private List<PostFilterRule> _filters;
-        private int _unreadCount = 0;
         private List<long> _ids;
         private List<TemporaryId> _tmpIds = new List<TemporaryId>();
+        private SortedSet<long> unreadIds = new SortedSet<long>();
         private MyCommon.TabUsageType _tabType = MyCommon.TabUsageType.Undefined;
 
         private readonly object _lockObj = new object();
@@ -2096,15 +1662,12 @@ namespace OpenTween
             _innerPosts = new Dictionary<long, PostClass>();
             Posts = _innerPosts;
             SoundFile = "";
-            OldestUnreadId = -1;
             TabName = "";
             _filters = new List<PostFilterRule>();
             Protected = false;
             Notify = true;
             SoundFile = "";
-            _unreadManage = true;
             _ids = new List<long>();
-            this.OldestUnreadId = -1;
             _tabType = MyCommon.TabUsageType.Undefined;
             _listInfo = null;
         }
@@ -2193,19 +1756,8 @@ namespace OpenTween
                 this._ids.Add(ID);
             }
 
-            if (!Read && this._unreadManage)
-            {
-                this._unreadCount++;
-                if (ID < this.OldestUnreadId) this.OldestUnreadId = ID;
-                //if (this.OldestUnreadId == -1)
-                //{
-                //    this.OldestUnreadId = ID;
-                //}
-                //else
-                //{
-                //    if (ID < this.OldestUnreadId) this.OldestUnreadId = ID;
-                //}
-            }
+            if (!Read)
+                this.unreadIds.Add(ID);
         }
 
         public void Add(long ID, bool Read, bool Temporary)
@@ -2298,41 +1850,17 @@ namespace OpenTween
 
         public void Remove(long Id)
         {
-            if (!this._ids.Contains(Id)) return;
-            this._ids.Remove(Id);
-            if (this.IsInnerStorageTabType) _innerPosts.Remove(Id);
-        }
-
-        public void Remove(long Id, bool Read)
-        {
-            if (!this._ids.Contains(Id)) return;
-
-            if (!Read && this._unreadManage)
-            {
-                this._unreadCount--;
-                this.OldestUnreadId = -1;
-            }
+            if (!this._ids.Contains(Id))
+                return;
 
             this._ids.Remove(Id);
-            if (this.IsInnerStorageTabType) _innerPosts.Remove(Id);
+            this.unreadIds.Remove(Id);
+
+            if (this.IsInnerStorageTabType)
+                this._innerPosts.Remove(Id);
         }
 
-        public bool UnreadManage
-        {
-            get
-            {
-                return _unreadManage;
-            }
-            set
-            {
-                this._unreadManage = value;
-                if (!value)
-                {
-                    this.OldestUnreadId = -1;
-                    this._unreadCount = 0;
-                }
-            }
-        }
+        public bool UnreadManage { get; set; }
 
         // v1.0.5で「タブを固定(Locked)」から「タブを保護(Protected)」に名称変更
         [XmlElement(ElementName = "Locked")]
@@ -2342,20 +1870,52 @@ namespace OpenTween
 
         public string SoundFile { get; set; }
 
+        /// <summary>
+        /// 最も古い未読ツイートのIDを返します。
+        /// ただし、未読がない場合または UnreadManage が false の場合は -1 を返します
+        /// </summary>
         [XmlIgnore]
-        public long OldestUnreadId { get; set; }
+        public long OldestUnreadId
+        {
+            get
+            {
+                if (!this.UnreadManage || !SettingCommon.Instance.UnreadManage)
+                    return -1L;
 
+                if (this.unreadIds.Count == 0)
+                    return -1L;
+
+                return this.unreadIds.Min;
+            }
+        }
+
+        /// <summary>
+        /// 最も古い未読ツイートのインデックス番号を返します。
+        /// ただし、未読がない場合または UnreadManage が false の場合は -1 を返します
+        /// </summary>
+        [XmlIgnore]
+        public int OldestUnreadIndex
+        {
+            get
+            {
+                var unreadId = this.OldestUnreadId;
+                return unreadId != -1 ? this.IndexOf(unreadId) : -1;
+            }
+        }
+
+        /// <summary>
+        /// 未読ツイートの件数を返します。
+        /// ただし、未読がない場合または UnreadManage が false の場合は 0 を返します
+        /// </summary>
         [XmlIgnore]
         public int UnreadCount
         {
             get
             {
-                return this.UnreadManage && SettingCommon.Instance.UnreadManage ? _unreadCount : 0;
-            }
-            set
-            {
-                if (value < 0) value = 0;
-                _unreadCount = value;
+                if (!this.UnreadManage || !SettingCommon.Instance.UnreadManage)
+                    return 0;
+
+                return this.unreadIds.Count;
             }
         }
 
@@ -2365,6 +1925,28 @@ namespace OpenTween
             {
                 return this._ids.Count;
             }
+        }
+
+        /// <summary>
+        /// タブ内の既読状態を変更します
+        /// </summary>
+        /// <remarks>
+        /// 全タブを横断して既読状態を変える TabInformation.SetReadAllTab() の内部で呼び出されるメソッドです
+        /// </remarks>
+        /// <param name="statusId">変更するツイートのID</param>
+        /// <param name="read">既読状態</param>
+        /// <returns>既読状態に変化があれば true、変化がなければ false</returns>
+        internal bool SetReadState(long statusId, bool read)
+        {
+            if (!this._ids.Contains(statusId))
+                throw new ArgumentException("statusId");
+
+            this.Posts[statusId].IsRead = read;
+
+            if (read)
+                return this.unreadIds.Remove(statusId);
+            else
+                return this.unreadIds.Add(statusId);
         }
 
         public PostFilterRule[] GetFilters()
@@ -2468,8 +2050,7 @@ namespace OpenTween
         {
             _ids.Clear();
             _tmpIds.Clear();
-            _unreadCount = 0;
-            this.OldestUnreadId = -1;
+            this.unreadIds.Clear();
             _innerPosts.Clear();
         }
 

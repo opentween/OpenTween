@@ -3568,7 +3568,7 @@ namespace OpenTween
                                 {
                                     if (SettingCommon.Instance.FavEventUnread)
                                     {
-                                        TabInformations.GetInstance().SetRead(false, TabInformations.GetInstance().GetTabByType(MyCommon.TabUsageType.Favorites).TabName, TabInformations.GetInstance().GetTabByType(MyCommon.TabUsageType.Favorites).IndexOf(post.StatusId));
+                                        TabInformations.GetInstance().SetReadAllTab(post.StatusId, read: false);
                                     }
                                 }
                             }

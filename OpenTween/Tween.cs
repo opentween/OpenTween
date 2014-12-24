@@ -1829,7 +1829,7 @@ namespace OpenTween
 
             this.PushSelectPostChain();
 
-            if (this._cfgCommon.UnreadManage) _statuses.SetReadAllTab(true, _curTab.Text, _curItemIndex);
+            this._statuses.SetReadAllTab(_curPost.StatusId, read: true);
             //キャッシュの書き換え
             ChangeCacheStyleRead(true, _curItemIndex);   //既読へ（フォント、文字色）
 
@@ -2297,7 +2297,7 @@ namespace OpenTween
                     ret = tw.GetTimelineApi(read, args.type, args.page == -1, _initial);
                     //新着時未読クリア
                     if (string.IsNullOrEmpty(ret) && args.type == MyCommon.WORKERTYPE.Timeline && this._cfgCommon.ReadOldPosts)
-                        _statuses.SetRead();
+                        _statuses.SetReadHomeTab();
                     //振り分け
                     rslt.addCount = _statuses.DistributePosts();
                     break;
@@ -3602,15 +3602,10 @@ namespace OpenTween
         {
             using (ControlTransaction.Update(this._curList))
             {
-                if (this._cfgCommon.UnreadManage)
-                {
-                    foreach (int idx in _curList.SelectedIndices)
-                    {
-                        _statuses.SetReadAllTab(true, _curTab.Text, idx);
-                    }
-                }
                 foreach (int idx in _curList.SelectedIndices)
                 {
+                    var post = this._statuses.Tabs[this._curTab.Text][idx];
+                    this._statuses.SetReadAllTab(post.StatusId, read: true);
                     ChangeCacheStyleRead(true, idx);
                 }
                 ColorizeList();
@@ -3632,15 +3627,10 @@ namespace OpenTween
         {
             using (ControlTransaction.Update(this._curList))
             {
-                if (this._cfgCommon.UnreadManage)
-                {
-                    foreach (int idx in _curList.SelectedIndices)
-                    {
-                        _statuses.SetReadAllTab(false, _curTab.Text, idx);
-                    }
-                }
                 foreach (int idx in _curList.SelectedIndices)
                 {
+                    var post = this._statuses.Tabs[this._curTab.Text][idx];
+                    this._statuses.SetReadAllTab(post.StatusId, read: false);
                     ChangeCacheStyleRead(false, idx);
                 }
                 ColorizeList();
@@ -3907,17 +3897,6 @@ namespace OpenTween
                     catch (Exception ex)
                     {
                         ex.Data["Instance"] = "Font";
-                        ex.Data["IsTerminatePermission"] = false;
-                        throw;
-                    }
-
-                    try
-                    {
-                        _statuses.SetUnreadManage(this._cfgCommon.UnreadManage);
-                    }
-                    catch (Exception ex)
-                    {
-                        ex.Data["Instance"] = "_statuses";
                         ex.Data["IsTerminatePermission"] = false;
                         throw;
                     }
@@ -5680,7 +5659,7 @@ namespace OpenTween
             for (int i = bgnIdx; i < ListTab.TabPages.Count; i++)
             {
                 //未読Index取得
-                idx = _statuses.GetOldestUnreadIndex(ListTab.TabPages[i].Text);
+                idx = _statuses.Tabs[ListTab.TabPages[i].Text].OldestUnreadIndex;
                 if (idx > -1)
                 {
                     ListTab.SelectedIndex = i;
@@ -5695,7 +5674,7 @@ namespace OpenTween
             {
                 for (int i = 0; i < bgnIdx; i++)
                 {
-                    idx = _statuses.GetOldestUnreadIndex(ListTab.TabPages[i].Text);
+                    idx = _statuses.Tabs[ListTab.TabPages[i].Text].OldestUnreadIndex;
                     if (idx > -1)
                     {
                         ListTab.SelectedIndex = i;
@@ -8568,7 +8547,7 @@ namespace OpenTween
                 if (ListTab.TabPages[idx].Text == tabName) break;
             }
 
-            _statuses.SetTabUnreadManage(tabName, isManage);
+            _statuses.Tabs[tabName].UnreadManage = isManage;
             if (this._cfgCommon.TabIconDisp)
             {
                 if (_statuses.Tabs[tabName].UnreadCount > 0)
@@ -12412,7 +12391,7 @@ namespace OpenTween
         {
             if (this._cfgCommon.ReadOldPosts)
             {
-                _statuses.SetRead(); //新着時未読クリア
+                _statuses.SetReadHomeTab(); //新着時未読クリア
             }
 
             int rsltAddCount = _statuses.DistributePosts();
