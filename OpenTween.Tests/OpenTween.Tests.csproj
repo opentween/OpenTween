@@ -70,6 +70,7 @@
     <Compile Include="HttpMessageHandlerMock.cs" />
     <Compile Include="MyApplicationTest.cs" />
     <Compile Include="OTPictureBoxTest.cs" />
+    <Compile Include="OTSplitContainerTest.cs" />
     <Compile Include="PostFilterRuleTest.cs" />
     <Compile Include="LRUCacheDictionaryTest.cs" />
     <Compile Include="MyCommonTest.cs" />
