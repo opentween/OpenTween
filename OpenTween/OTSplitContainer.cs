@@ -21,6 +21,8 @@
 
 using System;
 using System.Windows.Forms;
+using System.Collections.Generic;
+using System.Linq;
 using System.ComponentModel;
 
 namespace OpenTween
@@ -46,9 +48,8 @@ namespace OpenTween
                 using (ControlTransaction.Layout(base.Panel1, false))
                 using (ControlTransaction.Layout(base.Panel2, false))
                 {
-                    // TODO: 複数コントロールへの対応
-                    var cont1 = base.Panel1.Controls.Count > 0 ? base.Panel1.Controls[0] : null;
-                    var cont2 = base.Panel2.Controls.Count > 0 ? base.Panel2.Controls[0] : null;
+                    var cont1 = new List<Control>(base.Panel1.Controls.Cast<Control>());
+                    var cont2 = new List<Control>(base.Panel2.Controls.Cast<Control>());
                     base.Panel1.Controls.Clear();
                     base.Panel2.Controls.Clear();
 
@@ -66,8 +67,8 @@ namespace OpenTween
                     base.Panel1Collapsed = base.Panel2Collapsed;
                     base.Panel2Collapsed = tmpCollapsed;
 
-                    base.Panel1.Controls.Add(cont2);
-                    base.Panel2.Controls.Add(cont1);
+                    base.Panel1.Controls.AddRange(cont2.ToArray());
+                    base.Panel2.Controls.AddRange(cont1.ToArray());
                 }
             }
         }
