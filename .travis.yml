@@ -1,21 +1,12 @@
-language: objective-c # OSX host
+language: csharp
+solution: OpenTween.sln
 
-cache:
-  directories:
-    - monopkg/
+sudo: false
 
-env:
-  - MONO_VERSION=3.4.0
-
-install:
-  - mkdir -p monopkg
-  - cd monopkg
-  - wget -c "http://download.mono-project.com/archive/${MONO_VERSION}/macos-10-x86/MonoFramework-MDK-${MONO_VERSION}.macos10.xamarin.x86.pkg"
-  - sudo installer -pkg "MonoFramework-MDK-${MONO_VERSION}.macos10.xamarin.x86.pkg" -target /
-  - cd -
+before_script:
+  - export DISPLAY=:99.0
+  - sh -e /etc/init.d/xvfb start
 
 script:
-  # Build
-  - xbuild /verbosity:quiet
-  # Run Tests
+  - xbuild /p:Configuration=Debug /verbosity:quiet
   - mono ./OpenTween.Tests/dlls/xunit.console.clr4.x86.exe ./OpenTween.Tests/OpenTween.Tests.xunit
