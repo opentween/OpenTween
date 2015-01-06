@@ -11,7 +11,8 @@
     <RootNamespace>OpenTween</RootNamespace>
     <AssemblyName>OpenTween.Tests</AssemblyName>
     <TargetFrameworkVersion Condition="'$(OS)' == 'Windows_NT'">v4.5.1</TargetFrameworkVersion>
-    <TargetFrameworkVersion Condition="'$(OS)' != 'Windows_NT'">v4.5</TargetFrameworkVersion><!-- Mono -->
+    <!-- Mono -->
+    <TargetFrameworkVersion Condition="'$(OS)' != 'Windows_NT'">v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -104,9 +105,6 @@
   <ItemGroup>
     <Content Include="dlls\NSubstitute.dll" />
     <Content Include="dlls\nunit.framework.dll" />
-    <Content Include="Resources\dot.gif">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="Resources\re.gif">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

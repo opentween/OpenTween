@@ -19,18 +19,11 @@
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Xunit;
-using Xunit.Extensions;
-using System.Drawing;
-using System.IO;
-using System.Drawing.Imaging;
 
 namespace OpenTween
 {
@@ -85,7 +78,7 @@ namespace OpenTween
 
                 picbox.ShowErrorImage();
 
-                picbox.Image = this.CreateDummyImage();
+                picbox.Image = TestUtils.CreateDummyImage();
 
                 Assert.Equal(PictureBoxSizeMode.Zoom, picbox.SizeMode);
                 Assert.Equal(PictureBoxSizeMode.Zoom, ((PictureBox)picbox).SizeMode);
@@ -106,7 +99,7 @@ namespace OpenTween
 
                 Assert.Equal(picbox.InitialImage, ((PictureBox)picbox).Image);
 
-                var image = this.CreateDummyImage();
+                var image = TestUtils.CreateDummyImage();
                 tcs.SetResult(image);
                 await setImageTask;
 
@@ -132,18 +125,6 @@ namespace OpenTween
                 await setImageTask;
 
                 Assert.Equal(picbox.ErrorImage, ((PictureBox)picbox).Image);
-            }
-        }
-
-        MemoryImage CreateDummyImage()
-        {
-            using (var bitmap = new Bitmap(100, 100))
-            using (var stream = new MemoryStream())
-            {
-                bitmap.Save(stream, ImageFormat.Png);
-                stream.Position = 0;
-
-                return MemoryImage.CopyFromStream(stream);
             }
         }
     }

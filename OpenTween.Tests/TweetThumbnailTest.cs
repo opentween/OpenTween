@@ -74,8 +74,7 @@ namespace OpenTween
             {
                 public override Task<MemoryImage> LoadThumbnailImageAsync(HttpClient http, CancellationToken cancellationToken)
                 {
-                    var image = MemoryImage.CopyFromBytes(File.ReadAllBytes("Resources/" + this.ThumbnailUrl));
-                    return Task.FromResult(image);
+                    return Task.FromResult(TestUtils.CreateDummyImage());
                 }
             }
         }
@@ -91,8 +90,8 @@ namespace OpenTween
             ThumbnailGenerator.Services.Clear();
             ThumbnailGenerator.Services.AddRange(new[]
             {
-                new TestThumbnailService(@"^https?://foo.example.com/(.+)$", @"dot.gif", null),
-                new TestThumbnailService(@"^https?://bar.example.com/(.+)$", @"dot.gif", @"${1}"),
+                new TestThumbnailService(@"^https?://foo.example.com/(.+)$", @"http://img.example.com/${1}.png", null),
+                new TestThumbnailService(@"^https?://bar.example.com/(.+)$", @"http://img.example.com/${1}.png", @"${1}"),
             });
         }
 
@@ -205,7 +204,7 @@ namespace OpenTween
                 var thumbinfo = (ThumbnailInfo)thumbbox.pictureBox[0].Tag;
 
                 Assert.Equal("http://foo.example.com/abcd", thumbinfo.ImageUrl);
-                Assert.Equal("dot.gif", thumbinfo.ThumbnailUrl);
+                Assert.Equal("http://img.example.com/abcd.png", thumbinfo.ThumbnailUrl);
 
                 Assert.Equal("", thumbbox.toolTip.GetToolTip(thumbbox.pictureBox[0]));
             }
@@ -240,13 +239,13 @@ namespace OpenTween
                 var thumbinfo = (ThumbnailInfo)thumbbox.pictureBox[0].Tag;
 
                 Assert.Equal("http://foo.example.com/abcd", thumbinfo.ImageUrl);
-                Assert.Equal("dot.gif", thumbinfo.ThumbnailUrl);
+                Assert.Equal("http://img.example.com/abcd.png", thumbinfo.ThumbnailUrl);
 
                 Assert.IsAssignableFrom<ThumbnailInfo>(thumbbox.pictureBox[1].Tag);
                 thumbinfo = (ThumbnailInfo)thumbbox.pictureBox[1].Tag;
 
                 Assert.Equal("http://bar.example.com/efgh", thumbinfo.ImageUrl);
-                Assert.Equal("dot.gif", thumbinfo.ThumbnailUrl);
+                Assert.Equal("http://img.example.com/efgh.png", thumbinfo.ThumbnailUrl);
 
                 Assert.Equal("", thumbbox.toolTip.GetToolTip(thumbbox.pictureBox[0]));
                 Assert.Equal("efgh", thumbbox.toolTip.GetToolTip(thumbbox.pictureBox[1]));
