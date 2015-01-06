@@ -10,9 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>OpenTween</RootNamespace>
     <AssemblyName>OpenTween.Tests</AssemblyName>
-    <TargetFrameworkVersion Condition="'$(OS)' == 'Windows_NT'">v4.5.1</TargetFrameworkVersion>
-    <!-- Mono -->
-    <TargetFrameworkVersion Condition="'$(OS)' != 'Windows_NT'">v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
