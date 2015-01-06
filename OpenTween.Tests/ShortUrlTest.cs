@@ -426,8 +426,8 @@ namespace OpenTween
                 handler.Enqueue(x =>
                 {
                     Assert.Equal(HttpMethod.Get, x.Method);
-                    Assert.Equal("http://ux.nu/api/short?format=plain&url=http://example.com/hogehoge",
-                        x.RequestUri.ToString());
+                    Assert.Equal("http://ux.nu/api/short?format=plain&url=http:%2F%2Fexample.com%2Fhogehoge",
+                        x.RequestUri.AbsoluteUri);
 
                     return new HttpResponseMessage(HttpStatusCode.OK)
                     {

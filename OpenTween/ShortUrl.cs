@@ -157,7 +157,7 @@ namespace OpenTween
         {
             try
             {
-                return this.ExpandUrlAsync(new Uri(uri), 10).Result.ToString();
+                return this.ExpandUrlAsync(new Uri(uri), 10).Result.AbsoluteUri;
             }
             catch (UriFormatException)
             {

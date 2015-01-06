@@ -295,7 +295,7 @@ namespace OpenTween
         private void DisplayIcon(Image img)
         {
             if (img == null || this.UserList.SelectedItem == null) return;
-            if (((UserInfo)this.UserList.SelectedItem).ImageUrl.ToString() == (string)img.Tag)
+            if (((UserInfo)this.UserList.SelectedItem).ImageUrl.AbsoluteUri == (string)img.Tag)
                 this.UserIcon.Image = img;
         }
 

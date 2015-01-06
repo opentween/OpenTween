@@ -515,7 +515,7 @@ namespace OpenTween
                 var idnConverter = new IdnMapping();
                 uriBuilder.Host = idnConverter.GetAscii(uriBuilder.Host);
 
-                return uriBuilder.Uri.ToString();
+                return uriBuilder.Uri.AbsoluteUri;
             }
             catch (Exception)
             {
@@ -535,7 +535,7 @@ namespace OpenTween
                     uriBuilder.Host = idnConverter.GetUnicode(uriBuilder.Host);
                 }
 
-                return uriBuilder.Uri.ToString();
+                return uriBuilder.Uri.AbsoluteUri;
             }
             catch (Exception)
             {

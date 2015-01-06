@@ -63,7 +63,7 @@ namespace OpenTween
 
         public Image GetImage(Uri url)
         {
-            return GetImage(url.ToString());
+            return GetImage(url.AbsoluteUri);
         }
 
         public Image GetImage(string url)

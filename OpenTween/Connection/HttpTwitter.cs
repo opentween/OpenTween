@@ -144,7 +144,7 @@ namespace OpenTween
         {
             Uri authUri = null;
             bool result = ((HttpOAuthApiProxy)httpCon).AuthenticatePinFlowRequest(RequestTokenUrl, AuthorizeUrl, ref requestToken, ref authUri);
-            content = authUri.ToString();
+            content = authUri.AbsoluteUri;
             return result;
         }
 
