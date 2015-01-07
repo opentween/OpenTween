@@ -10900,8 +10900,9 @@ namespace OpenTween
 
                 var result = (TwitterApiStatus)dlg.Result;
 
-                if (result == null)
+                if (result != null)
                 {
+                    // TODO: 表示方法の変更
                     var accessLevel = result.AccessLevel;
                     var timelineLimit = result.AccessLimit["/statuses/home_timeline"];
                     var mediaLimit = result.MediaUploadLimit;
