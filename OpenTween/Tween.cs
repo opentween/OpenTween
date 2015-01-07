@@ -12078,6 +12078,8 @@ namespace OpenTween
 
             this._apiGauge = new ToolStripAPIGauge();
             this._apiGauge.BorderSides = ToolStripStatusLabelBorderSides.Right;
+            this._apiGauge.DoubleClickEnabled = true;
+            this._apiGauge.DoubleClick += this.ApiUsageInfoMenuItem_Click;
             this.StatusStrip1.Items.Insert(2, this._apiGauge);
 
             this.ImageSelector.Visible = false;
