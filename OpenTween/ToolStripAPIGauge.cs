@@ -156,7 +156,7 @@ namespace OpenTween
                 this._GaugeHeight
             );
 
-            var timeGaugeValue = this.remainMinutes >= 60 ? 1.00 : this.remainMinutes / 60;
+            var timeGaugeValue = this.remainMinutes >= 15 ? 1.00 : this.remainMinutes / 15;
             this.timeGaugeBounds = new Rectangle(
                 0,
                 this.apiGaugeBounds.Top + this._GaugeHeight,
