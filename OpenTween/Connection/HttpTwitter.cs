@@ -835,7 +835,7 @@ namespace OpenTween
                 param,
                 ref content,
                 this.CreateRatelimitHeadersDict(),
-                this.CreateApiCalllback("/1.1/mutes/users/ids"));
+                this.CreateApiCalllback("/mutes/users/ids"));
         }
 
         public HttpStatusCode GetConfiguration(ref string content)
