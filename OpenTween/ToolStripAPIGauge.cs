@@ -171,7 +171,7 @@ namespace OpenTween
             string maxCountText;
             string minuteText;
 
-            if (this._ApiLimit == null)
+            if (this._ApiLimit == null || this.remainMinutes < 0)
             {
                 remainCountText = "???";
                 maxCountText = "???";
