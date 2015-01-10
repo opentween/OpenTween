@@ -43,6 +43,7 @@ namespace OpenTween
     {
         private EDITMODE _mode;
         private bool _directAdd;
+        private bool _moveRules = false;
         private TabInformations _sts;
         private string _cur;
         private List<string> idlist = new List<string>();
@@ -788,7 +789,8 @@ namespace OpenTween
 
         private void ListFilters_SelectedIndexChanged(object sender, EventArgs e)
         {
-            ShowDetail();
+            if (!_moveRules)
+                ShowDetail();
         }
 
         private void ButtonClose_Click(object sender, EventArgs e)
@@ -1049,29 +1051,71 @@ namespace OpenTween
 
         private void ButtonRuleUp_Click(object sender, EventArgs e)
         {
-            if (ListTabs.SelectedIndex > -1 && ListFilters.SelectedItem != null && ListFilters.SelectedIndex > 0)
-            {
-                string tabname = ListTabs.SelectedItem.ToString();
-                PostFilterRule target = _sts.Tabs[tabname].Filters[ListFilters.SelectedIndex - 1];
-                int idx = ListFilters.SelectedIndex;
-                ListFilters.Items.RemoveAt(idx - 1);
-                ListFilters.Items.Insert(idx, target);
-                _sts.Tabs[tabname].Filters.RemoveAt(idx - 1);
-                _sts.Tabs[tabname].Filters.Insert(idx, target);
-            }
+            MoveSelectedRules(up: true);
         }
 
         private void ButtonRuleDown_Click(object sender, EventArgs e)
         {
-            if (ListTabs.SelectedIndex > -1 && ListFilters.SelectedItem != null && ListFilters.SelectedIndex < ListFilters.Items.Count - 1)
+            MoveSelectedRules(up: false);
+        }
+
+        private void MoveSelectedRules(bool up)
+        {
+            var tabIdx = ListTabs.SelectedIndex;
+            if (tabIdx == -1 ||
+                ListFilters.SelectedIndices.Count == 0) return;
+
+            var indices = ListFilters.SelectedIndices.Cast<int>().ToArray();
+
+            int diff;
+            if (up)
             {
-                string tabname = ListTabs.SelectedItem.ToString();
-                PostFilterRule target = _sts.Tabs[tabname].Filters[ListFilters.SelectedIndex + 1];
-                int idx = ListFilters.SelectedIndex;
-                ListFilters.Items.RemoveAt(idx + 1);
-                ListFilters.Items.Insert(idx, target);
-                _sts.Tabs[tabname].Filters.RemoveAt(idx + 1);
-                _sts.Tabs[tabname].Filters.Insert(idx, target);
+                if (indices[0] <= 0) return;
+                diff = -1;
+            }
+            else
+            {
+                if (indices[indices.Length - 1] >= ListFilters.Items.Count - 1) return;
+                diff = +1;
+                Array.Reverse(indices);  // 逆順にして、下にある要素から処理する
+            }
+
+            var lastSelIdx = indices[0] + diff;
+            var tab = _sts.Tabs[ListTabs.Items[tabIdx].ToString()];
+
+            try
+            {
+                _moveRules = true;  // SelectedIndexChanged を無視する
+
+                using (ControlTransaction.Update(ListFilters))
+                {
+                    ListFilters.SelectedIndices.Clear();
+
+                    foreach (var idx in indices)
+                    {
+                        var tidx = idx + diff;
+                        var target = tab.Filters[tidx];
+
+                        // 移動先にある要素と位置を入れ替える
+                        ListFilters.Items.RemoveAt(tidx);
+                        ListFilters.Items.Insert(idx, target);
+
+                        tab.Filters.RemoveAt(tidx);
+                        tab.Filters.Insert(idx, target);
+
+                        // 移動方向の先頭要素以外なら選択する
+                        if (tidx != lastSelIdx)
+                            ListFilters.SelectedIndex = tidx;
+                    }
+
+                    // 移動方向の先頭要素は最後に選択する
+                    // ※移動方向への自動スクロール目的
+                    ListFilters.SelectedIndex = lastSelIdx;
+                }
+            }
+            finally
+            {
+                _moveRules = false;
             }
         }
 
