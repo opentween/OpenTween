@@ -818,20 +818,12 @@ namespace OpenTween
 
         private void ListFilters_DoubleClick(object sender, EventArgs e)
         {
-            if (ListFilters.SelectedItem == null)
-            {
-                return;
-            }
+            var idx = ListFilters.SelectedIndex;
+            if (idx == -1) return;
 
-            if (ListFilters.IndexFromPoint(ListFilters.PointToClient(Control.MousePosition)) == ListBox.NoMatches)
-            {
-                return;
-            }
+            var midx = ListFilters.IndexFromPoint(ListFilters.PointToClient(Control.MousePosition));
+            if (midx == ListBox.NoMatches || idx != midx) return;
 
-            if (ListFilters.Items[ListFilters.IndexFromPoint(ListFilters.PointToClient(Control.MousePosition))] == null)
-            {
-                return;
-            }
             ButtonEdit_Click(sender, e);
         }
 
