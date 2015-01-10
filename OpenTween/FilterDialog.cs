@@ -324,29 +324,31 @@ namespace OpenTween
 
         private void ButtonDelete_Click(object sender, EventArgs e)
         {
-            if (ListFilters.SelectedIndex == -1) return;
-            string tmp = "";
-            DialogResult rslt;
+            var selectedCount = ListFilters.SelectedIndices.Count;
+            if (selectedCount == 0) return;
 
-            if (ListFilters.SelectedIndices.Count == 1)
+            string tmp;
+
+            if (selectedCount == 1)
             {
-                tmp = string.Format(Properties.Resources.ButtonDelete_ClickText1, "\r\n", ListFilters.SelectedItem.ToString());
-                rslt = MessageBox.Show(tmp, Properties.Resources.ButtonDelete_ClickText2,
-                            MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+                tmp = string.Format(Properties.Resources.ButtonDelete_ClickText1, Environment.NewLine, ListFilters.SelectedItem.ToString());
             }
             else
             {
-                tmp = string.Format(Properties.Resources.ButtonDelete_ClickText3, ListFilters.SelectedIndices.Count.ToString());
-                rslt = MessageBox.Show(tmp, Properties.Resources.ButtonDelete_ClickText2,
-                            MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+                tmp = string.Format(Properties.Resources.ButtonDelete_ClickText3, selectedCount.ToString());
             }
+
+            var rslt = MessageBox.Show(tmp, Properties.Resources.ButtonDelete_ClickText2, MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
             if (rslt == DialogResult.Cancel) return;
 
-            for (int idx = ListFilters.Items.Count - 1; idx >= 0; idx--)
+            var indices = ListFilters.SelectedIndices.Cast<int>().Reverse().ToArray();  // 後ろの要素から削除
+            var tab = _sts.Tabs[ListTabs.SelectedItem.ToString()];
+
+            using (ControlTransaction.Update(ListFilters))
             {
-                if (ListFilters.GetSelected(idx))
+                foreach (var idx in indices)
                 {
-                    _sts.Tabs[ListTabs.SelectedItem.ToString()].RemoveFilter((PostFilterRule)ListFilters.Items[idx]);
+                    tab.RemoveFilter((PostFilterRule)ListFilters.Items[idx]);
                     ListFilters.Items.RemoveAt(idx);
                 }
             }
