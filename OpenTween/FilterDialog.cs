@@ -64,9 +64,15 @@ namespace OpenTween
         {
             if (ListTabs.Items.Count == 0) return;
 
+            var tab = _sts.Tabs[tabName];
+
             ListFilters.Items.Clear();
-            ListFilters.Items.AddRange(_sts.Tabs[tabName].GetFilters());
-            if (ListFilters.Items.Count > 0) ListFilters.SelectedIndex = 0;
+            ListFilters.Items.AddRange(tab.GetFilters());
+
+            if (ListFilters.Items.Count > 0)
+                ListFilters.SelectedIndex = 0;
+            else
+                ShowDetail();
 
             if (TabInformations.GetInstance().IsDefaultTab(tabName))
             {
@@ -75,14 +81,14 @@ namespace OpenTween
             }
             else
             {
-                CheckProtected.Checked = _sts.Tabs[tabName].Protected;
+                CheckProtected.Checked = tab.Protected;
                 CheckProtected.Enabled = true;
             }
 
-            CheckManageRead.Checked = _sts.Tabs[tabName].UnreadManage;
-            CheckNotifyNew.Checked = _sts.Tabs[tabName].Notify;
+            CheckManageRead.Checked = tab.UnreadManage;
+            CheckNotifyNew.Checked = tab.Notify;
 
-            int idx = ComboSound.Items.IndexOf(_sts.Tabs[tabName].SoundFile);
+            int idx = ComboSound.Items.IndexOf(tab.SoundFile);
             if (idx == -1) idx = 0;
             ComboSound.SelectedIndex = idx;
 
@@ -91,12 +97,8 @@ namespace OpenTween
             ListTabs.Enabled = true;
             GroupTab.Enabled = true;
             ListFilters.Enabled = true;
-            if (ListFilters.SelectedIndex != -1)
-            {
-                ShowDetail();
-            }
             EditFilterGroup.Enabled = false;
-            switch (TabInformations.GetInstance().Tabs[tabName].TabType)
+            switch (tab.TabType)
             {
                 case MyCommon.TabUsageType.Home:
                 case MyCommon.TabUsageType.DirectMessage:
@@ -135,7 +137,7 @@ namespace OpenTween
                     }
                     break;
             }
-            switch (TabInformations.GetInstance().Tabs[tabName].TabType)
+            switch (tab.TabType)
             {
                 case MyCommon.TabUsageType.Home:
                     LabelTabType.Text = Properties.Resources.TabUsageTypeName_Home;
@@ -169,7 +171,7 @@ namespace OpenTween
                     break;
             }
             ButtonRenameTab.Enabled = true;
-            if (TabInformations.GetInstance().IsDefaultTab(tabName) || TabInformations.GetInstance().Tabs[tabName].Protected)
+            if (TabInformations.GetInstance().IsDefaultTab(tabName) || tab.Protected)
             {
                 ButtonDeleteTab.Enabled = false;
             }
