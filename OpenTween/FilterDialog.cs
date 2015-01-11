@@ -1089,19 +1089,18 @@ namespace OpenTween
                     foreach (var idx in indices)
                     {
                         var tidx = idx + diff;
-                        var target = tab.Filters[tidx];
+                        var target = (PostFilterRule)ListFilters.Items[tidx];
 
                         // 移動先にある要素と位置を入れ替える
                         ListFilters.Items.RemoveAt(tidx);
                         ListFilters.Items.Insert(idx, target);
 
-                        tab.Filters.RemoveAt(tidx);
-                        tab.Filters.Insert(idx, target);
-
                         // 移動方向の先頭要素以外なら選択する
                         if (tidx != lastSelIdx)
                             ListFilters.SelectedIndex = tidx;
                     }
+
+                    tab.FilterArray = ListFilters.Items.Cast<PostFilterRule>().ToArray();
 
                     // 移動方向の先頭要素は最後に選択する
                     // ※移動方向への自動スクロール目的

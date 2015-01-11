@@ -1985,7 +1985,7 @@ namespace OpenTween
         }
 
         [XmlIgnore]
-        public List<PostFilterRule> Filters
+        public IReadOnlyList<PostFilterRule> Filters
         {
             get
             {
@@ -2003,7 +2003,7 @@ namespace OpenTween
                         oldFilter.PropertyChanged -= this.OnFilterModified;
                     }
 
-                    this._filters = value;
+                    this._filters = new List<PostFilterRule>(value);
                     this.FilterModified = true;
 
                     foreach (var newFilter in value)
