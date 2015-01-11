@@ -1423,10 +1423,10 @@ namespace OpenTween
                                 break;
                             default:
                                 //表示位置キープ
-                                if (_curList.VirtualListSize > 0 && _statuses.IndexOf(_curTab.Text, topId) > -1)
+                                if (_curList.VirtualListSize > 0 && _statuses.Tabs[_curTab.Text].IndexOf(topId) > -1)
                                 {
                                     _curList.EnsureVisible(_curList.VirtualListSize - 1);
-                                    _curList.EnsureVisible(_statuses.IndexOf(_curTab.Text, topId));
+                                    _curList.EnsureVisible(_statuses.Tabs[_curTab.Text].IndexOf(topId));
                                 }
                                 break;
                         }
@@ -1494,7 +1494,7 @@ namespace OpenTween
                         if (ListLockMenuItem.Checked)
                         {
                             //現在表示位置へ強制スクロール
-                            if (_curList.TopItem != null) topId = _statuses.GetId(_curTab.Text, _curList.TopItem.Index);
+                            if (_curList.TopItem != null) topId = _statuses.Tabs[_curTab.Text].GetId(_curList.TopItem.Index);
                             smode = 0;
                         }
                         else
@@ -1510,7 +1510,7 @@ namespace OpenTween
                             }
                             else
                             {
-                                if (_curList.TopItem != null) topId = _statuses.GetId(_curTab.Text, _curList.TopItem.Index);
+                                if (_curList.TopItem != null) topId = _statuses.Tabs[_curTab.Text].GetId(_curList.TopItem.Index);
                                 smode = 0;
                             }
                         }
@@ -1519,7 +1519,7 @@ namespace OpenTween
                 else
                 {
                     //現在表示位置へ強制スクロール
-                    if (_curList.TopItem != null) topId = _statuses.GetId(_curTab.Text, _curList.TopItem.Index);
+                    if (_curList.TopItem != null) topId = _statuses.Tabs[_curTab.Text].GetId(_curList.TopItem.Index);
                     smode = 0;
                 }
             }
@@ -3249,7 +3249,7 @@ namespace OpenTween
             }
             finally { this.itemCacheLock.ExitReadLock(); }
 
-            return _statuses[_curTab.Text, Index];
+            return _statuses.Tabs[_curTab.Text][Index];
         }
 
 
@@ -4952,7 +4952,7 @@ namespace OpenTween
                 TabPage tb = (TabPage)((DetailsListView)sender).Parent;
                 try
                 {
-                    item = this.CreateItem(tb, _statuses[tb.Text, e.ItemIndex], e.ItemIndex);
+                    item = this.CreateItem(tb, _statuses.Tabs[tb.Text][e.ItemIndex], e.ItemIndex);
                 }
                 catch (Exception)
                 {
@@ -5457,7 +5457,7 @@ namespace OpenTween
                             PostClass post;
                             try
                             {
-                                post = _statuses[_curTab.Text, idx];
+                                post = _statuses.Tabs[_curTab.Text][idx];
                             }
                             catch (Exception)
                             {
@@ -5487,7 +5487,7 @@ namespace OpenTween
                         PostClass post;
                         try
                         {
-                            post = _statuses[_curTab.Text, idx];
+                            post = _statuses.Tabs[_curTab.Text][idx];
                         }
                         catch (Exception)
                         {
@@ -5726,7 +5726,7 @@ namespace OpenTween
         {
             if (_curList.SelectedIndices.Count > 0 && _statuses.Tabs[_curTab.Text].TabType != MyCommon.TabUsageType.DirectMessage)
             {
-                var post = _statuses[_curTab.Text, _curList.SelectedIndices[0]];
+                var post = _statuses.Tabs[_curTab.Text][_curList.SelectedIndices[0]];
                 OpenUriAsync(MyCommon.GetStatusUrl(post));
             }
         }
@@ -5735,7 +5735,7 @@ namespace OpenTween
         {
             if (_curList.SelectedIndices.Count > 0)
             {
-                PostClass post = _statuses[_curTab.Text, _curList.SelectedIndices[0]];
+                PostClass post = _statuses.Tabs[_curTab.Text][_curList.SelectedIndices[0]];
                 OpenUriAsync(Properties.Resources.FavstarUrl + "users/" + post.ScreenName + "/recent");
             }
         }
@@ -6842,7 +6842,7 @@ namespace OpenTween
             if (this._curTab != null && this._statuses.GetTabByName(this._curTab.Text) != null) isDm = this._statuses.GetTabByName(this._curTab.Text).TabType == MyCommon.TabUsageType.DirectMessage;
             foreach (int idx in _curList.SelectedIndices)
             {
-                PostClass post = _statuses[_curTab.Text, idx];
+                PostClass post = _statuses.Tabs[_curTab.Text][idx];
                 if (post.IsProtect)
                 {
                     IsProtected = true;
@@ -6888,7 +6888,7 @@ namespace OpenTween
             if (this._statuses.GetTabByName(this._curTab.Text).TabType == MyCommon.TabUsageType.DirectMessage) return;
             foreach (int idx in _curList.SelectedIndices)
             {
-                var post = _statuses[_curTab.Text, idx];
+                var post = _statuses.Tabs[_curTab.Text][idx];
                 sb.Append(MyCommon.GetStatusUrl(post));
                 sb.Append(Environment.NewLine);
             }
@@ -6944,7 +6944,7 @@ namespace OpenTween
 
             for (int idx = fIdx; idx != toIdx; idx += stp)
             {
-                if (_statuses[_curTab.Text, idx].IsFav)
+                if (_statuses.Tabs[_curTab.Text][idx].IsFav)
                 {
                     SelectListItem(_curList, idx);
                     _curList.EnsureVisible(idx);
@@ -7001,7 +7001,7 @@ namespace OpenTween
                 if (_statuses.Tabs[ListTab.TabPages[tabidx].Text].TabType == MyCommon.TabUsageType.DirectMessage) continue; // Directタブは対象外
                 for (int idx = 0; idx < ((DetailsListView)ListTab.TabPages[tabidx].Tag).VirtualListSize; idx++)
                 {
-                    if (_statuses[ListTab.TabPages[tabidx].Text, idx].StatusId == targetId)
+                    if (_statuses.Tabs[ListTab.TabPages[tabidx].Text][idx].StatusId == targetId)
                     {
                         ListTab.SelectedIndex = tabidx;
                         ListTabSelect(ListTab.TabPages[tabidx]);
@@ -7048,9 +7048,9 @@ namespace OpenTween
             }
             for (int idx = fIdx; idx != toIdx; idx += stp)
             {
-                if (_statuses[_curTab.Text, idx].RetweetedId == null)
+                if (_statuses.Tabs[_curTab.Text][idx].RetweetedId == null)
                 {
-                    if (_statuses[_curTab.Text, idx].ScreenName == name)
+                    if (_statuses.Tabs[_curTab.Text][idx].ScreenName == name)
                     {
                         SelectListItem(_curList, idx);
                         _curList.EnsureVisible(idx);
@@ -7059,7 +7059,7 @@ namespace OpenTween
                 }
                 else
                 {
-                    if (_statuses[_curTab.Text, idx].RetweetedBy == name)
+                    if (_statuses.Tabs[_curTab.Text][idx].RetweetedBy == name)
                     {
                         SelectListItem(_curList, idx);
                         _curList.EnsureVisible(idx);
@@ -7104,7 +7104,7 @@ namespace OpenTween
 
             for (int idx = fIdx; idx != toIdx; idx += stp)
             {
-                PostClass post = _statuses[_curTab.Text, idx];
+                PostClass post = _statuses.Tabs[_curTab.Text][idx];
                 if (post.ScreenName == _anchorPost.ScreenName ||
                     post.RetweetedBy == _anchorPost.ScreenName ||
                     post.ScreenName == _anchorPost.RetweetedBy ||
@@ -7796,7 +7796,7 @@ namespace OpenTween
                         //All
                         for (int idx = 0; idx < _curList.VirtualListSize; idx++)
                         {
-                            PostClass post = _statuses[_curTab.Text, idx];
+                            PostClass post = _statuses.Tabs[_curTab.Text][idx];
                             string protect = "";
                             if (post.IsProtect) protect = "Protect";
                             sw.WriteLine(post.Nickname + "\t" +
@@ -7813,7 +7813,7 @@ namespace OpenTween
                     {
                         foreach (int idx in _curList.SelectedIndices)
                         {
-                            PostClass post = _statuses[_curTab.Text, idx];
+                            PostClass post = _statuses.Tabs[_curTab.Text][idx];
                             string protect = "";
                             if (post.IsProtect) protect = "Protect";
                             sw.WriteLine(post.Nickname + "\t" +
@@ -8169,7 +8169,7 @@ namespace OpenTween
                         }
                         for (int cnt = 0; cnt < _curList.SelectedIndices.Count; cnt++)
                         {
-                            PostClass post = _statuses[_curTab.Text, _curList.SelectedIndices[cnt]];
+                            PostClass post = _statuses.Tabs[_curTab.Text][_curList.SelectedIndices[cnt]];
                             if (!sTxt.Contains("@" + post.ScreenName + " "))
                             {
                                 sTxt = sTxt.Insert(2, "@" + post.ScreenName + " ");
@@ -8189,7 +8189,7 @@ namespace OpenTween
                             int sidx = StatusText.SelectionStart;
                             for (int cnt = 0; cnt < _curList.SelectedIndices.Count; cnt++)
                             {
-                                PostClass post = _statuses[_curTab.Text, _curList.SelectedIndices[cnt]];
+                                PostClass post = _statuses.Tabs[_curTab.Text][_curList.SelectedIndices[cnt]];
                                 if (!ids.Contains("@" + post.ScreenName + " ") &&
                                     !post.ScreenName.Equals(tw.Username, StringComparison.CurrentCultureIgnoreCase))
                                 {
@@ -8664,13 +8664,13 @@ namespace OpenTween
                 if (!SelectTab(out tabName)) return;
 
                 fltDialog.SetCurrent(tabName);
-                if (_statuses[_curTab.Text, idx].RetweetedId == null)
+                if (_statuses.Tabs[_curTab.Text][idx].RetweetedId == null)
                 {
-                    fltDialog.AddNewFilter(_statuses[_curTab.Text, idx].ScreenName, _statuses[_curTab.Text, idx].TextFromApi);
+                    fltDialog.AddNewFilter(_statuses.Tabs[_curTab.Text][idx].ScreenName, _statuses.Tabs[_curTab.Text][idx].TextFromApi);
                 }
                 else
                 {
-                    fltDialog.AddNewFilter(_statuses[_curTab.Text, idx].RetweetedBy, _statuses[_curTab.Text, idx].TextFromApi);
+                    fltDialog.AddNewFilter(_statuses.Tabs[_curTab.Text][idx].RetweetedBy, _statuses.Tabs[_curTab.Text][idx].TextFromApi);
                 }
                 fltDialog.ShowDialog(this);
                 this.TopMost = this._cfgCommon.AlwaysTop;
@@ -8681,7 +8681,7 @@ namespace OpenTween
             if (this.ListTab.SelectedTab != null &&
                 ((DetailsListView)this.ListTab.SelectedTab.Tag).SelectedIndices.Count > 0)
             {
-                _curPost = _statuses[this.ListTab.SelectedTab.Text, ((DetailsListView)this.ListTab.SelectedTab.Tag).SelectedIndices[0]];
+                _curPost = _statuses.Tabs[this.ListTab.SelectedTab.Text][((DetailsListView)this.ListTab.SelectedTab.Tag).SelectedIndices[0]];
             }
         }
 
@@ -8791,7 +8791,7 @@ namespace OpenTween
             List<string> ids = new List<string>();
             foreach (int idx in _curList.SelectedIndices)
             {
-                PostClass post = _statuses[_curTab.Text, idx];
+                PostClass post = _statuses.Tabs[_curTab.Text][idx];
                 if (!ids.Contains(post.ScreenName))
                 {
                     PostFilterRule fc = new PostFilterRule();

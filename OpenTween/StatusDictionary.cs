@@ -696,7 +696,7 @@ namespace OpenTween
                             PostClass rPost = null;
                             try
                             {
-                                rPost = this[tn, i];
+                                rPost = this.Tabs[tn][i];
                             }
                             catch (ArgumentOutOfRangeException)
                             {
@@ -1189,26 +1189,6 @@ namespace OpenTween
             }
         }
 
-        public PostClass this[string TabName, int Index]
-        {
-            get
-            {
-                TabClass tb;
-                if (!_tabs.TryGetValue(TabName, out tb)) throw new ArgumentException("TabName=" + TabName + " is not contained.");
-                return tb[Index];
-            }
-        }
-
-        public PostClass[] this[string TabName, int StartIndex, int EndIndex]
-        {
-            get
-            {
-                TabClass tb;
-                if (!_tabs.TryGetValue(TabName, out tb)) throw new ArgumentException("TabName=" + TabName + " is not contained.");
-                return tb[StartIndex, EndIndex];
-            }
-        }
-
         //public ReadOnly int ItemCount
         //{
         //    get
@@ -1226,16 +1206,6 @@ namespace OpenTween
             lock (LockObj)
             {
                 return _statuses.ContainsKey(Id);
-            }
-        }
-
-        public bool ContainsKey(long Id, string TabName)
-        {
-            //DM,公式検索は対応版
-            lock (LockObj)
-            {
-                TabClass tab;
-                return _tabs.TryGetValue(TabName, out tab) && tab.Contains(Id);
             }
         }
 
@@ -1312,26 +1282,6 @@ namespace OpenTween
                 }
                 this.SortPosts();
             }
-        }
-
-        public long[] GetId(string TabName, ListView.SelectedIndexCollection IndexCollection)
-        {
-            return _tabs[TabName].GetId(IndexCollection);
-        }
-
-        public long GetId(string TabName, int Index)
-        {
-            return _tabs[TabName].GetId(Index);
-        }
-
-        public int[] IndexOf(string TabName, long[] Ids)
-        {
-            return _tabs[TabName].IndexOf(Ids);
-        }
-
-        public int IndexOf(string TabName, long Id)
-        {
-            return _tabs[TabName].IndexOf(Id);
         }
 
         public void ClearTabIds(string TabName)
