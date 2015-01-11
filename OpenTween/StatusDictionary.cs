@@ -488,8 +488,9 @@ namespace OpenTween
         {
             lock (LockObj)
             {
-                if (IsDefaultTab(TabName)) return; //念のため
-                var tb = _tabs[TabName];
+                var tb = GetTabByName(TabName);
+                if (tb.IsDefaultTabType) return; //念のため
+
                 if (!tb.IsInnerStorageTabType)
                 {
                     var homeTab = GetTabByType(MyCommon.TabUsageType.Home);

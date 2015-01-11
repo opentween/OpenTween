@@ -74,7 +74,7 @@ namespace OpenTween
             else
                 ShowDetail();
 
-            if (TabInformations.GetInstance().IsDefaultTab(tabName))
+            if (tab.IsDefaultTabType)
             {
                 CheckProtected.Checked = true;
                 CheckProtected.Enabled = false;
@@ -171,7 +171,7 @@ namespace OpenTween
                     break;
             }
             ButtonRenameTab.Enabled = true;
-            if (TabInformations.GetInstance().IsDefaultTab(tabName) || tab.Protected)
+            if (tab.IsDefaultTabType || tab.Protected)
             {
                 ButtonDeleteTab.Enabled = false;
             }

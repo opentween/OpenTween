@@ -81,7 +81,7 @@ namespace OpenTween
 
             foreach (var tab in this.TabInfo.Tabs)
             {
-                if (!this.TabInfo.IsDistributableTab(tab.Key)) continue;
+                if (!tab.Value.IsDistributableTabType) continue;
 
                 this.TabList.Items.Add(new TabListItem
                 {

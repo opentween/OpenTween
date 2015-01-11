@@ -4458,7 +4458,8 @@ namespace OpenTween
 
         public bool RemoveSpecifiedTab(string TabName, bool confirm)
         {
-            if (_statuses.IsDefaultTab(TabName) || _statuses.Tabs[TabName].Protected) return false;
+            var tabInfo = _statuses.GetTabByName(TabName);
+            if (tabInfo.IsDefaultTabType || tabInfo.Protected) return false;
 
             if (confirm)
             {
@@ -4470,12 +4471,10 @@ namespace OpenTween
                 }
             }
 
-            var _tabPage = ListTab.TabPages.Cast<TabPage>().FirstOrDefault<TabPage>(tp => tp.Text == TabName);
+            var _tabPage = ListTab.TabPages.Cast<TabPage>().FirstOrDefault(tp => tp.Text == TabName);
             if (_tabPage == null) return false;
 
             SetListProperty();   //他のタブに列幅等を反映
-
-            MyCommon.TabUsageType tabType = _statuses.Tabs[TabName].TabType;
 
             //オブジェクトインスタンスの削除
             DetailsListView _listCustom = (DetailsListView)_tabPage.Tag;
@@ -4496,14 +4495,14 @@ namespace OpenTween
                 this.ListTab.Controls.Remove(_tabPage);
 
                 // 後付けのコントロールを破棄
-                if (tabType == MyCommon.TabUsageType.UserTimeline || tabType == MyCommon.TabUsageType.Lists)
+                if (tabInfo.TabType == MyCommon.TabUsageType.UserTimeline || tabInfo.TabType == MyCommon.TabUsageType.Lists)
                 {
                     using (Control label = _tabPage.Controls["labelUser"])
                     {
                         _tabPage.Controls.Remove(label);
                     }
                 }
-                else if (tabType == MyCommon.TabUsageType.PublicSearch)
+                else if (tabInfo.TabType == MyCommon.TabUsageType.PublicSearch)
                 {
                     using (Control pnl = _tabPage.Controls["panelSearch"])
                     {
@@ -8472,10 +8471,12 @@ namespace OpenTween
 
         private void TabMenuControl(string tabName)
         {
+            var tabInfo = _statuses.GetTabByName(tabName);
+
             this.FilterEditMenuItem.Enabled = true;
             this.EditRuleTbMenuItem.Enabled = true;
 
-            if (_statuses.IsDefaultTab(tabName))
+            if (tabInfo.IsDefaultTabType)
             {
                 this.ProtectTabMenuItem.Enabled = false;
                 this.ProtectTbMenuItem.Enabled = false;
@@ -8486,7 +8487,7 @@ namespace OpenTween
                 this.ProtectTbMenuItem.Enabled = true;
             }
 
-            if (_statuses.IsDefaultTab(tabName) || _statuses.Tabs[tabName].Protected)
+            if (tabInfo.IsDefaultTabType || tabInfo.Protected)
             {
                 this.ProtectTabMenuItem.Checked = true;
                 this.ProtectTbMenuItem.Checked = true;
