@@ -728,12 +728,6 @@ namespace OpenTween
             return newBytes;
         }
 
-        public static bool IsNT6()
-        {
-            //NT6 kernelかどうか検査
-            return Environment.OSVersion.Platform == PlatformID.Win32NT && Environment.OSVersion.Version.Major == 6;
-        }
-
         [FlagsAttribute()]
         public enum TabUsageType
         {
