@@ -162,7 +162,7 @@
             this.MinimizeBox = false;
             this.Name = "SearchWordDialog";
             this.ShowInTaskbar = false;
-            this.Shown += new System.EventHandler(this.textSearchTimeline_Shown);
+            this.Shown += new System.EventHandler(this.SearchWordDialog_Shown);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.SearchWordDialog_KeyDown);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();

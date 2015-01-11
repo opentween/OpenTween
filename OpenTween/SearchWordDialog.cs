@@ -128,18 +128,30 @@ namespace OpenTween
             this.textSearchPublic.ResetText();
         }
 
-        private void textSearchTimeline_Shown(object sender, EventArgs e)
+        private void SearchWordDialog_Shown(object sender, EventArgs e)
         {
-            this.textSearchTimeline.SelectAll();
-            this.textSearchTimeline.Focus();
+            ActivateSelectedTabPage();
         }
 
         private void tabControl_SelectedIndexChanged(object sender, EventArgs e)
         {
+            ActivateSelectedTabPage();
+        }
+
+        private void ActivateSelectedTabPage()
+        {
             if (this.tabControl.SelectedTab == this.tabPageTimeline)
+            {
                 this.AcceptButton = this.buttonSearchTimeline;
+                this.textSearchTimeline.SelectAll();
+                this.textSearchTimeline.Focus();
+            }
             else
+            {
                 this.AcceptButton = this.buttonSearchPublic;
+                this.textSearchPublic.SelectAll();
+                this.textSearchPublic.Focus();
+            }
         }
 
         private void buttonSearchTimeline_Click(object sender, EventArgs e)
