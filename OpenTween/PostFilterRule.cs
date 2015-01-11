@@ -21,8 +21,10 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Xml.Serialization;
@@ -33,7 +35,7 @@ namespace OpenTween
     /// タブで使用する振り分けルールを表すクラス
     /// </summary>
     [XmlType("FiltersClass")]
-    public class PostFilterRule
+    public class PostFilterRule : INotifyPropertyChanged
     {
         /// <summary>
         /// Compile() メソッドの呼び出しが必要な状態か否か
@@ -68,11 +70,7 @@ namespace OpenTween
         public string FilterName
         {
             get { return this._FilterName; }
-            set
-            {
-                this.IsDirty = true;
-                this._FilterName = value;
-            }
+            set { this.SetProperty(ref this._FilterName, value); }
         }
         private string _FilterName;
 
@@ -80,11 +78,7 @@ namespace OpenTween
         public string ExFilterName
         {
             get { return this._ExFilterName; }
-            set
-            {
-                this.IsDirty = true;
-                this._ExFilterName = value;
-            }
+            set { this.SetProperty(ref this._ExFilterName, value); }
         }
         private string _ExFilterName;
 
@@ -97,8 +91,7 @@ namespace OpenTween
                 if (value == null)
                     throw new ArgumentNullException("value");
 
-                this.IsDirty = true;
-                this._FilterBody = value;
+                this.SetProperty(ref this._FilterBody, value);
             }
         }
         private string[] _FilterBody = new string[0];
@@ -112,8 +105,7 @@ namespace OpenTween
                 if (value == null)
                     throw new ArgumentNullException("value");
 
-                this.IsDirty = true;
-                this._ExFilterBody = value;
+                this.SetProperty(ref this._ExFilterBody, value);
             }
         }
         private string[] _ExFilterBody = new string[0];
@@ -122,11 +114,7 @@ namespace OpenTween
         public bool UseNameField
         {
             get { return this._UseNameField; }
-            set
-            {
-                this.IsDirty = true;
-                this._UseNameField = value;
-            }
+            set { this.SetProperty(ref this._UseNameField, value); }
         }
         private bool _UseNameField;
 
@@ -134,11 +122,7 @@ namespace OpenTween
         public bool ExUseNameField
         {
             get { return this._ExUseNameField; }
-            set
-            {
-                this.IsDirty = true;
-                this._ExUseNameField = value;
-            }
+            set { this.SetProperty(ref this._ExUseNameField, value); }
         }
         private bool _ExUseNameField;
 
@@ -146,11 +130,7 @@ namespace OpenTween
         public bool MoveMatches
         {
             get { return this._MoveMatches; }
-            set
-            {
-                this.IsDirty = true;
-                this._MoveMatches = value;
-            }
+            set { this.SetProperty(ref this._MoveMatches, value); }
         }
         private bool _MoveMatches;
 
@@ -158,11 +138,7 @@ namespace OpenTween
         public bool MarkMatches
         {
             get { return this._MarkMatches; }
-            set
-            {
-                this.IsDirty = true;
-                this._MarkMatches = value;
-            }
+            set { this.SetProperty(ref this._MarkMatches, value); }
         }
         private bool _MarkMatches;
 
@@ -170,11 +146,7 @@ namespace OpenTween
         public bool FilterByUrl
         {
             get { return this._FilterByUrl; }
-            set
-            {
-                this.IsDirty = true;
-                this._FilterByUrl = value;
-            }
+            set { this.SetProperty(ref this._FilterByUrl, value); }
         }
         private bool _FilterByUrl;
 
@@ -182,77 +154,49 @@ namespace OpenTween
         public bool ExFilterByUrl
         {
             get { return this._ExFilterByUrl; }
-            set
-            {
-                this.IsDirty = true;
-                this._ExFilterByUrl = value;
-            }
+            set { this.SetProperty(ref this._ExFilterByUrl, value); }
         }
         private bool _ExFilterByUrl;
 
         public bool CaseSensitive
         {
             get { return this._CaseSensitive; }
-            set
-            {
-                this.IsDirty = true;
-                this._CaseSensitive = value;
-            }
+            set { this.SetProperty(ref this._CaseSensitive, value); }
         }
         private bool _CaseSensitive;
 
         public bool ExCaseSensitive
         {
             get { return this._ExCaseSensitive; }
-            set
-            {
-                this.IsDirty = true;
-                this._ExCaseSensitive = value;
-            }
+            set { this.SetProperty(ref this._ExCaseSensitive, value); }
         }
         private bool _ExCaseSensitive;
 
         public bool UseLambda
         {
             get { return this._UseLambda; }
-            set
-            {
-                this.IsDirty = true;
-                this._UseLambda = value;
-            }
+            set { this.SetProperty(ref this._UseLambda, value); }
         }
         private bool _UseLambda;
 
         public bool ExUseLambda
         {
             get { return this._ExUseLambda; }
-            set
-            {
-                this.IsDirty = true;
-                this._ExUseLambda = value;
-            }
+            set { this.SetProperty(ref this._ExUseLambda, value); }
         }
         private bool _ExUseLambda;
 
         public bool UseRegex
         {
             get { return this._UseRegex; }
-            set
-            {
-                this.IsDirty = true;
-                this._UseRegex = value;
-            }
+            set { this.SetProperty(ref this._UseRegex, value); }
         }
         private bool _UseRegex;
 
         public bool ExUseRegex
         {
             get { return this._ExUseRegex; }
-            set
-            {
-                this.IsDirty = true;
-                this._ExUseRegex = value;
-            }
+            set { this.SetProperty(ref this._ExUseRegex, value); }
         }
         private bool _ExUseRegex;
 
@@ -260,11 +204,7 @@ namespace OpenTween
         public bool FilterRt
         {
             get { return this._FilterRt; }
-            set
-            {
-                this.IsDirty = true;
-                this._FilterRt = value;
-            }
+            set { this.SetProperty(ref this._FilterRt, value); }
         }
         private bool _FilterRt;
 
@@ -272,11 +212,7 @@ namespace OpenTween
         public bool ExFilterRt
         {
             get { return this._ExFilterRt; }
-            set
-            {
-                this.IsDirty = true;
-                this._ExFilterRt = value;
-            }
+            set { this.SetProperty(ref this._ExFilterRt, value); }
         }
         private bool _ExFilterRt;
 
@@ -284,11 +220,7 @@ namespace OpenTween
         public string FilterSource
         {
             get { return this._FilterSource; }
-            set
-            {
-                this.IsDirty = true;
-                this._FilterSource = value;
-            }
+            set { this.SetProperty(ref this._FilterSource, value); }
         }
         private string _FilterSource;
 
@@ -296,13 +228,11 @@ namespace OpenTween
         public string ExFilterSource
         {
             get { return this._ExFilterSource; }
-            set
-            {
-                this.IsDirty = true;
-                this._ExFilterSource = value;
-            }
+            set { this.SetProperty(ref this._ExFilterSource, value); }
         }
         private string _ExFilterSource;
+
+        public event PropertyChangedEventHandler PropertyChanged;
 
         public PostFilterRule()
         {
@@ -584,6 +514,23 @@ namespace OpenTween
         public override string ToString()
         {
             return this.SummaryText;
+        }
+
+        protected void SetProperty<T>(ref T field, T value, [CallerMemberName] string propertyName = "")
+        {
+            if (EqualityComparer<T>.Default.Equals(field, value))
+                return;
+
+            field = value;
+            this.OnPropertyChanged(new PropertyChangedEventArgs(propertyName));
+        }
+
+        protected virtual void OnPropertyChanged(PropertyChangedEventArgs e)
+        {
+            this.IsDirty = true;
+
+            if (this.PropertyChanged != null)
+                this.PropertyChanged(this, e);
         }
 
         #region from Tween v1.1.0.0

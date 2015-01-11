@@ -1401,5 +1401,36 @@ namespace OpenTween
             post = new PostClass { };
             Assert.Equal(MyCommon.HITRESULT.None, filter.ExecFilter(post));
         }
+
+        [Fact]
+        public void SetProperty_Test()
+        {
+            var filter = new PostFilterRule();
+
+            string changedPropeyty = null;
+
+            filter.PropertyChanged += (_, x) => changedPropeyty = x.PropertyName;
+            filter.FilterName = "hogehoge";
+
+            Assert.Equal("FilterName", changedPropeyty);
+            Assert.True(filter.IsDirty);
+        }
+
+        [Fact]
+        public void SetProperty_SameValueTest()
+        {
+            var filter = new PostFilterRule();
+            filter.FilterName = "hogehoge";
+            filter.Compile();
+
+            string changedPropeyty = null;
+
+            // 値に変化がないので PropertyChanged イベントは発生しない
+            filter.PropertyChanged += (_, x) => changedPropeyty = x.PropertyName;
+            filter.FilterName = "hogehoge";
+
+            Assert.Null(changedPropeyty);
+            Assert.False(filter.IsDirty);
+        }
     }
 }
