@@ -26,6 +26,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Xunit;
+using Xunit.Extensions;
 
 namespace OpenTween
 {
@@ -292,6 +293,54 @@ namespace OpenTween
             filter.FilterSource = "OpenTween";
 
             Assert.False(tab.FilterModified);
+        }
+    }
+
+    public class TabUsageTypeExtTest
+    {
+        [Theory]
+        [InlineData(MyCommon.TabUsageType.Home,          true)]
+        [InlineData(MyCommon.TabUsageType.Mentions,      true)]
+        [InlineData(MyCommon.TabUsageType.DirectMessage, true)]
+        [InlineData(MyCommon.TabUsageType.Favorites,     true)]
+        [InlineData(MyCommon.TabUsageType.UserDefined,   false)]
+        [InlineData(MyCommon.TabUsageType.Lists,         false)]
+        [InlineData(MyCommon.TabUsageType.UserTimeline,  false)]
+        [InlineData(MyCommon.TabUsageType.PublicSearch,  false)]
+        [InlineData(MyCommon.TabUsageType.Related,       false)]
+        public void IsDefault_Test(MyCommon.TabUsageType tabType, bool expected)
+        {
+            Assert.Equal(expected, tabType.IsDefault());
+        }
+
+        [Theory]
+        [InlineData(MyCommon.TabUsageType.Home,          false)]
+        [InlineData(MyCommon.TabUsageType.Mentions,      true)]
+        [InlineData(MyCommon.TabUsageType.DirectMessage, false)]
+        [InlineData(MyCommon.TabUsageType.Favorites,     false)]
+        [InlineData(MyCommon.TabUsageType.UserDefined,   true)]
+        [InlineData(MyCommon.TabUsageType.Lists,         false)]
+        [InlineData(MyCommon.TabUsageType.UserTimeline,  false)]
+        [InlineData(MyCommon.TabUsageType.PublicSearch,  false)]
+        [InlineData(MyCommon.TabUsageType.Related,       false)]
+        public void IsDistributable_Test(MyCommon.TabUsageType tabType, bool expected)
+        {
+            Assert.Equal(expected, tabType.IsDistributable());
+        }
+
+        [Theory]
+        [InlineData(MyCommon.TabUsageType.Home,          false)]
+        [InlineData(MyCommon.TabUsageType.Mentions,      false)]
+        [InlineData(MyCommon.TabUsageType.DirectMessage, true)]
+        [InlineData(MyCommon.TabUsageType.Favorites,     false)]
+        [InlineData(MyCommon.TabUsageType.UserDefined,   false)]
+        [InlineData(MyCommon.TabUsageType.Lists,         true)]
+        [InlineData(MyCommon.TabUsageType.UserTimeline,  true)]
+        [InlineData(MyCommon.TabUsageType.PublicSearch,  true)]
+        [InlineData(MyCommon.TabUsageType.Related,       true)]
+        public void IsInnerStorage_Test(MyCommon.TabUsageType tabType, bool expected)
+        {
+            Assert.Equal(expected, tabType.IsInnerStorage());
         }
     }
 }
