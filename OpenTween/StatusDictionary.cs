@@ -1984,36 +1984,6 @@ namespace OpenTween
             this.FilterModified = true;
         }
 
-        [XmlIgnore]
-        public IReadOnlyList<PostFilterRule> Filters
-        {
-            get
-            {
-                lock (this._lockObj)
-                {
-                    return _filters;
-                }
-            }
-            set
-            {
-                lock (this._lockObj)
-                {
-                    foreach (var oldFilter in this._filters)
-                    {
-                        oldFilter.PropertyChanged -= this.OnFilterModified;
-                    }
-
-                    this._filters = new List<PostFilterRule>(value);
-                    this.FilterModified = true;
-
-                    foreach (var newFilter in value)
-                    {
-                        newFilter.PropertyChanged += this.OnFilterModified;
-                    }
-                }
-            }
-        }
-
         public PostFilterRule[] FilterArray
         {
             get

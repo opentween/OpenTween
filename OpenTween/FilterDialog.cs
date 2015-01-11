@@ -1133,7 +1133,7 @@ namespace OpenTween
 
                 foreach (int idx in ListFilters.SelectedIndices)
                 {
-                    filters.Add(_sts.Tabs[tabname].Filters[idx].Clone());
+                    filters.Add(_sts.Tabs[tabname].FilterArray[idx].Clone());
                 }
                 foreach (var tb in selectedTabs)
                 {
@@ -1141,7 +1141,7 @@ namespace OpenTween
 
                     foreach (PostFilterRule flt in filters)
                     {
-                        if (!tb.Filters.Contains(flt))
+                        if (!tb.FilterArray.Contains(flt))
                             tb.AddFilter(flt.Clone());
                     }
                 }
@@ -1168,7 +1168,7 @@ namespace OpenTween
 
                 foreach (int idx in ListFilters.SelectedIndices)
                 {
-                    filters.Add(_sts.Tabs[tabname].Filters[idx].Clone());
+                    filters.Add(_sts.Tabs[tabname].FilterArray[idx].Clone());
                 }
                 if (selectedTabs.Length == 1 && selectedTabs[0].TabName == tabname) return;
                 foreach (var tb in selectedTabs)
@@ -1177,7 +1177,7 @@ namespace OpenTween
 
                     foreach (PostFilterRule flt in filters)
                     {
-                        if (!tb.Filters.Contains(flt))
+                        if (!tb.FilterArray.Contains(flt))
                             tb.AddFilter(flt.Clone());
                     }
                 }

@@ -231,19 +231,7 @@ namespace OpenTween
             var filter = new PostFilterRule();
             tab.FilterArray = new[] { filter };
 
-            Assert.Equal(new[] { filter }, tab.Filters);
-            Assert.True(tab.FilterModified);
-        }
-
-        [Fact]
-        public void FiltersSetter_Test()
-        {
-            var tab = new TabClass();
-
-            var filter = new PostFilterRule();
-            tab.Filters = new[] { filter }.ToList();
-
-            Assert.Equal(new[] { filter }, tab.Filters);
+            Assert.Equal(new[] { filter }, tab.FilterArray);
             Assert.True(tab.FilterModified);
         }
 
@@ -255,7 +243,7 @@ namespace OpenTween
             var filter = new PostFilterRule();
             tab.AddFilter(filter);
 
-            Assert.Equal(new[] { filter }, tab.Filters);
+            Assert.Equal(new[] { filter }, tab.FilterArray);
             Assert.True(tab.FilterModified);
         }
 
@@ -270,7 +258,7 @@ namespace OpenTween
 
             tab.RemoveFilter(filter);
 
-            Assert.Empty(tab.Filters);
+            Assert.Empty(tab.FilterArray);
             Assert.True(tab.FilterModified);
         }
 
