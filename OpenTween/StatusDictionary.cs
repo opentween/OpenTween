@@ -1447,32 +1447,6 @@ namespace OpenTween
             }
         }
 
-        // デフォルトタブの判定処理
-        public bool IsDefaultTab(string tabName)
-        {
-            TabClass tab;
-            if (tabName != null &&
-               _tabs.TryGetValue(tabName, out tab))
-            {
-                return tab.IsDefaultTabType;
-            }
-
-            return false;
-        }
-
-        //振り分け可能タブの判定処理
-        public bool IsDistributableTab(string tabName)
-        {
-            TabClass tab;
-            if (tabName != null &&
-                _tabs.TryGetValue(tabName, out tab))
-            {
-                return tab.IsDistributableTabType;
-            }
-
-            return false;
-        }
-
         public string GetUniqueTabName()
         {
             var tabNameTemp = "MyTab" + (_tabs.Count + 1).ToString();
