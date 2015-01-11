@@ -1636,6 +1636,7 @@ namespace OpenTween
             Protected = false;
             Notify = true;
             SoundFile = "";
+            UnreadManage = true;
             _ids = new List<long>();
             _tabType = MyCommon.TabUsageType.Undefined;
             _listInfo = null;
