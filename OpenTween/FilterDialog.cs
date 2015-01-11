@@ -550,9 +550,12 @@ namespace OpenTween
             }
 
             int i = ListFilters.SelectedIndex;
-            PostFilterRule ft;
 
-            ft = new PostFilterRule();
+            PostFilterRule ft;
+            if (_mode == EDITMODE.AddNew)
+                ft = new PostFilterRule();
+            else
+                ft = (PostFilterRule)this.ListFilters.SelectedItem;
 
             ft.MoveMatches = OptMove.Checked;
             ft.MarkMatches = CheckMark.Checked;
@@ -632,10 +635,6 @@ namespace OpenTween
             {
                 if (!_sts.Tabs[ListTabs.SelectedItem.ToString()].AddFilter(ft))
                     MessageBox.Show(Properties.Resources.ButtonOK_ClickText4, Properties.Resources.ButtonOK_ClickText2, MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            else
-            {
-                _sts.Tabs[ListTabs.SelectedItem.ToString()].EditFilter((PostFilterRule)ListFilters.SelectedItem, ft);
             }
 
             SetFilters(ListTabs.SelectedItem.ToString());

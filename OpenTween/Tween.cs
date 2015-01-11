@@ -1211,6 +1211,7 @@ namespace OpenTween
             {
                 try
                 {
+                    tb.FilterModified = false;
                     _statuses.Tabs.Add(tb.TabName, tb);
                 }
                 catch (Exception)

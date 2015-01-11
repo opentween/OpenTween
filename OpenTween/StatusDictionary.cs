@@ -1962,6 +1962,7 @@ namespace OpenTween
             lock (this._lockObj)
             {
                 _filters.Remove(filter);
+                filter.PropertyChanged -= this.OnFilterModified;
                 this.FilterModified = true;
             }
         }
@@ -1971,34 +1972,15 @@ namespace OpenTween
             lock (this._lockObj)
             {
                 if (_filters.Contains(filter)) return false;
+                filter.PropertyChanged += this.OnFilterModified;
                 _filters.Add(filter);
                 this.FilterModified = true;
                 return true;
             }
         }
 
-        public void EditFilter(PostFilterRule original, PostFilterRule modified)
+        private void OnFilterModified(object sender, PropertyChangedEventArgs e)
         {
-            original.FilterBody = modified.FilterBody;
-            original.FilterName = modified.FilterName;
-            original.UseNameField = modified.UseNameField;
-            original.FilterByUrl = modified.FilterByUrl;
-            original.UseRegex = modified.UseRegex;
-            original.CaseSensitive = modified.CaseSensitive;
-            original.FilterRt = modified.FilterRt;
-            original.UseLambda = modified.UseLambda;
-            original.FilterSource = modified.FilterSource;
-            original.ExFilterBody = modified.ExFilterBody;
-            original.ExFilterName = modified.ExFilterName;
-            original.ExUseNameField = modified.ExUseNameField;
-            original.ExFilterByUrl = modified.ExFilterByUrl;
-            original.ExUseRegex = modified.ExUseRegex;
-            original.ExCaseSensitive = modified.ExCaseSensitive;
-            original.ExFilterRt = modified.ExFilterRt;
-            original.ExUseLambda = modified.ExUseLambda;
-            original.ExFilterSource = modified.ExFilterSource;
-            original.MoveMatches = modified.MoveMatches;
-            original.MarkMatches = modified.MarkMatches;
             this.FilterModified = true;
         }
 
@@ -2016,7 +1998,18 @@ namespace OpenTween
             {
                 lock (this._lockObj)
                 {
-                    _filters = value;
+                    foreach (var oldFilter in this._filters)
+                    {
+                        oldFilter.PropertyChanged -= this.OnFilterModified;
+                    }
+
+                    this._filters = value;
+                    this.FilterModified = true;
+
+                    foreach (var newFilter in value)
+                    {
+                        newFilter.PropertyChanged += this.OnFilterModified;
+                    }
                 }
             }
         }
@@ -2034,9 +2027,18 @@ namespace OpenTween
             {
                 lock (this._lockObj)
                 {
-                    foreach (var filters in value)
+                    foreach (var oldFilter in this._filters)
                     {
-                        _filters.Add(filters);
+                        oldFilter.PropertyChanged -= this.OnFilterModified;
+                    }
+
+                    this._filters.Clear();
+                    this.FilterModified = true;
+
+                    foreach (var newFilter in value)
+                    {
+                        _filters.Add(newFilter);
+                        newFilter.PropertyChanged += this.OnFilterModified;
                     }
                 }
             }

@@ -222,5 +222,88 @@ namespace OpenTween
 
             Assert.Equal(1, tab.UnreadCount);
         }
+
+        [Fact]
+        public void FilterArraySetter_Test()
+        {
+            var tab = new TabClass();
+
+            var filter = new PostFilterRule();
+            tab.FilterArray = new[] { filter };
+
+            Assert.Equal(new[] { filter }, tab.Filters);
+            Assert.True(tab.FilterModified);
+        }
+
+        [Fact]
+        public void FiltersSetter_Test()
+        {
+            var tab = new TabClass();
+
+            var filter = new PostFilterRule();
+            tab.Filters = new[] { filter }.ToList();
+
+            Assert.Equal(new[] { filter }, tab.Filters);
+            Assert.True(tab.FilterModified);
+        }
+
+        [Fact]
+        public void AddFilter_Test()
+        {
+            var tab = new TabClass();
+
+            var filter = new PostFilterRule();
+            tab.AddFilter(filter);
+
+            Assert.Equal(new[] { filter }, tab.Filters);
+            Assert.True(tab.FilterModified);
+        }
+
+        [Fact]
+        public void RemoveFilter_Test()
+        {
+            var tab = new TabClass();
+
+            var filter = new PostFilterRule();
+            tab.FilterArray = new[] { filter };
+            tab.FilterModified = false;
+
+            tab.RemoveFilter(filter);
+
+            Assert.Empty(tab.Filters);
+            Assert.True(tab.FilterModified);
+        }
+
+        [Fact]
+        public void OnFilterModified_Test()
+        {
+            var tab = new TabClass();
+
+            var filter = new PostFilterRule();
+            tab.FilterArray = new[] { filter };
+            tab.FilterModified = false;
+
+            // TabClass に紐付いているフィルタを変更
+            filter.FilterSource = "OpenTween";
+
+            Assert.True(tab.FilterModified);
+        }
+
+        [Fact]
+        public void OnFilterModified_DetachedTest()
+        {
+            var tab = new TabClass();
+
+            var filter = new PostFilterRule();
+            tab.FilterArray = new[] { filter };
+
+            tab.RemoveFilter(filter);
+            tab.FilterModified = false;
+
+            // TabClass から既に削除されたフィルタを変更
+            filter.FilterSource = "OpenTween";
+
+            Assert.False(tab.FilterModified);
+        }
     }
 }
