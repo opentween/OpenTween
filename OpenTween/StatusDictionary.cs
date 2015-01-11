@@ -1451,13 +1451,9 @@ namespace OpenTween
         {
             TabClass tab;
             if (tabName != null &&
-               _tabs.TryGetValue(tabName, out tab) &&
-               (tab.TabType == MyCommon.TabUsageType.Home ||
-               tab.TabType == MyCommon.TabUsageType.Mentions ||
-               tab.TabType == MyCommon.TabUsageType.DirectMessage ||
-               tab.TabType == MyCommon.TabUsageType.Favorites))
+               _tabs.TryGetValue(tabName, out tab))
             {
-                return true;
+                return tab.IsDefaultTabType;
             }
 
             return false;
@@ -1468,11 +1464,9 @@ namespace OpenTween
         {
             TabClass tab;
             if (tabName != null &&
-                _tabs.TryGetValue(tabName, out tab) &&
-                (tab.TabType == MyCommon.TabUsageType.Mentions ||
-                tab.TabType == MyCommon.TabUsageType.UserDefined))
+                _tabs.TryGetValue(tabName, out tab))
             {
-                return true;
+                return tab.IsDistributableTabType;
             }
 
             return false;
@@ -2116,23 +2110,75 @@ namespace OpenTween
             }
         }
 
+        public bool IsDefaultTabType
+        {
+            get
+            {
+                return _tabType.IsDefault();
+            }
+        }
+
+        public bool IsDistributableTabType
+        {
+            get
+            {
+                return _tabType.IsDistributable();
+            }
+        }
+
         public bool IsInnerStorageTabType
         {
             get
             {
-                if (_tabType == MyCommon.TabUsageType.PublicSearch ||
-                    _tabType == MyCommon.TabUsageType.DirectMessage ||
-                    _tabType == MyCommon.TabUsageType.Lists ||
-                    _tabType == MyCommon.TabUsageType.UserTimeline ||
-                    _tabType == MyCommon.TabUsageType.Related)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
+                return _tabType.IsInnerStorage();
             }
+        }
+    }
+
+    /// <summary>
+    /// enum TabUsageType に対応する拡張メソッドを定義したクラス
+    /// </summary>
+    public static class TabUsageTypeExt
+    {
+        const MyCommon.TabUsageType DefaultTabTypeMask =
+            MyCommon.TabUsageType.Home |
+            MyCommon.TabUsageType.Mentions |
+            MyCommon.TabUsageType.DirectMessage |
+            MyCommon.TabUsageType.Favorites;
+
+        const MyCommon.TabUsageType DistributableTabTypeMask =
+            MyCommon.TabUsageType.Mentions |
+            MyCommon.TabUsageType.UserDefined;
+
+        const MyCommon.TabUsageType InnerStorageTabTypeMask =
+            MyCommon.TabUsageType.DirectMessage |
+            MyCommon.TabUsageType.PublicSearch |
+            MyCommon.TabUsageType.Lists |
+            MyCommon.TabUsageType.UserTimeline |
+            MyCommon.TabUsageType.Related;
+
+        /// <summary>
+        /// デフォルトタブかどうかを示す値を取得します。
+        /// </summary>
+        public static bool IsDefault(this MyCommon.TabUsageType tabType)
+        {
+            return (tabType & DefaultTabTypeMask) != 0;
+        }
+
+        /// <summary>
+        /// 振り分け可能タブかどうかを示す値を取得します。
+        /// </summary>
+        public static bool IsDistributable(this MyCommon.TabUsageType tabType)
+        {
+            return (tabType & DistributableTabTypeMask) != 0;
+        }
+
+        /// <summary>
+        /// 内部ストレージを使用するタブかどうかを示す値を取得します。
+        /// </summary>
+        public static bool IsInnerStorage(this MyCommon.TabUsageType tabType)
+        {
+            return (tabType & InnerStorageTabTypeMask) != 0;
         }
     }
 
