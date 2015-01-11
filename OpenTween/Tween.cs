@@ -681,16 +681,6 @@ namespace OpenTween
             ////設定読み出し
             LoadConfig();
 
-            ThumbnailGenerator.InitializeGenerator();
-
-            var imgazyobizinet = ThumbnailGenerator.ImgAzyobuziNetInstance;
-            imgazyobizinet.Enabled = this._cfgCommon.EnableImgAzyobuziNet;
-            imgazyobizinet.DisabledInDM = this._cfgCommon.ImgAzyobuziNetDisabledInDM;
-
-            Thumbnail.Services.TonTwitterCom.InitializeOAuthToken = x =>
-                x.Initialize(ApplicationSettings.TwitterConsumerKey, ApplicationSettings.TwitterConsumerSecret,
-                    this.tw.AccessToken, this.tw.AccessTokenSecret, "", "");
-
             //新着バルーン通知のチェック状態設定
             NewPostPopMenuItem.Checked = _cfgCommon.NewAllPop;
             this.NotifyFileMenuItem.Checked = NewPostPopMenuItem.Checked;
@@ -888,6 +878,18 @@ namespace OpenTween
             Networking.SetWebProxy(this._cfgLocal.ProxyType,
                 this._cfgLocal.ProxyAddress, this._cfgLocal.ProxyPort,
                 this._cfgLocal.ProxyUser, this._cfgLocal.ProxyPassword);
+
+            //サムネイル関連の初期化
+            //プロキシ設定等の通信まわりの初期化が済んでから処理する
+            ThumbnailGenerator.InitializeGenerator();
+
+            var imgazyobizinet = ThumbnailGenerator.ImgAzyobuziNetInstance;
+            imgazyobizinet.Enabled = this._cfgCommon.EnableImgAzyobuziNet;
+            imgazyobizinet.DisabledInDM = this._cfgCommon.ImgAzyobuziNetDisabledInDM;
+
+            Thumbnail.Services.TonTwitterCom.InitializeOAuthToken = x =>
+                x.Initialize(ApplicationSettings.TwitterConsumerKey, ApplicationSettings.TwitterConsumerSecret,
+                    this.tw.AccessToken, this.tw.AccessTokenSecret, "", "");
 
             tw.RestrictFavCheck = this._cfgCommon.RestrictFavCheck;
             tw.ReadOwnPost = this._cfgCommon.ReadOwnPost;
