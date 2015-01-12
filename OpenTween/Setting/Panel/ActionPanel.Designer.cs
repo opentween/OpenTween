@@ -164,6 +164,7 @@
             resources.ApplyResources(this.Button3, "Button3");
             this.Button3.Name = "Button3";
             this.Button3.UseVisualStyleBackColor = true;
+            this.Button3.Click += new System.EventHandler(this.Button3_Click);
             // 
             // PlaySnd
             // 
