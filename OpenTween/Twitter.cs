@@ -145,7 +145,7 @@ namespace OpenTween
 
         delegate void GetIconImageDelegate(PostClass post);
         private readonly object LockObj = new object();
-        private List<long> followerId = new List<long>();
+        private ISet<long> followerId = new HashSet<long>();
         private bool _GetFollowerResult = false;
         private long[] noRTId = new long[0];
         private bool _GetNoRetweetResult = false;
@@ -2390,11 +2390,11 @@ namespace OpenTween
             if (MyCommon._endingFlag) return;
 
             var cursor = -1L;
-            var newFollowerIds = new List<long>();
+            var newFollowerIds = new HashSet<long>();
             do
             {
                 var ret = this.GetFollowerIdsApi(ref cursor);
-                newFollowerIds.AddRange(ret.Ids);
+                newFollowerIds.UnionWith(ret.Ids);
                 cursor = ret.NextCursor;
             } while (cursor != 0);
 
@@ -3122,11 +3122,11 @@ namespace OpenTween
             if (MyCommon._endingFlag) return;
 
             var cursor = -1L;
-            var newBlockIds = new List<long>();
+            var newBlockIds = new HashSet<long>();
             do
             {
                 var ret = this.GetBlockIdsApi(cursor);
-                newBlockIds.AddRange(ret.Ids);
+                newBlockIds.UnionWith(ret.Ids);
                 cursor = ret.NextCursor;
             } while (cursor != 0);
 
@@ -3184,7 +3184,7 @@ namespace OpenTween
             var ids = await TwitterIds.GetAllItemsAsync(this.GetMuteUserIdsApiAsync)
                 .ConfigureAwait(false);
 
-            TabInformations.GetInstance().MuteUserIds = ids.ToList();
+            TabInformations.GetInstance().MuteUserIds = new HashSet<long>(ids);
         }
 
         public async Task<TwitterIds> GetMuteUserIdsApiAsync(long cursor)

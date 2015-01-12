@@ -417,8 +417,8 @@ namespace OpenTween
         private Dictionary<long, PostClass> _retweets = new Dictionary<long, PostClass>();
         private Stack<TabClass> _removedTab = new Stack<TabClass>();
 
-        public List<long> BlockIds = new List<long>();
-        public List<long> MuteUserIds = new List<long>();
+        public ISet<long> BlockIds = new HashSet<long>();
+        public ISet<long> MuteUserIds = new HashSet<long>();
 
         //発言の追加
         //AddPost(複数回) -> DistributePosts          -> SubmitUpdate
@@ -1312,7 +1312,7 @@ namespace OpenTween
             }
         }
 
-        public void RefreshOwl(List<long> follower)
+        public void RefreshOwl(ISet<long> follower)
         {
             lock (LockObj)
             {
