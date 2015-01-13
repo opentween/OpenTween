@@ -1440,7 +1440,6 @@ namespace OpenTween
         //Search query
         private string _searchLang = "";
         private string _searchWords = "";
-        private string _nextPageQuery = "";
 
         public string SearchLang
         {
@@ -1467,35 +1466,7 @@ namespace OpenTween
             }
         }
 
-        public string NextPageQuery
-        {
-            get
-            {
-                return _nextPageQuery;
-            }
-            set
-            {
-                _nextPageQuery = value;
-            }
-        }
-
-        public int GetSearchPage(int count)
-        {
-            return ((_ids.Count / count) + 1);
-        }
         private Dictionary<string, string> _beforeQuery = new Dictionary<string, string>();
-        public void SaveQuery(bool more)
-        {
-            var qry = new Dictionary<string, string>();
-            if (string.IsNullOrEmpty(_searchWords))
-            {
-                _beforeQuery = qry;
-                return;
-            }
-            qry.Add("q", _searchWords);
-            if (!string.IsNullOrEmpty(_searchLang)) qry.Add("lang", _searchLang);
-            _beforeQuery = qry;
-        }
 
         public bool IsQueryChanged()
         {
