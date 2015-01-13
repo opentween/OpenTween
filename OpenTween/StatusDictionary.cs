@@ -1632,7 +1632,10 @@ namespace OpenTween
             this._ids = sortedIds.ToList();
         }
 
+        [XmlIgnore]
         public ComparerMode SortMode { get; set; }
+
+        [XmlIgnore]
         public SortOrder SortOrder { get; set; }
 
         //無条件に追加
