@@ -1468,24 +1468,33 @@ namespace OpenTween
 
         private Dictionary<string, string> _beforeQuery = new Dictionary<string, string>();
 
-        public bool IsQueryChanged()
+        public bool IsSearchQueryChanged
         {
-            var qry = new Dictionary<string, string>();
-            if (!string.IsNullOrEmpty(_searchWords))
+            get
             {
-                qry.Add("q", _searchWords);
-                if (!string.IsNullOrEmpty(_searchLang)) qry.Add("lang", _searchLang);
-            }
-            if (qry.Count != _beforeQuery.Count) return true;
-
-            foreach (var kvp in qry)
-            {
-                if (!_beforeQuery.ContainsKey(kvp.Key) || _beforeQuery[kvp.Key] != kvp.Value)
+                var qry = new Dictionary<string, string>();
+                if (!string.IsNullOrEmpty(_searchWords))
                 {
+                    qry.Add("q", _searchWords);
+                    if (!string.IsNullOrEmpty(_searchLang)) qry.Add("lang", _searchLang);
+                }
+                if (qry.Count != _beforeQuery.Count)
+                {
+                    _beforeQuery = qry;
                     return true;
                 }
+
+                foreach (var kvp in qry)
+                {
+                    string value;
+                    if (!_beforeQuery.TryGetValue(kvp.Key, out value) || value != kvp.Value)
+                    {
+                        _beforeQuery = qry;
+                        return true;
+                    }
+                }
+                return false;
             }
-            return false;
         }
 #endregion
 

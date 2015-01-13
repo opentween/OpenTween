@@ -11351,30 +11351,31 @@ namespace OpenTween
             }
             cmb.Text = buf.ToString();
 
+            var listView = (DetailsListView)pnl.Parent.Tag;
+
             tb.SearchWords = cmb.Text;
             tb.SearchLang = cmbLang.Text;
             if (string.IsNullOrEmpty(cmb.Text))
             {
-                ((DetailsListView)ListTab.SelectedTab.Tag).Focus();
+                listView.Focus();
                 SaveConfigsTabs();
                 return;
             }
-            if (tb.IsQueryChanged())
+            if (tb.IsSearchQueryChanged)
             {
-                int idx = ((ComboBox)pnl.Controls["comboSearch"]).Items.IndexOf(tb.SearchWords);
-                if (idx > -1) ((ComboBox)pnl.Controls["comboSearch"]).Items.RemoveAt(idx);
-                ((ComboBox)pnl.Controls["comboSearch"]).Items.Insert(0, tb.SearchWords);
+                int idx = cmb.Items.IndexOf(tb.SearchWords);
+                if (idx > -1) cmb.Items.RemoveAt(idx);
+                cmb.Items.Insert(0, tb.SearchWords);
                 cmb.Text = tb.SearchWords;
                 cmb.SelectAll();
-                DetailsListView lst = (DetailsListView)pnl.Parent.Tag;
                 this.PurgeListViewItemCache();
-                lst.VirtualListSize = 0;
+                listView.VirtualListSize = 0;
                 _statuses.ClearTabIds(tbName);
                 SaveConfigsTabs();   //検索条件の保存
             }
 
             GetTimeline(MyCommon.WORKERTYPE.PublicSearch, 1, tbName);
-            ((DetailsListView)ListTab.SelectedTab.Tag).Focus();
+            listView.Focus();
         }
 
         private void RefreshMoreStripMenuItem_Click(object sender, EventArgs e)
