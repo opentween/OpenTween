@@ -745,6 +745,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Icons\description.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\3b.ico" />
     <Content Include="Resources\4b.ico" />
     <Content Include="Resources\5b.ico" />
