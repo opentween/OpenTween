@@ -335,10 +335,11 @@ namespace OpenTween
                 if (NIconAt != null) NIconAt.Dispose();
                 if (NIconAtRed != null) NIconAtRed.Dispose();
                 if (NIconAtSmoke != null) NIconAtSmoke.Dispose();
-                if (NIconRefresh[0] != null) NIconRefresh[0].Dispose();
-                if (NIconRefresh[1] != null) NIconRefresh[1].Dispose();
-                if (NIconRefresh[2] != null) NIconRefresh[2].Dispose();
-                if (NIconRefresh[3] != null) NIconRefresh[3].Dispose();
+                foreach (var iconRefresh in this.NIconRefresh)
+                {
+                    if (iconRefresh != null)
+                        iconRefresh.Dispose();
+                }
                 if (TabIcon != null) TabIcon.Dispose();
                 if (MainIcon != null) MainIcon.Dispose();
                 if (ReplyIcon != null) ReplyIcon.Dispose();
@@ -386,68 +387,93 @@ namespace OpenTween
             this.disposed = true;
         }
 
-        private void LoadIcon(ref Icon IconInstance, string FileName)
+        private void LoadIcons()
         {
-            string dir = Application.StartupPath;
-            if (File.Exists(Path.Combine(dir, FileName)))
+            // Icons フォルダ以下のアイコンを読み込み（着せ替えアイコン対応）
+            var iconsDir = Path.Combine(Application.StartupPath, "Icons");
+
+            // ウィンドウ左上のアイコン
+            var iconMain = this.LoadIcon(Path.Combine(iconsDir, "MIcon.ico"));
+
+            // タブ見出し未読表示アイコン
+            var iconTab = this.LoadIcon(Path.Combine(iconsDir, "Tab.ico"));
+
+            // タスクトレイ: 通常時アイコン
+            var iconAt = this.LoadIcon(Path.Combine(iconsDir, "At.ico"));
+
+            // タスクトレイ: エラー時アイコン
+            var iconAtRed = this.LoadIcon(Path.Combine(iconsDir, "AtRed.ico"));
+
+            // タスクトレイ: オフライン時アイコン
+            var iconAtSmoke = this.LoadIcon(Path.Combine(iconsDir, "AtSmoke.ico"));
+
+            // タスクトレイ: Reply通知アイコン (最大2枚でアニメーション可能)
+            var iconReply = this.LoadIcon(Path.Combine(iconsDir, "Reply.ico"));
+            var iconReplyBlink = this.LoadIcon(Path.Combine(iconsDir, "ReplyBlink.ico"));
+
+            // タスクトレイ: 更新中アイコン (最大4枚でアニメーション可能)
+            var iconRefresh1 = this.LoadIcon(Path.Combine(iconsDir, "Refresh.ico"));
+            var iconRefresh2 = this.LoadIcon(Path.Combine(iconsDir, "Refresh2.ico"));
+            var iconRefresh3 = this.LoadIcon(Path.Combine(iconsDir, "Refresh3.ico"));
+            var iconRefresh4 = this.LoadIcon(Path.Combine(iconsDir, "Refresh4.ico"));
+
+            // 読み込んだアイコンを設定 (不足するアイコンはデフォルトのものを設定)
+
+            this.MainIcon = iconMain ?? Properties.Resources.MIcon;
+            this.TabIcon = iconTab ?? Properties.Resources.TabIcon;
+            this.NIconAt = iconAt ?? iconMain ?? Properties.Resources.At;
+            this.NIconAtRed = iconAtRed ?? Properties.Resources.AtRed;
+            this.NIconAtSmoke = iconAtSmoke ?? Properties.Resources.AtSmoke;
+
+            if (iconReply != null && iconReplyBlink != null)
             {
-                try
-                {
-                    IconInstance = new Icon(Path.Combine(dir, FileName));
-                }
-                catch (Exception)
-                {
-                }
+                this.ReplyIcon = iconReply;
+                this.ReplyIconBlink = iconReplyBlink;
+            }
+            else
+            {
+                this.ReplyIcon = iconReply ?? iconReplyBlink ?? Properties.Resources.Reply;
+                this.ReplyIconBlink = this.NIconAt;
+            }
+
+            if (iconRefresh1 == null)
+            {
+                this.NIconRefresh = new[] {
+                    Properties.Resources.Refresh, Properties.Resources.Refresh2,
+                    Properties.Resources.Refresh3, Properties.Resources.Refresh4,
+                };
+            }
+            else if (iconRefresh2 == null)
+            {
+                this.NIconRefresh = new[] { iconRefresh1 };
+            }
+            else if (iconRefresh3 == null)
+            {
+                this.NIconRefresh = new[] { iconRefresh1, iconRefresh2 };
+            }
+            else if (iconRefresh4 == null)
+            {
+                this.NIconRefresh = new[] { iconRefresh1, iconRefresh2, iconRefresh3 };
+            }
+            else // iconRefresh1 から iconRefresh4 まで全て揃っている
+            {
+                this.NIconRefresh = new[] { iconRefresh1, iconRefresh2, iconRefresh3, iconRefresh4 };
             }
         }
 
-        private void LoadIcons()
+        private Icon LoadIcon(string filePath)
         {
-            //着せ替えアイコン対応
-            //タスクトレイ通常時アイコン
-            string dir = Application.StartupPath;
+            if (!File.Exists(filePath))
+                return null;
 
-            NIconAt = Properties.Resources.At;
-            NIconAtRed = Properties.Resources.AtRed;
-            NIconAtSmoke = Properties.Resources.AtSmoke;
-            NIconRefresh[0] = Properties.Resources.Refresh;
-            NIconRefresh[1] = Properties.Resources.Refresh2;
-            NIconRefresh[2] = Properties.Resources.Refresh3;
-            NIconRefresh[3] = Properties.Resources.Refresh4;
-            TabIcon = Properties.Resources.TabIcon;
-            MainIcon = Properties.Resources.MIcon;
-            ReplyIcon = Properties.Resources.Reply;
-            ReplyIconBlink = Properties.Resources.ReplyBlink;
-
-            if (!Directory.Exists(Path.Combine(dir, "Icons")))
-                return;
-
-            LoadIcon(ref NIconAt, "Icons\\At.ico");
-
-            //タスクトレイエラー時アイコン
-            LoadIcon(ref NIconAtRed, "Icons\\AtRed.ico");
-
-            //タスクトレイオフライン時アイコン
-            LoadIcon(ref NIconAtSmoke, "Icons\\AtSmoke.ico");
-
-            //タスクトレイ更新中アイコン
-            //アニメーション対応により4種類読み込み
-            LoadIcon(ref NIconRefresh[0], "Icons\\Refresh.ico");
-            LoadIcon(ref NIconRefresh[1], "Icons\\Refresh2.ico");
-            LoadIcon(ref NIconRefresh[2], "Icons\\Refresh3.ico");
-            LoadIcon(ref NIconRefresh[3], "Icons\\Refresh4.ico");
-
-            //タブ見出し未読表示アイコン
-            LoadIcon(ref TabIcon, "Icons\\Tab.ico");
-
-            //画面のアイコン
-            LoadIcon(ref MainIcon, "Icons\\MIcon.ico");
-
-            //Replyのアイコン
-            LoadIcon(ref ReplyIcon, "Icons\\Reply.ico");
-
-            //Reply点滅のアイコン
-            LoadIcon(ref ReplyIconBlink, "Icons\\ReplyBlink.ico");
+            try
+            {
+                return new Icon(filePath);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
         private void InitColumns(ListView list, bool startup)
@@ -661,6 +687,7 @@ namespace OpenTween
 
             //アイコン設定
             this.Icon = MainIcon;              //メインフォーム（TweenMain）
+            this.SettingDialog.Icon = this.MainIcon;
             NotifyIcon1.Icon = NIconAt;      //タスクトレイ
             TabImage.Images.Add(TabIcon);    //タブ見出し
 
@@ -8364,7 +8391,7 @@ namespace OpenTween
                 }
             }
 
-            if (iconCnt > 3)
+            if (iconCnt >= this.NIconRefresh.Length)
             {
                 iconCnt = 0;
             }
