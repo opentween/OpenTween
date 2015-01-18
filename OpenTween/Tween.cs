@@ -10996,43 +10996,27 @@ namespace OpenTween
 
         private void ApiUsageInfoMenuItem_Click(object sender, EventArgs e)
         {
-            StringBuilder tmp = new StringBuilder();
+            var result = false;
 
-            using (FormInfo dlg = new FormInfo(this, Properties.Resources.ApiInfo6, GetApiInfo_Dowork))
+            using (var dlg = new FormInfo(this, Properties.Resources.ApiInfo6, GetApiInfo_Dowork))
             {
                 dlg.ShowDialog();
 
-                var result = (TwitterApiStatus)dlg.Result;
-
-                if (result != null)
-                {
-                    // TODO: 表示方法の変更
-                    var accessLevel = result.AccessLevel;
-                    var timelineLimit = result.AccessLimit["/statuses/home_timeline"];
-                    var mediaLimit = result.MediaUploadLimit;
-
-                    tmp.AppendLine(Properties.Resources.ApiInfo1 + timelineLimit.AccessLimitCount);
-                    tmp.AppendLine(Properties.Resources.ApiInfo2 + timelineLimit.AccessLimitRemain);
-                    tmp.AppendLine(Properties.Resources.ApiInfo3 + timelineLimit.AccessLimitResetDate);
-                    tmp.AppendLine(Properties.Resources.ApiInfo7 + (tw.UserStreamEnabled ? Properties.Resources.Enable : Properties.Resources.Disable));
-
-                    tmp.AppendLine();
-                    tmp.AppendLine(Properties.Resources.ApiInfo8 + accessLevel);
-                    SetStatusLabelUrl();
-
-                    tmp.AppendLine();
-                    tmp.AppendLine(Properties.Resources.ApiInfo9 + (mediaLimit == null ? Properties.Resources.ApiInfo91 : mediaLimit.AccessLimitCount.ToString()));
-                    tmp.AppendLine(Properties.Resources.ApiInfo10 + (mediaLimit == null ? Properties.Resources.ApiInfo91 : mediaLimit.AccessLimitRemain.ToString()));
-                    tmp.AppendLine(Properties.Resources.ApiInfo11 + (mediaLimit == null ? Properties.Resources.ApiInfo91 : mediaLimit.AccessLimitResetDate.ToString()));
-                }
-                else
-                {
-                    tmp.Append(Properties.Resources.ApiInfo5);
-                }
+                result = dlg.Result != null;
             }
 
-            MessageBox.Show(tmp.ToString(), Properties.Resources.ApiInfo4, MessageBoxButtons.OK, MessageBoxIcon.Information);
-        }
+            if (result)
+            {
+                using (var apiDlg = new ApiInfoDialog())
+                {
+                    apiDlg.ShowDialog();
+                }
+            }
+            else
+            {
+                MessageBox.Show(Properties.Resources.ApiInfo5, Properties.Resources.ApiInfo4, MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+}
 
         private void FollowCommandMenuItem_Click(object sender, EventArgs e)
         {

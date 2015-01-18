@@ -61,6 +61,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApiInfoDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ApiInfoDialog.Designer.cs">
+      <DependentUpon>ApiInfoDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="Api\ApiLimit.cs" />
     <Compile Include="Api\GeoJson.cs" />
     <Compile Include="Api\TwitterConfiguration.cs" />
@@ -398,6 +404,9 @@
     <Compile Include="Connection\HttpConnection.cs" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="ApiInfoDialog.resx">
+      <DependentUpon>ApiInfoDialog.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="AuthDialog.en.resx">
       <DependentUpon>AuthDialog.cs</DependentUpon>
     </EmbeddedResource>
