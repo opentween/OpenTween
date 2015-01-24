@@ -977,6 +977,10 @@ namespace OpenTween
             StatusText.Font = _fntInputFont;
             StatusText.ForeColor = _clInputFont;
 
+            // SplitContainer2.Panel2MinSize を一行表示の入力欄の高さに合わせる (MS UI Gothic 12pt (96dpi) の場合は 19px)
+            this.StatusText.Multiline = false; // _cfgLocal.StatusMultiline の設定は後で反映される
+            this.SplitContainer2.Panel2MinSize = this.StatusText.Height;
+
             // NameLabel のフォントを OTBaseForm.GlobalFont に変更
             this.NameLabel.Font = this.ReplaceToGlobalFont(this.NameLabel.Font);
 
@@ -9369,10 +9373,6 @@ namespace OpenTween
                 }
                 //発言欄複数行
                 StatusText.Multiline = _cfgLocal.StatusMultiline;
-
-                // SplitContainer2.Panel2MinSize を入力欄の高さに合わせる (MS UI Gothic 12pt (96dpi) の場合は 19px)
-                this.SplitContainer2.Panel2MinSize = this.StatusText.Height;
-
                 if (StatusText.Multiline)
                 {
                     int dis = SplitContainer2.Height - _cfgLocal.StatusTextHeight - SplitContainer2.SplitterWidth;
