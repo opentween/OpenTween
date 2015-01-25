@@ -84,6 +84,20 @@ namespace OpenTween
             return new Transaction<Control>(control, x => x.Cursor = newCursor, x => x.Cursor = oldCursor);
         }
 
+        public static IDisposable Enabled(Control control)
+        {
+            var oldState = control.Enabled;
+
+            return new Transaction<Control>(control, x => x.Enabled = true, x => x.Enabled = oldState);
+        }
+
+        public static IDisposable Disabled(Control control)
+        {
+            var oldState = control.Enabled;
+
+            return new Transaction<Control>(control, x => x.Enabled = false, x => x.Enabled = oldState);
+        }
+
         private class Transaction<T> : IDisposable
         {
             private readonly T control;

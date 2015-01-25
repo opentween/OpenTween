@@ -477,90 +477,89 @@ namespace OpenTween
             if (this.twitter.UserId != this._displayUser.Id)
                 return;
 
-            this.ButtonEdit.Enabled = false;
-
-            if (!IsEditing)
+            using (ControlTransaction.Disabled(this.ButtonEdit))
             {
-                ButtonEditText = ButtonEdit.Text;
-                ButtonEdit.Text = Properties.Resources.UserInfoButtonEdit_ClickText1;
-
-                TextBoxName.Text = LabelName.Text;
-                TextBoxName.Enabled = true;
-                TextBoxName.Visible = true;
-                LabelName.Visible = false;
-
-                TextBoxLocation.Text = LabelLocation.Text;
-                TextBoxLocation.Enabled = true;
-                TextBoxLocation.Visible = true;
-                LabelLocation.Visible = false;
-
-                TextBoxWeb.Text = this._displayUser.Url;
-                TextBoxWeb.Enabled = true;
-                TextBoxWeb.Visible = true;
-                LinkLabelWeb.Visible = false;
-
-                TextBoxDescription.Text = this._displayUser.Description;
-                TextBoxDescription.Enabled = true;
-                TextBoxDescription.Visible = true;
-                DescriptionBrowser.Visible = false;
-
-                TextBoxName.Focus();
-                TextBoxName.Select(TextBoxName.Text.Length, 0);
-
-                IsEditing = true;
-            }
-            else
-            {
-                Task showUserTask = null;
-
-                if (TextBoxName.Modified ||
-                    TextBoxLocation.Modified ||
-                    TextBoxWeb.Modified ||
-                    TextBoxDescription.Modified)
+                if (!IsEditing)
                 {
-                    try
-                    {
-                        var user = await Task.Run(() =>
-                            this.twitter.PostUpdateProfile(
-                                this.TextBoxName.Text,
-                                this.TextBoxWeb.Text,
-                                this.TextBoxLocation.Text,
-                                this.TextBoxDescription.Text));
+                    ButtonEditText = ButtonEdit.Text;
+                    ButtonEdit.Text = Properties.Resources.UserInfoButtonEdit_ClickText1;
 
-                        showUserTask = this.ShowUserAsync(user);
-                    }
-                    catch (WebApiException ex)
-                    {
-                        MessageBox.Show(ex.Message);
-                        return;
-                    }
+                    TextBoxName.Text = LabelName.Text;
+                    TextBoxName.Enabled = true;
+                    TextBoxName.Visible = true;
+                    LabelName.Visible = false;
+
+                    TextBoxLocation.Text = LabelLocation.Text;
+                    TextBoxLocation.Enabled = true;
+                    TextBoxLocation.Visible = true;
+                    LabelLocation.Visible = false;
+
+                    TextBoxWeb.Text = this._displayUser.Url;
+                    TextBoxWeb.Enabled = true;
+                    TextBoxWeb.Visible = true;
+                    LinkLabelWeb.Visible = false;
+
+                    TextBoxDescription.Text = this._displayUser.Description;
+                    TextBoxDescription.Enabled = true;
+                    TextBoxDescription.Visible = true;
+                    DescriptionBrowser.Visible = false;
+
+                    TextBoxName.Focus();
+                    TextBoxName.Select(TextBoxName.Text.Length, 0);
+
+                    IsEditing = true;
                 }
+                else
+                {
+                    Task showUserTask = null;
 
-                TextBoxName.Enabled = false;
-                TextBoxName.Visible = false;
-                LabelName.Visible = true;
+                    if (TextBoxName.Modified ||
+                        TextBoxLocation.Modified ||
+                        TextBoxWeb.Modified ||
+                        TextBoxDescription.Modified)
+                    {
+                        try
+                        {
+                            var user = await Task.Run(() =>
+                                this.twitter.PostUpdateProfile(
+                                    this.TextBoxName.Text,
+                                    this.TextBoxWeb.Text,
+                                    this.TextBoxLocation.Text,
+                                    this.TextBoxDescription.Text));
 
-                TextBoxLocation.Enabled = false;
-                TextBoxLocation.Visible = false;
-                LabelLocation.Visible = true;
+                            showUserTask = this.ShowUserAsync(user);
+                        }
+                        catch (WebApiException ex)
+                        {
+                            MessageBox.Show(ex.Message);
+                            return;
+                        }
+                    }
 
-                TextBoxWeb.Enabled = false;
-                TextBoxWeb.Visible = false;
-                LinkLabelWeb.Visible = true;
+                    TextBoxName.Enabled = false;
+                    TextBoxName.Visible = false;
+                    LabelName.Visible = true;
 
-                TextBoxDescription.Enabled = false;
-                TextBoxDescription.Visible = false;
-                DescriptionBrowser.Visible = true;
+                    TextBoxLocation.Enabled = false;
+                    TextBoxLocation.Visible = false;
+                    LabelLocation.Visible = true;
 
-                ButtonEdit.Text = ButtonEditText;
+                    TextBoxWeb.Enabled = false;
+                    TextBoxWeb.Visible = false;
+                    LinkLabelWeb.Visible = true;
 
-                IsEditing = false;
+                    TextBoxDescription.Enabled = false;
+                    TextBoxDescription.Visible = false;
+                    DescriptionBrowser.Visible = true;
 
-                if (showUserTask != null)
-                    await showUserTask;
+                    ButtonEdit.Text = ButtonEditText;
+
+                    IsEditing = false;
+
+                    if (showUserTask != null)
+                        await showUserTask;
+                }
             }
-
-            this.ButtonEdit.Enabled = true;
         }
 
         private async Task DoChangeIcon(string filename)
