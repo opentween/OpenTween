@@ -100,11 +100,6 @@ namespace OpenTween
                         if (force)
                         {
                             this.innerDictionary.Remove(address);
-
-                            if (cachedImageTask.Status == TaskStatus.RanToCompletion)
-                                cachedImageTask.Result.Dispose();
-
-                            cachedImageTask.Dispose();
                             cachedImageTask = null;
                         }
                         else
