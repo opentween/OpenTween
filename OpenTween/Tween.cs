@@ -3030,7 +3030,8 @@ namespace OpenTween
 
         private void RemovePostFromFavTab(Int64[] ids)
         {
-            string favTabName = _statuses.GetTabByType(MyCommon.TabUsageType.Favorites).TabName;
+            var favTab = this._statuses.GetTabByType(MyCommon.TabUsageType.Favorites);
+            string favTabName = favTab.TabName;
             int fidx = 0;
             if (_curTab.Text.Equals(favTabName))
             {
@@ -3063,7 +3064,7 @@ namespace OpenTween
             {
                 if (tp.Text == favTabName)
                 {
-                    ((DetailsListView)tp.Tag).VirtualListSize = _statuses.Tabs[favTabName].AllCount;
+                    ((DetailsListView)tp.Tag).VirtualListSize = favTab.AllCount;
                     break;
                 }
             }
@@ -3075,15 +3076,15 @@ namespace OpenTween
                 }
                 while (_curList.SelectedIndices.Count > 0);
 
-                if (_statuses.Tabs[favTabName].AllCount > 0)
+                if (favTab.AllCount > 0)
                 {
-                    if (_statuses.Tabs[favTabName].AllCount - 1 > fidx && fidx > -1)
+                    if (favTab.AllCount - 1 > fidx && fidx > -1)
                     {
                         _curList.SelectedIndices.Add(fidx);
                     }
                     else
                     {
-                        _curList.SelectedIndices.Add(_statuses.Tabs[favTabName].AllCount - 1);
+                        _curList.SelectedIndices.Add(favTab.AllCount - 1);
                     }
                     if (_curList.SelectedIndices.Count > 0)
                     {

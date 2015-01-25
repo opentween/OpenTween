@@ -1731,7 +1731,7 @@ namespace OpenTween
                     }
                     else
                     {
-                        if (TabInformations.GetInstance().Tabs[tab.TabName].Contains(post.StatusId)) continue;
+                        if (tab.Contains(post.StatusId)) continue;
                     }
                 }
 
@@ -1789,7 +1789,7 @@ namespace OpenTween
                     }
                     else
                     {
-                        if (TabInformations.GetInstance().Tabs[tab.TabName].Contains(post.StatusId)) continue;
+                        if (tab.Contains(post.StatusId)) continue;
                     }
                 }
 

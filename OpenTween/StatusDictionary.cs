@@ -679,7 +679,6 @@ namespace OpenTween
             {
                 PostClass post;
                 var tab = this.GetTabByType(MyCommon.TabUsageType.Favorites);
-                var tn = tab.TabName;
 
                 if (_statuses.TryGetValue(Id, out post))
                 {
@@ -696,7 +695,7 @@ namespace OpenTween
                             PostClass rPost = null;
                             try
                             {
-                                rPost = this.Tabs[tn][i];
+                                rPost = tab[i];
                             }
                             catch (ArgumentOutOfRangeException)
                             {
