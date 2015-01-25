@@ -40,8 +40,7 @@ namespace OpenTween
         public ToolStripAPIGauge()
             : base()
         {
-            this.Text = "API ???/???";
-            this.ToolTipText = "API rest ???/???" + Environment.NewLine + "(reset after ??? minutes)";
+            UpdateText();
 
             this.DisplayStyle = ToolStripItemDisplayStyle.Text;
         }
@@ -71,7 +70,7 @@ namespace OpenTween
         public ApiLimit ApiLimit
         {
             get { return this._ApiLimit; }
-            set
+            private set
             {
                 this._ApiLimit = value;
 
@@ -82,6 +81,44 @@ namespace OpenTween
             }
         }
         private ApiLimit _ApiLimit = null;
+
+        /// <summary>
+        /// API エンドポイント名
+        /// </summary>
+        [Browsable(false)]
+        public string ApiEndpoint
+        {
+            get { return this._ApiEndpoint; }
+            set
+            {
+                if (string.IsNullOrEmpty(value))
+                {
+                    // リセット
+                    this._ApiEndpoint = null;
+                    this.ApiLimit = null;
+                    return;
+                }
+
+                var apiLimit = MyCommon.TwitterApiInfo.AccessLimit[value];
+
+                if (this._ApiEndpoint != value)
+                {
+                    // ApiEndpointが変更されているので更新する
+                    this._ApiEndpoint = value;
+                    this.ApiLimit = apiLimit;
+                }
+                else
+                {
+                    // ApiLimitが変更されていれば更新する
+                    if (this._ApiLimit == null ||
+                        !this._ApiLimit.Equals(apiLimit))
+                    {
+                        this.ApiLimit = apiLimit;
+                    }
+                }
+            }
+        }
+        private string _ApiEndpoint = null;
 
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
@@ -156,7 +193,7 @@ namespace OpenTween
                 this._GaugeHeight
             );
 
-            var timeGaugeValue = this.remainMinutes >= 60 ? 1.00 : this.remainMinutes / 60;
+            var timeGaugeValue = this.remainMinutes >= 15 ? 1.00 : this.remainMinutes / 15;
             this.timeGaugeBounds = new Rectangle(
                 0,
                 this.apiGaugeBounds.Top + this._GaugeHeight,
@@ -171,7 +208,7 @@ namespace OpenTween
             string maxCountText;
             string minuteText;
 
-            if (this._ApiLimit == null)
+            if (this._ApiLimit == null || this.remainMinutes < 0)
             {
                 remainCountText = "???";
                 maxCountText = "???";
@@ -184,14 +221,16 @@ namespace OpenTween
                 minuteText = Math.Ceiling(this.remainMinutes).ToString();
             }
 
+            var endpointText = string.IsNullOrEmpty(this._ApiEndpoint) ? "unknown" : this._ApiEndpoint;
+
             var textFormat = "API {0}/{1}";
             this.Text = string.Format(textFormat, remainCountText, maxCountText);
 
             var toolTipTextFormat =
-                "API rest {0}/{1}" + Environment.NewLine +
-                "(reset after {2} minutes)";
+                "API rest {0} {1}/{2}" + Environment.NewLine +
+                "(reset after {3} minutes)";
 
-            this.ToolTipText = String.Format(toolTipTextFormat, remainCountText, maxCountText, minuteText);
+            this.ToolTipText = String.Format(toolTipTextFormat, endpointText, remainCountText, maxCountText, minuteText);
         }
 
         #endregion
