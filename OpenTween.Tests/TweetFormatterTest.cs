@@ -198,7 +198,7 @@ namespace OpenTween
                 },
             };
 
-            var expected = "&lt;b&gt; <a class=\"mention\" href=\"https://twitter.com/twitterapi\">@twitterapi</a> &lt;/b&gt;";
+            var expected = "&lt;b&gt;&nbsp;<a class=\"mention\" href=\"https://twitter.com/twitterapi\">@twitterapi</a>&nbsp;&lt;/b&gt;";
             Assert.Equal(expected, TweetFormatter.AutoLinkHtml(text, entities));
         }
 
@@ -218,7 +218,7 @@ namespace OpenTween
                 },
             };
 
-            var expected = "&lt;b&gt; <a class=\"mention\" href=\"https://twitter.com/twitterapi\">@twitterapi</a> &lt;/b&gt;";
+            var expected = "&lt;b&gt;&nbsp;<a class=\"mention\" href=\"https://twitter.com/twitterapi\">@twitterapi</a>&nbsp;&lt;/b&gt;";
             Assert.Equal(expected, TweetFormatter.AutoLinkHtml(text, entities));
         }
 
@@ -256,7 +256,7 @@ namespace OpenTween
                 },
             };
 
-            var expected = "🐬🐬 <a class=\"mention\" href=\"https://twitter.com/irucame\">@irucame</a> 🐬🐬";
+            var expected = "🐬🐬&nbsp;<a class=\"mention\" href=\"https://twitter.com/irucame\">@irucame</a>&nbsp;🐬🐬";
             Assert.Equal(expected, TweetFormatter.AutoLinkHtml(text, entities));
         }
 
@@ -279,8 +279,8 @@ namespace OpenTween
                 },
             };
 
-            var expected = "🐬🐬 <a class=\"hashtag\" href=\"https://twitter.com/search?q=%23%F0%9F%90%AC%F0%9F%90%AC\">#🐬🐬</a> " +
-                "🐬🐬 <a class=\"hashtag\" href=\"https://twitter.com/search?q=%23%F0%9F%90%AC%F0%9F%90%AC\">#🐬🐬</a> 🐬🐬";
+            var expected = "🐬🐬&nbsp;<a class=\"hashtag\" href=\"https://twitter.com/search?q=%23%F0%9F%90%AC%F0%9F%90%AC\">#🐬🐬</a>&nbsp;" +
+                "🐬🐬&nbsp;<a class=\"hashtag\" href=\"https://twitter.com/search?q=%23%F0%9F%90%AC%F0%9F%90%AC\">#🐬🐬</a>&nbsp;🐬🐬";
             Assert.Equal(expected, TweetFormatter.AutoLinkHtml(text, entities));
         }
 
@@ -299,7 +299,7 @@ namespace OpenTween
                 },
             };
 
-            var expected = "Caf\u00e9 <a class=\"hashtag\" href=\"https://twitter.com/search?q=%23test\">#test</a>";
+            var expected = "Caf\u00e9&nbsp;<a class=\"hashtag\" href=\"https://twitter.com/search?q=%23test\">#test</a>";
             Assert.Equal(expected, TweetFormatter.AutoLinkHtml(text, entities));
         }
 
@@ -318,7 +318,7 @@ namespace OpenTween
                 },
             };
 
-            var expected = "Cafe\u0301 <a class=\"hashtag\" href=\"https://twitter.com/search?q=%23test\">#test</a>";
+            var expected = "Cafe\u0301&nbsp;<a class=\"hashtag\" href=\"https://twitter.com/search?q=%23test\">#test</a>";
             Assert.Equal(expected, TweetFormatter.AutoLinkHtml(text, entities));
         }
 
@@ -375,7 +375,7 @@ namespace OpenTween
                 },
             };
 
-            var expected = "&quot;I hope you&#39;ll keep...building bonds of friendship that will enrich your lives &amp; enrich our world&quot; \u2014FLOTUS in China, " +
+            var expected = "&quot;I&nbsp;hope&nbsp;you&#39;ll&nbsp;keep...building&nbsp;bonds&nbsp;of&nbsp;friendship&nbsp;that&nbsp;will&nbsp;enrich&nbsp;your&nbsp;lives&nbsp;&amp;&nbsp;enrich&nbsp;our&nbsp;world&quot;&nbsp;\u2014FLOTUS&nbsp;in&nbsp;China,&nbsp;" +
                 "<a href=\"http://t.co/fxmuQN9JL9\" title=\"http://twitter.com/FLOTUS/status/449660889793581056/photo/1\">pic.twitter.com/fxmuQN9JL9</a>";
             Assert.Equal(expected, TweetFormatter.AutoLinkHtml(text, entities));
         }
