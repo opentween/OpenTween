@@ -85,6 +85,16 @@ namespace OpenTween
                 this.CurrentAutoScaleDimensions.Height / baseDpi);
         }
 
+        public static Size ScaleBy(SizeF factor, Size size)
+        {
+            return Size.Round(new SizeF(size.Width * factor.Width, size.Height * factor.Height));
+        }
+
+        public static int ScaleBy(float factor, int size)
+        {
+            return (int)Math.Round(size * factor);
+        }
+
         // テスト時にスケールを偽装するために使用
         public new virtual SizeF CurrentAutoScaleDimensions
         {

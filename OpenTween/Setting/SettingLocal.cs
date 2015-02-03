@@ -48,6 +48,11 @@ namespace OpenTween
         }
 #endregion
 
+        /// <summary>
+        /// ウィンドウサイズ等の保存時のDPI
+        /// </summary>
+        public SizeF ScaleDimension = SizeF.Empty;
+
         public Point FormLocation = new Point(0, 0);
         public int SplitterDistance = 200;
         public Size FormSize = new Size(600, 500);
@@ -333,6 +338,16 @@ namespace OpenTween
         protected Color StringToColor(string str)
         {
             return (Color)this.colorConverter.ConvertFromString(str);
+        }
+
+        /// <summary>
+        /// 指定されたスケールと SettingLocal.ScaleDimension のスケールとの拡大比を返します
+        /// </summary>
+        public SizeF GetConfigScaleFactor(SizeF currentSizeDimension)
+        {
+            return new SizeF(
+                currentSizeDimension.Width / this.ScaleDimension.Width,
+                currentSizeDimension.Height / this.ScaleDimension.Height);
         }
 
         public void Dispose()

@@ -527,10 +527,12 @@ namespace OpenTween
             }
             else
             {
+                var widthScaleFactor = this.CurrentAutoScaleDimensions.Width / this._cfgLocal.ScaleDimension.Width;
+
                 if (_iconCol)
                 {
-                    list.Columns[0].Width = _cfgLocal.Width1;
-                    list.Columns[1].Width = _cfgLocal.Width3;
+                    list.Columns[0].Width = ScaleBy(widthScaleFactor, _cfgLocal.Width1);
+                    list.Columns[1].Width = ScaleBy(widthScaleFactor, _cfgLocal.Width3);
                     list.Columns[0].DisplayIndex = 0;
                     list.Columns[1].DisplayIndex = 1;
                 }
@@ -555,14 +557,14 @@ namespace OpenTween
                         else if (_cfgLocal.DisplayIndex8 == i)
                             dispOrder[i] = 7;
                     }
-                    list.Columns[0].Width = _cfgLocal.Width1;
-                    list.Columns[1].Width = _cfgLocal.Width2;
-                    list.Columns[2].Width = _cfgLocal.Width3;
-                    list.Columns[3].Width = _cfgLocal.Width4;
-                    list.Columns[4].Width = _cfgLocal.Width5;
-                    list.Columns[5].Width = _cfgLocal.Width6;
-                    list.Columns[6].Width = _cfgLocal.Width7;
-                    list.Columns[7].Width = _cfgLocal.Width8;
+                    list.Columns[0].Width = ScaleBy(widthScaleFactor, _cfgLocal.Width1);
+                    list.Columns[1].Width = ScaleBy(widthScaleFactor, _cfgLocal.Width2);
+                    list.Columns[2].Width = ScaleBy(widthScaleFactor, _cfgLocal.Width3);
+                    list.Columns[3].Width = ScaleBy(widthScaleFactor, _cfgLocal.Width4);
+                    list.Columns[4].Width = ScaleBy(widthScaleFactor, _cfgLocal.Width5);
+                    list.Columns[5].Width = ScaleBy(widthScaleFactor, _cfgLocal.Width6);
+                    list.Columns[6].Width = ScaleBy(widthScaleFactor, _cfgLocal.Width7);
+                    list.Columns[7].Width = ScaleBy(widthScaleFactor, _cfgLocal.Width8);
                     for (int i = 0; i <= 7; i++)
                     {
                         list.Columns[dispOrder[i]].DisplayIndex = i;
@@ -695,6 +697,9 @@ namespace OpenTween
 
             ////設定読み出し
             LoadConfig();
+
+            // 現在の DPI と設定保存時の DPI との比を取得する
+            var configScaleFactor = this._cfgLocal.GetConfigScaleFactor(this.CurrentAutoScaleDimensions);
 
             //新着バルーン通知のチェック状態設定
             NewPostPopMenuItem.Checked = _cfgCommon.NewAllPop;
@@ -908,8 +913,8 @@ namespace OpenTween
             ImageSelector.Initialize(tw, this.tw.Configuration, _cfgCommon.UseImageServiceName, _cfgCommon.UseImageService);
 
             //ウィンドウ設定
-            this.ClientSize = _cfgLocal.FormSize;
-            _mySize = _cfgLocal.FormSize;                     //サイズ保持（最小化・最大化されたまま終了した場合の対応用）
+            this.ClientSize = ScaleBy(configScaleFactor, _cfgLocal.FormSize);
+            _mySize = this.ClientSize; // サイズ保持（最小化・最大化されたまま終了した場合の対応用）
             _myLoc = _cfgLocal.FormLocation;
             //タイトルバー領域
             if (this.WindowState != FormWindowState.Minimized)
@@ -935,14 +940,17 @@ namespace OpenTween
                 }
             }
             this.TopMost = this._cfgCommon.AlwaysTop;
-            _mySpDis = _cfgLocal.SplitterDistance;
-            _mySpDis2 = _cfgLocal.StatusTextHeight;
-            _mySpDis3 = _cfgLocal.PreviewDistance;
-            if (_mySpDis3 == -1)
+            _mySpDis = ScaleBy(configScaleFactor.Height, _cfgLocal.SplitterDistance);
+            _mySpDis2 = ScaleBy(configScaleFactor.Height, _cfgLocal.StatusTextHeight);
+            if (_cfgLocal.PreviewDistance == -1)
             {
-                _mySpDis3 = _mySize.Width - 150;
-                if (_mySpDis3 < 1) _mySpDis3 = 50;
+                _mySpDis3 = _mySize.Width - ScaleBy(this.CurrentScaleFactor.Width, 150);
+                if (_mySpDis3 < 1) _mySpDis3 = ScaleBy(this.CurrentScaleFactor.Width, 50);
                 _cfgLocal.PreviewDistance = _mySpDis3;
+            }
+            else
+            {
+                _mySpDis3 = ScaleBy(configScaleFactor.Width, _cfgLocal.PreviewDistance);
             }
             MultiLineMenuItem.Checked = _cfgLocal.StatusMultiline;
             //this.Tween_ClientSizeChanged(this, null);
@@ -1213,7 +1221,13 @@ namespace OpenTween
                     _cfgCommon.UserAccounts.Add(account);
                 }
             }
+
             _cfgLocal = SettingLocal.Load();
+
+            // v1.2.4 以前の設定には ScaleDimension の項目がないため、現在の DPI と同じとして扱う
+            if (_cfgLocal.ScaleDimension.IsEmpty)
+                _cfgLocal.ScaleDimension = this.CurrentAutoScaleDimensions;
+
             List<TabClass> tabs = SettingTabs.Load().Tabs;
             foreach (TabClass tb in tabs)
             {
@@ -7691,6 +7705,7 @@ namespace OpenTween
             lock (_syncObject)
             {
                 _modifySettingLocal = false;
+                _cfgLocal.ScaleDimension = this.CurrentAutoScaleDimensions;
                 _cfgLocal.FormSize = _mySize;
                 _cfgLocal.FormLocation = _myLoc;
                 _cfgLocal.SplitterDistance = _mySpDis;
@@ -9459,25 +9474,33 @@ namespace OpenTween
             }
             if (_initialLayout && _cfgLocal != null && this.WindowState == FormWindowState.Normal && this.Visible)
             {
-                this.ClientSize = _cfgLocal.FormSize;
+                // 現在の DPI と設定保存時の DPI との比を取得する
+                var configScaleFactor = this._cfgLocal.GetConfigScaleFactor(this.CurrentAutoScaleDimensions);
+
+                this.ClientSize = ScaleBy(configScaleFactor, _cfgLocal.FormSize);
                 //_mySize = this.ClientSize;                     //サイズ保持（最小化・最大化されたまま終了した場合の対応用）
                 this.DesktopLocation = _cfgLocal.FormLocation;
                 //_myLoc = this.DesktopLocation;                        //位置保持（最小化・最大化されたまま終了した場合の対応用）
-                if (_cfgLocal.SplitterDistance > this.SplitContainer1.Panel1MinSize &&
-                    _cfgLocal.SplitterDistance < this.SplitContainer1.Height - this.SplitContainer1.Panel2MinSize - this.SplitContainer1.SplitterWidth)
+
+                // Splitterの位置設定
+                var splitterDistance = ScaleBy(configScaleFactor.Height, _cfgLocal.SplitterDistance);
+                if (splitterDistance > this.SplitContainer1.Panel1MinSize &&
+                    splitterDistance < this.SplitContainer1.Height - this.SplitContainer1.Panel2MinSize - this.SplitContainer1.SplitterWidth)
                 {
-                    this.SplitContainer1.SplitterDistance = _cfgLocal.SplitterDistance; //Splitterの位置設定
+                    this.SplitContainer1.SplitterDistance = splitterDistance;
                 }
+
                 //発言欄複数行
                 StatusText.Multiline = _cfgLocal.StatusMultiline;
                 if (StatusText.Multiline)
                 {
-                    int dis = SplitContainer2.Height - _cfgLocal.StatusTextHeight - SplitContainer2.SplitterWidth;
+                    var statusTextHeight = ScaleBy(configScaleFactor.Height, _cfgLocal.StatusTextHeight);
+                    int dis = SplitContainer2.Height - statusTextHeight - SplitContainer2.SplitterWidth;
                     if (dis > SplitContainer2.Panel1MinSize && dis < SplitContainer2.Height - SplitContainer2.Panel2MinSize - SplitContainer2.SplitterWidth)
                     {
-                        SplitContainer2.SplitterDistance = SplitContainer2.Height - _cfgLocal.StatusTextHeight - SplitContainer2.SplitterWidth;
+                        SplitContainer2.SplitterDistance = SplitContainer2.Height - statusTextHeight - SplitContainer2.SplitterWidth;
                     }
-                    StatusText.Height = _cfgLocal.StatusTextHeight;
+                    StatusText.Height = statusTextHeight;
                 }
                 else
                 {
@@ -9486,9 +9509,11 @@ namespace OpenTween
                         SplitContainer2.SplitterDistance = SplitContainer2.Height - SplitContainer2.Panel2MinSize - SplitContainer2.SplitterWidth;
                     }
                 }
-                if (_cfgLocal.PreviewDistance > this.SplitContainer3.Panel1MinSize && _cfgLocal.PreviewDistance < this.SplitContainer3.Width - this.SplitContainer3.Panel2MinSize - this.SplitContainer3.SplitterWidth)
+
+                var previewDistance = ScaleBy(configScaleFactor.Width, _cfgLocal.PreviewDistance);
+                if (previewDistance > this.SplitContainer3.Panel1MinSize && previewDistance < this.SplitContainer3.Width - this.SplitContainer3.Panel2MinSize - this.SplitContainer3.SplitterWidth)
                 {
-                    this.SplitContainer3.SplitterDistance = _cfgLocal.PreviewDistance;
+                    this.SplitContainer3.SplitterDistance = previewDistance;
                 }
                 _initialLayout = false;
             }
