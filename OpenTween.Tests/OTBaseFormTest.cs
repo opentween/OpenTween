@@ -57,5 +57,23 @@ namespace OpenTween
                 Assert.Equal(new SizeF(1.25f, 1.25f), form.CurrentScaleFactor);
             }
         }
+
+        [Fact]
+        public void ScaleChildControl_ListViewTest()
+        {
+            using (var listview = new ListView { Width = 200, Height = 200 })
+            {
+                listview.Columns.AddRange(new[]
+                {
+                    new ColumnHeader { Width = 60 },
+                    new ColumnHeader { Width = 140 },
+                });
+
+                OTBaseForm.ScaleChildControl(listview, new SizeF(1.25f, 1.25f));
+
+                Assert.Equal(75, listview.Columns[0].Width);
+                Assert.Equal(175, listview.Columns[1].Width);
+            }
+        }
     }
 }

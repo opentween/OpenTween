@@ -5379,6 +5379,19 @@ namespace OpenTween
             }
         }
 
+        protected override void ScaleControl(SizeF factor, BoundsSpecified specified)
+        {
+            base.ScaleControl(factor, specified);
+
+            var tabpages = this.ListTab.TabPages.Cast<TabPage>();
+            var listviews = tabpages.Select(x => x.Tag).Cast<ListView>();
+
+            foreach (var listview in listviews)
+            {
+                ScaleChildControl(listview, factor);
+            }
+        }
+
         //private void DrawListViewItemStateIcon(DrawListViewSubItemEventArgs e, RectangleF rct)
         //{
         //    ImageListViewItem item = (ImageListViewItem)e.Item;

@@ -128,12 +128,7 @@ namespace OpenTween
         protected override void ScaleControl(SizeF factor, BoundsSpecified specified)
         {
             base.ScaleControl(factor, specified);
-
-            // カラムヘッダは自動調節されないのでfactorから計算
-            foreach (ColumnHeader col in this.ListViewApi.Columns)
-            {
-                col.Width = (int)Math.Round(col.Width * factor.Width);
-            }
+            ScaleChildControl(this.ListViewApi, factor);
         }
     }
 

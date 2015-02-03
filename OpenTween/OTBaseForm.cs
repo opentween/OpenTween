@@ -85,6 +85,18 @@ namespace OpenTween
                 this.CurrentAutoScaleDimensions.Height / baseDpi);
         }
 
+        /// <summary>
+        /// 標準の ListView のスケーリングでは不十分な処理を補います
+        /// </summary>
+        public static void ScaleChildControl(ListView listview, SizeF factor)
+        {
+            // カラム幅
+            foreach (ColumnHeader col in listview.Columns)
+            {
+                col.Width = ScaleBy(factor.Width, col.Width);
+            }
+        }
+
         public static Size ScaleBy(SizeF factor, Size size)
         {
             return Size.Round(new SizeF(size.Width * factor.Width, size.Height * factor.Height));

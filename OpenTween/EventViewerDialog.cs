@@ -57,6 +57,12 @@ namespace OpenTween
             this.TabEventType.HandleCreated += (s, e) => NativeMethods.SetMinTabWidth((TabControl)s, 40);
         }
 
+        protected override void ScaleControl(SizeF factor, BoundsSpecified specified)
+        {
+            base.ScaleControl(factor, specified);
+            ScaleChildControl(this.EventList, factor);
+        }
+
         private void OK_Button_Click(object sender, EventArgs e)
         {
             this.DialogResult = DialogResult.OK;
