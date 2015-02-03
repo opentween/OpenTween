@@ -76,6 +76,9 @@ namespace OpenTween
 
         public async Task ShowUserAsync(TwitterUser user)
         {
+            if (this.IsDisposed)
+                return;
+
             if (user == null || user == this._displayUser)
                 return;
 
