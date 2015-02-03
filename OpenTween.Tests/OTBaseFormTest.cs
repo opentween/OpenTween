@@ -1,0 +1,61 @@
+﻿// OpenTween - Client of Twitter
+// Copyright (c) 2015 kim_upsilon (@kim_upsilon) <https://upsilo.net/~upsilon/>
+// All rights reserved.
+//
+// This file is part of OpenTween.
+//
+// This program is free software; you can redistribute it and/or modify it
+// under the terms of the GNU General Public License as published by the Free
+// Software Foundation; either version 3 of the License, or (at your option)
+// any later version.
+//
+// This program is distributed in the hope that it will be useful, but
+// WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+// or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
+// for more details.
+//
+// You should have received a copy of the GNU General Public License along
+// with this program. If not, see <http://www.gnu.org/licenses/>, or write to
+// the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
+// Boston, MA 02110-1301, USA.
+
+using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using Xunit;
+
+namespace OpenTween
+{
+    public class OTBaseFormTest
+    {
+        class TestForm : OTBaseForm
+        {
+            public SizeF fakeAutoScaleDimensions = new SizeF(96.0f, 96.0f);
+
+            public override SizeF CurrentAutoScaleDimensions
+            {
+                get { return this.fakeAutoScaleDimensions; }
+            }
+        }
+
+        [Fact]
+        public void CurrentScaleFactor_Test()
+        {
+            using (var form = new TestForm())
+            {
+                form.AutoScaleMode = AutoScaleMode.Dpi;
+                form.AutoScaleDimensions = new SizeF(96.0f, 96.0f);
+
+                // 96dpi -> 120dpi
+                form.fakeAutoScaleDimensions = new SizeF(120.0f, 120.0f);
+                form.Scale(new SizeF(1.25f, 1.25f));
+
+                Assert.Equal(new SizeF(1.25f, 1.25f), form.CurrentScaleFactor);
+            }
+        }
+    }
+}

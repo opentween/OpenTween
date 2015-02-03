@@ -218,11 +218,6 @@ namespace OpenTween
 
         private string recommendedStatusFooter;
 
-        /// <summary>
-        /// デザイン時の DPI (96dpi) と実際の表示時の DPI との比を表します
-        /// </summary>
-        protected SizeF currentScaleFactor = new SizeF();
-
         //URL短縮のUndo用
         private struct urlUndo
         {
@@ -4096,7 +4091,7 @@ namespace OpenTween
                 // ディスプレイの DPI 設定を考慮したサイズを設定する
                 _listViewImageList.ImageSize = new Size(
                     1,
-                    (int)Math.Ceiling(this._iconSz * this.currentScaleFactor.Height));
+                    (int)Math.Ceiling(this._iconSz * this.CurrentScaleFactor.Height));
             }
             else
             {
@@ -5326,8 +5321,8 @@ namespace OpenTween
             }
 
             // ディスプレイの DPI 設定を考慮したアイコンサイズ
-            var realIconSize = new SizeF(this._iconSz * this.currentScaleFactor.Width, this._iconSz * this.currentScaleFactor.Height).ToSize();
-            var realStateSize = new SizeF(16 * this.currentScaleFactor.Width, 16 * this.currentScaleFactor.Height).ToSize();
+            var realIconSize = new SizeF(this._iconSz * this.CurrentScaleFactor.Width, this._iconSz * this.CurrentScaleFactor.Height).ToSize();
+            var realStateSize = new SizeF(16 * this.CurrentScaleFactor.Width, 16 * this.CurrentScaleFactor.Height).ToSize();
 
             Rectangle iconRect;
             var img = item.Image;
@@ -5368,18 +5363,6 @@ namespace OpenTween
                     e.Graphics.DrawImage(this.PostStateImageList.Images[item.StateIndex], stateRect);
                 }
             }
-        }
-
-        protected override void ScaleControl(SizeF factor, BoundsSpecified specified)
-        {
-            base.ScaleControl(factor, specified);
-
-            const int baseDpi = 96;
-
-            // デザイン時の DPI (96dpi) との比を更新する
-            this.currentScaleFactor = new SizeF(
-                this.CurrentAutoScaleDimensions.Width / baseDpi,
-                this.CurrentAutoScaleDimensions.Height / baseDpi);
         }
 
         //private void DrawListViewItemStateIcon(DrawListViewSubItemEventArgs e, RectangleF rct)

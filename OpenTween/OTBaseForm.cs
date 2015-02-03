@@ -21,6 +21,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -41,9 +42,19 @@ namespace OpenTween
         /// </remarks>
         public static Font GlobalFont { get; set; }
 
+        /// <summary>
+        /// デザイン時のスケールと現在のスケールの比
+        /// </summary>
+        /// <remarks>
+        /// 例えば、デザイン時が 96 dpi (96.0, 96.0) で実行時が 120dpi (120.0, 120.0) の場合は 1.25, 1.25 が返ります
+        /// </remarks>
+        public SizeF CurrentScaleFactor { get; private set; }
+
         protected OTBaseForm()
             : base()
         {
+            this.CurrentScaleFactor = new SizeF(1.0f, 1.0f);
+
             this.Load += (o, e) =>
             {
                 // デフォルトの UI フォントを変更
@@ -61,6 +72,23 @@ namespace OpenTween
                 return source;
 
             return new Font(OTBaseForm.GlobalFont.Name, source.Size, source.Style);
+        }
+
+        protected override void ScaleControl(SizeF factor, BoundsSpecified specified)
+        {
+            base.ScaleControl(factor, specified);
+
+            const float baseDpi = 96.0f;
+
+            this.CurrentScaleFactor = new SizeF(
+                this.CurrentAutoScaleDimensions.Width / baseDpi,
+                this.CurrentAutoScaleDimensions.Height / baseDpi);
+        }
+
+        // テスト時にスケールを偽装するために使用
+        public new virtual SizeF CurrentAutoScaleDimensions
+        {
+            get { return base.CurrentAutoScaleDimensions; }
         }
     }
 }
