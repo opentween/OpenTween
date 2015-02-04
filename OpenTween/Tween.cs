@@ -103,7 +103,6 @@ namespace OpenTween
         private GrowlHelper gh = new GrowlHelper(Application.ProductName);
 
         //サブ画面インスタンス
-        private AppendSettingDialog SettingDialog = new AppendSettingDialog();       //設定画面インスタンス
         private SearchWordDialog SearchDialog = new SearchWordDialog();     //検索画面インスタンス
         private FilterDialog fltDialog = new FilterDialog(); //フィルター編集画面
         private OpenURL UrlDialog = new OpenURL();
@@ -328,7 +327,6 @@ namespace OpenTween
                     this.components.Dispose();
 
                 //後始末
-                SettingDialog.Dispose();
                 SearchDialog.Dispose();
                 fltDialog.Dispose();
                 UrlDialog.Dispose();
@@ -687,11 +685,9 @@ namespace OpenTween
 
             //アイコン設定
             this.Icon = MainIcon;              //メインフォーム（TweenMain）
-            this.SettingDialog.Icon = this.MainIcon;
             NotifyIcon1.Icon = NIconAt;      //タスクトレイ
             TabImage.Images.Add(TabIcon);    //タブ見出し
 
-            SettingDialog.Owner = this;;
             SearchDialog.Owner = this;
             fltDialog.Owner = this;
             UrlDialog.Owner = this;
@@ -826,27 +822,14 @@ namespace OpenTween
             {
                 saveRequired = true;
                 firstRun = true;
-                SettingDialog.ShowInTaskbar = true;
 
-                this.SettingDialog.tw = this.tw;
-                this.SettingDialog.LoadConfig(this._cfgCommon, this._cfgLocal);
-
-                //設定せずにキャンセルされた場合はプログラム終了
-                if (SettingDialog.ShowDialog(this) == DialogResult.Cancel)
+                //設定せずにキャンセルされたか、設定されたが依然ユーザー名が未設定ならプログラム終了
+                if (ShowSettingDialog(showTaskbarIcon: true) != DialogResult.OK ||
+                    string.IsNullOrEmpty(tw.Username))
                 {
                     Application.Exit();  //強制終了
                     return;
                 }
-
-                this.SettingDialog.SaveConfig(this._cfgCommon, this._cfgLocal);
-
-                //設定されたが、依然ユーザー名とパスワードが未設定ならプログラム終了
-                if (string.IsNullOrEmpty(tw.Username))
-                {
-                    Application.Exit();  //強制終了
-                    return;
-                }
-                SettingDialog.ShowInTaskbar = false;
 
                 //新しい設定を反映
                 //フォント＆文字色＆背景色保持
@@ -3776,33 +3759,52 @@ namespace OpenTween
             }
         }
 
+        private DialogResult ShowSettingDialog(bool showTaskbarIcon = false)
+        {
+            DialogResult result = DialogResult.Abort;
+
+            using (var settingDialog = new AppendSettingDialog())
+            {
+                settingDialog.Icon = this.MainIcon;
+                settingDialog.Owner = this;
+                settingDialog.ShowInTaskbar = showTaskbarIcon;
+                settingDialog.IntervalChanged += this.TimerInterval_Changed;
+
+                settingDialog.tw = this.tw;
+                settingDialog.LoadConfig(this._cfgCommon, this._cfgLocal);
+
+                try
+                {
+                    result = settingDialog.ShowDialog(this);
+                }
+                catch (Exception)
+                {
+                    return DialogResult.Abort;
+                }
+
+                if (result == DialogResult.OK)
+                {
+                    lock (_syncObject)
+                    {
+                        settingDialog.SaveConfig(this._cfgCommon, this._cfgLocal);
+                    }
+                }
+            }
+
+            return result;
+        }
+
         private void SettingStripMenuItem_Click(object sender, EventArgs e)
         {
-            DialogResult result;
-
             // 設定画面表示前のユーザー情報
             var oldUser = new { tw.AccessToken, tw.AccessTokenSecret, tw.Username, tw.UserId };
 
-            this.SettingDialog.tw = this.tw;
-            this.SettingDialog.LoadConfig(this._cfgCommon, this._cfgLocal);
+            var oldIconSz = this._cfgCommon.IconSize;
 
-            try
-            {
-                result = SettingDialog.ShowDialog(this);
-            }
-            catch (Exception)
-            {
-                return;
-            }
-
-            if (result == DialogResult.OK)
+            if (ShowSettingDialog() == DialogResult.OK)
             {
                 lock (_syncObject)
                 {
-                    var oldIconSz = this._cfgCommon.IconSize;
-
-                    this.SettingDialog.SaveConfig(this._cfgCommon, this._cfgLocal);
-
                     tw.RestrictFavCheck = this._cfgCommon.RestrictFavCheck;
                     tw.ReadOwnPost = this._cfgCommon.ReadOwnPost;
                     ShortUrl.Instance.DisableExpanding = !this._cfgCommon.TinyUrlResolve;
@@ -12184,7 +12186,6 @@ namespace OpenTween
 
             // InitializeComponent() 呼び出しの後で初期化を追加します。
 
-            this.SettingDialog.IntervalChanged += this.TimerInterval_Changed;
             this.TimerTimeline.Elapsed += this.TimerTimeline_Elapsed;
             this._hookGlobalHotkey.HotkeyPressed += _hookGlobalHotkey_HotkeyPressed;
             this.gh.NotifyClicked += GrowlHelper_Callback;
