@@ -104,7 +104,6 @@ namespace OpenTween
 
         //サブ画面インスタンス
         private SearchWordDialog SearchDialog = new SearchWordDialog();     //検索画面インスタンス
-        private FilterDialog fltDialog = new FilterDialog(); //フィルター編集画面
         private OpenURL UrlDialog = new OpenURL();
         public AtIdSupplement AtIdSupl;     //@id補助
         public AtIdSupplement HashSupl;    //Hashtag補助
@@ -328,7 +327,6 @@ namespace OpenTween
 
                 //後始末
                 SearchDialog.Dispose();
-                fltDialog.Dispose();
                 UrlDialog.Dispose();
                 if (NIconAt != null) NIconAt.Dispose();
                 if (NIconAtRed != null) NIconAtRed.Dispose();
@@ -689,7 +687,6 @@ namespace OpenTween
             TabImage.Images.Add(TabIcon);    //タブ見出し
 
             SearchDialog.Owner = this;
-            fltDialog.Owner = this;
             UrlDialog.Owner = this;
 
             _history.Add(new PostingStatus());
@@ -8629,8 +8626,13 @@ namespace OpenTween
         private void FilterEditMenuItem_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(_rclickTabName)) _rclickTabName = _statuses.GetTabByType(MyCommon.TabUsageType.Home).TabName;
-            fltDialog.SetCurrent(_rclickTabName);
-            fltDialog.ShowDialog(this);
+
+            using (var fltDialog = new FilterDialog())
+            {
+                fltDialog.Owner = this;
+                fltDialog.SetCurrent(_rclickTabName);
+                fltDialog.ShowDialog(this);
+            }
             this.TopMost = this._cfgCommon.AlwaysTop;
 
             this.ApplyPostFilters();
@@ -8691,24 +8693,29 @@ namespace OpenTween
 
         private void TabMenuItem_Click(object sender, EventArgs e)
         {
-            //選択発言を元にフィルタ追加
-            foreach (int idx in _curList.SelectedIndices)
+            using (var fltDialog = new FilterDialog())
             {
-                string tabName;
-                //タブ選択（or追加）
-                if (!SelectTab(out tabName)) return;
+                fltDialog.Owner = this;
 
-                fltDialog.SetCurrent(tabName);
-                if (_statuses.Tabs[_curTab.Text][idx].RetweetedId == null)
+                //選択発言を元にフィルタ追加
+                foreach (int idx in _curList.SelectedIndices)
                 {
-                    fltDialog.AddNewFilter(_statuses.Tabs[_curTab.Text][idx].ScreenName, _statuses.Tabs[_curTab.Text][idx].TextFromApi);
+                    string tabName;
+                    //タブ選択（or追加）
+                    if (!SelectTab(out tabName)) return;
+
+                    fltDialog.SetCurrent(tabName);
+                    if (_statuses.Tabs[_curTab.Text][idx].RetweetedId == null)
+                    {
+                        fltDialog.AddNewFilter(_statuses.Tabs[_curTab.Text][idx].ScreenName, _statuses.Tabs[_curTab.Text][idx].TextFromApi);
+                    }
+                    else
+                    {
+                        fltDialog.AddNewFilter(_statuses.Tabs[_curTab.Text][idx].RetweetedBy, _statuses.Tabs[_curTab.Text][idx].TextFromApi);
+                    }
+                    fltDialog.ShowDialog(this);
+                    this.TopMost = this._cfgCommon.AlwaysTop;
                 }
-                else
-                {
-                    fltDialog.AddNewFilter(_statuses.Tabs[_curTab.Text][idx].RetweetedBy, _statuses.Tabs[_curTab.Text][idx].TextFromApi);
-                }
-                fltDialog.ShowDialog(this);
-                this.TopMost = this._cfgCommon.AlwaysTop;
             }
 
             this.ApplyPostFilters();
