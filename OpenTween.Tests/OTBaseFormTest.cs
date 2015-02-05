@@ -75,5 +75,16 @@ namespace OpenTween
                 Assert.Equal(175, listview.Columns[1].Width);
             }
         }
+
+        [Fact]
+        public void ScaleChildControl_VScrollBarTest()
+        {
+            using (var scrollBar = new VScrollBar { Width = 20, Height = 200 })
+            {
+                OTBaseForm.ScaleChildControl(scrollBar, new SizeF(2.0f, 2.0f));
+
+                Assert.Equal(40, scrollBar.Width);
+            }
+        }
     }
 }

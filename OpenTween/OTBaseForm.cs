@@ -97,6 +97,14 @@ namespace OpenTween
             }
         }
 
+        /// <summary>
+        /// 標準の VScrollBar のスケーリングでは不十分な処理を補います
+        /// </summary>
+        public static void ScaleChildControl(VScrollBar scrollBar, SizeF factor)
+        {
+            scrollBar.Width = ScaleBy(factor.Width, scrollBar.Width);
+        }
+
         public static Size ScaleBy(SizeF factor, Size size)
         {
             return Size.Round(new SizeF(size.Width * factor.Width, size.Height * factor.Height));

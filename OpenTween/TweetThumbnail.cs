@@ -192,6 +192,12 @@ namespace OpenTween
             this.scrollBar.Value = newval;
         }
 
+        protected override void ScaleControl(SizeF factor, BoundsSpecified specified)
+        {
+            base.ScaleControl(factor, specified);
+            OTBaseForm.ScaleChildControl(this.scrollBar, factor);
+        }
+
         private void scrollBar_ValueChanged(object sender, EventArgs e)
         {
             using (ControlTransaction.Layout(this, false))

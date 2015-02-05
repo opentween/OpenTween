@@ -71,7 +71,7 @@
             // TweetThumbnail
             // 
             resources.ApplyResources(this, "$this");
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             this.Controls.Add(this.panelPictureBox);
             this.Controls.Add(this.scrollBar);
             this.Name = "TweetThumbnail";
