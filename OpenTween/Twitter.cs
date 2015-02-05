@@ -3532,6 +3532,7 @@ namespace OpenTween
                     evt.Target = "@" + eventData.Target.ScreenName;
                     break;
                 case "favorited_retweet":
+                case "retweeted_retweet":
                     return;
                 case "favorite":
                 case "unfavorite":

@@ -2,7 +2,7 @@
 
 ==== Ver 1.2.5-beta1(20xx/xx/xx)
  * NEW: 他人にRTされた自分のツイートをメニューから削除できるようになりました
- * NEW: UserStreams の favorited_retweet イベント追加に対応
+ * NEW: UserStreams の favorited_retweet イベント / retweeted_retweet イベントに対応
   - 注：イベントの通知や履歴への登録はされません
  * NEW: 着せ替えアイコン機能についての説明テキストを同梱しました
  * NEW: 短縮URLとして展開の対象とするドメインを追加しました
