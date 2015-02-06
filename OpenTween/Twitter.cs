@@ -3023,11 +3023,11 @@ namespace OpenTween
                                 if (ent.VideoInfo != null &&
                                     ent.Type == "animated_gif" || ent.Type == "video")
                                 {
-                                    var videoUrl = ent.VideoInfo.Variants
-                                        .Where(v => v.ContentType == "video/mp4")
-                                        .OrderByDescending(v => v.Bitrate)
-                                        .Select(v => v.Url).FirstOrDefault();
-                                    media.Add(new MediaInfo(ent.MediaUrl, videoUrl));
+                                    //var videoUrl = ent.VideoInfo.Variants
+                                    //    .Where(v => v.ContentType == "video/mp4")
+                                    //    .OrderByDescending(v => v.Bitrate)
+                                    //    .Select(v => v.Url).FirstOrDefault();
+                                    media.Add(new MediaInfo(ent.MediaUrl, ent.ExpandedUrl));
                                 }
                                 else
                                     media.Add(new MediaInfo(ent.MediaUrl));
