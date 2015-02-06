@@ -51,6 +51,9 @@ namespace OpenTween.Thumbnail
                 // ton.twitter.com
                 new TonTwitterCom(),
 
+                // twitter.com/tweet_video
+                new TwitterComVideo(),
+
                 // DirectLink
                 new SimpleThumbnailService(@"^https?://.*(\.jpg|\.jpeg|\.gif|\.png|\.bmp)$", "${0}"),
 
@@ -211,18 +214,15 @@ namespace OpenTween.Thumbnail
         {
             var thumbnails = new List<ThumbnailInfo>();
 
-            if (post.Media != null)
+            foreach (var media in post.Media)
             {
-                foreach (var media in post.Media)
-                {
-                    var thumbInfo = await ThumbnailGenerator.GetThumbnailInfoAsync(media, post, token)
-                        .ConfigureAwait(false);
+                var thumbInfo = await ThumbnailGenerator.GetThumbnailInfoAsync(media.Url, post, token)
+                    .ConfigureAwait(false);
 
-                    if (thumbInfo != null)
-                        thumbnails.Add(thumbInfo);
+                if (thumbInfo != null)
+                    thumbnails.Add(thumbInfo);
 
-                    token.ThrowIfCancellationRequested();
-                }
+                token.ThrowIfCancellationRequested();
             }
 
             if (post.PostGeo != null && !(post.PostGeo.Lat == 0 && post.PostGeo.Lng == 0))

@@ -635,17 +635,17 @@ namespace OpenTween.Properties {
         ///   更新履歴
         ///
         ///==== Ver 1.2.5-beta1(20xx/xx/xx)
-        ///
-        ///==== Ver 1.2.4(2014/11/23)
-        /// * NEW: Mobypicture (mobypicture.com) への画像投稿に対応
-        /// * NEW: tmblr.co で短縮されたTumblrのURLに対してもサムネイル表示できるようにしました
-        /// * NEW: i.instagram.com ドメインのURLのサムネイル表示に対応
-        /// * CHG: サービス終了のため、Twitpic を画像の投稿先から削除
-        ///  - それに伴い、デフォルトの投稿先を Twitter (pic.twitter.com) に変更しました
-        /// * CHG: プロフィール表示・編集でのエスケープ処理を twitter.com での挙動に合わせました
-        ///  - 名前および現在地に &lt; &gt; &quot; の記号を使うことはできません (Twitter側で削除されます)
-        ///  - 自己紹介では &lt; &gt; &quot; の記号はそれぞれ &amp;lt; &amp;gt; &amp;quot; に変換した上で設定されます
-        /// * CHG: プロフィール画面へのD&amp;Dによるアイコ [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
+        /// * NEW: 他人にRTされた自分のツイートをメニューから削除できるようになりました
+        /// * NEW: UserStreams の favorited_retweet イベント追加に対応
+        ///  - イベント通知の有無は favorite イベントの通知設定に準じます
+        /// * NEW: 着せ替えアイコン機能についての説明テキストを同梱しました
+        /// * NEW: 短縮URLとして展開の対象とするドメインを追加しました
+        /// * CHG: 着せ替えアイコン機能で従来より省略可能なアイコンを増やしました
+        /// * CHG: 投稿欄のテキストボックスが一行表示の状態の時に下に余白が生じていた不具合を修正
+        /// * CHG: API使用情報やステータスバー上のリクエスト残回数の表示方法を変更しました
+        ///  - タブを切り替えるごとに、そのタブが使用しているAPIの残回数を表示するようにしました
+        ///  - 注：UserStreamsで動作している一部のタブは残数更新が行われないため、表記が ??? になることがありますが、不具合ではありません
+        /// [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ChangeLog {
             get {
@@ -1782,6 +1782,16 @@ namespace OpenTween.Properties {
         internal static string PickPictureDialog1 {
             get {
                 return ResourceManager.GetString("PickPictureDialog1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
+        /// </summary>
+        internal static System.Drawing.Bitmap PlayableOverlayImage {
+            get {
+                object obj = ResourceManager.GetObject("PlayableOverlayImage", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
         

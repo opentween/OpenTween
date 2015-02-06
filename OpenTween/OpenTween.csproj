@@ -299,6 +299,7 @@
     <Compile Include="Thumbnail\Services\Tinami.cs" />
     <Compile Include="Thumbnail\Services\TonTwitterCom.cs" />
     <Compile Include="Thumbnail\Services\Tumblr.cs" />
+    <Compile Include="Thumbnail\Services\TwitterComVideo.cs" />
     <Compile Include="Thumbnail\Services\ViaMe.cs" />
     <Compile Include="Thumbnail\Services\Vimeo.cs" />
     <Compile Include="Thumbnail\Services\Youtube.cs" />
@@ -770,6 +771,7 @@
     <Content Include="Resources\InitialImage.png" />
     <Content Include="Resources\LogoImage.png" />
     <Content Include="Resources\MultiMediaImage.png" />
+    <None Include="Resources\PlayableOverlayImage.png" />
     <Content Include="Resources\re.ico" />
     <Content Include="Resources\re2.ico" />
     <Content Include="Resources\re3.ico" />

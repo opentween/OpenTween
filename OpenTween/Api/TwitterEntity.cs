@@ -86,6 +86,9 @@ namespace OpenTween.Api
 
         [DataMember(Name = "type")]
         public string Type { get; set; }
+
+        [DataMember(Name = "video_info", IsRequired = false)]
+        public TwitterMediaVideoInfo VideoInfo { get; set; }
     }
 
     [DataContract]
@@ -114,6 +117,32 @@ namespace OpenTween.Api
 
             [DataMember(Name = "w")]
             public int Width { get; set; }
+        }
+    }
+
+    [DataContract]
+    public class TwitterMediaVideoInfo
+    {
+        [DataMember(Name = "aspect_ratio")]
+        public int[] AspectRatio { get; set; }
+
+        [DataMember(Name = "duration_millis", IsRequired = false)]
+        public long? DurationMillis { get; set; }
+
+        [DataMember(Name = "variants")]
+        public TwitterMediaVideoInfo.Variant[] Variants { get; set; }
+
+        [DataContract]
+        public class Variant
+        {
+            [DataMember(Name = "bitrate")]
+            public int? Bitrate { get; set; }
+
+            [DataMember(Name = "content_type")]
+            public string ContentType { get; set; }
+
+            [DataMember(Name = "url")]
+            public string Url { get; set; }
         }
     }
 
