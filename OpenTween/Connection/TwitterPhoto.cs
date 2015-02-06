@@ -95,7 +95,12 @@ namespace OpenTween.Connection
                 mediaFiles.Add(mediaFile);
             }
 
-            await Task.Run(() => this.tw.PostStatusWithMultipleMedia(text, inReplyToStatusId, mediaFiles))
+            await Task.Run(() =>
+                {
+                    var res = this.tw.PostStatusWithMultipleMedia(text, inReplyToStatusId, mediaFiles);
+                    if (!string.IsNullOrEmpty(res))
+                        throw new WebApiException(res);
+                })
                 .ConfigureAwait(false);
         }
 
