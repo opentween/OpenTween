@@ -130,7 +130,7 @@
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="StatusLabelUrl.Size" type="System.Drawing.Size, System.Drawing">
-    <value>477, 23</value>
+    <value>401, 23</value>
   </data>
   <data name="StatusLabelUrl.Text" xml:space="preserve">
     <value>ToolStripStatusLabel1</value>
@@ -146,6 +146,16 @@
   </data>
   <data name="StatusLabel.ToolTipText" xml:space="preserve">
     <value>Starting...</value>
+  </data>
+  <data name="toolStripApiGauge.Size" type="System.Drawing.Size, System.Drawing">
+    <value>76, 23</value>
+  </data>
+  <data name="toolStripApiGauge.Text" xml:space="preserve">
+    <value>API ???/???</value>
+  </data>
+  <data name="toolStripApiGauge.ToolTipText" xml:space="preserve">
+    <value>API rest unknown ???/???
+(reset after ??? minutes)</value>
   </data>
   <metadata name="ContextMenuPostMode.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>651, 17</value>
@@ -2677,6 +2687,12 @@
   </data>
   <data name="&gt;&gt;StatusLabel.Type" xml:space="preserve">
     <value>OpenTween.OpenTweenCustomControl.ToolStripLabelHistory, OpenTween, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;toolStripApiGauge.Name" xml:space="preserve">
+    <value>toolStripApiGauge</value>
+  </data>
+  <data name="&gt;&gt;toolStripApiGauge.Type" xml:space="preserve">
+    <value>OpenTween.ToolStripAPIGauge, OpenTween, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;HashStripSplitButton.Name" xml:space="preserve">
     <value>HashStripSplitButton</value>

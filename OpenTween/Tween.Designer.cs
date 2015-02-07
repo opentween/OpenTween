@@ -21,6 +21,7 @@
             this.StatusStrip1 = new System.Windows.Forms.StatusStrip();
             this.StatusLabelUrl = new System.Windows.Forms.ToolStripStatusLabel();
             this.StatusLabel = new OpenTween.OpenTweenCustomControl.ToolStripLabelHistory();
+            this.toolStripApiGauge = new OpenTween.ToolStripAPIGauge();
             this.HashStripSplitButton = new System.Windows.Forms.ToolStripSplitButton();
             this.ContextMenuPostMode = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.ToolStripMenuItemUrlMultibyteSplit = new System.Windows.Forms.ToolStripMenuItem();
@@ -359,6 +360,7 @@
             this.StatusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.StatusLabelUrl,
             this.StatusLabel,
+            this.toolStripApiGauge,
             this.HashStripSplitButton});
             this.StatusStrip1.Name = "StatusStrip1";
             this.StatusStrip1.ShowItemToolTips = true;
@@ -381,6 +383,15 @@
             this.StatusLabel.Name = "StatusLabel";
             resources.ApplyResources(this.StatusLabel, "StatusLabel");
             this.StatusLabel.DoubleClick += new System.EventHandler(this.StatusLabel_DoubleClick);
+            // 
+            // toolStripApiGauge
+            // 
+            this.toolStripApiGauge.ApiEndpoint = null;
+            this.toolStripApiGauge.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Right;
+            this.toolStripApiGauge.DoubleClickEnabled = true;
+            this.toolStripApiGauge.Name = "toolStripApiGauge";
+            resources.ApplyResources(this.toolStripApiGauge, "toolStripApiGauge");
+            this.toolStripApiGauge.DoubleClick += new System.EventHandler(this.ApiUsageInfoMenuItem_Click);
             // 
             // HashStripSplitButton
             // 
@@ -2766,6 +2777,7 @@
         internal System.Windows.Forms.ToolStripMenuItem IconSize48_2ToolStripMenuItem;
         internal System.Windows.Forms.ToolStripSeparator ToolStripSeparator45;
         internal System.Windows.Forms.ToolStripMenuItem LockListSortOrderToolStripMenuItem;
+        private ToolStripAPIGauge toolStripApiGauge;
 
     }
 }

@@ -174,7 +174,6 @@ namespace OpenTween
         private StringFormat sfTab = new StringFormat();
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////
-        private ToolStripAPIGauge _apiGauge;
         private TabInformations _statuses;
 
         // ListViewItem のキャッシュ関連
@@ -356,7 +355,6 @@ namespace OpenTween
                 {
                     _bwFollower.Dispose();
                 }
-                this._apiGauge.Dispose();
                 if (IconCache != null)
                 {
                     this.IconCache.CancelAsync();
@@ -9271,7 +9269,7 @@ namespace OpenTween
         {
             if (_curTab == null)
             {
-                this._apiGauge.ApiEndpoint = null;
+                this.toolStripApiGauge.ApiEndpoint = null;
             }
             else
             {
@@ -9319,7 +9317,7 @@ namespace OpenTween
                             break;
                     }
 
-                    this._apiGauge.ApiEndpoint = endpointName;
+                    this.toolStripApiGauge.ApiEndpoint = endpointName;
                 }
                 else
                 {
@@ -9367,7 +9365,7 @@ namespace OpenTween
 
                     if (update)
                     {
-                        this._apiGauge.ApiEndpoint = endpointName;
+                        this.toolStripApiGauge.ApiEndpoint = endpointName;
                     }
                 }
             }
@@ -12226,12 +12224,6 @@ namespace OpenTween
 
             // メイリオフォント指定時にタブの最小幅が広くなる問題の対策
             this.ListTab.HandleCreated += (s, e) => NativeMethods.SetMinTabWidth((TabControl)s, 40);
-
-            this._apiGauge = new ToolStripAPIGauge();
-            this._apiGauge.BorderSides = ToolStripStatusLabelBorderSides.Right;
-            this._apiGauge.DoubleClickEnabled = true;
-            this._apiGauge.DoubleClick += this.ApiUsageInfoMenuItem_Click;
-            this.StatusStrip1.Items.Insert(2, this._apiGauge);
 
             this.ImageSelector.Visible = false;
             this.ImageSelector.Enabled = false;
