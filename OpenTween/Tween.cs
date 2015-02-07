@@ -12214,6 +12214,12 @@ namespace OpenTween
 
             // InitializeComponent() 呼び出しの後で初期化を追加します。
 
+            if (!this.DesignMode)
+            {
+                // デザイナでの編集時にレイアウトが縦方向に数pxずれる問題の対策
+                this.StatusText.Dock = DockStyle.Fill;
+            }
+
             this.TimerTimeline.Elapsed += this.TimerTimeline_Elapsed;
             this._hookGlobalHotkey.HotkeyPressed += _hookGlobalHotkey_HotkeyPressed;
             this.gh.NotifyClicked += GrowlHelper_Callback;
