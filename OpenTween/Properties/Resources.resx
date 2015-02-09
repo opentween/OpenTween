@@ -1180,4 +1180,7 @@
   <data name="ChangeIconToolStripMenuItem_Confirm" xml:space="preserve">
     <value>アイコンを変更します。よろしいですか？</value>
   </data>
+  <data name="PlayableOverlayImage" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\PlayableOverlayImage.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>

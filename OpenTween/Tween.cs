@@ -6078,6 +6078,17 @@ namespace OpenTween
                     sb.AppendFormat("RetweetedBy    : {0}<br>", _curPost.RetweetedBy);
                     sb.AppendFormat("RetweetedId    : {0}<br>", _curPost.RetweetedId);
                     sb.AppendFormat("SearchTabName  : {0}<br>", _curPost.RelTabName);
+
+                    sb.AppendFormat("Media.Count    : {0}<br>", _curPost.Media.Count);
+                    if (_curPost.Media.Count > 0)
+                    {
+                        for (int i = 0; i < _curPost.Media.Count; i++)
+                        {
+                            var info = _curPost.Media[i];
+                            sb.AppendFormat("Media[{0}].Url         : {1}<br>", i, info.Url);
+                            sb.AppendFormat("Media[{0}].VideoUrl    : {1}<br>", i, info.VideoUrl ?? "---");
+                        }
+                    }
                     sb.Append("-----End PostClass Dump<br>");
 
                     PostBrowser.DocumentText = detailHtmlFormatHeader + sb.ToString() + detailHtmlFormatFooter;

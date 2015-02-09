@@ -32,6 +32,7 @@ using System.Threading;
 using System.Net;
 using System.Net.Http;
 using System.IO;
+using OpenTween.Thumbnail;
 
 namespace OpenTween
 {
@@ -121,6 +122,9 @@ namespace OpenTween
             try
             {
                 base.OnPaint(pe);
+
+                // 動画なら再生ボタンを上から描画
+                DrawPlayableMark(pe);
             }
             catch (ExternalException)
             {
@@ -128,6 +132,24 @@ namespace OpenTween
                 // 参照: https://sourceforge.jp/ticket/browse.php?group_id=6526&tid=32894
                 this.ShowErrorImage();
             }
+        }
+
+        private void DrawPlayableMark(PaintEventArgs pe)
+        {
+            var thumb = this.Tag as ThumbnailInfo;
+            if (thumb == null || !thumb.IsPlayable) return;
+            if (base.Image == base.InitialImage || base.Image == base.ErrorImage) return;
+
+            var overlayImage = Properties.Resources.PlayableOverlayImage;
+
+            var overlaySize = Math.Min(this.Width, this.Height) / 4;
+            var destRect = new Rectangle(
+                (this.Width - overlaySize) / 2,
+                (this.Height - overlaySize) / 2,
+                overlaySize,
+                overlaySize);
+
+            pe.Graphics.DrawImage(overlayImage, destRect, 0, 0, overlayImage.Width, overlayImage.Height, GraphicsUnit.Pixel);
         }
 
         [Browsable(false)]

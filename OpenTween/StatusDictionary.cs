@@ -86,7 +86,7 @@ namespace OpenTween
         public int RetweetedCount { get; set; }
         public long? RetweetedByUserId { get; set; }
         public long? InReplyToUserId { get; set; }
-        public List<string> Media { get; set; }
+        public List<MediaInfo> Media { get; set; }
 
         public string RelTabName { get; set; }
         public int FavoritedCount { get; set; }
@@ -163,7 +163,7 @@ namespace OpenTween
         {
             RetweetedBy = "";
             RelTabName = "";
-            Media = new List<string>();
+            Media = new List<MediaInfo>();
             ReplyToList = new List<string>();
         }
 
@@ -400,11 +400,47 @@ namespace OpenTween
             var clone = (PostClass)this.MemberwiseClone();
             clone.ReplyToList = new List<string>(this.ReplyToList);
             clone.PostGeo = new StatusGeo { Lng = this.PostGeo.Lng, Lat = this.PostGeo.Lat };
-            clone.Media = new List<string>(this.Media);
+            clone.Media = new List<MediaInfo>(this.Media);
 
             return clone;
         }
 #endregion
+    }
+
+    public class MediaInfo
+    {
+        public string Url { get; private set; }
+        public string VideoUrl { get; private set; }
+
+        public MediaInfo(string url)
+            : this(url, null)
+        {
+        }
+
+        public MediaInfo(string url, string videoUrl)
+        {
+            this.Url = url;
+            this.VideoUrl = !string.IsNullOrEmpty(videoUrl) ? videoUrl : null;
+        }
+
+        public override bool Equals(object obj)
+        {
+            var info = obj as MediaInfo;
+            return info != null &&
+                info.Url == this.Url &&
+                info.VideoUrl == this.VideoUrl;
+        }
+
+        public override int GetHashCode()
+        {
+            return (this.Url == null ? 0 : this.Url.GetHashCode()) ^
+                   (this.VideoUrl == null ? 0 : this.VideoUrl.GetHashCode());
+        }
+
+        public override string ToString()
+        {
+            return this.Url;
+        }
     }
 
     public sealed class TabInformations

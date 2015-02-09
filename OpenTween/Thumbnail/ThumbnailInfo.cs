@@ -37,6 +37,13 @@ namespace OpenTween.Thumbnail
         public string TooltipText { get; set; }
         public string FullSizeImageUrl { get; set; }
 
+        public bool IsPlayable
+        {
+            get { return _IsPlayable; }
+            set { _IsPlayable = value; }
+        }
+        private bool _IsPlayable = false;
+
         public Task<MemoryImage> LoadThumbnailImageAsync()
         {
             return this.LoadThumbnailImageAsync(CancellationToken.None);
@@ -72,7 +79,8 @@ namespace OpenTween.Thumbnail
                 other.ImageUrl == this.ImageUrl &&
                 other.ThumbnailUrl == this.ThumbnailUrl &&
                 other.TooltipText == this.TooltipText &&
-                other.FullSizeImageUrl == this.FullSizeImageUrl;
+                other.FullSizeImageUrl == this.FullSizeImageUrl &&
+                other.IsPlayable == this.IsPlayable;
         }
 
         public override int GetHashCode()

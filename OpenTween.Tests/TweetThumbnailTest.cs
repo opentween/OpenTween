@@ -127,9 +127,9 @@ namespace OpenTween
             var post = new PostClass
             {
                 TextFromApi = "てすと http://foo.example.com/abcd",
-                Media = new List<string>
+                Media = new List<MediaInfo>
                 {
-                    "http://foo.example.com/abcd",
+                    new MediaInfo("http://foo.example.com/abcd"),
                 },
             };
 
@@ -183,9 +183,9 @@ namespace OpenTween
             var post = new PostClass
             {
                 TextFromApi = "てすと http://foo.example.com/abcd",
-                Media = new List<string>
+                Media = new List<MediaInfo>
                 {
-                    "http://foo.example.com/abcd",
+                    new MediaInfo("http://foo.example.com/abcd"),
                 },
             };
 
@@ -216,10 +216,10 @@ namespace OpenTween
             var post = new PostClass
             {
                 TextFromApi = "てすと http://foo.example.com/abcd http://bar.example.com/efgh",
-                Media = new List<string>
+                Media = new List<MediaInfo>
                 {
-                    "http://foo.example.com/abcd",
-                    "http://bar.example.com/efgh",
+                    new MediaInfo("http://foo.example.com/abcd"),
+                    new MediaInfo("http://bar.example.com/efgh"),
                 },
             };
 
@@ -266,7 +266,7 @@ namespace OpenTween
                 var post = new PostClass
                 {
                     TextFromApi = "てすと",
-                    Media = new List<string>
+                    Media = new List<MediaInfo>
                     {
                     },
                 };
@@ -280,9 +280,9 @@ namespace OpenTween
                 var post2 = new PostClass
                 {
                     TextFromApi = "てすと http://foo.example.com/abcd",
-                    Media = new List<string>
+                    Media = new List<MediaInfo>
                     {
-                        "http://foo.example.com/abcd",
+                        new MediaInfo("http://foo.example.com/abcd"),
                     },
                 };
                 eventCalled = false;
@@ -298,10 +298,10 @@ namespace OpenTween
             var post = new PostClass
             {
                 TextFromApi = "てすと http://foo.example.com/abcd http://foo.example.com/efgh",
-                Media = new List<string>
+                Media = new List<MediaInfo>
                 {
-                    "http://foo.example.com/abcd",
-                    "http://foo.example.com/efgh",
+                    new MediaInfo("http://foo.example.com/abcd"),
+                    new MediaInfo("http://foo.example.com/efgh"),
                 },
             };
 
