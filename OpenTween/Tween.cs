@@ -3392,6 +3392,7 @@ namespace OpenTween
                 MoveToFavToolStripMenuItem.Enabled = false;
                 TabMenuItem.Enabled = false;
                 IDRuleMenuItem.Enabled = false;
+                SourceRuleMenuItem.Enabled = false;
                 ReadedStripMenuItem.Enabled = false;
                 UnreadStripMenuItem.Enabled = false;
             }
@@ -3406,6 +3407,7 @@ namespace OpenTween
                 MoveToFavToolStripMenuItem.Enabled = true;
                 TabMenuItem.Enabled = true;
                 IDRuleMenuItem.Enabled = true;
+                SourceRuleMenuItem.Enabled = true;
                 ReadedStripMenuItem.Enabled = true;
                 UnreadStripMenuItem.Enabled = true;
             }
@@ -8890,6 +8892,50 @@ namespace OpenTween
             SaveConfigsTabs();
         }
 
+        private void SourceRuleMenuItem_Click(object sender, EventArgs e)
+        {
+            if (this._curList.SelectedIndices.Count == 0)
+                return;
+
+            // タブ選択ダイアログを表示（or追加）
+            string tabName;
+            if (!this.SelectTab(out tabName))
+                return;
+
+            // フィルタ動作選択ダイアログを表示（移動/コピー, マーク有無）
+            var mv = false;
+            var mk = false;
+            this.MoveOrCopy(ref mv, ref mk);
+
+            var currentTab = this._statuses.Tabs[this._curTab.Text];
+            var filterTab = this._statuses.Tabs[tabName];
+
+            // 振り分けルールに追加するSource
+            var sources = new HashSet<string>();
+
+            foreach (var idx in this._curList.SelectedIndices.Cast<int>())
+            {
+                var post = currentTab[idx];
+                var filterSource = post.Source;
+
+                if (sources.Add(filterSource))
+                {
+                    var filter = new PostFilterRule
+                    {
+                        FilterSource = filterSource,
+                        MoveMatches = mv,
+                        MarkMatches = mk,
+                        UseRegex = false,
+                        FilterByUrl = false,
+                    };
+                    filterTab.AddFilter(filter);
+                }
+            }
+
+            this.ApplyPostFilters();
+            this.SaveConfigsTabs();
+        }
+
         private bool SelectTab(out string tabName)
         {
             do
@@ -11837,6 +11883,7 @@ namespace OpenTween
                 this.OpenFavOpMenuItem.Enabled = false;
                 this.CreateTabRuleOpMenuItem.Enabled = false;
                 this.CreateIdRuleOpMenuItem.Enabled = false;
+                this.CreateSourceRuleOpMenuItem.Enabled = false;
                 this.ReadOpMenuItem.Enabled = false;
                 this.UnreadOpMenuItem.Enabled = false;
             }
@@ -11851,6 +11898,7 @@ namespace OpenTween
                 this.OpenFavOpMenuItem.Enabled = true;
                 this.CreateTabRuleOpMenuItem.Enabled = true;
                 this.CreateIdRuleOpMenuItem.Enabled = true;
+                this.CreateSourceRuleOpMenuItem.Enabled = true;
                 this.ReadOpMenuItem.Enabled = true;
                 this.UnreadOpMenuItem.Enabled = true;
             }

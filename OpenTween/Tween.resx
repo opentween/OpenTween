@@ -1643,16 +1643,22 @@
     <value>開く(&amp;O)</value>
   </data>
   <data name="CreateTabRuleOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>206, 22</value>
+    <value>210, 22</value>
   </data>
   <data name="CreateTabRuleOpMenuItem.Text" xml:space="preserve">
     <value>タブ振り分けルール作成(&amp;N)</value>
   </data>
   <data name="CreateIdRuleOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>206, 22</value>
+    <value>210, 22</value>
   </data>
   <data name="CreateIdRuleOpMenuItem.Text" xml:space="preserve">
     <value>ID振り分けルール作成(&amp;I)</value>
+  </data>
+  <data name="CreateSourceRuleOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>210, 22</value>
+  </data>
+  <data name="CreateSourceRuleOpMenuItem.Text" xml:space="preserve">
+    <value>&amp;Source振り分けルール作成</value>
   </data>
   <data name="CreateRuleOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>313, 22</value>
@@ -2204,7 +2210,7 @@
     <value>発言内URLを開く(&amp;U)</value>
   </data>
   <data name="IDRuleMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>218, 22</value>
+    <value>222, 22</value>
   </data>
   <data name="IDRuleMenuItem.Text" xml:space="preserve">
     <value>ID振り分けルール作成...</value>
@@ -2222,7 +2228,7 @@
     <value>ふぁぼられを開く(&amp;P)</value>
   </data>
   <data name="TabMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>218, 22</value>
+    <value>222, 22</value>
   </data>
   <data name="TabMenuItem.Text" xml:space="preserve">
     <value>タブ振り分けルール作成(&amp;N)...</value>
@@ -2238,6 +2244,12 @@
   </data>
   <data name="DeleteStripMenuItem.Text" xml:space="preserve">
     <value>削除(&amp;D)</value>
+  </data>
+  <data name="SourceRuleMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>222, 22</value>
+  </data>
+  <data name="SourceRuleMenuItem.Text" xml:space="preserve">
+    <value>&amp;Source振り分けルール作成...</value>
   </data>
   <data name="ToolStripMenuItem7.Size" type="System.Drawing.Size, System.Drawing">
     <value>241, 22</value>
@@ -3414,6 +3426,12 @@
   <data name="&gt;&gt;CreateIdRuleOpMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="&gt;&gt;CreateSourceRuleOpMenuItem.Name" xml:space="preserve">
+    <value>CreateSourceRuleOpMenuItem</value>
+  </data>
+  <data name="&gt;&gt;CreateSourceRuleOpMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="&gt;&gt;ListManageMenuItem.Name" xml:space="preserve">
     <value>ListManageMenuItem</value>
   </data>
@@ -3952,6 +3970,12 @@
     <value>ToolStripMenuItem7</value>
   </data>
   <data name="&gt;&gt;ToolStripMenuItem7.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;SourceRuleMenuItem.Name" xml:space="preserve">
+    <value>SourceRuleMenuItem</value>
+  </data>
+  <data name="&gt;&gt;SourceRuleMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;RefreshStripMenuItem.Name" xml:space="preserve">

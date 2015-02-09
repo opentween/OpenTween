@@ -894,16 +894,22 @@
     <value>&amp;Open as ...</value>
   </data>
   <data name="CreateTabRuleOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>134, 24</value>
+    <value>118, 22</value>
   </data>
   <data name="CreateTabRuleOpMenuItem.Text" xml:space="preserve">
     <value>Post(&amp;N)</value>
   </data>
   <data name="CreateIdRuleOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>134, 24</value>
+    <value>118, 22</value>
   </data>
   <data name="CreateIdRuleOpMenuItem.Text" xml:space="preserve">
     <value>&amp;ID</value>
+  </data>
+  <data name="CreateSourceRuleOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>118, 22</value>
+  </data>
+  <data name="CreateSourceRuleOpMenuItem.Text" xml:space="preserve">
+    <value>&amp;Source</value>
   </data>
   <data name="CreateRuleOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>347, 24</value>
@@ -1293,7 +1299,7 @@
     <value>Referred &amp;URL</value>
   </data>
   <data name="IDRuleMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>139, 24</value>
+    <value>122, 22</value>
   </data>
   <data name="IDRuleMenuItem.Text" xml:space="preserve">
     <value>ID</value>
@@ -1311,7 +1317,7 @@
     <value>Open Favotter (&amp;P)</value>
   </data>
   <data name="TabMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>139, 24</value>
+    <value>122, 22</value>
   </data>
   <data name="TabMenuItem.Text" xml:space="preserve">
     <value>Post (&amp;N)</value>
@@ -1327,6 +1333,12 @@
   </data>
   <data name="DeleteStripMenuItem.Text" xml:space="preserve">
     <value>&amp;Delete</value>
+  </data>
+  <data name="SourceRuleMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>122, 22</value>
+  </data>
+  <data name="SourceRuleMenuItem.Text" xml:space="preserve">
+    <value>&amp;Source</value>
   </data>
   <data name="ToolStripMenuItem7.Size" type="System.Drawing.Size, System.Drawing">
     <value>258, 24</value>

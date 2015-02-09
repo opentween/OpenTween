@@ -165,6 +165,7 @@
             this.CreateRuleOpMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.CreateTabRuleOpMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.CreateIdRuleOpMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.CreateSourceRuleOpMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ListManageMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripSeparator26 = new System.Windows.Forms.ToolStripSeparator();
             this.ChangeReadOpMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -255,6 +256,7 @@
             this.OpenUserSpecifiedUrlMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.DeleteStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem7 = new System.Windows.Forms.ToolStripMenuItem();
+            this.SourceRuleMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.RefreshStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.NotifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
             this.ContextMenuFile = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -1471,7 +1473,8 @@
             // 
             this.CreateRuleOpMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.CreateTabRuleOpMenuItem,
-            this.CreateIdRuleOpMenuItem});
+            this.CreateIdRuleOpMenuItem,
+            this.CreateSourceRuleOpMenuItem});
             this.CreateRuleOpMenuItem.Name = "CreateRuleOpMenuItem";
             resources.ApplyResources(this.CreateRuleOpMenuItem, "CreateRuleOpMenuItem");
             // 
@@ -1486,6 +1489,12 @@
             this.CreateIdRuleOpMenuItem.Name = "CreateIdRuleOpMenuItem";
             resources.ApplyResources(this.CreateIdRuleOpMenuItem, "CreateIdRuleOpMenuItem");
             this.CreateIdRuleOpMenuItem.Click += new System.EventHandler(this.IDRuleMenuItem_Click);
+            // 
+            // CreateSourceRuleOpMenuItem
+            // 
+            this.CreateSourceRuleOpMenuItem.Name = "CreateSourceRuleOpMenuItem";
+            resources.ApplyResources(this.CreateSourceRuleOpMenuItem, "CreateSourceRuleOpMenuItem");
+            this.CreateSourceRuleOpMenuItem.Click += new System.EventHandler(this.SourceRuleMenuItem_Click);
             // 
             // ListManageMenuItem
             // 
@@ -2083,9 +2092,16 @@
             // 
             this.ToolStripMenuItem7.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.TabMenuItem,
-            this.IDRuleMenuItem});
+            this.IDRuleMenuItem,
+            this.SourceRuleMenuItem});
             this.ToolStripMenuItem7.Name = "ToolStripMenuItem7";
             resources.ApplyResources(this.ToolStripMenuItem7, "ToolStripMenuItem7");
+            // 
+            // SourceRuleMenuItem
+            // 
+            this.SourceRuleMenuItem.Name = "SourceRuleMenuItem";
+            resources.ApplyResources(this.SourceRuleMenuItem, "SourceRuleMenuItem");
+            this.SourceRuleMenuItem.Click += new System.EventHandler(this.SourceRuleMenuItem_Click);
             // 
             // RefreshStripMenuItem
             // 
@@ -2778,6 +2794,8 @@
         internal System.Windows.Forms.ToolStripSeparator ToolStripSeparator45;
         internal System.Windows.Forms.ToolStripMenuItem LockListSortOrderToolStripMenuItem;
         private ToolStripAPIGauge toolStripApiGauge;
+        private System.Windows.Forms.ToolStripMenuItem CreateSourceRuleOpMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem SourceRuleMenuItem;
 
     }
 }
