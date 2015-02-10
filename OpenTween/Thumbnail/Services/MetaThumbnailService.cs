@@ -38,7 +38,7 @@ namespace OpenTween.Thumbnail.Services
     class MetaThumbnailService : IThumbnailService
     {
         protected static Regex metaPattern = new Regex("<meta (name|property)=[\"'](?<name>.+?)[\"'] (content|value)=[\"'](?<content>.+?)[\"']");
-        protected static string[] propertyNames = { "twitter:image", "og:image" };
+        protected static string[] propertyNames = { "twitter:image", "twitter:image:src", "og:image" };
 
         protected HttpClient http
         {

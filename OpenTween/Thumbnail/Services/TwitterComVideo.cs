@@ -33,23 +33,46 @@ namespace OpenTween.Thumbnail.Services
     /// <summary>
     /// サムネイル用URLと動画用URLを用意する
     /// </summary>
-    class TwitterComVideo : IThumbnailService
+    class TwitterComVideo : MetaThumbnailService
     {
-        public override Task<ThumbnailInfo> GetThumbnailInfoAsync(string url, PostClass post, CancellationToken token)
-        {
-            return Task.Run(() =>
-            {
-                var info = post.Media.FirstOrDefault(x => x.Url == url);
-                if (info.VideoUrl == null) return null;
+        public static readonly string UrlPattern = @"^https?://amp\.twimg\.com/v/.*$";
 
+        public TwitterComVideo()
+            : base(null, TwitterComVideo.UrlPattern)
+        {
+        }
+
+        public TwitterComVideo(HttpClient http)
+            : base(http, TwitterComVideo.UrlPattern)
+        {
+        }
+
+        public override async Task<ThumbnailInfo> GetThumbnailInfoAsync(string url, PostClass post, CancellationToken token)
+        {
+            // 前処理で動画用URLが準備されていればそれを使う
+            var mediaInfo = post.Media.FirstOrDefault(x => x.Url == url);
+            if (mediaInfo.VideoUrl != null)
+            {
                 return new ThumbnailInfo
                 {
-                    ImageUrl = info.VideoUrl,
+                    ImageUrl = mediaInfo.VideoUrl,
                     ThumbnailUrl = url,
                     FullSizeImageUrl = url,
                     IsPlayable = true,
                 };
-            }, token);
+            }
+
+            // amp.twimg.com のメタデータからサムネイル用URLを取得する
+            var thumbInfo = await base.GetThumbnailInfoAsync(url, post, token)
+                .ConfigureAwait(false);
+
+            if (thumbInfo != null)
+            {
+                thumbInfo.IsPlayable = true;
+                return thumbInfo;
+            }
+
+            return null;
         }
     }
 }
