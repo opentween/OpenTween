@@ -13176,7 +13176,9 @@ namespace OpenTween
 
         private void OpenThumbnailPicture(ThumbnailInfo thumbnail)
         {
-            this.OpenUriAsync(Uri.EscapeUriString(thumbnail.ImageUrl));
+            var url = thumbnail.FullSizeImageUrl ?? thumbnail.ThumbnailUrl;
+
+            this.OpenUriAsync(url);
         }
 
         private void TwitterApiStatusToolStripMenuItem_Click(object sender, EventArgs e)
