@@ -457,5 +457,22 @@ namespace OpenTween
         public bool PublicSearch;
         public bool Lists;
         public bool UserTimeline;
+
+        public static IntervalChangedEventArgs ResetAll
+        {
+            get
+            {
+                return new IntervalChangedEventArgs()
+                {
+                    UserStream = true,
+                    Timeline = true,
+                    Reply = true,
+                    DirectMessage = true,
+                    PublicSearch = true,
+                    Lists = true,
+                    UserTimeline = true,
+                };
+            }
+        }
     }
 }

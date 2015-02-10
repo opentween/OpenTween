@@ -1255,7 +1255,7 @@ namespace OpenTween
             ResetTimers = e;
         }
 
-        private IntervalChangedEventArgs ResetTimers = new IntervalChangedEventArgs();
+        private IntervalChangedEventArgs ResetTimers = IntervalChangedEventArgs.ResetAll;
 
         private static int homeCounter = 0;
         private static int mentionCounter = 0;
