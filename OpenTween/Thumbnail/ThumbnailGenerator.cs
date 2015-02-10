@@ -54,6 +54,12 @@ namespace OpenTween.Thumbnail
                 // twitter.com/tweet_video
                 new TwitterComVideo(),
 
+                // pic.twitter.com
+                new SimpleThumbnailService(
+                    @"^https?://pbs\.twimg\.com/.*$",
+                    "${0}:thumb",
+                    "${0}:orig"),
+
                 // DirectLink
                 new SimpleThumbnailService(@"^https?://.*(\.jpg|\.jpeg|\.gif|\.png|\.bmp)$", "${0}"),
 
@@ -177,12 +183,6 @@ namespace OpenTween.Thumbnail
 
                 // TINAMI
                 new Tinami(),
-
-                // pic.twitter.com
-                new SimpleThumbnailService(
-                    @"^https?://p\.twimg\.com/.*$",
-                    "${0}:thumb",
-                    "${0}"),
 
                 // TwitrPix
                 new SimpleThumbnailService(
