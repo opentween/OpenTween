@@ -57,7 +57,7 @@ namespace OpenTween.Thumbnail
                 // pic.twitter.com
                 new SimpleThumbnailService(
                     @"^https?://pbs\.twimg\.com/.*$",
-                    "${0}:thumb",
+                    "${0}",
                     "${0}:orig"),
 
                 // DirectLink
