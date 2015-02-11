@@ -5386,6 +5386,8 @@ namespace OpenTween
             var tabpages = this.ListTab.TabPages.Cast<TabPage>();
             var listviews = tabpages.Select(x => x.Tag).Cast<ListView>();
 
+            ScaleChildControl(this.TabImage, factor);
+
             foreach (var listview in listviews)
             {
                 ScaleChildControl(listview, factor);

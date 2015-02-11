@@ -105,6 +105,14 @@ namespace OpenTween
             scrollBar.Width = ScaleBy(factor.Width, scrollBar.Width);
         }
 
+        /// <summary>
+        /// 標準の ImageList のスケーリングでは不十分な処理を補います
+        /// </summary>
+        public static void ScaleChildControl(ImageList imageList, SizeF factor)
+        {
+            imageList.ImageSize = ScaleBy(factor, imageList.ImageSize);
+        }
+
         public static Size ScaleBy(SizeF factor, Size size)
         {
             return Size.Round(new SizeF(size.Width * factor.Width, size.Height * factor.Height));
