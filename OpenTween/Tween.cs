@@ -5383,10 +5383,10 @@ namespace OpenTween
         {
             base.ScaleControl(factor, specified);
 
+            ScaleChildControl(this.TabImage, factor);
+
             var tabpages = this.ListTab.TabPages.Cast<TabPage>();
             var listviews = tabpages.Select(x => x.Tag).Cast<ListView>();
-
-            ScaleChildControl(this.TabImage, factor);
 
             foreach (var listview in listviews)
             {
