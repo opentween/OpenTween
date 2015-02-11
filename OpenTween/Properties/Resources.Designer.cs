@@ -634,6 +634,8 @@ namespace OpenTween.Properties {
         /// <summary>
         ///   更新履歴
         ///
+        ///==== Ver 1.2.6-beta1(2015/xx/xx)
+        /// 
         ///==== Ver 1.2.5(2015/02/11)
         /// * NEW: 他人にRTされた自分のツイートをメニューから削除できるようになりました
         /// * NEW: UserStreams の favorited_retweet イベント / retweeted_retweet イベントに対応
@@ -644,8 +646,7 @@ namespace OpenTween.Properties {
         /// * NEW: 発言一覧の右クリックメニューに「Source振り分けルール作成」を追加しました
         ///  - 選択したツイートの Source を振り分けルールに追加します
         /// * NEW: Twitter Amplifyのサムネイル表示に対応
-        /// * CHG: 着せ替えアイコン機能で従来より省略可能なアイコンを増やしました
-        /// * CHG: API使用情報やステータスバー上のリクエスト残回数の表 [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
+        /// * CHG: 着せ替えアイコン機能で従来より省略可能なアイコンを増やしました [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ChangeLog {
             get {

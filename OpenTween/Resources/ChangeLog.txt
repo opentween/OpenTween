@@ -1,5 +1,7 @@
 ﻿更新履歴
 
+==== Ver 1.2.6-beta1(2015/xx/xx)
+
 ==== Ver 1.2.5(2015/02/11)
  * NEW: 他人にRTされた自分のツイートをメニューから削除できるようになりました
  * NEW: UserStreams の favorited_retweet イベント / retweeted_retweet イベントに対応
