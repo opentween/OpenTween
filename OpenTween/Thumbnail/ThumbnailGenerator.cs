@@ -60,6 +60,15 @@ namespace OpenTween.Thumbnail
                     "${0}",
                     "${0}:orig"),
 
+                // youtube
+                new Youtube(),
+
+                // ニコニコ動画
+                new Nicovideo(),
+
+                // vimeo
+                new Vimeo(),
+
                 // DirectLink
                 new SimpleThumbnailService(@"^https?://.*(\.jpg|\.jpeg|\.gif|\.png|\.bmp)$", "${0}"),
 
@@ -121,12 +130,6 @@ namespace OpenTween.Thumbnail
                     "http://twitgoo.com/${1}/mini",
                     "http://twitgoo.com/${1}/img"),
 
-                // youtube
-                new Youtube(),
-
-                // ニコニコ動画
-                new Nicovideo(),
-
                 // ニコニコ静画
                 new SimpleThumbnailService(
                     @"^https?://(?:seiga\.nicovideo\.jp/seiga/|nico\.ms/)im(?<id>\d+)",
@@ -159,9 +162,6 @@ namespace OpenTween.Thumbnail
 
                 // ow.ly
                 new SimpleThumbnailService(@"^https?://ow\.ly/i/(\w+)$", "http://static.ow.ly/photos/thumb/${1}.jpg"),
-
-                // vimeo
-                new Vimeo(),
 
                 // cloudfiles
                 new SimpleThumbnailService(@"^https?://c[0-9]+\.cdn[0-9]+\.cloudfiles\.rackspacecloud\.com/[a-z_0-9]+", "${0}"),

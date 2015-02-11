@@ -93,6 +93,7 @@ namespace OpenTween.Thumbnail.Services
                     ImageUrl = url,
                     ThumbnailUrl = thumbUrlElm.Value,
                     TooltipText = tooltipText,
+                    IsPlayable = true,
                 };
             }
             catch (HttpRequestException) { }

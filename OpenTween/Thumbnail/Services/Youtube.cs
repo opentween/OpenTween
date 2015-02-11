@@ -178,6 +178,7 @@ namespace OpenTween.Thumbnail.Services
                             ImageUrl = url,
                             ThumbnailUrl = imgUrl,
                             TooltipText = sb.ToString().Trim(),
+                            IsPlayable = true,
                         };
                     }
 
