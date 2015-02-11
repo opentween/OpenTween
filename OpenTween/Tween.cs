@@ -13176,8 +13176,7 @@ namespace OpenTween
 
         private void OpenThumbnailPicture(ThumbnailInfo thumbnail)
         {
-            var url = thumbnail.IsPlayable ? thumbnail.ImageUrl :
-                thumbnail.FullSizeImageUrl ?? thumbnail.ThumbnailUrl;
+            var url = thumbnail.FullSizeImageUrl ?? thumbnail.ImageUrl;
 
             this.OpenUriAsync(url);
         }
