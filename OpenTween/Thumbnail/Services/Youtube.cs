@@ -57,11 +57,15 @@ namespace OpenTween.Thumbnail.Services
                 // http://code.google.com/intl/ja/apis/youtube/2.0/developers_guide_protocol_understanding_video_feeds.html#Understanding_Feeds_and_Entries
                 // デベロッパー ガイド: Data API プロトコル - 動画のフィードとエントリについて - YouTube の API とツール - Google Code
                 var videourl = (new HttpVarious()).GetRedirectTo(url);
-                var mc = Regex.Match(videourl, @"^http://(?:(www\.youtube\.com)|(youtu\.be))/(watch\?v=)?(?<videoid>([\w\-]+))", RegexOptions.IgnoreCase);
+                Match mc;
                 if (videourl.StartsWith("http://www.youtube.com/index?ytsession="))
                 {
                     videourl = url;
-                    mc = Regex.Match(videourl, @"^http://(?:(www\.youtube\.com)|(youtu\.be))/(watch\?v=)?(?<videoid>([\w\-]+))", RegexOptions.IgnoreCase);
+                    mc = match;
+                }
+                else
+                {
+                    mc = Youtube.UrlPatternRegex.Match(videourl);
                 }
                 if (mc.Success)
                 {
