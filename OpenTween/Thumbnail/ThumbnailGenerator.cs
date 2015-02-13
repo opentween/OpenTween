@@ -100,10 +100,7 @@ namespace OpenTween.Thumbnail
                     "http://api.plixi.com/api/tpapi.svc/imagefromurl?size=big&url=${0}"),
 
                 // MobyPicture
-                new SimpleThumbnailService(
-                    @"^https?://moby\.to/(\w+)$",
-                    "http://mobypicture.com/?${1}:small",
-                    "http://mobypicture.com/?${1}:full"),
+                new MetaThumbnailService(@"^https?://(?:www\.)?mobypicture.com/user/\w+/view/\d+$"),
 
                 // 携帯百景
                 new SimpleThumbnailService(
