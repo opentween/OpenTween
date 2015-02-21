@@ -2066,9 +2066,6 @@ namespace OpenTween
             //    UrlConvert(UrlConverter.Nicoms);
             //}
             StatusText.SelectionStart = StatusText.Text.Length;
-            GetWorkerArg args = new GetWorkerArg();
-            args.page = 0;
-            args.type = MyCommon.WORKERTYPE.PostMessage;
             CheckReplyTo(StatusText.Text);
 
             //整形によって増加する文字数を取得
@@ -2165,56 +2162,56 @@ namespace OpenTween
                     }
                 }
             }
-            args.status.status = header + StatusText.Text + footer;
+
+            var status = new PostingStatus();
+            status.status = header + StatusText.Text + footer;
 
             if (ToolStripMenuItemApiCommandEvasion.Checked)
             {
                 // APIコマンド回避
-                if (Regex.IsMatch(args.status.status,
+                if (Regex.IsMatch(status.status,
                     @"^[+\-\[\]\s\\.,*/(){}^~|='&%$#""<>?]*(get|g|fav|follow|f|on|off|stop|quit|leave|l|whois|w|nudge|n|stats|invite|track|untrack|tracks|tracking|\*)([+\-\[\]\s\\.,*/(){}^~|='&%$#""<>?]+|$)",
                     RegexOptions.IgnoreCase)
-                   && args.status.status.EndsWith(" .") == false) args.status.status += " .";
+                   && status.status.EndsWith(" .") == false) status.status += " .";
             }
 
             if (ToolStripMenuItemUrlMultibyteSplit.Checked)
             {
                 // URLと全角文字の切り離し
-                Match mc2 = Regex.Match(args.status.status, @"https?:\/\/[-_.!~*'()a-zA-Z0-9;\/?:\@&=+\$,%#^]+");
-                if (mc2.Success) args.status.status = Regex.Replace(args.status.status, @"https?:\/\/[-_.!~*'()a-zA-Z0-9;\/?:\@&=+\$,%#^]+", "$& ");
+                Match mc2 = Regex.Match(status.status, @"https?:\/\/[-_.!~*'()a-zA-Z0-9;\/?:\@&=+\$,%#^]+");
+                if (mc2.Success) status.status = Regex.Replace(status.status, @"https?:\/\/[-_.!~*'()a-zA-Z0-9;\/?:\@&=+\$,%#^]+", "$& ");
             }
 
             if (IdeographicSpaceToSpaceToolStripMenuItem.Checked)
             {
                 // 文中の全角スペースを半角スペース1個にする
-                args.status.status = args.status.status.Replace("　", " ");
+                status.status = status.status.Replace("　", " ");
             }
 
-            if (isCutOff && args.status.status.Length > 140)
+            if (isCutOff && status.status.Length > 140)
             {
-                args.status.status = args.status.status.Substring(0, 140);
+                status.status = status.status.Substring(0, 140);
                 string AtId = @"(@|＠)[a-z0-9_/]+$";
                 string HashTag = @"(^|[^0-9A-Z&\/\?]+)(#|＃)([0-9A-Z_]*[A-Z_]+)$";
                 string Url = @"https?:\/\/[a-z0-9!\*'\(\);:&=\+\$\/%#\[\]\-_\.,~?]+$"; //簡易判定
                 string pattern = string.Format("({0})|({1})|({2})", AtId, HashTag, Url);
-                Match mc = Regex.Match(args.status.status, pattern, RegexOptions.IgnoreCase);
+                Match mc = Regex.Match(status.status, pattern, RegexOptions.IgnoreCase);
                 if (mc.Success)
                 {
                     //さらに@ID、ハッシュタグ、URLと推測される文字列をカットする
-                    args.status.status = args.status.status.Substring(0, 140 - mc.Value.Length);
+                    status.status = status.status.Substring(0, 140 - mc.Value.Length);
                 }
-                if (MessageBox.Show(args.status.status, "Post or Cancel?", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.Cancel) return;
+                if (MessageBox.Show(status.status, "Post or Cancel?", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.Cancel) return;
             }
 
-            args.status.inReplyToId = _reply_to_id;
-            args.status.inReplyToName = _reply_to_name;
+            status.inReplyToId = _reply_to_id;
+            status.inReplyToName = _reply_to_name;
             if (ImageSelector.Visible)
             {
                 //画像投稿
-                if (!ImageSelector.TryGetSelectedMedia(out args.status.imageService, out args.status.imagePath))
+                if (!ImageSelector.TryGetSelectedMedia(out status.imageService, out status.imagePath))
                     return;
             }
-
-            RunAsync(args);
 
             _reply_to_id = null;
             _reply_to_name = null;
@@ -2232,6 +2229,8 @@ namespace OpenTween
                 string tmp = string.Format(Properties.Resources.SearchItem2Url, Uri.EscapeDataString(StatusText.Text.Substring(7)));
                 await this.OpenUriAsync(tmp);
             }
+
+            await this.PostMessageAsync(status);
         }
 
         private void EndToolStripMenuItem_Click(object sender, EventArgs e)
@@ -2322,28 +2321,6 @@ namespace OpenTween
 
             switch (args.type)
             {
-                case MyCommon.WORKERTYPE.PostMessage:
-                    bw.ReportProgress(200);
-                    if (args.status.imagePath == null || args.status.imagePath.Length == 0 || string.IsNullOrEmpty(args.status.imagePath[0]))
-                    {
-                        ret = tw.PostStatus(args.status.status, args.status.inReplyToId);
-                    }
-                    else
-                    {
-                        var service = ImageSelector.GetService(args.status.imageService);
-                        try
-                        {
-                            service.PostStatusAsync(args.status.status, args.status.inReplyToId, args.status.imagePath)
-                                .Wait();
-                        }
-                        catch (AggregateException ex)
-                        {
-                            ret = ex.InnerException.Message;
-                        }
-                    }
-                    bw.ReportProgress(300);
-                    rslt.status = args.status;
-                    break;
                 case MyCommon.WORKERTYPE.Retweet:
                     bw.ReportProgress(200);
                     for (int i = 0; i <= args.ids.Count - 1; i++)
@@ -2618,76 +2595,6 @@ namespace OpenTween
             {
                 case MyCommon.WORKERTYPE.Favorites:
                     _waitFav = false;
-                    break;
-                case MyCommon.WORKERTYPE.PostMessage:
-                    if (string.IsNullOrEmpty(rslt.retMsg) ||
-                        rslt.retMsg.StartsWith("OK:") ||
-                        rslt.retMsg == "Warn:Status is a duplicate.")
-                    {
-                        _postTimestamps.Add(DateTime.Now);
-                        DateTime oneHour = DateTime.Now.Subtract(new TimeSpan(1, 0, 0));
-                        for (int i = _postTimestamps.Count - 1; i >= 0; i--)
-                        {
-                            if (_postTimestamps[i].CompareTo(oneHour) < 0)
-                            {
-                                _postTimestamps.RemoveAt(i);
-                            }
-                        }
-
-                        if (!HashMgr.IsPermanent && !string.IsNullOrEmpty(HashMgr.UseHash))
-                        {
-                            HashMgr.ClearHashtag();
-                            this.HashStripSplitButton.Text = "#[-]";
-                            this.HashToggleMenuItem.Checked = false;
-                            this.HashToggleToolStripMenuItem.Checked = false;
-                        }
-                        SetMainWindowTitle();
-                        rslt.retMsg = "";
-                    }
-                    else
-                    {
-                        DialogResult retry;
-                        try
-                        {
-                            retry = MessageBox.Show(string.Format("{0}   --->   [ " + rslt.retMsg + " ]" + Environment.NewLine + "\"" + rslt.status.status + "\"" + Environment.NewLine + "{1}",
-                                                                Properties.Resources.StatusUpdateFailed1,
-                                                                Properties.Resources.StatusUpdateFailed2),
-                                                            "Failed to update status",
-                                                            MessageBoxButtons.RetryCancel,
-                                                            MessageBoxIcon.Question);
-                        }
-                        catch (Exception)
-                        {
-                            retry = DialogResult.Abort;
-                        }
-                        if (retry == DialogResult.Retry)
-                        {
-                            GetWorkerArg args = new GetWorkerArg();
-                            args.page = 0;
-                            args.type = MyCommon.WORKERTYPE.PostMessage;
-                            args.status = rslt.status;
-                            RunAsync(args);
-                        }
-                        else
-                        {
-                            if (ToolStripFocusLockMenuItem.Checked)
-                            {
-                                //連投モードのときだけEnterイベントが起きないので強制的に背景色を戻す
-                                StatusText_Enter(StatusText, new EventArgs());
-                            }
-                        }
-                    }
-                    if (rslt.retMsg.Length == 0 && this._cfgCommon.PostAndGet)
-                    {
-                        if (_isActiveUserstream)
-                        {
-                            RefreshTimeline(true);
-                        }
-                        else
-                        {
-                            this.GetHomeTimelineAsync();
-                        }
-                    }
                     break;
                 case MyCommon.WORKERTYPE.Retweet:
                     if (rslt.retMsg.Length == 0)
@@ -3198,6 +3105,126 @@ namespace OpenTween
                     if (successIds.Contains(this._curPost.StatusId))
                         this.DispSelectedPost(true); // 選択アイテム再表示
                 }
+            }
+        }
+
+        private async Task PostMessageAsync(PostingStatus status)
+        {
+            await this.workerSemaphore.WaitAsync();
+
+            try
+            {
+                var progress = new Progress<string>(x => this.StatusLabel.Text = x);
+
+                await this.PostMessageAsyncInternal(progress, this.workerCts.Token, status);
+            }
+            catch (WebApiException ex)
+            {
+                this._myStatusError = true;
+                this.StatusLabel.Text = ex.Message;
+            }
+            finally
+            {
+                this.workerSemaphore.Release();
+            }
+        }
+
+        private async Task PostMessageAsyncInternal(IProgress<string> p, CancellationToken ct, PostingStatus status)
+        {
+            if (ct.IsCancellationRequested)
+                return;
+
+            if (!CheckAccountValid())
+                throw new WebApiException("Auth error. Check your account");
+
+            p.Report("Posting...");
+
+            var errMsg = "";
+
+            try
+            {
+                await Task.Run(async () =>
+                {
+                    if (status.imagePath == null || status.imagePath.Length == 0 || string.IsNullOrEmpty(status.imagePath[0]))
+                    {
+                        var err = this.tw.PostStatus(status.status, status.inReplyToId);
+                        if (!string.IsNullOrEmpty(err))
+                            throw new WebApiException(err);
+                    }
+                    else
+                    {
+                        var service = ImageSelector.GetService(status.imageService);
+                        await service.PostStatusAsync(status.status, status.inReplyToId, status.imagePath)
+                            .ConfigureAwait(false);
+                    }
+                });
+
+                p.Report(Properties.Resources.PostWorker_RunWorkerCompletedText4);
+            }
+            catch (WebApiException ex)
+            {
+                // 処理は中断せずエラーの表示のみ行う
+                errMsg = ex.Message;
+                p.Report(errMsg);
+                this._myStatusError = true;
+            }
+
+            if (ct.IsCancellationRequested)
+                return;
+
+            if (!string.IsNullOrEmpty(errMsg) &&
+                !errMsg.StartsWith("OK:", StringComparison.Ordinal) &&
+                !errMsg.StartsWith("Warn:", StringComparison.Ordinal))
+            {
+                var ret = MessageBox.Show(
+                    string.Format(
+                        "{0}   --->   [ " + errMsg + " ]" + Environment.NewLine +
+                        "\"" + status.status + "\"" + Environment.NewLine +
+                        "{1}",
+                        Properties.Resources.StatusUpdateFailed1,
+                        Properties.Resources.StatusUpdateFailed2),
+                    "Failed to update status",
+                    MessageBoxButtons.RetryCancel,
+                    MessageBoxIcon.Question);
+
+                if (ret == DialogResult.Retry)
+                {
+                    await this.PostMessageAsync(status);
+                }
+                else
+                {
+                    // 連投モードのときだけEnterイベントが起きないので強制的に背景色を戻す
+                    if (this.ToolStripFocusLockMenuItem.Checked)
+                        this.StatusText_Enter(this.StatusText, EventArgs.Empty);
+                }
+                return;
+            }
+
+            this._postTimestamps.Add(DateTime.Now);
+
+            var oneHour = DateTime.Now - TimeSpan.FromHours(1);
+            foreach (var i in MyCommon.CountDown(this._postTimestamps.Count - 1, 0))
+            {
+                if (this._postTimestamps[i] < oneHour)
+                    this._postTimestamps.RemoveAt(i);
+            }
+
+            if (!this.HashMgr.IsPermanent && !string.IsNullOrEmpty(this.HashMgr.UseHash))
+            {
+                this.HashMgr.ClearHashtag();
+                this.HashStripSplitButton.Text = "#[-]";
+                this.HashToggleMenuItem.Checked = false;
+                this.HashToggleToolStripMenuItem.Checked = false;
+            }
+
+            this.SetMainWindowTitle();
+
+            if (this._cfgCommon.PostAndGet)
+            {
+                if (this._isActiveUserstream)
+                    this.RefreshTimeline(true);
+                else
+                    await this.GetHomeTimelineAsync();
             }
         }
 
