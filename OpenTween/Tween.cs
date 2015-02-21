@@ -1330,7 +1330,7 @@ namespace OpenTween
             {
                 Interlocked.Exchange(ref refreshFollowers, 0);
                 doGetFollowersMenu();
-                GetTimeline(MyCommon.WORKERTYPE.NoRetweetIds, 0, "");
+                this.RefreshNoRetweetIdsAsync();
                 GetTimeline(MyCommon.WORKERTYPE.Configuration, 0, "");
             }
             if (osResumed)
@@ -2316,13 +2316,6 @@ namespace OpenTween
 
             switch (args.type)
             {
-                case MyCommon.WORKERTYPE.NoRetweetIds:
-                    try
-                    {
-                        tw.RefreshNoRetweetIds();
-                    }
-                    catch (WebApiException ex) { ret = ex.Message; }
-                    break;
                 case MyCommon.WORKERTYPE.Configuration:
                     try
                     {
@@ -2477,9 +2470,6 @@ namespace OpenTween
                     case MyCommon.WORKERTYPE.Favorites:
                         smsg = Properties.Resources.GetTimelineWorker_RunWorkerCompletedText20;
                         break;
-                    case MyCommon.WORKERTYPE.NoRetweetIds:
-                        smsg = "NoRetweetIds refreshed";
-                        break;
                     case MyCommon.WORKERTYPE.Configuration:
                         //進捗メッセージ残す
                         break;
@@ -2562,8 +2552,6 @@ namespace OpenTween
             {
                 case MyCommon.WORKERTYPE.Favorites:
                     _waitFav = false;
-                    break;
-                case MyCommon.WORKERTYPE.NoRetweetIds:
                     break;
                 case MyCommon.WORKERTYPE.Configuration:
                     //_waitFollower = false
@@ -3254,6 +3242,25 @@ namespace OpenTween
                 this.PurgeListViewItemCache();
                 if (this._curList != null)
                     this._curList.Refresh();
+            }
+            catch (WebApiException ex)
+            {
+                this.StatusLabel.Text = ex.Message;
+            }
+            finally
+            {
+                this.workerSemaphore.Release();
+            }
+        }
+
+        private async Task RefreshNoRetweetIdsAsync()
+        {
+            await this.workerSemaphore.WaitAsync();
+            try
+            {
+                await Task.Run(() => tw.RefreshNoRetweetIds());
+
+                this.StatusLabel.Text = "NoRetweetIds refreshed";
             }
             catch (WebApiException ex)
             {
@@ -11050,7 +11057,7 @@ namespace OpenTween
             {
                 this.RefreshMuteUserIdsAsync();
                 GetTimeline(MyCommon.WORKERTYPE.BlockIds, 0, "");
-                GetTimeline(MyCommon.WORKERTYPE.NoRetweetIds, 0, "");
+                this.RefreshNoRetweetIdsAsync();
                 if (this._cfgCommon.StartupFollowers)
                     this.RefreshFollowerIdsAsync();
                 GetTimeline(MyCommon.WORKERTYPE.Configuration, 0, "");
@@ -11107,7 +11114,7 @@ namespace OpenTween
 
                 // 取得失敗の場合は再試行する
                 if (!tw.GetNoRetweetSuccess)
-                    GetTimeline(MyCommon.WORKERTYPE.NoRetweetIds, 0, "");
+                    this.RefreshNoRetweetIdsAsync();
 
                 // 取得失敗の場合は再試行する
                 if (this.tw.Configuration.PhotoSizeLimit == 0)
