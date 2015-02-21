@@ -199,6 +199,7 @@ namespace OpenTween
         private SemaphoreSlim workerSemaphore = new SemaphoreSlim(MAX_WORKER_THREADS);
         private BackgroundWorker[] _bw = new BackgroundWorker[MAX_WORKER_THREADS];
         private BackgroundWorker _bwFollower;
+        private CancellationTokenSource workerCts = new CancellationTokenSource();
 
         private int UnreadCounter = -1;
         private int UnreadAtCounter = -1;
@@ -349,6 +350,9 @@ namespace OpenTween
                 if (_brsDeactiveSelection != null) _brsDeactiveSelection.Dispose();
                 //sf.Dispose();
                 sfTab.Dispose();
+
+                this.workerCts.Cancel();
+
                 foreach (BackgroundWorker bw in _bw)
                 {
                     if (bw != null)
@@ -1285,7 +1289,8 @@ namespace OpenTween
             if (ResetTimers.Timeline || homeCounter <= 0 && this._cfgCommon.TimelinePeriod > 0)
             {
                 Interlocked.Exchange(ref homeCounter, this._cfgCommon.TimelinePeriod);
-                if (!tw.IsUserstreamDataReceived && !ResetTimers.Timeline) GetTimeline(MyCommon.WORKERTYPE.Timeline, 1, "");
+                if (!tw.IsUserstreamDataReceived && !ResetTimers.Timeline)
+                    this.GetHomeTimelineAsync();
                 ResetTimers.Timeline = false;
             }
             if (ResetTimers.Reply || mentionCounter <= 0 && this._cfgCommon.ReplyPeriod > 0)
@@ -1338,7 +1343,7 @@ namespace OpenTween
                 {
                     osResumed = false;
                     Interlocked.Exchange(ref ResumeWait, 0);
-                    GetTimeline(MyCommon.WORKERTYPE.Timeline, 1, "");
+                    this.GetHomeTimelineAsync();
                     GetTimeline(MyCommon.WORKERTYPE.Reply, 1, "");
                     GetTimeline(MyCommon.WORKERTYPE.DirectMessegeRcv, 1, "");
                     GetTimeline(MyCommon.WORKERTYPE.PublicSearch, 1, "");
@@ -2019,7 +2024,7 @@ namespace OpenTween
             {
                 if (!ImageSelector.Enabled)
                 {
-                    DoRefresh();
+                    this.DoRefresh();
                     return;
                 }
             }
@@ -2315,13 +2320,9 @@ namespace OpenTween
 
             switch (args.type)
             {
-                case MyCommon.WORKERTYPE.Timeline:
                 case MyCommon.WORKERTYPE.Reply:
                     bw.ReportProgress(50, MakeStatusMessage(args, false));
                     ret = tw.GetTimelineApi(read, args.type, args.page == -1, _initial);
-                    //新着時未読クリア
-                    if (string.IsNullOrEmpty(ret) && args.type == MyCommon.WORKERTYPE.Timeline && this._cfgCommon.ReadOldPosts)
-                        _statuses.SetReadHomeTab();
                     //振り分け
                     rslt.addCount = _statuses.DistributePosts();
                     break;
@@ -2593,37 +2594,6 @@ namespace OpenTween
                     }
                 }
             }
-            if (args.type == MyCommon.WORKERTYPE.Timeline && !_initial)
-            {
-                lock (_syncObject)
-                {
-                    DateTime tm = DateTime.Now;
-                    if (_tlTimestamps.ContainsKey(tm))
-                        _tlTimestamps[tm] += rslt.addCount;
-                    else
-                        _tlTimestamps.Add(tm, rslt.addCount);
-
-                    DateTime oneHour = DateTime.Now.Subtract(new TimeSpan(1, 0, 0));
-                    List<DateTime> keys = new List<DateTime>();
-                    _tlCount = 0;
-                    foreach (DateTime key in _tlTimestamps.Keys)
-                    {
-                        if (key.CompareTo(oneHour) < 0)
-                        {
-                            keys.Add(key);
-                        }
-                        else
-                        {
-                            _tlCount += _tlTimestamps[key];
-                        }
-                    }
-                    foreach (DateTime key in keys)
-                    {
-                        _tlTimestamps.Remove(key);
-                    }
-                    keys.Clear();
-                }
-            }
 
             //終了ステータス
             bw.ReportProgress(100, MakeStatusMessage(args, true)); //ステータス書き換え、Notifyアイコンアニメーション開始
@@ -2643,9 +2613,6 @@ namespace OpenTween
                 //継続中メッセージ
                 switch (AsyncArg.type)
                 {
-                    case MyCommon.WORKERTYPE.Timeline:
-                        smsg = Properties.Resources.GetTimelineWorker_RunWorkerCompletedText5 + AsyncArg.page.ToString() + Properties.Resources.GetTimelineWorker_RunWorkerCompletedText6;
-                        break;
                     case MyCommon.WORKERTYPE.Reply:
                         smsg = Properties.Resources.GetTimelineWorker_RunWorkerCompletedText4 + AsyncArg.page.ToString() + Properties.Resources.GetTimelineWorker_RunWorkerCompletedText6;
                         break;
@@ -2682,9 +2649,6 @@ namespace OpenTween
                 //完了メッセージ
                 switch (AsyncArg.type)
                 {
-                    case MyCommon.WORKERTYPE.Timeline:
-                        smsg = Properties.Resources.GetTimelineWorker_RunWorkerCompletedText1;
-                        break;
                     case MyCommon.WORKERTYPE.Reply:
                         smsg = Properties.Resources.GetTimelineWorker_RunWorkerCompletedText9;
                         break;
@@ -2757,7 +2721,6 @@ namespace OpenTween
             if (e.Error != null)
             {
                 _myStatusError = true;
-                _waitTimeline = false;
                 _waitReply = false;
                 _waitDm = false;
                 _waitFav = false;
@@ -2794,8 +2757,7 @@ namespace OpenTween
             //    }
             //}
             //if (!busy) RefreshTimeline(); //background処理なければ、リスト反映
-            if (rslt.type == MyCommon.WORKERTYPE.Timeline ||
-                rslt.type == MyCommon.WORKERTYPE.Reply ||
+            if (rslt.type == MyCommon.WORKERTYPE.Reply ||
                 rslt.type == MyCommon.WORKERTYPE.List ||
                 rslt.type == MyCommon.WORKERTYPE.PublicSearch ||
                 rslt.type == MyCommon.WORKERTYPE.DirectMessegeRcv ||
@@ -2818,13 +2780,6 @@ namespace OpenTween
 
             switch (rslt.type)
             {
-                case MyCommon.WORKERTYPE.Timeline:
-                    _waitTimeline = false;
-                    if (!_initial)
-                    {
-                        //    //API使用時の取得調整は別途考える（カウント調整？）
-                    }
-                    break;
                 case MyCommon.WORKERTYPE.Reply:
                     _waitReply = false;
                     if (rslt.newDM && !_initial)
@@ -2936,7 +2891,7 @@ namespace OpenTween
                         }
                         else
                         {
-                            GetTimeline(MyCommon.WORKERTYPE.Timeline, 1, "");
+                            this.GetHomeTimelineAsync();
                         }
                     }
                     break;
@@ -2952,7 +2907,8 @@ namespace OpenTween
                                 _postTimestamps.RemoveAt(i);
                             }
                         }
-                        if (!_isActiveUserstream && this._cfgCommon.PostAndGet) GetTimeline(MyCommon.WORKERTYPE.Timeline, 1, "");
+                        if (!_isActiveUserstream && this._cfgCommon.PostAndGet)
+                            this.GetHomeTimelineAsync();
                     }
                     break;
                 case MyCommon.WORKERTYPE.Follower:
@@ -2999,6 +2955,100 @@ namespace OpenTween
                     }
                     break;
             }
+        }
+
+        private Task GetHomeTimelineAsync()
+        {
+            return this.GetHomeTimelineAsync(loadMore: false);
+        }
+
+        private async Task GetHomeTimelineAsync(bool loadMore)
+        {
+            await this.workerSemaphore.WaitAsync();
+
+            try
+            {
+                var progress = new Progress<string>(x => this.StatusLabel.Text = x);
+
+                await this.GetHomeTimelineAsyncInternal(progress, this.workerCts.Token, loadMore);
+            }
+            catch (WebApiException ex)
+            {
+                this._myStatusError = true;
+                this.StatusLabel.Text = ex.Message;
+            }
+            finally
+            {
+                this._waitTimeline = false;
+                this.workerSemaphore.Release();
+            }
+        }
+
+        private async Task GetHomeTimelineAsyncInternal(IProgress<string> p, CancellationToken ct, bool loadMore)
+        {
+            if (ct.IsCancellationRequested)
+                return;
+
+            if (!CheckAccountValid())
+                throw new WebApiException("Auth error. Check your account");
+
+            bool read;
+            if (!this._cfgCommon.UnreadManage)
+                read = true;
+            else
+                read = this._initial && this._cfgCommon.Read;
+
+            p.Report(Properties.Resources.GetTimelineWorker_RunWorkerCompletedText5 +
+                (loadMore ? "-1" : "1") +
+                Properties.Resources.GetTimelineWorker_RunWorkerCompletedText6);
+
+            await Task.Run(() =>
+            {
+                var err = this.tw.GetTimelineApi(read, MyCommon.WORKERTYPE.Timeline, loadMore, this._initial);
+
+                if (!string.IsNullOrEmpty(err))
+                    throw new WebApiException(err);
+
+                // 新着時未読クリア
+                if (this._cfgCommon.ReadOldPosts)
+                    this._statuses.SetReadHomeTab();
+
+                var addCount = this._statuses.DistributePosts();
+
+                if (!this._initial)
+                {
+                    lock (this._syncObject)
+                    {
+                        var tm = DateTime.Now;
+                        if (this._tlTimestamps.ContainsKey(tm))
+                            this._tlTimestamps[tm] += addCount;
+                        else
+                            this._tlTimestamps[tm] = addCount;
+
+                        var removeKeys = new List<DateTime>();
+                        var oneHour = DateTime.Now - TimeSpan.FromHours(1);
+
+                        this._tlCount = 0;
+                        foreach (var pair in this._tlTimestamps)
+                        {
+                            if (pair.Key < oneHour)
+                                removeKeys.Add(pair.Key);
+                            else
+                                this._tlCount += pair.Value;
+                        }
+
+                        foreach (var key in removeKeys)
+                            this._tlTimestamps.Remove(key);
+                    }
+                }
+            });
+
+            if (ct.IsCancellationRequested)
+                return;
+
+            p.Report(Properties.Resources.GetTimelineWorker_RunWorkerCompletedText1);
+
+            this.RefreshTimeline(false);
         }
 
         private async Task RefreshMuteUserIdsAsync()
@@ -3677,7 +3727,7 @@ namespace OpenTween
 
         private void RefreshStripMenuItem_Click(object sender, EventArgs e)
         {
-            DoRefresh();
+            this.DoRefresh();
         }
 
         private void DoRefresh()
@@ -3713,13 +3763,13 @@ namespace OpenTween
                         GetTimeline(MyCommon.WORKERTYPE.List, 1, _curTab.Text);
                         break;
                     default:
-                        GetTimeline(MyCommon.WORKERTYPE.Timeline, 1, "");
+                        this.GetHomeTimelineAsync();
                         break;
                 }
             }
             else
             {
-                GetTimeline(MyCommon.WORKERTYPE.Timeline, 1, "");
+                this.GetHomeTimelineAsync();
             }
         }
 
@@ -3758,13 +3808,13 @@ namespace OpenTween
                         GetTimeline(MyCommon.WORKERTYPE.List, -1, _curTab.Text);
                         break;
                     default:
-                        GetTimeline(MyCommon.WORKERTYPE.Timeline, -1, "");
+                        this.GetHomeTimelineAsync(loadMore: true);
                         break;
                 }
             }
             else
             {
-                GetTimeline(MyCommon.WORKERTYPE.Timeline, -1, "");
+                this.GetHomeTimelineAsync(loadMore: true);
             }
         }
 
@@ -10815,7 +10865,7 @@ namespace OpenTween
                 GetTimeline(MyCommon.WORKERTYPE.Configuration, 0, "");
                 StartUserStream();
                 _waitTimeline = true;
-                GetTimeline(MyCommon.WORKERTYPE.Timeline, 1, "");
+                this.GetHomeTimelineAsync();
                 _waitReply = true;
                 GetTimeline(MyCommon.WORKERTYPE.Reply, 1, "");
                 _waitDm = true;
@@ -11595,7 +11645,7 @@ namespace OpenTween
         private void RefreshMoreStripMenuItem_Click(object sender, EventArgs e)
         {
             //もっと前を取得
-            DoRefreshMore();
+            this.DoRefreshMore();
         }
 
         private void UndoRemoveTabMenuItem_Click(object sender, EventArgs e)
