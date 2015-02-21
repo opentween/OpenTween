@@ -2316,11 +2316,6 @@ namespace OpenTween
 
             switch (args.type)
             {
-                case MyCommon.WORKERTYPE.Favorites:
-                    bw.ReportProgress(50, MakeStatusMessage(args, false));
-                    ret = tw.GetFavoritesApi(read, args.type, args.page == -1);
-                    rslt.addCount = _statuses.DistributePosts();
-                    break;
                 case MyCommon.WORKERTYPE.PublicSearch:
                     bw.ReportProgress(50, MakeStatusMessage(args, false));
                     if (string.IsNullOrEmpty(args.tName))
@@ -2438,9 +2433,6 @@ namespace OpenTween
                 //継続中メッセージ
                 switch (AsyncArg.type)
                 {
-                    case MyCommon.WORKERTYPE.Favorites:
-                        smsg = Properties.Resources.GetTimelineWorker_RunWorkerCompletedText19;
-                        break;
                     case MyCommon.WORKERTYPE.PublicSearch:
                         smsg = "Search refreshing...";
                         break;
@@ -2460,9 +2452,6 @@ namespace OpenTween
                 //完了メッセージ
                 switch (AsyncArg.type)
                 {
-                    case MyCommon.WORKERTYPE.Favorites:
-                        smsg = Properties.Resources.GetTimelineWorker_RunWorkerCompletedText20;
-                        break;
                     case MyCommon.WORKERTYPE.PublicSearch:
                         smsg = "Search refreshed";
                         break;
@@ -2500,7 +2489,6 @@ namespace OpenTween
             if (e.Error != null)
             {
                 _myStatusError = true;
-                _waitFav = false;
                 _waitPubSearch = false;
                 _waitUserTimeline = false;
                 _waitLists = false;
@@ -2531,7 +2519,6 @@ namespace OpenTween
             //if (!busy) RefreshTimeline(); //background処理なければ、リスト反映
             if (rslt.type == MyCommon.WORKERTYPE.List ||
                 rslt.type == MyCommon.WORKERTYPE.PublicSearch ||
-                rslt.type == MyCommon.WORKERTYPE.Favorites ||
                 rslt.type == MyCommon.WORKERTYPE.Related ||
                 rslt.type == MyCommon.WORKERTYPE.UserTimeline)
             {
@@ -2540,9 +2527,6 @@ namespace OpenTween
 
             switch (rslt.type)
             {
-                case MyCommon.WORKERTYPE.Favorites:
-                    _waitFav = false;
-                    break;
                 case MyCommon.WORKERTYPE.PublicSearch:
                     _waitPubSearch = false;
                     break;
@@ -2789,6 +2773,67 @@ namespace OpenTween
                 return;
 
             p.Report(Properties.Resources.GetTimelineWorker_RunWorkerCompletedText11);
+
+            this.RefreshTimeline(false);
+        }
+
+        private Task GetFavoritesAsync()
+        {
+            return this.GetFavoritesAsync(loadMore: false);
+        }
+
+        private async Task GetFavoritesAsync(bool loadMore)
+        {
+            await this.workerSemaphore.WaitAsync();
+
+            try
+            {
+                var progress = new Progress<string>(x => this.StatusLabel.Text = x);
+
+                await this.GetFavoritesAsyncInternal(progress, this.workerCts.Token, loadMore);
+            }
+            catch (WebApiException ex)
+            {
+                this._myStatusError = true;
+                this.StatusLabel.Text = ex.Message;
+            }
+            finally
+            {
+                this._waitFav = false;
+                this.workerSemaphore.Release();
+            }
+        }
+
+        private async Task GetFavoritesAsyncInternal(IProgress<string> p, CancellationToken ct, bool loadMore)
+        {
+            if (ct.IsCancellationRequested)
+                return;
+
+            if (!CheckAccountValid())
+                throw new WebApiException("Auth error. Check your account");
+
+            bool read;
+            if (!this._cfgCommon.UnreadManage)
+                read = true;
+            else
+                read = this._initial && this._cfgCommon.Read;
+
+            p.Report(Properties.Resources.GetTimelineWorker_RunWorkerCompletedText19);
+
+            await Task.Run(() =>
+            {
+                var err = this.tw.GetFavoritesApi(read, MyCommon.WORKERTYPE.Favorites, loadMore);
+
+                if (!string.IsNullOrEmpty(err))
+                    throw new WebApiException(err);
+
+                this._statuses.DistributePosts();
+            });
+
+            if (ct.IsCancellationRequested)
+                return;
+
+            p.Report(Properties.Resources.GetTimelineWorker_RunWorkerCompletedText20);
 
             this.RefreshTimeline(false);
         }
@@ -3970,7 +4015,7 @@ namespace OpenTween
                         this.GetDirectMessagesAsync();
                         break;
                     case MyCommon.TabUsageType.Favorites:
-                        GetTimeline(MyCommon.WORKERTYPE.Favorites, 1, "");
+                        this.GetFavoritesAsync();
                         break;
                     //case MyCommon.TabUsageType.Profile:
                         //// TODO
@@ -4014,7 +4059,7 @@ namespace OpenTween
                         this.GetDirectMessagesAsync(loadMore: true);
                         break;
                     case MyCommon.TabUsageType.Favorites:
-                        GetTimeline(MyCommon.WORKERTYPE.Favorites, -1, "");
+                        this.GetFavoritesAsync(loadMore: true);
                         break;
                     case MyCommon.TabUsageType.Profile:
                         //// TODO
@@ -11079,7 +11124,7 @@ namespace OpenTween
                 if (this._cfgCommon.GetFav)
                 {
                     _waitFav = true;
-                    GetTimeline(MyCommon.WORKERTYPE.Favorites, 1, "");
+                    this.GetFavoritesAsync();
                 }
                 _waitPubSearch = true;
                 GetTimeline(MyCommon.WORKERTYPE.PublicSearch, 1, "");  //tabname="":全タブ
