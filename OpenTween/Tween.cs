@@ -2321,14 +2321,6 @@ namespace OpenTween
 
             switch (args.type)
             {
-                case MyCommon.WORKERTYPE.Retweet:
-                    bw.ReportProgress(200);
-                    for (int i = 0; i <= args.ids.Count - 1; i++)
-                    {
-                        ret = tw.PostRetweet(args.ids[i], read);
-                    }
-                    bw.ReportProgress(300);
-                    break;
                 case MyCommon.WORKERTYPE.Follower:
                     bw.ReportProgress(50, Properties.Resources.UpdateFollowersMenuItem1_ClickText1);
                     try
@@ -2530,15 +2522,7 @@ namespace OpenTween
         private void GetTimelineWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
             if (MyCommon._endingFlag) return;
-            if (e.ProgressPercentage > 100)
-            {
-                //発言投稿
-                if (e.ProgressPercentage == 200)    //開始
-                    StatusLabel.Text = "Posting...";
-                if (e.ProgressPercentage == 300)  //終了
-                    StatusLabel.Text = Properties.Resources.PostWorker_RunWorkerCompletedText4;
-            }
-            else
+            if (e.ProgressPercentage <= 100)
             {
                 string smsg = (string)e.UserState;
                 if (smsg.Length > 0) StatusLabel.Text = smsg;
@@ -2595,22 +2579,6 @@ namespace OpenTween
             {
                 case MyCommon.WORKERTYPE.Favorites:
                     _waitFav = false;
-                    break;
-                case MyCommon.WORKERTYPE.Retweet:
-                    if (rslt.retMsg.Length == 0)
-                    {
-                        _postTimestamps.Add(DateTime.Now);
-                        DateTime oneHour = DateTime.Now.Subtract(new TimeSpan(1, 0, 0));
-                        for (int i = _postTimestamps.Count - 1; i >= 0; i--)
-                        {
-                            if (_postTimestamps[i].CompareTo(oneHour) < 0)
-                            {
-                                _postTimestamps.RemoveAt(i);
-                            }
-                        }
-                        if (!_isActiveUserstream && this._cfgCommon.PostAndGet)
-                            this.GetHomeTimelineAsync();
-                    }
                     break;
                 case MyCommon.WORKERTYPE.Follower:
                     //_waitFollower = false;
@@ -3226,6 +3194,71 @@ namespace OpenTween
                 else
                     await this.GetHomeTimelineAsync();
             }
+        }
+
+        private async Task RetweetAsync(IReadOnlyList<long> statusIds)
+        {
+            await this.workerSemaphore.WaitAsync();
+
+            try
+            {
+                var progress = new Progress<string>(x => this.StatusLabel.Text = x);
+
+                await this.RetweetAsyncInternal(progress, this.workerCts.Token, statusIds);
+            }
+            catch (WebApiException ex)
+            {
+                this._myStatusError = true;
+                this.StatusLabel.Text = ex.Message;
+            }
+            finally
+            {
+                this.workerSemaphore.Release();
+            }
+        }
+
+        private async Task RetweetAsyncInternal(IProgress<string> p, CancellationToken ct, IReadOnlyList<long> statusIds)
+        {
+            if (ct.IsCancellationRequested)
+                return;
+
+            if (!CheckAccountValid())
+                throw new WebApiException("Auth error. Check your account");
+
+            bool read;
+            if (!this._cfgCommon.UnreadManage)
+                read = true;
+            else
+                read = this._initial && this._cfgCommon.Read;
+
+            p.Report("Posting...");
+
+            await Task.Run(() =>
+            {
+                foreach (var statusId in statusIds)
+                {
+                    var err = this.tw.PostRetweet(statusId, read);
+                    if (!string.IsNullOrEmpty(err))
+                        throw new WebApiException(err);
+                }
+            });
+
+            if (ct.IsCancellationRequested)
+                return;
+
+            p.Report(Properties.Resources.PostWorker_RunWorkerCompletedText4);
+
+            this._postTimestamps.Add(DateTime.Now);
+
+            var oneHour = DateTime.Now - TimeSpan.FromHours(1);
+            foreach (var i in MyCommon.CountDown(this._postTimestamps.Count - 1, 0))
+            {
+                if (this._postTimestamps[i] < oneHour)
+                    this._postTimestamps.RemoveAt(i);
+            }
+
+            if (this._cfgCommon.PostAndGet && !this._isActiveUserstream)
+                await this.GetHomeTimelineAsync();
         }
 
         private async Task RefreshMuteUserIdsAsync()
@@ -11205,17 +11238,16 @@ namespace OpenTween
                         }
                     }
                 }
-                GetWorkerArg args = new GetWorkerArg();
-                args.ids = new List<long>();
-                args.sIds = new List<long>();
-                args.tName = _curTab.Text;
-                args.type = MyCommon.WORKERTYPE.Retweet;
+
+                var statusIds = new List<long>();
                 foreach (int idx in _curList.SelectedIndices)
                 {
                     PostClass post = GetCurTabPost(idx);
-                    if (!post.IsMe && !post.IsProtect && !post.IsDm) args.ids.Add(post.StatusId);
+                    if (!post.IsMe && !post.IsProtect && !post.IsDm)
+                        statusIds.Add(post.StatusId);
                 }
-                RunAsync(args);
+
+                this.RetweetAsync(statusIds);
             }
         }
 
