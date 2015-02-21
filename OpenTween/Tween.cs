@@ -194,7 +194,10 @@ namespace OpenTween
         private bool _waitPubSearch = false;
         private bool _waitUserTimeline = false;
         private bool _waitLists = false;
-        private BackgroundWorker[] _bw = new BackgroundWorker[20];
+
+        private const int MAX_WORKER_THREADS = 20;
+        private SemaphoreSlim workerSemaphore = new SemaphoreSlim(MAX_WORKER_THREADS);
+        private BackgroundWorker[] _bw = new BackgroundWorker[MAX_WORKER_THREADS];
         private BackgroundWorker _bwFollower;
 
         private int UnreadCounter = -1;
@@ -8410,15 +8413,7 @@ namespace OpenTween
             //    }
             //}
 
-            bool busy = false;
-            foreach (BackgroundWorker bw in this._bw)
-            {
-                if (bw != null && bw.IsBusy)
-                {
-                    busy = true;
-                    break;
-                }
-            }
+            var busy = this.workerSemaphore.CurrentCount != MAX_WORKER_THREADS;
 
             if (iconCnt >= this.NIconRefresh.Length)
             {
@@ -10714,11 +10709,13 @@ namespace OpenTween
             if (flg) LView.Invalidate(bnd);
         }
 
-        private void RunAsync(GetWorkerArg args)
+        private async Task RunAsync(GetWorkerArg args)
         {
             BackgroundWorker bw = null;
             if (args.type != MyCommon.WORKERTYPE.Follower)
             {
+                await this.workerSemaphore.WaitAsync();
+
                 for (int i = 0; i < _bw.Length; i++)
                 {
                     if (_bw[i] != null && !_bw[i].IsBusy)
@@ -10739,7 +10736,17 @@ namespace OpenTween
                             bw.WorkerSupportsCancellation = true;
                             bw.DoWork += GetTimelineWorker_DoWork;
                             bw.ProgressChanged += GetTimelineWorker_ProgressChanged;
-                            bw.RunWorkerCompleted += GetTimelineWorker_RunWorkerCompleted;
+                            bw.RunWorkerCompleted += (s, e) =>
+                            {
+                                try
+                                {
+                                    this.GetTimelineWorker_RunWorkerCompleted(s, e);
+                                }
+                                finally
+                                {
+                                    this.workerSemaphore.Release();
+                                }
+                            };
                             break;
                         }
                     }
