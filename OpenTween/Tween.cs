@@ -1303,7 +1303,8 @@ namespace OpenTween
             if (ResetTimers.DirectMessage || dmCounter <= 0 && this._cfgCommon.DMPeriod > 0)
             {
                 Interlocked.Exchange(ref dmCounter, this._cfgCommon.DMPeriod);
-                if (!tw.IsUserstreamDataReceived && !ResetTimers.DirectMessage) GetTimeline(MyCommon.WORKERTYPE.DirectMessegeRcv, 1, "");
+                if (!tw.IsUserstreamDataReceived && !ResetTimers.DirectMessage)
+                    this.GetDirectMessagesAsync();
                 ResetTimers.DirectMessage = false;
             }
             if (ResetTimers.PublicSearch || pubSearchCounter <= 0 && this._cfgCommon.PubSearchPeriod > 0)
@@ -1346,7 +1347,7 @@ namespace OpenTween
                     Interlocked.Exchange(ref ResumeWait, 0);
                     this.GetHomeTimelineAsync();
                     this.GetReplyAsync();
-                    GetTimeline(MyCommon.WORKERTYPE.DirectMessegeRcv, 1, "");
+                    this.GetDirectMessagesAsync();
                     GetTimeline(MyCommon.WORKERTYPE.PublicSearch, 1, "");
                     GetTimeline(MyCommon.WORKERTYPE.UserTimeline, 1, "");
                     GetTimeline(MyCommon.WORKERTYPE.List, 1, "");
@@ -2321,13 +2322,6 @@ namespace OpenTween
 
             switch (args.type)
             {
-                case MyCommon.WORKERTYPE.DirectMessegeRcv:    //送信分もまとめて取得
-                    bw.ReportProgress(50, MakeStatusMessage(args, false));
-                    ret = tw.GetDirectMessageApi(read, MyCommon.WORKERTYPE.DirectMessegeRcv, args.page == -1);
-                    if (string.IsNullOrEmpty(ret)) ret = tw.GetDirectMessageApi(read, MyCommon.WORKERTYPE.DirectMessegeSnt, args.page == -1);
-                    rslt.addCount = _statuses.DistributePosts();
-                    break;
-
                 case MyCommon.WORKERTYPE.FavAdd:
                 {
                     //スレッド処理はしない
@@ -2608,9 +2602,6 @@ namespace OpenTween
                 //継続中メッセージ
                 switch (AsyncArg.type)
                 {
-                    case MyCommon.WORKERTYPE.DirectMessegeRcv:
-                        smsg = Properties.Resources.GetTimelineWorker_RunWorkerCompletedText8 + AsyncArg.page.ToString() + Properties.Resources.GetTimelineWorker_RunWorkerCompletedText6;
-                        break;
                     case MyCommon.WORKERTYPE.FavAdd:
                         smsg = Properties.Resources.GetTimelineWorker_RunWorkerCompletedText15 + AsyncArg.page.ToString() + "/" + AsyncArg.ids.Count.ToString() +
                                             Properties.Resources.GetTimelineWorker_RunWorkerCompletedText16 + (AsyncArg.page - AsyncArg.sIds.Count - 1).ToString();
@@ -2641,12 +2632,6 @@ namespace OpenTween
                 //完了メッセージ
                 switch (AsyncArg.type)
                 {
-                    case MyCommon.WORKERTYPE.DirectMessegeRcv:
-                        smsg = Properties.Resources.GetTimelineWorker_RunWorkerCompletedText11;
-                        break;
-                    case MyCommon.WORKERTYPE.DirectMessegeSnt:
-                        smsg = Properties.Resources.GetTimelineWorker_RunWorkerCompletedText13;
-                        break;
                     case MyCommon.WORKERTYPE.FavAdd:
                         //進捗メッセージ残す
                         break;
@@ -2710,7 +2695,6 @@ namespace OpenTween
             if (e.Error != null)
             {
                 _myStatusError = true;
-                _waitDm = false;
                 _waitFav = false;
                 _waitPubSearch = false;
                 _waitUserTimeline = false;
@@ -2747,8 +2731,6 @@ namespace OpenTween
             //if (!busy) RefreshTimeline(); //background処理なければ、リスト反映
             if (rslt.type == MyCommon.WORKERTYPE.List ||
                 rslt.type == MyCommon.WORKERTYPE.PublicSearch ||
-                rslt.type == MyCommon.WORKERTYPE.DirectMessegeRcv ||
-                rslt.type == MyCommon.WORKERTYPE.DirectMessegeSnt ||
                 rslt.type == MyCommon.WORKERTYPE.Favorites ||
                 rslt.type == MyCommon.WORKERTYPE.Follower ||
                 rslt.type == MyCommon.WORKERTYPE.Related ||
@@ -2769,9 +2751,6 @@ namespace OpenTween
             {
                 case MyCommon.WORKERTYPE.Favorites:
                     _waitFav = false;
-                    break;
-                case MyCommon.WORKERTYPE.DirectMessegeRcv:
-                    _waitDm = false;
                     break;
                 case MyCommon.WORKERTYPE.FavAdd:
                 case MyCommon.WORKERTYPE.FavRemove:
@@ -3090,6 +3069,72 @@ namespace OpenTween
                 return;
 
             p.Report(Properties.Resources.GetTimelineWorker_RunWorkerCompletedText9);
+
+            this.RefreshTimeline(false);
+        }
+
+        private Task GetDirectMessagesAsync()
+        {
+            return this.GetDirectMessagesAsync(loadMore: false);
+        }
+
+        private async Task GetDirectMessagesAsync(bool loadMore)
+        {
+            await this.workerSemaphore.WaitAsync();
+
+            try
+            {
+                var progress = new Progress<string>(x => this.StatusLabel.Text = x);
+
+                await this.GetDirectMessagesAsyncInternal(progress, this.workerCts.Token, loadMore);
+            }
+            catch (WebApiException ex)
+            {
+                this._myStatusError = true;
+                this.StatusLabel.Text = ex.Message;
+            }
+            finally
+            {
+                this._waitDm = false;
+                this.workerSemaphore.Release();
+            }
+        }
+
+        private async Task GetDirectMessagesAsyncInternal(IProgress<string> p, CancellationToken ct, bool loadMore)
+        {
+            if (ct.IsCancellationRequested)
+                return;
+
+            if (!CheckAccountValid())
+                throw new WebApiException("Auth error. Check your account");
+
+            bool read;
+            if (!this._cfgCommon.UnreadManage)
+                read = true;
+            else
+                read = this._initial && this._cfgCommon.Read;
+
+            p.Report(Properties.Resources.GetTimelineWorker_RunWorkerCompletedText8 +
+                (loadMore ? "-1" : "1") +
+                Properties.Resources.GetTimelineWorker_RunWorkerCompletedText6);
+
+            await Task.Run(() =>
+            {
+                var err = this.tw.GetDirectMessageApi(read, MyCommon.WORKERTYPE.DirectMessegeRcv, loadMore);
+                if (!string.IsNullOrEmpty(err))
+                    throw new WebApiException(err);
+
+                var err2 = this.tw.GetDirectMessageApi(read, MyCommon.WORKERTYPE.DirectMessegeSnt, loadMore);
+                if (!string.IsNullOrEmpty(err2))
+                    throw new WebApiException(err2);
+
+                this._statuses.DistributePosts();
+            });
+
+            if (ct.IsCancellationRequested)
+                return;
+
+            p.Report(Properties.Resources.GetTimelineWorker_RunWorkerCompletedText11);
 
             this.RefreshTimeline(false);
         }
@@ -3783,7 +3828,7 @@ namespace OpenTween
                         this.GetReplyAsync();
                         break;
                     case MyCommon.TabUsageType.DirectMessage:
-                        GetTimeline(MyCommon.WORKERTYPE.DirectMessegeRcv, 1, "");
+                        this.GetDirectMessagesAsync();
                         break;
                     case MyCommon.TabUsageType.Favorites:
                         GetTimeline(MyCommon.WORKERTYPE.Favorites, 1, "");
@@ -3827,7 +3872,7 @@ namespace OpenTween
                         this.GetReplyAsync(loadMore: true);
                         break;
                     case MyCommon.TabUsageType.DirectMessage:
-                        GetTimeline(MyCommon.WORKERTYPE.DirectMessegeRcv, -1, "");
+                        this.GetDirectMessagesAsync(loadMore: true);
                         break;
                     case MyCommon.TabUsageType.Favorites:
                         GetTimeline(MyCommon.WORKERTYPE.Favorites, -1, "");
@@ -6356,7 +6401,7 @@ namespace OpenTween
                             this.GetReplyAsync();
                             return true;
                         case Keys.F7:
-                            GetTimeline(MyCommon.WORKERTYPE.DirectMessegeRcv, 1, "");
+                            this.GetDirectMessagesAsync();
                             return true;
                     }
                     if (Focused != FocusedControl.StatusText)
@@ -6655,7 +6700,7 @@ namespace OpenTween
                             this.GetReplyAsync(loadMore: true);
                             return true;
                         case Keys.F7:
-                            GetTimeline(MyCommon.WORKERTYPE.DirectMessegeRcv, -1, "");
+                            this.GetDirectMessagesAsync(loadMore: true);
                             return true;
                     }
                     //フォーカスStatusText以外
@@ -10912,7 +10957,7 @@ namespace OpenTween
                 _waitReply = true;
                 this.GetReplyAsync();
                 _waitDm = true;
-                GetTimeline(MyCommon.WORKERTYPE.DirectMessegeRcv, 1, "");
+                this.GetDirectMessagesAsync();
                 if (this._cfgCommon.GetFav)
                 {
                     _waitFav = true;
