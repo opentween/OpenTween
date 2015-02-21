@@ -1331,7 +1331,7 @@ namespace OpenTween
                 Interlocked.Exchange(ref refreshFollowers, 0);
                 doGetFollowersMenu();
                 this.RefreshNoRetweetIdsAsync();
-                GetTimeline(MyCommon.WORKERTYPE.Configuration, 0, "");
+                this.RefreshTwitterConfigurationAsync();
             }
             if (osResumed)
             {
@@ -1347,7 +1347,7 @@ namespace OpenTween
                     GetTimeline(MyCommon.WORKERTYPE.UserTimeline, 1, "");
                     GetTimeline(MyCommon.WORKERTYPE.List, 1, "");
                     doGetFollowersMenu();
-                    GetTimeline(MyCommon.WORKERTYPE.Configuration, 0, "");
+                    this.RefreshTwitterConfigurationAsync();
                 }
             }
         }
@@ -2316,13 +2316,6 @@ namespace OpenTween
 
             switch (args.type)
             {
-                case MyCommon.WORKERTYPE.Configuration:
-                    try
-                    {
-                        this.tw.RefreshConfiguration();
-                    }
-                    catch (WebApiException ex) { ret = ex.Message; }
-                    break;
                 case MyCommon.WORKERTYPE.Favorites:
                     bw.ReportProgress(50, MakeStatusMessage(args, false));
                     ret = tw.GetFavoritesApi(read, args.type, args.page == -1);
@@ -2470,9 +2463,6 @@ namespace OpenTween
                     case MyCommon.WORKERTYPE.Favorites:
                         smsg = Properties.Resources.GetTimelineWorker_RunWorkerCompletedText20;
                         break;
-                    case MyCommon.WORKERTYPE.Configuration:
-                        //進捗メッセージ残す
-                        break;
                     case MyCommon.WORKERTYPE.PublicSearch:
                         smsg = "Search refreshed";
                         break;
@@ -2552,18 +2542,6 @@ namespace OpenTween
             {
                 case MyCommon.WORKERTYPE.Favorites:
                     _waitFav = false;
-                    break;
-                case MyCommon.WORKERTYPE.Configuration:
-                    //_waitFollower = false
-                    if (this.tw.Configuration.PhotoSizeLimit != 0)
-                    {
-                        foreach (var service in this.ImageSelector.GetServices())
-                        {
-                            service.UpdateTwitterConfiguration(this.tw.Configuration);
-                        }
-                    }
-                    this.PurgeListViewItemCache();
-                    if (_curList != null) _curList.Refresh();
                     break;
                 case MyCommon.WORKERTYPE.PublicSearch:
                     _waitPubSearch = false;
@@ -3261,6 +3239,36 @@ namespace OpenTween
                 await Task.Run(() => tw.RefreshNoRetweetIds());
 
                 this.StatusLabel.Text = "NoRetweetIds refreshed";
+            }
+            catch (WebApiException ex)
+            {
+                this.StatusLabel.Text = ex.Message;
+            }
+            finally
+            {
+                this.workerSemaphore.Release();
+            }
+        }
+
+        private async Task RefreshTwitterConfigurationAsync()
+        {
+            await this.workerSemaphore.WaitAsync();
+            try
+            {
+                await Task.Run(() => tw.RefreshConfiguration());
+
+                if (this.tw.Configuration.PhotoSizeLimit != 0)
+                {
+                    foreach (var service in this.ImageSelector.GetServices())
+                    {
+                        service.UpdateTwitterConfiguration(this.tw.Configuration);
+                    }
+                }
+
+                this.PurgeListViewItemCache();
+
+                if (this._curList != null)
+                    this._curList.Refresh();
             }
             catch (WebApiException ex)
             {
@@ -11060,7 +11068,7 @@ namespace OpenTween
                 this.RefreshNoRetweetIdsAsync();
                 if (this._cfgCommon.StartupFollowers)
                     this.RefreshFollowerIdsAsync();
-                GetTimeline(MyCommon.WORKERTYPE.Configuration, 0, "");
+                this.RefreshTwitterConfigurationAsync();
                 StartUserStream();
                 _waitTimeline = true;
                 this.GetHomeTimelineAsync();
@@ -11118,7 +11126,7 @@ namespace OpenTween
 
                 // 取得失敗の場合は再試行する
                 if (this.tw.Configuration.PhotoSizeLimit == 0)
-                    GetTimeline(MyCommon.WORKERTYPE.Configuration, 0, "");
+                    this.RefreshTwitterConfigurationAsync();
 
                 // 権限チェック read/write権限(xAuthで取得したトークン)の場合は再認証を促す
                 if (MyCommon.TwitterApiInfo.AccessLevel == TwitterApiAccessLevel.ReadWrite)
