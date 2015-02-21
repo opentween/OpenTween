@@ -198,7 +198,6 @@ namespace OpenTween
         private const int MAX_WORKER_THREADS = 20;
         private SemaphoreSlim workerSemaphore = new SemaphoreSlim(MAX_WORKER_THREADS);
         private BackgroundWorker[] _bw = new BackgroundWorker[MAX_WORKER_THREADS];
-        private BackgroundWorker _bwFollower;
         private CancellationTokenSource workerCts = new CancellationTokenSource();
 
         private int UnreadCounter = -1;
@@ -357,10 +356,6 @@ namespace OpenTween
                 {
                     if (bw != null)
                         bw.Dispose();
-                }
-                if (_bwFollower != null)
-                {
-                    _bwFollower.Dispose();
                 }
                 if (IconCache != null)
                 {
@@ -2321,14 +2316,6 @@ namespace OpenTween
 
             switch (args.type)
             {
-                case MyCommon.WORKERTYPE.Follower:
-                    bw.ReportProgress(50, Properties.Resources.UpdateFollowersMenuItem1_ClickText1);
-                    try
-                    {
-                        tw.RefreshFollowerIds();
-                    }
-                    catch (WebApiException ex) { ret = ex.Message; }
-                    break;
                 case MyCommon.WORKERTYPE.NoRetweetIds:
                     try
                     {
@@ -2490,9 +2477,6 @@ namespace OpenTween
                     case MyCommon.WORKERTYPE.Favorites:
                         smsg = Properties.Resources.GetTimelineWorker_RunWorkerCompletedText20;
                         break;
-                    case MyCommon.WORKERTYPE.Follower:
-                        smsg = Properties.Resources.UpdateFollowersMenuItem1_ClickText3;
-                        break;
                     case MyCommon.WORKERTYPE.NoRetweetIds:
                         smsg = "NoRetweetIds refreshed";
                         break;
@@ -2568,7 +2552,6 @@ namespace OpenTween
             if (rslt.type == MyCommon.WORKERTYPE.List ||
                 rslt.type == MyCommon.WORKERTYPE.PublicSearch ||
                 rslt.type == MyCommon.WORKERTYPE.Favorites ||
-                rslt.type == MyCommon.WORKERTYPE.Follower ||
                 rslt.type == MyCommon.WORKERTYPE.Related ||
                 rslt.type == MyCommon.WORKERTYPE.UserTimeline)
             {
@@ -2579,11 +2562,6 @@ namespace OpenTween
             {
                 case MyCommon.WORKERTYPE.Favorites:
                     _waitFav = false;
-                    break;
-                case MyCommon.WORKERTYPE.Follower:
-                    //_waitFollower = false;
-                    this.PurgeListViewItemCache();
-                    if (_curList != null) _curList.Refresh();
                     break;
                 case MyCommon.WORKERTYPE.NoRetweetIds:
                     break;
@@ -3259,6 +3237,32 @@ namespace OpenTween
 
             if (this._cfgCommon.PostAndGet && !this._isActiveUserstream)
                 await this.GetHomeTimelineAsync();
+        }
+
+        private async Task RefreshFollowerIdsAsync()
+        {
+            await this.workerSemaphore.WaitAsync();
+            try
+            {
+                this.StatusLabel.Text = Properties.Resources.UpdateFollowersMenuItem1_ClickText1;
+
+                await Task.Run(() => tw.RefreshFollowerIds());
+
+                this.StatusLabel.Text = Properties.Resources.UpdateFollowersMenuItem1_ClickText3;
+
+                this.RefreshTimeline(false);
+                this.PurgeListViewItemCache();
+                if (this._curList != null)
+                    this._curList.Refresh();
+            }
+            catch (WebApiException ex)
+            {
+                this.StatusLabel.Text = ex.Message;
+            }
+            finally
+            {
+                this.workerSemaphore.Release();
+            }
         }
 
         private async Task RefreshMuteUserIdsAsync()
@@ -10970,64 +10974,45 @@ namespace OpenTween
         private async Task RunAsync(GetWorkerArg args)
         {
             BackgroundWorker bw = null;
-            if (args.type != MyCommon.WORKERTYPE.Follower)
-            {
-                await this.workerSemaphore.WaitAsync();
 
+            await this.workerSemaphore.WaitAsync();
+
+            for (int i = 0; i < _bw.Length; i++)
+            {
+                if (_bw[i] != null && !_bw[i].IsBusy)
+                {
+                    bw = _bw[i];
+                    break;
+                }
+            }
+            if (bw == null)
+            {
                 for (int i = 0; i < _bw.Length; i++)
                 {
-                    if (_bw[i] != null && !_bw[i].IsBusy)
+                    if (_bw[i] == null)
                     {
+                        _bw[i] = new BackgroundWorker();
                         bw = _bw[i];
+                        bw.WorkerReportsProgress = true;
+                        bw.WorkerSupportsCancellation = true;
+                        bw.DoWork += GetTimelineWorker_DoWork;
+                        bw.ProgressChanged += GetTimelineWorker_ProgressChanged;
+                        bw.RunWorkerCompleted += (s, e) =>
+                        {
+                            try
+                            {
+                                this.GetTimelineWorker_RunWorkerCompleted(s, e);
+                            }
+                            finally
+                            {
+                                this.workerSemaphore.Release();
+                            }
+                        };
                         break;
                     }
                 }
-                if (bw == null)
-                {
-                    for (int i = 0; i < _bw.Length; i++)
-                    {
-                        if (_bw[i] == null)
-                        {
-                            _bw[i] = new BackgroundWorker();
-                            bw = _bw[i];
-                            bw.WorkerReportsProgress = true;
-                            bw.WorkerSupportsCancellation = true;
-                            bw.DoWork += GetTimelineWorker_DoWork;
-                            bw.ProgressChanged += GetTimelineWorker_ProgressChanged;
-                            bw.RunWorkerCompleted += (s, e) =>
-                            {
-                                try
-                                {
-                                    this.GetTimelineWorker_RunWorkerCompleted(s, e);
-                                }
-                                finally
-                                {
-                                    this.workerSemaphore.Release();
-                                }
-                            };
-                            break;
-                        }
-                    }
-                }
             }
-            else
-            {
-                if (_bwFollower == null)
-                {
-                    _bwFollower = new BackgroundWorker();
-                    bw = _bwFollower;
-                    bw.WorkerReportsProgress = true;
-                    bw.WorkerSupportsCancellation = true;
-                    bw.DoWork += GetTimelineWorker_DoWork;
-                    bw.ProgressChanged += GetTimelineWorker_ProgressChanged;
-                    bw.RunWorkerCompleted += GetTimelineWorker_RunWorkerCompleted;
-                }
-                else
-                {
-                    if (_bwFollower.IsBusy == false)
-                        bw = _bwFollower;
-                }
-            }
+
             if (bw == null) return;
 
             bw.RunWorkerAsync(args);
@@ -11067,9 +11052,7 @@ namespace OpenTween
                 GetTimeline(MyCommon.WORKERTYPE.BlockIds, 0, "");
                 GetTimeline(MyCommon.WORKERTYPE.NoRetweetIds, 0, "");
                 if (this._cfgCommon.StartupFollowers)
-                {
-                    GetTimeline(MyCommon.WORKERTYPE.Follower, 0, "");
-                }
+                    this.RefreshFollowerIdsAsync();
                 GetTimeline(MyCommon.WORKERTYPE.Configuration, 0, "");
                 StartUserStream();
                 _waitTimeline = true;
@@ -11120,7 +11103,7 @@ namespace OpenTween
 
                 // 取得失敗の場合は再試行する
                 if (!tw.GetFollowersSuccess && this._cfgCommon.StartupFollowers)
-                    GetTimeline(MyCommon.WORKERTYPE.Follower, 0, "");
+                    this.RefreshFollowerIdsAsync();
 
                 // 取得失敗の場合は再試行する
                 if (!tw.GetNoRetweetSuccess)
@@ -11151,7 +11134,7 @@ namespace OpenTween
 
         private void doGetFollowersMenu()
         {
-            GetTimeline(MyCommon.WORKERTYPE.Follower, 1, "");
+            this.RefreshFollowerIdsAsync();
             DispSelectedPost(true);
         }
 
