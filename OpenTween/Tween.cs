@@ -1305,7 +1305,8 @@ namespace OpenTween
             if (ResetTimers.PublicSearch || pubSearchCounter <= 0 && this._cfgCommon.PubSearchPeriod > 0)
             {
                 Interlocked.Exchange(ref pubSearchCounter, this._cfgCommon.PubSearchPeriod);
-                if (!ResetTimers.PublicSearch) GetTimeline(MyCommon.WORKERTYPE.PublicSearch, 1, "");
+                if (!ResetTimers.PublicSearch)
+                    this.GetPublicSearchAllAsync();
                 ResetTimers.PublicSearch = false;
             }
             if (ResetTimers.UserTimeline || userTimelineCounter <= 0 && this._cfgCommon.UserTimelinePeriod > 0)
@@ -1343,7 +1344,7 @@ namespace OpenTween
                     this.GetHomeTimelineAsync();
                     this.GetReplyAsync();
                     this.GetDirectMessagesAsync();
-                    GetTimeline(MyCommon.WORKERTYPE.PublicSearch, 1, "");
+                    this.GetPublicSearchAllAsync();
                     GetTimeline(MyCommon.WORKERTYPE.UserTimeline, 1, "");
                     GetTimeline(MyCommon.WORKERTYPE.List, 1, "");
                     doGetFollowersMenu();
@@ -2316,33 +2317,6 @@ namespace OpenTween
 
             switch (args.type)
             {
-                case MyCommon.WORKERTYPE.PublicSearch:
-                    bw.ReportProgress(50, MakeStatusMessage(args, false));
-                    if (string.IsNullOrEmpty(args.tName))
-                    {
-                        foreach (TabClass tb in _statuses.GetTabsByType(MyCommon.TabUsageType.PublicSearch))
-                        {
-                            //if (!string.IsNullOrEmpty(tb.SearchWords)) ret = tw.GetPhoenixSearch(read, tb, false);
-                            if (!string.IsNullOrEmpty(tb.SearchWords)) ret = tw.GetSearch(read, tb, false);
-                        }
-                    }
-                    else
-                    {
-                        TabClass tb = _statuses.GetTabByName(args.tName);
-                        if (tb != null)
-                        {
-                            //ret = tw.GetPhoenixSearch(read, tb, false);
-                            ret = tw.GetSearch(read, tb, false);
-                            if (string.IsNullOrEmpty(ret) && args.page == -1)
-                            {
-                                //ret = tw.GetPhoenixSearch(read, tb, true)
-                                ret = tw.GetSearch(read, tb, true);
-                            }
-                        }
-                    }
-                    //振り分け
-                    rslt.addCount = _statuses.DistributePosts();
-                    break;
                 case MyCommon.WORKERTYPE.UserTimeline:
                 {
                     bw.ReportProgress(50, MakeStatusMessage(args, false));
@@ -2433,9 +2407,6 @@ namespace OpenTween
                 //継続中メッセージ
                 switch (AsyncArg.type)
                 {
-                    case MyCommon.WORKERTYPE.PublicSearch:
-                        smsg = "Search refreshing...";
-                        break;
                     case MyCommon.WORKERTYPE.List:
                         smsg = "List refreshing...";
                         break;
@@ -2452,9 +2423,6 @@ namespace OpenTween
                 //完了メッセージ
                 switch (AsyncArg.type)
                 {
-                    case MyCommon.WORKERTYPE.PublicSearch:
-                        smsg = "Search refreshed";
-                        break;
                     case MyCommon.WORKERTYPE.List:
                         smsg = "List refreshed";
                         break;
@@ -2489,7 +2457,6 @@ namespace OpenTween
             if (e.Error != null)
             {
                 _myStatusError = true;
-                _waitPubSearch = false;
                 _waitUserTimeline = false;
                 _waitLists = false;
                 throw new Exception("BackgroundWorker Exception", e.Error);
@@ -2518,7 +2485,6 @@ namespace OpenTween
             //}
             //if (!busy) RefreshTimeline(); //background処理なければ、リスト反映
             if (rslt.type == MyCommon.WORKERTYPE.List ||
-                rslt.type == MyCommon.WORKERTYPE.PublicSearch ||
                 rslt.type == MyCommon.WORKERTYPE.Related ||
                 rslt.type == MyCommon.WORKERTYPE.UserTimeline)
             {
@@ -2527,9 +2493,6 @@ namespace OpenTween
 
             switch (rslt.type)
             {
-                case MyCommon.WORKERTYPE.PublicSearch:
-                    _waitPubSearch = false;
-                    break;
                 case MyCommon.WORKERTYPE.UserTimeline:
                     _waitUserTimeline = false;
                     break;
@@ -2834,6 +2797,88 @@ namespace OpenTween
                 return;
 
             p.Report(Properties.Resources.GetTimelineWorker_RunWorkerCompletedText20);
+
+            this.RefreshTimeline(false);
+        }
+
+        private Task GetPublicSearchAllAsync()
+        {
+            return this.GetPublicSearchAsync(null, loadMore: false);
+        }
+
+        private Task GetPublicSearchAsync(TabClass tab)
+        {
+            return this.GetPublicSearchAsync(tab, loadMore: false);
+        }
+
+        private async Task GetPublicSearchAsync(TabClass tab, bool loadMore)
+        {
+            await this.workerSemaphore.WaitAsync();
+
+            try
+            {
+                var progress = new Progress<string>(x => this.StatusLabel.Text = x);
+
+                var tabs = tab != null
+                    ? new[] { tab }.AsEnumerable()
+                    : this._statuses.GetTabsByType(MyCommon.TabUsageType.PublicSearch);
+
+                await this.GetPublicSearchAsyncInternal(progress, this.workerCts.Token, tabs, loadMore);
+            }
+            catch (WebApiException ex)
+            {
+                this._myStatusError = true;
+                this.StatusLabel.Text = ex.Message;
+            }
+            finally
+            {
+                this._waitPubSearch = false;
+                this.workerSemaphore.Release();
+            }
+        }
+
+        private async Task GetPublicSearchAsyncInternal(IProgress<string> p, CancellationToken ct, IEnumerable<TabClass> tabs, bool loadMore)
+        {
+            if (ct.IsCancellationRequested)
+                return;
+
+            if (!CheckAccountValid())
+                throw new WebApiException("Auth error. Check your account");
+
+            bool read;
+            if (!this._cfgCommon.UnreadManage)
+                read = true;
+            else
+                read = this._initial && this._cfgCommon.Read;
+
+            p.Report("Search refreshing...");
+
+            await Task.Run(() =>
+            {
+                foreach (var tab in tabs)
+                {
+                    if (string.IsNullOrEmpty(tab.SearchWords))
+                        continue;
+
+                    var err = this.tw.GetSearch(read, tab, false);
+                    if (!string.IsNullOrEmpty(err))
+                        throw new WebApiException(err);
+
+                    if (loadMore)
+                    {
+                        var err2 = this.tw.GetSearch(read, tab, true);
+                        if (!string.IsNullOrEmpty(err2))
+                            throw new WebApiException(err2);
+                    }
+                }
+
+                this._statuses.DistributePosts();
+            });
+
+            if (ct.IsCancellationRequested)
+                return;
+
+            p.Report("Search refreshed");
 
             this.RefreshTimeline(false);
         }
@@ -4006,6 +4051,10 @@ namespace OpenTween
         {
             if (_curTab != null)
             {
+                TabClass tab;
+                if (!this._statuses.Tabs.TryGetValue(this._curTab.Text, out tab))
+                    return;
+
                 switch (_statuses.Tabs[_curTab.Text].TabType)
                 {
                     case MyCommon.TabUsageType.Mentions:
@@ -4021,16 +4070,14 @@ namespace OpenTween
                         //// TODO
                     case MyCommon.TabUsageType.PublicSearch:
                         //// TODO
-                        TabClass tb = _statuses.Tabs[_curTab.Text];
-                        if (string.IsNullOrEmpty(tb.SearchWords)) return;
-                        GetTimeline(MyCommon.WORKERTYPE.PublicSearch, 1, _curTab.Text);
+                        if (string.IsNullOrEmpty(tab.SearchWords)) return;
+                        this.GetPublicSearchAsync(tab);
                         break;
                     case MyCommon.TabUsageType.UserTimeline:
                         GetTimeline(MyCommon.WORKERTYPE.UserTimeline, 1, _curTab.Text);
                         break;
                     case MyCommon.TabUsageType.Lists:
                         //// TODO
-                        TabClass tab = _statuses.Tabs[_curTab.Text];
                         if (tab.ListInfo == null || tab.ListInfo.Id == 0) return;
                         GetTimeline(MyCommon.WORKERTYPE.List, 1, _curTab.Text);
                         break;
@@ -4050,6 +4097,10 @@ namespace OpenTween
             //ページ指定をマイナス1に
             if (_curTab != null)
             {
+                TabClass tab;
+                if (!this._statuses.Tabs.TryGetValue(this._curTab.Text, out tab))
+                    return;
+
                 switch (_statuses.Tabs[_curTab.Text].TabType)
                 {
                     case MyCommon.TabUsageType.Mentions:
@@ -4066,16 +4117,14 @@ namespace OpenTween
                         break;
                     case MyCommon.TabUsageType.PublicSearch:
                         // TODO
-                        TabClass tb = _statuses.Tabs[_curTab.Text];
-                        if (string.IsNullOrEmpty(tb.SearchWords)) return;
-                        GetTimeline(MyCommon.WORKERTYPE.PublicSearch, -1, _curTab.Text);
+                        if (string.IsNullOrEmpty(tab.SearchWords)) return;
+                        this.GetPublicSearchAsync(tab, loadMore: true);
                         break;
                     case MyCommon.TabUsageType.UserTimeline:
                         GetTimeline(MyCommon.WORKERTYPE.UserTimeline, -1, _curTab.Text);
                         break;
                     case MyCommon.TabUsageType.Lists:
                         //// TODO
-                        TabClass tab = _statuses.Tabs[_curTab.Text];
                         if (tab.ListInfo == null || tab.ListInfo.Id == 0) return;
                         GetTimeline(MyCommon.WORKERTYPE.List, -1, _curTab.Text);
                         break;
@@ -11127,7 +11176,7 @@ namespace OpenTween
                     this.GetFavoritesAsync();
                 }
                 _waitPubSearch = true;
-                GetTimeline(MyCommon.WORKERTYPE.PublicSearch, 1, "");  //tabname="":全タブ
+                this.GetPublicSearchAllAsync();
                 _waitUserTimeline = true;
                 GetTimeline(MyCommon.WORKERTYPE.UserTimeline, 1, "");  //tabname="":全タブ
                 _waitLists = true;
@@ -11888,7 +11937,7 @@ namespace OpenTween
                 SaveConfigsTabs();   //検索条件の保存
             }
 
-            GetTimeline(MyCommon.WORKERTYPE.PublicSearch, 1, tbName);
+            this.GetPublicSearchAsync(tb);
             listView.Focus();
         }
 
