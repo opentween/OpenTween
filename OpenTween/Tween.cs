@@ -2322,45 +2322,6 @@ namespace OpenTween
 
             switch (args.type)
             {
-                case MyCommon.WORKERTYPE.FavRemove:
-                {
-                    //スレッド処理はしない
-                    TabClass tab;
-                    if (_statuses.Tabs.TryGetValue(args.tName, out tab))
-                    {
-                        var count = 0;
-                        foreach (var statusId in args.ids)
-                        {
-                            var post = tab.Posts[statusId];
-
-                            args.page = ++count;
-                            bw.ReportProgress(50, MakeStatusMessage(args, false));
-
-                            if (post.IsFav)
-                            {
-                                if (post.RetweetedId == null)
-                                    ret = tw.PostFavRemove(post.StatusId);
-                                else
-                                    ret = tw.PostFavRemove(post.RetweetedId.Value);
-
-                                if (string.IsNullOrEmpty(ret))
-                                {
-                                    args.sIds.Add(statusId);
-                                    post.IsFav = false;    //リスト再描画必要
-                                    if (_statuses.ContainsKey(statusId)) _statuses[statusId].IsFav = false;
-                                    //検索,リスト,UserTimeline,Relatedの各タブに反映
-                                    foreach (TabClass tb in _statuses.GetTabsByType(MyCommon.TabUsageType.PublicSearch | MyCommon.TabUsageType.Lists | MyCommon.TabUsageType.UserTimeline | MyCommon.TabUsageType.Related))
-                                    {
-                                        if (tb.Contains(statusId)) tb.Posts[statusId].IsFav = false;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    rslt.sIds = args.sIds;
-                    break;
-                }
-
                 case MyCommon.WORKERTYPE.PostMessage:
                     bw.ReportProgress(200);
                     if (args.status.imagePath == null || args.status.imagePath.Length == 0 || string.IsNullOrEmpty(args.status.imagePath[0]))
@@ -2535,10 +2496,6 @@ namespace OpenTween
                 //継続中メッセージ
                 switch (AsyncArg.type)
                 {
-                    case MyCommon.WORKERTYPE.FavRemove:
-                        smsg = Properties.Resources.GetTimelineWorker_RunWorkerCompletedText17 + AsyncArg.page.ToString() + "/" + AsyncArg.ids.Count.ToString() +
-                                            Properties.Resources.GetTimelineWorker_RunWorkerCompletedText18 + (AsyncArg.page - AsyncArg.sIds.Count - 1).ToString();
-                        break;
                     case MyCommon.WORKERTYPE.Favorites:
                         smsg = Properties.Resources.GetTimelineWorker_RunWorkerCompletedText19;
                         break;
@@ -2561,9 +2518,6 @@ namespace OpenTween
                 //完了メッセージ
                 switch (AsyncArg.type)
                 {
-                    case MyCommon.WORKERTYPE.FavRemove:
-                        //進捗メッセージ残す
-                        break;
                     case MyCommon.WORKERTYPE.Favorites:
                         smsg = Properties.Resources.GetTimelineWorker_RunWorkerCompletedText20;
                         break;
@@ -2639,11 +2593,6 @@ namespace OpenTween
 
             if (rslt.type == MyCommon.WORKERTYPE.ErrorState) return;
 
-            if (rslt.type == MyCommon.WORKERTYPE.FavRemove)
-            {
-                this.RemovePostFromFavTab(rslt.sIds.ToArray());
-            }
-
             //リストに反映
             //bool busy = false;
             //foreach (BackgroundWorker bw in _bw)
@@ -2665,48 +2614,10 @@ namespace OpenTween
                 RefreshTimeline(false); //リスト反映
             }
 
-            if (rslt.type == MyCommon.WORKERTYPE.FavRemove)
-            {
-                // 流速表示等の更新のみ行う
-                SetMainWindowTitle();
-                if (!StatusLabelUrl.Text.StartsWith("http")) SetStatusLabelUrl();
-            }
-
             switch (rslt.type)
             {
                 case MyCommon.WORKERTYPE.Favorites:
                     _waitFav = false;
-                    break;
-                case MyCommon.WORKERTYPE.FavRemove:
-                    if (_curList != null && _curTab != null && _curTab.Text == rslt.tName)
-                    {
-                        TabClass tb;
-                        if (this._statuses.Tabs.TryGetValue(rslt.tName, out tb))
-                        {
-                            if (rslt.type == MyCommon.WORKERTYPE.FavRemove && tb.TabType == MyCommon.TabUsageType.Favorites)
-                            {
-                                //色変えは不要
-                            }
-                            else
-                            {
-                                using (ControlTransaction.Update(this._curList))
-                                {
-                                    foreach (var statusId in rslt.sIds)
-                                    {
-                                        int idx = tb.IndexOf(statusId);
-                                        if (idx == -1)
-                                            continue;
-
-                                        var post = tb.Posts[statusId];
-                                        this.ChangeCacheStyleRead(post.IsRead, idx);
-                                    }
-                                }
-
-                                if (rslt.sIds.Contains(this._curPost.StatusId))
-                                    this.DispSelectedPost(true); //選択アイテム再表示
-                            }
-                        }
-                    }
                     break;
                 case MyCommon.WORKERTYPE.PostMessage:
                     if (string.IsNullOrEmpty(rslt.retMsg) ||
@@ -3181,6 +3092,115 @@ namespace OpenTween
             }
         }
 
+        private async Task FavRemoveAsync(IReadOnlyList<long> statusIds, TabClass tab)
+        {
+            await this.workerSemaphore.WaitAsync();
+
+            try
+            {
+                var progress = new Progress<string>(x => this.StatusLabel.Text = x);
+
+                await this.FavRemoveAsyncInternal(progress, this.workerCts.Token, statusIds, tab);
+            }
+            catch (WebApiException ex)
+            {
+                this._myStatusError = true;
+                this.StatusLabel.Text = ex.Message;
+            }
+            finally
+            {
+                this.workerSemaphore.Release();
+            }
+        }
+
+        private async Task FavRemoveAsyncInternal(IProgress<string> p, CancellationToken ct, IReadOnlyList<long> statusIds, TabClass tab)
+        {
+            if (ct.IsCancellationRequested)
+                return;
+
+            if (!CheckAccountValid())
+                throw new WebApiException("Auth error. Check your account");
+
+            var successIds = new List<long>();
+
+            await Task.Run(() =>
+            {
+                //スレッド処理はしない
+                var allCount = 0;
+                var failedCount = 0;
+                foreach (var statusId in statusIds)
+                {
+                    allCount++;
+
+                    var post = tab.Posts[statusId];
+
+                    p.Report(Properties.Resources.GetTimelineWorker_RunWorkerCompletedText17 +
+                        allCount + "/" + statusIds.Count +
+                        Properties.Resources.GetTimelineWorker_RunWorkerCompletedText18 +
+                        failedCount);
+
+                    if (!post.IsFav)
+                        continue;
+
+                    var err = this.tw.PostFavRemove(post.RetweetedId ?? post.StatusId);
+
+                    if (!string.IsNullOrEmpty(err))
+                    {
+                        failedCount++;
+                        continue;
+                    }
+
+                    successIds.Add(statusId);
+                    post.IsFav = false; // リスト再描画必要
+
+                    if (this._statuses.ContainsKey(statusId))
+                    {
+                        this._statuses[statusId].IsFav = false;
+                    }
+
+                    // 検索,リスト,UserTimeline,Relatedの各タブに反映
+                    foreach (var tb in this._statuses.GetTabsInnerStorageType())
+                    {
+                        if (tb.Contains(statusId))
+                            tb.Posts[statusId].IsFav = false;
+                    }
+                }
+            });
+
+            if (ct.IsCancellationRequested)
+                return;
+
+            this.RemovePostFromFavTab(successIds.ToArray());
+
+            this.RefreshTimeline(false);
+
+            if (this._curList != null && this._curTab != null && this._curTab.Text == tab.TabName)
+            {
+                if (tab.TabType == MyCommon.TabUsageType.Favorites)
+                {
+                    // 色変えは不要
+                }
+                else
+                {
+                    using (ControlTransaction.Update(this._curList))
+                    {
+                        foreach (var statusId in successIds)
+                        {
+                            var idx = tab.IndexOf(statusId);
+                            if (idx == -1)
+                                continue;
+
+                            var post = tab.Posts[statusId];
+                            this.ChangeCacheStyleRead(post.IsRead, idx);
+                        }
+                    }
+
+                    if (successIds.Contains(this._curPost.StatusId))
+                        this.DispSelectedPost(true); // 選択アイテム再表示
+                }
+            }
+        }
+
         private async Task RefreshMuteUserIdsAsync()
         {
             this.StatusLabel.Text = Properties.Resources.UpdateMuteUserIds_Start;
@@ -3436,15 +3456,7 @@ namespace OpenTween
             if (FavAdd)
                 this.FavAddAsync(statusIds, tab);
             else
-            {
-                GetWorkerArg args = new GetWorkerArg();
-                args.type = MyCommon.WORKERTYPE.FavRemove;
-                args.ids = statusIds;
-                args.sIds = new List<long>();
-                args.tName = _curTab.Text;
-
-                RunAsync(args);
-            }
+                this.FavRemoveAsync(statusIds, tab);
         }
 
         private PostClass GetCurTabPost(int Index)
