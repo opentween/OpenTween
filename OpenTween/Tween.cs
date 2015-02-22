@@ -2319,15 +2319,6 @@ namespace OpenTween
 
             switch (args.type)
             {
-                case MyCommon.WORKERTYPE.Related:
-                {
-                    bw.ReportProgress(50, MakeStatusMessage(args, false));
-                    TabClass tab = _statuses.GetTabByName(args.tName);
-                    ret = tw.GetRelatedResult(read, tab);
-                    rslt.addCount = _statuses.DistributePosts();
-                    break;
-                }
-
                 case MyCommon.WORKERTYPE.BlockIds:
                     bw.ReportProgress(50, Properties.Resources.UpdateBlockUserText1);
                     try
@@ -2357,24 +2348,11 @@ namespace OpenTween
         private string MakeStatusMessage(GetWorkerArg AsyncArg, bool Finish)
         {
             string smsg = "";
-            if (!Finish)
-            {
-                //継続中メッセージ
-                switch (AsyncArg.type)
-                {
-                    case MyCommon.WORKERTYPE.Related:
-                        smsg = "Related refreshing...";
-                        break;
-                }
-            }
-            else
+            if (Finish)
             {
                 //完了メッセージ
                 switch (AsyncArg.type)
                 {
-                    case MyCommon.WORKERTYPE.Related:
-                        smsg = "Related refreshed";
-                        break;
                     case MyCommon.WORKERTYPE.BlockIds:
                         smsg = Properties.Resources.UpdateBlockUserText3;
                         break;
@@ -2425,29 +2403,6 @@ namespace OpenTween
             //    }
             //}
             //if (!busy) RefreshTimeline(); //background処理なければ、リスト反映
-            if (rslt.type == MyCommon.WORKERTYPE.Related)
-            {
-                RefreshTimeline(false); //リスト反映
-            }
-
-            switch (rslt.type)
-            {
-                case MyCommon.WORKERTYPE.Related:
-                    TabClass tab = _statuses.GetTabByType(MyCommon.TabUsageType.Related);
-                    if (tab != null && tab.RelationTargetPost != null && tab.Contains(tab.RelationTargetPost.StatusId))
-                    {
-                        foreach (TabPage tp in ListTab.TabPages)
-                        {
-                            if (tp.Text == tab.TabName)
-                            {
-                                ((DetailsListView)tp.Tag).SelectedIndices.Add(tab.IndexOf(tab.RelationTargetPost.StatusId));
-                                ((DetailsListView)tp.Tag).Items[tab.IndexOf(tab.RelationTargetPost.StatusId)].Focused = true;
-                                break;
-                            }
-                        }
-                    }
-                    break;
-            }
         }
 
         private Task GetHomeTimelineAsync()
@@ -2968,6 +2923,77 @@ namespace OpenTween
             p.Report("List refreshed");
 
             this.RefreshTimeline(false);
+        }
+
+        private async Task GetRelatedTweetsAsync(TabClass tab)
+        {
+            await this.workerSemaphore.WaitAsync();
+
+            try
+            {
+                var progress = new Progress<string>(x => this.StatusLabel.Text = x);
+
+                await this.GetRelatedTweetsAsyncInternal(progress, this.workerCts.Token, tab);
+            }
+            catch (WebApiException ex)
+            {
+                this._myStatusError = true;
+                this.StatusLabel.Text = ex.Message;
+            }
+            finally
+            {
+                this.workerSemaphore.Release();
+            }
+        }
+
+        private async Task GetRelatedTweetsAsyncInternal(IProgress<string> p, CancellationToken ct, TabClass tab)
+        {
+            if (ct.IsCancellationRequested)
+                return;
+
+            if (!CheckAccountValid())
+                throw new WebApiException("Auth error. Check your account");
+
+            bool read;
+            if (!this._cfgCommon.UnreadManage)
+                read = true;
+            else
+                read = this._initial && this._cfgCommon.Read;
+
+            p.Report("Related refreshing...");
+
+            await Task.Run(() =>
+            {
+                var err = this.tw.GetRelatedResult(read, tab);
+                if (!string.IsNullOrEmpty(err))
+                    throw new WebApiException(err);
+
+                this._statuses.DistributePosts();
+            });
+
+            if (ct.IsCancellationRequested)
+                return;
+
+            p.Report("Related refreshed");
+
+            this.RefreshTimeline(false);
+
+            var tabPage = this.ListTab.TabPages.Cast<TabPage>()
+                .FirstOrDefault(x => x.Text == tab.TabName);
+
+            if (tabPage != null)
+            {
+                // TODO: 非同期更新中にタブが閉じられている場合を厳密に考慮したい
+
+                var listView = (DetailsListView)tabPage.Tag;
+                var index = tab.IndexOf(tab.RelationTargetPost.RetweetedId ?? tab.RelationTargetPost.StatusId);
+
+                if (index != -1 && index < listView.Items.Count)
+                {
+                    listView.SelectedIndices.Add(index);
+                    listView.Items[index].Focused = true;
+                }
+            }
         }
 
         private async Task FavAddAsync(IReadOnlyList<long> statusIds, TabClass tab)
@@ -12988,7 +13014,7 @@ namespace OpenTween
                 }
             }
 
-            this.GetTimeline(MyCommon.WORKERTYPE.Related, 1, tabName);
+            this.GetRelatedTweetsAsync(tabRelated);
         }
 
         private void CacheInfoMenuItem_Click(object sender, EventArgs e)
