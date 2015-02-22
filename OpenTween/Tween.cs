@@ -187,13 +187,6 @@ namespace OpenTween
         private DetailsListView _curList;
         private PostClass _curPost;
         private bool _isColumnChanged = false;
-        private bool _waitTimeline = false;
-        private bool _waitReply = false;
-        private bool _waitDm = false;
-        private bool _waitFav = false;
-        private bool _waitPubSearch = false;
-        private bool _waitUserTimeline = false;
-        private bool _waitLists = false;
 
         private const int MAX_WORKER_THREADS = 20;
         private SemaphoreSlim workerSemaphore = new SemaphoreSlim(MAX_WORKER_THREADS);
@@ -1240,7 +1233,7 @@ namespace OpenTween
         private static int ResumeWait = 0;
         private static int refreshFollowers = 0;
 
-        private void TimerTimeline_Elapsed(object sender, EventArgs e)
+        private async void TimerTimeline_Elapsed(object sender, EventArgs e)
         {
             if (homeCounter > 0) Interlocked.Decrement(ref homeCounter);
             if (mentionCounter > 0) Interlocked.Decrement(ref mentionCounter);
@@ -1251,47 +1244,49 @@ namespace OpenTween
             if (usCounter > 0) Interlocked.Decrement(ref usCounter);
             Interlocked.Increment(ref refreshFollowers);
 
+            var refreshTasks = new List<Task>();
+
             ////タイマー初期化
             if (ResetTimers.Timeline || homeCounter <= 0 && this._cfgCommon.TimelinePeriod > 0)
             {
                 Interlocked.Exchange(ref homeCounter, this._cfgCommon.TimelinePeriod);
                 if (!tw.IsUserstreamDataReceived && !ResetTimers.Timeline)
-                    this.GetHomeTimelineAsync();
+                    refreshTasks.Add(this.GetHomeTimelineAsync());
                 ResetTimers.Timeline = false;
             }
             if (ResetTimers.Reply || mentionCounter <= 0 && this._cfgCommon.ReplyPeriod > 0)
             {
                 Interlocked.Exchange(ref mentionCounter, this._cfgCommon.ReplyPeriod);
                 if (!tw.IsUserstreamDataReceived && !ResetTimers.Reply)
-                    this.GetReplyAsync();
+                    refreshTasks.Add(this.GetReplyAsync());
                 ResetTimers.Reply = false;
             }
             if (ResetTimers.DirectMessage || dmCounter <= 0 && this._cfgCommon.DMPeriod > 0)
             {
                 Interlocked.Exchange(ref dmCounter, this._cfgCommon.DMPeriod);
                 if (!tw.IsUserstreamDataReceived && !ResetTimers.DirectMessage)
-                    this.GetDirectMessagesAsync();
+                    refreshTasks.Add(this.GetDirectMessagesAsync());
                 ResetTimers.DirectMessage = false;
             }
             if (ResetTimers.PublicSearch || pubSearchCounter <= 0 && this._cfgCommon.PubSearchPeriod > 0)
             {
                 Interlocked.Exchange(ref pubSearchCounter, this._cfgCommon.PubSearchPeriod);
                 if (!ResetTimers.PublicSearch)
-                    this.GetPublicSearchAllAsync();
+                    refreshTasks.Add(this.GetPublicSearchAllAsync());
                 ResetTimers.PublicSearch = false;
             }
             if (ResetTimers.UserTimeline || userTimelineCounter <= 0 && this._cfgCommon.UserTimelinePeriod > 0)
             {
                 Interlocked.Exchange(ref userTimelineCounter, this._cfgCommon.UserTimelinePeriod);
                 if (!ResetTimers.UserTimeline)
-                    this.GetUserTimelineAllAsync();
+                    refreshTasks.Add(this.GetUserTimelineAllAsync());
                 ResetTimers.UserTimeline = false;
             }
             if (ResetTimers.Lists || listsCounter <= 0 && this._cfgCommon.ListsPeriod > 0)
             {
                 Interlocked.Exchange(ref listsCounter, this._cfgCommon.ListsPeriod);
                 if (!ResetTimers.Lists)
-                    this.GetListTimelineAllAsync();
+                    refreshTasks.Add(this.GetListTimelineAllAsync());
                 ResetTimers.Lists = false;
             }
             if (ResetTimers.UserStream || usCounter <= 0 && this._cfgCommon.UserstreamPeriod > 0)
@@ -1303,9 +1298,12 @@ namespace OpenTween
             if (refreshFollowers > 6 * 3600)
             {
                 Interlocked.Exchange(ref refreshFollowers, 0);
-                doGetFollowersMenu();
-                this.RefreshNoRetweetIdsAsync();
-                this.RefreshTwitterConfigurationAsync();
+                refreshTasks.AddRange(new[]
+                {
+                    this.doGetFollowersMenu(),
+                    this.RefreshNoRetweetIdsAsync(),
+                    this.RefreshTwitterConfigurationAsync(),
+                });
             }
             if (osResumed)
             {
@@ -1314,16 +1312,21 @@ namespace OpenTween
                 {
                     osResumed = false;
                     Interlocked.Exchange(ref ResumeWait, 0);
-                    this.GetHomeTimelineAsync();
-                    this.GetReplyAsync();
-                    this.GetDirectMessagesAsync();
-                    this.GetPublicSearchAllAsync();
-                    this.GetUserTimelineAllAsync();
-                    this.GetListTimelineAllAsync();
-                    doGetFollowersMenu();
-                    this.RefreshTwitterConfigurationAsync();
+                    refreshTasks.AddRange(new[]
+                    {
+                        this.GetHomeTimelineAsync(),
+                        this.GetReplyAsync(),
+                        this.GetDirectMessagesAsync(),
+                        this.GetPublicSearchAllAsync(),
+                        this.GetUserTimelineAllAsync(),
+                        this.GetListTimelineAllAsync(),
+                        this.doGetFollowersMenu(),
+                        this.RefreshTwitterConfigurationAsync(),
+                    });
                 }
             }
+
+            await Task.WhenAll(refreshTasks);
         }
 
         private void RefreshTimeline(bool isUserStream)
@@ -2009,8 +2012,8 @@ namespace OpenTween
                 switch (rtResult)
                 {
                     case DialogResult.Yes:
-                        doReTweetOfficial(false);
                         StatusText.Text = "";
+                        await this.doReTweetOfficial(false);
                         return;
                     case DialogResult.Cancel:
                         return;
@@ -2278,7 +2281,6 @@ namespace OpenTween
             }
             finally
             {
-                this._waitTimeline = false;
                 this.workerSemaphore.Release();
             }
         }
@@ -2372,7 +2374,6 @@ namespace OpenTween
             }
             finally
             {
-                this._waitReply = false;
                 this.workerSemaphore.Release();
             }
         }
@@ -2435,7 +2436,6 @@ namespace OpenTween
             }
             finally
             {
-                this._waitDm = false;
                 this.workerSemaphore.Release();
             }
         }
@@ -2501,7 +2501,6 @@ namespace OpenTween
             }
             finally
             {
-                this._waitFav = false;
                 this.workerSemaphore.Release();
             }
         }
@@ -2571,7 +2570,6 @@ namespace OpenTween
             }
             finally
             {
-                this._waitPubSearch = false;
                 this.workerSemaphore.Release();
             }
         }
@@ -2653,7 +2651,6 @@ namespace OpenTween
             }
             finally
             {
-                this._waitUserTimeline = false;
                 this.workerSemaphore.Release();
             }
         }
@@ -2732,7 +2729,6 @@ namespace OpenTween
             }
             finally
             {
-                this._waitLists = false;
                 this.workerSemaphore.Release();
             }
         }
@@ -3453,7 +3449,7 @@ namespace OpenTween
             }
         }
 
-        private void MyList_MouseDoubleClick(object sender, MouseEventArgs e)
+        private async void MyList_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             switch (this._cfgCommon.ListDoubleClickAction)
             {
@@ -3461,7 +3457,7 @@ namespace OpenTween
                     MakeReplyOrDirectStatus();
                     break;
                 case 1:
-                    FavoriteChange(true);
+                    await this.FavoriteChange(true);
                     break;
                 case 2:
                     if (_curPost != null)
@@ -3485,28 +3481,28 @@ namespace OpenTween
             }
         }
 
-        private void FavAddToolStripMenuItem_Click(object sender, EventArgs e)
+        private async void FavAddToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            FavoriteChange(true);
+            await this.FavoriteChange(true);
         }
 
-        private void FavRemoveToolStripMenuItem_Click(object sender, EventArgs e)
+        private async void FavRemoveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            FavoriteChange(false);
+            await this.FavoriteChange(false);
         }
 
 
-        private void FavoriteRetweetMenuItem_Click(object sender, EventArgs e)
+        private async void FavoriteRetweetMenuItem_Click(object sender, EventArgs e)
         {
-            FavoritesRetweetOriginal();
+            await this.FavoritesRetweetOriginal();
         }
 
-        private void FavoriteRetweetUnofficialMenuItem_Click(object sender, EventArgs e)
+        private async void FavoriteRetweetUnofficialMenuItem_Click(object sender, EventArgs e)
         {
-            FavoritesRetweetUnofficial();
+            await this.FavoritesRetweetUnofficial();
         }
 
-        private void FavoriteChange(bool FavAdd , bool multiFavoriteChangeDialogEnable = true)
+        private async Task FavoriteChange(bool FavAdd , bool multiFavoriteChangeDialogEnable = true)
         {
             TabClass tab;
             if (!this._statuses.Tabs.TryGetValue(this._curTab.Text, out tab))
@@ -3572,9 +3568,9 @@ namespace OpenTween
             }
 
             if (FavAdd)
-                this.FavAddAsync(statusIds, tab);
+                await this.FavAddAsync(statusIds, tab);
             else
-                this.FavRemoveAsync(statusIds, tab);
+                await this.FavRemoveAsync(statusIds, tab);
         }
 
         private PostClass GetCurTabPost(int Index)
@@ -4041,7 +4037,7 @@ namespace OpenTween
             }
         }
 
-        private void DoRefreshMore()
+        private async Task DoRefreshMore()
         {
             //ページ指定をマイナス1に
             if (_curTab != null)
@@ -4053,13 +4049,13 @@ namespace OpenTween
                 switch (_statuses.Tabs[_curTab.Text].TabType)
                 {
                     case MyCommon.TabUsageType.Mentions:
-                        this.GetReplyAsync(loadMore: true);
+                        await this.GetReplyAsync(loadMore: true);
                         break;
                     case MyCommon.TabUsageType.DirectMessage:
-                        this.GetDirectMessagesAsync(loadMore: true);
+                        await this.GetDirectMessagesAsync(loadMore: true);
                         break;
                     case MyCommon.TabUsageType.Favorites:
-                        this.GetFavoritesAsync(loadMore: true);
+                        await this.GetFavoritesAsync(loadMore: true);
                         break;
                     case MyCommon.TabUsageType.Profile:
                         //// TODO
@@ -4067,24 +4063,24 @@ namespace OpenTween
                     case MyCommon.TabUsageType.PublicSearch:
                         // TODO
                         if (string.IsNullOrEmpty(tab.SearchWords)) return;
-                        this.GetPublicSearchAsync(tab, loadMore: true);
+                        await this.GetPublicSearchAsync(tab, loadMore: true);
                         break;
                     case MyCommon.TabUsageType.UserTimeline:
-                        this.GetUserTimelineAsync(tab, loadMore: true);
+                        await this.GetUserTimelineAsync(tab, loadMore: true);
                         break;
                     case MyCommon.TabUsageType.Lists:
                         //// TODO
                         if (tab.ListInfo == null || tab.ListInfo.Id == 0) return;
-                        this.GetListTimelineAsync(tab, loadMore: true);
+                        await this.GetListTimelineAsync(tab, loadMore: true);
                         break;
                     default:
-                        this.GetHomeTimelineAsync(loadMore: true);
+                        await this.GetHomeTimelineAsync(loadMore: true);
                         break;
                 }
             }
             else
             {
-                this.GetHomeTimelineAsync(loadMore: true);
+                await this.GetHomeTimelineAsync(loadMore: true);
             }
         }
 
@@ -4123,7 +4119,7 @@ namespace OpenTween
             return result;
         }
 
-        private void SettingStripMenuItem_Click(object sender, EventArgs e)
+        private async void SettingStripMenuItem_Click(object sender, EventArgs e)
         {
             // 設定画面表示前のユーザー情報
             var oldUser = new { tw.AccessToken, tw.AccessTokenSecret, tw.Username, tw.UserId };
@@ -4340,9 +4336,6 @@ namespace OpenTween
                         _hookGlobalHotkey.RegisterOriginalHotkey(this._cfgCommon.HotkeyKey, this._cfgCommon.HotkeyValue, modKey);
                     }
 
-                    if (tw.Username != oldUser.Username)
-                        this.doGetFollowersMenu();
-
                     if (this._cfgCommon.IsUseNotifyGrowl) gh.RegisterGrowl();
                     try
                     {
@@ -4363,6 +4356,9 @@ namespace OpenTween
 
             this.TopMost = this._cfgCommon.AlwaysTop;
             SaveConfigsAll(false);
+
+            if (tw.Username != oldUser.Username)
+                await this.doGetFollowersMenu();
         }
 
         /// <summary>
@@ -8143,7 +8139,7 @@ namespace OpenTween
 
             try
             {
-                this.OpenRelatedTab(post);
+                await this.OpenRelatedTab(post);
             }
             catch (TabException ex)
             {
@@ -11060,35 +11056,36 @@ namespace OpenTween
 
             if (this.IsNetworkAvailable())
             {
-                this.RefreshMuteUserIdsAsync();
-                this.RefreshBlockIdsAsync();
-                this.RefreshNoRetweetIdsAsync();
-                if (this._cfgCommon.StartupFollowers)
-                    this.RefreshFollowerIdsAsync();
-                this.RefreshTwitterConfigurationAsync();
                 StartUserStream();
-                _waitTimeline = true;
-                this.GetHomeTimelineAsync();
-                _waitReply = true;
-                this.GetReplyAsync();
-                _waitDm = true;
-                this.GetDirectMessagesAsync();
-                if (this._cfgCommon.GetFav)
+
+                var loadTasks = new List<Task>
                 {
-                    _waitFav = true;
-                    this.GetFavoritesAsync();
-                }
-                _waitPubSearch = true;
-                this.GetPublicSearchAllAsync();
-                _waitUserTimeline = true;
-                this.GetUserTimelineAllAsync();
-                _waitLists = true;
-                this.GetListTimelineAllAsync();
+                    this.RefreshMuteUserIdsAsync(),
+                    this.RefreshBlockIdsAsync(),
+                    this.RefreshNoRetweetIdsAsync(),
+                    this.RefreshTwitterConfigurationAsync(),
+                    this.GetHomeTimelineAsync(),
+                    this.GetReplyAsync(),
+                    this.GetDirectMessagesAsync(),
+                    this.GetPublicSearchAllAsync(),
+                    this.GetUserTimelineAllAsync(),
+                    this.GetListTimelineAllAsync(),
+                };
+
+                if (this._cfgCommon.StartupFollowers)
+                    loadTasks.Add(this.RefreshFollowerIdsAsync());
+
+                if (this._cfgCommon.GetFav)
+                    loadTasks.Add(this.GetFavoritesAsync());
+
+                var allTasks = Task.WhenAll(loadTasks);
 
                 var i = 0;
-                while (this.IsInitialRead())
+                while (true)
                 {
-                    await Task.Delay(5000);
+                    var timeout = Task.Delay(5000);
+                    if (await Task.WhenAny(allTasks, timeout) != timeout)
+                        break;
 
                     i += 1;
                     if (i > 24) break; // 120秒間初期処理が終了しなかったら強制的に打ち切る
@@ -11113,18 +11110,6 @@ namespace OpenTween
                     this.ToolStripSeparator16.Available = false; // VerUpMenuItem の一つ上にあるセパレータ
                 }
 
-                // 取得失敗の場合は再試行する
-                if (!tw.GetFollowersSuccess && this._cfgCommon.StartupFollowers)
-                    this.RefreshFollowerIdsAsync();
-
-                // 取得失敗の場合は再試行する
-                if (!tw.GetNoRetweetSuccess)
-                    this.RefreshNoRetweetIdsAsync();
-
-                // 取得失敗の場合は再試行する
-                if (this.tw.Configuration.PhotoSizeLimit == 0)
-                    this.RefreshTwitterConfigurationAsync();
-
                 // 権限チェック read/write権限(xAuthで取得したトークン)の場合は再認証を促す
                 if (MyCommon.TwitterApiInfo.AccessLevel == TwitterApiAccessLevel.ReadWrite)
                 {
@@ -11132,27 +11117,35 @@ namespace OpenTween
                     SettingStripMenuItem_Click(null, null);
                 }
 
-                //
+                // 取得失敗の場合は再試行する
+                var reloadTasks = new List<Task>();
+
+                if (!tw.GetFollowersSuccess && this._cfgCommon.StartupFollowers)
+                    reloadTasks.Add(this.RefreshFollowerIdsAsync());
+
+                if (!tw.GetNoRetweetSuccess)
+                    reloadTasks.Add(this.RefreshNoRetweetIdsAsync());
+
+                if (this.tw.Configuration.PhotoSizeLimit == 0)
+                    reloadTasks.Add(this.RefreshTwitterConfigurationAsync());
+
+                await Task.WhenAll(reloadTasks);
             }
+
             _initial = false;
 
             TimerTimeline.Enabled = true;
         }
 
-        private bool IsInitialRead()
+        private async Task doGetFollowersMenu()
         {
-            return _waitTimeline || _waitReply || _waitDm || _waitFav || _waitPubSearch || _waitUserTimeline || _waitLists;
-        }
-
-        private void doGetFollowersMenu()
-        {
-            this.RefreshFollowerIdsAsync();
+            await this.RefreshFollowerIdsAsync();
             DispSelectedPost(true);
         }
 
-        private void GetFollowersAllToolStripMenuItem_Click(object sender, EventArgs e)
+        private async void GetFollowersAllToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            doGetFollowersMenu();
+            await this.doGetFollowersMenu();
         }
 
         private void doReTweetUnofficial()
@@ -11186,7 +11179,7 @@ namespace OpenTween
             doReTweetUnofficial();
         }
 
-        private void doReTweetOfficial(bool isConfirm)
+        private async Task doReTweetOfficial(bool isConfirm)
         {
             //公式RT
             if (this.ExistCurrentPost)
@@ -11242,33 +11235,33 @@ namespace OpenTween
                         statusIds.Add(post.StatusId);
                 }
 
-                this.RetweetAsync(statusIds);
+                await this.RetweetAsync(statusIds);
             }
         }
 
-        private void ReTweetOriginalStripMenuItem_Click(object sender, EventArgs e)
+        private async void ReTweetOriginalStripMenuItem_Click(object sender, EventArgs e)
         {
-            doReTweetOfficial(true);
+            await this.doReTweetOfficial(true);
         }
 
-        private void FavoritesRetweetOriginal()
+        private async Task FavoritesRetweetOriginal()
         {
             if (!this.ExistCurrentPost) return;
             _DoFavRetweetFlags = true;
-            doReTweetOfficial(true);
+            await this.doReTweetOfficial(true);
             if (_DoFavRetweetFlags)
             {
                 _DoFavRetweetFlags = false;
-                FavoriteChange(true, false);
+                await this.FavoriteChange(true, false);
             }
         }
 
-        private void FavoritesRetweetUnofficial()
+        private async Task FavoritesRetweetUnofficial()
         {
             if (this.ExistCurrentPost && !_curPost.IsDm)
             {
                 _DoFavRetweetFlags = true;
-                FavoriteChange(true);
+                await this.FavoriteChange(true);
                 if (!_curPost.IsProtect && _DoFavRetweetFlags)
                 {
                     _DoFavRetweetFlags = false;
@@ -11844,10 +11837,10 @@ namespace OpenTween
             listView.Focus();
         }
 
-        private void RefreshMoreStripMenuItem_Click(object sender, EventArgs e)
+        private async void RefreshMoreStripMenuItem_Click(object sender, EventArgs e)
         {
             //もっと前を取得
-            this.DoRefreshMore();
+            await this.DoRefreshMore();
         }
 
         private void UndoRemoveTabMenuItem_Click(object sender, EventArgs e)
@@ -12748,13 +12741,13 @@ namespace OpenTween
             }
         }
 
-        private void ShowRelatedStatusesMenuItem_Click(object sender, EventArgs e) // Handles ShowRelatedStatusesMenuItem.Click, ShowRelatedStatusesMenuItem2.Click
+        private async void ShowRelatedStatusesMenuItem_Click(object sender, EventArgs e)
         {
             if (this.ExistCurrentPost && !_curPost.IsDm)
             {
                 try
                 {
-                    this.OpenRelatedTab(this._curPost);
+                    await this.OpenRelatedTab(this._curPost);
                 }
                 catch (TabException ex)
                 {
@@ -12768,7 +12761,7 @@ namespace OpenTween
         /// </summary>
         /// <param name="post">表示する対象となるツイート</param>
         /// <exception cref="TabException">名前の重複が多すぎてタブを作成できない場合</exception>
-        private void OpenRelatedTab(PostClass post)
+        private async Task OpenRelatedTab(PostClass post)
         {
             var tabRelated = this._statuses.GetTabByType(MyCommon.TabUsageType.Related);
             string tabName;
@@ -12803,7 +12796,7 @@ namespace OpenTween
                 }
             }
 
-            this.GetRelatedTweetsAsync(tabRelated);
+            await this.GetRelatedTweetsAsync(tabRelated);
         }
 
         private void CacheInfoMenuItem_Click(object sender, EventArgs e)
