@@ -1319,7 +1319,8 @@ namespace OpenTween
             if (ResetTimers.Lists || listsCounter <= 0 && this._cfgCommon.ListsPeriod > 0)
             {
                 Interlocked.Exchange(ref listsCounter, this._cfgCommon.ListsPeriod);
-                if (!ResetTimers.Lists) GetTimeline(MyCommon.WORKERTYPE.List, 1, "");
+                if (!ResetTimers.Lists)
+                    this.GetListTimelineAllAsync();
                 ResetTimers.Lists = false;
             }
             if (ResetTimers.UserStream || usCounter <= 0 && this._cfgCommon.UserstreamPeriod > 0)
@@ -1347,7 +1348,7 @@ namespace OpenTween
                     this.GetDirectMessagesAsync();
                     this.GetPublicSearchAllAsync();
                     this.GetUserTimelineAllAsync();
-                    GetTimeline(MyCommon.WORKERTYPE.List, 1, "");
+                    this.GetListTimelineAllAsync();
                     doGetFollowersMenu();
                     this.RefreshTwitterConfigurationAsync();
                 }
@@ -2318,29 +2319,6 @@ namespace OpenTween
 
             switch (args.type)
             {
-                case MyCommon.WORKERTYPE.List:
-                    bw.ReportProgress(50, MakeStatusMessage(args, false));
-                    if (string.IsNullOrEmpty(args.tName))
-                    {
-                        //定期更新
-                        foreach (TabClass tb in _statuses.GetTabsByType(MyCommon.TabUsageType.Lists))
-                        {
-                            if (tb.ListInfo != null && tb.ListInfo.Id != 0) ret = tw.GetListStatus(read, tb, false, _initial);
-                        }
-                    }
-                    else
-                    {
-                        //手動更新（特定タブのみ更新）
-                        TabClass tb = _statuses.GetTabByName(args.tName);
-                        if (tb != null)
-                        {
-                            ret = tw.GetListStatus(read, tb, args.page == -1, _initial);
-                        }
-                    }
-                    //振り分け
-                    rslt.addCount = _statuses.DistributePosts();
-                    break;
-
                 case MyCommon.WORKERTYPE.Related:
                 {
                     bw.ReportProgress(50, MakeStatusMessage(args, false));
@@ -2384,9 +2362,6 @@ namespace OpenTween
                 //継続中メッセージ
                 switch (AsyncArg.type)
                 {
-                    case MyCommon.WORKERTYPE.List:
-                        smsg = "List refreshing...";
-                        break;
                     case MyCommon.WORKERTYPE.Related:
                         smsg = "Related refreshing...";
                         break;
@@ -2397,9 +2372,6 @@ namespace OpenTween
                 //完了メッセージ
                 switch (AsyncArg.type)
                 {
-                    case MyCommon.WORKERTYPE.List:
-                        smsg = "List refreshed";
-                        break;
                     case MyCommon.WORKERTYPE.Related:
                         smsg = "Related refreshed";
                         break;
@@ -2428,7 +2400,6 @@ namespace OpenTween
             if (e.Error != null)
             {
                 _myStatusError = true;
-                _waitLists = false;
                 throw new Exception("BackgroundWorker Exception", e.Error);
             }
 
@@ -2454,17 +2425,13 @@ namespace OpenTween
             //    }
             //}
             //if (!busy) RefreshTimeline(); //background処理なければ、リスト反映
-            if (rslt.type == MyCommon.WORKERTYPE.List ||
-                rslt.type == MyCommon.WORKERTYPE.Related)
+            if (rslt.type == MyCommon.WORKERTYPE.Related)
             {
                 RefreshTimeline(false); //リスト反映
             }
 
             switch (rslt.type)
             {
-                case MyCommon.WORKERTYPE.List:
-                    _waitLists = false;
-                    break;
                 case MyCommon.WORKERTYPE.Related:
                     TabClass tab = _statuses.GetTabByType(MyCommon.TabUsageType.Related);
                     if (tab != null && tab.RelationTargetPost != null && tab.Contains(tab.RelationTargetPost.StatusId))
@@ -2924,6 +2891,81 @@ namespace OpenTween
                 return;
 
             p.Report("UserTimeline refreshed");
+
+            this.RefreshTimeline(false);
+        }
+
+        private Task GetListTimelineAllAsync()
+        {
+            return this.GetListTimelineAsync(null, loadMore: false);
+        }
+
+        private Task GetListTimelineAsync(TabClass tab)
+        {
+            return this.GetListTimelineAsync(tab, loadMore: false);
+        }
+
+        private async Task GetListTimelineAsync(TabClass tab, bool loadMore)
+        {
+            await this.workerSemaphore.WaitAsync();
+
+            try
+            {
+                var progress = new Progress<string>(x => this.StatusLabel.Text = x);
+
+                var tabs = tab != null
+                    ? new[] { tab }.AsEnumerable()
+                    : this._statuses.GetTabsByType(MyCommon.TabUsageType.Lists);
+
+                await this.GetListTimelineAsyncInternal(progress, this.workerCts.Token, tabs, loadMore);
+            }
+            catch (WebApiException ex)
+            {
+                this._myStatusError = true;
+                this.StatusLabel.Text = ex.Message;
+            }
+            finally
+            {
+                this._waitLists = false;
+                this.workerSemaphore.Release();
+            }
+        }
+
+        private async Task GetListTimelineAsyncInternal(IProgress<string> p, CancellationToken ct, IEnumerable<TabClass> tabs, bool loadMore)
+        {
+            if (ct.IsCancellationRequested)
+                return;
+
+            if (!CheckAccountValid())
+                throw new WebApiException("Auth error. Check your account");
+
+            bool read;
+            if (!this._cfgCommon.UnreadManage)
+                read = true;
+            else
+                read = this._initial && this._cfgCommon.Read;
+
+            p.Report("List refreshing...");
+
+            await Task.Run(() =>
+            {
+                foreach (var tab in tabs)
+                {
+                    if (tab.ListInfo == null || tab.ListInfo.Id == 0)
+                        continue;
+
+                    var err = this.tw.GetListStatus(read, tab, loadMore, this._initial);
+                    if (!string.IsNullOrEmpty(err))
+                        throw new WebApiException(err);
+                }
+
+                this._statuses.DistributePosts();
+            });
+
+            if (ct.IsCancellationRequested)
+                return;
+
+            p.Report("List refreshed");
 
             this.RefreshTimeline(false);
         }
@@ -4124,7 +4166,7 @@ namespace OpenTween
                     case MyCommon.TabUsageType.Lists:
                         //// TODO
                         if (tab.ListInfo == null || tab.ListInfo.Id == 0) return;
-                        GetTimeline(MyCommon.WORKERTYPE.List, 1, _curTab.Text);
+                        this.GetListTimelineAsync(tab);
                         break;
                     default:
                         this.GetHomeTimelineAsync();
@@ -4171,7 +4213,7 @@ namespace OpenTween
                     case MyCommon.TabUsageType.Lists:
                         //// TODO
                         if (tab.ListInfo == null || tab.ListInfo.Id == 0) return;
-                        GetTimeline(MyCommon.WORKERTYPE.List, -1, _curTab.Text);
+                        this.GetListTimelineAsync(tab, loadMore: true);
                         break;
                     default:
                         this.GetHomeTimelineAsync(loadMore: true);
@@ -9120,7 +9162,8 @@ namespace OpenTween
                     {
                         ListTab.SelectedIndex = ListTab.TabPages.Count - 1;
                         ListTabSelect(ListTab.TabPages[ListTab.TabPages.Count - 1]);
-                        GetTimeline(MyCommon.WORKERTYPE.List, 1, tabName);
+                        var tab = this._statuses.Tabs[this._curTab.Name];
+                        this.GetListTimelineAsync(tab);
                     }
                 }
             }
@@ -11225,7 +11268,7 @@ namespace OpenTween
                 _waitUserTimeline = true;
                 this.GetUserTimelineAllAsync();
                 _waitLists = true;
-                GetTimeline(MyCommon.WORKERTYPE.List, 1, "");  //tabname="":全タブ
+                this.GetListTimelineAllAsync();
 
                 var i = 0;
                 while (this.IsInitialRead())
