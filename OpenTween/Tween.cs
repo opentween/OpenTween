@@ -197,7 +197,6 @@ namespace OpenTween
 
         private const int MAX_WORKER_THREADS = 20;
         private SemaphoreSlim workerSemaphore = new SemaphoreSlim(MAX_WORKER_THREADS);
-        private BackgroundWorker[] _bw = new BackgroundWorker[MAX_WORKER_THREADS];
         private CancellationTokenSource workerCts = new CancellationTokenSource();
 
         private int UnreadCounter = -1;
@@ -245,29 +244,6 @@ namespace OpenTween
 
         private Stack<ReplyChain> replyChains; //[, ]でのリプライ移動の履歴
         private Stack<Tuple<TabPage, PostClass>> selectPostChains = new Stack<Tuple<TabPage, PostClass>>(); //ポスト選択履歴
-
-        //Backgroundworkerの処理結果通知用引数構造体
-        private class GetWorkerResult
-        {
-            public string retMsg = "";                     //処理結果詳細メッセージ。エラー時に値がセットされる
-            public MyCommon.WORKERTYPE type;                   //処理種別
-            public string tName = "";                  //Fav追加・削除時のタブ名
-            public List<long> sIds = null;                  //Fav追加・削除成功分のID
-            public bool newDM = false;
-            public int addCount;
-            public PostingStatus status;
-        }
-
-        //Backgroundworkerへ処理内容を通知するための引数用構造体
-        private class GetWorkerArg
-        {
-            public int page;                      //処理対象ページ番号
-            public MyCommon.WORKERTYPE type;                   //処理種別
-            public PostingStatus status = new PostingStatus();          //発言POST時の発言内容
-            public List<long> ids;               //Fav追加・削除時のItemIndex
-            public List<long> sIds;              //Fav追加・削除成功分のItemIndex
-            public string tName = "";            //Fav追加・削除時のタブ名
-        }
 
         //検索処理タイプ
         private enum SEARCHTYPE
@@ -352,11 +328,6 @@ namespace OpenTween
 
                 this.workerCts.Cancel();
 
-                foreach (BackgroundWorker bw in _bw)
-                {
-                    if (bw != null)
-                        bw.Dispose();
-                }
                 if (IconCache != null)
                 {
                     this.IconCache.CancelAsync();
@@ -2285,126 +2256,6 @@ namespace OpenTween
             return true;
         }
 
-        private void GetTimelineWorker_DoWork(object sender, DoWorkEventArgs e)
-        {
-            BackgroundWorker bw = (BackgroundWorker)sender;
-            if (bw.CancellationPending || MyCommon._endingFlag)
-            {
-                e.Cancel = true;
-                return;
-            }
-
-            Thread.CurrentThread.Priority = ThreadPriority.BelowNormal;
-
-            MyApplication.InitCulture();
-
-            string ret = "";
-            GetWorkerResult rslt = new GetWorkerResult();
-
-            bool read = !this._cfgCommon.UnreadManage;
-            if (_initial && this._cfgCommon.UnreadManage) read = this._cfgCommon.Read;
-
-            GetWorkerArg args = (GetWorkerArg)e.Argument;
-
-            if (!CheckAccountValid())
-            {
-                rslt.retMsg = "Auth error. Check your account";
-                rslt.type = MyCommon.WORKERTYPE.ErrorState;  //エラー表示のみ行ない、後処理キャンセル
-                rslt.tName = args.tName;
-                e.Result = rslt;
-                return;
-            }
-
-            bw.ReportProgress(0, ""); //Notifyアイコンアニメーション開始
-
-            switch (args.type)
-            {
-                case MyCommon.WORKERTYPE.BlockIds:
-                    bw.ReportProgress(50, Properties.Resources.UpdateBlockUserText1);
-                    try
-                    {
-                        tw.RefreshBlockIds();
-                    }
-                    catch (WebApiException ex) { ret = ex.Message; }
-                    break;
-            }
-            //キャンセル要求
-            if (bw.CancellationPending)
-            {
-                e.Cancel = true;
-                return;
-            }
-
-            //終了ステータス
-            bw.ReportProgress(100, MakeStatusMessage(args, true)); //ステータス書き換え、Notifyアイコンアニメーション開始
-
-            rslt.retMsg = ret;
-            rslt.type = args.type;
-            rslt.tName = args.tName;
-
-            e.Result = rslt;
-        }
-
-        private string MakeStatusMessage(GetWorkerArg AsyncArg, bool Finish)
-        {
-            string smsg = "";
-            if (Finish)
-            {
-                //完了メッセージ
-                switch (AsyncArg.type)
-                {
-                    case MyCommon.WORKERTYPE.BlockIds:
-                        smsg = Properties.Resources.UpdateBlockUserText3;
-                        break;
-                }
-            }
-            return smsg;
-        }
-
-        private void GetTimelineWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
-        {
-            if (MyCommon._endingFlag) return;
-            if (e.ProgressPercentage <= 100)
-            {
-                string smsg = (string)e.UserState;
-                if (smsg.Length > 0) StatusLabel.Text = smsg;
-            }
-        }
-
-        private void GetTimelineWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-        {
-            if (MyCommon._endingFlag || e.Cancelled) return; //キャンセル
-
-            if (e.Error != null)
-            {
-                _myStatusError = true;
-                throw new Exception("BackgroundWorker Exception", e.Error);
-            }
-
-            GetWorkerResult rslt = (GetWorkerResult)e.Result;
-
-            //エラー
-            if (rslt.retMsg.Length > 0)
-            {
-                _myStatusError = true;
-                StatusLabel.Text = rslt.retMsg;
-            }
-
-            if (rslt.type == MyCommon.WORKERTYPE.ErrorState) return;
-
-            //リストに反映
-            //bool busy = false;
-            //foreach (BackgroundWorker bw in _bw)
-            //{
-            //    if (bw != null && bw.IsBusy)
-            //    {
-            //        busy = true;
-            //        break;
-            //    }
-            //}
-            //if (!busy) RefreshTimeline(); //background処理なければ、リスト反映
-        }
-
         private Task GetHomeTimelineAsync()
         {
             return this.GetHomeTimelineAsync(loadMore: false);
@@ -3453,6 +3304,27 @@ namespace OpenTween
             }
         }
 
+        private async Task RefreshBlockIdsAsync()
+        {
+            await this.workerSemaphore.WaitAsync();
+            try
+            {
+                this.StatusLabel.Text = Properties.Resources.UpdateBlockUserText1;
+
+                await Task.Run(() => tw.RefreshBlockIds());
+
+                this.StatusLabel.Text = Properties.Resources.UpdateBlockUserText3;
+            }
+            catch (WebApiException ex)
+            {
+                this.StatusLabel.Text = ex.Message;
+            }
+            finally
+            {
+                this.workerSemaphore.Release();
+            }
+        }
+
         private async Task RefreshTwitterConfigurationAsync()
         {
             await this.workerSemaphore.WaitAsync();
@@ -3565,42 +3437,6 @@ namespace OpenTween
                     }
                 }
             }
-        }
-
-        private static Dictionary<MyCommon.WORKERTYPE, DateTime> lastTime = new Dictionary<MyCommon.WORKERTYPE, DateTime>();
-
-        private void GetTimeline(MyCommon.WORKERTYPE WkType, int fromPage, string tabName)
-        {
-            if (!this.IsNetworkAvailable()) return;
-
-            //非同期実行引数設定
-            GetWorkerArg args = new GetWorkerArg();
-            args.page = fromPage;
-            args.type = WkType;
-            args.tName = tabName;
-
-            if (!lastTime.ContainsKey(WkType)) lastTime.Add(WkType, new DateTime());
-            double period = DateTime.Now.Subtract(lastTime[WkType]).TotalSeconds;
-            if (period > 1 || period < -1)
-            {
-                lastTime[WkType] = DateTime.Now;
-                RunAsync(args);
-            }
-
-            //Timeline取得モードの場合はReplyも同時に取得
-            //if (!SettingDialog.UseAPI &&
-            //   !_initial &&
-            //   WkType == MyCommon.WORKERTYPE.Timeline &&
-            //   SettingDialog.CheckReply)
-            //{
-            //    //TimerReply.Enabled = false;
-            //    _mentionCounter = SettingDialog.ReplyPeriodInt;
-            //    GetWorkerArg _args = new GetWorkerArg();
-            //    _args.page = fromPage;
-            //    _args.endPage = toPage;
-            //    _args.type = MyCommon.WORKERTYPE.Reply;
-            //    RunAsync(_args);
-            //}
         }
 
         private void NotifyIcon1_MouseClick(object sender, MouseEventArgs e)
@@ -11194,53 +11030,6 @@ namespace OpenTween
             if (flg) LView.Invalidate(bnd);
         }
 
-        private async Task RunAsync(GetWorkerArg args)
-        {
-            BackgroundWorker bw = null;
-
-            await this.workerSemaphore.WaitAsync();
-
-            for (int i = 0; i < _bw.Length; i++)
-            {
-                if (_bw[i] != null && !_bw[i].IsBusy)
-                {
-                    bw = _bw[i];
-                    break;
-                }
-            }
-            if (bw == null)
-            {
-                for (int i = 0; i < _bw.Length; i++)
-                {
-                    if (_bw[i] == null)
-                    {
-                        _bw[i] = new BackgroundWorker();
-                        bw = _bw[i];
-                        bw.WorkerReportsProgress = true;
-                        bw.WorkerSupportsCancellation = true;
-                        bw.DoWork += GetTimelineWorker_DoWork;
-                        bw.ProgressChanged += GetTimelineWorker_ProgressChanged;
-                        bw.RunWorkerCompleted += (s, e) =>
-                        {
-                            try
-                            {
-                                this.GetTimelineWorker_RunWorkerCompleted(s, e);
-                            }
-                            finally
-                            {
-                                this.workerSemaphore.Release();
-                            }
-                        };
-                        break;
-                    }
-                }
-            }
-
-            if (bw == null) return;
-
-            bw.RunWorkerAsync(args);
-        }
-
         private void StartUserStream()
         {
             tw.NewPostFromStream += tw_NewPostFromStream;
@@ -11272,7 +11061,7 @@ namespace OpenTween
             if (this.IsNetworkAvailable())
             {
                 this.RefreshMuteUserIdsAsync();
-                GetTimeline(MyCommon.WORKERTYPE.BlockIds, 0, "");
+                this.RefreshBlockIdsAsync();
                 this.RefreshNoRetweetIdsAsync();
                 if (this._cfgCommon.StartupFollowers)
                     this.RefreshFollowerIdsAsync();
