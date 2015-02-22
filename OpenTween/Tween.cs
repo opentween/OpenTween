@@ -187,15 +187,10 @@ namespace OpenTween
         private DetailsListView _curList;
         private PostClass _curPost;
         private bool _isColumnChanged = false;
-        private bool _waitTimeline = false;
-        private bool _waitReply = false;
-        private bool _waitDm = false;
-        private bool _waitFav = false;
-        private bool _waitPubSearch = false;
-        private bool _waitUserTimeline = false;
-        private bool _waitLists = false;
-        private BackgroundWorker[] _bw = new BackgroundWorker[20];
-        private BackgroundWorker _bwFollower;
+
+        private const int MAX_WORKER_THREADS = 20;
+        private SemaphoreSlim workerSemaphore = new SemaphoreSlim(MAX_WORKER_THREADS);
+        private CancellationTokenSource workerCts = new CancellationTokenSource();
 
         private int UnreadCounter = -1;
         private int UnreadAtCounter = -1;
@@ -242,29 +237,6 @@ namespace OpenTween
 
         private Stack<ReplyChain> replyChains; //[, ]でのリプライ移動の履歴
         private Stack<Tuple<TabPage, PostClass>> selectPostChains = new Stack<Tuple<TabPage, PostClass>>(); //ポスト選択履歴
-
-        //Backgroundworkerの処理結果通知用引数構造体
-        private class GetWorkerResult
-        {
-            public string retMsg = "";                     //処理結果詳細メッセージ。エラー時に値がセットされる
-            public MyCommon.WORKERTYPE type;                   //処理種別
-            public string tName = "";                  //Fav追加・削除時のタブ名
-            public List<long> sIds = null;                  //Fav追加・削除成功分のID
-            public bool newDM = false;
-            public int addCount;
-            public PostingStatus status;
-        }
-
-        //Backgroundworkerへ処理内容を通知するための引数用構造体
-        private class GetWorkerArg
-        {
-            public int page;                      //処理対象ページ番号
-            public MyCommon.WORKERTYPE type;                   //処理種別
-            public PostingStatus status = new PostingStatus();          //発言POST時の発言内容
-            public List<long> ids;               //Fav追加・削除時のItemIndex
-            public List<long> sIds;              //Fav追加・削除成功分のItemIndex
-            public string tName = "";            //Fav追加・削除時のタブ名
-        }
 
         //検索処理タイプ
         private enum SEARCHTYPE
@@ -346,15 +318,9 @@ namespace OpenTween
                 if (_brsDeactiveSelection != null) _brsDeactiveSelection.Dispose();
                 //sf.Dispose();
                 sfTab.Dispose();
-                foreach (BackgroundWorker bw in _bw)
-                {
-                    if (bw != null)
-                        bw.Dispose();
-                }
-                if (_bwFollower != null)
-                {
-                    _bwFollower.Dispose();
-                }
+
+                this.workerCts.Cancel();
+
                 if (IconCache != null)
                 {
                     this.IconCache.CancelAsync();
@@ -1267,7 +1233,7 @@ namespace OpenTween
         private static int ResumeWait = 0;
         private static int refreshFollowers = 0;
 
-        private void TimerTimeline_Elapsed(object sender, EventArgs e)
+        private async void TimerTimeline_Elapsed(object sender, EventArgs e)
         {
             if (homeCounter > 0) Interlocked.Decrement(ref homeCounter);
             if (mentionCounter > 0) Interlocked.Decrement(ref mentionCounter);
@@ -1278,41 +1244,49 @@ namespace OpenTween
             if (usCounter > 0) Interlocked.Decrement(ref usCounter);
             Interlocked.Increment(ref refreshFollowers);
 
+            var refreshTasks = new List<Task>();
+
             ////タイマー初期化
             if (ResetTimers.Timeline || homeCounter <= 0 && this._cfgCommon.TimelinePeriod > 0)
             {
                 Interlocked.Exchange(ref homeCounter, this._cfgCommon.TimelinePeriod);
-                if (!tw.IsUserstreamDataReceived && !ResetTimers.Timeline) GetTimeline(MyCommon.WORKERTYPE.Timeline, 1, "");
+                if (!tw.IsUserstreamDataReceived && !ResetTimers.Timeline)
+                    refreshTasks.Add(this.GetHomeTimelineAsync());
                 ResetTimers.Timeline = false;
             }
             if (ResetTimers.Reply || mentionCounter <= 0 && this._cfgCommon.ReplyPeriod > 0)
             {
                 Interlocked.Exchange(ref mentionCounter, this._cfgCommon.ReplyPeriod);
-                if (!tw.IsUserstreamDataReceived && !ResetTimers.Reply) GetTimeline(MyCommon.WORKERTYPE.Reply, 1, "");
+                if (!tw.IsUserstreamDataReceived && !ResetTimers.Reply)
+                    refreshTasks.Add(this.GetReplyAsync());
                 ResetTimers.Reply = false;
             }
             if (ResetTimers.DirectMessage || dmCounter <= 0 && this._cfgCommon.DMPeriod > 0)
             {
                 Interlocked.Exchange(ref dmCounter, this._cfgCommon.DMPeriod);
-                if (!tw.IsUserstreamDataReceived && !ResetTimers.DirectMessage) GetTimeline(MyCommon.WORKERTYPE.DirectMessegeRcv, 1, "");
+                if (!tw.IsUserstreamDataReceived && !ResetTimers.DirectMessage)
+                    refreshTasks.Add(this.GetDirectMessagesAsync());
                 ResetTimers.DirectMessage = false;
             }
             if (ResetTimers.PublicSearch || pubSearchCounter <= 0 && this._cfgCommon.PubSearchPeriod > 0)
             {
                 Interlocked.Exchange(ref pubSearchCounter, this._cfgCommon.PubSearchPeriod);
-                if (!ResetTimers.PublicSearch) GetTimeline(MyCommon.WORKERTYPE.PublicSearch, 1, "");
+                if (!ResetTimers.PublicSearch)
+                    refreshTasks.Add(this.GetPublicSearchAllAsync());
                 ResetTimers.PublicSearch = false;
             }
             if (ResetTimers.UserTimeline || userTimelineCounter <= 0 && this._cfgCommon.UserTimelinePeriod > 0)
             {
                 Interlocked.Exchange(ref userTimelineCounter, this._cfgCommon.UserTimelinePeriod);
-                if (!ResetTimers.UserTimeline) GetTimeline(MyCommon.WORKERTYPE.UserTimeline, 1, "");
+                if (!ResetTimers.UserTimeline)
+                    refreshTasks.Add(this.GetUserTimelineAllAsync());
                 ResetTimers.UserTimeline = false;
             }
             if (ResetTimers.Lists || listsCounter <= 0 && this._cfgCommon.ListsPeriod > 0)
             {
                 Interlocked.Exchange(ref listsCounter, this._cfgCommon.ListsPeriod);
-                if (!ResetTimers.Lists) GetTimeline(MyCommon.WORKERTYPE.List, 1, "");
+                if (!ResetTimers.Lists)
+                    refreshTasks.Add(this.GetListTimelineAllAsync());
                 ResetTimers.Lists = false;
             }
             if (ResetTimers.UserStream || usCounter <= 0 && this._cfgCommon.UserstreamPeriod > 0)
@@ -1324,9 +1298,12 @@ namespace OpenTween
             if (refreshFollowers > 6 * 3600)
             {
                 Interlocked.Exchange(ref refreshFollowers, 0);
-                doGetFollowersMenu();
-                GetTimeline(MyCommon.WORKERTYPE.NoRetweetIds, 0, "");
-                GetTimeline(MyCommon.WORKERTYPE.Configuration, 0, "");
+                refreshTasks.AddRange(new[]
+                {
+                    this.doGetFollowersMenu(),
+                    this.RefreshNoRetweetIdsAsync(),
+                    this.RefreshTwitterConfigurationAsync(),
+                });
             }
             if (osResumed)
             {
@@ -1335,16 +1312,21 @@ namespace OpenTween
                 {
                     osResumed = false;
                     Interlocked.Exchange(ref ResumeWait, 0);
-                    GetTimeline(MyCommon.WORKERTYPE.Timeline, 1, "");
-                    GetTimeline(MyCommon.WORKERTYPE.Reply, 1, "");
-                    GetTimeline(MyCommon.WORKERTYPE.DirectMessegeRcv, 1, "");
-                    GetTimeline(MyCommon.WORKERTYPE.PublicSearch, 1, "");
-                    GetTimeline(MyCommon.WORKERTYPE.UserTimeline, 1, "");
-                    GetTimeline(MyCommon.WORKERTYPE.List, 1, "");
-                    doGetFollowersMenu();
-                    GetTimeline(MyCommon.WORKERTYPE.Configuration, 0, "");
+                    refreshTasks.AddRange(new[]
+                    {
+                        this.GetHomeTimelineAsync(),
+                        this.GetReplyAsync(),
+                        this.GetDirectMessagesAsync(),
+                        this.GetPublicSearchAllAsync(),
+                        this.GetUserTimelineAllAsync(),
+                        this.GetListTimelineAllAsync(),
+                        this.doGetFollowersMenu(),
+                        this.RefreshTwitterConfigurationAsync(),
+                    });
                 }
             }
+
+            await Task.WhenAll(refreshTasks);
         }
 
         private void RefreshTimeline(bool isUserStream)
@@ -2016,7 +1998,7 @@ namespace OpenTween
             {
                 if (!ImageSelector.Enabled)
                 {
-                    DoRefresh();
+                    this.DoRefresh();
                     return;
                 }
             }
@@ -2030,8 +2012,8 @@ namespace OpenTween
                 switch (rtResult)
                 {
                     case DialogResult.Yes:
-                        doReTweetOfficial(false);
                         StatusText.Text = "";
+                        await this.doReTweetOfficial(false);
                         return;
                     case DialogResult.Cancel:
                         return;
@@ -2056,9 +2038,6 @@ namespace OpenTween
             //    UrlConvert(UrlConverter.Nicoms);
             //}
             StatusText.SelectionStart = StatusText.Text.Length;
-            GetWorkerArg args = new GetWorkerArg();
-            args.page = 0;
-            args.type = MyCommon.WORKERTYPE.PostMessage;
             CheckReplyTo(StatusText.Text);
 
             //整形によって増加する文字数を取得
@@ -2155,56 +2134,56 @@ namespace OpenTween
                     }
                 }
             }
-            args.status.status = header + StatusText.Text + footer;
+
+            var status = new PostingStatus();
+            status.status = header + StatusText.Text + footer;
 
             if (ToolStripMenuItemApiCommandEvasion.Checked)
             {
                 // APIコマンド回避
-                if (Regex.IsMatch(args.status.status,
+                if (Regex.IsMatch(status.status,
                     @"^[+\-\[\]\s\\.,*/(){}^~|='&%$#""<>?]*(get|g|fav|follow|f|on|off|stop|quit|leave|l|whois|w|nudge|n|stats|invite|track|untrack|tracks|tracking|\*)([+\-\[\]\s\\.,*/(){}^~|='&%$#""<>?]+|$)",
                     RegexOptions.IgnoreCase)
-                   && args.status.status.EndsWith(" .") == false) args.status.status += " .";
+                   && status.status.EndsWith(" .") == false) status.status += " .";
             }
 
             if (ToolStripMenuItemUrlMultibyteSplit.Checked)
             {
                 // URLと全角文字の切り離し
-                Match mc2 = Regex.Match(args.status.status, @"https?:\/\/[-_.!~*'()a-zA-Z0-9;\/?:\@&=+\$,%#^]+");
-                if (mc2.Success) args.status.status = Regex.Replace(args.status.status, @"https?:\/\/[-_.!~*'()a-zA-Z0-9;\/?:\@&=+\$,%#^]+", "$& ");
+                Match mc2 = Regex.Match(status.status, @"https?:\/\/[-_.!~*'()a-zA-Z0-9;\/?:\@&=+\$,%#^]+");
+                if (mc2.Success) status.status = Regex.Replace(status.status, @"https?:\/\/[-_.!~*'()a-zA-Z0-9;\/?:\@&=+\$,%#^]+", "$& ");
             }
 
             if (IdeographicSpaceToSpaceToolStripMenuItem.Checked)
             {
                 // 文中の全角スペースを半角スペース1個にする
-                args.status.status = args.status.status.Replace("　", " ");
+                status.status = status.status.Replace("　", " ");
             }
 
-            if (isCutOff && args.status.status.Length > 140)
+            if (isCutOff && status.status.Length > 140)
             {
-                args.status.status = args.status.status.Substring(0, 140);
+                status.status = status.status.Substring(0, 140);
                 string AtId = @"(@|＠)[a-z0-9_/]+$";
                 string HashTag = @"(^|[^0-9A-Z&\/\?]+)(#|＃)([0-9A-Z_]*[A-Z_]+)$";
                 string Url = @"https?:\/\/[a-z0-9!\*'\(\);:&=\+\$\/%#\[\]\-_\.,~?]+$"; //簡易判定
                 string pattern = string.Format("({0})|({1})|({2})", AtId, HashTag, Url);
-                Match mc = Regex.Match(args.status.status, pattern, RegexOptions.IgnoreCase);
+                Match mc = Regex.Match(status.status, pattern, RegexOptions.IgnoreCase);
                 if (mc.Success)
                 {
                     //さらに@ID、ハッシュタグ、URLと推測される文字列をカットする
-                    args.status.status = args.status.status.Substring(0, 140 - mc.Value.Length);
+                    status.status = status.status.Substring(0, 140 - mc.Value.Length);
                 }
-                if (MessageBox.Show(args.status.status, "Post or Cancel?", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.Cancel) return;
+                if (MessageBox.Show(status.status, "Post or Cancel?", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.Cancel) return;
             }
 
-            args.status.inReplyToId = _reply_to_id;
-            args.status.inReplyToName = _reply_to_name;
+            status.inReplyToId = _reply_to_id;
+            status.inReplyToName = _reply_to_name;
             if (ImageSelector.Visible)
             {
                 //画像投稿
-                if (!ImageSelector.TryGetSelectedMedia(out args.status.imageService, out args.status.imagePath))
+                if (!ImageSelector.TryGetSelectedMedia(out status.imageService, out status.imagePath))
                     return;
             }
-
-            RunAsync(args);
 
             _reply_to_id = null;
             _reply_to_name = null;
@@ -2222,6 +2201,8 @@ namespace OpenTween
                 string tmp = string.Format(Properties.Resources.SearchItem2Url, Uri.EscapeDataString(StatusText.Text.Substring(7)));
                 await this.OpenUriAsync(tmp);
             }
+
+            await this.PostMessageAsync(status);
         }
 
         private void EndToolStripMenuItem_Click(object sender, EventArgs e)
@@ -2278,723 +2259,1095 @@ namespace OpenTween
             return true;
         }
 
-        private void GetTimelineWorker_DoWork(object sender, DoWorkEventArgs e)
+        private Task GetHomeTimelineAsync()
         {
-            BackgroundWorker bw = (BackgroundWorker)sender;
-            if (bw.CancellationPending || MyCommon._endingFlag)
+            return this.GetHomeTimelineAsync(loadMore: false);
+        }
+
+        private async Task GetHomeTimelineAsync(bool loadMore)
+        {
+            await this.workerSemaphore.WaitAsync();
+
+            try
             {
-                e.Cancel = true;
-                return;
+                var progress = new Progress<string>(x => this.StatusLabel.Text = x);
+
+                await this.GetHomeTimelineAsyncInternal(progress, this.workerCts.Token, loadMore);
             }
+            catch (WebApiException ex)
+            {
+                this._myStatusError = true;
+                this.StatusLabel.Text = ex.Message;
+            }
+            finally
+            {
+                this.workerSemaphore.Release();
+            }
+        }
 
-            Thread.CurrentThread.Priority = ThreadPriority.BelowNormal;
-
-            MyApplication.InitCulture();
-
-            string ret = "";
-            GetWorkerResult rslt = new GetWorkerResult();
-
-            bool read = !this._cfgCommon.UnreadManage;
-            if (_initial && this._cfgCommon.UnreadManage) read = this._cfgCommon.Read;
-
-            GetWorkerArg args = (GetWorkerArg)e.Argument;
+        private async Task GetHomeTimelineAsyncInternal(IProgress<string> p, CancellationToken ct, bool loadMore)
+        {
+            if (ct.IsCancellationRequested)
+                return;
 
             if (!CheckAccountValid())
+                throw new WebApiException("Auth error. Check your account");
+
+            bool read;
+            if (!this._cfgCommon.UnreadManage)
+                read = true;
+            else
+                read = this._initial && this._cfgCommon.Read;
+
+            p.Report(Properties.Resources.GetTimelineWorker_RunWorkerCompletedText5 +
+                (loadMore ? "-1" : "1") +
+                Properties.Resources.GetTimelineWorker_RunWorkerCompletedText6);
+
+            await Task.Run(() =>
             {
-                rslt.retMsg = "Auth error. Check your account";
-                rslt.type = MyCommon.WORKERTYPE.ErrorState;  //エラー表示のみ行ない、後処理キャンセル
-                rslt.tName = args.tName;
-                e.Result = rslt;
-                return;
-            }
+                var err = this.tw.GetTimelineApi(read, MyCommon.WORKERTYPE.Timeline, loadMore, this._initial);
 
-            bw.ReportProgress(0, ""); //Notifyアイコンアニメーション開始
+                if (!string.IsNullOrEmpty(err))
+                    throw new WebApiException(err);
 
-            switch (args.type)
-            {
-                case MyCommon.WORKERTYPE.Timeline:
-                case MyCommon.WORKERTYPE.Reply:
-                    bw.ReportProgress(50, MakeStatusMessage(args, false));
-                    ret = tw.GetTimelineApi(read, args.type, args.page == -1, _initial);
-                    //新着時未読クリア
-                    if (string.IsNullOrEmpty(ret) && args.type == MyCommon.WORKERTYPE.Timeline && this._cfgCommon.ReadOldPosts)
-                        _statuses.SetReadHomeTab();
-                    //振り分け
-                    rslt.addCount = _statuses.DistributePosts();
-                    break;
-                case MyCommon.WORKERTYPE.DirectMessegeRcv:    //送信分もまとめて取得
-                    bw.ReportProgress(50, MakeStatusMessage(args, false));
-                    ret = tw.GetDirectMessageApi(read, MyCommon.WORKERTYPE.DirectMessegeRcv, args.page == -1);
-                    if (string.IsNullOrEmpty(ret)) ret = tw.GetDirectMessageApi(read, MyCommon.WORKERTYPE.DirectMessegeSnt, args.page == -1);
-                    rslt.addCount = _statuses.DistributePosts();
-                    break;
+                // 新着時未読クリア
+                if (this._cfgCommon.ReadOldPosts)
+                    this._statuses.SetReadHomeTab();
 
-                case MyCommon.WORKERTYPE.FavAdd:
+                var addCount = this._statuses.DistributePosts();
+
+                if (!this._initial)
                 {
-                    //スレッド処理はしない
-                    TabClass tab;
-                    if (_statuses.Tabs.TryGetValue(args.tName, out tab))
+                    lock (this._syncObject)
                     {
-                        var count = 0;
-                        foreach (var statusId in args.ids)
-                        {
-                            var post = tab.Posts[statusId];
-
-                            args.page = ++count;
-                            bw.ReportProgress(50, MakeStatusMessage(args, false));
-
-                            if (!post.IsFav)
-                            {
-                                if (post.RetweetedId == null)
-                                    ret = tw.PostFavAdd(post.StatusId);
-                                else
-                                    ret = tw.PostFavAdd(post.RetweetedId.Value);
-
-                                if (string.IsNullOrEmpty(ret))
-                                {
-                                    args.sIds.Add(statusId);
-                                    post.IsFav = true;    //リスト再描画必要
-                                    _favTimestamps.Add(DateTime.Now);
-                                    if (string.IsNullOrEmpty(post.RelTabName))
-                                    {
-                                        //検索,リストUserTimeline.Relatedタブからのfavは、favタブへ追加せず。それ以外は追加
-                                        _statuses.GetTabByType(MyCommon.TabUsageType.Favorites).Add(statusId, post.IsRead, false);
-                                    }
-                                    else
-                                    {
-                                        //検索,リスト,UserTimeline.Relatedタブからのfavで、TLでも取得済みならfav反映
-                                        if (_statuses.ContainsKey(statusId))
-                                        {
-                                            PostClass postTl = _statuses[statusId];
-                                            postTl.IsFav = true;
-                                            _statuses.GetTabByType(MyCommon.TabUsageType.Favorites).Add(statusId, postTl.IsRead, false);
-                                        }
-                                    }
-                                    //検索,リスト,UserTimeline,Relatedの各タブに反映
-                                    foreach (TabClass tb in _statuses.GetTabsByType(MyCommon.TabUsageType.PublicSearch | MyCommon.TabUsageType.Lists | MyCommon.TabUsageType.UserTimeline | MyCommon.TabUsageType.Related))
-                                    {
-                                        if (tb.Contains(statusId)) tb.Posts[statusId].IsFav = true;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    rslt.sIds = args.sIds;
-                    break;
-                }
-
-                case MyCommon.WORKERTYPE.FavRemove:
-                {
-                    //スレッド処理はしない
-                    TabClass tab;
-                    if (_statuses.Tabs.TryGetValue(args.tName, out tab))
-                    {
-                        var count = 0;
-                        foreach (var statusId in args.ids)
-                        {
-                            var post = tab.Posts[statusId];
-
-                            args.page = ++count;
-                            bw.ReportProgress(50, MakeStatusMessage(args, false));
-
-                            if (post.IsFav)
-                            {
-                                if (post.RetweetedId == null)
-                                    ret = tw.PostFavRemove(post.StatusId);
-                                else
-                                    ret = tw.PostFavRemove(post.RetweetedId.Value);
-
-                                if (string.IsNullOrEmpty(ret))
-                                {
-                                    args.sIds.Add(statusId);
-                                    post.IsFav = false;    //リスト再描画必要
-                                    if (_statuses.ContainsKey(statusId)) _statuses[statusId].IsFav = false;
-                                    //検索,リスト,UserTimeline,Relatedの各タブに反映
-                                    foreach (TabClass tb in _statuses.GetTabsByType(MyCommon.TabUsageType.PublicSearch | MyCommon.TabUsageType.Lists | MyCommon.TabUsageType.UserTimeline | MyCommon.TabUsageType.Related))
-                                    {
-                                        if (tb.Contains(statusId)) tb.Posts[statusId].IsFav = false;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    rslt.sIds = args.sIds;
-                    break;
-                }
-
-                case MyCommon.WORKERTYPE.PostMessage:
-                    bw.ReportProgress(200);
-                    if (args.status.imagePath == null || args.status.imagePath.Length == 0 || string.IsNullOrEmpty(args.status.imagePath[0]))
-                    {
-                        ret = tw.PostStatus(args.status.status, args.status.inReplyToId);
-                    }
-                    else
-                    {
-                        var service = ImageSelector.GetService(args.status.imageService);
-                        try
-                        {
-                            service.PostStatusAsync(args.status.status, args.status.inReplyToId, args.status.imagePath)
-                                .Wait();
-                        }
-                        catch (AggregateException ex)
-                        {
-                            ret = ex.InnerException.Message;
-                        }
-                    }
-                    bw.ReportProgress(300);
-                    rslt.status = args.status;
-                    break;
-                case MyCommon.WORKERTYPE.Retweet:
-                    bw.ReportProgress(200);
-                    for (int i = 0; i <= args.ids.Count - 1; i++)
-                    {
-                        ret = tw.PostRetweet(args.ids[i], read);
-                    }
-                    bw.ReportProgress(300);
-                    break;
-                case MyCommon.WORKERTYPE.Follower:
-                    bw.ReportProgress(50, Properties.Resources.UpdateFollowersMenuItem1_ClickText1);
-                    try
-                    {
-                        tw.RefreshFollowerIds();
-                    }
-                    catch (WebApiException ex) { ret = ex.Message; }
-                    break;
-                case MyCommon.WORKERTYPE.NoRetweetIds:
-                    try
-                    {
-                        tw.RefreshNoRetweetIds();
-                    }
-                    catch (WebApiException ex) { ret = ex.Message; }
-                    break;
-                case MyCommon.WORKERTYPE.Configuration:
-                    try
-                    {
-                        this.tw.RefreshConfiguration();
-                    }
-                    catch (WebApiException ex) { ret = ex.Message; }
-                    break;
-                case MyCommon.WORKERTYPE.Favorites:
-                    bw.ReportProgress(50, MakeStatusMessage(args, false));
-                    ret = tw.GetFavoritesApi(read, args.type, args.page == -1);
-                    rslt.addCount = _statuses.DistributePosts();
-                    break;
-                case MyCommon.WORKERTYPE.PublicSearch:
-                    bw.ReportProgress(50, MakeStatusMessage(args, false));
-                    if (string.IsNullOrEmpty(args.tName))
-                    {
-                        foreach (TabClass tb in _statuses.GetTabsByType(MyCommon.TabUsageType.PublicSearch))
-                        {
-                            //if (!string.IsNullOrEmpty(tb.SearchWords)) ret = tw.GetPhoenixSearch(read, tb, false);
-                            if (!string.IsNullOrEmpty(tb.SearchWords)) ret = tw.GetSearch(read, tb, false);
-                        }
-                    }
-                    else
-                    {
-                        TabClass tb = _statuses.GetTabByName(args.tName);
-                        if (tb != null)
-                        {
-                            //ret = tw.GetPhoenixSearch(read, tb, false);
-                            ret = tw.GetSearch(read, tb, false);
-                            if (string.IsNullOrEmpty(ret) && args.page == -1)
-                            {
-                                //ret = tw.GetPhoenixSearch(read, tb, true)
-                                ret = tw.GetSearch(read, tb, true);
-                            }
-                        }
-                    }
-                    //振り分け
-                    rslt.addCount = _statuses.DistributePosts();
-                    break;
-                case MyCommon.WORKERTYPE.UserTimeline:
-                {
-                    bw.ReportProgress(50, MakeStatusMessage(args, false));
-                    int count = 20;
-                    if (this._cfgCommon.UseAdditionalCount) count = this._cfgCommon.UserTimelineCountApi;
-                    if (string.IsNullOrEmpty(args.tName))
-                    {
-                        foreach (TabClass tb in _statuses.GetTabsByType(MyCommon.TabUsageType.UserTimeline))
-                        {
-                            if (!string.IsNullOrEmpty(tb.User)) ret = tw.GetUserTimelineApi(read, count, tb.User, tb, false);
-                        }
-                    }
-                    else
-                    {
-                        TabClass tb = _statuses.GetTabByName(args.tName);
-                        if (tb != null)
-                        {
-                            ret = tw.GetUserTimelineApi(read, count, tb.User, tb, args.page == -1);
-                        }
-                    }
-                    //振り分け
-                    rslt.addCount = _statuses.DistributePosts();
-                    break;
-                }
-                case MyCommon.WORKERTYPE.List:
-                    bw.ReportProgress(50, MakeStatusMessage(args, false));
-                    if (string.IsNullOrEmpty(args.tName))
-                    {
-                        //定期更新
-                        foreach (TabClass tb in _statuses.GetTabsByType(MyCommon.TabUsageType.Lists))
-                        {
-                            if (tb.ListInfo != null && tb.ListInfo.Id != 0) ret = tw.GetListStatus(read, tb, false, _initial);
-                        }
-                    }
-                    else
-                    {
-                        //手動更新（特定タブのみ更新）
-                        TabClass tb = _statuses.GetTabByName(args.tName);
-                        if (tb != null)
-                        {
-                            ret = tw.GetListStatus(read, tb, args.page == -1, _initial);
-                        }
-                    }
-                    //振り分け
-                    rslt.addCount = _statuses.DistributePosts();
-                    break;
-
-                case MyCommon.WORKERTYPE.Related:
-                {
-                    bw.ReportProgress(50, MakeStatusMessage(args, false));
-                    TabClass tab = _statuses.GetTabByName(args.tName);
-                    ret = tw.GetRelatedResult(read, tab);
-                    rslt.addCount = _statuses.DistributePosts();
-                    break;
-                }
-
-                case MyCommon.WORKERTYPE.BlockIds:
-                    bw.ReportProgress(50, Properties.Resources.UpdateBlockUserText1);
-                    try
-                    {
-                        tw.RefreshBlockIds();
-                    }
-                    catch (WebApiException ex) { ret = ex.Message; }
-                    break;
-            }
-            //キャンセル要求
-            if (bw.CancellationPending)
-            {
-                e.Cancel = true;
-                return;
-            }
-
-            //時速表示用
-            if (args.type == MyCommon.WORKERTYPE.FavAdd)
-            {
-                DateTime oneHour = DateTime.Now.Subtract(new TimeSpan(1, 0, 0));
-                for (int i = _favTimestamps.Count - 1; i >= 0; i--)
-                {
-                    if (_favTimestamps[i].CompareTo(oneHour) < 0)
-                    {
-                        _favTimestamps.RemoveAt(i);
-                    }
-                }
-            }
-            if (args.type == MyCommon.WORKERTYPE.Timeline && !_initial)
-            {
-                lock (_syncObject)
-                {
-                    DateTime tm = DateTime.Now;
-                    if (_tlTimestamps.ContainsKey(tm))
-                        _tlTimestamps[tm] += rslt.addCount;
-                    else
-                        _tlTimestamps.Add(tm, rslt.addCount);
-
-                    DateTime oneHour = DateTime.Now.Subtract(new TimeSpan(1, 0, 0));
-                    List<DateTime> keys = new List<DateTime>();
-                    _tlCount = 0;
-                    foreach (DateTime key in _tlTimestamps.Keys)
-                    {
-                        if (key.CompareTo(oneHour) < 0)
-                        {
-                            keys.Add(key);
-                        }
+                        var tm = DateTime.Now;
+                        if (this._tlTimestamps.ContainsKey(tm))
+                            this._tlTimestamps[tm] += addCount;
                         else
+                            this._tlTimestamps[tm] = addCount;
+
+                        var removeKeys = new List<DateTime>();
+                        var oneHour = DateTime.Now - TimeSpan.FromHours(1);
+
+                        this._tlCount = 0;
+                        foreach (var pair in this._tlTimestamps)
                         {
-                            _tlCount += _tlTimestamps[key];
-                        }
-                    }
-                    foreach (DateTime key in keys)
-                    {
-                        _tlTimestamps.Remove(key);
-                    }
-                    keys.Clear();
-                }
-            }
-
-            //終了ステータス
-            bw.ReportProgress(100, MakeStatusMessage(args, true)); //ステータス書き換え、Notifyアイコンアニメーション開始
-
-            rslt.retMsg = ret;
-            rslt.type = args.type;
-            rslt.tName = args.tName;
-
-            e.Result = rslt;
-        }
-
-        private string MakeStatusMessage(GetWorkerArg AsyncArg, bool Finish)
-        {
-            string smsg = "";
-            if (!Finish)
-            {
-                //継続中メッセージ
-                switch (AsyncArg.type)
-                {
-                    case MyCommon.WORKERTYPE.Timeline:
-                        smsg = Properties.Resources.GetTimelineWorker_RunWorkerCompletedText5 + AsyncArg.page.ToString() + Properties.Resources.GetTimelineWorker_RunWorkerCompletedText6;
-                        break;
-                    case MyCommon.WORKERTYPE.Reply:
-                        smsg = Properties.Resources.GetTimelineWorker_RunWorkerCompletedText4 + AsyncArg.page.ToString() + Properties.Resources.GetTimelineWorker_RunWorkerCompletedText6;
-                        break;
-                    case MyCommon.WORKERTYPE.DirectMessegeRcv:
-                        smsg = Properties.Resources.GetTimelineWorker_RunWorkerCompletedText8 + AsyncArg.page.ToString() + Properties.Resources.GetTimelineWorker_RunWorkerCompletedText6;
-                        break;
-                    case MyCommon.WORKERTYPE.FavAdd:
-                        smsg = Properties.Resources.GetTimelineWorker_RunWorkerCompletedText15 + AsyncArg.page.ToString() + "/" + AsyncArg.ids.Count.ToString() +
-                                            Properties.Resources.GetTimelineWorker_RunWorkerCompletedText16 + (AsyncArg.page - AsyncArg.sIds.Count - 1).ToString();
-                        break;
-                    case MyCommon.WORKERTYPE.FavRemove:
-                        smsg = Properties.Resources.GetTimelineWorker_RunWorkerCompletedText17 + AsyncArg.page.ToString() + "/" + AsyncArg.ids.Count.ToString() +
-                                            Properties.Resources.GetTimelineWorker_RunWorkerCompletedText18 + (AsyncArg.page - AsyncArg.sIds.Count - 1).ToString();
-                        break;
-                    case MyCommon.WORKERTYPE.Favorites:
-                        smsg = Properties.Resources.GetTimelineWorker_RunWorkerCompletedText19;
-                        break;
-                    case MyCommon.WORKERTYPE.PublicSearch:
-                        smsg = "Search refreshing...";
-                        break;
-                    case MyCommon.WORKERTYPE.List:
-                        smsg = "List refreshing...";
-                        break;
-                    case MyCommon.WORKERTYPE.Related:
-                        smsg = "Related refreshing...";
-                        break;
-                    case MyCommon.WORKERTYPE.UserTimeline:
-                        smsg = "UserTimeline refreshing...";
-                        break;
-                }
-            }
-            else
-            {
-                //完了メッセージ
-                switch (AsyncArg.type)
-                {
-                    case MyCommon.WORKERTYPE.Timeline:
-                        smsg = Properties.Resources.GetTimelineWorker_RunWorkerCompletedText1;
-                        break;
-                    case MyCommon.WORKERTYPE.Reply:
-                        smsg = Properties.Resources.GetTimelineWorker_RunWorkerCompletedText9;
-                        break;
-                    case MyCommon.WORKERTYPE.DirectMessegeRcv:
-                        smsg = Properties.Resources.GetTimelineWorker_RunWorkerCompletedText11;
-                        break;
-                    case MyCommon.WORKERTYPE.DirectMessegeSnt:
-                        smsg = Properties.Resources.GetTimelineWorker_RunWorkerCompletedText13;
-                        break;
-                    case MyCommon.WORKERTYPE.FavAdd:
-                        //進捗メッセージ残す
-                        break;
-                    case MyCommon.WORKERTYPE.FavRemove:
-                        //進捗メッセージ残す
-                        break;
-                    case MyCommon.WORKERTYPE.Favorites:
-                        smsg = Properties.Resources.GetTimelineWorker_RunWorkerCompletedText20;
-                        break;
-                    case MyCommon.WORKERTYPE.Follower:
-                        smsg = Properties.Resources.UpdateFollowersMenuItem1_ClickText3;
-                        break;
-                    case MyCommon.WORKERTYPE.NoRetweetIds:
-                        smsg = "NoRetweetIds refreshed";
-                        break;
-                    case MyCommon.WORKERTYPE.Configuration:
-                        //進捗メッセージ残す
-                        break;
-                    case MyCommon.WORKERTYPE.PublicSearch:
-                        smsg = "Search refreshed";
-                        break;
-                    case MyCommon.WORKERTYPE.List:
-                        smsg = "List refreshed";
-                        break;
-                    case MyCommon.WORKERTYPE.Related:
-                        smsg = "Related refreshed";
-                        break;
-                    case MyCommon.WORKERTYPE.UserTimeline:
-                        smsg = "UserTimeline refreshed";
-                        break;
-                    case MyCommon.WORKERTYPE.BlockIds:
-                        smsg = Properties.Resources.UpdateBlockUserText3;
-                        break;
-                }
-            }
-            return smsg;
-        }
-
-        private void GetTimelineWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
-        {
-            if (MyCommon._endingFlag) return;
-            if (e.ProgressPercentage > 100)
-            {
-                //発言投稿
-                if (e.ProgressPercentage == 200)    //開始
-                    StatusLabel.Text = "Posting...";
-                if (e.ProgressPercentage == 300)  //終了
-                    StatusLabel.Text = Properties.Resources.PostWorker_RunWorkerCompletedText4;
-            }
-            else
-            {
-                string smsg = (string)e.UserState;
-                if (smsg.Length > 0) StatusLabel.Text = smsg;
-            }
-        }
-
-        private void GetTimelineWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-        {
-            if (MyCommon._endingFlag || e.Cancelled) return; //キャンセル
-
-            if (e.Error != null)
-            {
-                _myStatusError = true;
-                _waitTimeline = false;
-                _waitReply = false;
-                _waitDm = false;
-                _waitFav = false;
-                _waitPubSearch = false;
-                _waitUserTimeline = false;
-                _waitLists = false;
-                throw new Exception("BackgroundWorker Exception", e.Error);
-            }
-
-            GetWorkerResult rslt = (GetWorkerResult)e.Result;
-
-            //エラー
-            if (rslt.retMsg.Length > 0)
-            {
-                _myStatusError = true;
-                StatusLabel.Text = rslt.retMsg;
-            }
-
-            if (rslt.type == MyCommon.WORKERTYPE.ErrorState) return;
-
-            if (rslt.type == MyCommon.WORKERTYPE.FavRemove)
-            {
-                this.RemovePostFromFavTab(rslt.sIds.ToArray());
-            }
-
-            //リストに反映
-            //bool busy = false;
-            //foreach (BackgroundWorker bw in _bw)
-            //{
-            //    if (bw != null && bw.IsBusy)
-            //    {
-            //        busy = true;
-            //        break;
-            //    }
-            //}
-            //if (!busy) RefreshTimeline(); //background処理なければ、リスト反映
-            if (rslt.type == MyCommon.WORKERTYPE.Timeline ||
-                rslt.type == MyCommon.WORKERTYPE.Reply ||
-                rslt.type == MyCommon.WORKERTYPE.List ||
-                rslt.type == MyCommon.WORKERTYPE.PublicSearch ||
-                rslt.type == MyCommon.WORKERTYPE.DirectMessegeRcv ||
-                rslt.type == MyCommon.WORKERTYPE.DirectMessegeSnt ||
-                rslt.type == MyCommon.WORKERTYPE.Favorites ||
-                rslt.type == MyCommon.WORKERTYPE.Follower ||
-                rslt.type == MyCommon.WORKERTYPE.Related ||
-                rslt.type == MyCommon.WORKERTYPE.UserTimeline)
-            {
-                RefreshTimeline(false); //リスト反映
-            }
-
-            if (rslt.type == MyCommon.WORKERTYPE.FavAdd ||
-                rslt.type == MyCommon.WORKERTYPE.FavRemove)
-            {
-                // 流速表示等の更新のみ行う
-                SetMainWindowTitle();
-                if (!StatusLabelUrl.Text.StartsWith("http")) SetStatusLabelUrl();
-            }
-
-            switch (rslt.type)
-            {
-                case MyCommon.WORKERTYPE.Timeline:
-                    _waitTimeline = false;
-                    if (!_initial)
-                    {
-                        //    //API使用時の取得調整は別途考える（カウント調整？）
-                    }
-                    break;
-                case MyCommon.WORKERTYPE.Reply:
-                    _waitReply = false;
-                    if (rslt.newDM && !_initial)
-                    {
-                        GetTimeline(MyCommon.WORKERTYPE.DirectMessegeRcv, 1, "");
-                    }
-                    break;
-                case MyCommon.WORKERTYPE.Favorites:
-                    _waitFav = false;
-                    break;
-                case MyCommon.WORKERTYPE.DirectMessegeRcv:
-                    _waitDm = false;
-                    break;
-                case MyCommon.WORKERTYPE.FavAdd:
-                case MyCommon.WORKERTYPE.FavRemove:
-                    if (_curList != null && _curTab != null && _curTab.Text == rslt.tName)
-                    {
-                        TabClass tb;
-                        if (this._statuses.Tabs.TryGetValue(rslt.tName, out tb))
-                        {
-                            if (rslt.type == MyCommon.WORKERTYPE.FavRemove && tb.TabType == MyCommon.TabUsageType.Favorites)
-                            {
-                                //色変えは不要
-                            }
+                            if (pair.Key < oneHour)
+                                removeKeys.Add(pair.Key);
                             else
-                            {
-                                using (ControlTransaction.Update(this._curList))
-                                {
-                                    foreach (var statusId in rslt.sIds)
-                                    {
-                                        int idx = tb.IndexOf(statusId);
-                                        if (idx == -1)
-                                            continue;
+                                this._tlCount += pair.Value;
+                        }
 
-                                        var post = tb.Posts[statusId];
-                                        this.ChangeCacheStyleRead(post.IsRead, idx);
-                                    }
-                                }
+                        foreach (var key in removeKeys)
+                            this._tlTimestamps.Remove(key);
+                    }
+                }
+            });
 
-                                if (rslt.sIds.Contains(this._curPost.StatusId))
-                                    this.DispSelectedPost(true); //選択アイテム再表示
-                            }
+            if (ct.IsCancellationRequested)
+                return;
+
+            p.Report(Properties.Resources.GetTimelineWorker_RunWorkerCompletedText1);
+
+            this.RefreshTimeline(false);
+        }
+
+        private Task GetReplyAsync()
+        {
+            return this.GetReplyAsync(loadMore: false);
+        }
+
+        private async Task GetReplyAsync(bool loadMore)
+        {
+            await this.workerSemaphore.WaitAsync();
+
+            try
+            {
+                var progress = new Progress<string>(x => this.StatusLabel.Text = x);
+
+                await this.GetReplyAsyncInternal(progress, this.workerCts.Token, loadMore);
+            }
+            catch (WebApiException ex)
+            {
+                this._myStatusError = true;
+                this.StatusLabel.Text = ex.Message;
+            }
+            finally
+            {
+                this.workerSemaphore.Release();
+            }
+        }
+
+        private async Task GetReplyAsyncInternal(IProgress<string> p, CancellationToken ct, bool loadMore)
+        {
+            if (ct.IsCancellationRequested)
+                return;
+
+            if (!CheckAccountValid())
+                throw new WebApiException("Auth error. Check your account");
+
+            bool read;
+            if (!this._cfgCommon.UnreadManage)
+                read = true;
+            else
+                read = this._initial && this._cfgCommon.Read;
+
+            p.Report(Properties.Resources.GetTimelineWorker_RunWorkerCompletedText4 +
+                (loadMore ? "-1" : "1") +
+                Properties.Resources.GetTimelineWorker_RunWorkerCompletedText6);
+
+            await Task.Run(() =>
+            {
+                var err = this.tw.GetTimelineApi(read, MyCommon.WORKERTYPE.Reply, loadMore, this._initial);
+
+                if (!string.IsNullOrEmpty(err))
+                    throw new WebApiException(err);
+
+                this._statuses.DistributePosts();
+            });
+
+            if (ct.IsCancellationRequested)
+                return;
+
+            p.Report(Properties.Resources.GetTimelineWorker_RunWorkerCompletedText9);
+
+            this.RefreshTimeline(false);
+        }
+
+        private Task GetDirectMessagesAsync()
+        {
+            return this.GetDirectMessagesAsync(loadMore: false);
+        }
+
+        private async Task GetDirectMessagesAsync(bool loadMore)
+        {
+            await this.workerSemaphore.WaitAsync();
+
+            try
+            {
+                var progress = new Progress<string>(x => this.StatusLabel.Text = x);
+
+                await this.GetDirectMessagesAsyncInternal(progress, this.workerCts.Token, loadMore);
+            }
+            catch (WebApiException ex)
+            {
+                this._myStatusError = true;
+                this.StatusLabel.Text = ex.Message;
+            }
+            finally
+            {
+                this.workerSemaphore.Release();
+            }
+        }
+
+        private async Task GetDirectMessagesAsyncInternal(IProgress<string> p, CancellationToken ct, bool loadMore)
+        {
+            if (ct.IsCancellationRequested)
+                return;
+
+            if (!CheckAccountValid())
+                throw new WebApiException("Auth error. Check your account");
+
+            bool read;
+            if (!this._cfgCommon.UnreadManage)
+                read = true;
+            else
+                read = this._initial && this._cfgCommon.Read;
+
+            p.Report(Properties.Resources.GetTimelineWorker_RunWorkerCompletedText8 +
+                (loadMore ? "-1" : "1") +
+                Properties.Resources.GetTimelineWorker_RunWorkerCompletedText6);
+
+            await Task.Run(() =>
+            {
+                var err = this.tw.GetDirectMessageApi(read, MyCommon.WORKERTYPE.DirectMessegeRcv, loadMore);
+                if (!string.IsNullOrEmpty(err))
+                    throw new WebApiException(err);
+
+                var err2 = this.tw.GetDirectMessageApi(read, MyCommon.WORKERTYPE.DirectMessegeSnt, loadMore);
+                if (!string.IsNullOrEmpty(err2))
+                    throw new WebApiException(err2);
+
+                this._statuses.DistributePosts();
+            });
+
+            if (ct.IsCancellationRequested)
+                return;
+
+            p.Report(Properties.Resources.GetTimelineWorker_RunWorkerCompletedText11);
+
+            this.RefreshTimeline(false);
+        }
+
+        private Task GetFavoritesAsync()
+        {
+            return this.GetFavoritesAsync(loadMore: false);
+        }
+
+        private async Task GetFavoritesAsync(bool loadMore)
+        {
+            await this.workerSemaphore.WaitAsync();
+
+            try
+            {
+                var progress = new Progress<string>(x => this.StatusLabel.Text = x);
+
+                await this.GetFavoritesAsyncInternal(progress, this.workerCts.Token, loadMore);
+            }
+            catch (WebApiException ex)
+            {
+                this._myStatusError = true;
+                this.StatusLabel.Text = ex.Message;
+            }
+            finally
+            {
+                this.workerSemaphore.Release();
+            }
+        }
+
+        private async Task GetFavoritesAsyncInternal(IProgress<string> p, CancellationToken ct, bool loadMore)
+        {
+            if (ct.IsCancellationRequested)
+                return;
+
+            if (!CheckAccountValid())
+                throw new WebApiException("Auth error. Check your account");
+
+            bool read;
+            if (!this._cfgCommon.UnreadManage)
+                read = true;
+            else
+                read = this._initial && this._cfgCommon.Read;
+
+            p.Report(Properties.Resources.GetTimelineWorker_RunWorkerCompletedText19);
+
+            await Task.Run(() =>
+            {
+                var err = this.tw.GetFavoritesApi(read, MyCommon.WORKERTYPE.Favorites, loadMore);
+
+                if (!string.IsNullOrEmpty(err))
+                    throw new WebApiException(err);
+
+                this._statuses.DistributePosts();
+            });
+
+            if (ct.IsCancellationRequested)
+                return;
+
+            p.Report(Properties.Resources.GetTimelineWorker_RunWorkerCompletedText20);
+
+            this.RefreshTimeline(false);
+        }
+
+        private Task GetPublicSearchAllAsync()
+        {
+            return this.GetPublicSearchAsync(null, loadMore: false);
+        }
+
+        private Task GetPublicSearchAsync(TabClass tab)
+        {
+            return this.GetPublicSearchAsync(tab, loadMore: false);
+        }
+
+        private async Task GetPublicSearchAsync(TabClass tab, bool loadMore)
+        {
+            await this.workerSemaphore.WaitAsync();
+
+            try
+            {
+                var progress = new Progress<string>(x => this.StatusLabel.Text = x);
+
+                var tabs = tab != null
+                    ? new[] { tab }.AsEnumerable()
+                    : this._statuses.GetTabsByType(MyCommon.TabUsageType.PublicSearch);
+
+                await this.GetPublicSearchAsyncInternal(progress, this.workerCts.Token, tabs, loadMore);
+            }
+            catch (WebApiException ex)
+            {
+                this._myStatusError = true;
+                this.StatusLabel.Text = ex.Message;
+            }
+            finally
+            {
+                this.workerSemaphore.Release();
+            }
+        }
+
+        private async Task GetPublicSearchAsyncInternal(IProgress<string> p, CancellationToken ct, IEnumerable<TabClass> tabs, bool loadMore)
+        {
+            if (ct.IsCancellationRequested)
+                return;
+
+            if (!CheckAccountValid())
+                throw new WebApiException("Auth error. Check your account");
+
+            bool read;
+            if (!this._cfgCommon.UnreadManage)
+                read = true;
+            else
+                read = this._initial && this._cfgCommon.Read;
+
+            p.Report("Search refreshing...");
+
+            await Task.Run(() =>
+            {
+                foreach (var tab in tabs)
+                {
+                    if (string.IsNullOrEmpty(tab.SearchWords))
+                        continue;
+
+                    var err = this.tw.GetSearch(read, tab, false);
+                    if (!string.IsNullOrEmpty(err))
+                        throw new WebApiException(err);
+
+                    if (loadMore)
+                    {
+                        var err2 = this.tw.GetSearch(read, tab, true);
+                        if (!string.IsNullOrEmpty(err2))
+                            throw new WebApiException(err2);
+                    }
+                }
+
+                this._statuses.DistributePosts();
+            });
+
+            if (ct.IsCancellationRequested)
+                return;
+
+            p.Report("Search refreshed");
+
+            this.RefreshTimeline(false);
+        }
+
+        private Task GetUserTimelineAllAsync()
+        {
+            return this.GetUserTimelineAsync(null, loadMore: false);
+        }
+
+        private Task GetUserTimelineAsync(TabClass tab)
+        {
+            return this.GetUserTimelineAsync(tab, loadMore: false);
+        }
+
+        private async Task GetUserTimelineAsync(TabClass tab, bool loadMore)
+        {
+            await this.workerSemaphore.WaitAsync();
+
+            try
+            {
+                var progress = new Progress<string>(x => this.StatusLabel.Text = x);
+
+                var tabs = tab != null
+                    ? new[] { tab }.AsEnumerable()
+                    : this._statuses.GetTabsByType(MyCommon.TabUsageType.UserTimeline);
+
+                await this.GetUserTimelineAsyncInternal(progress, this.workerCts.Token, tabs, loadMore);
+            }
+            catch (WebApiException ex)
+            {
+                this._myStatusError = true;
+                this.StatusLabel.Text = ex.Message;
+            }
+            finally
+            {
+                this.workerSemaphore.Release();
+            }
+        }
+
+        private async Task GetUserTimelineAsyncInternal(IProgress<string> p, CancellationToken ct, IEnumerable<TabClass> tabs, bool loadMore)
+        {
+            if (ct.IsCancellationRequested)
+                return;
+
+            if (!CheckAccountValid())
+                throw new WebApiException("Auth error. Check your account");
+
+            bool read;
+            if (!this._cfgCommon.UnreadManage)
+                read = true;
+            else
+                read = this._initial && this._cfgCommon.Read;
+
+            p.Report("UserTimeline refreshing...");
+
+            await Task.Run(() =>
+            {
+                var count = 20;
+                if (this._cfgCommon.UseAdditionalCount)
+                    count = this._cfgCommon.UserTimelineCountApi;
+
+                foreach (var tab in tabs)
+                {
+                    if (string.IsNullOrEmpty(tab.User))
+                        continue;
+
+                    var err = this.tw.GetUserTimelineApi(read, count, tab.User, tab, loadMore);
+                    if (!string.IsNullOrEmpty(err))
+                        throw new WebApiException(err);
+                }
+
+                this._statuses.DistributePosts();
+            });
+
+            if (ct.IsCancellationRequested)
+                return;
+
+            p.Report("UserTimeline refreshed");
+
+            this.RefreshTimeline(false);
+        }
+
+        private Task GetListTimelineAllAsync()
+        {
+            return this.GetListTimelineAsync(null, loadMore: false);
+        }
+
+        private Task GetListTimelineAsync(TabClass tab)
+        {
+            return this.GetListTimelineAsync(tab, loadMore: false);
+        }
+
+        private async Task GetListTimelineAsync(TabClass tab, bool loadMore)
+        {
+            await this.workerSemaphore.WaitAsync();
+
+            try
+            {
+                var progress = new Progress<string>(x => this.StatusLabel.Text = x);
+
+                var tabs = tab != null
+                    ? new[] { tab }.AsEnumerable()
+                    : this._statuses.GetTabsByType(MyCommon.TabUsageType.Lists);
+
+                await this.GetListTimelineAsyncInternal(progress, this.workerCts.Token, tabs, loadMore);
+            }
+            catch (WebApiException ex)
+            {
+                this._myStatusError = true;
+                this.StatusLabel.Text = ex.Message;
+            }
+            finally
+            {
+                this.workerSemaphore.Release();
+            }
+        }
+
+        private async Task GetListTimelineAsyncInternal(IProgress<string> p, CancellationToken ct, IEnumerable<TabClass> tabs, bool loadMore)
+        {
+            if (ct.IsCancellationRequested)
+                return;
+
+            if (!CheckAccountValid())
+                throw new WebApiException("Auth error. Check your account");
+
+            bool read;
+            if (!this._cfgCommon.UnreadManage)
+                read = true;
+            else
+                read = this._initial && this._cfgCommon.Read;
+
+            p.Report("List refreshing...");
+
+            await Task.Run(() =>
+            {
+                foreach (var tab in tabs)
+                {
+                    if (tab.ListInfo == null || tab.ListInfo.Id == 0)
+                        continue;
+
+                    var err = this.tw.GetListStatus(read, tab, loadMore, this._initial);
+                    if (!string.IsNullOrEmpty(err))
+                        throw new WebApiException(err);
+                }
+
+                this._statuses.DistributePosts();
+            });
+
+            if (ct.IsCancellationRequested)
+                return;
+
+            p.Report("List refreshed");
+
+            this.RefreshTimeline(false);
+        }
+
+        private async Task GetRelatedTweetsAsync(TabClass tab)
+        {
+            await this.workerSemaphore.WaitAsync();
+
+            try
+            {
+                var progress = new Progress<string>(x => this.StatusLabel.Text = x);
+
+                await this.GetRelatedTweetsAsyncInternal(progress, this.workerCts.Token, tab);
+            }
+            catch (WebApiException ex)
+            {
+                this._myStatusError = true;
+                this.StatusLabel.Text = ex.Message;
+            }
+            finally
+            {
+                this.workerSemaphore.Release();
+            }
+        }
+
+        private async Task GetRelatedTweetsAsyncInternal(IProgress<string> p, CancellationToken ct, TabClass tab)
+        {
+            if (ct.IsCancellationRequested)
+                return;
+
+            if (!CheckAccountValid())
+                throw new WebApiException("Auth error. Check your account");
+
+            bool read;
+            if (!this._cfgCommon.UnreadManage)
+                read = true;
+            else
+                read = this._initial && this._cfgCommon.Read;
+
+            p.Report("Related refreshing...");
+
+            await Task.Run(() =>
+            {
+                var err = this.tw.GetRelatedResult(read, tab);
+                if (!string.IsNullOrEmpty(err))
+                    throw new WebApiException(err);
+
+                this._statuses.DistributePosts();
+            });
+
+            if (ct.IsCancellationRequested)
+                return;
+
+            p.Report("Related refreshed");
+
+            this.RefreshTimeline(false);
+
+            var tabPage = this.ListTab.TabPages.Cast<TabPage>()
+                .FirstOrDefault(x => x.Text == tab.TabName);
+
+            if (tabPage != null)
+            {
+                // TODO: 非同期更新中にタブが閉じられている場合を厳密に考慮したい
+
+                var listView = (DetailsListView)tabPage.Tag;
+                var index = tab.IndexOf(tab.RelationTargetPost.RetweetedId ?? tab.RelationTargetPost.StatusId);
+
+                if (index != -1 && index < listView.Items.Count)
+                {
+                    listView.SelectedIndices.Add(index);
+                    listView.Items[index].Focused = true;
+                }
+            }
+        }
+
+        private async Task FavAddAsync(IReadOnlyList<long> statusIds, TabClass tab)
+        {
+            await this.workerSemaphore.WaitAsync();
+
+            try
+            {
+                var progress = new Progress<string>(x => this.StatusLabel.Text = x);
+
+                await this.FavAddAsyncInternal(progress, this.workerCts.Token, statusIds, tab);
+            }
+            catch (WebApiException ex)
+            {
+                this._myStatusError = true;
+                this.StatusLabel.Text = ex.Message;
+            }
+            finally
+            {
+                this.workerSemaphore.Release();
+            }
+        }
+
+        private async Task FavAddAsyncInternal(IProgress<string> p, CancellationToken ct, IReadOnlyList<long> statusIds, TabClass tab)
+        {
+            if (ct.IsCancellationRequested)
+                return;
+
+            if (!CheckAccountValid())
+                throw new WebApiException("Auth error. Check your account");
+
+            var successIds = new List<long>();
+
+            await Task.Run(() =>
+            {
+                //スレッド処理はしない
+                var allCount = 0;
+                var failedCount = 0;
+
+                foreach (var statusId in statusIds)
+                {
+                    allCount++;
+
+                    p.Report(Properties.Resources.GetTimelineWorker_RunWorkerCompletedText15 +
+                        allCount + "/" + statusIds.Count +
+                        Properties.Resources.GetTimelineWorker_RunWorkerCompletedText16 +
+                        failedCount);
+
+                    var post = tab.Posts[statusId];
+
+                    if (post.IsFav)
+                        continue;
+
+                    var err = this.tw.PostFavAdd(post.RetweetedId ?? post.StatusId);
+
+                    if (!string.IsNullOrEmpty(err))
+                    {
+                        failedCount++;
+                        continue;
+                    }
+
+                    successIds.Add(statusId);
+                    post.IsFav = true; // リスト再描画必要
+
+                    this._favTimestamps.Add(DateTime.Now);
+
+                    // TLでも取得済みならfav反映
+                    if (this._statuses.ContainsKey(statusId))
+                    {
+                        var postTl = this._statuses[statusId];
+                        postTl.IsFav = true;
+
+                        var favTab = this._statuses.GetTabByType(MyCommon.TabUsageType.Favorites);
+                        favTab.Add(statusId, postTl.IsRead, false);
+                    }
+
+                    // 検索,リスト,UserTimeline,Relatedの各タブに反映
+                    foreach (var tb in this._statuses.GetTabsInnerStorageType())
+                    {
+                        if (tb.Contains(statusId))
+                            tb.Posts[statusId].IsFav = true;
+                    }
+                }
+
+                // 時速表示用
+                var oneHour = DateTime.Now - TimeSpan.FromHours(1);
+                foreach (var i in MyCommon.CountDown(this._favTimestamps.Count - 1, 0))
+                {
+                    if (this._favTimestamps[i] < oneHour)
+                        this._favTimestamps.RemoveAt(i);
+                }
+
+                this._statuses.DistributePosts();
+            });
+
+            if (ct.IsCancellationRequested)
+                return;
+
+            this.RefreshTimeline(false);
+
+            if (this._curList != null && this._curTab != null && this._curTab.Text == tab.TabName)
+            {
+                using (ControlTransaction.Update(this._curList))
+                {
+                    foreach (var statusId in successIds)
+                    {
+                        var idx = tab.IndexOf(statusId);
+                        if (idx == -1)
+                            continue;
+
+                        var post = tab.Posts[statusId];
+                        this.ChangeCacheStyleRead(post.IsRead, idx);
+                    }
+                }
+
+                if (successIds.Contains(this._curPost.StatusId))
+                    this.DispSelectedPost(true); // 選択アイテム再表示
+            }
+        }
+
+        private async Task FavRemoveAsync(IReadOnlyList<long> statusIds, TabClass tab)
+        {
+            await this.workerSemaphore.WaitAsync();
+
+            try
+            {
+                var progress = new Progress<string>(x => this.StatusLabel.Text = x);
+
+                await this.FavRemoveAsyncInternal(progress, this.workerCts.Token, statusIds, tab);
+            }
+            catch (WebApiException ex)
+            {
+                this._myStatusError = true;
+                this.StatusLabel.Text = ex.Message;
+            }
+            finally
+            {
+                this.workerSemaphore.Release();
+            }
+        }
+
+        private async Task FavRemoveAsyncInternal(IProgress<string> p, CancellationToken ct, IReadOnlyList<long> statusIds, TabClass tab)
+        {
+            if (ct.IsCancellationRequested)
+                return;
+
+            if (!CheckAccountValid())
+                throw new WebApiException("Auth error. Check your account");
+
+            var successIds = new List<long>();
+
+            await Task.Run(() =>
+            {
+                //スレッド処理はしない
+                var allCount = 0;
+                var failedCount = 0;
+                foreach (var statusId in statusIds)
+                {
+                    allCount++;
+
+                    var post = tab.Posts[statusId];
+
+                    p.Report(Properties.Resources.GetTimelineWorker_RunWorkerCompletedText17 +
+                        allCount + "/" + statusIds.Count +
+                        Properties.Resources.GetTimelineWorker_RunWorkerCompletedText18 +
+                        failedCount);
+
+                    if (!post.IsFav)
+                        continue;
+
+                    var err = this.tw.PostFavRemove(post.RetweetedId ?? post.StatusId);
+
+                    if (!string.IsNullOrEmpty(err))
+                    {
+                        failedCount++;
+                        continue;
+                    }
+
+                    successIds.Add(statusId);
+                    post.IsFav = false; // リスト再描画必要
+
+                    if (this._statuses.ContainsKey(statusId))
+                    {
+                        this._statuses[statusId].IsFav = false;
+                    }
+
+                    // 検索,リスト,UserTimeline,Relatedの各タブに反映
+                    foreach (var tb in this._statuses.GetTabsInnerStorageType())
+                    {
+                        if (tb.Contains(statusId))
+                            tb.Posts[statusId].IsFav = false;
+                    }
+                }
+            });
+
+            if (ct.IsCancellationRequested)
+                return;
+
+            this.RemovePostFromFavTab(successIds.ToArray());
+
+            this.RefreshTimeline(false);
+
+            if (this._curList != null && this._curTab != null && this._curTab.Text == tab.TabName)
+            {
+                if (tab.TabType == MyCommon.TabUsageType.Favorites)
+                {
+                    // 色変えは不要
+                }
+                else
+                {
+                    using (ControlTransaction.Update(this._curList))
+                    {
+                        foreach (var statusId in successIds)
+                        {
+                            var idx = tab.IndexOf(statusId);
+                            if (idx == -1)
+                                continue;
+
+                            var post = tab.Posts[statusId];
+                            this.ChangeCacheStyleRead(post.IsRead, idx);
                         }
                     }
-                    break;
-                case MyCommon.WORKERTYPE.PostMessage:
-                    if (string.IsNullOrEmpty(rslt.retMsg) ||
-                        rslt.retMsg.StartsWith("OK:") ||
-                        rslt.retMsg == "Warn:Status is a duplicate.")
-                    {
-                        _postTimestamps.Add(DateTime.Now);
-                        DateTime oneHour = DateTime.Now.Subtract(new TimeSpan(1, 0, 0));
-                        for (int i = _postTimestamps.Count - 1; i >= 0; i--)
-                        {
-                            if (_postTimestamps[i].CompareTo(oneHour) < 0)
-                            {
-                                _postTimestamps.RemoveAt(i);
-                            }
-                        }
 
-                        if (!HashMgr.IsPermanent && !string.IsNullOrEmpty(HashMgr.UseHash))
-                        {
-                            HashMgr.ClearHashtag();
-                            this.HashStripSplitButton.Text = "#[-]";
-                            this.HashToggleMenuItem.Checked = false;
-                            this.HashToggleToolStripMenuItem.Checked = false;
-                        }
-                        SetMainWindowTitle();
-                        rslt.retMsg = "";
+                    if (successIds.Contains(this._curPost.StatusId))
+                        this.DispSelectedPost(true); // 選択アイテム再表示
+                }
+            }
+        }
+
+        private async Task PostMessageAsync(PostingStatus status)
+        {
+            await this.workerSemaphore.WaitAsync();
+
+            try
+            {
+                var progress = new Progress<string>(x => this.StatusLabel.Text = x);
+
+                await this.PostMessageAsyncInternal(progress, this.workerCts.Token, status);
+            }
+            catch (WebApiException ex)
+            {
+                this._myStatusError = true;
+                this.StatusLabel.Text = ex.Message;
+            }
+            finally
+            {
+                this.workerSemaphore.Release();
+            }
+        }
+
+        private async Task PostMessageAsyncInternal(IProgress<string> p, CancellationToken ct, PostingStatus status)
+        {
+            if (ct.IsCancellationRequested)
+                return;
+
+            if (!CheckAccountValid())
+                throw new WebApiException("Auth error. Check your account");
+
+            p.Report("Posting...");
+
+            var errMsg = "";
+
+            try
+            {
+                await Task.Run(async () =>
+                {
+                    if (status.imagePath == null || status.imagePath.Length == 0 || string.IsNullOrEmpty(status.imagePath[0]))
+                    {
+                        var err = this.tw.PostStatus(status.status, status.inReplyToId);
+                        if (!string.IsNullOrEmpty(err))
+                            throw new WebApiException(err);
                     }
                     else
                     {
-                        DialogResult retry;
-                        try
-                        {
-                            retry = MessageBox.Show(string.Format("{0}   --->   [ " + rslt.retMsg + " ]" + Environment.NewLine + "\"" + rslt.status.status + "\"" + Environment.NewLine + "{1}",
-                                                                Properties.Resources.StatusUpdateFailed1,
-                                                                Properties.Resources.StatusUpdateFailed2),
-                                                            "Failed to update status",
-                                                            MessageBoxButtons.RetryCancel,
-                                                            MessageBoxIcon.Question);
-                        }
-                        catch (Exception)
-                        {
-                            retry = DialogResult.Abort;
-                        }
-                        if (retry == DialogResult.Retry)
-                        {
-                            GetWorkerArg args = new GetWorkerArg();
-                            args.page = 0;
-                            args.type = MyCommon.WORKERTYPE.PostMessage;
-                            args.status = rslt.status;
-                            RunAsync(args);
-                        }
-                        else
-                        {
-                            if (ToolStripFocusLockMenuItem.Checked)
-                            {
-                                //連投モードのときだけEnterイベントが起きないので強制的に背景色を戻す
-                                StatusText_Enter(StatusText, new EventArgs());
-                            }
-                        }
+                        var service = ImageSelector.GetService(status.imageService);
+                        await service.PostStatusAsync(status.status, status.inReplyToId, status.imagePath)
+                            .ConfigureAwait(false);
                     }
-                    if (rslt.retMsg.Length == 0 && this._cfgCommon.PostAndGet)
+                });
+
+                p.Report(Properties.Resources.PostWorker_RunWorkerCompletedText4);
+            }
+            catch (WebApiException ex)
+            {
+                // 処理は中断せずエラーの表示のみ行う
+                errMsg = ex.Message;
+                p.Report(errMsg);
+                this._myStatusError = true;
+            }
+
+            if (ct.IsCancellationRequested)
+                return;
+
+            if (!string.IsNullOrEmpty(errMsg) &&
+                !errMsg.StartsWith("OK:", StringComparison.Ordinal) &&
+                !errMsg.StartsWith("Warn:", StringComparison.Ordinal))
+            {
+                var ret = MessageBox.Show(
+                    string.Format(
+                        "{0}   --->   [ " + errMsg + " ]" + Environment.NewLine +
+                        "\"" + status.status + "\"" + Environment.NewLine +
+                        "{1}",
+                        Properties.Resources.StatusUpdateFailed1,
+                        Properties.Resources.StatusUpdateFailed2),
+                    "Failed to update status",
+                    MessageBoxButtons.RetryCancel,
+                    MessageBoxIcon.Question);
+
+                if (ret == DialogResult.Retry)
+                {
+                    await this.PostMessageAsync(status);
+                }
+                else
+                {
+                    // 連投モードのときだけEnterイベントが起きないので強制的に背景色を戻す
+                    if (this.ToolStripFocusLockMenuItem.Checked)
+                        this.StatusText_Enter(this.StatusText, EventArgs.Empty);
+                }
+                return;
+            }
+
+            this._postTimestamps.Add(DateTime.Now);
+
+            var oneHour = DateTime.Now - TimeSpan.FromHours(1);
+            foreach (var i in MyCommon.CountDown(this._postTimestamps.Count - 1, 0))
+            {
+                if (this._postTimestamps[i] < oneHour)
+                    this._postTimestamps.RemoveAt(i);
+            }
+
+            if (!this.HashMgr.IsPermanent && !string.IsNullOrEmpty(this.HashMgr.UseHash))
+            {
+                this.HashMgr.ClearHashtag();
+                this.HashStripSplitButton.Text = "#[-]";
+                this.HashToggleMenuItem.Checked = false;
+                this.HashToggleToolStripMenuItem.Checked = false;
+            }
+
+            this.SetMainWindowTitle();
+
+            if (this._cfgCommon.PostAndGet)
+            {
+                if (this._isActiveUserstream)
+                    this.RefreshTimeline(true);
+                else
+                    await this.GetHomeTimelineAsync();
+            }
+        }
+
+        private async Task RetweetAsync(IReadOnlyList<long> statusIds)
+        {
+            await this.workerSemaphore.WaitAsync();
+
+            try
+            {
+                var progress = new Progress<string>(x => this.StatusLabel.Text = x);
+
+                await this.RetweetAsyncInternal(progress, this.workerCts.Token, statusIds);
+            }
+            catch (WebApiException ex)
+            {
+                this._myStatusError = true;
+                this.StatusLabel.Text = ex.Message;
+            }
+            finally
+            {
+                this.workerSemaphore.Release();
+            }
+        }
+
+        private async Task RetweetAsyncInternal(IProgress<string> p, CancellationToken ct, IReadOnlyList<long> statusIds)
+        {
+            if (ct.IsCancellationRequested)
+                return;
+
+            if (!CheckAccountValid())
+                throw new WebApiException("Auth error. Check your account");
+
+            bool read;
+            if (!this._cfgCommon.UnreadManage)
+                read = true;
+            else
+                read = this._initial && this._cfgCommon.Read;
+
+            p.Report("Posting...");
+
+            await Task.Run(() =>
+            {
+                foreach (var statusId in statusIds)
+                {
+                    var err = this.tw.PostRetweet(statusId, read);
+                    if (!string.IsNullOrEmpty(err))
+                        throw new WebApiException(err);
+                }
+            });
+
+            if (ct.IsCancellationRequested)
+                return;
+
+            p.Report(Properties.Resources.PostWorker_RunWorkerCompletedText4);
+
+            this._postTimestamps.Add(DateTime.Now);
+
+            var oneHour = DateTime.Now - TimeSpan.FromHours(1);
+            foreach (var i in MyCommon.CountDown(this._postTimestamps.Count - 1, 0))
+            {
+                if (this._postTimestamps[i] < oneHour)
+                    this._postTimestamps.RemoveAt(i);
+            }
+
+            if (this._cfgCommon.PostAndGet && !this._isActiveUserstream)
+                await this.GetHomeTimelineAsync();
+        }
+
+        private async Task RefreshFollowerIdsAsync()
+        {
+            await this.workerSemaphore.WaitAsync();
+            try
+            {
+                this.StatusLabel.Text = Properties.Resources.UpdateFollowersMenuItem1_ClickText1;
+
+                await Task.Run(() => tw.RefreshFollowerIds());
+
+                this.StatusLabel.Text = Properties.Resources.UpdateFollowersMenuItem1_ClickText3;
+
+                this.RefreshTimeline(false);
+                this.PurgeListViewItemCache();
+                if (this._curList != null)
+                    this._curList.Refresh();
+            }
+            catch (WebApiException ex)
+            {
+                this.StatusLabel.Text = ex.Message;
+            }
+            finally
+            {
+                this.workerSemaphore.Release();
+            }
+        }
+
+        private async Task RefreshNoRetweetIdsAsync()
+        {
+            await this.workerSemaphore.WaitAsync();
+            try
+            {
+                await Task.Run(() => tw.RefreshNoRetweetIds());
+
+                this.StatusLabel.Text = "NoRetweetIds refreshed";
+            }
+            catch (WebApiException ex)
+            {
+                this.StatusLabel.Text = ex.Message;
+            }
+            finally
+            {
+                this.workerSemaphore.Release();
+            }
+        }
+
+        private async Task RefreshBlockIdsAsync()
+        {
+            await this.workerSemaphore.WaitAsync();
+            try
+            {
+                this.StatusLabel.Text = Properties.Resources.UpdateBlockUserText1;
+
+                await Task.Run(() => tw.RefreshBlockIds());
+
+                this.StatusLabel.Text = Properties.Resources.UpdateBlockUserText3;
+            }
+            catch (WebApiException ex)
+            {
+                this.StatusLabel.Text = ex.Message;
+            }
+            finally
+            {
+                this.workerSemaphore.Release();
+            }
+        }
+
+        private async Task RefreshTwitterConfigurationAsync()
+        {
+            await this.workerSemaphore.WaitAsync();
+            try
+            {
+                await Task.Run(() => tw.RefreshConfiguration());
+
+                if (this.tw.Configuration.PhotoSizeLimit != 0)
+                {
+                    foreach (var service in this.ImageSelector.GetServices())
                     {
-                        if (_isActiveUserstream)
-                        {
-                            RefreshTimeline(true);
-                        }
-                        else
-                        {
-                            GetTimeline(MyCommon.WORKERTYPE.Timeline, 1, "");
-                        }
+                        service.UpdateTwitterConfiguration(this.tw.Configuration);
                     }
-                    break;
-                case MyCommon.WORKERTYPE.Retweet:
-                    if (rslt.retMsg.Length == 0)
-                    {
-                        _postTimestamps.Add(DateTime.Now);
-                        DateTime oneHour = DateTime.Now.Subtract(new TimeSpan(1, 0, 0));
-                        for (int i = _postTimestamps.Count - 1; i >= 0; i--)
-                        {
-                            if (_postTimestamps[i].CompareTo(oneHour) < 0)
-                            {
-                                _postTimestamps.RemoveAt(i);
-                            }
-                        }
-                        if (!_isActiveUserstream && this._cfgCommon.PostAndGet) GetTimeline(MyCommon.WORKERTYPE.Timeline, 1, "");
-                    }
-                    break;
-                case MyCommon.WORKERTYPE.Follower:
-                    //_waitFollower = false;
-                    this.PurgeListViewItemCache();
-                    if (_curList != null) _curList.Refresh();
-                    break;
-                case MyCommon.WORKERTYPE.NoRetweetIds:
-                    break;
-                case MyCommon.WORKERTYPE.Configuration:
-                    //_waitFollower = false
-                    if (this.tw.Configuration.PhotoSizeLimit != 0)
-                    {
-                        foreach (var service in this.ImageSelector.GetServices())
-                        {
-                            service.UpdateTwitterConfiguration(this.tw.Configuration);
-                        }
-                    }
-                    this.PurgeListViewItemCache();
-                    if (_curList != null) _curList.Refresh();
-                    break;
-                case MyCommon.WORKERTYPE.PublicSearch:
-                    _waitPubSearch = false;
-                    break;
-                case MyCommon.WORKERTYPE.UserTimeline:
-                    _waitUserTimeline = false;
-                    break;
-                case MyCommon.WORKERTYPE.List:
-                    _waitLists = false;
-                    break;
-                case MyCommon.WORKERTYPE.Related:
-                    TabClass tab = _statuses.GetTabByType(MyCommon.TabUsageType.Related);
-                    if (tab != null && tab.RelationTargetPost != null && tab.Contains(tab.RelationTargetPost.StatusId))
-                    {
-                        foreach (TabPage tp in ListTab.TabPages)
-                        {
-                            if (tp.Text == tab.TabName)
-                            {
-                                ((DetailsListView)tp.Tag).SelectedIndices.Add(tab.IndexOf(tab.RelationTargetPost.StatusId));
-                                ((DetailsListView)tp.Tag).Items[tab.IndexOf(tab.RelationTargetPost.StatusId)].Focused = true;
-                                break;
-                            }
-                        }
-                    }
-                    break;
+                }
+
+                this.PurgeListViewItemCache();
+
+                if (this._curList != null)
+                    this._curList.Refresh();
+            }
+            catch (WebApiException ex)
+            {
+                this.StatusLabel.Text = ex.Message;
+            }
+            finally
+            {
+                this.workerSemaphore.Release();
             }
         }
 
@@ -3082,42 +3435,6 @@ namespace OpenTween
             }
         }
 
-        private static Dictionary<MyCommon.WORKERTYPE, DateTime> lastTime = new Dictionary<MyCommon.WORKERTYPE, DateTime>();
-
-        private void GetTimeline(MyCommon.WORKERTYPE WkType, int fromPage, string tabName)
-        {
-            if (!this.IsNetworkAvailable()) return;
-
-            //非同期実行引数設定
-            GetWorkerArg args = new GetWorkerArg();
-            args.page = fromPage;
-            args.type = WkType;
-            args.tName = tabName;
-
-            if (!lastTime.ContainsKey(WkType)) lastTime.Add(WkType, new DateTime());
-            double period = DateTime.Now.Subtract(lastTime[WkType]).TotalSeconds;
-            if (period > 1 || period < -1)
-            {
-                lastTime[WkType] = DateTime.Now;
-                RunAsync(args);
-            }
-
-            //Timeline取得モードの場合はReplyも同時に取得
-            //if (!SettingDialog.UseAPI &&
-            //   !_initial &&
-            //   WkType == MyCommon.WORKERTYPE.Timeline &&
-            //   SettingDialog.CheckReply)
-            //{
-            //    //TimerReply.Enabled = false;
-            //    _mentionCounter = SettingDialog.ReplyPeriodInt;
-            //    GetWorkerArg _args = new GetWorkerArg();
-            //    _args.page = fromPage;
-            //    _args.endPage = toPage;
-            //    _args.type = MyCommon.WORKERTYPE.Reply;
-            //    RunAsync(_args);
-            //}
-        }
-
         private void NotifyIcon1_MouseClick(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
@@ -3132,7 +3449,7 @@ namespace OpenTween
             }
         }
 
-        private void MyList_MouseDoubleClick(object sender, MouseEventArgs e)
+        private async void MyList_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             switch (this._cfgCommon.ListDoubleClickAction)
             {
@@ -3140,7 +3457,7 @@ namespace OpenTween
                     MakeReplyOrDirectStatus();
                     break;
                 case 1:
-                    FavoriteChange(true);
+                    await this.FavoriteChange(true);
                     break;
                 case 2:
                     if (_curPost != null)
@@ -3164,31 +3481,35 @@ namespace OpenTween
             }
         }
 
-        private void FavAddToolStripMenuItem_Click(object sender, EventArgs e)
+        private async void FavAddToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            FavoriteChange(true);
+            await this.FavoriteChange(true);
         }
 
-        private void FavRemoveToolStripMenuItem_Click(object sender, EventArgs e)
+        private async void FavRemoveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            FavoriteChange(false);
+            await this.FavoriteChange(false);
         }
 
 
-        private void FavoriteRetweetMenuItem_Click(object sender, EventArgs e)
+        private async void FavoriteRetweetMenuItem_Click(object sender, EventArgs e)
         {
-            FavoritesRetweetOriginal();
+            await this.FavoritesRetweetOriginal();
         }
 
-        private void FavoriteRetweetUnofficialMenuItem_Click(object sender, EventArgs e)
+        private async void FavoriteRetweetUnofficialMenuItem_Click(object sender, EventArgs e)
         {
-            FavoritesRetweetUnofficial();
+            await this.FavoritesRetweetUnofficial();
         }
 
-        private void FavoriteChange(bool FavAdd , bool multiFavoriteChangeDialogEnable = true)
+        private async Task FavoriteChange(bool FavAdd , bool multiFavoriteChangeDialogEnable = true)
         {
+            TabClass tab;
+            if (!this._statuses.Tabs.TryGetValue(this._curTab.Text, out tab))
+                return;
+
             //trueでFavAdd,falseでFavRemove
-            if (_statuses.Tabs[_curTab.Text].TabType == MyCommon.TabUsageType.DirectMessage || _curList.SelectedIndices.Count == 0
+            if (tab.TabType == MyCommon.TabUsageType.DirectMessage || _curList.SelectedIndices.Count == 0
                 || !this.ExistCurrentPost) return;
 
             //複数fav確認msg
@@ -3221,31 +3542,22 @@ namespace OpenTween
                 }
             }
 
-            GetWorkerArg args = new GetWorkerArg();
-            args.ids = new List<long>();
-            args.sIds = new List<long>();
-            args.tName = _curTab.Text;
-            if (FavAdd)
-            {
-                args.type = MyCommon.WORKERTYPE.FavAdd;
-            }
-            else
-            {
-                args.type = MyCommon.WORKERTYPE.FavRemove;
-            }
+            var statusIds = new List<long>();
             foreach (int idx in _curList.SelectedIndices)
             {
                 PostClass post = GetCurTabPost(idx);
                 if (FavAdd)
                 {
-                    if (!post.IsFav) args.ids.Add(post.StatusId);
+                    if (!post.IsFav)
+                        statusIds.Add(post.StatusId);
                 }
                 else
                 {
-                    if (post.IsFav) args.ids.Add(post.StatusId);
+                    if (post.IsFav)
+                        statusIds.Add(post.StatusId);
                 }
             }
-            if (args.ids.Count == 0)
+            if (statusIds.Count == 0)
             {
                 if (FavAdd)
                     StatusLabel.Text = Properties.Resources.FavAddToolStripMenuItem_ClickText4;
@@ -3255,7 +3567,10 @@ namespace OpenTween
                 return;
             }
 
-            RunAsync(args);
+            if (FavAdd)
+                await this.FavAddAsync(statusIds, tab);
+            else
+                await this.FavRemoveAsync(statusIds, tab);
         }
 
         private PostClass GetCurTabPost(int Index)
@@ -3674,94 +3989,98 @@ namespace OpenTween
 
         private void RefreshStripMenuItem_Click(object sender, EventArgs e)
         {
-            DoRefresh();
+            this.DoRefresh();
         }
 
         private void DoRefresh()
         {
             if (_curTab != null)
             {
+                TabClass tab;
+                if (!this._statuses.Tabs.TryGetValue(this._curTab.Text, out tab))
+                    return;
+
                 switch (_statuses.Tabs[_curTab.Text].TabType)
                 {
                     case MyCommon.TabUsageType.Mentions:
-                        GetTimeline(MyCommon.WORKERTYPE.Reply, 1, "");
+                        this.GetReplyAsync();
                         break;
                     case MyCommon.TabUsageType.DirectMessage:
-                        GetTimeline(MyCommon.WORKERTYPE.DirectMessegeRcv, 1, "");
+                        this.GetDirectMessagesAsync();
                         break;
                     case MyCommon.TabUsageType.Favorites:
-                        GetTimeline(MyCommon.WORKERTYPE.Favorites, 1, "");
+                        this.GetFavoritesAsync();
                         break;
                     //case MyCommon.TabUsageType.Profile:
                         //// TODO
                     case MyCommon.TabUsageType.PublicSearch:
                         //// TODO
-                        TabClass tb = _statuses.Tabs[_curTab.Text];
-                        if (string.IsNullOrEmpty(tb.SearchWords)) return;
-                        GetTimeline(MyCommon.WORKERTYPE.PublicSearch, 1, _curTab.Text);
+                        if (string.IsNullOrEmpty(tab.SearchWords)) return;
+                        this.GetPublicSearchAsync(tab);
                         break;
                     case MyCommon.TabUsageType.UserTimeline:
-                        GetTimeline(MyCommon.WORKERTYPE.UserTimeline, 1, _curTab.Text);
+                        this.GetUserTimelineAsync(tab);
                         break;
                     case MyCommon.TabUsageType.Lists:
                         //// TODO
-                        TabClass tab = _statuses.Tabs[_curTab.Text];
                         if (tab.ListInfo == null || tab.ListInfo.Id == 0) return;
-                        GetTimeline(MyCommon.WORKERTYPE.List, 1, _curTab.Text);
+                        this.GetListTimelineAsync(tab);
                         break;
                     default:
-                        GetTimeline(MyCommon.WORKERTYPE.Timeline, 1, "");
+                        this.GetHomeTimelineAsync();
                         break;
                 }
             }
             else
             {
-                GetTimeline(MyCommon.WORKERTYPE.Timeline, 1, "");
+                this.GetHomeTimelineAsync();
             }
         }
 
-        private void DoRefreshMore()
+        private async Task DoRefreshMore()
         {
             //ページ指定をマイナス1に
             if (_curTab != null)
             {
+                TabClass tab;
+                if (!this._statuses.Tabs.TryGetValue(this._curTab.Text, out tab))
+                    return;
+
                 switch (_statuses.Tabs[_curTab.Text].TabType)
                 {
                     case MyCommon.TabUsageType.Mentions:
-                        GetTimeline(MyCommon.WORKERTYPE.Reply, -1, "");
+                        await this.GetReplyAsync(loadMore: true);
                         break;
                     case MyCommon.TabUsageType.DirectMessage:
-                        GetTimeline(MyCommon.WORKERTYPE.DirectMessegeRcv, -1, "");
+                        await this.GetDirectMessagesAsync(loadMore: true);
                         break;
                     case MyCommon.TabUsageType.Favorites:
-                        GetTimeline(MyCommon.WORKERTYPE.Favorites, -1, "");
+                        await this.GetFavoritesAsync(loadMore: true);
                         break;
                     case MyCommon.TabUsageType.Profile:
                         //// TODO
                         break;
                     case MyCommon.TabUsageType.PublicSearch:
                         // TODO
-                        TabClass tb = _statuses.Tabs[_curTab.Text];
-                        if (string.IsNullOrEmpty(tb.SearchWords)) return;
-                        GetTimeline(MyCommon.WORKERTYPE.PublicSearch, -1, _curTab.Text);
+                        if (string.IsNullOrEmpty(tab.SearchWords)) return;
+                        await this.GetPublicSearchAsync(tab, loadMore: true);
                         break;
                     case MyCommon.TabUsageType.UserTimeline:
-                        GetTimeline(MyCommon.WORKERTYPE.UserTimeline, -1, _curTab.Text);
+                        await this.GetUserTimelineAsync(tab, loadMore: true);
                         break;
                     case MyCommon.TabUsageType.Lists:
                         //// TODO
-                        TabClass tab = _statuses.Tabs[_curTab.Text];
                         if (tab.ListInfo == null || tab.ListInfo.Id == 0) return;
-                        GetTimeline(MyCommon.WORKERTYPE.List, -1, _curTab.Text);
+                        await this.GetListTimelineAsync(tab, loadMore: true);
                         break;
                     default:
-                        GetTimeline(MyCommon.WORKERTYPE.Timeline, -1, "");
+                        await this.GetHomeTimelineAsync(loadMore: true);
                         break;
                 }
             }
             else
             {
-                GetTimeline(MyCommon.WORKERTYPE.Timeline, -1, "");
+                await this.GetHomeTimelineAsync(loadMore: true);
             }
         }
 
@@ -3800,7 +4119,7 @@ namespace OpenTween
             return result;
         }
 
-        private void SettingStripMenuItem_Click(object sender, EventArgs e)
+        private async void SettingStripMenuItem_Click(object sender, EventArgs e)
         {
             // 設定画面表示前のユーザー情報
             var oldUser = new { tw.AccessToken, tw.AccessTokenSecret, tw.Username, tw.UserId };
@@ -4017,9 +4336,6 @@ namespace OpenTween
                         _hookGlobalHotkey.RegisterOriginalHotkey(this._cfgCommon.HotkeyKey, this._cfgCommon.HotkeyValue, modKey);
                     }
 
-                    if (tw.Username != oldUser.Username)
-                        this.doGetFollowersMenu();
-
                     if (this._cfgCommon.IsUseNotifyGrowl) gh.RegisterGrowl();
                     try
                     {
@@ -4040,6 +4356,9 @@ namespace OpenTween
 
             this.TopMost = this._cfgCommon.AlwaysTop;
             SaveConfigsAll(false);
+
+            if (tw.Username != oldUser.Username)
+                await this.doGetFollowersMenu();
         }
 
         /// <summary>
@@ -4282,14 +4601,14 @@ namespace OpenTween
             }
             //タブ追加
             _statuses.AddTab(tabName, MyCommon.TabUsageType.UserTimeline, null);
-            _statuses.Tabs[tabName].User = user;
+            var tab = this._statuses.Tabs[tabName];
+            tab.User = user;
             AddNewTab(tabName, false, MyCommon.TabUsageType.UserTimeline);
             //追加したタブをアクティブに
             ListTab.SelectedIndex = ListTab.TabPages.Count - 1;
             SaveConfigsTabs();
             //検索実行
-
-            GetTimeline(MyCommon.WORKERTYPE.UserTimeline, 1, tabName);
+            this.GetUserTimelineAsync(tab);
         }
 
         public bool AddNewTab(string tabName, bool startup, MyCommon.TabUsageType tabType, ListElement listInfo = null)
@@ -6257,10 +6576,10 @@ namespace OpenTween
                             DoRefresh();
                             return true;
                         case Keys.F6:
-                            GetTimeline(MyCommon.WORKERTYPE.Reply, 1, "");
+                            this.GetReplyAsync();
                             return true;
                         case Keys.F7:
-                            GetTimeline(MyCommon.WORKERTYPE.DirectMessegeRcv, 1, "");
+                            this.GetDirectMessagesAsync();
                             return true;
                     }
                     if (Focused != FocusedControl.StatusText)
@@ -6556,10 +6875,10 @@ namespace OpenTween
                             DoRefreshMore();
                             return true;
                         case Keys.F6:
-                            GetTimeline(MyCommon.WORKERTYPE.Reply, -1, "");
+                            this.GetReplyAsync(loadMore: true);
                             return true;
                         case Keys.F7:
-                            GetTimeline(MyCommon.WORKERTYPE.DirectMessegeRcv, -1, "");
+                            this.GetDirectMessagesAsync(loadMore: true);
                             return true;
                     }
                     //フォーカスStatusText以外
@@ -7820,7 +8139,7 @@ namespace OpenTween
 
             try
             {
-                this.OpenRelatedTab(post);
+                await this.OpenRelatedTab(post);
             }
             catch (TabException ex)
             {
@@ -8410,15 +8729,7 @@ namespace OpenTween
             //    }
             //}
 
-            bool busy = false;
-            foreach (BackgroundWorker bw in this._bw)
-            {
-                if (bw != null && bw.IsBusy)
-                {
-                    busy = true;
-                    break;
-                }
-            }
+            var busy = this.workerSemaphore.CurrentCount != MAX_WORKER_THREADS;
 
             if (iconCnt >= this.NIconRefresh.Length)
             {
@@ -8709,7 +9020,8 @@ namespace OpenTween
                     {
                         ListTab.SelectedIndex = ListTab.TabPages.Count - 1;
                         ListTabSelect(ListTab.TabPages[ListTab.TabPages.Count - 1]);
-                        GetTimeline(MyCommon.WORKERTYPE.List, 1, tabName);
+                        var tab = this._statuses.Tabs[this._curTab.Name];
+                        this.GetListTimelineAsync(tab);
                     }
                 }
             }
@@ -10714,60 +11026,6 @@ namespace OpenTween
             if (flg) LView.Invalidate(bnd);
         }
 
-        private void RunAsync(GetWorkerArg args)
-        {
-            BackgroundWorker bw = null;
-            if (args.type != MyCommon.WORKERTYPE.Follower)
-            {
-                for (int i = 0; i < _bw.Length; i++)
-                {
-                    if (_bw[i] != null && !_bw[i].IsBusy)
-                    {
-                        bw = _bw[i];
-                        break;
-                    }
-                }
-                if (bw == null)
-                {
-                    for (int i = 0; i < _bw.Length; i++)
-                    {
-                        if (_bw[i] == null)
-                        {
-                            _bw[i] = new BackgroundWorker();
-                            bw = _bw[i];
-                            bw.WorkerReportsProgress = true;
-                            bw.WorkerSupportsCancellation = true;
-                            bw.DoWork += GetTimelineWorker_DoWork;
-                            bw.ProgressChanged += GetTimelineWorker_ProgressChanged;
-                            bw.RunWorkerCompleted += GetTimelineWorker_RunWorkerCompleted;
-                            break;
-                        }
-                    }
-                }
-            }
-            else
-            {
-                if (_bwFollower == null)
-                {
-                    _bwFollower = new BackgroundWorker();
-                    bw = _bwFollower;
-                    bw.WorkerReportsProgress = true;
-                    bw.WorkerSupportsCancellation = true;
-                    bw.DoWork += GetTimelineWorker_DoWork;
-                    bw.ProgressChanged += GetTimelineWorker_ProgressChanged;
-                    bw.RunWorkerCompleted += GetTimelineWorker_RunWorkerCompleted;
-                }
-                else
-                {
-                    if (_bwFollower.IsBusy == false)
-                        bw = _bwFollower;
-                }
-            }
-            if (bw == null) return;
-
-            bw.RunWorkerAsync(args);
-        }
-
         private void StartUserStream()
         {
             tw.NewPostFromStream += tw_NewPostFromStream;
@@ -10798,37 +11056,36 @@ namespace OpenTween
 
             if (this.IsNetworkAvailable())
             {
-                this.RefreshMuteUserIdsAsync();
-                GetTimeline(MyCommon.WORKERTYPE.BlockIds, 0, "");
-                GetTimeline(MyCommon.WORKERTYPE.NoRetweetIds, 0, "");
-                if (this._cfgCommon.StartupFollowers)
-                {
-                    GetTimeline(MyCommon.WORKERTYPE.Follower, 0, "");
-                }
-                GetTimeline(MyCommon.WORKERTYPE.Configuration, 0, "");
                 StartUserStream();
-                _waitTimeline = true;
-                GetTimeline(MyCommon.WORKERTYPE.Timeline, 1, "");
-                _waitReply = true;
-                GetTimeline(MyCommon.WORKERTYPE.Reply, 1, "");
-                _waitDm = true;
-                GetTimeline(MyCommon.WORKERTYPE.DirectMessegeRcv, 1, "");
-                if (this._cfgCommon.GetFav)
+
+                var loadTasks = new List<Task>
                 {
-                    _waitFav = true;
-                    GetTimeline(MyCommon.WORKERTYPE.Favorites, 1, "");
-                }
-                _waitPubSearch = true;
-                GetTimeline(MyCommon.WORKERTYPE.PublicSearch, 1, "");  //tabname="":全タブ
-                _waitUserTimeline = true;
-                GetTimeline(MyCommon.WORKERTYPE.UserTimeline, 1, "");  //tabname="":全タブ
-                _waitLists = true;
-                GetTimeline(MyCommon.WORKERTYPE.List, 1, "");  //tabname="":全タブ
+                    this.RefreshMuteUserIdsAsync(),
+                    this.RefreshBlockIdsAsync(),
+                    this.RefreshNoRetweetIdsAsync(),
+                    this.RefreshTwitterConfigurationAsync(),
+                    this.GetHomeTimelineAsync(),
+                    this.GetReplyAsync(),
+                    this.GetDirectMessagesAsync(),
+                    this.GetPublicSearchAllAsync(),
+                    this.GetUserTimelineAllAsync(),
+                    this.GetListTimelineAllAsync(),
+                };
+
+                if (this._cfgCommon.StartupFollowers)
+                    loadTasks.Add(this.RefreshFollowerIdsAsync());
+
+                if (this._cfgCommon.GetFav)
+                    loadTasks.Add(this.GetFavoritesAsync());
+
+                var allTasks = Task.WhenAll(loadTasks);
 
                 var i = 0;
-                while (this.IsInitialRead())
+                while (true)
                 {
-                    await Task.Delay(5000);
+                    var timeout = Task.Delay(5000);
+                    if (await Task.WhenAny(allTasks, timeout) != timeout)
+                        break;
 
                     i += 1;
                     if (i > 24) break; // 120秒間初期処理が終了しなかったら強制的に打ち切る
@@ -10853,18 +11110,6 @@ namespace OpenTween
                     this.ToolStripSeparator16.Available = false; // VerUpMenuItem の一つ上にあるセパレータ
                 }
 
-                // 取得失敗の場合は再試行する
-                if (!tw.GetFollowersSuccess && this._cfgCommon.StartupFollowers)
-                    GetTimeline(MyCommon.WORKERTYPE.Follower, 0, "");
-
-                // 取得失敗の場合は再試行する
-                if (!tw.GetNoRetweetSuccess)
-                    GetTimeline(MyCommon.WORKERTYPE.NoRetweetIds, 0, "");
-
-                // 取得失敗の場合は再試行する
-                if (this.tw.Configuration.PhotoSizeLimit == 0)
-                    GetTimeline(MyCommon.WORKERTYPE.Configuration, 0, "");
-
                 // 権限チェック read/write権限(xAuthで取得したトークン)の場合は再認証を促す
                 if (MyCommon.TwitterApiInfo.AccessLevel == TwitterApiAccessLevel.ReadWrite)
                 {
@@ -10872,27 +11117,35 @@ namespace OpenTween
                     SettingStripMenuItem_Click(null, null);
                 }
 
-                //
+                // 取得失敗の場合は再試行する
+                var reloadTasks = new List<Task>();
+
+                if (!tw.GetFollowersSuccess && this._cfgCommon.StartupFollowers)
+                    reloadTasks.Add(this.RefreshFollowerIdsAsync());
+
+                if (!tw.GetNoRetweetSuccess)
+                    reloadTasks.Add(this.RefreshNoRetweetIdsAsync());
+
+                if (this.tw.Configuration.PhotoSizeLimit == 0)
+                    reloadTasks.Add(this.RefreshTwitterConfigurationAsync());
+
+                await Task.WhenAll(reloadTasks);
             }
+
             _initial = false;
 
             TimerTimeline.Enabled = true;
         }
 
-        private bool IsInitialRead()
+        private async Task doGetFollowersMenu()
         {
-            return _waitTimeline || _waitReply || _waitDm || _waitFav || _waitPubSearch || _waitUserTimeline || _waitLists;
-        }
-
-        private void doGetFollowersMenu()
-        {
-            GetTimeline(MyCommon.WORKERTYPE.Follower, 1, "");
+            await this.RefreshFollowerIdsAsync();
             DispSelectedPost(true);
         }
 
-        private void GetFollowersAllToolStripMenuItem_Click(object sender, EventArgs e)
+        private async void GetFollowersAllToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            doGetFollowersMenu();
+            await this.doGetFollowersMenu();
         }
 
         private void doReTweetUnofficial()
@@ -10926,7 +11179,7 @@ namespace OpenTween
             doReTweetUnofficial();
         }
 
-        private void doReTweetOfficial(bool isConfirm)
+        private async Task doReTweetOfficial(bool isConfirm)
         {
             //公式RT
             if (this.ExistCurrentPost)
@@ -10973,43 +11226,42 @@ namespace OpenTween
                         }
                     }
                 }
-                GetWorkerArg args = new GetWorkerArg();
-                args.ids = new List<long>();
-                args.sIds = new List<long>();
-                args.tName = _curTab.Text;
-                args.type = MyCommon.WORKERTYPE.Retweet;
+
+                var statusIds = new List<long>();
                 foreach (int idx in _curList.SelectedIndices)
                 {
                     PostClass post = GetCurTabPost(idx);
-                    if (!post.IsMe && !post.IsProtect && !post.IsDm) args.ids.Add(post.StatusId);
+                    if (!post.IsMe && !post.IsProtect && !post.IsDm)
+                        statusIds.Add(post.StatusId);
                 }
-                RunAsync(args);
+
+                await this.RetweetAsync(statusIds);
             }
         }
 
-        private void ReTweetOriginalStripMenuItem_Click(object sender, EventArgs e)
+        private async void ReTweetOriginalStripMenuItem_Click(object sender, EventArgs e)
         {
-            doReTweetOfficial(true);
+            await this.doReTweetOfficial(true);
         }
 
-        private void FavoritesRetweetOriginal()
+        private async Task FavoritesRetweetOriginal()
         {
             if (!this.ExistCurrentPost) return;
             _DoFavRetweetFlags = true;
-            doReTweetOfficial(true);
+            await this.doReTweetOfficial(true);
             if (_DoFavRetweetFlags)
             {
                 _DoFavRetweetFlags = false;
-                FavoriteChange(true, false);
+                await this.FavoriteChange(true, false);
             }
         }
 
-        private void FavoritesRetweetUnofficial()
+        private async Task FavoritesRetweetUnofficial()
         {
             if (this.ExistCurrentPost && !_curPost.IsDm)
             {
                 _DoFavRetweetFlags = true;
-                FavoriteChange(true);
+                await this.FavoriteChange(true);
                 if (!_curPost.IsProtect && _DoFavRetweetFlags)
                 {
                     _DoFavRetweetFlags = false;
@@ -11581,14 +11833,14 @@ namespace OpenTween
                 SaveConfigsTabs();   //検索条件の保存
             }
 
-            GetTimeline(MyCommon.WORKERTYPE.PublicSearch, 1, tbName);
+            this.GetPublicSearchAsync(tb);
             listView.Focus();
         }
 
-        private void RefreshMoreStripMenuItem_Click(object sender, EventArgs e)
+        private async void RefreshMoreStripMenuItem_Click(object sender, EventArgs e)
         {
             //もっと前を取得
-            DoRefreshMore();
+            await this.DoRefreshMore();
         }
 
         private void UndoRemoveTabMenuItem_Click(object sender, EventArgs e)
@@ -12489,13 +12741,13 @@ namespace OpenTween
             }
         }
 
-        private void ShowRelatedStatusesMenuItem_Click(object sender, EventArgs e) // Handles ShowRelatedStatusesMenuItem.Click, ShowRelatedStatusesMenuItem2.Click
+        private async void ShowRelatedStatusesMenuItem_Click(object sender, EventArgs e)
         {
             if (this.ExistCurrentPost && !_curPost.IsDm)
             {
                 try
                 {
-                    this.OpenRelatedTab(this._curPost);
+                    await this.OpenRelatedTab(this._curPost);
                 }
                 catch (TabException ex)
                 {
@@ -12509,7 +12761,7 @@ namespace OpenTween
         /// </summary>
         /// <param name="post">表示する対象となるツイート</param>
         /// <exception cref="TabException">名前の重複が多すぎてタブを作成できない場合</exception>
-        private void OpenRelatedTab(PostClass post)
+        private async Task OpenRelatedTab(PostClass post)
         {
             var tabRelated = this._statuses.GetTabByType(MyCommon.TabUsageType.Related);
             string tabName;
@@ -12544,7 +12796,7 @@ namespace OpenTween
                 }
             }
 
-            this.GetTimeline(MyCommon.WORKERTYPE.Related, 1, tabName);
+            await this.GetRelatedTweetsAsync(tabRelated);
         }
 
         private void CacheInfoMenuItem_Click(object sender, EventArgs e)
