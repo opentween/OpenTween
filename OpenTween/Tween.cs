@@ -5982,7 +5982,6 @@ namespace OpenTween
                         .First(x => x.Text == tabName);
 
                     this.ListTab.SelectedTab = tabPage;
-                    this.ListTabSelect(tabPage);
 
                     this.ApplyPostFilters();
                     this.SaveConfigsTabs();
@@ -6771,11 +6770,9 @@ namespace OpenTween
                                 if (ListTab.TabPages.Count < tabNo)
                                     return false;
                                 ListTab.SelectedIndex = tabNo;
-                                ListTabSelect(ListTab.TabPages[tabNo]);
                                 return true;
                             case Keys.D9:
                                 ListTab.SelectedIndex = ListTab.TabPages.Count - 1;
-                                ListTabSelect(ListTab.TabPages[ListTab.TabPages.Count - 1]);
                                 return true;
                         }
                     }
@@ -7204,7 +7201,6 @@ namespace OpenTween
                 if (idx < 0) idx = ListTab.TabPages.Count - 1;
             }
             ListTab.SelectedIndex = idx;
-            ListTabSelect(ListTab.TabPages[idx]);
         }
 
         private void CopyStot()
@@ -7378,7 +7374,6 @@ namespace OpenTween
                     if (_statuses.Tabs[ListTab.TabPages[tabidx].Text][idx].StatusId == targetId)
                     {
                         ListTab.SelectedIndex = tabidx;
-                        ListTabSelect(ListTab.TabPages[tabidx]);
                         SelectListItem(_curList, idx);
                         _curList.EnsureVisible(idx);
                         found = true;
@@ -7888,7 +7883,6 @@ namespace OpenTween
                 {
                     int idx = _statuses.Tabs[ListTab.TabPages[tabidx].Text].IndexOf(statusId);
                     ListTab.SelectedIndex = tabidx;
-                    ListTabSelect(ListTab.TabPages[tabidx]);
                     SelectListItem(_curList, idx);
                     _curList.EnsureVisible(idx);
                     return true;
@@ -7906,7 +7900,6 @@ namespace OpenTween
                 {
                     int idx = _statuses.Tabs[ListTab.TabPages[tabidx].Text].IndexOf(statusId);
                     ListTab.SelectedIndex = tabidx;
-                    ListTabSelect(ListTab.TabPages[tabidx]);
                     SelectListItem(_curList, idx);
                     _curList.EnsureVisible(idx);
                     return true;
@@ -9013,13 +9006,11 @@ namespace OpenTween
                     if (tabUsage == MyCommon.TabUsageType.PublicSearch)
                     {
                         ListTab.SelectedIndex = ListTab.TabPages.Count - 1;
-                        ListTabSelect(ListTab.TabPages[ListTab.TabPages.Count - 1]);
                         ListTab.SelectedTab.Controls["panelSearch"].Controls["comboSearch"].Focus();
                     }
                     if (tabUsage == MyCommon.TabUsageType.Lists)
                     {
                         ListTab.SelectedIndex = ListTab.TabPages.Count - 1;
-                        ListTabSelect(ListTab.TabPages[ListTab.TabPages.Count - 1]);
                         var tab = this._statuses.Tabs[this._curTab.Text];
                         this.GetListTimelineAsync(tab);
                     }
@@ -11871,7 +11862,6 @@ namespace OpenTween
                             {
                                 listView = (DetailsListView)tabPage.Tag;
                                 ListTab.SelectedIndex = i;
-                                ListTabSelect(tabPage);
                                 break;
                             }
                         }
@@ -11892,7 +11882,6 @@ namespace OpenTween
                         var tabPage = ListTab.TabPages[ListTab.TabPages.Count - 1];
                         listView = (DetailsListView)tabPage.Tag;
                         ListTab.SelectedIndex = ListTab.TabPages.Count - 1;
-                        ListTabSelect(tabPage);
                     }
                 }
                 else
@@ -11910,7 +11899,6 @@ namespace OpenTween
                     var tabPage = ListTab.TabPages[ListTab.TabPages.Count - 1];
                     listView = (DetailsListView)tabPage.Tag;
                     ListTab.SelectedIndex = ListTab.TabPages.Count - 1;
-                    ListTabSelect(tabPage);
                 }
                 SaveConfigsTabs();
 
@@ -12791,7 +12779,6 @@ namespace OpenTween
                 if (tabName == tabPage.Text)
                 {
                     this.ListTab.SelectedIndex = i;
-                    this.ListTabSelect(tabPage);
                     break;
                 }
             }
