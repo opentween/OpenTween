@@ -9020,7 +9020,7 @@ namespace OpenTween
                     {
                         ListTab.SelectedIndex = ListTab.TabPages.Count - 1;
                         ListTabSelect(ListTab.TabPages[ListTab.TabPages.Count - 1]);
-                        var tab = this._statuses.Tabs[this._curTab.Name];
+                        var tab = this._statuses.Tabs[this._curTab.Text];
                         this.GetListTimelineAsync(tab);
                     }
                 }
