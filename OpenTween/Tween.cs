@@ -71,18 +71,28 @@ namespace OpenTween
         private Point _tabMouseDownPoint;
         private string _rclickTabName;      //右クリックしたタブの名前（Tabコントロール機能不足対応）
         private readonly object _syncObject = new object();    //ロック用
-        private const string detailHtmlFormatMono1 = "<html><head><meta http-equiv=\"X-UA-Compatible\" content=\"IE=8\"><style type=\"text/css\"><!-- pre {font-family: \"";
-        private const string detailHtmlFormat2 = "\", sans-serif; font-size: ";
-        private const string detailHtmlFormat3 = "pt; margin: 0; word-wrap: break-word; color:rgb(";
-        private const string detailHtmlFormat4 = ");} a:link, a:visited, a:active, a:hover {color:rgb(";
-        private const string detailHtmlFormat5 = "); } --></style></head><body style=\"margin:0px; background-color:rgb(";
-        private const string detailHtmlFormatMono6 = ");\"><pre>";
-        private const string detailHtmlFormatMono7 = "</pre></body></html>";
-        private const string detailHtmlFormat1 = "<html><head><meta http-equiv=\"X-UA-Compatible\" content=\"IE=8\"><style type=\"text/css\"><!-- p {font-family: \"";
-        private const string detailHtmlFormat6 = ");\"><p><span style=\"vertical-align:text-bottom\">";
-        private const string detailHtmlFormat7 = "</span></p></body></html>";
+
+        private const string detailHtmlFormatHeaderMono = 
+            "<html><head><meta http-equiv=\"X-UA-Compatible\" content=\"IE=8\">"
+            + "<style type=\"text/css\"><!-- "
+            + "pre {font-family: \"%FONT_FAMILY%\", sans-serif; font-size: %FONT_SIZE%pt; margin: 0; word-wrap: break-word; color:rgb(%FONT_COLOR%);} "
+            + "a:link, a:visited, a:active, a:hover {color:rgb(%LINK_COLOR%); } "
+            + "img.emoji {width: %FONT_SIZE%pt; height: %FONT_SIZE%pt} "
+            + "--></style>"
+            + "</head><body style=\"margin:0px; background-color:rgb(%BG_COLOR%);\"><pre>";
+        private const string detailHtmlFormatFooterMono = "</pre></body></html>";
+        private const string detailHtmlFormatHeaderColor = 
+            "<html><head><meta http-equiv=\"X-UA-Compatible\" content=\"IE=8\">"
+            + "<style type=\"text/css\"><!-- "
+            + "p {font-family: \"%FONT_FAMILY%\", sans-serif; font-size: %FONT_SIZE%pt; margin: 0; word-wrap: break-word; color:rgb(%FONT_COLOR%);} "
+            + "a:link, a:visited, a:active, a:hover {color:rgb(%LINK_COLOR%); } "
+            + "img.emoji {width: %FONT_SIZE%pt; height: %FONT_SIZE%pt} "
+            + "--></style>"
+            + "</head><body style=\"margin:0px; background-color:rgb(%BG_COLOR%);\"><p><span style=\"vertical-align:text-bottom\">";
+        private const string detailHtmlFormatFooterColor = "</span></p></body></html>";
         private string detailHtmlFormatHeader;
         private string detailHtmlFormatFooter;
+
         private bool _myStatusError = false;
         private bool _myStatusOnline = false;
         private bool soundfileListup = false;
@@ -1116,23 +1126,21 @@ namespace OpenTween
         {
             if (this._cfgCommon.IsMonospace)
             {
-                detailHtmlFormatHeader = detailHtmlFormatMono1;
-                detailHtmlFormatFooter = detailHtmlFormatMono7;
+                detailHtmlFormatHeader = detailHtmlFormatHeaderMono;
+                detailHtmlFormatFooter = detailHtmlFormatFooterMono;
             }
             else
             {
-                detailHtmlFormatHeader = detailHtmlFormat1;
-                detailHtmlFormatFooter = detailHtmlFormat7;
+                detailHtmlFormatHeader = detailHtmlFormatHeaderColor;
+                detailHtmlFormatFooter = detailHtmlFormatFooterColor;
             }
-            detailHtmlFormatHeader += _fntDetail.Name + detailHtmlFormat2 + _fntDetail.Size.ToString() + detailHtmlFormat3 + _clDetail.R.ToString() + "," + _clDetail.G.ToString() + "," + _clDetail.B.ToString() + detailHtmlFormat4 + _clDetailLink.R.ToString() + "," + _clDetailLink.G.ToString() + "," + _clDetailLink.B.ToString() + detailHtmlFormat5 + _clDetailBackcolor.R.ToString() + "," + _clDetailBackcolor.G.ToString() + "," + _clDetailBackcolor.B.ToString();
-            if (this._cfgCommon.IsMonospace)
-            {
-                detailHtmlFormatHeader += detailHtmlFormatMono6;
-            }
-            else
-            {
-                detailHtmlFormatHeader += detailHtmlFormat6;
-            }
+
+            detailHtmlFormatHeader = detailHtmlFormatHeader
+                    .Replace("%FONT_FAMILY%", _fntDetail.Name)
+                    .Replace("%FONT_SIZE%", _fntDetail.Size.ToString())
+                    .Replace("%FONT_COLOR%", _clDetail.R.ToString() + "," + _clDetail.G.ToString() + "," + _clDetail.B.ToString())
+                    .Replace("%LINK_COLOR%", _clDetailLink.R.ToString() + "," + _clDetailLink.G.ToString() + "," + _clDetailLink.B.ToString())
+                    .Replace("%BG_COLOR%", _clDetailBackcolor.R.ToString() + "," + _clDetailBackcolor.G.ToString() + "," + _clDetailBackcolor.B.ToString());
         }
 
         private void ListTab_DrawItem(object sender, DrawItemEventArgs e)
