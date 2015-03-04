@@ -160,6 +160,12 @@
   <data name="Label26.Text" xml:space="preserve">
     <value>Details of Tweet</value>
   </data>
+  <data name="checkBoxUseTwemoji.Size" type="System.Drawing.Size, System.Drawing">
+    <value>211, 16</value>
+  </data>
+  <data name="checkBoxUseTwemoji.Text" xml:space="preserve">
+    <value>Render emoji as an image (Twemoji)</value>
+  </data>
   <data name="btnOWL.Text" xml:space="preserve">
     <value>Fore...</value>
   </data>

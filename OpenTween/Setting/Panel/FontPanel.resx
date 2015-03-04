@@ -216,6 +216,9 @@
   <data name="&gt;&gt;Label80.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
+  <data name="ButtonBackToDefaultFontColor.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom</value>
+  </data>
   <data name="ButtonBackToDefaultFontColor.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
@@ -223,7 +226,7 @@
     <value>NoControl</value>
   </data>
   <data name="ButtonBackToDefaultFontColor.Location" type="System.Drawing.Point, System.Drawing">
-    <value>180, 271</value>
+    <value>180, 304</value>
   </data>
   <data name="ButtonBackToDefaultFontColor.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>10, 10, 10, 10</value>
@@ -232,7 +235,7 @@
     <value>112, 25</value>
   </data>
   <data name="ButtonBackToDefaultFontColor.TabIndex" type="System.Int32, mscorlib">
-    <value>24</value>
+    <value>25</value>
   </data>
   <data name="ButtonBackToDefaultFontColor.Text" xml:space="preserve">
     <value>デフォルトに戻す</value>
@@ -259,13 +262,13 @@
     <value>NoControl</value>
   </data>
   <data name="btnDetailLink.Location" type="System.Drawing.Point, System.Drawing">
-    <value>384, 208</value>
+    <value>384, 230</value>
   </data>
   <data name="btnDetailLink.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 25</value>
   </data>
   <data name="btnDetailLink.TabIndex" type="System.Int32, mscorlib">
-    <value>20</value>
+    <value>21</value>
   </data>
   <data name="btnDetailLink.Text" xml:space="preserve">
     <value>文字色</value>
@@ -289,13 +292,13 @@
     <value>NoControl</value>
   </data>
   <data name="lblDetailLink.Location" type="System.Drawing.Point, System.Drawing">
-    <value>248, 211</value>
+    <value>248, 233</value>
   </data>
   <data name="lblDetailLink.Size" type="System.Drawing.Size, System.Drawing">
     <value>130, 19</value>
   </data>
   <data name="lblDetailLink.TabIndex" type="System.Int32, mscorlib">
-    <value>19</value>
+    <value>20</value>
   </data>
   <data name="lblDetailLink.Text" xml:space="preserve">
     <value>This is sample.</value>
@@ -322,13 +325,13 @@
     <value>NoControl</value>
   </data>
   <data name="Label18.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 213</value>
+    <value>6, 235</value>
   </data>
   <data name="Label18.Size" type="System.Drawing.Size, System.Drawing">
     <value>77, 12</value>
   </data>
   <data name="Label18.TabIndex" type="System.Int32, mscorlib">
-    <value>18</value>
+    <value>19</value>
   </data>
   <data name="Label18.Text" xml:space="preserve">
     <value>発言詳細リンク</value>
@@ -451,13 +454,13 @@
     <value>NoControl</value>
   </data>
   <data name="btnDetailBack.Location" type="System.Drawing.Point, System.Drawing">
-    <value>384, 239</value>
+    <value>384, 261</value>
   </data>
   <data name="btnDetailBack.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 25</value>
   </data>
   <data name="btnDetailBack.TabIndex" type="System.Int32, mscorlib">
-    <value>23</value>
+    <value>24</value>
   </data>
   <data name="btnDetailBack.Text" xml:space="preserve">
     <value>背景色</value>
@@ -481,13 +484,13 @@
     <value>NoControl</value>
   </data>
   <data name="lblDetailBackcolor.Location" type="System.Drawing.Point, System.Drawing">
-    <value>248, 242</value>
+    <value>248, 264</value>
   </data>
   <data name="lblDetailBackcolor.Size" type="System.Drawing.Size, System.Drawing">
     <value>130, 19</value>
   </data>
   <data name="lblDetailBackcolor.TabIndex" type="System.Int32, mscorlib">
-    <value>22</value>
+    <value>23</value>
   </data>
   <data name="lblDetailBackcolor.Text" xml:space="preserve">
     <value>This is sample.</value>
@@ -514,13 +517,13 @@
     <value>NoControl</value>
   </data>
   <data name="Label37.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 244</value>
+    <value>6, 266</value>
   </data>
   <data name="Label37.Size" type="System.Drawing.Size, System.Drawing">
     <value>89, 12</value>
   </data>
   <data name="Label37.TabIndex" type="System.Int32, mscorlib">
-    <value>21</value>
+    <value>22</value>
   </data>
   <data name="Label37.Text" xml:space="preserve">
     <value>発言詳細背景色</value>
@@ -633,6 +636,33 @@
   <data name="&gt;&gt;Label26.ZOrder" xml:space="preserve">
     <value>15</value>
   </data>
+  <data name="checkBoxUseTwemoji.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="checkBoxUseTwemoji.Location" type="System.Drawing.Point, System.Drawing">
+    <value>248, 208</value>
+  </data>
+  <data name="checkBoxUseTwemoji.Size" type="System.Drawing.Size, System.Drawing">
+    <value>200, 16</value>
+  </data>
+  <data name="checkBoxUseTwemoji.TabIndex" type="System.Int32, mscorlib">
+    <value>18</value>
+  </data>
+  <data name="checkBoxUseTwemoji.Text" xml:space="preserve">
+    <value>絵文字を画像で表示する (Twemoji)</value>
+  </data>
+  <data name="&gt;&gt;checkBoxUseTwemoji.Name" xml:space="preserve">
+    <value>checkBoxUseTwemoji</value>
+  </data>
+  <data name="&gt;&gt;checkBoxUseTwemoji.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;checkBoxUseTwemoji.Parent" xml:space="preserve">
+    <value>GroupBox1</value>
+  </data>
+  <data name="&gt;&gt;checkBoxUseTwemoji.ZOrder" xml:space="preserve">
+    <value>16</value>
+  </data>
   <data name="btnOWL.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Right</value>
   </data>
@@ -664,7 +694,7 @@
     <value>GroupBox1</value>
   </data>
   <data name="&gt;&gt;btnOWL.ZOrder" xml:space="preserve">
-    <value>16</value>
+    <value>17</value>
   </data>
   <data name="lblOWL.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Right</value>
@@ -697,7 +727,7 @@
     <value>GroupBox1</value>
   </data>
   <data name="&gt;&gt;lblOWL.ZOrder" xml:space="preserve">
-    <value>17</value>
+    <value>18</value>
   </data>
   <data name="Label24.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -727,7 +757,7 @@
     <value>GroupBox1</value>
   </data>
   <data name="&gt;&gt;Label24.ZOrder" xml:space="preserve">
-    <value>18</value>
+    <value>19</value>
   </data>
   <data name="btnFav.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Right</value>
@@ -760,7 +790,7 @@
     <value>GroupBox1</value>
   </data>
   <data name="&gt;&gt;btnFav.ZOrder" xml:space="preserve">
-    <value>19</value>
+    <value>20</value>
   </data>
   <data name="lblFav.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Right</value>
@@ -793,7 +823,7 @@
     <value>GroupBox1</value>
   </data>
   <data name="&gt;&gt;lblFav.ZOrder" xml:space="preserve">
-    <value>20</value>
+    <value>21</value>
   </data>
   <data name="Label22.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -823,7 +853,7 @@
     <value>GroupBox1</value>
   </data>
   <data name="&gt;&gt;Label22.ZOrder" xml:space="preserve">
-    <value>21</value>
+    <value>22</value>
   </data>
   <data name="btnListFont.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Right</value>
@@ -856,7 +886,7 @@
     <value>GroupBox1</value>
   </data>
   <data name="&gt;&gt;btnListFont.ZOrder" xml:space="preserve">
-    <value>22</value>
+    <value>23</value>
   </data>
   <data name="lblListFont.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Right</value>
@@ -889,7 +919,7 @@
     <value>GroupBox1</value>
   </data>
   <data name="&gt;&gt;lblListFont.ZOrder" xml:space="preserve">
-    <value>23</value>
+    <value>24</value>
   </data>
   <data name="Label61.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -919,13 +949,13 @@
     <value>GroupBox1</value>
   </data>
   <data name="&gt;&gt;Label61.ZOrder" xml:space="preserve">
-    <value>24</value>
+    <value>25</value>
   </data>
   <data name="GroupBox1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>23, 23</value>
+    <value>23, 13</value>
   </data>
   <data name="GroupBox1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>473, 309</value>
+    <value>473, 342</value>
   </data>
   <data name="GroupBox1.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -950,6 +980,9 @@
   </metadata>
   <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
     <value>96, 96</value>
+  </data>
+  <data name="$this.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>20, 10, 20, 10</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>FontPanel</value>

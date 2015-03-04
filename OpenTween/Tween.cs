@@ -71,18 +71,28 @@ namespace OpenTween
         private Point _tabMouseDownPoint;
         private string _rclickTabName;      //右クリックしたタブの名前（Tabコントロール機能不足対応）
         private readonly object _syncObject = new object();    //ロック用
-        private const string detailHtmlFormatMono1 = "<html><head><meta http-equiv=\"X-UA-Compatible\" content=\"IE=8\"><style type=\"text/css\"><!-- pre {font-family: \"";
-        private const string detailHtmlFormat2 = "\", sans-serif; font-size: ";
-        private const string detailHtmlFormat3 = "pt; margin: 0; word-wrap: break-word; color:rgb(";
-        private const string detailHtmlFormat4 = ");} a:link, a:visited, a:active, a:hover {color:rgb(";
-        private const string detailHtmlFormat5 = "); } --></style></head><body style=\"margin:0px; background-color:rgb(";
-        private const string detailHtmlFormatMono6 = ");\"><pre>";
-        private const string detailHtmlFormatMono7 = "</pre></body></html>";
-        private const string detailHtmlFormat1 = "<html><head><meta http-equiv=\"X-UA-Compatible\" content=\"IE=8\"><style type=\"text/css\"><!-- p {font-family: \"";
-        private const string detailHtmlFormat6 = ");\"><p><span style=\"vertical-align:text-bottom\">";
-        private const string detailHtmlFormat7 = "</span></p></body></html>";
+
+        private const string detailHtmlFormatHeaderMono = 
+            "<html><head><meta http-equiv=\"X-UA-Compatible\" content=\"IE=8\">"
+            + "<style type=\"text/css\"><!-- "
+            + "pre {font-family: \"%FONT_FAMILY%\", sans-serif; font-size: %FONT_SIZE%pt; margin: 0; word-wrap: break-word; color:rgb(%FONT_COLOR%);} "
+            + "a:link, a:visited, a:active, a:hover {color:rgb(%LINK_COLOR%); } "
+            + "img.emoji {width: 1em; height: 1em; margin: 0 .05em 0 .1em; vertical-align: -0.1em;} "
+            + "--></style>"
+            + "</head><body style=\"margin:0px; background-color:rgb(%BG_COLOR%);\"><pre>";
+        private const string detailHtmlFormatFooterMono = "</pre></body></html>";
+        private const string detailHtmlFormatHeaderColor = 
+            "<html><head><meta http-equiv=\"X-UA-Compatible\" content=\"IE=8\">"
+            + "<style type=\"text/css\"><!-- "
+            + "p {font-family: \"%FONT_FAMILY%\", sans-serif; font-size: %FONT_SIZE%pt; margin: 0; word-wrap: break-word; color:rgb(%FONT_COLOR%);} "
+            + "a:link, a:visited, a:active, a:hover {color:rgb(%LINK_COLOR%); } "
+            + "img.emoji {width: 1em; height: 1em; margin: 0 .05em 0 .1em; vertical-align: -0.1em;} "
+            + "--></style>"
+            + "</head><body style=\"margin:0px; background-color:rgb(%BG_COLOR%);\"><p><span style=\"vertical-align:text-bottom\">";
+        private const string detailHtmlFormatFooterColor = "</span></p></body></html>";
         private string detailHtmlFormatHeader;
         private string detailHtmlFormatFooter;
+
         private bool _myStatusError = false;
         private bool _myStatusOnline = false;
         private bool soundfileListup = false;
@@ -1116,23 +1126,21 @@ namespace OpenTween
         {
             if (this._cfgCommon.IsMonospace)
             {
-                detailHtmlFormatHeader = detailHtmlFormatMono1;
-                detailHtmlFormatFooter = detailHtmlFormatMono7;
+                detailHtmlFormatHeader = detailHtmlFormatHeaderMono;
+                detailHtmlFormatFooter = detailHtmlFormatFooterMono;
             }
             else
             {
-                detailHtmlFormatHeader = detailHtmlFormat1;
-                detailHtmlFormatFooter = detailHtmlFormat7;
+                detailHtmlFormatHeader = detailHtmlFormatHeaderColor;
+                detailHtmlFormatFooter = detailHtmlFormatFooterColor;
             }
-            detailHtmlFormatHeader += _fntDetail.Name + detailHtmlFormat2 + _fntDetail.Size.ToString() + detailHtmlFormat3 + _clDetail.R.ToString() + "," + _clDetail.G.ToString() + "," + _clDetail.B.ToString() + detailHtmlFormat4 + _clDetailLink.R.ToString() + "," + _clDetailLink.G.ToString() + "," + _clDetailLink.B.ToString() + detailHtmlFormat5 + _clDetailBackcolor.R.ToString() + "," + _clDetailBackcolor.G.ToString() + "," + _clDetailBackcolor.B.ToString();
-            if (this._cfgCommon.IsMonospace)
-            {
-                detailHtmlFormatHeader += detailHtmlFormatMono6;
-            }
-            else
-            {
-                detailHtmlFormatHeader += detailHtmlFormat6;
-            }
+
+            detailHtmlFormatHeader = detailHtmlFormatHeader
+                    .Replace("%FONT_FAMILY%", _fntDetail.Name)
+                    .Replace("%FONT_SIZE%", _fntDetail.Size.ToString())
+                    .Replace("%FONT_COLOR%", _clDetail.R.ToString() + "," + _clDetail.G.ToString() + "," + _clDetail.B.ToString())
+                    .Replace("%LINK_COLOR%", _clDetailLink.R.ToString() + "," + _clDetailLink.G.ToString() + "," + _clDetailLink.B.ToString())
+                    .Replace("%BG_COLOR%", _clDetailBackcolor.R.ToString() + "," + _clDetailBackcolor.G.ToString() + "," + _clDetailBackcolor.B.ToString());
         }
 
         private void ListTab_DrawItem(object sender, DrawItemEventArgs e)
@@ -5982,7 +5990,6 @@ namespace OpenTween
                         .First(x => x.Text == tabName);
 
                     this.ListTab.SelectedTab = tabPage;
-                    this.ListTabSelect(tabPage);
 
                     this.ApplyPostFilters();
                     this.SaveConfigsTabs();
@@ -6236,6 +6243,9 @@ namespace OpenTween
 
         public string createDetailHtml(string orgdata)
         {
+            if (this._cfgLocal.UseTwemoji)
+                orgdata = EmojiFormatter.ReplaceEmojiToImg(orgdata);
+
             return detailHtmlFormatHeader + orgdata + detailHtmlFormatFooter;
         }
 
@@ -6771,11 +6781,9 @@ namespace OpenTween
                                 if (ListTab.TabPages.Count < tabNo)
                                     return false;
                                 ListTab.SelectedIndex = tabNo;
-                                ListTabSelect(ListTab.TabPages[tabNo]);
                                 return true;
                             case Keys.D9:
                                 ListTab.SelectedIndex = ListTab.TabPages.Count - 1;
-                                ListTabSelect(ListTab.TabPages[ListTab.TabPages.Count - 1]);
                                 return true;
                         }
                     }
@@ -7204,7 +7212,6 @@ namespace OpenTween
                 if (idx < 0) idx = ListTab.TabPages.Count - 1;
             }
             ListTab.SelectedIndex = idx;
-            ListTabSelect(ListTab.TabPages[idx]);
         }
 
         private void CopyStot()
@@ -7378,7 +7385,6 @@ namespace OpenTween
                     if (_statuses.Tabs[ListTab.TabPages[tabidx].Text][idx].StatusId == targetId)
                     {
                         ListTab.SelectedIndex = tabidx;
-                        ListTabSelect(ListTab.TabPages[tabidx]);
                         SelectListItem(_curList, idx);
                         _curList.EnsureVisible(idx);
                         found = true;
@@ -7888,7 +7894,6 @@ namespace OpenTween
                 {
                     int idx = _statuses.Tabs[ListTab.TabPages[tabidx].Text].IndexOf(statusId);
                     ListTab.SelectedIndex = tabidx;
-                    ListTabSelect(ListTab.TabPages[tabidx]);
                     SelectListItem(_curList, idx);
                     _curList.EnsureVisible(idx);
                     return true;
@@ -7906,7 +7911,6 @@ namespace OpenTween
                 {
                     int idx = _statuses.Tabs[ListTab.TabPages[tabidx].Text].IndexOf(statusId);
                     ListTab.SelectedIndex = tabidx;
-                    ListTabSelect(ListTab.TabPages[tabidx]);
                     SelectListItem(_curList, idx);
                     _curList.EnsureVisible(idx);
                     return true;
@@ -9013,14 +9017,12 @@ namespace OpenTween
                     if (tabUsage == MyCommon.TabUsageType.PublicSearch)
                     {
                         ListTab.SelectedIndex = ListTab.TabPages.Count - 1;
-                        ListTabSelect(ListTab.TabPages[ListTab.TabPages.Count - 1]);
                         ListTab.SelectedTab.Controls["panelSearch"].Controls["comboSearch"].Focus();
                     }
                     if (tabUsage == MyCommon.TabUsageType.Lists)
                     {
                         ListTab.SelectedIndex = ListTab.TabPages.Count - 1;
-                        ListTabSelect(ListTab.TabPages[ListTab.TabPages.Count - 1]);
-                        var tab = this._statuses.Tabs[this._curTab.Name];
+                        var tab = this._statuses.Tabs[this._curTab.Text];
                         this.GetListTimelineAsync(tab);
                     }
                 }
@@ -11871,7 +11873,6 @@ namespace OpenTween
                             {
                                 listView = (DetailsListView)tabPage.Tag;
                                 ListTab.SelectedIndex = i;
-                                ListTabSelect(tabPage);
                                 break;
                             }
                         }
@@ -11892,7 +11893,6 @@ namespace OpenTween
                         var tabPage = ListTab.TabPages[ListTab.TabPages.Count - 1];
                         listView = (DetailsListView)tabPage.Tag;
                         ListTab.SelectedIndex = ListTab.TabPages.Count - 1;
-                        ListTabSelect(tabPage);
                     }
                 }
                 else
@@ -11910,7 +11910,6 @@ namespace OpenTween
                     var tabPage = ListTab.TabPages[ListTab.TabPages.Count - 1];
                     listView = (DetailsListView)tabPage.Tag;
                     ListTab.SelectedIndex = ListTab.TabPages.Count - 1;
-                    ListTabSelect(tabPage);
                 }
                 SaveConfigsTabs();
 
@@ -12791,7 +12790,6 @@ namespace OpenTween
                 if (tabName == tabPage.Text)
                 {
                     this.ListTab.SelectedIndex = i;
-                    this.ListTabSelect(tabPage);
                     break;
                 }
             }
