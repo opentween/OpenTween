@@ -36,7 +36,7 @@ namespace OpenTween
             var origText = "©"; // U+00A9
 
             var result = EmojiFormatter.ReplaceEmojiToImg(origText);
-            var expected = "<img class=\"emoji\" src=\"https://twemoji.maxcdn.com/36x36/a9.png\" />";
+            var expected = "<img class=\"emoji\" src=\"https://twemoji.maxcdn.com/36x36/a9.png\" alt=\"©\" />";
 
             Assert.Equal(expected, result);
         }
@@ -47,7 +47,7 @@ namespace OpenTween
             var origText = "🍣"; // U+1F363
 
             var result = EmojiFormatter.ReplaceEmojiToImg(origText);
-            var expected = "<img class=\"emoji\" src=\"https://twemoji.maxcdn.com/36x36/1f363.png\" />";
+            var expected = "<img class=\"emoji\" src=\"https://twemoji.maxcdn.com/36x36/1f363.png\" alt=\"🍣\" />";
 
             Assert.Equal(expected, result);
         }
@@ -58,7 +58,7 @@ namespace OpenTween
             var origText = "#⃣"; // U+0023 U+20E3 (合字)
 
             var result = EmojiFormatter.ReplaceEmojiToImg(origText);
-            var expected = "<img class=\"emoji\" src=\"https://twemoji.maxcdn.com/36x36/23-20e3.png\" />";
+            var expected = "<img class=\"emoji\" src=\"https://twemoji.maxcdn.com/36x36/23-20e3.png\" alt=\"#⃣\" />";
 
             Assert.Equal(expected, result);
         }

@@ -934,7 +934,7 @@ namespace OpenTween
 //            return "(len=" + m.Value.Length + ",codes=" + codes + ",value=" + m.Value + ")";
 
             if (emojiSet.Contains(codes)) {
-                return "<img class=\"emoji\" src=\"https://twemoji.maxcdn.com/36x36/" + codes + ".png\" />";
+                return "<img class=\"emoji\" src=\"https://twemoji.maxcdn.com/36x36/" + codes + ".png\" alt=\"" + m.Value + "\" />";
             }
             else
             {
