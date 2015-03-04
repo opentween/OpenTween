@@ -3042,8 +3042,6 @@ namespace OpenTween
             text = Regex.Replace(text, "(^|[^a-zA-Z0-9_/&#＃@＠>=.~])(sm|nm)([0-9]{1,10})", "$1<a href=\"http://www.nicovideo.jp/watch/$2$3\">$2$3</a>");
             text = PreProcessUrl(text); //IDN置換
 
-            text = EmojiFormatter.ReplaceEmojiToImg(text);
-
             return text;
         }
 

@@ -6244,6 +6244,9 @@ namespace OpenTween
 
         public string createDetailHtml(string orgdata)
         {
+            if (this._cfgLocal.UseTwemoji)
+                orgdata = EmojiFormatter.ReplaceEmojiToImg(orgdata);
+
             return detailHtmlFormatHeader + orgdata + detailHtmlFormatFooter;
         }
 

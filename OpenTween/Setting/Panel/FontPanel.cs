@@ -55,6 +55,7 @@ namespace OpenTween.Setting.Panel
             this.lblDetailBackcolor.BackColor = settingLocal.ColorDetailBackcolor;
             this.lblDetail.ForeColor = settingLocal.ColorDetail;
             this.lblDetailLink.ForeColor = settingLocal.ColorDetailLink;
+            this.checkBoxUseTwemoji.Checked = settingLocal.UseTwemoji;
         }
 
         public void SaveConfig(SettingLocal settingLocal)
@@ -70,6 +71,7 @@ namespace OpenTween.Setting.Panel
             settingLocal.ColorDetailBackcolor = this.lblDetailBackcolor.BackColor;
             settingLocal.ColorDetail = this.lblDetail.ForeColor;
             settingLocal.ColorDetailLink = this.lblDetailLink.ForeColor;
+            settingLocal.UseTwemoji = this.checkBoxUseTwemoji.Checked;
         }
 
         private void ButtonBackToDefaultFontColor_Click(object sender, EventArgs e)
@@ -82,6 +84,7 @@ namespace OpenTween.Setting.Panel
 
             lblDetail.ForeColor = Color.FromKnownColor(System.Drawing.KnownColor.ControlText);
             lblDetail.Font = System.Drawing.SystemFonts.DefaultFont;
+            checkBoxUseTwemoji.Checked = true;
 
             lblFav.ForeColor = Color.FromKnownColor(System.Drawing.KnownColor.Red);
 
