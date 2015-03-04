@@ -77,7 +77,7 @@ namespace OpenTween
             + "<style type=\"text/css\"><!-- "
             + "pre {font-family: \"%FONT_FAMILY%\", sans-serif; font-size: %FONT_SIZE%pt; margin: 0; word-wrap: break-word; color:rgb(%FONT_COLOR%);} "
             + "a:link, a:visited, a:active, a:hover {color:rgb(%LINK_COLOR%); } "
-            + "img.emoji {width: %FONT_SIZE%pt; height: %FONT_SIZE%pt} "
+            + "img.emoji {width: 1em; height: 1em; margin: 0 .05em 0 .1em; vertical-align: -0.1em;} "
             + "--></style>"
             + "</head><body style=\"margin:0px; background-color:rgb(%BG_COLOR%);\"><pre>";
         private const string detailHtmlFormatFooterMono = "</pre></body></html>";
@@ -86,7 +86,7 @@ namespace OpenTween
             + "<style type=\"text/css\"><!-- "
             + "p {font-family: \"%FONT_FAMILY%\", sans-serif; font-size: %FONT_SIZE%pt; margin: 0; word-wrap: break-word; color:rgb(%FONT_COLOR%);} "
             + "a:link, a:visited, a:active, a:hover {color:rgb(%LINK_COLOR%); } "
-            + "img.emoji {width: %FONT_SIZE%pt; height: %FONT_SIZE%pt} "
+            + "img.emoji {width: 1em; height: 1em; margin: 0 .05em 0 .1em; vertical-align: -0.1em;} "
             + "--></style>"
             + "</head><body style=\"margin:0px; background-color:rgb(%BG_COLOR%);\"><p><span style=\"vertical-align:text-bottom\">";
         private const string detailHtmlFormatFooterColor = "</span></p></body></html>";
