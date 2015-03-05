@@ -26,7 +26,7 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
-using NSubstitute;
+using Moq;
 using Xunit;
 using Xunit.Extensions;
 
@@ -37,10 +37,10 @@ namespace OpenTween.Connection
         [Fact]
         public void GetUserAgentString_Test()
         {
-            var mockAssembly = Substitute.For<_Assembly>();
-            mockAssembly.GetName().Returns(new AssemblyName("OpenTween"));
+            var mockAssembly = new Mock<_Assembly>();
+            mockAssembly.Setup(m => m.GetName()).Returns(new AssemblyName("OpenTween"));
 
-            MyCommon.EntryAssembly = mockAssembly;
+            MyCommon.EntryAssembly = mockAssembly.Object;
             MyCommon.FileVersion = "1.0.0.0";
 
             Assert.Equal("OpenTween/1.0.0.0", Networking.GetUserAgentString());
@@ -49,10 +49,10 @@ namespace OpenTween.Connection
         [Fact]
         public void GetUserAgentString_FakeMSIETest()
         {
-            var mockAssembly = Substitute.For<_Assembly>();
-            mockAssembly.GetName().Returns(new AssemblyName("OpenTween"));
+            var mockAssembly = new Mock<_Assembly>();
+            mockAssembly.Setup(m => m.GetName()).Returns(new AssemblyName("OpenTween"));
 
-            MyCommon.EntryAssembly = mockAssembly;
+            MyCommon.EntryAssembly = mockAssembly.Object;
             MyCommon.FileVersion = "1.0.0.0";
 
             Assert.Equal("OpenTween/1.0.0.0 (compatible; MSIE 10.0)", Networking.GetUserAgentString(fakeMSIE: true));
