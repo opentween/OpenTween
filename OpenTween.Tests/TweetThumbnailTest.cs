@@ -30,7 +30,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using NSubstitute;
+using Moq;
 using OpenTween.Thumbnail;
 using OpenTween.Thumbnail.Services;
 using Xunit;
@@ -97,10 +97,10 @@ namespace OpenTween
 
         public void MyCommonSetup()
         {
-            var mockAssembly = Substitute.For<_Assembly>();
-            mockAssembly.GetName().Returns(new AssemblyName("OpenTween"));
+            var mockAssembly = new Mock<_Assembly>();
+            mockAssembly.Setup(m => m.GetName()).Returns(new AssemblyName("OpenTween"));
 
-            MyCommon.EntryAssembly = mockAssembly;
+            MyCommon.EntryAssembly = mockAssembly.Object;
         }
 
         [Fact]
