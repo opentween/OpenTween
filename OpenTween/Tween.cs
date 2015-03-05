@@ -10792,6 +10792,12 @@ namespace OpenTween
                 else
                     this.StatusText.Text += " " + appendText;
             }
+            else if (e.Data.GetDataPresent(DataFormats.UnicodeText))
+            {
+                var text = (string)e.Data.GetData(DataFormats.UnicodeText);
+                if (text != null)
+                    this.StatusText.Text += text;
+            }
             else if (e.Data.GetDataPresent(DataFormats.StringFormat))
             {
                 string data = (string)e.Data.GetData(DataFormats.StringFormat, true);
@@ -10869,6 +10875,10 @@ namespace OpenTween
                 SelectMedia_DragOver(e);
             }
             else if (e.Data.GetDataPresent("UniformResourceLocatorW"))
+            {
+                e.Effect = DragDropEffects.Copy;
+            }
+            else if (e.Data.GetDataPresent(DataFormats.UnicodeText))
             {
                 e.Effect = DragDropEffects.Copy;
             }
