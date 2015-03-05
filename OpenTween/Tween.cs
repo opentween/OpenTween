@@ -10855,7 +10855,10 @@ namespace OpenTween
         {
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
             {
-                SelectMedia_DragEnter(e);
+                if (!e.Data.GetDataPresent(DataFormats.Html, false))  // WebBrowserコントロールからの絵文字Drag&Dropは弾く
+                {
+                    SelectMedia_DragEnter(e);
+                }
             }
         }
 
