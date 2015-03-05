@@ -314,6 +314,11 @@ namespace OpenTween
             }
         }
 
+        /// <summary>
+        /// 絵文字の表示に Twemoji (https://github.com/twitter/twemoji) を使用するか
+        /// </summary>
+        public bool UseTwemoji = true;
+
         [XmlIgnore]
         private FontConverter fontConverter = new FontConverter();
 
