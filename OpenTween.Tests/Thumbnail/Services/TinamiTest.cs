@@ -29,7 +29,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Xml.Linq;
-using NSubstitute;
+using Moq;
 using Xunit;
 using Xunit.Extensions;
 
