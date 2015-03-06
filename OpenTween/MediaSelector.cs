@@ -191,14 +191,13 @@ namespace OpenTween
         {
             if (!string.IsNullOrEmpty(serviceName))
             {
-                if (size.HasValue)
+                var imageService = this.pictureService[serviceName];
+                if (imageService.CheckFileExtension(ext))
                 {
-                    if (this.pictureService[serviceName].CheckFileSize(ext, size.Value))
+                    if (!size.HasValue)
                         return true;
-                }
-                else
-                {
-                    if (this.pictureService[serviceName].CheckFileExtension(ext))
+
+                    if (imageService.CheckFileSize(ext, size.Value))
                         return true;
                 }
             }
@@ -449,7 +448,10 @@ namespace OpenTween
         {
             var text = string.Join(", ",
                 ImageServiceCombo.Items.Cast<string>()
-                    .Where(x => !string.IsNullOrEmpty(x) && this.pictureService[x].CheckFileSize(ext, fileSize)));
+                    .Where(serviceName =>
+                        !string.IsNullOrEmpty(serviceName) &&
+                        this.pictureService[serviceName].CheckFileExtension(ext) &&
+                        this.pictureService[serviceName].CheckFileSize(ext, fileSize)));
 
             if (string.IsNullOrEmpty(text))
                 return Properties.Resources.PostPictureWarn6;
@@ -571,7 +573,8 @@ namespace OpenTween
                                     FileInfo fi = new FileInfo(ImagefilePathText.Text.Trim());
                                     string ext = fi.Extension;
                                     var imageService = this.pictureService[serviceName];
-                                    if (!imageService.CheckFileSize(ext, fi.Length))
+                                    if (!imageService.CheckFileExtension(ext) ||
+                                        !imageService.CheckFileSize(ext, fi.Length))
                                     {
                                         ClearImageSelectedPicture();
                                         ClearSelectedImagePage();
