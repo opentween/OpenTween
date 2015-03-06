@@ -830,7 +830,6 @@
             this.PostBrowser.IsWebBrowserContextMenuEnabled = false;
             this.PostBrowser.Name = "PostBrowser";
             this.PostBrowser.TabStop = false;
-            this.PostBrowser.WebBrowserShortcutsEnabled = false;
             this.PostBrowser.Navigated += new System.Windows.Forms.WebBrowserNavigatedEventHandler(this.PostBrowser_Navigated);
             this.PostBrowser.Navigating += new System.Windows.Forms.WebBrowserNavigatingEventHandler(this.PostBrowser_Navigating);
             this.PostBrowser.StatusTextChanged += new System.EventHandler(this.PostBrowser_StatusTextChanged);

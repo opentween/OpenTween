@@ -6847,24 +6847,6 @@ namespace OpenTween
                         //フォーカスPostBrowserもしくは関係なし
                         switch (KeyCode)
                         {
-                            case Keys.A:
-                                PostBrowser.Document.ExecCommand("SelectAll", false, null);
-                                return true;
-                            case Keys.C:
-                            case Keys.Insert:
-                                string _selText = WebBrowser_GetSelectionText(ref PostBrowser);
-                                if (!string.IsNullOrEmpty(_selText))
-                                {
-                                    try
-                                    {
-                                        Clipboard.SetDataObject(_selText, false, 5, 100);
-                                    }
-                                    catch (Exception ex)
-                                    {
-                                        MessageBox.Show(ex.Message);
-                                    }
-                                }
-                                return true;
                             case Keys.Y:
                                 MultiLineMenuItem.Checked = !MultiLineMenuItem.Checked;
                                 MultiLineMenuItem_Click(null, null);
@@ -8218,6 +8200,24 @@ namespace OpenTween
             if (KeyRes)
             {
                 e.IsInputKey = true;
+                return;
+            }
+
+            if (Enum.IsDefined(typeof(Shortcut), (Shortcut)e.KeyData))
+            {
+                var shortcut = (Shortcut)e.KeyData;
+                switch (shortcut)
+                {
+                    case Shortcut.CtrlA:
+                    case Shortcut.CtrlC:
+                    case Shortcut.CtrlIns:
+                        // 既定の動作を有効にする
+                        return;
+                    default:
+                        // その他のショートカットキーは無効にする
+                        e.IsInputKey = true;
+                        return;
+                }
             }
         }
         public bool TabRename(ref string tabName)
