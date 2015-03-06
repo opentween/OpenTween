@@ -10765,7 +10765,10 @@ namespace OpenTween
         {
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
             {
-                SelectMedia_DragDrop(e);
+                if (!e.Data.GetDataPresent(DataFormats.Html, false))  // WebBrowserコントロールからの絵文字画像Drag&Dropは弾く
+                {
+                    SelectMedia_DragDrop(e);
+                }
             }
             else if (e.Data.GetDataPresent("UniformResourceLocatorW"))
             {
@@ -10851,35 +10854,33 @@ namespace OpenTween
         {
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
             {
-                if (!e.Data.GetDataPresent(DataFormats.Html, false))  // WebBrowserコントロールからの絵文字Drag&Dropは弾く
+                if (!e.Data.GetDataPresent(DataFormats.Html, false))  // WebBrowserコントロールからの絵文字画像Drag&Dropは弾く
                 {
                     SelectMedia_DragEnter(e);
+                    return;
                 }
-            }
-        }
-
-        private void TweenMain_DragOver(object sender, DragEventArgs e)
-        {
-            if (e.Data.GetDataPresent(DataFormats.FileDrop))
-            {
-                SelectMedia_DragOver(e);
             }
             else if (e.Data.GetDataPresent("UniformResourceLocatorW"))
             {
                 e.Effect = DragDropEffects.Copy;
+                return;
             }
             else if (e.Data.GetDataPresent(DataFormats.UnicodeText))
             {
                 e.Effect = DragDropEffects.Copy;
+                return;
             }
             else if (e.Data.GetDataPresent(DataFormats.StringFormat))
             {
                 e.Effect = DragDropEffects.Copy;
+                return;
             }
-            else
-            {
-                e.Effect = DragDropEffects.None;
-            }
+
+            e.Effect = DragDropEffects.None;
+        }
+
+        private void TweenMain_DragOver(object sender, DragEventArgs e)
+        {
         }
 
         public bool IsNetworkAvailable()
@@ -12609,11 +12610,6 @@ namespace OpenTween
                 return;
             }
             e.Effect = DragDropEffects.None;
-        }
-
-        private void SelectMedia_DragOver(DragEventArgs e)
-        {
-            //何も触らない
         }
 
         private void SelectMedia_DragDrop(DragEventArgs e)
