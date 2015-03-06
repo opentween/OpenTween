@@ -28,7 +28,7 @@ using System.Runtime.InteropServices;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Windows.Forms;
-using NSubstitute;
+using Moq;
 using OpenTween;
 using Xunit;
 using Xunit.Extensions;
@@ -194,9 +194,9 @@ namespace OpenTween
         [Fact]
         public void GetAssemblyNameTest()
         {
-            var mockAssembly = Substitute.For<_Assembly>();
-            mockAssembly.GetName().Returns(new AssemblyName("OpenTween"));
-            MyCommon.EntryAssembly = mockAssembly;
+            var mockAssembly = new Mock<_Assembly>();
+            mockAssembly.Setup(m => m.GetName()).Returns(new AssemblyName("OpenTween"));
+            MyCommon.EntryAssembly = mockAssembly.Object;
 
             Assert.Equal("OpenTween", MyCommon.GetAssemblyName());
         }
@@ -258,17 +258,17 @@ namespace OpenTween
         {
             if (Environment.OSVersion.Platform == PlatformID.Win32NT)
             {
-                var mockAssembly = Substitute.For<_Assembly>();
-                mockAssembly.Location.Returns(@"C:\hogehoge\OpenTween\OpenTween.exe");
-                MyCommon.EntryAssembly = mockAssembly;
+                var mockAssembly = new Mock<_Assembly>();
+                mockAssembly.Setup(m => m.Location).Returns(@"C:\hogehoge\OpenTween\OpenTween.exe");
+                MyCommon.EntryAssembly = mockAssembly.Object;
 
                 Assert.Equal(@"C:\hogehoge\OpenTween\ErrorLogs", MyCommon.GetErrorLogPath());
             }
             else
             {
-                var mockAssembly = Substitute.For<_Assembly>();
-                mockAssembly.Location.Returns(@"/hogehoge/OpenTween/OpenTween.exe");
-                MyCommon.EntryAssembly = mockAssembly;
+                var mockAssembly = new Mock<_Assembly>();
+                mockAssembly.Setup(m => m.Location).Returns(@"/hogehoge/OpenTween/OpenTween.exe");
+                MyCommon.EntryAssembly = mockAssembly.Object;
 
                 Assert.Equal(@"/hogehoge/OpenTween/ErrorLogs", MyCommon.GetErrorLogPath());
             }
