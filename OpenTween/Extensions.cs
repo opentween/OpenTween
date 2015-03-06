@@ -22,7 +22,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -36,10 +35,11 @@ namespace OpenTween
         /// </summary>
         public static string GetSelectedText(this WebBrowser webBrowser)
         {
-            Type typ = webBrowser.ActiveXInstance.GetType();
-            object _SelObj = typ.InvokeMember("selection", BindingFlags.GetProperty, null, webBrowser.Document.DomDocument, null);
-            object _objRange = _SelObj.GetType().InvokeMember("createRange", BindingFlags.InvokeMethod, null, _SelObj, null);
-            return (string)_objRange.GetType().InvokeMember("text", BindingFlags.GetProperty, null, _objRange, null);
+            dynamic document = webBrowser.Document.DomDocument;
+            dynamic textRange = document.selection.createRange();
+            string selectedText = textRange.text;
+
+            return selectedText;
         }
     }
 }
