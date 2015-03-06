@@ -129,6 +129,7 @@
     <Compile Include="EventViewerDialog.Designer.cs">
       <DependentUpon>EventViewerDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="Extensions.cs" />
     <Compile Include="FilterDialog.cs">
       <SubType>Form</SubType>
     </Compile>

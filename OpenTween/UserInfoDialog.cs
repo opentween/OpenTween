@@ -426,7 +426,7 @@ namespace OpenTween
         private void SelectionCopyToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var browser = (WebBrowser)this.ContextMenuRecentPostBrowser.SourceControl;
-            var selectedText = this.mainForm.WebBrowser_GetSelectionText(ref browser);
+            var selectedText = browser.GetSelectedText();
             if (selectedText != null)
             {
                 try
@@ -443,7 +443,7 @@ namespace OpenTween
         private void ContextMenuRecentPostBrowser_Opening(object sender, CancelEventArgs e)
         {
             var browser = (WebBrowser)this.ContextMenuRecentPostBrowser.SourceControl;
-            var selectedText = this.mainForm.WebBrowser_GetSelectionText(ref browser);
+            var selectedText = browser.GetSelectedText();
 
             this.SelectionCopyToolStripMenuItem.Enabled = selectedText != null;
         }
