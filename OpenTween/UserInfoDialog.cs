@@ -697,9 +697,10 @@ namespace OpenTween
                 !MyCommon.IsAnimatedGif(info.FullName);
         }
 
-        private void ShowUserInfo_DragOver(object sender, DragEventArgs e)
+        private void ShowUserInfo_DragEnter(object sender, DragEventArgs e)
         {
-            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            if (e.Data.GetDataPresent(DataFormats.FileDrop) &&
+                !e.Data.GetDataPresent(DataFormats.Html, false))  // WebBrowserコントロールからの絵文字画像D&Dは弾く
             {
                 var files = (string[])e.Data.GetData(DataFormats.FileDrop, false);
                 if (files.Length != 1)
@@ -715,7 +716,8 @@ namespace OpenTween
 
         private async void ShowUserInfo_DragDrop(object sender, DragEventArgs e)
         {
-            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            if (e.Data.GetDataPresent(DataFormats.FileDrop) &&
+                !e.Data.GetDataPresent(DataFormats.Html, false))  // WebBrowserコントロールからの絵文字画像D&Dは弾く
             {
                 var ret = MessageBox.Show(this, Properties.Resources.ChangeIconToolStripMenuItem_Confirm,
                     Application.ProductName, MessageBoxButtons.OKCancel, MessageBoxIcon.Question);

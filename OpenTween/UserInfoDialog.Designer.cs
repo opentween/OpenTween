@@ -444,7 +444,7 @@
             this.Load += new System.EventHandler(this.ShowUserInfo_Load);
             this.Shown += new System.EventHandler(this.ShowUserInfo_Shown);
             this.DragDrop += new System.Windows.Forms.DragEventHandler(this.ShowUserInfo_DragDrop);
-            this.DragOver += new System.Windows.Forms.DragEventHandler(this.ShowUserInfo_DragOver);
+            this.DragEnter += new System.Windows.Forms.DragEventHandler(this.ShowUserInfo_DragEnter);
             this.ContextMenuRecentPostBrowser.ResumeLayout(false);
             this.ContextMenuUserPicture.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.UserPicture)).EndInit();
