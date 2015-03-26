@@ -1266,6 +1266,9 @@ namespace OpenTween
                 var replyTab = GetTabByType(MyCommon.TabUsageType.Mentions);
                 foreach (var tb in _tabs.Values.ToArray())
                 {
+                    if (tb.TabType == MyCommon.TabUsageType.Mute)
+                        continue;
+
                     if (tb.FilterModified)
                     {
                         tb.FilterModified = false;
