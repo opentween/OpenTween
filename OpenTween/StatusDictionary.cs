@@ -1030,6 +1030,9 @@ namespace OpenTween
         {
             lock (LockObj)
             {
+                if (this.IsMuted(Item))
+                    return;
+
                 if (string.IsNullOrEmpty(Item.RelTabName))
                 {
                     if (!Item.IsDm)
@@ -1064,9 +1067,6 @@ namespace OpenTween
                                 status.RetweetedCount > 0) return;
 
                             if (BlockIds.Contains(Item.UserId))
-                                return;
-
-                            if (this.IsMuted(Item))
                                 return;
 
                             _statuses.Add(Item.StatusId, Item);
@@ -1105,6 +1105,12 @@ namespace OpenTween
 
         public bool IsMuted(PostClass post)
         {
+            var muteTab = this.GetTabByType(MyCommon.TabUsageType.Mute);
+            if (muteTab != null && muteTab.AddFiltered(post) == MyCommon.HITRESULT.Move)
+                return true;
+
+            // これ以降は Twitter 標準のミュート機能に準じた判定
+
             // Recent以外のツイートと、リプライはミュート対象外
             // 参照: https://support.twitter.com/articles/20171399-muting-users-on-twitter
             if (!string.IsNullOrEmpty(post.RelTabName) || post.IsReply)
@@ -2088,11 +2094,13 @@ namespace OpenTween
             MyCommon.TabUsageType.Home |
             MyCommon.TabUsageType.Mentions |
             MyCommon.TabUsageType.DirectMessage |
-            MyCommon.TabUsageType.Favorites;
+            MyCommon.TabUsageType.Favorites |
+            MyCommon.TabUsageType.Mute;
 
         const MyCommon.TabUsageType DistributableTabTypeMask =
             MyCommon.TabUsageType.Mentions |
-            MyCommon.TabUsageType.UserDefined;
+            MyCommon.TabUsageType.UserDefined |
+            MyCommon.TabUsageType.Mute;
 
         const MyCommon.TabUsageType InnerStorageTabTypeMask =
             MyCommon.TabUsageType.DirectMessage |

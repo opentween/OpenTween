@@ -160,6 +160,7 @@ namespace OpenTween
             public const string REPLY = "Reply";
             public const string DM = "Direct";
             public const string FAV = "Favorites";
+            public static readonly string MUTE = Properties.Resources.MuteTabName;
 
             //private string dummy;
 
@@ -743,6 +744,7 @@ namespace OpenTween
             Lists = 256,
             Related = 512,
             UserTimeline = 1024,
+            Mute = 2048,
             //RTMyTweet
             //RTByOthers
             //RTByMe

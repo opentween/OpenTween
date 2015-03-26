@@ -1060,8 +1060,25 @@ namespace OpenTween
                     tab.TabType = MyCommon.TabUsageType.Favorites;
                 }
             }
+            if (_statuses.GetTabByType(MyCommon.TabUsageType.Mute) == null)
+            {
+                TabClass tab;
+                if (!_statuses.Tabs.TryGetValue(MyCommon.DEFAULTTAB.MUTE, out tab))
+                {
+                    _statuses.AddTab(MyCommon.DEFAULTTAB.MUTE, MyCommon.TabUsageType.Mute, null);
+                }
+                else
+                {
+                    tab.TabType = MyCommon.TabUsageType.Mute;
+                }
+            }
+
             foreach (var tab in _statuses.Tabs.Values)
             {
+                // ミュートタブは表示しない
+                if (tab.TabType == MyCommon.TabUsageType.Mute)
+                    continue;
+
                 if (tab.TabType == MyCommon.TabUsageType.Undefined)
                 {
                     tab.TabType = MyCommon.TabUsageType.UserDefined;
@@ -8078,6 +8095,7 @@ namespace OpenTween
             {
                 if (_statuses.Tabs[ListTab.TabPages[i].Text].TabType != MyCommon.TabUsageType.Related) tabSetting.Tabs.Add(_statuses.Tabs[ListTab.TabPages[i].Text]);
             }
+            tabSetting.Tabs.Add(this._statuses.GetTabByType(MyCommon.TabUsageType.Mute));
             tabSetting.Save();
         }
 
