@@ -1297,5 +1297,28 @@ namespace OpenTween
                 e.Handled = true;
             }
         }
+
+        private void ListFilters_DrawItem(object sender, DrawItemEventArgs e)
+        {
+            e.DrawBackground();
+
+            var filter = (PostFilterRule)this.ListFilters.Items[e.Index];
+
+            Brush textBrush;
+            if (filter.Enabled)
+                textBrush = SystemBrushes.ControlText;
+            else
+                textBrush = SystemBrushes.GrayText;
+
+            e.Graphics.DrawString(filter.ToString(), e.Font, textBrush, e.Bounds);
+
+            e.DrawFocusRectangle();
+        }
+
+        protected override void OnFontChanged(EventArgs e)
+        {
+            base.OnFontChanged(e);
+            this.ListFilters.ItemHeight = this.ListFilters.Font.Height;
+        }
     }
 }

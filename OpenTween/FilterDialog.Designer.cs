@@ -377,10 +377,12 @@
             // 
             // ListFilters
             // 
+            this.ListFilters.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             resources.ApplyResources(this.ListFilters, "ListFilters");
             this.ListFilters.FormattingEnabled = true;
             this.ListFilters.Name = "ListFilters";
             this.ListFilters.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
+            this.ListFilters.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.ListFilters_DrawItem);
             this.ListFilters.SelectedIndexChanged += new System.EventHandler(this.ListFilters_SelectedIndexChanged);
             this.ListFilters.DoubleClick += new System.EventHandler(this.ListFilters_DoubleClick);
             // 
