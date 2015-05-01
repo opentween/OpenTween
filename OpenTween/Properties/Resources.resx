@@ -1186,4 +1186,10 @@
   <data name="MuteTabName" xml:space="preserve">
     <value>(ミュート)</value>
   </data>
+  <data name="DisableButtonCaption" xml:space="preserve">
+    <value>無効化</value>
+  </data>
+  <data name="EnableButtonCaption" xml:space="preserve">
+    <value>有効化</value>
+  </data>
 </root>

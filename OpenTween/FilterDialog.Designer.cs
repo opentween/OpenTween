@@ -67,6 +67,7 @@
             this.ButtonEdit = new System.Windows.Forms.Button();
             this.ButtonDelete = new System.Windows.Forms.Button();
             this.GroupBox2 = new System.Windows.Forms.GroupBox();
+            this.buttonRuleToggleEnabled = new System.Windows.Forms.Button();
             this.ListFilters = new System.Windows.Forms.ListBox();
             this.EditFilterGroup = new System.Windows.Forms.GroupBox();
             this.Label11 = new System.Windows.Forms.Label();
@@ -363,6 +364,7 @@
             // GroupBox2
             // 
             resources.ApplyResources(this.GroupBox2, "GroupBox2");
+            this.GroupBox2.Controls.Add(this.buttonRuleToggleEnabled);
             this.GroupBox2.Controls.Add(this.ButtonRuleMove);
             this.GroupBox2.Controls.Add(this.ButtonRuleCopy);
             this.GroupBox2.Controls.Add(this.ButtonRuleDown);
@@ -374,6 +376,13 @@
             this.GroupBox2.Controls.Add(this.EditFilterGroup);
             this.GroupBox2.Name = "GroupBox2";
             this.GroupBox2.TabStop = false;
+            // 
+            // buttonRuleToggleEnabled
+            // 
+            resources.ApplyResources(this.buttonRuleToggleEnabled, "buttonRuleToggleEnabled");
+            this.buttonRuleToggleEnabled.Name = "buttonRuleToggleEnabled";
+            this.buttonRuleToggleEnabled.UseVisualStyleBackColor = true;
+            this.buttonRuleToggleEnabled.Click += new System.EventHandler(this.buttonRuleToggleEnabled_Click);
             // 
             // ListFilters
             // 
@@ -696,5 +705,6 @@
         internal System.Windows.Forms.GroupBox GroupBox1;
         internal System.Windows.Forms.CheckBox CheckProtected;
         private System.Windows.Forms.Label labelMuteTab;
+        private System.Windows.Forms.Button buttonRuleToggleEnabled;
     }
 }

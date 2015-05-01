@@ -178,13 +178,13 @@
     <value>0</value>
   </data>
   <data name="ButtonRuleMove.Location" type="System.Drawing.Point, System.Drawing">
-    <value>342, 209</value>
+    <value>450, 209</value>
   </data>
   <data name="ButtonRuleMove.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 23</value>
   </data>
   <data name="ButtonRuleMove.TabIndex" type="System.Int32, mscorlib">
-    <value>6</value>
+    <value>7</value>
   </data>
   <data name="ButtonRuleMove.Text" xml:space="preserve">
     <value>移動</value>
@@ -199,7 +199,7 @@
     <value>GroupBox2</value>
   </data>
   <data name="&gt;&gt;ButtonRuleMove.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>1</value>
   </data>
   <data name="CheckRetweet.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -232,13 +232,13 @@
     <value>3</value>
   </data>
   <data name="ButtonRuleCopy.Location" type="System.Drawing.Point, System.Drawing">
-    <value>261, 209</value>
+    <value>369, 209</value>
   </data>
   <data name="ButtonRuleCopy.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 23</value>
   </data>
   <data name="ButtonRuleCopy.TabIndex" type="System.Int32, mscorlib">
-    <value>5</value>
+    <value>6</value>
   </data>
   <data name="ButtonRuleCopy.Text" xml:space="preserve">
     <value>コピー</value>
@@ -253,7 +253,7 @@
     <value>GroupBox2</value>
   </data>
   <data name="&gt;&gt;ButtonRuleCopy.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>2</value>
   </data>
   <data name="TextSource.Location" type="System.Drawing.Point, System.Drawing">
     <value>89, 93</value>
@@ -304,7 +304,7 @@
     <value>GroupBox2</value>
   </data>
   <data name="&gt;&gt;ButtonRuleDown.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>3</value>
   </data>
   <data name="CheckLambda.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -367,7 +367,7 @@
     <value>GroupBox2</value>
   </data>
   <data name="&gt;&gt;ButtonRuleUp.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>4</value>
   </data>
   <data name="CheckCaseSensitive.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -787,7 +787,7 @@
     <value>GroupBox2</value>
   </data>
   <data name="&gt;&gt;ButtonNew.ZOrder" xml:space="preserve">
-    <value>7</value>
+    <value>8</value>
   </data>
   <data name="ButtonUp.Font" type="System.Drawing.Font, System.Drawing">
     <value>Marlett, 9pt, style=Bold</value>
@@ -1093,16 +1093,16 @@
     <value>GroupBox2</value>
   </data>
   <data name="&gt;&gt;ButtonEdit.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>6</value>
   </data>
   <data name="ButtonDelete.Location" type="System.Drawing.Point, System.Drawing">
-    <value>531, 210</value>
+    <value>531, 209</value>
   </data>
   <data name="ButtonDelete.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 23</value>
   </data>
   <data name="ButtonDelete.TabIndex" type="System.Int32, mscorlib">
-    <value>7</value>
+    <value>8</value>
   </data>
   <data name="ButtonDelete.Text" xml:space="preserve">
     <value>削除(&amp;D)</value>
@@ -1117,10 +1117,40 @@
     <value>GroupBox2</value>
   </data>
   <data name="&gt;&gt;ButtonDelete.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>7</value>
   </data>
   <data name="GroupBox2.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Bottom, Left, Right</value>
+  </data>
+  <data name="buttonRuleToggleEnabled.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="buttonRuleToggleEnabled.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="buttonRuleToggleEnabled.Location" type="System.Drawing.Point, System.Drawing">
+    <value>254, 209</value>
+  </data>
+  <data name="buttonRuleToggleEnabled.Size" type="System.Drawing.Size, System.Drawing">
+    <value>75, 23</value>
+  </data>
+  <data name="buttonRuleToggleEnabled.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="buttonRuleToggleEnabled.Text" xml:space="preserve">
+    <value>無効化</value>
+  </data>
+  <data name="&gt;&gt;buttonRuleToggleEnabled.Name" xml:space="preserve">
+    <value>buttonRuleToggleEnabled</value>
+  </data>
+  <data name="&gt;&gt;buttonRuleToggleEnabled.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;buttonRuleToggleEnabled.Parent" xml:space="preserve">
+    <value>GroupBox2</value>
+  </data>
+  <data name="&gt;&gt;buttonRuleToggleEnabled.ZOrder" xml:space="preserve">
+    <value>0</value>
   </data>
   <data name="ListFilters.HorizontalScrollbar" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1147,7 +1177,7 @@
     <value>GroupBox2</value>
   </data>
   <data name="&gt;&gt;ListFilters.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>5</value>
   </data>
   <data name="EditFilterGroup.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Bottom, Left, Right</value>
@@ -1876,7 +1906,7 @@
     <value>600, 293</value>
   </data>
   <data name="EditFilterGroup.TabIndex" type="System.Int32, mscorlib">
-    <value>8</value>
+    <value>9</value>
   </data>
   <data name="EditFilterGroup.Text" xml:space="preserve">
     <value>ルール編集</value>
@@ -1891,7 +1921,7 @@
     <value>GroupBox2</value>
   </data>
   <data name="&gt;&gt;EditFilterGroup.ZOrder" xml:space="preserve">
-    <value>8</value>
+    <value>9</value>
   </data>
   <data name="GroupBox2.Location" type="System.Drawing.Point, System.Drawing">
     <value>142, 9</value>

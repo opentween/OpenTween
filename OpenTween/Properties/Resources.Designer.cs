@@ -910,6 +910,15 @@ namespace OpenTween.Properties {
         }
         
         /// <summary>
+        ///   無効化 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string DisableButtonCaption {
+            get {
+                return ResourceManager.GetString("DisableButtonCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   更新間隔には数値（0または15～6000）を指定してください。 に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string DMPeriod_ValidatingText1 {
@@ -969,6 +978,15 @@ namespace OpenTween.Properties {
         internal static string Enable {
             get {
                 return ResourceManager.GetString("Enable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   有効化 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string EnableButtonCaption {
+            get {
+                return ResourceManager.GetString("EnableButtonCaption", resourceCulture);
             }
         }
         

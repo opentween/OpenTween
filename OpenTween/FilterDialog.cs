@@ -55,6 +55,28 @@ namespace OpenTween
             None,
         }
 
+        private enum EnableButtonMode
+        {
+            NotSelected,
+            Enable,
+            Disable,
+        }
+
+        private EnableButtonMode RuleEnableButtonMode
+        {
+            get { return this._ruleEnableButtonMode; }
+            set
+            {
+                this._ruleEnableButtonMode = value;
+
+                this.buttonRuleToggleEnabled.Text = value == FilterDialog.EnableButtonMode.Enable
+                    ? Properties.Resources.EnableButtonCaption
+                    : Properties.Resources.DisableButtonCaption;
+                this.buttonRuleToggleEnabled.Enabled = value != EnableButtonMode.NotSelected;
+            }
+        }
+        private EnableButtonMode _ruleEnableButtonMode = FilterDialog.EnableButtonMode.NotSelected;
+
         public FilterDialog()
         {
             InitializeComponent();
@@ -133,6 +155,7 @@ namespace OpenTween
                     ButtonRuleDown.Enabled = false;
                     ButtonRuleCopy.Enabled = false;
                     ButtonRuleMove.Enabled = false;
+                    buttonRuleToggleEnabled.Enabled = false;
                     break;
                 default:
                     ButtonNew.Enabled = true;
@@ -144,6 +167,7 @@ namespace OpenTween
                         ButtonRuleDown.Enabled = true;
                         ButtonRuleCopy.Enabled = true;
                         ButtonRuleMove.Enabled = true;
+                        buttonRuleToggleEnabled.Enabled = true;
                     }
                     else
                     {
@@ -153,6 +177,7 @@ namespace OpenTween
                         ButtonRuleDown.Enabled = false;
                         ButtonRuleCopy.Enabled = false;
                         ButtonRuleMove.Enabled = false;
+                        buttonRuleToggleEnabled.Enabled = false;
                     }
                     break;
             }
@@ -218,6 +243,7 @@ namespace OpenTween
             ButtonRuleDown.Enabled = false;
             ButtonRuleCopy.Enabled = false;
             ButtonRuleMove.Enabled = false;
+            buttonRuleToggleEnabled.Enabled = false;
             ButtonDelete.Enabled = false;
             ButtonClose.Enabled = false;
             EditFilterGroup.Enabled = true;
@@ -277,6 +303,7 @@ namespace OpenTween
             ButtonRuleDown.Enabled = false;
             ButtonRuleCopy.Enabled = false;
             ButtonRuleMove.Enabled = false;
+            buttonRuleToggleEnabled.Enabled = false;
             ButtonDelete.Enabled = false;
             ButtonClose.Enabled = false;
             EditFilterGroup.Enabled = true;
@@ -339,6 +366,7 @@ namespace OpenTween
             ButtonRuleDown.Enabled = false;
             ButtonRuleCopy.Enabled = false;
             ButtonRuleMove.Enabled = false;
+            buttonRuleToggleEnabled.Enabled = false;
             EditFilterGroup.Enabled = true;
             ListTabs.Enabled = false;
             GroupTab.Enabled = false;
@@ -398,6 +426,7 @@ namespace OpenTween
                 ButtonRuleDown.Enabled = true;
                 ButtonRuleCopy.Enabled = true;
                 ButtonRuleMove.Enabled = true;
+                buttonRuleToggleEnabled.Enabled = true;
             }
             else
             {
@@ -407,6 +436,7 @@ namespace OpenTween
                 ButtonRuleDown.Enabled = false;
                 ButtonRuleCopy.Enabled = false;
                 ButtonRuleMove.Enabled = false;
+                buttonRuleToggleEnabled.Enabled = false;
             }
             ButtonClose.Enabled = true;
             if (_directAdd)
@@ -502,6 +532,7 @@ namespace OpenTween
                 ButtonRuleDown.Enabled = true;
                 ButtonRuleCopy.Enabled = true;
                 ButtonRuleMove.Enabled = true;
+                buttonRuleToggleEnabled.Enabled = true;
             }
             else
             {
@@ -544,6 +575,7 @@ namespace OpenTween
                 ButtonRuleDown.Enabled = false;
                 ButtonRuleCopy.Enabled = false;
                 ButtonRuleMove.Enabled = false;
+                buttonRuleToggleEnabled.Enabled = false;
             }
         }
 
@@ -823,8 +855,24 @@ namespace OpenTween
 
         private void ListFilters_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (!_moveRules)
-                ShowDetail();
+            if (_moveRules)
+                return;
+
+            ShowDetail();
+
+            if (this.RuleEnableButtonMode == EnableButtonMode.NotSelected)
+            {
+                if (this.ListFilters.SelectedIndices.Count != 0)
+                {
+                    var topItem = (PostFilterRule)this.ListFilters.SelectedItem;
+                    this.RuleEnableButtonMode = topItem.Enabled ? EnableButtonMode.Disable : EnableButtonMode.Enable;
+                }
+            }
+            else // this.RuleEnableButtonMode != EnableButtonMode.NotSelected
+            {
+                if (this.ListFilters.SelectedIndices.Count == 0)
+                    this.RuleEnableButtonMode = EnableButtonMode.NotSelected;
+            }
         }
 
         private void ButtonClose_Click(object sender, EventArgs e)
@@ -1160,6 +1208,28 @@ namespace OpenTween
             {
                 _moveRules = false;
             }
+        }
+
+        private void buttonRuleToggleEnabled_Click(object sender, EventArgs e)
+        {
+            if (this.RuleEnableButtonMode == EnableButtonMode.NotSelected)
+                return;
+
+            var enabled = this.RuleEnableButtonMode == EnableButtonMode.Enable;
+
+            foreach (var idx in this.ListFilters.SelectedIndices.Cast<int>())
+            {
+                var filter = (PostFilterRule)this.ListFilters.Items[idx];
+                if (filter.Enabled != enabled)
+                {
+                    filter.Enabled = enabled;
+
+                    var itemRect = this.ListFilters.GetItemRectangle(idx);
+                    this.ListFilters.Invalidate(itemRect);
+                }
+            }
+
+            this.RuleEnableButtonMode = enabled ? EnableButtonMode.Disable : EnableButtonMode.Enable;
         }
 
         private void ButtonRuleCopy_Click(object sender, EventArgs e)
