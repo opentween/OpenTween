@@ -127,6 +127,16 @@ namespace OpenTween
         }
 
         [Fact]
+        public void Disabled_Test()
+        {
+            var filter = new PostFilterRule { FilterName = "hogehoge" };
+            var post = new PostClass { ScreenName = "hogehoge" };
+
+            filter.Enabled = false;
+            Assert.Equal(MyCommon.HITRESULT.None, filter.ExecFilter(post));
+        }
+
+        [Fact]
         public void FilterName_Test()
         {
             var filter = new PostFilterRule();

@@ -66,6 +66,13 @@ namespace OpenTween
         /// </remarks>
         internal static bool AutoCompile { get; set; }
 
+        public bool Enabled
+        {
+            get { return this._enabled; }
+            set { this.SetProperty(ref this._enabled, value); }
+        }
+        private bool _enabled;
+
         [XmlElement("NameFilter")]
         public string FilterName
         {
@@ -238,6 +245,7 @@ namespace OpenTween
         {
             this.IsDirty = true;
 
+            this.Enabled = true;
             this.MarkMatches = true;
             this.UseNameField = true;
             this.ExUseNameField = true;
@@ -254,6 +262,13 @@ namespace OpenTween
         /// </summary>
         public void Compile()
         {
+            if (!this.Enabled)
+            {
+                this.FilterDelegate = x => MyCommon.HITRESULT.None;
+                this.IsDirty = false;
+                return;
+            }
+
             var postParam = Expression.Parameter(typeof(PostClass), "x");
 
             var matchExpr = this.MakeFiltersExpr(
