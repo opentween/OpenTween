@@ -94,6 +94,25 @@ namespace OpenTween
 
             if (_directAdd) return;
 
+            if (tab.TabType == MyCommon.TabUsageType.Mute)
+            {
+                this.CheckManageRead.Enabled = false;
+                this.CheckNotifyNew.Enabled = false;
+                this.ComboSound.Enabled = false;
+
+                this.GroupBox1.Visible = false;
+                this.labelMuteTab.Visible = true;
+            }
+            else
+            {
+                this.CheckManageRead.Enabled = true;
+                this.CheckNotifyNew.Enabled = true;
+                this.ComboSound.Enabled = true;
+
+                this.GroupBox1.Visible = true;
+                this.labelMuteTab.Visible = false;
+            }
+
             ListTabs.Enabled = true;
             GroupTab.Enabled = true;
             ListFilters.Enabled = true;
@@ -165,6 +184,9 @@ namespace OpenTween
                     break;
                 case MyCommon.TabUsageType.UserTimeline:
                     LabelTabType.Text = Properties.Resources.TabUsageTypeName_UserTimeline;
+                    break;
+                case MyCommon.TabUsageType.Mute:
+                    LabelTabType.Text = "Mute";
                     break;
                 default:
                     LabelTabType.Text = "UNKNOWN";
@@ -549,6 +571,7 @@ namespace OpenTween
                 return;
             }
 
+            var tab = this._sts.Tabs[(string)this.ListTabs.SelectedItem];
             int i = ListFilters.SelectedIndex;
 
             PostFilterRule ft;
@@ -557,8 +580,16 @@ namespace OpenTween
             else
                 ft = (PostFilterRule)this.ListFilters.SelectedItem;
 
-            ft.MoveMatches = OptMove.Checked;
-            ft.MarkMatches = CheckMark.Checked;
+            if (tab.TabType != MyCommon.TabUsageType.Mute)
+            {
+                ft.MoveMatches = OptMove.Checked;
+                ft.MarkMatches = CheckMark.Checked;
+            }
+            else
+            {
+                ft.MoveMatches = true;
+                ft.MarkMatches = false;
+            }
 
             string bdy = "";
             if (RadioAND.Checked)
@@ -633,11 +664,11 @@ namespace OpenTween
 
             if (_mode == EDITMODE.AddNew)
             {
-                if (!_sts.Tabs[ListTabs.SelectedItem.ToString()].AddFilter(ft))
+                if (!tab.AddFilter(ft))
                     MessageBox.Show(Properties.Resources.ButtonOK_ClickText4, Properties.Resources.ButtonOK_ClickText2, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
-            SetFilters(ListTabs.SelectedItem.ToString());
+            SetFilters(tab.TabName);
             ListFilters.SelectedIndex = -1;
             if (_mode == EDITMODE.AddNew)
             {
@@ -974,34 +1005,52 @@ namespace OpenTween
 
         private void ButtonUp_Click(object sender, EventArgs e)
         {
-            if (ListTabs.SelectedIndex > 0 && !string.IsNullOrEmpty(ListTabs.SelectedItem.ToString()))
-            {
-                string selName = ListTabs.SelectedItem.ToString();
-                string tgtName = ListTabs.Items[ListTabs.SelectedIndex - 1].ToString();
-                ((TweenMain)this.Owner).ReOrderTab(
-                    selName,
-                    tgtName,
-                    true);
-                int idx = ListTabs.SelectedIndex;
-                ListTabs.Items.RemoveAt(idx - 1);
-                ListTabs.Items.Insert(idx, tgtName);
-            }
+            if (this.ListTabs.SelectedIndex == -1 || this.ListTabs.SelectedIndex == 0)
+                return;
+
+            var selectedTabName = (string)this.ListTabs.SelectedItem;
+            var selectedTab = this._sts.Tabs[selectedTabName];
+
+            var targetTabName = (string)this.ListTabs.Items[this.ListTabs.SelectedIndex - 1];
+            var targetTab = this._sts.Tabs[targetTabName];
+
+            // ミュートタブは移動禁止
+            if (selectedTab.TabType == MyCommon.TabUsageType.Mute || targetTab.TabType == MyCommon.TabUsageType.Mute)
+                return;
+
+            var tweenMain = (TweenMain)this.Owner;
+            tweenMain.ReOrderTab(selectedTabName, targetTabName, true);
+
+            // ListTab のアイテム並び替え
+            // 選択が解除されてしまうのを防ぐため SelectedIndex のアイテムは操作せず前後のアイテムを移動する
+            var idx = this.ListTabs.SelectedIndex;
+            this.ListTabs.Items.RemoveAt(idx - 1);
+            this.ListTabs.Items.Insert(idx, targetTabName);
         }
 
         private void ButtonDown_Click(object sender, EventArgs e)
         {
-            if (ListTabs.SelectedIndex > -1 && ListTabs.SelectedIndex < ListTabs.Items.Count - 1 && !string.IsNullOrEmpty(ListTabs.SelectedItem.ToString()))
-            {
-                string selName = ListTabs.SelectedItem.ToString();
-                string tgtName = ListTabs.Items[ListTabs.SelectedIndex + 1].ToString();
-                ((TweenMain)this.Owner).ReOrderTab(
-                    selName,
-                    tgtName,
-                    false);
-                int idx = ListTabs.SelectedIndex;
-                ListTabs.Items.RemoveAt(idx + 1);
-                ListTabs.Items.Insert(idx, tgtName);
-            }
+            if (this.ListTabs.SelectedIndex == -1 || this.ListTabs.SelectedIndex == this.ListTabs.Items.Count - 1)
+                return;
+
+            var selectedTabName = (string)this.ListTabs.SelectedItem;
+            var selectedTab = this._sts.Tabs[selectedTabName];
+
+            var targetTabName = (string)this.ListTabs.Items[this.ListTabs.SelectedIndex + 1];
+            var targetTab = this._sts.Tabs[targetTabName];
+
+            // ミュートタブは移動禁止
+            if (selectedTab.TabType == MyCommon.TabUsageType.Mute || targetTab.TabType == MyCommon.TabUsageType.Mute)
+                return;
+
+            var tweenMain = (TweenMain)this.Owner;
+            tweenMain.ReOrderTab(selectedTabName, targetTabName, false);
+
+            // ListTab のアイテム並び替え
+            // 選択が解除されてしまうのを防ぐため SelectedIndex のアイテムは操作せず前後のアイテムを移動する
+            var idx = this.ListTabs.SelectedIndex;
+            this.ListTabs.Items.RemoveAt(idx + 1);
+            this.ListTabs.Items.Insert(idx, targetTabName);
         }
 
         private void CheckLocked_CheckedChanged(object sender, EventArgs e)

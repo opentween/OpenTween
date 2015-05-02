@@ -337,6 +337,9 @@
   <data name="GroupBox1.Text" xml:space="preserve">
     <value>Additional Action (&amp;E):</value>
   </data>
+  <data name="labelMuteTab.Text" xml:space="preserve">
+    <value>The rules in this tab are applied to all incoming tweet. If the tweet matches the rules, it will be discarded and no longer appear.</value>
+  </data>
   <data name="EditFilterGroup.Text" xml:space="preserve">
     <value>Rule</value>
   </data>

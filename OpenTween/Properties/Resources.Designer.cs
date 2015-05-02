@@ -1661,6 +1661,15 @@ namespace OpenTween.Properties {
         }
         
         /// <summary>
+        ///   (ミュート) に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string MuteTabName {
+            get {
+                return ResourceManager.GetString("MuteTabName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   を含むリストの管理 に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string MyLists1 {

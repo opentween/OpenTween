@@ -95,6 +95,7 @@
             this.MSG1 = new System.Windows.Forms.TextBox();
             this.MSG2 = new System.Windows.Forms.TextBox();
             this.GroupBox1 = new System.Windows.Forms.GroupBox();
+            this.labelMuteTab = new System.Windows.Forms.Label();
             this.GroupTab.SuspendLayout();
             this.GroupBox2.SuspendLayout();
             this.EditFilterGroup.SuspendLayout();
@@ -392,6 +393,7 @@
             this.EditFilterGroup.Controls.Add(this.GroupBox1);
             this.EditFilterGroup.Controls.Add(this.ButtonCancel);
             this.EditFilterGroup.Controls.Add(this.ButtonOK);
+            this.EditFilterGroup.Controls.Add(this.labelMuteTab);
             this.EditFilterGroup.Name = "EditFilterGroup";
             this.EditFilterGroup.TabStop = false;
             // 
@@ -585,6 +587,11 @@
             this.GroupBox1.Name = "GroupBox1";
             this.GroupBox1.TabStop = false;
             // 
+            // labelMuteTab
+            // 
+            resources.ApplyResources(this.labelMuteTab, "labelMuteTab");
+            this.labelMuteTab.Name = "labelMuteTab";
+            // 
             // FilterDialog
             // 
             resources.ApplyResources(this, "$this");
@@ -686,5 +693,6 @@
         internal System.Windows.Forms.TextBox MSG2;
         internal System.Windows.Forms.GroupBox GroupBox1;
         internal System.Windows.Forms.CheckBox CheckProtected;
+        private System.Windows.Forms.Label labelMuteTab;
     }
 }

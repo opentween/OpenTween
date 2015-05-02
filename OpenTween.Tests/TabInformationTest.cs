@@ -164,6 +164,52 @@ namespace OpenTween
         }
 
         [Fact]
+        public void IsMuted_MuteTabRulesTest()
+        {
+            this.tabinfo.MuteUserIds = new HashSet<long> { };
+
+            this.tabinfo.AddTab("Mute", MyCommon.TabUsageType.Mute, null);
+            var muteTab = this.tabinfo.Tabs["Mute"];
+            muteTab.AddFilter(new PostFilterRule
+            {
+                FilterName = "foo",
+                MoveMatches = true,
+            });
+
+            var post = new PostClass
+            {
+                UserId = 12345L,
+                ScreenName = "foo",
+                Text = "hogehoge",
+            };
+            Assert.True(this.tabinfo.IsMuted(post));
+        }
+
+        [Fact]
+        public void IsMuted_MuteTabRules_NotInHomeTimelineTest()
+        {
+            this.tabinfo.MuteUserIds = new HashSet<long> { };
+
+            this.tabinfo.AddTab("Mute", MyCommon.TabUsageType.Mute, null);
+            var muteTab = this.tabinfo.Tabs["Mute"];
+            muteTab.AddFilter(new PostFilterRule
+            {
+                FilterName = "foo",
+                MoveMatches = true,
+            });
+
+            // ミュートタブによるミュートは Recent 以外のタブも対象とする
+            var post = new PostClass
+            {
+                UserId = 12345L,
+                ScreenName = "foo",
+                Text = "hogehoge",
+                RelTabName = "Search",
+            };
+            Assert.True(this.tabinfo.IsMuted(post));
+        }
+
+        [Fact]
         public void SetReadAllTab_MarkAsReadTest()
         {
             this.tabinfo.AddTab("search1", MyCommon.TabUsageType.PublicSearch, null);
