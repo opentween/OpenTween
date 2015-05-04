@@ -3264,9 +3264,6 @@ namespace OpenTween
                 return null;
             }
 
-            // 404エラーの挙動が変なので無視: https://dev.twitter.com/discussions/1213
-            if (httpStatus == HttpStatusCode.NotFound) return null;
-
             if (string.IsNullOrWhiteSpace(responseText))
             {
                 if (httpStatus == HttpStatusCode.Unauthorized)
