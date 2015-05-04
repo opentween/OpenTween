@@ -1009,9 +1009,6 @@ Do you want to upload the {1} selected media file(s)?</value>
   <data name="IsValidLambdaExpText2" xml:space="preserve">
     <value>Lambda Expression Syntax Check</value>
   </data>
-  <data name="KeitaiMailSourceString" xml:space="preserve">
-    <value>&lt;a href="https://twitter.com/" rel="nofollow"&gt;Keitai Mail&lt;/a&gt;</value>
-  </data>
   <data name="NiconicoInfoText1" xml:space="preserve">
     <value>Title:</value>
   </data>

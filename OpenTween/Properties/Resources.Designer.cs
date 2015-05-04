@@ -1487,15 +1487,6 @@ namespace OpenTween.Properties {
         }
         
         /// <summary>
-        ///   &lt;a href=&quot;https://twitter.com/&quot; rel=&quot;nofollow&quot;&gt;Keitai Mail&lt;/a&gt; に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string KeitaiMailSourceString {
-            get {
-                return ResourceManager.GetString("KeitaiMailSourceString", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   このリストを削除してもよろしいですか？ に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ListManageDeleteLists1 {
@@ -3240,15 +3231,6 @@ namespace OpenTween.Properties {
         internal static string VimeoInfoText6 {
             get {
                 return ResourceManager.GetString("VimeoInfoText6", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   &lt;a href=&quot;https://twitter.com/&quot; rel=&quot;nofollow&quot;&gt;web&lt;/a&gt; に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string WebSourceString {
-            get {
-                return ResourceManager.GetString("WebSourceString", resourceCulture);
             }
         }
         

@@ -51,7 +51,7 @@ namespace OpenTween
                 string InReplyToUser = null,
                 long? InReplyToStatusId = null,
                 string Source = null,
-                string SourceHtml = null,
+                Uri SourceUri = null,
                 List<string> ReplyToList = null,
                 bool IsMe = false,
                 bool IsDm = false,
@@ -62,7 +62,7 @@ namespace OpenTween
                 StatusGeo Geo = null) :
                 base(Nickname, textFromApi, text, ImageUrl, screenName, createdAt, statusId, IsFav, IsRead,
                 IsReply, IsExcludeReply, IsProtect, IsOwl, IsMark, InReplyToUser, InReplyToStatusId, Source,
-                SourceHtml, ReplyToList, IsMe, IsDm, userId, FilterHit, RetweetedBy, RetweetedId, Geo)
+                SourceUri, ReplyToList, IsMe, IsDm, userId, FilterHit, RetweetedBy, RetweetedId, Geo)
             {
             }
 
@@ -159,6 +159,30 @@ namespace OpenTween
             };
 
             Assert.Equal(expected, post.StateIndex);
+        }
+
+        [Fact]
+        public void SourceHtml_Test()
+        {
+            var post = new TestPostClass
+            {
+                Source = "Twitter Web Client",
+                SourceUri = new Uri("http://twitter.com/"),
+            };
+
+            Assert.Equal("<a href=\"http://twitter.com/\" rel=\"nofollow\">Twitter Web Client</a>", post.SourceHtml);
+        }
+
+        [Fact]
+        public void SourceHtml_PlainTextTest()
+        {
+            var post = new TestPostClass
+            {
+                Source = "web",
+                SourceUri = null,
+            };
+
+            Assert.Equal("web", post.SourceHtml);
         }
 
         [Fact]

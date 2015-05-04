@@ -1598,6 +1598,7 @@ namespace OpenTween
         {
             var post = new PostClass();
             TwitterEntities entities;
+            string sourceHtml;
 
             post.StatusId = status.Id;
             if (status.RetweetedStatus != null)
@@ -1611,8 +1612,7 @@ namespace OpenTween
                 //本文
                 post.TextFromApi = retweeted.Text;
                 entities = retweeted.MergedEntities;
-                //Source取得（htmlの場合は、中身を取り出し）
-                post.Source = retweeted.Source;
+                sourceHtml = retweeted.Source;
                 //Reply先
                 post.InReplyToStatusId = retweeted.InReplyToStatusId;
                 post.InReplyToUser = retweeted.InReplyToScreenName;
@@ -1646,8 +1646,7 @@ namespace OpenTween
                 //本文
                 post.TextFromApi = status.Text;
                 entities = status.MergedEntities;
-                //Source取得（htmlの場合は、中身を取り出し）
-                post.Source = status.Source;
+                sourceHtml = status.Source;
                 post.InReplyToStatusId = status.InReplyToStatusId;
                 post.InReplyToUser = status.InReplyToScreenName;
                 post.InReplyToUserId = status.InReplyToUserId;
@@ -1679,7 +1678,9 @@ namespace OpenTween
             post.TextFromApi = post.TextFromApi.Replace("<3", "\u2661");
 
             //Source整形
-            CreateSource(post);
+            var source = ParseSource(sourceHtml);
+            post.Source = source.Item1;
+            post.SourceUri = source.Item2;
 
             post.IsReply = post.ReplyToList.Contains(_uname);
             post.IsExcludeReply = false;
@@ -2257,6 +2258,7 @@ namespace OpenTween
             {
                 var post = new PostClass();
                 TwitterEntities entities;
+                string sourceHtml;
 
                 try
                 {
@@ -2266,6 +2268,7 @@ namespace OpenTween
                     {
                         if (TabInformations.GetInstance().GetTabByType(MyCommon.TabUsageType.Favorites).Contains(post.StatusId)) continue;
                     }
+
                     //Retweet判定
                     if (status.RetweetedStatus != null)
                     {
@@ -2277,8 +2280,7 @@ namespace OpenTween
                         //本文
                         post.TextFromApi = retweeted.Text;
                         entities = retweeted.MergedEntities;
-                        //Source取得（htmlの場合は、中身を取り出し）
-                        post.Source = retweeted.Source;
+                        sourceHtml = retweeted.Source;
                         //Reply先
                         post.InReplyToStatusId = retweeted.InReplyToStatusId;
                         post.InReplyToUser = retweeted.InReplyToScreenName;
@@ -2304,8 +2306,7 @@ namespace OpenTween
                         //本文
                         post.TextFromApi = status.Text;
                         entities = status.MergedEntities;
-                        //Source取得（htmlの場合は、中身を取り出し）
-                        post.Source = status.Source;
+                        sourceHtml = status.Source;
                         post.InReplyToStatusId = status.InReplyToStatusId;
                         post.InReplyToUser = status.InReplyToScreenName;
                         post.InReplyToUserId = status.InReplyToUserId;
@@ -2328,8 +2329,11 @@ namespace OpenTween
                     post.TextFromApi = this.ReplaceTextFromApi(post.TextFromApi, entities);
                     post.TextFromApi = WebUtility.HtmlDecode(post.TextFromApi);
                     post.TextFromApi = post.TextFromApi.Replace("<3", "\u2661");
+
                     //Source整形
-                    CreateSource(post);
+                    var source = ParseSource(sourceHtml);
+                    post.Source = source.Item1;
+                    post.SourceUri = source.Item2;
 
                     post.IsRead = read;
                     post.IsReply = post.ReplyToList.Contains(_uname);
@@ -3051,44 +3055,41 @@ namespace OpenTween
             return this.CreateHtmlAnchorAsync(text, AtList, entities, media).Result;
         }
 
-        //Source整形
-        private void CreateSource(PostClass post)
+        /// <summary>
+        /// Twitter APIから得たHTML形式のsource文字列を分析し、source名とURLに分離します
+        /// </summary>
+        public static Tuple<string, Uri> ParseSource(string sourceHtml)
         {
-            if (string.IsNullOrEmpty(post.Source)) return;
+            if (string.IsNullOrEmpty(sourceHtml))
+                return Tuple.Create<string, Uri>("", null);
 
-            if (post.Source.StartsWith("<"))
+            string sourceText;
+            Uri sourceUri;
+
+            // sourceHtmlの例: <a href="http://twitter.com" rel="nofollow">Twitter Web Client</a>
+
+            var match = Regex.Match(sourceHtml, "^<a href=\"(?<uri>.+?)\".*?>(?<text>.+)</a>$", RegexOptions.IgnoreCase);
+            if (match.Success)
             {
-                if (!post.Source.Contains("</a>"))
+                sourceText = match.Groups["text"].Value;
+                try
                 {
-                    post.Source += "</a>";
+                    var uriStr = match.Groups["uri"].Value;
+                    sourceUri = new Uri(new Uri("https://twitter.com/"), uriStr);
                 }
-                var mS = Regex.Match(post.Source, ">(?<source>.+)<");
-                if (mS.Success)
+                catch (UriFormatException)
                 {
-                    post.SourceHtml = ShortUrl.Instance.ExpandUrlHtml(PreProcessUrl(post.Source));
-                    post.Source = WebUtility.HtmlDecode(mS.Result("${source}"));
-                }
-                else
-                {
-                    post.Source = "";
-                    post.SourceHtml = "";
+                    sourceUri = null;
                 }
             }
             else
             {
-                if (post.Source == "web")
-                {
-                    post.SourceHtml = Properties.Resources.WebSourceString;
-                }
-                else if (post.Source == "Keitai Mail")
-                {
-                    post.SourceHtml = Properties.Resources.KeitaiMailSourceString;
-                }
-                else
-                {
-                    post.SourceHtml = post.Source;
-                }
+                sourceText = sourceHtml;
+                sourceUri = null;
             }
+
+            sourceText = WebUtility.HtmlEncode(WebUtility.HtmlDecode(sourceText));
+            return Tuple.Create(sourceText, sourceUri);
         }
 
         public TwitterApiStatus GetInfoApi()

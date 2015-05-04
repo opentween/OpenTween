@@ -73,7 +73,7 @@ namespace OpenTween
         public string InReplyToUser { get; set; }
         private long? _InReplyToStatusId;
         public string Source { get; set; }
-        public string SourceHtml { get; set; }
+        public Uri SourceUri { get; set; }
         public List<string> ReplyToList { get; set; }
         public bool IsMe { get; set; }
         public bool IsDm { get; set; }
@@ -120,7 +120,7 @@ namespace OpenTween
                 string InReplyToUser,
                 long? InReplyToStatusId,
                 string Source,
-                string SourceHtml,
+                Uri SourceUri,
                 List<string> ReplyToList,
                 bool IsMe,
                 bool IsDm,
@@ -148,7 +148,7 @@ namespace OpenTween
             this.InReplyToUser = InReplyToUser;
             _InReplyToStatusId = InReplyToStatusId;
             this.Source = Source;
-            this.SourceHtml = SourceHtml;
+            this.SourceUri = SourceUri;
             this.ReplyToList = ReplyToList;
             this.IsMe = IsMe;
             this.IsDm = IsDm;
@@ -311,6 +311,19 @@ namespace OpenTween
             }
         }
 
+        // 互換性のために用意
+        public string SourceHtml
+        {
+            get
+            {
+                if (this.SourceUri == null)
+                    return this.Source;
+
+                return string.Format("<a href=\"{0}\" rel=\"nofollow\">{1}</a>",
+                    this.SourceUri.AbsoluteUri, this.Source);
+            }
+        }
+
         /// <summary>
         /// このツイートが指定したユーザーによって削除可能であるかを判定します
         /// </summary>
@@ -375,7 +388,7 @@ namespace OpenTween
                     (this.InReplyToUser == other.InReplyToUser) &&
                     (this.InReplyToStatusId == other.InReplyToStatusId) &&
                     (this.Source == other.Source) &&
-                    (this.SourceHtml == other.SourceHtml) &&
+                    (this.SourceUri == other.SourceUri) &&
                     (this.ReplyToList.SequenceEqual(other.ReplyToList)) &&
                     (this.IsMe == other.IsMe) &&
                     (this.IsDm == other.IsDm) &&
@@ -1161,7 +1174,7 @@ namespace OpenTween
                             item.InReplyToUser,
                             item.InReplyToStatusId,
                             item.Source,
-                            item.SourceHtml,
+                            item.SourceUri,
                             item.ReplyToList,
                             item.IsMe,
                             item.IsDm,

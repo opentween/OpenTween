@@ -89,5 +89,77 @@ namespace OpenTween
             Assert.Equal(1210L, Twitter.FindTopOfReplyChain(posts, 1230L).StatusId);
             Assert.Equal(1210L, Twitter.FindTopOfReplyChain(posts, 1210L).StatusId);
         }
+
+        [Fact]
+        public void ParseSource_Test()
+        {
+            var sourceHtml = "<a href=\"http://twitter.com\" rel=\"nofollow\">Twitter Web Client</a>";
+
+            var result = Twitter.ParseSource(sourceHtml);
+            Assert.Equal("Twitter Web Client", result.Item1);
+            Assert.Equal(new Uri("http://twitter.com/"), result.Item2);
+        }
+
+        [Fact]
+        public void ParseSource_PlainTextTest()
+        {
+            var sourceHtml = "web";
+
+            var result = Twitter.ParseSource(sourceHtml);
+            Assert.Equal("web", result.Item1);
+            Assert.Equal(null, result.Item2);
+        }
+
+        [Fact]
+        public void ParseSource_RelativeUriTest()
+        {
+            // 参照: https://twitter.com/kim_upsilon/status/477796052049752064
+            var sourceHtml = "<a href=\"erased_45416\" rel=\"nofollow\">erased_45416</a>";
+
+            var result = Twitter.ParseSource(sourceHtml);
+            Assert.Equal("erased_45416", result.Item1);
+            Assert.Equal(new Uri("https://twitter.com/erased_45416"), result.Item2);
+        }
+
+        [Fact]
+        public void ParseSource_EmptyTest()
+        {
+            // 参照: https://twitter.com/kim_upsilon/status/595156014032244738
+            var sourceHtml = "";
+
+            var result = Twitter.ParseSource(sourceHtml);
+            Assert.Equal("", result.Item1);
+            Assert.Equal(null, result.Item2);
+        }
+
+        [Fact]
+        public void ParseSource_NullTest()
+        {
+            string sourceHtml = null;
+
+            var result = Twitter.ParseSource(sourceHtml);
+            Assert.Equal("", result.Item1);
+            Assert.Equal(null, result.Item2);
+        }
+
+        [Fact]
+        public void ParseSource_EscapeTest()
+        {
+            string sourceHtml = "<a href=\"http://example.com\" rel=\"nofollow\"><script>alert(1)</script></a>";
+
+            var result = Twitter.ParseSource(sourceHtml);
+            Assert.Equal("&lt;script&gt;alert(1)&lt;/script&gt;", result.Item1);
+            Assert.Equal(new Uri("http://example.com"), result.Item2);
+        }
+
+        [Fact]
+        public void ParseSource_EscapeNoUriTest()
+        {
+            string sourceHtml = "<script>alert(1)</script>";
+
+            var result = Twitter.ParseSource(sourceHtml);
+            Assert.Equal("&lt;script&gt;alert(1)&lt;/script&gt;", result.Item1);
+            Assert.Equal(null, result.Item2);
+        }
     }
 }
