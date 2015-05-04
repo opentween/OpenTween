@@ -860,18 +860,19 @@ namespace OpenTween
 
             ShowDetail();
 
-            if (this.RuleEnableButtonMode == EnableButtonMode.NotSelected)
+            var selectedCount = this.ListFilters.SelectedIndices.Count;
+            if (selectedCount == 0)
             {
-                if (this.ListFilters.SelectedIndices.Count != 0)
+                this.RuleEnableButtonMode = EnableButtonMode.NotSelected;
+            }
+            else
+            {
+                if (selectedCount == 1 ||
+                    this.RuleEnableButtonMode == EnableButtonMode.NotSelected)
                 {
                     var topItem = (PostFilterRule)this.ListFilters.SelectedItem;
                     this.RuleEnableButtonMode = topItem.Enabled ? EnableButtonMode.Disable : EnableButtonMode.Enable;
                 }
-            }
-            else // this.RuleEnableButtonMode != EnableButtonMode.NotSelected
-            {
-                if (this.ListFilters.SelectedIndices.Count == 0)
-                    this.RuleEnableButtonMode = EnableButtonMode.NotSelected;
             }
         }
 
