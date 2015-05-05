@@ -30,6 +30,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Net;
 using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -317,10 +318,10 @@ namespace OpenTween
             get
             {
                 if (this.SourceUri == null)
-                    return this.Source;
+                    return WebUtility.HtmlEncode(this.Source);
 
                 return string.Format("<a href=\"{0}\" rel=\"nofollow\">{1}</a>",
-                    this.SourceUri.AbsoluteUri, this.Source);
+                    WebUtility.HtmlEncode(this.SourceUri.AbsoluteUri), WebUtility.HtmlEncode(this.Source));
             }
         }
 

@@ -3071,10 +3071,10 @@ namespace OpenTween
             var match = Regex.Match(sourceHtml, "^<a href=\"(?<uri>.+?)\".*?>(?<text>.+)</a>$", RegexOptions.IgnoreCase);
             if (match.Success)
             {
-                sourceText = match.Groups["text"].Value;
+                sourceText = WebUtility.HtmlDecode(match.Groups["text"].Value);
                 try
                 {
-                    var uriStr = match.Groups["uri"].Value;
+                    var uriStr = WebUtility.HtmlDecode(match.Groups["uri"].Value);
                     sourceUri = new Uri(new Uri("https://twitter.com/"), uriStr);
                 }
                 catch (UriFormatException)
@@ -3084,11 +3084,10 @@ namespace OpenTween
             }
             else
             {
-                sourceText = sourceHtml;
+                sourceText = WebUtility.HtmlDecode(sourceHtml);
                 sourceUri = null;
             }
 
-            sourceText = WebUtility.HtmlEncode(WebUtility.HtmlDecode(sourceText));
             return Tuple.Create(sourceText, sourceUri);
         }
 

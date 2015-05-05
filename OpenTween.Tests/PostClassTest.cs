@@ -186,6 +186,30 @@ namespace OpenTween
         }
 
         [Fact]
+        public void SourceHtml_EscapeTest()
+        {
+            var post = new TestPostClass
+            {
+                Source = "<script>alert(1)</script>",
+                SourceUri = new Uri("http://example.com/?aaa=123&bbb=456"),
+            };
+
+            Assert.Equal("<a href=\"http://example.com/?aaa=123&amp;bbb=456\" rel=\"nofollow\">&lt;script&gt;alert(1)&lt;/script&gt;</a>", post.SourceHtml);
+        }
+
+        [Fact]
+        public void SourceHtml_EscapePlainTextTest()
+        {
+            var post = new TestPostClass
+            {
+                Source = "<script>alert(1)</script>",
+                SourceUri = null,
+            };
+
+            Assert.Equal("&lt;script&gt;alert(1)&lt;/script&gt;", post.SourceHtml);
+        }
+
+        [Fact]
         public void DeleteTest()
         {
             var post = new TestPostClass
