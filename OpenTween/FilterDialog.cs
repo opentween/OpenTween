@@ -1373,16 +1373,19 @@ namespace OpenTween
         {
             e.DrawBackground();
 
-            var filter = (PostFilterRule)this.ListFilters.Items[e.Index];
-            var isSelected = e.State.HasFlag(DrawItemState.Selected);
+            if (e.Index != -1)
+            {
+                var filter = (PostFilterRule)this.ListFilters.Items[e.Index];
+                var isSelected = e.State.HasFlag(DrawItemState.Selected);
 
-            Brush textBrush;
-            if (filter.Enabled)
-                textBrush = isSelected ? SystemBrushes.HighlightText : SystemBrushes.WindowText;
-            else
-                textBrush = SystemBrushes.GrayText;
+                Brush textBrush;
+                if (filter.Enabled)
+                    textBrush = isSelected ? SystemBrushes.HighlightText : SystemBrushes.WindowText;
+                else
+                    textBrush = SystemBrushes.GrayText;
 
-            e.Graphics.DrawString(filter.ToString(), e.Font, textBrush, e.Bounds);
+                e.Graphics.DrawString(filter.ToString(), e.Font, textBrush, e.Bounds);
+            }
 
             e.DrawFocusRectangle();
         }
