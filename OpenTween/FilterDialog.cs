@@ -1374,10 +1374,11 @@ namespace OpenTween
             e.DrawBackground();
 
             var filter = (PostFilterRule)this.ListFilters.Items[e.Index];
+            var isSelected = e.State.HasFlag(DrawItemState.Selected);
 
             Brush textBrush;
             if (filter.Enabled)
-                textBrush = SystemBrushes.ControlText;
+                textBrush = isSelected ? SystemBrushes.HighlightText : SystemBrushes.WindowText;
             else
                 textBrush = SystemBrushes.GrayText;
 
