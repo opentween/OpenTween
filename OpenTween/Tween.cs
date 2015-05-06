@@ -8097,36 +8097,10 @@ namespace OpenTween
                 return;
             }
 
-            var statusId = long.Parse(match.Groups["StatusId"].Value);
-
-            var post = this._statuses[statusId];
-            if (post == null)
-            {
-                try
-                {
-                    post = await Task.Run(() =>
-                    {
-                        PostClass newPost = null;
-
-                        var err = this.tw.GetStatusApi(false, statusId, ref newPost);
-                        if (!string.IsNullOrEmpty(err))
-                            throw new WebApiException(err);
-
-                        return newPost;
-                    });
-                }
-                catch (WebApiException ex)
-                {
-                    var message = ex.Message;
-                    MessageBox.Show(this, string.Format(Properties.Resources.OpenURL_LoadFailed, message),
-                        Properties.Resources.OpenURL_Caption, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
-            }
-
             try
             {
-                await this.OpenRelatedTab(post);
+                var statusId = long.Parse(match.Groups["StatusId"].Value);
+                await this.OpenRelatedTab(statusId);
             }
             catch (TabException ex)
             {
@@ -12804,6 +12778,39 @@ namespace OpenTween
                     MessageBox.Show(this, ex.Message, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
+        }
+
+        /// <summary>
+        /// 指定されたツイートに対する関連発言タブを開きます
+        /// </summary>
+        /// <param name="statusId">表示するツイートのID</param>
+        /// <exception cref="TabException">名前の重複が多すぎてタブを作成できない場合</exception>
+        private async Task OpenRelatedTab(long statusId)
+        {
+            var post = this._statuses[statusId];
+            if (post == null)
+            {
+                try
+                {
+                    post = await Task.Run(() =>
+                    {
+                        PostClass newPost = null;
+
+                        var err = this.tw.GetStatusApi(false, statusId, ref newPost);
+                        if (!string.IsNullOrEmpty(err))
+                            throw new WebApiException(err);
+
+                        return newPost;
+                    });
+                }
+                catch (WebApiException ex)
+                {
+                    this.StatusLabel.Text = ex.Message;
+                    return;
+                }
+            }
+
+            await this.OpenRelatedTab(post);
         }
 
         /// <summary>
