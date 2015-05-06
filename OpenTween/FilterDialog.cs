@@ -912,10 +912,17 @@ namespace OpenTween
         {
             _sts = TabInformations.GetInstance();
             ListTabs.Items.Clear();
-            foreach (string key in _sts.Tabs.Keys)
+            foreach (var tab in this._sts.Tabs.Values)
             {
-                ListTabs.Items.Add(key);
+                if (tab.TabType == MyCommon.TabUsageType.Mute)
+                    continue;
+
+                this.ListTabs.Items.Add(tab.TabName);
             }
+
+            var muteTab = this._sts.GetTabByType(MyCommon.TabUsageType.Mute);
+            if (muteTab != null)
+                this.ListTabs.Items.Add(muteTab.TabName);
 
             ComboSound.Items.Clear();
             ComboSound.Items.Add("");
@@ -1005,8 +1012,19 @@ namespace OpenTween
                 }
                 else
                 {
-                    //成功
-                    ListTabs.Items.Add(tabName);
+                    // タブ作成成功
+
+                    // 末尾のタブを取得する
+                    var lastIdx = this.ListTabs.Items.Count - 1;
+                    var lastTab = lastIdx != -1
+                        ? this._sts.Tabs[(string)this.ListTabs.Items[lastIdx]]
+                        : null;
+
+                    // 末尾がミュートタブであればその手前に追加する
+                    if (lastTab != null && lastTab.TabType == MyCommon.TabUsageType.Mute)
+                        this.ListTabs.Items.Insert(lastIdx, tabName);
+                    else
+                        this.ListTabs.Items.Add(tabName);
                 }
             }
         }
