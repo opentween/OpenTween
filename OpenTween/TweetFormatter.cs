@@ -151,6 +151,17 @@ namespace OpenTween
             }
 
             expandedUrl = MyCommon.ConvertToReadableUrl(entity.ExpandedUrl);
+
+            // twitter.com へのリンクは t.co を経由せずに直接リンクする (但し pic.twitter.com はそのまま)
+            if (!(entity is TwitterEntityMedia))
+            {
+                if (entity.ExpandedUrl.StartsWith("https://twitter.com/") ||
+                    entity.ExpandedUrl.StartsWith("http://twitter.com/"))
+                {
+                    entity.Url = entity.ExpandedUrl;
+                }
+            }
+
             return "<a href=\"" + e(entity.Url) + "\" title=\"" + e(expandedUrl) + "\">" + t(e(entity.DisplayUrl)) + "</a>";
         }
 

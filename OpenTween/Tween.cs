@@ -4491,7 +4491,7 @@ namespace OpenTween
             }
         }
 
-        private void PostBrowser_Navigating(object sender, WebBrowserNavigatingEventArgs e)
+        private async void PostBrowser_Navigating(object sender, WebBrowserNavigatingEventArgs e)
         {
             if (e.Url.Scheme == "data")
             {
@@ -4500,6 +4500,14 @@ namespace OpenTween
             else if (e.Url.AbsoluteUri != "about:blank")
             {
                 e.Cancel = true;
+
+                var statusUrlMatch = Twitter.StatusUrlRegex.Match(e.Url.AbsoluteUri);
+                if (statusUrlMatch.Success)
+                {
+                    var statusId = long.Parse(statusUrlMatch.Groups["StatusId"].Value);
+                    await this.OpenRelatedTab(statusId);
+                    return;
+                }
 
                 if (e.Url.AbsoluteUri.StartsWith("http://twitter.com/search?q=%23") ||
                    e.Url.AbsoluteUri.StartsWith("https://twitter.com/search?q=%23"))

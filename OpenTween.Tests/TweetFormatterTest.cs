@@ -34,19 +34,39 @@ namespace OpenTween
         [Fact]
         public void FormatUrlEntity_Test()
         {
-            var text = "http://t.co/KYi7vMZzRt";
+            var text = "http://t.co/6IwepKCM0P";
             var entities = new[]
             {
                 new TwitterEntityUrl
                 {
                     Indices = new[] { 0, 22 },
-                    DisplayUrl = "twitter.com",
-                    ExpandedUrl = "http://twitter.com/",
-                    Url = "http://t.co/KYi7vMZzRt",
+                    DisplayUrl = "example.com",
+                    ExpandedUrl = "http://example.com/",
+                    Url = "http://t.co/6IwepKCM0P",
                 },
             };
 
-            var expected = "<a href=\"http://t.co/KYi7vMZzRt\" title=\"http://twitter.com/\">twitter.com</a>";
+            var expected = "<a href=\"http://t.co/6IwepKCM0P\" title=\"http://example.com/\">example.com</a>";
+            Assert.Equal(expected, TweetFormatter.AutoLinkHtml(text, entities));
+        }
+
+        [Fact]
+        public void FormatUrlEntity_TwitterComTest()
+        {
+            var text = "https://t.co/0Ko1I27m0a";
+            var entities = new[]
+            {
+                new TwitterEntityUrl
+                {
+                    Indices = new[] { 0, 23 },
+                    DisplayUrl = "twitter.com/twitterapi",
+                    ExpandedUrl = "https://twitter.com/twitterapi",
+                    Url = "https://t.co/0Ko1I27m0a",
+                },
+            };
+
+            // twitter.com 宛のリンクは t.co を経由せずにリンクする
+            var expected = "<a href=\"https://twitter.com/twitterapi\" title=\"https://twitter.com/twitterapi\">twitter.com/twitterapi</a>";
             Assert.Equal(expected, TweetFormatter.AutoLinkHtml(text, entities));
         }
 
