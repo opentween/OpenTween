@@ -916,7 +916,7 @@ namespace OpenTween
         /// 表示用のバージョン番号の文字列を生成する
         /// </summary>
         /// <remarks>
-        /// バージョン1.0.0.1のように末尾が0でない（＝開発版）の場合は「1.0.1-beta1」が出力される
+        /// バージョン1.0.0.1のように末尾が0でない（＝開発版）の場合は「1.0.1-dev」のように出力される
         /// </remarks>
         /// <returns>
         /// 生成されたバージョン番号の文字列
@@ -946,7 +946,10 @@ namespace OpenTween
                     }
                 }
 
-                return string.Format("{0}.{1}.{2}-beta{3}", versionNum[0], versionNum[1], versionNum[2], versionNum[3]);
+                if (versionNum[3] == 1)
+                    return string.Format("{0}.{1}.{2}-dev", versionNum[0], versionNum[1], versionNum[2]);
+                else
+                    return string.Format("{0}.{1}.{2}-dev (Build {3})", versionNum[0], versionNum[1], versionNum[2], versionNum[3]);
             }
         }
 

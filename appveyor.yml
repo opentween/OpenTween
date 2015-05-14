@@ -1,0 +1,19 @@
+version: 1.2.5.{build}
+
+assembly_info:
+  patch: true
+  file: OpenTween\Properties\AssemblyInfo.cs
+  assembly_file_version: '{version}'
+
+build:
+  verbosity: minimal
+
+after_test:
+  - del %APPVEYOR_BUILD_FOLDER%\OpenTween\bin\Debug\OpenTween.pdb
+  - 7z a OpenTween_dev-%APPVEYOR_BUILD_NUMBER%.zip %APPVEYOR_BUILD_FOLDER%\OpenTween\bin\Debug\*
+
+artifacts:
+  - name: OpenTween.zip
+    path: OpenTween_dev-$(APPVEYOR_BUILD_NUMBER).zip
+
+# vim: et fenc=utf-8 sts=2 sw=2 ts=2
