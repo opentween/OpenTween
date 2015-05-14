@@ -32,32 +32,6 @@ namespace OpenTween
 {
     public class OTBaseFormTest
     {
-        class TestForm : OTBaseForm
-        {
-            public SizeF fakeAutoScaleDimensions = new SizeF(96.0f, 96.0f);
-
-            public override SizeF CurrentAutoScaleDimensions
-            {
-                get { return this.fakeAutoScaleDimensions; }
-            }
-        }
-
-        [Fact]
-        public void CurrentScaleFactor_Test()
-        {
-            using (var form = new TestForm())
-            {
-                form.AutoScaleMode = AutoScaleMode.Dpi;
-                form.AutoScaleDimensions = new SizeF(96.0f, 96.0f);
-
-                // 96dpi -> 120dpi
-                form.fakeAutoScaleDimensions = new SizeF(120.0f, 120.0f);
-                form.Scale(new SizeF(1.25f, 1.25f));
-
-                Assert.Equal(new SizeF(1.25f, 1.25f), form.CurrentScaleFactor);
-            }
-        }
-
         [Fact]
         public void ScaleChildControl_ListViewTest()
         {

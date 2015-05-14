@@ -122,11 +122,5 @@ namespace OpenTween
         {
             return (int)Math.Round(size * factor);
         }
-
-        // テスト時にスケールを偽装するために使用
-        public new virtual SizeF CurrentAutoScaleDimensions
-        {
-            get { return base.CurrentAutoScaleDimensions; }
-        }
     }
 }
