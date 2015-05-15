@@ -24,6 +24,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using OpenTween.Api;
 using Xunit;
 using Xunit.Extensions;
 
@@ -160,6 +161,22 @@ namespace OpenTween
             var result = Twitter.ParseSource(sourceHtml);
             Assert.Equal("<<hogehoge>>", result.Item1);
             Assert.Equal(null, result.Item2);
+        }
+
+        [Fact]
+        public void GetQuoteTweetStatusIds_Test()
+        {
+            var entities = new[]
+            {
+                new TwitterEntityUrl
+                {
+                    Url = "https://t.co/3HXq0LrbJb",
+                    ExpandedUrl = "https://twitter.com/kim_upsilon/status/599261132361072640",
+                },
+            };
+
+            var statusIds = Twitter.GetQuoteTweetStatusIds(entities);
+            Assert.Equal(new[] { 599261132361072640L }, statusIds);
         }
     }
 }

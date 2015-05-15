@@ -88,6 +88,7 @@ namespace OpenTween
         public long? RetweetedByUserId { get; set; }
         public long? InReplyToUserId { get; set; }
         public List<MediaInfo> Media { get; set; }
+        public long[] QuoteStatusIds { get; set; }
 
         public string RelTabName { get; set; }
         public int FavoritedCount { get; set; }
@@ -166,6 +167,7 @@ namespace OpenTween
             RelTabName = "";
             Media = new List<MediaInfo>();
             ReplyToList = new List<string>();
+            QuoteStatusIds = new long[0];
         }
 
         public string TextSingleLine
@@ -415,6 +417,7 @@ namespace OpenTween
             clone.ReplyToList = new List<string>(this.ReplyToList);
             clone.PostGeo = new StatusGeo { Lng = this.PostGeo.Lng, Lat = this.PostGeo.Lat };
             clone.Media = new List<MediaInfo>(this.Media);
+            clone.QuoteStatusIds = this.QuoteStatusIds.ToArray();
 
             return clone;
         }
