@@ -20,6 +20,7 @@
 // Boston, MA 02110-1301, USA.
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -31,7 +32,7 @@ namespace OpenTween.Api
     // 参照: https://dev.twitter.com/docs/platform-objects/entities
 
     [DataContract]
-    public class TwitterEntities
+    public class TwitterEntities : IEnumerable<TwitterEntity>
     {
         [DataMember(Name = "hashtags", IsRequired = false)]
         public TwitterEntityHashtag[] Hashtags { get; set; }
@@ -44,6 +45,27 @@ namespace OpenTween.Api
 
         [DataMember(Name = "user_mentions", IsRequired = false)]
         public TwitterEntityMention[] UserMentions { get; set; }
+
+        public IEnumerator<TwitterEntity> GetEnumerator()
+        {
+            var entities = Enumerable.Empty<TwitterEntity>();
+
+            if (this.Hashtags != null)
+                entities = entities.Concat(this.Hashtags);
+            if (this.Media != null)
+                entities = entities.Concat(this.Media);
+            if (this.Urls != null)
+                entities = entities.Concat(this.Urls);
+            if (this.UserMentions != null)
+                entities = entities.Concat(this.UserMentions);
+
+            return entities.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return this.GetEnumerator();
+        }
     }
 
     [DataContract]
