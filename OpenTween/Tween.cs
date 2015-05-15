@@ -75,21 +75,23 @@ namespace OpenTween
         private const string detailHtmlFormatHeaderMono = 
             "<html><head><meta http-equiv=\"X-UA-Compatible\" content=\"IE=8\">"
             + "<style type=\"text/css\"><!-- "
-            + "pre {font-family: \"%FONT_FAMILY%\", sans-serif; font-size: %FONT_SIZE%pt; margin: 0; word-wrap: break-word; color:rgb(%FONT_COLOR%);} "
+            + "body, p, pre {margin: 0;} "
+            + "pre {font-family: \"%FONT_FAMILY%\", sans-serif; font-size: %FONT_SIZE%pt; background-color:rgb(%BG_COLOR%); word-wrap: break-word; color:rgb(%FONT_COLOR%);} "
             + "a:link, a:visited, a:active, a:hover {color:rgb(%LINK_COLOR%); } "
             + "img.emoji {width: 1em; height: 1em; margin: 0 .05em 0 .1em; vertical-align: -0.1em;} "
             + "--></style>"
-            + "</head><body style=\"margin:0px; background-color:rgb(%BG_COLOR%);\"><pre>";
+            + "</head><body><pre>";
         private const string detailHtmlFormatFooterMono = "</pre></body></html>";
         private const string detailHtmlFormatHeaderColor = 
             "<html><head><meta http-equiv=\"X-UA-Compatible\" content=\"IE=8\">"
             + "<style type=\"text/css\"><!-- "
-            + "p {font-family: \"%FONT_FAMILY%\", sans-serif; font-size: %FONT_SIZE%pt; margin: 0; word-wrap: break-word; color:rgb(%FONT_COLOR%);} "
+            + "body, p, pre {margin: 0;} "
+            + "body {font-family: \"%FONT_FAMILY%\", sans-serif; font-size: %FONT_SIZE%pt; background-color:rgb(%BG_COLOR%); margin: 0; word-wrap: break-word; color:rgb(%FONT_COLOR%);} "
             + "a:link, a:visited, a:active, a:hover {color:rgb(%LINK_COLOR%); } "
             + "img.emoji {width: 1em; height: 1em; margin: 0 .05em 0 .1em; vertical-align: -0.1em;} "
             + "--></style>"
-            + "</head><body style=\"margin:0px; background-color:rgb(%BG_COLOR%);\"><p><span style=\"vertical-align:text-bottom\">";
-        private const string detailHtmlFormatFooterColor = "</span></p></body></html>";
+            + "</head><body><p>";
+        private const string detailHtmlFormatFooterColor = "</p></body></html>";
         private string detailHtmlFormatHeader;
         private string detailHtmlFormatFooter;
 
