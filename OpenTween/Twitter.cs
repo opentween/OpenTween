@@ -1678,7 +1678,8 @@ namespace OpenTween
             post.TextFromApi = post.TextFromApi.Replace("<3", "\u2661");
 
             post.QuoteStatusIds = GetQuoteTweetStatusIds(entities)
-                .Where(x => x != post.StatusId && x != post.RetweetedId).ToArray();
+                .Where(x => x != post.StatusId && x != post.RetweetedId)
+                .Distinct().ToArray();
 
             //Source整形
             var source = ParseSource(sourceHtml);
@@ -2109,7 +2110,7 @@ namespace OpenTween
                     post.TextFromApi = post.TextFromApi.Replace("<3", "\u2661");
                     post.IsFav = false;
 
-                    post.QuoteStatusIds = GetQuoteTweetStatusIds(message.Entities).ToArray();
+                    post.QuoteStatusIds = GetQuoteTweetStatusIds(message.Entities).Distinct().ToArray();
 
                     //以下、ユーザー情報
                     TwitterUser user;
@@ -2355,7 +2356,8 @@ namespace OpenTween
                     post.TextFromApi = post.TextFromApi.Replace("<3", "\u2661");
 
                     post.QuoteStatusIds = GetQuoteTweetStatusIds(entities)
-                        .Where(x => x != post.StatusId && x != post.RetweetedId).ToArray();
+                        .Where(x => x != post.StatusId && x != post.RetweetedId)
+                        .Distinct().ToArray();
 
                     //Source整形
                     var source = ParseSource(sourceHtml);
