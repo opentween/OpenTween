@@ -6516,6 +6516,7 @@ namespace OpenTween
                 if (!string.IsNullOrEmpty(err))
                     return FormatQuoteTweetHtml(statusId, WebUtility.HtmlEncode(err));
 
+                post.IsRead = true;
                 this._statuses.AddPost(post);
             }
 
