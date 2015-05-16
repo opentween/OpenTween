@@ -6458,17 +6458,15 @@ namespace OpenTween
 
                         if (this._cfgCommon.PreviewEnable)
                         {
-                            if (this.thumbnailTokenSource != null)
+                            var oldTokenSource = Interlocked.Exchange(ref this.thumbnailTokenSource, new CancellationTokenSource());
+                            if (oldTokenSource != null)
                             {
-                                var oldTokenSource = this.thumbnailTokenSource;
-
-                                var cancelTask = Task.Run(() => oldTokenSource.Cancel());
-
-                                Task.WhenAll(this.thumbnailTask, cancelTask)
-                                    .ContinueWith(_ => oldTokenSource.Dispose(), TaskScheduler.Default);
+                                try
+                                {
+                                    await Task.WhenAll(this.thumbnailTask, Task.Run(() => oldTokenSource.Cancel()));
+                                }
+                                catch (OperationCanceledException) { }
                             }
-
-                            this.thumbnailTokenSource = new CancellationTokenSource();
 
                             var token = this.thumbnailTokenSource.Token;
                             this.thumbnailTask = this.tweetThumbnail1.ShowThumbnailAsync(_curPost, token);
