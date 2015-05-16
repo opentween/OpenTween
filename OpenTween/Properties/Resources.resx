@@ -1040,10 +1040,10 @@
   <data name="ApiInfo7" xml:space="preserve">
     <value>UserStream接続 : </value>
   </data>
-  <data name="Disable" xml:space="preserve">
+  <data name="Disabled" xml:space="preserve">
     <value>無効</value>
   </data>
-  <data name="Enable" xml:space="preserve">
+  <data name="Enabled" xml:space="preserve">
     <value>有効</value>
   </data>
   <data name="ChangeIconToolStripMenuItem_ClickText6" xml:space="preserve">

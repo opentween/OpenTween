@@ -560,6 +560,12 @@ namespace OpenTween
         protected virtual string MakeSummary()
         {
             var fs = new StringBuilder();
+            if (!this.Enabled)
+            {
+                fs.Append("<");
+                fs.Append(Properties.Resources.Disabled);
+                fs.Append("> ");
+            }
             if (!string.IsNullOrEmpty(this.FilterName) || this.FilterBody.Length > 0 || this.FilterRt || !string.IsNullOrEmpty(this.FilterSource))
             {
                 if (this.UseNameField)

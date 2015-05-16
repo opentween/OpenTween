@@ -1397,8 +1397,10 @@ namespace OpenTween
                 var isSelected = e.State.HasFlag(DrawItemState.Selected);
 
                 Brush textBrush;
-                if (filter.Enabled)
-                    textBrush = isSelected ? SystemBrushes.HighlightText : SystemBrushes.WindowText;
+                if (isSelected)
+                    textBrush = SystemBrushes.HighlightText;
+                else if (filter.Enabled)
+                    textBrush = SystemBrushes.WindowText;
                 else
                     textBrush = SystemBrushes.GrayText;
 

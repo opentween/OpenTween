@@ -994,11 +994,11 @@ Do you want to upload the {1} selected media file(s)?</value>
   <data name="ChangeIconToolStripMenuItem_ClickText6" xml:space="preserve">
     <value>This file type forbidden to use as icon image.</value>
   </data>
-  <data name="Disable" xml:space="preserve">
-    <value>Disable</value>
+  <data name="Disabled" xml:space="preserve">
+    <value>Disabled</value>
   </data>
-  <data name="Enable" xml:space="preserve">
-    <value>Enable</value>
+  <data name="Enabled" xml:space="preserve">
+    <value>Enabled</value>
   </data>
   <data name="GetFriendshipInfo6" xml:space="preserve">
     <value>Faild to get relation info.</value>

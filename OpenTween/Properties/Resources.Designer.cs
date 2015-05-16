@@ -901,20 +901,20 @@ namespace OpenTween.Properties {
         }
         
         /// <summary>
-        ///   無効 に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string Disable {
-            get {
-                return ResourceManager.GetString("Disable", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   無効化 に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string DisableButtonCaption {
             get {
                 return ResourceManager.GetString("DisableButtonCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   無効 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string Disabled {
+            get {
+                return ResourceManager.GetString("Disabled", resourceCulture);
             }
         }
         
@@ -973,20 +973,20 @@ namespace OpenTween.Properties {
         }
         
         /// <summary>
-        ///   有効 に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string Enable {
-            get {
-                return ResourceManager.GetString("Enable", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   有効化 に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string EnableButtonCaption {
             get {
                 return ResourceManager.GetString("EnableButtonCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   有効 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string Enabled {
+            get {
+                return ResourceManager.GetString("Enabled", resourceCulture);
             }
         }
         
