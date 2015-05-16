@@ -183,7 +183,7 @@ namespace OpenTween
 
             var expected = "<a class=\"quote-tweet-link\" href=\"https://twitter.com/status/status/12345\">" +
                 "<blockquote class=\"quote-tweet\">" +
-                "<p>@twitterapi hogehoge</p> &mdash; upsilon (@kim_upsilon) 2015/03/30 3:30:00" +
+                "<p>@twitterapi hogehoge</p> &mdash; upsilon (@kim_upsilon) " + DateTime.Parse("2015/03/30 3:30:00") +
                 "</blockquote></a>";
             Assert.Equal(expected, TweenMain.FormatQuoteTweetHtml(post));
         }
