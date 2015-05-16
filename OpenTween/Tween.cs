@@ -6390,92 +6390,91 @@ namespace OpenTween
                 }
 
                 DateTimeLabel.Text = _curPost.CreatedAt.ToString();
-
-                if (DumpPostClassToolStripMenuItem.Checked)
-                {
-                    StringBuilder sb = new StringBuilder(512);
-
-                    sb.Append("-----Start PostClass Dump<br>");
-                    sb.AppendFormat("TextFromApi           : {0}<br>", _curPost.TextFromApi);
-                    sb.AppendFormat("(PlainText)    : <xmp>{0}</xmp><br>", _curPost.TextFromApi);
-                    sb.AppendFormat("StatusId             : {0}<br>", _curPost.StatusId.ToString());
-                    //sb.AppendFormat("ImageIndex     : {0}<br>", _curPost.ImageIndex.ToString());
-                    sb.AppendFormat("ImageUrl       : {0}<br>", _curPost.ImageUrl);
-                    sb.AppendFormat("InReplyToStatusId    : {0}<br>", _curPost.InReplyToStatusId.ToString());
-                    sb.AppendFormat("InReplyToUser  : {0}<br>", _curPost.InReplyToUser);
-                    sb.AppendFormat("IsDM           : {0}<br>", _curPost.IsDm.ToString());
-                    sb.AppendFormat("IsFav          : {0}<br>", _curPost.IsFav.ToString());
-                    sb.AppendFormat("IsMark         : {0}<br>", _curPost.IsMark.ToString());
-                    sb.AppendFormat("IsMe           : {0}<br>", _curPost.IsMe.ToString());
-                    sb.AppendFormat("IsOwl          : {0}<br>", _curPost.IsOwl.ToString());
-                    sb.AppendFormat("IsProtect      : {0}<br>", _curPost.IsProtect.ToString());
-                    sb.AppendFormat("IsRead         : {0}<br>", _curPost.IsRead.ToString());
-                    sb.AppendFormat("IsReply        : {0}<br>", _curPost.IsReply.ToString());
-
-                    foreach (string nm in _curPost.ReplyToList)
-                    {
-                        sb.AppendFormat("ReplyToList    : {0}<br>", nm);
-                    }
-
-                    sb.AppendFormat("ScreenName           : {0}<br>", _curPost.ScreenName);
-                    sb.AppendFormat("NickName       : {0}<br>", _curPost.Nickname);
-                    sb.AppendFormat("Text   : {0}<br>", _curPost.Text);
-                    sb.AppendFormat("(PlainText)    : <xmp>{0}</xmp><br>", _curPost.Text);
-                    sb.AppendFormat("CreatedAt          : {0}<br>", _curPost.CreatedAt.ToString());
-                    sb.AppendFormat("Source         : {0}<br>", _curPost.Source);
-                    sb.AppendFormat("UserId            : {0}<br>", _curPost.UserId);
-                    sb.AppendFormat("FilterHit      : {0}<br>", _curPost.FilterHit);
-                    sb.AppendFormat("RetweetedBy    : {0}<br>", _curPost.RetweetedBy);
-                    sb.AppendFormat("RetweetedId    : {0}<br>", _curPost.RetweetedId);
-                    sb.AppendFormat("SearchTabName  : {0}<br>", _curPost.RelTabName);
-
-                    sb.AppendFormat("Media.Count    : {0}<br>", _curPost.Media.Count);
-                    if (_curPost.Media.Count > 0)
-                    {
-                        for (int i = 0; i < _curPost.Media.Count; i++)
-                        {
-                            var info = _curPost.Media[i];
-                            sb.AppendFormat("Media[{0}].Url         : {1}<br>", i, info.Url);
-                            sb.AppendFormat("Media[{0}].VideoUrl    : {1}<br>", i, info.VideoUrl ?? "---");
-                        }
-                    }
-                    sb.Append("-----End PostClass Dump<br>");
-
-                    PostBrowser.DocumentText = detailHtmlFormatHeader + sb.ToString() + detailHtmlFormatFooter;
-                }
-                else
-                {
-                    // 同じIDのツイートであれば WebBrowser とサムネイルの更新を行わない
-                    // (同一ツイートの RT は文面が同じであるため同様に更新しない)
-                    if (_curPost.StatusId != oldDisplayPost.StatusId)
-                    {
-                        this.PostBrowser.DocumentText =
-                            this.createDetailHtml(_curPost.IsDeleted ? "(DELETED)" : _curPost.Text);
-
-                        this.PostBrowser.Document.Window.ScrollTo(0, 0);
-
-                        this.SplitContainer3.Panel2Collapsed = true;
-
-                        if (this._cfgCommon.PreviewEnable)
-                        {
-                            var oldTokenSource = Interlocked.Exchange(ref this.thumbnailTokenSource, new CancellationTokenSource());
-                            if (oldTokenSource != null)
-                            {
-                                try
-                                {
-                                    await Task.WhenAll(this.thumbnailTask, Task.Run(() => oldTokenSource.Cancel()));
-                                }
-                                catch (OperationCanceledException) { }
-                            }
-
-                            var token = this.thumbnailTokenSource.Token;
-                            this.thumbnailTask = this.tweetThumbnail1.ShowThumbnailAsync(_curPost, token);
-                        }
-                    }
-                }
             }
 
-            await this.AppendQuoteTweetAsync(this._curPost);
+            if (DumpPostClassToolStripMenuItem.Checked)
+            {
+                StringBuilder sb = new StringBuilder(512);
+
+                sb.Append("-----Start PostClass Dump<br>");
+                sb.AppendFormat("TextFromApi           : {0}<br>", _curPost.TextFromApi);
+                sb.AppendFormat("(PlainText)    : <xmp>{0}</xmp><br>", _curPost.TextFromApi);
+                sb.AppendFormat("StatusId             : {0}<br>", _curPost.StatusId.ToString());
+                //sb.AppendFormat("ImageIndex     : {0}<br>", _curPost.ImageIndex.ToString());
+                sb.AppendFormat("ImageUrl       : {0}<br>", _curPost.ImageUrl);
+                sb.AppendFormat("InReplyToStatusId    : {0}<br>", _curPost.InReplyToStatusId.ToString());
+                sb.AppendFormat("InReplyToUser  : {0}<br>", _curPost.InReplyToUser);
+                sb.AppendFormat("IsDM           : {0}<br>", _curPost.IsDm.ToString());
+                sb.AppendFormat("IsFav          : {0}<br>", _curPost.IsFav.ToString());
+                sb.AppendFormat("IsMark         : {0}<br>", _curPost.IsMark.ToString());
+                sb.AppendFormat("IsMe           : {0}<br>", _curPost.IsMe.ToString());
+                sb.AppendFormat("IsOwl          : {0}<br>", _curPost.IsOwl.ToString());
+                sb.AppendFormat("IsProtect      : {0}<br>", _curPost.IsProtect.ToString());
+                sb.AppendFormat("IsRead         : {0}<br>", _curPost.IsRead.ToString());
+                sb.AppendFormat("IsReply        : {0}<br>", _curPost.IsReply.ToString());
+
+                foreach (string nm in _curPost.ReplyToList)
+                {
+                    sb.AppendFormat("ReplyToList    : {0}<br>", nm);
+                }
+
+                sb.AppendFormat("ScreenName           : {0}<br>", _curPost.ScreenName);
+                sb.AppendFormat("NickName       : {0}<br>", _curPost.Nickname);
+                sb.AppendFormat("Text   : {0}<br>", _curPost.Text);
+                sb.AppendFormat("(PlainText)    : <xmp>{0}</xmp><br>", _curPost.Text);
+                sb.AppendFormat("CreatedAt          : {0}<br>", _curPost.CreatedAt.ToString());
+                sb.AppendFormat("Source         : {0}<br>", _curPost.Source);
+                sb.AppendFormat("UserId            : {0}<br>", _curPost.UserId);
+                sb.AppendFormat("FilterHit      : {0}<br>", _curPost.FilterHit);
+                sb.AppendFormat("RetweetedBy    : {0}<br>", _curPost.RetweetedBy);
+                sb.AppendFormat("RetweetedId    : {0}<br>", _curPost.RetweetedId);
+                sb.AppendFormat("SearchTabName  : {0}<br>", _curPost.RelTabName);
+
+                sb.AppendFormat("Media.Count    : {0}<br>", _curPost.Media.Count);
+                if (_curPost.Media.Count > 0)
+                {
+                    for (int i = 0; i < _curPost.Media.Count; i++)
+                    {
+                        var info = _curPost.Media[i];
+                        sb.AppendFormat("Media[{0}].Url         : {1}<br>", i, info.Url);
+                        sb.AppendFormat("Media[{0}].VideoUrl    : {1}<br>", i, info.VideoUrl ?? "---");
+                    }
+                }
+                sb.Append("-----End PostClass Dump<br>");
+
+                PostBrowser.DocumentText = detailHtmlFormatHeader + sb.ToString() + detailHtmlFormatFooter;
+                return;
+            }
+
+            // 同じIDのツイートであれば WebBrowser とサムネイルの更新を行わない
+            // (同一ツイートの RT は文面が同じであるため同様に更新しない)
+            if (_curPost.StatusId != oldDisplayPost.StatusId)
+            {
+                this.PostBrowser.DocumentText =
+                    this.createDetailHtml(_curPost.IsDeleted ? "(DELETED)" : _curPost.Text);
+
+                this.PostBrowser.Document.Window.ScrollTo(0, 0);
+
+                this.SplitContainer3.Panel2Collapsed = true;
+
+                if (this._cfgCommon.PreviewEnable)
+                {
+                    var oldTokenSource = Interlocked.Exchange(ref this.thumbnailTokenSource, new CancellationTokenSource());
+                    if (oldTokenSource != null)
+                    {
+                        try
+                        {
+                            await Task.WhenAll(this.thumbnailTask, Task.Run(() => oldTokenSource.Cancel()));
+                        }
+                        catch (OperationCanceledException) { }
+                    }
+
+                    var token = this.thumbnailTokenSource.Token;
+                    this.thumbnailTask = this.tweetThumbnail1.ShowThumbnailAsync(_curPost, token);
+                }
+
+                await this.AppendQuoteTweetAsync(this._curPost);
+            }
         }
 
         /// <summary>
