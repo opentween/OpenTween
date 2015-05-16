@@ -6446,6 +6446,8 @@ namespace OpenTween
                 return;
             }
 
+            var loadTasks = new List<Task>();
+
             // 同じIDのツイートであれば WebBrowser とサムネイルの更新を行わない
             // (同一ツイートの RT は文面が同じであるため同様に更新しない)
             if (_curPost.StatusId != oldDisplayPost.StatusId)
@@ -6461,20 +6463,20 @@ namespace OpenTween
                 {
                     var oldTokenSource = Interlocked.Exchange(ref this.thumbnailTokenSource, new CancellationTokenSource());
                     if (oldTokenSource != null)
-                    {
-                        try
-                        {
-                            await Task.WhenAll(this.thumbnailTask, Task.Run(() => oldTokenSource.Cancel()));
-                        }
-                        catch (OperationCanceledException) { }
-                    }
+                        oldTokenSource.Cancel();
 
                     var token = this.thumbnailTokenSource.Token;
-                    this.thumbnailTask = this.tweetThumbnail1.ShowThumbnailAsync(_curPost, token);
+                    loadTasks.Add(this.tweetThumbnail1.ShowThumbnailAsync(_curPost, token));
                 }
 
-                await this.AppendQuoteTweetAsync(this._curPost);
+                loadTasks.Add(this.AppendQuoteTweetAsync(this._curPost));
             }
+
+            try
+            {
+                await Task.WhenAll(loadTasks);
+            }
+            catch (OperationCanceledException) { }
         }
 
         /// <summary>
