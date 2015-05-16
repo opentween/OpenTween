@@ -136,6 +136,7 @@ namespace OpenTween
             }
 
             expandedUrl = MyCommon.ConvertToReadableUrl(entity.ExpandedUrl);
+            var linkUrl = entity.Url;
 
             // twitter.com へのリンクは t.co を経由せずに直接リンクする (但し pic.twitter.com はそのまま)
             if (!(entity is TwitterEntityMedia))
@@ -143,11 +144,11 @@ namespace OpenTween
                 if (entity.ExpandedUrl.StartsWith("https://twitter.com/") ||
                     entity.ExpandedUrl.StartsWith("http://twitter.com/"))
                 {
-                    entity.Url = entity.ExpandedUrl;
+                    linkUrl = entity.ExpandedUrl;
                 }
             }
 
-            return "<a href=\"" + e(entity.Url) + "\" title=\"" + e(expandedUrl) + "\">" + t(e(entity.DisplayUrl)) + "</a>";
+            return "<a href=\"" + e(linkUrl) + "\" title=\"" + e(expandedUrl) + "\">" + t(e(entity.DisplayUrl)) + "</a>";
         }
 
         private static string FormatHashtagEntity(string targetText, TwitterEntityHashtag entity)
