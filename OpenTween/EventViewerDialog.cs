@@ -96,11 +96,11 @@ namespace OpenTween
             this.TopMost = SettingCommon.Instance.AlwaysTop;
         }
 
-        private void EventList_DoubleClick(object sender, EventArgs e)
+        private async void EventList_DoubleClick(object sender, EventArgs e)
         {
             if (EventList.SelectedIndices.Count != 0 && _filterdEventSource[EventList.SelectedIndices[0]] != null)
             {
-                ((TweenMain)this.Owner).OpenUriAsync("https://twitter.com/" + _filterdEventSource[EventList.SelectedIndices[0]].Username);
+                await ((TweenMain)this.Owner).OpenUriAsync("https://twitter.com/" + _filterdEventSource[EventList.SelectedIndices[0]].Username);
             }
         }
 

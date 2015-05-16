@@ -385,7 +385,7 @@ namespace OpenTween
             ButtonClose.Focus();
         }
 
-        private void WebBrowser_Navigating(object sender, WebBrowserNavigatingEventArgs e)
+        private async void WebBrowser_Navigating(object sender, WebBrowserNavigatingEventArgs e)
         {
             if (e.Url.AbsoluteUri != "about:blank")
             {
@@ -411,7 +411,7 @@ namespace OpenTween
                     }
                     else
                     {
-                        this.mainForm.OpenUriAsync(e.Url.OriginalString);
+                        await this.mainForm.OpenUriAsync(e.Url.OriginalString);
                     }
                 }
             }
@@ -448,14 +448,14 @@ namespace OpenTween
             this.SelectionCopyToolStripMenuItem.Enabled = selectedText != null;
         }
 
-        private void LinkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private async void LinkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            this.mainForm.OpenUriAsync("https://support.twitter.com/groups/31-twitter-basics/topics/111-features/articles/268350-x8a8d-x8a3c-x6e08-x307f-x30a2-x30ab-x30a6-x30f3-x30c8-x306b-x3064-x3044-x3066");
+            await this.mainForm.OpenUriAsync("https://support.twitter.com/groups/31-twitter-basics/topics/111-features/articles/268350-x8a8d-x8a3c-x6e08-x307f-x30a2-x30ab-x30a6-x30f3-x30c8-x306b-x3064-x3044-x3066");
         }
 
-        private void LinkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private async void LinkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            this.mainForm.OpenUriAsync("https://support.twitter.com/groups/31-twitter-basics/topics/107-my-profile-account-settings/articles/243055-x516c-x958b-x3001-x975e-x516c-x958b-x30a2-x30ab-x30a6-x30f3-x30c8-x306b-x3064-x3044-x3066");
+            await this.mainForm.OpenUriAsync("https://support.twitter.com/groups/31-twitter-basics/topics/107-my-profile-account-settings/articles/243055-x516c-x958b-x3001-x975e-x516c-x958b-x30a2-x30ab-x30a6-x30f3-x30c8-x306b-x3064-x3044-x3066");
         }
 
         private void ButtonSearchPosts_Click(object sender, EventArgs e)

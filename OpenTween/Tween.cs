@@ -3621,18 +3621,18 @@ namespace OpenTween
         }
 
 
-        private void MoveToHomeToolStripMenuItem_Click(object sender, EventArgs e)
+        private async void MoveToHomeToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (_curList.SelectedIndices.Count > 0)
-                OpenUriAsync(MyCommon.TwitterUrl + GetCurTabPost(_curList.SelectedIndices[0]).ScreenName);
+                await this.OpenUriAsync(MyCommon.TwitterUrl + GetCurTabPost(_curList.SelectedIndices[0]).ScreenName);
             else if (_curList.SelectedIndices.Count == 0)
-                OpenUriAsync(MyCommon.TwitterUrl);
+                await this.OpenUriAsync(MyCommon.TwitterUrl);
         }
 
-        private void MoveToFavToolStripMenuItem_Click(object sender, EventArgs e)
+        private async void MoveToFavToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (_curList.SelectedIndices.Count > 0)
-                OpenUriAsync(MyCommon.TwitterUrl + "#!/" + GetCurTabPost(_curList.SelectedIndices[0]).ScreenName + "/favorites");
+                await this.OpenUriAsync(MyCommon.TwitterUrl + "#!/" + GetCurTabPost(_curList.SelectedIndices[0]).ScreenName + "/favorites");
         }
 
         private void TweenMain_ClientSizeChanged(object sender, EventArgs e)
@@ -4496,7 +4496,7 @@ namespace OpenTween
             if (e.Url.AbsoluteUri != "about:blank")
             {
                 await this.DispSelectedPost();
-                OpenUriAsync(e.Url.OriginalString);
+                await this.OpenUriAsync(e.Url.OriginalString);
             }
         }
 
@@ -4541,7 +4541,7 @@ namespace OpenTween
                         if (this._cfgCommon.OpenUserTimeline)
                         {
                             if (MyCommon.IsKeyDown(Keys.Control))
-                                OpenUriAsync(e.Url.OriginalString);
+                                await this.OpenUriAsync(e.Url.OriginalString);
                             else
                                 this.AddNewTabForUserTimeline(m.Result("${ScreenName}"));
                         }
@@ -4550,12 +4550,12 @@ namespace OpenTween
                             if (MyCommon.IsKeyDown(Keys.Control))
                                 this.AddNewTabForUserTimeline(m.Result("${ScreenName}"));
                             else
-                                OpenUriAsync(e.Url.OriginalString);
+                                await this.OpenUriAsync(e.Url.OriginalString);
                         }
                     }
                     else
                     {
-                        OpenUriAsync(e.Url.OriginalString);
+                        await this.OpenUriAsync(e.Url.OriginalString);
                     }
                 }
             }
@@ -6126,21 +6126,21 @@ namespace OpenTween
             lst.Focus();
         }
 
-        private void StatusOpenMenuItem_Click(object sender, EventArgs e)
+        private async void StatusOpenMenuItem_Click(object sender, EventArgs e)
         {
             if (_curList.SelectedIndices.Count > 0 && _statuses.Tabs[_curTab.Text].TabType != MyCommon.TabUsageType.DirectMessage)
             {
                 var post = _statuses.Tabs[_curTab.Text][_curList.SelectedIndices[0]];
-                OpenUriAsync(MyCommon.GetStatusUrl(post));
+                await this.OpenUriAsync(MyCommon.GetStatusUrl(post));
             }
         }
 
-        private void FavorareMenuItem_Click(object sender, EventArgs e)
+        private async void FavorareMenuItem_Click(object sender, EventArgs e)
         {
             if (_curList.SelectedIndices.Count > 0)
             {
                 PostClass post = _statuses.Tabs[_curTab.Text][_curList.SelectedIndices[0]];
-                OpenUriAsync(Properties.Resources.FavstarUrl + "users/" + post.ScreenName + "/recent");
+                await this.OpenUriAsync(Properties.Resources.FavstarUrl + "users/" + post.ScreenName + "/recent");
             }
         }
 
@@ -6549,19 +6549,19 @@ namespace OpenTween
             return Regex.Replace(html, @"<a[^>]*>(.*?)</a>", "$1");
         }
 
-        private void MatomeMenuItem_Click(object sender, EventArgs e)
+        private async void MatomeMenuItem_Click(object sender, EventArgs e)
         {
-            OpenApplicationWebsite();
+            await this.OpenApplicationWebsite();
         }
 
-        private void OpenApplicationWebsite()
+        private async Task OpenApplicationWebsite()
         {
-            OpenUriAsync(ApplicationSettings.WebsiteUrl);
+            await this.OpenUriAsync(ApplicationSettings.WebsiteUrl);
         }
 
-        private void ShortcutKeyListMenuItem_Click(object sender, EventArgs e)
+        private async void ShortcutKeyListMenuItem_Click(object sender, EventArgs e)
         {
-            OpenUriAsync(ApplicationSettings.ShortcutKeyUrl);
+            await this.OpenUriAsync(ApplicationSettings.ShortcutKeyUrl);
         }
 
         private void ListTab_KeyDown(object sender, KeyEventArgs e)
@@ -7673,7 +7673,7 @@ namespace OpenTween
             _curList.EnsureVisible(idx);
         }
 
-        private void GoInReplyToPostTree()
+        private async Task GoInReplyToPostTree()
         {
             if (_curPost == null) return;
 
@@ -7719,42 +7719,35 @@ namespace OpenTween
                                  where index != -1
                                  select new {Tab = tab, Index = index};
 
-            try
-            {
-                var inReplyPost = inReplyToPosts.First();
-                inReplyToTabName = inReplyPost.Tab.TabName;
-                inReplyToIndex = inReplyPost.Index;
-            }
-            catch (InvalidOperationException)
+            var inReplyPost = inReplyToPosts.FirstOrDefault();
+            if (inReplyPost == null)
             {
                 PostClass post = null;
                 string r = tw.GetStatusApi(false, _curPost.InReplyToStatusId.Value, ref post);
-                if (string.IsNullOrEmpty(r) && post != null)
-                {
-                    post.IsRead = true;
-                    _statuses.AddPost(post);
-                    _statuses.DistributePosts();
-                    //_statuses.SubmitUpdate(null, null, null, false);
-                    this.RefreshTimeline(false);
-                    try
-                    {
-                        var inReplyPost = inReplyToPosts.First();
-                        inReplyToTabName = inReplyPost.Tab.TabName;
-                        inReplyToIndex = inReplyPost.Index;
-                    }
-                    catch (InvalidOperationException)
-                    {
-                        OpenUriAsync("https://twitter.com/" + inReplyToUser + "/statuses/" + inReplyToId.ToString());
-                        return;
-                    }
-                }
-                else
+                if (!string.IsNullOrEmpty(r) || post == null)
                 {
                     this.StatusLabel.Text = r;
-                    OpenUriAsync("https://twitter.com/" + inReplyToUser + "/statuses/" + inReplyToId.ToString());
+                    await this.OpenUriAsync("https://twitter.com/" + inReplyToUser + "/statuses/" + inReplyToId.ToString());
                     return;
                 }
+
+                post.IsRead = true;
+                _statuses.AddPost(post);
+                _statuses.DistributePosts();
+                //_statuses.SubmitUpdate(null, null, null, false);
+                this.RefreshTimeline(false);
+
+                inReplyPost = inReplyToPosts.FirstOrDefault();
+                if (inReplyPost == null)
+                {
+                    await this.OpenUriAsync("https://twitter.com/" + inReplyToUser + "/statuses/" + inReplyToId.ToString());
+                    return;
+                }
+                inReplyToTabName = inReplyPost.Tab.TabName;
+                inReplyToIndex = inReplyPost.Index;
             }
+            inReplyToTabName = inReplyPost.Tab.TabName;
+            inReplyToIndex = inReplyPost.Index;
 
             TabPage tabPage = this.ListTab.TabPages.Cast<TabPage>().First((tp) => { return tp.Text == inReplyToTabName; });
             DetailsListView listView = (DetailsListView)tabPage.Tag;
@@ -9459,7 +9452,7 @@ namespace OpenTween
             _curList.EnsureVisible(idx);
         }
 
-        private void OpenURLMenuItem_Click(object sender, EventArgs e)
+        private async void OpenURLMenuItem_Click(object sender, EventArgs e)
         {
             if (PostBrowser.Document.Links.Count > 0)
             {
@@ -9544,7 +9537,7 @@ namespace OpenTween
                     if (this._cfgCommon.OpenUserTimeline && m.Success && IsTwitterId(m.Result("${ScreenName}")))
                         this.AddNewTabForUserTimeline(m.Result("${ScreenName}"));
                     else
-                        OpenUriAsync(openUrlStr);
+                        await this.OpenUriAsync(openUrlStr);
                     return;
                 }
             }
@@ -10016,13 +10009,13 @@ namespace OpenTween
             }
         }
 
-        private void doRepliedStatusOpen()
+        private async Task doRepliedStatusOpen()
         {
             if (this.ExistCurrentPost && _curPost.InReplyToUser != null && _curPost.InReplyToStatusId != null)
             {
                 if (MyCommon.IsKeyDown(Keys.Shift))
                 {
-                    OpenUriAsync(MyCommon.GetStatusUrl(_curPost.InReplyToUser, _curPost.InReplyToStatusId.Value));
+                    await this.OpenUriAsync(MyCommon.GetStatusUrl(_curPost.InReplyToUser, _curPost.InReplyToStatusId.Value));
                     return;
                 }
                 if (_statuses.ContainsKey(_curPost.InReplyToStatusId.Value))
@@ -10039,14 +10032,14 @@ namespace OpenTween
                         MessageBox.Show(repPost.ScreenName + " / " + repPost.Nickname + "   (" + repPost.CreatedAt.ToString() + ")" + Environment.NewLine + repPost.TextFromApi);
                         return;
                     }
-                    OpenUriAsync(MyCommon.GetStatusUrl(_curPost.InReplyToUser, _curPost.InReplyToStatusId.Value));
+                    await this.OpenUriAsync(MyCommon.GetStatusUrl(_curPost.InReplyToUser, _curPost.InReplyToStatusId.Value));
                 }
             }
         }
 
-        private void RepliedStatusOpenMenuItem_Click(object sender, EventArgs e)
+        private async void RepliedStatusOpenMenuItem_Click(object sender, EventArgs e)
         {
-            doRepliedStatusOpen();
+            await this.doRepliedStatusOpen();
         }
 
         /// <summary>
@@ -10154,11 +10147,11 @@ namespace OpenTween
             }
         }
 
-        private void IconNameToolStripMenuItem_Click(object sender, EventArgs e)
+        private async void IconNameToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (_curPost == null) return;
             string name = _curPost.ImageUrl;
-            OpenUriAsync(name.Remove(name.LastIndexOf("_normal"), 7)); // "_normal".Length
+            await this.OpenUriAsync(name.Remove(name.LastIndexOf("_normal"), 7)); // "_normal".Length
         }
 
         private async void ReloadIconToolStripMenuItem_Click(object sender, EventArgs e)
@@ -10665,7 +10658,7 @@ namespace OpenTween
             }
         }
 
-        private void doSearchToolStrip(string url)
+        private async Task doSearchToolStrip(string url)
         {
             //発言詳細で「選択文字列で検索」（選択文字列取得）
             string _selText = this.PostBrowser.GetSelectedText();
@@ -10680,7 +10673,7 @@ namespace OpenTween
                 }
 
                 string tmp = string.Format(url, Uri.EscapeDataString(_selText));
-                OpenUriAsync(tmp);
+                await this.OpenUriAsync(tmp);
             }
         }
 
@@ -10690,19 +10683,19 @@ namespace OpenTween
             PostBrowser.Document.ExecCommand("SelectAll", false, null);
         }
 
-        private void SearchWikipediaContextMenuItem_Click(object sender, EventArgs e)
+        private async void SearchWikipediaContextMenuItem_Click(object sender, EventArgs e)
         {
-            doSearchToolStrip(Properties.Resources.SearchItem1Url);
+            await this.doSearchToolStrip(Properties.Resources.SearchItem1Url);
         }
 
-        private void SearchGoogleContextMenuItem_Click(object sender, EventArgs e)
+        private async void SearchGoogleContextMenuItem_Click(object sender, EventArgs e)
         {
-            doSearchToolStrip(Properties.Resources.SearchItem2Url);
+            await this.doSearchToolStrip(Properties.Resources.SearchItem2Url);
         }
 
-        private void SearchPublicSearchContextMenuItem_Click(object sender, EventArgs e)
+        private async void SearchPublicSearchContextMenuItem_Click(object sender, EventArgs e)
         {
-            doSearchToolStrip(Properties.Resources.SearchItem4Url);
+            await this.doSearchToolStrip(Properties.Resources.SearchItem4Url);
         }
 
         private void UrlCopyContextMenuItem_Click(object sender, EventArgs e)
@@ -12032,21 +12025,21 @@ namespace OpenTween
             }
         }
 
-        private void doMoveToRTHome()
+        private async Task doMoveToRTHome()
         {
             if (_curList.SelectedIndices.Count > 0)
             {
                 PostClass post = GetCurTabPost(_curList.SelectedIndices[0]);
                 if (post.RetweetedId != null)
                 {
-                    OpenUriAsync("https://twitter.com/" + GetCurTabPost(_curList.SelectedIndices[0]).RetweetedBy);
+                    await this.OpenUriAsync("https://twitter.com/" + GetCurTabPost(_curList.SelectedIndices[0]).RetweetedBy);
                 }
             }
         }
 
-        private void MoveToRTHomeMenuItem_Click(object sender, EventArgs e)
+        private async void MoveToRTHomeMenuItem_Click(object sender, EventArgs e)
         {
-            doMoveToRTHome();
+            await this.doMoveToRTHome();
         }
 
         private void IdFilterAddMenuItem_Click(object sender, EventArgs e)
@@ -12691,11 +12684,11 @@ namespace OpenTween
             this.UserPicture.Cursor = Cursors.Default;
         }
 
-        private void UserPicture_DoubleClick(object sender, EventArgs e)
+        private async void UserPicture_DoubleClick(object sender, EventArgs e)
         {
             if (NameLabel.Tag != null)
             {
-                OpenUriAsync(MyCommon.TwitterUrl + NameLabel.Tag.ToString());
+                await this.OpenUriAsync(MyCommon.TwitterUrl + NameLabel.Tag.ToString());
             }
         }
 
@@ -13332,14 +13325,15 @@ namespace OpenTween
             }
         }
 
-        private void OpenOwnFavedMenuItem_Click(object sender, EventArgs e)
+        private async void OpenOwnFavedMenuItem_Click(object sender, EventArgs e)
         {
-            if (!string.IsNullOrEmpty(tw.Username)) OpenUriAsync(Properties.Resources.FavstarUrl + "users/" + tw.Username + "/recent");
+            if (!string.IsNullOrEmpty(tw.Username))
+                await this.OpenUriAsync(Properties.Resources.FavstarUrl + "users/" + tw.Username + "/recent");
         }
 
-        private void OpenOwnHomeMenuItem_Click(object sender, EventArgs e)
+        private async void OpenOwnHomeMenuItem_Click(object sender, EventArgs e)
         {
-            OpenUriAsync(MyCommon.TwitterUrl + tw.Username);
+            await this.OpenUriAsync(MyCommon.TwitterUrl + tw.Username);
         }
 
         private async Task doTranslation(string str)
@@ -13425,12 +13419,12 @@ namespace OpenTween
             }
         }
 
-        private void UserFavorareToolStripMenuItem_Click(object sender, EventArgs e)
+        private async void UserFavorareToolStripMenuItem_Click(object sender, EventArgs e)
         {
             string id = GetUserIdFromCurPostOrInput("Show Favstar");
             if (!string.IsNullOrEmpty(id))
             {
-                OpenUriAsync(Properties.Resources.FavstarUrl + "users/" + id + "/recent");
+                await this.OpenUriAsync(Properties.Resources.FavstarUrl + "users/" + id + "/recent");
             }
         }
 
@@ -13457,7 +13451,7 @@ namespace OpenTween
             TimelineRefreshEnableChange(!StopRefreshAllMenuItem.Checked);
         }
 
-        private void OpenUserAppointUrl()
+        private async Task OpenUserAppointUrl()
         {
             if (this._cfgCommon.UserAppointUrl != null)
             {
@@ -13475,19 +13469,19 @@ namespace OpenTween
                         {
                             xUrl = xUrl.Replace("{STATUS}", _curPost.StatusId.ToString());
                         }
-                        OpenUriAsync(xUrl);
+                        await this.OpenUriAsync(xUrl);
                     }
                 }
                 else
                 {
-                    OpenUriAsync(this._cfgCommon.UserAppointUrl);
+                    await this.OpenUriAsync(this._cfgCommon.UserAppointUrl);
                 }
             }
         }
 
-        private void OpenUserSpecifiedUrlMenuItem_Click(object sender, EventArgs e)
+        private async void OpenUserSpecifiedUrlMenuItem_Click(object sender, EventArgs e)
         {
-            OpenUserAppointUrl();
+            await this.OpenUserAppointUrl();
         }
 
         private void SourceCopyMenuItem_Click(object sender, EventArgs e)
@@ -13569,26 +13563,26 @@ namespace OpenTween
                 this.SplitContainer3.FixedPanel = FixedPanel.Panel2;
         }
 
-        private void tweetThumbnail1_ThumbnailDoubleClick(object sender, ThumbnailDoubleClickEventArgs e)
+        private async void tweetThumbnail1_ThumbnailDoubleClick(object sender, ThumbnailDoubleClickEventArgs e)
         {
-            this.OpenThumbnailPicture(e.Thumbnail);
+            await this.OpenThumbnailPicture(e.Thumbnail);
         }
 
-        private void tweetThumbnail1_ThumbnailImageSearchClick(object sender, ThumbnailImageSearchEventArgs e)
+        private async void tweetThumbnail1_ThumbnailImageSearchClick(object sender, ThumbnailImageSearchEventArgs e)
         {
-            this.OpenUriAsync(e.ImageUrl);
+            await this.OpenUriAsync(e.ImageUrl);
         }
 
-        private void OpenThumbnailPicture(ThumbnailInfo thumbnail)
+        private async Task OpenThumbnailPicture(ThumbnailInfo thumbnail)
         {
             var url = thumbnail.FullSizeImageUrl ?? thumbnail.ImageUrl;
 
-            this.OpenUriAsync(url);
+            await this.OpenUriAsync(url);
         }
 
-        private void TwitterApiStatusToolStripMenuItem_Click(object sender, EventArgs e)
+        private async void TwitterApiStatusToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            this.OpenUriAsync(Twitter.ServiceAvailabilityStatusUrl);
+            await this.OpenUriAsync(Twitter.ServiceAvailabilityStatusUrl);
         }
 
         private void PostButton_KeyDown(object sender, KeyEventArgs e)

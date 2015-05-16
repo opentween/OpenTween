@@ -324,10 +324,10 @@ namespace OpenTween
             e.Result = tw.GetListsApi();
         }
 
-        private void UserWeb_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private async void UserWeb_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             if (this.Owner != null)
-                ((TweenMain)this.Owner).OpenUriAsync(UserWeb.Text);
+                await ((TweenMain)this.Owner).OpenUriAsync(UserWeb.Text);
         }
 
         private class NewListElement : ListElement

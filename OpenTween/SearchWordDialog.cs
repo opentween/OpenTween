@@ -211,13 +211,13 @@ namespace OpenTween
             );
         }
 
-        private /* async */ void linkLabelSearchHelp_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private async void linkLabelSearchHelp_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             // 「検索オプションの使い方」ページのURL
             const string PublicSearchHelpUrl = "https://support.twitter.com/articles/249059";
 
             var tweenMain = (TweenMain)this.Owner;
-            tweenMain.OpenUriAsync(PublicSearchHelpUrl);
+            await tweenMain.OpenUriAsync(PublicSearchHelpUrl);
         }
 
         private void SearchWordDialog_KeyDown(object sender, KeyEventArgs e)
