@@ -79,6 +79,8 @@ namespace OpenTween
             + "pre {font-family: \"%FONT_FAMILY%\", sans-serif; font-size: %FONT_SIZE%pt; background-color:rgb(%BG_COLOR%); word-wrap: break-word; color:rgb(%FONT_COLOR%);} "
             + "a:link, a:visited, a:active, a:hover {color:rgb(%LINK_COLOR%); } "
             + "img.emoji {width: 1em; height: 1em; margin: 0 .05em 0 .1em; vertical-align: -0.1em;} "
+            + ".quote-tweet {border: 1px solid #ccc; margin: 1em; padding: 0.5em;} "
+            + ".quote-tweet-link {color: inherit !important; text-decoration: none;}"
             + "--></style>"
             + "</head><body><pre>";
         private const string detailHtmlFormatFooterMono = "</pre></body></html>";
@@ -89,6 +91,8 @@ namespace OpenTween
             + "body {font-family: \"%FONT_FAMILY%\", sans-serif; font-size: %FONT_SIZE%pt; background-color:rgb(%BG_COLOR%); margin: 0; word-wrap: break-word; color:rgb(%FONT_COLOR%);} "
             + "a:link, a:visited, a:active, a:hover {color:rgb(%LINK_COLOR%); } "
             + "img.emoji {width: 1em; height: 1em; margin: 0 .05em 0 .1em; vertical-align: -0.1em;} "
+            + ".quote-tweet {border: 1px solid #ccc; margin: 1em; padding: 0.5em;} "
+            + ".quote-tweet-link {color: inherit !important; text-decoration: none;}"
             + "--></style>"
             + "</head><body><p>";
         private const string detailHtmlFormatFooterColor = "</p></body></html>";
@@ -6472,6 +6476,77 @@ namespace OpenTween
                     }
                 }
             }
+
+            await this.AppendQuoteTweetAsync(this._curPost);
+        }
+
+        /// <summary>
+        /// 発言詳細欄のツイートURLを展開する
+        /// </summary>
+        private async Task AppendQuoteTweetAsync(PostClass post)
+        {
+            var statusIds = post.QuoteStatusIds;
+            if (statusIds.Length == 0)
+                return;
+
+            // 「読み込み中」テキストを表示
+            var loadingQuoteHtml = statusIds.Select(x => FormatQuoteTweetHtml(x, Properties.Resources.LoadingText));
+            var body = post.Text + string.Concat(loadingQuoteHtml);
+            this.PostBrowser.DocumentText = this.createDetailHtml(body);
+
+            // 引用ツイートを読み込み
+            var quoteHtmls = await Task.WhenAll(statusIds.Select(x => this.CreateQuoteTweetHtml(x)));
+
+            // 非同期処理中に表示中のツイートが変わっていたらキャンセルされたものと扱う
+            if (this._curPost != post || this._curPost.IsDeleted)
+                return;
+
+            body = post.Text + string.Concat(quoteHtmls);
+            this.PostBrowser.DocumentText = this.createDetailHtml(body);
+        }
+
+        private async Task<string> CreateQuoteTweetHtml(long statusId)
+        {
+            PostClass post = this._statuses[statusId];
+            string err = null;
+            if (post == null)
+            {
+                err = await Task.Run(() => this.tw.GetStatusApi(false, statusId, ref post))
+                    .ConfigureAwait(false);
+
+                if (!string.IsNullOrEmpty(err))
+                    return FormatQuoteTweetHtml(statusId, WebUtility.HtmlEncode(err));
+
+                this._statuses.AddPost(post);
+            }
+
+            return FormatQuoteTweetHtml(post);
+        }
+
+        internal static string FormatQuoteTweetHtml(PostClass post)
+        {
+            var innerHtml = "<p>" + StripLinkTagHtml(post.Text) + "</p>" +
+                " &mdash; " + WebUtility.HtmlEncode(post.Nickname) +
+                " (@" + WebUtility.HtmlEncode(post.ScreenName) + ") " +
+                WebUtility.HtmlEncode(post.CreatedAt.ToString());
+
+            return FormatQuoteTweetHtml(post.StatusId, innerHtml);
+        }
+
+        internal static string FormatQuoteTweetHtml(long statusId, string innerHtml)
+        {
+            return "<a class=\"quote-tweet-link\" href=\"https://twitter.com/status/status/" + statusId + "\">" +
+                "<blockquote class=\"quote-tweet\">" + innerHtml + "</blockquote>" +
+                "</a>";
+        }
+
+        /// <summary>
+        /// 指定されたHTMLからリンクを除去します
+        /// </summary>
+        internal static string StripLinkTagHtml(string html)
+        {
+            // a 要素はネストされていない前提の正規表現パターン
+            return Regex.Replace(html, @"<a[^>]*>(.*?)</a>", "$1");
         }
 
         private void MatomeMenuItem_Click(object sender, EventArgs e)

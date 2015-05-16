@@ -1586,6 +1586,15 @@ namespace OpenTween.Properties {
         }
         
         /// <summary>
+        ///   読み込み中... に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string LoadingText {
+            get {
+                return ResourceManager.GetString("LoadingText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
         internal static System.Drawing.Bitmap LogoImage {

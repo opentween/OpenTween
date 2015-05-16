@@ -1122,4 +1122,7 @@ Available service: {1}</value>
   <data name="MuteTabName" xml:space="preserve">
     <value>(Mute)</value>
   </data>
+  <data name="LoadingText" xml:space="preserve">
+    <value>Loading...</value>
+  </data>
 </root>
