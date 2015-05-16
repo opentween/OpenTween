@@ -1125,4 +1125,10 @@ Available service: {1}</value>
   <data name="LoadingText" xml:space="preserve">
     <value>Loading...</value>
   </data>
+  <data name="DisableButtonCaption" xml:space="preserve">
+    <value>Disable</value>
+  </data>
+  <data name="EnableButtonCaption" xml:space="preserve">
+    <value>Enable</value>
+  </data>
 </root>

@@ -346,6 +346,9 @@
   <data name="GroupBox2.Text" xml:space="preserve">
     <value>Distribution Rules</value>
   </data>
+  <data name="buttonRuleToggleEnabled.Text" xml:space="preserve">
+    <value>Disable</value>
+  </data>
   <data name="$this.Text" xml:space="preserve">
     <value>Filtering Rules</value>
   </data>
