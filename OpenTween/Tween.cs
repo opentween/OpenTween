@@ -6564,7 +6564,7 @@ namespace OpenTween
             await this.OpenUriAsync(ApplicationSettings.ShortcutKeyUrl);
         }
 
-        private void ListTab_KeyDown(object sender, KeyEventArgs e)
+        private async void ListTab_KeyDown(object sender, KeyEventArgs e)
         {
             if (ListTab.SelectedTab != null)
             {
@@ -6578,11 +6578,16 @@ namespace OpenTween
                 ModifierState State = GetModifierState(e.Control, e.Shift, e.Alt);
                 if (State == ModifierState.NotFlags) return;
                 if (State != ModifierState.None) _anchorFlag = false;
-                if (CommonKeyDown(e.KeyCode, FocusedControl.ListTab, State))
+
+                Task asyncTask;
+                if (CommonKeyDown(e.KeyCode, FocusedControl.ListTab, State, out asyncTask))
                 {
                     e.Handled = true;
                     e.SuppressKeyPress = true;
                 }
+
+                if (asyncTask != null)
+                    await asyncTask;
             }
         }
 
@@ -6620,8 +6625,11 @@ namespace OpenTween
             PostBrowser,
         }
 
-        private bool CommonKeyDown(Keys KeyCode, FocusedControl Focused, ModifierState Modifier)
+        private bool CommonKeyDown(Keys KeyCode, FocusedControl Focused, ModifierState Modifier, out Task asyncTask)
         {
+            // Task を返す非同期処理があれば asyncTask に代入する
+            asyncTask = null;
+
             //リストのカーソル移動関係（上下キー、PageUp/Downに該当）
             if (Focused == FocusedControl.ListTab)
             {
@@ -6665,7 +6673,7 @@ namespace OpenTween
                     switch (KeyCode)
                     {
                         case Keys.F1:
-                            OpenApplicationWebsite();
+                            asyncTask = this.OpenApplicationWebsite();
                             return true;
                         case Keys.F3:
                             MenuItemSearchNext_Click(null, null);
@@ -6744,7 +6752,7 @@ namespace OpenTween
                                 return true;
                             case Keys.Oem4:
                                 // ] in_reply_to参照元へ戻る
-                                GoInReplyToPostTree();
+                                asyncTask = this.GoInReplyToPostTree();
                                 return true;
                             case Keys.Oem6:
                                 // [ in_reply_toへジャンプ
@@ -6791,10 +6799,10 @@ namespace OpenTween
                             MakeReplyOrDirectStatus(false, false);
                             return true;
                         case Keys.S:
-                            FavoriteChange(true);
+                            asyncTask = this.FavoriteChange(true);
                             return true;
                         case Keys.I:
-                            doRepliedStatusOpen();
+                            asyncTask = this.doRepliedStatusOpen();
                             return true;
                         case Keys.Q:
                             doQuote();
@@ -6950,13 +6958,13 @@ namespace OpenTween
                             MenuItemSearchPrev_Click(null, null);
                             return true;
                         case Keys.F5:
-                            DoRefreshMore();
+                            asyncTask = this.DoRefreshMore();
                             return true;
                         case Keys.F6:
-                            this.GetReplyAsync(loadMore: true);
+                            asyncTask = this.GetReplyAsync(loadMore: true);
                             return true;
                         case Keys.F7:
-                            this.GetDirectMessagesAsync(loadMore: true);
+                            asyncTask = this.GetDirectMessagesAsync(loadMore: true);
                             return true;
                     }
                     //フォーカスStatusText以外
@@ -6964,7 +6972,7 @@ namespace OpenTween
                     {
                         if (KeyCode == Keys.R)
                         {
-                            DoRefreshMore();
+                            asyncTask = this.DoRefreshMore();
                             return true;
                         }
                     }
@@ -7014,7 +7022,7 @@ namespace OpenTween
                     switch (KeyCode)
                     {
                         case Keys.R:
-                            doReTweetOfficial(true);
+                            asyncTask = this.doReTweetOfficial(true);
                             return true;
                         case Keys.P:
                             if (_curPost != null)
@@ -7071,7 +7079,7 @@ namespace OpenTween
                             }
                             break;
                         case Keys.S:
-                            FavoriteChange(false);
+                            asyncTask = this.FavoriteChange(false);
                             return true;
                         case Keys.B:
                             UnreadStripMenuItem_Click(null, null);
@@ -7083,7 +7091,7 @@ namespace OpenTween
                             ImageSelectMenuItem_Click(null, null);
                             return true;
                         case Keys.H:
-                            doMoveToRTHome();
+                            asyncTask = this.doMoveToRTHome();
                             return true;
                         case Keys.O:
                             FavorareMenuItem_Click(null, null);
@@ -7182,17 +7190,17 @@ namespace OpenTween
                 case ModifierState.Ctrl | ModifierState.Alt:
                     if (KeyCode == Keys.S)
                     {
-                        FavoritesRetweetOriginal();
+                        asyncTask = this.FavoritesRetweetOriginal();
                         return true;
                     }
                     else if (KeyCode == Keys.R)
                     {
-                        FavoritesRetweetUnofficial();
+                        asyncTask = this.FavoritesRetweetUnofficial();
                         return true;
                     }
                     else if (KeyCode == Keys.H)
                     {
-                        OpenUserAppointUrl();
+                        asyncTask = this.OpenUserAppointUrl();
                         return true;
                     }
                     break;
@@ -7209,7 +7217,7 @@ namespace OpenTween
                     {
                         case Keys.T:
                             if (!this.ExistCurrentPost) return false;
-                            doTranslation(_curPost.TextFromApi);
+                            asyncTask = this.doTranslation(_curPost.TextFromApi);
                             return true;
                         case Keys.R:
                             doReTweetUnofficial();
@@ -7228,7 +7236,7 @@ namespace OpenTween
                     {
                         if (!this.SplitContainer3.Panel2Collapsed)
                         {
-                            OpenThumbnailPicture(this.tweetThumbnail1.Thumbnail);
+                            asyncTask = this.OpenThumbnailPicture(this.tweetThumbnail1.Thumbnail);
                         }
                         return true;
                     }
@@ -8007,17 +8015,22 @@ namespace OpenTween
             StatusText.BackColor = Color.FromKnownColor(KnownColor.Window);
         }
 
-        private void StatusText_KeyDown(object sender, KeyEventArgs e)
+        private async void StatusText_KeyDown(object sender, KeyEventArgs e)
         {
             ModifierState State = GetModifierState(e.Control, e.Shift, e.Alt);
             if (State == ModifierState.NotFlags) return;
-            if (CommonKeyDown(e.KeyCode, FocusedControl.StatusText, State))
+
+            Task asyncTask;
+            if (CommonKeyDown(e.KeyCode, FocusedControl.StatusText, State, out asyncTask))
             {
                 e.Handled = true;
                 e.SuppressKeyPress = true;
             }
 
             this.StatusText_TextChanged(null, null);
+
+            if (asyncTask != null)
+                await asyncTask;
         }
 
         private void SaveConfigsAll(bool ifModified)
@@ -8248,33 +8261,39 @@ namespace OpenTween
             this.TopMost = this._cfgCommon.AlwaysTop;
         }
 
-        private void PostBrowser_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        private async void PostBrowser_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
         {
             ModifierState State = GetModifierState(e.Control, e.Shift, e.Alt);
             if (State == ModifierState.NotFlags) return;
-            bool KeyRes = CommonKeyDown(e.KeyCode, FocusedControl.PostBrowser, State);
+
+            Task asyncTask;
+            bool KeyRes = CommonKeyDown(e.KeyCode, FocusedControl.PostBrowser, State, out asyncTask);
             if (KeyRes)
             {
                 e.IsInputKey = true;
-                return;
             }
-
-            if (Enum.IsDefined(typeof(Shortcut), (Shortcut)e.KeyData))
+            else
             {
-                var shortcut = (Shortcut)e.KeyData;
-                switch (shortcut)
+                if (Enum.IsDefined(typeof(Shortcut), (Shortcut)e.KeyData))
                 {
-                    case Shortcut.CtrlA:
-                    case Shortcut.CtrlC:
-                    case Shortcut.CtrlIns:
-                        // 既定の動作を有効にする
-                        return;
-                    default:
-                        // その他のショートカットキーは無効にする
-                        e.IsInputKey = true;
-                        return;
+                    var shortcut = (Shortcut)e.KeyData;
+                    switch (shortcut)
+                    {
+                        case Shortcut.CtrlA:
+                        case Shortcut.CtrlC:
+                        case Shortcut.CtrlIns:
+                            // 既定の動作を有効にする
+                            break;
+                        default:
+                            // その他のショートカットキーは無効にする
+                            e.IsInputKey = true;
+                            break;
+                    }
                 }
             }
+
+            if (asyncTask != null)
+                await asyncTask;
         }
         public bool TabRename(ref string tabName)
         {
