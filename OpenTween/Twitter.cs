@@ -3594,28 +3594,19 @@ namespace OpenTween
                     if (eventData.Event == "favorite")
                     {
                         var favTab = tabinfo.GetTabByType(MyCommon.TabUsageType.Favorites);
+                        if (!favTab.Contains(post.StatusId))
+                            favTab.Add(post.StatusId, post.IsRead, false);
 
                         if (tweetEvent.Source.Id == this.UserId)
                         {
                             post.IsFav = true;
-                            favTab.Add(post.StatusId, post.IsRead, false);
                         }
                         else if (tweetEvent.Target.Id == this.UserId)
                         {
                             post.FavoritedCount++;
 
-                            if (!favTab.Contains(post.StatusId))
-                            {
-                                if (SettingCommon.Instance.FavEventUnread)
-                                    post.IsRead = false;
-
-                                favTab.Add(post.StatusId, post.IsRead, false);
-                            }
-                            else
-                            {
-                                if (SettingCommon.Instance.FavEventUnread)
-                                    tabinfo.SetReadAllTab(post.StatusId, read: false);
-                            }
+                            if (SettingCommon.Instance.FavEventUnread)
+                                tabinfo.SetReadAllTab(post.StatusId, read: false);
                         }
                     }
                     else // unfavorite
