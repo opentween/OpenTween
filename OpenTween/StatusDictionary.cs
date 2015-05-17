@@ -1210,6 +1210,11 @@ namespace OpenTween
                     tab.SetReadState(statusId, read);
                 }
 
+                // TabInformations自身が保持しているツイートであればここで IsRead を変化させる
+                PostClass post;
+                if (this.Posts.TryGetValue(statusId, out post))
+                    post.IsRead = read;
+
                 return true;
             }
         }
@@ -1905,7 +1910,8 @@ namespace OpenTween
             if (!this._ids.Contains(statusId))
                 throw new ArgumentException("statusId");
 
-            this.Posts[statusId].IsRead = read;
+            if (this.IsInnerStorageTabType)
+                this.Posts[statusId].IsRead = read;
 
             if (read)
                 return this.unreadIds.Remove(statusId);
