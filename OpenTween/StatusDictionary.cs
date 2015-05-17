@@ -1783,7 +1783,8 @@ namespace OpenTween
                 ;
             }
 
-            if (rslt != MyCommon.HITRESULT.None && rslt != MyCommon.HITRESULT.Exclude)
+            if (this.TabType != MyCommon.TabUsageType.Mute &&
+                rslt != MyCommon.HITRESULT.None && rslt != MyCommon.HITRESULT.Exclude)
             {
                 _tmpIds.Add(new TemporaryId(post.StatusId, post.IsRead));
             }
