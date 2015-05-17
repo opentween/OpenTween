@@ -4509,55 +4509,7 @@ namespace OpenTween
             else if (e.Url.AbsoluteUri != "about:blank")
             {
                 e.Cancel = true;
-
-                var statusUrlMatch = Twitter.StatusUrlRegex.Match(e.Url.AbsoluteUri);
-                if (statusUrlMatch.Success)
-                {
-                    var statusId = long.Parse(statusUrlMatch.Groups["StatusId"].Value);
-                    await this.OpenRelatedTab(statusId);
-                    return;
-                }
-
-                if (e.Url.AbsoluteUri.StartsWith("http://twitter.com/search?q=%23") ||
-                   e.Url.AbsoluteUri.StartsWith("https://twitter.com/search?q=%23"))
-                {
-                    //ハッシュタグの場合は、タブで開く
-                    string urlStr = Uri.UnescapeDataString(e.Url.AbsoluteUri);
-                    int i = urlStr.IndexOf('#');
-                    if (i == -1) return;
-
-                    string hash = urlStr.Substring(i);
-                    HashSupl.AddItem(hash);
-                    HashMgr.AddHashToHistory(hash.Trim(), false);
-                    AddNewTabForSearch(hash);
-                    return;
-                }
-                else
-                {
-                    Match m = Regex.Match(e.Url.AbsoluteUri, "^https?://twitter.com/(#!/)?(?<ScreenName>[a-zA-Z0-9_]+)$");
-                    if (m.Success && IsTwitterId(m.Result("${ScreenName}")))
-                    {
-                        // Ctrlを押しながらリンクをクリックした場合は設定と逆の動作をする
-                        if (this._cfgCommon.OpenUserTimeline)
-                        {
-                            if (MyCommon.IsKeyDown(Keys.Control))
-                                await this.OpenUriAsync(e.Url.OriginalString);
-                            else
-                                this.AddNewTabForUserTimeline(m.Result("${ScreenName}"));
-                        }
-                        else
-                        {
-                            if (MyCommon.IsKeyDown(Keys.Control))
-                                this.AddNewTabForUserTimeline(m.Result("${ScreenName}"));
-                            else
-                                await this.OpenUriAsync(e.Url.OriginalString);
-                        }
-                    }
-                    else
-                    {
-                        await this.OpenUriAsync(e.Url.OriginalString);
-                    }
-                }
+                await this.OpenUriAsync(e.Url);
             }
         }
 
@@ -9543,26 +9495,7 @@ namespace OpenTween
                 }
                 if (string.IsNullOrEmpty(openUrlStr)) return;
 
-                if (openUrlStr.StartsWith("http://twitter.com/search?q=") ||
-                    openUrlStr.StartsWith("https://twitter.com/search?q="))
-                {
-                    //ハッシュタグの場合は、タブで開く
-                    string urlStr = Uri.UnescapeDataString(openUrlStr);
-                    string hash = urlStr.Substring(urlStr.IndexOf("#"));
-                    HashSupl.AddItem(hash);
-                    HashMgr.AddHashToHistory(hash.Trim(), false);
-                    AddNewTabForSearch(hash);
-                    return;
-                }
-                else
-                {
-                    Match m = Regex.Match(openUrlStr, "^https?://twitter.com/(#!/)?(?<ScreenName>[a-zA-Z0-9_]+)$");
-                    if (this._cfgCommon.OpenUserTimeline && m.Success && IsTwitterId(m.Result("${ScreenName}")))
-                        this.AddNewTabForUserTimeline(m.Result("${ScreenName}"));
-                    else
-                        await this.OpenUriAsync(openUrlStr);
-                    return;
-                }
+                await this.OpenUriAsync(new Uri(openUrlStr));
             }
         }
 
@@ -10989,6 +10922,55 @@ namespace OpenTween
             nw = MyCommon.IsNetworkAvailable();
             _myStatusOnline = nw;
             return nw;
+        }
+
+        public async Task OpenUriAsync(Uri uri)
+        {
+            var uriStr = uri.AbsoluteUri;
+
+            // ツイートURL
+            var statusUriMatch = Twitter.StatusUrlRegex.Match(uriStr);
+            if (statusUriMatch.Success)
+            {
+                var statusId = long.Parse(statusUriMatch.Groups["StatusId"].Value);
+                await this.OpenRelatedTab(statusId);
+                return;
+            }
+
+            // ハッシュタグを含む Twitter 検索
+            if (uri.Host == "twitter.com" && uri.AbsolutePath == "/search" && uri.Query.Contains("q=%23"))
+            {
+                // ハッシュタグの場合は、タブで開く
+                var unescapedQuery = Uri.UnescapeDataString(uri.Query);
+                var pos = unescapedQuery.IndexOf('#');
+                if (pos == -1) return;
+
+                var hash = unescapedQuery.Substring(pos);
+                this.HashSupl.AddItem(hash);
+                this.HashMgr.AddHashToHistory(hash.Trim(), false);
+                this.AddNewTabForSearch(hash);
+                return;
+            }
+
+            // ユーザープロフィールURL
+            // Ctrlを押しながらリンクをクリックした場合は設定と逆の動作をする
+            if (this._cfgCommon.OpenUserTimeline && !MyCommon.IsKeyDown(Keys.Control) ||
+                !this._cfgCommon.OpenUserTimeline && MyCommon.IsKeyDown(Keys.Control))
+            {
+                var userUriMatch = Regex.Match(uriStr, "^https?://twitter.com/(#!/)?(?<ScreenName>[a-zA-Z0-9_]+)$");
+                if (userUriMatch.Success)
+                {
+                    var screenName = userUriMatch.Groups["ScreenName"].Value;
+                    if (this.IsTwitterId(screenName))
+                    {
+                        this.AddNewTabForUserTimeline(screenName);
+                        return;
+                    }
+                }
+            }
+
+            // どのパターンにも該当しないURL
+            await this.OpenUriAsync(uriStr);
         }
 
         public Task OpenUriAsync(string UriString)

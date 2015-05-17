@@ -390,30 +390,7 @@ namespace OpenTween
             if (e.Url.AbsoluteUri != "about:blank")
             {
                 e.Cancel = true;
-
-                if (e.Url.AbsoluteUri.StartsWith("http://twitter.com/search?q=%23") ||
-                    e.Url.AbsoluteUri.StartsWith("https://twitter.com/search?q=%23"))
-                {
-                    //ハッシュタグの場合は、タブで開く
-                    string urlStr = Uri.UnescapeDataString(e.Url.AbsoluteUri);
-                    string hash = urlStr.Substring(urlStr.IndexOf("#"));
-                    this.mainForm.HashSupl.AddItem(hash);
-                    this.mainForm.HashMgr.AddHashToHistory(hash.Trim(), false);
-                    this.mainForm.AddNewTabForSearch(hash);
-                    return;
-                }
-                else
-                {
-                    Match m = Regex.Match(e.Url.AbsoluteUri, @"^https?://twitter.com/(#!/)?(?<ScreenName>[a-zA-Z0-9_]+)$");
-                    if (SettingCommon.Instance.OpenUserTimeline && m.Success && this.mainForm.IsTwitterId(m.Result("${ScreenName}")))
-                    {
-                        this.mainForm.AddNewTabForUserTimeline(m.Result("${ScreenName}"));
-                    }
-                    else
-                    {
-                        await this.mainForm.OpenUriAsync(e.Url.OriginalString);
-                    }
-                }
+                await this.mainForm.OpenUriAsync(e.Url);
             }
         }
 
