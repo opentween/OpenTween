@@ -9473,18 +9473,22 @@ namespace OpenTween
 
         private async void OpenURLMenuItem_Click(object sender, EventArgs e)
         {
-            if (PostBrowser.Document.Links.Count > 0)
+            var linkElements = this.PostBrowser.Document.Links.Cast<HtmlElement>()
+                .Where(x => x.GetAttribute("className") != "tweet-quote-link") // 引用ツイートで追加されたリンクを除く
+                .ToArray();
+
+            if (linkElements.Length > 0)
             {
                 UrlDialog.ClearUrl();
 
                 string openUrlStr = "";
 
-                if (PostBrowser.Document.Links.Count == 1)
+                if (linkElements.Length == 1)
                 {
                     string urlStr = "";
                     try
                     {
-                        urlStr = MyCommon.IDNEncode(PostBrowser.Document.Links[0].GetAttribute("href"));
+                        urlStr = MyCommon.IDNEncode(linkElements[0].GetAttribute("href"));
                     }
                     catch (ArgumentException)
                     {
@@ -9500,7 +9504,7 @@ namespace OpenTween
                 }
                 else
                 {
-                    foreach (HtmlElement linkElm in PostBrowser.Document.Links)
+                    foreach (var linkElm in linkElements)
                     {
                         string urlStr = "";
                         string linkText = "";
