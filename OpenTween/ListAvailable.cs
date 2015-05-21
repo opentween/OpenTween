@@ -79,7 +79,11 @@ namespace OpenTween
 
                     this.UpdateListsListBox(lists);
                 }
-                catch (WebApiException) { }
+                catch (WebApiException)
+                {
+                    this.DialogResult = DialogResult.Abort;
+                    return;
+                }
             }
         }
 
