@@ -136,6 +136,12 @@
     <Compile Include="FilterDialog.Designer.cs">
       <DependentUpon>FilterDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="WaitingDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WaitingDialog.Designer.cs">
+      <DependentUpon>WaitingDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="InputDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -492,6 +498,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MediaSelector.zh-CHS.resx">
       <DependentUpon>MediaSelector.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WaitingDialog.resx">
+      <DependentUpon>WaitingDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Setting\Panel\ActionPanel.en.resx">
       <DependentUpon>ActionPanel.cs</DependentUpon>
