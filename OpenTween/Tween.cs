@@ -6482,12 +6482,18 @@ namespace OpenTween
                 " (@" + WebUtility.HtmlEncode(post.ScreenName) + ") " +
                 WebUtility.HtmlEncode(post.CreatedAt.ToString());
 
-            return FormatQuoteTweetHtml(post.StatusId, innerHtml);
+            return FormatQuoteTweetHtml(post.ScreenName, post.StatusId, innerHtml);
         }
 
         internal static string FormatQuoteTweetHtml(long statusId, string innerHtml)
         {
-            return "<a class=\"quote-tweet-link\" href=\"https://twitter.com/status/status/" + statusId + "\">" +
+            // screenName が不明な場合、とりあえず https://twitter.com/statuses/status/{statusId} にリンクする
+            return FormatQuoteTweetHtml("statuses", statusId, innerHtml);
+        }
+
+        internal static string FormatQuoteTweetHtml(string screenName, long statusId, string innerHtml)
+        {
+            return "<a class=\"quote-tweet-link\" href=\"https://twitter.com/" + WebUtility.HtmlEncode(screenName) + "/status/" + statusId + "\">" +
                 "<blockquote class=\"quote-tweet\">" + innerHtml + "</blockquote>" +
                 "</a>";
         }
