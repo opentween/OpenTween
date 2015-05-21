@@ -11448,9 +11448,14 @@ namespace OpenTween
 
             using (var dialog = new WaitingDialog(Properties.Resources.ApiInfo6))
             {
-                var task = Task.Run(() => this.tw.GetInfoApi());
+                var cancellationToken = dialog.EnableCancellation();
 
+                var task = Task.Run(() => this.tw.GetInfoApi());
                 apiStatus = await dialog.WaitForAsync(this, task);
+
+                if (cancellationToken.IsCancellationRequested)
+                    return;
+
                 if (apiStatus == null)
                 {
                     MessageBox.Show(Properties.Resources.ApiInfo5, Properties.Resources.ApiInfo4, MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -11573,8 +11578,14 @@ namespace OpenTween
 
             using (var dialog = new WaitingDialog(Properties.Resources.ShowFriendshipText1))
             {
+                var cancellationToken = dialog.EnableCancellation();
+
                 var task = Task.Run(() => this.tw.GetFriendshipInfo(id, ref isFollowing, ref isFollowed));
                 var err = await dialog.WaitForAsync(this, task);
+
+                if (cancellationToken.IsCancellationRequested)
+                    return;
+
                 if (!string.IsNullOrEmpty(err))
                 {
                     MessageBox.Show(err);
@@ -11612,8 +11623,14 @@ namespace OpenTween
 
                 using (var dialog = new WaitingDialog(Properties.Resources.ShowFriendshipText1))
                 {
+                    var cancellationToken = dialog.EnableCancellation();
+
                     var task = Task.Run(() => this.tw.GetFriendshipInfo(id, ref isFollowing, ref isFollowed));
                     var err = await dialog.WaitForAsync(this, task);
+
+                    if (cancellationToken.IsCancellationRequested)
+                        return;
+
                     if (!string.IsNullOrEmpty(err))
                     {
                         MessageBox.Show(err);
@@ -12387,8 +12404,14 @@ namespace OpenTween
 
             using (var dialog = new WaitingDialog(Properties.Resources.doShowUserStatusText1))
             {
+                var cancellationToken = dialog.EnableCancellation();
+
                 var task = Task.Run(() => this.tw.GetUserInfo(id, ref user));
                 var err = await dialog.WaitForAsync(this, task);
+
+                if (cancellationToken.IsCancellationRequested)
+                    return;
+
                 if (!string.IsNullOrEmpty(err))
                 {
                     MessageBox.Show(err);
@@ -12505,8 +12528,14 @@ namespace OpenTween
 
             using (var dialog = new WaitingDialog(Properties.Resources.RtCountMenuItem_ClickText1))
             {
+                var cancellationToken = dialog.EnableCancellation();
+
                 var task = Task.Run(() => this.tw.GetStatus_Retweeted_Count(statusId, ref retweetCount));
                 var err = await dialog.WaitForAsync(this, task);
+
+                if (cancellationToken.IsCancellationRequested)
+                    return;
+
                 if (!string.IsNullOrEmpty(err))
                 {
                     MessageBox.Show(Properties.Resources.RtCountText2 + Environment.NewLine + err);
