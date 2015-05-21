@@ -100,7 +100,7 @@ namespace OpenTween
         {
             if (EventList.SelectedIndices.Count != 0 && _filterdEventSource[EventList.SelectedIndices[0]] != null)
             {
-                await ((TweenMain)this.Owner).OpenUriAsync("https://twitter.com/" + _filterdEventSource[EventList.SelectedIndices[0]].Username);
+                await ((TweenMain)this.Owner).OpenUriInBrowserAsync("https://twitter.com/" + _filterdEventSource[EventList.SelectedIndices[0]].Username);
             }
         }
 

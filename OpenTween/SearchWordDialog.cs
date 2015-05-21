@@ -217,7 +217,7 @@ namespace OpenTween
             const string PublicSearchHelpUrl = "https://support.twitter.com/articles/249059";
 
             var tweenMain = (TweenMain)this.Owner;
-            await tweenMain.OpenUriAsync(PublicSearchHelpUrl);
+            await tweenMain.OpenUriInBrowserAsync(PublicSearchHelpUrl);
         }
 
         private void SearchWordDialog_KeyDown(object sender, KeyEventArgs e)

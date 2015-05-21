@@ -327,7 +327,7 @@ namespace OpenTween
         private async void UserWeb_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             if (this.Owner != null)
-                await ((TweenMain)this.Owner).OpenUriAsync(UserWeb.Text);
+                await ((TweenMain)this.Owner).OpenUriInBrowserAsync(UserWeb.Text);
         }
 
         private class NewListElement : ListElement
