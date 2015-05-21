@@ -6264,11 +6264,6 @@ namespace OpenTween
         private PostClass displayPost = new PostClass();
 
         /// <summary>
-        /// サムネイルの表示処理を表すタスク
-        /// </summary>
-        private Task thumbnailTask = null;
-
-        /// <summary>
         /// サムネイル表示に使用する CancellationToken の生成元
         /// </summary>
         private CancellationTokenSource thumbnailTokenSource = null;
