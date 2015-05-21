@@ -30,6 +30,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace OpenTween
@@ -66,22 +67,27 @@ namespace OpenTween
             this.Close();
         }
 
-        private void ListAvailable_Shown(object sender, EventArgs e)
+        private async void ListAvailable_Shown(object sender, EventArgs e)
         {
-            if (TabInformations.GetInstance().SubscribableLists.Count == 0) this.RefreshLists();
-            this.ListsList.Items.AddRange(TabInformations.GetInstance().SubscribableLists.ToArray());
-            if (this.ListsList.Items.Count > 0)
+            using (ControlTransaction.Disabled(this))
             {
-                this.ListsList.SelectedIndex = 0;
-            }
-            else
-            {
-                this.UsernameLabel.Text = "";
-                this.NameLabel.Text = "";
-                this.StatusLabel.Text = "";
-                this.MemberCountLabel.Text = "0";
-                this.SubscriberCountLabel.Text = "0";
-                this.DescriptionText.Text = "";
+                if (TabInformations.GetInstance().SubscribableLists.Count == 0)
+                    await this.RefreshLists();
+
+                this.ListsList.Items.AddRange(TabInformations.GetInstance().SubscribableLists.ToArray());
+                if (this.ListsList.Items.Count > 0)
+                {
+                    this.ListsList.SelectedIndex = 0;
+                }
+                else
+                {
+                    this.UsernameLabel.Text = "";
+                    this.NameLabel.Text = "";
+                    this.StatusLabel.Text = "";
+                    this.MemberCountLabel.Text = "0";
+                    this.SubscriberCountLabel.Text = "0";
+                    this.DescriptionText.Text = "";
+                }
             }
         }
 
@@ -123,39 +129,34 @@ namespace OpenTween
             }
         }
 
-        private void RefreshButton_Click(object sender, EventArgs e)
+        private async void RefreshButton_Click(object sender, EventArgs e)
         {
-            this.RefreshLists();
-            this.ListsList.Items.Clear();
-            this.ListsList.Items.AddRange(TabInformations.GetInstance().SubscribableLists.ToArray());
-            if (this.ListsList.Items.Count > 0)
+            using (ControlTransaction.Disabled(this))
             {
-                this.ListsList.SelectedIndex = 0;
-            }
-        }
+                await this.RefreshLists();
 
-        private void RefreshLists()
-        {
-            using (FormInfo dlg = new FormInfo(this, "Getting Lists...", RefreshLists_DoWork))
-            {
-                dlg.ShowDialog();
-                if (!String.IsNullOrEmpty(dlg.Result as String))
+                this.ListsList.Items.Clear();
+                this.ListsList.Items.AddRange(TabInformations.GetInstance().SubscribableLists.ToArray());
+                if (this.ListsList.Items.Count > 0)
                 {
-                    MessageBox.Show("Failed to get lists. (" + (String)dlg.Result + ")");
-                    return;
+                    this.ListsList.SelectedIndex = 0;
                 }
             }
         }
 
-        private void RefreshLists_DoWork(object sender, DoWorkEventArgs e)
+        private async Task RefreshLists()
         {
-            try
+            using (var dialog = new WaitingDialog("Getting Lists..."))
             {
-                e.Result = ((TweenMain)this.Owner).TwitterInstance.GetListsApi();
-            }
-            catch (InvalidCastException)
-            {
-                return;
+                var tw = ((TweenMain)this.Owner).TwitterInstance;
+                var task = Task.Run(() => tw.GetListsApi());
+
+                var err = await dialog.WaitForAsync(this, task);
+                if (!string.IsNullOrEmpty(err))
+                {
+                    MessageBox.Show("Failed to get lists. (" + err + ")");
+                    return;
+                }
             }
         }
     }

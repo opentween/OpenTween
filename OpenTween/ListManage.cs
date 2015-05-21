@@ -31,6 +31,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace OpenTween
@@ -52,17 +53,21 @@ namespace OpenTween
                 this.OKEditButton.PerformClick();
         }
 
-        private void ListManage_Load(object sender, EventArgs e)
+        private async void ListManage_Load(object sender, EventArgs e)
         {
-            this.UserList_SelectedIndexChanged(null, EventArgs.Empty);
-            if (TabInformations.GetInstance().SubscribableLists.Count == 0) this.RefreshLists();
-            foreach (ListElement listItem in TabInformations.GetInstance().SubscribableLists.FindAll((i) => i.Username == this.tw.Username))
+            using (ControlTransaction.Disabled(this))
             {
-                this.ListsList.Items.Add(listItem);
+                this.UserList_SelectedIndexChanged(null, EventArgs.Empty);
+                if (TabInformations.GetInstance().SubscribableLists.Count == 0)
+                    await this.RefreshLists();
+                foreach (ListElement listItem in TabInformations.GetInstance().SubscribableLists.FindAll((i) => i.Username == this.tw.Username))
+                {
+                    this.ListsList.Items.Add(listItem);
+                }
+                if (this.ListsList.Items.Count > 0)
+                    this.ListsList.SelectedIndex = 0;
+                this.ListsList.Focus();
             }
-            if (this.ListsList.Items.Count > 0)
-                this.ListsList.SelectedIndex = 0;
-            this.ListsList.Focus();
         }
 
         private void ListsList_SelectedIndexChanged(object sender, EventArgs e)
@@ -299,29 +304,28 @@ namespace OpenTween
                 this.UserIcon.Image = img;
         }
 
-        private void RefreshListsButton_Click(object sender, EventArgs e)
+        private async void RefreshListsButton_Click(object sender, EventArgs e)
         {
-            this.RefreshLists();
-            this.ListsList.Items.Clear();
-            this.ListManage_Load(null, EventArgs.Empty);
-        }
-
-        private void RefreshLists()
-        {
-            using (FormInfo dlg = new FormInfo(this, Properties.Resources.ListsGetting, RefreshLists_Dowork))
+            using (ControlTransaction.Disabled(this))
             {
-                dlg.ShowDialog();
-                if (!String.IsNullOrEmpty((string)dlg.Result))
-                {
-                    MessageBox.Show(String.Format(Properties.Resources.ListsDeleteFailed, (string)dlg.Result));
-                    return;
-                }
+                await this.RefreshLists();
+                this.ListsList.Items.Clear();
+                this.ListManage_Load(null, EventArgs.Empty);
             }
         }
 
-        private void RefreshLists_Dowork(object sender, DoWorkEventArgs e)
+        private async Task RefreshLists()
         {
-            e.Result = tw.GetListsApi();
+            using (var dialog = new WaitingDialog(Properties.Resources.ListsGetting))
+            {
+                var task = Task.Run(() => tw.GetListsApi());
+                var err = await dialog.WaitForAsync(this, task);
+                if (!string.IsNullOrEmpty(err))
+                {
+                    MessageBox.Show(String.Format(Properties.Resources.ListsDeleteFailed, err));
+                    return;
+                }
+            }
         }
 
         private async void UserWeb_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
