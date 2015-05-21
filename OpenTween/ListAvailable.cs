@@ -71,23 +71,15 @@ namespace OpenTween
         {
             using (ControlTransaction.Disabled(this))
             {
-                if (TabInformations.GetInstance().SubscribableLists.Count == 0)
-                    await this.RefreshLists();
+                try
+                {
+                    var lists = (IReadOnlyList<ListElement>)TabInformations.GetInstance().SubscribableLists;
+                    if (lists.Count == 0)
+                        lists = await this.FetchListsAsync();
 
-                this.ListsList.Items.AddRange(TabInformations.GetInstance().SubscribableLists.ToArray());
-                if (this.ListsList.Items.Count > 0)
-                {
-                    this.ListsList.SelectedIndex = 0;
+                    this.UpdateListsListBox(lists);
                 }
-                else
-                {
-                    this.UsernameLabel.Text = "";
-                    this.NameLabel.Text = "";
-                    this.StatusLabel.Text = "";
-                    this.MemberCountLabel.Text = "0";
-                    this.SubscriberCountLabel.Text = "0";
-                    this.DescriptionText.Text = "";
-                }
+                catch (WebApiException) { }
             }
         }
 
@@ -133,18 +125,16 @@ namespace OpenTween
         {
             using (ControlTransaction.Disabled(this))
             {
-                await this.RefreshLists();
-
-                this.ListsList.Items.Clear();
-                this.ListsList.Items.AddRange(TabInformations.GetInstance().SubscribableLists.ToArray());
-                if (this.ListsList.Items.Count > 0)
+                try
                 {
-                    this.ListsList.SelectedIndex = 0;
+                    var lists = await this.FetchListsAsync();
+                    this.UpdateListsListBox(lists);
                 }
+                catch (WebApiException) { }
             }
         }
 
-        private async Task RefreshLists()
+        private async Task<IReadOnlyList<ListElement>> FetchListsAsync()
         {
             using (var dialog = new WaitingDialog("Getting Lists..."))
             {
@@ -155,7 +145,31 @@ namespace OpenTween
                 if (!string.IsNullOrEmpty(err))
                 {
                     MessageBox.Show("Failed to get lists. (" + err + ")");
-                    return;
+                    throw new WebApiException(err);
+                }
+            }
+
+            return TabInformations.GetInstance().SubscribableLists;
+        }
+
+        private void UpdateListsListBox(IEnumerable<ListElement> lists)
+        {
+            using (ControlTransaction.Update(this.ListsList))
+            {
+                this.ListsList.Items.Clear();
+                this.ListsList.Items.AddRange(lists.ToArray());
+                if (this.ListsList.Items.Count > 0)
+                {
+                    this.ListsList.SelectedIndex = 0;
+                }
+                else
+                {
+                    this.UsernameLabel.Text = "";
+                    this.NameLabel.Text = "";
+                    this.StatusLabel.Text = "";
+                    this.MemberCountLabel.Text = "0";
+                    this.SubscriberCountLabel.Text = "0";
+                    this.DescriptionText.Text = "";
                 }
             }
         }

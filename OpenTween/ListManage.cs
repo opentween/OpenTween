@@ -57,16 +57,15 @@ namespace OpenTween
         {
             using (ControlTransaction.Disabled(this))
             {
-                this.UserList_SelectedIndexChanged(null, EventArgs.Empty);
-                if (TabInformations.GetInstance().SubscribableLists.Count == 0)
-                    await this.RefreshLists();
-                foreach (ListElement listItem in TabInformations.GetInstance().SubscribableLists.FindAll((i) => i.Username == this.tw.Username))
+                try
                 {
-                    this.ListsList.Items.Add(listItem);
+                    var lists = (IReadOnlyList<ListElement>)TabInformations.GetInstance().SubscribableLists;
+                    if (lists.Count == 0)
+                        lists = await this.FetchListsAsync();
+
+                    this.UpdateListsListBox(lists);
                 }
-                if (this.ListsList.Items.Count > 0)
-                    this.ListsList.SelectedIndex = 0;
-                this.ListsList.Focus();
+                catch (WebApiException) { }
             }
         }
 
@@ -308,13 +307,16 @@ namespace OpenTween
         {
             using (ControlTransaction.Disabled(this))
             {
-                await this.RefreshLists();
-                this.ListsList.Items.Clear();
-                this.ListManage_Load(null, EventArgs.Empty);
+                try
+                {
+                    var lists = await this.FetchListsAsync();
+                    this.UpdateListsListBox(lists);
+                }
+                catch (WebApiException) { }
             }
         }
 
-        private async Task RefreshLists()
+        private async Task<IReadOnlyList<ListElement>> FetchListsAsync()
         {
             using (var dialog = new WaitingDialog(Properties.Resources.ListsGetting))
             {
@@ -322,9 +324,26 @@ namespace OpenTween
                 var err = await dialog.WaitForAsync(this, task);
                 if (!string.IsNullOrEmpty(err))
                 {
-                    MessageBox.Show(String.Format(Properties.Resources.ListsDeleteFailed, err));
-                    return;
+                    MessageBox.Show(string.Format(Properties.Resources.ListsDeleteFailed, err));
+                    throw new WebApiException(err);
                 }
+            }
+
+            return TabInformations.GetInstance().SubscribableLists;
+        }
+
+        private void UpdateListsListBox(IEnumerable<ListElement> lists)
+        {
+            using (ControlTransaction.Update(this.ListsList))
+            {
+                this.ListsList.Items.Clear();
+                foreach (var listItem in lists.Where(x => x.Username == this.tw.Username))
+                {
+                    this.ListsList.Items.Add(listItem);
+                }
+                if (this.ListsList.Items.Count > 0)
+                    this.ListsList.SelectedIndex = 0;
+                this.ListsList.Focus();
             }
         }
 
