@@ -11337,11 +11337,17 @@ namespace OpenTween
         {
             if (!this.ExistCurrentPost) return;
             _DoFavRetweetFlags = true;
-            await this.doReTweetOfficial(true);
+            var retweetTask = this.doReTweetOfficial(true);
             if (_DoFavRetweetFlags)
             {
                 _DoFavRetweetFlags = false;
-                await this.FavoriteChange(true, false);
+                var favoriteTask = this.FavoriteChange(true, false);
+
+                await Task.WhenAll(retweetTask, favoriteTask);
+            }
+            else
+            {
+                await retweetTask;
             }
         }
 
@@ -11350,12 +11356,14 @@ namespace OpenTween
             if (this.ExistCurrentPost && !_curPost.IsDm)
             {
                 _DoFavRetweetFlags = true;
-                await this.FavoriteChange(true);
+                var favoriteTask = this.FavoriteChange(true);
                 if (!_curPost.IsProtect && _DoFavRetweetFlags)
                 {
                     _DoFavRetweetFlags = false;
                     doReTweetUnofficial();
                 }
+
+                await favoriteTask;
             }
         }
 
