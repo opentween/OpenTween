@@ -73,16 +73,22 @@ namespace OpenTween.Thumbnail.Services
                 {"id", match.Groups["postId"].Value},
             };
 
-            var apiUrl = string.Format("https://api.tumblr.com/v2/blog/{0}/posts?", host) + MyCommon.BuildQueryString(param);
-            using (var response = await this.http.GetAsync(apiUrl, token).ConfigureAwait(false))
+            try
             {
-                var jsonBytes = await response.Content.ReadAsByteArrayAsync()
-                    .ConfigureAwait(false);
+                var apiUrl = string.Format("https://api.tumblr.com/v2/blog/{0}/posts?", host) + MyCommon.BuildQueryString(param);
+                using (var response = await this.http.GetAsync(apiUrl, token).ConfigureAwait(false))
+                {
+                    var jsonBytes = await response.Content.ReadAsByteArrayAsync()
+                        .ConfigureAwait(false);
 
-                var thumbs = ParsePhotoPostJson(jsonBytes);
+                    var thumbs = ParsePhotoPostJson(jsonBytes);
 
-                return thumbs.FirstOrDefault();
+                    return thumbs.FirstOrDefault();
+                }
             }
+            catch (HttpRequestException) { } // たまに api.tumblr.com が名前解決できない
+
+            return null;
         }
 
         internal static ThumbnailInfo[] ParsePhotoPostJson(byte[] jsonBytes)
