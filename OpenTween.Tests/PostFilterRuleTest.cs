@@ -1442,5 +1442,79 @@ namespace OpenTween
             Assert.Null(changedPropeyty);
             Assert.False(filter.IsDirty);
         }
+
+        [Fact]
+        public void Equals_Test()
+        {
+            var filter1 = new PostFilterRule
+            {
+                FilterName = "name",
+                FilterBody = new[] { "body" },
+                FilterSource = "source",
+                ExFilterName = "nameEx",
+                ExFilterBody = new[] { "bodyEx" },
+                ExFilterSource = "sourceEx",
+            };
+            var filter2 = new PostFilterRule
+            {
+                FilterName = "name",
+                FilterBody = new[] { "body" },
+                FilterSource = "source",
+                ExFilterName = "nameEx",
+                ExFilterBody = new[] { "bodyEx" },
+                ExFilterSource = "sourceEx",
+            };
+
+            Assert.True(filter1.Equals(filter2));
+            Assert.True(filter2.Equals(filter1));
+        }
+
+        [Fact]
+        public void Equals_HasNoMatchConditionsTest()
+        {
+            var filter1 = new PostFilterRule
+            {
+                // マッチ条件
+                FilterName = "",
+                CaseSensitive = true,
+
+                // 除外条件
+                ExFilterName = "nameEx",
+            };
+            var filter2 = new PostFilterRule
+            {
+                FilterName = "",
+                CaseSensitive = false,
+                ExFilterName = "nameEx",
+            };
+
+            // マッチ条件 (≠除外条件) が無いので CaseSensitive 等の差異は無視する
+            Assert.True(filter1.Equals(filter2));
+            Assert.True(filter2.Equals(filter1));
+        }
+
+        [Fact]
+        public void Equals_HasNoExcludeConditionsTest()
+        {
+            var filter1 = new PostFilterRule
+            {
+                // マッチ条件
+                FilterName = "name",
+
+                // 除外条件
+                ExFilterName = "",
+                ExCaseSensitive = true,
+            };
+            var filter2 = new PostFilterRule
+            {
+                FilterName = "name",
+                ExFilterName = "",
+                ExCaseSensitive = false,
+            };
+
+            // 除外条件が無いので ExCaseSensitive 等の差異は無視する
+            Assert.True(filter1.Equals(filter2));
+            Assert.True(filter2.Equals(filter1));
+        }
     }
 }
