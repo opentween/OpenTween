@@ -323,28 +323,42 @@ namespace OpenTween
         /// <param name="shortenerType">使用する短縮URLサービス</param>
         /// <param name="srcUri">短縮するURL</param>
         /// <returns>短縮されたURL</returns>
-        public Task<Uri> ShortenUrlAsync(MyCommon.UrlConverter shortenerType, Uri srcUri)
+        public async Task<Uri> ShortenUrlAsync(MyCommon.UrlConverter shortenerType, Uri srcUri)
         {
             // 既に短縮されている状態のURLであれば短縮しない
             if (ShortUrlHosts.Contains(srcUri.Host))
-                return Task.FromResult(srcUri);
+                return srcUri;
 
-            switch (shortenerType)
+            try
             {
-                case MyCommon.UrlConverter.TinyUrl:
-                    return this.ShortenByTinyUrlAsync(srcUri);
-                case MyCommon.UrlConverter.Isgd:
-                    return this.ShortenByIsgdAsync(srcUri);
-                case MyCommon.UrlConverter.Twurl:
-                    return this.ShortenByTwurlAsync(srcUri);
-                case MyCommon.UrlConverter.Bitly:
-                    return this.ShortenByBitlyAsync(srcUri, "bit.ly");
-                case MyCommon.UrlConverter.Jmp:
-                    return this.ShortenByBitlyAsync(srcUri, "j.mp");
-                case MyCommon.UrlConverter.Uxnu:
-                    return this.ShortenByUxnuAsync(srcUri);
-                default:
-                    throw new ArgumentException("Unknown shortener.", "shortenerType");
+                switch (shortenerType)
+                {
+                    case MyCommon.UrlConverter.TinyUrl:
+                        return await this.ShortenByTinyUrlAsync(srcUri)
+                            .ConfigureAwait(false);
+                    case MyCommon.UrlConverter.Isgd:
+                        return await this.ShortenByIsgdAsync(srcUri)
+                            .ConfigureAwait(false);
+                    case MyCommon.UrlConverter.Twurl:
+                        return await this.ShortenByTwurlAsync(srcUri)
+                            .ConfigureAwait(false);
+                    case MyCommon.UrlConverter.Bitly:
+                        return await this.ShortenByBitlyAsync(srcUri, "bit.ly")
+                            .ConfigureAwait(false);
+                    case MyCommon.UrlConverter.Jmp:
+                        return await this.ShortenByBitlyAsync(srcUri, "j.mp")
+                            .ConfigureAwait(false);
+                    case MyCommon.UrlConverter.Uxnu:
+                        return await this.ShortenByUxnuAsync(srcUri)
+                            .ConfigureAwait(false);
+                    default:
+                        throw new ArgumentException("Unknown shortener.", "shortenerType");
+                }
+            }
+            catch (OperationCanceledException)
+            {
+                // 短縮 URL の API がタイムアウトした場合
+                return srcUri;
             }
         }
 
