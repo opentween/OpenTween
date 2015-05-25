@@ -468,6 +468,7 @@ namespace OpenTween
         private List<long> _addedIds;
         private List<long> _deletedIds = new List<long>();
         private Dictionary<long, PostClass> _retweets = new Dictionary<long, PostClass>();
+        private Dictionary<long, PostClass> _quotes = new Dictionary<long, PostClass>();
         private Stack<TabClass> _removedTab = new Stack<TabClass>();
 
         public ISet<long> BlockIds = new HashSet<long>();
@@ -1192,6 +1193,14 @@ namespace OpenTween
             _retweets[retweetedId].RetweetedCount++;
         }
 
+        public void AddQuoteTweet(PostClass item)
+        {
+            lock (LockObj)
+            {
+                _quotes[item.StatusId] = item;
+            }
+        }
+
         /// <summary>
         /// 全てのタブを横断して既読状態を変更します
         /// </summary>
@@ -1245,6 +1254,10 @@ namespace OpenTween
             {
                 PostClass status;
                 return _statuses.TryGetValue(ID, out status)
+                    ? status
+                    : _retweets.TryGetValue(ID, out status)
+                    ? status
+                    : _quotes.TryGetValue(ID, out status)
                     ? status
                     : this.GetTabsInnerStorageType()
                           .Where(t => t.Contains(ID))
