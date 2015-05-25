@@ -394,6 +394,7 @@
             this.ListFilters.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.ListFilters_DrawItem);
             this.ListFilters.SelectedIndexChanged += new System.EventHandler(this.ListFilters_SelectedIndexChanged);
             this.ListFilters.DoubleClick += new System.EventHandler(this.ListFilters_DoubleClick);
+            this.ListFilters.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ListFilters_KeyDown);
             // 
             // EditFilterGroup
             // 

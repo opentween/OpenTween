@@ -43,7 +43,7 @@ namespace OpenTween
     {
         private EDITMODE _mode;
         private bool _directAdd;
-        private bool _moveRules = false;
+        private MultiSelectionState _multiSelState = MultiSelectionState.None;
         private TabInformations _sts;
         private string _cur;
         private List<string> idlist = new List<string>();
@@ -60,6 +60,14 @@ namespace OpenTween
             NotSelected,
             Enable,
             Disable,
+        }
+
+        [Flags]
+        private enum MultiSelectionState
+        {
+            None = 0,
+            MoveSelected = 1,
+            SelectAll = 2,
         }
 
         private EnableButtonMode RuleEnableButtonMode
@@ -855,7 +863,7 @@ namespace OpenTween
 
         private void ListFilters_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (_moveRules)
+            if (_multiSelState != MultiSelectionState.None)  //複数選択処理中は無視する
                 return;
 
             ShowDetail();
@@ -1196,7 +1204,7 @@ namespace OpenTween
 
             try
             {
-                _moveRules = true;  // SelectedIndexChanged を無視する
+                _multiSelState |= MultiSelectionState.MoveSelected;
 
                 using (ControlTransaction.Update(ListFilters))
                 {
@@ -1225,7 +1233,7 @@ namespace OpenTween
             }
             finally
             {
-                _moveRules = false;
+                _multiSelState &= ~MultiSelectionState.MoveSelected;
             }
         }
 
@@ -1408,6 +1416,37 @@ namespace OpenTween
             }
 
             e.DrawFocusRectangle();
+        }
+
+        private void ListFilters_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Control && e.KeyCode == Keys.A)
+            {
+                var itemCount = this.ListFilters.Items.Count;
+                if (itemCount == 0) return;
+
+                using (ControlTransaction.Update(this.ListFilters))
+                {
+                    if (itemCount > 1)
+                    {
+                        try
+                        {
+                            _multiSelState |= MultiSelectionState.SelectAll;
+
+                            for (int i = 1; i < itemCount; i++)
+                            {
+                                this.ListFilters.SetSelected(i, true);
+                            }
+                        }
+                        finally
+                        {
+                            _multiSelState &= ~MultiSelectionState.SelectAll;
+                        }
+                    }
+
+                    this.ListFilters.SetSelected(0, true);
+                }
+            }
         }
 
         protected override void OnFontChanged(EventArgs e)
