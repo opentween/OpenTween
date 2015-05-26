@@ -6464,7 +6464,8 @@ namespace OpenTween
                     return FormatQuoteTweetHtml(statusId, WebUtility.HtmlEncode(err));
 
                 post.IsRead = true;
-                this._statuses.AddQuoteTweet(post);
+                if (!this._statuses.AddQuoteTweet(post))
+                    return FormatQuoteTweetHtml(statusId, "This Tweet is unavailable.");
             }
 
             return FormatQuoteTweetHtml(post);
