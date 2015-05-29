@@ -204,6 +204,9 @@ namespace OpenTween.Thumbnail
 
                 // GIFMAGAZINE
                 new SimpleThumbnailService(@"^https?://gifmagazine\.net/post_images/(\d+)", "http://img.gifmagazine.net/gifmagazine/images/${1}/original.gif"),
+
+                // SoundCloud
+                new MetaThumbnailService(@"^https?://soundcloud.com/[\w-]+/[\w-]+$"),
             };
         }
 
