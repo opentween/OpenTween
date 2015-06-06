@@ -914,7 +914,7 @@ Do you want to upload the {1} selected media file(s)?</value>
     <value>Views:</value>
   </data>
   <data name="FavoriteLimitCountText" xml:space="preserve">
-    <value>Adding to favorites being able to do at a time is up to 250.</value>
+    <value>Adding to favorites being able to do at a time is up to {0}.</value>
   </data>
   <data name="TextSearchCountApi_Validating1" xml:space="preserve">
     <value>Getting number of tweet in Api-mode must be 20 to 200.</value>

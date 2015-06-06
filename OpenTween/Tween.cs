@@ -3546,10 +3546,14 @@ namespace OpenTween
             if (tab.TabType == MyCommon.TabUsageType.DirectMessage || _curList.SelectedIndices.Count == 0
                 || !this.ExistCurrentPost) return;
 
+            // 誤ふぁぼ・故意によるふぁぼ爆対策 (変更しないこと)
+            // https://support.twitter.com/articles/76915#favoriting
+            const int MultiSelectFavLimit = 10;
+
             //複数fav確認msg
-            if (_curList.SelectedIndices.Count > 250 && FavAdd)
+            if (_curList.SelectedIndices.Count > MultiSelectFavLimit && FavAdd)
             {
-                MessageBox.Show(Properties.Resources.FavoriteLimitCountText);
+                MessageBox.Show(string.Format(Properties.Resources.FavoriteLimitCountText, MultiSelectFavLimit));
                 _DoFavRetweetFlags = false;
                 return;
             }

@@ -1027,7 +1027,7 @@ namespace OpenTween.Properties {
         }
         
         /// <summary>
-        ///   一度にFav追加が実行できるのは250件までです に類似しているローカライズされた文字列を検索します。
+        ///   一度にFav追加が実行できるのは{0}件までです に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string FavoriteLimitCountText {
             get {
