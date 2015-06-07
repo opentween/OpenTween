@@ -63,6 +63,7 @@
     <Compile Include="AnyOrderComparer.cs" />
     <Compile Include="Api\ApiLimitTest.cs" />
     <Compile Include="Api\TwitterApiStatusTest.cs" />
+    <Compile Include="Benchmark\TabInformationsBenchmark.cs" />
     <Compile Include="BingTest.cs" />
     <Compile Include="Connection\NetworkingTest.cs" />
     <Compile Include="EmojiFormatterTest.cs" />
