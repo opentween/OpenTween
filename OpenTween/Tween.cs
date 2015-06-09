@@ -6403,10 +6403,13 @@ namespace OpenTween
             // (同一ツイートの RT は文面が同じであるため同様に更新しない)
             if (_curPost.StatusId != oldDisplayPost.StatusId)
             {
-                this.PostBrowser.DocumentText =
-                    this.createDetailHtml(_curPost.IsDeleted ? "(DELETED)" : _curPost.Text);
+                using (ControlTransaction.Update(this.PostBrowser))
+                {
+                    this.PostBrowser.DocumentText =
+                        this.createDetailHtml(_curPost.IsDeleted ? "(DELETED)" : _curPost.Text);
 
-                this.PostBrowser.Document.Window.ScrollTo(0, 0);
+                    this.PostBrowser.Document.Window.ScrollTo(0, 0);
+                }
 
                 this.SplitContainer3.Panel2Collapsed = true;
 
@@ -6442,7 +6445,9 @@ namespace OpenTween
             // 「読み込み中」テキストを表示
             var loadingQuoteHtml = statusIds.Select(x => FormatQuoteTweetHtml(x, Properties.Resources.LoadingText));
             var body = post.Text + string.Concat(loadingQuoteHtml);
-            this.PostBrowser.DocumentText = this.createDetailHtml(body);
+
+            using (ControlTransaction.Update(this.PostBrowser))
+                this.PostBrowser.DocumentText = this.createDetailHtml(body);
 
             // 引用ツイートを読み込み
             var quoteHtmls = await Task.WhenAll(statusIds.Select(x => this.CreateQuoteTweetHtml(x)));
@@ -6452,7 +6457,9 @@ namespace OpenTween
                 return;
 
             body = post.Text + string.Concat(quoteHtmls);
-            this.PostBrowser.DocumentText = this.createDetailHtml(body);
+
+            using (ControlTransaction.Update(this.PostBrowser))
+                this.PostBrowser.DocumentText = this.createDetailHtml(body);
         }
 
         private async Task<string> CreateQuoteTweetHtml(long statusId)
@@ -11139,8 +11146,11 @@ namespace OpenTween
         {
             try
             {
-                PostBrowser.Url = new Uri("about:blank");
-                PostBrowser.DocumentText = "";       //発言詳細部初期化
+                using (ControlTransaction.Update(this.PostBrowser))
+                {
+                    PostBrowser.Url = new Uri("about:blank");
+                    PostBrowser.DocumentText = "";       //発言詳細部初期化
+                }
             }
             catch (Exception)
             {
