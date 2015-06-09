@@ -83,8 +83,8 @@ namespace OpenTween
         /// <summary>
         /// Twitter コンシューマーキー
         /// </summary>
-        public const string TwitterConsumerKey = "ST6eAABKDRKTqbN7pPo2A";
-        public const string TwitterConsumerSecret = "BJMEiivrXlqGESzdb8D0bvLfNYf3fifXRDMFjMogXg";
+        public const string TwitterConsumerKey = "zIoJPq3FsuViPTAs89FetDHYz";
+        public const string TwitterConsumerSecret = "prTAs2fqLv12nHxlMoLQZT8AkpZt0yYb8A7ktGS2VYeRj0TddS";
 
         //=====================================================================
         // yfrog
