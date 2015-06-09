@@ -3548,7 +3548,7 @@ namespace OpenTween
 
             // 誤ふぁぼ・故意によるふぁぼ爆対策 (変更しないこと)
             // https://support.twitter.com/articles/76915#favoriting
-            const int MultiSelectFavLimit = 10;
+            const int MultiSelectFavLimit = 1;
 
             //複数fav確認msg
             if (_curList.SelectedIndices.Count > MultiSelectFavLimit && FavAdd)
