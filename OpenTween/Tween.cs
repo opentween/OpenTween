@@ -6811,6 +6811,12 @@ namespace OpenTween
                             // Webページを開く動作
                             OpenURLMenuItem_Click(null, null);
                             return true;
+                        case Keys.V:
+                            if( Focused == FocusedControl.StatusText ) {
+                                ProcClipboardFromStatusTextWhenCtrlPlusV();
+                                return true;
+                            }
+                            break;
                     }
                     //フォーカスList
                     if (Focused == FocusedControl.ListTab)
@@ -12720,6 +12726,28 @@ namespace OpenTween
         private void ImageSelector_VisibleChanged(object sender, EventArgs e)
         {
             this.StatusText_TextChanged(null, null);
+        }
+
+        /// <summary>
+        /// StatusTextでCtrl+Vが押下された時の処理
+        /// </summary>
+        private void ProcClipboardFromStatusTextWhenCtrlPlusV() {
+            if( Clipboard.ContainsText() ) {
+                // clipboardにテキストがある場合は貼り付け処理
+                this.StatusText.Paste( Clipboard.GetText() );
+            } else if( Clipboard.ContainsImage() ) {
+                // 画像があるので投稿処理を行う
+
+                // clipboardから画像を取得
+                var image = Clipboard.GetImage();
+                // 一時的に保存するためのパスを取得し、一旦保存を行う(png)
+                var path = string.Format( "{0}.png", Path.GetTempFileName() );
+                using( var fs = new FileStream( path, FileMode.Create ) ) {
+                    image.Save( fs, System.Drawing.Imaging.ImageFormat.Png );
+                }
+                // 保存したパスをImageSelectorに投げる
+                this.ImageSelector.BeginSelection( new string[] { path } );
+            }
         }
 #endregion
 
