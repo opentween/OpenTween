@@ -6811,8 +6811,11 @@ namespace OpenTween
                             OpenURLMenuItem_Click(null, null);
                             return true;
                         case Keys.V:
-                            ProcClipboardFromStatusTextWhenCtrlPlusV();
-                            return true;
+                            if( Focused == FocusedControl.StatusText ) {
+                                ProcClipboardFromStatusTextWhenCtrlPlusV();
+                                return true;
+                            }
+                            break;
                     }
                     //フォーカスList
                     if (Focused == FocusedControl.ListTab)
