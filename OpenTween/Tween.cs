@@ -6810,6 +6810,9 @@ namespace OpenTween
                             // Webページを開く動作
                             OpenURLMenuItem_Click(null, null);
                             return true;
+                        case Keys.V:
+                            ProcClipboardFromStatusTextWhenCtrlPlusV();
+                            return true;
                     }
                     //フォーカスList
                     if (Focused == FocusedControl.ListTab)
@@ -13605,5 +13608,30 @@ namespace OpenTween
 
             _modifySettingCommon = true;
         }
+
+
+        /// <summary>
+        /// StatusTextでCtrl+Vが押下された時の処理
+        /// </summary>
+        private void ProcClipboardFromStatusTextWhenCtrlPlusV() {
+            if( Clipboard.ContainsText() ) {
+                // clipboardにテキストがある場合は貼り付け処理
+                this.StatusText.Paste( Clipboard.GetText() );
+            } else if( Clipboard.ContainsImage() ) {
+                // 画像があるので投稿処理を行う(ImageSelector非表示時のみ)
+                if( this.ImageSelector.Visible ) { return; }
+
+                // clipboardから画像を取得
+                var image = Clipboard.GetImage();
+                // 一時的に保存するためのパスを取得し、一旦保存を行う(png)
+                var path = string.Format( "{0}.png", Path.GetTempFileName() );
+                using( var fs = new FileStream( path, FileMode.Create ) ) {
+                    image.Save( fs, System.Drawing.Imaging.ImageFormat.Png );
+                }
+                // 保存したパスをImageSelectorに投げる
+                this.ImageSelector.BeginSelection( new string[] { path } );
+            }
+        }
+        
     }
 }
