@@ -4513,7 +4513,8 @@ namespace OpenTween
             else if (e.Url.AbsoluteUri != "about:blank")
             {
                 e.Cancel = true;
-                await this.OpenUriAsync(e.Url);
+                // Ctrlを押しながらリンクを開いた場合は、設定と逆の動作をするフラグを true としておく
+                await this.OpenUriAsync( e.Url, MyCommon.IsKeyDown( Keys.Control ) );
             }
         }
 
@@ -10937,7 +10938,7 @@ namespace OpenTween
             return nw;
         }
 
-        public async Task OpenUriAsync(Uri uri)
+        public async Task OpenUriAsync(Uri uri, bool isReverseSettings = false)
         {
             var uriStr = uri.AbsoluteUri;
 
@@ -10966,9 +10967,9 @@ namespace OpenTween
             }
 
             // ユーザープロフィールURL
-            // Ctrlを押しながらリンクをクリックした場合は設定と逆の動作をする
-            if (this._cfgCommon.OpenUserTimeline && !MyCommon.IsKeyDown(Keys.Control) ||
-                !this._cfgCommon.OpenUserTimeline && MyCommon.IsKeyDown(Keys.Control))
+            // フラグが立っている場合は設定と逆の動作をする
+            if( this._cfgCommon.OpenUserTimeline && !isReverseSettings ||
+                !this._cfgCommon.OpenUserTimeline && isReverseSettings )
             {
                 var userUriMatch = Regex.Match(uriStr, "^https?://twitter.com/(#!/)?(?<ScreenName>[a-zA-Z0-9_]+)$");
                 if (userUriMatch.Success)
