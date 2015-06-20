@@ -437,6 +437,9 @@ namespace OpenTween
                 postParam,
                 typeof(PostClass).GetProperty(targetFieldName));
 
+            // targetField ?? ""
+            var targetValue = Expression.Coalesce(targetField, Expression.Constant(string.Empty));
+
             if (useRegex)
             {
                 var regex = new Regex(pattern, caseSensitive ? RegexOptions.None : RegexOptions.IgnoreCase);
@@ -445,7 +448,7 @@ namespace OpenTween
                 return Expression.Call(
                     Expression.Constant(regex),
                     typeof(Regex).GetMethod("IsMatch", new[] { typeof(string) }),
-                    targetField);
+                    targetValue);
             }
             else
             {
@@ -458,7 +461,7 @@ namespace OpenTween
                     return Expression.Call(
                         Expression.Constant(pattern),
                         typeof(string).GetMethod("Equals", new[] { typeof(string), typeof(StringComparison) }),
-                        targetField,
+                        targetValue,
                         Expression.Constant(compOpt));
 
                 }
@@ -468,7 +471,7 @@ namespace OpenTween
                     // targetField.IndexOf(pattern, compOpt) != -1
                     return Expression.NotEqual(
                         Expression.Call(
-                            targetField,
+                            targetValue,
                             typeof(string).GetMethod("IndexOf", new[] { typeof(string), typeof(StringComparison) }),
                             Expression.Constant(pattern),
                             Expression.Constant(compOpt)),
