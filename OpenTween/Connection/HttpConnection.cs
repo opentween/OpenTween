@@ -72,10 +72,12 @@ namespace OpenTween
         ///<param name="method">HTTP通信メソッド（GET/HEAD/POST/PUT/DELETE）</param>
         ///<param name="requestUri">通信先URI</param>
         ///<param name="param">GET時のクエリ、またはPOST時のエンティティボディ</param>
+        ///<param name="gzip">Accept-Encodingヘッダにgzipを付加するかどうかを表す真偽値</param>
         ///<returns>引数で指定された内容を反映したHttpWebRequestオブジェクト</returns>
         protected HttpWebRequest CreateRequest(string method,
                                                Uri requestUri,
-                                               Dictionary<string, string> param)
+                                               Dictionary<string, string> param,
+                                               bool gzip = false)
         {
             Networking.CheckInitialized();
 
@@ -92,6 +94,12 @@ namespace OpenTween
 
             //プロキシ設定
             if (Networking.ProxyType != ProxyType.IE) webReq.Proxy = Networking.Proxy;
+
+            if (gzip)
+            {
+                // Accept-Encodingヘッダを付加
+                webReq.AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip;
+            }
 
             webReq.Method = method;
             if (method == "POST" || method == "PUT")
