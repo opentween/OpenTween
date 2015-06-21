@@ -390,7 +390,9 @@ namespace OpenTween
             if (e.Url.AbsoluteUri != "about:blank")
             {
                 e.Cancel = true;
-                await this.mainForm.OpenUriAsync(e.Url);
+
+                // Ctrlを押しながらリンクを開いた場合は、設定と逆の動作をするフラグを true としておく
+                await this.mainForm.OpenUriAsync(e.Url, MyCommon.IsKeyDown(Keys.Control));
             }
         }
 

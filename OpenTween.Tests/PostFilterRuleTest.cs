@@ -63,6 +63,28 @@ namespace OpenTween
         }
 
         [Fact]
+        public void FieldNullAwareTest()
+        {
+            var nullPost = new PostClass { Source = null };
+
+            // Source が null であっても ArgumentNullException 等を投げない
+            var filter1 = new PostFilterRule
+            {
+                FilterSource = "(hoge){2}",
+                UseRegex = true,
+            };
+            Assert.Equal(MyCommon.HITRESULT.None, filter1.ExecFilter(nullPost));
+
+            // null は空文字列と同じ扱いにする
+            var filter2 = new PostFilterRule
+            {
+                FilterSource = "^$",
+                UseRegex = true,
+            };
+            Assert.Equal(MyCommon.HITRESULT.CopyAndMark, filter2.ExecFilter(nullPost));
+        }
+
+        [Fact]
         public void MatchOnlyTest()
         {
             var filter = new PostFilterRule { FilterName = "hogehoge" };

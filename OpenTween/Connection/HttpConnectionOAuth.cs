@@ -125,7 +125,7 @@ namespace OpenTween
 		/// <param name="param">GET時のクエリ、またはPOST時のエンティティボディ</param>
 		/// <param name="content">[OUT]HTTP応答のボディデータ</param>
 		/// <param name="headerInfo">[IN/OUT]HTTP応答のヘッダ情報。必要なヘッダ名を事前に設定しておくこと</param>
-		/// <param name="callback">処理終了直前に呼ばれるコールバック関数のデリゲート 不要な場合はNothingを渡すこと</param>
+		/// <param name="callback">処理終了直前に呼ばれるコールバック関数のデリゲート 不要な場合はnullを渡すこと</param>
 		/// <returns>HTTP応答のステータスコード</returns>
 		public HttpStatusCode GetContent( string method,
 		                                  Uri requestUri,
@@ -138,7 +138,7 @@ namespace OpenTween
 			if ( string.IsNullOrEmpty( token ) )
 				return HttpStatusCode.Unauthorized;
 
-			HttpWebRequest webReq = this.CreateRequest( method, requestUri, param );
+			HttpWebRequest webReq = this.CreateRequest( method, requestUri, param, gzip: true );
 			// OAuth認証ヘッダを付加
 			this.AppendOAuthInfo( webReq, param, token, tokenSecret );
 
