@@ -1048,7 +1048,7 @@ namespace OpenTween
                 if( Directory.Exists( MySpecialPath.TempPngDirectoryPath ) ) {
                     Directory.Delete( MySpecialPath.TempPngDirectoryPath, true );
                 }
-            } catch( Exception e ) {
+            } catch {
                 // 削除が失敗した場合、実害は無いので諦める(何もしない)
             }
         }
