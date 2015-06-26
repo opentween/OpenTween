@@ -13631,8 +13631,7 @@ namespace OpenTween
                 // clipboardにテキストがある場合は貼り付け処理
                 this.StatusText.Paste( Clipboard.GetText() );
             } else if( Clipboard.ContainsImage() ) {
-                // 画像があるので投稿処理を行う(ImageSelector非表示時のみ)
-                if( this.ImageSelector.Visible ) { return; }
+                // 画像があるので投稿処理を行う
 
                 // clipboardから画像を取得
                 var image = Clipboard.GetImage();
