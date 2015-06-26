@@ -1050,7 +1050,6 @@ namespace OpenTween
                 }
             } catch( Exception e ) {
                 // 削除が失敗した場合、実害は無いので諦める(何もしない)
-                Console.WriteLine( e );
             }
         }
     }
