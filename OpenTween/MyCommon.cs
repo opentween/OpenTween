@@ -1039,5 +1039,19 @@ namespace OpenTween
             for (var i = from; i >= to; i--)
                 yield return i;
         }
+
+        /// <summary>
+        /// 画像投稿用の一時フォルダを削除する
+        /// </summary>
+        public static void DeleteTempPngFileDirectory() {
+            try {
+                if( Directory.Exists( MySpecialPath.TempPngDirectoryPath ) ) {
+                    Directory.Delete( MySpecialPath.TempPngDirectoryPath, true );
+                }
+            } catch( Exception e ) {
+                // 削除が失敗した場合、実害は無いので諦める(何もしない)
+                Console.WriteLine( e );
+            }
+        }
     }
 }

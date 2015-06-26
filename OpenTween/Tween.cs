@@ -228,6 +228,11 @@ namespace OpenTween
 
         private string recommendedStatusFooter;
 
+        /// <summary>
+        /// 画像投稿用の一時ファイル名用カウンタ
+        /// </summary>
+        private int counterForTempPNGFileName;
+
         //URL短縮のUndo用
         private struct urlUndo
         {
@@ -1244,6 +1249,9 @@ namespace OpenTween
                 _statuses.AddTab(MyCommon.DEFAULTTAB.DM, MyCommon.TabUsageType.DirectMessage, null);
                 _statuses.AddTab(MyCommon.DEFAULTTAB.FAV, MyCommon.TabUsageType.Favorites, null);
             }
+
+            // 画像投稿用の一時ディレクトリを削除
+            MyCommon.DeleteTempPngFileDirectory();
         }
 
         private void TimerInterval_Changed(object sender, IntervalChangedEventArgs e) //Handles SettingDialog.IntervalChanged
@@ -3222,6 +3230,9 @@ namespace OpenTween
                 else
                     await this.GetHomeTimelineAsync();
             }
+
+            // ツイート完了しているのでテンポラリ画像のあるディレクトリを削除する
+            MyCommon.DeleteTempPngFileDirectory();
         }
 
         private async Task RetweetAsync(IReadOnlyList<long> statusIds)
@@ -13635,15 +13646,15 @@ namespace OpenTween
 
                 // clipboardから画像を取得
                 var image = Clipboard.GetImage();
-                // 一時的に保存するためのパスを取得し、一旦保存を行う(png)
-                var path = string.Format( "{0}.png", Path.GetTempFileName() );
+                // 一時的にファイル保存を行う(png)
+                Directory.CreateDirectory( MySpecialPath.TempPngDirectoryPath );
+                var path = string.Format( "{0}tmp{1}.png", MySpecialPath.TempPngDirectoryPath, ++counterForTempPNGFileName );
                 using( var fs = new FileStream( path, FileMode.Create ) ) {
                     image.Save( fs, System.Drawing.Imaging.ImageFormat.Png );
                 }
                 // 保存したパスをImageSelectorに投げる
                 this.ImageSelector.BeginSelection( new string[] { path } );
             }
-        }
-        
+        }        
     }
 }

@@ -474,6 +474,9 @@ namespace OpenTween
         private void ImageCancelButton_Click(object sender, EventArgs e)
         {
             EndSelection();
+
+            // 画像投稿用の一時フォルダを削除する
+            MyCommon.DeleteTempPngFileDirectory();
         }
 
         private void ImageSelection_KeyDown(object sender, KeyEventArgs e)
@@ -481,6 +484,9 @@ namespace OpenTween
             if (e.KeyCode == Keys.Escape)
             {
                 EndSelection();
+
+                // 画像投稿用の一時フォルダを削除する
+                MyCommon.DeleteTempPngFileDirectory();
             }
         }
 
