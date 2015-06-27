@@ -13648,7 +13648,7 @@ namespace OpenTween
                 var image = Clipboard.GetImage();
                 // 一時的にファイル保存を行う(png)
                 Directory.CreateDirectory( MySpecialPath.TempPngDirectoryPath );
-                var path = string.Format( "{0}tmp{1}.png", MySpecialPath.TempPngDirectoryPath, ++counterForTempPNGFileName );
+                var path = Path.Combine( MySpecialPath.TempPngDirectoryPath, string.Format( "{0}.png", ++counterForTempPNGFileName ) );
                 using( var fs = new FileStream( path, FileMode.Create ) ) {
                     image.Save( fs, System.Drawing.Imaging.ImageFormat.Png );
                 }

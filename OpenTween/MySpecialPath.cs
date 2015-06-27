@@ -98,7 +98,7 @@ namespace OpenTween
         /// <remarks>
         /// システムの Temp フォルダ内、 OpenTween というフォルダ名としています。
         /// </remarks>
-        public static readonly string TempPngDirectoryPath = Path.GetTempPath() + "OpenTween" + Path.DirectorySeparatorChar;
+        public static readonly string TempPngDirectoryPath = Path.Combine( MyCommon.settingPath, "TempPng" );
 
         private static string GetFileSystemPath(Environment.SpecialFolder folder)
         {
