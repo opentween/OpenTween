@@ -356,6 +356,9 @@ namespace OpenTween
                 this._hookGlobalHotkey.Dispose();
             }
 
+            // 画像の一時フォルダを削除
+            MyCommon.DeleteTempPngFileDirectory();
+
             // 終了時にRemoveHandlerしておかないとメモリリークする
             // http://msdn.microsoft.com/ja-jp/library/microsoft.win32.systemevents.powermodechanged.aspx
             Microsoft.Win32.SystemEvents.PowerModeChanged -= SystemEvents_PowerModeChanged;
@@ -1148,6 +1151,9 @@ namespace OpenTween
 
             // タブの位置を調整する
             SetTabAlignment();
+
+            // 画像投稿用の一時ディレクトリを削除
+            MyCommon.DeleteTempPngFileDirectory();
         }
 
         private void InitDetailHtmlFormat()
@@ -1249,9 +1255,6 @@ namespace OpenTween
                 _statuses.AddTab(MyCommon.DEFAULTTAB.DM, MyCommon.TabUsageType.DirectMessage, null);
                 _statuses.AddTab(MyCommon.DEFAULTTAB.FAV, MyCommon.TabUsageType.Favorites, null);
             }
-
-            // 画像投稿用の一時ディレクトリを削除
-            MyCommon.DeleteTempPngFileDirectory();
         }
 
         private void TimerInterval_Changed(object sender, IntervalChangedEventArgs e) //Handles SettingDialog.IntervalChanged
@@ -3230,9 +3233,6 @@ namespace OpenTween
                 else
                     await this.GetHomeTimelineAsync();
             }
-
-            // ツイート完了しているのでテンポラリ画像のあるディレクトリを削除する
-            MyCommon.DeleteTempPngFileDirectory();
         }
 
         private async Task RetweetAsync(IReadOnlyList<long> statusIds)
