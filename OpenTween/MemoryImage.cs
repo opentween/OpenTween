@@ -29,6 +29,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.IO;
 using System.Threading.Tasks;
+using System.Drawing.Imaging;
 
 namespace OpenTween
 {
@@ -79,6 +80,49 @@ namespace OpenTween
             }
 
             this.Stream = stream;
+        }
+
+        /// <summary>
+        /// MemoryImage が保持している画像のフォーマット
+        /// </summary>
+        public ImageFormat ImageFormat
+        {
+            get { return this.Image.RawFormat; }
+        }
+
+        /// <summary>
+        /// MemoryImage が保持している画像のフォーマットに相当する拡張子 (ピリオド付き)
+        /// </summary>
+        public string ImageFormatExt
+        {
+            get
+            {
+                var format = this.ImageFormat;
+
+                // ImageFormat は == で正しく比較できないため Equals を使用する必要がある
+                if (format.Equals(ImageFormat.Bmp))
+                    return ".bmp";
+                if (format.Equals(ImageFormat.Emf))
+                    return ".emf";
+                if (format.Equals(ImageFormat.Gif))
+                    return ".gif";
+                if (format.Equals(ImageFormat.Icon))
+                    return ".ico";
+                if (format.Equals(ImageFormat.Jpeg))
+                    return ".jpg";
+                if (format.Equals(ImageFormat.MemoryBmp))
+                    return ".bmp";
+                if (format.Equals(ImageFormat.Png))
+                    return ".png";
+                if (format.Equals(ImageFormat.Tiff))
+                    return ".tiff";
+                if (format.Equals(ImageFormat.Wmf))
+                    return ".wmf";
+
+                // 対応する形式がなければ空文字列を返す
+                // (上記以外のフォーマットは Image.FromStream を通過できないため、ここが実行されることはまず無い)
+                return string.Empty;
+            }
         }
 
         /// <summary>
@@ -191,6 +235,25 @@ namespace OpenTween
         public static MemoryImage CopyFromBytes(byte[] bytes)
         {
             return new MemoryImage(new MemoryStream(bytes));
+        }
+
+        /// <summary>
+        /// Bitmap インスタンスから MemoryImage を作成します
+        /// </summary>
+        /// <remarks>
+        /// Image を引数に取るオーバーロードは意図的に実装していない
+        /// (MemoryImage は極力 Stream から生成されるべきであるため)
+        /// </remarks>
+        /// <param name="bitmap">対象となる画像</param>
+        /// <returns>作成された MemoryImage</returns>
+        [SuppressMessage("Microsoft.Reliability", "CA2000:DisposeObjectsBeforeLosingScope")]
+        public static MemoryImage CopyFromBitmap(Bitmap bitmap)
+        {
+            var memstream = new MemoryStream();
+
+            bitmap.Save(memstream, ImageFormat.Png);
+
+            return new MemoryImage(memstream);
         }
     }
 
