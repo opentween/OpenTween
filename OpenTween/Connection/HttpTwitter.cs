@@ -182,7 +182,7 @@ namespace OpenTween
                 null);
         }
 
-        public HttpStatusCode UpdateStatusWithMedia(string status, long? replyToId, FileInfo mediaFile, ref string content)
+        public HttpStatusCode UpdateStatusWithMedia(string status, long? replyToId, IMediaItem item, ref string content)
         {
             //画像投稿用エンドポイント
             Dictionary<string, string> param = new Dictionary<string, string>();
@@ -191,8 +191,8 @@ namespace OpenTween
             param.Add("include_entities", "true");
             //if (AppendSettingDialog.Instance.ShortenTco && AppendSettingDialog.Instance.UrlConvertAuto) param.Add("wrap_links", "true")
 
-            List<KeyValuePair<string, FileInfo>> binary = new List<KeyValuePair<string, FileInfo>>();
-            binary.Add(new KeyValuePair<string, FileInfo>("media[]", mediaFile));
+            var binary = new List<KeyValuePair<string, IMediaItem>>();
+            binary.Add(new KeyValuePair<string, IMediaItem>("media[]", item));
 
             return httpCon.GetContent(PostMethod,
                 this.CreateTwitterUri("/1.1/statuses/update_with_media.json"),
@@ -203,11 +203,11 @@ namespace OpenTween
                 this.CreateApiCalllback("/statuses/update_with_media"));
         }
 
-        public HttpStatusCode UploadMedia(FileInfo mediaFile, ref string content)
+        public HttpStatusCode UploadMedia(IMediaItem item, ref string content)
         {
             //画像投稿専用エンドポイント
-            List<KeyValuePair<string, FileInfo>> binary = new List<KeyValuePair<string, FileInfo>>();
-            binary.Add(new KeyValuePair<string, FileInfo>("media", mediaFile));
+            var binary = new List<KeyValuePair<string, IMediaItem>>();
+            binary.Add(new KeyValuePair<string, IMediaItem>("media", item));
 
             return httpCon.GetContent(PostMethod,
                 this.CreateTwitterUploadUri("/1.1/media/upload.json"),
@@ -796,8 +796,8 @@ namespace OpenTween
 
         public HttpStatusCode UpdateProfileImage(FileInfo imageFile, ref string content)
         {
-            List<KeyValuePair<string, FileInfo>> binary = new List<KeyValuePair<string, FileInfo>>();
-            binary.Add(new KeyValuePair<string, FileInfo>("image", imageFile));
+            var binary = new List<KeyValuePair<string, IMediaItem>>();
+            binary.Add(new KeyValuePair<string, IMediaItem>("image", new FileMediaItem(imageFile)));
 
             return httpCon.GetContent(PostMethod,
                 this.CreateTwitterUri("/1.1/account/update_profile_image.json"),

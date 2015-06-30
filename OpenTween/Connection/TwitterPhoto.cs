@@ -76,28 +76,23 @@ namespace OpenTween.Connection
             return this.twitterConfig.PhotoSizeLimit;
         }
 
-        public async Task PostStatusAsync(string text, long? inReplyToStatusId, string[] filePaths)
+        public async Task PostStatusAsync(string text, long? inReplyToStatusId, IMediaItem[] mediaItems)
         {
-            if (filePaths == null || filePaths.Length == 0 || string.IsNullOrEmpty(filePaths[0]))
-                throw new ArgumentException("Err:File isn't specified.", "filePaths");
+            if (mediaItems == null || mediaItems.Length == 0)
+                throw new ArgumentException("Err:Media isn't specified.", "mediaItems");
 
-            var mediaFiles = new List<FileInfo>();
-
-            foreach (var filePath in filePaths)
+            foreach (var item in mediaItems)
             {
-                if (string.IsNullOrEmpty(filePath)) continue;
+                if (item == null)
+                    throw new ArgumentException("Err:Media isn't specified.", "mediaItems");
 
-                var mediaFile = new FileInfo(filePath);
-
-                if (!mediaFile.Exists)
-                    throw new ArgumentException("Err:File isn't exists.", "filePaths");
-
-                mediaFiles.Add(mediaFile);
+                if (!item.Exists)
+                    throw new ArgumentException("Err:File isn't exists.", "mediaItems");
             }
 
             await Task.Run(() =>
                 {
-                    var res = this.tw.PostStatusWithMultipleMedia(text, inReplyToStatusId, mediaFiles);
+                    var res = this.tw.PostStatusWithMultipleMedia(text, inReplyToStatusId, mediaItems);
                     if (!string.IsNullOrEmpty(res))
                         throw new WebApiException(res);
                 })

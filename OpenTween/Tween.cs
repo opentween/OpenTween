@@ -268,7 +268,7 @@ namespace OpenTween
             public long? inReplyToId = null;
             public string inReplyToName = null;
             public string imageService = "";      //画像投稿サービス名
-            public string[] imagePath = null;
+            public IMediaItem[] mediaItems = null;
             public PostingStatus()
             {
             }
@@ -2215,7 +2215,7 @@ namespace OpenTween
             if (ImageSelector.Visible)
             {
                 //画像投稿
-                if (!ImageSelector.TryGetSelectedMedia(out status.imageService, out status.imagePath))
+                if (!ImageSelector.TryGetSelectedMedia(out status.imageService, out status.mediaItems))
                     return;
             }
 
@@ -3141,7 +3141,7 @@ namespace OpenTween
             {
                 await Task.Run(async () =>
                 {
-                    if (status.imagePath == null || status.imagePath.Length == 0 || string.IsNullOrEmpty(status.imagePath[0]))
+                    if (status.mediaItems == null || status.mediaItems.Length == 0)
                     {
                         var err = this.tw.PostStatus(status.status, status.inReplyToId);
                         if (!string.IsNullOrEmpty(err))
@@ -3150,7 +3150,7 @@ namespace OpenTween
                     else
                     {
                         var service = ImageSelector.GetService(status.imageService);
-                        await service.PostStatusAsync(status.status, status.inReplyToId, status.imagePath)
+                        await service.PostStatusAsync(status.status, status.inReplyToId, status.mediaItems)
                             .ConfigureAwait(false);
                     }
                 });
@@ -3163,6 +3163,17 @@ namespace OpenTween
                 errMsg = ex.Message;
                 p.Report(errMsg);
                 this._myStatusError = true;
+            }
+            finally
+            {
+                // 使い終わった MediaItem は破棄する
+                if (status.mediaItems != null)
+                {
+                    foreach (var disposableItem in status.mediaItems.OfType<IDisposable>())
+                    {
+                        disposableItem.Dispose();
+                    }
+                }
             }
 
             if (ct.IsCancellationRequested)
@@ -6811,12 +6822,6 @@ namespace OpenTween
                             // Webページを開く動作
                             OpenURLMenuItem_Click(null, null);
                             return true;
-                        case Keys.V:
-                            if( Focused == FocusedControl.StatusText ) {
-                                ProcClipboardFromStatusTextWhenCtrlPlusV();
-                                return true;
-                            }
-                            break;
                     }
                     //フォーカスList
                     if (Focused == FocusedControl.ListTab)
@@ -6862,6 +6867,9 @@ namespace OpenTween
                         {
                             case Keys.A:
                                 StatusText.SelectAll();
+                                return true;
+                            case Keys.V:
+                                ProcClipboardFromStatusTextWhenCtrlPlusV();
                                 return true;
                             case Keys.Up:
                             case Keys.Down:
@@ -12731,22 +12739,22 @@ namespace OpenTween
         /// <summary>
         /// StatusTextでCtrl+Vが押下された時の処理
         /// </summary>
-        private void ProcClipboardFromStatusTextWhenCtrlPlusV() {
-            if( Clipboard.ContainsText() ) {
+        private void ProcClipboardFromStatusTextWhenCtrlPlusV()
+        {
+            if (Clipboard.ContainsText())
+            {
                 // clipboardにテキストがある場合は貼り付け処理
-                this.StatusText.Paste( Clipboard.GetText() );
-            } else if( Clipboard.ContainsImage() ) {
+                this.StatusText.Paste(Clipboard.GetText());
+            }
+            else if (Clipboard.ContainsImage())
+            {
                 // 画像があるので投稿処理を行う
 
                 // clipboardから画像を取得
-                var image = Clipboard.GetImage();
-                // 一時的に保存するためのパスを取得し、一旦保存を行う(png)
-                var path = string.Format( "{0}.png", Path.GetTempFileName() );
-                using( var fs = new FileStream( path, FileMode.Create ) ) {
-                    image.Save( fs, System.Drawing.Imaging.ImageFormat.Png );
+                using (var image = Clipboard.GetImage())
+                {
+                    this.ImageSelector.BeginSelection(image);
                 }
-                // 保存したパスをImageSelectorに投げる
-                this.ImageSelector.BeginSelection( new string[] { path } );
             }
         }
 #endregion

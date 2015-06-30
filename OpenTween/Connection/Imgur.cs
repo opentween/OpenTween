@@ -93,20 +93,23 @@ namespace OpenTween.Connection
             return MaxFileSize;
         }
 
-        public async Task PostStatusAsync(string text, long? inReplyToStatusId, string[] filePaths)
+        public async Task PostStatusAsync(string text, long? inReplyToStatusId, IMediaItem[] mediaItems)
         {
-            if (filePaths.Length != 1)
-                throw new ArgumentOutOfRangeException("filePaths");
+            if (mediaItems.Length != 1)
+                throw new ArgumentOutOfRangeException("mediaItems");
 
-            var file = new FileInfo(filePaths[0]);
+            var item = mediaItems[0] as FileMediaItem;
 
-            if (!file.Exists)
-                throw new ArgumentException("File isn't exists.", "filePaths[0]");
+            if (item == null)
+                throw new NotImplementedException();
+
+            if (!item.Exists)
+                throw new ArgumentException("File isn't exists.", "mediaItems[0]");
 
             XDocument xml;
             try
             {
-                xml = await this.UploadFileAsync(file, text)
+                xml = await this.UploadFileAsync(item.FileInfo, text)
                     .ConfigureAwait(false);
             }
             catch (HttpRequestException ex)

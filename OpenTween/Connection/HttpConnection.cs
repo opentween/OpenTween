@@ -138,7 +138,7 @@ namespace OpenTween
         protected HttpWebRequest CreateRequest(string method,
                                                Uri requestUri,
                                                Dictionary<string, string> param,
-                                               List<KeyValuePair<String, FileInfo>> binaryFileInfo)
+                                               List<KeyValuePair<String, IMediaItem>> binaryFileInfo)
         {
             Networking.CheckInitialized();
 
@@ -177,7 +177,7 @@ namespace OpenTween
                     //POST送信するバイナリデータを作成
                     if (binaryFileInfo != null)
                     {
-                        foreach (KeyValuePair<string, FileInfo> kvp in binaryFileInfo)
+                        foreach (KeyValuePair<string, IMediaItem> kvp in binaryFileInfo)
                         {
                             string postData = "";
                             byte[] crlfByte = Encoding.UTF8.GetBytes("\r\n");
@@ -245,17 +245,7 @@ namespace OpenTween
                             byte[] postBytes = Encoding.UTF8.GetBytes(postData);
                             reqStream.Write(postBytes, 0, postBytes.Length);
                             //ファイルを読み出してHTTPのストリームに書き込み
-                            using (FileStream fs = new FileStream(kvp.Value.FullName, FileMode.Open, FileAccess.Read))
-                            {
-                                int readSize = 0;
-                                byte[] readBytes = new byte[0x1000];
-                                while (true)
-                                {
-                                    readSize = fs.Read(readBytes, 0, readBytes.Length);
-                                    if (readSize == 0) break;
-                                    reqStream.Write(readBytes, 0, readSize);
-                                }
-                            }
+                            kvp.Value.CopyTo(reqStream);
                             reqStream.Write(crlfByte, 0, crlfByte.Length);
                         }
                     }
