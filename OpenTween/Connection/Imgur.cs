@@ -95,6 +95,9 @@ namespace OpenTween.Connection
 
         public async Task PostStatusAsync(string text, long? inReplyToStatusId, IMediaItem[] mediaItems)
         {
+            if (mediaItems == null)
+                throw new ArgumentNullException("mediaItems");
+
             if (mediaItems.Length != 1)
                 throw new ArgumentOutOfRangeException("mediaItems");
 
@@ -104,7 +107,7 @@ namespace OpenTween.Connection
                 throw new NotImplementedException();
 
             if (!item.Exists)
-                throw new ArgumentException("File isn't exists.", "mediaItems[0]");
+                throw new ArgumentException("Err:Media not found.");
 
             XDocument xml;
             try

@@ -124,13 +124,19 @@ namespace OpenTween.Connection
 
         public async Task PostStatusAsync(string text, long? inReplyToStatusId, IMediaItem[] mediaItems)
         {
+            if (mediaItems == null)
+                throw new ArgumentNullException("mediaItems");
+
             if (mediaItems.Length != 1)
                 throw new ArgumentOutOfRangeException("mediaItems");
 
             var item = mediaItems[0];
 
+            if (item == null)
+                throw new ArgumentException("Err:Media not specified.");
+
             if (!item.Exists)
-                throw new ArgumentException("Err:File isn't exists.", "filePaths[0]");
+                throw new ArgumentException("Err:Media not found.");
 
             var xml = await this.mobypictureApi.UploadFileAsync(item, text)
                 .ConfigureAwait(false);

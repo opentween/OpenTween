@@ -78,16 +78,19 @@ namespace OpenTween.Connection
 
         public async Task PostStatusAsync(string text, long? inReplyToStatusId, IMediaItem[] mediaItems)
         {
-            if (mediaItems == null || mediaItems.Length == 0)
-                throw new ArgumentException("Err:Media isn't specified.", "mediaItems");
+            if (mediaItems == null)
+                throw new ArgumentNullException("mediaItems");
+
+            if (mediaItems.Length == 0)
+                throw new ArgumentException("Err:Media not specified.");
 
             foreach (var item in mediaItems)
             {
                 if (item == null)
-                    throw new ArgumentException("Err:Media isn't specified.", "mediaItems");
+                    throw new ArgumentException("Err:Media not specified.");
 
                 if (!item.Exists)
-                    throw new ArgumentException("Err:File isn't exists.", "mediaItems");
+                    throw new ArgumentException("Err:Media not found.");
             }
 
             await Task.Run(() =>
