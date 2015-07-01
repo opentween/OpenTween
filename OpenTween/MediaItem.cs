@@ -192,8 +192,7 @@ namespace OpenTween
 
         public void CopyTo(Stream stream)
         {
-            this._image.Stream.Seek(0, SeekOrigin.Begin);
-            this._image.Stream.CopyTo(stream);
+            this._image.Stream.WriteTo(stream);
         }
 
         protected virtual void Dispose(bool disposing)
