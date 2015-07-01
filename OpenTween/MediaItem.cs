@@ -70,7 +70,7 @@ namespace OpenTween
     /// </summary>
     public class FileMediaItem : IMediaItem
     {
-        private FileInfo _fileInfo = null;
+        private readonly FileInfo _fileInfo;
 
         public FileMediaItem(string path)
         {
@@ -82,32 +82,32 @@ namespace OpenTween
         {
         }
 
-        public virtual string Path
+        public string Path
         {
             get { return this._fileInfo.FullName; }
         }
 
-        public virtual string Name
+        public string Name
         {
             get { return this._fileInfo.Name; }
         }
 
-        public virtual string Extension
+        public string Extension
         {
             get { return this._fileInfo.Extension; }
         }
 
-        public virtual bool Exists
+        public bool Exists
         {
             get { return this._fileInfo.Exists; }
         }
 
-        public virtual long Size
+        public long Size
         {
             get { return this._fileInfo.Length; }
         }
 
-        public virtual MemoryImage CreateImage()
+        public MemoryImage CreateImage()
         {
             using (var fs = this._fileInfo.OpenRead())
             {
@@ -115,7 +115,7 @@ namespace OpenTween
             }
         }
 
-        public virtual void CopyTo(Stream stream)
+        public void CopyTo(Stream stream)
         {
             using (var fs = this._fileInfo.OpenRead())
             {
@@ -137,13 +137,13 @@ namespace OpenTween
     /// </remarks>
     public class MemoryImageMediaItem : IMediaItem, IDisposable
     {
-        public static readonly string PathPrefix = "<>MemoryImage://";
+        public const string PathPrefix = "<>MemoryImage://";
         private static int _fileNumber = 0;
 
         private bool _disposed = false;
 
-        private string _path;
-        private MemoryImage _image;
+        private readonly string _path;
+        private readonly MemoryImage _image;
 
         public MemoryImageMediaItem(Image image)
         {
@@ -160,37 +160,37 @@ namespace OpenTween
             this._path = PathPrefix + num + this._image.ImageFormatExt;
         }
 
-        public virtual string Path
+        public string Path
         {
             get { return this._path; }
         }
 
-        public virtual string Name
+        public string Name
         {
             get { return this._path.Substring(PathPrefix.Length); }
         }
 
-        public virtual string Extension
+        public string Extension
         {
             get { return this._image.ImageFormatExt; }
         }
 
-        public virtual bool Exists
+        public bool Exists
         {
             get { return this._image != null; }
         }
 
-        public virtual long Size
+        public long Size
         {
             get { return this._image.Stream.Length; }
         }
 
-        public virtual MemoryImage CreateImage()
+        public MemoryImage CreateImage()
         {
             return this._image.Clone();
         }
 
-        public virtual void CopyTo(Stream stream)
+        public void CopyTo(Stream stream)
         {
             this._image.Stream.Seek(0, SeekOrigin.Begin);
             this._image.Stream.CopyTo(stream);
