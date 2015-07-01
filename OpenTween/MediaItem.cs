@@ -57,7 +57,18 @@ namespace OpenTween
         /// <summary>
         /// 表示用の MemoryImage を作成する
         /// </summary>
+        /// <remarks>
+        /// 呼び出し側にて破棄すること
+        /// </remarks>
         MemoryImage CreateImage();
+
+        /// <summary>
+        /// メディアの内容を読み込むための Stream を開く
+        /// </summary>
+        /// <remarks>
+        /// 呼び出し側にて閉じること
+        /// </remarks>
+        Stream OpenRead();
 
         /// <summary>
         /// メディアの内容を Stream へ書き込む
@@ -113,6 +124,11 @@ namespace OpenTween
             {
                 return MemoryImage.CopyFromStream(fs);
             }
+        }
+
+        public Stream OpenRead()
+        {
+            return this._fileInfo.OpenRead();
         }
 
         public void CopyTo(Stream stream)
@@ -188,6 +204,17 @@ namespace OpenTween
         public MemoryImage CreateImage()
         {
             return this._image.Clone();
+        }
+
+        public Stream OpenRead()
+        {
+            // コピーを作成する
+            var memstream = new MemoryStream();
+
+            this._image.Stream.WriteTo(memstream);
+            memstream.Seek(0, SeekOrigin.Begin);
+
+            return memstream;
         }
 
         public void CopyTo(Stream stream)
