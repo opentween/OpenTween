@@ -42,7 +42,7 @@ namespace OpenTween
     /// </remarks>
     public class MemoryImage : ICloneable, IDisposable
     {
-        public readonly Stream Stream;
+        public readonly MemoryStream Stream;
         public readonly Image Image;
 
         protected bool disposed = false;
@@ -50,7 +50,7 @@ namespace OpenTween
         /// <exception cref="InvalidImageException">
         /// ストリームから読みだされる画像データが不正な場合にスローされる
         /// </exception>
-        protected MemoryImage(Stream stream)
+        protected MemoryImage(MemoryStream stream)
         {
             try
             {
