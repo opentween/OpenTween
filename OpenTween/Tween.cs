@@ -12749,11 +12749,18 @@ namespace OpenTween
             else if (Clipboard.ContainsImage())
             {
                 // 画像があるので投稿処理を行う
-
-                // clipboardから画像を取得
-                using (var image = Clipboard.GetImage())
+                if (MessageBox.Show(Properties.Resources.PostPictureConfirm3,
+                                   Properties.Resources.PostPictureWarn4,
+                                   MessageBoxButtons.OKCancel,
+                                   MessageBoxIcon.Question,
+                                   MessageBoxDefaultButton.Button2)
+                               == DialogResult.OK)
                 {
-                    this.ImageSelector.BeginSelection(image);
+                    // clipboardから画像を取得
+                    using (var image = Clipboard.GetImage())
+                    {
+                        this.ImageSelector.BeginSelection(image);
+                    }
                 }
             }
         }
