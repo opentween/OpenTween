@@ -69,6 +69,24 @@ namespace OpenTween
         }
 
         /// <summary>
+        /// 選択されている投稿先の IMediaUploadService を取得する。
+        /// </summary>
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public IMediaUploadService SelectedService
+        {
+            get
+            {
+                var serviceName = this.ServiceName;
+                if (string.IsNullOrEmpty(serviceName))
+                    return null;
+
+                IMediaUploadService service;
+                return this.pictureService.TryGetValue(serviceName, out service) ? service : null;
+            }
+        }
+
+        /// <summary>
         /// 指定された投稿先名から、作成済みの IMediaUploadService インスタンスを取得する。
         /// </summary>
         public IMediaUploadService GetService(string serviceName)
@@ -226,9 +244,8 @@ namespace OpenTween
                 return;
             }
 
-            var serviceName = this.ServiceName;
-            if (string.IsNullOrEmpty(serviceName)) return;
-            var service = this.pictureService[serviceName];
+            var service = this.SelectedService;
+            if (service == null) return;
 
             var count = Math.Min(items.Length, service.MaxMediaCount);
             if (!this.Visible || count > 1)
@@ -429,8 +446,10 @@ namespace OpenTween
 
         private void FilePickButton_Click(object sender, EventArgs e)
         {
-            if (FilePickDialog == null || string.IsNullOrEmpty(this.ServiceName)) return;
-            FilePickDialog.Filter = this.pictureService[this.ServiceName].SupportedFormatsStrForDialog;
+            var service = this.SelectedService;
+
+            if (FilePickDialog == null || service == null) return;
+            FilePickDialog.Filter = service.SupportedFormatsStrForDialog;
             FilePickDialog.Title = Properties.Resources.PickPictureDialog1;
             FilePickDialog.FileName = "";
 
@@ -472,8 +491,8 @@ namespace OpenTween
 
             try
             {
-                var serviceName = this.ServiceName;
-                if (string.IsNullOrEmpty(serviceName)) return;
+                var imageService = this.SelectedService;
+                if (imageService == null) return;
 
                 var selectedIndex = ImagePageCombo.SelectedIndex;
                 if (index < 0) index = selectedIndex;
@@ -481,7 +500,6 @@ namespace OpenTween
                 if (index >= ImagePageCombo.Items.Count)
                     throw new ArgumentOutOfRangeException("index");
 
-                var imageService = this.pictureService[serviceName];
                 var isSelectedPage = (index == selectedIndex);
 
                 if (isSelectedPage)
@@ -500,7 +518,7 @@ namespace OpenTween
                         if (!noMsgBox)
                         {
                             MessageBox.Show(
-                                string.Format(Properties.Resources.PostPictureWarn3, serviceName, MakeAvailableServiceText(ext, size), ext, item.Name),
+                                string.Format(Properties.Resources.PostPictureWarn3, this.ServiceName, MakeAvailableServiceText(ext, size), ext, item.Name),
                                 Properties.Resources.PostPictureWarn4,
                                 MessageBoxButtons.OK,
                                 MessageBoxIcon.Warning);
@@ -514,7 +532,7 @@ namespace OpenTween
                         if (!noMsgBox)
                         {
                             MessageBox.Show(
-                                string.Format(Properties.Resources.PostPictureWarn5, serviceName, MakeAvailableServiceText(ext, size), item.Name),
+                                string.Format(Properties.Resources.PostPictureWarn5, this.ServiceName, MakeAvailableServiceText(ext, size), item.Name),
                                 Properties.Resources.PostPictureWarn4,
                                 MessageBoxButtons.OK,
                                 MessageBoxIcon.Warning);
@@ -656,14 +674,14 @@ namespace OpenTween
         {
             if (this.Visible)
             {
-                var serviceName = this.ServiceName;
-                if (!string.IsNullOrEmpty(serviceName))
+                var imageService = this.SelectedService;
+                if (imageService != null)
                 {
                     if (ImagePageCombo.Items.Count > 0)
                     {
                         // 画像が選択された投稿先に対応しているかをチェックする
                         // TODO: 複数の選択済み画像があるなら、できれば全てを再チェックしたほうがいい
-                        if (serviceName.Equals("Twitter"))
+                        if (this.ServiceName == "Twitter")
                         {
                             ValidateSelectedImagePage();
                         }
@@ -685,7 +703,6 @@ namespace OpenTween
                                     if (item != null)
                                     {
                                         var ext = item.Extension;
-                                        var imageService = this.pictureService[serviceName];
                                         if (imageService.CheckFileExtension(ext) &&
                                             imageService.CheckFileSize(ext, item.Size))
                                         {
@@ -739,10 +756,10 @@ namespace OpenTween
 
         private void AddNewImagePage(int selectedIndex)
         {
-            var serviceName = this.ServiceName;
-            if (string.IsNullOrEmpty(serviceName)) return;
+            var service = this.SelectedService;
+            if (service == null) return;
 
-            if (selectedIndex < this.pictureService[serviceName].MaxMediaCount - 1)
+            if (selectedIndex < service.MaxMediaCount - 1)
             {
                 // 投稿先の投稿可能枚数まで選択できるようにする
                 var count = ImagePageCombo.Items.Count;
