@@ -522,7 +522,7 @@ namespace OpenTween
                         return;
                     }
 
-                    if (item is MemoryImageMediaItem)
+                    if (item.IsImage)
                     {
                         if (isSelectedPage)
                             ImageSelectedPicture.Image = item.CreateImage();
@@ -530,19 +530,7 @@ namespace OpenTween
                     }
                     else
                     {
-                        try
-                        {
-                            var image = item.CreateImage();
-                            if (isSelectedPage)
-                                ImageSelectedPicture.Image = image;
-                            else
-                                image.Dispose();  //画像チェック後は使わないので破棄する
-                            SetImagePage(index, item, MyCommon.UploadFileType.Picture);
-                        }
-                        catch (InvalidImageException)
-                        {
-                            SetImagePage(index, item, MyCommon.UploadFileType.MultiMedia);
-                        }
+                        SetImagePage(index, item, MyCommon.UploadFileType.MultiMedia);
                     }
 
                     valid = true;  //正常終了

@@ -55,6 +55,11 @@ namespace OpenTween
         long Size { get; }
 
         /// <summary>
+        /// メディアが画像であるかどうかを示す真偽値
+        /// </summary>
+        bool IsImage { get; }
+
+        /// <summary>
         /// 表示用の MemoryImage を作成する
         /// </summary>
         /// <remarks>
@@ -117,6 +122,32 @@ namespace OpenTween
         {
             get { return this._fileInfo.Length; }
         }
+
+        public bool IsImage
+        {
+            get
+            {
+                if (this.isImage == null)
+                {
+                    try
+                    {
+                        // MemoryImage が生成できるかを検証する
+                        using (var image = this.CreateImage()) { }
+
+                        this.isImage = true;
+                    }
+                    catch (InvalidImageException)
+                    {
+                        this.isImage = false;
+                    }
+                }
+
+                return this.isImage.Value;
+            }
+        }
+
+        /// <summary>IsImage の検証結果をキャッシュする。未検証なら null</summary>
+        private bool? isImage = null;
 
         public MemoryImage CreateImage()
         {
@@ -196,6 +227,11 @@ namespace OpenTween
         public long Size
         {
             get { return this._image.Stream.Length; }
+        }
+
+        public bool IsImage
+        {
+            get { return true; }
         }
 
         public MemoryImage CreateImage()
