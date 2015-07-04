@@ -238,20 +238,19 @@ namespace OpenTween
         }
 
         /// <summary>
-        /// Bitmap インスタンスから MemoryImage を作成します
+        /// Image インスタンスから MemoryImage を作成します
         /// </summary>
         /// <remarks>
-        /// Image を引数に取るオーバーロードは意図的に実装していない
-        /// (MemoryImage は極力 Stream から生成されるべきであるため)
+        /// PNG 画像として描画し直す処理を含むため、極力 Stream や byte[] を渡す他のメソッドを使用すべきです
         /// </remarks>
-        /// <param name="bitmap">対象となる画像</param>
+        /// <param name="image">対象となる画像</param>
         /// <returns>作成された MemoryImage</returns>
         [SuppressMessage("Microsoft.Reliability", "CA2000:DisposeObjectsBeforeLosingScope")]
-        public static MemoryImage CopyFromBitmap(Bitmap bitmap)
+        public static MemoryImage CopyFromImage(Image image)
         {
             var memstream = new MemoryStream();
 
-            bitmap.Save(memstream, ImageFormat.Png);
+            image.Save(memstream, ImageFormat.Png);
 
             return new MemoryImage(memstream);
         }

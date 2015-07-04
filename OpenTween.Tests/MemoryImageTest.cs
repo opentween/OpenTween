@@ -45,24 +45,24 @@ namespace OpenTween
         }
 
         [Fact]
-        public void ImageFormat_CopyFromBitmapTest()
+        public void ImageFormat_CopyFromImageTest()
         {
             using (var bitmap = new Bitmap(width: 200, height: 200))
-            using (var image = MemoryImage.CopyFromBitmap(bitmap))
+            using (var image = MemoryImage.CopyFromImage(bitmap))
             {
-                // CopyFromBitmap から作成した MemoryImage は PNG 画像として扱われる
+                // CopyFromImage から作成した MemoryImage は PNG 画像として扱われる
                 Assert.Equal(ImageFormat.Png, image.ImageFormat);
                 Assert.Equal(".png", image.ImageFormatExt);
             }
         }
 
         [Fact]
-        public void CopyFromBitmap_Test()
+        public void CopyFromImage_Test()
         {
             using (var bitmap = new Bitmap(width: 200, height: 200))
             {
                 // MemoryImage をエラー無く作成できることをテストする
-                using (var image = MemoryImage.CopyFromBitmap(bitmap)) { }
+                using (var image = MemoryImage.CopyFromImage(bitmap)) { }
             }
         }
     }

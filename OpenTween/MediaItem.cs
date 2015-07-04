@@ -167,10 +167,7 @@ namespace OpenTween
                 throw new ArgumentNullException("image");
 
             // image から png 形式の MemoryImage を生成
-            using (var bitmap = new Bitmap(image))
-            {
-                this._image = MemoryImage.CopyFromBitmap(bitmap);
-            }
+            this._image = MemoryImage.CopyFromImage(image);
 
             var num = Interlocked.Increment(ref _fileNumber);
             this._path = PathPrefix + num + this._image.ImageFormatExt;
