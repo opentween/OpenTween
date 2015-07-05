@@ -65,5 +65,26 @@ namespace OpenTween
                 using (var image = MemoryImage.CopyFromImage(bitmap)) { }
             }
         }
+
+        [Fact]
+        public async Task Equals_Test()
+        {
+            using (var imgStream1 = File.OpenRead("Resources/re.gif"))
+            using (var image1 = await MemoryImage.CopyFromStreamAsync(imgStream1).ConfigureAwait(false))
+            {
+                using (var imgStream2 = File.OpenRead("Resources/re.gif"))
+                using (var image2 = await MemoryImage.CopyFromStreamAsync(imgStream2).ConfigureAwait(false))
+                {
+                    Assert.True(image1.Equals(image2));
+                    Assert.True(image2.Equals(image1));
+                }
+
+                using (var image3 = TestUtils.CreateDummyImage())
+                {
+                    Assert.False(image1.Equals(image3));
+                    Assert.False(image3.Equals(image1));
+                }
+            }
+        }
     }
 }

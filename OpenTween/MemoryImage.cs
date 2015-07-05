@@ -40,7 +40,7 @@ namespace OpenTween
     /// Image.FromStream() を使用して Image を生成する場合、
     /// Image を破棄するまでの間は元となった Stream を破棄できないためその対策として使用する。
     /// </remarks>
-    public class MemoryImage : ICloneable, IDisposable
+    public class MemoryImage : ICloneable, IDisposable, IEquatable<MemoryImage>
     {
         public readonly MemoryStream Stream;
         public readonly Image Image;
@@ -153,6 +153,43 @@ namespace OpenTween
             this.Stream.Seek(0, SeekOrigin.Begin);
 
             return MemoryImage.CopyFromStreamAsync(this.Stream);
+        }
+
+        public override int GetHashCode()
+        {
+            using (var sha1service = new System.Security.Cryptography.SHA1CryptoServiceProvider())
+            {
+                var hash = sha1service.ComputeHash(this.Stream.GetBuffer(), 0, (int)this.Stream.Length);
+                return Convert.ToBase64String(hash).GetHashCode();
+            }
+        }
+
+        public override bool Equals(object other)
+        {
+            return this.Equals(other as MemoryImage);
+        }
+
+        public bool Equals(MemoryImage other)
+        {
+            if (object.ReferenceEquals(this, other))
+                return true;
+
+            if (other == null)
+                return false;
+
+            // それぞれが保持する MemoryStream の内容が等しいことを検証する
+
+            var selfLength = this.Stream.Length;
+            var otherLength = other.Stream.Length;
+
+            // Enumerable.Take() が int 型しか受け付けないのでとりあえず int 型の範囲まで許容
+            if (selfLength > int.MaxValue || otherLength > int.MaxValue)
+                throw new ArgumentOutOfRangeException();
+
+            var selfBytes = this.Stream.GetBuffer().Take((int)this.Stream.Length);
+            var otherBytes = other.Stream.GetBuffer().Take((int)this.Stream.Length);
+
+            return selfBytes.SequenceEqual(otherBytes);
         }
 
         object ICloneable.Clone()
