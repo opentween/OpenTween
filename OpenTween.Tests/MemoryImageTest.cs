@@ -67,6 +67,21 @@ namespace OpenTween
         }
 
         [Fact]
+        public void Dispose_Test()
+        {
+            using (var image = TestUtils.CreateDummyImage())
+            {
+                Assert.False(image.IsDisposed);
+
+                image.Dispose();
+
+                Assert.True(image.IsDisposed);
+                Assert.Throws<ObjectDisposedException>(() => image.Image);
+                Assert.Throws<ObjectDisposedException>(() => image.ImageFormat);
+            }
+        }
+
+        [Fact]
         public async Task Equals_Test()
         {
             using (var imgStream1 = File.OpenRead("Resources/re.gif"))

@@ -42,8 +42,8 @@ namespace OpenTween
     /// </remarks>
     public class MemoryImage : ICloneable, IDisposable, IEquatable<MemoryImage>
     {
-        public readonly MemoryStream Stream;
-        public readonly Image Image;
+        private readonly MemoryStream stream;
+        private readonly Image image;
 
         protected bool disposed = false;
 
@@ -54,7 +54,7 @@ namespace OpenTween
         {
             try
             {
-                this.Image = Image.FromStream(stream);
+                this.image = Image.FromStream(stream);
             }
             catch (ArgumentException e)
             {
@@ -79,7 +79,38 @@ namespace OpenTween
                 throw;
             }
 
-            this.Stream = stream;
+            this.stream = stream;
+        }
+
+        /// <summary>
+        /// MemoryImage が保持している画像
+        /// </summary>
+        public Image Image
+        {
+            get
+            {
+                if (this.IsDisposed)
+                    throw new ObjectDisposedException("this");
+
+                return this.image;
+            }
+        }
+
+        /// <summary>
+        /// MemoryImage が保持している画像のストリーム
+        /// </summary>
+        public MemoryStream Stream
+        {
+            // MemoryStream は破棄されていても一部のメソッドが使用可能なためここでは例外を投げない
+            get { return this.stream; }
+        }
+
+        /// <summary>
+        /// MemoryImage が破棄されているか否か
+        /// </summary>
+        public bool IsDisposed
+        {
+            get { return this.disposed; }
         }
 
         /// <summary>
