@@ -21,6 +21,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
@@ -78,6 +79,17 @@ namespace OpenTween
             var method = typeof(T).GetMethod(methodName, BindingFlags.Instance | BindingFlags.NonPublic);
 
             method.Invoke(control, new[] { e });
+        }
+
+        public static void Validate<T>(T control) where T : Control
+        {
+            var cancelEventArgs = new CancelEventArgs();
+            TestUtils.FireEvent(control, "Validating", cancelEventArgs);
+
+            if (cancelEventArgs.Cancel)
+                return;
+
+            TestUtils.FireEvent(control, "Validated");
         }
 
         public static async Task<T> ThrowsAsync<T>(Func<Task> testCode) where T : Exception

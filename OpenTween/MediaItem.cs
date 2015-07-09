@@ -234,6 +234,11 @@ namespace OpenTween
             get { return true; }
         }
 
+        public bool IsDisposed
+        {
+            get { return this._disposed; }
+        }
+
         public MemoryImage CreateImage()
         {
             return this._image.Clone();

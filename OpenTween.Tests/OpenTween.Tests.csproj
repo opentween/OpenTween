@@ -68,6 +68,7 @@
     <Compile Include="EmojiFormatterTest.cs" />
     <Compile Include="HashtagManageTest.cs" />
     <Compile Include="HttpMessageHandlerMock.cs" />
+    <Compile Include="MediaSelectorTest.cs" />
     <Compile Include="MemoryImageTest.cs" />
     <Compile Include="MyApplicationTest.cs" />
     <Compile Include="OTBaseFormTest.cs" />
