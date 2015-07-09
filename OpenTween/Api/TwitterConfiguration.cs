@@ -74,6 +74,7 @@ namespace OpenTween.Api
                 CharactersReservedPerMedia = 20,
                 ShortUrlLength = 19,
                 ShortUrlLengthHttps = 20,
+                PhotoSizeLimit = 3145728L,
             };
         }
     }
