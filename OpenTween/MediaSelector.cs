@@ -260,7 +260,7 @@ namespace OpenTween
         }
 
         /// <summary>
-        /// 投稿するファイルとその投稿先を選択するためのコントロールを表示する（主にD&D用）。
+        /// 投稿するファイルとその投稿先を選択するためのコントロールを表示する（主にD&amp;D用）。
         /// </summary>
         public void BeginSelection(string[] fileNames)
         {

@@ -505,7 +505,7 @@ namespace OpenTween
         }
 
         ///<summary>
-        ///クエリ形式（key1=value1&key2=value2&...）の文字列をkey-valueコレクションに詰め直し
+        ///クエリ形式（key1=value1&amp;key2=value2&amp;...）の文字列をkey-valueコレクションに詰め直し
         ///</summary>
         ///<param name="queryString">クエリ文字列</param>
         ///<returns>key-valueのコレクション</returns>
