@@ -92,6 +92,13 @@ namespace OpenTween
             }
         }
 
+        /// <summary>
+        /// 投稿用画像を一時的に置いておくディレクトリのパス
+        /// </summary>
+        /// <remarks>
+        /// システムの Temp フォルダ内、 OpenTween というフォルダ名としています。
+        /// </remarks>
+        public static readonly string TempPngDirectoryPath = Path.Combine( MyCommon.settingPath, "TempPng" );
 
         private static string GetFileSystemPath(Environment.SpecialFolder folder)
         {

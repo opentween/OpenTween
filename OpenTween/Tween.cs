@@ -228,6 +228,11 @@ namespace OpenTween
 
         private string recommendedStatusFooter;
 
+        /// <summary>
+        /// 画像投稿用の一時ファイル名用カウンタ
+        /// </summary>
+        private int counterForTempPNGFileName;
+
         //URL短縮のUndo用
         private struct urlUndo
         {
@@ -350,6 +355,9 @@ namespace OpenTween
                 this.tw.Dispose();
                 this._hookGlobalHotkey.Dispose();
             }
+
+            // 画像の一時フォルダを削除
+            MyCommon.DeleteTempPngFileDirectory();
 
             // 終了時にRemoveHandlerしておかないとメモリリークする
             // http://msdn.microsoft.com/ja-jp/library/microsoft.win32.systemevents.powermodechanged.aspx
@@ -1143,6 +1151,9 @@ namespace OpenTween
 
             // タブの位置を調整する
             SetTabAlignment();
+
+            // 画像投稿用の一時ディレクトリを削除
+            MyCommon.DeleteTempPngFileDirectory();
         }
 
         private void InitDetailHtmlFormat()
@@ -6822,6 +6833,12 @@ namespace OpenTween
                             // Webページを開く動作
                             OpenURLMenuItem_Click(null, null);
                             return true;
+                        case Keys.V:
+                            if( Focused == FocusedControl.StatusText ) {
+                                ProcClipboardFromStatusTextWhenCtrlPlusV();
+                                return true;
+                            }
+                            break;
                     }
                     //フォーカスList
                     if (Focused == FocusedControl.ListTab)
@@ -13658,5 +13675,29 @@ namespace OpenTween
 
             _modifySettingCommon = true;
         }
+
+
+        /// <summary>
+        /// StatusTextでCtrl+Vが押下された時の処理
+        /// </summary>
+        private void ProcClipboardFromStatusTextWhenCtrlPlusV() {
+            if( Clipboard.ContainsText() ) {
+                // clipboardにテキストがある場合は貼り付け処理
+                this.StatusText.Paste( Clipboard.GetText() );
+            } else if( Clipboard.ContainsImage() ) {
+                // 画像があるので投稿処理を行う
+
+                // clipboardから画像を取得
+                var image = Clipboard.GetImage();
+                // 一時的にファイル保存を行う(png)
+                Directory.CreateDirectory( MySpecialPath.TempPngDirectoryPath );
+                var path = Path.Combine( MySpecialPath.TempPngDirectoryPath, string.Format( "{0}.png", ++counterForTempPNGFileName ) );
+                using( var fs = new FileStream( path, FileMode.Create ) ) {
+                    image.Save( fs, System.Drawing.Imaging.ImageFormat.Png );
+                }
+                // 保存したパスをImageSelectorに投げる
+                this.ImageSelector.BeginSelection( new string[] { path } );
+            }
+        }        
     }
 }
