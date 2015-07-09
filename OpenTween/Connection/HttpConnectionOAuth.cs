@@ -162,7 +162,7 @@ namespace OpenTween
 		public HttpStatusCode GetContent( string method,
 		                                  Uri requestUri,
 		                                  Dictionary< string, string > param,
-		                                  List< KeyValuePair< string, FileInfo > > binary, 
+		                                  List< KeyValuePair< string, IMediaItem > > binary, 
 		                                  ref string content,
 		                                  Dictionary< string, string > headerInfo,
 		                                  CallbackDelegate callback )

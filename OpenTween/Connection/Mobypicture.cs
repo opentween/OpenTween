@@ -122,17 +122,23 @@ namespace OpenTween.Connection
             return MaxFileSize;
         }
 
-        public async Task PostStatusAsync(string text, long? inReplyToStatusId, string[] filePaths)
+        public async Task PostStatusAsync(string text, long? inReplyToStatusId, IMediaItem[] mediaItems)
         {
-            if (filePaths.Length != 1)
-                throw new ArgumentOutOfRangeException("filePaths");
+            if (mediaItems == null)
+                throw new ArgumentNullException("mediaItems");
 
-            var file = new FileInfo(filePaths[0]);
+            if (mediaItems.Length != 1)
+                throw new ArgumentOutOfRangeException("mediaItems");
 
-            if (!file.Exists)
-                throw new ArgumentException("Err:File isn't exists.", "filePaths[0]");
+            var item = mediaItems[0];
 
-            var xml = await this.mobypictureApi.UploadFileAsync(file, text)
+            if (item == null)
+                throw new ArgumentException("Err:Media not specified.");
+
+            if (!item.Exists)
+                throw new ArgumentException("Err:Media not found.");
+
+            var xml = await this.mobypictureApi.UploadFileAsync(item, text)
                 .ConfigureAwait(false);
 
             var imageUrlElm = xml.XPathSelectElement("/rsp/media/mediaurl");
@@ -173,7 +179,7 @@ namespace OpenTween.Connection
             /// </summary>
             /// <exception cref="WebApiException"/>
             /// <exception cref="XmlException"/>
-            public async Task<XDocument> UploadFileAsync(FileInfo file, string message)
+            public async Task<XDocument> UploadFileAsync(IMediaItem item, string message)
             {
                 // 参照: http://developers.mobypicture.com/documentation/2-0/upload/
 
@@ -182,9 +188,9 @@ namespace OpenTween.Connection
                     {"key", ApplicationSettings.MobypictureKey},
                     {"message", message},
                 };
-                var paramFiles = new List<KeyValuePair<string, FileInfo>>
+                var paramFiles = new List<KeyValuePair<string, IMediaItem>>
                 {
-                    new KeyValuePair<string, FileInfo>("media", file),
+                    new KeyValuePair<string, IMediaItem>("media", item),
                 };
                 var response = "";
 

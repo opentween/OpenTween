@@ -526,7 +526,7 @@ namespace OpenTween
             return "";
         }
 
-        public string PostStatusWithMedia(string postStr, long? reply_to, FileInfo mediaFile)
+        public string PostStatusWithMedia(string postStr, long? reply_to, IMediaItem item)
         {
             if (MyCommon._endingFlag) return "";
 
@@ -536,7 +536,7 @@ namespace OpenTween
             var content = "";
             try
             {
-                res = twCon.UpdateStatusWithMedia(postStr, reply_to, mediaFile, ref content);
+                res = twCon.UpdateStatusWithMedia(postStr, reply_to, item, ref content);
             }
             catch(Exception ex)
             {
@@ -577,7 +577,7 @@ namespace OpenTween
             return "";
         }
 
-        public string PostStatusWithMultipleMedia(string postStr, long? reply_to, List<FileInfo> mediaFiles)
+        public string PostStatusWithMultipleMedia(string postStr, long? reply_to, IMediaItem[] mediaItems)
         {
             if (MyCommon._endingFlag) return "";
 
@@ -590,10 +590,10 @@ namespace OpenTween
 
             var mediaIds = new List<long>();
 
-            foreach (var mediaFile in mediaFiles)
+            foreach (var item in mediaItems)
             {
                 long? mediaId = null;
-                var err = UploadMedia(mediaFile, ref mediaId);
+                var err = UploadMedia(item, ref mediaId);
                 if (!mediaId.HasValue || !string.IsNullOrEmpty(err)) return err;
                 mediaIds.Add(mediaId.Value);
             }
@@ -604,7 +604,7 @@ namespace OpenTween
             return PostStatus(postStr, reply_to, mediaIds);
         }
 
-        public string UploadMedia(FileInfo mediaFile, ref long? mediaId)
+        public string UploadMedia(IMediaItem item, ref long? mediaId)
         {
             if (MyCommon._endingFlag) return "";
 
@@ -614,7 +614,7 @@ namespace OpenTween
             var content = "";
             try
             {
-                res = twCon.UploadMedia(mediaFile, ref content);
+                res = twCon.UploadMedia(item, ref content);
             }
             catch (Exception ex)
             {

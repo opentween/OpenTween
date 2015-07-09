@@ -102,17 +102,23 @@ namespace OpenTween.Connection
             return MaxFileSize;
         }
 
-        public async Task PostStatusAsync(string text, long? inReplyToStatusId, string[] filePaths)
+        public async Task PostStatusAsync(string text, long? inReplyToStatusId, IMediaItem[] mediaItems)
         {
-            if (filePaths.Length != 1)
-                throw new ArgumentOutOfRangeException("filePaths");
+            if (mediaItems == null)
+                throw new ArgumentNullException("mediaItems");
 
-            var file = new FileInfo(filePaths[0]);
+            if (mediaItems.Length != 1)
+                throw new ArgumentOutOfRangeException("mediaItems");
 
-            if (!file.Exists)
-                throw new ArgumentException("Err:File isn't exists.", "filePaths[0]");
+            var item = mediaItems[0];
 
-            var xml = await this.twippleApi.UploadFileAsync(file)
+            if (item == null)
+                throw new ArgumentException("Err:Media not specified.");
+
+            if (!item.Exists)
+                throw new ArgumentException("Err:Media not found.");
+
+            var xml = await this.twippleApi.UploadFileAsync(item)
                 .ConfigureAwait(false);
 
             var imageUrlElm = xml.XPathSelectElement("/rsp/mediaurl");
@@ -153,7 +159,7 @@ namespace OpenTween.Connection
             /// </summary>
             /// <exception cref="WebApiException"/>
             /// <exception cref="XmlException"/>
-            public async Task<XDocument> UploadFileAsync(FileInfo file)
+            public async Task<XDocument> UploadFileAsync(IMediaItem item)
             {
                 // 参照: http://p.twipple.jp/wiki/API_Upload2/ja
 
@@ -161,9 +167,9 @@ namespace OpenTween.Connection
                 {
                     {"upload_from", Application.ProductName},
                 };
-                var paramFiles = new List<KeyValuePair<string, FileInfo>>
+                var paramFiles = new List<KeyValuePair<string, IMediaItem>>
                 {
-                    new KeyValuePair<string, FileInfo>("media", file),
+                    new KeyValuePair<string, IMediaItem>("media", item),
                 };
                 var response = "";
 

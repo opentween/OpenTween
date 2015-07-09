@@ -93,20 +93,26 @@ namespace OpenTween.Connection
             return MaxFileSize;
         }
 
-        public async Task PostStatusAsync(string text, long? inReplyToStatusId, string[] filePaths)
+        public async Task PostStatusAsync(string text, long? inReplyToStatusId, IMediaItem[] mediaItems)
         {
-            if (filePaths.Length != 1)
-                throw new ArgumentOutOfRangeException("filePaths");
+            if (mediaItems == null)
+                throw new ArgumentNullException("mediaItems");
 
-            var file = new FileInfo(filePaths[0]);
+            if (mediaItems.Length != 1)
+                throw new ArgumentOutOfRangeException("mediaItems");
 
-            if (!file.Exists)
-                throw new ArgumentException("File isn't exists.", "filePaths[0]");
+            var item = mediaItems[0];
+
+            if (item == null)
+                throw new ArgumentException("Err:Media not specified.");
+
+            if (!item.Exists)
+                throw new ArgumentException("Err:Media not found.");
 
             XDocument xml;
             try
             {
-                xml = await this.UploadFileAsync(file, text)
+                xml = await this.UploadFileAsync(item, text)
                     .ConfigureAwait(false);
             }
             catch (HttpRequestException ex)
@@ -137,14 +143,14 @@ namespace OpenTween.Connection
             this.twitterConfig = config;
         }
 
-        public async Task<XDocument> UploadFileAsync(FileInfo file, string title)
+        public async Task<XDocument> UploadFileAsync(IMediaItem item, string title)
         {
             using (var content = new MultipartFormDataContent())
-            using (var fileStream = file.OpenRead())
-            using (var fileContent = new StreamContent(fileStream))
+            using (var mediaStream = item.OpenRead())
+            using (var mediaContent = new StreamContent(mediaStream))
             using (var titleContent = new StringContent(title))
             {
-                content.Add(fileContent, "image", file.Name);
+                content.Add(mediaContent, "image", item.Name);
                 content.Add(titleContent, "title");
 
                 using (var request = new HttpRequestMessage(HttpMethod.Post, UploadEndpoint))

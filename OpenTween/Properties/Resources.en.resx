@@ -1131,4 +1131,7 @@ Available service: {1}</value>
   <data name="EnableButtonCaption" xml:space="preserve">
     <value>Enable</value>
   </data>
+  <data name="PostPictureConfirm3" xml:space="preserve">
+    <value>Do you want to paste image from clipboard?</value>
+  </data>
 </root>
