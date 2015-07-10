@@ -2223,9 +2223,7 @@ namespace OpenTween
             return CreateDirectMessagesFromJson(content, gType, read);
         }
 
-        static int page_ = 1;
         public string GetFavoritesApi(bool read,
-                            MyCommon.WORKERTYPE gType,
                             bool more)
         {
             if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid) return "";
@@ -2239,21 +2237,11 @@ namespace OpenTween
                 count = SettingCommon.Instance.FavoritesCountApi;
             }
 
-            // 前ページ取得の場合はページカウンタをインクリメント、それ以外の場合はページカウンタリセット
-            if (more)
-            {
-                page_++;
-            }
-            else
-            {
-                page_ = 1;
-            }
-
             HttpStatusCode res;
             var content = "";
             try
             {
-                res = twCon.Favorites(count, page_, ref content);
+                res = twCon.Favorites(count, ref content);
             }
             catch(Exception ex)
             {
@@ -2279,6 +2267,8 @@ namespace OpenTween
                 return "Invalid Json!";
             }
 
+            var favTab = TabInformations.GetInstance().GetTabByType(MyCommon.TabUsageType.Favorites);
+
             foreach (var status in item)
             {
                 var post = new PostClass();
@@ -2287,12 +2277,13 @@ namespace OpenTween
 
                 try
                 {
-                    post.StatusId = status.Id;
                     //二重取得回避
                     lock (LockObj)
                     {
-                        if (TabInformations.GetInstance().GetTabByType(MyCommon.TabUsageType.Favorites).Contains(post.StatusId)) continue;
+                        if (favTab.Contains(post.StatusId)) continue;
                     }
+
+                    post.StatusId = status.Id;
 
                     //Retweet判定
                     if (status.RetweetedStatus != null)

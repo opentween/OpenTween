@@ -510,16 +510,11 @@ namespace OpenTween
                 this.CreateApiCalllback("/direct_messages/sent"));
         }
 
-        public HttpStatusCode Favorites(int? count, int? page, ref string content)
+        public HttpStatusCode Favorites(int? count, ref string content)
         {
             Dictionary<string, string> param = new Dictionary<string, string>();
-            if (count != null) param.Add("count", count.ToString());
-
-            if (page != null)
-            {
-                param.Add("page", page.ToString());
-            }
-
+            if (count != null)
+                param.Add("count", count.ToString());
             param.Add("include_entities", "true");
 
             return httpCon.GetContent(GetMethod,

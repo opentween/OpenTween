@@ -2557,7 +2557,7 @@ namespace OpenTween
 
             await Task.Run(() =>
             {
-                var err = this.tw.GetFavoritesApi(read, MyCommon.WORKERTYPE.Favorites, loadMore);
+                var err = this.tw.GetFavoritesApi(read, loadMore);
 
                 if (!string.IsNullOrEmpty(err))
                     throw new WebApiException(err);
