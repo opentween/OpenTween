@@ -1496,35 +1496,7 @@ namespace OpenTween
             var err = this.CheckStatusCode(res, content);
             if (err != null) return err;
 
-            TwitterStatus[] items;
-            try
-            {
-                items = TwitterStatus.ParseJsonArray(content);
-            }
-            catch(SerializationException ex)
-            {
-                MyCommon.TraceOut(ex.Message + Environment.NewLine + content);
-                return "Json Parse Error(DataContractJsonSerializer)";
-            }
-            catch(Exception ex)
-            {
-                MyCommon.TraceOut(ex, MethodBase.GetCurrentMethod().Name + " " + content);
-                return "Invalid Json!";
-            }
-
-            foreach (var status in items)
-            {
-                var item = CreatePostsFromStatusData(status);
-                if (item == null) continue;
-                if (item.StatusId < tab.OldestId) tab.OldestId = item.StatusId;
-                item.IsRead = read;
-                if (item.IsMe && !read && _readOwnPost) item.IsRead = true;
-                if (tab != null) item.RelTabName = tab.TabName;
-                //非同期アイコン取得＆StatusDictionaryに追加
-                TabInformations.GetInstance().AddPost(item);
-            }
-
-            return "";
+            return CreatePostsFromJson(content, MyCommon.WORKERTYPE.UserTimeline, tab, read, ref tab.OldestId);
         }
 
         public string GetStatusApi(bool read,
@@ -1760,7 +1732,8 @@ namespace OpenTween
                 }
 
                 //RT禁止ユーザーによるもの
-                if (post.RetweetedByUserId != null && this.noRTId.Contains(post.RetweetedByUserId.Value)) continue;
+                if (gType != MyCommon.WORKERTYPE.UserTimeline &&
+                    post.RetweetedByUserId != null && this.noRTId.Contains(post.RetweetedByUserId.Value)) continue;
 
                 post.IsRead = read;
                 if (post.IsMe && !read && _readOwnPost) post.IsRead = true;
