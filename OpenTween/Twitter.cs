@@ -1442,11 +1442,11 @@ namespace OpenTween
 
             if (gType == MyCommon.WORKERTYPE.Timeline)
             {
-                return CreatePostsFromJson(content, gType, null, read, count, ref this.minHomeTimeline);
+                return CreatePostsFromJson(content, gType, null, read, ref this.minHomeTimeline);
             }
             else
             {
-                return CreatePostsFromJson(content, gType, null, read, count, ref this.minMentions);
+                return CreatePostsFromJson(content, gType, null, read, ref this.minMentions);
             }
         }
 
@@ -1721,7 +1721,7 @@ namespace OpenTween
             }
         }
 
-        private string CreatePostsFromJson(string content, MyCommon.WORKERTYPE gType, TabClass tab, bool read, int count, ref long minimumId)
+        private string CreatePostsFromJson(string content, MyCommon.WORKERTYPE gType, TabClass tab, bool read, ref long minimumId)
         {
             TwitterStatus[] items;
             try
@@ -1880,7 +1880,7 @@ namespace OpenTween
             var err = this.CheckStatusCode(res, content);
             if (err != null) return err;
 
-            return CreatePostsFromJson(content, MyCommon.WORKERTYPE.List, tab, read, count, ref tab.OldestId);
+            return CreatePostsFromJson(content, MyCommon.WORKERTYPE.List, tab, read, ref tab.OldestId);
         }
 
         /// <summary>
@@ -3501,7 +3501,7 @@ namespace OpenTween
                 else
                 {
                     long dummy = 0;
-                    CreatePostsFromJson("[" + line + "]", MyCommon.WORKERTYPE.Timeline, null, false, 0, ref dummy);
+                    CreatePostsFromJson("[" + line + "]", MyCommon.WORKERTYPE.Timeline, null, false, ref dummy);
                 }
             }
             catch(NullReferenceException)
