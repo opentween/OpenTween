@@ -2280,7 +2280,7 @@ namespace OpenTween
                     //二重取得回避
                     lock (LockObj)
                     {
-                        if (favTab.Contains(post.StatusId)) continue;
+                        if (favTab.Contains(status.Id)) continue;
                     }
 
                     post.StatusId = status.Id;
