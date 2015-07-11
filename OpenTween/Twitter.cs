@@ -1568,6 +1568,11 @@ namespace OpenTween
 
         private PostClass CreatePostsFromStatusData(TwitterStatus status)
         {
+            return CreatePostsFromStatusData(status, false);
+        }
+
+        private PostClass CreatePostsFromStatusData(TwitterStatus status, bool favTweet)
+        {
             var post = new PostClass();
             TwitterEntities entities;
             string sourceHtml;
@@ -1590,9 +1595,16 @@ namespace OpenTween
                 post.InReplyToUser = retweeted.InReplyToScreenName;
                 post.InReplyToUserId = status.InReplyToUserId;
 
-                //幻覚fav対策
-                var tc = TabInformations.GetInstance().GetTabByType(MyCommon.TabUsageType.Favorites);
-                post.IsFav = tc.Contains(retweeted.Id);
+                if (favTweet)
+                {
+                    post.IsFav = true;
+                }
+                else
+                {
+                    //幻覚fav対策
+                    var tc = TabInformations.GetInstance().GetTabByType(MyCommon.TabUsageType.Favorites);
+                    post.IsFav = tc.Contains(retweeted.Id);
+                }
 
                 if (retweeted.Coordinates != null) post.PostGeo = new PostClass.StatusGeo { Lng = retweeted.Coordinates.Coordinates[0], Lat = retweeted.Coordinates.Coordinates[1] };
 
@@ -1623,6 +1635,17 @@ namespace OpenTween
                 post.InReplyToUser = status.InReplyToScreenName;
                 post.InReplyToUserId = status.InReplyToUserId;
 
+                if (favTweet)
+                {
+                    post.IsFav = true;
+                }
+                else
+                {
+                    //幻覚fav対策
+                    var tc = TabInformations.GetInstance().GetTabByType(MyCommon.TabUsageType.Favorites);
+                    post.IsFav = tc.Contains(post.StatusId) && TabInformations.GetInstance()[post.StatusId].IsFav;
+                }
+
                 if (status.Coordinates != null) post.PostGeo = new PostClass.StatusGeo { Lng = status.Coordinates.Coordinates[0], Lat = status.Coordinates.Coordinates[1] };
 
                 //以下、ユーザー情報
@@ -1636,10 +1659,6 @@ namespace OpenTween
                 post.ImageUrl = user.ProfileImageUrlHttps;
                 post.IsProtect = user.Protected;
                 post.IsMe = post.ScreenName.ToLower().Equals(_uname);
-
-                //幻覚fav対策
-                var tc = TabInformations.GetInstance().GetTabByType(MyCommon.TabUsageType.Favorites);
-                post.IsFav = tc.Contains(post.StatusId) && TabInformations.GetInstance()[post.StatusId].IsFav;
             }
             //HTMLに整形
             string textFromApi = post.TextFromApi;
@@ -1795,6 +1814,45 @@ namespace OpenTween
 
                 if (tab != null) post.RelTabName = tab.TabName;
                 //非同期アイコン取得＆StatusDictionaryに追加
+                TabInformations.GetInstance().AddPost(post);
+            }
+
+            return "";
+        }
+
+        private string CreateFavoritePostsFromJson(string content, bool read)
+        {
+            TwitterStatus[] item;
+            try
+            {
+                item = TwitterStatus.ParseJsonArray(content);
+            }
+            catch (SerializationException ex)
+            {
+                MyCommon.TraceOut(ex.Message + Environment.NewLine + content);
+                return "Json Parse Error(DataContractJsonSerializer)";
+            }
+            catch (Exception ex)
+            {
+                MyCommon.TraceOut(ex, MethodBase.GetCurrentMethod().Name + " " + content);
+                return "Invalid Json!";
+            }
+
+            var favTab = TabInformations.GetInstance().GetTabByType(MyCommon.TabUsageType.Favorites);
+
+            foreach (var status in item)
+            {
+                //二重取得回避
+                lock (LockObj)
+                {
+                    if (favTab.Contains(status.Id)) continue;
+                }
+
+                var post = CreatePostsFromStatusData(status, true);
+                if (post == null) continue;
+
+                post.IsRead = read;
+
                 TabInformations.GetInstance().AddPost(post);
             }
 
@@ -2224,136 +2282,7 @@ namespace OpenTween
             var err = this.CheckStatusCode(res, content);
             if (err != null) return err;
 
-            TwitterStatus[] item;
-            try
-            {
-                item = TwitterStatus.ParseJsonArray(content);
-            }
-            catch(SerializationException ex)
-            {
-                MyCommon.TraceOut(ex.Message + Environment.NewLine + content);
-                return "Json Parse Error(DataContractJsonSerializer)";
-            }
-            catch(Exception ex)
-            {
-                MyCommon.TraceOut(ex, MethodBase.GetCurrentMethod().Name + " " + content);
-                return "Invalid Json!";
-            }
-
-            var favTab = TabInformations.GetInstance().GetTabByType(MyCommon.TabUsageType.Favorites);
-
-            foreach (var status in item)
-            {
-                var post = new PostClass();
-                TwitterEntities entities;
-                string sourceHtml;
-
-                try
-                {
-                    //二重取得回避
-                    lock (LockObj)
-                    {
-                        if (favTab.Contains(status.Id)) continue;
-                    }
-
-                    post.StatusId = status.Id;
-
-                    //Retweet判定
-                    if (status.RetweetedStatus != null)
-                    {
-                        var retweeted = status.RetweetedStatus;
-                        post.CreatedAt = MyCommon.DateTimeParse(retweeted.CreatedAt);
-
-                        //Id
-                        post.RetweetedId = post.StatusId;
-                        //本文
-                        post.TextFromApi = retweeted.Text;
-                        entities = retweeted.MergedEntities;
-                        sourceHtml = retweeted.Source;
-                        //Reply先
-                        post.InReplyToStatusId = retweeted.InReplyToStatusId;
-                        post.InReplyToUser = retweeted.InReplyToScreenName;
-                        post.InReplyToUserId = retweeted.InReplyToUserId;
-                        post.IsFav = true;
-
-                        //以下、ユーザー情報
-                        var user = retweeted.User;
-                        post.UserId = user.Id;
-                        post.ScreenName = user.ScreenName;
-                        post.Nickname = user.Name.Trim();
-                        post.ImageUrl = user.ProfileImageUrlHttps;
-                        post.IsProtect = user.Protected;
-
-                        //Retweetした人
-                        post.RetweetedBy = status.User.ScreenName;
-                        post.IsMe = post.RetweetedBy.ToLower().Equals(_uname);
-                    }
-                    else
-                    {
-                        post.CreatedAt = MyCommon.DateTimeParse(status.CreatedAt);
-
-                        //本文
-                        post.TextFromApi = status.Text;
-                        entities = status.MergedEntities;
-                        sourceHtml = status.Source;
-                        post.InReplyToStatusId = status.InReplyToStatusId;
-                        post.InReplyToUser = status.InReplyToScreenName;
-                        post.InReplyToUserId = status.InReplyToUserId;
-
-                        post.IsFav = true;
-
-                        //以下、ユーザー情報
-                        var user = status.User;
-                        post.UserId = user.Id;
-                        post.ScreenName = user.ScreenName;
-                        post.Nickname = user.Name.Trim();
-                        post.ImageUrl = user.ProfileImageUrlHttps;
-                        post.IsProtect = user.Protected;
-                        post.IsMe = post.ScreenName.ToLower().Equals(_uname);
-                    }
-                    //HTMLに整形
-                    string textFromApi = post.TextFromApi;
-                    post.Text = CreateHtmlAnchor(textFromApi, post.ReplyToList, entities, post.Media);
-                    post.TextFromApi = textFromApi;
-                    post.TextFromApi = this.ReplaceTextFromApi(post.TextFromApi, entities);
-                    post.TextFromApi = WebUtility.HtmlDecode(post.TextFromApi);
-                    post.TextFromApi = post.TextFromApi.Replace("<3", "\u2661");
-
-                    post.QuoteStatusIds = GetQuoteTweetStatusIds(entities)
-                        .Where(x => x != post.StatusId && x != post.RetweetedId)
-                        .Distinct().ToArray();
-
-                    //Source整形
-                    var source = ParseSource(sourceHtml);
-                    post.Source = source.Item1;
-                    post.SourceUri = source.Item2;
-
-                    post.IsRead = read;
-                    post.IsReply = post.ReplyToList.Contains(_uname);
-                    post.IsExcludeReply = false;
-
-                    if (post.IsMe)
-                    {
-                        post.IsOwl = false;
-                    }
-                    else
-                    {
-                        if (followerId.Count > 0) post.IsOwl = !followerId.Contains(post.UserId);
-                    }
-
-                    post.IsDm = false;
-                }
-                catch(Exception ex)
-                {
-                    MyCommon.TraceOut(ex, MethodBase.GetCurrentMethod().Name + " " + content);
-                    continue;
-                }
-
-                TabInformations.GetInstance().AddPost(post);
-
-            }
-
-            return "";
+            return CreateFavoritePostsFromJson(content, read);
         }
 
         private string ReplaceTextFromApi(string text, TwitterEntities entities)
