@@ -1545,6 +1545,7 @@ namespace OpenTween
             set
             {
                 SinceId = 0;
+                OldestId = long.MaxValue;
                 _searchWords = value.Trim();
             }
         }
