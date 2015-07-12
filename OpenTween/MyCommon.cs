@@ -217,11 +217,12 @@ namespace OpenTween
             ListDestroyed = 16384,
             Mute = 32768,
             Unmute = 65536,
+            QuotedTweet = 131072,
 
             All = (None | Favorite | Unfavorite | Follow | ListMemberAdded | ListMemberRemoved |
                    Block | Unblock | UserUpdate | Deleted | ListCreated | ListUpdated | Unfollow |
                    ListUserSubscribed | ListUserUnsubscribed | ListDestroyed |
-                   Mute | Unmute),
+                   Mute | Unmute | QuotedTweet),
         }
 
         public static _Assembly EntryAssembly { get; internal set; }

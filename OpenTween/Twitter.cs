@@ -3295,6 +3295,7 @@ namespace OpenTween
             { "list_user_unsubscribed", MyCommon.EVENTTYPE.ListUserUnsubscribed },
             { "mute", MyCommon.EVENTTYPE.Mute },
             { "unmute", MyCommon.EVENTTYPE.Unmute },
+            { "quoted_tweet", MyCommon.EVENTTYPE.QuotedTweet },
         };
 
         public bool IsUserstreamDataReceived
@@ -3441,6 +3442,8 @@ namespace OpenTween
             eventTable.TryGetValue(eventData.Event, out eventType);
             evt.Eventtype = eventType;
 
+            TwitterStreamEvent<TwitterStatus> tweetEvent;
+
             switch (eventData.Event)
             {
                 case "access_revoked":
@@ -3467,7 +3470,7 @@ namespace OpenTween
                     return;
                 case "favorite":
                 case "unfavorite":
-                    var tweetEvent = TwitterStreamEvent<TwitterStatus>.ParseJson(content);
+                    tweetEvent = TwitterStreamEvent<TwitterStatus>.ParseJson(content);
                     evt.Target = "@" + tweetEvent.TargetObject.User.ScreenName + ":" + WebUtility.HtmlDecode(tweetEvent.TargetObject.Text);
                     evt.Id = tweetEvent.TargetObject.Id;
 
@@ -3512,6 +3515,19 @@ namespace OpenTween
                         {
                             post.FavoritedCount = Math.Max(0, post.FavoritedCount - 1);
                         }
+                    }
+                    break;
+                case "quoted_tweet":
+                    if (evt.IsMe) return;
+
+                    tweetEvent = TwitterStreamEvent<TwitterStatus>.ParseJson(content);
+                    evt.Target = "@" + tweetEvent.TargetObject.User.ScreenName + ":" + WebUtility.HtmlDecode(tweetEvent.TargetObject.Text);
+                    evt.Id = tweetEvent.TargetObject.Id;
+
+                    if (SettingCommon.Instance.IsRemoveSameEvent)
+                    {
+                        if (this.StoredEvent.Any(ev => ev.Username == evt.Username && ev.Eventtype == evt.Eventtype && ev.Target == evt.Target))
+                            return;
                     }
                     break;
                 case "list_member_added":
