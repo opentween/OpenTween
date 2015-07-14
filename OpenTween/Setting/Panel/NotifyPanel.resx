@@ -531,6 +531,66 @@
   <data name="&gt;&gt;CheckEventNotify.ZOrder" xml:space="preserve">
     <value>13</value>
   </data>
+  <data name="CheckQuotedTweetEvent.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="CheckQuotedTweetEvent.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="CheckQuotedTweetEvent.Location" type="System.Drawing.Point, System.Drawing">
+    <value>275, 48</value>
+  </data>
+  <data name="CheckQuotedTweetEvent.Size" type="System.Drawing.Size, System.Drawing">
+    <value>199, 16</value>
+  </data>
+  <data name="CheckQuotedTweetEvent.TabIndex" type="System.Int32, mscorlib">
+    <value>29</value>
+  </data>
+  <data name="CheckQuotedTweetEvent.Text" xml:space="preserve">
+    <value>ツイートを引用した、または引用された</value>
+  </data>
+  <data name="&gt;&gt;CheckQuotedTweetEvent.Name" xml:space="preserve">
+    <value>CheckQuotedTweetEvent</value>
+  </data>
+  <data name="&gt;&gt;CheckQuotedTweetEvent.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CheckQuotedTweetEvent.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;CheckQuotedTweetEvent.ZOrder" xml:space="preserve">
+    <value>15</value>
+  </data>
+  <data name="CheckRetweetEvent.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="CheckRetweetEvent.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="CheckRetweetEvent.Location" type="System.Drawing.Point, System.Drawing">
+    <value>275, 73</value>
+  </data>
+  <data name="CheckRetweetEvent.Size" type="System.Drawing.Size, System.Drawing">
+    <value>184, 16</value>
+  </data>
+  <data name="CheckRetweetEvent.TabIndex" type="System.Int32, mscorlib">
+    <value>30</value>
+  </data>
+  <data name="CheckRetweetEvent.Text" xml:space="preserve">
+    <value>公式RTした、または公式RTされた</value>
+  </data>
+  <data name="&gt;&gt;CheckRetweetEvent.Name" xml:space="preserve">
+    <value>CheckRetweetEvent</value>
+  </data>
+  <data name="&gt;&gt;CheckRetweetEvent.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CheckRetweetEvent.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;CheckRetweetEvent.ZOrder" xml:space="preserve">
+    <value>14</value>
+  </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>

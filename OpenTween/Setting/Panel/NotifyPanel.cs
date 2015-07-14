@@ -134,6 +134,16 @@ namespace OpenTween.Setting.Panel
                     CheckBox = this.CheckListCreatedEvent,
                     Type = MyCommon.EVENTTYPE.ListCreated,
                 },
+                new EventCheckboxTblElement
+                {
+                    CheckBox = this.CheckQuotedTweetEvent,
+                    Type = MyCommon.EVENTTYPE.QuotedTweet,
+                },
+                new EventCheckboxTblElement
+                {
+                    CheckBox = this.CheckRetweetEvent,
+                    Type = MyCommon.EVENTTYPE.Retweet,
+                },
             };
         }
 

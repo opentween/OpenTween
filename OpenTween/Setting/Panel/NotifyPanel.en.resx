@@ -220,4 +220,16 @@
   <data name="CheckEventNotify.Text" xml:space="preserve">
     <value>Notify Events(Only UserStream)</value>
   </data>
+  <data name="CheckQuotedTweetEvent.Size" type="System.Drawing.Size, System.Drawing">
+    <value>60, 16</value>
+  </data>
+  <data name="CheckQuotedTweetEvent.Text" xml:space="preserve">
+    <value>Quotes</value>
+  </data>
+  <data name="CheckRetweetEvent.Size" type="System.Drawing.Size, System.Drawing">
+    <value>72, 16</value>
+  </data>
+  <data name="CheckRetweetEvent.Text" xml:space="preserve">
+    <value>Retweets</value>
+  </data>
 </root>

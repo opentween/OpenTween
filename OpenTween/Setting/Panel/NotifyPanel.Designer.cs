@@ -43,6 +43,8 @@
             this.CheckUnfavoritesEvent = new System.Windows.Forms.CheckBox();
             this.CheckFavoritesEvent = new System.Windows.Forms.CheckBox();
             this.CheckEventNotify = new System.Windows.Forms.CheckBox();
+            this.CheckQuotedTweetEvent = new System.Windows.Forms.CheckBox();
+            this.CheckRetweetEvent = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // IsRemoveSameFavEventCheckBox
@@ -159,6 +161,24 @@
             this.CheckEventNotify.UseVisualStyleBackColor = true;
             this.CheckEventNotify.CheckedChanged += new System.EventHandler(this.CheckEventNotify_CheckedChanged);
             // 
+            // CheckQuotedTweetEvent
+            // 
+            resources.ApplyResources(this.CheckQuotedTweetEvent, "CheckQuotedTweetEvent");
+            this.CheckQuotedTweetEvent.Checked = true;
+            this.CheckQuotedTweetEvent.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CheckQuotedTweetEvent.Name = "CheckQuotedTweetEvent";
+            this.CheckQuotedTweetEvent.ThreeState = true;
+            this.CheckQuotedTweetEvent.UseVisualStyleBackColor = true;
+            // 
+            // CheckRetweetEvent
+            // 
+            resources.ApplyResources(this.CheckRetweetEvent, "CheckRetweetEvent");
+            this.CheckRetweetEvent.Checked = true;
+            this.CheckRetweetEvent.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CheckRetweetEvent.Name = "CheckRetweetEvent";
+            this.CheckRetweetEvent.ThreeState = true;
+            this.CheckRetweetEvent.UseVisualStyleBackColor = true;
+            // 
             // NotifyPanel
             // 
             resources.ApplyResources(this, "$this");
@@ -177,6 +197,8 @@
             this.Controls.Add(this.CheckUnfavoritesEvent);
             this.Controls.Add(this.CheckFavoritesEvent);
             this.Controls.Add(this.CheckEventNotify);
+            this.Controls.Add(this.CheckRetweetEvent);
+            this.Controls.Add(this.CheckQuotedTweetEvent);
             this.Name = "NotifyPanel";
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -199,5 +221,7 @@
         internal System.Windows.Forms.CheckBox CheckUnfavoritesEvent;
         internal System.Windows.Forms.CheckBox CheckFavoritesEvent;
         internal System.Windows.Forms.CheckBox CheckEventNotify;
+        internal System.Windows.Forms.CheckBox CheckQuotedTweetEvent;
+        internal System.Windows.Forms.CheckBox CheckRetweetEvent;
     }
 }
