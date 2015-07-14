@@ -39,6 +39,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Xml;
 using System.Xml.Linq;
+using System.Xml.XPath;
 using System;
 using System.Reflection;
 using System.Collections.Generic;
@@ -3382,6 +3383,28 @@ namespace OpenTween
                         Debug.WriteLine("direct_message");
                         isDm = true;
                     }
+                    else if (xElm.Element("retweeted_status") != null)
+                    {
+                        var sourceUserId = xElm.XPathSelectElement("/user/id_str").Value;
+                        var targetUserId = xElm.XPathSelectElement("/retweeted_status/user/id_str").Value;
+
+                        // 自分に関係しないリツイートの場合は無視する
+                        var selfUserId = this.UserId.ToString();
+                        if (sourceUserId == selfUserId || targetUserId == selfUserId)
+                        {
+                            // 公式 RT をイベントとしても扱う
+                            var evt = CreateEventFromRetweet(xElm);
+                            if (evt != null)
+                            {
+                                this.StoredEvent.Insert(0, evt);
+
+                                if (this.UserStreamEventReceived != null)
+                                    this.UserStreamEventReceived(this, new UserStreamEventReceivedEventArgs(evt));
+                            }
+                        }
+
+                        // 従来通り公式 RT の表示も行うため return しない
+                    }
                     else if (xElm.Element("scrub_geo") != null)
                     {
                         try
@@ -3414,6 +3437,27 @@ namespace OpenTween
 
             if (this.NewPostFromStream != null)
                 this.NewPostFromStream(this, EventArgs.Empty);
+        }
+
+        /// <summary>
+        /// UserStreamsから受信した公式RTをイベントに変換します
+        /// </summary>
+        private FormattedEvent CreateEventFromRetweet(XElement xElm)
+        {
+            return new FormattedEvent
+            {
+                Eventtype = MyCommon.EVENTTYPE.Retweet,
+                Event = "retweet",
+                CreatedAt = MyCommon.DateTimeParse(xElm.XPathSelectElement("/created_at").Value),
+                IsMe = xElm.XPathSelectElement("/user/id_str").Value == this.UserId.ToString(),
+                Username = xElm.XPathSelectElement("/user/screen_name").Value,
+                Target = string.Format("@{0}: {1}", new[]
+                {
+                    xElm.XPathSelectElement("/retweeted_status/user/screen_name").Value,
+                    xElm.XPathSelectElement("/retweeted_status/text").Value,
+                }),
+                Id = long.Parse(xElm.XPathSelectElement("/retweeted_status/id_str").Value),
+            };
         }
 
         private void CreateEventFromJson(string content)
