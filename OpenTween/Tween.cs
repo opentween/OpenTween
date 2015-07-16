@@ -3786,6 +3786,7 @@ namespace OpenTween
                 ReTweetStripMenuItem.Enabled = false;
                 ReTweetOriginalStripMenuItem.Enabled = false;
                 QuoteStripMenuItem.Enabled = false;
+                QuoteUnofficialStripMenuItem.Enabled = false;
                 FavoriteRetweetContextMenu.Enabled = false;
                 FavoriteRetweetUnofficialContextMenu.Enabled = false;
             }
@@ -3802,6 +3803,7 @@ namespace OpenTween
                     ReTweetOriginalStripMenuItem.Enabled = false;  //公式RTは無効に
                     ReTweetStripMenuItem.Enabled = true;
                     QuoteStripMenuItem.Enabled = true;
+                    QuoteUnofficialStripMenuItem.Enabled = true;
                     FavoriteRetweetContextMenu.Enabled = false;  //公式RTは無効に
                     FavoriteRetweetUnofficialContextMenu.Enabled = true;
                 }
@@ -3812,6 +3814,7 @@ namespace OpenTween
                         ReTweetOriginalStripMenuItem.Enabled = false;
                         ReTweetStripMenuItem.Enabled = false;
                         QuoteStripMenuItem.Enabled = false;
+                        QuoteUnofficialStripMenuItem.Enabled = false;
                         FavoriteRetweetContextMenu.Enabled = false;
                         FavoriteRetweetUnofficialContextMenu.Enabled = false;
                     }
@@ -3820,6 +3823,7 @@ namespace OpenTween
                         ReTweetOriginalStripMenuItem.Enabled = true;
                         ReTweetStripMenuItem.Enabled = true;
                         QuoteStripMenuItem.Enabled = true;
+                        QuoteUnofficialStripMenuItem.Enabled = true;
                         FavoriteRetweetContextMenu.Enabled = true;
                         FavoriteRetweetUnofficialContextMenu.Enabled = true;
                     }
@@ -6785,7 +6789,7 @@ namespace OpenTween
                             asyncTask = this.doRepliedStatusOpen();
                             return true;
                         case Keys.Q:
-                            doQuote();
+                            doQuoteOfficial();
                             return true;
                         case Keys.B:
                             ReadedStripMenuItem_Click(null, null);
@@ -7078,6 +7082,9 @@ namespace OpenTween
                             return true;
                         case Keys.O:
                             FavorareMenuItem_Click(null, null);
+                            return true;
+                        case Keys.Q:
+                            doQuoteUnofficial();
                             return true;
                     }
                     if (Focused == FocusedControl.StatusText)
@@ -11829,7 +11836,30 @@ namespace OpenTween
             _modifySettingCommon = true;
         }
 
-        private void doQuote()
+        private void doQuoteOfficial()
+        {
+            if (this.ExistCurrentPost)
+            {
+                if (_curPost.IsDm ||
+                    !StatusText.Enabled) return;
+
+                if (_curPost.IsProtect)
+                {
+                    MessageBox.Show("Protected.");
+                    return;
+                }
+
+                StatusText.Text = " " + MyCommon.GetStatusUrl(_curPost);
+
+                _reply_to_id = null;
+                _reply_to_name = null;
+
+                StatusText.SelectionStart = 0;
+                StatusText.Focus();
+            }
+        }
+
+        private void doQuoteUnofficial()
         {
             //QT @id:内容
             //返信先情報付加
@@ -11864,7 +11894,12 @@ namespace OpenTween
 
         private void QuoteStripMenuItem_Click(object sender, EventArgs e) // Handles QuoteStripMenuItem.Click, QtOpMenuItem.Click
         {
-            doQuote();
+            doQuoteOfficial();
+        }
+
+        private void QuoteUnofficialStripMenuItem_Click(object sender, EventArgs e) // Handles QuoteUnofficialStripMenuItem.Click, QtUnOpMenuItem.Click
+        {
+            doQuoteUnofficial();
         }
 
         private void SearchButton_Click(object sender, EventArgs e)
@@ -12291,6 +12326,7 @@ namespace OpenTween
                 this.RtOpMenuItem.Enabled = false;
                 this.RtUnOpMenuItem.Enabled = false;
                 this.QtOpMenuItem.Enabled = false;
+                this.QtUnOpMenuItem.Enabled = false;
                 this.FavoriteRetweetMenuItem.Enabled = false;
                 this.FavoriteRetweetUnofficialMenuItem.Enabled = false;
             }
@@ -12307,6 +12343,7 @@ namespace OpenTween
                     this.RtOpMenuItem.Enabled = false;  //公式RTは無効に
                     this.RtUnOpMenuItem.Enabled = true;
                     this.QtOpMenuItem.Enabled = true;
+                    this.QtUnOpMenuItem.Enabled = true;
                     this.FavoriteRetweetMenuItem.Enabled = false;  //公式RTは無効に
                     this.FavoriteRetweetUnofficialMenuItem.Enabled = true;
                 }
@@ -12317,6 +12354,7 @@ namespace OpenTween
                         this.RtOpMenuItem.Enabled = false;
                         this.RtUnOpMenuItem.Enabled = false;
                         this.QtOpMenuItem.Enabled = false;
+                        this.QtUnOpMenuItem.Enabled = false;
                         this.FavoriteRetweetMenuItem.Enabled = false;
                         this.FavoriteRetweetUnofficialMenuItem.Enabled = false;
                     }
@@ -12325,6 +12363,7 @@ namespace OpenTween
                         this.RtOpMenuItem.Enabled = true;
                         this.RtUnOpMenuItem.Enabled = true;
                         this.QtOpMenuItem.Enabled = true;
+                        this.QtUnOpMenuItem.Enabled = true;
                         this.FavoriteRetweetMenuItem.Enabled = true;
                         this.FavoriteRetweetUnofficialMenuItem.Enabled = true;
                     }

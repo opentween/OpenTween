@@ -144,6 +144,7 @@
             this.RtOpMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.RtUnOpMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.QtOpMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.QtUnOpMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripSeparator25 = new System.Windows.Forms.ToolStripSeparator();
             this.FavOpMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.FavoriteRetweetMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -281,6 +282,7 @@
             this.ReTweetOriginalStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ReTweetStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.QuoteStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.QuoteUnofficialStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripSeparator39 = new System.Windows.Forms.ToolStripSeparator();
             this.FavAddToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.FavoriteRetweetContextMenu = new System.Windows.Forms.ToolStripMenuItem();
@@ -1294,6 +1296,7 @@
             this.RtOpMenuItem,
             this.RtUnOpMenuItem,
             this.QtOpMenuItem,
+            this.QtUnOpMenuItem,
             this.ToolStripSeparator25,
             this.FavOpMenuItem,
             this.FavoriteRetweetMenuItem,
@@ -1353,6 +1356,12 @@
             this.QtOpMenuItem.Name = "QtOpMenuItem";
             resources.ApplyResources(this.QtOpMenuItem, "QtOpMenuItem");
             this.QtOpMenuItem.Click += new System.EventHandler(this.QuoteStripMenuItem_Click);
+            // 
+            // QtUnOpMenuItem
+            // 
+            this.QtUnOpMenuItem.Name = "QtUnOpMenuItem";
+            resources.ApplyResources(this.QtUnOpMenuItem, "QtUnOpMenuItem");
+            this.QtUnOpMenuItem.Click += new System.EventHandler(this.QuoteUnofficialStripMenuItem_Click);
             // 
             // ToolStripSeparator25
             // 
@@ -2220,6 +2229,7 @@
             this.ReTweetOriginalStripMenuItem,
             this.ReTweetStripMenuItem,
             this.QuoteStripMenuItem,
+            this.QuoteUnofficialStripMenuItem,
             this.ToolStripSeparator39,
             this.FavAddToolStripMenuItem,
             this.FavoriteRetweetContextMenu,
@@ -2280,6 +2290,12 @@
             this.QuoteStripMenuItem.Name = "QuoteStripMenuItem";
             resources.ApplyResources(this.QuoteStripMenuItem, "QuoteStripMenuItem");
             this.QuoteStripMenuItem.Click += new System.EventHandler(this.QuoteStripMenuItem_Click);
+            // 
+            // QuoteUnofficialStripMenuItem
+            // 
+            this.QuoteUnofficialStripMenuItem.Name = "QuoteUnofficialStripMenuItem";
+            resources.ApplyResources(this.QuoteUnofficialStripMenuItem, "QuoteUnofficialStripMenuItem");
+            this.QuoteUnofficialStripMenuItem.Click += new System.EventHandler(this.QuoteUnofficialStripMenuItem_Click);
             // 
             // ToolStripSeparator39
             // 
@@ -2795,6 +2811,8 @@
         private ToolStripAPIGauge toolStripApiGauge;
         private System.Windows.Forms.ToolStripMenuItem CreateSourceRuleOpMenuItem;
         private System.Windows.Forms.ToolStripMenuItem SourceRuleMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem QtUnOpMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem QuoteUnofficialStripMenuItem;
 
     }
 }
