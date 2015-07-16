@@ -3799,8 +3799,11 @@ namespace OpenTween
 
                 if (_curPost.IsMe)
                 {
-                    ReTweetOriginalStripMenuItem.Enabled = false;
-                    FavoriteRetweetContextMenu.Enabled = false;
+                    ReTweetOriginalStripMenuItem.Enabled = false;  //公式RTは無効に
+                    ReTweetStripMenuItem.Enabled = true;
+                    QuoteStripMenuItem.Enabled = true;
+                    FavoriteRetweetContextMenu.Enabled = false;  //公式RTは無効に
+                    FavoriteRetweetUnofficialContextMenu.Enabled = true;
                 }
                 else
                 {
@@ -12301,8 +12304,11 @@ namespace OpenTween
 
                 if (_curPost.IsMe)
                 {
-                    this.RtOpMenuItem.Enabled = false;
-                    this.FavoriteRetweetMenuItem.Enabled = false;
+                    this.RtOpMenuItem.Enabled = false;  //公式RTは無効に
+                    this.RtUnOpMenuItem.Enabled = true;
+                    this.QtOpMenuItem.Enabled = true;
+                    this.FavoriteRetweetMenuItem.Enabled = false;  //公式RTは無効に
+                    this.FavoriteRetweetUnofficialMenuItem.Enabled = true;
                 }
                 else
                 {
