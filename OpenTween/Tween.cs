@@ -3539,7 +3539,7 @@ namespace OpenTween
 
         private async void FavoriteRetweetMenuItem_Click(object sender, EventArgs e)
         {
-            await this.FavoritesRetweetOriginal();
+            await this.FavoritesRetweetOfficial();
         }
 
         private async void FavoriteRetweetUnofficialMenuItem_Click(object sender, EventArgs e)
@@ -3784,7 +3784,7 @@ namespace OpenTween
                 ShowRelatedStatusesMenuItem.Enabled = false;
 
                 ReTweetStripMenuItem.Enabled = false;
-                ReTweetOriginalStripMenuItem.Enabled = false;
+                ReTweetUnofficialStripMenuItem.Enabled = false;
                 QuoteStripMenuItem.Enabled = false;
                 QuoteUnofficialStripMenuItem.Enabled = false;
                 FavoriteRetweetContextMenu.Enabled = false;
@@ -3800,8 +3800,8 @@ namespace OpenTween
 
                 if (_curPost.IsMe)
                 {
-                    ReTweetOriginalStripMenuItem.Enabled = false;  //公式RTは無効に
-                    ReTweetStripMenuItem.Enabled = true;
+                    ReTweetStripMenuItem.Enabled = false;  //公式RTは無効に
+                    ReTweetUnofficialStripMenuItem.Enabled = true;
                     QuoteStripMenuItem.Enabled = true;
                     QuoteUnofficialStripMenuItem.Enabled = true;
                     FavoriteRetweetContextMenu.Enabled = false;  //公式RTは無効に
@@ -3811,8 +3811,8 @@ namespace OpenTween
                 {
                     if (_curPost.IsProtect)
                     {
-                        ReTweetOriginalStripMenuItem.Enabled = false;
                         ReTweetStripMenuItem.Enabled = false;
+                        ReTweetUnofficialStripMenuItem.Enabled = false;
                         QuoteStripMenuItem.Enabled = false;
                         QuoteUnofficialStripMenuItem.Enabled = false;
                         FavoriteRetweetContextMenu.Enabled = false;
@@ -3820,8 +3820,8 @@ namespace OpenTween
                     }
                     else
                     {
-                        ReTweetOriginalStripMenuItem.Enabled = true;
                         ReTweetStripMenuItem.Enabled = true;
+                        ReTweetUnofficialStripMenuItem.Enabled = true;
                         QuoteStripMenuItem.Enabled = true;
                         QuoteUnofficialStripMenuItem.Enabled = true;
                         FavoriteRetweetContextMenu.Enabled = true;
@@ -7180,7 +7180,7 @@ namespace OpenTween
                 case ModifierState.Ctrl | ModifierState.Alt:
                     if (KeyCode == Keys.S)
                     {
-                        asyncTask = this.FavoritesRetweetOriginal();
+                        asyncTask = this.FavoritesRetweetOfficial();
                         return true;
                     }
                     else if (KeyCode == Keys.R)
@@ -11312,7 +11312,7 @@ namespace OpenTween
             }
         }
 
-        private void ReTweetStripMenuItem_Click(object sender, EventArgs e)
+        private void ReTweetUnofficialStripMenuItem_Click(object sender, EventArgs e)
         {
             doReTweetUnofficial();
         }
@@ -11377,12 +11377,12 @@ namespace OpenTween
             }
         }
 
-        private async void ReTweetOriginalStripMenuItem_Click(object sender, EventArgs e)
+        private async void ReTweetStripMenuItem_Click(object sender, EventArgs e)
         {
             await this.doReTweetOfficial(true);
         }
 
-        private async Task FavoritesRetweetOriginal()
+        private async Task FavoritesRetweetOfficial()
         {
             if (!this.ExistCurrentPost) return;
             _DoFavRetweetFlags = true;

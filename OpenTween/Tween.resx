@@ -2374,16 +2374,16 @@
   <data name="DMStripMenuItem.Text" xml:space="preserve">
     <value>DM送信(&amp;M)</value>
   </data>
-  <data name="ReTweetOriginalStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>241, 22</value>
-  </data>
-  <data name="ReTweetOriginalStripMenuItem.Text" xml:space="preserve">
-    <value>Re&amp;tweet</value>
-  </data>
   <data name="ReTweetStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>241, 22</value>
   </data>
   <data name="ReTweetStripMenuItem.Text" xml:space="preserve">
+    <value>Re&amp;tweet</value>
+  </data>
+  <data name="ReTweetUnofficialStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>241, 22</value>
+  </data>
+  <data name="ReTweetUnofficialStripMenuItem.Text" xml:space="preserve">
     <value>Retweet(U&amp;nofficial)</value>
   </data>
   <data name="QuoteStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
@@ -4107,16 +4107,16 @@
   <data name="&gt;&gt;DMStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;ReTweetOriginalStripMenuItem.Name" xml:space="preserve">
-    <value>ReTweetOriginalStripMenuItem</value>
-  </data>
-  <data name="&gt;&gt;ReTweetOriginalStripMenuItem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="&gt;&gt;ReTweetStripMenuItem.Name" xml:space="preserve">
     <value>ReTweetStripMenuItem</value>
   </data>
   <data name="&gt;&gt;ReTweetStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ReTweetUnofficialStripMenuItem.Name" xml:space="preserve">
+    <value>ReTweetUnofficialStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;ReTweetUnofficialStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;QuoteStripMenuItem.Name" xml:space="preserve">

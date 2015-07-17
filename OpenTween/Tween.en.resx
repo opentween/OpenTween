@@ -1439,13 +1439,10 @@
   <data name="DMStripMenuItem.Text" xml:space="preserve">
     <value>Send D&amp;M</value>
   </data>
-  <data name="ReTweetOriginalStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="ReTweetStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>258, 24</value>
   </data>
-  <data name="ReTweetOriginalStripMenuItem.Text" xml:space="preserve">
-    <value>RT OriginalPost</value>
-  </data>
-  <data name="ReTweetStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="ReTweetUnofficialStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>258, 24</value>
   </data>
   <data name="QuoteStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
