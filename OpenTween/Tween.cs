@@ -6601,14 +6601,6 @@ namespace OpenTween
             //StatusText = 103,
         }
 
-        private enum FocusedControl : int
-        {
-            None,
-            ListTab,
-            StatusText,
-            PostBrowser,
-        }
-
         private bool CommonKeyDown(Keys KeyCode, FocusedControl Focused, ModifierState Modifier, out Task asyncTask)
         {
             // Task を返す非同期処理があれば asyncTask に代入する

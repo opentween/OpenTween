@@ -81,6 +81,7 @@
     <Compile Include="PostFilterRuleVersion113DeserializeTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RegexAsyncTest.cs" />
+    <Compile Include="ShortcutCommandTest.cs" />
     <Compile Include="ShortUrlTest.cs" />
     <Compile Include="TabClassTest.cs" />
     <Compile Include="TabInformationTest.cs" />
