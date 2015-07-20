@@ -754,13 +754,13 @@ namespace OpenTween
             if (this._cfgCommon.FirstCountApi != 0 && !Twitter.VerifyFirstApiResultCount(this._cfgCommon.FirstCountApi))
                 this._cfgCommon.FirstCountApi = 100;
 
-            if (this._cfgCommon.FavoritesCountApi != 0 && !Twitter.VerifyMoreApiResultCount(this._cfgCommon.FavoritesCountApi))
+            if (this._cfgCommon.FavoritesCountApi != 0 && !Twitter.VerifyApiResultCount(MyCommon.WORKERTYPE.Favorites, this._cfgCommon.FavoritesCountApi))
                 this._cfgCommon.FavoritesCountApi = 40;
-            if (this._cfgCommon.ListCountApi != 0 && !Twitter.VerifyMoreApiResultCount(this._cfgCommon.ListCountApi))
+            if (this._cfgCommon.ListCountApi != 0 && !Twitter.VerifyApiResultCount(MyCommon.WORKERTYPE.List, this._cfgCommon.ListCountApi))
                 this._cfgCommon.ListCountApi = 100;
-            if (this._cfgCommon.SearchCountApi != 0 && !Twitter.VerifyMoreApiResultCount(this._cfgCommon.SearchCountApi))
+            if (this._cfgCommon.SearchCountApi != 0 && !Twitter.VerifyApiResultCount(MyCommon.WORKERTYPE.PublicSearch, this._cfgCommon.SearchCountApi))
                 this._cfgCommon.SearchCountApi = 100;
-            if (this._cfgCommon.UserTimelineCountApi != 0 && !Twitter.VerifyMoreApiResultCount(this._cfgCommon.UserTimelineCountApi))
+            if (this._cfgCommon.UserTimelineCountApi != 0 && !Twitter.VerifyApiResultCount(MyCommon.WORKERTYPE.UserTimeline, this._cfgCommon.UserTimelineCountApi))
                 this._cfgCommon.UserTimelineCountApi = 20;
 
             HttpTwitter.TwitterUrl = _cfgCommon.TwitterUrl;
