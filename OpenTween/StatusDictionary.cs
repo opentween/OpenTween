@@ -1532,8 +1532,8 @@ namespace OpenTween
             }
             set
             {
-                SinceId = 0;
                 _searchLang = value;
+                this.ResetFetchIds();
             }
         }
         public string SearchWords
@@ -1544,9 +1544,8 @@ namespace OpenTween
             }
             set
             {
-                SinceId = 0;
-                OldestId = long.MaxValue;
                 _searchWords = value.Trim();
+                this.ResetFetchIds();
             }
         }
 
@@ -1661,6 +1660,15 @@ namespace OpenTween
             this.TabName = TabName;
             this.TabType = TabType;
             this.ListInfo = list;
+        }
+
+        /// <summary>
+        /// タブ更新時に使用する SinceId, OldestId をリセットする
+        /// </summary>
+        public void ResetFetchIds()
+        {
+            this.SinceId = 0L;
+            this.OldestId = long.MaxValue;
         }
 
         public void Sort()
