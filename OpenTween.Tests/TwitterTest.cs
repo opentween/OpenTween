@@ -178,5 +178,128 @@ namespace OpenTween
             var statusIds = Twitter.GetQuoteTweetStatusIds(entities);
             Assert.Equal(new[] { 599261132361072640L }, statusIds);
         }
+
+        [Fact]
+        public void GetApiResultCount_DefaultTest()
+        {
+            var oldInstance = SettingCommon.Instance;
+            SettingCommon.Instance = new SettingCommon();
+
+            var timeline = SettingCommon.Instance.CountApi;
+            var reply = SettingCommon.Instance.CountApiReply;
+            var dm = 20;  // DMは固定値
+            var more = SettingCommon.Instance.MoreCountApi;
+            var startup = SettingCommon.Instance.FirstCountApi;
+            var favorite = SettingCommon.Instance.FavoritesCountApi;
+            var list = SettingCommon.Instance.ListCountApi;
+            var search = SettingCommon.Instance.SearchCountApi;
+            var usertl = SettingCommon.Instance.UserTimelineCountApi;
+
+            // デフォルト値チェック
+            Assert.Equal(false, SettingCommon.Instance.UseAdditionalCount);
+            Assert.Equal(60, timeline);
+            Assert.Equal(40, reply);
+            Assert.Equal(200, more);
+            Assert.Equal(100, startup);
+            Assert.Equal(40, favorite);
+            Assert.Equal(100, list);
+            Assert.Equal(100, search);
+            Assert.Equal(20, usertl);
+
+            // Timeline,Reply
+            Assert.Equal(timeline, Twitter.GetApiResultCount(MyCommon.WORKERTYPE.Timeline, false, false));
+            Assert.Equal(reply, Twitter.GetApiResultCount(MyCommon.WORKERTYPE.Reply, false, false));
+
+            // DM
+            Assert.Equal(dm, Twitter.GetApiResultCount(MyCommon.WORKERTYPE.DirectMessegeRcv, false, false));
+            Assert.Equal(dm, Twitter.GetApiResultCount(MyCommon.WORKERTYPE.DirectMessegeSnt, false, false));
+
+            // その他はTimelineと同値になる
+            Assert.Equal(timeline, Twitter.GetApiResultCount(MyCommon.WORKERTYPE.Favorites, false, false));
+            Assert.Equal(timeline, Twitter.GetApiResultCount(MyCommon.WORKERTYPE.List, false, false));
+            Assert.Equal(timeline, Twitter.GetApiResultCount(MyCommon.WORKERTYPE.PublicSearch, false, false));
+            Assert.Equal(timeline, Twitter.GetApiResultCount(MyCommon.WORKERTYPE.UserTimeline, false, false));
+
+            SettingCommon.Instance = oldInstance;
+        }
+
+        [Fact]
+        public void GetApiResultCount_AdditionalCountTest()
+        {
+            var oldInstance = SettingCommon.Instance;
+            SettingCommon.Instance = new SettingCommon();
+
+            var timeline = SettingCommon.Instance.CountApi;
+            var reply = SettingCommon.Instance.CountApiReply;
+            var dm = 20;  // DMは固定値
+            var more = SettingCommon.Instance.MoreCountApi;
+            var startup = SettingCommon.Instance.FirstCountApi;
+            var favorite = SettingCommon.Instance.FavoritesCountApi;
+            var list = SettingCommon.Instance.ListCountApi;
+            var search = SettingCommon.Instance.SearchCountApi;
+            var usertl = SettingCommon.Instance.UserTimelineCountApi;
+
+            SettingCommon.Instance.UseAdditionalCount = true;
+
+            // Timeline
+            Assert.Equal(timeline, Twitter.GetApiResultCount(MyCommon.WORKERTYPE.Timeline, false, false));
+            Assert.Equal(more, Twitter.GetApiResultCount(MyCommon.WORKERTYPE.Timeline, true, false));
+            Assert.Equal(startup, Twitter.GetApiResultCount(MyCommon.WORKERTYPE.Timeline, false, true));
+
+            // Reply
+            Assert.Equal(reply, Twitter.GetApiResultCount(MyCommon.WORKERTYPE.Reply, false, false));
+            Assert.Equal(more, Twitter.GetApiResultCount(MyCommon.WORKERTYPE.Reply, true, false));
+            Assert.Equal(reply, Twitter.GetApiResultCount(MyCommon.WORKERTYPE.Reply, false, true));  //Replyの値が使われる
+
+            // DM
+            Assert.Equal(dm, Twitter.GetApiResultCount(MyCommon.WORKERTYPE.DirectMessegeRcv, false, false));
+            Assert.Equal(dm, Twitter.GetApiResultCount(MyCommon.WORKERTYPE.DirectMessegeSnt, false, false));
+
+            // Favorites
+            Assert.Equal(favorite, Twitter.GetApiResultCount(MyCommon.WORKERTYPE.Favorites, false, false));
+            Assert.Equal(favorite, Twitter.GetApiResultCount(MyCommon.WORKERTYPE.Favorites, true, false));
+            Assert.Equal(favorite, Twitter.GetApiResultCount(MyCommon.WORKERTYPE.Favorites, false, true));
+
+            SettingCommon.Instance.FavoritesCountApi = 0;
+
+            Assert.Equal(timeline, Twitter.GetApiResultCount(MyCommon.WORKERTYPE.Favorites, false, false));
+            Assert.Equal(more, Twitter.GetApiResultCount(MyCommon.WORKERTYPE.Favorites, true, false));
+            Assert.Equal(startup, Twitter.GetApiResultCount(MyCommon.WORKERTYPE.Favorites, false, true));
+
+            // List
+            Assert.Equal(list, Twitter.GetApiResultCount(MyCommon.WORKERTYPE.List, false, false));
+            Assert.Equal(list, Twitter.GetApiResultCount(MyCommon.WORKERTYPE.List, true, false));
+            Assert.Equal(list, Twitter.GetApiResultCount(MyCommon.WORKERTYPE.List, false, true));
+
+            SettingCommon.Instance.ListCountApi = 0;
+
+            Assert.Equal(timeline, Twitter.GetApiResultCount(MyCommon.WORKERTYPE.List, false, false));
+            Assert.Equal(more, Twitter.GetApiResultCount(MyCommon.WORKERTYPE.List, true, false));
+            Assert.Equal(startup, Twitter.GetApiResultCount(MyCommon.WORKERTYPE.List, false, true));
+
+            // PublicSearch
+            Assert.Equal(search, Twitter.GetApiResultCount(MyCommon.WORKERTYPE.PublicSearch, false, false));
+            Assert.Equal(search, Twitter.GetApiResultCount(MyCommon.WORKERTYPE.PublicSearch, true, false));
+            Assert.Equal(search, Twitter.GetApiResultCount(MyCommon.WORKERTYPE.PublicSearch, false, true));
+
+            SettingCommon.Instance.SearchCountApi = 0;
+
+            Assert.Equal(timeline, Twitter.GetApiResultCount(MyCommon.WORKERTYPE.PublicSearch, false, false));
+            Assert.Equal(search, Twitter.GetApiResultCount(MyCommon.WORKERTYPE.PublicSearch, true, false));  //MoreCountApiの値がPublicSearchの最大値に制限される
+            Assert.Equal(startup, Twitter.GetApiResultCount(MyCommon.WORKERTYPE.PublicSearch, false, true));
+
+            // UserTimeline
+            Assert.Equal(usertl, Twitter.GetApiResultCount(MyCommon.WORKERTYPE.UserTimeline, false, false));
+            Assert.Equal(usertl, Twitter.GetApiResultCount(MyCommon.WORKERTYPE.UserTimeline, true, false));
+            Assert.Equal(usertl, Twitter.GetApiResultCount(MyCommon.WORKERTYPE.UserTimeline, false, true));
+
+            SettingCommon.Instance.UserTimelineCountApi = 0;
+
+            Assert.Equal(timeline, Twitter.GetApiResultCount(MyCommon.WORKERTYPE.UserTimeline, false, false));
+            Assert.Equal(more, Twitter.GetApiResultCount(MyCommon.WORKERTYPE.UserTimeline, true, false));
+            Assert.Equal(startup, Twitter.GetApiResultCount(MyCommon.WORKERTYPE.UserTimeline, false, true));
+
+            SettingCommon.Instance = oldInstance;
+        }
     }
 }

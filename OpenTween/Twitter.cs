@@ -1384,6 +1384,107 @@ namespace OpenTween
             }
         }
 
+        /// <summary>
+        /// 渡された取得件数がWORKERTYPEに応じた取得可能範囲に収まっているか検証する
+        /// </summary>
+        public static bool VerifyApiResultCount(MyCommon.WORKERTYPE type, int count)
+        {
+            return count >= 20 && count <= GetMaxApiResultCount(type);
+        }
+
+        /// <summary>
+        /// 渡された取得件数が更新時の取得可能範囲に収まっているか検証する
+        /// </summary>
+        public static bool VerifyMoreApiResultCount(int count)
+        {
+            return count >= 20 && count <= 200;
+        }
+
+        /// <summary>
+        /// 渡された取得件数が起動時の取得可能範囲に収まっているか検証する
+        /// </summary>
+        public static bool VerifyFirstApiResultCount(int count)
+        {
+            return count >= 20 && count <= 200;
+        }
+
+        /// <summary>
+        /// WORKERTYPEに応じた取得可能な最大件数を取得する
+        /// </summary>
+        public static int GetMaxApiResultCount(MyCommon.WORKERTYPE type)
+        {
+            // 参照: REST APIs - 各endpointのcountパラメータ
+            // https://dev.twitter.com/rest/public
+            switch (type)
+            {
+                case MyCommon.WORKERTYPE.Timeline:
+                case MyCommon.WORKERTYPE.Reply:
+                case MyCommon.WORKERTYPE.UserTimeline:
+                case MyCommon.WORKERTYPE.Favorites:
+                case MyCommon.WORKERTYPE.DirectMessegeRcv:
+                case MyCommon.WORKERTYPE.DirectMessegeSnt:
+                case MyCommon.WORKERTYPE.List:  // 不明
+                    return 200;
+
+                case MyCommon.WORKERTYPE.PublicSearch:
+                    return 100;
+
+                default:
+                    throw new InvalidOperationException("Invalid type: " + type);
+            }
+        }
+
+        /// <summary>
+        /// WORKERTYPEに応じた取得件数を取得する
+        /// </summary>
+        public static int GetApiResultCount(MyCommon.WORKERTYPE type, bool more, bool startup)
+        {
+            if (type == MyCommon.WORKERTYPE.DirectMessegeRcv ||
+                type == MyCommon.WORKERTYPE.DirectMessegeSnt)
+            {
+                return 20;
+            }
+
+            if (SettingCommon.Instance.UseAdditionalCount)
+            {
+                switch (type)
+                {
+                    case MyCommon.WORKERTYPE.Favorites:
+                        if (SettingCommon.Instance.FavoritesCountApi != 0)
+                            return SettingCommon.Instance.FavoritesCountApi;
+                        break;
+                    case MyCommon.WORKERTYPE.List:
+                        if (SettingCommon.Instance.ListCountApi != 0)
+                            return SettingCommon.Instance.ListCountApi;
+                        break;
+                    case MyCommon.WORKERTYPE.PublicSearch:
+                        if (SettingCommon.Instance.SearchCountApi != 0)
+                            return SettingCommon.Instance.SearchCountApi;
+                        break;
+                    case MyCommon.WORKERTYPE.UserTimeline:
+                        if (SettingCommon.Instance.UserTimelineCountApi != 0)
+                            return SettingCommon.Instance.UserTimelineCountApi;
+                        break;
+                }
+                if (more && SettingCommon.Instance.MoreCountApi != 0)
+                {
+                    return Math.Min(SettingCommon.Instance.MoreCountApi, GetMaxApiResultCount(type));
+                }
+                if (startup && SettingCommon.Instance.FirstCountApi != 0 && type != MyCommon.WORKERTYPE.Reply)
+                {
+                    return Math.Min(SettingCommon.Instance.FirstCountApi, GetMaxApiResultCount(type));
+                }
+            }
+
+            // 上記に当てはまらない場合の共通処理
+            var count = SettingCommon.Instance.CountApi;
+
+            if (type == MyCommon.WORKERTYPE.Reply)
+                count = SettingCommon.Instance.CountApiReply;
+
+            return Math.Min(count, GetMaxApiResultCount(type));
+        }
+
         public string GetTimelineApi(bool read,
                                 MyCommon.WORKERTYPE gType,
                                 bool more,
@@ -1395,19 +1496,8 @@ namespace OpenTween
 
             HttpStatusCode res;
             var content = "";
-            var count = SettingCommon.Instance.CountApi;
-            if (gType == MyCommon.WORKERTYPE.Reply) count = SettingCommon.Instance.CountApiReply;
-            if (SettingCommon.Instance.UseAdditionalCount)
-            {
-                if (more && SettingCommon.Instance.MoreCountApi != 0)
-                {
-                    count = SettingCommon.Instance.MoreCountApi;
-                }
-                else if (startup && SettingCommon.Instance.FirstCountApi != 0 && gType == MyCommon.WORKERTYPE.Timeline)
-                {
-                    count = SettingCommon.Instance.FirstCountApi;
-                }
-            }
+            var count = GetApiResultCount(gType, more, startup);
+
             try
             {
                 if (gType == MyCommon.WORKERTYPE.Timeline)
@@ -1452,7 +1542,6 @@ namespace OpenTween
         }
 
         public string GetUserTimelineApi(bool read,
-                                         int count,
                                          string userName,
                                          TabClass tab,
                                          bool more)
@@ -1463,8 +1552,8 @@ namespace OpenTween
 
             HttpStatusCode res;
             var content = "";
+            var count = GetApiResultCount(MyCommon.WORKERTYPE.UserTimeline, more, false);
 
-            if (count == 0) count = 20;
             try
             {
                 if (string.IsNullOrEmpty(userName))
@@ -1869,30 +1958,8 @@ namespace OpenTween
 
             HttpStatusCode res;
             var content = "";
-            int count;
-            if (SettingCommon.Instance.UseAdditionalCount)
-            {
-                count = SettingCommon.Instance.ListCountApi;
-                if (count == 0)
-                {
-                    if (more && SettingCommon.Instance.MoreCountApi != 0)
-                    {
-                        count = SettingCommon.Instance.MoreCountApi;
-                    }
-                    else if (startup && SettingCommon.Instance.FirstCountApi != 0)
-                    {
-                        count = SettingCommon.Instance.FirstCountApi;
-                    }
-                    else
-                    {
-                        count = SettingCommon.Instance.CountApi;
-                    }
-                }
-            }
-            else
-            {
-                count = SettingCommon.Instance.CountApi;
-            }
+            var count = GetApiResultCount(MyCommon.WORKERTYPE.List, more, startup);
+
             try
             {
                 if (more)
@@ -2033,18 +2100,9 @@ namespace OpenTween
 
             HttpStatusCode res;
             var content = "";
+            var count = GetApiResultCount(MyCommon.WORKERTYPE.PublicSearch, more, false);
             long? maxId = null;
             long? sinceId = null;
-            var count = 100;
-            if (SettingCommon.Instance.UseAdditionalCount &&
-                SettingCommon.Instance.SearchCountApi != 0)
-            {
-                count = SettingCommon.Instance.SearchCountApi;
-            }
-            else
-            {
-                count = SettingCommon.Instance.CountApi;
-            }
             if (more)
             {
                 maxId = tab.OldestId - 1;
@@ -2218,6 +2276,7 @@ namespace OpenTween
 
             HttpStatusCode res;
             var content = "";
+            var count = GetApiResultCount(gType, more, false);
 
             try
             {
@@ -2225,22 +2284,22 @@ namespace OpenTween
                 {
                     if (more)
                     {
-                        res = twCon.DirectMessages(20, minDirectmessage, null, ref content);
+                        res = twCon.DirectMessages(count, minDirectmessage, null, ref content);
                     }
                     else
                     {
-                        res = twCon.DirectMessages(20, null, null, ref content);
+                        res = twCon.DirectMessages(count, null, null, ref content);
                     }
                 }
                 else
                 {
                     if (more)
                     {
-                        res = twCon.DirectMessagesSent(20, minDirectmessageSent, null, ref content);
+                        res = twCon.DirectMessagesSent(count, minDirectmessageSent, null, ref content);
                     }
                     else
                     {
-                        res = twCon.DirectMessagesSent(20, null, null, ref content);
+                        res = twCon.DirectMessagesSent(count, null, null, ref content);
                     }
                 }
             }
@@ -2262,15 +2321,10 @@ namespace OpenTween
 
             if (MyCommon._endingFlag) return "";
 
-            var count = SettingCommon.Instance.CountApi;
-            if (SettingCommon.Instance.UseAdditionalCount &&
-                SettingCommon.Instance.FavoritesCountApi != 0)
-            {
-                count = SettingCommon.Instance.FavoritesCountApi;
-            }
-
             HttpStatusCode res;
             var content = "";
+            var count = GetApiResultCount(MyCommon.WORKERTYPE.Favorites, more, false);
+
             try
             {
                 res = twCon.Favorites(count, ref content);

@@ -744,10 +744,24 @@ namespace OpenTween
                     this._cfgCommon.ListsPeriod = 15;
             }
 
-            if (this._cfgCommon.CountApi < 20 || this._cfgCommon.CountApi > 200)
+            if (!Twitter.VerifyApiResultCount(MyCommon.WORKERTYPE.Timeline, this._cfgCommon.CountApi))
                 this._cfgCommon.CountApi = 60;
-            if (this._cfgCommon.CountApiReply < 20 || this._cfgCommon.CountApiReply > 200)
+            if (!Twitter.VerifyApiResultCount(MyCommon.WORKERTYPE.Reply, this._cfgCommon.CountApiReply))
                 this._cfgCommon.CountApiReply = 40;
+
+            if (this._cfgCommon.MoreCountApi != 0 && !Twitter.VerifyMoreApiResultCount(this._cfgCommon.MoreCountApi))
+                this._cfgCommon.MoreCountApi = 200;
+            if (this._cfgCommon.FirstCountApi != 0 && !Twitter.VerifyFirstApiResultCount(this._cfgCommon.FirstCountApi))
+                this._cfgCommon.FirstCountApi = 100;
+
+            if (this._cfgCommon.FavoritesCountApi != 0 && !Twitter.VerifyMoreApiResultCount(this._cfgCommon.FavoritesCountApi))
+                this._cfgCommon.FavoritesCountApi = 40;
+            if (this._cfgCommon.ListCountApi != 0 && !Twitter.VerifyMoreApiResultCount(this._cfgCommon.ListCountApi))
+                this._cfgCommon.ListCountApi = 100;
+            if (this._cfgCommon.SearchCountApi != 0 && !Twitter.VerifyMoreApiResultCount(this._cfgCommon.SearchCountApi))
+                this._cfgCommon.SearchCountApi = 100;
+            if (this._cfgCommon.UserTimelineCountApi != 0 && !Twitter.VerifyMoreApiResultCount(this._cfgCommon.UserTimelineCountApi))
+                this._cfgCommon.UserTimelineCountApi = 20;
 
             HttpTwitter.TwitterUrl = _cfgCommon.TwitterUrl;
 
@@ -2707,16 +2721,12 @@ namespace OpenTween
 
             await Task.Run(() =>
             {
-                var count = 20;
-                if (this._cfgCommon.UseAdditionalCount)
-                    count = this._cfgCommon.UserTimelineCountApi;
-
                 foreach (var tab in tabs)
                 {
                     if (string.IsNullOrEmpty(tab.User))
                         continue;
 
-                    var err = this.tw.GetUserTimelineApi(read, count, tab.User, tab, loadMore);
+                    var err = this.tw.GetUserTimelineApi(read, tab.User, tab, loadMore);
                     if (!string.IsNullOrEmpty(err))
                         throw new WebApiException(err);
                 }
