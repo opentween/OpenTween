@@ -6559,12 +6559,12 @@ namespace OpenTween
                         pnl.Controls["comboLang"].Focused ||
                         pnl.Controls["buttonSearch"].Focused) return;
                 }
-                ModifierState State = GetModifierState(e.Control, e.Shift, e.Alt);
-                if (State == ModifierState.NotFlags) return;
-                if (State != ModifierState.None) _anchorFlag = false;
+
+                if (e.Control || e.Shift || e.Alt)
+                    this._anchorFlag = false;
 
                 Task asyncTask;
-                if (CommonKeyDown(e.KeyCode, FocusedControl.ListTab, State, out asyncTask))
+                if (CommonKeyDown(e.KeyData, FocusedControl.ListTab, out asyncTask))
                 {
                     e.Handled = true;
                     e.SuppressKeyPress = true;
@@ -6575,654 +6575,643 @@ namespace OpenTween
             }
         }
 
-        private ModifierState GetModifierState(bool sControl, bool sShift, bool sAlt)
+        private ShortcutCommand[] shortcutCommands = new ShortcutCommand[0];
+
+        private void InitializeShortcuts()
         {
-            ModifierState state = ModifierState.None;
-            if (sControl) state = state | ModifierState.Ctrl;
-            if (sShift) state = state | ModifierState.Shift;
-            if (sAlt) state = state | ModifierState.Alt;
-            return state;
+            this.shortcutCommands = new[]
+            {
+                // リストのカーソル移動関係（上下キー、PageUp/Downに該当）
+                ShortcutCommand.Create(Keys.J, Keys.Control | Keys.J, Keys.Shift | Keys.J, Keys.Control | Keys.Shift | Keys.J)
+                    .FocusedOn(FocusedControl.ListTab)
+                    .Do(() => SendKeys.Send("{DOWN}")),
+
+                ShortcutCommand.Create(Keys.K, Keys.Control | Keys.K, Keys.Shift | Keys.K, Keys.Control | Keys.Shift | Keys.K)
+                    .FocusedOn(FocusedControl.ListTab)
+                    .Do(() => SendKeys.Send("{UP}")),
+
+                ShortcutCommand.Create(Keys.F, Keys.Shift | Keys.F)
+                    .FocusedOn(FocusedControl.ListTab)
+                    .Do(() => SendKeys.Send("{PGDN}")),
+
+                ShortcutCommand.Create(Keys.B, Keys.Shift | Keys.B)
+                    .FocusedOn(FocusedControl.ListTab)
+                    .Do(() => SendKeys.Send("{PGUP}")),
+
+                ShortcutCommand.Create(Keys.F1)
+                    .Do(() => this.OpenApplicationWebsite()),
+
+                ShortcutCommand.Create(Keys.F3)
+                    .Do(() => this.MenuItemSearchNext_Click(null, null)),
+
+                ShortcutCommand.Create(Keys.F5)
+                    .Do(() => this.DoRefresh()),
+
+                ShortcutCommand.Create(Keys.F6)
+                    .Do(() => this.GetReplyAsync()),
+
+                ShortcutCommand.Create(Keys.F7)
+                    .Do(() => this.GetDirectMessagesAsync()),
+
+                ShortcutCommand.Create(Keys.Space, Keys.ProcessKey)
+                    .NotFocusedOn(FocusedControl.StatusText)
+                    .Do(() => { this._anchorFlag = false; this.JumpUnreadMenuItem_Click(null, null); }),
+
+                ShortcutCommand.Create(Keys.G)
+                    .NotFocusedOn(FocusedControl.StatusText)
+                    .Do(() => { this._anchorFlag = false; this.ShowRelatedStatusesMenuItem_Click(null, null); }),
+
+                ShortcutCommand.Create(Keys.Right, Keys.N)
+                    .FocusedOn(FocusedControl.ListTab)
+                    .Do(() => this.GoRelPost(forward: true)),
+
+                ShortcutCommand.Create(Keys.Left, Keys.P)
+                    .FocusedOn(FocusedControl.ListTab)
+                    .Do(() => this.GoRelPost(forward: false)),
+
+                ShortcutCommand.Create(Keys.OemPeriod)
+                    .FocusedOn(FocusedControl.ListTab)
+                    .Do(() => this.GoAnchor()),
+
+                ShortcutCommand.Create(Keys.I)
+                    .FocusedOn(FocusedControl.ListTab)
+                    .OnlyWhen(() => this.StatusText.Enabled)
+                    .Do(() => this.StatusText.Focus()),
+
+                ShortcutCommand.Create(Keys.Enter)
+                    .FocusedOn(FocusedControl.ListTab)
+                    .Do(() => this.MakeReplyOrDirectStatus()),
+
+                ShortcutCommand.Create(Keys.R)
+                    .FocusedOn(FocusedControl.ListTab)
+                    .Do(() => this.DoRefresh()),
+
+                ShortcutCommand.Create(Keys.L)
+                    .FocusedOn(FocusedControl.ListTab)
+                    .Do(() => { this._anchorFlag = false; this.GoPost(forward: true); }),
+
+                ShortcutCommand.Create(Keys.H)
+                    .FocusedOn(FocusedControl.ListTab)
+                    .Do(() => { this._anchorFlag = false; this.GoPost(forward: false); }),
+
+                ShortcutCommand.Create(Keys.Z, Keys.Oemcomma)
+                    .FocusedOn(FocusedControl.ListTab)
+                    .Do(() => { this._anchorFlag = false; this.MoveTop(); }),
+
+                ShortcutCommand.Create(Keys.S)
+                    .FocusedOn(FocusedControl.ListTab)
+                    .Do(() => { this._anchorFlag = false; this.GoNextTab(forward: true); }),
+
+                ShortcutCommand.Create(Keys.A)
+                    .FocusedOn(FocusedControl.ListTab)
+                    .Do(() => { this._anchorFlag = false; this.GoNextTab(forward: false); }),
+
+                // ] in_reply_to参照元へ戻る
+                ShortcutCommand.Create(Keys.Oem4)
+                    .FocusedOn(FocusedControl.ListTab)
+                    .Do(() => { this._anchorFlag = false; return this.GoInReplyToPostTree(); }),
+
+                // [ in_reply_toへジャンプ
+                ShortcutCommand.Create(Keys.Oem6)
+                    .FocusedOn(FocusedControl.ListTab)
+                    .Do(() => { this._anchorFlag = false; this.GoBackInReplyToPostTree(); }),
+
+                ShortcutCommand.Create(Keys.Escape)
+                    .FocusedOn(FocusedControl.ListTab)
+                    .Do(() => {
+                        this._anchorFlag = false;
+                        if (ListTab.SelectedTab != null)
+                        {
+                            var tabtype = _statuses.Tabs[ListTab.SelectedTab.Text].TabType;
+                            if (tabtype == MyCommon.TabUsageType.Related || tabtype == MyCommon.TabUsageType.UserTimeline || tabtype == MyCommon.TabUsageType.PublicSearch)
+                            {
+                                var relTp = ListTab.SelectedTab;
+                                RemoveSpecifiedTab(relTp.Text, false);
+                                SaveConfigsTabs();
+                            }
+                        }
+                    }),
+
+                // PreviewKeyDownEventArgs.IsInputKey を true にしてスクロールを発生させる
+                ShortcutCommand.Create(Keys.Up, Keys.Down)
+                    .FocusedOn(FocusedControl.PostBrowser)
+                    .Do(() => { }),
+
+                ShortcutCommand.Create(Keys.Control | Keys.R)
+                    .Do(() => this.MakeReplyOrDirectStatus(isAuto: false, isReply: true)),
+
+                ShortcutCommand.Create(Keys.Control | Keys.D)
+                    .Do(() => this.doStatusDelete()),
+
+                ShortcutCommand.Create(Keys.Control | Keys.M)
+                    .Do(() => this.MakeReplyOrDirectStatus(isAuto: false, isReply: false)),
+
+                ShortcutCommand.Create(Keys.Control | Keys.S)
+                    .Do(() => this.FavoriteChange(FavAdd: true)),
+
+                ShortcutCommand.Create(Keys.Control | Keys.I)
+                    .Do(() => this.doRepliedStatusOpen()),
+
+                ShortcutCommand.Create(Keys.Control | Keys.Q)
+                    .Do(() => this.doQuoteOfficial()),
+
+                ShortcutCommand.Create(Keys.Control | Keys.B)
+                    .Do(() => this.ReadedStripMenuItem_Click(null, null)),
+
+                ShortcutCommand.Create(Keys.Control | Keys.T)
+                    .Do(() => this.HashManageMenuItem_Click(null, null)),
+
+                ShortcutCommand.Create(Keys.Control | Keys.L)
+                    .Do(() => this.UrlConvertAutoToolStripMenuItem_Click(null, null)),
+
+                ShortcutCommand.Create(Keys.Control | Keys.Y)
+                    .NotFocusedOn(FocusedControl.PostBrowser)
+                    .Do(() => this.MultiLineMenuItem_Click(null, null)),
+
+                ShortcutCommand.Create(Keys.Control | Keys.F)
+                    .Do(() => this.MenuItemSubSearch_Click(null, null)),
+
+                ShortcutCommand.Create(Keys.Control | Keys.U)
+                    .Do(() => this.ShowUserTimeline()),
+
+                ShortcutCommand.Create(Keys.Control | Keys.H)
+                    .Do(() => this.MoveToHomeToolStripMenuItem_Click(null, null)),
+
+                ShortcutCommand.Create(Keys.Control | Keys.G)
+                    .Do(() => this.MoveToFavToolStripMenuItem_Click(null, null)),
+
+                ShortcutCommand.Create(Keys.Control | Keys.O)
+                    .Do(() => this.StatusOpenMenuItem_Click(null, null)),
+
+                ShortcutCommand.Create(Keys.Control | Keys.E)
+                    .Do(() => this.OpenURLMenuItem_Click(null, null)),
+
+                ShortcutCommand.Create(Keys.Control | Keys.Home, Keys.Control | Keys.End)
+                    .FocusedOn(FocusedControl.ListTab)
+                    .Do(() => this._colorize = true, preventDefault: false),
+
+                ShortcutCommand.Create(Keys.Control | Keys.N)
+                    .FocusedOn(FocusedControl.ListTab)
+                    .Do(() => this.GoNextTab(forward: true)),
+
+                ShortcutCommand.Create(Keys.Control | Keys.P)
+                    .FocusedOn(FocusedControl.ListTab)
+                    .Do(() => this.GoNextTab(forward: false)),
+
+                ShortcutCommand.Create(Keys.Control | Keys.C)
+                    .FocusedOn(FocusedControl.ListTab)
+                    .Do(() => this.CopyStot()),
+
+                ShortcutCommand.Create(Keys.Control | Keys.C)
+                    .FocusedOn(FocusedControl.ListTab)
+                    .Do(() => this.CopyStot()),
+
+                // タブダイレクト選択(Ctrl+1～8,Ctrl+9)
+                ShortcutCommand.Create(Keys.Control | Keys.D1)
+                    .FocusedOn(FocusedControl.ListTab)
+                    .OnlyWhen(() => this.ListTab.TabPages.Count >= 1)
+                    .Do(() => this.ListTab.SelectedIndex = 1),
+
+                ShortcutCommand.Create(Keys.Control | Keys.D2)
+                    .FocusedOn(FocusedControl.ListTab)
+                    .OnlyWhen(() => this.ListTab.TabPages.Count >= 2)
+                    .Do(() => this.ListTab.SelectedIndex = 2),
+
+                ShortcutCommand.Create(Keys.Control | Keys.D3)
+                    .FocusedOn(FocusedControl.ListTab)
+                    .OnlyWhen(() => this.ListTab.TabPages.Count >= 3)
+                    .Do(() => this.ListTab.SelectedIndex = 3),
+
+                ShortcutCommand.Create(Keys.Control | Keys.D4)
+                    .FocusedOn(FocusedControl.ListTab)
+                    .OnlyWhen(() => this.ListTab.TabPages.Count >= 4)
+                    .Do(() => this.ListTab.SelectedIndex = 4),
+
+                ShortcutCommand.Create(Keys.Control | Keys.D5)
+                    .FocusedOn(FocusedControl.ListTab)
+                    .OnlyWhen(() => this.ListTab.TabPages.Count >= 5)
+                    .Do(() => this.ListTab.SelectedIndex = 5),
+
+                ShortcutCommand.Create(Keys.Control | Keys.D6)
+                    .FocusedOn(FocusedControl.ListTab)
+                    .OnlyWhen(() => this.ListTab.TabPages.Count >= 6)
+                    .Do(() => this.ListTab.SelectedIndex = 6),
+
+                ShortcutCommand.Create(Keys.Control | Keys.D7)
+                    .FocusedOn(FocusedControl.ListTab)
+                    .OnlyWhen(() => this.ListTab.TabPages.Count >= 7)
+                    .Do(() => this.ListTab.SelectedIndex = 7),
+
+                ShortcutCommand.Create(Keys.Control | Keys.D8)
+                    .FocusedOn(FocusedControl.ListTab)
+                    .OnlyWhen(() => this.ListTab.TabPages.Count >= 8)
+                    .Do(() => this.ListTab.SelectedIndex = 8),
+
+                ShortcutCommand.Create(Keys.Control | Keys.D9)
+                    .FocusedOn(FocusedControl.ListTab)
+                    .Do(() => this.ListTab.SelectedIndex = this.ListTab.TabPages.Count - 1),
+
+                ShortcutCommand.Create(Keys.Control | Keys.A)
+                    .FocusedOn(FocusedControl.StatusText)
+                    .Do(() => this.StatusText.SelectAll()),
+
+                ShortcutCommand.Create(Keys.Control | Keys.V)
+                    .FocusedOn(FocusedControl.StatusText)
+                    .Do(() => this.ProcClipboardFromStatusTextWhenCtrlPlusV()),
+
+                ShortcutCommand.Create(Keys.Control | Keys.Up)
+                    .FocusedOn(FocusedControl.StatusText)
+                    .Do(() => {
+                        if (!string.IsNullOrWhiteSpace(StatusText.Text))
+                        {
+                            _history[_hisIdx] = new PostingStatus(StatusText.Text, _reply_to_id, _reply_to_name);
+                        }
+                        _hisIdx -= 1;
+                        if (_hisIdx < 0) _hisIdx = 0;
+
+                        StatusText.Text = _history[_hisIdx].status;
+                        _reply_to_id = _history[_hisIdx].inReplyToId;
+                        _reply_to_name = _history[_hisIdx].inReplyToName;
+                        StatusText.SelectionStart = StatusText.Text.Length;
+                    }),
+
+                ShortcutCommand.Create(Keys.Control | Keys.Down)
+                    .FocusedOn(FocusedControl.StatusText)
+                    .Do(() => {
+                        if (!string.IsNullOrWhiteSpace(StatusText.Text))
+                        {
+                            _history[_hisIdx] = new PostingStatus(StatusText.Text, _reply_to_id, _reply_to_name);
+                        }
+                        _hisIdx += 1;
+                        if (_hisIdx > _history.Count - 1) _hisIdx = _history.Count - 1;
+
+                        StatusText.Text = _history[_hisIdx].status;
+                        _reply_to_id = _history[_hisIdx].inReplyToId;
+                        _reply_to_name = _history[_hisIdx].inReplyToName;
+                        StatusText.SelectionStart = StatusText.Text.Length;
+                    }),
+
+                ShortcutCommand.Create(Keys.Control | Keys.PageUp, Keys.Control | Keys.P)
+                    .FocusedOn(FocusedControl.StatusText)
+                    .Do(() => {
+                        if (ListTab.SelectedIndex == 0)
+                        {
+                            ListTab.SelectedIndex = ListTab.TabCount - 1;
+                        }
+                        else
+                        {
+                            ListTab.SelectedIndex -= 1;
+                        }
+                        StatusText.Focus();
+                    }),
+
+                ShortcutCommand.Create(Keys.Control | Keys.PageDown, Keys.Control | Keys.N)
+                    .FocusedOn(FocusedControl.StatusText)
+                    .Do(() => {
+                        if (ListTab.SelectedIndex == ListTab.TabCount - 1)
+                        {
+                            ListTab.SelectedIndex = 0;
+                        }
+                        else
+                        {
+                            ListTab.SelectedIndex += 1;
+                        }
+                        StatusText.Focus();
+                    }),
+
+                ShortcutCommand.Create(Keys.Control | Keys.Y)
+                    .FocusedOn(FocusedControl.PostBrowser)
+                    .Do(() => {
+                        MultiLineMenuItem.Checked = !MultiLineMenuItem.Checked;
+                        MultiLineMenuItem_Click(null, null);
+                    }),
+
+                ShortcutCommand.Create(Keys.Shift | Keys.F3)
+                    .Do(() => this.MenuItemSearchPrev_Click(null, null)),
+
+                ShortcutCommand.Create(Keys.Shift | Keys.F5)
+                    .Do(() => this.DoRefreshMore()),
+
+                ShortcutCommand.Create(Keys.Shift | Keys.F6)
+                    .Do(() => this.GetReplyAsync(loadMore: true)),
+
+                ShortcutCommand.Create(Keys.Shift | Keys.F7)
+                    .Do(() => this.GetDirectMessagesAsync(loadMore: true)),
+
+                ShortcutCommand.Create(Keys.Shift | Keys.R)
+                    .NotFocusedOn(FocusedControl.StatusText)
+                    .Do(() => this.DoRefreshMore()),
+
+                ShortcutCommand.Create(Keys.Shift | Keys.H)
+                    .FocusedOn(FocusedControl.ListTab)
+                    .Do(() => this.GoTopEnd(GoTop: true)),
+
+                ShortcutCommand.Create(Keys.Shift | Keys.L)
+                    .FocusedOn(FocusedControl.ListTab)
+                    .Do(() => this.GoTopEnd(GoTop: false)),
+
+                ShortcutCommand.Create(Keys.Shift | Keys.M)
+                    .FocusedOn(FocusedControl.ListTab)
+                    .Do(() => this.GoMiddle()),
+
+                ShortcutCommand.Create(Keys.Shift | Keys.G)
+                    .FocusedOn(FocusedControl.ListTab)
+                    .Do(() => this.GoLast()),
+
+                ShortcutCommand.Create(Keys.Shift | Keys.Z)
+                    .FocusedOn(FocusedControl.ListTab)
+                    .Do(() => this.MoveMiddle()),
+
+                ShortcutCommand.Create(Keys.Shift | Keys.Oem4)
+                    .FocusedOn(FocusedControl.ListTab)
+                    .Do(() => this.GoBackInReplyToPostTree(parallel: true, isForward: false)),
+
+                ShortcutCommand.Create(Keys.Shift | Keys.Oem6)
+                    .FocusedOn(FocusedControl.ListTab)
+                    .Do(() => this.GoBackInReplyToPostTree(parallel: true, isForward: true)),
+
+                // お気に入り前後ジャンプ(SHIFT+N←/P→)
+                ShortcutCommand.Create(Keys.Shift | Keys.Right, Keys.Shift | Keys.N)
+                    .FocusedOn(FocusedControl.ListTab)
+                    .Do(() => this.GoFav(forward: true)),
+
+                // お気に入り前後ジャンプ(SHIFT+N←/P→)
+                ShortcutCommand.Create(Keys.Shift | Keys.Left, Keys.Shift | Keys.P)
+                    .FocusedOn(FocusedControl.ListTab)
+                    .Do(() => this.GoFav(forward: false)),
+
+                ShortcutCommand.Create(Keys.Shift | Keys.Space)
+                    .FocusedOn(FocusedControl.ListTab)
+                    .Do(() => this.GoBackSelectPostChain()),
+
+                ShortcutCommand.Create(Keys.Alt | Keys.R)
+                    .Do(() => this.doReTweetOfficial(isConfirm: true)),
+
+                ShortcutCommand.Create(Keys.Alt | Keys.P)
+                    .OnlyWhen(() => this._curPost != null)
+                    .Do(() => this.doShowUserStatus(_curPost.ScreenName, ShowInputDialog: false)),
+
+                ShortcutCommand.Create(Keys.Alt | Keys.Up)
+                    .Do(() => this.ScrollDownPostBrowser(forward: false)),
+
+                ShortcutCommand.Create(Keys.Alt | Keys.Down)
+                    .Do(() => this.ScrollDownPostBrowser(forward: true)),
+
+                ShortcutCommand.Create(Keys.Alt | Keys.PageUp)
+                    .Do(() => this.PageDownPostBrowser(forward: false)),
+
+                ShortcutCommand.Create(Keys.Alt | Keys.PageDown)
+                    .Do(() => this.PageDownPostBrowser(forward: true)),
+
+                // 別タブの同じ書き込みへ(ALT+←/→)
+                ShortcutCommand.Create(Keys.Alt | Keys.Right)
+                    .FocusedOn(FocusedControl.ListTab)
+                    .Do(() => this.GoSamePostToAnotherTab(left: false)),
+
+                ShortcutCommand.Create(Keys.Alt | Keys.Left)
+                    .FocusedOn(FocusedControl.ListTab)
+                    .Do(() => this.GoSamePostToAnotherTab(left: true)),
+
+                ShortcutCommand.Create(Keys.Control | Keys.Shift | Keys.R)
+                    .Do(() => this.MakeReplyOrDirectStatus(isAuto: false, isReply: true, isAll: true)),
+
+                ShortcutCommand.Create(Keys.Control | Keys.Shift | Keys.C)
+                    .Do(() => this.CopyIdUri()),
+
+                ShortcutCommand.Create(Keys.Control | Keys.Shift | Keys.F)
+                    .OnlyWhen(() => this.ListTab.SelectedTab != null &&
+                        this._statuses.Tabs[this.ListTab.SelectedTab.Text].TabType == MyCommon.TabUsageType.PublicSearch)
+                    .Do(() => this.ListTab.SelectedTab.Controls["panelSearch"].Controls["comboSearch"].Focus()),
+
+                ShortcutCommand.Create(Keys.Control | Keys.Shift | Keys.S)
+                    .Do(() => this.FavoriteChange(FavAdd: false)),
+
+                ShortcutCommand.Create(Keys.Control | Keys.Shift | Keys.B)
+                    .Do(() => this.UnreadStripMenuItem_Click(null, null)),
+
+                ShortcutCommand.Create(Keys.Control | Keys.Shift | Keys.T)
+                    .Do(() => this.HashToggleMenuItem_Click(null, null)),
+
+                ShortcutCommand.Create(Keys.Control | Keys.Shift | Keys.P)
+                    .Do(() => this.ImageSelectMenuItem_Click(null, null)),
+
+                ShortcutCommand.Create(Keys.Control | Keys.Shift | Keys.H)
+                    .Do(() => this.doMoveToRTHome()),
+
+                ShortcutCommand.Create(Keys.Control | Keys.Shift | Keys.O)
+                    .Do(() => this.FavorareMenuItem_Click(null, null)),
+
+                ShortcutCommand.Create(Keys.Control | Keys.Shift | Keys.Q)
+                    .Do(() => this.doQuoteUnofficial()),
+
+                ShortcutCommand.Create(Keys.Control | Keys.Shift | Keys.Up)
+                    .FocusedOn(FocusedControl.StatusText)
+                    .Do(() => {
+                        if (_curList != null && _curList.VirtualListSize != 0 &&
+                                    _curList.SelectedIndices.Count > 0 && _curList.SelectedIndices[0] > 0)
+                        {
+                            var idx = _curList.SelectedIndices[0] - 1;
+                            SelectListItem(_curList, idx);
+                            _curList.EnsureVisible(idx);
+                        }
+                    }),
+
+                ShortcutCommand.Create(Keys.Control | Keys.Shift | Keys.Down)
+                    .FocusedOn(FocusedControl.StatusText)
+                    .Do(() => {
+                        if (_curList != null && _curList.VirtualListSize != 0 && _curList.SelectedIndices.Count > 0
+                                    && _curList.SelectedIndices[0] < _curList.VirtualListSize - 1)
+                        {
+                            var idx = _curList.SelectedIndices[0] + 1;
+                            SelectListItem(_curList, idx);
+                            _curList.EnsureVisible(idx);
+                        }
+                    }),
+
+                ShortcutCommand.Create(Keys.Control | Keys.Shift | Keys.Space)
+                    .FocusedOn(FocusedControl.StatusText)
+                    .Do(() => {
+                        if (StatusText.SelectionStart > 0)
+                        {
+                            int endidx = StatusText.SelectionStart - 1;
+                            string startstr = "";
+                            for (int i = StatusText.SelectionStart - 1; i >= 0; i--)
+                            {
+                                char c = StatusText.Text[i];
+                                if (Char.IsLetterOrDigit(c) || c == '_')
+                                {
+                                    continue;
+                                }
+                                if (c == '@')
+                                {
+                                    startstr = StatusText.Text.Substring(i + 1, endidx - i);
+                                    int cnt = AtIdSupl.ItemCount;
+                                    ShowSuplDialog(StatusText, AtIdSupl, startstr.Length + 1, startstr);
+                                    if (AtIdSupl.ItemCount != cnt) _modifySettingAtId = true;
+                                }
+                                else if (c == '#')
+                                {
+                                    startstr = StatusText.Text.Substring(i + 1, endidx - i);
+                                    ShowSuplDialog(StatusText, HashSupl, startstr.Length + 1, startstr);
+                                }
+                                else
+                                {
+                                    break;
+                                }
+                            }
+                        }
+                    }),
+
+                // ソートダイレクト選択(Ctrl+Shift+1～8,Ctrl+Shift+9)
+                ShortcutCommand.Create(Keys.Control | Keys.Shift | Keys.D1)
+                    .FocusedOn(FocusedControl.ListTab)
+                    .OnlyWhen(() => ((DetailsListView)ListTab.SelectedTab.Tag).Columns.Count < 1)
+                    .Do(() => {
+                        var colNo = 1;
+                        var lst = (DetailsListView)ListTab.SelectedTab.Tag;
+                        var col = lst.Columns.Cast<ColumnHeader>().Where((x) => { return x.DisplayIndex == colNo; }).FirstOrDefault();
+                        if (col == null) return;
+                        MyList_ColumnClick(lst, new ColumnClickEventArgs(col.Index));
+                    }),
+
+                ShortcutCommand.Create(Keys.Control | Keys.Shift | Keys.D2)
+                    .FocusedOn(FocusedControl.ListTab)
+                    .OnlyWhen(() => ((DetailsListView)ListTab.SelectedTab.Tag).Columns.Count < 2)
+                    .Do(() => {
+                        var colNo = 2;
+                        var lst = (DetailsListView)ListTab.SelectedTab.Tag;
+                        var col = lst.Columns.Cast<ColumnHeader>().Where((x) => { return x.DisplayIndex == colNo; }).FirstOrDefault();
+                        if (col == null) return;
+                        MyList_ColumnClick(lst, new ColumnClickEventArgs(col.Index));
+                    }),
+
+                ShortcutCommand.Create(Keys.Control | Keys.Shift | Keys.D3)
+                    .FocusedOn(FocusedControl.ListTab)
+                    .OnlyWhen(() => ((DetailsListView)ListTab.SelectedTab.Tag).Columns.Count < 3)
+                    .Do(() => {
+                        var colNo = 3;
+                        var lst = (DetailsListView)ListTab.SelectedTab.Tag;
+                        var col = lst.Columns.Cast<ColumnHeader>().Where((x) => { return x.DisplayIndex == colNo; }).FirstOrDefault();
+                        if (col == null) return;
+                        MyList_ColumnClick(lst, new ColumnClickEventArgs(col.Index));
+                    }),
+
+                ShortcutCommand.Create(Keys.Control | Keys.Shift | Keys.D4)
+                    .FocusedOn(FocusedControl.ListTab)
+                    .OnlyWhen(() => ((DetailsListView)ListTab.SelectedTab.Tag).Columns.Count < 4)
+                    .Do(() => {
+                        var colNo = 4;
+                        var lst = (DetailsListView)ListTab.SelectedTab.Tag;
+                        var col = lst.Columns.Cast<ColumnHeader>().Where((x) => { return x.DisplayIndex == colNo; }).FirstOrDefault();
+                        if (col == null) return;
+                        MyList_ColumnClick(lst, new ColumnClickEventArgs(col.Index));
+                    }),
+
+                ShortcutCommand.Create(Keys.Control | Keys.Shift | Keys.D5)
+                    .FocusedOn(FocusedControl.ListTab)
+                    .OnlyWhen(() => ((DetailsListView)ListTab.SelectedTab.Tag).Columns.Count < 5)
+                    .Do(() => {
+                        var colNo = 5;
+                        var lst = (DetailsListView)ListTab.SelectedTab.Tag;
+                        var col = lst.Columns.Cast<ColumnHeader>().Where((x) => { return x.DisplayIndex == colNo; }).FirstOrDefault();
+                        if (col == null) return;
+                        MyList_ColumnClick(lst, new ColumnClickEventArgs(col.Index));
+                    }),
+
+                ShortcutCommand.Create(Keys.Control | Keys.Shift | Keys.D6)
+                    .FocusedOn(FocusedControl.ListTab)
+                    .OnlyWhen(() => ((DetailsListView)ListTab.SelectedTab.Tag).Columns.Count < 6)
+                    .Do(() => {
+                        var colNo = 6;
+                        var lst = (DetailsListView)ListTab.SelectedTab.Tag;
+                        var col = lst.Columns.Cast<ColumnHeader>().Where((x) => { return x.DisplayIndex == colNo; }).FirstOrDefault();
+                        if (col == null) return;
+                        MyList_ColumnClick(lst, new ColumnClickEventArgs(col.Index));
+                    }),
+
+                ShortcutCommand.Create(Keys.Control | Keys.Shift | Keys.D7)
+                    .FocusedOn(FocusedControl.ListTab)
+                    .OnlyWhen(() => ((DetailsListView)ListTab.SelectedTab.Tag).Columns.Count < 7)
+                    .Do(() => {
+                        var colNo = 7;
+                        var lst = (DetailsListView)ListTab.SelectedTab.Tag;
+                        var col = lst.Columns.Cast<ColumnHeader>().Where((x) => { return x.DisplayIndex == colNo; }).FirstOrDefault();
+                        if (col == null) return;
+                        MyList_ColumnClick(lst, new ColumnClickEventArgs(col.Index));
+                    }),
+
+                ShortcutCommand.Create(Keys.Control | Keys.Shift | Keys.D8)
+                    .FocusedOn(FocusedControl.ListTab)
+                    .OnlyWhen(() => ((DetailsListView)ListTab.SelectedTab.Tag).Columns.Count < 8)
+                    .Do(() => {
+                        var colNo = 8;
+                        var lst = (DetailsListView)ListTab.SelectedTab.Tag;
+                        var col = lst.Columns.Cast<ColumnHeader>().Where((x) => { return x.DisplayIndex == colNo; }).FirstOrDefault();
+                        if (col == null) return;
+                        MyList_ColumnClick(lst, new ColumnClickEventArgs(col.Index));
+                    }),
+
+                ShortcutCommand.Create(Keys.Control | Keys.Shift | Keys.D9)
+                    .FocusedOn(FocusedControl.ListTab)
+                    .Do(() => {
+                        var lst = (DetailsListView)ListTab.SelectedTab.Tag;
+                        var col = lst.Columns.Cast<ColumnHeader>().OrderByDescending((x) => { return x.DisplayIndex; }).First();
+                        MyList_ColumnClick(lst, new ColumnClickEventArgs(col.Index));
+                    }),
+
+                ShortcutCommand.Create(Keys.Control | Keys.Alt | Keys.S)
+                    .Do(() => this.FavoritesRetweetOfficial()),
+
+                ShortcutCommand.Create(Keys.Control | Keys.Alt | Keys.R)
+                    .Do(() => this.FavoritesRetweetUnofficial()),
+
+                ShortcutCommand.Create(Keys.Control | Keys.Alt | Keys.H)
+                    .Do(() => this.OpenUserAppointUrl()),
+
+                ShortcutCommand.Create(Keys.Alt | Keys.Shift | Keys.R)
+                    .FocusedOn(FocusedControl.PostBrowser)
+                    .Do(() => this.doReTweetUnofficial()),
+
+                ShortcutCommand.Create(Keys.Alt | Keys.Shift | Keys.C)
+                    .FocusedOn(FocusedControl.PostBrowser)
+                    .Do(() => this.CopyUserId()),
+
+                ShortcutCommand.Create(Keys.Alt | Keys.Shift | Keys.T)
+                    .OnlyWhen(() => this.ExistCurrentPost)
+                    .Do(() => this.doTranslation(_curPost.TextFromApi)),
+
+                ShortcutCommand.Create(Keys.Alt | Keys.Shift | Keys.R)
+                    .Do(() => this.doReTweetUnofficial()),
+
+                ShortcutCommand.Create(Keys.Alt | Keys.Shift | Keys.C)
+                    .Do(() => this.CopyUserId()),
+
+                ShortcutCommand.Create(Keys.Alt | Keys.Shift | Keys.Up)
+                    .Do(() => this.tweetThumbnail1.ScrollUp()),
+
+                ShortcutCommand.Create(Keys.Alt | Keys.Shift | Keys.Down)
+                    .Do(() => this.tweetThumbnail1.ScrollDown()),
+
+                ShortcutCommand.Create(Keys.Alt | Keys.Shift | Keys.Enter)
+                    .FocusedOn(FocusedControl.ListTab)
+                    .OnlyWhen(() => !this.SplitContainer3.Panel2Collapsed)
+                    .Do(() => this.OpenThumbnailPicture(this.tweetThumbnail1.Thumbnail)),
+            };
         }
 
-        [FlagsAttribute]
-        private enum ModifierState
-        {
-            None = 0,
-            Alt = 1,
-            Shift = 2,
-            Ctrl = 4,
-            //CShift = 11,
-            //CAlt = 12,
-            //AShift = 13,
-            NotFlags = 8,
-
-            //ListTab = 101,
-            //PostBrowser = 102,
-            //StatusText = 103,
-        }
-
-        private bool CommonKeyDown(Keys KeyCode, FocusedControl Focused, ModifierState Modifier, out Task asyncTask)
+        private bool CommonKeyDown(Keys keyData, FocusedControl focusedOn, out Task asyncTask)
         {
             // Task を返す非同期処理があれば asyncTask に代入する
             asyncTask = null;
 
-            //リストのカーソル移動関係（上下キー、PageUp/Downに該当）
-            if (Focused == FocusedControl.ListTab)
+            // ShortcutCommand に対応しているコマンドはここで処理される
+            foreach (var command in this.shortcutCommands)
             {
-                if (Modifier == (ModifierState.Ctrl | ModifierState.Shift) ||
-                    Modifier == ModifierState.Ctrl ||
-                    Modifier == ModifierState.None ||
-                    Modifier == ModifierState.Shift)
+                if (command.IsMatch(keyData, focusedOn))
                 {
-                    if (KeyCode == Keys.J)
-                    {
-                        SendKeys.Send("{DOWN}");
-                        return true;
-                    }
-                    else if (KeyCode == Keys.K)
-                    {
-                        SendKeys.Send("{UP}");
-                        return true;
-                    }
+                    asyncTask = command.RunCommand();
+                    return command.PreventDefault;
                 }
-                if (Modifier == ModifierState.Shift ||
-                    Modifier == ModifierState.None)
-                {
-                    if (KeyCode == Keys.F)
-                    {
-                        SendKeys.Send("{PGDN}");
-                        return true;
-                    }
-                    else if (KeyCode == Keys.B)
-                    {
-                        SendKeys.Send("{PGUP}");
-                        return true;
-                    }
-                }
-            }
-
-            //修飾キーなし
-            switch (Modifier)
-            {
-                case ModifierState.None:
-                    //フォーカス関係なし
-                    switch (KeyCode)
-                    {
-                        case Keys.F1:
-                            asyncTask = this.OpenApplicationWebsite();
-                            return true;
-                        case Keys.F3:
-                            MenuItemSearchNext_Click(null, null);
-                            return true;
-                        case Keys.F5:
-                            DoRefresh();
-                            return true;
-                        case Keys.F6:
-                            this.GetReplyAsync();
-                            return true;
-                        case Keys.F7:
-                            this.GetDirectMessagesAsync();
-                            return true;
-                    }
-                    if (Focused != FocusedControl.StatusText)
-                    {
-                        //フォーカスStatusText以外
-                        switch (KeyCode)
-                        {
-                            case Keys.Space:
-                            case Keys.ProcessKey:
-                                if (Focused == FocusedControl.ListTab) _anchorFlag = false;
-                                JumpUnreadMenuItem_Click(null, null);
-                                return true;
-                            case Keys.G:
-                                if (Focused == FocusedControl.ListTab) _anchorFlag = false;
-                                ShowRelatedStatusesMenuItem_Click(null, null);
-                                return true;
-                        }
-                    }
-                    if (Focused == FocusedControl.ListTab)
-                    {
-                        //フォーカスList
-                        switch (KeyCode)
-                        {
-                            case Keys.N:
-                            case Keys.Right:
-                                GoRelPost(true);
-                                return true;
-                            case Keys.P:
-                            case Keys.Left:
-                                GoRelPost(false);
-                                return true;
-                            case Keys.OemPeriod:
-                                GoAnchor();
-                                return true;
-                            case Keys.I:
-                                if (this.StatusText.Enabled) this.StatusText.Focus();
-                                return true;
-                            case Keys.Enter:
-                                MakeReplyOrDirectStatus();
-                                return true;
-                            case Keys.R:
-                                DoRefresh();
-                                return true;
-                        }
-                        //以下、アンカー初期化
-                        _anchorFlag = false;
-                        switch (KeyCode)
-                        {
-                            case Keys.L:
-                                GoPost(true);
-                                return true;
-                            case Keys.H:
-                                GoPost(false);
-                                return true;
-                            case Keys.Z:
-                            case Keys.Oemcomma:
-                                MoveTop();
-                                return true;
-                            case Keys.S:
-                                GoNextTab(true);
-                                return true;
-                            case Keys.A:
-                                GoNextTab(false);
-                                return true;
-                            case Keys.Oem4:
-                                // ] in_reply_to参照元へ戻る
-                                asyncTask = this.GoInReplyToPostTree();
-                                return true;
-                            case Keys.Oem6:
-                                // [ in_reply_toへジャンプ
-                                GoBackInReplyToPostTree();
-                                return true;
-                            case Keys.Escape:
-                                if (ListTab.SelectedTab != null)
-                                {
-                                    MyCommon.TabUsageType tabtype = _statuses.Tabs[ListTab.SelectedTab.Text].TabType;
-                                    if (tabtype == MyCommon.TabUsageType.Related || tabtype == MyCommon.TabUsageType.UserTimeline || tabtype == MyCommon.TabUsageType.PublicSearch)
-                                    {
-                                        TabPage relTp = ListTab.SelectedTab;
-                                        RemoveSpecifiedTab(relTp.Text, false);
-                                        SaveConfigsTabs();
-                                        return true;
-                                    }
-                                }
-                                break;
-                        }
-                    }
-                    else if (Focused == FocusedControl.PostBrowser)
-                    {
-                        //フォーカスPostBrowser
-                        switch (KeyCode)
-                        {
-                            case Keys.Up:
-                            case Keys.Down:
-                                //スクロールを発生させるため、true を返す
-                                return true;
-                        }
-                    }
-                    break;
-                case ModifierState.Ctrl:
-                    //フォーカス関係なし
-                    switch (KeyCode)
-                    {
-                        case Keys.R:
-                            MakeReplyOrDirectStatus(false, true);
-                            return true;
-                        case Keys.D:
-                            doStatusDelete();
-                            return true;
-                        case Keys.M:
-                            MakeReplyOrDirectStatus(false, false);
-                            return true;
-                        case Keys.S:
-                            asyncTask = this.FavoriteChange(true);
-                            return true;
-                        case Keys.I:
-                            asyncTask = this.doRepliedStatusOpen();
-                            return true;
-                        case Keys.Q:
-                            doQuoteOfficial();
-                            return true;
-                        case Keys.B:
-                            ReadedStripMenuItem_Click(null, null);
-                            return true;
-                        case Keys.T:
-                            HashManageMenuItem_Click(null, null);
-                            return true;
-                        case Keys.L:
-                            UrlConvertAutoToolStripMenuItem_Click(null, null);
-                            return true;
-                        case Keys.Y:
-                            if (Focused != FocusedControl.PostBrowser)
-                            {
-                                MultiLineMenuItem_Click(null, null);
-                                return true;
-                            }
-                            break;
-                        case Keys.F:
-                            MenuItemSubSearch_Click(null, null);
-                            return true;
-                        case Keys.U:
-                            ShowUserTimeline();
-                            return true;
-                        case Keys.H:
-                            // Webページを開く動作
-                            MoveToHomeToolStripMenuItem_Click(null, null);
-                            return true;
-                        case Keys.G:
-                            // Webページを開く動作
-                            MoveToFavToolStripMenuItem_Click(null, null);
-                            return true;
-                        case Keys.O:
-                            // Webページを開く動作
-                            StatusOpenMenuItem_Click(null, null);
-                            return true;
-                        case Keys.E:
-                            // Webページを開く動作
-                            OpenURLMenuItem_Click(null, null);
-                            return true;
-                    }
-                    //フォーカスList
-                    if (Focused == FocusedControl.ListTab)
-                    {
-                        switch (KeyCode)
-                        {
-                            case Keys.Home:
-                            case Keys.End:
-                                _colorize = true;
-                                return false;            //スルーする
-                            case Keys.N:
-                                GoNextTab(true);
-                                return true;
-                            case Keys.P:
-                                GoNextTab(false);
-                                return true;
-                            case Keys.C:
-                                CopyStot();
-                                return true;
-                            case Keys.D1:
-                            case Keys.D2:
-                            case Keys.D3:
-                            case Keys.D4:
-                            case Keys.D5:
-                            case Keys.D6:
-                            case Keys.D7:
-                            case Keys.D8:
-                                // タブダイレクト選択(Ctrl+1～8,Ctrl+9)
-                                int tabNo = KeyCode - Keys.D1;
-                                if (ListTab.TabPages.Count < tabNo)
-                                    return false;
-                                ListTab.SelectedIndex = tabNo;
-                                return true;
-                            case Keys.D9:
-                                ListTab.SelectedIndex = ListTab.TabPages.Count - 1;
-                                return true;
-                        }
-                    }
-                    else if (Focused == FocusedControl.StatusText)
-                    {
-                        //フォーカスStatusText
-                        switch (KeyCode)
-                        {
-                            case Keys.A:
-                                StatusText.SelectAll();
-                                return true;
-                            case Keys.V:
-                                ProcClipboardFromStatusTextWhenCtrlPlusV();
-                                return true;
-                            case Keys.Up:
-                            case Keys.Down:
-                                if (!string.IsNullOrWhiteSpace(StatusText.Text))
-                                {
-                                    _history[_hisIdx] = new PostingStatus(StatusText.Text, _reply_to_id, _reply_to_name);
-                                }
-                                if (KeyCode == Keys.Up)
-                                {
-                                    _hisIdx -= 1;
-                                    if (_hisIdx < 0) _hisIdx = 0;
-                                }
-                                else
-                                {
-                                    _hisIdx += 1;
-                                    if (_hisIdx > _history.Count - 1) _hisIdx = _history.Count - 1;
-                                }
-                                StatusText.Text = _history[_hisIdx].status;
-                                _reply_to_id = _history[_hisIdx].inReplyToId;
-                                _reply_to_name = _history[_hisIdx].inReplyToName;
-                                StatusText.SelectionStart = StatusText.Text.Length;
-                                return true;
-                            case Keys.PageUp:
-                            case Keys.P:
-                                if (ListTab.SelectedIndex == 0)
-                                {
-                                    ListTab.SelectedIndex = ListTab.TabCount - 1;
-                                }
-                                else
-                                {
-                                    ListTab.SelectedIndex -= 1;
-                                }
-                                StatusText.Focus();
-                                return true;
-                            case Keys.PageDown:
-                            case Keys.N:
-                                if (ListTab.SelectedIndex == ListTab.TabCount - 1)
-                                {
-                                    ListTab.SelectedIndex = 0;
-                                }
-                                else
-                                {
-                                    ListTab.SelectedIndex += 1;
-                                }
-                                StatusText.Focus();
-                                return true;
-                        }
-                    }
-                    else
-                    {
-                        //フォーカスPostBrowserもしくは関係なし
-                        switch (KeyCode)
-                        {
-                            case Keys.Y:
-                                MultiLineMenuItem.Checked = !MultiLineMenuItem.Checked;
-                                MultiLineMenuItem_Click(null, null);
-                                return true;
-                        }
-                    }
-                    break;
-                case ModifierState.Shift:
-                    //フォーカス関係なし
-                    switch (KeyCode)
-                    {
-                        case Keys.F3:
-                            MenuItemSearchPrev_Click(null, null);
-                            return true;
-                        case Keys.F5:
-                            asyncTask = this.DoRefreshMore();
-                            return true;
-                        case Keys.F6:
-                            asyncTask = this.GetReplyAsync(loadMore: true);
-                            return true;
-                        case Keys.F7:
-                            asyncTask = this.GetDirectMessagesAsync(loadMore: true);
-                            return true;
-                    }
-                    //フォーカスStatusText以外
-                    if (Focused != FocusedControl.StatusText)
-                    {
-                        if (KeyCode == Keys.R)
-                        {
-                            asyncTask = this.DoRefreshMore();
-                            return true;
-                        }
-                    }
-                    //フォーカスリスト
-                    if (Focused == FocusedControl.ListTab)
-                    {
-                        switch (KeyCode)
-                        {
-                            case Keys.H:
-                                GoTopEnd(true);
-                                return true;
-                            case Keys.L:
-                                GoTopEnd(false);
-                                return true;
-                            case Keys.M:
-                                GoMiddle();
-                                return true;
-                            case Keys.G:
-                                GoLast();
-                                return true;
-                            case Keys.Z:
-                                MoveMiddle();
-                                return true;
-                            case Keys.Oem4:
-                                GoBackInReplyToPostTree(true, false);
-                                return true;
-                            case Keys.Oem6:
-                                GoBackInReplyToPostTree(true, true);
-                                return true;
-                            case Keys.N:
-                            case Keys.Right:
-                                // お気に入り前後ジャンプ(SHIFT+N←/P→)
-                                GoFav(true);
-                                return true;
-                            case Keys.P:
-                            case Keys.Left:
-                                // お気に入り前後ジャンプ(SHIFT+N←/P→)
-                                GoFav(false);
-                                return true;
-                            case Keys.Space:
-                                this.GoBackSelectPostChain();
-                                return true;
-                        }
-                    }
-                    break;
-                case ModifierState.Alt:
-                    switch (KeyCode)
-                    {
-                        case Keys.R:
-                            asyncTask = this.doReTweetOfficial(true);
-                            return true;
-                        case Keys.P:
-                            if (_curPost != null)
-                            {
-                                asyncTask = this.doShowUserStatus(_curPost.ScreenName, false);
-                                return true;
-                            }
-                            break;
-                        case Keys.Up:
-                            ScrollDownPostBrowser(false);
-                            return true;
-                        case Keys.Down:
-                            ScrollDownPostBrowser(true);
-                            return true;
-                        case Keys.PageUp:
-                            PageDownPostBrowser(false);
-                            return true;
-                        case Keys.PageDown:
-                            PageDownPostBrowser(true);
-                            return true;
-                    }
-                    if (Focused == FocusedControl.ListTab)
-                    {
-                        // 別タブの同じ書き込みへ(ALT+←/→)
-                        if (KeyCode == Keys.Right)
-                        {
-                            GoSamePostToAnotherTab(false);
-                            return true;
-                        }
-                        else if (KeyCode == Keys.Left)
-                        {
-                            GoSamePostToAnotherTab(true);
-                            return true;
-                        }
-                    }
-                    break;
-                case ModifierState.Ctrl | ModifierState.Shift:
-                    switch (KeyCode)
-                    {
-                        case Keys.R:
-                            MakeReplyOrDirectStatus(false, true, true);
-                            return true;
-                        case Keys.C:
-                            CopyIdUri();
-                            return true;
-                        case Keys.F:
-                            if (ListTab.SelectedTab != null)
-                            {
-                                if (_statuses.Tabs[ListTab.SelectedTab.Text].TabType == MyCommon.TabUsageType.PublicSearch)
-                                {
-                                    ListTab.SelectedTab.Controls["panelSearch"].Controls["comboSearch"].Focus();
-                                    return true;
-                                }
-                            }
-                            break;
-                        case Keys.S:
-                            asyncTask = this.FavoriteChange(false);
-                            return true;
-                        case Keys.B:
-                            UnreadStripMenuItem_Click(null, null);
-                            return true;
-                        case Keys.T:
-                            HashToggleMenuItem_Click(null, null);
-                            return true;
-                        case Keys.P:
-                            ImageSelectMenuItem_Click(null, null);
-                            return true;
-                        case Keys.H:
-                            asyncTask = this.doMoveToRTHome();
-                            return true;
-                        case Keys.O:
-                            FavorareMenuItem_Click(null, null);
-                            return true;
-                        case Keys.Q:
-                            doQuoteUnofficial();
-                            return true;
-                    }
-                    if (Focused == FocusedControl.StatusText)
-                    {
-                        int idx = 0;
-                        switch (KeyCode)
-                        {
-                            case Keys.Up:
-                                if (_curList != null && _curList.VirtualListSize != 0 &&
-                                            _curList.SelectedIndices.Count > 0 && _curList.SelectedIndices[0] > 0)
-                                {
-                                    idx = _curList.SelectedIndices[0] - 1;
-                                    SelectListItem(_curList, idx);
-                                    _curList.EnsureVisible(idx);
-                                    return true;
-                                }
-                                break;
-                            case Keys.Down:
-                                if (_curList != null && _curList.VirtualListSize != 0 && _curList.SelectedIndices.Count > 0
-                                            && _curList.SelectedIndices[0] < _curList.VirtualListSize - 1)
-                                {
-                                    idx = _curList.SelectedIndices[0] + 1;
-                                    SelectListItem(_curList, idx);
-                                    _curList.EnsureVisible(idx);
-                                    return true;
-                                }
-                                break;
-                            case Keys.Space:
-                                if (StatusText.SelectionStart > 0)
-                                {
-                                    int endidx = StatusText.SelectionStart - 1;
-                                    string startstr = "";
-                                    bool pressed = false;
-                                    for (int i = StatusText.SelectionStart - 1; i >= 0; i--)
-                                    {
-                                        char c = StatusText.Text[i];
-                                        if (Char.IsLetterOrDigit(c) || c == '_')
-                                        {
-                                            continue;
-                                        }
-                                        if (c == '@')
-                                        {
-                                            pressed = true;
-                                            startstr = StatusText.Text.Substring(i + 1, endidx - i);
-                                            int cnt = AtIdSupl.ItemCount;
-                                            ShowSuplDialog(StatusText, AtIdSupl, startstr.Length + 1, startstr);
-                                            if (AtIdSupl.ItemCount != cnt) _modifySettingAtId = true;
-                                        }
-                                        else if (c == '#')
-                                        {
-                                            pressed = true;
-                                            startstr = StatusText.Text.Substring(i + 1, endidx - i);
-                                            ShowSuplDialog(StatusText, HashSupl, startstr.Length + 1, startstr);
-                                        }
-                                        else
-                                        {
-                                            break;
-                                        }
-                                    }
-                                    return pressed;
-                                }
-                                break;
-                        }
-                    }
-                    else if (Focused == FocusedControl.ListTab)
-                    {
-                        DetailsListView lst = (DetailsListView)ListTab.SelectedTab.Tag;
-                        ColumnHeader col;
-                        switch (KeyCode)
-                        {
-                            case Keys.D1:
-                            case Keys.D2:
-                            case Keys.D3:
-                            case Keys.D4:
-                            case Keys.D5:
-                            case Keys.D6:
-                            case Keys.D7:
-                            case Keys.D8:
-                                // ソートダイレクト選択(Ctrl+Shift+1～8,Ctrl+Shift+9)
-                                int colNo = KeyCode - Keys.D1;
-                                if (lst.Columns.Count < colNo) return false;
-                                col = lst.Columns.Cast<ColumnHeader>().Where((x) => { return x.DisplayIndex == colNo; }).FirstOrDefault();
-                                if (col == null) return false;
-                                MyList_ColumnClick(lst, new ColumnClickEventArgs(col.Index));
-                                return true;
-                            case Keys.D9:
-                                col = lst.Columns.Cast<ColumnHeader>().OrderByDescending((x) => { return x.DisplayIndex; }).First();
-                                MyList_ColumnClick(lst, new ColumnClickEventArgs(col.Index));
-                                return true;
-                        }
-                    }
-                    break;
-                case ModifierState.Ctrl | ModifierState.Alt:
-                    if (KeyCode == Keys.S)
-                    {
-                        asyncTask = this.FavoritesRetweetOfficial();
-                        return true;
-                    }
-                    else if (KeyCode == Keys.R)
-                    {
-                        asyncTask = this.FavoritesRetweetUnofficial();
-                        return true;
-                    }
-                    else if (KeyCode == Keys.H)
-                    {
-                        asyncTask = this.OpenUserAppointUrl();
-                        return true;
-                    }
-                    break;
-                case ModifierState.Alt | ModifierState.Shift:
-                    if (Focused == FocusedControl.PostBrowser)
-                    {
-                        if (KeyCode == Keys.R)
-                            doReTweetUnofficial();
-                        else if (KeyCode == Keys.C)
-                            CopyUserId();
-                        return true;
-                    }
-                    switch (KeyCode)
-                    {
-                        case Keys.T:
-                            if (!this.ExistCurrentPost) return false;
-                            asyncTask = this.doTranslation(_curPost.TextFromApi);
-                            return true;
-                        case Keys.R:
-                            doReTweetUnofficial();
-                            return true;
-                        case Keys.C:
-                            CopyUserId();
-                            return true;
-                        case Keys.Up:
-                            this.tweetThumbnail1.ScrollUp();
-                            return true;
-                        case Keys.Down:
-                            this.tweetThumbnail1.ScrollDown();
-                            return true;
-                    }
-                    if (Focused == FocusedControl.ListTab && KeyCode == Keys.Enter)
-                    {
-                        if (!this.SplitContainer3.Panel2Collapsed)
-                        {
-                            asyncTask = this.OpenThumbnailPicture(this.tweetThumbnail1.Thumbnail);
-                        }
-                        return true;
-                    }
-                    break;
             }
 
             return false;
@@ -7999,11 +7988,8 @@ namespace OpenTween
 
         private async void StatusText_KeyDown(object sender, KeyEventArgs e)
         {
-            ModifierState State = GetModifierState(e.Control, e.Shift, e.Alt);
-            if (State == ModifierState.NotFlags) return;
-
             Task asyncTask;
-            if (CommonKeyDown(e.KeyCode, FocusedControl.StatusText, State, out asyncTask))
+            if (CommonKeyDown(e.KeyData, FocusedControl.StatusText, out asyncTask))
             {
                 e.Handled = true;
                 e.SuppressKeyPress = true;
@@ -8245,11 +8231,8 @@ namespace OpenTween
 
         private async void PostBrowser_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
         {
-            ModifierState State = GetModifierState(e.Control, e.Shift, e.Alt);
-            if (State == ModifierState.NotFlags) return;
-
             Task asyncTask;
-            bool KeyRes = CommonKeyDown(e.KeyCode, FocusedControl.PostBrowser, State, out asyncTask);
+            bool KeyRes = CommonKeyDown(e.KeyData, FocusedControl.PostBrowser, out asyncTask);
             if (KeyRes)
             {
                 e.IsInputKey = true;
@@ -12659,6 +12642,7 @@ namespace OpenTween
             this.ImageSelector.FilePickDialog = OpenFileDialog1;
 
             this.ReplaceAppName();
+            this.InitializeShortcuts();
         }
 
         private void _hookGlobalHotkey_HotkeyPressed(object sender, KeyEventArgs e)
