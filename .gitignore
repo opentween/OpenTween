@@ -2,6 +2,7 @@
 /*/*.user
 /*/bin
 /*/obj
+/.vs
 Thumbs.db
 TestResult.xml
 *.VisualState.xml
