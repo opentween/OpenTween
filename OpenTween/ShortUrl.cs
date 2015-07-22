@@ -352,7 +352,7 @@ namespace OpenTween
                         return await this.ShortenByUxnuAsync(srcUri)
                             .ConfigureAwait(false);
                     default:
-                        throw new ArgumentException("Unknown shortener.", "shortenerType");
+                        throw new ArgumentException("Unknown shortener.", nameof(shortenerType));
                 }
             }
             catch (OperationCanceledException)

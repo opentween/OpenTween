@@ -344,9 +344,9 @@ namespace OpenTween
 		{
 			// ユーザー・パスワードチェック
 			if ( string.IsNullOrEmpty( username ) )
-				throw new ArgumentException( "username is null or empty", "username" );
+				throw new ArgumentException( "username is null or empty", nameof(username) );
             if ( string.IsNullOrEmpty( password ) )
-                throw new ArgumentException( "password is null or empty", "password" );
+                throw new ArgumentException( "password is null or empty", nameof(password) );
 
 			// xAuthの拡張パラメータ設定
 			Dictionary< string, string > parameter = new Dictionary< string, string >();

@@ -1935,7 +1935,7 @@ namespace OpenTween
         internal bool SetReadState(long statusId, bool read)
         {
             if (!this._ids.Contains(statusId))
-                throw new ArgumentException("statusId");
+                throw new ArgumentException(nameof(statusId));
 
             if (this.IsInnerStorageTabType)
                 this.Posts[statusId].IsRead = read;
@@ -2028,7 +2028,7 @@ namespace OpenTween
             get
             {
                 var id = GetId(Index);
-                if (id < 0) throw new ArgumentException("Index can't find. Index=" + Index.ToString() + "/TabName=" + TabName);
+                if (id < 0) throw new ArgumentException("Index can't find. Index=" + Index.ToString() + "/TabName=" + TabName, nameof(Index));
                 return Posts[id];
             }
         }

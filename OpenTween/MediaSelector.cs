@@ -498,7 +498,7 @@ namespace OpenTween
                 if (index < 0) index = selectedIndex;
 
                 if (index >= ImagePageCombo.Items.Count)
-                    throw new ArgumentOutOfRangeException("index");
+                    throw new ArgumentOutOfRangeException(nameof(index));
 
                 var isSelectedPage = (index == selectedIndex);
 

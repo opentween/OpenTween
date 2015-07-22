@@ -79,7 +79,7 @@ namespace OpenTween.Connection
         public async Task PostStatusAsync(string text, long? inReplyToStatusId, IMediaItem[] mediaItems)
         {
             if (mediaItems == null)
-                throw new ArgumentNullException("mediaItems");
+                throw new ArgumentNullException(nameof(mediaItems));
 
             if (mediaItems.Length == 0)
                 throw new ArgumentException("Err:Media not specified.");

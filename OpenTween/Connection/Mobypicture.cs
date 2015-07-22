@@ -78,9 +78,9 @@ namespace OpenTween.Connection
         public Mobypicture(Twitter twitter, TwitterConfiguration twitterConfig)
         {
             if (twitter == null)
-                throw new ArgumentNullException("twitter");
+                throw new ArgumentNullException(nameof(twitter));
             if (twitterConfig == null)
-                throw new ArgumentNullException("twitterConfig");
+                throw new ArgumentNullException(nameof(twitterConfig));
 
             this.twitter = twitter;
             this.twitterConfig = twitterConfig;
@@ -125,10 +125,10 @@ namespace OpenTween.Connection
         public async Task PostStatusAsync(string text, long? inReplyToStatusId, IMediaItem[] mediaItems)
         {
             if (mediaItems == null)
-                throw new ArgumentNullException("mediaItems");
+                throw new ArgumentNullException(nameof(mediaItems));
 
             if (mediaItems.Length != 1)
-                throw new ArgumentOutOfRangeException("mediaItems");
+                throw new ArgumentOutOfRangeException(nameof(mediaItems));
 
             var item = mediaItems[0];
 

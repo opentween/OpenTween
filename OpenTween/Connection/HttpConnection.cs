@@ -145,7 +145,7 @@ namespace OpenTween
             //methodはPOST,PUTのみ許可
             UriBuilder ub = new UriBuilder(requestUri.AbsoluteUri);
             if (method == "GET" || method == "DELETE" || method == "HEAD")
-                throw new ArgumentException("Method must be POST or PUT");
+                throw new ArgumentException("Method must be POST or PUT", nameof(method));
             if ((param == null || param.Count == 0) && (binaryFileInfo == null || binaryFileInfo.Count == 0))
                 throw new ArgumentException("Data is empty");
 
@@ -562,7 +562,7 @@ namespace OpenTween
                 const int TimeoutMinValue = 10000;
                 const int TimeoutMaxValue = 120000;
                 if (value < TimeoutMinValue || value > TimeoutMaxValue)
-                    throw new ArgumentOutOfRangeException("Set " + TimeoutMinValue + "-" + TimeoutMaxValue + ": Value=" + value);
+                    throw new ArgumentOutOfRangeException(nameof(value), "Set " + TimeoutMinValue + "-" + TimeoutMaxValue + ": Value=" + value);
                 else
                     _timeout = value;
             }

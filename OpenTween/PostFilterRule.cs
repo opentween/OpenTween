@@ -96,7 +96,7 @@ namespace OpenTween
             set
             {
                 if (value == null)
-                    throw new ArgumentNullException("value");
+                    throw new ArgumentNullException(nameof(value));
 
                 this.SetProperty(ref this._FilterBody, value);
             }
@@ -110,7 +110,7 @@ namespace OpenTween
             set
             {
                 if (value == null)
-                    throw new ArgumentNullException("value");
+                    throw new ArgumentNullException(nameof(value));
 
                 this.SetProperty(ref this._ExFilterBody, value);
             }

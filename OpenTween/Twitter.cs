@@ -1989,7 +1989,7 @@ namespace OpenTween
         internal static PostClass FindTopOfReplyChain(IDictionary<Int64, PostClass> posts, Int64 startStatusId)
         {
             if (!posts.ContainsKey(startStatusId))
-                throw new ArgumentException("startStatusId (" + startStatusId + ") が posts の中から見つかりませんでした。");
+                throw new ArgumentException("startStatusId (" + startStatusId + ") が posts の中から見つかりませんでした。", nameof(startStatusId));
 
             var nextPost = posts[startStatusId];
             while (nextPost.InReplyToStatusId != null)

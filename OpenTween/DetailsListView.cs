@@ -115,7 +115,7 @@ namespace OpenTween.OpenTweenCustomControl
             foreach (var index in indices)
             {
                 if (index < 0 || index >= this.VirtualListSize)
-                    throw new ArgumentOutOfRangeException("indices");
+                    throw new ArgumentOutOfRangeException(nameof(indices));
 
                 NativeMethods.SelectItem(this, index);
             }
@@ -211,7 +211,7 @@ namespace OpenTween.OpenTweenCustomControl
             {
                 if (subItemIndex > this.Columns.Count)
                 {
-                    throw new ArgumentOutOfRangeException("subItemIndex");
+                    throw new ArgumentOutOfRangeException(nameof(subItemIndex));
                 }
                 if (item.UseItemStyleForSubItems)
                 {

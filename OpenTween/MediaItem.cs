@@ -195,7 +195,7 @@ namespace OpenTween
         public MemoryImageMediaItem(Image image)
         {
             if (image == null)
-                throw new ArgumentNullException("image");
+                throw new ArgumentNullException(nameof(image));
 
             // image から png 形式の MemoryImage を生成
             this._image = MemoryImage.CopyFromImage(image);

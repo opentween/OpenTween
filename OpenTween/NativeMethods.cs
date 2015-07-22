@@ -164,7 +164,7 @@ namespace OpenTween
         {
             if (window == null)
             {
-                throw new ArgumentNullException("window");
+                throw new ArgumentNullException(nameof(window));
             }
 
             ShowWindow(window.Handle, /* SW_RESTORE */ 9);

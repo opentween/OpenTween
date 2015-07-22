@@ -10872,7 +10872,7 @@ namespace OpenTween
                 {
                     var lines = Encoding.Unicode.GetString(stream.ToArray()).TrimEnd('\0').Split('\n');
                     if (lines.Length < 2)
-                        throw new ArgumentException("不正な text/x-moz-url フォーマットです", "data");
+                        throw new ArgumentException("不正な text/x-moz-url フォーマットです", nameof(data));
 
                     return new Tuple<string, string>(lines[0], lines[1]);
                 }
@@ -10886,7 +10886,7 @@ namespace OpenTween
                 {
                     var lines = Encoding.Unicode.GetString(stream.ToArray()).TrimEnd('\0').Split('\0');
                     if (lines.Length < 2)
-                        throw new ArgumentException("不正な IESiteModeToUrl フォーマットです", "data");
+                        throw new ArgumentException("不正な IESiteModeToUrl フォーマットです", nameof(data));
 
                     return new Tuple<string, string>(lines[0], lines[1]);
                 }
