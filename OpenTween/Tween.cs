@@ -3677,69 +3677,119 @@ namespace OpenTween
 
         private void MyList_ColumnClick(object sender, ColumnClickEventArgs e)
         {
-            if (this._cfgCommon.SortOrderLock) return;
-            var mode = ComparerMode.Id;
-            if (_iconCol)
-            {
-                mode = ComparerMode.Id;
-            }
-            else
-            {
-                switch (e.Column)
-                {
-                    case 0:
-                    case 5:
-                    case 6:    //0:アイコン,5:未読マーク,6:プロテクト・フィルターマーク
-                        //ソートしない
-                        return;
-                    case 1:  //ニックネーム
-                        mode = ComparerMode.Nickname;
-                        break;
-                    case 2:  //本文
-                        mode = ComparerMode.Data;
-                        break;
-                    case 3:  //時刻=発言Id
-                        mode = ComparerMode.Id;
-                        break;
-                    case 4:  //名前
-                        mode = ComparerMode.Name;
-                        break;
-                    case 7:  //Source
-                        mode = ComparerMode.Source;
-                        break;
-                }
-            }
-            _statuses.ToggleSortOrder(mode);
-            InitColumnText();
+            var comparerMode = this.GetComparerModeByColumnIndex(e.Column);
+            if (comparerMode == null)
+                return;
 
-            DetailsListView list = (DetailsListView)sender;
+            this.SetSortColumn(comparerMode.Value);
+        }
+
+        /// <summary>
+        /// 列インデックスからソートを行う ComparerMode を求める
+        /// </summary>
+        /// <param name="columnIndex">ソートを行うカラムのインデックス (表示上の順序とは異なる)</param>
+        /// <returns>ソートを行う ComparerMode。null であればソートを行わない</returns>
+        private ComparerMode? GetComparerModeByColumnIndex(int columnIndex)
+        {
+            if (this._iconCol)
+                return ComparerMode.Id;
+
+            switch (columnIndex)
+            {
+                case 1: // ニックネーム
+                    return ComparerMode.Nickname;
+                case 2: // 本文
+                    return ComparerMode.Data;
+                case 3: // 時刻=発言Id
+                    return ComparerMode.Id;
+                case 4: // 名前
+                    return ComparerMode.Name;
+                case 7: // Source
+                    return ComparerMode.Source;
+                default:
+                    // 0:アイコン, 5:未読マーク, 6:プロテクト・フィルターマーク
+                    return null;
+            }
+        }
+
+        /// <summary>
+        /// 発言一覧の指定した位置の列でソートする
+        /// </summary>
+        /// <param name="columnIndex">ソートする列の位置 (表示上の順序で指定)</param>
+        private void SetSortColumnByDisplayIndex(int columnIndex)
+        {
+            // 表示上の列の位置から ColumnHeader を求める
+            var col = this._curList.Columns.Cast<ColumnHeader>()
+                .Where(x => x.DisplayIndex == columnIndex)
+                .FirstOrDefault();
+
+            if (col == null)
+                return;
+
+            var comparerMode = this.GetComparerModeByColumnIndex(col.Index);
+            if (comparerMode == null)
+                return;
+
+            this.SetSortColumn(comparerMode.Value);
+        }
+
+        /// <summary>
+        /// 発言一覧の最後列の項目でソートする
+        /// </summary>
+        private void SetSortLastColumn()
+        {
+            // 表示上の最後列にある ColumnHeader を求める
+            var col = this._curList.Columns.Cast<ColumnHeader>()
+                .OrderByDescending(x => x.DisplayIndex)
+                .First();
+
+            var comparerMode = this.GetComparerModeByColumnIndex(col.Index);
+            if (comparerMode == null)
+                return;
+
+            this.SetSortColumn(comparerMode.Value);
+        }
+
+        /// <summary>
+        /// 発言一覧を指定された ComparerMode に基づいてソートする
+        /// </summary>
+        private void SetSortColumn(ComparerMode sortColumn)
+        {
+            if (this._cfgCommon.SortOrderLock)
+                return;
+
+            this._statuses.ToggleSortOrder(sortColumn);
+            this.InitColumnText();
+
+            var list = this._curList;
             if (_iconCol)
             {
-                list.Columns[0].Text = ColumnOrgText[0];
-                list.Columns[1].Text = ColumnText[2];
+                list.Columns[0].Text = this.ColumnText[0];
+                list.Columns[1].Text = this.ColumnText[2];
             }
             else
             {
-                for (int i = 0; i <= 7; i++)
+                for (var i = 0; i <= 7; i++)
                 {
-                    list.Columns[i].Text = ColumnOrgText[i];
+                    list.Columns[i].Text = this.ColumnText[i];
                 }
-                list.Columns[e.Column].Text = ColumnText[e.Column];
             }
 
             this.PurgeListViewItemCache();
 
-            if (_statuses.Tabs[_curTab.Text].AllCount > 0 && _curPost != null)
+            var tab = this._statuses.Tabs[this._curTab.Text];
+            if (tab.AllCount > 0 && this._curPost != null)
             {
-                int idx = _statuses.Tabs[_curTab.Text].IndexOf(_curPost.StatusId);
+                var idx = tab.IndexOf(this._curPost.StatusId);
                 if (idx > -1)
                 {
-                    SelectListItem(_curList, idx);
-                    _curList.EnsureVisible(idx);
+                    this.SelectListItem(list, idx);
+                    list.EnsureVisible(idx);
                 }
             }
-            _curList.Refresh();
-            _modifySettingCommon = true;
+            list.Refresh();
+
+            this._modifySettingCommon = true;
         }
 
         private void TweenMain_LocationChanged(object sender, EventArgs e)
@@ -7075,99 +7125,39 @@ namespace OpenTween
                 // ソートダイレクト選択(Ctrl+Shift+1～8,Ctrl+Shift+9)
                 ShortcutCommand.Create(Keys.Control | Keys.Shift | Keys.D1)
                     .FocusedOn(FocusedControl.ListTab)
-                    .OnlyWhen(() => ((DetailsListView)ListTab.SelectedTab.Tag).Columns.Count < 1)
-                    .Do(() => {
-                        var colNo = 1;
-                        var lst = (DetailsListView)ListTab.SelectedTab.Tag;
-                        var col = lst.Columns.Cast<ColumnHeader>().Where((x) => { return x.DisplayIndex == colNo; }).FirstOrDefault();
-                        if (col == null) return;
-                        MyList_ColumnClick(lst, new ColumnClickEventArgs(col.Index));
-                    }),
+                    .Do(() => this.SetSortColumnByDisplayIndex(1)),
 
                 ShortcutCommand.Create(Keys.Control | Keys.Shift | Keys.D2)
                     .FocusedOn(FocusedControl.ListTab)
-                    .OnlyWhen(() => ((DetailsListView)ListTab.SelectedTab.Tag).Columns.Count < 2)
-                    .Do(() => {
-                        var colNo = 2;
-                        var lst = (DetailsListView)ListTab.SelectedTab.Tag;
-                        var col = lst.Columns.Cast<ColumnHeader>().Where((x) => { return x.DisplayIndex == colNo; }).FirstOrDefault();
-                        if (col == null) return;
-                        MyList_ColumnClick(lst, new ColumnClickEventArgs(col.Index));
-                    }),
+                    .Do(() => this.SetSortColumnByDisplayIndex(2)),
 
                 ShortcutCommand.Create(Keys.Control | Keys.Shift | Keys.D3)
                     .FocusedOn(FocusedControl.ListTab)
-                    .OnlyWhen(() => ((DetailsListView)ListTab.SelectedTab.Tag).Columns.Count < 3)
-                    .Do(() => {
-                        var colNo = 3;
-                        var lst = (DetailsListView)ListTab.SelectedTab.Tag;
-                        var col = lst.Columns.Cast<ColumnHeader>().Where((x) => { return x.DisplayIndex == colNo; }).FirstOrDefault();
-                        if (col == null) return;
-                        MyList_ColumnClick(lst, new ColumnClickEventArgs(col.Index));
-                    }),
+                    .Do(() => this.SetSortColumnByDisplayIndex(3)),
 
                 ShortcutCommand.Create(Keys.Control | Keys.Shift | Keys.D4)
                     .FocusedOn(FocusedControl.ListTab)
-                    .OnlyWhen(() => ((DetailsListView)ListTab.SelectedTab.Tag).Columns.Count < 4)
-                    .Do(() => {
-                        var colNo = 4;
-                        var lst = (DetailsListView)ListTab.SelectedTab.Tag;
-                        var col = lst.Columns.Cast<ColumnHeader>().Where((x) => { return x.DisplayIndex == colNo; }).FirstOrDefault();
-                        if (col == null) return;
-                        MyList_ColumnClick(lst, new ColumnClickEventArgs(col.Index));
-                    }),
+                    .Do(() => this.SetSortColumnByDisplayIndex(4)),
 
                 ShortcutCommand.Create(Keys.Control | Keys.Shift | Keys.D5)
                     .FocusedOn(FocusedControl.ListTab)
-                    .OnlyWhen(() => ((DetailsListView)ListTab.SelectedTab.Tag).Columns.Count < 5)
-                    .Do(() => {
-                        var colNo = 5;
-                        var lst = (DetailsListView)ListTab.SelectedTab.Tag;
-                        var col = lst.Columns.Cast<ColumnHeader>().Where((x) => { return x.DisplayIndex == colNo; }).FirstOrDefault();
-                        if (col == null) return;
-                        MyList_ColumnClick(lst, new ColumnClickEventArgs(col.Index));
-                    }),
+                    .Do(() => this.SetSortColumnByDisplayIndex(5)),
 
                 ShortcutCommand.Create(Keys.Control | Keys.Shift | Keys.D6)
                     .FocusedOn(FocusedControl.ListTab)
-                    .OnlyWhen(() => ((DetailsListView)ListTab.SelectedTab.Tag).Columns.Count < 6)
-                    .Do(() => {
-                        var colNo = 6;
-                        var lst = (DetailsListView)ListTab.SelectedTab.Tag;
-                        var col = lst.Columns.Cast<ColumnHeader>().Where((x) => { return x.DisplayIndex == colNo; }).FirstOrDefault();
-                        if (col == null) return;
-                        MyList_ColumnClick(lst, new ColumnClickEventArgs(col.Index));
-                    }),
+                    .Do(() => this.SetSortColumnByDisplayIndex(6)),
 
                 ShortcutCommand.Create(Keys.Control | Keys.Shift | Keys.D7)
                     .FocusedOn(FocusedControl.ListTab)
-                    .OnlyWhen(() => ((DetailsListView)ListTab.SelectedTab.Tag).Columns.Count < 7)
-                    .Do(() => {
-                        var colNo = 7;
-                        var lst = (DetailsListView)ListTab.SelectedTab.Tag;
-                        var col = lst.Columns.Cast<ColumnHeader>().Where((x) => { return x.DisplayIndex == colNo; }).FirstOrDefault();
-                        if (col == null) return;
-                        MyList_ColumnClick(lst, new ColumnClickEventArgs(col.Index));
-                    }),
+                    .Do(() => this.SetSortColumnByDisplayIndex(7)),
 
                 ShortcutCommand.Create(Keys.Control | Keys.Shift | Keys.D8)
                     .FocusedOn(FocusedControl.ListTab)
-                    .OnlyWhen(() => ((DetailsListView)ListTab.SelectedTab.Tag).Columns.Count < 8)
-                    .Do(() => {
-                        var colNo = 8;
-                        var lst = (DetailsListView)ListTab.SelectedTab.Tag;
-                        var col = lst.Columns.Cast<ColumnHeader>().Where((x) => { return x.DisplayIndex == colNo; }).FirstOrDefault();
-                        if (col == null) return;
-                        MyList_ColumnClick(lst, new ColumnClickEventArgs(col.Index));
-                    }),
+                    .Do(() => this.SetSortColumnByDisplayIndex(8)),
 
                 ShortcutCommand.Create(Keys.Control | Keys.Shift | Keys.D9)
                     .FocusedOn(FocusedControl.ListTab)
-                    .Do(() => {
-                        var lst = (DetailsListView)ListTab.SelectedTab.Tag;
-                        var col = lst.Columns.Cast<ColumnHeader>().OrderByDescending((x) => { return x.DisplayIndex; }).First();
-                        MyList_ColumnClick(lst, new ColumnClickEventArgs(col.Index));
-                    }),
+                    .Do(() => this.SetSortLastColumn()),
 
                 ShortcutCommand.Create(Keys.Control | Keys.Alt | Keys.S)
                     .Do(() => this.FavoritesRetweetOfficial()),
