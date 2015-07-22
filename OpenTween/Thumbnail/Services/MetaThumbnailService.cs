@@ -37,7 +37,11 @@ namespace OpenTween.Thumbnail.Services
     /// </summary>
     class MetaThumbnailService : IThumbnailService
     {
-        protected static Regex metaPattern = new Regex("<meta (name|property)=[\"'](?<name>.+?)[\"'] (content|value)=[\"'](?<content>.+?)[\"']");
+        protected static Regex[] metaPatterns =
+        {
+            new Regex("<meta (name|property)=[\"'](?<name>.+?)[\"'] (content|value)=[\"'](?<content>[^>]+?)[\"']"),
+            new Regex("<meta (content|value)=[\"'](?<content>[^>]+?)[\"'] (name|property)=[\"'](?<name>.+?)[\"']"),
+        };
         protected static string[] propertyNames = { "og:image", "twitter:image", "twitter:image:src" };
 
         protected HttpClient http
@@ -86,14 +90,17 @@ namespace OpenTween.Thumbnail.Services
 
         protected virtual string GetThumbnailUrl(string html)
         {
-            var matches = MetaThumbnailService.metaPattern.Matches(html);
-
-            foreach (Match match in matches)
+            foreach (var pattern in MetaThumbnailService.metaPatterns)
             {
-                var propertyName = match.Groups["name"].Value;
-                if (MetaThumbnailService.propertyNames.Contains(propertyName))
+                var matches = pattern.Matches(html);
+
+                foreach (Match match in matches)
                 {
-                    return match.Groups["content"].Value;
+                    var propertyName = match.Groups["name"].Value;
+                    if (MetaThumbnailService.propertyNames.Contains(propertyName))
+                    {
+                        return match.Groups["content"].Value;
+                    }
                 }
             }
 

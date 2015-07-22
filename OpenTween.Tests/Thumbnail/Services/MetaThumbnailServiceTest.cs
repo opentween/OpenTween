@@ -121,6 +121,95 @@ namespace OpenTween.Thumbnail.Services
         }
 
         [Fact]
+        public async Task ReverseMetaTest()
+        {
+            var service = new TestMetaThumbnailService(@"http://example.com/.+");
+
+            service.FakeHtml = @"
+<!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.01//EN' 'http://www.w3.org/TR/html4/strict.dtd'>
+
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'>
+<meta content='http://img.example.com/abcd' name='twitter:image'>
+<title>hogehoge</title>
+
+<p>hogehoge
+";
+            var thumbinfo = await service.GetThumbnailInfoAsync("http://example.com/abcd", null, CancellationToken.None);
+
+            Assert.NotNull(thumbinfo);
+            Assert.Equal("http://example.com/abcd", thumbinfo.ImageUrl);
+            Assert.Equal("http://img.example.com/abcd", thumbinfo.ThumbnailUrl);
+            Assert.Null(thumbinfo.TooltipText);
+        }
+
+        [Fact]
+        public async Task BadMetaTest()
+        {
+            var service = new TestMetaThumbnailService(@"http://example.com/.+");
+
+            service.FakeHtml = @"
+<!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.01//EN' 'http://www.w3.org/TR/html4/strict.dtd'>
+
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'>
+<meta name='og:image' content=''>
+<meta content='http://img.example.com/abcd' name='twitter:image'>
+<title>hogehoge</title>
+
+<p>hogehoge
+";
+            var thumbinfo = await service.GetThumbnailInfoAsync("http://example.com/abcd", null, CancellationToken.None);
+
+            Assert.NotNull(thumbinfo);
+            Assert.Equal("http://example.com/abcd", thumbinfo.ImageUrl);
+            Assert.Equal("http://img.example.com/abcd", thumbinfo.ThumbnailUrl);
+            Assert.Null(thumbinfo.TooltipText);
+        }
+
+        [Fact]
+        public async Task BadMetaOneLineTest()
+        {
+            var service = new TestMetaThumbnailService(@"http://example.com/.+");
+
+            service.FakeHtml = @"
+<!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.01//EN' 'http://www.w3.org/TR/html4/strict.dtd'>
+
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'>
+<meta name='og:image' content=''><meta content='http://img.example.com/abcd' name='twitter:image'>
+<title>hogehoge</title>
+
+<p>hogehoge
+";
+            var thumbinfo = await service.GetThumbnailInfoAsync("http://example.com/abcd", null, CancellationToken.None);
+
+            Assert.NotNull(thumbinfo);
+            Assert.Equal("http://example.com/abcd", thumbinfo.ImageUrl);
+            Assert.Equal("http://img.example.com/abcd", thumbinfo.ThumbnailUrl);
+            Assert.Null(thumbinfo.TooltipText);
+        }
+
+        [Fact]
+        public async Task ReverseMetaOneLineTest()
+        {
+            var service = new TestMetaThumbnailService(@"http://example.com/.+");
+
+            service.FakeHtml = @"
+<!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.01//EN' 'http://www.w3.org/TR/html4/strict.dtd'>
+
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'>
+<meta content='' name='twitter:title'><meta content='http://img.example.com/abcd' name='twitter:image'>
+<title>hogehoge</title>
+
+<p>hogehoge
+";
+            var thumbinfo = await service.GetThumbnailInfoAsync("http://example.com/abcd", null, CancellationToken.None);
+
+            Assert.NotNull(thumbinfo);
+            Assert.Equal("http://example.com/abcd", thumbinfo.ImageUrl);
+            Assert.Equal("http://img.example.com/abcd", thumbinfo.ThumbnailUrl);
+            Assert.Null(thumbinfo.TooltipText);
+        }
+
+        [Fact]
         public async Task NoMetaTest()
         {
             var service = new TestMetaThumbnailService(@"http://example.com/.+");
