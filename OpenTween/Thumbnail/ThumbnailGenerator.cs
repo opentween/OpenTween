@@ -209,6 +209,11 @@ namespace OpenTween.Thumbnail
 
                 // SoundCloud
                 new MetaThumbnailService(@"^https?://soundcloud.com/[\w-]+/[\w-]+$"),
+
+                // Gyazo
+                new MetaThumbnailService(
+                    @"^http://gyazo\.com/[A-z0-9]+",
+                    new string[] { "twitter:image" }),  // og:imageはgifが静止画になる
             };
         }
 
