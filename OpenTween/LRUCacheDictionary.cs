@@ -50,7 +50,7 @@ namespace OpenTween
 
         public class CacheRemovedEventArgs : EventArgs
         {
-            public KeyValuePair<TKey, TValue> Item { get; private set; }
+            public KeyValuePair<TKey, TValue> Item { get; }
 
             public CacheRemovedEventArgs(KeyValuePair<TKey, TValue> item)
             {

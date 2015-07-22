@@ -33,7 +33,7 @@ namespace OpenTween
     [Serializable]
     public class WebApiException : Exception
     {
-        public readonly string ResponseText = null;
+        public string ResponseText { get; } = null;
 
         public WebApiException() : base() { }
         public WebApiException(string message) : base(message) { }

@@ -31,22 +31,22 @@ namespace OpenTween.Api
         /// <summary>
         /// API 実行回数制限の値
         /// </summary>
-        public readonly int AccessLimitCount;
+        public int AccessLimitCount { get; }
 
         /// <summary>
         /// API 実行回数制限までの残回数
         /// </summary>
-        public readonly int AccessLimitRemain;
+        public int AccessLimitRemain { get; }
 
         /// <summary>
         /// API 実行回数制限がリセットされる日時
         /// </summary>
-        public readonly DateTime AccessLimitResetDate;
+        public DateTime AccessLimitResetDate { get; }
 
         /// <summary>
         /// API 実行回数制限値を取得した日時
         /// </summary>
-        public readonly DateTime UpdatedAt;
+        public DateTime UpdatedAt { get; }
 
         public ApiLimit(int limitCount, int limitRemain, DateTime resetDate)
             : this(limitCount, limitRemain, resetDate, DateTime.Now)

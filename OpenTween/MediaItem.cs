@@ -86,11 +86,11 @@ namespace OpenTween
     /// </summary>
     public class FileMediaItem : IMediaItem
     {
-        private readonly FileInfo _fileInfo;
+        public FileInfo FileInfo { get; }
 
         public FileMediaItem(string path)
         {
-            this._fileInfo = new FileInfo(path);
+            this.FileInfo = new FileInfo(path);
         }
 
         public FileMediaItem(FileInfo fileInfo)
@@ -100,27 +100,27 @@ namespace OpenTween
 
         public string Path
         {
-            get { return this._fileInfo.FullName; }
+            get { return this.FileInfo.FullName; }
         }
 
         public string Name
         {
-            get { return this._fileInfo.Name; }
+            get { return this.FileInfo.Name; }
         }
 
         public string Extension
         {
-            get { return this._fileInfo.Extension; }
+            get { return this.FileInfo.Extension; }
         }
 
         public bool Exists
         {
-            get { return this._fileInfo.Exists; }
+            get { return this.FileInfo.Exists; }
         }
 
         public long Size
         {
-            get { return this._fileInfo.Length; }
+            get { return this.FileInfo.Length; }
         }
 
         public bool IsImage
@@ -151,7 +151,7 @@ namespace OpenTween
 
         public MemoryImage CreateImage()
         {
-            using (var fs = this._fileInfo.OpenRead())
+            using (var fs = this.FileInfo.OpenRead())
             {
                 return MemoryImage.CopyFromStream(fs);
             }
@@ -159,20 +159,15 @@ namespace OpenTween
 
         public Stream OpenRead()
         {
-            return this._fileInfo.OpenRead();
+            return this.FileInfo.OpenRead();
         }
 
         public void CopyTo(Stream stream)
         {
-            using (var fs = this._fileInfo.OpenRead())
+            using (var fs = this.FileInfo.OpenRead())
             {
                 fs.CopyTo(stream);
             }
-        }
-
-        public FileInfo FileInfo
-        {
-            get { return this._fileInfo; }
         }
     }
 
@@ -189,7 +184,6 @@ namespace OpenTween
 
         private bool _disposed = false;
 
-        private readonly string _path;
         private readonly MemoryImage _image;
 
         public MemoryImageMediaItem(Image image)
@@ -201,17 +195,14 @@ namespace OpenTween
             this._image = MemoryImage.CopyFromImage(image);
 
             var num = Interlocked.Increment(ref _fileNumber);
-            this._path = PathPrefix + num + this._image.ImageFormatExt;
+            this.Path = PathPrefix + num + this._image.ImageFormatExt;
         }
 
-        public string Path
-        {
-            get { return this._path; }
-        }
+        public string Path { get; }
 
         public string Name
         {
-            get { return this._path.Substring(PathPrefix.Length); }
+            get { return this.Path.Substring(PathPrefix.Length); }
         }
 
         public string Extension

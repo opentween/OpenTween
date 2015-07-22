@@ -51,13 +51,13 @@ namespace OpenTween
 
         public class SearchOptions
         {
-            public readonly SearchType Type;
-            public readonly string Query;
+            public SearchType Type { get; }
+            public string Query { get; }
 
             // タイムライン内検索のみで使用する
-            public readonly bool NewTab;
-            public readonly bool CaseSensitive;
-            public readonly bool UseRegex;
+            public bool NewTab { get; }
+            public bool CaseSensitive { get; }
+            public bool UseRegex { get; }
 
             public SearchOptions(SearchType type, string query, bool newTab, bool caseSensitive, bool useRegex)
             {

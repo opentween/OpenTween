@@ -3995,31 +3995,21 @@ namespace OpenTween
 
     public class PostDeletedEventArgs : EventArgs
     {
-        public long StatusId
-        {
-            get { return this.statusId; }
-        }
-
-        private readonly long statusId;
+        public long StatusId { get; }
 
         public PostDeletedEventArgs(long statusId)
         {
-            this.statusId = statusId;
+            this.StatusId = statusId;
         }
     }
 
     public class UserStreamEventReceivedEventArgs : EventArgs
     {
-        public Twitter.FormattedEvent EventData
-        {
-            get { return this.eventData; }
-        }
-
-        private readonly Twitter.FormattedEvent eventData;
+        public Twitter.FormattedEvent EventData { get; }
 
         public UserStreamEventReceivedEventArgs(Twitter.FormattedEvent eventData)
         {
-            this.eventData = eventData;
+            this.EventData = eventData;
         }
     }
 }

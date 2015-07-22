@@ -426,8 +426,8 @@ namespace OpenTween
 
     public class MediaInfo
     {
-        public string Url { get; private set; }
-        public string VideoUrl { get; private set; }
+        public string Url { get; }
+        public string VideoUrl { get; }
 
         public MediaInfo(string url)
             : this(url, null)

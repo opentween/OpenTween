@@ -154,7 +154,7 @@ namespace OpenTween
             return this.Href;
         }
 
-        public string Url { get; private set; }
-        public string Href { get; private set; }
+        public string Url { get; }
+        public string Href { get; }
     }
 }

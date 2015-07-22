@@ -251,7 +251,7 @@ namespace OpenTween
 
     public class ThumbnailDoubleClickEventArgs : EventArgs
     {
-        public ThumbnailInfo Thumbnail { get; private set; }
+        public ThumbnailInfo Thumbnail { get; }
 
         public ThumbnailDoubleClickEventArgs(ThumbnailInfo thumbnail)
         {
@@ -261,7 +261,7 @@ namespace OpenTween
 
     public class ThumbnailImageSearchEventArgs : EventArgs
     {
-        public string ImageUrl { get; private set; }
+        public string ImageUrl { get; }
 
         public ThumbnailImageSearchEventArgs(string url)
         {
