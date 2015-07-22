@@ -100,7 +100,9 @@ namespace OpenTween.Thumbnail
                     "http://api.plixi.com/api/tpapi.svc/imagefromurl?size=big&url=${0}"),
 
                 // MobyPicture
-                new MetaThumbnailService(@"^https?://(?:www\.)?mobypicture.com/user/\w+/view/\d+$"),
+                new MetaThumbnailService(
+                    @"^https?://(?:www\.)?mobypicture.com/user/\w+/view/\d+$",
+                    new string[] { "og:image" }),  // twitter:imageは403が返って取得できない
 
                 // 携帯百景
                 new SimpleThumbnailService(
