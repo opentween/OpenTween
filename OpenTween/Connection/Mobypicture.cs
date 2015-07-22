@@ -185,8 +185,8 @@ namespace OpenTween.Connection
 
                 var param = new Dictionary<string, string>
                 {
-                    {"key", ApplicationSettings.MobypictureKey},
-                    {"message", message},
+                    ["key"] = ApplicationSettings.MobypictureKey,
+                    ["message"] = message,
                 };
                 var paramFiles = new List<KeyValuePair<string, IMediaItem>>
                 {

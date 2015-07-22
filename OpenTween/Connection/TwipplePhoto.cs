@@ -165,7 +165,7 @@ namespace OpenTween.Connection
 
                 var param = new Dictionary<string, string>
                 {
-                    {"upload_from", Application.ProductName},
+                    ["upload_from"] = Application.ProductName,
                 };
                 var paramFiles = new List<KeyValuePair<string, IMediaItem>>
                 {

@@ -148,7 +148,7 @@ namespace OpenTween.Connection
 
                 var param = new Dictionary<string, string>
                 {
-                    {"message", message},
+                    ["message"] = message,
                 };
                 var paramFiles = new List<KeyValuePair<string, IMediaItem>>
                 {

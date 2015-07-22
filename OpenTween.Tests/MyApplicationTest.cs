@@ -45,7 +45,7 @@ namespace OpenTween
 
             Assert.Equal(new Dictionary<string, string>
             {
-                {"foo", ""},
+                ["foo"] = "",
             },
             MyApplication.ParseArguments(args));
         }
@@ -57,8 +57,8 @@ namespace OpenTween
 
             Assert.Equal(new Dictionary<string, string>
             {
-                {"foo", ""},
-                {"bar", ""},
+                ["foo"] = "",
+                ["bar"] = "",
             },
             MyApplication.ParseArguments(args));
         }
@@ -70,7 +70,7 @@ namespace OpenTween
 
             Assert.Equal(new Dictionary<string, string>
             {
-                {"foo", "hogehoge"},
+                ["foo"] = "hogehoge",
             },
             MyApplication.ParseArguments(args));
         }
@@ -82,7 +82,7 @@ namespace OpenTween
 
             Assert.Equal(new Dictionary<string, string>
             {
-                {"foo", ""},
+                ["foo"] = "",
             },
             MyApplication.ParseArguments(args));
         }
@@ -102,7 +102,7 @@ namespace OpenTween
 
             Assert.Equal(new Dictionary<string, string>
             {
-                {"foo", "123"},
+                ["foo"] = "123",
             },
             MyApplication.ParseArguments(args));
         }

@@ -193,9 +193,9 @@ namespace OpenTween
         {
             var param = new Dictionary<string, string>
             {
-                {"Text", "'" + text + "'"},
-                {"To", "'" + langTo + "'"},
-                {"$format", "Raw"},
+                ["Text"] = "'" + text + "'",
+                ["To"] = "'" + langTo + "'",
+                ["$format"] = "Raw",
             };
 
             if (langFrom != null)

@@ -148,7 +148,7 @@ namespace OpenTween.Connection
 
                 var param = new Dictionary<string, string>
                 {
-                    {"key", ApplicationSettings.YfrogApiKey},
+                    ["key"] = ApplicationSettings.YfrogApiKey,
                 };
                 var paramFiles = new List<KeyValuePair<string, IMediaItem>>
                 {

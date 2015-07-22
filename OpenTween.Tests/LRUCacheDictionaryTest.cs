@@ -38,9 +38,9 @@ namespace OpenTween
         {
             var dict = new LRUCacheDictionary<string, string>
             {
-                {"key1", "value1"},
-                {"key2", "value2"},
-                {"key3", "value3"},
+                ["key1"] = "value1",
+                ["key2"] = "value2",
+                ["key3"] = "value3",
             };
 
             var node = dict.innerList.First;
@@ -74,9 +74,9 @@ namespace OpenTween
         {
             var dict = new LRUCacheDictionary<string, string>()
             {
-                {"key1", "value1"},
-                {"key2", "value2"},
-                {"key3", "value3"},
+                ["key1"] = "value1",
+                ["key2"] = "value2",
+                ["key3"] = "value3",
             };
 
             dict.TrimLimit = trimLimit;
@@ -100,11 +100,11 @@ namespace OpenTween
         {
             var dict = new LRUCacheDictionary<string, string>()
             {
-                {"key1", "value1"},
-                {"key2", "value2"},
-                {"key3", "value3"},
-                {"key4", "value4"},
-                {"key5", "value5"},
+                ["key1"] = "value1",
+                ["key2"] = "value2",
+                ["key3"] = "value3",
+                ["key4"] = "value4",
+                ["key5"] = "value5",
             };
 
             // 4 -> 2 -> 3 -> 1 -> 5 の順で参照
@@ -205,9 +205,9 @@ namespace OpenTween
         {
             var dict = new LRUCacheDictionary<string, string>
             {
-                {"key1", "value1"},
-                {"key2", "value2"},
-                {"key3", "value3"},
+                ["key1"] = "value1",
+                ["key2"] = "value2",
+                ["key3"] = "value3",
             };
 
             Assert.True(dict.ContainsKey("key1"));
@@ -221,9 +221,9 @@ namespace OpenTween
         {
             var dict = new LRUCacheDictionary<string, string>
             {
-                {"key1", "value1"},
-                {"key2", "value2"},
-                {"key3", "value3"},
+                ["key1"] = "value1",
+                ["key2"] = "value2",
+                ["key3"] = "value3",
             };
 
             Assert.True(dict.Contains(new KeyValuePair<string, string>("key1", "value1")));
@@ -237,9 +237,9 @@ namespace OpenTween
         {
             var dict = new LRUCacheDictionary<string, string>
             {
-                {"key1", "value1"},
-                {"key2", "value2"},
-                {"key3", "value3"},
+                ["key1"] = "value1",
+                ["key2"] = "value2",
+                ["key3"] = "value3",
             };
 
             var ret = dict.Remove("key1");
@@ -266,9 +266,9 @@ namespace OpenTween
         {
             var dict = new LRUCacheDictionary<string, string>
             {
-                {"key1", "value1"},
-                {"key2", "value2"},
-                {"key3", "value3"},
+                ["key1"] = "value1",
+                ["key2"] = "value2",
+                ["key3"] = "value3",
             };
 
             var ret = dict.Remove(new KeyValuePair<string, string>("key1", "value1"));
@@ -297,9 +297,9 @@ namespace OpenTween
         {
             var dict = new LRUCacheDictionary<string, string>
             {
-                {"key1", "value1"},
-                {"key2", "value2"},
-                {"key3", "value3"},
+                ["key1"] = "value1",
+                ["key2"] = "value2",
+                ["key3"] = "value3",
             };
 
             Assert.Equal("value1", dict["key1"]);
@@ -314,9 +314,9 @@ namespace OpenTween
         {
             var dict = new LRUCacheDictionary<string, string>
             {
-                {"key1", "value1"},
-                {"key2", "value2"},
-                {"key3", "value3"},
+                ["key1"] = "value1",
+                ["key2"] = "value2",
+                ["key3"] = "value3",
             };
 
             dict["key1"] = "foo";
@@ -332,9 +332,9 @@ namespace OpenTween
         {
             var dict = new LRUCacheDictionary<string, string>
             {
-                {"key1", "value1"},
-                {"key2", "value2"},
-                {"key3", "value3"},
+                ["key1"] = "value1",
+                ["key2"] = "value2",
+                ["key3"] = "value3",
             };
 
             string value;
@@ -352,9 +352,9 @@ namespace OpenTween
         {
             var dict = new LRUCacheDictionary<string, string>
             {
-                {"key1", "value1"},
-                {"key2", "value2"},
-                {"key3", "value3"},
+                ["key1"] = "value1",
+                ["key2"] = "value2",
+                ["key3"] = "value3",
             };
 
             Assert.Equal(new[] { "key1", "key2", "key3" }, dict.Keys, collComparer);
@@ -374,9 +374,9 @@ namespace OpenTween
         {
             var dict = new LRUCacheDictionary<string, string>
             {
-                {"key1", "value1"},
-                {"key2", "value2"},
-                {"key3", "value3"},
+                ["key1"] = "value1",
+                ["key2"] = "value2",
+                ["key3"] = "value3",
             };
 
             Assert.Equal(new[] { "value1", "value2", "value3" }, dict.Values, collComparer);
@@ -416,9 +416,9 @@ namespace OpenTween
         {
             var dict = new LRUCacheDictionary<string, string>
             {
-                {"key1", "value1"},
-                {"key2", "value2"},
-                {"key3", "value3"},
+                ["key1"] = "value1",
+                ["key2"] = "value2",
+                ["key3"] = "value3",
             };
 
             var array = new KeyValuePair<string, string>[5];
@@ -457,9 +457,9 @@ namespace OpenTween
         {
             var dict = new LRUCacheDictionary<string, string>
             {
-                {"key1", "value1"},
-                {"key2", "value2"},
-                {"key3", "value3"},
+                ["key1"] = "value1",
+                ["key2"] = "value2",
+                ["key3"] = "value3",
             };
 
             var enumerator = dict.GetEnumerator();
@@ -478,9 +478,9 @@ namespace OpenTween
         {
             var dict = new LRUCacheDictionary<string, string>
             {
-                {"key1", "value1"},
-                {"key2", "value2"},
-                {"key3", "value3"},
+                ["key1"] = "value1",
+                ["key2"] = "value2",
+                ["key3"] = "value3",
             };
 
             var enumerator = ((IEnumerable)dict).GetEnumerator();

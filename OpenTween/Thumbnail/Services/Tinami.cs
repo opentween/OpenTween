@@ -93,8 +93,8 @@ namespace OpenTween.Thumbnail.Services
         {
             var query = new Dictionary<string, string>
             {
-                {"api_key", ApplicationSettings.TINAMIApiKey},
-                {"cont_id", contentId},
+                ["api_key"] = ApplicationSettings.TINAMIApiKey,
+                ["cont_id"] = contentId,
             };
 
             var apiUrl = new Uri("http://api.tinami.com/content/info?" + MyCommon.BuildQueryString(query));

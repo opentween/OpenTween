@@ -78,9 +78,9 @@ namespace OpenTween.Thumbnail.Services
 
                 var query = new Dictionary<string, string>
                 {
-                    {"client_id", ApplicationSettings.FoursquareClientId},
-                    {"client_secret", ApplicationSettings.FoursquareClientSecret},
-                    {"v", "20140419"}, // https://developer.foursquare.com/overview/versioning
+                    ["client_id"] = ApplicationSettings.FoursquareClientId,
+                    ["client_secret"] = ApplicationSettings.FoursquareClientSecret,
+                    ["v"] = "20140419", // https://developer.foursquare.com/overview/versioning
                 };
 
                 if (signatureGroup.Success)

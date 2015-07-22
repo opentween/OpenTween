@@ -452,11 +452,11 @@ namespace OpenTween
 
             var query = new Dictionary<string, string>
             {
-                {"login", this.BitlyId},
-                {"apiKey", this.BitlyKey},
-                {"format", "txt"},
-                {"domain", domain},
-                {"longUrl", srcUri.OriginalString},
+                ["login"] = this.BitlyId,
+                ["apiKey"] = this.BitlyKey,
+                ["format"] = "txt",
+                ["domain"] = domain,
+                ["longUrl"] = srcUri.OriginalString,
             };
 
             var uri = new Uri("https://api-ssl.bitly.com/v3/shorten?" + MyCommon.BuildQueryString(query));
@@ -482,8 +482,8 @@ namespace OpenTween
 
             var query = new Dictionary<string, string>
             {
-                {"format", "plain"},
-                {"url", srcUri.OriginalString},
+                ["format"] = "plain",
+                ["url"] = srcUri.OriginalString,
             };
 
             var uri = new Uri("http://ux.nu/api/short?" + MyCommon.BuildQueryString(query));

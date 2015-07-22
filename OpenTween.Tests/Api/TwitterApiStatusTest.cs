@@ -53,32 +53,32 @@ namespace OpenTween.Api
             {
                 yield return new object[] {
                     new Dictionary<string, string> {
-                        {"X-RateLimit-Limit", "150"},
-                        {"X-RateLimit-Remaining", "100"},
-                        {"X-RateLimit-Reset", "1356998400"},
+                        ["X-RateLimit-Limit"] = "150",
+                        ["X-RateLimit-Remaining"] = "100",
+                        ["X-RateLimit-Reset"] = "1356998400",
                     },
                     new ApiLimit(150, 100, new DateTime(2013, 1, 1, 0, 0, 0, DateTimeKind.Utc).ToLocalTime()),
                 };
                 yield return new object[] {
                     new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
-                        {"x-ratelimit-limit", "150"},
-                        {"x-ratelimit-remaining", "100"},
-                        {"x-ratelimit-reset", "1356998400"},
+                        ["x-ratelimit-limit"] = "150",
+                        ["x-ratelimit-remaining"] = "100",
+                        ["x-ratelimit-reset"] = "1356998400",
                     },
                     new ApiLimit(150, 100, new DateTime(2013, 1, 1, 0, 0, 0, DateTimeKind.Utc).ToLocalTime()),
                 };
                 yield return new object[] {
                     new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
-                        {"X-RateLimit-Limit", "150"},
-                        {"X-RateLimit-Remaining", "100"},
-                        {"X-RateLimit-Reset", "hogehoge"},
+                        ["X-RateLimit-Limit"] = "150",
+                        ["X-RateLimit-Remaining"] = "100",
+                        ["X-RateLimit-Reset"] = "hogehoge",
                     },
                     null,
                 };
                 yield return new object[] {
                     new Dictionary<string, string> {
-                        {"X-RateLimit-Limit", "150"},
-                        {"X-RateLimit-Remaining", "100"},
+                        ["X-RateLimit-Limit"] = "150",
+                        ["X-RateLimit-Remaining"] = "100",
                     },
                     null,
                 };
@@ -99,24 +99,24 @@ namespace OpenTween.Api
             {
                 yield return new object[] {
                     new Dictionary<string, string> {
-                        {"X-MediaRateLimit-Limit", "30"},
-                        {"X-MediaRateLimit-Remaining", "20"},
-                        {"X-MediaRateLimit-Reset", "1234567890"},
+                        ["X-MediaRateLimit-Limit"] = "30",
+                        ["X-MediaRateLimit-Remaining"] = "20",
+                        ["X-MediaRateLimit-Reset"] = "1234567890",
                     },
                     new ApiLimit(30, 20, new DateTime(2009, 2, 13, 23, 31, 30, DateTimeKind.Utc).ToLocalTime()),
                 };
                 yield return new object[] {
                     new Dictionary<string, string> {
-                        {"X-MediaRateLimit-Limit", "30"},
-                        {"X-MediaRateLimit-Remaining", "20"},
-                        {"X-MediaRateLimit-Reset", "hogehoge"},
+                        ["X-MediaRateLimit-Limit"] = "30",
+                        ["X-MediaRateLimit-Remaining"] = "20",
+                        ["X-MediaRateLimit-Reset"] = "hogehoge",
                     },
                     null,
                 };
                 yield return new object[] {
                     new Dictionary<string, string> {
-                        {"X-MediaRateLimit-Limit", "30"},
-                        {"X-MediaRateLimit-Remaining", "20"},
+                        ["X-MediaRateLimit-Limit"] = "30",
+                        ["X-MediaRateLimit-Remaining"] = "20",
                     },
                     null,
                 };
@@ -176,13 +176,13 @@ namespace OpenTween.Api
 
             var header = new Dictionary<string, string>
             {
-                {"X-Rate-Limit-Limit", "150"},
-                {"X-Rate-Limit-Remaining", "100"},
-                {"X-Rate-Limit-Reset", "1356998400"},
-                {"X-MediaRateLimit-Limit", "30"},
-                {"X-MediaRateLimit-Remaining", "20"},
-                {"X-MediaRateLimit-Reset", "1357084800"},
-                {"X-Access-Level", "read-write-directmessages"},
+                ["X-Rate-Limit-Limit"] = "150",
+                ["X-Rate-Limit-Remaining"] = "100",
+                ["X-Rate-Limit-Reset"] = "1356998400",
+                ["X-MediaRateLimit-Limit"] = "30",
+                ["X-MediaRateLimit-Remaining"] = "20",
+                ["X-MediaRateLimit-Reset"] = "1357084800",
+                ["X-Access-Level"] = "read-write-directmessages",
             };
 
             status.UpdateFromHeader(header, "/statuses/home_timeline");
