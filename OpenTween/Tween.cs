@@ -3845,7 +3845,6 @@ namespace OpenTween
                 ReTweetStripMenuItem.Enabled = false;
                 ReTweetUnofficialStripMenuItem.Enabled = false;
                 QuoteStripMenuItem.Enabled = false;
-                QuoteUnofficialStripMenuItem.Enabled = false;
                 FavoriteRetweetContextMenu.Enabled = false;
                 FavoriteRetweetUnofficialContextMenu.Enabled = false;
             }
@@ -3862,7 +3861,6 @@ namespace OpenTween
                     ReTweetStripMenuItem.Enabled = false;  //公式RTは無効に
                     ReTweetUnofficialStripMenuItem.Enabled = true;
                     QuoteStripMenuItem.Enabled = true;
-                    QuoteUnofficialStripMenuItem.Enabled = true;
                     FavoriteRetweetContextMenu.Enabled = false;  //公式RTは無効に
                     FavoriteRetweetUnofficialContextMenu.Enabled = true;
                 }
@@ -3873,7 +3871,6 @@ namespace OpenTween
                         ReTweetStripMenuItem.Enabled = false;
                         ReTweetUnofficialStripMenuItem.Enabled = false;
                         QuoteStripMenuItem.Enabled = false;
-                        QuoteUnofficialStripMenuItem.Enabled = false;
                         FavoriteRetweetContextMenu.Enabled = false;
                         FavoriteRetweetUnofficialContextMenu.Enabled = false;
                     }
@@ -3882,7 +3879,6 @@ namespace OpenTween
                         ReTweetStripMenuItem.Enabled = true;
                         ReTweetUnofficialStripMenuItem.Enabled = true;
                         QuoteStripMenuItem.Enabled = true;
-                        QuoteUnofficialStripMenuItem.Enabled = true;
                         FavoriteRetweetContextMenu.Enabled = true;
                         FavoriteRetweetUnofficialContextMenu.Enabled = true;
                     }
@@ -7070,9 +7066,6 @@ namespace OpenTween
                 ShortcutCommand.Create(Keys.Control | Keys.Shift | Keys.O)
                     .Do(() => this.FavorareMenuItem_Click(null, null)),
 
-                ShortcutCommand.Create(Keys.Control | Keys.Shift | Keys.Q)
-                    .Do(() => this.doQuoteUnofficial()),
-
                 ShortcutCommand.Create(Keys.Control | Keys.Shift | Keys.Up)
                     .FocusedOn(FocusedControl.StatusText)
                     .Do(() => {
@@ -9872,7 +9865,7 @@ namespace OpenTween
                 {
                     foreach (Match mid in m)
                     {
-                        if (StatusText.Contains("QT " + mid.Result("${id}") + ":") && mid.Result("${id}") == "@" + inReplyToScreenName) return;
+                        if (StatusText.Contains("RT " + mid.Result("${id}") + ":") && mid.Result("${id}") == "@" + inReplyToScreenName) return;
                     }
                 }
             }
@@ -11236,31 +11229,6 @@ namespace OpenTween
             await this.doGetFollowersMenu();
         }
 
-        private void doReTweetUnofficial()
-        {
-            //RT @id:内容
-            if (this.ExistCurrentPost)
-            {
-                if (_curPost.IsDm ||
-                    !StatusText.Enabled) return;
-
-                if (_curPost.IsProtect)
-                {
-                    MessageBox.Show("Protected.");
-                    return;
-                }
-                string rtdata = _curPost.Text;
-                rtdata = CreateRetweetUnofficial(rtdata, this.StatusText.Multiline);
-
-                this.inReplyTo = null;
-
-                StatusText.Text = "RT @" + _curPost.ScreenName + ": " + rtdata;
-
-                StatusText.SelectionStart = 0;
-                StatusText.Focus();
-            }
-        }
-
         private void ReTweetUnofficialStripMenuItem_Click(object sender, EventArgs e)
         {
             doReTweetUnofficial();
@@ -11807,14 +11775,13 @@ namespace OpenTween
             }
         }
 
-        private void doQuoteUnofficial()
+        private void doReTweetUnofficial()
         {
-            //QT @id:内容
-            //返信先情報付加
+            //RT @id:内容
             if (this.ExistCurrentPost)
             {
-                if (_curPost.IsDm ||
-                    !StatusText.Enabled) return;
+                if (_curPost.IsDm || !StatusText.Enabled)
+                    return;
 
                 if (_curPost.IsProtect)
                 {
@@ -11824,8 +11791,9 @@ namespace OpenTween
                 string rtdata = _curPost.Text;
                 rtdata = CreateRetweetUnofficial(rtdata, this.StatusText.Multiline);
 
-                StatusText.Text = " QT @" + _curPost.ScreenName + ": " + rtdata;
+                StatusText.Text = " RT @" + _curPost.ScreenName + ": " + rtdata;
 
+                // 投稿時に in_reply_to_status_id を付加する
                 var inReplyToStatusId = this._curPost.RetweetedId ?? this._curPost.StatusId;
                 var inReplyToScreenName = this._curPost.ScreenName;
                 this.inReplyTo = Tuple.Create(inReplyToStatusId, inReplyToScreenName);
@@ -11838,11 +11806,6 @@ namespace OpenTween
         private void QuoteStripMenuItem_Click(object sender, EventArgs e) // Handles QuoteStripMenuItem.Click, QtOpMenuItem.Click
         {
             doQuoteOfficial();
-        }
-
-        private void QuoteUnofficialStripMenuItem_Click(object sender, EventArgs e) // Handles QuoteUnofficialStripMenuItem.Click, QtUnOpMenuItem.Click
-        {
-            doQuoteUnofficial();
         }
 
         private void SearchButton_Click(object sender, EventArgs e)
@@ -12269,7 +12232,6 @@ namespace OpenTween
                 this.RtOpMenuItem.Enabled = false;
                 this.RtUnOpMenuItem.Enabled = false;
                 this.QtOpMenuItem.Enabled = false;
-                this.QtUnOpMenuItem.Enabled = false;
                 this.FavoriteRetweetMenuItem.Enabled = false;
                 this.FavoriteRetweetUnofficialMenuItem.Enabled = false;
             }
@@ -12286,7 +12248,6 @@ namespace OpenTween
                     this.RtOpMenuItem.Enabled = false;  //公式RTは無効に
                     this.RtUnOpMenuItem.Enabled = true;
                     this.QtOpMenuItem.Enabled = true;
-                    this.QtUnOpMenuItem.Enabled = true;
                     this.FavoriteRetweetMenuItem.Enabled = false;  //公式RTは無効に
                     this.FavoriteRetweetUnofficialMenuItem.Enabled = true;
                 }
@@ -12297,7 +12258,6 @@ namespace OpenTween
                         this.RtOpMenuItem.Enabled = false;
                         this.RtUnOpMenuItem.Enabled = false;
                         this.QtOpMenuItem.Enabled = false;
-                        this.QtUnOpMenuItem.Enabled = false;
                         this.FavoriteRetweetMenuItem.Enabled = false;
                         this.FavoriteRetweetUnofficialMenuItem.Enabled = false;
                     }
@@ -12306,7 +12266,6 @@ namespace OpenTween
                         this.RtOpMenuItem.Enabled = true;
                         this.RtUnOpMenuItem.Enabled = true;
                         this.QtOpMenuItem.Enabled = true;
-                        this.QtUnOpMenuItem.Enabled = true;
                         this.FavoriteRetweetMenuItem.Enabled = true;
                         this.FavoriteRetweetUnofficialMenuItem.Enabled = true;
                     }

@@ -2458,23 +2458,8 @@
   <data name="ToolStripMenuItem6.Text" xml:space="preserve">
     <value>開く(&amp;O)</value>
   </data>
-  <data name="QtUnOpMenuItem.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
-    <value>Ctrl+Shift+Q</value>
-  </data>
-  <data name="QtUnOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>316, 22</value>
-  </data>
-  <data name="QtUnOpMenuItem.Text" xml:space="preserve">
-    <value>Quote(Unoffi&amp;cial)</value>
-  </data>
-  <data name="QuoteUnofficialStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>244, 22</value>
-  </data>
-  <data name="QuoteUnofficialStripMenuItem.Text" xml:space="preserve">
-    <value>Quote(Unoffi&amp;cial)</value>
-  </data>
   <data name="ContextMenuOperate.Size" type="System.Drawing.Size, System.Drawing">
-    <value>242, 512</value>
+    <value>242, 534</value>
   </data>
   <data name="&gt;&gt;ContextMenuOperate.Name" xml:space="preserve">
     <value>ContextMenuOperate</value>
@@ -4261,18 +4246,6 @@
     <value>LockListSortOrderToolStripMenuItem</value>
   </data>
   <data name="&gt;&gt;LockListSortOrderToolStripMenuItem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;QtUnOpMenuItem.Name" xml:space="preserve">
-    <value>QtUnOpMenuItem</value>
-  </data>
-  <data name="&gt;&gt;QtUnOpMenuItem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;QuoteUnofficialStripMenuItem.Name" xml:space="preserve">
-    <value>QuoteUnofficialStripMenuItem</value>
-  </data>
-  <data name="&gt;&gt;QuoteUnofficialStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
