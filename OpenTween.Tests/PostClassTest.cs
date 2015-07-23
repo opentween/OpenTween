@@ -80,9 +80,9 @@ namespace OpenTween
         {
             PostClassTest.TestCases = new Dictionary<long, PostClass>
             {
-                {1L, new TestPostClass(statusId: 1L)},
-                {2L, new TestPostClass(statusId: 2L, IsFav: true)},
-                {3L, new TestPostClass(statusId: 3L, IsFav: false, RetweetedId: 2L)},
+                [1L] = new TestPostClass(statusId: 1L),
+                [2L] = new TestPostClass(statusId: 2L, IsFav: true),
+                [3L] = new TestPostClass(statusId: 3L, IsFav: false, RetweetedId: 2L),
             };
         }
 

@@ -71,10 +71,10 @@ namespace OpenTween
         {
             var posts = new Dictionary<long, PostClass>
             {
-                {950L, new PostClass { StatusId = 950L, InReplyToStatusId = null }}, // このツイートが末端
-                {987L, new PostClass { StatusId = 987L, InReplyToStatusId = 950L }},
-                {999L, new PostClass { StatusId = 999L, InReplyToStatusId = 987L }},
-                {1000L, new PostClass { StatusId = 1000L, InReplyToStatusId = 999L }},
+                [950L] = new PostClass { StatusId = 950L, InReplyToStatusId = null }, // このツイートが末端
+                [987L] = new PostClass { StatusId = 987L, InReplyToStatusId = 950L },
+                [999L] = new PostClass { StatusId = 999L, InReplyToStatusId = 987L },
+                [1000L] = new PostClass { StatusId = 1000L, InReplyToStatusId = 999L },
             };
             Assert.Equal(950L, Twitter.FindTopOfReplyChain(posts, 1000L).StatusId);
             Assert.Equal(950L, Twitter.FindTopOfReplyChain(posts, 950L).StatusId);
@@ -83,9 +83,9 @@ namespace OpenTween
             posts = new Dictionary<long, PostClass>
             {
                 // 1200L は posts の中に存在しない
-                {1210L, new PostClass { StatusId = 1210L, InReplyToStatusId = 1200L }},
-                {1220L, new PostClass { StatusId = 1220L, InReplyToStatusId = 1210L }},
-                {1230L, new PostClass { StatusId = 1230L, InReplyToStatusId = 1220L }},
+                [1210L] = new PostClass { StatusId = 1210L, InReplyToStatusId = 1200L },
+                [1220L] = new PostClass { StatusId = 1220L, InReplyToStatusId = 1210L },
+                [1230L] = new PostClass { StatusId = 1230L, InReplyToStatusId = 1220L },
             };
             Assert.Equal(1210L, Twitter.FindTopOfReplyChain(posts, 1230L).StatusId);
             Assert.Equal(1210L, Twitter.FindTopOfReplyChain(posts, 1210L).StatusId);
