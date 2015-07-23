@@ -55,10 +55,10 @@ namespace OpenTween.OpenTweenCustomControl
 
             public LogEntry(LogLevel logLevel, DateTime timestamp, string summary, string detail)
             {
-                LogLevel = logLevel;
-                Timestamp = timestamp;
-                Summary = summary;
-                Detail = detail;
+                this.LogLevel = logLevel;
+                this.Timestamp = timestamp;
+                this.Summary = summary;
+                this.Detail = detail;
             }
 
             public LogEntry(DateTime timestamp, string summary) : this(LogLevel.Debug, timestamp, summary, summary)
