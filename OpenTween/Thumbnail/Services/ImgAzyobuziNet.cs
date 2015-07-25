@@ -40,6 +40,12 @@ namespace OpenTween.Thumbnail.Services
             "http://img.opentween.org/api/",
         };
 
+        protected string[] ExcludedServiceNames =
+        {
+            "Tumblr",
+            "Gyazo",
+        };
+
         protected string ApiBase;
         protected IEnumerable<Regex> UrlRegex = null;
         protected Timer UpdateTimer;
@@ -152,7 +158,7 @@ namespace OpenTween.Thumbnail.Services
                     lock (this.LockObj)
                     {
                         this.UrlRegex = xElm.Elements("item")
-                            .Where(x => x.Element("name").Value != "Tumblr") // Tumblrのサムネイル表示には img.azyobuzi.net を使用しない
+                            .Where(x => !this.ExcludedServiceNames.Contains(x.Element("name").Value))
                             .Select(e => new Regex(e.Element("regex").Value, RegexOptions.IgnoreCase))
                             .ToArray();
 
