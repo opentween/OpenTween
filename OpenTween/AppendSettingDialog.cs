@@ -50,7 +50,6 @@ namespace OpenTween
         internal Twitter tw;
 
         private bool _ValidationError = false;
-        private long? InitialUserId;
 
         public AppendSettingDialog()
         {
@@ -86,7 +85,6 @@ namespace OpenTween
             if (activeUser != null)
             {
                 this.BasedPanel.AuthUserCombo.SelectedItem = activeUser;
-                this.InitialUserId = activeUser.UserId;
             }
         }
 
