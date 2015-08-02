@@ -782,5 +782,15 @@ namespace OpenTween
 
             return true;
         }
+
+        public override int GetHashCode()
+        {
+            return this.FilterName?.GetHashCode() ?? 0 ^
+                this.FilterSource?.GetHashCode() ?? 0 ^
+                this.FilterBody.Select(x => x?.GetHashCode() ?? 0).Sum() ^
+                this.ExFilterName?.GetHashCode() ?? 0 ^
+                this.ExFilterSource?.GetHashCode() ?? 0 ^
+                this.ExFilterBody.Select(x => x?.GetHashCode() ?? 0).Sum();
+        }
     }
 }
