@@ -264,14 +264,22 @@ namespace OpenTween
         /// <param name="stream">読み込む対象となる Stream</param>
         /// <returns>作成された MemoryImage</returns>
         /// <exception cref="InvalidImageException">不正な画像データが入力された場合</exception>
-        [SuppressMessage("Microsoft.Reliability", "CA2000:DisposeObjectsBeforeLosingScope")]
         public static MemoryImage CopyFromStream(Stream stream)
         {
-            var memstream = new MemoryStream();
+            MemoryStream memstream = null;
+            try
+            {
+                memstream = new MemoryStream();
 
-            stream.CopyTo(memstream);
+                stream.CopyTo(memstream);
 
-            return new MemoryImage(memstream);
+                return new MemoryImage(memstream);
+            }
+            catch
+            {
+                memstream?.Dispose();
+                throw;
+            }
         }
 
         /// <summary>
@@ -286,11 +294,20 @@ namespace OpenTween
         /// <exception cref="InvalidImageException">不正な画像データが入力された場合</exception>
         public async static Task<MemoryImage> CopyFromStreamAsync(Stream stream)
         {
-            var memstream = new MemoryStream();
+            MemoryStream memstream = null;
+            try
+            {
+                memstream = new MemoryStream();
 
-            await stream.CopyToAsync(memstream).ConfigureAwait(false);
+                await stream.CopyToAsync(memstream).ConfigureAwait(false);
 
-            return new MemoryImage(memstream);
+                return new MemoryImage(memstream);
+            }
+            catch
+            {
+                memstream?.Dispose();
+                throw;
+            }
         }
 
         /// <summary>
@@ -299,10 +316,19 @@ namespace OpenTween
         /// <param name="bytes">読み込む対象となるバイト列</param>
         /// <returns>作成された MemoryImage</returns>
         /// <exception cref="InvalidImageException">不正な画像データが入力された場合</exception>
-        [SuppressMessage("Microsoft.Reliability", "CA2000:DisposeObjectsBeforeLosingScope")]
         public static MemoryImage CopyFromBytes(byte[] bytes)
         {
-            return new MemoryImage(new MemoryStream(bytes));
+            MemoryStream memstream = null;
+            try
+            {
+                memstream = new MemoryStream(bytes);
+                return new MemoryImage(memstream);
+            }
+            catch
+            {
+                memstream?.Dispose();
+                throw;
+            }
         }
 
         /// <summary>
@@ -313,14 +339,22 @@ namespace OpenTween
         /// </remarks>
         /// <param name="image">対象となる画像</param>
         /// <returns>作成された MemoryImage</returns>
-        [SuppressMessage("Microsoft.Reliability", "CA2000:DisposeObjectsBeforeLosingScope")]
         public static MemoryImage CopyFromImage(Image image)
         {
-            var memstream = new MemoryStream();
+            MemoryStream memstream = null;
+            try
+            {
+                memstream = new MemoryStream();
 
-            image.Save(memstream, ImageFormat.Png);
+                image.Save(memstream, ImageFormat.Png);
 
-            return new MemoryImage(memstream);
+                return new MemoryImage(memstream);
+            }
+            catch
+            {
+                memstream?.Dispose();
+                throw;
+            }
         }
     }
 

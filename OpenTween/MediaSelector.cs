@@ -388,16 +388,22 @@ namespace OpenTween
             return false;
         }
 
-        private IMediaItem CreateMemoryImageMediaItem(Image image, bool noMsgBox)
+        private MemoryImageMediaItem CreateMemoryImageMediaItem(Image image, bool noMsgBox)
         {
             if (image == null) return null;
 
+            MemoryImage memoryImage = null;
             try
             {
-                return new MemoryImageMediaItem(image);
+                // image から png 形式の MemoryImage を生成
+                memoryImage = MemoryImage.CopyFromImage(image);
+
+                return new MemoryImageMediaItem(memoryImage);
             }
             catch
             {
+                memoryImage?.Dispose();
+
                 if (!noMsgBox) MessageBox.Show("Unable to create MemoryImage.");
                 return null;
             }

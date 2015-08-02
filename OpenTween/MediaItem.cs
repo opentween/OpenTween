@@ -186,13 +186,12 @@ namespace OpenTween
 
         private readonly MemoryImage _image;
 
-        public MemoryImageMediaItem(Image image)
+        public MemoryImageMediaItem(MemoryImage image)
         {
             if (image == null)
                 throw new ArgumentNullException(nameof(image));
 
-            // image から png 形式の MemoryImage を生成
-            this._image = MemoryImage.CopyFromImage(image);
+            this._image = image;
 
             var num = Interlocked.Increment(ref _fileNumber);
             this.Path = PathPrefix + num + this._image.ImageFormatExt;
@@ -237,13 +236,22 @@ namespace OpenTween
 
         public Stream OpenRead()
         {
-            // コピーを作成する
-            var memstream = new MemoryStream();
+            MemoryStream memstream = null;
+            try
+            {
+                // コピーを作成する
+                memstream = new MemoryStream();
 
-            this._image.Stream.WriteTo(memstream);
-            memstream.Seek(0, SeekOrigin.Begin);
+                this._image.Stream.WriteTo(memstream);
+                memstream.Seek(0, SeekOrigin.Begin);
 
-            return memstream;
+                return memstream;
+            }
+            catch
+            {
+                memstream?.Dispose();
+                throw;
+            }
         }
 
         public void CopyTo(Stream stream)
