@@ -6563,18 +6563,12 @@ namespace OpenTween
                 " (@" + WebUtility.HtmlEncode(post.ScreenName) + ") " +
                 WebUtility.HtmlEncode(post.CreatedAt.ToString());
 
-            return FormatQuoteTweetHtml(post.ScreenName, post.StatusId, innerHtml);
+            return FormatQuoteTweetHtml(post.StatusId, innerHtml);
         }
 
         internal static string FormatQuoteTweetHtml(long statusId, string innerHtml)
         {
-            // screenName が不明な場合、とりあえず https://twitter.com/statuses/status/{statusId} にリンクする
-            return FormatQuoteTweetHtml("statuses", statusId, innerHtml);
-        }
-
-        internal static string FormatQuoteTweetHtml(string screenName, long statusId, string innerHtml)
-        {
-            return "<a class=\"quote-tweet-link\" href=\"https://twitter.com/" + WebUtility.HtmlEncode(screenName) + "/status/" + statusId + "\">" +
+            return "<a class=\"quote-tweet-link\" href=\"//opentween/status/" + statusId + "\">" +
                 "<blockquote class=\"quote-tweet\">" + innerHtml + "</blockquote>" +
                 "</a>";
         }
@@ -10918,12 +10912,10 @@ namespace OpenTween
         {
             var uriStr = uri.AbsoluteUri;
 
-            // ツイートURL
-            var statusUriMatch = Twitter.StatusUrlRegex.Match(uriStr);
-            if (statusUriMatch.Success)
+            // OpenTween 内部で使用する URL
+            if (uri.Authority == "opentween")
             {
-                var statusId = long.Parse(statusUriMatch.Groups["StatusId"].Value);
-                await this.OpenRelatedTab(statusId);
+                await this.OpenInternalUriAsync(uri);
                 return;
             }
 
@@ -10961,6 +10953,21 @@ namespace OpenTween
 
             // どのパターンにも該当しないURL
             await this.OpenUriInBrowserAsync(uriStr);
+        }
+
+        /// <summary>
+        /// OpenTween 内部の機能を呼び出すための URL を開きます
+        /// </summary>
+        private async Task OpenInternalUriAsync(Uri uri)
+        {
+            // ツイートを開く (//opentween/status/:status_id)
+            var match = Regex.Match(uri.AbsolutePath, @"^/status/(\d+)$");
+            if (match.Success)
+            {
+                var statusId = long.Parse(match.Groups[1].Value);
+                await this.OpenRelatedTab(statusId);
+                return;
+            }
         }
 
         public Task OpenUriInBrowserAsync(string UriString)

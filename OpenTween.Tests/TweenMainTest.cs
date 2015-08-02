@@ -181,7 +181,7 @@ namespace OpenTween
             // PostClass.Text はリンクを除去するのみでエスケープは行わない
             // (TweetFormatter によって既にエスケープされた文字列が格納されているため)
 
-            var expected = "<a class=\"quote-tweet-link\" href=\"https://twitter.com/kim_upsilon/status/12345\">" +
+            var expected = "<a class=\"quote-tweet-link\" href=\"//opentween/status/12345\">" +
                 "<blockquote class=\"quote-tweet\">" +
                 "<p>@twitterapi hogehoge</p> &mdash; upsilon (@kim_upsilon) " + DateTime.Parse("2015/03/30 3:30:00") +
                 "</blockquote></a>";
@@ -194,10 +194,10 @@ namespace OpenTween
             var statusId = 12345L; // リンク先のステータスID
             var html = "<marquee>hogehoge</marquee>"; // HTMLをそのまま出力する (エスケープしない)
 
-            var expected = "<a class=\"quote-tweet-link\" href=\"https://twitter.com/twitter/status/12345\">" +
+            var expected = "<a class=\"quote-tweet-link\" href=\"//opentween/status/12345\">" +
                 "<blockquote class=\"quote-tweet\"><marquee>hogehoge</marquee></blockquote>" +
                 "</a>";
-            Assert.Equal(expected, TweenMain.FormatQuoteTweetHtml("twitter", statusId, html));
+            Assert.Equal(expected, TweenMain.FormatQuoteTweetHtml(statusId, html));
         }
 
         [Fact]
