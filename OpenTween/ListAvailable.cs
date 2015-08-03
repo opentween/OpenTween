@@ -140,7 +140,10 @@ namespace OpenTween
                     this.UpdateListsListBox(lists);
                 }
                 catch (OperationCanceledException) { }
-                catch (WebApiException) { }
+                catch (WebApiException ex)
+                {
+                    MessageBox.Show("Failed to get lists. (" + ex.Message + ")");
+                }
             }
         }
 
@@ -152,15 +155,9 @@ namespace OpenTween
 
                 var tw = ((TweenMain)this.Owner).TwitterInstance;
                 var task = Task.Run(() => tw.GetListsApi());
-                var err = await dialog.WaitForAsync(this, task);
+                await dialog.WaitForAsync(this, task);
 
                 cancellationToken.ThrowIfCancellationRequested();
-
-                if (!string.IsNullOrEmpty(err))
-                {
-                    MessageBox.Show("Failed to get lists. (" + err + ")");
-                    throw new WebApiException(err);
-                }
             }
 
             return TabInformations.GetInstance().SubscribableLists;

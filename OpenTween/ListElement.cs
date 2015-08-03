@@ -43,7 +43,7 @@ namespace OpenTween
         public string Username = "";
         public string Nickname = "";
 
-        protected dynamic _tw;
+        protected Twitter _tw;
 
         private List<UserInfo> _members = null;
         private long _cursor = -1;
@@ -52,7 +52,7 @@ namespace OpenTween
         {
         }
 
-        public ListElement(TwitterList listElementData, dynamic tw)
+        public ListElement(TwitterList listElementData, Twitter tw)
         {
             this.Description = listElementData.Description;
             this.Id = listElementData.Id;
@@ -68,10 +68,20 @@ namespace OpenTween
             this._tw = tw;
         }
 
-        public virtual string Refresh()
+        public virtual void Refresh()
         {
-            ListElement t = this;
-            return _tw.EditList(this.Id.ToString(), Name, !this.IsPublic, this.Description, ref t);
+            var newList = _tw.EditList(this.Id.ToString(), Name, !this.IsPublic, this.Description);
+
+            this.Description = newList.Description;
+            this.Id = newList.Id;
+            this.IsPublic = newList.IsPublic;
+            this.MemberCount = newList.MemberCount;
+            this.Name = newList.Name;
+            this.SubscriberCount = newList.SubscriberCount;
+            this.Slug = newList.Slug;
+            this.Nickname = newList.Nickname;
+            this.Username = newList.Username;
+            this.UserId = newList.UserId;
         }
 
         [XmlIgnore]
@@ -93,19 +103,16 @@ namespace OpenTween
             }
         }
 
-        public string RefreshMembers()
+        public void RefreshMembers()
         {
             var users = new List<UserInfo>();
-            _cursor = -1;
-            var result = this._tw.GetListMembers(this.Id.ToString(), users, ref _cursor);
+            this._cursor = this._tw.GetListMembers(this.Id.ToString(), users, cursor: -1);
             this._members = users;
-            return string.IsNullOrEmpty(result) ? this.ToString() : result;
         }
 
-        public string GetMoreMembers()
+        public void GetMoreMembers()
         {
-            var result = this._tw.GetListMembers(this.Id.ToString(), this._members, ref _cursor);
-            return string.IsNullOrEmpty(result) ? this.ToString() : result;
+            this._cursor = this._tw.GetListMembers(this.Id.ToString(), this._members, this._cursor);
         }
 
         public override string ToString()

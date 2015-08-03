@@ -195,7 +195,7 @@ namespace OpenTween
             MyCommon.TwitterApiInfo.Reset();
         }
 
-        public string Authenticate(string username, string password)
+        public void Authenticate(string username, string password)
         {
             this.ResetApiStatus();
 
@@ -207,36 +207,37 @@ namespace OpenTween
             }
             catch(Exception ex)
             {
-                return "Err:" + ex.Message;
+                throw new WebApiException("Err:" + ex.Message, ex);
             }
 
             var err = this.CheckStatusCode(res, content);
-            if (err != null) return err;
+            if (err != null)
+                throw new WebApiException(err);
 
             _uname = username.ToLower();
             if (SettingCommon.Instance.UserstreamStartup) this.ReconnectUserStream();
-            return "";
         }
 
-        public string StartAuthentication(ref string pinPageUrl)
+        public string StartAuthentication()
         {
             //OAuth PIN Flow
             this.ResetApiStatus();
             try
             {
+                string pinPageUrl = null;
                 var res = twCon.AuthGetRequestToken(ref pinPageUrl);
                 if (!res)
-                    return "Err:Failed to access auth server.";
-            }
-            catch(Exception)
-            {
-                return "Err:" + "Failed to access auth server.";
-            }
+                    throw new WebApiException("Err:Failed to access auth server.");
 
-            return "";
+                return pinPageUrl;
+            }
+            catch (Exception ex)
+            {
+                throw new WebApiException("Err:Failed to access auth server.", ex);
+            }
         }
 
-        public string Authenticate(string pinCode)
+        public void Authenticate(string pinCode)
         {
             this.ResetApiStatus();
 
@@ -245,17 +246,17 @@ namespace OpenTween
             {
                 res = twCon.AuthGetAccessToken(pinCode);
             }
-            catch(Exception)
+            catch (Exception ex)
             {
-                return "Err:" + "Failed to access auth acc server.";
+                throw new WebApiException("Err:Failed to access auth acc server.", ex);
             }
 
             var err = this.CheckStatusCode(res, null);
-            if (err != null) return err;
+            if (err != null)
+                throw new WebApiException(err);
 
             _uname = Username.ToLower();
             if (SettingCommon.Instance.UserstreamStartup) this.ReconnectUserStream();
-            return "";
         }
 
         public void ClearAuthInfo()
@@ -470,16 +471,15 @@ namespace OpenTween
             return false;
         }
 
-        public string PostStatus(string postStr, long? reply_to, List<long> mediaIds = null)
+        public void PostStatus(string postStr, long? reply_to, List<long> mediaIds = null)
         {
-            if (MyCommon._endingFlag) return "";
-
-            if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid) return "";
+            if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid)
+                throw new WebApiException("Auth error. Check your account");
 
             if (mediaIds == null &&
                 Twitter.DMSendTextRegex.IsMatch(postStr))
             {
-                return SendDirectMessage(postStr);
+                SendDirectMessage(postStr);
             }
 
             HttpStatusCode res;
@@ -490,14 +490,16 @@ namespace OpenTween
             }
             catch(Exception ex)
             {
-                return "Err:" + ex.Message;
+                throw new WebApiException("Err:" + ex.Message, ex);
             }
 
             // 投稿に成功していても404が返ることがあるらしい: https://dev.twitter.com/discussions/1213
-            if (res == HttpStatusCode.NotFound) return "";
+            if (res == HttpStatusCode.NotFound)
+                return;
 
             var err = this.CheckStatusCode(res, content);
-            if (err != null) return err;
+            if (err != null)
+                throw new WebApiException(err);
 
             TwitterStatus status;
             try
@@ -507,12 +509,12 @@ namespace OpenTween
             catch(SerializationException ex)
             {
                 MyCommon.TraceOut(ex.Message + Environment.NewLine + content);
-                return "Err:Json Parse Error(DataContractJsonSerializer)";
+                throw new WebApiException("Err:Json Parse Error(DataContractJsonSerializer)", content, ex);
             }
             catch(Exception ex)
             {
                 MyCommon.TraceOut(ex, MethodBase.GetCurrentMethod().Name + " " + content);
-                return "Err:Invalid Json!";
+                throw new WebApiException("Err:Invalid Json!", content, ex);
             }
             _followersCount = status.User.FollowersCount;
             _friendsCount = status.User.FriendsCount;
@@ -522,16 +524,14 @@ namespace OpenTween
 
             if (IsPostRestricted(status))
             {
-                return "OK:Delaying?";
+                throw new WebApiException("OK:Delaying?");
             }
-            return "";
         }
 
-        public string PostStatusWithMedia(string postStr, long? reply_to, IMediaItem item)
+        public void PostStatusWithMedia(string postStr, long? reply_to, IMediaItem item)
         {
-            if (MyCommon._endingFlag) return "";
-
-            if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid) return "";
+            if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid)
+                throw new WebApiException("Auth error. Check your account");
 
             HttpStatusCode res;
             var content = "";
@@ -541,14 +541,16 @@ namespace OpenTween
             }
             catch(Exception ex)
             {
-                return "Err:" + ex.Message;
+                throw new WebApiException("Err:" + ex.Message, ex);
             }
 
             // 投稿に成功していても404が返ることがあるらしい: https://dev.twitter.com/discussions/1213
-            if (res == HttpStatusCode.NotFound) return "";
+            if (res == HttpStatusCode.NotFound)
+                return;
 
             var err = this.CheckStatusCode(res, content);
-            if (err != null) return err;
+            if (err != null)
+                throw new WebApiException(err);
 
             TwitterStatus status;
             try
@@ -558,12 +560,12 @@ namespace OpenTween
             catch(SerializationException ex)
             {
                 MyCommon.TraceOut(ex.Message + Environment.NewLine + content);
-                return "Err:Json Parse Error(DataContractJsonSerializer)";
+                throw new WebApiException("Err:Json Parse Error(DataContractJsonSerializer)", content, ex);
             }
             catch(Exception ex)
             {
                 MyCommon.TraceOut(ex, MethodBase.GetCurrentMethod().Name + " " + content);
-                return "Err:Invalid Json!";
+                throw new WebApiException("Err:Invalid Json!", content, ex);
             }
             _followersCount = status.User.FollowersCount;
             _friendsCount = status.User.FriendsCount;
@@ -573,43 +575,38 @@ namespace OpenTween
 
             if (IsPostRestricted(status))
             {
-                return "OK:Delaying?";
+                throw new WebApiException("OK:Delaying?");
             }
-            return "";
         }
 
-        public string PostStatusWithMultipleMedia(string postStr, long? reply_to, IMediaItem[] mediaItems)
+        public void PostStatusWithMultipleMedia(string postStr, long? reply_to, IMediaItem[] mediaItems)
         {
-            if (MyCommon._endingFlag) return "";
-
-            if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid) return "";
+            if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid)
+                throw new WebApiException("Auth error. Check your account");
 
             if (Twitter.DMSendTextRegex.IsMatch(postStr))
             {
-                return SendDirectMessage(postStr);
+                SendDirectMessage(postStr);
             }
 
             var mediaIds = new List<long>();
 
             foreach (var item in mediaItems)
             {
-                long? mediaId = null;
-                var err = UploadMedia(item, ref mediaId);
-                if (!mediaId.HasValue || !string.IsNullOrEmpty(err)) return err;
-                mediaIds.Add(mediaId.Value);
+                var mediaId = UploadMedia(item);
+                mediaIds.Add(mediaId);
             }
 
             if (mediaIds.Count == 0)
-                return "Err:Invalid Files!";
+                throw new WebApiException("Err:Invalid Files!");
 
-            return PostStatus(postStr, reply_to, mediaIds);
+            PostStatus(postStr, reply_to, mediaIds);
         }
 
-        public string UploadMedia(IMediaItem item, ref long? mediaId)
+        public long UploadMedia(IMediaItem item)
         {
-            if (MyCommon._endingFlag) return "";
-
-            if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid) return "";
+            if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid)
+                throw new WebApiException("Auth error. Check your account");
 
             HttpStatusCode res;
             var content = "";
@@ -619,11 +616,12 @@ namespace OpenTween
             }
             catch (Exception ex)
             {
-                return "Err:" + ex.Message;
+                throw new WebApiException("Err:" + ex.Message, ex);
             }
 
             var err = this.CheckStatusCode(res, content);
-            if (err != null) return err;
+            if (err != null)
+                throw new WebApiException(err);
 
             TwitterUploadMediaResult status;
             try
@@ -633,28 +631,24 @@ namespace OpenTween
             catch (SerializationException ex)
             {
                 MyCommon.TraceOut(ex.Message + Environment.NewLine + content);
-                return "Err:Json Parse Error(DataContractJsonSerializer)";
+                throw new WebApiException("Err:Json Parse Error(DataContractJsonSerializer)", content, ex);
             }
             catch (Exception ex)
             {
                 MyCommon.TraceOut(ex, MethodBase.GetCurrentMethod().Name + " " + content);
-                return "Err:Invalid Json!";
+                throw new WebApiException("Err:Invalid Json!", content, ex);
             }
 
-            mediaId = status.MediaId;
-            return "";
+            return status.MediaId;
         }
 
-        public string SendDirectMessage(string postStr)
+        public void SendDirectMessage(string postStr)
         {
-            if (MyCommon._endingFlag) return "";
-
-            if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid) return "";
+            if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid)
+                throw new WebApiException("Auth error. Check your account");
 
             if (this.AccessLevel == TwitterApiAccessLevel.Read || this.AccessLevel == TwitterApiAccessLevel.ReadWrite)
-            {
-                return "Auth Err:try to re-authorization.";
-            }
+                throw new WebApiException("Auth Err:try to re-authorization.");
 
             var mc = Twitter.DMSendTextRegex.Match(postStr);
 
@@ -666,11 +660,12 @@ namespace OpenTween
             }
             catch(Exception ex)
             {
-                return "Err:" + ex.Message;
+                throw new WebApiException("Err:" + ex.Message, ex);
             }
 
             var err = this.CheckStatusCode(res, content);
-            if (err != null) return err;
+            if (err != null)
+                throw new WebApiException(err);
 
             TwitterDirectMessage status;
             try
@@ -680,27 +675,24 @@ namespace OpenTween
             catch(SerializationException ex)
             {
                 MyCommon.TraceOut(ex.Message + Environment.NewLine + content);
-                return "Err:Json Parse Error(DataContractJsonSerializer)";
+                throw new WebApiException("Err:Json Parse Error(DataContractJsonSerializer)", content, ex);
             }
             catch(Exception ex)
             {
                 MyCommon.TraceOut(ex, MethodBase.GetCurrentMethod().Name + " " + content);
-                return "Err:Invalid Json!";
+                throw new WebApiException("Err:Invalid Json!", content, ex);
             }
             _followersCount = status.Sender.FollowersCount;
             _friendsCount = status.Sender.FriendsCount;
             _statusesCount = status.Sender.StatusesCount;
             _location = status.Sender.Location;
             _bio = status.Sender.Description;
-
-            return "";
         }
 
-        public string RemoveStatus(long id)
+        public void RemoveStatus(long id)
         {
-            if (MyCommon._endingFlag) return "";
-
-            if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid) return "";
+            if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid)
+                throw new WebApiException("Auth error. Check your account");
 
             HttpStatusCode res;
             try
@@ -709,23 +701,25 @@ namespace OpenTween
             }
             catch(Exception ex)
             {
-                return "Err:" + ex.Message;
+                throw new WebApiException("Err:" + ex.Message, ex);
             }
 
-            return this.CheckStatusCode(res, null) ?? "";
+            var err = this.CheckStatusCode(res, null);
+            if (!string.IsNullOrEmpty(err))
+                throw new WebApiException(err);
         }
 
-        public string PostRetweet(long id, bool read)
+        public void PostRetweet(long id, bool read)
         {
-            if (MyCommon._endingFlag) return "";
-            if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid) return "";
+            if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid)
+                throw new WebApiException("Auth error. Check your account");
 
             //データ部分の生成
             var target = id;
             var post = TabInformations.GetInstance()[id];
             if (post == null)
             {
-                return "Err:Target isn't found.";
+                throw new WebApiException("Err:Target isn't found.");
             }
             if (TabInformations.GetInstance()[id].RetweetedId != null)
             {
@@ -740,11 +734,12 @@ namespace OpenTween
             }
             catch(Exception ex)
             {
-                return "Err:" + ex.Message;
+                throw new WebApiException("Err:" + ex.Message, ex);
             }
 
             var err = this.CheckStatusCode(res, content);
-            if (err != null) return err;
+            if (err != null)
+                throw new WebApiException(err);
 
             TwitterStatus status;
             try
@@ -754,25 +749,28 @@ namespace OpenTween
             catch(SerializationException ex)
             {
                 MyCommon.TraceOut(ex.Message + Environment.NewLine + content);
-                return "Err:Json Parse Error(DataContractJsonSerializer)";
+                throw new WebApiException("Err:Json Parse Error(DataContractJsonSerializer)", content, ex);
             }
             catch(Exception ex)
             {
                 MyCommon.TraceOut(ex, MethodBase.GetCurrentMethod().Name + " " + content);
-                return "Err:Invalid Json!";
+                throw new WebApiException("Err:Invalid Json!", content, ex);
             }
 
             //ReTweetしたものをTLに追加
             post = CreatePostsFromStatusData(status);
-            if (post == null) return "Invalid Json!";
+            if (post == null)
+                throw new WebApiException("Invalid Json!", content);
 
             //二重取得回避
             lock (LockObj)
             {
-                if (TabInformations.GetInstance().ContainsKey(post.StatusId)) return "";
+                if (TabInformations.GetInstance().ContainsKey(post.StatusId))
+                    return;
             }
             //Retweet判定
-            if (post.RetweetedId == null) return "Invalid Json!";
+            if (post.RetweetedId == null)
+                throw new WebApiException("Invalid Json!", content);
             //ユーザー情報
             post.IsMe = true;
 
@@ -782,20 +780,15 @@ namespace OpenTween
             post.IsDm = false;
 
             TabInformations.GetInstance().AddPost(post);
-
-            return "";
         }
 
-        public string RemoveDirectMessage(long id, PostClass post)
+        public void RemoveDirectMessage(long id, PostClass post)
         {
-            if (MyCommon._endingFlag) return "";
-
-            if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid) return "";
+            if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid)
+                throw new WebApiException("Auth error. Check your account");
 
             if (this.AccessLevel == TwitterApiAccessLevel.Read || this.AccessLevel == TwitterApiAccessLevel.ReadWrite)
-            {
-                return "Auth Err:try to re-authorization.";
-            }
+                throw new WebApiException("Auth Err:try to re-authorization.");
 
             //if (post.IsMe)
             //    _deletemessages.Add(post)
@@ -808,17 +801,18 @@ namespace OpenTween
             }
             catch(Exception ex)
             {
-                return "Err:" + ex.Message;
+                throw new WebApiException("Err:" + ex.Message, ex);
             }
 
-            return this.CheckStatusCode(res, null) ?? "";
+            var err = this.CheckStatusCode(res, null);
+            if (err != null)
+                throw new WebApiException(err);
         }
 
-        public string PostFollowCommand(string screenName)
+        public void PostFollowCommand(string screenName)
         {
-            if (MyCommon._endingFlag) return "";
-
-            if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid) return "";
+            if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid)
+                throw new WebApiException("Auth error. Check your account");
 
             HttpStatusCode res;
             var content = "";
@@ -828,17 +822,18 @@ namespace OpenTween
             }
             catch(Exception ex)
             {
-                return "Err:" + ex.Message;
+                throw new WebApiException("Err:" + ex.Message, ex);
             }
 
-            return this.CheckStatusCode(res, content) ?? "";
+            var err = this.CheckStatusCode(res, content);
+            if (err != null)
+                throw new WebApiException(err);
         }
 
-        public string PostRemoveCommand(string screenName)
+        public void PostRemoveCommand(string screenName)
         {
-            if (MyCommon._endingFlag) return "";
-
-            if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid) return "";
+            if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid)
+                throw new WebApiException("Auth error. Check your account");
 
             HttpStatusCode res;
             var content = "";
@@ -848,17 +843,18 @@ namespace OpenTween
             }
             catch(Exception ex)
             {
-                return "Err:" + ex.Message + "(" + MethodBase.GetCurrentMethod().Name + ")";
+                throw new WebApiException("Err:" + ex.Message + "(" + MethodBase.GetCurrentMethod().Name + ")", ex);
             }
 
-            return this.CheckStatusCode(res, content) ?? "";
+            var err = this.CheckStatusCode(res, content);
+            if (err != null)
+                throw new WebApiException(err);
         }
 
-        public string PostCreateBlock(string screenName)
+        public void PostCreateBlock(string screenName)
         {
-            if (MyCommon._endingFlag) return "";
-
-            if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid) return "";
+            if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid)
+                throw new WebApiException("Auth error. Check your account");
 
             HttpStatusCode res;
             var content = "";
@@ -868,17 +864,18 @@ namespace OpenTween
             }
             catch(Exception ex)
             {
-                return "Err:" + ex.Message + "(" + MethodBase.GetCurrentMethod().Name + ")";
+                throw new WebApiException("Err:" + ex.Message + "(" + MethodBase.GetCurrentMethod().Name + ")", ex);
             }
 
-            return this.CheckStatusCode(res, content) ?? "";
+            var err = this.CheckStatusCode(res, content);
+            if (err != null)
+                throw new WebApiException(err);
         }
 
-        public string PostDestroyBlock(string screenName)
+        public void PostDestroyBlock(string screenName)
         {
-            if (MyCommon._endingFlag) return "";
-
-            if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid) return "";
+            if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid)
+                throw new WebApiException("Auth error. Check your account");
 
             HttpStatusCode res;
             var content = "";
@@ -888,17 +885,18 @@ namespace OpenTween
             }
             catch(Exception ex)
             {
-                return "Err:" + ex.Message + "(" + MethodBase.GetCurrentMethod().Name + ")";
+                throw new WebApiException("Err:" + ex.Message + "(" + MethodBase.GetCurrentMethod().Name + ")", ex);
             }
 
-            return this.CheckStatusCode(res, content) ?? "";
+            var err = this.CheckStatusCode(res, content);
+            if (err != null)
+                throw new WebApiException(err);
         }
 
-        public string PostReportSpam(string screenName)
+        public void PostReportSpam(string screenName)
         {
-            if (MyCommon._endingFlag) return "";
-
-            if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid) return "";
+            if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid)
+                throw new WebApiException("Auth error. Check your account");
 
             HttpStatusCode res;
             var content = "";
@@ -908,17 +906,18 @@ namespace OpenTween
             }
             catch(Exception ex)
             {
-                return "Err:" + ex.Message + "(" + MethodBase.GetCurrentMethod().Name + ")";
+                throw new WebApiException("Err:" + ex.Message + "(" + MethodBase.GetCurrentMethod().Name + ")", ex);
             }
 
-            return this.CheckStatusCode(res, content) ?? "";
+            var err = this.CheckStatusCode(res, content);
+            if (err != null)
+                throw new WebApiException(err);
         }
 
-        public string GetFriendshipInfo(string screenName, ref bool isFollowing, ref bool isFollowed)
+        public TwitterFriendship GetFriendshipInfo(string screenName)
         {
-            if (MyCommon._endingFlag) return "";
-
-            if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid) return "";
+            if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid)
+                throw new WebApiException("Auth error. Check your account");
 
             HttpStatusCode res;
             var content = "";
@@ -928,38 +927,33 @@ namespace OpenTween
             }
             catch(Exception ex)
             {
-                return "Err:" + ex.Message + "(" + MethodBase.GetCurrentMethod().Name + ")";
+                throw new WebApiException("Err:" + ex.Message + "(" + MethodBase.GetCurrentMethod().Name + ")", ex);
             }
 
             var err = this.CheckStatusCode(res, content);
-            if (err != null) return err;
+            if (err != null)
+                throw new WebApiException(err);
 
             try
             {
-                var friendship = TwitterFriendship.ParseJson(content);
-                isFollowing = friendship.Relationship.Source.Following;
-                isFollowed = friendship.Relationship.Source.FollowedBy;
-                return "";
+                return TwitterFriendship.ParseJson(content);
             }
             catch(SerializationException ex)
             {
                 MyCommon.TraceOut(ex.Message + Environment.NewLine + content);
-                return "Err:Json Parse Error(DataContractJsonSerializer)";
+                throw new WebApiException("Err:Json Parse Error(DataContractJsonSerializer)", content, ex);
             }
             catch(Exception ex)
             {
                 MyCommon.TraceOut(ex, MethodBase.GetCurrentMethod().Name + " " + content);
-                return "Err:Invalid Json!";
+                throw new WebApiException("Err:Invalid Json!", content, ex);
             }
         }
 
-        public string GetUserInfo(string screenName, ref TwitterUser user)
+        public TwitterUser GetUserInfo(string screenName)
         {
-            if (MyCommon._endingFlag) return "";
-
-            if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid) return "";
-
-            user = null;
+            if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid)
+                throw new WebApiException("Auth error. Check your account");
 
             HttpStatusCode res;
             var content = "";
@@ -969,34 +963,33 @@ namespace OpenTween
             }
             catch(Exception ex)
             {
-                return "Err:" + ex.Message + "(" + MethodBase.GetCurrentMethod().Name + ")";
+                throw new WebApiException("Err:" + ex.Message + "(" + MethodBase.GetCurrentMethod().Name + ")", ex);
             }
 
             var err = this.CheckStatusCode(res, content);
-            if (err != null) return err;
+            if (err != null)
+                throw new WebApiException(err);
 
             try
             {
-                user = TwitterUser.ParseJson(content);
+                return TwitterUser.ParseJson(content);
             }
             catch (SerializationException ex)
             {
                 MyCommon.TraceOut(ex.Message + Environment.NewLine + content);
-                return "Err:Json Parse Error(DataContractJsonSerializer)";
+                throw new WebApiException("Err:Json Parse Error(DataContractJsonSerializer)", content, ex);
             }
             catch (Exception ex)
             {
                 MyCommon.TraceOut(ex, MethodBase.GetCurrentMethod().Name + " " + content);
-                return "Err:Invalid Json!";
+                throw new WebApiException("Err:Invalid Json!", content, ex);
             }
-            return "";
         }
 
-        public string GetStatus_Retweeted_Count(long StatusId, ref int retweeted_count)
+        public int GetStatus_Retweeted_Count(long StatusId)
         {
-            if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid) return "";
-
-            if (MyCommon._endingFlag) return "";
+            if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid)
+                throw new WebApiException("Auth error. Check your account");
 
             HttpStatusCode res;
             var content = "";
@@ -1006,36 +999,34 @@ namespace OpenTween
             }
             catch (Exception ex)
             {
-                return "Err:" + ex.Message;
+                throw new WebApiException("Err:" + ex.Message, ex);
             }
 
             var err = this.CheckStatusCode(res, content);
-            if (err != null) return err;
+            if (err != null)
+                throw new WebApiException(err);
 
-            TwitterStatus status;
             try
             {
-                status = TwitterStatus.ParseJson(content);
+                var status = TwitterStatus.ParseJson(content);
+                return status.RetweetCount;
             }
             catch (SerializationException ex)
             {
                 MyCommon.TraceOut(ex.Message + Environment.NewLine + content);
-                return "Json Parse Error(DataContractJsonSerializer)";
+                throw new WebApiException("Json Parse Error(DataContractJsonSerializer)", content, ex);
             }
             catch (Exception ex)
             {
                 MyCommon.TraceOut(ex, MethodBase.GetCurrentMethod().Name + " " + content);
-                return "Invalid Json!";
+                throw new WebApiException("Invalid Json!", content, ex);
             }
-            retweeted_count = status.RetweetCount;
-            return "";
         }
 
-        public string PostFavAdd(long id)
+        public void PostFavAdd(long id)
         {
-            if (MyCommon._endingFlag) return "";
-
-            if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid) return "";
+            if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid)
+                throw new WebApiException("Auth error. Check your account");
 
             //if (this.favQueue == null) this.favQueue = new FavoriteQueue(this)
 
@@ -1051,13 +1042,15 @@ namespace OpenTween
             {
                 //this.favQueue.Add(id)
                 //return "Err:->FavoriteQueue:" + ex.Message + "(" + MethodBase.GetCurrentMethod().Name + ")";
-                return "Err:" + ex.Message + "(" + MethodBase.GetCurrentMethod().Name + ")";
+                throw new WebApiException("Err:" + ex.Message + "(" + MethodBase.GetCurrentMethod().Name + ")", ex);
             }
 
             var err = this.CheckStatusCode(res, content);
-            if (err != null) return err;
+            if (err != null)
+                throw new WebApiException(err);
 
-            if (!_restrictFavCheck) return "";
+            if (!_restrictFavCheck)
+                return;
 
             //http://twitter.com/statuses/show/id.xml APIを発行して本文を取得
 
@@ -1067,11 +1060,12 @@ namespace OpenTween
             }
             catch(Exception ex)
             {
-                return "Err:" + ex.Message;
+                throw new WebApiException("Err:" + ex.Message, ex);
             }
 
             err = this.CheckStatusCode(res, content);
-            if (err != null) return err;
+            if (err != null)
+                throw new WebApiException(err);
 
             TwitterStatus status;
             try
@@ -1081,28 +1075,21 @@ namespace OpenTween
             catch (SerializationException ex)
             {
                 MyCommon.TraceOut(ex.Message + Environment.NewLine + content);
-                return "Err:Json Parse Error(DataContractJsonSerializer)";
+                throw new WebApiException("Err:Json Parse Error(DataContractJsonSerializer)", content, ex);
             }
             catch (Exception ex)
             {
                 MyCommon.TraceOut(ex, MethodBase.GetCurrentMethod().Name + " " + content);
-                return "Err:Invalid Json!";
+                throw new WebApiException("Err:Invalid Json!", content, ex);
             }
-            if (status.Favorited == true)
-            {
-                return "";
-            }
-            else
-            {
-                return "NG(Restricted?)";
-            }
+            if (status.Favorited != true)
+                throw new WebApiException("NG(Restricted?)");
         }
 
-        public string PostFavRemove(long id)
+        public void PostFavRemove(long id)
         {
-            if (MyCommon._endingFlag) return "";
-
-            if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid) return "";
+            if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid)
+                throw new WebApiException("Auth error. Check your account");
 
             //if (this.favQueue == null) this.favQueue = new FavoriteQueue(this)
 
@@ -1119,10 +1106,12 @@ namespace OpenTween
             }
             catch(Exception ex)
             {
-                return "Err:" + ex.Message;
+                throw new WebApiException("Err:" + ex.Message, ex);
             }
 
-            return this.CheckStatusCode(res, content) ?? "";
+            var err = this.CheckStatusCode(res, content);
+            if (err != null)
+                throw new WebApiException(err);
         }
 
         public TwitterUser PostUpdateProfile(string name, string url, string location, string description)
@@ -1163,11 +1152,10 @@ namespace OpenTween
             }
         }
 
-        public string PostUpdateProfileImage(string filename)
+        public void PostUpdateProfileImage(string filename)
         {
-            if (MyCommon._endingFlag) return "";
-
-            if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid) return "";
+            if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid)
+                throw new WebApiException("Auth error. Check your account");
 
             HttpStatusCode res;
             var content = "";
@@ -1177,10 +1165,12 @@ namespace OpenTween
             }
             catch(Exception ex)
             {
-                return "Err:" + ex.Message + "(" + MethodBase.GetCurrentMethod().Name + ")";
+                throw new WebApiException("Err:" + ex.Message + "(" + MethodBase.GetCurrentMethod().Name + ")", ex);
             }
 
-            return this.CheckStatusCode(res, content) ?? "";
+            var err = this.CheckStatusCode(res, content);
+            if (err != null)
+                throw new WebApiException(err);
         }
 
         public string Username
@@ -1229,7 +1219,7 @@ namespace OpenTween
         }
 
 #region "バージョンアップ"
-        public string GetTweenBinary(string strVer)
+        public void GetTweenBinary(string strVer)
         {
             try
             {
@@ -1237,7 +1227,7 @@ namespace OpenTween
                 if (!(new HttpVarious()).GetDataToFile("http://tween.sourceforge.jp/Tween" + strVer + ".gz?" + DateTime.Now.ToString("yyMMddHHmmss") + Environment.TickCount.ToString(),
                                                     Path.Combine(MyCommon.settingPath, "TweenNew.exe")))
                 {
-                    return "Err:Download failed";
+                    throw new WebApiException("Err:Download failed");
                 }
                 //英語リソース
                 if (!Directory.Exists(Path.Combine(MyCommon.settingPath, "en")))
@@ -1247,7 +1237,7 @@ namespace OpenTween
                 if (!(new HttpVarious()).GetDataToFile("http://tween.sourceforge.jp/TweenResEn" + strVer + ".gz?" + DateTime.Now.ToString("yyMMddHHmmss") + Environment.TickCount.ToString(),
                                                     Path.Combine(Path.Combine(MyCommon.settingPath, "en"), "Tween.resourcesNew.dll")))
                 {
-                    return "Err:Download failed";
+                    throw new WebApiException("Err:Download failed");
                 }
                 //その他言語圏のリソース。取得失敗しても継続
                 //UIの言語圏のリソース
@@ -1315,19 +1305,18 @@ namespace OpenTween
                 if (!(new HttpVarious()).GetDataToFile("http://tween.sourceforge.jp/TweenUp3.gz?" + DateTime.Now.ToString("yyMMddHHmmss") + Environment.TickCount.ToString(),
                                                     Path.Combine(MyCommon.settingPath, "TweenUp3.exe")))
                 {
-                    return "Err:Download failed";
+                    throw new WebApiException("Err:Download failed");
                 }
                 //シリアライザDLL
                 if (!(new HttpVarious()).GetDataToFile("http://tween.sourceforge.jp/TweenDll" + strVer + ".gz?" + DateTime.Now.ToString("yyMMddHHmmss") + Environment.TickCount.ToString(),
                                                     Path.Combine(MyCommon.settingPath, "TweenNew.XmlSerializers.dll")))
                 {
-                    return "Err:Download failed";
+                    throw new WebApiException("Err:Download failed");
                 }
-                return "";
             }
-            catch(Exception)
+            catch (Exception ex)
             {
-                return "Err:Download failed";
+                throw new WebApiException("Err:Download failed", ex);
             }
         }
 #endregion
@@ -1485,14 +1474,13 @@ namespace OpenTween
             return Math.Min(count, GetMaxApiResultCount(type));
         }
 
-        public string GetTimelineApi(bool read,
+        public void GetTimelineApi(bool read,
                                 MyCommon.WORKERTYPE gType,
                                 bool more,
                                 bool startup)
         {
-            if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid) return "";
-
-            if (MyCommon._endingFlag) return "";
+            if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid)
+                throw new WebApiException("Auth error. Check your account");
 
             HttpStatusCode res;
             var content = "";
@@ -1525,30 +1513,31 @@ namespace OpenTween
             }
             catch(Exception ex)
             {
-                return "Err:" + ex.Message;
+                throw new WebApiException("Err:" + ex.Message, ex);
             }
 
             var err = this.CheckStatusCode(res, content);
-            if (err != null) return err;
+            if (err != null)
+                throw new WebApiException(err);
 
-            if (gType == MyCommon.WORKERTYPE.Timeline)
+            var minimumId = CreatePostsFromJson(content, gType, null, read);
+
+            if (minimumId != null)
             {
-                return CreatePostsFromJson(content, gType, null, read, ref this.minHomeTimeline);
-            }
-            else
-            {
-                return CreatePostsFromJson(content, gType, null, read, ref this.minMentions);
+                if (gType == MyCommon.WORKERTYPE.Timeline)
+                    this.minHomeTimeline = minimumId.Value;
+                else
+                    this.minMentions = minimumId.Value;
             }
         }
 
-        public string GetUserTimelineApi(bool read,
+        public void GetUserTimelineApi(bool read,
                                          string userName,
                                          TabClass tab,
                                          bool more)
         {
-            if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid) return "";
-
-            if (MyCommon._endingFlag) return "";
+            if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid)
+                throw new WebApiException("Auth error. Check your account");
 
             HttpStatusCode res;
             var content = "";
@@ -1559,7 +1548,7 @@ namespace OpenTween
                 if (string.IsNullOrEmpty(userName))
                 {
                     var target = tab.User;
-                    if (string.IsNullOrEmpty(target)) return "";
+                    if (string.IsNullOrEmpty(target)) return;
                     userName = target;
                     res = twCon.UserTimeline(null, target, count, null, null, ref content);
                 }
@@ -1577,25 +1566,26 @@ namespace OpenTween
             }
             catch(Exception ex)
             {
-                return "Err:" + ex.Message;
+                throw new WebApiException("Err:" + ex.Message, ex);
             }
 
             if (res == HttpStatusCode.Unauthorized)
-                return "Err:@" + userName + "'s Tweets are protected.";
+                throw new WebApiException("Err:@" + userName + "'s Tweets are protected.");
 
             var err = this.CheckStatusCode(res, content);
-            if (err != null) return err;
+            if (err != null)
+                throw new WebApiException(err);
 
-            return CreatePostsFromJson(content, MyCommon.WORKERTYPE.UserTimeline, tab, read, ref tab.OldestId);
+            var minimumId = CreatePostsFromJson(content, MyCommon.WORKERTYPE.UserTimeline, tab, read);
+
+            if (minimumId != null)
+                tab.OldestId = minimumId.Value;
         }
 
-        public string GetStatusApi(bool read,
-                                   Int64 id,
-                                   ref PostClass post)
+        public PostClass GetStatusApi(bool read, long id)
         {
-            if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid) return "";
-
-            if (MyCommon._endingFlag) return "";
+            if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid)
+                throw new WebApiException("Auth error. Check your account");
 
             HttpStatusCode res;
             var content = "";
@@ -1605,14 +1595,15 @@ namespace OpenTween
             }
             catch(Exception ex)
             {
-                return "Err:" + ex.Message;
+                throw new WebApiException("Err:" + ex.Message, ex);
             }
 
             if (res == HttpStatusCode.Forbidden)
-                return "Err:protected user's tweet";
+                throw new WebApiException("Err:protected user's tweet", content);
 
             var err = this.CheckStatusCode(res, content);
-            if (err != null) return err;
+            if (err != null)
+                throw new WebApiException(err);
 
             TwitterStatus status;
             try
@@ -1622,38 +1613,31 @@ namespace OpenTween
             catch(SerializationException ex)
             {
                 MyCommon.TraceOut(ex.Message + Environment.NewLine + content);
-                return "Json Parse Error(DataContractJsonSerializer)";
+                throw new WebApiException("Json Parse Error(DataContractJsonSerializer)", content, ex);
             }
             catch(Exception ex)
             {
                 MyCommon.TraceOut(ex, MethodBase.GetCurrentMethod().Name + " " + content);
-                return "Invalid Json!";
+                throw new WebApiException("Invalid Json!", content, ex);
             }
 
             var item = CreatePostsFromStatusData(status);
-            if (item == null) return "Err:Can't create post";
+            if (item == null)
+                throw new WebApiException("Err:Can't create post", content);
+
             item.IsRead = read;
             if (item.IsMe && !read && _readOwnPost) item.IsRead = true;
 
-            post = item;
-            return "";
+            return item;
         }
 
-        public string GetStatusApi(bool read,
-                                   Int64 id,
-                                   TabClass tab)
+        public void GetStatusApi(bool read, long id, TabClass tab)
         {
-            PostClass post = null;
-            var r = this.GetStatusApi(read, id, ref post);
+            var post = this.GetStatusApi(read, id);
 
-            if (string.IsNullOrEmpty(r))
-            {
-                if (tab != null) post.RelTabName = tab.TabName;
-                //非同期アイコン取得＆StatusDictionaryに追加
-                TabInformations.GetInstance().AddPost(post);
-            }
-
-            return r;
+            if (tab != null) post.RelTabName = tab.TabName;
+            //非同期アイコン取得＆StatusDictionaryに追加
+            TabInformations.GetInstance().AddPost(post);
         }
 
         private PostClass CreatePostsFromStatusData(TwitterStatus status)
@@ -1802,7 +1786,7 @@ namespace OpenTween
             }
         }
 
-        private string CreatePostsFromJson(string content, MyCommon.WORKERTYPE gType, TabClass tab, bool read, ref long minimumId)
+        private long? CreatePostsFromJson(string content, MyCommon.WORKERTYPE gType, TabClass tab, bool read)
         {
             TwitterStatus[] items;
             try
@@ -1812,13 +1796,15 @@ namespace OpenTween
             catch(SerializationException ex)
             {
                 MyCommon.TraceOut(ex.Message + Environment.NewLine + content);
-                return "Json Parse Error(DataContractJsonSerializer)";;
+                throw new WebApiException("Json Parse Error(DataContractJsonSerializer)", content, ex);
             }
             catch(Exception ex)
             {
                 MyCommon.TraceOut(ex, MethodBase.GetCurrentMethod().Name + " " + content);
-                return "Invalid Json!";
+                throw new WebApiException("Invalid Json!", content, ex);
             }
+
+            long? minimumId = null;
 
             foreach (var status in items)
             {
@@ -1826,7 +1812,9 @@ namespace OpenTween
                 post = CreatePostsFromStatusData(status);
                 if (post == null) continue;
 
-                if (minimumId > post.StatusId) minimumId = post.StatusId;
+                if (minimumId == null || minimumId.Value > post.StatusId)
+                    minimumId = post.StatusId;
+
                 //二重取得回避
                 lock (LockObj)
                 {
@@ -1852,10 +1840,10 @@ namespace OpenTween
                 TabInformations.GetInstance().AddPost(post);
             }
 
-            return "";
+            return minimumId;
         }
 
-        private string CreatePostsFromSearchJson(string content, TabClass tab, bool read, int count, ref long minimumId, bool more)
+        private long? CreatePostsFromSearchJson(string content, TabClass tab, bool read, int count, bool more)
         {
             TwitterSearchResult items;
             try
@@ -1865,13 +1853,16 @@ namespace OpenTween
             catch (SerializationException ex)
             {
                 MyCommon.TraceOut(ex.Message + Environment.NewLine + content);
-                return "Json Parse Error(DataContractJsonSerializer)";
+                throw new WebApiException("Json Parse Error(DataContractJsonSerializer)", content, ex);
             }
             catch (Exception ex)
             {
                 MyCommon.TraceOut(ex, MethodBase.GetCurrentMethod().Name + " " + content);
-                return "Invalid Json!";
+                throw new WebApiException("Invalid Json!", content, ex);
             }
+
+            long? minimumId = null;
+
             foreach (var result in items.Statuses)
             {
                 PostClass post = null;
@@ -1880,11 +1871,19 @@ namespace OpenTween
                 if (post == null)
                 {
                     // Search API は相変わらずぶっ壊れたデータを返すことがあるため、必要なデータが欠如しているものは取得し直す
-                    var ret = this.GetStatusApi(read, result.Id, ref post);
-                    if (!string.IsNullOrEmpty(ret)) continue;
+                    try
+                    {
+                        post = this.GetStatusApi(read, result.Id);
+                    }
+                    catch (WebApiException)
+                    {
+                        continue;
+                    }
                 }
 
-                if (minimumId > post.StatusId) minimumId = post.StatusId;
+                if (minimumId == null || minimumId.Value > post.StatusId)
+                    minimumId = post.StatusId;
+
                 if (!more && post.StatusId > tab.SinceId) tab.SinceId = post.StatusId;
                 //二重取得回避
                 lock (LockObj)
@@ -1907,10 +1906,10 @@ namespace OpenTween
                 TabInformations.GetInstance().AddPost(post);
             }
 
-            return "";
+            return minimumId;
         }
 
-        private string CreateFavoritePostsFromJson(string content, bool read)
+        private void CreateFavoritePostsFromJson(string content, bool read)
         {
             TwitterStatus[] item;
             try
@@ -1920,12 +1919,12 @@ namespace OpenTween
             catch (SerializationException ex)
             {
                 MyCommon.TraceOut(ex.Message + Environment.NewLine + content);
-                return "Json Parse Error(DataContractJsonSerializer)";
+                throw new WebApiException("Json Parse Error(DataContractJsonSerializer)", content, ex);
             }
             catch (Exception ex)
             {
                 MyCommon.TraceOut(ex, MethodBase.GetCurrentMethod().Name + " " + content);
-                return "Invalid Json!";
+                throw new WebApiException("Invalid Json!", content, ex);
             }
 
             var favTab = TabInformations.GetInstance().GetTabByType(MyCommon.TabUsageType.Favorites);
@@ -1945,17 +1944,13 @@ namespace OpenTween
 
                 TabInformations.GetInstance().AddPost(post);
             }
-
-            return "";
         }
 
-        public string GetListStatus(bool read,
+        public void GetListStatus(bool read,
                                 TabClass tab,
                                 bool more,
                                 bool startup)
         {
-            if (MyCommon._endingFlag) return "";
-
             HttpStatusCode res;
             var content = "";
             var count = GetApiResultCount(MyCommon.WORKERTYPE.List, more, startup);
@@ -1973,13 +1968,17 @@ namespace OpenTween
             }
             catch(Exception ex)
             {
-                return "Err:" + ex.Message;
+                throw new WebApiException("Err:" + ex.Message, ex);
             }
 
             var err = this.CheckStatusCode(res, content);
-            if (err != null) return err;
+            if (err != null)
+                throw new WebApiException(err);
 
-            return CreatePostsFromJson(content, MyCommon.WORKERTYPE.List, tab, read, ref tab.OldestId);
+            var minimumId = CreatePostsFromJson(content, MyCommon.WORKERTYPE.List, tab, read);
+
+            if (minimumId != null)
+                tab.OldestId = minimumId.Value;
         }
 
         /// <summary>
@@ -2002,9 +2001,8 @@ namespace OpenTween
             return nextPost;
         }
 
-        public string GetRelatedResult(bool read, TabClass tab)
+        public void GetRelatedResult(bool read, TabClass tab)
         {
-            var rslt = "";
             var relPosts = new Dictionary<Int64, PostClass>();
             if (tab.RelationTargetPost.TextFromApi.Contains("@") && tab.RelationTargetPost.InReplyToStatusId == null)
             {
@@ -2016,12 +2014,13 @@ namespace OpenTween
                 }
                 else
                 {
-                    rslt = this.GetStatusApi(read, tab.RelationTargetPost.StatusId, ref p);
-                    if (!string.IsNullOrEmpty(rslt)) return rslt;
+                    p = this.GetStatusApi(read, tab.RelationTargetPost.StatusId);
                     tab.RelationTargetPost = p;
                 }
             }
             relPosts.Add(tab.RelationTargetPost.StatusId, tab.RelationTargetPost.Clone());
+
+            Exception lastException = null;
 
             // in_reply_to_status_id を使用してリプライチェインを辿る
             var nextPost = FindTopOfReplyChain(relPosts, tab.RelationTargetPost.StatusId);
@@ -2037,10 +2036,13 @@ namespace OpenTween
                 }
                 else
                 {
-                    var errorText = this.GetStatusApi(read, inReplyToId, ref inReplyToPost);
-                    if (!string.IsNullOrEmpty(errorText))
+                    try
                     {
-                        rslt = errorText;
+                        inReplyToPost = this.GetStatusApi(read, inReplyToId);
+                    }
+                    catch (WebApiException ex)
+                    {
+                        lastException = ex;
                         break;
                     }
                 }
@@ -2066,7 +2068,15 @@ namespace OpenTween
                     var _post = TabInformations.GetInstance()[_statusId];
                     if (_post == null)
                     {
-                        this.GetStatusApi(read, _statusId, ref p);
+                        try
+                        {
+                            p = this.GetStatusApi(read, _statusId);
+                        }
+                        catch (WebApiException ex)
+                        {
+                            lastException = ex;
+                            break;
+                        }
                     }
                     else
                     {
@@ -2089,15 +2099,14 @@ namespace OpenTween
                 TabInformations.GetInstance().AddPost(p);
             });
 
-            return rslt;
+            if (lastException != null)
+                throw new WebApiException(lastException.Message, lastException);
         }
 
-        public string GetSearch(bool read,
+        public void GetSearch(bool read,
                             TabClass tab,
                             bool more)
         {
-            if (MyCommon._endingFlag) return "";
-
             HttpStatusCode res;
             var content = "";
             var count = GetApiResultCount(MyCommon.WORKERTYPE.PublicSearch, more, false);
@@ -2119,28 +2128,32 @@ namespace OpenTween
             }
             catch(Exception ex)
             {
-                return "Err:" + ex.Message;
+                throw new WebApiException("Err:" + ex.Message, ex);
             }
             switch (res)
             {
                 case HttpStatusCode.BadRequest:
-                    return "Invalid query";
+                    throw new WebApiException("Invalid query", content);
                 case HttpStatusCode.NotFound:
-                    return "Invalid query";
+                    throw new WebApiException("Invalid query", content);
                 case HttpStatusCode.PaymentRequired: //API Documentには420と書いてあるが、該当コードがないので402にしてある
-                    return "Search API Limit?";
+                    throw new WebApiException("Search API Limit?", content);
                 case HttpStatusCode.OK:
                     break;
                 default:
-                    return "Err:" + res.ToString() + "(" + MethodBase.GetCurrentMethod().Name + ")";
+                    throw new WebApiException("Err:" + res.ToString() + "(" + MethodBase.GetCurrentMethod().Name + ")", content);
             }
 
-            if (!TabInformations.GetInstance().ContainsTab(tab)) return "";
+            if (!TabInformations.GetInstance().ContainsTab(tab))
+                return;
 
-            return this.CreatePostsFromSearchJson(content, tab, read, count, ref tab.OldestId, more);
+            var minimumId =  this.CreatePostsFromSearchJson(content, tab, read, count, more);
+
+            if (minimumId != null)
+                tab.OldestId = minimumId.Value;
         }
 
-        private string CreateDirectMessagesFromJson(string content, MyCommon.WORKERTYPE gType, bool read)
+        private void CreateDirectMessagesFromJson(string content, MyCommon.WORKERTYPE gType, bool read)
         {
             TwitterDirectMessage[] item;
             try
@@ -2157,12 +2170,12 @@ namespace OpenTween
             catch(SerializationException ex)
             {
                 MyCommon.TraceOut(ex.Message + Environment.NewLine + content);
-                return "Json Parse Error(DataContractJsonSerializer)";
+                throw new WebApiException("Json Parse Error(DataContractJsonSerializer)", content, ex);
             }
             catch(Exception ex)
             {
                 MyCommon.TraceOut(ex, MethodBase.GetCurrentMethod().Name + " " + content);
-                return "Invalid Json!";
+                throw new WebApiException("Invalid Json!", content, ex);
             }
 
             foreach (var message in item)
@@ -2244,7 +2257,7 @@ namespace OpenTween
                 catch(Exception ex)
                 {
                     MyCommon.TraceOut(ex, MethodBase.GetCurrentMethod().Name + " " + content);
-                    MessageBox.Show("Parse Error(CreateDirectMessagesFromJson)");
+                    MessageBox.Show("Parse Error(CreateDirectMessagesFromJson)", content);
                     continue;
                 }
 
@@ -2256,23 +2269,17 @@ namespace OpenTween
 
                 TabInformations.GetInstance().AddPost(post);
             }
-
-            return "";
-
         }
 
-        public string GetDirectMessageApi(bool read,
+        public void GetDirectMessageApi(bool read,
                                 MyCommon.WORKERTYPE gType,
                                 bool more)
         {
-            if (MyCommon._endingFlag) return "";
-
-            if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid) return "";
+            if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid)
+                throw new WebApiException("Auth error. Check your account");
 
             if (this.AccessLevel == TwitterApiAccessLevel.Read || this.AccessLevel == TwitterApiAccessLevel.ReadWrite)
-            {
-                return "Auth Err:try to re-authorization.";
-            }
+                throw new WebApiException("Auth Err:try to re-authorization.");
 
             HttpStatusCode res;
             var content = "";
@@ -2305,21 +2312,21 @@ namespace OpenTween
             }
             catch(Exception ex)
             {
-                return "Err:" + ex.Message;
+                throw new WebApiException("Err:" + ex.Message, ex);
             }
 
             var err = this.CheckStatusCode(res, content);
-            if (err != null) return err;
+            if (err != null)
+                throw new WebApiException(err);
 
-            return CreateDirectMessagesFromJson(content, gType, read);
+            CreateDirectMessagesFromJson(content, gType, read);
         }
 
-        public string GetFavoritesApi(bool read,
+        public void GetFavoritesApi(bool read,
                             bool more)
         {
-            if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid) return "";
-
-            if (MyCommon._endingFlag) return "";
+            if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid)
+                throw new WebApiException("Auth error. Check your account");
 
             HttpStatusCode res;
             var content = "";
@@ -2331,13 +2338,14 @@ namespace OpenTween
             }
             catch(Exception ex)
             {
-                return "Err:" + ex.Message + "(" + MethodBase.GetCurrentMethod().Name + ")";
+                throw new WebApiException("Err:" + ex.Message + "(" + MethodBase.GetCurrentMethod().Name + ")", ex);
             }
 
             var err = this.CheckStatusCode(res, content);
-            if (err != null) return err;
+            if (err != null)
+                throw new WebApiException(err);
 
-            return CreateFavoritePostsFromJson(content, read);
+            CreateFavoritePostsFromJson(content, read);
         }
 
         private string ReplaceTextFromApi(string text, TwitterEntities entities)
@@ -2543,9 +2551,10 @@ namespace OpenTween
             }
         }
 
-        public string GetListsApi()
+        public void GetListsApi()
         {
-            if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid) return "";
+            if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid)
+                throw new WebApiException("AccountState invalid");
 
             HttpStatusCode res;
             IEnumerable<ListElement> lists;
@@ -2557,11 +2566,12 @@ namespace OpenTween
             }
             catch (Exception ex)
             {
-                return "Err:" + ex.Message + "(" + MethodBase.GetCurrentMethod().Name + ")";
+                throw new WebApiException("Err:" + ex.Message + "(" + MethodBase.GetCurrentMethod().Name + ")", ex);
             }
 
             var err = this.CheckStatusCode(res, content);
-            if (err != null) return err;
+            if (err != null)
+                throw new WebApiException(err);
 
             try
             {
@@ -2571,12 +2581,12 @@ namespace OpenTween
             catch (SerializationException ex)
             {
                 MyCommon.TraceOut(ex.Message + Environment.NewLine + content);
-                return "Err:Json Parse Error(DataContractJsonSerializer)";
+                throw new WebApiException("Err:Json Parse Error(DataContractJsonSerializer)", content, ex);
             }
             catch (Exception ex)
             {
                 MyCommon.TraceOut(ex, MethodBase.GetCurrentMethod().Name + " " + content);
-                return "Err:Invalid Json!";
+                throw new WebApiException("Err:Invalid Json!", content, ex);
             }
 
             try
@@ -2585,11 +2595,12 @@ namespace OpenTween
             }
             catch (Exception ex)
             {
-                return "Err:" + ex.Message + "(" + MethodBase.GetCurrentMethod().Name + ")";
+                throw new WebApiException("Err:" + ex.Message + "(" + MethodBase.GetCurrentMethod().Name + ")", ex);
             }
 
             err = this.CheckStatusCode(res, content);
-            if (err != null) return err;
+            if (err != null)
+                throw new WebApiException(err);
 
             try
             {
@@ -2599,19 +2610,18 @@ namespace OpenTween
             catch (SerializationException ex)
             {
                 MyCommon.TraceOut(ex.Message + Environment.NewLine + content);
-                return "Err:Json Parse Error(DataContractJsonSerializer)";
+                throw new WebApiException("Err:Json Parse Error(DataContractJsonSerializer)", content, ex);
             }
             catch (Exception ex)
             {
                 MyCommon.TraceOut(ex, MethodBase.GetCurrentMethod().Name + " " + content);
-                return "Err:Invalid Json!";
+                throw new WebApiException("Err:Invalid Json!", content, ex);
             }
 
             TabInformations.GetInstance().SubscribableLists = lists.ToList();
-            return "";
         }
 
-        public string DeleteList(string list_id)
+        public void DeleteList(string list_id)
         {
             HttpStatusCode res;
             var content = "";
@@ -2622,16 +2632,15 @@ namespace OpenTween
             }
             catch(Exception ex)
             {
-                return "Err:" + ex.Message + "(" + MethodBase.GetCurrentMethod().Name + ")";
+                throw new WebApiException("Err:" + ex.Message + "(" + MethodBase.GetCurrentMethod().Name + ")", ex);
             }
 
             var err = this.CheckStatusCode(res, content);
-            if (err != null) return err;
-
-            return "";
+            if (err != null)
+                throw new WebApiException(err);
         }
 
-        public string EditList(string list_id, string new_name, bool isPrivate, string description, ref ListElement list)
+        public ListElement EditList(string list_id, string new_name, bool isPrivate, string description)
         {
             HttpStatusCode res;
             var content = "";
@@ -2642,44 +2651,34 @@ namespace OpenTween
             }
             catch(Exception ex)
             {
-                return "Err:" + ex.Message + "(" + MethodBase.GetCurrentMethod().Name + ")";
+                throw new WebApiException("Err:" + ex.Message + "(" + MethodBase.GetCurrentMethod().Name + ")", ex);
             }
 
             var err = this.CheckStatusCode(res, content);
-            if (err != null) return err;
+            if (err != null)
+                throw new WebApiException(err);
 
             try
             {
                 var le = TwitterList.ParseJson(content);
-                var newList = new ListElement(le, this);
-                list.Description = newList.Description;
-                list.Id = newList.Id;
-                list.IsPublic = newList.IsPublic;
-                list.MemberCount = newList.MemberCount;
-                list.Name = newList.Name;
-                list.SubscriberCount = newList.SubscriberCount;
-                list.Slug = newList.Slug;
-                list.Nickname = newList.Nickname;
-                list.Username = newList.Username;
-                list.UserId = newList.UserId;
-                return "";
+                return  new ListElement(le, this);
             }
             catch(SerializationException ex)
             {
                 MyCommon.TraceOut(ex.Message + Environment.NewLine + content);
-                return "Err:Json Parse Error(DataContractJsonSerializer)";
+                throw new WebApiException("Err:Json Parse Error(DataContractJsonSerializer)", content, ex);
             }
             catch(Exception ex)
             {
                 MyCommon.TraceOut(ex, MethodBase.GetCurrentMethod().Name + " " + content);
-                return "Err:Invalid Json!";
+                throw new WebApiException("Err:Invalid Json!", content, ex);
             }
-
         }
 
-        public string GetListMembers(string list_id, List<UserInfo> lists, ref long cursor)
+        public long GetListMembers(string list_id, List<UserInfo> lists, long cursor)
         {
-            if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid) return "";
+            if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid)
+                throw new WebApiException("Auth error. Check your account");
 
             HttpStatusCode res;
             var content = "";
@@ -2689,11 +2688,12 @@ namespace OpenTween
             }
             catch(Exception ex)
             {
-                return "Err:" + ex.Message;
+                throw new WebApiException("Err:" + ex.Message);
             }
 
             var err = this.CheckStatusCode(res, content);
-            if (err != null) return err;
+            if (err != null)
+                throw new WebApiException(err);
 
             try
             {
@@ -2701,24 +2701,25 @@ namespace OpenTween
                 Array.ForEach<TwitterUser>(
                     users.Users,
                     u => lists.Add(new UserInfo(u)));
-                cursor = users.NextCursor;
-                return "";
+
+                return users.NextCursor;
             }
             catch(SerializationException ex)
             {
                 MyCommon.TraceOut(ex.Message + Environment.NewLine + content);
-                return "Err:Json Parse Error(DataContractJsonSerializer)";
+                throw new WebApiException("Err:Json Parse Error(DataContractJsonSerializer)", content, ex);
             }
             catch(Exception ex)
             {
                 MyCommon.TraceOut(ex, MethodBase.GetCurrentMethod().Name + " " + content);
-                return "Err:Invalid Json!";
+                throw new WebApiException("Err:Invalid Json!", content, ex);
             }
         }
 
-        public string CreateListApi(string listName, bool isPrivate, string description)
+        public void CreateListApi(string listName, bool isPrivate, string description)
         {
-            if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid) return "";
+            if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid)
+                throw new WebApiException("Auth error. Check your account");
 
             HttpStatusCode res;
             var content = "";
@@ -2728,35 +2729,34 @@ namespace OpenTween
             }
             catch(Exception ex)
             {
-                return "Err:" + ex.Message + "(" + MethodBase.GetCurrentMethod().Name + ")";
+                throw new WebApiException("Err:" + ex.Message + "(" + MethodBase.GetCurrentMethod().Name + ")", ex);
             }
 
             var err = this.CheckStatusCode(res, content);
-            if (err != null) return err;
+            if (err != null)
+                throw new WebApiException(err);
 
             try
             {
                 var le = TwitterList.ParseJson(content);
                 TabInformations.GetInstance().SubscribableLists.Add(new ListElement(le, this));
-                return "";
             }
             catch(SerializationException ex)
             {
                 MyCommon.TraceOut(ex.Message + Environment.NewLine + content);
-                return "Err:Json Parse Error(DataContractJsonSerializer)";
+                throw new WebApiException("Err:Json Parse Error(DataContractJsonSerializer)", content, ex);
             }
             catch(Exception ex)
             {
                 MyCommon.TraceOut(ex, MethodBase.GetCurrentMethod().Name + " " + content);
-                return "Err:Invalid Json!";
+                throw new WebApiException("Err:Invalid Json!", content, ex);
             }
         }
 
-        public string ContainsUserAtList(string listId, string user, ref bool value)
+        public bool ContainsUserAtList(string listId, string user)
         {
-            value = false;
-
-            if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid) return "";
+            if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid)
+                throw new WebApiException("Auth error. Check your account");
 
             HttpStatusCode res;
             var content = "";
@@ -2767,32 +2767,30 @@ namespace OpenTween
             }
             catch(Exception ex)
             {
-                return "Err:" + ex.Message + "(" + MethodBase.GetCurrentMethod().Name + ")";
+                throw new WebApiException("Err:" + ex.Message + "(" + MethodBase.GetCurrentMethod().Name + ")", ex);
             }
 
             if (res == HttpStatusCode.NotFound)
             {
-                value = false;
-                return "";
+                return false;
             }
 
             var err = this.CheckStatusCode(res, content);
-            if (err != null) return err;
+            if (err != null)
+                throw new WebApiException(err);
 
             try
             {
                 TwitterUser.ParseJson(content);
-                value = true;
-                return "";
+                return true;
             }
             catch(Exception)
             {
-                value = false;
-                return "";
+                return false;
             }
         }
 
-        public string AddUserToList(string listId, string user)
+        public void AddUserToList(string listId, string user)
         {
             HttpStatusCode res;
             var content = "";
@@ -2803,16 +2801,15 @@ namespace OpenTween
             }
             catch(Exception ex)
             {
-                return "Err:" + ex.Message + "(" + MethodBase.GetCurrentMethod().Name + ")";
+                throw new WebApiException("Err:" + ex.Message + "(" + MethodBase.GetCurrentMethod().Name + ")", ex);
             }
 
             var err = this.CheckStatusCode(res, content);
-            if (err != null) return err;
-
-            return "";
+            if (err != null)
+                throw new WebApiException(err);
         }
 
-        public string RemoveUserToList(string listId, string user)
+        public void RemoveUserToList(string listId, string user)
         {
             HttpStatusCode res;
             var content = "";
@@ -2823,13 +2820,12 @@ namespace OpenTween
             }
             catch(Exception ex)
             {
-                return "Err:" + ex.Message + "(" + MethodBase.GetCurrentMethod().Name + ")";
+                throw new WebApiException("Err:" + ex.Message + "(" + MethodBase.GetCurrentMethod().Name + ")", ex);
             }
 
             var err = this.CheckStatusCode(res, content);
-            if (err != null) return err;
-
-            return "";
+            if (err != null)
+                throw new WebApiException(err);
         }
 
         private class range
@@ -3087,7 +3083,8 @@ namespace OpenTween
             }
 
             var err = this.CheckStatusCode(res, content);
-            if (err != null) return null;
+            if (err != null)
+                throw new WebApiException(err);
 
             try
             {
@@ -3191,11 +3188,10 @@ namespace OpenTween
 
                 return TwitterIds.ParseJson(content);
             }
-            catch (WebException ex)
+            catch (WebApiException ex)
             {
-                var ex2 = new WebApiException("Err:" + ex.Message, ex);
-                MyCommon.TraceOut(ex2);
-                throw ex2;
+                MyCommon.TraceOut(ex);
+                throw;
             }
             catch (SerializationException ex)
             {
@@ -3480,8 +3476,7 @@ namespace OpenTween
                 }
                 else
                 {
-                    long dummy = 0;
-                    CreatePostsFromJson("[" + line + "]", MyCommon.WORKERTYPE.Timeline, null, false, ref dummy);
+                    CreatePostsFromJson("[" + line + "]", MyCommon.WORKERTYPE.Timeline, null, false);
                 }
             }
             catch(NullReferenceException)

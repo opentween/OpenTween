@@ -2333,10 +2333,7 @@ namespace OpenTween
 
             await Task.Run(() =>
             {
-                var err = this.tw.GetTimelineApi(read, MyCommon.WORKERTYPE.Timeline, loadMore, this._initial);
-
-                if (!string.IsNullOrEmpty(err))
-                    throw new WebApiException(err);
+                this.tw.GetTimelineApi(read, MyCommon.WORKERTYPE.Timeline, loadMore, this._initial);
 
                 // 新着時未読クリア
                 if (this._cfgCommon.ReadOldPosts)
@@ -2426,10 +2423,7 @@ namespace OpenTween
 
             await Task.Run(() =>
             {
-                var err = this.tw.GetTimelineApi(read, MyCommon.WORKERTYPE.Reply, loadMore, this._initial);
-
-                if (!string.IsNullOrEmpty(err))
-                    throw new WebApiException(err);
+                this.tw.GetTimelineApi(read, MyCommon.WORKERTYPE.Reply, loadMore, this._initial);
 
                 this._statuses.DistributePosts();
             });
@@ -2488,13 +2482,8 @@ namespace OpenTween
 
             await Task.Run(() =>
             {
-                var err = this.tw.GetDirectMessageApi(read, MyCommon.WORKERTYPE.DirectMessegeRcv, loadMore);
-                if (!string.IsNullOrEmpty(err))
-                    throw new WebApiException(err);
-
-                var err2 = this.tw.GetDirectMessageApi(read, MyCommon.WORKERTYPE.DirectMessegeSnt, loadMore);
-                if (!string.IsNullOrEmpty(err2))
-                    throw new WebApiException(err2);
+                this.tw.GetDirectMessageApi(read, MyCommon.WORKERTYPE.DirectMessegeRcv, loadMore);
+                this.tw.GetDirectMessageApi(read, MyCommon.WORKERTYPE.DirectMessegeSnt, loadMore);
 
                 this._statuses.DistributePosts();
             });
@@ -2551,10 +2540,7 @@ namespace OpenTween
 
             await Task.Run(() =>
             {
-                var err = this.tw.GetFavoritesApi(read, loadMore);
-
-                if (!string.IsNullOrEmpty(err))
-                    throw new WebApiException(err);
+                this.tw.GetFavoritesApi(read, loadMore);
 
                 this._statuses.DistributePosts();
             });
@@ -2625,16 +2611,10 @@ namespace OpenTween
                     if (string.IsNullOrEmpty(tab.SearchWords))
                         continue;
 
-                    var err = this.tw.GetSearch(read, tab, false);
-                    if (!string.IsNullOrEmpty(err))
-                        throw new WebApiException(err);
+                    this.tw.GetSearch(read, tab, false);
 
                     if (loadMore)
-                    {
-                        var err2 = this.tw.GetSearch(read, tab, true);
-                        if (!string.IsNullOrEmpty(err2))
-                            throw new WebApiException(err2);
-                    }
+                        this.tw.GetSearch(read, tab, true);
                 }
 
                 this._statuses.DistributePosts();
@@ -2706,9 +2686,7 @@ namespace OpenTween
                     if (string.IsNullOrEmpty(tab.User))
                         continue;
 
-                    var err = this.tw.GetUserTimelineApi(read, tab.User, tab, loadMore);
-                    if (!string.IsNullOrEmpty(err))
-                        throw new WebApiException(err);
+                    this.tw.GetUserTimelineApi(read, tab.User, tab, loadMore);
                 }
 
                 this._statuses.DistributePosts();
@@ -2780,9 +2758,7 @@ namespace OpenTween
                     if (tab.ListInfo == null || tab.ListInfo.Id == 0)
                         continue;
 
-                    var err = this.tw.GetListStatus(read, tab, loadMore, this._initial);
-                    if (!string.IsNullOrEmpty(err))
-                        throw new WebApiException(err);
+                    this.tw.GetListStatus(read, tab, loadMore, this._initial);
                 }
 
                 this._statuses.DistributePosts();
@@ -2835,9 +2811,7 @@ namespace OpenTween
 
             await Task.Run(() =>
             {
-                var err = this.tw.GetRelatedResult(read, tab);
-                if (!string.IsNullOrEmpty(err))
-                    throw new WebApiException(err);
+                this.tw.GetRelatedResult(read, tab);
 
                 this._statuses.DistributePosts();
             });
@@ -2918,9 +2892,11 @@ namespace OpenTween
                     if (post.IsFav)
                         continue;
 
-                    var err = this.tw.PostFavAdd(post.RetweetedId ?? post.StatusId);
-
-                    if (!string.IsNullOrEmpty(err))
+                    try
+                    {
+                        this.tw.PostFavAdd(post.RetweetedId ?? post.StatusId);
+                    }
+                    catch (WebApiException)
                     {
                         failedCount++;
                         continue;
@@ -3035,9 +3011,11 @@ namespace OpenTween
                     if (!post.IsFav)
                         continue;
 
-                    var err = this.tw.PostFavRemove(post.RetweetedId ?? post.StatusId);
-
-                    if (!string.IsNullOrEmpty(err))
+                    try
+                    {
+                        this.tw.PostFavRemove(post.RetweetedId ?? post.StatusId);
+                    }
+                    catch (WebApiException)
                     {
                         failedCount++;
                         continue;
@@ -3133,9 +3111,7 @@ namespace OpenTween
                 {
                     if (status.mediaItems == null || status.mediaItems.Length == 0)
                     {
-                        var err = this.tw.PostStatus(status.status, status.inReplyToId);
-                        if (!string.IsNullOrEmpty(err))
-                            throw new WebApiException(err);
+                        this.tw.PostStatus(status.status, status.inReplyToId);
                     }
                     else
                     {
@@ -3266,9 +3242,7 @@ namespace OpenTween
             {
                 foreach (var statusId in statusIds)
                 {
-                    var err = this.tw.PostRetweet(statusId, read);
-                    if (!string.IsNullOrEmpty(err))
-                        throw new WebApiException(err);
+                    this.tw.PostRetweet(statusId, read);
                 }
             });
 
@@ -3945,37 +3919,38 @@ namespace OpenTween
 
             using (ControlTransaction.Cursor(this, Cursors.WaitCursor))
             {
-                string lastError = null;
+                Exception lastException = null;
                 foreach (var post in posts)
                 {
                     if (!post.CanDeleteBy(this.tw.UserId))
                         continue;
 
-                    string err;
-                    if (post.IsDm)
+                    try
                     {
-                        err = this.tw.RemoveDirectMessage(post.StatusId, post);
-                    }
-                    else
-                    {
-                        if (post.RetweetedId != null && post.UserId == this.tw.UserId)
-                            // 他人に RT された自分のツイート
-                            err = this.tw.RemoveStatus(post.RetweetedId.Value);
+                        if (post.IsDm)
+                        {
+                            this.tw.RemoveDirectMessage(post.StatusId, post);
+                        }
                         else
-                            // 自分のツイート or 自分が RT したツイート
-                            err = this.tw.RemoveStatus(post.StatusId);
+                        {
+                            if (post.RetweetedId != null && post.UserId == this.tw.UserId)
+                                // 他人に RT された自分のツイート
+                                this.tw.RemoveStatus(post.RetweetedId.Value);
+                            else
+                                // 自分のツイート or 自分が RT したツイート
+                                this.tw.RemoveStatus(post.StatusId);
+                        }
                     }
-
-                    if (!string.IsNullOrEmpty(err))
+                    catch (WebApiException ex)
                     {
-                        lastError = err;
+                        lastException = ex;
                         continue;
                     }
 
                     this._statuses.RemovePost(post.StatusId);
                 }
 
-                if (lastError == null)
+                if (lastException == null)
                     this.StatusLabel.Text = Properties.Resources.DeleteStripMenuItem_ClickText4; // 成功
                 else
                     this.StatusLabel.Text = Properties.Resources.DeleteStripMenuItem_ClickText3; // 失敗
@@ -6520,14 +6495,17 @@ namespace OpenTween
         private async Task<string> CreateQuoteTweetHtml(long statusId)
         {
             PostClass post = this._statuses[statusId];
-            string err = null;
             if (post == null)
             {
-                err = await Task.Run(() => this.tw.GetStatusApi(false, statusId, ref post))
-                    .ConfigureAwait(false);
-
-                if (!string.IsNullOrEmpty(err))
-                    return FormatQuoteTweetHtml(statusId, WebUtility.HtmlEncode(err));
+                try
+                {
+                    post = await Task.Run(() => this.tw.GetStatusApi(false, statusId))
+                        .ConfigureAwait(false);
+                }
+                catch (WebApiException ex)
+                {
+                    return FormatQuoteTweetHtml(statusId, WebUtility.HtmlEncode(ex.Message));
+                }
 
                 post.IsRead = true;
                 if (!this._statuses.AddQuoteTweet(post))
@@ -7637,19 +7615,19 @@ namespace OpenTween
 
             if (curTabClass.TabType == MyCommon.TabUsageType.PublicSearch && _curPost.InReplyToStatusId == null && _curPost.TextFromApi.Contains("@"))
             {
-                PostClass post = null;
-                string r = tw.GetStatusApi(false, _curPost.StatusId, ref post);
-                if (string.IsNullOrEmpty(r) && post != null)
+                try
                 {
+                    var post = tw.GetStatusApi(false, _curPost.StatusId);
+
                     _curPost.InReplyToStatusId = post.InReplyToStatusId;
                     _curPost.InReplyToUser = post.InReplyToUser;
                     _curPost.IsReply = post.IsReply;
                     this.PurgeListViewItemCache();
                     _curList.RedrawItems(_curItemIndex, _curItemIndex, false);
                 }
-                else
+                catch (WebApiException ex)
                 {
-                    this.StatusLabel.Text = r;
+                    this.StatusLabel.Text = ex.Message;
                 }
             }
 
@@ -7678,11 +7656,14 @@ namespace OpenTween
             var inReplyPost = inReplyToPosts.FirstOrDefault();
             if (inReplyPost == null)
             {
-                PostClass post = null;
-                string r = tw.GetStatusApi(false, _curPost.InReplyToStatusId.Value, ref post);
-                if (!string.IsNullOrEmpty(r) || post == null)
+                PostClass post;
+                try
                 {
-                    this.StatusLabel.Text = r;
+                    post = tw.GetStatusApi(false, _curPost.InReplyToStatusId.Value);
+                }
+                catch (WebApiException ex)
+                {
+                    this.StatusLabel.Text = ex.Message;
                     await this.OpenUriInBrowserAsync("https://twitter.com/" + inReplyToUser + "/statuses/" + inReplyToId.ToString());
                     return;
                 }
@@ -11413,8 +11394,15 @@ namespace OpenTween
             {
                 var cancellationToken = dialog.EnableCancellation();
 
-                var task = Task.Run(() => this.tw.GetInfoApi());
-                apiStatus = await dialog.WaitForAsync(this, task);
+                try
+                {
+                    var task = Task.Run(() => this.tw.GetInfoApi());
+                    apiStatus = await dialog.WaitForAsync(this, task);
+                }
+                catch (WebApiException)
+                {
+                    apiStatus = null;
+                }
 
                 if (cancellationToken.IsCancellationRequested)
                     return;
@@ -11458,11 +11446,14 @@ namespace OpenTween
 
             using (var dialog = new WaitingDialog(Properties.Resources.FollowCommandText1))
             {
-                var task = Task.Run(() => this.tw.PostFollowCommand(id));
-                var err = await dialog.WaitForAsync(this, task);
-                if (!string.IsNullOrEmpty(err))
+                try
                 {
-                    MessageBox.Show(Properties.Resources.FRMessage2 + err);
+                    var task = Task.Run(() => this.tw.PostFollowCommand(id));
+                    await dialog.WaitForAsync(this, task);
+                }
+                catch (WebApiException ex)
+                {
+                    MessageBox.Show(Properties.Resources.FRMessage2 + ex.Message);
                     return;
                 }
             }
@@ -11499,11 +11490,14 @@ namespace OpenTween
 
             using (var dialog = new WaitingDialog(Properties.Resources.RemoveCommandText1))
             {
-                var task = Task.Run(() => this.tw.PostRemoveCommand(id));
-                var err = await dialog.WaitForAsync(this, task);
-                if (!string.IsNullOrEmpty(err))
+                try
                 {
-                    MessageBox.Show(Properties.Resources.FRMessage2 + err);
+                    var task = Task.Run(() => this.tw.PostRemoveCommand(id));
+                    await dialog.WaitForAsync(this, task);
+                }
+                catch (WebApiException ex)
+                {
+                    MessageBox.Show(Properties.Resources.FRMessage2 + ex.Message);
                     return;
                 }
             }
@@ -11536,24 +11530,29 @@ namespace OpenTween
                 id = inputName.TabName.Trim();
             }
 
-            var isFollowing = false;
-            var isFollowed = false;
+            bool isFollowing, isFollowed;
 
             using (var dialog = new WaitingDialog(Properties.Resources.ShowFriendshipText1))
             {
                 var cancellationToken = dialog.EnableCancellation();
 
-                var task = Task.Run(() => this.tw.GetFriendshipInfo(id, ref isFollowing, ref isFollowed));
-                var err = await dialog.WaitForAsync(this, task);
+                try
+                {
+                    var task = Task.Run(() => this.tw.GetFriendshipInfo(id));
+                    var friendship = await dialog.WaitForAsync(this, task);
+
+                    isFollowing = friendship.Relationship.Source.Following;
+                    isFollowed = friendship.Relationship.Source.FollowedBy;
+                }
+                catch (WebApiException ex)
+                {
+                    if (!cancellationToken.IsCancellationRequested)
+                        MessageBox.Show(ex.Message);
+                    return;
+                }
 
                 if (cancellationToken.IsCancellationRequested)
                     return;
-
-                if (!string.IsNullOrEmpty(err))
-                {
-                    MessageBox.Show(err);
-                    return;
-                }
             }
 
             string result = "";
@@ -11581,24 +11580,29 @@ namespace OpenTween
         {
             foreach (string id in ids)
             {
-                var isFollowing = false;
-                var isFollowed = false;
+                bool isFollowing, isFollowed;
 
                 using (var dialog = new WaitingDialog(Properties.Resources.ShowFriendshipText1))
                 {
                     var cancellationToken = dialog.EnableCancellation();
 
-                    var task = Task.Run(() => this.tw.GetFriendshipInfo(id, ref isFollowing, ref isFollowed));
-                    var err = await dialog.WaitForAsync(this, task);
+                    try
+                    {
+                        var task = Task.Run(() => this.tw.GetFriendshipInfo(id));
+                        var friendship = await dialog.WaitForAsync(this, task);
+
+                        isFollowing = friendship.Relationship.Source.Following;
+                        isFollowed = friendship.Relationship.Source.FollowedBy;
+                    }
+                    catch (WebApiException ex)
+                    {
+                        if (!cancellationToken.IsCancellationRequested)
+                            MessageBox.Show(ex.Message);
+                        return;
+                    }
 
                     if (cancellationToken.IsCancellationRequested)
                         return;
-
-                    if (!string.IsNullOrEmpty(err))
-                    {
-                        MessageBox.Show(err);
-                        continue;
-                    }
                 }
 
                 string result = "";
@@ -12047,11 +12051,13 @@ namespace OpenTween
 
             if (TabInformations.GetInstance().SubscribableLists.Count == 0)
             {
-                string res = this.tw.GetListsApi();
-
-                if (!string.IsNullOrEmpty(res))
+                try
                 {
-                    MessageBox.Show("Failed to get lists. (" + res + ")");
+                    this.tw.GetListsApi();
+                }
+                catch (WebApiException ex)
+                {
+                    MessageBox.Show("Failed to get lists. (" + ex.Message + ")");
                     return;
                 }
             }
@@ -12389,17 +12395,20 @@ namespace OpenTween
             {
                 var cancellationToken = dialog.EnableCancellation();
 
-                var task = Task.Run(() => this.tw.GetUserInfo(id, ref user));
-                var err = await dialog.WaitForAsync(this, task);
+                try
+                {
+                    var task = Task.Run(() => this.tw.GetUserInfo(id));
+                    user = await dialog.WaitForAsync(this, task);
+                }
+                catch (WebApiException ex)
+                {
+                    if (!cancellationToken.IsCancellationRequested)
+                        MessageBox.Show(ex.Message);
+                    return;
+                }
 
                 if (cancellationToken.IsCancellationRequested)
                     return;
-
-                if (!string.IsNullOrEmpty(err))
-                {
-                    MessageBox.Show(err);
-                    return;
-                }
             }
 
             await this.doShowUserStatus(user);
@@ -12513,17 +12522,20 @@ namespace OpenTween
             {
                 var cancellationToken = dialog.EnableCancellation();
 
-                var task = Task.Run(() => this.tw.GetStatus_Retweeted_Count(statusId, ref retweetCount));
-                var err = await dialog.WaitForAsync(this, task);
+                try
+                {
+                    var task = Task.Run(() => this.tw.GetStatus_Retweeted_Count(statusId));
+                    retweetCount = await dialog.WaitForAsync(this, task);
+                }
+                catch (WebApiException ex)
+                {
+                    if (!cancellationToken.IsCancellationRequested)
+                        MessageBox.Show(Properties.Resources.RtCountText2 + Environment.NewLine + ex.Message);
+                    return;
+                }
 
                 if (cancellationToken.IsCancellationRequested)
                     return;
-
-                if (!string.IsNullOrEmpty(err))
-                {
-                    MessageBox.Show(Properties.Resources.RtCountText2 + Environment.NewLine + err);
-                    return;
-                }
             }
 
             MessageBox.Show(retweetCount + Properties.Resources.RtCountText1);
@@ -12807,16 +12819,7 @@ namespace OpenTween
             {
                 try
                 {
-                    post = await Task.Run(() =>
-                    {
-                        PostClass newPost = null;
-
-                        var err = this.tw.GetStatusApi(false, statusId, ref newPost);
-                        if (!string.IsNullOrEmpty(err))
-                            throw new WebApiException(err);
-
-                        return newPost;
-                    });
+                    post = await Task.Run(() => this.tw.GetStatusApi(false, statusId));
                 }
                 catch (WebApiException ex)
                 {

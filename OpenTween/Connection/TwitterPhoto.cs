@@ -93,12 +93,7 @@ namespace OpenTween.Connection
                     throw new ArgumentException("Err:Media not found.");
             }
 
-            await Task.Run(() =>
-                {
-                    var res = this.tw.PostStatusWithMultipleMedia(text, inReplyToStatusId, mediaItems);
-                    if (!string.IsNullOrEmpty(res))
-                        throw new WebApiException(res);
-                })
+            await Task.Run(() => this.tw.PostStatusWithMultipleMedia(text, inReplyToStatusId, mediaItems))
                 .ConfigureAwait(false);
         }
 

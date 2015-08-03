@@ -139,11 +139,13 @@ namespace OpenTween
             listItem.IsPublic = this.PublicRadioButton.Checked;
             listItem.Description = this.DescriptionText.Text;
 
-            string rslt = listItem.Refresh();
-
-            if (!string.IsNullOrEmpty(rslt))
+            try
             {
-                MessageBox.Show(String.Format(Properties.Resources.ListManageOKButton2, rslt));
+                listItem.Refresh();
+            }
+            catch (WebApiException ex)
+            {
+                MessageBox.Show(string.Format(Properties.Resources.ListManageOKButton2, ex.Message));
                 return;
             }
 
@@ -166,35 +168,44 @@ namespace OpenTween
             this.ListsList_SelectedIndexChanged(this.ListsList, EventArgs.Empty);
         }
 
-        private void RefreshUsersButton_Click(object sender, EventArgs e)
+        private async void RefreshUsersButton_Click(object sender, EventArgs e)
         {
             if (this.ListsList.SelectedItem == null) return;
             this.UserList.Items.Clear();
-            Action<ListElement> dlgt = new Action<ListElement>((lElement) =>
-                                                   this.Invoke(new Action<string>(GetListMembersCallback), lElement.RefreshMembers()));
-            dlgt.BeginInvoke((ListElement) this.ListsList.SelectedItem, null, null);
+
+            var list = (ListElement)this.ListsList.SelectedItem;
+            try
+            {
+                await Task.Run(() => list.RefreshMembers());
+            }
+            catch (WebApiException ex)
+            {
+                MessageBox.Show(string.Format(Properties.Resources.ListManageGetListMembersCallback1, ex.Message));
+                return;
+            }
+
+            this.ListsList_SelectedIndexChanged(this.ListsList, EventArgs.Empty);
+            this.GetMoreUsersButton.Text = Properties.Resources.ListManageGetMoreUsers1;
         }
 
-        private void GetMoreUsersButton_Click(object sender, EventArgs e)
+        private async void GetMoreUsersButton_Click(object sender, EventArgs e)
         {
             if (this.ListsList.SelectedItem == null) return;
             this.UserList.Items.Clear();
-            Action<ListElement> dlgt = new Action<ListElement>((lElement) =>
-                                                   this.Invoke(new Action<string>(GetListMembersCallback), lElement.GetMoreMembers()));
-            dlgt.BeginInvoke((ListElement)this.ListsList.SelectedItem, null, null);
-        }
 
-        private void GetListMembersCallback(string result)
-        {
-            if (result == this.ListsList.SelectedItem.ToString())
+            var list = (ListElement)this.ListsList.SelectedItem;
+            try
             {
-                this.ListsList_SelectedIndexChanged(this.ListsList, EventArgs.Empty);
-                this.GetMoreUsersButton.Text = Properties.Resources.ListManageGetMoreUsers1;
+                await Task.Run(() => list.GetMoreMembers());
             }
-            else
+            catch (WebApiException ex)
             {
-                MessageBox.Show(String.Format(Properties.Resources.ListManageGetListMembersCallback1, result));
+                MessageBox.Show(string.Format(Properties.Resources.ListManageGetListMembersCallback1, ex.Message));
+                return;
             }
+
+            this.ListsList_SelectedIndexChanged(this.ListsList, EventArgs.Empty);
+            this.GetMoreUsersButton.Text = Properties.Resources.ListManageGetMoreUsers1;
         }
 
         private void DeleteUserButton_Click(object sender, EventArgs e)
@@ -206,13 +217,16 @@ namespace OpenTween
             UserInfo user = (UserInfo) this.UserList.SelectedItem;
             if (MessageBox.Show(Properties.Resources.ListManageDeleteUser1, Application.ProductName, MessageBoxButtons.OKCancel) == DialogResult.OK)
             {
-                string rslt = this.tw.RemoveUserToList(list.Id.ToString(), user.Id.ToString());
-
-                if (!string.IsNullOrEmpty(rslt))
+                try
                 {
-                    MessageBox.Show(String.Format(Properties.Resources.ListManageDeleteUser2, rslt));
+                    this.tw.RemoveUserToList(list.Id.ToString(), user.Id.ToString());
+                }
+                catch (WebApiException ex)
+                {
+                    MessageBox.Show(string.Format(Properties.Resources.ListManageDeleteUser2, ex.Message));
                     return;
                 }
+
                 int idx = ListsList.SelectedIndex;
                 list.Members.Remove(user);
                 this.ListsList_SelectedIndexChanged(this.ListsList, EventArgs.Empty);
@@ -227,21 +241,23 @@ namespace OpenTween
 
             if (MessageBox.Show(Properties.Resources.ListManageDeleteLists1, Application.ProductName, MessageBoxButtons.OKCancel) == DialogResult.OK)
             {
-                string rslt = "";
-
-                rslt = this.tw.DeleteList(list.Id.ToString());
-
-                if (!string.IsNullOrEmpty(rslt))
+                try
                 {
-                    MessageBox.Show(Properties.Resources.ListManageOKButton2, rslt);
+                    this.tw.DeleteList(list.Id.ToString());
+                }
+                catch (WebApiException ex)
+                {
+                    MessageBox.Show(Properties.Resources.ListManageOKButton2, ex.Message);
                     return;
                 }
 
-                rslt = this.tw.GetListsApi();
-
-                if (!string.IsNullOrEmpty(rslt))
+                try
                 {
-                    MessageBox.Show(Properties.Resources.ListsDeleteFailed, rslt);
+                    this.tw.GetListsApi();
+                }
+                catch (WebApiException ex)
+                {
+                    MessageBox.Show(Properties.Resources.ListsDeleteFailed, ex.Message);
                     return;
                 }
 
@@ -322,7 +338,10 @@ namespace OpenTween
                     this.UpdateListsListBox(lists);
                 }
                 catch (OperationCanceledException) { }
-                catch (WebApiException) { }
+                catch (WebApiException ex)
+                {
+                    MessageBox.Show(string.Format(Properties.Resources.ListsDeleteFailed, ex.Message));
+                }
             }
         }
 
@@ -333,15 +352,9 @@ namespace OpenTween
                 var cancellationToken = dialog.EnableCancellation();
 
                 var task = Task.Run(() => tw.GetListsApi());
-                var err = await dialog.WaitForAsync(this, task);
+                await dialog.WaitForAsync(this, task);
 
                 cancellationToken.ThrowIfCancellationRequested();
-
-                if (!string.IsNullOrEmpty(err))
-                {
-                    MessageBox.Show(string.Format(Properties.Resources.ListsDeleteFailed, err));
-                    throw new WebApiException(err);
-                }
             }
 
             return TabInformations.GetInstance().SubscribableLists;
@@ -377,17 +390,16 @@ namespace OpenTween
                 this._tw = tw;
             }
 
-            public override string Refresh()
+            public override void Refresh()
             {
                 if (this.IsCreated)
                 {
-                    return base.Refresh();
+                    base.Refresh();
                 }
                 else
                 {
-                    string rslt = this._tw.CreateListApi(this.Name, !this.IsPublic, this.Description);
-                    this._isCreated = string.IsNullOrEmpty(rslt);
-                    return rslt;
+                    this._tw.CreateListApi(this.Name, !this.IsPublic, this.Description);
+                    this._isCreated = true;
                 }
             }
 

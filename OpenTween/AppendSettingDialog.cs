@@ -319,18 +319,13 @@ namespace OpenTween
         {
             this.tw.Initialize("", "", "", 0);
 
-            var pinPageUrl = "";
-            var err = this.tw.StartAuthentication(ref pinPageUrl);
-            if (!string.IsNullOrEmpty(err))
-                throw new WebApiException(err);
+            var pinPageUrl = this.tw.StartAuthentication();
 
             var pin = AuthDialog.DoAuth(this, pinPageUrl);
             if (string.IsNullOrEmpty(pin))
                 return null; // キャンセルされた場合
 
-            var err2 = this.tw.Authenticate(pin);
-            if (!string.IsNullOrEmpty(err2))
-                throw new WebApiException(err2);
+            this.tw.Authenticate(pin);
 
             return new UserAccount
             {
