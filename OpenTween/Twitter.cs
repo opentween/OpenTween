@@ -210,9 +210,7 @@ namespace OpenTween
                 throw new WebApiException("Err:" + ex.Message, ex);
             }
 
-            var err = this.CheckStatusCode(res, content);
-            if (err != null)
-                throw new WebApiException(err);
+            this.CheckStatusCode(res, content);
 
             _uname = username.ToLower();
             if (SettingCommon.Instance.UserstreamStartup) this.ReconnectUserStream();
@@ -251,9 +249,7 @@ namespace OpenTween
                 throw new WebApiException("Err:Failed to access auth acc server.", ex);
             }
 
-            var err = this.CheckStatusCode(res, null);
-            if (err != null)
-                throw new WebApiException(err);
+            this.CheckStatusCode(res, null);
 
             _uname = Username.ToLower();
             if (SettingCommon.Instance.UserstreamStartup) this.ReconnectUserStream();
@@ -497,9 +493,7 @@ namespace OpenTween
             if (res == HttpStatusCode.NotFound)
                 return;
 
-            var err = this.CheckStatusCode(res, content);
-            if (err != null)
-                throw new WebApiException(err);
+            this.CheckStatusCode(res, content);
 
             TwitterStatus status;
             try
@@ -548,9 +542,7 @@ namespace OpenTween
             if (res == HttpStatusCode.NotFound)
                 return;
 
-            var err = this.CheckStatusCode(res, content);
-            if (err != null)
-                throw new WebApiException(err);
+            this.CheckStatusCode(res, content);
 
             TwitterStatus status;
             try
@@ -619,9 +611,7 @@ namespace OpenTween
                 throw new WebApiException("Err:" + ex.Message, ex);
             }
 
-            var err = this.CheckStatusCode(res, content);
-            if (err != null)
-                throw new WebApiException(err);
+            this.CheckStatusCode(res, content);
 
             TwitterUploadMediaResult status;
             try
@@ -663,9 +653,7 @@ namespace OpenTween
                 throw new WebApiException("Err:" + ex.Message, ex);
             }
 
-            var err = this.CheckStatusCode(res, content);
-            if (err != null)
-                throw new WebApiException(err);
+            this.CheckStatusCode(res, content);
 
             TwitterDirectMessage status;
             try
@@ -704,9 +692,7 @@ namespace OpenTween
                 throw new WebApiException("Err:" + ex.Message, ex);
             }
 
-            var err = this.CheckStatusCode(res, null);
-            if (!string.IsNullOrEmpty(err))
-                throw new WebApiException(err);
+            this.CheckStatusCode(res, null);
         }
 
         public void PostRetweet(long id, bool read)
@@ -737,9 +723,7 @@ namespace OpenTween
                 throw new WebApiException("Err:" + ex.Message, ex);
             }
 
-            var err = this.CheckStatusCode(res, content);
-            if (err != null)
-                throw new WebApiException(err);
+            this.CheckStatusCode(res, content);
 
             TwitterStatus status;
             try
@@ -804,9 +788,7 @@ namespace OpenTween
                 throw new WebApiException("Err:" + ex.Message, ex);
             }
 
-            var err = this.CheckStatusCode(res, null);
-            if (err != null)
-                throw new WebApiException(err);
+            this.CheckStatusCode(res, null);
         }
 
         public void PostFollowCommand(string screenName)
@@ -825,9 +807,7 @@ namespace OpenTween
                 throw new WebApiException("Err:" + ex.Message, ex);
             }
 
-            var err = this.CheckStatusCode(res, content);
-            if (err != null)
-                throw new WebApiException(err);
+            this.CheckStatusCode(res, content);
         }
 
         public void PostRemoveCommand(string screenName)
@@ -846,9 +826,7 @@ namespace OpenTween
                 throw new WebApiException("Err:" + ex.Message + "(" + MethodBase.GetCurrentMethod().Name + ")", ex);
             }
 
-            var err = this.CheckStatusCode(res, content);
-            if (err != null)
-                throw new WebApiException(err);
+            this.CheckStatusCode(res, content);
         }
 
         public void PostCreateBlock(string screenName)
@@ -867,9 +845,7 @@ namespace OpenTween
                 throw new WebApiException("Err:" + ex.Message + "(" + MethodBase.GetCurrentMethod().Name + ")", ex);
             }
 
-            var err = this.CheckStatusCode(res, content);
-            if (err != null)
-                throw new WebApiException(err);
+            this.CheckStatusCode(res, content);
         }
 
         public void PostDestroyBlock(string screenName)
@@ -888,9 +864,7 @@ namespace OpenTween
                 throw new WebApiException("Err:" + ex.Message + "(" + MethodBase.GetCurrentMethod().Name + ")", ex);
             }
 
-            var err = this.CheckStatusCode(res, content);
-            if (err != null)
-                throw new WebApiException(err);
+            this.CheckStatusCode(res, content);
         }
 
         public void PostReportSpam(string screenName)
@@ -909,9 +883,7 @@ namespace OpenTween
                 throw new WebApiException("Err:" + ex.Message + "(" + MethodBase.GetCurrentMethod().Name + ")", ex);
             }
 
-            var err = this.CheckStatusCode(res, content);
-            if (err != null)
-                throw new WebApiException(err);
+            this.CheckStatusCode(res, content);
         }
 
         public TwitterFriendship GetFriendshipInfo(string screenName)
@@ -930,9 +902,7 @@ namespace OpenTween
                 throw new WebApiException("Err:" + ex.Message + "(" + MethodBase.GetCurrentMethod().Name + ")", ex);
             }
 
-            var err = this.CheckStatusCode(res, content);
-            if (err != null)
-                throw new WebApiException(err);
+            this.CheckStatusCode(res, content);
 
             try
             {
@@ -966,9 +936,7 @@ namespace OpenTween
                 throw new WebApiException("Err:" + ex.Message + "(" + MethodBase.GetCurrentMethod().Name + ")", ex);
             }
 
-            var err = this.CheckStatusCode(res, content);
-            if (err != null)
-                throw new WebApiException(err);
+            this.CheckStatusCode(res, content);
 
             try
             {
@@ -1002,9 +970,7 @@ namespace OpenTween
                 throw new WebApiException("Err:" + ex.Message, ex);
             }
 
-            var err = this.CheckStatusCode(res, content);
-            if (err != null)
-                throw new WebApiException(err);
+            this.CheckStatusCode(res, content);
 
             try
             {
@@ -1045,9 +1011,7 @@ namespace OpenTween
                 throw new WebApiException("Err:" + ex.Message + "(" + MethodBase.GetCurrentMethod().Name + ")", ex);
             }
 
-            var err = this.CheckStatusCode(res, content);
-            if (err != null)
-                throw new WebApiException(err);
+            this.CheckStatusCode(res, content);
 
             if (!_restrictFavCheck)
                 return;
@@ -1063,9 +1027,7 @@ namespace OpenTween
                 throw new WebApiException("Err:" + ex.Message, ex);
             }
 
-            err = this.CheckStatusCode(res, content);
-            if (err != null)
-                throw new WebApiException(err);
+            this.CheckStatusCode(res, content);
 
             TwitterStatus status;
             try
@@ -1109,9 +1071,7 @@ namespace OpenTween
                 throw new WebApiException("Err:" + ex.Message, ex);
             }
 
-            var err = this.CheckStatusCode(res, content);
-            if (err != null)
-                throw new WebApiException(err);
+            this.CheckStatusCode(res, content);
         }
 
         public TwitterUser PostUpdateProfile(string name, string url, string location, string description)
@@ -1130,9 +1090,7 @@ namespace OpenTween
                 throw new WebApiException("Err:" + ex.Message, content, ex);
             }
 
-            var err = this.CheckStatusCode(res, content);
-            if (err != null)
-                throw new WebApiException(err, content);
+            this.CheckStatusCode(res, content);
 
             try
             {
@@ -1168,9 +1126,7 @@ namespace OpenTween
                 throw new WebApiException("Err:" + ex.Message + "(" + MethodBase.GetCurrentMethod().Name + ")", ex);
             }
 
-            var err = this.CheckStatusCode(res, content);
-            if (err != null)
-                throw new WebApiException(err);
+            this.CheckStatusCode(res, content);
         }
 
         public string Username
@@ -1516,9 +1472,7 @@ namespace OpenTween
                 throw new WebApiException("Err:" + ex.Message, ex);
             }
 
-            var err = this.CheckStatusCode(res, content);
-            if (err != null)
-                throw new WebApiException(err);
+            this.CheckStatusCode(res, content);
 
             var minimumId = CreatePostsFromJson(content, gType, null, read);
 
@@ -1572,9 +1526,7 @@ namespace OpenTween
             if (res == HttpStatusCode.Unauthorized)
                 throw new WebApiException("Err:@" + userName + "'s Tweets are protected.");
 
-            var err = this.CheckStatusCode(res, content);
-            if (err != null)
-                throw new WebApiException(err);
+            this.CheckStatusCode(res, content);
 
             var minimumId = CreatePostsFromJson(content, MyCommon.WORKERTYPE.UserTimeline, tab, read);
 
@@ -1601,9 +1553,7 @@ namespace OpenTween
             if (res == HttpStatusCode.Forbidden)
                 throw new WebApiException("Err:protected user's tweet", content);
 
-            var err = this.CheckStatusCode(res, content);
-            if (err != null)
-                throw new WebApiException(err);
+            this.CheckStatusCode(res, content);
 
             TwitterStatus status;
             try
@@ -1971,9 +1921,7 @@ namespace OpenTween
                 throw new WebApiException("Err:" + ex.Message, ex);
             }
 
-            var err = this.CheckStatusCode(res, content);
-            if (err != null)
-                throw new WebApiException(err);
+            this.CheckStatusCode(res, content);
 
             var minimumId = CreatePostsFromJson(content, MyCommon.WORKERTYPE.List, tab, read);
 
@@ -2315,9 +2263,7 @@ namespace OpenTween
                 throw new WebApiException("Err:" + ex.Message, ex);
             }
 
-            var err = this.CheckStatusCode(res, content);
-            if (err != null)
-                throw new WebApiException(err);
+            this.CheckStatusCode(res, content);
 
             CreateDirectMessagesFromJson(content, gType, read);
         }
@@ -2341,9 +2287,7 @@ namespace OpenTween
                 throw new WebApiException("Err:" + ex.Message + "(" + MethodBase.GetCurrentMethod().Name + ")", ex);
             }
 
-            var err = this.CheckStatusCode(res, content);
-            if (err != null)
-                throw new WebApiException(err);
+            this.CheckStatusCode(res, content);
 
             CreateFavoritePostsFromJson(content, read);
         }
@@ -2417,9 +2361,7 @@ namespace OpenTween
                 throw new WebApiException("Err:" + e.Message + "(" + MethodBase.GetCurrentMethod().Name + ")", e);
             }
 
-            var err = this.CheckStatusCode(res, content);
-            if (err != null)
-                throw new WebApiException(err, content);
+            this.CheckStatusCode(res, content);
 
             try
             {
@@ -2477,9 +2419,7 @@ namespace OpenTween
                 throw new WebApiException("Err:" + e.Message + "(" + MethodBase.GetCurrentMethod().Name + ")", e);
             }
 
-            var err = this.CheckStatusCode(res, content);
-            if (err != null)
-                throw new WebApiException(err, content);
+            this.CheckStatusCode(res, content);
 
             try
             {
@@ -2529,9 +2469,7 @@ namespace OpenTween
                 throw new WebApiException("Err:" + e.Message + "(" + MethodBase.GetCurrentMethod().Name + ")", e);
             }
 
-            var err = this.CheckStatusCode(res, content);
-            if (err != null)
-                throw new WebApiException(err, content);
+            this.CheckStatusCode(res, content);
 
             try
             {
@@ -2569,9 +2507,7 @@ namespace OpenTween
                 throw new WebApiException("Err:" + ex.Message + "(" + MethodBase.GetCurrentMethod().Name + ")", ex);
             }
 
-            var err = this.CheckStatusCode(res, content);
-            if (err != null)
-                throw new WebApiException(err);
+            this.CheckStatusCode(res, content);
 
             try
             {
@@ -2598,9 +2534,7 @@ namespace OpenTween
                 throw new WebApiException("Err:" + ex.Message + "(" + MethodBase.GetCurrentMethod().Name + ")", ex);
             }
 
-            err = this.CheckStatusCode(res, content);
-            if (err != null)
-                throw new WebApiException(err);
+            this.CheckStatusCode(res, content);
 
             try
             {
@@ -2635,9 +2569,7 @@ namespace OpenTween
                 throw new WebApiException("Err:" + ex.Message + "(" + MethodBase.GetCurrentMethod().Name + ")", ex);
             }
 
-            var err = this.CheckStatusCode(res, content);
-            if (err != null)
-                throw new WebApiException(err);
+            this.CheckStatusCode(res, content);
         }
 
         public ListElement EditList(string list_id, string new_name, bool isPrivate, string description)
@@ -2654,9 +2586,7 @@ namespace OpenTween
                 throw new WebApiException("Err:" + ex.Message + "(" + MethodBase.GetCurrentMethod().Name + ")", ex);
             }
 
-            var err = this.CheckStatusCode(res, content);
-            if (err != null)
-                throw new WebApiException(err);
+            this.CheckStatusCode(res, content);
 
             try
             {
@@ -2691,9 +2621,7 @@ namespace OpenTween
                 throw new WebApiException("Err:" + ex.Message);
             }
 
-            var err = this.CheckStatusCode(res, content);
-            if (err != null)
-                throw new WebApiException(err);
+            this.CheckStatusCode(res, content);
 
             try
             {
@@ -2732,9 +2660,7 @@ namespace OpenTween
                 throw new WebApiException("Err:" + ex.Message + "(" + MethodBase.GetCurrentMethod().Name + ")", ex);
             }
 
-            var err = this.CheckStatusCode(res, content);
-            if (err != null)
-                throw new WebApiException(err);
+            this.CheckStatusCode(res, content);
 
             try
             {
@@ -2775,9 +2701,7 @@ namespace OpenTween
                 return false;
             }
 
-            var err = this.CheckStatusCode(res, content);
-            if (err != null)
-                throw new WebApiException(err);
+            this.CheckStatusCode(res, content);
 
             try
             {
@@ -2804,9 +2728,7 @@ namespace OpenTween
                 throw new WebApiException("Err:" + ex.Message + "(" + MethodBase.GetCurrentMethod().Name + ")", ex);
             }
 
-            var err = this.CheckStatusCode(res, content);
-            if (err != null)
-                throw new WebApiException(err);
+            this.CheckStatusCode(res, content);
         }
 
         public void RemoveUserToList(string listId, string user)
@@ -2823,9 +2745,7 @@ namespace OpenTween
                 throw new WebApiException("Err:" + ex.Message + "(" + MethodBase.GetCurrentMethod().Name + ")", ex);
             }
 
-            var err = this.CheckStatusCode(res, content);
-            if (err != null)
-                throw new WebApiException(err);
+            this.CheckStatusCode(res, content);
         }
 
         private class range
@@ -3082,9 +3002,7 @@ namespace OpenTween
                 return null;
             }
 
-            var err = this.CheckStatusCode(res, content);
-            if (err != null)
-                throw new WebApiException(err);
+            this.CheckStatusCode(res, content);
 
             try
             {
@@ -3137,9 +3055,7 @@ namespace OpenTween
                 throw new WebApiException("Err:" + e.Message + "(" + MethodBase.GetCurrentMethod().Name + ")", e);
             }
 
-            var err = this.CheckStatusCode(res, content);
-            if (err != null)
-                throw new WebApiException(err, content);
+            this.CheckStatusCode(res, content);
 
             try
             {
@@ -3182,9 +3098,7 @@ namespace OpenTween
                 var res = await Task.Run(() => twCon.GetMuteUserIds(ref content, cursor))
                     .ConfigureAwait(false);
 
-                var err = this.CheckStatusCode(res, content);
-                if (err != null)
-                    throw new WebApiException(err, content);
+                this.CheckStatusCode(res, content);
 
                 return TwitterIds.ParseJson(content);
             }
@@ -3228,13 +3142,13 @@ namespace OpenTween
             }
         }
 
-        private string CheckStatusCode(HttpStatusCode httpStatus, string responseText,
+        private void CheckStatusCode(HttpStatusCode httpStatus, string responseText,
             [CallerMemberName] string callerMethodName = "")
         {
             if (httpStatus == HttpStatusCode.OK)
             {
                 Twitter.AccountState = MyCommon.ACCOUNT_STATE.Valid;
-                return null;
+                return;
             }
 
             if (string.IsNullOrWhiteSpace(responseText))
@@ -3242,7 +3156,7 @@ namespace OpenTween
                 if (httpStatus == HttpStatusCode.Unauthorized)
                     Twitter.AccountState = MyCommon.ACCOUNT_STATE.Invalid;
 
-                return "Err:" + httpStatus + "(" + callerMethodName + ")";
+                throw new WebApiException("Err:" + httpStatus + "(" + callerMethodName + ")");
             }
 
             try
@@ -3250,7 +3164,7 @@ namespace OpenTween
                 var errors = TwitterError.ParseJson(responseText).Errors;
                 if (errors == null || !errors.Any())
                 {
-                    return "Err:" + httpStatus + "(" + callerMethodName + ")";
+                    throw new WebApiException("Err:" + httpStatus + "(" + callerMethodName + ")", responseText);
                 }
 
                 foreach (var error in errors)
@@ -3262,11 +3176,11 @@ namespace OpenTween
                     }
                 }
 
-                return "Err:" + string.Join(",", errors.Select(x => x.ToString())) + "(" + callerMethodName + ")";
+                throw new WebApiException("Err:" + string.Join(",", errors.Select(x => x.ToString())) + "(" + callerMethodName + ")", responseText);
             }
             catch (SerializationException) { }
 
-            return "Err:" + httpStatus + "(" + callerMethodName + ")";
+            throw new WebApiException("Err:" + httpStatus + "(" + callerMethodName + ")", responseText);
         }
 
 #region "UserStream"
