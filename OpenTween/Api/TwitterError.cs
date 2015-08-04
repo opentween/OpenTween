@@ -127,6 +127,11 @@ namespace OpenTween.Api
         AlreadyFavorited = 139,
 
         /// <summary>
+        /// 存在しないステータスID
+        /// </summary>
+        StatusNotFound = 144,
+
+        /// <summary>
         /// フォローの追加が制限されています
         /// </summary>
         FollowLimit = 161,
