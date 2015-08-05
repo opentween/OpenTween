@@ -27,8 +27,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Security.Cryptography;
+using OpenTween.Connection;
 
 namespace OpenTween
 {
@@ -48,31 +50,22 @@ namespace OpenTween
             }
         }
 
-        protected override string CreateSignature(string tokenSecret,
-                                         string method,
-                                         Uri uri,
-                                         Dictionary<string, string> parameter)
+        protected override void AppendOAuthInfo(HttpWebRequest webRequest, Dictionary<string, string> query,
+            string token, string tokenSecret)
         {
-            //パラメタをソート済みディクショナリに詰替（OAuthの仕様）
-            SortedDictionary<string, string> sorted = new SortedDictionary<string, string>(parameter);
-            //URLエンコード済みのクエリ形式文字列に変換
-            string paramString = MyCommon.BuildQueryString(sorted);
-            //アクセス先URLの整形
-            string url = string.Format("{0}://{1}{2}", uri.Scheme, uri.Host, uri.AbsolutePath);
-            //本来のアクセス先URLに再設定（api.twitter.com固定）
-            if (!string.IsNullOrEmpty(_proxyHost) && url.StartsWith(uri.Scheme + "://" + _proxyHost))
-                url = url.Replace(uri.Scheme + "://" + _proxyHost, uri.Scheme + "://" + _apiHost);
-            //署名のベース文字列生成（&区切り）。クエリ形式文字列は再エンコードする
-            string signatureBase = String.Format("{0}&{1}&{2}", method, MyCommon.UrlEncode(url), MyCommon.UrlEncode(paramString));
-            //署名鍵の文字列をコンシューマー秘密鍵とアクセストークン秘密鍵から生成（&区切り。アクセストークン秘密鍵なくても&残すこと）
-            string key = MyCommon.UrlEncode(consumerSecret) + "&";
-            if (!string.IsNullOrEmpty(tokenSecret)) key += MyCommon.UrlEncode(tokenSecret);
-            //鍵生成＆署名生成
-            using (HMACSHA1 hmac = new HMACSHA1(Encoding.ASCII.GetBytes(key)))
+            var requestUri = webRequest.RequestUri;
+
+            // 本来のアクセス先URLに再設定（api.twitter.com固定）
+            if (!string.IsNullOrEmpty(_proxyHost) && requestUri.Host == _proxyHost)
             {
-                byte[] hash = hmac.ComputeHash(Encoding.ASCII.GetBytes(signatureBase));
-                return Convert.ToBase64String(hash);
+                var rewriteUriStr = requestUri.GetLeftPart(UriPartial.Scheme) + _proxyHost + requestUri.PathAndQuery;
+                requestUri = new Uri(rewriteUriStr);
             }
+
+            var credential = OAuthUtility.CreateAuthorization(webRequest.Method, requestUri, query,
+                this.consumerKey, this.consumerSecret, token, tokenSecret);
+
+            webRequest.Headers.Add(HttpRequestHeader.Authorization, credential);
         }
 
     }

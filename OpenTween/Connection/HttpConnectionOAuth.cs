@@ -26,6 +26,7 @@
 
 using HttpConnection = OpenTween.HttpConnection;
 using IHttpConnection = OpenTween.IHttpConnection;
+using OAuthUtility = OpenTween.Connection.OAuthUtility;
 using DateTime = System.DateTime;
 using DateTimeKind = System.DateTimeKind;
 using Random = System.Random;
@@ -85,7 +86,7 @@ namespace OpenTween
 		/// <summary>
 		/// OAuthのコンシューマー鍵
 		/// </summary>
-		private string consumerKey;
+		protected string consumerKey;
 
 		/// <summary>
 		/// OAuthの署名作成用秘密コンシューマーデータ
@@ -486,69 +487,10 @@ namespace OpenTween
 		/// <param name="tokenSecret">アクセストークンシークレット。認証処理では空文字列</param>
 		protected virtual void AppendOAuthInfo( HttpWebRequest webRequest, Dictionary< string, string > query, string token, string tokenSecret )
 		{
-			// OAuth共通情報取得
-			Dictionary< string, string > parameter = this.GetOAuthParameter( token );
-			// OAuth共通情報にquery情報を追加
-			if ( query != null )
-				foreach ( KeyValuePair< string, string > item in query )
-					parameter.Add( item.Key, item.Value );
-			// 署名の作成・追加
-			parameter.Add( "oauth_signature", this.CreateSignature( tokenSecret, webRequest.Method, webRequest.RequestUri, parameter ) );
-			// HTTPリクエストのヘッダに追加
-			StringBuilder sb = new StringBuilder( "OAuth " );
-			foreach ( KeyValuePair< string, string > item in parameter )
-				// 各種情報のうち、oauth_で始まる情報のみ、ヘッダに追加する。各情報はカンマ区切り、データはダブルクォーテーションで括る
-				if ( item.Key.StartsWith("oauth_") )
-					sb.AppendFormat( "{0}=\"{1}\",", item.Key, MyCommon.UrlEncode( item.Value ) );
-			webRequest.Headers.Add( HttpRequestHeader.Authorization, sb.ToString() );
-		}
+			var credential = OAuthUtility.CreateAuthorization( webRequest.Method, webRequest.RequestUri, query,
+				this.consumerKey, this.consumerSecret, token, tokenSecret );
 
-		/// <summary>
-		/// OAuthで使用する共通情報を取得する
-		/// </summary>
-		/// <param name="token">アクセストークン、もしくはリクエストトークン。未取得なら空文字列</param>
-		/// <returns>OAuth情報のディクショナリ</returns>
-		protected Dictionary< string, string > GetOAuthParameter( string token )
-		{
-			Dictionary< string, string > parameter = new Dictionary< string, string >();
-			parameter.Add( "oauth_consumer_key", this.consumerKey );
-			parameter.Add( "oauth_signature_method", "HMAC-SHA1" );
-			parameter.Add( "oauth_timestamp", Convert.ToInt64( ( DateTime.UtcNow - HttpConnectionOAuth.UnixEpoch ).TotalSeconds ).ToString() ); // epoch秒
-			parameter.Add( "oauth_nonce", HttpConnectionOAuth.NonceRandom.Next( 123400, 9999999 ).ToString() );
-			parameter.Add( "oauth_version", "1.0" );
-			if ( !string.IsNullOrEmpty( token ) )
-				parameter.Add( "oauth_token", token ); // トークンがあれば追加
-			return parameter;
-		}
-
-		/// <summary>
-		/// OAuth認証ヘッダの署名作成
-		/// </summary>
-		/// <param name="tokenSecret">アクセストークン秘密鍵</param>
-		/// <param name="method">HTTPメソッド文字列</param>
-		/// <param name="uri">アクセス先Uri</param>
-		/// <param name="parameter">クエリ、もしくはPOSTデータ</param>
-		/// <returns>署名文字列</returns>
-		protected virtual string CreateSignature( string tokenSecret, string method, Uri uri, Dictionary< string, string > parameter )
-		{
-			// パラメタをソート済みディクショナリに詰替（OAuthの仕様）
-			SortedDictionary< string, string > sorted = new SortedDictionary< string, string >( parameter );
-			// URLエンコード済みのクエリ形式文字列に変換
-			string paramString = MyCommon.BuildQueryString( sorted );
-			// アクセス先URLの整形
-			string url = string.Format( "{0}://{1}{2}", uri.Scheme, uri.Host, uri.AbsolutePath );
-			// 署名のベース文字列生成（&区切り）。クエリ形式文字列は再エンコードする
-			string signatureBase = string.Format( "{0}&{1}&{2}", method, MyCommon.UrlEncode( url ), MyCommon.UrlEncode( paramString ) );
-			// 署名鍵の文字列をコンシューマー秘密鍵とアクセストークン秘密鍵から生成（&区切り。アクセストークン秘密鍵なくても&残すこと）
-			string key = MyCommon.UrlEncode( this.consumerSecret ) + "&";
-			if ( !string.IsNullOrEmpty( tokenSecret ) )
-				key += MyCommon.UrlEncode( tokenSecret );
-			// 鍵生成＆署名生成
-			using ( HMACSHA1 hmac = new HMACSHA1( Encoding.ASCII.GetBytes( key ) ) )
-			{
-				byte[] hash = hmac.ComputeHash( Encoding.ASCII.GetBytes( signatureBase ) );
-				return Convert.ToBase64String( hash );
-			}
+			webRequest.Headers.Add( HttpRequestHeader.Authorization, credential );
 		}
 		#endregion // OAuth認証用ヘッダ作成・付加処理
 
