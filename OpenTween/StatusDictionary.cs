@@ -1147,9 +1147,8 @@ namespace OpenTween
         {
             var retweetedId = item.RetweetedId.Value;
 
-            //true:追加、False:保持済み
             PostClass status;
-            if (_retweets.TryGetValue(retweetedId, out status))
+            if (this._retweets.TryGetValue(retweetedId, out status))
             {
                 status.RetweetedCount++;
                 if (status.RetweetedCount > 10)
@@ -1159,8 +1158,8 @@ namespace OpenTween
                 return;
             }
 
-            _retweets.Add(
-                        item.RetweetedId.Value,
+            this._retweets.Add(
+                        retweetedId,
                         new PostClass(
                             item.Nickname,
                             item.TextFromApi,
@@ -1188,9 +1187,12 @@ namespace OpenTween
                             "",
                             null,
                             item.PostGeo
-                        )
+                        ) {
+                            RetweetedCount = 1,
+                            Media = new List<MediaInfo>(item.Media),
+                            QuoteStatusIds = item.QuoteStatusIds.ToArray(),
+                        }
                     );
-            _retweets[retweetedId].RetweetedCount++;
         }
 
         public bool AddQuoteTweet(PostClass item)
