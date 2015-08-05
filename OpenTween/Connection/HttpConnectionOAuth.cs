@@ -499,7 +499,7 @@ namespace OpenTween
 			foreach ( KeyValuePair< string, string > item in parameter )
 				// 各種情報のうち、oauth_で始まる情報のみ、ヘッダに追加する。各情報はカンマ区切り、データはダブルクォーテーションで括る
 				if ( item.Key.StartsWith("oauth_") )
-					sb.AppendFormat( "{0}=\"{1}\",", item.Key, this.UrlEncode( item.Value ) );
+					sb.AppendFormat( "{0}=\"{1}\",", item.Key, MyCommon.UrlEncode( item.Value ) );
 			webRequest.Headers.Add( HttpRequestHeader.Authorization, sb.ToString() );
 		}
 
@@ -538,11 +538,11 @@ namespace OpenTween
 			// アクセス先URLの整形
 			string url = string.Format( "{0}://{1}{2}", uri.Scheme, uri.Host, uri.AbsolutePath );
 			// 署名のベース文字列生成（&区切り）。クエリ形式文字列は再エンコードする
-			string signatureBase = string.Format( "{0}&{1}&{2}", method, this.UrlEncode( url ), this.UrlEncode( paramString ) );
+			string signatureBase = string.Format( "{0}&{1}&{2}", method, MyCommon.UrlEncode( url ), MyCommon.UrlEncode( paramString ) );
 			// 署名鍵の文字列をコンシューマー秘密鍵とアクセストークン秘密鍵から生成（&区切り。アクセストークン秘密鍵なくても&残すこと）
-			string key = this.UrlEncode( this.consumerSecret ) + "&";
+			string key = MyCommon.UrlEncode( this.consumerSecret ) + "&";
 			if ( !string.IsNullOrEmpty( tokenSecret ) )
-				key += this.UrlEncode( tokenSecret );
+				key += MyCommon.UrlEncode( tokenSecret );
 			// 鍵生成＆署名生成
 			using ( HMACSHA1 hmac = new HMACSHA1( Encoding.ASCII.GetBytes( key ) ) )
 			{

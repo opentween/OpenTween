@@ -63,10 +63,10 @@ namespace OpenTween
             if (!string.IsNullOrEmpty(_proxyHost) && url.StartsWith(uri.Scheme + "://" + _proxyHost))
                 url = url.Replace(uri.Scheme + "://" + _proxyHost, uri.Scheme + "://" + _apiHost);
             //署名のベース文字列生成（&区切り）。クエリ形式文字列は再エンコードする
-            string signatureBase = String.Format("{0}&{1}&{2}", method, UrlEncode(url), UrlEncode(paramString));
+            string signatureBase = String.Format("{0}&{1}&{2}", method, MyCommon.UrlEncode(url), MyCommon.UrlEncode(paramString));
             //署名鍵の文字列をコンシューマー秘密鍵とアクセストークン秘密鍵から生成（&区切り。アクセストークン秘密鍵なくても&残すこと）
-            string key = UrlEncode(consumerSecret) + "&";
-            if (!string.IsNullOrEmpty(tokenSecret)) key += UrlEncode(tokenSecret);
+            string key = MyCommon.UrlEncode(consumerSecret) + "&";
+            if (!string.IsNullOrEmpty(tokenSecret)) key += MyCommon.UrlEncode(tokenSecret);
             //鍵生成＆署名生成
             using (HMACSHA1 hmac = new HMACSHA1(Encoding.ASCII.GetBytes(key)))
             {

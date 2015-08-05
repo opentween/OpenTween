@@ -64,7 +64,7 @@ namespace OpenTween
 			sb.AppendFormat( "realm=\"{0}://{1}{2}\",", this._realm.Scheme, this._realm.Host, this._realm.AbsolutePath);
 			foreach ( KeyValuePair< string, string > item in parameter )
 				if ( item.Key.StartsWith( "oauth_" ) )
-					sb.AppendFormat( "{0}=\"{1}\",", item.Key, this.UrlEncode( item.Value ) );
+					sb.AppendFormat( "{0}=\"{1}\",", item.Key, MyCommon.UrlEncode( item.Value ) );
 			webRequest.Headers.Add( "X-Verify-Credentials-Authorization", sb.ToString() );
 			webRequest.Headers.Add( "X-Auth-Service-Provider", string.Format("{0}://{1}{2}", this._serviceProvider.Scheme, this._serviceProvider.Host, this._serviceProvider.AbsolutePath));
 		}
