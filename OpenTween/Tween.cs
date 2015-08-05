@@ -510,7 +510,7 @@ namespace OpenTween
                         this._cfgLocal.DisplayIndex1, this._cfgLocal.DisplayIndex2,
                         this._cfgLocal.DisplayIndex3, this._cfgLocal.DisplayIndex4,
                         this._cfgLocal.DisplayIndex5, this._cfgLocal.DisplayIndex6,
-                        this._cfgLocal.DisplayIndex7
+                        this._cfgLocal.DisplayIndex7, this._cfgLocal.DisplayIndex8
                     };
 
                     foreach (var i in Enumerable.Range(0, displayIndex.Length))
