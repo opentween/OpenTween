@@ -66,11 +66,16 @@ namespace OpenTween
             {
             }
 
-            protected override PostClass GetRetweetSource(long statusId)
+            protected override PostClass RetweetSource
             {
-                return PostClassTest.TestCases.ContainsKey(statusId) ?
-                    PostClassTest.TestCases[statusId] :
-                    null;
+                get
+                {
+                    var retweetedId = this.RetweetedId.Value;
+
+                    return PostClassTest.TestCases.ContainsKey(retweetedId) ?
+                        PostClassTest.TestCases[retweetedId] :
+                        null;
+                }
             }
         }
 

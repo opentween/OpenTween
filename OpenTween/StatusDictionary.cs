@@ -184,7 +184,7 @@ namespace OpenTween
             {
                 if (this.RetweetedId != null)
                 {
-                    var post = this.GetRetweetSource(this.RetweetedId.Value);
+                    var post = this.RetweetSource;
                     if (post != null)
                     {
                         return post.IsFav;
@@ -198,7 +198,7 @@ namespace OpenTween
                 _IsFav = value;
                 if (this.RetweetedId != null)
                 {
-                    var post = this.GetRetweetSource(this.RetweetedId.Value);
+                    var post = this.RetweetSource;
                     if (post != null)
                     {
                         post.IsFav = value;
@@ -286,6 +286,14 @@ namespace OpenTween
             }
         }
 
+        protected virtual PostClass RetweetSource
+        {
+            get
+            {
+                return TabInformations.GetInstance().RetweetSource(this.RetweetedId.Value);
+            }
+        }
+
         public StatusGeo PostGeo
         {
             get
@@ -347,11 +355,6 @@ namespace OpenTween
                 return true;
 
             return false;
-        }
-
-        protected virtual PostClass GetRetweetSource(long statusId)
-        {
-            return TabInformations.GetInstance().RetweetSource(statusId);
         }
 
         [Obsolete("Use PostClass.Clone() instead.")]
