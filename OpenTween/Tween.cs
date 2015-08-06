@@ -619,6 +619,11 @@ namespace OpenTween
             _ignoreConfigSave = true;
             this.Visible = false;
 
+            if (MyApplication.StartupOptions.ContainsKey("d"))
+                MyCommon.TraceFlag = true;
+
+            InitializeTraceFrag();
+
             //Win32Api.SetProxy(HttpConnection.ProxyType.Specified, "127.0.0.1", 8080, "user", "pass")
 
             new InternetSecurityManager(PostBrowser);
@@ -627,79 +632,31 @@ namespace OpenTween
             MyCommon.TwitterApiInfo.AccessLimitUpdated += TwitterApiStatus_AccessLimitUpdated;
             Microsoft.Win32.SystemEvents.PowerModeChanged += SystemEvents_PowerModeChanged;
 
-            if (MyApplication.StartupOptions.ContainsKey("d"))
-                MyCommon.TraceFlag = true;
-
             Regex.CacheSize = 100;
-
-            InitializeTraceFrag();
-            LoadIcons(); // アイコン読み込み
 
             //発言保持クラス
             _statuses = TabInformations.GetInstance();
 
             //アイコン設定
+            LoadIcons();
             this.Icon = MainIcon;              //メインフォーム（TweenMain）
             NotifyIcon1.Icon = NIconAt;      //タスクトレイ
             TabImage.Images.Add(TabIcon);    //タブ見出し
 
-            SearchDialog.Owner = this;
-            UrlDialog.Owner = this;
-
-            _history.Add(new PostingStatus());
-            _hisIdx = 0;
-            this.inReplyTo = null;
-
             //<<<<<<<<<設定関連>>>>>>>>>
-            //設定コンバージョン
-            //ConvertConfig();
-
             ////設定読み出し
             LoadConfig();
 
             // 現在の DPI と設定保存時の DPI との比を取得する
             var configScaleFactor = this._cfgLocal.GetConfigScaleFactor(this.CurrentAutoScaleDimensions);
 
-            //新着バルーン通知のチェック状態設定
-            NewPostPopMenuItem.Checked = _cfgCommon.NewAllPop;
-            this.NotifyFileMenuItem.Checked = NewPostPopMenuItem.Checked;
-
-            //フォント＆文字色＆背景色保持
-            _fntUnread = _cfgLocal.FontUnread;
-            _clUnread = _cfgLocal.ColorUnread;
-            _fntReaded = _cfgLocal.FontRead;
-            _clReaded = _cfgLocal.ColorRead;
-            _clFav = _cfgLocal.ColorFav;
-            _clOWL = _cfgLocal.ColorOWL;
-            _clRetweet = _cfgLocal.ColorRetweet;
-            _fntDetail = _cfgLocal.FontDetail;
-            _clDetail = _cfgLocal.ColorDetail;
-            _clDetailLink = _cfgLocal.ColorDetailLink;
-            _clDetailBackcolor = _cfgLocal.ColorDetailBackcolor;
-            _clSelf = _cfgLocal.ColorSelf;
-            _clAtSelf = _cfgLocal.ColorAtSelf;
-            _clTarget = _cfgLocal.ColorTarget;
-            _clAtTarget = _cfgLocal.ColorAtTarget;
-            _clAtFromTarget = _cfgLocal.ColorAtFromTarget;
-            _clAtTo = _cfgLocal.ColorAtTo;
-            _clListBackcolor = _cfgLocal.ColorListBackcolor;
-            _clInputBackcolor = _cfgLocal.ColorInputBackcolor;
-            _clInputFont = _cfgLocal.ColorInputFont;
-            _fntInputFont = _cfgLocal.FontInputFont;
-
+            // UIフォント設定
             var fontUIGlobal = this._cfgLocal.FontUIGlobal;
             if (fontUIGlobal != null)
             {
                 OTBaseForm.GlobalFont = fontUIGlobal;
                 this.Font = fontUIGlobal;
             }
-
-            // StringFormatオブジェクトへの事前設定
-            //sf.Alignment = StringAlignment.Near;             // Textを近くへ配置（左から右の場合は左寄せ）
-            //sf.LineAlignment = StringAlignment.Near;         // Textを近くへ配置（上寄せ）
-            //sf.FormatFlags = StringFormatFlags.LineLimit;    // 
-            sfTab.Alignment = StringAlignment.Center;
-            sfTab.LineAlignment = StringAlignment.Center;
 
             //不正値チェック
             if (!MyApplication.StartupOptions.ContainsKey("nolimit"))
@@ -742,47 +699,19 @@ namespace OpenTween
             if (this._cfgCommon.UserTimelineCountApi != 0 && !Twitter.VerifyApiResultCount(MyCommon.WORKERTYPE.UserTimeline, this._cfgCommon.UserTimelineCountApi))
                 this._cfgCommon.UserTimelineCountApi = 20;
 
-            HttpTwitter.TwitterUrl = _cfgCommon.TwitterUrl;
+            //廃止サービスが選択されていた場合ux.nuへ読み替え
+            if (this._cfgCommon.AutoShortUrlFirst < 0)
+                this._cfgCommon.AutoShortUrlFirst = MyCommon.UrlConverter.Uxnu;
+
+            HttpTwitter.TwitterUrl = this._cfgCommon.TwitterUrl;
 
             //認証関連
-            if (string.IsNullOrEmpty(_cfgCommon.Token)) _cfgCommon.UserName = "";
-            tw.Initialize(_cfgCommon.Token, _cfgCommon.TokenSecret, _cfgCommon.UserName, _cfgCommon.UserId);
-
-            //新着取得時のリストスクロールをするか。trueならスクロールしない
-            ListLockMenuItem.Checked = _cfgCommon.ListLock;
-            this.LockListFileMenuItem.Checked = _cfgCommon.ListLock;
-            //サウンド再生（タブ別設定より優先）
-            this.PlaySoundMenuItem.Checked = this._cfgCommon.PlaySound;
-            this.PlaySoundFileMenuItem.Checked = this._cfgCommon.PlaySound;
-
-            //廃止サービスが選択されていた場合bit.lyへ読み替え
-            if (_cfgCommon.AutoShortUrlFirst < 0)
-                _cfgCommon.AutoShortUrlFirst = MyCommon.UrlConverter.Uxnu;
-
-            AtIdSupl = new AtIdSupplement(SettingAtIdList.Load().AtIdList, "@");
-
-            this.IdeographicSpaceToSpaceToolStripMenuItem.Checked = _cfgCommon.WideSpaceConvert;
-            this.ToolStripFocusLockMenuItem.Checked = _cfgCommon.FocusLockToStatusText;
-
-            //Regex statregex = new Regex("^0*");
-            this.recommendedStatusFooter = " [TWNv" + Regex.Replace(MyCommon.FileVersion.Replace(".", ""), "^0*", "") + "]";
-
-            //ハッシュタグ関連
-            HashSupl = new AtIdSupplement(_cfgCommon.HashTags, "#");
-            HashMgr = new HashtagManage(HashSupl,
-                                    _cfgCommon.HashTags.ToArray(),
-                                    _cfgCommon.HashSelected,
-                                    _cfgCommon.HashIsPermanent,
-                                    _cfgCommon.HashIsHead,
-                                    _cfgCommon.HashIsNotAddToAtReply);
-            if (!string.IsNullOrEmpty(HashMgr.UseHash) && HashMgr.IsPermanent) HashStripSplitButton.Text = HashMgr.UseHash;
+            if (string.IsNullOrEmpty(this._cfgCommon.Token)) this._cfgCommon.UserName = "";
+            tw.Initialize(this._cfgCommon.Token, this._cfgCommon.TokenSecret, this._cfgCommon.UserName, this._cfgCommon.UserId);
 
             _initial = true;
 
             Networking.Initialize();
-
-            //アイコンリスト作成
-            this.IconCache = new ImageCache();
 
             bool saveRequired = false;
             bool firstRun = false;
@@ -800,57 +729,6 @@ namespace OpenTween
                     Application.Exit();  //強制終了
                     return;
                 }
-
-                //新しい設定を反映
-                //フォント＆文字色＆背景色保持
-                _fntUnread = this._cfgLocal.FontUnread;
-                _clUnread = this._cfgLocal.ColorUnread;
-                _fntReaded = this._cfgLocal.FontRead;
-                _clReaded = this._cfgLocal.ColorRead;
-                _clFav = this._cfgLocal.ColorFav;
-                _clOWL = this._cfgLocal.ColorOWL;
-                _clRetweet = this._cfgLocal.ColorRetweet;
-                _fntDetail = this._cfgLocal.FontDetail;
-                _clDetail = this._cfgLocal.ColorDetail;
-                _clDetailLink = this._cfgLocal.ColorDetailLink;
-                _clDetailBackcolor = this._cfgLocal.ColorDetailBackcolor;
-                _clSelf = this._cfgLocal.ColorSelf;
-                _clAtSelf = this._cfgLocal.ColorAtSelf;
-                _clTarget = this._cfgLocal.ColorTarget;
-                _clAtTarget = this._cfgLocal.ColorAtTarget;
-                _clAtFromTarget = this._cfgLocal.ColorAtFromTarget;
-                _clAtTo = this._cfgLocal.ColorAtTo;
-                _clListBackcolor = this._cfgLocal.ColorListBackcolor;
-                _clInputBackcolor = this._cfgLocal.ColorInputBackcolor;
-                _clInputFont = this._cfgLocal.ColorInputFont;
-                _fntInputFont = this._cfgLocal.FontInputFont;
-            }
-
-            _brsBackColorMine = new SolidBrush(_clSelf);
-            _brsBackColorAt = new SolidBrush(_clAtSelf);
-            _brsBackColorYou = new SolidBrush(_clTarget);
-            _brsBackColorAtYou = new SolidBrush(_clAtTarget);
-            _brsBackColorAtFromTarget = new SolidBrush(_clAtFromTarget);
-            _brsBackColorAtTo = new SolidBrush(_clAtTo);
-            //_brsBackColorNone = new SolidBrush(Color.FromKnownColor(KnownColor.Window));
-            _brsBackColorNone = new SolidBrush(_clListBackcolor);
-
-            InitDetailHtmlFormat();
-
-            if (this._cfgCommon.HotkeyEnabled)
-            {
-                //////グローバルホットキーの登録
-                HookGlobalHotkey.ModKeys modKey = HookGlobalHotkey.ModKeys.None;
-                if ((this._cfgCommon.HotkeyModifier & Keys.Alt) == Keys.Alt)
-                    modKey |= HookGlobalHotkey.ModKeys.Alt;
-                if ((this._cfgCommon.HotkeyModifier & Keys.Control) == Keys.Control)
-                    modKey |= HookGlobalHotkey.ModKeys.Ctrl;
-                if ((this._cfgCommon.HotkeyModifier & Keys.Shift) == Keys.Shift)
-                    modKey |= HookGlobalHotkey.ModKeys.Shift;
-                if ((this._cfgCommon.HotkeyModifier & Keys.LWin) == Keys.LWin)
-                    modKey |= HookGlobalHotkey.ModKeys.Win;
-
-                _hookGlobalHotkey.RegisterOriginalHotkey(this._cfgCommon.HotkeyKey, this._cfgCommon.HotkeyValue, modKey);
             }
 
             //Twitter用通信クラス初期化
@@ -858,6 +736,17 @@ namespace OpenTween
             Networking.SetWebProxy(this._cfgLocal.ProxyType,
                 this._cfgLocal.ProxyAddress, this._cfgLocal.ProxyPort,
                 this._cfgLocal.ProxyUser, this._cfgLocal.ProxyPassword);
+
+            HttpTwitter.TwitterUrl = this._cfgCommon.TwitterUrl;
+            tw.RestrictFavCheck = this._cfgCommon.RestrictFavCheck;
+            tw.ReadOwnPost = this._cfgCommon.ReadOwnPost;
+            tw.TrackWord = this._cfgCommon.TrackWord;
+            TrackToolStripMenuItem.Checked = !String.IsNullOrEmpty(tw.TrackWord);
+            tw.AllAtReply = this._cfgCommon.AllAtReply;
+            AllrepliesToolStripMenuItem.Checked = tw.AllAtReply;
+            ShortUrl.Instance.DisableExpanding = !this._cfgCommon.TinyUrlResolve;
+            ShortUrl.Instance.BitlyId = this._cfgCommon.BilyUser;
+            ShortUrl.Instance.BitlyKey = this._cfgCommon.BitlyPwd;
 
             //サムネイル関連の初期化
             //プロキシ設定等の通信まわりの初期化が済んでから処理する
@@ -871,19 +760,88 @@ namespace OpenTween
                 x.Initialize(ApplicationSettings.TwitterConsumerKey, ApplicationSettings.TwitterConsumerSecret,
                     this.tw.AccessToken, this.tw.AccessTokenSecret, "", "");
 
-            tw.RestrictFavCheck = this._cfgCommon.RestrictFavCheck;
-            tw.ReadOwnPost = this._cfgCommon.ReadOwnPost;
-            ShortUrl.Instance.DisableExpanding = !this._cfgCommon.TinyUrlResolve;
-            ShortUrl.Instance.BitlyId = this._cfgCommon.BilyUser;
-            ShortUrl.Instance.BitlyKey = this._cfgCommon.BitlyPwd;
-            HttpTwitter.TwitterUrl = _cfgCommon.TwitterUrl;
-            tw.TrackWord = _cfgCommon.TrackWord;
-            TrackToolStripMenuItem.Checked = !String.IsNullOrEmpty(tw.TrackWord);
-            tw.AllAtReply = _cfgCommon.AllAtReply;
-            AllrepliesToolStripMenuItem.Checked = tw.AllAtReply;
-
             //画像投稿サービス
             ImageSelector.Initialize(tw, this.tw.Configuration, _cfgCommon.UseImageServiceName, _cfgCommon.UseImageService);
+
+            //ハッシュタグ/@id関連
+            AtIdSupl = new AtIdSupplement(SettingAtIdList.Load().AtIdList, "@");
+            HashSupl = new AtIdSupplement(_cfgCommon.HashTags, "#");
+            HashMgr = new HashtagManage(HashSupl,
+                                    _cfgCommon.HashTags.ToArray(),
+                                    _cfgCommon.HashSelected,
+                                    _cfgCommon.HashIsPermanent,
+                                    _cfgCommon.HashIsHead,
+                                    _cfgCommon.HashIsNotAddToAtReply);
+            if (!string.IsNullOrEmpty(HashMgr.UseHash) && HashMgr.IsPermanent) HashStripSplitButton.Text = HashMgr.UseHash;
+
+            //アイコンリスト作成
+            this.IconCache = new ImageCache();
+
+            //フォント＆文字色＆背景色保持
+            _fntUnread = this._cfgLocal.FontUnread;
+            _clUnread = this._cfgLocal.ColorUnread;
+            _fntReaded = this._cfgLocal.FontRead;
+            _clReaded = this._cfgLocal.ColorRead;
+            _clFav = this._cfgLocal.ColorFav;
+            _clOWL = this._cfgLocal.ColorOWL;
+            _clRetweet = this._cfgLocal.ColorRetweet;
+            _fntDetail = this._cfgLocal.FontDetail;
+            _clDetail = this._cfgLocal.ColorDetail;
+            _clDetailLink = this._cfgLocal.ColorDetailLink;
+            _clDetailBackcolor = this._cfgLocal.ColorDetailBackcolor;
+            _clSelf = this._cfgLocal.ColorSelf;
+            _clAtSelf = this._cfgLocal.ColorAtSelf;
+            _clTarget = this._cfgLocal.ColorTarget;
+            _clAtTarget = this._cfgLocal.ColorAtTarget;
+            _clAtFromTarget = this._cfgLocal.ColorAtFromTarget;
+            _clAtTo = this._cfgLocal.ColorAtTo;
+            _clListBackcolor = this._cfgLocal.ColorListBackcolor;
+            _clInputBackcolor = this._cfgLocal.ColorInputBackcolor;
+            _clInputFont = this._cfgLocal.ColorInputFont;
+            _fntInputFont = this._cfgLocal.FontInputFont;
+
+            _brsBackColorMine = new SolidBrush(_clSelf);
+            _brsBackColorAt = new SolidBrush(_clAtSelf);
+            _brsBackColorYou = new SolidBrush(_clTarget);
+            _brsBackColorAtYou = new SolidBrush(_clAtTarget);
+            _brsBackColorAtFromTarget = new SolidBrush(_clAtFromTarget);
+            _brsBackColorAtTo = new SolidBrush(_clAtTo);
+            //_brsBackColorNone = new SolidBrush(Color.FromKnownColor(KnownColor.Window));
+            _brsBackColorNone = new SolidBrush(_clListBackcolor);
+
+            // StringFormatオブジェクトへの事前設定
+            //sf.Alignment = StringAlignment.Near;             // Textを近くへ配置（左から右の場合は左寄せ）
+            //sf.LineAlignment = StringAlignment.Near;         // Textを近くへ配置（上寄せ）
+            //sf.FormatFlags = StringFormatFlags.LineLimit;    // 
+            sfTab.Alignment = StringAlignment.Center;
+            sfTab.LineAlignment = StringAlignment.Center;
+
+            InitDetailHtmlFormat();
+
+            //Regex statregex = new Regex("^0*");
+            this.recommendedStatusFooter = " [TWNv" + Regex.Replace(MyCommon.FileVersion.Replace(".", ""), "^0*", "") + "]";
+
+            _history.Add(new PostingStatus());
+            _hisIdx = 0;
+            this.inReplyTo = null;
+
+            //各種ダイアログ設定
+            SearchDialog.Owner = this;
+            UrlDialog.Owner = this;
+
+            //新着バルーン通知のチェック状態設定
+            NewPostPopMenuItem.Checked = _cfgCommon.NewAllPop;
+            this.NotifyFileMenuItem.Checked = NewPostPopMenuItem.Checked;
+
+            //新着取得時のリストスクロールをするか。trueならスクロールしない
+            ListLockMenuItem.Checked = _cfgCommon.ListLock;
+            this.LockListFileMenuItem.Checked = _cfgCommon.ListLock;
+            //サウンド再生（タブ別設定より優先）
+            this.PlaySoundMenuItem.Checked = this._cfgCommon.PlaySound;
+            this.PlaySoundFileMenuItem.Checked = this._cfgCommon.PlaySound;
+
+            this.IdeographicSpaceToSpaceToolStripMenuItem.Checked = _cfgCommon.WideSpaceConvert;
+            this.ToolStripFocusLockMenuItem.Checked = _cfgCommon.FocusLockToStatusText;
 
             //ウィンドウ設定
             this.ClientSize = ScaleBy(configScaleFactor, _cfgLocal.FormSize);
@@ -950,26 +908,24 @@ namespace OpenTween
                 UnreadStripMenuItem.Enabled = false;
             }
 
-            if (this._cfgCommon.IsUseNotifyGrowl)
-                gh.RegisterGrowl();
+            //発言詳細部の初期化
+            NameLabel.Text = "";
+            DateTimeLabel.Text = "";
+            SourceLinkLabel.Text = "";
 
-            //タイマー設定
-            TimerTimeline.AutoReset = true;
-            TimerTimeline.SynchronizingObject = this;
-            //Recent取得間隔
-            TimerTimeline.Interval = 1000;
-            TimerTimeline.Enabled = true;
-
-            //更新中アイコンアニメーション間隔
-            TimerRefreshIcon.Interval = 200;
-            TimerRefreshIcon.Enabled = true;
-
+            //リンク先URL表示部の初期化（画面左下）
+            StatusLabelUrl.Text = "";
             //状態表示部の初期化（画面右下）
             StatusLabel.Text = "";
             StatusLabel.AutoToolTip = false;
             StatusLabel.ToolTipText = "";
             //文字カウンタ初期化
             lblLen.Text = GetRestStatusCount(true, false).ToString();
+
+            this.JumpReadOpMenuItem.ShortcutKeyDisplayString = "Space";
+            CopySTOTMenuItem.ShortcutKeyDisplayString = "Ctrl+C";
+            CopyURLMenuItem.ShortcutKeyDisplayString = "Ctrl+Shift+C";
+            CopyUserIdStripMenuItem.ShortcutKeyDisplayString = "Shift+Alt+C";
 
             ////////////////////////////////////////////////////////////////////////////////
             _statuses.SortOrder = (SortOrder)_cfgCommon.SortOrder;
@@ -1003,13 +959,10 @@ namespace OpenTween
 
             ApplyListViewIconSize(this._cfgCommon.IconSize);
 
-            StatusLabel.Text = Properties.Resources.Form1_LoadText1;       //画面右下の状態表示を変更
-            StatusLabelUrl.Text = "";            //画面左下のリンク先URL表示部を初期化
-            NameLabel.Text = "";                 //発言詳細部名前ラベル初期化
-            DateTimeLabel.Text = "";             //発言詳細部日時ラベル初期化
-            SourceLinkLabel.Text = "";           //Source部分初期化
-
             //<<<<<<<<タブ関連>>>>>>>
+            // タブの位置を調整する
+            SetTabAlignment();
+
             //デフォルトタブの存在チェック、ない場合には追加
             if (_statuses.GetTabByType(MyCommon.TabUsageType.Home) == null)
             {
@@ -1086,20 +1039,9 @@ namespace OpenTween
                     throw new TabException(Properties.Resources.TweenMain_LoadText1);
             }
 
-            this.JumpReadOpMenuItem.ShortcutKeyDisplayString = "Space";
-            CopySTOTMenuItem.ShortcutKeyDisplayString = "Ctrl+C";
-            CopyURLMenuItem.ShortcutKeyDisplayString = "Ctrl+Shift+C";
-            CopyUserIdStripMenuItem.ShortcutKeyDisplayString = "Shift+Alt+C";
-
-            if (!this._cfgCommon.MinimizeToTray || this.WindowState != FormWindowState.Minimized)
-            {
-                this.Visible = true;
-            }
             _curTab = ListTab.SelectedTab;
             _curItemIndex = -1;
             _curList = (DetailsListView)_curTab.Tag;
-            SetMainWindowTitle();
-            SetNotifyIconText();
 
             if (this._cfgCommon.TabIconDisp)
             {
@@ -1111,6 +1053,45 @@ namespace OpenTween
                 ListTab.DrawItem += ListTab_DrawItem;
                 ListTab.ImageList = null;
             }
+
+            if (this._cfgCommon.HotkeyEnabled)
+            {
+                //////グローバルホットキーの登録
+                HookGlobalHotkey.ModKeys modKey = HookGlobalHotkey.ModKeys.None;
+                if ((this._cfgCommon.HotkeyModifier & Keys.Alt) == Keys.Alt)
+                    modKey |= HookGlobalHotkey.ModKeys.Alt;
+                if ((this._cfgCommon.HotkeyModifier & Keys.Control) == Keys.Control)
+                    modKey |= HookGlobalHotkey.ModKeys.Ctrl;
+                if ((this._cfgCommon.HotkeyModifier & Keys.Shift) == Keys.Shift)
+                    modKey |= HookGlobalHotkey.ModKeys.Shift;
+                if ((this._cfgCommon.HotkeyModifier & Keys.LWin) == Keys.LWin)
+                    modKey |= HookGlobalHotkey.ModKeys.Win;
+
+                _hookGlobalHotkey.RegisterOriginalHotkey(this._cfgCommon.HotkeyKey, this._cfgCommon.HotkeyValue, modKey);
+            }
+
+            if (this._cfgCommon.IsUseNotifyGrowl)
+                gh.RegisterGrowl();
+
+            StatusLabel.Text = Properties.Resources.Form1_LoadText1;       //画面右下の状態表示を変更
+
+            SetMainWindowTitle();
+            SetNotifyIconText();
+
+            if (!this._cfgCommon.MinimizeToTray || this.WindowState != FormWindowState.Minimized)
+            {
+                this.Visible = true;
+            }
+
+            //タイマー設定
+            TimerTimeline.AutoReset = true;
+            TimerTimeline.SynchronizingObject = this;
+            //Recent取得間隔
+            TimerTimeline.Interval = 1000;
+            TimerTimeline.Enabled = true;
+            //更新中アイコンアニメーション間隔
+            TimerRefreshIcon.Interval = 200;
+            TimerRefreshIcon.Enabled = true;
 
             _ignoreConfigSave = false;
             this.TweenMain_Resize(null, null);
@@ -1133,9 +1114,6 @@ namespace OpenTween
                 // 初回起動時だけ右下のメニューを目立たせる
                 HashStripSplitButton.ShowDropDown();
             }
-
-            // タブの位置を調整する
-            SetTabAlignment();
         }
 
         private void InitDetailHtmlFormat()
