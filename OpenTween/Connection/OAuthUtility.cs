@@ -58,7 +58,7 @@ namespace OpenTween.Connection
         /// <param name="token">アクセストークン、もしくはリクエストトークン。未取得なら空文字列</param>
         /// <param name="tokenSecret">アクセストークンシークレット。認証処理では空文字列</param>
         /// <param name="realm">realm (必要な場合のみ)</param>
-        public static string CreateAuthorization(string httpMethod, Uri requestUri, Dictionary<string, string> query,
+        public static string CreateAuthorization(string httpMethod, Uri requestUri, IEnumerable<KeyValuePair<string, string>> query,
             string consumerKey, string consumerSecret, string token, string tokenSecret,
             string realm = null)
         {
