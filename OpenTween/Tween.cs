@@ -4769,6 +4769,7 @@ namespace OpenTween
                     }
                 }
 
+                _tabPage.Tag = _listCustom;
                 this.ListTab.Controls.Add(_tabPage);
 
                 _tabPage.Location = new Point(4, 4);
@@ -4820,7 +4821,6 @@ namespace OpenTween
                 _listCustom.HScrolled += MyList_HScrolled;
             }
 
-            _tabPage.Tag = _listCustom;
             return true;
         }
 
