@@ -119,14 +119,14 @@
   </resheader>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="TwitterAPIText.Location" type="System.Drawing.Point, System.Drawing">
-    <value>267, 75</value>
+    <value>267, 102</value>
   </data>
   <data name="TwitterAPIText.Size" type="System.Drawing.Size, System.Drawing">
     <value>125, 19</value>
   </data>
   <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="TwitterAPIText.TabIndex" type="System.Int32, mscorlib">
-    <value>11</value>
+    <value>5</value>
   </data>
   <data name="TwitterAPIText.Text" xml:space="preserve">
     <value>api.twitter.com</value>
@@ -144,7 +144,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;TwitterAPIText.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>1</value>
   </data>
   <data name="Label8.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -154,13 +154,13 @@
     <value>NoControl</value>
   </data>
   <data name="Label8.Location" type="System.Drawing.Point, System.Drawing">
-    <value>23, 78</value>
+    <value>23, 105</value>
   </data>
   <data name="Label8.Size" type="System.Drawing.Size, System.Drawing">
     <value>174, 12</value>
   </data>
   <data name="Label8.TabIndex" type="System.Int32, mscorlib">
-    <value>10</value>
+    <value>4</value>
   </data>
   <data name="Label8.Text" xml:space="preserve">
     <value>Twitter API URL (api.twitter.com)</value>
@@ -178,7 +178,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;Label8.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>2</value>
   </data>
   <data name="Label64.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -193,7 +193,7 @@
     <value>349, 12</value>
   </data>
   <data name="Label64.TabIndex" type="System.Int32, mscorlib">
-    <value>8</value>
+    <value>2</value>
   </data>
   <data name="Label64.Text" xml:space="preserve">
     <value>※タイムアウトが頻発する場合に調整してください。初期設定は20秒です。</value>
@@ -208,7 +208,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;Label64.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>3</value>
   </data>
   <data name="ConnectionTimeOut.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>Disable</value>
@@ -220,7 +220,7 @@
     <value>125, 19</value>
   </data>
   <data name="ConnectionTimeOut.TabIndex" type="System.Int32, mscorlib">
-    <value>7</value>
+    <value>1</value>
   </data>
   <data name="&gt;&gt;ConnectionTimeOut.Name" xml:space="preserve">
     <value>ConnectionTimeOut</value>
@@ -232,7 +232,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;ConnectionTimeOut.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>4</value>
   </data>
   <data name="Label63.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -247,7 +247,7 @@
     <value>131, 12</value>
   </data>
   <data name="Label63.TabIndex" type="System.Int32, mscorlib">
-    <value>6</value>
+    <value>0</value>
   </data>
   <data name="Label63.Text" xml:space="preserve">
     <value>タイムアウトまでの時間(秒)</value>
@@ -262,7 +262,34 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;Label63.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>5</value>
+  </data>
+  <data name="checkBoxForceIPv4.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="checkBoxForceIPv4.Location" type="System.Drawing.Point, System.Drawing">
+    <value>23, 77</value>
+  </data>
+  <data name="checkBoxForceIPv4.Size" type="System.Drawing.Size, System.Drawing">
+    <value>281, 16</value>
+  </data>
+  <data name="checkBoxForceIPv4.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="checkBoxForceIPv4.Text" xml:space="preserve">
+    <value>pbs.twimg.com への接続に強制的に IPv4 を使用する</value>
+  </data>
+  <data name="&gt;&gt;checkBoxForceIPv4.Name" xml:space="preserve">
+    <value>checkBoxForceIPv4</value>
+  </data>
+  <data name="&gt;&gt;checkBoxForceIPv4.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;checkBoxForceIPv4.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;checkBoxForceIPv4.ZOrder" xml:space="preserve">
+    <value>0</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>

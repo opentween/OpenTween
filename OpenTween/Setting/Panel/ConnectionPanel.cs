@@ -45,12 +45,14 @@ namespace OpenTween.Setting.Panel
         public void LoadConfig(SettingCommon settingCommon)
         {
             this.ConnectionTimeOut.Text = settingCommon.DefaultTimeOut.ToString();
+            this.checkBoxForceIPv4.Checked = settingCommon.ForceIPv4;
             this.TwitterAPIText.Text = settingCommon.TwitterUrl;
         }
 
         public void SaveConfig(SettingCommon settingCommon)
         {
             settingCommon.DefaultTimeOut = int.Parse(this.ConnectionTimeOut.Text);
+            settingCommon.ForceIPv4 = this.checkBoxForceIPv4.Checked;
             settingCommon.TwitterUrl = this.TwitterAPIText.Text.Trim();
         }
 

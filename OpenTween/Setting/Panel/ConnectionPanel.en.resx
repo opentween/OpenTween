@@ -133,4 +133,10 @@
   <data name="Label63.Text" xml:space="preserve">
     <value>Connection timeout(sec)</value>
   </data>
+  <data name="checkBoxForceIPv4.Size" type="System.Drawing.Size, System.Drawing">
+    <value>264, 16</value>
+  </data>
+  <data name="checkBoxForceIPv4.Text" xml:space="preserve">
+    <value>Force to use IPv4 to connect to pbs.twimg.com</value>
+  </data>
 </root>

@@ -60,6 +60,38 @@ namespace OpenTween.Connection
         }
 
         /// <summary>
+        /// pbs.twimg.com で IPv4 を強制的に使用する
+        /// </summary>
+        public static bool ForceIPv4
+        {
+            get { return forceIPv4; }
+            set
+            {
+                if (forceIPv4 == value)
+                    return;
+
+                if (value)
+                {
+                    BindIPEndPoint forceIPv4Delegate = (_, __, ___) => new IPEndPoint(IPAddress.Any, 0);
+
+                    ServicePointManager.FindServicePoint("http://pbs.twimg.com/", proxy)
+                        .BindIPEndPointDelegate = forceIPv4Delegate;
+                    ServicePointManager.FindServicePoint("https://pbs.twimg.com/", proxy)
+                        .BindIPEndPointDelegate = forceIPv4Delegate;
+                }
+                else
+                {
+                    ServicePointManager.FindServicePoint("http://pbs.twimg.com/", proxy)
+                        .BindIPEndPointDelegate = null;
+                    ServicePointManager.FindServicePoint("https://pbs.twimg.com/", proxy)
+                        .BindIPEndPointDelegate = null;
+                }
+
+                forceIPv4 = value;
+            }
+        }
+
+        /// <summary>
         /// Webプロキシの設定が変更された場合に発生します
         /// </summary>
         public static event EventHandler WebProxyChanged;
@@ -68,6 +100,7 @@ namespace OpenTween.Connection
         private static HttpClient globalHttpClient;
         private static ProxyType proxyType = ProxyType.IE;
         private static IWebProxy proxy = null;
+        private static bool forceIPv4 = false;
 
         [SuppressMessage("Microsoft.Reliability", "CA2000:DisposeObjectsBeforeLosingScope")]
         static Networking()

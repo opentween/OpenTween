@@ -736,6 +736,7 @@ namespace OpenTween
             Networking.SetWebProxy(this._cfgLocal.ProxyType,
                 this._cfgLocal.ProxyAddress, this._cfgLocal.ProxyPort,
                 this._cfgLocal.ProxyUser, this._cfgLocal.ProxyPassword);
+            Networking.ForceIPv4 = this._cfgCommon.ForceIPv4;
 
             HttpTwitter.TwitterUrl = this._cfgCommon.TwitterUrl;
             tw.RestrictFavCheck = this._cfgCommon.RestrictFavCheck;
@@ -4186,6 +4187,7 @@ namespace OpenTween
                     Networking.SetWebProxy(this._cfgLocal.ProxyType,
                         this._cfgLocal.ProxyAddress, this._cfgLocal.ProxyPort,
                         this._cfgLocal.ProxyUser, this._cfgLocal.ProxyPassword);
+                    Networking.ForceIPv4 = this._cfgCommon.ForceIPv4;
 
                     ImageSelector.Reset(tw, this.tw.Configuration);
 

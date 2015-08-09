@@ -34,6 +34,7 @@
             this.Label64 = new System.Windows.Forms.Label();
             this.ConnectionTimeOut = new System.Windows.Forms.TextBox();
             this.Label63 = new System.Windows.Forms.Label();
+            this.checkBoxForceIPv4 = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // TwitterAPIText
@@ -64,10 +65,17 @@
             resources.ApplyResources(this.Label63, "Label63");
             this.Label63.Name = "Label63";
             // 
+            // checkBoxForceIPv4
+            // 
+            resources.ApplyResources(this.checkBoxForceIPv4, "checkBoxForceIPv4");
+            this.checkBoxForceIPv4.Name = "checkBoxForceIPv4";
+            this.checkBoxForceIPv4.UseVisualStyleBackColor = true;
+            // 
             // ConnectionPanel
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
+            this.Controls.Add(this.checkBoxForceIPv4);
             this.Controls.Add(this.TwitterAPIText);
             this.Controls.Add(this.Label8);
             this.Controls.Add(this.Label64);
@@ -86,5 +94,6 @@
         internal System.Windows.Forms.Label Label64;
         internal System.Windows.Forms.TextBox ConnectionTimeOut;
         internal System.Windows.Forms.Label Label63;
+        internal System.Windows.Forms.CheckBox checkBoxForceIPv4;
     }
 }

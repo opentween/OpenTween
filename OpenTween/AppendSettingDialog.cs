@@ -312,6 +312,8 @@ namespace OpenTween
             var timeout = int.Parse(this.ConnectionPanel.ConnectionTimeOut.Text.Trim());
             Networking.DefaultTimeout = TimeSpan.FromSeconds(timeout);
 
+            Networking.ForceIPv4 = this.ConnectionPanel.checkBoxForceIPv4.Checked;
+
             HttpTwitter.TwitterUrl = this.ConnectionPanel.TwitterAPIText.Text.Trim();
         }
 

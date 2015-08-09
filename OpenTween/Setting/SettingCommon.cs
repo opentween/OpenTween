@@ -237,6 +237,7 @@ namespace OpenTween
         public bool TabMouseLock = false;
         public bool IsRemoveSameEvent = false;
         public bool IsUseNotifyGrowl = false;
+        public bool ForceIPv4 = false;
     }
 
     public class UserAccount
