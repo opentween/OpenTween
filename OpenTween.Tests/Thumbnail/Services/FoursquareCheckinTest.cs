@@ -132,11 +132,7 @@ namespace OpenTween.Thumbnail.Services
                 // 既にジオタグが付いているツイートに対しては何もしない
                 var post = new PostClass
                 {
-                    PostGeo = new PostClass.StatusGeo
-                    {
-                        Lat = 34.35067978344854,
-                        Lng = 134.04693603515625,
-                    },
+                    PostGeo = new PostClass.StatusGeo(134.04693603515625, 34.35067978344854),
                 };
 
                 var thumb = await service.GetThumbnailInfoAsync(

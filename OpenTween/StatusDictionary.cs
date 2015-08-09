@@ -41,21 +41,31 @@ namespace OpenTween
 {
     public class PostClass : ICloneable
     {
-        public class StatusGeo
+        public struct StatusGeo : IEquatable<StatusGeo>
         {
-            public double Lng { get; set; }
-            public double Lat { get; set; }
+            public double Longitude { get; }
+            public double Latitude { get; }
 
-            public override bool Equals(object obj)
+            public StatusGeo(double longitude, double latitude)
             {
-                var geo = obj as StatusGeo;
-                return geo != null && geo.Lng == this.Lng && geo.Lat == this.Lat;
+                this.Longitude = longitude;
+                this.Latitude = latitude;
             }
 
             public override int GetHashCode()
-            {
-                return this.Lng.GetHashCode() ^ this.Lat.GetHashCode();
-            }
+                => this.Longitude.GetHashCode() ^ this.Latitude.GetHashCode();
+
+            public override bool Equals(object obj)
+                => obj is StatusGeo ? this.Equals((StatusGeo)obj) : false;
+
+            public bool Equals(StatusGeo other)
+                => this.Longitude == other.Longitude && this.Latitude == other.Longitude;
+
+            public static bool operator ==(StatusGeo left, StatusGeo right)
+                => left.Equals(right);
+
+            public static bool operator !=(StatusGeo left, StatusGeo right)
+                => !left.Equals(right);
         }
         public string Nickname { get; set; }
         public string TextFromApi { get; set; }
@@ -83,7 +93,7 @@ namespace OpenTween
         public string RetweetedBy { get; set; }
         public long? RetweetedId { get; set; }
         private bool _IsDeleted = false;
-        private StatusGeo _postGeo = null;
+        private StatusGeo? _postGeo = null;
         public int RetweetedCount { get; set; }
         public long? RetweetedByUserId { get; set; }
         public long? InReplyToUserId { get; set; }
@@ -130,7 +140,7 @@ namespace OpenTween
                 bool FilterHit,
                 string RetweetedBy,
                 long? RetweetedId,
-                StatusGeo Geo)
+                StatusGeo? Geo)
             : this()
         {
             this.Nickname = Nickname;
@@ -294,7 +304,7 @@ namespace OpenTween
             }
         }
 
-        public StatusGeo PostGeo
+        public StatusGeo? PostGeo
         {
             get
             {
@@ -418,7 +428,6 @@ namespace OpenTween
         {
             var clone = (PostClass)this.MemberwiseClone();
             clone.ReplyToList = new List<string>(this.ReplyToList);
-            clone.PostGeo = this.PostGeo != null ? new StatusGeo { Lng = this.PostGeo.Lng, Lat = this.PostGeo.Lat } : null;
             clone.Media = new List<MediaInfo>(this.Media);
             clone.QuoteStatusIds = this.QuoteStatusIds.ToArray();
 

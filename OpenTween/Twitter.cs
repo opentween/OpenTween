@@ -1632,7 +1632,8 @@ namespace OpenTween
                     post.IsFav = tc.Contains(retweeted.Id);
                 }
 
-                if (retweeted.Coordinates != null) post.PostGeo = new PostClass.StatusGeo { Lng = retweeted.Coordinates.Coordinates[0], Lat = retweeted.Coordinates.Coordinates[1] };
+                if (retweeted.Coordinates != null)
+                    post.PostGeo = new PostClass.StatusGeo(retweeted.Coordinates.Coordinates[0], retweeted.Coordinates.Coordinates[1]);
 
                 //以下、ユーザー情報
                 var user = retweeted.User;
@@ -1672,7 +1673,8 @@ namespace OpenTween
                     post.IsFav = tc.Contains(post.StatusId) && TabInformations.GetInstance()[post.StatusId].IsFav;
                 }
 
-                if (status.Coordinates != null) post.PostGeo = new PostClass.StatusGeo { Lng = status.Coordinates.Coordinates[0], Lat = status.Coordinates.Coordinates[1] };
+                if (status.Coordinates != null)
+                    post.PostGeo = new PostClass.StatusGeo(status.Coordinates.Coordinates[0], status.Coordinates.Coordinates[1]);
 
                 //以下、ユーザー情報
                 var user = status.User;
