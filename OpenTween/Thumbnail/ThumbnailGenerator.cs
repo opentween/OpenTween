@@ -212,7 +212,7 @@ namespace OpenTween.Thumbnail
 
                 // Gyazo
                 new MetaThumbnailService(
-                    @"^http://gyazo\.com/[a-zA-Z0-9]+",
+                    @"^https?://gyazo\.com/[a-zA-Z0-9]+",
                     new string[] { "twitter:image" }),  // og:imageはgifが静止画になる
             };
         }
