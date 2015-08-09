@@ -1192,4 +1192,7 @@
   <data name="PostPictureConfirm3" xml:space="preserve">
     <value>クリップボードから画像を貼り付けようとしています。よろしいですか？</value>
   </data>
+  <data name="SearchResults_TabName" xml:space="preserve">
+    <value>検索結果</value>
+  </data>
 </root>

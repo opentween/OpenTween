@@ -2352,6 +2352,15 @@ namespace OpenTween.Properties {
         }
         
         /// <summary>
+        ///   検索結果 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string SearchResults_TabName {
+            get {
+                return ResourceManager.GetString("SearchResults_TabName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   [ユーザ･･･{0}]   に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string SetFiltersText1 {

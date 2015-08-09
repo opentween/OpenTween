@@ -747,6 +747,7 @@ namespace OpenTween
             Related = 512,
             UserTimeline = 1024,
             Mute = 2048,
+            SearchResults = 4096,
             //RTMyTweet
             //RTByOthers
             //RTByMe

@@ -221,6 +221,9 @@ namespace OpenTween
                 case MyCommon.TabUsageType.Mute:
                     LabelTabType.Text = "Mute";
                     break;
+                case MyCommon.TabUsageType.SearchResults:
+                    LabelTabType.Text = "SearchResults";
+                    break;
                 default:
                     LabelTabType.Text = "UNKNOWN";
                     break;

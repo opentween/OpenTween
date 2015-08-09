@@ -2165,7 +2165,8 @@ namespace OpenTween
             MyCommon.TabUsageType.PublicSearch |
             MyCommon.TabUsageType.Lists |
             MyCommon.TabUsageType.UserTimeline |
-            MyCommon.TabUsageType.Related;
+            MyCommon.TabUsageType.Related |
+            MyCommon.TabUsageType.SearchResults;
 
         /// <summary>
         /// デフォルトタブかどうかを示す値を取得します。

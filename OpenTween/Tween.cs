@@ -5966,12 +5966,6 @@ namespace OpenTween
         /// </summary>
         private void ShowSearchDialog()
         {
-            // Recentタブの検索時以外では「新規タブに表示」ボタンを無効化する
-            if (this._statuses.Tabs[this._curTab.Text].TabType == MyCommon.TabUsageType.Home)
-                this.SearchDialog.DisableNewTabButton = false;
-            else
-                this.SearchDialog.DisableNewTabButton = true;
-
             if (this.SearchDialog.ShowDialog(this) != DialogResult.OK)
             {
                 this.TopMost = this._cfgCommon.AlwaysTop;
@@ -5984,7 +5978,7 @@ namespace OpenTween
             {
                 if (searchOptions.NewTab)
                 {
-                    var tabName = searchOptions.Query;
+                    var tabName = Properties.Resources.SearchResults_TabName;
 
                     try
                     {
@@ -5995,8 +5989,8 @@ namespace OpenTween
                         MessageBox.Show(this, ex.Message, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
 
-                    this.AddNewTab(tabName, false, MyCommon.TabUsageType.UserDefined);
-                    this._statuses.AddTab(tabName, MyCommon.TabUsageType.UserDefined, null);
+                    this.AddNewTab(tabName, false, MyCommon.TabUsageType.SearchResults);
+                    this._statuses.AddTab(tabName, MyCommon.TabUsageType.SearchResults, null);
 
                     var filter = new PostFilterRule
                     {
@@ -6004,15 +5998,25 @@ namespace OpenTween
                         UseRegex = searchOptions.UseRegex,
                         CaseSensitive = searchOptions.CaseSensitive,
                     };
-                    this._statuses.Tabs[tabName].AddFilter(filter);
+
+                    var targetTab = this._statuses.Tabs[this._curTab.Text];
+                    var posts = targetTab.Posts.Values
+                        .Where(x => filter.ExecFilter(x) == MyCommon.HITRESULT.CopyAndMark)
+                        .Where(x => targetTab.Contains(x.StatusId));
+
+                    var resultTab = this._statuses.Tabs[tabName];
+                    foreach (var post in posts)
+                    {
+                        resultTab.AddPostToInnerStorage(post.Clone());
+                    }
+
+                    this._statuses.DistributePosts();
+                    this.RefreshTimeline(false);
 
                     var tabPage = this.ListTab.TabPages.Cast<TabPage>()
                         .First(x => x.Text == tabName);
 
                     this.ListTab.SelectedTab = tabPage;
-
-                    this.ApplyPostFilters();
-                    this.SaveConfigsTabs();
                 }
                 else
                 {
@@ -6691,7 +6695,7 @@ namespace OpenTween
                         if (ListTab.SelectedTab != null)
                         {
                             var tabtype = _statuses.Tabs[ListTab.SelectedTab.Text].TabType;
-                            if (tabtype == MyCommon.TabUsageType.Related || tabtype == MyCommon.TabUsageType.UserTimeline || tabtype == MyCommon.TabUsageType.PublicSearch)
+                            if (tabtype == MyCommon.TabUsageType.Related || tabtype == MyCommon.TabUsageType.UserTimeline || tabtype == MyCommon.TabUsageType.PublicSearch || tabtype == MyCommon.TabUsageType.SearchResults)
                             {
                                 var relTp = ListTab.SelectedTab;
                                 RemoveSpecifiedTab(relTp.Text, false);
@@ -8096,7 +8100,9 @@ namespace OpenTween
             SettingTabs tabSetting = new SettingTabs();
             for (int i = 0; i < ListTab.TabPages.Count; i++)
             {
-                if (_statuses.Tabs[ListTab.TabPages[i].Text].TabType != MyCommon.TabUsageType.Related) tabSetting.Tabs.Add(_statuses.Tabs[ListTab.TabPages[i].Text]);
+                var tab = _statuses.Tabs[ListTab.TabPages[i].Text];
+                if (tab.TabType != MyCommon.TabUsageType.Related && tab.TabType != MyCommon.TabUsageType.SearchResults)
+                    tabSetting.Tabs.Add(tab);
             }
             tabSetting.Tabs.Add(this._statuses.GetTabByType(MyCommon.TabUsageType.Mute));
             tabSetting.Save();
