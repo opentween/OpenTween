@@ -60,7 +60,7 @@ namespace OpenTween.Thumbnail.Services
         public override async Task<ThumbnailInfo> GetThumbnailInfoAsync(string url, PostClass post, CancellationToken token)
         {
             // ツイートに位置情報が付与されている場合は何もしない
-            if (post.PostGeo.Lat != 0 || post.PostGeo.Lng != 0)
+            if (post.PostGeo != null)
                 return null;
 
             var match = UrlPatternRegex.Match(url);

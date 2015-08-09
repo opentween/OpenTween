@@ -160,7 +160,7 @@ namespace OpenTween
                 IsProtect = protect,
                 IsMark = mark,
                 InReplyToStatusId = reply ? (long?)100L : null,
-                PostGeo = geo ? new PostClass.StatusGeo { Lat = -47.15, Lng = -126.716667 } : new PostClass.StatusGeo(),
+                PostGeo = geo ? new PostClass.StatusGeo { Lat = -47.15, Lng = -126.716667 } : null,
             };
 
             Assert.Equal(expected, post.StateIndex);

@@ -83,7 +83,7 @@ namespace OpenTween
         public string RetweetedBy { get; set; }
         public long? RetweetedId { get; set; }
         private bool _IsDeleted = false;
-        private StatusGeo _postGeo = new StatusGeo();
+        private StatusGeo _postGeo = null;
         public int RetweetedCount { get; set; }
         public long? RetweetedByUserId { get; set; }
         public long? InReplyToUserId { get; set; }
@@ -302,7 +302,7 @@ namespace OpenTween
             }
             set
             {
-                if (value != null && (value.Lat != 0 || value.Lng != 0))
+                if (value != null)
                 {
                     _states |= States.Geo;
                 }
@@ -418,7 +418,7 @@ namespace OpenTween
         {
             var clone = (PostClass)this.MemberwiseClone();
             clone.ReplyToList = new List<string>(this.ReplyToList);
-            clone.PostGeo = new StatusGeo { Lng = this.PostGeo.Lng, Lat = this.PostGeo.Lat };
+            clone.PostGeo = this.PostGeo != null ? new StatusGeo { Lng = this.PostGeo.Lng, Lat = this.PostGeo.Lat } : null;
             clone.Media = new List<MediaInfo>(this.Media);
             clone.QuoteStatusIds = this.QuoteStatusIds.ToArray();
 
@@ -793,7 +793,7 @@ namespace OpenTween
 
                 foreach (var p in userPosts)
                 {
-                    p.PostGeo = new PostClass.StatusGeo();
+                    p.PostGeo = null;
                 }
 
                 var userPosts2 = from tb in this.GetTabsInnerStorageType()
@@ -803,7 +803,7 @@ namespace OpenTween
 
                 foreach (var p in userPosts2)
                 {
-                    p.PostGeo = new PostClass.StatusGeo();
+                    p.PostGeo = null;
                 }
             }
         }

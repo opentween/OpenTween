@@ -232,7 +232,7 @@ namespace OpenTween.Thumbnail
                 token.ThrowIfCancellationRequested();
             }
 
-            if (post.PostGeo != null && !(post.PostGeo.Lat == 0 && post.PostGeo.Lng == 0))
+            if (post.PostGeo != null)
             {
                 var map = MapThumb.GetDefaultInstance();
                 thumbnails.Add(new ThumbnailInfo()

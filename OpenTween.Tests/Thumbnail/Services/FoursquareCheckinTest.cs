@@ -65,7 +65,7 @@ namespace OpenTween.Thumbnail.Services
 
                 var post = new PostClass
                 {
-                    PostGeo = new PostClass.StatusGeo { },
+                    PostGeo = null,
                 };
 
                 var thumb = await service.GetThumbnailInfoAsync(
@@ -103,7 +103,7 @@ namespace OpenTween.Thumbnail.Services
 
                 var post = new PostClass
                 {
-                    PostGeo = new PostClass.StatusGeo { },
+                    PostGeo = null,
                 };
 
                 var thumb = await service.GetThumbnailInfoAsync(
