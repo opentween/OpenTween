@@ -476,6 +476,7 @@ namespace OpenTween
                 Twitter.DMSendTextRegex.IsMatch(postStr))
             {
                 SendDirectMessage(postStr);
+                return;
             }
 
             HttpStatusCode res;
@@ -579,6 +580,7 @@ namespace OpenTween
             if (Twitter.DMSendTextRegex.IsMatch(postStr))
             {
                 SendDirectMessage(postStr);
+                return;
             }
 
             var mediaIds = new List<long>();
