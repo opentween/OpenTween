@@ -132,6 +132,15 @@ namespace OpenTween.Api
         StatusNotFound = 144,
 
         /// <summary>
+        /// 投稿されたメッセージが重複しています
+        /// </summary>
+        /// <remarks>
+        /// “There was an error sending your message: Whoops! You already said that.”
+        /// /direct_messages/new.json で重複するDMを送信すると発生
+        /// </remarks>
+        DuplicateMessage = 151,
+
+        /// <summary>
         /// フォローの追加が制限されています
         /// </summary>
         FollowLimit = 161,
@@ -140,6 +149,11 @@ namespace OpenTween.Api
         /// 非公開ユーザーのため閲覧できません
         /// </summary>
         Protected = 179,
+
+        /// <summary>
+        /// 一日当たりの投稿可能なツイート数の制限に達しました
+        /// </summary>
+        DailyLimitReached = 185,
 
         /// <summary>
         /// 投稿されたステータスが重複しています
@@ -160,5 +174,34 @@ namespace OpenTween.Api
         /// 廃止されたエンドポイント
         /// </summary>
         RetiredEndpoint = 251,
+
+        /// <summary>
+        /// アプリケーションの書き込み権限が規制されています
+        /// </summary>
+        AppWriteRestricted = 261,
+
+        /// <summary>
+        /// 自分自身をミュートに設定することはできません
+        /// </summary>
+        CantMuteYourself = 271,
+
+        /// <summary>
+        /// ミュート設定されていないユーザーをミュート解除しようとしています
+        /// </summary>
+        NotMuting = 272,
+
+        /// <summary>
+        /// 投稿されたDMが重複しています
+        /// </summary>
+        /// <remarks>
+        /// “Direct Message is a duplicate.”
+        /// /statuses/update.json に「D screen_name ...」形式で重複したDMを送信すると発生
+        /// </remarks>
+        DuplicateDM = 311,
+
+        /// <summary>
+        /// DMで投稿可能な文字数を超えています
+        /// </summary>
+        DMCharacterLimit = 354,
     }
 }
