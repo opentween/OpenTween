@@ -53,21 +53,21 @@ namespace OpenTween
                 this.replaceTooltip = replaceTooltip;
             }
 
-            public override Task<ThumbnailInfo> GetThumbnailInfoAsync(string url, PostClass post, CancellationToken token)
+            public override async Task<ThumbnailInfo> GetThumbnailInfoAsync(string url, PostClass post, CancellationToken token)
             {
-                return Task.Run<ThumbnailInfo>(() =>
+                var match = this.regex.Match(url);
+
+                if (!match.Success) return null;
+
+                if (url.StartsWith("http://slow.example.com/", StringComparison.Ordinal))
+                    await Task.Delay(1000, token).ConfigureAwait(false);
+
+                return new MockThumbnailInfo
                 {
-                    var match = this.regex.Match(url);
-
-                    if (!match.Success) return null;
-
-                    return new MockThumbnailInfo
-                    {
-                        ImageUrl = url,
-                        ThumbnailUrl = match.Result(this.replaceUrl),
-                        TooltipText = this.replaceTooltip != null ? match.Result(this.replaceTooltip) : null,
-                    };
-                });
+                    ImageUrl = url,
+                    ThumbnailUrl = match.Result(this.replaceUrl),
+                    TooltipText = this.replaceTooltip != null ? match.Result(this.replaceTooltip) : null,
+                };
             }
 
             class MockThumbnailInfo : ThumbnailInfo
@@ -92,6 +92,7 @@ namespace OpenTween
             {
                 new TestThumbnailService(@"^https?://foo.example.com/(.+)$", @"http://img.example.com/${1}.png", null),
                 new TestThumbnailService(@"^https?://bar.example.com/(.+)$", @"http://img.example.com/${1}.png", @"${1}"),
+                new TestThumbnailService(@"^https?://slow.example.com/(.+)$", @"http://img.example.com/${1}.png", null),
             });
         }
 
@@ -126,10 +127,10 @@ namespace OpenTween
         {
             var post = new PostClass
             {
-                TextFromApi = "てすと http://foo.example.com/abcd",
+                TextFromApi = "てすと http://slow.example.com/abcd",
                 Media = new List<MediaInfo>
                 {
-                    new MediaInfo("http://foo.example.com/abcd"),
+                    new MediaInfo("http://slow.example.com/abcd"),
                 },
             };
 
