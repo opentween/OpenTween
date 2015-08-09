@@ -64,16 +64,6 @@ namespace OpenTween
 	abstract public class HttpConnectionOAuth : HttpConnection, IHttpConnection
 	{
 		/// <summary>
-		/// OAuth署名のoauth_timestamp算出用基準日付（1970/1/1 00:00:00）
-		/// </summary>
-		private static readonly DateTime UnixEpoch = new DateTime( 1970, 1, 1, 0, 0, 0, DateTimeKind.Unspecified );
-
-		/// <summary>
-		/// OAuth署名のoauth_nonce算出用乱数クラス
-		/// </summary>
-		private static readonly Random NonceRandom = new Random();
-
-		/// <summary>
 		/// OAuthのアクセストークン。永続化可能（ユーザー取り消しの可能性はある）。
 		/// </summary>
 		private string token = "";
