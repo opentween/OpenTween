@@ -2207,7 +2207,7 @@ namespace OpenTween
                 catch(Exception ex)
                 {
                     MyCommon.TraceOut(ex, MethodBase.GetCurrentMethod().Name + " " + content);
-                    MessageBox.Show("Parse Error(CreateDirectMessagesFromJson)", content);
+                    MessageBox.Show("Parse Error(CreateDirectMessagesFromJson)");
                     continue;
                 }
 
