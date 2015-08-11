@@ -70,24 +70,10 @@ namespace OpenTween.Connection
                 if (forceIPv4 == value)
                     return;
 
-                if (value)
-                {
-                    BindIPEndPoint forceIPv4Delegate = (_, __, ___) => new IPEndPoint(IPAddress.Any, 0);
-
-                    ServicePointManager.FindServicePoint("http://pbs.twimg.com/", proxy)
-                        .BindIPEndPointDelegate = forceIPv4Delegate;
-                    ServicePointManager.FindServicePoint("https://pbs.twimg.com/", proxy)
-                        .BindIPEndPointDelegate = forceIPv4Delegate;
-                }
-                else
-                {
-                    ServicePointManager.FindServicePoint("http://pbs.twimg.com/", proxy)
-                        .BindIPEndPointDelegate = null;
-                    ServicePointManager.FindServicePoint("https://pbs.twimg.com/", proxy)
-                        .BindIPEndPointDelegate = null;
-                }
-
                 forceIPv4 = value;
+
+                // Network.Http を再作成させる
+                OnWebProxyChanged(EventArgs.Empty);
             }
         }
 
@@ -167,7 +153,12 @@ namespace OpenTween.Connection
                 handler.UseProxy = false;
             }
 
-            var client = new HttpClient(handler);
+            HttpClient client;
+            if (ForceIPv4)
+                client = new HttpClient(new ForceIPv4Handler(handler));
+            else
+                client = new HttpClient(handler);
+
             client.Timeout = Networking.DefaultTimeout;
             client.DefaultRequestHeaders.Add("User-Agent", Networking.GetUserAgentString());
 
@@ -200,6 +191,32 @@ namespace OpenTween.Connection
 
             if (WebProxyChanged != null)
                 WebProxyChanged(null, e);
+        }
+
+        private class ForceIPv4Handler : DelegatingHandler
+        {
+            private readonly IPAddress ipv4Address;
+
+            public ForceIPv4Handler(HttpMessageHandler innerHandler)
+                : base(innerHandler)
+            {
+                foreach (var address in Dns.GetHostAddresses("pbs.twimg.com"))
+                    if (address.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
+                        this.ipv4Address = address;
+            }
+
+            protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+            {
+                var requestUri = request.RequestUri;
+                if (requestUri.Host == "pbs.twimg.com")
+                {
+                    var rewriteUriStr = requestUri.GetLeftPart(UriPartial.Scheme) + this.ipv4Address + requestUri.PathAndQuery;
+                    request.RequestUri = new Uri(rewriteUriStr);
+                    request.Headers.Host = "pbs.twimg.com";
+                }
+
+                return base.SendAsync(request, cancellationToken);
+            }
         }
     }
 
