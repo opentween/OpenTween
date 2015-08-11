@@ -6762,42 +6762,42 @@ namespace OpenTween
                 ShortcutCommand.Create(Keys.Control | Keys.D1)
                     .FocusedOn(FocusedControl.ListTab)
                     .OnlyWhen(() => this.ListTab.TabPages.Count >= 1)
-                    .Do(() => this.ListTab.SelectedIndex = 1),
+                    .Do(() => this.ListTab.SelectedIndex = 0),
 
                 ShortcutCommand.Create(Keys.Control | Keys.D2)
                     .FocusedOn(FocusedControl.ListTab)
                     .OnlyWhen(() => this.ListTab.TabPages.Count >= 2)
-                    .Do(() => this.ListTab.SelectedIndex = 2),
+                    .Do(() => this.ListTab.SelectedIndex = 1),
 
                 ShortcutCommand.Create(Keys.Control | Keys.D3)
                     .FocusedOn(FocusedControl.ListTab)
                     .OnlyWhen(() => this.ListTab.TabPages.Count >= 3)
-                    .Do(() => this.ListTab.SelectedIndex = 3),
+                    .Do(() => this.ListTab.SelectedIndex = 2),
 
                 ShortcutCommand.Create(Keys.Control | Keys.D4)
                     .FocusedOn(FocusedControl.ListTab)
                     .OnlyWhen(() => this.ListTab.TabPages.Count >= 4)
-                    .Do(() => this.ListTab.SelectedIndex = 4),
+                    .Do(() => this.ListTab.SelectedIndex = 3),
 
                 ShortcutCommand.Create(Keys.Control | Keys.D5)
                     .FocusedOn(FocusedControl.ListTab)
                     .OnlyWhen(() => this.ListTab.TabPages.Count >= 5)
-                    .Do(() => this.ListTab.SelectedIndex = 5),
+                    .Do(() => this.ListTab.SelectedIndex = 4),
 
                 ShortcutCommand.Create(Keys.Control | Keys.D6)
                     .FocusedOn(FocusedControl.ListTab)
                     .OnlyWhen(() => this.ListTab.TabPages.Count >= 6)
-                    .Do(() => this.ListTab.SelectedIndex = 6),
+                    .Do(() => this.ListTab.SelectedIndex = 5),
 
                 ShortcutCommand.Create(Keys.Control | Keys.D7)
                     .FocusedOn(FocusedControl.ListTab)
                     .OnlyWhen(() => this.ListTab.TabPages.Count >= 7)
-                    .Do(() => this.ListTab.SelectedIndex = 7),
+                    .Do(() => this.ListTab.SelectedIndex = 6),
 
                 ShortcutCommand.Create(Keys.Control | Keys.D8)
                     .FocusedOn(FocusedControl.ListTab)
                     .OnlyWhen(() => this.ListTab.TabPages.Count >= 8)
-                    .Do(() => this.ListTab.SelectedIndex = 8),
+                    .Do(() => this.ListTab.SelectedIndex = 7),
 
                 ShortcutCommand.Create(Keys.Control | Keys.D9)
                     .FocusedOn(FocusedControl.ListTab)
@@ -7064,35 +7064,35 @@ namespace OpenTween
                 // ソートダイレクト選択(Ctrl+Shift+1～8,Ctrl+Shift+9)
                 ShortcutCommand.Create(Keys.Control | Keys.Shift | Keys.D1)
                     .FocusedOn(FocusedControl.ListTab)
-                    .Do(() => this.SetSortColumnByDisplayIndex(1)),
+                    .Do(() => this.SetSortColumnByDisplayIndex(0)),
 
                 ShortcutCommand.Create(Keys.Control | Keys.Shift | Keys.D2)
                     .FocusedOn(FocusedControl.ListTab)
-                    .Do(() => this.SetSortColumnByDisplayIndex(2)),
+                    .Do(() => this.SetSortColumnByDisplayIndex(1)),
 
                 ShortcutCommand.Create(Keys.Control | Keys.Shift | Keys.D3)
                     .FocusedOn(FocusedControl.ListTab)
-                    .Do(() => this.SetSortColumnByDisplayIndex(3)),
+                    .Do(() => this.SetSortColumnByDisplayIndex(2)),
 
                 ShortcutCommand.Create(Keys.Control | Keys.Shift | Keys.D4)
                     .FocusedOn(FocusedControl.ListTab)
-                    .Do(() => this.SetSortColumnByDisplayIndex(4)),
+                    .Do(() => this.SetSortColumnByDisplayIndex(3)),
 
                 ShortcutCommand.Create(Keys.Control | Keys.Shift | Keys.D5)
                     .FocusedOn(FocusedControl.ListTab)
-                    .Do(() => this.SetSortColumnByDisplayIndex(5)),
+                    .Do(() => this.SetSortColumnByDisplayIndex(4)),
 
                 ShortcutCommand.Create(Keys.Control | Keys.Shift | Keys.D6)
                     .FocusedOn(FocusedControl.ListTab)
-                    .Do(() => this.SetSortColumnByDisplayIndex(6)),
+                    .Do(() => this.SetSortColumnByDisplayIndex(5)),
 
                 ShortcutCommand.Create(Keys.Control | Keys.Shift | Keys.D7)
                     .FocusedOn(FocusedControl.ListTab)
-                    .Do(() => this.SetSortColumnByDisplayIndex(7)),
+                    .Do(() => this.SetSortColumnByDisplayIndex(6)),
 
                 ShortcutCommand.Create(Keys.Control | Keys.Shift | Keys.D8)
                     .FocusedOn(FocusedControl.ListTab)
-                    .Do(() => this.SetSortColumnByDisplayIndex(8)),
+                    .Do(() => this.SetSortColumnByDisplayIndex(7)),
 
                 ShortcutCommand.Create(Keys.Control | Keys.Shift | Keys.D9)
                     .FocusedOn(FocusedControl.ListTab)
