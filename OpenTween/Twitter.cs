@@ -3302,23 +3302,20 @@ namespace OpenTween
                     {
                         Debug.WriteLine("delete");
                         Int64 id;
-                        if (xElm.Element("delete").Element("direct_message") != null &&
-                            xElm.Element("delete").Element("direct_message").Element("id") != null)
+                        XElement idElm;
+                        if ((idElm = xElm.Element("delete").Element("direct_message")?.Element("id")) != null)
                         {
                             id = 0;
-                            long.TryParse(xElm.Element("delete").Element("direct_message").Element("id").Value, out id);
+                            long.TryParse(idElm.Value, out id);
 
-                            if (this.PostDeleted != null)
-                                this.PostDeleted(this, new PostDeletedEventArgs(id));
+                            this.PostDeleted?.Invoke(this, new PostDeletedEventArgs(id));
                         }
-                        else if (xElm.Element("delete").Element("status") != null &&
-                            xElm.Element("delete").Element("status").Element("id") != null)
+                        else if ((idElm = xElm.Element("delete").Element("status")?.Element("id")) != null)
                         {
                             id = 0;
-                            long.TryParse(xElm.Element("delete").Element("status").Element("id").Value, out id);
+                            long.TryParse(idElm.Value, out id);
 
-                            if (this.PostDeleted != null)
-                                this.PostDeleted(this, new PostDeletedEventArgs(id));
+                            this.PostDeleted?.Invoke(this, new PostDeletedEventArgs(id));
                         }
                         else
                         {
@@ -3366,8 +3363,7 @@ namespace OpenTween
                             {
                                 this.StoredEvent.Insert(0, evt);
 
-                                if (this.UserStreamEventReceived != null)
-                                    this.UserStreamEventReceived(this, new UserStreamEventReceivedEventArgs(evt));
+                                this.UserStreamEventReceived?.Invoke(this, new UserStreamEventReceivedEventArgs(evt));
                             }
                         }
 
@@ -3402,8 +3398,7 @@ namespace OpenTween
                 MyCommon.TraceOut("NullRef StatusArrived: " + line);
             }
 
-            if (this.NewPostFromStream != null)
-                this.NewPostFromStream(this, EventArgs.Empty);
+            this.NewPostFromStream?.Invoke(this, EventArgs.Empty);
         }
 
         /// <summary>
@@ -3585,20 +3580,17 @@ namespace OpenTween
             }
             this.StoredEvent.Insert(0, evt);
 
-            if (this.UserStreamEventReceived != null)
-                this.UserStreamEventReceived(this, new UserStreamEventReceivedEventArgs(evt));
+            this.UserStreamEventReceived?.Invoke(this, new UserStreamEventReceivedEventArgs(evt));
         }
 
         private void userStream_Started()
         {
-            if (this.UserStreamStarted != null)
-                this.UserStreamStarted(this, EventArgs.Empty);
+            this.UserStreamStarted?.Invoke(this, EventArgs.Empty);
         }
 
         private void userStream_Stopped()
         {
-            if (this.UserStreamStopped != null)
-                this.UserStreamStopped(this, EventArgs.Empty);
+            this.UserStreamStopped?.Invoke(this, EventArgs.Empty);
         }
 
         public bool UserStreamEnabled
@@ -3624,12 +3616,11 @@ namespace OpenTween
 
         public void StopUserStream()
         {
-            if (userStream != null) userStream.Dispose();
+            userStream?.Dispose();
             userStream = null;
             if (!MyCommon._endingFlag)
             {
-                if (this.UserStreamStopped != null)
-                    this.UserStreamStopped(this, EventArgs.Empty);
+                this.UserStreamStopped?.Invoke(this, EventArgs.Empty);
             }
         }
 
@@ -3718,10 +3709,8 @@ namespace OpenTween
                             continue;
                         }
 
-                        if (Started != null)
-                        {
-                            Started();
-                        }
+                        Started?.Invoke();
+
                         var res = twCon.UserStream(ref st, _allAtreplies, _trackwords, Networking.GetUserAgentString());
 
                         switch (res)
@@ -3746,10 +3735,7 @@ namespace OpenTween
 
                         while (_streamActive && !sr.EndOfStream && Twitter.AccountState == MyCommon.ACCOUNT_STATE.Valid)
                         {
-                            if (StatusArrived != null)
-                            {
-                                StatusArrived(sr.ReadLine());
-                            }
+                            StatusArrived?.Invoke(sr.ReadLine());
                             //this.LastTime = Now;
                         }
 
@@ -3804,13 +3790,10 @@ namespace OpenTween
                     {
                         if (_streamActive)
                         {
-                            if (Stopped != null)
-                            {
-                                Stopped();
-                            }
+                            Stopped?.Invoke();
                         }
                         twCon.RequestAbort();
-                        if (sr != null) sr.Close();
+                        sr?.Close();
                         if (sleepSec > 0)
                         {
                             var ms = 0;
@@ -3826,10 +3809,7 @@ namespace OpenTween
 
                 if (_streamActive)
                 {
-                    if (Stopped != null)
-                    {
-                        Stopped();
-                    }
+                    Stopped?.Invoke();
                 }
                 MyCommon.TraceOut("Stop:EndLoop");
             }

@@ -278,11 +278,7 @@ namespace OpenTween
             }
             catch (Exception)
             {
-                if (bmp != null)
-                {
-                    bmp.Dispose();
-                    bmp = null;
-                }
+                bmp?.Dispose();
 
                 bmp = new Bitmap(width, height);
                 bmp.Tag = img.Tag;
@@ -293,7 +289,7 @@ namespace OpenTween
             }
             finally
             {
-                if (bmp != null) bmp.Dispose();
+                bmp?.Dispose();
                 img.Dispose();
             }
         }

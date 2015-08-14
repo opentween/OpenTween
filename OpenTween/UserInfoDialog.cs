@@ -178,11 +178,8 @@ namespace OpenTween
         private async Task SetUserImageAsync(string imageUri, CancellationToken cancellationToken)
         {
             var oldImage = this.UserPicture.Image;
-            if (oldImage != null)
-            {
-                this.UserPicture.Image = null;
-                oldImage.Dispose();
-            }
+            this.UserPicture.Image = null;
+            oldImage?.Dispose();
 
             // ProfileImageUrlHttps が null になる場合があるらしい
             // 参照: https://sourceforge.jp/ticket/browse.php?group_id=6526&tid=33871
@@ -714,14 +711,10 @@ namespace OpenTween
                 cts.Dispose();
 
                 var oldImage = this.UserPicture.Image;
-                if (oldImage != null)
-                {
-                    this.UserPicture.Image = null;
-                    oldImage.Dispose();
-                }
+                this.UserPicture.Image = null;
+                oldImage?.Dispose();
 
-                if (this.components != null)
-                    this.components.Dispose();
+                this.components?.Dispose();
             }
 
             base.Dispose(disposing);

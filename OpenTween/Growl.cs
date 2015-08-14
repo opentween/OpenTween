@@ -377,8 +377,7 @@ namespace OpenTween
                             return;
                     }
 
-                    if (NotifyClicked != null)
-                        NotifyClicked(this, new NotifyCallbackEventArgs(nt, notifyId));
+                    NotifyClicked?.Invoke(this, new NotifyCallbackEventArgs(nt, notifyId));
                 }
             }
             catch (Exception)

@@ -438,8 +438,7 @@ namespace OpenTween
 
         private void GetPeriodPanel_IntervalChanged(object sender, IntervalChangedEventArgs e)
         {
-            if (this.IntervalChanged != null)
-                this.IntervalChanged(sender, e);
+            this.IntervalChanged?.Invoke(sender, e);
         }
     }
 

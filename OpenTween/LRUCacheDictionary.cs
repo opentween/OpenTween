@@ -98,8 +98,7 @@ namespace OpenTween
                 this.innerList.Remove(node);
                 this.innerDict.Remove(node.Value.Key);
 
-                if (this.CacheRemoved != null)
-                    this.CacheRemoved(this, new CacheRemovedEventArgs(node.Value));
+                this.CacheRemoved?.Invoke(this, new CacheRemovedEventArgs(node.Value));
             }
 
             return true;

@@ -61,13 +61,10 @@ namespace OpenTween
             this.imageUrl = imageUrl;
             this.StateIndex = -1;
 
-            if (imageCache != null)
-            {
-                var image = imageCache.TryGetFromCache(imageUrl);
+            var image = imageCache?.TryGetFromCache(imageUrl);
 
-                if (image != null)
-                    this.imageReference.Target = image;
-            }
+            if (image != null)
+                this.imageReference.Target = image;
         }
 
         public Task GetImageAsync(bool force = false)
@@ -101,8 +98,7 @@ namespace OpenTween
                 {
                     this.ListView.RedrawItems(this.Index, this.Index, true);
 
-                    if (this.ImageDownloaded != null)
-                        this.ImageDownloaded(this, EventArgs.Empty);
+                    this.ImageDownloaded?.Invoke(this, EventArgs.Empty);
                 }
             }
             catch (HttpRequestException) { }

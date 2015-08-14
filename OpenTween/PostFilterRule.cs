@@ -547,8 +547,7 @@ namespace OpenTween
         {
             this.IsDirty = true;
 
-            if (this.PropertyChanged != null)
-                this.PropertyChanged(this, e);
+            this.PropertyChanged?.Invoke(this, e);
         }
 
         #region from Tween v1.1.0.0

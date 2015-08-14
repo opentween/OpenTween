@@ -303,34 +303,32 @@ namespace OpenTween
 
             if (disposing)
             {
-                if (this.components != null)
-                    this.components.Dispose();
+                this.components?.Dispose();
 
                 //後始末
                 SearchDialog.Dispose();
                 UrlDialog.Dispose();
-                if (NIconAt != null) NIconAt.Dispose();
-                if (NIconAtRed != null) NIconAtRed.Dispose();
-                if (NIconAtSmoke != null) NIconAtSmoke.Dispose();
+                NIconAt?.Dispose();
+                NIconAtRed?.Dispose();
+                NIconAtSmoke?.Dispose();
                 foreach (var iconRefresh in this.NIconRefresh)
                 {
-                    if (iconRefresh != null)
-                        iconRefresh.Dispose();
+                    iconRefresh?.Dispose();
                 }
-                if (TabIcon != null) TabIcon.Dispose();
-                if (MainIcon != null) MainIcon.Dispose();
-                if (ReplyIcon != null) ReplyIcon.Dispose();
-                if (ReplyIconBlink != null) ReplyIconBlink.Dispose();
+                TabIcon?.Dispose();
+                MainIcon?.Dispose();
+                ReplyIcon?.Dispose();
+                ReplyIconBlink?.Dispose();
                 _listViewImageList.Dispose();
                 _brsHighLight.Dispose();
-                if (_brsBackColorMine != null) _brsBackColorMine.Dispose();
-                if (_brsBackColorAt != null) _brsBackColorAt.Dispose();
-                if (_brsBackColorYou != null) _brsBackColorYou.Dispose();
-                if (_brsBackColorAtYou != null) _brsBackColorAtYou.Dispose();
-                if (_brsBackColorAtFromTarget != null) _brsBackColorAtFromTarget.Dispose();
-                if (_brsBackColorAtTo != null) _brsBackColorAtTo.Dispose();
-                if (_brsBackColorNone != null) _brsBackColorNone.Dispose();
-                if (_brsDeactiveSelection != null) _brsDeactiveSelection.Dispose();
+                _brsBackColorMine?.Dispose();
+                _brsBackColorAt?.Dispose();
+                _brsBackColorYou?.Dispose();
+                _brsBackColorAtYou?.Dispose();
+                _brsBackColorAtFromTarget?.Dispose();
+                _brsBackColorAtTo?.Dispose();
+                _brsBackColorNone?.Dispose();
+                _brsDeactiveSelection?.Dispose();
                 //sf.Dispose();
                 sfTab.Dispose();
 
@@ -342,8 +340,7 @@ namespace OpenTween
                     this.IconCache.Dispose();
                 }
 
-                if (this.thumbnailTokenSource != null)
-                    this.thumbnailTokenSource.Dispose();
+                this.thumbnailTokenSource?.Dispose();
 
                 this.itemCacheLock.Dispose();
                 this.tw.Dispose();
@@ -3256,8 +3253,7 @@ namespace OpenTween
 
                 this.RefreshTimeline(false);
                 this.PurgeListViewItemCache();
-                if (this._curList != null)
-                    this._curList.Refresh();
+                this._curList?.Refresh();
             }
             catch (WebApiException ex)
             {
@@ -3326,8 +3322,7 @@ namespace OpenTween
 
                 this.PurgeListViewItemCache();
 
-                if (this._curList != null)
-                    this._curList.Refresh();
+                this._curList?.Refresh();
             }
             catch (WebApiException ex)
             {
@@ -3363,12 +3358,7 @@ namespace OpenTween
             int fidx = 0;
             if (_curTab.Text.Equals(favTabName))
             {
-                if (_curList.FocusedItem != null)
-                    fidx = _curList.FocusedItem.Index;
-                else if (_curList.TopItem != null)
-                    fidx = _curList.TopItem.Index;
-                else
-                    fidx = 0;
+                fidx = _curList.FocusedItem?.Index ?? _curList.TopItem?.Index ?? 0;
             }
 
             foreach (long i in ids)
@@ -3888,13 +3878,7 @@ namespace OpenTween
             if (ret != DialogResult.OK)
                 return;
 
-            int focusedIndex;
-            if (this._curList.FocusedItem != null)
-                focusedIndex = this._curList.FocusedItem.Index;
-            else if (this._curList.TopItem != null)
-                focusedIndex = this._curList.TopItem.Index;
-            else
-                focusedIndex = 0;
+            var focusedIndex = this._curList.FocusedItem?.Index ?? this._curList.TopItem?.Index ?? 0;
 
             using (ControlTransaction.Cursor(this, Cursors.WaitCursor))
             {
@@ -4363,7 +4347,7 @@ namespace OpenTween
                     SetNotifyIconText();
 
                     this.PurgeListViewItemCache();
-                    if (_curList != null) _curList.Refresh();
+                    _curList?.Refresh();
                     ListTab.Refresh();
 
                     _hookGlobalHotkey.UnregisterAllOriginalHotkey();
@@ -6346,7 +6330,7 @@ namespace OpenTween
                     var image = IconCache.TryGetFromCache(_curPost.ImageUrl);
                     try
                     {
-                        UserPicture.Image = image != null ? image.Clone() : null;
+                        UserPicture.Image = image?.Clone();
                     }
                     catch (Exception)
                     {
@@ -6430,8 +6414,7 @@ namespace OpenTween
                 if (this._cfgCommon.PreviewEnable)
                 {
                     var oldTokenSource = Interlocked.Exchange(ref this.thumbnailTokenSource, new CancellationTokenSource());
-                    if (oldTokenSource != null)
-                        oldTokenSource.Cancel();
+                    oldTokenSource?.Cancel();
 
                     var token = this.thumbnailTokenSource.Token;
                     loadTasks.Add(this.tweetThumbnail1.ShowThumbnailAsync(_curPost, token));
@@ -11408,8 +11391,7 @@ namespace OpenTween
 
         private async void FollowCommandMenuItem_Click(object sender, EventArgs e)
         {
-            string id = "";
-            if (_curPost != null) id = _curPost.ScreenName;
+            var id = _curPost?.ScreenName ?? "";
 
             await this.FollowCommand(id);
         }
@@ -11449,8 +11431,7 @@ namespace OpenTween
 
         private async void RemoveCommandMenuItem_Click(object sender, EventArgs e)
         {
-            string id = "";
-            if (_curPost != null) id = _curPost.ScreenName;
+            var id = _curPost?.ScreenName ?? "";
 
             await this.RemoveCommand(id, false);
         }
@@ -11493,9 +11474,7 @@ namespace OpenTween
 
         private async void FriendshipMenuItem_Click(object sender, EventArgs e)
         {
-            string id = "";
-            if (_curPost != null)
-                id = _curPost.ScreenName;
+            var id = _curPost?.ScreenName ?? "";
 
             await this.ShowFriendship(id);
         }
@@ -12347,11 +12326,7 @@ namespace OpenTween
 
         private async void UserStatusToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            string id = "";
-            if (_curPost != null)
-            {
-                id = _curPost.ScreenName;
-            }
+            var id = _curPost?.ScreenName ?? "";
 
             await this.ShowUserStatus(id);
         }
@@ -13308,11 +13283,8 @@ namespace OpenTween
 
         private string GetUserIdFromCurPostOrInput(string caption)
         {
-            string id = "";
-            if (_curPost != null)
-            {
-                id = _curPost.ScreenName;
-            }
+            var id = _curPost?.ScreenName ?? "";
+
             using (InputTabName inputName = new InputTabName())
             {
                 inputName.FormTitle = caption;
@@ -13382,14 +13354,10 @@ namespace OpenTween
                     {
                         string xUrl = this._cfgCommon.UserAppointUrl;
                         xUrl = xUrl.Replace("{ID}", _curPost.ScreenName);
-                        if (_curPost.RetweetedId != null)
-                        {
-                            xUrl = xUrl.Replace("{STATUS}", _curPost.RetweetedId.ToString());
-                        }
-                        else
-                        {
-                            xUrl = xUrl.Replace("{STATUS}", _curPost.StatusId.ToString());
-                        }
+
+                        var statusId = _curPost.RetweetedId ?? _curPost.StatusId;
+                        xUrl = xUrl.Replace("{STATUS}", statusId.ToString());
+
                         await this.OpenUriInBrowserAsync(xUrl);
                     }
                 }
@@ -13569,7 +13537,7 @@ namespace OpenTween
                 }
             }
 
-            if (_curList != null) _curList.Refresh();
+            _curList?.Refresh();
 
             _modifySettingCommon = true;
         }

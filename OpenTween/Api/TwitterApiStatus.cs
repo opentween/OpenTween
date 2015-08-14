@@ -152,8 +152,7 @@ namespace OpenTween.Api
 
         protected virtual void OnAccessLimitUpdated(AccessLimitUpdatedEventArgs e)
         {
-            if (this.AccessLimitUpdated != null)
-                this.AccessLimitUpdated(this, e);
+            this.AccessLimitUpdated?.Invoke(this, e);
         }
 
         public class EndpointLimits : IEnumerable<KeyValuePair<string, ApiLimit>>

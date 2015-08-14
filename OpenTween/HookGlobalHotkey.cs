@@ -83,10 +83,7 @@ namespace OpenTween
             {
                 if (_hotkeyID.ContainsKey(m.WParam.ToInt32()))
                 {
-                    if (HotkeyPressed != null)
-                    {
-                        HotkeyPressed(this, _hotkeyID[m.WParam.ToInt32()].KeyEvent);
-                    }
+                    HotkeyPressed?.Invoke(this, _hotkeyID[m.WParam.ToInt32()].KeyEvent);
                 }
                 return;
             }

@@ -643,8 +643,8 @@ namespace OpenTween
                 }
                 finally
                 {
-                    if (msOut != null) msOut.Dispose();
-                    if (desdecrypt != null) desdecrypt.Dispose();
+                    msOut?.Dispose();
+                    desdecrypt?.Dispose();
                 }
             }
         }
@@ -697,9 +697,9 @@ namespace OpenTween
                 }
                 finally
                 {
-                    if (msIn != null) msIn.Dispose();
-                    if (desdecrypt != null) desdecrypt.Dispose();
-                    if (cryptStreem != null) cryptStreem.Dispose();
+                    msIn?.Dispose();
+                    desdecrypt?.Dispose();
+                    cryptStreem?.Dispose();
                 }
             }
         }
@@ -783,7 +783,7 @@ namespace OpenTween
             }
             finally
             {
-                if (img != null) img.Dispose();
+                img?.Dispose();
             }
         }
 

@@ -134,7 +134,7 @@ namespace OpenTween
             {
                 get
                 {
-                    return (this.Item != null) ? this.Item.Path : "";
+                    return this.Item?.Path ?? "";
                 }
             }
 
@@ -148,7 +148,7 @@ namespace OpenTween
 
         private void CreateServices(Twitter tw, TwitterConfiguration twitterConfig)
         {
-            if (this.pictureService != null) this.pictureService.Clear();
+            this.pictureService?.Clear();
             this.pictureService = null;
 
             this.pictureService = new Dictionary<string, IMediaUploadService> {
@@ -253,8 +253,7 @@ namespace OpenTween
                 // 非表示時または複数のファイル指定は新規選択として扱う
                 SetImagePageCombo();
 
-                if (this.BeginSelecting != null)
-                    this.BeginSelecting(this, EventArgs.Empty);
+                this.BeginSelecting?.Invoke(this, EventArgs.Empty);
 
                 this.Visible = true;
             }
@@ -313,8 +312,7 @@ namespace OpenTween
         {
             if (!this.Visible)
             {
-                if (this.BeginSelecting != null)
-                    this.BeginSelecting(this, EventArgs.Empty);
+                this.BeginSelecting?.Invoke(this, EventArgs.Empty);
 
                 this.Visible = true;
                 this.Enabled = true;
@@ -334,8 +332,7 @@ namespace OpenTween
             {
                 ImagefilePathText.CausesValidation = false;
 
-                if (this.EndSelecting != null)
-                    this.EndSelecting(this, EventArgs.Empty);
+                this.EndSelecting?.Invoke(this, EventArgs.Empty);
 
                 this.Visible = false;
                 this.Enabled = false;
@@ -443,11 +440,8 @@ namespace OpenTween
 
         private void DisposeMediaItem(IMediaItem item)
         {
-            if (item != null)
-            {
-                var disposableItem = item as IDisposable;
-                if (disposableItem != null) disposableItem.Dispose();
-            }
+            var disposableItem = item as IDisposable;
+            disposableItem?.Dispose();
         }
 
         private void FilePickButton_Click(object sender, EventArgs e)
@@ -459,8 +453,7 @@ namespace OpenTween
             FilePickDialog.Title = Properties.Resources.PickPictureDialog1;
             FilePickDialog.FileName = "";
 
-            if (this.FilePickDialogOpening != null)
-                this.FilePickDialogOpening(this, EventArgs.Empty);
+            this.FilePickDialogOpening?.Invoke(this, EventArgs.Empty);
 
             try
             {
@@ -468,8 +461,7 @@ namespace OpenTween
             }
             finally
             {
-                if (this.FilePickDialogClosed != null)
-                    this.FilePickDialogClosed(this, EventArgs.Empty);
+                this.FilePickDialogClosed?.Invoke(this, EventArgs.Empty);
             }
 
             ValidateNewFileMediaItem(FilePickDialog.FileName, false);
@@ -596,11 +588,8 @@ namespace OpenTween
         private void ClearImageSelectedPicture()
         {
             var oldImage = this.ImageSelectedPicture.Image;
-            if (oldImage != null)
-            {
-                this.ImageSelectedPicture.Image = null;
-                oldImage.Dispose();
-            }
+            this.ImageSelectedPicture.Image = null;
+            oldImage?.Dispose();
 
             this.ImageSelectedPicture.ShowInitialImage();
         }
@@ -733,8 +722,7 @@ namespace OpenTween
                 }
             }
 
-            if (this.SelectedServiceChanged != null)
-                this.SelectedServiceChanged(this, EventArgs.Empty);
+            this.SelectedServiceChanged?.Invoke(this, EventArgs.Empty);
         }
 
         private void SetImagePageCombo(SelectedMedia media = null)

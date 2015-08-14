@@ -279,11 +279,8 @@ namespace OpenTween
         {
             if (UserList.SelectedItem == null)
             {
-                if (this.UserIcon.Image != null)
-                {
-                    this.UserIcon.Image.Dispose();
-                    this.UserIcon.Image = null;
-                }
+                this.UserIcon.Image?.Dispose();
+                this.UserIcon.Image = null;
                 this.UserLocation.Text = "";
                 this.UserWeb.Text = "";
                 this.UserFollowNum.Text = "0";

@@ -298,14 +298,14 @@ namespace OpenTween
                         {
                             using (Stream stream = webRes.GetResponseStream())
                             {
-                                if (stream != null) stream.CopyTo(contentStream);
+                                stream?.CopyTo(contentStream);
                             }
                         }
                         else
                         {
                             using (Stream stream = new GZipStream(webRes.GetResponseStream(), CompressionMode.Decompress))
                             {
-                                if (stream != null) stream.CopyTo(contentStream);
+                                stream?.CopyTo(contentStream);
                             }
                         }
                     }

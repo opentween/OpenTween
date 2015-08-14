@@ -189,8 +189,7 @@ namespace OpenTween.Connection
             var oldClient = Interlocked.Exchange(ref globalHttpClient, newClient);
             oldClient.Dispose();
 
-            if (WebProxyChanged != null)
-                WebProxyChanged(null, e);
+            WebProxyChanged?.Invoke(null, e);
         }
 
         private class ForceIPv4Handler : DelegatingHandler

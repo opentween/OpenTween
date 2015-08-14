@@ -87,10 +87,7 @@ namespace OpenTween
         {
             get
             {
-                if (httpCon != null)
-                    return ((HttpConnectionOAuth)httpCon).AccessToken;
-                else
-                    return "";
+                return ((HttpConnectionOAuth)httpCon)?.AccessToken ?? "";
             }
         }
 
@@ -98,10 +95,7 @@ namespace OpenTween
         {
             get
             {
-                if (httpCon != null)
-                    return ((HttpConnectionOAuth)httpCon).AccessTokenSecret;
-                else
-                    return "";
+                return ((HttpConnectionOAuth)httpCon)?.AccessTokenSecret ?? "";
             }
         }
 
@@ -109,10 +103,7 @@ namespace OpenTween
         {
             get
             {
-                if (httpCon != null)
-                    return httpCon.AuthUsername;
-                else
-                    return "";
+                return httpCon?.AuthUsername ?? "";
             }
         }
 
@@ -120,10 +111,7 @@ namespace OpenTween
         {
             get
             {
-                if (httpCon != null)
-                    return httpCon.AuthUserId;
-                else
-                    return 0;
+                return httpCon?.AuthUserId ?? 0;
             }
             set
             {

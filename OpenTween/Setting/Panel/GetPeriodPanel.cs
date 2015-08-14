@@ -121,8 +121,8 @@ namespace OpenTween.Setting.Panel
                 isIntervalChanged = true;
             }
 
-            if (isIntervalChanged && IntervalChanged != null)
-                this.IntervalChanged(this, arg);
+            if (isIntervalChanged)
+                this.IntervalChanged?.Invoke(this, arg);
         }
 
         private void UserstreamPeriod_Validating(object sender, CancelEventArgs e)

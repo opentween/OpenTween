@@ -168,8 +168,8 @@ namespace OpenTween
                     foreach (var item in this.innerDictionary)
                     {
                         var task = item.Value;
-                        if (task.Status == TaskStatus.RanToCompletion && task.Result != null)
-                            task.Result.Dispose();
+                        if (task.Status == TaskStatus.RanToCompletion)
+                            task.Result?.Dispose();
                     }
 
                     this.innerDictionary.Clear();

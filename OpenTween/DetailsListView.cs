@@ -275,12 +275,10 @@ namespace OpenTween.OpenTweenCustomControl
                     }
                     break;
                 case WM_HSCROLL:
-                    if (HScrolled != null)
-                        HScrolled(this, EventArgs.Empty);
+                    HScrolled?.Invoke(this, EventArgs.Empty);
                     break;
                 case WM_VSCROLL:
-                    if (VScrolled != null)
-                        VScrolled(this, EventArgs.Empty);
+                    VScrolled?.Invoke(this, EventArgs.Empty);
                     break;
                 case WM_MOUSEWHEEL:
                 case WM_MOUSEHWHEEL:
@@ -292,8 +290,7 @@ namespace OpenTween.OpenTweenCustomControl
                     if (m.WParam != this.Handle)
                     {
                         //カラムヘッダメニューを表示
-                        if (this.ColumnHeaderContextMenuStrip != null)
-                            this.ColumnHeaderContextMenuStrip.Show(new Point(m.LParam.ToInt32()));
+                        this.ColumnHeaderContextMenuStrip?.Show(new Point(m.LParam.ToInt32()));
                         return;
                     }
                     break;
@@ -318,12 +315,10 @@ namespace OpenTween.OpenTweenCustomControl
 
             if (vPos != -1)
                 if (vPos != NativeMethods.GetScrollPosition(this, NativeMethods.ScrollBarDirection.SB_VERT))
-                    if (VScrolled != null)
-                        VScrolled(this, EventArgs.Empty);
+                    VScrolled?.Invoke(this, EventArgs.Empty);
             if (hPos != -1)
                 if (hPos != NativeMethods.GetScrollPosition(this, NativeMethods.ScrollBarDirection.SB_HORZ))
-                    if (HScrolled != null)
-                        HScrolled(this, EventArgs.Empty);
+                    HScrolled?.Invoke(this, EventArgs.Empty);
         }
    }
 }
