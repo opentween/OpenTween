@@ -301,5 +301,61 @@ namespace OpenTween
 
             SettingCommon.Instance = oldInstance;
         }
+
+        [Fact]
+        public void GetTextLengthRemain_Test()
+        {
+            using (var twitter = new Twitter())
+            {
+                Assert.Equal(140, twitter.GetTextLengthRemain(""));
+                Assert.Equal(132, twitter.GetTextLengthRemain("hogehoge"));
+            }
+        }
+
+        [Fact]
+        public void GetTextLengthRemain_DirectMessageTest()
+        {
+            using (var twitter = new Twitter())
+            {
+                Assert.Equal(140, twitter.GetTextLengthRemain("D twitter "));
+                Assert.Equal(132, twitter.GetTextLengthRemain("D twitter hogehoge"));
+            }
+        }
+
+        [Fact]
+        public void GetTextLengthRemain_UrlTest()
+        {
+            using (var twitter = new Twitter())
+            {
+                // t.co に短縮される分の文字数を考慮
+                twitter.Configuration.ShortUrlLength = 20;
+                Assert.Equal(120, twitter.GetTextLengthRemain("http://example.com/"));
+                Assert.Equal(120, twitter.GetTextLengthRemain("http://example.com/hogehoge"));
+                Assert.Equal(111, twitter.GetTextLengthRemain("hogehoge http://example.com/"));
+
+                twitter.Configuration.ShortUrlLengthHttps = 21;
+                Assert.Equal(119, twitter.GetTextLengthRemain("https://example.com/"));
+                Assert.Equal(119, twitter.GetTextLengthRemain("https://example.com/hogehoge"));
+                Assert.Equal(110, twitter.GetTextLengthRemain("hogehoge https://example.com/"));
+            }
+        }
+
+        [Fact]
+        public void GetTextLengthRemain_UrlWithoutSchemeTest()
+        {
+            using (var twitter = new Twitter())
+            {
+                // t.co に短縮される分の文字数を考慮
+                twitter.Configuration.ShortUrlLength = 20;
+                Assert.Equal(120, twitter.GetTextLengthRemain("example.com"));
+                Assert.Equal(120, twitter.GetTextLengthRemain("example.com/hogehoge"));
+                Assert.Equal(111, twitter.GetTextLengthRemain("hogehoge example.com"));
+
+                // スキーム (http://) を省略かつ末尾が ccTLD の場合は t.co に短縮されない
+                Assert.Equal(130, twitter.GetTextLengthRemain("example.jp"));
+                // ただし、末尾にパスが続く場合は t.co に短縮される
+                Assert.Equal(120, twitter.GetTextLengthRemain("example.jp/hogehoge"));
+            }
+        }
     }
 }

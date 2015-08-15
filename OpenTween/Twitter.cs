@@ -140,7 +140,7 @@ namespace OpenTween
         /// <summary>
         /// DM送信かどうかを判定する正規表現
         /// </summary>
-        public static readonly Regex DMSendTextRegex = new Regex(@"^DM? +(?<id>[a-zA-Z0-9_]+) +(?<body>.+)", RegexOptions.IgnoreCase | RegexOptions.Singleline);
+        public static readonly Regex DMSendTextRegex = new Regex(@"^DM? +(?<id>[a-zA-Z0-9_]+) +(?<body>.*)", RegexOptions.IgnoreCase | RegexOptions.Singleline);
 
         public TwitterConfiguration Configuration { get; private set; }
 
@@ -3185,6 +3185,70 @@ namespace OpenTween
             catch (SerializationException) { }
 
             throw new WebApiException("Err:" + httpStatus + "(" + callerMethodName + ")", responseText);
+        }
+
+        public int GetTextLengthRemain(string postText)
+        {
+            var matchDm = Twitter.DMSendTextRegex.Match(postText);
+            if (matchDm.Success)
+                return this.GetTextLengthRemainInternal(matchDm.Groups["body"].Value);
+
+            return this.GetTextLengthRemainInternal(postText);
+        }
+
+        private int GetTextLengthRemainInternal(string postText)
+        {
+            var textLength = postText.Length;
+
+            var urlMatches = Regex.Matches(postText, Twitter.rgUrl, RegexOptions.IgnoreCase).Cast<Match>();
+            foreach (var m in urlMatches)
+            {
+                var before = m.Groups["before"].Value;
+                var url = m.Groups["url"].Value;
+                var protocol = m.Groups["protocol"].Value;
+                var domain = m.Groups["domain"].Value;
+                var path = m.Groups["path"].Value;
+                if (protocol.Length == 0)
+                {
+                    if (Regex.IsMatch(before, Twitter.url_invalid_without_protocol_preceding_chars))
+                        continue;
+
+                    var validUrl = false;
+                    string lasturl = null;
+
+                    var last_url_invalid_match = false;
+                    var domainMatches = Regex.Matches(domain, Twitter.url_valid_ascii_domain, RegexOptions.IgnoreCase).Cast<Match>();
+                    foreach (var mm in domainMatches)
+                    {
+                        lasturl = mm.Value;
+                        last_url_invalid_match = Regex.IsMatch(lasturl, Twitter.url_invalid_short_domain, RegexOptions.IgnoreCase);
+                        if (!last_url_invalid_match)
+                        {
+                            validUrl = true;
+                        }
+                    }
+
+                    if (last_url_invalid_match && path.Length != 0)
+                    {
+                        validUrl = true;
+                    }
+
+                    if (validUrl)
+                    {
+                        textLength += this.Configuration.ShortUrlLength - url.Length;
+                    }
+                }
+                else
+                {
+                    var shortUrlLength = protocol == "https://"
+                        ? this.Configuration.ShortUrlLengthHttps
+                        : this.Configuration.ShortUrlLength;
+
+                    textLength += shortUrlLength - url.Length;
+                }
+            }
+
+            return 140 - textLength;
         }
 
 #region "UserStream"

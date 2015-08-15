@@ -918,7 +918,7 @@ namespace OpenTween
             StatusLabel.AutoToolTip = false;
             StatusLabel.ToolTipText = "";
             //文字カウンタ初期化
-            lblLen.Text = GetRestStatusCount(true, false).ToString();
+            lblLen.Text = this.GetRestStatusCount(this.FormatStatusText("")).ToString();
 
             this.JumpReadOpMenuItem.ShortcutKeyDisplayString = "Space";
             CopySTOTMenuItem.ShortcutKeyDisplayString = "Ctrl+C";
@@ -2045,49 +2045,14 @@ namespace OpenTween
             StatusText.SelectionStart = StatusText.Text.Length;
             CheckReplyTo(StatusText.Text);
 
-            //整形によって増加する文字数を取得
-            int adjustCount = 0;
-            string tmpStatus = StatusText.Text.Trim();
-            if (ToolStripMenuItemApiCommandEvasion.Checked)
-            {
-                // APIコマンド回避
-                if (Regex.IsMatch(tmpStatus,
-                    @"^[+\-\[\]\s\\.,*/(){}^~|='&%$#""<>?]*(get|g|fav|follow|f|on|off|stop|quit|leave|l|whois|w|nudge|n|stats|invite|track|untrack|tracks|tracking|\*)([+\-\[\]\s\\.,*/(){}^~|='&%$#""<>?]+|$)",
-                    RegexOptions.IgnoreCase)
-                   && tmpStatus.EndsWith(" .") == false) adjustCount += 2;
-            }
+            var isCutOff = false;
+            var statusText = this.FormatStatusText(this.StatusText.Text);
 
-            if (ToolStripMenuItemUrlMultibyteSplit.Checked)
-            {
-                // URLと全角文字の切り離し
-                adjustCount += Regex.Matches(tmpStatus, @"https?:\/\/[-_.!~*'()a-zA-Z0-9;\/?:\@&=+\$,%#^]+").Count;
-            }
-
-            bool isCutOff = false;
-            bool isRemoveFooter = MyCommon.IsKeyDown(Keys.Shift);
-            if (StatusText.Multiline && !this._cfgCommon.PostCtrlEnter)
-            {
-                //複数行でEnter投稿の場合、Ctrlも押されていたらフッタ付加しない
-                isRemoveFooter = MyCommon.IsKeyDown(Keys.Control);
-            }
-            if (this._cfgCommon.PostShiftEnter)
-            {
-                isRemoveFooter = MyCommon.IsKeyDown(Keys.Control);
-            }
-            if (!isRemoveFooter && (StatusText.Text.Contains("RT @") || StatusText.Text.Contains("QT @")))
-            {
-                isRemoveFooter = true;
-            }
-            if (GetRestStatusCount(false, !isRemoveFooter) - adjustCount < 0)
+            if (this.GetRestStatusCount(statusText) < 0)
             {
                 if (MessageBox.Show(Properties.Resources.PostLengthOverMessage1, Properties.Resources.PostLengthOverMessage2, MessageBoxButtons.OKCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.OK)
                 {
                     isCutOff = true;
-                    //if (!SettingDialog.UrlConvertAuto) UrlConvertAutoToolStripMenuItem_Click(null, null);
-                    if (GetRestStatusCount(false, !isRemoveFooter) - adjustCount < 0)
-                    {
-                        isRemoveFooter = true;
-                    }
                 }
                 else
                 {
@@ -2095,77 +2060,10 @@ namespace OpenTween
                 }
             }
 
-            string footer = "";
-            string header = "";
-            if (StatusText.Text.StartsWith("D ") || StatusText.Text.StartsWith("d "))
-            {
-                //DM時は何もつけない
-                footer = "";
-            }
-            else
-            {
-                //ハッシュタグ
-                if (HashMgr.IsNotAddToAtReply)
-                {
-                    if (!string.IsNullOrEmpty(HashMgr.UseHash) && this.inReplyTo == null)
-                    {
-                        if (HashMgr.IsHead)
-                            header = HashMgr.UseHash + " ";
-                        else
-                            footer = " " + HashMgr.UseHash;
-                    }
-                }
-                else
-                {
-                    if (!string.IsNullOrEmpty(HashMgr.UseHash))
-                    {
-                        if (HashMgr.IsHead)
-                            header = HashMgr.UseHash + " ";
-                        else
-                            footer = " " + HashMgr.UseHash;
-                    }
-                }
-                if (!isRemoveFooter)
-                {
-                    if (this._cfgLocal.UseRecommendStatus)
-                    {
-                        // 推奨ステータスを使用する
-                        footer += this.recommendedStatusFooter;
-                    }
-                    else if (!string.IsNullOrEmpty(this._cfgLocal.StatusText))
-                    {
-                        // テキストボックスに入力されている文字列を使用する
-                        footer += " " + this._cfgLocal.StatusText.Trim();
-                    }
-                }
-            }
-
             var status = new PostingStatus();
-            status.status = header + StatusText.Text + footer;
+            status.status = statusText;
 
-            if (ToolStripMenuItemApiCommandEvasion.Checked)
-            {
-                // APIコマンド回避
-                if (Regex.IsMatch(status.status,
-                    @"^[+\-\[\]\s\\.,*/(){}^~|='&%$#""<>?]*(get|g|fav|follow|f|on|off|stop|quit|leave|l|whois|w|nudge|n|stats|invite|track|untrack|tracks|tracking|\*)([+\-\[\]\s\\.,*/(){}^~|='&%$#""<>?]+|$)",
-                    RegexOptions.IgnoreCase)
-                   && status.status.EndsWith(" .") == false) status.status += " .";
-            }
-
-            if (ToolStripMenuItemUrlMultibyteSplit.Checked)
-            {
-                // URLと全角文字の切り離し
-                Match mc2 = Regex.Match(status.status, @"https?:\/\/[-_.!~*'()a-zA-Z0-9;\/?:\@&=+\$,%#^]+");
-                if (mc2.Success) status.status = Regex.Replace(status.status, @"https?:\/\/[-_.!~*'()a-zA-Z0-9;\/?:\@&=+\$,%#^]+", "$& ");
-            }
-
-            if (IdeographicSpaceToSpaceToolStripMenuItem.Checked)
-            {
-                // 文中の全角スペースを半角スペース1個にする
-                status.status = status.status.Replace("　", " ");
-            }
-
-            if (isCutOff && status.status.Length > 140)
+            if (isCutOff)
             {
                 status.status = status.status.Substring(0, 140);
                 string AtId = @"(@|＠)[a-z0-9_/]+$";
@@ -5170,7 +5068,7 @@ namespace OpenTween
         private void StatusText_TextChanged(object sender, EventArgs e)
         {
             //文字数カウント
-            int pLen = GetRestStatusCount(true, false);
+            int pLen = this.GetRestStatusCount(this.FormatStatusText(this.StatusText.Text));
             lblLen.Text = pLen.ToString();
             if (pLen < 0)
             {
@@ -5186,85 +5084,98 @@ namespace OpenTween
             }
         }
 
-        private int GetRestStatusCount(bool isAuto, bool isAddFooter)
+        /// <summary>
+        /// ツイート投稿前のフッター付与などの前処理を行います
+        /// </summary>
+        private string FormatStatusText(string statusText)
         {
-            //文字数カウント
-            var statusText = this.StatusText.Text;
             statusText = statusText.Replace("\r\n", "\n");
 
-            int pLen = 140 - statusText.Length;
-            if (this.NotifyIcon1 == null || !this.NotifyIcon1.Visible) return pLen;
-            if ((isAuto && !MyCommon.IsKeyDown(Keys.Control) && this._cfgCommon.PostShiftEnter) ||
-                (isAuto && !MyCommon.IsKeyDown(Keys.Shift) && !this._cfgCommon.PostShiftEnter) ||
-                (!isAuto && isAddFooter))
+            if (this.ToolStripMenuItemUrlMultibyteSplit.Checked)
+            {
+                // URLと全角文字の切り離し
+                statusText = Regex.Replace(statusText, @"https?:\/\/[-_.!~*'()a-zA-Z0-9;\/?:\@&=+\$,%#^]+", "$& ");
+            }
+
+            if (this.IdeographicSpaceToSpaceToolStripMenuItem.Checked)
+            {
+                // 文中の全角スペースを半角スペース1個にする
+                statusText = statusText.Replace("　", " ");
+            }
+
+            // DM の場合はこれ以降の処理を行わない
+            if (statusText.StartsWith("D ", StringComparison.OrdinalIgnoreCase))
+                return statusText;
+
+            bool disableFooter;
+            if (this._cfgCommon.PostShiftEnter)
+            {
+                disableFooter = MyCommon.IsKeyDown(Keys.Control);
+            }
+            else
+            {
+                if (this.StatusText.Multiline)
+                    disableFooter = MyCommon.IsKeyDown(Keys.Control);
+                else
+                    disableFooter = MyCommon.IsKeyDown(Keys.Shift);
+            }
+
+            if (statusText.Contains("RT @"))
+                disableFooter = true;
+
+            var header = "";
+            var footer = "";
+
+            var hashtag = this.HashMgr.UseHash;
+            if (!string.IsNullOrEmpty(hashtag) && !(this.HashMgr.IsNotAddToAtReply && this.inReplyTo == null))
+            {
+                if (HashMgr.IsHead)
+                    header = HashMgr.UseHash + " ";
+                else
+                    footer = " " + HashMgr.UseHash;
+            }
+
+            if (!disableFooter)
             {
                 if (this._cfgLocal.UseRecommendStatus)
-                    pLen -= this.recommendedStatusFooter.Length;
-                else if (this._cfgLocal.StatusText.Length > 0)
-                    pLen -= this._cfgLocal.StatusText.Length + 1;
-            }
-            if (!string.IsNullOrEmpty(HashMgr.UseHash))
-            {
-                pLen -= HashMgr.UseHash.Length + 1;
-            }
-            //foreach (Match m in Regex.Matches(statusText, "https?:\/\/[-_.!~*//()a-zA-Z0-9;\/?:\@&=+\$,%#^]+"))
-            //{
-            //    pLen += m.Length - SettingDialog.TwitterConfiguration.ShortUrlLength;
-            //}
-            foreach (Match m in Regex.Matches(statusText, Twitter.rgUrl, RegexOptions.IgnoreCase))
-            {
-                string before = m.Result("${before}");
-                string url = m.Result("${url}");
-                string protocol = m.Result("${protocol}");
-                string domain = m.Result("${domain}");
-                string path = m.Result("${path}");
-                if (protocol.Length == 0)
                 {
-                    if (Regex.IsMatch(before, Twitter.url_invalid_without_protocol_preceding_chars))
-                    {
-                        continue;
-                    }
-
-                    bool last_url_invalid_match = false;
-                    string lasturl = null;
-                    foreach (Match mm in Regex.Matches(domain, Twitter.url_valid_ascii_domain, RegexOptions.IgnoreCase))
-                    {
-                        lasturl = mm.ToString();
-                        last_url_invalid_match = Regex.IsMatch(lasturl, Twitter.url_invalid_short_domain, RegexOptions.IgnoreCase);
-                        if (!last_url_invalid_match)
-                        {
-                            pLen += lasturl.Length - this.tw.Configuration.ShortUrlLength;
-                        }
-                    }
-
-                    if (path.Length != 0)
-                    {
-                        if (last_url_invalid_match)
-                        {
-                            pLen += lasturl.Length - this.tw.Configuration.ShortUrlLength;
-                        }
-                        pLen += path.Length;
-                    }
+                    // 推奨ステータスを使用する
+                    footer += this.recommendedStatusFooter;
                 }
-                else
+                else if (!string.IsNullOrEmpty(this._cfgLocal.StatusText))
                 {
-                    int shortUrlLength = protocol == "https://"
-                        ? this.tw.Configuration.ShortUrlLengthHttps
-                        : this.tw.Configuration.ShortUrlLength;
-
-                    pLen += url.Length - shortUrlLength;
+                    // テキストボックスに入力されている文字列を使用する
+                    footer += " " + this._cfgLocal.StatusText.Trim();
                 }
-                
-                //if (m.Result("${url}").Length > SettingDialog.TwitterConfiguration.ShortUrlLength)
-                //{
-                //    pLen += m.Result("${url}").Length - SettingDialog.TwitterConfiguration.ShortUrlLength;
-                //}
             }
-            if (ImageSelector.Visible && !string.IsNullOrEmpty(ImageSelector.ServiceName))
+
+            statusText = header + statusText + footer;
+
+            if (this.ToolStripMenuItemApiCommandEvasion.Checked)
             {
-                pLen -= this.tw.Configuration.CharactersReservedPerMedia;
+                // APIコマンド回避
+                if (Regex.IsMatch(statusText, @"^[+\-\[\]\s\\.,*/(){}^~|='&%$#""<>?]*(get|g|fav|follow|f|on|off|stop|quit|leave|l|whois|w|nudge|n|stats|invite|track|untrack|tracks|tracking|\*)([+\-\[\]\s\\.,*/(){}^~|='&%$#""<>?]+|$)", RegexOptions.IgnoreCase)
+                   && !statusText.EndsWith(" .", StringComparison.Ordinal))
+                    statusText += " .";
             }
-            return pLen;
+
+            return statusText;
+        }
+
+        /// <summary>
+        /// 投稿欄に表示する入力可能な文字数を計算します
+        /// </summary>
+        private int GetRestStatusCount(string statusText)
+        {
+            //文字数カウント
+            var remainCount = this.tw.GetTextLengthRemain(statusText);
+
+            if (this.ImageSelector.Visible && !string.IsNullOrEmpty(this.ImageSelector.ServiceName))
+            {
+                remainCount -= this.tw.Configuration.CharactersReservedPerMedia;
+            }
+
+            return remainCount;
         }
 
         private void MyList_CacheVirtualItems(object sender, CacheVirtualItemsEventArgs e)
