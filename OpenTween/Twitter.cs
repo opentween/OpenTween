@@ -3191,12 +3191,12 @@ namespace OpenTween
         {
             var matchDm = Twitter.DMSendTextRegex.Match(postText);
             if (matchDm.Success)
-                return this.GetTextLengthRemainInternal(matchDm.Groups["body"].Value);
+                return this.GetTextLengthRemainInternal(matchDm.Groups["body"].Value, isDm: true);
 
-            return this.GetTextLengthRemainInternal(postText);
+            return this.GetTextLengthRemainInternal(postText, isDm: false);
         }
 
-        private int GetTextLengthRemainInternal(string postText)
+        private int GetTextLengthRemainInternal(string postText, bool isDm)
         {
             var textLength = postText.Length;
 
@@ -3248,7 +3248,10 @@ namespace OpenTween
                 }
             }
 
-            return 140 - textLength;
+            if (isDm)
+                return this.Configuration.DmTextCharacterLimit - textLength;
+            else
+                return 140 - textLength;
         }
 
 #region "UserStream"

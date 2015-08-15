@@ -317,8 +317,12 @@ namespace OpenTween
         {
             using (var twitter = new Twitter())
             {
-                Assert.Equal(140, twitter.GetTextLengthRemain("D twitter "));
-                Assert.Equal(132, twitter.GetTextLengthRemain("D twitter hogehoge"));
+                // 2015年8月から DM の文字数上限が 10,000 文字に変更された
+                // https://twittercommunity.com/t/41348
+                twitter.Configuration.DmTextCharacterLimit = 10000;
+
+                Assert.Equal(10000, twitter.GetTextLengthRemain("D twitter "));
+                Assert.Equal(9992, twitter.GetTextLengthRemain("D twitter hogehoge"));
             }
         }
 

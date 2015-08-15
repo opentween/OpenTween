@@ -58,6 +58,9 @@ namespace OpenTween.Api
         [DataMember(Name = "max_media_per_upload")]
         public int MaxMediaPerUpload { get; set; }
 
+        [DataMember(Name = "dm_text_character_limit")]
+        public int DmTextCharacterLimit { get; set; }
+
         /// <exception cref="SerializationException"/>
         public static TwitterConfiguration ParseJson(string json)
         {
@@ -75,6 +78,7 @@ namespace OpenTween.Api
                 ShortUrlLength = 19,
                 ShortUrlLengthHttps = 20,
                 PhotoSizeLimit = 3145728L,
+                DmTextCharacterLimit = 10000,
             };
         }
     }
