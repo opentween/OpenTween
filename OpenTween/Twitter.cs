@@ -3198,7 +3198,18 @@ namespace OpenTween
 
         private int GetTextLengthRemainInternal(string postText, bool isDm)
         {
-            var textLength = postText.Length;
+            var textLength = 0;
+
+            var pos = 0;
+            while (pos < postText.Length)
+            {
+                textLength++;
+
+                if (char.IsSurrogatePair(postText, pos))
+                    pos += 2; // サロゲートペアの場合は2文字分進める
+                else
+                    pos++;
+            }
 
             var urlMatches = Regex.Matches(postText, Twitter.rgUrl, RegexOptions.IgnoreCase).Cast<Match>();
             foreach (var m in urlMatches)

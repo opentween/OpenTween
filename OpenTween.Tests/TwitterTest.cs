@@ -361,5 +361,15 @@ namespace OpenTween
                 Assert.Equal(120, twitter.GetTextLengthRemain("example.jp/hogehoge"));
             }
         }
+
+        [Fact]
+        public void GetTextLengthRemain_SurrogatePairTest()
+        {
+            using (var twitter = new Twitter())
+            {
+                Assert.Equal(139, twitter.GetTextLengthRemain("🍣"));
+                Assert.Equal(133, twitter.GetTextLengthRemain("🔥🐔🔥 焼き鳥"));
+            }
+        }
     }
 }
