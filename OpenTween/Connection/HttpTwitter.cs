@@ -469,6 +469,7 @@ namespace OpenTween
                 param.Add("max_id", max_id.ToString());
             if (since_id != null)
                 param.Add("since_id", since_id.ToString());
+            param.Add("full_text", "true");
             param.Add("include_entities", "true");
 
             return httpCon.GetContent(GetMethod,
@@ -488,6 +489,7 @@ namespace OpenTween
                 param.Add("max_id", max_id.ToString());
             if (since_id != null)
                 param.Add("since_id", since_id.ToString());
+            param.Add("full_text", "true");
             param.Add("include_entities", "true");
 
             return httpCon.GetContent(GetMethod,
