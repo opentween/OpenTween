@@ -6667,6 +6667,11 @@ namespace OpenTween
                         }
                     }),
 
+                // 上下キー, PageUp/Downキー は既定の動作を残しつつアンカー初期化
+                ShortcutCommand.Create(Keys.Up, Keys.Down, Keys.PageUp, Keys.PageDown)
+                    .FocusedOn(FocusedControl.ListTab)
+                    .Do(() => this._anchorFlag = false, preventDefault: false),
+
                 // PreviewKeyDownEventArgs.IsInputKey を true にしてスクロールを発生させる
                 ShortcutCommand.Create(Keys.Up, Keys.Down)
                     .FocusedOn(FocusedControl.PostBrowser)
