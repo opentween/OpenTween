@@ -469,8 +469,7 @@ namespace OpenTween
 
         public void PostStatus(string postStr, long? reply_to, List<long> mediaIds = null)
         {
-            if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid)
-                throw new WebApiException("Auth error. Check your account");
+            this.CheckAccountState();
 
             if (mediaIds == null &&
                 Twitter.DMSendTextRegex.IsMatch(postStr))
@@ -525,8 +524,7 @@ namespace OpenTween
 
         public void PostStatusWithMedia(string postStr, long? reply_to, IMediaItem item)
         {
-            if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid)
-                throw new WebApiException("Auth error. Check your account");
+            this.CheckAccountState();
 
             HttpStatusCode res;
             var content = "";
@@ -574,8 +572,7 @@ namespace OpenTween
 
         public void PostStatusWithMultipleMedia(string postStr, long? reply_to, IMediaItem[] mediaItems)
         {
-            if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid)
-                throw new WebApiException("Auth error. Check your account");
+            this.CheckAccountState();
 
             if (Twitter.DMSendTextRegex.IsMatch(postStr))
             {
@@ -599,8 +596,7 @@ namespace OpenTween
 
         public long UploadMedia(IMediaItem item)
         {
-            if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid)
-                throw new WebApiException("Auth error. Check your account");
+            this.CheckAccountState();
 
             HttpStatusCode res;
             var content = "";
@@ -636,8 +632,7 @@ namespace OpenTween
 
         public void SendDirectMessage(string postStr)
         {
-            if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid)
-                throw new WebApiException("Auth error. Check your account");
+            this.CheckAccountState();
 
             if (this.AccessLevel == TwitterApiAccessLevel.Read || this.AccessLevel == TwitterApiAccessLevel.ReadWrite)
                 throw new WebApiException("Auth Err:try to re-authorization.");
@@ -681,8 +676,7 @@ namespace OpenTween
 
         public void RemoveStatus(long id)
         {
-            if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid)
-                throw new WebApiException("Auth error. Check your account");
+            this.CheckAccountState();
 
             HttpStatusCode res;
             try
@@ -699,8 +693,7 @@ namespace OpenTween
 
         public void PostRetweet(long id, bool read)
         {
-            if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid)
-                throw new WebApiException("Auth error. Check your account");
+            this.CheckAccountState();
 
             //データ部分の生成
             var target = id;
@@ -770,8 +763,7 @@ namespace OpenTween
 
         public void RemoveDirectMessage(long id, PostClass post)
         {
-            if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid)
-                throw new WebApiException("Auth error. Check your account");
+            this.CheckAccountState();
 
             if (this.AccessLevel == TwitterApiAccessLevel.Read || this.AccessLevel == TwitterApiAccessLevel.ReadWrite)
                 throw new WebApiException("Auth Err:try to re-authorization.");
@@ -795,8 +787,7 @@ namespace OpenTween
 
         public void PostFollowCommand(string screenName)
         {
-            if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid)
-                throw new WebApiException("Auth error. Check your account");
+            this.CheckAccountState();
 
             HttpStatusCode res;
             var content = "";
@@ -814,8 +805,7 @@ namespace OpenTween
 
         public void PostRemoveCommand(string screenName)
         {
-            if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid)
-                throw new WebApiException("Auth error. Check your account");
+            this.CheckAccountState();
 
             HttpStatusCode res;
             var content = "";
@@ -833,8 +823,7 @@ namespace OpenTween
 
         public void PostCreateBlock(string screenName)
         {
-            if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid)
-                throw new WebApiException("Auth error. Check your account");
+            this.CheckAccountState();
 
             HttpStatusCode res;
             var content = "";
@@ -852,8 +841,7 @@ namespace OpenTween
 
         public void PostDestroyBlock(string screenName)
         {
-            if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid)
-                throw new WebApiException("Auth error. Check your account");
+            this.CheckAccountState();
 
             HttpStatusCode res;
             var content = "";
@@ -871,8 +859,7 @@ namespace OpenTween
 
         public void PostReportSpam(string screenName)
         {
-            if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid)
-                throw new WebApiException("Auth error. Check your account");
+            this.CheckAccountState();
 
             HttpStatusCode res;
             var content = "";
@@ -890,8 +877,7 @@ namespace OpenTween
 
         public TwitterFriendship GetFriendshipInfo(string screenName)
         {
-            if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid)
-                throw new WebApiException("Auth error. Check your account");
+            this.CheckAccountState();
 
             HttpStatusCode res;
             var content = "";
@@ -924,8 +910,7 @@ namespace OpenTween
 
         public TwitterUser GetUserInfo(string screenName)
         {
-            if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid)
-                throw new WebApiException("Auth error. Check your account");
+            this.CheckAccountState();
 
             HttpStatusCode res;
             var content = "";
@@ -958,8 +943,7 @@ namespace OpenTween
 
         public int GetStatus_Retweeted_Count(long StatusId)
         {
-            if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid)
-                throw new WebApiException("Auth error. Check your account");
+            this.CheckAccountState();
 
             HttpStatusCode res;
             var content = "";
@@ -993,8 +977,7 @@ namespace OpenTween
 
         public void PostFavAdd(long id)
         {
-            if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid)
-                throw new WebApiException("Auth error. Check your account");
+            this.CheckAccountState();
 
             //if (this.favQueue == null) this.favQueue = new FavoriteQueue(this)
 
@@ -1052,8 +1035,7 @@ namespace OpenTween
 
         public void PostFavRemove(long id)
         {
-            if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid)
-                throw new WebApiException("Auth error. Check your account");
+            this.CheckAccountState();
 
             //if (this.favQueue == null) this.favQueue = new FavoriteQueue(this)
 
@@ -1078,8 +1060,7 @@ namespace OpenTween
 
         public TwitterUser PostUpdateProfile(string name, string url, string location, string description)
         {
-            if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid)
-                throw new WebApiException("AccountState invalid");
+            this.CheckAccountState();
 
             HttpStatusCode res;
             var content = "";
@@ -1114,8 +1095,7 @@ namespace OpenTween
 
         public void PostUpdateProfileImage(string filename)
         {
-            if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid)
-                throw new WebApiException("Auth error. Check your account");
+            this.CheckAccountState();
 
             HttpStatusCode res;
             var content = "";
@@ -1437,8 +1417,7 @@ namespace OpenTween
                                 bool more,
                                 bool startup)
         {
-            if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid)
-                throw new WebApiException("Auth error. Check your account");
+            this.CheckAccountState();
 
             HttpStatusCode res;
             var content = "";
@@ -1492,8 +1471,7 @@ namespace OpenTween
                                          TabClass tab,
                                          bool more)
         {
-            if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid)
-                throw new WebApiException("Auth error. Check your account");
+            this.CheckAccountState();
 
             HttpStatusCode res;
             var content = "";
@@ -1538,8 +1516,7 @@ namespace OpenTween
 
         public PostClass GetStatusApi(bool read, long id)
         {
-            if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid)
-                throw new WebApiException("Auth error. Check your account");
+            this.CheckAccountState();
 
             HttpStatusCode res;
             var content = "";
@@ -2227,8 +2204,7 @@ namespace OpenTween
                                 MyCommon.WORKERTYPE gType,
                                 bool more)
         {
-            if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid)
-                throw new WebApiException("Auth error. Check your account");
+            this.CheckAccountState();
 
             if (this.AccessLevel == TwitterApiAccessLevel.Read || this.AccessLevel == TwitterApiAccessLevel.ReadWrite)
                 throw new WebApiException("Auth Err:try to re-authorization.");
@@ -2275,8 +2251,7 @@ namespace OpenTween
         public void GetFavoritesApi(bool read,
                             bool more)
         {
-            if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid)
-                throw new WebApiException("Auth error. Check your account");
+            this.CheckAccountState();
 
             HttpStatusCode res;
             var content = "";
@@ -2351,8 +2326,7 @@ namespace OpenTween
 
         private TwitterIds GetFollowerIdsApi(ref long cursor)
         {
-            if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid)
-                throw new WebApiException("AccountState invalid");
+            this.CheckAccountState();
 
             HttpStatusCode res;
             var content = "";
@@ -2409,8 +2383,7 @@ namespace OpenTween
 
         private long[] NoRetweetIdsApi()
         {
-            if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid)
-                throw new WebApiException("AccountState invalid");
+            this.CheckAccountState();
 
             HttpStatusCode res;
             var content = "";
@@ -2495,8 +2468,7 @@ namespace OpenTween
 
         public void GetListsApi()
         {
-            if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid)
-                throw new WebApiException("AccountState invalid");
+            this.CheckAccountState();
 
             HttpStatusCode res;
             IEnumerable<ListElement> lists;
@@ -2611,8 +2583,7 @@ namespace OpenTween
 
         public long GetListMembers(string list_id, List<UserInfo> lists, long cursor)
         {
-            if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid)
-                throw new WebApiException("Auth error. Check your account");
+            this.CheckAccountState();
 
             HttpStatusCode res;
             var content = "";
@@ -2650,8 +2621,7 @@ namespace OpenTween
 
         public void CreateListApi(string listName, bool isPrivate, string description)
         {
-            if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid)
-                throw new WebApiException("Auth error. Check your account");
+            this.CheckAccountState();
 
             HttpStatusCode res;
             var content = "";
@@ -2685,8 +2655,7 @@ namespace OpenTween
 
         public bool ContainsUserAtList(string listId, string user)
         {
-            if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid)
-                throw new WebApiException("Auth error. Check your account");
+            this.CheckAccountState();
 
             HttpStatusCode res;
             var content = "";
@@ -3045,8 +3014,7 @@ namespace OpenTween
 
         public TwitterIds GetBlockIdsApi(long cursor)
         {
-            if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid)
-                throw new WebApiException("AccountState invalid");
+            this.CheckAccountState();
 
             HttpStatusCode res;
             var content = "";
@@ -3145,6 +3113,12 @@ namespace OpenTween
             {
                 return twCon.AccessTokenSecret;
             }
+        }
+
+        private void CheckAccountState()
+        {
+            if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid)
+                throw new WebApiException("Auth error. Check your account");
         }
 
         private void CheckStatusCode(HttpStatusCode httpStatus, string responseText,
