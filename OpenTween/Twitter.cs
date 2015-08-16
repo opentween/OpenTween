@@ -3106,10 +3106,11 @@ namespace OpenTween
 
                 return TwitterIds.ParseJson(content);
             }
-            catch (WebApiException ex)
+            catch (WebException ex)
             {
-                MyCommon.TraceOut(ex);
-                throw;
+                var ex2 = new WebApiException("Err:" + ex.Message + "(" + MethodBase.GetCurrentMethod().Name + ")", content, ex);
+                MyCommon.TraceOut(ex2);
+                throw ex2;
             }
             catch (SerializationException ex)
             {
