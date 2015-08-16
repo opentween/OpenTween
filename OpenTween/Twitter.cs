@@ -633,9 +633,7 @@ namespace OpenTween
         public void SendDirectMessage(string postStr)
         {
             this.CheckAccountState();
-
-            if (this.AccessLevel == TwitterApiAccessLevel.Read || this.AccessLevel == TwitterApiAccessLevel.ReadWrite)
-                throw new WebApiException("Auth Err:try to re-authorization.");
+            this.CheckAccessLevel(TwitterApiAccessLevel.ReadWriteAndDirectMessage);
 
             var mc = Twitter.DMSendTextRegex.Match(postStr);
 
@@ -764,9 +762,7 @@ namespace OpenTween
         public void RemoveDirectMessage(long id, PostClass post)
         {
             this.CheckAccountState();
-
-            if (this.AccessLevel == TwitterApiAccessLevel.Read || this.AccessLevel == TwitterApiAccessLevel.ReadWrite)
-                throw new WebApiException("Auth Err:try to re-authorization.");
+            this.CheckAccessLevel(TwitterApiAccessLevel.ReadWriteAndDirectMessage);
 
             //if (post.IsMe)
             //    _deletemessages.Add(post)
@@ -2205,9 +2201,7 @@ namespace OpenTween
                                 bool more)
         {
             this.CheckAccountState();
-
-            if (this.AccessLevel == TwitterApiAccessLevel.Read || this.AccessLevel == TwitterApiAccessLevel.ReadWrite)
-                throw new WebApiException("Auth Err:try to re-authorization.");
+            this.CheckAccessLevel(TwitterApiAccessLevel.ReadWriteAndDirectMessage);
 
             HttpStatusCode res;
             var content = "";
@@ -3119,6 +3113,12 @@ namespace OpenTween
         {
             if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid)
                 throw new WebApiException("Auth error. Check your account");
+        }
+
+        private void CheckAccessLevel(TwitterApiAccessLevel accessLevelFlags)
+        {
+            if (!this.AccessLevel.HasFlag(accessLevelFlags))
+                throw new WebApiException("Auth Err:try to re-authorization.");
         }
 
         private void CheckStatusCode(HttpStatusCode httpStatus, string responseText,

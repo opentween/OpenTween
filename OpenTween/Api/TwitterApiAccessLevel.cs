@@ -26,11 +26,15 @@ using System.Text;
 
 namespace OpenTween.Api
 {
+    [Flags]
     public enum TwitterApiAccessLevel
     {
-        Anonymous,
-        Read,
-        ReadWrite,
-        ReadWriteAndDirectMessage,
+        Anonymous = 0,
+        Read = 1,
+        Write = 2,
+        DirectMessage = 4,
+
+        ReadWrite = Read | Write,
+        ReadWriteAndDirectMessage = Read | Write | DirectMessage,
     }
 }
