@@ -3446,6 +3446,11 @@ namespace OpenTween
                     CreatePostsFromJson("[" + line + "]", MyCommon.WORKERTYPE.Timeline, null, false);
                 }
             }
+            catch (WebApiException ex)
+            {
+                MyCommon.TraceOut(ex);
+                return;
+            }
             catch(NullReferenceException)
             {
                 MyCommon.TraceOut("NullRef StatusArrived: " + line);
