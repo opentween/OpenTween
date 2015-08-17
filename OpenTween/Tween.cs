@@ -7539,10 +7539,16 @@ namespace OpenTween
             var inReplyPost = inReplyToPosts.FirstOrDefault();
             if (inReplyPost == null)
             {
-                PostClass post;
                 try
                 {
-                    post = tw.GetStatusApi(false, _curPost.InReplyToStatusId.Value);
+                    await Task.Run(() =>
+                    {
+                        var post = tw.GetStatusApi(false, _curPost.InReplyToStatusId.Value);
+                        post.IsRead = true;
+
+                        _statuses.AddPost(post);
+                        _statuses.DistributePosts();
+                    });
                 }
                 catch (WebApiException ex)
                 {
@@ -7551,10 +7557,6 @@ namespace OpenTween
                     return;
                 }
 
-                post.IsRead = true;
-                _statuses.AddPost(post);
-                _statuses.DistributePosts();
-                //_statuses.SubmitUpdate(null, null, null, false);
                 this.RefreshTimeline(false);
 
                 inReplyPost = inReplyToPosts.FirstOrDefault();
@@ -7563,8 +7565,6 @@ namespace OpenTween
                     await this.OpenUriInBrowserAsync("https://twitter.com/" + inReplyToUser + "/statuses/" + inReplyToId.ToString());
                     return;
                 }
-                inReplyToTabName = inReplyPost.Tab.TabName;
-                inReplyToIndex = inReplyPost.Index;
             }
             inReplyToTabName = inReplyPost.Tab.TabName;
             inReplyToIndex = inReplyPost.Index;
