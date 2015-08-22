@@ -26,6 +26,7 @@
 // Boston, MA 02110-1301, USA.
 
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -476,7 +477,7 @@ namespace OpenTween
     {
         //個別タブの情報をDictionaryで保持
         private Dictionary<string, TabClass> _tabs = new Dictionary<string, TabClass>();
-        private Dictionary<long, PostClass> _statuses = new Dictionary<long, PostClass>();
+        private ConcurrentDictionary<long, PostClass> _statuses = new ConcurrentDictionary<long, PostClass>();
         private List<long> _addedIds;
         private List<long> _deletedIds = new List<long>();
         private Dictionary<long, PostClass> _retweets = new Dictionary<long, PostClass>();
@@ -836,7 +837,9 @@ namespace OpenTween
                     if (tab.Contains(Id))
                         tab.Remove(Id);
                 }
-                if (_statuses.ContainsKey(Id)) _statuses.Remove(Id);
+
+                PostClass removedPost;
+                _statuses.TryRemove(Id, out removedPost);
             }
         }
 
@@ -1099,7 +1102,7 @@ namespace OpenTween
                             if (BlockIds.Contains(Item.UserId))
                                 return;
 
-                            _statuses.Add(Item.StatusId, Item);
+                            _statuses.TryAdd(Item.StatusId, Item);
                         }
                         if (Item.RetweetedId != null)
                         {
@@ -1400,7 +1403,11 @@ namespace OpenTween
                                 break;
                             }
                         }
-                        if (!Hit) _statuses.Remove(Id);
+                        if (!Hit)
+                        {
+                            PostClass removedPost;
+                            _statuses.TryRemove(Id, out removedPost);
+                        }
                     }
                 }
 
@@ -1511,7 +1518,7 @@ namespace OpenTween
             return tabNameTemp;
         }
 
-        public Dictionary<long, PostClass> Posts
+        public ConcurrentDictionary<long, PostClass> Posts
         {
             get
             {
@@ -1621,9 +1628,9 @@ namespace OpenTween
         public long SinceId { get; set; }
 
         [XmlIgnore]
-        public Dictionary<long, PostClass> Posts { get; private set; }
+        public ConcurrentDictionary<long, PostClass> Posts { get; private set; }
 
-        private Dictionary<long, PostClass> _innerPosts;
+        private ConcurrentDictionary<long, PostClass> _innerPosts;
 
         public PostClass[] GetTemporaryPosts()
         {
@@ -1655,7 +1662,7 @@ namespace OpenTween
 
         public TabClass()
         {
-            _innerPosts = new Dictionary<long, PostClass>();
+            _innerPosts = new ConcurrentDictionary<long, PostClass>();
             Posts = _innerPosts;
             SoundFile = "";
             TabName = "";
@@ -1836,7 +1843,7 @@ namespace OpenTween
         public void AddPostToInnerStorage(PostClass Post)
         {
             if (_innerPosts.ContainsKey(Post.StatusId)) return;
-            _innerPosts.Add(Post.StatusId, Post);
+            _innerPosts.TryAdd(Post.StatusId, Post);
             _tmpIds.Add(new TemporaryId(Post.StatusId, Post.IsRead));
         }
 
@@ -1867,7 +1874,10 @@ namespace OpenTween
             this.unreadIds.Remove(Id);
 
             if (this.IsInnerStorageTabType)
-                this._innerPosts.Remove(Id);
+            {
+                PostClass removedPost;
+                this._innerPosts.TryRemove(Id, out removedPost);
+            }
         }
 
         public bool UnreadManage { get; set; }
