@@ -88,12 +88,12 @@ namespace OpenTween
 
         public Task WaitForAsync(Task task)
         {
-            return this.WaitForAsync(task.ContinueWith(_ => 0));
+            return this.WaitForAsync(this.ConvertTaskWithValue(task));
         }
 
         public Task WaitForAsync(IWin32Window owner, Task task)
         {
-            return this.WaitForAsync(owner, task.ContinueWith(_ => 0));
+            return this.WaitForAsync(owner, this.ConvertTaskWithValue(task));
         }
 
         public Task<T> WaitForAsync<T>(Task<T> task)
@@ -138,6 +138,13 @@ namespace OpenTween
             }, null);
 
             return tcs.Task;
+        }
+
+        /// <summary>Task を Task&lt;T&gt; に変換したいだけ</summary>
+        private async Task<int> ConvertTaskWithValue(Task task)
+        {
+            await task.ConfigureAwait(false);
+            return 0;
         }
 
         private void ProgressDialog_FormClosing(object sender, FormClosingEventArgs e)
