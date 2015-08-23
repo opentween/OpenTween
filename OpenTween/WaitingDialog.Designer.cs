@@ -28,44 +28,36 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(WaitingDialog));
             this.labelMessage = new System.Windows.Forms.Label();
             this.progressBar = new System.Windows.Forms.ProgressBar();
             this.SuspendLayout();
             // 
             // labelMessage
             // 
-            this.labelMessage.Location = new System.Drawing.Point(12, 9);
+            resources.ApplyResources(this.labelMessage, "labelMessage");
             this.labelMessage.Name = "labelMessage";
-            this.labelMessage.Size = new System.Drawing.Size(266, 45);
-            this.labelMessage.TabIndex = 0;
-            this.labelMessage.Text = "labelMessage";
-            this.labelMessage.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // progressBar
             // 
-            this.progressBar.Location = new System.Drawing.Point(12, 57);
+            resources.ApplyResources(this.progressBar, "progressBar");
             this.progressBar.Name = "progressBar";
-            this.progressBar.Size = new System.Drawing.Size(266, 23);
             this.progressBar.Style = System.Windows.Forms.ProgressBarStyle.Marquee;
-            this.progressBar.TabIndex = 1;
             // 
-            // ProgressDialog
+            // WaitingDialog
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
+            resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-            this.ClientSize = new System.Drawing.Size(290, 92);
             this.ControlBox = false;
             this.Controls.Add(this.labelMessage);
             this.Controls.Add(this.progressBar);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "ProgressDialog";
+            this.Name = "WaitingDialog";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Information";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ProgressDialog_FormClosing);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ProgressDialog_KeyDown);
             this.ResumeLayout(false);
