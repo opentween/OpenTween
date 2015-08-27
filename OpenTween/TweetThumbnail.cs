@@ -134,6 +134,9 @@ namespace OpenTween
                 foreach (var picbox in this.pictureBox)
                 {
                     var memoryImage = picbox.Image;
+
+                    picbox.DoubleClick -= this.pictureBox_DoubleClick;
+                    picbox.MouseWheel -= this.pictureBox_MouseWheel;
                     picbox.Dispose();
 
                     memoryImage?.Dispose();
