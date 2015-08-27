@@ -151,6 +151,7 @@ namespace OpenTween
                     var picbox = CreatePictureBox("pictureBox" + i);
                     picbox.Visible = (i == 0);
                     picbox.DoubleClick += this.pictureBox_DoubleClick;
+                    picbox.MouseWheel += this.pictureBox_MouseWheel;
 
                     this.panelPictureBox.Controls.Add(picbox);
                     this.pictureBox.Add(picbox);
@@ -206,6 +207,14 @@ namespace OpenTween
                     this.pictureBox[i].Visible = (i == value);
                 }
             }
+        }
+
+        private void pictureBox_MouseWheel(object sender, MouseEventArgs e)
+        {
+            if (e.Delta > 0)
+                this.ScrollUp();
+            else
+                this.ScrollDown();
         }
 
         private void pictureBox_DoubleClick(object sender, EventArgs e)
