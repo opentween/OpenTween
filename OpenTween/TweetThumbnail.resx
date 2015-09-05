@@ -136,7 +136,7 @@
   <data name="searchImageSauceNaoMenuItem.Text" xml:space="preserve">
     <value>類似画像を検索 (SauceNAO)</value>
   </data>
-  <data name="searchSimilarImageMenuItem.Text" xml:space="preserve">
+  <data name="searchImageGoogleMenuItem.Text" xml:space="preserve">
     <value>類似画像を検索 (Google)</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
@@ -198,7 +198,7 @@
   <data name="panelPictureBox.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
   </data>
-  <data name="&gt;&gt;searchSimilarImageMenuItem.Type" xml:space="preserve">
+  <data name="&gt;&gt;searchImageGoogleMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="panelPictureBox.Location" type="System.Drawing.Point, System.Drawing">
@@ -210,14 +210,14 @@
   <data name="scrollBar.Location" type="System.Drawing.Point, System.Drawing">
     <value>143, 0</value>
   </data>
-  <data name="searchSimilarImageMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="searchImageGoogleMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>223, 22</value>
   </data>
   <data name="scrollBar.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Right</value>
   </data>
-  <data name="&gt;&gt;searchSimilarImageMenuItem.Name" xml:space="preserve">
-    <value>searchSimilarImageMenuItem</value>
+  <data name="&gt;&gt;searchImageGoogleMenuItem.Name" xml:space="preserve">
+    <value>searchImageGoogleMenuItem</value>
   </data>
   <data name="&gt;&gt;toolTip.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolTip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>

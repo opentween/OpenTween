@@ -34,7 +34,7 @@
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.panelPictureBox = new System.Windows.Forms.Panel();
             this.contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.searchSimilarImageMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.searchImageGoogleMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.searchImageSauceNaoMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip.SuspendLayout();
             this.SuspendLayout();
@@ -58,17 +58,17 @@
             // 
             resources.ApplyResources(this.contextMenuStrip, "contextMenuStrip");
             this.contextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.searchSimilarImageMenuItem,
+            this.searchImageGoogleMenuItem,
             this.searchImageSauceNaoMenuItem});
             this.contextMenuStrip.Name = "contextMenuStrip";
             this.toolTip.SetToolTip(this.contextMenuStrip, resources.GetString("contextMenuStrip.ToolTip"));
             this.contextMenuStrip.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip_Opening);
             // 
-            // searchSimilarImageMenuItem
+            // searchImageGoogleMenuItem
             // 
-            resources.ApplyResources(this.searchSimilarImageMenuItem, "searchSimilarImageMenuItem");
-            this.searchSimilarImageMenuItem.Name = "searchSimilarImageMenuItem";
-            this.searchSimilarImageMenuItem.Click += new System.EventHandler(this.searchSimilarImageMenuItem_Click);
+            resources.ApplyResources(this.searchImageGoogleMenuItem, "searchImageGoogleMenuItem");
+            this.searchImageGoogleMenuItem.Name = "searchImageGoogleMenuItem";
+            this.searchImageGoogleMenuItem.Click += new System.EventHandler(this.searchSimilarImageMenuItem_Click);
             // 
             // searchImageSauceNaoMenuItem
             // 
@@ -95,7 +95,7 @@
         protected internal System.Windows.Forms.ToolTip toolTip;
         protected internal System.Windows.Forms.Panel panelPictureBox;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip;
-        private System.Windows.Forms.ToolStripMenuItem searchSimilarImageMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem searchImageGoogleMenuItem;
         private System.Windows.Forms.ToolStripMenuItem searchImageSauceNaoMenuItem;
     }
 }

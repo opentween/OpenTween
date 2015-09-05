@@ -109,7 +109,7 @@ namespace OpenTween
             await Task.WhenAll(loadTasks).ConfigureAwait(false);
         }
 
-        private string GetImageSearchUri(string image_uri)
+        private string GetImageSearchUriGoogle(string image_uri)
         {
             return @"https://www.google.com/searchbyimage?image_url=" + Uri.EscapeDataString(image_uri);
         }
@@ -242,22 +242,22 @@ namespace OpenTween
             var searchTargetUri = thumb.FullSizeImageUrl ?? thumb.ThumbnailUrl ?? null;
             if (searchTargetUri != null)
             {
-                this.searchSimilarImageMenuItem.Enabled = true;
-                this.searchSimilarImageMenuItem.Tag = searchTargetUri;
+                this.searchImageGoogleMenuItem.Enabled = true;
+                this.searchImageGoogleMenuItem.Tag = searchTargetUri;
                 this.searchImageSauceNaoMenuItem.Enabled = true;
                 this.searchImageSauceNaoMenuItem.Tag = searchTargetUri;
             }
             else
             {
-                this.searchSimilarImageMenuItem.Enabled = false;
+                this.searchImageGoogleMenuItem.Enabled = false;
                 this.searchImageSauceNaoMenuItem.Enabled = false;
             }
         }
 
         private void searchSimilarImageMenuItem_Click(object sender, EventArgs e)
         {
-            var searchTargetUri = (string)this.searchSimilarImageMenuItem.Tag;
-            var searchUri = this.GetImageSearchUri(searchTargetUri);
+            var searchTargetUri = (string)this.searchImageGoogleMenuItem.Tag;
+            var searchUri = this.GetImageSearchUriGoogle(searchTargetUri);
 
             this.ThumbnailImageSearchClick?.Invoke(this, new ThumbnailImageSearchEventArgs(searchUri));
         }
