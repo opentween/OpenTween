@@ -2480,18 +2480,30 @@ namespace OpenTween
 
             await Task.Run(() =>
             {
+                WebApiException lastException = null;
+
                 foreach (var tab in tabs)
                 {
-                    if (string.IsNullOrEmpty(tab.SearchWords))
-                        continue;
+                    try
+                    {
+                        if (string.IsNullOrEmpty(tab.SearchWords))
+                            continue;
 
-                    this.tw.GetSearch(read, tab, false);
+                        this.tw.GetSearch(read, tab, false);
 
-                    if (loadMore)
-                        this.tw.GetSearch(read, tab, true);
+                        if (loadMore)
+                            this.tw.GetSearch(read, tab, true);
+                    }
+                    catch (WebApiException ex)
+                    {
+                        lastException = ex;
+                    }
                 }
 
                 this._statuses.DistributePosts();
+
+                if (lastException != null)
+                    throw new WebApiException(lastException.Message, lastException);
             });
 
             if (ct.IsCancellationRequested)
@@ -2555,15 +2567,27 @@ namespace OpenTween
 
             await Task.Run(() =>
             {
+                WebApiException lastException = null;
+
                 foreach (var tab in tabs)
                 {
-                    if (string.IsNullOrEmpty(tab.User))
-                        continue;
+                    try
+                    {
+                        if (string.IsNullOrEmpty(tab.User))
+                            continue;
 
-                    this.tw.GetUserTimelineApi(read, tab.User, tab, loadMore);
+                        this.tw.GetUserTimelineApi(read, tab.User, tab, loadMore);
+                    }
+                    catch (WebApiException ex)
+                    {
+                        lastException = ex;
+                    }
                 }
 
                 this._statuses.DistributePosts();
+
+                if (lastException != null)
+                    throw new WebApiException(lastException.Message, lastException);
             });
 
             if (ct.IsCancellationRequested)
@@ -2627,15 +2651,27 @@ namespace OpenTween
 
             await Task.Run(() =>
             {
+                WebApiException lastException = null;
+
                 foreach (var tab in tabs)
                 {
-                    if (tab.ListInfo == null || tab.ListInfo.Id == 0)
-                        continue;
+                    try
+                    {
+                        if (tab.ListInfo == null || tab.ListInfo.Id == 0)
+                            continue;
 
-                    this.tw.GetListStatus(read, tab, loadMore, this._initial);
+                        this.tw.GetListStatus(read, tab, loadMore, this._initial);
+                    }
+                    catch (WebApiException ex)
+                    {
+                        lastException = ex;
+                    }
                 }
 
                 this._statuses.DistributePosts();
+
+                if (lastException != null)
+                    throw new WebApiException(lastException.Message, lastException);
             });
 
             if (ct.IsCancellationRequested)
