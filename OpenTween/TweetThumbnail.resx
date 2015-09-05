@@ -123,14 +123,21 @@
   <data name="scrollBar.ToolTip" xml:space="preserve">
     <value />
   </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
+    <value>160, 150</value>
+  </data>
   <data name="&gt;&gt;panelPictureBox.Name" xml:space="preserve">
     <value>panelPictureBox</value>
   </data>
   <data name="&gt;&gt;panelPictureBox.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="&gt;&gt;scrollBar.ZOrder" xml:space="preserve">
-    <value>2</value>
+  <data name="searchImageSauceNaoMenuItem.Text" xml:space="preserve">
+    <value>類似画像を検索 (SauceNAO)</value>
+  </data>
+  <data name="searchSimilarImageMenuItem.Text" xml:space="preserve">
+    <value>類似画像を検索 (Google)</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
     <value>System.Windows.Forms.UserControl, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -160,12 +167,11 @@
   <data name="&gt;&gt;contextMenuStrip.Type" xml:space="preserve">
     <value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="panelPictureBox.Size" type="System.Drawing.Size, System.Drawing">
     <value>143, 150</value>
   </data>
-  <data name="searchSimilarImageMenuItem.Text" xml:space="preserve">
-    <value>類似画像を検索</value>
+  <data name="&gt;&gt;searchImageSauceNaoMenuItem.Name" xml:space="preserve">
+    <value>searchImageSauceNaoMenuItem</value>
   </data>
   <data name="&gt;&gt;scrollBar.Type" xml:space="preserve">
     <value>System.Windows.Forms.VScrollBar, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -174,8 +180,11 @@
   <data name="panelPictureBox.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
   </data>
-  <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
-    <value>160, 150</value>
+  <data name="&gt;&gt;searchImageSauceNaoMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;scrollBar.ZOrder" xml:space="preserve">
+    <value>2</value>
   </data>
   <data name="panelPictureBox.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 2, 2, 2</value>
@@ -196,13 +205,13 @@
     <value>0, 0</value>
   </data>
   <data name="contextMenuStrip.Size" type="System.Drawing.Size, System.Drawing">
-    <value>156, 26</value>
+    <value>224, 48</value>
   </data>
   <data name="scrollBar.Location" type="System.Drawing.Point, System.Drawing">
     <value>143, 0</value>
   </data>
   <data name="searchSimilarImageMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>155, 22</value>
+    <value>223, 22</value>
   </data>
   <data name="scrollBar.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Right</value>
@@ -212,6 +221,9 @@
   </data>
   <data name="&gt;&gt;toolTip.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolTip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="searchImageSauceNaoMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>223, 22</value>
   </data>
   <data name="scrollBar.Size" type="System.Drawing.Size, System.Drawing">
     <value>17, 150</value>

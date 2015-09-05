@@ -114,6 +114,11 @@ namespace OpenTween
             return @"https://www.google.com/searchbyimage?image_url=" + Uri.EscapeDataString(image_uri);
         }
 
+        private string GetImageSearchUriSauceNao(string imageUri)
+        {
+            return @"https://saucenao.com/search.php?url=" + Uri.EscapeDataString(imageUri);
+        }
+
         protected virtual Task<IEnumerable<ThumbnailInfo>> GetThumbailInfoAsync(PostClass post, CancellationToken token)
         {
             return ThumbnailGenerator.GetThumbnailsAsync(post, token);
@@ -239,10 +244,13 @@ namespace OpenTween
             {
                 this.searchSimilarImageMenuItem.Enabled = true;
                 this.searchSimilarImageMenuItem.Tag = searchTargetUri;
+                this.searchImageSauceNaoMenuItem.Enabled = true;
+                this.searchImageSauceNaoMenuItem.Tag = searchTargetUri;
             }
             else
             {
                 this.searchSimilarImageMenuItem.Enabled = false;
+                this.searchImageSauceNaoMenuItem.Enabled = false;
             }
         }
 
@@ -250,6 +258,14 @@ namespace OpenTween
         {
             var searchTargetUri = (string)this.searchSimilarImageMenuItem.Tag;
             var searchUri = this.GetImageSearchUri(searchTargetUri);
+
+            this.ThumbnailImageSearchClick?.Invoke(this, new ThumbnailImageSearchEventArgs(searchUri));
+        }
+
+        private void searchImageSauceNaoMenuItem_Click(object sender, EventArgs e)
+        {
+            var searchTargetUri = (string)this.searchImageSauceNaoMenuItem.Tag;
+            var searchUri = this.GetImageSearchUriSauceNao(searchTargetUri);
 
             this.ThumbnailImageSearchClick?.Invoke(this, new ThumbnailImageSearchEventArgs(searchUri));
         }

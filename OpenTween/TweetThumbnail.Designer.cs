@@ -35,6 +35,7 @@
             this.panelPictureBox = new System.Windows.Forms.Panel();
             this.contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.searchSimilarImageMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.searchImageSauceNaoMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -57,7 +58,8 @@
             // 
             resources.ApplyResources(this.contextMenuStrip, "contextMenuStrip");
             this.contextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.searchSimilarImageMenuItem});
+            this.searchSimilarImageMenuItem,
+            this.searchImageSauceNaoMenuItem});
             this.contextMenuStrip.Name = "contextMenuStrip";
             this.toolTip.SetToolTip(this.contextMenuStrip, resources.GetString("contextMenuStrip.ToolTip"));
             this.contextMenuStrip.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip_Opening);
@@ -67,6 +69,12 @@
             resources.ApplyResources(this.searchSimilarImageMenuItem, "searchSimilarImageMenuItem");
             this.searchSimilarImageMenuItem.Name = "searchSimilarImageMenuItem";
             this.searchSimilarImageMenuItem.Click += new System.EventHandler(this.searchSimilarImageMenuItem_Click);
+            // 
+            // searchImageSauceNaoMenuItem
+            // 
+            resources.ApplyResources(this.searchImageSauceNaoMenuItem, "searchImageSauceNaoMenuItem");
+            this.searchImageSauceNaoMenuItem.Name = "searchImageSauceNaoMenuItem";
+            this.searchImageSauceNaoMenuItem.Click += new System.EventHandler(this.searchImageSauceNaoMenuItem_Click);
             // 
             // TweetThumbnail
             // 
@@ -88,5 +96,6 @@
         protected internal System.Windows.Forms.Panel panelPictureBox;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip;
         private System.Windows.Forms.ToolStripMenuItem searchSimilarImageMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem searchImageSauceNaoMenuItem;
     }
 }
