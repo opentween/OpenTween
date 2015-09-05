@@ -1835,7 +1835,7 @@ namespace OpenTween.Properties {
         }
         
         /// <summary>
-        ///   140文字を越えています。URL短縮、フッタ除去、末尾カットを行って投稿しますか？ に類似しているローカライズされた文字列を検索します。
+        ///   投稿できる文字数の上限を越えています。強制的に投稿しますか？ に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string PostLengthOverMessage1 {
             get {
@@ -1849,15 +1849,6 @@ namespace OpenTween.Properties {
         internal static string PostLengthOverMessage2 {
             get {
                 return ResourceManager.GetString("PostLengthOverMessage2", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   文末の＠ユーザー名が切り捨てられた可能性があるため、投稿をキャンセルします。 に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string PostLengthOverMessage3 {
-            get {
-                return ResourceManager.GetString("PostLengthOverMessage3", resourceCulture);
             }
         }
         

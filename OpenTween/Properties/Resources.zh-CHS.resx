@@ -636,9 +636,6 @@
   <data name="FRMessage3" xml:space="preserve">
     <value>完成!</value>
   </data>
-  <data name="PostLengthOverMessage1" xml:space="preserve">
-    <value>该消息已经超出140个字符，要把URL缩短、去掉脚注等，裁剪到140字以内发送吗？</value>
-  </data>
   <data name="PostLengthOverMessage2" xml:space="preserve">
     <value>消息文本长度超出限制</value>
   </data>
@@ -915,9 +912,6 @@ Do you want to upload the {1} selected media file(s)?</value>
   </data>
   <data name="RtCountText1" xml:space="preserve">
     <value>人锐推了该消息</value>
-  </data>
-  <data name="PostLengthOverMessage3" xml:space="preserve">
-    <value>Abort to posting status because @id may be rounded down.</value>
   </data>
   <data name="FavstarUrl" xml:space="preserve">
     <value>http://favstar.fm/</value>

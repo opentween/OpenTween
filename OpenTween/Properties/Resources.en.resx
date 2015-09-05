@@ -634,10 +634,10 @@
     <value>Done!</value>
   </data>
   <data name="PostLengthOverMessage1" xml:space="preserve">
-    <value>The length of tweet is over 140 characters. Do you want to cut down automatically and to do post?</value>
+    <value>The length of the tweet exceeds the limit. Are you sure you want to force the post?</value>
   </data>
   <data name="PostLengthOverMessage2" xml:space="preserve">
-    <value>Over the limit length of tweet</value>
+    <value>Tweet length exceeded</value>
   </data>
   <data name="RetweetQuestion1" xml:space="preserve">
     <value>Retweet this tweet?</value>
@@ -876,9 +876,6 @@ Do you want to upload the {1} selected media file(s)?</value>
   </data>
   <data name="MyLists1" xml:space="preserve">
     <value> : Manage Lists</value>
-  </data>
-  <data name="PostLengthOverMessage3" xml:space="preserve">
-    <value>Abort to posting status because @id may be rounded down.</value>
   </data>
   <data name="FavstarUrl" xml:space="preserve">
     <value>http://favstar.fm/</value>

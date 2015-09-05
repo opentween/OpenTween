@@ -2045,39 +2045,18 @@ namespace OpenTween
             StatusText.SelectionStart = StatusText.Text.Length;
             CheckReplyTo(StatusText.Text);
 
-            var isCutOff = false;
             var statusText = this.FormatStatusText(this.StatusText.Text);
 
             if (this.GetRestStatusCount(statusText) < 0)
             {
-                if (MessageBox.Show(Properties.Resources.PostLengthOverMessage1, Properties.Resources.PostLengthOverMessage2, MessageBoxButtons.OKCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.OK)
-                {
-                    isCutOff = true;
-                }
-                else
-                {
+                // 文字数制限を超えているが強制的に投稿するか
+                var ret = MessageBox.Show(Properties.Resources.PostLengthOverMessage1, Properties.Resources.PostLengthOverMessage2, MessageBoxButtons.OKCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2);
+                if (ret != DialogResult.OK)
                     return;
-                }
             }
 
             var status = new PostingStatus();
             status.status = statusText;
-
-            if (isCutOff)
-            {
-                status.status = status.status.Substring(0, 140);
-                string AtId = @"(@|＠)[a-z0-9_/]+$";
-                string HashTag = @"(^|[^0-9A-Z&\/\?]+)(#|＃)([0-9A-Z_]*[A-Z_]+)$";
-                string Url = @"https?:\/\/[a-z0-9!\*'\(\);:&=\+\$\/%#\[\]\-_\.,~?]+$"; //簡易判定
-                string pattern = string.Format("({0})|({1})|({2})", AtId, HashTag, Url);
-                Match mc = Regex.Match(status.status, pattern, RegexOptions.IgnoreCase);
-                if (mc.Success)
-                {
-                    //さらに@ID、ハッシュタグ、URLと推測される文字列をカットする
-                    status.status = status.status.Substring(0, 140 - mc.Value.Length);
-                }
-                if (MessageBox.Show(status.status, "Post or Cancel?", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.Cancel) return;
-            }
 
             status.inReplyToId = this.inReplyTo?.Item1;
             status.inReplyToName = this.inReplyTo?.Item2;

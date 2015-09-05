@@ -686,7 +686,7 @@
     <value>完了！</value>
   </data>
   <data name="PostLengthOverMessage1" xml:space="preserve">
-    <value>140文字を越えています。URL短縮、フッタ除去、末尾カットを行って投稿しますか？</value>
+    <value>投稿できる文字数の上限を越えています。強制的に投稿しますか？</value>
   </data>
   <data name="PostLengthOverMessage2" xml:space="preserve">
     <value>文字数制限オーバー</value>
@@ -961,9 +961,6 @@
   </data>
   <data name="MyLists1" xml:space="preserve">
     <value>を含むリストの管理</value>
-  </data>
-  <data name="PostLengthOverMessage3" xml:space="preserve">
-    <value>文末の＠ユーザー名が切り捨てられた可能性があるため、投稿をキャンセルします。</value>
   </data>
   <data name="FavstarUrl" xml:space="preserve">
     <value>http://ja.favstar.fm/</value>
