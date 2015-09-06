@@ -33,6 +33,6 @@ using System.Runtime.InteropServices;
 // 既定値にすることができます:
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("0.1.0.0")]
-[assembly: AssemblyFileVersion("1.2.8.0")]
+[assembly: AssemblyFileVersion("1.2.8.1")]
 
 [assembly: InternalsVisibleTo("OpenTween.Tests")]
