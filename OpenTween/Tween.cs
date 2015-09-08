@@ -13482,5 +13482,18 @@ namespace OpenTween
 
             _modifySettingCommon = true;
         }
+
+        private void TweenMain_MouseWheel(object sender, MouseEventArgs e)
+        {
+            // TweetThumbnail内でMouseWheelイベントを拾おうとするとフォーカスのない状態でスクロールに反応しない
+            var thumbnailScreenRectangle = this.tweetThumbnail1.Parent.RectangleToScreen(this.tweetThumbnail1.DisplayRectangle);
+            if (thumbnailScreenRectangle.Contains(this.PointToScreen(e.Location)))
+            {
+                if (e.Delta > 0)
+                    this.tweetThumbnail1.ScrollUp();
+                else
+                    this.tweetThumbnail1.ScrollDown();
+            }
+        }
     }
 }
