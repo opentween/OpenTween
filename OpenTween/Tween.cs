@@ -5142,7 +5142,7 @@ namespace OpenTween
             var footer = "";
 
             var hashtag = this.HashMgr.UseHash;
-            if (!string.IsNullOrEmpty(hashtag) && !(this.HashMgr.IsNotAddToAtReply && this.inReplyTo == null))
+            if (!string.IsNullOrEmpty(hashtag) && !(this.HashMgr.IsNotAddToAtReply && this.inReplyTo != null))
             {
                 if (HashMgr.IsHead)
                     header = HashMgr.UseHash + " ";
