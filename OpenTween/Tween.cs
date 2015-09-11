@@ -746,6 +746,9 @@ namespace OpenTween
             ShortUrl.Instance.BitlyId = this._cfgCommon.BilyUser;
             ShortUrl.Instance.BitlyKey = this._cfgCommon.BitlyPwd;
 
+            // アクセストークンが有効であるか確認する
+            this.tw.VerifyCredentials();
+
             //サムネイル関連の初期化
             //プロキシ設定等の通信まわりの初期化が済んでから処理する
             ThumbnailGenerator.InitializeGenerator();
