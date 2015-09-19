@@ -224,11 +224,11 @@ namespace OpenTween
         }
 
         [Fact]
-        public void IsPanelInvertedSetter_SplitterDistanceVerticalTest()
+        public void IsPanelInvertedSetter_SplitterDistanceHorizontalTest()
         {
             using (var splitContainer = new OTSplitContainer { Width = 800, Height = 600 })
             {
-                splitContainer.Orientation = Orientation.Vertical; // 上下に分割された状態
+                splitContainer.Orientation = Orientation.Horizontal; // 上下に分割された状態
                 splitContainer.SplitterDistance = 500; // 上から 500px で分割 (下から 300px)
 
                 var baseSplitContainer = (SplitContainer)splitContainer;
@@ -238,7 +238,7 @@ namespace OpenTween
 
                 // 上下パネルを反転する
                 splitContainer.IsPanelInverted = true;
-                Assert.Equal(300, baseSplitContainer.SplitterDistance); // 上から 300px (下から 500px)
+                Assert.Equal(100, baseSplitContainer.SplitterDistance); // 上から 100px (下から 500px)
 
                 // 元に戻す
                 splitContainer.IsPanelInverted = false;
@@ -247,11 +247,11 @@ namespace OpenTween
         }
 
         [Fact]
-        public void IsPanelInvertedSetter_SplitterDistanceHorizontalTest()
+        public void IsPanelInvertedSetter_SplitterDistanceVerticalTest()
         {
             using (var splitContainer = new OTSplitContainer { Width = 800, Height = 600 })
             {
-                splitContainer.Orientation = Orientation.Horizontal; // 左右に分割された状態
+                splitContainer.Orientation = Orientation.Vertical; // 左右に分割された状態
                 splitContainer.SplitterDistance = 500; // 左から 500px で分割 (右から 100px)
 
                 var baseSplitContainer = (SplitContainer)splitContainer;
@@ -259,9 +259,9 @@ namespace OpenTween
                 // 反転前の状態 (通常の SplitContainer と同じ挙動)
                 Assert.Equal(500, baseSplitContainer.SplitterDistance);
 
-                // 上下パネルを反転する
+                // 左右パネルを反転する
                 splitContainer.IsPanelInverted = true;
-                Assert.Equal(100, baseSplitContainer.SplitterDistance); // 左から 100px (右から 500px)
+                Assert.Equal(300, baseSplitContainer.SplitterDistance); // 左から 300px (右から 500px)
 
                 // 元に戻す
                 splitContainer.IsPanelInverted = false;
