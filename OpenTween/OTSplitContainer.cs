@@ -57,7 +57,7 @@ namespace OpenTween
                     if (base.FixedPanel != FixedPanel.None)
                         base.FixedPanel = (base.FixedPanel == FixedPanel.Panel1) ? FixedPanel.Panel2 : FixedPanel.Panel1;
 
-                    base.SplitterDistance = SplitterTotalWidth - base.SplitterDistance;
+                    base.SplitterDistance = SplitterTotalWidth - (base.SplitterDistance + SplitterWidth);
 
                     var tmpMinSize = base.Panel1MinSize;
                     base.Panel1MinSize = base.Panel2MinSize;
@@ -124,11 +124,17 @@ namespace OpenTween
         /// </summary>
         public new int SplitterDistance
         {
-            get { return IsPanelInverted ? SplitterTotalWidth - base.SplitterDistance : base.SplitterDistance; }
+            get
+            {
+                if (IsPanelInverted)
+                    return SplitterTotalWidth - (base.SplitterDistance + SplitterWidth);
+                else
+                    return base.SplitterDistance;
+            }
             set
             {
                 if (IsPanelInverted)
-                    base.SplitterDistance = SplitterTotalWidth - value;
+                    base.SplitterDistance = SplitterTotalWidth - (value + SplitterWidth);
                 else
                     base.SplitterDistance = value;
             }

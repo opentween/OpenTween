@@ -229,7 +229,8 @@ namespace OpenTween
             using (var splitContainer = new OTSplitContainer { Width = 800, Height = 600 })
             {
                 splitContainer.Orientation = Orientation.Horizontal; // 上下に分割された状態
-                splitContainer.SplitterDistance = 500; // 上から 500px で分割 (下から 300px)
+                splitContainer.SplitterWidth = 5; // 分割線の幅は 5px
+                splitContainer.SplitterDistance = 500; // 上から 500px で分割 (下から 300px - 5px)
 
                 var baseSplitContainer = (SplitContainer)splitContainer;
 
@@ -238,7 +239,7 @@ namespace OpenTween
 
                 // 上下パネルを反転する
                 splitContainer.IsPanelInverted = true;
-                Assert.Equal(100, baseSplitContainer.SplitterDistance); // 上から 100px (下から 500px)
+                Assert.Equal(95, baseSplitContainer.SplitterDistance); // 上から 100px - 5px (下から 500px)
 
                 // 元に戻す
                 splitContainer.IsPanelInverted = false;
@@ -252,7 +253,8 @@ namespace OpenTween
             using (var splitContainer = new OTSplitContainer { Width = 800, Height = 600 })
             {
                 splitContainer.Orientation = Orientation.Vertical; // 左右に分割された状態
-                splitContainer.SplitterDistance = 500; // 左から 500px で分割 (右から 100px)
+                splitContainer.SplitterWidth = 5; // 分割線の幅は 5px
+                splitContainer.SplitterDistance = 500; // 左から 500px で分割 (右から 300px - 5px)
 
                 var baseSplitContainer = (SplitContainer)splitContainer;
 
@@ -261,7 +263,7 @@ namespace OpenTween
 
                 // 左右パネルを反転する
                 splitContainer.IsPanelInverted = true;
-                Assert.Equal(300, baseSplitContainer.SplitterDistance); // 左から 300px (右から 500px)
+                Assert.Equal(295, baseSplitContainer.SplitterDistance); // 左から 300px - 5px (右から 500px)
 
                 // 元に戻す
                 splitContainer.IsPanelInverted = false;
@@ -319,17 +321,42 @@ namespace OpenTween
         }
 
         [Fact]
-        public void SplitterDistanceGetter_InvertedTest()
+        public void SplitterDistanceGetter_InvertedVerticalTest()
         {
             using (var splitContainer = new OTSplitContainer { Width = 800, Height = 600 })
             {
+                splitContainer.Orientation = Orientation.Vertical;
+                splitContainer.SplitterWidth = 5;
                 splitContainer.SplitterDistance = 500;
 
+                // setter で代入した長さと一致しているか、SplitterDistance と Panel1.Width が一致しているかをテスト
                 Assert.Equal(500, splitContainer.SplitterDistance);
+                Assert.Equal(splitContainer.Panel1.Width, splitContainer.SplitterDistance);
 
                 // 反転した状態でも OTSplitterContainer.SplitterDistance の値は外見上変化しない
                 splitContainer.IsPanelInverted = true;
                 Assert.Equal(500, splitContainer.SplitterDistance);
+                Assert.Equal(splitContainer.Panel1.Width, splitContainer.SplitterDistance);
+            }
+        }
+
+        [Fact]
+        public void SplitterDistanceGetter_InvertedHorizontalTest()
+        {
+            using (var splitContainer = new OTSplitContainer { Width = 800, Height = 600 })
+            {
+                splitContainer.Orientation = Orientation.Horizontal;
+                splitContainer.SplitterWidth = 5;
+                splitContainer.SplitterDistance = 500;
+
+                // setter で代入した長さと一致しているか、SplitterDistance と Panel1.Height が一致しているかをテスト
+                Assert.Equal(500, splitContainer.SplitterDistance);
+                Assert.Equal(splitContainer.Panel1.Height, splitContainer.SplitterDistance);
+
+                // 反転した状態でも OTSplitterContainer.SplitterDistance の値は外見上変化しない
+                splitContainer.IsPanelInverted = true;
+                Assert.Equal(500, splitContainer.SplitterDistance);
+                Assert.Equal(splitContainer.Panel1.Height, splitContainer.SplitterDistance);
             }
         }
 
@@ -339,11 +366,14 @@ namespace OpenTween
             using (var splitContainer = new OTSplitContainer { Width = 800, Height = 600 })
             {
                 splitContainer.Orientation = Orientation.Vertical;
+                splitContainer.SplitterWidth = 5;
+
                 splitContainer.IsPanelInverted = true;
 
                 // 反転中に SplitterDistance を変更する
                 splitContainer.SplitterDistance = 500;
-                Assert.Equal(300, ((SplitContainer)splitContainer).SplitterDistance);
+                Assert.Equal(295, ((SplitContainer)splitContainer).SplitterDistance);
+                Assert.Equal(500, ((SplitContainer)splitContainer).Panel2.Width);
             }
         }
 
@@ -353,11 +383,14 @@ namespace OpenTween
             using (var splitContainer = new OTSplitContainer { Width = 800, Height = 600 })
             {
                 splitContainer.Orientation = Orientation.Horizontal;
+                splitContainer.SplitterWidth = 5;
+
                 splitContainer.IsPanelInverted = true;
 
                 // 反転中に SplitterDistance を変更する
                 splitContainer.SplitterDistance = 500;
-                Assert.Equal(100, ((SplitContainer)splitContainer).SplitterDistance);
+                Assert.Equal(95, ((SplitContainer)splitContainer).SplitterDistance);
+                Assert.Equal(500, ((SplitContainer)splitContainer).Panel2.Height);
             }
         }
 
