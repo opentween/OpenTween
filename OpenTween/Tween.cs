@@ -9806,12 +9806,27 @@ namespace OpenTween
 
         private void SplitContainer1_SplitterMoved(object sender, SplitterEventArgs e)
         {
-            if (this.WindowState == FormWindowState.Normal && !_initialLayout)
+            if (this._initialLayout)
+                return;
+
+            int splitterDistance;
+            switch (this.WindowState)
             {
-                _mySpDis = SplitContainer1.SplitterDistance;
-                if (StatusText.Multiline) _mySpDis2 = StatusText.Height;
-                _modifySettingLocal = true;
+                case FormWindowState.Normal:
+                    splitterDistance = this.SplitContainer1.SplitterDistance;
+                    break;
+                case FormWindowState.Maximized:
+                    // 最大化時は、通常時のウィンドウサイズに換算した SplitterDistance を算出する
+                    var normalContainerHeight = this._mySize.Height - this.ToolStripContainer1.TopToolStripPanel.Height - this.ToolStripContainer1.BottomToolStripPanel.Height;
+                    splitterDistance = this.SplitContainer1.SplitterDistance - (this.SplitContainer1.Height - normalContainerHeight);
+                    splitterDistance = Math.Min(splitterDistance, normalContainerHeight - this.SplitContainer1.SplitterWidth - this.SplitContainer1.Panel2MinSize);
+                    break;
+                default:
+                    return;
             }
+
+            this._mySpDis = splitterDistance;
+            this._modifySettingLocal = true;
         }
 
         private async Task doRepliedStatusOpen()
@@ -12209,11 +12224,27 @@ namespace OpenTween
 
         private void SplitContainer3_SplitterMoved(object sender, SplitterEventArgs e)
         {
-            if (this.WindowState == FormWindowState.Normal && !_initialLayout)
+            if (this._initialLayout)
+                return;
+
+            int splitterDistance;
+            switch (this.WindowState)
             {
-                _mySpDis3 = SplitContainer3.SplitterDistance;
-                _modifySettingLocal = true;
+                case FormWindowState.Normal:
+                    splitterDistance = this.SplitContainer3.SplitterDistance;
+                    break;
+                case FormWindowState.Maximized:
+                    // 最大化時は、通常時のウィンドウサイズに換算した SplitterDistance を算出する
+                    var normalContainerWidth = this._mySize.Width - SystemInformation.Border3DSize.Width * 2;
+                    splitterDistance = this.SplitContainer3.SplitterDistance - (this.SplitContainer3.Width - normalContainerWidth);
+                    splitterDistance = Math.Min(splitterDistance, normalContainerWidth - this.SplitContainer3.SplitterWidth - this.SplitContainer3.Panel2MinSize);
+                    break;
+                default:
+                    return;
             }
+
+            this._mySpDis3 = splitterDistance;
+            this._modifySettingLocal = true;
         }
 
         private void MenuItemEdit_DropDownOpening(object sender, EventArgs e)
