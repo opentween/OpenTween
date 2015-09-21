@@ -280,7 +280,9 @@ namespace OpenTween
             try
             {
                 var user = TwitterUser.ParseJson(content);
+
                 this.twCon.AuthenticatedUserId = user.Id;
+                this.UpdateUserStats(user);
             }
             catch (SerializationException ex)
             {
@@ -508,11 +510,8 @@ namespace OpenTween
                 MyCommon.TraceOut(ex, MethodBase.GetCurrentMethod().Name + " " + content);
                 throw new WebApiException("Err:Invalid Json!", content, ex);
             }
-            _followersCount = status.User.FollowersCount;
-            _friendsCount = status.User.FriendsCount;
-            _statusesCount = status.User.StatusesCount;
-            _location = status.User.Location;
-            _bio = status.User.Description;
+
+            this.UpdateUserStats(status.User);
 
             if (IsPostRestricted(status))
             {
@@ -556,11 +555,8 @@ namespace OpenTween
                 MyCommon.TraceOut(ex, MethodBase.GetCurrentMethod().Name + " " + content);
                 throw new WebApiException("Err:Invalid Json!", content, ex);
             }
-            _followersCount = status.User.FollowersCount;
-            _friendsCount = status.User.FriendsCount;
-            _statusesCount = status.User.StatusesCount;
-            _location = status.User.Location;
-            _bio = status.User.Description;
+
+            this.UpdateUserStats(status.User);
 
             if (IsPostRestricted(status))
             {
@@ -663,11 +659,8 @@ namespace OpenTween
                 MyCommon.TraceOut(ex, MethodBase.GetCurrentMethod().Name + " " + content);
                 throw new WebApiException("Err:Invalid Json!", content, ex);
             }
-            _followersCount = status.Sender.FollowersCount;
-            _friendsCount = status.Sender.FriendsCount;
-            _statusesCount = status.Sender.StatusesCount;
-            _location = status.Sender.Location;
-            _bio = status.Sender.Description;
+
+            this.UpdateUserStats(status.Sender);
         }
 
         public void RemoveStatus(long id)
@@ -1303,6 +1296,16 @@ namespace OpenTween
             {
                 return _bio;
             }
+        }
+
+        /// <summary>ユーザーのフォロワー数などの情報を更新します</summary>
+        private void UpdateUserStats(TwitterUser self)
+        {
+            this._followersCount = self.FollowersCount;
+            this._friendsCount = self.FriendsCount;
+            this._statusesCount = self.StatusesCount;
+            this._location = self.Location;
+            this._bio = self.Description;
         }
 
         /// <summary>
