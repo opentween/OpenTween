@@ -270,24 +270,22 @@ namespace OpenTween
             {
                 res = twCon.VerifyCredentials(ref content);
             }
-            catch(Exception)
+            catch (Exception ex)
             {
-                return;
+                throw new WebApiException("Err:" + ex.Message, ex);
             }
 
-            if (res == HttpStatusCode.OK)
+            this.CheckStatusCode(res, content);
+
+            try
             {
-                Twitter.AccountState = MyCommon.ACCOUNT_STATE.Valid;
-                TwitterUser user;
-                try
-                {
-                    user = TwitterUser.ParseJson(content);
-                }
-                catch(SerializationException)
-                {
-                    return;
-                }
-                twCon.AuthenticatedUserId = user.Id;
+                var user = TwitterUser.ParseJson(content);
+                this.twCon.AuthenticatedUserId = user.Id;
+            }
+            catch (SerializationException ex)
+            {
+                MyCommon.TraceOut(ex.Message + Environment.NewLine + content);
+                throw new WebApiException("Err:Json Parse Error(DataContractJsonSerializer)", content, ex);
             }
         }
 

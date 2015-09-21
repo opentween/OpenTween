@@ -2585,6 +2585,21 @@ namespace OpenTween.Properties {
         }
         
         /// <summary>
+        ///   Twitter API へのアクセスに失敗しました。
+        ///[{0}]
+        ///
+        ///・ネットワーク設定が正しいか確認して下さい
+        ///・PC の時計が正しいか確認して下さい
+        /// （大幅にずれていると認証に失敗することがあります）
+        ///・設定画面から Twitter アカウントをもう一度追加し直して下さい に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string StartupAuthError_Text {
+            get {
+                return ResourceManager.GetString("StartupAuthError_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   読み込みページ数には数値（1～999）を指定してください。 に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string StartupReadDM_ValidatingText1 {

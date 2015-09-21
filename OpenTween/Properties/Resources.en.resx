@@ -1134,4 +1134,13 @@ Available service: {1}</value>
   <data name="SearchResults_TabName" xml:space="preserve">
     <value>Search Results</value>
   </data>
+  <data name="StartupAuthError_Text" xml:space="preserve">
+    <value>Unable to access Twitter API.
+[{0}]
+
+ * Please confirm the network settings.
+ * Please confirm whether your PC's clock is accurate.
+    (It may fail to authentication when clock is delayed.)
+ * Please re-add the Twitter account in the settings dialog.</value>
+  </data>
 </root>

@@ -1192,4 +1192,13 @@
   <data name="SearchResults_TabName" xml:space="preserve">
     <value>検索結果</value>
   </data>
+  <data name="StartupAuthError_Text" xml:space="preserve">
+    <value>Twitter API へのアクセスに失敗しました。
+[{0}]
+
+・ネットワーク設定が正しいか確認して下さい
+・PC の時計が正しいか確認して下さい
+ （大幅にずれていると認証に失敗することがあります）
+・設定画面から Twitter アカウントをもう一度追加し直して下さい</value>
+  </data>
 </root>

@@ -747,7 +747,16 @@ namespace OpenTween
             ShortUrl.Instance.BitlyKey = this._cfgCommon.BitlyPwd;
 
             // アクセストークンが有効であるか確認する
-            this.tw.VerifyCredentials();
+            // ここが Twitter API への最初のアクセスになるようにすること
+            try
+            {
+                this.tw.VerifyCredentials();
+            }
+            catch (WebApiException ex)
+            {
+                MessageBox.Show(this, string.Format(Properties.Resources.StartupAuthError_Text, ex.Message),
+                    Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
 
             //サムネイル関連の初期化
             //プロキシ設定等の通信まわりの初期化が済んでから処理する
