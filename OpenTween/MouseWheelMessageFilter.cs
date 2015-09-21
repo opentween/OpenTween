@@ -64,7 +64,7 @@ namespace OpenTween
                     if (control.Focused)
                         return false;
 
-                    var screenLocation = new Point((int)m.LParam);
+                    var screenLocation = new Point((int)(m.LParam.ToInt64() & 0xffffffff));
                     var controlRectangle = control.Parent.RectangleToScreen(control.DisplayRectangle);
                     if (controlRectangle.Contains(screenLocation))
                     {
