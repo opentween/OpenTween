@@ -1107,9 +1107,6 @@ namespace OpenTween
             this.TweenMain_Resize(null, null);
             if (saveRequired) SaveConfigsAll(false);
 
-            if (tw.UserId == 0)
-                tw.VerifyCredentials();
-
             foreach (var ua in this._cfgCommon.UserAccounts)
             {
                 if (ua.UserId == 0 && ua.Username.ToLower() == tw.Username.ToLower())
