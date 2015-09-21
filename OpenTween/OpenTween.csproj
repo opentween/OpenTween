@@ -139,6 +139,7 @@
       <DependentUpon>FilterDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="MediaItem.cs" />
+    <Compile Include="MouseWheelMessageFilter.cs" />
     <Compile Include="ShortcutCommand.cs" />
     <Compile Include="WaitingDialog.cs">
       <SubType>Form</SubType>

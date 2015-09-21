@@ -40,6 +40,7 @@ namespace OpenTween
     public partial class TweetThumbnail : UserControl
     {
         protected internal List<OTPictureBox> pictureBox = new List<OTPictureBox>();
+        protected MouseWheelMessageFilter filter = new MouseWheelMessageFilter();
 
         public event EventHandler ThumbnailLoading;
         public event EventHandler<ThumbnailDoubleClickEventArgs> ThumbnailDoubleClick;
@@ -140,6 +141,9 @@ namespace OpenTween
                 {
                     var memoryImage = picbox.Image;
 
+                    filter.Unregister(picbox);
+
+                    picbox.MouseWheel -= this.pictureBox_MouseWheel;
                     picbox.DoubleClick -= this.pictureBox_DoubleClick;
                     picbox.Dispose();
 
@@ -157,7 +161,10 @@ namespace OpenTween
                 {
                     var picbox = CreatePictureBox("pictureBox" + i);
                     picbox.Visible = (i == 0);
+                    picbox.MouseWheel += this.pictureBox_MouseWheel;
                     picbox.DoubleClick += this.pictureBox_DoubleClick;
+
+                    filter.Register(picbox);
 
                     this.panelPictureBox.Controls.Add(picbox);
                     this.pictureBox.Add(picbox);
@@ -213,6 +220,14 @@ namespace OpenTween
                     this.pictureBox[i].Visible = (i == value);
                 }
             }
+        }
+
+        private void pictureBox_MouseWheel(object sender, MouseEventArgs e)
+        {
+            if (e.Delta > 0)
+                this.ScrollUp();
+            else
+                this.ScrollDown();
         }
 
         private void pictureBox_DoubleClick(object sender, EventArgs e)
