@@ -151,12 +151,6 @@ namespace OpenTween
         private long[] noRTId = new long[0];
         private bool _GetNoRetweetResult = false;
 
-        private int _followersCount = 0;
-        private int _friendsCount = 0;
-        private int _statusesCount = 0;
-        private string _location = "";
-        private string _bio = "";
-
         //プロパティからアクセスされる共通情報
         private string _uname;
 
@@ -1258,54 +1252,20 @@ namespace OpenTween
             }
         }
 
-        public int FollowersCount
-        {
-            get
-            {
-                return _followersCount;
-            }
-        }
-
-        public int FriendsCount
-        {
-            get
-            {
-                return _friendsCount;
-            }
-        }
-
-        public int StatusesCount
-        {
-            get
-            {
-                return _statusesCount;
-            }
-        }
-
-        public string Location
-        {
-            get
-            {
-                return _location;
-            }
-        }
-
-        public string Bio
-        {
-            get
-            {
-                return _bio;
-            }
-        }
+        public int FollowersCount { get; private set; }
+        public int FriendsCount { get; private set; }
+        public int StatusesCount { get; private set; }
+        public string Location { get; private set; } = "";
+        public string Bio { get; private set; } = "";
 
         /// <summary>ユーザーのフォロワー数などの情報を更新します</summary>
         private void UpdateUserStats(TwitterUser self)
         {
-            this._followersCount = self.FollowersCount;
-            this._friendsCount = self.FriendsCount;
-            this._statusesCount = self.StatusesCount;
-            this._location = self.Location;
-            this._bio = self.Description;
+            this.FollowersCount = self.FollowersCount;
+            this.FriendsCount = self.FriendsCount;
+            this.StatusesCount = self.StatusesCount;
+            this.Location = self.Location;
+            this.Bio = self.Description;
         }
 
         /// <summary>
