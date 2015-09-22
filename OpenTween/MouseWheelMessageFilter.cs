@@ -64,14 +64,13 @@ namespace OpenTween
                     if (control.Focused)
                         return false;
 
-                    var screenLocation = new Point((int)(m.LParam.ToInt64() & 0xffffffff));
+                    var details = ParseMessage(m);
                     var controlRectangle = control.Parent.RectangleToScreen(control.DisplayRectangle);
-                    if (controlRectangle.Contains(screenLocation))
+                    if (controlRectangle.Contains(details.ScreenLocation))
                     {
-                        var clientLocation = control.PointToClient(screenLocation);
-                        var wheelDelta = (int)m.WParam >> 16;
+                        var clientLocation = control.PointToClient(details.ScreenLocation);
 
-                        var ev = new HandledMouseEventArgs(MouseButtons.None, 0, clientLocation.X, clientLocation.Y, wheelDelta);
+                        var ev = new HandledMouseEventArgs(MouseButtons.None, 0, clientLocation.X, clientLocation.Y, details.WheelDelta);
                         this.RaiseMouseWheelEvent(control, ev);
 
                         return true;
@@ -80,6 +79,26 @@ namespace OpenTween
             }
 
             return false;
+        }
+
+        internal class MouseEvent
+        {
+            public Point ScreenLocation { get; }
+            public int WheelDelta { get; }
+
+            public MouseEvent(Point location, int delta)
+            {
+                this.ScreenLocation = location;
+                this.WheelDelta = delta;
+            }
+        }
+
+        internal static MouseEvent ParseMessage(Message m)
+        {
+            var screenLocation = new Point((int)(m.LParam.ToInt64() & 0xffffffff));
+            var wheelDelta = (int)(m.WParam.ToInt64() & 0xffff0000) >> 16;
+
+            return new MouseEvent(screenLocation, wheelDelta);
         }
 
         public void RaiseMouseWheelEvent(Control control, MouseEventArgs e)

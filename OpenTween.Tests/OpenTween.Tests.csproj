@@ -71,6 +71,7 @@
     <Compile Include="HttpMessageHandlerMock.cs" />
     <Compile Include="MediaSelectorTest.cs" />
     <Compile Include="MemoryImageTest.cs" />
+    <Compile Include="MouseWheelMessageFilterTest.cs" />
     <Compile Include="MyApplicationTest.cs" />
     <Compile Include="OTBaseFormTest.cs" />
     <Compile Include="OTPictureBoxTest.cs" />
