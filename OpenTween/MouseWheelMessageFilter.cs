@@ -60,10 +60,6 @@ namespace OpenTween
             {
                 foreach (var control in this.controls)
                 {
-                    // フォーカスが当たっている時は何もしなくても MouseWheel イベントが発生するので無視
-                    if (control.Focused)
-                        return false;
-
                     var details = ParseMessage(m);
                     var controlRectangle = control.Parent.RectangleToScreen(control.DisplayRectangle);
                     if (controlRectangle.Contains(details.ScreenLocation))
@@ -73,6 +69,8 @@ namespace OpenTween
                         var ev = new HandledMouseEventArgs(MouseButtons.None, 0, clientLocation.X, clientLocation.Y, details.WheelDelta);
                         this.RaiseMouseWheelEvent(control, ev);
 
+                        // フォーカスが当たっているか否かに関わらず OnMouseWheel イベントを発生させているため、
+                        // 二重にイベントが発生することを防ぐために標準のメッセージ処理は抑制する
                         return true;
                     }
                 }
