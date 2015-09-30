@@ -2010,7 +2010,7 @@ namespace OpenTween
             {
                 if (!ImageSelector.Enabled)
                 {
-                    this.DoRefresh();
+                    await this.DoRefresh();
                     return;
                 }
             }
@@ -3939,12 +3939,12 @@ namespace OpenTween
             if (!this._cfgCommon.TabIconDisp) ListTab.Refresh();
         }
 
-        private void RefreshStripMenuItem_Click(object sender, EventArgs e)
+        private async void RefreshStripMenuItem_Click(object sender, EventArgs e)
         {
-            this.DoRefresh();
+            await this.DoRefresh();
         }
 
-        private void DoRefresh()
+        private async Task DoRefresh()
         {
             if (_curTab != null)
             {
@@ -3955,37 +3955,37 @@ namespace OpenTween
                 switch (_statuses.Tabs[_curTab.Text].TabType)
                 {
                     case MyCommon.TabUsageType.Mentions:
-                        this.GetReplyAsync();
+                        await this.GetReplyAsync();
                         break;
                     case MyCommon.TabUsageType.DirectMessage:
-                        this.GetDirectMessagesAsync();
+                        await this.GetDirectMessagesAsync();
                         break;
                     case MyCommon.TabUsageType.Favorites:
-                        this.GetFavoritesAsync();
+                        await this.GetFavoritesAsync();
                         break;
                     //case MyCommon.TabUsageType.Profile:
                         //// TODO
                     case MyCommon.TabUsageType.PublicSearch:
                         //// TODO
                         if (string.IsNullOrEmpty(tab.SearchWords)) return;
-                        this.GetPublicSearchAsync(tab);
+                        await this.GetPublicSearchAsync(tab);
                         break;
                     case MyCommon.TabUsageType.UserTimeline:
-                        this.GetUserTimelineAsync(tab);
+                        await this.GetUserTimelineAsync(tab);
                         break;
                     case MyCommon.TabUsageType.Lists:
                         //// TODO
                         if (tab.ListInfo == null || tab.ListInfo.Id == 0) return;
-                        this.GetListTimelineAsync(tab);
+                        await this.GetListTimelineAsync(tab);
                         break;
                     default:
-                        this.GetHomeTimelineAsync();
+                        await this.GetHomeTimelineAsync();
                         break;
                 }
             }
             else
             {
-                this.GetHomeTimelineAsync();
+                await this.GetHomeTimelineAsync();
             }
         }
 
