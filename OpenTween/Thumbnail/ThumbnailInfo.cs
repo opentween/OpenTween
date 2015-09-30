@@ -56,15 +56,28 @@ namespace OpenTween.Thumbnail
 
         public async virtual Task<MemoryImage> LoadThumbnailImageAsync(HttpClient http, CancellationToken cancellationToken)
         {
-            using (var response = await http.GetAsync(this.ThumbnailUrl, cancellationToken).ConfigureAwait(false))
+            MemoryImage image = null;
+            try
             {
-                response.EnsureSuccessStatusCode();
-
-                using (var imageStream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false))
+                using (var response = await http.GetAsync(this.ThumbnailUrl, cancellationToken).ConfigureAwait(false))
                 {
-                    return await MemoryImage.CopyFromStreamAsync(imageStream)
-                        .ConfigureAwait(false);
+                    response.EnsureSuccessStatusCode();
+
+                    using (var imageStream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false))
+                    {
+                        image = await MemoryImage.CopyFromStreamAsync(imageStream)
+                            .ConfigureAwait(false);
+
+                        cancellationToken.ThrowIfCancellationRequested();
+
+                        return image;
+                    }
                 }
+            }
+            catch (OperationCanceledException)
+            {
+                image?.Dispose();
+                throw;
             }
         }
 
