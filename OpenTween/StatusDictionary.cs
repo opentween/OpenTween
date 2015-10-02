@@ -29,6 +29,7 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Net;
@@ -101,7 +102,6 @@ namespace OpenTween
         public List<MediaInfo> Media { get; set; }
         public long[] QuoteStatusIds { get; set; }
 
-        public string RelTabName { get; set; }
         public int FavoritedCount { get; set; }
 
         private States _states = States.None;
@@ -175,7 +175,6 @@ namespace OpenTween
         public PostClass()
         {
             RetweetedBy = "";
-            RelTabName = "";
             Media = new List<MediaInfo>();
             ReplyToList = new List<string>();
             QuoteStatusIds = new long[0];
@@ -413,7 +412,6 @@ namespace OpenTween
                     (this.FilterHit == other.FilterHit) &&
                     (this.RetweetedBy == other.RetweetedBy) &&
                     (this.RetweetedId == other.RetweetedId) &&
-                    (this.RelTabName == other.RelTabName) &&
                     (this.IsDeleted == other.IsDeleted) &&
                     (this.InReplyToUserId == other.InReplyToUserId);
 
@@ -1061,78 +1059,57 @@ namespace OpenTween
 
         public void AddPost(PostClass Item)
         {
+            Debug.Assert(!Item.IsDm, "DM は TabClass.AddPostToInnerStorage を使用する");
+
             lock (LockObj)
             {
                 if (this.IsMuted(Item))
                     return;
 
-                if (string.IsNullOrEmpty(Item.RelTabName))
+                PostClass status;
+                if (_statuses.TryGetValue(Item.StatusId, out status))
                 {
-                    if (!Item.IsDm)
+                    if (Item.IsFav)
                     {
-                        PostClass status;
-                        if (_statuses.TryGetValue(Item.StatusId, out status))
+                        if (Item.RetweetedId == null)
                         {
-                            if (Item.IsFav)
-                            {
-                                if (Item.RetweetedId == null)
-                                {
-                                    status.IsFav = true;
-                                }
-                                else
-                                {
-                                    Item.IsFav = false;
-                                }
-                            }
-                            else
-                            {
-                                return;        //追加済みなら何もしない
-                            }
+                            status.IsFav = true;
                         }
                         else
                         {
-                            if (Item.IsFav && Item.RetweetedId != null) Item.IsFav = false;
-                            //既に持っている公式RTは捨てる
-                            if (SettingCommon.Instance.HideDuplicatedRetweets &&
-                                !Item.IsMe &&
-                                Item.RetweetedId != null &&
-                                this._retweets.TryGetValue(Item.RetweetedId.Value, out status) &&
-                                status.RetweetedCount > 0) return;
-
-                            if (BlockIds.Contains(Item.UserId))
-                                return;
-
-                            _statuses.TryAdd(Item.StatusId, Item);
+                            Item.IsFav = false;
                         }
-                        if (Item.RetweetedId != null)
-                        {
-                            this.AddRetweet(Item);
-                        }
-                        if (Item.IsFav && _retweets.ContainsKey(Item.StatusId))
-                        {
-                            return;    //Fav済みのRetweet元発言は追加しない
-                        }
-                        if (_addedIds == null) _addedIds = new List<long>(); //タブ追加用IDコレクション準備
-                        _addedIds.Add(Item.StatusId);
                     }
                     else
                     {
-                        //DM
-                        var tb = this.GetTabByType(MyCommon.TabUsageType.DirectMessage);
-                        if (tb.Contains(Item.StatusId)) return;
-                        tb.AddPostToInnerStorage(Item);
+                        return;        //追加済みなら何もしない
                     }
                 }
                 else
                 {
-                    //公式検索、リスト、関連発言の場合
-                    TabClass tb;
-                    this.Tabs.TryGetValue(Item.RelTabName, out tb);
-                    if (tb == null) return;
-                    if (tb.Contains(Item.StatusId)) return;
-                    //tb.Add(Item.StatusId, Item.IsRead, true);
-                    tb.AddPostToInnerStorage(Item);
+                    if (Item.IsFav && Item.RetweetedId != null) Item.IsFav = false;
+                    //既に持っている公式RTは捨てる
+                    if (SettingCommon.Instance.HideDuplicatedRetweets &&
+                        !Item.IsMe &&
+                        Item.RetweetedId != null &&
+                        this._retweets.TryGetValue(Item.RetweetedId.Value, out status) &&
+                        status.RetweetedCount > 0) return;
+
+                    if (BlockIds.Contains(Item.UserId))
+                        return;
+
+                    _statuses.TryAdd(Item.StatusId, Item);
                 }
+                if (Item.RetweetedId != null)
+                {
+                    this.AddRetweet(Item);
+                }
+                if (Item.IsFav && _retweets.ContainsKey(Item.StatusId))
+                {
+                    return;    //Fav済みのRetweet元発言は追加しない
+                }
+                if (_addedIds == null) _addedIds = new List<long>(); //タブ追加用IDコレクション準備
+                _addedIds.Add(Item.StatusId);
             }
         }
 
@@ -1144,9 +1121,9 @@ namespace OpenTween
 
             // これ以降は Twitter 標準のミュート機能に準じた判定
 
-            // Recent以外のツイートと、リプライはミュート対象外
+            // リプライはミュート対象外
             // 参照: https://support.twitter.com/articles/20171399-muting-users-on-twitter
-            if (!string.IsNullOrEmpty(post.RelTabName) || post.IsReply)
+            if (post.IsReply)
                 return false;
 
             if (this.MuteUserIds.Contains(post.UserId))

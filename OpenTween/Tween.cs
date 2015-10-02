@@ -6312,7 +6312,6 @@ namespace OpenTween
                 sb.AppendFormat("FilterHit      : {0}<br>", _curPost.FilterHit);
                 sb.AppendFormat("RetweetedBy    : {0}<br>", _curPost.RetweetedBy);
                 sb.AppendFormat("RetweetedId    : {0}<br>", _curPost.RetweetedId);
-                sb.AppendFormat("SearchTabName  : {0}<br>", _curPost.RelTabName);
 
                 sb.AppendFormat("Media.Count    : {0}<br>", _curPost.Media.Count);
                 if (_curPost.Media.Count > 0)

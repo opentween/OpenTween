@@ -1521,9 +1521,11 @@ namespace OpenTween
         {
             var post = this.GetStatusApi(read, id);
 
-            if (tab != null) post.RelTabName = tab.TabName;
             //非同期アイコン取得＆StatusDictionaryに追加
-            TabInformations.GetInstance().AddPost(post);
+            if (tab != null && tab.IsInnerStorageTabType)
+                tab.AddPostToInnerStorage(post);
+            else
+                TabInformations.GetInstance().AddPost(post);
         }
 
         private PostClass CreatePostsFromStatusData(TwitterStatus status)
@@ -1723,9 +1725,11 @@ namespace OpenTween
                 post.IsRead = read;
                 if (post.IsMe && !read && _readOwnPost) post.IsRead = true;
 
-                if (tab != null) post.RelTabName = tab.TabName;
                 //非同期アイコン取得＆StatusDictionaryに追加
-                TabInformations.GetInstance().AddPost(post);
+                if (tab != null && tab.IsInnerStorageTabType)
+                    tab.AddPostToInnerStorage(post);
+                else
+                    TabInformations.GetInstance().AddPost(post);
             }
 
             return minimumId;
@@ -1789,9 +1793,11 @@ namespace OpenTween
                 post.IsRead = read;
                 if ((post.IsMe && !read) && this._readOwnPost) post.IsRead = true;
 
-                if (tab != null) post.RelTabName = tab.TabName;
                 //非同期アイコン取得＆StatusDictionaryに追加
-                TabInformations.GetInstance().AddPost(post);
+                if (tab != null && tab.IsInnerStorageTabType)
+                    tab.AddPostToInnerStorage(post);
+                else
+                    TabInformations.GetInstance().AddPost(post);
             }
 
             return minimumId;
@@ -1981,8 +1987,7 @@ namespace OpenTween
                 else
                     p.IsRead = read;
 
-                p.RelTabName = tab.TabName;
-                TabInformations.GetInstance().AddPost(p);
+                tab.AddPostToInnerStorage(p);
             });
 
             if (lastException != null)
@@ -2153,7 +2158,8 @@ namespace OpenTween
                 post.IsExcludeReply = false;
                 post.IsDm = true;
 
-                TabInformations.GetInstance().AddPost(post);
+                var dmTab = TabInformations.GetInstance().GetTabByType(MyCommon.TabUsageType.DirectMessage);
+                dmTab.AddPostToInnerStorage(post);
             }
         }
 

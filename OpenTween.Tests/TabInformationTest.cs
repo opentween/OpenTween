@@ -149,21 +149,6 @@ namespace OpenTween
         }
 
         [Fact]
-        public void IsMuted_NotInHomeTimelineTest()
-        {
-            this.tabinfo.MuteUserIds = new HashSet<long> { 12345L };
-
-            // Recent以外のタブ（検索など）の場合は対象外とする
-            var post = new PostClass
-            {
-                UserId = 12345L,
-                Text = "hogehoge",
-                RelTabName = "Search",
-            };
-            Assert.False(this.tabinfo.IsMuted(post));
-        }
-
-        [Fact]
         public void IsMuted_MuteTabRulesTest()
         {
             this.tabinfo.MuteUserIds = new HashSet<long> { };
@@ -198,13 +183,13 @@ namespace OpenTween
                 MoveMatches = true,
             });
 
-            // ミュートタブによるミュートは Recent 以外のタブも対象とする
+            // ミュートタブによるミュートはリプライも対象とする
             var post = new PostClass
             {
                 UserId = 12345L,
                 ScreenName = "foo",
-                Text = "hogehoge",
-                RelTabName = "Search",
+                Text = "@hoge hogehoge",
+                IsReply = true,
             };
             Assert.True(this.tabinfo.IsMuted(post));
         }
@@ -220,15 +205,15 @@ namespace OpenTween
 
             // search1 に追加するツイート (StatusId: 100, 150, 200; すべて未読)
             tab1.UnreadManage = true;
-            this.tabinfo.AddPost(new PostClass { StatusId = 100L, IsRead = false, RelTabName = "search1" });
-            this.tabinfo.AddPost(new PostClass { StatusId = 150L, IsRead = false, RelTabName = "search1" });
-            this.tabinfo.AddPost(new PostClass { StatusId = 200L, IsRead = false, RelTabName = "search1" });
+            tab1.AddPostToInnerStorage(new PostClass { StatusId = 100L, IsRead = false });
+            tab1.AddPostToInnerStorage(new PostClass { StatusId = 150L, IsRead = false });
+            tab1.AddPostToInnerStorage(new PostClass { StatusId = 200L, IsRead = false });
 
             // search2 に追加するツイート (StatusId: 150, 200, 250; すべて未読)
             tab2.UnreadManage = true;
-            this.tabinfo.AddPost(new PostClass { StatusId = 150L, IsRead = false, RelTabName = "search2" });
-            this.tabinfo.AddPost(new PostClass { StatusId = 200L, IsRead = false, RelTabName = "search2" });
-            this.tabinfo.AddPost(new PostClass { StatusId = 250L, IsRead = false, RelTabName = "search2" });
+            tab2.AddPostToInnerStorage(new PostClass { StatusId = 150L, IsRead = false });
+            tab2.AddPostToInnerStorage(new PostClass { StatusId = 200L, IsRead = false });
+            tab2.AddPostToInnerStorage(new PostClass { StatusId = 250L, IsRead = false });
 
             this.tabinfo.DistributePosts();
 
@@ -265,15 +250,15 @@ namespace OpenTween
 
             // search1 に追加するツイート (StatusId: 100, 150, 200; すべて既読)
             tab1.UnreadManage = true;
-            this.tabinfo.AddPost(new PostClass { StatusId = 100L, IsRead = true, RelTabName = "search1" });
-            this.tabinfo.AddPost(new PostClass { StatusId = 150L, IsRead = true, RelTabName = "search1" });
-            this.tabinfo.AddPost(new PostClass { StatusId = 200L, IsRead = true, RelTabName = "search1" });
+            tab1.AddPostToInnerStorage(new PostClass { StatusId = 100L, IsRead = true });
+            tab1.AddPostToInnerStorage(new PostClass { StatusId = 150L, IsRead = true });
+            tab1.AddPostToInnerStorage(new PostClass { StatusId = 200L, IsRead = true });
 
             // search2 に追加するツイート (StatusId: 150, 200, 250; すべて既読)
             tab2.UnreadManage = true;
-            this.tabinfo.AddPost(new PostClass { StatusId = 150L, IsRead = true, RelTabName = "search2" });
-            this.tabinfo.AddPost(new PostClass { StatusId = 200L, IsRead = true, RelTabName = "search2" });
-            this.tabinfo.AddPost(new PostClass { StatusId = 250L, IsRead = true, RelTabName = "search2" });
+            tab2.AddPostToInnerStorage(new PostClass { StatusId = 150L, IsRead = true });
+            tab2.AddPostToInnerStorage(new PostClass { StatusId = 200L, IsRead = true });
+            tab2.AddPostToInnerStorage(new PostClass { StatusId = 250L, IsRead = true });
 
             this.tabinfo.DistributePosts();
 
@@ -306,9 +291,9 @@ namespace OpenTween
 
             // Recent に追加するツイート (StatusId: 100, 150, 200; すべて未読)
             homeTab.UnreadManage = true;
-            this.tabinfo.AddPost(new PostClass { StatusId = 100L, IsRead = false, RelTabName = "" });
-            this.tabinfo.AddPost(new PostClass { StatusId = 150L, IsRead = false, RelTabName = "" });
-            this.tabinfo.AddPost(new PostClass { StatusId = 200L, IsRead = false, RelTabName = "" });
+            this.tabinfo.AddPost(new PostClass { StatusId = 100L, IsRead = false });
+            this.tabinfo.AddPost(new PostClass { StatusId = 150L, IsRead = false });
+            this.tabinfo.AddPost(new PostClass { StatusId = 200L, IsRead = false });
 
             this.tabinfo.DistributePosts();
 
@@ -333,9 +318,9 @@ namespace OpenTween
             // Recent に追加するツイート (StatusId: 100, 150, 200; すべて未読)
             // StatusId: 150 は未読だがリプライ属性が付いている
             homeTab.UnreadManage = true;
-            this.tabinfo.AddPost(new PostClass { StatusId = 100L, IsRead = false, RelTabName = "" });
-            this.tabinfo.AddPost(new PostClass { StatusId = 150L, IsRead = false, RelTabName = "", IsReply = true });
-            this.tabinfo.AddPost(new PostClass { StatusId = 200L, IsRead = false, RelTabName = "" });
+            this.tabinfo.AddPost(new PostClass { StatusId = 100L, IsRead = false });
+            this.tabinfo.AddPost(new PostClass { StatusId = 150L, IsRead = false, IsReply = true });
+            this.tabinfo.AddPost(new PostClass { StatusId = 200L, IsRead = false });
 
             this.tabinfo.DistributePosts();
 
@@ -362,9 +347,9 @@ namespace OpenTween
 
             // Recent に追加するツイート (StatusId: 100, 150, 200; すべて未読)
             homeTab.UnreadManage = true;
-            this.tabinfo.AddPost(new PostClass { StatusId = 100L, IsRead = false, RelTabName = "" });
-            this.tabinfo.AddPost(new PostClass { StatusId = 150L, IsRead = false, RelTabName = "" });
-            this.tabinfo.AddPost(new PostClass { StatusId = 200L, IsRead = false, RelTabName = "" });
+            this.tabinfo.AddPost(new PostClass { StatusId = 100L, IsRead = false });
+            this.tabinfo.AddPost(new PostClass { StatusId = 150L, IsRead = false });
+            this.tabinfo.AddPost(new PostClass { StatusId = 200L, IsRead = false });
 
             // StatusId: 150 だけ FilterTab の振り分けルールにヒットする (PostClass.FilterHit が true になる)
             this.tabinfo.AddTab("FilterTab", MyCommon.TabUsageType.UserDefined, null);
