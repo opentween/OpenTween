@@ -1910,7 +1910,7 @@ namespace OpenTween
                     tab.RelationTargetPost = p;
                 }
             }
-            relPosts.Add(tab.RelationTargetPost.StatusId, tab.RelationTargetPost.Clone());
+            relPosts.Add(tab.RelationTargetPost.StatusId, tab.RelationTargetPost);
 
             Exception lastException = null;
 
@@ -1922,11 +1922,7 @@ namespace OpenTween
                 var inReplyToId = nextPost.InReplyToStatusId.Value;
 
                 var inReplyToPost = TabInformations.GetInstance()[inReplyToId];
-                if (inReplyToPost != null)
-                {
-                    inReplyToPost = inReplyToPost.Clone();
-                }
-                else
+                if (inReplyToPost == null)
                 {
                     try
                     {
@@ -1956,9 +1952,8 @@ namespace OpenTween
                     if (relPosts.ContainsKey(_statusId))
                         continue;
 
-                    PostClass p = null;
-                    var _post = TabInformations.GetInstance()[_statusId];
-                    if (_post == null)
+                    var p = TabInformations.GetInstance()[_statusId];
+                    if (p == null)
                     {
                         try
                         {
@@ -1969,10 +1964,6 @@ namespace OpenTween
                             lastException = ex;
                             break;
                         }
-                    }
-                    else
-                    {
-                        p = _post.Clone();
                     }
 
                     if (p != null)

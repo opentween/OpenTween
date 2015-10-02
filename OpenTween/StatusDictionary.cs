@@ -41,7 +41,7 @@ using System.Xml.Serialization;
 
 namespace OpenTween
 {
-    public class PostClass : ICloneable
+    public class PostClass
     {
         public struct StatusGeo : IEquatable<StatusGeo>
         {
@@ -367,17 +367,6 @@ namespace OpenTween
             return false;
         }
 
-        [Obsolete("Use PostClass.Clone() instead.")]
-        public PostClass Copy()
-        {
-            return this.Clone();
-        }
-
-        public PostClass Clone()
-        {
-            return (PostClass)((ICloneable)this).Clone();
-        }
-
         public override bool Equals(object obj)
         {
             if (obj == null || this.GetType() != obj.GetType()) return false;
@@ -421,18 +410,6 @@ namespace OpenTween
         {
             return this.StatusId.GetHashCode();
         }
-
-#region "IClonable.Clone"
-        object ICloneable.Clone()
-        {
-            var clone = (PostClass)this.MemberwiseClone();
-            clone.ReplyToList = new List<string>(this.ReplyToList);
-            clone.Media = new List<MediaInfo>(this.Media);
-            clone.QuoteStatusIds = this.QuoteStatusIds.ToArray();
-
-            return clone;
-        }
-#endregion
     }
 
     public class MediaInfo

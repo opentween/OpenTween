@@ -5906,7 +5906,7 @@ namespace OpenTween
                     var resultTab = this._statuses.Tabs[tabName];
                     foreach (var post in posts)
                     {
-                        resultTab.AddPostToInnerStorage(post.Clone());
+                        resultTab.AddPostToInnerStorage(post);
                     }
 
                     this._statuses.DistributePosts();

@@ -91,15 +91,6 @@ namespace OpenTween
             };
         }
 
-        [Fact]
-        public void CloneTest()
-        {
-            var post = new PostClass();
-            var clonePost = post.Clone();
-
-            TestUtils.CheckDeepCloning(post, clonePost);
-        }
-
         [Theory]
         [InlineData(null,  null)]
         [InlineData("", "")]
