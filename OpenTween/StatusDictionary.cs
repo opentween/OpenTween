@@ -453,8 +453,6 @@ namespace OpenTween
         //個別タブの情報をDictionaryで保持
         private Dictionary<string, TabClass> _tabs = new Dictionary<string, TabClass>();
         private ConcurrentDictionary<long, PostClass> _statuses = new ConcurrentDictionary<long, PostClass>();
-        private List<long> _addedIds;
-        private List<long> _deletedIds = new List<long>();
         private Dictionary<long, PostClass> _retweets = new Dictionary<long, PostClass>();
         private Dictionary<long, PostClass> _quotes = new Dictionary<long, PostClass>();
         private Stack<TabClass> _removedTab = new Stack<TabClass>();
@@ -465,10 +463,20 @@ namespace OpenTween
         //発言の追加
         //AddPost(複数回) -> DistributePosts          -> SubmitUpdate
 
+        private ConcurrentQueue<long> addQueue = new ConcurrentQueue<long>();
+        private ConcurrentQueue<long> deleteQueue = new ConcurrentQueue<long>();
+
+        /// <summary>通知サウンドを再生する優先順位</summary>
+        private Dictionary<MyCommon.TabUsageType, int> notifyPriorityByTabType = new Dictionary<MyCommon.TabUsageType, int>
+        {
+            [MyCommon.TabUsageType.DirectMessage] = 100,
+            [MyCommon.TabUsageType.Mentions] = 90,
+            [MyCommon.TabUsageType.UserDefined] = 80,
+            [MyCommon.TabUsageType.Home] = 70,
+            [MyCommon.TabUsageType.Favorites] = 60,
+        };
+
         //トランザクション用
-        private int _addCount;
-        private string _soundFile;
-        private List<PostClass> _notifyPosts;
         private readonly object LockObj = new object();
 
         private static TabInformations _instance = new TabInformations();
@@ -797,7 +805,7 @@ namespace OpenTween
         {
             lock (LockObj)
             {
-                this._deletedIds.Add(id);
+                this.deleteQueue.Enqueue(id);
                 this.DeletePost(id);   //UI選択行がずれるため、RemovePostは使用しない
             }
         }
@@ -838,200 +846,135 @@ namespace OpenTween
             }
         }
 
+        public int SubmitUpdate(out string soundFile, out PostClass[] notifyPosts,
+            out bool isMentionIncluded, out bool isDeletePost, bool isUserStream)
+        {
+            soundFile = "";
+            notifyPosts = new PostClass[0];
+            isMentionIncluded = false;
+            isDeletePost = false;
+
+            var totalPosts = 0;
+            var notifyPostsList = new List<PostClass>();
+
+            var currentNotifyPriority = -1;
+
+            foreach (var tab in this._tabs.Values)
+            {
+                // 振分確定 (各タブに反映)
+                var addedIds = tab.AddSubmit(ref isMentionIncluded);
+
+                if (addedIds.Count != 0 && tab.Notify)
+                {
+                    // 通知対象のリストに追加
+                    foreach (var statusId in addedIds)
+                    {
+                        PostClass post;
+                        if (tab.Posts.TryGetValue(statusId, out post))
+                            notifyPostsList.Add(post);
+                    }
+
+                    int notifyPriority;
+                    if (!this.notifyPriorityByTabType.TryGetValue(tab.TabType, out notifyPriority))
+                        notifyPriority = 0;
+
+                    if (notifyPriority > currentNotifyPriority)
+                    {
+                        // より優先度の高い通知を再生する
+                        soundFile = tab.SoundFile;
+                        currentNotifyPriority = notifyPriority;
+                    }
+                }
+
+                totalPosts += addedIds.Count;
+            }
+
+            notifyPosts = notifyPostsList.Distinct().ToArray();
+
+            if (!isUserStream || this.SortMode != ComparerMode.Id)
+                this.SortPosts();
+
+            if (isUserStream)
+            {
+                long statusId;
+                while (this.deleteQueue.TryDequeue(out statusId))
+                {
+                    this.RemovePost(statusId);
+                    isDeletePost = true;
+                }
+            }
+
+            return totalPosts;
+        }
+
         public int DistributePosts()
         {
-            lock (LockObj)
+            var homeTab = this.GetTabByType(MyCommon.TabUsageType.Home);
+            var replyTab = this.GetTabByType(MyCommon.TabUsageType.Mentions);
+            var favTab = this.GetTabByType(MyCommon.TabUsageType.Favorites);
+
+            var distributableTabs = this._tabs.Values.Where(x => x.IsDistributableTabType)
+                .ToArray();
+
+            var adddedCount = 0;
+
+            long statusId;
+            while (this.addQueue.TryDequeue(out statusId))
             {
-                //戻り値は追加件数
-                //if (_addedIds == null) return 0;
-                //if (_addedIds.Count == 0) return 0;
+                PostClass post;
+                if (!this._statuses.TryGetValue(statusId, out post))
+                    continue;
 
-                if (_addedIds == null) _addedIds = new List<long>();
-                if (_notifyPosts == null) _notifyPosts = new List<PostClass>();
-                try
-                {
-                    this.Distribute();    //タブに仮振分
-                }
-                catch (KeyNotFoundException)
-                {
-                    //タブ変更により振分が失敗した場合
-                }
-                var retCnt = _addedIds.Count;
-                _addCount += retCnt;
-                _addedIds.Clear();
-                _addedIds = null;     //後始末
-                return retCnt;     //件数
-            }
-        }
+                var filterHit = false; // フィルタにヒットしたタブがあるか
+                var mark = false; // フィルタによってマーク付けされたか
+                var excludedReply = false; // リプライから除外されたか
+                var moved = false; // Recentタブから移動するか (Recentタブに表示しない)
 
-        public int SubmitUpdate(ref string soundFile,
-                                ref PostClass[] notifyPosts,
-                                ref bool isMentionIncluded,
-                                ref bool isDeletePost,
-                                bool isUserStream)
-        {
-            //注：メインスレッドから呼ぶこと
-            lock (LockObj)
-            {
-                if (_notifyPosts == null)
+                foreach (var tab in distributableTabs)
                 {
-                    soundFile = "";
-                    notifyPosts = null;
-                    return 0;
-                }
-
-                foreach (var tb in _tabs.Values)
-                {
-                    if (tb.IsInnerStorageTabType)
+                    // 各振り分けタブのフィルタを実行する
+                    switch (tab.AddFiltered(post))
                     {
-                        _addCount += tb.GetTemporaryCount();
-                    }
-                    tb.AddSubmit(ref isMentionIncluded);  //振分確定（各タブに反映）
-                }
-                ////UserStreamで反映間隔10秒以下だったら、30秒ごとにソートする
-                ////10秒以上だったら毎回ソート
-                //static DateTime lastSort = DateTime.Now;
-                //if (AppendSettingDialog.Instance.UserstreamPeriodInt < 10 && isUserStream)
-                //{
-                //    if (Now.Subtract(lastSort) > TimeSpan.FromSeconds(30))
-                //    {
-                //        lastSort = DateTime.Now;
-                //        isUserStream = false;
-                //    }
-                //}
-                //else
-                //{
-                //    isUserStream = false;
-                //}
-                if (!isUserStream || this.SortMode != ComparerMode.Id)
-                {
-                    this.SortPosts();
-                }
-                if (isUserStream)
-                {
-                    isDeletePost = this._deletedIds.Count > 0;
-                    foreach (var id in this._deletedIds)
-                    {
-                        //this.DeletePost(StatusId)
-                        this.RemovePost(id);
-                    }
-                    this._deletedIds.Clear();
-                }
-
-                soundFile = _soundFile;
-                _soundFile = "";
-                notifyPosts = _notifyPosts.ToArray();
-                _notifyPosts.Clear();
-                _notifyPosts = null;
-                var retCnt = _addCount;
-                _addCount = 0;
-                return retCnt;    //件数（EndUpdateの戻り値と同じ）
-            }
-        }
-
-        private void Distribute()
-        {
-            //各タブのフィルターと照合。合致したらタブにID追加
-            //通知メッセージ用に、表示必要な発言リストと再生サウンドを返す
-            //notifyPosts = new List<PostClass>();
-            var homeTab = GetTabByType(MyCommon.TabUsageType.Home);
-            var replyTab = GetTabByType(MyCommon.TabUsageType.Mentions);
-            var favTab = GetTabByType(MyCommon.TabUsageType.Favorites);
-            foreach (var id in _addedIds)
-            {
-                var post = _statuses[id];
-                var add = false;  //通知リスト追加フラグ
-                var mv = false;   //移動フラグ（Recent追加有無）
-                var rslt = MyCommon.HITRESULT.None;
-                post.IsExcludeReply = false;
-                foreach (var tab in _tabs.Values)
-                {
-                    rslt = tab.AddFiltered(post);
-                    if (rslt != MyCommon.HITRESULT.None && rslt != MyCommon.HITRESULT.Exclude)
-                    {
-                        if (rslt == MyCommon.HITRESULT.CopyAndMark) post.IsMark = true; //マークあり
-                        else if (rslt == MyCommon.HITRESULT.Move)
-                        {
-                            mv = true; //移動
-                            post.IsMark = false;
-                        }
-                        if (tab.Notify) add = true; //通知あり
-                        if (!string.IsNullOrEmpty(tab.SoundFile) && string.IsNullOrEmpty(_soundFile))
-                        {
-                            _soundFile = tab.SoundFile; //wavファイル（未設定の場合のみ）
-                        }
-                        post.FilterHit = true;
-                    }
-                    else
-                    {
-                        if (rslt == MyCommon.HITRESULT.Exclude && tab.TabType == MyCommon.TabUsageType.Mentions)
-                        {
-                            post.IsExcludeReply = true;
-                        }
-                        post.FilterHit = false;
+                        case MyCommon.HITRESULT.Copy:
+                            filterHit = true;
+                            break;
+                        case MyCommon.HITRESULT.CopyAndMark:
+                            filterHit = true;
+                            mark = true;
+                            break;
+                        case MyCommon.HITRESULT.Move:
+                            filterHit = true;
+                            moved = true;
+                            break;
+                        case MyCommon.HITRESULT.None:
+                            break;
+                        case MyCommon.HITRESULT.Exclude:
+                            if (tab.TabType == MyCommon.TabUsageType.Mentions)
+                                excludedReply = true;
+                            break;
                     }
                 }
-                if (!mv)  //移動されなかったらRecentに追加
-                {
+
+                post.FilterHit = filterHit;
+                post.IsMark = mark;
+                post.IsExcludeReply = excludedReply;
+
+                // 移動されなかったらRecentに追加
+                if (!moved)
                     homeTab.Add(post.StatusId, post.IsRead, true);
-                    if (!string.IsNullOrEmpty(homeTab.SoundFile) && string.IsNullOrEmpty(_soundFile)) _soundFile = homeTab.SoundFile;
-                    if (homeTab.Notify) add = true;
-                }
-                if (post.IsReply && !post.IsExcludeReply)    //除外ルール適用のないReplyならReplyタブに追加
-                {
+
+                // 除外ルール適用のないReplyならReplyタブに追加
+                if (post.IsReply && !excludedReply)
                     replyTab.Add(post.StatusId, post.IsRead, true);
-                    if (!string.IsNullOrEmpty(replyTab.SoundFile)) _soundFile = replyTab.SoundFile;
-                    if (replyTab.Notify) add = true;
-                }
-                if (post.IsFav)    //Fav済み発言だったらFavoritesタブに追加
-                {
-                    if (favTab.Contains(post.StatusId))
-                    {
-                        //取得済みなら非通知
-                        //_soundFile = "";
-                        add = false;
-                    }
-                    else
-                    {
-                        favTab.Add(post.StatusId, post.IsRead, true);
-                        if (!string.IsNullOrEmpty(favTab.SoundFile) && string.IsNullOrEmpty(_soundFile)) _soundFile = favTab.SoundFile;
-                        if (favTab.Notify) add = true;
-                    }
-                }
-                if (add) _notifyPosts.Add(post);
+
+                // Fav済み発言だったらFavoritesタブに追加
+                if (post.IsFav)
+                    favTab.Add(post.StatusId, post.IsRead, true);
+
+                adddedCount++;
             }
-            foreach (var tb in _tabs.Values)
-            {
-                if (tb.IsInnerStorageTabType)
-                {
-                    if (tb.Notify)
-                    {
-                        if (tb.GetTemporaryCount() > 0)
-                        {
-                            foreach (var post in tb.GetTemporaryPosts())
-                            {
-                                var exist = false;
-                                foreach (var npost in _notifyPosts)
-                                {
-                                    if (npost.StatusId == post.StatusId)
-                                    {
-                                        exist = true;
-                                        break;
-                                    }
-                                }
-                                if (!exist) _notifyPosts.Add(post);
-                            }
-                            if (!string.IsNullOrEmpty(tb.SoundFile))
-                            {
-                                if (tb.TabType == MyCommon.TabUsageType.DirectMessage || string.IsNullOrEmpty(_soundFile))
-                                {
-                                    _soundFile = tb.SoundFile;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
+
+            return adddedCount;
         }
 
         public void AddPost(PostClass Item)
@@ -1085,8 +1028,7 @@ namespace OpenTween
                 {
                     return;    //Fav済みのRetweet元発言は追加しない
                 }
-                if (_addedIds == null) _addedIds = new List<long>(); //タブ追加用IDコレクション準備
-                _addedIds.Add(Item.StatusId);
+                this.addQueue.Enqueue(Item.StatusId);
             }
         }
 
@@ -1801,16 +1743,21 @@ namespace OpenTween
             _tmpIds.Add(new TemporaryId(Post.StatusId, Post.IsRead));
         }
 
-        public void AddSubmit(ref bool isMentionIncluded)
+        public IList<long> AddSubmit(ref bool isMentionIncluded)
         {
-            if (_tmpIds.Count == 0) return;
+            var addedIds = new List<long>();
+
+            if (_tmpIds.Count == 0) return addedIds;
             _tmpIds.Sort((x, y) => x.Id.CompareTo(y.Id));
             foreach (var tId in _tmpIds)
             {
                 if (this.TabType == MyCommon.TabUsageType.Mentions && TabInformations.GetInstance()[tId.Id].IsReply) isMentionIncluded = true;
                 this.Add(tId.Id, tId.Read);
+                addedIds.Add(tId.Id);
             }
             _tmpIds.Clear();
+
+            return addedIds;
         }
 
         public void AddSubmit()

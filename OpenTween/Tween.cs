@@ -1358,12 +1358,12 @@ namespace OpenTween
             int dmCount = _statuses.GetTabByType(MyCommon.TabUsageType.DirectMessage).AllCount;
 
             //更新確定
-            PostClass[] notifyPosts = null;
-            string soundFile = "";
-            int addCount = 0;
-            bool isMention = false;
-            bool isDelete = false;
-            addCount = _statuses.SubmitUpdate(ref soundFile, ref notifyPosts, ref isMention, ref isDelete, isUserStream);
+            PostClass[] notifyPosts;
+            string soundFile;
+            int addCount;
+            bool isMention;
+            bool isDelete;
+            addCount = _statuses.SubmitUpdate(out soundFile, out notifyPosts, out isMention, out isDelete, isUserStream);
 
             if (MyCommon._endingFlag) return;
 
