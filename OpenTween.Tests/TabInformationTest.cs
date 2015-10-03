@@ -375,6 +375,44 @@ namespace OpenTween
             Assert.Equal(150L, homeTab.OldestUnreadId);
         }
 
+        [Fact]
+        public void SubmitUpdate_NotifyPriorityTest()
+        {
+            var homeTab = this.tabinfo.GetTabByType(MyCommon.TabUsageType.Home);
+            homeTab.UnreadManage = true;
+            homeTab.SoundFile = "home.wav";
+
+            var replyTab = this.tabinfo.GetTabByType(MyCommon.TabUsageType.Mentions);
+            replyTab.UnreadManage = true;
+            replyTab.SoundFile = "reply.wav";
+
+            var dmTab = this.tabinfo.GetTabByType(MyCommon.TabUsageType.DirectMessage);
+            dmTab.UnreadManage = true;
+            dmTab.SoundFile = "dm.wav";
+
+            // 通常ツイート
+            this.tabinfo.AddPost(new PostClass { StatusId = 100L, IsRead = false });
+
+            // リプライ
+            this.tabinfo.AddPost(new PostClass { StatusId = 200L, IsReply = true, IsRead = false });
+
+            // DM
+            dmTab.AddPostToInnerStorage(new PostClass { StatusId = 300L, IsDm = true, IsRead = false });
+
+            this.tabinfo.DistributePosts();
+
+            string soundFile;
+            PostClass[] notifyPosts;
+            bool isMentionIncluded, isDeletePost;
+            this.tabinfo.SubmitUpdate(out soundFile, out notifyPosts, out isMentionIncluded, out isDeletePost, false);
+
+            // DM が最も優先度が高いため DM の通知音が再生される
+            Assert.Equal("dm.wav", soundFile);
+
+            // 通知対象のツイートは 3 件
+            Assert.Equal(3, notifyPosts.Length);
+        }
+
         class TestPostFilterRule : PostFilterRule
         {
             public static PostFilterRule Create(Func<PostClass, MyCommon.HITRESULT> filterDelegate)
