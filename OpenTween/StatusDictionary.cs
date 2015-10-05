@@ -36,6 +36,7 @@ using System.Net;
 using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Windows.Forms;
 using System.Xml.Serialization;
 
@@ -1428,7 +1429,7 @@ namespace OpenTween
     {
         private List<PostFilterRule> _filters;
         private List<long> _ids;
-        private List<TemporaryId> _tmpIds = new List<TemporaryId>();
+        private ConcurrentQueue<TemporaryId> addQueue = new ConcurrentQueue<TemporaryId>();
         private SortedSet<long> unreadIds = new SortedSet<long>();
         private MyCommon.TabUsageType _tabType = MyCommon.TabUsageType.Undefined;
 
@@ -1527,22 +1528,6 @@ namespace OpenTween
         public ConcurrentDictionary<long, PostClass> Posts { get; private set; }
 
         private ConcurrentDictionary<long, PostClass> _innerPosts;
-
-        public PostClass[] GetTemporaryPosts()
-        {
-            var tempPosts = new List<PostClass>();
-            if (_tmpIds.Count == 0) return tempPosts.ToArray();
-            foreach (var tempId in _tmpIds)
-            {
-                tempPosts.Add(Posts[tempId.Id]);
-            }
-            return tempPosts.ToArray();
-        }
-
-        public int GetTemporaryCount()
-        {
-            return _tmpIds.Count;
-        }
 
         private struct TemporaryId
         {
@@ -1680,7 +1665,7 @@ namespace OpenTween
             }
             else
             {
-                _tmpIds.Add(new TemporaryId(ID, Read));
+                this.addQueue.Enqueue(new TemporaryId(ID, Read));
             }
         }
 
@@ -1729,7 +1714,7 @@ namespace OpenTween
             if (this.TabType != MyCommon.TabUsageType.Mute &&
                 rslt != MyCommon.HITRESULT.None && rslt != MyCommon.HITRESULT.Exclude)
             {
-                _tmpIds.Add(new TemporaryId(post.StatusId, post.IsRead));
+                this.addQueue.Enqueue(new TemporaryId(post.StatusId, post.IsRead));
             }
 
             return rslt; //マーク付けは呼び出し元で行うこと
@@ -1740,22 +1725,20 @@ namespace OpenTween
         {
             if (_innerPosts.ContainsKey(Post.StatusId)) return;
             _innerPosts.TryAdd(Post.StatusId, Post);
-            _tmpIds.Add(new TemporaryId(Post.StatusId, Post.IsRead));
+            this.addQueue.Enqueue(new TemporaryId(Post.StatusId, Post.IsRead));
         }
 
         public IList<long> AddSubmit(ref bool isMentionIncluded)
         {
             var addedIds = new List<long>();
 
-            if (_tmpIds.Count == 0) return addedIds;
-            _tmpIds.Sort((x, y) => x.Id.CompareTo(y.Id));
-            foreach (var tId in _tmpIds)
+            TemporaryId tId;
+            while (this.addQueue.TryDequeue(out tId))
             {
                 if (this.TabType == MyCommon.TabUsageType.Mentions && TabInformations.GetInstance()[tId.Id].IsReply) isMentionIncluded = true;
                 this.Add(tId.Id, tId.Read);
                 addedIds.Add(tId.Id);
             }
-            _tmpIds.Clear();
 
             return addedIds;
         }
@@ -1943,9 +1926,10 @@ namespace OpenTween
         public void ClearIDs()
         {
             _ids.Clear();
-            _tmpIds.Clear();
             this.unreadIds.Clear();
             _innerPosts.Clear();
+
+            Interlocked.Exchange(ref this.addQueue, new ConcurrentQueue<TemporaryId>());
         }
 
         public PostClass this[int Index]
