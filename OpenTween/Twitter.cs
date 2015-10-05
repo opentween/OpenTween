@@ -3429,7 +3429,7 @@ namespace OpenTween
                 CreatedAt = MyCommon.DateTimeParse(xElm.XPathSelectElement("/created_at").Value),
                 IsMe = xElm.XPathSelectElement("/user/id_str").Value == this.UserId.ToString(),
                 Username = xElm.XPathSelectElement("/user/screen_name").Value,
-                Target = string.Format("@{0}: {1}", new[]
+                Target = string.Format("@{0}:{1}", new[]
                 {
                     xElm.XPathSelectElement("/retweeted_status/user/screen_name").Value,
                     xElm.XPathSelectElement("/retweeted_status/text").Value,
