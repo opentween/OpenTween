@@ -6601,8 +6601,8 @@ namespace OpenTween
                         }
                     }),
 
-                // 上下キー, PageUp/Downキー は既定の動作を残しつつアンカー初期化
-                ShortcutCommand.Create(Keys.Up, Keys.Down, Keys.PageUp, Keys.PageDown)
+                // 上下キー, PageUp/Downキー, Home/Endキー は既定の動作を残しつつアンカー初期化
+                ShortcutCommand.Create(Keys.Up, Keys.Down, Keys.PageUp, Keys.PageDown, Keys.Home, Keys.End)
                     .FocusedOn(FocusedControl.ListTab)
                     .Do(() => this._anchorFlag = false, preventDefault: false),
 
