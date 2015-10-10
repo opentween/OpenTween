@@ -563,7 +563,7 @@ namespace OpenTween
                                 }
                             }
                         }
-                        if (!exist) homeTab.Add(Id, _statuses[Id].IsRead, false);
+                        if (!exist) homeTab.AddPostImmediately(Id, _statuses[Id].IsRead);
                     }
                 }
                 _removedTab.Push(tb);
@@ -962,15 +962,15 @@ namespace OpenTween
 
                 // 移動されなかったらRecentに追加
                 if (!moved)
-                    homeTab.Add(post.StatusId, post.IsRead, true);
+                    homeTab.AddPostQueue(post.StatusId, post.IsRead);
 
                 // 除外ルール適用のないReplyならReplyタブに追加
                 if (post.IsReply && !excludedReply)
-                    replyTab.Add(post.StatusId, post.IsRead, true);
+                    replyTab.AddPostQueue(post.StatusId, post.IsRead);
 
                 // Fav済み発言だったらFavoritesタブに追加
                 if (post.IsFav)
-                    favTab.Add(post.StatusId, post.IsRead, true);
+                    favTab.AddPostQueue(post.StatusId, post.IsRead);
 
                 adddedCount++;
             }
@@ -1251,12 +1251,12 @@ namespace OpenTween
                                 break;
                             case MyCommon.HITRESULT.Exclude:
                                 if (tb.TabName == replyTab.TabName && post.IsReply) post.IsExcludeReply = true;
-                                if (post.IsFav) GetTabByType(MyCommon.TabUsageType.Favorites).Add(post.StatusId, post.IsRead, true);
+                                if (post.IsFav) GetTabByType(MyCommon.TabUsageType.Favorites).AddPostQueue(post.StatusId, post.IsRead);
                                 post.FilterHit = false;
                                 break;
                             case MyCommon.HITRESULT.None:
-                                if (tb.TabName == replyTab.TabName && post.IsReply) replyTab.Add(post.StatusId, post.IsRead, true);
-                                if (post.IsFav) GetTabByType(MyCommon.TabUsageType.Favorites).Add(post.StatusId, post.IsRead, true);
+                                if (tb.TabName == replyTab.TabName && post.IsReply) replyTab.AddPostQueue(post.StatusId, post.IsRead);
+                                if (post.IsFav) GetTabByType(MyCommon.TabUsageType.Favorites).AddPostQueue(post.StatusId, post.IsRead);
                                 post.FilterHit = false;
                                 break;
                             }
@@ -1273,7 +1273,7 @@ namespace OpenTween
                                     break;
                                 }
                             }
-                            if (!hit) tbr.Add(id, _statuses[id].IsRead, false);
+                            if (!hit) tbr.AddPostImmediately(id, _statuses[id].IsRead);
                         }
                     }
                 }
@@ -1632,8 +1632,13 @@ namespace OpenTween
         [XmlIgnore]
         public SortOrder SortOrder { get; set; }
 
+        public void AddPostQueue(long statusId, bool read)
+        {
+            this.addQueue.Enqueue(new TemporaryId(statusId, read));
+        }
+
         //無条件に追加
-        private void Add(long ID, bool Read)
+        public void AddPostImmediately(long ID, bool Read)
         {
             if (this._ids.Contains(ID)) return;
 
@@ -1655,18 +1660,6 @@ namespace OpenTween
 
             if (!Read)
                 this.unreadIds.Add(ID);
-        }
-
-        public void Add(long ID, bool Read, bool Temporary)
-        {
-            if (!Temporary)
-            {
-                this.Add(ID, Read);
-            }
-            else
-            {
-                this.addQueue.Enqueue(new TemporaryId(ID, Read));
-            }
         }
 
         //フィルタに合致したら追加
@@ -1714,7 +1707,7 @@ namespace OpenTween
             if (this.TabType != MyCommon.TabUsageType.Mute &&
                 rslt != MyCommon.HITRESULT.None && rslt != MyCommon.HITRESULT.Exclude)
             {
-                this.addQueue.Enqueue(new TemporaryId(post.StatusId, post.IsRead));
+                this.AddPostQueue(post.StatusId, post.IsRead);
             }
 
             return rslt; //マーク付けは呼び出し元で行うこと
@@ -1725,7 +1718,7 @@ namespace OpenTween
         {
             if (_innerPosts.ContainsKey(Post.StatusId)) return;
             _innerPosts.TryAdd(Post.StatusId, Post);
-            this.addQueue.Enqueue(new TemporaryId(Post.StatusId, Post.IsRead));
+            this.AddPostQueue(Post.StatusId, Post.IsRead);
         }
 
         public IList<long> AddSubmit(ref bool isMentionIncluded)
@@ -1736,7 +1729,7 @@ namespace OpenTween
             while (this.addQueue.TryDequeue(out tId))
             {
                 if (this.TabType == MyCommon.TabUsageType.Mentions && TabInformations.GetInstance()[tId.Id].IsReply) isMentionIncluded = true;
-                this.Add(tId.Id, tId.Read);
+                this.AddPostImmediately(tId.Id, tId.Read);
                 addedIds.Add(tId.Id);
             }
 

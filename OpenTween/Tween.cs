@@ -2812,7 +2812,7 @@ namespace OpenTween
                         postTl.IsFav = true;
 
                         var favTab = this._statuses.GetTabByType(MyCommon.TabUsageType.Favorites);
-                        favTab.Add(statusId, postTl.IsRead, false);
+                        favTab.AddPostImmediately(statusId, postTl.IsRead);
                     }
 
                     // 検索,リスト,UserTimeline,Relatedの各タブに反映

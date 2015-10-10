@@ -3513,7 +3513,7 @@ namespace OpenTween
                     {
                         var favTab = tabinfo.GetTabByType(MyCommon.TabUsageType.Favorites);
                         if (!favTab.Contains(post.StatusId))
-                            favTab.Add(post.StatusId, post.IsRead, false);
+                            favTab.AddPostImmediately(post.StatusId, post.IsRead);
 
                         if (tweetEvent.Source.Id == this.UserId)
                         {
