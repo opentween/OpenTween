@@ -850,132 +850,139 @@ namespace OpenTween
         public int SubmitUpdate(out string soundFile, out PostClass[] notifyPosts,
             out bool isMentionIncluded, out bool isDeletePost, bool isUserStream)
         {
-            soundFile = "";
-            notifyPosts = new PostClass[0];
-            isMentionIncluded = false;
-            isDeletePost = false;
-
-            var totalPosts = 0;
-            var notifyPostsList = new List<PostClass>();
-
-            var currentNotifyPriority = -1;
-
-            foreach (var tab in this._tabs.Values)
+            // 注：メインスレッドから呼ぶこと
+            lock (this.LockObj)
             {
-                // 振分確定 (各タブに反映)
-                var addedIds = tab.AddSubmit(ref isMentionIncluded);
+                soundFile = "";
+                notifyPosts = new PostClass[0];
+                isMentionIncluded = false;
+                isDeletePost = false;
 
-                if (addedIds.Count != 0 && tab.Notify)
+                var totalPosts = 0;
+                var notifyPostsList = new List<PostClass>();
+
+                var currentNotifyPriority = -1;
+
+                foreach (var tab in this._tabs.Values)
                 {
-                    // 通知対象のリストに追加
-                    foreach (var statusId in addedIds)
+                    // 振分確定 (各タブに反映)
+                    var addedIds = tab.AddSubmit(ref isMentionIncluded);
+
+                    if (addedIds.Count != 0 && tab.Notify)
                     {
-                        PostClass post;
-                        if (tab.Posts.TryGetValue(statusId, out post))
-                            notifyPostsList.Add(post);
+                        // 通知対象のリストに追加
+                        foreach (var statusId in addedIds)
+                        {
+                            PostClass post;
+                            if (tab.Posts.TryGetValue(statusId, out post))
+                                notifyPostsList.Add(post);
+                        }
+
+                        int notifyPriority;
+                        if (!this.notifyPriorityByTabType.TryGetValue(tab.TabType, out notifyPriority))
+                            notifyPriority = 0;
+
+                        if (notifyPriority > currentNotifyPriority)
+                        {
+                            // より優先度の高い通知を再生する
+                            soundFile = tab.SoundFile;
+                            currentNotifyPriority = notifyPriority;
+                        }
                     }
 
-                    int notifyPriority;
-                    if (!this.notifyPriorityByTabType.TryGetValue(tab.TabType, out notifyPriority))
-                        notifyPriority = 0;
+                    totalPosts += addedIds.Count;
+                }
 
-                    if (notifyPriority > currentNotifyPriority)
+                notifyPosts = notifyPostsList.Distinct().ToArray();
+
+                if (!isUserStream || this.SortMode != ComparerMode.Id)
+                    this.SortPosts();
+
+                if (isUserStream)
+                {
+                    long statusId;
+                    while (this.deleteQueue.TryDequeue(out statusId))
                     {
-                        // より優先度の高い通知を再生する
-                        soundFile = tab.SoundFile;
-                        currentNotifyPriority = notifyPriority;
+                        this.RemovePost(statusId);
+                        isDeletePost = true;
                     }
                 }
 
-                totalPosts += addedIds.Count;
+                return totalPosts;
             }
-
-            notifyPosts = notifyPostsList.Distinct().ToArray();
-
-            if (!isUserStream || this.SortMode != ComparerMode.Id)
-                this.SortPosts();
-
-            if (isUserStream)
-            {
-                long statusId;
-                while (this.deleteQueue.TryDequeue(out statusId))
-                {
-                    this.RemovePost(statusId);
-                    isDeletePost = true;
-                }
-            }
-
-            return totalPosts;
         }
 
         public int DistributePosts()
         {
-            var homeTab = this.GetTabByType(MyCommon.TabUsageType.Home);
-            var replyTab = this.GetTabByType(MyCommon.TabUsageType.Mentions);
-            var favTab = this.GetTabByType(MyCommon.TabUsageType.Favorites);
-
-            var distributableTabs = this._tabs.Values.Where(x => x.IsDistributableTabType)
-                .ToArray();
-
-            var adddedCount = 0;
-
-            long statusId;
-            while (this.addQueue.TryDequeue(out statusId))
+            lock (this.LockObj)
             {
-                PostClass post;
-                if (!this._statuses.TryGetValue(statusId, out post))
-                    continue;
+                var homeTab = this.GetTabByType(MyCommon.TabUsageType.Home);
+                var replyTab = this.GetTabByType(MyCommon.TabUsageType.Mentions);
+                var favTab = this.GetTabByType(MyCommon.TabUsageType.Favorites);
 
-                var filterHit = false; // フィルタにヒットしたタブがあるか
-                var mark = false; // フィルタによってマーク付けされたか
-                var excludedReply = false; // リプライから除外されたか
-                var moved = false; // Recentタブから移動するか (Recentタブに表示しない)
+                var distributableTabs = this._tabs.Values.Where(x => x.IsDistributableTabType)
+                    .ToArray();
 
-                foreach (var tab in distributableTabs)
+                var adddedCount = 0;
+
+                long statusId;
+                while (this.addQueue.TryDequeue(out statusId))
                 {
-                    // 各振り分けタブのフィルタを実行する
-                    switch (tab.AddFiltered(post))
+                    PostClass post;
+                    if (!this._statuses.TryGetValue(statusId, out post))
+                        continue;
+
+                    var filterHit = false; // フィルタにヒットしたタブがあるか
+                    var mark = false; // フィルタによってマーク付けされたか
+                    var excludedReply = false; // リプライから除外されたか
+                    var moved = false; // Recentタブから移動するか (Recentタブに表示しない)
+
+                    foreach (var tab in distributableTabs)
                     {
-                        case MyCommon.HITRESULT.Copy:
-                            filterHit = true;
-                            break;
-                        case MyCommon.HITRESULT.CopyAndMark:
-                            filterHit = true;
-                            mark = true;
-                            break;
-                        case MyCommon.HITRESULT.Move:
-                            filterHit = true;
-                            moved = true;
-                            break;
-                        case MyCommon.HITRESULT.None:
-                            break;
-                        case MyCommon.HITRESULT.Exclude:
-                            if (tab.TabType == MyCommon.TabUsageType.Mentions)
-                                excludedReply = true;
-                            break;
+                        // 各振り分けタブのフィルタを実行する
+                        switch (tab.AddFiltered(post))
+                        {
+                            case MyCommon.HITRESULT.Copy:
+                                filterHit = true;
+                                break;
+                            case MyCommon.HITRESULT.CopyAndMark:
+                                filterHit = true;
+                                mark = true;
+                                break;
+                            case MyCommon.HITRESULT.Move:
+                                filterHit = true;
+                                moved = true;
+                                break;
+                            case MyCommon.HITRESULT.None:
+                                break;
+                            case MyCommon.HITRESULT.Exclude:
+                                if (tab.TabType == MyCommon.TabUsageType.Mentions)
+                                    excludedReply = true;
+                                break;
+                        }
                     }
+
+                    post.FilterHit = filterHit;
+                    post.IsMark = mark;
+                    post.IsExcludeReply = excludedReply;
+
+                    // 移動されなかったらRecentに追加
+                    if (!moved)
+                        homeTab.AddPostQueue(post.StatusId, post.IsRead);
+
+                    // 除外ルール適用のないReplyならReplyタブに追加
+                    if (post.IsReply && !excludedReply)
+                        replyTab.AddPostQueue(post.StatusId, post.IsRead);
+
+                    // Fav済み発言だったらFavoritesタブに追加
+                    if (post.IsFav)
+                        favTab.AddPostQueue(post.StatusId, post.IsRead);
+
+                    adddedCount++;
                 }
 
-                post.FilterHit = filterHit;
-                post.IsMark = mark;
-                post.IsExcludeReply = excludedReply;
-
-                // 移動されなかったらRecentに追加
-                if (!moved)
-                    homeTab.AddPostQueue(post.StatusId, post.IsRead);
-
-                // 除外ルール適用のないReplyならReplyタブに追加
-                if (post.IsReply && !excludedReply)
-                    replyTab.AddPostQueue(post.StatusId, post.IsRead);
-
-                // Fav済み発言だったらFavoritesタブに追加
-                if (post.IsFav)
-                    favTab.AddPostQueue(post.StatusId, post.IsRead);
-
-                adddedCount++;
+                return adddedCount;
             }
-
-            return adddedCount;
         }
 
         public void AddPost(PostClass Item)
