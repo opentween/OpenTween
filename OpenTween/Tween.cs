@@ -10531,20 +10531,16 @@ namespace OpenTween
         {
             try
             {
-                MatchCollection mc = Regex.Matches(this.PostBrowser.DocumentText, @"<a[^>]*href=""(?<url>" + this._postBrowserStatusText.Replace(".", @"\.") + @")""[^>]*title=""(?<title>https?://[^""]+)""", RegexOptions.IgnoreCase);
-                foreach (Match m in mc)
+                foreach (var link in this.PostBrowser.Document.Links.Cast<HtmlElement>())
                 {
-                    if (m.Groups["url"].Value == this._postBrowserStatusText)
+                    if (link.GetAttribute("href") == this._postBrowserStatusText)
                     {
-                        Clipboard.SetDataObject(m.Groups["title"].Value, false, 5, 100);
-                        break;
+                        Clipboard.SetDataObject(link.GetAttribute("title"), false, 5, 100);
+                        return;
                     }
                 }
-                if (mc.Count == 0)
-                {
-                    Clipboard.SetDataObject(this._postBrowserStatusText, false, 5, 100);
-                }
-                //Clipboard.SetDataObject(this._postBrowserStatusText, false, 5, 100);
+
+                Clipboard.SetDataObject(this._postBrowserStatusText, false, 5, 100);
             }
             catch (Exception ex)
             {
