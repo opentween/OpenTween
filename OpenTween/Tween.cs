@@ -1435,11 +1435,9 @@ namespace OpenTween
                                 break;
                             default:
                                 //表示位置キープ
-                                if (_curList.VirtualListSize > 0 && _statuses.Tabs[_curTab.Text].IndexOf(topId) > -1)
-                                {
-                                    _curList.EnsureVisible(_curList.VirtualListSize - 1);
-                                    _curList.EnsureVisible(_statuses.Tabs[_curTab.Text].IndexOf(topId));
-                                }
+                                var topIndex = _statuses.Tabs[_curTab.Text].IndexOf(topId);
+                                if (_curList.VirtualListSize > 0 && topIndex > -1)
+                                    this._curList.TopItem = _curList.Items[topIndex];
                                 break;
                         }
                     }
