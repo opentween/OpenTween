@@ -367,7 +367,7 @@
     <value>126, 12</value>
   </data>
   <data name="linkLabelSearchHelp.TabIndex" type="System.Int32, mscorlib">
-    <value>8</value>
+    <value>2</value>
   </data>
   <data name="linkLabelSearchHelp.Text" xml:space="preserve">
     <value>検索に使用できる演算子</value>
@@ -439,7 +439,7 @@
     <value>115, 31</value>
   </data>
   <data name="tableLayoutPanel2.TabIndex" type="System.Int32, mscorlib">
-    <value>7</value>
+    <value>3</value>
   </data>
   <data name="&gt;&gt;tableLayoutPanel2.Name" xml:space="preserve">
     <value>tableLayoutPanel2</value>
@@ -469,7 +469,7 @@
     <value>100, 12</value>
   </data>
   <data name="label2.TabIndex" type="System.Int32, mscorlib">
-    <value>5</value>
+    <value>0</value>
   </data>
   <data name="label2.Text" xml:space="preserve">
     <value>検索する文字列(&amp;N)</value>
@@ -493,7 +493,7 @@
     <value>285, 19</value>
   </data>
   <data name="textSearchPublic.TabIndex" type="System.Int32, mscorlib">
-    <value>6</value>
+    <value>1</value>
   </data>
   <data name="&gt;&gt;textSearchPublic.Name" xml:space="preserve">
     <value>textSearchPublic</value>
