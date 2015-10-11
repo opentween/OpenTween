@@ -102,6 +102,7 @@
             // 
             // tabPageTimeline
             // 
+            this.tabPageTimeline.AccessibleRole = System.Windows.Forms.AccessibleRole.PageTab;
             this.tabPageTimeline.Controls.Add(this.tableLayoutPanel1);
             this.tabPageTimeline.Controls.Add(this.label1);
             this.tabPageTimeline.Controls.Add(this.checkTimelineRegex);
@@ -113,6 +114,7 @@
             // 
             // tabPagePublic
             // 
+            this.tabPagePublic.AccessibleRole = System.Windows.Forms.AccessibleRole.PageTab;
             this.tabPagePublic.Controls.Add(this.linkLabelSearchHelp);
             this.tabPagePublic.Controls.Add(this.tableLayoutPanel2);
             this.tabPagePublic.Controls.Add(this.label2);

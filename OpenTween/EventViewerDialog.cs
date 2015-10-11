@@ -292,7 +292,8 @@ namespace OpenTween
                        {
                            // Name = "TabPage" + e,
                            Tag = e,
-                           UseVisualStyleBackColor = true
+                           UseVisualStyleBackColor = true,
+                           AccessibleRole = AccessibleRole.PageTab,
                        });
         }
     }

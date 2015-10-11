@@ -4686,6 +4686,7 @@ namespace OpenTween
                 _tabPage.TabIndex = 2 + cnt;
                 _tabPage.Text = tabName;
                 _tabPage.UseVisualStyleBackColor = true;
+                _tabPage.AccessibleRole = AccessibleRole.PageTab;
 
                 _listCustom.AllowColumnReorder = true;
                 _listCustom.ContextMenuStrip = this.ContextMenuOperate;

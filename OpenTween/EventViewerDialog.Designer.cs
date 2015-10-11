@@ -67,6 +67,7 @@
             // 
             // TabPageAll
             // 
+            this.TabPageAll.AccessibleRole = System.Windows.Forms.AccessibleRole.PageTab;
             this.TabPageAll.Controls.Add(this.EventList);
             resources.ApplyResources(this.TabPageAll, "TabPageAll");
             this.TabPageAll.Name = "TabPageAll";
