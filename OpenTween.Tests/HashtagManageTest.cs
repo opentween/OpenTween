@@ -205,6 +205,26 @@ namespace OpenTween
         }
 
         [Fact]
+        public void DeleteHashtag_MultipleTest()
+        {
+            var hashtags = new[] { "#foo", "#bar", "#baz" };
+
+            using (var atDialog = new AtIdSupplement())
+            using (var hashDialog = new HashtagManage(atDialog, hashtags, "", false, false, false))
+            {
+                hashDialog.RunSilent = true;
+
+                hashDialog.HistoryHashList.SelectedIndices.Add(2);
+                hashDialog.HistoryHashList.SelectedIndices.Add(1);
+
+                TestUtils.FireEvent(hashDialog.DeleteButton, "Click"); // 「削除(&D)」ボタン
+
+                Assert.Equal(new[] { "#foo" }, hashDialog.HistoryHashList.Items.Cast<string>());
+                Assert.Equal(new[] { "#foo" }, hashDialog.HashHistories);
+            }
+        }
+
+        [Fact]
         public void DeleteHashtag_NotSelectTest()
         {
             var hashtags = new[] { "#foo", "#bar" };

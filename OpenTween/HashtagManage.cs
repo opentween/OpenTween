@@ -95,10 +95,15 @@ namespace OpenTween
             {
                 return;
             }
-            for (int i = 0; i < HistoryHashList.SelectedIndices.Count; i++)
+
+            // 削除によってインデックス番号が変わらないように逆順に処理する
+            var selectedIndices = this.HistoryHashList.SelectedIndices.Cast<int>()
+                .OrderByDescending(x => x).ToArray();
+
+            foreach (var idx in selectedIndices)
             {
-                if (UseHashText.Text == HistoryHashList.SelectedItems[0].ToString()) UseHashText.Text = "";
-                HistoryHashList.Items.RemoveAt(HistoryHashList.SelectedIndices[0]);
+                if (UseHashText.Text == HistoryHashList.Items[idx].ToString()) UseHashText.Text = "";
+                HistoryHashList.Items.RemoveAt(idx);
             }
             if (HistoryHashList.Items.Count > 0)
             {
