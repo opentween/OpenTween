@@ -1435,7 +1435,7 @@ namespace OpenTween
     public sealed class TabClass
     {
         private List<PostFilterRule> _filters;
-        private List<long> _ids;
+        private IndexedSortedSet<long> _ids;
         private ConcurrentQueue<TemporaryId> addQueue = new ConcurrentQueue<TemporaryId>();
         private SortedSet<long> unreadIds = new SortedSet<long>();
         private MyCommon.TabUsageType _tabType = MyCommon.TabUsageType.Undefined;
@@ -1559,7 +1559,7 @@ namespace OpenTween
             Notify = true;
             SoundFile = "";
             UnreadManage = true;
-            _ids = new List<long>();
+            _ids = new IndexedSortedSet<long>();
             _tabType = MyCommon.TabUsageType.Undefined;
             _listInfo = null;
         }
@@ -1582,55 +1582,50 @@ namespace OpenTween
 
         public void Sort()
         {
-            IEnumerable<long> sortedIds;
-            if (this.SortOrder == SortOrder.Ascending)
+            var sign = this.SortOrder == SortOrder.Ascending ? 1 : -1;
+
+            Comparison<long> comparison;
+            if (this.SortMode == ComparerMode.Id)
             {
-                switch (this.SortMode)
-                {
-                    case ComparerMode.Id:
-                        sortedIds = this._ids.OrderBy(x => x);
-                        break;
-                    case ComparerMode.Data:
-                        sortedIds = this._ids.OrderBy(x => this.Posts[x].TextFromApi);
-                        break;
-                    case ComparerMode.Name:
-                        sortedIds = this._ids.OrderBy(x => this.Posts[x].ScreenName);
-                        break;
-                    case ComparerMode.Nickname:
-                        sortedIds = this._ids.OrderBy(x => this.Posts[x].Nickname);
-                        break;
-                    case ComparerMode.Source:
-                        sortedIds = this._ids.OrderBy(x => this.Posts[x].Source);
-                        break;
-                    default:
-                        throw new InvalidEnumArgumentException();
-                }
+                comparison = (x, y) => sign * x.CompareTo(y);
             }
             else
             {
+                Comparison<PostClass> postComparison;
                 switch (this.SortMode)
                 {
-                    case ComparerMode.Id:
-                        sortedIds = this._ids.OrderByDescending(x => x);
-                        break;
                     case ComparerMode.Data:
-                        sortedIds = this._ids.OrderByDescending(x => this.Posts[x].TextFromApi);
+                        postComparison = (x, y) => Comparer<string>.Default.Compare(x?.TextFromApi, y?.TextFromApi);
                         break;
                     case ComparerMode.Name:
-                        sortedIds = this._ids.OrderByDescending(x => this.Posts[x].ScreenName);
+                        postComparison = (x, y) => Comparer<string>.Default.Compare(x?.ScreenName, y?.ScreenName);
                         break;
                     case ComparerMode.Nickname:
-                        sortedIds = this._ids.OrderByDescending(x => this.Posts[x].Nickname);
+                        postComparison = (x, y) => Comparer<string>.Default.Compare(x?.Nickname, y?.Nickname);
                         break;
                     case ComparerMode.Source:
-                        sortedIds = this._ids.OrderByDescending(x => this.Posts[x].Source);
+                        postComparison = (x, y) => Comparer<string>.Default.Compare(x?.Source, y?.Source);
                         break;
                     default:
                         throw new InvalidEnumArgumentException();
                 }
+
+                comparison = (x, y) =>
+                {
+                    PostClass xPost, yPost;
+                    this.Posts.TryGetValue(x, out xPost);
+                    this.Posts.TryGetValue(y, out yPost);
+
+                    var compare = sign * postComparison(xPost, yPost);
+                    if (compare != 0)
+                        return compare;
+
+                    // 同値であれば status_id で比較する
+                    return sign * x.CompareTo(y);
+                };
             }
 
-            this._ids = sortedIds.ToList();
+            this._ids = new IndexedSortedSet<long>(this._ids, Comparer<long>.Create(comparison));
         }
 
         [XmlIgnore]
@@ -1649,21 +1644,7 @@ namespace OpenTween
         {
             if (this._ids.Contains(ID)) return;
 
-            if (this.SortMode == ComparerMode.Id)
-            {
-                if (this.SortOrder == SortOrder.Ascending)
-                {
-                    this._ids.Add(ID);
-                }
-                else
-                {
-                    this._ids.Insert(0, ID);
-                }
-            }
-            else
-            {
-                this._ids.Add(ID);
-            }
+            this._ids.Add(ID);
 
             if (!Read)
                 this.unreadIds.Add(ID);

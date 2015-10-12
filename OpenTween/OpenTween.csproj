@@ -138,6 +138,7 @@
     <Compile Include="FilterDialog.Designer.cs">
       <DependentUpon>FilterDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="IndexedSortedSet.cs" />
     <Compile Include="MediaItem.cs" />
     <Compile Include="MouseWheelMessageFilter.cs" />
     <Compile Include="ShortcutCommand.cs" />
