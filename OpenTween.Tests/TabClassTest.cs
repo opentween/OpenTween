@@ -130,6 +130,7 @@ namespace OpenTween
         public void OldestUnreadIndex_Test()
         {
             var tab = new TabClass { TabType = MyCommon.TabUsageType.UserTimeline };
+            tab.SetSortMode(ComparerMode.Id, SortOrder.Ascending);
 
             tab.UnreadManage = true;
 
@@ -153,10 +154,6 @@ namespace OpenTween
             });
             tab.AddSubmit();
 
-            tab.SortMode = ComparerMode.Id;
-            tab.SortOrder = SortOrder.Ascending;
-            tab.Sort();
-
             Assert.Equal(1, tab.OldestUnreadIndex);
         }
 
@@ -164,6 +161,7 @@ namespace OpenTween
         public void OldestUnreadIndex_DisabledTest()
         {
             var tab = new TabClass { TabType = MyCommon.TabUsageType.UserTimeline };
+            tab.SetSortMode(ComparerMode.Id, SortOrder.Ascending);
 
             // 未読表示無効
             tab.UnreadManage = false;
@@ -174,10 +172,6 @@ namespace OpenTween
                 IsRead = false, // 未読
             });
             tab.AddSubmit();
-
-            tab.SortMode = ComparerMode.Id;
-            tab.SortOrder = SortOrder.Ascending;
-            tab.Sort();
 
             Assert.Equal(-1, tab.OldestUnreadIndex);
         }

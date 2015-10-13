@@ -525,8 +525,7 @@ namespace OpenTween
             if (_tabs.ContainsKey(TabName)) return false;
             var tb = new TabClass(TabName, TabType, List);
             _tabs.Add(TabName, tb);
-            tb.SortMode = this.SortMode;
-            tb.SortOrder = this.SortOrder;
+            tb.SetSortMode(this.SortMode, this.SortOrder);
             return true;
         }
 
@@ -642,62 +641,36 @@ namespace OpenTween
             }
         }
 
-        public void SortPosts()
-        {
-            foreach (var tab in _tabs.Values)
-            {
-                tab.Sort();
-            }
-        }
+        public SortOrder SortOrder { get; private set; }
 
-        private SortOrder _sortOrder = SortOrder.Ascending;
-        public SortOrder SortOrder
-        {
-            get { return this._sortOrder; }
-            set
-            {
-                this._sortOrder = value;
-                foreach (var tab in _tabs.Values)
-                {
-                    tab.SortOrder = value;
-                }
-            }
-        }
+        public ComparerMode SortMode { get; private set; }
 
-        private ComparerMode _sortMode = ComparerMode.Id;
-        public ComparerMode SortMode
+        public void SetSortMode(ComparerMode mode, SortOrder sortOrder)
         {
-            get { return this._sortMode; }
-            set
-            {
-                this._sortMode = value;
-                foreach (var tab in _tabs.Values)
-                {
-                    tab.SortMode = value;
-                }
-            }
+            this.SortMode = mode;
+            this.SortOrder = sortOrder;
+
+            foreach (var tab in this._tabs.Values)
+                tab.SetSortMode(mode, sortOrder);
         }
 
         public SortOrder ToggleSortOrder(ComparerMode sortMode)
         {
+            var sortOrder = this.SortOrder;
+
             if (this.SortMode == sortMode)
             {
-                if (this.SortOrder == SortOrder.Ascending)
-                {
-                    this.SortOrder = SortOrder.Descending;
-                }
+                if (sortOrder == SortOrder.Ascending)
+                    sortOrder = SortOrder.Descending;
                 else
-                {
-                    this.SortOrder = SortOrder.Ascending;
-                }
+                    sortOrder = SortOrder.Ascending;
             }
             else
             {
-                this.SortMode = sortMode;
-                this.SortOrder = SortOrder.Ascending;
+                sortOrder = SortOrder.Ascending;
             }
 
-            this.SortPosts();
+            this.SetSortMode(sortMode, sortOrder);
 
             return this.SortOrder;
         }
@@ -894,9 +867,6 @@ namespace OpenTween
                 }
 
                 notifyPosts = notifyPostsList.Distinct().ToArray();
-
-                if (!isUserStream || this.SortMode != ComparerMode.Id)
-                    this.SortPosts();
 
                 if (isUserStream)
                 {
@@ -1284,7 +1254,6 @@ namespace OpenTween
                         }
                     }
                 }
-                this.SortPosts();
             }
         }
 
@@ -1580,7 +1549,18 @@ namespace OpenTween
             this.OldestId = long.MaxValue;
         }
 
-        public void Sort()
+        /// <summary>
+        /// ソート対象のフィールドとソート順を設定し、ソートを実行します
+        /// </summary>
+        public void SetSortMode(ComparerMode mode, SortOrder sortOrder)
+        {
+            this.SortMode = mode;
+            this.SortOrder = sortOrder;
+
+            this.ApplySortMode();
+        }
+
+        private void ApplySortMode()
         {
             var sign = this.SortOrder == SortOrder.Ascending ? 1 : -1;
 
@@ -1629,10 +1609,10 @@ namespace OpenTween
         }
 
         [XmlIgnore]
-        public ComparerMode SortMode { get; set; }
+        public ComparerMode SortMode { get; private set; }
 
         [XmlIgnore]
-        public SortOrder SortOrder { get; set; }
+        public SortOrder SortOrder { get; private set; }
 
         public void AddPostQueue(long statusId, bool read)
         {

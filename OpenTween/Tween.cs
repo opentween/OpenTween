@@ -938,7 +938,7 @@ namespace OpenTween
             CopyUserIdStripMenuItem.ShortcutKeyDisplayString = "Shift+Alt+C";
 
             ////////////////////////////////////////////////////////////////////////////////
-            _statuses.SortOrder = (SortOrder)_cfgCommon.SortOrder;
+            var sortOrder = (SortOrder)_cfgCommon.SortOrder;
             var mode = ComparerMode.Id;
             switch (_cfgCommon.SortColumn)
             {
@@ -964,7 +964,7 @@ namespace OpenTween
                     mode = ComparerMode.Source;
                     break;
             }
-            _statuses.SortMode = mode;
+            _statuses.SetSortMode(mode, sortOrder);
             ////////////////////////////////////////////////////////////////////////////////
 
             ApplyListViewIconSize(this._cfgCommon.IconSize);
