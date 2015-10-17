@@ -1662,13 +1662,17 @@ namespace OpenTween
         /// </summary>
         public static IEnumerable<long> GetQuoteTweetStatusIds(IEnumerable<TwitterEntity> entities)
         {
-            foreach (var entity in entities)
-            {
-                var entityUrl = entity as TwitterEntityUrl;
-                if (entityUrl == null)
-                    continue;
+            var urls = entities.OfType<TwitterEntityUrl>().Where(x => x != null)
+                .Select(x => x.ExpandedUrl);
 
-                var match = Twitter.StatusUrlRegex.Match(entityUrl.ExpandedUrl);
+            return GetQuoteTweetStatusIds(urls);
+        }
+
+        public static IEnumerable<long> GetQuoteTweetStatusIds(IEnumerable<string> urls)
+        {
+            foreach (var url in urls)
+            {
+                var match = Twitter.StatusUrlRegex.Match(url);
                 if (match.Success)
                 {
                     yield return long.Parse(match.Groups["StatusId"].Value);
