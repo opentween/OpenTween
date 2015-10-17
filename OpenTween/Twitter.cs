@@ -3148,7 +3148,25 @@ namespace OpenTween
                     pos++;
             }
 
-            var urlMatches = Regex.Matches(postText, Twitter.rgUrl, RegexOptions.IgnoreCase).Cast<Match>();
+            var urls = ExtractUrls(postText);
+            foreach (var url in urls)
+            {
+                var shortUrlLength = url.StartsWith("https://", StringComparison.OrdinalIgnoreCase)
+                    ? this.Configuration.ShortUrlLengthHttps
+                    : this.Configuration.ShortUrlLength;
+
+                textLength += shortUrlLength - url.Length;
+            }
+
+            if (isDm)
+                return this.Configuration.DmTextCharacterLimit - textLength;
+            else
+                return 140 - textLength;
+        }
+
+        public static IEnumerable<string> ExtractUrls(string text)
+        {
+            var urlMatches = Regex.Matches(text, Twitter.rgUrl, RegexOptions.IgnoreCase).Cast<Match>();
             foreach (var m in urlMatches)
             {
                 var before = m.Groups["before"].Value;
@@ -3183,23 +3201,14 @@ namespace OpenTween
 
                     if (validUrl)
                     {
-                        textLength += this.Configuration.ShortUrlLength - url.Length;
+                        yield return url;
                     }
                 }
                 else
                 {
-                    var shortUrlLength = protocol == "https://"
-                        ? this.Configuration.ShortUrlLengthHttps
-                        : this.Configuration.ShortUrlLength;
-
-                    textLength += shortUrlLength - url.Length;
+                    yield return url;
                 }
             }
-
-            if (isDm)
-                return this.Configuration.DmTextCharacterLimit - textLength;
-            else
-                return 140 - textLength;
         }
 
 #region "UserStream"
