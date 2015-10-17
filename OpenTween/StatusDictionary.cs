@@ -1605,7 +1605,10 @@ namespace OpenTween
                 };
             }
 
-            this._ids = new IndexedSortedSet<long>(this._ids, Comparer<long>.Create(comparison));
+            var comparer = Comparer<long>.Create(comparison);
+
+            this._ids = new IndexedSortedSet<long>(this._ids, comparer);
+            this.unreadIds = new SortedSet<long>(this.unreadIds, comparer);
         }
 
         [XmlIgnore]
@@ -1736,11 +1739,11 @@ namespace OpenTween
         public string SoundFile { get; set; }
 
         /// <summary>
-        /// 最も古い未読ツイートのIDを返します。
+        /// 次に表示する未読ツイートのIDを返します。
         /// ただし、未読がない場合または UnreadManage が false の場合は -1 を返します
         /// </summary>
         [XmlIgnore]
-        public long OldestUnreadId
+        public long NextUnreadId
         {
             get
             {
@@ -1750,20 +1753,22 @@ namespace OpenTween
                 if (this.unreadIds.Count == 0)
                     return -1L;
 
-                return this.unreadIds.Min;
+                // unreadIds はリストのインデックス番号順に並んでいるため、
+                // 例えば ID 順の整列であれば昇順なら上から、降順なら下から順に返せば過去→現在の順になる
+                return this.SortOrder == SortOrder.Ascending ? this.unreadIds.Min : this.unreadIds.Max;
             }
         }
 
         /// <summary>
-        /// 最も古い未読ツイートのインデックス番号を返します。
+        /// 次に表示する未読ツイートのインデックス番号を返します。
         /// ただし、未読がない場合または UnreadManage が false の場合は -1 を返します
         /// </summary>
         [XmlIgnore]
-        public int OldestUnreadIndex
+        public int NextUnreadIndex
         {
             get
             {
-                var unreadId = this.OldestUnreadId;
+                var unreadId = this.NextUnreadId;
                 return unreadId != -1 ? this.IndexOf(unreadId) : -1;
             }
         }

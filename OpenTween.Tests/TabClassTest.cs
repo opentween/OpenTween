@@ -33,14 +33,14 @@ namespace OpenTween
     public class TabClassTest
     {
         [Fact]
-        public void OldestUnreadId_Test()
+        public void NextUnreadId_Test()
         {
             var tab = new TabClass { TabType = MyCommon.TabUsageType.UserTimeline };
 
             tab.UnreadManage = true;
 
             // 未読なし
-            Assert.Equal(-1L, tab.OldestUnreadId);
+            Assert.Equal(-1L, tab.NextUnreadId);
 
             tab.AddPostToInnerStorage(new PostClass
             {
@@ -49,7 +49,7 @@ namespace OpenTween
             });
             tab.AddSubmit();
 
-            Assert.Equal(100L, tab.OldestUnreadId);
+            Assert.Equal(100L, tab.NextUnreadId);
 
             tab.AddPostToInnerStorage(new PostClass
             {
@@ -58,11 +58,11 @@ namespace OpenTween
             });
             tab.AddSubmit();
 
-            Assert.Equal(100L, tab.OldestUnreadId);
+            Assert.Equal(100L, tab.NextUnreadId);
         }
 
         [Fact]
-        public void OldestUnreadId_DisabledTest()
+        public void NextUnreadId_DisabledTest()
         {
             var tab = new TabClass { TabType = MyCommon.TabUsageType.UserTimeline };
 
@@ -76,7 +76,87 @@ namespace OpenTween
             });
             tab.AddSubmit();
 
-            Assert.Equal(-1L, tab.OldestUnreadId);
+            Assert.Equal(-1L, tab.NextUnreadId);
+        }
+
+        [Fact]
+        public void NextUnreadId_SortByIdAscTest()
+        {
+            var tab = new TabClass { TabType = MyCommon.TabUsageType.UserTimeline };
+
+            tab.UnreadManage = true;
+
+            // ID の昇順でソート
+            tab.SetSortMode(ComparerMode.Id, SortOrder.Ascending);
+
+            // 画面には上から 100 → 200 → 300 の順に並ぶ
+            tab.AddPostToInnerStorage(new PostClass { StatusId = 100L, IsRead = false });
+            tab.AddPostToInnerStorage(new PostClass { StatusId = 200L, IsRead = false });
+            tab.AddPostToInnerStorage(new PostClass { StatusId = 300L, IsRead = false });
+            tab.AddSubmit();
+
+            // 昇順/降順に関わらず、ID の小さい順に未読の ID を返す
+            Assert.Equal(100L, tab.NextUnreadId);
+        }
+
+        [Fact]
+        public void NextUnreadId_SortByIdDescTest()
+        {
+            var tab = new TabClass { TabType = MyCommon.TabUsageType.UserTimeline };
+
+            tab.UnreadManage = true;
+
+            // ID の降順でソート
+            tab.SetSortMode(ComparerMode.Id, SortOrder.Descending);
+
+            // 画面には上から 300 → 200 → 100 の順に並ぶ
+            tab.AddPostToInnerStorage(new PostClass { StatusId = 100L, IsRead = false });
+            tab.AddPostToInnerStorage(new PostClass { StatusId = 200L, IsRead = false });
+            tab.AddPostToInnerStorage(new PostClass { StatusId = 300L, IsRead = false });
+            tab.AddSubmit();
+
+            // 昇順/降順に関わらず、ID の小さい順に未読の ID を返す
+            Assert.Equal(100L, tab.NextUnreadId);
+        }
+
+        [Fact]
+        public void NextUnreadId_SortByScreenNameAscTest()
+        {
+            var tab = new TabClass { TabType = MyCommon.TabUsageType.UserTimeline };
+
+            tab.UnreadManage = true;
+
+            // ScreenName の昇順でソート
+            tab.SetSortMode(ComparerMode.Name, SortOrder.Ascending);
+
+            // 画面には上から 200 → 100 → 300 の順に並ぶ
+            tab.AddPostToInnerStorage(new PostClass { StatusId = 100L, ScreenName = "bbb", IsRead = false });
+            tab.AddPostToInnerStorage(new PostClass { StatusId = 200L, ScreenName = "aaa", IsRead = false });
+            tab.AddPostToInnerStorage(new PostClass { StatusId = 300L, ScreenName = "ccc", IsRead = false });
+            tab.AddSubmit();
+
+            // 昇順/降順に関わらず、ScreenName の辞書順で小さい順に未読の ID を返す
+            Assert.Equal(200L, tab.NextUnreadId);
+        }
+
+        [Fact]
+        public void NextUnreadId_SortByScreenNameDescTest()
+        {
+            var tab = new TabClass { TabType = MyCommon.TabUsageType.UserTimeline };
+
+            tab.UnreadManage = true;
+
+            // ScreenName の降順でソート
+            tab.SetSortMode(ComparerMode.Name, SortOrder.Descending);
+
+            // 画面には上から 300 → 100 → 200 の順に並ぶ
+            tab.AddPostToInnerStorage(new PostClass { StatusId = 100L, ScreenName = "bbb", IsRead = false });
+            tab.AddPostToInnerStorage(new PostClass { StatusId = 200L, ScreenName = "aaa", IsRead = false });
+            tab.AddPostToInnerStorage(new PostClass { StatusId = 300L, ScreenName = "ccc", IsRead = false });
+            tab.AddSubmit();
+
+            // 昇順/降順に関わらず、ScreenName の辞書順で小さい順に未読の ID を返す
+            Assert.Equal(200L, tab.NextUnreadId);
         }
 
         [Fact]
@@ -127,7 +207,7 @@ namespace OpenTween
         }
 
         [Fact]
-        public void OldestUnreadIndex_Test()
+        public void NextUnreadIndex_Test()
         {
             var tab = new TabClass { TabType = MyCommon.TabUsageType.UserTimeline };
             tab.SetSortMode(ComparerMode.Id, SortOrder.Ascending);
@@ -135,7 +215,7 @@ namespace OpenTween
             tab.UnreadManage = true;
 
             // 未読なし
-            Assert.Equal(-1, tab.OldestUnreadIndex);
+            Assert.Equal(-1, tab.NextUnreadIndex);
 
             tab.AddPostToInnerStorage(new PostClass
             {
@@ -154,11 +234,11 @@ namespace OpenTween
             });
             tab.AddSubmit();
 
-            Assert.Equal(1, tab.OldestUnreadIndex);
+            Assert.Equal(1, tab.NextUnreadIndex);
         }
 
         [Fact]
-        public void OldestUnreadIndex_DisabledTest()
+        public void NextUnreadIndex_DisabledTest()
         {
             var tab = new TabClass { TabType = MyCommon.TabUsageType.UserTimeline };
             tab.SetSortMode(ComparerMode.Id, SortOrder.Ascending);
@@ -173,7 +253,7 @@ namespace OpenTween
             });
             tab.AddSubmit();
 
-            Assert.Equal(-1, tab.OldestUnreadIndex);
+            Assert.Equal(-1, tab.NextUnreadIndex);
         }
 
         [Fact]

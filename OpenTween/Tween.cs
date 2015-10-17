@@ -5953,7 +5953,7 @@ namespace OpenTween
             for (int i = bgnIdx; i < ListTab.TabPages.Count; i++)
             {
                 //未読Index取得
-                idx = _statuses.Tabs[ListTab.TabPages[i].Text].OldestUnreadIndex;
+                idx = _statuses.Tabs[ListTab.TabPages[i].Text].NextUnreadIndex;
                 if (idx > -1)
                 {
                     ListTab.SelectedIndex = i;
@@ -5968,7 +5968,7 @@ namespace OpenTween
             {
                 for (int i = 0; i < bgnIdx; i++)
                 {
-                    idx = _statuses.Tabs[ListTab.TabPages[i].Text].OldestUnreadIndex;
+                    idx = _statuses.Tabs[ListTab.TabPages[i].Text].NextUnreadIndex;
                     if (idx > -1)
                     {
                         ListTab.SelectedIndex = i;

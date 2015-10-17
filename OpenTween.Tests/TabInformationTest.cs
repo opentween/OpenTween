@@ -337,7 +337,7 @@ namespace OpenTween
 
             // リプライである StatusId: 150 を除いてすべて未読になっている
             Assert.Equal(1, homeTab.UnreadCount);
-            Assert.Equal(150L, homeTab.OldestUnreadId);
+            Assert.Equal(150L, homeTab.NextUnreadId);
         }
 
         [Fact]
@@ -372,7 +372,7 @@ namespace OpenTween
 
             // FilterHit が true である StatusId: 150 を除いてすべて未読になっている
             Assert.Equal(1, homeTab.UnreadCount);
-            Assert.Equal(150L, homeTab.OldestUnreadId);
+            Assert.Equal(150L, homeTab.NextUnreadId);
         }
 
         [Fact]
