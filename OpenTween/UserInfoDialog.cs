@@ -208,7 +208,8 @@ namespace OpenTween
 
         private async Task SetLinkLabelWebAsync(string uri, TwitterEntities entities, CancellationToken cancellationToken)
         {
-            if (entities != null) {
+            if (entities != null)
+            {
                 var expandedUrl = await ShortUrl.Instance.ExpandUrlAsync(entities.Urls[0].ExpandedUrl);
 
                 if (cancellationToken.IsCancellationRequested)
