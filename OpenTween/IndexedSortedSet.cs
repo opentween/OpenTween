@@ -60,10 +60,8 @@ namespace OpenTween
 
         public IndexedSortedSet(IEnumerable<T> items, IComparer<T> comparer)
         {
-            this.innerList = new List<T>();
+            this.innerList = new List<T>(items.OrderBy(x => x, comparer));
             this.comparer = comparer;
-
-            this.UnionWith(items);
         }
 
         public bool Add(T item)
