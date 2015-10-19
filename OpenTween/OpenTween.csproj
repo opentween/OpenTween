@@ -142,6 +142,7 @@
     <Compile Include="MediaItem.cs" />
     <Compile Include="MouseWheelMessageFilter.cs" />
     <Compile Include="ShortcutCommand.cs" />
+    <Compile Include="TweetExtractor.cs" />
     <Compile Include="WaitingDialog.cs">
       <SubType>Form</SubType>
     </Compile>

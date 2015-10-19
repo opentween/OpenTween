@@ -3148,7 +3148,7 @@ namespace OpenTween
                     pos++;
             }
 
-            var urls = ExtractUrls(postText);
+            var urls = TweetExtractor.ExtractUrls(postText);
             foreach (var url in urls)
             {
                 var shortUrlLength = url.StartsWith("https://", StringComparison.OrdinalIgnoreCase)
@@ -3164,52 +3164,6 @@ namespace OpenTween
                 return 140 - textLength;
         }
 
-        public static IEnumerable<string> ExtractUrls(string text)
-        {
-            var urlMatches = Regex.Matches(text, Twitter.rgUrl, RegexOptions.IgnoreCase).Cast<Match>();
-            foreach (var m in urlMatches)
-            {
-                var before = m.Groups["before"].Value;
-                var url = m.Groups["url"].Value;
-                var protocol = m.Groups["protocol"].Value;
-                var domain = m.Groups["domain"].Value;
-                var path = m.Groups["path"].Value;
-                if (protocol.Length == 0)
-                {
-                    if (Regex.IsMatch(before, Twitter.url_invalid_without_protocol_preceding_chars))
-                        continue;
-
-                    var validUrl = false;
-                    string lasturl = null;
-
-                    var last_url_invalid_match = false;
-                    var domainMatches = Regex.Matches(domain, Twitter.url_valid_ascii_domain, RegexOptions.IgnoreCase).Cast<Match>();
-                    foreach (var mm in domainMatches)
-                    {
-                        lasturl = mm.Value;
-                        last_url_invalid_match = Regex.IsMatch(lasturl, Twitter.url_invalid_short_domain, RegexOptions.IgnoreCase);
-                        if (!last_url_invalid_match)
-                        {
-                            validUrl = true;
-                        }
-                    }
-
-                    if (last_url_invalid_match && path.Length != 0)
-                    {
-                        validUrl = true;
-                    }
-
-                    if (validUrl)
-                    {
-                        yield return url;
-                    }
-                }
-                else
-                {
-                    yield return url;
-                }
-            }
-        }
 
 #region "UserStream"
         private string trackWord_ = "";

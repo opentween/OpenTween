@@ -383,26 +383,5 @@ namespace OpenTween
                 Assert.Equal(133, twitter.GetTextLengthRemain("🔥🐔🔥 焼き鳥"));
             }
         }
-
-        [Fact]
-        public void ExtractUrls_Test()
-        {
-            Assert.Equal(new[] { "http://example.com/" }, Twitter.ExtractUrls("http://example.com/"));
-            Assert.Equal(new[] { "http://example.com/hogehoge" }, Twitter.ExtractUrls("http://example.com/hogehoge"));
-            Assert.Equal(new[] { "http://example.com/" }, Twitter.ExtractUrls("hogehoge http://example.com/"));
-
-            Assert.Equal(new[] { "https://example.com/" }, Twitter.ExtractUrls("https://example.com/"));
-            Assert.Equal(new[] { "https://example.com/hogehoge" }, Twitter.ExtractUrls("https://example.com/hogehoge"));
-            Assert.Equal(new[] { "https://example.com/" }, Twitter.ExtractUrls("hogehoge https://example.com/"));
-
-            Assert.Equal(new[] { "example.com" }, Twitter.ExtractUrls("example.com"));
-            Assert.Equal(new[] { "example.com/hogehoge" }, Twitter.ExtractUrls("example.com/hogehoge"));
-            Assert.Equal(new[] { "example.com" }, Twitter.ExtractUrls("hogehoge example.com"));
-
-            // スキーム (http://) を省略かつ末尾が ccTLD の場合は t.co に短縮されない
-            Assert.Empty(Twitter.ExtractUrls("example.jp"));
-            // ただし、末尾にパスが続く場合は t.co に短縮される
-            Assert.Equal(new[] { "example.jp/hogehoge" }, Twitter.ExtractUrls("example.jp/hogehoge"));
-        }
     }
 }
