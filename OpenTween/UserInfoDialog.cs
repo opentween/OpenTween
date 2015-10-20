@@ -161,11 +161,7 @@ namespace OpenTween
                 entities.Hashtags = TweetExtractor.ExtractHashtagEntities(descriptionText).ToArray();
                 entities.UserMentions = TweetExtractor.ExtractMentionEntities(descriptionText).ToArray();
 
-                // description に含まれる < > " の記号のみエスケープを一旦解除する
-                var decodedText = descriptionText.Replace("&lt;", "<").Replace("&gt;", ">").Replace("&quot;", "\"");
-
-                var html = WebUtility.HtmlEncode(decodedText);
-                html = await this.twitter.CreateHtmlAnchorAsync(html, atlist, entities, null);
+                var html = await this.twitter.CreateHtmlAnchorAsync(descriptionText, atlist, entities, null);
                 html = this.mainForm.createDetailHtml(html);
 
                 if (cancellationToken.IsCancellationRequested)
