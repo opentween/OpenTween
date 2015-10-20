@@ -98,5 +98,62 @@ namespace OpenTween
                 }
             }
         }
+
+        /// <summary>
+        /// テキストからメンションを抽出してエンティティとして返します
+        /// </summary>
+        public static IEnumerable<TwitterEntityMention> ExtractMentionEntities(string text)
+        {
+            // リスト
+            var matchesAtList = Regex.Matches(text, @"(^|[^a-zA-Z0-9_/])([@＠][a-zA-Z0-9_]{1,20}/[a-zA-Z][a-zA-Z0-9\p{IsLatin-1Supplement}\-]{0,79})");
+            foreach (var match in matchesAtList.Cast<Match>())
+            {
+                var groupMention = match.Groups[2];
+                var startPos = groupMention.Index;
+                var endPos = startPos + groupMention.Length;
+
+                yield return new TwitterEntityMention
+                {
+                    Indices = new[] { startPos, endPos },
+                    ScreenName = groupMention.Value,
+                };
+            }
+
+            // 通常のメンション
+            var matchesAtUser = Regex.Matches(text, "(^|[^a-zA-Z0-9_/])([@＠][a-zA-Z0-9_]{1,20})([^a-zA-Z0-9_/]|$)");
+            foreach (var match in matchesAtUser.Cast<Match>())
+            {
+                var groupMention = match.Groups[2];
+                var startPos = groupMention.Index;
+                var endPos = startPos + groupMention.Length;
+
+                yield return new TwitterEntityMention
+                {
+                    Indices = new[] { startPos, endPos },
+                    ScreenName = groupMention.Value,
+                };
+            }
+        }
+
+        /// <summary>
+        /// テキストからハッシュタグを抽出してエンティティとして返します
+        /// </summary>
+        public static IEnumerable<TwitterEntityHashtag> ExtractHashtagEntities(string text)
+        {
+            var matches = Regex.Matches(text, Twitter.HASHTAG);
+            foreach (var match in matches.Cast<Match>())
+            {
+                var groupHashtagSharp = match.Groups[2];
+                var groupHashtagText = match.Groups[3];
+                var startPos = groupHashtagSharp.Index;
+                var endPos = startPos + groupHashtagSharp.Length + groupHashtagText.Length;
+
+                yield return new TwitterEntityHashtag
+                {
+                    Indices = new[] { startPos, endPos },
+                    Text = groupHashtagSharp.Value + groupHashtagText.Value,
+                };
+            }
+        }
     }
 }

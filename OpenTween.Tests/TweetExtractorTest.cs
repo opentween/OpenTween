@@ -99,5 +99,32 @@ namespace OpenTween
             Assert.Equal("http://example.com/", entity.ExpandedUrl);
             Assert.Equal("http://example.com/", entity.DisplayUrl);
         }
+
+        [Fact]
+        public void ExtractMentionEntities_Test()
+        {
+            var entity = TweetExtractor.ExtractMentionEntities("hogehoge @twitterapi").Single();
+
+            Assert.Equal(new[] { 9, 20 }, entity.Indices);
+            Assert.Equal("@twitterapi", entity.ScreenName);
+        }
+
+        [Fact]
+        public void ExtractMentionEntities_ListTest()
+        {
+            var entity = TweetExtractor.ExtractMentionEntities("hogehoge @twitter/developers").Single();
+
+            Assert.Equal(new[] { 9, 28 }, entity.Indices);
+            Assert.Equal("@twitter/developers", entity.ScreenName);
+        }
+
+        [Fact]
+        public void ExtractHashtagEntities_Test()
+        {
+            var entity = TweetExtractor.ExtractHashtagEntities("hogehoge #test").Single();
+
+            Assert.Equal(new[] { 9, 14 }, entity.Indices);
+            Assert.Equal("#test", entity.Text);
+        }
     }
 }
