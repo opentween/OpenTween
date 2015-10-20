@@ -157,6 +157,10 @@ namespace OpenTween
             {
                 var atlist = new List<string>();
 
+                // user.entities には urls 以外のエンティティが含まれていないため、テキストをもとに生成する
+                entities.Hashtags = TweetExtractor.ExtractHashtagEntities(descriptionText).ToArray();
+                entities.UserMentions = TweetExtractor.ExtractMentionEntities(descriptionText).ToArray();
+
                 // description に含まれる < > " の記号のみエスケープを一旦解除する
                 var decodedText = descriptionText.Replace("&lt;", "<").Replace("&gt;", ">").Replace("&quot;", "\"");
 
