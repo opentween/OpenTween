@@ -25,6 +25,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using OpenTween.Api;
 
 namespace OpenTween
 {
@@ -35,6 +36,14 @@ namespace OpenTween
         /// </summary>
         public static IEnumerable<string> ExtractUrls(string text)
         {
+            return ExtractUrlEntities(text).Select(x => x.Url);
+        }
+
+        /// <summary>
+        /// テキストから URL を抽出してエンティティとして返します
+        /// </summary>
+        public static IEnumerable<TwitterEntityUrl> ExtractUrlEntities(string text)
+        {
             var urlMatches = Regex.Matches(text, Twitter.rgUrl, RegexOptions.IgnoreCase).Cast<Match>();
             foreach (var m in urlMatches)
             {
@@ -43,12 +52,13 @@ namespace OpenTween
                 var protocol = m.Groups["protocol"].Value;
                 var domain = m.Groups["domain"].Value;
                 var path = m.Groups["path"].Value;
+
+                var validUrl = false;
                 if (protocol.Length == 0)
                 {
                     if (Regex.IsMatch(before, Twitter.url_invalid_without_protocol_preceding_chars))
                         continue;
 
-                    var validUrl = false;
                     string lasturl = null;
 
                     var last_url_invalid_match = false;
@@ -67,15 +77,24 @@ namespace OpenTween
                     {
                         validUrl = true;
                     }
-
-                    if (validUrl)
-                    {
-                        yield return url;
-                    }
                 }
                 else
                 {
-                    yield return url;
+                    validUrl = true;
+                }
+
+                if (validUrl)
+                {
+                    var startPos = m.Groups["url"].Index;
+                    var endPos = startPos + m.Groups["url"].Length;
+
+                    yield return new TwitterEntityUrl
+                    {
+                        Indices = new[] { startPos, endPos },
+                        Url = url,
+                        ExpandedUrl = url,
+                        DisplayUrl = url,
+                    };
                 }
             }
         }

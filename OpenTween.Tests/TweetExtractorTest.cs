@@ -24,6 +24,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OpenTween.Api;
 using Xunit;
 
 namespace OpenTween
@@ -49,6 +50,54 @@ namespace OpenTween
             Assert.Empty(TweetExtractor.ExtractUrls("example.jp"));
             // ただし、末尾にパスが続く場合は t.co に短縮される
             Assert.Equal(new[] { "example.jp/hogehoge" }, TweetExtractor.ExtractUrls("example.jp/hogehoge"));
+        }
+
+        [Fact]
+        public void ExtractUrlEntities_Test()
+        {
+            var entity = TweetExtractor.ExtractUrlEntities("hogehoge http://example.com/").Single();
+
+            Assert.Equal(new[] { 9, 28 }, entity.Indices);
+            Assert.Equal("http://example.com/", entity.Url);
+            Assert.Equal("http://example.com/", entity.ExpandedUrl);
+            Assert.Equal("http://example.com/", entity.DisplayUrl);
+        }
+
+        [Fact]
+        public void ExtractUrlEntities_SurrogatePairTest()
+        {
+            var entity = TweetExtractor.ExtractUrlEntities("✨ http://example.com/ ✨").Single();
+
+            Assert.Equal(new[] { 2, 21 }, entity.Indices);
+            Assert.Equal("http://example.com/", entity.Url);
+            Assert.Equal("http://example.com/", entity.ExpandedUrl);
+            Assert.Equal("http://example.com/", entity.DisplayUrl);
+        }
+
+        [Fact]
+        public void ExtractUrlEntities_CompositeCharacterTest()
+        {
+            // 合成文字 é ( \u00e9 ) を含むツイート (1文字としてカウントする)
+            // 参照: https://dev.twitter.com/issues/251
+            var entity = TweetExtractor.ExtractUrlEntities("Caf\u00e9 http://example.com/").Single();
+
+            Assert.Equal(new[] { 5, 24 }, entity.Indices);
+            Assert.Equal("http://example.com/", entity.Url);
+            Assert.Equal("http://example.com/", entity.ExpandedUrl);
+            Assert.Equal("http://example.com/", entity.DisplayUrl);
+        }
+
+        [Fact]
+        public void ExtractUrlEntities_CombiningCharacterSequenceTest()
+        {
+            // 結合文字列 é ( e + \u0301 ) を含むツイート (2文字としてカウントする)
+            // 参照: https://dev.twitter.com/issues/251
+            var entity = TweetExtractor.ExtractUrlEntities("Cafe\u0301 http://example.com/").Single();
+
+            Assert.Equal(new[] { 6, 25 }, entity.Indices);
+            Assert.Equal("http://example.com/", entity.Url);
+            Assert.Equal("http://example.com/", entity.ExpandedUrl);
+            Assert.Equal("http://example.com/", entity.DisplayUrl);
         }
     }
 }
