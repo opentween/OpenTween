@@ -3269,7 +3269,7 @@ namespace OpenTween
                 Target = string.Format("@{0}:{1}", new[]
                 {
                     xElm.XPathSelectElement("/retweeted_status/user/screen_name").Value,
-                    xElm.XPathSelectElement("/retweeted_status/text").Value,
+                    WebUtility.HtmlDecode(xElm.XPathSelectElement("/retweeted_status/text").Value),
                 }),
                 Id = long.Parse(xElm.XPathSelectElement("/retweeted_status/id_str").Value),
             };
