@@ -192,6 +192,19 @@ namespace OpenTween
         }
 
         [Fact]
+        public void GetQuoteTweetStatusIds_OverflowTest()
+        {
+            var urls = new[]
+            {
+                // 符号付き 64 ビット整数の範囲を超える値
+                "https://twitter.com/kim_upsilon/status/9999999999999999999",
+            };
+
+            var statusIds = Twitter.GetQuoteTweetStatusIds(urls);
+            Assert.Empty(statusIds);
+        }
+
+        [Fact]
         public void GetApiResultCount_DefaultTest()
         {
             var oldInstance = SettingCommon.Instance;

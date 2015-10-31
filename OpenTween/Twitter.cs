@@ -1675,7 +1675,9 @@ namespace OpenTween
                 var match = Twitter.StatusUrlRegex.Match(url);
                 if (match.Success)
                 {
-                    yield return long.Parse(match.Groups["StatusId"].Value);
+                    long statusId;
+                    if (long.TryParse(match.Groups["StatusId"].Value, out statusId))
+                        yield return statusId;
                 }
             }
         }
