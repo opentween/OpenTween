@@ -170,42 +170,48 @@ namespace OpenTween
 
         private async void RefreshUsersButton_Click(object sender, EventArgs e)
         {
-            if (this.ListsList.SelectedItem == null) return;
-            this.UserList.Items.Clear();
-
-            var list = (ListElement)this.ListsList.SelectedItem;
-            try
+            using (ControlTransaction.Disabled(this))
             {
-                await Task.Run(() => list.RefreshMembers());
-            }
-            catch (WebApiException ex)
-            {
-                MessageBox.Show(string.Format(Properties.Resources.ListManageGetListMembersCallback1, ex.Message));
-                return;
-            }
+                if (this.ListsList.SelectedItem == null) return;
+                this.UserList.Items.Clear();
 
-            this.ListsList_SelectedIndexChanged(this.ListsList, EventArgs.Empty);
-            this.GetMoreUsersButton.Text = Properties.Resources.ListManageGetMoreUsers1;
+                var list = (ListElement)this.ListsList.SelectedItem;
+                try
+                {
+                    await Task.Run(() => list.RefreshMembers());
+                }
+                catch (WebApiException ex)
+                {
+                    MessageBox.Show(string.Format(Properties.Resources.ListManageGetListMembersCallback1, ex.Message));
+                    return;
+                }
+
+                this.ListsList_SelectedIndexChanged(this.ListsList, EventArgs.Empty);
+                this.GetMoreUsersButton.Text = Properties.Resources.ListManageGetMoreUsers1;
+            }
         }
 
         private async void GetMoreUsersButton_Click(object sender, EventArgs e)
         {
-            if (this.ListsList.SelectedItem == null) return;
-            this.UserList.Items.Clear();
-
-            var list = (ListElement)this.ListsList.SelectedItem;
-            try
+            using (ControlTransaction.Disabled(this))
             {
-                await Task.Run(() => list.GetMoreMembers());
-            }
-            catch (WebApiException ex)
-            {
-                MessageBox.Show(string.Format(Properties.Resources.ListManageGetListMembersCallback1, ex.Message));
-                return;
-            }
+                if (this.ListsList.SelectedItem == null) return;
+                this.UserList.Items.Clear();
 
-            this.ListsList_SelectedIndexChanged(this.ListsList, EventArgs.Empty);
-            this.GetMoreUsersButton.Text = Properties.Resources.ListManageGetMoreUsers1;
+                var list = (ListElement)this.ListsList.SelectedItem;
+                try
+                {
+                    await Task.Run(() => list.GetMoreMembers());
+                }
+                catch (WebApiException ex)
+                {
+                    MessageBox.Show(string.Format(Properties.Resources.ListManageGetListMembersCallback1, ex.Message));
+                    return;
+                }
+
+                this.ListsList_SelectedIndexChanged(this.ListsList, EventArgs.Empty);
+                this.GetMoreUsersButton.Text = Properties.Resources.ListManageGetMoreUsers1;
+            }
         }
 
         private void DeleteUserButton_Click(object sender, EventArgs e)
