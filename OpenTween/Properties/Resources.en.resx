@@ -1143,4 +1143,10 @@ Available service: {1}</value>
     (It may fail to authentication when clock is delayed.)
  * Please re-add the Twitter account in the settings dialog.</value>
   </data>
+  <data name="SendErrorReport_DmSendCompleted" xml:space="preserve">
+    <value>Succeeded to send DM.</value>
+  </data>
+  <data name="SendErrorReport_DmSendError" xml:space="preserve">
+    <value>Failed to send DM.</value>
+  </data>
 </root>

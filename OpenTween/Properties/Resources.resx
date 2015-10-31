@@ -1201,4 +1201,10 @@
  （大幅にずれていると認証に失敗することがあります）
 ・設定画面から Twitter アカウントをもう一度追加し直して下さい</value>
   </data>
+  <data name="SendErrorReport_DmSendCompleted" xml:space="preserve">
+    <value>DM の送信が完了しました</value>
+  </data>
+  <data name="SendErrorReport_DmSendError" xml:space="preserve">
+    <value>DM の送信に失敗しました</value>
+  </data>
 </root>

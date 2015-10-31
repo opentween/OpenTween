@@ -141,6 +141,12 @@
     <Compile Include="IndexedSortedSet.cs" />
     <Compile Include="MediaItem.cs" />
     <Compile Include="MouseWheelMessageFilter.cs" />
+    <Compile Include="SendErrorReportForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SendErrorReportForm.Designer.cs">
+      <DependentUpon>SendErrorReportForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="ShortcutCommand.cs" />
     <Compile Include="TweetExtractor.cs" />
     <Compile Include="WaitingDialog.cs">
@@ -500,6 +506,12 @@
     <EmbeddedResource Include="MediaSelector.zh-CHS.resx">
       <DependentUpon>MediaSelector.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="SendErrorReportForm.en.resx">
+      <DependentUpon>SendErrorReportForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SendErrorReportForm.resx">
+      <DependentUpon>SendErrorReportForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="WaitingDialog.resx">
       <DependentUpon>WaitingDialog.cs</DependentUpon>
     </EmbeddedResource>
@@ -780,6 +792,7 @@
     <Content Include="Resources\InitialImage.png" />
     <Content Include="Resources\LogoImage.png" />
     <Content Include="Resources\MultiMediaImage.png" />
+    <None Include="ErrorReport.datasource" />
     <None Include="Resources\PlayableOverlayImage.png" />
     <Content Include="Resources\re.ico" />
     <Content Include="Resources\re2.ico" />

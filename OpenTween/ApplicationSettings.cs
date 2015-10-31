@@ -48,6 +48,14 @@ namespace OpenTween
         /// </summary>
         public const string FeedbackTwitterName = "@kim_upsilon";
 
+        /// <summary>
+        /// FeedbackTwitterName のユーザー宛にエラーレポートの DM を送信可能であるか
+        /// </summary>
+        /// <remarks>
+        /// エラーレポートを DM で受け付ける場合は、フォロー外からの DM を受け付ける設定にする必要があります
+        /// </remarks>
+        public const bool AllowSendErrorReportByDM = true;
+
         //=====================================================================
         // Web サイト
 

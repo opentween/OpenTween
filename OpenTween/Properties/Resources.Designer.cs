@@ -2353,6 +2353,24 @@ namespace OpenTween.Properties {
         }
         
         /// <summary>
+        ///   DM の送信が完了しました に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string SendErrorReport_DmSendCompleted {
+            get {
+                return ResourceManager.GetString("SendErrorReport_DmSendCompleted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   DM の送信に失敗しました に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string SendErrorReport_DmSendError {
+            get {
+                return ResourceManager.GetString("SendErrorReport_DmSendError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   [ユーザ･･･{0}]   に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string SetFiltersText1 {

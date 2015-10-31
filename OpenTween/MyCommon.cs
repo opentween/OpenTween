@@ -386,48 +386,48 @@ namespace OpenTween
             {
                 var IsTerminatePermission = true;
 
+                var ident = WindowsIdentity.GetCurrent();
+                var princ = new WindowsPrincipal(ident);
+
+                var errorReport = string.Join(Environment.NewLine,
+                    string.Format(Properties.Resources.UnhandledExceptionText1, DateTime.Now.ToString()),
+
+                    // 権限書き出し
+                    string.Format(Properties.Resources.UnhandledExceptionText11 + princ.IsInRole(WindowsBuiltInRole.Administrator).ToString()),
+                    string.Format(Properties.Resources.UnhandledExceptionText12 + princ.IsInRole(WindowsBuiltInRole.User).ToString()),
+                    "",
+
+                    // OSVersion,AppVersion書き出し
+                    string.Format(Properties.Resources.UnhandledExceptionText4),
+                    string.Format(Properties.Resources.UnhandledExceptionText5, Environment.OSVersion.VersionString),
+                    string.Format(Properties.Resources.UnhandledExceptionText6, Environment.Version.ToString()),
+                    string.Format(Properties.Resources.UnhandledExceptionText7, MyCommon.GetAssemblyName(), FileVersion),
+
+                    ExceptionOutMessage(ex, ref IsTerminatePermission));
+
                 var logPath = MyCommon.GetErrorLogPath();
                 if (!Directory.Exists(logPath))
                     Directory.CreateDirectory(logPath);
 
                 var now = DateTime.Now;
                 var fileName = string.Format("{0}-{1:0000}{2:00}{3:00}-{4:00}{5:00}{6:00}.log", GetAssemblyName(), now.Year, now.Month, now.Day, now.Hour, now.Minute, now.Second);
-                fileName = Path.Combine(logPath, fileName);
-
-                using (var writer = new StreamWriter(fileName))
+                using (var writer = new StreamWriter(Path.Combine(logPath, fileName)))
                 {
-                    var ident = WindowsIdentity.GetCurrent();
-                    var princ = new WindowsPrincipal(ident);
-
-                    writer.WriteLine(Properties.Resources.UnhandledExceptionText1, DateTime.Now.ToString());
-                    writer.WriteLine(Properties.Resources.UnhandledExceptionText2, ApplicationSettings.FeedbackEmailAddress);
-                    writer.WriteLine(Properties.Resources.UnhandledExceptionText3, ApplicationSettings.FeedbackTwitterName);
-                    // 権限書き出し
-                    writer.WriteLine(Properties.Resources.UnhandledExceptionText11 + princ.IsInRole(WindowsBuiltInRole.Administrator).ToString());
-                    writer.WriteLine(Properties.Resources.UnhandledExceptionText12 + princ.IsInRole(WindowsBuiltInRole.User).ToString());
-                    writer.WriteLine();
-                    // OSVersion,AppVersion書き出し
-                    writer.WriteLine(Properties.Resources.UnhandledExceptionText4);
-                    writer.WriteLine(Properties.Resources.UnhandledExceptionText5, Environment.OSVersion.VersionString);
-                    writer.WriteLine(Properties.Resources.UnhandledExceptionText6, Environment.Version.ToString());
-                    writer.WriteLine(Properties.Resources.UnhandledExceptionText7, MyCommon.GetAssemblyName(), FileVersion);
-
-                    writer.Write(ExceptionOutMessage(ex, ref IsTerminatePermission));
-                    writer.Flush();
+                    writer.Write(errorReport);
                 }
 
-                switch (MessageBox.Show(MyCommon.ReplaceAppName(string.Format(Properties.Resources.UnhandledExceptionText9, fileName, ApplicationSettings.FeedbackEmailAddress, ApplicationSettings.FeedbackTwitterName, Environment.NewLine)),
-                                   Properties.Resources.UnhandledExceptionText10, MessageBoxButtons.YesNoCancel, MessageBoxIcon.Error))
+                using (var dialog = new SendErrorReportForm())
                 {
-                    case DialogResult.Yes:
-                        Process.Start(fileName);
-                        return false;
-                    case DialogResult.No:
-                        return false;
-                    case DialogResult.Cancel:
-                    default:
-                        return IsTerminatePermission;
+                    var mainForm = Application.OpenForms.Cast<Form>().FirstOrDefault() as TweenMain;
+                    if (mainForm != null)
+                        dialog.ErrorReport = new ErrorReport(mainForm.TwitterInstance, errorReport);
+                    else
+                        dialog.ErrorReport = new ErrorReport(errorReport);
+
+                    dialog.ShowDialog(mainForm);
                 }
+
+                return false;
             }
         }
 
