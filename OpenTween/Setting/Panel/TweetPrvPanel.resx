@@ -240,9 +240,6 @@
   <data name="&gt;&gt;Label62.ZOrder" xml:space="preserve">
     <value>4</value>
   </data>
-  <data name="CmbDateTimeFormat.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Bottom, Left, Right</value>
-  </data>
   <data name="CmbDateTimeFormat.Items" xml:space="preserve">
     <value>yyyy/MM/dd H:mm:ss</value>
   </data>

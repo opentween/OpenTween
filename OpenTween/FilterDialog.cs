@@ -1455,9 +1455,9 @@ namespace OpenTween
             }
         }
 
-        protected override void OnFontChanged(EventArgs e)
+        protected override void ScaleControl(SizeF factor, BoundsSpecified specified)
         {
-            base.OnFontChanged(e);
+            base.ScaleControl(factor, specified);
             this.ListFilters.ItemHeight = this.ListFilters.Font.Height;
         }
     }
