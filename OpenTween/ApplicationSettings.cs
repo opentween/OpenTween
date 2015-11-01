@@ -54,7 +54,7 @@ namespace OpenTween
         /// <remarks>
         /// エラーレポートを DM で受け付ける場合は、フォロー外からの DM を受け付ける設定にする必要があります
         /// </remarks>
-        public const bool AllowSendErrorReportByDM = true;
+        public static readonly bool AllowSendErrorReportByDM = true;
 
         //=====================================================================
         // Web サイト

@@ -185,10 +185,8 @@ namespace OpenTween
 
         private bool CheckDmAvailable()
         {
-#pragma warning disable CS0162
             if (!ApplicationSettings.AllowSendErrorReportByDM)
                 return false;
-#pragma warning restore CS0162
 
             if (this.tw == null || !this.tw.AccessLevel.HasFlag(TwitterApiAccessLevel.DirectMessage))
                 return false;
