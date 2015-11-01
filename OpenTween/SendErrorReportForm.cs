@@ -177,7 +177,7 @@ namespace OpenTween
 
                 var encodedReport = Convert.ToBase64String(outputStream.ToArray());
                 var destScreenName = ApplicationSettings.FeedbackTwitterName.Substring(1);
-                this.EncodedReportForDM = $"D {destScreenName} ErrorLog: {encodedReport}";
+                this.EncodedReportForDM = $"D {destScreenName} ErrorReport: {encodedReport}";
             }
 
             this.CanSendByDM = this.tw.GetTextLengthRemain(this.EncodedReportForDM) >= 0;

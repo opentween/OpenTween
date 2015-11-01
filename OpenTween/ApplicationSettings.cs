@@ -46,7 +46,7 @@ namespace OpenTween
         /// <summary>
         /// フィードバック送信先 (Twitter)
         /// </summary>
-        public const string FeedbackTwitterName = "@kim_upsilon";
+        public const string FeedbackTwitterName = "@OpenTween";
 
         /// <summary>
         /// FeedbackTwitterName のユーザー宛にエラーレポートの DM を送信可能であるか
