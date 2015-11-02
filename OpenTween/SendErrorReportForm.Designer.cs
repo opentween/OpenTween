@@ -40,6 +40,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.buttonReset = new System.Windows.Forms.Button();
             this.pictureBoxIcon = new System.Windows.Forms.PictureBox();
+            this.checkBoxAnonymouns = new System.Windows.Forms.CheckBox();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxIcon)).BeginInit();
@@ -110,6 +111,13 @@
             this.pictureBoxIcon.Name = "pictureBoxIcon";
             this.pictureBoxIcon.TabStop = false;
             // 
+            // checkBoxAnonymouns
+            // 
+            resources.ApplyResources(this.checkBoxAnonymouns, "checkBoxAnonymouns");
+            this.checkBoxAnonymouns.DataBindings.Add(new System.Windows.Forms.Binding("Checked", this.bindingSource, "AnonymousReport", true));
+            this.checkBoxAnonymouns.Name = "checkBoxAnonymouns";
+            this.checkBoxAnonymouns.UseVisualStyleBackColor = true;
+            // 
             // SendErrorReportForm
             // 
             this.AcceptButton = this.buttonSendByDM;
@@ -122,6 +130,7 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.textBoxErrorReport);
             this.Controls.Add(this.tableLayoutPanel1);
+            this.Controls.Add(this.checkBoxAnonymouns);
             this.Name = "SendErrorReportForm";
             this.ShowIcon = false;
             this.Shown += new System.EventHandler(this.SendErrorReportForm_Shown);
@@ -145,5 +154,6 @@
         private System.Windows.Forms.Button buttonReset;
         private System.Windows.Forms.BindingSource bindingSource;
         private System.Windows.Forms.PictureBox pictureBoxIcon;
+        private System.Windows.Forms.CheckBox checkBoxAnonymouns;
     }
 }

@@ -144,6 +144,12 @@ If an error report is too long, you might not be able to send by DM.</value>
   <data name="buttonReset.Text" xml:space="preserve">
     <value>&amp;Reset</value>
   </data>
+  <data name="checkBoxAnonymouns.Size" type="System.Drawing.Size, System.Drawing">
+    <value>442, 16</value>
+  </data>
+  <data name="checkBoxAnonymouns.Text" xml:space="preserve">
+    <value>I don't want my name (screen name) to show up in the changelog entry. (optional)</value>
+  </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="$this.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>Inherit</value>

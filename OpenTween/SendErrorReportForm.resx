@@ -241,7 +241,7 @@
     <value>353, 29</value>
   </data>
   <data name="tableLayoutPanel1.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
+    <value>5</value>
   </data>
   <data name="&gt;&gt;tableLayoutPanel1.Name" xml:space="preserve">
     <value>tableLayoutPanel1</value>
@@ -274,7 +274,7 @@
     <value>Vertical</value>
   </data>
   <data name="textBoxErrorReport.Size" type="System.Drawing.Size, System.Drawing">
-    <value>610, 209</value>
+    <value>610, 186</value>
   </data>
   <data name="textBoxErrorReport.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -343,7 +343,7 @@
     <value>532, 36</value>
   </data>
   <data name="label2.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
+    <value>3</value>
   </data>
   <data name="label2.Text" xml:space="preserve">
     <value>もしエラーレポートの中にユーザー名など個人情報が含まれていた場合は、上のテキストから直接削除してください。
@@ -378,7 +378,7 @@
     <value>111, 25</value>
   </data>
   <data name="buttonReset.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
+    <value>4</value>
   </data>
   <data name="buttonReset.Text" xml:space="preserve">
     <value>リセット(&amp;R)</value>
@@ -424,6 +424,42 @@
   </data>
   <data name="&gt;&gt;pictureBoxIcon.ZOrder" xml:space="preserve">
     <value>0</value>
+  </data>
+  <data name="checkBoxAnonymouns.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Left</value>
+  </data>
+  <data name="checkBoxAnonymouns.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="checkBoxAnonymouns.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="checkBoxAnonymouns.Location" type="System.Drawing.Point, System.Drawing">
+    <value>14, 246</value>
+  </data>
+  <data name="checkBoxAnonymouns.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>5, 5, 5, 5</value>
+  </data>
+  <data name="checkBoxAnonymouns.Size" type="System.Drawing.Size, System.Drawing">
+    <value>376, 16</value>
+  </data>
+  <data name="checkBoxAnonymouns.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="checkBoxAnonymouns.Text" xml:space="preserve">
+    <value>報告者名（スクリーンネーム）の更新履歴への掲載を希望しない（オプション）</value>
+  </data>
+  <data name="&gt;&gt;checkBoxAnonymouns.Name" xml:space="preserve">
+    <value>checkBoxAnonymouns</value>
+  </data>
+  <data name="&gt;&gt;checkBoxAnonymouns.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;checkBoxAnonymouns.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;checkBoxAnonymouns.ZOrder" xml:space="preserve">
+    <value>6</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>

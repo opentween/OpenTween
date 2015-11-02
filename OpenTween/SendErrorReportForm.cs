@@ -107,6 +107,17 @@ namespace OpenTween
         }
         private string _reportText;
 
+        public bool AnonymousReport
+        {
+            get { return this._anonymousReport; }
+            set
+            {
+                this.SetProperty(ref this._anonymousReport, value);
+                this.UpdateEncodedReport();
+            }
+        }
+        private bool _anonymousReport = true;
+
         public bool CanSendByDM
         {
             get { return this._canSendByDm; }
@@ -167,7 +178,8 @@ namespace OpenTween
                 return;
             }
 
-            var originalBytes = Encoding.UTF8.GetBytes(this.ReportText);
+            var body = $"Anonymous: {this.AnonymousReport}" + Environment.NewLine + this.ReportText;
+            var originalBytes = Encoding.UTF8.GetBytes(body);
 
             using (var outputStream = new MemoryStream())
             {
