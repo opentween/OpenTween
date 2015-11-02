@@ -133,13 +133,20 @@
   <data name="label1.Text" xml:space="preserve">
     <value>An error has occurred. Please send an error report to help fix the problem.</value>
   </data>
+  <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>602, 36</value>
+  </data>
   <data name="label2.Text" xml:space="preserve">
-    <value>When contains personal information such as username in the error report, please delete directly from the text of the above.
+    <value>When contains personal information such as username in the error report, please delete directly from the above text.
 
 If an error report is too long, you might not be able to send by DM.</value>
   </data>
   <data name="buttonReset.Text" xml:space="preserve">
     <value>&amp;Reset</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="$this.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>Inherit</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>Send Error Report</value>
