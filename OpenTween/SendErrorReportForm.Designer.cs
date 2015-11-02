@@ -39,8 +39,10 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.buttonReset = new System.Windows.Forms.Button();
+            this.pictureBoxIcon = new System.Windows.Forms.PictureBox();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxIcon)).BeginInit();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -102,21 +104,30 @@
             this.buttonReset.UseVisualStyleBackColor = true;
             this.buttonReset.Click += new System.EventHandler(this.buttonReset_Click);
             // 
+            // pictureBoxIcon
+            // 
+            resources.ApplyResources(this.pictureBoxIcon, "pictureBoxIcon");
+            this.pictureBoxIcon.Name = "pictureBoxIcon";
+            this.pictureBoxIcon.TabStop = false;
+            // 
             // SendErrorReportForm
             // 
             this.AcceptButton = this.buttonSendByDM;
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.CancelButton = this.buttonNotSend;
+            this.Controls.Add(this.pictureBoxIcon);
             this.Controls.Add(this.buttonReset);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.textBoxErrorReport);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "SendErrorReportForm";
+            this.ShowIcon = false;
             this.Shown += new System.EventHandler(this.SendErrorReportForm_Shown);
             this.tableLayoutPanel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxIcon)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -133,5 +144,6 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button buttonReset;
         private System.Windows.Forms.BindingSource bindingSource;
+        private System.Windows.Forms.PictureBox pictureBoxIcon;
     }
 }

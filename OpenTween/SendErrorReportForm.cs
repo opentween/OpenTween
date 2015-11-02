@@ -56,6 +56,7 @@ namespace OpenTween
 
         private void SendErrorReportForm_Shown(object sender, EventArgs e)
         {
+            this.pictureBoxIcon.Image = SystemIcons.Error.ToBitmap();
             this.textBoxErrorReport.DeselectAll();
         }
 
