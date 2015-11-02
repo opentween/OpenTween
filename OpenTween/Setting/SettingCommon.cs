@@ -238,6 +238,7 @@ namespace OpenTween
         public bool IsRemoveSameEvent = false;
         public bool IsUseNotifyGrowl = false;
         public bool ForceIPv4 = false;
+        public bool ErrorReportAnonymous = true;
     }
 
     public class UserAccount

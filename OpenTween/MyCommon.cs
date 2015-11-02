@@ -419,12 +419,24 @@ namespace OpenTween
                 using (var dialog = new SendErrorReportForm())
                 {
                     var mainForm = Application.OpenForms.Cast<Form>().FirstOrDefault() as TweenMain;
-                    if (mainForm != null)
-                        dialog.ErrorReport = new ErrorReport(mainForm.TwitterInstance, errorReport);
-                    else
-                        dialog.ErrorReport = new ErrorReport(errorReport);
+                    var settings = SettingCommon.Instance;
 
+                    ErrorReport report;
+                    if (mainForm != null)
+                        report = new ErrorReport(mainForm.TwitterInstance, errorReport);
+                    else
+                        report = new ErrorReport(errorReport);
+
+                    report.AnonymousReport = settings.ErrorReportAnonymous;
+
+                    dialog.ErrorReport = report;
                     dialog.ShowDialog(mainForm);
+
+                    if (settings.ErrorReportAnonymous != report.AnonymousReport)
+                    {
+                        settings.ErrorReportAnonymous = report.AnonymousReport;
+                        settings.Save();
+                    }
                 }
 
                 return false;
