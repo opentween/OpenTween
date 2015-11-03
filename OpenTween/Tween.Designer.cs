@@ -669,6 +669,7 @@
             // SplitContainer3
             // 
             resources.ApplyResources(this.SplitContainer3, "SplitContainer3");
+            this.SplitContainer3.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
             this.SplitContainer3.Name = "SplitContainer3";
             // 
             // SplitContainer3.Panel1
@@ -678,7 +679,6 @@
             // SplitContainer3.Panel2
             // 
             this.SplitContainer3.Panel2.Controls.Add(this.tweetThumbnail1);
-            this.SplitContainer3.Panel2Collapsed = true;
             this.SplitContainer3.TabStop = false;
             this.SplitContainer3.SplitterMoved += new System.Windows.Forms.SplitterEventHandler(this.SplitContainer3_SplitterMoved);
             // 

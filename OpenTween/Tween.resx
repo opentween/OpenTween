@@ -647,7 +647,7 @@
     <value>3, 3, 3, 0</value>
   </data>
   <data name="NameLabel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>437, 14</value>
+    <value>340, 14</value>
   </data>
   <data name="NameLabel.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -833,7 +833,7 @@
     <value>59, 20</value>
   </data>
   <data name="PostBrowser.Size" type="System.Drawing.Size, System.Drawing">
-    <value>546, 60</value>
+    <value>449, 60</value>
   </data>
   <data name="PostBrowser.TabIndex" type="System.Int32, mscorlib">
     <value>6</value>
@@ -860,7 +860,7 @@
     <value>Off</value>
   </data>
   <data name="DateTimeLabel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>502, 3</value>
+    <value>405, 3</value>
   </data>
   <data name="DateTimeLabel.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>3, 3, 3, 0</value>
@@ -923,7 +923,7 @@
     <value>Off</value>
   </data>
   <data name="SourceLinkLabel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>546, 3</value>
+    <value>449, 3</value>
   </data>
   <data name="SourceLinkLabel.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>3, 3, 3, 0</value>
@@ -962,7 +962,7 @@
     <value>2</value>
   </data>
   <data name="TableLayoutPanel1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>608, 87</value>
+    <value>511, 87</value>
   </data>
   <data name="TableLayoutPanel1.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -1004,7 +1004,7 @@
     <value>0, 0</value>
   </data>
   <data name="StatusText.Size" type="System.Drawing.Size, System.Drawing">
-    <value>514, 19</value>
+    <value>417, 19</value>
   </data>
   <data name="StatusText.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -1028,7 +1028,7 @@
     <value>Off</value>
   </data>
   <data name="lblLen.Location" type="System.Drawing.Point, System.Drawing">
-    <value>514, 0</value>
+    <value>417, 0</value>
   </data>
   <data name="lblLen.Size" type="System.Drawing.Size, System.Drawing">
     <value>47, 25</value>
@@ -1061,7 +1061,7 @@
     <value>Off</value>
   </data>
   <data name="PostButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>561, 0</value>
+    <value>464, 0</value>
   </data>
   <data name="PostButton.Size" type="System.Drawing.Size, System.Drawing">
     <value>47, 25</value>
@@ -1097,7 +1097,7 @@
     <value>1</value>
   </data>
   <data name="SplitContainer2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>608, 114</value>
+    <value>511, 114</value>
   </data>
   <data name="SplitContainer2.SplitterDistance" type="System.Int32, mscorlib">
     <value>87</value>
