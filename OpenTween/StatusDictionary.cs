@@ -42,7 +42,7 @@ using System.Xml.Serialization;
 
 namespace OpenTween
 {
-    public class PostClass
+    public class PostClass : ICloneable
     {
         public struct StatusGeo : IEquatable<StatusGeo>
         {
@@ -115,62 +115,6 @@ namespace OpenTween
             Mark = 2,
             Reply = 4,
             Geo = 8,
-        }
-
-        public PostClass(string Nickname,
-                string textFromApi,
-                string text,
-                string ImageUrl,
-                string screenName,
-                DateTime createdAt,
-                long statusId,
-                bool IsFav,
-                bool IsRead,
-                bool IsReply,
-                bool IsExcludeReply,
-                bool IsProtect,
-                bool IsOwl,
-                bool IsMark,
-                string InReplyToUser,
-                long? InReplyToStatusId,
-                string Source,
-                Uri SourceUri,
-                List<string> ReplyToList,
-                bool IsMe,
-                bool IsDm,
-                long userId,
-                bool FilterHit,
-                string RetweetedBy,
-                long? RetweetedId,
-                StatusGeo? Geo)
-            : this()
-        {
-            this.Nickname = Nickname;
-            this.TextFromApi = textFromApi;
-            this.ImageUrl = ImageUrl;
-            this.ScreenName = screenName;
-            this.CreatedAt = createdAt;
-            this.StatusId = statusId;
-            _IsFav = IsFav;
-            this.Text = text;
-            this.IsRead = IsRead;
-            this.IsReply = IsReply;
-            this.IsExcludeReply = IsExcludeReply;
-            _IsProtect = IsProtect;
-            this.IsOwl = IsOwl;
-            _IsMark = IsMark;
-            this.InReplyToUser = InReplyToUser;
-            _InReplyToStatusId = InReplyToStatusId;
-            this.Source = Source;
-            this.SourceUri = SourceUri;
-            this.ReplyToList = ReplyToList;
-            this.IsMe = IsMe;
-            this.IsDm = IsDm;
-            this.UserId = userId;
-            this.FilterHit = FilterHit;
-            this.RetweetedBy = RetweetedBy;
-            this.RetweetedId = RetweetedId;
-            _postGeo = Geo;
         }
 
         public PostClass()
@@ -367,6 +311,35 @@ namespace OpenTween
 
             return false;
         }
+
+        public PostClass ConvertToOriginalPost()
+        {
+            if (this.RetweetedId == null)
+                throw new InvalidOperationException();
+
+            var originalPost = this.Clone();
+
+            originalPost.StatusId = this.RetweetedId.Value;
+            originalPost.RetweetedId = null;
+            originalPost.RetweetedBy = "";
+            originalPost.RetweetedByUserId = null;
+            originalPost.RetweetedCount = 1;
+
+            return originalPost;
+        }
+
+        public PostClass Clone()
+        {
+            var clone = (PostClass)this.MemberwiseClone();
+            clone.ReplyToList = new List<string>(this.ReplyToList);
+            clone.Media = new List<MediaInfo>(this.Media);
+            clone.QuoteStatusIds = this.QuoteStatusIds.ToArray();
+
+            return clone;
+        }
+
+        object ICloneable.Clone()
+            => this.Clone();
 
         public override bool Equals(object obj)
         {
@@ -1047,41 +1020,7 @@ namespace OpenTween
                 return;
             }
 
-            this._retweets.Add(
-                        retweetedId,
-                        new PostClass(
-                            item.Nickname,
-                            item.TextFromApi,
-                            item.Text,
-                            item.ImageUrl,
-                            item.ScreenName,
-                            item.CreatedAt,
-                            item.RetweetedId.Value,
-                            item.IsFav,
-                            item.IsRead,
-                            item.IsReply,
-                            item.IsExcludeReply,
-                            item.IsProtect,
-                            item.IsOwl,
-                            item.IsMark,
-                            item.InReplyToUser,
-                            item.InReplyToStatusId,
-                            item.Source,
-                            item.SourceUri,
-                            item.ReplyToList,
-                            item.IsMe,
-                            item.IsDm,
-                            item.UserId,
-                            item.FilterHit,
-                            "",
-                            null,
-                            item.PostGeo
-                        ) {
-                            RetweetedCount = 1,
-                            Media = new List<MediaInfo>(item.Media),
-                            QuoteStatusIds = item.QuoteStatusIds.ToArray(),
-                        }
-                    );
+            this._retweets.Add(retweetedId, item.ConvertToOriginalPost());
         }
 
         public bool AddQuoteTweet(PostClass item)
