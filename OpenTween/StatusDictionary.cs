@@ -793,6 +793,16 @@ namespace OpenTween
             }
         }
 
+        public int SubmitUpdate(bool isUserStream = false)
+        {
+            string soundFile;
+            PostClass[] notifyPosts;
+            bool isMentionIncluded, isDeletePost;
+
+            return this.SubmitUpdate(out soundFile, out notifyPosts, out isMentionIncluded,
+                out isDeletePost, isUserStream);
+        }
+
         public int SubmitUpdate(out string soundFile, out PostClass[] notifyPosts,
             out bool isMentionIncluded, out bool isDeletePost, bool isUserStream)
         {
@@ -1131,66 +1141,98 @@ namespace OpenTween
         {
             lock (LockObj)
             {
-                var tbr = GetTabByType(MyCommon.TabUsageType.Home);
-                var replyTab = GetTabByType(MyCommon.TabUsageType.Mentions);
-                foreach (var tb in _tabs.Values.ToArray())
+                var homeTab = GetTabByType(MyCommon.TabUsageType.Home);
+                var detachedIdsAll = Enumerable.Empty<long>();
+
+                foreach (var tab in _tabs.Values.ToArray())
                 {
-                    if (tb.TabType == MyCommon.TabUsageType.Mute)
+                    if (!tab.IsDistributableTabType)
                         continue;
 
-                    if (tb.FilterModified)
+                    if (tab.TabType == MyCommon.TabUsageType.Mute)
+                        continue;
+
+                    // フィルタに変更のあったタブのみを対象とする
+                    if (!tab.FilterModified)
+                        continue;
+
+                    tab.FilterModified = false;
+
+                    // フィルタ実行前の時点でタブに含まれていたstatusIdを記憶する
+                    var orgIds = tab.BackupIds;
+                    tab.ClearIDs();
+
+                    foreach (var post in _statuses.Values)
                     {
-                        tb.FilterModified = false;
-                        var orgIds = tb.BackupIds;
-                        tb.ClearIDs();
-                        //////////////フィルター前のIDsを退避。どのタブにも含まれないidはrecentへ追加
-                        //////////////moveフィルターにヒットした際、recentに該当あればrecentから削除
-                        foreach (var post in _statuses.Values)
+                        var filterHit = false; // フィルタにヒットしたタブがあるか
+                        var mark = false; // フィルタによってマーク付けされたか
+                        var excluded = false; // 除外フィルタによって除外されたか
+                        var moved = false; // Recentタブから移動するか (Recentタブに表示しない)
+
+                        switch (tab.AddFiltered(post, immediately: true))
                         {
-                            if (post.IsDm) continue;
-                            var rslt = MyCommon.HITRESULT.None;
-                            rslt = tb.AddFiltered(post);
-                            switch (rslt)
-                            {
-                                case MyCommon.HITRESULT.CopyAndMark:
-                                post.IsMark = true; //マークあり
-                                post.FilterHit = true;
-                                break;
-                                case MyCommon.HITRESULT.Move:
-                                tbr.Remove(post.StatusId);
-                                post.IsMark = false;
-                                post.FilterHit = true;
-                                break;
                             case MyCommon.HITRESULT.Copy:
-                                post.IsMark = false;
-                                post.FilterHit = true;
+                                filterHit = true;
                                 break;
-                            case MyCommon.HITRESULT.Exclude:
-                                if (tb.TabName == replyTab.TabName && post.IsReply) post.IsExcludeReply = true;
-                                if (post.IsFav) GetTabByType(MyCommon.TabUsageType.Favorites).AddPostQueue(post.StatusId, post.IsRead);
-                                post.FilterHit = false;
+                            case MyCommon.HITRESULT.CopyAndMark:
+                                filterHit = true;
+                                mark = true;
+                                break;
+                            case MyCommon.HITRESULT.Move:
+                                filterHit = true;
+                                moved = true;
                                 break;
                             case MyCommon.HITRESULT.None:
-                                if (tb.TabName == replyTab.TabName && post.IsReply) replyTab.AddPostQueue(post.StatusId, post.IsRead);
-                                if (post.IsFav) GetTabByType(MyCommon.TabUsageType.Favorites).AddPostQueue(post.StatusId, post.IsRead);
-                                post.FilterHit = false;
                                 break;
-                            }
+                            case MyCommon.HITRESULT.Exclude:
+                                excluded = true;
+                                break;
                         }
-                        tb.AddSubmit();  //振分確定
-                        foreach (var id in orgIds)
+
+                        post.FilterHit = filterHit;
+                        post.IsMark = mark;
+
+                        // 移動されたらRecentから除去
+                        if (moved)
+                            homeTab.Remove(post.StatusId);
+
+                        if (tab.TabType == MyCommon.TabUsageType.Mentions)
                         {
-                            var hit = false;
-                            foreach (var tbTemp in _tabs.Values.ToArray())
-                            {
-                                if (tbTemp.Contains(id))
-                                {
-                                    hit = true;
-                                    break;
-                                }
-                            }
-                            if (!hit) tbr.AddPostImmediately(id, _statuses[id].IsRead);
+                            post.IsExcludeReply = excluded;
+
+                            // 除外ルール適用のないReplyならReplyタブに追加
+                            if (post.IsReply && !excluded)
+                                tab.AddPostImmediately(post.StatusId, post.IsRead);
                         }
+                    }
+
+                    // フィルタの更新によってタブから取り除かれたツイートのID
+                    var detachedIds = orgIds.Except(tab.BackupIds).ToArray();
+
+                    detachedIdsAll = detachedIdsAll.Concat(detachedIds);
+                }
+
+                // detachedIdsAll のうち、最終的にどのタブにも振り分けられていないツイートがあればRecentに追加
+                foreach (var id in detachedIdsAll)
+                {
+                    var hit = false;
+                    foreach (var tbTemp in _tabs.Values.ToArray())
+                    {
+                        if (!tbTemp.IsDistributableTabType)
+                            continue;
+
+                        if (tbTemp.Contains(id))
+                        {
+                            hit = true;
+                            break;
+                        }
+                    }
+
+                    if (!hit)
+                    {
+                        PostClass post;
+                        if (this._statuses.TryGetValue(id, out post))
+                            homeTab.AddPostImmediately(post.StatusId, post.IsRead);
                     }
                 }
             }
@@ -1573,7 +1615,7 @@ namespace OpenTween
         }
 
         //フィルタに合致したら追加
-        public MyCommon.HITRESULT AddFiltered(PostClass post)
+        public MyCommon.HITRESULT AddFiltered(PostClass post, bool immediately = false)
         {
             if (this.IsInnerStorageTabType) return MyCommon.HITRESULT.None;
 
@@ -1617,7 +1659,10 @@ namespace OpenTween
             if (this.TabType != MyCommon.TabUsageType.Mute &&
                 rslt != MyCommon.HITRESULT.None && rslt != MyCommon.HITRESULT.Exclude)
             {
-                this.AddPostQueue(post.StatusId, post.IsRead);
+                if (immediately)
+                    this.AddPostImmediately(post.StatusId, post.IsRead);
+                else
+                    this.AddPostQueue(post.StatusId, post.IsRead);
             }
 
             return rslt; //マーク付けは呼び出し元で行うこと

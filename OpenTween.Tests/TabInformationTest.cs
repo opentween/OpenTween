@@ -413,6 +413,260 @@ namespace OpenTween
             Assert.Equal(3, notifyPosts.Length);
         }
 
+        [Fact]
+        public void FilterAll_CopyFilterTest()
+        {
+            var homeTab = this.tabinfo.GetTabByType(MyCommon.TabUsageType.Home);
+
+            this.tabinfo.AddTab("MyTab1", MyCommon.TabUsageType.UserDefined, null);
+            var myTab1 = this.tabinfo.Tabs["MyTab1"];
+
+            var filter = new PostFilterRule
+            {
+                FilterName = "aaa",
+
+                // コピーのみ
+                MoveMatches = false,
+                MarkMatches = false,
+            };
+            myTab1.AddFilter(filter);
+            myTab1.FilterModified = false;
+
+            this.tabinfo.AddPost(new PostClass { StatusId = 100L, ScreenName = "aaa" });
+            this.tabinfo.AddPost(new PostClass { StatusId = 200L, ScreenName = "bbb" });
+            this.tabinfo.AddPost(new PostClass { StatusId = 300L, ScreenName = "ccc" });
+            this.tabinfo.DistributePosts();
+            this.tabinfo.SubmitUpdate();
+
+            // この時点での振り分け状態
+            Assert.Equal(new[] { 100L, 200L, 300L }, homeTab.BackupIds, AnyOrderComparer<long>.Instance);
+            Assert.Equal(new[] { 100L }, myTab1.BackupIds);
+
+            // フィルタを変更する
+            filter.FilterName = "bbb";
+
+            // フィルタの変更を反映
+            this.tabinfo.FilterAll();
+            this.tabinfo.DistributePosts();
+            this.tabinfo.SubmitUpdate();
+
+            // 期待する動作:
+            //   [statusId: 100] は MyTab1 から取り除かれる
+            //   [statusId: 200] は Recent から MyTab1 にコピーされる
+
+            // 変更後の振り分け状態
+            Assert.Equal(new[] { 100L, 200L, 300L }, homeTab.BackupIds, AnyOrderComparer<long>.Instance);
+            Assert.Equal(new[] { 200L }, myTab1.BackupIds);
+        }
+
+        [Fact]
+        public void FilterAll_CopyAndMarkFilterTest()
+        {
+            var homeTab = this.tabinfo.GetTabByType(MyCommon.TabUsageType.Home);
+
+            this.tabinfo.AddTab("MyTab1", MyCommon.TabUsageType.UserDefined, null);
+            var myTab1 = this.tabinfo.Tabs["MyTab1"];
+
+            var filter = new PostFilterRule
+            {
+                FilterName = "aaa",
+
+                // コピー+マーク
+                MoveMatches = false,
+                MarkMatches = true,
+            };
+            myTab1.AddFilter(filter);
+            myTab1.FilterModified = false;
+
+            this.tabinfo.AddPost(new PostClass { StatusId = 100L, ScreenName = "aaa" });
+            this.tabinfo.AddPost(new PostClass { StatusId = 200L, ScreenName = "bbb" });
+            this.tabinfo.AddPost(new PostClass { StatusId = 300L, ScreenName = "ccc" });
+            this.tabinfo.DistributePosts();
+            this.tabinfo.SubmitUpdate();
+
+            // この時点での振り分け状態
+            Assert.Equal(new[] { 100L, 200L, 300L }, homeTab.BackupIds, AnyOrderComparer<long>.Instance);
+            Assert.Equal(new[] { 100L }, myTab1.BackupIds);
+
+            // フィルタを変更する
+            filter.FilterName = "bbb";
+
+            // フィルタの変更を反映
+            this.tabinfo.FilterAll();
+            this.tabinfo.DistributePosts();
+            this.tabinfo.SubmitUpdate();
+
+            // 期待する動作:
+            //   [statusId: 100] は MyTab1 から取り除かれる
+            //   [statusId: 200] は Recent から MyTab1 にコピーされ、マークが付与される
+
+            // 変更後の振り分け状態
+            Assert.Equal(new[] { 100L, 200L, 300L }, homeTab.BackupIds, AnyOrderComparer<long>.Instance);
+            Assert.Equal(new[] { 200L }, myTab1.BackupIds);
+
+            // [statusId: 200] は IsMark が true の状態になる
+            Assert.True(this.tabinfo[200L].IsMark);
+        }
+
+        [Fact]
+        public void FilterAll_MoveFilterTest()
+        {
+            var homeTab = this.tabinfo.GetTabByType(MyCommon.TabUsageType.Home);
+
+            this.tabinfo.AddTab("MyTab1", MyCommon.TabUsageType.UserDefined, null);
+            var myTab1 = this.tabinfo.Tabs["MyTab1"];
+
+            var filter = new PostFilterRule
+            {
+                FilterName = "aaa",
+
+                // マッチしたら移動
+                MoveMatches = true,
+            };
+            myTab1.AddFilter(filter);
+            myTab1.FilterModified = false;
+
+            this.tabinfo.AddPost(new PostClass { StatusId = 100L, ScreenName = "aaa" });
+            this.tabinfo.AddPost(new PostClass { StatusId = 200L, ScreenName = "bbb" });
+            this.tabinfo.AddPost(new PostClass { StatusId = 300L, ScreenName = "ccc" });
+            this.tabinfo.DistributePosts();
+            this.tabinfo.SubmitUpdate();
+
+            // この時点での振り分け状態
+            Assert.Equal(new[] { 200L, 300L }, homeTab.BackupIds, AnyOrderComparer<long>.Instance);
+            Assert.Equal(new[] { 100L }, myTab1.BackupIds);
+
+            // フィルタを変更する
+            filter.FilterName = "bbb";
+
+            // フィルタの変更を反映
+            this.tabinfo.FilterAll();
+            this.tabinfo.DistributePosts();
+            this.tabinfo.SubmitUpdate();
+
+            // 期待する動作:
+            //   [statusId: 100] は MyTab1 から取り除かれて Recent に戻される
+            //   [statusId: 200] は Recent から MyTab1 に移動される
+
+            // 変更後の振り分け状態
+            Assert.Equal(new[] { 100L, 300L }, homeTab.BackupIds, AnyOrderComparer<long>.Instance);
+            Assert.Equal(new[] { 200L }, myTab1.BackupIds);
+        }
+
+        [Fact]
+        public void FilterAll_MoveFilterTest2()
+        {
+            var homeTab = this.tabinfo.GetTabByType(MyCommon.TabUsageType.Home);
+
+            this.tabinfo.AddTab("MyTab1", MyCommon.TabUsageType.UserDefined, null);
+            this.tabinfo.AddTab("MyTab2", MyCommon.TabUsageType.UserDefined, null);
+            var myTab1 = this.tabinfo.Tabs["MyTab1"];
+            var myTab2 = this.tabinfo.Tabs["MyTab2"];
+
+            var filter1 = new PostFilterRule
+            {
+                FilterName = "aaa",
+
+                // マッチしたら移動
+                MoveMatches = true,
+            };
+            myTab1.AddFilter(filter1);
+            myTab1.FilterModified = false;
+
+            var filter2 = new PostFilterRule
+            {
+                FilterName = "bbb",
+
+                // マッチしたら移動
+                MoveMatches = true,
+            };
+            myTab2.AddFilter(filter2);
+            myTab2.FilterModified = false;
+
+            this.tabinfo.AddPost(new PostClass { StatusId = 100L, ScreenName = "aaa" });
+            this.tabinfo.AddPost(new PostClass { StatusId = 200L, ScreenName = "bbb" });
+            this.tabinfo.AddPost(new PostClass { StatusId = 300L, ScreenName = "ccc" });
+            this.tabinfo.DistributePosts();
+            this.tabinfo.SubmitUpdate();
+
+            // この時点での振り分け状態
+            Assert.Equal(new[] { 300L }, homeTab.BackupIds);
+            Assert.Equal(new[] { 100L }, myTab1.BackupIds);
+            Assert.Equal(new[] { 200L }, myTab2.BackupIds);
+
+            // MyTab1 のフィルタを変更する
+            filter1.FilterName = "bbb";
+
+            // MyTab2 のフィルタを変更する
+            filter2.FilterName = "ccc";
+
+            // フィルタの変更を反映
+            this.tabinfo.FilterAll();
+            this.tabinfo.DistributePosts();
+            this.tabinfo.SubmitUpdate();
+
+            // 期待する動作:
+            //   [statusId: 100] は MyTab1 から取り除かれて Recent に戻される
+            //   [statusId: 200] は MyTab1 に移動される
+            //   [statusId: 200] は MyTab2 から取り除かれるが MyTab1 に移動されているので Recent には戻さない
+            //   [statusId: 300] は Recent から MyTab2 に移動される
+
+            // 変更後の振り分け状態
+            Assert.Equal(new[] { 100L }, homeTab.BackupIds);
+            Assert.Equal(new[] { 200L }, myTab1.BackupIds);
+            Assert.Equal(new[] { 300L }, myTab2.BackupIds);
+        }
+
+        [Fact]
+        public void FilterAll_ExcludeReplyFilterTest()
+        {
+            var homeTab = this.tabinfo.GetTabByType(MyCommon.TabUsageType.Home);
+            var replyTab = this.tabinfo.GetTabByType(MyCommon.TabUsageType.Mentions);
+
+            var filter = new PostFilterRule
+            {
+                // @aaa からのリプライは Reply タブに振り分けない
+                ExFilterName = "aaa",
+            };
+            replyTab.AddFilter(filter);
+            replyTab.FilterModified = false;
+
+            this.tabinfo.AddPost(new PostClass { StatusId = 100L, ScreenName = "aaa", IsReply = true });
+            this.tabinfo.AddPost(new PostClass { StatusId = 200L, ScreenName = "bbb", IsReply = true });
+            this.tabinfo.AddPost(new PostClass { StatusId = 300L, ScreenName = "ccc", IsReply = true });
+            this.tabinfo.DistributePosts();
+            this.tabinfo.SubmitUpdate();
+
+            // この時点での振り分け状態
+            Assert.Equal(new[] { 100L, 200L, 300L }, homeTab.BackupIds, AnyOrderComparer<long>.Instance);
+            Assert.Equal(new[] { 200L, 300L }, replyTab.BackupIds, AnyOrderComparer<long>.Instance);
+
+            // [statusId: 100] は IsExcludeReply が true の状態になっている
+            Assert.True(this.tabinfo[100L].IsExcludeReply);
+
+            // Reply のフィルタを変更する
+            filter.ExFilterName = "bbb";
+
+            // フィルタの変更を反映
+            this.tabinfo.FilterAll();
+            this.tabinfo.DistributePosts();
+            this.tabinfo.SubmitUpdate();
+
+            // 期待する動作:
+            //   [statusId: 100] は Reply にコピーされ、IsExcludeReply が false になる
+            //   [statusId: 200] は Reply から取り除かれ、IsExcludeReply が true になる
+
+            // 変更後の振り分け状態
+            Assert.Equal(new[] { 100L, 200L, 300L }, homeTab.BackupIds, AnyOrderComparer<long>.Instance);
+            Assert.Equal(new[] { 100L, 300L }, replyTab.BackupIds, AnyOrderComparer<long>.Instance);
+
+            // [statusId: 100] は IsExcludeReply が false の状態になる
+            Assert.False(this.tabinfo[100L].IsExcludeReply);
+
+            // [statusId: 200] は IsExcludeReply が true の状態になる
+            Assert.True(this.tabinfo[200L].IsExcludeReply);
+        }
+
         class TestPostFilterRule : PostFilterRule
         {
             public static PostFilterRule Create(Func<PostClass, MyCommon.HITRESULT> filterDelegate)
