@@ -1097,28 +1097,21 @@ namespace OpenTween
             get
             {
                 PostClass status;
-                return _statuses.TryGetValue(ID, out status)
-                    ? status
-                    : _retweets.TryGetValue(ID, out status)
-                    ? status
-                    : _quotes.TryGetValue(ID, out status)
-                    ? status
-                    : this.GetTabsInnerStorageType()
-                          .Where(t => t.Contains(ID))
-                          .Select(t => t.Posts[ID]).FirstOrDefault();
+                if (this._statuses.TryGetValue(ID, out status))
+                    return status;
+
+                if (this._retweets.TryGetValue(ID, out status))
+                    return status;
+
+                if (this._quotes.TryGetValue(ID, out status))
+                    return status;
+
+                return this.GetTabsInnerStorageType()
+                    .Select(x => x.Posts.TryGetValue(ID, out status) ? status : null)
+                    .Where(x => x != null)
+                    .FirstOrDefault();
             }
         }
-
-        //public ReadOnly int ItemCount
-        //{
-        //    get
-        //    {
-        //        lock (LockObj)
-        //    {
-        //            return _statuses.Count   //DM,公式検索は除く
-        //        }
-        //    }
-        //}
 
         public bool ContainsKey(long Id)
         {
@@ -1306,41 +1299,28 @@ namespace OpenTween
             //合致しなければnullを返す
             lock (LockObj)
             {
-                foreach (var tab in _tabs.Values)
-                {
-                    if (tab.TabType == tabType) return tab;
-                }
-                return null;
+                return this._tabs.Values
+                    .FirstOrDefault(x => x.TabType.HasFlag(tabType));
             }
         }
 
-        public List<TabClass> GetTabsByType(MyCommon.TabUsageType tabType)
+        public TabClass[] GetTabsByType(MyCommon.TabUsageType tabType)
         {
-            //合致したタブをListで返す
-            //合致しなければ空のListを返す
             lock (LockObj)
             {
-                var tbs = new List<TabClass>();
-                foreach (var tb in _tabs.Values)
-                {
-                    if ((tabType & tb.TabType) == tb.TabType) tbs.Add(tb);
-                }
-                return tbs;
+                return this._tabs.Values
+                    .Where(x => x.TabType.HasFlag(tabType))
+                    .ToArray();
             }
         }
 
-        public List<TabClass> GetTabsInnerStorageType()
+        public TabClass[] GetTabsInnerStorageType()
         {
-            //合致したタブをListで返す
-            //合致しなければ空のListを返す
             lock (LockObj)
             {
-                var tbs = new List<TabClass>();
-                foreach (var tb in _tabs.Values)
-                {
-                    if (tb.IsInnerStorageTabType) tbs.Add(tb);
-                }
-                return tbs;
+                return this._tabs.Values
+                    .Where(x => x.IsInnerStorageTabType)
+                    .ToArray();
             }
         }
 
@@ -1371,14 +1351,8 @@ namespace OpenTween
             }
             return tabNameTemp;
         }
-
         public ConcurrentDictionary<long, PostClass> Posts
-        {
-            get
-            {
-                return _statuses;
-            }
-        }
+            => this._statuses;
     }
 
     [Serializable]
