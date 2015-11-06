@@ -1335,22 +1335,6 @@ namespace OpenTween
             }
         }
 
-        public string GetUniqueTabName()
-        {
-            var tabNameTemp = "MyTab" + (_tabs.Count + 1).ToString();
-            for (int i = 2; i <= 100; i++)
-            {
-                if (_tabs.ContainsKey(tabNameTemp))
-                {
-                    tabNameTemp = "MyTab" + (_tabs.Count + i).ToString();
-                }
-                else
-                {
-                    break;
-                }
-            }
-            return tabNameTemp;
-        }
         public ConcurrentDictionary<long, PostClass> Posts
             => this._statuses;
     }

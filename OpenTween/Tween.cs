@@ -1211,7 +1211,7 @@ namespace OpenTween
                 }
                 catch (Exception)
                 {
-                    tb.TabName = _statuses.GetUniqueTabName();
+                    tb.TabName = _statuses.MakeTabName("MyTab");
                     _statuses.Tabs.Add(tb.TabName, tb);
                 }
             }
@@ -8859,7 +8859,7 @@ namespace OpenTween
             MyCommon.TabUsageType tabUsage;
             using (InputTabName inputName = new InputTabName())
             {
-                inputName.TabName = _statuses.GetUniqueTabName();
+                inputName.TabName = _statuses.MakeTabName("MyTab");
                 inputName.IsShowUsage = true;
                 inputName.ShowDialog();
                 if (inputName.DialogResult == DialogResult.Cancel) return;
@@ -9168,7 +9168,7 @@ namespace OpenTween
                 {
                     using (InputTabName inputName = new InputTabName())
                     {
-                        inputName.TabName = _statuses.GetUniqueTabName();
+                        inputName.TabName = _statuses.MakeTabName("MyTab");
                         inputName.ShowDialog();
                         if (inputName.DialogResult == DialogResult.Cancel) return false;
                         tabName = inputName.TabName;
