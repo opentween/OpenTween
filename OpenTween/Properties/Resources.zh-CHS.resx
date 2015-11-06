@@ -271,31 +271,22 @@
     <value>发送完成</value>
   </data>
   <data name="GetTimelineWorker_RunWorkerCompletedText15" xml:space="preserve">
-    <value>Fav添加(</value>
-  </data>
-  <data name="GetTimelineWorker_RunWorkerCompletedText16" xml:space="preserve">
-    <value>) 失败:</value>
+    <value>Fav添加({0}/{1}) 失败:{2}</value>
   </data>
   <data name="GetTimelineWorker_RunWorkerCompletedText17" xml:space="preserve">
-    <value>Fav删除(</value>
-  </data>
-  <data name="GetTimelineWorker_RunWorkerCompletedText18" xml:space="preserve">
-    <value>) 失败:</value>
+    <value>Fav删除({0}/{1}) 失败:{2}</value>
   </data>
   <data name="GetTimelineWorker_RunWorkerCompletedText3" xml:space="preserve">
     <value>继续确认</value>
   </data>
   <data name="GetTimelineWorker_RunWorkerCompletedText4" xml:space="preserve">
-    <value>正在刷新回复...</value>
+    <value>正在刷新回复...{0}项</value>
   </data>
   <data name="GetTimelineWorker_RunWorkerCompletedText5" xml:space="preserve">
-    <value>正在刷新...</value>
-  </data>
-  <data name="GetTimelineWorker_RunWorkerCompletedText6" xml:space="preserve">
-    <value>项</value>
+    <value>正在刷新...{0}项</value>
   </data>
   <data name="GetTimelineWorker_RunWorkerCompletedText8" xml:space="preserve">
-    <value>DM接收正在刷新...</value>
+    <value>DM接收正在刷新...{0}项</value>
   </data>
   <data name="GetTimelineWorker_RunWorkerCompletedText9" xml:space="preserve">
     <value>回复已更新</value>

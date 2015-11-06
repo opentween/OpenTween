@@ -1280,7 +1280,7 @@ namespace OpenTween.Properties {
         }
         
         /// <summary>
-        ///   Fav追加( に類似しているローカライズされた文字列を検索します。
+        ///   Fav追加({0}/{1}) 失敗:{2} に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string GetTimelineWorker_RunWorkerCompletedText15 {
             get {
@@ -1289,29 +1289,11 @@ namespace OpenTween.Properties {
         }
         
         /// <summary>
-        ///   ) 失敗: に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string GetTimelineWorker_RunWorkerCompletedText16 {
-            get {
-                return ResourceManager.GetString("GetTimelineWorker_RunWorkerCompletedText16", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Fav削除( に類似しているローカライズされた文字列を検索します。
+        ///   Fav削除({0}/{1}) 失敗:{2} に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string GetTimelineWorker_RunWorkerCompletedText17 {
             get {
                 return ResourceManager.GetString("GetTimelineWorker_RunWorkerCompletedText17", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   ) 失敗: に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string GetTimelineWorker_RunWorkerCompletedText18 {
-            get {
-                return ResourceManager.GetString("GetTimelineWorker_RunWorkerCompletedText18", resourceCulture);
             }
         }
         
@@ -1343,7 +1325,7 @@ namespace OpenTween.Properties {
         }
         
         /// <summary>
-        ///   Reply更新中... に類似しているローカライズされた文字列を検索します。
+        ///   Reply更新中...{0}pages に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string GetTimelineWorker_RunWorkerCompletedText4 {
             get {
@@ -1352,7 +1334,7 @@ namespace OpenTween.Properties {
         }
         
         /// <summary>
-        ///   Recent更新中... に類似しているローカライズされた文字列を検索します。
+        ///   Recent更新中...{0}pages に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string GetTimelineWorker_RunWorkerCompletedText5 {
             get {
@@ -1361,16 +1343,7 @@ namespace OpenTween.Properties {
         }
         
         /// <summary>
-        ///   pages に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string GetTimelineWorker_RunWorkerCompletedText6 {
-            get {
-                return ResourceManager.GetString("GetTimelineWorker_RunWorkerCompletedText6", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   DMRcv更新中... に類似しているローカライズされた文字列を検索します。
+        ///   DMRcv更新中...{0}pages に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string GetTimelineWorker_RunWorkerCompletedText8 {
             get {

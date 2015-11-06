@@ -271,31 +271,22 @@
     <value>POST completed</value>
   </data>
   <data name="GetTimelineWorker_RunWorkerCompletedText15" xml:space="preserve">
-    <value>Mark fav(</value>
-  </data>
-  <data name="GetTimelineWorker_RunWorkerCompletedText16" xml:space="preserve">
-    <value>) failed:</value>
+    <value>Mark fav({0}/{1}) failed:{2}</value>
   </data>
   <data name="GetTimelineWorker_RunWorkerCompletedText17" xml:space="preserve">
-    <value>Unmark fav(</value>
-  </data>
-  <data name="GetTimelineWorker_RunWorkerCompletedText18" xml:space="preserve">
-    <value>) failed:</value>
+    <value>Unmark fav({0}/{1}) failed:{2}</value>
   </data>
   <data name="GetTimelineWorker_RunWorkerCompletedText3" xml:space="preserve">
     <value>Confirm continue reading</value>
   </data>
   <data name="GetTimelineWorker_RunWorkerCompletedText4" xml:space="preserve">
-    <value>Reply refreshing...</value>
+    <value>Reply refreshing...{0}pages</value>
   </data>
   <data name="GetTimelineWorker_RunWorkerCompletedText5" xml:space="preserve">
-    <value>Recent refreshing...</value>
-  </data>
-  <data name="GetTimelineWorker_RunWorkerCompletedText6" xml:space="preserve">
-    <value>pages</value>
+    <value>Recent refreshing...{0}pages</value>
   </data>
   <data name="GetTimelineWorker_RunWorkerCompletedText8" xml:space="preserve">
-    <value>DMRcv refreshing...</value>
+    <value>DMRcv refreshing...{0}pages</value>
   </data>
   <data name="GetTimelineWorker_RunWorkerCompletedText9" xml:space="preserve">
     <value>Reply refreshed</value>

@@ -287,31 +287,22 @@
     <value>POST完了</value>
   </data>
   <data name="GetTimelineWorker_RunWorkerCompletedText15" xml:space="preserve">
-    <value>Fav追加(</value>
-  </data>
-  <data name="GetTimelineWorker_RunWorkerCompletedText16" xml:space="preserve">
-    <value>) 失敗:</value>
+    <value>Fav追加({0}/{1}) 失敗:{2}</value>
   </data>
   <data name="GetTimelineWorker_RunWorkerCompletedText17" xml:space="preserve">
-    <value>Fav削除(</value>
-  </data>
-  <data name="GetTimelineWorker_RunWorkerCompletedText18" xml:space="preserve">
-    <value>) 失敗:</value>
+    <value>Fav削除({0}/{1}) 失敗:{2}</value>
   </data>
   <data name="GetTimelineWorker_RunWorkerCompletedText3" xml:space="preserve">
     <value>読み込み継続確認</value>
   </data>
   <data name="GetTimelineWorker_RunWorkerCompletedText4" xml:space="preserve">
-    <value>Reply更新中...</value>
+    <value>Reply更新中...{0}pages</value>
   </data>
   <data name="GetTimelineWorker_RunWorkerCompletedText5" xml:space="preserve">
-    <value>Recent更新中...</value>
-  </data>
-  <data name="GetTimelineWorker_RunWorkerCompletedText6" xml:space="preserve">
-    <value>pages</value>
+    <value>Recent更新中...{0}pages</value>
   </data>
   <data name="GetTimelineWorker_RunWorkerCompletedText8" xml:space="preserve">
-    <value>DMRcv更新中...</value>
+    <value>DMRcv更新中...{0}pages</value>
   </data>
   <data name="GetTimelineWorker_RunWorkerCompletedText9" xml:space="preserve">
     <value>Reply更新完了</value>

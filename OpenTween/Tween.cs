@@ -2187,9 +2187,7 @@ namespace OpenTween
             else
                 read = this._initial && this._cfgCommon.Read;
 
-            p.Report(Properties.Resources.GetTimelineWorker_RunWorkerCompletedText5 +
-                (loadMore ? "-1" : "1") +
-                Properties.Resources.GetTimelineWorker_RunWorkerCompletedText6);
+            p.Report(string.Format(Properties.Resources.GetTimelineWorker_RunWorkerCompletedText5, loadMore ? -1 : 1));
 
             await Task.Run(() =>
             {
@@ -2277,9 +2275,7 @@ namespace OpenTween
             else
                 read = this._initial && this._cfgCommon.Read;
 
-            p.Report(Properties.Resources.GetTimelineWorker_RunWorkerCompletedText4 +
-                (loadMore ? "-1" : "1") +
-                Properties.Resources.GetTimelineWorker_RunWorkerCompletedText6);
+            p.Report(string.Format(Properties.Resources.GetTimelineWorker_RunWorkerCompletedText4, loadMore ? -1 : 1));
 
             await Task.Run(() =>
             {
@@ -2336,9 +2332,7 @@ namespace OpenTween
             else
                 read = this._initial && this._cfgCommon.Read;
 
-            p.Report(Properties.Resources.GetTimelineWorker_RunWorkerCompletedText8 +
-                (loadMore ? "-1" : "1") +
-                Properties.Resources.GetTimelineWorker_RunWorkerCompletedText6);
+            p.Report(string.Format(Properties.Resources.GetTimelineWorker_RunWorkerCompletedText8, loadMore ? -1 : 1));
 
             await Task.Run(() =>
             {
@@ -2787,10 +2781,7 @@ namespace OpenTween
                 {
                     allCount++;
 
-                    p.Report(Properties.Resources.GetTimelineWorker_RunWorkerCompletedText15 +
-                        allCount + "/" + statusIds.Count +
-                        Properties.Resources.GetTimelineWorker_RunWorkerCompletedText16 +
-                        failedCount);
+                    p.Report(string.Format(Properties.Resources.GetTimelineWorker_RunWorkerCompletedText15, allCount, statusIds.Count, failedCount));
 
                     var post = tab.Posts[statusId];
 
@@ -2908,10 +2899,7 @@ namespace OpenTween
 
                     var post = tab.Posts[statusId];
 
-                    p.Report(Properties.Resources.GetTimelineWorker_RunWorkerCompletedText17 +
-                        allCount + "/" + statusIds.Count +
-                        Properties.Resources.GetTimelineWorker_RunWorkerCompletedText18 +
-                        failedCount);
+                    p.Report(string.Format(Properties.Resources.GetTimelineWorker_RunWorkerCompletedText17, allCount, statusIds.Count, failedCount));
 
                     if (!post.IsFav)
                         continue;
