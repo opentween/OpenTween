@@ -2415,7 +2415,9 @@ namespace OpenTween
 
         private Task GetPublicSearchAllAsync()
         {
-            return this.GetPublicSearchAsync(null, loadMore: false);
+            var tabs = this._statuses.GetTabsByType(MyCommon.TabUsageType.PublicSearch);
+
+            return this.GetPublicSearchAsync(tabs, loadMore: false);
         }
 
         private Task GetPublicSearchAsync(TabClass tab)
@@ -2423,17 +2425,18 @@ namespace OpenTween
             return this.GetPublicSearchAsync(tab, loadMore: false);
         }
 
-        private async Task GetPublicSearchAsync(TabClass tab, bool loadMore)
+        private Task GetPublicSearchAsync(TabClass tab, bool loadMore)
+        {
+            return this.GetPublicSearchAsync(new[] { tab }, loadMore);
+        }
+
+        private async Task GetPublicSearchAsync(IEnumerable<TabClass> tabs, bool loadMore)
         {
             await this.workerSemaphore.WaitAsync();
 
             try
             {
                 var progress = new Progress<string>(x => this.StatusLabel.Text = x);
-
-                var tabs = tab != null
-                    ? new[] { tab }.AsEnumerable()
-                    : this._statuses.GetTabsByType(MyCommon.TabUsageType.PublicSearch);
 
                 await this.GetPublicSearchAsyncInternal(progress, this.workerCts.Token, tabs, loadMore);
             }
@@ -2502,7 +2505,9 @@ namespace OpenTween
 
         private Task GetUserTimelineAllAsync()
         {
-            return this.GetUserTimelineAsync(null, loadMore: false);
+            var tabs = this._statuses.GetTabsByType(MyCommon.TabUsageType.UserTimeline);
+
+            return this.GetUserTimelineAsync(tabs, loadMore: false);
         }
 
         private Task GetUserTimelineAsync(TabClass tab)
@@ -2510,17 +2515,18 @@ namespace OpenTween
             return this.GetUserTimelineAsync(tab, loadMore: false);
         }
 
-        private async Task GetUserTimelineAsync(TabClass tab, bool loadMore)
+        private Task GetUserTimelineAsync(TabClass tab, bool loadMore)
+        {
+            return this.GetUserTimelineAsync(new[] { tab }, loadMore: false);
+        }
+
+        private async Task GetUserTimelineAsync(IEnumerable<TabClass> tabs, bool loadMore)
         {
             await this.workerSemaphore.WaitAsync();
 
             try
             {
                 var progress = new Progress<string>(x => this.StatusLabel.Text = x);
-
-                var tabs = tab != null
-                    ? new[] { tab }.AsEnumerable()
-                    : this._statuses.GetTabsByType(MyCommon.TabUsageType.UserTimeline);
 
                 await this.GetUserTimelineAsyncInternal(progress, this.workerCts.Token, tabs, loadMore);
             }
@@ -2586,7 +2592,9 @@ namespace OpenTween
 
         private Task GetListTimelineAllAsync()
         {
-            return this.GetListTimelineAsync(null, loadMore: false);
+            var tabs = this._statuses.GetTabsByType(MyCommon.TabUsageType.Lists);
+
+            return this.GetListTimelineAsync(tabs, loadMore: false);
         }
 
         private Task GetListTimelineAsync(TabClass tab)
@@ -2594,17 +2602,18 @@ namespace OpenTween
             return this.GetListTimelineAsync(tab, loadMore: false);
         }
 
-        private async Task GetListTimelineAsync(TabClass tab, bool loadMore)
+        private Task GetListTimelineAsync(TabClass tab, bool loadMore)
+        {
+            return this.GetListTimelineAsync(new[] { tab }, loadMore: false);
+        }
+
+        private async Task GetListTimelineAsync(IEnumerable<TabClass> tabs, bool loadMore)
         {
             await this.workerSemaphore.WaitAsync();
 
             try
             {
                 var progress = new Progress<string>(x => this.StatusLabel.Text = x);
-
-                var tabs = tab != null
-                    ? new[] { tab }.AsEnumerable()
-                    : this._statuses.GetTabsByType(MyCommon.TabUsageType.Lists);
 
                 await this.GetListTimelineAsyncInternal(progress, this.workerCts.Token, tabs, loadMore);
             }
