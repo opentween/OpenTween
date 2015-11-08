@@ -7,7 +7,6 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using OpenTween.Api;
 using Xunit;
 
@@ -82,7 +81,7 @@ namespace OpenTween
         }
 
         [Fact]
-        public async Task BeginSelection_FilePathTest()
+        public void BeginSelection_FilePathTest()
         {
             using (var mediaSelector = new MediaSelector { Visible = false, Enabled = false })
             {
@@ -108,7 +107,7 @@ namespace OpenTween
                 Assert.Equal(Path.GetFullPath("Resources/re.gif"), mediaSelector.ImagefilePathText.Text);
 
                 using (var imageStream = File.OpenRead("Resources/re.gif"))
-                using (var image = await MemoryImage.CopyFromStreamAsync(imageStream).ConfigureAwait(false))
+                using (var image = MemoryImage.CopyFromStream(imageStream))
                 {
                     Assert.Equal(image, mediaSelector.ImageSelectedPicture.Image);
                 }
@@ -152,7 +151,7 @@ namespace OpenTween
         }
 
         [Fact]
-        public async Task BeginSelection_MultiImageTest()
+        public void BeginSelection_MultiImageTest()
         {
             using (var mediaSelector = new MediaSelector { Visible = false, Enabled = false })
             {
@@ -170,7 +169,7 @@ namespace OpenTween
                 Assert.Equal(Path.GetFullPath("Resources/re.gif"), mediaSelector.ImagefilePathText.Text);
 
                 using (var imageStream = File.OpenRead("Resources/re.gif"))
-                using (var image = await MemoryImage.CopyFromStreamAsync(imageStream).ConfigureAwait(false))
+                using (var image = MemoryImage.CopyFromStream(imageStream))
                 {
                     Assert.Equal(image, mediaSelector.ImageSelectedPicture.Image);
                 }
@@ -202,7 +201,7 @@ namespace OpenTween
         }
 
         [Fact]
-        public async Task PageChange_Test()
+        public void PageChange_Test()
         {
             using (var mediaSelector = new MediaSelector { Visible = false, Enabled = false })
             {
@@ -218,7 +217,7 @@ namespace OpenTween
                 Assert.Equal(Path.GetFullPath("Resources/re.gif"), mediaSelector.ImagefilePathText.Text);
 
                 using (var imageStream = File.OpenRead("Resources/re.gif"))
-                using (var image = await MemoryImage.CopyFromStreamAsync(imageStream).ConfigureAwait(false))
+                using (var image = MemoryImage.CopyFromStream(imageStream))
                 {
                     Assert.Equal(image, mediaSelector.ImageSelectedPicture.Image);
                 }
@@ -230,7 +229,7 @@ namespace OpenTween
                 Assert.Equal(Path.GetFullPath("Resources/re1.png"), mediaSelector.ImagefilePathText.Text);
 
                 using (var imageStream = File.OpenRead("Resources/re1.png"))
-                using (var image = await MemoryImage.CopyFromStreamAsync(imageStream).ConfigureAwait(false))
+                using (var image = MemoryImage.CopyFromStream(imageStream))
                 {
                     Assert.Equal(image, mediaSelector.ImageSelectedPicture.Image);
                 }
@@ -273,7 +272,7 @@ namespace OpenTween
         }
 
         [Fact]
-        public async Task ImagePathInput_Test()
+        public void ImagePathInput_Test()
         {
             using (var mediaSelector = new MediaSelector { Visible = false, Enabled = false })
             {
@@ -286,7 +285,7 @@ namespace OpenTween
 
                 // 入力したパスの画像が表示される
                 using (var imageStream = File.OpenRead("Resources/re1.png"))
-                using (var image = await MemoryImage.CopyFromStreamAsync(imageStream).ConfigureAwait(false))
+                using (var image = MemoryImage.CopyFromStream(imageStream))
                 {
                     Assert.Equal(image, mediaSelector.ImageSelectedPicture.Image);
                 }
@@ -298,7 +297,7 @@ namespace OpenTween
         }
 
         [Fact]
-        public async Task ImagePathInput_ReplaceFileMediaItemTest()
+        public void ImagePathInput_ReplaceFileMediaItemTest()
         {
             using (var mediaSelector = new MediaSelector { Visible = false, Enabled = false })
             {
@@ -315,7 +314,7 @@ namespace OpenTween
 
                 // 入力したパスの画像が表示される
                 using (var imageStream = File.OpenRead("Resources/re1.png"))
-                using (var image2 = await MemoryImage.CopyFromStreamAsync(imageStream).ConfigureAwait(false))
+                using (var image2 = MemoryImage.CopyFromStream(imageStream))
                 {
                     Assert.Equal(image2, mediaSelector.ImageSelectedPicture.Image);
                 }
@@ -326,7 +325,7 @@ namespace OpenTween
         }
 
         [Fact]
-        public async Task ImagePathInput_ReplaceMemoryImageMediaItemTest()
+        public void ImagePathInput_ReplaceMemoryImageMediaItemTest()
         {
             using (var mediaSelector = new MediaSelector { Visible = false, Enabled = false })
             {
@@ -351,7 +350,7 @@ namespace OpenTween
 
                 // 入力したパスの画像が表示される
                 using (var imageStream = File.OpenRead("Resources/re1.png"))
-                using (var image2 = await MemoryImage.CopyFromStreamAsync(imageStream).ConfigureAwait(false))
+                using (var image2 = MemoryImage.CopyFromStream(imageStream))
                 {
                     Assert.Equal(image2, mediaSelector.ImageSelectedPicture.Image);
                 }
