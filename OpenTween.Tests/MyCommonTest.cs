@@ -137,7 +137,7 @@ namespace OpenTween
         }
 
         [Theory]
-        [PropertyData("DateTimeParse_TestCase")]
+        [MemberData("DateTimeParse_TestCase")]
         public void DateTimeParseTest(string date, DateTime excepted)
         {
             Assert.Equal(excepted, MyCommon.DateTimeParse(date).ToUniversalTime());
@@ -161,7 +161,7 @@ namespace OpenTween
         }
 
         [Theory]
-        [PropertyData("CreateDataFromJson_TestCase")]
+        [MemberData("CreateDataFromJson_TestCase")]
         public void CreateDataFromJsonTest<T>(string json, T expected)
         {
             Assert.Equal(expected, MyCommon.CreateDataFromJson<T>(json));
@@ -239,7 +239,7 @@ namespace OpenTween
         }
 
         [Theory]
-        [PropertyData("GetStatusUrlTest1_TestCase")]
+        [MemberData("GetStatusUrlTest1_TestCase")]
         public void GetStatusUrlTest1(PostClass post, string expected)
         {
             Assert.Equal(expected, MyCommon.GetStatusUrl(post));

@@ -31,8 +31,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Xunit;
-using Xunit.Extensions;
-using Xunit.Sdk;
 
 namespace OpenTween
 {
@@ -90,52 +88,6 @@ namespace OpenTween
                 return;
 
             TestUtils.FireEvent(control, "Validated");
-        }
-
-        public static async Task<T> ThrowsAsync<T>(Func<Task> testCode) where T : Exception
-        {
-            var expectedType = typeof(T);
-            Exception exception = null;
-
-            try
-            {
-                await testCode();
-            }
-            catch (Exception ex)
-            {
-                exception = ex;
-            }
-
-            if (exception == null)
-                throw new ThrowsException(expectedType);
-
-            if (!exception.GetType().Equals(expectedType))
-                throw new ThrowsException(expectedType, exception);
-
-            return (T)exception;
-        }
-
-        public static async Task<T> ThrowsAnyAsync<T>(Func<Task> testCode) where T : Exception
-        {
-            var expectedType = typeof(T);
-            Exception exception = null;
-
-            try
-            {
-                await testCode();
-            }
-            catch (Exception ex)
-            {
-                exception = ex;
-            }
-
-            if (exception == null)
-                throw new ThrowsException(expectedType);
-
-            if (!expectedType.IsAssignableFrom(exception.GetType()))
-                throw new ThrowsException(expectedType, exception);
-
-            return (T)exception;
         }
     }
 }

@@ -142,7 +142,7 @@ namespace OpenTween
 
                 tokenSource.Cancel();
 
-                await TestUtils.ThrowsAnyAsync<OperationCanceledException>(async () => await task);
+                await Assert.ThrowsAnyAsync<OperationCanceledException>(async () => await task);
                 Assert.True(task.IsCanceled);
             }
         }

@@ -77,7 +77,7 @@ namespace OpenTween
                 return new HttpResponseMessage(HttpStatusCode.ServiceUnavailable);
             });
 
-            await TestUtils.ThrowsAsync<HttpRequestException>(async () =>
+            await Assert.ThrowsAsync<HttpRequestException>(async () =>
                 await bing.TranslateAsync("hogehoge", langFrom: null, langTo: "ja"));
 
             Assert.Equal(0, handler.QueueCount);

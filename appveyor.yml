@@ -10,6 +10,9 @@ assembly_info:
 build:
   verbosity: minimal
 
+before_build:
+  - nuget restore
+
 install:
   - set PATH=C:\Program Files (x86)\MSBuild\14.0\Bin;%PATH%
 
