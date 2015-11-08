@@ -257,6 +257,25 @@ namespace OpenTween
         }
 
         [Fact]
+        public void GetUnreadIds_Test()
+        {
+            var tab = new TabClass { TabType = MyCommon.TabUsageType.UserTimeline };
+            tab.UnreadManage = true;
+
+            Assert.Empty(tab.GetUnreadIds());
+
+            tab.AddPostToInnerStorage(new PostClass { StatusId = 100L, IsRead = false });
+            tab.AddPostToInnerStorage(new PostClass { StatusId = 200L, IsRead = true });
+            tab.AddSubmit();
+
+            Assert.Equal(new[] { 100L }, tab.GetUnreadIds());
+
+            tab.SetReadState(100L, true); // 既読にする
+
+            Assert.Empty(tab.GetUnreadIds());
+        }
+
+        [Fact]
         public void SetReadState_MarkAsReadTest()
         {
             var tab = new TabClass { TabType = MyCommon.TabUsageType.UserTimeline };

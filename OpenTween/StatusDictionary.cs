@@ -1082,8 +1082,12 @@ namespace OpenTween
 
             lock (LockObj)
             {
-                foreach (var post in homeTab.Posts.Values)
+                foreach (var statusId in homeTab.GetUnreadIds())
                 {
+                    PostClass post;
+                    if (!this.Posts.TryGetValue(statusId, out post))
+                        continue;
+
                     if (post.IsReply || post.FilterHit)
                         continue;
 
@@ -1736,6 +1740,17 @@ namespace OpenTween
             get
             {
                 return this._ids.Count;
+            }
+        }
+
+        /// <summary>
+        /// 未読ツイートの ID を配列で返します
+        /// </summary>
+        public long[] GetUnreadIds()
+        {
+            lock (this._lockObj)
+            {
+                return this.unreadIds.ToArray();
             }
         }
 
