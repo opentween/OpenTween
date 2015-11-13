@@ -793,18 +793,18 @@ namespace OpenTween
             }
         }
 
-        public int SubmitUpdate(bool isUserStream = false)
+        public int SubmitUpdate()
         {
             string soundFile;
             PostClass[] notifyPosts;
             bool isMentionIncluded, isDeletePost;
 
             return this.SubmitUpdate(out soundFile, out notifyPosts, out isMentionIncluded,
-                out isDeletePost, isUserStream);
+                out isDeletePost);
         }
 
         public int SubmitUpdate(out string soundFile, out PostClass[] notifyPosts,
-            out bool isMentionIncluded, out bool isDeletePost, bool isUserStream)
+            out bool isMentionIncluded, out bool isDeletePost)
         {
             // 注：メインスレッドから呼ぶこと
             lock (this.LockObj)

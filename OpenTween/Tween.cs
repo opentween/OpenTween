@@ -1304,7 +1304,7 @@ namespace OpenTween
                 if (this._isActiveUserstream)
                 {
                     refreshTasks.Add(this.RefreshTasktrayIcon(true));
-                    this.RefreshTimeline(true);
+                    this.RefreshTimeline();
                 }
                 ResetTimers.UserStream = false;
             }
@@ -1342,7 +1342,7 @@ namespace OpenTween
             await Task.WhenAll(refreshTasks);
         }
 
-        private void RefreshTimeline(bool isUserStream)
+        private void RefreshTimeline()
         {
             //スクロール制御準備
             int smode = -1;    //-1:制御しない,-2:最新へ,その他:topitem使用
@@ -1363,7 +1363,7 @@ namespace OpenTween
             int addCount;
             bool isMention;
             bool isDelete;
-            addCount = _statuses.SubmitUpdate(out soundFile, out notifyPosts, out isMention, out isDelete, isUserStream);
+            addCount = _statuses.SubmitUpdate(out soundFile, out notifyPosts, out isMention, out isDelete);
 
             if (MyCommon._endingFlag) return;
 
@@ -2232,7 +2232,7 @@ namespace OpenTween
 
             p.Report(Properties.Resources.GetTimelineWorker_RunWorkerCompletedText1);
 
-            this.RefreshTimeline(false);
+            this.RefreshTimeline();
         }
 
         private Task GetReplyAsync()
@@ -2289,7 +2289,7 @@ namespace OpenTween
 
             p.Report(Properties.Resources.GetTimelineWorker_RunWorkerCompletedText9);
 
-            this.RefreshTimeline(false);
+            this.RefreshTimeline();
         }
 
         private Task GetDirectMessagesAsync()
@@ -2347,7 +2347,7 @@ namespace OpenTween
 
             p.Report(Properties.Resources.GetTimelineWorker_RunWorkerCompletedText11);
 
-            this.RefreshTimeline(false);
+            this.RefreshTimeline();
         }
 
         private Task GetFavoritesAsync()
@@ -2404,7 +2404,7 @@ namespace OpenTween
 
             p.Report(Properties.Resources.GetTimelineWorker_RunWorkerCompletedText20);
 
-            this.RefreshTimeline(false);
+            this.RefreshTimeline();
         }
 
         private Task GetPublicSearchAllAsync()
@@ -2494,7 +2494,7 @@ namespace OpenTween
 
             p.Report("Search refreshed");
 
-            this.RefreshTimeline(false);
+            this.RefreshTimeline();
         }
 
         private Task GetUserTimelineAllAsync()
@@ -2581,7 +2581,7 @@ namespace OpenTween
 
             p.Report("UserTimeline refreshed");
 
-            this.RefreshTimeline(false);
+            this.RefreshTimeline();
         }
 
         private Task GetListTimelineAllAsync()
@@ -2668,7 +2668,7 @@ namespace OpenTween
 
             p.Report("List refreshed");
 
-            this.RefreshTimeline(false);
+            this.RefreshTimeline();
         }
 
         private async Task GetRelatedTweetsAsync(TabClass tab)
@@ -2720,7 +2720,7 @@ namespace OpenTween
 
             p.Report("Related refreshed");
 
-            this.RefreshTimeline(false);
+            this.RefreshTimeline();
 
             var tabPage = this.ListTab.TabPages.Cast<TabPage>()
                 .FirstOrDefault(x => x.Text == tab.TabName);
@@ -2835,7 +2835,7 @@ namespace OpenTween
             if (ct.IsCancellationRequested)
                 return;
 
-            this.RefreshTimeline(false);
+            this.RefreshTimeline();
 
             if (this._curList != null && this._curTab != null && this._curTab.Text == tab.TabName)
             {
@@ -2936,7 +2936,7 @@ namespace OpenTween
 
             this.RemovePostFromFavTab(successIds.ToArray());
 
-            this.RefreshTimeline(false);
+            this.RefreshTimeline();
 
             if (this._curList != null && this._curTab != null && this._curTab.Text == tab.TabName)
             {
@@ -3088,7 +3088,7 @@ namespace OpenTween
             if (this._cfgCommon.PostAndGet)
             {
                 if (this._isActiveUserstream)
-                    this.RefreshTimeline(true);
+                    this.RefreshTimeline();
                 else
                     await this.GetHomeTimelineAsync();
             }
@@ -3168,7 +3168,7 @@ namespace OpenTween
 
                 this.StatusLabel.Text = Properties.Resources.UpdateFollowersMenuItem1_ClickText3;
 
-                this.RefreshTimeline(false);
+                this.RefreshTimeline();
                 this.PurgeListViewItemCache();
                 this._curList?.Refresh();
             }
@@ -5906,7 +5906,7 @@ namespace OpenTween
                     }
 
                     this._statuses.DistributePosts();
-                    this.RefreshTimeline(false);
+                    this.RefreshTimeline();
 
                     var tabPage = this.ListTab.TabPages.Cast<TabPage>()
                         .First(x => x.Text == tabName);
@@ -7576,7 +7576,7 @@ namespace OpenTween
                     return;
                 }
 
-                this.RefreshTimeline(false);
+                this.RefreshTimeline();
 
                 inReplyPost = inReplyToPosts.FirstOrDefault();
                 if (inReplyPost == null)
@@ -12901,7 +12901,7 @@ namespace OpenTween
                     Invoke((Action)(async () =>
                     {
                         await this.RefreshTasktrayIcon(true);
-                        this.RefreshTimeline(true);
+                        this.RefreshTimeline();
                     }));
                     return;
                 }

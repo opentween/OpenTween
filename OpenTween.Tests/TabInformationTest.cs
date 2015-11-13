@@ -216,11 +216,7 @@ namespace OpenTween
             tab2.AddPostToInnerStorage(new PostClass { StatusId = 250L, IsRead = false });
 
             this.tabinfo.DistributePosts();
-
-            string soundFile;
-            PostClass[] notifyPosts;
-            bool isMentionIncluded, isDeletePost;
-            this.tabinfo.SubmitUpdate(out soundFile, out notifyPosts, out isMentionIncluded, out isDeletePost, false);
+            this.tabinfo.SubmitUpdate();
 
             // この時点での各タブの未読件数
             Assert.Equal(3, tab1.UnreadCount);
@@ -261,11 +257,7 @@ namespace OpenTween
             tab2.AddPostToInnerStorage(new PostClass { StatusId = 250L, IsRead = true });
 
             this.tabinfo.DistributePosts();
-
-            string soundFile;
-            PostClass[] notifyPosts;
-            bool isMentionIncluded, isDeletePost;
-            this.tabinfo.SubmitUpdate(out soundFile, out notifyPosts, out isMentionIncluded, out isDeletePost, false);
+            this.tabinfo.SubmitUpdate();
 
             // この時点での各タブの未読件数
             Assert.Equal(0, tab1.UnreadCount);
@@ -296,11 +288,7 @@ namespace OpenTween
             this.tabinfo.AddPost(new PostClass { StatusId = 200L, IsRead = false });
 
             this.tabinfo.DistributePosts();
-
-            string soundFile;
-            PostClass[] notifyPosts;
-            bool isMentionIncluded, isDeletePost;
-            this.tabinfo.SubmitUpdate(out soundFile, out notifyPosts, out isMentionIncluded, out isDeletePost, false);
+            this.tabinfo.SubmitUpdate();
 
             // この時点でのHomeタブの未読件数
             Assert.Equal(3, homeTab.UnreadCount);
@@ -323,11 +311,7 @@ namespace OpenTween
             this.tabinfo.AddPost(new PostClass { StatusId = 200L, IsRead = false });
 
             this.tabinfo.DistributePosts();
-
-            string soundFile;
-            PostClass[] notifyPosts;
-            bool isMentionIncluded, isDeletePost;
-            this.tabinfo.SubmitUpdate(out soundFile, out notifyPosts, out isMentionIncluded, out isDeletePost, false);
+            this.tabinfo.SubmitUpdate();
 
             // この時点でのHomeタブの未読件数
             Assert.Equal(3, homeTab.UnreadCount);
@@ -358,11 +342,7 @@ namespace OpenTween
                 x.StatusId == 150L ? MyCommon.HITRESULT.Copy : MyCommon.HITRESULT.None));
 
             this.tabinfo.DistributePosts();
-
-            string soundFile;
-            PostClass[] notifyPosts;
-            bool isMentionIncluded, isDeletePost;
-            this.tabinfo.SubmitUpdate(out soundFile, out notifyPosts, out isMentionIncluded, out isDeletePost, false);
+            this.tabinfo.SubmitUpdate();
 
             // この時点でのHomeタブの未読件数
             Assert.Equal(3, homeTab.UnreadCount);
@@ -404,7 +384,7 @@ namespace OpenTween
             string soundFile;
             PostClass[] notifyPosts;
             bool isMentionIncluded, isDeletePost;
-            this.tabinfo.SubmitUpdate(out soundFile, out notifyPosts, out isMentionIncluded, out isDeletePost, false);
+            this.tabinfo.SubmitUpdate(out soundFile, out notifyPosts, out isMentionIncluded, out isDeletePost);
 
             // DM が最も優先度が高いため DM の通知音が再生される
             Assert.Equal("dm.wav", soundFile);
