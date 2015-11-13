@@ -73,5 +73,21 @@ namespace OpenTween
 
             Assert.Equal(expected, result);
         }
+
+        [Fact]
+        public void ReplaceEmojiToImg_HtmlTest()
+        {
+            // 属性内の絵文字は変換しない
+            var origText = "🐟<a href='http://xn--7c9bw4k.jp/' title='🍣.jp'>🍣.jp</a>🐡";
+
+            var result = EmojiFormatter.ReplaceEmojiToImg(origText);
+            var expected = "<img class=\"emoji\" src=\"https://twemoji.maxcdn.com/36x36/1f41f.png\" alt=\"🐟\" />" +
+                "<a href='http://xn--7c9bw4k.jp/' title='🍣.jp'>" +
+                "<img class=\"emoji\" src=\"https://twemoji.maxcdn.com/36x36/1f363.png\" alt=\"🍣\" />.jp" +
+                "</a>" +
+                "<img class=\"emoji\" src=\"https://twemoji.maxcdn.com/36x36/1f421.png\" alt=\"🐡\" />";
+
+            Assert.Equal(expected, result);
+        }
     }
 }
