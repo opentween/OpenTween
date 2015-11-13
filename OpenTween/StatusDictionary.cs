@@ -857,14 +857,11 @@ namespace OpenTween
 
                 notifyPosts = notifyPostsList.Distinct().ToArray();
 
-                if (isUserStream)
+                long deletedStatusId;
+                while (this.deleteQueue.TryDequeue(out deletedStatusId))
                 {
-                    long statusId;
-                    while (this.deleteQueue.TryDequeue(out statusId))
-                    {
-                        this.RemovePost(statusId);
-                        isDeletePost = true;
-                    }
+                    this.RemovePost(deletedStatusId);
+                    isDeletePost = true;
                 }
 
                 return totalPosts;
