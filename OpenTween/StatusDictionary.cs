@@ -822,7 +822,13 @@ namespace OpenTween
                 foreach (var tab in this._tabs.Values)
                 {
                     // 振分確定 (各タブに反映)
-                    var addedIds = tab.AddSubmit(ref isMentionIncluded);
+                    var addedIds = tab.AddSubmit();
+
+                    if (tab.TabType == MyCommon.TabUsageType.Mentions)
+                    {
+                        if (addedIds.Select(x => tab.Posts[x]).Any(x => x.IsReply))
+                            isMentionIncluded = true;
+                    }
 
                     if (addedIds.Count != 0 && tab.Notify)
                     {
@@ -1638,25 +1644,18 @@ namespace OpenTween
             this.AddPostQueue(Post.StatusId, Post.IsRead);
         }
 
-        public IList<long> AddSubmit(ref bool isMentionIncluded)
+        public IList<long> AddSubmit()
         {
             var addedIds = new List<long>();
 
             TemporaryId tId;
             while (this.addQueue.TryDequeue(out tId))
             {
-                if (this.TabType == MyCommon.TabUsageType.Mentions && TabInformations.GetInstance()[tId.Id].IsReply) isMentionIncluded = true;
                 this.AddPostImmediately(tId.Id, tId.Read);
                 addedIds.Add(tId.Id);
             }
 
             return addedIds;
-        }
-
-        public void AddSubmit()
-        {
-            bool mention = false;
-            AddSubmit(ref mention);
         }
 
         public void Remove(long Id)
