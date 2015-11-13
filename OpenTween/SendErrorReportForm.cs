@@ -36,7 +36,7 @@ using OpenTween.Api;
 
 namespace OpenTween
 {
-    public partial class SendErrorReportForm : Form
+    public partial class SendErrorReportForm : OTBaseForm
     {
         public ErrorReport ErrorReport
         {
