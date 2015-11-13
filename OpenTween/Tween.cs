@@ -2511,7 +2511,7 @@ namespace OpenTween
 
         private Task GetUserTimelineAsync(TabClass tab, bool loadMore)
         {
-            return this.GetUserTimelineAsync(new[] { tab }, loadMore: false);
+            return this.GetUserTimelineAsync(new[] { tab }, loadMore);
         }
 
         private async Task GetUserTimelineAsync(IEnumerable<TabClass> tabs, bool loadMore)
@@ -2598,7 +2598,7 @@ namespace OpenTween
 
         private Task GetListTimelineAsync(TabClass tab, bool loadMore)
         {
-            return this.GetListTimelineAsync(new[] { tab }, loadMore: false);
+            return this.GetListTimelineAsync(new[] { tab }, loadMore);
         }
 
         private async Task GetListTimelineAsync(IEnumerable<TabClass> tabs, bool loadMore)
