@@ -191,11 +191,65 @@ namespace OpenTween
         //////////////////////////////////////////////////////////////////////////////////////////////////////////
         private TabInformations _statuses;
 
-        // ListViewItem のキャッシュ関連
-        private int _itemCacheIndex;
-        private ListViewItem[] _itemCache;
-        private PostClass[] _postCache;
-        private ReaderWriterLockSlim itemCacheLock = new ReaderWriterLockSlim(LockRecursionPolicy.SupportsRecursion);
+        /// <summary>
+        /// 現在表示している発言一覧の <see cref="ListView"/> に対するキャッシュ
+        /// </summary>
+        /// <remarks>
+        /// キャッシュクリアのために null が代入されることがあるため、
+        /// 使用する場合には <see cref="_listItemCache"/> に対して直接メソッド等を呼び出さずに
+        /// 一旦ローカル変数に代入してから参照すること。
+        /// </remarks>
+        private ListViewItemCache _listItemCache = null;
+
+        internal class ListViewItemCache
+        {
+            /// <summary>アイテムをキャッシュする対象の <see cref="ListView"/></summary>
+            public ListView TargetList { get; set; }
+
+            /// <summary>キャッシュする範囲の開始インデックス</summary>
+            public int StartIndex { get; set; }
+
+            /// <summary>キャッシュする範囲の終了インデックス</summary>
+            public int EndIndex { get; set; }
+
+            /// <summary>キャッシュされた <see cref="ListViewItem"/> インスタンス</summary>
+            public ListViewItem[] ListItem { get; set; }
+
+            /// <summary>キャッシュされた範囲に対応する <see cref="PostClass"/> インスタンス</summary>
+            public PostClass[] Post { get; set; }
+
+            /// <summary>キャッシュされたアイテムの件数</summary>
+            public int Count
+                => this.EndIndex - this.StartIndex + 1;
+
+            /// <summary>指定されたインデックスがキャッシュの範囲内であるか判定します</summary>
+            /// <returns><paramref name="index"/> がキャッシュの範囲内であれば true、それ以外は false</returns>
+            public bool Contains(int index)
+                => index >= this.StartIndex && index <= this.EndIndex;
+
+            /// <summary>指定されたインデックスの範囲が全てキャッシュの範囲内であるか判定します</summary>
+            /// <returns><paramref name="rangeStart"/> から <paramref name="rangeEnd"/> の範囲が全てキャッシュの範囲内であれば true、それ以外は false</returns>
+            public bool IsSupersetOf(int rangeStart, int rangeEnd)
+                => rangeStart >= this.StartIndex && rangeEnd <= this.EndIndex;
+
+            /// <summary>指定されたインデックスの <see cref="ListViewItem"/> と <see cref="PostClass"/> をキャッシュから取得することを試みます</summary>
+            /// <returns>取得に成功すれば true、それ以外は false</returns>
+            public bool TryGetValue(int index, out ListViewItem item, out PostClass post)
+            {
+                if (this.Contains(index))
+                {
+                    item = this.ListItem[index - this.StartIndex];
+                    post = this.Post[index - this.StartIndex];
+                    return true;
+                }
+                else
+                {
+                    item = null;
+                    post = null;
+                    return false;
+                }
+            }
+        }
 
         private TabPage _curTab;
         private int _curItemIndex;
@@ -342,7 +396,6 @@ namespace OpenTween
 
                 this.thumbnailTokenSource?.Dispose();
 
-                this.itemCacheLock.Dispose();
                 this.tw.Dispose();
                 this._hookGlobalHotkey.Dispose();
             }
@@ -1900,14 +1953,14 @@ namespace OpenTween
             if (!tabInfo.UnreadManage ||
                !this._cfgCommon.UnreadManage) Read = true;
 
-            //対象の特定
-            ListViewItem itm = null;
-            PostClass post = null;
-
-            this.TryGetListViewItemCache(Index, out itm, out post);
+            var listCache = this._listItemCache;
+            if (listCache == null)
+                return;
 
             // キャッシュに含まれていないアイテムは対象外
-            if (itm == null)
+            ListViewItem itm;
+            PostClass post;
+            if (!listCache.TryGetValue(Index, out itm, out post))
                 return;
 
             ChangeItemStyleRead(Read, itm, post, ((DetailsListView)_curTab.Tag));
@@ -1969,30 +2022,15 @@ namespace OpenTween
 
             if (_post == null) return;
 
-            var itemColors = new Color[] { };
-            int itemIndex = -1;
+            var listCache = this._listItemCache;
+            if (listCache == null)
+                return;
 
-            this.itemCacheLock.EnterReadLock();
-            try
+            var index = listCache.StartIndex;
+            foreach (var cachedPost in listCache.Post)
             {
-                if (this._itemCache == null) return;
-
-                var query = 
-                    from i in Enumerable.Range(0, this._itemCache.Length)
-                    select this.JudgeColor(_post, this._postCache[i]);
-                
-                itemColors = query.ToArray();
-                itemIndex = _itemCacheIndex;
-            }
-            finally { this.itemCacheLock.ExitReadLock(); }
-
-            if (itemIndex < 0) return;
-
-            foreach (var backColor in itemColors)
-            {
-                // この処理中に MyList_CacheVirtualItems が呼ばれることがあるため、
-                // 同一スレッド内での二重ロックを避けるためにロックの外で実行する必要がある
-                _curList.ChangeItemBackColor(itemIndex++, backColor);
+                var backColor = this.JudgeColor(_post, cachedPost);
+                this._curList.ChangeItemBackColor(index++, backColor);
             }
         }
 
@@ -3516,17 +3554,17 @@ namespace OpenTween
 
         private PostClass GetCurTabPost(int Index)
         {
-            this.itemCacheLock.EnterReadLock();
-            try
+            var listCache = this._listItemCache;
+            if (listCache != null)
             {
-                if (_postCache != null && Index >= _itemCacheIndex && Index < _itemCacheIndex + _postCache.Length)
-                    return _postCache[Index - _itemCacheIndex];
+                ListViewItem item;
+                PostClass post;
+                if (listCache.TryGetValue(Index, out item, out post))
+                    return post;
             }
-            finally { this.itemCacheLock.ExitReadLock(); }
 
             return _statuses.Tabs[_curTab.Text][Index];
         }
-
 
         private async void MoveToHomeToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -5233,85 +5271,74 @@ namespace OpenTween
 
         private void MyList_CacheVirtualItems(object sender, CacheVirtualItemsEventArgs e)
         {
-            this.itemCacheLock.EnterUpgradeableReadLock();
-            try
-            {
-                if (_curList.Equals(sender))
-                {
-                    if (_itemCache != null &&
-                       e.StartIndex >= _itemCacheIndex &&
-                       e.EndIndex < _itemCacheIndex + _itemCache.Length)
-                    {
-                        //If the newly requested cache is a subset of the old cache, 
-                        //no need to rebuild everything, so do nothing.
-                        return;
-                    }
+            if (sender != this._curList)
+                return;
 
-                    //Now we need to rebuild the cache.
-                    CreateCache(e.StartIndex, e.EndIndex);
-                }
+            var listCache = this._listItemCache;
+            if (listCache != null && listCache.IsSupersetOf(e.StartIndex, e.EndIndex))
+            {
+                // If the newly requested cache is a subset of the old cache,
+                // no need to rebuild everything, so do nothing.
+                return;
             }
-            finally { this.itemCacheLock.ExitUpgradeableReadLock(); }
+
+            // Now we need to rebuild the cache.
+            this.CreateCache(e.StartIndex, e.EndIndex);
         }
 
         private void MyList_RetrieveVirtualItem(object sender, RetrieveVirtualItemEventArgs e)
         {
-            ListViewItem item = null;
-            PostClass cacheItemPost = null;
-
-            if (_curList.Equals(sender))
-                this.TryGetListViewItemCache(e.ItemIndex, out item, out cacheItemPost);
-
-            if (item == null)
+            var listCache = this._listItemCache;
+            if (listCache != null && listCache.TargetList == sender)
             {
-                //A cache miss, so create a new ListViewItem and pass it back.
-                TabPage tb = (TabPage)((DetailsListView)sender).Parent;
-                try
+                ListViewItem item;
+                PostClass cacheItemPost;
+                if (listCache.TryGetValue(e.ItemIndex, out item, out cacheItemPost))
                 {
-                    item = this.CreateItem(tb, _statuses.Tabs[tb.Text][e.ItemIndex], e.ItemIndex);
-                }
-                catch (Exception)
-                {
-                    //不正な要求に対する間に合わせの応答
-                    string[] sitem = {"", "", "", "", "", "", "", ""};
-                    item = new ImageListViewItem(sitem);
+                    e.Item = item;
+                    return;
                 }
             }
 
-            e.Item = item;
-        }
-
-        private void CreateCache(int StartIndex, int EndIndex)
-        {
-            this.itemCacheLock.EnterWriteLock();
+            // A cache miss, so create a new ListViewItem and pass it back.
+            TabPage tb = (TabPage)((DetailsListView)sender).Parent;
             try
             {
-                var tabInfo = _statuses.Tabs[_curTab.Text];
-
-                //キャッシュ要求（要求範囲±30を作成）
-                StartIndex -= 30;
-                if (StartIndex < 0) StartIndex = 0;
-                EndIndex += 30;
-                if (EndIndex >= tabInfo.AllCount) EndIndex = tabInfo.AllCount - 1;
-                _postCache = tabInfo[StartIndex, EndIndex]; //配列で取得
-                _itemCacheIndex = StartIndex;
-
-                _itemCache = new ListViewItem[0] {};
-                Array.Resize(ref _itemCache, _postCache.Length);
-
-                for (int i = 0; i < _postCache.Length; i++)
-                {
-                    _itemCache[i] = CreateItem(_curTab, _postCache[i], StartIndex + i);
-                }
+                e.Item = this.CreateItem(tb, _statuses.Tabs[tb.Text][e.ItemIndex], e.ItemIndex);
             }
             catch (Exception)
             {
-                //キャッシュ要求が実データとずれるため（イベントの遅延？）
-                _postCache = null;
-                _itemCacheIndex = -1;
-                _itemCache = null;
+                // 不正な要求に対する間に合わせの応答
+                string[] sitem = {"", "", "", "", "", "", "", ""};
+                e.Item = new ImageListViewItem(sitem);
             }
-            finally { this.itemCacheLock.ExitWriteLock(); }
+        }
+
+        private void CreateCache(int startIndex, int endIndex)
+        {
+            var tabInfo = this._statuses.Tabs[this._curTab.Text];
+
+            // キャッシュ要求（要求範囲±30を作成）
+            startIndex = Math.Max(startIndex - 30, 0);
+            endIndex = Math.Min(endIndex + 30, tabInfo.AllCount - 1);
+
+            var cacheLength = endIndex - startIndex + 1;
+
+            var posts = tabInfo[startIndex, endIndex]; //配列で取得
+            var listItems = Enumerable.Range(0, cacheLength)
+                .Select(x => this.CreateItem(this._curTab, posts[x], startIndex + x))
+                .ToArray();
+
+            var listCache = new ListViewItemCache
+            {
+                TargetList = this._curList,
+                StartIndex = startIndex,
+                EndIndex = endIndex,
+                Post = posts,
+                ListItem = listItems,
+            };
+
+            Interlocked.Exchange(ref this._listItemCache, listCache);
         }
 
         /// <summary>
@@ -5319,33 +5346,7 @@ namespace OpenTween
         /// </summary>
         private void PurgeListViewItemCache()
         {
-            this.itemCacheLock.EnterWriteLock();
-            try
-            {
-                this._itemCache = null;
-                this._itemCacheIndex = -1;
-                this._postCache = null;
-            }
-            finally { this.itemCacheLock.ExitWriteLock(); }
-        }
-
-        private bool TryGetListViewItemCache(int index, out ListViewItem item, out PostClass post)
-        {
-            this.itemCacheLock.EnterReadLock();
-            try
-            {
-                if (this._itemCache != null && index >= this._itemCacheIndex && index < this._itemCacheIndex + this._itemCache.Length)
-                {
-                    item = this._itemCache[index - _itemCacheIndex];
-                    post = this._postCache[index - _itemCacheIndex];
-                    return true;
-                }
-            }
-            finally { this.itemCacheLock.ExitReadLock(); }
-
-            item = null;
-            post = null;
-            return false;
+            Interlocked.Exchange(ref this._listItemCache, null);
         }
 
         private ListViewItem CreateItem(TabPage Tab, PostClass Post, int Index)
