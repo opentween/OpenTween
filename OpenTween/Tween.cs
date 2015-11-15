@@ -1350,16 +1350,13 @@ namespace OpenTween
             // 各タブのリスト上の選択位置などを退避
             var listSelections = this.SaveListViewSelection();
 
-            //mentionsの更新前件数を保持
-            int dmCount = _statuses.GetTabByType(MyCommon.TabUsageType.DirectMessage).AllCount;
-
             //更新確定
             PostClass[] notifyPosts;
             string soundFile;
             int addCount;
-            bool isMention;
+            bool newMentionOrDm;
             bool isDelete;
-            addCount = _statuses.SubmitUpdate(out soundFile, out notifyPosts, out isMention, out isDelete);
+            addCount = _statuses.SubmitUpdate(out soundFile, out notifyPosts, out newMentionOrDm, out isDelete);
 
             if (MyCommon._endingFlag) return;
 
@@ -1407,10 +1404,7 @@ namespace OpenTween
             this.RestoreListViewScroll(this._curList, this._statuses.Tabs[this._curTab.Text], curListScroll);
 
             //新着通知
-            NotifyNewPosts(notifyPosts,
-                           soundFile,
-                           addCount,
-                           isMention || dmCount != _statuses.GetTabByType(MyCommon.TabUsageType.DirectMessage).AllCount);
+            NotifyNewPosts(notifyPosts, soundFile, addCount, newMentionOrDm);
 
             SetMainWindowTitle();
             if (!StatusLabelUrl.Text.StartsWith("http")) SetStatusLabelUrl();

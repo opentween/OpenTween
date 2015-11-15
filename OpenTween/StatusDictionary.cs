@@ -797,21 +797,21 @@ namespace OpenTween
         {
             string soundFile;
             PostClass[] notifyPosts;
-            bool isMentionIncluded, isDeletePost;
+            bool newMentionOrDm, isDeletePost;
 
-            return this.SubmitUpdate(out soundFile, out notifyPosts, out isMentionIncluded,
+            return this.SubmitUpdate(out soundFile, out notifyPosts, out newMentionOrDm,
                 out isDeletePost);
         }
 
         public int SubmitUpdate(out string soundFile, out PostClass[] notifyPosts,
-            out bool isMentionIncluded, out bool isDeletePost)
+            out bool newMentionOrDm, out bool isDeletePost)
         {
             // 注：メインスレッドから呼ぶこと
             lock (this.LockObj)
             {
                 soundFile = "";
                 notifyPosts = new PostClass[0];
-                isMentionIncluded = false;
+                newMentionOrDm = false;
                 isDeletePost = false;
 
                 var totalPosts = 0;
@@ -824,10 +824,11 @@ namespace OpenTween
                     // 振分確定 (各タブに反映)
                     var addedIds = tab.AddSubmit();
 
-                    if (tab.TabType == MyCommon.TabUsageType.Mentions)
+                    if (tab.TabType == MyCommon.TabUsageType.Mentions ||
+                        tab.TabType == MyCommon.TabUsageType.DirectMessage)
                     {
-                        if (addedIds.Select(x => tab.Posts[x]).Any(x => x.IsReply))
-                            isMentionIncluded = true;
+                        if (addedIds.Count > 0)
+                            newMentionOrDm = true;
                     }
 
                     if (addedIds.Count != 0 && tab.Notify)

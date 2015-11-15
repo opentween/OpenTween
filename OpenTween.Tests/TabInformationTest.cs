@@ -383,8 +383,8 @@ namespace OpenTween
 
             string soundFile;
             PostClass[] notifyPosts;
-            bool isMentionIncluded, isDeletePost;
-            this.tabinfo.SubmitUpdate(out soundFile, out notifyPosts, out isMentionIncluded, out isDeletePost);
+            bool newMentionOrDm, isDeletePost;
+            this.tabinfo.SubmitUpdate(out soundFile, out notifyPosts, out newMentionOrDm, out isDeletePost);
 
             // DM が最も優先度が高いため DM の通知音が再生される
             Assert.Equal("dm.wav", soundFile);
