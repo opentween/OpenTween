@@ -1344,15 +1344,11 @@ namespace OpenTween
 
         private void RefreshTimeline()
         {
-            //スクロール制御準備
-            int smode = -1;    //-1:制御しない,-2:最新へ,その他:topitem使用
-            long topId = GetScrollPos(ref smode);
-            int befCnt = _curList.VirtualListSize;
+            // 現在表示中のタブのスクロール位置を退避
+            var curListScroll = this.SaveListViewScroll(this._curList, this._statuses.Tabs[this._curTab.Text]);
 
-            //現在の選択状態を退避
-            var selId = new Dictionary<string, long[]>();
-            var focusedId = new Dictionary<string, Tuple<long, long>>();
-            SaveSelectedStatus(selId, focusedId);
+            // 各タブのリスト上の選択位置などを退避
+            var listSelections = this.SaveListViewSelection();
 
             //mentionsの更新前件数を保持
             int dmCount = _statuses.GetTabByType(MyCommon.TabUsageType.DirectMessage).AllCount;
@@ -1391,14 +1387,8 @@ namespace OpenTween
                                 //アイコン描画不具合あり？
                             }
 
-                            // status_id から ListView 上のインデックスに変換
-                            var selectedIndices = selId[tab.Text] != null
-                                ? tabInfo.IndexOf(selId[tab.Text]).Where(x => x != -1).ToArray()
-                                : null;
-                            var focusedIndex = tabInfo.IndexOf(focusedId[tab.Text].Item1);
-                            var selectionMarkIndex = tabInfo.IndexOf(focusedId[tab.Text].Item2);
-
-                            this.SelectListItem(lst, selectedIndices, focusedIndex, selectionMarkIndex);
+                            // 選択位置などを復元
+                            this.RestoreListViewSelection(lst, tabInfo, listSelections[tabInfo.TabName]);
                         }
                     }
                     if (tabInfo.UnreadCount > 0)
@@ -1413,41 +1403,8 @@ namespace OpenTween
                 //throw;
             }
 
-            //スクロール制御後処理
-            if (smode != -1)
-            {
-                try
-                {
-                    if (befCnt != _curList.VirtualListSize)
-                    {
-                        switch (smode)
-                        {
-                            case -3:
-                                //最上行
-                                if (_curList.VirtualListSize > 0) _curList.EnsureVisible(0);
-                                break;
-                            case -2:
-                                //最下行へ
-                                if (_curList.VirtualListSize > 0) _curList.EnsureVisible(_curList.VirtualListSize - 1);
-                                break;
-                            case -1:
-                                //制御しない
-                                break;
-                            default:
-                                //表示位置キープ
-                                var topIndex = _statuses.Tabs[_curTab.Text].IndexOf(topId);
-                                if (_curList.VirtualListSize > 0 && topIndex > -1)
-                                    this._curList.TopItem = _curList.Items[topIndex];
-                                break;
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    ex.Data["Msg"] = "Ref2";
-                    throw;
-                }
-            }
+            // スクロール位置を復元
+            this.RestoreListViewScroll(this._curList, this._statuses.Tabs[this._curTab.Text], curListScroll);
 
             //新着通知
             NotifyNewPosts(notifyPosts,
@@ -1462,109 +1419,200 @@ namespace OpenTween
 
         }
 
-        private long GetScrollPos(ref int smode)
+        internal struct ListViewScroll
         {
-            long topId = -1;
-            if (_curList != null && _curTab != null && _curList.VirtualListSize > 0)
-            {
-                if (_statuses.SortMode == ComparerMode.Id)
-                {
-                    if (_statuses.SortOrder == SortOrder.Ascending)
-                    {
-                        //Id昇順
-                        if (ListLockMenuItem.Checked)
-                        {
-                            //制御しない
-                            smode = -1;
-                            ////現在表示位置へ強制スクロール
-                            //if (_curList.TopItem != null) topId = _statuses.GetId(_curTab.Text, _curList.TopItem.Index);
-                            //smode = 0;
-                        }
-                        else
-                        {
-                            //最下行が表示されていたら、最下行へ強制スクロール。最下行が表示されていなかったら制御しない
-                            ListViewItem _item;
-                            _item = _curList.GetItemAt(0, _curList.ClientSize.Height - 1);   //一番下
-                            if (_item == null) _item = _curList.Items[_curList.VirtualListSize - 1];
-                            if (_item.Index == _curList.VirtualListSize - 1)
-                            {
-                                smode = -2;
-                            }
-                            else
-                            {
-                                smode = -1;
-                                //if (_curList.TopItem != null) topId = _statuses.GetId(_curTab.Text, _curList.TopItem.Index);
-                                //smode = 0;
-                            }
-                        }
-                    }
-                    else
-                    {
-                        //Id降順
-                        if (ListLockMenuItem.Checked)
-                        {
-                            //現在表示位置へ強制スクロール
-                            if (_curList.TopItem != null) topId = _statuses.Tabs[_curTab.Text].GetId(_curList.TopItem.Index);
-                            smode = 0;
-                        }
-                        else
-                        {
-                            //最上行が表示されていたら、制御しない。最上行が表示されていなかったら、現在表示位置へ強制スクロール
-                            ListViewItem _item;
+            public ScrollLockMode ScrollLockMode { get; set; }
+            public long? TopItemStatusId { get; set; }
+        }
 
-                            _item = _curList.GetItemAt(0, 10);     //一番上
-                            if (_item == null) _item = _curList.Items[0];
-                            if (_item.Index == 0)
-                            {
-                                smode = -3;  //最上行
-                            }
-                            else
-                            {
-                                if (_curList.TopItem != null) topId = _statuses.Tabs[_curTab.Text].GetId(_curList.TopItem.Index);
-                                smode = 0;
-                            }
-                        }
-                    }
+        internal enum ScrollLockMode
+        {
+            /// <summary>固定しない</summary>
+            None,
+
+            /// <summary>最上部に固定する</summary>
+            FixedToTop,
+
+            /// <summary>最下部に固定する</summary>
+            FixedToBottom,
+
+            /// <summary><see cref="ListViewScroll.TopItemStatusId"/> の位置に固定する</summary>
+            FixedToItem,
+        }
+
+        /// <summary>
+        /// <see cref="ListView"/> のスクロール位置に関する情報を <see cref="ListViewScroll"/> として返します
+        /// </summary>
+        private ListViewScroll SaveListViewScroll(DetailsListView listView, TabClass tab)
+        {
+            var listScroll = new ListViewScroll
+            {
+                ScrollLockMode = this.GetScrollLockMode(listView),
+            };
+
+            if (listScroll.ScrollLockMode == ScrollLockMode.FixedToItem)
+            {
+                var topItem = listView.TopItem;
+                if (topItem != null)
+                    listScroll.TopItemStatusId = tab.GetId(topItem.Index);
+            }
+
+            return listScroll;
+        }
+
+        private ScrollLockMode GetScrollLockMode(DetailsListView listView)
+        {
+            if (this._statuses.SortMode == ComparerMode.Id)
+            {
+                if (this._statuses.SortOrder == SortOrder.Ascending)
+                {
+                    // Id昇順
+                    if (this.ListLockMenuItem.Checked)
+                        return ScrollLockMode.None;
+
+                    // 最下行が表示されていたら、最下行へ強制スクロール。最下行が表示されていなかったら制御しない
+
+                    // 一番下に表示されているアイテム
+                    var bottomItem = listView.GetItemAt(0, listView.ClientSize.Height - 1);
+                    if (bottomItem == null || bottomItem.Index == listView.VirtualListSize - 1)
+                        return ScrollLockMode.FixedToBottom;
+                    else
+                        return ScrollLockMode.None;
                 }
                 else
                 {
-                    //現在表示位置へ強制スクロール
-                    if (_curList.TopItem != null) topId = _statuses.Tabs[_curTab.Text].GetId(_curList.TopItem.Index);
-                    smode = 0;
+                    // Id降順
+                    if (this.ListLockMenuItem.Checked)
+                        return ScrollLockMode.FixedToItem;
+
+                    // 最上行が表示されていたら、制御しない。最上行が表示されていなかったら、現在表示位置へ強制スクロール
+                    var topItem = listView.TopItem;
+                    if (topItem == null || topItem.Index == 0)
+                        return ScrollLockMode.FixedToTop;
+                    else
+                        return ScrollLockMode.FixedToItem;
                 }
             }
             else
             {
-                smode = -1;
+                return ScrollLockMode.FixedToItem;
             }
-            return topId;
         }
 
-        private void SaveSelectedStatus(Dictionary<string, long[]> selId, Dictionary<string, Tuple<long, long>> focusedIdDict)
+        internal struct ListViewSelection
         {
-            if (MyCommon._endingFlag) return;
-            foreach (TabPage tab in ListTab.TabPages)
+            public long[] SelectedStatusIds { get; set; }
+            public long? SelectionMarkStatusId { get; set; }
+            public long? FocusedStatusId { get; set; }
+        }
+
+        /// <summary>
+        /// <see cref="ListView"/> の選択状態を <see cref="ListViewSelection"/> として返します
+        /// </summary>
+        private IReadOnlyDictionary<string, ListViewSelection> SaveListViewSelection()
+        {
+            var listsDict = new Dictionary<string, ListViewSelection>();
+
+            foreach (var tabPage in this.ListTab.TabPages.Cast<TabPage>())
             {
-                var lst = (DetailsListView)tab.Tag;
-                var tabInfo = _statuses.Tabs[tab.Text];
-                if (lst.SelectedIndices.Count > 0 && lst.SelectedIndices.Count < 61)
+                var listView = (DetailsListView)tabPage.Tag;
+                var tab = _statuses.Tabs[tabPage.Text];
+
+                ListViewSelection listStatus;
+                if (listView.VirtualListSize != 0)
                 {
-                    selId.Add(tab.Text, tabInfo.GetId(lst.SelectedIndices));
+                    listStatus = new ListViewSelection
+                    {
+                        SelectedStatusIds = this.GetSelectedStatusIds(listView, tab),
+                        FocusedStatusId = this.GetFocusedStatusId(listView, tab),
+                        SelectionMarkStatusId = this.GetSelectionMarkStatusId(listView, tab),
+                    };
                 }
                 else
                 {
-                    selId.Add(tab.Text, null);
+                    listStatus = new ListViewSelection
+                    {
+                        SelectedStatusIds = new long[0],
+                        SelectionMarkStatusId = null,
+                        FocusedStatusId = null,
+                    };
                 }
 
-                var focusedItem = lst.FocusedItem;
-                var focusedId = focusedItem != null ? tabInfo.GetId(focusedItem.Index) : -2;
-
-                var selectionMarkIndex = lst.SelectionMark;
-                var selectionMarkId = selectionMarkIndex != -1 ? tabInfo.GetId(selectionMarkIndex) : -2;
-
-                focusedIdDict[tab.Text] = Tuple.Create(focusedId, selectionMarkId);
+                listsDict[tab.TabName] = listStatus;
             }
 
+            return listsDict;
+        }
+
+        private long[] GetSelectedStatusIds(DetailsListView listView, TabClass tab)
+        {
+            var selectedIndices = listView.SelectedIndices;
+            if (selectedIndices.Count > 0 && selectedIndices.Count < 61)
+                return tab.GetId(selectedIndices);
+            else
+                return null;
+        }
+
+        private long? GetFocusedStatusId(DetailsListView listView, TabClass tab)
+        {
+            var focusedItem = listView.FocusedItem;
+
+            return focusedItem != null ? tab.GetId(focusedItem.Index) : (long?)null;
+        }
+
+        private long? GetSelectionMarkStatusId(DetailsListView listView, TabClass tab)
+        {
+            var selectionMarkIndex = listView.SelectionMark;
+
+            return selectionMarkIndex != -1 ? tab.GetId(selectionMarkIndex) : (long?)null;
+        }
+
+        /// <summary>
+        /// <see cref="SaveListViewScroll"/> によって保存されたスクロール位置を復元します
+        /// </summary>
+        private void RestoreListViewScroll(DetailsListView listView, TabClass tab, ListViewScroll listScroll)
+        {
+            if (listView.VirtualListSize == 0)
+                return;
+
+            switch (listScroll.ScrollLockMode)
+            {
+                case ScrollLockMode.FixedToTop:
+                    listView.EnsureVisible(0);
+                    break;
+                case ScrollLockMode.FixedToBottom:
+                    listView.EnsureVisible(listView.VirtualListSize - 1);
+                    break;
+                case ScrollLockMode.FixedToItem:
+                    var topIndex = listScroll.TopItemStatusId != null ? tab.IndexOf(listScroll.TopItemStatusId.Value) : -1;
+                    if (topIndex != -1)
+                        listView.TopItem = listView.Items[topIndex];
+                    break;
+                case ScrollLockMode.None:
+                default:
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// <see cref="SaveListViewStatus"/> によって保存された選択状態を復元します
+        /// </summary>
+        private void RestoreListViewSelection(DetailsListView listView, TabClass tab, ListViewSelection listSelection)
+        {
+            // status_id から ListView 上のインデックスに変換
+            int[] selectedIndices = null;
+            if (listSelection.SelectedStatusIds != null)
+                selectedIndices = tab.IndexOf(listSelection.SelectedStatusIds).Where(x => x != -1).ToArray();
+
+            var focusedIndex = -1;
+            if (listSelection.FocusedStatusId != null)
+                focusedIndex = tab.IndexOf(listSelection.FocusedStatusId.Value);
+
+            var selectionMarkIndex = -1;
+            if (listSelection.SelectionMarkStatusId != null)
+                selectionMarkIndex = tab.IndexOf(listSelection.SelectionMarkStatusId.Value);
+
+            this.SelectListItem(listView, selectedIndices, focusedIndex, selectionMarkIndex);
         }
 
         private bool BalloonRequired()
@@ -4317,28 +4365,19 @@ namespace OpenTween
             var newAlignment = this._cfgCommon.ViewTabBottom ? TabAlignment.Bottom : TabAlignment.Top;
             if (ListTab.Alignment == newAlignment) return;
 
-            //現在の選択状態を退避
-            var selId = new Dictionary<string, long[]>();
-            var focusedId = new Dictionary<string, Tuple<long, long>>();
-            SaveSelectedStatus(selId, focusedId);
+            // 各タブのリスト上の選択位置などを退避
+            var listSelections = this.SaveListViewSelection();
 
             ListTab.Alignment = newAlignment;
 
-            //選択状態を復帰
             foreach (TabPage tab in ListTab.TabPages)
             {
                 DetailsListView lst = (DetailsListView)tab.Tag;
                 TabClass tabInfo = _statuses.Tabs[tab.Text];
                 using (ControlTransaction.Update(lst))
                 {
-                    // status_id から ListView 上のインデックスに変換
-                    var selectedIndices = selId[tab.Text] != null
-                        ? tabInfo.IndexOf(selId[tab.Text]).Where(x => x != -1).ToArray()
-                        : null;
-                    var focusedIndex = tabInfo.IndexOf(focusedId[tab.Text].Item1);
-                    var selectionMarkIndex = tabInfo.IndexOf(focusedId[tab.Text].Item2);
-
-                    this.SelectListItem(lst, selectedIndices, focusedIndex, selectionMarkIndex);
+                    // 選択位置などを復元
+                    this.RestoreListViewSelection(lst, tabInfo, listSelections[tabInfo.TabName]);
                 }
             }
         }
