@@ -339,12 +339,6 @@
   <data name="PostWorker_RunWorkerCompletedText5" xml:space="preserve">
     <value>正在刷新...</value>
   </data>
-  <data name="RefreshDirectMessageText1" xml:space="preserve">
-    <value>新</value>
-  </data>
-  <data name="RefreshDirectMessageText2" xml:space="preserve">
-    <value>消息</value>
-  </data>
   <data name="RefreshStripMenuItem_ClickText1" xml:space="preserve">
     <value>正在刷新...</value>
   </data>
@@ -354,11 +348,8 @@
   <data name="RefreshStripMenuItem_ClickText3" xml:space="preserve">
     <value>DM接收正在刷新...</value>
   </data>
-  <data name="RefreshTimelineText1" xml:space="preserve">
-    <value>新</value>
-  </data>
-  <data name="RefreshTimelineText2" xml:space="preserve">
-    <value>消息</value>
+  <data name="RefreshTimeline_NotifyText" xml:space="preserve">
+    <value>新 {0} 消息</value>
   </data>
   <data name="RefreshTimelineText3" xml:space="preserve">
     <value>加载日志</value>

@@ -1773,10 +1773,7 @@ namespace OpenTween
                                 //NotifyIcon1.BalloonTipTitle += Application.ProductName + " [DM] " + Properties.Resources.RefreshDirectMessageText1 + " " + addCount.ToString() + Properties.Resources.RefreshDirectMessageText2;
                                 title.Append(Application.ProductName);
                                 title.Append(" [DM] ");
-                                title.Append(Properties.Resources.RefreshDirectMessageText1);
-                                title.Append(" ");
-                                title.Append(addCount);
-                                title.Append(Properties.Resources.RefreshDirectMessageText2);
+                                title.AppendFormat(Properties.Resources.RefreshTimeline_NotifyText, addCount);
                                 nt = GrowlHelper.NotifyType.DirectMessage;
                             }
                             else if (reply)
@@ -1785,10 +1782,7 @@ namespace OpenTween
                                 //NotifyIcon1.BalloonTipTitle += Application.ProductName + " [Reply!] " + Properties.Resources.RefreshTimelineText1 + " " + addCount.ToString() + Properties.Resources.RefreshTimelineText2;
                                 title.Append(Application.ProductName);
                                 title.Append(" [Reply!] ");
-                                title.Append(Properties.Resources.RefreshTimelineText1);
-                                title.Append(" ");
-                                title.Append(addCount);
-                                title.Append(Properties.Resources.RefreshTimelineText2);
+                                title.AppendFormat(Properties.Resources.RefreshTimeline_NotifyText, addCount);
                                 nt = GrowlHelper.NotifyType.Reply;
                             }
                             else
@@ -1797,10 +1791,7 @@ namespace OpenTween
                                 //NotifyIcon1.BalloonTipTitle += Application.ProductName + " " + Properties.Resources.RefreshTimelineText1 + " " + addCount.ToString() + Properties.Resources.RefreshTimelineText2;
                                 title.Append(Application.ProductName);
                                 title.Append(" ");
-                                title.Append(Properties.Resources.RefreshTimelineText1);
-                                title.Append(" ");
-                                title.Append(addCount);
-                                title.Append(Properties.Resources.RefreshTimelineText2);
+                                title.AppendFormat(Properties.Resources.RefreshTimeline_NotifyText, addCount);
                                 nt = GrowlHelper.NotifyType.Notify;
                             }
                             string bText = sb.ToString();
@@ -1851,10 +1842,7 @@ namespace OpenTween
                             ntIcon = ToolTipIcon.Warning;
                             title.Append(Application.ProductName);
                             title.Append(" [DM] ");
-                            title.Append(Properties.Resources.RefreshDirectMessageText1);
-                            title.Append(" ");
-                            title.Append(addCount);
-                            title.Append(Properties.Resources.RefreshDirectMessageText2);
+                            title.AppendFormat(Properties.Resources.RefreshTimeline_NotifyText, addCount);
                         }
                         else if (reply)
                         {
@@ -1863,10 +1851,7 @@ namespace OpenTween
                             ntIcon = ToolTipIcon.Warning;
                             title.Append(Application.ProductName);
                             title.Append(" [Reply!] ");
-                            title.Append(Properties.Resources.RefreshTimelineText1);
-                            title.Append(" ");
-                            title.Append(addCount);
-                            title.Append(Properties.Resources.RefreshTimelineText2);
+                            title.AppendFormat(Properties.Resources.RefreshTimeline_NotifyText, addCount);
                         }
                         else
                         {
@@ -1875,10 +1860,7 @@ namespace OpenTween
                             ntIcon = ToolTipIcon.Info;
                             title.Append(Application.ProductName);
                             title.Append(" ");
-                            title.Append(Properties.Resources.RefreshTimelineText1);
-                            title.Append(" ");
-                            title.Append(addCount);
-                            title.Append(Properties.Resources.RefreshTimelineText2);
+                            title.AppendFormat(Properties.Resources.RefreshTimeline_NotifyText, addCount);
                         }
                         string bText = sb.ToString();
                         if (string.IsNullOrEmpty(bText)) return;

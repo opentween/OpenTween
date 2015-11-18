@@ -370,12 +370,6 @@
   <data name="Refresh4" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\re4.ico;System.Drawing.Icon, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="RefreshDirectMessageText1" xml:space="preserve">
-    <value>新着</value>
-  </data>
-  <data name="RefreshDirectMessageText2" xml:space="preserve">
-    <value>件</value>
-  </data>
   <data name="RefreshStripMenuItem_ClickText1" xml:space="preserve">
     <value>Recent更新中...</value>
   </data>
@@ -385,11 +379,8 @@
   <data name="RefreshStripMenuItem_ClickText3" xml:space="preserve">
     <value>DMRcv更新中...</value>
   </data>
-  <data name="RefreshTimelineText1" xml:space="preserve">
-    <value>新着</value>
-  </data>
-  <data name="RefreshTimelineText2" xml:space="preserve">
-    <value>件</value>
+  <data name="RefreshTimeline_NotifyText" xml:space="preserve">
+    <value>新着 {0} 件</value>
   </data>
   <data name="RefreshTimelineText3" xml:space="preserve">
     <value>ログ読込</value>

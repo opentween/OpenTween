@@ -2000,24 +2000,6 @@ namespace OpenTween.Properties {
         }
         
         /// <summary>
-        ///   新着 に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string RefreshDirectMessageText1 {
-            get {
-                return ResourceManager.GetString("RefreshDirectMessageText1", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   件 に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string RefreshDirectMessageText2 {
-            get {
-                return ResourceManager.GetString("RefreshDirectMessageText2", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Recent更新中... に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string RefreshStripMenuItem_ClickText1 {
@@ -2045,20 +2027,11 @@ namespace OpenTween.Properties {
         }
         
         /// <summary>
-        ///   新着 に類似しているローカライズされた文字列を検索します。
+        ///   新着 {0} 件 に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string RefreshTimelineText1 {
+        internal static string RefreshTimeline_NotifyText {
             get {
-                return ResourceManager.GetString("RefreshTimelineText1", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   件 に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string RefreshTimelineText2 {
-            get {
-                return ResourceManager.GetString("RefreshTimelineText2", resourceCulture);
+                return ResourceManager.GetString("RefreshTimeline_NotifyText", resourceCulture);
             }
         }
         
