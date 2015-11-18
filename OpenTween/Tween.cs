@@ -1672,50 +1672,55 @@ namespace OpenTween
 
         private bool IsEventNotifyAsEventType(MyCommon.EVENTTYPE type)
         {
-            return this._cfgCommon.EventNotifyEnabled && (type & this._cfgCommon.EventNotifyFlag) != 0 || type == MyCommon.EVENTTYPE.None;
+            if (type == MyCommon.EVENTTYPE.None)
+                return true;
+
+            if (!this._cfgCommon.EventNotifyEnabled)
+                return false;
+
+            return this._cfgCommon.EventNotifyFlag.HasFlag(type);
         }
 
         private bool IsMyEventNotityAsEventType(Twitter.FormattedEvent ev)
         {
-            return (ev.Eventtype & this._cfgCommon.IsMyEventNotifyFlag) != 0 ? true : !ev.IsMe;
+            if (!ev.IsMe)
+                return true;
+
+            return this._cfgCommon.IsMyEventNotifyFlag.HasFlag(ev.Eventtype);
         }
 
         private bool BalloonRequired(Twitter.FormattedEvent ev)
         {
-            if ((
-                IsEventNotifyAsEventType(ev.Eventtype) && IsMyEventNotityAsEventType(ev) &&
-                (NewPostPopMenuItem.Checked || (this._cfgCommon.ForceEventNotify && ev.Eventtype != MyCommon.EVENTTYPE.None)) &&
-                !_initial &&
-                (
-                    (
-                        this._cfgCommon.LimitBalloon &&
-                        (
-                            this.WindowState == FormWindowState.Minimized ||
-                            !this.Visible ||
-                            Form.ActiveForm == null
-                            )
-                        ) ||
-                    !this._cfgCommon.LimitBalloon
-                    )
-                ) &&
-                !NativeMethods.IsScreenSaverRunning())
-            {
-                return true;
-            }
-            else
-            {
+            if (this._initial)
                 return false;
+
+            if (NativeMethods.IsScreenSaverRunning())
+                return false;
+
+            // 「新着通知」が無効
+            if (!this.NewPostPopMenuItem.Checked)
+            {
+                // 「新着通知が無効でもイベントを通知する」にも該当しない
+                if (!this._cfgCommon.ForceEventNotify || ev.Eventtype == MyCommon.EVENTTYPE.None)
+                    return false;
             }
+
+            // 「画面最小化・アイコン時のみバルーンを表示する」が有効
+            if (this._cfgCommon.LimitBalloon)
+            {
+                if (this.WindowState != FormWindowState.Minimized && this.Visible && Form.ActiveForm != null)
+                    return false;
+            }
+
+            return this.IsEventNotifyAsEventType(ev.Eventtype) && this.IsMyEventNotityAsEventType(ev);
         }
 
         private void NotifyNewPosts(PostClass[] notifyPosts, string soundFile, int addCount, bool newMentions)
         {
-            if (notifyPosts != null &&
-                notifyPosts.Length > 0 &&
-                this._cfgCommon.ReadOwnPost &&
-                notifyPosts.All((post) => { return post.UserId == tw.UserId || post.ScreenName == tw.Username; }))
+            if (this._cfgCommon.ReadOwnPost)
             {
-                return;
+                if (notifyPosts != null && notifyPosts.Length > 0 && notifyPosts.All(x => x.UserId == tw.UserId))
+                    return;
             }
 
             //新着通知
