@@ -141,6 +141,7 @@
     <Compile Include="IndexedSortedSet.cs" />
     <Compile Include="MediaItem.cs" />
     <Compile Include="MouseWheelMessageFilter.cs" />
+    <Compile Include="NotifyPropertyChangedBase.cs" />
     <Compile Include="SendErrorReportForm.cs">
       <SubType>Form</SubType>
     </Compile>

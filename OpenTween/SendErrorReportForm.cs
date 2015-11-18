@@ -94,7 +94,7 @@ namespace OpenTween
         }
     }
 
-    public class ErrorReport : INotifyPropertyChanged
+    public class ErrorReport : NotifyPropertyChangedBase
     {
         public string ReportText
         {
@@ -134,8 +134,6 @@ namespace OpenTween
 
         private readonly Twitter tw;
         private readonly string originalReportText;
-
-        public event PropertyChangedEventHandler PropertyChanged;
 
         public ErrorReport(string reportText)
             : this(null, reportText)
@@ -208,20 +206,6 @@ namespace OpenTween
                 return false;
 
             return true;
-        }
-
-        protected void SetProperty<T>(ref T field, T value, [CallerMemberName] string propertyName = "")
-        {
-            if (EqualityComparer<T>.Default.Equals(field, value))
-                return;
-
-            field = value;
-            this.OnPropertyChanged(new PropertyChangedEventArgs(propertyName));
-        }
-
-        protected virtual void OnPropertyChanged(PropertyChangedEventArgs e)
-        {
-            this.PropertyChanged?.Invoke(this, e);
         }
     }
 }

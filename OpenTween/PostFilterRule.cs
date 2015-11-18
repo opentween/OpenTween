@@ -35,7 +35,7 @@ namespace OpenTween
     /// タブで使用する振り分けルールを表すクラス
     /// </summary>
     [XmlType("FiltersClass")]
-    public class PostFilterRule : INotifyPropertyChanged, IEquatable<PostFilterRule>
+    public class PostFilterRule : NotifyPropertyChangedBase, IEquatable<PostFilterRule>
     {
         /// <summary>
         /// Compile() メソッドの呼び出しが必要な状態か否か
@@ -238,8 +238,6 @@ namespace OpenTween
             set { this.SetProperty(ref this._ExFilterSource, value); }
         }
         private string _ExFilterSource;
-
-        public event PropertyChangedEventHandler PropertyChanged;
 
         public PostFilterRule()
         {
@@ -534,20 +532,10 @@ namespace OpenTween
             return this.SummaryText;
         }
 
-        protected void SetProperty<T>(ref T field, T value, [CallerMemberName] string propertyName = "")
-        {
-            if (EqualityComparer<T>.Default.Equals(field, value))
-                return;
-
-            field = value;
-            this.OnPropertyChanged(new PropertyChangedEventArgs(propertyName));
-        }
-
-        protected virtual void OnPropertyChanged(PropertyChangedEventArgs e)
+        protected override void OnPropertyChanged(PropertyChangedEventArgs e)
         {
             this.IsDirty = true;
-
-            this.PropertyChanged?.Invoke(this, e);
+            base.OnPropertyChanged(e);
         }
 
         #region from Tween v1.1.0.0
