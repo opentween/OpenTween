@@ -39,6 +39,34 @@ namespace OpenTween.Thumbnail.Services
     public class FoursquareCheckinTest
     {
         [Fact]
+        public void UrlPattern_Test()
+        {
+            // 通常のチェックイン URL (www.swarmapp.com/c/***)
+            var match = FoursquareCheckin.UrlPatternRegex.Match("https://www.swarmapp.com/c/xxxxxxxx");
+            Assert.True(match.Success);
+            Assert.Equal("xxxxxxxx", match.Groups["checkin_id"].Value);
+            Assert.Equal("", match.Groups["signature"].Value);
+
+            // signature 付きのチェックイン URL (www.swarmapp.com/c/***?s=***)
+            match = FoursquareCheckin.UrlPatternRegex.Match("https://www.swarmapp.com/c/xxxxxxxx?s=aaaaaaa");
+            Assert.True(match.Success);
+            Assert.Equal("xxxxxxxx", match.Groups["checkin_id"].Value);
+            Assert.Equal("aaaaaaa", match.Groups["signature"].Value);
+
+            // 古い形式の URL (foursquare.com/***/checkin/***?s=***)
+            match = FoursquareCheckin.UrlPatternRegex.Match("https://foursquare.com/hogehoge/checkin/xxxxxxxx?s=aaaaaaa");
+            Assert.True(match.Success);
+            Assert.Equal("xxxxxxxx", match.Groups["checkin_id"].Value);
+            Assert.Equal("aaaaaaa", match.Groups["signature"].Value);
+
+            // 古い形式の URL (www.swarmapp.com/***/checkin/***?s=***)
+            match = FoursquareCheckin.UrlPatternRegex.Match("https://www.swarmapp.com/hogehoge/checkin/xxxxxxxx?s=aaaaaaa");
+            Assert.True(match.Success);
+            Assert.Equal("xxxxxxxx", match.Groups["checkin_id"].Value);
+            Assert.Equal("aaaaaaa", match.Groups["signature"].Value);
+        }
+
+        [Fact]
         public async Task GetThumbnailInfoAsync_RequestTest()
         {
             var handler = new HttpMessageHandlerMock();
