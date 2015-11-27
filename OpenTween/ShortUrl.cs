@@ -552,7 +552,7 @@ namespace OpenTween
             };
 
             var http = Networking.CreateHttpClient(handler);
-            http.Timeout = TimeSpan.FromSeconds(5);
+            http.Timeout = TimeSpan.FromSeconds(30);
 
             return http;
         }
