@@ -219,9 +219,12 @@ namespace OpenTween.Thumbnail
         {
             var thumbnails = new List<ThumbnailInfo>();
 
-            foreach (var media in post.Media)
+            var expandedUrls = Enumerable.Concat(
+                post.GetExpandedUrls(), post.Media.Select(x => x.Url));
+
+            foreach (var expandedUrl in expandedUrls)
             {
-                var thumbInfo = await ThumbnailGenerator.GetThumbnailInfoAsync(media.Url, post, token)
+                var thumbInfo = await ThumbnailGenerator.GetThumbnailInfoAsync(expandedUrl, post, token)
                     .ConfigureAwait(false);
 
                 if (thumbInfo != null)

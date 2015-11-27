@@ -2689,21 +2689,10 @@ namespace OpenTween
             this.CheckStatusCode(res, content);
         }
 
-        public async Task<string> CreateHtmlAnchorAsync(string text, List<string> AtList, TwitterEntities entities, List<MediaInfo> media)
+        public string CreateHtmlAnchor(string text, List<string> AtList, TwitterEntities entities, List<MediaInfo> media)
         {
             if (entities != null)
             {
-                if (entities.Urls != null)
-                {
-                    foreach (var ent in entities.Urls)
-                    {
-                        var expandedUrl = await ShortUrl.Instance.ExpandUrlAsync(ent.ExpandedUrl)
-                            .ConfigureAwait(false);
-
-                        if (media != null && !media.Any(info => info.Url == expandedUrl))
-                            media.Add(new MediaInfo(expandedUrl));
-                    }
-                }
                 if (entities.Hashtags != null)
                 {
                     lock (this.LockObj)
@@ -2752,12 +2741,6 @@ namespace OpenTween
             text = PreProcessUrl(text); //IDN置換
 
             return text;
-        }
-
-        [Obsolete]
-        public string CreateHtmlAnchor(string text, List<string> AtList, TwitterEntities entities, List<MediaInfo> media)
-        {
-            return this.CreateHtmlAnchorAsync(text, AtList, entities, media).Result;
         }
 
         /// <summary>
