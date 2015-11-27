@@ -1925,14 +1925,10 @@ namespace OpenTween
             this.PushSelectPostChain();
 
             this._statuses.SetReadAllTab(_curPost.StatusId, read: true);
+            //キャッシュの書き換え
+            ChangeCacheStyleRead(true, _curItemIndex);   //既読へ（フォント、文字色）
 
-            using (ControlTransaction.Update(this._curList))
-            {
-                // キャッシュの書き換え
-                ChangeCacheStyleRead(true, _curItemIndex); // 既読へ（フォント、文字色）
-                ColorizeList();
-            }
-
+            ColorizeList();
             _colorize = true;
         }
 
