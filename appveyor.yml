@@ -10,6 +10,9 @@ assembly_info:
 build:
   verbosity: minimal
 
+cache:
+  - ./packages/
+
 before_build:
   - nuget restore
 
