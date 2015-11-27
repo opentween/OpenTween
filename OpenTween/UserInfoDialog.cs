@@ -155,13 +155,14 @@ namespace OpenTween
         {
             if (descriptionText != null)
             {
-                var atlist = new List<string>();
+                foreach (var entity in entities.Urls)
+                    entity.ExpandedUrl = await ShortUrl.Instance.ExpandUrlAsync(entity.ExpandedUrl);
 
                 // user.entities には urls 以外のエンティティが含まれていないため、テキストをもとに生成する
                 entities.Hashtags = TweetExtractor.ExtractHashtagEntities(descriptionText).ToArray();
                 entities.UserMentions = TweetExtractor.ExtractMentionEntities(descriptionText).ToArray();
 
-                var html = await this.twitter.CreateHtmlAnchorAsync(descriptionText, atlist, entities, null);
+                var html = TweetFormatter.AutoLinkHtml(descriptionText, entities);
                 html = this.mainForm.createDetailHtml(html);
 
                 if (cancellationToken.IsCancellationRequested)
@@ -240,11 +241,14 @@ namespace OpenTween
 
         private async Task SetRecentStatusAsync(TwitterStatus status, CancellationToken cancellationToken)
         {
-            var atlist = new List<string>();
-
             if (status != null)
             {
-                var html = await this.twitter.CreateHtmlAnchorAsync(status.Text, atlist, status.MergedEntities, null);
+                var entities = status.MergedEntities;
+
+                foreach (var entity in entities.Urls)
+                    entity.ExpandedUrl = await ShortUrl.Instance.ExpandUrlAsync(entity.ExpandedUrl);
+
+                var html = TweetFormatter.AutoLinkHtml(status.Text, entities);
                 html = this.mainForm.createDetailHtml(html +
                     " Posted at " + MyCommon.DateTimeParse(status.CreatedAt) +
                     " via " + status.Source);

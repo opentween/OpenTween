@@ -1636,6 +1636,11 @@ namespace OpenTween
                 .Where(x => x != post.StatusId && x != post.RetweetedId)
                 .Distinct().ToArray();
 
+            post.ExpandedUrls = entities.OfType<TwitterEntityUrl>()
+                .Where(x => x != null)
+                .GroupBy(x => x.Url)
+                .ToDictionary(x => x.Key, x => new PostClass.ExpandedUrlInfo(x.Key, x.First().ExpandedUrl));
+
             //Source整形
             var source = ParseSource(sourceHtml);
             post.Source = source.Item1;
@@ -2102,6 +2107,11 @@ namespace OpenTween
                     post.IsFav = false;
 
                     post.QuoteStatusIds = GetQuoteTweetStatusIds(message.Entities).Distinct().ToArray();
+
+                    post.ExpandedUrls = message.Entities.OfType<TwitterEntityUrl>()
+                        .Where(x => x != null)
+                        .GroupBy(x => x.Url)
+                        .ToDictionary(x => x.Key, x => new PostClass.ExpandedUrlInfo(x.Key, x.First().ExpandedUrl));
 
                     //以下、ユーザー情報
                     TwitterUser user;
@@ -2687,11 +2697,11 @@ namespace OpenTween
                 {
                     foreach (var ent in entities.Urls)
                     {
-                        ent.ExpandedUrl = await ShortUrl.Instance.ExpandUrlAsync(ent.ExpandedUrl)
+                        var expandedUrl = await ShortUrl.Instance.ExpandUrlAsync(ent.ExpandedUrl)
                             .ConfigureAwait(false);
 
-                        if (media != null && !media.Any(info => info.Url == ent.ExpandedUrl))
-                            media.Add(new MediaInfo(ent.ExpandedUrl));
+                        if (media != null && !media.Any(info => info.Url == expandedUrl))
+                            media.Add(new MediaInfo(expandedUrl));
                     }
                 }
                 if (entities.Hashtags != null)
@@ -2735,7 +2745,8 @@ namespace OpenTween
                 }
             }
 
-            text = TweetFormatter.AutoLinkHtml(text, entities);
+            // PostClass.ExpandedUrlInfo を使用して非同期に URL 展開を行うためここでは expanded_url を使用しない
+            text = TweetFormatter.AutoLinkHtml(text, entities, keepTco: true);
 
             text = Regex.Replace(text, "(^|[^a-zA-Z0-9_/&#＃@＠>=.~])(sm|nm)([0-9]{1,10})", "$1<a href=\"http://www.nicovideo.jp/watch/$2$3\">$2$3</a>");
             text = PreProcessUrl(text); //IDN置換

@@ -33,12 +33,7 @@ namespace OpenTween
     /// </summary>
     public static class TweetFormatter
     {
-        public static string AutoLinkHtml(string text, TwitterEntities entities)
-        {
-            return AutoLinkHtml(text, entities.AsEnumerable());
-        }
-
-        public static string AutoLinkHtml(string text, IEnumerable<TwitterEntity> entities)
+        public static string AutoLinkHtml(string text, IEnumerable<TwitterEntity> entities, bool keepTco = false)
         {
             if (entities == null)
                 entities = Enumerable.Empty<TwitterEntity>();
@@ -47,10 +42,10 @@ namespace OpenTween
                 .Where(x => x != null)
                 .Where(x => x.Indices != null && x.Indices.Length == 2);
 
-            return string.Concat(AutoLinkHtmlInternal(text, entitiesQuery));
+            return string.Concat(AutoLinkHtmlInternal(text, entitiesQuery, keepTco));
         }
 
-        private static IEnumerable<string> AutoLinkHtmlInternal(string text, IEnumerable<TwitterEntity> entities)
+        private static IEnumerable<string> AutoLinkHtmlInternal(string text, IEnumerable<TwitterEntity> entities, bool keepTco)
         {
             var curIndex = 0;
 
@@ -74,7 +69,7 @@ namespace OpenTween
                 var targetText = text.Substring(startIndex, endIndex - startIndex);
 
                 if (entity is TwitterEntityUrl)
-                    yield return FormatUrlEntity(targetText, (TwitterEntityUrl)entity);
+                    yield return FormatUrlEntity(targetText, (TwitterEntityUrl)entity, keepTco);
                 else if (entity is TwitterEntityHashtag)
                     yield return FormatHashtagEntity(targetText, (TwitterEntityHashtag)entity);
                 else if (entity is TwitterEntityMention)
@@ -123,7 +118,7 @@ namespace OpenTween
             }
         }
 
-        private static string FormatUrlEntity(string targetText, TwitterEntityUrl entity)
+        private static string FormatUrlEntity(string targetText, TwitterEntityUrl entity, bool keepTco)
         {
             string expandedUrl;
 
@@ -135,8 +130,9 @@ namespace OpenTween
                 return "<a href=\"" + e(entity.Url) + "\" title=\"" + e(expandedUrl) + "\">" + t(e(targetText)) + "</a>";
             }
 
-            expandedUrl = MyCommon.ConvertToReadableUrl(entity.ExpandedUrl);
             var linkUrl = entity.Url;
+
+            expandedUrl = keepTco ? linkUrl : MyCommon.ConvertToReadableUrl(entity.ExpandedUrl);
 
             // twitter.com へのリンクは t.co を経由せずに直接リンクする (但し pic.twitter.com はそのまま)
             if (!(entity is TwitterEntityMedia))

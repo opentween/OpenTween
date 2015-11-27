@@ -37,6 +37,7 @@ using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Serialization;
 
@@ -77,7 +78,24 @@ namespace OpenTween
         public DateTime CreatedAt { get; set; }
         public long StatusId { get; set; }
         private bool _IsFav;
-        public string Text { get; set; }
+
+        public string Text
+        {
+            get
+            {
+                if (this.expandComplatedAll)
+                    return this._text;
+
+                var expandedHtml = this.ReplaceToExpandedUrl(this._text, out this.expandComplatedAll);
+                if (this.expandComplatedAll)
+                    this._text = expandedHtml;
+
+                return expandedHtml;
+            }
+            set { this._text = value; }
+        }
+        private string _text;
+
         public bool IsRead { get; set; }
         public bool IsReply { get; set; }
         public bool IsExcludeReply { get; set; }
@@ -102,10 +120,60 @@ namespace OpenTween
         public long? InReplyToUserId { get; set; }
         public List<MediaInfo> Media { get; set; }
         public long[] QuoteStatusIds { get; set; }
+        public IDictionary<string, ExpandedUrlInfo> ExpandedUrls { get; set; }
+
+        /// <summary>
+        /// <see cref="PostClass"/> に含まれる t.co の展開後の URL を保持するクラス
+        /// </summary>
+        public class ExpandedUrlInfo
+        {
+            /// <summary>展開前の t.co ドメインの URL</summary>
+            public string Url { get; }
+
+            /// <summary>展開後の URL</summary>
+            /// <remarks>
+            /// <see cref="ShortUrl"/> による展開が完了するまでは Entity に含まれる expanded_url の値を返します
+            /// </remarks>
+            public string ExpandedUrl => this._expandedUrl;
+
+            /// <summary><see cref="ShortUrl"/> による展開を行うタスク</summary>
+            public Task ExpandTask { get; private set; }
+
+            /// <summary><see cref="DeepExpandAsync"/> による展開が完了したか否か</summary>
+            public bool ExpandedCompleted => this.ExpandTask.IsCompleted;
+
+            protected string _expandedUrl;
+
+            public ExpandedUrlInfo(string url, string expandedUrl)
+                : this(url, expandedUrl, deepExpand: true)
+            {
+            }
+
+            public ExpandedUrlInfo(string url, string expandedUrl, bool deepExpand)
+            {
+                this.Url = url;
+                this._expandedUrl = expandedUrl;
+
+                if (deepExpand)
+                    this.ExpandTask = this.DeepExpandAsync();
+                else
+                    this.ExpandTask = Task.FromResult(0);
+            }
+
+            protected virtual async Task DeepExpandAsync()
+            {
+                var origUrl = this._expandedUrl;
+                var newUrl = await ShortUrl.Instance.ExpandUrlAsync(origUrl)
+                    .ConfigureAwait(false);
+
+                Interlocked.CompareExchange(ref this._expandedUrl, newUrl, origUrl);
+            }
+        }
 
         public int FavoritedCount { get; set; }
 
         private States _states = States.None;
+        private bool expandComplatedAll = false;
 
         [Flags]
         private enum States
@@ -123,6 +191,7 @@ namespace OpenTween
             Media = new List<MediaInfo>();
             ReplyToList = new List<string>();
             QuoteStatusIds = new long[0];
+            ExpandedUrls = new Dictionary<string, ExpandedUrlInfo>();
         }
 
         public string TextSingleLine
@@ -328,12 +397,54 @@ namespace OpenTween
             return originalPost;
         }
 
+        public string GetExpandedUrl(string urlStr)
+        {
+            ExpandedUrlInfo urlInfo;
+            if (!this.ExpandedUrls.TryGetValue(urlStr, out urlInfo))
+                return urlStr;
+
+            return urlInfo.ExpandedUrl;
+        }
+
+        public string[] GetExpandedUrls()
+            => this.ExpandedUrls.Values.Select(x => x.ExpandedUrl).ToArray();
+
+        /// <summary>
+        /// <paramref name="html"/> に含まれる短縮 URL を展開済みの URL に置換します
+        /// </summary>
+        /// <param name="html">置換する対象の HTML 文字列</param>
+        /// <param name="completedAll">全ての URL の展開が完了していれば true、未完了の URL があれば false</param>
+        private string ReplaceToExpandedUrl(string html, out bool completedAll)
+        {
+            if (this.ExpandedUrls.Count == 0)
+            {
+                completedAll = true;
+                return html;
+            }
+
+            completedAll = true;
+
+            foreach (var urlInfo in this.ExpandedUrls.Values)
+            {
+                if (!urlInfo.ExpandedCompleted)
+                    completedAll = false;
+
+                var tcoUrl = urlInfo.Url;
+                var expandedUrl = MyCommon.ConvertToReadableUrl(urlInfo.ExpandedUrl);
+                html = html.Replace($"title=\"{WebUtility.HtmlEncode(tcoUrl)}\"",
+                    $"title=\"{WebUtility.HtmlEncode(expandedUrl)}\"");
+            }
+
+            return html;
+        }
+
         public PostClass Clone()
         {
             var clone = (PostClass)this.MemberwiseClone();
             clone.ReplyToList = new List<string>(this.ReplyToList);
             clone.Media = new List<MediaInfo>(this.Media);
             clone.QuoteStatusIds = this.QuoteStatusIds.ToArray();
+            clone.ExpandedUrls = new Dictionary<string, ExpandedUrlInfo>(this.ExpandedUrls);
 
             return clone;
         }
