@@ -1638,8 +1638,8 @@ namespace OpenTween
 
             post.ExpandedUrls = entities.OfType<TwitterEntityUrl>()
                 .Where(x => x != null)
-                .GroupBy(x => x.Url)
-                .ToDictionary(x => x.Key, x => new PostClass.ExpandedUrlInfo(x.Key, x.First().ExpandedUrl));
+                .Select(x => new PostClass.ExpandedUrlInfo(x.Url, x.ExpandedUrl))
+                .ToArray();
 
             //Source整形
             var source = ParseSource(sourceHtml);
@@ -2110,8 +2110,8 @@ namespace OpenTween
 
                     post.ExpandedUrls = message.Entities.OfType<TwitterEntityUrl>()
                         .Where(x => x != null)
-                        .GroupBy(x => x.Url)
-                        .ToDictionary(x => x.Key, x => new PostClass.ExpandedUrlInfo(x.Key, x.First().ExpandedUrl));
+                        .Select(x => new PostClass.ExpandedUrlInfo(x.Url, x.ExpandedUrl))
+                        .ToArray();
 
                     //以下、ユーザー情報
                     TwitterUser user;

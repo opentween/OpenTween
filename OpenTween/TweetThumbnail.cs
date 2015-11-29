@@ -67,7 +67,7 @@ namespace OpenTween
 
             this.scrollBar.Enabled = false;
 
-            if (post.ExpandedUrls.Count == 0 && post.Media.Count == 0 && post.PostGeo == null)
+            if (post.ExpandedUrls.Length == 0 && post.Media.Count == 0 && post.PostGeo == null)
             {
                 this.SetThumbnailCount(0);
                 return;

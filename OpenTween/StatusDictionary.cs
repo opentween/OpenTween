@@ -120,12 +120,12 @@ namespace OpenTween
         public long? InReplyToUserId { get; set; }
         public List<MediaInfo> Media { get; set; }
         public long[] QuoteStatusIds { get; set; }
-        public IDictionary<string, ExpandedUrlInfo> ExpandedUrls { get; set; }
+        public ExpandedUrlInfo[] ExpandedUrls { get; set; }
 
         /// <summary>
         /// <see cref="PostClass"/> に含まれる t.co の展開後の URL を保持するクラス
         /// </summary>
-        public class ExpandedUrlInfo
+        public class ExpandedUrlInfo : ICloneable
         {
             /// <summary>展開前の t.co ドメインの URL</summary>
             public string Url { get; }
@@ -168,6 +168,12 @@ namespace OpenTween
 
                 Interlocked.CompareExchange(ref this._expandedUrl, newUrl, origUrl);
             }
+
+            public ExpandedUrlInfo Clone()
+                => new ExpandedUrlInfo(this.Url, this.ExpandedUrl, deepExpand: false);
+
+            object ICloneable.Clone()
+                => this.Clone();
         }
 
         public int FavoritedCount { get; set; }
@@ -191,7 +197,7 @@ namespace OpenTween
             Media = new List<MediaInfo>();
             ReplyToList = new List<string>();
             QuoteStatusIds = new long[0];
-            ExpandedUrls = new Dictionary<string, ExpandedUrlInfo>();
+            ExpandedUrls = new ExpandedUrlInfo[0];
         }
 
         public string TextSingleLine
@@ -399,15 +405,15 @@ namespace OpenTween
 
         public string GetExpandedUrl(string urlStr)
         {
-            ExpandedUrlInfo urlInfo;
-            if (!this.ExpandedUrls.TryGetValue(urlStr, out urlInfo))
+            var urlInfo = this.ExpandedUrls.FirstOrDefault(x => x.Url == urlStr);
+            if (urlInfo == null)
                 return urlStr;
 
             return urlInfo.ExpandedUrl;
         }
 
         public string[] GetExpandedUrls()
-            => this.ExpandedUrls.Values.Select(x => x.ExpandedUrl).ToArray();
+            => this.ExpandedUrls.Select(x => x.ExpandedUrl).ToArray();
 
         /// <summary>
         /// <paramref name="html"/> に含まれる短縮 URL を展開済みの URL に置換します
@@ -416,7 +422,7 @@ namespace OpenTween
         /// <param name="completedAll">全ての URL の展開が完了していれば true、未完了の URL があれば false</param>
         private string ReplaceToExpandedUrl(string html, out bool completedAll)
         {
-            if (this.ExpandedUrls.Count == 0)
+            if (this.ExpandedUrls.Length == 0)
             {
                 completedAll = true;
                 return html;
@@ -424,7 +430,7 @@ namespace OpenTween
 
             completedAll = true;
 
-            foreach (var urlInfo in this.ExpandedUrls.Values)
+            foreach (var urlInfo in this.ExpandedUrls)
             {
                 if (!urlInfo.ExpandedCompleted)
                     completedAll = false;
@@ -444,7 +450,7 @@ namespace OpenTween
             clone.ReplyToList = new List<string>(this.ReplyToList);
             clone.Media = new List<MediaInfo>(this.Media);
             clone.QuoteStatusIds = this.QuoteStatusIds.ToArray();
-            clone.ExpandedUrls = new Dictionary<string, ExpandedUrlInfo>(this.ExpandedUrls);
+            clone.ExpandedUrls = this.ExpandedUrls.Select(x => x.Clone()).ToArray();
 
             return clone;
         }

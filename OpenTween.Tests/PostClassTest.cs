@@ -346,9 +346,9 @@ namespace OpenTween
             var post = new PostClass
             {
                 Text = "<a href=\"http://t.co/aaaaaaa\" title=\"http://t.co/aaaaaaa\">bit.ly/abcde</a>",
-                ExpandedUrls = new Dictionary<string, PostClass.ExpandedUrlInfo>
+                ExpandedUrls = new[]
                 {
-                    ["http://t.co/aaaaaaa"] = new FakeExpandedUrlInfo(
+                    new FakeExpandedUrlInfo(
                         // 展開前の t.co ドメインの URL
                         url:  "http://t.co/aaaaaaa",
 
@@ -361,7 +361,7 @@ namespace OpenTween
                 },
             };
 
-            var urlInfo = (FakeExpandedUrlInfo)post.ExpandedUrls.Values.Single();
+            var urlInfo = (FakeExpandedUrlInfo)post.ExpandedUrls.Single();
 
             // ExpandedUrlInfo による展開が完了していない状態
             //   → この段階では Entity に含まれる expanded_url の URL が使用される
