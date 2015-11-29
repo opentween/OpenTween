@@ -5229,14 +5229,6 @@ namespace OpenTween
 
             statusText = header + statusText + footer;
 
-            if (this.ToolStripMenuItemApiCommandEvasion.Checked)
-            {
-                // APIコマンド回避
-                if (Regex.IsMatch(statusText, @"^[+\-\[\]\s\\.,*/(){}^~|='&%$#""<>?]*(get|g|fav|follow|f|on|off|stop|quit|leave|l|whois|w|nudge|n|stats|invite|track|untrack|tracks|tracking|\*)([+\-\[\]\s\\.,*/(){}^~|='&%$#""<>?]+|$)", RegexOptions.IgnoreCase)
-                   && !statusText.EndsWith(" .", StringComparison.Ordinal))
-                    statusText += " .";
-            }
-
             return statusText;
         }
 
