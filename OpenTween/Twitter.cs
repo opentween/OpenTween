@@ -2743,6 +2743,8 @@ namespace OpenTween
             return text;
         }
 
+        private static readonly Uri SourceUriBase = new Uri("https://twitter.com/");
+
         /// <summary>
         /// Twitter APIから得たHTML形式のsource文字列を分析し、source名とURLに分離します
         /// </summary>
@@ -2763,7 +2765,7 @@ namespace OpenTween
                 try
                 {
                     var uriStr = WebUtility.HtmlDecode(match.Groups["uri"].Value);
-                    sourceUri = new Uri(new Uri("https://twitter.com/"), uriStr);
+                    sourceUri = new Uri(SourceUriBase, uriStr);
                 }
                 catch (UriFormatException)
                 {
