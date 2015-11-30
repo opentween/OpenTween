@@ -23,12 +23,26 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace OpenTween.Thumbnail
 {
     class MapThumbOSM : MapThumb
     {
-        public override string CreateStaticMapUrl(double latitude, double longitude)
+        public override Task<ThumbnailInfo> GetThumbnailInfoAsync(PostClass.StatusGeo geo)
+        {
+            var thumb = new ThumbnailInfo
+            {
+                ImageUrl = this.CreateMapLinkUrl(geo.Latitude, geo.Longitude),
+                ThumbnailUrl = this.CreateStaticMapUrl(geo.Latitude, geo.Longitude),
+                TooltipText = null,
+            };
+
+            return Task.FromResult(thumb);
+        }
+
+        public string CreateStaticMapUrl(double latitude, double longitude)
         {
             var width = SettingCommon.Instance.MapThumbnailWidth;
             var height = SettingCommon.Instance.MapThumbnailHeight;
@@ -38,7 +52,7 @@ namespace OpenTween.Thumbnail
             return "http://ojw.dev.openstreetmap.org/StaticMap/?show=1&att=none&center=" + location + "&size=" + width + "x" + height + "&zoom=" + zoom + "&mlat0=" + latitude.ToString() + "&mlon0=" + longitude.ToString() + "&mico0=18479";
         }
 
-        public override string CreateMapLinkUrl(double latitude, double longitude)
+        public string CreateMapLinkUrl(double latitude, double longitude)
         {
             var zoom = SettingCommon.Instance.MapThumbnailZoom;
 

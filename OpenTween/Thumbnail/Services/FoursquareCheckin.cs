@@ -101,12 +101,8 @@ namespace OpenTween.Thumbnail.Services
 
                     var map = MapThumb.GetDefaultInstance();
 
-                    return new ThumbnailInfo
-                    {
-                        ImageUrl = map.CreateMapLinkUrl(location.Latitude, location.Longitude),
-                        ThumbnailUrl = map.CreateStaticMapUrl(location.Latitude, location.Longitude),
-                        TooltipText = null,
-                    };
+                    return await map.GetThumbnailInfoAsync(new PostClass.StatusGeo(location.Longitude, location.Latitude))
+                        .ConfigureAwait(false);
                 }
             }
             catch (HttpRequestException) { }

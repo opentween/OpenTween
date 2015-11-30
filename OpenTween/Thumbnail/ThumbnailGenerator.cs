@@ -236,13 +236,9 @@ namespace OpenTween.Thumbnail
             if (post.PostGeo != null)
             {
                 var map = MapThumb.GetDefaultInstance();
-                var point = post.PostGeo.Value;
-                thumbnails.Add(new ThumbnailInfo()
-                {
-                    ImageUrl = map.CreateMapLinkUrl(point.Latitude, point.Longitude),
-                    ThumbnailUrl = map.CreateStaticMapUrl(point.Latitude, point.Longitude),
-                    TooltipText = null,
-                });
+                var thumb = await map.GetThumbnailInfoAsync(post.PostGeo.Value)
+                    .ConfigureAwait(false);
+                thumbnails.Add(thumb);
             }
 
             return thumbnails;

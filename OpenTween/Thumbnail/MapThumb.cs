@@ -23,6 +23,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
+using OpenTween.Thumbnail.Services;
 
 namespace OpenTween.Thumbnail
 {
@@ -41,19 +43,7 @@ namespace OpenTween.Thumbnail
 
     abstract class MapThumb
     {
-        public string CreateStaticMapUrl(GlobalLocation location)
-        {
-            return CreateStaticMapUrl(location.Latitude, location.Longitude);
-        }
-
-        public abstract string CreateStaticMapUrl(double latitude, double longitude);
-
-        public string CreateMapLinkUrl(GlobalLocation location)
-        {
-            return CreateMapLinkUrl(location.Latitude, location.Longitude);
-        }
-
-        public abstract string CreateMapLinkUrl(double latitude, double longitude);
+        public abstract Task<ThumbnailInfo> GetThumbnailInfoAsync(PostClass.StatusGeo geo);
 
         private static MapThumb defaultInstance = null;
 
