@@ -6681,11 +6681,7 @@ namespace OpenTween
                     .FocusedOn(FocusedControl.ListTab)
                     .Do(() => this.GoNextTab(forward: false)),
 
-                ShortcutCommand.Create(Keys.Control | Keys.C)
-                    .FocusedOn(FocusedControl.ListTab)
-                    .Do(() => this.CopyStot()),
-
-                ShortcutCommand.Create(Keys.Control | Keys.C)
+                ShortcutCommand.Create(Keys.Control | Keys.C, Keys.Control | Keys.Insert)
                     .FocusedOn(FocusedControl.ListTab)
                     .Do(() => this.CopyStot()),
 
@@ -6908,7 +6904,7 @@ namespace OpenTween
                 ShortcutCommand.Create(Keys.Control | Keys.Shift | Keys.R)
                     .Do(() => this.MakeReplyOrDirectStatus(isAuto: false, isReply: true, isAll: true)),
 
-                ShortcutCommand.Create(Keys.Control | Keys.Shift | Keys.C)
+                ShortcutCommand.Create(Keys.Control | Keys.Shift | Keys.C, Keys.Control | Keys.Shift | Keys.Insert)
                     .Do(() => this.CopyIdUri()),
 
                 ShortcutCommand.Create(Keys.Control | Keys.Shift | Keys.F)
@@ -7042,10 +7038,6 @@ namespace OpenTween
                     .FocusedOn(FocusedControl.PostBrowser)
                     .Do(() => this.doReTweetUnofficial()),
 
-                ShortcutCommand.Create(Keys.Alt | Keys.Shift | Keys.C)
-                    .FocusedOn(FocusedControl.PostBrowser)
-                    .Do(() => this.CopyUserId()),
-
                 ShortcutCommand.Create(Keys.Alt | Keys.Shift | Keys.T)
                     .OnlyWhen(() => this.ExistCurrentPost)
                     .Do(() => this.doTranslation(_curPost.TextFromApi)),
@@ -7053,7 +7045,7 @@ namespace OpenTween
                 ShortcutCommand.Create(Keys.Alt | Keys.Shift | Keys.R)
                     .Do(() => this.doReTweetUnofficial()),
 
-                ShortcutCommand.Create(Keys.Alt | Keys.Shift | Keys.C)
+                ShortcutCommand.Create(Keys.Alt | Keys.Shift | Keys.C, Keys.Alt | Keys.Shift | Keys.Insert)
                     .Do(() => this.CopyUserId()),
 
                 ShortcutCommand.Create(Keys.Alt | Keys.Shift | Keys.Up)
