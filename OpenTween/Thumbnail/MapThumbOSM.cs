@@ -87,7 +87,7 @@ namespace OpenTween.Thumbnail
             // タイル番号に小数部が含まれているが、これはタイル内の相対的な位置を表すためこのまま保持する
             var centerTileNum = this.WorldToTilePos(this.Longitude, this.Latitude, this.Zoom);
 
-            // 画像右上に描画されるタイル
+            // 画像左上に描画されるタイル
             var topLeftTileNum = PointF.Add(centerTileNum, new SizeF(-this.ThumbnailSize.Width / 2.0f / TileSize.Width, -this.ThumbnailSize.Height / 2.0f / TileSize.Height));
 
             // タイル番号の小数部をもとに、タイル画像を描画する際のピクセル単位のオフセットを算出する
