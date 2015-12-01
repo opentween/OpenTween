@@ -24,6 +24,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Net;
+using System.Net.Cache;
 using System.Net.Http;
 using System.Text;
 using System.Threading;
@@ -103,6 +104,7 @@ namespace OpenTween.Connection
             Networking.initialized = true;
 
             ServicePointManager.Expect100Continue = false;
+            WebRequest.DefaultCachePolicy = new RequestCachePolicy(RequestCacheLevel.Default);
         }
 
         public static void SetWebProxy(ProxyType proxyType, string proxyAddress, int proxyPort,
