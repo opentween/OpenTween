@@ -209,25 +209,15 @@ namespace OpenTween
 
         private async Task SetLinkLabelWebAsync(string uri, TwitterEntities entities, CancellationToken cancellationToken)
         {
-            if (entities != null)
+            if (uri != null)
             {
-                var expandedUrl = await ShortUrl.Instance.ExpandUrlAsync(entities.Urls[0].ExpandedUrl);
+                var origUrl = entities?.Urls[0].ExpandedUrl ?? uri;
+                var expandedUrl = await ShortUrl.Instance.ExpandUrlAsync(origUrl);
 
                 if (cancellationToken.IsCancellationRequested)
                     return;
 
                 this.LinkLabelWeb.Text = expandedUrl;
-                this.LinkLabelWeb.Tag = expandedUrl;
-                this.ToolTip1.SetToolTip(this.LinkLabelWeb, expandedUrl);
-            }
-            else if (uri != null)
-            {
-                var expandedUrl = await ShortUrl.Instance.ExpandUrlAsync(uri);
-
-                if (cancellationToken.IsCancellationRequested)
-                    return;
-
-                this.LinkLabelWeb.Text = uri;
                 this.LinkLabelWeb.Tag = expandedUrl;
                 this.ToolTip1.SetToolTip(this.LinkLabelWeb, expandedUrl);
             }
