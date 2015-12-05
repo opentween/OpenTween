@@ -45,29 +45,64 @@ namespace OpenTween.Thumbnail.Services
             var match = FoursquareCheckin.UrlPatternRegex.Match("https://www.swarmapp.com/c/xxxxxxxx");
             Assert.True(match.Success);
             Assert.Equal("xxxxxxxx", match.Groups["checkin_id"].Value);
-            Assert.Equal("", match.Groups["signature"].Value);
+        }
 
-            // signature 付きのチェックイン URL (www.swarmapp.com/c/***?s=***)
-            match = FoursquareCheckin.UrlPatternRegex.Match("https://www.swarmapp.com/c/xxxxxxxx?s=aaaaaaa");
-            Assert.True(match.Success);
-            Assert.Equal("xxxxxxxx", match.Groups["checkin_id"].Value);
-            Assert.Equal("aaaaaaa", match.Groups["signature"].Value);
-
+        [Fact]
+        public void LegacyUrlPattern_Test()
+        {
             // 古い形式の URL (foursquare.com/***/checkin/***?s=***)
-            match = FoursquareCheckin.UrlPatternRegex.Match("https://foursquare.com/hogehoge/checkin/xxxxxxxx?s=aaaaaaa");
+            var match = FoursquareCheckin.LegacyUrlPatternRegex.Match("https://foursquare.com/hogehoge/checkin/xxxxxxxx?s=aaaaaaa");
             Assert.True(match.Success);
             Assert.Equal("xxxxxxxx", match.Groups["checkin_id"].Value);
             Assert.Equal("aaaaaaa", match.Groups["signature"].Value);
 
             // 古い形式の URL (www.swarmapp.com/***/checkin/***?s=***)
-            match = FoursquareCheckin.UrlPatternRegex.Match("https://www.swarmapp.com/hogehoge/checkin/xxxxxxxx?s=aaaaaaa");
+            match = FoursquareCheckin.LegacyUrlPatternRegex.Match("https://www.swarmapp.com/hogehoge/checkin/xxxxxxxx?s=aaaaaaa");
             Assert.True(match.Success);
             Assert.Equal("xxxxxxxx", match.Groups["checkin_id"].Value);
             Assert.Equal("aaaaaaa", match.Groups["signature"].Value);
         }
 
         [Fact]
-        public async Task GetThumbnailInfoAsync_RequestTest()
+        public async Task GetThumbnailInfoAsync_NewUrlTest()
+        {
+            var handler = new HttpMessageHandlerMock();
+            using (var http = new HttpClient(handler))
+            {
+                var service = new FoursquareCheckin(http);
+
+                handler.Enqueue(x =>
+                {
+                    Assert.Equal(HttpMethod.Get, x.Method);
+                    Assert.Equal("https://api.foursquare.com/v2/checkins/resolve",
+                        x.RequestUri.GetLeftPart(UriPartial.Path));
+
+                    var query = HttpUtility.ParseQueryString(x.RequestUri.Query);
+
+                    Assert.Equal(ApplicationSettings.FoursquareClientId, query["client_id"]);
+                    Assert.Equal(ApplicationSettings.FoursquareClientSecret, query["client_secret"]);
+                    Assert.NotNull(query["v"]);
+                    Assert.Equal("xxxxxxxx", query["shortId"]);
+
+                    // リクエストに対するテストなのでレスポンスは適当に返す
+                    return new HttpResponseMessage(HttpStatusCode.NotFound);
+                });
+
+                var post = new PostClass
+                {
+                    PostGeo = null,
+                };
+
+                var thumb = await service.GetThumbnailInfoAsync(
+                    "https://www.swarmapp.com/c/xxxxxxxx",
+                    post, CancellationToken.None);
+
+                Assert.Equal(0, handler.QueueCount);
+            }
+        }
+
+        [Fact]
+        public async Task GetThumbnailInfoAsync_LegacyUrlTest()
         {
             var handler = new HttpMessageHandlerMock();
             using (var http = new HttpClient(handler))
@@ -105,7 +140,7 @@ namespace OpenTween.Thumbnail.Services
         }
 
         [Fact]
-        public async Task GetThumbnailInfoAsync_RequestWithSignatureTest()
+        public async Task GetThumbnailInfoAsync_LegacyUrlWithSignatureTest()
         {
             var handler = new HttpMessageHandlerMock();
             using (var http = new HttpClient(handler))
@@ -164,7 +199,7 @@ namespace OpenTween.Thumbnail.Services
                 };
 
                 var thumb = await service.GetThumbnailInfoAsync(
-                    "https://foursquare.com/hogehoge/checkin/xxxxxxxx?s=aaaaaaa",
+                    "https://www.swarmapp.com/c/xxxxxxxx",
                     post, CancellationToken.None);
 
                 Assert.Equal(1, handler.QueueCount);

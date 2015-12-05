@@ -37,7 +37,10 @@ namespace OpenTween.Thumbnail.Services
     class FoursquareCheckin : IThumbnailService
     {
         public static readonly Regex UrlPatternRegex =
-            new Regex(@"^https?://(?:foursquare\.com|www\.swarmapp\.com)/(?:c/|.+?/checkin/)(?<checkin_id>[0-9a-z]+)(?:\?s=(?<signature>[^&]+))?");
+            new Regex(@"^https?://www\.swarmapp\.com/c/(?<checkin_id>[0-9a-zA-Z]+)");
+
+        public static readonly Regex LegacyUrlPatternRegex =
+            new Regex(@"^https?://(?:foursquare\.com|www\.swarmapp\.com)/.+?/checkin/(?<checkin_id>[0-9a-z]+)(?:\?s=(?<signature>[^&]+))?");
 
         public static readonly string ApiBase = "https://api.foursquare.com/v2";
 
@@ -63,7 +66,75 @@ namespace OpenTween.Thumbnail.Services
             if (post.PostGeo != null)
                 return null;
 
+            var location = await this.FetchCheckinLocation(url, token)
+                .ConfigureAwait(false);
+
+            if (location == null)
+            {
+                location = await this.FetchCheckinLocationLegacy(url, token)
+                    .ConfigureAwait(false);
+            }
+
+            if (location != null)
+            {
+                var map = MapThumb.GetDefaultInstance();
+
+                return await map.GetThumbnailInfoAsync(new PostClass.StatusGeo(location.Longitude, location.Latitude))
+                    .ConfigureAwait(false);
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Foursquare のチェックイン URL から位置情報を取得します
+        /// </summary>
+        public async Task<GlobalLocation> FetchCheckinLocation(string url, CancellationToken token)
+        {
             var match = UrlPatternRegex.Match(url);
+            if (!match.Success)
+                return null;
+
+            var checkinIdGroup = match.Groups["checkin_id"];
+
+            try
+            {
+                // Foursquare のチェックイン情報を取得
+                // 参照: https://developer.foursquare.com/docs/checkins/resolve
+
+                var query = new Dictionary<string, string>
+                {
+                    ["client_id"] = ApplicationSettings.FoursquareClientId,
+                    ["client_secret"] = ApplicationSettings.FoursquareClientSecret,
+                    ["v"] = "20140419", // https://developer.foursquare.com/overview/versioning
+
+                    ["shortId"] = checkinIdGroup.Value,
+                };
+
+                var apiUrl = new Uri(ApiBase + "/checkins/resolve?" + MyCommon.BuildQueryString(query));
+
+                using (var response = await this.http.GetAsync(apiUrl, token).ConfigureAwait(false))
+                {
+                    response.EnsureSuccessStatusCode();
+
+                    var jsonBytes = await response.Content.ReadAsByteArrayAsync()
+                        .ConfigureAwait(false);
+
+                    return ParseIntoLocation(jsonBytes);
+                }
+            }
+            catch (HttpRequestException)
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Foursquare のチェックイン URL から位置情報を取得します (古い形式の URL)
+        /// </summary>
+        public async Task<GlobalLocation> FetchCheckinLocationLegacy(string url, CancellationToken token)
+        {
+            var match = LegacyUrlPatternRegex.Match(url);
 
             if (!match.Success)
                 return null;
@@ -95,19 +166,13 @@ namespace OpenTween.Thumbnail.Services
                     var jsonBytes = await response.Content.ReadAsByteArrayAsync()
                         .ConfigureAwait(false);
 
-                    var location = ParseIntoLocation(jsonBytes);
-                    if (location == null)
-                        return null;
-
-                    var map = MapThumb.GetDefaultInstance();
-
-                    return await map.GetThumbnailInfoAsync(new PostClass.StatusGeo(location.Longitude, location.Latitude))
-                        .ConfigureAwait(false);
+                    return ParseIntoLocation(jsonBytes);
                 }
             }
-            catch (HttpRequestException) { }
-
-            return null;
+            catch (HttpRequestException)
+            {
+                return null;
+            }
         }
 
         internal static GlobalLocation ParseIntoLocation(byte[] jsonBytes)
