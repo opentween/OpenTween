@@ -35,6 +35,7 @@ using System.Collections.Generic;
 using System.IO.Compression;
 using System.Drawing;
 using OpenTween.Connection;
+using System.Net.Cache;
 
 ///<summary>
 ///HttpWebRequest,HttpWebResponseを使用した基本的な通信機能を提供する
@@ -47,6 +48,11 @@ namespace OpenTween
 {
     public class HttpConnection
     {
+        /// <summary>
+        /// キャッシュを有効にするか否か
+        /// </summary>
+        public bool CacheEnabled { get; set; } = true;
+
         /// <summary>
         /// リクエスト間で Cookie を保持するか否か
         /// </summary>
@@ -120,6 +126,9 @@ namespace OpenTween
 
             // KeepAlive無効なサーバー(Twitter等)に使用すると、タイムアウト後にWebExceptionが発生する場合あり
             webReq.KeepAlive = false;
+
+            if (!this.CacheEnabled)
+                webReq.CachePolicy = new RequestCachePolicy(RequestCacheLevel.BypassCache);
 
             return webReq;
         }

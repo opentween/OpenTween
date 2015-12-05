@@ -78,6 +78,7 @@ namespace OpenTween
                 un = username;
             }
             con.Initialize(ApplicationSettings.TwitterConsumerKey, ApplicationSettings.TwitterConsumerSecret, accessToken, accessTokenSecret, username, userId, "screen_name", "user_id");
+            con.CacheEnabled = false;
             httpCon = con;
             connectionType = AuthMethod.OAuth;
             requestToken = "";
