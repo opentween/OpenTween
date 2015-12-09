@@ -1913,14 +1913,20 @@ namespace OpenTween
             _curItemIndex = _curList.SelectedIndices[0];
             if (_curItemIndex > _curList.VirtualListSize - 1) return;
 
+            PostClass selectedPost;
             try
             {
-                _curPost = GetCurTabPost(_curItemIndex);
+                selectedPost = GetCurTabPost(_curItemIndex);
             }
             catch (ArgumentException)
             {
                 return;
             }
+
+            if (selectedPost.StatusId == this._curPost?.StatusId)
+                return;
+
+            this._curPost = selectedPost;
 
             this.PushSelectPostChain();
 
