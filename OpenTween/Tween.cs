@@ -1420,9 +1420,9 @@ namespace OpenTween
                 {
                     DetailsListView lst = (DetailsListView)tab.Tag;
                     TabClass tabInfo = _statuses.Tabs[tab.Text];
-                    using (ControlTransaction.Update(lst))
+                    if (isDelete || lst.VirtualListSize != tabInfo.AllCount)
                     {
-                        if (isDelete || lst.VirtualListSize != tabInfo.AllCount)
+                        using (ControlTransaction.Update(lst))
                         {
                             if (lst.Equals(_curList))
                             {
