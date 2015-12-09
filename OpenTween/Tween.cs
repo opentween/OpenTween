@@ -1355,10 +1355,7 @@ namespace OpenTween
             {
                 Interlocked.Exchange(ref usCounter, this._cfgCommon.UserstreamPeriod);
                 if (this._isActiveUserstream)
-                {
-                    refreshTasks.Add(this.RefreshTasktrayIcon(true));
                     this.RefreshTimeline();
-                }
                 ResetTimers.UserStream = false;
             }
             if (refreshFollowers > 6 * 3600)
@@ -8585,7 +8582,7 @@ namespace OpenTween
         private static bool blink = false;
         private static bool idle = false;
 
-        private async Task RefreshTasktrayIcon(bool forceRefresh)
+        private async Task RefreshTasktrayIcon()
         {
             if (_colorize)
                 await this.Colorize();
@@ -8594,8 +8591,6 @@ namespace OpenTween
             //Static usCheckCnt As int = 0
 
             //Static iconDlListTopItem As ListViewItem = null
-
-            if (forceRefresh) idle = false;
 
             //if (((ListView)ListTab.SelectedTab.Tag).TopItem == iconDlListTopItem)
             //    ((ImageDictionary)this.TIconDic).PauseGetImage = false;
@@ -8678,7 +8673,7 @@ namespace OpenTween
         private async void TimerRefreshIcon_Tick(object sender, EventArgs e)
         {
             //200ms
-            await this.RefreshTasktrayIcon(false);
+            await this.RefreshTasktrayIcon();
         }
 
         private void ContextMenuTabProperty_Opening(object sender, CancelEventArgs e)
@@ -12909,11 +12904,7 @@ namespace OpenTween
             {
                 if (InvokeRequired && !IsDisposed)
                 {
-                    Invoke((Action)(async () =>
-                    {
-                        await this.RefreshTasktrayIcon(true);
-                        this.RefreshTimeline();
-                    }));
+                    Invoke((Action)(() => this.RefreshTimeline()));
                     return;
                 }
             }
