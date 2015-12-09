@@ -12904,8 +12904,7 @@ namespace OpenTween
             {
                 if (InvokeRequired && !IsDisposed)
                 {
-                    Invoke((Action)(() => this.RefreshTimeline()));
-                    return;
+                    await this.InvokeAsync(() => this.RefreshTimeline());
                 }
             }
             catch (ObjectDisposedException)

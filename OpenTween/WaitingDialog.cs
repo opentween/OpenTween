@@ -39,7 +39,6 @@ namespace OpenTween
     /// </remarks>
     public partial class WaitingDialog : OTBaseForm
     {
-        private readonly SynchronizationContext synchronizationContext;
         private readonly Lazy<CancellationTokenSource> cancellationTokenSource;
 
         private bool cancellationEnabled = false;
@@ -62,7 +61,6 @@ namespace OpenTween
         {
             this.InitializeComponent();
 
-            this.synchronizationContext = SynchronizationContext.Current;
             this.cancellationTokenSource = new Lazy<CancellationTokenSource>();
 
             this.Timeout = TimeSpan.FromMilliseconds(500);
@@ -123,21 +121,6 @@ namespace OpenTween
 
                 return await task;
             });
-        }
-
-        /// <summary>
-        /// Control.InvokeメソッドのTask版みたいなやつ
-        /// </summary>
-        private Task<T> InvokeAsync<T>(Func<T> x)
-        {
-            var tcs = new TaskCompletionSource<T>();
-            this.synchronizationContext.Post(_ =>
-            {
-                var ret = x();
-                tcs.SetResult(ret);
-            }, null);
-
-            return tcs.Task;
         }
 
         /// <summary>Task を Task&lt;T&gt; に変換したいだけ</summary>

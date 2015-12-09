@@ -25,6 +25,8 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace OpenTween
@@ -50,10 +52,13 @@ namespace OpenTween
         /// </remarks>
         public SizeF CurrentScaleFactor { get; private set; }
 
+        private readonly SynchronizationContext synchronizationContext;
+
         protected OTBaseForm()
             : base()
         {
             this.CurrentScaleFactor = new SizeF(1.0f, 1.0f);
+            this.synchronizationContext = SynchronizationContext.Current;
 
             this.Load += (o, e) =>
             {
@@ -61,6 +66,26 @@ namespace OpenTween
                 if (OTBaseForm.GlobalFont != null)
                     this.Font = OTBaseForm.GlobalFont;
             };
+        }
+
+        public Task InvokeAsync(Action x)
+        {
+            return this.InvokeAsync<object>(() => { x(); return null; });
+        }
+
+        /// <summary>
+        /// Control.InvokeメソッドのTask版みたいなやつ
+        /// </summary>
+        public Task<T> InvokeAsync<T>(Func<T> x)
+        {
+            var tcs = new TaskCompletionSource<T>();
+            this.synchronizationContext.Post(_ =>
+            {
+                var ret = x();
+                tcs.SetResult(ret);
+            }, null);
+
+            return tcs.Task;
         }
 
         /// <summary>
