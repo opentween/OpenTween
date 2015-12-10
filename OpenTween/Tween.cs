@@ -29,6 +29,7 @@
 //"C:\Program Files\Microsoft Visual Studio 8\SDK\v2.0\Bin\sgen.exe" /f /a:"$(TargetPath)"
 
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -173,7 +174,7 @@ namespace OpenTween
         //時速表示用
         private List<DateTime> _postTimestamps = new List<DateTime>();
         private List<DateTime> _favTimestamps = new List<DateTime>();
-        private Dictionary<DateTime, int> _tlTimestamps = new Dictionary<DateTime, int>();
+        private ConcurrentDictionary<DateTime, int> _tlTimestamps = new ConcurrentDictionary<DateTime, int>();
         private int _tlCount;
 
         // 以下DrawItem関連
@@ -2270,31 +2271,7 @@ namespace OpenTween
                 var addCount = this._statuses.DistributePosts();
 
                 if (!this._initial)
-                {
-                    lock (this._syncObject)
-                    {
-                        var tm = DateTime.Now;
-                        if (this._tlTimestamps.ContainsKey(tm))
-                            this._tlTimestamps[tm] += addCount;
-                        else
-                            this._tlTimestamps[tm] = addCount;
-
-                        var removeKeys = new List<DateTime>();
-                        var oneHour = DateTime.Now - TimeSpan.FromHours(1);
-
-                        this._tlCount = 0;
-                        foreach (var pair in this._tlTimestamps)
-                        {
-                            if (pair.Key < oneHour)
-                                removeKeys.Add(pair.Key);
-                            else
-                                this._tlCount += pair.Value;
-                        }
-
-                        foreach (var key in removeKeys)
-                            this._tlTimestamps.Remove(key);
-                    }
-                }
+                    this.UpdateTimelineSpeed(addCount);
             });
 
             if (ct.IsCancellationRequested)
@@ -2303,6 +2280,32 @@ namespace OpenTween
             p.Report(Properties.Resources.GetTimelineWorker_RunWorkerCompletedText1);
 
             this.RefreshTimeline();
+        }
+
+        /// <summary>
+        /// タイムラインに追加された発言件数を反映し、タイムラインの流速を更新します
+        /// </summary>
+        /// <param name="addCount">直前にタイムラインに追加した発言件数</param>
+        private void UpdateTimelineSpeed(int addCount)
+        {
+            var now = DateTime.Now;
+            this._tlTimestamps.AddOrUpdate(now, addCount, (k, v) => v + addCount);
+
+            var removeKeys = new List<DateTime>();
+            var oneHour = TimeSpan.FromHours(1);
+            var tlCount = 0;
+            foreach (var pair in this._tlTimestamps)
+            {
+                if (now - pair.Key > oneHour)
+                    removeKeys.Add(pair.Key);
+                else
+                    tlCount += pair.Value;
+            }
+            Interlocked.Exchange(ref this._tlCount, tlCount);
+
+            int _;
+            foreach (var key in removeKeys)
+                this._tlTimestamps.TryRemove(key, out _);
         }
 
         private Task GetReplyAsync()
@@ -12868,37 +12871,8 @@ namespace OpenTween
             }
 
             int rsltAddCount = _statuses.DistributePosts();
-            lock (_syncObject)
-            {
-                DateTime tm = DateTime.Now;
-                if (_tlTimestamps.ContainsKey(tm))
-                {
-                    _tlTimestamps[tm] += rsltAddCount;
-                }
-                else
-                {
-                    _tlTimestamps.Add(tm, rsltAddCount);
-                }
-                DateTime oneHour = DateTime.Now.Subtract(new TimeSpan(1, 0, 0));
-                List<DateTime> keys = new List<DateTime>();
-                _tlCount = 0;
-                foreach (DateTime key in _tlTimestamps.Keys)
-                {
-                    if (key.CompareTo(oneHour) < 0)
-                        keys.Add(key);
-                    else
-                        _tlCount += _tlTimestamps[key];
-                }
-                foreach (DateTime key in keys)
-                {
-                    _tlTimestamps.Remove(key);
-                }
-                keys.Clear();
 
-                //Static DateTime before = Now;
-                //if (before.Subtract(Now).Seconds > -5) return;
-                //before = Now;
-            }
+            this.UpdateTimelineSpeed(rsltAddCount);
 
             if (this._cfgCommon.UserstreamPeriod > 0) return;
 
