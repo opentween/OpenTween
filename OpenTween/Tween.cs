@@ -12858,7 +12858,9 @@ namespace OpenTween
             }
         }
 
-        private void tw_NewPostFromStream(object sender, EventArgs e)
+        private int userStreamsRefreshing = 0;
+
+        private async void tw_NewPostFromStream(object sender, EventArgs e)
         {
             if (this._cfgCommon.ReadOldPosts)
             {
@@ -12900,20 +12902,18 @@ namespace OpenTween
 
             if (this._cfgCommon.UserstreamPeriod > 0) return;
 
-            try
+            // userStreamsRefreshing が 0 (インクリメント後は1) であれば RefreshTimeline を実行
+            if (Interlocked.Increment(ref this.userStreamsRefreshing) == 1)
             {
-                if (InvokeRequired && !IsDisposed)
+                try
                 {
-                    await this.InvokeAsync(() => this.RefreshTimeline());
+                    await this.InvokeAsync(() => this.RefreshTimeline())
+                        .ConfigureAwait(false);
                 }
-            }
-            catch (ObjectDisposedException)
-            {
-                return;
-            }
-            catch (InvalidOperationException)
-            {
-                return;
+                finally
+                {
+                    Interlocked.Exchange(ref this.userStreamsRefreshing, 0);
+                }
             }
         }
 
