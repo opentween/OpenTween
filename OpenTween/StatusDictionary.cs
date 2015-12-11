@@ -1464,7 +1464,6 @@ namespace OpenTween
             => this._statuses;
     }
 
-    [Serializable]
     public sealed class TabClass
     {
         private List<PostFilterRule> _filters;
