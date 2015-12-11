@@ -498,87 +498,106 @@ namespace OpenTween
         {
             this.InitColumnText();
 
-            ColumnHeader[] columns;
-            if (this._iconCol)
+            ColumnHeader[] columns = null;
+            try
             {
-                columns = new[]
+                if (this._iconCol)
                 {
-                    new ColumnHeader { Text = this.ColumnText[0], Width = 48 }, // アイコン
-                    new ColumnHeader { Text = this.ColumnText[2], Width = 300 },  // 本文
-                };
-
-                if (startup)
-                {
-                    var widthScaleFactor = this.CurrentAutoScaleDimensions.Width / this._cfgLocal.ScaleDimension.Width;
-
-                    columns[0].Width = ScaleBy(widthScaleFactor, _cfgLocal.Width1);
-                    columns[1].Width = ScaleBy(widthScaleFactor, _cfgLocal.Width3);
-                    columns[0].DisplayIndex = 0;
-                    columns[1].DisplayIndex = 1;
-                }
-                else
-                {
-                    var idx = 0;
-                    foreach (var curListColumn in this._curList.Columns.Cast<ColumnHeader>())
+                    columns = new[]
                     {
-                        columns[idx].Width = curListColumn.Width;
-                        columns[idx].DisplayIndex = curListColumn.DisplayIndex;
-                        idx++;
-                    }
-                }
-            }
-            else
-            {
-                columns = new[]
-                {
-                    new ColumnHeader { Text = this.ColumnText[0], Width = 48 }, // アイコン
-                    new ColumnHeader { Text = this.ColumnText[1], Width = 80 }, // ニックネーム
-                    new ColumnHeader { Text = this.ColumnText[2], Width = 300 }, // 本文
-                    new ColumnHeader { Text = this.ColumnText[3], Width = 50 }, // 日付
-                    new ColumnHeader { Text = this.ColumnText[4], Width = 50 }, // ユーザID
-                    new ColumnHeader { Text = this.ColumnText[5], Width = 16 }, // 未読
-                    new ColumnHeader { Text = this.ColumnText[6], Width = 16 }, // マーク＆プロテクト
-                    new ColumnHeader { Text = this.ColumnText[7], Width = 50 }, // ソース
-                };
-
-                if (startup)
-                {
-                    var widthScaleFactor = this.CurrentAutoScaleDimensions.Width / this._cfgLocal.ScaleDimension.Width;
-
-                    columns[0].Width = ScaleBy(widthScaleFactor, _cfgLocal.Width1);
-                    columns[1].Width = ScaleBy(widthScaleFactor, _cfgLocal.Width2);
-                    columns[2].Width = ScaleBy(widthScaleFactor, _cfgLocal.Width3);
-                    columns[3].Width = ScaleBy(widthScaleFactor, _cfgLocal.Width4);
-                    columns[4].Width = ScaleBy(widthScaleFactor, _cfgLocal.Width5);
-                    columns[5].Width = ScaleBy(widthScaleFactor, _cfgLocal.Width6);
-                    columns[6].Width = ScaleBy(widthScaleFactor, _cfgLocal.Width7);
-                    columns[7].Width = ScaleBy(widthScaleFactor, _cfgLocal.Width8);
-
-                    var displayIndex = new[] {
-                        this._cfgLocal.DisplayIndex1, this._cfgLocal.DisplayIndex2,
-                        this._cfgLocal.DisplayIndex3, this._cfgLocal.DisplayIndex4,
-                        this._cfgLocal.DisplayIndex5, this._cfgLocal.DisplayIndex6,
-                        this._cfgLocal.DisplayIndex7, this._cfgLocal.DisplayIndex8
+                        new ColumnHeader(), // アイコン
+                        new ColumnHeader(), // 本文
                     };
 
-                    foreach (var i in Enumerable.Range(0, displayIndex.Length))
+                    columns[0].Text = this.ColumnText[0];
+                    columns[1].Text = this.ColumnText[2];
+
+                    if (startup)
                     {
-                        columns[i].DisplayIndex = displayIndex[i];
+                        var widthScaleFactor = this.CurrentAutoScaleDimensions.Width / this._cfgLocal.ScaleDimension.Width;
+
+                        columns[0].Width = ScaleBy(widthScaleFactor, _cfgLocal.Width1);
+                        columns[1].Width = ScaleBy(widthScaleFactor, _cfgLocal.Width3);
+                        columns[0].DisplayIndex = 0;
+                        columns[1].DisplayIndex = 1;
+                    }
+                    else
+                    {
+                        var idx = 0;
+                        foreach (var curListColumn in this._curList.Columns.Cast<ColumnHeader>())
+                        {
+                            columns[idx].Width = curListColumn.Width;
+                            columns[idx].DisplayIndex = curListColumn.DisplayIndex;
+                            idx++;
+                        }
                     }
                 }
                 else
                 {
-                    var idx = 0;
-                    foreach (var curListColumn in this._curList.Columns.Cast<ColumnHeader>())
+                    columns = new[]
                     {
-                        columns[idx].Width = curListColumn.Width;
-                        columns[idx].DisplayIndex = curListColumn.DisplayIndex;
-                        idx++;
+                        new ColumnHeader(), // アイコン
+                        new ColumnHeader(), // ニックネーム
+                        new ColumnHeader(), // 本文
+                        new ColumnHeader(), // 日付
+                        new ColumnHeader(), // ユーザID
+                        new ColumnHeader(), // 未読
+                        new ColumnHeader(), // マーク＆プロテクト
+                        new ColumnHeader(), // ソース
+                    };
+
+                    foreach (var i in Enumerable.Range(0, columns.Length))
+                        columns[i].Text = this.ColumnText[i];
+
+                    if (startup)
+                    {
+                        var widthScaleFactor = this.CurrentAutoScaleDimensions.Width / this._cfgLocal.ScaleDimension.Width;
+
+                        columns[0].Width = ScaleBy(widthScaleFactor, _cfgLocal.Width1);
+                        columns[1].Width = ScaleBy(widthScaleFactor, _cfgLocal.Width2);
+                        columns[2].Width = ScaleBy(widthScaleFactor, _cfgLocal.Width3);
+                        columns[3].Width = ScaleBy(widthScaleFactor, _cfgLocal.Width4);
+                        columns[4].Width = ScaleBy(widthScaleFactor, _cfgLocal.Width5);
+                        columns[5].Width = ScaleBy(widthScaleFactor, _cfgLocal.Width6);
+                        columns[6].Width = ScaleBy(widthScaleFactor, _cfgLocal.Width7);
+                        columns[7].Width = ScaleBy(widthScaleFactor, _cfgLocal.Width8);
+
+                        var displayIndex = new[] {
+                            this._cfgLocal.DisplayIndex1, this._cfgLocal.DisplayIndex2,
+                            this._cfgLocal.DisplayIndex3, this._cfgLocal.DisplayIndex4,
+                            this._cfgLocal.DisplayIndex5, this._cfgLocal.DisplayIndex6,
+                            this._cfgLocal.DisplayIndex7, this._cfgLocal.DisplayIndex8
+                        };
+
+                        foreach (var i in Enumerable.Range(0, displayIndex.Length))
+                        {
+                            columns[i].DisplayIndex = displayIndex[i];
+                        }
+                    }
+                    else
+                    {
+                        var idx = 0;
+                        foreach (var curListColumn in this._curList.Columns.Cast<ColumnHeader>())
+                        {
+                            columns[idx].Width = curListColumn.Width;
+                            columns[idx].DisplayIndex = curListColumn.DisplayIndex;
+                            idx++;
+                        }
                     }
                 }
-            }
 
-            list.Columns.AddRange(columns);
+                list.Columns.AddRange(columns);
+
+                columns = null;
+            }
+            finally
+            {
+                if (columns != null)
+                {
+                    foreach (var column in columns)
+                        column?.Dispose();
+                }
+            }
         }
 
         private void InitColumnText()
