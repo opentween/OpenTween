@@ -192,7 +192,7 @@ namespace OpenTween
                             byte[] crlfByte = Encoding.UTF8.GetBytes("\r\n");
                             //コンテンツタイプの指定
                             string mime = "";
-                            switch (kvp.Value.Extension.ToLower())
+                            switch (kvp.Value.Extension.ToLowerInvariant())
                             {
                                 case ".jpg":
                                 case ".jpeg":

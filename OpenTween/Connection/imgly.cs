@@ -71,7 +71,7 @@ namespace OpenTween.Connection
 
         public bool CheckFileExtension(string fileExtension)
         {
-            return this.pictureExt.Contains(fileExtension.ToLower());
+            return this.pictureExt.Contains(fileExtension.ToLowerInvariant());
         }
 
         public bool CheckFileSize(string fileExtension, long fileSize)

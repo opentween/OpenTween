@@ -668,7 +668,7 @@ namespace OpenTween
 
         private bool IsValidExtension(string ext)
         {
-            ext = ext.ToLower();
+            ext = ext.ToLowerInvariant();
 
             return ext.Equals(".jpg", StringComparison.Ordinal) ||
                 ext.Equals(".jpeg", StringComparison.Ordinal) ||

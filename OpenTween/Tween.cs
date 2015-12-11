@@ -34,6 +34,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Media;
@@ -1179,7 +1180,7 @@ namespace OpenTween
 
             foreach (var ua in this._cfgCommon.UserAccounts)
             {
-                if (ua.UserId == 0 && ua.Username.ToLower() == tw.Username.ToLower())
+                if (ua.UserId == 0 && ua.Username.ToLowerInvariant() == tw.Username.ToLowerInvariant())
                 {
                     ua.UserId = tw.UserId;
                     break;
@@ -2073,10 +2074,10 @@ namespace OpenTween
             else if (TargetPost.IsReply)
                 //自分宛返信
                 cl = _clAtSelf;
-            else if (BasePost.ReplyToList.Contains(TargetPost.ScreenName.ToLower()))
+            else if (BasePost.ReplyToList.Contains(TargetPost.ScreenName.ToLowerInvariant()))
                 //返信先
                 cl = _clAtFromTarget;
-            else if (TargetPost.ReplyToList.Contains(BasePost.ScreenName.ToLower()))
+            else if (TargetPost.ReplyToList.Contains(BasePost.ScreenName.ToLowerInvariant()))
                 //その人への返信
                 cl = _clAtTarget;
             else if (TargetPost.ScreenName.Equals(BasePost.ScreenName, StringComparison.OrdinalIgnoreCase))
@@ -7422,10 +7423,10 @@ namespace OpenTween
                     post.RetweetedBy == _anchorPost.ScreenName ||
                     post.ScreenName == _anchorPost.RetweetedBy ||
                     (!string.IsNullOrEmpty(post.RetweetedBy) && post.RetweetedBy == _anchorPost.RetweetedBy) ||
-                    _anchorPost.ReplyToList.Contains(post.ScreenName.ToLower()) ||
-                    _anchorPost.ReplyToList.Contains(post.RetweetedBy.ToLower()) ||
-                    post.ReplyToList.Contains(_anchorPost.ScreenName.ToLower()) ||
-                    post.ReplyToList.Contains(_anchorPost.RetweetedBy.ToLower()))
+                    _anchorPost.ReplyToList.Contains(post.ScreenName.ToLowerInvariant()) ||
+                    _anchorPost.ReplyToList.Contains(post.RetweetedBy.ToLowerInvariant()) ||
+                    post.ReplyToList.Contains(_anchorPost.ScreenName.ToLowerInvariant()) ||
+                    post.ReplyToList.Contains(_anchorPost.RetweetedBy.ToLowerInvariant()))
                 {
                     SelectListItem(_curList, idx);
                     _curList.EnsureVisible(idx);
@@ -10642,7 +10643,7 @@ namespace OpenTween
             bool fAllFlag = false;
             foreach (Match mu in ma)
             {
-                if (mu.Result("${ScreenName}").ToLower() != tw.Username.ToLower())
+                if (mu.Result("${ScreenName}").ToLowerInvariant() != tw.Username.ToLowerInvariant())
                 {
                     fAllFlag = true;
                     break;
@@ -11612,7 +11613,7 @@ namespace OpenTween
             if (this.tw.Configuration.NonUsernamePaths == null || this.tw.Configuration.NonUsernamePaths.Length == 0)
                 return !Regex.Match(name, @"^(about|jobs|tos|privacy|who_to_follow|download|messages)$", RegexOptions.IgnoreCase).Success;
             else
-                return !this.tw.Configuration.NonUsernamePaths.Contains(name.ToLower());
+                return !this.tw.Configuration.NonUsernamePaths.Contains(name.ToLowerInvariant());
         }
 
         private string GetUserId()
@@ -12984,7 +12985,7 @@ namespace OpenTween
                     this.PurgeListViewItemCache();
                     ((DetailsListView)_curTab.Tag).Update();
                 }
-                if (ev.Event == "unfavorite" && ev.Username.ToLower().Equals(tw.Username.ToLower()))
+                if (ev.Event == "unfavorite" && ev.Username.ToLowerInvariant().Equals(tw.Username.ToLowerInvariant()))
                 {
                     RemovePostFromFavTab(new long[] {ev.Id});
                 }
@@ -13011,7 +13012,7 @@ namespace OpenTween
                 }
                 title.Append(Application.ProductName);
                 title.Append(" [");
-                title.Append(ev.Event.ToUpper());
+                title.Append(ev.Event.ToUpper(CultureInfo.CurrentCulture));
                 title.Append("] by ");
                 if (!string.IsNullOrEmpty(ev.Username))
                 {
