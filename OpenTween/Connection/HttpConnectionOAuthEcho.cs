@@ -36,35 +36,24 @@ namespace OpenTween
 {
 	public class HttpConnectionOAuthEcho : HttpConnectionOAuth
 	{
-		private Uri _realm;
-
-		private Uri _serviceProvider;
-
-		public Uri Realm
-		{
-			set { this._realm = value; }
-		}
-
-		public Uri ServiceProvider
-		{
-			set { this._serviceProvider = value; }
-		}
+		public Uri Realm { get; set; }
+		public Uri ServiceProvider { get; set; }
 
 		protected override void AppendOAuthInfo( HttpWebRequest webRequest, Dictionary< string, string > query, string token, string tokenSecret )
 		{
-			var realm = this._realm.Scheme + "://" + this._realm.Host + this._realm.AbsolutePath;
+			var realm = this.Realm.Scheme + "://" + this.Realm.Host + this.Realm.AbsolutePath;
 
-			var credential = OAuthUtility.CreateAuthorization( HttpConnection.GetMethod, this._serviceProvider, query,
+			var credential = OAuthUtility.CreateAuthorization( HttpConnection.GetMethod, this.ServiceProvider, query,
 				this.consumerKey, this.consumerSecret, token, tokenSecret, realm );
 
 			webRequest.Headers.Add( "X-Verify-Credentials-Authorization", credential );
-			webRequest.Headers.Add( "X-Auth-Service-Provider", string.Format("{0}://{1}{2}", this._serviceProvider.Scheme, this._serviceProvider.Host, this._serviceProvider.AbsolutePath));
+			webRequest.Headers.Add( "X-Auth-Service-Provider", string.Format("{0}://{1}{2}", this.ServiceProvider.Scheme, this.ServiceProvider.Host, this.ServiceProvider.AbsolutePath));
 		}
 
 		public HttpConnectionOAuthEcho( Uri realm, Uri serviceProvider )
 		{
-			this._realm = realm;
-			this._serviceProvider = serviceProvider;
+			this.Realm = realm;
+			this.ServiceProvider = serviceProvider;
 		}
 	}
 }

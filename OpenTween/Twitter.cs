@@ -154,8 +154,6 @@ namespace OpenTween
         //プロパティからアクセスされる共通情報
         private string _uname;
 
-        private bool _restrictFavCheck;
-
         private bool _readOwnPost;
         private List<string> _hashList = new List<string>();
 
@@ -979,7 +977,7 @@ namespace OpenTween
 
             this.CheckStatusCode(res, content);
 
-            if (!_restrictFavCheck)
+            if (!RestrictFavCheck)
                 return;
 
             //http://twitter.com/statuses/show/id.xml APIを発行して本文を取得
@@ -1129,13 +1127,7 @@ namespace OpenTween
             }
         }
 
-        public bool RestrictFavCheck
-        {
-            set
-            {
-                _restrictFavCheck = value;
-            }
-        }
+        public bool RestrictFavCheck { get; set; }
 
 #region "バージョンアップ"
         public void GetTweenBinary(string strVer)
