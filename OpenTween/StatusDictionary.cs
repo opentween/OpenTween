@@ -1638,6 +1638,7 @@ namespace OpenTween
                 Comparison<PostClass> postComparison;
                 switch (this.SortMode)
                 {
+                    default:
                     case ComparerMode.Data:
                         postComparison = (x, y) => Comparer<string>.Default.Compare(x?.TextFromApi, y?.TextFromApi);
                         break;
@@ -1650,8 +1651,6 @@ namespace OpenTween
                     case ComparerMode.Source:
                         postComparison = (x, y) => Comparer<string>.Default.Compare(x?.Source, y?.Source);
                         break;
-                    default:
-                        throw new InvalidEnumArgumentException();
                 }
 
                 comparison = (x, y) =>
@@ -1880,7 +1879,7 @@ namespace OpenTween
         internal bool SetReadState(long statusId, bool read)
         {
             if (!this._ids.Contains(statusId))
-                throw new ArgumentException(nameof(statusId));
+                throw new ArgumentOutOfRangeException(nameof(statusId));
 
             if (this.IsInnerStorageTabType)
                 this.Posts[statusId].IsRead = read;
