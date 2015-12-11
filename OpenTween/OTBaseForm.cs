@@ -81,8 +81,15 @@ namespace OpenTween
             var tcs = new TaskCompletionSource<T>();
             this.synchronizationContext.Post(_ =>
             {
-                var ret = x();
-                tcs.SetResult(ret);
+                try
+                {
+                    var ret = x();
+                    tcs.SetResult(ret);
+                }
+                catch (Exception ex)
+                {
+                    tcs.SetException(ex);
+                }
             }, null);
 
             return tcs.Task;
