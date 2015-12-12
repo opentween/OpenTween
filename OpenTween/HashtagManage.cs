@@ -134,7 +134,7 @@ namespace OpenTween
                     idx += 1;
                     continue;
                 }
-                if (string.Compare(src, value, true, CultureInfo.InvariantCulture) == 0)
+                if (string.Compare(src, value, StringComparison.OrdinalIgnoreCase) == 0)
                 {
                     return idx;
                 }
