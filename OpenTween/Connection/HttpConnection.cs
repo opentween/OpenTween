@@ -469,7 +469,7 @@ namespace OpenTween
         {
             foreach (Cookie ck in cookieCollection)
             {
-                if (ck.Domain.StartsWith("."))
+                if (ck.Domain.StartsWith(".", StringComparison.Ordinal))
                 {
                     ck.Domain = ck.Domain.Substring(1);
                     cookieContainer.Add(ck);

@@ -675,7 +675,7 @@ namespace OpenTween
             TraceOutToolStripMenuItem.Checked = true;
             MyCommon.TraceFlag = true;
 #endif
-            if (!MyCommon.FileVersion.EndsWith("0"))
+            if (!MyCommon.FileVersion.EndsWith("0", StringComparison.Ordinal))
             {
                 TraceOutToolStripMenuItem.Checked = true;
                 MyCommon.TraceFlag = true;
@@ -1475,7 +1475,7 @@ namespace OpenTween
             NotifyNewPosts(notifyPosts, soundFile, addCount, newMentionOrDm);
 
             SetMainWindowTitle();
-            if (!StatusLabelUrl.Text.StartsWith("http")) SetStatusLabelUrl();
+            if (!StatusLabelUrl.Text.StartsWith("http", StringComparison.Ordinal)) SetStatusLabelUrl();
 
             HashSupl.AddRangeItem(tw.GetHashList());
 
@@ -5041,8 +5041,9 @@ namespace OpenTween
         {
             try
             {
-                if (PostBrowser.StatusText.StartsWith("http") || PostBrowser.StatusText.StartsWith("ftp")
-                        || PostBrowser.StatusText.StartsWith("data"))
+                if (PostBrowser.StatusText.StartsWith("http", StringComparison.Ordinal)
+                    || PostBrowser.StatusText.StartsWith("ftp", StringComparison.Ordinal)
+                    || PostBrowser.StatusText.StartsWith("data", StringComparison.Ordinal))
                 {
                     StatusLabelUrl.Text = PostBrowser.StatusText.Replace("&", "&&");
                 }
@@ -8374,10 +8375,10 @@ namespace OpenTween
                                 }
                                 return;
                             }
-                            if (!StatusText.Text.StartsWith("@"))
+                            if (!StatusText.Text.StartsWith("@", StringComparison.Ordinal))
                             {
                                 //文頭＠以外
-                                if (StatusText.Text.StartsWith(". "))
+                                if (StatusText.Text.StartsWith(". ", StringComparison.Ordinal))
                                 {
                                     // 複数リプライ
                                     StatusText.Text = StatusText.Text.Insert(2, "@" + _curPost.ScreenName + " ");
@@ -8447,7 +8448,7 @@ namespace OpenTween
                         //Enter or DoubleClick
 
                         string sTxt = StatusText.Text;
-                        if (!sTxt.StartsWith(". "))
+                        if (!sTxt.StartsWith(". ", StringComparison.Ordinal))
                         {
                             sTxt = ". " + sTxt;
                             this.inReplyTo = null;
@@ -8497,7 +8498,7 @@ namespace OpenTween
                                 }
                             }
                             if (ids.Length == 0) return;
-                            if (!StatusText.Text.StartsWith(". "))
+                            if (!StatusText.Text.StartsWith(". ", StringComparison.Ordinal))
                             {
                                 StatusText.Text = ". " + StatusText.Text;
                                 sidx += 2;
@@ -9743,9 +9744,9 @@ namespace OpenTween
             if (m != null)
             {
                 var inReplyToScreenName = this.inReplyTo.Item2;
-                if (StatusText.StartsWith("@"))
+                if (StatusText.StartsWith("@", StringComparison.Ordinal))
                 {
-                    if (StatusText.StartsWith("@" + inReplyToScreenName)) return;
+                    if (StatusText.StartsWith("@" + inReplyToScreenName, StringComparison.Ordinal)) return;
                 }
                 else
                 {
@@ -9918,7 +9919,7 @@ namespace OpenTween
                     if (idx != -1)
                     {
                         name = Path.GetFileName(name.Substring(idx));
-                        if (name.Contains("_normal.") || name.EndsWith("_normal"))
+                        if (name.Contains("_normal.") || name.EndsWith("_normal", StringComparison.Ordinal))
                         {
                             name = name.Replace("_normal", "");
                             this.IconNameToolStripMenuItem.Text = name;
@@ -10577,7 +10578,7 @@ namespace OpenTween
         private void ContextMenuPostBrowser_Opening(object ender, CancelEventArgs e)
         {
             // URLコピーの項目の表示/非表示
-            if (PostBrowser.StatusText.StartsWith("http"))
+            if (PostBrowser.StatusText.StartsWith("http", StringComparison.Ordinal))
             {
                 this._postBrowserStatusText = PostBrowser.StatusText;
                 string name = GetUserId();
@@ -10892,9 +10893,9 @@ namespace OpenTween
                     var configBrowserPath = this._cfgLocal.BrowserPath;
                     if (!string.IsNullOrEmpty(configBrowserPath))
                     {
-                        if (configBrowserPath.StartsWith("\"") && configBrowserPath.Length > 2 && configBrowserPath.IndexOf("\"", 2) > -1)
+                        if (configBrowserPath.StartsWith("\"", StringComparison.Ordinal) && configBrowserPath.Length > 2 && configBrowserPath.IndexOf("\"", 2, StringComparison.Ordinal) > -1)
                         {
-                            int sep = configBrowserPath.IndexOf("\"", 2);
+                            int sep = configBrowserPath.IndexOf("\"", 2, StringComparison.Ordinal);
                             string browserPath = configBrowserPath.Substring(1, sep - 1);
                             string arg = "";
                             if (sep < configBrowserPath.Length - 1)

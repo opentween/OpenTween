@@ -140,7 +140,10 @@ namespace OpenTween
         {
             get
             {
-                if (this._linkText.StartsWith("@") || this._linkText.StartsWith("＠") || this._linkText.StartsWith("#") || this._linkText.StartsWith("＃"))
+                if (this._linkText.StartsWith("@", StringComparison.Ordinal)
+                    || this._linkText.StartsWith("＠", StringComparison.Ordinal)
+                    || this._linkText.StartsWith("#", StringComparison.Ordinal)
+                    || this._linkText.StartsWith("＃", StringComparison.Ordinal))
                     return this._linkText;
                 if (this._linkText.TrimEnd('/') == this.Url.TrimEnd('/'))
                     return this.Url;

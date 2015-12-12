@@ -60,7 +60,8 @@ namespace OpenTween
 
             foreach (var nv in _nicovideo)
             {
-                if (url.StartsWith(nv)) return string.Format("{0}{1}", "http://nico.ms/", url.Substring(nv.Length));
+                if (url.StartsWith(nv, StringComparison.Ordinal))
+                    return string.Format("{0}{1}", "http://nico.ms/", url.Substring(nv.Length));
             }
 
             var i = url.IndexOf("nicovideo.jp/user/", StringComparison.OrdinalIgnoreCase);

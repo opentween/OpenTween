@@ -314,7 +314,9 @@ namespace OpenTween
                     posl2 = orgData.IndexOf("\"", posl1, StringComparison.Ordinal);
                     urlStr = orgData.Substring(posl1, posl2 - posl1);
 
-                    if (!urlStr.StartsWith("http://") && !urlStr.StartsWith("https://") && !urlStr.StartsWith("ftp://"))
+                    if (!urlStr.StartsWith("http://", StringComparison.Ordinal)
+                        && !urlStr.StartsWith("https://", StringComparison.Ordinal)
+                        && !urlStr.StartsWith("ftp://", StringComparison.Ordinal))
                     {
                         continue;
                     }
