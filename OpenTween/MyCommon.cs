@@ -416,30 +416,42 @@ namespace OpenTween
                     writer.Write(errorReport);
                 }
 
-                using (var dialog = new SendErrorReportForm())
+                var settings = SettingCommon.Instance;
+                var mainForm = Application.OpenForms.Cast<Form>().FirstOrDefault() as TweenMain;
+
+                ErrorReport report;
+                if (mainForm != null)
+                    report = new ErrorReport(mainForm.TwitterInstance, errorReport);
+                else
+                    report = new ErrorReport(errorReport);
+
+                report.AnonymousReport = settings.ErrorReportAnonymous;
+
+                OpenErrorReportDialog(mainForm, report);
+
+                // ダイアログ内で設定が変更されていれば保存する
+                if (settings.ErrorReportAnonymous != report.AnonymousReport)
                 {
-                    var mainForm = Application.OpenForms.Cast<Form>().FirstOrDefault() as TweenMain;
-                    var settings = SettingCommon.Instance;
-
-                    ErrorReport report;
-                    if (mainForm != null)
-                        report = new ErrorReport(mainForm.TwitterInstance, errorReport);
-                    else
-                        report = new ErrorReport(errorReport);
-
-                    report.AnonymousReport = settings.ErrorReportAnonymous;
-
-                    dialog.ErrorReport = report;
-                    dialog.ShowDialog(mainForm);
-
-                    if (settings.ErrorReportAnonymous != report.AnonymousReport)
-                    {
-                        settings.ErrorReportAnonymous = report.AnonymousReport;
-                        settings.Save();
-                    }
+                    settings.ErrorReportAnonymous = report.AnonymousReport;
+                    settings.Save();
                 }
 
                 return false;
+            }
+        }
+
+        private static void OpenErrorReportDialog(Form owner, ErrorReport report)
+        {
+            if (owner != null && owner.InvokeRequired)
+            {
+                owner.Invoke((Action)(() => OpenErrorReportDialog(owner, report)));
+                return;
+            }
+
+            using (var dialog = new SendErrorReportForm())
+            {
+                dialog.ErrorReport = report;
+                dialog.ShowDialog(owner);
             }
         }
 
