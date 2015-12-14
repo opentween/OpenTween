@@ -417,7 +417,7 @@ namespace OpenTween
                 }
 
                 var settings = SettingCommon.Instance;
-                var mainForm = Application.OpenForms.Cast<Form>().FirstOrDefault() as TweenMain;
+                var mainForm = Application.OpenForms.OfType<TweenMain>().FirstOrDefault();
 
                 ErrorReport report;
                 if (mainForm != null)

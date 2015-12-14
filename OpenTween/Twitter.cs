@@ -1631,7 +1631,6 @@ namespace OpenTween
                 .Distinct().ToArray();
 
             post.ExpandedUrls = entities.OfType<TwitterEntityUrl>()
-                .Where(x => x != null)
                 .Select(x => new PostClass.ExpandedUrlInfo(x.Url, x.ExpandedUrl))
                 .ToArray();
 
@@ -1661,8 +1660,7 @@ namespace OpenTween
         /// </summary>
         public static IEnumerable<long> GetQuoteTweetStatusIds(IEnumerable<TwitterEntity> entities)
         {
-            var urls = entities.OfType<TwitterEntityUrl>().Where(x => x != null)
-                .Select(x => x.ExpandedUrl);
+            var urls = entities.OfType<TwitterEntityUrl>().Select(x => x.ExpandedUrl);
 
             return GetQuoteTweetStatusIds(urls);
         }
@@ -2103,7 +2101,6 @@ namespace OpenTween
                     post.QuoteStatusIds = GetQuoteTweetStatusIds(message.Entities).Distinct().ToArray();
 
                     post.ExpandedUrls = message.Entities.OfType<TwitterEntityUrl>()
-                        .Where(x => x != null)
                         .Select(x => new PostClass.ExpandedUrlInfo(x.Url, x.ExpandedUrl))
                         .ToArray();
 
