@@ -159,7 +159,7 @@ namespace OpenTween
             var subject = $"{Application.ProductName} {MyCommon.GetReadableVersion()} エラーログ";
             var body = this.ReportText;
 
-            var mailto = $"mailto:{toAddress}?subject={Uri.EscapeDataString(subject)}&body={Uri.EscapeDataString(body)}";
+            var mailto = $"mailto:{Uri.EscapeDataString(toAddress)}?subject={Uri.EscapeDataString(subject)}&body={Uri.EscapeDataString(body)}";
             await Task.Run(() => Process.Start(mailto));
         }
 
