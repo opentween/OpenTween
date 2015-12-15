@@ -78,7 +78,7 @@ namespace OpenTween.Connection
 
             foreach (KeyValuePair<string, string> item in parameter)
                 // 各種情報のうち、oauth_で始まる情報のみ、ヘッダに追加する。各情報はカンマ区切り、データはダブルクォーテーションで括る
-                if (item.Key.StartsWith("oauth_"))
+                if (item.Key.StartsWith("oauth_", StringComparison.Ordinal))
                     sb.AppendFormat("{0}=\"{1}\",", item.Key, MyCommon.UrlEncode(item.Value));
 
             return sb.ToString();

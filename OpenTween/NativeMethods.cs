@@ -153,6 +153,7 @@ namespace OpenTween
         }
 
         [DllImport("user32")]
+        [return: MarshalAs(UnmanagedType.Bool)]
         private static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
 
         /// <summary>
@@ -196,6 +197,7 @@ namespace OpenTween
         }
         /// http://www.atmarkit.co.jp/fdotnet/dotnettips/723flashwindow/flashwindow.html
         [DllImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
         private static extern bool FlashWindowEx(
             ref FLASHWINFO FWInfo);
 
@@ -224,6 +226,7 @@ namespace OpenTween
         #endregion
 
         [DllImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool ValidateRect(
             IntPtr hwnd,
             IntPtr rect);
@@ -244,10 +247,11 @@ namespace OpenTween
 
         #region "スクリーンセーバー起動中か判定"
         [DllImport("user32", CharSet = CharSet.Auto)]
-        private static extern int SystemParametersInfo(
+        [return: MarshalAs(UnmanagedType.Bool)]
+        private static extern bool SystemParametersInfo(
                     int intAction,
                     int intParam,
-                    ref bool bParam,
+                    [MarshalAs(UnmanagedType.Bool)] ref bool bParam,
                     int intWinIniFlag);
         // returns non-zero value if function succeeds
 
@@ -320,12 +324,14 @@ namespace OpenTween
         #region "プロセスのProxy設定"
 
         [DllImport("wininet.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
         private static extern bool InternetSetOption(IntPtr hInternet,
             InternetOption dwOption,
             [In] ref InternetProxyInfo lpBuffer,
             int lpdwBufferLength);
 
         [DllImport("wininet.dll", SetLastError = true, BestFitMapping = false, ThrowOnUnmappableChar = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
         private static extern bool InternetSetOption(IntPtr hInternet,
             InternetOption dwOption,
             string lpBuffer,

@@ -34,6 +34,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Media;
@@ -109,9 +110,6 @@ namespace OpenTween
         //private SettingToConfig _cfg; //旧
         private SettingLocal _cfgLocal;
         private SettingCommon _cfgCommon;
-        private bool _modifySettingLocal = false;
-        private bool _modifySettingCommon = false;
-        private bool _modifySettingAtId = false;
 
         //twitter解析部
         private Twitter tw = new Twitter();
@@ -501,87 +499,106 @@ namespace OpenTween
         {
             this.InitColumnText();
 
-            ColumnHeader[] columns;
-            if (this._iconCol)
+            ColumnHeader[] columns = null;
+            try
             {
-                columns = new[]
+                if (this._iconCol)
                 {
-                    new ColumnHeader { Text = this.ColumnText[0], Width = 48 }, // アイコン
-                    new ColumnHeader { Text = this.ColumnText[2], Width = 300 },  // 本文
-                };
-
-                if (startup)
-                {
-                    var widthScaleFactor = this.CurrentAutoScaleDimensions.Width / this._cfgLocal.ScaleDimension.Width;
-
-                    columns[0].Width = ScaleBy(widthScaleFactor, _cfgLocal.Width1);
-                    columns[1].Width = ScaleBy(widthScaleFactor, _cfgLocal.Width3);
-                    columns[0].DisplayIndex = 0;
-                    columns[1].DisplayIndex = 1;
-                }
-                else
-                {
-                    var idx = 0;
-                    foreach (var curListColumn in this._curList.Columns.Cast<ColumnHeader>())
+                    columns = new[]
                     {
-                        columns[idx].Width = curListColumn.Width;
-                        columns[idx].DisplayIndex = curListColumn.DisplayIndex;
-                        idx++;
-                    }
-                }
-            }
-            else
-            {
-                columns = new[]
-                {
-                    new ColumnHeader { Text = this.ColumnText[0], Width = 48 }, // アイコン
-                    new ColumnHeader { Text = this.ColumnText[1], Width = 80 }, // ニックネーム
-                    new ColumnHeader { Text = this.ColumnText[2], Width = 300 }, // 本文
-                    new ColumnHeader { Text = this.ColumnText[3], Width = 50 }, // 日付
-                    new ColumnHeader { Text = this.ColumnText[4], Width = 50 }, // ユーザID
-                    new ColumnHeader { Text = this.ColumnText[5], Width = 16 }, // 未読
-                    new ColumnHeader { Text = this.ColumnText[6], Width = 16 }, // マーク＆プロテクト
-                    new ColumnHeader { Text = this.ColumnText[7], Width = 50 }, // ソース
-                };
-
-                if (startup)
-                {
-                    var widthScaleFactor = this.CurrentAutoScaleDimensions.Width / this._cfgLocal.ScaleDimension.Width;
-
-                    columns[0].Width = ScaleBy(widthScaleFactor, _cfgLocal.Width1);
-                    columns[1].Width = ScaleBy(widthScaleFactor, _cfgLocal.Width2);
-                    columns[2].Width = ScaleBy(widthScaleFactor, _cfgLocal.Width3);
-                    columns[3].Width = ScaleBy(widthScaleFactor, _cfgLocal.Width4);
-                    columns[4].Width = ScaleBy(widthScaleFactor, _cfgLocal.Width5);
-                    columns[5].Width = ScaleBy(widthScaleFactor, _cfgLocal.Width6);
-                    columns[6].Width = ScaleBy(widthScaleFactor, _cfgLocal.Width7);
-                    columns[7].Width = ScaleBy(widthScaleFactor, _cfgLocal.Width8);
-
-                    var displayIndex = new[] {
-                        this._cfgLocal.DisplayIndex1, this._cfgLocal.DisplayIndex2,
-                        this._cfgLocal.DisplayIndex3, this._cfgLocal.DisplayIndex4,
-                        this._cfgLocal.DisplayIndex5, this._cfgLocal.DisplayIndex6,
-                        this._cfgLocal.DisplayIndex7, this._cfgLocal.DisplayIndex8
+                        new ColumnHeader(), // アイコン
+                        new ColumnHeader(), // 本文
                     };
 
-                    foreach (var i in Enumerable.Range(0, displayIndex.Length))
+                    columns[0].Text = this.ColumnText[0];
+                    columns[1].Text = this.ColumnText[2];
+
+                    if (startup)
                     {
-                        columns[i].DisplayIndex = displayIndex[i];
+                        var widthScaleFactor = this.CurrentAutoScaleDimensions.Width / this._cfgLocal.ScaleDimension.Width;
+
+                        columns[0].Width = ScaleBy(widthScaleFactor, _cfgLocal.Width1);
+                        columns[1].Width = ScaleBy(widthScaleFactor, _cfgLocal.Width3);
+                        columns[0].DisplayIndex = 0;
+                        columns[1].DisplayIndex = 1;
+                    }
+                    else
+                    {
+                        var idx = 0;
+                        foreach (var curListColumn in this._curList.Columns.Cast<ColumnHeader>())
+                        {
+                            columns[idx].Width = curListColumn.Width;
+                            columns[idx].DisplayIndex = curListColumn.DisplayIndex;
+                            idx++;
+                        }
                     }
                 }
                 else
                 {
-                    var idx = 0;
-                    foreach (var curListColumn in this._curList.Columns.Cast<ColumnHeader>())
+                    columns = new[]
                     {
-                        columns[idx].Width = curListColumn.Width;
-                        columns[idx].DisplayIndex = curListColumn.DisplayIndex;
-                        idx++;
+                        new ColumnHeader(), // アイコン
+                        new ColumnHeader(), // ニックネーム
+                        new ColumnHeader(), // 本文
+                        new ColumnHeader(), // 日付
+                        new ColumnHeader(), // ユーザID
+                        new ColumnHeader(), // 未読
+                        new ColumnHeader(), // マーク＆プロテクト
+                        new ColumnHeader(), // ソース
+                    };
+
+                    foreach (var i in Enumerable.Range(0, columns.Length))
+                        columns[i].Text = this.ColumnText[i];
+
+                    if (startup)
+                    {
+                        var widthScaleFactor = this.CurrentAutoScaleDimensions.Width / this._cfgLocal.ScaleDimension.Width;
+
+                        columns[0].Width = ScaleBy(widthScaleFactor, _cfgLocal.Width1);
+                        columns[1].Width = ScaleBy(widthScaleFactor, _cfgLocal.Width2);
+                        columns[2].Width = ScaleBy(widthScaleFactor, _cfgLocal.Width3);
+                        columns[3].Width = ScaleBy(widthScaleFactor, _cfgLocal.Width4);
+                        columns[4].Width = ScaleBy(widthScaleFactor, _cfgLocal.Width5);
+                        columns[5].Width = ScaleBy(widthScaleFactor, _cfgLocal.Width6);
+                        columns[6].Width = ScaleBy(widthScaleFactor, _cfgLocal.Width7);
+                        columns[7].Width = ScaleBy(widthScaleFactor, _cfgLocal.Width8);
+
+                        var displayIndex = new[] {
+                            this._cfgLocal.DisplayIndex1, this._cfgLocal.DisplayIndex2,
+                            this._cfgLocal.DisplayIndex3, this._cfgLocal.DisplayIndex4,
+                            this._cfgLocal.DisplayIndex5, this._cfgLocal.DisplayIndex6,
+                            this._cfgLocal.DisplayIndex7, this._cfgLocal.DisplayIndex8
+                        };
+
+                        foreach (var i in Enumerable.Range(0, displayIndex.Length))
+                        {
+                            columns[i].DisplayIndex = displayIndex[i];
+                        }
+                    }
+                    else
+                    {
+                        var idx = 0;
+                        foreach (var curListColumn in this._curList.Columns.Cast<ColumnHeader>())
+                        {
+                            columns[idx].Width = curListColumn.Width;
+                            columns[idx].DisplayIndex = curListColumn.DisplayIndex;
+                            idx++;
+                        }
                     }
                 }
-            }
 
-            list.Columns.AddRange(columns);
+                list.Columns.AddRange(columns);
+
+                columns = null;
+            }
+            finally
+            {
+                if (columns != null)
+                {
+                    foreach (var column in columns)
+                        column?.Dispose();
+                }
+            }
         }
 
         private void InitColumnText()
@@ -658,7 +675,7 @@ namespace OpenTween
             TraceOutToolStripMenuItem.Checked = true;
             MyCommon.TraceFlag = true;
 #endif
-            if (!MyCommon.FileVersion.EndsWith("0"))
+            if (!MyCommon.FileVersion.EndsWith("0", StringComparison.Ordinal))
             {
                 TraceOutToolStripMenuItem.Checked = true;
                 MyCommon.TraceFlag = true;
@@ -1163,7 +1180,7 @@ namespace OpenTween
 
             foreach (var ua in this._cfgCommon.UserAccounts)
             {
-                if (ua.UserId == 0 && ua.Username.ToLower() == tw.Username.ToLower())
+                if (ua.UserId == 0 && ua.Username.ToLowerInvariant() == tw.Username.ToLowerInvariant())
                 {
                     ua.UserId = tw.UserId;
                     break;
@@ -1458,7 +1475,7 @@ namespace OpenTween
             NotifyNewPosts(notifyPosts, soundFile, addCount, newMentionOrDm);
 
             SetMainWindowTitle();
-            if (!StatusLabelUrl.Text.StartsWith("http")) SetStatusLabelUrl();
+            if (!StatusLabelUrl.Text.StartsWith("http", StringComparison.Ordinal)) SetStatusLabelUrl();
 
             HashSupl.AddRangeItem(tw.GetHashList());
 
@@ -2057,10 +2074,10 @@ namespace OpenTween
             else if (TargetPost.IsReply)
                 //自分宛返信
                 cl = _clAtSelf;
-            else if (BasePost.ReplyToList.Contains(TargetPost.ScreenName.ToLower()))
+            else if (BasePost.ReplyToList.Contains(TargetPost.ScreenName.ToLowerInvariant()))
                 //返信先
                 cl = _clAtFromTarget;
-            else if (TargetPost.ReplyToList.Contains(BasePost.ScreenName.ToLower()))
+            else if (TargetPost.ReplyToList.Contains(BasePost.ScreenName.ToLowerInvariant()))
                 //その人への返信
                 cl = _clAtTarget;
             else if (TargetPost.ScreenName.Equals(BasePost.ScreenName, StringComparison.OrdinalIgnoreCase))
@@ -3583,7 +3600,7 @@ namespace OpenTween
                     _mySpDis = this.SplitContainer1.SplitterDistance;
                     _mySpDis3 = this.SplitContainer3.SplitterDistance;
                     if (StatusText.Multiline) _mySpDis2 = this.StatusText.Height;
-                    _modifySettingLocal = true;
+                    ModifySettingLocal = true;
                 }
             }
         }
@@ -3702,7 +3719,7 @@ namespace OpenTween
             }
             list.Refresh();
 
-            this._modifySettingCommon = true;
+            this.ModifySettingCommon = true;
         }
 
         private void TweenMain_LocationChanged(object sender, EventArgs e)
@@ -3710,7 +3727,7 @@ namespace OpenTween
             if (this.WindowState == FormWindowState.Normal && !_initialLayout)
             {
                 _myLoc = this.DesktopLocation;
-                _modifySettingLocal = true;
+                ModifySettingLocal = true;
             }
         }
 
@@ -5024,8 +5041,9 @@ namespace OpenTween
         {
             try
             {
-                if (PostBrowser.StatusText.StartsWith("http") || PostBrowser.StatusText.StartsWith("ftp")
-                        || PostBrowser.StatusText.StartsWith("data"))
+                if (PostBrowser.StatusText.StartsWith("http", StringComparison.Ordinal)
+                    || PostBrowser.StatusText.StartsWith("ftp", StringComparison.Ordinal)
+                    || PostBrowser.StatusText.StartsWith("data", StringComparison.Ordinal))
                 {
                     StatusLabelUrl.Text = PostBrowser.StatusText.Replace("&", "&&");
                 }
@@ -5047,7 +5065,7 @@ namespace OpenTween
                 //@マーク
                 int cnt = AtIdSupl.ItemCount;
                 ShowSuplDialog(StatusText, AtIdSupl);
-                if (cnt != AtIdSupl.ItemCount) _modifySettingAtId = true;
+                if (cnt != AtIdSupl.ItemCount) ModifySettingAtId = true;
                 e.Handled = true;
             }
             else if (e.KeyChar == '#')
@@ -6979,7 +6997,7 @@ namespace OpenTween
                                     startstr = StatusText.Text.Substring(i + 1, endidx - i);
                                     int cnt = AtIdSupl.ItemCount;
                                     ShowSuplDialog(StatusText, AtIdSupl, startstr.Length + 1, startstr);
-                                    if (AtIdSupl.ItemCount != cnt) _modifySettingAtId = true;
+                                    if (AtIdSupl.ItemCount != cnt) ModifySettingAtId = true;
                                 }
                                 else if (c == '#')
                                 {
@@ -7406,10 +7424,10 @@ namespace OpenTween
                     post.RetweetedBy == _anchorPost.ScreenName ||
                     post.ScreenName == _anchorPost.RetweetedBy ||
                     (!string.IsNullOrEmpty(post.RetweetedBy) && post.RetweetedBy == _anchorPost.RetweetedBy) ||
-                    _anchorPost.ReplyToList.Contains(post.ScreenName.ToLower()) ||
-                    _anchorPost.ReplyToList.Contains(post.RetweetedBy.ToLower()) ||
-                    post.ReplyToList.Contains(_anchorPost.ScreenName.ToLower()) ||
-                    post.ReplyToList.Contains(_anchorPost.RetweetedBy.ToLower()))
+                    _anchorPost.ReplyToList.Contains(post.ScreenName.ToLowerInvariant()) ||
+                    _anchorPost.ReplyToList.Contains(post.RetweetedBy.ToLowerInvariant()) ||
+                    post.ReplyToList.Contains(_anchorPost.ScreenName.ToLowerInvariant()) ||
+                    post.ReplyToList.Contains(_anchorPost.RetweetedBy.ToLowerInvariant()))
                 {
                     SelectListItem(_curList, idx);
                     _curList.EnsureVisible(idx);
@@ -7883,9 +7901,9 @@ namespace OpenTween
             }
             else
             {
-                if (_modifySettingCommon) SaveConfigsCommon();
-                if (_modifySettingLocal) SaveConfigsLocal();
-                if (_modifySettingAtId) SaveConfigsAtId();
+                if (ModifySettingCommon) SaveConfigsCommon();
+                if (ModifySettingLocal) SaveConfigsLocal();
+                if (ModifySettingAtId) SaveConfigsAtId();
             }
         }
 
@@ -7893,7 +7911,7 @@ namespace OpenTween
         {
             if (_ignoreConfigSave || !this._cfgCommon.UseAtIdSupplement && AtIdSupl == null) return;
 
-            _modifySettingAtId = false;
+            ModifySettingAtId = false;
             SettingAtIdList cfgAtId = new SettingAtIdList(AtIdSupl.GetItemList());
             cfgAtId.Save();
         }
@@ -7902,7 +7920,7 @@ namespace OpenTween
         {
             if (_ignoreConfigSave) return;
 
-            _modifySettingCommon = false;
+            ModifySettingCommon = false;
             lock (_syncObject)
             {
                 _cfgCommon.UserName = tw.Username;
@@ -7968,7 +7986,7 @@ namespace OpenTween
             if (_ignoreConfigSave) return;
             lock (_syncObject)
             {
-                _modifySettingLocal = false;
+                ModifySettingLocal = false;
                 _cfgLocal.ScaleDimension = this.CurrentAutoScaleDimensions;
                 _cfgLocal.FormSize = _mySize;
                 _cfgLocal.FormLocation = _myLoc;
@@ -8357,10 +8375,10 @@ namespace OpenTween
                                 }
                                 return;
                             }
-                            if (!StatusText.Text.StartsWith("@"))
+                            if (!StatusText.Text.StartsWith("@", StringComparison.Ordinal))
                             {
                                 //文頭＠以外
-                                if (StatusText.Text.StartsWith(". "))
+                                if (StatusText.Text.StartsWith(". ", StringComparison.Ordinal))
                                 {
                                     // 複数リプライ
                                     StatusText.Text = StatusText.Text.Insert(2, "@" + _curPost.ScreenName + " ");
@@ -8430,7 +8448,7 @@ namespace OpenTween
                         //Enter or DoubleClick
 
                         string sTxt = StatusText.Text;
-                        if (!sTxt.StartsWith(". "))
+                        if (!sTxt.StartsWith(". ", StringComparison.Ordinal))
                         {
                             sTxt = ". " + sTxt;
                             this.inReplyTo = null;
@@ -8480,7 +8498,7 @@ namespace OpenTween
                                 }
                             }
                             if (ids.Length == 0) return;
-                            if (!StatusText.Text.StartsWith(". "))
+                            if (!StatusText.Text.StartsWith(". ", StringComparison.Ordinal))
                             {
                                 StatusText.Text = ". " + StatusText.Text;
                                 sidx += 2;
@@ -9093,7 +9111,7 @@ namespace OpenTween
                 }
                 int cnt = AtIdSupl.ItemCount;
                 AtIdSupl.AddRangeItem(atids.ToArray());
-                if (AtIdSupl.ItemCount != cnt) _modifySettingAtId = true;
+                if (AtIdSupl.ItemCount != cnt) ModifySettingAtId = true;
             }
 
             this.ApplyPostFilters();
@@ -9710,7 +9728,7 @@ namespace OpenTween
                 {
                     AtIdSupl.AddItem(mid.Result("${id}"));
                 }
-                if (bCnt != AtIdSupl.ItemCount) _modifySettingAtId = true;
+                if (bCnt != AtIdSupl.ItemCount) ModifySettingAtId = true;
             }
 
             // リプライ先ステータスIDの指定がない場合は指定しない
@@ -9726,9 +9744,9 @@ namespace OpenTween
             if (m != null)
             {
                 var inReplyToScreenName = this.inReplyTo.Item2;
-                if (StatusText.StartsWith("@"))
+                if (StatusText.StartsWith("@", StringComparison.Ordinal))
                 {
-                    if (StatusText.StartsWith("@" + inReplyToScreenName)) return;
+                    if (StatusText.StartsWith("@" + inReplyToScreenName, StringComparison.Ordinal)) return;
                 }
                 else
                 {
@@ -9815,7 +9833,7 @@ namespace OpenTween
             {
                 this._cfgCommon.PlaySound = false;
             }
-            _modifySettingCommon = true;
+            ModifySettingCommon = true;
         }
 
         private void SplitContainer1_SplitterMoved(object sender, SplitterEventArgs e)
@@ -9840,7 +9858,7 @@ namespace OpenTween
             }
 
             this._mySpDis = splitterDistance;
-            this._modifySettingLocal = true;
+            this.ModifySettingLocal = true;
         }
 
         private async Task doRepliedStatusOpen()
@@ -9901,7 +9919,7 @@ namespace OpenTween
                     if (idx != -1)
                     {
                         name = Path.GetFileName(name.Substring(idx));
-                        if (name.Contains("_normal.") || name.EndsWith("_normal"))
+                        if (name.Contains("_normal.") || name.EndsWith("_normal", StringComparison.Ordinal))
                         {
                             name = name.Replace("_normal", "");
                             this.IconNameToolStripMenuItem.Text = name;
@@ -10056,7 +10074,7 @@ namespace OpenTween
             {
                 this.StatusText.Multiline = multiline;
                 MultiLineMenuItem.Checked = multiline;
-                _modifySettingLocal = true;
+                ModifySettingLocal = true;
             }
         }
 
@@ -10067,7 +10085,7 @@ namespace OpenTween
             else
                 this.StatusText.ScrollBars = ScrollBars.None;
 
-            _modifySettingLocal = true;
+            ModifySettingLocal = true;
         }
 
         private void MultiLineMenuItem_Click(object sender, EventArgs e)
@@ -10086,7 +10104,7 @@ namespace OpenTween
             {
                 SplitContainer2.SplitterDistance = SplitContainer2.Height - SplitContainer2.Panel2MinSize - SplitContainer2.SplitterWidth;
             }
-            _modifySettingLocal = true;
+            ModifySettingLocal = true;
         }
 
         private async Task<bool> UrlConvertAsync(MyCommon.UrlConverter Converter_Type)
@@ -10304,7 +10322,7 @@ namespace OpenTween
             this.NotifyFileMenuItem.Checked = ((ToolStripMenuItem)sender).Checked;
             this.NewPostPopMenuItem.Checked = this.NotifyFileMenuItem.Checked;
             _cfgCommon.NewAllPop = NewPostPopMenuItem.Checked;
-            _modifySettingCommon = true;
+            ModifySettingCommon = true;
         }
 
         private void ListLockMenuItem_CheckStateChanged(object sender, EventArgs e)
@@ -10312,7 +10330,7 @@ namespace OpenTween
             ListLockMenuItem.Checked = ((ToolStripMenuItem)sender).Checked;
             this.LockListFileMenuItem.Checked = ListLockMenuItem.Checked;
             _cfgCommon.ListLock = ListLockMenuItem.Checked;
-            _modifySettingCommon = true;
+            ModifySettingCommon = true;
         }
 
         private void MenuStrip1_MenuActivate(object sender, EventArgs e)
@@ -10401,7 +10419,7 @@ namespace OpenTween
                 _cfgLocal.Width7 = lst.Columns[6].Width;
                 _cfgLocal.Width8 = lst.Columns[7].Width;
             }
-            _modifySettingLocal = true;
+            ModifySettingLocal = true;
             _isColumnChanged = true;
         }
 
@@ -10414,13 +10432,13 @@ namespace OpenTween
                 if (_cfgLocal.Width1 != lst.Columns[0].Width)
                 {
                     _cfgLocal.Width1 = lst.Columns[0].Width;
-                    _modifySettingLocal = true;
+                    ModifySettingLocal = true;
                     _isColumnChanged = true;
                 }
                 if (_cfgLocal.Width3 != lst.Columns[1].Width)
                 {
                     _cfgLocal.Width3 = lst.Columns[1].Width;
-                    _modifySettingLocal = true;
+                    ModifySettingLocal = true;
                     _isColumnChanged = true;
                 }
             }
@@ -10429,49 +10447,49 @@ namespace OpenTween
                 if (_cfgLocal.Width1 != lst.Columns[0].Width)
                 {
                     _cfgLocal.Width1 = lst.Columns[0].Width;
-                    _modifySettingLocal = true;
+                    ModifySettingLocal = true;
                     _isColumnChanged = true;
                 }
                 if (_cfgLocal.Width2 != lst.Columns[1].Width)
                 {
                     _cfgLocal.Width2 = lst.Columns[1].Width;
-                    _modifySettingLocal = true;
+                    ModifySettingLocal = true;
                     _isColumnChanged = true;
                 }
                 if (_cfgLocal.Width3 != lst.Columns[2].Width)
                 {
                     _cfgLocal.Width3 = lst.Columns[2].Width;
-                    _modifySettingLocal = true;
+                    ModifySettingLocal = true;
                     _isColumnChanged = true;
                 }
                 if (_cfgLocal.Width4 != lst.Columns[3].Width)
                 {
                     _cfgLocal.Width4 = lst.Columns[3].Width;
-                    _modifySettingLocal = true;
+                    ModifySettingLocal = true;
                     _isColumnChanged = true;
                 }
                 if (_cfgLocal.Width5 != lst.Columns[4].Width)
                 {
                     _cfgLocal.Width5 = lst.Columns[4].Width;
-                    _modifySettingLocal = true;
+                    ModifySettingLocal = true;
                     _isColumnChanged = true;
                 }
                 if (_cfgLocal.Width6 != lst.Columns[5].Width)
                 {
                     _cfgLocal.Width6 = lst.Columns[5].Width;
-                    _modifySettingLocal = true;
+                    ModifySettingLocal = true;
                     _isColumnChanged = true;
                 }
                 if (_cfgLocal.Width7 != lst.Columns[6].Width)
                 {
                     _cfgLocal.Width7 = lst.Columns[6].Width;
-                    _modifySettingLocal = true;
+                    ModifySettingLocal = true;
                     _isColumnChanged = true;
                 }
                 if (_cfgLocal.Width8 != lst.Columns[7].Width)
                 {
                     _cfgLocal.Width8 = lst.Columns[7].Width;
-                    _modifySettingLocal = true;
+                    ModifySettingLocal = true;
                     _isColumnChanged = true;
                 }
             }
@@ -10560,7 +10578,7 @@ namespace OpenTween
         private void ContextMenuPostBrowser_Opening(object ender, CancelEventArgs e)
         {
             // URLコピーの項目の表示/非表示
-            if (PostBrowser.StatusText.StartsWith("http"))
+            if (PostBrowser.StatusText.StartsWith("http", StringComparison.Ordinal))
             {
                 this._postBrowserStatusText = PostBrowser.StatusText;
                 string name = GetUserId();
@@ -10626,7 +10644,7 @@ namespace OpenTween
             bool fAllFlag = false;
             foreach (Match mu in ma)
             {
-                if (mu.Result("${ScreenName}").ToLower() != tw.Username.ToLower())
+                if (mu.Result("${ScreenName}").ToLowerInvariant() != tw.Username.ToLowerInvariant())
                 {
                     fAllFlag = true;
                     break;
@@ -10669,7 +10687,7 @@ namespace OpenTween
         private void SplitContainer2_SplitterMoved(object sender, SplitterEventArgs e)
         {
             if (StatusText.Multiline) _mySpDis2 = StatusText.Height;
-            _modifySettingLocal = true;
+            ModifySettingLocal = true;
         }
 
         private void TweenMain_DragDrop(object sender, DragEventArgs e)
@@ -10875,9 +10893,9 @@ namespace OpenTween
                     var configBrowserPath = this._cfgLocal.BrowserPath;
                     if (!string.IsNullOrEmpty(configBrowserPath))
                     {
-                        if (configBrowserPath.StartsWith("\"") && configBrowserPath.Length > 2 && configBrowserPath.IndexOf("\"", 2) > -1)
+                        if (configBrowserPath.StartsWith("\"", StringComparison.Ordinal) && configBrowserPath.Length > 2 && configBrowserPath.IndexOf("\"", 2, StringComparison.Ordinal) > -1)
                         {
-                            int sep = configBrowserPath.IndexOf("\"", 2);
+                            int sep = configBrowserPath.IndexOf("\"", 2, StringComparison.Ordinal);
                             string browserPath = configBrowserPath.Substring(1, sep - 1);
                             string arg = "";
                             if (sep < configBrowserPath.Length - 1)
@@ -11596,7 +11614,7 @@ namespace OpenTween
             if (this.tw.Configuration.NonUsernamePaths == null || this.tw.Configuration.NonUsernamePaths.Length == 0)
                 return !Regex.Match(name, @"^(about|jobs|tos|privacy|who_to_follow|download|messages)$", RegexOptions.IgnoreCase).Success;
             else
-                return !this.tw.Configuration.NonUsernamePaths.Contains(name.ToLower());
+                return !this.tw.Configuration.NonUsernamePaths.Contains(name.ToLowerInvariant());
         }
 
         private string GetUserId()
@@ -11665,12 +11683,12 @@ namespace OpenTween
 
         private void IdeographicSpaceToSpaceToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            _modifySettingCommon = true;
+            ModifySettingCommon = true;
         }
 
         private void ToolStripFocusLockMenuItem_CheckedChanged(object sender, EventArgs e)
         {
-            _modifySettingCommon = true;
+            ModifySettingCommon = true;
         }
 
         private void doQuoteOfficial()
@@ -12033,7 +12051,7 @@ namespace OpenTween
                 HashToggleMenuItem.Checked = true;
                 HashToggleToolStripMenuItem.Checked = true;
                 //使用ハッシュタグとして設定
-                _modifySettingCommon = true;
+                ModifySettingCommon = true;
             }
         }
 
@@ -12081,7 +12099,7 @@ namespace OpenTween
             //    StatusText.SelectionStart = sidx;
             //    StatusText.Focus();
             //}
-            _modifySettingCommon = true;
+            ModifySettingCommon = true;
             this.StatusText_TextChanged(null, null);
         }
 
@@ -12100,7 +12118,7 @@ namespace OpenTween
                 HashToggleMenuItem.Checked = false;
                 HashToggleToolStripMenuItem.Checked = false;
             }
-            _modifySettingCommon = true;
+            ModifySettingCommon = true;
             this.StatusText_TextChanged(null, null);
         }
 
@@ -12258,7 +12276,7 @@ namespace OpenTween
             }
 
             this._mySpDis3 = splitterDistance;
-            this._modifySettingLocal = true;
+            this.ModifySettingLocal = true;
         }
 
         private void MenuItemEdit_DropDownOpening(object sender, EventArgs e)
@@ -12611,7 +12629,7 @@ namespace OpenTween
         {
             if (ImageSelector.Visible)
             {
-                _modifySettingCommon = true;
+                ModifySettingCommon = true;
                 SaveConfigsAll(true);
 
                 if (ImageSelector.ServiceName.Equals("Twitter"))
@@ -12662,20 +12680,9 @@ namespace OpenTween
             }
         }
 
-        public bool ModifySettingCommon
-        {
-            set { _modifySettingCommon = value; }
-        }
-
-        public bool ModifySettingLocal
-        {
-            set { _modifySettingLocal = value; }
-        }
-
-        public bool ModifySettingAtId
-        {
-            set { _modifySettingAtId = value; }
-        }
+        public bool ModifySettingCommon { get; set; }
+        public bool ModifySettingLocal { get; set; }
+        public bool ModifySettingAtId { get; set; }
 
         private async void SourceLinkLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
@@ -12825,7 +12832,7 @@ namespace OpenTween
 
         private void tw_UserIdChanged()
         {
-            this._modifySettingCommon = true;
+            this.ModifySettingCommon = true;
         }
 
 #region "Userstream"
@@ -12979,7 +12986,7 @@ namespace OpenTween
                     this.PurgeListViewItemCache();
                     ((DetailsListView)_curTab.Tag).Update();
                 }
-                if (ev.Event == "unfavorite" && ev.Username.ToLower().Equals(tw.Username.ToLower()))
+                if (ev.Event == "unfavorite" && ev.Username.ToLowerInvariant().Equals(tw.Username.ToLowerInvariant()))
                 {
                     RemovePostFromFavTab(new long[] {ev.Id});
                 }
@@ -13006,7 +13013,7 @@ namespace OpenTween
                 }
                 title.Append(Application.ProductName);
                 title.Append(" [");
-                title.Append(ev.Event.ToUpper());
+                title.Append(ev.Event.ToUpper(CultureInfo.CurrentCulture));
                 title.Append("] by ");
                 if (!string.IsNullOrEmpty(ev.Username))
                 {
@@ -13106,7 +13113,7 @@ namespace OpenTween
                 if (!inputTrack.Equals(tw.TrackWord))
                 {
                     tw.TrackWord = inputTrack;
-                    this._modifySettingCommon = true;
+                    this.ModifySettingCommon = true;
                     TrackToolStripMenuItem.Checked = !string.IsNullOrEmpty(inputTrack);
                     tw.ReconnectUserStream();
                 }
@@ -13116,13 +13123,13 @@ namespace OpenTween
                 tw.TrackWord = "";
                 tw.ReconnectUserStream();
             }
-            this._modifySettingCommon = true;
+            this.ModifySettingCommon = true;
         }
 
         private void AllrepliesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             tw.AllAtReply = AllrepliesToolStripMenuItem.Checked;
-            this._modifySettingCommon = true;
+            this.ModifySettingCommon = true;
             tw.ReconnectUserStream();
         }
 
@@ -13478,7 +13485,7 @@ namespace OpenTween
 
             _curList?.Refresh();
 
-            _modifySettingCommon = true;
+            ModifySettingCommon = true;
         }
 
         private void LockListSortToolStripMenuItem_Click(object sender, EventArgs e)
@@ -13488,7 +13495,7 @@ namespace OpenTween
 
             this._cfgCommon.SortOrderLock = state;
 
-            _modifySettingCommon = true;
+            ModifySettingCommon = true;
         }
     }
 }

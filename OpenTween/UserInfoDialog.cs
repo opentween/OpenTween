@@ -40,6 +40,7 @@ using System.IO;
 using System.Net;
 using OpenTween.Api;
 using OpenTween.Connection;
+using System.Diagnostics.CodeAnalysis;
 
 namespace OpenTween
 {
@@ -62,15 +63,22 @@ namespace OpenTween
             this.LabelScreenName.Font = this.ReplaceToGlobalFont(this.LabelScreenName.Font);
         }
 
+        [SuppressMessage("Microsoft.Reliability", "CA2000:DisposeObjectsBeforeLosingScope")]
         private void CancelLoading()
         {
-            var newTokenSource = new CancellationTokenSource();
-            var oldTokenSource = Interlocked.Exchange(ref this.cancellationTokenSource, newTokenSource);
-
-            if (oldTokenSource != null)
+            CancellationTokenSource newTokenSource = null, oldTokenSource = null;
+            try
             {
-                oldTokenSource.Cancel();
-                oldTokenSource.Dispose();
+                newTokenSource = new CancellationTokenSource();
+                oldTokenSource = Interlocked.Exchange(ref this.cancellationTokenSource, newTokenSource);
+            }
+            finally
+            {
+                if (oldTokenSource != null)
+                {
+                    oldTokenSource.Cancel();
+                    oldTokenSource.Dispose();
+                }
             }
         }
 
@@ -660,7 +668,7 @@ namespace OpenTween
 
         private bool IsValidExtension(string ext)
         {
-            ext = ext.ToLower();
+            ext = ext.ToLowerInvariant();
 
             return ext.Equals(".jpg", StringComparison.Ordinal) ||
                 ext.Equals(".jpeg", StringComparison.Ordinal) ||

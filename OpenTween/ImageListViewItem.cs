@@ -26,11 +26,13 @@
 
 using System;
 using System.Net.Http;
+using System.Runtime.Serialization;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace OpenTween
 {
+    [Serializable]
     public class ImageListViewItem : ListViewItem
     {
         protected readonly ImageCache imageCache;
@@ -65,6 +67,11 @@ namespace OpenTween
 
             if (image != null)
                 this.imageReference.Target = image;
+        }
+
+        protected ImageListViewItem(SerializationInfo info, StreamingContext context)
+            : base(info, context)
+        {
         }
 
         public Task GetImageAsync(bool force = false)

@@ -35,6 +35,7 @@ using System.Drawing.Imaging;
 using System.Windows.Forms;
 using System.ComponentModel;
 using System.Collections;
+using System.Globalization;
 
 namespace OpenTween
 {
@@ -157,21 +158,21 @@ namespace OpenTween
                 Type _t = _connector.GetType("Growl.Connector.NotificationType");
 
                 _growlNTreply = _t.InvokeMember(null,
-                    BindingFlags.CreateInstance, null, null, new object[] { "REPLY", "Reply" });
+                    BindingFlags.CreateInstance, null, null, new object[] { "REPLY", "Reply" }, CultureInfo.InvariantCulture);
 
                 _growlNTdm = _t.InvokeMember(null,
-                    BindingFlags.CreateInstance, null, null, new object[] { "DIRECT_MESSAGE", "DirectMessage" });
+                    BindingFlags.CreateInstance, null, null, new object[] { "DIRECT_MESSAGE", "DirectMessage" }, CultureInfo.InvariantCulture);
 
                 _growlNTnew = _t.InvokeMember(null,
-                    BindingFlags.CreateInstance, null, null, new object[] { "NOTIFY", "新着通知" });
+                    BindingFlags.CreateInstance, null, null, new object[] { "NOTIFY", "新着通知" }, CultureInfo.InvariantCulture);
 
                 _growlNTusevent = _t.InvokeMember(null,
-                    BindingFlags.CreateInstance, null, null, new object[] { "USERSTREAM_EVENT", "UserStream Event" });
+                    BindingFlags.CreateInstance, null, null, new object[] { "USERSTREAM_EVENT", "UserStream Event" }, CultureInfo.InvariantCulture);
 
                 object encryptType =
                         _connector.GetType("Growl.Connector.Cryptography+SymmetricAlgorithmType").InvokeMember(
-                            "PlainText", BindingFlags.GetField, null, null, null);
-                _targetConnector.GetType().InvokeMember("EncryptionAlgorithm", BindingFlags.SetProperty, null, _targetConnector, new object[] { encryptType });
+                            "PlainText", BindingFlags.GetField, null, null, null, CultureInfo.InvariantCulture);
+                _targetConnector.GetType().InvokeMember("EncryptionAlgorithm", BindingFlags.SetProperty, null, _targetConnector, new object[] { encryptType }, CultureInfo.InvariantCulture);
 
                 _growlApp = _connector.CreateInstance(
                     "Growl.Connector.Application", false, BindingFlags.Default, null, new object[] { _appName }, null, null);
@@ -292,7 +293,8 @@ namespace OpenTween
                                              BindingFlags.Public | BindingFlags.Static | BindingFlags.InvokeMethod,
                                              null,
                                              null,
-                                             new object[] { icon });
+                                             new object[] { icon },
+                                             CultureInfo.InvariantCulture);
                 }
                 else
                 {
@@ -300,11 +302,12 @@ namespace OpenTween
                                              BindingFlags.Public | BindingFlags.Static | BindingFlags.InvokeMethod,
                                              null,
                                              null,
-                                             new object[] { url });
+                                             new object[] { url },
+                                             CultureInfo.InvariantCulture);
                 }
                 object priority =
                         _connector.GetType("Growl.Connector.Priority").InvokeMember(
-                            "Normal", BindingFlags.GetField, null, null, null);
+                            "Normal", BindingFlags.GetField, null, null, null, CultureInfo.InvariantCulture);
                 n = _connector.GetType("Growl.Connector.Notification").InvokeMember(
                         "Notification",
                         BindingFlags.CreateInstance,
@@ -318,7 +321,8 @@ namespace OpenTween
                                       res,
                                       false,
                                       priority,
-                                      "aaa"});
+                                      "aaa"},
+                        CultureInfo.InvariantCulture);
             }
             else
             {
@@ -331,13 +335,15 @@ namespace OpenTween
                                       notificationName,
                                       id,
                                       title,
-                                      text});
+                                      text},
+                        CultureInfo.InvariantCulture);
             }
             //_targetConnector.GetType.InvokeMember("Notify", BindingFlags.InvokeMethod, null, _targetConnector, new object[] {n});
             object cc = _connector.GetType("Growl.Connector.CallbackContext").InvokeMember(
                 null, BindingFlags.CreateInstance, null, _connector,
-                new object[] { "some fake information", notificationName });
-            _targetConnector.GetType().InvokeMember("Notify", BindingFlags.InvokeMethod, null, _targetConnector, new object[] { n, cc });
+                new object[] { "some fake information", notificationName },
+                CultureInfo.InvariantCulture);
+            _targetConnector.GetType().InvokeMember("Notify", BindingFlags.InvokeMethod, null, _targetConnector, new object[] { n, cc }, CultureInfo.InvariantCulture);
         }
 
         private void GrowlCallbackHandler(object response, object callbackData, object state)

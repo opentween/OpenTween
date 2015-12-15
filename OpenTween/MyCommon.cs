@@ -491,7 +491,7 @@ namespace OpenTween
                     }
                     else
                     {
-                        sb.Append("%" + Convert.ToInt16(c).ToString("X2").ToUpper());
+                        sb.Append("%" + Convert.ToInt16(c).ToString("X2").ToUpperInvariant());
                     }
                 }
                 else

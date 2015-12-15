@@ -21,6 +21,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
@@ -40,6 +41,7 @@ namespace OpenTween.Connection
         public string AccessToken { get; }
         public string AccessSecret { get; }
 
+        [SuppressMessage("Microsoft.Reliability", "CA2000:DisposeObjectsBeforeLosingScope")]
         public OAuthHandler(string consumerKey, string consumerSecret, string accessToken, string accessSecret)
             : this(new HttpClientHandler(), consumerKey, consumerSecret, accessToken, accessSecret)
         {

@@ -872,6 +872,7 @@ namespace OpenTween
 
         public static string TwitterUrl
         {
+            get { return _twitterUrl; }
             set
             {
                 _twitterUrl = value;

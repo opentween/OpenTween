@@ -63,25 +63,18 @@ namespace OpenTween
 
         public string FormTitle
         {
+            get { return this.Text; }
             set { this.Text = value; }
         }
 
         public string FormDescription
         {
+            get { return this.LabelDescription.Text; }
             set { this.LabelDescription.Text = value; }
         }
 
-        private bool _isShowUsage;
-        public bool IsShowUsage
-        {
-            set { _isShowUsage = value; }
-        }
-
-        private MyCommon.TabUsageType _usage;
-        public MyCommon.TabUsageType Usage
-        {
-            get { return _usage; }
-        }
+        public bool IsShowUsage { get; set; }
+        public MyCommon.TabUsageType Usage { get; set; }
 
         private void InputTabName_Load(object sender, EventArgs e)
         {
@@ -96,7 +89,7 @@ namespace OpenTween
         private void InputTabName_Shown(object sender, EventArgs e)
         {
             ActiveControl = TextTabName;
-            if (_isShowUsage)
+            if (this.IsShowUsage)
             {
                 this.LabelUsage.Visible = true;
                 this.ComboUsage.Visible = true;
@@ -108,16 +101,16 @@ namespace OpenTween
             switch (ComboUsage.SelectedIndex)
             {
                 case 0:
-                    _usage = MyCommon.TabUsageType.UserDefined;
+                    this.Usage = MyCommon.TabUsageType.UserDefined;
                     break;
                 case 1:
-                    _usage = MyCommon.TabUsageType.Lists;
+                    this.Usage = MyCommon.TabUsageType.Lists;
                     break;
                 case 2:
-                    _usage = MyCommon.TabUsageType.PublicSearch;
+                    this.Usage = MyCommon.TabUsageType.PublicSearch;
                     break;
                 default:
-                    _usage = MyCommon.TabUsageType.Undefined;
+                    this.Usage = MyCommon.TabUsageType.Undefined;
                     break;
             }
         }

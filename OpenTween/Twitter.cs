@@ -154,8 +154,6 @@ namespace OpenTween
         //プロパティからアクセスされる共通情報
         private string _uname;
 
-        private bool _restrictFavCheck;
-
         private bool _readOwnPost;
         private List<string> _hashList = new List<string>();
 
@@ -206,7 +204,7 @@ namespace OpenTween
 
             this.CheckStatusCode(res, content);
 
-            _uname = username.ToLower();
+            _uname = username.ToLowerInvariant();
             if (SettingCommon.Instance.UserstreamStartup) this.ReconnectUserStream();
         }
 
@@ -245,7 +243,7 @@ namespace OpenTween
 
             this.CheckStatusCode(res, null);
 
-            _uname = Username.ToLower();
+            _uname = Username.ToLowerInvariant();
             if (SettingCommon.Instance.UserstreamStartup) this.ReconnectUserStream();
         }
 
@@ -294,7 +292,7 @@ namespace OpenTween
             }
             this.ResetApiStatus();
             twCon.Initialize(token, tokenSecret, username, userId);
-            _uname = username.ToLower();
+            _uname = username.ToLowerInvariant();
             if (SettingCommon.Instance.UserstreamStartup) this.ReconnectUserStream();
         }
 
@@ -316,7 +314,9 @@ namespace OpenTween
                     posl2 = orgData.IndexOf("\"", posl1, StringComparison.Ordinal);
                     urlStr = orgData.Substring(posl1, posl2 - posl1);
 
-                    if (!urlStr.StartsWith("http://") && !urlStr.StartsWith("https://") && !urlStr.StartsWith("ftp://"))
+                    if (!urlStr.StartsWith("http://", StringComparison.Ordinal)
+                        && !urlStr.StartsWith("https://", StringComparison.Ordinal)
+                        && !urlStr.StartsWith("ftp://", StringComparison.Ordinal))
                     {
                         continue;
                     }
@@ -979,7 +979,7 @@ namespace OpenTween
 
             this.CheckStatusCode(res, content);
 
-            if (!_restrictFavCheck)
+            if (!RestrictFavCheck)
                 return;
 
             //http://twitter.com/statuses/show/id.xml APIを発行して本文を取得
@@ -1129,13 +1129,7 @@ namespace OpenTween
             }
         }
 
-        public bool RestrictFavCheck
-        {
-            set
-            {
-                _restrictFavCheck = value;
-            }
-        }
+        public bool RestrictFavCheck { get; set; }
 
 #region "バージョンアップ"
         public void GetTweenBinary(string strVer)
@@ -1585,7 +1579,7 @@ namespace OpenTween
                 //Retweetした人
                 post.RetweetedBy = status.User.ScreenName;
                 post.RetweetedByUserId = status.User.Id;
-                post.IsMe = post.RetweetedBy.ToLower().Equals(_uname);
+                post.IsMe = post.RetweetedBy.ToLowerInvariant().Equals(_uname);
             }
             else
             {
@@ -1622,7 +1616,7 @@ namespace OpenTween
                 post.Nickname = user.Name.Trim();
                 post.ImageUrl = user.ProfileImageUrlHttps;
                 post.IsProtect = user.Protected;
-                post.IsMe = post.ScreenName.ToLower().Equals(_uname);
+                post.IsMe = post.ScreenName.ToLowerInvariant().Equals(_uname);
             }
             //HTMLに整形
             string textFromApi = post.TextFromApi;
@@ -2704,7 +2698,7 @@ namespace OpenTween
                 {
                     foreach (var ent in entities.UserMentions)
                     {
-                        var screenName = ent.ScreenName.ToLower();
+                        var screenName = ent.ScreenName.ToLowerInvariant();
                         if (!AtList.Contains(screenName))
                             AtList.Add(screenName);
                     }
@@ -3293,7 +3287,7 @@ namespace OpenTween
             evt.CreatedAt = MyCommon.DateTimeParse(eventData.CreatedAt);
             evt.Event = eventData.Event;
             evt.Username = eventData.Source.ScreenName;
-            evt.IsMe = evt.Username.ToLower().Equals(this.Username.ToLower());
+            evt.IsMe = evt.Username.ToLowerInvariant().Equals(this.Username.ToLowerInvariant());
 
             MyCommon.EVENTTYPE eventType;
             eventTable.TryGetValue(eventData.Event, out eventType);
@@ -3309,7 +3303,7 @@ namespace OpenTween
                 case "user_suspend":
                     return;
                 case "follow":
-                    if (eventData.Target.ScreenName.ToLower().Equals(_uname))
+                    if (eventData.Target.ScreenName.ToLowerInvariant().Equals(_uname))
                     {
                         if (!this.followerId.Contains(eventData.Source.Id)) this.followerId.Add(eventData.Source.Id);
                     }

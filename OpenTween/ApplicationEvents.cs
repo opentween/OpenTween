@@ -180,7 +180,7 @@ namespace OpenTween
 
         private static bool IsEqualCurrentCulture(string CultureName)
         {
-            return Thread.CurrentThread.CurrentUICulture.Name.StartsWith(CultureName);
+            return Thread.CurrentThread.CurrentUICulture.Name.StartsWith(CultureName, StringComparison.Ordinal);
         }
 
         public static string CultureCode

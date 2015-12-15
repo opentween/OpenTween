@@ -49,7 +49,7 @@ namespace OpenTween.Thumbnail.Services
                 if (InitializeOAuthToken == null)
                     return null;
 
-                if (!url.StartsWith(@"https://ton.twitter.com/1.1/ton/data/"))
+                if (!url.StartsWith(@"https://ton.twitter.com/1.1/ton/data/", StringComparison.Ordinal))
                     return null;
 
                 return new TonTwitterCom.Thumbnail

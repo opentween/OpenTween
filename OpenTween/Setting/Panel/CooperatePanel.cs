@@ -71,7 +71,7 @@ namespace OpenTween.Setting.Panel
 
         private void UserAppointUrlText_Validating(object sender, CancelEventArgs e)
         {
-            if (!UserAppointUrlText.Text.StartsWith("http") && !string.IsNullOrEmpty(UserAppointUrlText.Text))
+            if (!UserAppointUrlText.Text.StartsWith("http", StringComparison.Ordinal) && !string.IsNullOrEmpty(UserAppointUrlText.Text))
             {
                 MessageBox.Show("Text Error:正しいURLではありません");
             }

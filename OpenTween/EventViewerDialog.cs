@@ -35,6 +35,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Text.RegularExpressions;
 using System.IO;
+using System.Globalization;
 
 namespace OpenTween
 {
@@ -77,7 +78,7 @@ namespace OpenTween
 
         private ListViewItem CreateListViewItem(Twitter.FormattedEvent source)
         {
-            string[] s = { source.CreatedAt.ToString(), source.Event.ToUpper(), source.Username, source.Target };
+            string[] s = { source.CreatedAt.ToString(), source.Event.ToUpper(CultureInfo.CurrentCulture), source.Username, source.Target };
             return new ListViewItem(s);
         }
 

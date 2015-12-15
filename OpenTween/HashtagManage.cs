@@ -29,6 +29,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
@@ -133,7 +134,7 @@ namespace OpenTween
                     idx += 1;
                     continue;
                 }
-                if (string.Compare(src, value, true) == 0)
+                if (string.Compare(src, value, StringComparison.OrdinalIgnoreCase) == 0)
                 {
                     return idx;
                 }

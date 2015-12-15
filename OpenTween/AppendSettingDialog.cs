@@ -404,9 +404,9 @@ namespace OpenTween
             {
                 if (!string.IsNullOrEmpty(path))
                 {
-                    if (path.StartsWith("\"") && path.Length > 2 && path.IndexOf("\"", 2) > -1)
+                    if (path.StartsWith("\"", StringComparison.Ordinal) && path.Length > 2 && path.IndexOf("\"", 2, StringComparison.Ordinal) > -1)
                     {
-                        int sep = path.IndexOf("\"", 2);
+                        int sep = path.IndexOf("\"", 2, StringComparison.Ordinal);
                         string browserPath = path.Substring(1, sep - 1);
                         string arg = "";
                         if (sep < path.Length - 1)

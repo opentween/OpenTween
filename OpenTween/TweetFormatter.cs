@@ -137,8 +137,8 @@ namespace OpenTween
             // twitter.com へのリンクは t.co を経由せずに直接リンクする (但し pic.twitter.com はそのまま)
             if (!(entity is TwitterEntityMedia))
             {
-                if (entity.ExpandedUrl.StartsWith("https://twitter.com/") ||
-                    entity.ExpandedUrl.StartsWith("http://twitter.com/"))
+                if (entity.ExpandedUrl.StartsWith("https://twitter.com/", StringComparison.Ordinal) ||
+                    entity.ExpandedUrl.StartsWith("http://twitter.com/", StringComparison.Ordinal))
                 {
                     linkUrl = entity.ExpandedUrl;
                 }

@@ -41,6 +41,7 @@ namespace OpenTween
 
         public static string ProxyHost
         {
+            get { return _proxyHost; }
             set
             {
                 if (string.IsNullOrEmpty(value) || value == _apiHost)
