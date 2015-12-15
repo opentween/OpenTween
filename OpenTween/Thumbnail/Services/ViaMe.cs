@@ -84,8 +84,8 @@ namespace OpenTween.Thumbnail.Services
 
                     return new ThumbnailInfo
                     {
-                        ImageUrl = url,
-                        ThumbnailUrl = thumbUrlElm.Value,
+                        MediaPageUrl = url,
+                        ThumbnailImageUrl = thumbUrlElm.Value,
                         TooltipText = textElm == null ? null : textElm.Value,
                     };
                 }

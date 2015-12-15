@@ -116,8 +116,8 @@ namespace OpenTween.Thumbnail.Services
             var thumbinfo = await service.GetThumbnailInfoAsync("http://example.com/abcd", null, CancellationToken.None);
 
             Assert.NotNull(thumbinfo);
-            Assert.Equal("http://example.com/abcd", thumbinfo.ImageUrl);
-            Assert.Equal("http://img.azyobuzi.net/api/redirect?size=large&uri=http%3A%2F%2Fexample.com%2Fabcd", thumbinfo.ThumbnailUrl);
+            Assert.Equal("http://example.com/abcd", thumbinfo.MediaPageUrl);
+            Assert.Equal("http://img.azyobuzi.net/api/redirect?size=large&uri=http%3A%2F%2Fexample.com%2Fabcd", thumbinfo.ThumbnailImageUrl);
             Assert.Null(thumbinfo.TooltipText);
         }
 

@@ -75,8 +75,8 @@ namespace OpenTween.Thumbnail.Services
             var thumbinfo = await service.GetThumbnailInfoAsync("http://www.tinami.com/view/12345", null, CancellationToken.None);
 
             Assert.NotNull(thumbinfo);
-            Assert.Equal("http://www.tinami.com/view/12345", thumbinfo.ImageUrl);
-            Assert.Equal("http://img.tinami.com/hogehoge_150.gif", thumbinfo.ThumbnailUrl);
+            Assert.Equal("http://www.tinami.com/view/12345", thumbinfo.MediaPageUrl);
+            Assert.Equal("http://img.tinami.com/hogehoge_150.gif", thumbinfo.ThumbnailImageUrl);
             Assert.Equal("説明", thumbinfo.TooltipText);
         }
 

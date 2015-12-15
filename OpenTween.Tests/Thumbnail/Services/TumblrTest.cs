@@ -48,8 +48,8 @@ namespace OpenTween.Thumbnail.Services
             {
                 new ThumbnailInfo
                 {
-                    ImageUrl = "http://example.com/post/1234567",
-                    ThumbnailUrl = "http://example.com/photo/1280/1234567/1/tumblr_hogehoge",
+                    MediaPageUrl = "http://example.com/post/1234567",
+                    ThumbnailImageUrl = "http://example.com/photo/1280/1234567/1/tumblr_hogehoge",
                     TooltipText = null,
                 },
             };

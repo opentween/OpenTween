@@ -244,7 +244,7 @@ namespace OpenTween
             var picbox = (OTPictureBox)this.contextMenuStrip.SourceControl;
             var thumb = (ThumbnailInfo)picbox.Tag;
 
-            var searchTargetUri = thumb.FullSizeImageUrl ?? thumb.ThumbnailUrl ?? null;
+            var searchTargetUri = thumb.FullSizeImageUrl ?? thumb.ThumbnailImageUrl ?? null;
             if (searchTargetUri != null)
             {
                 this.searchImageGoogleMenuItem.Enabled = true;

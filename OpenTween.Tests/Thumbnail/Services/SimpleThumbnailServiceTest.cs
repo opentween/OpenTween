@@ -43,8 +43,8 @@ namespace OpenTween.Thumbnail.Services
             var thumbinfo = await service.GetThumbnailInfoAsync("http://example.com/abcd", null, CancellationToken.None);
 
             Assert.NotNull(thumbinfo);
-            Assert.Equal("http://example.com/abcd", thumbinfo.ImageUrl);
-            Assert.Equal("http://img.example.com/abcd", thumbinfo.ThumbnailUrl);
+            Assert.Equal("http://example.com/abcd", thumbinfo.MediaPageUrl);
+            Assert.Equal("http://img.example.com/abcd", thumbinfo.ThumbnailImageUrl);
             Assert.Null(thumbinfo.TooltipText);
         }
 

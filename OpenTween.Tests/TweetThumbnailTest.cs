@@ -64,8 +64,8 @@ namespace OpenTween
 
                 return new MockThumbnailInfo
                 {
-                    ImageUrl = url,
-                    ThumbnailUrl = match.Result(this.replaceUrl),
+                    MediaPageUrl = url,
+                    ThumbnailImageUrl = match.Result(this.replaceUrl),
                     TooltipText = this.replaceTooltip != null ? match.Result(this.replaceTooltip) : null,
                 };
             }
@@ -204,8 +204,8 @@ namespace OpenTween
                 Assert.IsAssignableFrom<ThumbnailInfo>(thumbbox.pictureBox[0].Tag);
                 var thumbinfo = (ThumbnailInfo)thumbbox.pictureBox[0].Tag;
 
-                Assert.Equal("http://foo.example.com/abcd", thumbinfo.ImageUrl);
-                Assert.Equal("http://img.example.com/abcd.png", thumbinfo.ThumbnailUrl);
+                Assert.Equal("http://foo.example.com/abcd", thumbinfo.MediaPageUrl);
+                Assert.Equal("http://img.example.com/abcd.png", thumbinfo.ThumbnailImageUrl);
 
                 Assert.Equal("", thumbbox.toolTip.GetToolTip(thumbbox.pictureBox[0]));
             }
@@ -239,14 +239,14 @@ namespace OpenTween
                 Assert.IsAssignableFrom<ThumbnailInfo>(thumbbox.pictureBox[0].Tag);
                 var thumbinfo = (ThumbnailInfo)thumbbox.pictureBox[0].Tag;
 
-                Assert.Equal("http://foo.example.com/abcd", thumbinfo.ImageUrl);
-                Assert.Equal("http://img.example.com/abcd.png", thumbinfo.ThumbnailUrl);
+                Assert.Equal("http://foo.example.com/abcd", thumbinfo.MediaPageUrl);
+                Assert.Equal("http://img.example.com/abcd.png", thumbinfo.ThumbnailImageUrl);
 
                 Assert.IsAssignableFrom<ThumbnailInfo>(thumbbox.pictureBox[1].Tag);
                 thumbinfo = (ThumbnailInfo)thumbbox.pictureBox[1].Tag;
 
-                Assert.Equal("http://bar.example.com/efgh", thumbinfo.ImageUrl);
-                Assert.Equal("http://img.example.com/efgh.png", thumbinfo.ThumbnailUrl);
+                Assert.Equal("http://bar.example.com/efgh", thumbinfo.MediaPageUrl);
+                Assert.Equal("http://img.example.com/efgh.png", thumbinfo.ThumbnailImageUrl);
 
                 Assert.Equal("", thumbbox.toolTip.GetToolTip(thumbbox.pictureBox[0]));
                 Assert.Equal("efgh", thumbbox.toolTip.GetToolTip(thumbbox.pictureBox[1]));

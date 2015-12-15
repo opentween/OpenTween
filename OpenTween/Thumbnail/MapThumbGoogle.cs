@@ -34,8 +34,8 @@ namespace OpenTween.Thumbnail
         {
             var thumb = new ThumbnailInfo
             {
-                ImageUrl = this.CreateMapLinkUrl(geo.Latitude, geo.Longitude),
-                ThumbnailUrl = this.CreateStaticMapUrl(geo.Latitude, geo.Longitude),
+                MediaPageUrl = this.CreateMapLinkUrl(geo.Latitude, geo.Longitude),
+                ThumbnailImageUrl = this.CreateStaticMapUrl(geo.Latitude, geo.Longitude),
                 TooltipText = null,
             };
 

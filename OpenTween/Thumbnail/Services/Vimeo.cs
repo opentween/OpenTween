@@ -90,8 +90,8 @@ namespace OpenTween.Thumbnail.Services
 
                 return new ThumbnailInfo
                 {
-                    ImageUrl = url,
-                    ThumbnailUrl = thumbUrlElm.Value,
+                    MediaPageUrl = url,
+                    ThumbnailImageUrl = thumbUrlElm.Value,
                     TooltipText = tooltipText,
                     IsPlayable = true,
                 };

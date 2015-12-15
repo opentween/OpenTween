@@ -210,8 +210,8 @@ namespace OpenTween.Thumbnail.Services
                         {
                             return new ThumbnailInfo
                             {
-                                ImageUrl = url,
-                                ThumbnailUrl = this.ApiBase + "redirect?size=large&uri=" + Uri.EscapeDataString(url),
+                                MediaPageUrl = url,
+                                ThumbnailImageUrl = this.ApiBase + "redirect?size=large&uri=" + Uri.EscapeDataString(url),
                                 FullSizeImageUrl = this.ApiBase + "redirect?size=full&uri=" + Uri.EscapeDataString(url),
                                 TooltipText = null,
                             };

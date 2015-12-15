@@ -54,8 +54,8 @@ namespace OpenTween.Thumbnail.Services
 
                 return new TonTwitterCom.Thumbnail
                 {
-                    ImageUrl = url,
-                    ThumbnailUrl = url,
+                    MediaPageUrl = url,
+                    ThumbnailImageUrl = url,
                     TooltipText = null,
                     FullSizeImageUrl = url,
                 };
@@ -73,7 +73,7 @@ namespace OpenTween.Thumbnail.Services
                     TonTwitterCom.InitializeOAuthToken(oauth);
 
                     Stream response = null;
-                    var statusCode = oauth.GetContent("GET", new Uri(this.ThumbnailUrl), null, ref response, Networking.GetUserAgentString());
+                    var statusCode = oauth.GetContent("GET", new Uri(this.ThumbnailImageUrl), null, ref response, Networking.GetUserAgentString());
 
                     using (response)
                     {

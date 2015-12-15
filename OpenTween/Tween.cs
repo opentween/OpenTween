@@ -13410,7 +13410,7 @@ namespace OpenTween
 
         private async Task OpenThumbnailPicture(ThumbnailInfo thumbnail)
         {
-            var url = thumbnail.FullSizeImageUrl ?? thumbnail.ImageUrl;
+            var url = thumbnail.FullSizeImageUrl ?? thumbnail.MediaPageUrl;
 
             await this.OpenUriInBrowserAsync(url);
         }

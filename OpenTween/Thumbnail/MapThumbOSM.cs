@@ -39,7 +39,7 @@ namespace OpenTween.Thumbnail
 
             var thumb = new OSMThumbnailInfo(geo.Latitude, geo.Longitude, zoom, size)
             {
-                ImageUrl = this.CreateMapLinkUrl(geo.Latitude, geo.Longitude),
+                MediaPageUrl = this.CreateMapLinkUrl(geo.Latitude, geo.Longitude),
             };
 
             return Task.FromResult((ThumbnailInfo)thumb);
