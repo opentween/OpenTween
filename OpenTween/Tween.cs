@@ -1938,7 +1938,7 @@ namespace OpenTween
                 return;
             }
 
-            if (selectedPost.StatusId == this._curPost?.StatusId)
+            if (selectedPost.StatusId == this._curPost?.StatusId && selectedPost.IsRead)
                 return;
 
             this._curPost = selectedPost;
