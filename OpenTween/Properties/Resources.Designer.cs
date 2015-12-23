@@ -634,6 +634,8 @@ namespace OpenTween.Properties {
         /// <summary>
         ///   更新履歴
         ///
+        ///==== Ver 1.3.1-dev(2016/xx/xx)
+        ///
         ///==== Ver 1.3.0(2015/12/23)
         /// * NEW: リプライ先のツイートの内容が発言詳細部に表示されるようにしました
         ///  - 従来通り「関連発言表示」によるリプライチェインの表示も使用できます
@@ -644,7 +646,7 @@ namespace OpenTween.Properties {
         /// * CHG: スペースキーで未読ツイートに移動する順序を、常に表示順の通りに移動するように修正
         ///  - OpenTween v1.2.4 以前と同じ動作になりました
         /// * CHG: プロフィール画面の「Web」「自己紹介」に含まれる短縮URLの展開に対応 (thx @naminodarie!)
-        /// * CHG: Foursquareのサムネイル表示機能でチェックインURLの仕様変更 [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
+        /// * CHG: F [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ChangeLog {
             get {
