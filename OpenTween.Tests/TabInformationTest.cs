@@ -89,7 +89,7 @@ namespace OpenTween
                 UserId = 12345L,
                 Text = "hogehoge",
             };
-            Assert.True(this.tabinfo.IsMuted(post));
+            Assert.True(this.tabinfo.IsMuted(post, isHomeTimeline: true));
         }
 
         [Fact]
@@ -102,7 +102,7 @@ namespace OpenTween
                 UserId = 11111L,
                 Text = "hogehoge",
             };
-            Assert.False(this.tabinfo.IsMuted(post));
+            Assert.False(this.tabinfo.IsMuted(post, isHomeTimeline: true));
         }
 
         [Fact]
@@ -116,7 +116,7 @@ namespace OpenTween
                 RetweetedByUserId = 12345L,
                 Text = "hogehoge",
             };
-            Assert.True(this.tabinfo.IsMuted(post));
+            Assert.True(this.tabinfo.IsMuted(post, isHomeTimeline: true));
         }
 
         [Fact]
@@ -130,7 +130,7 @@ namespace OpenTween
                 RetweetedByUserId = 22222L,
                 Text = "hogehoge",
             };
-            Assert.False(this.tabinfo.IsMuted(post));
+            Assert.False(this.tabinfo.IsMuted(post, isHomeTimeline: true));
         }
 
         [Fact]
@@ -145,7 +145,21 @@ namespace OpenTween
                 Text = "@foo hogehoge",
                 IsReply = true,
             };
-            Assert.False(this.tabinfo.IsMuted(post));
+            Assert.False(this.tabinfo.IsMuted(post, isHomeTimeline: true));
+        }
+
+        [Fact]
+        public void IsMuted_NotInHomeTimelineTest()
+        {
+            this.tabinfo.MuteUserIds = new HashSet<long> { 12345L };
+
+            // Recent以外のタブ（検索など）の場合は対象外とする
+            var post = new PostClass
+            {
+                UserId = 12345L,
+                Text = "hogehoge",
+            };
+            Assert.False(this.tabinfo.IsMuted(post, isHomeTimeline: false));
         }
 
         [Fact]
@@ -167,7 +181,7 @@ namespace OpenTween
                 ScreenName = "foo",
                 Text = "hogehoge",
             };
-            Assert.True(this.tabinfo.IsMuted(post));
+            Assert.True(this.tabinfo.IsMuted(post, isHomeTimeline: true));
         }
 
         [Fact]
@@ -191,7 +205,7 @@ namespace OpenTween
                 Text = "@hoge hogehoge",
                 IsReply = true,
             };
-            Assert.True(this.tabinfo.IsMuted(post));
+            Assert.True(this.tabinfo.IsMuted(post, isHomeTimeline: false));
         }
 
         [Fact]

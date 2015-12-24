@@ -1065,7 +1065,7 @@ namespace OpenTween
 
             lock (LockObj)
             {
-                if (this.IsMuted(Item))
+                if (this.IsMuted(Item, isHomeTimeline: true))
                     return;
 
                 PostClass status;
@@ -1114,16 +1114,20 @@ namespace OpenTween
             }
         }
 
-        public bool IsMuted(PostClass post)
+        public bool IsMuted(PostClass post, bool isHomeTimeline)
         {
             var muteTab = this.GetTabByType(MyCommon.TabUsageType.Mute);
             if (muteTab != null && muteTab.AddFiltered(post) == MyCommon.HITRESULT.Move)
                 return true;
 
             // これ以降は Twitter 標準のミュート機能に準じた判定
+            // 参照: https://support.twitter.com/articles/20171399-muting-users-on-twitter
+
+            // ホームタイムライン以外 (検索・リストなど) は対象外
+            if (!isHomeTimeline)
+                return false;
 
             // リプライはミュート対象外
-            // 参照: https://support.twitter.com/articles/20171399-muting-users-on-twitter
             if (post.IsReply)
                 return false;
 
@@ -1158,7 +1162,7 @@ namespace OpenTween
         {
             lock (LockObj)
             {
-                if (IsMuted(item) || BlockIds.Contains(item.UserId))
+                if (IsMuted(item, isHomeTimeline: false) || BlockIds.Contains(item.UserId))
                     return false;
 
                 _quotes[item.StatusId] = item;
@@ -1752,7 +1756,12 @@ namespace OpenTween
         //検索結果の追加
         public void AddPostToInnerStorage(PostClass Post)
         {
-            if (_innerPosts.ContainsKey(Post.StatusId)) return;
+            if (_innerPosts.ContainsKey(Post.StatusId))
+                return;
+
+            if (TabInformations.GetInstance().IsMuted(Post, isHomeTimeline: false))
+                return;
+
             _innerPosts.TryAdd(Post.StatusId, Post);
             this.AddPostQueue(Post.StatusId, Post.IsRead);
         }
