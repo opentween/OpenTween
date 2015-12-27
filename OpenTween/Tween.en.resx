@@ -127,6 +127,12 @@
   <data name="ToolStripMenuItemUrlMultibyteSplit.Text" xml:space="preserve">
     <value>&amp;Separation of multibyte character string from URL</value>
   </data>
+  <data name="ToolStripMenuItemPreventSmsCommand.Size" type="System.Drawing.Size, System.Drawing">
+    <value>445, 24</value>
+  </data>
+  <data name="ToolStripMenuItemPreventSmsCommand.Text" xml:space="preserve">
+    <value>Prevent interpreting text as SMS command</value>
+  </data>
   <data name="ToolStripMenuItemUrlAutoShorten.Size" type="System.Drawing.Size, System.Drawing">
     <value>445, 24</value>
   </data>

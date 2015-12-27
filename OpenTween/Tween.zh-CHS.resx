@@ -124,6 +124,12 @@
   <data name="ToolStripMenuItemUrlMultibyteSplit.Text" xml:space="preserve">
     <value>排除URL中的全角字符</value>
   </data>
+  <data name="ToolStripMenuItemPreventSmsCommand.Size" type="System.Drawing.Size, System.Drawing">
+    <value>235, 22</value>
+  </data>
+  <data name="ToolStripMenuItemPreventSmsCommand.Text" xml:space="preserve">
+    <value>避免使用SMS命令</value>
+  </data>
   <data name="ToolStripMenuItemUrlAutoShorten.Size" type="System.Drawing.Size, System.Drawing">
     <value>235, 22</value>
   </data>

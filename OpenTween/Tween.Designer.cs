@@ -25,6 +25,7 @@
             this.HashStripSplitButton = new System.Windows.Forms.ToolStripSplitButton();
             this.ContextMenuPostMode = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.ToolStripMenuItemUrlMultibyteSplit = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolStripMenuItemPreventSmsCommand = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItemUrlAutoShorten = new System.Windows.Forms.ToolStripMenuItem();
             this.IdeographicSpaceToSpaceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.MultiLineMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -408,6 +409,7 @@
             // 
             this.ContextMenuPostMode.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ToolStripMenuItemUrlMultibyteSplit,
+            this.ToolStripMenuItemPreventSmsCommand,
             this.ToolStripMenuItemUrlAutoShorten,
             this.IdeographicSpaceToSpaceToolStripMenuItem,
             this.MultiLineMenuItem,
@@ -427,6 +429,14 @@
             this.ToolStripMenuItemUrlMultibyteSplit.CheckOnClick = true;
             this.ToolStripMenuItemUrlMultibyteSplit.Name = "ToolStripMenuItemUrlMultibyteSplit";
             resources.ApplyResources(this.ToolStripMenuItemUrlMultibyteSplit, "ToolStripMenuItemUrlMultibyteSplit");
+            // 
+            // ToolStripMenuItemPreventSmsCommand
+            // 
+            this.ToolStripMenuItemPreventSmsCommand.Checked = true;
+            this.ToolStripMenuItemPreventSmsCommand.CheckOnClick = true;
+            this.ToolStripMenuItemPreventSmsCommand.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.ToolStripMenuItemPreventSmsCommand.Name = "ToolStripMenuItemPreventSmsCommand";
+            resources.ApplyResources(this.ToolStripMenuItemPreventSmsCommand, "ToolStripMenuItemPreventSmsCommand");
             // 
             // ToolStripMenuItemUrlAutoShorten
             // 
@@ -2505,6 +2515,7 @@
         internal System.Windows.Forms.ToolStripSplitButton HashStripSplitButton;
         internal System.Windows.Forms.ContextMenuStrip ContextMenuPostMode;
         internal System.Windows.Forms.ToolStripMenuItem ToolStripMenuItemUrlMultibyteSplit;
+        internal System.Windows.Forms.ToolStripMenuItem ToolStripMenuItemPreventSmsCommand;
         internal System.Windows.Forms.ToolStripMenuItem ToolStripMenuItemUrlAutoShorten;
         internal System.Windows.Forms.ToolStripMenuItem IdeographicSpaceToSpaceToolStripMenuItem;
         internal System.Windows.Forms.ToolStripMenuItem MultiLineMenuItem;

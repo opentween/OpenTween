@@ -5253,6 +5253,19 @@ namespace OpenTween
 
             statusText = header + statusText + footer;
 
+            if (this.ToolStripMenuItemPreventSmsCommand.Checked)
+            {
+                // ツイートが意図せず SMS コマンドとして解釈されることを回避 (D, DM, M のみ)
+                // 参照: https://support.twitter.com/articles/14020
+
+                if (Regex.IsMatch(statusText, @"^[+\-\[\]\s\\.,*/(){}^~|='&%$#""<>?]*(d|dm|m)([+\-\[\]\s\\.,*/(){}^~|='&%$#""<>?]+|$)", RegexOptions.IgnoreCase)
+                    && !Twitter.DMSendTextRegex.IsMatch(statusText))
+                {
+                    // U+200B (ZERO WIDTH SPACE) を先頭に加えて回避
+                    statusText = '\u200b' + statusText;
+                }
+            }
+
             return statusText;
         }
 
