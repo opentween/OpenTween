@@ -948,15 +948,21 @@ namespace OpenTween
                             newMentionOrDm = true;
                     }
 
-                    if (addedIds.Count != 0 && tab.Notify)
+                    if (addedIds.Count != 0)
                     {
-                        // 通知対象のリストに追加
-                        foreach (var statusId in addedIds)
+                        if (tab.Notify)
                         {
-                            PostClass post;
-                            if (tab.Posts.TryGetValue(statusId, out post))
-                                notifyPostsList.Add(post);
+                            // 通知対象のリストに追加
+                            foreach (var statusId in addedIds)
+                            {
+                                PostClass post;
+                                if (tab.Posts.TryGetValue(statusId, out post))
+                                    notifyPostsList.Add(post);
+                            }
                         }
+
+                        // 通知サウンドは TabClass.Notify の値に関わらず鳴らす
+                        // SettingCommon.PlaySound が false であれば TweenMain 側で無効化される
 
                         int notifyPriority;
                         if (!this.notifyPriorityByTabType.TryGetValue(tab.TabType, out notifyPriority))
