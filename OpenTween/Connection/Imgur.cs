@@ -119,6 +119,10 @@ namespace OpenTween.Connection
             {
                 throw new WebApiException("Err:" + ex.Message, ex);
             }
+            catch (OperationCanceledException ex)
+            {
+                throw new WebApiException("Err:Timeout", ex);
+            }
 
             var imageElm = xml.Element("data");
 
