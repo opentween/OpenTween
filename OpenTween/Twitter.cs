@@ -1626,12 +1626,7 @@ namespace OpenTween
             post.TextFromApi = WebUtility.HtmlDecode(post.TextFromApi);
             post.TextFromApi = post.TextFromApi.Replace("<3", "\u2661");
 
-            var quoteStatusIds = GetQuoteTweetStatusIds(entities);
-
-            if (post.InReplyToStatusId != null)
-                quoteStatusIds = quoteStatusIds.Concat(new[] { post.InReplyToStatusId.Value });
-
-            post.QuoteStatusIds = quoteStatusIds
+            post.QuoteStatusIds = GetQuoteTweetStatusIds(entities)
                 .Where(x => x != post.StatusId && x != post.RetweetedId)
                 .Distinct().ToArray();
 

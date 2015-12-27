@@ -82,6 +82,7 @@ namespace OpenTween
             + "a:link, a:visited, a:active, a:hover {color:rgb(%LINK_COLOR%); } "
             + "img.emoji {width: 1em; height: 1em; margin: 0 .05em 0 .1em; vertical-align: -0.1em; border: none;} "
             + ".quote-tweet {border: 1px solid #ccc; margin: 1em; padding: 0.5em;} "
+            + ".quote-tweet.reply {border-color: #f33;} "
             + ".quote-tweet-link {color: inherit !important; text-decoration: none;}"
             + "--></style>"
             + "</head><body><pre>";
@@ -94,6 +95,7 @@ namespace OpenTween
             + "a:link, a:visited, a:active, a:hover {color:rgb(%LINK_COLOR%); } "
             + "img.emoji {width: 1em; height: 1em; margin: 0 .05em 0 .1em; vertical-align: -0.1em; border: none;} "
             + ".quote-tweet {border: 1px solid #ccc; margin: 1em; padding: 0.5em;} "
+            + ".quote-tweet.reply {border-color: #f33;} "
             + ".quote-tweet-link {color: inherit !important; text-decoration: none;}"
             + "--></style>"
             + "</head><body><p>";
@@ -6415,19 +6417,29 @@ namespace OpenTween
         /// </summary>
         private async Task AppendQuoteTweetAsync(PostClass post)
         {
-            var statusIds = post.QuoteStatusIds;
-            if (statusIds.Length == 0)
+            var quoteStatusIds = post.QuoteStatusIds;
+            if (quoteStatusIds.Length == 0 && post.InReplyToStatusId == null)
                 return;
 
             // 「読み込み中」テキストを表示
-            var loadingQuoteHtml = statusIds.Select(x => FormatQuoteTweetHtml(x, Properties.Resources.LoadingText));
-            var body = post.Text + string.Concat(loadingQuoteHtml);
+            var loadingQuoteHtml = quoteStatusIds.Select(x => FormatQuoteTweetHtml(x, Properties.Resources.LoadingText, isReply: false));
+
+            var loadingReplyHtml = string.Empty;
+            if (post.InReplyToStatusId != null)
+                loadingReplyHtml = FormatQuoteTweetHtml(post.InReplyToStatusId.Value, Properties.Resources.LoadingText, isReply: true);
+
+            var body = post.Text + string.Concat(loadingQuoteHtml) + loadingReplyHtml;
 
             using (ControlTransaction.Update(this.PostBrowser))
                 this.PostBrowser.DocumentText = this.createDetailHtml(body);
 
             // 引用ツイートを読み込み
-            var quoteHtmls = await Task.WhenAll(statusIds.Select(x => this.CreateQuoteTweetHtml(x)));
+            var loadTweetTasks = quoteStatusIds.Select(x => this.CreateQuoteTweetHtml(x, isReply: false)).ToList();
+
+            if (post.InReplyToStatusId != null)
+                loadTweetTasks.Add(this.CreateQuoteTweetHtml(post.InReplyToStatusId.Value, isReply: true));
+
+            var quoteHtmls = await Task.WhenAll(loadTweetTasks);
 
             // 非同期処理中に表示中のツイートが変わっていたらキャンセルされたものと扱う
             if (this._curPost != post || this._curPost.IsDeleted)
@@ -6439,7 +6451,7 @@ namespace OpenTween
                 this.PostBrowser.DocumentText = this.createDetailHtml(body);
         }
 
-        private async Task<string> CreateQuoteTweetHtml(long statusId)
+        private async Task<string> CreateQuoteTweetHtml(long statusId, bool isReply)
         {
             PostClass post = this._statuses[statusId];
             if (post == null)
@@ -6451,31 +6463,36 @@ namespace OpenTween
                 }
                 catch (WebApiException ex)
                 {
-                    return FormatQuoteTweetHtml(statusId, WebUtility.HtmlEncode(ex.Message));
+                    return FormatQuoteTweetHtml(statusId, WebUtility.HtmlEncode(ex.Message), isReply);
                 }
 
                 post.IsRead = true;
                 if (!this._statuses.AddQuoteTweet(post))
-                    return FormatQuoteTweetHtml(statusId, "This Tweet is unavailable.");
+                    return FormatQuoteTweetHtml(statusId, "This Tweet is unavailable.", isReply);
             }
 
-            return FormatQuoteTweetHtml(post);
+            return FormatQuoteTweetHtml(post, isReply);
         }
 
-        internal static string FormatQuoteTweetHtml(PostClass post)
+        internal static string FormatQuoteTweetHtml(PostClass post, bool isReply)
         {
             var innerHtml = "<p>" + StripLinkTagHtml(post.Text) + "</p>" +
                 " &mdash; " + WebUtility.HtmlEncode(post.Nickname) +
                 " (@" + WebUtility.HtmlEncode(post.ScreenName) + ") " +
                 WebUtility.HtmlEncode(post.CreatedAt.ToString());
 
-            return FormatQuoteTweetHtml(post.StatusId, innerHtml);
+            return FormatQuoteTweetHtml(post.StatusId, innerHtml, isReply);
         }
 
-        internal static string FormatQuoteTweetHtml(long statusId, string innerHtml)
+        internal static string FormatQuoteTweetHtml(long statusId, string innerHtml, bool isReply)
         {
+            var blockClassName = "quote-tweet";
+
+            if (isReply)
+                blockClassName += " reply";
+
             return "<a class=\"quote-tweet-link\" href=\"//opentween/status/" + statusId + "\">" +
-                "<blockquote class=\"quote-tweet\">" + innerHtml + "</blockquote>" +
+                $"<blockquote class=\"{blockClassName}\">{innerHtml}</blockquote>" +
                 "</a>";
         }
 
