@@ -5336,6 +5336,9 @@ namespace OpenTween
         {
             var tabInfo = this._statuses.Tabs[this._curTab.Text];
 
+            if (tabInfo.AllCount == 0)
+                return;
+
             // キャッシュ要求（要求範囲±30を作成）
             startIndex = Math.Max(startIndex - 30, 0);
             endIndex = Math.Min(endIndex + 30, tabInfo.AllCount - 1);
