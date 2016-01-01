@@ -5224,7 +5224,7 @@ namespace OpenTween
             }
             else
             {
-                if (this.StatusText.Multiline)
+                if (this.StatusText.Multiline && !this._cfgCommon.PostCtrlEnter)
                     disableFooter = MyCommon.IsKeyDown(Keys.Control);
                 else
                     disableFooter = MyCommon.IsKeyDown(Keys.Shift);
