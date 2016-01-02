@@ -26,7 +26,7 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OpenTween.Api
+namespace OpenTween.Api.DataModel
 {
     [DataContract]
     public abstract class TwitterPageable<T>

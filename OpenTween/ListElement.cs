@@ -26,7 +26,7 @@
 
 using System.Collections.Generic;
 using System.Xml.Serialization;
-using OpenTween.Api;
+using OpenTween.Api.DataModel;
 
 namespace OpenTween
 {

@@ -47,6 +47,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using OpenTween.Api;
+using OpenTween.Api.DataModel;
 using OpenTween.Connection;
 using OpenTween.OpenTweenCustomControl;
 using OpenTween.Thumbnail;

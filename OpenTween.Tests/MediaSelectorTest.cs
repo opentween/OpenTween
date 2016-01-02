@@ -7,7 +7,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
-using OpenTween.Api;
+using OpenTween.Api.DataModel;
 using Xunit;
 
 namespace OpenTween

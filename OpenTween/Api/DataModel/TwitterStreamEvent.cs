@@ -26,60 +26,53 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OpenTween.Api
+namespace OpenTween.Api.DataModel
 {
     [DataContract]
-    public class TwitterList
+    public class TwitterStreamEvent
     {
-        [DataMember(Name = "user")]
-        public TwitterUser User { get; set; }
+        [DataMember(Name = "target")]
+        public TwitterUser Target { get; set; }
 
-        [DataMember(Name = "following")]
-        public bool Following { get; set; }
+        [DataMember(Name = "source")]
+        public TwitterUser Source { get; set; }
+
+        [DataMember(Name = "event")]
+        public string Event { get; set; }
 
         [DataMember(Name = "created_at")]
         public string CreatedAt { get; set; }
 
-        [DataMember(Name = "full_name")]
-        public string FullName { get; set; }
-
-        [DataMember(Name = "slug")]
-        public string Slug { get; set; }
-
-        [DataMember(Name = "id")]
-        public long Id { get; set; }
-
-        [DataMember(Name = "id_str")]
-        public string IdStr { get; set; }
-
-        [DataMember(Name = "name")]
-        public string Name { get; set; }
-
-        [DataMember(Name = "uri")]
-        public string Uri { get; set; }
-
-        [DataMember(Name = "subscriber_count")]
-        public int SubscriberCount { get; set; }
-
-        [DataMember(Name = "member_count")]
-        public int MemberCount { get; set; }
-
-        [DataMember(Name = "mode")]
-        public string Mode { get; set; }
-
-        [DataMember(Name = "description")]
-        public string Description { get; set; }
-
         /// <exception cref="SerializationException"/>
-        public static TwitterList ParseJson(string json)
+        public static TwitterStreamEvent ParseJson(string json)
         {
-            return MyCommon.CreateDataFromJson<TwitterList>(json);
+            return MyCommon.CreateDataFromJson<TwitterStreamEvent>(json);
         }
+    }
+
+    [DataContract]
+    public class TwitterStreamEvent<T> : TwitterStreamEvent
+    {
+        [DataMember(Name = "target_object")]
+        public T TargetObject { get; set; }
 
         /// <exception cref="SerializationException"/>
-        public static TwitterList[] ParseJsonArray(string json)
+        public static new TwitterStreamEvent<T> ParseJson(string json)
         {
-            return MyCommon.CreateDataFromJson<TwitterList[]>(json);
+            return MyCommon.CreateDataFromJson<TwitterStreamEvent<T>>(json);
+        }
+    }
+
+    [DataContract]
+    public class TwitterStreamEventDirectMessage
+    {
+        [DataMember(Name = "direct_message")]
+        public TwitterDirectMessage DirectMessage;
+
+        /// <exception cref="SerializationException"/>
+        public static TwitterStreamEventDirectMessage ParseJson(string json)
+        {
+            return MyCommon.CreateDataFromJson<TwitterStreamEventDirectMessage>(json);
         }
     }
 }

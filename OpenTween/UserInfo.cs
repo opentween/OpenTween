@@ -26,7 +26,7 @@
 
 using System;
 using System.Net;
-using OpenTween.Api;
+using OpenTween.Api.DataModel;
 
 namespace OpenTween
 {

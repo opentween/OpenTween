@@ -26,36 +26,35 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OpenTween.Api
+namespace OpenTween.Api.DataModel
 {
-    [DataContract]
-    public abstract class GeoJson
-    {
-        [DataMember(Name = "type")]
-        public string Type { get; set; }
-    }
+    // 参照: https://dev.twitter.com/docs/platform-objects/places
 
     [DataContract]
-    public class GeoJsonPoint : GeoJson
+    public class TwitterPlace
     {
-        [DataMember(Name = "coordinates")]
-        public double[] Coordinates { get; set; }
+        [DataMember(Name = "bounding_box")]
+        public GeoJsonPolygon BoundingBox { get; set; }
 
-        public GeoJsonPoint()
-        {
-            this.Type = "Point";
-        }
-    }
+        [DataMember(Name = "country")]
+        public string Country { get; set; }
 
-    [DataContract]
-    public class GeoJsonPolygon : GeoJson
-    {
-        [DataMember(Name = "coordinates")]
-        public double[][][] Coordinates { get; set; }
+        [DataMember(Name = "country_code")]
+        public string CountryCode { get; set; }
 
-        public GeoJsonPolygon()
-        {
-            this.Type = "Polygon";
-        }
+        [DataMember(Name = "full_name")]
+        public string FullName { get; set; }
+
+        [DataMember(Name = "id")]
+        public string Id { get; set; }
+
+        [DataMember(Name = "name")]
+        public string Name { get; set; }
+
+        [DataMember(Name = "place_type")]
+        public string PlaceType { get; set; }
+
+        [DataMember(Name = "url")]
+        public string Url { get; set; }
     }
 }

@@ -68,22 +68,22 @@
       <DependentUpon>ApiInfoDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="Api\ApiLimit.cs" />
-    <Compile Include="Api\GeoJson.cs" />
-    <Compile Include="Api\TwitterConfiguration.cs" />
-    <Compile Include="Api\TwitterEntity.cs" />
-    <Compile Include="Api\TwitterError.cs" />
-    <Compile Include="Api\TwitterFriendship.cs" />
-    <Compile Include="Api\TwitterList.cs" />
-    <Compile Include="Api\TwitterPageable.cs">
+    <Compile Include="Api\DataModel\GeoJson.cs" />
+    <Compile Include="Api\DataModel\TwitterConfiguration.cs" />
+    <Compile Include="Api\DataModel\TwitterEntity.cs" />
+    <Compile Include="Api\DataModel\TwitterError.cs" />
+    <Compile Include="Api\DataModel\TwitterFriendship.cs" />
+    <Compile Include="Api\DataModel\TwitterList.cs" />
+    <Compile Include="Api\DataModel\TwitterPageable.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Api\TwitterPlace.cs" />
-    <Compile Include="Api\TwitterSearchResult.cs" />
-    <Compile Include="Api\TwitterStatus.cs" />
-    <Compile Include="Api\TwitterStreamEvent.cs" />
-    <Compile Include="Api\TwitterUploadMediaResult.cs" />
-    <Compile Include="Api\TwitterUser.cs" />
-    <Compile Include="Api\TwitterApiAccessLevel.cs" />
+    <Compile Include="Api\DataModel\TwitterPlace.cs" />
+    <Compile Include="Api\DataModel\TwitterSearchResult.cs" />
+    <Compile Include="Api\DataModel\TwitterStatus.cs" />
+    <Compile Include="Api\DataModel\TwitterStreamEvent.cs" />
+    <Compile Include="Api\DataModel\TwitterUploadMediaResult.cs" />
+    <Compile Include="Api\DataModel\TwitterUser.cs" />
+    <Compile Include="Api\DataModel\TwitterApiAccessLevel.cs" />
     <Compile Include="Api\TwitterApiStatus.cs" />
     <Compile Include="ApplicationEvents.cs">
       <SubType>Code</SubType>

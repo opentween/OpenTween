@@ -38,7 +38,7 @@ using System.Text.RegularExpressions;
 using System.Web;
 using System.IO;
 using System.Net;
-using OpenTween.Api;
+using OpenTween.Api.DataModel;
 using OpenTween.Connection;
 using System.Diagnostics.CodeAnalysis;
 

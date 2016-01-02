@@ -29,6 +29,7 @@ using System.Text;
 using System.Xml;
 using System.Xml.Linq;
 using System.Xml.XPath;
+using OpenTween.Api.DataModel;
 
 namespace OpenTween.Api
 {

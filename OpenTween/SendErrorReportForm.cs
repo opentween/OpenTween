@@ -32,7 +32,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using OpenTween.Api;
+using OpenTween.Api.DataModel;
 
 namespace OpenTween
 {
