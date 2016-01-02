@@ -2838,7 +2838,7 @@ namespace OpenTween
             }
         }
 
-        private async Task FavAddAsync(IReadOnlyList<long> statusIds, TabClass tab)
+        private async Task FavAddAsync(long statusId, TabClass tab)
         {
             await this.workerSemaphore.WaitAsync();
 
@@ -2846,7 +2846,7 @@ namespace OpenTween
             {
                 var progress = new Progress<string>(x => this.StatusLabel.Text = x);
 
-                await this.FavAddAsyncInternal(progress, this.workerCts.Token, statusIds, tab);
+                await this.FavAddAsyncInternal(progress, this.workerCts.Token, statusId, tab);
             }
             catch (WebApiException ex)
             {
@@ -2859,7 +2859,7 @@ namespace OpenTween
             }
         }
 
-        private async Task FavAddAsyncInternal(IProgress<string> p, CancellationToken ct, IReadOnlyList<long> statusIds, TabClass tab)
+        private async Task FavAddAsyncInternal(IProgress<string> p, CancellationToken ct, long statusId, TabClass tab)
         {
             if (ct.IsCancellationRequested)
                 return;
@@ -2867,37 +2867,20 @@ namespace OpenTween
             if (!CheckAccountValid())
                 throw new WebApiException("Auth error. Check your account");
 
-            var successIds = new List<long>();
+            PostClass post;
+            if (!tab.Posts.TryGetValue(statusId, out post))
+                return;
+
+            if (post.IsFav)
+                return;
 
             await Task.Run(() =>
             {
-                //スレッド処理はしない
-                var allCount = 0;
-                var failedCount = 0;
+                p.Report(string.Format(Properties.Resources.GetTimelineWorker_RunWorkerCompletedText15, 0, 1, 0));
 
-                foreach (var statusId in statusIds)
+                try
                 {
-                    allCount++;
-
-                    p.Report(string.Format(Properties.Resources.GetTimelineWorker_RunWorkerCompletedText15, allCount, statusIds.Count, failedCount));
-
-                    var post = tab.Posts[statusId];
-
-                    if (post.IsFav)
-                        continue;
-
-                    try
-                    {
-                        this.tw.PostFavAdd(post.RetweetedId ?? post.StatusId);
-                    }
-                    catch (WebApiException)
-                    {
-                        failedCount++;
-                        continue;
-                    }
-
-                    successIds.Add(statusId);
-                    post.IsFav = true; // リスト再描画必要
+                    this.tw.PostFavAdd(post.RetweetedId ?? post.StatusId);
 
                     this._favTimestamps.Add(DateTime.Now);
 
@@ -2908,7 +2891,7 @@ namespace OpenTween
                         postTl.IsFav = true;
 
                         var favTab = this._statuses.GetTabByType(MyCommon.TabUsageType.Favorites);
-                        favTab.AddPostImmediately(statusId, postTl.IsRead);
+                        favTab.AddPostQueue(statusId, postTl.IsRead);
                     }
 
                     // 検索,リスト,UserTimeline,Relatedの各タブに反映
@@ -2917,6 +2900,13 @@ namespace OpenTween
                         if (tb.Contains(statusId))
                             tb.Posts[statusId].IsFav = true;
                     }
+
+                    p.Report(string.Format(Properties.Resources.GetTimelineWorker_RunWorkerCompletedText15, 1, 1, 0));
+                }
+                catch (WebApiException)
+                {
+                    p.Report(string.Format(Properties.Resources.GetTimelineWorker_RunWorkerCompletedText15, 1, 1, 1));
+                    throw;
                 }
 
                 // 時速表示用
@@ -2939,18 +2929,12 @@ namespace OpenTween
             {
                 using (ControlTransaction.Update(this._curList))
                 {
-                    foreach (var statusId in successIds)
-                    {
-                        var idx = tab.IndexOf(statusId);
-                        if (idx == -1)
-                            continue;
-
-                        var post = tab.Posts[statusId];
+                    var idx = tab.IndexOf(statusId);
+                    if (idx != -1)
                         this.ChangeCacheStyleRead(post.IsRead, idx);
-                    }
                 }
 
-                if (successIds.Contains(this._curPost.StatusId))
+                if (statusId == this._curPost.StatusId)
                     await this.DispSelectedPost(true); // 選択アイテム再表示
             }
         }
@@ -3495,7 +3479,7 @@ namespace OpenTween
             await this.FavoritesRetweetUnofficial();
         }
 
-        private async Task FavoriteChange(bool FavAdd , bool multiFavoriteChangeDialogEnable = true)
+        private async Task FavoriteChange(bool FavAdd, bool multiFavoriteChangeDialogEnable = true)
         {
             TabClass tab;
             if (!this._statuses.Tabs.TryGetValue(this._curTab.Text, out tab))
@@ -3505,69 +3489,56 @@ namespace OpenTween
             if (tab.TabType == MyCommon.TabUsageType.DirectMessage || _curList.SelectedIndices.Count == 0
                 || !this.ExistCurrentPost) return;
 
-            // 誤ふぁぼ・故意によるふぁぼ爆対策 (変更しないこと)
-            // https://support.twitter.com/articles/76915#favoriting
-            const int MultiSelectFavLimit = 1;
-
-            //複数fav確認msg
-            if (_curList.SelectedIndices.Count > MultiSelectFavLimit && FavAdd)
-            {
-                MessageBox.Show(string.Format(Properties.Resources.FavoriteLimitCountText, MultiSelectFavLimit));
-                _DoFavRetweetFlags = false;
-                return;
-            }
-            else if (multiFavoriteChangeDialogEnable && _curList.SelectedIndices.Count > 1)
+            if (this._curList.SelectedIndices.Count > 1)
             {
                 if (FavAdd)
                 {
-                    string QuestionText = Properties.Resources.FavAddToolStripMenuItem_ClickText1;
-                    if (_DoFavRetweetFlags) QuestionText = Properties.Resources.FavoriteRetweetQuestionText3;
-                    if (MessageBox.Show(QuestionText, Properties.Resources.FavAddToolStripMenuItem_ClickText2,
-                                       MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.Cancel)
+                    // 複数ツイートの一括ふぁぼは禁止
+                    // https://support.twitter.com/articles/76915#favoriting
+                    MessageBox.Show(string.Format(Properties.Resources.FavoriteLimitCountText, 1));
+                    _DoFavRetweetFlags = false;
+                    return;
+                }
+                else
+                {
+                    if (multiFavoriteChangeDialogEnable)
                     {
-                        _DoFavRetweetFlags = false;
-                        return;
+                        var confirm = MessageBox.Show(Properties.Resources.FavRemoveToolStripMenuItem_ClickText1,
+                            Properties.Resources.FavRemoveToolStripMenuItem_ClickText2,
+                            MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+
+                        if (confirm == DialogResult.Cancel)
+                            return;
                     }
                 }
-                else
-                {
-                    if (MessageBox.Show(Properties.Resources.FavRemoveToolStripMenuItem_ClickText1, Properties.Resources.FavRemoveToolStripMenuItem_ClickText2,
-                                    MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.Cancel)
-                    {
-                        return;
-                    }
-                }
-            }
-
-            var statusIds = new List<long>();
-            foreach (int idx in _curList.SelectedIndices)
-            {
-                PostClass post = GetCurTabPost(idx);
-                if (FavAdd)
-                {
-                    if (!post.IsFav)
-                        statusIds.Add(post.StatusId);
-                }
-                else
-                {
-                    if (post.IsFav)
-                        statusIds.Add(post.StatusId);
-                }
-            }
-            if (statusIds.Count == 0)
-            {
-                if (FavAdd)
-                    StatusLabel.Text = Properties.Resources.FavAddToolStripMenuItem_ClickText4;
-                else
-                    StatusLabel.Text = Properties.Resources.FavRemoveToolStripMenuItem_ClickText4;
-
-                return;
             }
 
             if (FavAdd)
-                await this.FavAddAsync(statusIds, tab);
+            {
+                var selectedPost = this.GetCurTabPost(_curList.SelectedIndices[0]);
+                if (selectedPost.IsFav)
+                {
+                    this.StatusLabel.Text = Properties.Resources.FavAddToolStripMenuItem_ClickText4;
+                    return;
+                }
+
+                await this.FavAddAsync(selectedPost.StatusId, tab);
+            }
             else
+            {
+                var selectedPosts = this._curList.SelectedIndices.Cast<int>()
+                    .Select(x => this.GetCurTabPost(x))
+                    .Where(x => x.IsFav);
+
+                var statusIds = selectedPosts.Select(x => x.StatusId).ToArray();
+                if (statusIds.Length == 0)
+                {
+                    this.StatusLabel.Text = Properties.Resources.FavRemoveToolStripMenuItem_ClickText4;
+                    return;
+                }
+
                 await this.FavRemoveAsync(statusIds, tab);
+            }
         }
 
         private PostClass GetCurTabPost(int Index)
