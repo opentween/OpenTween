@@ -116,6 +116,7 @@ namespace OpenTween
 
         //twitter解析部
         private Twitter tw = new Twitter();
+        private TwitterApi twitterApi = new TwitterApi();
 
         //Growl呼び出し部
         private GrowlHelper gh = new GrowlHelper(Application.ProductName);
@@ -399,6 +400,7 @@ namespace OpenTween
                 this.thumbnailTokenSource?.Dispose();
 
                 this.tw.Dispose();
+                this.twitterApi.Dispose();
                 this._hookGlobalHotkey.Dispose();
             }
 
@@ -779,6 +781,7 @@ namespace OpenTween
             //認証関連
             if (string.IsNullOrEmpty(this._cfgCommon.Token)) this._cfgCommon.UserName = "";
             tw.Initialize(this._cfgCommon.Token, this._cfgCommon.TokenSecret, this._cfgCommon.UserName, this._cfgCommon.UserId);
+            this.twitterApi.Initialize(this._cfgCommon.Token, this._cfgCommon.TokenSecret);
 
             _initial = true;
 
@@ -4113,6 +4116,8 @@ namespace OpenTween
                 settingDialog.IntervalChanged += this.TimerInterval_Changed;
 
                 settingDialog.tw = this.tw;
+                settingDialog.twitterApi = this.twitterApi;
+
                 settingDialog.LoadConfig(this._cfgCommon, this._cfgLocal);
 
                 try
@@ -4368,6 +4373,7 @@ namespace OpenTween
             {
                 // キャンセル時は Twitter クラスの認証情報を画面表示前の状態に戻す
                 this.tw.Initialize(oldUser.AccessToken, oldUser.AccessTokenSecret, oldUser.Username, oldUser.UserId);
+                this.twitterApi.Initialize(oldUser.AccessToken, oldUser.AccessTokenSecret);
             }
 
             Twitter.AccountState = MyCommon.ACCOUNT_STATE.Valid;

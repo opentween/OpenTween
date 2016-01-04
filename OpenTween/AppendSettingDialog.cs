@@ -48,6 +48,7 @@ namespace OpenTween
         public event EventHandler<IntervalChangedEventArgs> IntervalChanged;
 
         internal Twitter tw;
+        internal TwitterApi twitterApi;
 
         private bool _ValidationError = false;
 
@@ -111,6 +112,7 @@ namespace OpenTween
             {
                 var u = settingCommon.UserAccounts[userAccountIdx];
                 this.tw.Initialize(u.Token, u.TokenSecret, u.Username, u.UserId);
+                this.twitterApi.Initialize(u.Token, u.TokenSecret);
 
                 if (u.UserId == 0)
                 {

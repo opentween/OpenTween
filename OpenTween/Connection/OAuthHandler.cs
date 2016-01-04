@@ -41,12 +41,6 @@ namespace OpenTween.Connection
         public string AccessToken { get; }
         public string AccessSecret { get; }
 
-        [SuppressMessage("Microsoft.Reliability", "CA2000:DisposeObjectsBeforeLosingScope")]
-        public OAuthHandler(string consumerKey, string consumerSecret, string accessToken, string accessSecret)
-            : this(new HttpClientHandler(), consumerKey, consumerSecret, accessToken, accessSecret)
-        {
-        }
-
         public OAuthHandler(HttpMessageHandler innerHandler, string consumerKey, string consumerSecret, string accessToken, string accessSecret)
             : base(innerHandler)
         {
