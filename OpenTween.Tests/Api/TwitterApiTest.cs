@@ -22,8 +22,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using Moq;
+using OpenTween.Api.DataModel;
 using OpenTween.Connection;
 using Xunit;
 
@@ -57,6 +60,74 @@ namespace OpenTween.Api
                 apiConnection = (TwitterApiConnection)twitterApi.apiConnection;
                 Assert.Equal("*** AccessToken2 ***", apiConnection.AccessToken);
                 Assert.Equal("*** AccessSecret2 ***", apiConnection.AccessSecret);
+            }
+        }
+
+        [Fact]
+        public async Task StatusesShow_Test()
+        {
+            using (var twitterApi = new TwitterApi())
+            {
+                var mock = new Mock<IApiConnection>();
+                mock.Setup(x =>
+                    x.GetAsync<TwitterStatus>(
+                        new Uri("statuses/show/100.json", UriKind.Relative),
+                        new Dictionary<string, string> { { "include_entities", "true" } })
+                )
+                .ReturnsAsync(new TwitterStatus { Id = 100L });
+
+                twitterApi.apiConnection = mock.Object;
+
+                await twitterApi.StatusesShow(statusId: 100L)
+                    .ConfigureAwait(false);
+
+                mock.VerifyAll();
+            }
+        }
+
+        [Fact]
+        public async Task FavoritesCreate_Test()
+        {
+            using (var twitterApi = new TwitterApi())
+            {
+                var mock = new Mock<IApiConnection>();
+                mock.Setup(x =>
+                    x.PostLazyAsync<TwitterStatus>(
+                        new Uri("favorites/create.json", UriKind.Relative),
+                        new Dictionary<string, string> { { "id", "100" } })
+                )
+                .ReturnsAsync(LazyJson.Create(new TwitterStatus { Id = 100L }));
+
+                twitterApi.apiConnection = mock.Object;
+
+                await twitterApi.FavoritesCreate(statusId: 100L)
+                    .IgnoreResponse()
+                    .ConfigureAwait(false);
+
+                mock.VerifyAll();
+            }
+        }
+
+        [Fact]
+        public async Task FavoritesDestroy_Test()
+        {
+            using (var twitterApi = new TwitterApi())
+            {
+                var mock = new Mock<IApiConnection>();
+                mock.Setup(x =>
+                    x.PostLazyAsync<TwitterStatus>(
+                        new Uri("favorites/destroy.json", UriKind.Relative),
+                        new Dictionary<string, string> { { "id", "100" } })
+                )
+                .ReturnsAsync(LazyJson.Create(new TwitterStatus { Id = 100L }));
+
+                twitterApi.apiConnection = mock.Object;
+
+                await twitterApi.FavoritesDestroy(statusId: 100L)
+                    .IgnoreResponse()
+                    .ConfigureAwait(false);
+
+                mock.VerifyAll();
             }
         }
     }

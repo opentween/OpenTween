@@ -2855,7 +2855,7 @@ namespace OpenTween
             catch (WebApiException ex)
             {
                 this._myStatusError = true;
-                this.StatusLabel.Text = ex.Message;
+                this.StatusLabel.Text = $"Err:{ex.Message}(PostFavAdd)";
             }
             finally
             {
@@ -2878,13 +2878,24 @@ namespace OpenTween
             if (post.IsFav)
                 return;
 
-            await Task.Run(() =>
+            await Task.Run(async () =>
             {
                 p.Report(string.Format(Properties.Resources.GetTimelineWorker_RunWorkerCompletedText15, 0, 1, 0));
 
                 try
                 {
-                    this.tw.PostFavAdd(post.RetweetedId ?? post.StatusId);
+                    await this.twitterApi.FavoritesCreate(post.RetweetedId ?? post.StatusId)
+                        .IgnoreResponse()
+                        .ConfigureAwait(false);
+
+                    if (this._cfgCommon.RestrictFavCheck)
+                    {
+                        var status = await this.twitterApi.StatusesShow(post.RetweetedId ?? post.StatusId)
+                            .ConfigureAwait(false);
+
+                        if (status.Favorited != true)
+                            throw new WebApiException("NG(Restricted?)");
+                    }
 
                     this._favTimestamps.Add(DateTime.Now);
 
@@ -2956,7 +2967,7 @@ namespace OpenTween
             catch (WebApiException ex)
             {
                 this._myStatusError = true;
-                this.StatusLabel.Text = ex.Message;
+                this.StatusLabel.Text = $"Err:{ex.Message}(PostFavRemove)";
             }
             finally
             {
@@ -2974,7 +2985,7 @@ namespace OpenTween
 
             var successIds = new List<long>();
 
-            await Task.Run(() =>
+            await Task.Run(async () =>
             {
                 //スレッド処理はしない
                 var allCount = 0;
@@ -2992,7 +3003,9 @@ namespace OpenTween
 
                     try
                     {
-                        this.tw.PostFavRemove(post.RetweetedId ?? post.StatusId);
+                        await this.twitterApi.FavoritesDestroy(post.RetweetedId ?? post.StatusId)
+                            .IgnoreResponse()
+                            .ConfigureAwait(false);
                     }
                     catch (WebApiException)
                     {

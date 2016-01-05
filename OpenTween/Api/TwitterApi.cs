@@ -41,6 +41,39 @@ namespace OpenTween.Api
             oldInstance?.Dispose();
         }
 
+        public Task<TwitterStatus> StatusesShow(long statusId)
+        {
+            var endpoint = new Uri($"statuses/show/{statusId}.json", UriKind.Relative);
+            var param = new Dictionary<string, string>
+            {
+                ["include_entities"] = "true",
+            };
+
+            return this.apiConnection.GetAsync<TwitterStatus>(endpoint, param);
+        }
+
+        public Task<LazyJson<TwitterStatus>> FavoritesCreate(long statusId)
+        {
+            var endpoint = new Uri("favorites/create.json", UriKind.Relative);
+            var param = new Dictionary<string, string>
+            {
+                ["id"] = statusId.ToString(),
+            };
+
+            return this.apiConnection.PostLazyAsync<TwitterStatus>(endpoint, param);
+        }
+
+        public Task<LazyJson<TwitterStatus>> FavoritesDestroy(long statusId)
+        {
+            var endpoint = new Uri("favorites/destroy.json", UriKind.Relative);
+            var param = new Dictionary<string, string>
+            {
+                ["id"] = statusId.ToString(),
+            };
+
+            return this.apiConnection.PostLazyAsync<TwitterStatus>(endpoint, param);
+        }
+
         public void Dispose()
         {
             this.apiConnection?.Dispose();
