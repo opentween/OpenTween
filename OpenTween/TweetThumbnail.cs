@@ -66,6 +66,7 @@ namespace OpenTween
             var loadTasks = new List<Task>();
 
             this.scrollBar.Enabled = false;
+            this.scrollBar.Visible = false;
 
             if (post.ExpandedUrls.Length == 0 && post.Media.Count == 0 && post.PostGeo == null)
             {
@@ -103,7 +104,10 @@ namespace OpenTween
             }
 
             if (thumbnails.Length > 1)
+            {
                 this.scrollBar.Enabled = true;
+                this.scrollBar.Visible = true;
+            }
 
             this.ThumbnailLoading?.Invoke(this, EventArgs.Empty);
 
