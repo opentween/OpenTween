@@ -10573,7 +10573,11 @@ namespace OpenTween
                 {
                     if (link.GetAttribute("href") == this._postBrowserStatusText)
                     {
-                        Clipboard.SetDataObject(link.GetAttribute("title"), false, 5, 100);
+                        var linkStr = link.GetAttribute("title");
+                        if (string.IsNullOrEmpty(linkStr))
+                            linkStr = link.GetAttribute("href");
+
+                        Clipboard.SetDataObject(linkStr, false, 5, 100);
                         return;
                     }
                 }
