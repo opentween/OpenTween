@@ -167,7 +167,7 @@ namespace OpenTween.Thumbnail
 
                 // Instagram
                 new SimpleThumbnailService(
-                    @"^https?://(?:instagram.com|instagr\.am|i\.instagram\.com)/p/.+/",
+                    @"^https?://(?:instagram.com|instagr\.am|i\.instagram\.com|www\.instagram\.com)/p/.+/",
                     "${0}media/?size=m",
                     "${0}media/?size=l"),
 
