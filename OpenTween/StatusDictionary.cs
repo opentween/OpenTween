@@ -963,16 +963,18 @@ namespace OpenTween
 
                         // 通知サウンドは TabClass.Notify の値に関わらず鳴らす
                         // SettingCommon.PlaySound が false であれば TweenMain 側で無効化される
-
-                        int notifyPriority;
-                        if (!this.notifyPriorityByTabType.TryGetValue(tab.TabType, out notifyPriority))
-                            notifyPriority = 0;
-
-                        if (notifyPriority > currentNotifyPriority)
+                        if (!string.IsNullOrEmpty(tab.SoundFile))
                         {
-                            // より優先度の高い通知を再生する
-                            soundFile = tab.SoundFile;
-                            currentNotifyPriority = notifyPriority;
+                            int notifyPriority;
+                            if (!this.notifyPriorityByTabType.TryGetValue(tab.TabType, out notifyPriority))
+                                notifyPriority = 0;
+
+                            if (notifyPriority > currentNotifyPriority)
+                            {
+                                // より優先度の高い通知を再生する
+                                soundFile = tab.SoundFile;
+                                currentNotifyPriority = notifyPriority;
+                            }
                         }
                     }
 
