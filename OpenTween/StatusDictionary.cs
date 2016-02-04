@@ -2041,6 +2041,67 @@ namespace OpenTween
             return _ids.IndexOf(ID);
         }
 
+        public IEnumerable<int> SearchPostsAll(Func<string, bool> stringComparer)
+            => this.SearchPostsAll(stringComparer, reverse: false);
+
+        public IEnumerable<int> SearchPostsAll(Func<string, bool> stringComparer, int startIndex)
+            => this.SearchPostsAll(stringComparer, startIndex, reverse: false);
+
+        public IEnumerable<int> SearchPostsAll(Func<string, bool> stringComparer, bool reverse)
+        {
+            var startIndex = reverse ? this.AllCount - 1 : 0;
+
+            return this.SearchPostsAll(stringComparer, startIndex, reverse: false);
+        }
+
+        /// <summary>
+        /// タブ内の発言を指定された条件で検索します
+        /// </summary>
+        /// <param name="stringComparer">発言内容、スクリーン名、名前と比較する条件。マッチしたら true を返す</param>
+        /// <param name="startIndex">検索を開始する位置</param>
+        /// <param name="reverse">インデックスの昇順に検索する場合は false、降順の場合は true</param>
+        /// <returns></returns>
+        public IEnumerable<int> SearchPostsAll(Func<string, bool> stringComparer, int startIndex, bool reverse)
+        {
+            if (this.AllCount == 0)
+                yield break;
+
+            var searchIndices = Enumerable.Empty<int>();
+
+            if (!reverse)
+            {
+                // startindex ...末尾
+                if (startIndex != this.AllCount - 1)
+                    searchIndices = MyCommon.CountUp(startIndex, this.AllCount - 1);
+
+                // 先頭 ... (startIndex - 1)
+                if (startIndex != 0)
+                    searchIndices = searchIndices.Concat(MyCommon.CountUp(0, startIndex - 1));
+            }
+            else
+            {
+                // startIndex ... 先頭
+                if (startIndex != 0)
+                    searchIndices = MyCommon.CountDown(startIndex, 0);
+
+                // 末尾 ... (startIndex - 1)
+                if (startIndex != this.AllCount - 1)
+                    searchIndices = searchIndices.Concat(MyCommon.CountDown(this.AllCount - 1, startIndex - 1));
+            }
+
+            foreach (var index in searchIndices)
+            {
+                PostClass post;
+                if (!this.Posts.TryGetValue(this.GetId(index), out post))
+                    continue;
+
+                if (stringComparer(post.Nickname) || stringComparer(post.TextFromApi) || stringComparer(post.ScreenName))
+                {
+                    yield return index;
+                }
+            }
+        }
+
         [XmlIgnore]
         public bool FilterModified { get; set; }
 
