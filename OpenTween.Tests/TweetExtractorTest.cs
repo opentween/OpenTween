@@ -105,8 +105,9 @@ namespace OpenTween
         {
             var entity = TweetExtractor.ExtractMentionEntities("hogehoge @twitterapi").Single();
 
+            // Indices は「@twitterapi」の範囲を指すが、ScreenName には「@」を含めない
             Assert.Equal(new[] { 9, 20 }, entity.Indices);
-            Assert.Equal("@twitterapi", entity.ScreenName);
+            Assert.Equal("twitterapi", entity.ScreenName);
         }
 
         [Fact]
@@ -114,8 +115,9 @@ namespace OpenTween
         {
             var entity = TweetExtractor.ExtractMentionEntities("hogehoge @twitter/developers").Single();
 
+            // Indices は「@twitter/developers」の範囲を指すが、ScreenName には「@」を含めない
             Assert.Equal(new[] { 9, 28 }, entity.Indices);
-            Assert.Equal("@twitter/developers", entity.ScreenName);
+            Assert.Equal("twitter/developers", entity.ScreenName);
         }
 
         [Fact]
@@ -123,8 +125,9 @@ namespace OpenTween
         {
             var entity = TweetExtractor.ExtractHashtagEntities("hogehoge #test").Single();
 
+            // Indices は「#test」の範囲を指すが、Text には「#」を含めない
             Assert.Equal(new[] { 9, 14 }, entity.Indices);
-            Assert.Equal("#test", entity.Text);
+            Assert.Equal("test", entity.Text);
         }
     }
 }

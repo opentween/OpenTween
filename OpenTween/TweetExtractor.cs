@@ -115,7 +115,7 @@ namespace OpenTween
                 yield return new TwitterEntityMention
                 {
                     Indices = new[] { startPos, endPos },
-                    ScreenName = groupMention.Value,
+                    ScreenName = groupMention.Value.Substring(1), // 先頭の「@」は取り除く
                 };
             }
 
@@ -130,7 +130,7 @@ namespace OpenTween
                 yield return new TwitterEntityMention
                 {
                     Indices = new[] { startPos, endPos },
-                    ScreenName = groupMention.Value,
+                    ScreenName = groupMention.Value.Substring(1), // 先頭の「@」は取り除く
                 };
             }
         }
@@ -151,7 +151,7 @@ namespace OpenTween
                 yield return new TwitterEntityHashtag
                 {
                     Indices = new[] { startPos, endPos },
-                    Text = groupHashtagSharp.Value + groupHashtagText.Value,
+                    Text = groupHashtagText.Value,
                 };
             }
         }
