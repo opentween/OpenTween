@@ -2246,7 +2246,14 @@ namespace OpenTween
                 {
                     foreach (var m in entities.Media)
                     {
-                        if (!string.IsNullOrEmpty(m.DisplayUrl)) text = text.Replace(m.Url, m.DisplayUrl);
+                        if (m.AltText != null)
+                        {
+                            text = text.Replace(m.Url, string.Format(Properties.Resources.ImageAltText, m.AltText));
+                        }
+                        else
+                        {
+                            if (!string.IsNullOrEmpty(m.DisplayUrl)) text = text.Replace(m.Url, m.DisplayUrl);
+                        }
                     }
                 }
             }

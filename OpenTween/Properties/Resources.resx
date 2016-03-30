@@ -1189,4 +1189,7 @@
   <data name="SendErrorReport_DmSendError" xml:space="preserve">
     <value>DM の送信に失敗しました</value>
   </data>
+  <data name="ImageAltText" xml:space="preserve">
+    <value>[画像: {0}]</value>
+  </data>
 </root>

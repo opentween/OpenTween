@@ -1421,6 +1421,15 @@ namespace OpenTween.Properties {
         }
         
         /// <summary>
+        ///   [画像: {0}] に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ImageAltText {
+            get {
+                return ResourceManager.GetString("ImageAltText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
         internal static System.Drawing.Bitmap InitialImage {

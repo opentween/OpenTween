@@ -205,21 +205,16 @@ namespace OpenTween
             }
         }
 
-        public static void InitCulture(string code)
-        {
-            try
-            {
-                Thread.CurrentThread.CurrentUICulture = new CultureInfo(code);
-            }
-            catch (Exception)
-            {
-            }
-        }
         public static void InitCulture()
         {
             try
             {
-                if (CultureCode != "OS") Thread.CurrentThread.CurrentUICulture = new CultureInfo(CultureCode);
+                var culture = CultureInfo.CurrentCulture;
+                if (CultureCode != "OS")
+                    culture = new CultureInfo(CultureCode);
+
+                CultureInfo.DefaultThreadCurrentUICulture = culture;
+                Thread.CurrentThread.CurrentUICulture = culture;
             }
             catch (Exception)
             {

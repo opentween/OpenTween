@@ -1131,4 +1131,7 @@ Available service: {1}</value>
   <data name="SendErrorReport_DmSendError" xml:space="preserve">
     <value>Failed to send DM.</value>
   </data>
+  <data name="ImageAltText" xml:space="preserve">
+    <value>[Image: {0}]</value>
+  </data>
 </root>
