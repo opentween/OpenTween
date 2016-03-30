@@ -506,16 +506,18 @@ namespace OpenTween
     public class MediaInfo
     {
         public string Url { get; }
+        public string AltText { get; }
         public string VideoUrl { get; }
 
         public MediaInfo(string url)
-            : this(url, null)
+            : this(url, altText: null, videoUrl: null)
         {
         }
 
-        public MediaInfo(string url, string videoUrl)
+        public MediaInfo(string url, string altText, string videoUrl)
         {
             this.Url = url;
+            this.AltText = altText;
             this.VideoUrl = !string.IsNullOrEmpty(videoUrl) ? videoUrl : null;
         }
 

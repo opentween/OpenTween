@@ -158,6 +158,7 @@ namespace OpenTween
             param.Add("status", status);
             if (replyToId != null) param.Add("in_reply_to_status_id", replyToId.ToString());
             param.Add("include_entities", "true");
+            param.Add("include_ext_alt_text", "true");
             //if (AppendSettingDialog.Instance.ShortenTco && AppendSettingDialog.Instance.UrlConvertAuto) param.Add("wrap_links", "true")
 
             if (mediaIds != null && mediaIds.Count > 0)
@@ -178,6 +179,7 @@ namespace OpenTween
             param.Add("status", status);
             if (replyToId != null) param.Add("in_reply_to_status_id", replyToId.ToString());
             param.Add("include_entities", "true");
+            param.Add("include_ext_alt_text", "true");
             //if (AppendSettingDialog.Instance.ShortenTco && AppendSettingDialog.Instance.UrlConvertAuto) param.Add("wrap_links", "true")
 
             var binary = new List<KeyValuePair<string, IMediaItem>>();
@@ -253,6 +255,7 @@ namespace OpenTween
         {
             Dictionary<string, string> param = new Dictionary<string, string>();
             param.Add("include_entities", "true");
+            param.Add("include_ext_alt_text", "true");
 
             return httpCon.GetContent(PostMethod,
                 this.CreateTwitterUri("/1.1/statuses/retweet/" + id + ".json"),
@@ -267,6 +270,7 @@ namespace OpenTween
             Dictionary<string, string> param = new Dictionary<string, string>();
             param.Add("screen_name", screenName);
             param.Add("include_entities", "true");
+            param.Add("include_ext_alt_text", "true");
             return httpCon.GetContent(GetMethod,
                 this.CreateTwitterUri("/1.1/users/show.json"),
                 param,
@@ -358,6 +362,7 @@ namespace OpenTween
         {
             Dictionary<string, string> param = new Dictionary<string, string>();
             param.Add("include_entities", "true");
+            param.Add("include_ext_alt_text", "true");
             return httpCon.GetContent(GetMethod,
                 this.CreateTwitterUri("/1.1/statuses/show/" + id + ".json"),
                 param,
@@ -403,6 +408,7 @@ namespace OpenTween
                 param.Add("since_id", since_id.ToString());
 
             param.Add("include_entities", "true");
+            param.Add("include_ext_alt_text", "true");
 
             return httpCon.GetContent(GetMethod,
                 this.CreateTwitterUri("/1.1/statuses/home_timeline.json"),
@@ -432,6 +438,7 @@ namespace OpenTween
 
             param.Add("include_rts", "true");
             param.Add("include_entities", "true");
+            param.Add("include_ext_alt_text", "true");
 
             return httpCon.GetContent(GetMethod,
                 this.CreateTwitterUri("/1.1/statuses/user_timeline.json"),
@@ -452,6 +459,7 @@ namespace OpenTween
                 param.Add("since_id", since_id.ToString());
 
             param.Add("include_entities", "true");
+            param.Add("include_ext_alt_text", "true");
 
             return httpCon.GetContent(GetMethod,
                 this.CreateTwitterUri("/1.1/statuses/mentions_timeline.json"),
@@ -472,6 +480,7 @@ namespace OpenTween
                 param.Add("since_id", since_id.ToString());
             param.Add("full_text", "true");
             param.Add("include_entities", "true");
+            param.Add("include_ext_alt_text", "true");
 
             return httpCon.GetContent(GetMethod,
                 this.CreateTwitterUri("/1.1/direct_messages.json"),
@@ -492,6 +501,7 @@ namespace OpenTween
                 param.Add("since_id", since_id.ToString());
             param.Add("full_text", "true");
             param.Add("include_entities", "true");
+            param.Add("include_ext_alt_text", "true");
 
             return httpCon.GetContent(GetMethod,
                 this.CreateTwitterUri("/1.1/direct_messages/sent.json"),
@@ -507,6 +517,7 @@ namespace OpenTween
             if (count != null)
                 param.Add("count", count.ToString());
             param.Add("include_entities", "true");
+            param.Add("include_ext_alt_text", "true");
 
             return httpCon.GetContent(GetMethod,
                 this.CreateTwitterUri("/1.1/favorites/list.json"),
@@ -529,6 +540,7 @@ namespace OpenTween
 
             param.Add("result_type", "recent");
             param.Add("include_entities", "true");
+            param.Add("include_ext_alt_text", "true");
             return httpCon.GetContent(GetMethod,
                 this.CreateTwitterUri("/1.1/search/tweets.json"),
                 param,
@@ -656,6 +668,7 @@ namespace OpenTween
             if (since_id != null)
                 param.Add("since_id", since_id.ToString());
             param.Add("include_entities", "true");
+            param.Add("include_ext_alt_text", "true");
 
             return httpCon.GetContent(GetMethod,
                 this.CreateTwitterUri("/1.1/lists/statuses.json"),
@@ -771,6 +784,7 @@ namespace OpenTween
             param.Add("description", escapedDescription);
 
             param.Add("include_entities", "true");
+            param.Add("include_ext_alt_text", "true");
 
             return httpCon.GetContent(PostMethod,
                 this.CreateTwitterUri("/1.1/account/update_profile.json"),
