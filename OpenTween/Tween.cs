@@ -1678,15 +1678,7 @@ namespace OpenTween
             if (listSelection.SelectionMarkStatusId != null)
                 selectionMarkIndex = tab.IndexOf(listSelection.SelectionMarkStatusId.Value);
 
-            listView.SelectedIndexChanged -= this.MyList_SelectedIndexChanged;
-            try
-            {
-                this.SelectListItem(listView, selectedIndices, focusedIndex, selectionMarkIndex);
-            }
-            finally
-            {
-                listView.SelectedIndexChanged += this.MyList_SelectedIndexChanged;
-            }
+            this.SelectListItem(listView, selectedIndices, focusedIndex, selectionMarkIndex);
         }
 
         private bool BalloonRequired()
@@ -1940,17 +1932,14 @@ namespace OpenTween
             _curItemIndex = _curList.SelectedIndices[0];
             if (_curItemIndex > _curList.VirtualListSize - 1) return;
 
-            PostClass selectedPost;
             try
             {
-                selectedPost = GetCurTabPost(_curItemIndex);
+                this._curPost = GetCurTabPost(_curItemIndex);
             }
             catch (ArgumentException)
             {
                 return;
             }
-
-            this._curPost = selectedPost;
 
             this.PushSelectPostChain();
 
