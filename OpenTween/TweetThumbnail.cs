@@ -98,6 +98,7 @@ namespace OpenTween
                 if (!string.IsNullOrEmpty(tooltipText))
                 {
                     this.toolTip.SetToolTip(picbox, tooltipText);
+                    picbox.AccessibleDescription = tooltipText;
                 }
 
                 cancelToken.ThrowIfCancellationRequested();
@@ -185,6 +186,7 @@ namespace OpenTween
                 SizeMode = PictureBoxSizeMode.Zoom,
                 WaitOnLoad = false,
                 Dock = DockStyle.Fill,
+                AccessibleRole = AccessibleRole.Graphic,
             };
         }
 
