@@ -1,5 +1,5 @@
 ﻿// OpenTween - Client of Twitter
-// Copyright (c) 2015 spx (@5px)
+// Copyright (c) 2016 kim_upsilon (@kim_upsilon) <https://upsilo.net/~upsilon/>
 // All rights reserved.
 //
 // This file is part of OpenTween.
@@ -22,7 +22,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -30,49 +29,30 @@ using System.Threading.Tasks;
 
 namespace OpenTween.Thumbnail.Services
 {
-    /// <summary>
-    /// サムネイル用URLと動画用URLを用意する
-    /// </summary>
-    class TwitterComVideo : MetaThumbnailService
+    class PbsTwimgCom : SimpleThumbnailService
     {
-        public static readonly string UrlPattern = @"^https?://amp\.twimg\.com/v/.*$";
+        public static readonly string UrlPattern = @"^(https?://pbs\.twimg\.com/[^:]+)(?:\:.+)?$";
 
-        public TwitterComVideo()
-            : base(null, TwitterComVideo.UrlPattern)
-        {
-        }
-
-        public TwitterComVideo(HttpClient http)
-            : base(http, TwitterComVideo.UrlPattern)
+        public PbsTwimgCom()
+            : base(UrlPattern, "${1}", "${1}:orig")
         {
         }
 
         public override async Task<ThumbnailInfo> GetThumbnailInfoAsync(string url, PostClass post, CancellationToken token)
         {
-            // 前処理で動画用URLが準備されていればそれを使う
-            var mediaInfo = post.Media.FirstOrDefault(x => x.Url == url);
-            if (mediaInfo?.VideoUrl != null)
-            {
-                return new ThumbnailInfo
-                {
-                    MediaPageUrl = mediaInfo.VideoUrl,
-                    ThumbnailImageUrl = url,
-                    TooltipText = mediaInfo.AltText,
-                    IsPlayable = true,
-                };
-            }
-
-            // amp.twimg.com のメタデータからサムネイル用URLを取得する
-            var thumbInfo = await base.GetThumbnailInfoAsync(url, post, token)
+            var thumb = await base.GetThumbnailInfoAsync(url, post, token)
                 .ConfigureAwait(false);
 
-            if (thumbInfo != null)
+            if (thumb == null)
+                return null;
+
+            var media = post.Media.FirstOrDefault(x => x.Url == url);
+            if (media != null)
             {
-                thumbInfo.IsPlayable = true;
-                return thumbInfo;
+                thumb.TooltipText = media.AltText;
             }
 
-            return null;
+            return thumb;
         }
     }
 }

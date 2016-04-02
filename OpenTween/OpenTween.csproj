@@ -149,6 +149,7 @@
       <DependentUpon>SendErrorReportForm.cs</DependentUpon>
     </Compile>
     <Compile Include="ShortcutCommand.cs" />
+    <Compile Include="Thumbnail\Services\PbsTwimgCom.cs" />
     <Compile Include="TweetExtractor.cs" />
     <Compile Include="WaitingDialog.cs">
       <SubType>Form</SubType>

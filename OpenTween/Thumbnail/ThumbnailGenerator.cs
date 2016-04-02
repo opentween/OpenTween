@@ -55,10 +55,7 @@ namespace OpenTween.Thumbnail
                 new TwitterComVideo(),
 
                 // pic.twitter.com
-                new SimpleThumbnailService(
-                    @"^(https?://pbs\.twimg\.com/[^:]+)(?:\:.+)?$",
-                    "${1}",
-                    "${1}:orig"),
+                new PbsTwimgCom(),
 
                 // youtube
                 new Youtube(),
