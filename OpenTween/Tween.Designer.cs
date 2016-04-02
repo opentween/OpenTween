@@ -105,9 +105,10 @@
             this.ContextMenuSource = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.SourceCopyMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.SourceUrlCopyMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.TableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.StatusText = new System.Windows.Forms.TextBox();
-            this.lblLen = new System.Windows.Forms.Label();
             this.PostButton = new System.Windows.Forms.Button();
+            this.lblLen = new System.Windows.Forms.Label();
             this.tweetThumbnail1 = new OpenTween.TweetThumbnail();
             this.MenuStrip1 = new System.Windows.Forms.MenuStrip();
             this.MenuItemFile = new System.Windows.Forms.ToolStripMenuItem();
@@ -330,6 +331,7 @@
             this.ContextMenuUserPicture.SuspendLayout();
             this.ContextMenuPostBrowser.SuspendLayout();
             this.ContextMenuSource.SuspendLayout();
+            this.TableLayoutPanel2.SuspendLayout();
             this.MenuStrip1.SuspendLayout();
             this.ContextMenuFile.SuspendLayout();
             this.ContextMenuOperate.SuspendLayout();
@@ -694,9 +696,7 @@
             // 
             // SplitContainer2.Panel2
             // 
-            this.SplitContainer2.Panel2.Controls.Add(this.StatusText);
-            this.SplitContainer2.Panel2.Controls.Add(this.lblLen);
-            this.SplitContainer2.Panel2.Controls.Add(this.PostButton);
+            this.SplitContainer2.Panel2.Controls.Add(this.TableLayoutPanel2);
             this.SplitContainer2.Panel2.Resize += new System.EventHandler(this.SplitContainer2_Panel2_Resize);
             this.SplitContainer2.TabStop = false;
             this.SplitContainer2.SplitterMoved += new System.Windows.Forms.SplitterEventHandler(this.SplitContainer2_SplitterMoved);
@@ -1050,6 +1050,14 @@
             resources.ApplyResources(this.SourceUrlCopyMenuItem, "SourceUrlCopyMenuItem");
             this.SourceUrlCopyMenuItem.Click += new System.EventHandler(this.SourceUrlCopyMenuItem_Click);
             // 
+            // TableLayoutPanel2
+            // 
+            resources.ApplyResources(this.TableLayoutPanel2, "TableLayoutPanel2");
+            this.TableLayoutPanel2.Controls.Add(this.StatusText, 0, 0);
+            this.TableLayoutPanel2.Controls.Add(this.PostButton, 2, 0);
+            this.TableLayoutPanel2.Controls.Add(this.lblLen, 1, 0);
+            this.TableLayoutPanel2.Name = "TableLayoutPanel2";
+            // 
             // StatusText
             // 
             resources.ApplyResources(this.StatusText, "StatusText");
@@ -1062,11 +1070,6 @@
             this.StatusText.KeyUp += new System.Windows.Forms.KeyEventHandler(this.StatusText_KeyUp);
             this.StatusText.Leave += new System.EventHandler(this.StatusText_Leave);
             // 
-            // lblLen
-            // 
-            resources.ApplyResources(this.lblLen, "lblLen");
-            this.lblLen.Name = "lblLen";
-            // 
             // PostButton
             // 
             resources.ApplyResources(this.PostButton, "PostButton");
@@ -1075,6 +1078,11 @@
             this.PostButton.UseVisualStyleBackColor = true;
             this.PostButton.Click += new System.EventHandler(this.PostButton_Click);
             this.PostButton.KeyDown += new System.Windows.Forms.KeyEventHandler(this.PostButton_KeyDown);
+            // 
+            // lblLen
+            // 
+            resources.ApplyResources(this.lblLen, "lblLen");
+            this.lblLen.Name = "lblLen";
             // 
             // tweetThumbnail1
             // 
@@ -2487,7 +2495,6 @@
             this.SplitContainer3.ResumeLayout(false);
             this.SplitContainer2.Panel1.ResumeLayout(false);
             this.SplitContainer2.Panel2.ResumeLayout(false);
-            this.SplitContainer2.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.SplitContainer2)).EndInit();
             this.SplitContainer2.ResumeLayout(false);
             this.TableLayoutPanel1.ResumeLayout(false);
@@ -2496,6 +2503,8 @@
             this.ContextMenuUserPicture.ResumeLayout(false);
             this.ContextMenuPostBrowser.ResumeLayout(false);
             this.ContextMenuSource.ResumeLayout(false);
+            this.TableLayoutPanel2.ResumeLayout(false);
+            this.TableLayoutPanel2.PerformLayout();
             this.MenuStrip1.ResumeLayout(false);
             this.MenuStrip1.PerformLayout();
             this.ContextMenuFile.ResumeLayout(false);
@@ -2795,6 +2804,6 @@
         private ToolStripAPIGauge toolStripApiGauge;
         private System.Windows.Forms.ToolStripMenuItem CreateSourceRuleOpMenuItem;
         private System.Windows.Forms.ToolStripMenuItem SourceRuleMenuItem;
-
+        private System.Windows.Forms.TableLayoutPanel TableLayoutPanel2;
     }
 }
