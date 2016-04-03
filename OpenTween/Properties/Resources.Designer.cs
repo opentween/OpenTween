@@ -61,6 +61,15 @@ namespace OpenTween.Properties {
         }
         
         /// <summary>
+        ///   発言一覧 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string AddNewTab_ListView_AccessibleName {
+            get {
+                return ResourceManager.GetString("AddNewTab_ListView_AccessibleName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   (新規タブ) に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string AddNewTabText1 {

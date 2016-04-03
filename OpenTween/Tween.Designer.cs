@@ -714,6 +714,7 @@
             // 
             // UserPicture
             // 
+            this.UserPicture.AccessibleRole = System.Windows.Forms.AccessibleRole.Graphic;
             this.UserPicture.BackColor = System.Drawing.Color.White;
             this.UserPicture.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.UserPicture.ContextMenuStrip = this.ContextMenuUserPicture;

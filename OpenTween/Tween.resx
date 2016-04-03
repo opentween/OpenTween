@@ -295,6 +295,9 @@
   <data name="SplitContainer1.Orientation" type="System.Windows.Forms.Orientation, System.Windows.Forms">
     <value>Horizontal</value>
   </data>
+  <data name="TimelinePanel.AccessibleName" xml:space="preserve">
+    <value>発言一覧表示部</value>
+  </data>
   <data name="ListTab.Alignment" type="System.Windows.Forms.TabAlignment, System.Windows.Forms">
     <value>Bottom</value>
   </data>
@@ -520,8 +523,14 @@
   <data name="SplitContainer2.Orientation" type="System.Windows.Forms.Orientation, System.Windows.Forms">
     <value>Horizontal</value>
   </data>
+  <data name="TableLayoutPanel1.AccessibleName" xml:space="preserve">
+    <value>発言詳細部</value>
+  </data>
   <data name="TableLayoutPanel1.ColumnCount" type="System.Int32, mscorlib">
     <value>4</value>
+  </data>
+  <data name="UserPicture.AccessibleName" xml:space="preserve">
+    <value>プロフィール画像</value>
   </data>
   <metadata name="ContextMenuUserPicture.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 93</value>
@@ -617,7 +626,7 @@
     <value>Zoom</value>
   </data>
   <data name="UserPicture.TabIndex" type="System.Int32, mscorlib">
-    <value>5</value>
+    <value>0</value>
   </data>
   <data name="&gt;&gt;UserPicture.Name" xml:space="preserve">
     <value>UserPicture</value>
@@ -650,7 +659,7 @@
     <value>340, 14</value>
   </data>
   <data name="NameLabel.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
+    <value>1</value>
   </data>
   <data name="NameLabel.Text" xml:space="preserve">
     <value>LblName</value>
@@ -669,6 +678,9 @@
   </data>
   <data name="&gt;&gt;NameLabel.ZOrder" xml:space="preserve">
     <value>1</value>
+  </data>
+  <data name="PostBrowser.AccessibleName" xml:space="preserve">
+    <value>発言本文</value>
   </data>
   <metadata name="ContextMenuPostBrowser.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>189, 55</value>
@@ -836,7 +848,7 @@
     <value>449, 60</value>
   </data>
   <data name="PostBrowser.TabIndex" type="System.Int32, mscorlib">
-    <value>6</value>
+    <value>4</value>
   </data>
   <data name="&gt;&gt;PostBrowser.Name" xml:space="preserve">
     <value>PostBrowser</value>
@@ -997,8 +1009,14 @@
   <data name="SplitContainer2.Panel1MinSize" type="System.Int32, mscorlib">
     <value>0</value>
   </data>
+  <data name="TableLayoutPanel2.AccessibleName" xml:space="preserve">
+    <value>発言投稿部</value>
+  </data>
   <data name="TableLayoutPanel2.ColumnCount" type="System.Int32, mscorlib">
     <value>3</value>
+  </data>
+  <data name="StatusText.AccessibleName" xml:space="preserve">
+    <value>本文入力欄</value>
   </data>
   <data name="StatusText.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Top</value>
@@ -1059,6 +1077,9 @@
   </data>
   <data name="&gt;&gt;PostButton.ZOrder" xml:space="preserve">
     <value>1</value>
+  </data>
+  <data name="lblLen.AccessibleName" xml:space="preserve">
+    <value>残り文字数</value>
   </data>
   <data name="lblLen.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -1170,6 +1191,9 @@
   </data>
   <data name="&gt;&gt;SplitContainer3.Panel1.ZOrder" xml:space="preserve">
     <value>0</value>
+  </data>
+  <data name="tweetThumbnail1.AccessibleName" xml:space="preserve">
+    <value>サムネイル表示部</value>
   </data>
   <data name="tweetThumbnail1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
