@@ -139,7 +139,7 @@ namespace OpenTween
             var titleText = mediaEntity?.AltText ?? expandedUrl;
 
             // twitter.com へのリンクは t.co を経由せずに直接リンクする (但し pic.twitter.com はそのまま)
-            if (mediaEntity != null)
+            if (mediaEntity == null)
             {
                 if (entity.ExpandedUrl.StartsWith("https://twitter.com/", StringComparison.Ordinal) ||
                     entity.ExpandedUrl.StartsWith("http://twitter.com/", StringComparison.Ordinal))
