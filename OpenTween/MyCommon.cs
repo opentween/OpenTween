@@ -420,7 +420,7 @@ namespace OpenTween
                 var mainForm = Application.OpenForms.OfType<TweenMain>().FirstOrDefault();
 
                 ErrorReport report;
-                if (mainForm != null)
+                if (mainForm != null && !mainForm.IsDisposed)
                     report = new ErrorReport(mainForm.TwitterInstance, errorReport);
                 else
                     report = new ErrorReport(errorReport);
