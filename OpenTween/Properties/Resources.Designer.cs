@@ -61,6 +61,15 @@ namespace OpenTween.Properties {
         }
         
         /// <summary>
+        ///   発言一覧 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string AddNewTab_ListView_AccessibleName {
+            get {
+                return ResourceManager.GetString("AddNewTab_ListView_AccessibleName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   (新規タブ) に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string AddNewTabText1 {
@@ -1417,6 +1426,15 @@ namespace OpenTween.Properties {
         internal static string IDRuleMenuItem_ClickText7 {
             get {
                 return ResourceManager.GetString("IDRuleMenuItem_ClickText7", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   [画像: {0}] に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ImageAltText {
+            get {
+                return ResourceManager.GetString("ImageAltText", resourceCulture);
             }
         }
         

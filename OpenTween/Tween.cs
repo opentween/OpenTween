@@ -1011,6 +1011,11 @@ namespace OpenTween
             CopyURLMenuItem.ShortcutKeyDisplayString = "Ctrl+Shift+C";
             CopyUserIdStripMenuItem.ShortcutKeyDisplayString = "Shift+Alt+C";
 
+            // SourceLinkLabel のテキストが SplitContainer2.Panel2.AccessibleName にセットされるのを防ぐ
+            // （タブオーダー順で SourceLinkLabel の次にある PostBrowser が TabStop = false となっているため、
+            // さらに次のコントロールである SplitContainer2.Panel2 の AccessibleName がデフォルトで SourceLinkLabel のテキストになってしまう)
+            this.SplitContainer2.Panel2.AccessibleName = "";
+
             ////////////////////////////////////////////////////////////////////////////////
             var sortOrder = (SortOrder)_cfgCommon.SortOrder;
             var mode = ComparerMode.Id;
@@ -4617,6 +4622,7 @@ namespace OpenTween
                     var label = new Label();
                     label.Dock = DockStyle.Top;
                     label.Name = "labelUser";
+                    label.TabIndex = 0;
                     if (tabType == MyCommon.TabUsageType.Lists)
                     {
                         label.Text = listInfo.ToString();
@@ -4649,6 +4655,7 @@ namespace OpenTween
                         pnl.Controls.Add(btn);
                         pnl.Controls.Add(lbl);
                         pnl.Name = "panelSearch";
+                        pnl.TabIndex = 0;
                         pnl.Dock = DockStyle.Top;
                         pnl.Height = cmb.Height;
                         pnl.Enter += SearchControls_Enter;
@@ -4661,6 +4668,7 @@ namespace OpenTween
                         cmb.DropDownStyle = ComboBoxStyle.DropDown;
                         cmb.ImeMode = ImeMode.NoControl;
                         cmb.TabStop = false;
+                        cmb.TabIndex = 1;
                         cmb.AutoCompleteMode = AutoCompleteMode.None;
                         cmb.KeyDown += SearchComboBox_KeyDown;
 
@@ -4671,6 +4679,7 @@ namespace OpenTween
                         cmbLang.Name = "comboLang";
                         cmbLang.DropDownStyle = ComboBoxStyle.DropDownList;
                         cmbLang.TabStop = false;
+                        cmbLang.TabIndex = 2;
                         cmbLang.Items.Add("");
                         cmbLang.Items.Add("ja");
                         cmbLang.Items.Add("en");
@@ -4698,12 +4707,14 @@ namespace OpenTween
                         lbl.Width = 90;
                         lbl.Height = cmb.Height;
                         lbl.TextAlign = ContentAlignment.MiddleLeft;
+                        lbl.TabIndex = 0;
 
                         btn.Text = "Search";
                         btn.Name = "buttonSearch";
                         btn.UseVisualStyleBackColor = true;
                         btn.Dock = DockStyle.Right;
                         btn.TabStop = false;
+                        btn.TabIndex = 3;
                         btn.Click += SearchButton_Click;
 
                         TabClass tab;
@@ -4733,6 +4744,8 @@ namespace OpenTween
                 _tabPage.UseVisualStyleBackColor = true;
                 _tabPage.AccessibleRole = AccessibleRole.PageTab;
 
+                _listCustom.AccessibleName = Properties.Resources.AddNewTab_ListView_AccessibleName;
+                _listCustom.TabIndex = 1;
                 _listCustom.AllowColumnReorder = true;
                 _listCustom.ContextMenuStrip = this.ContextMenuOperate;
                 _listCustom.ColumnHeaderContextMenuStrip = this.ContextMenuColumnHeader;

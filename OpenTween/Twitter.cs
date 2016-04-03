@@ -2246,7 +2246,14 @@ namespace OpenTween
                 {
                     foreach (var m in entities.Media)
                     {
-                        if (!string.IsNullOrEmpty(m.DisplayUrl)) text = text.Replace(m.Url, m.DisplayUrl);
+                        if (m.AltText != null)
+                        {
+                            text = text.Replace(m.Url, string.Format(Properties.Resources.ImageAltText, m.AltText));
+                        }
+                        else
+                        {
+                            if (!string.IsNullOrEmpty(m.DisplayUrl)) text = text.Replace(m.Url, m.DisplayUrl);
+                        }
                     }
                 }
             }
@@ -2716,10 +2723,10 @@ namespace OpenTween
                                     //    .Where(v => v.ContentType == "video/mp4")
                                     //    .OrderByDescending(v => v.Bitrate)
                                     //    .Select(v => v.Url).FirstOrDefault();
-                                    media.Add(new MediaInfo(ent.MediaUrl, ent.ExpandedUrl));
+                                    media.Add(new MediaInfo(ent.MediaUrl, ent.AltText, ent.ExpandedUrl));
                                 }
                                 else
-                                    media.Add(new MediaInfo(ent.MediaUrl));
+                                    media.Add(new MediaInfo(ent.MediaUrl, ent.AltText, videoUrl: null));
                             }
                         }
                     }

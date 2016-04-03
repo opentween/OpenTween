@@ -211,6 +211,9 @@
   <data name="ToolStripContainer1.BottomToolStripPanel.ToolTip" xml:space="preserve">
     <value />
   </data>
+  <data name="TimelinePanel.AccessibleName" xml:space="preserve">
+    <value>PostsListArea</value>
+  </data>
   <data name="AddTabMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>247, 24</value>
   </data>
@@ -301,6 +304,12 @@
   <data name="SplitContainer1.Panel1.ToolTip" xml:space="preserve">
     <value />
   </data>
+  <data name="TableLayoutPanel1.AccessibleName" xml:space="preserve">
+    <value>PostDetailsArea</value>
+  </data>
+  <data name="UserPicture.AccessibleName" xml:space="preserve">
+    <value>ProfileImage</value>
+  </data>
   <data name="FollowToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>286, 24</value>
   </data>
@@ -375,6 +384,9 @@
   </data>
   <data name="NameLabel.ToolTip" xml:space="preserve">
     <value />
+  </data>
+  <data name="PostBrowser.AccessibleName" xml:space="preserve">
+    <value>PostBody</value>
   </data>
   <data name="SearchGoogleContextMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>216, 24</value>
@@ -553,14 +565,23 @@
   <data name="SplitContainer2.Panel1.ToolTip" xml:space="preserve">
     <value />
   </data>
+  <data name="TableLayoutPanel2.AccessibleName" xml:space="preserve">
+    <value>PostComposeArea</value>
+  </data>
   <data name="StatusText.Size" type="System.Drawing.Size, System.Drawing">
     <value>452, 22</value>
+  </data>
+  <data name="StatusText.AccessibleName" xml:space="preserve">
+    <value>PostBodyInput</value>
   </data>
   <data name="StatusText.ToolTip" xml:space="preserve">
     <value />
   </data>
   <data name="lblLen.Location" type="System.Drawing.Point, System.Drawing">
     <value>452, 0</value>
+  </data>
+  <data name="lblLen.AccessibleName" xml:space="preserve">
+    <value>RemainCharacterLength</value>
   </data>
   <data name="lblLen.ToolTip" xml:space="preserve">
     <value />
@@ -586,6 +607,9 @@
   </data>
   <data name="SplitContainer3.Panel1.ToolTip" xml:space="preserve">
     <value />
+  </data>
+  <data name="tweetThumbnail1.AccessibleName" xml:space="preserve">
+    <value>ThumbnailArea</value>
   </data>
   <data name="tweetThumbnail1.Size" type="System.Drawing.Size, System.Drawing">
     <value>55, 170</value>
