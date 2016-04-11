@@ -13163,6 +13163,10 @@ namespace OpenTween
             {
                 this.StatusLabel.Text = "Err:" + e.Message;
             }
+            catch (OperationCanceledException)
+            {
+                this.StatusLabel.Text = "Err:Timeout";
+            }
         }
 
         private async void TranslationToolStripMenuItem_Click(object sender, EventArgs e)
