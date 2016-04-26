@@ -61,6 +61,15 @@ namespace OpenTween.Properties {
         }
         
         /// <summary>
+        ///   発言一覧 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string AddNewTab_ListView_AccessibleName {
+            get {
+                return ResourceManager.GetString("AddNewTab_ListView_AccessibleName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   (新規タブ) に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string AddNewTabText1 {
@@ -634,17 +643,17 @@ namespace OpenTween.Properties {
         /// <summary>
         ///   更新履歴
         ///
-        ///==== Ver 1.3.2-dev(2016/xx/xx)
+        ///==== Ver 1.3.3-dev(2016/xx/xx)
         ///
-        ///==== Ver 1.3.1(2015/12/28)
-        /// * CHG: ツイート投稿時に意図せずTwitterがSMSコマンドとして解釈することを防ぐ「SMSコマンドを回避する」オプションを追加
-        ///  - D, DM および M から始まるツイートを投稿するとSMSコマンドと解釈されてエラーとなる問題を回避します
-        ///  - v1.2.9 までの「APIコマンドを回避する」と異なり、末尾にピリオドを追加するのではなくゼロ幅スペース (U+200B) を使うため表示上目立ちにくくなりました
-        ///  - 画面右下の「▼」のメニューから無効にできます（デフォルトで有効）
-        /// * CHG: 発言詳細部にリプライ先のツイートを表示する際は赤枠で表示し、引用ツイートと区別できるようにしました
-        /// * FIX: リストおよび検索のタブでミュート設定が適用されない不具合を修正 (thx @Tan90909090!)
-        /// * FIX: 「このタブの発言をクリア」を実行時にエラーが発生する不具合を修正
-        /// * FIX: 各タブの「新着通知表示」が無効 [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
+        ///==== Ver 1.3.2(2016/04/12)
+        /// * NEW: touch.pixiv.net のサムネイル表示に対応 (pixiv.net は既に対応しています)
+        /// * NEW: pic.twitter.com の画像に設定された代替テキストの取得に対応
+        ///  - 代替テキストが設定された画像の場合、発言一覧に含まれる画像 URL が代替テキストに置き換わって表示されます
+        /// * CHG: スクリーンリーダーでの画面の読み上げを改善
+        /// * FIX: 投稿欄の複数行入力が有効かつCtrl+Enterで投稿する設定の状態でハッシュタグの自動付与が行われない不具合を修正 (thx @nt776!)
+        /// * FIX: タブレット端末などでサムネイル画像が1枚のみ表示された状態で2本指スクロールするとエラーが発生する問題を回避
+        /// * FIX: 発言詳細部に表示されるハッシュタグやメンションで「URLをコピー」が機能しない不具合を修正 (thx @ufoprincess!)
+        /// * FIX: 複数のタブで同時に新着ツイート [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ChangeLog {
             get {
@@ -1417,6 +1426,15 @@ namespace OpenTween.Properties {
         internal static string IDRuleMenuItem_ClickText7 {
             get {
                 return ResourceManager.GetString("IDRuleMenuItem_ClickText7", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   [画像: {0}] に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string ImageAltText {
+            get {
+                return ResourceManager.GetString("ImageAltText", resourceCulture);
             }
         }
         

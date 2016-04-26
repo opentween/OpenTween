@@ -408,6 +408,37 @@ namespace OpenTween
         }
 
         [Fact]
+        public void SubmitUpdate_IgnoreEmptySoundPath_Test()
+        {
+            var homeTab = this.tabinfo.GetTabByType(MyCommon.TabUsageType.Home);
+            homeTab.UnreadManage = true;
+            homeTab.SoundFile = "home.wav";
+
+            var replyTab = this.tabinfo.GetTabByType(MyCommon.TabUsageType.Mentions);
+            replyTab.UnreadManage = true;
+            replyTab.SoundFile = "";
+
+            // 通常ツイート
+            this.tabinfo.AddPost(new PostClass { StatusId = 100L, IsRead = false });
+
+            // リプライ
+            this.tabinfo.AddPost(new PostClass { StatusId = 200L, IsReply = true, IsRead = false });
+
+            this.tabinfo.DistributePosts();
+
+            string soundFile;
+            PostClass[] notifyPosts;
+            bool newMentionOrDm, isDeletePost;
+            this.tabinfo.SubmitUpdate(out soundFile, out notifyPosts, out newMentionOrDm, out isDeletePost);
+
+            // リプライの方が通知音の優先度が高いが、replyTab.SoundFile が空文字列なので次点の Recent の通知音を鳴らす
+            Assert.Equal("home.wav", soundFile);
+
+            // 通知対象のツイートは 2 件
+            Assert.Equal(2, notifyPosts.Length);
+        }
+
+        [Fact]
         public void FilterAll_CopyFilterTest()
         {
             var homeTab = this.tabinfo.GetTabByType(MyCommon.TabUsageType.Home);

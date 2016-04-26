@@ -107,6 +107,7 @@
     <Compile Include="Thumbnail\Services\FoursquareCheckinTest.cs" />
     <Compile Include="Thumbnail\Services\ImgAzyobuziNetTest.cs" />
     <Compile Include="Thumbnail\Services\MetaThumbnailServiceTest.cs" />
+    <Compile Include="Thumbnail\Services\PixivTest.cs" />
     <Compile Include="Thumbnail\Services\SimpleThumbnailServiceTest.cs" />
     <Compile Include="Thumbnail\Services\TinamiTest.cs" />
     <Compile Include="Thumbnail\Services\TumblrTest.cs" />

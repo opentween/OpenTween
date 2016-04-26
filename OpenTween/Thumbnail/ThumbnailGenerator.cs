@@ -55,10 +55,7 @@ namespace OpenTween.Thumbnail
                 new TwitterComVideo(),
 
                 // pic.twitter.com
-                new SimpleThumbnailService(
-                    @"^(https?://pbs\.twimg\.com/[^:]+)(?:\:.+)?$",
-                    "${1}",
-                    "${1}:orig"),
+                new PbsTwimgCom(),
 
                 // youtube
                 new Youtube(),
@@ -167,7 +164,7 @@ namespace OpenTween.Thumbnail
 
                 // Instagram
                 new SimpleThumbnailService(
-                    @"^https?://(?:instagram.com|instagr\.am|i\.instagram\.com)/p/.+/",
+                    @"^https?://(?:instagram.com|instagr\.am|i\.instagram\.com|www\.instagram\.com)/p/.+/",
                     "${0}media/?size=m",
                     "${0}media/?size=l"),
 

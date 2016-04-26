@@ -1014,6 +1014,11 @@ namespace OpenTween
             CopyURLMenuItem.ShortcutKeyDisplayString = "Ctrl+Shift+C";
             CopyUserIdStripMenuItem.ShortcutKeyDisplayString = "Shift+Alt+C";
 
+            // SourceLinkLabel のテキストが SplitContainer2.Panel2.AccessibleName にセットされるのを防ぐ
+            // （タブオーダー順で SourceLinkLabel の次にある PostBrowser が TabStop = false となっているため、
+            // さらに次のコントロールである SplitContainer2.Panel2 の AccessibleName がデフォルトで SourceLinkLabel のテキストになってしまう)
+            this.SplitContainer2.Panel2.AccessibleName = "";
+
             ////////////////////////////////////////////////////////////////////////////////
             var sortOrder = (SortOrder)_cfgCommon.SortOrder;
             var mode = ComparerMode.Id;
@@ -1681,15 +1686,7 @@ namespace OpenTween
             if (listSelection.SelectionMarkStatusId != null)
                 selectionMarkIndex = tab.IndexOf(listSelection.SelectionMarkStatusId.Value);
 
-            listView.SelectedIndexChanged -= this.MyList_SelectedIndexChanged;
-            try
-            {
-                this.SelectListItem(listView, selectedIndices, focusedIndex, selectionMarkIndex);
-            }
-            finally
-            {
-                listView.SelectedIndexChanged += this.MyList_SelectedIndexChanged;
-            }
+            this.SelectListItem(listView, selectedIndices, focusedIndex, selectionMarkIndex);
         }
 
         private bool BalloonRequired()
@@ -1943,17 +1940,14 @@ namespace OpenTween
             _curItemIndex = _curList.SelectedIndices[0];
             if (_curItemIndex > _curList.VirtualListSize - 1) return;
 
-            PostClass selectedPost;
             try
             {
-                selectedPost = GetCurTabPost(_curItemIndex);
+                this._curPost = GetCurTabPost(_curItemIndex);
             }
             catch (ArgumentException)
             {
                 return;
             }
-
-            this._curPost = selectedPost;
 
             this.PushSelectPostChain();
 
@@ -4647,6 +4641,7 @@ namespace OpenTween
                     var label = new Label();
                     label.Dock = DockStyle.Top;
                     label.Name = "labelUser";
+                    label.TabIndex = 0;
                     if (tabType == MyCommon.TabUsageType.Lists)
                     {
                         label.Text = listInfo.ToString();
@@ -4679,6 +4674,7 @@ namespace OpenTween
                         pnl.Controls.Add(btn);
                         pnl.Controls.Add(lbl);
                         pnl.Name = "panelSearch";
+                        pnl.TabIndex = 0;
                         pnl.Dock = DockStyle.Top;
                         pnl.Height = cmb.Height;
                         pnl.Enter += SearchControls_Enter;
@@ -4691,6 +4687,7 @@ namespace OpenTween
                         cmb.DropDownStyle = ComboBoxStyle.DropDown;
                         cmb.ImeMode = ImeMode.NoControl;
                         cmb.TabStop = false;
+                        cmb.TabIndex = 1;
                         cmb.AutoCompleteMode = AutoCompleteMode.None;
                         cmb.KeyDown += SearchComboBox_KeyDown;
 
@@ -4701,6 +4698,7 @@ namespace OpenTween
                         cmbLang.Name = "comboLang";
                         cmbLang.DropDownStyle = ComboBoxStyle.DropDownList;
                         cmbLang.TabStop = false;
+                        cmbLang.TabIndex = 2;
                         cmbLang.Items.Add("");
                         cmbLang.Items.Add("ja");
                         cmbLang.Items.Add("en");
@@ -4728,12 +4726,14 @@ namespace OpenTween
                         lbl.Width = 90;
                         lbl.Height = cmb.Height;
                         lbl.TextAlign = ContentAlignment.MiddleLeft;
+                        lbl.TabIndex = 0;
 
                         btn.Text = "Search";
                         btn.Name = "buttonSearch";
                         btn.UseVisualStyleBackColor = true;
                         btn.Dock = DockStyle.Right;
                         btn.TabStop = false;
+                        btn.TabIndex = 3;
                         btn.Click += SearchButton_Click;
 
                         TabClass tab;
@@ -4763,6 +4763,8 @@ namespace OpenTween
                 _tabPage.UseVisualStyleBackColor = true;
                 _tabPage.AccessibleRole = AccessibleRole.PageTab;
 
+                _listCustom.AccessibleName = Properties.Resources.AddNewTab_ListView_AccessibleName;
+                _listCustom.TabIndex = 1;
                 _listCustom.AllowColumnReorder = true;
                 _listCustom.ContextMenuStrip = this.ContextMenuOperate;
                 _listCustom.ColumnHeaderContextMenuStrip = this.ContextMenuColumnHeader;
@@ -5718,152 +5720,65 @@ namespace OpenTween
         //    }
         //}
 
-        private void DoTabSearch(string _word,
-                                 bool CaseSensitive,
-                                 bool UseRegex,
-                                 SEARCHTYPE SType)
+        private void DoTabSearch(string searchWord, bool caseSensitive, bool useRegex, SEARCHTYPE searchType)
         {
-            int cidx = 0;
-            bool fnd = false;
-            int toIdx;
-            int stp = 1;
+            var tab = this._statuses.Tabs[this._curTab.Text];
 
-            if (_curList.VirtualListSize == 0)
+            if (tab.AllCount == 0)
             {
                 MessageBox.Show(Properties.Resources.DoTabSearchText2, Properties.Resources.DoTabSearchText3, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
             }
 
-            if (_curList.SelectedIndices.Count > 0)
-            {
-                cidx = _curList.SelectedIndices[0];
-            }
-            toIdx = _curList.VirtualListSize;
+            var selectedIndex = this._curList.SelectedIndices.Count != 0 ? this._curList.SelectedIndices[0] : -1;
 
-            switch (SType)
+            int startIndex;
+            switch (searchType)
             {
-                case SEARCHTYPE.DialogSearch:    //ダイアログからの検索
-                    if (_curList.SelectedIndices.Count > 0)
-                        cidx = _curList.SelectedIndices[0];
+                case SEARCHTYPE.NextSearch: // 次を検索
+                    if (selectedIndex != -1)
+                        startIndex = Math.Min(selectedIndex + 1, tab.AllCount - 1);
                     else
-                        cidx = 0;
+                        startIndex = 0;
                     break;
-                case SEARCHTYPE.NextSearch:      //次を検索
-                    if (_curList.SelectedIndices.Count > 0)
-                    {
-                        cidx = _curList.SelectedIndices[0] + 1;
-                        if (cidx > toIdx) cidx = toIdx;
-                    }
+                case SEARCHTYPE.PrevSearch: // 前を検索
+                    if (selectedIndex != -1)
+                        startIndex = Math.Max(selectedIndex - 1, 0);
                     else
-                    {
-                        cidx = 0;
-                    }
+                        startIndex = tab.AllCount - 1;
                     break;
-                case SEARCHTYPE.PrevSearch:      //前を検索
-                    if (_curList.SelectedIndices.Count > 0)
-                    {
-                        cidx = _curList.SelectedIndices[0] - 1;
-                        if (cidx < 0) cidx = 0;
-                    }
+                case SEARCHTYPE.DialogSearch: // ダイアログからの検索
+                default:
+                    if (selectedIndex != -1)
+                        startIndex = selectedIndex;
                     else
-                    {
-                        cidx = toIdx;
-                    }
-                    toIdx = -1;
-                    stp = -1;
+                        startIndex = 0;
                     break;
             }
 
-            RegexOptions regOpt = RegexOptions.None;
-            StringComparison fndOpt = StringComparison.Ordinal;
-            if (!CaseSensitive)
-            {
-                regOpt = RegexOptions.IgnoreCase;
-                fndOpt = StringComparison.OrdinalIgnoreCase;
-            }
+            Func<string, bool> stringComparer;
             try
             {
-    RETRY:
-                if (UseRegex)
-                {
-                    // 正規表現検索
-                    Regex _search;
-                    try
-                    {
-                        _search = new Regex(_word, regOpt);
-                        for (int idx = cidx; idx != toIdx; idx += stp)
-                        {
-                            PostClass post;
-                            try
-                            {
-                                post = _statuses.Tabs[_curTab.Text][idx];
-                            }
-                            catch (Exception)
-                            {
-                                continue;
-                            }
-                            if (_search.IsMatch(post.Nickname)
-                                || _search.IsMatch(post.TextFromApi)
-                                || _search.IsMatch(post.ScreenName))
-                            {
-                                SelectListItem(_curList, idx);
-                                _curList.EnsureVisible(idx);
-                                return;
-                            }
-                        }
-                    }
-                    catch (ArgumentException)
-                    {
-                        MessageBox.Show(Properties.Resources.DoTabSearchText1, "", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        return;
-                    }
-                }
-                else
-                {
-                    // 通常検索
-                    for (int idx = cidx; idx != toIdx; idx += stp)
-                    {
-                        PostClass post;
-                        try
-                        {
-                            post = _statuses.Tabs[_curTab.Text][idx];
-                        }
-                        catch (Exception)
-                        {
-                            continue;
-                        }
-                        if (post.Nickname.IndexOf(_word, fndOpt) > -1
-                            || post.TextFromApi.IndexOf(_word, fndOpt) > -1
-                            || post.ScreenName.IndexOf(_word, fndOpt) > -1)
-                        {
-                            SelectListItem(_curList, idx);
-                            _curList.EnsureVisible(idx);
-                            return;
-                        }
-                    }
-                }
-
-                if (!fnd)
-                {
-                    switch (SType)
-                    {
-                        case SEARCHTYPE.DialogSearch:
-                        case SEARCHTYPE.NextSearch:
-                            toIdx = cidx;
-                            cidx = 0;
-                            break;
-                        case SEARCHTYPE.PrevSearch:
-                            toIdx = cidx;
-                            cidx = _curList.VirtualListSize - 1;
-                            break;
-                    }
-                    fnd = true;
-                    goto RETRY;
-                }
+                stringComparer = this.CreateSearchComparer(searchWord, useRegex, caseSensitive);
             }
-            catch (ArgumentOutOfRangeException)
+            catch (ArgumentException)
             {
+                MessageBox.Show(Properties.Resources.DoTabSearchText1, Properties.Resources.DoTabSearchText3, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
             }
-            MessageBox.Show(Properties.Resources.DoTabSearchText2, Properties.Resources.DoTabSearchText3, MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+            var reverse = searchType == SEARCHTYPE.PrevSearch;
+            var foundIndex = tab.SearchPostsAll(stringComparer, startIndex, reverse)
+                .DefaultIfEmpty(-1).First();
+
+            if (foundIndex == -1)
+            {
+                MessageBox.Show(Properties.Resources.DoTabSearchText2, Properties.Resources.DoTabSearchText3, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            this.SelectListItem(this._curList, foundIndex);
+            this._curList.EnsureVisible(foundIndex);
         }
 
         private void MenuItemSubSearch_Click(object sender, EventArgs e)
@@ -5939,20 +5854,30 @@ namespace OpenTween
                     this.AddNewTab(tabName, false, MyCommon.TabUsageType.SearchResults);
                     this._statuses.AddTab(tabName, MyCommon.TabUsageType.SearchResults, null);
 
-                    var filter = new PostFilterRule
-                    {
-                        FilterBody = new[] { searchOptions.Query },
-                        UseRegex = searchOptions.UseRegex,
-                        CaseSensitive = searchOptions.CaseSensitive,
-                    };
-
                     var targetTab = this._statuses.Tabs[this._curTab.Text];
-                    var posts = targetTab.Posts.Values
-                        .Where(x => filter.ExecFilter(x) == MyCommon.HITRESULT.CopyAndMark)
-                        .Where(x => targetTab.Contains(x.StatusId));
+
+                    Func<string, bool> stringComparer;
+                    try
+                    {
+                        stringComparer = this.CreateSearchComparer(searchOptions.Query, searchOptions.UseRegex, searchOptions.CaseSensitive);
+                    }
+                    catch (ArgumentException)
+                    {
+                        MessageBox.Show(Properties.Resources.DoTabSearchText1, Properties.Resources.DoTabSearchText3, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+
+                    var foundIndices = targetTab.SearchPostsAll(stringComparer).ToArray();
+                    if (foundIndices.Length == 0)
+                    {
+                        MessageBox.Show(Properties.Resources.DoTabSearchText2, Properties.Resources.DoTabSearchText3, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        return;
+                    }
+
+                    var foundPosts = foundIndices.Select(x => targetTab[x]);
 
                     var resultTab = this._statuses.Tabs[tabName];
-                    foreach (var post in posts)
+                    foreach (var post in foundPosts)
                     {
                         resultTab.AddPostToInnerStorage(post);
                     }
@@ -5977,6 +5902,27 @@ namespace OpenTween
             else if (searchOptions.Type == SearchWordDialog.SearchType.Public)
             {
                 this.AddNewTabForSearch(searchOptions.Query);
+            }
+        }
+
+        /// <summary>発言検索に使用するメソッドを生成します</summary>
+        /// <exception cref="ArgumentException">
+        /// <paramref name="useRegex"/> が true かつ、<paramref name="query"> が不正な正規表現な場合
+        /// </exception>
+        private Func<string, bool> CreateSearchComparer(string query, bool useRegex, bool caseSensitive)
+        {
+            if (useRegex)
+            {
+                var regexOption = caseSensitive ? RegexOptions.None : RegexOptions.IgnoreCase;
+                var regex = new Regex(query, regexOption);
+
+                return x => regex.IsMatch(x);
+            }
+            else
+            {
+                var comparisonType = caseSensitive ? StringComparison.CurrentCulture : StringComparison.CurrentCultureIgnoreCase;
+
+                return x => x.IndexOf(query, comparisonType) != -1;
             }
         }
 
@@ -10592,7 +10538,11 @@ namespace OpenTween
                 {
                     if (link.GetAttribute("href") == this._postBrowserStatusText)
                     {
-                        Clipboard.SetDataObject(link.GetAttribute("title"), false, 5, 100);
+                        var linkStr = link.GetAttribute("title");
+                        if (string.IsNullOrEmpty(linkStr))
+                            linkStr = link.GetAttribute("href");
+
+                        Clipboard.SetDataObject(linkStr, false, 5, 100);
                         return;
                     }
                 }
@@ -13231,6 +13181,10 @@ namespace OpenTween
             catch (HttpRequestException e)
             {
                 this.StatusLabel.Text = "Err:" + e.Message;
+            }
+            catch (OperationCanceledException)
+            {
+                this.StatusLabel.Text = "Err:Timeout";
             }
         }
 

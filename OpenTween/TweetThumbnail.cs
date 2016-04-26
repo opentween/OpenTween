@@ -66,6 +66,7 @@ namespace OpenTween
             var loadTasks = new List<Task>();
 
             this.scrollBar.Enabled = false;
+            this.scrollBar.Visible = false;
 
             if (post.ExpandedUrls.Length == 0 && post.Media.Count == 0 && post.PostGeo == null)
             {
@@ -97,13 +98,17 @@ namespace OpenTween
                 if (!string.IsNullOrEmpty(tooltipText))
                 {
                     this.toolTip.SetToolTip(picbox, tooltipText);
+                    picbox.AccessibleDescription = tooltipText;
                 }
 
                 cancelToken.ThrowIfCancellationRequested();
             }
 
             if (thumbnails.Length > 1)
+            {
                 this.scrollBar.Enabled = true;
+                this.scrollBar.Visible = true;
+            }
 
             this.ThumbnailLoading?.Invoke(this, EventArgs.Empty);
 
@@ -181,6 +186,7 @@ namespace OpenTween
                 SizeMode = PictureBoxSizeMode.Zoom,
                 WaitOnLoad = false,
                 Dock = DockStyle.Fill,
+                AccessibleRole = AccessibleRole.Graphic,
             };
         }
 

@@ -111,6 +111,9 @@ namespace OpenTween.Api.DataModel
 
         [DataMember(Name = "video_info", IsRequired = false)]
         public TwitterMediaVideoInfo VideoInfo { get; set; }
+
+        [DataMember(Name = "ext_alt_text", IsRequired = false)]
+        public string AltText { get; set; }
     }
 
     [DataContract]
