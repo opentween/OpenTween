@@ -24,9 +24,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
+using Moq;
 using OpenTween.Api;
 using OpenTween.Api.DataModel;
 using Xunit;
@@ -35,6 +38,19 @@ namespace OpenTween.Connection
 {
     public class TwitterApiConnectionTest
     {
+        public TwitterApiConnectionTest()
+        {
+            this.MyCommonSetup();
+        }
+
+        public void MyCommonSetup()
+        {
+            var mockAssembly = new Mock<_Assembly>();
+            mockAssembly.Setup(m => m.GetName()).Returns(new AssemblyName("OpenTween"));
+
+            MyCommon.EntryAssembly = mockAssembly.Object;
+        }
+
         [Fact]
         public async Task GetAsync_Test()
         {

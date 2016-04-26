@@ -23,6 +23,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using Moq;
@@ -34,6 +36,19 @@ namespace OpenTween.Api
 {
     public class TwitterApiTest
     {
+        public TwitterApiTest()
+        {
+            this.MyCommonSetup();
+        }
+
+        public void MyCommonSetup()
+        {
+            var mockAssembly = new Mock<_Assembly>();
+            mockAssembly.Setup(m => m.GetName()).Returns(new AssemblyName("OpenTween"));
+
+            MyCommon.EntryAssembly = mockAssembly.Object;
+        }
+
         [Fact]
         public void Initialize_Test()
         {
