@@ -43,9 +43,10 @@ namespace OpenTween.Api
 
         public Task<TwitterStatus> StatusesShow(long statusId)
         {
-            var endpoint = new Uri($"statuses/show/{statusId}.json", UriKind.Relative);
+            var endpoint = new Uri("statuses/show.json", UriKind.Relative);
             var param = new Dictionary<string, string>
             {
+                ["id"] = statusId.ToString(),
                 ["include_entities"] = "true",
             };
 

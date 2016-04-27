@@ -86,8 +86,8 @@ namespace OpenTween.Api
                 var mock = new Mock<IApiConnection>();
                 mock.Setup(x =>
                     x.GetAsync<TwitterStatus>(
-                        new Uri("statuses/show/100.json", UriKind.Relative),
-                        new Dictionary<string, string> { { "include_entities", "true" } })
+                        new Uri("statuses/show.json", UriKind.Relative),
+                        new Dictionary<string, string> { { "id", "100" }, { "include_entities", "true" } })
                 )
                 .ReturnsAsync(new TwitterStatus { Id = 100L });
 
