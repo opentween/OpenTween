@@ -289,6 +289,29 @@ namespace OpenTween.Api
         }
 
         [Fact]
+        public async Task FriendshipsDestroy_Test()
+        {
+            using (var twitterApi = new TwitterApi())
+            {
+                var mock = new Mock<IApiConnection>();
+                mock.Setup(x =>
+                    x.PostLazyAsync<TwitterFriendship>(
+                        new Uri("friendships/destroy.json", UriKind.Relative),
+                        new Dictionary<string, string> { { "screen_name", "twitterapi" } })
+                )
+                .ReturnsAsync(LazyJson.Create(new TwitterFriendship()));
+
+                twitterApi.apiConnection = mock.Object;
+
+                await twitterApi.FriendshipsDestroy(screenName: "twitterapi")
+                    .IgnoreResponse()
+                    .ConfigureAwait(false);
+
+                mock.VerifyAll();
+            }
+        }
+
+        [Fact]
         public async Task BlocksCreate_Test()
         {
             using (var twitterApi = new TwitterApi())
