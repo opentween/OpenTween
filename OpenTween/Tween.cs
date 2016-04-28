@@ -12335,7 +12335,7 @@ namespace OpenTween
 
                 try
                 {
-                    var task = Task.Run(() => this.tw.GetUserInfo(id));
+                    var task = this.twitterApi.UsersShow(id);
                     user = await dialog.WaitForAsync(this, task);
                 }
                 catch (WebApiException ex)
@@ -12354,7 +12354,7 @@ namespace OpenTween
 
         private async Task doShowUserStatus(TwitterUser user)
         {
-            using (var userDialog = new UserInfoDialog(this, this.tw))
+            using (var userDialog = new UserInfoDialog(this, this.twitterApi))
             {
                 var showUserTask = userDialog.ShowUserAsync(user);
                 userDialog.ShowDialog(this);

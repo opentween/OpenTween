@@ -107,6 +107,51 @@ namespace OpenTween.Api
         }
 
         [Fact]
+        public async Task UsersShow_Test()
+        {
+            using (var twitterApi = new TwitterApi())
+            {
+                var mock = new Mock<IApiConnection>();
+                mock.Setup(x =>
+                    x.GetAsync<TwitterUser>(
+                        new Uri("users/show.json", UriKind.Relative),
+                        new Dictionary<string, string> { { "screen_name", "twitterapi" }, { "include_entities", "true" } })
+                )
+                .ReturnsAsync(new TwitterUser { ScreenName = "twitterapi" });
+
+                twitterApi.apiConnection = mock.Object;
+
+                await twitterApi.UsersShow(screenName: "twitterapi")
+                    .ConfigureAwait(false);
+
+                mock.VerifyAll();
+            }
+        }
+
+        [Fact]
+        public async Task UsersReportSpam_Test()
+        {
+            using (var twitterApi = new TwitterApi())
+            {
+                var mock = new Mock<IApiConnection>();
+                mock.Setup(x =>
+                    x.PostLazyAsync<TwitterUser>(
+                        new Uri("users/report_spam.json", UriKind.Relative),
+                        new Dictionary<string, string> { { "screen_name", "twitterapi" } })
+                )
+                .ReturnsAsync(LazyJson.Create(new TwitterUser { ScreenName = "twitterapi" }));
+
+                twitterApi.apiConnection = mock.Object;
+
+                await twitterApi.UsersReportSpam(screenName: "twitterapi")
+                    .IgnoreResponse()
+                    .ConfigureAwait(false);
+
+                mock.VerifyAll();
+            }
+        }
+
+        [Fact]
         public async Task FavoritesCreate_Test()
         {
             using (var twitterApi = new TwitterApi())
@@ -145,6 +190,152 @@ namespace OpenTween.Api
                 twitterApi.apiConnection = mock.Object;
 
                 await twitterApi.FavoritesDestroy(statusId: 100L)
+                    .IgnoreResponse()
+                    .ConfigureAwait(false);
+
+                mock.VerifyAll();
+            }
+        }
+
+        [Fact]
+        public async Task FriendshipsShow_Test()
+        {
+            using (var twitterApi = new TwitterApi())
+            {
+                var mock = new Mock<IApiConnection>();
+                mock.Setup(x =>
+                    x.GetAsync<TwitterFriendship>(
+                        new Uri("friendships/show.json", UriKind.Relative),
+                        new Dictionary<string, string> { { "source_screen_name", "twitter" }, { "target_screen_name", "twitterapi" } })
+                )
+                .ReturnsAsync(new TwitterFriendship());
+
+                twitterApi.apiConnection = mock.Object;
+
+                await twitterApi.FriendshipsShow(sourceScreenName: "twitter", targetScreenName: "twitterapi")
+                    .ConfigureAwait(false);
+
+                mock.VerifyAll();
+            }
+        }
+
+        [Fact]
+        public async Task FriendshipsCreate_Test()
+        {
+            using (var twitterApi = new TwitterApi())
+            {
+                var mock = new Mock<IApiConnection>();
+                mock.Setup(x =>
+                    x.PostLazyAsync<TwitterFriendship>(
+                        new Uri("friendships/create.json", UriKind.Relative),
+                        new Dictionary<string, string> { { "screen_name", "twitterapi" } })
+                )
+                .ReturnsAsync(LazyJson.Create(new TwitterFriendship()));
+
+                twitterApi.apiConnection = mock.Object;
+
+                await twitterApi.FriendshipsCreate(screenName: "twitterapi")
+                    .IgnoreResponse()
+                    .ConfigureAwait(false);
+
+                mock.VerifyAll();
+            }
+        }
+
+        [Fact]
+        public async Task BlocksCreate_Test()
+        {
+            using (var twitterApi = new TwitterApi())
+            {
+                var mock = new Mock<IApiConnection>();
+                mock.Setup(x =>
+                    x.PostLazyAsync<TwitterUser>(
+                        new Uri("blocks/create.json", UriKind.Relative),
+                        new Dictionary<string, string> { { "screen_name", "twitterapi" } })
+                )
+                .ReturnsAsync(LazyJson.Create(new TwitterUser()));
+
+                twitterApi.apiConnection = mock.Object;
+
+                await twitterApi.BlocksCreate(screenName: "twitterapi")
+                    .IgnoreResponse()
+                    .ConfigureAwait(false);
+
+                mock.VerifyAll();
+            }
+        }
+
+        [Fact]
+        public async Task BlocksDestroy_Test()
+        {
+            using (var twitterApi = new TwitterApi())
+            {
+                var mock = new Mock<IApiConnection>();
+                mock.Setup(x =>
+                    x.PostLazyAsync<TwitterUser>(
+                        new Uri("blocks/destroy.json", UriKind.Relative),
+                        new Dictionary<string, string> { { "screen_name", "twitterapi" } })
+                )
+                .ReturnsAsync(LazyJson.Create(new TwitterUser()));
+
+                twitterApi.apiConnection = mock.Object;
+
+                await twitterApi.BlocksDestroy(screenName: "twitterapi")
+                    .IgnoreResponse()
+                    .ConfigureAwait(false);
+
+                mock.VerifyAll();
+            }
+        }
+
+        [Fact]
+        public async Task AccountUpdateProfile_Test()
+        {
+            using (var twitterApi = new TwitterApi())
+            {
+                var mock = new Mock<IApiConnection>();
+                mock.Setup(x =>
+                    x.PostLazyAsync<TwitterUser>(
+                        new Uri("account/update_profile.json", UriKind.Relative),
+                        new Dictionary<string, string> {
+                            { "include_entities", "true" },
+                            { "name", "Name" },
+                            { "url", "http://example.com/" },
+                            { "location", "Location" },
+                            { "description", "&lt;script&gt;alert(1)&lt;/script&gt;" },
+                        })
+                )
+                .ReturnsAsync(LazyJson.Create(new TwitterUser()));
+
+                twitterApi.apiConnection = mock.Object;
+
+                await twitterApi.AccountUpdateProfile(name: "Name", url: "http://example.com/", location: "Location", description: "<script>alert(1)</script>")
+                    .IgnoreResponse()
+                    .ConfigureAwait(false);
+
+                mock.VerifyAll();
+            }
+        }
+
+        [Fact]
+        public async Task AccountUpdateProfileImage_Test()
+        {
+            using (var twitterApi = new TwitterApi())
+            using (var image = TestUtils.CreateDummyImage())
+            using (var media = new MemoryImageMediaItem(image))
+            {
+                var mock = new Mock<IApiConnection>();
+                mock.Setup(x =>
+                    x.PostLazyAsync<TwitterUser>(
+                        new Uri("account/update_profile_image.json", UriKind.Relative),
+                        new Dictionary<string, string> { { "include_entities", "true" } },
+                        new Dictionary<string, IMediaItem> { { "image", media } })
+                )
+                .ReturnsAsync(LazyJson.Create(new TwitterUser()));
+
+                twitterApi.apiConnection = mock.Object;
+
+                await twitterApi.AccountUpdateProfileImage(media)
                     .IgnoreResponse()
                     .ConfigureAwait(false);
 
