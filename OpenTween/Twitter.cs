@@ -767,42 +767,6 @@ namespace OpenTween
             this.CheckStatusCode(res, null);
         }
 
-        public void PostFollowCommand(string screenName)
-        {
-            this.CheckAccountState();
-
-            HttpStatusCode res;
-            var content = "";
-            try
-            {
-                res = twCon.CreateFriendships(screenName, ref content);
-            }
-            catch(Exception ex)
-            {
-                throw new WebApiException("Err:" + ex.Message, ex);
-            }
-
-            this.CheckStatusCode(res, content);
-        }
-
-        public void PostRemoveCommand(string screenName)
-        {
-            this.CheckAccountState();
-
-            HttpStatusCode res;
-            var content = "";
-            try
-            {
-                res = twCon.DestroyFriendships(screenName, ref content);
-            }
-            catch(Exception ex)
-            {
-                throw new WebApiException("Err:" + ex.Message + "(" + MethodBase.GetCurrentMethod().Name + ")", ex);
-            }
-
-            this.CheckStatusCode(res, content);
-        }
-
         public void PostCreateBlock(string screenName)
         {
             this.CheckAccountState();
@@ -855,39 +819,6 @@ namespace OpenTween
             }
 
             this.CheckStatusCode(res, content);
-        }
-
-        public TwitterFriendship GetFriendshipInfo(string screenName)
-        {
-            this.CheckAccountState();
-
-            HttpStatusCode res;
-            var content = "";
-            try
-            {
-                res = twCon.ShowFriendships(_uname, screenName, ref content);
-            }
-            catch(Exception ex)
-            {
-                throw new WebApiException("Err:" + ex.Message + "(" + MethodBase.GetCurrentMethod().Name + ")", ex);
-            }
-
-            this.CheckStatusCode(res, content);
-
-            try
-            {
-                return TwitterFriendship.ParseJson(content);
-            }
-            catch(SerializationException ex)
-            {
-                MyCommon.TraceOut(ex.Message + Environment.NewLine + content);
-                throw new WebApiException("Err:Json Parse Error(DataContractJsonSerializer)", content, ex);
-            }
-            catch(Exception ex)
-            {
-                MyCommon.TraceOut(ex, MethodBase.GetCurrentMethod().Name + " " + content);
-                throw new WebApiException("Err:Invalid Json!", content, ex);
-            }
         }
 
         public TwitterUser GetUserInfo(string screenName)

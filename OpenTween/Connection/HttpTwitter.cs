@@ -279,32 +279,6 @@ namespace OpenTween
                 this.CreateApiCalllback("/users/show/:id"));
         }
 
-        public HttpStatusCode CreateFriendships(string screenName, ref string content)
-        {
-            Dictionary<string, string> param = new Dictionary<string, string>();
-            param.Add("screen_name", screenName);
-
-            return httpCon.GetContent(PostMethod,
-                this.CreateTwitterUri("/1.1/friendships/create.json"),
-                param,
-                ref content,
-                null,
-                null);
-        }
-
-        public HttpStatusCode DestroyFriendships(string screenName, ref string content)
-        {
-            Dictionary<string, string> param = new Dictionary<string, string>();
-            param.Add("screen_name", screenName);
-
-            return httpCon.GetContent(PostMethod,
-                this.CreateTwitterUri("/1.1/friendships/destroy.json"),
-                param,
-                ref content,
-                null,
-                null);
-        }
-
         public HttpStatusCode CreateBlock(string screenName, ref string content)
         {
             Dictionary<string, string> param = new Dictionary<string, string>();
@@ -342,20 +316,6 @@ namespace OpenTween
                 ref content,
                 null,
                 null);
-        }
-
-        public HttpStatusCode ShowFriendships(string souceScreenName, string targetScreenName, ref string content)
-        {
-            Dictionary<string, string> param = new Dictionary<string, string>();
-            param.Add("source_screen_name", souceScreenName);
-            param.Add("target_screen_name", targetScreenName);
-
-            return httpCon.GetContent(GetMethod,
-                this.CreateTwitterUri("/1.1/friendships/show.json"),
-                param,
-                ref content,
-                this.CreateRatelimitHeadersDict(),
-                this.CreateApiCalllback("/friendships/show"));
         }
 
         public HttpStatusCode ShowStatuses(long id, ref string content)

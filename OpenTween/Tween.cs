@@ -11377,7 +11377,7 @@ namespace OpenTween
             {
                 try
                 {
-                    var task = Task.Run(() => this.tw.PostFollowCommand(id));
+                    var task = this.twitterApi.FriendshipsCreate(id);
                     await dialog.WaitForAsync(this, task);
                 }
                 catch (WebApiException ex)
@@ -11420,7 +11420,7 @@ namespace OpenTween
             {
                 try
                 {
-                    var task = Task.Run(() => this.tw.PostRemoveCommand(id));
+                    var task = this.twitterApi.FriendshipsDestroy(id);
                     await dialog.WaitForAsync(this, task);
                 }
                 catch (WebApiException ex)
@@ -11464,7 +11464,7 @@ namespace OpenTween
 
                 try
                 {
-                    var task = Task.Run(() => this.tw.GetFriendshipInfo(id));
+                    var task = this.twitterApi.FriendshipsShow(this.twitterApi.CurrentScreenName, id);
                     var friendship = await dialog.WaitForAsync(this, task);
 
                     isFollowing = friendship.Relationship.Source.Following;
@@ -11514,7 +11514,7 @@ namespace OpenTween
 
                     try
                     {
-                        var task = Task.Run(() => this.tw.GetFriendshipInfo(id));
+                        var task = this.twitterApi.FriendshipsShow(this.twitterApi.CurrentScreenName, id);
                         var friendship = await dialog.WaitForAsync(this, task);
 
                         isFollowing = friendship.Relationship.Source.Following;
