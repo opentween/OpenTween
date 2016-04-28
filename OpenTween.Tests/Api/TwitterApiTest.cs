@@ -56,7 +56,7 @@ namespace OpenTween.Api
             {
                 Assert.Null(twitterApi.apiConnection);
 
-                twitterApi.Initialize("*** AccessToken ***", "*** AccessSecret ***");
+                twitterApi.Initialize("*** AccessToken ***", "*** AccessSecret ***", userId: 100L, screenName: "hogehoge");
 
                 Assert.IsType<TwitterApiConnection>(twitterApi.apiConnection);
 
@@ -64,8 +64,11 @@ namespace OpenTween.Api
                 Assert.Equal("*** AccessToken ***", apiConnection.AccessToken);
                 Assert.Equal("*** AccessSecret ***", apiConnection.AccessSecret);
 
+                Assert.Equal(100L, twitterApi.CurrentUserId);
+                Assert.Equal("hogehoge", twitterApi.CurrentScreenName);
+
                 // 複数回 Initialize を実行した場合は新たに TwitterApiConnection が生成される
-                twitterApi.Initialize("*** AccessToken2 ***", "*** AccessSecret2 ***");
+                twitterApi.Initialize("*** AccessToken2 ***", "*** AccessSecret2 ***", userId: 200L, screenName: "foobar");
 
                 var oldApiConnection = apiConnection;
                 Assert.True(oldApiConnection.IsDisposed);
@@ -75,6 +78,9 @@ namespace OpenTween.Api
                 apiConnection = (TwitterApiConnection)twitterApi.apiConnection;
                 Assert.Equal("*** AccessToken2 ***", apiConnection.AccessToken);
                 Assert.Equal("*** AccessSecret2 ***", apiConnection.AccessSecret);
+
+                Assert.Equal(200L, twitterApi.CurrentUserId);
+                Assert.Equal("foobar", twitterApi.CurrentScreenName);
             }
         }
 

@@ -32,13 +32,19 @@ namespace OpenTween.Api
 {
     public sealed class TwitterApi : IDisposable
     {
+        public long CurrentUserId { get; private set; }
+        public string CurrentScreenName { get; private set; }
+
         internal IApiConnection apiConnection;
 
-        public void Initialize(string accessToken, string accessSecret)
+        public void Initialize(string accessToken, string accessSecret, long userId, string screenName)
         {
             var newInstance = new TwitterApiConnection(accessToken, accessSecret);
             var oldInstance = Interlocked.Exchange(ref this.apiConnection, newInstance);
             oldInstance?.Dispose();
+
+            this.CurrentUserId = userId;
+            this.CurrentScreenName = screenName;
         }
 
         public Task<TwitterStatus> StatusesShow(long statusId)
