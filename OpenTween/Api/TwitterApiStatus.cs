@@ -30,6 +30,7 @@ using System.Xml;
 using System.Xml.Linq;
 using System.Xml.XPath;
 using OpenTween.Api.DataModel;
+using System.Net.Http.Headers;
 
 namespace OpenTween.Api
 {
@@ -111,7 +112,12 @@ namespace OpenTween.Api
             }
 
             return null;
-        }   
+        }
+
+        public void UpdateFromHeader(HttpResponseHeaders header, string endpointName)
+        {
+            this.UpdateFromHeader(header.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), endpointName);
+        }
 
         public void UpdateFromHeader(IDictionary<string, string> header, string endpointName)
         {

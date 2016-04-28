@@ -56,7 +56,7 @@ namespace OpenTween.Api
                 ["include_entities"] = "true",
             };
 
-            return this.apiConnection.GetAsync<TwitterStatus>(endpoint, param);
+            return this.apiConnection.GetAsync<TwitterStatus>(endpoint, param, "/statuses/show/:id");
         }
 
         public Task<LazyJson<TwitterStatus>> StatusesDestroy(long statusId)
@@ -90,7 +90,7 @@ namespace OpenTween.Api
                 ["include_entities"] = "true",
             };
 
-            return this.apiConnection.GetAsync<TwitterUser>(endpoint, param);
+            return this.apiConnection.GetAsync<TwitterUser>(endpoint, param, "/users/show/:id");
         }
 
         public Task<LazyJson<TwitterUser>> UsersReportSpam(string screenName)
@@ -135,7 +135,7 @@ namespace OpenTween.Api
                 ["target_screen_name"] = targetScreenName,
             };
 
-            return this.apiConnection.GetAsync<TwitterFriendship>(endpoint, param);
+            return this.apiConnection.GetAsync<TwitterFriendship>(endpoint, param, "/friendships/show");
         }
 
         public Task<LazyJson<TwitterFriendship>> FriendshipsCreate(string screenName)

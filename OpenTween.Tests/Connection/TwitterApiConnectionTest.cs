@@ -94,6 +94,49 @@ namespace OpenTween.Connection
         }
 
         [Fact]
+        public async Task GetAsync_UpdateRateLimitTest()
+        {
+            using (var mockHandler = new HttpMessageHandlerMock())
+            using (var http = new HttpClient(mockHandler))
+            using (var apiConnection = new TwitterApiConnection("", ""))
+            {
+                apiConnection.http = http;
+
+                mockHandler.Enqueue(x =>
+                {
+                    Assert.Equal(HttpMethod.Get, x.Method);
+                    Assert.Equal("https://api.twitter.com/1.1/hoge/tetete.json",
+                        x.RequestUri.GetLeftPart(UriPartial.Path));
+
+                    return new HttpResponseMessage(HttpStatusCode.OK)
+                    {
+                        Headers =
+                        {
+                            { "X-Rate-Limit-Limit", "150" },
+                            { "X-Rate-Limit-Remaining", "100" },
+                            { "X-Rate-Limit-Reset", "1356998400" },
+                            { "X-Access-Level", "read-write-directmessages" },
+                        },
+                        Content = new StringContent("\"hogehoge\""),
+                    };
+                });
+
+                var apiStatus = new TwitterApiStatus();
+                MyCommon.TwitterApiInfo = apiStatus;
+
+                var endpoint = new Uri("hoge/tetete.json", UriKind.Relative);
+
+                await apiConnection.GetAsync<string>(endpoint, null, endpointName: "/hoge/tetete")
+                    .ConfigureAwait(false);
+
+                Assert.Equal(apiStatus.AccessLevel, TwitterApiAccessLevel.ReadWriteAndDirectMessage);
+                Assert.Equal(apiStatus.AccessLimit["/hoge/tetete"], new ApiLimit(150, 100, new DateTime(2013, 1, 1, 0, 0, 0, DateTimeKind.Utc).ToLocalTime()));
+
+                Assert.Equal(0, mockHandler.QueueCount);
+            }
+        }
+
+        [Fact]
         public async Task GetAsync_ErrorStatusTest()
         {
             using (var mockHandler = new HttpMessageHandlerMock())
