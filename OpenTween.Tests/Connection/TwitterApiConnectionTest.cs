@@ -24,6 +24,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -196,6 +197,64 @@ namespace OpenTween.Connection
                     .ConfigureAwait(false));
 
                 Assert.Equal(0, mockHandler.QueueCount);
+            }
+        }
+
+        [Fact]
+        public async Task PostLazyAsync_MultipartTest()
+        {
+            using (var mockHandler = new HttpMessageHandlerMock())
+            using (var http = new HttpClient(mockHandler))
+            using (var apiConnection = new TwitterApiConnection("", ""))
+            {
+                apiConnection.http = http;
+
+                using (var image = TestUtils.CreateDummyImage())
+                using (var media = new MemoryImageMediaItem(image))
+                {
+                    mockHandler.Enqueue(async x =>
+                    {
+                        Assert.Equal(HttpMethod.Post, x.Method);
+                        Assert.Equal("https://api.twitter.com/1.1/hoge/tetete.json",
+                            x.RequestUri.AbsoluteUri);
+
+                        Assert.IsType<MultipartFormDataContent>(x.Content);
+
+                        var boundary = x.Content.Headers.ContentType.Parameters.Cast<NameValueHeaderValue>()
+                            .First(y => y.Name == "boundary").Value;
+
+                        // 前後のダブルクオーテーションを除去
+                        boundary = boundary.Substring(1, boundary.Length - 2);
+
+                        var body = await x.Content.ReadAsStringAsync()
+                            .ConfigureAwait(false);
+                        Assert.True(body.StartsWith("--" + boundary + "\r\n", StringComparison.Ordinal));
+
+                        return new HttpResponseMessage(HttpStatusCode.OK)
+                        {
+                            Content = new StringContent("\"hogehoge\""),
+                        };
+                    });
+
+                    var endpoint = new Uri("hoge/tetete.json", UriKind.Relative);
+                    var param = new Dictionary<string, string>
+                    {
+                        ["aaaa"] = "1111",
+                        ["bbbb"] = "2222",
+                    };
+                    var mediaParam = new Dictionary<string, IMediaItem>
+                    {
+                        ["media1"] = media,
+                    };
+
+                    var result = await apiConnection.PostLazyAsync<string>(endpoint, param, mediaParam)
+                        .ConfigureAwait(false);
+
+                    Assert.Equal("hogehoge", await result.LoadJsonAsync()
+                        .ConfigureAwait(false));
+
+                    Assert.Equal(0, mockHandler.QueueCount);
+                }
             }
         }
     }

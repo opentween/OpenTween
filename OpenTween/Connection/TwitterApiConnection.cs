@@ -125,6 +125,46 @@ namespace OpenTween.Connection
             }
         }
 
+        public async Task<LazyJson<T>> PostLazyAsync<T>(Uri uri, IDictionary<string, string> param, IDictionary<string, IMediaItem> media)
+        {
+            var requestUri = new Uri(this.RestApiBase, uri);
+            var request = new HttpRequestMessage(HttpMethod.Post, requestUri);
+
+            using (var postContent = new MultipartFormDataContent())
+            {
+                foreach (var kv in param)
+                    postContent.Add(new StringContent(kv.Value), kv.Key);
+
+                foreach (var kv in media)
+                    postContent.Add(new StreamContent(kv.Value.OpenRead()), kv.Key);
+
+                request.Content = postContent;
+
+                HttpResponseMessage response = null;
+                try
+                {
+                    response = await this.http.SendAsync(request, HttpCompletionOption.ResponseHeadersRead)
+                        .ConfigureAwait(false);
+
+                    await this.CheckStatusCode(response)
+                        .ConfigureAwait(false);
+
+                    var result = new LazyJson<T>(response);
+                    response = null;
+
+                    return result;
+                }
+                catch (OperationCanceledException ex)
+                {
+                    throw TwitterApiException.CreateFromException(ex);
+                }
+                finally
+                {
+                    response?.Dispose();
+                }
+            }
+        }
+
         protected async Task CheckStatusCode(HttpResponseMessage response)
         {
             var statusCode = response.StatusCode;
