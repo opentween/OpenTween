@@ -658,23 +658,6 @@ namespace OpenTween
             this.UpdateUserStats(status.Sender);
         }
 
-        public void RemoveStatus(long id)
-        {
-            this.CheckAccountState();
-
-            HttpStatusCode res;
-            try
-            {
-                res = twCon.DestroyStatus(id);
-            }
-            catch(Exception ex)
-            {
-                throw new WebApiException("Err:" + ex.Message, ex);
-            }
-
-            this.CheckStatusCode(res, null);
-        }
-
         public void PostRetweet(long id, bool read)
         {
             this.CheckAccountState();
@@ -743,28 +726,6 @@ namespace OpenTween
             post.IsDm = false;
 
             TabInformations.GetInstance().AddPost(post);
-        }
-
-        public void RemoveDirectMessage(long id, PostClass post)
-        {
-            this.CheckAccountState();
-            this.CheckAccessLevel(TwitterApiAccessLevel.ReadWriteAndDirectMessage);
-
-            //if (post.IsMe)
-            //    _deletemessages.Add(post)
-            //}
-
-            HttpStatusCode res;
-            try
-            {
-                res = twCon.DestroyDirectMessage(id);
-            }
-            catch(Exception ex)
-            {
-                throw new WebApiException("Err:" + ex.Message, ex);
-            }
-
-            this.CheckStatusCode(res, null);
         }
 
         public void PostCreateBlock(string screenName)

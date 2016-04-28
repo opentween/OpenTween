@@ -209,18 +209,6 @@ namespace OpenTween
                 null);
         }
 
-        public HttpStatusCode DestroyStatus(long id)
-        {
-            string content = null;
-
-            return httpCon.GetContent(PostMethod,
-                this.CreateTwitterUri("/1.1/statuses/destroy/" + id + ".json"),
-                null,
-                ref content,
-                null,
-                null);
-        }
-
         public HttpStatusCode SendDirectMessage(string status, string sendto, ref string content)
         {
             Dictionary<string, string> param = new Dictionary<string, string>();
@@ -230,21 +218,6 @@ namespace OpenTween
 
             return httpCon.GetContent(PostMethod,
                 this.CreateTwitterUri("/1.1/direct_messages/new.json"),
-                param,
-                ref content,
-                null,
-                null);
-        }
-
-        public HttpStatusCode DestroyDirectMessage(long id)
-        {
-            string content = null;
-
-            var param = new Dictionary<string, string>();
-            param.Add("id", id.ToString());
-
-            return httpCon.GetContent(PostMethod,
-                this.CreateTwitterUri("/1.1/direct_messages/destroy.json"),
                 param,
                 ref content,
                 null,

@@ -107,6 +107,52 @@ namespace OpenTween.Api
         }
 
         [Fact]
+        public async Task StatusesDestroy_Test()
+        {
+            using (var twitterApi = new TwitterApi())
+            {
+                var mock = new Mock<IApiConnection>();
+                mock.Setup(x =>
+                    x.PostLazyAsync<TwitterStatus>(
+                        new Uri("statuses/destroy.json", UriKind.Relative),
+                        new Dictionary<string, string> { { "id", "100" } })
+                )
+                .ReturnsAsync(LazyJson.Create(new TwitterStatus { Id = 100L }));
+
+                twitterApi.apiConnection = mock.Object;
+
+                await twitterApi.StatusesDestroy(statusId: 100L)
+                    .IgnoreResponse()
+                    .ConfigureAwait(false);
+
+                mock.VerifyAll();
+            }
+        }
+
+        [Fact]
+        public async Task DirectMessagesDestroy_Test()
+        {
+            using (var twitterApi = new TwitterApi())
+            {
+                var mock = new Mock<IApiConnection>();
+                mock.Setup(x =>
+                    x.PostLazyAsync<TwitterDirectMessage>(
+                        new Uri("direct_messages/destroy.json", UriKind.Relative),
+                        new Dictionary<string, string> { { "id", "100" } })
+                )
+                .ReturnsAsync(LazyJson.Create(new TwitterDirectMessage { Id = 100L }));
+
+                twitterApi.apiConnection = mock.Object;
+
+                await twitterApi.DirectMessagesDestroy(statusId: 100L)
+                    .IgnoreResponse()
+                    .ConfigureAwait(false);
+
+                mock.VerifyAll();
+            }
+        }
+
+        [Fact]
         public async Task UsersShow_Test()
         {
             using (var twitterApi = new TwitterApi())

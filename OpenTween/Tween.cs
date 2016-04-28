@@ -3851,7 +3851,7 @@ namespace OpenTween
             MakeReplyOrDirectStatus(false, false);
         }
 
-        private void doStatusDelete()
+        private async Task doStatusDelete()
         {
             if (this._curTab == null || this._curList == null)
                 return;
@@ -3889,16 +3889,19 @@ namespace OpenTween
                     {
                         if (post.IsDm)
                         {
-                            this.tw.RemoveDirectMessage(post.StatusId, post);
+                            await this.twitterApi.DirectMessagesDestroy(post.StatusId)
+                                .IgnoreResponse();
                         }
                         else
                         {
                             if (post.RetweetedId != null && post.UserId == this.tw.UserId)
                                 // 他人に RT された自分のツイート
-                                this.tw.RemoveStatus(post.RetweetedId.Value);
+                                await this.twitterApi.StatusesDestroy(post.RetweetedId.Value)
+                                    .IgnoreResponse();
                             else
                                 // 自分のツイート or 自分が RT したツイート
-                                this.tw.RemoveStatus(post.StatusId);
+                                await this.twitterApi.StatusesDestroy(post.StatusId)
+                                    .IgnoreResponse();
                         }
                     }
                     catch (WebApiException ex)
@@ -3959,9 +3962,9 @@ namespace OpenTween
             }
         }
 
-        private void DeleteStripMenuItem_Click(object sender, EventArgs e)
+        private async void DeleteStripMenuItem_Click(object sender, EventArgs e)
         {
-            doStatusDelete();
+            await this.doStatusDelete();
         }
 
         private void ReadedStripMenuItem_Click(object sender, EventArgs e)
