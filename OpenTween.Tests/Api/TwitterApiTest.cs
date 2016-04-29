@@ -481,5 +481,31 @@ namespace OpenTween.Api
                 mock.VerifyAll();
             }
         }
+
+        [Fact]
+        public async Task MediaUpload_Test()
+        {
+            using (var twitterApi = new TwitterApi())
+            using (var image = TestUtils.CreateDummyImage())
+            using (var media = new MemoryImageMediaItem(image))
+            {
+                var mock = new Mock<IApiConnection>();
+                mock.Setup(x =>
+                    x.PostLazyAsync<TwitterUploadMediaResult>(
+                        new Uri("https://upload.twitter.com/1.1/media/upload.json", UriKind.Absolute),
+                        null,
+                        new Dictionary<string, IMediaItem> { { "media", media } })
+                )
+                .ReturnsAsync(LazyJson.Create(new TwitterUploadMediaResult()));
+
+                twitterApi.apiConnection = mock.Object;
+
+                await twitterApi.MediaUpload(media)
+                    .IgnoreResponse()
+                    .ConfigureAwait(false);
+
+                mock.VerifyAll();
+            }
+        }
     }
 }

@@ -257,6 +257,17 @@ namespace OpenTween.Api
             return this.apiConnection.PostLazyAsync<TwitterUser>(endpoint, param, paramMedia);
         }
 
+        public Task<LazyJson<TwitterUploadMediaResult>> MediaUpload(IMediaItem media)
+        {
+            var endpoint = new Uri("https://upload.twitter.com/1.1/media/upload.json");
+            var paramMedia = new Dictionary<string, IMediaItem>
+            {
+                ["media"] = media,
+            };
+
+            return this.apiConnection.PostLazyAsync<TwitterUploadMediaResult>(endpoint, null, paramMedia);
+        }
+
         public void Dispose()
         {
             this.apiConnection?.Dispose();

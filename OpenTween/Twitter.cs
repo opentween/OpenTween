@@ -509,7 +509,9 @@ namespace OpenTween
 
             foreach (var item in mediaItems)
             {
-                var mediaId = UploadMedia(item);
+                var mediaId = await this.UploadMedia(item)
+                    .ConfigureAwait(false);
+
                 mediaIds.Add(mediaId);
             }
 
@@ -520,40 +522,17 @@ namespace OpenTween
                 .ConfigureAwait(false);
         }
 
-        public long UploadMedia(IMediaItem item)
+        public async Task<long> UploadMedia(IMediaItem item)
         {
             this.CheckAccountState();
 
-            HttpStatusCode res;
-            var content = "";
-            try
-            {
-                res = twCon.UploadMedia(item, ref content);
-            }
-            catch (Exception ex)
-            {
-                throw new WebApiException("Err:" + ex.Message, ex);
-            }
+            var response = await this.Api.MediaUpload(item)
+                .ConfigureAwait(false);
 
-            this.CheckStatusCode(res, content);
+            var media = await response.LoadJsonAsync()
+                .ConfigureAwait(false);
 
-            TwitterUploadMediaResult status;
-            try
-            {
-                status = TwitterUploadMediaResult.ParseJson(content);
-            }
-            catch (SerializationException ex)
-            {
-                MyCommon.TraceOut(ex.Message + Environment.NewLine + content);
-                throw new WebApiException("Err:Json Parse Error(DataContractJsonSerializer)", content, ex);
-            }
-            catch (Exception ex)
-            {
-                MyCommon.TraceOut(ex, MethodBase.GetCurrentMethod().Name + " " + content);
-                throw new WebApiException("Err:Invalid Json!", content, ex);
-            }
-
-            return status.MediaId;
+            return media.MediaId;
         }
 
         public async Task SendDirectMessage(string postStr)

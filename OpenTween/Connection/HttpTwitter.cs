@@ -152,21 +152,6 @@ namespace OpenTween
             this.Initialize("", "", "", 0);
         }
 
-        public HttpStatusCode UploadMedia(IMediaItem item, ref string content)
-        {
-            //画像投稿専用エンドポイント
-            var binary = new List<KeyValuePair<string, IMediaItem>>();
-            binary.Add(new KeyValuePair<string, IMediaItem>("media", item));
-
-            return httpCon.GetContent(PostMethod,
-                this.CreateTwitterUploadUri("/1.1/media/upload.json"),
-                null,
-                binary,
-                ref content,
-                null,
-                null);
-        }
-
         public HttpStatusCode RetweetStatus(long id, ref string content)
         {
             Dictionary<string, string> param = new Dictionary<string, string>();
