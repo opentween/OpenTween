@@ -728,40 +728,6 @@ namespace OpenTween
             TabInformations.GetInstance().AddPost(post);
         }
 
-        public int GetStatus_Retweeted_Count(long StatusId)
-        {
-            this.CheckAccountState();
-
-            HttpStatusCode res;
-            var content = "";
-            try
-            {
-                res = twCon.ShowStatuses(StatusId, ref content);
-            }
-            catch (Exception ex)
-            {
-                throw new WebApiException("Err:" + ex.Message, ex);
-            }
-
-            this.CheckStatusCode(res, content);
-
-            try
-            {
-                var status = TwitterStatus.ParseJson(content);
-                return status.RetweetCount;
-            }
-            catch (SerializationException ex)
-            {
-                MyCommon.TraceOut(ex.Message + Environment.NewLine + content);
-                throw new WebApiException("Json Parse Error(DataContractJsonSerializer)", content, ex);
-            }
-            catch (Exception ex)
-            {
-                MyCommon.TraceOut(ex, MethodBase.GetCurrentMethod().Name + " " + content);
-                throw new WebApiException("Invalid Json!", content, ex);
-            }
-        }
-
         public string Username
         {
             get

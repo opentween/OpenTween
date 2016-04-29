@@ -12457,7 +12457,7 @@ namespace OpenTween
                 return;
 
             var statusId = this._curPost.RetweetedId ?? this._curPost.StatusId;
-            int retweetCount = 0;
+            TwitterStatus status;
 
             using (var dialog = new WaitingDialog(Properties.Resources.RtCountMenuItem_ClickText1))
             {
@@ -12465,8 +12465,8 @@ namespace OpenTween
 
                 try
                 {
-                    var task = Task.Run(() => this.tw.GetStatus_Retweeted_Count(statusId));
-                    retweetCount = await dialog.WaitForAsync(this, task);
+                    var task = this.twitterApi.StatusesShow(statusId);
+                    status = await dialog.WaitForAsync(this, task);
                 }
                 catch (WebApiException ex)
                 {
@@ -12479,7 +12479,7 @@ namespace OpenTween
                     return;
             }
 
-            MessageBox.Show(retweetCount + Properties.Resources.RtCountText1);
+            MessageBox.Show(status.RetweetCount + Properties.Resources.RtCountText1);
         }
 
         private HookGlobalHotkey _hookGlobalHotkey;
