@@ -167,21 +167,6 @@ namespace OpenTween
                 null);
         }
 
-        public HttpStatusCode SendDirectMessage(string status, string sendto, ref string content)
-        {
-            Dictionary<string, string> param = new Dictionary<string, string>();
-            param.Add("text", status);
-            param.Add("screen_name", sendto);
-            //if (AppendSettingDialog.Instance.ShortenTco && AppendSettingDialog.Instance.UrlConvertAuto) param.Add("wrap_links", "true")
-
-            return httpCon.GetContent(PostMethod,
-                this.CreateTwitterUri("/1.1/direct_messages/new.json"),
-                param,
-                ref content,
-                null,
-                null);
-        }
-
         public HttpStatusCode RetweetStatus(long id, ref string content)
         {
             Dictionary<string, string> param = new Dictionary<string, string>();

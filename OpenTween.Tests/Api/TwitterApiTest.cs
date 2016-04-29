@@ -164,6 +164,32 @@ namespace OpenTween.Api
         }
 
         [Fact]
+        public async Task DirectMessagesNew_Test()
+        {
+            using (var twitterApi = new TwitterApi())
+            {
+                var mock = new Mock<IApiConnection>();
+                mock.Setup(x =>
+                    x.PostLazyAsync<TwitterDirectMessage>(
+                        new Uri("direct_messages/new.json", UriKind.Relative),
+                        new Dictionary<string, string> {
+                            { "text", "hogehoge" },
+                            { "screen_name", "opentween" },
+                        })
+                )
+                .ReturnsAsync(LazyJson.Create(new TwitterDirectMessage()));
+
+                twitterApi.apiConnection = mock.Object;
+
+                await twitterApi.DirectMessagesNew("hogehoge", "opentween")
+                    .IgnoreResponse()
+                    .ConfigureAwait(false);
+
+                mock.VerifyAll();
+            }
+        }
+
+        [Fact]
         public async Task DirectMessagesDestroy_Test()
         {
             using (var twitterApi = new TwitterApi())

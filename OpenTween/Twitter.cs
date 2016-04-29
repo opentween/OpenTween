@@ -475,7 +475,8 @@ namespace OpenTween
             if (mediaIds == null &&
                 Twitter.DMSendTextRegex.IsMatch(postStr))
             {
-                SendDirectMessage(postStr);
+                await this.SendDirectMessage(postStr)
+                    .ConfigureAwait(false);
                 return;
             }
 
@@ -499,7 +500,8 @@ namespace OpenTween
 
             if (Twitter.DMSendTextRegex.IsMatch(postStr))
             {
-                SendDirectMessage(postStr);
+                await this.SendDirectMessage(postStr)
+                    .ConfigureAwait(false);
                 return;
             }
 
@@ -554,43 +556,20 @@ namespace OpenTween
             return status.MediaId;
         }
 
-        public void SendDirectMessage(string postStr)
+        public async Task SendDirectMessage(string postStr)
         {
             this.CheckAccountState();
             this.CheckAccessLevel(TwitterApiAccessLevel.ReadWriteAndDirectMessage);
 
             var mc = Twitter.DMSendTextRegex.Match(postStr);
 
-            HttpStatusCode res;
-            var content = "";
-            try
-            {
-                res = twCon.SendDirectMessage(mc.Groups["body"].Value, mc.Groups["id"].Value, ref content);
-            }
-            catch(Exception ex)
-            {
-                throw new WebApiException("Err:" + ex.Message, ex);
-            }
+            var response = await this.Api.DirectMessagesNew(mc.Groups["body"].Value, mc.Groups["id"].Value)
+                .ConfigureAwait(false);
 
-            this.CheckStatusCode(res, content);
+            var dm = await response.LoadJsonAsync()
+                .ConfigureAwait(false);
 
-            TwitterDirectMessage status;
-            try
-            {
-                status = TwitterDirectMessage.ParseJson(content);
-            }
-            catch(SerializationException ex)
-            {
-                MyCommon.TraceOut(ex.Message + Environment.NewLine + content);
-                throw new WebApiException("Err:Json Parse Error(DataContractJsonSerializer)", content, ex);
-            }
-            catch(Exception ex)
-            {
-                MyCommon.TraceOut(ex, MethodBase.GetCurrentMethod().Name + " " + content);
-                throw new WebApiException("Err:Invalid Json!", content, ex);
-            }
-
-            this.UpdateUserStats(status.Sender);
+            this.UpdateUserStats(dm.Sender);
         }
 
         public void PostRetweet(long id, bool read)

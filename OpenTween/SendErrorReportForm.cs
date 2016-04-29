@@ -165,7 +165,7 @@ namespace OpenTween
 
         public async Task SendByDmAsync()
         {
-            await Task.Run(() => this.tw.SendDirectMessage(this.EncodedReportForDM));
+            await this.tw.SendDirectMessage(this.EncodedReportForDM);
         }
 
         private void UpdateEncodedReport()
