@@ -152,26 +152,6 @@ namespace OpenTween
             this.Initialize("", "", "", 0);
         }
 
-        public HttpStatusCode UpdateStatus(string status, long? replyToId, List<long> mediaIds, ref string content)
-        {
-            Dictionary<string, string> param = new Dictionary<string, string>();
-            param.Add("status", status);
-            if (replyToId != null) param.Add("in_reply_to_status_id", replyToId.ToString());
-            param.Add("include_entities", "true");
-            param.Add("include_ext_alt_text", "true");
-            //if (AppendSettingDialog.Instance.ShortenTco && AppendSettingDialog.Instance.UrlConvertAuto) param.Add("wrap_links", "true")
-
-            if (mediaIds != null && mediaIds.Count > 0)
-                param.Add("media_ids", string.Join(",", mediaIds));
-
-            return httpCon.GetContent(PostMethod,
-                this.CreateTwitterUri("/1.1/statuses/update.json"),
-                param,
-                ref content,
-                null,
-                null);
-        }
-
         public HttpStatusCode UpdateStatusWithMedia(string status, long? replyToId, IMediaItem item, ref string content)
         {
             //画像投稿用エンドポイント

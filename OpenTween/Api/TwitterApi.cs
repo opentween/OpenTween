@@ -60,6 +60,24 @@ namespace OpenTween.Api
             return this.apiConnection.GetAsync<TwitterStatus>(endpoint, param, "/statuses/show/:id");
         }
 
+        public Task<LazyJson<TwitterStatus>> StatusesUpdate(string status, long? replyToId, IReadOnlyList<long> mediaIds)
+        {
+            var endpoint = new Uri("statuses/update.json", UriKind.Relative);
+            var param = new Dictionary<string, string>
+            {
+                ["status"] = status,
+                ["include_entities"] = "true",
+                ["include_ext_alt_text"] = "true",
+            };
+
+            if (replyToId != null)
+                param["in_reply_to_status_id"] = replyToId.ToString();
+            if (mediaIds != null && mediaIds.Count > 0)
+                param.Add("media_ids", string.Join(",", mediaIds));
+
+            return this.apiConnection.PostLazyAsync<TwitterStatus>(endpoint, param);
+        }
+
         public Task<LazyJson<TwitterStatus>> StatusesDestroy(long statusId)
         {
             var endpoint = new Uri("statuses/destroy.json", UriKind.Relative);

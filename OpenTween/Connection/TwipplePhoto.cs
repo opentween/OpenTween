@@ -127,7 +127,7 @@ namespace OpenTween.Connection
 
             var textWithImageUrl = text + " " + imageUrlElm.Value.Trim();
 
-            await Task.Run(() => this.twitter.PostStatus(textWithImageUrl, inReplyToStatusId))
+            await this.twitter.PostStatus(textWithImageUrl, inReplyToStatusId)
                 .ConfigureAwait(false);
         }
 

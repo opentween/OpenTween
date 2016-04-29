@@ -115,8 +115,8 @@ namespace OpenTween
         private SettingCommon _cfgCommon;
 
         //twitter解析部
-        private Twitter tw = new Twitter();
         private TwitterApi twitterApi = new TwitterApi();
+        private Twitter tw;
 
         //Growl呼び出し部
         private GrowlHelper gh = new GrowlHelper(Application.ProductName);
@@ -777,6 +777,7 @@ namespace OpenTween
                 this._cfgCommon.AutoShortUrlFirst = MyCommon.UrlConverter.Uxnu;
 
             HttpTwitter.TwitterUrl = this._cfgCommon.TwitterUrl;
+            this.tw = new Twitter(this.twitterApi);
 
             //認証関連
             if (string.IsNullOrEmpty(this._cfgCommon.Token)) this._cfgCommon.UserName = "";
@@ -3097,7 +3098,8 @@ namespace OpenTween
                 {
                     if (status.mediaItems == null || status.mediaItems.Length == 0)
                     {
-                        this.tw.PostStatus(status.status, status.inReplyToId);
+                        await this.tw.PostStatus(status.status, status.inReplyToId)
+                            .ConfigureAwait(false);
                     }
                     else
                     {

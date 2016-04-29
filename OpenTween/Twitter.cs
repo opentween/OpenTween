@@ -167,11 +167,17 @@ namespace OpenTween
         //private FavoriteQueue favQueue;
 
         private HttpTwitter twCon = new HttpTwitter();
+        private TwitterApi Api { get; }
 
         //private List<PostClass> _deletemessages = new List<PostClass>();
 
-        public Twitter()
+        public Twitter() : this(new TwitterApi())
         {
+        }
+
+        public Twitter(TwitterApi api)
+        {
+            this.Api = api;
             this.Configuration = TwitterConfiguration.DefaultConfiguration();
         }
 
@@ -462,7 +468,7 @@ namespace OpenTween
             return false;
         }
 
-        public void PostStatus(string postStr, long? reply_to, List<long> mediaIds = null)
+        public async Task PostStatus(string postStr, long? reply_to, IReadOnlyList<long> mediaIds = null)
         {
             this.CheckAccountState();
 
@@ -473,38 +479,11 @@ namespace OpenTween
                 return;
             }
 
-            HttpStatusCode res;
-            var content = "";
-            try
-            {
-                res = twCon.UpdateStatus(postStr, reply_to, mediaIds, ref content);
-            }
-            catch(Exception ex)
-            {
-                throw new WebApiException("Err:" + ex.Message, ex);
-            }
+            var response = await this.Api.StatusesUpdate(postStr, reply_to, mediaIds)
+                .ConfigureAwait(false);
 
-            // 投稿に成功していても404が返ることがあるらしい: https://dev.twitter.com/discussions/1213
-            if (res == HttpStatusCode.NotFound)
-                return;
-
-            this.CheckStatusCode(res, content);
-
-            TwitterStatus status;
-            try
-            {
-                status = TwitterStatus.ParseJson(content);
-            }
-            catch(SerializationException ex)
-            {
-                MyCommon.TraceOut(ex.Message + Environment.NewLine + content);
-                throw new WebApiException("Err:Json Parse Error(DataContractJsonSerializer)", content, ex);
-            }
-            catch(Exception ex)
-            {
-                MyCommon.TraceOut(ex, MethodBase.GetCurrentMethod().Name + " " + content);
-                throw new WebApiException("Err:Invalid Json!", content, ex);
-            }
+            var status = await response.LoadJsonAsync()
+                .ConfigureAwait(false);
 
             this.UpdateUserStats(status.User);
 
@@ -559,7 +538,7 @@ namespace OpenTween
             }
         }
 
-        public void PostStatusWithMultipleMedia(string postStr, long? reply_to, IMediaItem[] mediaItems)
+        public async Task PostStatusWithMultipleMedia(string postStr, long? reply_to, IMediaItem[] mediaItems)
         {
             this.CheckAccountState();
 
@@ -580,7 +559,8 @@ namespace OpenTween
             if (mediaIds.Count == 0)
                 throw new WebApiException("Err:Invalid Files!");
 
-            PostStatus(postStr, reply_to, mediaIds);
+            await this.PostStatus(postStr, reply_to, mediaIds)
+                .ConfigureAwait(false);
         }
 
         public long UploadMedia(IMediaItem item)
