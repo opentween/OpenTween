@@ -54,6 +54,7 @@ namespace OpenTween.Api
             {
                 ["id"] = statusId.ToString(),
                 ["include_entities"] = "true",
+                ["include_ext_alt_text"] = "true",
             };
 
             return this.apiConnection.GetAsync<TwitterStatus>(endpoint, param, "/statuses/show/:id");
@@ -88,6 +89,7 @@ namespace OpenTween.Api
             {
                 ["screen_name"] = screenName,
                 ["include_entities"] = "true",
+                ["include_ext_alt_text"] = "true",
             };
 
             return this.apiConnection.GetAsync<TwitterUser>(endpoint, param, "/users/show/:id");
@@ -188,6 +190,7 @@ namespace OpenTween.Api
             var param = new Dictionary<string, string>
             {
                 ["include_entities"] = "true",
+                ["include_ext_alt_text"] = "true",
             };
 
             if (name != null)
@@ -214,6 +217,7 @@ namespace OpenTween.Api
             var param = new Dictionary<string, string>
             {
                 ["include_entities"] = "true",
+                ["include_ext_alt_text"] = "true",
             };
             var paramMedia = new Dictionary<string, IMediaItem>
             {

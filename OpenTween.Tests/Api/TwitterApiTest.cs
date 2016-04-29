@@ -93,7 +93,11 @@ namespace OpenTween.Api
                 mock.Setup(x =>
                     x.GetAsync<TwitterStatus>(
                         new Uri("statuses/show.json", UriKind.Relative),
-                        new Dictionary<string, string> { { "id", "100" }, { "include_entities", "true" } },
+                        new Dictionary<string, string> {
+                            { "id", "100" },
+                            { "include_entities", "true" },
+                            { "include_ext_alt_text", "true" },
+                        },
                         "/statuses/show/:id")
                 )
                 .ReturnsAsync(new TwitterStatus { Id = 100L });
@@ -162,7 +166,11 @@ namespace OpenTween.Api
                 mock.Setup(x =>
                     x.GetAsync<TwitterUser>(
                         new Uri("users/show.json", UriKind.Relative),
-                        new Dictionary<string, string> { { "screen_name", "twitterapi" }, { "include_entities", "true" } },
+                        new Dictionary<string, string> {
+                            { "screen_name", "twitterapi" },
+                            { "include_entities", "true" },
+                            { "include_ext_alt_text", "true" },
+                        },
                         "/users/show/:id")
                 )
                 .ReturnsAsync(new TwitterUser { ScreenName = "twitterapi" });
@@ -371,6 +379,7 @@ namespace OpenTween.Api
                         new Uri("account/update_profile.json", UriKind.Relative),
                         new Dictionary<string, string> {
                             { "include_entities", "true" },
+                            { "include_ext_alt_text", "true" },
                             { "name", "Name" },
                             { "url", "http://example.com/" },
                             { "location", "Location" },
@@ -400,7 +409,10 @@ namespace OpenTween.Api
                 mock.Setup(x =>
                     x.PostLazyAsync<TwitterUser>(
                         new Uri("account/update_profile_image.json", UriKind.Relative),
-                        new Dictionary<string, string> { { "include_entities", "true" } },
+                        new Dictionary<string, string> {
+                            { "include_entities", "true" },
+                            { "include_ext_alt_text", "true" },
+                        },
                         new Dictionary<string, IMediaItem> { { "image", media } })
                 )
                 .ReturnsAsync(LazyJson.Create(new TwitterUser()));
