@@ -238,59 +238,6 @@ namespace OpenTween
                 null);
         }
 
-        public HttpStatusCode ShowUserInfo(string screenName, ref string content)
-        {
-            Dictionary<string, string> param = new Dictionary<string, string>();
-            param.Add("screen_name", screenName);
-            param.Add("include_entities", "true");
-            param.Add("include_ext_alt_text", "true");
-            return httpCon.GetContent(GetMethod,
-                this.CreateTwitterUri("/1.1/users/show.json"),
-                param,
-                ref content,
-                this.CreateRatelimitHeadersDict(),
-                this.CreateApiCalllback("/users/show/:id"));
-        }
-
-        public HttpStatusCode CreateBlock(string screenName, ref string content)
-        {
-            Dictionary<string, string> param = new Dictionary<string, string>();
-            param.Add("screen_name", screenName);
-
-            return httpCon.GetContent(PostMethod,
-                this.CreateTwitterUri("/1.1/blocks/create.json"),
-                param,
-                ref content,
-                null,
-                null);
-        }
-
-        public HttpStatusCode DestroyBlock(string screenName, ref string content)
-        {
-            Dictionary<string, string> param = new Dictionary<string, string>();
-            param.Add("screen_name", screenName);
-
-            return httpCon.GetContent(PostMethod,
-                this.CreateTwitterUri("/1.1/blocks/destroy.json"),
-                param,
-                ref content,
-                null,
-                null);
-        }
-
-        public HttpStatusCode ReportSpam(string screenName, ref string content)
-        {
-            Dictionary<string, string> param = new Dictionary<string, string>();
-            param.Add("screen_name", screenName);
-
-            return httpCon.GetContent(PostMethod,
-                this.CreateTwitterUri("/1.1/users/report_spam.json"),
-                param,
-                ref content,
-                null,
-                null);
-        }
-
         public HttpStatusCode ShowStatuses(long id, ref string content)
         {
             Dictionary<string, string> param = new Dictionary<string, string>();
@@ -302,32 +249,6 @@ namespace OpenTween
                 ref content,
                 this.CreateRatelimitHeadersDict(),
                 this.CreateApiCalllback("/statuses/show/:id"));
-        }
-
-        public HttpStatusCode CreateFavorites(long id, ref string content)
-        {
-            var param = new Dictionary<string, string>();
-            param.Add("id", id.ToString());
-
-            return httpCon.GetContent(PostMethod,
-                this.CreateTwitterUri("/1.1/favorites/create.json"),
-                param,
-                ref content,
-                null,
-                null);
-        }
-
-        public HttpStatusCode DestroyFavorites(long id, ref string content)
-        {
-            var param = new Dictionary<string, string>();
-            param.Add("id", id.ToString());
-
-            return httpCon.GetContent(PostMethod,
-                this.CreateTwitterUri("/1.1/favorites/destroy.json"),
-                param,
-                ref content,
-                null,
-                null);
         }
 
         public HttpStatusCode HomeTimeline(int? count, long? max_id, long? since_id, ref string content)
@@ -701,44 +622,6 @@ namespace OpenTween
                 ref content,
                 this.CreateRatelimitHeadersDict(),
                 this.CreateApiCalllback("/statuses/retweeters/ids"));
-        }
-
-        public HttpStatusCode UpdateProfile(string name, string url, string location, string description, ref string content)
-        {
-            Dictionary<string, string> param = new Dictionary<string, string>();
-
-            param.Add("name", name);
-            param.Add("url", url);
-            param.Add("location", location);
-
-            // name, location, description に含まれる < > " の文字はTwitter側で除去されるが、
-            // twitter.com の挙動では description でのみ &lt; 等の文字参照を使って表示することができる
-            var escapedDescription = description.Replace("<", "&lt;").Replace(">", "&gt;").Replace("\"", "&quot;");
-            param.Add("description", escapedDescription);
-
-            param.Add("include_entities", "true");
-            param.Add("include_ext_alt_text", "true");
-
-            return httpCon.GetContent(PostMethod,
-                this.CreateTwitterUri("/1.1/account/update_profile.json"),
-                param,
-                ref content,
-                null,
-                null);
-        }
-
-        public HttpStatusCode UpdateProfileImage(FileInfo imageFile, ref string content)
-        {
-            var binary = new List<KeyValuePair<string, IMediaItem>>();
-            binary.Add(new KeyValuePair<string, IMediaItem>("image", new FileMediaItem(imageFile)));
-
-            return httpCon.GetContent(PostMethod,
-                this.CreateTwitterUri("/1.1/account/update_profile_image.json"),
-                null,
-                binary,
-                ref content,
-                null,
-                null);
         }
 
         public HttpStatusCode GetBlockUserIds(ref string content, long? cursor)
