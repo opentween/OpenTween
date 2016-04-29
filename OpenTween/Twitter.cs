@@ -493,51 +493,6 @@ namespace OpenTween
             }
         }
 
-        public void PostStatusWithMedia(string postStr, long? reply_to, IMediaItem item)
-        {
-            this.CheckAccountState();
-
-            HttpStatusCode res;
-            var content = "";
-            try
-            {
-                res = twCon.UpdateStatusWithMedia(postStr, reply_to, item, ref content);
-            }
-            catch(Exception ex)
-            {
-                throw new WebApiException("Err:" + ex.Message, ex);
-            }
-
-            // 投稿に成功していても404が返ることがあるらしい: https://dev.twitter.com/discussions/1213
-            if (res == HttpStatusCode.NotFound)
-                return;
-
-            this.CheckStatusCode(res, content);
-
-            TwitterStatus status;
-            try
-            {
-                status = TwitterStatus.ParseJson(content);
-            }
-            catch(SerializationException ex)
-            {
-                MyCommon.TraceOut(ex.Message + Environment.NewLine + content);
-                throw new WebApiException("Err:Json Parse Error(DataContractJsonSerializer)", content, ex);
-            }
-            catch(Exception ex)
-            {
-                MyCommon.TraceOut(ex, MethodBase.GetCurrentMethod().Name + " " + content);
-                throw new WebApiException("Err:Invalid Json!", content, ex);
-            }
-
-            this.UpdateUserStats(status.User);
-
-            if (IsPostRestricted(status))
-            {
-                throw new WebApiException("OK:Delaying?");
-            }
-        }
-
         public async Task PostStatusWithMultipleMedia(string postStr, long? reply_to, IMediaItem[] mediaItems)
         {
             this.CheckAccountState();
