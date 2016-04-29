@@ -505,18 +505,14 @@ namespace OpenTween
                 return;
             }
 
-            var mediaIds = new List<long>();
-
-            foreach (var item in mediaItems)
-            {
-                var mediaId = await this.UploadMedia(item)
-                    .ConfigureAwait(false);
-
-                mediaIds.Add(mediaId);
-            }
-
-            if (mediaIds.Count == 0)
+            if (mediaItems.Length == 0)
                 throw new WebApiException("Err:Invalid Files!");
+
+            var uploadTasks = from m in mediaItems
+                              select this.UploadMedia(m);
+
+            var mediaIds = await Task.WhenAll(uploadTasks)
+                .ConfigureAwait(false);
 
             await this.PostStatus(postStr, reply_to, mediaIds)
                 .ConfigureAwait(false);
