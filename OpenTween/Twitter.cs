@@ -2259,37 +2259,10 @@ namespace OpenTween
         {
             if (MyCommon._endingFlag) return;
 
-            var ids = await TwitterIds.GetAllItemsAsync(this.GetMuteUserIdsApiAsync)
+            var ids = await TwitterIds.GetAllItemsAsync(x => this.Api.MutesUsersIds(x))
                 .ConfigureAwait(false);
 
             TabInformations.GetInstance().MuteUserIds = new HashSet<long>(ids);
-        }
-
-        public async Task<TwitterIds> GetMuteUserIdsApiAsync(long cursor)
-        {
-            var content = "";
-
-            try
-            {
-                var res = await Task.Run(() => twCon.GetMuteUserIds(ref content, cursor))
-                    .ConfigureAwait(false);
-
-                this.CheckStatusCode(res, content);
-
-                return TwitterIds.ParseJson(content);
-            }
-            catch (WebException ex)
-            {
-                var ex2 = new WebApiException("Err:" + ex.Message + "(" + MethodBase.GetCurrentMethod().Name + ")", content, ex);
-                MyCommon.TraceOut(ex2);
-                throw ex2;
-            }
-            catch (SerializationException ex)
-            {
-                var ex2 = new WebApiException("Err:Json Parse Error(DataContractJsonSerializer)", content, ex);
-                MyCommon.TraceOut(ex2);
-                throw ex2;
-            }
         }
 
         public string[] GetHashList()

@@ -424,6 +424,29 @@ namespace OpenTween.Api
         }
 
         [Fact]
+        public async Task MutesUsersIds_Test()
+        {
+            using (var twitterApi = new TwitterApi())
+            {
+                var mock = new Mock<IApiConnection>();
+                mock.Setup(x =>
+                    x.GetAsync<TwitterIds>(
+                        new Uri("mutes/users/ids.json", UriKind.Relative),
+                        new Dictionary<string, string> { { "cursor", "-1" } },
+                        "/mutes/users/ids")
+                )
+                .ReturnsAsync(new TwitterIds());
+
+                twitterApi.apiConnection = mock.Object;
+
+                await twitterApi.MutesUsersIds(cursor: -1L)
+                    .ConfigureAwait(false);
+
+                mock.VerifyAll();
+            }
+        }
+
+        [Fact]
         public async Task BlocksIds_Test()
         {
             using (var twitterApi = new TwitterApi())
