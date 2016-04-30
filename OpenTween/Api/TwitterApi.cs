@@ -85,6 +85,27 @@ namespace OpenTween.Api
             return this.apiConnection.GetAsync<TwitterStatus[]>(endpoint, param, "/statuses/mentions_timeline");
         }
 
+        public Task<TwitterStatus[]> StatusesUserTimeline(string screenName, int? count = null, long? maxId = null, long? sinceId = null)
+        {
+            var endpoint = new Uri("statuses/user_timeline.json", UriKind.Relative);
+            var param = new Dictionary<string, string>
+            {
+                ["screen_name"] = screenName,
+                ["include_rts"] = "true",
+                ["include_entities"] = "true",
+                ["include_ext_alt_text"] = "true",
+            };
+
+            if (count != null)
+                param["count"] = count.ToString();
+            if (maxId != null)
+                param["max_id"] = maxId.ToString();
+            if (sinceId != null)
+                param["since_id"] = sinceId.ToString();
+
+            return this.apiConnection.GetAsync<TwitterStatus[]>(endpoint, param, "/statuses/user_timeline");
+        }
+
         public Task<TwitterStatus> StatusesShow(long statusId)
         {
             var endpoint = new Uri("statuses/show.json", UriKind.Relative);

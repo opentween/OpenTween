@@ -2626,7 +2626,7 @@ namespace OpenTween
             catch (WebApiException ex)
             {
                 this._myStatusError = true;
-                this.StatusLabel.Text = ex.Message;
+                this.StatusLabel.Text = $"Err:{ex.Message}(GetUserTimeline)";
             }
             finally
             {
@@ -2650,7 +2650,7 @@ namespace OpenTween
 
             p.Report("UserTimeline refreshing...");
 
-            await Task.Run(() =>
+            await Task.Run(async () =>
             {
                 WebApiException lastException = null;
 
@@ -2661,7 +2661,8 @@ namespace OpenTween
                         if (string.IsNullOrEmpty(tab.User))
                             continue;
 
-                        this.tw.GetUserTimelineApi(read, tab.User, tab, loadMore);
+                        await this.tw.GetUserTimelineApi(read, tab.User, tab, loadMore)
+                            .ConfigureAwait(false);
                     }
                     catch (WebApiException ex)
                     {

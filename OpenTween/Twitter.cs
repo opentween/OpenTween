@@ -910,49 +910,36 @@ namespace OpenTween
             }
         }
 
-        public void GetUserTimelineApi(bool read,
-                                         string userName,
-                                         TabClass tab,
-                                         bool more)
+        public async Task GetUserTimelineApi(bool read, string userName, TabClass tab, bool more)
         {
             this.CheckAccountState();
 
-            HttpStatusCode res;
-            var content = "";
             var count = GetApiResultCount(MyCommon.WORKERTYPE.UserTimeline, more, false);
 
-            try
+            TwitterStatus[] statuses;
+            if (string.IsNullOrEmpty(userName))
             {
-                if (string.IsNullOrEmpty(userName))
+                var target = tab.User;
+                if (string.IsNullOrEmpty(target)) return;
+                userName = target;
+                statuses = await this.Api.StatusesUserTimeline(userName, count)
+                    .ConfigureAwait(false);
+            }
+            else
+            {
+                if (more)
                 {
-                    var target = tab.User;
-                    if (string.IsNullOrEmpty(target)) return;
-                    userName = target;
-                    res = twCon.UserTimeline(null, target, count, null, null, ref content);
+                    statuses = await this.Api.StatusesUserTimeline(userName, count, maxId: tab.OldestId)
+                        .ConfigureAwait(false);
                 }
                 else
                 {
-                    if (more)
-                    {
-                        res = twCon.UserTimeline(null, userName, count, tab.OldestId, null, ref content);
-                    }
-                    else
-                    {
-                        res = twCon.UserTimeline(null, userName, count, null, null, ref content);
-                    }
+                    statuses = await this.Api.StatusesUserTimeline(userName, count)
+                        .ConfigureAwait(false);
                 }
             }
-            catch(Exception ex)
-            {
-                throw new WebApiException("Err:" + ex.Message, ex);
-            }
 
-            if (res == HttpStatusCode.Unauthorized)
-                throw new WebApiException("Err:@" + userName + "'s Tweets are protected.");
-
-            this.CheckStatusCode(res, content);
-
-            var minimumId = CreatePostsFromJson(content, MyCommon.WORKERTYPE.UserTimeline, tab, read);
+            var minimumId = CreatePostsFromJson(statuses, MyCommon.WORKERTYPE.UserTimeline, tab, read);
 
             if (minimumId != null)
                 tab.OldestId = minimumId.Value;
