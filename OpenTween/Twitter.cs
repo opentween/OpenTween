@@ -547,7 +547,7 @@ namespace OpenTween
             this.UpdateUserStats(dm.Sender);
         }
 
-        public void PostRetweet(long id, bool read)
+        public async Task PostRetweet(long id, bool read)
         {
             this.CheckAccountState();
 
@@ -563,39 +563,16 @@ namespace OpenTween
                 target = TabInformations.GetInstance()[id].RetweetedId.Value; //再RTの場合は元発言をRT
             }
 
-            HttpStatusCode res;
-            var content = "";
-            try
-            {
-                res = twCon.RetweetStatus(target, ref content);
-            }
-            catch(Exception ex)
-            {
-                throw new WebApiException("Err:" + ex.Message, ex);
-            }
+            var response = await this.Api.StatusesRetweet(target)
+                .ConfigureAwait(false);
 
-            this.CheckStatusCode(res, content);
-
-            TwitterStatus status;
-            try
-            {
-                status = TwitterStatus.ParseJson(content);
-            }
-            catch(SerializationException ex)
-            {
-                MyCommon.TraceOut(ex.Message + Environment.NewLine + content);
-                throw new WebApiException("Err:Json Parse Error(DataContractJsonSerializer)", content, ex);
-            }
-            catch(Exception ex)
-            {
-                MyCommon.TraceOut(ex, MethodBase.GetCurrentMethod().Name + " " + content);
-                throw new WebApiException("Err:Invalid Json!", content, ex);
-            }
+            var status = await response.LoadJsonAsync()
+                .ConfigureAwait(false);
 
             //ReTweetしたものをTLに追加
             post = CreatePostsFromStatusData(status);
             if (post == null)
-                throw new WebApiException("Invalid Json!", content);
+                throw new WebApiException("Invalid Json!");
 
             //二重取得回避
             lock (LockObj)
@@ -605,7 +582,7 @@ namespace OpenTween
             }
             //Retweet判定
             if (post.RetweetedId == null)
-                throw new WebApiException("Invalid Json!", content);
+                throw new WebApiException("Invalid Json!");
             //ユーザー情報
             post.IsMe = true;
 

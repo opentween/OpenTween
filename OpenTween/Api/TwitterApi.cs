@@ -89,6 +89,19 @@ namespace OpenTween.Api
             return this.apiConnection.PostLazyAsync<TwitterStatus>(endpoint, param);
         }
 
+        public Task<LazyJson<TwitterStatus>> StatusesRetweet(long statusId)
+        {
+            var endpoint = new Uri("statuses/retweet.json", UriKind.Relative);
+            var param = new Dictionary<string, string>
+            {
+                ["id"] = statusId.ToString(),
+                ["include_entities"] = "true",
+                ["include_ext_alt_text"] = "true",
+            };
+
+            return this.apiConnection.PostLazyAsync<TwitterStatus>(endpoint, param);
+        }
+
         public Task<LazyJson<TwitterDirectMessage>> DirectMessagesNew(string status, string sendTo)
         {
             var endpoint = new Uri("direct_messages/new.json", UriKind.Relative);

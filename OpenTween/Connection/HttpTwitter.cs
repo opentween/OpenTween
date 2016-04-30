@@ -152,20 +152,6 @@ namespace OpenTween
             this.Initialize("", "", "", 0);
         }
 
-        public HttpStatusCode RetweetStatus(long id, ref string content)
-        {
-            Dictionary<string, string> param = new Dictionary<string, string>();
-            param.Add("include_entities", "true");
-            param.Add("include_ext_alt_text", "true");
-
-            return httpCon.GetContent(PostMethod,
-                this.CreateTwitterUri("/1.1/statuses/retweet/" + id + ".json"),
-                param,
-                ref content,
-                null,
-                null);
-        }
-
         public HttpStatusCode HomeTimeline(int? count, long? max_id, long? since_id, ref string content)
         {
             Dictionary<string, string> param = new Dictionary<string, string>();

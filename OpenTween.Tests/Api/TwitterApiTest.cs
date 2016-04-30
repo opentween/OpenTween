@@ -164,6 +164,33 @@ namespace OpenTween.Api
         }
 
         [Fact]
+        public async Task StatusesRetweet_Test()
+        {
+            using (var twitterApi = new TwitterApi())
+            {
+                var mock = new Mock<IApiConnection>();
+                mock.Setup(x =>
+                    x.PostLazyAsync<TwitterStatus>(
+                        new Uri("statuses/retweet.json", UriKind.Relative),
+                        new Dictionary<string, string> {
+                            { "id", "100" },
+                            { "include_entities", "true" },
+                            { "include_ext_alt_text", "true" },
+                        })
+                )
+                .ReturnsAsync(LazyJson.Create(new TwitterStatus()));
+
+                twitterApi.apiConnection = mock.Object;
+
+                await twitterApi.StatusesRetweet(100L)
+                    .IgnoreResponse()
+                    .ConfigureAwait(false);
+
+                mock.VerifyAll();
+            }
+        }
+
+        [Fact]
         public async Task DirectMessagesNew_Test()
         {
             using (var twitterApi = new TwitterApi())
