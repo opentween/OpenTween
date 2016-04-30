@@ -1131,27 +1131,6 @@ namespace OpenTween
             }
         }
 
-        private long? CreatePostsFromJson(string content, MyCommon.WORKERTYPE gType, TabClass tab, bool read)
-        {
-            TwitterStatus[] items;
-            try
-            {
-                items = TwitterStatus.ParseJsonArray(content);
-            }
-            catch(SerializationException ex)
-            {
-                MyCommon.TraceOut(ex.Message + Environment.NewLine + content);
-                throw new WebApiException("Json Parse Error(DataContractJsonSerializer)", content, ex);
-            }
-            catch(Exception ex)
-            {
-                MyCommon.TraceOut(ex, MethodBase.GetCurrentMethod().Name + " " + content);
-                throw new WebApiException("Invalid Json!", content, ex);
-            }
-
-            return this.CreatePostsFromJson(items, gType, tab, read);
-        }
-
         private long? CreatePostsFromJson(TwitterStatus[] items, MyCommon.WORKERTYPE gType, TabClass tab, bool read)
         {
             long? minimumId = null;
@@ -2506,7 +2485,15 @@ namespace OpenTween
                 }
                 else
                 {
-                    CreatePostsFromJson("[" + line + "]", MyCommon.WORKERTYPE.Timeline, null, false);
+                    try
+                    {
+                        var status = TwitterStatus.ParseJson(line);
+                        this.CreatePostsFromJson(new[] { status }, MyCommon.WORKERTYPE.UserStream, null, false);
+                    }
+                    catch (SerializationException ex)
+                    {
+                        throw TwitterApiException.CreateFromException(ex, line);
+                    }
                 }
             }
             catch (WebApiException ex)
