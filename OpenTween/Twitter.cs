@@ -1751,7 +1751,7 @@ namespace OpenTween
         /// フォロワーIDを更新します
         /// </summary>
         /// <exception cref="WebApiException"/>
-        public void RefreshFollowerIds()
+        public async Task RefreshFollowerIds()
         {
             if (MyCommon._endingFlag) return;
 
@@ -1759,7 +1759,12 @@ namespace OpenTween
             var newFollowerIds = new HashSet<long>();
             do
             {
-                var ret = this.GetFollowerIdsApi(ref cursor);
+                var ret = await this.Api.FollowersIds(cursor)
+                    .ConfigureAwait(false);
+
+                if (ret.Ids == null)
+                    throw new WebApiException("ret.ids == null");
+
                 newFollowerIds.UnionWith(ret.Ids);
                 cursor = ret.NextCursor;
             } while (cursor != 0);
@@ -1775,50 +1780,6 @@ namespace OpenTween
             get
             {
                 return _GetFollowerResult;
-            }
-        }
-
-        private TwitterIds GetFollowerIdsApi(ref long cursor)
-        {
-            this.CheckAccountState();
-
-            HttpStatusCode res;
-            var content = "";
-            try
-            {
-                res = twCon.FollowerIds(cursor, ref content);
-            }
-            catch(Exception e)
-            {
-                throw new WebApiException("Err:" + e.Message + "(" + MethodBase.GetCurrentMethod().Name + ")", e);
-            }
-
-            this.CheckStatusCode(res, content);
-
-            try
-            {
-                var ret = TwitterIds.ParseJson(content);
-
-                if (ret.Ids == null)
-                {
-                    var ex = new WebApiException("Err: ret.id == null (GetFollowerIdsApi)", content);
-                    MyCommon.ExceptionOut(ex);
-                    throw ex;
-                }
-
-                return ret;
-            }
-            catch(SerializationException e)
-            {
-                var ex = new WebApiException("Err:Json Parse Error(DataContractJsonSerializer)", content, e);
-                MyCommon.TraceOut(ex);
-                throw ex;
-            }
-            catch(Exception e)
-            {
-                var ex = new WebApiException("Err:Invalid Json!", content, e);
-                MyCommon.TraceOut(ex);
-                throw ex;
             }
         }
 

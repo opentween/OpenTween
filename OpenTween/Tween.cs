@@ -3260,7 +3260,7 @@ namespace OpenTween
             {
                 this.StatusLabel.Text = Properties.Resources.UpdateFollowersMenuItem1_ClickText1;
 
-                await Task.Run(() => tw.RefreshFollowerIds());
+                await this.tw.RefreshFollowerIds();
 
                 this.StatusLabel.Text = Properties.Resources.UpdateFollowersMenuItem1_ClickText3;
 

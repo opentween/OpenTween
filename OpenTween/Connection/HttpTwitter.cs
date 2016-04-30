@@ -328,19 +328,6 @@ namespace OpenTween
                 this.CreateApiCalllback("/saved_searches/list"));
         }
 
-        public HttpStatusCode FollowerIds(long cursor, ref string content)
-        {
-            Dictionary<string, string> param = new Dictionary<string, string>();
-            param.Add("cursor", cursor.ToString());
-
-            return httpCon.GetContent(GetMethod,
-                this.CreateTwitterUri("/1.1/followers/ids.json"),
-                param,
-                ref content,
-                this.CreateRatelimitHeadersDict(),
-                this.CreateApiCalllback("/followers/ids"));
-        }
-
         public HttpStatusCode NoRetweetIds(ref string content)
         {
             return httpCon.GetContent(GetMethod,
