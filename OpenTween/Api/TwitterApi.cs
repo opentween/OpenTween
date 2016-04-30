@@ -297,6 +297,13 @@ namespace OpenTween.Api
             return this.apiConnection.PostLazyAsync<TwitterUser>(endpoint, param, paramMedia);
         }
 
+        public Task<TwitterConfiguration> Configuration()
+        {
+            var endpoint = new Uri("help/configuration.json", UriKind.Relative);
+
+            return this.apiConnection.GetAsync<TwitterConfiguration>(endpoint, null, "/help/configuration");
+        }
+
         public Task<LazyJson<TwitterUploadMediaResult>> MediaUpload(IMediaItem media)
         {
             var endpoint = new Uri("https://upload.twitter.com/1.1/media/upload.json");

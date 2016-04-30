@@ -575,6 +575,29 @@ namespace OpenTween.Api
         }
 
         [Fact]
+        public async Task Configuration_Test()
+        {
+            using (var twitterApi = new TwitterApi())
+            {
+                var mock = new Mock<IApiConnection>();
+                mock.Setup(x =>
+                    x.GetAsync<TwitterConfiguration>(
+                        new Uri("help/configuration.json", UriKind.Relative),
+                        null,
+                        "/help/configuration")
+                )
+                .ReturnsAsync(new TwitterConfiguration());
+
+                twitterApi.apiConnection = mock.Object;
+
+                await twitterApi.Configuration()
+                    .ConfigureAwait(false);
+
+                mock.VerifyAll();
+            }
+        }
+
+        [Fact]
         public async Task MediaUpload_Test()
         {
             using (var twitterApi = new TwitterApi())

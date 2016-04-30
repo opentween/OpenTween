@@ -516,16 +516,6 @@ namespace OpenTween
                 this.CreateApiCalllback("/statuses/retweeters/ids"));
         }
 
-        public HttpStatusCode GetConfiguration(ref string content)
-        {
-            return httpCon.GetContent(GetMethod,
-                this.CreateTwitterUri("/1.1/help/configuration.json"),
-                null,
-                ref content,
-                this.CreateRatelimitHeadersDict(),
-                this.CreateApiCalllback("/help/configuration"));
-        }
-
         public HttpStatusCode VerifyCredentials(ref string content)
         {
             return httpCon.GetContent(GetMethod,

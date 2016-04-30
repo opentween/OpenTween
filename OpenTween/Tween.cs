@@ -3323,7 +3323,7 @@ namespace OpenTween
             await this.workerSemaphore.WaitAsync();
             try
             {
-                await Task.Run(() => tw.RefreshConfiguration());
+                await this.tw.RefreshConfiguration();
 
                 if (this.tw.Configuration.PhotoSizeLimit != 0)
                 {

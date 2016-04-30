@@ -1809,42 +1809,10 @@ namespace OpenTween
         /// t.co の文字列長などの設定情報を更新します
         /// </summary>
         /// <exception cref="WebApiException"/>
-        public void RefreshConfiguration()
+        public async Task RefreshConfiguration()
         {
-            this.Configuration = this.ConfigurationApi();
-        }
-
-        private TwitterConfiguration ConfigurationApi()
-        {
-            HttpStatusCode res;
-            var content = "";
-            try
-            {
-                res = twCon.GetConfiguration(ref content);
-            }
-            catch(Exception e)
-            {
-                throw new WebApiException("Err:" + e.Message + "(" + MethodBase.GetCurrentMethod().Name + ")", e);
-            }
-
-            this.CheckStatusCode(res, content);
-
-            try
-            {
-                return TwitterConfiguration.ParseJson(content);
-            }
-            catch(SerializationException e)
-            {
-                var ex = new WebApiException("Err:Json Parse Error(DataContractJsonSerializer)", content, e);
-                MyCommon.TraceOut(ex);
-                throw ex;
-            }
-            catch(Exception e)
-            {
-                var ex = new WebApiException("Err:Invalid Json!", content, e);
-                MyCommon.TraceOut(ex);
-                throw ex;
-            }
+            this.Configuration = await this.Api.Configuration()
+                .ConfigureAwait(false);
         }
 
         public void GetListsApi()
