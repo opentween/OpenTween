@@ -59,6 +59,13 @@ namespace OpenTween.Connection
                 this.ConsumerKey, this.ConsumerSecret, this.AccessToken, this.AccessSecret);
             request.Headers.TryAddWithoutValidation("Authorization", credential);
 
+            var postContent = request.Content as FormUrlEncodedContent;
+            if (postContent != null)
+            {
+                request.Content = new StringContent(MyCommon.BuildQueryString(query), Encoding.UTF8, "application/x-www-form-urlencoded");
+                postContent.Dispose();
+            }
+
             return await base.SendAsync(request, cancellationToken)
                 .ConfigureAwait(false);
         }
