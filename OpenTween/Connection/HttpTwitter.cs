@@ -516,21 +516,6 @@ namespace OpenTween
                 this.CreateApiCalllback("/statuses/retweeters/ids"));
         }
 
-        public HttpStatusCode GetBlockUserIds(ref string content, long? cursor)
-        {
-            var param = new Dictionary<string, string>();
-
-            if (cursor != null)
-                param.Add("cursor", cursor.ToString());
-
-            return httpCon.GetContent(GetMethod,
-                this.CreateTwitterUri("/1.1/blocks/ids.json"),
-                param,
-                ref content,
-                this.CreateRatelimitHeadersDict(),
-                this.CreateApiCalllback("/blocks/ids"));
-        }
-
         public HttpStatusCode GetMuteUserIds(ref string content, long? cursor)
         {
             var param = new Dictionary<string, string>();

@@ -2231,7 +2231,7 @@ namespace OpenTween
         /// ブロック中のユーザーを更新します
         /// </summary>
         /// <exception cref="WebApiException"/>
-        public void RefreshBlockIds()
+        public async Task RefreshBlockIds()
         {
             if (MyCommon._endingFlag) return;
 
@@ -2239,7 +2239,9 @@ namespace OpenTween
             var newBlockIds = new HashSet<long>();
             do
             {
-                var ret = this.GetBlockIdsApi(cursor);
+                var ret = await this.Api.BlocksIds(cursor)
+                    .ConfigureAwait(false);
+
                 newBlockIds.UnionWith(ret.Ids);
                 cursor = ret.NextCursor;
             } while (cursor != 0);
@@ -2247,41 +2249,6 @@ namespace OpenTween
             newBlockIds.Remove(this.UserId); // 元のソースにあったので一応残しておく
 
             TabInformations.GetInstance().BlockIds = newBlockIds;
-        }
-
-        public TwitterIds GetBlockIdsApi(long cursor)
-        {
-            this.CheckAccountState();
-
-            HttpStatusCode res;
-            var content = "";
-            try
-            {
-                res = twCon.GetBlockUserIds(ref content, cursor);
-            }
-            catch(Exception e)
-            {
-                throw new WebApiException("Err:" + e.Message + "(" + MethodBase.GetCurrentMethod().Name + ")", e);
-            }
-
-            this.CheckStatusCode(res, content);
-
-            try
-            {
-                return TwitterIds.ParseJson(content);
-            }
-            catch(SerializationException e)
-            {
-                var ex = new WebApiException("Err:Json Parse Error(DataContractJsonSerializer)", content, e);
-                MyCommon.TraceOut(ex);
-                throw ex;
-            }
-            catch(Exception e)
-            {
-                var ex = new WebApiException("Err:Invalid Json!", content, e);
-                MyCommon.TraceOut(ex);
-                throw ex;
-            }
         }
 
         /// <summary>

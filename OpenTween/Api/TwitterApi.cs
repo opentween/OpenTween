@@ -210,6 +210,17 @@ namespace OpenTween.Api
             return this.apiConnection.GetAsync<TwitterIds>(endpoint, param, "/followers/ids");
         }
 
+        public Task<TwitterIds> BlocksIds(long? cursor = null)
+        {
+            var endpoint = new Uri("blocks/ids.json", UriKind.Relative);
+            var param = new Dictionary<string, string>();
+
+            if (cursor != null)
+                param["cursor"] = cursor.ToString();
+
+            return this.apiConnection.GetAsync<TwitterIds>(endpoint, param, "/blocks/ids");
+        }
+
         public Task<LazyJson<TwitterUser>> BlocksCreate(string screenName)
         {
             var endpoint = new Uri("blocks/create.json", UriKind.Relative);

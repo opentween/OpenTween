@@ -3304,7 +3304,7 @@ namespace OpenTween
             {
                 this.StatusLabel.Text = Properties.Resources.UpdateBlockUserText1;
 
-                await Task.Run(() => tw.RefreshBlockIds());
+                await this.tw.RefreshBlockIds();
 
                 this.StatusLabel.Text = Properties.Resources.UpdateBlockUserText3;
             }

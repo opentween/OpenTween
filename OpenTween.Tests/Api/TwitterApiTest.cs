@@ -424,6 +424,29 @@ namespace OpenTween.Api
         }
 
         [Fact]
+        public async Task BlocksIds_Test()
+        {
+            using (var twitterApi = new TwitterApi())
+            {
+                var mock = new Mock<IApiConnection>();
+                mock.Setup(x =>
+                    x.GetAsync<TwitterIds>(
+                        new Uri("blocks/ids.json", UriKind.Relative),
+                        new Dictionary<string, string> { { "cursor", "-1" } },
+                        "/blocks/ids")
+                )
+                .ReturnsAsync(new TwitterIds());
+
+                twitterApi.apiConnection = mock.Object;
+
+                await twitterApi.BlocksIds(cursor: -1L)
+                    .ConfigureAwait(false);
+
+                mock.VerifyAll();
+            }
+        }
+
+        [Fact]
         public async Task BlocksCreate_Test()
         {
             using (var twitterApi = new TwitterApi())
