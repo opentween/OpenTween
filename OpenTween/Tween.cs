@@ -2714,7 +2714,7 @@ namespace OpenTween
             catch (WebApiException ex)
             {
                 this._myStatusError = true;
-                this.StatusLabel.Text = ex.Message;
+                this.StatusLabel.Text = $"Err:{ex.Message}(GetListStatus)";
             }
             finally
             {
@@ -2738,7 +2738,7 @@ namespace OpenTween
 
             p.Report("List refreshing...");
 
-            await Task.Run(() =>
+            await Task.Run(async () =>
             {
                 WebApiException lastException = null;
 
@@ -2749,7 +2749,8 @@ namespace OpenTween
                         if (tab.ListInfo == null || tab.ListInfo.Id == 0)
                             continue;
 
-                        this.tw.GetListStatus(read, tab, loadMore, this._initial);
+                        await this.tw.GetListStatus(read, tab, loadMore, this._initial)
+                            .ConfigureAwait(false);
                     }
                     catch (WebApiException ex)
                     {

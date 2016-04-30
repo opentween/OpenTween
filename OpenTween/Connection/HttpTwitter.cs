@@ -314,30 +314,6 @@ namespace OpenTween
                 this.CreateApiCalllback("/lists/subscriptions"));
         }
 
-        public HttpStatusCode GetListsStatuses(long userId, long list_id, int? per_page, long? max_id, long? since_id, Boolean isRTinclude, ref string content)
-        {
-            //認証なくても取得できるが、protectedユーザー分が抜ける
-            Dictionary<string, string> param = new Dictionary<string, string>();
-            param.Add("user_id", userId.ToString());
-            param.Add("list_id", list_id.ToString());
-            param.Add("include_rts", isRTinclude ? "true" : "false");
-            if (per_page != null)
-                param.Add("count", per_page.ToString());
-            if (max_id != null)
-                param.Add("max_id", max_id.ToString());
-            if (since_id != null)
-                param.Add("since_id", since_id.ToString());
-            param.Add("include_entities", "true");
-            param.Add("include_ext_alt_text", "true");
-
-            return httpCon.GetContent(GetMethod,
-                this.CreateTwitterUri("/1.1/lists/statuses.json"),
-                param,
-                ref content,
-                this.CreateRatelimitHeadersDict(),
-                this.CreateApiCalllback("/lists/statuses"));
-        }
-
         public HttpStatusCode CreateLists(string listname, Boolean isPrivate, string description, ref string content)
         {
             string mode = "public";

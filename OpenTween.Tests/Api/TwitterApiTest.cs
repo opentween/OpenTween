@@ -280,6 +280,37 @@ namespace OpenTween.Api
         }
 
         [Fact]
+        public async Task ListsStatuses_Test()
+        {
+            using (var twitterApi = new TwitterApi())
+            {
+                var mock = new Mock<IApiConnection>();
+                mock.Setup(x =>
+                    x.GetAsync<TwitterStatus[]>(
+                        new Uri("lists/statuses.json", UriKind.Relative),
+                        new Dictionary<string, string> {
+                            { "list_id", "12345" },
+                            { "include_entities", "true" },
+                            { "include_ext_alt_text", "true" },
+                            { "count", "200" },
+                            { "max_id", "900" },
+                            { "since_id", "100" },
+                            { "include_rts", "true" },
+                        },
+                        "/lists/statuses")
+                )
+                .ReturnsAsync(new TwitterStatus[0]);
+
+                twitterApi.apiConnection = mock.Object;
+
+                await twitterApi.ListsStatuses(12345L, count: 200, maxId: 900L, sinceId: 100L, includeRTs: true)
+                    .ConfigureAwait(false);
+
+                mock.VerifyAll();
+            }
+        }
+
+        [Fact]
         public async Task DirectMessagesNew_Test()
         {
             using (var twitterApi = new TwitterApi())

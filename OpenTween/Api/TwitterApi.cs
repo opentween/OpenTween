@@ -161,6 +161,28 @@ namespace OpenTween.Api
             return this.apiConnection.PostLazyAsync<TwitterStatus>(endpoint, param);
         }
 
+        public Task<TwitterStatus[]> ListsStatuses(long listId, int? count = null, long? maxId = null, long? sinceId = null, bool? includeRTs = null)
+        {
+            var endpoint = new Uri("lists/statuses.json", UriKind.Relative);
+            var param = new Dictionary<string, string>
+            {
+                ["list_id"] = listId.ToString(),
+                ["include_entities"] = "true",
+                ["include_ext_alt_text"] = "true",
+            };
+
+            if (count != null)
+                param["count"] = count.ToString();
+            if (maxId != null)
+                param["max_id"] = maxId.ToString();
+            if (sinceId != null)
+                param["since_id"] = sinceId.ToString();
+            if (includeRTs != null)
+                param["include_rts"] = includeRTs.Value ? "true" : "false";
+
+            return this.apiConnection.GetAsync<TwitterStatus[]>(endpoint, param, "/lists/statuses");
+        }
+
         public Task<LazyJson<TwitterDirectMessage>> DirectMessagesNew(string status, string sendTo)
         {
             var endpoint = new Uri("direct_messages/new.json", UriKind.Relative);

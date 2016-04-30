@@ -1288,34 +1288,23 @@ namespace OpenTween
             }
         }
 
-        public void GetListStatus(bool read,
-                                TabClass tab,
-                                bool more,
-                                bool startup)
+        public async Task GetListStatus(bool read, TabClass tab, bool more, bool startup)
         {
-            HttpStatusCode res;
-            var content = "";
             var count = GetApiResultCount(MyCommon.WORKERTYPE.List, more, startup);
 
-            try
+            TwitterStatus[] statuses;
+            if (more)
             {
-                if (more)
-                {
-                    res = twCon.GetListsStatuses(tab.ListInfo.UserId, tab.ListInfo.Id, count, tab.OldestId, null, SettingCommon.Instance.IsListsIncludeRts, ref content);
-                }
-                else
-                {
-                    res = twCon.GetListsStatuses(tab.ListInfo.UserId, tab.ListInfo.Id, count, null, null, SettingCommon.Instance.IsListsIncludeRts, ref content);
-                }
+                statuses = await this.Api.ListsStatuses(tab.ListInfo.Id, count, maxId: tab.OldestId, includeRTs: SettingCommon.Instance.IsListsIncludeRts)
+                    .ConfigureAwait(false);
             }
-            catch(Exception ex)
+            else
             {
-                throw new WebApiException("Err:" + ex.Message, ex);
+                statuses = await this.Api.ListsStatuses(tab.ListInfo.Id, count, includeRTs: SettingCommon.Instance.IsListsIncludeRts)
+                    .ConfigureAwait(false);
             }
 
-            this.CheckStatusCode(res, content);
-
-            var minimumId = CreatePostsFromJson(content, MyCommon.WORKERTYPE.List, tab, read);
+            var minimumId = CreatePostsFromJson(statuses, MyCommon.WORKERTYPE.List, tab, read);
 
             if (minimumId != null)
                 tab.OldestId = minimumId.Value;
