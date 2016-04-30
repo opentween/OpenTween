@@ -328,16 +328,6 @@ namespace OpenTween
                 this.CreateApiCalllback("/saved_searches/list"));
         }
 
-        public HttpStatusCode NoRetweetIds(ref string content)
-        {
-            return httpCon.GetContent(GetMethod,
-                this.CreateTwitterUri("/1.1/friendships/no_retweets/ids.json"),
-                null,
-                ref content,
-                this.CreateRatelimitHeadersDict(),
-                this.CreateApiCalllback("/friendships/no_retweets/ids"));
-        }
-
         public HttpStatusCode RateLimitStatus(ref string content)
         {
             return httpCon.GetContent(GetMethod,

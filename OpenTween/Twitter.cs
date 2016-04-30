@@ -1787,48 +1787,14 @@ namespace OpenTween
         /// RT 非表示ユーザーを更新します
         /// </summary>
         /// <exception cref="WebApiException"/>
-        public void RefreshNoRetweetIds()
+        public async Task RefreshNoRetweetIds()
         {
             if (MyCommon._endingFlag) return;
 
-            this.noRTId = this.NoRetweetIdsApi();
+            this.noRTId = await this.Api.NoRetweetIds()
+                .ConfigureAwait(false);
 
             this._GetNoRetweetResult = true;
-        }
-
-        private long[] NoRetweetIdsApi()
-        {
-            this.CheckAccountState();
-
-            HttpStatusCode res;
-            var content = "";
-            try
-            {
-                res = twCon.NoRetweetIds(ref content);
-            }
-            catch(Exception e)
-            {
-                throw new WebApiException("Err:" + e.Message + "(" + MethodBase.GetCurrentMethod().Name + ")", e);
-            }
-
-            this.CheckStatusCode(res, content);
-
-            try
-            {
-                return MyCommon.CreateDataFromJson<long[]>(content);
-            }
-            catch(SerializationException e)
-            {
-                var ex = new WebApiException("Err:Json Parse Error(DataContractJsonSerializer)", content, e);
-                MyCommon.TraceOut(ex);
-                throw ex;
-            }
-            catch(Exception e)
-            {
-                var ex = new WebApiException("Err:Invalid Json!", content, e);
-                MyCommon.TraceOut(ex);
-                throw ex;
-            }
         }
 
         public bool GetNoRetweetSuccess

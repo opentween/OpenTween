@@ -3283,7 +3283,7 @@ namespace OpenTween
             await this.workerSemaphore.WaitAsync();
             try
             {
-                await Task.Run(() => tw.RefreshNoRetweetIds());
+                await this.tw.RefreshNoRetweetIds();
 
                 this.StatusLabel.Text = "NoRetweetIds refreshed";
             }

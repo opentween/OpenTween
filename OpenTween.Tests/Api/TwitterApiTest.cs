@@ -378,6 +378,29 @@ namespace OpenTween.Api
         }
 
         [Fact]
+        public async Task NoRetweetIds_Test()
+        {
+            using (var twitterApi = new TwitterApi())
+            {
+                var mock = new Mock<IApiConnection>();
+                mock.Setup(x =>
+                    x.GetAsync<long[]>(
+                        new Uri("friendships/no_retweets/ids.json", UriKind.Relative),
+                        null,
+                        "/friendships/no_retweets/ids")
+                )
+                .ReturnsAsync(new long[0]);
+
+                twitterApi.apiConnection = mock.Object;
+
+                await twitterApi.NoRetweetIds()
+                    .ConfigureAwait(false);
+
+                mock.VerifyAll();
+            }
+        }
+
+        [Fact]
         public async Task FollowersIds_Test()
         {
             using (var twitterApi = new TwitterApi())
