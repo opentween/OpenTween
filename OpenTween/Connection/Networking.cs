@@ -141,7 +141,10 @@ namespace OpenTween.Connection
         [SuppressMessage("Microsoft.Reliability", "CA2000:DisposeObjectsBeforeLosingScope")]
         public static HttpClientHandler CreateHttpClientHandler()
         {
-            var handler = new HttpClientHandler();
+            var handler = new HttpClientHandler
+            {
+                AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate,
+            };
 
             if (Networking.Proxy != null)
             {
