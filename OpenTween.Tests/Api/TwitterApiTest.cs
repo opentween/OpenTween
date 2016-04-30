@@ -85,6 +85,64 @@ namespace OpenTween.Api
         }
 
         [Fact]
+        public async Task StatusesHomeTimeline_Test()
+        {
+            using (var twitterApi = new TwitterApi())
+            {
+                var mock = new Mock<IApiConnection>();
+                mock.Setup(x =>
+                    x.GetAsync<TwitterStatus[]>(
+                        new Uri("statuses/home_timeline.json", UriKind.Relative),
+                        new Dictionary<string, string> {
+                            { "include_entities", "true" },
+                            { "include_ext_alt_text", "true" },
+                            { "count", "200" },
+                            { "max_id", "900" },
+                            { "since_id", "100" },
+                        },
+                        "/statuses/home_timeline")
+                )
+                .ReturnsAsync(new TwitterStatus[0]);
+
+                twitterApi.apiConnection = mock.Object;
+
+                await twitterApi.StatusesHomeTimeline(200, maxId: 900L, sinceId: 100L)
+                    .ConfigureAwait(false);
+
+                mock.VerifyAll();
+            }
+        }
+
+        [Fact]
+        public async Task StatusesMentionsTimeline_Test()
+        {
+            using (var twitterApi = new TwitterApi())
+            {
+                var mock = new Mock<IApiConnection>();
+                mock.Setup(x =>
+                    x.GetAsync<TwitterStatus[]>(
+                        new Uri("statuses/mentions_timeline.json", UriKind.Relative),
+                        new Dictionary<string, string> {
+                            { "include_entities", "true" },
+                            { "include_ext_alt_text", "true" },
+                            { "count", "200" },
+                            { "max_id", "900" },
+                            { "since_id", "100" },
+                        },
+                        "/statuses/mentions_timeline")
+                )
+                .ReturnsAsync(new TwitterStatus[0]);
+
+                twitterApi.apiConnection = mock.Object;
+
+                await twitterApi.StatusesMentionsTimeline(200, maxId: 900L, sinceId: 100L)
+                    .ConfigureAwait(false);
+
+                mock.VerifyAll();
+            }
+        }
+
+        [Fact]
         public async Task StatusesShow_Test()
         {
             using (var twitterApi = new TwitterApi())

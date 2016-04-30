@@ -47,6 +47,44 @@ namespace OpenTween.Api
             this.CurrentScreenName = screenName;
         }
 
+        public Task<TwitterStatus[]> StatusesHomeTimeline(int? count = null, long? maxId = null, long? sinceId = null)
+        {
+            var endpoint = new Uri("statuses/home_timeline.json", UriKind.Relative);
+            var param = new Dictionary<string, string>
+            {
+                ["include_entities"] = "true",
+                ["include_ext_alt_text"] = "true",
+            };
+
+            if (count != null)
+                param["count"] = count.ToString();
+            if (maxId != null)
+                param["max_id"] = maxId.ToString();
+            if (sinceId != null)
+                param["since_id"] = sinceId.ToString();
+
+            return this.apiConnection.GetAsync<TwitterStatus[]>(endpoint, param, "/statuses/home_timeline");
+        }
+
+        public Task<TwitterStatus[]> StatusesMentionsTimeline(int? count = null, long? maxId = null, long? sinceId = null)
+        {
+            var endpoint = new Uri("statuses/mentions_timeline.json", UriKind.Relative);
+            var param = new Dictionary<string, string>
+            {
+                ["include_entities"] = "true",
+                ["include_ext_alt_text"] = "true",
+            };
+
+            if (count != null)
+                param["count"] = count.ToString();
+            if (maxId != null)
+                param["max_id"] = maxId.ToString();
+            if (sinceId != null)
+                param["since_id"] = sinceId.ToString();
+
+            return this.apiConnection.GetAsync<TwitterStatus[]>(endpoint, param, "/statuses/mentions_timeline");
+        }
+
         public Task<TwitterStatus> StatusesShow(long statusId)
         {
             var endpoint = new Uri("statuses/show.json", UriKind.Relative);

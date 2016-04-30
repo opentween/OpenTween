@@ -152,27 +152,6 @@ namespace OpenTween
             this.Initialize("", "", "", 0);
         }
 
-        public HttpStatusCode HomeTimeline(int? count, long? max_id, long? since_id, ref string content)
-        {
-            Dictionary<string, string> param = new Dictionary<string, string>();
-            if (count != null)
-                param.Add("count", count.ToString());
-            if (max_id != null)
-                param.Add("max_id", max_id.ToString());
-            if (since_id != null)
-                param.Add("since_id", since_id.ToString());
-
-            param.Add("include_entities", "true");
-            param.Add("include_ext_alt_text", "true");
-
-            return httpCon.GetContent(GetMethod,
-                this.CreateTwitterUri("/1.1/statuses/home_timeline.json"),
-                param,
-                ref content,
-                this.CreateRatelimitHeadersDict(),
-                this.CreateApiCalllback("/statuses/home_timeline"));
-        }
-
         public HttpStatusCode UserTimeline(long? user_id, string screen_name, int? count, long? max_id, long? since_id, ref string content)
         {
             Dictionary<string, string> param = new Dictionary<string, string>();
@@ -201,27 +180,6 @@ namespace OpenTween
                 ref content,
                 this.CreateRatelimitHeadersDict(),
                 this.CreateApiCalllback("/statuses/user_timeline"));
-        }
-
-        public HttpStatusCode Mentions(int? count, long? max_id, long? since_id, ref string content)
-        {
-            Dictionary<string, string> param = new Dictionary<string, string>();
-            if (count != null)
-                param.Add("count", count.ToString());
-            if (max_id != null)
-                param.Add("max_id", max_id.ToString());
-            if (since_id != null)
-                param.Add("since_id", since_id.ToString());
-
-            param.Add("include_entities", "true");
-            param.Add("include_ext_alt_text", "true");
-
-            return httpCon.GetContent(GetMethod,
-                this.CreateTwitterUri("/1.1/statuses/mentions_timeline.json"),
-                param,
-                ref content,
-                this.CreateRatelimitHeadersDict(),
-                this.CreateApiCalllback("/statuses/mentions_timeline"));
         }
 
         public HttpStatusCode DirectMessages(int? count, long? max_id, long? since_id, ref string content)

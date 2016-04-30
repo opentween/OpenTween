@@ -865,50 +865,41 @@ namespace OpenTween
             return Math.Min(count, GetMaxApiResultCount(type));
         }
 
-        public void GetTimelineApi(bool read,
-                                MyCommon.WORKERTYPE gType,
-                                bool more,
-                                bool startup)
+        public async Task GetTimelineApi(bool read, MyCommon.WORKERTYPE gType, bool more, bool startup)
         {
             this.CheckAccountState();
 
-            HttpStatusCode res;
-            var content = "";
             var count = GetApiResultCount(gType, more, startup);
 
-            try
+            TwitterStatus[] statuses;
+            if (gType == MyCommon.WORKERTYPE.Timeline)
             {
-                if (gType == MyCommon.WORKERTYPE.Timeline)
+                if (more)
                 {
-                    if (more)
-                    {
-                        res = twCon.HomeTimeline(count, this.minHomeTimeline, null, ref content);
-                    }
-                    else
-                    {
-                        res = twCon.HomeTimeline(count, null, null, ref content);
-                    }
+                    statuses = await this.Api.StatusesHomeTimeline(count, maxId: this.minHomeTimeline)
+                        .ConfigureAwait(false);
                 }
                 else
                 {
-                    if (more)
-                    {
-                        res = twCon.Mentions(count, this.minMentions, null, ref content);
-                    }
-                    else
-                    {
-                        res = twCon.Mentions(count, null, null, ref content);
-                    }
+                    statuses = await this.Api.StatusesHomeTimeline(count)
+                        .ConfigureAwait(false);
                 }
             }
-            catch(Exception ex)
+            else
             {
-                throw new WebApiException("Err:" + ex.Message, ex);
+                if (more)
+                {
+                    statuses = await this.Api.StatusesMentionsTimeline(count, maxId: this.minMentions)
+                        .ConfigureAwait(false);
+                }
+                else
+                {
+                    statuses = await this.Api.StatusesMentionsTimeline(count)
+                        .ConfigureAwait(false);
+                }
             }
 
-            this.CheckStatusCode(res, content);
-
-            var minimumId = CreatePostsFromJson(content, gType, null, read);
+            var minimumId = CreatePostsFromJson(statuses, gType, null, read);
 
             if (minimumId != null)
             {
@@ -1171,6 +1162,11 @@ namespace OpenTween
                 throw new WebApiException("Invalid Json!", content, ex);
             }
 
+            return this.CreatePostsFromJson(items, gType, tab, read);
+        }
+
+        private long? CreatePostsFromJson(TwitterStatus[] items, MyCommon.WORKERTYPE gType, TabClass tab, bool read)
+        {
             long? minimumId = null;
 
             foreach (var status in items)

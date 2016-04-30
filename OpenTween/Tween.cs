@@ -2260,7 +2260,7 @@ namespace OpenTween
             catch (WebApiException ex)
             {
                 this._myStatusError = true;
-                this.StatusLabel.Text = ex.Message;
+                this.StatusLabel.Text = $"Err:{ex.Message}(GetTimeline)";
             }
             finally
             {
@@ -2284,9 +2284,10 @@ namespace OpenTween
 
             p.Report(string.Format(Properties.Resources.GetTimelineWorker_RunWorkerCompletedText5, loadMore ? -1 : 1));
 
-            await Task.Run(() =>
+            await Task.Run(async () =>
             {
-                this.tw.GetTimelineApi(read, MyCommon.WORKERTYPE.Timeline, loadMore, this._initial);
+                await this.tw.GetTimelineApi(read, MyCommon.WORKERTYPE.Timeline, loadMore, this._initial)
+                    .ConfigureAwait(false);
 
                 // 新着時未読クリア
                 if (this._cfgCommon.ReadOldPosts)
@@ -2350,7 +2351,7 @@ namespace OpenTween
             catch (WebApiException ex)
             {
                 this._myStatusError = true;
-                this.StatusLabel.Text = ex.Message;
+                this.StatusLabel.Text = $"Err:{ex.Message}(GetTimeline)";
             }
             finally
             {
@@ -2374,9 +2375,10 @@ namespace OpenTween
 
             p.Report(string.Format(Properties.Resources.GetTimelineWorker_RunWorkerCompletedText4, loadMore ? -1 : 1));
 
-            await Task.Run(() =>
+            await Task.Run(async () =>
             {
-                this.tw.GetTimelineApi(read, MyCommon.WORKERTYPE.Reply, loadMore, this._initial);
+                await this.tw.GetTimelineApi(read, MyCommon.WORKERTYPE.Reply, loadMore, this._initial)
+                    .ConfigureAwait(false);
 
                 this._statuses.DistributePosts();
             });
