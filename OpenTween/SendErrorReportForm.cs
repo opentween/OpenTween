@@ -83,7 +83,7 @@ namespace OpenTween
             }
             catch (WebApiException ex)
             {
-                var message = Properties.Resources.SendErrorReport_DmSendError + Environment.NewLine + ex.Message;
+                var message = Properties.Resources.SendErrorReport_DmSendError + Environment.NewLine + "Err:" + ex.Message;
                 MessageBox.Show(message, this.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }

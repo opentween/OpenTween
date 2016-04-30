@@ -2781,7 +2781,7 @@ namespace OpenTween
             catch (WebApiException ex)
             {
                 this._myStatusError = true;
-                this.StatusLabel.Text = ex.Message;
+                this.StatusLabel.Text = $"Err:{ex.Message}(GetRelatedTweets)";
             }
             finally
             {
@@ -3073,7 +3073,7 @@ namespace OpenTween
             catch (WebApiException ex)
             {
                 this._myStatusError = true;
-                this.StatusLabel.Text = ex.Message;
+                this.StatusLabel.Text = $"Err:{ex.Message}(PostMessage)";
             }
             finally
             {
@@ -3115,7 +3115,7 @@ namespace OpenTween
             catch (WebApiException ex)
             {
                 // 処理は中断せずエラーの表示のみ行う
-                errMsg = ex.Message;
+                errMsg = $"Err:{ex.Message}(PostMessage)";
                 p.Report(errMsg);
                 this._myStatusError = true;
             }
@@ -3270,7 +3270,7 @@ namespace OpenTween
             }
             catch (WebApiException ex)
             {
-                this.StatusLabel.Text = ex.Message;
+                this.StatusLabel.Text = $"Err:{ex.Message}(RefreshFollowersIds)";
             }
             finally
             {
@@ -3289,7 +3289,7 @@ namespace OpenTween
             }
             catch (WebApiException ex)
             {
-                this.StatusLabel.Text = ex.Message;
+                this.StatusLabel.Text = $"Err:{ex.Message}(RefreshNoRetweetIds)";
             }
             finally
             {
@@ -3310,7 +3310,7 @@ namespace OpenTween
             }
             catch (WebApiException ex)
             {
-                this.StatusLabel.Text = ex.Message;
+                this.StatusLabel.Text = $"Err:{ex.Message}(RefreshBlockIds)";
             }
             finally
             {
@@ -3339,7 +3339,7 @@ namespace OpenTween
             }
             catch (WebApiException ex)
             {
-                this.StatusLabel.Text = ex.Message;
+                this.StatusLabel.Text = $"Err:{ex.Message}(RefreshConfiguration)";
             }
             finally
             {
@@ -6415,7 +6415,7 @@ namespace OpenTween
                 }
                 catch (WebApiException ex)
                 {
-                    return FormatQuoteTweetHtml(statusId, WebUtility.HtmlEncode(ex.Message), isReply);
+                    return FormatQuoteTweetHtml(statusId, WebUtility.HtmlEncode($"Err:{ex.Message}(GetStatus)"), isReply);
                 }
 
                 post.IsRead = true;
@@ -7540,7 +7540,7 @@ namespace OpenTween
                 }
                 catch (WebApiException ex)
                 {
-                    this.StatusLabel.Text = ex.Message;
+                    this.StatusLabel.Text = $"Err:{ex.Message}(GetStatus)";
                 }
             }
 
@@ -7583,7 +7583,7 @@ namespace OpenTween
                 }
                 catch (WebApiException ex)
                 {
-                    this.StatusLabel.Text = ex.Message;
+                    this.StatusLabel.Text = $"Err:{ex.Message}(GetStatus)";
                     await this.OpenUriInBrowserAsync("https://twitter.com/" + inReplyToUser + "/statuses/" + inReplyToId.ToString());
                     return;
                 }
@@ -11480,7 +11480,7 @@ namespace OpenTween
                 catch (WebApiException ex)
                 {
                     if (!cancellationToken.IsCancellationRequested)
-                        MessageBox.Show(ex.Message);
+                        MessageBox.Show($"Err:{ex.Message}(FriendshipsShow)");
                     return;
                 }
 
@@ -11530,7 +11530,7 @@ namespace OpenTween
                     catch (WebApiException ex)
                     {
                         if (!cancellationToken.IsCancellationRequested)
-                            MessageBox.Show(ex.Message);
+                            MessageBox.Show($"Err:{ex.Message}(FriendshipsShow)");
                         return;
                     }
 
@@ -12348,7 +12348,7 @@ namespace OpenTween
                 catch (WebApiException ex)
                 {
                     if (!cancellationToken.IsCancellationRequested)
-                        MessageBox.Show(ex.Message);
+                        MessageBox.Show($"Err:{ex.Message}(UsersShow)");
                     return;
                 }
 
@@ -12475,7 +12475,7 @@ namespace OpenTween
                 catch (WebApiException ex)
                 {
                     if (!cancellationToken.IsCancellationRequested)
-                        MessageBox.Show(Properties.Resources.RtCountText2 + Environment.NewLine + ex.Message);
+                        MessageBox.Show(Properties.Resources.RtCountText2 + Environment.NewLine + "Err:" + ex.Message);
                     return;
                 }
 
@@ -12757,7 +12757,7 @@ namespace OpenTween
                 }
                 catch (WebApiException ex)
                 {
-                    this.StatusLabel.Text = ex.Message;
+                    this.StatusLabel.Text = $"Err:{ex.Message}(GetStatus)";
                     return;
                 }
             }

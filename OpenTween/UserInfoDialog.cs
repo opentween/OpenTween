@@ -532,7 +532,7 @@ namespace OpenTween
                         }
                         catch (WebApiException ex)
                         {
-                            MessageBox.Show(ex.Message);
+                            MessageBox.Show($"Err:{ex.Message}(AccountUpdateProfile)");
                             return;
                         }
                     }
@@ -574,7 +574,7 @@ namespace OpenTween
             }
             catch (WebApiException ex)
             {
-                MessageBox.Show(ex.Message + Environment.NewLine + Properties.Resources.ChangeIconToolStripMenuItem_ClickText4);
+                MessageBox.Show("Err:" + ex.Message + Environment.NewLine + Properties.Resources.ChangeIconToolStripMenuItem_ClickText4);
                 return;
             }
 
@@ -589,7 +589,7 @@ namespace OpenTween
             }
             catch (WebApiException ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show($"Err:{ex.Message}(UsersShow)");
             }
         }
 
@@ -632,7 +632,7 @@ namespace OpenTween
                     }
                     catch (WebApiException ex)
                     {
-                        MessageBox.Show(ex.Message + Environment.NewLine + Properties.Resources.ButtonBlock_ClickText3);
+                        MessageBox.Show("Err:" + ex.Message + Environment.NewLine + Properties.Resources.ButtonBlock_ClickText3);
                         return;
                     }
 
@@ -656,7 +656,7 @@ namespace OpenTween
                     }
                     catch (WebApiException ex)
                     {
-                        MessageBox.Show(ex.Message + Environment.NewLine + Properties.Resources.ButtonReportSpam_ClickText3);
+                        MessageBox.Show("Err:" + ex.Message + Environment.NewLine + Properties.Resources.ButtonReportSpam_ClickText3);
                         return;
                     }
 
@@ -680,7 +680,7 @@ namespace OpenTween
                     }
                     catch (WebApiException ex)
                     {
-                        MessageBox.Show(ex.Message + Environment.NewLine + Properties.Resources.ButtonBlockDestroy_ClickText3);
+                        MessageBox.Show("Err:" + ex.Message + Environment.NewLine + Properties.Resources.ButtonBlockDestroy_ClickText3);
                         return;
                     }
 
