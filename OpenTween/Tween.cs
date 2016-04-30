@@ -2805,9 +2805,10 @@ namespace OpenTween
 
             p.Report("Related refreshing...");
 
-            await Task.Run(() =>
+            await Task.Run(async () =>
             {
-                this.tw.GetRelatedResult(read, tab);
+                await this.tw.GetRelatedResult(read, tab)
+                    .ConfigureAwait(false);
 
                 this._statuses.DistributePosts();
             });
@@ -6409,7 +6410,7 @@ namespace OpenTween
             {
                 try
                 {
-                    post = await Task.Run(() => this.tw.GetStatusApi(false, statusId))
+                    post = await this.tw.GetStatusApi(false, statusId)
                         .ConfigureAwait(false);
                 }
                 catch (WebApiException ex)
@@ -7529,7 +7530,7 @@ namespace OpenTween
             {
                 try
                 {
-                    var post = tw.GetStatusApi(false, _curPost.StatusId);
+                    var post = await tw.GetStatusApi(false, _curPost.StatusId);
 
                     _curPost.InReplyToStatusId = post.InReplyToStatusId;
                     _curPost.InReplyToUser = post.InReplyToUser;
@@ -7570,9 +7571,10 @@ namespace OpenTween
             {
                 try
                 {
-                    await Task.Run(() =>
+                    await Task.Run(async () =>
                     {
-                        var post = tw.GetStatusApi(false, _curPost.InReplyToStatusId.Value);
+                        var post = await tw.GetStatusApi(false, _curPost.InReplyToStatusId.Value)
+                            .ConfigureAwait(false);
                         post.IsRead = true;
 
                         _statuses.AddPost(post);
@@ -12751,7 +12753,7 @@ namespace OpenTween
             {
                 try
                 {
-                    post = await Task.Run(() => this.tw.GetStatusApi(false, statusId));
+                    post = await this.tw.GetStatusApi(false, statusId);
                 }
                 catch (WebApiException ex)
                 {

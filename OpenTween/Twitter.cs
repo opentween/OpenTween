@@ -990,45 +990,16 @@ namespace OpenTween
                 tab.OldestId = minimumId.Value;
         }
 
-        public PostClass GetStatusApi(bool read, long id)
+        public async Task<PostClass> GetStatusApi(bool read, long id)
         {
             this.CheckAccountState();
 
-            HttpStatusCode res;
-            var content = "";
-            try
-            {
-                res = twCon.ShowStatuses(id, ref content);
-            }
-            catch(Exception ex)
-            {
-                throw new WebApiException("Err:" + ex.Message, ex);
-            }
-
-            if (res == HttpStatusCode.Forbidden)
-                throw new WebApiException("Err:protected user's tweet", content);
-
-            this.CheckStatusCode(res, content);
-
-            TwitterStatus status;
-            try
-            {
-                status = TwitterStatus.ParseJson(content);
-            }
-            catch(SerializationException ex)
-            {
-                MyCommon.TraceOut(ex.Message + Environment.NewLine + content);
-                throw new WebApiException("Json Parse Error(DataContractJsonSerializer)", content, ex);
-            }
-            catch(Exception ex)
-            {
-                MyCommon.TraceOut(ex, MethodBase.GetCurrentMethod().Name + " " + content);
-                throw new WebApiException("Invalid Json!", content, ex);
-            }
+            var status = await this.Api.StatusesShow(id)
+                .ConfigureAwait(false);
 
             var item = CreatePostsFromStatusData(status);
             if (item == null)
-                throw new WebApiException("Err:Can't create post", content);
+                throw new WebApiException("Err:Can't create post");
 
             item.IsRead = read;
             if (item.IsMe && !read && _readOwnPost) item.IsRead = true;
@@ -1036,9 +1007,10 @@ namespace OpenTween
             return item;
         }
 
-        public void GetStatusApi(bool read, long id, TabClass tab)
+        public async Task GetStatusApi(bool read, long id, TabClass tab)
         {
-            var post = this.GetStatusApi(read, id);
+            var post = await this.GetStatusApi(read, id)
+                .ConfigureAwait(false);
 
             //非同期アイコン取得＆StatusDictionaryに追加
             if (tab != null && tab.IsInnerStorageTabType)
@@ -1285,21 +1257,9 @@ namespace OpenTween
 
             foreach (var result in items.Statuses)
             {
-                PostClass post = null;
-                post = CreatePostsFromStatusData(result);
-
+                var post = CreatePostsFromStatusData(result);
                 if (post == null)
-                {
-                    // Search API は相変わらずぶっ壊れたデータを返すことがあるため、必要なデータが欠如しているものは取得し直す
-                    try
-                    {
-                        post = this.GetStatusApi(read, result.Id);
-                    }
-                    catch (WebApiException)
-                    {
-                        continue;
-                    }
-                }
+                    continue;
 
                 if (minimumId == null || minimumId.Value > post.StatusId)
                     minimumId = post.StatusId;
@@ -1421,7 +1381,7 @@ namespace OpenTween
             return nextPost;
         }
 
-        public void GetRelatedResult(bool read, TabClass tab)
+        public async Task GetRelatedResult(bool read, TabClass tab)
         {
             var relPosts = new Dictionary<Int64, PostClass>();
             if (tab.RelationTargetPost.TextFromApi.Contains("@") && tab.RelationTargetPost.InReplyToStatusId == null)
@@ -1434,7 +1394,8 @@ namespace OpenTween
                 }
                 else
                 {
-                    p = this.GetStatusApi(read, tab.RelationTargetPost.StatusId);
+                    p = await this.GetStatusApi(read, tab.RelationTargetPost.StatusId)
+                        .ConfigureAwait(false);
                     tab.RelationTargetPost = p;
                 }
             }
@@ -1454,7 +1415,8 @@ namespace OpenTween
                 {
                     try
                     {
-                        inReplyToPost = this.GetStatusApi(read, inReplyToId);
+                        inReplyToPost = await this.GetStatusApi(read, inReplyToId)
+                            .ConfigureAwait(false);
                     }
                     catch (WebApiException ex)
                     {
@@ -1485,7 +1447,8 @@ namespace OpenTween
                     {
                         try
                         {
-                            p = this.GetStatusApi(read, _statusId);
+                            p = await this.GetStatusApi(read, _statusId)
+                                .ConfigureAwait(false);
                         }
                         catch (WebApiException ex)
                         {

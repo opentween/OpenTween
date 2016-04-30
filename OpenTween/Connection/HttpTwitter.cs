@@ -166,19 +166,6 @@ namespace OpenTween
                 null);
         }
 
-        public HttpStatusCode ShowStatuses(long id, ref string content)
-        {
-            Dictionary<string, string> param = new Dictionary<string, string>();
-            param.Add("include_entities", "true");
-            param.Add("include_ext_alt_text", "true");
-            return httpCon.GetContent(GetMethod,
-                this.CreateTwitterUri("/1.1/statuses/show/" + id + ".json"),
-                param,
-                ref content,
-                this.CreateRatelimitHeadersDict(),
-                this.CreateApiCalllback("/statuses/show/:id"));
-        }
-
         public HttpStatusCode HomeTimeline(int? count, long? max_id, long? since_id, ref string content)
         {
             Dictionary<string, string> param = new Dictionary<string, string>();
