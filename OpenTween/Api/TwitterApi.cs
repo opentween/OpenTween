@@ -183,6 +183,46 @@ namespace OpenTween.Api
             return this.apiConnection.GetAsync<TwitterStatus[]>(endpoint, param, "/lists/statuses");
         }
 
+        public Task<TwitterDirectMessage[]> DirectMessagesRecv(int? count = null, long? maxId = null, long? sinceId = null)
+        {
+            var endpoint = new Uri("direct_messages.json", UriKind.Relative);
+            var param = new Dictionary<string, string>
+            {
+                ["full_text"] = "true",
+                ["include_entities"] = "true",
+                ["include_ext_alt_text"] = "true",
+            };
+
+            if (count != null)
+                param["count"] = count.ToString();
+            if (maxId != null)
+                param["max_id"] = maxId.ToString();
+            if (sinceId != null)
+                param["since_id"] = sinceId.ToString();
+
+            return this.apiConnection.GetAsync<TwitterDirectMessage[]>(endpoint, param, "/direct_messages");
+        }
+
+        public Task<TwitterDirectMessage[]> DirectMessagesSent(int? count = null, long? maxId = null, long? sinceId = null)
+        {
+            var endpoint = new Uri("direct_messages/sent.json", UriKind.Relative);
+            var param = new Dictionary<string, string>
+            {
+                ["full_text"] = "true",
+                ["include_entities"] = "true",
+                ["include_ext_alt_text"] = "true",
+            };
+
+            if (count != null)
+                param["count"] = count.ToString();
+            if (maxId != null)
+                param["max_id"] = maxId.ToString();
+            if (sinceId != null)
+                param["since_id"] = sinceId.ToString();
+
+            return this.apiConnection.GetAsync<TwitterDirectMessage[]>(endpoint, param, "/direct_messages/sent");
+        }
+
         public Task<LazyJson<TwitterDirectMessage>> DirectMessagesNew(string status, string sendTo)
         {
             var endpoint = new Uri("direct_messages/new.json", UriKind.Relative);

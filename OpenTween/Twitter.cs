@@ -1454,31 +1454,8 @@ namespace OpenTween
                 tab.OldestId = minimumId.Value;
         }
 
-        private void CreateDirectMessagesFromJson(string content, MyCommon.WORKERTYPE gType, bool read)
+        private void CreateDirectMessagesFromJson(TwitterDirectMessage[] item, MyCommon.WORKERTYPE gType, bool read)
         {
-            TwitterDirectMessage[] item;
-            try
-            {
-                if (gType == MyCommon.WORKERTYPE.UserStream)
-                {
-                    item = new[] { TwitterStreamEventDirectMessage.ParseJson(content).DirectMessage };
-                }
-                else
-                {
-                    item = TwitterDirectMessage.ParseJsonArray(content);
-                }
-            }
-            catch(SerializationException ex)
-            {
-                MyCommon.TraceOut(ex.Message + Environment.NewLine + content);
-                throw new WebApiException("Json Parse Error(DataContractJsonSerializer)", content, ex);
-            }
-            catch(Exception ex)
-            {
-                MyCommon.TraceOut(ex, MethodBase.GetCurrentMethod().Name + " " + content);
-                throw new WebApiException("Invalid Json!", content, ex);
-            }
-
             foreach (var message in item)
             {
                 var post = new PostClass();
@@ -1561,7 +1538,7 @@ namespace OpenTween
                 }
                 catch(Exception ex)
                 {
-                    MyCommon.TraceOut(ex, MethodBase.GetCurrentMethod().Name + " " + content);
+                    MyCommon.TraceOut(ex, MethodBase.GetCurrentMethod().Name);
                     MessageBox.Show("Parse Error(CreateDirectMessagesFromJson)");
                     continue;
                 }
@@ -1577,50 +1554,42 @@ namespace OpenTween
             }
         }
 
-        public void GetDirectMessageApi(bool read,
-                                MyCommon.WORKERTYPE gType,
-                                bool more)
+        public async Task GetDirectMessageApi(bool read, MyCommon.WORKERTYPE gType, bool more)
         {
             this.CheckAccountState();
             this.CheckAccessLevel(TwitterApiAccessLevel.ReadWriteAndDirectMessage);
 
-            HttpStatusCode res;
-            var content = "";
             var count = GetApiResultCount(gType, more, false);
 
-            try
+            TwitterDirectMessage[] messages;
+            if (gType == MyCommon.WORKERTYPE.DirectMessegeRcv)
             {
-                if (gType == MyCommon.WORKERTYPE.DirectMessegeRcv)
+                if (more)
                 {
-                    if (more)
-                    {
-                        res = twCon.DirectMessages(count, minDirectmessage, null, ref content);
-                    }
-                    else
-                    {
-                        res = twCon.DirectMessages(count, null, null, ref content);
-                    }
+                    messages = await this.Api.DirectMessagesRecv(count, maxId: this.minDirectmessage)
+                        .ConfigureAwait(false);
                 }
                 else
                 {
-                    if (more)
-                    {
-                        res = twCon.DirectMessagesSent(count, minDirectmessageSent, null, ref content);
-                    }
-                    else
-                    {
-                        res = twCon.DirectMessagesSent(count, null, null, ref content);
-                    }
+                    messages = await this.Api.DirectMessagesRecv(count)
+                        .ConfigureAwait(false);
                 }
             }
-            catch(Exception ex)
+            else
             {
-                throw new WebApiException("Err:" + ex.Message, ex);
+                if (more)
+                {
+                    messages = await this.Api.DirectMessagesSent(count, maxId: this.minDirectmessageSent)
+                        .ConfigureAwait(false);
+                }
+                else
+                {
+                    messages = await this.Api.DirectMessagesSent(count)
+                        .ConfigureAwait(false);
+                }
             }
 
-            this.CheckStatusCode(res, content);
-
-            CreateDirectMessagesFromJson(content, gType, read);
+            CreateDirectMessagesFromJson(messages, gType, read);
         }
 
         public void GetFavoritesApi(bool read,
@@ -2481,7 +2450,15 @@ namespace OpenTween
 
                 if (isDm)
                 {
-                    CreateDirectMessagesFromJson(line, MyCommon.WORKERTYPE.UserStream, false);
+                    try
+                    {
+                        var message = TwitterStreamEventDirectMessage.ParseJson(line).DirectMessage;
+                        this.CreateDirectMessagesFromJson(new[] { message }, MyCommon.WORKERTYPE.UserStream, false);
+                    }
+                    catch (SerializationException ex)
+                    {
+                        throw TwitterApiException.CreateFromException(ex, line);
+                    }
                 }
                 else
                 {

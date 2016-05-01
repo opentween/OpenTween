@@ -2409,7 +2409,7 @@ namespace OpenTween
             catch (WebApiException ex)
             {
                 this._myStatusError = true;
-                this.StatusLabel.Text = ex.Message;
+                this.StatusLabel.Text = $"Err:{ex.Message}(GetDirectMessage)";
             }
             finally
             {
@@ -2433,10 +2433,12 @@ namespace OpenTween
 
             p.Report(string.Format(Properties.Resources.GetTimelineWorker_RunWorkerCompletedText8, loadMore ? -1 : 1));
 
-            await Task.Run(() =>
+            await Task.Run(async () =>
             {
-                this.tw.GetDirectMessageApi(read, MyCommon.WORKERTYPE.DirectMessegeRcv, loadMore);
-                this.tw.GetDirectMessageApi(read, MyCommon.WORKERTYPE.DirectMessegeSnt, loadMore);
+                await this.tw.GetDirectMessageApi(read, MyCommon.WORKERTYPE.DirectMessegeRcv, loadMore)
+                    .ConfigureAwait(false);
+                await this.tw.GetDirectMessageApi(read, MyCommon.WORKERTYPE.DirectMessegeSnt, loadMore)
+                    .ConfigureAwait(false);
 
                 this._statuses.DistributePosts();
             });

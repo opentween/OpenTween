@@ -152,48 +152,6 @@ namespace OpenTween
             this.Initialize("", "", "", 0);
         }
 
-        public HttpStatusCode DirectMessages(int? count, long? max_id, long? since_id, ref string content)
-        {
-            Dictionary<string, string> param = new Dictionary<string, string>();
-            if (count != null)
-                param.Add("count", count.ToString());
-            if (max_id != null)
-                param.Add("max_id", max_id.ToString());
-            if (since_id != null)
-                param.Add("since_id", since_id.ToString());
-            param.Add("full_text", "true");
-            param.Add("include_entities", "true");
-            param.Add("include_ext_alt_text", "true");
-
-            return httpCon.GetContent(GetMethod,
-                this.CreateTwitterUri("/1.1/direct_messages.json"),
-                param,
-                ref content,
-                this.CreateRatelimitHeadersDict(),
-                this.CreateApiCalllback("/direct_messages"));
-        }
-
-        public HttpStatusCode DirectMessagesSent(int? count, long? max_id, long? since_id, ref string content)
-        {
-            Dictionary<string, string> param = new Dictionary<string, string>();
-            if (count != null)
-                param.Add("count", count.ToString());
-            if (max_id != null)
-                param.Add("max_id", max_id.ToString());
-            if (since_id != null)
-                param.Add("since_id", since_id.ToString());
-            param.Add("full_text", "true");
-            param.Add("include_entities", "true");
-            param.Add("include_ext_alt_text", "true");
-
-            return httpCon.GetContent(GetMethod,
-                this.CreateTwitterUri("/1.1/direct_messages/sent.json"),
-                param,
-                ref content,
-                this.CreateRatelimitHeadersDict(),
-                this.CreateApiCalllback("/direct_messages/sent"));
-        }
-
         public HttpStatusCode Favorites(int? count, ref string content)
         {
             Dictionary<string, string> param = new Dictionary<string, string>();
