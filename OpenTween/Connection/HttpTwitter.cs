@@ -437,26 +437,6 @@ namespace OpenTween
             };
         }
 
-        public HttpStatusCode UserStream(ref Stream content,
-                                         bool allAtReplies,
-                                         string trackwords,
-                                         string userAgent)
-        {
-            Dictionary<string, string> param = new Dictionary<string, string>();
-
-            if (allAtReplies)
-                param.Add("replies", "all");
-
-            if (!string.IsNullOrEmpty(trackwords))
-                param.Add("track", trackwords);
-
-            return httpCon.GetContent(GetMethod,
-                this.CreateTwitterUserStreamUri("/1.1/user.json"),
-                param,
-                ref content,
-                userAgent);
-        }
-
         public HttpStatusCode FilterStream(ref Stream content,
                                            string trackwords,
                                            string userAgent)

@@ -21,6 +21,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -449,6 +450,19 @@ namespace OpenTween.Api
             };
 
             return this.apiConnection.PostLazyAsync<TwitterUploadMediaResult>(endpoint, null, paramMedia);
+        }
+
+        public Task<Stream> UserStreams(string replies = null, string track = null)
+        {
+            var endpoint = new Uri("https://userstream.twitter.com/1.1/user.json");
+            var param = new Dictionary<string, string>();
+
+            if (replies != null)
+                param["replies"] = replies;
+            if (track != null)
+                param["track"] = track;
+
+            return this.apiConnection.GetStreamAsync(endpoint, param);
         }
 
         public void Dispose()

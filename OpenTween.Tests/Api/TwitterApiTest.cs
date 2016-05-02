@@ -21,6 +21,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Reflection;
@@ -825,6 +826,33 @@ namespace OpenTween.Api
                 await twitterApi.MediaUpload(media)
                     .IgnoreResponse()
                     .ConfigureAwait(false);
+
+                mock.VerifyAll();
+            }
+        }
+
+        [Fact]
+        public async Task UserStreams_Test()
+        {
+            using (var twitterApi = new TwitterApi())
+            {
+                var mock = new Mock<IApiConnection>();
+                mock.Setup(x =>
+                    x.GetStreamAsync(
+                        new Uri("https://userstream.twitter.com/1.1/user.json", UriKind.Absolute),
+                        new Dictionary<string, string> {
+                            { "replies", "all" },
+                            { "track", "OpenTween" },
+                        })
+                )
+                .ReturnsAsync(new MemoryStream());
+
+                twitterApi.apiConnection = mock.Object;
+
+                var stream = await twitterApi.UserStreams(replies: "all", track: "OpenTween")
+                    .ConfigureAwait(false);
+
+                stream.Dispose();
 
                 mock.VerifyAll();
             }

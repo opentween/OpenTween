@@ -1383,7 +1383,7 @@ namespace OpenTween
             if (ResetTimers.UserStream || usCounter <= 0 && this._cfgCommon.UserstreamPeriod > 0)
             {
                 Interlocked.Exchange(ref usCounter, this._cfgCommon.UserstreamPeriod);
-                if (this._isActiveUserstream)
+                if (this.tw.UserStreamActive)
                     this.RefreshTimeline();
                 ResetTimers.UserStream = false;
             }
@@ -3187,7 +3187,7 @@ namespace OpenTween
 
             if (this._cfgCommon.PostAndGet)
             {
-                if (this._isActiveUserstream)
+                if (this.tw.UserStreamActive)
                     this.RefreshTimeline();
                 else
                     await this.GetHomeTimelineAsync();
@@ -3251,7 +3251,7 @@ namespace OpenTween
                     this._postTimestamps.RemoveAt(i);
             }
 
-            if (this._cfgCommon.PostAndGet && !this._isActiveUserstream)
+            if (this._cfgCommon.PostAndGet && !this.tw.UserStreamActive)
                 await this.GetHomeTimelineAsync();
         }
 
@@ -11020,11 +11020,10 @@ namespace OpenTween
             tw.PostDeleted += tw_PostDeleted;
             tw.UserStreamEventReceived += tw_UserStreamEventArrived;
 
-            MenuItemUserStream.Text = "&UserStream ■";
-            MenuItemUserStream.Enabled = true;
-            StopToolStripMenuItem.Text = "&Start";
-            StopToolStripMenuItem.Enabled = true;
-            if (this._cfgCommon.UserstreamStartup) tw.StartUserStream();
+            this.RefreshUserStreamsMenu();
+
+            if (this._cfgCommon.UserstreamStartup)
+                tw.StartUserStream();
         }
 
         private async void TweenMain_Shown(object sender, EventArgs e)
@@ -12825,8 +12824,6 @@ namespace OpenTween
         }
 
 #region "Userstream"
-        private bool _isActiveUserstream = false;
-
         private void tw_PostDeleted(object sender, PostDeletedEventArgs e)
         {
             try
@@ -12889,7 +12886,6 @@ namespace OpenTween
 
         private void tw_UserStreamStarted(object sender, EventArgs e)
         {
-            this._isActiveUserstream = true;
             try
             {
                 if (InvokeRequired && !IsDisposed)
@@ -12907,17 +12903,14 @@ namespace OpenTween
                 return;
             }
 
-            MenuItemUserStream.Text = "&UserStream ▶";
-            MenuItemUserStream.Enabled = true;
-            StopToolStripMenuItem.Text = "&Stop";
-            StopToolStripMenuItem.Enabled = true;
+            this.RefreshUserStreamsMenu();
+            this.MenuItemUserStream.Enabled = true;
 
             StatusLabel.Text = "UserStream Started.";
         }
 
         private void tw_UserStreamStopped(object sender, EventArgs e)
         {
-            this._isActiveUserstream = false;
             try
             {
                 if (InvokeRequired && !IsDisposed)
@@ -12935,12 +12928,24 @@ namespace OpenTween
                 return;
             }
 
-            MenuItemUserStream.Text = "&UserStream ■";
-            MenuItemUserStream.Enabled = true;
-            StopToolStripMenuItem.Text = "&Start";
-            StopToolStripMenuItem.Enabled = true;
+            this.RefreshUserStreamsMenu();
+            this.MenuItemUserStream.Enabled = true;
 
             StatusLabel.Text = "UserStream Stopped.";
+        }
+
+        private void RefreshUserStreamsMenu()
+        {
+            if (this.tw.UserStreamActive)
+            {
+                this.MenuItemUserStream.Text = "&UserStream ▶";
+                this.StopToolStripMenuItem.Text = "&Stop";
+            }
+            else
+            {
+                this.MenuItemUserStream.Text = "&UserStream ■";
+                this.StopToolStripMenuItem.Text = "&Start";
+            }
         }
 
         private void tw_UserStreamEventArrived(object sender, UserStreamEventReceivedEventArgs e)
@@ -13071,7 +13076,7 @@ namespace OpenTween
                 StopRefreshAllMenuItem.Checked = false;
                 return;
             }
-            if (this._isActiveUserstream)
+            if (this.tw.UserStreamActive)
             {
                 tw.StopUserStream();
             }

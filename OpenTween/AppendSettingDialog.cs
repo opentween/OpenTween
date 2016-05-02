@@ -342,7 +342,7 @@ namespace OpenTween
 
         private void CheckPostAndGet_CheckedChanged(object sender, EventArgs e)
         {
-            this.GetPeriodPanel.LabelPostAndGet.Visible = this.GetPeriodPanel.CheckPostAndGet.Checked && !tw.UserStreamEnabled;
+            this.GetPeriodPanel.LabelPostAndGet.Visible = this.GetPeriodPanel.CheckPostAndGet.Checked && !tw.UserStreamActive;
         }
 
         private void Setting_Shown(object sender, EventArgs e)
@@ -354,8 +354,8 @@ namespace OpenTween
             } while (!this.IsHandleCreated);
             this.TopMost = this.PreviewPanel.CheckAlwaysTop.Checked;
 
-            this.GetPeriodPanel.LabelPostAndGet.Visible = this.GetPeriodPanel.CheckPostAndGet.Checked && !tw.UserStreamEnabled;
-            this.GetPeriodPanel.LabelUserStreamActive.Visible = tw.UserStreamEnabled;
+            this.GetPeriodPanel.LabelPostAndGet.Visible = this.GetPeriodPanel.CheckPostAndGet.Checked && !tw.UserStreamActive;
+            this.GetPeriodPanel.LabelUserStreamActive.Visible = tw.UserStreamActive;
         }
 
         private bool BitlyValidation(string id, string apikey)
