@@ -35,6 +35,8 @@ namespace OpenTween.Api
         public long CurrentUserId { get; private set; }
         public string CurrentScreenName { get; private set; }
 
+        public IApiConnection Connection => this.apiConnection;
+
         internal IApiConnection apiConnection;
 
         public void Initialize(string accessToken, string accessSecret, long userId, string screenName)

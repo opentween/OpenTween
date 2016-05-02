@@ -844,9 +844,7 @@ namespace OpenTween
             imgazyobizinet.Enabled = this._cfgCommon.EnableImgAzyobuziNet;
             imgazyobizinet.DisabledInDM = this._cfgCommon.ImgAzyobuziNetDisabledInDM;
 
-            Thumbnail.Services.TonTwitterCom.InitializeOAuthToken = x =>
-                x.Initialize(ApplicationSettings.TwitterConsumerKey, ApplicationSettings.TwitterConsumerSecret,
-                    this.tw.AccessToken, this.tw.AccessTokenSecret, "", "");
+            Thumbnail.Services.TonTwitterCom.GetApiConnection = () => this.twitterApi.Connection;
 
             //画像投稿サービス
             ImageSelector.Initialize(tw, this.tw.Configuration, _cfgCommon.UseImageServiceName, _cfgCommon.UseImageService);

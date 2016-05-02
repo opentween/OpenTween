@@ -21,6 +21,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -90,6 +91,24 @@ namespace OpenTween.Connection
                         }
                     }
                 }
+            }
+            catch (OperationCanceledException ex)
+            {
+                throw TwitterApiException.CreateFromException(ex);
+            }
+        }
+
+        public async Task<Stream> GetStreamAsync(Uri uri, IDictionary<string, string> param)
+        {
+            var requestUri = new Uri(this.RestApiBase, uri);
+
+            if (param != null)
+                requestUri = new Uri(requestUri, "?" + MyCommon.BuildQueryString(param));
+
+            try
+            {
+                return await this.http.GetStreamAsync(requestUri)
+                    .ConfigureAwait(false);
             }
             catch (OperationCanceledException ex)
             {
