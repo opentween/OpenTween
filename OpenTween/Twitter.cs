@@ -144,6 +144,7 @@ namespace OpenTween
         /// </summary>
         public static readonly Regex DMSendTextRegex = new Regex(@"^DM? +(?<id>[a-zA-Z0-9_]+) +(?<body>.*)", RegexOptions.IgnoreCase | RegexOptions.Singleline);
 
+        public TwitterApi Api { get; }
         public TwitterConfiguration Configuration { get; private set; }
 
         delegate void GetIconImageDelegate(PostClass post);
@@ -168,7 +169,6 @@ namespace OpenTween
         //private FavoriteQueue favQueue;
 
         private HttpTwitter twCon = new HttpTwitter();
-        private TwitterApi Api { get; }
 
         //private List<PostClass> _deletemessages = new List<PostClass>();
 
