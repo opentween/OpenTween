@@ -465,6 +465,11 @@ namespace OpenTween.Api
             return this.apiConnection.GetStreamAsync(endpoint, param);
         }
 
+        public OAuthEchoHandler CreateOAuthEchoHandler(Uri authServiceProvider, Uri realm = null)
+        {
+            return ((TwitterApiConnection)this.apiConnection).CreateOAuthEchoHandler(authServiceProvider, realm);
+        }
+
         public void Dispose()
         {
             this.apiConnection?.Dispose();

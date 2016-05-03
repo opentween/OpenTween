@@ -126,6 +126,7 @@
     <Compile Include="Connection\LazyJson.cs" />
     <Compile Include="Connection\Mobypicture.cs" />
     <Compile Include="Connection\Networking.cs" />
+    <Compile Include="Connection\OAuthEchoHandler.cs" />
     <Compile Include="Connection\OAuthHandler.cs" />
     <Compile Include="Connection\OAuthUtility.cs" />
     <Compile Include="Connection\TwipplePhoto.cs" />

@@ -236,6 +236,15 @@ namespace OpenTween.Connection
             }
         }
 
+        public OAuthEchoHandler CreateOAuthEchoHandler(Uri authServiceProvider, Uri realm = null)
+        {
+            var uri = new Uri(this.RestApiBase, authServiceProvider);
+
+            return OAuthEchoHandler.CreateHandler(Networking.CreateHttpClientHandler(), uri,
+                ApplicationSettings.TwitterConsumerKey, ApplicationSettings.TwitterConsumerSecret,
+                this.AccessToken, this.AccessSecret, realm);
+        }
+
         public void Dispose()
         {
             this.Dispose(true);
