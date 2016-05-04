@@ -5,8 +5,10 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
+using Moq;
 using OpenTween.Api.DataModel;
 using Xunit;
 
@@ -14,14 +16,27 @@ namespace OpenTween
 {
     public class MediaSelectorTest
     {
+        public MediaSelectorTest()
+        {
+            this.MyCommonSetup();
+        }
+
+        public void MyCommonSetup()
+        {
+            var mockAssembly = new Mock<_Assembly>();
+            mockAssembly.Setup(m => m.GetName()).Returns(new AssemblyName("OpenTween"));
+
+            MyCommon.EntryAssembly = mockAssembly.Object;
+        }
+
         [Fact]
         public void Initialize_TwitterTest()
         {
+            using (var twitter = new Twitter())
             using (var mediaSelector = new MediaSelector())
             {
-                var twitter = new Twitter();
-                var config = TwitterConfiguration.DefaultConfiguration();
-                mediaSelector.Initialize(twitter, config, "Twitter");
+                twitter.Initialize("", "", "", 0L);
+                mediaSelector.Initialize(twitter, TwitterConfiguration.DefaultConfiguration(), "Twitter");
 
                 Assert.NotEqual(-1, mediaSelector.ImageServiceCombo.Items.IndexOf("Twitter"));
 
@@ -37,11 +52,11 @@ namespace OpenTween
         [Fact]
         public void Initialize_yfrogTest()
         {
+            using (var twitter = new Twitter())
             using (var mediaSelector = new MediaSelector())
             {
-                var twitter = new Twitter();
-                var config = TwitterConfiguration.DefaultConfiguration();
-                mediaSelector.Initialize(twitter, config, "yfrog");
+                twitter.Initialize("", "", "", 0L);
+                mediaSelector.Initialize(twitter, TwitterConfiguration.DefaultConfiguration(), "yfrog");
 
                 // 投稿先に yfrog が選択されている
                 Assert.Equal("yfrog", mediaSelector.ImageServiceCombo.Text);
@@ -55,9 +70,11 @@ namespace OpenTween
         [Fact]
         public void BeginSelection_BlankTest()
         {
+            using (var twitter = new Twitter())
             using (var mediaSelector = new MediaSelector { Visible = false, Enabled = false })
             {
-                mediaSelector.Initialize(new Twitter(), TwitterConfiguration.DefaultConfiguration(), "Twitter");
+                twitter.Initialize("", "", "", 0L);
+                mediaSelector.Initialize(twitter, TwitterConfiguration.DefaultConfiguration(), "Twitter");
 
                 var eventCalled = false;
                 mediaSelector.BeginSelecting += (o, e) => eventCalled = true;
@@ -83,9 +100,11 @@ namespace OpenTween
         [Fact]
         public void BeginSelection_FilePathTest()
         {
+            using (var twitter = new Twitter())
             using (var mediaSelector = new MediaSelector { Visible = false, Enabled = false })
             {
-                mediaSelector.Initialize(new Twitter(), TwitterConfiguration.DefaultConfiguration(), "Twitter");
+                twitter.Initialize("", "", "", 0L);
+                mediaSelector.Initialize(twitter, TwitterConfiguration.DefaultConfiguration(), "Twitter");
 
                 var eventCalled = false;
                 mediaSelector.BeginSelecting += (o, e) => eventCalled = true;
@@ -117,9 +136,11 @@ namespace OpenTween
         [Fact]
         public void BeginSelection_MemoryImageTest()
         {
+            using (var twitter = new Twitter())
             using (var mediaSelector = new MediaSelector { Visible = false, Enabled = false })
             {
-                mediaSelector.Initialize(new Twitter(), TwitterConfiguration.DefaultConfiguration(), "Twitter");
+                twitter.Initialize("", "", "", 0L);
+                mediaSelector.Initialize(twitter, TwitterConfiguration.DefaultConfiguration(), "Twitter");
 
                 var eventCalled = false;
                 mediaSelector.BeginSelecting += (o, e) => eventCalled = true;
@@ -153,9 +174,11 @@ namespace OpenTween
         [Fact]
         public void BeginSelection_MultiImageTest()
         {
+            using (var twitter = new Twitter())
             using (var mediaSelector = new MediaSelector { Visible = false, Enabled = false })
             {
-                mediaSelector.Initialize(new Twitter(), TwitterConfiguration.DefaultConfiguration(), "Twitter");
+                twitter.Initialize("", "", "", 0L);
+                mediaSelector.Initialize(twitter, TwitterConfiguration.DefaultConfiguration(), "Twitter");
 
                 var images = new[] { "Resources/re.gif", "Resources/re1.png" };
                 mediaSelector.BeginSelection(images);
@@ -179,9 +202,11 @@ namespace OpenTween
         [Fact]
         public void EndSelection_Test()
         {
+            using (var twitter = new Twitter())
             using (var mediaSelector = new MediaSelector { Visible = false, Enabled = false })
             {
-                mediaSelector.Initialize(new Twitter(), TwitterConfiguration.DefaultConfiguration(), "Twitter");
+                twitter.Initialize("", "", "", 0L);
+                mediaSelector.Initialize(twitter, TwitterConfiguration.DefaultConfiguration(), "Twitter");
                 mediaSelector.BeginSelection(new[] { "Resources/re.gif" });
 
                 var displayImage = mediaSelector.ImageSelectedPicture.Image; // 表示中の画像
@@ -203,9 +228,11 @@ namespace OpenTween
         [Fact]
         public void PageChange_Test()
         {
+            using (var twitter = new Twitter())
             using (var mediaSelector = new MediaSelector { Visible = false, Enabled = false })
             {
-                mediaSelector.Initialize(new Twitter(), TwitterConfiguration.DefaultConfiguration(), "Twitter");
+                twitter.Initialize("", "", "", 0L);
+                mediaSelector.Initialize(twitter, TwitterConfiguration.DefaultConfiguration(), "Twitter");
 
                 var images = new[] { "Resources/re.gif", "Resources/re1.png" };
                 mediaSelector.BeginSelection(images);
@@ -246,9 +273,11 @@ namespace OpenTween
         [Fact]
         public void PageChange_ImageDisposeTest()
         {
+            using (var twitter = new Twitter())
             using (var mediaSelector = new MediaSelector { Visible = false, Enabled = false })
             {
-                mediaSelector.Initialize(new Twitter(), TwitterConfiguration.DefaultConfiguration(), "Twitter");
+                twitter.Initialize("", "", "", 0L);
+                mediaSelector.Initialize(twitter, TwitterConfiguration.DefaultConfiguration(), "Twitter");
 
                 var images = new[] { "Resources/re.gif", "Resources/re1.png" };
                 mediaSelector.BeginSelection(images);
@@ -274,9 +303,11 @@ namespace OpenTween
         [Fact]
         public void ImagePathInput_Test()
         {
+            using (var twitter = new Twitter())
             using (var mediaSelector = new MediaSelector { Visible = false, Enabled = false })
             {
-                mediaSelector.Initialize(new Twitter(), TwitterConfiguration.DefaultConfiguration(), "Twitter");
+                twitter.Initialize("", "", "", 0L);
+                mediaSelector.Initialize(twitter, TwitterConfiguration.DefaultConfiguration(), "Twitter");
                 mediaSelector.BeginSelection();
 
                 // 画像のファイルパスを入力
@@ -299,9 +330,11 @@ namespace OpenTween
         [Fact]
         public void ImagePathInput_ReplaceFileMediaItemTest()
         {
+            using (var twitter = new Twitter())
             using (var mediaSelector = new MediaSelector { Visible = false, Enabled = false })
             {
-                mediaSelector.Initialize(new Twitter(), TwitterConfiguration.DefaultConfiguration(), "Twitter");
+                twitter.Initialize("", "", "", 0L);
+                mediaSelector.Initialize(twitter, TwitterConfiguration.DefaultConfiguration(), "Twitter");
 
                 mediaSelector.BeginSelection(new[] { "Resources/re.gif" });
 
@@ -327,9 +360,11 @@ namespace OpenTween
         [Fact]
         public void ImagePathInput_ReplaceMemoryImageMediaItemTest()
         {
+            using (var twitter = new Twitter())
             using (var mediaSelector = new MediaSelector { Visible = false, Enabled = false })
             {
-                mediaSelector.Initialize(new Twitter(), TwitterConfiguration.DefaultConfiguration(), "Twitter");
+                twitter.Initialize("", "", "", 0L);
+                mediaSelector.Initialize(twitter, TwitterConfiguration.DefaultConfiguration(), "Twitter");
 
                 using (var bitmap = new Bitmap(width: 200, height: 200))
                 {
@@ -366,9 +401,11 @@ namespace OpenTween
         [Fact]
         public void ImageServiceChange_Test()
         {
+            using (var twitter = new Twitter())
             using (var mediaSelector = new MediaSelector { Visible = false, Enabled = false })
             {
-                mediaSelector.Initialize(new Twitter(), TwitterConfiguration.DefaultConfiguration(), "Twitter");
+                twitter.Initialize("", "", "", 0L);
+                mediaSelector.Initialize(twitter, TwitterConfiguration.DefaultConfiguration(), "Twitter");
 
                 Assert.Equal("Twitter", mediaSelector.ServiceName);
 
