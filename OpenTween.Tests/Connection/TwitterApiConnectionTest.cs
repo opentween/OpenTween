@@ -21,6 +21,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -233,6 +234,55 @@ namespace OpenTween.Connection
 
                 Assert.Equal(TwitterErrorCode.DuplicateStatus, exception.ErrorResponse.Errors[0].Code);
                 Assert.Equal("Status is a duplicate.", exception.ErrorResponse.Errors[0].Message);
+
+                Assert.Equal(0, mockHandler.QueueCount);
+            }
+        }
+
+        [Fact]
+        public async Task GetStreamAsync_Test()
+        {
+            using (var mockHandler = new HttpMessageHandlerMock())
+            using (var http = new HttpClient(mockHandler))
+            using (var apiConnection = new TwitterApiConnection("", ""))
+            using (var image = TestUtils.CreateDummyImage())
+            {
+                apiConnection.http = http;
+
+                mockHandler.Enqueue(x =>
+                {
+                    Assert.Equal(HttpMethod.Get, x.Method);
+                    Assert.Equal("https://api.twitter.com/1.1/hoge/tetete.json",
+                        x.RequestUri.GetLeftPart(UriPartial.Path));
+
+                    var query = HttpUtility.ParseQueryString(x.RequestUri.Query);
+
+                    Assert.Equal("1111", query["aaaa"]);
+                    Assert.Equal("2222", query["bbbb"]);
+
+                    return new HttpResponseMessage(HttpStatusCode.OK)
+                    {
+                        Content = new ByteArrayContent(image.Stream.ToArray()),
+                    };
+                });
+
+                var endpoint = new Uri("hoge/tetete.json", UriKind.Relative);
+                var param = new Dictionary<string, string>
+                {
+                    ["aaaa"] = "1111",
+                    ["bbbb"] = "2222",
+                };
+
+                var stream = await apiConnection.GetStreamAsync(endpoint, param)
+                    .ConfigureAwait(false);
+
+                using (var memoryStream = new MemoryStream())
+                {
+                    // 内容の比較のために MemoryStream にコピー
+                    await stream.CopyToAsync(memoryStream).ConfigureAwait(false);
+
+                    Assert.Equal(image.Stream.ToArray(), memoryStream.ToArray());
+                }
 
                 Assert.Equal(0, mockHandler.QueueCount);
             }
