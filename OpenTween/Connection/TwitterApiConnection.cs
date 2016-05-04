@@ -24,6 +24,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Cache;
 using System.Net.Http;
 using System.Runtime.Serialization;
 using System.Text;
@@ -262,7 +263,10 @@ namespace OpenTween.Connection
 
         private void InitializeHttpClient(string accessToken, string accessSecret)
         {
-            var handler = new OAuthHandler(Networking.CreateHttpClientHandler(),
+            var innerHandler = Networking.CreateHttpClientHandler();
+            innerHandler.CachePolicy = new RequestCachePolicy(RequestCacheLevel.BypassCache);
+
+            var handler = new OAuthHandler(innerHandler,
                 ApplicationSettings.TwitterConsumerKey, ApplicationSettings.TwitterConsumerSecret,
                 accessToken, accessSecret);
 
