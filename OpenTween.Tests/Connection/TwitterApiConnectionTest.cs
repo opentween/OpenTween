@@ -309,9 +309,26 @@ namespace OpenTween.Connection
                         // 前後のダブルクオーテーションを除去
                         boundary = boundary.Substring(1, boundary.Length - 2);
 
-                        var body = await x.Content.ReadAsStringAsync()
-                            .ConfigureAwait(false);
-                        Assert.True(body.StartsWith("--" + boundary + "\r\n", StringComparison.Ordinal));
+                        var expectedText =
+                            $"--{boundary}\r\n" +
+                            "Content-Type: text/plain; charset=utf-8\r\n" +
+                            "Content-Disposition: form-data; name=aaaa\r\n" +
+                            "\r\n" +
+                            "1111\r\n"+
+                            $"--{boundary}\r\n" +
+                            "Content-Type: text/plain; charset=utf-8\r\n" +
+                            "Content-Disposition: form-data; name=bbbb\r\n" +
+                            "\r\n" +
+                            "2222\r\n" +
+                            $"--{boundary}\r\n" +
+                            "Content-Disposition: form-data; name=media1\r\n" +
+                            "\r\n";
+
+                        var expected = Encoding.UTF8.GetBytes(expectedText)
+                            .Concat(image.Stream.ToArray())
+                            .Concat(Encoding.UTF8.GetBytes($"\r\n--{boundary}--\r\n"));
+
+                        Assert.Equal(expected, await x.Content.ReadAsByteArrayAsync().ConfigureAwait(false));
 
                         return new HttpResponseMessage(HttpStatusCode.OK)
                         {
