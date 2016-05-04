@@ -11332,7 +11332,7 @@ namespace OpenTween
 
                 try
                 {
-                    var task = Task.Run(() => this.tw.GetInfoApi());
+                    var task = this.tw.GetInfoApi();
                     apiStatus = await dialog.WaitForAsync(this, task);
                 }
                 catch (WebApiException)

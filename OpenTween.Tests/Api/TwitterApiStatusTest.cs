@@ -243,7 +243,6 @@ namespace OpenTween.Api
             Assert.True(eventCalled);
         }
 
-        [Fact(Skip = "Mono環境でエラーが発生する")]
         public void UpdateFromJsonTest()
         {
             var status = new TwitterApiStatus();
@@ -252,7 +251,7 @@ namespace OpenTween.Api
             status.AccessLimitUpdated += (s, e) => eventCalled = true;
 
             var json = "{\"resources\":{\"statuses\":{\"/statuses/home_timeline\":{\"limit\":150,\"remaining\":100,\"reset\":1356998400}}}}";
-            status.UpdateFromJson(json);
+            status.UpdateFromJson(TwitterRateLimits.ParseJson(json));
 
             var rateLimit = status.AccessLimit["/statuses/home_timeline"];
             Assert.Equal(150, rateLimit.AccessLimitCount);
@@ -260,23 +259,6 @@ namespace OpenTween.Api
             Assert.Equal(new DateTime(2013, 1, 1, 0, 0, 0, DateTimeKind.Utc).ToLocalTime(), rateLimit.AccessLimitResetDate);
 
             Assert.True(eventCalled);
-        }
-
-        [Fact]
-        public void UpdateFromJsonTest2()
-        {
-            var status = new TwitterApiStatus();
-
-            var eventCalled = false;
-            status.AccessLimitUpdated += (s, e) => eventCalled = true;
-
-            var json = "INVALID JSON";
-            Assert.Throws<XmlException>(() => status.UpdateFromJson(json));
-
-            var rateLimit = status.AccessLimit["/statuses/home_timeline"];
-            Assert.Null(rateLimit);
-
-            Assert.False(eventCalled);
         }
 
         [Fact]

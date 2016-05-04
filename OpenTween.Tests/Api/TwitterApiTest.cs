@@ -783,6 +783,29 @@ namespace OpenTween.Api
         }
 
         [Fact]
+        public async Task ApplicationRateLimitStatus_Test()
+        {
+            using (var twitterApi = new TwitterApi())
+            {
+                var mock = new Mock<IApiConnection>();
+                mock.Setup(x =>
+                    x.GetAsync<TwitterRateLimits>(
+                        new Uri("application/rate_limit_status.json", UriKind.Relative),
+                        null,
+                        "/application/rate_limit_status")
+                )
+                .ReturnsAsync(new TwitterRateLimits());
+
+                twitterApi.apiConnection = mock.Object;
+
+                await twitterApi.ApplicationRateLimitStatus()
+                    .ConfigureAwait(false);
+
+                mock.VerifyAll();
+            }
+        }
+
+        [Fact]
         public async Task Configuration_Test()
         {
             using (var twitterApi = new TwitterApi())

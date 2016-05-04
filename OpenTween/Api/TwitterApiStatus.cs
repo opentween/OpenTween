@@ -136,25 +136,21 @@ namespace OpenTween.Api
 
         private static readonly DateTime UnixEpoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
 
-        public void UpdateFromJson(string json)
+        public void UpdateFromJson(TwitterRateLimits json)
         {
-            using (var jsonReader = JsonReaderWriterFactory.CreateJsonReader(Encoding.UTF8.GetBytes(json), XmlDictionaryReaderQuotas.Max))
-            {
-                var xElm = XElement.Load(jsonReader);
-                XNamespace a = "item";
+            var rateLimits =
+                from res in json.Resources
+                from item in res.Value
+                select new {
+                    endpointName = item.Key,
+                    limit = new ApiLimit(
+                        item.Value.Limit,
+                        item.Value.Remaining,
+                        UnixEpoch.AddSeconds(item.Value.Reset).ToLocalTime()
+                    ),
+                };
 
-                var q =
-                    from res in xElm.Element("resources").Descendants(a + "item") // a:item 要素を列挙
-                    select new {
-                        endpointName = res.Attribute("item").Value,
-                        limit = new ApiLimit(
-                            int.Parse(res.Element("limit").Value),
-                            int.Parse(res.Element("remaining").Value),
-                            UnixEpoch.AddSeconds(long.Parse(res.Element("reset").Value)).ToLocalTime()
-                        ),
-                    };
-                this.AccessLimit.AddAll(q.ToDictionary(x => x.endpointName, x => x.limit));
-            }
+            this.AccessLimit.AddAll(rateLimits.ToDictionary(x => x.endpointName, x => x.limit));
         }
 
         protected virtual void OnAccessLimitUpdated(AccessLimitUpdatedEventArgs e)

@@ -843,7 +843,11 @@ namespace OpenTween
             var buf = Encoding.Unicode.GetBytes(content);
             using (var stream = new MemoryStream(buf))
             {
-                data = (T)((new DataContractJsonSerializer(typeof(T))).ReadObject(stream));
+                var settings = new DataContractJsonSerializerSettings
+                {
+                    UseSimpleDictionaryFormat = true,
+                };
+                data = (T)((new DataContractJsonSerializer(typeof(T), settings)).ReadObject(stream));
             }
             return data;
         }

@@ -2061,37 +2061,18 @@ namespace OpenTween
             return Tuple.Create(sourceText, sourceUri);
         }
 
-        public TwitterApiStatus GetInfoApi()
+        public async Task<TwitterApiStatus> GetInfoApi()
         {
             if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid) return null;
 
             if (MyCommon._endingFlag) return null;
 
-            HttpStatusCode res;
-            var content = "";
-            try
-            {
-                res = twCon.RateLimitStatus(ref content);
-            }
-            catch (Exception)
-            {
-                this.ResetApiStatus();
-                return null;
-            }
+            var limits = await this.Api.ApplicationRateLimitStatus()
+                .ConfigureAwait(false);
 
-            this.CheckStatusCode(res, content);
+            MyCommon.TwitterApiInfo.UpdateFromJson(limits);
 
-            try
-            {
-                MyCommon.TwitterApiInfo.UpdateFromJson(content);
-                return MyCommon.TwitterApiInfo;
-            }
-            catch (Exception ex)
-            {
-                MyCommon.TraceOut(ex, MethodBase.GetCurrentMethod().Name + " " + content);
-                MyCommon.TwitterApiInfo.Reset();
-                return null;
-            }
+            return MyCommon.TwitterApiInfo;
         }
 
         /// <summary>

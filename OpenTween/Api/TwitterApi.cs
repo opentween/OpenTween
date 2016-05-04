@@ -434,6 +434,13 @@ namespace OpenTween.Api
             return this.apiConnection.PostLazyAsync<TwitterUser>(endpoint, param, paramMedia);
         }
 
+        public Task<TwitterRateLimits> ApplicationRateLimitStatus()
+        {
+            var endpoint = new Uri("application/rate_limit_status.json", UriKind.Relative);
+
+            return this.apiConnection.GetAsync<TwitterRateLimits>(endpoint, null, "/application/rate_limit_status");
+        }
+
         public Task<TwitterConfiguration> Configuration()
         {
             var endpoint = new Uri("help/configuration.json", UriKind.Relative);
