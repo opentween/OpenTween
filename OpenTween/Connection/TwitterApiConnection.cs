@@ -50,7 +50,7 @@ namespace OpenTween.Connection
             this.AccessToken = accessToken;
             this.AccessSecret = accessSecret;
 
-            this.InitializeHttpClient(accessToken, accessSecret);
+            this.http = InitializeHttpClient(accessToken, accessSecret);
             Networking.WebProxyChanged += this.Networking_WebProxyChanged;
         }
 
@@ -270,7 +270,12 @@ namespace OpenTween.Connection
             this.Dispose(false);
         }
 
-        private void InitializeHttpClient(string accessToken, string accessSecret)
+        private void Networking_WebProxyChanged(object sender, EventArgs e)
+        {
+            this.http = InitializeHttpClient(this.AccessToken, this.AccessSecret);
+        }
+
+        private static HttpClient InitializeHttpClient(string accessToken, string accessSecret)
         {
             var innerHandler = Networking.CreateHttpClientHandler();
             innerHandler.CachePolicy = new RequestCachePolicy(RequestCacheLevel.BypassCache);
@@ -279,12 +284,7 @@ namespace OpenTween.Connection
                 ApplicationSettings.TwitterConsumerKey, ApplicationSettings.TwitterConsumerSecret,
                 accessToken, accessSecret);
 
-            this.http = Networking.CreateHttpClient(handler);
-        }
-
-        private void Networking_WebProxyChanged(object sender, EventArgs e)
-        {
-            this.InitializeHttpClient(this.AccessToken, this.AccessSecret);
+            return Networking.CreateHttpClient(handler);
         }
     }
 }
