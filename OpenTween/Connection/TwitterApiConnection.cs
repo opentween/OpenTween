@@ -161,7 +161,7 @@ namespace OpenTween.Connection
                     postContent.Add(new StringContent(kv.Value), kv.Key);
 
                 foreach (var kv in media)
-                    postContent.Add(new StreamContent(kv.Value.OpenRead()), kv.Key);
+                    postContent.Add(new StreamContent(kv.Value.OpenRead()), kv.Key, kv.Value.Name);
 
                 request.Content = postContent;
 

@@ -371,7 +371,7 @@ namespace OpenTween.Connection
                             "\r\n" +
                             "2222\r\n" +
                             $"--{boundary}\r\n" +
-                            "Content-Disposition: form-data; name=media1\r\n" +
+                            $"Content-Disposition: form-data; name=media1; filename={media.Name}; filename*=utf-8''{media.Name}\r\n" +
                             "\r\n";
 
                         var expected = Encoding.UTF8.GetBytes(expectedText)
