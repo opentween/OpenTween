@@ -71,7 +71,8 @@ namespace OpenTween
 
         public virtual async Task Refresh()
         {
-            var newList = _tw.EditList(this.Id.ToString(), Name, !this.IsPublic, this.Description);
+            var newList = await _tw.EditList(this.Id, Name, !this.IsPublic, this.Description)
+                .ConfigureAwait(false);
 
             this.Description = newList.Description;
             this.Id = newList.Id;

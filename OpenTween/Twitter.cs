@@ -1746,37 +1746,15 @@ namespace OpenTween
             this.CheckStatusCode(res, content);
         }
 
-        public ListElement EditList(string list_id, string new_name, bool isPrivate, string description)
+        public async Task<ListElement> EditList(long listId, string new_name, bool isPrivate, string description)
         {
-            HttpStatusCode res;
-            var content = "";
+            var response = await this.Api.ListsUpdate(listId, new_name, description, isPrivate)
+                .ConfigureAwait(false);
 
-            try
-            {
-                res = twCon.UpdateListID(this.Username, list_id, new_name, isPrivate, description, ref content);
-            }
-            catch(Exception ex)
-            {
-                throw new WebApiException("Err:" + ex.Message + "(" + MethodBase.GetCurrentMethod().Name + ")", ex);
-            }
+            var list = await response.LoadJsonAsync()
+                .ConfigureAwait(false);
 
-            this.CheckStatusCode(res, content);
-
-            try
-            {
-                var le = TwitterList.ParseJson(content);
-                return  new ListElement(le, this);
-            }
-            catch(SerializationException ex)
-            {
-                MyCommon.TraceOut(ex.Message + Environment.NewLine + content);
-                throw new WebApiException("Err:Json Parse Error(DataContractJsonSerializer)", content, ex);
-            }
-            catch(Exception ex)
-            {
-                MyCommon.TraceOut(ex, MethodBase.GetCurrentMethod().Name + " " + content);
-                throw new WebApiException("Err:Invalid Json!", content, ex);
-            }
+            return new ListElement(list, this);
         }
 
         public long GetListMembers(string list_id, List<UserInfo> lists, long cursor)

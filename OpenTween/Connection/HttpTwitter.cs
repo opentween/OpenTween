@@ -201,27 +201,6 @@ namespace OpenTween
         }
 
         #region Lists
-        public HttpStatusCode UpdateListID(string user, string list_id, string name, Boolean isPrivate, string description, ref string content)
-        {
-            string mode = "public";
-            if (isPrivate)
-                mode = "private";
-
-            Dictionary<string, string> param = new Dictionary<string, string>();
-            param.Add("screen_name", user);
-            param.Add("list_id", list_id);
-            if (name != null) param.Add("name", name);
-            if (mode != null) param.Add("mode", mode);
-            if (description != null) param.Add("description", description);
-
-            return httpCon.GetContent(PostMethod,
-                this.CreateTwitterUri("/1.1/lists/update.json"),
-                param,
-                ref content,
-                null,
-                null);
-        }
-
         public HttpStatusCode DeleteListID(string user, string list_id, ref string content)
         {
             Dictionary<string, string> param = new Dictionary<string, string>();
