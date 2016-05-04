@@ -299,6 +299,7 @@ namespace OpenTween
                 Twitter.AccountState = MyCommon.ACCOUNT_STATE.Invalid;
             }
             this.ResetApiStatus();
+            this.Api.Initialize(token, tokenSecret, userId, username);
             twCon.Initialize(token, tokenSecret, username, userId);
             _uname = username.ToLowerInvariant();
             if (SettingCommon.Instance.UserstreamStartup) this.ReconnectUserStream();

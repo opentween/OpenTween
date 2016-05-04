@@ -112,7 +112,6 @@ namespace OpenTween
             {
                 var u = settingCommon.UserAccounts[userAccountIdx];
                 this.tw.Initialize(u.Token, u.TokenSecret, u.Username, u.UserId);
-                this.twitterApi.Initialize(u.Token, u.TokenSecret, u.UserId, u.Username);
 
                 if (u.UserId == 0)
                 {
