@@ -1714,69 +1714,19 @@ namespace OpenTween
                 .ConfigureAwait(false);
         }
 
-        public void GetListsApi()
+        public async Task GetListsApi()
         {
             this.CheckAccountState();
 
-            HttpStatusCode res;
-            IEnumerable<ListElement> lists;
-            var content = "";
+            var ownedLists = await TwitterLists.GetAllItemsAsync(x => this.Api.ListsOwnerships(this.Username, cursor: x))
+                .ConfigureAwait(false);
 
-            try
-            {
-                res = twCon.GetLists(this.Username, ref content);
-            }
-            catch (Exception ex)
-            {
-                throw new WebApiException("Err:" + ex.Message + "(" + MethodBase.GetCurrentMethod().Name + ")", ex);
-            }
+            var subscribedLists = await TwitterLists.GetAllItemsAsync(x => this.Api.ListsSubscriptions(this.Username, cursor: x))
+                .ConfigureAwait(false);
 
-            this.CheckStatusCode(res, content);
-
-            try
-            {
-                lists = TwitterList.ParseJsonArray(content)
-                    .Select(x => new ListElement(x, this));
-            }
-            catch (SerializationException ex)
-            {
-                MyCommon.TraceOut(ex.Message + Environment.NewLine + content);
-                throw new WebApiException("Err:Json Parse Error(DataContractJsonSerializer)", content, ex);
-            }
-            catch (Exception ex)
-            {
-                MyCommon.TraceOut(ex, MethodBase.GetCurrentMethod().Name + " " + content);
-                throw new WebApiException("Err:Invalid Json!", content, ex);
-            }
-
-            try
-            {
-                res = twCon.GetListsSubscriptions(this.Username, ref content);
-            }
-            catch (Exception ex)
-            {
-                throw new WebApiException("Err:" + ex.Message + "(" + MethodBase.GetCurrentMethod().Name + ")", ex);
-            }
-
-            this.CheckStatusCode(res, content);
-
-            try
-            {
-                lists = lists.Concat(TwitterList.ParseJsonArray(content)
-                    .Select(x => new ListElement(x, this)));
-            }
-            catch (SerializationException ex)
-            {
-                MyCommon.TraceOut(ex.Message + Environment.NewLine + content);
-                throw new WebApiException("Err:Json Parse Error(DataContractJsonSerializer)", content, ex);
-            }
-            catch (Exception ex)
-            {
-                MyCommon.TraceOut(ex, MethodBase.GetCurrentMethod().Name + " " + content);
-                throw new WebApiException("Err:Invalid Json!", content, ex);
-            }
-
-            TabInformations.GetInstance().SubscribableLists = lists.ToList();
+            TabInformations.GetInstance().SubscribableLists = Enumerable.Concat(ownedLists, subscribedLists)
+                .Select(x => new ListElement(x, this))
+                .ToList();
         }
 
         public void DeleteList(string list_id)

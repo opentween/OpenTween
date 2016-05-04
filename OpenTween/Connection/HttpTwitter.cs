@@ -201,19 +201,6 @@ namespace OpenTween
         }
 
         #region Lists
-        public HttpStatusCode GetLists(string user, ref string content)
-        {
-            Dictionary<string, string> param = new Dictionary<string, string>();
-            param.Add("screen_name", user);
-
-            return httpCon.GetContent(GetMethod,
-                this.CreateTwitterUri("/1.1/lists/list.json"),
-                param,
-                ref content,
-                this.CreateRatelimitHeadersDict(),
-                this.CreateApiCalllback("/lists/list"));
-        }
-
         public HttpStatusCode UpdateListID(string user, string list_id, string name, Boolean isPrivate, string description, ref string content)
         {
             string mode = "public";
@@ -247,19 +234,6 @@ namespace OpenTween
                 ref content,
                 null,
                 null);
-        }
-
-        public HttpStatusCode GetListsSubscriptions(string user, ref string content)
-        {
-            Dictionary<string, string> param = new Dictionary<string, string>();
-            param.Add("screen_name", user);
-
-            return httpCon.GetContent(GetMethod,
-                this.CreateTwitterUri("/1.1/lists/subscriptions.json"),
-                param,
-                ref content,
-                this.CreateRatelimitHeadersDict(),
-                this.CreateApiCalllback("/lists/subscriptions"));
         }
 
         public HttpStatusCode CreateLists(string listname, Boolean isPrivate, string description, ref string content)

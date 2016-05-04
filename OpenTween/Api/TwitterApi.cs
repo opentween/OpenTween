@@ -164,6 +164,34 @@ namespace OpenTween.Api
             return this.apiConnection.PostLazyAsync<TwitterStatus>(endpoint, param);
         }
 
+        public Task<TwitterLists> ListsOwnerships(string screenName, long? cursor = null)
+        {
+            var endpoint = new Uri("lists/ownerships.json", UriKind.Relative);
+            var param = new Dictionary<string, string>
+            {
+                ["screen_name"] = screenName,
+            };
+
+            if (cursor != null)
+                param["cursor"] = cursor.ToString();
+
+            return this.apiConnection.GetAsync<TwitterLists>(endpoint, param, "/lists/ownerships");
+        }
+
+        public Task<TwitterLists> ListsSubscriptions(string screenName, long? cursor = null)
+        {
+            var endpoint = new Uri("lists/subscriptions.json", UriKind.Relative);
+            var param = new Dictionary<string, string>
+            {
+                ["screen_name"] = screenName,
+            };
+
+            if (cursor != null)
+                param["cursor"] = cursor.ToString();
+
+            return this.apiConnection.GetAsync<TwitterLists>(endpoint, param, "/lists/subscriptions");
+        }
+
         public Task<TwitterStatus[]> ListsStatuses(long listId, int? count = null, long? maxId = null, long? sinceId = null, bool? includeRTs = null)
         {
             var endpoint = new Uri("lists/statuses.json", UriKind.Relative);

@@ -11961,7 +11961,7 @@ namespace OpenTween
             }
         }
 
-        private void ListManageUserContextToolStripMenuItem_Click(object sender, EventArgs e)
+        private async void ListManageUserContextToolStripMenuItem_Click(object sender, EventArgs e)
         {
             string user;
 
@@ -11985,8 +11985,17 @@ namespace OpenTween
             {
                 try
                 {
-                    this.tw.GetListsApi();
+                    using (var dialog = new WaitingDialog(Properties.Resources.ListsGetting))
+                    {
+                        var cancellationToken = dialog.EnableCancellation();
+
+                        var task = this.tw.GetListsApi();
+                        await dialog.WaitForAsync(this, task);
+
+                        cancellationToken.ThrowIfCancellationRequested();
+                    }
                 }
+                catch (OperationCanceledException) { return; }
                 catch (WebApiException ex)
                 {
                     MessageBox.Show("Failed to get lists. (" + ex.Message + ")");

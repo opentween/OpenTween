@@ -281,6 +281,58 @@ namespace OpenTween.Api
         }
 
         [Fact]
+        public async Task ListsOwnerships_Test()
+        {
+            using (var twitterApi = new TwitterApi())
+            {
+                var mock = new Mock<IApiConnection>();
+                mock.Setup(x =>
+                    x.GetAsync<TwitterLists>(
+                        new Uri("lists/ownerships.json", UriKind.Relative),
+                        new Dictionary<string, string> {
+                            { "screen_name", "twitterapi" },
+                            { "cursor", "-1" },
+                        },
+                        "/lists/ownerships")
+                )
+                .ReturnsAsync(new TwitterLists());
+
+                twitterApi.apiConnection = mock.Object;
+
+                await twitterApi.ListsOwnerships("twitterapi", cursor: -1L)
+                    .ConfigureAwait(false);
+
+                mock.VerifyAll();
+            }
+        }
+
+        [Fact]
+        public async Task ListsSubscriptions_Test()
+        {
+            using (var twitterApi = new TwitterApi())
+            {
+                var mock = new Mock<IApiConnection>();
+                mock.Setup(x =>
+                    x.GetAsync<TwitterLists>(
+                        new Uri("lists/subscriptions.json", UriKind.Relative),
+                        new Dictionary<string, string> {
+                            { "screen_name", "twitterapi" },
+                            { "cursor", "-1" },
+                        },
+                        "/lists/subscriptions")
+                )
+                .ReturnsAsync(new TwitterLists());
+
+                twitterApi.apiConnection = mock.Object;
+
+                await twitterApi.ListsSubscriptions("twitterapi", cursor: -1L)
+                    .ConfigureAwait(false);
+
+                mock.VerifyAll();
+            }
+        }
+
+        [Fact]
         public async Task ListsStatuses_Test()
         {
             using (var twitterApi = new TwitterApi())

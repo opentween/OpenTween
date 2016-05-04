@@ -240,35 +240,39 @@ namespace OpenTween
             }
         }
 
-        private void DeleteListButton_Click(object sender, EventArgs e)
+        private async void DeleteListButton_Click(object sender, EventArgs e)
         {
             if (this.ListsList.SelectedItem == null) return;
-            ListElement list = (ListElement) this.ListsList.SelectedItem;
 
-            if (MessageBox.Show(Properties.Resources.ListManageDeleteLists1, Application.ProductName, MessageBoxButtons.OKCancel) == DialogResult.OK)
+            using (ControlTransaction.Disabled(this))
             {
-                try
-                {
-                    this.tw.DeleteList(list.Id.ToString());
-                }
-                catch (WebApiException ex)
-                {
-                    MessageBox.Show(Properties.Resources.ListManageOKButton2, ex.Message);
-                    return;
-                }
+                ListElement list = (ListElement)this.ListsList.SelectedItem;
 
-                try
+                if (MessageBox.Show(Properties.Resources.ListManageDeleteLists1, Application.ProductName, MessageBoxButtons.OKCancel) == DialogResult.OK)
                 {
-                    this.tw.GetListsApi();
-                }
-                catch (WebApiException ex)
-                {
-                    MessageBox.Show(Properties.Resources.ListsDeleteFailed, ex.Message);
-                    return;
-                }
+                    try
+                    {
+                        this.tw.DeleteList(list.Id.ToString());
+                    }
+                    catch (WebApiException ex)
+                    {
+                        MessageBox.Show(Properties.Resources.ListManageOKButton2, ex.Message);
+                        return;
+                    }
 
-                this.ListsList.Items.Clear();
-                this.ListManage_Load(this, EventArgs.Empty);
+                    try
+                    {
+                        await this.tw.GetListsApi();
+                    }
+                    catch (WebApiException ex)
+                    {
+                        MessageBox.Show(Properties.Resources.ListsDeleteFailed, ex.Message);
+                        return;
+                    }
+
+                    this.ListsList.Items.Clear();
+                    this.ListManage_Load(this, EventArgs.Empty);
+                }
             }
         }
 
@@ -354,7 +358,7 @@ namespace OpenTween
             {
                 var cancellationToken = dialog.EnableCancellation();
 
-                var task = Task.Run(() => tw.GetListsApi());
+                var task = this.tw.GetListsApi();
                 await dialog.WaitForAsync(this, task);
 
                 cancellationToken.ThrowIfCancellationRequested();

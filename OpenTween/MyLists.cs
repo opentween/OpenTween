@@ -140,20 +140,23 @@ namespace OpenTween
             this.ListsCheckedListBox.ItemCheck += this.ListsCheckedListBox_ItemCheck;
         }
 
-        private void ListRefreshButton_Click(object sender, EventArgs e)
+        private async void ListRefreshButton_Click(object sender, EventArgs e)
         {
-            try
+            using (ControlTransaction.Disabled(this))
             {
-                this._tw.GetListsApi();
-            }
-            catch (WebApiException ex)
-            {
-                MessageBox.Show(string.Format(Properties.Resources.ListsDeleteFailed, ex.Message));
-                return;
-            }
+                try
+                {
+                    await this._tw.GetListsApi();
+                }
+                catch (WebApiException ex)
+                {
+                    MessageBox.Show(string.Format(Properties.Resources.ListsDeleteFailed, ex.Message));
+                    return;
+                }
 
-            this.ListsCheckedListBox.Items.Clear();
-            this.MyLists_Load(this, EventArgs.Empty);
+                this.ListsCheckedListBox.Items.Clear();
+                this.MyLists_Load(this, EventArgs.Empty);
+            }
         }
 
         private void ListsCheckedListBox_ItemCheck(object sender, ItemCheckEventArgs e)
