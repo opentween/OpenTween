@@ -236,26 +236,6 @@ namespace OpenTween
                 null);
         }
 
-        public HttpStatusCode CreateLists(string listname, Boolean isPrivate, string description, ref string content)
-        {
-            string mode = "public";
-            if (isPrivate)
-                mode = "private";
-
-            Dictionary<string, string> param = new Dictionary<string, string>();
-            param.Add("name", listname);
-            param.Add("mode", mode);
-            if (!string.IsNullOrEmpty(description))
-                param.Add("description", description);
-
-            return httpCon.GetContent(PostMethod,
-                this.CreateTwitterUri("/1.1/lists/create.json"),
-                param,
-                ref content,
-                null,
-                null);
-        }
-
         public HttpStatusCode GetListMembers(string user, string list_id, long cursor, ref string content)
         {
             Dictionary<string, string> param = new Dictionary<string, string>();

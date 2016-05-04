@@ -333,6 +333,33 @@ namespace OpenTween.Api
         }
 
         [Fact]
+        public async Task ListsCreate_Test()
+        {
+            using (var twitterApi = new TwitterApi())
+            {
+                var mock = new Mock<IApiConnection>();
+                mock.Setup(x =>
+                    x.PostLazyAsync<TwitterList>(
+                        new Uri("lists/create.json", UriKind.Relative),
+                        new Dictionary<string, string> {
+                            { "name", "hogehoge" },
+                            { "description", "aaaa" },
+                            { "mode", "private" },
+                        })
+                )
+                .ReturnsAsync(LazyJson.Create(new TwitterList()));
+
+                twitterApi.apiConnection = mock.Object;
+
+                await twitterApi.ListsCreate("hogehoge", description: "aaaa", @private: true)
+                    .IgnoreResponse()
+                    .ConfigureAwait(false);
+
+                mock.VerifyAll();
+            }
+        }
+
+        [Fact]
         public async Task ListsStatuses_Test()
         {
             using (var twitterApi = new TwitterApi())

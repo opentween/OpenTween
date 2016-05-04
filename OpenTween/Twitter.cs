@@ -1817,38 +1817,17 @@ namespace OpenTween
             }
         }
 
-        public void CreateListApi(string listName, bool isPrivate, string description)
+        public async Task CreateListApi(string listName, bool isPrivate, string description)
         {
             this.CheckAccountState();
 
-            HttpStatusCode res;
-            var content = "";
-            try
-            {
-                res = twCon.CreateLists(listName, isPrivate, description, ref content);
-            }
-            catch(Exception ex)
-            {
-                throw new WebApiException("Err:" + ex.Message + "(" + MethodBase.GetCurrentMethod().Name + ")", ex);
-            }
+            var response = await this.Api.ListsCreate(listName, description, isPrivate)
+                .ConfigureAwait(false);
 
-            this.CheckStatusCode(res, content);
+            var list = await response.LoadJsonAsync()
+                .ConfigureAwait(false);
 
-            try
-            {
-                var le = TwitterList.ParseJson(content);
-                TabInformations.GetInstance().SubscribableLists.Add(new ListElement(le, this));
-            }
-            catch(SerializationException ex)
-            {
-                MyCommon.TraceOut(ex.Message + Environment.NewLine + content);
-                throw new WebApiException("Err:Json Parse Error(DataContractJsonSerializer)", content, ex);
-            }
-            catch(Exception ex)
-            {
-                MyCommon.TraceOut(ex, MethodBase.GetCurrentMethod().Name + " " + content);
-                throw new WebApiException("Err:Invalid Json!", content, ex);
-            }
+            TabInformations.GetInstance().SubscribableLists.Add(new ListElement(list, this));
         }
 
         public bool ContainsUserAtList(string listId, string user)

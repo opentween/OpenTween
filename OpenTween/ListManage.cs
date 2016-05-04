@@ -124,36 +124,40 @@ namespace OpenTween
             if (this.EditCheckBox.Checked == true) this.NameTextBox.Focus();
         }
 
-        private void OKEditButton_Click(object sender, EventArgs e)
+        private async void OKEditButton_Click(object sender, EventArgs e)
         {
             if (this.ListsList.SelectedItem == null) return;
-            ListElement listItem = (ListElement) this.ListsList.SelectedItem;
 
-            if (string.IsNullOrEmpty(this.NameTextBox.Text))
+            using (ControlTransaction.Disabled(this))
             {
-                MessageBox.Show(Properties.Resources.ListManageOKButton1);
-                return;
+                ListElement listItem = (ListElement)this.ListsList.SelectedItem;
+
+                if (string.IsNullOrEmpty(this.NameTextBox.Text))
+                {
+                    MessageBox.Show(Properties.Resources.ListManageOKButton1);
+                    return;
+                }
+
+                listItem.Name = this.NameTextBox.Text;
+                listItem.IsPublic = this.PublicRadioButton.Checked;
+                listItem.Description = this.DescriptionText.Text;
+
+                try
+                {
+                    await listItem.Refresh();
+                }
+                catch (WebApiException ex)
+                {
+                    MessageBox.Show(string.Format(Properties.Resources.ListManageOKButton2, ex.Message));
+                    return;
+                }
+
+                this.ListsList.Items.Clear();
+                this.ListManage_Load(null, EventArgs.Empty);
+
+                this.EditCheckBox.AutoCheck = true;
+                this.EditCheckBox.Checked = false;
             }
-
-            listItem.Name = this.NameTextBox.Text;
-            listItem.IsPublic = this.PublicRadioButton.Checked;
-            listItem.Description = this.DescriptionText.Text;
-
-            try
-            {
-                listItem.Refresh();
-            }
-            catch (WebApiException ex)
-            {
-                MessageBox.Show(string.Format(Properties.Resources.ListManageOKButton2, ex.Message));
-                return;
-            }
-
-            this.ListsList.Items.Clear();
-            this.ListManage_Load(null, EventArgs.Empty);
-
-            this.EditCheckBox.AutoCheck = true;
-            this.EditCheckBox.Checked = false;
         }
 
         private void CancelEditButton_Click(object sender, EventArgs e)
@@ -397,15 +401,17 @@ namespace OpenTween
                 this._tw = tw;
             }
 
-            public override void Refresh()
+            public override async Task Refresh()
             {
                 if (this.IsCreated)
                 {
-                    base.Refresh();
+                    await base.Refresh().ConfigureAwait(false);
                 }
                 else
                 {
-                    this._tw.CreateListApi(this.Name, !this.IsPublic, this.Description);
+                    await this._tw.CreateListApi(this.Name, !this.IsPublic, this.Description)
+                        .ConfigureAwait(false);
+
                     this._isCreated = true;
                 }
             }

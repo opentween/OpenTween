@@ -192,6 +192,22 @@ namespace OpenTween.Api
             return this.apiConnection.GetAsync<TwitterLists>(endpoint, param, "/lists/subscriptions");
         }
 
+        public Task<LazyJson<TwitterList>> ListsCreate(string name, string description = null, bool? @private = null)
+        {
+            var endpoint = new Uri("lists/create.json", UriKind.Relative);
+            var param = new Dictionary<string, string>
+            {
+                ["name"] = name,
+            };
+
+            if (description != null)
+                param["description"] = description;
+            if (@private != null)
+                param["mode"] = @private.Value ? "private" : "public";
+
+            return this.apiConnection.PostLazyAsync<TwitterList>(endpoint, param);
+        }
+
         public Task<TwitterStatus[]> ListsStatuses(long listId, int? count = null, long? maxId = null, long? sinceId = null, bool? includeRTs = null)
         {
             var endpoint = new Uri("lists/statuses.json", UriKind.Relative);

@@ -25,6 +25,7 @@
 // Boston, MA 02110-1301, USA.
 
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Xml.Serialization;
 using OpenTween.Api.DataModel;
 
@@ -68,7 +69,7 @@ namespace OpenTween
             this._tw = tw;
         }
 
-        public virtual void Refresh()
+        public virtual async Task Refresh()
         {
             var newList = _tw.EditList(this.Id.ToString(), Name, !this.IsPublic, this.Description);
 
