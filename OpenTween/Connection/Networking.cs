@@ -139,9 +139,9 @@ namespace OpenTween.Connection
         /// OpenTween で必要な設定を施した HttpClientHandler インスタンスを生成します
         /// </summary>
         [SuppressMessage("Microsoft.Reliability", "CA2000:DisposeObjectsBeforeLosingScope")]
-        public static HttpClientHandler CreateHttpClientHandler()
+        public static WebRequestHandler CreateHttpClientHandler()
         {
-            var handler = new HttpClientHandler
+            var handler = new WebRequestHandler
             {
                 AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate,
             };
