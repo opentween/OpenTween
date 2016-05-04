@@ -195,66 +195,6 @@ namespace OpenTween
             MyCommon.TwitterApiInfo.Reset();
         }
 
-        public void Authenticate(string username, string password)
-        {
-            this.ResetApiStatus();
-
-            HttpStatusCode res;
-            var content = "";
-            try
-            {
-                res = twCon.AuthUserAndPass(username, password, ref content);
-            }
-            catch(Exception ex)
-            {
-                throw new WebApiException("Err:" + ex.Message, ex);
-            }
-
-            this.CheckStatusCode(res, content);
-
-            _uname = username.ToLowerInvariant();
-            if (SettingCommon.Instance.UserstreamStartup) this.ReconnectUserStream();
-        }
-
-        public string StartAuthentication()
-        {
-            //OAuth PIN Flow
-            this.ResetApiStatus();
-            try
-            {
-                string pinPageUrl = null;
-                var res = twCon.AuthGetRequestToken(ref pinPageUrl);
-                if (!res)
-                    throw new WebApiException("Err:Failed to access auth server.");
-
-                return pinPageUrl;
-            }
-            catch (Exception ex)
-            {
-                throw new WebApiException("Err:Failed to access auth server.", ex);
-            }
-        }
-
-        public void Authenticate(string pinCode)
-        {
-            this.ResetApiStatus();
-
-            HttpStatusCode res;
-            try
-            {
-                res = twCon.AuthGetAccessToken(pinCode);
-            }
-            catch (Exception ex)
-            {
-                throw new WebApiException("Err:Failed to access auth acc server.", ex);
-            }
-
-            this.CheckStatusCode(res, null);
-
-            _uname = Username.ToLowerInvariant();
-            if (SettingCommon.Instance.UserstreamStartup) this.ReconnectUserStream();
-        }
-
         public void ClearAuthInfo()
         {
             Twitter.AccountState = MyCommon.ACCOUNT_STATE.Invalid;

@@ -29,6 +29,7 @@ using System.Net.Http;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 using OpenTween.Api;
 using OpenTween.Api.DataModel;
 
@@ -273,6 +274,79 @@ namespace OpenTween.Connection
         private void Networking_WebProxyChanged(object sender, EventArgs e)
         {
             this.http = InitializeHttpClient(this.AccessToken, this.AccessSecret);
+        }
+
+        public static async Task<Tuple<string, string>> GetRequestTokenAsync()
+        {
+            var param = new Dictionary<string, string>
+            {
+                ["oauth_callback"] = "oob",
+            };
+            var response = await GetOAuthTokenAsync(new Uri("https://api.twitter.com/oauth/request_token"), param, oauthToken: null)
+                .ConfigureAwait(false);
+
+            return Tuple.Create(response["oauth_token"], response["oauth_token_secret"]);
+        }
+
+        public static Uri GetAuthorizeUri(Tuple<string, string> requestToken, string screenName = null)
+        {
+            var param = new Dictionary<string, string>
+            {
+                ["oauth_token"] = requestToken.Item1,
+            };
+
+            if (screenName != null)
+                param["screen_name"] = screenName;
+
+            return new Uri("https://api.twitter.com/oauth/authorize?" + MyCommon.BuildQueryString(param));
+        }
+
+        public static async Task<IDictionary<string, string>> GetAccessTokenAsync(Tuple<string, string> requestToken, string verifier)
+        {
+            var param = new Dictionary<string, string>
+            {
+                ["oauth_verifier"] = verifier,
+            };
+            var response = await GetOAuthTokenAsync(new Uri("https://api.twitter.com/oauth/access_token"), param, requestToken)
+                .ConfigureAwait(false);
+
+            return response;
+        }
+
+        private static async Task<IDictionary<string, string>> GetOAuthTokenAsync(Uri uri, IDictionary<string, string> param,
+            Tuple<string, string> oauthToken)
+        {
+            HttpClient authorizeClient;
+            if (oauthToken != null)
+                authorizeClient = InitializeHttpClient(oauthToken.Item1, oauthToken.Item2);
+            else
+                authorizeClient = InitializeHttpClient("", "");
+
+            var requestUri = new Uri(uri, "?" + MyCommon.BuildQueryString(param));
+
+            try
+            {
+                using (var request = new HttpRequestMessage(HttpMethod.Post, requestUri))
+                using (var response = await authorizeClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead)
+                    .ConfigureAwait(false))
+                using (var content = response.Content)
+                {
+                    var responseText = await content.ReadAsStringAsync()
+                        .ConfigureAwait(false);
+
+                    if (!response.IsSuccessStatusCode)
+                        throw new TwitterApiException(response.StatusCode, responseText);
+
+                    var responseParams = HttpUtility.ParseQueryString(responseText);
+
+                    return responseParams.Cast<string>()
+                        .ToDictionary(x => x, x => responseParams[x]);
+                }
+            }
+            catch (OperationCanceledException ex)
+            {
+                throw TwitterApiException.CreateFromException(ex);
+            }
         }
 
         private static HttpClient InitializeHttpClient(string accessToken, string accessSecret)

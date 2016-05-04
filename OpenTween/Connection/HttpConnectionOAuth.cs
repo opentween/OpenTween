@@ -84,16 +84,6 @@ namespace OpenTween
 		protected string consumerSecret;
 
 		/// <summary>
-		/// 認証成功時の応答でユーザー情報を取得する場合のキー。設定しない場合は、AuthUsernameもブランクのままとなる
-		/// </summary>
-		private string userIdentKey = "";
-
-		/// <summary>
-		/// 認証成功時の応答でユーザーID情報を取得する場合のキー。設定しない場合は、AuthUserIdもブランクのままとなる
-		/// </summary>
-		private string userIdIdentKey = "";
-
-		/// <summary>
 		/// 認証完了時の応答からuserIdentKey情報に基づいて取得するユーザー情報
 		/// </summary>
 		private string authorizedUsername = "";
@@ -237,236 +227,6 @@ namespace OpenTween
 			catch ( Exception ) {}
 		}
 
-		#region "認証処理"
-		/// <summary>
-		/// OAuth認証の開始要求（リクエストトークン取得）。PIN入力用の前段
-		/// </summary>
-		/// <remarks>
-		/// 呼び出し元では戻されたurlをブラウザで開き、認証完了後PIN入力を受け付けて、リクエストトークンと共にAuthenticatePinFlowを呼び出す
-		/// </remarks>
-		/// <param name="requestTokenUrl">リクエストトークンの取得先URL</param>
-		/// <param name="authorizeUrl">ブラウザで開く認証用URLのベース</param>
-		/// <param name="requestToken">[OUT]認証要求で戻されるリクエストトークン。使い捨て</param>
-		/// <param name="authUri">[OUT]requestUriを元に生成された認証用URL。通常はリクエストトークンをクエリとして付加したUri</param>
-		/// <returns>取得結果真偽値</returns>
-		public bool AuthenticatePinFlowRequest( string requestTokenUrl, string authorizeUrl, ref string requestToken, ref Uri authUri )
-		{
-			// PIN-based flow
-            authUri = this.GetAuthenticatePageUri( requestTokenUrl, authorizeUrl, ref requestToken );
-			if ( authUri == null )
-				return false;
-			return true;
-		}
-
-		/// <summary>
-		/// OAuth認証のアクセストークン取得。PIN入力用の後段
-		/// </summary>
-		/// <remarks>
-		/// 事前にAuthenticatePinFlowRequestを呼んで、ブラウザで認証後に表示されるPINを入力してもらい、その値とともに呼び出すこと
-		/// </remarks>
-		/// <param name="accessTokenUrl">アクセストークンの取得先URL</param>
-		/// <param name="requestToken">AuthenticatePinFlowRequestで取得したリクエストトークン</param>
-		/// <param name="pinCode">Webで認証後に表示されるPINコード</param>
-		/// <returns>取得結果真偽値</returns>
-		public HttpStatusCode AuthenticatePinFlow( string accessTokenUrl, string requestToken, string pinCode )
-		{
-			// PIN-based flow
-			if ( string.IsNullOrEmpty( requestToken ) )
-				throw new InvalidOperationException( "Sequence error.(requestToken is blank)" );
-
-			// アクセストークン取得
-			string content = "";
-			NameValueCollection accessTokenData;
-			HttpStatusCode httpCode = this.GetOAuthToken( new Uri( accessTokenUrl ), pinCode, requestToken, null, ref content );
-			if ( httpCode != HttpStatusCode.OK )
-				return httpCode;
-			accessTokenData = base.ParseQueryString( content );
-
-			if ( accessTokenData != null )
-			{
-				this.token = accessTokenData[ "oauth_token" ];
-				this.tokenSecret = accessTokenData[ "oauth_token_secret" ];
-
-				// サービスごとの独自拡張対応
-				if ( !string.IsNullOrEmpty(this.userIdentKey) )
-					this.authorizedUsername = accessTokenData[ this.userIdentKey ];
-				else
-					this.authorizedUsername = "";
-
-				if ( !string.IsNullOrEmpty(this.userIdIdentKey) )
-				{
-					try
-					{
-						this.authorizedUserId = Convert.ToInt64( accessTokenData[ this.userIdIdentKey ] );
-					}
-					catch ( Exception )
-					{
-						this.authorizedUserId = 0;
-					}
-				}
-				else
-				{
-					this.authorizedUserId = 0;
-				}
-
-				if ( string.IsNullOrEmpty(token) )
-					throw new InvalidDataException( "Token is null." );
-				return HttpStatusCode.OK;
-			}
-			else
-			{
-                throw new InvalidDataException( "Return value is null." );
-			}
-		}
-
-        public HttpStatusCode Authenticate(Uri accessTokenUrl, string username, string password, ref string content)
-        {
-            return this.AuthenticateXAuth(accessTokenUrl, username, password, ref content);
-        }
-
-		/// <summary>
-		/// OAuth認証のアクセストークン取得。xAuth方式
-		/// </summary>
-		/// <param name="accessTokenUrl">アクセストークンの取得先URL</param>
-		/// <param name="username">認証用ユーザー名</param>
-		/// <param name="password">認証用パスワード</param>
-		/// <returns>取得結果真偽値</returns>
-		public HttpStatusCode AuthenticateXAuth( Uri accessTokenUrl, string username, string password, ref string content )
-		{
-			// ユーザー・パスワードチェック
-			if ( string.IsNullOrEmpty( username ) )
-				throw new ArgumentException( "username is null or empty", nameof(username) );
-            if ( string.IsNullOrEmpty( password ) )
-                throw new ArgumentException( "password is null or empty", nameof(password) );
-
-			// xAuthの拡張パラメータ設定
-			Dictionary< string, string > parameter = new Dictionary< string, string >();
-			parameter.Add( "x_auth_mode", "client_auth" );
-			parameter.Add( "x_auth_username", username );
-			parameter.Add( "x_auth_password", password );
-
-			// アクセストークン取得
-			HttpStatusCode httpCode = this.GetOAuthToken( accessTokenUrl, "", "", parameter, ref content );
-			if ( httpCode != HttpStatusCode.OK )
-				return httpCode;
-			NameValueCollection accessTokenData = base.ParseQueryString( content );
-
-			if ( accessTokenData != null )
-			{
-				this.token = accessTokenData[ "oauth_token" ];
-				this.tokenSecret = accessTokenData[ "oauth_token_secret" ];
-
-				// サービスごとの独自拡張対応
-				if ( !string.IsNullOrEmpty(this.userIdentKey) )
-					this.authorizedUsername = accessTokenData[ this.userIdentKey ];
-				else
-					this.authorizedUsername = "";
-
-				if ( !string.IsNullOrEmpty(this.userIdIdentKey) )
-				{
-					try
-					{
-                        this.authorizedUserId = Convert.ToInt64( accessTokenData[ this.userIdIdentKey ] );
-					}
-					catch ( Exception )
-					{
-						this.authorizedUserId = 0;
-					}
-				}
-				else
-				{
-					this.authorizedUserId = 0;
-				}
-
-				if ( string.IsNullOrEmpty(token) )
-					throw new InvalidDataException( "Token is null." );
-				return HttpStatusCode.OK;
-			}
-			else
-			{
-				throw new InvalidDataException( "Return value is null." );
-			}
-		}
-
-		/// <summary>
-		/// OAuth認証のリクエストトークン取得。リクエストトークンと組み合わせた認証用のUriも生成する
-		/// </summary>
-		/// <param name="requestTokenUrl">リクエストトークンの取得先URL</param>
-		/// <param name="authorizeUrl">ブラウザで開く認証用URLのベース</param>
-		/// <param name="requestToken">[OUT]取得したリクエストトークン</param>
-		/// <returns>取得結果真偽値</returns>
-		private Uri GetAuthenticatePageUri( string requestTokenUrl, string authorizeUrl, ref string requestToken )
-		{
-			const string tokenKey = "oauth_token";
-
-			// リクエストトークン取得
-			string content = "";
-			NameValueCollection reqTokenData;
-			if ( this.GetOAuthToken( new Uri( requestTokenUrl ), "", "", null, ref content, callbackUrl: "oob" ) != HttpStatusCode.OK )
-				return null;
-			reqTokenData = base.ParseQueryString( content );
-
-			if ( reqTokenData != null )
-			{
-				requestToken = reqTokenData[ tokenKey ];
-				// Uri生成
-				UriBuilder ub = new UriBuilder( authorizeUrl );
-				ub.Query = string.Format( "{0}={1}", tokenKey, requestToken );
-				return ub.Uri;
-			}
-			else
-			{
-				return null;
-			}
-		}
-
-		/// <summary>
-		/// OAuth認証のトークン取得共通処理
-		/// </summary>
-		/// <param name="requestUri">各種トークンの取得先URL</param>
-		/// <param name="pinCode">PINフロー時のアクセストークン取得時に設定。それ以外は空文字列</param>
-		/// <param name="requestToken">PINフロー時のリクエストトークン取得時に設定。それ以外は空文字列</param>
-		/// <param name="parameter">追加パラメータ。xAuthで使用</param>
-		/// <returns>取得結果のデータ。正しく取得出来なかった場合はNothing</returns>
-		private HttpStatusCode GetOAuthToken( Uri requestUri, string pinCode, string requestToken, Dictionary< string , string > parameter, ref string content, string callbackUrl = null )
-		{
-			HttpWebRequest webReq = null;
-			// HTTPリクエスト生成。PINコードもパラメータも未指定の場合はGETメソッドで通信。それ以外はPOST
-			if ( string.IsNullOrEmpty( pinCode ) && parameter != null )
-				webReq = this.CreateRequest( "GET", requestUri, null );
-			else
-				webReq = this.CreateRequest( "POST", requestUri, parameter ); // ボディに追加パラメータ書き込み
-
-			// OAuth関連パラメータ準備。追加パラメータがあれば追加
-			Dictionary< string, string > query = new Dictionary< string, string >();
-			if ( parameter != null )
-				foreach ( KeyValuePair< string, string > kvp in parameter )
-					query.Add( kvp.Key, kvp.Value );
-
-			// PINコードが指定されていればパラメータに追加
-			if ( ! string.IsNullOrEmpty( pinCode ) )
-				query.Add( "oauth_verifier", pinCode );
-
-			// コールバックURLが指定されていればパラメータに追加
-			if (!string.IsNullOrEmpty(callbackUrl))
-				query.Add("oauth_callback", callbackUrl);
-
-			// OAuth関連情報をHTTPリクエストに追加
-			this.AppendOAuthInfo( webReq, query, requestToken, "" );
-
-			// HTTP応答取得
-			Dictionary< string, string > header = new Dictionary< string, string >() { { "Date", "" } };
-			HttpStatusCode responseCode = this.GetResponse( webReq, out content, header );
-			if ( responseCode == HttpStatusCode.OK )
-				return responseCode;
-
-			if ( !string.IsNullOrEmpty( header[ "Date" ] ) )
-				content += Environment.NewLine + "Check the Date & Time of this computer." + Environment.NewLine
-				+ "Server:" + DateTime.Parse( header[ "Date" ] ).ToString() + "  PC:" + DateTime.Now.ToString();
-			return responseCode;
-		}
-		#endregion // 認証処理
-
 		#region "OAuth認証用ヘッダ作成・付加処理"
 		/// <summary>
 		/// HTTPリクエストにOAuth関連ヘッダを追加
@@ -491,17 +251,13 @@ namespace OpenTween
 		/// <param name="consumerSecret">コンシューマー秘密鍵</param>
 		/// <param name="accessToken">アクセストークン</param>
 		/// <param name="accessTokenSecret">アクセストークン秘密鍵</param>
-		/// <param name="userIdentifier">アクセストークン取得時に得られるユーザー識別情報。不要なら空文字列</param>
 		public void Initialize( string consumerKey, string consumerSecret,
-		                        string accessToken, string accessTokenSecret,
-		                        string userIdentifier, string userIdIdentifier )
+		                        string accessToken, string accessTokenSecret )
 		{
 			this.consumerKey = consumerKey;
 			this.consumerSecret = consumerSecret;
 			this.token = accessToken;
 			this.tokenSecret = accessTokenSecret;
-			this.userIdentKey = userIdentifier;
-			this.userIdIdentKey = userIdIdentifier;
 		}
 
 		/// <summary>
@@ -512,13 +268,11 @@ namespace OpenTween
 		/// <param name="accessToken">アクセストークン</param>
 		/// <param name="accessTokenSecret">アクセストークン秘密鍵</param>
 		/// <param name="username">認証済みユーザー名</param>
-		/// <param name="userIdentifier">アクセストークン取得時に得られるユーザー識別情報。不要なら空文字列</param>
 		public void Initialize( string consumerKey, string consumerSecret,
 		                        string accessToken, string accessTokenSecret,
-		                        string username, long userId,
-		                        string userIdentifier, string userIdIdentifier )
+		                        string username, long userId )
 		{
-			this.Initialize( consumerKey, consumerSecret, accessToken, accessTokenSecret, userIdentifier, userIdIdentifier );
+			this.Initialize( consumerKey, consumerSecret, accessToken, accessTokenSecret );
 			this.authorizedUsername = username;
 			this.authorizedUserId = userId;
 		}

@@ -75,11 +75,11 @@ namespace OpenTween
         /// <param name="owner">親ウィンドウ</param>
         /// <param name="authUrl">認証URL</param>
         /// <returns>PIN文字列</returns>
-        public static string DoAuth(IWin32Window owner, string authUrl)
+        public static string DoAuth(IWin32Window owner, Uri authUri)
         {
             using (var dialog = new AuthDialog())
             {
-                dialog.AuthUrl = authUrl;
+                dialog.AuthUrl = authUri.AbsoluteUri;
 
                 dialog.ShowDialog(owner);
 

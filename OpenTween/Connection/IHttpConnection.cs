@@ -56,8 +56,6 @@ namespace OpenTween
 
         void RequestAbort();
 
-        HttpStatusCode Authenticate(Uri url, string username, string password, ref string content);
-
         string AuthUsername { get; }
         long AuthUserId { get; set; }
     }
