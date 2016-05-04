@@ -388,6 +388,31 @@ namespace OpenTween.Api
         }
 
         [Fact]
+        public async Task ListsDestroy_Test()
+        {
+            using (var twitterApi = new TwitterApi())
+            {
+                var mock = new Mock<IApiConnection>();
+                mock.Setup(x =>
+                    x.PostLazyAsync<TwitterList>(
+                        new Uri("lists/destroy.json", UriKind.Relative),
+                        new Dictionary<string, string> {
+                            { "list_id", "12345" },
+                        })
+                )
+                .ReturnsAsync(LazyJson.Create(new TwitterList()));
+
+                twitterApi.apiConnection = mock.Object;
+
+                await twitterApi.ListsDestroy(12345L)
+                    .IgnoreResponse()
+                    .ConfigureAwait(false);
+
+                mock.VerifyAll();
+            }
+        }
+
+        [Fact]
         public async Task ListsStatuses_Test()
         {
             using (var twitterApi = new TwitterApi())

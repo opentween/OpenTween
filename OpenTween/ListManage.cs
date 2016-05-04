@@ -256,7 +256,7 @@ namespace OpenTween
                 {
                     try
                     {
-                        this.tw.DeleteList(list.Id.ToString());
+                        await this.tw.DeleteList(list.Id);
                     }
                     catch (WebApiException ex)
                     {

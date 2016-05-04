@@ -226,6 +226,17 @@ namespace OpenTween.Api
             return this.apiConnection.PostLazyAsync<TwitterList>(endpoint, param);
         }
 
+        public Task<LazyJson<TwitterList>> ListsDestroy(long listId)
+        {
+            var endpoint = new Uri("lists/destroy.json", UriKind.Relative);
+            var param = new Dictionary<string, string>
+            {
+                ["list_id"] = listId.ToString(),
+            };
+
+            return this.apiConnection.PostLazyAsync<TwitterList>(endpoint, param);
+        }
+
         public Task<TwitterStatus[]> ListsStatuses(long listId, int? count = null, long? maxId = null, long? sinceId = null, bool? includeRTs = null)
         {
             var endpoint = new Uri("lists/statuses.json", UriKind.Relative);

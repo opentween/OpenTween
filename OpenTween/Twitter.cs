@@ -1729,21 +1729,17 @@ namespace OpenTween
                 .ToList();
         }
 
-        public void DeleteList(string list_id)
+        public async Task DeleteList(long listId)
         {
-            HttpStatusCode res;
-            var content = "";
+            await this.Api.ListsDestroy(listId)
+                .IgnoreResponse()
+                .ConfigureAwait(false);
 
-            try
-            {
-                res = twCon.DeleteListID(this.Username, list_id, ref content);
-            }
-            catch(Exception ex)
-            {
-                throw new WebApiException("Err:" + ex.Message + "(" + MethodBase.GetCurrentMethod().Name + ")", ex);
-            }
+            var tabinfo = TabInformations.GetInstance();
 
-            this.CheckStatusCode(res, content);
+            tabinfo.SubscribableLists = tabinfo.SubscribableLists
+                .Where(x => x.Id != listId)
+                .ToList();
         }
 
         public async Task<ListElement> EditList(long listId, string new_name, bool isPrivate, string description)
