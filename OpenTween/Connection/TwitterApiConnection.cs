@@ -37,7 +37,7 @@ namespace OpenTween.Connection
 {
     public class TwitterApiConnection : IApiConnection, IDisposable
     {
-        public Uri RestApiBase { get; set; } = new Uri("https://api.twitter.com/1.1/");
+        public static Uri RestApiBase { get; set; } = new Uri("https://api.twitter.com/1.1/");
 
         public bool IsDisposed { get; private set; } = false;
 
@@ -60,7 +60,7 @@ namespace OpenTween.Connection
 
         public async Task<T> GetAsync<T>(Uri uri, IDictionary<string, string> param, string endpointName)
         {
-            var requestUri = new Uri(this.RestApiBase, uri);
+            var requestUri = new Uri(RestApiBase, uri);
 
             if (param != null)
                 requestUri = new Uri(requestUri, "?" + MyCommon.BuildQueryString(param));
@@ -102,7 +102,7 @@ namespace OpenTween.Connection
 
         public async Task<Stream> GetStreamAsync(Uri uri, IDictionary<string, string> param)
         {
-            var requestUri = new Uri(this.RestApiBase, uri);
+            var requestUri = new Uri(RestApiBase, uri);
 
             if (param != null)
                 requestUri = new Uri(requestUri, "?" + MyCommon.BuildQueryString(param));
@@ -120,7 +120,7 @@ namespace OpenTween.Connection
 
         public async Task<LazyJson<T>> PostLazyAsync<T>(Uri uri, IDictionary<string, string> param)
         {
-            var requestUri = new Uri(this.RestApiBase, uri);
+            var requestUri = new Uri(RestApiBase, uri);
             var request = new HttpRequestMessage(HttpMethod.Post, requestUri);
 
             using (var postContent = new FormUrlEncodedContent(param))
@@ -154,7 +154,7 @@ namespace OpenTween.Connection
 
         public async Task<LazyJson<T>> PostLazyAsync<T>(Uri uri, IDictionary<string, string> param, IDictionary<string, IMediaItem> media)
         {
-            var requestUri = new Uri(this.RestApiBase, uri);
+            var requestUri = new Uri(RestApiBase, uri);
             var request = new HttpRequestMessage(HttpMethod.Post, requestUri);
 
             using (var postContent = new MultipartFormDataContent())
@@ -239,7 +239,7 @@ namespace OpenTween.Connection
 
         public OAuthEchoHandler CreateOAuthEchoHandler(Uri authServiceProvider, Uri realm = null)
         {
-            var uri = new Uri(this.RestApiBase, authServiceProvider);
+            var uri = new Uri(RestApiBase, authServiceProvider);
 
             return OAuthEchoHandler.CreateHandler(Networking.CreateHttpClientHandler(), uri,
                 ApplicationSettings.TwitterConsumerKey, ApplicationSettings.TwitterConsumerSecret,
