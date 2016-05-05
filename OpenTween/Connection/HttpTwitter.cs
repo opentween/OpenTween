@@ -171,19 +171,6 @@ namespace OpenTween
         }
 
         #region Lists
-        public HttpStatusCode CreateListMembers(string list_id, string memberName, ref string content)
-        {
-            Dictionary<string, string> param = new Dictionary<string, string>();
-            param.Add("list_id", list_id);
-            param.Add("screen_name", memberName);
-            return httpCon.GetContent(PostMethod,
-                this.CreateTwitterUri("/1.1/lists/members/create.json"),
-                param,
-                ref content,
-                null,
-                null);
-        }
-
         public HttpStatusCode DeleteListMembers(string list_id, string memberName, ref string content)
         {
             Dictionary<string, string> param = new Dictionary<string, string>();
