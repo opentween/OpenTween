@@ -150,16 +150,6 @@ namespace OpenTween
                 this.CreateApiCalllback("/statuses/retweeters/ids"));
         }
 
-        public HttpStatusCode VerifyCredentials(ref string content)
-        {
-            return httpCon.GetContent(GetMethod,
-                this.CreateTwitterUri("/1.1/account/verify_credentials.json"),
-                null,
-                ref content,
-                this.CreateRatelimitHeadersDict(),
-                this.CreateApiCalllback("/account/verify_credentials"));
-        }
-
         #region Proxy API
         private static string _twitterUrl = "api.twitter.com";
         private static string _twitterUserStreamUrl = "userstream.twitter.com";

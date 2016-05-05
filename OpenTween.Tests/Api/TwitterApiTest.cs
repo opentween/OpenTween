@@ -1029,6 +1029,38 @@ namespace OpenTween.Api
         }
 
         [Fact]
+        public async Task AccountVerifyCredentials_Test()
+        {
+            using (var twitterApi = new TwitterApi())
+            {
+                var mock = new Mock<IApiConnection>();
+                mock.Setup(x =>
+                    x.GetAsync<TwitterUser>(
+                        new Uri("account/verify_credentials.json", UriKind.Relative),
+                        new Dictionary<string, string> {
+                            { "include_entities", "true" },
+                            { "include_ext_alt_text", "true" },
+                        },
+                        "/account/verify_credentials")
+                )
+                .ReturnsAsync(new TwitterUser {
+                    Id = 100L,
+                    ScreenName = "opentween",
+                });
+
+                twitterApi.apiConnection = mock.Object;
+
+                await twitterApi.AccountVerifyCredentials()
+                    .ConfigureAwait(false);
+
+                Assert.Equal(100L, twitterApi.CurrentUserId);
+                Assert.Equal("opentween", twitterApi.CurrentScreenName);
+
+                mock.VerifyAll();
+            }
+        }
+
+        [Fact]
         public async Task AccountUpdateProfile_Test()
         {
             using (var twitterApi = new TwitterApi())

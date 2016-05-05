@@ -202,33 +202,26 @@ namespace OpenTween
             twCon.ClearAuthInfo();
         }
 
+        [Obsolete]
         public void VerifyCredentials()
         {
-            HttpStatusCode res;
-            var content = "";
             try
             {
-                res = twCon.VerifyCredentials(ref content);
+                this.VerifyCredentialsAsync().Wait();
             }
-            catch (Exception ex)
+            catch (AggregateException ex) when (ex.InnerException is WebApiException)
             {
-                throw new WebApiException("Err:" + ex.Message, ex);
+                throw new WebApiException(ex.InnerException.Message, ex);
             }
+        }
 
-            this.CheckStatusCode(res, content);
+        public async Task VerifyCredentialsAsync()
+        {
+            var user = await this.Api.AccountVerifyCredentials()
+                .ConfigureAwait(false);
 
-            try
-            {
-                var user = TwitterUser.ParseJson(content);
-
-                this.twCon.AuthenticatedUserId = user.Id;
-                this.UpdateUserStats(user);
-            }
-            catch (SerializationException ex)
-            {
-                MyCommon.TraceOut(ex.Message + Environment.NewLine + content);
-                throw new WebApiException("Err:Json Parse Error(DataContractJsonSerializer)", content, ex);
-            }
+            this.twCon.AuthenticatedUserId = user.Id;
+            this.UpdateUserStats(user);
         }
 
         public void Initialize(string token, string tokenSecret, string username, long userId)

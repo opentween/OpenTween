@@ -564,6 +564,24 @@ namespace OpenTween.Api
             return this.apiConnection.PostLazyAsync<TwitterUser>(endpoint, param);
         }
 
+        public async Task<TwitterUser> AccountVerifyCredentials()
+        {
+            var endpoint = new Uri("account/verify_credentials.json", UriKind.Relative);
+            var param = new Dictionary<string, string>
+            {
+                ["include_entities"] = "true",
+                ["include_ext_alt_text"] = "true",
+            };
+
+            var user = await this.apiConnection.GetAsync<TwitterUser>(endpoint, param, "/account/verify_credentials")
+                .ConfigureAwait(false);
+
+            this.CurrentUserId = user.Id;
+            this.CurrentScreenName = user.ScreenName;
+
+            return user;
+        }
+
         public Task<LazyJson<TwitterUser>> AccountUpdateProfile(string name, string url, string location, string description)
         {
             var endpoint = new Uri("account/update_profile.json", UriKind.Relative);
