@@ -1718,35 +1718,19 @@ namespace OpenTween
             TabInformations.GetInstance().SubscribableLists.Add(new ListElement(list, this));
         }
 
-        public bool ContainsUserAtList(string listId, string user)
+        public async Task<bool> ContainsUserAtList(long listId, string user)
         {
             this.CheckAccountState();
 
-            HttpStatusCode res;
-            var content = "";
-
             try
             {
-                res = this.twCon.ShowListMember(listId, user, ref content);
-            }
-            catch(Exception ex)
-            {
-                throw new WebApiException("Err:" + ex.Message + "(" + MethodBase.GetCurrentMethod().Name + ")", ex);
-            }
+                await this.Api.ListsMembersShow(listId, user)
+                    .ConfigureAwait(false);
 
-            if (res == HttpStatusCode.NotFound)
-            {
-                return false;
-            }
-
-            this.CheckStatusCode(res, content);
-
-            try
-            {
-                TwitterUser.ParseJson(content);
                 return true;
             }
-            catch(Exception)
+            catch (TwitterApiException ex)
+                when (ex.ErrorResponse.Errors.Any(x => x.Code == TwitterErrorCode.NotFound))
             {
                 return false;
             }

@@ -275,6 +275,20 @@ namespace OpenTween.Api
             return this.apiConnection.GetAsync<TwitterUsers>(endpoint, param, "/lists/members");
         }
 
+        public Task<TwitterUser> ListsMembersShow(long listId, string screenName)
+        {
+            var endpoint = new Uri("lists/members/show.json", UriKind.Relative);
+            var param = new Dictionary<string, string>
+            {
+                ["list_id"] = listId.ToString(),
+                ["screen_name"] = screenName,
+                ["include_entities"] = "true",
+                ["include_ext_alt_text"] = "true",
+            };
+
+            return this.apiConnection.GetAsync<TwitterUser>(endpoint, param, "/lists/members/show");
+        }
+
         public Task<TwitterDirectMessage[]> DirectMessagesRecv(int? count = null, long? maxId = null, long? sinceId = null)
         {
             var endpoint = new Uri("direct_messages.json", UriKind.Relative);

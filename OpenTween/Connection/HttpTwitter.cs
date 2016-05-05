@@ -196,19 +196,6 @@ namespace OpenTween
                 null,
                 null);
         }
-
-        public HttpStatusCode ShowListMember(string list_id, string memberName, ref string content)
-        {
-            Dictionary<string, string> param = new Dictionary<string, string>();
-            param.Add("screen_name", memberName);
-            param.Add("list_id", list_id);
-            return httpCon.GetContent(GetMethod,
-                this.CreateTwitterUri("/1.1/lists/members/show.json"),
-                param,
-                ref content,
-                this.CreateRatelimitHeadersDict(),
-                this.CreateApiCalllback("/lists/members/show"));
-        }
         #endregion
 
         public HttpStatusCode Statusid_retweeted_by_ids(long statusid, int? count, int? page, ref string content)
