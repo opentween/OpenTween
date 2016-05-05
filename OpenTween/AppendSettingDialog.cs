@@ -112,12 +112,6 @@ namespace OpenTween
             {
                 var u = settingCommon.UserAccounts[userAccountIdx];
                 this.tw.Initialize(u.Token, u.TokenSecret, u.Username, u.UserId);
-
-                if (u.UserId == 0)
-                {
-                    this.tw.VerifyCredentials();
-                    u.UserId = this.tw.UserId;
-                }
             }
             else
             {
