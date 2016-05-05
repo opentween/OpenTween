@@ -112,14 +112,8 @@
       <DependentUpon>AuthDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="Bing.cs" />
-    <Compile Include="Connection\HttpOAuthApiProxy.cs" />
-    <Compile Include="Connection\HttpTwitter.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Connection\HttpVarious.cs" />
-    <Compile Include="Connection\HttpConnectionOAuth.cs" />
     <Compile Include="Connection\IApiConnection.cs" />
-    <Compile Include="Connection\IHttpConnection.cs" />
     <Compile Include="Connection\IMediaUploadService.cs" />
     <Compile Include="Connection\imgly.cs" />
     <Compile Include="Connection\Imgur.cs" />

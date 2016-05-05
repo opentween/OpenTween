@@ -7911,7 +7911,6 @@ namespace OpenTween
             {
                 _cfgCommon.UserName = tw.Username;
                 _cfgCommon.UserId = tw.UserId;
-                _cfgCommon.Password = tw.Password;
                 _cfgCommon.Token = tw.AccessToken;
                 _cfgCommon.TokenSecret = tw.AccessTokenSecret;
 

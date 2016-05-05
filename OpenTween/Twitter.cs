@@ -168,8 +168,6 @@ namespace OpenTween
 
         //private FavoriteQueue favQueue;
 
-        private HttpTwitter twCon = new HttpTwitter();
-
         //private List<PostClass> _deletemessages = new List<PostClass>();
 
         public Twitter() : this(new TwitterApi())
@@ -199,7 +197,6 @@ namespace OpenTween
         {
             Twitter.AccountState = MyCommon.ACCOUNT_STATE.Invalid;
             this.ResetApiStatus();
-            twCon.ClearAuthInfo();
         }
 
         [Obsolete]
@@ -220,7 +217,6 @@ namespace OpenTween
             var user = await this.Api.AccountVerifyCredentials()
                 .ConfigureAwait(false);
 
-            this.twCon.AuthenticatedUserId = user.Id;
             this.UpdateUserStats(user);
         }
 
@@ -233,7 +229,6 @@ namespace OpenTween
             }
             this.ResetApiStatus();
             this.Api.Initialize(token, tokenSecret, userId, username);
-            twCon.Initialize(token, tokenSecret, username, userId);
             _uname = username.ToLowerInvariant();
             if (SettingCommon.Instance.UserstreamStartup) this.ReconnectUserStream();
         }
@@ -530,28 +525,10 @@ namespace OpenTween
         }
 
         public string Username
-        {
-            get
-            {
-                return twCon.AuthenticatedUsername;
-            }
-        }
+            => this.Api.CurrentScreenName;
 
         public long UserId
-        {
-            get
-            {
-                return twCon.AuthenticatedUserId;
-            }
-        }
-
-        public string Password
-        {
-            get
-            {
-                return twCon.Password;
-            }
-        }
+            => this.Api.CurrentUserId;
 
         private static MyCommon.ACCOUNT_STATE _accountState = MyCommon.ACCOUNT_STATE.Valid;
         public static MyCommon.ACCOUNT_STATE AccountState
@@ -1381,7 +1358,7 @@ namespace OpenTween
                     TwitterUser user;
                     if (gType == MyCommon.WORKERTYPE.UserStream)
                     {
-                        if (twCon.AuthenticatedUsername.Equals(message.Recipient.ScreenName, StringComparison.CurrentCultureIgnoreCase))
+                        if (this.Api.CurrentUserId == message.Recipient.Id)
                         {
                             user = message.Sender;
                             post.IsMe = false;
@@ -1819,20 +1796,10 @@ namespace OpenTween
         }
 
         public string AccessToken
-        {
-            get
-            {
-                return twCon.AccessToken;
-            }
-        }
+            => ((TwitterApiConnection)this.Api.Connection).AccessToken;
 
         public string AccessTokenSecret
-        {
-            get
-            {
-                return twCon.AccessTokenSecret;
-            }
-        }
+            => ((TwitterApiConnection)this.Api.Connection).AccessSecret;
 
         private void CheckAccountState()
         {
