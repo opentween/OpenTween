@@ -427,6 +427,25 @@ namespace OpenTween.Api
             return this.apiConnection.PostLazyAsync<TwitterUser>(endpoint, param);
         }
 
+        public Task<TwitterStatus[]> FavoritesList(int? count = null, long? maxId = null, long? sinceId = null)
+        {
+            var endpoint = new Uri("favorites/list.json", UriKind.Relative);
+            var param = new Dictionary<string, string>
+            {
+                ["include_entities"] = "true",
+                ["include_ext_alt_text"] = "true",
+            };
+
+            if (count != null)
+                param["count"] = count.ToString();
+            if (maxId != null)
+                param["max_id"] = maxId.ToString();
+            if (sinceId != null)
+                param["since_id"] = sinceId.ToString();
+
+            return this.apiConnection.GetAsync<TwitterStatus[]>(endpoint, param, "/favorites/list");
+        }
+
         public Task<LazyJson<TwitterStatus>> FavoritesCreate(long statusId)
         {
             var endpoint = new Uri("favorites/create.json", UriKind.Relative);

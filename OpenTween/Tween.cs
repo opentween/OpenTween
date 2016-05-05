@@ -2490,9 +2490,10 @@ namespace OpenTween
 
             p.Report(Properties.Resources.GetTimelineWorker_RunWorkerCompletedText19);
 
-            await Task.Run(() =>
+            await Task.Run(async () =>
             {
-                this.tw.GetFavoritesApi(read, loadMore);
+                await this.tw.GetFavoritesApi(read, loadMore)
+                    .ConfigureAwait(false);
 
                 this._statuses.DistributePosts();
             });

@@ -1156,24 +1156,8 @@ namespace OpenTween
             return minimumId;
         }
 
-        private void CreateFavoritePostsFromJson(string content, bool read)
+        private void CreateFavoritePostsFromJson(TwitterStatus[] item, bool read)
         {
-            TwitterStatus[] item;
-            try
-            {
-                item = TwitterStatus.ParseJsonArray(content);
-            }
-            catch (SerializationException ex)
-            {
-                MyCommon.TraceOut(ex.Message + Environment.NewLine + content);
-                throw new WebApiException("Json Parse Error(DataContractJsonSerializer)", content, ex);
-            }
-            catch (Exception ex)
-            {
-                MyCommon.TraceOut(ex, MethodBase.GetCurrentMethod().Name + " " + content);
-                throw new WebApiException("Invalid Json!", content, ex);
-            }
-
             var favTab = TabInformations.GetInstance().GetTabByType(MyCommon.TabUsageType.Favorites);
 
             foreach (var status in item)
@@ -1495,27 +1479,16 @@ namespace OpenTween
             CreateDirectMessagesFromJson(messages, gType, read);
         }
 
-        public void GetFavoritesApi(bool read,
-                            bool more)
+        public async Task GetFavoritesApi(bool read, bool more)
         {
             this.CheckAccountState();
 
-            HttpStatusCode res;
-            var content = "";
             var count = GetApiResultCount(MyCommon.WORKERTYPE.Favorites, more, false);
 
-            try
-            {
-                res = twCon.Favorites(count, ref content);
-            }
-            catch(Exception ex)
-            {
-                throw new WebApiException("Err:" + ex.Message + "(" + MethodBase.GetCurrentMethod().Name + ")", ex);
-            }
+            var statuses = await this.Api.FavoritesList(count)
+                .ConfigureAwait(false);
 
-            this.CheckStatusCode(res, content);
-
-            CreateFavoritePostsFromJson(content, read);
+            CreateFavoritePostsFromJson(statuses, read);
         }
 
         private string ReplaceTextFromApi(string text, TwitterEntities entities)

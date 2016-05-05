@@ -747,6 +747,35 @@ namespace OpenTween.Api
         }
 
         [Fact]
+        public async Task FavoritesList_Test()
+        {
+            using (var twitterApi = new TwitterApi())
+            {
+                var mock = new Mock<IApiConnection>();
+                mock.Setup(x =>
+                    x.GetAsync<TwitterStatus[]>(
+                        new Uri("favorites/list.json", UriKind.Relative),
+                        new Dictionary<string, string> {
+                            { "include_entities", "true" },
+                            { "include_ext_alt_text", "true" },
+                            { "count", "200" },
+                            { "max_id", "900" },
+                            { "since_id", "100" },
+                        },
+                        "/favorites/list")
+                )
+                .ReturnsAsync(new TwitterStatus[0]);
+
+                twitterApi.apiConnection = mock.Object;
+
+                await twitterApi.FavoritesList(200, maxId: 900L, sinceId: 100L)
+                    .ConfigureAwait(false);
+
+                mock.VerifyAll();
+            }
+        }
+
+        [Fact]
         public async Task FavoritesCreate_Test()
         {
             using (var twitterApi = new TwitterApi())
