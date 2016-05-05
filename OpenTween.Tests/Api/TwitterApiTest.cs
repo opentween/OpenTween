@@ -281,6 +281,38 @@ namespace OpenTween.Api
         }
 
         [Fact]
+        public async Task SearchTweets_Test()
+        {
+            using (var twitterApi = new TwitterApi())
+            {
+                var mock = new Mock<IApiConnection>();
+                mock.Setup(x =>
+                    x.GetAsync<TwitterSearchResult>(
+                        new Uri("search/tweets.json", UriKind.Relative),
+                        new Dictionary<string, string> {
+                            { "q", "from:twitterapi" },
+                            { "result_type", "recent" },
+                            { "include_entities", "true" },
+                            { "include_ext_alt_text", "true" },
+                            { "lang", "en" },
+                            { "count", "200" },
+                            { "max_id", "900" },
+                            { "since_id", "100" },
+                        },
+                        "/search/tweets")
+                )
+                .ReturnsAsync(new TwitterSearchResult());
+
+                twitterApi.apiConnection = mock.Object;
+
+                await twitterApi.SearchTweets("from:twitterapi", "en", count: 200, maxId: 900L, sinceId: 100L)
+                    .ConfigureAwait(false);
+
+                mock.VerifyAll();
+            }
+        }
+
+        [Fact]
         public async Task ListsOwnerships_Test()
         {
             using (var twitterApi = new TwitterApi())

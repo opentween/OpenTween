@@ -2559,7 +2559,7 @@ namespace OpenTween
 
             p.Report("Search refreshing...");
 
-            await Task.Run(() =>
+            await Task.Run(async () =>
             {
                 WebApiException lastException = null;
 
@@ -2570,10 +2570,12 @@ namespace OpenTween
                         if (string.IsNullOrEmpty(tab.SearchWords))
                             continue;
 
-                        this.tw.GetSearch(read, tab, false);
+                        await this.tw.GetSearch(read, tab, false)
+                            .ConfigureAwait(false);
 
                         if (loadMore)
-                            this.tw.GetSearch(read, tab, true);
+                            await this.tw.GetSearch(read, tab, true)
+                                .ConfigureAwait(false);
                     }
                     catch (WebApiException ex)
                     {

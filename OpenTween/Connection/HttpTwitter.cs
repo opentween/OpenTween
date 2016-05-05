@@ -138,28 +138,6 @@ namespace OpenTween
                 this.CreateApiCalllback("/favorites/list"));
         }
 
-        public HttpStatusCode Search(string words, string lang, int? count, long? maxId, long? sinceId, ref string content)
-        {
-            Dictionary<string, string> param = new Dictionary<string, string>();
-            if (!string.IsNullOrEmpty(words)) param.Add("q", words);
-            if (!string.IsNullOrEmpty(lang)) param.Add("lang", lang);
-            if (count != null) param.Add("count", count.ToString());
-            if (maxId != null) param.Add("max_id", maxId.ToString());
-            if (sinceId != null) param.Add("since_id", sinceId.ToString());
-
-            if (param.Count == 0) return HttpStatusCode.BadRequest;
-
-            param.Add("result_type", "recent");
-            param.Add("include_entities", "true");
-            param.Add("include_ext_alt_text", "true");
-            return httpCon.GetContent(GetMethod,
-                this.CreateTwitterUri("/1.1/search/tweets.json"),
-                param,
-                ref content,
-                this.CreateRatelimitHeadersDict(),
-                this.CreateApiCalllback("/search/tweets"));
-        }
-
         public HttpStatusCode SavedSearches(ref string content)
         {
             return httpCon.GetContent(GetMethod,

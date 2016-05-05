@@ -164,6 +164,29 @@ namespace OpenTween.Api
             return this.apiConnection.PostLazyAsync<TwitterStatus>(endpoint, param);
         }
 
+        public Task<TwitterSearchResult> SearchTweets(string query, string lang = null, int? count = null, long? maxId = null, long? sinceId = null)
+        {
+            var endpoint = new Uri("search/tweets.json", UriKind.Relative);
+            var param = new Dictionary<string, string>
+            {
+                ["q"] = query,
+                ["result_type"] = "recent",
+                ["include_entities"] = "true",
+                ["include_ext_alt_text"] = "true",
+            };
+
+            if (lang != null)
+                param["lang"] = lang;
+            if (count != null)
+                param["count"] = count.ToString();
+            if (maxId != null)
+                param["max_id"] = maxId.ToString();
+            if (sinceId != null)
+                param["since_id"] = sinceId.ToString();
+
+            return this.apiConnection.GetAsync<TwitterSearchResult>(endpoint, param, "/search/tweets");
+        }
+
         public Task<TwitterLists> ListsOwnerships(string screenName, long? cursor = null)
         {
             var endpoint = new Uri("lists/ownerships.json", UriKind.Relative);

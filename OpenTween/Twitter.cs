@@ -1116,24 +1116,8 @@ namespace OpenTween
             return minimumId;
         }
 
-        private long? CreatePostsFromSearchJson(string content, TabClass tab, bool read, int count, bool more)
+        private long? CreatePostsFromSearchJson(TwitterSearchResult items, TabClass tab, bool read, int count, bool more)
         {
-            TwitterSearchResult items;
-            try
-            {
-                items = TwitterSearchResult.ParseJson(content);
-            }
-            catch (SerializationException ex)
-            {
-                MyCommon.TraceOut(ex.Message + Environment.NewLine + content);
-                throw new WebApiException("Json Parse Error(DataContractJsonSerializer)", content, ex);
-            }
-            catch (Exception ex)
-            {
-                MyCommon.TraceOut(ex, MethodBase.GetCurrentMethod().Name + " " + content);
-                throw new WebApiException("Invalid Json!", content, ex);
-            }
-
             long? minimumId = null;
 
             foreach (var result in items.Statuses)
@@ -1346,13 +1330,10 @@ namespace OpenTween
                 throw new WebApiException(lastException.Message, lastException);
         }
 
-        public void GetSearch(bool read,
-                            TabClass tab,
-                            bool more)
+        public async Task GetSearch(bool read, TabClass tab, bool more)
         {
-            HttpStatusCode res;
-            var content = "";
             var count = GetApiResultCount(MyCommon.WORKERTYPE.PublicSearch, more, false);
+
             long? maxId = null;
             long? sinceId = null;
             if (more)
@@ -1364,33 +1345,13 @@ namespace OpenTween
                 sinceId = tab.SinceId;
             }
 
-            try
-            {
-                // TODO:一時的に40>100件に 件数変更UI作成の必要あり
-                res = twCon.Search(tab.SearchWords, tab.SearchLang, count, maxId, sinceId, ref content);
-            }
-            catch(Exception ex)
-            {
-                throw new WebApiException("Err:" + ex.Message, ex);
-            }
-            switch (res)
-            {
-                case HttpStatusCode.BadRequest:
-                    throw new WebApiException("Invalid query", content);
-                case HttpStatusCode.NotFound:
-                    throw new WebApiException("Invalid query", content);
-                case HttpStatusCode.PaymentRequired: //API Documentには420と書いてあるが、該当コードがないので402にしてある
-                    throw new WebApiException("Search API Limit?", content);
-                case HttpStatusCode.OK:
-                    break;
-                default:
-                    throw new WebApiException("Err:" + res.ToString() + "(" + MethodBase.GetCurrentMethod().Name + ")", content);
-            }
+            var searchResult = await this.Api.SearchTweets(tab.SearchWords, tab.SearchLang, count, maxId, sinceId)
+                .ConfigureAwait(false);
 
             if (!TabInformations.GetInstance().ContainsTab(tab))
                 return;
 
-            var minimumId =  this.CreatePostsFromSearchJson(content, tab, read, count, more);
+            var minimumId = this.CreatePostsFromSearchJson(searchResult, tab, read, count, more);
 
             if (minimumId != null)
                 tab.OldestId = minimumId.Value;
