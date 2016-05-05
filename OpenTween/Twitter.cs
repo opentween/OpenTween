@@ -1693,42 +1693,16 @@ namespace OpenTween
             return new ListElement(list, this);
         }
 
-        public long GetListMembers(string list_id, List<UserInfo> lists, long cursor)
+        public async Task<long> GetListMembers(long listId, List<UserInfo> lists, long cursor)
         {
             this.CheckAccountState();
 
-            HttpStatusCode res;
-            var content = "";
-            try
-            {
-                res = twCon.GetListMembers(this.Username, list_id, cursor, ref content);
-            }
-            catch(Exception ex)
-            {
-                throw new WebApiException("Err:" + ex.Message);
-            }
+            var users = await this.Api.ListsMembers(listId, cursor)
+                .ConfigureAwait(false);
 
-            this.CheckStatusCode(res, content);
+            Array.ForEach(users.Users, u => lists.Add(new UserInfo(u)));
 
-            try
-            {
-                var users = TwitterUsers.ParseJson(content);
-                Array.ForEach<TwitterUser>(
-                    users.Users,
-                    u => lists.Add(new UserInfo(u)));
-
-                return users.NextCursor;
-            }
-            catch(SerializationException ex)
-            {
-                MyCommon.TraceOut(ex.Message + Environment.NewLine + content);
-                throw new WebApiException("Err:Json Parse Error(DataContractJsonSerializer)", content, ex);
-            }
-            catch(Exception ex)
-            {
-                MyCommon.TraceOut(ex, MethodBase.GetCurrentMethod().Name + " " + content);
-                throw new WebApiException("Err:Invalid Json!", content, ex);
-            }
+            return users.NextCursor;
         }
 
         public async Task CreateListApi(string listName, bool isPrivate, string description)

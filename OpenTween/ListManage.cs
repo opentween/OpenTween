@@ -182,7 +182,7 @@ namespace OpenTween
                 var list = (ListElement)this.ListsList.SelectedItem;
                 try
                 {
-                    await Task.Run(() => list.RefreshMembers());
+                    await list.RefreshMembers();
                 }
                 catch (WebApiException ex)
                 {
@@ -205,7 +205,7 @@ namespace OpenTween
                 var list = (ListElement)this.ListsList.SelectedItem;
                 try
                 {
-                    await Task.Run(() => list.GetMoreMembers());
+                    await list.GetMoreMembers();
                 }
                 catch (WebApiException ex)
                 {

@@ -105,16 +105,18 @@ namespace OpenTween
             }
         }
 
-        public void RefreshMembers()
+        public async Task RefreshMembers()
         {
             var users = new List<UserInfo>();
-            this._cursor = this._tw.GetListMembers(this.Id.ToString(), users, cursor: -1);
+            this._cursor = await this._tw.GetListMembers(this.Id, users, cursor: -1)
+                .ConfigureAwait(false);
             this._members = users;
         }
 
-        public void GetMoreMembers()
+        public async Task GetMoreMembers()
         {
-            this._cursor = this._tw.GetListMembers(this.Id.ToString(), this._members, this._cursor);
+            this._cursor = await this._tw.GetListMembers(this.Id, this._members, this._cursor)
+                .ConfigureAwait(false);
         }
 
         public override string ToString()

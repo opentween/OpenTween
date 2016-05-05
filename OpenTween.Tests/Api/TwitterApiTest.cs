@@ -444,6 +444,34 @@ namespace OpenTween.Api
         }
 
         [Fact]
+        public async Task ListsMembers_Test()
+        {
+            using (var twitterApi = new TwitterApi())
+            {
+                var mock = new Mock<IApiConnection>();
+                mock.Setup(x =>
+                    x.GetAsync<TwitterUsers>(
+                        new Uri("lists/members.json", UriKind.Relative),
+                        new Dictionary<string, string> {
+                            { "list_id", "12345" },
+                            { "include_entities", "true" },
+                            { "include_ext_alt_text", "true" },
+                            { "cursor", "-1" },
+                        },
+                        "/lists/members")
+                )
+                .ReturnsAsync(new TwitterUsers());
+
+                twitterApi.apiConnection = mock.Object;
+
+                await twitterApi.ListsMembers(12345L, cursor: -1)
+                    .ConfigureAwait(false);
+
+                mock.VerifyAll();
+            }
+        }
+
+        [Fact]
         public async Task DirectMessagesRecv_Test()
         {
             using (var twitterApi = new TwitterApi())
