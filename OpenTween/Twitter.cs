@@ -1736,23 +1736,6 @@ namespace OpenTween
             }
         }
 
-        public void RemoveUserToList(string listId, string user)
-        {
-            HttpStatusCode res;
-            var content = "";
-
-            try
-            {
-                res = twCon.DeleteListMembers(listId, user, ref content);
-            }
-            catch(Exception ex)
-            {
-                throw new WebApiException("Err:" + ex.Message + "(" + MethodBase.GetCurrentMethod().Name + ")", ex);
-            }
-
-            this.CheckStatusCode(res, content);
-        }
-
         public string CreateHtmlAnchor(string text, List<string> AtList, TwitterEntities entities, List<MediaInfo> media)
         {
             if (entities != null)

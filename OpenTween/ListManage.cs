@@ -218,29 +218,32 @@ namespace OpenTween
             }
         }
 
-        private void DeleteUserButton_Click(object sender, EventArgs e)
+        private async void DeleteUserButton_Click(object sender, EventArgs e)
         {
             if (this.ListsList.SelectedItem == null || this.UserList.SelectedItem == null)
                 return;
 
-            ListElement list = (ListElement) this.ListsList.SelectedItem;
-            UserInfo user = (UserInfo) this.UserList.SelectedItem;
-            if (MessageBox.Show(Properties.Resources.ListManageDeleteUser1, Application.ProductName, MessageBoxButtons.OKCancel) == DialogResult.OK)
+            using (ControlTransaction.Disabled(this))
             {
-                try
+                ListElement list = (ListElement)this.ListsList.SelectedItem;
+                UserInfo user = (UserInfo)this.UserList.SelectedItem;
+                if (MessageBox.Show(Properties.Resources.ListManageDeleteUser1, Application.ProductName, MessageBoxButtons.OKCancel) == DialogResult.OK)
                 {
-                    this.tw.RemoveUserToList(list.Id.ToString(), user.Id.ToString());
-                }
-                catch (WebApiException ex)
-                {
-                    MessageBox.Show(string.Format(Properties.Resources.ListManageDeleteUser2, ex.Message));
-                    return;
-                }
+                    try
+                    {
+                        await this.tw.Api.ListsMembersDestroy(list.Id, user.ScreenName);
+                    }
+                    catch (WebApiException ex)
+                    {
+                        MessageBox.Show(string.Format(Properties.Resources.ListManageDeleteUser2, ex.Message));
+                        return;
+                    }
 
-                int idx = ListsList.SelectedIndex;
-                list.Members.Remove(user);
-                this.ListsList_SelectedIndexChanged(this.ListsList, EventArgs.Empty);
-                if (idx < ListsList.Items.Count) ListsList.SelectedIndex = idx;
+                    int idx = ListsList.SelectedIndex;
+                    list.Members.Remove(user);
+                    this.ListsList_SelectedIndexChanged(this.ListsList, EventArgs.Empty);
+                    if (idx < ListsList.Items.Count) ListsList.SelectedIndex = idx;
+                }
             }
         }
 

@@ -180,7 +180,7 @@ namespace OpenTween
                             await this._tw.Api.ListsMembersCreate(list.Id, this.contextUserName);
                             break;
                         case CheckState.Checked:
-                            this._tw.RemoveUserToList(list.Id.ToString(), this.contextUserName.ToString());
+                            await this._tw.Api.ListsMembersDestroy(list.Id, this.contextUserName);
                             break;
                     }
                 }
