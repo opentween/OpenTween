@@ -23,6 +23,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
@@ -69,6 +70,9 @@ namespace OpenTween.Api
             : base(message, responseText, innerException)
         {
         }
+
+        public static TwitterApiException CreateFromException(HttpRequestException ex)
+            => new TwitterApiException(ex.InnerException?.Message ?? ex.Message, ex);
 
         public static TwitterApiException CreateFromException(OperationCanceledException ex)
             => new TwitterApiException("Timeout", ex);

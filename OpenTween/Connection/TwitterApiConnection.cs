@@ -94,6 +94,10 @@ namespace OpenTween.Connection
                     }
                 }
             }
+            catch (HttpRequestException ex)
+            {
+                throw TwitterApiException.CreateFromException(ex);
+            }
             catch (OperationCanceledException ex)
             {
                 throw TwitterApiException.CreateFromException(ex);
@@ -111,6 +115,10 @@ namespace OpenTween.Connection
             {
                 return await this.http.GetStreamAsync(requestUri)
                     .ConfigureAwait(false);
+            }
+            catch (HttpRequestException ex)
+            {
+                throw TwitterApiException.CreateFromException(ex);
             }
             catch (OperationCanceledException ex)
             {
@@ -140,6 +148,10 @@ namespace OpenTween.Connection
                     response = null;
 
                     return result;
+                }
+                catch (HttpRequestException ex)
+                {
+                    throw TwitterApiException.CreateFromException(ex);
                 }
                 catch (OperationCanceledException ex)
                 {
@@ -180,6 +192,10 @@ namespace OpenTween.Connection
                     response = null;
 
                     return result;
+                }
+                catch (HttpRequestException ex)
+                {
+                    throw TwitterApiException.CreateFromException(ex);
                 }
                 catch (OperationCanceledException ex)
                 {
@@ -342,6 +358,10 @@ namespace OpenTween.Connection
                     return responseParams.Cast<string>()
                         .ToDictionary(x => x, x => responseParams[x]);
                 }
+            }
+            catch (HttpRequestException ex)
+            {
+                throw TwitterApiException.CreateFromException(ex);
             }
             catch (OperationCanceledException ex)
             {
