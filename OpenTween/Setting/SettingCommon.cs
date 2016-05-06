@@ -202,7 +202,14 @@ namespace OpenTween
         public bool ShowGrid = false;
         public bool UseAtIdSupplement = true;
         public bool UseHashSupplement = true;
-        public string TwitterUrl = "api.twitter.com";
+
+        [XmlElement(ElementName = "TwitterUrl")]
+        public string TwitterApiHost = "api.twitter.com";
+
+        [XmlIgnore]
+        public Uri TwitterApiBaseUri
+            => new Uri($"https://{this.TwitterApiHost}/1.1/");
+
         public bool HotkeyEnabled = false;
         public Keys HotkeyModifier = Keys.None;
         public Keys HotkeyKey = Keys.None;
