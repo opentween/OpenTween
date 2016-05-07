@@ -2442,7 +2442,7 @@ namespace OpenTween
                         // キャンセルされていないのにストリームが終了した場合
                         sleep = TimeSpan.FromSeconds(30);
                     }
-                    catch (HttpRequestException) { sleep = TimeSpan.FromSeconds(30); }
+                    catch (TwitterApiException) { sleep = TimeSpan.FromSeconds(30); }
                     catch (IOException) { sleep = TimeSpan.FromSeconds(30); }
                     catch (OperationCanceledException)
                     {
