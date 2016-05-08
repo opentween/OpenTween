@@ -21,7 +21,7 @@ install:
   - set PATH=C:\Program Files (x86)\MSBuild\14.0\Bin;%PATH%
 
 test_script:
-  - .\packages\OpenCover.4.6.166\tools\OpenCover.Console.exe -target:".\packages\xunit.runner.console.2.1.0\tools\xunit.console.exe" -targetargs:".\OpenTween.Tests\bin\Debug\OpenTween.Tests.dll -noshadow -appveyor" -register:user -filter:"+[OpenTween*]* -[OpenTween.Tests]*" -excludebyfile:"*.Designer.cs" -skipautoprops -hideskipped:All -returntargetcode -output:coverage.xml
+  - .\packages\OpenCover.4.6.519\tools\OpenCover.Console.exe -target:".\packages\xunit.runner.console.2.1.0\tools\xunit.console.exe" -targetargs:".\OpenTween.Tests\bin\Debug\OpenTween.Tests.dll -noshadow -appveyor" -register:user -filter:"+[OpenTween*]* -[OpenTween.Tests]*" -excludebyfile:"*.Designer.cs" -skipautoprops -hideskipped:All -returntargetcode -output:coverage.xml
 
 after_test:
   - npm install codecov --save
