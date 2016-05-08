@@ -115,7 +115,8 @@ namespace OpenTween
         private SettingCommon _cfgCommon;
 
         //twitter解析部
-        private Twitter tw = new Twitter();
+        private TwitterApi twitterApi = new TwitterApi();
+        private Twitter tw;
 
         //Growl呼び出し部
         private GrowlHelper gh = new GrowlHelper(Application.ProductName);
@@ -399,6 +400,7 @@ namespace OpenTween
                 this.thumbnailTokenSource?.Dispose();
 
                 this.tw.Dispose();
+                this.twitterApi.Dispose();
                 this._hookGlobalHotkey.Dispose();
             }
 
@@ -774,7 +776,8 @@ namespace OpenTween
             if (this._cfgCommon.AutoShortUrlFirst < 0)
                 this._cfgCommon.AutoShortUrlFirst = MyCommon.UrlConverter.Uxnu;
 
-            HttpTwitter.TwitterUrl = this._cfgCommon.TwitterUrl;
+            TwitterApiConnection.RestApiBase = this._cfgCommon.TwitterApiBaseUri;
+            this.tw = new Twitter(this.twitterApi);
 
             //認証関連
             if (string.IsNullOrEmpty(this._cfgCommon.Token)) this._cfgCommon.UserName = "";
@@ -809,7 +812,7 @@ namespace OpenTween
                 this._cfgLocal.ProxyUser, this._cfgLocal.ProxyPassword);
             Networking.ForceIPv4 = this._cfgCommon.ForceIPv4;
 
-            HttpTwitter.TwitterUrl = this._cfgCommon.TwitterUrl;
+            TwitterApiConnection.RestApiBase = this._cfgCommon.TwitterApiBaseUri;
             tw.RestrictFavCheck = this._cfgCommon.RestrictFavCheck;
             tw.ReadOwnPost = this._cfgCommon.ReadOwnPost;
             tw.TrackWord = this._cfgCommon.TrackWord;
@@ -840,9 +843,7 @@ namespace OpenTween
             imgazyobizinet.Enabled = this._cfgCommon.EnableImgAzyobuziNet;
             imgazyobizinet.DisabledInDM = this._cfgCommon.ImgAzyobuziNetDisabledInDM;
 
-            Thumbnail.Services.TonTwitterCom.InitializeOAuthToken = x =>
-                x.Initialize(ApplicationSettings.TwitterConsumerKey, ApplicationSettings.TwitterConsumerSecret,
-                    this.tw.AccessToken, this.tw.AccessTokenSecret, "", "");
+            Thumbnail.Services.TonTwitterCom.GetApiConnection = () => this.twitterApi.Connection;
 
             //画像投稿サービス
             ImageSelector.Initialize(tw, this.tw.Configuration, _cfgCommon.UseImageServiceName, _cfgCommon.UseImageService);
@@ -1381,7 +1382,7 @@ namespace OpenTween
             if (ResetTimers.UserStream || usCounter <= 0 && this._cfgCommon.UserstreamPeriod > 0)
             {
                 Interlocked.Exchange(ref usCounter, this._cfgCommon.UserstreamPeriod);
-                if (this._isActiveUserstream)
+                if (this.tw.UserStreamActive)
                     this.RefreshTimeline();
                 ResetTimers.UserStream = false;
             }
@@ -2256,7 +2257,7 @@ namespace OpenTween
             catch (WebApiException ex)
             {
                 this._myStatusError = true;
-                this.StatusLabel.Text = ex.Message;
+                this.StatusLabel.Text = $"Err:{ex.Message}(GetTimeline)";
             }
             finally
             {
@@ -2280,9 +2281,10 @@ namespace OpenTween
 
             p.Report(string.Format(Properties.Resources.GetTimelineWorker_RunWorkerCompletedText5, loadMore ? -1 : 1));
 
-            await Task.Run(() =>
+            await Task.Run(async () =>
             {
-                this.tw.GetTimelineApi(read, MyCommon.WORKERTYPE.Timeline, loadMore, this._initial);
+                await this.tw.GetTimelineApi(read, MyCommon.WORKERTYPE.Timeline, loadMore, this._initial)
+                    .ConfigureAwait(false);
 
                 // 新着時未読クリア
                 if (this._cfgCommon.ReadOldPosts)
@@ -2346,7 +2348,7 @@ namespace OpenTween
             catch (WebApiException ex)
             {
                 this._myStatusError = true;
-                this.StatusLabel.Text = ex.Message;
+                this.StatusLabel.Text = $"Err:{ex.Message}(GetTimeline)";
             }
             finally
             {
@@ -2370,9 +2372,10 @@ namespace OpenTween
 
             p.Report(string.Format(Properties.Resources.GetTimelineWorker_RunWorkerCompletedText4, loadMore ? -1 : 1));
 
-            await Task.Run(() =>
+            await Task.Run(async () =>
             {
-                this.tw.GetTimelineApi(read, MyCommon.WORKERTYPE.Reply, loadMore, this._initial);
+                await this.tw.GetTimelineApi(read, MyCommon.WORKERTYPE.Reply, loadMore, this._initial)
+                    .ConfigureAwait(false);
 
                 this._statuses.DistributePosts();
             });
@@ -2403,7 +2406,7 @@ namespace OpenTween
             catch (WebApiException ex)
             {
                 this._myStatusError = true;
-                this.StatusLabel.Text = ex.Message;
+                this.StatusLabel.Text = $"Err:{ex.Message}(GetDirectMessage)";
             }
             finally
             {
@@ -2427,10 +2430,12 @@ namespace OpenTween
 
             p.Report(string.Format(Properties.Resources.GetTimelineWorker_RunWorkerCompletedText8, loadMore ? -1 : 1));
 
-            await Task.Run(() =>
+            await Task.Run(async () =>
             {
-                this.tw.GetDirectMessageApi(read, MyCommon.WORKERTYPE.DirectMessegeRcv, loadMore);
-                this.tw.GetDirectMessageApi(read, MyCommon.WORKERTYPE.DirectMessegeSnt, loadMore);
+                await this.tw.GetDirectMessageApi(read, MyCommon.WORKERTYPE.DirectMessegeRcv, loadMore)
+                    .ConfigureAwait(false);
+                await this.tw.GetDirectMessageApi(read, MyCommon.WORKERTYPE.DirectMessegeSnt, loadMore)
+                    .ConfigureAwait(false);
 
                 this._statuses.DistributePosts();
             });
@@ -2485,9 +2490,10 @@ namespace OpenTween
 
             p.Report(Properties.Resources.GetTimelineWorker_RunWorkerCompletedText19);
 
-            await Task.Run(() =>
+            await Task.Run(async () =>
             {
-                this.tw.GetFavoritesApi(read, loadMore);
+                await this.tw.GetFavoritesApi(read, loadMore)
+                    .ConfigureAwait(false);
 
                 this._statuses.DistributePosts();
             });
@@ -2554,7 +2560,7 @@ namespace OpenTween
 
             p.Report("Search refreshing...");
 
-            await Task.Run(() =>
+            await Task.Run(async () =>
             {
                 WebApiException lastException = null;
 
@@ -2565,10 +2571,12 @@ namespace OpenTween
                         if (string.IsNullOrEmpty(tab.SearchWords))
                             continue;
 
-                        this.tw.GetSearch(read, tab, false);
+                        await this.tw.GetSearch(read, tab, false)
+                            .ConfigureAwait(false);
 
                         if (loadMore)
-                            this.tw.GetSearch(read, tab, true);
+                            await this.tw.GetSearch(read, tab, true)
+                                .ConfigureAwait(false);
                     }
                     catch (WebApiException ex)
                     {
@@ -2620,7 +2628,7 @@ namespace OpenTween
             catch (WebApiException ex)
             {
                 this._myStatusError = true;
-                this.StatusLabel.Text = ex.Message;
+                this.StatusLabel.Text = $"Err:{ex.Message}(GetUserTimeline)";
             }
             finally
             {
@@ -2644,7 +2652,7 @@ namespace OpenTween
 
             p.Report("UserTimeline refreshing...");
 
-            await Task.Run(() =>
+            await Task.Run(async () =>
             {
                 WebApiException lastException = null;
 
@@ -2655,7 +2663,8 @@ namespace OpenTween
                         if (string.IsNullOrEmpty(tab.User))
                             continue;
 
-                        this.tw.GetUserTimelineApi(read, tab.User, tab, loadMore);
+                        await this.tw.GetUserTimelineApi(read, tab.User, tab, loadMore)
+                            .ConfigureAwait(false);
                     }
                     catch (WebApiException ex)
                     {
@@ -2707,7 +2716,7 @@ namespace OpenTween
             catch (WebApiException ex)
             {
                 this._myStatusError = true;
-                this.StatusLabel.Text = ex.Message;
+                this.StatusLabel.Text = $"Err:{ex.Message}(GetListStatus)";
             }
             finally
             {
@@ -2731,7 +2740,7 @@ namespace OpenTween
 
             p.Report("List refreshing...");
 
-            await Task.Run(() =>
+            await Task.Run(async () =>
             {
                 WebApiException lastException = null;
 
@@ -2742,7 +2751,8 @@ namespace OpenTween
                         if (tab.ListInfo == null || tab.ListInfo.Id == 0)
                             continue;
 
-                        this.tw.GetListStatus(read, tab, loadMore, this._initial);
+                        await this.tw.GetListStatus(read, tab, loadMore, this._initial)
+                            .ConfigureAwait(false);
                     }
                     catch (WebApiException ex)
                     {
@@ -2777,7 +2787,7 @@ namespace OpenTween
             catch (WebApiException ex)
             {
                 this._myStatusError = true;
-                this.StatusLabel.Text = ex.Message;
+                this.StatusLabel.Text = $"Err:{ex.Message}(GetRelatedTweets)";
             }
             finally
             {
@@ -2801,9 +2811,10 @@ namespace OpenTween
 
             p.Report("Related refreshing...");
 
-            await Task.Run(() =>
+            await Task.Run(async () =>
             {
-                this.tw.GetRelatedResult(read, tab);
+                await this.tw.GetRelatedResult(read, tab)
+                    .ConfigureAwait(false);
 
                 this._statuses.DistributePosts();
             });
@@ -2846,7 +2857,7 @@ namespace OpenTween
             catch (WebApiException ex)
             {
                 this._myStatusError = true;
-                this.StatusLabel.Text = ex.Message;
+                this.StatusLabel.Text = $"Err:{ex.Message}(PostFavAdd)";
             }
             finally
             {
@@ -2869,13 +2880,24 @@ namespace OpenTween
             if (post.IsFav)
                 return;
 
-            await Task.Run(() =>
+            await Task.Run(async () =>
             {
                 p.Report(string.Format(Properties.Resources.GetTimelineWorker_RunWorkerCompletedText15, 0, 1, 0));
 
                 try
                 {
-                    this.tw.PostFavAdd(post.RetweetedId ?? post.StatusId);
+                    await this.twitterApi.FavoritesCreate(post.RetweetedId ?? post.StatusId)
+                        .IgnoreResponse()
+                        .ConfigureAwait(false);
+
+                    if (this._cfgCommon.RestrictFavCheck)
+                    {
+                        var status = await this.twitterApi.StatusesShow(post.RetweetedId ?? post.StatusId)
+                            .ConfigureAwait(false);
+
+                        if (status.Favorited != true)
+                            throw new WebApiException("NG(Restricted?)");
+                    }
 
                     this._favTimestamps.Add(DateTime.Now);
 
@@ -2947,7 +2969,7 @@ namespace OpenTween
             catch (WebApiException ex)
             {
                 this._myStatusError = true;
-                this.StatusLabel.Text = ex.Message;
+                this.StatusLabel.Text = $"Err:{ex.Message}(PostFavRemove)";
             }
             finally
             {
@@ -2965,7 +2987,7 @@ namespace OpenTween
 
             var successIds = new List<long>();
 
-            await Task.Run(() =>
+            await Task.Run(async () =>
             {
                 //スレッド処理はしない
                 var allCount = 0;
@@ -2983,7 +3005,9 @@ namespace OpenTween
 
                     try
                     {
-                        this.tw.PostFavRemove(post.RetweetedId ?? post.StatusId);
+                        await this.twitterApi.FavoritesDestroy(post.RetweetedId ?? post.StatusId)
+                            .IgnoreResponse()
+                            .ConfigureAwait(false);
                     }
                     catch (WebApiException)
                     {
@@ -3055,7 +3079,7 @@ namespace OpenTween
             catch (WebApiException ex)
             {
                 this._myStatusError = true;
-                this.StatusLabel.Text = ex.Message;
+                this.StatusLabel.Text = $"Err:{ex.Message}(PostMessage)";
             }
             finally
             {
@@ -3081,7 +3105,8 @@ namespace OpenTween
                 {
                     if (status.mediaItems == null || status.mediaItems.Length == 0)
                     {
-                        this.tw.PostStatus(status.status, status.inReplyToId);
+                        await this.tw.PostStatus(status.status, status.inReplyToId)
+                            .ConfigureAwait(false);
                     }
                     else
                     {
@@ -3096,7 +3121,7 @@ namespace OpenTween
             catch (WebApiException ex)
             {
                 // 処理は中断せずエラーの表示のみ行う
-                errMsg = ex.Message;
+                errMsg = $"Err:{ex.Message}(PostMessage)";
                 p.Report(errMsg);
                 this._myStatusError = true;
             }
@@ -3164,7 +3189,7 @@ namespace OpenTween
 
             if (this._cfgCommon.PostAndGet)
             {
-                if (this._isActiveUserstream)
+                if (this.tw.UserStreamActive)
                     this.RefreshTimeline();
                 else
                     await this.GetHomeTimelineAsync();
@@ -3184,7 +3209,7 @@ namespace OpenTween
             catch (WebApiException ex)
             {
                 this._myStatusError = true;
-                this.StatusLabel.Text = ex.Message;
+                this.StatusLabel.Text = $"Err:{ex.Message}(PostRetweet)";
             }
             finally
             {
@@ -3208,13 +3233,11 @@ namespace OpenTween
 
             p.Report("Posting...");
 
-            await Task.Run(() =>
-            {
-                foreach (var statusId in statusIds)
-                {
-                    this.tw.PostRetweet(statusId, read);
-                }
-            });
+            var retweetTasks = from statusId in statusIds
+                               select this.tw.PostRetweet(statusId, read);
+
+            await Task.WhenAll(retweetTasks)
+                .ConfigureAwait(false);
 
             if (ct.IsCancellationRequested)
                 return;
@@ -3230,7 +3253,7 @@ namespace OpenTween
                     this._postTimestamps.RemoveAt(i);
             }
 
-            if (this._cfgCommon.PostAndGet && !this._isActiveUserstream)
+            if (this._cfgCommon.PostAndGet && !this.tw.UserStreamActive)
                 await this.GetHomeTimelineAsync();
         }
 
@@ -3241,7 +3264,7 @@ namespace OpenTween
             {
                 this.StatusLabel.Text = Properties.Resources.UpdateFollowersMenuItem1_ClickText1;
 
-                await Task.Run(() => tw.RefreshFollowerIds());
+                await this.tw.RefreshFollowerIds();
 
                 this.StatusLabel.Text = Properties.Resources.UpdateFollowersMenuItem1_ClickText3;
 
@@ -3251,7 +3274,7 @@ namespace OpenTween
             }
             catch (WebApiException ex)
             {
-                this.StatusLabel.Text = ex.Message;
+                this.StatusLabel.Text = $"Err:{ex.Message}(RefreshFollowersIds)";
             }
             finally
             {
@@ -3264,13 +3287,13 @@ namespace OpenTween
             await this.workerSemaphore.WaitAsync();
             try
             {
-                await Task.Run(() => tw.RefreshNoRetweetIds());
+                await this.tw.RefreshNoRetweetIds();
 
                 this.StatusLabel.Text = "NoRetweetIds refreshed";
             }
             catch (WebApiException ex)
             {
-                this.StatusLabel.Text = ex.Message;
+                this.StatusLabel.Text = $"Err:{ex.Message}(RefreshNoRetweetIds)";
             }
             finally
             {
@@ -3285,13 +3308,13 @@ namespace OpenTween
             {
                 this.StatusLabel.Text = Properties.Resources.UpdateBlockUserText1;
 
-                await Task.Run(() => tw.RefreshBlockIds());
+                await this.tw.RefreshBlockIds();
 
                 this.StatusLabel.Text = Properties.Resources.UpdateBlockUserText3;
             }
             catch (WebApiException ex)
             {
-                this.StatusLabel.Text = ex.Message;
+                this.StatusLabel.Text = $"Err:{ex.Message}(RefreshBlockIds)";
             }
             finally
             {
@@ -3304,7 +3327,7 @@ namespace OpenTween
             await this.workerSemaphore.WaitAsync();
             try
             {
-                await Task.Run(() => tw.RefreshConfiguration());
+                await this.tw.RefreshConfiguration();
 
                 if (this.tw.Configuration.PhotoSizeLimit != 0)
                 {
@@ -3320,7 +3343,7 @@ namespace OpenTween
             }
             catch (WebApiException ex)
             {
-                this.StatusLabel.Text = ex.Message;
+                this.StatusLabel.Text = $"Err:{ex.Message}(RefreshConfiguration)";
             }
             finally
             {
@@ -3835,7 +3858,7 @@ namespace OpenTween
             MakeReplyOrDirectStatus(false, false);
         }
 
-        private void doStatusDelete()
+        private async Task doStatusDelete()
         {
             if (this._curTab == null || this._curList == null)
                 return;
@@ -3873,16 +3896,19 @@ namespace OpenTween
                     {
                         if (post.IsDm)
                         {
-                            this.tw.RemoveDirectMessage(post.StatusId, post);
+                            await this.twitterApi.DirectMessagesDestroy(post.StatusId)
+                                .IgnoreResponse();
                         }
                         else
                         {
                             if (post.RetweetedId != null && post.UserId == this.tw.UserId)
                                 // 他人に RT された自分のツイート
-                                this.tw.RemoveStatus(post.RetweetedId.Value);
+                                await this.twitterApi.StatusesDestroy(post.RetweetedId.Value)
+                                    .IgnoreResponse();
                             else
                                 // 自分のツイート or 自分が RT したツイート
-                                this.tw.RemoveStatus(post.StatusId);
+                                await this.twitterApi.StatusesDestroy(post.StatusId)
+                                    .IgnoreResponse();
                         }
                     }
                     catch (WebApiException ex)
@@ -3943,9 +3969,9 @@ namespace OpenTween
             }
         }
 
-        private void DeleteStripMenuItem_Click(object sender, EventArgs e)
+        private async void DeleteStripMenuItem_Click(object sender, EventArgs e)
         {
-            doStatusDelete();
+            await this.doStatusDelete();
         }
 
         private void ReadedStripMenuItem_Click(object sender, EventArgs e)
@@ -4107,6 +4133,8 @@ namespace OpenTween
                 settingDialog.IntervalChanged += this.TimerInterval_Changed;
 
                 settingDialog.tw = this.tw;
+                settingDialog.twitterApi = this.twitterApi;
+
                 settingDialog.LoadConfig(this._cfgCommon, this._cfgLocal);
 
                 try
@@ -4146,7 +4174,7 @@ namespace OpenTween
                     ShortUrl.Instance.DisableExpanding = !this._cfgCommon.TinyUrlResolve;
                     ShortUrl.Instance.BitlyId = this._cfgCommon.BilyUser;
                     ShortUrl.Instance.BitlyKey = this._cfgCommon.BitlyPwd;
-                    HttpTwitter.TwitterUrl = _cfgCommon.TwitterUrl;
+                    TwitterApiConnection.RestApiBase = this._cfgCommon.TwitterApiBaseUri;
 
                     Networking.DefaultTimeout = TimeSpan.FromSeconds(this._cfgCommon.DefaultTimeOut);
                     Networking.SetWebProxy(this._cfgLocal.ProxyType,
@@ -6385,12 +6413,12 @@ namespace OpenTween
             {
                 try
                 {
-                    post = await Task.Run(() => this.tw.GetStatusApi(false, statusId))
+                    post = await this.tw.GetStatusApi(false, statusId)
                         .ConfigureAwait(false);
                 }
                 catch (WebApiException ex)
                 {
-                    return FormatQuoteTweetHtml(statusId, WebUtility.HtmlEncode(ex.Message), isReply);
+                    return FormatQuoteTweetHtml(statusId, WebUtility.HtmlEncode($"Err:{ex.Message}(GetStatus)"), isReply);
                 }
 
                 post.IsRead = true;
@@ -7505,7 +7533,7 @@ namespace OpenTween
             {
                 try
                 {
-                    var post = tw.GetStatusApi(false, _curPost.StatusId);
+                    var post = await tw.GetStatusApi(false, _curPost.StatusId);
 
                     _curPost.InReplyToStatusId = post.InReplyToStatusId;
                     _curPost.InReplyToUser = post.InReplyToUser;
@@ -7515,7 +7543,7 @@ namespace OpenTween
                 }
                 catch (WebApiException ex)
                 {
-                    this.StatusLabel.Text = ex.Message;
+                    this.StatusLabel.Text = $"Err:{ex.Message}(GetStatus)";
                 }
             }
 
@@ -7546,9 +7574,10 @@ namespace OpenTween
             {
                 try
                 {
-                    await Task.Run(() =>
+                    await Task.Run(async () =>
                     {
-                        var post = tw.GetStatusApi(false, _curPost.InReplyToStatusId.Value);
+                        var post = await tw.GetStatusApi(false, _curPost.InReplyToStatusId.Value)
+                            .ConfigureAwait(false);
                         post.IsRead = true;
 
                         _statuses.AddPost(post);
@@ -7557,7 +7586,7 @@ namespace OpenTween
                 }
                 catch (WebApiException ex)
                 {
-                    this.StatusLabel.Text = ex.Message;
+                    this.StatusLabel.Text = $"Err:{ex.Message}(GetStatus)";
                     await this.OpenUriInBrowserAsync("https://twitter.com/" + inReplyToUser + "/statuses/" + inReplyToId.ToString());
                     return;
                 }
@@ -7882,7 +7911,6 @@ namespace OpenTween
             {
                 _cfgCommon.UserName = tw.Username;
                 _cfgCommon.UserId = tw.UserId;
-                _cfgCommon.Password = tw.Password;
                 _cfgCommon.Token = tw.AccessToken;
                 _cfgCommon.TokenSecret = tw.AccessTokenSecret;
 
@@ -10992,11 +11020,10 @@ namespace OpenTween
             tw.PostDeleted += tw_PostDeleted;
             tw.UserStreamEventReceived += tw_UserStreamEventArrived;
 
-            MenuItemUserStream.Text = "&UserStream ■";
-            MenuItemUserStream.Enabled = true;
-            StopToolStripMenuItem.Text = "&Start";
-            StopToolStripMenuItem.Enabled = true;
-            if (this._cfgCommon.UserstreamStartup) tw.StartUserStream();
+            this.RefreshUserStreamsMenu();
+
+            if (this._cfgCommon.UserstreamStartup)
+                tw.StartUserStream();
         }
 
         private async void TweenMain_Shown(object sender, EventArgs e)
@@ -11307,7 +11334,7 @@ namespace OpenTween
 
                 try
                 {
-                    var task = Task.Run(() => this.tw.GetInfoApi());
+                    var task = this.tw.GetInfoApi();
                     apiStatus = await dialog.WaitForAsync(this, task);
                 }
                 catch (WebApiException)
@@ -11358,7 +11385,7 @@ namespace OpenTween
             {
                 try
                 {
-                    var task = Task.Run(() => this.tw.PostFollowCommand(id));
+                    var task = this.twitterApi.FriendshipsCreate(id);
                     await dialog.WaitForAsync(this, task);
                 }
                 catch (WebApiException ex)
@@ -11401,7 +11428,7 @@ namespace OpenTween
             {
                 try
                 {
-                    var task = Task.Run(() => this.tw.PostRemoveCommand(id));
+                    var task = this.twitterApi.FriendshipsDestroy(id);
                     await dialog.WaitForAsync(this, task);
                 }
                 catch (WebApiException ex)
@@ -11445,7 +11472,7 @@ namespace OpenTween
 
                 try
                 {
-                    var task = Task.Run(() => this.tw.GetFriendshipInfo(id));
+                    var task = this.twitterApi.FriendshipsShow(this.twitterApi.CurrentScreenName, id);
                     var friendship = await dialog.WaitForAsync(this, task);
 
                     isFollowing = friendship.Relationship.Source.Following;
@@ -11454,7 +11481,7 @@ namespace OpenTween
                 catch (WebApiException ex)
                 {
                     if (!cancellationToken.IsCancellationRequested)
-                        MessageBox.Show(ex.Message);
+                        MessageBox.Show($"Err:{ex.Message}(FriendshipsShow)");
                     return;
                 }
 
@@ -11495,7 +11522,7 @@ namespace OpenTween
 
                     try
                     {
-                        var task = Task.Run(() => this.tw.GetFriendshipInfo(id));
+                        var task = this.twitterApi.FriendshipsShow(this.twitterApi.CurrentScreenName, id);
                         var friendship = await dialog.WaitForAsync(this, task);
 
                         isFollowing = friendship.Relationship.Source.Following;
@@ -11504,7 +11531,7 @@ namespace OpenTween
                     catch (WebApiException ex)
                     {
                         if (!cancellationToken.IsCancellationRequested)
-                            MessageBox.Show(ex.Message);
+                            MessageBox.Show($"Err:{ex.Message}(FriendshipsShow)");
                         return;
                     }
 
@@ -11936,7 +11963,7 @@ namespace OpenTween
             }
         }
 
-        private void ListManageUserContextToolStripMenuItem_Click(object sender, EventArgs e)
+        private async void ListManageUserContextToolStripMenuItem_Click(object sender, EventArgs e)
         {
             string user;
 
@@ -11960,8 +11987,17 @@ namespace OpenTween
             {
                 try
                 {
-                    this.tw.GetListsApi();
+                    using (var dialog = new WaitingDialog(Properties.Resources.ListsGetting))
+                    {
+                        var cancellationToken = dialog.EnableCancellation();
+
+                        var task = this.tw.GetListsApi();
+                        await dialog.WaitForAsync(this, task);
+
+                        cancellationToken.ThrowIfCancellationRequested();
+                    }
                 }
+                catch (OperationCanceledException) { return; }
                 catch (WebApiException ex)
                 {
                     MessageBox.Show("Failed to get lists. (" + ex.Message + ")");
@@ -12316,13 +12352,13 @@ namespace OpenTween
 
                 try
                 {
-                    var task = Task.Run(() => this.tw.GetUserInfo(id));
+                    var task = this.twitterApi.UsersShow(id);
                     user = await dialog.WaitForAsync(this, task);
                 }
                 catch (WebApiException ex)
                 {
                     if (!cancellationToken.IsCancellationRequested)
-                        MessageBox.Show(ex.Message);
+                        MessageBox.Show($"Err:{ex.Message}(UsersShow)");
                     return;
                 }
 
@@ -12335,7 +12371,7 @@ namespace OpenTween
 
         private async Task doShowUserStatus(TwitterUser user)
         {
-            using (var userDialog = new UserInfoDialog(this, this.tw))
+            using (var userDialog = new UserInfoDialog(this, this.twitterApi))
             {
                 var showUserTask = userDialog.ShowUserAsync(user);
                 userDialog.ShowDialog(this);
@@ -12435,7 +12471,7 @@ namespace OpenTween
                 return;
 
             var statusId = this._curPost.RetweetedId ?? this._curPost.StatusId;
-            int retweetCount = 0;
+            TwitterStatus status;
 
             using (var dialog = new WaitingDialog(Properties.Resources.RtCountMenuItem_ClickText1))
             {
@@ -12443,13 +12479,13 @@ namespace OpenTween
 
                 try
                 {
-                    var task = Task.Run(() => this.tw.GetStatus_Retweeted_Count(statusId));
-                    retweetCount = await dialog.WaitForAsync(this, task);
+                    var task = this.twitterApi.StatusesShow(statusId);
+                    status = await dialog.WaitForAsync(this, task);
                 }
                 catch (WebApiException ex)
                 {
                     if (!cancellationToken.IsCancellationRequested)
-                        MessageBox.Show(Properties.Resources.RtCountText2 + Environment.NewLine + ex.Message);
+                        MessageBox.Show(Properties.Resources.RtCountText2 + Environment.NewLine + "Err:" + ex.Message);
                     return;
                 }
 
@@ -12457,7 +12493,7 @@ namespace OpenTween
                     return;
             }
 
-            MessageBox.Show(retweetCount + Properties.Resources.RtCountText1);
+            MessageBox.Show(status.RetweetCount + Properties.Resources.RtCountText1);
         }
 
         private HookGlobalHotkey _hookGlobalHotkey;
@@ -12727,11 +12763,11 @@ namespace OpenTween
             {
                 try
                 {
-                    post = await Task.Run(() => this.tw.GetStatusApi(false, statusId));
+                    post = await this.tw.GetStatusApi(false, statusId);
                 }
                 catch (WebApiException ex)
                 {
-                    this.StatusLabel.Text = ex.Message;
+                    this.StatusLabel.Text = $"Err:{ex.Message}(GetStatus)";
                     return;
                 }
             }
@@ -12797,8 +12833,6 @@ namespace OpenTween
         }
 
 #region "Userstream"
-        private bool _isActiveUserstream = false;
-
         private void tw_PostDeleted(object sender, PostDeletedEventArgs e)
         {
             try
@@ -12861,7 +12895,6 @@ namespace OpenTween
 
         private void tw_UserStreamStarted(object sender, EventArgs e)
         {
-            this._isActiveUserstream = true;
             try
             {
                 if (InvokeRequired && !IsDisposed)
@@ -12879,17 +12912,14 @@ namespace OpenTween
                 return;
             }
 
-            MenuItemUserStream.Text = "&UserStream ▶";
-            MenuItemUserStream.Enabled = true;
-            StopToolStripMenuItem.Text = "&Stop";
-            StopToolStripMenuItem.Enabled = true;
+            this.RefreshUserStreamsMenu();
+            this.MenuItemUserStream.Enabled = true;
 
             StatusLabel.Text = "UserStream Started.";
         }
 
         private void tw_UserStreamStopped(object sender, EventArgs e)
         {
-            this._isActiveUserstream = false;
             try
             {
                 if (InvokeRequired && !IsDisposed)
@@ -12907,12 +12937,24 @@ namespace OpenTween
                 return;
             }
 
-            MenuItemUserStream.Text = "&UserStream ■";
-            MenuItemUserStream.Enabled = true;
-            StopToolStripMenuItem.Text = "&Start";
-            StopToolStripMenuItem.Enabled = true;
+            this.RefreshUserStreamsMenu();
+            this.MenuItemUserStream.Enabled = true;
 
             StatusLabel.Text = "UserStream Stopped.";
+        }
+
+        private void RefreshUserStreamsMenu()
+        {
+            if (this.tw.UserStreamActive)
+            {
+                this.MenuItemUserStream.Text = "&UserStream ▶";
+                this.StopToolStripMenuItem.Text = "&Stop";
+            }
+            else
+            {
+                this.MenuItemUserStream.Text = "&UserStream ■";
+                this.StopToolStripMenuItem.Text = "&Start";
+            }
         }
 
         private void tw_UserStreamEventArrived(object sender, UserStreamEventReceivedEventArgs e)
@@ -13043,7 +13085,7 @@ namespace OpenTween
                 StopRefreshAllMenuItem.Checked = false;
                 return;
             }
-            if (this._isActiveUserstream)
+            if (this.tw.UserStreamActive)
             {
                 tw.StopUserStream();
             }

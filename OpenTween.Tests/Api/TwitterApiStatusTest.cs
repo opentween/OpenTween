@@ -22,6 +22,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Xml;
 using OpenTween.Api.DataModel;
@@ -168,7 +169,7 @@ namespace OpenTween.Api
         }
 
         [Fact]
-        public void UpdateFromHeaderTest()
+        public void UpdateFromHeader_DictionaryTest()
         {
             var status = new TwitterApiStatus();
 
@@ -203,7 +204,45 @@ namespace OpenTween.Api
             Assert.True(eventCalled);
         }
 
-        [Fact(Skip = "Mono環境でエラーが発生する")]
+        [Fact]
+        public void UpdateFromHeader_HttpClientTest()
+        {
+            var status = new TwitterApiStatus();
+
+            var eventCalled = false;
+            status.AccessLimitUpdated += (s, e) => eventCalled = true;
+
+            var response = new HttpResponseMessage
+            {
+                Headers =
+                {
+                    { "X-Rate-Limit-Limit", "150" },
+                    { "X-Rate-Limit-Remaining", "100" },
+                    { "X-Rate-Limit-Reset", "1356998400" },
+                    { "X-MediaRateLimit-Limit", "30" },
+                    { "X-MediaRateLimit-Remaining", "20" },
+                    { "X-MediaRateLimit-Reset", "1357084800" },
+                    { "X-Access-Level", "read-write-directmessages" },
+                },
+            };
+
+            status.UpdateFromHeader(response.Headers, "/statuses/home_timeline");
+
+            var rateLimit = status.AccessLimit["/statuses/home_timeline"];
+            Assert.Equal(150, rateLimit.AccessLimitCount);
+            Assert.Equal(100, rateLimit.AccessLimitRemain);
+            Assert.Equal(new DateTime(2013, 1, 1, 0, 0, 0, DateTimeKind.Utc).ToLocalTime(), rateLimit.AccessLimitResetDate);
+
+            var mediaLimit = status.MediaUploadLimit;
+            Assert.Equal(30, mediaLimit.AccessLimitCount);
+            Assert.Equal(20, mediaLimit.AccessLimitRemain);
+            Assert.Equal(new DateTime(2013, 1, 2, 0, 0, 0, DateTimeKind.Utc).ToLocalTime(), mediaLimit.AccessLimitResetDate);
+
+            Assert.Equal(TwitterApiAccessLevel.ReadWriteAndDirectMessage, status.AccessLevel);
+
+            Assert.True(eventCalled);
+        }
+
         public void UpdateFromJsonTest()
         {
             var status = new TwitterApiStatus();
@@ -212,7 +251,7 @@ namespace OpenTween.Api
             status.AccessLimitUpdated += (s, e) => eventCalled = true;
 
             var json = "{\"resources\":{\"statuses\":{\"/statuses/home_timeline\":{\"limit\":150,\"remaining\":100,\"reset\":1356998400}}}}";
-            status.UpdateFromJson(json);
+            status.UpdateFromJson(TwitterRateLimits.ParseJson(json));
 
             var rateLimit = status.AccessLimit["/statuses/home_timeline"];
             Assert.Equal(150, rateLimit.AccessLimitCount);
@@ -220,23 +259,6 @@ namespace OpenTween.Api
             Assert.Equal(new DateTime(2013, 1, 1, 0, 0, 0, DateTimeKind.Utc).ToLocalTime(), rateLimit.AccessLimitResetDate);
 
             Assert.True(eventCalled);
-        }
-
-        [Fact]
-        public void UpdateFromJsonTest2()
-        {
-            var status = new TwitterApiStatus();
-
-            var eventCalled = false;
-            status.AccessLimitUpdated += (s, e) => eventCalled = true;
-
-            var json = "INVALID JSON";
-            Assert.Throws<XmlException>(() => status.UpdateFromJson(json));
-
-            var rateLimit = status.AccessLimit["/statuses/home_timeline"];
-            Assert.Null(rateLimit);
-
-            Assert.False(eventCalled);
         }
 
         [Fact]

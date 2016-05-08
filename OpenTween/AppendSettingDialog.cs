@@ -48,6 +48,7 @@ namespace OpenTween
         public event EventHandler<IntervalChangedEventArgs> IntervalChanged;
 
         internal Twitter tw;
+        internal TwitterApi twitterApi;
 
         private bool _ValidationError = false;
 
@@ -111,12 +112,6 @@ namespace OpenTween
             {
                 var u = settingCommon.UserAccounts[userAccountIdx];
                 this.tw.Initialize(u.Token, u.TokenSecret, u.Username, u.UserId);
-
-                if (u.UserId == 0)
-                {
-                    this.tw.VerifyCredentials();
-                    u.UserId = this.tw.UserId;
-                }
             }
             else
             {
@@ -252,41 +247,44 @@ namespace OpenTween
             }
         }
 
-        private void StartAuthButton_Click(object sender, EventArgs e)
+        private async void StartAuthButton_Click(object sender, EventArgs e)
         {
-            try
+            using (ControlTransaction.Disabled(this.BasedPanel.StartAuthButton))
             {
-                this.ApplyNetworkSettings();
-
-                var newAccount = this.PinAuth();
-                if (newAccount == null)
-                    return;
-
-                var authUserCombo = this.BasedPanel.AuthUserCombo;
-
-                var oldAccount = authUserCombo.Items.Cast<UserAccount>()
-                    .FirstOrDefault(x => x.UserId == this.tw.UserId);
-
-                int idx;
-                if (oldAccount != null)
+                try
                 {
-                    idx = authUserCombo.Items.IndexOf(oldAccount);
-                    authUserCombo.Items[idx] = newAccount;
+                    this.ApplyNetworkSettings();
+
+                    var newAccount = await this.PinAuth();
+                    if (newAccount == null)
+                        return;
+
+                    var authUserCombo = this.BasedPanel.AuthUserCombo;
+
+                    var oldAccount = authUserCombo.Items.Cast<UserAccount>()
+                        .FirstOrDefault(x => x.UserId == this.tw.UserId);
+
+                    int idx;
+                    if (oldAccount != null)
+                    {
+                        idx = authUserCombo.Items.IndexOf(oldAccount);
+                        authUserCombo.Items[idx] = newAccount;
+                    }
+                    else
+                    {
+                        idx = authUserCombo.Items.Add(newAccount);
+                    }
+
+                    authUserCombo.SelectedIndex = idx;
+
+                    MessageBox.Show(this, Properties.Resources.AuthorizeButton_Click1,
+                        "Authenticate", MessageBoxButtons.OK);
                 }
-                else
+                catch (WebApiException ex)
                 {
-                    idx = authUserCombo.Items.Add(newAccount);
+                    var message = Properties.Resources.AuthorizeButton_Click2 + Environment.NewLine + ex.Message;
+                    MessageBox.Show(this, message, "Authenticate", MessageBoxButtons.OK);
                 }
-
-                authUserCombo.SelectedIndex = idx;
-
-                MessageBox.Show(this, Properties.Resources.AuthorizeButton_Click1,
-                    "Authenticate", MessageBoxButtons.OK);
-            }
-            catch (WebApiException ex)
-            {
-                var message = Properties.Resources.AuthorizeButton_Click2 + Environment.NewLine + ex.Message;
-                MessageBox.Show(this, message, "Authenticate", MessageBoxButtons.OK);
             }
         }
 
@@ -314,33 +312,33 @@ namespace OpenTween
 
             Networking.ForceIPv4 = this.ConnectionPanel.checkBoxForceIPv4.Checked;
 
-            HttpTwitter.TwitterUrl = this.ConnectionPanel.TwitterAPIText.Text.Trim();
+            TwitterApiConnection.RestApiBase = new Uri(this.ConnectionPanel.TwitterAPIText.Text.Trim());
         }
 
-        private UserAccount PinAuth()
+        private async Task<UserAccount> PinAuth()
         {
-            this.tw.Initialize("", "", "", 0);
+            var requestToken = await TwitterApiConnection.GetRequestTokenAsync();
 
-            var pinPageUrl = this.tw.StartAuthentication();
+            var pinPageUrl = TwitterApiConnection.GetAuthorizeUri(requestToken);
 
             var pin = AuthDialog.DoAuth(this, pinPageUrl);
             if (string.IsNullOrEmpty(pin))
                 return null; // キャンセルされた場合
 
-            this.tw.Authenticate(pin);
+            var accessTokenResponse = await TwitterApiConnection.GetAccessTokenAsync(requestToken, pin);
 
             return new UserAccount
             {
-                Username = this.tw.Username,
-                UserId = this.tw.UserId,
-                Token = this.tw.AccessToken,
-                TokenSecret = this.tw.AccessTokenSecret,
+                Username = accessTokenResponse["screen_name"],
+                UserId = long.Parse(accessTokenResponse["user_id"]),
+                Token = accessTokenResponse["oauth_token"],
+                TokenSecret = accessTokenResponse["oauth_token_secret"],
             };
         }
 
         private void CheckPostAndGet_CheckedChanged(object sender, EventArgs e)
         {
-            this.GetPeriodPanel.LabelPostAndGet.Visible = this.GetPeriodPanel.CheckPostAndGet.Checked && !tw.UserStreamEnabled;
+            this.GetPeriodPanel.LabelPostAndGet.Visible = this.GetPeriodPanel.CheckPostAndGet.Checked && !tw.UserStreamActive;
         }
 
         private void Setting_Shown(object sender, EventArgs e)
@@ -352,8 +350,8 @@ namespace OpenTween
             } while (!this.IsHandleCreated);
             this.TopMost = this.PreviewPanel.CheckAlwaysTop.Checked;
 
-            this.GetPeriodPanel.LabelPostAndGet.Visible = this.GetPeriodPanel.CheckPostAndGet.Checked && !tw.UserStreamEnabled;
-            this.GetPeriodPanel.LabelUserStreamActive.Visible = tw.UserStreamEnabled;
+            this.GetPeriodPanel.LabelPostAndGet.Visible = this.GetPeriodPanel.CheckPostAndGet.Checked && !tw.UserStreamActive;
+            this.GetPeriodPanel.LabelUserStreamActive.Visible = tw.UserStreamActive;
         }
 
         private bool BitlyValidation(string id, string apikey)

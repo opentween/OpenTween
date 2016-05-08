@@ -30,10 +30,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Linq;
 using System.Xml.XPath;
+using OpenTween.Api;
 using OpenTween.Api.DataModel;
 
 namespace OpenTween.Connection
@@ -53,7 +55,7 @@ namespace OpenTween.Connection
             this.tw = twitter;
             this.twitterConfig = twitterConfig;
 
-            this.yfrogApi = new YfrogApi(twitter.AccessToken, twitter.AccessTokenSecret);
+            this.yfrogApi = new YfrogApi(twitter.Api);
         }
 
         public int MaxMediaCount
@@ -110,7 +112,7 @@ namespace OpenTween.Connection
 
             var textWithImageUrl = text + " " + imageUrlElm.Value.Trim();
 
-            await Task.Run(() => this.tw.PostStatus(textWithImageUrl, inReplyToStatusId))
+            await this.tw.PostStatus(textWithImageUrl, inReplyToStatusId)
                 .ConfigureAwait(false);
         }
 
@@ -124,17 +126,21 @@ namespace OpenTween.Connection
             this.twitterConfig = config;
         }
 
-        public class YfrogApi : HttpConnectionOAuthEcho
+        public class YfrogApi
         {
+            private readonly HttpClient http;
+
             private static readonly Uri UploadEndpoint = new Uri("https://yfrog.com/api/xauth_upload");
 
-            public YfrogApi(string twitterAccessToken, string twitterAccessTokenSecret)
-                : base(new Uri("http://api.twitter.com/"), new Uri("https://api.twitter.com/1.1/account/verify_credentials.xml"))
-            {
-                this.Initialize(ApplicationSettings.TwitterConsumerKey, ApplicationSettings.TwitterConsumerSecret,
-                    twitterAccessToken, twitterAccessTokenSecret, "", "");
+            private static readonly Uri OAuthRealm = new Uri("http://api.twitter.com/");
+            private static readonly Uri AuthServiceProvider = new Uri("https://api.twitter.com/1.1/account/verify_credentials.json");
 
-                this.InstanceTimeout = 60000;
+            public YfrogApi(TwitterApi twitterApi)
+            {
+                var handler = twitterApi.CreateOAuthEchoHandler(AuthServiceProvider, OAuthRealm);
+
+                this.http = Networking.CreateHttpClient(handler);
+                this.http.Timeout = TimeSpan.FromMinutes(1);
             }
 
             /// <summary>
@@ -146,25 +152,30 @@ namespace OpenTween.Connection
             {
                 // 参照: http://twitter.yfrog.com/page/api#a1
 
-                var param = new Dictionary<string, string>
+                using (var request = new HttpRequestMessage(HttpMethod.Post, UploadEndpoint))
+                using (var multipart = new MultipartFormDataContent())
                 {
-                    ["key"] = ApplicationSettings.YfrogApiKey,
-                };
-                var paramFiles = new List<KeyValuePair<string, IMediaItem>>
-                {
-                    new KeyValuePair<string, IMediaItem>("media", item),
-                };
-                var response = "";
+                    request.Content = multipart;
 
-                var uploadTask = Task.Run(() => this.GetContent(HttpConnection.PostMethod,
-                    UploadEndpoint, param, paramFiles, ref response, null, null));
+                    using (var apiKeyContent = new StringContent(ApplicationSettings.YfrogApiKey))
+                    using (var mediaStream = item.OpenRead())
+                    using (var mediaContent = new StreamContent(mediaStream))
+                    {
+                        multipart.Add(apiKeyContent, "key");
+                        multipart.Add(mediaContent, "media", item.Name);
 
-                var ret = await uploadTask.ConfigureAwait(false);
+                        using (var response = await this.http.SendAsync(request).ConfigureAwait(false))
+                        {
+                            var responseText = await response.Content.ReadAsStringAsync()
+                                .ConfigureAwait(false);
 
-                if (ret != HttpStatusCode.OK)
-                    throw new WebApiException("Err:" + ret, response);
+                            if (!response.IsSuccessStatusCode)
+                                throw new WebApiException(response.StatusCode.ToString(), responseText);
 
-                return XDocument.Parse(response);
+                            return XDocument.Parse(responseText);
+                        }
+                    }
+                }
             }
         }
     }

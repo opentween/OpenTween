@@ -25,11 +25,13 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Linq;
 using System.Xml.XPath;
+using OpenTween.Api;
 using OpenTween.Api.DataModel;
 
 namespace OpenTween.Connection
@@ -61,7 +63,7 @@ namespace OpenTween.Connection
             this.twitter = twitter;
             this.twitterConfig = twitterConfig;
 
-            this.twippleApi = new TwippleApi(twitter.AccessToken, twitter.AccessTokenSecret);
+            this.twippleApi = new TwippleApi(twitter.Api);
         }
 
         #endregion
@@ -127,7 +129,7 @@ namespace OpenTween.Connection
 
             var textWithImageUrl = text + " " + imageUrlElm.Value.Trim();
 
-            await Task.Run(() => this.twitter.PostStatus(textWithImageUrl, inReplyToStatusId))
+            await this.twitter.PostStatus(textWithImageUrl, inReplyToStatusId)
                 .ConfigureAwait(false);
         }
 
@@ -141,17 +143,21 @@ namespace OpenTween.Connection
             this.twitterConfig = config;
         }
 
-        public class TwippleApi : HttpConnectionOAuthEcho
+        public class TwippleApi
         {
+            private readonly HttpClient http;
+
             private static readonly Uri UploadEndpoint = new Uri("http://p.twipple.jp/api/upload2");
 
-            public TwippleApi(string twitterAccessToken, string twitterAccessTokenSecret)
-                : base(new Uri("http://api.twitter.com/"), new Uri("https://api.twitter.com/1.1/account/verify_credentials.json"))
-            {
-                this.Initialize(ApplicationSettings.TwitterConsumerKey, ApplicationSettings.TwitterConsumerSecret,
-                    twitterAccessToken, twitterAccessTokenSecret, "", "");
+            private static readonly Uri OAuthRealm = new Uri("http://api.twitter.com/");
+            private static readonly Uri AuthServiceProvider = new Uri("https://api.twitter.com/1.1/account/verify_credentials.json");
 
-                this.InstanceTimeout = 60000;
+            public TwippleApi(TwitterApi twitterApi)
+            {
+                var handler = twitterApi.CreateOAuthEchoHandler(AuthServiceProvider, OAuthRealm);
+
+                this.http = Networking.CreateHttpClient(handler);
+                this.http.Timeout = TimeSpan.FromMinutes(1);
             }
 
             /// <summary>
@@ -163,25 +169,30 @@ namespace OpenTween.Connection
             {
                 // 参照: http://p.twipple.jp/wiki/API_Upload2/ja
 
-                var param = new Dictionary<string, string>
+                using (var request = new HttpRequestMessage(HttpMethod.Post, UploadEndpoint))
+                using (var multipart = new MultipartFormDataContent())
                 {
-                    ["upload_from"] = Application.ProductName,
-                };
-                var paramFiles = new List<KeyValuePair<string, IMediaItem>>
-                {
-                    new KeyValuePair<string, IMediaItem>("media", item),
-                };
-                var response = "";
+                    request.Content = multipart;
 
-                var uploadTask = Task.Run(() => this.GetContent(HttpConnection.PostMethod,
-                    UploadEndpoint, param, paramFiles, ref response, null, null));
+                    using (var uploadFromContent = new StringContent(Application.ProductName))
+                    using (var mediaStream = item.OpenRead())
+                    using (var mediaContent = new StreamContent(mediaStream))
+                    {
+                        multipart.Add(uploadFromContent, "upload_from");
+                        multipart.Add(mediaContent, "media", item.Name);
 
-                var ret = await uploadTask.ConfigureAwait(false);
+                        using (var response = await this.http.SendAsync(request).ConfigureAwait(false))
+                        {
+                            var responseText = await response.Content.ReadAsStringAsync()
+                                .ConfigureAwait(false);
 
-                if (ret != HttpStatusCode.OK)
-                    throw new WebApiException("Err:" + ret, response);
+                            if (!response.IsSuccessStatusCode)
+                                throw new WebApiException(response.StatusCode.ToString(), responseText);
 
-                return XDocument.Parse(response);
+                            return XDocument.Parse(responseText);
+                        }
+                    }
+                }
             }
         }
     }

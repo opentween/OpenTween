@@ -154,7 +154,7 @@ namespace OpenTween
                 var cancellationToken = dialog.EnableCancellation();
 
                 var tw = ((TweenMain)this.Owner).TwitterInstance;
-                var task = Task.Run(() => tw.GetListsApi());
+                var task = tw.GetListsApi();
                 await dialog.WaitForAsync(this, task);
 
                 cancellationToken.ThrowIfCancellationRequested();

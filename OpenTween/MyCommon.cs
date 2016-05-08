@@ -843,7 +843,11 @@ namespace OpenTween
             var buf = Encoding.Unicode.GetBytes(content);
             using (var stream = new MemoryStream(buf))
             {
-                data = (T)((new DataContractJsonSerializer(typeof(T))).ReadObject(stream));
+                var settings = new DataContractJsonSerializerSettings
+                {
+                    UseSimpleDictionaryFormat = true,
+                };
+                data = (T)((new DataContractJsonSerializer(typeof(T), settings)).ReadObject(stream));
             }
             return data;
         }
@@ -999,9 +1003,9 @@ namespace OpenTween
         /// 指定された IDictionary を元にクエリ文字列を生成します
         /// </summary>
         /// <param name="param">生成するクエリの key-value コレクション</param>
-        public static string BuildQueryString(IDictionary<string, string> param)
+        public static string BuildQueryString(IEnumerable<KeyValuePair<string, string>> param)
         {
-            if (param == null || param.Count == 0)
+            if (param == null)
                 return string.Empty;
 
             var query = param

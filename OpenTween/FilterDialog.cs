@@ -984,7 +984,7 @@ namespace OpenTween
                 ListFilters.Items.Clear();
         }
 
-        private void ButtonAddTab_Click(object sender, EventArgs e)
+        private async void ButtonAddTab_Click(object sender, EventArgs e)
         {
             string tabName = null;
             MyCommon.TabUsageType tabType;
@@ -1005,8 +1005,17 @@ namespace OpenTween
                 {
                     try
                     {
-                        ((TweenMain)this.Owner).TwitterInstance.GetListsApi();
+                        using (var dialog = new WaitingDialog(Properties.Resources.ListsGetting))
+                        {
+                            var cancellationToken = dialog.EnableCancellation();
+
+                            var task = ((TweenMain)this.Owner).TwitterInstance.GetListsApi();
+                            await dialog.WaitForAsync(this, task);
+
+                            cancellationToken.ThrowIfCancellationRequested();
+                        }
                     }
+                    catch (OperationCanceledException) { return; }
                     catch (WebApiException ex)
                     {
                         MessageBox.Show("Failed to get lists. (" + ex.Message + ")");

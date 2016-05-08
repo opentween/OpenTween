@@ -38,6 +38,7 @@ using System.Text.RegularExpressions;
 using System.Web;
 using System.IO;
 using System.Net;
+using OpenTween.Api;
 using OpenTween.Api.DataModel;
 using OpenTween.Connection;
 using System.Diagnostics.CodeAnalysis;
@@ -50,12 +51,12 @@ namespace OpenTween
         private CancellationTokenSource cancellationTokenSource = null;
 
         private readonly TweenMain mainForm;
-        private readonly Twitter twitter;
+        private readonly TwitterApi twitterApi;
 
-        public UserInfoDialog(TweenMain mainForm, Twitter twitter)
+        public UserInfoDialog(TweenMain mainForm, TwitterApi twitterApi)
         {
             this.mainForm = mainForm;
-            this.twitter = twitter;
+            this.twitterApi = twitterApi;
 
             InitializeComponent();
 
@@ -132,7 +133,7 @@ namespace OpenTween
             this.LinkLabelTweet.Tag = profileUrl;
             this.ToolTip1.SetToolTip(this.LinkLabelTweet, profileUrl);
 
-            if (this.twitter.UserId == user.Id)
+            if (this.twitterApi.CurrentUserId == user.Id)
             {
                 this.ButtonEdit.Enabled = true;
                 this.ChangeIconToolStripMenuItem.Enabled = true;
@@ -269,13 +270,13 @@ namespace OpenTween
             this.ButtonFollow.Enabled = false;
             this.ButtonUnFollow.Enabled = false;
 
-            if (this.twitter.Username == screenName)
+            if (this.twitterApi.CurrentScreenName == screenName)
                 return;
 
             TwitterFriendship friendship;
             try
             {
-                friendship = await Task.Run(() => this.twitter.GetFriendshipInfo(screenName));
+                friendship = await this.twitterApi.FriendshipsShow(this.twitterApi.CurrentScreenName, screenName);
             }
             catch (WebApiException)
             {
@@ -342,16 +343,20 @@ namespace OpenTween
             await this.mainForm.OpenUriInBrowserAsync(linkUrl);
         }
 
-        private void ButtonFollow_Click(object sender, EventArgs e)
+        private async void ButtonFollow_Click(object sender, EventArgs e)
         {
-            try
+            using (ControlTransaction.Disabled(this.ButtonFollow))
             {
-                this.twitter.PostFollowCommand(this._displayUser.ScreenName);
-            }
-            catch (WebApiException ex)
-            {
-                MessageBox.Show(Properties.Resources.FRMessage2 + ex.Message);
-                return;
+                try
+                {
+                    await this.twitterApi.FriendshipsCreate(this._displayUser.ScreenName)
+                        .IgnoreResponse();
+                }
+                catch (WebApiException ex)
+                {
+                    MessageBox.Show(Properties.Resources.FRMessage2 + ex.Message);
+                    return;
+                }
             }
 
             MessageBox.Show(Properties.Resources.FRMessage3);
@@ -360,20 +365,24 @@ namespace OpenTween
             ButtonUnFollow.Enabled = true;
         }
 
-        private void ButtonUnFollow_Click(object sender, EventArgs e)
+        private async void ButtonUnFollow_Click(object sender, EventArgs e)
         {
             if (MessageBox.Show(this._displayUser.ScreenName + Properties.Resources.ButtonUnFollow_ClickText1,
                                Properties.Resources.ButtonUnFollow_ClickText2,
                                MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2) == DialogResult.Yes)
             {
-                try
+                using (ControlTransaction.Disabled(this.ButtonUnFollow))
                 {
-                    this.twitter.PostRemoveCommand(this._displayUser.ScreenName);
-                }
-                catch (WebApiException ex)
-                {
-                    MessageBox.Show(Properties.Resources.FRMessage2 + ex.Message);
-                    return;
+                    try
+                    {
+                        await this.twitterApi.FriendshipsDestroy(this._displayUser.ScreenName)
+                            .IgnoreResponse();
+                    }
+                    catch (WebApiException ex)
+                    {
+                        MessageBox.Show(Properties.Resources.FRMessage2 + ex.Message);
+                        return;
+                    }
                 }
 
                 MessageBox.Show(Properties.Resources.FRMessage3);
@@ -466,7 +475,7 @@ namespace OpenTween
         private async void ButtonEdit_Click(object sender, EventArgs e)
         {
             // 自分以外のプロフィールは変更できない
-            if (this.twitter.UserId != this._displayUser.Id)
+            if (this.twitterApi.CurrentUserId != this._displayUser.Id)
                 return;
 
             using (ControlTransaction.Disabled(this.ButtonEdit))
@@ -512,18 +521,18 @@ namespace OpenTween
                     {
                         try
                         {
-                            var user = await Task.Run(() =>
-                                this.twitter.PostUpdateProfile(
-                                    this.TextBoxName.Text,
-                                    this.TextBoxWeb.Text,
-                                    this.TextBoxLocation.Text,
-                                    this.TextBoxDescription.Text));
+                            var response = await this.twitterApi.AccountUpdateProfile(
+                                this.TextBoxName.Text,
+                                this.TextBoxWeb.Text,
+                                this.TextBoxLocation.Text,
+                                this.TextBoxDescription.Text);
 
+                            var user = await response.LoadJsonAsync();
                             showUserTask = this.ShowUserAsync(user);
                         }
                         catch (WebApiException ex)
                         {
-                            MessageBox.Show(ex.Message);
+                            MessageBox.Show($"Err:{ex.Message}(AccountUpdateProfile)");
                             return;
                         }
                     }
@@ -558,12 +567,14 @@ namespace OpenTween
         {
             try
             {
-                await Task.Run(() => this.twitter.PostUpdateProfileImage(filename));
+                var mediaItem = new FileMediaItem(filename);
+
+                await this.twitterApi.AccountUpdateProfileImage(mediaItem)
+                    .IgnoreResponse();
             }
             catch (WebApiException ex)
             {
-                // "Err:"が付いたエラーメッセージが返ってくる
-                MessageBox.Show(ex.Message + Environment.NewLine + Properties.Resources.ChangeIconToolStripMenuItem_ClickText4);
+                MessageBox.Show("Err:" + ex.Message + Environment.NewLine + Properties.Resources.ChangeIconToolStripMenuItem_ClickText4);
                 return;
             }
 
@@ -571,14 +582,14 @@ namespace OpenTween
 
             try
             {
-                var user = await Task.Run(() => this.twitter.GetUserInfo(this._displayUser.ScreenName));
+                var user = await this.twitterApi.UsersShow(this._displayUser.ScreenName);
 
                 if (user != null)
                     await this.ShowUserAsync(user);
             }
             catch (WebApiException ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show($"Err:{ex.Message}(UsersShow)");
             }
         }
 
@@ -606,63 +617,75 @@ namespace OpenTween
             }
         }
 
-        private void ButtonBlock_Click(object sender, EventArgs e)
+        private async void ButtonBlock_Click(object sender, EventArgs e)
         {
             if (MessageBox.Show(this._displayUser.ScreenName + Properties.Resources.ButtonBlock_ClickText1,
                                 Properties.Resources.ButtonBlock_ClickText2,
                                 MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2) == DialogResult.Yes)
             {
-                try
+                using (ControlTransaction.Disabled(this.ButtonBlock))
                 {
-                    this.twitter.PostCreateBlock(this._displayUser.ScreenName);
-                }
-                catch (WebApiException ex)
-                {
-                    MessageBox.Show(ex.Message + Environment.NewLine + Properties.Resources.ButtonBlock_ClickText3);
-                    return;
-                }
+                    try
+                    {
+                        await this.twitterApi.BlocksCreate(this._displayUser.ScreenName)
+                            .IgnoreResponse();
+                    }
+                    catch (WebApiException ex)
+                    {
+                        MessageBox.Show("Err:" + ex.Message + Environment.NewLine + Properties.Resources.ButtonBlock_ClickText3);
+                        return;
+                    }
 
-                MessageBox.Show(Properties.Resources.ButtonBlock_ClickText4);
+                    MessageBox.Show(Properties.Resources.ButtonBlock_ClickText4);
+                }
             }
         }
 
-        private void ButtonReportSpam_Click(object sender, EventArgs e)
+        private async void ButtonReportSpam_Click(object sender, EventArgs e)
         {
             if (MessageBox.Show(this._displayUser.ScreenName + Properties.Resources.ButtonReportSpam_ClickText1,
                                 Properties.Resources.ButtonReportSpam_ClickText2,
                                 MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2) == DialogResult.Yes)
             {
-                try
+                using (ControlTransaction.Disabled(this.ButtonReportSpam))
                 {
-                    this.twitter.PostReportSpam(this._displayUser.ScreenName);
-                }
-                catch (WebApiException ex)
-                {
-                    MessageBox.Show(ex.Message + Environment.NewLine + Properties.Resources.ButtonReportSpam_ClickText3);
-                    return;
-                }
+                    try
+                    {
+                        await this.twitterApi.UsersReportSpam(this._displayUser.ScreenName)
+                            .IgnoreResponse();
+                    }
+                    catch (WebApiException ex)
+                    {
+                        MessageBox.Show("Err:" + ex.Message + Environment.NewLine + Properties.Resources.ButtonReportSpam_ClickText3);
+                        return;
+                    }
 
-                MessageBox.Show(Properties.Resources.ButtonReportSpam_ClickText4);
+                    MessageBox.Show(Properties.Resources.ButtonReportSpam_ClickText4);
+                }
             }
         }
 
-        private void ButtonBlockDestroy_Click(object sender, EventArgs e)
+        private async void ButtonBlockDestroy_Click(object sender, EventArgs e)
         {
             if (MessageBox.Show(this._displayUser.ScreenName + Properties.Resources.ButtonBlockDestroy_ClickText1,
                                 Properties.Resources.ButtonBlockDestroy_ClickText2,
                                 MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2) == DialogResult.Yes)
             {
-                try
+                using (ControlTransaction.Disabled(this.ButtonBlockDestroy))
                 {
-                    this.twitter.PostDestroyBlock(this._displayUser.ScreenName);
-                }
-                catch (WebApiException ex)
-                {
-                    MessageBox.Show(ex.Message + Environment.NewLine + Properties.Resources.ButtonBlockDestroy_ClickText3);
-                    return;
-                }
+                    try
+                    {
+                        await this.twitterApi.BlocksDestroy(this._displayUser.ScreenName)
+                            .IgnoreResponse();
+                    }
+                    catch (WebApiException ex)
+                    {
+                        MessageBox.Show("Err:" + ex.Message + Environment.NewLine + Properties.Resources.ButtonBlockDestroy_ClickText3);
+                        return;
+                    }
 
-                MessageBox.Show(Properties.Resources.ButtonBlockDestroy_ClickText4);
+                    MessageBox.Show(Properties.Resources.ButtonBlockDestroy_ClickText4);
+                }
             }
         }
 

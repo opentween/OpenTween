@@ -79,12 +79,15 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Api\DataModel\TwitterPlace.cs" />
+    <Compile Include="Api\DataModel\TwitterRateLimits.cs" />
     <Compile Include="Api\DataModel\TwitterSearchResult.cs" />
     <Compile Include="Api\DataModel\TwitterStatus.cs" />
     <Compile Include="Api\DataModel\TwitterStreamEvent.cs" />
     <Compile Include="Api\DataModel\TwitterUploadMediaResult.cs" />
     <Compile Include="Api\DataModel\TwitterUser.cs" />
     <Compile Include="Api\DataModel\TwitterApiAccessLevel.cs" />
+    <Compile Include="Api\TwitterApi.cs" />
+    <Compile Include="Api\TwitterApiException.cs" />
     <Compile Include="Api\TwitterApiStatus.cs" />
     <Compile Include="ApplicationEvents.cs">
       <SubType>Code</SubType>
@@ -109,22 +112,19 @@
       <DependentUpon>AuthDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="Bing.cs" />
-    <Compile Include="Connection\HttpOAuthApiProxy.cs" />
-    <Compile Include="Connection\HttpTwitter.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Connection\HttpVarious.cs" />
-    <Compile Include="Connection\HttpConnectionOAuth.cs" />
-    <Compile Include="Connection\HttpConnectionOAuthEcho.cs" />
-    <Compile Include="Connection\IHttpConnection.cs" />
+    <Compile Include="Connection\IApiConnection.cs" />
     <Compile Include="Connection\IMediaUploadService.cs" />
     <Compile Include="Connection\imgly.cs" />
     <Compile Include="Connection\Imgur.cs" />
+    <Compile Include="Connection\LazyJson.cs" />
     <Compile Include="Connection\Mobypicture.cs" />
     <Compile Include="Connection\Networking.cs" />
+    <Compile Include="Connection\OAuthEchoHandler.cs" />
     <Compile Include="Connection\OAuthHandler.cs" />
     <Compile Include="Connection\OAuthUtility.cs" />
     <Compile Include="Connection\TwipplePhoto.cs" />
+    <Compile Include="Connection\TwitterApiConnection.cs" />
     <Compile Include="EmojiFormatter.cs" />
     <Compile Include="EventViewerDialog.cs">
       <SubType>Form</SubType>

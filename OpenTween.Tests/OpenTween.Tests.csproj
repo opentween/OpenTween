@@ -74,9 +74,13 @@
     <Compile Include="AnyOrderComparer.cs" />
     <Compile Include="Api\ApiLimitTest.cs" />
     <Compile Include="Api\TwitterApiStatusTest.cs" />
+    <Compile Include="Api\TwitterApiTest.cs" />
     <Compile Include="BingTest.cs" />
+    <Compile Include="Connection\LazyJsonTest.cs" />
     <Compile Include="Connection\NetworkingTest.cs" />
     <Compile Include="Connection\OAuthHandlerTest.cs" />
+    <Compile Include="Connection\OAuthUtilityTest.cs" />
+    <Compile Include="Connection\TwitterApiConnectionTest.cs" />
     <Compile Include="EmojiFormatterTest.cs" />
     <Compile Include="HashtagManageTest.cs" />
     <Compile Include="HttpMessageHandlerMock.cs" />

@@ -37,16 +37,13 @@ namespace OpenTween.Thumbnail.Services
     /// </summary>
     class TonTwitterCom : IThumbnailService
     {
-        /// <summary>
-        /// OAuth のトークン等を設定させるためのデリゲート
-        /// </summary>
-        internal static Action<HttpConnectionOAuth> InitializeOAuthToken;
+        internal static Func<IApiConnection> GetApiConnection;
 
         public override Task<ThumbnailInfo> GetThumbnailInfoAsync(string url, PostClass post, CancellationToken token)
         {
             return Task.Run<ThumbnailInfo>(() =>
             {
-                if (InitializeOAuthToken == null)
+                if (GetApiConnection == null)
                     return null;
 
                 if (!url.StartsWith(@"https://ton.twitter.com/1.1/ton/data/", StringComparison.Ordinal))
@@ -66,21 +63,16 @@ namespace OpenTween.Thumbnail.Services
         {
             public override Task<MemoryImage> LoadThumbnailImageAsync(HttpClient http, CancellationToken cancellationToken)
             {
-                // TODO: HttpClient を使用したコードに置き換えたい
                 return Task.Run(async () =>
                 {
-                    var oauth = new HttpOAuthApiProxy();
-                    TonTwitterCom.InitializeOAuthToken(oauth);
+                    var apiConnection = TonTwitterCom.GetApiConnection();
 
-                    Stream response = null;
-                    var statusCode = oauth.GetContent("GET", new Uri(this.ThumbnailImageUrl), null, ref response, Networking.GetUserAgentString());
-
-                    using (response)
+                    using (var imageStream = await apiConnection.GetStreamAsync(new Uri(this.ThumbnailImageUrl), null)
+                        .ConfigureAwait(false))
                     {
-                        if (statusCode != HttpStatusCode.OK)
-                            throw new WebException(statusCode.ToString(), WebExceptionStatus.ProtocolError);
+                        cancellationToken.ThrowIfCancellationRequested();
 
-                        return await MemoryImage.CopyFromStreamAsync(response)
+                        return await MemoryImage.CopyFromStreamAsync(imageStream)
                             .ConfigureAwait(false);
                     }
                 }, cancellationToken);
