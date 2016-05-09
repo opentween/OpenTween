@@ -1,0 +1,5 @@
+coverage:
+  range: '0...100'
+
+comment:
+  behavior: new
