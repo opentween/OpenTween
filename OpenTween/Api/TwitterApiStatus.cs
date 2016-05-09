@@ -116,7 +116,7 @@ namespace OpenTween.Api
 
         public void UpdateFromHeader(HttpResponseHeaders header, string endpointName)
         {
-            this.UpdateFromHeader(header.ToDictionary(x => x.Key, x => string.Join(",", x.Value)), endpointName);
+            this.UpdateFromHeader(header.ToDictionary(x => x.Key, x => string.Join(",", x.Value), StringComparer.OrdinalIgnoreCase), endpointName);
         }
 
         public void UpdateFromHeader(IDictionary<string, string> header, string endpointName)

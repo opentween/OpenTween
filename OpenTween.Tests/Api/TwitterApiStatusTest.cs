@@ -216,13 +216,13 @@ namespace OpenTween.Api
             {
                 Headers =
                 {
-                    { "X-Rate-Limit-Limit", "150" },
-                    { "X-Rate-Limit-Remaining", "100" },
-                    { "X-Rate-Limit-Reset", "1356998400" },
-                    { "X-MediaRateLimit-Limit", "30" },
-                    { "X-MediaRateLimit-Remaining", "20" },
-                    { "X-MediaRateLimit-Reset", "1357084800" },
-                    { "X-Access-Level", "read-write-directmessages" },
+                    { "x-rate-limit-limit", "150" },
+                    { "x-rate-limit-remaining", "100" },
+                    { "x-rate-limit-reset", "1356998400" },
+                    { "x-mediaratelimit-limit", "30" },
+                    { "x-mediaratelimit-remaining", "20" },
+                    { "x-mediaratelimit-reset", "1357084800" },
+                    { "x-access-level", "read-write-directmessages" },
                 },
             };
 
