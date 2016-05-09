@@ -36,7 +36,7 @@ namespace OpenTween
             var origText = "©"; // U+00A9
 
             var result = EmojiFormatter.ReplaceEmojiToImg(origText);
-            var expected = "<img class=\"emoji\" src=\"https://twemoji.maxcdn.com/36x36/a9.png\" alt=\"©\" />";
+            var expected = "<img class=\"emoji\" src=\"https://twemoji.maxcdn.com/2/72x72/a9.png\" alt=\"©\" />";
 
             Assert.Equal(expected, result);
         }
@@ -47,7 +47,7 @@ namespace OpenTween
             var origText = "🍣"; // U+1F363
 
             var result = EmojiFormatter.ReplaceEmojiToImg(origText);
-            var expected = "<img class=\"emoji\" src=\"https://twemoji.maxcdn.com/36x36/1f363.png\" alt=\"🍣\" />";
+            var expected = "<img class=\"emoji\" src=\"https://twemoji.maxcdn.com/2/72x72/1f363.png\" alt=\"🍣\" />";
 
             Assert.Equal(expected, result);
         }
@@ -58,7 +58,43 @@ namespace OpenTween
             var origText = "#⃣"; // U+0023 U+20E3 (合字)
 
             var result = EmojiFormatter.ReplaceEmojiToImg(origText);
-            var expected = "<img class=\"emoji\" src=\"https://twemoji.maxcdn.com/36x36/23-20e3.png\" alt=\"#⃣\" />";
+            var expected = "<img class=\"emoji\" src=\"https://twemoji.maxcdn.com/2/72x72/23-20e3.png\" alt=\"#⃣\" />";
+
+            Assert.Equal(expected, result);
+        }
+
+        [Fact]
+        public void ReplaceEmojiToImg_Unicode8Test()
+        {
+            // Unicode 8.0 で追加された絵文字
+            var origText = "🌭"; // U+1F32D (HOT DOG)
+
+            var result = EmojiFormatter.ReplaceEmojiToImg(origText);
+            var expected = "<img class=\"emoji\" src=\"https://twemoji.maxcdn.com/2/72x72/1f32d.png\" alt=\"🌭\" />";
+
+            Assert.Equal(expected, result);
+        }
+
+        [Fact]
+        public void ReplaceEmojiToImg_EmojiModifiers_CombiningTest()
+        {
+            // Emoji modifiers を使用した合字 (リガチャー)
+            var origText = "👦\U0001F3FF"; // U+1F466 (BOY) + U+1F3FF (EMOJI MODIFIER FITZPATRICK TYPE-6)
+
+            var result = EmojiFormatter.ReplaceEmojiToImg(origText);
+            var expected = "<img class=\"emoji\" src=\"https://twemoji.maxcdn.com/2/72x72/1f466-1f3ff.png\" alt=\"👦\U0001F3FF\" />";
+
+            Assert.Equal(expected, result);
+        }
+
+        [Fact]
+        public void ReplaceEmojiToImg_EmojiModifiers_SingleTest()
+        {
+            // Emoji modifiers は単体でも絵文字として表示される
+            var origText = "\U0001F3FF"; // U+1F3FB (EMOJI MODIFIER FITZPATRICK TYPE-6)
+
+            var result = EmojiFormatter.ReplaceEmojiToImg(origText);
+            var expected = "<img class=\"emoji\" src=\"https://twemoji.maxcdn.com/2/72x72/1f3ff.png\" alt=\"\U0001F3FF\" />";
 
             Assert.Equal(expected, result);
         }
@@ -81,11 +117,11 @@ namespace OpenTween
             var origText = "🐟<a href='http://xn--7c9bw4k.jp/' title='🍣.jp'>🍣.jp</a>🐡";
 
             var result = EmojiFormatter.ReplaceEmojiToImg(origText);
-            var expected = "<img class=\"emoji\" src=\"https://twemoji.maxcdn.com/36x36/1f41f.png\" alt=\"🐟\" />" +
+            var expected = "<img class=\"emoji\" src=\"https://twemoji.maxcdn.com/2/72x72/1f41f.png\" alt=\"🐟\" />" +
                 "<a href='http://xn--7c9bw4k.jp/' title='🍣.jp'>" +
-                "<img class=\"emoji\" src=\"https://twemoji.maxcdn.com/36x36/1f363.png\" alt=\"🍣\" />.jp" +
+                "<img class=\"emoji\" src=\"https://twemoji.maxcdn.com/2/72x72/1f363.png\" alt=\"🍣\" />.jp" +
                 "</a>" +
-                "<img class=\"emoji\" src=\"https://twemoji.maxcdn.com/36x36/1f421.png\" alt=\"🐡\" />";
+                "<img class=\"emoji\" src=\"https://twemoji.maxcdn.com/2/72x72/1f421.png\" alt=\"🐡\" />";
 
             Assert.Equal(expected, result);
         }
