@@ -50,6 +50,28 @@ namespace OpenTween
         }
 
         [Fact]
+        public void AddTab_Test()
+        {
+            var list = new ListElement { };
+            var ret = this.tabinfo.AddTab("MyTab", MyCommon.TabUsageType.Lists, list);
+
+            Assert.True(ret);
+
+            var lastTab = this.tabinfo.Tabs.Values.Last();
+            Assert.Equal("MyTab", lastTab.TabName);
+            Assert.Equal(MyCommon.TabUsageType.Lists, lastTab.TabType);
+            Assert.Same(list, lastTab.ListInfo);
+        }
+
+        [Fact]
+        public void AddTab_DuplicateTest()
+        {
+            var ret = this.tabinfo.AddTab("Recent", MyCommon.TabUsageType.UserDefined, null);
+
+            Assert.False(ret);
+        }
+
+        [Fact]
         public void MakeTabName_Test()
         {
             var baseTabName = "NewTab";
@@ -167,13 +189,13 @@ namespace OpenTween
         {
             this.tabinfo.MuteUserIds = new HashSet<long> { };
 
-            this.tabinfo.AddTab("Mute", MyCommon.TabUsageType.Mute, null);
-            var muteTab = this.tabinfo.Tabs["Mute"];
+            var muteTab = new TabClass("Mute", MyCommon.TabUsageType.Mute);
             muteTab.AddFilter(new PostFilterRule
             {
                 FilterName = "foo",
                 MoveMatches = true,
             });
+            this.tabinfo.AddTab(muteTab);
 
             var post = new PostClass
             {
@@ -189,13 +211,13 @@ namespace OpenTween
         {
             this.tabinfo.MuteUserIds = new HashSet<long> { };
 
-            this.tabinfo.AddTab("Mute", MyCommon.TabUsageType.Mute, null);
-            var muteTab = this.tabinfo.Tabs["Mute"];
+            var muteTab = new TabClass("Mute", MyCommon.TabUsageType.Mute);
             muteTab.AddFilter(new PostFilterRule
             {
                 FilterName = "foo",
                 MoveMatches = true,
             });
+            this.tabinfo.AddTab(muteTab);
 
             // ミュートタブによるミュートはリプライも対象とする
             var post = new PostClass
@@ -211,11 +233,11 @@ namespace OpenTween
         [Fact]
         public void SetReadAllTab_MarkAsReadTest()
         {
-            this.tabinfo.AddTab("search1", MyCommon.TabUsageType.PublicSearch, null);
-            this.tabinfo.AddTab("search2", MyCommon.TabUsageType.PublicSearch, null);
+            var tab1 = new TabClass("search1", MyCommon.TabUsageType.PublicSearch);
+            var tab2 = new TabClass("search2", MyCommon.TabUsageType.PublicSearch);
 
-            var tab1 = this.tabinfo.Tabs["search1"];
-            var tab2 = this.tabinfo.Tabs["search2"];
+            this.tabinfo.AddTab(tab1);
+            this.tabinfo.AddTab(tab2);
 
             // search1 に追加するツイート (StatusId: 100, 150, 200; すべて未読)
             tab1.UnreadManage = true;
@@ -252,11 +274,11 @@ namespace OpenTween
         [Fact]
         public void SetReadAllTab_MarkAsUnreadTest()
         {
-            this.tabinfo.AddTab("search1", MyCommon.TabUsageType.PublicSearch, null);
-            this.tabinfo.AddTab("search2", MyCommon.TabUsageType.PublicSearch, null);
+            var tab1 = new TabClass("search1", MyCommon.TabUsageType.PublicSearch);
+            var tab2 = new TabClass("search2", MyCommon.TabUsageType.PublicSearch);
 
-            var tab1 = this.tabinfo.Tabs["search1"];
-            var tab2 = this.tabinfo.Tabs["search2"];
+            this.tabinfo.AddTab(tab1);
+            this.tabinfo.AddTab(tab2);
 
             // search1 に追加するツイート (StatusId: 100, 150, 200; すべて既読)
             tab1.UnreadManage = true;
@@ -469,8 +491,8 @@ namespace OpenTween
         {
             var homeTab = this.tabinfo.GetTabByType(MyCommon.TabUsageType.Home);
 
-            this.tabinfo.AddTab("MyTab1", MyCommon.TabUsageType.UserDefined, null);
-            var myTab1 = this.tabinfo.Tabs["MyTab1"];
+            var myTab1 = new TabClass("MyTab1", MyCommon.TabUsageType.UserDefined);
+            this.tabinfo.AddTab(myTab1);
 
             var filter = new PostFilterRule
             {
@@ -515,8 +537,8 @@ namespace OpenTween
         {
             var homeTab = this.tabinfo.GetTabByType(MyCommon.TabUsageType.Home);
 
-            this.tabinfo.AddTab("MyTab1", MyCommon.TabUsageType.UserDefined, null);
-            var myTab1 = this.tabinfo.Tabs["MyTab1"];
+            var myTab1 = new TabClass("MyTab1", MyCommon.TabUsageType.UserDefined);
+            this.tabinfo.AddTab(myTab1);
 
             var filter = new PostFilterRule
             {
@@ -564,8 +586,8 @@ namespace OpenTween
         {
             var homeTab = this.tabinfo.GetTabByType(MyCommon.TabUsageType.Home);
 
-            this.tabinfo.AddTab("MyTab1", MyCommon.TabUsageType.UserDefined, null);
-            var myTab1 = this.tabinfo.Tabs["MyTab1"];
+            var myTab1 = new TabClass("MyTab1", MyCommon.TabUsageType.UserDefined);
+            this.tabinfo.AddTab(myTab1);
 
             var filter = new PostFilterRule
             {
@@ -609,10 +631,10 @@ namespace OpenTween
         {
             var homeTab = this.tabinfo.GetTabByType(MyCommon.TabUsageType.Home);
 
-            this.tabinfo.AddTab("MyTab1", MyCommon.TabUsageType.UserDefined, null);
-            this.tabinfo.AddTab("MyTab2", MyCommon.TabUsageType.UserDefined, null);
-            var myTab1 = this.tabinfo.Tabs["MyTab1"];
-            var myTab2 = this.tabinfo.Tabs["MyTab2"];
+            var myTab1 = new TabClass("MyTab1", MyCommon.TabUsageType.UserDefined);
+            var myTab2 = new TabClass("MyTab2", MyCommon.TabUsageType.UserDefined);
+            this.tabinfo.AddTab(myTab1);
+            this.tabinfo.AddTab(myTab2);
 
             var filter1 = new PostFilterRule
             {

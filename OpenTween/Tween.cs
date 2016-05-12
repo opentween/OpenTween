@@ -4535,8 +4535,8 @@ namespace OpenTween
                 tabName += "_";
             }
             //タブ追加
-            _statuses.AddTab(tabName, MyCommon.TabUsageType.UserTimeline, null);
-            var tab = this._statuses.Tabs[tabName];
+            var tab = new TabClass(tabName, MyCommon.TabUsageType.UserTimeline);
+            this._statuses.AddTab(tab);
             tab.User = user;
             AddNewTab(tabName, false, MyCommon.TabUsageType.UserTimeline);
             //追加したタブをアクティブに
@@ -5803,8 +5803,9 @@ namespace OpenTween
                         MessageBox.Show(this, ex.Message, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
 
+                    var resultTab = new TabClass(tabName, MyCommon.TabUsageType.SearchResults);
                     this.AddNewTab(tabName, false, MyCommon.TabUsageType.SearchResults);
-                    this._statuses.AddTab(tabName, MyCommon.TabUsageType.SearchResults, null);
+                    this._statuses.AddTab(resultTab);
 
                     var targetTab = this._statuses.Tabs[this._curTab.Text];
 
@@ -5827,8 +5828,6 @@ namespace OpenTween
                     }
 
                     var foundPosts = foundIndices.Select(x => targetTab[x]);
-
-                    var resultTab = this._statuses.Tabs[tabName];
                     foreach (var post in foundPosts)
                     {
                         resultTab.AddPostToInnerStorage(post);
@@ -12732,12 +12731,12 @@ namespace OpenTween
             {
                 tabName = this._statuses.MakeTabName("Related Tweets");
 
-                this.AddNewTab(tabName, false, MyCommon.TabUsageType.Related);
-                this._statuses.AddTab(tabName, MyCommon.TabUsageType.Related, null);
-
-                tabRelated = this._statuses.GetTabByType(MyCommon.TabUsageType.Related);
+                tabRelated = new TabClass(tabName, MyCommon.TabUsageType.Related);
                 tabRelated.UnreadManage = false;
                 tabRelated.Notify = false;
+
+                this.AddNewTab(tabName, false, MyCommon.TabUsageType.Related);
+                this._statuses.AddTab(tabRelated);
             }
             else
             {

@@ -612,11 +612,16 @@ namespace OpenTween
         }
 
         public bool AddTab(string TabName, MyCommon.TabUsageType TabType, ListElement List)
+            => this.AddTab(new TabClass(TabName, TabType, List));
+
+        public bool AddTab(TabClass tab)
         {
-            if (_tabs.ContainsKey(TabName)) return false;
-            var tb = new TabClass(TabName, TabType, List);
-            _tabs.Add(TabName, tb);
-            tb.SetSortMode(this.SortMode, this.SortOrder);
+            if (this._tabs.ContainsKey(tab.TabName))
+                return false;
+
+            this._tabs.Add(tab.TabName, tab);
+            tab.SetSortMode(this.SortMode, this.SortOrder);
+
             return true;
         }
 
@@ -1533,6 +1538,10 @@ namespace OpenTween
             _ids = new IndexedSortedSet<long>();
             _tabType = MyCommon.TabUsageType.Undefined;
             _listInfo = null;
+        }
+
+        public TabClass(string name, MyCommon.TabUsageType type) : this(name, type, list: null)
+        {
         }
 
         public TabClass(string TabName, MyCommon.TabUsageType TabType, ListElement list) : this()
