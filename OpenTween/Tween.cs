@@ -3035,7 +3035,12 @@ namespace OpenTween
             if (ct.IsCancellationRequested)
                 return;
 
-            this.RemovePostFromFavTab(successIds.ToArray());
+            var favTab = this._statuses.GetTabByType(MyCommon.TabUsageType.Favorites);
+            foreach (var statusId in successIds)
+            {
+                // ツイートが削除された訳ではないので IsDeleted はセットしない
+                favTab.EnqueueRemovePost(statusId, setIsDeleted: false);
+            }
 
             this.RefreshTimeline();
 
@@ -3366,68 +3371,6 @@ namespace OpenTween
             }
 
             this.StatusLabel.Text = Properties.Resources.UpdateMuteUserIds_Finish;
-        }
-
-        private void RemovePostFromFavTab(Int64[] ids)
-        {
-            var favTab = this._statuses.GetTabByType(MyCommon.TabUsageType.Favorites);
-            string favTabName = favTab.TabName;
-            int fidx = 0;
-            if (_curTab.Text.Equals(favTabName))
-            {
-                fidx = _curList.FocusedItem?.Index ?? _curList.TopItem?.Index ?? 0;
-            }
-
-            foreach (long i in ids)
-            {
-                try
-                {
-                    _statuses.RemoveFavPost(i);
-                }
-                catch (Exception)
-                {
-                    continue;
-                }
-            }
-            if (_curTab != null && _curTab.Text.Equals(favTabName))
-            {
-                this.PurgeListViewItemCache();
-                _curPost = null;
-                //_curItemIndex = -1;
-            }
-            foreach (TabPage tp in ListTab.TabPages)
-            {
-                if (tp.Text == favTabName)
-                {
-                    ((DetailsListView)tp.Tag).VirtualListSize = favTab.AllCount;
-                    break;
-                }
-            }
-            if (_curTab.Text.Equals(favTabName))
-            {
-                do
-                {
-                    _curList.SelectedIndices.Clear();
-                }
-                while (_curList.SelectedIndices.Count > 0);
-
-                if (favTab.AllCount > 0)
-                {
-                    if (favTab.AllCount - 1 > fidx && fidx > -1)
-                    {
-                        _curList.SelectedIndices.Add(fidx);
-                    }
-                    else
-                    {
-                        _curList.SelectedIndices.Add(favTab.AllCount - 1);
-                    }
-                    if (_curList.SelectedIndices.Count > 0)
-                    {
-                        _curList.EnsureVisible(_curList.SelectedIndices[0]);
-                        _curList.FocusedItem = _curList.Items[_curList.SelectedIndices[0]];
-                    }
-                }
-            }
         }
 
         private void NotifyIcon1_MouseClick(object sender, MouseEventArgs e)
@@ -3917,7 +3860,7 @@ namespace OpenTween
                         continue;
                     }
 
-                    this._statuses.RemovePost(post.StatusId);
+                    this._statuses.RemovePostFromAllTabs(post.StatusId, setIsDeleted: true);
                 }
 
                 if (lastException == null)
@@ -12841,7 +12784,7 @@ namespace OpenTween
                 {
                     Invoke((Action) (async () =>
                            {
-                               _statuses.RemovePostReserve(e.StatusId);
+                               this._statuses.RemovePostFromAllTabs(e.StatusId, setIsDeleted: true);
                                if (_curTab != null && _statuses.Tabs[_curTab.Text].Contains(e.StatusId))
                                {
                                    this.PurgeListViewItemCache();
@@ -12991,7 +12934,8 @@ namespace OpenTween
                 }
                 if (ev.Event == "unfavorite" && ev.Username.ToLowerInvariant().Equals(tw.Username.ToLowerInvariant()))
                 {
-                    RemovePostFromFavTab(new long[] {ev.Id});
+                    var favTab = this._statuses.GetTabByType(MyCommon.TabUsageType.Favorites);
+                    favTab.EnqueueRemovePost(ev.Id, setIsDeleted: false);
                 }
             }
         }

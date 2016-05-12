@@ -33,6 +33,96 @@ namespace OpenTween
     public class TabClassTest
     {
         [Fact]
+        public void EnqueueRemovePost_Test()
+        {
+            var tab = new TabClass
+            {
+                TabType = MyCommon.TabUsageType.PublicSearch,
+                UnreadManage = true,
+            };
+
+            tab.AddPostToInnerStorage(new PostClass { StatusId = 100L, IsRead = false });
+            tab.AddPostToInnerStorage(new PostClass { StatusId = 110L, IsRead = false });
+            tab.AddPostToInnerStorage(new PostClass { StatusId = 120L, IsRead = false });
+
+            tab.AddSubmit();
+
+            Assert.Equal(3, tab.AllCount);
+            Assert.Equal(3, tab.UnreadCount);
+
+            tab.EnqueueRemovePost(100L, setIsDeleted: false);
+
+            // この時点では削除は行われない
+            Assert.Equal(3, tab.AllCount);
+            Assert.Equal(3, tab.UnreadCount);
+
+            var removedIds = tab.RemoveSubmit();
+
+            Assert.Equal(2, tab.AllCount);
+            Assert.Equal(2, tab.UnreadCount);
+            Assert.Equal(new[] { 110L, 120L }, tab.BackupIds);
+            Assert.Equal(new[] { 100L }, removedIds.AsEnumerable());
+        }
+
+        [Fact]
+        public void EnqueueRemovePost_SetIsDeletedTest()
+        {
+            var tab = new TabClass
+            {
+                TabType = MyCommon.TabUsageType.PublicSearch,
+                UnreadManage = true,
+            };
+
+            var post = new PostClass { StatusId = 100L, IsRead = false };
+            tab.AddPostToInnerStorage(post);
+            tab.AddSubmit();
+
+            Assert.Equal(1, tab.AllCount);
+            Assert.Equal(1, tab.UnreadCount);
+
+            tab.EnqueueRemovePost(100L, setIsDeleted: true);
+
+            // この時点ではタブからの削除は行われないが、PostClass.IsDeleted は true にセットされる
+            Assert.Equal(1, tab.AllCount);
+            Assert.Equal(1, tab.UnreadCount);
+            Assert.True(post.IsDeleted);
+
+            var removedIds = tab.RemoveSubmit();
+
+            Assert.Equal(0, tab.AllCount);
+            Assert.Equal(0, tab.UnreadCount);
+            Assert.Equal(new[] { 100L }, removedIds.AsEnumerable());
+        }
+
+        [Fact]
+        public void EnqueueRemovePost_UnknownIdTest()
+        {
+            var tab = new TabClass
+            {
+                TabType = MyCommon.TabUsageType.PublicSearch,
+                UnreadManage = true,
+            };
+
+            tab.AddPostToInnerStorage(new PostClass { StatusId = 100L, IsRead = false });
+            tab.AddSubmit();
+
+            Assert.Equal(1, tab.AllCount);
+            Assert.Equal(1, tab.UnreadCount);
+
+            // StatusId = 999L は存在しない
+            tab.EnqueueRemovePost(999L, setIsDeleted: false);
+
+            Assert.Equal(1, tab.AllCount);
+            Assert.Equal(1, tab.UnreadCount);
+
+            var removedIds = tab.RemoveSubmit();
+
+            Assert.Equal(1, tab.AllCount);
+            Assert.Equal(1, tab.UnreadCount);
+            Assert.Empty(removedIds);
+        }
+
+        [Fact]
         public void NextUnreadId_Test()
         {
             var tab = new TabClass { TabType = MyCommon.TabUsageType.UserTimeline };

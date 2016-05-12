@@ -557,7 +557,6 @@ namespace OpenTween
         //AddPost(複数回) -> DistributePosts          -> SubmitUpdate
 
         private ConcurrentQueue<long> addQueue = new ConcurrentQueue<long>();
-        private ConcurrentQueue<long> deleteQueue = new ConcurrentQueue<long>();
 
         /// <summary>通知サウンドを再生する優先順位</summary>
         private Dictionary<MyCommon.TabUsageType, int> notifyPriorityByTabType = new Dictionary<MyCommon.TabUsageType, int>
@@ -789,50 +788,6 @@ namespace OpenTween
                 : null;
         }
 
-        public void RemoveFavPost(long Id)
-        {
-            lock (LockObj)
-            {
-                PostClass post;
-                var tab = this.GetTabByType(MyCommon.TabUsageType.Favorites);
-
-                if (_statuses.TryGetValue(Id, out post))
-                {
-                    //指定タブから該当ID削除
-                    var tType = tab.TabType;
-                    if (tab.Contains(Id))
-                        tab.Remove(Id);
-
-                    //FavタブからRetweet発言を削除する場合は、他の同一参照Retweetも削除
-                    if (tType == MyCommon.TabUsageType.Favorites && post.RetweetedId != null)
-                    {
-                        for (int i = 0; i < tab.AllCount; i++)
-                        {
-                            PostClass rPost = null;
-                            try
-                            {
-                                rPost = tab[i];
-                            }
-                            catch (ArgumentOutOfRangeException)
-                            {
-                                break;
-                            }
-                            if (rPost.RetweetedId != null && rPost.RetweetedId == post.RetweetedId)
-                            {
-                                tab.Remove(rPost.StatusId);
-                            }
-                        }
-                    }
-                }
-                //TabType=PublicSearchの場合（Postの保存先がTabClass内）
-                //if (tab.Contains(StatusId) &&
-                //   (tab.TabType = MyCommon.TabUsageType.PublicSearch || tab.TabType = MyCommon.TabUsageType.DirectMessage))
-                //{
-                //    tab.Remove(StatusId);
-                //}
-            }
-        }
-
         public void ScrubGeoReserve(long id, long upToStatusId)
         {
             lock (LockObj)
@@ -867,48 +822,11 @@ namespace OpenTween
             }
         }
 
-        public void RemovePostReserve(long id)
+        public void RemovePostFromAllTabs(long statusId, bool setIsDeleted)
         {
-            lock (LockObj)
+            foreach (var tab in this.Tabs.Values)
             {
-                this.deleteQueue.Enqueue(id);
-                this.DeletePost(id);   //UI選択行がずれるため、RemovePostは使用しない
-            }
-        }
-
-        public void RemovePost(long Id)
-        {
-            lock (LockObj)
-            {
-                //各タブから該当ID削除
-                foreach (var tab in _tabs.Values)
-                {
-                    if (tab.Contains(Id))
-                        tab.Remove(Id);
-                }
-
-                PostClass removedPost;
-                _statuses.TryRemove(Id, out removedPost);
-            }
-        }
-
-        private void DeletePost(long Id)
-        {
-            lock (LockObj)
-            {
-                PostClass post;
-                if (_statuses.TryGetValue(Id, out post))
-                {
-                    post.IsDeleted = true;
-                }
-                foreach (var tb in this.GetTabsInnerStorageType())
-                {
-                    if (tb.Contains(Id))
-                    {
-                        post = tb.Posts[Id];
-                        post.IsDeleted = true;
-                    }
-                }
+                tab.EnqueueRemovePost(statusId, setIsDeleted);
             }
         }
 
@@ -933,7 +851,8 @@ namespace OpenTween
                 newMentionOrDm = false;
                 isDeletePost = false;
 
-                var totalPosts = 0;
+                var addedCountTotal = 0;
+                var removedIdsAll = new List<long>();
                 var notifyPostsList = new List<PostClass>();
 
                 var currentNotifyPriority = -1;
@@ -980,19 +899,24 @@ namespace OpenTween
                         }
                     }
 
-                    totalPosts += addedIds.Count;
+                    addedCountTotal += addedIds.Count;
+
+                    var removedIds = tab.RemoveSubmit();
+                    removedIdsAll.AddRange(removedIds);
                 }
 
                 notifyPosts = notifyPostsList.Distinct().ToArray();
 
-                long deletedStatusId;
-                while (this.deleteQueue.TryDequeue(out deletedStatusId))
-                {
-                    this.RemovePost(deletedStatusId);
+                if (removedIdsAll.Count > 0)
                     isDeletePost = true;
+
+                foreach (var removedId in removedIdsAll.Distinct())
+                {
+                    PostClass removedPost;
+                    this._statuses.TryRemove(removedId, out removedPost);
                 }
 
-                return totalPosts;
+                return addedCountTotal;
             }
         }
 
@@ -1326,7 +1250,7 @@ namespace OpenTween
 
                         // 移動されたらRecentから除去
                         if (moved)
-                            homeTab.Remove(post.StatusId);
+                            homeTab.RemovePostImmediately(post.StatusId);
 
                         if (tab.TabType == MyCommon.TabUsageType.Mentions)
                         {
@@ -1483,6 +1407,7 @@ namespace OpenTween
         private List<PostFilterRule> _filters;
         private IndexedSortedSet<long> _ids;
         private ConcurrentQueue<TemporaryId> addQueue = new ConcurrentQueue<TemporaryId>();
+        private ConcurrentQueue<long> removeQueue = new ConcurrentQueue<long>();
         private SortedSet<long> unreadIds = new SortedSet<long>();
         private MyCommon.TabUsageType _tabType = MyCommon.TabUsageType.Undefined;
 
@@ -1790,19 +1715,46 @@ namespace OpenTween
             return addedIds;
         }
 
-        public void Remove(long Id)
+        public void EnqueueRemovePost(long statusId, bool setIsDeleted)
         {
-            if (!this._ids.Contains(Id))
-                return;
+            this.removeQueue.Enqueue(statusId);
 
-            this._ids.Remove(Id);
-            this.unreadIds.Remove(Id);
+            if (setIsDeleted && this.IsInnerStorageTabType)
+            {
+                PostClass post;
+                if (this._innerPosts.TryGetValue(statusId, out post))
+                    post.IsDeleted = true;
+            }
+        }
+
+        public bool RemovePostImmediately(long statusId)
+        {
+            if (!this._ids.Remove(statusId))
+                return false;
+
+            this.unreadIds.Remove(statusId);
 
             if (this.IsInnerStorageTabType)
             {
                 PostClass removedPost;
-                this._innerPosts.TryRemove(Id, out removedPost);
+                this._innerPosts.TryRemove(statusId, out removedPost);
             }
+
+            return true;
+        }
+
+        public IReadOnlyList<long> RemoveSubmit()
+        {
+            var removedIds = new List<long>();
+
+            long statusId;
+            while (this.removeQueue.TryDequeue(out statusId))
+            {
+                if (this.RemovePostImmediately(statusId))
+                    removedIds.Add(statusId);
+            }
+
+            return removedIds;
         }
 
         public bool UnreadManage { get; set; }

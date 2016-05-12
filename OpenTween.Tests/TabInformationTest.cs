@@ -370,6 +370,32 @@ namespace OpenTween
         }
 
         [Fact]
+        public void SubmitUpdate_RemoveSubmit_Test()
+        {
+            var homeTab = this.tabinfo.GetTabByType(MyCommon.TabUsageType.Home);
+
+            this.tabinfo.AddPost(new PostClass { StatusId = 100L });
+            this.tabinfo.DistributePosts();
+            this.tabinfo.SubmitUpdate();
+
+            Assert.Equal(1, homeTab.AllCount);
+
+            this.tabinfo.RemovePostFromAllTabs(100L, setIsDeleted: true);
+
+            // この時点ではまだ削除されない
+            Assert.Equal(1, homeTab.AllCount);
+
+            string soundFile;
+            PostClass[] notifyPosts;
+            bool newMentionOrDm, isDeletePost;
+            this.tabinfo.SubmitUpdate(out soundFile, out notifyPosts, out newMentionOrDm, out isDeletePost);
+
+            Assert.True(isDeletePost);
+            Assert.Equal(0, homeTab.AllCount);
+            Assert.False(this.tabinfo.Posts.ContainsKey(100L));
+        }
+
+        [Fact]
         public void SubmitUpdate_NotifyPriorityTest()
         {
             var homeTab = this.tabinfo.GetTabByType(MyCommon.TabUsageType.Home);
