@@ -1483,7 +1483,6 @@ namespace OpenTween
 #endregion
 
 #region "リスト"
-        [NonSerialized]
         private ListElement _listInfo;
         public ListElement ListInfo
         {
@@ -1498,16 +1497,12 @@ namespace OpenTween
         }
 #endregion
 
-        [XmlIgnore]
         public PostClass RelationTargetPost { get; set; }
 
-        [XmlIgnore]
         public long OldestId = long.MaxValue;
 
-        [XmlIgnore]
         public long SinceId { get; set; }
 
-        [XmlIgnore]
         public ConcurrentDictionary<long, PostClass> Posts { get; private set; }
 
         private ConcurrentDictionary<long, PostClass> _innerPosts;
@@ -1621,10 +1616,7 @@ namespace OpenTween
             this.unreadIds = new SortedSet<long>(this.unreadIds, comparer);
         }
 
-        [XmlIgnore]
         public ComparerMode SortMode { get; private set; }
-
-        [XmlIgnore]
         public SortOrder SortOrder { get; private set; }
 
         public void AddPostQueue(long statusId, bool read)
@@ -1767,20 +1759,14 @@ namespace OpenTween
         }
 
         public bool UnreadManage { get; set; }
-
-        // v1.0.5で「タブを固定(Locked)」から「タブを保護(Protected)」に名称変更
-        [XmlElement(ElementName = "Locked")]
         public bool Protected { get; set; }
-
         public bool Notify { get; set; }
-
         public string SoundFile { get; set; }
 
         /// <summary>
         /// 次に表示する未読ツイートのIDを返します。
         /// ただし、未読がない場合または UnreadManage が false の場合は -1 を返します
         /// </summary>
-        [XmlIgnore]
         public long NextUnreadId
         {
             get
@@ -1801,7 +1787,6 @@ namespace OpenTween
         /// 次に表示する未読ツイートのインデックス番号を返します。
         /// ただし、未読がない場合または UnreadManage が false の場合は -1 を返します
         /// </summary>
-        [XmlIgnore]
         public int NextUnreadIndex
         {
             get
@@ -1815,7 +1800,6 @@ namespace OpenTween
         /// 未読ツイートの件数を返します。
         /// ただし、未読がない場合または UnreadManage が false の場合は 0 を返します
         /// </summary>
-        [XmlIgnore]
         public int UnreadCount
         {
             get
@@ -2065,7 +2049,6 @@ namespace OpenTween
             }
         }
 
-        [XmlIgnore]
         public bool FilterModified { get; set; }
 
         public long[] BackupIds

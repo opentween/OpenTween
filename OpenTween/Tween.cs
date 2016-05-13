@@ -1282,19 +1282,26 @@ namespace OpenTween
             if (_cfgLocal.ScaleDimension.IsEmpty)
                 _cfgLocal.ScaleDimension = this.CurrentAutoScaleDimensions;
 
-            List<TabClass> tabs = SettingTabs.Load().Tabs;
-            foreach (TabClass tb in tabs)
+            var tabsSetting = SettingTabs.Load().Tabs;
+            foreach (var tabSetting in tabsSetting)
             {
-                try
+                var tab = new TabClass(tabSetting.TabName, tabSetting.TabType, tabSetting.ListInfo)
                 {
-                    tb.FilterModified = false;
-                    _statuses.Tabs.Add(tb.TabName, tb);
-                }
-                catch (Exception)
-                {
-                    tb.TabName = _statuses.MakeTabName("MyTab");
-                    _statuses.Tabs.Add(tb.TabName, tb);
-                }
+                    UnreadManage = tabSetting.UnreadManage,
+                    Protected = tabSetting.Protected,
+                    Notify = tabSetting.Notify,
+                    SoundFile = tabSetting.SoundFile,
+                    FilterArray = tabSetting.FilterArray,
+                    FilterModified = false,
+                    User = tabSetting.User,
+                    SearchWords = tabSetting.SearchWords,
+                    SearchLang = tabSetting.SearchLang,
+                };
+
+                if (this._statuses.ContainsTab(tab.TabName))
+                    tab.TabName = this._statuses.MakeTabName("MyTab");
+
+                this._statuses.AddTab(tab);
             }
             if (_statuses.Tabs.Count == 0)
             {
@@ -7951,15 +7958,35 @@ namespace OpenTween
 
         private void SaveConfigsTabs()
         {
-            SettingTabs tabSetting = new SettingTabs();
-            for (int i = 0; i < ListTab.TabPages.Count; i++)
+            var tabsSetting = new SettingTabs();
+
+            var tabs = this.ListTab.TabPages.Cast<TabPage>()
+                .Select(x => this._statuses.Tabs[x.Text])
+                .Concat(new[] { this._statuses.GetTabByType(MyCommon.TabUsageType.Mute) });
+
+            foreach (var tab in tabs)
             {
-                var tab = _statuses.Tabs[ListTab.TabPages[i].Text];
-                if (tab.TabType != MyCommon.TabUsageType.Related && tab.TabType != MyCommon.TabUsageType.SearchResults)
-                    tabSetting.Tabs.Add(tab);
+                if (tab.TabType == MyCommon.TabUsageType.Related || tab.TabType == MyCommon.TabUsageType.SearchResults)
+                    continue;
+
+                var tabSetting = new SettingTabs.SettingTabItem
+                {
+                    TabName = tab.TabName,
+                    TabType = tab.TabType,
+                    UnreadManage = tab.UnreadManage,
+                    Protected = tab.Protected,
+                    Notify = tab.Notify,
+                    SoundFile = tab.SoundFile,
+                    FilterArray = tab.FilterArray,
+                    User = tab.User,
+                    SearchWords = tab.SearchWords,
+                    SearchLang = tab.SearchLang,
+                    ListInfo = tab.ListInfo,
+                };
+                tabsSetting.Tabs.Add(tabSetting);
             }
-            tabSetting.Tabs.Add(this._statuses.GetTabByType(MyCommon.TabUsageType.Mute));
-            tabSetting.Save();
+
+            tabsSetting.Save();
         }
 
         private async void OpenURLFileMenuItem_Click(object sender, EventArgs e)

@@ -28,6 +28,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Xml.Serialization;
 
 namespace OpenTween
 {
@@ -47,10 +48,58 @@ namespace OpenTween
 
         public SettingTabs()
         {
-            Tabs = new List<TabClass>();
+            Tabs = new List<SettingTabItem>();
         }
 #endregion
 
-        public List<TabClass> Tabs;
+        public List<SettingTabItem> Tabs;
+
+        [XmlType("TabClass")]
+        public class SettingTabItem
+        {
+            /// <summary>タブの表示名</summary>
+            public string TabName { get; set; }
+
+            /// <summary>タブの種類</summary>
+            public MyCommon.TabUsageType TabType { get; set; }
+
+            /// <summary>未読管理を有効にする</summary>
+            public bool UnreadManage { get; set; }
+
+            /// <summary>タブを保護する</summary>
+            [XmlElement(ElementName = "Locked")] // v1.0.5で「タブを固定(Locked)」から「タブを保護(Protected)」に名称変更
+            public bool Protected { get; set; }
+
+            /// <summary>新着通知表示を有効にする</summary>
+            public bool Notify { get; set; }
+
+            /// <summary>通知音</summary>
+            public string SoundFile { get; set; }
+
+            /// <summary>
+            /// 振り分けルール (<see cref="MyCommon.TabUsageType.UserDefined"/> で使用)
+            /// </summary>
+            public PostFilterRule[] FilterArray { get; set; } = new PostFilterRule[0];
+
+            /// <summary>
+            /// 表示するユーザーのスクリーンネーム (<see cref="MyCommon.TabUsageType.UserTimeline"/> で使用)
+            /// </summary>
+            public string User { get; set; }
+
+            /// <summary>
+            /// 検索文字列 (<see cref="MyCommon.TabUsageType.PublicSearch"/> で使用)
+            /// </summary>
+            public string SearchWords { get; set; } = "";
+
+            /// <summary>
+            /// 検索対象の言語 (<see cref="MyCommon.TabUsageType.PublicSearch"/> で使用)
+            /// </summary>
+            public string SearchLang { get; set; } = "";
+
+            /// <summary>
+            /// 表示するリスト (<see cref="MyCommon.TabUsageType.Lists"/> で使用)
+            /// </summary>
+            public ListElement ListInfo { get; set; }
+        }
     }
 }
