@@ -141,10 +141,24 @@
     </Compile>
     <Compile Include="IndexedSortedSet.cs" />
     <Compile Include="MediaItem.cs" />
+    <Compile Include="Models\ComparerMode.cs" />
+    <Compile Include="Models\DirectMessagesTabModel.cs" />
+    <Compile Include="Models\FavoritesTabModel.cs" />
+    <Compile Include="Models\FilterTabModel.cs" />
+    <Compile Include="Models\HomeTabModel.cs" />
+    <Compile Include="Models\InternalStorageTabModel.cs" />
+    <Compile Include="Models\ListTimelineTabModel.cs" />
+    <Compile Include="Models\LocalSearchTabModel.cs" />
     <Compile Include="Models\MediaInfo.cs" />
+    <Compile Include="Models\MentionsTabModel.cs" />
+    <Compile Include="Models\MuteTabModel.cs" />
     <Compile Include="Models\PostClass.cs" />
-    <Compile Include="Models\TabClass.cs" />
+    <Compile Include="Models\PublicSearchTabModel.cs" />
+    <Compile Include="Models\RelatedPostsTabModel.cs" />
+    <Compile Include="Models\TabModel.cs" />
     <Compile Include="Models\TabInformations.cs" />
+    <Compile Include="Models\TabUsageTypeExt.cs" />
+    <Compile Include="Models\UserTimelineTabModel.cs" />
     <Compile Include="MouseWheelMessageFilter.cs" />
     <Compile Include="NotifyPropertyChangedBase.cs" />
     <Compile Include="SendErrorReportForm.cs">

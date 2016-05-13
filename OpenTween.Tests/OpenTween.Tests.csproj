@@ -101,7 +101,7 @@
     <Compile Include="RegexAsyncTest.cs" />
     <Compile Include="ShortcutCommandTest.cs" />
     <Compile Include="ShortUrlTest.cs" />
-    <Compile Include="Models\TabClassTest.cs" />
+    <Compile Include="Models\TabModelTest.cs" />
     <Compile Include="Models\TabInformationTest.cs" />
     <Compile Include="TabsDialogTest.cs" />
     <Compile Include="TestUtils.cs" />

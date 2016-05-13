@@ -69,15 +69,12 @@ namespace OpenTween
                 List<PostClass> listPost = new List<PostClass>();
                 List<PostClass> otherPost = new List<PostClass>();
 
-                foreach (TabClass tab in TabInformations.GetInstance().Tabs.Values)
+                foreach (var tab in TabInformations.GetInstance().GetTabsByType<ListTimelineTabModel>())
                 {
-                    if (tab.TabType == MyCommon.TabUsageType.Lists)
-                    {
-                        if (listItem.Id == tab.ListInfo.Id)
-                            listPost.AddRange(tab.Posts.Values);
-                        else
-                            otherPost.AddRange(tab.Posts.Values);
-                    }
+                    if (listItem.Id == tab.ListInfo.Id)
+                        listPost.AddRange(tab.Posts.Values);
+                    else
+                        otherPost.AddRange(tab.Posts.Values);
                 }
 
                 //リストが空の場合は推定不能

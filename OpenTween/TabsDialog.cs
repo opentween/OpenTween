@@ -44,7 +44,7 @@ namespace OpenTween
 
         protected internal class TabListItem
         {
-            public TabClass Tab { get; set; }
+            public TabModel Tab { get; set; }
             public string Label { get; set; }
 
             public override string ToString()
@@ -108,7 +108,7 @@ namespace OpenTween
                 this.OK_Button.Enabled = true;
         }
 
-        public TabClass SelectedTab
+        public TabModel SelectedTab
         {
             get
             {
@@ -119,7 +119,7 @@ namespace OpenTween
             }
         }
 
-        public TabClass[] SelectedTabs
+        public TabModel[] SelectedTabs
         {
             get
             {

@@ -43,30 +43,26 @@ namespace OpenTween.Models
             field.SetValue(null, this.tabinfo);
 
             // 標準のタブを追加
-            this.tabinfo.AddTab("Recent", MyCommon.TabUsageType.Home, null);
-            this.tabinfo.AddTab("Reply", MyCommon.TabUsageType.Mentions, null);
-            this.tabinfo.AddTab("DM", MyCommon.TabUsageType.DirectMessage, null);
-            this.tabinfo.AddTab("Favorites", MyCommon.TabUsageType.Favorites, null);
+            this.tabinfo.AddTab(new HomeTabModel("Recent"));
+            this.tabinfo.AddTab(new MentionsTabModel("Reply"));
+            this.tabinfo.AddTab(new DirectMessagesTabModel("DM"));
+            this.tabinfo.AddTab(new FavoritesTabModel("Favorites"));
         }
 
         [Fact]
         public void AddTab_Test()
         {
-            var list = new ListElement { };
-            var ret = this.tabinfo.AddTab("MyTab", MyCommon.TabUsageType.Lists, list);
+            var tab = new FilterTabModel("MyTab");
+            var ret = this.tabinfo.AddTab(tab);
 
             Assert.True(ret);
-
-            var lastTab = this.tabinfo.Tabs.Values.Last();
-            Assert.Equal("MyTab", lastTab.TabName);
-            Assert.Equal(MyCommon.TabUsageType.Lists, lastTab.TabType);
-            Assert.Same(list, lastTab.ListInfo);
+            Assert.Same(tab, this.tabinfo.Tabs.Values.Last());
         }
 
         [Fact]
         public void AddTab_DuplicateTest()
         {
-            var ret = this.tabinfo.AddTab("Recent", MyCommon.TabUsageType.UserDefined, null);
+            var ret = this.tabinfo.AddTab(new FilterTabModel("Recent"));
 
             Assert.False(ret);
         }
@@ -81,8 +77,8 @@ namespace OpenTween.Models
         [Fact]
         public void MakeTabName_RetryTest()
         {
-            this.tabinfo.AddTab("NewTab", MyCommon.TabUsageType.UserDefined, null);
-            this.tabinfo.AddTab("NewTab2", MyCommon.TabUsageType.UserDefined, null);
+            this.tabinfo.AddTab(new FilterTabModel("NewTab"));
+            this.tabinfo.AddTab(new FilterTabModel("NewTab2"));
 
             var baseTabName = "NewTab";
             Assert.Equal("NewTab3", this.tabinfo.MakeTabName(baseTabName, 5));
@@ -91,11 +87,11 @@ namespace OpenTween.Models
         [Fact]
         public void MakeTabName_RetryErrorTest()
         {
-            this.tabinfo.AddTab("NewTab", MyCommon.TabUsageType.UserDefined, null);
-            this.tabinfo.AddTab("NewTab2", MyCommon.TabUsageType.UserDefined, null);
-            this.tabinfo.AddTab("NewTab3", MyCommon.TabUsageType.UserDefined, null);
-            this.tabinfo.AddTab("NewTab4", MyCommon.TabUsageType.UserDefined, null);
-            this.tabinfo.AddTab("NewTab5", MyCommon.TabUsageType.UserDefined, null);
+            this.tabinfo.AddTab(new FilterTabModel("NewTab"));
+            this.tabinfo.AddTab(new FilterTabModel("NewTab2"));
+            this.tabinfo.AddTab(new FilterTabModel("NewTab3"));
+            this.tabinfo.AddTab(new FilterTabModel("NewTab4"));
+            this.tabinfo.AddTab(new FilterTabModel("NewTab5"));
 
             var baseTabName = "NewTab";
             Assert.Throws<TabException>(() => this.tabinfo.MakeTabName(baseTabName, 5));
@@ -189,7 +185,7 @@ namespace OpenTween.Models
         {
             this.tabinfo.MuteUserIds = new HashSet<long> { };
 
-            var muteTab = new TabClass("Mute", MyCommon.TabUsageType.Mute);
+            var muteTab = new MuteTabModel();
             muteTab.AddFilter(new PostFilterRule
             {
                 FilterName = "foo",
@@ -211,7 +207,7 @@ namespace OpenTween.Models
         {
             this.tabinfo.MuteUserIds = new HashSet<long> { };
 
-            var muteTab = new TabClass("Mute", MyCommon.TabUsageType.Mute);
+            var muteTab = new MuteTabModel();
             muteTab.AddFilter(new PostFilterRule
             {
                 FilterName = "foo",
@@ -233,23 +229,23 @@ namespace OpenTween.Models
         [Fact]
         public void SetReadAllTab_MarkAsReadTest()
         {
-            var tab1 = new TabClass("search1", MyCommon.TabUsageType.PublicSearch);
-            var tab2 = new TabClass("search2", MyCommon.TabUsageType.PublicSearch);
+            var tab1 = new PublicSearchTabModel("search1");
+            var tab2 = new PublicSearchTabModel("search2");
 
             this.tabinfo.AddTab(tab1);
             this.tabinfo.AddTab(tab2);
 
             // search1 に追加するツイート (StatusId: 100, 150, 200; すべて未読)
             tab1.UnreadManage = true;
-            tab1.AddPostToInnerStorage(new PostClass { StatusId = 100L, IsRead = false });
-            tab1.AddPostToInnerStorage(new PostClass { StatusId = 150L, IsRead = false });
-            tab1.AddPostToInnerStorage(new PostClass { StatusId = 200L, IsRead = false });
+            tab1.AddPostQueue(new PostClass { StatusId = 100L, IsRead = false });
+            tab1.AddPostQueue(new PostClass { StatusId = 150L, IsRead = false });
+            tab1.AddPostQueue(new PostClass { StatusId = 200L, IsRead = false });
 
             // search2 に追加するツイート (StatusId: 150, 200, 250; すべて未読)
             tab2.UnreadManage = true;
-            tab2.AddPostToInnerStorage(new PostClass { StatusId = 150L, IsRead = false });
-            tab2.AddPostToInnerStorage(new PostClass { StatusId = 200L, IsRead = false });
-            tab2.AddPostToInnerStorage(new PostClass { StatusId = 250L, IsRead = false });
+            tab2.AddPostQueue(new PostClass { StatusId = 150L, IsRead = false });
+            tab2.AddPostQueue(new PostClass { StatusId = 200L, IsRead = false });
+            tab2.AddPostQueue(new PostClass { StatusId = 250L, IsRead = false });
 
             this.tabinfo.DistributePosts();
             this.tabinfo.SubmitUpdate();
@@ -274,23 +270,23 @@ namespace OpenTween.Models
         [Fact]
         public void SetReadAllTab_MarkAsUnreadTest()
         {
-            var tab1 = new TabClass("search1", MyCommon.TabUsageType.PublicSearch);
-            var tab2 = new TabClass("search2", MyCommon.TabUsageType.PublicSearch);
+            var tab1 = new PublicSearchTabModel("search1");
+            var tab2 = new PublicSearchTabModel("search2");
 
             this.tabinfo.AddTab(tab1);
             this.tabinfo.AddTab(tab2);
 
             // search1 に追加するツイート (StatusId: 100, 150, 200; すべて既読)
             tab1.UnreadManage = true;
-            tab1.AddPostToInnerStorage(new PostClass { StatusId = 100L, IsRead = true });
-            tab1.AddPostToInnerStorage(new PostClass { StatusId = 150L, IsRead = true });
-            tab1.AddPostToInnerStorage(new PostClass { StatusId = 200L, IsRead = true });
+            tab1.AddPostQueue(new PostClass { StatusId = 100L, IsRead = true });
+            tab1.AddPostQueue(new PostClass { StatusId = 150L, IsRead = true });
+            tab1.AddPostQueue(new PostClass { StatusId = 200L, IsRead = true });
 
             // search2 に追加するツイート (StatusId: 150, 200, 250; すべて既読)
             tab2.UnreadManage = true;
-            tab2.AddPostToInnerStorage(new PostClass { StatusId = 150L, IsRead = true });
-            tab2.AddPostToInnerStorage(new PostClass { StatusId = 200L, IsRead = true });
-            tab2.AddPostToInnerStorage(new PostClass { StatusId = 250L, IsRead = true });
+            tab2.AddPostQueue(new PostClass { StatusId = 150L, IsRead = true });
+            tab2.AddPostQueue(new PostClass { StatusId = 200L, IsRead = true });
+            tab2.AddPostQueue(new PostClass { StatusId = 250L, IsRead = true });
 
             this.tabinfo.DistributePosts();
             this.tabinfo.SubmitUpdate();
@@ -372,10 +368,10 @@ namespace OpenTween.Models
             this.tabinfo.AddPost(new PostClass { StatusId = 200L, IsRead = false });
 
             // StatusId: 150 だけ FilterTab の振り分けルールにヒットする (PostClass.FilterHit が true になる)
-            this.tabinfo.AddTab("FilterTab", MyCommon.TabUsageType.UserDefined, null);
-            var filterTab = this.tabinfo.Tabs["FilterTab"];
+            var filterTab = new FilterTabModel("FilterTab");
             filterTab.AddFilter(TestPostFilterRule.Create(x =>
                 x.StatusId == 150L ? MyCommon.HITRESULT.Copy : MyCommon.HITRESULT.None));
+            this.tabinfo.AddTab(filterTab);
 
             this.tabinfo.DistributePosts();
             this.tabinfo.SubmitUpdate();
@@ -439,7 +435,7 @@ namespace OpenTween.Models
             this.tabinfo.AddPost(new PostClass { StatusId = 200L, IsReply = true, IsRead = false });
 
             // DM
-            dmTab.AddPostToInnerStorage(new PostClass { StatusId = 300L, IsDm = true, IsRead = false });
+            dmTab.AddPostQueue(new PostClass { StatusId = 300L, IsDm = true, IsRead = false });
 
             this.tabinfo.DistributePosts();
 
@@ -491,7 +487,7 @@ namespace OpenTween.Models
         {
             var homeTab = this.tabinfo.GetTabByType(MyCommon.TabUsageType.Home);
 
-            var myTab1 = new TabClass("MyTab1", MyCommon.TabUsageType.UserDefined);
+            var myTab1 = new FilterTabModel("MyTab1");
             this.tabinfo.AddTab(myTab1);
 
             var filter = new PostFilterRule
@@ -512,8 +508,8 @@ namespace OpenTween.Models
             this.tabinfo.SubmitUpdate();
 
             // この時点での振り分け状態
-            Assert.Equal(new[] { 100L, 200L, 300L }, homeTab.BackupIds, AnyOrderComparer<long>.Instance);
-            Assert.Equal(new[] { 100L }, myTab1.BackupIds);
+            Assert.Equal(new[] { 100L, 200L, 300L }, homeTab.StatusIds, AnyOrderComparer<long>.Instance);
+            Assert.Equal(new[] { 100L }, myTab1.StatusIds);
 
             // フィルタを変更する
             filter.FilterName = "bbb";
@@ -528,8 +524,8 @@ namespace OpenTween.Models
             //   [statusId: 200] は Recent から MyTab1 にコピーされる
 
             // 変更後の振り分け状態
-            Assert.Equal(new[] { 100L, 200L, 300L }, homeTab.BackupIds, AnyOrderComparer<long>.Instance);
-            Assert.Equal(new[] { 200L }, myTab1.BackupIds);
+            Assert.Equal(new[] { 100L, 200L, 300L }, homeTab.StatusIds, AnyOrderComparer<long>.Instance);
+            Assert.Equal(new[] { 200L }, myTab1.StatusIds);
         }
 
         [Fact]
@@ -537,7 +533,7 @@ namespace OpenTween.Models
         {
             var homeTab = this.tabinfo.GetTabByType(MyCommon.TabUsageType.Home);
 
-            var myTab1 = new TabClass("MyTab1", MyCommon.TabUsageType.UserDefined);
+            var myTab1 = new FilterTabModel("MyTab1");
             this.tabinfo.AddTab(myTab1);
 
             var filter = new PostFilterRule
@@ -558,8 +554,8 @@ namespace OpenTween.Models
             this.tabinfo.SubmitUpdate();
 
             // この時点での振り分け状態
-            Assert.Equal(new[] { 100L, 200L, 300L }, homeTab.BackupIds, AnyOrderComparer<long>.Instance);
-            Assert.Equal(new[] { 100L }, myTab1.BackupIds);
+            Assert.Equal(new[] { 100L, 200L, 300L }, homeTab.StatusIds, AnyOrderComparer<long>.Instance);
+            Assert.Equal(new[] { 100L }, myTab1.StatusIds);
 
             // フィルタを変更する
             filter.FilterName = "bbb";
@@ -574,8 +570,8 @@ namespace OpenTween.Models
             //   [statusId: 200] は Recent から MyTab1 にコピーされ、マークが付与される
 
             // 変更後の振り分け状態
-            Assert.Equal(new[] { 100L, 200L, 300L }, homeTab.BackupIds, AnyOrderComparer<long>.Instance);
-            Assert.Equal(new[] { 200L }, myTab1.BackupIds);
+            Assert.Equal(new[] { 100L, 200L, 300L }, homeTab.StatusIds, AnyOrderComparer<long>.Instance);
+            Assert.Equal(new[] { 200L }, myTab1.StatusIds);
 
             // [statusId: 200] は IsMark が true の状態になる
             Assert.True(this.tabinfo[200L].IsMark);
@@ -586,7 +582,7 @@ namespace OpenTween.Models
         {
             var homeTab = this.tabinfo.GetTabByType(MyCommon.TabUsageType.Home);
 
-            var myTab1 = new TabClass("MyTab1", MyCommon.TabUsageType.UserDefined);
+            var myTab1 = new FilterTabModel("MyTab1");
             this.tabinfo.AddTab(myTab1);
 
             var filter = new PostFilterRule
@@ -606,8 +602,8 @@ namespace OpenTween.Models
             this.tabinfo.SubmitUpdate();
 
             // この時点での振り分け状態
-            Assert.Equal(new[] { 200L, 300L }, homeTab.BackupIds, AnyOrderComparer<long>.Instance);
-            Assert.Equal(new[] { 100L }, myTab1.BackupIds);
+            Assert.Equal(new[] { 200L, 300L }, homeTab.StatusIds, AnyOrderComparer<long>.Instance);
+            Assert.Equal(new[] { 100L }, myTab1.StatusIds);
 
             // フィルタを変更する
             filter.FilterName = "bbb";
@@ -622,8 +618,8 @@ namespace OpenTween.Models
             //   [statusId: 200] は Recent から MyTab1 に移動される
 
             // 変更後の振り分け状態
-            Assert.Equal(new[] { 100L, 300L }, homeTab.BackupIds, AnyOrderComparer<long>.Instance);
-            Assert.Equal(new[] { 200L }, myTab1.BackupIds);
+            Assert.Equal(new[] { 100L, 300L }, homeTab.StatusIds, AnyOrderComparer<long>.Instance);
+            Assert.Equal(new[] { 200L }, myTab1.StatusIds);
         }
 
         [Fact]
@@ -631,8 +627,8 @@ namespace OpenTween.Models
         {
             var homeTab = this.tabinfo.GetTabByType(MyCommon.TabUsageType.Home);
 
-            var myTab1 = new TabClass("MyTab1", MyCommon.TabUsageType.UserDefined);
-            var myTab2 = new TabClass("MyTab2", MyCommon.TabUsageType.UserDefined);
+            var myTab1 = new FilterTabModel("MyTab1");
+            var myTab2 = new FilterTabModel("MyTab2");
             this.tabinfo.AddTab(myTab1);
             this.tabinfo.AddTab(myTab2);
 
@@ -663,9 +659,9 @@ namespace OpenTween.Models
             this.tabinfo.SubmitUpdate();
 
             // この時点での振り分け状態
-            Assert.Equal(new[] { 300L }, homeTab.BackupIds);
-            Assert.Equal(new[] { 100L }, myTab1.BackupIds);
-            Assert.Equal(new[] { 200L }, myTab2.BackupIds);
+            Assert.Equal(new[] { 300L }, homeTab.StatusIds);
+            Assert.Equal(new[] { 100L }, myTab1.StatusIds);
+            Assert.Equal(new[] { 200L }, myTab2.StatusIds);
 
             // MyTab1 のフィルタを変更する
             filter1.FilterName = "bbb";
@@ -685,16 +681,16 @@ namespace OpenTween.Models
             //   [statusId: 300] は Recent から MyTab2 に移動される
 
             // 変更後の振り分け状態
-            Assert.Equal(new[] { 100L }, homeTab.BackupIds);
-            Assert.Equal(new[] { 200L }, myTab1.BackupIds);
-            Assert.Equal(new[] { 300L }, myTab2.BackupIds);
+            Assert.Equal(new[] { 100L }, homeTab.StatusIds);
+            Assert.Equal(new[] { 200L }, myTab1.StatusIds);
+            Assert.Equal(new[] { 300L }, myTab2.StatusIds);
         }
 
         [Fact]
         public void FilterAll_ExcludeReplyFilterTest()
         {
-            var homeTab = this.tabinfo.GetTabByType(MyCommon.TabUsageType.Home);
-            var replyTab = this.tabinfo.GetTabByType(MyCommon.TabUsageType.Mentions);
+            var homeTab = this.tabinfo.GetTabByType<HomeTabModel>();
+            var replyTab = this.tabinfo.GetTabByType<MentionsTabModel>();
 
             var filter = new PostFilterRule
             {
@@ -711,8 +707,8 @@ namespace OpenTween.Models
             this.tabinfo.SubmitUpdate();
 
             // この時点での振り分け状態
-            Assert.Equal(new[] { 100L, 200L, 300L }, homeTab.BackupIds, AnyOrderComparer<long>.Instance);
-            Assert.Equal(new[] { 200L, 300L }, replyTab.BackupIds, AnyOrderComparer<long>.Instance);
+            Assert.Equal(new[] { 100L, 200L, 300L }, homeTab.StatusIds, AnyOrderComparer<long>.Instance);
+            Assert.Equal(new[] { 200L, 300L }, replyTab.StatusIds, AnyOrderComparer<long>.Instance);
 
             // [statusId: 100] は IsExcludeReply が true の状態になっている
             Assert.True(this.tabinfo[100L].IsExcludeReply);
@@ -730,8 +726,8 @@ namespace OpenTween.Models
             //   [statusId: 200] は Reply から取り除かれ、IsExcludeReply が true になる
 
             // 変更後の振り分け状態
-            Assert.Equal(new[] { 100L, 200L, 300L }, homeTab.BackupIds, AnyOrderComparer<long>.Instance);
-            Assert.Equal(new[] { 100L, 300L }, replyTab.BackupIds, AnyOrderComparer<long>.Instance);
+            Assert.Equal(new[] { 100L, 200L, 300L }, homeTab.StatusIds, AnyOrderComparer<long>.Instance);
+            Assert.Equal(new[] { 100L, 300L }, replyTab.StatusIds, AnyOrderComparer<long>.Instance);
 
             // [statusId: 100] は IsExcludeReply が false の状態になる
             Assert.False(this.tabinfo[100L].IsExcludeReply);

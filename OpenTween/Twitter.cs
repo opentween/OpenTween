@@ -823,7 +823,7 @@ namespace OpenTween
             }
         }
 
-        public async Task GetUserTimelineApi(bool read, string userName, TabClass tab, bool more)
+        public async Task GetUserTimelineApi(bool read, string userName, UserTimelineTabModel tab, bool more)
         {
             this.CheckAccountState();
 
@@ -832,7 +832,7 @@ namespace OpenTween
             TwitterStatus[] statuses;
             if (string.IsNullOrEmpty(userName))
             {
-                var target = tab.User;
+                var target = tab.ScreenName;
                 if (string.IsNullOrEmpty(target)) return;
                 userName = target;
                 statuses = await this.Api.StatusesUserTimeline(userName, count)
@@ -875,14 +875,14 @@ namespace OpenTween
             return item;
         }
 
-        public async Task GetStatusApi(bool read, long id, TabClass tab)
+        public async Task GetStatusApi(bool read, long id, TabModel tab)
         {
             var post = await this.GetStatusApi(read, id)
                 .ConfigureAwait(false);
 
             //非同期アイコン取得＆StatusDictionaryに追加
             if (tab != null && tab.IsInnerStorageTabType)
-                tab.AddPostToInnerStorage(post);
+                tab.AddPostQueue(post);
             else
                 TabInformations.GetInstance().AddPost(post);
         }
@@ -1044,7 +1044,7 @@ namespace OpenTween
             }
         }
 
-        private long? CreatePostsFromJson(TwitterStatus[] items, MyCommon.WORKERTYPE gType, TabClass tab, bool read)
+        private long? CreatePostsFromJson(TwitterStatus[] items, MyCommon.WORKERTYPE gType, TabModel tab, bool read)
         {
             long? minimumId = null;
 
@@ -1079,7 +1079,7 @@ namespace OpenTween
 
                 //非同期アイコン取得＆StatusDictionaryに追加
                 if (tab != null && tab.IsInnerStorageTabType)
-                    tab.AddPostToInnerStorage(post);
+                    tab.AddPostQueue(post);
                 else
                     TabInformations.GetInstance().AddPost(post);
             }
@@ -1087,7 +1087,7 @@ namespace OpenTween
             return minimumId;
         }
 
-        private long? CreatePostsFromSearchJson(TwitterSearchResult items, TabClass tab, bool read, int count, bool more)
+        private long? CreatePostsFromSearchJson(TwitterSearchResult items, TabModel tab, bool read, int count, bool more)
         {
             long? minimumId = null;
 
@@ -1119,7 +1119,7 @@ namespace OpenTween
 
                 //非同期アイコン取得＆StatusDictionaryに追加
                 if (tab != null && tab.IsInnerStorageTabType)
-                    tab.AddPostToInnerStorage(post);
+                    tab.AddPostQueue(post);
                 else
                     TabInformations.GetInstance().AddPost(post);
             }
@@ -1148,7 +1148,7 @@ namespace OpenTween
             }
         }
 
-        public async Task GetListStatus(bool read, TabClass tab, bool more, bool startup)
+        public async Task GetListStatus(bool read, ListTimelineTabModel tab, bool more, bool startup)
         {
             var count = GetApiResultCount(MyCommon.WORKERTYPE.List, more, startup);
 
@@ -1190,30 +1190,31 @@ namespace OpenTween
             return nextPost;
         }
 
-        public async Task GetRelatedResult(bool read, TabClass tab)
+        public async Task GetRelatedResult(bool read, RelatedPostsTabModel tab)
         {
+            var targetPost = tab.TargetPost;
             var relPosts = new Dictionary<Int64, PostClass>();
-            if (tab.RelationTargetPost.TextFromApi.Contains("@") && tab.RelationTargetPost.InReplyToStatusId == null)
+            if (targetPost.TextFromApi.Contains("@") && targetPost.InReplyToStatusId == null)
             {
                 //検索結果対応
-                var p = TabInformations.GetInstance()[tab.RelationTargetPost.StatusId];
+                var p = TabInformations.GetInstance()[targetPost.StatusId];
                 if (p != null && p.InReplyToStatusId != null)
                 {
-                    tab.RelationTargetPost = p;
+                    targetPost = p;
                 }
                 else
                 {
-                    p = await this.GetStatusApi(read, tab.RelationTargetPost.StatusId)
+                    p = await this.GetStatusApi(read, targetPost.StatusId)
                         .ConfigureAwait(false);
-                    tab.RelationTargetPost = p;
+                    targetPost = p;
                 }
             }
-            relPosts.Add(tab.RelationTargetPost.StatusId, tab.RelationTargetPost);
+            relPosts.Add(targetPost.StatusId, targetPost);
 
             Exception lastException = null;
 
             // in_reply_to_status_id を使用してリプライチェインを辿る
-            var nextPost = FindTopOfReplyChain(relPosts, tab.RelationTargetPost.StatusId);
+            var nextPost = FindTopOfReplyChain(relPosts, targetPost.StatusId);
             var loopCount = 1;
             while (nextPost.InReplyToStatusId != null && loopCount++ <= 20)
             {
@@ -1240,7 +1241,7 @@ namespace OpenTween
             }
 
             //MRTとかに対応のためツイート内にあるツイートを指すURLを取り込む
-            var text = tab.RelationTargetPost.Text;
+            var text = targetPost.Text;
             var ma = Twitter.StatusUrlRegex.Matches(text).Cast<Match>()
                 .Concat(Twitter.ThirdPartyStatusUrlRegex.Matches(text).Cast<Match>());
             foreach (var _match in ma)
@@ -1278,14 +1279,14 @@ namespace OpenTween
                 else
                     p.IsRead = read;
 
-                tab.AddPostToInnerStorage(p);
+                tab.AddPostQueue(p);
             });
 
             if (lastException != null)
                 throw new WebApiException(lastException.Message, lastException);
         }
 
-        public async Task GetSearch(bool read, TabClass tab, bool more)
+        public async Task GetSearch(bool read, PublicSearchTabModel tab, bool more)
         {
             var count = GetApiResultCount(MyCommon.WORKERTYPE.PublicSearch, more, false);
 
@@ -1408,7 +1409,7 @@ namespace OpenTween
                 post.IsDm = true;
 
                 var dmTab = TabInformations.GetInstance().GetTabByType(MyCommon.TabUsageType.DirectMessage);
-                dmTab.AddPostToInnerStorage(post);
+                dmTab.AddPostQueue(post);
             }
         }
 

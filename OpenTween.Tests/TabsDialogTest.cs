@@ -40,11 +40,11 @@ namespace OpenTween
             this.tabinfo = Activator.CreateInstance(typeof(TabInformations), true) as TabInformations;
 
             // タブを追加
-            this.tabinfo.AddTab("Recent", MyCommon.TabUsageType.Home, null);
-            this.tabinfo.AddTab("Reply", MyCommon.TabUsageType.Mentions, null);
-            this.tabinfo.AddTab("DM", MyCommon.TabUsageType.DirectMessage, null);
-            this.tabinfo.AddTab("Favorites", MyCommon.TabUsageType.Favorites, null);
-            this.tabinfo.AddTab("MyTab1", MyCommon.TabUsageType.UserDefined, null);
+            this.tabinfo.AddTab(new HomeTabModel("Recent"));
+            this.tabinfo.AddTab(new MentionsTabModel("Reply"));
+            this.tabinfo.AddTab(new DirectMessagesTabModel("DM"));
+            this.tabinfo.AddTab(new FavoritesTabModel("Favorites"));
+            this.tabinfo.AddTab(new FilterTabModel("MyTab1"));
 
             // 一応 TabInformation.GetInstance() でも取得できるようにする
             var field = typeof(TabInformations).GetField("_instance",

@@ -1055,66 +1055,20 @@ namespace OpenTween
             SetTabAlignment();
 
             //デフォルトタブの存在チェック、ない場合には追加
-            if (_statuses.GetTabByType(MyCommon.TabUsageType.Home) == null)
-            {
-                TabClass tab;
-                if (!_statuses.Tabs.TryGetValue(MyCommon.DEFAULTTAB.RECENT, out tab))
-                {
-                    _statuses.AddTab(MyCommon.DEFAULTTAB.RECENT, MyCommon.TabUsageType.Home, null);
-                }
-                else
-                {
-                    tab.TabType = MyCommon.TabUsageType.Home;
-                }
-            }
-            if (_statuses.GetTabByType(MyCommon.TabUsageType.Mentions) == null)
-            {
-                TabClass tab;
-                if (!_statuses.Tabs.TryGetValue(MyCommon.DEFAULTTAB.REPLY, out tab))
-                {
-                    _statuses.AddTab(MyCommon.DEFAULTTAB.REPLY, MyCommon.TabUsageType.Mentions, null);
-                }
-                else
-                {
-                    tab.TabType = MyCommon.TabUsageType.Mentions;
-                }
-            }
-            if (_statuses.GetTabByType(MyCommon.TabUsageType.DirectMessage) == null)
-            {
-                TabClass tab;
-                if (!_statuses.Tabs.TryGetValue(MyCommon.DEFAULTTAB.DM, out tab))
-                {
-                    _statuses.AddTab(MyCommon.DEFAULTTAB.DM, MyCommon.TabUsageType.DirectMessage, null);
-                }
-                else
-                {
-                    tab.TabType = MyCommon.TabUsageType.DirectMessage;
-                }
-            }
-            if (_statuses.GetTabByType(MyCommon.TabUsageType.Favorites) == null)
-            {
-                TabClass tab;
-                if (!_statuses.Tabs.TryGetValue(MyCommon.DEFAULTTAB.FAV, out tab))
-                {
-                    _statuses.AddTab(MyCommon.DEFAULTTAB.FAV, MyCommon.TabUsageType.Favorites, null);
-                }
-                else
-                {
-                    tab.TabType = MyCommon.TabUsageType.Favorites;
-                }
-            }
-            if (_statuses.GetTabByType(MyCommon.TabUsageType.Mute) == null)
-            {
-                TabClass tab;
-                if (!_statuses.Tabs.TryGetValue(MyCommon.DEFAULTTAB.MUTE, out tab))
-                {
-                    _statuses.AddTab(MyCommon.DEFAULTTAB.MUTE, MyCommon.TabUsageType.Mute, null);
-                }
-                else
-                {
-                    tab.TabType = MyCommon.TabUsageType.Mute;
-                }
-            }
+            if (this._statuses.GetTabByType<HomeTabModel>() == null)
+                this._statuses.AddTab(new HomeTabModel());
+
+            if (this._statuses.GetTabByType<MentionsTabModel>() == null)
+                this._statuses.AddTab(new MentionsTabModel());
+
+            if (this._statuses.GetTabByType<DirectMessagesTabModel>() == null)
+                this._statuses.AddTab(new DirectMessagesTabModel());
+
+            if (this._statuses.GetTabByType<FavoritesTabModel>() == null)
+                this._statuses.AddTab(new FavoritesTabModel());
+
+            if (this._statuses.GetTabByType<MuteTabModel>() == null)
+                this._statuses.AddTab(new MuteTabModel());
 
             foreach (var tab in _statuses.Tabs.Values)
             {
@@ -1122,11 +1076,7 @@ namespace OpenTween
                 if (tab.TabType == MyCommon.TabUsageType.Mute)
                     continue;
 
-                if (tab.TabType == MyCommon.TabUsageType.Undefined)
-                {
-                    tab.TabType = MyCommon.TabUsageType.UserDefined;
-                }
-                if (!AddNewTab(tab.TabName, true, tab.TabType, tab.ListInfo))
+                if (!AddNewTab(tab, startup: true))
                     throw new TabException(Properties.Resources.TweenMain_LoadText1);
             }
 
@@ -1286,18 +1236,55 @@ namespace OpenTween
             var tabsSetting = SettingTabs.Load().Tabs;
             foreach (var tabSetting in tabsSetting)
             {
-                var tab = new TabClass(tabSetting.TabName, tabSetting.TabType, tabSetting.ListInfo)
+                TabModel tab;
+                switch (tabSetting.TabType)
                 {
-                    UnreadManage = tabSetting.UnreadManage,
-                    Protected = tabSetting.Protected,
-                    Notify = tabSetting.Notify,
-                    SoundFile = tabSetting.SoundFile,
-                    FilterArray = tabSetting.FilterArray,
-                    FilterModified = false,
-                    User = tabSetting.User,
-                    SearchWords = tabSetting.SearchWords,
-                    SearchLang = tabSetting.SearchLang,
-                };
+                    case MyCommon.TabUsageType.Home:
+                        tab = new HomeTabModel(tabSetting.TabName);
+                        break;
+                    case MyCommon.TabUsageType.Mentions:
+                        tab = new MentionsTabModel(tabSetting.TabName);
+                        break;
+                    case MyCommon.TabUsageType.DirectMessage:
+                        tab = new DirectMessagesTabModel(tabSetting.TabName);
+                        break;
+                    case MyCommon.TabUsageType.Favorites:
+                        tab = new FavoritesTabModel(tabSetting.TabName);
+                        break;
+                    case MyCommon.TabUsageType.UserDefined:
+                        tab = new FilterTabModel(tabSetting.TabName);
+                        break;
+                    case MyCommon.TabUsageType.UserTimeline:
+                        tab = new UserTimelineTabModel(tabSetting.TabName, tabSetting.User);
+                        break;
+                    case MyCommon.TabUsageType.PublicSearch:
+                        tab = new PublicSearchTabModel(tabSetting.TabName)
+                        {
+                            SearchWords = tabSetting.SearchWords,
+                            SearchLang = tabSetting.SearchLang,
+                        };
+                        break;
+                    case MyCommon.TabUsageType.Lists:
+                        tab = new ListTimelineTabModel(tabSetting.TabName, tabSetting.ListInfo);
+                        break;
+                    case MyCommon.TabUsageType.Mute:
+                        tab = new MuteTabModel(tabSetting.TabName);
+                        break;
+                    default:
+                        continue;
+                }
+
+                tab.UnreadManage = tabSetting.UnreadManage;
+                tab.Protected = tabSetting.Protected;
+                tab.Notify = tabSetting.Notify;
+                tab.SoundFile = tabSetting.SoundFile;
+
+                if (tab.IsDistributableTabType)
+                {
+                    var filterTab = (FilterTabModel)tab;
+                    filterTab.FilterArray = tabSetting.FilterArray;
+                    filterTab.FilterModified = false;
+                }
 
                 if (this._statuses.ContainsTab(tab.TabName))
                     tab.TabName = this._statuses.MakeTabName("MyTab");
@@ -1306,10 +1293,10 @@ namespace OpenTween
             }
             if (_statuses.Tabs.Count == 0)
             {
-                _statuses.AddTab(MyCommon.DEFAULTTAB.RECENT, MyCommon.TabUsageType.Home, null);
-                _statuses.AddTab(MyCommon.DEFAULTTAB.REPLY, MyCommon.TabUsageType.Mentions, null);
-                _statuses.AddTab(MyCommon.DEFAULTTAB.DM, MyCommon.TabUsageType.DirectMessage, null);
-                _statuses.AddTab(MyCommon.DEFAULTTAB.FAV, MyCommon.TabUsageType.Favorites, null);
+                _statuses.AddTab(new HomeTabModel());
+                _statuses.AddTab(new MentionsTabModel());
+                _statuses.AddTab(new DirectMessagesTabModel());
+                _statuses.AddTab(new FavoritesTabModel());
             }
         }
 
@@ -1452,7 +1439,7 @@ namespace OpenTween
                 foreach (TabPage tab in ListTab.TabPages)
                 {
                     DetailsListView lst = (DetailsListView)tab.Tag;
-                    TabClass tabInfo = _statuses.Tabs[tab.Text];
+                    TabModel tabInfo = _statuses.Tabs[tab.Text];
                     if (isDelete || lst.VirtualListSize != tabInfo.AllCount)
                     {
                         using (ControlTransaction.Update(lst))
@@ -1523,7 +1510,7 @@ namespace OpenTween
         /// <summary>
         /// <see cref="ListView"/> のスクロール位置に関する情報を <see cref="ListViewScroll"/> として返します
         /// </summary>
-        private ListViewScroll SaveListViewScroll(DetailsListView listView, TabClass tab)
+        private ListViewScroll SaveListViewScroll(DetailsListView listView, TabModel tab)
         {
             var listScroll = new ListViewScroll
             {
@@ -1534,7 +1521,7 @@ namespace OpenTween
             {
                 var topItem = listView.TopItem;
                 if (topItem != null)
-                    listScroll.TopItemStatusId = tab.GetId(topItem.Index);
+                    listScroll.TopItemStatusId = tab.GetStatusIdAt(topItem.Index);
             }
 
             return listScroll;
@@ -1624,33 +1611,33 @@ namespace OpenTween
             return listsDict;
         }
 
-        private long[] GetSelectedStatusIds(DetailsListView listView, TabClass tab)
+        private long[] GetSelectedStatusIds(DetailsListView listView, TabModel tab)
         {
             var selectedIndices = listView.SelectedIndices;
             if (selectedIndices.Count > 0 && selectedIndices.Count < 61)
-                return tab.GetId(selectedIndices);
+                return tab.GetStatusIdAt(selectedIndices.Cast<int>());
             else
                 return null;
         }
 
-        private long? GetFocusedStatusId(DetailsListView listView, TabClass tab)
+        private long? GetFocusedStatusId(DetailsListView listView, TabModel tab)
         {
             var focusedItem = listView.FocusedItem;
 
-            return focusedItem != null ? tab.GetId(focusedItem.Index) : (long?)null;
+            return focusedItem != null ? tab.GetStatusIdAt(focusedItem.Index) : (long?)null;
         }
 
-        private long? GetSelectionMarkStatusId(DetailsListView listView, TabClass tab)
+        private long? GetSelectionMarkStatusId(DetailsListView listView, TabModel tab)
         {
             var selectionMarkIndex = listView.SelectionMark;
 
-            return selectionMarkIndex != -1 ? tab.GetId(selectionMarkIndex) : (long?)null;
+            return selectionMarkIndex != -1 ? tab.GetStatusIdAt(selectionMarkIndex) : (long?)null;
         }
 
         /// <summary>
         /// <see cref="SaveListViewScroll"/> によって保存されたスクロール位置を復元します
         /// </summary>
-        private void RestoreListViewScroll(DetailsListView listView, TabClass tab, ListViewScroll listScroll)
+        private void RestoreListViewScroll(DetailsListView listView, TabModel tab, ListViewScroll listScroll)
         {
             if (listView.VirtualListSize == 0)
                 return;
@@ -1677,7 +1664,7 @@ namespace OpenTween
         /// <summary>
         /// <see cref="SaveListViewStatus"/> によって保存された選択状態を復元します
         /// </summary>
-        private void RestoreListViewSelection(DetailsListView listView, TabClass tab, ListViewSelection listSelection)
+        private void RestoreListViewSelection(DetailsListView listView, TabModel tab, ListViewSelection listSelection)
         {
             // status_id から ListView 上のインデックスに変換
             int[] selectedIndices = null;
@@ -2516,22 +2503,22 @@ namespace OpenTween
 
         private Task GetPublicSearchAllAsync()
         {
-            var tabs = this._statuses.GetTabsByType(MyCommon.TabUsageType.PublicSearch);
+            var tabs = this._statuses.GetTabsByType<PublicSearchTabModel>();
 
             return this.GetPublicSearchAsync(tabs, loadMore: false);
         }
 
-        private Task GetPublicSearchAsync(TabClass tab)
+        private Task GetPublicSearchAsync(PublicSearchTabModel tab)
         {
             return this.GetPublicSearchAsync(tab, loadMore: false);
         }
 
-        private Task GetPublicSearchAsync(TabClass tab, bool loadMore)
+        private Task GetPublicSearchAsync(PublicSearchTabModel tab, bool loadMore)
         {
             return this.GetPublicSearchAsync(new[] { tab }, loadMore);
         }
 
-        private async Task GetPublicSearchAsync(IEnumerable<TabClass> tabs, bool loadMore)
+        private async Task GetPublicSearchAsync(IEnumerable<PublicSearchTabModel> tabs, bool loadMore)
         {
             await this.workerSemaphore.WaitAsync();
 
@@ -2552,7 +2539,7 @@ namespace OpenTween
             }
         }
 
-        private async Task GetPublicSearchAsyncInternal(IProgress<string> p, CancellationToken ct, IEnumerable<TabClass> tabs, bool loadMore)
+        private async Task GetPublicSearchAsyncInternal(IProgress<string> p, CancellationToken ct, IEnumerable<PublicSearchTabModel> tabs, bool loadMore)
         {
             if (ct.IsCancellationRequested)
                 return;
@@ -2608,22 +2595,22 @@ namespace OpenTween
 
         private Task GetUserTimelineAllAsync()
         {
-            var tabs = this._statuses.GetTabsByType(MyCommon.TabUsageType.UserTimeline);
+            var tabs = this._statuses.GetTabsByType<UserTimelineTabModel>();
 
             return this.GetUserTimelineAsync(tabs, loadMore: false);
         }
 
-        private Task GetUserTimelineAsync(TabClass tab)
+        private Task GetUserTimelineAsync(UserTimelineTabModel tab)
         {
             return this.GetUserTimelineAsync(tab, loadMore: false);
         }
 
-        private Task GetUserTimelineAsync(TabClass tab, bool loadMore)
+        private Task GetUserTimelineAsync(UserTimelineTabModel tab, bool loadMore)
         {
             return this.GetUserTimelineAsync(new[] { tab }, loadMore);
         }
 
-        private async Task GetUserTimelineAsync(IEnumerable<TabClass> tabs, bool loadMore)
+        private async Task GetUserTimelineAsync(IEnumerable<UserTimelineTabModel> tabs, bool loadMore)
         {
             await this.workerSemaphore.WaitAsync();
 
@@ -2644,7 +2631,7 @@ namespace OpenTween
             }
         }
 
-        private async Task GetUserTimelineAsyncInternal(IProgress<string> p, CancellationToken ct, IEnumerable<TabClass> tabs, bool loadMore)
+        private async Task GetUserTimelineAsyncInternal(IProgress<string> p, CancellationToken ct, IEnumerable<UserTimelineTabModel> tabs, bool loadMore)
         {
             if (ct.IsCancellationRequested)
                 return;
@@ -2668,10 +2655,10 @@ namespace OpenTween
                 {
                     try
                     {
-                        if (string.IsNullOrEmpty(tab.User))
+                        if (string.IsNullOrEmpty(tab.ScreenName))
                             continue;
 
-                        await this.tw.GetUserTimelineApi(read, tab.User, tab, loadMore)
+                        await this.tw.GetUserTimelineApi(read, tab.ScreenName, tab, loadMore)
                             .ConfigureAwait(false);
                     }
                     catch (WebApiException ex)
@@ -2696,22 +2683,22 @@ namespace OpenTween
 
         private Task GetListTimelineAllAsync()
         {
-            var tabs = this._statuses.GetTabsByType(MyCommon.TabUsageType.Lists);
+            var tabs = this._statuses.GetTabsByType<ListTimelineTabModel>();
 
             return this.GetListTimelineAsync(tabs, loadMore: false);
         }
 
-        private Task GetListTimelineAsync(TabClass tab)
+        private Task GetListTimelineAsync(ListTimelineTabModel tab)
         {
             return this.GetListTimelineAsync(tab, loadMore: false);
         }
 
-        private Task GetListTimelineAsync(TabClass tab, bool loadMore)
+        private Task GetListTimelineAsync(ListTimelineTabModel tab, bool loadMore)
         {
             return this.GetListTimelineAsync(new[] { tab }, loadMore);
         }
 
-        private async Task GetListTimelineAsync(IEnumerable<TabClass> tabs, bool loadMore)
+        private async Task GetListTimelineAsync(IEnumerable<ListTimelineTabModel> tabs, bool loadMore)
         {
             await this.workerSemaphore.WaitAsync();
 
@@ -2732,7 +2719,7 @@ namespace OpenTween
             }
         }
 
-        private async Task GetListTimelineAsyncInternal(IProgress<string> p, CancellationToken ct, IEnumerable<TabClass> tabs, bool loadMore)
+        private async Task GetListTimelineAsyncInternal(IProgress<string> p, CancellationToken ct, IEnumerable<ListTimelineTabModel> tabs, bool loadMore)
         {
             if (ct.IsCancellationRequested)
                 return;
@@ -2782,7 +2769,7 @@ namespace OpenTween
             this.RefreshTimeline();
         }
 
-        private async Task GetRelatedTweetsAsync(TabClass tab)
+        private async Task GetRelatedTweetsAsync(RelatedPostsTabModel tab)
         {
             await this.workerSemaphore.WaitAsync();
 
@@ -2803,7 +2790,7 @@ namespace OpenTween
             }
         }
 
-        private async Task GetRelatedTweetsAsyncInternal(IProgress<string> p, CancellationToken ct, TabClass tab)
+        private async Task GetRelatedTweetsAsyncInternal(IProgress<string> p, CancellationToken ct, RelatedPostsTabModel tab)
         {
             if (ct.IsCancellationRequested)
                 return;
@@ -2842,7 +2829,7 @@ namespace OpenTween
                 // TODO: 非同期更新中にタブが閉じられている場合を厳密に考慮したい
 
                 var listView = (DetailsListView)tabPage.Tag;
-                var index = tab.IndexOf(tab.RelationTargetPost.RetweetedId ?? tab.RelationTargetPost.StatusId);
+                var index = tab.IndexOf(tab.TargetPost.RetweetedId ?? tab.TargetPost.StatusId);
 
                 if (index != -1 && index < listView.Items.Count)
                 {
@@ -2852,7 +2839,7 @@ namespace OpenTween
             }
         }
 
-        private async Task FavAddAsync(long statusId, TabClass tab)
+        private async Task FavAddAsync(long statusId, TabModel tab)
         {
             await this.workerSemaphore.WaitAsync();
 
@@ -2873,7 +2860,7 @@ namespace OpenTween
             }
         }
 
-        private async Task FavAddAsyncInternal(IProgress<string> p, CancellationToken ct, long statusId, TabClass tab)
+        private async Task FavAddAsyncInternal(IProgress<string> p, CancellationToken ct, long statusId, TabModel tab)
         {
             if (ct.IsCancellationRequested)
                 return;
@@ -2916,7 +2903,7 @@ namespace OpenTween
                         postTl.IsFav = true;
 
                         var favTab = this._statuses.GetTabByType(MyCommon.TabUsageType.Favorites);
-                        favTab.AddPostQueue(statusId, postTl.IsRead);
+                        favTab.AddPostQueue(postTl);
                     }
 
                     // 検索,リスト,UserTimeline,Relatedの各タブに反映
@@ -2964,7 +2951,7 @@ namespace OpenTween
             }
         }
 
-        private async Task FavRemoveAsync(IReadOnlyList<long> statusIds, TabClass tab)
+        private async Task FavRemoveAsync(IReadOnlyList<long> statusIds, TabModel tab)
         {
             await this.workerSemaphore.WaitAsync();
 
@@ -2985,7 +2972,7 @@ namespace OpenTween
             }
         }
 
-        private async Task FavRemoveAsyncInternal(IProgress<string> p, CancellationToken ct, IReadOnlyList<long> statusIds, TabClass tab)
+        private async Task FavRemoveAsyncInternal(IProgress<string> p, CancellationToken ct, IReadOnlyList<long> statusIds, TabModel tab)
         {
             if (ct.IsCancellationRequested)
                 return;
@@ -3450,7 +3437,7 @@ namespace OpenTween
 
         private async Task FavoriteChange(bool FavAdd, bool multiFavoriteChangeDialogEnable = true)
         {
-            TabClass tab;
+            TabModel tab;
             if (!this._statuses.Tabs.TryGetValue(this._curTab.Text, out tab))
                 return;
 
@@ -3984,7 +3971,7 @@ namespace OpenTween
         {
             if (_curTab != null)
             {
-                TabClass tab;
+                TabModel tab;
                 if (!this._statuses.Tabs.TryGetValue(this._curTab.Text, out tab))
                     return;
 
@@ -4002,17 +3989,17 @@ namespace OpenTween
                     //case MyCommon.TabUsageType.Profile:
                         //// TODO
                     case MyCommon.TabUsageType.PublicSearch:
-                        //// TODO
-                        if (string.IsNullOrEmpty(tab.SearchWords)) return;
-                        await this.GetPublicSearchAsync(tab);
+                        var searchTab = (PublicSearchTabModel)tab;
+                        if (string.IsNullOrEmpty(searchTab.SearchWords)) return;
+                        await this.GetPublicSearchAsync(searchTab);
                         break;
                     case MyCommon.TabUsageType.UserTimeline:
-                        await this.GetUserTimelineAsync(tab);
+                        await this.GetUserTimelineAsync((UserTimelineTabModel)tab);
                         break;
                     case MyCommon.TabUsageType.Lists:
-                        //// TODO
-                        if (tab.ListInfo == null || tab.ListInfo.Id == 0) return;
-                        await this.GetListTimelineAsync(tab);
+                        var listTab = (ListTimelineTabModel)tab;
+                        if (listTab.ListInfo == null || listTab.ListInfo.Id == 0) return;
+                        await this.GetListTimelineAsync(listTab);
                         break;
                     default:
                         await this.GetHomeTimelineAsync();
@@ -4030,7 +4017,7 @@ namespace OpenTween
             //ページ指定をマイナス1に
             if (_curTab != null)
             {
-                TabClass tab;
+                TabModel tab;
                 if (!this._statuses.Tabs.TryGetValue(this._curTab.Text, out tab))
                     return;
 
@@ -4049,17 +4036,17 @@ namespace OpenTween
                         //// TODO
                         break;
                     case MyCommon.TabUsageType.PublicSearch:
-                        // TODO
-                        if (string.IsNullOrEmpty(tab.SearchWords)) return;
-                        await this.GetPublicSearchAsync(tab, loadMore: true);
+                        var searchTab = (PublicSearchTabModel)tab;
+                        if (string.IsNullOrEmpty(searchTab.SearchWords)) return;
+                        await this.GetPublicSearchAsync(searchTab, loadMore: true);
                         break;
                     case MyCommon.TabUsageType.UserTimeline:
-                        await this.GetUserTimelineAsync(tab, loadMore: true);
+                        await this.GetUserTimelineAsync((UserTimelineTabModel)tab, loadMore: true);
                         break;
                     case MyCommon.TabUsageType.Lists:
-                        //// TODO
-                        if (tab.ListInfo == null || tab.ListInfo.Id == 0) return;
-                        await this.GetListTimelineAsync(tab, loadMore: true);
+                        var listTab = (ListTimelineTabModel)tab;
+                        if (listTab.ListInfo == null || listTab.ListInfo.Id == 0) return;
+                        await this.GetListTimelineAsync(listTab, loadMore: true);
                         break;
                     default:
                         await this.GetHomeTimelineAsync(loadMore: true);
@@ -4368,7 +4355,7 @@ namespace OpenTween
             foreach (TabPage tab in ListTab.TabPages)
             {
                 DetailsListView lst = (DetailsListView)tab.Tag;
-                TabClass tabInfo = _statuses.Tabs[tab.Text];
+                TabModel tabInfo = _statuses.Tabs[tab.Text];
                 using (ControlTransaction.Update(lst))
                 {
                     // 選択位置などを復元
@@ -4465,7 +4452,7 @@ namespace OpenTween
         public void AddNewTabForSearch(string searchWord)
         {
             //同一検索条件のタブが既に存在すれば、そのタブアクティブにして終了
-            foreach (TabClass tb in _statuses.GetTabsByType(MyCommon.TabUsageType.PublicSearch))
+            foreach (var tb in _statuses.GetTabsByType<PublicSearchTabModel>())
             {
                 if (tb.SearchWords == searchWord && string.IsNullOrEmpty(tb.SearchLang))
                 {
@@ -4489,8 +4476,9 @@ namespace OpenTween
                     break;
             }
             //タブ追加
-            _statuses.AddTab(tabName, MyCommon.TabUsageType.PublicSearch, null);
-            AddNewTab(tabName, false, MyCommon.TabUsageType.PublicSearch);
+            var tab = new PublicSearchTabModel(tabName);
+            _statuses.AddTab(tab);
+            AddNewTab(tab, startup: false);
             //追加したタブをアクティブに
             ListTab.SelectedIndex = ListTab.TabPages.Count - 1;
             //検索条件の設定
@@ -4522,9 +4510,9 @@ namespace OpenTween
         public void AddNewTabForUserTimeline(string user)
         {
             //同一検索条件のタブが既に存在すれば、そのタブアクティブにして終了
-            foreach (TabClass tb in _statuses.GetTabsByType(MyCommon.TabUsageType.UserTimeline))
+            foreach (var tb in _statuses.GetTabsByType<UserTimelineTabModel>())
             {
-                if (tb.User == user)
+                if (tb.ScreenName == user)
                 {
                     foreach (TabPage tp in ListTab.TabPages)
                     {
@@ -4543,10 +4531,9 @@ namespace OpenTween
                 tabName += "_";
             }
             //タブ追加
-            var tab = new TabClass(tabName, MyCommon.TabUsageType.UserTimeline);
+            var tab = new UserTimelineTabModel(tabName, user);
             this._statuses.AddTab(tab);
-            tab.User = user;
-            AddNewTab(tabName, false, MyCommon.TabUsageType.UserTimeline);
+            this.AddNewTab(tab, startup: false);
             //追加したタブをアクティブに
             ListTab.SelectedIndex = ListTab.TabPages.Count - 1;
             SaveConfigsTabs();
@@ -4554,27 +4541,23 @@ namespace OpenTween
             this.GetUserTimelineAsync(tab);
         }
 
-        public bool AddNewTab(string tabName, bool startup, MyCommon.TabUsageType tabType, ListElement listInfo = null)
+        public bool AddNewTab(TabModel tab, bool startup)
         {
             //重複チェック
             foreach (TabPage tb in ListTab.TabPages)
             {
-                if (tb.Text == tabName) return false;
+                if (tb.Text == tab.TabName) return false;
             }
 
             //新規タブ名チェック
-            if (tabName == Properties.Resources.AddNewTabText1) return false;
+            if (tab.TabName == Properties.Resources.AddNewTabText1) return false;
 
             //タブタイプ重複チェック
             if (!startup)
             {
-                if (tabType == MyCommon.TabUsageType.DirectMessage ||
-                   tabType == MyCommon.TabUsageType.Favorites ||
-                   tabType == MyCommon.TabUsageType.Home ||
-                   tabType == MyCommon.TabUsageType.Mentions ||
-                   tabType == MyCommon.TabUsageType.Related)
+                if (tab.IsDefaultTabType || tab.TabType == MyCommon.TabUsageType.Related)
                 {
-                    if (_statuses.GetTabByType(tabType) != null) return false;
+                    if (_statuses.GetTabByType(tab.TabType) != null) return false;
                 }
             }
 
@@ -4596,19 +4579,24 @@ namespace OpenTween
                 _tabPage.Controls.Add(_listCustom);
 
                 /// UserTimeline関連
-                if (tabType == MyCommon.TabUsageType.UserTimeline || tabType == MyCommon.TabUsageType.Lists)
+                var userTab = tab as UserTimelineTabModel;
+                var listTab = tab as ListTimelineTabModel;
+                var searchTab = tab as PublicSearchTabModel;
+
+                if (userTab != null || listTab != null)
                 {
                     var label = new Label();
                     label.Dock = DockStyle.Top;
                     label.Name = "labelUser";
                     label.TabIndex = 0;
-                    if (tabType == MyCommon.TabUsageType.Lists)
+
+                    if (listTab != null)
                     {
-                        label.Text = listInfo.ToString();
+                        label.Text = listTab.ListInfo.ToString();
                     }
-                    else
+                    else if (userTab != null)
                     {
-                        label.Text = _statuses.Tabs[tabName].User + "'s Timeline";
+                        label.Text = userTab.ScreenName + "'s Timeline";
                     }
                     label.TextAlign = ContentAlignment.MiddleLeft;
                     using (ComboBox tmpComboBox = new ComboBox())
@@ -4618,7 +4606,7 @@ namespace OpenTween
                     _tabPage.Controls.Add(label);
                 }
                 /// 検索関連の準備
-                else if (tabType == MyCommon.TabUsageType.PublicSearch)
+                else if (searchTab != null)
                 {
                     var pnl = new Panel();
 
@@ -4696,17 +4684,13 @@ namespace OpenTween
                         btn.TabIndex = 3;
                         btn.Click += SearchButton_Click;
 
-                        TabClass tab;
-                        if (_statuses.Tabs.TryGetValue(tabName, out tab))
+                        if (!string.IsNullOrEmpty(searchTab.SearchWords))
                         {
-                            if (!string.IsNullOrEmpty(tab.SearchWords))
-                            {
-                                cmb.Items.Add(tab.SearchWords);
-                                cmb.Text = tab.SearchWords;
-                            }
-
-                            cmbLang.Text = tab.SearchLang;
+                            cmb.Items.Add(searchTab.SearchWords);
+                            cmb.Text = searchTab.SearchWords;
                         }
+
+                        cmbLang.Text = searchTab.SearchLang;
 
                         _tabPage.Controls.Add(pnl);
                     }
@@ -4719,7 +4703,7 @@ namespace OpenTween
                 _tabPage.Name = "CTab" + cnt.ToString();
                 _tabPage.Size = new Size(380, 260);
                 _tabPage.TabIndex = 2 + cnt;
-                _tabPage.Text = tabName;
+                _tabPage.Text = tab.TabName;
                 _tabPage.UseVisualStyleBackColor = true;
                 _tabPage.AccessibleRole = AccessibleRole.PageTab;
 
@@ -5811,8 +5795,8 @@ namespace OpenTween
                         MessageBox.Show(this, ex.Message, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
 
-                    var resultTab = new TabClass(tabName, MyCommon.TabUsageType.SearchResults);
-                    this.AddNewTab(tabName, false, MyCommon.TabUsageType.SearchResults);
+                    var resultTab = new LocalSearchTabModel(tabName);
+                    this.AddNewTab(resultTab, startup: false);
                     this._statuses.AddTab(resultTab);
 
                     var targetTab = this._statuses.Tabs[this._curTab.Text];
@@ -5838,7 +5822,7 @@ namespace OpenTween
                     var foundPosts = foundIndices.Select(x => targetTab[x]);
                     foreach (var post in foundPosts)
                     {
-                        resultTab.AddPostToInnerStorage(post);
+                        resultTab.AddPostQueue(post);
                     }
 
                     this._statuses.DistributePosts();
@@ -7477,7 +7461,7 @@ namespace OpenTween
         {
             if (_curPost == null) return;
 
-            TabClass curTabClass = _statuses.Tabs[_curTab.Text];
+            TabModel curTabClass = _statuses.Tabs[_curTab.Text];
 
             if (curTabClass.TabType == MyCommon.TabUsageType.PublicSearch && _curPost.InReplyToStatusId == null && _curPost.TextFromApi.Contains("@"))
             {
@@ -7569,7 +7553,7 @@ namespace OpenTween
         {
             if (_curPost == null) return;
 
-            TabClass curTabClass = _statuses.Tabs[_curTab.Text];
+            TabModel curTabClass = _statuses.Tabs[_curTab.Text];
             //Dictionary<long, PostClass> curTabPosts = curTabClass.Posts;
 
             if (parallel)
@@ -7978,12 +7962,27 @@ namespace OpenTween
                     Protected = tab.Protected,
                     Notify = tab.Notify,
                     SoundFile = tab.SoundFile,
-                    FilterArray = tab.FilterArray,
-                    User = tab.User,
-                    SearchWords = tab.SearchWords,
-                    SearchLang = tab.SearchLang,
-                    ListInfo = tab.ListInfo,
                 };
+
+                var filterTab = tab as FilterTabModel;
+                if (filterTab != null)
+                    tabSetting.FilterArray = filterTab.FilterArray;
+
+                var userTab = tab as UserTimelineTabModel;
+                if (userTab != null)
+                    tabSetting.User = userTab.ScreenName;
+
+                var searchTab = tab as PublicSearchTabModel;
+                if (searchTab != null)
+                {
+                    tabSetting.SearchWords = searchTab.SearchWords;
+                    tabSetting.SearchLang = searchTab.SearchLang;
+                }
+
+                var listTab = tab as ListTimelineTabModel;
+                if (listTab != null)
+                    tabSetting.ListInfo = listTab.ListInfo;
+
                 tabsSetting.Tabs.Add(tabSetting);
             }
 
@@ -8610,7 +8609,7 @@ namespace OpenTween
                 return;
             }
 
-            TabClass tb = _statuses.GetTabByType(MyCommon.TabUsageType.Mentions);
+            TabModel tb = _statuses.GetTabByType(MyCommon.TabUsageType.Mentions);
             if (this._cfgCommon.ReplyIconState != MyCommon.REPLY_ICONSTATE.None && tb != null && tb.UnreadCount > 0)
             {
                 if (blinkCnt > 0) return;
@@ -8666,7 +8665,7 @@ namespace OpenTween
             if (_statuses == null) return;
             if (_statuses.Tabs == null) return;
 
-            TabClass tb = _statuses.Tabs[_rclickTabName];
+            TabModel tb = _statuses.Tabs[_rclickTabName];
             if (tb == null) return;
 
             NotifyDispMenuItem.Checked = tb.Notify;
@@ -8859,7 +8858,24 @@ namespace OpenTween
                         list = listAvail.SelectedList;
                     }
                 }
-                if (!_statuses.AddTab(tabName, tabUsage, list) || !AddNewTab(tabName, false, tabUsage, list))
+
+                TabModel tab;
+                switch (tabUsage)
+                {
+                    case MyCommon.TabUsageType.UserDefined:
+                        tab = new FilterTabModel(tabName);
+                        break;
+                    case MyCommon.TabUsageType.PublicSearch:
+                        tab = new PublicSearchTabModel(tabName);
+                        break;
+                    case MyCommon.TabUsageType.Lists:
+                        tab = new ListTimelineTabModel(tabName, list);
+                        break;
+                    default:
+                        return;
+                }
+
+                if (!_statuses.AddTab(tab) || !AddNewTab(tab, startup: false))
                 {
                     string tmp = string.Format(Properties.Resources.AddTabMenuItem_ClickText1, tabName);
                     MessageBox.Show(tmp, Properties.Resources.AddTabMenuItem_ClickText2, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
@@ -8876,8 +8892,8 @@ namespace OpenTween
                     if (tabUsage == MyCommon.TabUsageType.Lists)
                     {
                         ListTab.SelectedIndex = ListTab.TabPages.Count - 1;
-                        var tab = this._statuses.Tabs[this._curTab.Text];
-                        this.GetListTimelineAsync(tab);
+                        var listTab = (ListTimelineTabModel)this._statuses.Tabs[this._curTab.Text];
+                        this.GetListTimelineAsync(listTab);
                     }
                 }
             }
@@ -9018,7 +9034,7 @@ namespace OpenTween
             //タブ選択（or追加）
             if (!SelectTab(out tabName)) return;
 
-            var tab = this._statuses.Tabs[tabName];
+            var tab = (FilterTabModel)this._statuses.Tabs[tabName];
 
             bool mv;
             bool mk;
@@ -9084,7 +9100,7 @@ namespace OpenTween
                 return;
 
             var currentTab = this._statuses.Tabs[this._curTab.Text];
-            var filterTab = this._statuses.Tabs[tabName];
+            var filterTab = (FilterTabModel)this._statuses.Tabs[tabName];
 
             bool mv;
             bool mk;
@@ -9155,7 +9171,8 @@ namespace OpenTween
                     this.TopMost = this._cfgCommon.AlwaysTop;
                     if (!string.IsNullOrEmpty(tabName))
                     {
-                        if (!_statuses.AddTab(tabName, MyCommon.TabUsageType.UserDefined, null) || !AddNewTab(tabName, false, MyCommon.TabUsageType.UserDefined))
+                        var tab = new FilterTabModel(tabName);
+                        if (!_statuses.AddTab(tab) || !AddNewTab(tab, startup: false))
                         {
                             string tmp = string.Format(Properties.Resources.IDRuleMenuItem_ClickText2, tabName);
                             MessageBox.Show(tmp, Properties.Resources.IDRuleMenuItem_ClickText3, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
@@ -9444,8 +9461,8 @@ namespace OpenTween
             //ステータス欄にカウント表示
             //タブ未読数/タブ発言数 全未読数/総発言数 (未読＠＋未読DM数)
             if (_statuses == null) return "";
-            TabClass tbRep = _statuses.GetTabByType(MyCommon.TabUsageType.Mentions);
-            TabClass tbDm = _statuses.GetTabByType(MyCommon.TabUsageType.DirectMessage);
+            TabModel tbRep = _statuses.GetTabByType(MyCommon.TabUsageType.Mentions);
+            TabModel tbDm = _statuses.GetTabByType(MyCommon.TabUsageType.DirectMessage);
             if (tbRep == null || tbDm == null) return "";
             int urat = tbRep.UnreadCount + tbDm.UnreadCount;
             int ur = 0;
@@ -9832,7 +9849,7 @@ namespace OpenTween
                 }
                 else
                 {
-                    foreach (TabClass tb in _statuses.GetTabsByType(MyCommon.TabUsageType.Lists | MyCommon.TabUsageType.PublicSearch))
+                    foreach (TabModel tb in _statuses.GetTabsByType(MyCommon.TabUsageType.Lists | MyCommon.TabUsageType.PublicSearch))
                     {
                         if (tb == null || !tb.Contains(_curPost.InReplyToStatusId.Value)) break;
                         PostClass repPost = _statuses[_curPost.InReplyToStatusId.Value];
@@ -11710,7 +11727,7 @@ namespace OpenTween
             Control pnl = ((Control)sender).Parent;
             if (pnl == null) return;
             string tbName = pnl.Parent.Text;
-            TabClass tb = _statuses.Tabs[tbName];
+            var tb = (PublicSearchTabModel)_statuses.Tabs[tbName];
             ComboBox cmb = (ComboBox)pnl.Controls["comboSearch"];
             ComboBox cmbLang = (ComboBox)pnl.Controls["comboLang"];
             cmb.Text = cmb.Text.Trim();
@@ -11744,6 +11761,8 @@ namespace OpenTween
 
             var listView = (DetailsListView)pnl.Parent.Tag;
 
+            var queryChanged = tb.SearchWords != cmb.Text || tb.SearchLang != cmbLang.Text;
+
             tb.SearchWords = cmb.Text;
             tb.SearchLang = cmbLang.Text;
             if (string.IsNullOrEmpty(cmb.Text))
@@ -11752,7 +11771,7 @@ namespace OpenTween
                 SaveConfigsTabs();
                 return;
             }
-            if (tb.IsSearchQueryChanged)
+            if (queryChanged)
             {
                 int idx = cmb.Items.IndexOf(tb.SearchWords);
                 if (idx > -1) cmb.Items.RemoveAt(idx);
@@ -11806,7 +11825,7 @@ namespace OpenTween
             {
                 DetailsListView listView = null;
 
-                TabClass tb = _statuses.RemovedTab.Pop();
+                TabModel tb = _statuses.RemovedTab.Pop();
                 if (tb.TabType == MyCommon.TabUsageType.Related)
                 {
                     var relatedTab = _statuses.GetTabByType(MyCommon.TabUsageType.Related);
@@ -11838,8 +11857,9 @@ namespace OpenTween
                             renamed = TabName + i.ToString();
                         }
                         tb.TabName = renamed;
-                        AddNewTab(renamed, false, tb.TabType, tb.ListInfo);
-                        _statuses.Tabs.Add(renamed, tb);  // 後に
+
+                        _statuses.AddTab(tb);
+                        AddNewTab(tb, startup: false);
 
                         var tabPage = ListTab.TabPages[ListTab.TabPages.Count - 1];
                         listView = (DetailsListView)tabPage.Tag;
@@ -11855,8 +11875,9 @@ namespace OpenTween
                         renamed = tb.TabName + "(" + i.ToString() + ")";
                     }
                     tb.TabName = renamed;
-                    _statuses.Tabs.Add(renamed, tb);  // 先に
-                    AddNewTab(renamed, false, tb.TabType, tb.ListInfo);
+
+                    _statuses.AddTab(tb);
+                    AddNewTab(tb, startup: false);
 
                     var tabPage = ListTab.TabPages[ListTab.TabPages.Count - 1];
                     listView = (DetailsListView)tabPage.Tag;
@@ -11904,7 +11925,7 @@ namespace OpenTween
                 //タブ選択（or追加）
                 if (!SelectTab(out tabName)) return;
 
-                var tab = this._statuses.Tabs[tabName];
+                var tab = (FilterTabModel)this._statuses.Tabs[tabName];
 
                 bool mv;
                 bool mk;
@@ -12752,27 +12773,20 @@ namespace OpenTween
         /// <exception cref="TabException">名前の重複が多すぎてタブを作成できない場合</exception>
         private async Task OpenRelatedTab(PostClass post)
         {
-            var tabRelated = this._statuses.GetTabByType(MyCommon.TabUsageType.Related);
-            string tabName;
-
-            if (tabRelated == null)
+            var tabRelated = this._statuses.GetTabByType<RelatedPostsTabModel>();
+            if (tabRelated != null)
             {
-                tabName = this._statuses.MakeTabName("Related Tweets");
-
-                tabRelated = new TabClass(tabName, MyCommon.TabUsageType.Related);
-                tabRelated.UnreadManage = false;
-                tabRelated.Notify = false;
-
-                this.AddNewTab(tabName, false, MyCommon.TabUsageType.Related);
-                this._statuses.AddTab(tabRelated);
-            }
-            else
-            {
-                tabName = tabRelated.TabName;
+                this.RemoveSpecifiedTab(tabRelated.TabName, confirm: false);
             }
 
-            tabRelated.RelationTargetPost = post;
-            this.ClearTab(tabName, false);
+            var tabName = this._statuses.MakeTabName("Related Tweets");
+
+            tabRelated = new RelatedPostsTabModel(tabName, post);
+            tabRelated.UnreadManage = false;
+            tabRelated.Notify = false;
+
+            this._statuses.AddTab(tabRelated);
+            this.AddNewTab(tabRelated, startup: false);
 
             for (int i = 0; i < this.ListTab.TabPages.Count; i++)
             {
