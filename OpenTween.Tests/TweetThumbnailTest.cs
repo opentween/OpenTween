@@ -31,6 +31,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Moq;
+using OpenTween.Models;
 using OpenTween.Thumbnail;
 using OpenTween.Thumbnail.Services;
 using Xunit;

@@ -27,6 +27,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using OpenTween.Models;
 
 namespace OpenTween.Thumbnail
 {

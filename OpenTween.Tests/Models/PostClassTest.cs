@@ -28,7 +28,7 @@ using System.Threading.Tasks;
 using Xunit;
 using Xunit.Extensions;
 
-namespace OpenTween
+namespace OpenTween.Models
 {
     public class PostClassTest
     {

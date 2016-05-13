@@ -25,6 +25,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using OpenTween.Api.DataModel;
+using OpenTween.Models;
 using Xunit;
 using Xunit.Extensions;
 

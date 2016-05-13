@@ -141,6 +141,10 @@
     </Compile>
     <Compile Include="IndexedSortedSet.cs" />
     <Compile Include="MediaItem.cs" />
+    <Compile Include="Models\MediaInfo.cs" />
+    <Compile Include="Models\PostClass.cs" />
+    <Compile Include="Models\TabClass.cs" />
+    <Compile Include="Models\TabInformations.cs" />
     <Compile Include="MouseWheelMessageFilter.cs" />
     <Compile Include="NotifyPropertyChangedBase.cs" />
     <Compile Include="SendErrorReportForm.cs">
@@ -179,7 +183,7 @@
     <Compile Include="OTSplitContainer.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="PostFilterRule.cs" />
+    <Compile Include="Models\PostFilterRule.cs" />
     <Compile Include="HashtagManage.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -394,7 +398,6 @@
     <Compile Include="UserInfoDialog.Designer.cs">
       <DependentUpon>UserInfoDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="StatusDictionary.cs" />
     <Compile Include="ToolStripAPIGauge.cs">
       <SubType>Component</SubType>
     </Compile>

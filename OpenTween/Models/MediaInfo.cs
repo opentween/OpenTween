@@ -1,5 +1,5 @@
 ﻿// OpenTween - Client of Twitter
-// Copyright (c) 2016 kim_upsilon (@kim_upsilon) <https://upsilo.net/~upsilon/>
+// Copyright (c) 2015 spx (@5px)
 // All rights reserved.
 //
 // This file is part of OpenTween.
@@ -23,37 +23,45 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading;
 using System.Threading.Tasks;
-using OpenTween.Models;
 
-namespace OpenTween.Thumbnail.Services
+namespace OpenTween.Models
 {
-    class PbsTwimgCom : SimpleThumbnailService
+    public class MediaInfo
     {
-        public static readonly string UrlPattern = @"^(https?://pbs\.twimg\.com/[^:]+)(?:\:.+)?$";
+        public string Url { get; }
+        public string AltText { get; }
+        public string VideoUrl { get; }
 
-        public PbsTwimgCom()
-            : base(UrlPattern, "${1}", "${1}:orig")
+        public MediaInfo(string url)
+            : this(url, altText: null, videoUrl: null)
         {
         }
 
-        public override async Task<ThumbnailInfo> GetThumbnailInfoAsync(string url, PostClass post, CancellationToken token)
+        public MediaInfo(string url, string altText, string videoUrl)
         {
-            var thumb = await base.GetThumbnailInfoAsync(url, post, token)
-                .ConfigureAwait(false);
+            this.Url = url;
+            this.AltText = altText;
+            this.VideoUrl = !string.IsNullOrEmpty(videoUrl) ? videoUrl : null;
+        }
 
-            if (thumb == null)
-                return null;
+        public override bool Equals(object obj)
+        {
+            var info = obj as MediaInfo;
+            return info != null &&
+                info.Url == this.Url &&
+                info.VideoUrl == this.VideoUrl;
+        }
 
-            var media = post.Media.FirstOrDefault(x => x.Url == url);
-            if (media != null)
-            {
-                thumb.TooltipText = media.AltText;
-            }
+        public override int GetHashCode()
+        {
+            return (this.Url == null ? 0 : this.Url.GetHashCode()) ^
+                   (this.VideoUrl == null ? 0 : this.VideoUrl.GetHashCode());
+        }
 
-            return thumb;
+        public override string ToString()
+        {
+            return this.Url;
         }
     }
 }

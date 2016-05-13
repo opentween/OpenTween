@@ -1,5 +1,11 @@
 ﻿// OpenTween - Client of Twitter
-// Copyright (c) 2016 kim_upsilon (@kim_upsilon) <https://upsilo.net/~upsilon/>
+// Copyright (c) 2007-2011 kiri_feather (@kiri_feather) <kiri.feather@gmail.com>
+//           (c) 2008-2011 Moz (@syo68k)
+//           (c) 2008-2011 takeshik (@takeshik) <http://www.takeshik.org/>
+//           (c) 2010-2011 anis774 (@anis774) <http://d.hatena.ne.jp/anis774/>
+//           (c) 2010-2011 fantasticswallow (@f_swallow) <http://twitter.com/f_swallow>
+//           (c) 2011      Egtra (@egtra) <http://dev.activebasic.com/egtra/>
+//           (c) 2012      kim_upsilon (@kim_upsilon) <https://upsilo.net/~upsilon/>
 // All rights reserved.
 //
 // This file is part of OpenTween.
@@ -23,37 +29,19 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading;
 using System.Threading.Tasks;
-using OpenTween.Models;
 
-namespace OpenTween.Thumbnail.Services
+namespace OpenTween.Models
 {
-    class PbsTwimgCom : SimpleThumbnailService
+    /// <summary>
+    /// 比較する方法
+    /// </summary>
+    public enum ComparerMode
     {
-        public static readonly string UrlPattern = @"^(https?://pbs\.twimg\.com/[^:]+)(?:\:.+)?$";
-
-        public PbsTwimgCom()
-            : base(UrlPattern, "${1}", "${1}:orig")
-        {
-        }
-
-        public override async Task<ThumbnailInfo> GetThumbnailInfoAsync(string url, PostClass post, CancellationToken token)
-        {
-            var thumb = await base.GetThumbnailInfoAsync(url, post, token)
-                .ConfigureAwait(false);
-
-            if (thumb == null)
-                return null;
-
-            var media = post.Media.FirstOrDefault(x => x.Url == url);
-            if (media != null)
-            {
-                thumb.TooltipText = media.AltText;
-            }
-
-            return thumb;
-        }
+        Id,
+        Data,
+        Name,
+        Nickname,
+        Source,
     }
 }

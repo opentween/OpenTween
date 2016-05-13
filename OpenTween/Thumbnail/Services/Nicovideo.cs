@@ -33,6 +33,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Xml;
 using OpenTween.Connection;
+using OpenTween.Models;
 
 namespace OpenTween.Thumbnail.Services
 {

@@ -29,7 +29,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Xml.Serialization;
 
-namespace OpenTween
+namespace OpenTween.Models
 {
     /// <summary>
     /// タブで使用する振り分けルールを表すクラス

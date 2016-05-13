@@ -29,6 +29,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using OpenTween.Connection;
+using OpenTween.Models;
 
 namespace OpenTween.Thumbnail.Services
 {

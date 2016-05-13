@@ -28,7 +28,7 @@ using System.Xml.Serialization;
 using Xunit;
 using Xunit.Extensions;
 
-namespace OpenTween
+namespace OpenTween.Models
 {
     /// <summary>
     /// FiltersClass -> PostFilterRule クラスへの変更で v1.1.2 までの

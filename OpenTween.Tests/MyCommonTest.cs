@@ -30,6 +30,7 @@ using System.Text;
 using System.Windows.Forms;
 using Moq;
 using OpenTween;
+using OpenTween.Models;
 using Xunit;
 using Xunit.Extensions;
 

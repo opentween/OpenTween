@@ -49,6 +49,7 @@ using System.Windows.Forms;
 using OpenTween.Api;
 using OpenTween.Api.DataModel;
 using OpenTween.Connection;
+using OpenTween.Models;
 
 namespace OpenTween
 {

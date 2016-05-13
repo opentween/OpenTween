@@ -27,7 +27,7 @@ using System.Text;
 using Xunit;
 using Xunit.Extensions;
 
-namespace OpenTween
+namespace OpenTween.Models
 {
     public class TabInformationTest
     {

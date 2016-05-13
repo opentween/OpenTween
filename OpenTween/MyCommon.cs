@@ -47,6 +47,7 @@ using System.Net.Http;
 using System.Net.NetworkInformation;
 using System.Runtime.InteropServices;
 using OpenTween.Api;
+using OpenTween.Models;
 
 namespace OpenTween
 {

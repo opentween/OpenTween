@@ -33,6 +33,7 @@ using System.Xml;
 using System.Xml.Linq;
 using System.Xml.XPath;
 using OpenTween.Connection;
+using OpenTween.Models;
 
 namespace OpenTween.Thumbnail.Services
 {

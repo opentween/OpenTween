@@ -26,6 +26,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using OpenTween.Api.DataModel;
+using OpenTween.Models;
 using Xunit;
 using Xunit.Extensions;
 

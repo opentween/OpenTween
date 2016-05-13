@@ -36,6 +36,7 @@ using System.Linq.Expressions;
 using System.Text.RegularExpressions;
 using System.IO;
 using System.Collections.Specialized;
+using OpenTween.Models;
 
 namespace OpenTween
 {

@@ -31,6 +31,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
 using Moq;
+using OpenTween.Models;
 using Xunit;
 using Xunit.Extensions;
 

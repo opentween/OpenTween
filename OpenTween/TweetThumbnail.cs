@@ -34,6 +34,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using OpenTween.Thumbnail;
 using System.Threading;
+using OpenTween.Models;
 
 namespace OpenTween
 {

@@ -27,6 +27,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
+using OpenTween.Models;
 using OpenTween.Thumbnail.Services;
 
 namespace OpenTween.Thumbnail
