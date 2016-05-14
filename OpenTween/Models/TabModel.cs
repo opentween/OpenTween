@@ -63,6 +63,11 @@ namespace OpenTween.Models
         public bool IsDistributableTabType => this.TabType.IsDistributable();
         public bool IsInnerStorageTabType => this.TabType.IsInnerStorage();
 
+        /// <summary>
+        /// 次回起動時にも保持されるタブか（SettingTabsに保存されるか）
+        /// </summary>
+        public virtual bool IsPermanentTabType => true;
+
         private IndexedSortedSet<long> _ids = new IndexedSortedSet<long>();
         private ConcurrentQueue<TemporaryId> addQueue = new ConcurrentQueue<TemporaryId>();
         private ConcurrentQueue<long> removeQueue = new ConcurrentQueue<long>();

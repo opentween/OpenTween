@@ -7942,7 +7942,7 @@ namespace OpenTween
 
             foreach (var tab in tabs)
             {
-                if (tab.TabType == MyCommon.TabUsageType.Related || tab.TabType == MyCommon.TabUsageType.SearchResults)
+                if (!tab.IsPermanentTabType)
                     continue;
 
                 var tabSetting = new SettingTabs.SettingTabItem

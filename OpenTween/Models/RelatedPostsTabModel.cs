@@ -38,6 +38,8 @@ namespace OpenTween.Models
         public override MyCommon.TabUsageType TabType
             => MyCommon.TabUsageType.Related;
 
+        public override bool IsPermanentTabType => false;
+
         public PostClass TargetPost { get; }
 
         public RelatedPostsTabModel(string tabName, PostClass targetPost)
