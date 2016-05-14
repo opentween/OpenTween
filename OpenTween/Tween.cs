@@ -177,8 +177,6 @@ namespace OpenTween
         //時速表示用
         private List<DateTime> _postTimestamps = new List<DateTime>();
         private List<DateTime> _favTimestamps = new List<DateTime>();
-        private ConcurrentDictionary<DateTime, int> _tlTimestamps = new ConcurrentDictionary<DateTime, int>();
-        private int _tlCount;
 
         // 以下DrawItem関連
         private SolidBrush _brsHighLight = new SolidBrush(Color.FromKnownColor(KnownColor.Highlight));
@@ -2286,9 +2284,6 @@ namespace OpenTween
                     this._statuses.SetReadHomeTab();
 
                 var addCount = this._statuses.DistributePosts();
-
-                if (!this._initial)
-                    this.UpdateTimelineSpeed(addCount);
             });
 
             if (ct.IsCancellationRequested)
@@ -2297,32 +2292,6 @@ namespace OpenTween
             p.Report(Properties.Resources.GetTimelineWorker_RunWorkerCompletedText1);
 
             this.RefreshTimeline();
-        }
-
-        /// <summary>
-        /// タイムラインに追加された発言件数を反映し、タイムラインの流速を更新します
-        /// </summary>
-        /// <param name="addCount">直前にタイムラインに追加した発言件数</param>
-        private void UpdateTimelineSpeed(int addCount)
-        {
-            var now = DateTime.Now;
-            this._tlTimestamps.AddOrUpdate(now, addCount, (k, v) => v + addCount);
-
-            var removeKeys = new List<DateTime>();
-            var oneHour = TimeSpan.FromHours(1);
-            var tlCount = 0;
-            foreach (var pair in this._tlTimestamps)
-            {
-                if (now - pair.Key > oneHour)
-                    removeKeys.Add(pair.Key);
-                else
-                    tlCount += pair.Value;
-            }
-            Interlocked.Exchange(ref this._tlCount, tlCount);
-
-            int _;
-            foreach (var key in removeKeys)
-                this._tlTimestamps.TryRemove(key, out _);
         }
 
         private Task GetReplyAsync()
@@ -9482,7 +9451,9 @@ namespace OpenTween
             UnreadCounter = ur;
             UnreadAtCounter = urat;
 
-            slbl.AppendFormat(Properties.Resources.SetStatusLabelText1, tur, tal, ur, al, urat, _postTimestamps.Count, _favTimestamps.Count, _tlCount);
+            var homeTab = this._statuses.GetTabByType<HomeTabModel>();
+
+            slbl.AppendFormat(Properties.Resources.SetStatusLabelText1, tur, tal, ur, al, urat, _postTimestamps.Count, _favTimestamps.Count, homeTab.TweetsPerHour);
             if (this._cfgCommon.TimelinePeriod == 0)
             {
                 slbl.Append(Properties.Resources.SetStatusLabelText2);
@@ -12848,8 +12819,6 @@ namespace OpenTween
             }
 
             int rsltAddCount = _statuses.DistributePosts();
-
-            this.UpdateTimelineSpeed(rsltAddCount);
 
             if (this._cfgCommon.UserstreamPeriod > 0) return;
 
