@@ -169,5 +169,12 @@ namespace OpenTween.Models
                 }
             }
         }
+
+        public override Task RefreshAsync(Twitter tw, bool backward, bool startup, IProgress<string> progress)
+        {
+            var homeTab = TabInformations.GetInstance().GetTabByType<HomeTabModel>();
+
+            return homeTab.RefreshAsync(tw, backward, startup, progress);
+        }
     }
 }

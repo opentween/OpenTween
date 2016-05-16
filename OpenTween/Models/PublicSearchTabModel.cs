@@ -64,5 +64,26 @@ namespace OpenTween.Models
         public PublicSearchTabModel(string tabName) : base(tabName)
         {
         }
+
+        public override async Task RefreshAsync(Twitter tw, bool backward, bool startup, IProgress<string> progress)
+        {
+            if (string.IsNullOrEmpty(this.SearchWords))
+                return;
+
+            bool read;
+            if (!SettingCommon.Instance.UnreadManage)
+                read = true;
+            else
+                read = startup && SettingCommon.Instance.Read;
+
+            progress.Report("Search refreshing...");
+
+            await tw.GetSearch(read, this, backward)
+                .ConfigureAwait(false);
+
+            TabInformations.GetInstance().DistributePosts();
+
+            progress.Report("Search refreshed");
+        }
     }
 }

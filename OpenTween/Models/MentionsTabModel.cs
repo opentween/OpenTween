@@ -45,5 +45,23 @@ namespace OpenTween.Models
         public MentionsTabModel(string tabName) : base(tabName)
         {
         }
+
+        public override async Task RefreshAsync(Twitter tw, bool backward, bool startup, IProgress<string> progress)
+        {
+            bool read;
+            if (!SettingCommon.Instance.UnreadManage)
+                read = true;
+            else
+                read = startup && SettingCommon.Instance.Read;
+
+            progress.Report(string.Format(Properties.Resources.GetTimelineWorker_RunWorkerCompletedText4, backward ? -1 : 1));
+
+            await tw.GetTimelineApi(read, MyCommon.WORKERTYPE.Reply, backward, startup)
+                .ConfigureAwait(false);
+
+            TabInformations.GetInstance().DistributePosts();
+
+            progress.Report(Properties.Resources.GetTimelineWorker_RunWorkerCompletedText9);
+        }
     }
 }

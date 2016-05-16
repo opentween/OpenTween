@@ -45,5 +45,26 @@ namespace OpenTween.Models
         {
             this.ScreenName = screenName;
         }
+
+        public override async Task RefreshAsync(Twitter tw, bool backward, bool startup, IProgress<string> progress)
+        {
+            if (string.IsNullOrEmpty(this.ScreenName))
+                return;
+
+            bool read;
+            if (!SettingCommon.Instance.UnreadManage)
+                read = true;
+            else
+                read = startup && SettingCommon.Instance.Read;
+
+            progress.Report("UserTimeline refreshing...");
+
+            await tw.GetUserTimelineApi(read, this.ScreenName, this, backward)
+                .ConfigureAwait(false);
+
+            TabInformations.GetInstance().DistributePosts();
+
+            progress.Report("UserTimeline refreshed");
+        }
     }
 }

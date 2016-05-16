@@ -80,6 +80,8 @@ namespace OpenTween.Models
             this.TabName = tabName;
         }
 
+        public abstract Task RefreshAsync(Twitter tw, bool backward, bool startup, IProgress<string> progress);
+
         private struct TemporaryId
         {
             public long StatusId { get; }

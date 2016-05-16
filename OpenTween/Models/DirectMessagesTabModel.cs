@@ -45,5 +45,25 @@ namespace OpenTween.Models
         public DirectMessagesTabModel(string tabName) : base(tabName)
         {
         }
+
+        public override async Task RefreshAsync(Twitter tw, bool backward, bool startup, IProgress<string> progress)
+        {
+            bool read;
+            if (!SettingCommon.Instance.UnreadManage)
+                read = true;
+            else
+                read = startup && SettingCommon.Instance.Read;
+
+            progress.Report(string.Format(Properties.Resources.GetTimelineWorker_RunWorkerCompletedText8, backward ? -1 : 1));
+
+            await tw.GetDirectMessageApi(read, MyCommon.WORKERTYPE.DirectMessegeRcv, backward)
+                .ConfigureAwait(false);
+            await tw.GetDirectMessageApi(read, MyCommon.WORKERTYPE.DirectMessegeSnt, backward)
+                .ConfigureAwait(false);
+
+            TabInformations.GetInstance().DistributePosts();
+
+            progress.Report(Properties.Resources.GetTimelineWorker_RunWorkerCompletedText11);
+        }
     }
 }

@@ -43,5 +43,8 @@ namespace OpenTween.Models
         public override void AddPostQueue(PostClass post)
         {
         }
+
+        public override Task RefreshAsync(Twitter tw, bool backward, bool startup, IProgress<string> progress)
+            => Task.FromResult(0); // 何もしない
     }
 }

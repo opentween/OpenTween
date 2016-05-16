@@ -47,5 +47,26 @@ namespace OpenTween.Models
         {
             this.TargetPost = targetPost;
         }
+
+        public Task RefreshAsync(Twitter tw, bool startup, IProgress<string> progress)
+            => this.RefreshAsync(tw, false, startup, progress);
+
+        public override async Task RefreshAsync(Twitter tw, bool _, bool startup, IProgress<string> progress)
+        {
+            bool read;
+            if (!SettingCommon.Instance.UnreadManage)
+                read = true;
+            else
+                read = startup && SettingCommon.Instance.Read;
+
+            progress.Report("Related refreshing...");
+
+            await tw.GetRelatedResult(read, this)
+                .ConfigureAwait(false);
+
+            TabInformations.GetInstance().DistributePosts();
+
+            progress.Report("Related refreshed");
+        }
     }
 }

@@ -60,6 +60,28 @@ namespace OpenTween.Models
             this.UpdateTimelineSpeed(post.CreatedAt);
         }
 
+        public override async Task RefreshAsync(Twitter tw, bool backward, bool startup, IProgress<string> progress)
+        {
+            bool read;
+            if (!SettingCommon.Instance.UnreadManage)
+                read = true;
+            else
+                read = startup && SettingCommon.Instance.Read;
+
+            progress.Report(string.Format(Properties.Resources.GetTimelineWorker_RunWorkerCompletedText5, backward ? -1 : 1));
+
+            await tw.GetTimelineApi(read, MyCommon.WORKERTYPE.Timeline, backward, startup)
+                .ConfigureAwait(false);
+
+            // 新着時未読クリア
+            if (SettingCommon.Instance.ReadOldPosts)
+                TabInformations.GetInstance().SetReadHomeTab();
+
+            TabInformations.GetInstance().DistributePosts();
+
+            progress.Report(Properties.Resources.GetTimelineWorker_RunWorkerCompletedText1);
+        }
+
         /// <summary>
         /// タイムラインに追加された発言件数を反映し、タイムラインの流速を更新します
         /// </summary>
