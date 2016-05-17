@@ -4552,15 +4552,6 @@ namespace OpenTween
             //新規タブ名チェック
             if (tab.TabName == Properties.Resources.AddNewTabText1) return false;
 
-            //タブタイプ重複チェック
-            if (!startup)
-            {
-                if (tab.IsDefaultTabType || tab.TabType == MyCommon.TabUsageType.Related)
-                {
-                    if (_statuses.GetTabByType(tab.TabType) != null) return false;
-                }
-            }
-
             var _tabPage = new TabPage();
             var _listCustom = new DetailsListView();
 
