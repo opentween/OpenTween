@@ -33,7 +33,7 @@ using System.Threading.Tasks;
 
 namespace OpenTween.Models
 {
-    public class RelatedPostsTabModel : TabModel
+    public class RelatedPostsTabModel : InternalStorageTabModel
     {
         public override MyCommon.TabUsageType TabType
             => MyCommon.TabUsageType.Related;
