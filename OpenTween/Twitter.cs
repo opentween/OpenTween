@@ -162,8 +162,6 @@ namespace OpenTween
         private List<string> _hashList = new List<string>();
 
         //max_idで古い発言を取得するために保持（lists分は個別タブで管理）
-        private long minHomeTimeline = long.MaxValue;
-        private long minMentions = long.MaxValue;
         private long minDirectmessage = long.MaxValue;
         private long minDirectmessageSent = long.MaxValue;
 
@@ -778,49 +776,50 @@ namespace OpenTween
             return Math.Min(count, GetMaxApiResultCount(type));
         }
 
-        public async Task GetTimelineApi(bool read, MyCommon.WORKERTYPE gType, bool more, bool startup)
+        public async Task GetHomeTimelineApi(bool read, HomeTabModel tab, bool more, bool startup)
         {
             this.CheckAccountState();
 
-            var count = GetApiResultCount(gType, more, startup);
+            var count = GetApiResultCount(MyCommon.WORKERTYPE.Timeline, more, startup);
 
             TwitterStatus[] statuses;
-            if (gType == MyCommon.WORKERTYPE.Timeline)
+            if (more)
             {
-                if (more)
-                {
-                    statuses = await this.Api.StatusesHomeTimeline(count, maxId: this.minHomeTimeline)
-                        .ConfigureAwait(false);
-                }
-                else
-                {
-                    statuses = await this.Api.StatusesHomeTimeline(count)
-                        .ConfigureAwait(false);
-                }
+                statuses = await this.Api.StatusesHomeTimeline(count, maxId: tab.OldestId)
+                    .ConfigureAwait(false);
             }
             else
             {
-                if (more)
-                {
-                    statuses = await this.Api.StatusesMentionsTimeline(count, maxId: this.minMentions)
-                        .ConfigureAwait(false);
-                }
-                else
-                {
-                    statuses = await this.Api.StatusesMentionsTimeline(count)
-                        .ConfigureAwait(false);
-                }
+                statuses = await this.Api.StatusesHomeTimeline(count)
+                    .ConfigureAwait(false);
             }
 
-            var minimumId = CreatePostsFromJson(statuses, gType, null, read);
-
+            var minimumId = this.CreatePostsFromJson(statuses, MyCommon.WORKERTYPE.Timeline, tab, read);
             if (minimumId != null)
+                tab.OldestId = minimumId.Value;
+        }
+
+        public async Task GetMentionsTimelineApi(bool read, MentionsTabModel tab, bool more, bool startup)
+        {
+            this.CheckAccountState();
+
+            var count = GetApiResultCount(MyCommon.WORKERTYPE.Reply, more, startup);
+
+            TwitterStatus[] statuses;
+            if (more)
             {
-                if (gType == MyCommon.WORKERTYPE.Timeline)
-                    this.minHomeTimeline = minimumId.Value;
-                else
-                    this.minMentions = minimumId.Value;
+                statuses = await this.Api.StatusesMentionsTimeline(count, maxId: tab.OldestId)
+                    .ConfigureAwait(false);
             }
+            else
+            {
+                statuses = await this.Api.StatusesMentionsTimeline(count)
+                    .ConfigureAwait(false);
+            }
+
+            var minimumId = this.CreatePostsFromJson(statuses, MyCommon.WORKERTYPE.Reply, tab, read);
+            if (minimumId != null)
+                tab.OldestId = minimumId.Value;
         }
 
         public async Task GetUserTimelineApi(bool read, string userName, UserTimelineTabModel tab, bool more)

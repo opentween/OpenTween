@@ -70,7 +70,7 @@ namespace OpenTween.Models
 
             progress.Report(string.Format(Properties.Resources.GetTimelineWorker_RunWorkerCompletedText5, backward ? -1 : 1));
 
-            await tw.GetTimelineApi(read, MyCommon.WORKERTYPE.Timeline, backward, startup)
+            await tw.GetHomeTimelineApi(read, this, backward, startup)
                 .ConfigureAwait(false);
 
             // 新着時未読クリア

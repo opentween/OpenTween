@@ -56,7 +56,7 @@ namespace OpenTween.Models
 
             progress.Report(string.Format(Properties.Resources.GetTimelineWorker_RunWorkerCompletedText4, backward ? -1 : 1));
 
-            await tw.GetTimelineApi(read, MyCommon.WORKERTYPE.Reply, backward, startup)
+            await tw.GetMentionsTimelineApi(read, this, backward, startup)
                 .ConfigureAwait(false);
 
             TabInformations.GetInstance().DistributePosts();
