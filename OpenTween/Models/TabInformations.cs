@@ -41,9 +41,9 @@ namespace OpenTween.Models
         //個別タブの情報をDictionaryで保持
         private Dictionary<string, TabModel> _tabs = new Dictionary<string, TabModel>();
         private ConcurrentDictionary<long, PostClass> _statuses = new ConcurrentDictionary<long, PostClass>();
-        private Dictionary<long, PostClass> _retweets = new Dictionary<long, PostClass>();
         private Dictionary<long, PostClass> _quotes = new Dictionary<long, PostClass>();
         private Stack<TabModel> _removedTab = new Stack<TabModel>();
+        private ConcurrentDictionary<long, int> retweetsCount = new ConcurrentDictionary<long, int>();
 
         public ISet<long> BlockIds = new HashSet<long>();
         public ISet<long> MuteUserIds = new HashSet<long>();
@@ -280,7 +280,7 @@ namespace OpenTween.Models
         public PostClass RetweetSource(long Id)
         {
             PostClass status;
-            return _retweets.TryGetValue(Id, out status)
+            return this._statuses.TryGetValue(Id, out status)
                 ? status
                 : null;
         }
@@ -521,23 +521,22 @@ namespace OpenTween.Models
                 else
                 {
                     if (Item.IsFav && Item.RetweetedId != null) Item.IsFav = false;
+
                     //既に持っている公式RTは捨てる
-                    if (SettingCommon.Instance.HideDuplicatedRetweets &&
-                        !Item.IsMe &&
-                        Item.RetweetedId != null &&
-                        this._retweets.TryGetValue(Item.RetweetedId.Value, out status) &&
-                        status.RetweetedCount > 0) return;
+                    if (Item.RetweetedId != null && SettingCommon.Instance.HideDuplicatedRetweets)
+                    {
+                        var retweetCount = this.UpdateRetweetCount(Item);
+
+                        if (retweetCount > 1 && !Item.IsMe)
+                            return;
+                    }
 
                     if (BlockIds.Contains(Item.UserId))
                         return;
 
                     _statuses.TryAdd(Item.StatusId, Item);
                 }
-                if (Item.RetweetedId != null)
-                {
-                    this.AddRetweet(Item);
-                }
-                if (Item.IsFav && _retweets.ContainsKey(Item.StatusId))
+                if (Item.IsFav && this.retweetsCount.ContainsKey(Item.StatusId))
                 {
                     return;    //Fav済みのRetweet元発言は追加しない
                 }
@@ -571,22 +570,11 @@ namespace OpenTween.Models
             return false;
         }
 
-        private void AddRetweet(PostClass item)
+        private int UpdateRetweetCount(PostClass retweetPost)
         {
-            var retweetedId = item.RetweetedId.Value;
+            var retweetedId = retweetPost.RetweetedId.Value;
 
-            PostClass status;
-            if (this._retweets.TryGetValue(retweetedId, out status))
-            {
-                status.RetweetedCount++;
-                if (status.RetweetedCount > 10)
-                {
-                    status.RetweetedCount = 0;
-                }
-                return;
-            }
-
-            this._retweets.Add(retweetedId, item.ConvertToOriginalPost());
+            return this.retweetsCount.AddOrUpdate(retweetedId, 1, (k, v) => v >= 10 ? 1 : v + 1);
         }
 
         public bool AddQuoteTweet(PostClass item)
@@ -658,9 +646,6 @@ namespace OpenTween.Models
             {
                 PostClass status;
                 if (this._statuses.TryGetValue(ID, out status))
-                    return status;
-
-                if (this._retweets.TryGetValue(ID, out status))
                     return status;
 
                 if (this._quotes.TryGetValue(ID, out status))
