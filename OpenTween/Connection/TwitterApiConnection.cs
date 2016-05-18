@@ -55,9 +55,6 @@ namespace OpenTween.Connection
             Networking.WebProxyChanged += this.Networking_WebProxyChanged;
         }
 
-        public Task<T> GetAsync<T>(Uri uri, IDictionary<string, string> param)
-            => this.GetAsync<T>(uri, param, null);
-
         public async Task<T> GetAsync<T>(Uri uri, IDictionary<string, string> param, string endpointName)
         {
             var requestUri = new Uri(RestApiBase, uri);

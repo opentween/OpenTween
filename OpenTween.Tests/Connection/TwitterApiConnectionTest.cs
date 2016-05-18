@@ -86,7 +86,7 @@ namespace OpenTween.Connection
                     ["bbbb"] = "2222",
                 };
 
-                var result = await apiConnection.GetAsync<string>(endpoint, param)
+                var result = await apiConnection.GetAsync<string>(endpoint, param, endpointName: "/hoge/tetete")
                     .ConfigureAwait(false);
                 Assert.Equal("hogehoge", result);
 
@@ -127,7 +127,7 @@ namespace OpenTween.Connection
                     ["bbbb"] = "2222",
                 };
 
-                await apiConnection.GetAsync<string>(endpoint, param)
+                await apiConnection.GetAsync<string>(endpoint, param, endpointName: "/hoge/tetete")
                     .ConfigureAwait(false);
 
                 Assert.Equal(0, mockHandler.QueueCount);
@@ -196,7 +196,7 @@ namespace OpenTween.Connection
 
                 var endpoint = new Uri("hoge/tetete.json", UriKind.Relative);
 
-                var exception = await Assert.ThrowsAsync<TwitterApiException>(() => apiConnection.GetAsync<string>(endpoint, null))
+                var exception = await Assert.ThrowsAsync<TwitterApiException>(() => apiConnection.GetAsync<string>(endpoint, null, endpointName: "/hoge/tetete"))
                     .ConfigureAwait(false);
 
                 // エラーレスポンスの読み込みに失敗した場合はステータスコードをそのままメッセージに使用する
@@ -226,7 +226,7 @@ namespace OpenTween.Connection
 
                 var endpoint = new Uri("hoge/tetete.json", UriKind.Relative);
 
-                var exception = await Assert.ThrowsAsync<TwitterApiException>(() => apiConnection.GetAsync<string>(endpoint, null))
+                var exception = await Assert.ThrowsAsync<TwitterApiException>(() => apiConnection.GetAsync<string>(endpoint, null, endpointName: "/hoge/tetete"))
                     .ConfigureAwait(false);
 
                 // エラーレスポンスの JSON に含まれるエラーコードに基づいてメッセージを出力する

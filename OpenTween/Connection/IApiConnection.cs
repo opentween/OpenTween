@@ -30,7 +30,6 @@ namespace OpenTween.Connection
 {
     public interface IApiConnection : IDisposable
     {
-        Task<T> GetAsync<T>(Uri uri, IDictionary<string, string> param);
         Task<T> GetAsync<T>(Uri uri, IDictionary<string, string> param, string endpointName);
 
         Task<Stream> GetStreamAsync(Uri uri, IDictionary<string, string> param);
