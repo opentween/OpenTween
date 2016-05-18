@@ -30,7 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ListManage));
             this.UserTweetDateTime = new System.Windows.Forms.Label();
-            this.UserIcon = new System.Windows.Forms.PictureBox();
+            this.UserIcon = new OpenTween.OTPictureBox();
             this.ListsList = new System.Windows.Forms.ListBox();
             this.UserTweet = new System.Windows.Forms.Label();
             this.DeleteUserButton = new System.Windows.Forms.Button();
@@ -431,7 +431,7 @@
         #endregion
 
         internal System.Windows.Forms.Label UserTweetDateTime;
-        internal System.Windows.Forms.PictureBox UserIcon;
+        internal OTPictureBox UserIcon;
         internal System.Windows.Forms.ListBox ListsList;
         internal System.Windows.Forms.Label UserTweet;
         internal System.Windows.Forms.Button DeleteUserButton;

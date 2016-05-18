@@ -33,6 +33,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using OpenTween.Connection;
 using OpenTween.Models;
 
 namespace OpenTween
@@ -293,7 +294,7 @@ namespace OpenTween
             this.EditCheckBox_CheckedChanged(this.EditCheckBox, EventArgs.Empty);
         }
 
-        private void UserList_SelectedIndexChanged(object sender, EventArgs e)
+        private async void UserList_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (UserList.SelectedItem == null)
             {
@@ -330,17 +331,35 @@ namespace OpenTween
                 }
                 this.DeleteUserButton.Enabled = true;
 
-                Action<Uri> a = new Action<Uri>((url) =>
-                                            this.Invoke(new Action<Image>(DisplayIcon), (new HttpVarious()).GetImage(url)));
-                a.BeginInvoke(user.ImageUrl, null, null);
+                await this.LoadUserIconAsync(user.ImageUrl, user.Id);
             }
         }
 
-        private void DisplayIcon(Image img)
+        private async Task LoadUserIconAsync(Uri imageUri, long userId)
         {
-            if (img == null || this.UserList.SelectedItem == null) return;
-            if (((UserInfo)this.UserList.SelectedItem).ImageUrl.AbsoluteUri == (string)img.Tag)
-                this.UserIcon.Image = img;
+            var oldImage = this.UserIcon.Image;
+            this.UserIcon.Image = null;
+            oldImage?.Dispose();
+
+            await this.UserIcon.SetImageFromTask(async () =>
+            {
+                var uri = imageUri.AbsoluteUri.Replace("_normal", "_bigger");
+
+                using (var imageStream = await Networking.Http.GetStreamAsync(uri))
+                {
+                    var image = await MemoryImage.CopyFromStreamAsync(imageStream);
+
+                    // 画像の読み込み中に選択中のユーザーが変化していたらキャンセルとして扱う
+                    var selectedUser = (UserInfo)this.UserList.SelectedItem;
+                    if (selectedUser.Id != userId)
+                    {
+                        image.Dispose();
+                        throw new OperationCanceledException();
+                    }
+
+                    return image;
+                }
+            });
         }
 
         private async void RefreshListsButton_Click(object sender, EventArgs e)

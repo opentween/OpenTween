@@ -163,7 +163,7 @@
     <value>UserIcon</value>
   </data>
   <data name="&gt;&gt;UserIcon.Type" xml:space="preserve">
-    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>OpenTween.OTPictureBox, OpenTween, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;UserIcon.Parent" xml:space="preserve">
     <value>UserGroup</value>
