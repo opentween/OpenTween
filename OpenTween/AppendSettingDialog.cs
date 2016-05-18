@@ -30,6 +30,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Windows.Forms;
 using System.Threading;
@@ -168,7 +169,7 @@ namespace OpenTween
                     return;
                 }
 
-                if (!BitlyValidation(this.ShortUrlPanel.TextBitlyId.Text, this.ShortUrlPanel.TextBitlyPw.Text))
+                if (!BitlyValidation(this.ShortUrlPanel.TextBitlyId.Text, this.ShortUrlPanel.TextBitlyPw.Text).Result)
                 {
                     MessageBox.Show(Properties.Resources.SettingSave_ClickText1);
                     _ValidationError = true;
@@ -354,39 +355,38 @@ namespace OpenTween
             this.GetPeriodPanel.LabelUserStreamActive.Visible = tw.UserStreamActive;
         }
 
-        private bool BitlyValidation(string id, string apikey)
+        private async Task<bool> BitlyValidation(string id, string apikey)
         {
             if (string.IsNullOrEmpty(id) || string.IsNullOrEmpty(apikey))
             {
                 return false;
             }
 
-            string req = "http://api.bit.ly/v3/validate";
-            string content = "";
-            Dictionary<string, string> param = new Dictionary<string, string>();
+            try
+            {
+                var requestUri = new Uri("http://api.bit.ly/v3/validate");
+                var param = new Dictionary<string, string>
+                {
+                    ["login"] = ApplicationSettings.BitlyLoginId,
+                    ["apiKey"] = ApplicationSettings.BitlyApiKey,
+                    ["x_login"] = id,
+                    ["x_apiKey"] = apikey,
+                    ["format"] = "txt",
+                };
 
-            param.Add("login", ApplicationSettings.BitlyLoginId);
-            param.Add("apiKey", ApplicationSettings.BitlyApiKey);
-            param.Add("x_login", id);
-            param.Add("x_apiKey", apikey);
-            param.Add("format", "txt");
+                using (var postContent = new FormUrlEncodedContent(param))
+                using (var response = await Networking.Http.PostAsync(requestUri, postContent).ConfigureAwait(false))
+                {
+                    var responseText = await response.Content.ReadAsStringAsync()
+                        .ConfigureAwait(false);
 
-            if (!(new HttpVarious()).PostData(req, param, out content))
-            {
-                return true;             // 通信エラーの場合はとりあえずチェックを通ったことにする
+                    return responseText == "1";
+                }
             }
-            else if (content.Trim() == "1")
-            {
-                return true;             // 検証成功
-            }
-            else if (content.Trim() == "0")
-            {
-                return false;            // 検証失敗 APIキーとIDの組み合わせが違う
-            }
-            else
-            {
-                return true;             // 規定外応答：通信エラーの可能性があるためとりあえずチェックを通ったことにする
-            }
+            catch (OperationCanceledException) { }
+            catch (HttpRequestException) { }
+
+            return false;
         }
 
         private void Cancel_Click(object sender, EventArgs e)
