@@ -27,11 +27,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Xml;
+using System.Xml.Linq;
 using OpenTween.Connection;
 using OpenTween.Models;
 
@@ -42,158 +44,98 @@ namespace OpenTween.Thumbnail.Services
         public static readonly Regex UrlPatternRegex =
             new Regex(@"^https?://(?:(www|ext)\.nicovideo\.jp/watch|nico\.ms)/(?<id>(?:sm|nm)?[0-9]+)(\?.+)?$");
 
-        public override Task<ThumbnailInfo> GetThumbnailInfoAsync(string url, PostClass post, CancellationToken token)
+        public override async Task<ThumbnailInfo> GetThumbnailInfoAsync(string url, PostClass post, CancellationToken token)
         {
-            return Task.Run(() =>
+            var match = Nicovideo.UrlPatternRegex.Match(url);
+            if (!match.Success)
+                return null;
+
+            try
             {
-                var match = Nicovideo.UrlPatternRegex.Match(url);
-                if (!match.Success)
+                var requestUri = new Uri("http://www.nicovideo.jp/api/getthumbinfo/" + match.Groups["id"].Value);
+                var responseText = await Networking.Http.GetStringAsync(requestUri);
+
+                var xdoc = XDocument.Parse(responseText);
+
+                var responseElement = xdoc.Element("nicovideo_thumb_response");
+                if (responseElement == null || responseElement.Attribute("status").Value != "ok")
                     return null;
 
-                var apiUrl = "http://www.nicovideo.jp/api/getthumbinfo/" + match.Groups["id"].Value;
+                var thumbElement = responseElement.Element("thumb");
+                if (thumbElement == null)
+                    return null;
 
-                var http = new HttpVarious();
-                var src = "";
-                var imgurl = "";
-                string errmsg;
-                if (http.GetData(apiUrl, null, out src, 0, out errmsg, Networking.GetUserAgentString()))
+                var thumbUrlElement = thumbElement.Element("thumbnail_url");
+                if (thumbUrlElement == null)
+                    return null;
+
+                return new ThumbnailInfo
                 {
-                    var sb = new StringBuilder();
-                    var xdoc = new XmlDocument();
-                    try
-                    {
-                        xdoc.LoadXml(src);
-                        var status = xdoc.SelectSingleNode("/nicovideo_thumb_response").Attributes["status"].Value;
-                        if (status == "ok")
-                        {
-                            imgurl = xdoc.SelectSingleNode("/nicovideo_thumb_response/thumb/thumbnail_url").InnerText;
+                    MediaPageUrl = url,
+                    ThumbnailImageUrl = thumbUrlElement.Value,
+                    TooltipText = BuildTooltip(thumbElement),
+                    IsPlayable = true,
+                };
+            }
+            catch (HttpRequestException) { }
 
-                            //ツールチップに動画情報をセットする
-                            string tmp;
+            return null;
+        }
 
-                            try
-                            {
-                                tmp = xdoc.SelectSingleNode("/nicovideo_thumb_response/thumb/title").InnerText;
-                                if (!string.IsNullOrEmpty(tmp))
-                                {
-                                    sb.Append(Properties.Resources.NiconicoInfoText1);
-                                    sb.Append(tmp);
-                                    sb.AppendLine();
-                                }
-                            }
-                            catch (Exception)
-                            {
+        internal static string BuildTooltip(XElement thumbElement)
+        {
+            var tooltip = new StringBuilder(200);
 
-                            }
+            var titleElement = thumbElement.Element("title");
+            if (titleElement != null)
+            {
+                tooltip.Append(Properties.Resources.NiconicoInfoText1);
+                tooltip.Append(titleElement.Value);
+                tooltip.AppendLine();
+            }
 
-                            try
-                            {
-                                tmp = xdoc.SelectSingleNode("/nicovideo_thumb_response/thumb/length").InnerText;
-                                if (!string.IsNullOrEmpty(tmp))
-                                {
-                                    sb.Append(Properties.Resources.NiconicoInfoText2);
-                                    sb.Append(tmp);
-                                    sb.AppendLine();
-                                }
-                            }
-                            catch (Exception)
-                            {
+            var lengthElement = thumbElement.Element("length");
+            if (lengthElement != null)
+            {
+                tooltip.Append(Properties.Resources.NiconicoInfoText2);
+                tooltip.Append(lengthElement.Value);
+                tooltip.AppendLine();
+            }
 
-                            }
+            var firstRetrieveElement = thumbElement.Element("first_retrieve");
+            DateTime firstRetrieveDate;
+            if (firstRetrieveElement != null && DateTime.TryParse(firstRetrieveElement.Value, out firstRetrieveDate))
+            {
+                tooltip.Append(Properties.Resources.NiconicoInfoText3);
+                tooltip.Append(firstRetrieveDate.ToString());
+                tooltip.AppendLine();
+            }
 
-                            try
-                            {
-                                var tm = new DateTime();
-                                tmp = xdoc.SelectSingleNode("/nicovideo_thumb_response/thumb/first_retrieve").InnerText;
-                                if (DateTime.TryParse(tmp, out tm))
-                                {
-                                    sb.Append(Properties.Resources.NiconicoInfoText3);
-                                    sb.Append(tm.ToString());
-                                    sb.AppendLine();
-                                }
-                            }
-                            catch (Exception)
-                            {
+            var viewCounterElement = thumbElement.Element("view_counter");
+            if (viewCounterElement != null)
+            {
+                tooltip.Append(Properties.Resources.NiconicoInfoText4);
+                tooltip.Append(viewCounterElement.Value);
+                tooltip.AppendLine();
+            }
 
-                            }
+            var commentNumElement = thumbElement.Element("comment_num");
+            if (commentNumElement != null)
+            {
+                tooltip.Append(Properties.Resources.NiconicoInfoText5);
+                tooltip.Append(commentNumElement.Value);
+                tooltip.AppendLine();
+            }
 
-                            try
-                            {
-                                tmp = xdoc.SelectSingleNode("/nicovideo_thumb_response/thumb/view_counter").InnerText;
-                                if (!string.IsNullOrEmpty(tmp))
-                                {
-                                    sb.Append(Properties.Resources.NiconicoInfoText4);
-                                    sb.Append(tmp);
-                                    sb.AppendLine();
-                                }
-                            }
-                            catch (Exception)
-                            {
+            var mylistCounterElement = thumbElement.Element("mylist_counter");
+            if (mylistCounterElement != null)
+            {
+                tooltip.Append(Properties.Resources.NiconicoInfoText6);
+                tooltip.Append(mylistCounterElement.Value);
+                tooltip.AppendLine();
+            }
 
-                            }
-
-                            try
-                            {
-                                tmp = xdoc.SelectSingleNode("/nicovideo_thumb_response/thumb/comment_num").InnerText;
-                                if (!string.IsNullOrEmpty(tmp))
-                                {
-                                    sb.Append(Properties.Resources.NiconicoInfoText5);
-                                    sb.Append(tmp);
-                                    sb.AppendLine();
-                                }
-                            }
-                            catch (Exception)
-                            {
-
-                            }
-                            try
-                            {
-                                tmp = xdoc.SelectSingleNode("/nicovideo_thumb_response/thumb/mylist_counter").InnerText;
-                                if (!string.IsNullOrEmpty(tmp))
-                                {
-                                    sb.Append(Properties.Resources.NiconicoInfoText6);
-                                    sb.Append(tmp);
-                                    sb.AppendLine();
-                                }
-                            }
-                            catch (Exception)
-                            {
-
-                            }
-                        }
-                        else if (status == "fail")
-                        {
-                            var errcode = xdoc.SelectSingleNode("/nicovideo_thumb_response/error/code").InnerText;
-                            errmsg = errcode;
-                            imgurl = "";
-                        }
-                        else
-                        {
-                            errmsg = "UnknownResponse";
-                            imgurl = "";
-                        }
-
-                    }
-                    catch (Exception)
-                    {
-                        imgurl = "";
-                        errmsg = "Invalid XML";
-                    }
-
-                    if (!string.IsNullOrEmpty(imgurl))
-                    {
-                        return new ThumbnailInfo
-                        {
-                            MediaPageUrl = url,
-                            ThumbnailImageUrl = imgurl,
-                            TooltipText = sb.ToString().Trim(),
-                            IsPlayable = true,
-                        };
-                    }
-                }
-
-                return null;
-            }, token);
+            return tooltip.ToString();
         }
     }
 }
