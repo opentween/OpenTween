@@ -112,7 +112,6 @@
       <DependentUpon>AuthDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="Bing.cs" />
-    <Compile Include="Connection\HttpVarious.cs" />
     <Compile Include="Connection\IApiConnection.cs" />
     <Compile Include="Connection\IMediaUploadService.cs" />
     <Compile Include="Connection\imgly.cs" />
@@ -435,9 +434,6 @@
     <Compile Include="WebApiException.cs" />
     <Compile Include="WebBrowserController.cs" />
     <Compile Include="ControlTransaction.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Connection\HttpConnection.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="ApiInfoDialog.resx">
