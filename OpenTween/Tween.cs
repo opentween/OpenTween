@@ -2372,7 +2372,7 @@ namespace OpenTween
             catch (WebApiException ex)
             {
                 this._myStatusError = true;
-                this.StatusLabel.Text = ex.Message;
+                this.StatusLabel.Text = $"Err:{ex.Message}(GetSearch)";
             }
             finally
             {
