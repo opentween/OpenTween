@@ -2365,14 +2365,19 @@ namespace OpenTween
             try
             {
                 foreach (var tab in tabs)
-                    await tab.RefreshAsync(this.tw, loadMore, this._initial, this.workerProgress);
+                {
+                    try
+                    {
+                        await tab.RefreshAsync(this.tw, loadMore, this._initial, this.workerProgress);
+                    }
+                    catch (WebApiException ex)
+                    {
+                        this._myStatusError = true;
+                        this.StatusLabel.Text = $"Err:{ex.Message}(GetSearch)";
+                    }
+                }
 
                 this.RefreshTimeline();
-            }
-            catch (WebApiException ex)
-            {
-                this._myStatusError = true;
-                this.StatusLabel.Text = $"Err:{ex.Message}(GetSearch)";
             }
             finally
             {
@@ -2404,14 +2409,19 @@ namespace OpenTween
             try
             {
                 foreach (var tab in tabs)
-                    await tab.RefreshAsync(this.tw, loadMore, this._initial, this.workerProgress);
+                {
+                    try
+                    {
+                        await tab.RefreshAsync(this.tw, loadMore, this._initial, this.workerProgress);
+                    }
+                    catch (WebApiException ex)
+                    {
+                        this._myStatusError = true;
+                        this.StatusLabel.Text = $"Err:{ex.Message}(GetUserTimeline)";
+                    }
+                }
 
                 this.RefreshTimeline();
-            }
-            catch (WebApiException ex)
-            {
-                this._myStatusError = true;
-                this.StatusLabel.Text = $"Err:{ex.Message}(GetUserTimeline)";
             }
             finally
             {
@@ -2443,14 +2453,19 @@ namespace OpenTween
             try
             {
                 foreach (var tab in tabs)
-                    await tab.RefreshAsync(this.tw, loadMore, this._initial, this.workerProgress);
+                {
+                    try
+                    {
+                        await tab.RefreshAsync(this.tw, loadMore, this._initial, this.workerProgress);
+                    }
+                    catch (WebApiException ex)
+                    {
+                        this._myStatusError = true;
+                        this.StatusLabel.Text = $"Err:{ex.Message}(GetListStatus)";
+                    }
+                }
 
                 this.RefreshTimeline();
-            }
-            catch (WebApiException ex)
-            {
-                this._myStatusError = true;
-                this.StatusLabel.Text = $"Err:{ex.Message}(GetListStatus)";
             }
             finally
             {
