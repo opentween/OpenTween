@@ -75,7 +75,7 @@ namespace OpenTween.Models
 
         private readonly object _lockObj = new object();
 
-        public TabModel(string tabName)
+        protected TabModel(string tabName)
         {
             this.TabName = tabName;
         }
