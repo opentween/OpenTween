@@ -39,6 +39,13 @@ namespace OpenTween.Connection
     {
         public static Uri RestApiBase { get; set; } = new Uri("https://api.twitter.com/1.1/");
 
+        // SettingCommon.xml の TwitterUrl との互換性のために用意
+        public static string RestApiHost
+        {
+            get { return RestApiBase.Host; }
+            set { RestApiBase = new Uri($"https://{value}/1.1/"); }
+        }
+
         public bool IsDisposed { get; private set; } = false;
 
         public string AccessToken { get; }

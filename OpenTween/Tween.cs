@@ -776,7 +776,7 @@ namespace OpenTween
             if (this._cfgCommon.AutoShortUrlFirst < 0)
                 this._cfgCommon.AutoShortUrlFirst = MyCommon.UrlConverter.Uxnu;
 
-            TwitterApiConnection.RestApiBase = this._cfgCommon.TwitterApiBaseUri;
+            TwitterApiConnection.RestApiHost = this._cfgCommon.TwitterApiHost;
             this.tw = new Twitter(this.twitterApi);
 
             //認証関連
@@ -812,7 +812,7 @@ namespace OpenTween
                 this._cfgLocal.ProxyUser, this._cfgLocal.ProxyPassword);
             Networking.ForceIPv4 = this._cfgCommon.ForceIPv4;
 
-            TwitterApiConnection.RestApiBase = this._cfgCommon.TwitterApiBaseUri;
+            TwitterApiConnection.RestApiHost = this._cfgCommon.TwitterApiHost;
             tw.RestrictFavCheck = this._cfgCommon.RestrictFavCheck;
             tw.ReadOwnPost = this._cfgCommon.ReadOwnPost;
             tw.TrackWord = this._cfgCommon.TrackWord;
@@ -3767,7 +3767,7 @@ namespace OpenTween
                     ShortUrl.Instance.DisableExpanding = !this._cfgCommon.TinyUrlResolve;
                     ShortUrl.Instance.BitlyId = this._cfgCommon.BilyUser;
                     ShortUrl.Instance.BitlyKey = this._cfgCommon.BitlyPwd;
-                    TwitterApiConnection.RestApiBase = this._cfgCommon.TwitterApiBaseUri;
+                    TwitterApiConnection.RestApiHost = this._cfgCommon.TwitterApiHost;
 
                     Networking.DefaultTimeout = TimeSpan.FromSeconds(this._cfgCommon.DefaultTimeOut);
                     Networking.SetWebProxy(this._cfgLocal.ProxyType,

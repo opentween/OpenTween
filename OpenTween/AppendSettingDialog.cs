@@ -313,7 +313,7 @@ namespace OpenTween
 
             Networking.ForceIPv4 = this.ConnectionPanel.checkBoxForceIPv4.Checked;
 
-            TwitterApiConnection.RestApiBase = new Uri(this.ConnectionPanel.TwitterAPIText.Text.Trim());
+            TwitterApiConnection.RestApiHost = this.ConnectionPanel.TwitterAPIText.Text.Trim();
         }
 
         private async Task<UserAccount> PinAuth()
