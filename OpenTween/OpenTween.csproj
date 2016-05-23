@@ -168,6 +168,12 @@
     </Compile>
     <Compile Include="ShortcutCommand.cs" />
     <Compile Include="Thumbnail\Services\PbsTwimgCom.cs" />
+    <Compile Include="TweetDetailsView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TweetDetailsView.Designer.cs">
+      <DependentUpon>TweetDetailsView.cs</DependentUpon>
+    </Compile>
     <Compile Include="TweetExtractor.cs" />
     <Compile Include="WaitingDialog.cs">
       <SubType>Form</SubType>
@@ -527,6 +533,17 @@
     </EmbeddedResource>
     <EmbeddedResource Include="SendErrorReportForm.resx">
       <DependentUpon>SendErrorReportForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TweetDetailsView.en.resx">
+      <DependentUpon>TweetDetailsView.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TweetDetailsView.resx">
+      <DependentUpon>TweetDetailsView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TweetDetailsView.zh-CHT.resx">
+      <DependentUpon>TweetDetailsView.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="WaitingDialog.resx">
       <DependentUpon>WaitingDialog.cs</DependentUpon>
