@@ -8672,12 +8672,46 @@ namespace OpenTween
 
         private void IDRuleMenuItem_Click(object sender, EventArgs e)
         {
-            string tabName;
-
             //未選択なら処理終了
             if (_curList.SelectedIndices.Count == 0) return;
 
+            var tab = this._statuses.Tabs[this._curTab.Text];
+            var screenNameArray = this._curList.SelectedIndices.Cast<int>()
+                .Select(x => tab[x])
+                .Select(x => x.RetweetedId != null ? x.RetweetedBy : x.ScreenName)
+                .ToArray();
+
+            this.AddFilterRuleByScreenName(screenNameArray);
+
+            if (screenNameArray.Length != 0)
+            {
+                List<string> atids = new List<string>();
+                foreach (var screenName in screenNameArray)
+                {
+                    atids.Add("@" + screenName);
+                }
+                int cnt = AtIdSupl.ItemCount;
+                AtIdSupl.AddRangeItem(atids.ToArray());
+                if (AtIdSupl.ItemCount != cnt) ModifySettingAtId = true;
+            }
+        }
+
+        private void SourceRuleMenuItem_Click(object sender, EventArgs e)
+        {
+            if (this._curList.SelectedIndices.Count == 0)
+                return;
+
+            var tab = this._statuses.Tabs[this._curTab.Text];
+            var sourceArray = this._curList.SelectedIndices.Cast<int>()
+                .Select(x => tab[x].Source).ToArray();
+
+            this.AddFilterRuleBySource(sourceArray);
+        }
+
+        public void AddFilterRuleByScreenName(params string[] screenNameArray)
+        {
             //タブ選択（or追加）
+            string tabName;
             if (!SelectTab(out tabName)) return;
 
             var tab = (FilterTabModel)this._statuses.Tabs[tabName];
@@ -8695,57 +8729,30 @@ namespace OpenTween
                 mk = false;
             }
 
-            List<string> ids = new List<string>();
-            foreach (int idx in _curList.SelectedIndices)
+            foreach (var screenName in screenNameArray)
             {
-                PostClass post = _statuses.Tabs[_curTab.Text][idx];
-                if (!ids.Contains(post.ScreenName))
+                tab.AddFilter(new PostFilterRule
                 {
-                    PostFilterRule fc = new PostFilterRule();
-                    ids.Add(post.ScreenName);
-                    if (post.RetweetedId == null)
-                    {
-                        fc.FilterName = post.ScreenName;
-                    }
-                    else
-                    {
-                        fc.FilterName = post.RetweetedBy;
-                    }
-                    fc.UseNameField = true;
-                    fc.MoveMatches = mv;
-                    fc.MarkMatches = mk;
-                    fc.UseRegex = false;
-                    fc.FilterByUrl = false;
-                    tab.AddFilter(fc);
-                }
-            }
-            if (ids.Count != 0)
-            {
-                List<string> atids = new List<string>();
-                foreach (string id in ids)
-                {
-                    atids.Add("@" + id);
-                }
-                int cnt = AtIdSupl.ItemCount;
-                AtIdSupl.AddRangeItem(atids.ToArray());
-                if (AtIdSupl.ItemCount != cnt) ModifySettingAtId = true;
+                    FilterName = screenName,
+                    UseNameField = true,
+                    MoveMatches = mv,
+                    MarkMatches = mk,
+                    UseRegex = false,
+                    FilterByUrl = false,
+                });
             }
 
             this.ApplyPostFilters();
             SaveConfigsTabs();
         }
 
-        private void SourceRuleMenuItem_Click(object sender, EventArgs e)
+        public void AddFilterRuleBySource(params string[] sourceArray)
         {
-            if (this._curList.SelectedIndices.Count == 0)
-                return;
-
             // タブ選択ダイアログを表示（or追加）
             string tabName;
             if (!this.SelectTab(out tabName))
                 return;
 
-            var currentTab = this._statuses.Tabs[this._curTab.Text];
             var filterTab = (FilterTabModel)this._statuses.Tabs[tabName];
 
             bool mv;
@@ -8763,25 +8770,16 @@ namespace OpenTween
             }
 
             // 振り分けルールに追加するSource
-            var sources = new HashSet<string>();
-
-            foreach (var idx in this._curList.SelectedIndices.Cast<int>())
+            foreach (var source in sourceArray)
             {
-                var post = currentTab[idx];
-                var filterSource = post.Source;
-
-                if (sources.Add(filterSource))
+                filterTab.AddFilter(new PostFilterRule
                 {
-                    var filter = new PostFilterRule
-                    {
-                        FilterSource = filterSource,
-                        MoveMatches = mv,
-                        MarkMatches = mk,
-                        UseRegex = false,
-                        FilterByUrl = false,
-                    };
-                    filterTab.AddFilter(filter);
-                }
+                    FilterSource = source,
+                    MoveMatches = mv,
+                    MarkMatches = mk,
+                    UseRegex = false,
+                    FilterByUrl = false,
+                });
             }
 
             this.ApplyPostFilters();
@@ -11564,42 +11562,7 @@ namespace OpenTween
         {
             string name = GetUserId();
             if (name != null)
-            {
-                string tabName;
-
-                //未選択なら処理終了
-                if (_curList.SelectedIndices.Count == 0) return;
-
-                //タブ選択（or追加）
-                if (!SelectTab(out tabName)) return;
-
-                var tab = (FilterTabModel)this._statuses.Tabs[tabName];
-
-                bool mv;
-                bool mk;
-                if (tab.TabType != MyCommon.TabUsageType.Mute)
-                {
-                    this.MoveOrCopy(out mv, out mk);
-                }
-                else
-                {
-                    // ミュートタブでは常に MoveMatches を true にする
-                    mv = true;
-                    mk = false;
-                }
-
-                PostFilterRule fc = new PostFilterRule();
-                fc.FilterName = name;
-                fc.UseNameField = true;
-                fc.MoveMatches = mv;
-                fc.MarkMatches = mk;
-                fc.UseRegex = false;
-                fc.FilterByUrl = false;
-                tab.AddFilter(fc);
-
-                this.ApplyPostFilters();
-                SaveConfigsTabs();
-            }
+                this.AddFilterRuleByScreenName(name);
         }
 
         private async void ListManageUserContextToolStripMenuItem_Click(object sender, EventArgs e)
