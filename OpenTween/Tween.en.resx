@@ -304,6 +304,9 @@
   <data name="SplitContainer1.Panel1.ToolTip" xml:space="preserve">
     <value />
   </data>
+  <data name="tweetDetailsView.AccessibleName" xml:space="preserve">
+    <value>PostDetailsArea</value>
+  </data>
   <data name="SplitContainer2.Panel1.ToolTip" xml:space="preserve">
     <value />
   </data>
