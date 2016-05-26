@@ -828,19 +828,33 @@ namespace OpenTween
 
                 //以下、ユーザー情報
                 var user = retweeted.User;
-
-                if (user == null || user.ScreenName == null || status.User.ScreenName == null) return null;
-
-                post.UserId = user.Id;
-                post.ScreenName = user.ScreenName;
-                post.Nickname = user.Name.Trim();
-                post.ImageUrl = user.ProfileImageUrlHttps;
-                post.IsProtect = user.Protected;
+                if (user != null)
+                {
+                    post.UserId = user.Id;
+                    post.ScreenName = user.ScreenName;
+                    post.Nickname = user.Name.Trim();
+                    post.ImageUrl = user.ProfileImageUrlHttps;
+                    post.IsProtect = user.Protected;
+                }
+                else
+                {
+                    post.UserId = 0L;
+                    post.ScreenName = "?????";
+                    post.Nickname = "Unknown User";
+                }
 
                 //Retweetした人
-                post.RetweetedBy = status.User.ScreenName;
-                post.RetweetedByUserId = status.User.Id;
-                post.IsMe = post.RetweetedBy.ToLowerInvariant().Equals(_uname);
+                if (status.User != null)
+                {
+                    post.RetweetedBy = status.User.ScreenName;
+                    post.RetweetedByUserId = status.User.Id;
+                    post.IsMe = post.RetweetedBy.ToLowerInvariant().Equals(_uname);
+                }
+                else
+                {
+                    post.RetweetedBy = "?????";
+                    post.RetweetedByUserId = 0L;
+                }
             }
             else
             {
@@ -869,15 +883,21 @@ namespace OpenTween
 
                 //以下、ユーザー情報
                 var user = status.User;
-
-                if (user == null || user.ScreenName == null) return null;
-
-                post.UserId = user.Id;
-                post.ScreenName = user.ScreenName;
-                post.Nickname = user.Name.Trim();
-                post.ImageUrl = user.ProfileImageUrlHttps;
-                post.IsProtect = user.Protected;
-                post.IsMe = post.ScreenName.ToLowerInvariant().Equals(_uname);
+                if (user != null)
+                {
+                    post.UserId = user.Id;
+                    post.ScreenName = user.ScreenName;
+                    post.Nickname = user.Name.Trim();
+                    post.ImageUrl = user.ProfileImageUrlHttps;
+                    post.IsProtect = user.Protected;
+                    post.IsMe = post.ScreenName.ToLowerInvariant().Equals(_uname);
+                }
+                else
+                {
+                    post.UserId = 0L;
+                    post.ScreenName = "?????";
+                    post.Nickname = "Unknown User";
+                }
             }
             //HTMLに整形
             string textFromApi = post.TextFromApi;
