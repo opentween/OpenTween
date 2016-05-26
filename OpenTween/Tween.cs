@@ -112,7 +112,7 @@ namespace OpenTween
 
         //設定ファイル関連
         //private SettingToConfig _cfg; //旧
-        private SettingLocal _cfgLocal;
+        internal SettingLocal _cfgLocal;
         private SettingCommon _cfgCommon;
 
         //twitter解析部
@@ -123,7 +123,7 @@ namespace OpenTween
         private GrowlHelper gh = new GrowlHelper(Application.ProductName);
 
         //サブ画面インスタンス
-        private SearchWordDialog SearchDialog = new SearchWordDialog();     //検索画面インスタンス
+        internal SearchWordDialog SearchDialog = new SearchWordDialog();     //検索画面インスタンス
         private OpenURL UrlDialog = new OpenURL();
         public AtIdSupplement AtIdSupl;     //@id補助
         public AtIdSupplement HashSupl;    //Hashtag補助
@@ -274,13 +274,9 @@ namespace OpenTween
         private bool osResumed = false;
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////
-        private string _postBrowserStatusText = "";
-
         private bool _colorize = false;
 
         private System.Timers.Timer TimerTimeline = new System.Timers.Timer();
-
-        private ImageListViewItem displayItem;
 
         private string recommendedStatusFooter;
 
@@ -311,7 +307,7 @@ namespace OpenTween
         private Stack<Tuple<TabPage, PostClass>> selectPostChains = new Stack<Tuple<TabPage, PostClass>>(); //ポスト選択履歴
 
         //検索処理タイプ
-        private enum SEARCHTYPE
+        internal enum SEARCHTYPE
         {
             DialogSearch,
             NextSearch,
@@ -699,9 +695,6 @@ namespace OpenTween
 
             //Win32Api.SetProxy(HttpConnection.ProxyType.Specified, "127.0.0.1", 8080, "user", "pass")
 
-            new InternetSecurityManager(PostBrowser);
-            this.PostBrowser.AllowWebBrowserDrop = false;  // COMException を回避するため、ActiveX の初期化が終わってから設定する
-
             MyCommon.TwitterApiInfo.AccessLimitUpdated += TwitterApiStatus_AccessLimitUpdated;
             Microsoft.Win32.SystemEvents.PowerModeChanged += SystemEvents_PowerModeChanged;
 
@@ -861,6 +854,7 @@ namespace OpenTween
 
             //アイコンリスト作成
             this.IconCache = new ImageCache();
+            this.tweetDetailsView.IconCache = this.IconCache;
 
             //フォント＆文字色＆背景色保持
             _fntUnread = this._cfgLocal.FontUnread;
@@ -980,9 +974,6 @@ namespace OpenTween
             this.StatusText.Multiline = false; // _cfgLocal.StatusMultiline の設定は後で反映される
             this.SplitContainer2.Panel2MinSize = this.StatusText.Height;
 
-            // NameLabel のフォントを OTBaseForm.GlobalFont に変更
-            this.NameLabel.Font = this.ReplaceToGlobalFont(this.NameLabel.Font);
-
             // 必要であれば、発言一覧と発言詳細部・入力欄の上下を入れ替える
             SplitContainer1.IsPanelInverted = !this._cfgCommon.StatusAreaAtBottom;
 
@@ -992,11 +983,6 @@ namespace OpenTween
                 ReadedStripMenuItem.Enabled = false;
                 UnreadStripMenuItem.Enabled = false;
             }
-
-            //発言詳細部の初期化
-            NameLabel.Text = "";
-            DateTimeLabel.Text = "";
-            SourceLinkLabel.Text = "";
 
             //リンク先URL表示部の初期化（画面左下）
             StatusLabelUrl.Text = "";
@@ -4081,29 +4067,6 @@ namespace OpenTween
             }
         }
 
-        private async void PostBrowser_Navigated(object sender, WebBrowserNavigatedEventArgs e)
-        {
-            if (e.Url.AbsoluteUri != "about:blank")
-            {
-                await this.DispSelectedPost();
-                await this.OpenUriInBrowserAsync(e.Url.OriginalString);
-            }
-        }
-
-        private async void PostBrowser_Navigating(object sender, WebBrowserNavigatingEventArgs e)
-        {
-            if (e.Url.Scheme == "data")
-            {
-                StatusLabelUrl.Text = PostBrowser.StatusText.Replace("&", "&&");
-            }
-            else if (e.Url.AbsoluteUri != "about:blank")
-            {
-                e.Cancel = true;
-                // Ctrlを押しながらリンクを開いた場合は、設定と逆の動作をするフラグを true としておく
-                await this.OpenUriAsync( e.Url, MyCommon.IsKeyDown( Keys.Control ) );
-            }
-        }
-
         public void AddNewTabForSearch(string searchWord)
         {
             //同一検索条件のタブが既に存在すれば、そのタブアクティブにして終了
@@ -4626,26 +4589,6 @@ namespace OpenTween
             }
 
             _isColumnChanged = false;
-        }
-
-        private void PostBrowser_StatusTextChanged(object sender, EventArgs e)
-        {
-            try
-            {
-                if (PostBrowser.StatusText.StartsWith("http", StringComparison.Ordinal)
-                    || PostBrowser.StatusText.StartsWith("ftp", StringComparison.Ordinal)
-                    || PostBrowser.StatusText.StartsWith("data", StringComparison.Ordinal))
-                {
-                    StatusLabelUrl.Text = PostBrowser.StatusText.Replace("&", "&&");
-                }
-                if (string.IsNullOrEmpty(PostBrowser.StatusText))
-                {
-                    SetStatusLabelUrl();
-                }
-            }
-            catch (Exception)
-            {
-            }
         }
 
         private void StatusText_KeyPress(object sender, KeyPressEventArgs e)
@@ -5310,7 +5253,7 @@ namespace OpenTween
         //    }
         //}
 
-        private void DoTabSearch(string searchWord, bool caseSensitive, bool useRegex, SEARCHTYPE searchType)
+        internal void DoTabSearch(string searchWord, bool caseSensitive, bool useRegex, SEARCHTYPE searchType)
         {
             var tab = this._statuses.Tabs[this._curTab.Text];
 
@@ -5755,27 +5698,6 @@ namespace OpenTween
             return detailHtmlFormatHeader + orgdata + detailHtmlFormatFooter;
         }
 
-        private async void DisplayItemImage_Downloaded(object sender, EventArgs e)
-        {
-            if (sender.Equals(displayItem))
-            {
-                this.ClearUserPicture();
-
-                var img = displayItem.Image;
-                try
-                {
-                    if (img != null)
-                        img = await img.CloneAsync();
-
-                    UserPicture.Image = img;
-                }
-                catch (Exception)
-                {
-                    UserPicture.ShowErrorImage();
-                }
-            }
-        }
-
         private Task DispSelectedPost()
         {
             return this.DispSelectedPost(false);
@@ -5799,145 +5721,20 @@ namespace OpenTween
             if (!forceupdate && this._curPost.Equals(oldDisplayPost))
                 return;
 
-            if (displayItem != null)
+            var loadTasks = new List<Task>
             {
-                displayItem.ImageDownloaded -= this.DisplayItemImage_Downloaded;
-                displayItem = null;
-            }
-            displayItem = (ImageListViewItem)_curList.Items[_curList.SelectedIndices[0]];
-            displayItem.ImageDownloaded += this.DisplayItemImage_Downloaded;
+                this.tweetDetailsView.ShowPostDetails(this._curPost),
+            };
 
-            using (ControlTransaction.Update(this.TableLayoutPanel1))
+            this.SplitContainer3.Panel2Collapsed = true;
+
+            if (this._cfgCommon.PreviewEnable)
             {
-                SourceLinkLabel.Text = this._curPost.Source;
-                SourceLinkLabel.Tag = this._curPost.SourceUri;
-                SourceLinkLabel.TabStop = false; // Text を更新すると勝手に true にされる
+                var oldTokenSource = Interlocked.Exchange(ref this.thumbnailTokenSource, new CancellationTokenSource());
+                oldTokenSource?.Cancel();
 
-                string nameText;
-                if (_curPost.IsDm)
-                {
-                    if (_curPost.IsOwl)
-                        nameText = "DM FROM <- ";
-                    else
-                        nameText = "DM TO -> ";
-                }
-                else
-                {
-                    nameText = "";
-                }
-                nameText += _curPost.ScreenName + "/" + _curPost.Nickname;
-                if (_curPost.RetweetedId != null)
-                    nameText += " (RT:" + _curPost.RetweetedBy + ")";
-
-                NameLabel.Text = nameText;
-                NameLabel.Tag = _curPost.ScreenName;
-
-                var nameForeColor = SystemColors.ControlText;
-                if (_curPost.IsOwl && (this._cfgCommon.OneWayLove || _curPost.IsDm))
-                    nameForeColor = this._clOWL;
-                if (_curPost.RetweetedId != null)
-                    nameForeColor = this._clRetweet;
-                if (_curPost.IsFav)
-                    nameForeColor = this._clFav;
-                NameLabel.ForeColor = nameForeColor;
-
-                this.ClearUserPicture();
-
-                if (!string.IsNullOrEmpty(_curPost.ImageUrl))
-                {
-                    var image = IconCache.TryGetFromCache(_curPost.ImageUrl);
-                    try
-                    {
-                        UserPicture.Image = image?.Clone();
-                    }
-                    catch (Exception)
-                    {
-                        UserPicture.ShowErrorImage();
-                    }
-                }
-
-                DateTimeLabel.Text = _curPost.CreatedAt.ToString();
-            }
-
-            if (DumpPostClassToolStripMenuItem.Checked)
-            {
-                StringBuilder sb = new StringBuilder(512);
-
-                sb.Append("-----Start PostClass Dump<br>");
-                sb.AppendFormat("TextFromApi           : {0}<br>", _curPost.TextFromApi);
-                sb.AppendFormat("(PlainText)    : <xmp>{0}</xmp><br>", _curPost.TextFromApi);
-                sb.AppendFormat("StatusId             : {0}<br>", _curPost.StatusId.ToString());
-                //sb.AppendFormat("ImageIndex     : {0}<br>", _curPost.ImageIndex.ToString());
-                sb.AppendFormat("ImageUrl       : {0}<br>", _curPost.ImageUrl);
-                sb.AppendFormat("InReplyToStatusId    : {0}<br>", _curPost.InReplyToStatusId.ToString());
-                sb.AppendFormat("InReplyToUser  : {0}<br>", _curPost.InReplyToUser);
-                sb.AppendFormat("IsDM           : {0}<br>", _curPost.IsDm.ToString());
-                sb.AppendFormat("IsFav          : {0}<br>", _curPost.IsFav.ToString());
-                sb.AppendFormat("IsMark         : {0}<br>", _curPost.IsMark.ToString());
-                sb.AppendFormat("IsMe           : {0}<br>", _curPost.IsMe.ToString());
-                sb.AppendFormat("IsOwl          : {0}<br>", _curPost.IsOwl.ToString());
-                sb.AppendFormat("IsProtect      : {0}<br>", _curPost.IsProtect.ToString());
-                sb.AppendFormat("IsRead         : {0}<br>", _curPost.IsRead.ToString());
-                sb.AppendFormat("IsReply        : {0}<br>", _curPost.IsReply.ToString());
-
-                foreach (string nm in _curPost.ReplyToList)
-                {
-                    sb.AppendFormat("ReplyToList    : {0}<br>", nm);
-                }
-
-                sb.AppendFormat("ScreenName           : {0}<br>", _curPost.ScreenName);
-                sb.AppendFormat("NickName       : {0}<br>", _curPost.Nickname);
-                sb.AppendFormat("Text   : {0}<br>", _curPost.Text);
-                sb.AppendFormat("(PlainText)    : <xmp>{0}</xmp><br>", _curPost.Text);
-                sb.AppendFormat("CreatedAt          : {0}<br>", _curPost.CreatedAt.ToString());
-                sb.AppendFormat("Source         : {0}<br>", _curPost.Source);
-                sb.AppendFormat("UserId            : {0}<br>", _curPost.UserId);
-                sb.AppendFormat("FilterHit      : {0}<br>", _curPost.FilterHit);
-                sb.AppendFormat("RetweetedBy    : {0}<br>", _curPost.RetweetedBy);
-                sb.AppendFormat("RetweetedId    : {0}<br>", _curPost.RetweetedId);
-
-                sb.AppendFormat("Media.Count    : {0}<br>", _curPost.Media.Count);
-                if (_curPost.Media.Count > 0)
-                {
-                    for (int i = 0; i < _curPost.Media.Count; i++)
-                    {
-                        var info = _curPost.Media[i];
-                        sb.AppendFormat("Media[{0}].Url         : {1}<br>", i, info.Url);
-                        sb.AppendFormat("Media[{0}].VideoUrl    : {1}<br>", i, info.VideoUrl ?? "---");
-                    }
-                }
-                sb.Append("-----End PostClass Dump<br>");
-
-                PostBrowser.DocumentText = detailHtmlFormatHeader + sb.ToString() + detailHtmlFormatFooter;
-                return;
-            }
-
-            var loadTasks = new List<Task>();
-
-            // 同じIDのツイートであれば WebBrowser とサムネイルの更新を行わない
-            // (同一ツイートの RT は文面が同じであるため同様に更新しない)
-            if (_curPost.StatusId != oldDisplayPost.StatusId)
-            {
-                using (ControlTransaction.Update(this.PostBrowser))
-                {
-                    this.PostBrowser.DocumentText =
-                        this.createDetailHtml(_curPost.IsDeleted ? "(DELETED)" : _curPost.Text);
-
-                    this.PostBrowser.Document.Window.ScrollTo(0, 0);
-                }
-
-                this.SplitContainer3.Panel2Collapsed = true;
-
-                if (this._cfgCommon.PreviewEnable)
-                {
-                    var oldTokenSource = Interlocked.Exchange(ref this.thumbnailTokenSource, new CancellationTokenSource());
-                    oldTokenSource?.Cancel();
-
-                    var token = this.thumbnailTokenSource.Token;
-                    loadTasks.Add(this.tweetThumbnail1.ShowThumbnailAsync(_curPost, token));
-                }
-
-                loadTasks.Add(this.AppendQuoteTweetAsync(this._curPost));
+                var token = this.thumbnailTokenSource.Token;
+                loadTasks.Add(this.tweetThumbnail1.ShowThumbnailAsync(_curPost, token));
             }
 
             try
@@ -5945,99 +5742,6 @@ namespace OpenTween
                 await Task.WhenAll(loadTasks);
             }
             catch (OperationCanceledException) { }
-        }
-
-        /// <summary>
-        /// 発言詳細欄のツイートURLを展開する
-        /// </summary>
-        private async Task AppendQuoteTweetAsync(PostClass post)
-        {
-            var quoteStatusIds = post.QuoteStatusIds;
-            if (quoteStatusIds.Length == 0 && post.InReplyToStatusId == null)
-                return;
-
-            // 「読み込み中」テキストを表示
-            var loadingQuoteHtml = quoteStatusIds.Select(x => FormatQuoteTweetHtml(x, Properties.Resources.LoadingText, isReply: false));
-
-            var loadingReplyHtml = string.Empty;
-            if (post.InReplyToStatusId != null)
-                loadingReplyHtml = FormatQuoteTweetHtml(post.InReplyToStatusId.Value, Properties.Resources.LoadingText, isReply: true);
-
-            var body = post.Text + string.Concat(loadingQuoteHtml) + loadingReplyHtml;
-
-            using (ControlTransaction.Update(this.PostBrowser))
-                this.PostBrowser.DocumentText = this.createDetailHtml(body);
-
-            // 引用ツイートを読み込み
-            var loadTweetTasks = quoteStatusIds.Select(x => this.CreateQuoteTweetHtml(x, isReply: false)).ToList();
-
-            if (post.InReplyToStatusId != null)
-                loadTweetTasks.Add(this.CreateQuoteTweetHtml(post.InReplyToStatusId.Value, isReply: true));
-
-            var quoteHtmls = await Task.WhenAll(loadTweetTasks);
-
-            // 非同期処理中に表示中のツイートが変わっていたらキャンセルされたものと扱う
-            if (this._curPost != post || this._curPost.IsDeleted)
-                return;
-
-            body = post.Text + string.Concat(quoteHtmls);
-
-            using (ControlTransaction.Update(this.PostBrowser))
-                this.PostBrowser.DocumentText = this.createDetailHtml(body);
-        }
-
-        private async Task<string> CreateQuoteTweetHtml(long statusId, bool isReply)
-        {
-            PostClass post = this._statuses[statusId];
-            if (post == null)
-            {
-                try
-                {
-                    post = await this.tw.GetStatusApi(false, statusId)
-                        .ConfigureAwait(false);
-                }
-                catch (WebApiException ex)
-                {
-                    return FormatQuoteTweetHtml(statusId, WebUtility.HtmlEncode($"Err:{ex.Message}(GetStatus)"), isReply);
-                }
-
-                post.IsRead = true;
-                if (!this._statuses.AddQuoteTweet(post))
-                    return FormatQuoteTweetHtml(statusId, "This Tweet is unavailable.", isReply);
-            }
-
-            return FormatQuoteTweetHtml(post, isReply);
-        }
-
-        internal static string FormatQuoteTweetHtml(PostClass post, bool isReply)
-        {
-            var innerHtml = "<p>" + StripLinkTagHtml(post.Text) + "</p>" +
-                " &mdash; " + WebUtility.HtmlEncode(post.Nickname) +
-                " (@" + WebUtility.HtmlEncode(post.ScreenName) + ") " +
-                WebUtility.HtmlEncode(post.CreatedAt.ToString());
-
-            return FormatQuoteTweetHtml(post.StatusId, innerHtml, isReply);
-        }
-
-        internal static string FormatQuoteTweetHtml(long statusId, string innerHtml, bool isReply)
-        {
-            var blockClassName = "quote-tweet";
-
-            if (isReply)
-                blockClassName += " reply";
-
-            return "<a class=\"quote-tweet-link\" href=\"//opentween/status/" + statusId + "\">" +
-                $"<blockquote class=\"{blockClassName}\">{innerHtml}</blockquote>" +
-                "</a>";
-        }
-
-        /// <summary>
-        /// 指定されたHTMLからリンクを除去します
-        /// </summary>
-        internal static string StripLinkTagHtml(string html)
-        {
-            // a 要素はネストされていない前提の正規表現パターン
-            return Regex.Replace(html, @"<a[^>]*>(.*?)</a>", "$1");
         }
 
         private async void MatomeMenuItem_Click(object sender, EventArgs e)
@@ -6470,16 +6174,16 @@ namespace OpenTween
                     .Do(() => this.doShowUserStatus(_curPost.ScreenName, ShowInputDialog: false)),
 
                 ShortcutCommand.Create(Keys.Alt | Keys.Up)
-                    .Do(() => this.ScrollDownPostBrowser(forward: false)),
+                    .Do(() => this.tweetDetailsView.ScrollDownPostBrowser(forward: false)),
 
                 ShortcutCommand.Create(Keys.Alt | Keys.Down)
-                    .Do(() => this.ScrollDownPostBrowser(forward: true)),
+                    .Do(() => this.tweetDetailsView.ScrollDownPostBrowser(forward: true)),
 
                 ShortcutCommand.Create(Keys.Alt | Keys.PageUp)
-                    .Do(() => this.PageDownPostBrowser(forward: false)),
+                    .Do(() => this.tweetDetailsView.PageDownPostBrowser(forward: false)),
 
                 ShortcutCommand.Create(Keys.Alt | Keys.PageDown)
-                    .Do(() => this.PageDownPostBrowser(forward: true)),
+                    .Do(() => this.tweetDetailsView.PageDownPostBrowser(forward: true)),
 
                 // 別タブの同じ書き込みへ(ALT+←/→)
                 ShortcutCommand.Create(Keys.Alt | Keys.Right)
@@ -6629,7 +6333,7 @@ namespace OpenTween
 
                 ShortcutCommand.Create(Keys.Alt | Keys.Shift | Keys.T)
                     .OnlyWhen(() => this.ExistCurrentPost)
-                    .Do(() => this.doTranslation(_curPost.TextFromApi)),
+                    .Do(() => this.tweetDetailsView.DoTranslation()),
 
                 ShortcutCommand.Create(Keys.Alt | Keys.Shift | Keys.R)
                     .Do(() => this.doReTweetUnofficial()),
@@ -6650,7 +6354,7 @@ namespace OpenTween
             };
         }
 
-        private bool CommonKeyDown(Keys keyData, FocusedControl focusedOn, out Task asyncTask)
+        internal bool CommonKeyDown(Keys keyData, FocusedControl focusedOn, out Task asyncTask)
         {
             // Task を返す非同期処理があれば asyncTask に代入する
             asyncTask = null;
@@ -6666,36 +6370,6 @@ namespace OpenTween
             }
 
             return false;
-        }
-
-        private void ScrollDownPostBrowser(bool forward)
-        {
-            var doc = PostBrowser.Document;
-            if (doc == null) return;
-
-            var tags = doc.GetElementsByTagName("html");
-            if (tags.Count > 0)
-            {
-                if (forward)
-                    tags[0].ScrollTop += this._fntDetail.Height;
-                else
-                    tags[0].ScrollTop -= this._fntDetail.Height;
-            }
-        }
-
-        private void PageDownPostBrowser(bool forward)
-        {
-            var doc = PostBrowser.Document;
-            if (doc == null) return;
-
-            var tags = doc.GetElementsByTagName("html");
-            if (tags.Count > 0)
-            {
-                if (forward)
-                    tags[0].ScrollTop += PostBrowser.ClientRectangle.Height - this._fntDetail.Height;
-                else
-                    tags[0].ScrollTop -= PostBrowser.ClientRectangle.Height - this._fntDetail.Height;
-            }
         }
 
         private void GoNextTab(bool forward)
@@ -7720,37 +7394,6 @@ namespace OpenTween
             this.TopMost = this._cfgCommon.AlwaysTop;
         }
 
-        private async void PostBrowser_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
-        {
-            Task asyncTask;
-            bool KeyRes = CommonKeyDown(e.KeyData, FocusedControl.PostBrowser, out asyncTask);
-            if (KeyRes)
-            {
-                e.IsInputKey = true;
-            }
-            else
-            {
-                if (Enum.IsDefined(typeof(Shortcut), (Shortcut)e.KeyData))
-                {
-                    var shortcut = (Shortcut)e.KeyData;
-                    switch (shortcut)
-                    {
-                        case Shortcut.CtrlA:
-                        case Shortcut.CtrlC:
-                        case Shortcut.CtrlIns:
-                            // 既定の動作を有効にする
-                            break;
-                        default:
-                            // その他のショートカットキーは無効にする
-                            e.IsInputKey = true;
-                            break;
-                    }
-                }
-            }
-
-            if (asyncTask != null)
-                await asyncTask;
-        }
         public bool TabRename(ref string tabName)
         {
             //タブ名変更
@@ -8916,9 +8559,7 @@ namespace OpenTween
 
         private async void OpenURLMenuItem_Click(object sender, EventArgs e)
         {
-            var linkElements = this.PostBrowser.Document.Links.Cast<HtmlElement>()
-                .Where(x => x.GetAttribute("className") != "tweet-quote-link") // 引用ツイートで追加されたリンクを除く
-                .ToArray();
+            var linkElements = this.tweetDetailsView.GetLinkElements();
 
             if (linkElements.Length > 0)
             {
@@ -9512,179 +9153,6 @@ namespace OpenTween
             await this.doRepliedStatusOpen();
         }
 
-        /// <summary>
-        /// UserPicture.Image に設定されている画像を破棄します。
-        /// </summary>
-        private void ClearUserPicture()
-        {
-            if (this.UserPicture.Image != null)
-            {
-                var oldImage = this.UserPicture.Image;
-                this.UserPicture.Image = null;
-                oldImage.Dispose();
-            }
-        }
-
-        private void ContextMenuUserPicture_Opening(object sender, CancelEventArgs e)
-        {
-            //発言詳細のアイコン右クリック時のメニュー制御
-            if (_curList.SelectedIndices.Count > 0 && _curPost != null)
-            {
-                string name = _curPost.ImageUrl;
-                if (name != null && name.Length > 0)
-                {
-                    int idx = name.LastIndexOf('/');
-                    if (idx != -1)
-                    {
-                        name = Path.GetFileName(name.Substring(idx));
-                        if (name.Contains("_normal.") || name.EndsWith("_normal", StringComparison.Ordinal))
-                        {
-                            name = name.Replace("_normal", "");
-                            this.IconNameToolStripMenuItem.Text = name;
-                            this.IconNameToolStripMenuItem.Enabled = true;
-                        }
-                        else
-                        {
-                            this.IconNameToolStripMenuItem.Enabled = false;
-                            this.IconNameToolStripMenuItem.Text = Properties.Resources.ContextMenuStrip3_OpeningText1;
-                        }
-                    }
-                    else
-                    {
-                        this.IconNameToolStripMenuItem.Enabled = false;
-                        this.IconNameToolStripMenuItem.Text = Properties.Resources.ContextMenuStrip3_OpeningText1;
-                    }
-
-                    this.ReloadIconToolStripMenuItem.Enabled = true;
-
-                    if (this.IconCache.TryGetFromCache(_curPost.ImageUrl) != null)
-                    {
-                        this.SaveIconPictureToolStripMenuItem.Enabled = true;
-                    }
-                    else
-                    {
-                        this.SaveIconPictureToolStripMenuItem.Enabled = false;
-                    }
-                }
-                else
-                {
-                    this.IconNameToolStripMenuItem.Enabled = false;
-                    this.ReloadIconToolStripMenuItem.Enabled = false;
-                    this.SaveIconPictureToolStripMenuItem.Enabled = false;
-                    this.IconNameToolStripMenuItem.Text = Properties.Resources.ContextMenuStrip3_OpeningText1;
-                }
-            }
-            else
-            {
-                this.IconNameToolStripMenuItem.Enabled = false;
-                this.ReloadIconToolStripMenuItem.Enabled = false;
-                this.SaveIconPictureToolStripMenuItem.Enabled = false;
-                this.IconNameToolStripMenuItem.Text = Properties.Resources.ContextMenuStrip3_OpeningText2;
-            }
-            if (NameLabel.Tag != null)
-            {
-                string id = (string)NameLabel.Tag;
-                if (id == tw.Username)
-                {
-                    FollowToolStripMenuItem.Enabled = false;
-                    UnFollowToolStripMenuItem.Enabled = false;
-                    ShowFriendShipToolStripMenuItem.Enabled = false;
-                    ShowUserStatusToolStripMenuItem.Enabled = true;
-                    SearchPostsDetailNameToolStripMenuItem.Enabled = true;
-                    SearchAtPostsDetailNameToolStripMenuItem.Enabled = false;
-                    ListManageUserContextToolStripMenuItem3.Enabled = true;
-                }
-                else
-                {
-                    FollowToolStripMenuItem.Enabled = true;
-                    UnFollowToolStripMenuItem.Enabled = true;
-                    ShowFriendShipToolStripMenuItem.Enabled = true;
-                    ShowUserStatusToolStripMenuItem.Enabled = true;
-                    SearchPostsDetailNameToolStripMenuItem.Enabled = true;
-                    SearchAtPostsDetailNameToolStripMenuItem.Enabled = true;
-                    ListManageUserContextToolStripMenuItem3.Enabled = true;
-                }
-            }
-            else
-            {
-                FollowToolStripMenuItem.Enabled = false;
-                UnFollowToolStripMenuItem.Enabled = false;
-                ShowFriendShipToolStripMenuItem.Enabled = false;
-                ShowUserStatusToolStripMenuItem.Enabled = false;
-                SearchPostsDetailNameToolStripMenuItem.Enabled = false;
-                SearchAtPostsDetailNameToolStripMenuItem.Enabled = false;
-                ListManageUserContextToolStripMenuItem3.Enabled = false;
-            }
-        }
-
-        private async void IconNameToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (_curPost == null) return;
-            string name = _curPost.ImageUrl;
-            await this.OpenUriInBrowserAsync(name.Remove(name.LastIndexOf("_normal"), 7)); // "_normal".Length
-        }
-
-        private async void ReloadIconToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (this._curPost == null) return;
-
-            await this.UserPicture.SetImageFromTask(async () =>
-            {
-                var imageUrl = this._curPost.ImageUrl;
-
-                var image = await this.IconCache.DownloadImageAsync(imageUrl, force: true)
-                    .ConfigureAwait(false);
-
-                return await image.CloneAsync()
-                    .ConfigureAwait(false);
-            });
-        }
-
-        private void SaveOriginalSizeIconPictureToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (_curPost == null) return;
-            string name = _curPost.ImageUrl;
-            name = Path.GetFileNameWithoutExtension(name.Substring(name.LastIndexOf('/')));
-
-            this.SaveFileDialog1.FileName = name.Substring(0, name.Length - 8); // "_normal".Length + 1
-
-            if (this.SaveFileDialog1.ShowDialog() == DialogResult.OK)
-            {
-                // STUB
-            }
-        }
-
-        private void SaveIconPictureToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (_curPost == null) return;
-            string name = _curPost.ImageUrl;
-
-            this.SaveFileDialog1.FileName = name.Substring(name.LastIndexOf('/') + 1);
-
-            if (this.SaveFileDialog1.ShowDialog() == DialogResult.OK)
-            {
-                try
-                {
-                    using (Image orgBmp = new Bitmap(IconCache.TryGetFromCache(name).Image))
-                    {
-                        using (Bitmap bmp2 = new Bitmap(orgBmp.Size.Width, orgBmp.Size.Height))
-                        {
-                            using (Graphics g = Graphics.FromImage(bmp2))
-                            {
-                                g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.High;
-                                g.DrawImage(orgBmp, 0, 0, orgBmp.Size.Width, orgBmp.Size.Height);
-                            }
-                            bmp2.Save(this.SaveFileDialog1.FileName);
-                        }
-                    }
-                }
-                catch (Exception)
-                {
-                    //処理中にキャッシュアウトする可能性あり
-                }
-            }
-        }
-
         private void SplitContainer2_Panel2_Resize(object sender, EventArgs e)
         {
             var multiline = this.SplitContainer2.Panel2.Height > this.SplitContainer2.Panel2MinSize + 2;
@@ -10118,194 +9586,6 @@ namespace OpenTween
             //}
         }
 
-        private void SelectionCopyContextMenuItem_Click(object sender, EventArgs e)
-        {
-            //発言詳細で「選択文字列をコピー」
-            string _selText = this.PostBrowser.GetSelectedText();
-            try
-            {
-                Clipboard.SetDataObject(_selText, false, 5, 100);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-        }
-
-        private async Task doSearchToolStrip(string url)
-        {
-            //発言詳細で「選択文字列で検索」（選択文字列取得）
-            string _selText = this.PostBrowser.GetSelectedText();
-
-            if (_selText != null)
-            {
-                if (url == Properties.Resources.SearchItem4Url)
-                {
-                    //公式検索
-                    AddNewTabForSearch(_selText);
-                    return;
-                }
-
-                string tmp = string.Format(url, Uri.EscapeDataString(_selText));
-                await this.OpenUriInBrowserAsync(tmp);
-            }
-        }
-
-        private void SelectionAllContextMenuItem_Click(object sender, EventArgs e)
-        {
-            //発言詳細ですべて選択
-            PostBrowser.Document.ExecCommand("SelectAll", false, null);
-        }
-
-        private async void SearchWikipediaContextMenuItem_Click(object sender, EventArgs e)
-        {
-            await this.doSearchToolStrip(Properties.Resources.SearchItem1Url);
-        }
-
-        private async void SearchGoogleContextMenuItem_Click(object sender, EventArgs e)
-        {
-            await this.doSearchToolStrip(Properties.Resources.SearchItem2Url);
-        }
-
-        private async void SearchPublicSearchContextMenuItem_Click(object sender, EventArgs e)
-        {
-            await this.doSearchToolStrip(Properties.Resources.SearchItem4Url);
-        }
-
-        private void UrlCopyContextMenuItem_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                foreach (var link in this.PostBrowser.Document.Links.Cast<HtmlElement>())
-                {
-                    if (link.GetAttribute("href") == this._postBrowserStatusText)
-                    {
-                        var linkStr = link.GetAttribute("title");
-                        if (string.IsNullOrEmpty(linkStr))
-                            linkStr = link.GetAttribute("href");
-
-                        Clipboard.SetDataObject(linkStr, false, 5, 100);
-                        return;
-                    }
-                }
-
-                Clipboard.SetDataObject(this._postBrowserStatusText, false, 5, 100);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-        }
-
-        private void ContextMenuPostBrowser_Opening(object ender, CancelEventArgs e)
-        {
-            // URLコピーの項目の表示/非表示
-            if (PostBrowser.StatusText.StartsWith("http", StringComparison.Ordinal))
-            {
-                this._postBrowserStatusText = PostBrowser.StatusText;
-                string name = GetUserId();
-                UrlCopyContextMenuItem.Enabled = true;
-                if (name != null)
-                {
-                    FollowContextMenuItem.Enabled = true;
-                    RemoveContextMenuItem.Enabled = true;
-                    FriendshipContextMenuItem.Enabled = true;
-                    ShowUserStatusContextMenuItem.Enabled = true;
-                    SearchPostsDetailToolStripMenuItem.Enabled = true;
-                    IdFilterAddMenuItem.Enabled = true;
-                    ListManageUserContextToolStripMenuItem.Enabled = true;
-                    SearchAtPostsDetailToolStripMenuItem.Enabled = true;
-                }
-                else
-                {
-                    FollowContextMenuItem.Enabled = false;
-                    RemoveContextMenuItem.Enabled = false;
-                    FriendshipContextMenuItem.Enabled = false;
-                    ShowUserStatusContextMenuItem.Enabled = false;
-                    SearchPostsDetailToolStripMenuItem.Enabled = false;
-                    IdFilterAddMenuItem.Enabled = false;
-                    ListManageUserContextToolStripMenuItem.Enabled = false;
-                    SearchAtPostsDetailToolStripMenuItem.Enabled = false;
-                }
-
-                if (Regex.IsMatch(this._postBrowserStatusText, @"^https?://twitter.com/search\?q=%23"))
-                    UseHashtagMenuItem.Enabled = true;
-                else
-                    UseHashtagMenuItem.Enabled = false;
-            }
-            else
-            {
-                this._postBrowserStatusText = "";
-                UrlCopyContextMenuItem.Enabled = false;
-                FollowContextMenuItem.Enabled = false;
-                RemoveContextMenuItem.Enabled = false;
-                FriendshipContextMenuItem.Enabled = false;
-                ShowUserStatusContextMenuItem.Enabled = false;
-                SearchPostsDetailToolStripMenuItem.Enabled = false;
-                SearchAtPostsDetailToolStripMenuItem.Enabled = false;
-                UseHashtagMenuItem.Enabled = false;
-                IdFilterAddMenuItem.Enabled = false;
-                ListManageUserContextToolStripMenuItem.Enabled = false;
-            }
-            // 文字列選択されていないときは選択文字列関係の項目を非表示に
-            string _selText = this.PostBrowser.GetSelectedText();
-            if (_selText == null)
-            {
-                SelectionSearchContextMenuItem.Enabled = false;
-                SelectionCopyContextMenuItem.Enabled = false;
-                SelectionTranslationToolStripMenuItem.Enabled = false;
-            }
-            else
-            {
-                SelectionSearchContextMenuItem.Enabled = true;
-                SelectionCopyContextMenuItem.Enabled = true;
-                SelectionTranslationToolStripMenuItem.Enabled = true;
-            }
-            //発言内に自分以外のユーザーが含まれてればフォロー状態全表示を有効に
-            MatchCollection ma = Regex.Matches(this.PostBrowser.DocumentText, @"href=""https?://twitter.com/(#!/)?(?<ScreenName>[a-zA-Z0-9_]+)(/status(es)?/[0-9]+)?""");
-            bool fAllFlag = false;
-            foreach (Match mu in ma)
-            {
-                if (mu.Result("${ScreenName}").ToLowerInvariant() != tw.Username.ToLowerInvariant())
-                {
-                    fAllFlag = true;
-                    break;
-                }
-            }
-            this.FriendshipAllMenuItem.Enabled = fAllFlag;
-
-            if (_curPost == null)
-                TranslationToolStripMenuItem.Enabled = false;
-            else
-                TranslationToolStripMenuItem.Enabled = true;
-
-            e.Cancel = false;
-        }
-
-        private void CurrentTabToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            //発言詳細の選択文字列で現在のタブを検索
-            string _selText = this.PostBrowser.GetSelectedText();
-
-            if (_selText != null)
-            {
-                var searchOptions = new SearchWordDialog.SearchOptions(
-                    SearchWordDialog.SearchType.Timeline,
-                    _selText,
-                    newTab: false,
-                    caseSensitive: false,
-                    useRegex: false);
-
-                this.SearchDialog.ResultOptions = searchOptions;
-
-                this.DoTabSearch(
-                    searchOptions.Query,
-                    searchOptions.CaseSensitive,
-                    searchOptions.UseRegex,
-                    SEARCHTYPE.NextSearch);
-            }
-        }
-
         private void SplitContainer2_SplitterMoved(object sender, SplitterEventArgs e)
         {
             if (StatusText.Multiline) _mySpDis2 = StatusText.Height;
@@ -10661,18 +9941,6 @@ namespace OpenTween
 
         private async void TweenMain_Shown(object sender, EventArgs e)
         {
-            try
-            {
-                using (ControlTransaction.Update(this.PostBrowser))
-                {
-                    PostBrowser.Url = new Uri("about:blank");
-                    PostBrowser.DocumentText = "";       //発言詳細部初期化
-                }
-            }
-            catch (Exception)
-            {
-            }
-
             NotifyIcon1.Visible = true;
 
             if (this.IsNetworkAvailable())
@@ -10905,6 +10173,8 @@ namespace OpenTween
 
         private async void DumpPostClassToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            this.tweetDetailsView.DumpPostClass = this.DumpPostClassToolStripMenuItem.Checked;
+
             if (_curPost != null)
                 await this.DispSelectedPost(true);
         }
@@ -10998,7 +10268,7 @@ namespace OpenTween
             await this.FollowCommand(id);
         }
 
-        private async Task FollowCommand(string id)
+        internal async Task FollowCommand(string id)
         {
             using (var inputName = new InputTabName())
             {
@@ -11038,7 +10308,7 @@ namespace OpenTween
             await this.RemoveCommand(id, false);
         }
 
-        private async Task RemoveCommand(string id, bool skipInput)
+        internal async Task RemoveCommand(string id, bool skipInput)
         {
             if (!skipInput)
             {
@@ -11081,7 +10351,7 @@ namespace OpenTween
             await this.ShowFriendship(id);
         }
 
-        private async Task ShowFriendship(string id)
+        internal async Task ShowFriendship(string id)
         {
             using (var inputName = new InputTabName())
             {
@@ -11143,7 +10413,7 @@ namespace OpenTween
             MessageBox.Show(result);
         }
 
-        private async Task ShowFriendship(string[] ids)
+        internal async Task ShowFriendship(string[] ids)
         {
             foreach (string id in ids)
             {
@@ -11236,70 +10506,6 @@ namespace OpenTween
                 return !Regex.Match(name, @"^(about|jobs|tos|privacy|who_to_follow|download|messages)$", RegexOptions.IgnoreCase).Success;
             else
                 return !this.tw.Configuration.NonUsernamePaths.Contains(name.ToLowerInvariant());
-        }
-
-        private string GetUserId()
-        {
-            Match m = Regex.Match(this._postBrowserStatusText, @"^https?://twitter.com/(#!/)?(?<ScreenName>[a-zA-Z0-9_]+)(/status(es)?/[0-9]+)?$");
-            if (m.Success && IsTwitterId(m.Result("${ScreenName}")))
-                return m.Result("${ScreenName}");
-            else
-                return null;
-        }
-
-        private async void FollowContextMenuItem_Click(object sender, EventArgs e)
-        {
-            string name = GetUserId();
-            if (name != null)
-                await this.FollowCommand(name);
-        }
-
-        private async void RemoveContextMenuItem_Click(object sender, EventArgs e)
-        {
-            string name = GetUserId();
-            if (name != null)
-                await this.RemoveCommand(name, false);
-        }
-
-        private async void FriendshipContextMenuItem_Click(object sender, EventArgs e)
-        {
-            string name = GetUserId();
-            if (name != null)
-                await this.ShowFriendship(name);
-        }
-
-        private async void FriendshipAllMenuItem_Click(object sender, EventArgs e)
-        {
-            MatchCollection ma = Regex.Matches(this.PostBrowser.DocumentText, @"href=""https?://twitter.com/(#!/)?(?<ScreenName>[a-zA-Z0-9_]+)(/status(es)?/[0-9]+)?""");
-            List<string> ids = new List<string>();
-            foreach (Match mu in ma)
-            {
-                if (mu.Result("${ScreenName}").ToLower() != tw.Username.ToLower())
-                {
-                    ids.Add(mu.Result("${ScreenName}"));
-                }
-            }
-
-            await this.ShowFriendship(ids.ToArray());
-        }
-
-        private async void ShowUserStatusContextMenuItem_Click(object sender, EventArgs e)
-        {
-            string name = GetUserId();
-            if (name != null)
-                await this.ShowUserStatus(name);
-        }
-
-        private void SearchPostsDetailToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            string name = GetUserId();
-            if (name != null) AddNewTabForUserTimeline(name);
-        }
-
-        private void SearchAtPostsDetailToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            string name = GetUserId();
-            if (name != null) AddNewTabForSearch("@" + name);
         }
 
         private void IdeographicSpaceToSpaceToolStripMenuItem_Click(object sender, EventArgs e)
@@ -11558,34 +10764,16 @@ namespace OpenTween
             await this.doMoveToRTHome();
         }
 
-        private void IdFilterAddMenuItem_Click(object sender, EventArgs e)
-        {
-            string name = GetUserId();
-            if (name != null)
-                this.AddFilterRuleByScreenName(name);
-        }
-
         private async void ListManageUserContextToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            string user;
+            var screenName = this._curPost?.ScreenName;
+            if (screenName != null)
+                await this.ListManageUserContext(screenName);
+        }
 
-            ToolStripMenuItem menuItem = (ToolStripMenuItem)sender;
-
-            if (menuItem.Owner == this.ContextMenuPostBrowser)
-            {
-                user = GetUserId();
-                if (user == null) return;
-            }
-            else if (this._curPost != null)
-            {
-                user = this._curPost.ScreenName;
-            }
-            else
-            {
-                return;
-            }
-
-            if (TabInformations.GetInstance().SubscribableLists.Count == 0)
+        public async Task ListManageUserContext(string screenName)
+        {
+            if (this._statuses.SubscribableLists.Count == 0)
             {
                 try
                 {
@@ -11607,7 +10795,7 @@ namespace OpenTween
                 }
             }
 
-            using (MyLists listSelectForm = new MyLists(user, this.tw))
+            using (MyLists listSelectForm = new MyLists(screenName, this.tw))
             {
                 listSelectForm.ShowDialog(this);
             }
@@ -11637,20 +10825,6 @@ namespace OpenTween
             {
                 if (_statuses.Tabs[ListTab.SelectedTab.Text].TabType != MyCommon.TabUsageType.PublicSearch) return;
                 ListTab.SelectedTab.Controls["panelSearch"].Controls["comboSearch"].Focus();
-            }
-        }
-
-        private void UseHashtagMenuItem_Click(object sender, EventArgs e)
-        {
-            Match m = Regex.Match(this._postBrowserStatusText, @"^https?://twitter.com/search\?q=%23(?<hash>.+)$");
-            if (m.Success)
-            {
-                HashMgr.SetPermanentHash("#" + Uri.UnescapeDataString(m.Result("${hash}")));
-                HashStripSplitButton.Text = HashMgr.UseHash;
-                HashToggleMenuItem.Checked = true;
-                HashToggleToolStripMenuItem.Checked = true;
-                //使用ハッシュタグとして設定
-                ModifySettingCommon = true;
             }
         }
 
@@ -11724,6 +10898,16 @@ namespace OpenTween
         private void HashStripSplitButton_ButtonClick(object sender, EventArgs e)
         {
             HashToggleMenuItem_Click(null, null);
+        }
+
+        public void SetPermanentHashtag(string hashtag)
+        {
+            HashMgr.SetPermanentHash("#" + hashtag);
+            HashStripSplitButton.Text = HashMgr.UseHash;
+            HashToggleMenuItem.Checked = true;
+            HashToggleToolStripMenuItem.Checked = true;
+            //使用ハッシュタグとして設定
+            ModifySettingCommon = true;
         }
 
         private void MenuItemOperate_DropDownOpening(object sender, EventArgs e)
@@ -11986,77 +11170,14 @@ namespace OpenTween
             }
         }
 
-        private Task ShowUserStatus(string id, bool ShowInputDialog)
+        internal Task ShowUserStatus(string id, bool ShowInputDialog)
         {
             return this.doShowUserStatus(id, ShowInputDialog);
         }
 
-        private Task ShowUserStatus(string id)
+        internal Task ShowUserStatus(string id)
         {
             return this.doShowUserStatus(id, true);
-        }
-
-        private async void FollowToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (NameLabel.Tag != null)
-            {
-                string id = (string)NameLabel.Tag;
-                if (id != tw.Username)
-                {
-                    await this.FollowCommand(id);
-                }
-            }
-        }
-
-        private async void UnFollowToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (NameLabel.Tag != null)
-            {
-                string id = (string)NameLabel.Tag;
-                if (id != tw.Username)
-                {
-                    await this.RemoveCommand(id, false);
-                }
-            }
-        }
-
-        private async void ShowFriendShipToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (NameLabel.Tag != null)
-            {
-                string id = (string)NameLabel.Tag;
-                if (id != tw.Username)
-                {
-                    await this.ShowFriendship(id);
-                }
-            }
-        }
-
-        private async void ShowUserStatusToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (NameLabel.Tag != null)
-            {
-                string id = (string)NameLabel.Tag;
-                await this.ShowUserStatus(id, false);
-            }
-        }
-
-        private void SearchPostsDetailNameToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (NameLabel.Tag != null)
-            {
-                string id = (string)NameLabel.Tag;
-                AddNewTabForUserTimeline(id);
-            }
-        }
-
-        private void SearchAtPostsDetailNameToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (NameLabel.Tag != null)
-            {
-                string id = (string)NameLabel.Tag;
-                AddNewTabForSearch("@" + id);
-            }
         }
 
         private async void ShowProfileMenuItem_Click(object sender, EventArgs e)
@@ -12114,6 +11235,8 @@ namespace OpenTween
                 this.StatusText.Dock = DockStyle.Fill;
             }
 
+            this.tweetDetailsView.Owner = this;
+
             this.TimerTimeline.Elapsed += this.TimerTimeline_Elapsed;
             this._hookGlobalHotkey.HotkeyPressed += _hookGlobalHotkey_HotkeyPressed;
             this.gh.NotifyClicked += GrowlHelper_Callback;
@@ -12145,24 +11268,6 @@ namespace OpenTween
                 this.Activate();
                 this.BringToFront();
                 this.StatusText.Focus();
-            }
-        }
-
-        private void UserPicture_MouseEnter(object sender, EventArgs e)
-        {
-            this.UserPicture.Cursor = Cursors.Hand;
-        }
-
-        private void UserPicture_MouseLeave(object sender, EventArgs e)
-        {
-            this.UserPicture.Cursor = Cursors.Default;
-        }
-
-        private async void UserPicture_DoubleClick(object sender, EventArgs e)
-        {
-            if (NameLabel.Tag != null)
-            {
-                await this.OpenUriInBrowserAsync(MyCommon.TwitterUrl + NameLabel.Tag.ToString());
             }
         }
 
@@ -12284,29 +11389,6 @@ namespace OpenTween
         public bool ModifySettingCommon { get; set; }
         public bool ModifySettingLocal { get; set; }
         public bool ModifySettingAtId { get; set; }
-
-        private async void SourceLinkLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            var sourceUri = (Uri)this.SourceLinkLabel.Tag;
-            if (sourceUri != null && e.Button == MouseButtons.Left)
-            {
-                await this.OpenUriInBrowserAsync(sourceUri.AbsoluteUri);
-            }
-        }
-
-        private void SourceLinkLabel_MouseEnter(object sender, EventArgs e)
-        {
-            var sourceUri = (Uri)this.SourceLinkLabel.Tag;
-            if (sourceUri != null)
-            {
-                StatusLabelUrl.Text = MyCommon.ConvertToReadableUrl(sourceUri.AbsoluteUri);
-            }
-        }
-
-        private void SourceLinkLabel_MouseLeave(object sender, EventArgs e)
-        {
-            SetStatusLabelUrl();
-        }
 
         private void MenuItemCommand_DropDownOpening(object sender, EventArgs e)
         {
@@ -12802,44 +11884,6 @@ namespace OpenTween
             await this.OpenUriInBrowserAsync(MyCommon.TwitterUrl + tw.Username);
         }
 
-        private async Task doTranslation(string str)
-        {
-            if (string.IsNullOrEmpty(str))
-                return;
-
-            var bing = new Bing();
-            try
-            {
-                var translatedText = await bing.TranslateAsync(str,
-                    langFrom: null,
-                    langTo: this._cfgCommon.TranslateLanguage);
-
-                this.PostBrowser.DocumentText = this.createDetailHtml(translatedText);
-            }
-            catch (HttpRequestException e)
-            {
-                this.StatusLabel.Text = "Err:" + e.Message;
-            }
-            catch (OperationCanceledException)
-            {
-                this.StatusLabel.Text = "Err:Timeout";
-            }
-        }
-
-        private async void TranslationToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (!this.ExistCurrentPost)
-                return;
-
-            await this.doTranslation(this._curPost.TextFromApi);
-        }
-
-        private async void SelectionTranslationToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            var text = this.PostBrowser.GetSelectedText();
-            await this.doTranslation(text);
-        }
-
         private bool ExistCurrentPost
         {
             get
@@ -12945,46 +11989,6 @@ namespace OpenTween
         private async void OpenUserSpecifiedUrlMenuItem_Click(object sender, EventArgs e)
         {
             await this.OpenUserAppointUrl();
-        }
-
-        private void SourceCopyMenuItem_Click(object sender, EventArgs e)
-        {
-            string selText = SourceLinkLabel.Text;
-            try
-            {
-                Clipboard.SetDataObject(selText, false, 5, 100);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-        }
-
-        private void SourceUrlCopyMenuItem_Click(object sender, EventArgs e)
-        {
-            var sourceUri = (Uri)this.SourceLinkLabel.Tag;
-            try
-            {
-                Clipboard.SetDataObject(sourceUri.AbsoluteUri, false, 5, 100);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-        }
-
-        private void ContextMenuSource_Opening(object sender, CancelEventArgs e)
-        {
-            if (_curPost == null || !ExistCurrentPost || _curPost.IsDm)
-            {
-                SourceCopyMenuItem.Enabled = false;
-                SourceUrlCopyMenuItem.Enabled = false;
-            }
-            else
-            {
-                SourceCopyMenuItem.Enabled = true;
-                SourceUrlCopyMenuItem.Enabled = true;
-            }
         }
 
         private void GrowlHelper_Callback(object sender, GrowlHelper.NotifyCallbackEventArgs e)
@@ -13118,6 +12122,18 @@ namespace OpenTween
             this._cfgCommon.SortOrderLock = state;
 
             ModifySettingCommon = true;
+        }
+
+        private void tweetDetailsView_StatusChanged(object sender, TweetDetailsViewStatusChengedEventArgs e)
+        {
+            if (!string.IsNullOrEmpty(e.StatusText))
+            {
+                this.StatusLabelUrl.Text = e.StatusText;
+            }
+            else
+            {
+                this.SetStatusLabelUrl();
+            }
         }
     }
 }

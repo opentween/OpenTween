@@ -157,8 +157,8 @@ namespace OpenTween
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public new string ImageLocation
         {
-            get { throw new NotSupportedException(); }
-            set { throw new NotSupportedException(); }
+            get { return null; }
+            set { }
         }
 
         [EditorBrowsable(EditorBrowsableState.Never)]

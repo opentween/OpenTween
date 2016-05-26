@@ -114,6 +114,7 @@
     <Compile Include="Thumbnail\Services\TumblrTest.cs" />
     <Compile Include="ToolStripAPIGaugeTest.cs" />
     <Compile Include="TweenMainTest.cs" />
+    <Compile Include="TweetDetailsViewTest.cs" />
     <Compile Include="TweetExtractorTest.cs" />
     <Compile Include="TweetFormatterTest.cs" />
     <Compile Include="TweetThumbnailTest.cs" />
