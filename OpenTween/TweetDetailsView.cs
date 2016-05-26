@@ -413,6 +413,13 @@ namespace OpenTween
             this.StatusChanged?.Invoke(this, new TweetDetailsViewStatusChengedEventArgs(statusText));
         }
 
+        private void TweetDetailsView_FontChanged(object sender, EventArgs e)
+        {
+            // OTBaseForm.GlobalFont による UI フォントの変更に対応
+            var origFont = this.NameLabel.Font;
+            this.NameLabel.Font = new Font(this.Font.Name, origFont.Size, origFont.Style);
+        }
+
         #region TableLayoutPanel1
 
         private async void UserPicture_DoubleClick(object sender, EventArgs e)

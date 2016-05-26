@@ -436,6 +436,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.Controls.Add(this.TableLayoutPanel1);
             this.Name = "TweetDetailsView";
+            this.FontChanged += new System.EventHandler(this.TweetDetailsView_FontChanged);
             this.TableLayoutPanel1.ResumeLayout(false);
             this.TableLayoutPanel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.UserPicture)).EndInit();
