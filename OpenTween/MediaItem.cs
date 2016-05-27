@@ -60,6 +60,11 @@ namespace OpenTween
         bool IsImage { get; }
 
         /// <summary>
+        /// 代替テキスト (アップロード先が対応している必要がある)
+        /// </summary>
+        string AltText { get; set; }
+
+        /// <summary>
         /// 表示用の MemoryImage を作成する
         /// </summary>
         /// <remarks>
@@ -87,6 +92,7 @@ namespace OpenTween
     public class FileMediaItem : IMediaItem
     {
         public FileInfo FileInfo { get; }
+        public string AltText { get; set; }
 
         public FileMediaItem(string path)
         {
@@ -198,6 +204,7 @@ namespace OpenTween
         }
 
         public string Path { get; }
+        public string AltText { get; set; }
 
         public string Name
         {

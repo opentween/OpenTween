@@ -45,6 +45,11 @@ namespace OpenTween.Connection
         string SupportedFormatsStrForDialog { get; }
 
         /// <summary>
+        /// 代替テキストの設定が可能なサービスであるか
+        /// </summary>
+        bool CanUseAltText { get; }
+
+        /// <summary>
         /// ファイルの拡張子からアップロード可能なフォーマットであるかを判定します
         /// </summary>
         /// <param name="fileExtension">アップロードするファイルの拡張子 (ピリオドを含む)</param>

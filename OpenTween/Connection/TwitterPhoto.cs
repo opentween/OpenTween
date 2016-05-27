@@ -60,6 +60,8 @@ namespace OpenTween.Connection
             }
         }
 
+        public bool CanUseAltText => true;
+
         public bool CheckFileExtension(string fileExtension)
         {
             return this.pictureExt.Contains(fileExtension.ToLowerInvariant());
@@ -93,7 +95,13 @@ namespace OpenTween.Connection
                     throw new ArgumentException("Err:Media not found.");
             }
 
-            await this.tw.PostStatusWithMultipleMedia(text, inReplyToStatusId, mediaItems)
+            var uploadTasks = from m in mediaItems
+                              select this.UploadMediaItem(m);
+
+            var mediaIds = await Task.WhenAll(uploadTasks)
+                .ConfigureAwait(false);
+
+            await this.tw.PostStatus(text, inReplyToStatusId, mediaIds)
                 .ConfigureAwait(false);
         }
 
@@ -106,6 +114,20 @@ namespace OpenTween.Connection
         public void UpdateTwitterConfiguration(TwitterConfiguration config)
         {
             this.twitterConfig = config;
+        }
+
+        private async Task<long> UploadMediaItem(IMediaItem mediaItem)
+        {
+            var mediaId = await this.tw.UploadMedia(mediaItem)
+                .ConfigureAwait(false);
+
+            if (!string.IsNullOrEmpty(mediaItem.AltText))
+            {
+                await this.tw.Api.MediaMetadataCreate(mediaId, mediaItem.AltText)
+                    .ConfigureAwait(false);
+            }
+
+            return mediaId;
         }
     }
 }

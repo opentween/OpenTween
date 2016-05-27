@@ -88,6 +88,8 @@ namespace OpenTween.Connection
             }
         }
 
+        public bool CanUseAltText => false;
+
         public bool CheckFileExtension(string fileExtension)
         {
             return SupportedPictureExtensions.Contains(fileExtension, StringComparer.OrdinalIgnoreCase);

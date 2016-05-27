@@ -423,30 +423,6 @@ namespace OpenTween
             }
         }
 
-        public async Task PostStatusWithMultipleMedia(string postStr, long? reply_to, IMediaItem[] mediaItems)
-        {
-            this.CheckAccountState();
-
-            if (Twitter.DMSendTextRegex.IsMatch(postStr))
-            {
-                await this.SendDirectMessage(postStr)
-                    .ConfigureAwait(false);
-                return;
-            }
-
-            if (mediaItems.Length == 0)
-                throw new WebApiException("Err:Invalid Files!");
-
-            var uploadTasks = from m in mediaItems
-                              select this.UploadMedia(m);
-
-            var mediaIds = await Task.WhenAll(uploadTasks)
-                .ConfigureAwait(false);
-
-            await this.PostStatus(postStr, reply_to, mediaIds)
-                .ConfigureAwait(false);
-        }
-
         public async Task<long> UploadMedia(IMediaItem item)
         {
             this.CheckAccountState();

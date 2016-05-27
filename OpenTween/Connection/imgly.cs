@@ -71,6 +71,8 @@ namespace OpenTween.Connection
             }
         }
 
+        public bool CanUseAltText => false;
+
         public bool CheckFileExtension(string fileExtension)
         {
             return this.pictureExt.Contains(fileExtension.ToLowerInvariant());
