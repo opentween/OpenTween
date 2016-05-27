@@ -55,6 +55,13 @@ namespace OpenTween
         /// <summary>現在表示中の発言</summary>
         public PostClass CurrentPost { get; private set; }
 
+        [DefaultValue(false)]
+        public new bool TabStop
+        {
+            get { return base.TabStop; }
+            set { base.TabStop = value; }
+        }
+
         /// <summary>ステータスバーに表示するテキストの変化を通知するイベント</summary>
         public event EventHandler<TweetDetailsViewStatusChengedEventArgs> StatusChanged;
 
@@ -64,6 +71,8 @@ namespace OpenTween
         public TweetDetailsView()
         {
             this.InitializeComponent();
+
+            this.TabStop = false;
 
             //発言詳細部の初期化
             NameLabel.Text = "";
