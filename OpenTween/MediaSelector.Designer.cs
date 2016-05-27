@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MediaSelector));
-            this.ImageSelectedPicture = new OpenTween.OTPictureBox();
             this.ImagePathPanel = new System.Windows.Forms.Panel();
             this.ImagefilePathText = new System.Windows.Forms.TextBox();
             this.ImagePageCombo = new System.Windows.Forms.ComboBox();
@@ -37,15 +36,14 @@
             this.Label2 = new System.Windows.Forms.Label();
             this.ImageServiceCombo = new System.Windows.Forms.ComboBox();
             this.ImageCancelButton = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.ImageSelectedPicture)).BeginInit();
+            this.AlternativeTextPanel = new System.Windows.Forms.Panel();
+            this.AlternativeTextBox = new System.Windows.Forms.TextBox();
+            this.AlternativeTextLabel = new System.Windows.Forms.Label();
+            this.ImageSelectedPicture = new OpenTween.OTPictureBox();
             this.ImagePathPanel.SuspendLayout();
+            this.AlternativeTextPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ImageSelectedPicture)).BeginInit();
             this.SuspendLayout();
-            // 
-            // ImageSelectedPicture
-            // 
-            resources.ApplyResources(this.ImageSelectedPicture, "ImageSelectedPicture");
-            this.ImageSelectedPicture.Name = "ImageSelectedPicture";
-            this.ImageSelectedPicture.TabStop = false;
             // 
             // ImagePathPanel
             // 
@@ -113,17 +111,45 @@
             this.ImageCancelButton.UseVisualStyleBackColor = true;
             this.ImageCancelButton.Click += new System.EventHandler(this.ImageCancelButton_Click);
             // 
+            // AlternativeTextPanel
+            // 
+            resources.ApplyResources(this.AlternativeTextPanel, "AlternativeTextPanel");
+            this.AlternativeTextPanel.Controls.Add(this.AlternativeTextBox);
+            this.AlternativeTextPanel.Controls.Add(this.AlternativeTextLabel);
+            this.AlternativeTextPanel.Name = "AlternativeTextPanel";
+            // 
+            // AlternativeTextBox
+            // 
+            resources.ApplyResources(this.AlternativeTextBox, "AlternativeTextBox");
+            this.AlternativeTextBox.Name = "AlternativeTextBox";
+            this.AlternativeTextBox.TextChanged += new System.EventHandler(this.AlternativeTextBox_TextChanged);
+            // 
+            // AlternativeTextLabel
+            // 
+            resources.ApplyResources(this.AlternativeTextLabel, "AlternativeTextLabel");
+            this.AlternativeTextLabel.Name = "AlternativeTextLabel";
+            // 
+            // ImageSelectedPicture
+            // 
+            resources.ApplyResources(this.ImageSelectedPicture, "ImageSelectedPicture");
+            this.ImageSelectedPicture.Name = "ImageSelectedPicture";
+            this.ImageSelectedPicture.TabStop = false;
+            // 
             // MediaSelector
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.Controls.Add(this.ImageSelectedPicture);
+            this.Controls.Add(this.AlternativeTextPanel);
             this.Controls.Add(this.ImagePathPanel);
             this.Name = "MediaSelector";
-            ((System.ComponentModel.ISupportInitialize)(this.ImageSelectedPicture)).EndInit();
             this.ImagePathPanel.ResumeLayout(false);
             this.ImagePathPanel.PerformLayout();
+            this.AlternativeTextPanel.ResumeLayout(false);
+            this.AlternativeTextPanel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ImageSelectedPicture)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -137,5 +163,8 @@
         internal System.Windows.Forms.Label Label2;
         internal System.Windows.Forms.ComboBox ImageServiceCombo;
         internal System.Windows.Forms.Button ImageCancelButton;
+        internal System.Windows.Forms.Panel AlternativeTextPanel;
+        internal System.Windows.Forms.TextBox AlternativeTextBox;
+        internal System.Windows.Forms.Label AlternativeTextLabel;
     }
 }

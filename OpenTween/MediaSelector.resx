@@ -118,47 +118,17 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="ImageSelectedPicture.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="ImageSelectedPicture.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="ImageSelectedPicture.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="ImageSelectedPicture.Size" type="System.Drawing.Size, System.Drawing">
-    <value>608, 252</value>
-  </data>
-  <data name="ImageSelectedPicture.SizeMode" type="System.Windows.Forms.PictureBoxSizeMode, System.Windows.Forms">
-    <value>Zoom</value>
-  </data>
-  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="ImageSelectedPicture.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;ImageSelectedPicture.Name" xml:space="preserve">
-    <value>ImageSelectedPicture</value>
-  </data>
-  <data name="&gt;&gt;ImageSelectedPicture.Type" xml:space="preserve">
-    <value>OpenTween.OTPictureBox, OpenTween, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;ImageSelectedPicture.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;ImageSelectedPicture.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
   <data name="ImagefilePathText.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
   </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="ImagefilePathText.Location" type="System.Drawing.Point, System.Drawing">
     <value>61, 3</value>
   </data>
   <data name="ImagefilePathText.Size" type="System.Drawing.Size, System.Drawing">
     <value>297, 19</value>
   </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="ImagefilePathText.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
   </data>
@@ -343,7 +313,124 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;ImagePathPanel.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="AlternativeTextPanel.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="AlternativeTextBox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
+  </data>
+  <data name="AlternativeTextBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>109, 3</value>
+  </data>
+  <data name="AlternativeTextBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>496, 19</value>
+  </data>
+  <data name="AlternativeTextBox.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
+  </data>
+  <data name="&gt;&gt;AlternativeTextBox.Name" xml:space="preserve">
+    <value>AlternativeTextBox</value>
+  </data>
+  <data name="&gt;&gt;AlternativeTextBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;AlternativeTextBox.Parent" xml:space="preserve">
+    <value>AlternativeTextPanel</value>
+  </data>
+  <data name="&gt;&gt;AlternativeTextBox.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="AlternativeTextLabel.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom, Left</value>
+  </data>
+  <data name="AlternativeTextLabel.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="AlternativeTextLabel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 3</value>
+  </data>
+  <data name="AlternativeTextLabel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>100, 19</value>
+  </data>
+  <data name="AlternativeTextLabel.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="AlternativeTextLabel.Text" xml:space="preserve">
+    <value>代替テキスト(&amp;A):</value>
+  </data>
+  <data name="AlternativeTextLabel.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleRight</value>
+  </data>
+  <data name="&gt;&gt;AlternativeTextLabel.Name" xml:space="preserve">
+    <value>AlternativeTextLabel</value>
+  </data>
+  <data name="&gt;&gt;AlternativeTextLabel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;AlternativeTextLabel.Parent" xml:space="preserve">
+    <value>AlternativeTextPanel</value>
+  </data>
+  <data name="&gt;&gt;AlternativeTextLabel.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="AlternativeTextPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Bottom</value>
+  </data>
+  <data name="AlternativeTextPanel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 227</value>
+  </data>
+  <data name="AlternativeTextPanel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>608, 25</value>
+  </data>
+  <data name="AlternativeTextPanel.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="AlternativeTextPanel.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;AlternativeTextPanel.Name" xml:space="preserve">
+    <value>AlternativeTextPanel</value>
+  </data>
+  <data name="&gt;&gt;AlternativeTextPanel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;AlternativeTextPanel.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;AlternativeTextPanel.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="ImageSelectedPicture.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="ImageSelectedPicture.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="ImageSelectedPicture.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="ImageSelectedPicture.Size" type="System.Drawing.Size, System.Drawing">
+    <value>608, 227</value>
+  </data>
+  <data name="ImageSelectedPicture.SizeMode" type="System.Windows.Forms.PictureBoxSizeMode, System.Windows.Forms">
+    <value>Zoom</value>
+  </data>
+  <data name="ImageSelectedPicture.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;ImageSelectedPicture.Name" xml:space="preserve">
+    <value>ImageSelectedPicture</value>
+  </data>
+  <data name="&gt;&gt;ImageSelectedPicture.Type" xml:space="preserve">
+    <value>OpenTween.OTPictureBox, OpenTween, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;ImageSelectedPicture.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;ImageSelectedPicture.ZOrder" xml:space="preserve">
+    <value>0</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>

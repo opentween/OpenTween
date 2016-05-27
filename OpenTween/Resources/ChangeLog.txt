@@ -3,6 +3,8 @@
 ==== Ver 1.3.3-dev(2016/xx/xx)
  * NEW: twemoji V2 に対応しました
   - 「絵文字を画像で表示する(Twemoji)」が有効な場合に Unicode 8.0 で追加された絵文字が表示されるようになります
+ * NEW: pic.twitter.com の画像アップロード時に代替テキストを送信できるようになりました
+  - 代替テキストについては https://blog.twitter.com/ja/2016/0330alt を参照して下さい
 
 ==== Ver 1.3.2(2016/04/12)
  * NEW: touch.pixiv.net のサムネイル表示に対応 (pixiv.net は既に対応しています)

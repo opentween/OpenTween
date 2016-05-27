@@ -120,4 +120,7 @@
   <data name="Label2.Text" xml:space="preserve">
     <value>Service</value>
   </data>
+  <data name="AlternativeTextLabel.Text" xml:space="preserve">
+    <value>&amp;Alternative text:</value>
+  </data>
 </root>

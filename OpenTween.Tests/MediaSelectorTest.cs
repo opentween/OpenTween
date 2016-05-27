@@ -46,6 +46,9 @@ namespace OpenTween
                 // ページ番号が初期化された状態
                 var pages = mediaSelector.ImagePageCombo.Items;
                 Assert.Equal(new[] { "1" }, pages.Cast<object>().Select(x => x.ToString()));
+
+                // 代替テキストの入力欄が表示された状態
+                Assert.True(mediaSelector.AlternativeTextPanel.Visible);
             }
         }
 
@@ -64,6 +67,9 @@ namespace OpenTween
                 // ページ番号が初期化された状態
                 var pages = mediaSelector.ImagePageCombo.Items;
                 Assert.Equal(new[] { "1" }, pages.Cast<object>().Select(x => x.ToString()));
+
+                // 代替テキストの入力欄が非表示の状態
+                Assert.False(mediaSelector.AlternativeTextPanel.Visible);
             }
         }
 
@@ -267,6 +273,42 @@ namespace OpenTween
                 Assert.Equal("3", mediaSelector.ImagePageCombo.Text);
                 Assert.Equal("", mediaSelector.ImagefilePathText.Text);
                 Assert.Null(mediaSelector.ImageSelectedPicture.Image);
+            }
+        }
+
+        [Fact]
+        public void PageChange_AlternativeTextTest()
+        {
+            using (var twitter = new Twitter())
+            using (var mediaSelector = new MediaSelector { Visible = false, Enabled = false })
+            {
+                twitter.Initialize("", "", "", 0L);
+                mediaSelector.Initialize(twitter, TwitterConfiguration.DefaultConfiguration(), "Twitter");
+
+                var images = new[] { "Resources/re.gif", "Resources/re1.png" };
+                mediaSelector.BeginSelection(images);
+
+                // 1 ページ目
+                mediaSelector.ImagePageCombo.SelectedIndex = 0;
+                mediaSelector.AlternativeTextBox.Text = "Page 1";
+
+                // 2 ページ目
+                mediaSelector.ImagePageCombo.SelectedIndex = 1;
+                mediaSelector.AlternativeTextBox.Text = "Page 2";
+
+                // 3 ページ目 (新規ページ)
+                mediaSelector.ImagePageCombo.SelectedIndex = 2;
+                mediaSelector.AlternativeTextBox.Text = "Page 3";
+
+                mediaSelector.ImagePageCombo.SelectedIndex = 0;
+                Assert.Equal("Page 1", mediaSelector.AlternativeTextBox.Text);
+
+                mediaSelector.ImagePageCombo.SelectedIndex = 1;
+                Assert.Equal("Page 2", mediaSelector.AlternativeTextBox.Text);
+
+                // 画像が指定されていないページは入力した代替テキストも保持されない
+                mediaSelector.ImagePageCombo.SelectedIndex = 2;
+                Assert.Equal("", mediaSelector.AlternativeTextBox.Text);
             }
         }
 

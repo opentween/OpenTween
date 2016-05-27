@@ -138,6 +138,8 @@ namespace OpenTween
                 }
             }
 
+            public string AltText => this.Item?.AltText ?? "";
+
             public override string ToString()
             {
                 return this.Text;
@@ -262,6 +264,7 @@ namespace OpenTween
             if (count == 1)
             {
                 ImagefilePathText.Text = items[0].Path;
+                AlternativeTextBox.Text = items[0].AltText;
                 ImageFromSelectedFile(items[0], false);
             }
             else
@@ -269,7 +272,11 @@ namespace OpenTween
                 for (int i = 0; i < count; i++)
                 {
                     var index = ImagePageCombo.Items.Count - 1;
-                    if (index == 0) ImagefilePathText.Text = items[i].Path;
+                    if (index == 0)
+                    {
+                        ImagefilePathText.Text = items[i].Path;
+                        AlternativeTextBox.Text = items[i].AltText;
+                    }
                     ImageFromSelectedFile(index, items[i], false);
                 }
             }
@@ -432,6 +439,7 @@ namespace OpenTween
                 media.Item = null;
 
                 item = CreateFileMediaItem(path, noMsgBox);
+                item.AltText = AlternativeTextBox.Text;
             }
 
             ImagefilePathText.Text = path;
@@ -663,7 +671,12 @@ namespace OpenTween
             {
                 ImageServiceCombo.SelectedIndex = 0;
             }
+
+            this.UpdateAltTextPanelVisible();
         }
+
+        private void UpdateAltTextPanelVisible()
+            => this.AlternativeTextPanel.Visible = this.SelectedService.CanUseAltText;
 
         private void ImageServiceCombo_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -672,6 +685,8 @@ namespace OpenTween
                 var imageService = this.SelectedService;
                 if (imageService != null)
                 {
+                    this.UpdateAltTextPanelVisible();
+
                     if (ImagePageCombo.Items.Count > 0)
                     {
                         // 画像が選択された投稿先に対応しているかをチェックする
@@ -743,6 +758,7 @@ namespace OpenTween
 
                 ImagePageCombo.Items.Add(media);
                 ImagefilePathText.Text = media.Path;
+                AlternativeTextBox.Text = media.AltText;
 
                 ImagePageCombo.SelectedIndex = 0;
             }
@@ -802,7 +818,11 @@ namespace OpenTween
             media.Item = null;
             media.Type = MyCommon.UploadFileType.Invalid;
 
-            if (index == selectedIndex) ImagefilePathText.Text = "";
+            if (index == selectedIndex)
+            {
+                ImagefilePathText.Text = "";
+                AlternativeTextBox.Text = "";
+            }
         }
 
         private void ValidateSelectedImagePage()
@@ -811,12 +831,22 @@ namespace OpenTween
             var media = (SelectedMedia)ImagePageCombo.Items[idx];
             ImageServiceCombo.Enabled = (idx == 0);  // idx == 0 以外では投稿先サービスを選べないようにする
             ImagefilePathText.Text = media.Path;
+            AlternativeTextBox.Text = media.AltText;
             ImageFromSelectedFile(media.Item, true);
         }
 
         private void ImagePageCombo_SelectedIndexChanged(object sender, EventArgs e)
         {
             ValidateSelectedImagePage();
+        }
+
+        private void AlternativeTextBox_TextChanged(object sender, EventArgs e)
+        {
+            var selectedMedia = (SelectedMedia)this.ImagePageCombo.SelectedItem;
+            if (selectedMedia.Item == null)
+                return;
+
+            selectedMedia.Item.AltText = this.AlternativeTextBox.Text;
         }
     }
 }
