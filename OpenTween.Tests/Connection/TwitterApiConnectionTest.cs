@@ -456,5 +456,42 @@ namespace OpenTween.Connection
                 Assert.Equal(0, mockHandler.QueueCount);
             }
         }
+
+        [Fact]
+        public async Task PostJsonAsync_Test()
+        {
+            using (var mockHandler = new HttpMessageHandlerMock())
+            using (var http = new HttpClient(mockHandler))
+            using (var apiConnection = new TwitterApiConnection("", ""))
+            {
+                apiConnection.http = http;
+
+                mockHandler.Enqueue(async x =>
+                {
+                    Assert.Equal(HttpMethod.Post, x.Method);
+                    Assert.Equal("https://api.twitter.com/1.1/hoge/tetete.json",
+                        x.RequestUri.AbsoluteUri);
+
+                    Assert.Equal("application/json; charset=utf-8", x.Content.Headers.ContentType.ToString());
+
+                    var body = await x.Content.ReadAsStringAsync()
+                        .ConfigureAwait(false);
+
+                    Assert.Equal("{\"aaaa\": 1111}", body);
+
+                    return new HttpResponseMessage(HttpStatusCode.OK)
+                    {
+                        Content = new StringContent("\"hogehoge\""),
+                    };
+                });
+
+                var endpoint = new Uri("hoge/tetete.json", UriKind.Relative);
+
+                await apiConnection.PostJsonAsync(endpoint, "{\"aaaa\": 1111}")
+                    .ConfigureAwait(false);
+
+                Assert.Equal(0, mockHandler.QueueCount);
+            }
+        }
     }
 }

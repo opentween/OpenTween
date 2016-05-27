@@ -650,6 +650,16 @@ namespace OpenTween.Api
             return this.apiConnection.PostLazyAsync<TwitterUploadMediaResult>(endpoint, null, paramMedia);
         }
 
+        public Task MediaMetadataCreate(long mediaId, string altText)
+        {
+            var endpoint = new Uri("https://upload.twitter.com/1.1/media/metadata/create.json");
+
+            var escapedAltText = EscapeJsonString(altText);
+            var json = $@"{{""media_id"": ""{mediaId}"", ""alt_text"": {{""text"": ""{escapedAltText}""}}}}";
+
+            return this.apiConnection.PostJsonAsync(endpoint, json);
+        }
+
         public Task<Stream> UserStreams(string replies = null, string track = null)
         {
             var endpoint = new Uri("https://userstream.twitter.com/1.1/user.json");
@@ -671,6 +681,24 @@ namespace OpenTween.Api
         public void Dispose()
         {
             this.apiConnection?.Dispose();
+        }
+
+        /// <summary>JSON に出力する文字列を ECMA-404 に従ってエスケープする</summary>
+        public static string EscapeJsonString(string rawText)
+        {
+            var builder = new StringBuilder(rawText.Length + 20);
+
+            foreach (var c in rawText)
+            {
+                if (c <= 0x1F || char.IsSurrogate(c))
+                    builder.AppendFormat(@"\u{0:X4}", (int)c);
+                else if (c == '\\' || c == '\"')
+                    builder.Append('\\').Append(c);
+                else
+                    builder.Append(c);
+            }
+
+            return builder.ToString();
         }
     }
 }

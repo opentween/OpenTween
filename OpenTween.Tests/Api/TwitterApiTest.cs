@@ -1192,6 +1192,28 @@ namespace OpenTween.Api
         }
 
         [Fact]
+        public async Task MediaMetadataCreate_Test()
+        {
+            using (var twitterApi = new TwitterApi())
+            {
+                var mock = new Mock<IApiConnection>();
+                mock.Setup(x =>
+                    x.PostJsonAsync(
+                        new Uri("https://upload.twitter.com/1.1/media/metadata/create.json", UriKind.Absolute),
+                        "{\"media_id\": \"12345\", \"alt_text\": {\"text\": \"hogehoge\"}}")
+                )
+                .Returns(Task.FromResult(0));
+
+                twitterApi.apiConnection = mock.Object;
+
+                await twitterApi.MediaMetadataCreate(mediaId: 12345L, altText: "hogehoge")
+                    .ConfigureAwait(false);
+
+                mock.VerifyAll();
+            }
+        }
+
+        [Fact]
         public async Task UserStreams_Test()
         {
             using (var twitterApi = new TwitterApi())
@@ -1216,6 +1238,18 @@ namespace OpenTween.Api
 
                 mock.VerifyAll();
             }
+        }
+
+        [Theory]
+        [InlineData("", "")]
+        [InlineData("123ABCabc", "123ABCabc")]
+        [InlineData(@"\", @"\\")]
+        [InlineData("\"", "\\\"")]
+        [InlineData("\n", @"\u000A")]
+        [InlineData("\U0001D11E", @"\uD834\uDD1E")]
+        public void EscapeJsonString_Test(string targetText, string expectedText)
+        {
+            Assert.Equal(expectedText, TwitterApi.EscapeJsonString(targetText));
         }
     }
 }
