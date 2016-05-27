@@ -175,11 +175,16 @@ namespace OpenTween.Connection
 
             using (var postContent = new MultipartFormDataContent())
             {
-                foreach (var kv in param)
-                    postContent.Add(new StringContent(kv.Value), kv.Key);
-
-                foreach (var kv in media)
-                    postContent.Add(new StreamContent(kv.Value.OpenRead()), kv.Key, kv.Value.Name);
+                if (param != null)
+                {
+                    foreach (var kv in param)
+                        postContent.Add(new StringContent(kv.Value), kv.Key);
+                }
+                if (media != null)
+                {
+                    foreach (var kv in media)
+                        postContent.Add(new StreamContent(kv.Value.OpenRead()), kv.Key, kv.Value.Name);
+                }
 
                 request.Content = postContent;
 

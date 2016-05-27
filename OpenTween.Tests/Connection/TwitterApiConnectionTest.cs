@@ -407,5 +407,54 @@ namespace OpenTween.Connection
                 }
             }
         }
+
+        [Fact]
+        public async Task PostLazyAsync_Multipart_NullTest()
+        {
+            using (var mockHandler = new HttpMessageHandlerMock())
+            using (var http = new HttpClient(mockHandler))
+            using (var apiConnection = new TwitterApiConnection("", ""))
+            {
+                apiConnection.http = http;
+
+                mockHandler.Enqueue(async x =>
+                {
+                    Assert.Equal(HttpMethod.Post, x.Method);
+                    Assert.Equal("https://api.twitter.com/1.1/hoge/tetete.json",
+                        x.RequestUri.AbsoluteUri);
+
+                    Assert.IsType<MultipartFormDataContent>(x.Content);
+
+                    var boundary = x.Content.Headers.ContentType.Parameters.Cast<NameValueHeaderValue>()
+                        .First(y => y.Name == "boundary").Value;
+
+                    // 前後のダブルクオーテーションを除去
+                    boundary = boundary.Substring(1, boundary.Length - 2);
+
+                    var expectedText =
+                        $"--{boundary}\r\n" +
+                        $"\r\n--{boundary}--\r\n";
+
+                    var expected = Encoding.UTF8.GetBytes(expectedText);
+
+                    Assert.Equal(expected, await x.Content.ReadAsByteArrayAsync().ConfigureAwait(false));
+
+                    return new HttpResponseMessage(HttpStatusCode.OK)
+                    {
+                        Content = new StringContent("\"hogehoge\""),
+                    };
+                });
+
+                var endpoint = new Uri("hoge/tetete.json", UriKind.Relative);
+
+                var result = await apiConnection.PostLazyAsync<string>(endpoint, param: null, media: null)
+                    .ConfigureAwait(false);
+
+                Assert.Equal("hogehoge", await result.LoadJsonAsync()
+                    .ConfigureAwait(false));
+
+                Assert.Equal(0, mockHandler.QueueCount);
+            }
+        }
     }
 }
