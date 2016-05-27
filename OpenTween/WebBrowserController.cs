@@ -290,7 +290,7 @@ namespace OpenTween
         public InternetSecurityManager(WebBrowser _WebBrowser)
         {
             // ActiveXコントロール取得
-            _WebBrowser.DocumentText = "about:blank"; //ActiveXを初期化する
+            _WebBrowser.Url = new Uri("about:blank"); //ActiveXを初期化する
 
             do
             {
