@@ -64,11 +64,19 @@ namespace OpenTween.Api
         protected TwitterApiException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
+            this.ErrorResponse = (TwitterError)info.GetValue("ErrorResponse", typeof(TwitterError));
         }
 
         private TwitterApiException(string message, string responseText, Exception innerException)
             : base(message, responseText, innerException)
         {
+        }
+
+        public override void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            base.GetObjectData(info, context);
+
+            info.AddValue("ErrorResponse", this.ErrorResponse);
         }
 
         public static TwitterApiException CreateFromException(HttpRequestException ex)
