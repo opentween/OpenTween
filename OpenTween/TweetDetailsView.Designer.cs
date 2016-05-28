@@ -105,6 +105,9 @@
             this.UserPicture.Name = "UserPicture";
             this.TableLayoutPanel1.SetRowSpan(this.UserPicture, 2);
             this.UserPicture.TabStop = false;
+            this.UserPicture.DoubleClick += new System.EventHandler(this.UserPicture_DoubleClick);
+            this.UserPicture.MouseEnter += new System.EventHandler(this.UserPicture_MouseEnter);
+            this.UserPicture.MouseLeave += new System.EventHandler(this.UserPicture_MouseLeave);
             // 
             // ContextMenuUserPicture
             // 
@@ -213,6 +216,7 @@
             this.PostBrowser.TabStop = false;
             this.PostBrowser.Navigated += new System.Windows.Forms.WebBrowserNavigatedEventHandler(this.PostBrowser_Navigated);
             this.PostBrowser.Navigating += new System.Windows.Forms.WebBrowserNavigatingEventHandler(this.PostBrowser_Navigating);
+            this.PostBrowser.StatusTextChanged += new System.EventHandler(this.PostBrowser_StatusTextChanged);
             this.PostBrowser.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.PostBrowser_PreviewKeyDown);
             // 
             // ContextMenuPostBrowser
