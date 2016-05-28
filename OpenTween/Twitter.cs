@@ -165,6 +165,8 @@ namespace OpenTween
         private long minDirectmessage = long.MaxValue;
         private long minDirectmessageSent = long.MaxValue;
 
+        private long previousStatusId = -1L;
+
         //private FavoriteQueue favQueue;
 
         //private List<PostClass> _deletemessages = new List<PostClass>();
@@ -342,61 +344,6 @@ namespace OpenTween
             return true;
         }
 
-        private struct PostInfo
-        {
-            public string CreatedAt;
-            public string Id;
-            public string Text;
-            public string UserId;
-            public PostInfo(string Created, string IdStr, string txt, string uid)
-            {
-                CreatedAt = Created;
-                Id = IdStr;
-                Text = txt;
-                UserId = uid;
-            }
-            public bool Equals(PostInfo dst)
-            {
-                if (this.CreatedAt == dst.CreatedAt && this.Id == dst.Id && this.Text == dst.Text && this.UserId == dst.UserId)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-        }
-
-        static private PostInfo _prev = new PostInfo("", "", "", "");
-        private bool IsPostRestricted(TwitterStatus status)
-        {
-            var _current = new PostInfo("", "", "", "");
-
-            _current.CreatedAt = status.CreatedAt;
-            _current.Id = status.IdStr;
-            if (status.Text == null)
-            {
-                _current.Text = "";
-            }
-            else
-            {
-                _current.Text = status.Text;
-            }
-            _current.UserId = status.User.IdStr;
-
-            if (_current.Equals(_prev))
-            {
-                return true;
-            }
-            _prev.CreatedAt = _current.CreatedAt;
-            _prev.Id = _current.Id;
-            _prev.Text = _current.Text;
-            _prev.UserId = _current.UserId;
-
-            return false;
-        }
-
         public async Task PostStatus(string postStr, long? reply_to, IReadOnlyList<long> mediaIds = null)
         {
             this.CheckAccountState();
@@ -417,10 +364,10 @@ namespace OpenTween
 
             this.UpdateUserStats(status.User);
 
-            if (IsPostRestricted(status))
-            {
+            if (status.Id == this.previousStatusId)
                 throw new WebApiException("OK:Delaying?");
-            }
+
+            this.previousStatusId = status.Id;
         }
 
         public async Task<long> UploadMedia(IMediaItem item)
