@@ -47,7 +47,7 @@ namespace OpenTween
         /// <summary>
         /// innerDictionary の排他制御のためのロックオブジェクト
         /// </summary>
-        private object lockObject = new object();
+        private ReaderWriterLockSlim lockObject = new ReaderWriterLockSlim();
 
         /// <summary>
         /// オブジェクトが破棄された否か
@@ -90,28 +90,27 @@ namespace OpenTween
 
             return Task.Run(() =>
             {
-                Task<MemoryImage> cachedImageTask = null;
-                lock (this.lockObject)
+                if (force)
                 {
-                    innerDictionary.TryGetValue(address, out cachedImageTask);
+                    using (this.lockObject.BeginWriteTransaction())
+                        this.innerDictionary.Remove(address);
+                }
 
-                    if (cachedImageTask != null)
-                    {
-                        if (force)
-                        {
-                            this.innerDictionary.Remove(address);
-                            cachedImageTask = null;
-                        }
-                        else
-                            return cachedImageTask;
-                    }
+                using (var transaction = this.lockObject.BeginUpgradeableReadTransaction())
+                {
+                    Task<MemoryImage> cachedImageTask;
+                    if (innerDictionary.TryGetValue(address, out cachedImageTask))
+                        return cachedImageTask;
 
                     cancelToken.ThrowIfCancellationRequested();
 
-                    var imageTask = this.FetchImageAsync(address, cancelToken);
-                    this.innerDictionary[address] = imageTask;
+                    using (transaction.UpgradeToWriteLock())
+                    {
+                        var imageTask = this.FetchImageAsync(address, cancelToken);
+                        this.innerDictionary[address] = imageTask;
 
-                    return imageTask;
+                        return imageTask;
+                    }
                 }
             }, cancelToken);
         }
@@ -132,7 +131,7 @@ namespace OpenTween
 
         public MemoryImage TryGetFromCache(string address)
         {
-            lock (this.lockObject)
+            using (this.lockObject.BeginReadTransaction())
             {
                 Task<MemoryImage> imageTask;
                 if (!this.innerDictionary.TryGetValue(address, out imageTask) ||
@@ -145,7 +144,7 @@ namespace OpenTween
 
         public void CancelAsync()
         {
-            lock (this.lockObject)
+            using (this.lockObject.BeginWriteTransaction())
             {
                 var oldTokenSource = this.cancelTokenSource;
                 this.cancelTokenSource = new CancellationTokenSource();
@@ -163,7 +162,7 @@ namespace OpenTween
             {
                 this.CancelAsync();
 
-                lock (this.lockObject)
+                using (this.lockObject.BeginWriteTransaction())
                 {
                     foreach (var item in this.innerDictionary)
                     {
@@ -173,8 +172,10 @@ namespace OpenTween
                     }
 
                     this.innerDictionary.Clear();
-                    this.cancelTokenSource.Dispose();
                 }
+
+                this.cancelTokenSource.Dispose();
+                this.lockObject.Dispose();
             }
 
             this.disposed = true;

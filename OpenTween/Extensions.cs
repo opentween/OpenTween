@@ -23,6 +23,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -41,5 +42,14 @@ namespace OpenTween
 
             return selectedText;
         }
+
+        public static ReadLockTransaction BeginReadTransaction(this ReaderWriterLockSlim lockObj)
+            => new ReadLockTransaction(lockObj);
+
+        public static WriteLockTransaction BeginWriteTransaction(this ReaderWriterLockSlim lockObj)
+            => new WriteLockTransaction(lockObj);
+
+        public static UpgradeableReadLockTransaction BeginUpgradeableReadTransaction(this ReaderWriterLockSlim lockObj)
+            => new UpgradeableReadLockTransaction(lockObj);
     }
 }
