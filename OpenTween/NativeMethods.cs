@@ -330,13 +330,6 @@ namespace OpenTween
             [In] ref InternetProxyInfo lpBuffer,
             int lpdwBufferLength);
 
-        [DllImport("wininet.dll", SetLastError = true, BestFitMapping = false, ThrowOnUnmappableChar = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        private static extern bool InternetSetOption(IntPtr hInternet,
-            InternetOption dwOption,
-            string lpBuffer,
-            int lpdwBufferLength);
-
         private enum InternetOption
         {
             PROXY = 38,
@@ -411,26 +404,6 @@ namespace OpenTween
                 throw new Win32Exception();
         }
 
-        private static void RefreshProxyAccount(string username, string password)
-        {
-            if (!string.IsNullOrEmpty(username) || !string.IsNullOrEmpty(password))
-            {
-                if (!InternetSetOption(IntPtr.Zero, InternetOption.PROXY_USERNAME, (string)null, 0))
-                    throw new Win32Exception();
-
-                if (!InternetSetOption(IntPtr.Zero, InternetOption.PROXY_PASSWORD, (string)null, 0))
-                    throw new Win32Exception();
-            }
-            else
-            {
-                if (!InternetSetOption(IntPtr.Zero, InternetOption.PROXY_USERNAME, username, username.Length + 1))
-                    throw new Win32Exception();
-
-                if (!InternetSetOption(IntPtr.Zero, InternetOption.PROXY_PASSWORD, password, password.Length + 1))
-                    throw new Win32Exception();
-            }
-        }
-
         public static void SetProxy(ProxyType pType, string host, int port, string username, string password)
         {
             string proxy = null;
@@ -447,8 +420,6 @@ namespace OpenTween
                 break;
             }
             RefreshProxySettings(proxy);
-            // グローバルプロキシ (NULL = IntPtr.Zero) にユーザー名・パスワードをセットできないため無効化
-            //RefreshProxyAccount(username, password);
         }
 #endregion
 

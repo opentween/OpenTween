@@ -274,76 +274,6 @@ namespace OpenTween
             return orgData;
         }
 
-        private string GetPlainText(string orgData)
-        {
-            return WebUtility.HtmlDecode(Regex.Replace(orgData, "(?<tagStart><a [^>]+>)(?<text>[^<]+)(?<tagEnd></a>)", "${text}"));
-        }
-
-        // htmlの簡易サニタイズ(詳細表示に不要なタグの除去)
-
-        private string SanitizeHtml(string orgdata)
-        {
-            var retdata = orgdata;
-
-            retdata = Regex.Replace(retdata, "<(script|object|applet|image|frameset|fieldset|legend|style).*" +
-                "</(script|object|applet|image|frameset|fieldset|legend|style)>", "", RegexOptions.IgnoreCase);
-
-            retdata = Regex.Replace(retdata, "<(frame|link|iframe|img)>", "", RegexOptions.IgnoreCase);
-
-            return retdata;
-        }
-
-        private string AdjustHtml(string orgData)
-        {
-            var retStr = orgData;
-            //var m = Regex.Match(retStr, "<a [^>]+>[#|＃](?<1>[a-zA-Z0-9_]+)</a>");
-            //while (m.Success)
-            //{
-            //    lock (LockObj)
-            //    {
-            //        _hashList.Add("#" + m.Groups(1).Value);
-            //    }
-            //    m = m.NextMatch;
-            //}
-            retStr = Regex.Replace(retStr, "<a [^>]*href=\"/", "<a href=\"https://twitter.com/");
-            retStr = retStr.Replace("<a href=", "<a target=\"_self\" href=");
-            retStr = Regex.Replace(retStr, @"(\r\n?|\n)", "<br>"); // CRLF, CR, LF は全て <br> に置換する
-
-            //半角スペースを置換(Thanks @anis774)
-            var ret = false;
-            do
-            {
-                ret = EscapeSpace(ref retStr);
-            } while (!ret);
-
-            return SanitizeHtml(retStr);
-        }
-
-        private bool EscapeSpace(ref string html)
-        {
-            //半角スペースを置換(Thanks @anis774)
-            var isTag = false;
-            for (int i = 0; i < html.Length; i++)
-            {
-                if (html[i] == '<')
-                {
-                    isTag = true;
-                }
-                if (html[i] == '>')
-                {
-                    isTag = false;
-                }
-
-                if ((!isTag) && (html[i] == ' '))
-                {
-                    html = html.Remove(i, 1);
-                    html = html.Insert(i, "&nbsp;");
-                    return false;
-                }
-            }
-            return true;
-        }
-
         public async Task PostStatus(string postStr, long? reply_to, IReadOnlyList<long> mediaIds = null)
         {
             this.CheckAccountState();
@@ -1652,47 +1582,6 @@ namespace OpenTween
         {
             if (!this.AccessLevel.HasFlag(accessLevelFlags))
                 throw new WebApiException("Auth Err:try to re-authorization.");
-        }
-
-        private void CheckStatusCode(HttpStatusCode httpStatus, string responseText,
-            [CallerMemberName] string callerMethodName = "")
-        {
-            if (httpStatus == HttpStatusCode.OK)
-            {
-                Twitter.AccountState = MyCommon.ACCOUNT_STATE.Valid;
-                return;
-            }
-
-            if (string.IsNullOrWhiteSpace(responseText))
-            {
-                if (httpStatus == HttpStatusCode.Unauthorized)
-                    Twitter.AccountState = MyCommon.ACCOUNT_STATE.Invalid;
-
-                throw new WebApiException("Err:" + httpStatus + "(" + callerMethodName + ")");
-            }
-
-            try
-            {
-                var errors = TwitterError.ParseJson(responseText).Errors;
-                if (errors == null || !errors.Any())
-                {
-                    throw new WebApiException("Err:" + httpStatus + "(" + callerMethodName + ")", responseText);
-                }
-
-                foreach (var error in errors)
-                {
-                    if (error.Code == TwitterErrorCode.InvalidToken ||
-                        error.Code == TwitterErrorCode.SuspendedAccount)
-                    {
-                        Twitter.AccountState = MyCommon.ACCOUNT_STATE.Invalid;
-                    }
-                }
-
-                throw new WebApiException("Err:" + string.Join(",", errors.Select(x => x.ToString())) + "(" + callerMethodName + ")", responseText);
-            }
-            catch (SerializationException) { }
-
-            throw new WebApiException("Err:" + httpStatus + "(" + callerMethodName + ")", responseText);
         }
 
         public int GetTextLengthRemain(string postText)
