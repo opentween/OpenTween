@@ -32,7 +32,7 @@ namespace OpenTween
     /// <remarks>
     /// OpenTween の派生版を作る方法は http://sourceforge.jp/projects/opentween/wiki/HowToFork を参照して下さい。
     /// </remarks>
-    internal sealed class ApplicationSettings
+    internal static class ApplicationSettings
     {
         //=====================================================================
         // フィードバック送信先

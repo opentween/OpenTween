@@ -37,7 +37,7 @@ using System.Windows.Forms;
 namespace OpenTween
 {
     #region "WebBrowserAPI"
-    internal class WebBrowserAPI
+    internal static class WebBrowserAPI
     {
         public static int INET_E_DEFAULT_ACTION = unchecked((int)0x800C0011);
 
