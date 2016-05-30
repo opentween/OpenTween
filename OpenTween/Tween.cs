@@ -8926,10 +8926,10 @@ namespace OpenTween
             StatusLabel.Text = text;
         }
 
-        private static StringBuilder ur = new StringBuilder(64);
-
         private void SetNotifyIconText()
         {
+            var ur = new StringBuilder(64);
+
             // タスクトレイアイコンのツールチップテキスト書き換え
             // Tween [未読/@]
             ur.Remove(0, ur.Length);
