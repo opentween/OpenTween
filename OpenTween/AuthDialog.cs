@@ -73,7 +73,7 @@ namespace OpenTween
         /// 指定されたURLにユーザーがアクセスするように指示してPINを入力させるだけ
         /// </summary>
         /// <param name="owner">親ウィンドウ</param>
-        /// <param name="authUrl">認証URL</param>
+        /// <param name="authUri">認証URL</param>
         /// <returns>PIN文字列</returns>
         public static string DoAuth(IWin32Window owner, Uri authUri)
         {

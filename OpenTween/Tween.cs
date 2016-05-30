@@ -1647,7 +1647,7 @@ namespace OpenTween
         }
 
         /// <summary>
-        /// <see cref="SaveListViewStatus"/> によって保存された選択状態を復元します
+        /// <see cref="SaveListViewSelection"/> によって保存された選択状態を復元します
         /// </summary>
         private void RestoreListViewSelection(DetailsListView listView, TabModel tab, ListViewSelection listSelection)
         {
@@ -5435,7 +5435,7 @@ namespace OpenTween
 
         /// <summary>発言検索に使用するメソッドを生成します</summary>
         /// <exception cref="ArgumentException">
-        /// <paramref name="useRegex"/> が true かつ、<paramref name="query"> が不正な正規表現な場合
+        /// <paramref name="useRegex"/> が true かつ、<paramref name="query"/> が不正な正規表現な場合
         /// </exception>
         private Func<string, bool> CreateSearchComparer(string query, bool useRegex, bool caseSensitive)
         {
