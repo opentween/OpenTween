@@ -94,7 +94,7 @@ namespace OpenTween.Thumbnail.Services
                     PostGeo = null,
                 };
 
-                var thumb = await service.GetThumbnailInfoAsync(
+                await service.GetThumbnailInfoAsync(
                     "https://www.swarmapp.com/c/xxxxxxxx",
                     post, CancellationToken.None);
 
@@ -132,7 +132,7 @@ namespace OpenTween.Thumbnail.Services
                     PostGeo = null,
                 };
 
-                var thumb = await service.GetThumbnailInfoAsync(
+                await service.GetThumbnailInfoAsync(
                     "https://foursquare.com/hogehoge/checkin/xxxxxxxx",
                     post, CancellationToken.None);
 
@@ -170,7 +170,7 @@ namespace OpenTween.Thumbnail.Services
                     PostGeo = null,
                 };
 
-                var thumb = await service.GetThumbnailInfoAsync(
+                await service.GetThumbnailInfoAsync(
                     "https://foursquare.com/hogehoge/checkin/xxxxxxxx?s=aaaaaaa",
                     post, CancellationToken.None);
 
@@ -199,7 +199,7 @@ namespace OpenTween.Thumbnail.Services
                     PostGeo = new PostClass.StatusGeo(134.04693603515625, 34.35067978344854),
                 };
 
-                var thumb = await service.GetThumbnailInfoAsync(
+                await service.GetThumbnailInfoAsync(
                     "https://www.swarmapp.com/c/xxxxxxxx",
                     post, CancellationToken.None);
 

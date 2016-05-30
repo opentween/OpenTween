@@ -7466,7 +7466,6 @@ namespace OpenTween
         private void ListTab_MouseDown(object sender, MouseEventArgs e)
         {
             if (this._cfgCommon.TabMouseLock) return;
-            Point cpos = new Point(e.X, e.Y);
             if (e.Button == MouseButtons.Left)
             {
                 for (int i = 0; i < ListTab.TabPages.Count; i++)
@@ -11570,7 +11569,7 @@ namespace OpenTween
                 _statuses.SetReadHomeTab(); //新着時未読クリア
             }
 
-            int rsltAddCount = _statuses.DistributePosts();
+            this._statuses.DistributePosts();
 
             if (this._cfgCommon.UserstreamPeriod > 0) return;
 
