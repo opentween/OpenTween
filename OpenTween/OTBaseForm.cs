@@ -55,7 +55,6 @@ namespace OpenTween
         private readonly SynchronizationContext synchronizationContext;
 
         protected OTBaseForm()
-            : base()
         {
             this.CurrentScaleFactor = new SizeF(1.0f, 1.0f);
             this.synchronizationContext = SynchronizationContext.Current;

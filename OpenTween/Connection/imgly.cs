@@ -42,7 +42,7 @@ namespace OpenTween.Connection
 {
     public class imgly : IMediaUploadService
     {
-        private readonly string[] pictureExt = new[] { ".jpg", ".jpeg", ".gif", ".png" };
+        private readonly string[] pictureExt = { ".jpg", ".jpeg", ".gif", ".png" };
         private readonly long MaxFileSize = 4L * 1024 * 1024;
 
         private readonly Twitter tw;

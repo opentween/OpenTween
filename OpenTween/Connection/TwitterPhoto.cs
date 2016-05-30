@@ -36,7 +36,7 @@ namespace OpenTween.Connection
 {
     public class TwitterPhoto : IMediaUploadService
     {
-        private readonly string[] pictureExt = new[] { ".jpg", ".jpeg", ".gif", ".png" };
+        private readonly string[] pictureExt = { ".jpg", ".jpeg", ".gif", ".png" };
 
         private readonly Twitter tw;
         private TwitterConfiguration twitterConfig;

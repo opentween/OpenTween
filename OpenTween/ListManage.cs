@@ -97,7 +97,7 @@ namespace OpenTween
             foreach (UserInfo user in list.Members)
                 this.UserList.Items.Add(user);
 
-            this.GetMoreUsersButton.Text = (this.UserList.Items.Count > 0 ? Properties.Resources.ListManageGetMoreUsers2 : Properties.Resources.ListManageGetMoreUsers1).ToString();
+            this.GetMoreUsersButton.Text = this.UserList.Items.Count > 0 ? Properties.Resources.ListManageGetMoreUsers2 : Properties.Resources.ListManageGetMoreUsers1;
         }
 
         private void EditCheckBox_CheckedChanged(object sender, EventArgs e)

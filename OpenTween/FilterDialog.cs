@@ -398,11 +398,11 @@ namespace OpenTween
 
             if (selectedCount == 1)
             {
-                tmp = string.Format(Properties.Resources.ButtonDelete_ClickText1, Environment.NewLine, ListFilters.SelectedItem.ToString());
+                tmp = string.Format(Properties.Resources.ButtonDelete_ClickText1, Environment.NewLine, ListFilters.SelectedItem);
             }
             else
             {
-                tmp = string.Format(Properties.Resources.ButtonDelete_ClickText3, selectedCount.ToString());
+                tmp = string.Format(Properties.Resources.ButtonDelete_ClickText3, selectedCount);
             }
 
             var rslt = MessageBox.Show(tmp, Properties.Resources.ButtonDelete_ClickText2, MessageBoxButtons.OKCancel, MessageBoxIcon.Question);

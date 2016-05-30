@@ -286,7 +286,7 @@ namespace OpenTween
             {
                 // use the GlobalAddAtom API to get a unique ID (as suggested by MSDN docs)
                 registerCount++;
-                var atomName = Thread.CurrentThread.ManagedThreadId.ToString("X8") + targetForm.Name + registerCount.ToString();
+                var atomName = Thread.CurrentThread.ManagedThreadId.ToString("X8") + targetForm.Name + registerCount;
                 hotkeyID = GlobalAddAtom(atomName);
                 if (hotkeyID == 0)
                 {
@@ -416,7 +416,7 @@ namespace OpenTween
                 proxy = "";
                 break;
             case ProxyType.Specified:
-                proxy = host + (port > 0 ? ":" + port.ToString() : "");
+                proxy = host + (port > 0 ? ":" + port : "");
                 break;
             }
             RefreshProxySettings(proxy);

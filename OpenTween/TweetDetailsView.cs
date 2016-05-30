@@ -135,19 +135,19 @@ namespace OpenTween
                 sb.Append("-----Start PostClass Dump<br>");
                 sb.AppendFormat("TextFromApi           : {0}<br>", post.TextFromApi);
                 sb.AppendFormat("(PlainText)    : <xmp>{0}</xmp><br>", post.TextFromApi);
-                sb.AppendFormat("StatusId             : {0}<br>", post.StatusId.ToString());
-                //sb.AppendFormat("ImageIndex     : {0}<br>", post.ImageIndex.ToString());
+                sb.AppendFormat("StatusId             : {0}<br>", post.StatusId);
+                //sb.AppendFormat("ImageIndex     : {0}<br>", post.ImageIndex);
                 sb.AppendFormat("ImageUrl       : {0}<br>", post.ImageUrl);
-                sb.AppendFormat("InReplyToStatusId    : {0}<br>", post.InReplyToStatusId.ToString());
+                sb.AppendFormat("InReplyToStatusId    : {0}<br>", post.InReplyToStatusId);
                 sb.AppendFormat("InReplyToUser  : {0}<br>", post.InReplyToUser);
-                sb.AppendFormat("IsDM           : {0}<br>", post.IsDm.ToString());
-                sb.AppendFormat("IsFav          : {0}<br>", post.IsFav.ToString());
-                sb.AppendFormat("IsMark         : {0}<br>", post.IsMark.ToString());
-                sb.AppendFormat("IsMe           : {0}<br>", post.IsMe.ToString());
-                sb.AppendFormat("IsOwl          : {0}<br>", post.IsOwl.ToString());
-                sb.AppendFormat("IsProtect      : {0}<br>", post.IsProtect.ToString());
-                sb.AppendFormat("IsRead         : {0}<br>", post.IsRead.ToString());
-                sb.AppendFormat("IsReply        : {0}<br>", post.IsReply.ToString());
+                sb.AppendFormat("IsDM           : {0}<br>", post.IsDm);
+                sb.AppendFormat("IsFav          : {0}<br>", post.IsFav);
+                sb.AppendFormat("IsMark         : {0}<br>", post.IsMark);
+                sb.AppendFormat("IsMe           : {0}<br>", post.IsMe);
+                sb.AppendFormat("IsOwl          : {0}<br>", post.IsOwl);
+                sb.AppendFormat("IsProtect      : {0}<br>", post.IsProtect);
+                sb.AppendFormat("IsRead         : {0}<br>", post.IsRead);
+                sb.AppendFormat("IsReply        : {0}<br>", post.IsReply);
 
                 foreach (string nm in post.ReplyToList)
                 {
@@ -158,7 +158,7 @@ namespace OpenTween
                 sb.AppendFormat("NickName       : {0}<br>", post.Nickname);
                 sb.AppendFormat("Text   : {0}<br>", post.Text);
                 sb.AppendFormat("(PlainText)    : <xmp>{0}</xmp><br>", post.Text);
-                sb.AppendFormat("CreatedAt          : {0}<br>", post.CreatedAt.ToString());
+                sb.AppendFormat("CreatedAt          : {0}<br>", post.CreatedAt);
                 sb.AppendFormat("Source         : {0}<br>", post.Source);
                 sb.AppendFormat("UserId            : {0}<br>", post.UserId);
                 sb.AppendFormat("FilterHit      : {0}<br>", post.FilterHit);
@@ -435,7 +435,7 @@ namespace OpenTween
         {
             if (NameLabel.Tag != null)
             {
-                await this.Owner.OpenUriInBrowserAsync(MyCommon.TwitterUrl + NameLabel.Tag.ToString());
+                await this.Owner.OpenUriInBrowserAsync(MyCommon.TwitterUrl + NameLabel.Tag);
             }
         }
 
@@ -557,7 +557,7 @@ namespace OpenTween
             if (this.CurrentPost != null)
             {
                 string name = this.CurrentPost.ImageUrl;
-                if (name != null && name.Length > 0)
+                if (!string.IsNullOrEmpty(name))
                 {
                     int idx = name.LastIndexOf('/');
                     if (idx != -1)

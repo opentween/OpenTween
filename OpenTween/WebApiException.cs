@@ -35,7 +35,7 @@ namespace OpenTween
     {
         public string ResponseText { get; } = null;
 
-        public WebApiException() : base() { }
+        public WebApiException() { }
         public WebApiException(string message) : base(message) { }
         public WebApiException(string message, Exception innerException) : base(message, innerException) { }
 

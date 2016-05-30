@@ -653,8 +653,7 @@ namespace OpenTween.Models
 
                 return this.GetTabsInnerStorageType()
                     .Select(x => x.Posts.TryGetValue(ID, out status) ? status : null)
-                    .Where(x => x != null)
-                    .FirstOrDefault();
+                    .FirstOrDefault(x => x != null);
             }
         }
 

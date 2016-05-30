@@ -64,7 +64,7 @@ namespace OpenTween.Api.DataModel
     /// <summary>
     /// Twitter API から返されるエラーコード
     /// </summary>
-    public enum TwitterErrorCode : int
+    public enum TwitterErrorCode
     {
         /// <summary>
         /// 不正なリクエスト等によって認証を完了できない場合に発生する。大体クライアントのせい

@@ -52,7 +52,7 @@ namespace OpenTween.Models
                 => this.Longitude.GetHashCode() ^ this.Latitude.GetHashCode();
 
             public override bool Equals(object obj)
-                => obj is StatusGeo ? this.Equals((StatusGeo)obj) : false;
+                => obj is StatusGeo && this.Equals((StatusGeo)obj);
 
             public bool Equals(StatusGeo other)
                 => this.Longitude == other.Longitude && this.Latitude == other.Longitude;

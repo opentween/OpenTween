@@ -108,7 +108,7 @@ namespace OpenTween.Thumbnail.Services
 
         protected void StartAutoUpdate()
         {
-            this.UpdateTimer.Change(0, 30 * 60 * 1000); ; // 30分おきに更新
+            this.UpdateTimer.Change(0, 30 * 60 * 1000); // 30分おきに更新
         }
 
         protected void StopAutoUpdate()

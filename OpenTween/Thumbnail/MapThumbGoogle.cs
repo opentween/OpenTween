@@ -48,7 +48,7 @@ namespace OpenTween.Thumbnail
             var width = SettingCommon.Instance.MapThumbnailWidth; // この辺なんとかならんかなあ
             var height = SettingCommon.Instance.MapThumbnailHeight;
             var zoom = SettingCommon.Instance.MapThumbnailZoom;
-            var location = latitude.ToString() + "," + longitude.ToString();
+            var location = latitude + "," + longitude;
 
             var baseUrl = "https://maps.googleapis.com/maps/api/staticmap";
 
@@ -58,7 +58,7 @@ namespace OpenTween.Thumbnail
         public string CreateMapLinkUrl(double latitude, double longitude)
         {
             var zoom = SettingCommon.Instance.MapThumbnailZoom;
-            var location = latitude.ToString() + "," + longitude.ToString();
+            var location = latitude + "," + longitude;
 
             var baseUrl = "https://maps.google.co.jp/maps";
 

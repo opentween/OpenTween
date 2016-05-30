@@ -2053,7 +2053,7 @@ namespace OpenTween
         }
 
         public bool UserStreamActive
-            => this.userStream == null ? false : this.userStream.IsStreamActive;
+            => this.userStream != null && this.userStream.IsStreamActive;
 
         public void StartUserStream()
         {

@@ -454,7 +454,7 @@ namespace OpenTween
         {
             get
             {
-                return new IntervalChangedEventArgs()
+                return new IntervalChangedEventArgs
                 {
                     UserStream = true,
                     Timeline = true,

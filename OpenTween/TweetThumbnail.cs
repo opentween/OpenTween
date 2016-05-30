@@ -181,7 +181,7 @@ namespace OpenTween
         [SuppressMessage("Microsoft.Reliability", "CA2000:DisposeObjectsBeforeLosingScope")]
         protected virtual OTPictureBox CreatePictureBox(string name)
         {
-            return new OTPictureBox()
+            return new OTPictureBox
             {
                 Name = name,
                 SizeMode = PictureBoxSizeMode.Zoom,

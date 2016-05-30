@@ -197,7 +197,7 @@ namespace OpenTween
             BlinkIcon,
         }
 
-        [FlagsAttribute()]
+        [Flags]
         public enum EVENTTYPE
         {
             None = 0,
@@ -282,13 +282,13 @@ namespace OpenTween
 
                 using (var writer = new StreamWriter(fileName))
                 {
-                    writer.WriteLine("**** TraceOut: {0} ****", DateTime.Now.ToString());
+                    writer.WriteLine("**** TraceOut: {0} ****", DateTime.Now);
                     writer.WriteLine(Properties.Resources.TraceOutText1, ApplicationSettings.FeedbackEmailAddress);
                     writer.WriteLine(Properties.Resources.TraceOutText2, ApplicationSettings.FeedbackTwitterName);
                     writer.WriteLine();
                     writer.WriteLine(Properties.Resources.TraceOutText3);
                     writer.WriteLine(Properties.Resources.TraceOutText4, Environment.OSVersion.VersionString);
-                    writer.WriteLine(Properties.Resources.TraceOutText5, Environment.Version.ToString());
+                    writer.WriteLine(Properties.Resources.TraceOutText5, Environment.Version);
                     writer.WriteLine(Properties.Resources.TraceOutText6, MyCommon.GetAssemblyName(), FileVersion);
                     writer.WriteLine(Message);
                     writer.WriteLine();
@@ -391,17 +391,17 @@ namespace OpenTween
                 var princ = new WindowsPrincipal(ident);
 
                 var errorReport = string.Join(Environment.NewLine,
-                    string.Format(Properties.Resources.UnhandledExceptionText1, DateTime.Now.ToString()),
+                    string.Format(Properties.Resources.UnhandledExceptionText1, DateTime.Now),
 
                     // 権限書き出し
-                    string.Format(Properties.Resources.UnhandledExceptionText11 + princ.IsInRole(WindowsBuiltInRole.Administrator).ToString()),
-                    string.Format(Properties.Resources.UnhandledExceptionText12 + princ.IsInRole(WindowsBuiltInRole.User).ToString()),
+                    string.Format(Properties.Resources.UnhandledExceptionText11 + princ.IsInRole(WindowsBuiltInRole.Administrator)),
+                    string.Format(Properties.Resources.UnhandledExceptionText12 + princ.IsInRole(WindowsBuiltInRole.User)),
                     "",
 
                     // OSVersion,AppVersion書き出し
                     string.Format(Properties.Resources.UnhandledExceptionText4),
                     string.Format(Properties.Resources.UnhandledExceptionText5, Environment.OSVersion.VersionString),
-                    string.Format(Properties.Resources.UnhandledExceptionText6, Environment.Version.ToString()),
+                    string.Format(Properties.Resources.UnhandledExceptionText6, Environment.Version),
                     string.Format(Properties.Resources.UnhandledExceptionText7, MyCommon.GetAssemblyName(), FileVersion),
 
                     ExceptionOutMessage(ex, ref IsTerminatePermission));
@@ -519,7 +519,7 @@ namespace OpenTween
             }
             else
             {
-                result = uri.GetLeftPart(UriPartial.Authority) + sb.ToString();
+                result = uri.GetLeftPart(UriPartial.Authority) + sb;
             }
 
             return result;
@@ -756,7 +756,7 @@ namespace OpenTween
             return newBytes;
         }
 
-        [FlagsAttribute()]
+        [Flags]
         public enum TabUsageType
         {
             Undefined = 0,
@@ -997,7 +997,7 @@ namespace OpenTween
 
         public static string GetStatusUrl(string screenName, long statusId)
         {
-            return TwitterUrl + screenName + "/status/" + statusId.ToString();
+            return TwitterUrl + screenName + "/status/" + statusId;
         }
 
         /// <summary>

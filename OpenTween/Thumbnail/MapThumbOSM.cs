@@ -50,7 +50,7 @@ namespace OpenTween.Thumbnail
         {
             var zoom = SettingCommon.Instance.MapThumbnailZoom;
 
-            return "http://www.openstreetmap.org/index.html?lat=" + latitude.ToString() + "&lon=" + longitude.ToString() + "&zoom=" + zoom + "&mlat=" + latitude.ToString() + "&mlon=" + longitude.ToString();
+            return "http://www.openstreetmap.org/index.html?lat=" + latitude + "&lon=" + longitude + "&zoom=" + zoom + "&mlat=" + latitude + "&mlon=" + longitude;
         }
     }
 

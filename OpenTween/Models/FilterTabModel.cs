@@ -84,7 +84,7 @@ namespace OpenTween.Models
                     catch (NullReferenceException)
                     {
                         // ExecFilterでNullRef出る場合あり。暫定対応
-                        MyCommon.TraceOut("ExecFilterでNullRef: " + ft.ToString());
+                        MyCommon.TraceOut("ExecFilterでNullRef: " + ft);
                         rslt = MyCommon.HITRESULT.None;
                     }
                 }

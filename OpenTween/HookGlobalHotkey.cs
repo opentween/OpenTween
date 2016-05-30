@@ -64,8 +64,8 @@ namespace OpenTween
 
         private Dictionary<int, KeyEventValue> _hotkeyID;
 
-        [FlagsAttribute]
-        public enum ModKeys : int
+        [Flags]
+        public enum ModKeys
         {
             None = 0,
             Alt = 0x1,

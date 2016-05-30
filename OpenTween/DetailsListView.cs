@@ -242,7 +242,7 @@ namespace OpenTween.OpenTweenCustomControl
             }
         }
 
-        [DebuggerStepThrough()]
+        [DebuggerStepThrough]
         protected override void WndProc(ref Message m)
         {
             const int WM_ERASEBKGND = 0x14;

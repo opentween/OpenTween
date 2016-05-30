@@ -47,7 +47,7 @@ namespace OpenTween.Thumbnail
         {
             ImgAzyobuziNetInstance = new ImgAzyobuziNet(autoupdate: true);
 
-            ThumbnailGenerator.Services = new List<IThumbnailService>()
+            ThumbnailGenerator.Services = new List<IThumbnailService>
             {
                 // ton.twitter.com
                 new TonTwitterCom(),

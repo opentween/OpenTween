@@ -274,7 +274,7 @@ namespace OpenTween
         }
     #endregion
 
-        [Flags] public enum POLICY : int
+        [Flags] public enum POLICY
         {
             ALLOW_ACTIVEX = 0x1,
             ALLOW_SCRIPT = 0x2,

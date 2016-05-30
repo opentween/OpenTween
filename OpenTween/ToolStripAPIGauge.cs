@@ -38,7 +38,6 @@ namespace OpenTween
     public class ToolStripAPIGauge : ToolStripStatusLabel
     {
         public ToolStripAPIGauge()
-            : base()
         {
             UpdateText();
 
