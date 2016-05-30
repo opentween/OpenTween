@@ -714,7 +714,7 @@ namespace OpenTween
             if (string.IsNullOrEmpty(imageUrl))
                 return;
 
-            await this.Owner.OpenUriInBrowserAsync(imageUrl.Remove(imageUrl.LastIndexOf("_normal"), 7)); // "_normal".Length
+            await this.Owner.OpenUriInBrowserAsync(imageUrl.Remove(imageUrl.LastIndexOf("_normal", StringComparison.Ordinal), 7)); // "_normal".Length
         }
 
         private async void ReloadIconToolStripMenuItem_Click(object sender, EventArgs e)

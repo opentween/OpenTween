@@ -464,7 +464,7 @@ namespace OpenTween
         private async void UserPicture_Click(object sender, EventArgs e)
         {
             var imageUrl = this._displayUser.ProfileImageUrlHttps;
-            imageUrl = imageUrl.Remove(imageUrl.LastIndexOf("_normal"), 7);
+            imageUrl = imageUrl.Remove(imageUrl.LastIndexOf("_normal", StringComparison.Ordinal), 7);
 
             await this.mainForm.OpenUriInBrowserAsync(imageUrl);
         }

@@ -5672,7 +5672,8 @@ namespace OpenTween
             {
                 SetMainWindowTitle();
             }
-            if (!StatusLabelUrl.Text.StartsWith("http")) SetStatusLabelUrl();
+            if (!StatusLabelUrl.Text.StartsWith("http", StringComparison.OrdinalIgnoreCase))
+                SetStatusLabelUrl();
             foreach (TabPage tb in ListTab.TabPages)
             {
                 if (_statuses.Tabs[tb.Text].UnreadCount == 0)
@@ -9206,7 +9207,7 @@ namespace OpenTween
             {
                 string tmp = StatusText.SelectedText;
                 // httpから始まらない場合、ExcludeStringで指定された文字列で始まる場合は対象としない
-                if (tmp.StartsWith("http"))
+                if (tmp.StartsWith("http", StringComparison.OrdinalIgnoreCase))
                 {
                     // 文字列が選択されている場合はその文字列について処理
 
