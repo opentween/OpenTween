@@ -2131,14 +2131,14 @@ namespace OpenTween
 
             private async Task UserStreamLoop(CancellationToken cancellationToken)
             {
-                TimeSpan? sleep = null;
+                TimeSpan sleep = TimeSpan.Zero;
                 for (;;)
                 {
-                    if (sleep != null)
+                    if (sleep != TimeSpan.Zero)
                     {
-                        await Task.Delay(sleep.Value, cancellationToken)
+                        await Task.Delay(sleep, cancellationToken)
                             .ConfigureAwait(false);
-                        sleep = null;
+                        sleep = TimeSpan.Zero;
                     }
 
                     if (!MyCommon.IsNetworkAvailable())
