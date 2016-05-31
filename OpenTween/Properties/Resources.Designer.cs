@@ -1966,6 +1966,15 @@ namespace OpenTween.Properties {
         }
         
         /// <summary>
+        ///   [引用 @{0}: {1}] に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string QuoteStatus_AccessibleText {
+            get {
+                return ResourceManager.GetString("QuoteStatus_AccessibleText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Direct Messageの送受信をするため、もう一度認証処理をして下さい。 に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ReAuthorizeText {

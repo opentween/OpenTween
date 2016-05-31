@@ -759,6 +759,9 @@ namespace OpenTween
             post.TextFromApi = this.ReplaceTextFromApi(post.TextFromApi, entities);
             post.TextFromApi = WebUtility.HtmlDecode(post.TextFromApi);
             post.TextFromApi = post.TextFromApi.Replace("<3", "\u2661");
+            post.AccessibleText = this.CreateAccessibleText(textFromApi, entities, (status.RetweetedStatus ?? status).QuotedStatus);
+            post.AccessibleText = WebUtility.HtmlDecode(post.AccessibleText);
+            post.AccessibleText = post.AccessibleText.Replace("<3", "\u2661");
 
             post.QuoteStatusIds = GetQuoteTweetStatusIds(entities)
                 .Where(x => x != post.StatusId && x != post.RetweetedId)
@@ -1117,6 +1120,9 @@ namespace OpenTween
                     post.TextFromApi = this.ReplaceTextFromApi(textFromApi, message.Entities);
                     post.TextFromApi = WebUtility.HtmlDecode(post.TextFromApi);
                     post.TextFromApi = post.TextFromApi.Replace("<3", "\u2661");
+                    post.AccessibleText = this.CreateAccessibleText(textFromApi, message.Entities, quoteStatus: null);
+                    post.AccessibleText = WebUtility.HtmlDecode(post.AccessibleText);
+                    post.AccessibleText = post.AccessibleText.Replace("<3", "\u2661");
                     post.IsFav = false;
 
                     post.QuoteStatusIds = GetQuoteTweetStatusIds(message.Entities).Distinct().ToArray();
@@ -1247,17 +1253,53 @@ namespace OpenTween
                 {
                     foreach (var m in entities.Media)
                     {
-                        if (m.AltText != null)
-                        {
-                            text = text.Replace(m.Url, string.Format(Properties.Resources.ImageAltText, m.AltText));
-                        }
-                        else
-                        {
-                            if (!string.IsNullOrEmpty(m.DisplayUrl)) text = text.Replace(m.Url, m.DisplayUrl);
-                        }
+                        if (!string.IsNullOrEmpty(m.DisplayUrl)) text = text.Replace(m.Url, m.DisplayUrl);
                     }
                 }
             }
+            return text;
+        }
+
+        private string CreateAccessibleText(string text, TwitterEntities entities, TwitterStatus quoteStatus)
+        {
+            if (entities == null)
+                return text;
+
+            if (entities.Urls != null)
+            {
+                foreach (var entity in entities.Urls)
+                {
+                    if (quoteStatus != null)
+                    {
+                        var matchStatusUrl = Twitter.StatusUrlRegex.Match(entity.ExpandedUrl);
+                        if (matchStatusUrl.Success && matchStatusUrl.Groups["StatusId"].Value == quoteStatus.IdStr)
+                        {
+                            var quoteText = this.CreateAccessibleText(quoteStatus.Text, quoteStatus.MergedEntities, quoteStatus: null);
+                            text = text.Replace(entity.Url, $"[引用 @{quoteStatus.User.ScreenName}: {quoteText}]");
+                        }
+                    }
+                    else if (!string.IsNullOrEmpty(entity.DisplayUrl))
+                    {
+                        text = text.Replace(entity.Url, entity.DisplayUrl);
+                    }
+                }
+            }
+
+            if (entities.Media != null)
+            {
+                foreach (var entity in entities.Media)
+                {
+                    if (!string.IsNullOrEmpty(entity.AltText))
+                    {
+                        text = text.Replace(entity.Url, string.Format(Properties.Resources.ImageAltText, entity.AltText));
+                    }
+                    else if (!string.IsNullOrEmpty(entity.DisplayUrl))
+                    {
+                        text = text.Replace(entity.Url, entity.DisplayUrl);
+                    }
+                }
+            }
+
             return text;
         }
 

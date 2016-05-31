@@ -1195,4 +1195,7 @@
   <data name="AddNewTab_ListView_AccessibleName" xml:space="preserve">
     <value>発言一覧</value>
   </data>
+  <data name="QuoteStatus_AccessibleText" xml:space="preserve">
+    <value>[引用 @{0}: {1}]</value>
+  </data>
 </root>

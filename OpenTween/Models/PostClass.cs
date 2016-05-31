@@ -65,6 +65,10 @@ namespace OpenTween.Models
         }
         public string Nickname { get; set; }
         public string TextFromApi { get; set; }
+
+        /// <summary>スクリーンリーダーでの読み上げを考慮したテキスト</summary>
+        public string AccessibleText { get; set; }
+
         public string ImageUrl { get; set; }
         public string ScreenName { get; set; }
         public DateTime CreatedAt { get; set; }

@@ -1137,4 +1137,7 @@ Available service: {1}</value>
   <data name="AddNewTab_ListView_AccessibleName" xml:space="preserve">
     <value>PostsList</value>
   </data>
+  <data name="QuoteStatus_AccessibleText" xml:space="preserve">
+    <value>[Quote @{0}: {1}]</value>
+  </data>
 </root>

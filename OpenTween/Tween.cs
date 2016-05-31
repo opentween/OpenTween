@@ -4911,7 +4911,7 @@ namespace OpenTween
             {
                 string[] sitem= {"",
                                  Post.Nickname,
-                                 Post.IsDeleted ? "(DELETED)" : Post.TextSingleLine,
+                                 Post.IsDeleted ? "(DELETED)" : Post.AccessibleText,
                                  Post.CreatedAt.ToString(this._cfgCommon.DateTimeFormat),
                                  Post.ScreenName,
                                  "",
@@ -4923,7 +4923,7 @@ namespace OpenTween
             {
                 string[] sitem = {"",
                                   Post.Nickname,
-                                  Post.IsDeleted ? "(DELETED)" : Post.TextSingleLine,
+                                  Post.IsDeleted ? "(DELETED)" : Post.AccessibleText,
                                   Post.CreatedAt.ToString(this._cfgCommon.DateTimeFormat),
                                   Post.ScreenName + Environment.NewLine + "(RT:" + Post.RetweetedBy + ")",
                                   "",
@@ -4932,6 +4932,7 @@ namespace OpenTween
                 itm = new ImageListViewItem(sitem, this.IconCache, Post.ImageUrl);
             }
             itm.StateIndex = Post.StateIndex;
+            itm.Tag = Post;
 
             bool read = Post.IsRead;
             //未読管理していなかったら既読として扱う
@@ -5034,6 +5035,8 @@ namespace OpenTween
             if (e.ColumnIndex > 0)
             {
                 //アイコン以外の列
+                var post = (PostClass)e.Item.Tag;
+
                 RectangleF rct = e.Bounds;
                 rct.Width = e.Header.Width;
                 int fontHeight = e.Item.Font.Height;
@@ -5090,7 +5093,7 @@ namespace OpenTween
                         using (Font fnt = new Font(e.Item.Font, FontStyle.Bold))
                         {
                             TextRenderer.DrawText(e.Graphics,
-                                                    e.Item.SubItems[2].Text,
+                                                    post.TextSingleLine,
                                                     e.Item.Font,
                                                     Rectangle.Round(rct),
                                                     color,
@@ -5112,7 +5115,7 @@ namespace OpenTween
                     else if (drawLineCount == 1)
                     {
                         TextRenderer.DrawText(e.Graphics,
-                                                e.SubItem.Text,
+                                                e.ColumnIndex != 2 ? e.SubItem.Text : post.TextSingleLine,
                                                 e.Item.Font,
                                                 Rectangle.Round(rct),
                                                 color,
@@ -5125,7 +5128,7 @@ namespace OpenTween
                     else
                     {
                         TextRenderer.DrawText(e.Graphics,
-                                                e.SubItem.Text,
+                                                e.ColumnIndex != 2 ? e.SubItem.Text : post.TextSingleLine,
                                                 e.Item.Font,
                                                 Rectangle.Round(rct),
                                                 color,
