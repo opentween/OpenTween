@@ -100,6 +100,15 @@ namespace OpenTween.Api.DataModel
         [DataMember(Name = "possibly_sensitive")]
         public bool? PossiblySensitive { get; set; }
 
+        [DataMember(Name = "quoted_status_id", IsRequired = false)]
+        public long? QuotedStatusId { get; set; }
+
+        [DataMember(Name = "quoted_status_id_str", IsRequired = false)]
+        public string QuotedStatusIdStr { get; set; }
+
+        [DataMember(Name = "quoted_status", IsRequired = false)]
+        public TwitterStatus QuotedStatus { get; set; }
+
         [DataMember(Name = "retweet_count")]
         public int RetweetCount { get; set; }
 
