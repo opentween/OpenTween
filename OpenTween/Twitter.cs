@@ -1275,7 +1275,7 @@ namespace OpenTween
                         if (matchStatusUrl.Success && matchStatusUrl.Groups["StatusId"].Value == quoteStatus.IdStr)
                         {
                             var quoteText = this.CreateAccessibleText(quoteStatus.Text, quoteStatus.MergedEntities, quoteStatus: null);
-                            text = text.Replace(entity.Url, $"[引用 @{quoteStatus.User.ScreenName}: {quoteText}]");
+                            text = text.Replace(entity.Url, string.Format(Properties.Resources.QuoteStatus_AccessibleText, quoteStatus.User.ScreenName, quoteText));
                         }
                     }
                     else if (!string.IsNullOrEmpty(entity.DisplayUrl))
