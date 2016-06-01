@@ -24,6 +24,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using OpenTween.Api.DataModel;
 
 namespace OpenTween
@@ -209,7 +210,7 @@ namespace OpenTween
         private static string FilterText(string text)
         {
             text = text.Replace("\n", "<br>");
-            text = text.Replace(" ", "&nbsp;");
+            text = Regex.Replace(text, "  ", " &nbsp;");
 
             return text;
         }
