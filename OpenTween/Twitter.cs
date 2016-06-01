@@ -763,6 +763,18 @@ namespace OpenTween
             post.AccessibleText = WebUtility.HtmlDecode(post.AccessibleText);
             post.AccessibleText = post.AccessibleText.Replace("<3", "\u2661");
 
+            // メモリ使用量削減 (同一のテキストであれば同一の string インスタンスを参照させる)
+            if (post.Text == post.TextFromApi)
+                post.Text = post.TextFromApi;
+            if (post.AccessibleText == post.TextFromApi)
+                post.AccessibleText = post.TextFromApi;
+
+            // 他の発言と重複しやすい (共通化できる) 文字列は string.Intern を通す
+            post.ScreenName = string.Intern(post.ScreenName);
+            post.Nickname = string.Intern(post.Nickname);
+            post.ImageUrl = string.Intern(post.ImageUrl);
+            post.RetweetedBy = post.RetweetedBy != null ? string.Intern(post.RetweetedBy) : null;
+
             post.QuoteStatusIds = GetQuoteTweetStatusIds(entities)
                 .Where(x => x != post.StatusId && x != post.RetweetedId)
                 .Distinct().ToArray();
@@ -773,7 +785,7 @@ namespace OpenTween
 
             //Source整形
             var source = ParseSource(sourceHtml);
-            post.Source = source.Item1;
+            post.Source = string.Intern(source.Item1);
             post.SourceUri = source.Item2;
 
             post.IsReply = post.ReplyToList.Contains(_uname);
@@ -1125,6 +1137,12 @@ namespace OpenTween
                     post.AccessibleText = post.AccessibleText.Replace("<3", "\u2661");
                     post.IsFav = false;
 
+                    // メモリ使用量削減 (同一のテキストであれば同一の string インスタンスを参照させる)
+                    if (post.Text == post.TextFromApi)
+                        post.Text = post.TextFromApi;
+                    if (post.AccessibleText == post.TextFromApi)
+                        post.AccessibleText = post.TextFromApi;
+
                     post.QuoteStatusIds = GetQuoteTweetStatusIds(message.Entities).Distinct().ToArray();
 
                     post.ExpandedUrls = message.Entities.OfType<TwitterEntityUrl>()
@@ -1169,6 +1187,11 @@ namespace OpenTween
                     post.Nickname = user.Name.Trim();
                     post.ImageUrl = user.ProfileImageUrlHttps;
                     post.IsProtect = user.Protected;
+
+                    // 他の発言と重複しやすい (共通化できる) 文字列は string.Intern を通す
+                    post.ScreenName = string.Intern(post.ScreenName);
+                    post.Nickname = string.Intern(post.Nickname);
+                    post.ImageUrl = string.Intern(post.ImageUrl);
                 }
                 catch(Exception ex)
                 {
