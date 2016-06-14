@@ -3362,32 +3362,21 @@ namespace OpenTween
                 FavorareMenuItem.Enabled = true;
                 ShowRelatedStatusesMenuItem.Enabled = true;  //PublicSearchの時問題出るかも
 
-                if (_curPost.IsMe)
+                if (_curPost.IsProtect)
                 {
-                    ReTweetStripMenuItem.Enabled = false;  //公式RTは無効に
-                    ReTweetUnofficialStripMenuItem.Enabled = true;
-                    QuoteStripMenuItem.Enabled = true;
-                    FavoriteRetweetContextMenu.Enabled = false;  //公式RTは無効に
-                    FavoriteRetweetUnofficialContextMenu.Enabled = true;
+                    ReTweetStripMenuItem.Enabled = false;
+                    ReTweetUnofficialStripMenuItem.Enabled = false;
+                    QuoteStripMenuItem.Enabled = false;
+                    FavoriteRetweetContextMenu.Enabled = false;
+                    FavoriteRetweetUnofficialContextMenu.Enabled = false;
                 }
                 else
                 {
-                    if (_curPost.IsProtect)
-                    {
-                        ReTweetStripMenuItem.Enabled = false;
-                        ReTweetUnofficialStripMenuItem.Enabled = false;
-                        QuoteStripMenuItem.Enabled = false;
-                        FavoriteRetweetContextMenu.Enabled = false;
-                        FavoriteRetweetUnofficialContextMenu.Enabled = false;
-                    }
-                    else
-                    {
-                        ReTweetStripMenuItem.Enabled = true;
-                        ReTweetUnofficialStripMenuItem.Enabled = true;
-                        QuoteStripMenuItem.Enabled = true;
-                        FavoriteRetweetContextMenu.Enabled = true;
-                        FavoriteRetweetUnofficialContextMenu.Enabled = true;
-                    }
+                    ReTweetStripMenuItem.Enabled = true;
+                    ReTweetUnofficialStripMenuItem.Enabled = true;
+                    QuoteStripMenuItem.Enabled = true;
+                    FavoriteRetweetContextMenu.Enabled = true;
+                    FavoriteRetweetUnofficialContextMenu.Enabled = true;
                 }
             }
             //if (_statuses.Tabs[ListTab.SelectedTab.Text].TabType != MyCommon.TabUsageType.Favorites)
@@ -10072,7 +10061,7 @@ namespace OpenTween
                 }
                 else
                 {
-                    if (_curPost.IsDm || _curPost.IsMe)
+                    if (_curPost.IsDm)
                     {
                         _DoFavRetweetFlags = false;
                         return;
@@ -10093,7 +10082,7 @@ namespace OpenTween
                 foreach (int idx in _curList.SelectedIndices)
                 {
                     PostClass post = GetCurTabPost(idx);
-                    if (!post.IsMe && !post.IsProtect && !post.IsDm)
+                    if (!post.IsProtect && !post.IsDm)
                         statusIds.Add(post.StatusId);
                 }
 
@@ -10965,32 +10954,21 @@ namespace OpenTween
                 this.OpenFavotterOpMenuItem.Enabled = true;
                 this.ShowRelatedStatusesMenuItem2.Enabled = true;  //PublicSearchの時問題出るかも
 
-                if (_curPost.IsMe)
+                if (_curPost.IsProtect)
                 {
-                    this.RtOpMenuItem.Enabled = false;  //公式RTは無効に
-                    this.RtUnOpMenuItem.Enabled = true;
-                    this.QtOpMenuItem.Enabled = true;
-                    this.FavoriteRetweetMenuItem.Enabled = false;  //公式RTは無効に
-                    this.FavoriteRetweetUnofficialMenuItem.Enabled = true;
+                    this.RtOpMenuItem.Enabled = false;
+                    this.RtUnOpMenuItem.Enabled = false;
+                    this.QtOpMenuItem.Enabled = false;
+                    this.FavoriteRetweetMenuItem.Enabled = false;
+                    this.FavoriteRetweetUnofficialMenuItem.Enabled = false;
                 }
                 else
                 {
-                    if (_curPost.IsProtect)
-                    {
-                        this.RtOpMenuItem.Enabled = false;
-                        this.RtUnOpMenuItem.Enabled = false;
-                        this.QtOpMenuItem.Enabled = false;
-                        this.FavoriteRetweetMenuItem.Enabled = false;
-                        this.FavoriteRetweetUnofficialMenuItem.Enabled = false;
-                    }
-                    else
-                    {
-                        this.RtOpMenuItem.Enabled = true;
-                        this.RtUnOpMenuItem.Enabled = true;
-                        this.QtOpMenuItem.Enabled = true;
-                        this.FavoriteRetweetMenuItem.Enabled = true;
-                        this.FavoriteRetweetUnofficialMenuItem.Enabled = true;
-                    }
+                    this.RtOpMenuItem.Enabled = true;
+                    this.RtUnOpMenuItem.Enabled = true;
+                    this.QtOpMenuItem.Enabled = true;
+                    this.FavoriteRetweetMenuItem.Enabled = true;
+                    this.FavoriteRetweetUnofficialMenuItem.Enabled = true;
                 }
             }
 
