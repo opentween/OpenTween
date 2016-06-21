@@ -2846,6 +2846,9 @@ namespace OpenTween
                 var progress = new Progress<string>(x => this.StatusLabel.Text = x);
 
                 await this.RetweetAsyncInternal(progress, this.workerCts.Token, statusIds);
+
+                if (this._cfgCommon.PostAndGet && !this.tw.UserStreamActive)
+                    await this.GetHomeTimelineAsync();
             }
             catch (WebApiException ex)
             {
@@ -2893,9 +2896,6 @@ namespace OpenTween
                 if (this._postTimestamps[i] < oneHour)
                     this._postTimestamps.RemoveAt(i);
             }
-
-            if (this._cfgCommon.PostAndGet && !this.tw.UserStreamActive)
-                await this.GetHomeTimelineAsync();
         }
 
         private async Task RefreshFollowerIdsAsync()
