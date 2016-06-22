@@ -428,7 +428,7 @@ namespace OpenTween
             }
         }
 
-        private void ValidateNewFileMediaItem(string path, bool noMsgBox)
+        private void ValidateNewFileMediaItem(string path, string altText, bool noMsgBox)
         {
             var media = (SelectedMedia)ImagePageCombo.SelectedItem;
             var item = media.Item;
@@ -439,10 +439,13 @@ namespace OpenTween
                 media.Item = null;
 
                 item = CreateFileMediaItem(path, noMsgBox);
-                item.AltText = AlternativeTextBox.Text;
             }
 
+            if (item != null)
+                item.AltText = altText;
+
             ImagefilePathText.Text = path;
+            AlternativeTextBox.Text = altText;
             ImageFromSelectedFile(item, noMsgBox);
         }
 
@@ -472,7 +475,7 @@ namespace OpenTween
                 this.FilePickDialogClosed?.Invoke(this, EventArgs.Empty);
             }
 
-            ValidateNewFileMediaItem(FilePickDialog.FileName, false);
+            ValidateNewFileMediaItem(FilePickDialog.FileName, AlternativeTextBox.Text.Trim(), false);
         }
 
         private void ImagefilePathText_Validating(object sender, CancelEventArgs e)
@@ -483,7 +486,7 @@ namespace OpenTween
                 return;
             }
 
-            ValidateNewFileMediaItem(ImagefilePathText.Text.Trim(), false);
+            ValidateNewFileMediaItem(ImagefilePathText.Text.Trim(), AlternativeTextBox.Text.Trim(), false);
         }
 
         private void ImageFromSelectedFile(IMediaItem item, bool noMsgBox)
@@ -840,13 +843,11 @@ namespace OpenTween
             ValidateSelectedImagePage();
         }
 
-        private void AlternativeTextBox_TextChanged(object sender, EventArgs e)
+        private void AlternativeTextBox_Validating(object sender, CancelEventArgs e)
         {
-            var selectedMedia = (SelectedMedia)this.ImagePageCombo.SelectedItem;
-            if (selectedMedia.Item == null)
-                return;
-
-            selectedMedia.Item.AltText = this.AlternativeTextBox.Text;
+            var imageFilePath = this.ImagefilePathText.Text.Trim();
+            var altText = this.AlternativeTextBox.Text.Trim();
+            this.ValidateNewFileMediaItem(imageFilePath, altText, noMsgBox: false);
         }
     }
 }

@@ -291,14 +291,17 @@ namespace OpenTween
                 // 1 ページ目
                 mediaSelector.ImagePageCombo.SelectedIndex = 0;
                 mediaSelector.AlternativeTextBox.Text = "Page 1";
+                mediaSelector.ValidateChildren();
 
                 // 2 ページ目
                 mediaSelector.ImagePageCombo.SelectedIndex = 1;
                 mediaSelector.AlternativeTextBox.Text = "Page 2";
+                mediaSelector.ValidateChildren();
 
                 // 3 ページ目 (新規ページ)
                 mediaSelector.ImagePageCombo.SelectedIndex = 2;
                 mediaSelector.AlternativeTextBox.Text = "Page 3";
+                mediaSelector.ValidateChildren();
 
                 mediaSelector.ImagePageCombo.SelectedIndex = 0;
                 Assert.Equal("Page 1", mediaSelector.AlternativeTextBox.Text);

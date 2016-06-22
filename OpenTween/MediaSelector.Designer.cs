@@ -122,7 +122,7 @@
             // 
             resources.ApplyResources(this.AlternativeTextBox, "AlternativeTextBox");
             this.AlternativeTextBox.Name = "AlternativeTextBox";
-            this.AlternativeTextBox.TextChanged += new System.EventHandler(this.AlternativeTextBox_TextChanged);
+            this.AlternativeTextBox.Validating += new System.ComponentModel.CancelEventHandler(this.AlternativeTextBox_Validating);
             // 
             // AlternativeTextLabel
             // 
