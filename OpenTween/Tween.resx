@@ -634,7 +634,7 @@
   <data name="&gt;&gt;PostButton.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
-  <data name="lblLen.AccessibleName" xml:space="preserve">
+  <data name="lblLen.AccessibleDescription" xml:space="preserve">
     <value>残り文字数</value>
   </data>
   <data name="lblLen.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">

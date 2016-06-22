@@ -4699,6 +4699,9 @@ namespace OpenTween
             {
                 StatusText.ForeColor = _clInputFont;
             }
+
+            this.StatusText.AccessibleDescription = string.Format(Properties.Resources.StatusText_AccessibleDescription, pLen);
+
             if (string.IsNullOrEmpty(StatusText.Text))
             {
                 this.inReplyTo = null;

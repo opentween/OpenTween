@@ -1198,4 +1198,7 @@
   <data name="QuoteStatus_AccessibleText" xml:space="preserve">
     <value>[引用 @{0}: {1}]</value>
   </data>
+  <data name="StatusText_AccessibleDescription" xml:space="preserve">
+    <value>残り{0}文字</value>
+  </data>
 </root>

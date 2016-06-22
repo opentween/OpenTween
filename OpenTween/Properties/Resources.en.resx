@@ -1140,4 +1140,7 @@ Available service: {1}</value>
   <data name="QuoteStatus_AccessibleText" xml:space="preserve">
     <value>[Quote @{0}: {1}]</value>
   </data>
+  <data name="StatusText_AccessibleDescription" xml:space="preserve">
+    <value>{0} characters remaining</value>
+  </data>
 </root>

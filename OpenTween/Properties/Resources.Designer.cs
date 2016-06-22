@@ -2662,6 +2662,15 @@ namespace OpenTween.Properties {
         }
         
         /// <summary>
+        ///   残り{0}文字 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string StatusText_AccessibleDescription {
+            get {
+                return ResourceManager.GetString("StatusText_AccessibleDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   投稿に失敗しました に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string StatusUpdateFailed1 {
