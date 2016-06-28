@@ -1570,30 +1570,33 @@ namespace OpenTween
                 var listView = (DetailsListView)tabPage.Tag;
                 var tab = _statuses.Tabs[tabPage.Text];
 
-                ListViewSelection listStatus;
-                if (listView.VirtualListSize != 0)
-                {
-                    listStatus = new ListViewSelection
-                    {
-                        SelectedStatusIds = this.GetSelectedStatusIds(listView, tab),
-                        FocusedStatusId = this.GetFocusedStatusId(listView, tab),
-                        SelectionMarkStatusId = this.GetSelectionMarkStatusId(listView, tab),
-                    };
-                }
-                else
-                {
-                    listStatus = new ListViewSelection
-                    {
-                        SelectedStatusIds = new long[0],
-                        SelectionMarkStatusId = null,
-                        FocusedStatusId = null,
-                    };
-                }
-
-                listsDict[tab.TabName] = listStatus;
+                listsDict[tab.TabName] = this.SaveListViewSelection(listView, tab);
             }
 
             return listsDict;
+        }
+
+        /// <summary>
+        /// <see cref="ListView"/> の選択状態を <see cref="ListViewSelection"/> として返します
+        /// </summary>
+        private ListViewSelection SaveListViewSelection(DetailsListView listView, TabModel tab)
+        {
+            if (listView.VirtualListSize == 0)
+            {
+                return new ListViewSelection
+                {
+                    SelectedStatusIds = new long[0],
+                    SelectionMarkStatusId = null,
+                    FocusedStatusId = null,
+                };
+            }
+
+            return new ListViewSelection
+            {
+                SelectedStatusIds = this.GetSelectedStatusIds(listView, tab),
+                FocusedStatusId = this.GetFocusedStatusId(listView, tab),
+                SelectionMarkStatusId = this.GetSelectionMarkStatusId(listView, tab),
+            };
         }
 
         private long[] GetSelectedStatusIds(DetailsListView listView, TabModel tab)
