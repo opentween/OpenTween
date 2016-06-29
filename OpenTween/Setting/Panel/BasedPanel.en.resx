@@ -121,7 +121,7 @@
     <value>Sign up for Twitter account</value>
   </data>
   <data name="StartAuthButton.Text" xml:space="preserve">
-    <value>Start Authentiation</value>
+    <value>Start Authentication</value>
   </data>
   <data name="AuthClearButton.Text" xml:space="preserve">
     <value>Remove</value>
