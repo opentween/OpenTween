@@ -263,7 +263,7 @@ namespace OpenTween
                     var authUserCombo = this.BasedPanel.AuthUserCombo;
 
                     var oldAccount = authUserCombo.Items.Cast<UserAccount>()
-                        .FirstOrDefault(x => x.UserId == this.tw.UserId);
+                        .FirstOrDefault(x => x.UserId == newAccount.UserId);
 
                     int idx;
                     if (oldAccount != null)
