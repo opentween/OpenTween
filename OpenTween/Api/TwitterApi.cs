@@ -665,9 +665,9 @@ namespace OpenTween.Api
             var endpoint = new Uri("https://userstream.twitter.com/1.1/user.json");
             var param = new Dictionary<string, string>();
 
-            if (replies != null)
+            if (!string.IsNullOrEmpty(replies))
                 param["replies"] = replies;
-            if (track != null)
+            if (!string.IsNullOrEmpty(track))
                 param["track"] = track;
 
             return this.apiConnection.GetStreamAsync(endpoint, param);
