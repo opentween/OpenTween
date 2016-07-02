@@ -137,6 +137,28 @@ namespace OpenTween.Connection
             }
         }
 
+        public async Task<Stream> GetStreamingStreamAsync(Uri uri, IDictionary<string, string> param)
+        {
+            var requestUri = new Uri(RestApiBase, uri);
+
+            if (param != null)
+                requestUri = new Uri(requestUri, "?" + MyCommon.BuildQueryString(param));
+
+            try
+            {
+                return await this.httpStreaming.GetStreamAsync(requestUri)
+                    .ConfigureAwait(false);
+            }
+            catch (HttpRequestException ex)
+            {
+                throw TwitterApiException.CreateFromException(ex);
+            }
+            catch (OperationCanceledException ex)
+            {
+                throw TwitterApiException.CreateFromException(ex);
+            }
+        }
+
         public async Task<LazyJson<T>> PostLazyAsync<T>(Uri uri, IDictionary<string, string> param)
         {
             var requestUri = new Uri(RestApiBase, uri);

@@ -670,7 +670,7 @@ namespace OpenTween.Api
             if (!string.IsNullOrEmpty(track))
                 param["track"] = track;
 
-            return this.apiConnection.GetStreamAsync(endpoint, param);
+            return this.apiConnection.GetStreamingStreamAsync(endpoint, param);
         }
 
         public OAuthEchoHandler CreateOAuthEchoHandler(Uri authServiceProvider, Uri realm = null)
