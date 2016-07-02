@@ -2142,7 +2142,10 @@ namespace OpenTween
 
         public void ReconnectUserStream()
         {
-            this.StartUserStream();
+            if (this.userStream != null)
+            {
+                this.StartUserStream();
+            }
         }
 
         private class TwitterUserstream : IDisposable
