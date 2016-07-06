@@ -97,11 +97,11 @@ namespace OpenTween
 
             ListFilters.Items.Clear();
 
-            var tab = _sts.Tabs[tabName] as FilterTabModel;
-            if (tab == null)
-                return;
+            var tab = _sts.Tabs[tabName];
 
-            ListFilters.Items.AddRange(tab.GetFilters());
+            var filterTab = tab as FilterTabModel;
+            if (filterTab != null)
+                ListFilters.Items.AddRange(filterTab.GetFilters());
 
             if (ListFilters.Items.Count > 0)
                 ListFilters.SelectedIndex = 0;
