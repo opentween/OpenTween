@@ -2765,6 +2765,13 @@ namespace OpenTween
                 p.Report(errMsg);
                 this._myStatusError = true;
             }
+            catch (UnauthorizedAccessException ex)
+            {
+                // アップロード対象のファイルが開けなかった場合など
+                errMsg = $"Err:{ex.Message}(PostMessage)";
+                p.Report(errMsg);
+                this._myStatusError = true;
+            }
             finally
             {
                 // 使い終わった MediaItem は破棄する
