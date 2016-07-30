@@ -696,12 +696,6 @@
   <data name="ShowUserInfo1" xml:space="preserve">
     <value>用户信息解析失败</value>
   </data>
-  <data name="StatusUpdateFailed1" xml:space="preserve">
-    <value>发推失败了</value>
-  </data>
-  <data name="StatusUpdateFailed2" xml:space="preserve">
-    <value>想再试一次吗？</value>
-  </data>
   <data name="GetFriendshipInfo6" xml:space="preserve">
     <value>关注情况获取失败</value>
   </data>
@@ -960,5 +954,10 @@ Do you want to upload the {1} selected media file(s)?</value>
   </data>
   <data name="Yes" xml:space="preserve">
     <value>是</value>
+  </data>
+  <data name="StatusUpdateFailed" xml:space="preserve">
+    <value>发推失败了   ---&gt;   [ {0} ]
+"{1}"
+想再试一次吗？</value>
   </data>
 </root>

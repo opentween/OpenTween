@@ -2791,13 +2791,10 @@ namespace OpenTween
                 !errMsg.StartsWith("OK:", StringComparison.Ordinal) &&
                 !errMsg.StartsWith("Warn:", StringComparison.Ordinal))
             {
+                var message = string.Format(Properties.Resources.StatusUpdateFailed, errMsg, status.status);
+
                 var ret = MessageBox.Show(
-                    string.Format(
-                        "{0}   --->   [ " + errMsg + " ]" + Environment.NewLine +
-                        "\"" + status.status + "\"" + Environment.NewLine +
-                        "{1}",
-                        Properties.Resources.StatusUpdateFailed1,
-                        Properties.Resources.StatusUpdateFailed2),
+                    message,
                     "Failed to update status",
                     MessageBoxButtons.RetryCancel,
                     MessageBoxIcon.Question);

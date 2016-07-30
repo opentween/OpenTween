@@ -2671,20 +2671,13 @@ namespace OpenTween.Properties {
         }
         
         /// <summary>
-        ///   投稿に失敗しました に類似しているローカライズされた文字列を検索します。
+        ///   投稿に失敗しました   ---&gt;   [ {0} ]
+        ///&quot;{1}&quot;
+        ///もう一度投稿を試みますか？ に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string StatusUpdateFailed1 {
+        internal static string StatusUpdateFailed {
             get {
-                return ResourceManager.GetString("StatusUpdateFailed1", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   もう一度投稿を試みますか？ に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string StatusUpdateFailed2 {
-            get {
-                return ResourceManager.GetString("StatusUpdateFailed2", resourceCulture);
+                return ResourceManager.GetString("StatusUpdateFailed", resourceCulture);
             }
         }
         

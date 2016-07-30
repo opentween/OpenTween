@@ -724,12 +724,6 @@
   <data name="Yes" xml:space="preserve">
     <value>はい</value>
   </data>
-  <data name="StatusUpdateFailed1" xml:space="preserve">
-    <value>投稿に失敗しました</value>
-  </data>
-  <data name="StatusUpdateFailed2" xml:space="preserve">
-    <value>もう一度投稿を試みますか？</value>
-  </data>
   <data name="GetFriendshipInfo6" xml:space="preserve">
     <value>フォロー状況取得失敗</value>
   </data>
@@ -1200,5 +1194,10 @@
   </data>
   <data name="StatusText_AccessibleDescription" xml:space="preserve">
     <value>残り{0}文字</value>
+  </data>
+  <data name="StatusUpdateFailed" xml:space="preserve">
+    <value>投稿に失敗しました   ---&gt;   [ {0} ]
+"{1}"
+もう一度投稿を試みますか？</value>
   </data>
 </root>

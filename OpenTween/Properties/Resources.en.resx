@@ -666,12 +666,6 @@
   <data name="ShowUserInfo1" xml:space="preserve">
     <value>User Information analyze failed.</value>
   </data>
-  <data name="StatusUpdateFailed1" xml:space="preserve">
-    <value>Failed to update status.</value>
-  </data>
-  <data name="StatusUpdateFailed2" xml:space="preserve">
-    <value>Do you retry to update status?</value>
-  </data>
   <data name="PubSearchPeriod_ValidatingText1" xml:space="preserve">
     <value>Fetching interval must a value in 0 or 30 to 6000.</value>
   </data>
@@ -1142,5 +1136,10 @@ Available service: {1}</value>
   </data>
   <data name="StatusText_AccessibleDescription" xml:space="preserve">
     <value>{0} characters remaining</value>
+  </data>
+  <data name="StatusUpdateFailed" xml:space="preserve">
+    <value>Failed to update status.   ---&gt;   [ {0} ]
+"{1}"
+Do you retry to update status?</value>
   </data>
 </root>
