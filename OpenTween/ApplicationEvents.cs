@@ -139,19 +139,15 @@ namespace OpenTween
         {
             // 実行中の同じアプリケーションのウィンドウ・ハンドルの取得
             var prevProcess = GetPreviousProcess();
-            if (prevProcess == null || prevProcess.MainWindowHandle == IntPtr.Zero)
+            if (prevProcess == null)
             {
                 return;
             }
 
-            var form = Control.FromHandle(prevProcess.MainWindowHandle) as Form;
-            if (form != null)
+            IntPtr windowHandle = NativeMethods.GetWindowHandle((uint)prevProcess.Id, Application.ProductName);
+            if (windowHandle != IntPtr.Zero)
             {
-                if (form.WindowState == FormWindowState.Minimized)
-                {
-                    NativeMethods.RestoreWindow(form);
-                }
-                form.Activate();
+                NativeMethods.SetActiveWindow(windowHandle);
             }
         }
 

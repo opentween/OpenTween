@@ -33,6 +33,7 @@ using System.Net;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
+using System.Text;
 using OpenTween.Connection;
 
 namespace OpenTween
@@ -469,5 +470,95 @@ namespace OpenTween
 
             return si.nPos;
         }
+
+        #region "ウィンドウの検索"
+
+        [DllImport("user32.dll")]
+        private static extern uint GetWindowThreadProcessId(IntPtr hWnd, out uint procId);
+        
+        private delegate int EnumWindowCallback(IntPtr hWnd, int lParam);
+
+        [DllImport("user32")]
+        private static extern int EnumWindows(EnumWindowCallback lpEnumFunc, int lParam);
+
+        [DllImport("user32.dll", CharSet = CharSet.Auto)]
+        private static extern int GetWindowText(IntPtr hWnd, StringBuilder lpString, int nMaxCount);
+
+        [DllImport("user32.dll", CharSet = CharSet.Auto)]
+        private static extern int GetWindowTextLength(IntPtr hWnd);
+
+        private static uint targetPid;
+        private static IntPtr targetHwnd;
+        private static string targetWindowTitle;
+
+        private static int CheckPidAndTitle(IntPtr hWnd, int lParam)
+        {
+            uint procId;
+            uint threadId = GetWindowThreadProcessId(hWnd, out procId);
+
+            if (procId == targetPid)
+            {
+                int windowTitleLen = GetWindowTextLength(hWnd);
+
+                if (windowTitleLen > 0)
+                {
+                    StringBuilder windowTitle = new StringBuilder(windowTitleLen + 1);
+                    GetWindowText(hWnd, windowTitle, windowTitle.Capacity);
+
+                    if (windowTitle.ToString().IndexOf(targetWindowTitle) >= 0)
+                    {
+                        targetHwnd = hWnd;
+                        return 0;
+                    }
+                }
+            }
+
+            return 1;
+        }
+
+        /// <summary>
+        /// 指定したPIDとタイトルを持つウィンドウのウィンドウハンドルを取得します
+        /// </summary>
+        /// <param name="pid">対象ウィンドウのPID</param>
+        /// <param name="windowTitle">対象ウィンドウのタイトル</param>
+        /// <returns>ウィンドウハンドル。検索に失敗した場合は0</returns>
+        public static IntPtr GetWindowHandle(uint pid, string windowTitle)
+        {
+            targetPid = pid;
+            targetWindowTitle = windowTitle;
+            targetHwnd = IntPtr.Zero;
+
+            EnumWindows(new EnumWindowCallback(CheckPidAndTitle), 0);
+            return targetHwnd;
+        }
+
+        #endregion
+
+        #region "ウィンドウのアクティブ化"
+
+        private enum ShowWindowCommands : int
+        {
+            SW_SHOW = 5 // ウィンドウを現在の位置とサイズにする
+        }
+
+        [DllImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        private static extern bool ShowWindow(IntPtr hWnd, ShowWindowCommands nCmdShow);
+
+        [DllImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        private static extern bool SetForegroundWindow(IntPtr hWnd);
+
+        /// <summary>
+        /// 指定したウィンドウをアクティブにします
+        /// </summary>
+        /// <param name="hWnd">アクティブにするウィンドウのウィンドウハンドル</param>
+        public static void SetActiveWindow(IntPtr hWnd)
+        {
+            ShowWindow(hWnd, ShowWindowCommands.SW_SHOW);
+            SetForegroundWindow(hWnd);
+        }
+
+        #endregion
     }
 }
