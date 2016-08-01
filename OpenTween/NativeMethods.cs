@@ -153,25 +153,6 @@ namespace OpenTween
             return SelectItem(listView, -1 /* all items */);
         }
 
-        [DllImport("user32")]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        private static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
-
-        /// <summary>
-        /// 最小化状態のウィンドウを最小化する前の状態に復元します。
-        /// </summary>
-        /// <param name="window">復元するウィンドウ。</param>
-        /// <exception cref="System.ArgumentNullException"><paramref name="window"/> が null です。</exception>
-        public static void RestoreWindow(IWin32Window window)
-        {
-            if (window == null)
-            {
-                throw new ArgumentNullException(nameof(window));
-            }
-
-            ShowWindow(window.Handle, /* SW_RESTORE */ 9);
-        }
-
         #region "画面ブリンク用"
         public static bool FlashMyWindow(IntPtr hwnd,
             FlashSpecification flashType,
