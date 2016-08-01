@@ -105,8 +105,16 @@ namespace OpenTween.Connection
             if (!item.Exists)
                 throw new ArgumentException("Err:Media not found.");
 
-            var xml = await this.imglyApi.UploadFileAsync(item, text)
-                .ConfigureAwait(false);
+            XDocument xml;
+            try
+            {
+                xml = await this.imglyApi.UploadFileAsync(item, text)
+                    .ConfigureAwait(false);
+            }
+            catch (WebException ex)
+            {
+                throw new WebApiException("Err:" + ex.Message, ex);
+            }
 
             var imageUrlElm = xml.XPathSelectElement("/image/url");
             if (imageUrlElm == null)
