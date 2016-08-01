@@ -2876,11 +2876,10 @@ namespace OpenTween
 
             p.Report("Posting...");
 
-            var retweetTasks = from statusId in statusIds
-                               select this.tw.PostRetweet(statusId, read);
-
-            await Task.WhenAll(retweetTasks)
-                .ConfigureAwait(false);
+            foreach (var statusId in statusIds)
+            {
+                await this.tw.PostRetweet(statusId, read).ConfigureAwait(false);
+            }
 
             if (ct.IsCancellationRequested)
                 return;
