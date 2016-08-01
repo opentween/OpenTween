@@ -489,28 +489,22 @@ namespace OpenTween
         [DllImport("user32.dll", CharSet = CharSet.Unicode)]
         private static extern int GetWindowTextLength(IntPtr hWnd);
 
-        private static uint targetPid;
-        private static IntPtr targetHwnd;
-        private static string targetWindowTitle;
-
         /// <summary>
         /// 指定したPIDとタイトルを持つウィンドウのウィンドウハンドルを取得します
         /// </summary>
         /// <param name="pid">対象ウィンドウのPID</param>
         /// <param name="searchWindowTitle">対象ウィンドウのタイトル</param>
-        /// <returns>ウィンドウハンドル。検索に失敗した場合は0</returns>
+        /// <returns>ウィンドウハンドル。検索に失敗した場合は<see cref="IntPtr.Zero"/></returns>
         public static IntPtr GetWindowHandle(uint pid, string searchWindowTitle)
         {
-            targetPid = pid;
-            targetWindowTitle = searchWindowTitle;
-            targetHwnd = IntPtr.Zero;
+            var foundHwnd = IntPtr.Zero;
 
             EnumWindows((hWnd, lParam) =>
             {
                 uint procId;
                 uint threadId = GetWindowThreadProcessId(hWnd, out procId);
 
-                if (procId == targetPid)
+                if (procId == pid)
                 {
                     int windowTitleLen = GetWindowTextLength(hWnd);
 
@@ -519,9 +513,9 @@ namespace OpenTween
                         StringBuilder windowTitle = new StringBuilder(windowTitleLen + 1);
                         GetWindowText(hWnd, windowTitle, windowTitle.Capacity);
 
-                        if (windowTitle.ToString().Contains(targetWindowTitle))
+                        if (windowTitle.ToString().Contains(searchWindowTitle))
                         {
-                            targetHwnd = hWnd;
+                            foundHwnd = hWnd;
                             return false;
                         }
                     }
@@ -530,7 +524,7 @@ namespace OpenTween
                 return true;
             }, IntPtr.Zero);
 
-            return targetHwnd;
+            return foundHwnd;
         }
 
         #endregion
