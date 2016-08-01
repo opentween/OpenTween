@@ -33,6 +33,7 @@ using System.Net;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
+using System.Text;
 using OpenTween.Connection;
 
 namespace OpenTween
@@ -150,25 +151,6 @@ namespace OpenTween
         public static bool SelectAllItems(ListView listView)
         {
             return SelectItem(listView, -1 /* all items */);
-        }
-
-        [DllImport("user32")]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        private static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
-
-        /// <summary>
-        /// 最小化状態のウィンドウを最小化する前の状態に復元します。
-        /// </summary>
-        /// <param name="window">復元するウィンドウ。</param>
-        /// <exception cref="System.ArgumentNullException"><paramref name="window"/> が null です。</exception>
-        public static void RestoreWindow(IWin32Window window)
-        {
-            if (window == null)
-            {
-                throw new ArgumentNullException(nameof(window));
-            }
-
-            ShowWindow(window.Handle, /* SW_RESTORE */ 9);
         }
 
         #region "画面ブリンク用"
@@ -469,5 +451,91 @@ namespace OpenTween
 
             return si.nPos;
         }
+
+        #region "ウィンドウの検索"
+
+        [DllImport("user32.dll")]
+        private static extern uint GetWindowThreadProcessId(IntPtr hWnd, out uint procId);
+        
+        [return: MarshalAs(UnmanagedType.Bool)]
+        private delegate bool EnumWindowCallback(IntPtr hWnd, int lParam);
+
+        [DllImport("user32")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        private static extern bool EnumWindows(EnumWindowCallback lpEnumFunc, IntPtr lParam);
+
+        [DllImport("user32.dll", CharSet = CharSet.Unicode)]
+        private static extern int GetWindowText(IntPtr hWnd, StringBuilder lpString, int nMaxCount);
+
+        [DllImport("user32.dll", CharSet = CharSet.Unicode)]
+        private static extern int GetWindowTextLength(IntPtr hWnd);
+
+        /// <summary>
+        /// 指定したPIDとタイトルを持つウィンドウのウィンドウハンドルを取得します
+        /// </summary>
+        /// <param name="pid">対象ウィンドウのPID</param>
+        /// <param name="searchWindowTitle">対象ウィンドウのタイトル</param>
+        /// <returns>ウィンドウハンドル。検索に失敗した場合は<see cref="IntPtr.Zero"/></returns>
+        public static IntPtr GetWindowHandle(uint pid, string searchWindowTitle)
+        {
+            var foundHwnd = IntPtr.Zero;
+
+            EnumWindows((hWnd, lParam) =>
+            {
+                uint procId;
+                uint threadId = GetWindowThreadProcessId(hWnd, out procId);
+
+                if (procId == pid)
+                {
+                    int windowTitleLen = GetWindowTextLength(hWnd);
+
+                    if (windowTitleLen > 0)
+                    {
+                        StringBuilder windowTitle = new StringBuilder(windowTitleLen + 1);
+                        GetWindowText(hWnd, windowTitle, windowTitle.Capacity);
+
+                        if (windowTitle.ToString().Contains(searchWindowTitle))
+                        {
+                            foundHwnd = hWnd;
+                            return false;
+                        }
+                    }
+                }
+
+                return true;
+            }, IntPtr.Zero);
+
+            return foundHwnd;
+        }
+
+        #endregion
+
+        #region "ウィンドウのアクティブ化"
+
+        private enum ShowWindowCommands : int
+        {
+            /// <summary>最小化・最大化されたウィンドウを元に戻して表示</summary>
+            SW_RESTORE = 9,
+        }
+
+        [DllImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        private static extern bool ShowWindow(IntPtr hWnd, ShowWindowCommands nCmdShow);
+
+        [DllImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        private static extern bool SetForegroundWindow(IntPtr hWnd);
+
+        /// <summary>
+        /// 指定したウィンドウをアクティブにします
+        /// </summary>
+        /// <param name="hWnd">アクティブにするウィンドウのウィンドウハンドル</param>
+        public static void SetActiveWindow(IntPtr hWnd)
+        {
+            ShowWindow(hWnd, ShowWindowCommands.SW_RESTORE);
+            SetForegroundWindow(hWnd);
+        }
+
+        #endregion
     }
 }
