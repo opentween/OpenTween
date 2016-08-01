@@ -493,44 +493,43 @@ namespace OpenTween
         private static IntPtr targetHwnd;
         private static string targetWindowTitle;
 
-        private static bool CheckPidAndTitle(IntPtr hWnd, int lParam)
-        {
-            uint procId;
-            uint threadId = GetWindowThreadProcessId(hWnd, out procId);
-
-            if (procId == targetPid)
-            {
-                int windowTitleLen = GetWindowTextLength(hWnd);
-
-                if (windowTitleLen > 0)
-                {
-                    StringBuilder windowTitle = new StringBuilder(windowTitleLen + 1);
-                    GetWindowText(hWnd, windowTitle, windowTitle.Capacity);
-
-                    if (windowTitle.ToString().Contains(targetWindowTitle))
-                    {
-                        targetHwnd = hWnd;
-                        return false;
-                    }
-                }
-            }
-
-            return true;
-        }
-
         /// <summary>
         /// 指定したPIDとタイトルを持つウィンドウのウィンドウハンドルを取得します
         /// </summary>
         /// <param name="pid">対象ウィンドウのPID</param>
-        /// <param name="windowTitle">対象ウィンドウのタイトル</param>
+        /// <param name="searchWindowTitle">対象ウィンドウのタイトル</param>
         /// <returns>ウィンドウハンドル。検索に失敗した場合は0</returns>
-        public static IntPtr GetWindowHandle(uint pid, string windowTitle)
+        public static IntPtr GetWindowHandle(uint pid, string searchWindowTitle)
         {
             targetPid = pid;
-            targetWindowTitle = windowTitle;
+            targetWindowTitle = searchWindowTitle;
             targetHwnd = IntPtr.Zero;
 
-            EnumWindows(new EnumWindowCallback(CheckPidAndTitle), IntPtr.Zero);
+            EnumWindows((hWnd, lParam) =>
+            {
+                uint procId;
+                uint threadId = GetWindowThreadProcessId(hWnd, out procId);
+
+                if (procId == targetPid)
+                {
+                    int windowTitleLen = GetWindowTextLength(hWnd);
+
+                    if (windowTitleLen > 0)
+                    {
+                        StringBuilder windowTitle = new StringBuilder(windowTitleLen + 1);
+                        GetWindowText(hWnd, windowTitle, windowTitle.Capacity);
+
+                        if (windowTitle.ToString().Contains(targetWindowTitle))
+                        {
+                            targetHwnd = hWnd;
+                            return false;
+                        }
+                    }
+                }
+
+                return true;
+            }, IntPtr.Zero);
+
             return targetHwnd;
         }
 
