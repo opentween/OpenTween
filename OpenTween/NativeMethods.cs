@@ -476,10 +476,12 @@ namespace OpenTween
         [DllImport("user32.dll")]
         private static extern uint GetWindowThreadProcessId(IntPtr hWnd, out uint procId);
         
-        private delegate int EnumWindowCallback(IntPtr hWnd, int lParam);
+        [return: MarshalAs(UnmanagedType.Bool)]
+        private delegate bool EnumWindowCallback(IntPtr hWnd, int lParam);
 
         [DllImport("user32")]
-        private static extern int EnumWindows(EnumWindowCallback lpEnumFunc, int lParam);
+        [return: MarshalAs(UnmanagedType.Bool)]
+        private static extern bool EnumWindows(EnumWindowCallback lpEnumFunc, IntPtr lParam);
 
         [DllImport("user32.dll", CharSet = CharSet.Auto)]
         private static extern int GetWindowText(IntPtr hWnd, StringBuilder lpString, int nMaxCount);
@@ -491,7 +493,7 @@ namespace OpenTween
         private static IntPtr targetHwnd;
         private static string targetWindowTitle;
 
-        private static int CheckPidAndTitle(IntPtr hWnd, int lParam)
+        private static bool CheckPidAndTitle(IntPtr hWnd, int lParam)
         {
             uint procId;
             uint threadId = GetWindowThreadProcessId(hWnd, out procId);
@@ -508,12 +510,12 @@ namespace OpenTween
                     if (windowTitle.ToString().IndexOf(targetWindowTitle) >= 0)
                     {
                         targetHwnd = hWnd;
-                        return 0;
+                        return false;
                     }
                 }
             }
 
-            return 1;
+            return true;
         }
 
         /// <summary>
@@ -528,7 +530,7 @@ namespace OpenTween
             targetWindowTitle = windowTitle;
             targetHwnd = IntPtr.Zero;
 
-            EnumWindows(new EnumWindowCallback(CheckPidAndTitle), 0);
+            EnumWindows(new EnumWindowCallback(CheckPidAndTitle), IntPtr.Zero);
             return targetHwnd;
         }
 
