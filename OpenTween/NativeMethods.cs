@@ -507,7 +507,7 @@ namespace OpenTween
                     StringBuilder windowTitle = new StringBuilder(windowTitleLen + 1);
                     GetWindowText(hWnd, windowTitle, windowTitle.Capacity);
 
-                    if (windowTitle.ToString().IndexOf(targetWindowTitle) >= 0)
+                    if (windowTitle.ToString().Contains(targetWindowTitle))
                     {
                         targetHwnd = hWnd;
                         return false;
