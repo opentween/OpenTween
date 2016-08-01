@@ -533,7 +533,8 @@ namespace OpenTween
 
         private enum ShowWindowCommands : int
         {
-            SW_SHOW = 5 // ウィンドウを現在の位置とサイズにする
+            /// <summary>最小化・最大化されたウィンドウを元に戻して表示</summary>
+            SW_RESTORE = 9,
         }
 
         [DllImport("user32.dll")]
@@ -550,7 +551,7 @@ namespace OpenTween
         /// <param name="hWnd">アクティブにするウィンドウのウィンドウハンドル</param>
         public static void SetActiveWindow(IntPtr hWnd)
         {
-            ShowWindow(hWnd, ShowWindowCommands.SW_SHOW);
+            ShowWindow(hWnd, ShowWindowCommands.SW_RESTORE);
             SetForegroundWindow(hWnd);
         }
 
