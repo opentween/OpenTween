@@ -108,13 +108,16 @@ namespace OpenTween.Models
 
         public bool AddTab(TabModel tab)
         {
-            if (this._tabs.ContainsKey(tab.TabName))
-                return false;
+            lock (this.LockObj)
+            {
+                if (this._tabs.ContainsKey(tab.TabName))
+                    return false;
 
-            this._tabs.Add(tab.TabName, tab);
-            tab.SetSortMode(this.SortMode, this.SortOrder);
+                this._tabs.Add(tab.TabName, tab);
+                tab.SetSortMode(this.SortMode, this.SortOrder);
 
-            return true;
+                return true;
+            }
         }
 
         //public void AddTab(string TabName, TabClass Tab)
@@ -668,10 +671,13 @@ namespace OpenTween.Models
 
         public void RenameTab(string Original, string NewName)
         {
-            var tb = _tabs[Original];
-            _tabs.Remove(Original);
-            tb.TabName = NewName;
-            _tabs.Add(NewName, tb);
+            lock (this.LockObj)
+            {
+                var tb = _tabs[Original];
+                _tabs.Remove(Original);
+                tb.TabName = NewName;
+                _tabs.Add(NewName, tb);
+            }
         }
 
         public void FilterAll()
