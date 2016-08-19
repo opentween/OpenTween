@@ -7947,8 +7947,9 @@ namespace OpenTween
             if (_statuses == null) return;
             if (_statuses.Tabs == null) return;
 
-            TabModel tb = _statuses.Tabs[_rclickTabName];
-            if (tb == null) return;
+            TabModel tb;
+            if (!this._statuses.Tabs.TryGetValue(this._rclickTabName, out tb))
+                return;
 
             NotifyDispMenuItem.Checked = tb.Notify;
             this.NotifyTbMenuItem.Checked = tb.Notify;
