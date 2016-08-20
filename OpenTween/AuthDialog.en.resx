@@ -130,6 +130,9 @@
   <data name="label2.Text" xml:space="preserve">
     <value>Allow the app and input your PIN:</value>
   </data>
+  <data name="PinTextBox.AccessibleName" xml:space="preserve">
+    <value>PIN Code</value>
+  </data>
   <data name="CancelButton.Text" xml:space="preserve">
     <value>&amp;Cancel</value>
   </data>

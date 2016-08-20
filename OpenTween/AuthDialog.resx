@@ -208,6 +208,9 @@
   <data name="&gt;&gt;label2.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
+  <data name="PinTextBox.AccessibleName" xml:space="preserve">
+    <value>PINコード</value>
+  </data>
   <data name="PinTextBox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Left, Right</value>
   </data>
@@ -221,7 +224,7 @@
     <value>190, 48</value>
   </data>
   <data name="PinTextBox.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
+    <value>3</value>
   </data>
   <data name="PinTextBox.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
     <value>Center</value>
@@ -257,7 +260,7 @@
     <value>86, 25</value>
   </data>
   <data name="CancelBtn.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
+    <value>1</value>
   </data>
   <data name="CancelBtn.Text" xml:space="preserve">
     <value>キャンセル (&amp;C)</value>
@@ -284,7 +287,7 @@
     <value>75, 25</value>
   </data>
   <data name="OKBtn.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
+    <value>0</value>
   </data>
   <data name="OKBtn.Text" xml:space="preserve">
     <value>&amp;OK</value>
