@@ -6396,11 +6396,6 @@ namespace OpenTween
             foreach (int idx in _curList.SelectedIndices)
             {
                 PostClass post = _statuses.Tabs[_curTab.Text][idx];
-                if (post.IsProtect)
-                {
-                    IsProtected = true;
-                    continue;
-                }
                 if (post.IsDeleted) continue;
                 if (!isDm)
                 {
