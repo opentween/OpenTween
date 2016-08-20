@@ -41,6 +41,7 @@ using System.Media;
 using System.Net;
 using System.Net.Http;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -11364,27 +11365,34 @@ namespace OpenTween
         /// </summary>
         private void ProcClipboardFromStatusTextWhenCtrlPlusV()
         {
-            if (Clipboard.ContainsText())
+            try
             {
-                // clipboardにテキストがある場合は貼り付け処理
-                this.StatusText.Paste(Clipboard.GetText());
-            }
-            else if (Clipboard.ContainsImage())
-            {
-                // 画像があるので投稿処理を行う
-                if (MessageBox.Show(Properties.Resources.PostPictureConfirm3,
-                                   Properties.Resources.PostPictureWarn4,
-                                   MessageBoxButtons.OKCancel,
-                                   MessageBoxIcon.Question,
-                                   MessageBoxDefaultButton.Button2)
-                               == DialogResult.OK)
+                if (Clipboard.ContainsText())
                 {
-                    // clipboardから画像を取得
-                    using (var image = Clipboard.GetImage())
+                    // clipboardにテキストがある場合は貼り付け処理
+                    this.StatusText.Paste(Clipboard.GetText());
+                }
+                else if (Clipboard.ContainsImage())
+                {
+                    // 画像があるので投稿処理を行う
+                    if (MessageBox.Show(Properties.Resources.PostPictureConfirm3,
+                                       Properties.Resources.PostPictureWarn4,
+                                       MessageBoxButtons.OKCancel,
+                                       MessageBoxIcon.Question,
+                                       MessageBoxDefaultButton.Button2)
+                                   == DialogResult.OK)
                     {
-                        this.ImageSelector.BeginSelection(image);
+                        // clipboardから画像を取得
+                        using (var image = Clipboard.GetImage())
+                        {
+                            this.ImageSelector.BeginSelection(image);
+                        }
                     }
                 }
+            }
+            catch (ExternalException ex)
+            {
+                MessageBox.Show(ex.Message);
             }
         }
 #endregion
