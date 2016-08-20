@@ -1424,18 +1424,21 @@ namespace OpenTween
 
             if (MyCommon._endingFlag) return;
 
-            if (this._cfgCommon.TabIconDisp)
+            if (addCount > 0)
             {
-                foreach (var tabPage in this.ListTab.TabPages.Cast<TabPage>())
+                if (this._cfgCommon.TabIconDisp)
                 {
-                    var tabModel = this._statuses.Tabs[tabPage.Text];
-                    if (tabModel.UnreadCount > 0)
-                        tabPage.ImageIndex = 0; // 未読アイコン
+                    foreach (var tabPage in this.ListTab.TabPages.Cast<TabPage>())
+                    {
+                        var tabModel = this._statuses.Tabs[tabPage.Text];
+                        if (tabModel.UnreadCount > 0 && tabPage.ImageIndex != 0)
+                            tabPage.ImageIndex = 0; // 未読アイコン
+                    }
                 }
-            }
-            else
-            {
-                this.ListTab.Refresh();
+                else
+                {
+                    this.ListTab.Refresh();
+                }
             }
 
             // リストに反映＆選択状態復元
