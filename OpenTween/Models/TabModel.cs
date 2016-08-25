@@ -319,7 +319,7 @@ namespace OpenTween.Models
             {
                 PostClass post;
                 if (!this.Posts.TryGetValue(this.GetStatusIdAt(index), out post))
-                    throw new ArgumentException("Post not exists", nameof(index));
+                    throw new ArgumentOutOfRangeException("Post not exists", nameof(index));
 
                 return post;
             }
@@ -329,6 +329,13 @@ namespace OpenTween.Models
         {
             get
             {
+                if (startIndex < 0)
+                    throw new ArgumentOutOfRangeException(nameof(startIndex));
+                if (endIndex >= this.AllCount)
+                    throw new ArgumentOutOfRangeException(nameof(endIndex));
+                if (startIndex > endIndex)
+                    throw new ArgumentException($"{nameof(startIndex)} must be equal to or less than {nameof(endIndex)}.", nameof(startIndex));
+
                 var length = endIndex - startIndex + 1;
                 var posts = new PostClass[length];
 

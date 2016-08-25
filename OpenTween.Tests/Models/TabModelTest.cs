@@ -520,6 +520,76 @@ namespace OpenTween.Models
             result = tab.SearchPostsAll(x => x.Contains("a"), startIndex: 2, reverse: true);
             Assert.Equal(new[] { 0, 3 }, result);
         }
+
+        [Fact]
+        public void GetterSingle_Test()
+        {
+            var tab = new PublicSearchTabModel("search");
+
+            tab.AddPostQueue(new PostClass { StatusId = 100L, TextFromApi = "abcd" }); // 0
+            tab.AddPostQueue(new PostClass { StatusId = 110L, TextFromApi = "efgh" }); // 1
+            tab.AddPostQueue(new PostClass { StatusId = 120L, TextFromApi = "ijkl" }); // 2
+
+            tab.SetSortMode(ComparerMode.Id, SortOrder.Ascending);
+            tab.AddSubmit();
+
+            Assert.Equal(100L, tab[0].StatusId);
+            Assert.Equal(120L, tab[2].StatusId);
+        }
+
+        [Fact]
+        public void GetterSingle_ErrorTest()
+        {
+            var tab = new PublicSearchTabModel("search");
+
+            tab.AddPostQueue(new PostClass { StatusId = 100L, TextFromApi = "abcd" }); // 0
+            tab.AddPostQueue(new PostClass { StatusId = 110L, TextFromApi = "efgh" }); // 1
+            tab.AddPostQueue(new PostClass { StatusId = 120L, TextFromApi = "ijkl" }); // 2
+
+            tab.SetSortMode(ComparerMode.Id, SortOrder.Ascending);
+            tab.AddSubmit();
+
+            Assert.Throws<ArgumentOutOfRangeException>(() => tab[-1]);
+            Assert.Throws<ArgumentOutOfRangeException>(() => tab[3]);
+        }
+
+        [Fact]
+        public void GetterSlice_Test()
+        {
+            var tab = new PublicSearchTabModel("search");
+
+            tab.AddPostQueue(new PostClass { StatusId = 100L, TextFromApi = "abcd" }); // 0
+            tab.AddPostQueue(new PostClass { StatusId = 110L, TextFromApi = "efgh" }); // 1
+            tab.AddPostQueue(new PostClass { StatusId = 120L, TextFromApi = "ijkl" }); // 2
+
+            tab.SetSortMode(ComparerMode.Id, SortOrder.Ascending);
+            tab.AddSubmit();
+
+            Assert.Equal(new[] { 100L, 110L, 120L }, tab[0, 2].Select(x => x.StatusId));
+            Assert.Equal(new[] { 100L }, tab[0, 0].Select(x => x.StatusId));
+            Assert.Equal(new[] { 120L }, tab[2, 2].Select(x => x.StatusId));
+        }
+
+        [Fact]
+        public void GetterSlice_ErrorTest()
+        {
+            var tab = new PublicSearchTabModel("search");
+
+            tab.AddPostQueue(new PostClass { StatusId = 100L, TextFromApi = "abcd" }); // 0
+            tab.AddPostQueue(new PostClass { StatusId = 110L, TextFromApi = "efgh" }); // 1
+            tab.AddPostQueue(new PostClass { StatusId = 120L, TextFromApi = "ijkl" }); // 2
+
+            tab.SetSortMode(ComparerMode.Id, SortOrder.Ascending);
+            tab.AddSubmit();
+
+            Assert.Throws<ArgumentOutOfRangeException>(() => tab[-2, -1]); // 範囲外 ... 範囲外
+            Assert.Throws<ArgumentOutOfRangeException>(() => tab[-1, 1]);  // 範囲外 ... 範囲内
+            Assert.Throws<ArgumentOutOfRangeException>(() => tab[2, 3]);   // 範囲内 ... 範囲外
+            Assert.Throws<ArgumentOutOfRangeException>(() => tab[3, 4]);   // 範囲外 ... 範囲外
+            Assert.Throws<ArgumentOutOfRangeException>(() => tab[-1, 3]);  // 範囲外 ... 範囲外
+
+            Assert.Throws<ArgumentException>(() => tab[2, 0]); // 範囲内だが startIndex > endIndex
+        }
     }
 
     public class TabUsageTypeExtTest
