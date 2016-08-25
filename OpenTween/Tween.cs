@@ -4819,7 +4819,7 @@ namespace OpenTween
                 return;
 
             var listCache = this._listItemCache;
-            if (listCache != null && listCache.IsSupersetOf(e.StartIndex, e.EndIndex))
+            if (listCache?.TargetList == sender && listCache.IsSupersetOf(e.StartIndex, e.EndIndex))
             {
                 // If the newly requested cache is a subset of the old cache,
                 // no need to rebuild everything, so do nothing.
@@ -4833,7 +4833,7 @@ namespace OpenTween
         private void MyList_RetrieveVirtualItem(object sender, RetrieveVirtualItemEventArgs e)
         {
             var listCache = this._listItemCache;
-            if (listCache != null && listCache.TargetList == sender)
+            if (listCache?.TargetList == sender)
             {
                 ListViewItem item;
                 PostClass cacheItemPost;
