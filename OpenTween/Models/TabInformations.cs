@@ -412,8 +412,22 @@ namespace OpenTween.Models
 
                 foreach (var removedId in removedIdsAll.Distinct())
                 {
-                    PostClass removedPost;
-                    this._statuses.TryRemove(removedId, out removedPost);
+                    var orphaned = true;
+                    foreach (var tab in this.Tabs.Values)
+                    {
+                        if (tab.Contains(removedId))
+                        {
+                            orphaned = false;
+                            break;
+                        }
+                    }
+
+                    // 全てのタブから表示されなくなった発言は this._statuses からも削除する
+                    if (orphaned)
+                    {
+                        PostClass removedPost;
+                        this._statuses.TryRemove(removedId, out removedPost);
+                    }
                 }
 
                 return addedCountTotal;

@@ -414,6 +414,39 @@ namespace OpenTween.Models
         }
 
         [Fact]
+        public void SubmitUpdate_RemoveSubmit_NotOrphaned_Test()
+        {
+            var homeTab = this.tabinfo.GetTabByType<HomeTabModel>();
+            var favTab = this.tabinfo.GetTabByType<FavoritesTabModel>();
+
+            this.tabinfo.AddPost(new PostClass { StatusId = 100L, IsFav = true });
+            this.tabinfo.DistributePosts();
+            this.tabinfo.SubmitUpdate();
+
+            Assert.Equal(1, homeTab.AllCount);
+            Assert.Equal(1, favTab.AllCount);
+
+            // favTab のみ発言を除去 (homeTab には残ったまま)
+            favTab.EnqueueRemovePost(100L, setIsDeleted: false);
+
+            // この時点ではまだ削除されない
+            Assert.Equal(1, homeTab.AllCount);
+            Assert.Equal(1, favTab.AllCount);
+
+            string soundFile;
+            PostClass[] notifyPosts;
+            bool newMentionOrDm, isDeletePost;
+            this.tabinfo.SubmitUpdate(out soundFile, out notifyPosts, out newMentionOrDm, out isDeletePost);
+
+            Assert.True(isDeletePost);
+            Assert.Equal(1, homeTab.AllCount);
+            Assert.Equal(0, favTab.AllCount);
+
+            // homeTab には発言が残っているので Posts からは削除されない
+            Assert.True(this.tabinfo.Posts.ContainsKey(100L));
+        }
+
+        [Fact]
         public void SubmitUpdate_NotifyPriorityTest()
         {
             var homeTab = this.tabinfo.GetTabByType(MyCommon.TabUsageType.Home);
