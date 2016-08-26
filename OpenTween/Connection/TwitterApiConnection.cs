@@ -52,14 +52,21 @@ namespace OpenTween.Connection
         public string AccessSecret { get; }
 
         internal HttpClient http;
+        internal HttpClient httpStreaming;
 
         public TwitterApiConnection(string accessToken, string accessSecret)
         {
             this.AccessToken = accessToken;
             this.AccessSecret = accessSecret;
 
-            this.http = InitializeHttpClient(accessToken, accessSecret);
+            this.InitializeHttpClients();
             Networking.WebProxyChanged += this.Networking_WebProxyChanged;
+        }
+
+        private void InitializeHttpClients()
+        {
+            this.http = InitializeHttpClient(this.AccessToken, this.AccessSecret, streaming: false);
+            this.httpStreaming = InitializeHttpClient(this.AccessToken, this.AccessSecret, streaming: true);
         }
 
         public async Task<T> GetAsync<T>(Uri uri, IDictionary<string, string> param, string endpointName)
@@ -118,6 +125,28 @@ namespace OpenTween.Connection
             try
             {
                 return await this.http.GetStreamAsync(requestUri)
+                    .ConfigureAwait(false);
+            }
+            catch (HttpRequestException ex)
+            {
+                throw TwitterApiException.CreateFromException(ex);
+            }
+            catch (OperationCanceledException ex)
+            {
+                throw TwitterApiException.CreateFromException(ex);
+            }
+        }
+
+        public async Task<Stream> GetStreamingStreamAsync(Uri uri, IDictionary<string, string> param)
+        {
+            var requestUri = new Uri(RestApiBase, uri);
+
+            if (param != null)
+                requestUri = new Uri(requestUri, "?" + MyCommon.BuildQueryString(param));
+
+            try
+            {
+                return await this.httpStreaming.GetStreamAsync(requestUri)
                     .ConfigureAwait(false);
             }
             catch (HttpRequestException ex)
@@ -317,6 +346,7 @@ namespace OpenTween.Connection
             {
                 Networking.WebProxyChanged -= this.Networking_WebProxyChanged;
                 this.http.Dispose();
+                this.httpStreaming.Dispose();
             }
         }
 
@@ -327,7 +357,7 @@ namespace OpenTween.Connection
 
         private void Networking_WebProxyChanged(object sender, EventArgs e)
         {
-            this.http = InitializeHttpClient(this.AccessToken, this.AccessSecret);
+            this.InitializeHttpClients();
         }
 
         public static async Task<Tuple<string, string>> GetRequestTokenAsync()
@@ -407,16 +437,16 @@ namespace OpenTween.Connection
             }
         }
 
-        private static HttpClient InitializeHttpClient(string accessToken, string accessSecret)
+        private static HttpClient InitializeHttpClient(string accessToken, string accessSecret, bool streaming = false)
         {
-            var innerHandler = Networking.CreateHttpClientHandler();
+            var innerHandler = Networking.CreateHttpClientHandler(streaming);
             innerHandler.CachePolicy = new RequestCachePolicy(RequestCacheLevel.BypassCache);
 
             var handler = new OAuthHandler(innerHandler,
                 ApplicationSettings.TwitterConsumerKey, ApplicationSettings.TwitterConsumerSecret,
                 accessToken, accessSecret);
 
-            return Networking.CreateHttpClient(handler);
+            return Networking.CreateHttpClient(handler, streaming);
         }
     }
 }

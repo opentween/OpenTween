@@ -138,11 +138,12 @@ namespace OpenTween.Connection
         /// OpenTween で必要な設定を施した HttpClientHandler インスタンスを生成します
         /// </summary>
         [SuppressMessage("Microsoft.Reliability", "CA2000:DisposeObjectsBeforeLosingScope")]
-        public static WebRequestHandler CreateHttpClientHandler()
+        public static WebRequestHandler CreateHttpClientHandler(bool streaming = false)
         {
             var handler = new WebRequestHandler
             {
-                AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate,
+                AutomaticDecompression = streaming ? DecompressionMethods.None
+                                                   : DecompressionMethods.GZip | DecompressionMethods.Deflate,
             };
 
             if (Networking.Proxy != null)
@@ -166,7 +167,7 @@ namespace OpenTween.Connection
         /// このメソッドを使用する場合は、WebProxyChanged イベントが発生する度に HttpClient を生成し直すように実装してください。
         /// </remarks>
         [SuppressMessage("Microsoft.Reliability", "CA2000:DisposeObjectsBeforeLosingScope")]
-        public static HttpClient CreateHttpClient(HttpMessageHandler handler)
+        public static HttpClient CreateHttpClient(HttpMessageHandler handler, bool streaming = false)
         {
             HttpClient client;
             if (ForceIPv4)
@@ -174,7 +175,8 @@ namespace OpenTween.Connection
             else
                 client = new HttpClient(handler);
 
-            client.Timeout = Networking.DefaultTimeout;
+            client.Timeout = streaming ? Timeout.InfiniteTimeSpan
+                                       : Networking.DefaultTimeout;
             client.DefaultRequestHeaders.Add("User-Agent", Networking.GetUserAgentString());
 
             return client;
