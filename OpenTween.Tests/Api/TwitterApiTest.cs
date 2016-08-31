@@ -1220,7 +1220,7 @@ namespace OpenTween.Api
             {
                 var mock = new Mock<IApiConnection>();
                 mock.Setup(x =>
-                    x.GetStreamAsync(
+                    x.GetStreamingStreamAsync(
                         new Uri("https://userstream.twitter.com/1.1/user.json", UriKind.Absolute),
                         new Dictionary<string, string> {
                             { "replies", "all" },
