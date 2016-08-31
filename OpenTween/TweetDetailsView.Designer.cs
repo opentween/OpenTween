@@ -174,7 +174,7 @@
             // 
             this.SearchAtPostsDetailNameToolStripMenuItem.Name = "SearchAtPostsDetailNameToolStripMenuItem";
             resources.ApplyResources(this.SearchAtPostsDetailNameToolStripMenuItem, "SearchAtPostsDetailNameToolStripMenuItem");
-            this.SearchAtPostsDetailNameToolStripMenuItem.Click += new System.EventHandler(this.SearchAtPostsDetailToolStripMenuItem_Click);
+            this.SearchAtPostsDetailNameToolStripMenuItem.Click += new System.EventHandler(this.SearchAtPostsDetailNameToolStripMenuItem_Click);
             // 
             // ToolStripMenuItem1
             // 
@@ -354,7 +354,7 @@
             // 
             this.SearchAtPostsDetailToolStripMenuItem.Name = "SearchAtPostsDetailToolStripMenuItem";
             resources.ApplyResources(this.SearchAtPostsDetailToolStripMenuItem, "SearchAtPostsDetailToolStripMenuItem");
-            this.SearchAtPostsDetailToolStripMenuItem.Click += new System.EventHandler(this.SearchAtPostsDetailNameToolStripMenuItem_Click);
+            this.SearchAtPostsDetailToolStripMenuItem.Click += new System.EventHandler(this.SearchAtPostsDetailToolStripMenuItem_Click);
             // 
             // ToolStripSeparator32
             // 
