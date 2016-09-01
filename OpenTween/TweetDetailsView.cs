@@ -92,7 +92,6 @@ namespace OpenTween
             using (ControlTransaction.Update(this.TableLayoutPanel1))
             {
                 SourceLinkLabel.Text = post.Source;
-                SourceLinkLabel.Tag = post.SourceUri;
                 SourceLinkLabel.TabStop = false; // Text を更新すると勝手に true にされる
 
                 string nameText;
@@ -112,7 +111,6 @@ namespace OpenTween
                     nameText += " (RT:" + post.RetweetedBy + ")";
 
                 NameLabel.Text = nameText;
-                NameLabel.Tag = post.ScreenName;
 
                 var nameForeColor = SystemColors.ControlText;
                 if (post.IsOwl && (SettingCommon.Instance.OneWayLove || post.IsDm))
@@ -433,10 +431,10 @@ namespace OpenTween
 
         private async void UserPicture_DoubleClick(object sender, EventArgs e)
         {
-            if (NameLabel.Tag != null)
-            {
-                await this.Owner.OpenUriInBrowserAsync(MyCommon.TwitterUrl + NameLabel.Tag);
-            }
+            if (this.CurrentPost == null)
+                return;
+
+            await this.Owner.OpenUriInBrowserAsync(MyCommon.TwitterUrl + this.CurrentPost.ScreenName);
         }
 
         private void UserPicture_MouseEnter(object sender, EventArgs e)
@@ -526,7 +524,7 @@ namespace OpenTween
 
         private async void SourceLinkLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            var sourceUri = (Uri)this.SourceLinkLabel.Tag;
+            var sourceUri = this.CurrentPost?.SourceUri;
             if (sourceUri != null && e.Button == MouseButtons.Left)
             {
                 await this.Owner.OpenUriInBrowserAsync(sourceUri.AbsoluteUri);
@@ -535,7 +533,7 @@ namespace OpenTween
 
         private void SourceLinkLabel_MouseEnter(object sender, EventArgs e)
         {
-            var sourceUri = (Uri)this.SourceLinkLabel.Tag;
+            var sourceUri = this.CurrentPost?.SourceUri;
             if (sourceUri != null)
             {
                 this.RaiseStatusChanged(MyCommon.ConvertToReadableUrl(sourceUri.AbsoluteUri));
@@ -607,10 +605,9 @@ namespace OpenTween
                 this.SaveIconPictureToolStripMenuItem.Enabled = false;
                 this.IconNameToolStripMenuItem.Text = Properties.Resources.ContextMenuStrip3_OpeningText2;
             }
-            if (NameLabel.Tag != null)
+            if (this.CurrentPost != null)
             {
-                string id = (string)NameLabel.Tag;
-                if (id == this.Owner.TwitterInstance.Username)
+                if (this.CurrentPost.UserId == this.Owner.TwitterInstance.UserId)
                 {
                     FollowToolStripMenuItem.Enabled = false;
                     UnFollowToolStripMenuItem.Enabled = false;
@@ -645,67 +642,61 @@ namespace OpenTween
 
         private async void FollowToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (NameLabel.Tag != null)
-            {
-                string id = (string)NameLabel.Tag;
-                if (id != this.Owner.TwitterInstance.Username)
-                {
-                    await this.Owner.FollowCommand(id);
-                }
-            }
+            if (this.CurrentPost == null)
+                return;
+
+            if (this.CurrentPost.UserId == this.Owner.TwitterInstance.UserId)
+                return;
+
+            await this.Owner.FollowCommand(this.CurrentPost.ScreenName);
         }
 
         private async void UnFollowToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (NameLabel.Tag != null)
-            {
-                string id = (string)NameLabel.Tag;
-                if (id != this.Owner.TwitterInstance.Username)
-                {
-                    await this.Owner.RemoveCommand(id, false);
-                }
-            }
+            if (this.CurrentPost == null)
+                return;
+
+            if (this.CurrentPost.UserId == this.Owner.TwitterInstance.UserId)
+                return;
+
+            await this.Owner.RemoveCommand(this.CurrentPost.ScreenName, false);
         }
 
         private async void ShowFriendShipToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (NameLabel.Tag != null)
-            {
-                string id = (string)NameLabel.Tag;
-                if (id != this.Owner.TwitterInstance.Username)
-                {
-                    await this.Owner.ShowFriendship(id);
-                }
-            }
+            if (this.CurrentPost == null)
+                return;
+
+            if (this.CurrentPost.UserId == this.Owner.TwitterInstance.UserId)
+                return;
+
+            await this.Owner.ShowFriendship(this.CurrentPost.ScreenName);
         }
 
         // ListManageUserContextToolStripMenuItem3.Click は ListManageUserContextToolStripMenuItem_Click を共用
 
         private async void ShowUserStatusToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (NameLabel.Tag != null)
-            {
-                string id = (string)NameLabel.Tag;
-                await this.Owner.ShowUserStatus(id, false);
-            }
+            if (this.CurrentPost == null)
+                return;
+
+            await this.Owner.ShowUserStatus(this.CurrentPost.ScreenName, false);
         }
 
         private void SearchPostsDetailNameToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (NameLabel.Tag != null)
-            {
-                string id = (string)NameLabel.Tag;
-                this.Owner.AddNewTabForUserTimeline(id);
-            }
+            if (this.CurrentPost == null)
+                return;
+
+            this.Owner.AddNewTabForUserTimeline(this.CurrentPost.ScreenName);
         }
 
         private void SearchAtPostsDetailNameToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (NameLabel.Tag != null)
-            {
-                string id = (string)NameLabel.Tag;
-                this.Owner.AddNewTabForSearch("@" + id);
-            }
+            if (this.CurrentPost == null)
+                return;
+
+            this.Owner.AddNewTabForSearch("@" + this.CurrentPost.ScreenName);
         }
 
         private async void IconNameToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1053,10 +1044,12 @@ namespace OpenTween
 
         private void SourceCopyMenuItem_Click(object sender, EventArgs e)
         {
-            string selText = SourceLinkLabel.Text;
+            if (this.CurrentPost == null)
+                return;
+
             try
             {
-                Clipboard.SetDataObject(selText, false, 5, 100);
+                Clipboard.SetDataObject(this.CurrentPost.Source, false, 5, 100);
             }
             catch (Exception ex)
             {
@@ -1066,7 +1059,10 @@ namespace OpenTween
 
         private void SourceUrlCopyMenuItem_Click(object sender, EventArgs e)
         {
-            var sourceUri = (Uri)this.SourceLinkLabel.Tag;
+            var sourceUri = this.CurrentPost?.SourceUri;
+            if (sourceUri == null)
+                return;
+
             try
             {
                 Clipboard.SetDataObject(sourceUri.AbsoluteUri, false, 5, 100);
