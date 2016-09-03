@@ -5467,74 +5467,88 @@ namespace OpenTween
         private void JumpUnreadMenuItem_Click(object sender, EventArgs e)
         {
             int bgnIdx = ListTab.TabPages.IndexOf(_curTab);
-            int idx = -1;
-            DetailsListView lst = null;
 
             if (ImageSelector.Enabled)
                 return;
 
+            TabModel foundTab = null;
+            DetailsListView lst = null;
+
             //現在タブから最終タブまで探索
             for (int i = bgnIdx; i < ListTab.TabPages.Count; i++)
             {
-                //未読Index取得
-                idx = _statuses.Tabs[ListTab.TabPages[i].Text].NextUnreadIndex;
-                if (idx > -1)
+                var tabPage = this.ListTab.TabPages[i];
+                var tab = this._statuses.Tabs[tabPage.Text];
+
+                if (tab.NextUnreadIndex != -1)
                 {
                     ListTab.SelectedIndex = i;
-                    lst = (DetailsListView)ListTab.TabPages[i].Tag;
-                    //_curTab = ListTab.TabPages[i];
+                    foundTab = tab;
+                    lst = (DetailsListView)tabPage.Tag;
                     break;
                 }
             }
 
             //未読みつからず＆現在タブが先頭ではなかったら、先頭タブから現在タブの手前まで探索
-            if (idx == -1 && bgnIdx > 0)
+            if (foundTab == null && bgnIdx > 0)
             {
                 for (int i = 0; i < bgnIdx; i++)
                 {
-                    idx = _statuses.Tabs[ListTab.TabPages[i].Text].NextUnreadIndex;
-                    if (idx > -1)
+                    var tabPage = this.ListTab.TabPages[i];
+                    var tab = this._statuses.Tabs[tabPage.Text];
+
+                    if (tab.NextUnreadIndex != -1)
                     {
                         ListTab.SelectedIndex = i;
-                        lst = (DetailsListView)ListTab.TabPages[i].Tag;
-                        //_curTab = ListTab.TabPages[i];
+                        foundTab = tab;
+                        lst = (DetailsListView)tabPage.Tag;
                         break;
                     }
                 }
             }
 
-            //全部調べたが未読見つからず→先頭タブの最新発言へ
-            if (idx == -1)
+            int idx;
+            if (foundTab != null)
             {
+                idx = foundTab.NextUnreadIndex;
+            }
+            else
+            {
+                //全部調べたが未読見つからず→先頭タブの最新発言へ
                 ListTab.SelectedIndex = 0;
-                lst = (DetailsListView)ListTab.TabPages[0].Tag;
-                //_curTab = ListTab.TabPages[0];
+                var tabPage = this.ListTab.TabPages[0];
+                var tab = this._statuses.Tabs[tabPage.Text];
+
+                if (tab.AllCount == 0)
+                    return;
+
                 if (_statuses.SortOrder == SortOrder.Ascending)
-                    idx = lst.VirtualListSize - 1;
+                    idx = tab.AllCount - 1;
                 else
                     idx = 0;
+
+                lst = (DetailsListView)tabPage.Tag;
             }
 
-            if (lst.VirtualListSize > 0 && idx > -1 && lst.VirtualListSize > idx)
+            SelectListItem(lst, idx);
+
+            if (_statuses.SortMode == ComparerMode.Id)
             {
-                SelectListItem(lst, idx);
-                if (_statuses.SortMode == ComparerMode.Id)
+                if (_statuses.SortOrder == SortOrder.Ascending && lst.Items[idx].Position.Y > lst.ClientSize.Height - _iconSz - 10 ||
+                    _statuses.SortOrder == SortOrder.Descending && lst.Items[idx].Position.Y < _iconSz + 10)
                 {
-                    if (_statuses.SortOrder == SortOrder.Ascending && lst.Items[idx].Position.Y > lst.ClientSize.Height - _iconSz - 10 ||
-                       _statuses.SortOrder == SortOrder.Descending && lst.Items[idx].Position.Y < _iconSz + 10)
-                    {
-                        MoveTop();
-                    }
-                    else
-                    {
-                        lst.EnsureVisible(idx);
-                    }
+                    MoveTop();
                 }
                 else
                 {
                     lst.EnsureVisible(idx);
                 }
             }
+            else
+            {
+                lst.EnsureVisible(idx);
+            }
+
             lst.Focus();
         }
 
@@ -6567,21 +6581,24 @@ namespace OpenTween
 
         private void GoPost(bool forward)
         {
-            if (_curList.SelectedIndices.Count == 0 || _curPost == null) return;
-            int fIdx = 0;
-            int toIdx = 0;
-            int stp = 1;
+            if (_curList.SelectedIndices.Count == 0 || _curPost == null)
+                return;
+
+            var tab = this._statuses.Tabs[this._curTab.Text];
+            var selectedIndex = this._curList.SelectedIndices[0];
+
+            int fIdx, toIdx, stp;
 
             if (forward)
             {
-                fIdx = _curList.SelectedIndices[0] + 1;
-                if (fIdx > _curList.VirtualListSize - 1) return;
-                toIdx = _curList.VirtualListSize;
+                fIdx = selectedIndex + 1;
+                if (fIdx > tab.AllCount - 1) return;
+                toIdx = tab.AllCount;
                 stp = 1;
             }
             else
             {
-                fIdx = _curList.SelectedIndices[0] - 1;
+                fIdx = selectedIndex - 1;
                 if (fIdx < 0) return;
                 toIdx = -1;
                 stp = -1;
@@ -6598,9 +6615,10 @@ namespace OpenTween
             }
             for (int idx = fIdx; idx != toIdx; idx += stp)
             {
-                if (_statuses.Tabs[_curTab.Text][idx].RetweetedId == null)
+                var post = tab[idx];
+                if (post.RetweetedId == null)
                 {
-                    if (_statuses.Tabs[_curTab.Text][idx].ScreenName == name)
+                    if (post.ScreenName == name)
                     {
                         SelectListItem(_curList, idx);
                         _curList.EnsureVisible(idx);
@@ -6609,7 +6627,7 @@ namespace OpenTween
                 }
                 else
                 {
-                    if (_statuses.Tabs[_curTab.Text][idx].RetweetedBy == name)
+                    if (post.RetweetedBy == name)
                     {
                         SelectListItem(_curList, idx);
                         _curList.EnsureVisible(idx);
@@ -6621,21 +6639,24 @@ namespace OpenTween
 
         private void GoRelPost(bool forward)
         {
-            if (_curList.SelectedIndices.Count == 0) return;
+            if (this._curList.SelectedIndices.Count == 0)
+                return;
 
-            int fIdx = 0;
-            int toIdx = 0;
-            int stp = 1;
+            var tab = this._statuses.Tabs[this._curTab.Text];
+            var selectedIndex = this._curList.SelectedIndices[0];
+
+            int fIdx, toIdx, stp;
+
             if (forward)
             {
-                fIdx = _curList.SelectedIndices[0] + 1;
-                if (fIdx > _curList.VirtualListSize - 1) return;
-                toIdx = _curList.VirtualListSize;
+                fIdx = selectedIndex + 1;
+                if (fIdx > tab.AllCount - 1) return;
+                toIdx = tab.AllCount;
                 stp = 1;
             }
             else
             {
-                fIdx = _curList.SelectedIndices[0] - 1;
+                fIdx = selectedIndex - 1;
                 if (fIdx < 0) return;
                 toIdx = -1;
                 stp = -1;
@@ -6654,7 +6675,7 @@ namespace OpenTween
 
             for (int idx = fIdx; idx != toIdx; idx += stp)
             {
-                PostClass post = _statuses.Tabs[_curTab.Text][idx];
+                var post = tab[idx];
                 if (post.ScreenName == _anchorPost.ScreenName ||
                     post.RetweetedBy == _anchorPost.ScreenName ||
                     post.ScreenName == _anchorPost.RetweetedBy ||
