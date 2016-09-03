@@ -6503,16 +6503,19 @@ namespace OpenTween
 
         private void GoSamePostToAnotherTab(bool left)
         {
-            if (_curList.VirtualListSize == 0) return;
-            int fIdx = 0;
-            int toIdx = 0;
-            int stp = 1;
-            long targetId = 0;
+            if (this._curList.SelectedIndices.Count == 0)
+                return;
 
-            if (_statuses.Tabs[_curTab.Text].TabType == MyCommon.TabUsageType.DirectMessage) return; // Directタブは対象外（見つかるはずがない）
-            if (_curList.SelectedIndices.Count == 0) return; //未選択も処理しない
+            var tab = this._statuses.Tabs[this._curTab.Text];
 
-            targetId = GetCurTabPost(_curList.SelectedIndices[0]).StatusId;
+            // Directタブは対象外（見つかるはずがない）
+            if (tab.TabType == MyCommon.TabUsageType.DirectMessage)
+                return;
+
+            var selectedIndex = this._curList.SelectedIndices[0];
+            var selectedStatusId = tab.GetStatusIdAt(selectedIndex);
+
+            int fIdx, toIdx, stp;
 
             if (left)
             {
@@ -6543,22 +6546,22 @@ namespace OpenTween
                 stp = 1;
             }
 
-            bool found = false;
             for (int tabidx = fIdx; tabidx != toIdx; tabidx += stp)
             {
-                if (_statuses.Tabs[ListTab.TabPages[tabidx].Text].TabType == MyCommon.TabUsageType.DirectMessage) continue; // Directタブは対象外
-                for (int idx = 0; idx < ((DetailsListView)ListTab.TabPages[tabidx].Tag).VirtualListSize; idx++)
+                var targetTab = this._statuses.Tabs[this.ListTab.TabPages[tabidx].Text];
+
+                // Directタブは対象外
+                if (targetTab.TabType == MyCommon.TabUsageType.DirectMessage)
+                    continue;
+
+                var foundIndex = targetTab.IndexOf(selectedStatusId);
+                if (foundIndex != -1)
                 {
-                    if (_statuses.Tabs[ListTab.TabPages[tabidx].Text][idx].StatusId == targetId)
-                    {
-                        ListTab.SelectedIndex = tabidx;
-                        SelectListItem(_curList, idx);
-                        _curList.EnsureVisible(idx);
-                        found = true;
-                        break;
-                    }
+                    ListTab.SelectedIndex = tabidx;
+                    SelectListItem(_curList, foundIndex);
+                    _curList.EnsureVisible(foundIndex);
+                    return;
                 }
-                if (found) break;
             }
         }
 
