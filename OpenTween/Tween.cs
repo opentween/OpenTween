@@ -8687,8 +8687,8 @@ namespace OpenTween
             {
                 if (tb.Text == tabName)
                 {
-                    tb.ImageIndex = -1;
                     ((DetailsListView)tb.Tag).VirtualListSize = 0;
+                    tb.ImageIndex = -1;
                     break;
                 }
             }
