@@ -96,13 +96,13 @@ namespace OpenTween
             }
         }
 
-        private void TwitterApiStatus_AccessLimitUpdated(object sender, EventArgs e)
+        private async void TwitterApiStatus_AccessLimitUpdated(object sender, EventArgs e)
         {
             try
             {
                 if (this.InvokeRequired && !this.IsDisposed)
                 {
-                    this.Invoke((MethodInvoker)(() => this.TwitterApiStatus_AccessLimitUpdated(sender, e)));
+                    await this.InvokeAsync(() => this.TwitterApiStatus_AccessLimitUpdated(sender, e));
                 }
                 else
                 {

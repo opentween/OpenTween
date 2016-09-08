@@ -68,12 +68,16 @@ namespace OpenTween
         }
 
         public Task InvokeAsync(Action x)
-        {
-            return this.InvokeAsync<object>(() => { x(); return null; });
-        }
+            => this.InvokeAsync(new Func<int>(() => { x(); return 0; }));
+
+        public Task InvokeAsync(Func<Task> x)
+            => this.InvokeAsync<Task>(x).Unwrap();
+
+        public Task<T> InvokeAsync<T>(Func<Task<T>> x)
+            => this.InvokeAsync<Task<T>>(x).Unwrap();
 
         /// <summary>
-        /// Control.InvokeメソッドのTask版みたいなやつ
+        /// <see cref="Control.Invoke"/> メソッドのTask版みたいなやつ
         /// </summary>
         public Task<T> InvokeAsync<T>(Func<T> x)
         {

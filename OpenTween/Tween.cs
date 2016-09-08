@@ -11569,23 +11569,23 @@ namespace OpenTween
         }
 
 #region "Userstream"
-        private void tw_PostDeleted(object sender, PostDeletedEventArgs e)
+        private async void tw_PostDeleted(object sender, PostDeletedEventArgs e)
         {
             try
             {
                 if (InvokeRequired && !IsDisposed)
                 {
-                    Invoke((Action) (async () =>
-                           {
-                               this._statuses.RemovePostFromAllTabs(e.StatusId, setIsDeleted: true);
-                               if (_curTab != null && _statuses.Tabs[_curTab.Text].Contains(e.StatusId))
-                               {
-                                   this.PurgeListViewItemCache();
-                                   ((DetailsListView)_curTab.Tag).Update();
-                                   if (_curPost != null && _curPost.StatusId == e.StatusId)
-                                       await this.DispSelectedPost(true);
-                               }
-                           }));
+                    await this.InvokeAsync(async () =>
+                    {
+                        this._statuses.RemovePostFromAllTabs(e.StatusId, setIsDeleted: true);
+                        if (_curTab != null && _statuses.Tabs[_curTab.Text].Contains(e.StatusId))
+                        {
+                            this.PurgeListViewItemCache();
+                            ((DetailsListView)_curTab.Tag).Update();
+                            if (_curPost != null && _curPost.StatusId == e.StatusId)
+                                await this.DispSelectedPost(true);
+                        }
+                    });
                     return;
                 }
             }
@@ -11627,13 +11627,13 @@ namespace OpenTween
             }
         }
 
-        private void tw_UserStreamStarted(object sender, EventArgs e)
+        private async void tw_UserStreamStarted(object sender, EventArgs e)
         {
             try
             {
                 if (InvokeRequired && !IsDisposed)
                 {
-                    Invoke((Action)(() => this.tw_UserStreamStarted(sender, e)));
+                    await this.InvokeAsync(() => this.tw_UserStreamStarted(sender, e));
                     return;
                 }
             }
@@ -11652,13 +11652,13 @@ namespace OpenTween
             StatusLabel.Text = "UserStream Started.";
         }
 
-        private void tw_UserStreamStopped(object sender, EventArgs e)
+        private async void tw_UserStreamStopped(object sender, EventArgs e)
         {
             try
             {
                 if (InvokeRequired && !IsDisposed)
                 {
-                    Invoke((Action)(() => this.tw_UserStreamStopped(sender, e)));
+                    await this.InvokeAsync(() => this.tw_UserStreamStopped(sender, e));
                     return;
                 }
             }
@@ -11691,13 +11691,13 @@ namespace OpenTween
             }
         }
 
-        private void tw_UserStreamEventArrived(object sender, UserStreamEventReceivedEventArgs e)
+        private async void tw_UserStreamEventArrived(object sender, UserStreamEventReceivedEventArgs e)
         {
             try
             {
                 if (InvokeRequired && !IsDisposed)
                 {
-                    Invoke((Action)(() => this.tw_UserStreamEventArrived(sender, e)));
+                    await this.InvokeAsync(() => this.tw_UserStreamEventArrived(sender, e));
                     return;
                 }
             }
@@ -12029,11 +12029,11 @@ namespace OpenTween
             await this.OpenUserAppointUrl();
         }
 
-        private void GrowlHelper_Callback(object sender, GrowlHelper.NotifyCallbackEventArgs e)
+        private async void GrowlHelper_Callback(object sender, GrowlHelper.NotifyCallbackEventArgs e)
         {
             if (Form.ActiveForm == null)
             {
-                this.BeginInvoke((Action) (() =>
+                await this.InvokeAsync(() =>
                 {
                     this.Visible = true;
                     if (this.WindowState == FormWindowState.Minimized) this.WindowState = FormWindowState.Normal;
@@ -12047,7 +12047,7 @@ namespace OpenTween
                     {
                         if (!this.GoStatus(e.StatusId)) this.StatusText.Focus();
                     }
-                }));
+                });
             }
         }
 
