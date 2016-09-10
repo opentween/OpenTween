@@ -334,16 +334,11 @@ namespace OpenTween
             this.CheckAccountState();
 
             //データ部分の生成
-            var target = id;
             var post = TabInformations.GetInstance()[id];
             if (post == null)
-            {
                 throw new WebApiException("Err:Target isn't found.");
-            }
-            if (TabInformations.GetInstance()[id].RetweetedId != null)
-            {
-                target = TabInformations.GetInstance()[id].RetweetedId.Value; //再RTの場合は元発言をRT
-            }
+
+            var target = post.RetweetedId ?? id;  //再RTの場合は元発言をRT
 
             var response = await this.Api.StatusesRetweet(target)
                 .ConfigureAwait(false);
@@ -351,20 +346,20 @@ namespace OpenTween
             var status = await response.LoadJsonAsync()
                 .ConfigureAwait(false);
 
-            //ReTweetしたものをTLに追加
-            post = CreatePostsFromStatusData(status);
-            if (post == null)
-                throw new WebApiException("Invalid Json!");
-
             //二重取得回避
             lock (LockObj)
             {
-                if (TabInformations.GetInstance().ContainsKey(post.StatusId))
+                if (TabInformations.GetInstance().ContainsKey(status.Id))
                     return;
             }
+
             //Retweet判定
-            if (post.RetweetedId == null)
+            if (status.RetweetedStatus == null)
                 throw new WebApiException("Invalid Json!");
+
+            //ReTweetしたものをTLに追加
+            post = CreatePostsFromStatusData(status);
+            
             //ユーザー情報
             post.IsMe = true;
 
@@ -615,8 +610,6 @@ namespace OpenTween
                 .ConfigureAwait(false);
 
             var item = CreatePostsFromStatusData(status);
-            if (item == null)
-                throw new WebApiException("Err:Can't create post");
 
             item.IsRead = read;
             if (item.IsMe && !read && _readOwnPost) item.IsRead = true;
@@ -834,34 +827,31 @@ namespace OpenTween
 
             foreach (var status in items)
             {
-                PostClass post = null;
-                post = CreatePostsFromStatusData(status);
-                if (post == null) continue;
-
-                if (minimumId == null || minimumId.Value > post.StatusId)
-                    minimumId = post.StatusId;
+                if (minimumId == null || minimumId.Value > status.Id)
+                    minimumId = status.Id;
 
                 //二重取得回避
                 lock (LockObj)
                 {
                     if (tab == null)
                     {
-                        if (TabInformations.GetInstance().ContainsKey(post.StatusId)) continue;
+                        if (TabInformations.GetInstance().ContainsKey(status.Id)) continue;
                     }
                     else
                     {
-                        if (tab.Contains(post.StatusId)) continue;
+                        if (tab.Contains(status.Id)) continue;
                     }
                 }
 
                 //RT禁止ユーザーによるもの
                 if (gType != MyCommon.WORKERTYPE.UserTimeline &&
-                    post.RetweetedByUserId != null && this.noRTId.Contains(post.RetweetedByUserId.Value)) continue;
+                    status.RetweetedStatus != null && this.noRTId.Contains(status.User.Id)) continue;
+
+                var post = CreatePostsFromStatusData(status);
 
                 post.IsRead = read;
                 if (post.IsMe && !read && _readOwnPost) post.IsRead = true;
 
-                //非同期アイコン取得＆StatusDictionaryに追加
                 if (tab != null && tab.IsInnerStorageTabType)
                     tab.AddPostQueue(post);
                 else
@@ -875,28 +865,26 @@ namespace OpenTween
         {
             long? minimumId = null;
 
-            foreach (var result in items.Statuses)
+            foreach (var status in items.Statuses)
             {
-                var post = CreatePostsFromStatusData(result);
-                if (post == null)
-                    continue;
+                if (minimumId == null || minimumId.Value > status.Id)
+                    minimumId = status.Id;
 
-                if (minimumId == null || minimumId.Value > post.StatusId)
-                    minimumId = post.StatusId;
-
-                if (!more && post.StatusId > tab.SinceId) tab.SinceId = post.StatusId;
+                if (!more && status.Id > tab.SinceId) tab.SinceId = status.Id;
                 //二重取得回避
                 lock (LockObj)
                 {
                     if (tab == null)
                     {
-                        if (TabInformations.GetInstance().ContainsKey(post.StatusId)) continue;
+                        if (TabInformations.GetInstance().ContainsKey(status.Id)) continue;
                     }
                     else
                     {
-                        if (tab.Contains(post.StatusId)) continue;
+                        if (tab.Contains(status.Id)) continue;
                     }
                 }
+
+                var post = CreatePostsFromStatusData(status);
 
                 post.IsRead = read;
                 if ((post.IsMe && !read) && this._readOwnPost) post.IsRead = true;
@@ -911,11 +899,11 @@ namespace OpenTween
             return minimumId;
         }
 
-        private void CreateFavoritePostsFromJson(TwitterStatus[] item, bool read)
+        private void CreateFavoritePostsFromJson(TwitterStatus[] items, bool read)
         {
             var favTab = TabInformations.GetInstance().GetTabByType(MyCommon.TabUsageType.Favorites);
 
-            foreach (var status in item)
+            foreach (var status in items)
             {
                 //二重取得回避
                 lock (LockObj)
@@ -924,7 +912,6 @@ namespace OpenTween
                 }
 
                 var post = CreatePostsFromStatusData(status, true);
-                if (post == null) continue;
 
                 post.IsRead = read;
 
