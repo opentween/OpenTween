@@ -861,7 +861,7 @@ namespace OpenTween
             return minimumId;
         }
 
-        private long? CreatePostsFromSearchJson(TwitterSearchResult items, TabModel tab, bool read, int count, bool more)
+        private long? CreatePostsFromSearchJson(TwitterSearchResult items, PublicSearchTabModel tab, bool read, bool more)
         {
             long? minimumId = null;
 
@@ -874,14 +874,7 @@ namespace OpenTween
                 //二重取得回避
                 lock (LockObj)
                 {
-                    if (tab == null)
-                    {
-                        if (TabInformations.GetInstance().ContainsKey(status.Id)) continue;
-                    }
-                    else
-                    {
-                        if (tab.Contains(status.Id)) continue;
-                    }
+                    if (tab.Contains(status.Id)) continue;
                 }
 
                 var post = CreatePostsFromStatusData(status);
@@ -889,11 +882,7 @@ namespace OpenTween
                 post.IsRead = read;
                 if ((post.IsMe && !read) && this._readOwnPost) post.IsRead = true;
 
-                //非同期アイコン取得＆StatusDictionaryに追加
-                if (tab != null && tab.IsInnerStorageTabType)
-                    tab.AddPostQueue(post);
-                else
-                    TabInformations.GetInstance().AddPost(post);
+                tab.AddPostQueue(post);
             }
 
             return minimumId;
@@ -1078,7 +1067,7 @@ namespace OpenTween
             if (!TabInformations.GetInstance().ContainsTab(tab))
                 return;
 
-            var minimumId = this.CreatePostsFromSearchJson(searchResult, tab, read, count, more);
+            var minimumId = this.CreatePostsFromSearchJson(searchResult, tab, read, more);
 
             if (minimumId != null)
                 tab.OldestId = minimumId.Value;
