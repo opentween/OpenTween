@@ -3474,14 +3474,25 @@ namespace OpenTween
                         }
                         else
                         {
-                            if (post.RetweetedId != null && post.UserId == this.tw.UserId)
-                                // 他人に RT された自分のツイート
-                                await this.twitterApi.StatusesDestroy(post.RetweetedId.Value)
-                                    .IgnoreResponse();
-                            else
-                                // 自分のツイート or 自分が RT したツイート
+                            if (post.RetweetedByUserId == this.tw.UserId)
+                                // 自分が RT したツイート (自分が RT した自分のツイートも含む)
+                                //   => RT を取り消し
                                 await this.twitterApi.StatusesDestroy(post.StatusId)
                                     .IgnoreResponse();
+
+                            if (post.UserId == this.tw.UserId)
+                            {
+                                if (post.RetweetedId != null)
+                                    // 他人に RT された自分のツイート
+                                    //   => RT 元の自分のツイートを削除
+                                    await this.twitterApi.StatusesDestroy(post.RetweetedId.Value)
+                                        .IgnoreResponse();
+                                else
+                                    // 自分のツイート
+                                    //   => ツイートを削除
+                                    await this.twitterApi.StatusesDestroy(post.StatusId)
+                                        .IgnoreResponse();
+                            }
                         }
                     }
                     catch (WebApiException ex)
