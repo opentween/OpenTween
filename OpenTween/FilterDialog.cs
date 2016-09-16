@@ -1093,12 +1093,14 @@ namespace OpenTween
         {
             if (ListTabs.SelectedIndex > -1 && !string.IsNullOrEmpty(ListTabs.SelectedItem.ToString()))
             {
-                string tb = ListTabs.SelectedItem.ToString();
                 int idx = ListTabs.SelectedIndex;
-                if (((TweenMain)this.Owner).TabRename(ref tb))
+
+                var origTabName = (string)this.ListTabs.SelectedItem;
+                string newTabName;
+                if (((TweenMain)this.Owner).TabRename(origTabName, out newTabName))
                 {
                     ListTabs.Items.RemoveAt(idx);
-                    ListTabs.Items.Insert(idx, tb);
+                    ListTabs.Items.Insert(idx, newTabName);
                     ListTabs.SelectedIndex = idx;
                 }
             }

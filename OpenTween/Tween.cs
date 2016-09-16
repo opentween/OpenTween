@@ -7422,26 +7422,26 @@ namespace OpenTween
             this.TopMost = this._cfgCommon.AlwaysTop;
         }
 
-        public bool TabRename(ref string tabName)
+        public bool TabRename(string origTabName, out string newTabName)
         {
             //タブ名変更
-            string newTabText = null;
+            newTabName = null;
             using (InputTabName inputName = new InputTabName())
             {
-                inputName.TabName = tabName;
+                inputName.TabName = origTabName;
                 inputName.ShowDialog();
                 if (inputName.DialogResult == DialogResult.Cancel) return false;
-                newTabText = inputName.TabName;
+                newTabName = inputName.TabName;
             }
             this.TopMost = this._cfgCommon.AlwaysTop;
-            if (!string.IsNullOrEmpty(newTabText))
+            if (!string.IsNullOrEmpty(newTabName))
             {
                 //新タブ名存在チェック
                 for (int i = 0; i < ListTab.TabCount; i++)
                 {
-                    if (ListTab.TabPages[i].Text == newTabText)
+                    if (ListTab.TabPages[i].Text == newTabName)
                     {
-                        string tmp = string.Format(Properties.Resources.Tabs_DoubleClickText1, newTabText);
+                        string tmp = string.Format(Properties.Resources.Tabs_DoubleClickText1, newTabName);
                         MessageBox.Show(tmp, Properties.Resources.Tabs_DoubleClickText2, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                         return false;
                     }
@@ -7449,18 +7449,17 @@ namespace OpenTween
                 //タブ名を変更
                 for (int i = 0; i < ListTab.TabCount; i++)
                 {
-                    if (ListTab.TabPages[i].Text == tabName)
+                    if (ListTab.TabPages[i].Text == origTabName)
                     {
-                        ListTab.TabPages[i].Text = newTabText;
+                        ListTab.TabPages[i].Text = newTabName;
                         break;
                     }
                 }
-                _statuses.RenameTab(tabName, newTabText);
+                _statuses.RenameTab(origTabName, newTabName);
 
                 SaveConfigsCommon();
                 SaveConfigsTabs();
-                _rclickTabName = newTabText;
-                tabName = newTabText;
+                _rclickTabName = newTabName;
                 return true;
             }
             else
@@ -7487,8 +7486,8 @@ namespace OpenTween
 
         private void ListTab_DoubleClick(object sender, MouseEventArgs e)
         {
-            string tn = ListTab.SelectedTab.Text;
-            TabRename(ref tn);
+            string _;
+            TabRename(this.ListTab.SelectedTab.Text, out _);
         }
 
         private void ListTab_MouseDown(object sender, MouseEventArgs e)
@@ -10267,7 +10266,9 @@ namespace OpenTween
         private void TabRenameMenuItem_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(_rclickTabName)) return;
-            TabRename(ref _rclickTabName);
+
+            string _;
+            TabRename(_rclickTabName, out _);
         }
 
         private async void BitlyToolStripMenuItem_Click(object sender, EventArgs e)
