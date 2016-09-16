@@ -7446,15 +7446,26 @@ namespace OpenTween
                         return false;
                     }
                 }
-                //タブ名を変更
-                for (int i = 0; i < ListTab.TabCount; i++)
+
+                var tabPage = this.ListTab.TabPages.Cast<TabPage>()
+                    .First(x => x.Text == origTabName);
+
+                ListViewScroll scrollInfo;
+                if (this.listViewScroll.TryGetValue(origTabName, out scrollInfo))
                 {
-                    if (ListTab.TabPages[i].Text == origTabName)
-                    {
-                        ListTab.TabPages[i].Text = newTabName;
-                        break;
-                    }
+                    this.listViewScroll.Remove(origTabName);
+                    this.listViewScroll[newTabName] = scrollInfo;
                 }
+
+                ListViewSelection selectionInfo;
+                if (this.listViewSelection.TryGetValue(origTabName, out selectionInfo))
+                {
+                    this.listViewSelection.Remove(origTabName);
+                    this.listViewSelection[newTabName] = selectionInfo;
+                }
+
+                //タブ名を変更
+                tabPage.Text = newTabName;
                 _statuses.RenameTab(origTabName, newTabName);
 
                 SaveConfigsCommon();
