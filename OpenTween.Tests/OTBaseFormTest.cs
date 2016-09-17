@@ -34,6 +34,16 @@ namespace OpenTween
     {
         private class TestForm : OTBaseForm { }
 
+        public OTBaseFormTest()
+        {
+            this.SetupSynchronizationContext();
+        }
+
+        protected void SetupSynchronizationContext()
+        {
+            WindowsFormsSynchronizationContext.AutoInstall = false;
+        }
+
         [Fact]
         public async Task InvokeAsync_Test()
         {
