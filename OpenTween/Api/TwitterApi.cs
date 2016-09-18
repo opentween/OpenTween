@@ -219,6 +219,24 @@ namespace OpenTween.Api
             return this.apiConnection.GetAsync<TwitterLists>(endpoint, param, "/lists/subscriptions");
         }
 
+        public Task<TwitterLists> ListsMemberships(string screenName, long? cursor = null, int? count = null, bool? filterToOwnedLists = null)
+        {
+            var endpoint = new Uri("lists/memberships.json", UriKind.Relative);
+            var param = new Dictionary<string, string>
+            {
+                ["screen_name"] = screenName,
+            };
+
+            if (cursor != null)
+                param["cursor"] = cursor.ToString();
+            if (count != null)
+                param["count"] = count.ToString();
+            if (filterToOwnedLists != null)
+                param["filter_to_owned_lists"] = filterToOwnedLists.Value ? "true" : "false";
+
+            return this.apiConnection.GetAsync<TwitterLists>(endpoint, param, "/lists/memberships");
+        }
+
         public Task<LazyJson<TwitterList>> ListsCreate(string name, string description = null, bool? @private = null)
         {
             var endpoint = new Uri("lists/create.json", UriKind.Relative);

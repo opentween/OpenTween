@@ -367,6 +367,34 @@ namespace OpenTween.Api
         }
 
         [Fact]
+        public async Task ListsMemberships_Test()
+        {
+            using (var twitterApi = new TwitterApi())
+            {
+                var mock = new Mock<IApiConnection>();
+                mock.Setup(x =>
+                    x.GetAsync<TwitterLists>(
+                        new Uri("lists/memberships.json", UriKind.Relative),
+                        new Dictionary<string, string> {
+                            { "screen_name", "twitterapi" },
+                            { "cursor", "-1" },
+                            { "count", "100" },
+                            { "filter_to_owned_lists", "true" },
+                        },
+                        "/lists/memberships")
+                )
+                .ReturnsAsync(new TwitterLists());
+
+                twitterApi.apiConnection = mock.Object;
+
+                await twitterApi.ListsMemberships("twitterapi", cursor: -1L, count: 100, filterToOwnedLists: true)
+                    .ConfigureAwait(false);
+
+                mock.VerifyAll();
+            }
+        }
+
+        [Fact]
         public async Task ListsCreate_Test()
         {
             using (var twitterApi = new TwitterApi())
