@@ -1398,11 +1398,13 @@ namespace OpenTween
         {
             this.CheckAccountState();
 
-            var ownedLists = await TwitterLists.GetAllItemsAsync(x => this.Api.ListsOwnerships(this.Username, cursor: x))
-                .ConfigureAwait(false);
+            var ownedLists = await TwitterLists.GetAllItemsAsync(x =>
+                this.Api.ListsOwnerships(this.Username, cursor: x, count: 1000))
+                    .ConfigureAwait(false);
 
-            var subscribedLists = await TwitterLists.GetAllItemsAsync(x => this.Api.ListsSubscriptions(this.Username, cursor: x))
-                .ConfigureAwait(false);
+            var subscribedLists = await TwitterLists.GetAllItemsAsync(x =>
+                this.Api.ListsSubscriptions(this.Username, cursor: x, count: 1000))
+                    .ConfigureAwait(false);
 
             TabInformations.GetInstance().SubscribableLists = Enumerable.Concat(ownedLists, subscribedLists)
                 .Select(x => new ListElement(x, this))

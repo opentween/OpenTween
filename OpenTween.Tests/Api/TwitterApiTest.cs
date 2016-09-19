@@ -324,6 +324,7 @@ namespace OpenTween.Api
                         new Dictionary<string, string> {
                             { "screen_name", "twitterapi" },
                             { "cursor", "-1" },
+                            { "count", "100" },
                         },
                         "/lists/ownerships")
                 )
@@ -331,7 +332,7 @@ namespace OpenTween.Api
 
                 twitterApi.apiConnection = mock.Object;
 
-                await twitterApi.ListsOwnerships("twitterapi", cursor: -1L)
+                await twitterApi.ListsOwnerships("twitterapi", cursor: -1L, count: 100)
                     .ConfigureAwait(false);
 
                 mock.VerifyAll();
@@ -350,6 +351,7 @@ namespace OpenTween.Api
                         new Dictionary<string, string> {
                             { "screen_name", "twitterapi" },
                             { "cursor", "-1" },
+                            { "count", "100" },
                         },
                         "/lists/subscriptions")
                 )
@@ -357,7 +359,7 @@ namespace OpenTween.Api
 
                 twitterApi.apiConnection = mock.Object;
 
-                await twitterApi.ListsSubscriptions("twitterapi", cursor: -1L)
+                await twitterApi.ListsSubscriptions("twitterapi", cursor: -1L, count: 100)
                     .ConfigureAwait(false);
 
                 mock.VerifyAll();

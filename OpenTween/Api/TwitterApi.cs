@@ -187,7 +187,7 @@ namespace OpenTween.Api
             return this.apiConnection.GetAsync<TwitterSearchResult>(endpoint, param, "/search/tweets");
         }
 
-        public Task<TwitterLists> ListsOwnerships(string screenName, long? cursor = null)
+        public Task<TwitterLists> ListsOwnerships(string screenName, long? cursor = null, int? count = null)
         {
             var endpoint = new Uri("lists/ownerships.json", UriKind.Relative);
             var param = new Dictionary<string, string>
@@ -197,11 +197,13 @@ namespace OpenTween.Api
 
             if (cursor != null)
                 param["cursor"] = cursor.ToString();
+            if (count != null)
+                param["count"] = count.ToString();
 
             return this.apiConnection.GetAsync<TwitterLists>(endpoint, param, "/lists/ownerships");
         }
 
-        public Task<TwitterLists> ListsSubscriptions(string screenName, long? cursor = null)
+        public Task<TwitterLists> ListsSubscriptions(string screenName, long? cursor = null, int? count = null)
         {
             var endpoint = new Uri("lists/subscriptions.json", UriKind.Relative);
             var param = new Dictionary<string, string>
@@ -211,6 +213,8 @@ namespace OpenTween.Api
 
             if (cursor != null)
                 param["cursor"] = cursor.ToString();
+            if (count != null)
+                param["count"] = count.ToString();
 
             return this.apiConnection.GetAsync<TwitterLists>(endpoint, param, "/lists/subscriptions");
         }
