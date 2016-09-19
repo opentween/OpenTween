@@ -45,7 +45,7 @@
             // 
             this.MenuItemReload.Name = "MenuItemReload";
             resources.ApplyResources(this.MenuItemReload, "MenuItemReload");
-            this.MenuItemReload.Click += new System.EventHandler(this.更新RToolStripMenuItem_Click);
+            this.MenuItemReload.Click += new System.EventHandler(this.MenuItemReload_Click);
             // 
             // ListRefreshButton
             // 
@@ -57,7 +57,6 @@
             // ListsCheckedListBox
             // 
             resources.ApplyResources(this.ListsCheckedListBox, "ListsCheckedListBox");
-            this.ListsCheckedListBox.CheckOnClick = true;
             this.ListsCheckedListBox.ContextMenuStrip = this.ContextMenuStrip1;
             this.ListsCheckedListBox.FormattingEnabled = true;
             this.ListsCheckedListBox.Name = "ListsCheckedListBox";
@@ -79,13 +78,13 @@
             // 
             this.MenuItemAdd.Name = "MenuItemAdd";
             resources.ApplyResources(this.MenuItemAdd, "MenuItemAdd");
-            this.MenuItemAdd.Click += new System.EventHandler(this.追加AToolStripMenuItem_Click);
+            this.MenuItemAdd.Click += new System.EventHandler(this.MenuItemAdd_Click);
             // 
             // MenuItemDelete
             // 
             this.MenuItemDelete.Name = "MenuItemDelete";
             resources.ApplyResources(this.MenuItemDelete, "MenuItemDelete");
-            this.MenuItemDelete.Click += new System.EventHandler(this.削除DToolStripMenuItem_Click);
+            this.MenuItemDelete.Click += new System.EventHandler(this.MenuItemDelete_Click);
             // 
             // ToolStripMenuItem1
             // 

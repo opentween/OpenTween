@@ -31,192 +31,143 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Forms;
-using OpenTween.Models;
+using OpenTween.Api;
+using OpenTween.Api.DataModel;
 
 namespace OpenTween
 {
     public partial class MyLists : OTBaseForm
     {
-        private string contextUserName;
-        private Twitter _tw;
+        private readonly TwitterApi twitterApi;
+        private readonly string contextScreenName;
+
+        /// <summary>自分が所有しているリスト</summary>
+        private ListElement[] ownedLists = new ListElement[0];
+
+        /// <summary>操作対象のユーザーが追加されているリストのID</summary>
+        private long[] addedListIds = new long[0];
 
         public MyLists()
         {
             InitializeComponent();
         }
 
-        public MyLists(string userName, Twitter tw)
+        public MyLists(string screenName, TwitterApi twitterApi)
         {
             this.InitializeComponent();
 
-            this.contextUserName = userName;
-            this._tw = tw;
+            this.twitterApi = twitterApi;
+            this.contextScreenName = screenName;
 
-            this.Text = this.contextUserName + Properties.Resources.MyLists1;
+            this.Text = screenName + Properties.Resources.MyLists1;
         }
 
-        private void MyLists_Load(object sender, EventArgs e)
+        private async Task RefreshListBox()
         {
-            this.ListsCheckedListBox.ItemCheck -= this.ListsCheckedListBox_ItemCheck;
-
-            this.ListsCheckedListBox.Items.AddRange(TabInformations.GetInstance().SubscribableLists.FindAll((item) => item.Username == this._tw.Username).ToArray());
-
-            for (int i = 0; i < this.ListsCheckedListBox.Items.Count; i++)
+            using (var dialog = new WaitingDialog(Properties.Resources.ListsGetting))
             {
-                ListElement listItem = (ListElement)this.ListsCheckedListBox.Items[i];
+                var cancellationToken = dialog.EnableCancellation();
 
-                List<PostClass> listPost = new List<PostClass>();
-                List<PostClass> otherPost = new List<PostClass>();
+                var task = Task.Run(() => this.FetchMembershipListIds());
+                await dialog.WaitForAsync(this, task);
 
-                foreach (var tab in TabInformations.GetInstance().GetTabsByType<ListTimelineTabModel>())
-                {
-                    if (listItem.Id == tab.ListInfo.Id)
-                        listPost.AddRange(tab.Posts.Values);
-                    else
-                        otherPost.AddRange(tab.Posts.Values);
-                }
-
-                //リストが空の場合は推定不能
-                if (listPost.Count == 0)
-                {
-                    this.ListsCheckedListBox.SetItemCheckState(i, CheckState.Indeterminate);
-                    continue;
-                }
-
-                //リストに該当ユーザーのポストが含まれていれば、リストにユーザーが含まれているとする。
-                if (listPost.Exists((item) => item.ScreenName == contextUserName))
-                {
-                    this.ListsCheckedListBox.SetItemChecked(i, true);
-                    continue;
-                }
-
-                List<long> listPostUserIDs = new List<long>();
-                List<string> listPostUserNames = new List<string>();
-                DateTime listOlderPostCreatedAt = DateTime.MaxValue;
-                DateTime listNewistPostCreatedAt = DateTime.MinValue;
-
-                foreach (PostClass post in listPost)
-                {
-                    if (post.UserId > 0 && !listPostUserIDs.Contains(post.UserId))
-                    {
-                        listPostUserIDs.Add(post.UserId);
-                    }
-                    if (post.ScreenName != null && !listPostUserNames.Contains(post.ScreenName))
-                    {
-                        listPostUserNames.Add(post.ScreenName);
-                    }
-                    if (post.CreatedAt < listOlderPostCreatedAt)
-                    {
-                        listOlderPostCreatedAt = post.CreatedAt;
-                    }
-                    if (post.CreatedAt > listNewistPostCreatedAt)
-                    {
-                        listNewistPostCreatedAt = post.CreatedAt;
-                    }
-                }
-
-                //リスト中のユーザーの人数がlistItem.MemberCount以上で、かつ該当のユーザーが含まれていなければ、リストにユーザーは含まれていないとする。
-                if (listItem.MemberCount > 0 && listItem.MemberCount <= listPostUserIDs.Count && (!listPostUserNames.Contains(contextUserName)))
-                {
-                    this.ListsCheckedListBox.SetItemChecked(i, false);
-                    continue;
-                }
-
-                otherPost.AddRange(TabInformations.GetInstance().Posts.Values);
-
-                //リストに該当ユーザーのポストが含まれていないのにリスト以外で取得したポストの中にリストに含まれるべきポストがある場合は、リストにユーザーは含まれていないとする。
-                if (otherPost.Exists((item) => (item.ScreenName == this.contextUserName) && (item.CreatedAt > listOlderPostCreatedAt) && (item.CreatedAt < listNewistPostCreatedAt) && ((!item.IsReply) || listPostUserNames.Contains(item.InReplyToUser))))
-                {
-                    this.ListsCheckedListBox.SetItemChecked(i, false);
-                    continue;
-                }
-
-                this.ListsCheckedListBox.SetItemCheckState(i, CheckState.Indeterminate);
+                cancellationToken.ThrowIfCancellationRequested();
             }
 
-            this.ListsCheckedListBox.ItemCheck += this.ListsCheckedListBox_ItemCheck;
+            using (ControlTransaction.Update(this.ListsCheckedListBox))
+            {
+                this.ListsCheckedListBox.Items.Clear();
+
+                foreach (var list in this.ownedLists)
+                {
+                    var added = this.addedListIds.Contains(list.Id);
+                    this.ListsCheckedListBox.Items.Add(list, isChecked: added);
+                }
+            }
         }
 
-        private async void ListRefreshButton_Click(object sender, EventArgs e)
+        private async Task FetchMembershipListIds()
+        {
+            var ownedListData = await TwitterLists.GetAllItemsAsync(x =>
+                this.twitterApi.ListsOwnerships(this.twitterApi.CurrentScreenName, cursor: x, count: 1000))
+                    .ConfigureAwait(false);
+
+            this.ownedLists = ownedListData.Select(x => new ListElement(x, null)).ToArray();
+
+            var listsUserAddedTo = await TwitterLists.GetAllItemsAsync(x =>
+                this.twitterApi.ListsMemberships(this.contextScreenName, cursor: x, count: 1000, filterToOwnedLists: true))
+                    .ConfigureAwait(false);
+
+            this.addedListIds = listsUserAddedTo.Select(x => x.Id).ToArray();
+        }
+
+        private async Task AddToList(ListElement list)
+        {
+            try
+            {
+                await this.twitterApi.ListsMembersCreate(list.Id, this.contextScreenName);
+
+                var index = this.ListsCheckedListBox.Items.IndexOf(list);
+                this.ListsCheckedListBox.SetItemCheckState(index, CheckState.Checked);
+            }
+            catch (WebApiException ex)
+            {
+                MessageBox.Show(string.Format(Properties.Resources.ListManageOKButton2, ex.Message));
+            }
+        }
+
+        private async Task RemoveFromList(ListElement list)
+        {
+            try
+            {
+                await this.twitterApi.ListsMembersDestroy(list.Id, this.contextScreenName);
+
+                var index = this.ListsCheckedListBox.Items.IndexOf(list);
+                this.ListsCheckedListBox.SetItemCheckState(index, CheckState.Unchecked);
+            }
+            catch (WebApiException ex)
+            {
+                MessageBox.Show(string.Format(Properties.Resources.ListManageOKButton2, ex.Message));
+            }
+        }
+
+        private async void MyLists_Load(object sender, EventArgs e)
         {
             using (ControlTransaction.Disabled(this))
             {
                 try
                 {
-                    await this._tw.GetListsApi();
+                    await this.RefreshListBox();
+                }
+                catch (OperationCanceledException)
+                {
+                    this.DialogResult = DialogResult.Cancel;
                 }
                 catch (WebApiException ex)
                 {
-                    MessageBox.Show(string.Format(Properties.Resources.ListsDeleteFailed, ex.Message));
-                    return;
+                    MessageBox.Show($"Failed to get lists. ({ex.Message})");
+                    this.DialogResult = DialogResult.Abort;
                 }
-
-                this.ListsCheckedListBox.Items.Clear();
-                this.MyLists_Load(this, EventArgs.Empty);
             }
         }
 
         private async void ListsCheckedListBox_ItemCheck(object sender, ItemCheckEventArgs e)
         {
+            // 他のイベント等で操作中の場合は無視する
+            if (!this.Enabled)
+                return;
+
             using (ControlTransaction.Disabled(this))
             {
-                ListElement list = (ListElement)this.ListsCheckedListBox.Items[e.Index];
+                var list = (ListElement)this.ListsCheckedListBox.Items[e.Index];
 
-                try
-                {
-                    switch (e.CurrentValue)
-                    {
-                        case CheckState.Indeterminate:
-                            var ret = await this._tw.ContainsUserAtList(list.Id, this.contextUserName);
-                            if (ret)
-                                e.NewValue = CheckState.Checked;
-                            else
-                                e.NewValue = CheckState.Unchecked;
-                            break;
-                        case CheckState.Unchecked:
-                            await this._tw.Api.ListsMembersCreate(list.Id, this.contextUserName);
-                            break;
-                        case CheckState.Checked:
-                            await this._tw.Api.ListsMembersDestroy(list.Id, this.contextUserName);
-                            break;
-                    }
-                }
-                catch (WebApiException ex)
-                {
-                    MessageBox.Show(string.Format(Properties.Resources.ListManageOKButton2, ex.Message));
-                    e.NewValue = CheckState.Indeterminate;
-                }
+                if (e.CurrentValue == CheckState.Unchecked)
+                    await this.AddToList(list);
+                else
+                    await this.RemoveFromList(list);
             }
-        }
-
-        private void ContextMenuStrip1_Opening(object sender, CancelEventArgs e)
-        {
-            e.Cancel = this.ListsCheckedListBox.SelectedItem == null;
-        }
-
-        private void 追加AToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            this.ListsCheckedListBox.ItemCheck -= this.ListsCheckedListBox_ItemCheck;
-            this.ListsCheckedListBox.SetItemCheckState(this.ListsCheckedListBox.SelectedIndex, CheckState.Unchecked);
-            this.ListsCheckedListBox.ItemCheck += this.ListsCheckedListBox_ItemCheck;
-            this.ListsCheckedListBox.SetItemCheckState(this.ListsCheckedListBox.SelectedIndex, CheckState.Checked);
-        }
-
-        private void 削除DToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            this.ListsCheckedListBox.ItemCheck -= this.ListsCheckedListBox_ItemCheck;
-            this.ListsCheckedListBox.SetItemCheckState(this.ListsCheckedListBox.SelectedIndex, CheckState.Checked);
-            this.ListsCheckedListBox.ItemCheck += this.ListsCheckedListBox_ItemCheck;
-            this.ListsCheckedListBox.SetItemCheckState(this.ListsCheckedListBox.SelectedIndex, CheckState.Unchecked);
-        }
-
-        private void 更新RToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            this.ListsCheckedListBox.ItemCheck -= this.ListsCheckedListBox_ItemCheck;
-            this.ListsCheckedListBox.SetItemCheckState(this.ListsCheckedListBox.SelectedIndex, CheckState.Indeterminate);
-            this.ListsCheckedListBox.ItemCheck += this.ListsCheckedListBox_ItemCheck;
-            this.ListsCheckedListBox.SetItemCheckState(this.ListsCheckedListBox.SelectedIndex, CheckState.Checked);
         }
 
         private void ListsCheckedListBox_MouseDown(object sender, MouseEventArgs e)
@@ -244,6 +195,59 @@ namespace OpenTween
                     }
                     this.ListsCheckedListBox.SelectedItem = null;
                     break;
+            }
+        }
+
+        private void ContextMenuStrip1_Opening(object sender, CancelEventArgs e)
+        {
+            e.Cancel = this.ListsCheckedListBox.SelectedItem == null;
+        }
+
+        private async void MenuItemAdd_Click(object sender, EventArgs e)
+        {
+            using (ControlTransaction.Disabled(this))
+            {
+                await this.AddToList((ListElement)this.ListsCheckedListBox.SelectedItem);
+            }
+        }
+
+        private async void MenuItemDelete_Click(object sender, EventArgs e)
+        {
+            using (ControlTransaction.Disabled(this))
+            {
+                await this.RemoveFromList((ListElement)this.ListsCheckedListBox.SelectedItem);
+            }
+        }
+
+        private async void MenuItemReload_Click(object sender, EventArgs e)
+        {
+            using (ControlTransaction.Disabled(this))
+            {
+                try
+                {
+                    await this.RefreshListBox();
+                }
+                catch (OperationCanceledException) { }
+                catch (WebApiException ex)
+                {
+                    MessageBox.Show($"Failed to get lists. ({ex.Message})");
+                }
+            }
+        }
+
+        private async void ListRefreshButton_Click(object sender, EventArgs e)
+        {
+            using (ControlTransaction.Disabled(this))
+            {
+                try
+                {
+                    await this.RefreshListBox();
+                }
+                catch (OperationCanceledException) { }
+                catch (WebApiException ex)
+                {
+                    MessageBox.Show($"Failed to get lists. ({ex.Message})");
+                }
             }
         }
 

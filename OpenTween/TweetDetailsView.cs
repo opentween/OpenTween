@@ -984,7 +984,7 @@ namespace OpenTween
                 this.Owner.AddFilterRuleByScreenName(name);
         }
 
-        private async void ListManageUserContextToolStripMenuItem_Click(object sender, EventArgs e)
+        private void ListManageUserContextToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ToolStripMenuItem menuItem = (ToolStripMenuItem)sender;
 
@@ -1003,7 +1003,7 @@ namespace OpenTween
                 return;
             }
 
-            await this.Owner.ListManageUserContext(user);
+            this.Owner.ListManageUserContext(user);
         }
 
         private void UseHashtagMenuItem_Click(object sender, EventArgs e)

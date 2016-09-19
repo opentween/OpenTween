@@ -10829,38 +10829,16 @@ namespace OpenTween
             await this.doMoveToRTHome();
         }
 
-        private async void ListManageUserContextToolStripMenuItem_Click(object sender, EventArgs e)
+        private void ListManageUserContextToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var screenName = this._curPost?.ScreenName;
             if (screenName != null)
-                await this.ListManageUserContext(screenName);
+                this.ListManageUserContext(screenName);
         }
 
-        public async Task ListManageUserContext(string screenName)
+        public void ListManageUserContext(string screenName)
         {
-            if (this._statuses.SubscribableLists.Count == 0)
-            {
-                try
-                {
-                    using (var dialog = new WaitingDialog(Properties.Resources.ListsGetting))
-                    {
-                        var cancellationToken = dialog.EnableCancellation();
-
-                        var task = this.tw.GetListsApi();
-                        await dialog.WaitForAsync(this, task);
-
-                        cancellationToken.ThrowIfCancellationRequested();
-                    }
-                }
-                catch (OperationCanceledException) { return; }
-                catch (WebApiException ex)
-                {
-                    MessageBox.Show("Failed to get lists. (" + ex.Message + ")");
-                    return;
-                }
-            }
-
-            using (MyLists listSelectForm = new MyLists(screenName, this.tw))
+            using (var listSelectForm = new MyLists(screenName, this.twitterApi))
             {
                 listSelectForm.ShowDialog(this);
             }
