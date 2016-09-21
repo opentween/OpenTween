@@ -31,7 +31,7 @@ namespace OpenTween
 {
     public class MouseWheelMessageFilterTest
     {
-        [Fact(Skip = "Monoの不具合修正反映待ち")]
+        [Fact]
         public void ParseMessage_MinusTest()
         {
             const int WM_MOUSEWHEEL = 0x020A;
