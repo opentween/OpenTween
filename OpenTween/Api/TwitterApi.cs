@@ -57,6 +57,7 @@ namespace OpenTween.Api
             {
                 ["include_entities"] = "true",
                 ["include_ext_alt_text"] = "true",
+                ["tweet_mode"] = "extended",
             };
 
             if (count != null)
@@ -76,6 +77,7 @@ namespace OpenTween.Api
             {
                 ["include_entities"] = "true",
                 ["include_ext_alt_text"] = "true",
+                ["tweet_mode"] = "extended",
             };
 
             if (count != null)
@@ -97,6 +99,7 @@ namespace OpenTween.Api
                 ["include_rts"] = "true",
                 ["include_entities"] = "true",
                 ["include_ext_alt_text"] = "true",
+                ["tweet_mode"] = "extended",
             };
 
             if (count != null)
@@ -117,6 +120,7 @@ namespace OpenTween.Api
                 ["id"] = statusId.ToString(),
                 ["include_entities"] = "true",
                 ["include_ext_alt_text"] = "true",
+                ["tweet_mode"] = "extended",
             };
 
             return this.apiConnection.GetAsync<TwitterStatus>(endpoint, param, "/statuses/show/:id");
@@ -130,6 +134,7 @@ namespace OpenTween.Api
                 ["status"] = status,
                 ["include_entities"] = "true",
                 ["include_ext_alt_text"] = "true",
+                ["tweet_mode"] = "extended",
             };
 
             if (replyToId != null)
@@ -159,6 +164,7 @@ namespace OpenTween.Api
                 ["id"] = statusId.ToString(),
                 ["include_entities"] = "true",
                 ["include_ext_alt_text"] = "true",
+                ["tweet_mode"] = "extended",
             };
 
             return this.apiConnection.PostLazyAsync<TwitterStatus>(endpoint, param);
@@ -173,6 +179,7 @@ namespace OpenTween.Api
                 ["result_type"] = "recent",
                 ["include_entities"] = "true",
                 ["include_ext_alt_text"] = "true",
+                ["tweet_mode"] = "extended",
             };
 
             if (lang != null)
@@ -290,6 +297,7 @@ namespace OpenTween.Api
                 ["list_id"] = listId.ToString(),
                 ["include_entities"] = "true",
                 ["include_ext_alt_text"] = "true",
+                ["tweet_mode"] = "extended",
             };
 
             if (count != null)
@@ -312,6 +320,7 @@ namespace OpenTween.Api
                 ["list_id"] = listId.ToString(),
                 ["include_entities"] = "true",
                 ["include_ext_alt_text"] = "true",
+                ["tweet_mode"] = "extended",
             };
 
             if (cursor != null)
@@ -329,6 +338,7 @@ namespace OpenTween.Api
                 ["screen_name"] = screenName,
                 ["include_entities"] = "true",
                 ["include_ext_alt_text"] = "true",
+                ["tweet_mode"] = "extended",
             };
 
             return this.apiConnection.GetAsync<TwitterUser>(endpoint, param, "/lists/members/show");
@@ -343,6 +353,7 @@ namespace OpenTween.Api
                 ["screen_name"] = screenName,
                 ["include_entities"] = "true",
                 ["include_ext_alt_text"] = "true",
+                ["tweet_mode"] = "extended",
             };
 
             return this.apiConnection.PostLazyAsync<TwitterUser>(endpoint, param);
@@ -357,6 +368,7 @@ namespace OpenTween.Api
                 ["screen_name"] = screenName,
                 ["include_entities"] = "true",
                 ["include_ext_alt_text"] = "true",
+                ["tweet_mode"] = "extended",
             };
 
             return this.apiConnection.PostLazyAsync<TwitterUser>(endpoint, param);
@@ -433,6 +445,7 @@ namespace OpenTween.Api
                 ["screen_name"] = screenName,
                 ["include_entities"] = "true",
                 ["include_ext_alt_text"] = "true",
+                ["tweet_mode"] = "extended",
             };
 
             return this.apiConnection.GetAsync<TwitterUser>(endpoint, param, "/users/show/:id");
@@ -444,6 +457,7 @@ namespace OpenTween.Api
             var param = new Dictionary<string, string>
             {
                 ["screen_name"] = screenName,
+                ["tweet_mode"] = "extended",
             };
 
             return this.apiConnection.PostLazyAsync<TwitterUser>(endpoint, param);
@@ -456,6 +470,7 @@ namespace OpenTween.Api
             {
                 ["include_entities"] = "true",
                 ["include_ext_alt_text"] = "true",
+                ["tweet_mode"] = "extended",
             };
 
             if (count != null)
@@ -474,6 +489,7 @@ namespace OpenTween.Api
             var param = new Dictionary<string, string>
             {
                 ["id"] = statusId.ToString(),
+                ["tweet_mode"] = "extended",
             };
 
             return this.apiConnection.PostLazyAsync<TwitterStatus>(endpoint, param);
@@ -485,6 +501,7 @@ namespace OpenTween.Api
             var param = new Dictionary<string, string>
             {
                 ["id"] = statusId.ToString(),
+                ["tweet_mode"] = "extended",
             };
 
             return this.apiConnection.PostLazyAsync<TwitterStatus>(endpoint, param);
@@ -570,6 +587,7 @@ namespace OpenTween.Api
             var param = new Dictionary<string, string>
             {
                 ["screen_name"] = screenName,
+                ["tweet_mode"] = "extended",
             };
 
             return this.apiConnection.PostLazyAsync<TwitterUser>(endpoint, param);
@@ -581,6 +599,7 @@ namespace OpenTween.Api
             var param = new Dictionary<string, string>
             {
                 ["screen_name"] = screenName,
+                ["tweet_mode"] = "extended",
             };
 
             return this.apiConnection.PostLazyAsync<TwitterUser>(endpoint, param);
@@ -593,6 +612,7 @@ namespace OpenTween.Api
             {
                 ["include_entities"] = "true",
                 ["include_ext_alt_text"] = "true",
+                ["tweet_mode"] = "extended",
             };
 
             var user = await this.apiConnection.GetAsync<TwitterUser>(endpoint, param, "/account/verify_credentials")
@@ -611,6 +631,7 @@ namespace OpenTween.Api
             {
                 ["include_entities"] = "true",
                 ["include_ext_alt_text"] = "true",
+                ["tweet_mode"] = "extended",
             };
 
             if (name != null)
@@ -638,6 +659,7 @@ namespace OpenTween.Api
             {
                 ["include_entities"] = "true",
                 ["include_ext_alt_text"] = "true",
+                ["tweet_mode"] = "extended",
             };
             var paramMedia = new Dictionary<string, IMediaItem>
             {

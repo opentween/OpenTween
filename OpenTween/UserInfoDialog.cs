@@ -247,7 +247,7 @@ namespace OpenTween
                 foreach (var entity in entities.Urls)
                     entity.ExpandedUrl = await ShortUrl.Instance.ExpandUrlAsync(entity.ExpandedUrl);
 
-                var html = TweetFormatter.AutoLinkHtml(status.Text, entities);
+                var html = TweetFormatter.AutoLinkHtml(status.FullText, entities);
                 html = this.mainForm.createDetailHtml(html +
                     " Posted at " + MyCommon.DateTimeParse(status.CreatedAt) +
                     " via " + status.Source);

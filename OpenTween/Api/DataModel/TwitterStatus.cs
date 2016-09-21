@@ -55,6 +55,9 @@ namespace OpenTween.Api.DataModel
         [DataMember(Name = "created_at")]
         public string CreatedAt { get; set; }
 
+        [DataMember(Name = "display_text_range")]
+        public int[] DisplayTextRange { get; set; }
+
         [DataMember(Name = "entities")]
         public TwitterEntities Entities { get; set; }
 
@@ -69,6 +72,9 @@ namespace OpenTween.Api.DataModel
 
         [DataMember(Name = "filter_level")]
         public string FilterLevel { get; set; }
+
+        [DataMember(Name = "full_text")]
+        public string FullText { get; set; }
 
         [DataMember(Name = "id")]
         public long Id { get; set; }
@@ -121,9 +127,6 @@ namespace OpenTween.Api.DataModel
         [DataMember(Name = "source")]
         public string Source { get; set; }
 
-        [DataMember(Name = "text")]
-        public string Text { get; set; }
-
         [DataMember(Name = "truncated")]
         public bool Truncated { get; set; }
 
@@ -170,6 +173,197 @@ namespace OpenTween.Api.DataModel
         public static TwitterStatus[] ParseJsonArray(string json)
         {
             return MyCommon.CreateDataFromJson<TwitterStatus[]>(json);
+        }
+    }
+
+    /// <summary>
+    /// Streaming API または tweet_mode=compat の REST API から返されるツイート (Compatibility mode)
+    /// </summary>
+    [DataContract]
+    public class TwitterStatusCompat
+    {
+        [DataMember(Name = "contributors", IsRequired = false)]
+        public TwitterStatus.Contributor[] Contributors { get; set; } // Nullable
+
+        [DataMember(Name = "coordinates", IsRequired = false)]
+        public GeoJsonPoint Coordinates { get; set; }
+
+        [DataMember(Name = "created_at")]
+        public string CreatedAt { get; set; }
+
+        [DataMember(Name = "entities")]
+        public TwitterEntities Entities { get; set; }
+
+        [DataMember(Name = "extended_entities", IsRequired = false)]
+        public TwitterEntities ExtendedEntities { get; set; }
+
+        [DataMember(Name = "extended_tweet", IsRequired = false)]
+        public TwitterStatusCompat.Extended ExtendedTweet { get; set; }
+
+        [DataContract]
+        public class Extended
+        {
+            [DataMember(Name = "display_text_range")]
+            public int[] DisplayTextRange { get; set; }
+
+            [DataMember(Name = "entities")]
+            public TwitterEntities Entities { get; set; }
+
+            [DataMember(Name = "extended_entities", IsRequired = false)]
+            public TwitterEntities ExtendedEntities { get; set; }
+
+            [DataMember(Name = "full_text")]
+            public string FullText { get; set; }
+        }
+
+        [DataMember(Name = "favorite_count")]
+        public int? FavoriteCount { get; set; }
+
+        [DataMember(Name = "favorited")]
+        public bool? Favorited { get; set; }
+
+        [DataMember(Name = "filter_level")]
+        public string FilterLevel { get; set; }
+
+        [DataMember(Name = "id")]
+        public long Id { get; set; }
+
+        [DataMember(Name = "id_str")]
+        public string IdStr { get; set; }
+
+        [DataMember(Name = "in_reply_to_screen_name")]
+        public string InReplyToScreenName { get; set; } // Nullable
+
+        [DataMember(Name = "in_reply_to_status_id")]
+        public long? InReplyToStatusId { get; set; }
+
+        [DataMember(Name = "in_reply_to_status_id_str")]
+        public string InReplyToStatusIdStr { get; set; } // Nullable
+
+        [DataMember(Name = "in_reply_to_user_id")]
+        public long? InReplyToUserId { get; set; }
+
+        [DataMember(Name = "in_reply_to_user_id_str")]
+        public string InReplyToUserIdStr { get; set; } // Nullable
+
+        [DataMember(Name = "lang")]
+        public string Lang { get; set; } // Nullable
+
+        [DataMember(Name = "place", IsRequired = false)]
+        public TwitterPlace Place { get; set; }
+
+        [DataMember(Name = "possibly_sensitive")]
+        public bool? PossiblySensitive { get; set; }
+
+        [DataMember(Name = "quoted_status_id", IsRequired = false)]
+        public long? QuotedStatusId { get; set; }
+
+        [DataMember(Name = "quoted_status_id_str", IsRequired = false)]
+        public string QuotedStatusIdStr { get; set; }
+
+        [DataMember(Name = "quoted_status", IsRequired = false)]
+        public TwitterStatusCompat QuotedStatus { get; set; }
+
+        [DataMember(Name = "retweet_count")]
+        public int RetweetCount { get; set; }
+
+        [DataMember(Name = "retweeted")]
+        public bool Retweeted { get; set; }
+
+        [DataMember(Name = "retweeted_status", IsRequired = false)]
+        public TwitterStatusCompat RetweetedStatus { get; set; }
+
+        [DataMember(Name = "source")]
+        public string Source { get; set; }
+
+        [DataMember(Name = "text")]
+        public string Text { get; set; }
+
+        [DataMember(Name = "truncated")]
+        public bool Truncated { get; set; }
+
+        [DataMember(Name = "user")]
+        public TwitterUser User { get; set; }
+
+        [DataMember(Name = "withheld_copyright")]
+        public bool WithheldCopyright { get; set; }
+
+        [DataMember(Name = "withheld_in_countries")]
+        public string[] WithheldInCountries { get; set; }
+
+        [DataMember(Name = "withheld_scope")]
+        public string WithheldScope { get; set; }
+
+        /// <summary>Compatibility Modeのツイートを<see cref="TwitterStatus"/>に変換します</summary>
+        public TwitterStatus Normarize()
+        {
+            var normarized = new TwitterStatus
+            {
+                Contributors = this.Contributors,
+                Coordinates = this.Coordinates,
+                CreatedAt = this.CreatedAt,
+                FavoriteCount = this.FavoriteCount,
+                Favorited = this.Favorited,
+                FilterLevel = this.FilterLevel,
+                Id = this.Id,
+                IdStr = this.IdStr,
+                InReplyToScreenName = this.InReplyToScreenName,
+                InReplyToStatusId = this.InReplyToStatusId,
+                InReplyToStatusIdStr = this.InReplyToStatusIdStr,
+                InReplyToUserId = this.InReplyToUserId,
+                InReplyToUserIdStr = this.InReplyToUserIdStr,
+                Lang = this.Lang,
+                Place = this.Place,
+                PossiblySensitive = this.PossiblySensitive,
+                QuotedStatusId = this.QuotedStatusId,
+                QuotedStatusIdStr = this.QuotedStatusIdStr,
+                QuotedStatus = this.QuotedStatus?.Normarize(),
+                RetweetCount = this.RetweetCount,
+                Retweeted = this.Retweeted,
+                RetweetedStatus = this.RetweetedStatus?.Normarize(),
+                Source = this.Source,
+                User = this.User,
+                WithheldCopyright = this.WithheldCopyright,
+                WithheldInCountries = this.WithheldInCountries,
+                WithheldScope = this.WithheldScope,
+            };
+
+            if (this.ExtendedTweet != null)
+            {
+                // Extended Tweet
+                normarized.DisplayTextRange = this.ExtendedTweet.DisplayTextRange;
+                normarized.Entities = this.ExtendedTweet.Entities;
+                normarized.ExtendedEntities = this.ExtendedTweet.ExtendedEntities;
+                normarized.FullText = this.ExtendedTweet.FullText;
+                normarized.Truncated = false;
+            }
+            else
+            {
+                // Classic Tweet
+                normarized.DisplayTextRange = new[] { 0, this.GetCodePointCount(this.Text) };
+                normarized.Entities = this.Entities;
+                normarized.ExtendedEntities = this.ExtendedEntities;
+                normarized.FullText = this.Text;
+                normarized.Truncated = this.Truncated;
+            }
+
+            return normarized;
+        }
+
+        /// <summary>Unicodeコードポイント単位の文字数を返します</summary>
+        private int GetCodePointCount(string text)
+            => text.Length - text.Sum(x => char.IsHighSurrogate(x) ? 1 : 0);
+
+        /// <exception cref="SerializationException"/>
+        public static TwitterStatusCompat ParseJson(string json)
+        {
+            return MyCommon.CreateDataFromJson<TwitterStatusCompat>(json);
+        }
+
+        /// <exception cref="SerializationException"/>
+        public static TwitterStatusCompat[] ParseJsonArray(string json)
+        {
+            return MyCommon.CreateDataFromJson<TwitterStatusCompat[]>(json);
         }
     }
 

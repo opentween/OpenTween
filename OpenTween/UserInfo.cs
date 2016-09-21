@@ -60,7 +60,7 @@ namespace OpenTween
             this.Verified = user.Verified;
             if (user.Status != null)
             {
-                this.RecentPost = user.Status.Text;
+                this.RecentPost = user.Status.FullText;
                 this.PostCreatedAt = MyCommon.DateTimeParse(user.Status.CreatedAt);
                 this.PostSource = user.Status.Source;
             }

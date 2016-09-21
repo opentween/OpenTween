@@ -657,7 +657,7 @@ namespace OpenTween
                 //Id
                 post.RetweetedId = retweeted.Id;
                 //本文
-                post.TextFromApi = retweeted.Text;
+                post.TextFromApi = retweeted.FullText;
                 entities = retweeted.MergedEntities;
                 sourceHtml = retweeted.Source;
                 //Reply先
@@ -713,7 +713,7 @@ namespace OpenTween
             {
                 post.CreatedAt = MyCommon.DateTimeParse(status.CreatedAt);
                 //本文
-                post.TextFromApi = status.Text;
+                post.TextFromApi = status.FullText;
                 entities = status.MergedEntities;
                 sourceHtml = status.Source;
                 post.InReplyToStatusId = status.InReplyToStatusId;
@@ -1297,7 +1297,7 @@ namespace OpenTween
                         var matchStatusUrl = Twitter.StatusUrlRegex.Match(entity.ExpandedUrl);
                         if (matchStatusUrl.Success && matchStatusUrl.Groups["StatusId"].Value == quoteStatus.IdStr)
                         {
-                            var quoteText = this.CreateAccessibleText(quoteStatus.Text, quoteStatus.MergedEntities, quoteStatus: null);
+                            var quoteText = this.CreateAccessibleText(quoteStatus.FullText, quoteStatus.MergedEntities, quoteStatus: null);
                             text = text.Replace(entity.Url, string.Format(Properties.Resources.QuoteStatus_AccessibleText, quoteStatus.User.ScreenName, quoteText));
                         }
                     }
@@ -1905,8 +1905,8 @@ namespace OpenTween
                 {
                     try
                     {
-                        var status = TwitterStatus.ParseJson(line);
-                        this.CreatePostsFromJson(new[] { status }, MyCommon.WORKERTYPE.UserStream, null, false);
+                        var status = TwitterStatusCompat.ParseJson(line);
+                        this.CreatePostsFromJson(new[] { status.Normarize() }, MyCommon.WORKERTYPE.UserStream, null, false);
                     }
                     catch (SerializationException ex)
                     {
@@ -1974,7 +1974,7 @@ namespace OpenTween
             eventTable.TryGetValue(eventData.Event, out eventType);
             evt.Eventtype = eventType;
 
-            TwitterStreamEvent<TwitterStatus> tweetEvent;
+            TwitterStreamEvent<TwitterStatusCompat> tweetEvent;
 
             switch (eventData.Event)
             {
@@ -2002,7 +2002,7 @@ namespace OpenTween
                     return;
                 case "favorite":
                 case "unfavorite":
-                    tweetEvent = TwitterStreamEvent<TwitterStatus>.ParseJson(content);
+                    tweetEvent = TwitterStreamEvent<TwitterStatusCompat>.ParseJson(content);
                     evt.Target = "@" + tweetEvent.TargetObject.User.ScreenName + ":" + WebUtility.HtmlDecode(tweetEvent.TargetObject.Text);
                     evt.Id = tweetEvent.TargetObject.Id;
 
@@ -2052,7 +2052,7 @@ namespace OpenTween
                 case "quoted_tweet":
                     if (evt.IsMe) return;
 
-                    tweetEvent = TwitterStreamEvent<TwitterStatus>.ParseJson(content);
+                    tweetEvent = TwitterStreamEvent<TwitterStatusCompat>.ParseJson(content);
                     evt.Target = "@" + tweetEvent.TargetObject.User.ScreenName + ":" + WebUtility.HtmlDecode(tweetEvent.TargetObject.Text);
                     evt.Id = tweetEvent.TargetObject.Id;
 
