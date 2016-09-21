@@ -1906,7 +1906,7 @@ namespace OpenTween
                     try
                     {
                         var status = TwitterStatusCompat.ParseJson(line);
-                        this.CreatePostsFromJson(new[] { status.Normarize() }, MyCommon.WORKERTYPE.UserStream, null, false);
+                        this.CreatePostsFromJson(new[] { status.Normalize() }, MyCommon.WORKERTYPE.UserStream, null, false);
                     }
                     catch (SerializationException ex)
                     {

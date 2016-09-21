@@ -295,9 +295,9 @@ namespace OpenTween.Api.DataModel
         public string WithheldScope { get; set; }
 
         /// <summary>Compatibility Modeのツイートを<see cref="TwitterStatus"/>に変換します</summary>
-        public TwitterStatus Normarize()
+        public TwitterStatus Normalize()
         {
-            var normarized = new TwitterStatus
+            var normalized = new TwitterStatus
             {
                 Contributors = this.Contributors,
                 Coordinates = this.Coordinates,
@@ -317,10 +317,10 @@ namespace OpenTween.Api.DataModel
                 PossiblySensitive = this.PossiblySensitive,
                 QuotedStatusId = this.QuotedStatusId,
                 QuotedStatusIdStr = this.QuotedStatusIdStr,
-                QuotedStatus = this.QuotedStatus?.Normarize(),
+                QuotedStatus = this.QuotedStatus?.Normalize(),
                 RetweetCount = this.RetweetCount,
                 Retweeted = this.Retweeted,
-                RetweetedStatus = this.RetweetedStatus?.Normarize(),
+                RetweetedStatus = this.RetweetedStatus?.Normalize(),
                 Source = this.Source,
                 User = this.User,
                 WithheldCopyright = this.WithheldCopyright,
@@ -331,23 +331,23 @@ namespace OpenTween.Api.DataModel
             if (this.ExtendedTweet != null)
             {
                 // Extended Tweet
-                normarized.DisplayTextRange = this.ExtendedTweet.DisplayTextRange;
-                normarized.Entities = this.ExtendedTweet.Entities;
-                normarized.ExtendedEntities = this.ExtendedTweet.ExtendedEntities;
-                normarized.FullText = this.ExtendedTweet.FullText;
-                normarized.Truncated = false;
+                normalized.DisplayTextRange = this.ExtendedTweet.DisplayTextRange;
+                normalized.Entities = this.ExtendedTweet.Entities;
+                normalized.ExtendedEntities = this.ExtendedTweet.ExtendedEntities;
+                normalized.FullText = this.ExtendedTweet.FullText;
+                normalized.Truncated = false;
             }
             else
             {
                 // Classic Tweet
-                normarized.DisplayTextRange = new[] { 0, this.GetCodePointCount(this.Text) };
-                normarized.Entities = this.Entities;
-                normarized.ExtendedEntities = this.ExtendedEntities;
-                normarized.FullText = this.Text;
-                normarized.Truncated = this.Truncated;
+                normalized.DisplayTextRange = new[] { 0, this.GetCodePointCount(this.Text) };
+                normalized.Entities = this.Entities;
+                normalized.ExtendedEntities = this.ExtendedEntities;
+                normalized.FullText = this.Text;
+                normalized.Truncated = this.Truncated;
             }
 
-            return normarized;
+            return normalized;
         }
 
         /// <summary>Unicodeコードポイント単位の文字数を返します</summary>
