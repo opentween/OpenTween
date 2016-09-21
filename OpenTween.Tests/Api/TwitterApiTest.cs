@@ -97,6 +97,7 @@ namespace OpenTween.Api
                         new Dictionary<string, string> {
                             { "include_entities", "true" },
                             { "include_ext_alt_text", "true" },
+                            { "tweet_mode", "extended" },
                             { "count", "200" },
                             { "max_id", "900" },
                             { "since_id", "100" },
@@ -126,6 +127,7 @@ namespace OpenTween.Api
                         new Dictionary<string, string> {
                             { "include_entities", "true" },
                             { "include_ext_alt_text", "true" },
+                            { "tweet_mode", "extended" },
                             { "count", "200" },
                             { "max_id", "900" },
                             { "since_id", "100" },
@@ -157,6 +159,7 @@ namespace OpenTween.Api
                             { "include_rts", "true" },
                             { "include_entities", "true" },
                             { "include_ext_alt_text", "true" },
+                            { "tweet_mode", "extended" },
                             { "count", "200" },
                             { "max_id", "900" },
                             { "since_id", "100" },
@@ -187,6 +190,7 @@ namespace OpenTween.Api
                             { "id", "100" },
                             { "include_entities", "true" },
                             { "include_ext_alt_text", "true" },
+                            { "tweet_mode", "extended" },
                         },
                         "/statuses/show/:id")
                 )
@@ -214,6 +218,7 @@ namespace OpenTween.Api
                             { "status", "hogehoge" },
                             { "include_entities", "true" },
                             { "include_ext_alt_text", "true" },
+                            { "tweet_mode", "extended" },
                             { "in_reply_to_status_id", "100" },
                             { "media_ids", "10,20" },
                         })
@@ -266,6 +271,7 @@ namespace OpenTween.Api
                             { "id", "100" },
                             { "include_entities", "true" },
                             { "include_ext_alt_text", "true" },
+                            { "tweet_mode", "extended" },
                         })
                 )
                 .ReturnsAsync(LazyJson.Create(new TwitterStatus()));
@@ -294,6 +300,7 @@ namespace OpenTween.Api
                             { "result_type", "recent" },
                             { "include_entities", "true" },
                             { "include_ext_alt_text", "true" },
+                            { "tweet_mode", "extended" },
                             { "lang", "en" },
                             { "count", "200" },
                             { "max_id", "900" },
@@ -487,6 +494,7 @@ namespace OpenTween.Api
                             { "list_id", "12345" },
                             { "include_entities", "true" },
                             { "include_ext_alt_text", "true" },
+                            { "tweet_mode", "extended" },
                             { "count", "200" },
                             { "max_id", "900" },
                             { "since_id", "100" },
@@ -518,6 +526,7 @@ namespace OpenTween.Api
                             { "list_id", "12345" },
                             { "include_entities", "true" },
                             { "include_ext_alt_text", "true" },
+                            { "tweet_mode", "extended" },
                             { "cursor", "-1" },
                         },
                         "/lists/members")
@@ -547,6 +556,7 @@ namespace OpenTween.Api
                             { "screen_name", "twitterapi" },
                             { "include_entities", "true" },
                             { "include_ext_alt_text", "true" },
+                            { "tweet_mode", "extended" },
                         },
                         "/lists/members/show")
                 )
@@ -575,6 +585,7 @@ namespace OpenTween.Api
                             { "screen_name", "twitterapi" },
                             { "include_entities", "true" },
                             { "include_ext_alt_text", "true" },
+                            { "tweet_mode", "extended" },
                         })
                 )
                 .ReturnsAsync(LazyJson.Create(new TwitterUser()));
@@ -603,6 +614,7 @@ namespace OpenTween.Api
                             { "screen_name", "twitterapi" },
                             { "include_entities", "true" },
                             { "include_ext_alt_text", "true" },
+                            { "tweet_mode", "extended" },
                         })
                 )
                 .ReturnsAsync(LazyJson.Create(new TwitterUser()));
@@ -739,6 +751,7 @@ namespace OpenTween.Api
                             { "screen_name", "twitterapi" },
                             { "include_entities", "true" },
                             { "include_ext_alt_text", "true" },
+                            { "tweet_mode", "extended" },
                         },
                         "/users/show/:id")
                 )
@@ -762,7 +775,10 @@ namespace OpenTween.Api
                 mock.Setup(x =>
                     x.PostLazyAsync<TwitterUser>(
                         new Uri("users/report_spam.json", UriKind.Relative),
-                        new Dictionary<string, string> { { "screen_name", "twitterapi" } })
+                        new Dictionary<string, string> {
+                            { "screen_name", "twitterapi" },
+                            { "tweet_mode", "extended" },
+                        })
                 )
                 .ReturnsAsync(LazyJson.Create(new TwitterUser { ScreenName = "twitterapi" }));
 
@@ -788,6 +804,7 @@ namespace OpenTween.Api
                         new Dictionary<string, string> {
                             { "include_entities", "true" },
                             { "include_ext_alt_text", "true" },
+                            { "tweet_mode", "extended" },
                             { "count", "200" },
                             { "max_id", "900" },
                             { "since_id", "100" },
@@ -814,7 +831,10 @@ namespace OpenTween.Api
                 mock.Setup(x =>
                     x.PostLazyAsync<TwitterStatus>(
                         new Uri("favorites/create.json", UriKind.Relative),
-                        new Dictionary<string, string> { { "id", "100" } })
+                        new Dictionary<string, string> {
+                            { "id", "100" },
+                            { "tweet_mode", "extended" },
+                        })
                 )
                 .ReturnsAsync(LazyJson.Create(new TwitterStatus { Id = 100L }));
 
@@ -837,7 +857,10 @@ namespace OpenTween.Api
                 mock.Setup(x =>
                     x.PostLazyAsync<TwitterStatus>(
                         new Uri("favorites/destroy.json", UriKind.Relative),
-                        new Dictionary<string, string> { { "id", "100" } })
+                        new Dictionary<string, string> {
+                            { "id", "100" },
+                            { "tweet_mode", "extended" },
+                        })
                 )
                 .ReturnsAsync(LazyJson.Create(new TwitterStatus { Id = 100L }));
 
@@ -1021,7 +1044,10 @@ namespace OpenTween.Api
                 mock.Setup(x =>
                     x.PostLazyAsync<TwitterUser>(
                         new Uri("blocks/create.json", UriKind.Relative),
-                        new Dictionary<string, string> { { "screen_name", "twitterapi" } })
+                        new Dictionary<string, string> {
+                            { "screen_name", "twitterapi" },
+                            { "tweet_mode", "extended" },
+                        })
                 )
                 .ReturnsAsync(LazyJson.Create(new TwitterUser()));
 
@@ -1044,7 +1070,10 @@ namespace OpenTween.Api
                 mock.Setup(x =>
                     x.PostLazyAsync<TwitterUser>(
                         new Uri("blocks/destroy.json", UriKind.Relative),
-                        new Dictionary<string, string> { { "screen_name", "twitterapi" } })
+                        new Dictionary<string, string> {
+                            { "screen_name", "twitterapi" },
+                            { "tweet_mode", "extended" },
+                        })
                 )
                 .ReturnsAsync(LazyJson.Create(new TwitterUser()));
 
@@ -1070,6 +1099,7 @@ namespace OpenTween.Api
                         new Dictionary<string, string> {
                             { "include_entities", "true" },
                             { "include_ext_alt_text", "true" },
+                            { "tweet_mode", "extended" },
                         },
                         "/account/verify_credentials")
                 )
@@ -1102,6 +1132,7 @@ namespace OpenTween.Api
                         new Dictionary<string, string> {
                             { "include_entities", "true" },
                             { "include_ext_alt_text", "true" },
+                            { "tweet_mode", "extended" },
                             { "name", "Name" },
                             { "url", "http://example.com/" },
                             { "location", "Location" },
@@ -1134,6 +1165,7 @@ namespace OpenTween.Api
                         new Dictionary<string, string> {
                             { "include_entities", "true" },
                             { "include_ext_alt_text", "true" },
+                            { "tweet_mode", "extended" },
                         },
                         new Dictionary<string, IMediaItem> { { "image", media } })
                 )
