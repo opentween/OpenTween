@@ -4816,11 +4816,6 @@ namespace OpenTween
             //文字数カウント
             var remainCount = this.tw.GetTextLengthRemain(statusText);
 
-            if (this.ImageSelector.Visible && !string.IsNullOrEmpty(this.ImageSelector.ServiceName))
-            {
-                remainCount -= this.tw.Configuration.CharactersReservedPerMedia;
-            }
-
             return remainCount;
         }
 
