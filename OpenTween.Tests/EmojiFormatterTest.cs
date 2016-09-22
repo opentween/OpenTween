@@ -42,6 +42,30 @@ namespace OpenTween
         }
 
         [Fact]
+        public void ReplaceEmojiToImg_VariationSelector_TextStyleTest()
+        {
+            // 異字体セレクタを使用して明示的にテキストスタイルで表示させている文字
+            var origText = "©\uFE0E"; // U+00A9 + U+FE0E (text style)
+
+            var result = EmojiFormatter.ReplaceEmojiToImg(origText);
+            var expected = "©\uFE0E";
+
+            Assert.Equal(expected, result);
+        }
+
+        [Fact]
+        public void ReplaceEmojiToImg_VariationSelector_EmojiStyleTest()
+        {
+            // 異字体セレクタを使用して明示的に絵文字スタイルで表示させている文字
+            var origText = "©\uFE0F"; // U+00A9 + U+FE0F (emoji style)
+
+            var result = EmojiFormatter.ReplaceEmojiToImg(origText);
+            var expected = "<img class=\"emoji\" src=\"https://twemoji.maxcdn.com/2/72x72/a9.png\" alt=\"©\" />";
+
+            Assert.Equal(expected, result);
+        }
+
+        [Fact]
         public void ReplaceEmojiToImg_SurrogatePairTest()
         {
             var origText = "🍣"; // U+1F363

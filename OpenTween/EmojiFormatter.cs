@@ -48,6 +48,9 @@ namespace OpenTween
             string input = m.Value;
             string codes = "";
 
+            // 異字体セレクタ U+FE0F (emoji style) は除去する
+            input = input.Replace("\uFE0F", "");
+
             for (var i = 0; i < input.Length; i += char.IsSurrogatePair(input, i) ? 2 : 1)
             {
                 var codepoint = char.ConvertToUtf32(input, i);
@@ -60,7 +63,7 @@ namespace OpenTween
                 codes += string.Format("{0:x}", codepoint);
             }
 
-            return "<img class=\"emoji\" src=\"https://twemoji.maxcdn.com/2/72x72/" + codes + ".png\" alt=\"" + m.Value + "\" />";
+            return "<img class=\"emoji\" src=\"https://twemoji.maxcdn.com/2/72x72/" + codes + ".png\" alt=\"" + input + "\" />";
         }
     }
 }
