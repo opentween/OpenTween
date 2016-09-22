@@ -124,6 +124,31 @@ namespace OpenTween
         }
 
         [Fact]
+        public void ReplaceEmojiToImg_EmojiZWJSequenceTest()
+        {
+            // 複数の絵文字を U+200D (ZERO WIDTH JOINER) で繋げて表現する絵文字
+            var origText = "👨\u200D🎨"; // U+1F468 (MAN) + U+200D + U+1F3A8 (ARTIST PALETTE)
+
+            var result = EmojiFormatter.ReplaceEmojiToImg(origText);
+            var expected = "<img class=\"emoji\" src=\"https://twemoji.maxcdn.com/2/72x72/1f468-200d-1f3a8.png\" alt=\"👨\u200D🎨\" />";
+
+            Assert.Equal(expected, result);
+        }
+
+        [Fact]
+        public void ReplaceEmojiToImg_EmojiZWJSequenceWithVariationSelectorTest()
+        {
+            // 複数の絵文字を U+200D (ZERO WIDTH JOINER) で繋げて表現 + 異字体セレクタ U+FE0F を含む絵文字
+            // この場合は URL 生成時に異字体セレクタ U+FE0F を除去しない
+            var origText = "🏃\u200D♀\uFE0F"; // U+1F3C3 (RUNNER) + U+200D + U+2640 (FEMARE SIGN) + U+FE0F
+
+            var result = EmojiFormatter.ReplaceEmojiToImg(origText);
+            var expected = "<img class=\"emoji\" src=\"https://twemoji.maxcdn.com/2/72x72/1f3c3-200d-2640-fe0f.png\" alt=\"🏃\u200D♀\uFE0F\" />";
+
+            Assert.Equal(expected, result);
+        }
+
+        [Fact]
         public void ReplaceEmojiToImg_NotEmojiTest()
         {
             var origText = "123ABC";

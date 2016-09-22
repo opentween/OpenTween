@@ -48,8 +48,9 @@ namespace OpenTween
             string input = m.Value;
             string codes = "";
 
-            // 異字体セレクタ U+FE0F (emoji style) は除去する
-            input = input.Replace("\uFE0F", "");
+            // 異字体セレクタ U+FE0F (emoji style) は除去する (ZWJ を含まない場合のみ)
+            if (!input.Contains('\u200D'))
+                input = input.Replace("\uFE0F", "");
 
             for (var i = 0; i < input.Length; i += char.IsSurrogatePair(input, i) ? 2 : 1)
             {
