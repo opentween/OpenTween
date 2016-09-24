@@ -73,7 +73,7 @@ namespace OpenTween.Connection
         /// メディアのアップロードとツイートの投稿を行います
         /// </summary>
         /// <exception cref="WebApiException"/>
-        Task PostStatusAsync(string text, long? inReplyToStatusId, IMediaItem[] mediaItems);
+        Task PostStatusAsync(string text, long? inReplyToStatusId, IMediaItem[] mediaItems, long[] excludeReplyUserIds);
 
         /// <summary>
         /// 画像URLのために確保する必要のある文字数を返します

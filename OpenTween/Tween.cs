@@ -318,6 +318,7 @@ namespace OpenTween
             public string status = "";
             public long? inReplyToId = null;
             public string inReplyToName = null;
+            public long[] excludeReplyUserIds = null;
             public string imageService = "";      //画像投稿サービス名
             public IMediaItem[] mediaItems = null;
             public PostingStatus()
@@ -2750,13 +2751,13 @@ namespace OpenTween
                 {
                     if (status.mediaItems == null || status.mediaItems.Length == 0)
                     {
-                        await this.tw.PostStatus(status.status, status.inReplyToId)
+                        await this.tw.PostStatus(status.status, status.inReplyToId, excludeReplyUserIds: status.excludeReplyUserIds)
                             .ConfigureAwait(false);
                     }
                     else
                     {
                         var service = ImageSelector.GetService(status.imageService);
-                        await service.PostStatusAsync(status.status, status.inReplyToId, status.mediaItems)
+                        await service.PostStatusAsync(status.status, status.inReplyToId, status.mediaItems, status.excludeReplyUserIds)
                             .ConfigureAwait(false);
                     }
                 });

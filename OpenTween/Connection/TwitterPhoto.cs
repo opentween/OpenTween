@@ -78,7 +78,7 @@ namespace OpenTween.Connection
             return this.twitterConfig.PhotoSizeLimit;
         }
 
-        public async Task PostStatusAsync(string text, long? inReplyToStatusId, IMediaItem[] mediaItems)
+        public async Task PostStatusAsync(string text, long? inReplyToStatusId, IMediaItem[] mediaItems, long[] excludeReplyUserIds)
         {
             if (mediaItems == null)
                 throw new ArgumentNullException(nameof(mediaItems));
@@ -101,7 +101,7 @@ namespace OpenTween.Connection
             var mediaIds = await Task.WhenAll(uploadTasks)
                 .ConfigureAwait(false);
 
-            await this.tw.PostStatus(text, inReplyToStatusId, mediaIds)
+            await this.tw.PostStatus(text, inReplyToStatusId, mediaIds, excludeReplyUserIds)
                 .ConfigureAwait(false);
         }
 

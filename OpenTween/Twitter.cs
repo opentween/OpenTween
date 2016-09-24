@@ -278,7 +278,8 @@ namespace OpenTween
             return orgData;
         }
 
-        public async Task PostStatus(string postStr, long? reply_to, IReadOnlyList<long> mediaIds = null)
+        public async Task PostStatus(string postStr, long? reply_to, IReadOnlyList<long> mediaIds = null,
+            IReadOnlyList<long> excludeReplyUserIds = null)
         {
             this.CheckAccountState();
 
@@ -289,7 +290,8 @@ namespace OpenTween
                 return;
             }
 
-            var response = await this.Api.StatusesUpdate(postStr, reply_to, mediaIds)
+            var response = await this.Api.StatusesUpdate(postStr, reply_to, mediaIds,
+                    autoPopulateReplyMetadata: true, excludeReplyUserIds: excludeReplyUserIds)
                 .ConfigureAwait(false);
 
             var status = await response.LoadJsonAsync()
