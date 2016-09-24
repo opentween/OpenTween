@@ -221,13 +221,16 @@ namespace OpenTween.Api
                             { "tweet_mode", "extended" },
                             { "in_reply_to_status_id", "100" },
                             { "media_ids", "10,20" },
+                            { "auto_populate_reply_metadata", "true" },
+                            { "exclude_reply_user_ids", "100,200" },
                         })
                 )
                 .ReturnsAsync(LazyJson.Create(new TwitterStatus()));
 
                 twitterApi.apiConnection = mock.Object;
 
-                await twitterApi.StatusesUpdate("hogehoge", replyToId: 100L, mediaIds: new[] { 10L, 20L })
+                await twitterApi.StatusesUpdate("hogehoge", replyToId: 100L, mediaIds: new[] { 10L, 20L },
+                        autoPopulateReplyMetadata: true, excludeReplyUserIds: new[] { 100L, 200L })
                     .IgnoreResponse()
                     .ConfigureAwait(false);
 

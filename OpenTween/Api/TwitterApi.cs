@@ -126,7 +126,8 @@ namespace OpenTween.Api
             return this.apiConnection.GetAsync<TwitterStatus>(endpoint, param, "/statuses/show/:id");
         }
 
-        public Task<LazyJson<TwitterStatus>> StatusesUpdate(string status, long? replyToId, IReadOnlyList<long> mediaIds)
+        public Task<LazyJson<TwitterStatus>> StatusesUpdate(string status, long? replyToId, IReadOnlyList<long> mediaIds,
+            bool? autoPopulateReplyMetadata = null, IReadOnlyList<long> excludeReplyUserIds = null)
         {
             var endpoint = new Uri("statuses/update.json", UriKind.Relative);
             var param = new Dictionary<string, string>
@@ -141,6 +142,10 @@ namespace OpenTween.Api
                 param["in_reply_to_status_id"] = replyToId.ToString();
             if (mediaIds != null && mediaIds.Count > 0)
                 param.Add("media_ids", string.Join(",", mediaIds));
+            if (autoPopulateReplyMetadata != null)
+                param["auto_populate_reply_metadata"] = autoPopulateReplyMetadata.Value ? "true" : "false";
+            if (excludeReplyUserIds != null)
+                param["exclude_reply_user_ids"] = string.Join(",", excludeReplyUserIds);
 
             return this.apiConnection.PostLazyAsync<TwitterStatus>(endpoint, param);
         }
