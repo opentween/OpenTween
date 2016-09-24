@@ -2055,10 +2055,10 @@ namespace OpenTween
             else if (TargetPost.IsReply)
                 //自分宛返信
                 cl = _clAtSelf;
-            else if (BasePost.ReplyToList.Contains(TargetPost.ScreenName.ToLowerInvariant()))
+            else if (BasePost.ReplyToList.Any(x => x.Item1 == TargetPost.UserId))
                 //返信先
                 cl = _clAtFromTarget;
-            else if (TargetPost.ReplyToList.Contains(BasePost.ScreenName.ToLowerInvariant()))
+            else if (TargetPost.ReplyToList.Any(x => x.Item1 == BasePost.UserId))
                 //その人への返信
                 cl = _clAtTarget;
             else if (TargetPost.ScreenName.Equals(BasePost.ScreenName, StringComparison.OrdinalIgnoreCase))
@@ -6714,10 +6714,10 @@ namespace OpenTween
                     post.RetweetedBy == _anchorPost.ScreenName ||
                     post.ScreenName == _anchorPost.RetweetedBy ||
                     (!string.IsNullOrEmpty(post.RetweetedBy) && post.RetweetedBy == _anchorPost.RetweetedBy) ||
-                    _anchorPost.ReplyToList.Contains(post.ScreenName.ToLowerInvariant()) ||
-                    _anchorPost.ReplyToList.Contains(post.RetweetedBy.ToLowerInvariant()) ||
-                    post.ReplyToList.Contains(_anchorPost.ScreenName.ToLowerInvariant()) ||
-                    post.ReplyToList.Contains(_anchorPost.RetweetedBy.ToLowerInvariant()))
+                    _anchorPost.ReplyToList.Any(x => x.Item1 == post.UserId) ||
+                    _anchorPost.ReplyToList.Any(x => x.Item1 == post.RetweetedByUserId) ||
+                    post.ReplyToList.Any(x => x.Item1 == _anchorPost.UserId) ||
+                    post.ReplyToList.Any(x => x.Item1 == _anchorPost.RetweetedByUserId))
                 {
                     SelectListItem(_curList, idx);
                     _curList.EnsureVisible(idx);
@@ -7758,7 +7758,7 @@ namespace OpenTween
                                 }
                                 if (isAll)
                                 {
-                                    foreach (string nm in post.ReplyToList)
+                                    foreach (string nm in post.ReplyToList.Select(x => x.Item2))
                                     {
                                         if (!ids.Contains("@" + nm + " ") &&
                                             !nm.Equals(tw.Username, StringComparison.CurrentCultureIgnoreCase))
@@ -7814,7 +7814,7 @@ namespace OpenTween
                             {
                                 ids += "@" + post.ScreenName + " ";
                             }
-                            foreach (string nm in post.ReplyToList)
+                            foreach (string nm in post.ReplyToList.Select(x => x.Item2))
                             {
                                 if (!ids.Contains("@" + nm + " ") &&
                                     !nm.Equals(tw.Username, StringComparison.CurrentCultureIgnoreCase))
