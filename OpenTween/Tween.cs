@@ -987,7 +987,7 @@ namespace OpenTween
             StatusLabel.AutoToolTip = false;
             StatusLabel.ToolTipText = "";
             //文字カウンタ初期化
-            lblLen.Text = this.GetRestStatusCount(this.FormatStatusText("")).ToString();
+            lblLen.Text = this.GetRestStatusCount("").ToString();
 
             this.JumpReadOpMenuItem.ShortcutKeyDisplayString = "Space";
             CopySTOTMenuItem.ShortcutKeyDisplayString = "Ctrl+C";
@@ -2122,7 +2122,10 @@ namespace OpenTween
             StatusText.SelectionStart = StatusText.Text.Length;
             CheckReplyTo(StatusText.Text);
 
-            var statusText = this.FormatStatusText(this.StatusText.Text);
+            long[] autoPopulatedUserIds;
+
+            var statusText = this.RemoveAutoPopuratedMentions(this.StatusText.Text, out autoPopulatedUserIds);
+            statusText = this.FormatStatusText(statusText);
 
             if (this.GetRestStatusCount(statusText) < 0)
             {
@@ -2137,6 +2140,15 @@ namespace OpenTween
 
             status.inReplyToId = this.inReplyTo?.Item1;
             status.inReplyToName = this.inReplyTo?.Item2;
+
+            var replyToPost = this.inReplyTo != null ? this._statuses[this.inReplyTo.Item1] : null;
+            if (replyToPost != null)
+            {
+                // ReplyToList のうち autoPopulatedUserIds に含まれていないユーザー ID を抽出
+                status.excludeReplyUserIds = replyToPost.ReplyToList.Select(x => x.Item1).Except(autoPopulatedUserIds)
+                    .ToArray();
+            }
+
             if (ImageSelector.Visible)
             {
                 //画像投稿
@@ -4700,7 +4712,7 @@ namespace OpenTween
         private void StatusText_TextChanged(object sender, EventArgs e)
         {
             //文字数カウント
-            int pLen = this.GetRestStatusCount(this.FormatStatusText(this.StatusText.Text));
+            int pLen = this.GetRestStatusCount(this.StatusText.Text);
             lblLen.Text = pLen.ToString();
             if (pLen < 0)
             {
@@ -4717,6 +4729,36 @@ namespace OpenTween
             {
                 this.inReplyTo = null;
             }
+        }
+
+        /// <summary>
+        /// 投稿時に auto_populate_reply_metadata オプションによって自動で追加されるメンションを除去します
+        /// </summary>
+        private string RemoveAutoPopuratedMentions(string statusText, out long[] autoPopulatedUserIds)
+        {
+            List<long> _autoPopulatedUserIds = new List<long>();
+
+            var replyToPost = this.inReplyTo != null ? this._statuses[this.inReplyTo.Item1] : null;
+            if (replyToPost != null)
+            {
+                if (statusText.StartsWith($"@{replyToPost.ScreenName} ", StringComparison.Ordinal))
+                {
+                    statusText = statusText.Substring(replyToPost.ScreenName.Length + 2);
+
+                    foreach (var reply in replyToPost.ReplyToList)
+                    {
+                        if (statusText.StartsWith($"@{reply.Item2} ", StringComparison.Ordinal))
+                        {
+                            statusText = statusText.Substring(reply.Item2.Length + 2);
+                            _autoPopulatedUserIds.Add(reply.Item1);
+                        }
+                    }
+                }
+            }
+
+            autoPopulatedUserIds = _autoPopulatedUserIds.ToArray();
+
+            return statusText;
         }
 
         /// <summary>
@@ -4818,7 +4860,11 @@ namespace OpenTween
         /// </summary>
         private int GetRestStatusCount(string statusText)
         {
-            //文字数カウント
+            long[] autoPopulatedUserIds;
+            statusText = this.RemoveAutoPopuratedMentions(statusText, out autoPopulatedUserIds);
+
+            statusText = this.FormatStatusText(statusText);
+
             var remainCount = this.tw.GetTextLengthRemain(statusText);
 
             var uploadService = this.GetSelectedImageService();
