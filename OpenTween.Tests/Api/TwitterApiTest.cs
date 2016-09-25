@@ -239,6 +239,35 @@ namespace OpenTween.Api
         }
 
         [Fact]
+        public async Task StatusesUpdate_ExcludeReplyUserIdsEmptyTest()
+        {
+            using (var twitterApi = new TwitterApi())
+            {
+                var mock = new Mock<IApiConnection>();
+                mock.Setup(x =>
+                    x.PostLazyAsync<TwitterStatus>(
+                        new Uri("statuses/update.json", UriKind.Relative),
+                        new Dictionary<string, string> {
+                            { "status", "hogehoge" },
+                            { "include_entities", "true" },
+                            { "include_ext_alt_text", "true" },
+                            { "tweet_mode", "extended" },
+                            // exclude_reply_user_ids は空の場合には送信されない
+                        })
+                )
+                .ReturnsAsync(LazyJson.Create(new TwitterStatus()));
+
+                twitterApi.apiConnection = mock.Object;
+
+                await twitterApi.StatusesUpdate("hogehoge", replyToId: null, mediaIds: null, excludeReplyUserIds: new long[0])
+                    .IgnoreResponse()
+                    .ConfigureAwait(false);
+
+                mock.VerifyAll();
+            }
+        }
+
+        [Fact]
         public async Task StatusesDestroy_Test()
         {
             using (var twitterApi = new TwitterApi())

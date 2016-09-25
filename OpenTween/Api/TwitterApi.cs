@@ -144,7 +144,7 @@ namespace OpenTween.Api
                 param.Add("media_ids", string.Join(",", mediaIds));
             if (autoPopulateReplyMetadata != null)
                 param["auto_populate_reply_metadata"] = autoPopulateReplyMetadata.Value ? "true" : "false";
-            if (excludeReplyUserIds != null)
+            if (excludeReplyUserIds != null && excludeReplyUserIds.Count > 0)
                 param["exclude_reply_user_ids"] = string.Join(",", excludeReplyUserIds);
 
             return this.apiConnection.PostLazyAsync<TwitterStatus>(endpoint, param);
