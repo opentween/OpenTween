@@ -290,8 +290,12 @@ namespace OpenTween
                 return;
             }
 
+            var autoPopulateReplyMetadata = false;
+            if (reply_to != null && !postStr.Contains("RT @"))
+                autoPopulateReplyMetadata = true;
+
             var response = await this.Api.StatusesUpdate(postStr, reply_to, mediaIds,
-                    autoPopulateReplyMetadata: true, excludeReplyUserIds: excludeReplyUserIds)
+                    autoPopulateReplyMetadata, excludeReplyUserIds)
                 .ConfigureAwait(false);
 
             var status = await response.LoadJsonAsync()
