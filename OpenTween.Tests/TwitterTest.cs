@@ -55,6 +55,22 @@ namespace OpenTween
         }
 
         [Theory]
+        [InlineData("https://twitter.com/twitterapi/status/22634515958", true)]
+        [InlineData("http://twitter.com/twitterapi/status/22634515958", true)]
+        [InlineData("https://mobile.twitter.com/twitterapi/status/22634515958", true)]
+        [InlineData("http://mobile.twitter.com/twitterapi/status/22634515958", true)]
+        [InlineData("https://twitter.com/i/web/status/22634515958", false)]
+        [InlineData("https://twitter.com/imgazyobuzi/status/293333871171354624/photo/1", false)]
+        [InlineData("https://pic.twitter.com/gbxdb2Oj", false)]
+        [InlineData("https://twitter.com/messages/compose?recipient_id=514241801", true)]
+        [InlineData("http://twitter.com/messages/compose?recipient_id=514241801", true)]
+        [InlineData("https://twitter.com/messages/compose?recipient_id=514241801&text=%E3%81%BB%E3%81%92", true)]
+        public void AttachmentUrlRegexTest(string url, bool isMatch)
+        {
+            Assert.Equal(isMatch, Twitter.AttachmentUrlRegex.IsMatch(url));
+        }
+
+        [Theory]
         [InlineData("http://favstar.fm/users/twitterapi/status/22634515958", new[] { "22634515958" })]
         [InlineData("http://ja.favstar.fm/users/twitterapi/status/22634515958", new[] { "22634515958" })]
         [InlineData("http://favstar.fm/t/22634515958", new[] { "22634515958" })]
