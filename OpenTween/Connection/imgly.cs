@@ -127,9 +127,7 @@ namespace OpenTween.Connection
         }
 
         public int GetReservedTextLength(int mediaCount)
-        {
-            return this.twitterConfig.ShortUrlLength;
-        }
+            => this.twitterConfig.ShortUrlLength + 1;
 
         public void UpdateTwitterConfiguration(TwitterConfiguration config)
         {
