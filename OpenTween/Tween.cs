@@ -4816,9 +4816,11 @@ namespace OpenTween
             //文字数カウント
             var remainCount = this.tw.GetTextLengthRemain(statusText);
 
-            if (this.ImageSelector.Visible && !string.IsNullOrEmpty(this.ImageSelector.ServiceName))
+            var uploadService = this.ImageSelector.SelectedService;
+            if (this.ImageSelector.Visible && uploadService != null)
             {
-                remainCount -= this.tw.Configuration.CharactersReservedPerMedia;
+                // TODO: ImageSelector で選択中の画像の枚数が mediaCount 引数に渡るようにする
+                remainCount -= uploadService.GetReservedTextLength(1);
             }
 
             return remainCount;

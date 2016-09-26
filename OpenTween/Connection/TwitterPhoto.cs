@@ -105,11 +105,9 @@ namespace OpenTween.Connection
                 .ConfigureAwait(false);
         }
 
+        // pic.twitter.com の URL は文字数にカウントされない
         public int GetReservedTextLength(int mediaCount)
-        {
-            // 枚数に関わらず文字数は一定
-            return this.twitterConfig.ShortUrlLength;
-        }
+            => 0;
 
         public void UpdateTwitterConfiguration(TwitterConfiguration config)
         {
