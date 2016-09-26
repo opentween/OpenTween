@@ -127,7 +127,7 @@ namespace OpenTween.Api
         }
 
         public Task<LazyJson<TwitterStatus>> StatusesUpdate(string status, long? replyToId, IReadOnlyList<long> mediaIds,
-            bool? autoPopulateReplyMetadata = null, IReadOnlyList<long> excludeReplyUserIds = null)
+            bool? autoPopulateReplyMetadata = null, IReadOnlyList<long> excludeReplyUserIds = null, string attachmentUrl = null)
         {
             var endpoint = new Uri("statuses/update.json", UriKind.Relative);
             var param = new Dictionary<string, string>
@@ -146,6 +146,8 @@ namespace OpenTween.Api
                 param["auto_populate_reply_metadata"] = autoPopulateReplyMetadata.Value ? "true" : "false";
             if (excludeReplyUserIds != null && excludeReplyUserIds.Count > 0)
                 param["exclude_reply_user_ids"] = string.Join(",", excludeReplyUserIds);
+            if (attachmentUrl != null)
+                param["attachment_url"] = attachmentUrl;
 
             return this.apiConnection.PostLazyAsync<TwitterStatus>(endpoint, param);
         }

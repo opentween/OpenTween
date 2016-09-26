@@ -223,6 +223,7 @@ namespace OpenTween.Api
                             { "media_ids", "10,20" },
                             { "auto_populate_reply_metadata", "true" },
                             { "exclude_reply_user_ids", "100,200" },
+                            { "attachment_url", "https://twitter.com/twitterapi/status/22634515958" },
                         })
                 )
                 .ReturnsAsync(LazyJson.Create(new TwitterStatus()));
@@ -230,7 +231,8 @@ namespace OpenTween.Api
                 twitterApi.apiConnection = mock.Object;
 
                 await twitterApi.StatusesUpdate("hogehoge", replyToId: 100L, mediaIds: new[] { 10L, 20L },
-                        autoPopulateReplyMetadata: true, excludeReplyUserIds: new[] { 100L, 200L })
+                        autoPopulateReplyMetadata: true, excludeReplyUserIds: new[] { 100L, 200L },
+                        attachmentUrl: "https://twitter.com/twitterapi/status/22634515958")
                     .IgnoreResponse()
                     .ConfigureAwait(false);
 
