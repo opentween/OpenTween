@@ -165,7 +165,7 @@ namespace OpenTween
         private PostClass _anchorPost;
         private bool _anchorFlag;        //true:関連発言移動中（関連移動以外のオペレーションをするとfalseへ。trueだとリスト背景色をアンカー発言選択中として描画）
 
-        private List<PostingStatus> _history = new List<PostingStatus>();   //発言履歴
+        private List<StatusTextHistory> _history = new List<StatusTextHistory>();   //発言履歴
         private int _hisIdx;                  //発言履歴カレントインデックス
 
         //発言投稿時のAPI引数（発言編集時に設定。手書きreplyでは設定されない）
@@ -311,6 +311,24 @@ namespace OpenTween
             DialogSearch,
             NextSearch,
             PrevSearch,
+        }
+
+        private class StatusTextHistory
+        {
+            public string status = "";
+            public long? inReplyToId = null;
+            public string inReplyToName = null;
+            public string imageService = "";      //画像投稿サービス名
+            public IMediaItem[] mediaItems = null;
+            public StatusTextHistory()
+            {
+            }
+            public StatusTextHistory(string status, long? replyToId, string replyToName)
+            {
+                this.status = status;
+                this.inReplyToId = replyToId;
+                this.inReplyToName = replyToName;
+            }
         }
 
         private class PostingStatus
@@ -903,7 +921,7 @@ namespace OpenTween
             //Regex statregex = new Regex("^0*");
             this.recommendedStatusFooter = " [TWNv" + Regex.Replace(MyCommon.FileVersion.Replace(".", ""), "^0*", "") + "]";
 
-            _history.Add(new PostingStatus());
+            _history.Add(new StatusTextHistory());
             _hisIdx = 0;
             this.inReplyTo = null;
 
@@ -2103,7 +2121,7 @@ namespace OpenTween
 
             var inReplyToStatusId = this.inReplyTo?.Item1;
             var inReplyToScreenName = this.inReplyTo?.Item2;
-            _history[_history.Count - 1] = new PostingStatus(StatusText.Text, inReplyToStatusId, inReplyToScreenName);
+            _history[_history.Count - 1] = new StatusTextHistory(StatusText.Text, inReplyToStatusId, inReplyToScreenName);
 
             if (SettingManager.Common.Nicoms)
             {
@@ -2164,7 +2182,7 @@ namespace OpenTween
 
             this.inReplyTo = null;
             StatusText.Text = "";
-            _history.Add(new PostingStatus());
+            _history.Add(new StatusTextHistory());
             _hisIdx = _history.Count - 1;
             if (!SettingManager.Common.FocusLockToStatusText)
                 ((Control)ListTab.SelectedTab.Tag).Focus();
@@ -6157,7 +6175,7 @@ namespace OpenTween
                         {
                             var inReplyToStatusId = this.inReplyTo?.Item1;
                             var inReplyToScreenName = this.inReplyTo?.Item2;
-                            _history[_hisIdx] = new PostingStatus(StatusText.Text, inReplyToStatusId, inReplyToScreenName);
+                            _history[_hisIdx] = new StatusTextHistory(StatusText.Text, inReplyToStatusId, inReplyToScreenName);
                         }
                         _hisIdx -= 1;
                         if (_hisIdx < 0) _hisIdx = 0;
@@ -6178,7 +6196,7 @@ namespace OpenTween
                         {
                             var inReplyToStatusId = this.inReplyTo?.Item1;
                             var inReplyToScreenName = this.inReplyTo?.Item2;
-                            _history[_hisIdx] = new PostingStatus(StatusText.Text, inReplyToStatusId, inReplyToScreenName);
+                            _history[_hisIdx] = new StatusTextHistory(StatusText.Text, inReplyToStatusId, inReplyToScreenName);
                         }
                         _hisIdx += 1;
                         if (_hisIdx > _history.Count - 1) _hisIdx = _history.Count - 1;
