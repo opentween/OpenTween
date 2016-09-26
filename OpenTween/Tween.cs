@@ -331,26 +331,6 @@ namespace OpenTween
             }
         }
 
-        private class PostingStatus
-        {
-            public string status = "";
-            public long? inReplyToId = null;
-            public string inReplyToName = null;
-            public long[] excludeReplyUserIds = null;
-            public string attachmentUrl = null;
-            public string imageService = "";      //画像投稿サービス名
-            public IMediaItem[] mediaItems = null;
-            public PostingStatus()
-            {
-            }
-            public PostingStatus(string status, long? replyToId, string replyToName)
-            {
-                this.status = status;
-                this.inReplyToId = replyToId;
-                this.inReplyToName = replyToName;
-            }
-        }
-
         private void TweenMain_Activated(object sender, EventArgs e)
         {
             //画面がアクティブになったら、発言欄の背景色戻す
@@ -2157,27 +2137,32 @@ namespace OpenTween
                     return;
             }
 
-            var status = new PostingStatus();
-            status.status = statusText;
-
-            status.inReplyToId = this.inReplyTo?.Item1;
-            status.inReplyToName = this.inReplyTo?.Item2;
+            var status = new PostStatusParams
+            {
+                Text = statusText,
+                InReplyToStatusId = this.inReplyTo?.Item1,
+            };
 
             var replyToPost = this.inReplyTo != null ? this._statuses[this.inReplyTo.Item1] : null;
             if (replyToPost != null)
             {
                 // ReplyToList のうち autoPopulatedUserIds に含まれていないユーザー ID を抽出
-                status.excludeReplyUserIds = replyToPost.ReplyToList.Select(x => x.Item1).Except(autoPopulatedUserIds)
+                status.ExcludeReplyUserIds = replyToPost.ReplyToList.Select(x => x.Item1).Except(autoPopulatedUserIds)
                     .ToArray();
             }
 
-            status.attachmentUrl = attachmentUrl;
+            status.AttachmentUrl = attachmentUrl;
 
+            IMediaUploadService uploadService = null;
+            IMediaItem[] uploadItems = null;
             if (ImageSelector.Visible)
             {
+                string serviceName;
                 //画像投稿
-                if (!ImageSelector.TryGetSelectedMedia(out status.imageService, out status.mediaItems))
+                if (!ImageSelector.TryGetSelectedMedia(out serviceName, out uploadItems))
                     return;
+
+                uploadService = this.ImageSelector.GetService(serviceName);
             }
 
             this.inReplyTo = null;
@@ -2196,7 +2181,7 @@ namespace OpenTween
                 await this.OpenUriInBrowserAsync(tmp);
             }
 
-            await this.PostMessageAsync(status);
+            await this.PostMessageAsync(status, uploadService, uploadItems);
         }
 
         private void EndToolStripMenuItem_Click(object sender, EventArgs e)
@@ -2748,7 +2733,7 @@ namespace OpenTween
             }
         }
 
-        private async Task PostMessageAsync(PostingStatus status)
+        private async Task PostMessageAsync(PostStatusParams postParams, IMediaUploadService uploadService, IMediaItem[] uploadItems)
         {
             await this.workerSemaphore.WaitAsync();
 
@@ -2756,7 +2741,7 @@ namespace OpenTween
             {
                 var progress = new Progress<string>(x => this.StatusLabel.Text = x);
 
-                await this.PostMessageAsyncInternal(progress, this.workerCts.Token, status);
+                await this.PostMessageAsyncInternal(progress, this.workerCts.Token, postParams, uploadService, uploadItems);
             }
             catch (WebApiException ex)
             {
@@ -2769,7 +2754,8 @@ namespace OpenTween
             }
         }
 
-        private async Task PostMessageAsyncInternal(IProgress<string> p, CancellationToken ct, PostingStatus status)
+        private async Task PostMessageAsyncInternal(IProgress<string> p, CancellationToken ct, PostStatusParams postParams,
+            IMediaUploadService uploadService, IMediaItem[] uploadItems)
         {
             if (ct.IsCancellationRequested)
                 return;
@@ -2785,17 +2771,16 @@ namespace OpenTween
             {
                 await Task.Run(async () =>
                 {
-                    if (status.mediaItems == null || status.mediaItems.Length == 0)
+                    var postParamsWithMedia = postParams;
+
+                    if (uploadService != null && uploadItems != null && uploadItems.Length > 0)
                     {
-                        await this.tw.PostStatus(status.status, status.inReplyToId, excludeReplyUserIds: status.excludeReplyUserIds, attachmentUrl: status.attachmentUrl)
+                        postParamsWithMedia = await uploadService.UploadAsync(uploadItems, postParamsWithMedia)
                             .ConfigureAwait(false);
                     }
-                    else
-                    {
-                        var service = ImageSelector.GetService(status.imageService);
-                        await service.PostStatusAsync(status.status, status.inReplyToId, status.mediaItems, status.excludeReplyUserIds, status.attachmentUrl)
-                            .ConfigureAwait(false);
-                    }
+
+                    await this.tw.PostStatus(postParamsWithMedia)
+                        .ConfigureAwait(false);
                 });
 
                 p.Report(Properties.Resources.PostWorker_RunWorkerCompletedText4);
@@ -2817,9 +2802,9 @@ namespace OpenTween
             finally
             {
                 // 使い終わった MediaItem は破棄する
-                if (status.mediaItems != null)
+                if (uploadItems != null)
                 {
-                    foreach (var disposableItem in status.mediaItems.OfType<IDisposable>())
+                    foreach (var disposableItem in uploadItems.OfType<IDisposable>())
                     {
                         disposableItem.Dispose();
                     }
@@ -2833,7 +2818,7 @@ namespace OpenTween
                 !errMsg.StartsWith("OK:", StringComparison.Ordinal) &&
                 !errMsg.StartsWith("Warn:", StringComparison.Ordinal))
             {
-                var message = string.Format(Properties.Resources.StatusUpdateFailed, errMsg, status.status);
+                var message = string.Format(Properties.Resources.StatusUpdateFailed, errMsg, postParams.Text);
 
                 var ret = MessageBox.Show(
                     message,
@@ -2843,7 +2828,7 @@ namespace OpenTween
 
                 if (ret == DialogResult.Retry)
                 {
-                    await this.PostMessageAsync(status);
+                    await this.PostMessageAsync(postParams, uploadService, uploadItems);
                 }
                 else
                 {

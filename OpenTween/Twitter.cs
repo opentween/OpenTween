@@ -287,24 +287,23 @@ namespace OpenTween
             return orgData;
         }
 
-        public async Task PostStatus(string postStr, long? reply_to, IReadOnlyList<long> mediaIds = null,
-            IReadOnlyList<long> excludeReplyUserIds = null, string attachmentUrl = null)
+        public async Task PostStatus(PostStatusParams param)
         {
             this.CheckAccountState();
 
-            if (Twitter.DMSendTextRegex.IsMatch(postStr))
+            if (Twitter.DMSendTextRegex.IsMatch(param.Text))
             {
-                await this.SendDirectMessage(postStr)
+                await this.SendDirectMessage(param.Text)
                     .ConfigureAwait(false);
                 return;
             }
 
             var autoPopulateReplyMetadata = false;
-            if (reply_to != null && !postStr.Contains("RT @"))
+            if (param.InReplyToStatusId != null && !param.Text.Contains("RT @"))
                 autoPopulateReplyMetadata = true;
 
-            var response = await this.Api.StatusesUpdate(postStr, reply_to, mediaIds,
-                    autoPopulateReplyMetadata, excludeReplyUserIds, attachmentUrl)
+            var response = await this.Api.StatusesUpdate(param.Text, param.InReplyToStatusId, param.MediaIds,
+                    autoPopulateReplyMetadata, param.ExcludeReplyUserIds, param.AttachmentUrl)
                 .ConfigureAwait(false);
 
             var status = await response.LoadJsonAsync()
