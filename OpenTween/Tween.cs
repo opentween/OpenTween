@@ -11372,8 +11372,7 @@ namespace OpenTween
                 ModifySettingCommon = true;
                 SaveConfigsAll(true);
 
-                if (ImageSelector.ServiceName.Equals("Twitter"))
-                    this.StatusText_TextChanged(null, null);
+                this.StatusText_TextChanged(null, null);
             }
         }
 
