@@ -6456,28 +6456,31 @@ namespace OpenTween
 
         private void CopyIdUri()
         {
-            string clstr = "";
-            StringBuilder sb = new StringBuilder();
-            if (this._curTab == null) return;
-            if (this._statuses.GetTabByName(this._curTab.Text) == null) return;
-            if (this._statuses.GetTabByName(this._curTab.Text).TabType == MyCommon.TabUsageType.DirectMessage) return;
+            if (this._curTab == null)
+                return;
+
+            var tab = this._statuses.GetTabByName(this._curTab.Text);
+            if (tab == null || tab is DirectMessagesTabModel)
+                return;
+
+            var sb = new StringBuilder();
             foreach (int idx in _curList.SelectedIndices)
             {
-                var post = _statuses.Tabs[_curTab.Text][idx];
+                var post = tab[idx];
                 sb.Append(MyCommon.GetStatusUrl(post));
                 sb.Append(Environment.NewLine);
             }
-            if (sb.Length > 0)
+
+            if (sb.Length == 0)
+                return;
+
+            try
             {
-                clstr = sb.ToString();
-                try
-                {
-                    Clipboard.SetDataObject(clstr, false, 5, 100);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message);
-                }
+                Clipboard.SetDataObject(sb.ToString(), false, 5, 100);
+            }
+            catch (ExternalException ex)
+            {
+                MessageBox.Show(ex.Message);
             }
         }
 
