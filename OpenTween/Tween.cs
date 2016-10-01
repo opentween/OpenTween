@@ -6463,20 +6463,19 @@ namespace OpenTween
             if (tab == null || tab is DirectMessagesTabModel)
                 return;
 
-            var sb = new StringBuilder();
+            var copyUrls = new List<string>();
             foreach (int idx in _curList.SelectedIndices)
             {
                 var post = tab[idx];
-                sb.Append(MyCommon.GetStatusUrl(post));
-                sb.Append(Environment.NewLine);
+                copyUrls.Add(MyCommon.GetStatusUrl(post));
             }
 
-            if (sb.Length == 0)
+            if (copyUrls.Count == 0)
                 return;
 
             try
             {
-                Clipboard.SetDataObject(sb.ToString(), false, 5, 100);
+                Clipboard.SetDataObject(string.Join(Environment.NewLine, copyUrls), false, 5, 100);
             }
             catch (ExternalException ex)
             {
