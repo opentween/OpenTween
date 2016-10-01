@@ -96,16 +96,29 @@ namespace OpenTween
             base.SizeMode = this.currentSizeMode;
         }
 
+        /// <summary>
+        /// SetImageFromTask メソッドを連続で呼び出した際に設定される画像が前後するのを防ぐため、
+        /// 現在進行中の Task を表す Id を記憶しておくためのフィールド
+        /// </summary>
+        private int currentImageTaskId = 0;
+
         public async Task SetImageFromTask(Func<Task<MemoryImage>> imageTask)
         {
+            var id = Interlocked.Increment(ref this.currentImageTaskId);
+
             try
             {
                 this.ShowInitialImage();
-                this.Image = await imageTask();
+
+                var image = await imageTask();
+
+                if (id == this.currentImageTaskId)
+                    this.Image = image;
             }
             catch (Exception)
             {
-                this.ShowErrorImage();
+                if (id == this.currentImageTaskId)
+                    this.ShowErrorImage();
                 try
                 {
                     throw;
