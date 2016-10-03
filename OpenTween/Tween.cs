@@ -4753,6 +4753,7 @@ namespace OpenTween
                 if (statusText.StartsWith($"@{replyToPost.ScreenName} ", StringComparison.Ordinal))
                 {
                     statusText = statusText.Substring(replyToPost.ScreenName.Length + 2);
+                    _autoPopulatedUserIds.Add(replyToPost.UserId);
 
                     foreach (var reply in replyToPost.ReplyToList)
                     {
