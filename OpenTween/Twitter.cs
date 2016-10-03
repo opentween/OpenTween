@@ -136,8 +136,8 @@ namespace OpenTween
         /// attachment_url に指定可能な URL を判定する正規表現
         /// </summary>
         public static readonly Regex AttachmentUrlRegex = new Regex(@"https?://(
-   twitter\.com/[0-9A-Za-z]+/status/[0-9]+
- | mobile\.twitter\.com/[0-9A-Za-z]+/status/[0-9]+
+   twitter\.com/[0-9A-Za-z_]+/status/[0-9]+
+ | mobile\.twitter\.com/[0-9A-Za-z_]+/status/[0-9]+
  | twitter\.com/messages/compose\?recipient_id=[0-9]+(&.+)?
 )$", RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace);
 
