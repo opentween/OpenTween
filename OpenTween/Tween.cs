@@ -986,7 +986,7 @@ namespace OpenTween
             StatusLabel.AutoToolTip = false;
             StatusLabel.ToolTipText = "";
             //文字カウンタ初期化
-            lblLen.Text = this.GetRestStatusCount("").ToString();
+            lblLen.Text = this.GetRestStatusCount(this.FormatStatusTextExtended("")).ToString();
 
             this.JumpReadOpMenuItem.ShortcutKeyDisplayString = "Space";
             CopySTOTMenuItem.ShortcutKeyDisplayString = "Ctrl+C";
@@ -2121,13 +2121,11 @@ namespace OpenTween
             StatusText.SelectionStart = StatusText.Text.Length;
             CheckReplyTo(StatusText.Text);
 
+            var statusText = this.StatusText.Text;
+
             long[] autoPopulatedUserIds;
-            var statusText = this.RemoveAutoPopuratedMentions(this.StatusText.Text, out autoPopulatedUserIds);
-
             string attachmentUrl;
-            statusText = this.RemoveAttachmentUrl(statusText, out attachmentUrl);
-
-            statusText = this.FormatStatusText(statusText);
+            statusText = this.FormatStatusTextExtended(statusText, out autoPopulatedUserIds, out attachmentUrl);
 
             if (this.GetRestStatusCount(statusText) < 0)
             {
@@ -4721,7 +4719,7 @@ namespace OpenTween
         private void StatusText_TextChanged(object sender, EventArgs e)
         {
             //文字数カウント
-            int pLen = this.GetRestStatusCount(this.StatusText.Text);
+            int pLen = this.GetRestStatusCount(this.FormatStatusTextExtended(this.StatusText.Text));
             lblLen.Text = pLen.ToString();
             if (pLen < 0)
             {
@@ -4790,6 +4788,26 @@ namespace OpenTween
 
             // テキストと URL の間にスペースが含まれていれば除去
             return statusText.TrimEnd(' ');
+        }
+
+        private string FormatStatusTextExtended(string statusText)
+        {
+            long[] autoPopulatedUserIds;
+            string attachmentUrl;
+
+            return this.FormatStatusTextExtended(statusText, out autoPopulatedUserIds, out attachmentUrl);
+        }
+
+        /// <summary>
+        /// <see cref="FormatStatusText"/> に加えて、拡張モードで140字にカウントされない文字列の除去を行います
+        /// </summary>
+        private string FormatStatusTextExtended(string statusText, out long[] autoPopulatedUserIds, out string attachmentUrl)
+        {
+            statusText = this.RemoveAutoPopuratedMentions(statusText, out autoPopulatedUserIds);
+
+            statusText = this.RemoveAttachmentUrl(statusText, out attachmentUrl);
+
+            return this.FormatStatusText(statusText);
         }
 
         /// <summary>
@@ -4891,14 +4909,6 @@ namespace OpenTween
         /// </summary>
         private int GetRestStatusCount(string statusText)
         {
-            long[] autoPopulatedUserIds;
-            statusText = this.RemoveAutoPopuratedMentions(statusText, out autoPopulatedUserIds);
-
-            string attachmentUrl;
-            statusText = this.RemoveAttachmentUrl(statusText, out attachmentUrl);
-
-            statusText = this.FormatStatusText(statusText);
-
             var remainCount = this.tw.GetTextLengthRemain(statusText);
 
             var uploadService = this.GetSelectedImageService();
