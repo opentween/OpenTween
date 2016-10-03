@@ -4784,12 +4784,15 @@ namespace OpenTween
         /// </summary>
         private string RemoveAttachmentUrl(string statusText, out string attachmentUrl)
         {
+            attachmentUrl = null;
+
+            // attachment_url は media_id と同時に使用できない
+            if (this.ImageSelector.Visible && this.ImageSelector.SelectedService is TwitterPhoto)
+                return statusText;
+
             var match = Twitter.AttachmentUrlRegex.Match(statusText);
             if (!match.Success)
-            {
-                attachmentUrl = null;
                 return statusText;
-            }
 
             attachmentUrl = match.Value;
 
