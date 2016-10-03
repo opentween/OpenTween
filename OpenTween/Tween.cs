@@ -2121,37 +2121,45 @@ namespace OpenTween
             StatusText.SelectionStart = StatusText.Text.Length;
             CheckReplyTo(StatusText.Text);
 
-            var statusText = this.StatusText.Text;
+            var status = new PostStatusParams();
 
-            long[] autoPopulatedUserIds;
-            string attachmentUrl;
-            statusText = this.FormatStatusTextExtended(statusText, out autoPopulatedUserIds, out attachmentUrl);
+            var statusTextCompat = this.FormatStatusText(this.StatusText.Text);
+            if (this.GetRestStatusCount(statusTextCompat) >= 0)
+            {
+                // auto_populate_reply_metadata や attachment_url を使用しなくても 140 字以内に
+                // 収まる場合はこれらのオプションを使用せずに投稿する
+                status.Text = statusTextCompat;
+                status.InReplyToStatusId = this.inReplyTo?.Item1;
+            }
+            else
+            {
+                long[] autoPopulatedUserIds;
+                string attachmentUrl;
+                status.Text = this.FormatStatusTextExtended(this.StatusText.Text, out autoPopulatedUserIds, out attachmentUrl);
+                status.InReplyToStatusId = this.inReplyTo?.Item1;
 
-            if (this.GetRestStatusCount(statusText) < 0)
+                status.AttachmentUrl = attachmentUrl;
+
+                // リプライ先がセットされていても autoPopulatedUserIds が空の場合は auto_populate_reply_metadata を有効にしない
+                //  (非公式 RT の場合など)
+                var replyToPost = this.inReplyTo != null ? this._statuses[this.inReplyTo.Item1] : null;
+                if (replyToPost != null && autoPopulatedUserIds.Length != 0)
+                {
+                    status.AutoPopulateReplyMetadata = true;
+
+                    // ReplyToList のうち autoPopulatedUserIds に含まれていないユーザー ID を抽出
+                    status.ExcludeReplyUserIds = replyToPost.ReplyToList.Select(x => x.Item1).Except(autoPopulatedUserIds)
+                        .ToArray();
+                }
+            }
+
+            if (this.GetRestStatusCount(status.Text) < 0)
             {
                 // 文字数制限を超えているが強制的に投稿するか
                 var ret = MessageBox.Show(Properties.Resources.PostLengthOverMessage1, Properties.Resources.PostLengthOverMessage2, MessageBoxButtons.OKCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2);
                 if (ret != DialogResult.OK)
                     return;
             }
-
-            var status = new PostStatusParams
-            {
-                Text = statusText,
-                InReplyToStatusId = this.inReplyTo?.Item1,
-            };
-
-            var replyToPost = this.inReplyTo != null ? this._statuses[this.inReplyTo.Item1] : null;
-            if (replyToPost != null && !status.Text.Contains("RT @"))
-            {
-                status.AutoPopulateReplyMetadata = true;
-
-                // ReplyToList のうち autoPopulatedUserIds に含まれていないユーザー ID を抽出
-                status.ExcludeReplyUserIds = replyToPost.ReplyToList.Select(x => x.Item1).Except(autoPopulatedUserIds)
-                    .ToArray();
-            }
-
-            status.AttachmentUrl = attachmentUrl;
 
             IMediaUploadService uploadService = null;
             IMediaItem[] uploadItems = null;
