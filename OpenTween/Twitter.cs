@@ -298,12 +298,8 @@ namespace OpenTween
                 return;
             }
 
-            var autoPopulateReplyMetadata = false;
-            if (param.InReplyToStatusId != null && !param.Text.Contains("RT @"))
-                autoPopulateReplyMetadata = true;
-
             var response = await this.Api.StatusesUpdate(param.Text, param.InReplyToStatusId, param.MediaIds,
-                    autoPopulateReplyMetadata, param.ExcludeReplyUserIds, param.AttachmentUrl)
+                    param.AutoPopulateReplyMetadata, param.ExcludeReplyUserIds, param.AttachmentUrl)
                 .ConfigureAwait(false);
 
             var status = await response.LoadJsonAsync()

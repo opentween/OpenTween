@@ -2142,8 +2142,10 @@ namespace OpenTween
             };
 
             var replyToPost = this.inReplyTo != null ? this._statuses[this.inReplyTo.Item1] : null;
-            if (replyToPost != null)
+            if (replyToPost != null && !status.Text.Contains("RT @"))
             {
+                status.AutoPopulateReplyMetadata = true;
+
                 // ReplyToList のうち autoPopulatedUserIds に含まれていないユーザー ID を抽出
                 status.ExcludeReplyUserIds = replyToPost.ReplyToList.Select(x => x.Item1).Except(autoPopulatedUserIds)
                     .ToArray();

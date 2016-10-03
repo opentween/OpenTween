@@ -33,6 +33,7 @@ namespace OpenTween
         public string Text { get; set; }
         public long? InReplyToStatusId { get; set; }
         public IReadOnlyList<long> MediaIds { get; set; }
+        public bool AutoPopulateReplyMetadata { get; set; }
         public IReadOnlyList<long> ExcludeReplyUserIds { get; set; }
         public string AttachmentUrl { get; set; }
     }
