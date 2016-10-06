@@ -36,53 +36,6 @@ namespace OpenTween
     /// </summary>
     public class BingTest
     {
-        [Fact]
-        public async Task TranslateAsync_Test()
-        {
-            var handler = new HttpMessageHandlerMock();
-            var bing = new Bing(new HttpClient(handler));
-
-            handler.Enqueue(x =>
-            {
-                Assert.Equal(HttpMethod.Get, x.Method);
-                Assert.Equal("https://api.datamarket.azure.com/Data.ashx/Bing/MicrosoftTranslator/v1/Translate",
-                    x.RequestUri.GetLeftPart(UriPartial.Path));
-
-                var query = HttpUtility.ParseQueryString(x.RequestUri.Query);
-
-                Assert.Equal("'hogehoge'", query["Text"]);
-                Assert.Equal("'ja'", query["To"]);
-                Assert.Equal("Raw", query["$format"]);
-
-                return new HttpResponseMessage(HttpStatusCode.OK)
-                {
-                    Content = new StringContent("<string>ほげほげ</string>"),
-                };
-            });
-
-            var translatedText = await bing.TranslateAsync("hogehoge", langFrom: null, langTo: "ja");
-            Assert.Equal("ほげほげ", translatedText);
-
-            Assert.Equal(0, handler.QueueCount);
-        }
-
-        [Fact]
-        public async Task TranslateAsync_HttpErrorTest()
-        {
-            var handler = new HttpMessageHandlerMock();
-            var bing = new Bing(new HttpClient(handler));
-
-            handler.Enqueue(x =>
-            {
-                return new HttpResponseMessage(HttpStatusCode.ServiceUnavailable);
-            });
-
-            await Assert.ThrowsAsync<HttpRequestException>(async () =>
-                await bing.TranslateAsync("hogehoge", langFrom: null, langTo: "ja"));
-
-            Assert.Equal(0, handler.QueueCount);
-        }
-
         [Theory]
         [InlineData("af", 0)]
         [InlineData("sq", 1)]
@@ -99,15 +52,6 @@ namespace OpenTween
         public void GetIndexFromLanguageEnum_Test(int expected, string lang)
         {
             Assert.Equal(expected, Bing.GetIndexFromLanguageEnum(lang));
-        }
-
-        [Fact]
-        public void CreateBasicAuthHeaderValue_Test()
-        {
-            var value = Bing.CreateBasicAuthHeaderValue("user", "pass");
-
-            Assert.Equal("Basic", value.Scheme);
-            Assert.Equal("user:pass", Encoding.UTF8.GetString(Convert.FromBase64String(value.Parameter)));
         }
     }
 }

@@ -142,12 +142,17 @@ namespace OpenTween
 
         //=====================================================================
         // Windows Azure Marketplace
-        // https://datamarket.azure.com/account/keys から取得できます。
+        // https://datamarket.azure.com/developer/applications から取得できます。
 
         /// <summary>
-        /// Windows Azure Marketplace アカウントキー
+        /// Windows Azure Marketplace Client Id
         /// </summary>
-        public const string AzureMarketplaceKey = "UlOODyR2rVH0lfweya1VuY5KjE7L0ZjvQKQWlYgWsPw=";
+        public readonly static string AzureClientId = "OpenTween";
+
+        /// <summary>
+        /// Windows Azure Marketplace Client Secret
+        /// </summary>
+        public readonly static string AzureClientSecret = "UiTaBcOkGxCpjloU/2W3P0fTiHNz+FUeGuzgUz2rwZU=";
 
         //=====================================================================
         // Imgur

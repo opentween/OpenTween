@@ -27,11 +27,10 @@
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
-using System.Web;
-using System.Xml.Linq;
+using OpenTween.Api;
 using OpenTween.Connection;
 
 namespace OpenTween
@@ -166,14 +165,7 @@ namespace OpenTween
             "zu",
         };
 
-        private static readonly string TranslateUri =
-            "https://api.datamarket.azure.com/Data.ashx/Bing/MicrosoftTranslator/v1/Translate";
-
-        protected HttpClient http
-        {
-            get { return this.localHttpClient ?? Networking.Http; }
-        }
-        private readonly HttpClient localHttpClient;
+        private readonly MicrosoftTranslatorApi translatorApi;
 
         public Bing()
             : this(null)
@@ -182,7 +174,7 @@ namespace OpenTween
 
         public Bing(HttpClient http)
         {
-            this.localHttpClient = http;
+            this.translatorApi = new MicrosoftTranslatorApi(http);
         }
 
         /// <summary>
@@ -191,31 +183,8 @@ namespace OpenTween
         /// <exception cref="HttpRequestException"/>
         public async Task<string> TranslateAsync(string text, string langFrom, string langTo)
         {
-            var param = new Dictionary<string, string>
-            {
-                ["Text"] = "'" + text + "'",
-                ["To"] = "'" + langTo + "'",
-                ["$format"] = "Raw",
-            };
-
-            if (langFrom != null)
-                param["From"] = "'" + langFrom + "'";
-
-            var uri = new Uri(TranslateUri + "?" + MyCommon.BuildQueryString(param));
-            var request = new HttpRequestMessage(HttpMethod.Get, uri);
-            request.Headers.Authorization = CreateBasicAuthHeaderValue(ApplicationSettings.AzureMarketplaceKey, ApplicationSettings.AzureMarketplaceKey);
-
-            using (var response = await this.http.SendAsync(request).ConfigureAwait(false))
-            {
-                response.EnsureSuccessStatusCode();
-
-                var xmlStr = await response.Content.ReadAsStringAsync()
-                    .ConfigureAwait(false);
-
-                var xdoc = XDocument.Parse(xmlStr);
-
-                return xdoc.Root.Value;
-            }
+            return await this.translatorApi.TranslateAsync(text, langTo, langFrom)
+                .ConfigureAwait(false);
         }
 
         public static string GetLanguageEnumFromIndex(int index)
@@ -226,12 +195,6 @@ namespace OpenTween
         public static int GetIndexFromLanguageEnum(string lang)
         {
             return LanguageTable.IndexOf(lang);
-        }
-
-        internal static AuthenticationHeaderValue CreateBasicAuthHeaderValue(string user, string pass)
-        {
-            var paramBytes = Encoding.UTF8.GetBytes(user + ":" + pass);
-            return new AuthenticationHeaderValue("Basic", Convert.ToBase64String(paramBytes));
         }
     }
 }

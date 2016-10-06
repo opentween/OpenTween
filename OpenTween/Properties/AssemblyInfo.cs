@@ -36,3 +36,4 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyFileVersion("1.3.5.1")]
 
 [assembly: InternalsVisibleTo("OpenTween.Tests")]
+[assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")] // for Moq

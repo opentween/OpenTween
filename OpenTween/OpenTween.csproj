@@ -86,6 +86,7 @@
     <Compile Include="Api\DataModel\TwitterUploadMediaResult.cs" />
     <Compile Include="Api\DataModel\TwitterUser.cs" />
     <Compile Include="Api\DataModel\TwitterApiAccessLevel.cs" />
+    <Compile Include="Api\MicrosoftTranslatorApi.cs" />
     <Compile Include="Api\TwitterApi.cs" />
     <Compile Include="Api\TwitterApiException.cs" />
     <Compile Include="Api\TwitterApiStatus.cs" />
