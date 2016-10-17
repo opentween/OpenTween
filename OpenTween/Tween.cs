@@ -5485,6 +5485,8 @@ namespace OpenTween
                 return;
 
             TabModel foundTab = null;
+            int foundIndex = 0;
+
             DetailsListView lst = null;
 
             //現在タブから最終タブまで探索
@@ -5492,11 +5494,13 @@ namespace OpenTween
             {
                 var tabPage = this.ListTab.TabPages[i];
                 var tab = this._statuses.Tabs[tabPage.Text];
+                var unreadIndex = tab.NextUnreadIndex;
 
-                if (tab.NextUnreadIndex != -1)
+                if (unreadIndex != -1)
                 {
                     ListTab.SelectedIndex = i;
                     foundTab = tab;
+                    foundIndex = unreadIndex;
                     lst = (DetailsListView)tabPage.Tag;
                     break;
                 }
@@ -5509,23 +5513,20 @@ namespace OpenTween
                 {
                     var tabPage = this.ListTab.TabPages[i];
                     var tab = this._statuses.Tabs[tabPage.Text];
+                    var unreadIndex = tab.NextUnreadIndex;
 
-                    if (tab.NextUnreadIndex != -1)
+                    if (unreadIndex != -1)
                     {
                         ListTab.SelectedIndex = i;
                         foundTab = tab;
+                        foundIndex = unreadIndex;
                         lst = (DetailsListView)tabPage.Tag;
                         break;
                     }
                 }
             }
 
-            int idx;
-            if (foundTab != null)
-            {
-                idx = foundTab.NextUnreadIndex;
-            }
-            else
+            if (foundTab == null)
             {
                 //全部調べたが未読見つからず→先頭タブの最新発言へ
                 ListTab.SelectedIndex = 0;
@@ -5536,30 +5537,30 @@ namespace OpenTween
                     return;
 
                 if (_statuses.SortOrder == SortOrder.Ascending)
-                    idx = tab.AllCount - 1;
+                    foundIndex = tab.AllCount - 1;
                 else
-                    idx = 0;
+                    foundIndex = 0;
 
                 lst = (DetailsListView)tabPage.Tag;
             }
 
-            SelectListItem(lst, idx);
+            SelectListItem(lst, foundIndex);
 
             if (_statuses.SortMode == ComparerMode.Id)
             {
-                if (_statuses.SortOrder == SortOrder.Ascending && lst.Items[idx].Position.Y > lst.ClientSize.Height - _iconSz - 10 ||
-                    _statuses.SortOrder == SortOrder.Descending && lst.Items[idx].Position.Y < _iconSz + 10)
+                if (_statuses.SortOrder == SortOrder.Ascending && lst.Items[foundIndex].Position.Y > lst.ClientSize.Height - _iconSz - 10 ||
+                    _statuses.SortOrder == SortOrder.Descending && lst.Items[foundIndex].Position.Y < _iconSz + 10)
                 {
                     MoveTop();
                 }
                 else
                 {
-                    lst.EnsureVisible(idx);
+                    lst.EnsureVisible(foundIndex);
                 }
             }
             else
             {
-                lst.EnsureVisible(idx);
+                lst.EnsureVisible(foundIndex);
             }
 
             lst.Focus();
