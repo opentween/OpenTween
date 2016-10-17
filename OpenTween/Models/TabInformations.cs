@@ -328,6 +328,13 @@ namespace OpenTween.Models
             {
                 tab.EnqueueRemovePost(statusId, setIsDeleted);
             }
+
+            if (setIsDeleted)
+            {
+                PostClass post;
+                if (this._statuses.TryGetValue(statusId, out post))
+                    post.IsDeleted = true;
+            }
         }
 
         public int SubmitUpdate()
