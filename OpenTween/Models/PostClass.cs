@@ -192,8 +192,8 @@ namespace OpenTween.Models
             RetweetedBy = "";
             Media = new List<MediaInfo>();
             ReplyToList = new List<Tuple<long, string>>();
-            QuoteStatusIds = new long[0];
-            ExpandedUrls = new ExpandedUrlInfo[0];
+            QuoteStatusIds = Array.Empty<long>();
+            ExpandedUrls = Array.Empty<ExpandedUrlInfo>();
         }
 
         public string TextSingleLine

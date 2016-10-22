@@ -159,7 +159,7 @@ namespace OpenTween
         delegate void GetIconImageDelegate(PostClass post);
         private readonly object LockObj = new object();
         private ISet<long> followerId = new HashSet<long>();
-        private long[] noRTId = new long[0];
+        private long[] noRTId = Array.Empty<long>();
 
         //プロパティからアクセスされる共通情報
         private List<string> _hashList = new List<string>();

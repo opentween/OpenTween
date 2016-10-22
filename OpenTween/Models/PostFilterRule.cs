@@ -93,7 +93,7 @@ namespace OpenTween.Models
             get => this._FilterBody;
             set => this.SetProperty(ref this._FilterBody, value ?? throw new ArgumentNullException(nameof(value)));
         }
-        private string[] _FilterBody = new string[0];
+        private string[] _FilterBody = Array.Empty<string>();
 
         [XmlArray("ExBodyFilterArray")]
         public string[] ExFilterBody
@@ -101,7 +101,7 @@ namespace OpenTween.Models
             get => this._ExFilterBody;
             set => this.SetProperty(ref this._ExFilterBody, value ?? throw new ArgumentNullException(nameof(value)));
         }
-        private string[] _ExFilterBody = new string[0];
+        private string[] _ExFilterBody = Array.Empty<string>();
 
         [XmlElement("SearchBoth")]
         public bool UseNameField

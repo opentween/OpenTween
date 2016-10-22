@@ -73,7 +73,7 @@ namespace OpenTween
             /// <summary>
             /// 振り分けルール (<see cref="MyCommon.TabUsageType.UserDefined"/> で使用)
             /// </summary>
-            public PostFilterRule[] FilterArray { get; set; } = new PostFilterRule[0];
+            public PostFilterRule[] FilterArray { get; set; } = Array.Empty<PostFilterRule>();
 
             /// <summary>
             /// 表示するユーザーのスクリーンネーム (<see cref="MyCommon.TabUsageType.UserTimeline"/> で使用)
