@@ -65,7 +65,7 @@ namespace OpenTween
 
             if (!CheckRuntimeVersion())
             {
-                var message = string.Format(Properties.Resources.CheckRuntimeVersion_Error, ".NET Framework 4.5.1");
+                var message = string.Format(Properties.Resources.CheckRuntimeVersion_Error, ".NET Framework 4.6.2");
                 MessageBox.Show(message, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return 1;
             }
@@ -144,14 +144,14 @@ namespace OpenTween
             if (Type.GetType("Mono.Runtime", false) != null)
                 return true;
 
-            // .NET Framework 4.5.1 以降で動作しているかチェックする
+            // .NET Framework 4.6.2 以降で動作しているかチェックする
             // 参照: http://msdn.microsoft.com/en-us/library/hh925568%28v=vs.110%29.aspx
 
             using (var lmKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry32))
             using (var ndpKey = lmKey.OpenSubKey(@"SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full\"))
             {
                 var releaseKey = (int)ndpKey.GetValue("Release");
-                return releaseKey >= 378675;
+                return releaseKey >= 394802;
             }
         }
 
