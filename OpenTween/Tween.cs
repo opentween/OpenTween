@@ -1570,7 +1570,7 @@ namespace OpenTween
             {
                 return new ListViewSelection
                 {
-                    SelectedStatusIds = new long[0],
+                    SelectedStatusIds = Array.Empty<long>(),
                     SelectionMarkStatusId = null,
                     FocusedStatusId = null,
                 };
@@ -5932,7 +5932,7 @@ namespace OpenTween
             }
         }
 
-        private ShortcutCommand[] shortcutCommands = new ShortcutCommand[0];
+        private ShortcutCommand[] shortcutCommands = Array.Empty<ShortcutCommand>();
 
         private void InitializeShortcuts()
         {

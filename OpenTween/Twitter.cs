@@ -164,7 +164,7 @@ namespace OpenTween
         private readonly object LockObj = new object();
         private ISet<long> followerId = new HashSet<long>();
         private bool _GetFollowerResult = false;
-        private long[] noRTId = new long[0];
+        private long[] noRTId = Array.Empty<long>();
         private bool _GetNoRetweetResult = false;
 
         //プロパティからアクセスされる共通情報

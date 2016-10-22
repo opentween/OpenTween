@@ -82,7 +82,7 @@ namespace OpenTween
 
         private ShortcutCommand()
         {
-            this.shortcuts = new Keys[0];
+            this.shortcuts = Array.Empty<Keys>();
             this.command = () => Task.FromResult(0);
             this.onlyWhen = () => true;
             this.focusedOn = FocusedControl.None;
