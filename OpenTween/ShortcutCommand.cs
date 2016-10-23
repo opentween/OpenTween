@@ -83,7 +83,7 @@ namespace OpenTween
         private ShortcutCommand()
         {
             this.shortcuts = Array.Empty<Keys>();
-            this.command = () => Task.FromResult(0);
+            this.command = () => Task.CompletedTask;
             this.onlyWhen = () => true;
             this.focusedOn = FocusedControl.None;
             this.notFocusedOn = FocusedControl.None;
@@ -190,15 +190,12 @@ namespace OpenTween
                 return this.instance;
             }
 
-            /// <summary>何もしないタスク</summary>
-            private static Task noOpTask = Task.FromResult(0);
-
             /// <summary>
             /// Action を Func&lt;Task&gt; に変換します
             /// </summary>
             private static Func<Task> SynchronousTask(Action action)
             {
-                return () => { action(); return noOpTask; };
+                return () => { action(); return Task.CompletedTask; };
             }
         }
     }

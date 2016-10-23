@@ -1298,7 +1298,7 @@ namespace OpenTween.Api
                         new Uri("https://upload.twitter.com/1.1/media/metadata/create.json", UriKind.Absolute),
                         "{\"media_id\": \"12345\", \"alt_text\": {\"text\": \"hogehoge\"}}")
                 )
-                .Returns(Task.FromResult(0));
+                .Returns(Task.CompletedTask);
 
                 twitterApi.apiConnection = mock.Object;
 
