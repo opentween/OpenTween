@@ -153,7 +153,7 @@ namespace OpenTween.Models
                 if (deepExpand)
                     this.ExpandTask = this.DeepExpandAsync();
                 else
-                    this.ExpandTask = Task.FromResult(0);
+                    this.ExpandTask = Task.CompletedTask;
             }
 
             protected virtual async Task DeepExpandAsync()
