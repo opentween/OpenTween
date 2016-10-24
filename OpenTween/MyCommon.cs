@@ -814,7 +814,6 @@ namespace OpenTween
 
         public static DateTime DateTimeParse(string input)
         {
-            DateTime rslt;
             string[] format = {
                 "ddd MMM dd HH:mm:ss zzzz yyyy",
                 "ddd, d MMM yyyy HH:mm:ss zzzz",
@@ -825,7 +824,7 @@ namespace OpenTween
                                           fmt,
                                           DateTimeFormatInfo.InvariantInfo,
                                           DateTimeStyles.None,
-                                          out rslt))
+                                          out var rslt))
                 {
                     return rslt;
                 }

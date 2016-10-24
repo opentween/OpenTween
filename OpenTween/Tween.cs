@@ -1392,12 +1392,9 @@ namespace OpenTween
             var listSelections = this.SaveListViewSelection();
 
             //更新確定
-            PostClass[] notifyPosts;
-            string soundFile;
             int addCount;
-            bool newMentionOrDm;
-            bool isDelete;
-            addCount = _statuses.SubmitUpdate(out soundFile, out notifyPosts, out newMentionOrDm, out isDelete);
+            addCount = _statuses.SubmitUpdate(out var soundFile, out var notifyPosts,
+                out var newMentionOrDm, out var isDelete);
 
             if (MyCommon._endingFlag) return;
 
@@ -1944,9 +1941,7 @@ namespace OpenTween
                 return;
 
             // キャッシュに含まれていないアイテムは対象外
-            ListViewItem itm;
-            PostClass post;
-            if (!listCache.TryGetValue(Index, out itm, out post))
+            if (!listCache.TryGetValue(Index, out var itm, out var post))
                 return;
 
             ChangeItemStyleRead(Read, itm, post, ((DetailsListView)_curTab.Tag));
@@ -2503,8 +2498,7 @@ namespace OpenTween
             if (!CheckAccountValid())
                 throw new WebApiException("Auth error. Check your account");
 
-            PostClass post;
-            if (!tab.Posts.TryGetValue(statusId, out post))
+            if (!tab.Posts.TryGetValue(statusId, out var post))
                 return;
 
             if (post.IsFav)
@@ -3075,8 +3069,7 @@ namespace OpenTween
 
         private async Task FavoriteChange(bool FavAdd, bool multiFavoriteChangeDialogEnable = true)
         {
-            TabModel tab;
-            if (!this._statuses.Tabs.TryGetValue(this._curTab.Text, out tab))
+            if (!this._statuses.Tabs.TryGetValue(this._curTab.Text, out var tab))
                 return;
 
             //trueでFavAdd,falseでFavRemove
@@ -3140,9 +3133,7 @@ namespace OpenTween
             var listCache = this._listItemCache;
             if (listCache != null)
             {
-                ListViewItem item;
-                PostClass post;
-                if (listCache.TryGetValue(Index, out item, out post))
+                if (listCache.TryGetValue(Index, out var item, out var post))
                     return post;
             }
 
@@ -3612,8 +3603,7 @@ namespace OpenTween
         {
             if (_curTab != null)
             {
-                TabModel tab;
-                if (!this._statuses.Tabs.TryGetValue(this._curTab.Text, out tab))
+                if (!this._statuses.Tabs.TryGetValue(this._curTab.Text, out var tab))
                     return;
 
                 switch (tab)
@@ -3654,8 +3644,7 @@ namespace OpenTween
             //ページ指定をマイナス1に
             if (_curTab != null)
             {
-                TabModel tab;
-                if (!this._statuses.Tabs.TryGetValue(this._curTab.Text, out tab))
+                if (!this._statuses.Tabs.TryGetValue(this._curTab.Text, out var tab))
                     return;
 
                 switch (tab)
@@ -4835,9 +4824,7 @@ namespace OpenTween
             var listCache = this._listItemCache;
             if (listCache?.TargetList == sender)
             {
-                ListViewItem item;
-                PostClass cacheItemPost;
-                if (listCache.TryGetValue(e.ItemIndex, out item, out cacheItemPost))
+                if (listCache.TryGetValue(e.ItemIndex, out var item, out var cacheItemPost))
                 {
                     e.Item = item;
                     return;
@@ -5044,8 +5031,7 @@ namespace OpenTween
                     rct.Height -= fontHeight;
                 }
 
-                int heightDiff;
-                int drawLineCount = Math.Max(1, Math.DivRem((int)rct.Height, fontHeight, out heightDiff));
+                int drawLineCount = Math.Max(1, Math.DivRem((int)rct.Height, fontHeight, out var heightDiff));
 
                 //if (heightDiff > fontHeight * 0.7)
                 //{
@@ -5796,8 +5782,7 @@ namespace OpenTween
                 if (e.Control || e.Shift || e.Alt)
                     this._anchorFlag = false;
 
-                Task asyncTask;
-                if (CommonKeyDown(e.KeyData, FocusedControl.ListTab, out asyncTask))
+                if (CommonKeyDown(e.KeyData, FocusedControl.ListTab, out var asyncTask))
                 {
                     e.Handled = true;
                     e.SuppressKeyPress = true;
@@ -7146,8 +7131,7 @@ namespace OpenTween
 
         private async void StatusText_KeyDown(object sender, KeyEventArgs e)
         {
-            Task asyncTask;
-            if (CommonKeyDown(e.KeyData, FocusedControl.StatusText, out asyncTask))
+            if (CommonKeyDown(e.KeyData, FocusedControl.StatusText, out var asyncTask))
             {
                 e.Handled = true;
                 e.SuppressKeyPress = true;
@@ -7339,8 +7323,7 @@ namespace OpenTween
 
         private async void OpenURLFileMenuItem_Click(object sender, EventArgs e)
         {
-            string inputText;
-            var ret = InputDialog.Show(this, Properties.Resources.OpenURL_InputText, Properties.Resources.OpenURL_Caption, out inputText);
+            var ret = InputDialog.Show(this, Properties.Resources.OpenURL_InputText, Properties.Resources.OpenURL_Caption, out var inputText);
             if (ret != DialogResult.OK)
                 return;
 
@@ -7485,8 +7468,7 @@ namespace OpenTween
 
         private void ListTab_DoubleClick(object sender, MouseEventArgs e)
         {
-            string _;
-            TabRename(this.ListTab.SelectedTab.Text, out _);
+            TabRename(this.ListTab.SelectedTab.Text, out var _);
         }
 
         private void ListTab_MouseDown(object sender, MouseEventArgs e)
@@ -7979,8 +7961,7 @@ namespace OpenTween
             if (_statuses == null) return;
             if (_statuses.Tabs == null) return;
 
-            TabModel tb;
-            if (!this._statuses.Tabs.TryGetValue(this._rclickTabName, out tb))
+            if (!this._statuses.Tabs.TryGetValue(this._rclickTabName, out var tb))
                 return;
 
             NotifyDispMenuItem.Checked = tb.Notify;
@@ -8223,9 +8204,8 @@ namespace OpenTween
                 //選択発言を元にフィルタ追加
                 foreach (int idx in _curList.SelectedIndices)
                 {
-                    string tabName;
                     //タブ選択（or追加）
-                    if (!SelectTab(out tabName)) return;
+                    if (!SelectTab(out var tabName)) return;
 
                     fltDialog.SetCurrent(tabName);
                     if (_statuses.Tabs[_curTab.Text][idx].RetweetedId == null)
@@ -8380,8 +8360,7 @@ namespace OpenTween
         public void AddFilterRuleByScreenName(params string[] screenNameArray)
         {
             //タブ選択（or追加）
-            string tabName;
-            if (!SelectTab(out tabName)) return;
+            if (!SelectTab(out var tabName)) return;
 
             var tab = (FilterTabModel)this._statuses.Tabs[tabName];
 
@@ -8418,8 +8397,7 @@ namespace OpenTween
         public void AddFilterRuleBySource(params string[] sourceArray)
         {
             // タブ選択ダイアログを表示（or追加）
-            string tabName;
-            if (!this.SelectTab(out tabName))
+            if (!this.SelectTab(out var tabName))
                 return;
 
             var filterTab = (FilterTabModel)this._statuses.Tabs[tabName];
@@ -10249,8 +10227,7 @@ namespace OpenTween
         {
             if (string.IsNullOrEmpty(_rclickTabName)) return;
 
-            string _;
-            TabRename(_rclickTabName, out _);
+            TabRename(_rclickTabName, out var _);
         }
 
         private async void BitlyToolStripMenuItem_Click(object sender, EventArgs e)

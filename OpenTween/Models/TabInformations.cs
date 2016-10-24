@@ -283,8 +283,7 @@ namespace OpenTween.Models
         //    }
         public PostClass RetweetSource(long Id)
         {
-            PostClass status;
-            return this._statuses.TryGetValue(Id, out status)
+            return this._statuses.TryGetValue(Id, out var status)
                 ? status
                 : null;
         }
@@ -332,20 +331,15 @@ namespace OpenTween.Models
 
             if (setIsDeleted)
             {
-                PostClass post;
-                if (this._statuses.TryGetValue(statusId, out post))
+                if (this._statuses.TryGetValue(statusId, out var post))
                     post.IsDeleted = true;
             }
         }
 
         public int SubmitUpdate()
         {
-            string soundFile;
-            PostClass[] notifyPosts;
-            bool newMentionOrDm, isDeletePost;
-
-            return this.SubmitUpdate(out soundFile, out notifyPosts, out newMentionOrDm,
-                out isDeletePost);
+            return this.SubmitUpdate(out var soundFile, out var notifyPosts,
+                out var newMentionOrDm, out var isDeletePost);
         }
 
         public int SubmitUpdate(out string soundFile, out PostClass[] notifyPosts,
@@ -384,8 +378,7 @@ namespace OpenTween.Models
                             // 通知対象のリストに追加
                             foreach (var statusId in addedIds)
                             {
-                                PostClass post;
-                                if (tab.Posts.TryGetValue(statusId, out post))
+                                if (tab.Posts.TryGetValue(statusId, out var post))
                                     notifyPostsList.Add(post);
                             }
                         }
@@ -394,8 +387,7 @@ namespace OpenTween.Models
                         // SettingCommon.PlaySound が false であれば TweenMain 側で無効化される
                         if (!string.IsNullOrEmpty(tab.SoundFile))
                         {
-                            int notifyPriority;
-                            if (!this.notifyPriorityByTabType.TryGetValue(tab.TabType, out notifyPriority))
+                            if (!this.notifyPriorityByTabType.TryGetValue(tab.TabType, out var notifyPriority))
                                 notifyPriority = 0;
 
                             if (notifyPriority > currentNotifyPriority)
@@ -432,10 +424,7 @@ namespace OpenTween.Models
 
                     // 全てのタブから表示されなくなった発言は this._statuses からも削除する
                     if (orphaned)
-                    {
-                        PostClass removedPost;
-                        this._statuses.TryRemove(removedId, out removedPost);
-                    }
+                        this._statuses.TryRemove(removedId, out var removedPost);
                 }
 
                 return addedCountTotal;
@@ -455,11 +444,9 @@ namespace OpenTween.Models
 
                 var adddedCount = 0;
 
-                long statusId;
-                while (this.addQueue.TryDequeue(out statusId))
+                while (this.addQueue.TryDequeue(out var statusId))
                 {
-                    PostClass post;
-                    if (!this._statuses.TryGetValue(statusId, out post))
+                    if (!this._statuses.TryGetValue(statusId, out var post))
                         continue;
 
                     var filterHit = false; // フィルタにヒットしたタブがあるか
@@ -524,8 +511,7 @@ namespace OpenTween.Models
                 if (this.IsMuted(Item, isHomeTimeline: true))
                     return;
 
-                PostClass status;
-                if (_statuses.TryGetValue(Item.StatusId, out status))
+                if (_statuses.TryGetValue(Item.StatusId, out var status))
                 {
                     if (Item.IsFav)
                     {
@@ -633,8 +619,7 @@ namespace OpenTween.Models
                 }
 
                 // TabInformations自身が保持しているツイートであればここで IsRead を変化させる
-                PostClass post;
-                if (this.Posts.TryGetValue(statusId, out post))
+                if (this.Posts.TryGetValue(statusId, out var post))
                     post.IsRead = read;
 
                 return true;
@@ -653,8 +638,7 @@ namespace OpenTween.Models
             {
                 foreach (var statusId in homeTab.GetUnreadIds())
                 {
-                    PostClass post;
-                    if (!this.Posts.TryGetValue(statusId, out post))
+                    if (!this.Posts.TryGetValue(statusId, out var post))
                         continue;
 
                     if (post.IsReply || post.FilterHit)
@@ -669,8 +653,7 @@ namespace OpenTween.Models
         {
             get
             {
-                PostClass status;
-                if (this._statuses.TryGetValue(ID, out status))
+                if (this._statuses.TryGetValue(ID, out var status))
                     return status;
 
                 if (this._quotes.TryGetValue(ID, out status))
@@ -792,8 +775,7 @@ namespace OpenTween.Models
 
                     if (!hit)
                     {
-                        PostClass post;
-                        if (this._statuses.TryGetValue(id, out post))
+                        if (this._statuses.TryGetValue(id, out var post))
                             homeTab.AddPostImmediately(post.StatusId, post.IsRead);
                     }
                 }
@@ -820,10 +802,7 @@ namespace OpenTween.Models
                             }
                         }
                         if (!Hit)
-                        {
-                            PostClass removedPost;
-                            _statuses.TryRemove(Id, out removedPost);
-                        }
+                            _statuses.TryRemove(Id, out var removedPost);
                     }
                 }
 
@@ -909,8 +888,7 @@ namespace OpenTween.Models
         {
             lock (LockObj)
             {
-                TabModel tab;
-                return _tabs.TryGetValue(tabName, out tab)
+                return _tabs.TryGetValue(tabName, out var tab)
                     ? tab
                     : null;
             }

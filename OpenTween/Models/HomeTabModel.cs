@@ -108,9 +108,8 @@ namespace OpenTween.Models
             }
             Interlocked.Exchange(ref this.tweetsPerHour, tweetsInWindow);
 
-            int _;
             foreach (var key in removeKeys)
-                this.tweetsTimestamps.TryRemove(key, out _);
+                this.tweetsTimestamps.TryRemove(key, out var _);
         }
     }
 }

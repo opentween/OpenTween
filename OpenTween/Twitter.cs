@@ -313,8 +313,7 @@ namespace OpenTween
 
             using (var origImage = item.CreateImage())
             {
-                MemoryImage newImage;
-                if (alphaPNGWorkaround && this.AddAlphaChannelIfNeeded(origImage.Image, out newImage))
+                if (alphaPNGWorkaround && this.AddAlphaChannelIfNeeded(origImage.Image, out var newImage))
                 {
                     using (var newMediaItem = new MemoryImageMediaItem(newImage))
                     {
@@ -879,8 +878,7 @@ namespace OpenTween
                 var match = Twitter.StatusUrlRegex.Match(url);
                 if (match.Success)
                 {
-                    long statusId;
-                    if (long.TryParse(match.Groups["StatusId"].Value, out statusId))
+                    if (long.TryParse(match.Groups["StatusId"].Value, out var statusId))
                         yield return statusId;
                 }
             }
@@ -1077,8 +1075,7 @@ namespace OpenTween
                 .Concat(Twitter.ThirdPartyStatusUrlRegex.Matches(text).Cast<Match>());
             foreach (var _match in ma)
             {
-                Int64 _statusId;
-                if (Int64.TryParse(_match.Groups["StatusId"].Value, out _statusId))
+                if (Int64.TryParse(_match.Groups["StatusId"].Value, out var _statusId))
                 {
                     if (relPosts.ContainsKey(_statusId))
                         continue;
@@ -2029,8 +2026,7 @@ namespace OpenTween
             evt.Username = eventData.Source.ScreenName;
             evt.IsMe = evt.Username.ToLowerInvariant().Equals(this.Username.ToLowerInvariant());
 
-            MyCommon.EVENTTYPE eventType;
-            eventTable.TryGetValue(eventData.Event, out eventType);
+            eventTable.TryGetValue(eventData.Event, out var eventType);
             evt.Eventtype = eventType;
 
             TwitterStreamEvent<TwitterStatusCompat> tweetEvent;
@@ -2075,9 +2071,8 @@ namespace OpenTween
 
                     var tabinfo = TabInformations.GetInstance();
 
-                    PostClass post;
                     var statusId = tweet.Id;
-                    if (!tabinfo.Posts.TryGetValue(statusId, out post))
+                    if (!tabinfo.Posts.TryGetValue(statusId, out var post))
                         break;
 
                     if (eventData.Event == "favorite")

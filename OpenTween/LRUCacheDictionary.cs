@@ -135,16 +135,14 @@ namespace OpenTween
 
         public bool Contains(KeyValuePair<TKey, TValue> item)
         {
-            LinkedListNode<KeyValuePair<TKey, TValue>> node;
-            if (!this.innerDict.TryGetValue(item.Key, out node)) return false;
+            if (!this.innerDict.TryGetValue(item.Key, out var node)) return false;
 
             return node.Value.Value.Equals(item.Value);
         }
 
         public bool Remove(TKey key)
         {
-            LinkedListNode<KeyValuePair<TKey, TValue>> node;
-            if (!this.innerDict.TryGetValue(key, out node)) return false;
+            if (!this.innerDict.TryGetValue(key, out var node)) return false;
 
             this.innerList.Remove(node);
 
@@ -153,8 +151,7 @@ namespace OpenTween
 
         public bool Remove(KeyValuePair<TKey, TValue> item)
         {
-            LinkedListNode<KeyValuePair<TKey, TValue>> node;
-            if (!this.innerDict.TryGetValue(item.Key, out node)) return false;
+            if (!this.innerDict.TryGetValue(item.Key, out var node)) return false;
 
             if (!node.Value.Value.Equals(item.Value)) return false;
 
@@ -165,9 +162,7 @@ namespace OpenTween
 
         public bool TryGetValue(TKey key, out TValue value)
         {
-            LinkedListNode<KeyValuePair<TKey, TValue>> node;
-
-            var ret = this.innerDict.TryGetValue(key, out node);
+            var ret = this.innerDict.TryGetValue(key, out var node);
 
             if (!ret)
             {
@@ -208,11 +203,9 @@ namespace OpenTween
             }
             set
             {
-                LinkedListNode<KeyValuePair<TKey, TValue>> node;
-
                 var pair = new KeyValuePair<TKey, TValue>(key, value);
 
-                if (this.innerDict.TryGetValue(key, out node))
+                if (this.innerDict.TryGetValue(key, out var node))
                 {
                     this.innerList.Remove(node);
                     node.Value = pair;

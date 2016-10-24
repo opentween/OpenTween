@@ -81,8 +81,8 @@ namespace OpenTween
                 if (string.IsNullOrEmpty(serviceName))
                     return null;
 
-                IMediaUploadService service;
-                return this.pictureService.TryGetValue(serviceName, out service) ? service : null;
+                return this.pictureService.TryGetValue(serviceName, out var service)
+                    ? service : null;
             }
         }
 
@@ -91,8 +91,7 @@ namespace OpenTween
         /// </summary>
         public IMediaUploadService GetService(string serviceName)
         {
-            IMediaUploadService service;
-            this.pictureService.TryGetValue(serviceName, out service);
+            this.pictureService.TryGetValue(serviceName, out var service);
             return service;
         }
 

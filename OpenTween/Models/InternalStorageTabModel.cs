@@ -61,8 +61,7 @@ namespace OpenTween.Models
 
             if (setIsDeleted)
             {
-                PostClass post;
-                if (this.internalPosts.TryGetValue(statusId, out post))
+                if (this.internalPosts.TryGetValue(statusId, out var post))
                     post.IsDeleted = true;
             }
         }
@@ -72,8 +71,7 @@ namespace OpenTween.Models
             if (!base.RemovePostImmediately(statusId))
                 return false;
 
-            PostClass removedPost;
-            this.internalPosts.TryRemove(statusId, out removedPost);
+            this.internalPosts.TryRemove(statusId, out var removedPost);
 
             return true;
         }

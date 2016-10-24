@@ -106,8 +106,7 @@ namespace OpenTween.Api
             {
                 if (!dict.ContainsKey(key)) continue;
 
-                long result;
-                if (long.TryParse(dict[key], out result))
+                if (long.TryParse(dict[key], out var result))
                     return result;
             }
 
@@ -173,8 +172,7 @@ namespace OpenTween.Api
             {
                 get
                 {
-                    ApiLimit limit;
-                    return this.innerDict.TryGetValue(endpoint, out limit)
+                    return this.innerDict.TryGetValue(endpoint, out var limit)
                         ? limit
                         : null;
                 }

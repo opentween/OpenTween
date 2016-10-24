@@ -90,10 +90,9 @@ namespace OpenTween
 
             return Task.Run(() =>
             {
-                Task<MemoryImage> cachedImageTask = null;
                 lock (this.lockObject)
                 {
-                    innerDictionary.TryGetValue(address, out cachedImageTask);
+                    innerDictionary.TryGetValue(address, out var cachedImageTask);
 
                     if (cachedImageTask != null)
                     {
@@ -134,8 +133,7 @@ namespace OpenTween
         {
             lock (this.lockObject)
             {
-                Task<MemoryImage> imageTask;
-                if (!this.innerDictionary.TryGetValue(address, out imageTask) ||
+                if (!this.innerDictionary.TryGetValue(address, out var imageTask) ||
                     imageTask.Status != TaskStatus.RanToCompletion)
                     return null;
 

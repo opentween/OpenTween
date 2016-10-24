@@ -337,8 +337,7 @@ namespace OpenTween
                 ["key3"] = "value3",
             };
 
-            string value;
-            var ret = dict.TryGetValue("key1", out value);
+            var ret = dict.TryGetValue("key1", out var value);
             Assert.True(ret);
             Assert.Equal("value1", value);
 

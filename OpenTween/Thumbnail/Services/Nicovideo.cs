@@ -103,8 +103,7 @@ namespace OpenTween.Thumbnail.Services
             }
 
             var firstRetrieveElement = thumbElement.Element("first_retrieve");
-            DateTime firstRetrieveDate;
-            if (firstRetrieveElement != null && DateTime.TryParse(firstRetrieveElement.Value, out firstRetrieveDate))
+            if (firstRetrieveElement != null && DateTime.TryParse(firstRetrieveElement.Value, out var firstRetrieveDate))
             {
                 tooltip.Append(Properties.Resources.NiconicoInfoText3);
                 tooltip.Append(firstRetrieveDate.ToString());
