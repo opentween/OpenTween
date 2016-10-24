@@ -3616,29 +3616,25 @@ namespace OpenTween
                 if (!this._statuses.Tabs.TryGetValue(this._curTab.Text, out tab))
                     return;
 
-                switch (_statuses.Tabs[_curTab.Text].TabType)
+                switch (tab)
                 {
-                    case MyCommon.TabUsageType.Mentions:
+                    case MentionsTabModel replyTab:
                         await this.GetReplyAsync();
                         break;
-                    case MyCommon.TabUsageType.DirectMessage:
+                    case DirectMessagesTabModel dmTab:
                         await this.GetDirectMessagesAsync();
                         break;
-                    case MyCommon.TabUsageType.Favorites:
+                    case FavoritesTabModel favTab:
                         await this.GetFavoritesAsync();
                         break;
-                    //case MyCommon.TabUsageType.Profile:
-                        //// TODO
-                    case MyCommon.TabUsageType.PublicSearch:
-                        var searchTab = (PublicSearchTabModel)tab;
+                    case PublicSearchTabModel searchTab:
                         if (string.IsNullOrEmpty(searchTab.SearchWords)) return;
                         await this.GetPublicSearchAsync(searchTab);
                         break;
-                    case MyCommon.TabUsageType.UserTimeline:
-                        await this.GetUserTimelineAsync((UserTimelineTabModel)tab);
+                    case UserTimelineTabModel userTab:
+                        await this.GetUserTimelineAsync(userTab);
                         break;
-                    case MyCommon.TabUsageType.Lists:
-                        var listTab = (ListTimelineTabModel)tab;
+                    case ListTimelineTabModel listTab:
                         if (listTab.ListInfo == null || listTab.ListInfo.Id == 0) return;
                         await this.GetListTimelineAsync(listTab);
                         break;
@@ -3662,30 +3658,25 @@ namespace OpenTween
                 if (!this._statuses.Tabs.TryGetValue(this._curTab.Text, out tab))
                     return;
 
-                switch (_statuses.Tabs[_curTab.Text].TabType)
+                switch (tab)
                 {
-                    case MyCommon.TabUsageType.Mentions:
+                    case MentionsTabModel replyTab:
                         await this.GetReplyAsync(loadMore: true);
                         break;
-                    case MyCommon.TabUsageType.DirectMessage:
+                    case DirectMessagesTabModel dmTab:
                         await this.GetDirectMessagesAsync(loadMore: true);
                         break;
-                    case MyCommon.TabUsageType.Favorites:
+                    case FavoritesTabModel favTab:
                         await this.GetFavoritesAsync(loadMore: true);
                         break;
-                    case MyCommon.TabUsageType.Profile:
-                        //// TODO
-                        break;
-                    case MyCommon.TabUsageType.PublicSearch:
-                        var searchTab = (PublicSearchTabModel)tab;
+                    case PublicSearchTabModel searchTab:
                         if (string.IsNullOrEmpty(searchTab.SearchWords)) return;
                         await this.GetPublicSearchAsync(searchTab, loadMore: true);
                         break;
-                    case MyCommon.TabUsageType.UserTimeline:
-                        await this.GetUserTimelineAsync((UserTimelineTabModel)tab, loadMore: true);
+                    case UserTimelineTabModel userTab:
+                        await this.GetUserTimelineAsync(userTab, loadMore: true);
                         break;
-                    case MyCommon.TabUsageType.Lists:
-                        var listTab = (ListTimelineTabModel)tab;
+                    case ListTimelineTabModel listTab:
                         if (listTab.ListInfo == null || listTab.ListInfo.Id == 0) return;
                         await this.GetListTimelineAsync(listTab, loadMore: true);
                         break;
@@ -7322,24 +7313,22 @@ namespace OpenTween
                     SoundFile = tab.SoundFile,
                 };
 
-                var filterTab = tab as FilterTabModel;
-                if (filterTab != null)
-                    tabSetting.FilterArray = filterTab.FilterArray;
-
-                var userTab = tab as UserTimelineTabModel;
-                if (userTab != null)
-                    tabSetting.User = userTab.ScreenName;
-
-                var searchTab = tab as PublicSearchTabModel;
-                if (searchTab != null)
+                switch (tab)
                 {
-                    tabSetting.SearchWords = searchTab.SearchWords;
-                    tabSetting.SearchLang = searchTab.SearchLang;
+                    case FilterTabModel filterTab:
+                        tabSetting.FilterArray = filterTab.FilterArray;
+                        break;
+                    case UserTimelineTabModel userTab:
+                        tabSetting.User = userTab.ScreenName;
+                        break;
+                    case PublicSearchTabModel searchTab:
+                        tabSetting.SearchWords = searchTab.SearchWords;
+                        tabSetting.SearchLang = searchTab.SearchLang;
+                        break;
+                    case ListTimelineTabModel listTab:
+                        tabSetting.ListInfo = listTab.ListInfo;
+                        break;
                 }
-
-                var listTab = tab as ListTimelineTabModel;
-                if (listTab != null)
-                    tabSetting.ListInfo = listTab.ListInfo;
 
                 tabSettingList.Add(tabSetting);
             }

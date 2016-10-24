@@ -99,8 +99,7 @@ namespace OpenTween
 
             var tab = _sts.Tabs[tabName];
 
-            var filterTab = tab as FilterTabModel;
-            if (filterTab != null)
+            if (tab is FilterTabModel filterTab)
                 ListFilters.Items.AddRange(filterTab.GetFilters());
 
             if (ListFilters.Items.Count > 0)
