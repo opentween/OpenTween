@@ -1,6 +1,6 @@
 version: 1.3.6.{build}
 
-os: Visual Studio 2015
+os: Visual Studio 2017
 
 assembly_info:
   patch: true
@@ -16,9 +16,6 @@ cache:
 
 before_build:
   - nuget restore
-
-install:
-  - set PATH=C:\Program Files (x86)\MSBuild\14.0\Bin;%PATH%
 
 test_script:
   - .\packages\OpenCover.4.6.519\tools\OpenCover.Console.exe -target:".\packages\xunit.runner.console.2.2.0\tools\xunit.console.exe" -targetargs:".\OpenTween.Tests\bin\Debug\OpenTween.Tests.dll -noshadow -appveyor" -register:user -filter:"+[OpenTween*]* -[OpenTween.Tests]*" -excludebyfile:"*.Designer.cs" -skipautoprops -hideskipped:All -returntargetcode -output:coverage.xml

@@ -1,8 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.23107.0
-MinimumVisualStudioVersion = 14.0
+# Visual Studio 15
+VisualStudioVersion = 15.0.26228.4
+MinimumVisualStudioVersion = 15.0
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenTween", "OpenTween\OpenTween.csproj", "{3D8995C7-BDF3-4273-9F9D-DDD902F6A101}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenTween.Tests", "OpenTween.Tests\OpenTween.Tests.csproj", "{18A32642-A8F3-425B-978D-0C6F630EDDE8}"
