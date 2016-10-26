@@ -289,6 +289,66 @@ namespace OpenTween.Models
         }
 
         [Fact]
+        public void CanRetweetBy_DMTest()
+        {
+            var post = new TestPostClass
+            {
+                IsDm = true,
+                IsMe = false, // 自分が受け取った DM
+                UserId = 222L, // 送信元ユーザーID
+            };
+
+            Assert.False(post.CanRetweetBy(selfUserId: 111L));
+        }
+
+        [Fact]
+        public void CanRetweetBy_MyTweetTest()
+        {
+            var post = new TestPostClass
+            {
+                UserId = 111L, // 自分のツイート
+            };
+
+            Assert.True(post.CanRetweetBy(selfUserId: 111L));
+        }
+
+        [Fact]
+        public void CanRetweetBy_ProtectedMyTweetTest()
+        {
+            var post = new TestPostClass
+            {
+                UserId = 111L, // 自分のツイート
+                IsProtect = true,
+            };
+
+            Assert.True(post.CanRetweetBy(selfUserId: 111L));
+        }
+
+        [Fact]
+        public void CanRetweetBy_OthersTweet_NotProtectedTest()
+        {
+            var post = new TestPostClass
+            {
+                UserId = 222L, // 他人のツイート
+                IsProtect = false,
+            };
+
+            Assert.True(post.CanRetweetBy(selfUserId: 111L));
+        }
+
+        [Fact]
+        public void CanRetweetBy_OthersTweet_ProtectedTest()
+        {
+            var post = new TestPostClass
+            {
+                UserId = 222L, // 他人のツイート
+                IsProtect = true,
+            };
+
+            Assert.False(post.CanRetweetBy(selfUserId: 111L));
+        }
+
+        [Fact]
         public void ConvertToOriginalPost_Test()
         {
             var retweetPost = new PostClass

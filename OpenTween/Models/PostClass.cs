@@ -383,6 +383,24 @@ namespace OpenTween.Models
             return false;
         }
 
+        /// <summary>
+        /// このツイートが指定したユーザーによってリツイート可能であるかを判定します
+        /// </summary>
+        /// <param name="selfUserId">リツイートしようとするユーザーのID</param>
+        /// <returns>リツイート可能であれば true、そうでなければ false</returns>
+        public bool CanRetweetBy(long selfUserId)
+        {
+            // DM は常にリツイート不可
+            if (this.IsDm)
+                return false;
+
+            // 自分のツイートであれば鍵垢であるかに関わらずリツイート可
+            if (this.UserId == selfUserId)
+                return true;
+
+            return !this.IsProtect;
+        }
+
         public PostClass ConvertToOriginalPost()
         {
             if (this.RetweetedId == null)

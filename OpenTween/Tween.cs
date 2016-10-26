@@ -3368,7 +3368,7 @@ namespace OpenTween
                 FavorareMenuItem.Enabled = true;
                 ShowRelatedStatusesMenuItem.Enabled = true;  //PublicSearchの時問題出るかも
 
-                if (_curPost.IsProtect)
+                if (!_curPost.CanRetweetBy(this.twitterApi.CurrentUserId))
                 {
                     ReTweetStripMenuItem.Enabled = false;
                     ReTweetUnofficialStripMenuItem.Enabled = false;
@@ -10115,9 +10115,11 @@ namespace OpenTween
             //公式RT
             if (this.ExistCurrentPost)
             {
-                if (_curPost.IsProtect)
+                if (!_curPost.CanRetweetBy(this.twitterApi.CurrentUserId))
                 {
-                    MessageBox.Show("Protected.");
+                    if (this._curPost.IsProtect)
+                        MessageBox.Show("Protected.");
+
                     _DoFavRetweetFlags = false;
                     return;
                 }
@@ -10141,11 +10143,6 @@ namespace OpenTween
                 }
                 else
                 {
-                    if (_curPost.IsDm)
-                    {
-                        _DoFavRetweetFlags = false;
-                        return;
-                    }
                     if (!this._cfgCommon.RetweetNoConfirm)
                     {
                         string Questiontext = Properties.Resources.RetweetQuestion1;
@@ -10162,7 +10159,7 @@ namespace OpenTween
                 foreach (int idx in _curList.SelectedIndices)
                 {
                     PostClass post = GetCurTabPost(idx);
-                    if (!post.IsProtect && !post.IsDm)
+                    if (post.CanRetweetBy(this.twitterApi.CurrentUserId))
                         statusIds.Add(post.StatusId);
                 }
 
@@ -11014,7 +11011,7 @@ namespace OpenTween
                 this.OpenFavotterOpMenuItem.Enabled = true;
                 this.ShowRelatedStatusesMenuItem2.Enabled = true;  //PublicSearchの時問題出るかも
 
-                if (_curPost.IsProtect)
+                if (!_curPost.CanRetweetBy(this.twitterApi.CurrentUserId))
                 {
                     this.RtOpMenuItem.Enabled = false;
                     this.RtUnOpMenuItem.Enabled = false;
