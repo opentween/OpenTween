@@ -5104,7 +5104,7 @@ namespace OpenTween
                         using (Font fnt = new Font(e.Item.Font, FontStyle.Bold))
                         {
                             TextRenderer.DrawText(e.Graphics,
-                                                    post.TextSingleLine,
+                                                    post.IsDeleted ? "(DELETED)" : post.TextSingleLine,
                                                     e.Item.Font,
                                                     Rectangle.Round(rct),
                                                     color,
@@ -5123,30 +5123,39 @@ namespace OpenTween
                                                     TextFormatFlags.NoPrefix);
                         }
                     }
-                    else if (drawLineCount == 1)
-                    {
-                        TextRenderer.DrawText(e.Graphics,
-                                                e.ColumnIndex != 2 ? e.SubItem.Text : post.TextSingleLine,
-                                                e.Item.Font,
-                                                Rectangle.Round(rct),
-                                                color,
-                                                TextFormatFlags.SingleLine |
-                                                TextFormatFlags.EndEllipsis |
-                                                TextFormatFlags.GlyphOverhangPadding |
-                                                TextFormatFlags.NoPrefix |
-                                                TextFormatFlags.VerticalCenter);
-                    }
                     else
                     {
-                        TextRenderer.DrawText(e.Graphics,
-                                                e.ColumnIndex != 2 ? e.SubItem.Text : post.TextSingleLine,
-                                                e.Item.Font,
-                                                Rectangle.Round(rct),
-                                                color,
-                                                TextFormatFlags.WordBreak |
-                                                TextFormatFlags.EndEllipsis |
-                                                TextFormatFlags.GlyphOverhangPadding |
-                                                TextFormatFlags.NoPrefix);
+                        string text;
+                        if (e.ColumnIndex != 2)
+                            text = e.SubItem.Text;
+                        else
+                            text = post.IsDeleted ? "(DELETED)" : post.TextSingleLine;
+
+                        if (drawLineCount == 1)
+                        {
+                            TextRenderer.DrawText(e.Graphics,
+                                                    text,
+                                                    e.Item.Font,
+                                                    Rectangle.Round(rct),
+                                                    color,
+                                                    TextFormatFlags.SingleLine |
+                                                    TextFormatFlags.EndEllipsis |
+                                                    TextFormatFlags.GlyphOverhangPadding |
+                                                    TextFormatFlags.NoPrefix |
+                                                    TextFormatFlags.VerticalCenter);
+                        }
+                        else
+                        {
+                            TextRenderer.DrawText(e.Graphics,
+                                                    text,
+                                                    e.Item.Font,
+                                                    Rectangle.Round(rct),
+                                                    color,
+                                                    TextFormatFlags.WordBreak |
+                                                    TextFormatFlags.EndEllipsis |
+                                                    TextFormatFlags.GlyphOverhangPadding |
+                                                    TextFormatFlags.NoPrefix);
+                        }
                     }
                     //if (e.ColumnIndex == 6) this.DrawListViewItemStateIcon(e, rct);
                 }
