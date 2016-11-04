@@ -96,6 +96,9 @@ namespace OpenTween.Models
 
         public virtual void AddPostQueue(PostClass post)
         {
+            if (!this.Posts.ContainsKey(post.StatusId))
+                throw new ArgumentException("Specified post not exists in storage", nameof(post));
+
             this.addQueue.Enqueue(new TemporaryId(post.StatusId, post.IsRead));
         }
 

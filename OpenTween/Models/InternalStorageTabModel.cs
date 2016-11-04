@@ -50,10 +50,9 @@ namespace OpenTween.Models
             if (TabInformations.GetInstance().IsMuted(post, isHomeTimeline: false))
                 return;
 
-            base.AddPostQueue(post);
+            this.internalPosts.TryAdd(post.StatusId, post);
 
-            if (!this.internalPosts.TryAdd(post.StatusId, post))
-                return;
+            base.AddPostQueue(post);
         }
 
         public override void EnqueueRemovePost(long statusId, bool setIsDeleted)
