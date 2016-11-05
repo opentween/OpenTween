@@ -28,6 +28,7 @@ using System.Net.Cache;
 using System.Net.Http;
 using System.Runtime.Serialization;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
 using OpenTween.Api;
@@ -65,8 +66,10 @@ namespace OpenTween.Connection
 
         private void InitializeHttpClients()
         {
-            this.http = InitializeHttpClient(this.AccessToken, this.AccessSecret, streaming: false);
-            this.httpStreaming = InitializeHttpClient(this.AccessToken, this.AccessSecret, streaming: true);
+            this.http = InitializeHttpClient(this.AccessToken, this.AccessSecret);
+
+            this.httpStreaming = InitializeHttpClient(this.AccessToken, this.AccessSecret, disableGzip: true);
+            this.httpStreaming.Timeout = Timeout.InfiniteTimeSpan;
         }
 
         public async Task<T> GetAsync<T>(Uri uri, IDictionary<string, string> param, string endpointName)
@@ -437,16 +440,19 @@ namespace OpenTween.Connection
             }
         }
 
-        private static HttpClient InitializeHttpClient(string accessToken, string accessSecret, bool streaming = false)
+        private static HttpClient InitializeHttpClient(string accessToken, string accessSecret, bool disableGzip = false)
         {
-            var innerHandler = Networking.CreateHttpClientHandler(streaming);
+            var innerHandler = Networking.CreateHttpClientHandler();
             innerHandler.CachePolicy = new RequestCachePolicy(RequestCacheLevel.BypassCache);
+
+            if (!disableGzip)
+                innerHandler.AutomaticDecompression = DecompressionMethods.None;
 
             var handler = new OAuthHandler(innerHandler,
                 ApplicationSettings.TwitterConsumerKey, ApplicationSettings.TwitterConsumerSecret,
                 accessToken, accessSecret);
 
-            return Networking.CreateHttpClient(handler, streaming);
+            return Networking.CreateHttpClient(handler);
         }
     }
 }
