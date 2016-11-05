@@ -53,6 +53,7 @@ namespace OpenTween.Connection
         public string AccessSecret { get; }
 
         internal HttpClient http;
+        internal HttpClient httpUpload;
         internal HttpClient httpStreaming;
 
         public TwitterApiConnection(string accessToken, string accessSecret)
@@ -67,6 +68,9 @@ namespace OpenTween.Connection
         private void InitializeHttpClients()
         {
             this.http = InitializeHttpClient(this.AccessToken, this.AccessSecret);
+
+            this.httpUpload = InitializeHttpClient(this.AccessToken, this.AccessSecret);
+            this.httpUpload.Timeout = TimeSpan.FromMinutes(1);
 
             this.httpStreaming = InitializeHttpClient(this.AccessToken, this.AccessSecret, disableGzip: true);
             this.httpStreaming.Timeout = Timeout.InfiniteTimeSpan;
@@ -223,7 +227,7 @@ namespace OpenTween.Connection
                 HttpResponseMessage response = null;
                 try
                 {
-                    response = await this.http.SendAsync(request, HttpCompletionOption.ResponseHeadersRead)
+                    response = await this.httpUpload.SendAsync(request, HttpCompletionOption.ResponseHeadersRead)
                         .ConfigureAwait(false);
 
                     await this.CheckStatusCode(response)

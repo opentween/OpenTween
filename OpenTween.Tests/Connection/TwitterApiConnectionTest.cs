@@ -340,7 +340,7 @@ namespace OpenTween.Connection
             using (var http = new HttpClient(mockHandler))
             using (var apiConnection = new TwitterApiConnection("", ""))
             {
-                apiConnection.http = http;
+                apiConnection.httpUpload = http;
 
                 using (var image = TestUtils.CreateDummyImage())
                 using (var media = new MemoryImageMediaItem(image))
@@ -415,7 +415,7 @@ namespace OpenTween.Connection
             using (var http = new HttpClient(mockHandler))
             using (var apiConnection = new TwitterApiConnection("", ""))
             {
-                apiConnection.http = http;
+                apiConnection.httpUpload = http;
 
                 mockHandler.Enqueue(async x =>
                 {
