@@ -35,7 +35,6 @@ namespace OpenTween.Connection
     public class Imgur : IMediaUploadService
     {
         private readonly static long MaxFileSize = 10L * 1024 * 1024;
-        private readonly static Uri UploadEndpoint = new Uri("https://api.imgur.com/3/image.xml");
 
         private readonly static IEnumerable<string> SupportedExtensions = new[]
         {
@@ -51,12 +50,16 @@ namespace OpenTween.Connection
         };
 
         private readonly Twitter twitter;
+        private readonly ImgurApi imgurApi;
+
         private TwitterConfiguration twitterConfig;
 
         public Imgur(Twitter tw, TwitterConfiguration twitterConfig)
         {
             this.twitter = tw;
             this.twitterConfig = twitterConfig;
+
+            this.imgurApi = new ImgurApi();
         }
 
         public int MaxMediaCount
@@ -114,7 +117,7 @@ namespace OpenTween.Connection
             XDocument xml;
             try
             {
-                xml = await this.UploadFileAsync(item, text)
+                xml = await this.imgurApi.UploadFileAsync(item, text)
                     .ConfigureAwait(false);
             }
             catch (HttpRequestException ex)
@@ -147,29 +150,42 @@ namespace OpenTween.Connection
             this.twitterConfig = config;
         }
 
-        public async Task<XDocument> UploadFileAsync(IMediaItem item, string title)
+        public class ImgurApi
         {
-            using (var content = new MultipartFormDataContent())
-            using (var mediaStream = item.OpenRead())
-            using (var mediaContent = new StreamContent(mediaStream))
-            using (var titleContent = new StringContent(title))
+            private readonly HttpClient http;
+
+            private static readonly Uri UploadEndpoint = new Uri("https://api.imgur.com/3/image.xml");
+
+            public ImgurApi()
             {
-                content.Add(mediaContent, "image", item.Name);
-                content.Add(titleContent, "title");
+                this.http = Networking.CreateHttpClient(Networking.CreateHttpClientHandler());
+                this.http.Timeout = TimeSpan.FromMinutes(1);
+            }
 
-                using (var request = new HttpRequestMessage(HttpMethod.Post, UploadEndpoint))
+            public async Task<XDocument> UploadFileAsync(IMediaItem item, string title)
+            {
+                using (var content = new MultipartFormDataContent())
+                using (var mediaStream = item.OpenRead())
+                using (var mediaContent = new StreamContent(mediaStream))
+                using (var titleContent = new StringContent(title))
                 {
-                    request.Headers.Authorization =
-                        new AuthenticationHeaderValue("Client-ID", ApplicationSettings.ImgurClientID);
-                    request.Content = content;
+                    content.Add(mediaContent, "image", item.Name);
+                    content.Add(titleContent, "title");
 
-                    using (var response = await Networking.Http.SendAsync(request).ConfigureAwait(false))
+                    using (var request = new HttpRequestMessage(HttpMethod.Post, UploadEndpoint))
                     {
-                        response.EnsureSuccessStatusCode();
+                        request.Headers.Authorization =
+                            new AuthenticationHeaderValue("Client-ID", ApplicationSettings.ImgurClientID);
+                        request.Content = content;
 
-                        using (var stream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false))
+                        using (var response = await this.http.SendAsync(request).ConfigureAwait(false))
                         {
-                            return XDocument.Load(stream);
+                            response.EnsureSuccessStatusCode();
+
+                            using (var stream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false))
+                            {
+                                return XDocument.Load(stream);
+                            }
                         }
                     }
                 }
