@@ -151,16 +151,22 @@ namespace OpenTween
             GroupTab.Enabled = true;
             ListFilters.Enabled = true;
             EditFilterGroup.Enabled = false;
-            switch (tab.TabType)
+
+            if (tab.IsDistributableTabType)
             {
-                case MyCommon.TabUsageType.Home:
-                case MyCommon.TabUsageType.DirectMessage:
-                case MyCommon.TabUsageType.Favorites:
-                case MyCommon.TabUsageType.PublicSearch:
-                case MyCommon.TabUsageType.Lists:
-                case MyCommon.TabUsageType.Related:
-                case MyCommon.TabUsageType.UserTimeline:
-                    ButtonNew.Enabled = false;
+                ButtonNew.Enabled = true;
+                if (ListFilters.SelectedIndex > -1)
+                {
+                    ButtonEdit.Enabled = true;
+                    ButtonDelete.Enabled = true;
+                    ButtonRuleUp.Enabled = true;
+                    ButtonRuleDown.Enabled = true;
+                    ButtonRuleCopy.Enabled = true;
+                    ButtonRuleMove.Enabled = true;
+                    buttonRuleToggleEnabled.Enabled = true;
+                }
+                else
+                {
                     ButtonEdit.Enabled = false;
                     ButtonDelete.Enabled = false;
                     ButtonRuleUp.Enabled = false;
@@ -168,31 +174,20 @@ namespace OpenTween
                     ButtonRuleCopy.Enabled = false;
                     ButtonRuleMove.Enabled = false;
                     buttonRuleToggleEnabled.Enabled = false;
-                    break;
-                default:
-                    ButtonNew.Enabled = true;
-                    if (ListFilters.SelectedIndex > -1)
-                    {
-                        ButtonEdit.Enabled = true;
-                        ButtonDelete.Enabled = true;
-                        ButtonRuleUp.Enabled = true;
-                        ButtonRuleDown.Enabled = true;
-                        ButtonRuleCopy.Enabled = true;
-                        ButtonRuleMove.Enabled = true;
-                        buttonRuleToggleEnabled.Enabled = true;
-                    }
-                    else
-                    {
-                        ButtonEdit.Enabled = false;
-                        ButtonDelete.Enabled = false;
-                        ButtonRuleUp.Enabled = false;
-                        ButtonRuleDown.Enabled = false;
-                        ButtonRuleCopy.Enabled = false;
-                        ButtonRuleMove.Enabled = false;
-                        buttonRuleToggleEnabled.Enabled = false;
-                    }
-                    break;
+                }
             }
+            else
+            {
+                ButtonNew.Enabled = false;
+                ButtonEdit.Enabled = false;
+                ButtonDelete.Enabled = false;
+                ButtonRuleUp.Enabled = false;
+                ButtonRuleDown.Enabled = false;
+                ButtonRuleCopy.Enabled = false;
+                ButtonRuleMove.Enabled = false;
+                buttonRuleToggleEnabled.Enabled = false;
+            }
+
             switch (tab.TabType)
             {
                 case MyCommon.TabUsageType.Home:
