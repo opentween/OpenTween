@@ -70,7 +70,7 @@ namespace OpenTween.Connection
             this.http = InitializeHttpClient(this.AccessToken, this.AccessSecret);
 
             this.httpUpload = InitializeHttpClient(this.AccessToken, this.AccessSecret);
-            this.httpUpload.Timeout = TimeSpan.FromMinutes(1);
+            this.httpUpload.Timeout = Networking.UploadImageTimeout;
 
             this.httpStreaming = InitializeHttpClient(this.AccessToken, this.AccessSecret, disableGzip: true);
             this.httpStreaming.Timeout = Timeout.InfiniteTimeSpan;

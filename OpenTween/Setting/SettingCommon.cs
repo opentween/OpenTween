@@ -190,6 +190,10 @@ namespace OpenTween
         public bool UseUnreadStyle = true;
         public string DateTimeFormat = "yyyy/MM/dd H:mm:ss";
         public int DefaultTimeOut = 20;
+
+        /// <summary>画像アップロードのタイムアウト設定 (秒)</summary>
+        public int UploadImageTimeout { get; set; } = 60;
+
         public bool RetweetNoConfirm = false;
         public bool LimitBalloon = false;
         public bool TabIconDisp = true;

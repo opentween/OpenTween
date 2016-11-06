@@ -159,7 +159,7 @@ namespace OpenTween.Connection
             public ImgurApi()
             {
                 this.http = Networking.CreateHttpClient(Networking.CreateHttpClientHandler());
-                this.http.Timeout = TimeSpan.FromMinutes(1);
+                this.http.Timeout = Networking.UploadImageTimeout;
             }
 
             public async Task<XDocument> UploadFileAsync(IMediaItem item, string title)
