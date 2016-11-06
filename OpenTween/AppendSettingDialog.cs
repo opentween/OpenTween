@@ -311,6 +311,9 @@ namespace OpenTween
             var timeout = int.Parse(this.ConnectionPanel.ConnectionTimeOut.Text.Trim());
             Networking.DefaultTimeout = TimeSpan.FromSeconds(timeout);
 
+            var uploadImageTimeout = int.Parse(this.ConnectionPanel.UploadImageTimeout.Text.Trim());
+            Networking.UploadImageTimeout = TimeSpan.FromSeconds(uploadImageTimeout);
+
             Networking.ForceIPv4 = this.ConnectionPanel.checkBoxForceIPv4.Checked;
 
             TwitterApiConnection.RestApiHost = this.ConnectionPanel.TwitterAPIText.Text.Trim();

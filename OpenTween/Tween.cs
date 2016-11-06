@@ -3766,6 +3766,7 @@ namespace OpenTween
                     TwitterApiConnection.RestApiHost = this._cfgCommon.TwitterApiHost;
 
                     Networking.DefaultTimeout = TimeSpan.FromSeconds(this._cfgCommon.DefaultTimeOut);
+                    Networking.UploadImageTimeout = TimeSpan.FromSeconds(this._cfgCommon.UploadImageTimeout);
                     Networking.SetWebProxy(this._cfgLocal.ProxyType,
                         this._cfgLocal.ProxyAddress, this._cfgLocal.ProxyPort,
                         this._cfgLocal.ProxyUser, this._cfgLocal.ProxyPassword);

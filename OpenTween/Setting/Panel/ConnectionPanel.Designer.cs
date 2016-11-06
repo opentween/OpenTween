@@ -35,6 +35,8 @@
             this.ConnectionTimeOut = new System.Windows.Forms.TextBox();
             this.Label63 = new System.Windows.Forms.Label();
             this.checkBoxForceIPv4 = new System.Windows.Forms.CheckBox();
+            this.UploadImageTimeout = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // TwitterAPIText
@@ -58,7 +60,7 @@
             // 
             resources.ApplyResources(this.ConnectionTimeOut, "ConnectionTimeOut");
             this.ConnectionTimeOut.Name = "ConnectionTimeOut";
-            this.ConnectionTimeOut.Validating += new System.ComponentModel.CancelEventHandler(this.ConnectionTimeOut_Validating);
+            this.ConnectionTimeOut.Validating += new System.ComponentModel.CancelEventHandler(this.ValidateTimeoutValue);
             // 
             // Label63
             // 
@@ -71,10 +73,23 @@
             this.checkBoxForceIPv4.Name = "checkBoxForceIPv4";
             this.checkBoxForceIPv4.UseVisualStyleBackColor = true;
             // 
+            // UploadImageTimeout
+            // 
+            resources.ApplyResources(this.UploadImageTimeout, "UploadImageTimeout");
+            this.UploadImageTimeout.Name = "UploadImageTimeout";
+            this.UploadImageTimeout.Validating += new System.ComponentModel.CancelEventHandler(this.ValidateTimeoutValue);
+            // 
+            // label2
+            // 
+            resources.ApplyResources(this.label2, "label2");
+            this.label2.Name = "label2";
+            // 
             // ConnectionPanel
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
+            this.Controls.Add(this.UploadImageTimeout);
+            this.Controls.Add(this.label2);
             this.Controls.Add(this.checkBoxForceIPv4);
             this.Controls.Add(this.TwitterAPIText);
             this.Controls.Add(this.Label8);
@@ -95,5 +110,7 @@
         internal System.Windows.Forms.TextBox ConnectionTimeOut;
         internal System.Windows.Forms.Label Label63;
         internal System.Windows.Forms.CheckBox checkBoxForceIPv4;
+        internal System.Windows.Forms.TextBox UploadImageTimeout;
+        internal System.Windows.Forms.Label label2;
     }
 }

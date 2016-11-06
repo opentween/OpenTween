@@ -45,6 +45,7 @@ namespace OpenTween.Setting.Panel
         public void LoadConfig(SettingCommon settingCommon)
         {
             this.ConnectionTimeOut.Text = settingCommon.DefaultTimeOut.ToString();
+            this.UploadImageTimeout.Text = settingCommon.UploadImageTimeout.ToString();
             this.checkBoxForceIPv4.Checked = settingCommon.ForceIPv4;
             this.TwitterAPIText.Text = settingCommon.TwitterApiHost;
         }
@@ -52,11 +53,12 @@ namespace OpenTween.Setting.Panel
         public void SaveConfig(SettingCommon settingCommon)
         {
             settingCommon.DefaultTimeOut = int.Parse(this.ConnectionTimeOut.Text);
+            settingCommon.UploadImageTimeout = int.Parse(this.UploadImageTimeout.Text);
             settingCommon.ForceIPv4 = this.checkBoxForceIPv4.Checked;
             settingCommon.TwitterApiHost = this.TwitterAPIText.Text.Trim();
         }
 
-        private void ConnectionTimeOut_Validating(object sender, CancelEventArgs e)
+        private void ValidateTimeoutValue(object sender, CancelEventArgs e)
         {
             int tm;
             try
