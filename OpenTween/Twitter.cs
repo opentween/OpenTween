@@ -1951,6 +1951,7 @@ namespace OpenTween
             evt.Eventtype = eventType;
 
             TwitterStreamEvent<TwitterStatusCompat> tweetEvent;
+            TwitterStatus tweet;
 
             switch (eventData.Event)
             {
@@ -1979,8 +1980,9 @@ namespace OpenTween
                 case "favorite":
                 case "unfavorite":
                     tweetEvent = TwitterStreamEvent<TwitterStatusCompat>.ParseJson(content);
-                    evt.Target = "@" + tweetEvent.TargetObject.User.ScreenName + ":" + WebUtility.HtmlDecode(tweetEvent.TargetObject.Text);
-                    evt.Id = tweetEvent.TargetObject.Id;
+                    tweet = tweetEvent.TargetObject.Normalize();
+                    evt.Target = "@" + tweet.User.ScreenName + ":" + WebUtility.HtmlDecode(tweet.FullText);
+                    evt.Id = tweet.Id;
 
                     if (SettingCommon.Instance.IsRemoveSameEvent)
                     {
@@ -1991,7 +1993,7 @@ namespace OpenTween
                     var tabinfo = TabInformations.GetInstance();
 
                     PostClass post;
-                    var statusId = tweetEvent.TargetObject.Id;
+                    var statusId = tweet.Id;
                     if (!tabinfo.Posts.TryGetValue(statusId, out post))
                         break;
 
@@ -2028,8 +2030,9 @@ namespace OpenTween
                     if (evt.IsMe) return;
 
                     tweetEvent = TwitterStreamEvent<TwitterStatusCompat>.ParseJson(content);
-                    evt.Target = "@" + tweetEvent.TargetObject.User.ScreenName + ":" + WebUtility.HtmlDecode(tweetEvent.TargetObject.Text);
-                    evt.Id = tweetEvent.TargetObject.Id;
+                    tweet = tweetEvent.TargetObject.Normalize();
+                    evt.Target = "@" + tweet.User.ScreenName + ":" + WebUtility.HtmlDecode(tweet.FullText);
+                    evt.Id = tweet.Id;
 
                     if (SettingCommon.Instance.IsRemoveSameEvent)
                     {
