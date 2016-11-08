@@ -1998,8 +1998,7 @@ namespace OpenTween
                     if (eventData.Event == "favorite")
                     {
                         var favTab = tabinfo.GetTabByType(MyCommon.TabUsageType.Favorites);
-                        if (!favTab.Contains(post.StatusId))
-                            favTab.AddPostImmediately(post.StatusId, post.IsRead);
+                        favTab.AddPostQueue(post);
 
                         if (tweetEvent.Source.Id == this.UserId)
                         {
