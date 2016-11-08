@@ -114,7 +114,7 @@ namespace OpenTween.Models
             return true;
         }
 
-        public IList<long> AddSubmit()
+        public IReadOnlyList<long> AddSubmit()
         {
             var addedIds = new List<long>();
 
