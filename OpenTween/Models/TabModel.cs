@@ -103,14 +103,15 @@ namespace OpenTween.Models
         }
 
         //無条件に追加
-        internal void AddPostImmediately(long statusId, bool read)
+        internal bool AddPostImmediately(long statusId, bool read)
         {
-            if (this._ids.Contains(statusId)) return;
-
-            this._ids.Add(statusId);
+            if (!this._ids.Add(statusId))
+                return false;
 
             if (!read)
                 this.unreadIds.Add(statusId);
+
+            return true;
         }
 
         public IList<long> AddSubmit()
@@ -120,8 +121,8 @@ namespace OpenTween.Models
             TemporaryId tId;
             while (this.addQueue.TryDequeue(out tId))
             {
-                this.AddPostImmediately(tId.StatusId, tId.Read);
-                addedIds.Add(tId.StatusId);
+                if (this.AddPostImmediately(tId.StatusId, tId.Read))
+                    addedIds.Add(tId.StatusId);
             }
 
             return addedIds;
