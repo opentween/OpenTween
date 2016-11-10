@@ -126,7 +126,7 @@ namespace OpenTween
         public enum HttpTimeOut
         {
             MinValue = 10,
-            MaxValue = 120,
+            MaxValue = 1000,
             DefaultValue = 20,
         }
 
