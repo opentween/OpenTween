@@ -80,13 +80,8 @@ namespace OpenTween.Connection
 
         public Mobypicture(Twitter twitter, TwitterConfiguration twitterConfig)
         {
-            if (twitter == null)
-                throw new ArgumentNullException(nameof(twitter));
-            if (twitterConfig == null)
-                throw new ArgumentNullException(nameof(twitterConfig));
-
-            this.twitter = twitter;
-            this.twitterConfig = twitterConfig;
+            this.twitter = twitter ?? throw new ArgumentNullException(nameof(twitter));
+            this.twitterConfig = twitterConfig ?? throw new ArgumentNullException(nameof(twitterConfig));
 
             this.mobypictureApi = new MobypictureApi(twitter.Api);
         }

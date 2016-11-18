@@ -93,13 +93,7 @@ namespace OpenTween.Models
         public string[] FilterBody
         {
             get { return this._FilterBody; }
-            set
-            {
-                if (value == null)
-                    throw new ArgumentNullException(nameof(value));
-
-                this.SetProperty(ref this._FilterBody, value);
-            }
+            set { this.SetProperty(ref this._FilterBody, value ?? throw new ArgumentNullException(nameof(value))); }
         }
         private string[] _FilterBody = new string[0];
 
@@ -107,13 +101,7 @@ namespace OpenTween.Models
         public string[] ExFilterBody
         {
             get { return this._ExFilterBody; }
-            set
-            {
-                if (value == null)
-                    throw new ArgumentNullException(nameof(value));
-
-                this.SetProperty(ref this._ExFilterBody, value);
-            }
+            set { this.SetProperty(ref this._ExFilterBody, value ?? throw new ArgumentNullException(nameof(value))); }
         }
         private string[] _ExFilterBody = new string[0];
 
