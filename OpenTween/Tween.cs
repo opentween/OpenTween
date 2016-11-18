@@ -7118,8 +7118,8 @@ namespace OpenTween
 
         public Color InputBackColor
         {
-            get { return _clInputBackcolor; }
-            set { _clInputBackcolor = value; }
+            get => _clInputBackcolor;
+            set => _clInputBackcolor = value;
         }
 
         private void StatusText_Leave(object sender, EventArgs e)

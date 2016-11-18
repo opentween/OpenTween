@@ -123,24 +123,24 @@ namespace OpenTween
         [EditorBrowsable(EditorBrowsableState.Never)]
         public new string Text
         {
-            get { return base.Text; }
-            set { base.Text = value; }
+            get => base.Text;
+            set => base.Text = value;
         }
 
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         public new string ToolTipText
         {
-            get { return base.ToolTipText; }
-            set { base.ToolTipText = value; }
+            get => base.ToolTipText;
+            set => base.ToolTipText = value;
         }
 
         [DefaultValue(ToolStripItemDisplayStyle.Text)]
         [RefreshProperties(RefreshProperties.Repaint)]
         public new ToolStripItemDisplayStyle DisplayStyle
         {
-            get { return base.DisplayStyle; }
-            set { base.DisplayStyle = value; }
+            get => base.DisplayStyle;
+            set => base.DisplayStyle = value;
         }
 
         protected double remainMinutes = -1;

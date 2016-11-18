@@ -88,7 +88,7 @@ namespace OpenTween.Models
 
                 return expandedHtml;
             }
-            set { this._text = value; }
+            set => this._text = value;
         }
         private string _text;
 

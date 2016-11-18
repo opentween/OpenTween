@@ -185,8 +185,6 @@ namespace OpenTween
         }
 
         ~ImageCache()
-        {
-            this.Dispose(false);
-        }
+            => this.Dispose(false);
     }
 }

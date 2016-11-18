@@ -59,8 +59,8 @@ namespace OpenTween
         [DefaultValue(false)]
         public new bool TabStop
         {
-            get { return base.TabStop; }
-            set { base.TabStop = value; }
+            get => base.TabStop;
+            set => base.TabStop = value;
         }
 
         /// <summary>ステータスバーに表示するテキストの変化を通知するイベント</summary>

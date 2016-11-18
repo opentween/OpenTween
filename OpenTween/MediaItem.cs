@@ -284,8 +284,6 @@ namespace OpenTween
         }
 
         ~MemoryImageMediaItem()
-        {
-            this.Dispose(false);
-        }
+            => this.Dispose(false);
     }
 }

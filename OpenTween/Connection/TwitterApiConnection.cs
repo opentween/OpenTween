@@ -43,8 +43,8 @@ namespace OpenTween.Connection
         // SettingCommon.xml の TwitterUrl との互換性のために用意
         public static string RestApiHost
         {
-            get { return RestApiBase.Host; }
-            set { RestApiBase = new Uri($"https://{value}/1.1/"); }
+            get => RestApiBase.Host;
+            set => RestApiBase = new Uri($"https://{value}/1.1/");
         }
 
         public bool IsDisposed { get; private set; } = false;
@@ -358,9 +358,7 @@ namespace OpenTween.Connection
         }
 
         ~TwitterApiConnection()
-        {
-            this.Dispose(false);
-        }
+            => this.Dispose(false);
 
         private void Networking_WebProxyChanged(object sender, EventArgs e)
         {

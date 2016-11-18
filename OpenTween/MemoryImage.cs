@@ -255,9 +255,7 @@ namespace OpenTween
         }
 
         ~MemoryImage()
-        {
-            this.Dispose(false);
-        }
+            => this.Dispose(false);
 
         /// <summary>
         /// 指定された Stream から MemoryImage を作成します。

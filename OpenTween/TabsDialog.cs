@@ -38,7 +38,7 @@ namespace OpenTween
         private bool _MultiSelect = false;
         public bool MultiSelect
         {
-            get { return this._MultiSelect; }
+            get => this._MultiSelect;
             set { this._MultiSelect = value; this.UpdateTabList(); }
         }
 

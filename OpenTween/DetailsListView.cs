@@ -106,8 +106,8 @@ namespace OpenTween.OpenTweenCustomControl
         /// </remarks>
         public int SelectionMark
         {
-            get { return NativeMethods.ListView_GetSelectionMark(this.Handle); }
-            set { NativeMethods.ListView_SetSelectionMark(this.Handle, value); }
+            get => NativeMethods.ListView_GetSelectionMark(this.Handle);
+            set => NativeMethods.ListView_SetSelectionMark(this.Handle, value);
         }
 
         public void SelectItems(int[] indices)

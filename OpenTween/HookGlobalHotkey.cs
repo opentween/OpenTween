@@ -171,8 +171,6 @@ namespace OpenTween
 #endregion
 
         ~HookGlobalHotkey()
-        {
-            this.Dispose(false);
-        }
+            => this.Dispose(false);
     }
 }
