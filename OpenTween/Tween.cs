@@ -260,10 +260,6 @@ namespace OpenTween
         private PostClass _curPost;
         private bool _isColumnChanged = false;
 
-        // 各タブの発言一覧のスクロール位置・選択状態を保持するフィールド
-        private IDictionary<string, ListViewScroll> listViewScroll = new Dictionary<string, ListViewScroll>();
-        private IDictionary<string, ListViewSelection> listViewSelection = new Dictionary<string, ListViewSelection>();
-
         private const int MAX_WORKER_THREADS = 20;
         private SemaphoreSlim workerSemaphore = new SemaphoreSlim(MAX_WORKER_THREADS);
         private CancellationTokenSource workerCts = new CancellationTokenSource();
@@ -1413,8 +1409,8 @@ namespace OpenTween
             // 現在表示中のタブのスクロール位置を退避
             var curListScroll = this.SaveListViewScroll(this._curList, curTabModel);
 
-            // 現在表示中のタブのリスト上の選択位置などを退避
-            var curListSelection = this.SaveListViewSelection(this._curList, curTabModel);
+            // 各タブのリスト上の選択位置などを退避
+            var listSelections = this.SaveListViewSelection();
 
             //更新確定
             PostClass[] notifyPosts;
@@ -1425,6 +1421,28 @@ namespace OpenTween
             addCount = _statuses.SubmitUpdate(out soundFile, out notifyPosts, out newMentionOrDm, out isDelete);
 
             if (MyCommon._endingFlag) return;
+
+            // リストに反映＆選択状態復元
+            foreach (var tabPage in this.ListTab.TabPages.Cast<TabPage>())
+            {
+                var listView = (DetailsListView)tabPage.Tag;
+                var tabModel = this._statuses.Tabs[tabPage.Text];
+
+                if (listView.VirtualListSize != tabModel.AllCount || isDelete)
+                {
+                    using (ControlTransaction.Update(listView))
+                    {
+                        if (listView == this._curList)
+                            this.PurgeListViewItemCache();
+
+                        // リスト件数更新
+                        listView.VirtualListSize = tabModel.AllCount;
+
+                        // 選択位置などを復元
+                        this.RestoreListViewSelection(listView, tabModel, listSelections[tabModel.TabName]);
+                    }
+                }
+            }
 
             if (addCount > 0)
             {
@@ -1443,24 +1461,8 @@ namespace OpenTween
                 }
             }
 
-            // リストに反映＆選択状態復元
-            if (this._curList.VirtualListSize != curTabModel.AllCount || isDelete)
-            {
-                using (ControlTransaction.Update(this._curList))
-                {
-                    this.PurgeListViewItemCache();
-
-                    // リスト件数更新
-                    this._curList.VirtualListSize = curTabModel.AllCount;
-
-                    // 選択位置などを復元
-                    this.RestoreListViewSelection(this._curList, curTabModel, curListSelection);
-                }
-
-                // スクロール位置の復元は Begin/EndUpdate の外で行う
-                // 参照: https://github.com/opentween/OpenTween/commit/7dbf6491
-                this.RestoreListViewScroll(this._curList, curTabModel, curListScroll);
-            }
+            // スクロール位置を復元
+            this.RestoreListViewScroll(this._curList, curTabModel, curListScroll);
 
             //新着通知
             NotifyNewPosts(notifyPosts, soundFile, addCount, newMentionOrDm);
@@ -7470,25 +7472,9 @@ namespace OpenTween
                 var tabPage = this.ListTab.TabPages.Cast<TabPage>()
                     .FirstOrDefault(x => x.Text == origTabName);
 
+                // タブ名を変更
                 if (tabPage != null)
-                {
-                    ListViewScroll scrollInfo;
-                    if (this.listViewScroll.TryGetValue(origTabName, out scrollInfo))
-                    {
-                        this.listViewScroll.Remove(origTabName);
-                        this.listViewScroll[newTabName] = scrollInfo;
-                    }
-
-                    ListViewSelection selectionInfo;
-                    if (this.listViewSelection.TryGetValue(origTabName, out selectionInfo))
-                    {
-                        this.listViewSelection.Remove(origTabName);
-                        this.listViewSelection[newTabName] = selectionInfo;
-                    }
-
-                    //タブ名を変更
                     tabPage.Text = newTabName;
-                }
 
                 _statuses.RenameTab(origTabName, newTabName);
 
@@ -9890,34 +9876,10 @@ namespace OpenTween
         {
             SetListProperty();
 
-            if (this._curList != null)
-            {
-                var beforeSelectedList = this._curList;
-                var beforeSelectedTabModel = this._statuses.Tabs[this._curTab.Text];
-
-                // 発言一覧のスクロール位置・選択状態を退避
-                this.listViewScroll[beforeSelectedTabModel.TabName] = this.SaveListViewScroll(beforeSelectedList, beforeSelectedTabModel);
-                this.listViewSelection[beforeSelectedTabModel.TabName] = this.SaveListViewSelection(beforeSelectedList, beforeSelectedTabModel);
-            }
-
             this.PurgeListViewItemCache();
 
             _curTab = _tab;
             _curList = (DetailsListView)_tab.Tag;
-
-            var curTabModel = this._statuses.Tabs[this._curTab.Text];
-
-            this._curList.VirtualListSize = curTabModel.AllCount;
-
-            // 発言一覧のスクロール位置を復元
-            ListViewScroll scrollInfo;
-            if (this.listViewScroll.TryGetValue(curTabModel.TabName, out scrollInfo))
-                this.RestoreListViewScroll(this._curList, curTabModel, scrollInfo);
-
-            // 発言一覧の選択状態を復元
-            ListViewSelection selectionInfo;
-            if (this.listViewSelection.TryGetValue(curTabModel.TabName, out selectionInfo))
-                this.RestoreListViewSelection(this._curList, curTabModel, selectionInfo);
 
             if (_curList.SelectedIndices.Count > 0)
             {
