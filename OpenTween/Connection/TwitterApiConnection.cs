@@ -449,7 +449,7 @@ namespace OpenTween.Connection
             var innerHandler = Networking.CreateHttpClientHandler();
             innerHandler.CachePolicy = new RequestCachePolicy(RequestCacheLevel.BypassCache);
 
-            if (!disableGzip)
+            if (disableGzip)
                 innerHandler.AutomaticDecompression = DecompressionMethods.None;
 
             var handler = new OAuthHandler(innerHandler,
