@@ -7468,24 +7468,28 @@ namespace OpenTween
                 }
 
                 var tabPage = this.ListTab.TabPages.Cast<TabPage>()
-                    .First(x => x.Text == origTabName);
+                    .FirstOrDefault(x => x.Text == origTabName);
 
-                ListViewScroll scrollInfo;
-                if (this.listViewScroll.TryGetValue(origTabName, out scrollInfo))
+                if (tabPage != null)
                 {
-                    this.listViewScroll.Remove(origTabName);
-                    this.listViewScroll[newTabName] = scrollInfo;
+                    ListViewScroll scrollInfo;
+                    if (this.listViewScroll.TryGetValue(origTabName, out scrollInfo))
+                    {
+                        this.listViewScroll.Remove(origTabName);
+                        this.listViewScroll[newTabName] = scrollInfo;
+                    }
+
+                    ListViewSelection selectionInfo;
+                    if (this.listViewSelection.TryGetValue(origTabName, out selectionInfo))
+                    {
+                        this.listViewSelection.Remove(origTabName);
+                        this.listViewSelection[newTabName] = selectionInfo;
+                    }
+
+                    //タブ名を変更
+                    tabPage.Text = newTabName;
                 }
 
-                ListViewSelection selectionInfo;
-                if (this.listViewSelection.TryGetValue(origTabName, out selectionInfo))
-                {
-                    this.listViewSelection.Remove(origTabName);
-                    this.listViewSelection[newTabName] = selectionInfo;
-                }
-
-                //タブ名を変更
-                tabPage.Text = newTabName;
                 _statuses.RenameTab(origTabName, newTabName);
 
                 SaveConfigsCommon();
