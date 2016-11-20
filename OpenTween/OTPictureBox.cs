@@ -127,6 +127,7 @@ namespace OpenTween
                 catch (InvalidImageException) { }
                 catch (OperationCanceledException) { }
                 catch (WebException) { }
+                catch (IOException) { }
             }
         }
 
