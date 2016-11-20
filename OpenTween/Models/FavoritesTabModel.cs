@@ -56,7 +56,7 @@ namespace OpenTween.Models
 
             progress.Report(Properties.Resources.GetTimelineWorker_RunWorkerCompletedText19);
 
-            await tw.GetFavoritesApi(read, backward)
+            await tw.GetFavoritesApi(read, this, backward)
                 .ConfigureAwait(false);
 
             TabInformations.GetInstance().DistributePosts();

@@ -888,12 +888,16 @@ namespace OpenTween
             return minimumId;
         }
 
-        private void CreateFavoritePostsFromJson(TwitterStatus[] items, bool read)
+        private long? CreateFavoritePostsFromJson(TwitterStatus[] items, bool read)
         {
             var favTab = TabInformations.GetInstance().GetTabByType(MyCommon.TabUsageType.Favorites);
+            long? minimumId = null;
 
             foreach (var status in items)
             {
+                if (minimumId == null || minimumId.Value > status.Id)
+                    minimumId = status.Id;
+
                 //二重取得回避
                 lock (LockObj)
                 {
@@ -906,6 +910,8 @@ namespace OpenTween
 
                 TabInformations.GetInstance().AddPost(post);
             }
+
+            return minimumId;
         }
 
         public async Task GetListStatus(bool read, ListTimelineTabModel tab, bool more, bool startup)
@@ -1225,16 +1231,28 @@ namespace OpenTween
             CreateDirectMessagesFromJson(messages, gType, read);
         }
 
-        public async Task GetFavoritesApi(bool read, bool more)
+        public async Task GetFavoritesApi(bool read, FavoritesTabModel tab, bool backward)
         {
             this.CheckAccountState();
 
-            var count = GetApiResultCount(MyCommon.WORKERTYPE.Favorites, more, false);
+            var count = GetApiResultCount(MyCommon.WORKERTYPE.Favorites, backward, false);
 
-            var statuses = await this.Api.FavoritesList(count)
-                .ConfigureAwait(false);
+            TwitterStatus[] statuses;
+            if (backward)
+            {
+                statuses = await this.Api.FavoritesList(count, maxId: tab.OldestId)
+                    .ConfigureAwait(false);
+            }
+            else
+            {
+                statuses = await this.Api.FavoritesList(count)
+                    .ConfigureAwait(false);
+            }
 
-            CreateFavoritePostsFromJson(statuses, read);
+            var minimumId = this.CreateFavoritePostsFromJson(statuses, read);
+
+            if (minimumId != null)
+                tab.OldestId = minimumId.Value;
         }
 
         private string ReplaceTextFromApi(string text, TwitterEntities entities)
