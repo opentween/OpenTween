@@ -21,6 +21,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Net.Http;
 using System.Runtime.Serialization.Json;
 using System.Text.RegularExpressions;
@@ -195,8 +196,8 @@ namespace OpenTween.Thumbnail.Services
 
                 return new GlobalLocation
                 {
-                    Latitude = double.Parse(locationElm.Element("lat").Value),
-                    Longitude = double.Parse(locationElm.Element("lng").Value),
+                    Latitude = double.Parse(locationElm.Element("lat").Value, CultureInfo.InvariantCulture),
+                    Longitude = double.Parse(locationElm.Element("lng").Value, CultureInfo.InvariantCulture),
                 };
             }
         }

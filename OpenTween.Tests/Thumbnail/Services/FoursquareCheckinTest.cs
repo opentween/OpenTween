@@ -21,6 +21,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -229,6 +230,39 @@ namespace OpenTween.Thumbnail.Services
 }";
             var jsonBytes = Encoding.UTF8.GetBytes(json);
             var location = FoursquareCheckin.ParseIntoLocation(jsonBytes);
+
+            Assert.NotNull(location);
+            Assert.Equal(34.35067978344854, location.Latitude);
+            Assert.Equal(134.04693603515625, location.Longitude);
+        }
+
+        [Fact]
+        public void ParseInLocation_CultureTest()
+        {
+            var json = @"{
+  ""meta"": { ""code"": 200 },
+  ""response"": {
+    ""checkin"": {
+      ""id"": ""xxxxxxxxx"",
+      ""type"": ""checkin"",
+      ""venue"": {
+        ""id"": ""4b73dedcf964a5206bbe2de3"",
+        ""name"": ""高松駅 (Takamatsu Sta.)"",
+        ""location"": {
+          ""lat"": 34.35067978344854,
+          ""lng"": 134.04693603515625
+        }
+      }
+    }
+  }
+}";
+            var origCulture = Thread.CurrentThread.CurrentCulture;
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("ru-RU");
+
+            var jsonBytes = Encoding.UTF8.GetBytes(json);
+            var location = FoursquareCheckin.ParseIntoLocation(jsonBytes);
+
+            Thread.CurrentThread.CurrentCulture = origCulture;
 
             Assert.NotNull(location);
             Assert.Equal(34.35067978344854, location.Latitude);
