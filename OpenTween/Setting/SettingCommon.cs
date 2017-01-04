@@ -246,6 +246,9 @@ namespace OpenTween
         public bool IsUseNotifyGrowl = false;
         public bool ForceIPv4 = false;
         public bool ErrorReportAnonymous = true;
+
+        /// <summary>pic.twitter.com への画像アップロード時に JPEG への変換を回避する</summary>
+        public bool AlphaPNGWorkaround { get; set; } = false;
     }
 
     public class UserAccount
