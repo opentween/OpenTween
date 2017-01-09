@@ -602,7 +602,8 @@ namespace OpenTween
             }
 
             var minimumId = this.CreatePostsFromJson(statuses, MyCommon.WORKERTYPE.Timeline, tab, read);
-            if (minimumId != null)
+
+            if (minimumId != null && minimumId.Value < tab.OldestId)
                 tab.OldestId = minimumId.Value;
         }
 
@@ -625,7 +626,8 @@ namespace OpenTween
             }
 
             var minimumId = this.CreatePostsFromJson(statuses, MyCommon.WORKERTYPE.Reply, tab, read);
-            if (minimumId != null)
+
+            if (minimumId != null && minimumId.Value < tab.OldestId)
                 tab.OldestId = minimumId.Value;
         }
 
@@ -660,7 +662,7 @@ namespace OpenTween
 
             var minimumId = CreatePostsFromJson(statuses, MyCommon.WORKERTYPE.UserTimeline, tab, read);
 
-            if (minimumId != null)
+            if (minimumId != null && minimumId.Value < tab.OldestId)
                 tab.OldestId = minimumId.Value;
         }
 
@@ -994,7 +996,7 @@ namespace OpenTween
 
             var minimumId = CreatePostsFromJson(statuses, MyCommon.WORKERTYPE.List, tab, read);
 
-            if (minimumId != null)
+            if (minimumId != null && minimumId.Value < tab.OldestId)
                 tab.OldestId = minimumId.Value;
         }
 
@@ -1137,7 +1139,7 @@ namespace OpenTween
 
             var minimumId = this.CreatePostsFromSearchJson(searchResult, tab, read, more);
 
-            if (minimumId != null)
+            if (minimumId != null && minimumId.Value < tab.OldestId)
                 tab.OldestId = minimumId.Value;
         }
 
@@ -1313,7 +1315,7 @@ namespace OpenTween
 
             var minimumId = this.CreateFavoritePostsFromJson(statuses, read);
 
-            if (minimumId != null)
+            if (minimumId != null && minimumId.Value < tab.OldestId)
                 tab.OldestId = minimumId.Value;
         }
 
