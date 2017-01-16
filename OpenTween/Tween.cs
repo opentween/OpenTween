@@ -1435,8 +1435,17 @@ namespace OpenTween
                         if (listView == this._curList)
                             this.PurgeListViewItemCache();
 
-                        // リスト件数更新
-                        listView.VirtualListSize = tabModel.AllCount;
+                        try
+                        {
+                            // リスト件数更新
+                            listView.VirtualListSize = tabModel.AllCount;
+                        }
+                        catch (NullReferenceException ex)
+                        {
+                            // WinForms 内部で ListView.set_TopItem が発生させている例外
+                            // https://ja.osdn.net/ticket/browse.php?group_id=6526&tid=36588
+                            MyCommon.TraceOut(ex, $"TabType: {tabModel.TabType}, Count: {tabModel.AllCount}, ListSize: {listView.VirtualListSize}");
+                        }
 
                         // 選択位置などを復元
                         this.RestoreListViewSelection(listView, tabModel, listSelections[tabModel.TabName]);
