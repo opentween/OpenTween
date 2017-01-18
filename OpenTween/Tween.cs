@@ -1516,9 +1516,9 @@ namespace OpenTween
 
             if (listScroll.ScrollLockMode == ScrollLockMode.FixedToItem)
             {
-                var topItem = listView.TopItem;
-                if (topItem != null)
-                    listScroll.TopItemStatusId = tab.GetStatusIdAt(topItem.Index);
+                var topItemIndex = listView.TopItem?.Index ?? -1;
+                if (topItemIndex != -1 && topItemIndex < tab.AllCount)
+                    listScroll.TopItemStatusId = tab.GetStatusIdAt(topItemIndex);
             }
 
             return listScroll;
@@ -1622,16 +1622,16 @@ namespace OpenTween
 
         private long? GetFocusedStatusId(DetailsListView listView, TabModel tab)
         {
-            var focusedItem = listView.FocusedItem;
+            var index = listView.FocusedItem?.Index ?? -1;
 
-            return focusedItem != null ? tab.GetStatusIdAt(focusedItem.Index) : (long?)null;
+            return index != -1 && index < tab.AllCount ? tab.GetStatusIdAt(index) : (long?)null;
         }
 
         private long? GetSelectionMarkStatusId(DetailsListView listView, TabModel tab)
         {
-            var selectionMarkIndex = listView.SelectionMark;
+            var index = listView.SelectionMark;
 
-            return selectionMarkIndex != -1 ? tab.GetStatusIdAt(selectionMarkIndex) : (long?)null;
+            return index != -1 && index < tab.AllCount ? tab.GetStatusIdAt(index) : (long?)null;
         }
 
         /// <summary>
