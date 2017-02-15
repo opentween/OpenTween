@@ -378,9 +378,6 @@ Growl.CoreLibrary.DLL</value>
   <data name="LanguageCombo.Items2" xml:space="preserve">
     <value>English</value>
   </data>
-  <data name="LanguageCombo.Items3" xml:space="preserve">
-    <value>Simplified Chinese</value>
-  </data>
   <data name="LanguageCombo.Location" type="System.Drawing.Point, System.Drawing">
     <value>276, 300</value>
   </data>

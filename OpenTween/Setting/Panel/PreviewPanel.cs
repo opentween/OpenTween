@@ -118,9 +118,6 @@ namespace OpenTween.Setting.Panel
                 case "en":
                     this.LanguageCombo.SelectedIndex = 2;
                     break;
-                case "zh-CN":
-                    this.LanguageCombo.SelectedIndex = 3;
-                    break;
                 default:
                     this.LanguageCombo.SelectedIndex = 0;
                     break;
@@ -206,9 +203,6 @@ namespace OpenTween.Setting.Panel
                     break;
                 case 2:
                     settingCommon.Language = "en";
-                    break;
-                case 3:
-                    settingCommon.Language = "zh-CN";
                     break;
                 default:
                     settingCommon.Language = "en";

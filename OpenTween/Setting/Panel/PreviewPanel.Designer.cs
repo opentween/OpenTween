@@ -112,8 +112,7 @@
             this.LanguageCombo.Items.AddRange(new object[] {
             resources.GetString("LanguageCombo.Items"),
             resources.GetString("LanguageCombo.Items1"),
-            resources.GetString("LanguageCombo.Items2"),
-            resources.GetString("LanguageCombo.Items3")});
+            resources.GetString("LanguageCombo.Items2")});
             resources.ApplyResources(this.LanguageCombo, "LanguageCombo");
             this.LanguageCombo.Name = "LanguageCombo";
             // 
