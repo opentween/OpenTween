@@ -26,6 +26,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using OpenTween.Api.DataModel;
 using OpenTween.Models;
+using OpenTween.Setting;
 using Xunit;
 using Xunit.Extensions;
 
@@ -208,8 +209,8 @@ namespace OpenTween
         [Fact]
         public void GetApiResultCount_DefaultTest()
         {
-            var oldInstance = SettingCommon.Instance;
-            SettingCommon.Instance = new SettingCommon();
+            var oldInstance = SettingManagerTest.Common;
+            SettingManagerTest.Common = new SettingCommon();
 
             var timeline = SettingCommon.Instance.CountApi;
             var reply = SettingCommon.Instance.CountApiReply;
@@ -246,14 +247,14 @@ namespace OpenTween
             Assert.Equal(timeline, Twitter.GetApiResultCount(MyCommon.WORKERTYPE.PublicSearch, false, false));
             Assert.Equal(timeline, Twitter.GetApiResultCount(MyCommon.WORKERTYPE.UserTimeline, false, false));
 
-            SettingCommon.Instance = oldInstance;
+            SettingManagerTest.Common = oldInstance;
         }
 
         [Fact]
         public void GetApiResultCount_AdditionalCountTest()
         {
-            var oldInstance = SettingCommon.Instance;
-            SettingCommon.Instance = new SettingCommon();
+            var oldInstance = SettingManagerTest.Common;
+            SettingManagerTest.Common = new SettingCommon();
 
             var timeline = SettingCommon.Instance.CountApi;
             var reply = SettingCommon.Instance.CountApiReply;
@@ -325,7 +326,7 @@ namespace OpenTween
             Assert.Equal(more, Twitter.GetApiResultCount(MyCommon.WORKERTYPE.UserTimeline, true, false));
             Assert.Equal(startup, Twitter.GetApiResultCount(MyCommon.WORKERTYPE.UserTimeline, false, true));
 
-            SettingCommon.Instance = oldInstance;
+            SettingManagerTest.Common = oldInstance;
         }
 
         [Fact]

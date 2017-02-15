@@ -52,6 +52,7 @@ using OpenTween.Api.DataModel;
 using OpenTween.Connection;
 using OpenTween.Models;
 using OpenTween.OpenTweenCustomControl;
+using OpenTween.Setting;
 using OpenTween.Thumbnail;
 
 namespace OpenTween
@@ -844,7 +845,7 @@ namespace OpenTween
             ImageSelector.Initialize(tw, this.tw.Configuration, _cfgCommon.UseImageServiceName, _cfgCommon.UseImageService);
 
             //ハッシュタグ/@id関連
-            AtIdSupl = new AtIdSupplement(SettingAtIdList.Load().AtIdList, "@");
+            AtIdSupl = new AtIdSupplement(SettingManager.AtIdList.AtIdList, "@");
             HashSupl = new AtIdSupplement(_cfgCommon.HashTags, "#");
             HashMgr = new HashtagManage(HashSupl,
                                     _cfgCommon.HashTags.ToArray(),
@@ -1197,31 +1198,17 @@ namespace OpenTween
 
         private void LoadConfig()
         {
-            _cfgCommon = SettingCommon.Load();
-            SettingCommon.Instance = this._cfgCommon;
-            if (_cfgCommon.UserAccounts == null || _cfgCommon.UserAccounts.Count == 0)
-            {
-                _cfgCommon.UserAccounts = new List<UserAccount>();
-                if (!string.IsNullOrEmpty(_cfgCommon.UserName))
-                {
-                    UserAccount account = new UserAccount();
-                    account.Username = _cfgCommon.UserName;
-                    account.UserId = _cfgCommon.UserId;
-                    account.Token = _cfgCommon.Token;
-                    account.TokenSecret = _cfgCommon.TokenSecret;
+            SettingManager.LoadAll();
 
-                    _cfgCommon.UserAccounts.Add(account);
-                }
-            }
-
-            _cfgLocal = SettingLocal.Load();
+            this._cfgCommon = SettingManager.Common;
+            this._cfgLocal = SettingManager.Local;
 
             // v1.2.4 以前の設定には ScaleDimension の項目がないため、現在の DPI と同じとして扱う
             if (_cfgLocal.ScaleDimension.IsEmpty)
                 _cfgLocal.ScaleDimension = this.CurrentAutoScaleDimensions;
 
-            var tabsSetting = SettingTabs.Load().Tabs;
-            foreach (var tabSetting in tabsSetting)
+            var tabSettings = SettingManager.Tabs;
+            foreach (var tabSetting in tabSettings.Tabs)
             {
                 TabModel tab;
                 switch (tabSetting.TabType)
@@ -7211,8 +7198,8 @@ namespace OpenTween
             if (_ignoreConfigSave || !this._cfgCommon.UseAtIdSupplement && AtIdSupl == null) return;
 
             ModifySettingAtId = false;
-            SettingAtIdList cfgAtId = new SettingAtIdList(AtIdSupl.GetItemList());
-            cfgAtId.Save();
+            SettingManager.AtIdList.AtIdList = this.AtIdSupl.GetItemList();
+            SettingManager.SaveAtIdList();
         }
 
         private void SaveConfigsCommon()
@@ -7275,7 +7262,7 @@ namespace OpenTween
                 _cfgCommon.UseImageService = ImageSelector.ServiceIndex;
                 _cfgCommon.UseImageServiceName = ImageSelector.ServiceName;
 
-                _cfgCommon.Save();
+                SettingManager.SaveCommon();
             }
         }
 
@@ -7316,13 +7303,13 @@ namespace OpenTween
                 _cfgLocal.FontInputFont = _fntInputFont;
 
                 if (_ignoreConfigSave) return;
-                _cfgLocal.Save();
+                SettingManager.SaveLocal();
             }
         }
 
         private void SaveConfigsTabs()
         {
-            var tabsSetting = new SettingTabs();
+            var tabSettingList = new List<SettingTabs.SettingTabItem>();
 
             var tabs = this.ListTab.TabPages.Cast<TabPage>()
                 .Select(x => this._statuses.Tabs[x.Text])
@@ -7362,10 +7349,11 @@ namespace OpenTween
                 if (listTab != null)
                     tabSetting.ListInfo = listTab.ListInfo;
 
-                tabsSetting.Tabs.Add(tabSetting);
+                tabSettingList.Add(tabSetting);
             }
 
-            tabsSetting.Save();
+            SettingManager.Tabs.Tabs = tabSettingList;
+            SettingManager.SaveTabs();
         }
 
         private async void OpenURLFileMenuItem_Click(object sender, EventArgs e)
