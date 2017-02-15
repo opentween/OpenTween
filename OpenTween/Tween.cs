@@ -1198,8 +1198,6 @@ namespace OpenTween
 
         private void LoadConfig()
         {
-            SettingManager.LoadAll();
-
             this._cfgCommon = SettingManager.Common;
             this._cfgLocal = SettingManager.Local;
 
