@@ -32,6 +32,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using OpenTween.Setting;
 
 namespace OpenTween.Models
 {
@@ -63,10 +64,10 @@ namespace OpenTween.Models
         public override async Task RefreshAsync(Twitter tw, bool backward, bool startup, IProgress<string> progress)
         {
             bool read;
-            if (!SettingCommon.Instance.UnreadManage)
+            if (!SettingManager.Common.UnreadManage)
                 read = true;
             else
-                read = startup && SettingCommon.Instance.Read;
+                read = startup && SettingManager.Common.Read;
 
             progress.Report(string.Format(Properties.Resources.GetTimelineWorker_RunWorkerCompletedText5, backward ? -1 : 1));
 
@@ -74,7 +75,7 @@ namespace OpenTween.Models
                 .ConfigureAwait(false);
 
             // 新着時未読クリア
-            if (SettingCommon.Instance.ReadOldPosts)
+            if (SettingManager.Common.ReadOldPosts)
                 TabInformations.GetInstance().SetReadHomeTab();
 
             TabInformations.GetInstance().DistributePosts();

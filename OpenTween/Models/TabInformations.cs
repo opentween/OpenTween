@@ -33,6 +33,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using OpenTween.Setting;
 
 namespace OpenTween.Models
 {
@@ -547,7 +548,7 @@ namespace OpenTween.Models
                     if (Item.IsFav && Item.RetweetedId != null) Item.IsFav = false;
 
                     //既に持っている公式RTは捨てる
-                    if (Item.RetweetedId != null && SettingCommon.Instance.HideDuplicatedRetweets)
+                    if (Item.RetweetedId != null && SettingManager.Common.HideDuplicatedRetweets)
                     {
                         var retweetCount = this.UpdateRetweetCount(Item);
 

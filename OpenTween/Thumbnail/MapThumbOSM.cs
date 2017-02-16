@@ -28,6 +28,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using OpenTween.Models;
+using OpenTween.Setting;
 
 namespace OpenTween.Thumbnail
 {
@@ -35,8 +36,8 @@ namespace OpenTween.Thumbnail
     {
         public override Task<ThumbnailInfo> GetThumbnailInfoAsync(PostClass.StatusGeo geo)
         {
-            var size = new Size(SettingCommon.Instance.MapThumbnailWidth, SettingCommon.Instance.MapThumbnailHeight);
-            var zoom = SettingCommon.Instance.MapThumbnailZoom;
+            var size = new Size(SettingManager.Common.MapThumbnailWidth, SettingManager.Common.MapThumbnailHeight);
+            var zoom = SettingManager.Common.MapThumbnailZoom;
 
             var thumb = new OSMThumbnailInfo(geo.Latitude, geo.Longitude, zoom, size)
             {
@@ -48,7 +49,7 @@ namespace OpenTween.Thumbnail
 
         public string CreateMapLinkUrl(double latitude, double longitude)
         {
-            var zoom = SettingCommon.Instance.MapThumbnailZoom;
+            var zoom = SettingManager.Common.MapThumbnailZoom;
 
             return "http://www.openstreetmap.org/index.html?lat=" + latitude + "&lon=" + longitude + "&zoom=" + zoom + "&mlat=" + latitude + "&mlon=" + longitude;
         }

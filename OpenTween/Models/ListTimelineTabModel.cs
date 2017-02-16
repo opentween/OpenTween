@@ -30,6 +30,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OpenTween.Setting;
 
 namespace OpenTween.Models
 {
@@ -52,10 +53,10 @@ namespace OpenTween.Models
                 return;
 
             bool read;
-            if (!SettingCommon.Instance.UnreadManage)
+            if (!SettingManager.Common.UnreadManage)
                 read = true;
             else
-                read = startup && SettingCommon.Instance.Read;
+                read = startup && SettingManager.Common.Read;
 
             progress.Report("List refreshing...");
 

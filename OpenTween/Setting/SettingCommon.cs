@@ -29,14 +29,11 @@ using System.Xml.Serialization;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using OpenTween.Thumbnail;
-using OpenTween.Setting;
 
 namespace OpenTween
 {
     public class SettingCommon : SettingBase<SettingCommon>
     {
-        public static SettingCommon Instance => SettingManager.Common;
-
         #region "Settingクラス基本"
         public static SettingCommon Load()
         {

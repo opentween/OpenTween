@@ -114,7 +114,7 @@ namespace OpenTween
                 NameLabel.Text = nameText;
 
                 var nameForeColor = SystemColors.ControlText;
-                if (post.IsOwl && (SettingCommon.Instance.OneWayLove || post.IsDm))
+                if (post.IsOwl && (SettingManager.Common.OneWayLove || post.IsDm))
                     nameForeColor = SettingManager.Local.ColorOWL;
                 if (post.RetweetedId != null)
                     nameForeColor = SettingManager.Local.ColorRetweet;
@@ -374,7 +374,7 @@ namespace OpenTween
             {
                 var translatedText = await bing.TranslateAsync(str,
                     langFrom: null,
-                    langTo: SettingCommon.Instance.TranslateLanguage);
+                    langTo: SettingManager.Common.TranslateLanguage);
 
                 this.PostBrowser.DocumentText = this.Owner.createDetailHtml(translatedText);
             }

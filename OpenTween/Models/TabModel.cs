@@ -33,6 +33,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using OpenTween.Setting;
 
 namespace OpenTween.Models
 {
@@ -242,7 +243,7 @@ namespace OpenTween.Models
         {
             get
             {
-                if (!this.UnreadManage || !SettingCommon.Instance.UnreadManage)
+                if (!this.UnreadManage || !SettingManager.Common.UnreadManage)
                     return -1L;
 
                 if (this.unreadIds.Count == 0)
@@ -275,7 +276,7 @@ namespace OpenTween.Models
         {
             get
             {
-                if (!this.UnreadManage || !SettingCommon.Instance.UnreadManage)
+                if (!this.UnreadManage || !SettingManager.Common.UnreadManage)
                     return 0;
 
                 return this.unreadIds.Count;
