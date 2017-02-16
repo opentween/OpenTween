@@ -48,6 +48,7 @@ using System.Net.NetworkInformation;
 using System.Runtime.InteropServices;
 using OpenTween.Api;
 using OpenTween.Models;
+using OpenTween.Setting;
 
 namespace OpenTween
 {
@@ -417,7 +418,7 @@ namespace OpenTween
                     writer.Write(errorReport);
                 }
 
-                var settings = SettingCommon.Instance;
+                var settings = SettingManager.Common;
                 var mainForm = Application.OpenForms.OfType<TweenMain>().FirstOrDefault();
 
                 ErrorReport report;

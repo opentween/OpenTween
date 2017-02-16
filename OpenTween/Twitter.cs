@@ -51,6 +51,7 @@ using OpenTween.Api.DataModel;
 using OpenTween.Connection;
 using OpenTween.Models;
 using System.Drawing.Imaging;
+using OpenTween.Setting;
 
 namespace OpenTween
 {
@@ -232,7 +233,7 @@ namespace OpenTween
             this.ResetApiStatus();
             this.Api.Initialize(token, tokenSecret, userId, username);
             _uname = username.ToLowerInvariant();
-            if (SettingCommon.Instance.UserstreamStartup) this.ReconnectUserStream();
+            if (SettingManager.Common.UserstreamStartup) this.ReconnectUserStream();
         }
 
         public string PreProcessUrl(string orgData)
@@ -302,7 +303,7 @@ namespace OpenTween
         }
 
         public Task<long> UploadMedia(IMediaItem item)
-            => this.UploadMedia(item, SettingCommon.Instance.AlphaPNGWorkaround);
+            => this.UploadMedia(item, SettingManager.Common.AlphaPNGWorkaround);
 
         public async Task<long> UploadMedia(IMediaItem item, bool alphaPNGWorkaround)
         {
@@ -543,42 +544,42 @@ namespace OpenTween
                 return 20;
             }
 
-            if (SettingCommon.Instance.UseAdditionalCount)
+            if (SettingManager.Common.UseAdditionalCount)
             {
                 switch (type)
                 {
                     case MyCommon.WORKERTYPE.Favorites:
-                        if (SettingCommon.Instance.FavoritesCountApi != 0)
-                            return SettingCommon.Instance.FavoritesCountApi;
+                        if (SettingManager.Common.FavoritesCountApi != 0)
+                            return SettingManager.Common.FavoritesCountApi;
                         break;
                     case MyCommon.WORKERTYPE.List:
-                        if (SettingCommon.Instance.ListCountApi != 0)
-                            return SettingCommon.Instance.ListCountApi;
+                        if (SettingManager.Common.ListCountApi != 0)
+                            return SettingManager.Common.ListCountApi;
                         break;
                     case MyCommon.WORKERTYPE.PublicSearch:
-                        if (SettingCommon.Instance.SearchCountApi != 0)
-                            return SettingCommon.Instance.SearchCountApi;
+                        if (SettingManager.Common.SearchCountApi != 0)
+                            return SettingManager.Common.SearchCountApi;
                         break;
                     case MyCommon.WORKERTYPE.UserTimeline:
-                        if (SettingCommon.Instance.UserTimelineCountApi != 0)
-                            return SettingCommon.Instance.UserTimelineCountApi;
+                        if (SettingManager.Common.UserTimelineCountApi != 0)
+                            return SettingManager.Common.UserTimelineCountApi;
                         break;
                 }
-                if (more && SettingCommon.Instance.MoreCountApi != 0)
+                if (more && SettingManager.Common.MoreCountApi != 0)
                 {
-                    return Math.Min(SettingCommon.Instance.MoreCountApi, GetMaxApiResultCount(type));
+                    return Math.Min(SettingManager.Common.MoreCountApi, GetMaxApiResultCount(type));
                 }
-                if (startup && SettingCommon.Instance.FirstCountApi != 0 && type != MyCommon.WORKERTYPE.Reply)
+                if (startup && SettingManager.Common.FirstCountApi != 0 && type != MyCommon.WORKERTYPE.Reply)
                 {
-                    return Math.Min(SettingCommon.Instance.FirstCountApi, GetMaxApiResultCount(type));
+                    return Math.Min(SettingManager.Common.FirstCountApi, GetMaxApiResultCount(type));
                 }
             }
 
             // 上記に当てはまらない場合の共通処理
-            var count = SettingCommon.Instance.CountApi;
+            var count = SettingManager.Common.CountApi;
 
             if (type == MyCommon.WORKERTYPE.Reply)
-                count = SettingCommon.Instance.CountApiReply;
+                count = SettingManager.Common.CountApiReply;
 
             return Math.Min(count, GetMaxApiResultCount(type));
         }
@@ -985,12 +986,12 @@ namespace OpenTween
             TwitterStatus[] statuses;
             if (more)
             {
-                statuses = await this.Api.ListsStatuses(tab.ListInfo.Id, count, maxId: tab.OldestId, includeRTs: SettingCommon.Instance.IsListsIncludeRts)
+                statuses = await this.Api.ListsStatuses(tab.ListInfo.Id, count, maxId: tab.OldestId, includeRTs: SettingManager.Common.IsListsIncludeRts)
                     .ConfigureAwait(false);
             }
             else
             {
-                statuses = await this.Api.ListsStatuses(tab.ListInfo.Id, count, includeRTs: SettingCommon.Instance.IsListsIncludeRts)
+                statuses = await this.Api.ListsStatuses(tab.ListInfo.Id, count, includeRTs: SettingManager.Common.IsListsIncludeRts)
                     .ConfigureAwait(false);
             }
 
@@ -2066,7 +2067,7 @@ namespace OpenTween
                     evt.Target = "@" + tweet.User.ScreenName + ":" + WebUtility.HtmlDecode(tweet.FullText);
                     evt.Id = tweet.Id;
 
-                    if (SettingCommon.Instance.IsRemoveSameEvent)
+                    if (SettingManager.Common.IsRemoveSameEvent)
                     {
                         if (this.StoredEvent.Any(ev => ev.Username == evt.Username && ev.Eventtype == evt.Eventtype && ev.Target == evt.Target))
                             return;
@@ -2092,7 +2093,7 @@ namespace OpenTween
                         {
                             post.FavoritedCount++;
 
-                            if (SettingCommon.Instance.FavEventUnread)
+                            if (SettingManager.Common.FavEventUnread)
                                 tabinfo.SetReadAllTab(post.StatusId, read: false);
                         }
                     }
@@ -2116,7 +2117,7 @@ namespace OpenTween
                     evt.Target = "@" + tweet.User.ScreenName + ":" + WebUtility.HtmlDecode(tweet.FullText);
                     evt.Id = tweet.Id;
 
-                    if (SettingCommon.Instance.IsRemoveSameEvent)
+                    if (SettingManager.Common.IsRemoveSameEvent)
                     {
                         if (this.StoredEvent.Any(ev => ev.Username == evt.Username && ev.Eventtype == evt.Eventtype && ev.Target == evt.Target))
                             return;

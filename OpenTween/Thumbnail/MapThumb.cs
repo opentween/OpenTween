@@ -25,6 +25,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using OpenTween.Models;
+using OpenTween.Setting;
 using OpenTween.Thumbnail.Services;
 
 namespace OpenTween.Thumbnail
@@ -52,7 +53,7 @@ namespace OpenTween.Thumbnail
         {
             Type classType;
 
-            MapProvider confValue = SettingCommon.Instance.MapThumbnailProvider;
+            MapProvider confValue = SettingManager.Common.MapThumbnailProvider;
             switch (confValue)
             {
                 case MapProvider.OpenStreetMap:

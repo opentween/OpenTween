@@ -26,6 +26,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using OpenTween.Models;
+using OpenTween.Setting;
 
 namespace OpenTween.Thumbnail
 {
@@ -45,9 +46,9 @@ namespace OpenTween.Thumbnail
 
         public string CreateStaticMapUrl(double latitude, double longitude)
         {
-            var width = SettingCommon.Instance.MapThumbnailWidth; // この辺なんとかならんかなあ
-            var height = SettingCommon.Instance.MapThumbnailHeight;
-            var zoom = SettingCommon.Instance.MapThumbnailZoom;
+            var width = SettingManager.Common.MapThumbnailWidth; // この辺なんとかならんかなあ
+            var height = SettingManager.Common.MapThumbnailHeight;
+            var zoom = SettingManager.Common.MapThumbnailZoom;
             var location = latitude + "," + longitude;
 
             var baseUrl = "https://maps.googleapis.com/maps/api/staticmap";
@@ -57,7 +58,7 @@ namespace OpenTween.Thumbnail
 
         public string CreateMapLinkUrl(double latitude, double longitude)
         {
-            var zoom = SettingCommon.Instance.MapThumbnailZoom;
+            var zoom = SettingManager.Common.MapThumbnailZoom;
             var location = latitude + "," + longitude;
 
             var baseUrl = "https://maps.google.co.jp/maps";

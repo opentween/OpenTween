@@ -36,6 +36,7 @@ using System.Windows.Forms;
 using System.Text.RegularExpressions;
 using System.IO;
 using System.Globalization;
+using OpenTween.Setting;
 
 namespace OpenTween
 {
@@ -94,7 +95,7 @@ namespace OpenTween
             _curTab = TabEventType.SelectedTab;
             CreateFilterdEventSource();
             EventList.EndUpdate();
-            this.TopMost = SettingCommon.Instance.AlwaysTop;
+            this.TopMost = SettingManager.Common.AlwaysTop;
         }
 
         private async void EventList_DoubleClick(object sender, EventArgs e)
@@ -268,7 +269,7 @@ namespace OpenTween
                     }
                 }
             }
-            this.TopMost = SettingCommon.Instance.AlwaysTop;
+            this.TopMost = SettingManager.Common.AlwaysTop;
         }
 
         private void SaveEventLog(List<Twitter.FormattedEvent> source, StreamWriter sw)

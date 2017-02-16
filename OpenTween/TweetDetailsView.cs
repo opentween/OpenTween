@@ -39,6 +39,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using OpenTween.Models;
+using OpenTween.Setting;
 
 namespace OpenTween
 {
@@ -113,12 +114,12 @@ namespace OpenTween
                 NameLabel.Text = nameText;
 
                 var nameForeColor = SystemColors.ControlText;
-                if (post.IsOwl && (SettingCommon.Instance.OneWayLove || post.IsDm))
-                    nameForeColor = this.Owner._cfgLocal.ColorOWL;
+                if (post.IsOwl && (SettingManager.Common.OneWayLove || post.IsDm))
+                    nameForeColor = SettingManager.Local.ColorOWL;
                 if (post.RetweetedId != null)
-                    nameForeColor = this.Owner._cfgLocal.ColorRetweet;
+                    nameForeColor = SettingManager.Local.ColorRetweet;
                 if (post.IsFav)
-                    nameForeColor = this.Owner._cfgLocal.ColorFav;
+                    nameForeColor = SettingManager.Local.ColorFav;
                 NameLabel.ForeColor = nameForeColor;
 
                 loadTasks.Add(this.SetUserPictureAsync(post.ImageUrl));
@@ -201,9 +202,9 @@ namespace OpenTween
             if (tags.Count > 0)
             {
                 if (forward)
-                    tags[0].ScrollTop += this.Owner._cfgLocal.FontDetail.Height;
+                    tags[0].ScrollTop += SettingManager.Local.FontDetail.Height;
                 else
-                    tags[0].ScrollTop -= this.Owner._cfgLocal.FontDetail.Height;
+                    tags[0].ScrollTop -= SettingManager.Local.FontDetail.Height;
             }
         }
 
@@ -216,9 +217,9 @@ namespace OpenTween
             if (tags.Count > 0)
             {
                 if (forward)
-                    tags[0].ScrollTop += PostBrowser.ClientRectangle.Height - this.Owner._cfgLocal.FontDetail.Height;
+                    tags[0].ScrollTop += PostBrowser.ClientRectangle.Height - SettingManager.Local.FontDetail.Height;
                 else
-                    tags[0].ScrollTop -= PostBrowser.ClientRectangle.Height - this.Owner._cfgLocal.FontDetail.Height;
+                    tags[0].ScrollTop -= PostBrowser.ClientRectangle.Height - SettingManager.Local.FontDetail.Height;
             }
         }
 
@@ -373,7 +374,7 @@ namespace OpenTween
             {
                 var translatedText = await bing.TranslateAsync(str,
                     langFrom: null,
-                    langTo: SettingCommon.Instance.TranslateLanguage);
+                    langTo: SettingManager.Common.TranslateLanguage);
 
                 this.PostBrowser.DocumentText = this.Owner.createDetailHtml(translatedText);
             }

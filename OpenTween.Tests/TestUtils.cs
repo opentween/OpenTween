@@ -91,3 +91,33 @@ namespace OpenTween
         }
     }
 }
+
+namespace OpenTween.Setting
+{
+    public class SettingManagerTest
+    {
+        public static SettingCommon Common
+        {
+            get { return SettingManager.Common; }
+            set { SettingManager.Common = value; }
+        }
+
+        public static SettingLocal Local
+        {
+            get { return SettingManager.Local; }
+            set { SettingManager.Local = value; }
+        }
+
+        public static SettingTabs Tabs
+        {
+            get { return SettingManager.Tabs; }
+            set { SettingManager.Tabs = value; }
+        }
+
+        public static SettingAtIdList AtIdList
+        {
+            get { return SettingManager.AtIdList; }
+            set { SettingManager.AtIdList = value; }
+        }
+    }
+}

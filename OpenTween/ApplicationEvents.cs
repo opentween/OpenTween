@@ -37,6 +37,7 @@ using System.Threading.Tasks;
 using System.Globalization;
 using System.Reflection;
 using Microsoft.Win32;
+using OpenTween.Setting;
 
 namespace OpenTween
 {
@@ -64,6 +65,8 @@ namespace OpenTween
 
             if (!SetConfigDirectoryPath())
                 return 1;
+
+            SettingManager.LoadAll();
 
             InitCulture();
 
@@ -185,8 +188,7 @@ namespace OpenTween
             {
                 if (MyCommon.cultureStr == null)
                 {
-                    var cfgCommon = SettingCommon.Load();
-                    MyCommon.cultureStr = cfgCommon.Language;
+                    MyCommon.cultureStr = SettingManager.Common.Language;
                     if (MyCommon.cultureStr == "OS")
                     {
                         if (!IsEqualCurrentCulture("ja") &&

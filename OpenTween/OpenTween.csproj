@@ -168,6 +168,7 @@
     <Compile Include="SendErrorReportForm.Designer.cs">
       <DependentUpon>SendErrorReportForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Setting\SettingManager.cs" />
     <Compile Include="ShortcutCommand.cs" />
     <Compile Include="Thumbnail\Services\PbsTwimgCom.cs" />
     <Compile Include="TweetDetailsView.cs">
