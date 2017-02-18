@@ -47,7 +47,6 @@ namespace OpenTween
         {
             new CultureInfo("en"), // 先頭のカルチャはフォールバック先として使用される
             new CultureInfo("ja"),
-            new CultureInfo("zh-CHS"),
         };
 
         /// <summary>

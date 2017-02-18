@@ -1,6 +1,5 @@
 [main]
 host = https://www.transifex.com
-lang_map = zh_CN: zh-CHS
 type = RESX
 
 [opentween.global]

@@ -111,8 +111,8 @@ namespace OpenTween
         [Theory]
         [InlineData("ja-JP", "ja-JP")]
         [InlineData("fr-FR", "en")] // 対応するカルチャが無い場合は en にフォールバックする
-        [InlineData("zh-CN", "zh-CN")] // zh-CHS は zh-CN を内包する
-        [InlineData("zh-TW", "en")] // zh-CHS は zh-TW を内包しない (台湾は繁体字圏)
+        [InlineData("zh-CN", "en")] // zh-CHS リソースは v1.3.7 から削除
+        [InlineData("zh-TW", "en")]
         public void GetPreferredCulture_Test(string currentCulture, string expectedCulture)
         {
             var actual = MyApplication.GetPreferredCulture(new CultureInfo(currentCulture));
