@@ -83,6 +83,7 @@
     <Compile Include="Connection\OAuthUtilityTest.cs" />
     <Compile Include="Connection\TwitterApiConnectionTest.cs" />
     <Compile Include="EmojiFormatterTest.cs" />
+    <Compile Include="ExtensionsTest.cs" />
     <Compile Include="HashtagManageTest.cs" />
     <Compile Include="HttpMessageHandlerMock.cs" />
     <Compile Include="IndexedSortedSetTest.cs" />

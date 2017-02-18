@@ -43,6 +43,13 @@ namespace OpenTween
 {
     internal class MyApplication
     {
+        public static readonly CultureInfo[] SupportedUICulture = new[]
+        {
+            new CultureInfo("en"), // 先頭のカルチャはフォールバック先として使用される
+            new CultureInfo("ja"),
+            new CultureInfo("zh-CHS"),
+        };
+
         /// <summary>
         /// 起動時に指定されたオプションを取得します
         /// </summary>
@@ -177,46 +184,34 @@ namespace OpenTween
             }
         }
 
-        private static bool IsEqualCurrentCulture(string CultureName)
-        {
-            return Thread.CurrentThread.CurrentUICulture.Name.StartsWith(CultureName, StringComparison.Ordinal);
-        }
-
-        public static string CultureCode
-        {
-            get
-            {
-                if (MyCommon.cultureStr == null)
-                {
-                    MyCommon.cultureStr = SettingManager.Common.Language;
-                    if (MyCommon.cultureStr == "OS")
-                    {
-                        if (!IsEqualCurrentCulture("ja") &&
-                           !IsEqualCurrentCulture("en") &&
-                           !IsEqualCurrentCulture("zh-CN"))
-                        {
-                            MyCommon.cultureStr = "en";
-                        }
-                    }
-                }
-                return MyCommon.cultureStr;
-            }
-        }
-
         public static void InitCulture()
         {
-            try
-            {
-                var culture = CultureInfo.CurrentCulture;
-                if (CultureCode != "OS")
-                    culture = new CultureInfo(CultureCode);
+            var currentCulture = CultureInfo.CurrentUICulture;
 
-                CultureInfo.DefaultThreadCurrentUICulture = culture;
-                Thread.CurrentThread.CurrentUICulture = culture;
-            }
-            catch (Exception)
+            var settingCultureStr = SettingManager.Common.Language;
+            if (settingCultureStr != "OS")
             {
+                try
+                {
+                    currentCulture = new CultureInfo(settingCultureStr);
+                }
+                catch (CultureNotFoundException) { }
             }
+
+            var preferredCulture = GetPreferredCulture(currentCulture);
+            CultureInfo.DefaultThreadCurrentUICulture = preferredCulture;
+            Thread.CurrentThread.CurrentUICulture = preferredCulture;
+        }
+
+        /// <summary>
+        /// サポートしているカルチャの中から、指定されたカルチャに対して適切なカルチャを選択して返します
+        /// </summary>
+        public static CultureInfo GetPreferredCulture(CultureInfo culture)
+        {
+            if (SupportedUICulture.Any(x => x.Contains(culture)))
+                return culture;
+
+            return SupportedUICulture[0];
         }
 
         private static bool SetConfigDirectoryPath()

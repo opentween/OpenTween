@@ -21,6 +21,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -51,5 +52,20 @@ namespace OpenTween
 
         public static UpgradeableReadLockTransaction BeginUpgradeableReadTransaction(this ReaderWriterLockSlim lockObj)
             => new UpgradeableReadLockTransaction(lockObj);
+
+        /// <summary>
+        /// 一方のカルチャがもう一方のカルチャを内包するかを判断します
+        /// </summary>
+        public static bool Contains(this CultureInfo @this, CultureInfo that)
+        {
+            if (@this.Equals(that))
+                return true;
+
+            // InvariantCulture の親カルチャは InvariantCulture 自身であるため、false になったら打ち切る
+            if (!that.Parent.Equals(that))
+                return Contains(@this, that.Parent);
+
+            return false;
+        }
     }
 }

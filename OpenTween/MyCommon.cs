@@ -56,7 +56,6 @@ namespace OpenTween
     {
         private static readonly object LockObj = new object();
         public static bool _endingFlag;        //終了フラグ
-        public static string cultureStr = null;
         public static string settingPath;
 
         public enum IconSizes
