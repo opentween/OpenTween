@@ -28,10 +28,10 @@ using Xunit.Extensions;
 
 namespace OpenTween
 {
-    public class ParseArgumentsTest
+    public class MyApplicationTest
     {
         [Fact]
-        public void NoOptionsTest()
+        public void ParseArguments_NoOptionsTest()
         {
             var args = new string[] { };
 
@@ -39,7 +39,7 @@ namespace OpenTween
         }
 
         [Fact]
-        public void SingleOptionTest()
+        public void ParseArguments_SingleOptionTest()
         {
             var args = new[] { "/foo" };
 
@@ -51,7 +51,7 @@ namespace OpenTween
         }
 
         [Fact]
-        public void MultipleOptionsTest()
+        public void ParseArguments_MultipleOptionsTest()
         {
             var args = new[] { "/foo", "/bar" };
 
@@ -64,7 +64,7 @@ namespace OpenTween
         }
 
         [Fact]
-        public void OptionWithArgumentTest()
+        public void ParseArguments_OptionWithArgumentTest()
         {
             var args = new[] { "/foo:hogehoge" };
 
@@ -76,7 +76,7 @@ namespace OpenTween
         }
 
         [Fact]
-        public void OptionWithEmptyArgumentTest()
+        public void ParseArguments_OptionWithEmptyArgumentTest()
         {
             var args = new[] { "/foo:" };
 
@@ -88,7 +88,7 @@ namespace OpenTween
         }
 
         [Fact]
-        public void IgroreInvalidOptionsTest()
+        public void ParseArguments_IgroreInvalidOptionsTest()
         {
             var args = new string[] { "--foo", "/" };
 
@@ -96,7 +96,7 @@ namespace OpenTween
         }
 
         [Fact]
-        public void DuplicateOptionsTest()
+        public void ParseArguments_DuplicateOptionsTest()
         {
             var args = new[] { "/foo:abc", "/foo:123" };
 
