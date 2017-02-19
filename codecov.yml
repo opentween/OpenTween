@@ -1,5 +1,7 @@
 coverage:
   range: '50...100'
+  status:
+    project: off
+    patch: off
 
-comment:
-  behavior: new
+comment: off
