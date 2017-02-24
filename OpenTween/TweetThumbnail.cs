@@ -43,7 +43,7 @@ namespace OpenTween
         protected internal List<OTPictureBox> pictureBox = new List<OTPictureBox>();
         protected MouseWheelMessageFilter filter = new MouseWheelMessageFilter();
 
-        public event EventHandler ThumbnailLoading;
+        public event EventHandler<EventArgs> ThumbnailLoading;
         public event EventHandler<ThumbnailDoubleClickEventArgs> ThumbnailDoubleClick;
         public event EventHandler<ThumbnailImageSearchEventArgs> ThumbnailImageSearchClick;
 

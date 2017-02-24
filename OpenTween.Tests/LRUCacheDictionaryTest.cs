@@ -140,7 +140,7 @@ namespace OpenTween
             dict["key4"] = "value4"; // 4アクセス目 (この直後にTrim)
 
             // 1 -> 2 -> 3 -> 4 の順にアクセスしたため、直近 3 件の 2, 3, 4 だけが残る
-            Assert.Equal<IEnumerable<string>>(new[] { "key2", "key3", "key4" }, dict.innerDict.Keys, collComparer);
+            Assert.Equal(new[] { "key2", "key3", "key4" }, dict.innerDict.Keys, collComparer);
 
             dict["key5"] = "value5";         // 5アクセス目
             dict.Add("key6", "value6");      // 6アクセス目
@@ -148,7 +148,7 @@ namespace OpenTween
             dict.TryGetValue("key4", out x); // 8アクセス目 (この直後にTrim)
 
             // 5 -> 6 -> 2 -> 4 の順でアクセスしたため、直近 3 件の 6, 2, 4 だけが残る
-            Assert.Equal<IEnumerable<string>>(new[] { "key6", "key2", "key4" }, dict.innerDict.Keys, collComparer);
+            Assert.Equal(new[] { "key6", "key2", "key4" }, dict.innerDict.Keys, collComparer);
         }
 
         [Fact]
@@ -173,7 +173,7 @@ namespace OpenTween
             dict.Trim();
 
             // 直近に参照された 3, 4 以外のアイテムに対してイベントが発生しているはず
-            Assert.Equal<IEnumerable<string>>(new[] { "key1", "key2" }, removedList, collComparer);
+            Assert.Equal(new[] { "key1", "key2" }, removedList, collComparer);
         }
 
         // ここから下は IDictionary としての機能が正しく動作するかのテスト

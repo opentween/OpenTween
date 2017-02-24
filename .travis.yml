@@ -13,4 +13,4 @@ before_script:
 
 script:
   - xbuild /p:Configuration=Debug /verbosity:quiet
-  - mono ./packages/xunit.runner.console.2.1.0/tools/xunit.console.exe ./OpenTween.Tests/bin/Debug/OpenTween.Tests.dll -noappdomain -parallel none
+  - mono ./packages/xunit.runner.console.2.2.0/tools/xunit.console.exe ./OpenTween.Tests/bin/Debug/OpenTween.Tests.dll -noappdomain -parallel none

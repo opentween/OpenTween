@@ -261,10 +261,6 @@ namespace OpenTween
             {
                 SynchronizationContext.SetSynchronizationContext(new SynchronizationContext());
 
-                bool eventCalled;
-                thumbbox.ThumbnailLoading +=
-                    (s, e) => { eventCalled = true; };
-
                 var post = new PostClass
                 {
                     TextFromApi = "てすと",
@@ -272,10 +268,11 @@ namespace OpenTween
                     {
                     },
                 };
-                eventCalled = false;
-                await thumbbox.ShowThumbnailAsync(post);
-
-                Assert.False(eventCalled);
+                await TestUtils.NotRaisesAsync<EventArgs>(
+                    x => thumbbox.ThumbnailLoading += x,
+                    x => thumbbox.ThumbnailLoading -= x,
+                    () => thumbbox.ShowThumbnailAsync(post)
+                );
 
                 SynchronizationContext.SetSynchronizationContext(new SynchronizationContext());
 
@@ -287,10 +284,12 @@ namespace OpenTween
                         new MediaInfo("http://foo.example.com/abcd"),
                     },
                 };
-                eventCalled = false;
-                await thumbbox.ShowThumbnailAsync(post2);
 
-                Assert.True(eventCalled);
+                await Assert.RaisesAsync<EventArgs>(
+                    x => thumbbox.ThumbnailLoading += x,
+                    x => thumbbox.ThumbnailLoading -= x,
+                    () => thumbbox.ShowThumbnailAsync(post2)
+                );
             }
         }
 
