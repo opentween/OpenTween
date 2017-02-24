@@ -54,6 +54,26 @@ namespace OpenTween
             }
         }
 
+        public static async Task NotRaisesAsync<T>(Action<EventHandler<T>> attach, Action<EventHandler<T>> detach, Func<Task> testCode)
+            where T : EventArgs
+        {
+            T raisedEvent = null;
+            EventHandler<T> handler = (s, e) => raisedEvent = e;
+
+            try
+            {
+                attach(handler);
+                await testCode().ConfigureAwait(false);
+
+                if (raisedEvent != null)
+                    throw new Xunit.Sdk.RaisesException(typeof(void), raisedEvent.GetType());
+            }
+            finally
+            {
+                detach(handler);
+            }
+        }
+
         public static MemoryImage CreateDummyImage()
         {
             using (var bitmap = new Bitmap(100, 100))

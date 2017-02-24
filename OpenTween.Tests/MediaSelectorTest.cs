@@ -82,12 +82,11 @@ namespace OpenTween
                 twitter.Initialize("", "", "", 0L);
                 mediaSelector.Initialize(twitter, TwitterConfiguration.DefaultConfiguration(), "Twitter");
 
-                var eventCalled = false;
-                mediaSelector.BeginSelecting += (o, e) => eventCalled = true;
-
-                mediaSelector.BeginSelection();
-
-                Assert.True(eventCalled);
+                Assert.Raises<EventArgs>(
+                    x => mediaSelector.BeginSelecting += x,
+                    x => mediaSelector.BeginSelecting -= x,
+                    () => mediaSelector.BeginSelection()
+                );
 
                 Assert.True(mediaSelector.Visible);
                 Assert.True(mediaSelector.Enabled);
@@ -112,13 +111,13 @@ namespace OpenTween
                 twitter.Initialize("", "", "", 0L);
                 mediaSelector.Initialize(twitter, TwitterConfiguration.DefaultConfiguration(), "Twitter");
 
-                var eventCalled = false;
-                mediaSelector.BeginSelecting += (o, e) => eventCalled = true;
-
                 var images = new[] { "Resources/re.gif" };
-                mediaSelector.BeginSelection(images);
 
-                Assert.True(eventCalled);
+                Assert.Raises<EventArgs>(
+                    x => mediaSelector.BeginSelecting += x,
+                    x => mediaSelector.BeginSelecting -= x,
+                    () => mediaSelector.BeginSelection(images)
+                );
 
                 Assert.True(mediaSelector.Visible);
                 Assert.True(mediaSelector.Enabled);
@@ -148,15 +147,14 @@ namespace OpenTween
                 twitter.Initialize("", "", "", 0L);
                 mediaSelector.Initialize(twitter, TwitterConfiguration.DefaultConfiguration(), "Twitter");
 
-                var eventCalled = false;
-                mediaSelector.BeginSelecting += (o, e) => eventCalled = true;
-
                 using (var bitmap = new Bitmap(width: 200, height: 200))
                 {
-                    mediaSelector.BeginSelection(bitmap);
+                    Assert.Raises<EventArgs>(
+                        x => mediaSelector.BeginSelecting += x,
+                        x => mediaSelector.BeginSelecting -= x,
+                        () => mediaSelector.BeginSelection(bitmap)
+                    );
                 }
-
-                Assert.True(eventCalled);
 
                 Assert.True(mediaSelector.Visible);
                 Assert.True(mediaSelector.Enabled);
@@ -217,12 +215,11 @@ namespace OpenTween
 
                 var displayImage = mediaSelector.ImageSelectedPicture.Image; // 表示中の画像
 
-                var eventCalled = false;
-                mediaSelector.EndSelecting += (o, e) => eventCalled = true;
-
-                mediaSelector.EndSelection();
-
-                Assert.True(eventCalled);
+                Assert.Raises<EventArgs>(
+                    x => mediaSelector.EndSelecting += x,
+                    x => mediaSelector.EndSelecting -= x,
+                    () => mediaSelector.EndSelection()
+                );
 
                 Assert.False(mediaSelector.Visible);
                 Assert.False(mediaSelector.Enabled);
@@ -461,14 +458,13 @@ namespace OpenTween
                 Assert.Equal(new[] { "1", "2", "3" }, pages.Cast<object>().Select(x => x.ToString()));
                 Assert.True(mediaSelector.ImagePageCombo.Enabled);
 
-                var eventCalled = false;
-                mediaSelector.SelectedServiceChanged += (o, e) => eventCalled = true;
-
                 // 投稿先を yfrog に変更
-                mediaSelector.ImageServiceCombo.SelectedIndex =
-                    mediaSelector.ImageServiceCombo.Items.IndexOf("yfrog");
-
-                Assert.True(eventCalled); // SelectedServiceChanged イベントが呼ばれる
+                var yfrogIndex = mediaSelector.ImageServiceCombo.Items.IndexOf("yfrog");
+                Assert.Raises<EventArgs>(
+                    x => mediaSelector.SelectedServiceChanged += x,
+                    x => mediaSelector.SelectedServiceChanged -= x,
+                    () => mediaSelector.ImageServiceCombo.SelectedIndex = yfrogIndex
+                );
 
                 // 1 ページ目のみ選択可能な状態 (Disabled)
                 pages = mediaSelector.ImagePageCombo.Items;

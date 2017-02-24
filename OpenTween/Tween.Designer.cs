@@ -604,11 +604,11 @@
             // 
             resources.ApplyResources(this.ImageSelector, "ImageSelector");
             this.ImageSelector.Name = "ImageSelector";
-            this.ImageSelector.BeginSelecting += new System.EventHandler(this.ImageSelector_BeginSelecting);
-            this.ImageSelector.EndSelecting += new System.EventHandler(this.ImageSelector_EndSelecting);
-            this.ImageSelector.FilePickDialogOpening += new System.EventHandler(this.ImageSelector_FilePickDialogOpening);
-            this.ImageSelector.FilePickDialogClosed += new System.EventHandler(this.ImageSelector_FilePickDialogClosed);
-            this.ImageSelector.SelectedServiceChanged += new System.EventHandler(this.ImageSelector_SelectedServiceChanged);
+            this.ImageSelector.BeginSelecting += new System.EventHandler<System.EventArgs>(this.ImageSelector_BeginSelecting);
+            this.ImageSelector.EndSelecting += new System.EventHandler<System.EventArgs>(this.ImageSelector_EndSelecting);
+            this.ImageSelector.FilePickDialogOpening += new System.EventHandler<System.EventArgs>(this.ImageSelector_FilePickDialogOpening);
+            this.ImageSelector.FilePickDialogClosed += new System.EventHandler<System.EventArgs>(this.ImageSelector_FilePickDialogClosed);
+            this.ImageSelector.SelectedServiceChanged += new System.EventHandler<System.EventArgs>(this.ImageSelector_SelectedServiceChanged);
             this.ImageSelector.VisibleChanged += new System.EventHandler(this.ImageSelector_VisibleChanged);
             // 
             // ProfilePanel
@@ -695,7 +695,7 @@
             resources.ApplyResources(this.tweetThumbnail1, "tweetThumbnail1");
             this.tweetThumbnail1.Name = "tweetThumbnail1";
             this.tweetThumbnail1.TabStop = false;
-            this.tweetThumbnail1.ThumbnailLoading += new System.EventHandler(this.tweetThumbnail1_ThumbnailLoading);
+            this.tweetThumbnail1.ThumbnailLoading += new System.EventHandler<System.EventArgs>(this.tweetThumbnail1_ThumbnailLoading);
             this.tweetThumbnail1.ThumbnailDoubleClick += new System.EventHandler<OpenTween.ThumbnailDoubleClickEventArgs>(this.tweetThumbnail1_ThumbnailDoubleClick);
             this.tweetThumbnail1.ThumbnailImageSearchClick += new System.EventHandler<OpenTween.ThumbnailImageSearchEventArgs>(this.tweetThumbnail1_ThumbnailImageSearchClick);
             // 
