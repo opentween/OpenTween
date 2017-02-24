@@ -1439,12 +1439,11 @@ namespace OpenTween.Models
         {
             var filter = new PostFilterRule();
 
-            string changedPropeyty = null;
+            Assert.PropertyChanged(
+                filter, "FilterName",
+                () => filter.FilterName = "hogehoge"
+            );
 
-            filter.PropertyChanged += (_, x) => changedPropeyty = x.PropertyName;
-            filter.FilterName = "hogehoge";
-
-            Assert.Equal("FilterName", changedPropeyty);
             Assert.True(filter.IsDirty);
         }
 
@@ -1455,13 +1454,12 @@ namespace OpenTween.Models
             filter.FilterName = "hogehoge";
             filter.Compile();
 
-            string changedPropeyty = null;
-
             // 値に変化がないので PropertyChanged イベントは発生しない
-            filter.PropertyChanged += (_, x) => changedPropeyty = x.PropertyName;
-            filter.FilterName = "hogehoge";
+            TestUtils.NotPropertyChanged(
+                filter, "FilterName",
+                () => filter.FilterName = "hogehoge"
+            );
 
-            Assert.Null(changedPropeyty);
             Assert.False(filter.IsDirty);
         }
 

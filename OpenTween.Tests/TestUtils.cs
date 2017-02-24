@@ -74,6 +74,25 @@ namespace OpenTween
             }
         }
 
+        public static void NotPropertyChanged(INotifyPropertyChanged @object, string propertyName, Action testCode)
+        {
+            PropertyChangedEventHandler handler = (s, e) =>
+            {
+                if (s == @object && e.PropertyName == propertyName)
+                    throw new Xunit.Sdk.PropertyChangedException(propertyName);
+            };
+
+            try
+            {
+                @object.PropertyChanged += handler;
+                testCode();
+            }
+            finally
+            {
+                @object.PropertyChanged -= handler;
+            }
+        }
+
         public static MemoryImage CreateDummyImage()
         {
             using (var bitmap = new Bitmap(100, 100))
