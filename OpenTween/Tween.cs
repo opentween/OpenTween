@@ -9286,7 +9286,12 @@ namespace OpenTween
                     {
                         urlUndo undotmp = new urlUndo();
 
-                        StatusText.Select(StatusText.Text.IndexOf(tmp, StringComparison.Ordinal), tmp.Length);
+                        // 短縮 URL が生成されるまでの間に投稿欄から元の URL が削除されていたら中断する
+                        var origUrlIndex = this.StatusText.Text.IndexOf(tmp, StringComparison.Ordinal);
+                        if (origUrlIndex == -1)
+                            return false;
+
+                        StatusText.Select(origUrlIndex, tmp.Length);
                         StatusText.SelectedText = result;
 
                         //undoバッファにセット
@@ -9362,7 +9367,12 @@ namespace OpenTween
 
                     if (!string.IsNullOrEmpty(result))
                     {
-                        StatusText.Select(StatusText.Text.IndexOf(mt.Result("${url}"), StringComparison.Ordinal), mt.Result("${url}").Length);
+                        // 短縮 URL が生成されるまでの間に投稿欄から元の URL が削除されていたら中断する
+                        var origUrlIndex = this.StatusText.Text.IndexOf(mt.Result("${url}"), StringComparison.Ordinal);
+                        if (origUrlIndex == -1)
+                            return false;
+
+                        StatusText.Select(origUrlIndex, mt.Result("${url}").Length);
                         StatusText.SelectedText = result;
                         //undoバッファにセット
                         undotmp.Before = mt.Result("${url}");
