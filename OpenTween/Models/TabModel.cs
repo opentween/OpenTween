@@ -324,7 +324,7 @@ namespace OpenTween.Models
             {
                 PostClass post;
                 if (!this.Posts.TryGetValue(this.GetStatusIdAt(index), out post))
-                    throw new ArgumentOutOfRangeException("Post not exists", nameof(index));
+                    throw new ArgumentOutOfRangeException(nameof(index), "Post not exists");
 
                 return post;
             }
