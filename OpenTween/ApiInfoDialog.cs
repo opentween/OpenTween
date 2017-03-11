@@ -65,9 +65,9 @@ namespace OpenTween
             // その他
             group = this.ListViewApi.Groups[1];
             var apiStatuses = MyCommon.TwitterApiInfo.AccessLimit.Where(x => !_tlEndpoints.Contains(x.Key)).OrderBy(x => x.Key);
-            foreach (var pair in apiStatuses)
+            foreach (var (endpoint, apiLimit) in apiStatuses)
             {
-                AddListViewItem(pair.Key, pair.Value, group);
+                AddListViewItem(endpoint, apiLimit, group);
             }
 
             MyCommon.TwitterApiInfo.AccessLimitUpdated += this.TwitterApiStatus_AccessLimitUpdated;

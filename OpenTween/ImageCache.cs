@@ -163,9 +163,8 @@ namespace OpenTween
 
                 lock (this.lockObject)
                 {
-                    foreach (var item in this.innerDictionary)
+                    foreach (var (_, task) in this.innerDictionary)
                     {
-                        var task = item.Value;
                         if (task.Status == TaskStatus.RanToCompletion)
                             task.Result?.Dispose();
                     }

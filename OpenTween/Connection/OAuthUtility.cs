@@ -66,8 +66,8 @@ namespace OpenTween.Connection
             Dictionary<string, string> parameter = GetOAuthParameter(consumerKey, token);
             // OAuth共通情報にquery情報を追加
             if (query != null)
-                foreach (KeyValuePair<string, string> item in query)
-                    parameter.Add(item.Key, item.Value);
+                foreach (var (key, value) in query)
+                    parameter.Add(key, value);
             // 署名の作成・追加
             parameter.Add("oauth_signature", CreateSignature(consumerSecret, tokenSecret, httpMethod, requestUri, parameter));
             // HTTPリクエストのヘッダに追加
@@ -76,10 +76,10 @@ namespace OpenTween.Connection
             if (realm != null)
                 sb.AppendFormat("realm=\"{0}\",", realm);
 
-            foreach (KeyValuePair<string, string> item in parameter)
+            foreach (var (key, value) in parameter)
                 // 各種情報のうち、oauth_で始まる情報のみ、ヘッダに追加する。各情報はカンマ区切り、データはダブルクォーテーションで括る
-                if (item.Key.StartsWith("oauth_", StringComparison.Ordinal))
-                    sb.AppendFormat("{0}=\"{1}\",", item.Key, MyCommon.UrlEncode(item.Value));
+                if (key.StartsWith("oauth_", StringComparison.Ordinal))
+                    sb.AppendFormat("{0}=\"{1}\",", key, MyCommon.UrlEncode(value));
 
             return sb.ToString();
         }

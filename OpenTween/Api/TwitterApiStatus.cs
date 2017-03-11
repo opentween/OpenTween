@@ -191,9 +191,9 @@ namespace OpenTween.Api
 
             public void AddAll(IDictionary<string, ApiLimit> resources)
             {
-                foreach (var res in resources)
+                foreach (var (key, value) in resources)
                 {
-                    this.innerDict[res.Key] = res.Value;
+                    this.innerDict[key] = value;
                 }
 
                 this.Owner.OnAccessLimitUpdated(new AccessLimitUpdatedEventArgs(null));
