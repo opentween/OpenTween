@@ -57,20 +57,20 @@ namespace OpenTween
 
         public string TabName
         {
-            get { return this.TextTabName.Text.Trim(); }
-            set { TextTabName.Text = value.Trim(); }
+            get => this.TextTabName.Text.Trim();
+            set => TextTabName.Text = value.Trim();
         }
 
         public string FormTitle
         {
-            get { return this.Text; }
-            set { this.Text = value; }
+            get => this.Text;
+            set => this.Text = value;
         }
 
         public string FormDescription
         {
-            get { return this.LabelDescription.Text; }
-            set { this.LabelDescription.Text = value; }
+            get => this.LabelDescription.Text;
+            set => this.LabelDescription.Text = value;
         }
 
         public bool IsShowUsage { get; set; }

@@ -119,8 +119,7 @@ namespace OpenTween.Models
         {
             var addedIds = new List<long>();
 
-            TemporaryId tId;
-            while (this.addQueue.TryDequeue(out tId))
+            while (this.addQueue.TryDequeue(out var tId))
             {
                 if (this.AddPostImmediately(tId.StatusId, tId.Read))
                     addedIds.Add(tId.StatusId);
@@ -147,8 +146,7 @@ namespace OpenTween.Models
         {
             var removedIds = new List<long>();
 
-            long statusId;
-            while (this.removeQueue.TryDequeue(out statusId))
+            while (this.removeQueue.TryDequeue(out var statusId))
             {
                 if (this.RemovePostImmediately(statusId))
                     removedIds.Add(statusId);
@@ -216,9 +214,8 @@ namespace OpenTween.Models
 
                 comparison = (x, y) =>
                 {
-                    PostClass xPost, yPost;
-                    this.Posts.TryGetValue(x, out xPost);
-                    this.Posts.TryGetValue(y, out yPost);
+                    this.Posts.TryGetValue(x, out var xPost);
+                    this.Posts.TryGetValue(y, out var yPost);
 
                     var compare = sign * postComparison(xPost, yPost);
                     if (compare != 0)
@@ -322,8 +319,7 @@ namespace OpenTween.Models
         {
             get
             {
-                PostClass post;
-                if (!this.Posts.TryGetValue(this.GetStatusIdAt(index), out post))
+                if (!this.Posts.TryGetValue(this.GetStatusIdAt(index), out var post))
                     throw new ArgumentOutOfRangeException(nameof(index), "Post not exists");
 
                 return post;
@@ -422,8 +418,7 @@ namespace OpenTween.Models
 
             foreach (var index in searchIndices)
             {
-                PostClass post;
-                if (!this.Posts.TryGetValue(this.GetStatusIdAt(index), out post))
+                if (!this.Posts.TryGetValue(this.GetStatusIdAt(index), out var post))
                     continue;
 
                 if (stringComparer(post.Nickname) || stringComparer(post.TextFromApi) || stringComparer(post.ScreenName))

@@ -194,10 +194,7 @@ namespace OpenTween
 
         public MemoryImageMediaItem(MemoryImage image)
         {
-            if (image == null)
-                throw new ArgumentNullException(nameof(image));
-
-            this._image = image;
+            this._image = image ?? throw new ArgumentNullException(nameof(image));
 
             var num = Interlocked.Increment(ref _fileNumber);
             this.Path = PathPrefix + num + this._image.ImageFormatExt;
@@ -287,8 +284,6 @@ namespace OpenTween
         }
 
         ~MemoryImageMediaItem()
-        {
-            this.Dispose(false);
-        }
+            => this.Dispose(false);
     }
 }

@@ -110,8 +110,8 @@ namespace OpenTween.Connection
             public override long Length => 100L;
             public override long Position
             {
-                get { return 0L; }
-                set { throw new NotSupportedException(); }
+                get => 0L;
+                set => throw new NotSupportedException();
             }
 
             public override void Flush()

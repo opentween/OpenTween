@@ -106,8 +106,7 @@ namespace OpenTween.Api
             {
                 if (!dict.ContainsKey(key)) continue;
 
-                long result;
-                if (long.TryParse(dict[key], out result))
+                if (long.TryParse(dict[key], out var result))
                     return result;
             }
 
@@ -141,16 +140,16 @@ namespace OpenTween.Api
             var rateLimits =
                 from res in json.Resources
                 from item in res.Value
-                select new {
-                    endpointName = item.Key,
-                    limit = new ApiLimit(
+                select (
+                    EndpointName: item.Key,
+                    Limit: new ApiLimit(
                         item.Value.Limit,
                         item.Value.Remaining,
                         UnixEpoch.AddSeconds(item.Value.Reset).ToLocalTime()
-                    ),
-                };
+                    )
+                );
 
-            this.AccessLimit.AddAll(rateLimits.ToDictionary(x => x.endpointName, x => x.limit));
+            this.AccessLimit.AddAll(rateLimits.ToDictionary(x => x.EndpointName, x => x.Limit));
         }
 
         protected virtual void OnAccessLimitUpdated(AccessLimitUpdatedEventArgs e)
@@ -173,8 +172,7 @@ namespace OpenTween.Api
             {
                 get
                 {
-                    ApiLimit limit;
-                    return this.innerDict.TryGetValue(endpoint, out limit)
+                    return this.innerDict.TryGetValue(endpoint, out var limit)
                         ? limit
                         : null;
                 }
@@ -193,9 +191,9 @@ namespace OpenTween.Api
 
             public void AddAll(IDictionary<string, ApiLimit> resources)
             {
-                foreach (var res in resources)
+                foreach (var (key, value) in resources)
                 {
-                    this.innerDict[res.Key] = res.Value;
+                    this.innerDict[key] = value;
                 }
 
                 this.Owner.OnAccessLimitUpdated(new AccessLimitUpdatedEventArgs(null));

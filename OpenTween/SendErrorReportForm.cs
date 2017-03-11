@@ -120,15 +120,15 @@ namespace OpenTween
 
         public bool CanSendByDM
         {
-            get { return this._canSendByDm; }
-            private set { this.SetProperty(ref this._canSendByDm, value); }
+            get => this._canSendByDm;
+            private set => this.SetProperty(ref this._canSendByDm, value);
         }
         private bool _canSendByDm;
 
         public string EncodedReportForDM
         {
-            get { return this._encodedReportForDM; }
-            private set { this.SetProperty(ref this._encodedReportForDM, value); }
+            get => this._encodedReportForDM;
+            private set => this.SetProperty(ref this._encodedReportForDM, value);
         }
         private string _encodedReportForDM;
 

@@ -99,18 +99,17 @@ namespace OpenTween.Models
 
             var removeKeys = new List<DateTime>();
             var tweetsInWindow = 0;
-            foreach (var pair in this.tweetsTimestamps)
+            foreach (var (timestamp, count) in this.tweetsTimestamps)
             {
-                if (now - pair.Key > oneHour)
-                    removeKeys.Add(pair.Key);
+                if (now - timestamp > oneHour)
+                    removeKeys.Add(timestamp);
                 else
-                    tweetsInWindow += pair.Value;
+                    tweetsInWindow += count;
             }
             Interlocked.Exchange(ref this.tweetsPerHour, tweetsInWindow);
 
-            int _;
             foreach (var key in removeKeys)
-                this.tweetsTimestamps.TryRemove(key, out _);
+                this.tweetsTimestamps.TryRemove(key, out var _);
         }
     }
 }

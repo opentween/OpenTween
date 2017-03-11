@@ -53,8 +53,8 @@ namespace OpenTween
         /// </summary>
         public string Message
         {
-            get { return this.labelMessage.Text; }
-            set { this.labelMessage.Text = value; }
+            get => this.labelMessage.Text;
+            set => this.labelMessage.Text = value;
         }
 
         public WaitingDialog()

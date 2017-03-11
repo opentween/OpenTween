@@ -117,9 +117,9 @@ namespace OpenTween
             if ((modifiers & ModKeys.Shift) == ModKeys.Shift) modKey |= Keys.Shift;
             if ((modifiers & ModKeys.Win) == ModKeys.Win) modKey |= Keys.LWin;
             var key = new KeyEventArgs(hotkey | modKey);
-            foreach (var kvp in this._hotkeyID)
+            foreach (var (_, value) in this._hotkeyID)
             {
-                if (kvp.Value.KeyEvent.KeyData == key.KeyData && kvp.Value.Value == hotkeyValue) return true; // 登録済みなら正常終了
+                if (value.KeyEvent.KeyData == key.KeyData && value.Value == hotkeyValue) return true; // 登録済みなら正常終了
             }
             var hotkeyId = NativeMethods.RegisterGlobalHotKey(hotkeyValue, (int)modifiers, this._targetForm);
             if (hotkeyId > 0)
@@ -171,8 +171,6 @@ namespace OpenTween
 #endregion
 
         ~HookGlobalHotkey()
-        {
-            this.Dispose(false);
-        }
+            => this.Dispose(false);
     }
 }

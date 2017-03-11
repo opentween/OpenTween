@@ -110,9 +110,8 @@ namespace OpenTween.Setting.Panel
 
         private void TextProxyPort_Validating(object sender, CancelEventArgs e)
         {
-            int port;
             if (string.IsNullOrWhiteSpace(TextProxyPort.Text)) TextProxyPort.Text = "0";
-            if (int.TryParse(TextProxyPort.Text.Trim(), out port) == false)
+            if (int.TryParse(TextProxyPort.Text.Trim(), out var port) == false)
             {
                 MessageBox.Show(Properties.Resources.TextProxyPort_ValidatingText1);
                 e.Cancel = true;

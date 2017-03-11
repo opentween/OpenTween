@@ -98,9 +98,8 @@ namespace OpenTween
         {
             var sourceHtml = "<a href=\"http://twitter.com\" rel=\"nofollow\">Twitter Web Client</a>";
 
-            var result = Twitter.ParseSource(sourceHtml);
-            Assert.Equal("Twitter Web Client", result.Item1);
-            Assert.Equal(new Uri("http://twitter.com/"), result.Item2);
+            var expected = ("Twitter Web Client", new Uri("http://twitter.com/"));
+            Assert.Equal(expected, Twitter.ParseSource(sourceHtml));
         }
 
         [Fact]
@@ -108,9 +107,8 @@ namespace OpenTween
         {
             var sourceHtml = "web";
 
-            var result = Twitter.ParseSource(sourceHtml);
-            Assert.Equal("web", result.Item1);
-            Assert.Equal(null, result.Item2);
+            var expected = ("web", (Uri)null);
+            Assert.Equal(expected, Twitter.ParseSource(sourceHtml));
         }
 
         [Fact]
@@ -119,9 +117,8 @@ namespace OpenTween
             // 参照: https://twitter.com/kim_upsilon/status/477796052049752064
             var sourceHtml = "<a href=\"erased_45416\" rel=\"nofollow\">erased_45416</a>";
 
-            var result = Twitter.ParseSource(sourceHtml);
-            Assert.Equal("erased_45416", result.Item1);
-            Assert.Equal(new Uri("https://twitter.com/erased_45416"), result.Item2);
+            var expected = ("erased_45416", new Uri("https://twitter.com/erased_45416"));
+            Assert.Equal(expected, Twitter.ParseSource(sourceHtml));
         }
 
         [Fact]
@@ -130,9 +127,8 @@ namespace OpenTween
             // 参照: https://twitter.com/kim_upsilon/status/595156014032244738
             var sourceHtml = "";
 
-            var result = Twitter.ParseSource(sourceHtml);
-            Assert.Equal("", result.Item1);
-            Assert.Equal(null, result.Item2);
+            var expected = ("", (Uri)null);
+            Assert.Equal(expected, Twitter.ParseSource(sourceHtml));
         }
 
         [Fact]
@@ -140,9 +136,8 @@ namespace OpenTween
         {
             string sourceHtml = null;
 
-            var result = Twitter.ParseSource(sourceHtml);
-            Assert.Equal("", result.Item1);
-            Assert.Equal(null, result.Item2);
+            var expected = ("", (Uri)null);
+            Assert.Equal(expected, Twitter.ParseSource(sourceHtml));
         }
 
         [Fact]
@@ -150,9 +145,8 @@ namespace OpenTween
         {
             string sourceHtml = "<a href=\"http://example.com/?aaa=123&amp;bbb=456\" rel=\"nofollow\">&lt;&lt;hogehoge&gt;&gt;</a>";
 
-            var result = Twitter.ParseSource(sourceHtml);
-            Assert.Equal("<<hogehoge>>", result.Item1);
-            Assert.Equal(new Uri("http://example.com/?aaa=123&bbb=456"), result.Item2);
+            var expected = ("<<hogehoge>>", new Uri("http://example.com/?aaa=123&bbb=456"));
+            Assert.Equal(expected, Twitter.ParseSource(sourceHtml));
         }
 
         [Fact]
@@ -160,9 +154,8 @@ namespace OpenTween
         {
             string sourceHtml = "&lt;&lt;hogehoge&gt;&gt;";
 
-            var result = Twitter.ParseSource(sourceHtml);
-            Assert.Equal("<<hogehoge>>", result.Item1);
-            Assert.Equal(null, result.Item2);
+            var expected = ("<<hogehoge>>", (Uri)null);
+            Assert.Equal(expected, Twitter.ParseSource(sourceHtml));
         }
 
         [Fact]

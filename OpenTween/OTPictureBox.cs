@@ -171,7 +171,7 @@ namespace OpenTween
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public new string ImageLocation
         {
-            get { return null; }
+            get => null;
             set { }
         }
 

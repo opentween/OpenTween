@@ -99,8 +99,7 @@ namespace OpenTween
 
             var tab = _sts.Tabs[tabName];
 
-            var filterTab = tab as FilterTabModel;
-            if (filterTab != null)
+            if (tab is FilterTabModel filterTab)
                 ListFilters.Items.AddRange(filterTab.GetFilters());
 
             if (ListFilters.Items.Count > 0)
@@ -599,11 +598,8 @@ namespace OpenTween
 
         private void ButtonOK_Click(object sender, EventArgs e)
         {
-            bool isBlankMatch = false;
-            bool isBlankExclude = false;
-
             //入力チェック
-            if (!CheckMatchRule(out isBlankMatch) || !CheckExcludeRule(out isBlankExclude))
+            if (!CheckMatchRule(out var isBlankMatch) || !CheckExcludeRule(out var isBlankExclude))
             {
                 return;
             }
@@ -1091,8 +1087,7 @@ namespace OpenTween
                 int idx = ListTabs.SelectedIndex;
 
                 var origTabName = (string)this.ListTabs.SelectedItem;
-                string newTabName;
-                if (((TweenMain)this.Owner).TabRename(origTabName, out newTabName))
+                if (((TweenMain)this.Owner).TabRename(origTabName, out var newTabName))
                 {
                     ListTabs.Items.RemoveAt(idx);
                     ListTabs.Items.Insert(idx, newTabName);

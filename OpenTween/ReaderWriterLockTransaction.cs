@@ -34,10 +34,7 @@ namespace OpenTween
 
         public ReadLockTransaction(ReaderWriterLockSlim lockObj)
         {
-            if (lockObj == null)
-                throw new ArgumentNullException(nameof(lockObj));
-
-            this.lockObj = lockObj;
+            this.lockObj = lockObj ?? throw new ArgumentNullException(nameof(lockObj));
             this.lockObj.EnterReadLock();
         }
 
@@ -51,10 +48,7 @@ namespace OpenTween
 
         public WriteLockTransaction(ReaderWriterLockSlim lockObj)
         {
-            if (lockObj == null)
-                throw new ArgumentNullException(nameof(lockObj));
-
-            this.lockObj = lockObj;
+            this.lockObj = lockObj ?? throw new ArgumentNullException(nameof(lockObj));
             this.lockObj.EnterWriteLock();
         }
 
@@ -68,10 +62,7 @@ namespace OpenTween
 
         public UpgradeableReadLockTransaction(ReaderWriterLockSlim lockObj)
         {
-            if (lockObj == null)
-                throw new ArgumentNullException(nameof(lockObj));
-
-            this.lockObj = lockObj;
+            this.lockObj = lockObj ?? throw new ArgumentNullException(nameof(lockObj));
             this.lockObj.EnterUpgradeableReadLock();
         }
 

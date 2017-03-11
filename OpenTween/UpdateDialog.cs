@@ -40,14 +40,14 @@ namespace OpenTween
     {
         public string SummaryText
         {
-            get { return this.LabelSummary.Text; }
-            set { this.LabelSummary.Text = value; }
+            get => this.LabelSummary.Text;
+            set => this.LabelSummary.Text = value;
         }
 
         public string DetailsText
         {
-            get { return this.TextDetail.Text; }
-            set { this.TextDetail.Text = value; }
+            get => this.TextDetail.Text;
+            set => this.TextDetail.Text = value;
         }
 
         public UpdateDialog()

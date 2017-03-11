@@ -53,8 +53,8 @@ namespace OpenTween
         public string Password = "";
         public string EncryptPassword
         {
-            get { return Encrypt(Password); }
-            set { Password = Decrypt(value); }
+            get => Encrypt(Password);
+            set => Password = Decrypt(value);
         }
 
         public string Token = "";
@@ -62,8 +62,8 @@ namespace OpenTween
         public string TokenSecret = "";
         public string EncryptTokenSecret
         {
-            get { return Encrypt(TokenSecret); }
-            set { TokenSecret = Decrypt(value); }
+            get => Encrypt(TokenSecret);
+            set => TokenSecret = Decrypt(value);
         }
 
         private string Encrypt(string password)
@@ -253,8 +253,8 @@ namespace OpenTween
         public string TokenSecret = "";
         public string EncryptTokenSecret
         {
-            get { return Encrypt(TokenSecret); }
-            set { TokenSecret = Decrypt(value); }
+            get => Encrypt(TokenSecret);
+            set => TokenSecret = Decrypt(value);
         }
         private string Encrypt(string password)
         {

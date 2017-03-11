@@ -327,9 +327,8 @@ namespace OpenTween
             // 自分を IInternetSecurityManager として提供
             try
             {
-                int cookie = 0;
                 profferService.ProfferService(
-                    ref WebBrowserAPI.IID_IInternetSecurityManager, this, out cookie);
+                    ref WebBrowserAPI.IID_IInternetSecurityManager, this, out var cookie);
             }
             catch (SEHException ex)
             {

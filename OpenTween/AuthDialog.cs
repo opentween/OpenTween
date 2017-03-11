@@ -45,14 +45,14 @@ namespace OpenTween
 
         public string AuthUrl
         {
-            get { return AuthLinkLabel.Text; }
-            set { AuthLinkLabel.Text = value; }
+            get => AuthLinkLabel.Text;
+            set => AuthLinkLabel.Text = value;
         }
 
         public string Pin
         {
-            get { return PinTextBox.Text.Trim(); }
-            set { PinTextBox.Text = value; }
+            get => PinTextBox.Text.Trim();
+            set => PinTextBox.Text = value;
         }
 
         private void AuthLinkLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)

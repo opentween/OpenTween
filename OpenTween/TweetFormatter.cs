@@ -69,12 +69,12 @@ namespace OpenTween
 
                 var targetText = text.Substring(startIndex, endIndex - startIndex);
 
-                if (entity is TwitterEntityUrl)
-                    yield return FormatUrlEntity(targetText, (TwitterEntityUrl)entity, keepTco);
-                else if (entity is TwitterEntityHashtag)
-                    yield return FormatHashtagEntity(targetText, (TwitterEntityHashtag)entity);
-                else if (entity is TwitterEntityMention)
-                    yield return FormatMentionEntity(targetText, (TwitterEntityMention)entity);
+                if (entity is TwitterEntityUrl urlEntity)
+                    yield return FormatUrlEntity(targetText, urlEntity, keepTco);
+                else if (entity is TwitterEntityHashtag hashtagEntity)
+                    yield return FormatHashtagEntity(targetText, hashtagEntity);
+                else if (entity is TwitterEntityMention mentionEntity)
+                    yield return FormatMentionEntity(targetText, mentionEntity);
                 else
                     yield return t(e(targetText));
 

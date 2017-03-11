@@ -92,168 +92,168 @@ namespace OpenTween
         public Font FontUnread = new Font(SystemFonts.DefaultFont, FontStyle.Bold | FontStyle.Underline);
         public string FontUnreadStr
         {
-            get { return this.FontToString(this.FontUnread); }
-            set { this.FontUnread = this.StringToFont(value); }
+            get => this.FontToString(this.FontUnread);
+            set => this.FontUnread = this.StringToFont(value);
         }
 
         [XmlIgnore]
         public Color ColorUnread = System.Drawing.SystemColors.ControlText;
         public string ColorUnreadStr
         {
-            get { return this.ColorToString(this.ColorUnread); }
-            set { this.ColorUnread = this.StringToColor(value); }
+            get => this.ColorToString(this.ColorUnread);
+            set => this.ColorUnread = this.StringToColor(value);
         }
 
         [XmlIgnore]
         public Font FontRead = System.Drawing.SystemFonts.DefaultFont;
         public string FontReadStr
         {
-            get { return this.FontToString(this.FontRead); }
-            set { this.FontRead = this.StringToFont(value); }
+            get => this.FontToString(this.FontRead);
+            set => this.FontRead = this.StringToFont(value);
         }
 
         [XmlIgnore]
         public Color ColorRead = System.Drawing.SystemColors.ControlText;
         public string ColorReadStr
         {
-            get { return this.ColorToString(this.ColorRead); }
-            set { this.ColorRead = this.StringToColor(value); }
+            get => this.ColorToString(this.ColorRead);
+            set => this.ColorRead = this.StringToColor(value);
         }
 
         [XmlIgnore]
         public Color ColorFav = Color.FromKnownColor(System.Drawing.KnownColor.Red);
         public string ColorFavStr
         {
-            get { return this.ColorToString(this.ColorFav); }
-            set { this.ColorFav = this.StringToColor(value); }
+            get => this.ColorToString(this.ColorFav);
+            set => this.ColorFav = this.StringToColor(value);
         }
 
         [XmlIgnore]
         public Color ColorOWL = Color.FromKnownColor(System.Drawing.KnownColor.Blue);
         public string ColorOWLStr
         {
-            get { return this.ColorToString(this.ColorOWL); }
-            set { this.ColorOWL = this.StringToColor(value); }
+            get => this.ColorToString(this.ColorOWL);
+            set => this.ColorOWL = this.StringToColor(value);
         }
 
         [XmlIgnore]
         public Color ColorRetweet = Color.FromKnownColor(System.Drawing.KnownColor.Green);
         public string ColorRetweetStr
         {
-            get { return this.ColorToString(this.ColorRetweet); }
-            set { this.ColorRetweet = this.StringToColor(value); }
+            get => this.ColorToString(this.ColorRetweet);
+            set => this.ColorRetweet = this.StringToColor(value);
         }
 
         [XmlIgnore]
         public Font FontDetail = System.Drawing.SystemFonts.DefaultFont;
         public string FontDetailStr
         {
-            get { return this.FontToString(this.FontDetail); }
-            set { this.FontDetail = this.StringToFont(value); }
+            get => this.FontToString(this.FontDetail);
+            set => this.FontDetail = this.StringToFont(value);
         }
 
         [XmlIgnore]
         public Color ColorSelf = Color.FromKnownColor(System.Drawing.KnownColor.AliceBlue);
         public string ColorSelfStr
         {
-            get { return this.ColorToString(this.ColorSelf); }
-            set { this.ColorSelf = this.StringToColor(value); }
+            get => this.ColorToString(this.ColorSelf);
+            set => this.ColorSelf = this.StringToColor(value);
         }
 
         [XmlIgnore]
         public Color ColorAtSelf = Color.FromKnownColor(System.Drawing.KnownColor.AntiqueWhite);
         public string ColorAtSelfStr
         {
-            get { return this.ColorToString(this.ColorAtSelf); }
-            set { this.ColorAtSelf = this.StringToColor(value); }
+            get => this.ColorToString(this.ColorAtSelf);
+            set => this.ColorAtSelf = this.StringToColor(value);
         }
 
         [XmlIgnore]
         public Color ColorTarget = Color.FromKnownColor(System.Drawing.KnownColor.LemonChiffon);
         public string ColorTargetStr
         {
-            get { return this.ColorToString(this.ColorTarget); }
-            set { this.ColorTarget = this.StringToColor(value); }
+            get => this.ColorToString(this.ColorTarget);
+            set => this.ColorTarget = this.StringToColor(value);
         }
 
         [XmlIgnore]
         public Color ColorAtTarget = Color.FromKnownColor(System.Drawing.KnownColor.LavenderBlush);
         public string ColorAtTargetStr
         {
-            get { return this.ColorToString(this.ColorAtTarget); }
-            set { this.ColorAtTarget = this.StringToColor(value); }
+            get => this.ColorToString(this.ColorAtTarget);
+            set => this.ColorAtTarget = this.StringToColor(value);
         }
 
         [XmlIgnore]
         public Color ColorAtFromTarget = Color.FromKnownColor(System.Drawing.KnownColor.Honeydew);
         public string ColorAtFromTargetStr
         {
-            get { return this.ColorToString(this.ColorAtFromTarget); }
-            set { this.ColorAtFromTarget = this.StringToColor(value); }
+            get => this.ColorToString(this.ColorAtFromTarget);
+            set => this.ColorAtFromTarget = this.StringToColor(value);
         }
 
         [XmlIgnore]
         public Color ColorAtTo = Color.FromKnownColor(System.Drawing.KnownColor.Pink);
         public string ColorAtToStr
         {
-            get { return this.ColorToString(this.ColorAtTo); }
-            set { this.ColorAtTo = this.StringToColor(value); }
+            get => this.ColorToString(this.ColorAtTo);
+            set => this.ColorAtTo = this.StringToColor(value);
         }
 
         [XmlIgnore]
         public Color ColorInputBackcolor = Color.FromKnownColor(System.Drawing.KnownColor.LemonChiffon);
         public string ColorInputBackcolorStr
         {
-            get { return this.ColorToString(this.ColorInputBackcolor); }
-            set { this.ColorInputBackcolor = this.StringToColor(value); }
+            get => this.ColorToString(this.ColorInputBackcolor);
+            set => this.ColorInputBackcolor = this.StringToColor(value);
         }
 
         [XmlIgnore]
         public Color ColorInputFont = Color.FromKnownColor(System.Drawing.KnownColor.ControlText);
         public string ColorInputFontStr
         {
-            get { return this.ColorToString(this.ColorInputFont); }
-            set { this.ColorInputFont = this.StringToColor(value); }
+            get => this.ColorToString(this.ColorInputFont);
+            set => this.ColorInputFont = this.StringToColor(value);
         }
 
         [XmlIgnore]
         public Font FontInputFont = System.Drawing.SystemFonts.DefaultFont;
         public string FontInputFontStr
         {
-            get { return this.FontToString(this.FontInputFont); }
-            set { this.FontInputFont = this.StringToFont(value); }
+            get => this.FontToString(this.FontInputFont);
+            set => this.FontInputFont = this.StringToFont(value);
         }
 
         [XmlIgnore]
         public Color ColorListBackcolor = Color.FromKnownColor(System.Drawing.KnownColor.Window);
         public string ColorListBackcolorStr
         {
-            get { return this.ColorToString(this.ColorListBackcolor); }
-            set { this.ColorListBackcolor = this.StringToColor(value); }
+            get => this.ColorToString(this.ColorListBackcolor);
+            set => this.ColorListBackcolor = this.StringToColor(value);
         }
 
         [XmlIgnore]
         public Color ColorDetailBackcolor = Color.FromKnownColor(System.Drawing.KnownColor.Window);
         public string ColorDetailBackcolorStr
         {
-            get { return this.ColorToString(this.ColorDetailBackcolor); }
-            set { this.ColorDetailBackcolor = this.StringToColor(value); }
+            get => this.ColorToString(this.ColorDetailBackcolor);
+            set => this.ColorDetailBackcolor = this.StringToColor(value);
         }
 
         [XmlIgnore]
         public Color ColorDetail = Color.FromKnownColor(System.Drawing.KnownColor.ControlText);
         public string ColorDetailStr
         {
-            get { return this.ColorToString(this.ColorDetail); }
-            set { this.ColorDetail = this.StringToColor(value); }
+            get => this.ColorToString(this.ColorDetail);
+            set => this.ColorDetail = this.StringToColor(value);
         }
 
         [XmlIgnore]
         public Color ColorDetailLink = Color.FromKnownColor(System.Drawing.KnownColor.Blue);
         public string ColorDetailLinkStr
         {
-            get { return this.ColorToString(this.ColorDetailLink); }
-            set { this.ColorDetailLink = this.StringToColor(value); }
+            get => this.ColorToString(this.ColorDetailLink);
+            set => this.ColorDetailLink = this.StringToColor(value);
         }
 
         [XmlIgnore]
@@ -267,8 +267,8 @@ namespace OpenTween
         /// </remarks>
         public string FontUIGlobalStr
         {
-            get { return this.FontToString(this.FontUIGlobal); }
-            set { this.FontUIGlobal = this.StringToFont(value); }
+            get => this.FontToString(this.FontUIGlobal);
+            set => this.FontUIGlobal = this.StringToFont(value);
         }
 
         [XmlIgnore]

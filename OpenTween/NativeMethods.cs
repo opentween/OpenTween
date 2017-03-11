@@ -482,8 +482,7 @@ namespace OpenTween
 
             EnumWindows((hWnd, lParam) =>
             {
-                uint procId;
-                GetWindowThreadProcessId(hWnd, out procId);
+                GetWindowThreadProcessId(hWnd, out var procId);
 
                 if (procId == pid)
                 {
