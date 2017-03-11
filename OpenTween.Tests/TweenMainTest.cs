@@ -41,7 +41,7 @@ namespace OpenTween
             {
                 var data = new DataObject("text/x-moz-url", memstream);
 
-                var expected = new Tuple<string, string>("https://twitter.com/", "Twitter");
+                var expected = ("https://twitter.com/", "Twitter");
                 Assert.Equal(expected, TweenMain.GetUrlFromDataObject(data));
             }
         }
@@ -54,7 +54,7 @@ namespace OpenTween
             {
                 var data = new DataObject("IESiteModeToUrl", memstream);
 
-                var expected = new Tuple<string, string>("https://twitter.com/", "Twitter");
+                var expected = ("https://twitter.com/", "Twitter");
                 Assert.Equal(expected, TweenMain.GetUrlFromDataObject(data));
             }
         }
@@ -67,7 +67,7 @@ namespace OpenTween
             {
                 var data = new DataObject("UniformResourceLocatorW", memstream);
 
-                var expected = new Tuple<string, string>("https://twitter.com/", null);
+                var expected = ("https://twitter.com/", (string)null);
                 Assert.Equal(expected, TweenMain.GetUrlFromDataObject(data));
             }
         }

@@ -140,16 +140,16 @@ namespace OpenTween.Api
             var rateLimits =
                 from res in json.Resources
                 from item in res.Value
-                select new {
-                    endpointName = item.Key,
-                    limit = new ApiLimit(
+                select (
+                    EndpointName: item.Key,
+                    Limit: new ApiLimit(
                         item.Value.Limit,
                         item.Value.Remaining,
                         UnixEpoch.AddSeconds(item.Value.Reset).ToLocalTime()
-                    ),
-                };
+                    )
+                );
 
-            this.AccessLimit.AddAll(rateLimits.ToDictionary(x => x.endpointName, x => x.limit));
+            this.AccessLimit.AddAll(rateLimits.ToDictionary(x => x.EndpointName, x => x.Limit));
         }
 
         protected virtual void OnAccessLimitUpdated(AccessLimitUpdatedEventArgs e)

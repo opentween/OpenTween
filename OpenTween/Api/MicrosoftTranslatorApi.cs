@@ -87,16 +87,16 @@ namespace OpenTween.Api
             if (this.AccessToken != null && this.RefreshAccessTokenAt > DateTime.Now)
                 return;
 
-            var accessToken = await this.GetAccessTokenAsync()
+            var (accessToken, expiresIn) = await this.GetAccessTokenAsync()
                 .ConfigureAwait(false);
 
-            this.AccessToken = accessToken.Item1;
+            this.AccessToken = accessToken;
 
             // expires_in の示す時刻より 30 秒早めに再発行する
-            this.RefreshAccessTokenAt = DateTime.Now + accessToken.Item2 - TimeSpan.FromSeconds(30);
+            this.RefreshAccessTokenAt = DateTime.Now + expiresIn - TimeSpan.FromSeconds(30);
         }
 
-        internal virtual async Task<Tuple<string, TimeSpan>> GetAccessTokenAsync()
+        internal virtual async Task<(string AccessToken, TimeSpan ExpiresIn)> GetAccessTokenAsync()
         {
             var param = new Dictionary<string, string>
             {
@@ -121,7 +121,7 @@ namespace OpenTween.Api
             }
         }
 
-        internal static Tuple<string, TimeSpan> ParseOAuthCredential(byte[] responseBytes)
+        internal static (string AccessToken, TimeSpan ExpiresIn) ParseOAuthCredential(byte[] responseBytes)
         {
             using (var jsonReader = JsonReaderWriterFactory.CreateJsonReader(responseBytes, XmlDictionaryReaderQuotas.Max))
             {
@@ -150,7 +150,7 @@ namespace OpenTween.Api
                     expiresInSeconds = 0;
                 }
 
-                return Tuple.Create(accessTokenElm.Value, TimeSpan.FromSeconds(expiresInSeconds));
+                return (accessTokenElm.Value, TimeSpan.FromSeconds(expiresInSeconds));
             }
         }
     }

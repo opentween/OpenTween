@@ -42,7 +42,7 @@ namespace OpenTween.Api
             {
                 var mock = new Mock<MicrosoftTranslatorApi>(http);
                 mock.Setup(x => x.GetAccessTokenAsync())
-                    .ReturnsAsync(Tuple.Create("1234abcd", TimeSpan.FromSeconds(1000)));
+                    .ReturnsAsync(("1234abcd", TimeSpan.FromSeconds(1000)));
 
                 var translateApi = mock.Object;
 
@@ -78,7 +78,7 @@ namespace OpenTween.Api
         {
             var mock = new Mock<MicrosoftTranslatorApi>();
             mock.Setup(x => x.GetAccessTokenAsync())
-                .ReturnsAsync(Tuple.Create("1234abcd", TimeSpan.FromSeconds(1000)));
+                .ReturnsAsync(("1234abcd", TimeSpan.FromSeconds(1000)));
 
             var translateApi = mock.Object;
 
@@ -113,7 +113,7 @@ namespace OpenTween.Api
         {
             var mock = new Mock<MicrosoftTranslatorApi>();
             mock.Setup(x => x.GetAccessTokenAsync())
-                .ReturnsAsync(Tuple.Create("5678efgh", TimeSpan.FromSeconds(1000)));
+                .ReturnsAsync(("5678efgh", TimeSpan.FromSeconds(1000)));
 
             var translateApi = mock.Object;
             translateApi.AccessToken = "1234abcd";
@@ -165,7 +165,7 @@ namespace OpenTween.Api
                 var result = await translateApi.GetAccessTokenAsync()
                     .ConfigureAwait(false);
 
-                var expectedToken = Tuple.Create(@"12345acbde", TimeSpan.FromSeconds(3600));
+                var expectedToken = (@"12345acbde", TimeSpan.FromSeconds(3600));
                 Assert.Equal(expectedToken, result);
 
                 Assert.Equal(0, mockHandler.QueueCount);
@@ -182,7 +182,7 @@ namespace OpenTween.Api
   ""expires_in"": 3600
 }
 ");
-            var expected = Tuple.Create(@"12345acbde", TimeSpan.FromSeconds(3600));
+            var expected = (@"12345acbde", TimeSpan.FromSeconds(3600));
             Assert.Equal(expected, MicrosoftTranslatorApi.ParseOAuthCredential(jsonBytes));
         }
 
@@ -195,7 +195,7 @@ namespace OpenTween.Api
   ""token_type"": ""bearer""
 }
 ");
-            var expected = Tuple.Create(@"12345acbde", TimeSpan.Zero);
+            var expected = (@"12345acbde", TimeSpan.Zero);
             Assert.Equal(expected, MicrosoftTranslatorApi.ParseOAuthCredential(jsonBytes));
         }
     }

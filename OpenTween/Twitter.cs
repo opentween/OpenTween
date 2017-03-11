@@ -841,9 +841,9 @@ namespace OpenTween
             post.RetweetedBy = post.RetweetedBy != null ? string.Intern(post.RetweetedBy) : null;
 
             //Source整形
-            var source = ParseSource(sourceHtml);
-            post.Source = string.Intern(source.Item1);
-            post.SourceUri = source.Item2;
+            var (sourceText, sourceUri) = ParseSource(sourceHtml);
+            post.Source = string.Intern(sourceText);
+            post.SourceUri = sourceUri;
 
             post.IsReply = post.ReplyToList.Contains(_uname);
             post.IsExcludeReply = false;
@@ -1593,10 +1593,10 @@ namespace OpenTween
         /// <summary>
         /// Twitter APIから得たHTML形式のsource文字列を分析し、source名とURLに分離します
         /// </summary>
-        public static Tuple<string, Uri> ParseSource(string sourceHtml)
+        internal static (string SourceText, Uri SourceUri) ParseSource(string sourceHtml)
         {
             if (string.IsNullOrEmpty(sourceHtml))
-                return Tuple.Create<string, Uri>("", null);
+                return ("", null);
 
             string sourceText;
             Uri sourceUri;
@@ -1623,7 +1623,7 @@ namespace OpenTween
                 sourceUri = null;
             }
 
-            return Tuple.Create(sourceText, sourceUri);
+            return (sourceText, sourceUri);
         }
 
         public async Task<TwitterApiStatus> GetInfoApi()
