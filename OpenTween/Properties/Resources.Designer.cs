@@ -2531,6 +2531,18 @@ namespace OpenTween.Properties {
         }
         
         /// <summary>
+        ///   {0} での設定の書き込みに失敗しました。
+        ///
+        ///既存の設定ファイルは {1} にコピーされます。
+        ///（次回起動時は {1} の設定ファイルが優先されます） に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string SettingPath_Relocation {
+            get {
+                return ResourceManager.GetString("SettingPath_Relocation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   IDとAPIキーの組み合わせが違います。IDと同時に設定するのはパスワードではなくAPIキーです。ご確認ください。 に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string SettingSave_ClickText1 {

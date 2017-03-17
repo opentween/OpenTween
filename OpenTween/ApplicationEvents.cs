@@ -229,13 +229,45 @@ namespace OpenTween
             }
             else
             {
-                if (File.Exists(Path.Combine(Application.StartupPath, "roaming")))
+                // OpenTween.exe と同じディレクトリに設定ファイルを配置する
+                MyCommon.settingPath = Application.StartupPath;
+
+                SettingManager.LoadAll();
+
+                try
                 {
-                    MyCommon.settingPath = MySpecialPath.UserAppDataPath();
+                    // 設定ファイルが書き込み可能な状態であるかテストする
+                    SettingManager.SaveAll();
                 }
-                else
+                catch (UnauthorizedAccessException)
                 {
-                    MyCommon.settingPath = Application.StartupPath;
+                    // 書き込みに失敗した場合 (Program Files 以下に配置されている場合など)
+
+                    // 通常は C:\Users\ユーザー名\AppData\Roaming\OpenTween\ となる
+                    MyCommon.settingPath = Path.Combine(new[]
+                    {
+                        Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+                        Application.ProductName,
+                    });
+                    Directory.CreateDirectory(MyCommon.settingPath);
+
+                    if (File.Exists(Path.Combine(MyCommon.settingPath, "SettingCommon.xml")))
+                    {
+                        // 既に Roaming に設定ファイルが存在する場合
+                        SettingManager.LoadAll();
+                    }
+                    else
+                    {
+                        if (File.Exists(Path.Combine(Application.StartupPath, "SettingCommon.xml")))
+                        {
+                            // StartupPath に設定ファイルが存在し、かつ書き込みができない場合のみ警告を表示する
+                            var message = string.Format(Properties.Resources.SettingPath_Relocation, Application.StartupPath, MyCommon.settingPath);
+                            MessageBox.Show(message, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+
+                        // Roaming に設定ファイルを作成 (StartupPath に読み込みに成功した設定ファイルがあれば内容がコピーされる)
+                        SettingManager.SaveAll();
+                    }
                 }
             }
 

@@ -1142,4 +1142,10 @@ Available service: {1}</value>
 "{1}"
 Do you retry to update status?</value>
   </data>
+  <data name="SettingPath_Relocation" xml:space="preserve">
+    <value>Failed to write settings to {0}.
+
+Existing setting files are copied to {1}.
+(The setting files in {1} will be used at next startup)</value>
+  </data>
 </root>

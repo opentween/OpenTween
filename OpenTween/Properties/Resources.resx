@@ -1200,4 +1200,10 @@
 "{1}"
 もう一度投稿を試みますか？</value>
   </data>
+  <data name="SettingPath_Relocation" xml:space="preserve">
+    <value>{0} での設定の書き込みに失敗しました。
+
+既存の設定ファイルは {1} にコピーされます。
+（次回起動時は {1} の設定ファイルが優先されます）</value>
+  </data>
 </root>

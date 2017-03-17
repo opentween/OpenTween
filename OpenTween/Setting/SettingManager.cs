@@ -76,6 +76,14 @@ namespace OpenTween.Setting
         public static void LoadAtIdList()
             => SettingManager.AtIdList = SettingAtIdList.Load();
 
+        public static void SaveAll()
+        {
+            SaveCommon();
+            SaveLocal();
+            SaveTabs();
+            SaveAtIdList();
+        }
+
         public static void SaveCommon()
             => SettingManager.Common.Save();
 
