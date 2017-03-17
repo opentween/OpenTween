@@ -62,7 +62,7 @@ namespace OpenTween
 
                 lock (lockObj)
                 {
-                    using (FileStream fs = new FileStream(settingFilePath, FileMode.Open))
+                    using (FileStream fs = new FileStream(settingFilePath, FileMode.Open, FileAccess.Read))
                     {
                         fs.Position = 0;
                         XmlSerializer xs = new XmlSerializer(typeof(T));
@@ -88,7 +88,7 @@ namespace OpenTween
                     {
                         lock (lockObj)
                         {
-                            using (FileStream fs = new FileStream(backupFile, FileMode.Open))
+                            using (FileStream fs = new FileStream(backupFile, FileMode.Open, FileAccess.Read))
                             {
                                 fs.Position = 0;
                                 XmlSerializer xs = new XmlSerializer(typeof(T));
@@ -135,7 +135,7 @@ namespace OpenTween
                 {
                     lock (lockObj)
                     {
-                        using (var stream = new FileStream(tmpfilePath, FileMode.Create))
+                        using (var stream = new FileStream(tmpfilePath, FileMode.Create, FileAccess.Write))
                         {
                             var serializer = new XmlSerializer(typeof(T));
                             serializer.Serialize(stream, instance);
