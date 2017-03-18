@@ -34,6 +34,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using OpenTween.Api;
+using OpenTween.Connection;
 using OpenTween.Api.DataModel;
 
 namespace OpenTween
@@ -107,7 +108,8 @@ namespace OpenTween
         {
             try
             {
-                await this.twitterApi.ListsMembersCreate(list.Id, this.contextScreenName);
+                await this.twitterApi.ListsMembersCreate(list.Id, this.contextScreenName)
+                    .IgnoreResponse();
 
                 var index = this.ListsCheckedListBox.Items.IndexOf(list);
                 this.ListsCheckedListBox.SetItemCheckState(index, CheckState.Checked);
@@ -122,7 +124,8 @@ namespace OpenTween
         {
             try
             {
-                await this.twitterApi.ListsMembersDestroy(list.Id, this.contextScreenName);
+                await this.twitterApi.ListsMembersDestroy(list.Id, this.contextScreenName)
+                    .IgnoreResponse();
 
                 var index = this.ListsCheckedListBox.Items.IndexOf(list);
                 this.ListsCheckedListBox.SetItemCheckState(index, CheckState.Unchecked);

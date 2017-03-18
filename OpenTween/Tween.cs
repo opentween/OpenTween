@@ -10301,7 +10301,7 @@ namespace OpenTween
             {
                 try
                 {
-                    var task = this.twitterApi.FriendshipsCreate(id);
+                    var task = this.twitterApi.FriendshipsCreate(id).IgnoreResponse();
                     await dialog.WaitForAsync(this, task);
                 }
                 catch (WebApiException ex)
@@ -10344,7 +10344,7 @@ namespace OpenTween
             {
                 try
                 {
-                    var task = this.twitterApi.FriendshipsDestroy(id);
+                    var task = this.twitterApi.FriendshipsDestroy(id).IgnoreResponse();
                     await dialog.WaitForAsync(this, task);
                 }
                 catch (WebApiException ex)

@@ -233,7 +233,8 @@ namespace OpenTween
                 {
                     try
                     {
-                        await this.tw.Api.ListsMembersDestroy(list.Id, user.ScreenName);
+                        await this.tw.Api.ListsMembersDestroy(list.Id, user.ScreenName)
+                            .IgnoreResponse();
                     }
                     catch (WebApiException ex)
                     {
