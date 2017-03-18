@@ -38,6 +38,7 @@ using System.Globalization;
 using System.Reflection;
 using Microsoft.Win32;
 using OpenTween.Setting;
+using System.Security.Principal;
 
 namespace OpenTween
 {
@@ -60,6 +61,8 @@ namespace OpenTween
         [STAThread]
         static int Main(string[] args)
         {
+            WarnIfRunAsAdministrator();
+
             if (!CheckRuntimeVersion())
             {
                 var message = string.Format(Properties.Resources.CheckRuntimeVersion_Error, ".NET Framework 4.5.1");
@@ -104,6 +107,22 @@ namespace OpenTween
                 mt.ReleaseMutex();
 
                 return 0;
+            }
+        }
+
+        /// <summary>
+        /// OpenTween が管理者権限で実行されている場合に警告を表示します
+        /// </summary>
+        private static void WarnIfRunAsAdministrator()
+        {
+            using (var currentIdentity = WindowsIdentity.GetCurrent())
+            {
+                var principal = new WindowsPrincipal(currentIdentity);
+                if (principal.IsInRole(WindowsBuiltInRole.Administrator))
+                {
+                    var message = string.Format(Properties.Resources.WarnIfRunAsAdministrator_Message, Application.ProductName);
+                    MessageBox.Show(message, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
             }
         }
 

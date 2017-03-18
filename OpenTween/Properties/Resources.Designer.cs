@@ -3272,6 +3272,19 @@ namespace OpenTween.Properties {
         }
         
         /// <summary>
+        ///   {0}を管理者権限で実行する事は推奨されません。
+        ///
+        /// * {0}は管理者権限を必要とするソフトウェアではありません。
+        /// * 管理者権限で実行するとD&amp;Dで画像を投稿する操作が制限されます。
+        /// * {0}の設定ファイルが一般ユーザー権限で編集できなくなります。 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string WarnIfRunAsAdministrator_Message {
+            get {
+                return ResourceManager.GetString("WarnIfRunAsAdministrator_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   はい に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string Yes {

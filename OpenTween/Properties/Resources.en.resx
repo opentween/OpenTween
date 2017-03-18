@@ -1148,4 +1148,11 @@ Do you retry to update status?</value>
 Existing setting files are copied to {1}.
 (The setting files in {1} will be used at next startup)</value>
   </data>
+  <data name="WarnIfRunAsAdministrator_Message" xml:space="preserve">
+    <value>It is not recommended to run {0} as administrator.
+
+ * {0} does not require administrator privileges.
+ * If you run as administrator, operations to post images with D&amp;D will be restricted.
+ * After running, the setting files of {0} will be able to modify only from administrator.</value>
+  </data>
 </root>
