@@ -154,4 +154,16 @@
   <data name="CheckUseRecommendStatus.Text" xml:space="preserve">
     <value>Use Default [TWNvNNN]</value>
   </data>
+  <data name="CheckAlphaPNGWorkaround.Size" type="System.Drawing.Size, System.Drawing">
+    <value>405, 16</value>
+  </data>
+  <data name="CheckAlphaPNGWorkaround.Text" xml:space="preserve">
+    <value>Avoid converting to JPEG when posting PNG images (pic.twitter.com only)</value>
+  </data>
+  <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>332, 12</value>
+  </data>
+  <data name="label3.Text" xml:space="preserve">
+    <value>It rewrites the alpha value of upper left 1px of the image to 254</value>
+  </data>
 </root>

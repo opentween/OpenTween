@@ -351,6 +351,66 @@
   <data name="&gt;&gt;StatusText.ZOrder" xml:space="preserve">
     <value>7</value>
   </data>
+  <data name="CheckAlphaPNGWorkaround.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="CheckAlphaPNGWorkaround.Location" type="System.Drawing.Point, System.Drawing">
+    <value>23, 178</value>
+  </data>
+  <data name="CheckAlphaPNGWorkaround.Size" type="System.Drawing.Size, System.Drawing">
+    <value>361, 16</value>
+  </data>
+  <data name="CheckAlphaPNGWorkaround.TabIndex" type="System.Int32, mscorlib">
+    <value>24</value>
+  </data>
+  <data name="CheckAlphaPNGWorkaround.Text" xml:space="preserve">
+    <value>PNG画像の投稿時にJPEGへの変換を回避する (pic.twitter.com のみ)</value>
+  </data>
+  <data name="&gt;&gt;CheckAlphaPNGWorkaround.Name" xml:space="preserve">
+    <value>CheckAlphaPNGWorkaround</value>
+  </data>
+  <data name="&gt;&gt;CheckAlphaPNGWorkaround.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CheckAlphaPNGWorkaround.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;CheckAlphaPNGWorkaround.ZOrder" xml:space="preserve">
+    <value>9</value>
+  </data>
+  <data name="label3.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label3.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label3.Location" type="System.Drawing.Point, System.Drawing">
+    <value>40, 200</value>
+  </data>
+  <data name="label3.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 3, 3, 3</value>
+  </data>
+  <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>357, 12</value>
+  </data>
+  <data name="label3.TabIndex" type="System.Int32, mscorlib">
+    <value>25</value>
+  </data>
+  <data name="label3.Text" xml:space="preserve">
+    <value>※投稿する画像の左上1pxのアルファ値を254に書き換えることで回避します</value>
+  </data>
+  <data name="&gt;&gt;label3.Name" xml:space="preserve">
+    <value>label3</value>
+  </data>
+  <data name="&gt;&gt;label3.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label3.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;label3.ZOrder" xml:space="preserve">
+    <value>8</value>
+  </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>

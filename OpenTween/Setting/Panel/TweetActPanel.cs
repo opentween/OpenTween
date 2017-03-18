@@ -63,6 +63,7 @@ namespace OpenTween.Setting.Panel
             this.CheckRetweetNoConfirm.Checked = settingCommon.RetweetNoConfirm;
             this.CheckAtIdSupple.Checked = settingCommon.UseAtIdSupplement;
             this.CheckHashSupple.Checked = settingCommon.UseHashSupplement;
+            this.CheckAlphaPNGWorkaround.Checked = settingCommon.AlphaPNGWorkaround;
         }
 
         public void SaveConfig(SettingCommon settingCommon, SettingLocal settingLocal)
@@ -89,6 +90,7 @@ namespace OpenTween.Setting.Panel
             settingCommon.RetweetNoConfirm = this.CheckRetweetNoConfirm.Checked;
             settingCommon.UseAtIdSupplement = this.CheckAtIdSupple.Checked;
             settingCommon.UseHashSupplement = this.CheckHashSupple.Checked;
+            settingCommon.AlphaPNGWorkaround = this.CheckAlphaPNGWorkaround.Checked;
         }
 
         private void CheckUseRecommendStatus_CheckedChanged(object sender, EventArgs e)

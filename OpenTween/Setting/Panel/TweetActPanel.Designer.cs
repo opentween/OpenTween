@@ -37,6 +37,8 @@
             this.Label12 = new System.Windows.Forms.Label();
             this.CheckUseRecommendStatus = new System.Windows.Forms.CheckBox();
             this.StatusText = new System.Windows.Forms.TextBox();
+            this.CheckAlphaPNGWorkaround = new System.Windows.Forms.CheckBox();
+            this.label3 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // CheckHashSupple
@@ -90,6 +92,19 @@
             resources.ApplyResources(this.StatusText, "StatusText");
             this.StatusText.Name = "StatusText";
             // 
+            // CheckAlphaPNGWorkaround
+            // 
+            resources.ApplyResources(this.CheckAlphaPNGWorkaround, "CheckAlphaPNGWorkaround");
+            this.CheckAlphaPNGWorkaround.Name = "CheckAlphaPNGWorkaround";
+            this.CheckAlphaPNGWorkaround.UseVisualStyleBackColor = true;
+            // 
+            // label3
+            // 
+            resources.ApplyResources(this.label3, "label3");
+            this.label3.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.label3.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.label3.Name = "label3";
+            // 
             // TweetActPanel
             // 
             resources.ApplyResources(this, "$this");
@@ -102,6 +117,8 @@
             this.Controls.Add(this.Label12);
             this.Controls.Add(this.CheckUseRecommendStatus);
             this.Controls.Add(this.StatusText);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.CheckAlphaPNGWorkaround);
             this.Name = "TweetActPanel";
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -118,5 +135,7 @@
         internal System.Windows.Forms.Label Label12;
         internal System.Windows.Forms.CheckBox CheckUseRecommendStatus;
         internal System.Windows.Forms.TextBox StatusText;
+        private System.Windows.Forms.CheckBox CheckAlphaPNGWorkaround;
+        private System.Windows.Forms.Label label3;
     }
 }
