@@ -77,6 +77,7 @@ namespace OpenTween.Thumbnail.Services
                     IsPlayable = true,
                 };
             }
+            catch (XmlException) { }
             catch (HttpRequestException) { }
 
             return null;
