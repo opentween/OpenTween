@@ -1975,6 +1975,10 @@ namespace OpenTween
                 MyCommon.TraceOut(ex);
                 return;
             }
+            catch (XmlException)
+            {
+                MyCommon.TraceOut("XmlException (StatusArrived): " + line);
+            }
             catch(NullReferenceException)
             {
                 MyCommon.TraceOut("NullRef StatusArrived: " + line);
