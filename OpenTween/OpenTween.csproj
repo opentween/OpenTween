@@ -389,7 +389,6 @@
     <Compile Include="MyLists.Designer.cs">
       <DependentUpon>MyLists.cs</DependentUpon>
     </Compile>
-    <Compile Include="MySpecialPath.cs" />
     <Compile Include="nicoms.cs" />
     <Compile Include="OpenURL.cs">
       <SubType>Form</SubType>
