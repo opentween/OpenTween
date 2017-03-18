@@ -244,23 +244,50 @@ namespace OpenTween
                     // 書き込みに失敗した場合 (Program Files 以下に配置されている場合など)
 
                     // 通常は C:\Users\ユーザー名\AppData\Roaming\OpenTween\ となる
-                    MyCommon.settingPath = Path.Combine(new[]
+                    var roamingDir = Path.Combine(new[]
                     {
                         Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
                         Application.ProductName,
                     });
-                    Directory.CreateDirectory(MyCommon.settingPath);
+                    Directory.CreateDirectory(roamingDir);
 
-                    if (File.Exists(Path.Combine(MyCommon.settingPath, "SettingCommon.xml")))
+                    MyCommon.settingPath = roamingDir;
+
+                    /*
+                     * 書き込みが制限されたディレクトリ内で起動された場合の設定ファイルの扱い
+                     *
+                     *  (A) StartupPath に存在する設定ファイル
+                     *  (B) Roaming に存在する設定ファイル
+                     *
+                     *  1. A も B も存在しない場合
+                     *    => B を新規に作成する
+                     *
+                     *  2. A が存在し、B が存在しない場合
+                     *    => A の内容を B にコピーする (警告を表示)
+                     *
+                     *  3. A が存在せず、B が存在する場合
+                     *    => B を使用する
+                     *
+                     *  4. A も B も存在するが、A の方が更新日時が新しい場合
+                     *    => A の内容を B にコピーする (警告を表示)
+                     *
+                     *  5. A も B も存在するが、B の方が更新日時が新しい場合
+                     *    => B を使用する
+                     */
+                    var startupDirFile = new FileInfo(Path.Combine(Application.StartupPath, "SettingCommon.xml"));
+                    var roamingDirFile = new FileInfo(Path.Combine(roamingDir, "SettingCommon.xml"));
+
+                    if (roamingDirFile.Exists && (!startupDirFile.Exists || startupDirFile.LastWriteTime <= roamingDirFile.LastWriteTime))
                     {
-                        // 既に Roaming に設定ファイルが存在する場合
+                        // 既に Roaming に設定ファイルが存在し、Roaming 内のファイルの方が新しい場合は
+                        // StartupPath に設定ファイルが存在しても無視する
                         SettingManager.LoadAll();
                     }
                     else
                     {
-                        if (File.Exists(Path.Combine(Application.StartupPath, "SettingCommon.xml")))
+                        if (startupDirFile.Exists)
                         {
-                            // StartupPath に設定ファイルが存在し、かつ書き込みができない場合のみ警告を表示する
+                            // StartupPath に設定ファイルが存在し、Roaming 内のファイルよりも新しい場合のみ警告を表示する
                             var message = string.Format(Properties.Resources.SettingPath_Relocation, Application.StartupPath, MyCommon.settingPath);
                             MessageBox.Show(message, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Information);
                         }
