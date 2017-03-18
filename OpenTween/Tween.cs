@@ -10544,11 +10544,13 @@ namespace OpenTween
                     return;
                 }
 
-                StatusText.Text = " " + MyCommon.GetStatusUrl(_curPost);
+                var selection = (this.StatusText.SelectionStart, this.StatusText.SelectionLength);
+
+                StatusText.Text += " " + MyCommon.GetStatusUrl(_curPost);
 
                 this.inReplyTo = null;
 
-                StatusText.SelectionStart = 0;
+                (this.StatusText.SelectionStart, this.StatusText.SelectionLength) = selection;
                 StatusText.Focus();
             }
         }
@@ -10569,14 +10571,16 @@ namespace OpenTween
                 string rtdata = _curPost.Text;
                 rtdata = CreateRetweetUnofficial(rtdata, this.StatusText.Multiline);
 
-                StatusText.Text = " RT @" + _curPost.ScreenName + ": " + rtdata;
+                var selection = (this.StatusText.SelectionStart, this.StatusText.SelectionLength);
+
+                StatusText.Text += " RT @" + _curPost.ScreenName + ": " + rtdata;
 
                 // 投稿時に in_reply_to_status_id を付加する
                 var inReplyToStatusId = this._curPost.RetweetedId ?? this._curPost.StatusId;
                 var inReplyToScreenName = this._curPost.ScreenName;
                 this.inReplyTo = Tuple.Create(inReplyToStatusId, inReplyToScreenName);
 
-                StatusText.SelectionStart = 0;
+                (this.StatusText.SelectionStart, this.StatusText.SelectionLength) = selection;
                 StatusText.Focus();
             }
         }
