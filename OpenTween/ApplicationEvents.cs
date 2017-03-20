@@ -115,6 +115,15 @@ namespace OpenTween
         /// </summary>
         private static void WarnIfRunAsAdministrator()
         {
+            // UAC が無効なシステムでは警告を表示しない
+            using (var lmKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry32))
+            using (var systemKey = lmKey.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System\"))
+            {
+                var enableLUA = (int?)systemKey?.GetValue("EnableLUA");
+                if (enableLUA != 1)
+                    return;
+            }
+
             using (var currentIdentity = WindowsIdentity.GetCurrent())
             {
                 var principal = new WindowsPrincipal(currentIdentity);
