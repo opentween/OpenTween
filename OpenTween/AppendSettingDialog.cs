@@ -169,7 +169,8 @@ namespace OpenTween
                     return;
                 }
 
-                if (!BitlyValidation(this.ShortUrlPanel.TextBitlyId.Text, this.ShortUrlPanel.TextBitlyPw.Text).Result)
+                var bitly = new BitlyApi();
+                if (!bitly.ValidateApiKey(this.ShortUrlPanel.TextBitlyId.Text, this.ShortUrlPanel.TextBitlyPw.Text))
                 {
                     MessageBox.Show(Properties.Resources.SettingSave_ClickText1);
                     _ValidationError = true;
@@ -356,40 +357,6 @@ namespace OpenTween
 
             this.GetPeriodPanel.LabelPostAndGet.Visible = this.GetPeriodPanel.CheckPostAndGet.Checked && !tw.UserStreamActive;
             this.GetPeriodPanel.LabelUserStreamActive.Visible = tw.UserStreamActive;
-        }
-
-        private async Task<bool> BitlyValidation(string id, string apikey)
-        {
-            if (string.IsNullOrEmpty(id) || string.IsNullOrEmpty(apikey))
-            {
-                return false;
-            }
-
-            try
-            {
-                var requestUri = new Uri("http://api.bit.ly/v3/validate");
-                var param = new Dictionary<string, string>
-                {
-                    ["login"] = ApplicationSettings.BitlyLoginId,
-                    ["apiKey"] = ApplicationSettings.BitlyApiKey,
-                    ["x_login"] = id,
-                    ["x_apiKey"] = apikey,
-                    ["format"] = "txt",
-                };
-
-                using (var postContent = new FormUrlEncodedContent(param))
-                using (var response = await Networking.Http.PostAsync(requestUri, postContent).ConfigureAwait(false))
-                {
-                    var responseText = await response.Content.ReadAsStringAsync()
-                        .ConfigureAwait(false);
-
-                    return responseText.TrimEnd() == "1";
-                }
-            }
-            catch (OperationCanceledException) { }
-            catch (HttpRequestException) { }
-
-            return false;
         }
 
         private void Cancel_Click(object sender, EventArgs e)

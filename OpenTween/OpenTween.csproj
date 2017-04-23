@@ -69,6 +69,7 @@
       <DependentUpon>ApiInfoDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="Api\ApiLimit.cs" />
+    <Compile Include="Api\BitlyApi.cs" />
     <Compile Include="Api\DataModel\GeoJson.cs" />
     <Compile Include="Api\DataModel\TwitterConfiguration.cs" />
     <Compile Include="Api\DataModel\TwitterEntity.cs" />
