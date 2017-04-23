@@ -383,7 +383,7 @@ namespace OpenTween
                     var responseText = await response.Content.ReadAsStringAsync()
                         .ConfigureAwait(false);
 
-                    return responseText == "1";
+                    return responseText.TrimEnd() == "1";
                 }
             }
             catch (OperationCanceledException) { }
