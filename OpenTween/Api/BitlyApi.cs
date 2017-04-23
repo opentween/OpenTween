@@ -31,7 +31,7 @@ namespace OpenTween.Api
 {
     public class BitlyApi
     {
-        public static readonly Uri ApiBase = new Uri("http://api.bit.ly/");
+        public static readonly Uri ApiBase = new Uri("https://api-ssl.bitly.com/");
 
         private HttpClient http => this.localHttpClient ?? Networking.Http;
         private readonly HttpClient localHttpClient;
