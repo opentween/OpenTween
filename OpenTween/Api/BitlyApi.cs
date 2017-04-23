@@ -24,6 +24,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using OpenTween.Connection;
 
@@ -32,6 +33,9 @@ namespace OpenTween.Api
     public class BitlyApi
     {
         public static readonly Uri ApiBase = new Uri("https://api-ssl.bitly.com/");
+
+        public string EndUserLoginName { get; set; }
+        public string EndUserApiKey { get; set; }
 
         private HttpClient http => this.localHttpClient ?? Networking.Http;
         private readonly HttpClient localHttpClient;
@@ -44,6 +48,34 @@ namespace OpenTween.Api
         public BitlyApi(HttpClient http)
         {
             this.localHttpClient = http;
+        }
+
+        public async Task<Uri> ShortenAsync(Uri srcUri, string domain = null)
+        {
+            var query = new Dictionary<string, string>
+            {
+                ["login"] = this.EndUserLoginName,
+                ["apiKey"] = this.EndUserApiKey,
+                ["format"] = "txt",
+                ["longUrl"] = srcUri.OriginalString,
+            };
+
+            if (!string.IsNullOrEmpty(domain))
+                query["domain"] = domain;
+
+            var uri = new Uri(ApiBase, "/v3/shorten?" + MyCommon.BuildQueryString(query));
+            using (var response = await this.http.GetAsync(uri).ConfigureAwait(false))
+            {
+                response.EnsureSuccessStatusCode();
+
+                var result = await response.Content.ReadAsStringAsync()
+                    .ConfigureAwait(false);
+
+                if (!Regex.IsMatch(result, @"^https?://"))
+                    throw new WebApiException("Failed to create URL.", result);
+
+                return new Uri(result.TrimEnd());
+            }
         }
 
         public bool ValidateApiKey(string login, string apiKey)

@@ -35,6 +35,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
+using OpenTween.Api;
 using OpenTween.Connection;
 
 namespace OpenTween
@@ -449,28 +450,14 @@ namespace OpenTween
             if (string.IsNullOrEmpty(this.BitlyId) || string.IsNullOrEmpty(this.BitlyKey))
                 return srcUri;
 
-            var query = new Dictionary<string, string>
+            var bitly = new BitlyApi
             {
-                ["login"] = this.BitlyId,
-                ["apiKey"] = this.BitlyKey,
-                ["format"] = "txt",
-                ["domain"] = domain,
-                ["longUrl"] = srcUri.OriginalString,
+                EndUserLoginName = this.BitlyId,
+                EndUserApiKey = this.BitlyKey,
             };
 
-            var uri = new Uri("https://api-ssl.bitly.com/v3/shorten?" + MyCommon.BuildQueryString(query));
-            using (var response = await this.http.GetAsync(uri).ConfigureAwait(false))
-            {
-                response.EnsureSuccessStatusCode();
-
-                var result = await response.Content.ReadAsStringAsync()
-                    .ConfigureAwait(false);
-
-                if (!Regex.IsMatch(result, @"^https?://"))
-                    throw new WebApiException("Failed to create URL.", result);
-
-                return new Uri(result.TrimEnd());
-            }
+            return await bitly.ShortenAsync(srcUri, domain)
+                .ConfigureAwait(false);
         }
 
         private async Task<Uri> ShortenByUxnuAsync(Uri srcUri)
