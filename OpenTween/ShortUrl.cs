@@ -65,6 +65,7 @@ namespace OpenTween
         /// </summary>
         public int PurgeCount { get; set; }
 
+        public string BitlyAccessToken { get; set; }
         public string BitlyId { get; set; }
         public string BitlyKey { get; set; }
 
@@ -447,11 +448,12 @@ namespace OpenTween
             // bit.ly 短縮機能実装のプライバシー問題の暫定対応
             // ログインIDとAPIキーが指定されていない場合は短縮せずにPOSTする
             // 参照: http://sourceforge.jp/projects/opentween/lists/archive/dev/2012-January/000020.html
-            if (string.IsNullOrEmpty(this.BitlyId) || string.IsNullOrEmpty(this.BitlyKey))
+            if (!string.IsNullOrEmpty(this.BitlyAccessToken) && (string.IsNullOrEmpty(this.BitlyId) || string.IsNullOrEmpty(this.BitlyKey)))
                 return srcUri;
 
             var bitly = new BitlyApi
             {
+                EndUserAccessToken = this.BitlyAccessToken,
                 EndUserLoginName = this.BitlyId,
                 EndUserApiKey = this.BitlyKey,
             };

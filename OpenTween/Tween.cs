@@ -811,6 +811,7 @@ namespace OpenTween
             tw.AllAtReply = SettingManager.Common.AllAtReply;
             AllrepliesToolStripMenuItem.Checked = tw.AllAtReply;
             ShortUrl.Instance.DisableExpanding = !SettingManager.Common.TinyUrlResolve;
+            ShortUrl.Instance.BitlyAccessToken = SettingManager.Common.BitlyAccessToken;
             ShortUrl.Instance.BitlyId = SettingManager.Common.BilyUser;
             ShortUrl.Instance.BitlyKey = SettingManager.Common.BitlyPwd;
 
@@ -3731,6 +3732,7 @@ namespace OpenTween
                     tw.RestrictFavCheck = SettingManager.Common.RestrictFavCheck;
                     tw.ReadOwnPost = SettingManager.Common.ReadOwnPost;
                     ShortUrl.Instance.DisableExpanding = !SettingManager.Common.TinyUrlResolve;
+                    ShortUrl.Instance.BitlyAccessToken = SettingManager.Common.BitlyAccessToken;
                     ShortUrl.Instance.BitlyId = SettingManager.Common.BilyUser;
                     ShortUrl.Instance.BitlyKey = SettingManager.Common.BitlyPwd;
                     TwitterApiConnection.RestApiHost = SettingManager.Common.TwitterApiHost;

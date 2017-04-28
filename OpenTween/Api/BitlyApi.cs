@@ -34,6 +34,8 @@ namespace OpenTween.Api
     {
         public static readonly Uri ApiBase = new Uri("https://api-ssl.bitly.com/");
 
+        public string EndUserAccessToken { get; set; }
+
         public string EndUserLoginName { get; set; }
         public string EndUserApiKey { get; set; }
 
@@ -54,8 +56,6 @@ namespace OpenTween.Api
         {
             var query = new Dictionary<string, string>
             {
-                ["login"] = this.EndUserLoginName,
-                ["apiKey"] = this.EndUserApiKey,
                 ["format"] = "txt",
                 ["longUrl"] = srcUri.OriginalString,
             };
@@ -63,18 +63,26 @@ namespace OpenTween.Api
             if (!string.IsNullOrEmpty(domain))
                 query["domain"] = domain;
 
-            var uri = new Uri(ApiBase, "/v3/shorten?" + MyCommon.BuildQueryString(query));
-            using (var response = await this.http.GetAsync(uri).ConfigureAwait(false))
+            var uri = new Uri("/v3/shorten", UriKind.Relative);
+            var responseText = await this.GetAsync(uri, query).ConfigureAwait(false);
+
+            if (!Regex.IsMatch(responseText, @"^https?://"))
+                throw new WebApiException("Failed to create URL.", responseText);
+
+            return new Uri(responseText.TrimEnd());
+        }
+
+        public async Task<string> GetAsync(Uri endpoint, IEnumerable<KeyValuePair<string, string>> param)
+        {
+            var paramWithToken = param.Concat(this.CreateAccessTokenParams());
+
+            var requestUri = new Uri(new Uri(ApiBase, endpoint), "?" + MyCommon.BuildQueryString(paramWithToken));
+
+            using (var request = new HttpRequestMessage(HttpMethod.Get, requestUri))
+            using (var response = await this.http.SendAsync(request).ConfigureAwait(false))
             {
-                response.EnsureSuccessStatusCode();
-
-                var result = await response.Content.ReadAsStringAsync()
+                return await response.Content.ReadAsStringAsync()
                     .ConfigureAwait(false);
-
-                if (!Regex.IsMatch(result, @"^https?://"))
-                    throw new WebApiException("Failed to create URL.", result);
-
-                return new Uri(result.TrimEnd());
             }
         }
 
@@ -108,6 +116,23 @@ namespace OpenTween.Api
             catch (HttpRequestException) { }
 
             return false;
+        }
+
+        private IEnumerable<KeyValuePair<string, string>> CreateAccessTokenParams()
+        {
+            if (string.IsNullOrEmpty(this.EndUserAccessToken))
+            {
+                return new[]
+                {
+                    new KeyValuePair<string, string>("login", this.EndUserLoginName),
+                    new KeyValuePair<string, string>("apiKey", this.EndUserApiKey),
+                };
+            }
+
+            return new[]
+            {
+                new KeyValuePair<string, string>("access_token", this.EndUserAccessToken),
+            };
         }
     }
 }
