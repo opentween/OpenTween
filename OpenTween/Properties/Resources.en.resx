@@ -1009,9 +1009,6 @@ Do you want to upload the {1} selected media file(s)?</value>
   <data name="SaveLogMenuItem_ClickText5" xml:space="preserve">
     <value>Save events?{0}  [Yes]    :Save events in this tab{0}  [No]  :Save all events{0}[Cancel]:Cancel{0}(Save as Tab separated text(TSV))</value>
   </data>
-  <data name="SettingSave_ClickText1" xml:space="preserve">
-    <value>Failed to authorization. Please confirm api key.</value>
-  </data>
   <data name="TranslateDefaultLanguage" xml:space="preserve">
     <value>en</value>
   </data>
@@ -1154,5 +1151,8 @@ Existing setting files are copied to {1}.
  * {0} does not require administrator privileges.
  * If you run as administrator, operations to post images with D&amp;D will be restricted.
  * After running, the setting files of {0} will be able to modify only from administrator.</value>
+  </data>
+  <data name="UrlConvert_BitlyAuthRequired" xml:space="preserve">
+    <value>To use Bitly, you must perform the Bitly authentication in settings dialog.</value>
   </data>
 </root>

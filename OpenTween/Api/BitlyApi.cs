@@ -86,38 +86,6 @@ namespace OpenTween.Api
             }
         }
 
-        public bool ValidateApiKey(string login, string apiKey)
-            => this.ValidateApiKeyAsync(login, apiKey).Result;
-
-        public async Task<bool> ValidateApiKeyAsync(string login, string apikey)
-        {
-            try
-            {
-                var requestUri = new Uri(ApiBase, "/v3/validate");
-                var param = new Dictionary<string, string>
-                {
-                    ["login"] = ApplicationSettings.BitlyLoginId,
-                    ["apiKey"] = ApplicationSettings.BitlyApiKey,
-                    ["x_login"] = login,
-                    ["x_apiKey"] = apikey,
-                    ["format"] = "txt",
-                };
-
-                using (var postContent = new FormUrlEncodedContent(param))
-                using (var response = await this.http.PostAsync(requestUri, postContent).ConfigureAwait(false))
-                {
-                    var responseText = await response.Content.ReadAsStringAsync()
-                        .ConfigureAwait(false);
-
-                    return responseText.TrimEnd() == "1";
-                }
-            }
-            catch (OperationCanceledException) { }
-            catch (HttpRequestException) { }
-
-            return false;
-        }
-
         private IEnumerable<KeyValuePair<string, string>> CreateAccessTokenParams()
         {
             if (string.IsNullOrEmpty(this.EndUserAccessToken))

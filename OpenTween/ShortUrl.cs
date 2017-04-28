@@ -445,10 +445,8 @@ namespace OpenTween
             if ("http://bit.ly/xxxx".Length > srcUri.OriginalString.Length)
                 return srcUri;
 
-            // bit.ly 短縮機能実装のプライバシー問題の暫定対応
-            // ログインIDとAPIキーが指定されていない場合は短縮せずにPOSTする
-            // 参照: http://sourceforge.jp/projects/opentween/lists/archive/dev/2012-January/000020.html
-            if (!string.IsNullOrEmpty(this.BitlyAccessToken) && (string.IsNullOrEmpty(this.BitlyId) || string.IsNullOrEmpty(this.BitlyKey)))
+            // OAuth2 アクセストークンまたは API キー (旧方式) のいずれも設定されていなければ短縮しない
+            if (string.IsNullOrEmpty(this.BitlyAccessToken) && (string.IsNullOrEmpty(this.BitlyId) || string.IsNullOrEmpty(this.BitlyKey)))
                 return srcUri;
 
             var bitly = new BitlyApi
