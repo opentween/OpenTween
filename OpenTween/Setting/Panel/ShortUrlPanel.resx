@@ -133,7 +133,7 @@
     <value>95, 16</value>
   </data>
   <data name="ShortenTcoCheck.TabIndex" type="System.Int32, mscorlib">
-    <value>18</value>
+    <value>2</value>
   </data>
   <data name="ShortenTcoCheck.Text" xml:space="preserve">
     <value>t.coで短縮する</value>
@@ -166,7 +166,7 @@
     <value>122, 16</value>
   </data>
   <data name="CheckTinyURL.TabIndex" type="System.Int32, mscorlib">
-    <value>10</value>
+    <value>0</value>
   </data>
   <data name="CheckTinyURL.Text" xml:space="preserve">
     <value>短縮URLを解決する</value>
@@ -183,25 +183,25 @@
   <data name="&gt;&gt;CheckTinyURL.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
-  <data name="TextBitlyPw.Location" type="System.Drawing.Point, System.Drawing">
-    <value>419, 127</value>
+  <data name="TextBitlyAccessToken.Location" type="System.Drawing.Point, System.Drawing">
+    <value>249, 131</value>
   </data>
-  <data name="TextBitlyPw.Size" type="System.Drawing.Size, System.Drawing">
-    <value>70, 19</value>
+  <data name="TextBitlyAccessToken.Size" type="System.Drawing.Size, System.Drawing">
+    <value>173, 19</value>
   </data>
-  <data name="TextBitlyPw.TabIndex" type="System.Int32, mscorlib">
-    <value>17</value>
+  <data name="TextBitlyAccessToken.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
   </data>
-  <data name="&gt;&gt;TextBitlyPw.Name" xml:space="preserve">
-    <value>TextBitlyPw</value>
+  <data name="&gt;&gt;TextBitlyAccessToken.Name" xml:space="preserve">
+    <value>TextBitlyAccessToken</value>
   </data>
-  <data name="&gt;&gt;TextBitlyPw.Type" xml:space="preserve">
+  <data name="&gt;&gt;TextBitlyAccessToken.Type" xml:space="preserve">
     <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;TextBitlyPw.Parent" xml:space="preserve">
+  <data name="&gt;&gt;TextBitlyAccessToken.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="&gt;&gt;TextBitlyPw.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;TextBitlyAccessToken.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
   <data name="CheckAutoConvertUrl.AutoSize" type="System.Boolean, mscorlib">
@@ -217,7 +217,7 @@
     <value>242, 16</value>
   </data>
   <data name="CheckAutoConvertUrl.TabIndex" type="System.Int32, mscorlib">
-    <value>11</value>
+    <value>1</value>
   </data>
   <data name="CheckAutoConvertUrl.Text" xml:space="preserve">
     <value>入力欄のURLを投稿する際に自動で短縮する</value>
@@ -250,7 +250,7 @@
     <value>154, 12</value>
   </data>
   <data name="Label71.TabIndex" type="System.Int32, mscorlib">
-    <value>12</value>
+    <value>3</value>
   </data>
   <data name="Label71.Text" xml:space="preserve">
     <value>URL自動短縮で優先的に使用</value>
@@ -292,7 +292,7 @@
     <value>246, 20</value>
   </data>
   <data name="ComboBoxAutoShortUrlFirst.TabIndex" type="System.Int32, mscorlib">
-    <value>13</value>
+    <value>4</value>
   </data>
   <data name="&gt;&gt;ComboBoxAutoShortUrlFirst.Name" xml:space="preserve">
     <value>ComboBoxAutoShortUrlFirst</value>
@@ -306,36 +306,6 @@
   <data name="&gt;&gt;ComboBoxAutoShortUrlFirst.ZOrder" xml:space="preserve">
     <value>5</value>
   </data>
-  <data name="Label76.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="Label76.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="Label76.Location" type="System.Drawing.Point, System.Drawing">
-    <value>246, 130</value>
-  </data>
-  <data name="Label76.Size" type="System.Drawing.Size, System.Drawing">
-    <value>16, 12</value>
-  </data>
-  <data name="Label76.TabIndex" type="System.Int32, mscorlib">
-    <value>14</value>
-  </data>
-  <data name="Label76.Text" xml:space="preserve">
-    <value>ID</value>
-  </data>
-  <data name="&gt;&gt;Label76.Name" xml:space="preserve">
-    <value>Label76</value>
-  </data>
-  <data name="&gt;&gt;Label76.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;Label76.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;Label76.ZOrder" xml:space="preserve">
-    <value>6</value>
-  </data>
   <data name="Label77.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
@@ -343,16 +313,16 @@
     <value>NoControl</value>
   </data>
   <data name="Label77.Location" type="System.Drawing.Point, System.Drawing">
-    <value>364, 130</value>
+    <value>23, 134</value>
   </data>
   <data name="Label77.Size" type="System.Drawing.Size, System.Drawing">
-    <value>42, 12</value>
+    <value>106, 12</value>
   </data>
   <data name="Label77.TabIndex" type="System.Int32, mscorlib">
-    <value>16</value>
+    <value>5</value>
   </data>
   <data name="Label77.Text" xml:space="preserve">
-    <value>APIKey</value>
+    <value>Bit.ly アクセストークン</value>
   </data>
   <data name="&gt;&gt;Label77.Name" xml:space="preserve">
     <value>Label77</value>
@@ -366,26 +336,29 @@
   <data name="&gt;&gt;Label77.ZOrder" xml:space="preserve">
     <value>7</value>
   </data>
-  <data name="TextBitlyId.Location" type="System.Drawing.Point, System.Drawing">
-    <value>273, 127</value>
+  <data name="ButtonBitlyAuthorize.Location" type="System.Drawing.Point, System.Drawing">
+    <value>429, 129</value>
   </data>
-  <data name="TextBitlyId.Size" type="System.Drawing.Size, System.Drawing">
-    <value>71, 19</value>
+  <data name="ButtonBitlyAuthorize.Size" type="System.Drawing.Size, System.Drawing">
+    <value>67, 23</value>
   </data>
-  <data name="TextBitlyId.TabIndex" type="System.Int32, mscorlib">
-    <value>15</value>
+  <data name="ButtonBitlyAuthorize.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
   </data>
-  <data name="&gt;&gt;TextBitlyId.Name" xml:space="preserve">
-    <value>TextBitlyId</value>
+  <data name="ButtonBitlyAuthorize.Text" xml:space="preserve">
+    <value>認可</value>
   </data>
-  <data name="&gt;&gt;TextBitlyId.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;ButtonBitlyAuthorize.Name" xml:space="preserve">
+    <value>ButtonBitlyAuthorize</value>
   </data>
-  <data name="&gt;&gt;TextBitlyId.Parent" xml:space="preserve">
+  <data name="&gt;&gt;ButtonBitlyAuthorize.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ButtonBitlyAuthorize.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="&gt;&gt;TextBitlyId.ZOrder" xml:space="preserve">
-    <value>8</value>
+  <data name="&gt;&gt;ButtonBitlyAuthorize.ZOrder" xml:space="preserve">
+    <value>6</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>

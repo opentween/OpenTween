@@ -119,17 +119,17 @@ namespace OpenTween
 
         //=====================================================================
         // bit.ly
-        // https://bitly.com/a/account から取得できます。
+        // https://bitly.com/a/oauth_apps から取得できます。
 
         /// <summary>
-        /// bit.ly ログイン名
+        /// bit.ly Client ID
         /// </summary>
-        public const string BitlyLoginId = "opentween";
+        public const string BitlyClientId = "ddab8ec50f4459c315cbde9d923cf490923b6d2e";
 
         /// <summary>
-        /// bit.ly APIキー
+        /// bit.ly Client Secret
         /// </summary>
-        public const string BitlyApiKey = "R_76319a25e2420b8d2c42e812fe177d8b";
+        public const string BitlyClientSecret = "485c9d03dd264f8eeb4fc65d38e2762c4420cee7";
 
         //=====================================================================
         // TINAMI

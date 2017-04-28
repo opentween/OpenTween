@@ -335,6 +335,15 @@ namespace OpenTween.Properties {
         }
         
         /// <summary>
+        ///   認証に失敗しました ({0}) に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string BitlyAuthorize_ErrorText {
+            get {
+                return ResourceManager.GetString("BitlyAuthorize_ErrorText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   ブラウザの起動に失敗しました。エラーコード: {0} に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string BrowserStartFailed {

@@ -1210,6 +1210,9 @@
  * 管理者権限で実行するとD&amp;Dで画像を投稿する操作が制限されます。
  * {0}の設定ファイルが一般ユーザー権限で編集できなくなります。</value>
   </data>
+  <data name="BitlyAuthorize_ErrorText" xml:space="preserve">
+    <value>認証に失敗しました ({0})</value>
+  </data>
   <data name="UrlConvert_BitlyAuthRequired" xml:space="preserve">
     <value>Bitlyを使用するには設定画面で認証情報を入力する必要があります</value>
   </data>

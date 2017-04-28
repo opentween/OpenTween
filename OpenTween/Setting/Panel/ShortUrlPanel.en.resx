@@ -142,4 +142,13 @@
   <data name="Label71.Text" xml:space="preserve">
     <value>Primary URLshorten service</value>
   </data>
+  <data name="Label77.Size" type="System.Drawing.Size, System.Drawing">
+    <value>108, 12</value>
+  </data>
+  <data name="Label77.Text" xml:space="preserve">
+    <value>Bit.ly Access Token</value>
+  </data>
+  <data name="ButtonBitlyAuthorize.Text" xml:space="preserve">
+    <value>Authorize</value>
+  </data>
 </root>

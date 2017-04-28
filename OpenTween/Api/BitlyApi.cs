@@ -23,9 +23,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Runtime.Serialization.Json;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Xml;
+using System.Xml.Linq;
 using OpenTween.Connection;
 
 namespace OpenTween.Api
@@ -83,6 +87,56 @@ namespace OpenTween.Api
             {
                 return await response.Content.ReadAsStringAsync()
                     .ConfigureAwait(false);
+            }
+        }
+
+        public async Task<string> GetAccessTokenAsync(string username, string password)
+        {
+            var param = new Dictionary<string, string>
+            {
+                ["grant_type"] = "password",
+                ["username"] = username,
+                ["password"] = password,
+            };
+
+            var endpoint = new Uri(ApiBase, "/oauth/access_token");
+
+            using (var request = new HttpRequestMessage(HttpMethod.Post, endpoint))
+            using (var postContent = new FormUrlEncodedContent(param))
+            {
+                var authzParam = ApplicationSettings.BitlyClientId + ":" + ApplicationSettings.BitlyClientSecret;
+                request.Headers.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(Encoding.UTF8.GetBytes(authzParam)));
+
+                request.Content = postContent;
+
+                using (var response = await this.http.SendAsync(request).ConfigureAwait(false))
+                {
+                    var responseBytes = await response.Content.ReadAsByteArrayAsync()
+                        .ConfigureAwait(false);
+
+                    return this.ParseOAuthCredential(responseBytes);
+                }
+            }
+        }
+
+        private string ParseOAuthCredential(byte[] responseBytes)
+        {
+            using (var jsonReader = JsonReaderWriterFactory.CreateJsonReader(responseBytes, XmlDictionaryReaderQuotas.Max))
+            {
+                var xElm = XElement.Load(jsonReader);
+
+                var statusCode = xElm.Element("status_code")?.Value ?? "200";
+                if (statusCode != "200")
+                {
+                    var statusText = xElm.Element("status_txt")?.Value;
+                    throw new WebApiException(statusText ?? $"status_code = {statusCode}");
+                }
+
+                var accessToken = xElm.Element("access_token")?.Value;
+                if (accessToken == null)
+                    throw new WebApiException("Property `access_token` required");
+
+                return accessToken;
             }
         }
 

@@ -32,6 +32,8 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using OpenTween.Api;
+using System.Threading.Tasks;
 
 namespace OpenTween.Setting.Panel
 {
@@ -53,10 +55,8 @@ namespace OpenTween.Setting.Panel
             this.ShortenTcoCheck.Enabled = this.CheckAutoConvertUrl.Checked;
 
             this.ComboBoxAutoShortUrlFirst.SelectedIndex = (int)settingCommon.AutoShortUrlFirst;
-            this.TextBitlyId.Text = settingCommon.BilyUser;
-            this.TextBitlyPw.Text = settingCommon.BitlyPwd;
-            this.TextBitlyId.Modified = false;
-            this.TextBitlyPw.Modified = false;
+            this.TextBitlyAccessToken.Text = settingCommon.BitlyAccessToken;
+            this.TextBitlyAccessToken.Modified = false;
         }
 
         public void SaveConfig(SettingCommon settingCommon)
@@ -65,8 +65,7 @@ namespace OpenTween.Setting.Panel
             settingCommon.UrlConvertAuto = this.CheckAutoConvertUrl.Checked;
             //settingCommon.ShortenTco = this.ShortenTcoCheck.Checked;
             settingCommon.AutoShortUrlFirst = (MyCommon.UrlConverter)this.ComboBoxAutoShortUrlFirst.SelectedIndex;
-            settingCommon.BilyUser = this.TextBitlyId.Text;
-            settingCommon.BitlyPwd = this.TextBitlyPw.Text;
+            settingCommon.BitlyAccessToken = this.TextBitlyAccessToken.Text;
         }
 
         private void ComboBoxAutoShortUrlFirst_SelectedIndexChanged(object sender, EventArgs e)
@@ -74,23 +73,52 @@ namespace OpenTween.Setting.Panel
             if (ComboBoxAutoShortUrlFirst.SelectedIndex == (int)MyCommon.UrlConverter.Bitly ||
                ComboBoxAutoShortUrlFirst.SelectedIndex == (int)MyCommon.UrlConverter.Jmp)
             {
-                Label76.Enabled = true;
                 Label77.Enabled = true;
-                TextBitlyId.Enabled = true;
-                TextBitlyPw.Enabled = true;
+                TextBitlyAccessToken.Enabled = true;
+                ButtonBitlyAuthorize.Enabled = true;
             }
             else
             {
-                Label76.Enabled = false;
                 Label77.Enabled = false;
-                TextBitlyId.Enabled = false;
-                TextBitlyPw.Enabled = false;
+                TextBitlyAccessToken.Enabled = false;
+                ButtonBitlyAuthorize.Enabled = false;
             }
         }
 
         private void CheckAutoConvertUrl_CheckedChanged(object sender, EventArgs e)
         {
             ShortenTcoCheck.Enabled = CheckAutoConvertUrl.Checked;
+        }
+
+        private void ButtonBitlyAuthorize_Click(object sender, EventArgs e)
+        {
+            using (var dialog = new LoginDialog())
+            {
+                const string DialogText = "Bitly Login";
+                dialog.Text = DialogText;
+
+                string accessToken = null;
+                dialog.LoginCallback = async () =>
+                {
+                    try
+                    {
+                        var bitly = new BitlyApi();
+                        accessToken = await bitly.GetAccessTokenAsync(dialog.LoginName, dialog.Password);
+                        return true;
+                    }
+                    catch (WebApiException ex)
+                    {
+                        var text = string.Format(Properties.Resources.BitlyAuthorize_ErrorText, ex.Message);
+                        MessageBox.Show(dialog, text, DialogText, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return false;
+                    }
+                };
+
+                if (dialog.ShowDialog(this.ParentForm) == DialogResult.OK)
+                {
+                    this.TextBitlyAccessToken.Text = accessToken;
+                }
+            }
         }
     }
 }

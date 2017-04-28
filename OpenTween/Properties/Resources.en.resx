@@ -1152,6 +1152,9 @@ Existing setting files are copied to {1}.
  * If you run as administrator, operations to post images with D&amp;D will be restricted.
  * After running, the setting files of {0} will be able to modify only from administrator.</value>
   </data>
+  <data name="BitlyAuthorize_ErrorText" xml:space="preserve">
+    <value>Failed to authorize. ({0})</value>
+  </data>
   <data name="UrlConvert_BitlyAuthRequired" xml:space="preserve">
     <value>To use Bitly, you must perform the Bitly authentication in settings dialog.</value>
   </data>
