@@ -79,8 +79,8 @@ namespace OpenTween.Setting
                     {
                         Username = settings.UserName,
                         UserId = settings.UserId,
-                        Token = settings.Token,
-                        TokenSecret = settings.TokenSecret,
+                        AccessToken = settings.Token,
+                        AccessSecretPlain = settings.TokenSecret,
                     };
 
                     settings.UserAccounts.Add(account);

@@ -67,8 +67,8 @@ namespace OpenTween.Setting.Panel
                 var selectedAccount = accounts[selectedIndex];
                 settingCommon.UserId = selectedAccount.UserId;
                 settingCommon.UserName = selectedAccount.Username;
-                settingCommon.Token = selectedAccount.Token;
-                settingCommon.TokenSecret = selectedAccount.TokenSecret;
+                settingCommon.Token = selectedAccount.AccessToken;
+                settingCommon.TokenSecret = selectedAccount.AccessSecretPlain;
             }
             else
             {

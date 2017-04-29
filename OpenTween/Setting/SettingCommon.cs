@@ -329,53 +329,21 @@ namespace OpenTween
 
     public class UserAccount
     {
-        public string Username = "";
-        public long UserId = 0;
-        public string Token = "";
+        public string Username { get; set; } = "";
+
+        public long UserId { get; set; } = 0;
+
+        [XmlElement("Token")]
+        public string AccessToken { get; set; } = "";
+
+        [XmlElement("EncryptTokenSecret")]
+        public string AccessSecretEncrypted { get; set; } = "";
+
         [XmlIgnore]
-        public string TokenSecret = "";
-
-        public string EncryptTokenSecret
+        public string AccessSecretPlain
         {
-            get => this.Encrypt(this.TokenSecret);
-            set => this.TokenSecret = this.Decrypt(value);
-        }
-
-        private string Encrypt(string password)
-        {
-            if (MyCommon.IsNullOrEmpty(password)) password = "";
-            if (password.Length > 0)
-            {
-                try
-                {
-                    return MyCommon.EncryptString(password);
-                }
-                catch (Exception)
-                {
-                    return "";
-                }
-            }
-            else
-            {
-                return "";
-            }
-        }
-
-        private string Decrypt(string password)
-        {
-            if (MyCommon.IsNullOrEmpty(password)) password = "";
-            if (password.Length > 0)
-            {
-                try
-                {
-                    password = MyCommon.DecryptString(password);
-                }
-                catch (Exception)
-                {
-                    password = "";
-                }
-            }
-            return password;
+            get => MyCommon.IsNullOrEmpty(this.AccessSecretEncrypted) ? "" : MyCommon.DecryptString(this.AccessSecretEncrypted);
+            set => this.AccessSecretEncrypted = MyCommon.IsNullOrEmpty(value) ? "" : MyCommon.EncryptString(value);
         }
 
         public override string ToString()

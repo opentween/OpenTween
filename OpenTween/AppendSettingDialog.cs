@@ -263,8 +263,8 @@ namespace OpenTween
             {
                 Username = accessTokenResponse["screen_name"],
                 UserId = long.Parse(accessTokenResponse["user_id"]),
-                Token = accessTokenResponse["oauth_token"],
-                TokenSecret = accessTokenResponse["oauth_token_secret"],
+                AccessToken = accessTokenResponse["oauth_token"],
+                AccessSecretPlain = accessTokenResponse["oauth_token_secret"],
             };
         }
 
