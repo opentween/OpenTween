@@ -35,6 +35,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
+using OpenTween.Api;
 using OpenTween.Connection;
 
 namespace OpenTween
@@ -64,6 +65,7 @@ namespace OpenTween
         /// </summary>
         public int PurgeCount { get; set; }
 
+        public string BitlyAccessToken { get; set; }
         public string BitlyId { get; set; }
         public string BitlyKey { get; set; }
 
@@ -443,34 +445,19 @@ namespace OpenTween
             if ("http://bit.ly/xxxx".Length > srcUri.OriginalString.Length)
                 return srcUri;
 
-            // bit.ly 短縮機能実装のプライバシー問題の暫定対応
-            // ログインIDとAPIキーが指定されていない場合は短縮せずにPOSTする
-            // 参照: http://sourceforge.jp/projects/opentween/lists/archive/dev/2012-January/000020.html
-            if (string.IsNullOrEmpty(this.BitlyId) || string.IsNullOrEmpty(this.BitlyKey))
+            // OAuth2 アクセストークンまたは API キー (旧方式) のいずれも設定されていなければ短縮しない
+            if (string.IsNullOrEmpty(this.BitlyAccessToken) && (string.IsNullOrEmpty(this.BitlyId) || string.IsNullOrEmpty(this.BitlyKey)))
                 return srcUri;
 
-            var query = new Dictionary<string, string>
+            var bitly = new BitlyApi
             {
-                ["login"] = this.BitlyId,
-                ["apiKey"] = this.BitlyKey,
-                ["format"] = "txt",
-                ["domain"] = domain,
-                ["longUrl"] = srcUri.OriginalString,
+                EndUserAccessToken = this.BitlyAccessToken,
+                EndUserLoginName = this.BitlyId,
+                EndUserApiKey = this.BitlyKey,
             };
 
-            var uri = new Uri("https://api-ssl.bitly.com/v3/shorten?" + MyCommon.BuildQueryString(query));
-            using (var response = await this.http.GetAsync(uri).ConfigureAwait(false))
-            {
-                response.EnsureSuccessStatusCode();
-
-                var result = await response.Content.ReadAsStringAsync()
-                    .ConfigureAwait(false);
-
-                if (!Regex.IsMatch(result, @"^https?://"))
-                    throw new WebApiException("Failed to create URL.", result);
-
-                return new Uri(result.TrimEnd());
-            }
+            return await bitly.ShortenAsync(srcUri, domain)
+                .ConfigureAwait(false);
         }
 
         private async Task<Uri> ShortenByUxnuAsync(Uri srcUri)

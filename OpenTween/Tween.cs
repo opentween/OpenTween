@@ -811,6 +811,7 @@ namespace OpenTween
             tw.AllAtReply = SettingManager.Common.AllAtReply;
             AllrepliesToolStripMenuItem.Checked = tw.AllAtReply;
             ShortUrl.Instance.DisableExpanding = !SettingManager.Common.TinyUrlResolve;
+            ShortUrl.Instance.BitlyAccessToken = SettingManager.Common.BitlyAccessToken;
             ShortUrl.Instance.BitlyId = SettingManager.Common.BilyUser;
             ShortUrl.Instance.BitlyKey = SettingManager.Common.BitlyPwd;
 
@@ -3731,6 +3732,7 @@ namespace OpenTween
                     tw.RestrictFavCheck = SettingManager.Common.RestrictFavCheck;
                     tw.ReadOwnPost = SettingManager.Common.ReadOwnPost;
                     ShortUrl.Instance.DisableExpanding = !SettingManager.Common.TinyUrlResolve;
+                    ShortUrl.Instance.BitlyAccessToken = SettingManager.Common.BitlyAccessToken;
                     ShortUrl.Instance.BitlyId = SettingManager.Common.BilyUser;
                     ShortUrl.Instance.BitlyKey = SettingManager.Common.BitlyPwd;
                     TwitterApiConnection.RestApiHost = SettingManager.Common.TwitterApiHost;
@@ -9199,6 +9201,17 @@ namespace OpenTween
 
         private async Task<bool> UrlConvertAsync(MyCommon.UrlConverter Converter_Type)
         {
+            if (Converter_Type == MyCommon.UrlConverter.Bitly || Converter_Type == MyCommon.UrlConverter.Jmp)
+            {
+                // OAuth2 アクセストークンまたは API キー (旧方式) のいずれも設定されていなければ短縮しない
+                if (string.IsNullOrEmpty(SettingManager.Common.BitlyAccessToken) &&
+                    (string.IsNullOrEmpty(SettingManager.Common.BilyUser) || string.IsNullOrEmpty(SettingManager.Common.BitlyPwd)))
+                {
+                    MessageBox.Show(this, Properties.Resources.UrlConvert_BitlyAuthRequired, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return false;
+                }
+            }
+
             //t.coで投稿時自動短縮する場合は、外部サービスでの短縮禁止
             //if (SettingDialog.UrlConvertAuto && SettingDialog.ShortenTco) return;
 

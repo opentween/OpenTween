@@ -118,37 +118,22 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="ShortenTcoCheck.Size" type="System.Drawing.Size, System.Drawing">
-    <value>91, 16</value>
+  <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>56, 12</value>
   </data>
-  <data name="ShortenTcoCheck.Text" xml:space="preserve">
-    <value>t.co wrapping</value>
+  <data name="label1.Text" xml:space="preserve">
+    <value>&amp;Username</value>
   </data>
-  <data name="CheckTinyURL.Size" type="System.Drawing.Size, System.Drawing">
-    <value>145, 16</value>
+  <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>54, 12</value>
   </data>
-  <data name="CheckTinyURL.Text" xml:space="preserve">
-    <value>Resolve shortend URLs</value>
+  <data name="label2.Text" xml:space="preserve">
+    <value>&amp;Password</value>
   </data>
-  <data name="CheckAutoConvertUrl.Size" type="System.Drawing.Size, System.Drawing">
-    <value>205, 16</value>
+  <data name="buttonLogin.Text" xml:space="preserve">
+    <value>&amp;Login</value>
   </data>
-  <data name="CheckAutoConvertUrl.Text" xml:space="preserve">
-    <value>Auto shorten Urls in posting status</value>
-  </data>
-  <data name="Label71.Size" type="System.Drawing.Size, System.Drawing">
-    <value>149, 12</value>
-  </data>
-  <data name="Label71.Text" xml:space="preserve">
-    <value>Primary URLshorten service</value>
-  </data>
-  <data name="Label77.Size" type="System.Drawing.Size, System.Drawing">
-    <value>108, 12</value>
-  </data>
-  <data name="Label77.Text" xml:space="preserve">
-    <value>Bit.ly Access Token</value>
-  </data>
-  <data name="ButtonBitlyAuthorize.Text" xml:space="preserve">
-    <value>Authorize</value>
+  <data name="buttonCancel.Text" xml:space="preserve">
+    <value>&amp;Cancel</value>
   </data>
 </root>

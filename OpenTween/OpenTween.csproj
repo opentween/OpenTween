@@ -69,6 +69,7 @@
       <DependentUpon>ApiInfoDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="Api\ApiLimit.cs" />
+    <Compile Include="Api\BitlyApi.cs" />
     <Compile Include="Api\DataModel\GeoJson.cs" />
     <Compile Include="Api\DataModel\TwitterConfiguration.cs" />
     <Compile Include="Api\DataModel\TwitterEntity.cs" />
@@ -140,6 +141,12 @@
       <DependentUpon>FilterDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="IndexedSortedSet.cs" />
+    <Compile Include="LoginDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LoginDialog.Designer.cs">
+      <DependentUpon>LoginDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="MediaItem.cs" />
     <Compile Include="Models\ComparerMode.cs" />
     <Compile Include="Models\DirectMessagesTabModel.cs" />
@@ -503,6 +510,12 @@
     <EmbeddedResource Include="AppendSettingDialog.resx">
       <DependentUpon>AppendSettingDialog.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LoginDialog.en.resx">
+      <DependentUpon>LoginDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LoginDialog.resx">
+      <DependentUpon>LoginDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MediaSelector.en.resx">
       <DependentUpon>MediaSelector.cs</DependentUpon>

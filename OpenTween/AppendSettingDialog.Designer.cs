@@ -207,7 +207,6 @@
             this.Save.Name = "Save";
             this.ToolTip1.SetToolTip(this.Save, resources.GetString("Save.ToolTip"));
             this.Save.UseVisualStyleBackColor = true;
-            this.Save.Click += new System.EventHandler(this.Save_Click);
             // 
             // Cancel
             // 
@@ -217,7 +216,6 @@
             this.Cancel.Name = "Cancel";
             this.ToolTip1.SetToolTip(this.Cancel, resources.GetString("Cancel.ToolTip"));
             this.Cancel.UseVisualStyleBackColor = true;
-            this.Cancel.Click += new System.EventHandler(this.Cancel_Click);
             // 
             // ColorDialog1
             // 

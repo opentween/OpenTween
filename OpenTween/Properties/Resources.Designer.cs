@@ -335,6 +335,15 @@ namespace OpenTween.Properties {
         }
         
         /// <summary>
+        ///   認証に失敗しました ({0}) に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string BitlyAuthorize_ErrorText {
+            get {
+                return ResourceManager.GetString("BitlyAuthorize_ErrorText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   ブラウザの起動に失敗しました。エラーコード: {0} に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string BrowserStartFailed {
@@ -2541,15 +2550,6 @@ namespace OpenTween.Properties {
         }
         
         /// <summary>
-        ///   IDとAPIキーの組み合わせが違います。IDと同時に設定するのはパスワードではなくAPIキーです。ご確認ください。 に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string SettingSave_ClickText1 {
-            get {
-                return ResourceManager.GetString("SettingSave_ClickText1", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   フォロー状況取得中・・・ に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ShowFriendshipText1 {
@@ -3185,6 +3185,15 @@ namespace OpenTween.Properties {
         internal static string UpdateMuteUserIds_Start {
             get {
                 return ResourceManager.GetString("UpdateMuteUserIds_Start", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Bitlyを使用するには設定画面で認証情報を入力する必要があります に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string UrlConvert_BitlyAuthRequired {
+            get {
+                return ResourceManager.GetString("UrlConvert_BitlyAuthRequired", resourceCulture);
             }
         }
         

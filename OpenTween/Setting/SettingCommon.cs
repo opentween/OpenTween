@@ -196,6 +196,10 @@ namespace OpenTween
         public bool GetFav = true;
         public string BilyUser = "";
         public string BitlyPwd = "";
+
+        /// <summary>Bitly API アクセストークン</summary>
+        public string BitlyAccessToken { get; set; } = "";
+
         public bool ShowGrid = false;
         public bool UseAtIdSupplement = true;
         public bool UseHashSupplement = true;

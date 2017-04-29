@@ -51,8 +51,6 @@ namespace OpenTween
         internal Twitter tw;
         internal TwitterApi twitterApi;
 
-        private bool _ValidationError = false;
-
         public AppendSettingDialog()
         {
             this.InitializeComponent();
@@ -151,44 +149,6 @@ namespace OpenTween
             }
         }
 
-        private void Save_Click(object sender, EventArgs e)
-        {
-            if (MyCommon.IsNetworkAvailable() &&
-                (this.ShortUrlPanel.ComboBoxAutoShortUrlFirst.SelectedIndex == (int)MyCommon.UrlConverter.Bitly || this.ShortUrlPanel.ComboBoxAutoShortUrlFirst.SelectedIndex == (int)MyCommon.UrlConverter.Jmp))
-            {
-                // bit.ly 短縮機能実装のプライバシー問題の暫定対応
-                // bit.ly 使用時はログインIDとAPIキーの指定を必須とする
-                // 参照: http://sourceforge.jp/projects/opentween/lists/archive/dev/2012-January/000020.html
-                if (string.IsNullOrEmpty(this.ShortUrlPanel.TextBitlyId.Text) || string.IsNullOrEmpty(this.ShortUrlPanel.TextBitlyPw.Text))
-                {
-                    MessageBox.Show("bit.ly のログイン名とAPIキーの指定は必須項目です。", Application.ProductName);
-                    _ValidationError = true;
-                    TreeViewSetting.SelectedNode = TreeViewSetting.Nodes["ConnectionNode"].Nodes["ShortUrlNode"]; // 動作タブを選択
-                    TreeViewSetting.Select();
-                    this.ShortUrlPanel.TextBitlyId.Focus();
-                    return;
-                }
-
-                if (!BitlyValidation(this.ShortUrlPanel.TextBitlyId.Text, this.ShortUrlPanel.TextBitlyPw.Text).Result)
-                {
-                    MessageBox.Show(Properties.Resources.SettingSave_ClickText1);
-                    _ValidationError = true;
-                    TreeViewSetting.SelectedNode = TreeViewSetting.Nodes["ConnectionNode"].Nodes["ShortUrlNode"]; // 動作タブを選択
-                    TreeViewSetting.Select();
-                    this.ShortUrlPanel.TextBitlyId.Focus();
-                    return;
-                }
-                else
-                {
-                    _ValidationError = false;
-                }
-            }
-            else
-            {
-                _ValidationError = false;
-            }
-        }
-
         private void Setting_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (MyCommon._endingFlag) return;
@@ -199,10 +159,6 @@ namespace OpenTween
                 {
                     e.Cancel = true;
                 }
-            }
-            if (_ValidationError)
-            {
-                e.Cancel = true;
             }
             if (e.Cancel == false && TreeViewSetting.SelectedNode != null)
             {
@@ -356,45 +312,6 @@ namespace OpenTween
 
             this.GetPeriodPanel.LabelPostAndGet.Visible = this.GetPeriodPanel.CheckPostAndGet.Checked && !tw.UserStreamActive;
             this.GetPeriodPanel.LabelUserStreamActive.Visible = tw.UserStreamActive;
-        }
-
-        private async Task<bool> BitlyValidation(string id, string apikey)
-        {
-            if (string.IsNullOrEmpty(id) || string.IsNullOrEmpty(apikey))
-            {
-                return false;
-            }
-
-            try
-            {
-                var requestUri = new Uri("http://api.bit.ly/v3/validate");
-                var param = new Dictionary<string, string>
-                {
-                    ["login"] = ApplicationSettings.BitlyLoginId,
-                    ["apiKey"] = ApplicationSettings.BitlyApiKey,
-                    ["x_login"] = id,
-                    ["x_apiKey"] = apikey,
-                    ["format"] = "txt",
-                };
-
-                using (var postContent = new FormUrlEncodedContent(param))
-                using (var response = await Networking.Http.PostAsync(requestUri, postContent).ConfigureAwait(false))
-                {
-                    var responseText = await response.Content.ReadAsStringAsync()
-                        .ConfigureAwait(false);
-
-                    return responseText.TrimEnd() == "1";
-                }
-            }
-            catch (OperationCanceledException) { }
-            catch (HttpRequestException) { }
-
-            return false;
-        }
-
-        private void Cancel_Click(object sender, EventArgs e)
-        {
-            _ValidationError = false;
         }
 
         private void OpenUrl(string url)

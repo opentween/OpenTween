@@ -31,13 +31,12 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ShortUrlPanel));
             this.ShortenTcoCheck = new System.Windows.Forms.CheckBox();
             this.CheckTinyURL = new System.Windows.Forms.CheckBox();
-            this.TextBitlyPw = new System.Windows.Forms.TextBox();
+            this.TextBitlyAccessToken = new System.Windows.Forms.TextBox();
             this.CheckAutoConvertUrl = new System.Windows.Forms.CheckBox();
             this.Label71 = new System.Windows.Forms.Label();
             this.ComboBoxAutoShortUrlFirst = new System.Windows.Forms.ComboBox();
-            this.Label76 = new System.Windows.Forms.Label();
             this.Label77 = new System.Windows.Forms.Label();
-            this.TextBitlyId = new System.Windows.Forms.TextBox();
+            this.ButtonBitlyAuthorize = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // ShortenTcoCheck
@@ -52,10 +51,10 @@
             this.CheckTinyURL.Name = "CheckTinyURL";
             this.CheckTinyURL.UseVisualStyleBackColor = true;
             // 
-            // TextBitlyPw
+            // TextBitlyAccessToken
             // 
-            resources.ApplyResources(this.TextBitlyPw, "TextBitlyPw");
-            this.TextBitlyPw.Name = "TextBitlyPw";
+            resources.ApplyResources(this.TextBitlyAccessToken, "TextBitlyAccessToken");
+            this.TextBitlyAccessToken.Name = "TextBitlyAccessToken";
             // 
             // CheckAutoConvertUrl
             // 
@@ -84,20 +83,17 @@
             this.ComboBoxAutoShortUrlFirst.Name = "ComboBoxAutoShortUrlFirst";
             this.ComboBoxAutoShortUrlFirst.SelectedIndexChanged += new System.EventHandler(this.ComboBoxAutoShortUrlFirst_SelectedIndexChanged);
             // 
-            // Label76
-            // 
-            resources.ApplyResources(this.Label76, "Label76");
-            this.Label76.Name = "Label76";
-            // 
             // Label77
             // 
             resources.ApplyResources(this.Label77, "Label77");
             this.Label77.Name = "Label77";
             // 
-            // TextBitlyId
+            // ButtonBitlyAuthorize
             // 
-            resources.ApplyResources(this.TextBitlyId, "TextBitlyId");
-            this.TextBitlyId.Name = "TextBitlyId";
+            resources.ApplyResources(this.ButtonBitlyAuthorize, "ButtonBitlyAuthorize");
+            this.ButtonBitlyAuthorize.Name = "ButtonBitlyAuthorize";
+            this.ButtonBitlyAuthorize.UseVisualStyleBackColor = true;
+            this.ButtonBitlyAuthorize.Click += new System.EventHandler(this.ButtonBitlyAuthorize_Click);
             // 
             // ShortUrlPanel
             // 
@@ -105,13 +101,12 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.Controls.Add(this.ShortenTcoCheck);
             this.Controls.Add(this.CheckTinyURL);
-            this.Controls.Add(this.TextBitlyPw);
+            this.Controls.Add(this.TextBitlyAccessToken);
             this.Controls.Add(this.CheckAutoConvertUrl);
             this.Controls.Add(this.Label71);
             this.Controls.Add(this.ComboBoxAutoShortUrlFirst);
-            this.Controls.Add(this.Label76);
+            this.Controls.Add(this.ButtonBitlyAuthorize);
             this.Controls.Add(this.Label77);
-            this.Controls.Add(this.TextBitlyId);
             this.Name = "ShortUrlPanel";
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -122,12 +117,11 @@
 
         internal System.Windows.Forms.CheckBox ShortenTcoCheck;
         internal System.Windows.Forms.CheckBox CheckTinyURL;
-        internal System.Windows.Forms.TextBox TextBitlyPw;
         internal System.Windows.Forms.CheckBox CheckAutoConvertUrl;
         internal System.Windows.Forms.Label Label71;
         internal System.Windows.Forms.ComboBox ComboBoxAutoShortUrlFirst;
-        internal System.Windows.Forms.Label Label76;
         internal System.Windows.Forms.Label Label77;
-        internal System.Windows.Forms.TextBox TextBitlyId;
+        private System.Windows.Forms.Button ButtonBitlyAuthorize;
+        private System.Windows.Forms.TextBox TextBitlyAccessToken;
     }
 }
