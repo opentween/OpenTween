@@ -28,6 +28,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Cache;
 using System.Net.Http;
+using System.Net.WebSockets;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -190,6 +191,14 @@ namespace OpenTween.Connection
             client.DefaultRequestHeaders.Add("User-Agent", Networking.GetUserAgentString());
 
             return client;
+        }
+
+        public static void SetWebSocketOptions(ClientWebSocketOptions options)
+        {
+            if (Networking.Proxy != null)
+                options.Proxy = Networking.Proxy;
+
+            options.SetRequestHeader("User-Agent", Networking.GetUserAgentString());
         }
 
         public static string GetUserAgentString(bool fakeMSIE = false)
