@@ -522,7 +522,8 @@ namespace OpenTween
             var configScaleFactor = this.settings.Local.GetConfigScaleFactor(this.CurrentAutoScaleDimensions);
 
             // 認証関連
-            this.tw.Initialize(this.settings.Common.Token, this.settings.Common.TokenSecret, this.settings.Common.UserName, this.settings.Common.UserId);
+            var primaryAccount = this.settings.Common.PrimaryAccount;
+            this.tw.Initialize(primaryAccount.AccessToken, primaryAccount.AccessSecretPlain, primaryAccount.Username, primaryAccount.UserId);
 
             this.initial = true;
 
@@ -2576,10 +2577,17 @@ namespace OpenTween
                 {
                     this.settings.ApplySettings();
 
-                    if (MyCommon.IsNullOrEmpty(this.settings.Common.Token))
+                    var primaryAccount = this.settings.Common.PrimaryAccount;
+                    if (primaryAccount != null)
+                    {
+                        this.tw.Initialize(primaryAccount.AccessToken, primaryAccount.AccessSecretPlain, primaryAccount.Username, primaryAccount.UserId);
+                    }
+                    else
+                    {
                         this.tw.ClearAuthInfo();
+                        this.tw.Initialize("", "", "", 0);
+                    }
 
-                    this.tw.Initialize(this.settings.Common.Token, this.settings.Common.TokenSecret, this.settings.Common.UserName, this.settings.Common.UserId);
                     this.tw.RestrictFavCheck = this.settings.Common.RestrictFavCheck;
                     this.tw.ReadOwnPost = this.settings.Common.ReadOwnPost;
 

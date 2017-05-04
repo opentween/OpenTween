@@ -34,6 +34,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using OpenTween;
 
 namespace OpenTween.Setting.Panel
 {
@@ -44,15 +45,16 @@ namespace OpenTween.Setting.Panel
 
         public void LoadConfig(SettingCommon settingCommon)
         {
+            var accounts = settingCommon.UserAccounts;
+
             using (ControlTransaction.Update(this.AuthUserCombo))
             {
                 this.AuthUserCombo.Items.Clear();
-                this.AuthUserCombo.Items.AddRange(settingCommon.UserAccounts.ToArray());
+                this.AuthUserCombo.Items.AddRange(accounts.ToArray());
 
-                var selectedUserId = settingCommon.UserId;
-                var selectedAccount = settingCommon.UserAccounts.FirstOrDefault(x => x.UserId == selectedUserId);
-                if (selectedAccount != null)
-                    this.AuthUserCombo.SelectedItem = selectedAccount;
+                var primaryIndex = accounts.FindIndex(x => x.Primary);
+                if (primaryIndex != -1)
+                    this.AuthUserCombo.SelectedIndex = primaryIndex;
             }
         }
 
@@ -64,6 +66,9 @@ namespace OpenTween.Setting.Panel
             var selectedIndex = this.AuthUserCombo.SelectedIndex;
             if (selectedIndex != -1)
             {
+                foreach (var (account, index) in accounts.WithIndex())
+                    account.Primary = selectedIndex == index;
+
                 var selectedAccount = accounts[selectedIndex];
                 settingCommon.UserId = selectedAccount.UserId;
                 settingCommon.UserName = selectedAccount.Username;

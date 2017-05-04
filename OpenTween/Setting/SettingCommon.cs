@@ -28,6 +28,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Forms;
 using System.Xml.Serialization;
 using OpenTween.Thumbnail;
@@ -39,13 +40,38 @@ namespace OpenTween
     {
         #region "Settingクラス基本"
         public static SettingCommon Load(string settingsPath)
-            => LoadSettings(settingsPath);
+        {
+            var settings = LoadSettings(settingsPath);
+
+            // UserAccount.Primary が追加される前との互換性を保つ
+            var accounts = settings.UserAccounts;
+            if (accounts.Count != 0 && settings.PrimaryAccount == null)
+            {
+                var primaryAccount = accounts.FirstOrDefault(x => x.UserId == settings.UserId) ?? accounts.First();
+                primaryAccount.Primary = true;
+            }
+
+            return settings;
+        }
 
         public void Save(string settingsPath)
-            => SaveSettings(this, settingsPath);
+        {
+            var primaryAccount = this.PrimaryAccount;
+
+            // UserAccount.Primary が追加される前との互換性を保つ
+            this.UserId = primaryAccount?.UserId ?? 0;
+            this.UserName = primaryAccount?.Username ?? "";
+            this.Token = primaryAccount?.AccessToken ?? "";
+            this.TokenSecret = primaryAccount?.AccessSecretPlain ?? "";
+
+            SaveSettings(this, settingsPath);
+        }
         #endregion
 
-        public List<UserAccount> UserAccounts = new();
+        public List<UserAccount> UserAccounts { get; set; } = new();
+
+        [XmlIgnore]
+        public UserAccount PrimaryAccount => this.UserAccounts.FirstOrDefault(x => x.Primary);
 
         public long UserId = 0;
         public string UserName = "";
@@ -284,6 +310,8 @@ namespace OpenTween
 
     public class UserAccount
     {
+        public bool Primary { get; set; }
+
         public string Username { get; set; } = "";
 
         public long UserId { get; set; } = 0;
