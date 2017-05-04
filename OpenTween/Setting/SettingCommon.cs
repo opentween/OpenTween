@@ -46,65 +46,20 @@ namespace OpenTween
         #endregion
 
         public List<UserAccount> UserAccounts = new();
+
+        public long UserId = 0;
         public string UserName = "";
-
-        [XmlIgnore]
-        public string Password = "";
-
-        public string EncryptPassword
-        {
-            get => this.Encrypt(this.Password);
-            set => this.Password = this.Decrypt(value);
-        }
-
         public string Token = "";
+
         [XmlIgnore]
         public string TokenSecret = "";
 
         public string EncryptTokenSecret
         {
-            get => this.Encrypt(this.TokenSecret);
-            set => this.TokenSecret = this.Decrypt(value);
+            get => string.IsNullOrEmpty(this.TokenSecret) ? "" : MyCommon.EncryptString(this.TokenSecret);
+            set => this.TokenSecret = string.IsNullOrEmpty(value) ? "" : MyCommon.DecryptString(value);
         }
 
-        private string Encrypt(string password)
-        {
-            if (MyCommon.IsNullOrEmpty(password)) password = "";
-            if (password.Length > 0)
-            {
-                try
-                {
-                    return MyCommon.EncryptString(password);
-                }
-                catch (Exception)
-                {
-                    return "";
-                }
-            }
-            else
-            {
-                return "";
-            }
-        }
-
-        private string Decrypt(string password)
-        {
-            if (MyCommon.IsNullOrEmpty(password)) password = "";
-            if (password.Length > 0)
-            {
-                try
-                {
-                    password = MyCommon.DecryptString(password);
-                }
-                catch (Exception)
-                {
-                    password = "";
-                }
-            }
-            return password;
-        }
-
-        public long UserId = 0;
         public List<string> TabList = new();
         public int TimelinePeriod = 90;
         public int ReplyPeriod = 180;
