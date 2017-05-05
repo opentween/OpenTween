@@ -729,6 +729,42 @@ namespace OpenTween.Models
 
             Assert.Throws<ArgumentException>(() => tab[2, 0]); // 範囲内だが startIndex > endIndex
         }
+
+        public static TheoryData<bool, TabModel> IsDistributableTabTypeFixtures = new TheoryData<bool, TabModel>
+        {
+            { false, new HomeTabModel("Recent") },
+            { true,  new MentionsTabModel("Reply") },
+            { false, new DirectMessagesTabModel("Direct") },
+            { false, new FavoritesTabModel("Favorite") },
+            { true,  new FilterTabModel("Filter") },
+            { false, new ListTimelineTabModel("List", new ListElement()) },
+            { false, new UserTimelineTabModel("User", "twitterapi") },
+            { false, new PublicSearchTabModel("Search") },
+            { false, new RelatedPostsTabModel("Related", new PostClass()) },
+        };
+
+        [Theory]
+        [MemberData(nameof(IsDistributableTabTypeFixtures))]
+        public void IsDistributableTabType_Test(bool expected, TabModel tab)
+            => Assert.Equal(expected, tab.IsDistributableTabType);
+
+        public static TheoryData<bool, TabModel> IsInnerStorageTabTypeFixtures = new TheoryData<bool, TabModel>
+        {
+            { false, new HomeTabModel("Recent") },
+            { false, new MentionsTabModel("Reply") },
+            { true,  new DirectMessagesTabModel("Direct") },
+            { false, new FavoritesTabModel("Favorite") },
+            { false, new FilterTabModel("Filter") },
+            { true,  new ListTimelineTabModel("List", new ListElement()) },
+            { true,  new UserTimelineTabModel("User", "twitterapi") },
+            { true,  new PublicSearchTabModel("Search") },
+            { true,  new RelatedPostsTabModel("Related", new PostClass()) },
+        };
+
+        [Theory]
+        [MemberData(nameof(IsInnerStorageTabTypeFixtures))]
+        public void IsInnerStorageTabType_Test(bool expected, TabModel tab)
+            => Assert.Equal(expected, tab.IsInnerStorageTabType);
     }
 
     public class TabUsageTypeExtTest
@@ -745,31 +781,5 @@ namespace OpenTween.Models
         [InlineData(MyCommon.TabUsageType.Related,       false)]
         public void IsDefault_Test(MyCommon.TabUsageType tabType, bool expected)
             => Assert.Equal(expected, tabType.IsDefault());
-
-        [Theory]
-        [InlineData(MyCommon.TabUsageType.Home,          false)]
-        [InlineData(MyCommon.TabUsageType.Mentions,      true)]
-        [InlineData(MyCommon.TabUsageType.DirectMessage, false)]
-        [InlineData(MyCommon.TabUsageType.Favorites,     false)]
-        [InlineData(MyCommon.TabUsageType.UserDefined,   true)]
-        [InlineData(MyCommon.TabUsageType.Lists,         false)]
-        [InlineData(MyCommon.TabUsageType.UserTimeline,  false)]
-        [InlineData(MyCommon.TabUsageType.PublicSearch,  false)]
-        [InlineData(MyCommon.TabUsageType.Related,       false)]
-        public void IsDistributable_Test(MyCommon.TabUsageType tabType, bool expected)
-            => Assert.Equal(expected, tabType.IsDistributable());
-
-        [Theory]
-        [InlineData(MyCommon.TabUsageType.Home,          false)]
-        [InlineData(MyCommon.TabUsageType.Mentions,      false)]
-        [InlineData(MyCommon.TabUsageType.DirectMessage, true)]
-        [InlineData(MyCommon.TabUsageType.Favorites,     false)]
-        [InlineData(MyCommon.TabUsageType.UserDefined,   false)]
-        [InlineData(MyCommon.TabUsageType.Lists,         true)]
-        [InlineData(MyCommon.TabUsageType.UserTimeline,  true)]
-        [InlineData(MyCommon.TabUsageType.PublicSearch,  true)]
-        [InlineData(MyCommon.TabUsageType.Related,       true)]
-        public void IsInnerStorage_Test(MyCommon.TabUsageType tabType, bool expected)
-            => Assert.Equal(expected, tabType.IsInnerStorage());
     }
 }
