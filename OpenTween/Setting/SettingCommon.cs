@@ -73,6 +73,11 @@ namespace OpenTween
         [XmlIgnore]
         public UserAccount PrimaryAccount => this.UserAccounts.FirstOrDefault(x => x.Primary);
 
+        public MastodonCredential[] MastodonAccounts { get; set; } = new MastodonCredential[0];
+
+        [XmlIgnore]
+        public MastodonCredential MastodonPrimaryAccount => this.MastodonAccounts.FirstOrDefault(x => x.Primary);
+
         public long UserId = 0;
         public string UserName = "";
         public string Token = "";
@@ -331,5 +336,25 @@ namespace OpenTween
 
         public override string ToString()
             => this.Username;
+    }
+
+    public class MastodonCredential
+    {
+        public bool Primary { get; set; }
+
+        public string InstanceUri { get; set; } = "";
+
+        public string Username { get; set; } = "";
+
+        public long UserId { get; set; }
+
+        public string AccessTokenEncrypted { get; set; } = "";
+
+        [XmlIgnore]
+        public string AccessTokenPlain
+        {
+            get => MyCommon.IsNullOrEmpty(this.AccessTokenEncrypted) ? "" : MyCommon.DecryptString(this.AccessTokenEncrypted);
+            set => this.AccessTokenEncrypted = MyCommon.IsNullOrEmpty(value) ? "" : MyCommon.EncryptString(value);
+        }
     }
 }
