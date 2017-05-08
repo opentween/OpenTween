@@ -70,7 +70,7 @@ namespace OpenTween
 
         public PostClass CreatePost(MastodonStatus status)
         {
-            var post = new PostClass();
+            var post = new MastodonPost(this);
             post.StatusId = status.Id; // TODO: Twitterの status_id と衝突する
 
             if (status.Reblog != null)

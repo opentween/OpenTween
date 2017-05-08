@@ -56,6 +56,41 @@ namespace OpenTween.Api
             return this.Connection.GetAsync<MastodonStatus[]>(endpoint, param);
         }
 
+        public Task StatusesDelete(long statusId)
+        {
+            var endpoint = new Uri($"/api/v1/statuses/{statusId}", UriKind.Relative);
+
+            return this.Connection.PostLazyAsync<object>(HttpMethod.Delete, endpoint, null).IgnoreResponse();
+        }
+
+        public Task<LazyJson<MastodonStatus>> StatusesFavourite(long statusId)
+        {
+            var endpoint = new Uri($"/api/v1/statuses/{statusId}/favourite", UriKind.Relative);
+
+            return this.Connection.PostLazyAsync<MastodonStatus>(endpoint, null);
+        }
+
+        public Task<LazyJson<MastodonStatus>> StatusesUnfavourite(long statusId)
+        {
+            var endpoint = new Uri($"/api/v1/statuses/{statusId}/unfavourite", UriKind.Relative);
+
+            return this.Connection.PostLazyAsync<MastodonStatus>(endpoint, null);
+        }
+
+        public Task<LazyJson<MastodonStatus>> StatusesReblog(long statusId)
+        {
+            var endpoint = new Uri($"/api/v1/statuses/{statusId}/reblog", UriKind.Relative);
+
+            return this.Connection.PostLazyAsync<MastodonStatus>(endpoint, null);
+        }
+
+        public Task<LazyJson<MastodonStatus>> StatusesUnreblog(long statusId)
+        {
+            var endpoint = new Uri($"/api/v1/statuses/{statusId}/unreblog", UriKind.Relative);
+
+            return this.Connection.PostLazyAsync<MastodonStatus>(endpoint, null);
+        }
+
         public void Dispose()
             => this.Connection.Dispose();
     }
