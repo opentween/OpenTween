@@ -52,13 +52,14 @@ namespace OpenTween.Models
         }
 
         public PostClass CreateFromStatus(
+            Twitter twitter,
             TwitterStatus status,
             long selfUserId,
             ISet<long> followerIds,
             bool favTweet = false
         )
         {
-            var post = new PostClass();
+            var post = new TwitterStatusPost(twitter);
             TwitterEntities entities;
             string sourceHtml;
 
@@ -229,13 +230,14 @@ namespace OpenTween.Models
         }
 
         public PostClass CreateFromDirectMessageEvent(
+            Twitter twitter,
             TwitterMessageEvent eventItem,
             IReadOnlyDictionary<string, TwitterUser> users,
             IReadOnlyDictionary<string, TwitterMessageEventList.App> apps,
             long selfUserId
         )
         {
-            var post = new PostClass();
+            var post = new TwitterDmPost(twitter);
             post.StatusId = long.Parse(eventItem.Id);
 
             var timestamp = long.Parse(eventItem.CreatedTimestamp);

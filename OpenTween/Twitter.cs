@@ -632,7 +632,7 @@ namespace OpenTween
             => this.CreatePostsFromStatusData(status, favTweet: false);
 
         private PostClass CreatePostsFromStatusData(TwitterStatus status, bool favTweet)
-            => this.postFactory.CreateFromStatus(status, this.UserId, this.followerId, favTweet);
+            => this.postFactory.CreateFromStatus(this, status, this.UserId, this.followerId, favTweet);
 
         private long? CreatePostsFromJson(TwitterStatus[] items, MyCommon.WORKERTYPE gType, TabModel? tab, bool read)
         {
@@ -1010,7 +1010,7 @@ namespace OpenTween
 
             foreach (var eventItem in events)
             {
-                var post = this.postFactory.CreateFromDirectMessageEvent(eventItem, users, apps, this.UserId);
+                var post = this.postFactory.CreateFromDirectMessageEvent(this, eventItem, users, apps, this.UserId);
 
                 post.IsRead = read;
                 if (post.IsMe && !read && this.ReadOwnPost)

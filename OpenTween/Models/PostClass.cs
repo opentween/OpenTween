@@ -436,6 +436,18 @@ namespace OpenTween.Models
             return html;
         }
 
+        public virtual Task FavoriteAsync(SettingCommon settingCommon)
+            => Task.CompletedTask;
+
+        public virtual Task UnfavoriteAsync()
+            => Task.CompletedTask;
+
+        public virtual Task<PostClass?> RetweetAsync(SettingCommon settingCommon)
+            => throw new NotImplementedException();
+
+        public virtual Task DeleteAsync()
+            => Task.CompletedTask;
+
         public PostClass Clone()
         {
             var clone = (PostClass)this.MemberwiseClone();
