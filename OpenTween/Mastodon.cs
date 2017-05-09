@@ -51,6 +51,17 @@ namespace OpenTween
             this.Username = account.Username;
         }
 
+        public async Task<PostClass> PostStatusAsync(PostStatusParams param)
+        {
+            var response = await this.Api.StatusesPost(param.Text, param.InReplyToStatusId, param.MediaIds)
+                .ConfigureAwait(false);
+
+            var status = await response.LoadJsonAsync()
+                .ConfigureAwait(false);
+
+            return this.CreatePost(status);
+        }
+
         public async Task<PostClass[]> GetHomeTimelineAsync(MastodonHomeTab tab, bool backward)
         {
             MastodonStatus[] statuses;

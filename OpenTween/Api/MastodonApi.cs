@@ -56,6 +56,37 @@ namespace OpenTween.Api
             return this.Connection.GetAsync<MastodonStatus[]>(endpoint, param);
         }
 
+        public Task<LazyJson<MastodonStatus>> StatusesPost(
+            string status,
+            long? inReplyToId = null,
+            IReadOnlyList<long>? mediaIds = null,
+            bool? sensitive = null,
+            string? spoilerText = null,
+            string? visibility = null)
+        {
+            var endpoint = new Uri("/api/v1/statuses", UriKind.Relative);
+            var param = new Dictionary<string, string>
+            {
+                ["status"] = status,
+            };
+
+            if (inReplyToId != null)
+                param["in_reply_to_id"] = inReplyToId.ToString();
+            if (sensitive != null)
+                param["sensitive"] = sensitive.Value ? "true" : "false";
+            if (spoilerText != null)
+                param["spoiler_text"] = spoilerText;
+            if (visibility != null)
+                param["visibility"] = visibility;
+
+            var paramList = param.ToList();
+
+            foreach (var mediaId in mediaIds ?? Enumerable.Empty<long>())
+                paramList.Add(new KeyValuePair<string, string>("media_ids[]", mediaId.ToString()));
+
+            return this.Connection.PostLazyAsync<MastodonStatus>(endpoint, paramList);
+        }
+
         public Task StatusesDelete(long statusId)
         {
             var endpoint = new Uri($"/api/v1/statuses/{statusId}", UriKind.Relative);
