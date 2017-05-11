@@ -70,7 +70,7 @@ namespace OpenTween.Thumbnail
                 new Vimeo(),
 
                 // DirectLink
-                new SimpleThumbnailService(@"^https?://.*(\.jpg|\.jpeg|\.gif|\.png|\.bmp)$", "${0}"),
+                new SimpleThumbnailService(@"^https?://.*(\.jpg|\.jpeg|\.gif|\.png|\.bmp)(\?[^#]+)?(#.+)?$", "${0}"),
 
                 // img.azyobuzi.net
                 this.ImgAzyobuziNet,

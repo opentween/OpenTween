@@ -100,6 +100,9 @@ namespace OpenTween
                     post.InReplyToUser = reblog.Mentions.FirstOrDefault()?.Acct ?? "";
                 }
 
+                post.Media = reblog.MediaAttachments
+                    .Select(x => new MediaInfo(x.PreviewUrl)).ToList();
+
                 post.UserId = reblog.Account.Id;
                 post.ScreenName = reblog.Account.Acct;
                 post.Nickname = reblog.Account.DisplayName;
@@ -123,6 +126,9 @@ namespace OpenTween
                     post.InReplyToUserId = status.InReplyToAccountId!.Value;
                     post.InReplyToUser = status.Mentions.FirstOrDefault()?.Acct ?? "";
                 }
+
+                post.Media = status.MediaAttachments
+                    .Select(x => new MediaInfo(x.PreviewUrl)).ToList();
 
                 post.UserId = status.Account.Id;
                 post.ScreenName = status.Account.Acct;
