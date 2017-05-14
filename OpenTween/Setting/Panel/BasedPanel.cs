@@ -99,5 +99,9 @@ namespace OpenTween.Setting.Panel
                 }
             }
         }
+
+        private void ButtonMastodonAuth_Click(object sender, EventArgs e)
+        {
+        }
     }
 }
