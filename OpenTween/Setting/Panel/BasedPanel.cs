@@ -40,8 +40,13 @@ namespace OpenTween.Setting.Panel
 {
     public partial class BasedPanel : SettingPanelBase
     {
+        private MastodonCredential? mastodonCredential = null;
+
         public BasedPanel()
-            => this.InitializeComponent();
+        {
+            this.InitializeComponent();
+            this.RefreshMastodonCredential();
+        }
 
         public void LoadConfig(SettingCommon settingCommon)
         {
@@ -56,6 +61,9 @@ namespace OpenTween.Setting.Panel
                 if (primaryIndex != -1)
                     this.AuthUserCombo.SelectedIndex = primaryIndex;
             }
+
+            this.mastodonCredential = settingCommon.MastodonPrimaryAccount;
+            this.RefreshMastodonCredential();
         }
 
         public void SaveConfig(SettingCommon settingCommon)
@@ -82,6 +90,25 @@ namespace OpenTween.Setting.Panel
                 settingCommon.Token = "";
                 settingCommon.TokenSecret = "";
             }
+
+            var mastodonCredential = this.mastodonCredential;
+            if (mastodonCredential != null)
+            {
+                mastodonCredential.Primary = true;
+                settingCommon.MastodonAccounts = new[] { mastodonCredential };
+            }
+            else
+            {
+                settingCommon.MastodonAccounts = new MastodonCredential[0];
+            }
+        }
+
+        private void RefreshMastodonCredential()
+        {
+            if (this.mastodonCredential != null)
+                this.labelMastodonAccount.Text = this.mastodonCredential.Username;
+            else
+                this.labelMastodonAccount.Text = "(未設定)";
         }
 
         private void AuthClearButton_Click(object sender, EventArgs e)
@@ -100,8 +127,37 @@ namespace OpenTween.Setting.Panel
             }
         }
 
-        private void ButtonMastodonAuth_Click(object sender, EventArgs e)
+        private async void ButtonMastodonAuth_Click(object sender, EventArgs e)
         {
+            var ret = InputDialog.Show(this, "インスタンスのURL (例: https://mstdn.jp/)", ApplicationSettings.ApplicationName, out var instanceUriStr);
+            if (ret != DialogResult.OK)
+                return;
+
+            if (!Uri.TryCreate(instanceUriStr, UriKind.Absolute, out var instanceUri))
+                return;
+
+            try
+            {
+                var application = await Mastodon.RegisterClientAsync(instanceUri);
+
+                var authorizeUri = Mastodon.GetAuthorizeUri(instanceUri, application.ClientId);
+
+                var code = ((AppendSettingDialog)this.ParentForm).ShowAuthDialog(authorizeUri);
+                if (MyCommon.IsNullOrEmpty(code))
+                    return;
+
+                var accessToken = await Mastodon.GetAccessTokenAsync(instanceUri, application.ClientId, application.ClientSecret, code);
+
+                this.mastodonCredential = await Mastodon.VerifyCredentialAsync(instanceUri, accessToken);
+
+                this.RefreshMastodonCredential();
+            }
+            catch (WebApiException ex)
+            {
+                var message = Properties.Resources.AuthorizeButton_Click2 + Environment.NewLine + ex.Message;
+                MessageBox.Show(this, message, "Authenticate", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
         }
     }
 }

@@ -36,9 +36,97 @@ namespace OpenTween.Api
     {
         public IMastodonApiConnection Connection { get; }
 
+        public Uri InstanceUri { get; }
+
+        public MastodonApi(Uri instanceUri)
+            : this(instanceUri, accessToken: null)
+        {
+        }
+
         public MastodonApi(Uri instanceUri, string? accessToken)
         {
             this.Connection = new MastodonApiConnection(instanceUri, accessToken);
+            this.InstanceUri = instanceUri;
+        }
+
+        public Task<MastodonAccount> AccountsVerifyCredentials()
+        {
+            var endpoint = new Uri("/api/v1/accounts/verify_credentials", UriKind.Relative);
+
+            return this.Connection.GetAsync<MastodonAccount>(endpoint, null);
+        }
+
+        public async Task<MastodonRegisteredApp> AppsRegister(
+            string clientName,
+            Uri redirectUris,
+            string scopes,
+            string? website = null)
+        {
+            var endpoint = new Uri("/api/v1/apps", UriKind.Relative);
+            var param = new Dictionary<string, string>
+            {
+                ["client_name"] = clientName,
+                ["redirect_uris"] = redirectUris.OriginalString,
+                ["scopes"] = scopes,
+            };
+
+            if (website != null)
+                param["website"] = website;
+
+            var response = await this.Connection.PostLazyAsync<MastodonRegisteredApp>(endpoint, param)
+                .ConfigureAwait(false);
+
+            return await response.LoadJsonAsync()
+                .ConfigureAwait(false);
+        }
+
+        public Task<MastodonInstance> Instance()
+        {
+            var endpoint = new Uri("/api/v1/instance", UriKind.Relative);
+
+            return this.Connection.GetAsync<MastodonInstance>(endpoint, null);
+        }
+
+        public Uri OAuthAuthorize(string clientId, string responseType, Uri redirectUri, string scope)
+        {
+            var endpoint = new Uri("/oauth/authorize", UriKind.Relative);
+            var param = new Dictionary<string, string>
+            {
+                ["client_id"] = clientId,
+                ["response_type"] = responseType,
+                ["redirect_uri"] = redirectUri.AbsoluteUri,
+                ["scope"] = scope,
+            };
+
+            return new Uri(new Uri(this.InstanceUri, endpoint), "?" + MyCommon.BuildQueryString(param));
+        }
+
+        public async Task<MastodonAccessToken> OAuthToken(
+            string clientId,
+            string clientSecret,
+            Uri redirectUri,
+            string grantType,
+            string code,
+            string? scope = null)
+        {
+            var endpoint = new Uri("/oauth/token", UriKind.Relative);
+            var param = new Dictionary<string, string>
+            {
+                ["client_id"] = clientId,
+                ["client_secret"] = clientSecret,
+                ["redirect_uri"] = redirectUri.AbsoluteUri,
+                ["grant_type"] = grantType,
+                ["code"] = code,
+            };
+
+            if (scope != null)
+                param["scope"] = scope;
+
+            var response = await this.Connection.PostLazyAsync<MastodonAccessToken>(endpoint, param)
+                .ConfigureAwait(false);
+
+            return await response.LoadJsonAsync()
+                .ConfigureAwait(false);
         }
 
         public Task<MastodonStatus[]> TimelinesHome(long? maxId = null, long? sinceId = null, int? limit = null)

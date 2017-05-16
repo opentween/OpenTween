@@ -252,8 +252,7 @@ namespace OpenTween
 
             var pinPageUrl = TwitterApiConnection.GetAuthorizeUri(requestToken);
 
-            var browserPath = this.ActionPanel.BrowserPathText.Text;
-            var pin = AuthDialog.DoAuth(this, pinPageUrl, browserPath);
+            var pin = this.ShowAuthDialog(pinPageUrl);
             if (MyCommon.IsNullOrEmpty(pin))
                 return null; // キャンセルされた場合
 
@@ -266,6 +265,12 @@ namespace OpenTween
                 AccessToken = accessTokenResponse["oauth_token"],
                 AccessSecretPlain = accessTokenResponse["oauth_token_secret"],
             };
+        }
+
+        public string? ShowAuthDialog(Uri pinPageUrl)
+        {
+            var browserPath = this.ActionPanel.BrowserPathText.Text;
+            return AuthDialog.DoAuth(this, pinPageUrl, browserPath);
         }
 
         private void CheckPostAndGet_CheckedChanged(object sender, EventArgs e)

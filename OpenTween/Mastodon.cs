@@ -51,6 +51,58 @@ namespace OpenTween
             this.Username = account.Username;
         }
 
+        public static async Task<MastodonRegisteredApp> RegisterClientAsync(Uri instanceUri)
+        {
+            using var api = new MastodonApi(instanceUri);
+            var redirectUri = new Uri("urn:ietf:wg:oauth:2.0:oob");
+            var scope = "read write follow";
+            var application = await api.AppsRegister(ApplicationSettings.ApplicationName, redirectUri, scope, ApplicationSettings.WebsiteUrl)
+                .ConfigureAwait(false);
+
+            System.Diagnostics.Debug.WriteLine($"ClientId: {application.ClientId}, ClientSecret: {application.ClientSecret}");
+
+            return application;
+        }
+
+        public static Uri GetAuthorizeUri(Uri instanceUri, string clientId)
+        {
+            var redirectUri = new Uri("urn:ietf:wg:oauth:2.0:oob");
+            var scope = "read write follow";
+            using var api = new MastodonApi(instanceUri);
+
+            return api.OAuthAuthorize(clientId, "code", redirectUri, scope);
+        }
+
+        public static async Task<string> GetAccessTokenAsync(
+            Uri instanceUri,
+            string clientId,
+            string clientSecret,
+            string authorizationCode)
+        {
+            using var api = new MastodonApi(instanceUri);
+            var redirectUri = new Uri("urn:ietf:wg:oauth:2.0:oob");
+            var scope = "read write follow";
+            var token = await api.OAuthToken(clientId, clientSecret, redirectUri, "authorization_code", authorizationCode, scope)
+                .ConfigureAwait(false);
+
+            return token.AccessToken;
+        }
+
+        public static async Task<MastodonCredential> VerifyCredentialAsync(Uri instanceUri, string accessToken)
+        {
+            using var api = new MastodonApi(instanceUri, accessToken);
+            var account = await api.AccountsVerifyCredentials();
+            var instance = await api.Instance();
+
+            return new MastodonCredential
+            {
+                InstanceUri = instanceUri.AbsoluteUri,
+                UserId = account.Id,
+                Username = $"{account.Username}@{instance.Uri}",
+                AccessTokenPlain = accessToken,
+            };
+        }
+
         public async Task<PostClass> PostStatusAsync(PostStatusParams param)
         {
             var response = await this.Api.StatusesPost(param.Text, param.InReplyToStatusId, param.MediaIds)
