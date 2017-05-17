@@ -141,18 +141,13 @@ namespace OpenTween
         public const string TINAMIApiKey = "4f48bb4858d36";
 
         //=====================================================================
-        // Windows Azure Marketplace
-        // https://datamarket.azure.com/developer/applications から取得できます。
+        // Microsoft Translator API (Cognitive Service)
+        // https://www.microsoft.com/ja-jp/translator/getstarted.aspx から取得できます。
 
         /// <summary>
-        /// Windows Azure Marketplace Client Id
+        /// Translator Text API Subscription Key
         /// </summary>
-        public readonly static string AzureClientId = "OpenTween";
-
-        /// <summary>
-        /// Windows Azure Marketplace Client Secret
-        /// </summary>
-        public readonly static string AzureClientSecret = "UiTaBcOkGxCpjloU/2W3P0fTiHNz+FUeGuzgUz2rwZU=";
+        public readonly static string TranslatorSubscriptionKey = "6c47d2ea341148bf856bdbfafd429db7";
 
         //=====================================================================
         // Imgur

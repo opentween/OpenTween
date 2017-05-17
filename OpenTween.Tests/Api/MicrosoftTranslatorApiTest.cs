@@ -137,66 +137,28 @@ namespace OpenTween.Api
             {
                 var translateApi = new MicrosoftTranslatorApi(http);
 
-                mockHandler.Enqueue(async x =>
+                mockHandler.Enqueue(x =>
                 {
                     Assert.Equal(HttpMethod.Post, x.Method);
-                    Assert.Equal(MicrosoftTranslatorApi.OAuthEndpoint, x.RequestUri);
+                    Assert.Equal(MicrosoftTranslatorApi.IssueTokenEndpoint, x.RequestUri);
 
-                    var body = await x.Content.ReadAsStringAsync()
-                        .ConfigureAwait(false);
-                    var query = HttpUtility.ParseQueryString(body);
-
-                    Assert.Equal("client_credentials", query["grant_type"]);
-                    Assert.Equal(ApplicationSettings.AzureClientId, query["client_id"]);
-                    Assert.Equal(ApplicationSettings.AzureClientSecret, query["client_secret"]);
-                    Assert.Equal("http://api.microsofttranslator.com", query["scope"]);
+                    var keyHeader = x.Headers.First(y => y.Key == "Ocp-Apim-Subscription-Key");
+                    Assert.Equal(ApplicationSettings.TranslatorSubscriptionKey, keyHeader.Value.Single());
 
                     return new HttpResponseMessage(HttpStatusCode.OK)
                     {
-                        Content = new StringContent(@"
-{
-  ""access_token"": ""12345acbde"",
-  ""token_type"": ""bearer"",
-  ""expires_in"": 3600
-}"),
+                        Content = new StringContent(@"ACCESS_TOKEN"),
                     };
                 });
 
                 var result = await translateApi.GetAccessTokenAsync()
                     .ConfigureAwait(false);
 
-                var expectedToken = (@"12345acbde", TimeSpan.FromSeconds(3600));
+                var expectedToken = (@"ACCESS_TOKEN", TimeSpan.FromMinutes(10));
                 Assert.Equal(expectedToken, result);
 
                 Assert.Equal(0, mockHandler.QueueCount);
             }
-        }
-
-        [Fact]
-        public void ParseOAuthCredential_ValidResponseTest()
-        {
-            var jsonBytes = Encoding.UTF8.GetBytes(@"
-{
-  ""access_token"": ""12345acbde"",
-  ""token_type"": ""bearer"",
-  ""expires_in"": 3600
-}
-");
-            var expected = (@"12345acbde", TimeSpan.FromSeconds(3600));
-            Assert.Equal(expected, MicrosoftTranslatorApi.ParseOAuthCredential(jsonBytes));
-        }
-
-        [Fact]
-        public void ParseOAuthCredential_OmittedExpiresInTest()
-        {
-            var jsonBytes = Encoding.UTF8.GetBytes(@"
-{
-  ""access_token"": ""12345acbde"",
-  ""token_type"": ""bearer""
-}
-");
-            var expected = (@"12345acbde", TimeSpan.Zero);
-            Assert.Equal(expected, MicrosoftTranslatorApi.ParseOAuthCredential(jsonBytes));
         }
     }
 }

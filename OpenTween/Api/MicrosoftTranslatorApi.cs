@@ -35,7 +35,7 @@ namespace OpenTween.Api
 {
     public class MicrosoftTranslatorApi
     {
-        public static readonly Uri OAuthEndpoint = new Uri("https://datamarket.accesscontrol.windows.net/v2/OAuth2-13");
+        public static readonly Uri IssueTokenEndpoint = new Uri("https://api.cognitive.microsoft.com/sts/v1.0/issueToken");
         public static readonly Uri TranslateEndpoint = new Uri("https://api.microsofttranslator.com/v2/Http.svc/Translate");
 
         public string AccessToken { get; internal set; }
@@ -92,65 +92,23 @@ namespace OpenTween.Api
 
             this.AccessToken = accessToken;
 
-            // expires_in の示す時刻より 30 秒早めに再発行する
+            // アクセストークンの実際の有効期限より 30 秒早めに失効として扱う
             this.RefreshAccessTokenAt = DateTime.Now + expiresIn - TimeSpan.FromSeconds(30);
         }
 
         internal virtual async Task<(string AccessToken, TimeSpan ExpiresIn)> GetAccessTokenAsync()
         {
-            var param = new Dictionary<string, string>
+            using (var request = new HttpRequestMessage(HttpMethod.Post, IssueTokenEndpoint))
             {
-                ["grant_type"] = "client_credentials",
-                ["client_id"] = ApplicationSettings.AzureClientId,
-                ["client_secret"] = ApplicationSettings.AzureClientSecret,
-                ["scope"] = "http://api.microsofttranslator.com",
-            };
-
-            using (var request = new HttpRequestMessage(HttpMethod.Post, OAuthEndpoint))
-            using (var postContent = new FormUrlEncodedContent(param))
-            {
-                request.Content = postContent;
+                request.Headers.Add("Ocp-Apim-Subscription-Key", ApplicationSettings.TranslatorSubscriptionKey);
 
                 using (var response = await this.Http.SendAsync(request).ConfigureAwait(false))
                 {
-                    var responseBytes = await response.Content.ReadAsByteArrayAsync()
+                    var accessToken = await response.Content.ReadAsStringAsync()
                         .ConfigureAwait(false);
 
-                    return ParseOAuthCredential(responseBytes);
+                    return (accessToken, TimeSpan.FromMinutes(10));
                 }
-            }
-        }
-
-        internal static (string AccessToken, TimeSpan ExpiresIn) ParseOAuthCredential(byte[] responseBytes)
-        {
-            using (var jsonReader = JsonReaderWriterFactory.CreateJsonReader(responseBytes, XmlDictionaryReaderQuotas.Max))
-            {
-                var xElm = XElement.Load(jsonReader);
-
-                var tokenTypeElm = xElm.Element("token_type");
-                if (tokenTypeElm == null)
-                    throw new WebApiException("Property `token_type` required");
-
-                var accessTokenElm = xElm.Element("access_token");
-                if (accessTokenElm == null)
-                    throw new WebApiException("Property `access_token` required");
-
-                var expiresInElm = xElm.Element("expires_in");
-
-                int expiresInSeconds;
-                if (expiresInElm != null)
-                {
-                    if (!int.TryParse(expiresInElm.Value, out expiresInSeconds))
-                        throw new WebApiException("Invalid number: expires_in = " + expiresInElm.Value);
-                }
-                else
-                {
-                    // expires_in が省略された場合は有効期間が不明なので、
-                    // 次回のリクエスト時は経過時間に関わらずアクセストークンの再発行を行う
-                    expiresInSeconds = 0;
-                }
-
-                return (accessTokenElm.Value, TimeSpan.FromSeconds(expiresInSeconds));
             }
         }
     }
