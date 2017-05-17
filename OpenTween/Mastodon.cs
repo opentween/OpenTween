@@ -53,6 +53,15 @@ namespace OpenTween
 
         public static async Task<MastodonRegisteredApp> RegisterClientAsync(Uri instanceUri)
         {
+            if (ApplicationSettings.MastodonClientIds.TryGetValue(instanceUri.Host, out var client))
+            {
+                return new MastodonRegisteredApp
+                {
+                    ClientId = client.Item1,
+                    ClientSecret = client.Item2,
+                };
+            }
+
             using var api = new MastodonApi(instanceUri);
             var redirectUri = new Uri("urn:ietf:wg:oauth:2.0:oob");
             var scope = "read write follow";
