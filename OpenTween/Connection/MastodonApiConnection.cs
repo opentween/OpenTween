@@ -25,11 +25,13 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Net.Cache;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
+using OpenTween.Api.DataModel;
 
 namespace OpenTween.Connection
 {
@@ -77,7 +79,8 @@ namespace OpenTween.Connection
                 using var response = await this.Http.SendAsync(request, HttpCompletionOption.ResponseHeadersRead)
                     .ConfigureAwait(false);
 
-                response.EnsureSuccessStatusCode();
+                await this.CheckStatusCode(response)
+                    .ConfigureAwait(false);
 
                 using var content = response.Content;
                 var responseText = await content.ReadAsStringAsync()
@@ -118,7 +121,8 @@ namespace OpenTween.Connection
                 using var response = await this.Http.SendAsync(request, HttpCompletionOption.ResponseHeadersRead)
                     .ConfigureAwait(false);
 
-                response.EnsureSuccessStatusCode();
+                await this.CheckStatusCode(response)
+                    .ConfigureAwait(false);
 
                 return await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
             }
@@ -158,7 +162,8 @@ namespace OpenTween.Connection
                     response = await this.Http.SendAsync(request, HttpCompletionOption.ResponseHeadersRead)
                         .ConfigureAwait(false);
 
-                    response.EnsureSuccessStatusCode();
+                    await this.CheckStatusCode(response)
+                        .ConfigureAwait(false);
 
                     var result = new LazyJson<T>(response);
                     response = null;
@@ -184,6 +189,37 @@ namespace OpenTween.Connection
         {
             Networking.WebProxyChanged -= this.Networking_WebProxyChanged;
             this.Http.Dispose();
+        }
+
+        private async Task CheckStatusCode(HttpResponseMessage response)
+        {
+            var statusCode = response.StatusCode;
+            if (statusCode == HttpStatusCode.OK)
+                return;
+
+            string responseText;
+            using (var content = response.Content)
+            {
+                responseText = await content.ReadAsStringAsync()
+                    .ConfigureAwait(false);
+            }
+
+            if (!string.IsNullOrWhiteSpace(responseText))
+            {
+                try
+                {
+                    var error = MyCommon.CreateDataFromJson<MastodonError>(responseText);
+                    var errorText = error?.Error;
+
+                    if (!MyCommon.IsNullOrEmpty(errorText))
+                        throw new WebApiException(errorText, responseText);
+                }
+                catch (SerializationException)
+                {
+                }
+            }
+
+            throw new WebApiException(statusCode.ToString(), responseText);
         }
 
         private void InitializeHttpClient()
