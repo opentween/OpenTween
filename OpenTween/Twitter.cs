@@ -280,8 +280,7 @@ namespace OpenTween
         {
             this.CheckAccountState();
 
-            if (mediaIds == null &&
-                Twitter.DMSendTextRegex.IsMatch(postStr))
+            if (Twitter.DMSendTextRegex.IsMatch(postStr))
             {
                 await this.SendDirectMessage(postStr)
                     .ConfigureAwait(false);
