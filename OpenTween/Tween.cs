@@ -4898,7 +4898,7 @@ namespace OpenTween
             {
                 string[] sitem= {"",
                                  Post.Nickname,
-                                 Post.IsDeleted ? "(DELETED)" : Post.AccessibleText,
+                                 Post.IsDeleted ? "(DELETED)" : Post.AccessibleText.Replace('\n', ' '),
                                  Post.CreatedAt.ToString(SettingManager.Common.DateTimeFormat),
                                  Post.ScreenName,
                                  "",
@@ -4910,7 +4910,7 @@ namespace OpenTween
             {
                 string[] sitem = {"",
                                   Post.Nickname,
-                                  Post.IsDeleted ? "(DELETED)" : Post.AccessibleText,
+                                  Post.IsDeleted ? "(DELETED)" : Post.AccessibleText.Replace('\n', ' '),
                                   Post.CreatedAt.ToString(SettingManager.Common.DateTimeFormat),
                                   Post.ScreenName + Environment.NewLine + "(RT:" + Post.RetweetedBy + ")",
                                   "",
