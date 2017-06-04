@@ -4854,9 +4854,13 @@ namespace OpenTween
             if (tabInfo.AllCount == 0)
                 return;
 
+            // インデックスを 0...(tabInfo.AllCount - 1) の範囲内にする
+            int FilterRange(int index)
+                => Math.Max(Math.Min(index, tabInfo.AllCount - 1), 0);
+
             // キャッシュ要求（要求範囲±30を作成）
-            startIndex = Math.Max(startIndex - 30, 0);
-            endIndex = Math.Min(endIndex + 30, tabInfo.AllCount - 1);
+            startIndex = FilterRange(startIndex - 30);
+            endIndex = FilterRange(endIndex + 30);
 
             var cacheLength = endIndex - startIndex + 1;
 
