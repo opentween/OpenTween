@@ -188,7 +188,7 @@ namespace OpenTween.Models
             this.ExtractEntities(entities, post.ReplyToList, post.Media);
 
             post.QuoteStatusIds = GetQuoteTweetStatusIds(entities, quotedStatusLink)
-                .Where(x => x != post.StatusId && x != post.RetweetedId)
+                .Where(x => x != post.StatusId && !(post.IsRetweet && x == post.RetweetedId))
                 .Distinct().ToArray();
 
             post.ExpandedUrls = entities.OfType<TwitterEntityUrl>()
@@ -205,14 +205,15 @@ namespace OpenTween.Models
             post.ScreenName = string.Intern(post.ScreenName);
             post.Nickname = string.Intern(post.Nickname);
             post.ImageUrl = string.Intern(post.ImageUrl);
-            post.RetweetedBy = post.RetweetedBy != null ? string.Intern(post.RetweetedBy) : null;
+            if (post.IsRetweet)
+                post.RetweetedBy = string.Intern(post.RetweetedBy);
 
             // Source整形
             var (sourceText, sourceUri) = ParseSource(sourceHtml);
             post.Source = string.Intern(sourceText);
             post.SourceUri = sourceUri;
 
-            post.IsReply = post.RetweetedId == null && post.ReplyToList.Any(x => x.UserId == selfUserId);
+            post.IsReply = !post.IsRetweet && post.ReplyToList.Any(x => x.UserId == selfUserId);
             post.IsExcludeReply = false;
 
             if (post.IsMe)

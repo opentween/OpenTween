@@ -357,7 +357,7 @@ namespace OpenTween
             if (post == null)
                 throw new WebApiException("Err:Target isn't found.");
 
-            var target = post.RetweetedId ?? id;  // 再RTの場合は元発言をRT
+            var target = post.IsRetweet ? post.RetweetedId : id; // 再RTの場合は元発言をRT
 
             var response = await this.Api.StatusesRetweet(target)
                 .ConfigureAwait(false);
@@ -773,12 +773,11 @@ namespace OpenTween
         {
             var targetPost = tab.TargetPost;
 
-            if (targetPost.RetweetedId != null)
+            if (targetPost.IsRetweet)
             {
                 var originalPost = targetPost.Clone();
-                originalPost.StatusId = targetPost.RetweetedId.Value;
-                originalPost.RetweetedId = null;
-                originalPost.RetweetedBy = null;
+                originalPost.StatusId = targetPost.RetweetedId;
+                originalPost.IsRetweet = false;
                 targetPost = originalPost;
             }
 

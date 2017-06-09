@@ -2255,8 +2255,8 @@ namespace OpenTween
                 this.UnreadStripMenuItem.Enabled = true;
                 this.AuthorContextMenuItem.Visible = true;
                 this.AuthorContextMenuItem.Text = $"@{post!.ScreenName}";
-                this.RetweetedByContextMenuItem.Visible = post.RetweetedByUserId != null;
-                this.RetweetedByContextMenuItem.Text = $"@{post.RetweetedBy}";
+                this.RetweetedByContextMenuItem.Visible = post.IsRetweet;
+                this.RetweetedByContextMenuItem.Text = post.IsRetweet ? $"@{post.RetweetedBy}" : "";
             }
             var tab = this.CurrentTab;
             if (tab.TabType == MyCommon.TabUsageType.DirectMessage || !this.ExistCurrentPost || post == null || post.IsDm)
@@ -2309,7 +2309,7 @@ namespace OpenTween
             if (this.ExistCurrentPost && post != null)
             {
                 this.DeleteStripMenuItem.Enabled = post.CanDeleteBy(this.tw.UserId);
-                if (post.RetweetedByUserId == this.tw.UserId)
+                if (post.IsRetweet && post.RetweetedByUserId == this.tw.UserId)
                     this.DeleteStripMenuItem.Text = Properties.Resources.DeleteMenuText2;
                 else
                     this.DeleteStripMenuItem.Text = Properties.Resources.DeleteMenuText1;
@@ -4833,7 +4833,7 @@ namespace OpenTween
                 if (post.IsDeleted) continue;
                 if (!isDm)
                 {
-                    if (post.RetweetedId != null)
+                    if (post.IsRetweet)
                         sb.AppendFormat("{0}:{1} [https://twitter.com/{0}/status/{2}]{3}", post.ScreenName, post.TextSingleLine, post.RetweetedId, Environment.NewLine);
                     else
                         sb.AppendFormat("{0}:{1} [https://twitter.com/{0}/status/{2}]{3}", post.ScreenName, post.TextSingleLine, post.StatusId, Environment.NewLine);
@@ -5030,7 +5030,7 @@ namespace OpenTween
             }
 
             string name;
-            if (currentPost.RetweetedBy == null)
+            if (!currentPost.IsRetweet)
             {
                 name = currentPost.ScreenName;
             }
@@ -5041,7 +5041,7 @@ namespace OpenTween
             for (var idx = fIdx; idx != toIdx; idx += stp)
             {
                 var post = tab[idx];
-                if (post.RetweetedId == null)
+                if (!post.IsRetweet)
                 {
                     if (post.ScreenName == name)
                     {
@@ -5100,17 +5100,49 @@ namespace OpenTween
                 tab.AnchorPost = currentPost;
             }
 
+            bool IsRelatedPost(PostClass anchorPost, PostClass targetPost)
+            {
+                if (anchorPost.UserId == targetPost.UserId)
+                    return true;
+
+                if (anchorPost.ReplyToList.Any(x => x.UserId == targetPost.UserId))
+                    return true;
+
+                if (targetPost.ReplyToList.Any(x => x.UserId == anchorPost.UserId))
+                    return true;
+
+                if (anchorPost.IsRetweet)
+                {
+                    if (anchorPost.RetweetedByUserId == targetPost.UserId)
+                        return true;
+
+                    if (targetPost.ReplyToList.Any(x => x.UserId == anchorPost.RetweetedByUserId))
+                        return true;
+                }
+
+                if (targetPost.IsRetweet)
+                {
+                    if (anchorPost.UserId == targetPost.RetweetedByUserId)
+                        return true;
+
+                    if (anchorPost.ReplyToList.Any(x => x.UserId == targetPost.RetweetedByUserId))
+                        return true;
+                }
+
+                if (anchorPost.IsRetweet && targetPost.IsRetweet)
+                {
+                    if (anchorPost.RetweetedByUserId == targetPost.RetweetedByUserId)
+                        return true;
+                }
+
+                return false;
+            }
+
             for (var idx = fIdx; idx != toIdx; idx += stp)
             {
                 var post = tab[idx];
-                if (post.ScreenName == anchorPost.ScreenName ||
-                    post.RetweetedBy == anchorPost.ScreenName ||
-                    post.ScreenName == anchorPost.RetweetedBy ||
-                    (!MyCommon.IsNullOrEmpty(post.RetweetedBy) && post.RetweetedBy == anchorPost.RetweetedBy) ||
-                    anchorPost.ReplyToList.Any(x => x.UserId == post.UserId) ||
-                    anchorPost.ReplyToList.Any(x => x.UserId == post.RetweetedByUserId) ||
-                    post.ReplyToList.Any(x => x.UserId == anchorPost.UserId) ||
-                    post.ReplyToList.Any(x => x.UserId == anchorPost.RetweetedByUserId))
+
+                if (IsRelatedPost(anchorPost, post))
                 {
                     var listView = this.CurrentListView;
                     this.SelectListItem(listView, idx);
@@ -6039,7 +6071,7 @@ namespace OpenTween
             if (selectedPosts.Length == 1)
             {
                 var post = selectedPosts.Single();
-                var inReplyToStatusId = post.RetweetedId ?? post.StatusId;
+                var inReplyToStatusId = post.IsRetweet ? post.RetweetedId : post.StatusId;
                 var inReplyToScreenName = post.ScreenName;
                 this.inReplyTo = (inReplyToStatusId, inReplyToScreenName);
             }
@@ -6420,7 +6452,7 @@ namespace OpenTween
                     fltDialog.Owner = this;
                     fltDialog.SetCurrent(tab.TabName);
 
-                    if (post.RetweetedBy == null)
+                    if (!post.IsRetweet)
                     {
                         fltDialog.AddNewFilter(post.ScreenName, post.TextFromApi);
                     }
@@ -6540,7 +6572,7 @@ namespace OpenTween
                 return;
 
             var screenNameArray = selectedPosts
-                .Select(x => x.RetweetedBy ?? x.ScreenName)
+                .Select(x => x.IsRetweet ? x.RetweetedBy : x.ScreenName)
                 .ToArray();
 
             this.AddFilterRuleByScreenName(screenNameArray);
@@ -8523,7 +8555,7 @@ namespace OpenTween
                 var selection = (this.StatusText.SelectionStart, this.StatusText.SelectionLength);
 
                 // 投稿時に in_reply_to_status_id を付加する
-                var inReplyToStatusId = post.RetweetedId ?? post.StatusId;
+                var inReplyToStatusId = post.IsRetweet ? post.RetweetedId : post.StatusId;
                 var inReplyToScreenName = post.ScreenName;
                 this.inReplyTo = (inReplyToStatusId, inReplyToScreenName);
 
@@ -8683,7 +8715,7 @@ namespace OpenTween
         private async Task DoMoveToRTHome()
         {
             var post = this.CurrentPost;
-            if (post != null && post.RetweetedId != null)
+            if (post != null && post.IsRetweet)
                 await MyCommon.OpenInBrowserAsync(this, "https://twitter.com/" + post.RetweetedBy);
         }
 
@@ -8829,8 +8861,8 @@ namespace OpenTween
                 this.UnreadOpMenuItem.Enabled = true;
                 this.AuthorMenuItem.Visible = true;
                 this.AuthorMenuItem.Text = $"@{post!.ScreenName}";
-                this.RetweetedByMenuItem.Visible = post.RetweetedByUserId != null;
-                this.RetweetedByMenuItem.Text = $"@{post.RetweetedBy}";
+                this.RetweetedByMenuItem.Visible = post.IsRetweet;
+                this.RetweetedByMenuItem.Text = post.IsRetweet ? $"@{post.RetweetedBy}" : "";
             }
 
             if (tab.TabType == MyCommon.TabUsageType.DirectMessage || !this.ExistCurrentPost || post == null || post.IsDm)
@@ -9049,7 +9081,7 @@ namespace OpenTween
             if (!this.ExistCurrentPost || post == null)
                 return;
 
-            var statusId = post.RetweetedId ?? post.StatusId;
+            var statusId = post.IsRetweet ? post.RetweetedId : post.StatusId;
             TwitterStatus status;
 
             using (var dialog = new WaitingDialog(Properties.Resources.RtCountMenuItem_ClickText1))
@@ -9309,7 +9341,7 @@ namespace OpenTween
                 var tabPage = this.ListTab.TabPages[tabIndex];
                 var listView = (DetailsListView)tabPage.Tag;
                 var targetPost = tabRelated.TargetPost;
-                var index = tabRelated.IndexOf(targetPost.RetweetedId ?? targetPost.StatusId);
+                var index = tabRelated.IndexOf(targetPost.IsRetweet ? targetPost.RetweetedId : targetPost.StatusId);
 
                 if (index != -1 && index < listView.Items.Count)
                 {
@@ -9435,7 +9467,7 @@ namespace OpenTween
                         var xUrl = this.settings.Common.UserAppointUrl;
                         xUrl = xUrl.Replace("{ID}", post.ScreenName);
 
-                        var statusId = post.RetweetedId ?? post.StatusId;
+                        var statusId = post.IsRetweet ? post.RetweetedId : post.StatusId;
                         xUrl = xUrl.Replace("{STATUS}", statusId.ToString());
 
                         await MyCommon.OpenInBrowserAsync(this, xUrl);

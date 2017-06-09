@@ -108,10 +108,7 @@ namespace OpenTween.Models
             Assert.Null(post.InReplyToStatusId);
             Assert.Null(post.InReplyToUserId);
             Assert.Null(post.InReplyToUser);
-
-            Assert.Null(post.RetweetedId);
-            Assert.Null(post.RetweetedBy);
-            Assert.Null(post.RetweetedByUserId);
+            Assert.False(post.IsRetweet);
 
             Assert.Equal(status.User.Id, post.UserId);
             Assert.Equal("tetete", post.ScreenName);
@@ -267,10 +264,7 @@ namespace OpenTween.Models
             Assert.Null(post.InReplyToStatusId);
             Assert.Null(post.InReplyToUserId);
             Assert.Null(post.InReplyToUser);
-
-            Assert.Null(post.RetweetedId);
-            Assert.Null(post.RetweetedBy);
-            Assert.Null(post.RetweetedByUserId);
+            Assert.False(post.IsRetweet);
 
             Assert.Equal(otherUser.Id, post.UserId);
             Assert.Equal("tetete", post.ScreenName);

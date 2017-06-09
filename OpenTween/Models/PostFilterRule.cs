@@ -377,7 +377,11 @@ namespace OpenTween.Models
             {
                 filterExprs.Add(Expression.OrElse(
                     this.MakeGenericFilter(postParam, "ScreenName", filterName, useRegex, caseSensitive, exactMatch: true),
-                    this.MakeGenericFilter(postParam, "RetweetedBy", filterName, useRegex, caseSensitive, exactMatch: true)));
+                    Expression.AndAlso(
+                        Expression.Property(postParam, "IsRetweet"),
+                        this.MakeGenericFilter(postParam, "RetweetedBy", filterName, useRegex, caseSensitive, exactMatch: true)
+                    )
+                ));
             }
             foreach (var body in filterBody)
             {
@@ -405,15 +409,11 @@ namespace OpenTween.Models
                             bodyExpr,
                             this.MakeGenericFilter(postParam, "ScreenName", body, useRegex, caseSensitive, exactMatch: true));
 
-                        // bodyExpr || x.RetweetedBy != null && <MakeGenericFilter()>
+                        // bodyExpr || x.IsRetweet && <MakeGenericFilter()>
                         bodyExpr = Expression.OrElse(
                             bodyExpr,
                             Expression.AndAlso(
-                                Expression.NotEqual(
-                                    Expression.Property(
-                                        postParam,
-                                        typeof(PostClass).GetProperty("RetweetedBy")),
-                                    Expression.Constant(null)),
+                                Expression.Property(postParam, "IsRetweet"),
                                 this.MakeGenericFilter(postParam, "RetweetedBy", body, useRegex, caseSensitive, exactMatch: true)));
                     }
                 }
@@ -429,12 +429,8 @@ namespace OpenTween.Models
             }
             if (filterRt)
             {
-                // x.RetweetedId != null
-                filterExprs.Add(Expression.NotEqual(
-                    Expression.Property(
-                        postParam,
-                        typeof(PostClass).GetProperty("RetweetedId")),
-                    Expression.Constant(null)));
+                // x.IsRetweet
+                filterExprs.Add(Expression.Property(postParam, "IsRetweet"));
             }
 
             if (filterExprs.Count == 0)

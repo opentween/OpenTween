@@ -139,7 +139,7 @@ namespace OpenTween
                     nameText = "";
                 }
                 nameText += post.ScreenName + "/" + post.Nickname;
-                if (post.RetweetedId != null)
+                if (post.IsRetweet)
                     nameText += $" (RT:{post.RetweetedBy})";
 
                 this.NameLinkLabel.Text = nameText;
@@ -147,7 +147,7 @@ namespace OpenTween
                 var nameForeColor = SystemColors.ControlText;
                 if (post.IsOwl && (SettingManager.Instance.Common.OneWayLove || post.IsDm))
                     nameForeColor = this.Theme.ColorOWL;
-                if (post.RetweetedId != null)
+                if (post.IsRetweet)
                     nameForeColor = this.Theme.ColorRetweet;
                 if (post.IsFav)
                     nameForeColor = this.Theme.ColorFav;
@@ -193,8 +193,12 @@ namespace OpenTween
                 sb.AppendFormat("Source         : {0}<br>", post.Source);
                 sb.AppendFormat("UserId            : {0}<br>", post.UserId);
                 sb.AppendFormat("FilterHit      : {0}<br>", post.FilterHit);
-                sb.AppendFormat("RetweetedBy    : {0}<br>", post.RetweetedBy);
-                sb.AppendFormat("RetweetedId    : {0}<br>", post.RetweetedId);
+
+                if (post.IsRetweet)
+                {
+                    sb.AppendFormat("RetweetedBy    : {0}<br>", post.RetweetedBy);
+                    sb.AppendFormat("RetweetedId    : {0}<br>", post.RetweetedId);
+                }
 
                 sb.AppendFormat("Media.Count    : {0}<br>", post.Media.Count);
                 if (post.Media.Count > 0)
