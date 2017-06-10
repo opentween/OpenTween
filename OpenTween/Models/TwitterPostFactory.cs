@@ -77,9 +77,12 @@ namespace OpenTween.Models
                 entities = retweeted.MergedEntities;
                 sourceHtml = retweeted.Source;
                 // Reply先
-                post.InReplyToStatusId = retweeted.InReplyToStatusId;
-                post.InReplyToUser = retweeted.InReplyToScreenName;
-                post.InReplyToUserId = status.InReplyToUserId;
+                if (retweeted.InReplyToStatusId != null)
+                {
+                    post.InReplyToStatusId = retweeted.InReplyToStatusId.Value;
+                    post.InReplyToUser = retweeted.InReplyToScreenName!;
+                    post.InReplyToUserId = retweeted.InReplyToUserId!.Value;
+                }
 
                 if (favTweet)
                 {
@@ -132,9 +135,13 @@ namespace OpenTween.Models
                 post.TextFromApi = status.FullText;
                 entities = status.MergedEntities;
                 sourceHtml = status.Source;
-                post.InReplyToStatusId = status.InReplyToStatusId;
-                post.InReplyToUser = status.InReplyToScreenName;
-                post.InReplyToUserId = status.InReplyToUserId;
+
+                if (status.InReplyToStatusId != null)
+                {
+                    post.InReplyToStatusId = status.InReplyToStatusId.Value;
+                    post.InReplyToUser = status.InReplyToScreenName!;
+                    post.InReplyToUserId = status.InReplyToUserId!.Value;
+                }
 
                 if (favTweet)
                 {

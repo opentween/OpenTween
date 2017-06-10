@@ -2297,7 +2297,7 @@ namespace OpenTween
                 }
             }
 
-            if (!this.ExistCurrentPost || post == null || post.InReplyToStatusId == null)
+            if (!this.ExistCurrentPost || post == null || !post.HasInReplyTo)
             {
                 this.RepliedStatusOpenMenuItem.Enabled = false;
             }
@@ -5271,15 +5271,18 @@ namespace OpenTween
             if (currentPost == null)
                 return;
 
-            if (curTabClass.TabType == MyCommon.TabUsageType.PublicSearch && currentPost.InReplyToStatusId == null && currentPost.TextFromApi.Contains("@"))
+            if (curTabClass.TabType == MyCommon.TabUsageType.PublicSearch && !currentPost.HasInReplyTo && currentPost.TextFromApi.Contains("@"))
             {
                 try
                 {
                     var post = await this.tw.GetStatusApi(false, currentPost.StatusId);
 
-                    currentPost.InReplyToStatusId = post.InReplyToStatusId;
-                    currentPost.InReplyToUser = post.InReplyToUser;
-                    currentPost.IsReply = post.IsReply;
+                    if (post.HasInReplyTo)
+                    {
+                        currentPost.InReplyToStatusId = post.InReplyToStatusId;
+                        currentPost.InReplyToUser = post.InReplyToUser;
+                        currentPost.IsReply = post.IsReply;
+                    }
                     this.listCache?.PurgeCache();
 
                     var index = curTabClass.SelectedIndex;
@@ -5291,17 +5294,17 @@ namespace OpenTween
                 }
             }
 
-            if (!(this.ExistCurrentPost && currentPost.InReplyToUser != null && currentPost.InReplyToStatusId != null)) return;
+            if (!(this.ExistCurrentPost && currentPost.HasInReplyTo)) return;
 
             if (this.replyChains == null || (this.replyChains.Count > 0 && this.replyChains.Peek().InReplyToId != currentPost.StatusId))
             {
                 this.replyChains = new Stack<ReplyChain>();
             }
-            this.replyChains.Push(new ReplyChain(currentPost.StatusId, currentPost.InReplyToStatusId.Value, curTabClass));
+            this.replyChains.Push(new ReplyChain(currentPost.StatusId, currentPost.InReplyToStatusId, curTabClass));
 
             int inReplyToIndex;
             string inReplyToTabName;
-            var inReplyToId = currentPost.InReplyToStatusId.Value;
+            var inReplyToId = currentPost.InReplyToStatusId;
             var inReplyToUser = currentPost.InReplyToUser;
 
             var inReplyToPosts = from tab in this.statuses.Tabs
@@ -5319,7 +5322,7 @@ namespace OpenTween
                 {
                     await Task.Run(async () =>
                     {
-                        var post = await this.tw.GetStatusApi(false, currentPost.InReplyToStatusId.Value)
+                        var post = await this.tw.GetStatusApi(false, currentPost.InReplyToStatusId)
                             .ConfigureAwait(false);
                         post.IsRead = true;
 
@@ -5369,11 +5372,12 @@ namespace OpenTween
 
             if (parallel)
             {
-                if (currentPost.InReplyToStatusId != null)
+                if (currentPost.HasInReplyTo)
                 {
                     var posts = from t in this.statuses.Tabs
                                 from p in t.Posts
-                                where p.Value.StatusId != currentPost.StatusId && p.Value.InReplyToStatusId == currentPost.InReplyToStatusId
+                                where p.Value.StatusId != currentPost.StatusId
+                                where p.Value.HasInReplyTo && p.Value.InReplyToStatusId == currentPost.InReplyToStatusId
                                 let indexOf = t.IndexOf(p.Value.StatusId)
                                 where indexOf > -1
                                 orderby isForward ? indexOf : indexOf * -1
@@ -5412,7 +5416,7 @@ namespace OpenTween
                 {
                     var posts = from t in this.statuses.Tabs
                                 from p in t.Posts
-                                where p.Value.InReplyToStatusId == currentPost.StatusId
+                                where p.Value.HasInReplyTo && p.Value.InReplyToStatusId == currentPost.StatusId
                                 let indexOf = t.IndexOf(p.Value.StatusId)
                                 where indexOf > -1
                                 orderby indexOf
@@ -7276,14 +7280,14 @@ namespace OpenTween
         private async Task DoRepliedStatusOpen()
         {
             var currentPost = this.CurrentPost;
-            if (this.ExistCurrentPost && currentPost != null && currentPost.InReplyToUser != null && currentPost.InReplyToStatusId != null)
+            if (this.ExistCurrentPost && currentPost != null && currentPost.HasInReplyTo)
             {
                 if (MyCommon.IsKeyDown(Keys.Shift))
                 {
-                    await MyCommon.OpenInBrowserAsync(this, MyCommon.GetStatusUrl(currentPost.InReplyToUser, currentPost.InReplyToStatusId.Value));
+                    await MyCommon.OpenInBrowserAsync(this, MyCommon.GetStatusUrl(currentPost.InReplyToUser, currentPost.InReplyToStatusId));
                     return;
                 }
-                if (this.statuses.Posts.TryGetValue(currentPost.InReplyToStatusId.Value, out var repPost))
+                if (this.statuses.Posts.TryGetValue(currentPost.InReplyToStatusId, out var repPost))
                 {
                     MessageBox.Show($"{repPost.ScreenName} / {repPost.Nickname}   ({repPost.CreatedAt.ToLocalTimeString()})" + Environment.NewLine + repPost.TextFromApi);
                 }
@@ -7291,12 +7295,12 @@ namespace OpenTween
                 {
                     foreach (var tb in this.statuses.GetTabsByType(MyCommon.TabUsageType.Lists | MyCommon.TabUsageType.PublicSearch))
                     {
-                        if (tb == null || !tb.Contains(currentPost.InReplyToStatusId.Value)) break;
-                        repPost = tb.Posts[currentPost.InReplyToStatusId.Value];
+                        if (tb == null || !tb.Contains(currentPost.InReplyToStatusId)) break;
+                        repPost = tb.Posts[currentPost.InReplyToStatusId];
                         MessageBox.Show($"{repPost.ScreenName} / {repPost.Nickname}   ({repPost.CreatedAt.ToLocalTimeString()})" + Environment.NewLine + repPost.TextFromApi);
                         return;
                     }
-                    await MyCommon.OpenInBrowserAsync(this, MyCommon.GetStatusUrl(currentPost.InReplyToUser, currentPost.InReplyToStatusId.Value));
+                    await MyCommon.OpenInBrowserAsync(this, MyCommon.GetStatusUrl(currentPost.InReplyToUser, currentPost.InReplyToStatusId));
                 }
             }
         }
@@ -8910,7 +8914,7 @@ namespace OpenTween
             {
                 this.RefreshPrevOpMenuItem.Enabled = false;
             }
-            if (!this.ExistCurrentPost || post == null || post.InReplyToStatusId == null)
+            if (!this.ExistCurrentPost || post == null || !post.HasInReplyTo)
             {
                 this.OpenRepSourceOpMenuItem.Enabled = false;
             }

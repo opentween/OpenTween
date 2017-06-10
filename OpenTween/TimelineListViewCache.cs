@@ -301,7 +301,7 @@ namespace OpenTween
                 return ListItemBackColor.None;
 
             // @先
-            if (post.StatusId == basePost.InReplyToStatusId)
+            if (basePost.HasInReplyTo && post.StatusId == basePost.InReplyToStatusId)
                 return ListItemBackColor.AtTo;
 
             // 自分=発言者

@@ -759,11 +759,11 @@ namespace OpenTween
                 throw new ArgumentException("startStatusId (" + startStatusId + ") が posts の中から見つかりませんでした。", nameof(startStatusId));
 
             var nextPost = posts[startStatusId];
-            while (nextPost.InReplyToStatusId != null)
+            while (nextPost.HasInReplyTo)
             {
-                if (!posts.ContainsKey(nextPost.InReplyToStatusId.Value))
+                if (!posts.ContainsKey(nextPost.InReplyToStatusId))
                     break;
-                nextPost = posts[nextPost.InReplyToStatusId.Value];
+                nextPost = posts[nextPost.InReplyToStatusId];
             }
 
             return nextPost;
@@ -782,11 +782,11 @@ namespace OpenTween
             }
 
             var relPosts = new Dictionary<long, PostClass>();
-            if (targetPost.TextFromApi.Contains("@") && targetPost.InReplyToStatusId == null)
+            if (targetPost.TextFromApi.Contains("@") && !targetPost.HasInReplyTo)
             {
                 // 検索結果対応
                 var p = TabInformations.GetInstance()[targetPost.StatusId];
-                if (p != null && p.InReplyToStatusId != null)
+                if (p != null && p.HasInReplyTo)
                 {
                     targetPost = p;
                 }
@@ -804,9 +804,9 @@ namespace OpenTween
             // in_reply_to_status_id を使用してリプライチェインを辿る
             var nextPost = FindTopOfReplyChain(relPosts, targetPost.StatusId);
             var loopCount = 1;
-            while (nextPost.InReplyToStatusId != null && loopCount++ <= 20)
+            while (nextPost.HasInReplyTo && loopCount++ <= 20)
             {
-                var inReplyToId = nextPost.InReplyToStatusId.Value;
+                var inReplyToId = nextPost.InReplyToStatusId;
 
                 var inReplyToPost = TabInformations.GetInstance()[inReplyToId];
                 if (inReplyToPost == null)
@@ -871,7 +871,7 @@ namespace OpenTween
                         continue;
 
                     // リプライチェーンが繋がらないツイートは除外
-                    if (post.InReplyToStatusId == null || !relPosts.ContainsKey(post.InReplyToStatusId.Value))
+                    if (!post.HasInReplyTo || !relPosts.ContainsKey(post.InReplyToStatusId))
                         continue;
 
                     relPosts.Add(post.StatusId, post);

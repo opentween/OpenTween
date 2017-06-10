@@ -105,9 +105,7 @@ namespace OpenTween.Models
             Assert.False(post.IsMark);
 
             Assert.False(post.IsReply);
-            Assert.Null(post.InReplyToStatusId);
-            Assert.Null(post.InReplyToUserId);
-            Assert.Null(post.InReplyToUser);
+            Assert.False(post.HasInReplyTo);
             Assert.False(post.IsRetweet);
 
             Assert.Equal(status.User.Id, post.UserId);
@@ -261,9 +259,7 @@ namespace OpenTween.Models
             Assert.False(post.IsMark);
 
             Assert.False(post.IsReply);
-            Assert.Null(post.InReplyToStatusId);
-            Assert.Null(post.InReplyToUserId);
-            Assert.Null(post.InReplyToUser);
+            Assert.False(post.HasInReplyTo);
             Assert.False(post.IsRetweet);
 
             Assert.Equal(otherUser.Id, post.UserId);

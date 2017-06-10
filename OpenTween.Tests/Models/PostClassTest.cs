@@ -144,9 +144,10 @@ namespace OpenTween.Models
             {
                 IsProtect = protect,
                 IsMark = mark,
-                InReplyToStatusId = reply ? (long?)100L : null,
                 PostGeo = geo ? new PostClass.StatusGeo(-126.716667, -47.15) : (PostClass.StatusGeo?)null,
             };
+            if (reply)
+                post.InReplyToStatusId = 100L;
 
             Assert.Equal(expected, post.StateIndex);
         }
@@ -213,9 +214,7 @@ namespace OpenTween.Models
 
             post.IsDeleted = true;
 
-            Assert.Null(post.InReplyToStatusId);
-            Assert.Equal("", post.InReplyToUser);
-            Assert.Null(post.InReplyToUserId);
+            Assert.False(post.HasInReplyTo);
             Assert.False(post.IsReply);
             Assert.Empty(post.ReplyToList);
             Assert.Equal(-1, post.StateIndex);
