@@ -2511,9 +2511,17 @@ namespace OpenTween
 
                 try
                 {
-                    await this.twitterApi.FavoritesCreate(post.RetweetedId ?? post.StatusId)
-                        .IgnoreResponse()
-                        .ConfigureAwait(false);
+                    try
+                    {
+                        await this.twitterApi.FavoritesCreate(post.RetweetedId ?? post.StatusId)
+                            .IgnoreResponse()
+                            .ConfigureAwait(false);
+                    }
+                    catch (TwitterApiException ex)
+                        when (ex.ErrorResponse.Errors.All(x => x.Code == TwitterErrorCode.AlreadyFavorited))
+                    {
+                        // エラーコード 139 のみの場合は成功と見なす
+                    }
 
                     if (SettingManager.Common.RestrictFavCheck)
                     {
