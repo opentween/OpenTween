@@ -100,6 +100,18 @@ namespace OpenTween
         }
 
         [Fact]
+        public void ReplaceEmojiToImg_Emoji50Test()
+        {
+            // Unicode 10.0/Emoji 5.0 で追加された絵文字
+            var origText = "🦒"; // U+1F992 (GIRAFFE)
+
+            var result = EmojiFormatter.ReplaceEmojiToImg(origText);
+            var expected = "<img class=\"emoji\" src=\"https://twemoji.maxcdn.com/2/72x72/1f992.png\" alt=\"🦒\" />";
+
+            Assert.Equal(expected, result);
+        }
+
+        [Fact]
         public void ReplaceEmojiToImg_EmojiModifiers_CombiningTest()
         {
             // Emoji modifiers を使用した合字 (リガチャー)
