@@ -1630,7 +1630,18 @@ namespace OpenTween
                 case ScrollLockMode.FixedToItem:
                     var topIndex = listScroll.TopItemStatusId != null ? tab.IndexOf(listScroll.TopItemStatusId.Value) : -1;
                     if (topIndex != -1)
-                        listView.TopItem = listView.Items[topIndex];
+                    {
+                        var topItem = listView.Items[topIndex];
+                        try
+                        {
+                            listView.TopItem = topItem;
+                        }
+                        catch (NullReferenceException)
+                        {
+                            listView.EnsureVisible(listView.VirtualListSize - 1);
+                            listView.EnsureVisible(topIndex);
+                        }
+                    }
                     break;
                 case ScrollLockMode.None:
                 default:
