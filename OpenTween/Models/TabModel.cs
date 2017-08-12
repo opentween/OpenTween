@@ -393,28 +393,12 @@ namespace OpenTween.Models
             if (this.AllCount == 0)
                 yield break;
 
-            var searchIndices = Enumerable.Empty<int>();
+            IEnumerable<int> searchIndices;
 
             if (!reverse)
-            {
-                // startindex ...末尾
-                if (startIndex != this.AllCount - 1)
-                    searchIndices = MyCommon.CountUp(startIndex, this.AllCount - 1);
-
-                // 先頭 ... (startIndex - 1)
-                if (startIndex != 0)
-                    searchIndices = searchIndices.Concat(MyCommon.CountUp(0, startIndex - 1));
-            }
+                searchIndices = MyCommon.CircularCountUp(this.AllCount, startIndex);
             else
-            {
-                // startIndex ... 先頭
-                if (startIndex != 0)
-                    searchIndices = MyCommon.CountDown(startIndex, 0);
-
-                // 末尾 ... (startIndex + 1)
-                if (startIndex != this.AllCount - 1)
-                    searchIndices = searchIndices.Concat(MyCommon.CountDown(this.AllCount - 1, startIndex + 1));
-            }
+                searchIndices = MyCommon.CircularCountDown(this.AllCount, startIndex);
 
             foreach (var index in searchIndices)
             {

@@ -1071,6 +1071,40 @@ namespace OpenTween
                 yield return i;
         }
 
+        public static IEnumerable<int> CircularCountUp(int length, int startIndex)
+        {
+            if (length < 1)
+                throw new ArgumentOutOfRangeException(nameof(length));
+            if (startIndex < 0 || startIndex >= length)
+                throw new ArgumentOutOfRangeException(nameof(startIndex));
+
+            // startindex ... 末尾
+            var indices = MyCommon.CountUp(startIndex, length - 1);
+
+            // 先頭 ... (startIndex - 1)
+            if (startIndex != 0)
+                indices = indices.Concat(MyCommon.CountUp(0, startIndex - 1));
+
+            return indices;
+        }
+
+        public static IEnumerable<int> CircularCountDown(int length, int startIndex)
+        {
+            if (length < 1)
+                throw new ArgumentOutOfRangeException(nameof(length));
+            if (startIndex < 0 || startIndex >= length)
+                throw new ArgumentOutOfRangeException(nameof(startIndex));
+
+            // startIndex ... 先頭
+            var indices = MyCommon.CountDown(startIndex, 0);
+
+            // 末尾 ... (startIndex + 1)
+            if (startIndex != length - 1)
+                indices = indices.Concat(MyCommon.CountDown(length - 1, startIndex + 1));
+
+            return indices;
+        }
+
         /// <summary>
         /// 2バイト文字も考慮したUrlエンコード
         /// </summary>

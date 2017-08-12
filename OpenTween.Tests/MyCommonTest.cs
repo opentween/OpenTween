@@ -322,5 +322,37 @@ namespace OpenTween
 
             Assert.Empty(actual);
         }
+
+        [Fact]
+        public void CircularCountUp_Test()
+        {
+            var actual = MyCommon.CircularCountUp(length: 6, startIndex: 3);
+
+            Assert.Equal(new[] { 3, 4, 5, 0, 1, 2 }, actual);
+        }
+
+        [Fact]
+        public void CircularCountUp_StartFromZeroTest()
+        {
+            var actual = MyCommon.CircularCountUp(length: 6, startIndex: 0);
+
+            Assert.Equal(new[] { 0, 1, 2, 3, 4, 5 }, actual);
+        }
+
+        [Fact]
+        public void CircularCountDown_Test()
+        {
+            var actual = MyCommon.CircularCountDown(length: 6, startIndex: 3);
+
+            Assert.Equal(new[] { 3, 2, 1, 0, 5, 4 }, actual);
+        }
+
+        [Fact]
+        public void CircularCountDown_StartFromLastIndexTest()
+        {
+            var actual = MyCommon.CircularCountDown(length: 6, startIndex: 5);
+
+            Assert.Equal(new[] { 5, 4, 3, 2, 1, 0 }, actual);
+        }
     }
 }
