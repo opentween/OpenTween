@@ -411,9 +411,9 @@ namespace OpenTween.Models
                 if (startIndex != 0)
                     searchIndices = MyCommon.CountDown(startIndex, 0);
 
-                // 末尾 ... (startIndex - 1)
+                // 末尾 ... (startIndex + 1)
                 if (startIndex != this.AllCount - 1)
-                    searchIndices = searchIndices.Concat(MyCommon.CountDown(this.AllCount - 1, startIndex - 1));
+                    searchIndices = searchIndices.Concat(MyCommon.CountDown(this.AllCount - 1, startIndex + 1));
             }
 
             foreach (var index in searchIndices)
