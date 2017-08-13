@@ -11468,7 +11468,7 @@ namespace OpenTween
         /// </summary>
         /// <param name="statusId">表示するツイートのID</param>
         /// <exception cref="TabException">名前の重複が多すぎてタブを作成できない場合</exception>
-        private async Task OpenRelatedTab(long statusId)
+        public async Task OpenRelatedTab(long statusId)
         {
             var post = this._statuses[statusId];
             if (post == null)

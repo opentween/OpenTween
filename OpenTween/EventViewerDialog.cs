@@ -37,6 +37,7 @@ using System.Text.RegularExpressions;
 using System.IO;
 using System.Globalization;
 using OpenTween.Setting;
+using System.Threading.Tasks;
 
 namespace OpenTween
 {
@@ -99,10 +100,21 @@ namespace OpenTween
         }
 
         private async void EventList_DoubleClick(object sender, EventArgs e)
+            => await this.OpenEventStatusOrUser();
+
+        private async Task OpenEventStatusOrUser()
         {
-            if (EventList.SelectedIndices.Count != 0 && _filterdEventSource[EventList.SelectedIndices[0]] != null)
+            if (this.EventList.SelectedIndices.Count == 0)
+                return;
+
+            var tweenMain = (TweenMain)this.Owner;
+            var selectedEvent = this._filterdEventSource[this.EventList.SelectedIndices[0]];
+            if (selectedEvent != null)
             {
-                await ((TweenMain)this.Owner).OpenUriInBrowserAsync("https://twitter.com/" + _filterdEventSource[EventList.SelectedIndices[0]].Username);
+                if (selectedEvent.Id != 0)
+                    await tweenMain.OpenRelatedTab(selectedEvent.Id);
+                else
+                    await tweenMain.OpenUriAsync(new Uri("https://twitter.com/" + selectedEvent.Username));
             }
         }
 
