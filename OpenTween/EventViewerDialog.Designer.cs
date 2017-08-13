@@ -91,6 +91,7 @@
             this.EventList.CacheVirtualItems += new System.Windows.Forms.CacheVirtualItemsEventHandler(this.EventList_CacheVirtualItems);
             this.EventList.RetrieveVirtualItem += new System.Windows.Forms.RetrieveVirtualItemEventHandler(this.EventList_RetrieveVirtualItem);
             this.EventList.DoubleClick += new System.EventHandler(this.EventList_DoubleClick);
+            this.EventList.KeyDown += new System.Windows.Forms.KeyEventHandler(this.EventList_KeyDown);
             // 
             // ColumnHeader1
             // 

@@ -102,6 +102,12 @@ namespace OpenTween
         private async void EventList_DoubleClick(object sender, EventArgs e)
             => await this.OpenEventStatusOrUser();
 
+        private async void EventList_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyData == Keys.Enter)
+                await this.OpenEventStatusOrUser();
+        }
+
         private async Task OpenEventStatusOrUser()
         {
             if (this.EventList.SelectedIndices.Count == 0)
