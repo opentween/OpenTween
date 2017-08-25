@@ -842,7 +842,7 @@ namespace OpenTween
             post.Source = string.Intern(sourceText);
             post.SourceUri = sourceUri;
 
-            post.IsReply = post.ReplyToList.Contains(_uname);
+            post.IsReply = post.RetweetedId == null && post.ReplyToList.Contains(_uname);
             post.IsExcludeReply = false;
 
             if (post.IsMe)
