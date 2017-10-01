@@ -9060,9 +9060,6 @@ namespace OpenTween
                 var configScaleFactor = SettingManager.Local.GetConfigScaleFactor(this.CurrentAutoScaleDimensions);
 
                 this.ClientSize = ScaleBy(configScaleFactor, SettingManager.Local.FormSize);
-                //_mySize = this.ClientSize;                     //サイズ保持（最小化・最大化されたまま終了した場合の対応用）
-                this.DesktopLocation = SettingManager.Local.FormLocation;
-                //_myLoc = this.DesktopLocation;                        //位置保持（最小化・最大化されたまま終了した場合の対応用）
 
                 // Splitterの位置設定
                 var splitterDistance = ScaleBy(configScaleFactor.Height, SettingManager.Local.SplitterDistance);
