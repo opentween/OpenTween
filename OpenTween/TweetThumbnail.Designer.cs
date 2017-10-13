@@ -34,6 +34,9 @@
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.panelPictureBox = new System.Windows.Forms.Panel();
             this.contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.openMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.copyUrlMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.searchImageGoogleMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.searchImageSauceNaoMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip.SuspendLayout();
@@ -58,11 +61,31 @@
             // 
             resources.ApplyResources(this.contextMenuStrip, "contextMenuStrip");
             this.contextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.openMenuItem,
+            this.copyUrlMenuItem,
+            this.toolStripSeparator1,
             this.searchImageGoogleMenuItem,
             this.searchImageSauceNaoMenuItem});
             this.contextMenuStrip.Name = "contextMenuStrip";
             this.toolTip.SetToolTip(this.contextMenuStrip, resources.GetString("contextMenuStrip.ToolTip"));
             this.contextMenuStrip.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip_Opening);
+            // 
+            // openMenuItem
+            // 
+            resources.ApplyResources(this.openMenuItem, "openMenuItem");
+            this.openMenuItem.Name = "openMenuItem";
+            this.openMenuItem.Click += new System.EventHandler(this.openMenuItem_Click);
+            // 
+            // copyUrlMenuItem
+            // 
+            resources.ApplyResources(this.copyUrlMenuItem, "copyUrlMenuItem");
+            this.copyUrlMenuItem.Name = "copyUrlMenuItem";
+            this.copyUrlMenuItem.Click += new System.EventHandler(this.copyUrlMenuItem_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            resources.ApplyResources(this.toolStripSeparator1, "toolStripSeparator1");
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
             // 
             // searchImageGoogleMenuItem
             // 
@@ -97,5 +120,8 @@
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip;
         private System.Windows.Forms.ToolStripMenuItem searchImageGoogleMenuItem;
         private System.Windows.Forms.ToolStripMenuItem searchImageSauceNaoMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem openMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem copyUrlMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
     }
 }

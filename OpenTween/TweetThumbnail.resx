@@ -130,21 +130,26 @@
   <data name="&gt;&gt;panelPictureBox.Name" xml:space="preserve">
     <value>panelPictureBox</value>
   </data>
+  <data name="&gt;&gt;searchImageGoogleMenuItem.Name" xml:space="preserve">
+    <value>searchImageGoogleMenuItem</value>
+  </data>
   <data name="&gt;&gt;panelPictureBox.Parent" xml:space="preserve">
     <value>$this</value>
+  </data>
+  <data name="searchImageGoogleMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>223, 22</value>
+  </data>
+  <data name="toolStripSeparator1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>220, 6</value>
   </data>
   <data name="searchImageSauceNaoMenuItem.Text" xml:space="preserve">
     <value>類似画像を検索 (SauceNAO)</value>
   </data>
-  <data name="searchImageGoogleMenuItem.Text" xml:space="preserve">
-    <value>類似画像を検索 (Google)</value>
+  <data name="&gt;&gt;toolStripSeparator1.Name" xml:space="preserve">
+    <value>toolStripSeparator1</value>
   </data>
-  <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>System.Windows.Forms.UserControl, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="scrollBar.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
+  <data name="copyUrlMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>223, 22</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>TweetThumbnail</value>
@@ -155,6 +160,9 @@
   <data name="&gt;&gt;panelPictureBox.Type" xml:space="preserve">
     <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="searchImageGoogleMenuItem.Text" xml:space="preserve">
+    <value>類似画像を検索 (Google)</value>
+  </data>
   <data name="contextMenuStrip.ToolTip" xml:space="preserve">
     <value />
   </data>
@@ -164,11 +172,18 @@
   <data name="&gt;&gt;contextMenuStrip.Name" xml:space="preserve">
     <value>contextMenuStrip</value>
   </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="scrollBar.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
   <data name="&gt;&gt;contextMenuStrip.Type" xml:space="preserve">
     <value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="panelPictureBox.Size" type="System.Drawing.Size, System.Drawing">
     <value>143, 150</value>
+  </data>
+  <data name="&gt;&gt;openMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;searchImageSauceNaoMenuItem.Name" xml:space="preserve">
     <value>searchImageSauceNaoMenuItem</value>
@@ -179,6 +194,9 @@
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="panelPictureBox.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
+  </data>
+  <data name="&gt;&gt;openMenuItem.Name" xml:space="preserve">
+    <value>openMenuItem</value>
   </data>
   <data name="&gt;&gt;searchImageSauceNaoMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -192,6 +210,9 @@
   <data name="&gt;&gt;scrollBar.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
+  <data name="&gt;&gt;$this.Type" xml:space="preserve">
+    <value>System.Windows.Forms.UserControl, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="$this.ToolTip" xml:space="preserve">
     <value />
   </data>
@@ -204,20 +225,32 @@
   <data name="panelPictureBox.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
   </data>
+  <data name="openMenuItem.Text" xml:space="preserve">
+    <value>開く(&amp;O)</value>
+  </data>
+  <data name="&gt;&gt;toolStripSeparator1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;copyUrlMenuItem.Name" xml:space="preserve">
+    <value>copyUrlMenuItem</value>
+  </data>
+  <data name="&gt;&gt;copyUrlMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="copyUrlMenuItem.Text" xml:space="preserve">
+    <value>URLをコピー(&amp;C)</value>
+  </data>
   <data name="contextMenuStrip.Size" type="System.Drawing.Size, System.Drawing">
-    <value>224, 48</value>
+    <value>224, 98</value>
   </data>
   <data name="scrollBar.Location" type="System.Drawing.Point, System.Drawing">
     <value>143, 0</value>
   </data>
-  <data name="searchImageGoogleMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>223, 22</value>
-  </data>
   <data name="scrollBar.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Right</value>
   </data>
-  <data name="&gt;&gt;searchImageGoogleMenuItem.Name" xml:space="preserve">
-    <value>searchImageGoogleMenuItem</value>
+  <data name="openMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>223, 22</value>
   </data>
   <data name="&gt;&gt;toolTip.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolTip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>

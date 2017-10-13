@@ -124,6 +124,21 @@
     <value />
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="openMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>254, 22</value>
+  </data>
+  <data name="openMenuItem.Text" xml:space="preserve">
+    <value>&amp;Open</value>
+  </data>
+  <data name="copyUrlMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>254, 22</value>
+  </data>
+  <data name="copyUrlMenuItem.Text" xml:space="preserve">
+    <value>&amp;Copy URL</value>
+  </data>
+  <data name="toolStripSeparator1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>251, 6</value>
+  </data>
   <data name="searchImageGoogleMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>254, 22</value>
   </data>
@@ -137,7 +152,7 @@
     <value>Search similar images (SauceNAO)</value>
   </data>
   <data name="contextMenuStrip.Size" type="System.Drawing.Size, System.Drawing">
-    <value>255, 48</value>
+    <value>255, 98</value>
   </data>
   <data name="contextMenuStrip.ToolTip" xml:space="preserve">
     <value />

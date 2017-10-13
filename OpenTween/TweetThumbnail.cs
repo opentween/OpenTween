@@ -35,6 +35,7 @@ using System.Threading.Tasks;
 using OpenTween.Thumbnail;
 using System.Threading;
 using OpenTween.Models;
+using System.Runtime.InteropServices;
 
 namespace OpenTween
 {
@@ -191,6 +192,9 @@ namespace OpenTween
             };
         }
 
+        public void OpenImage(ThumbnailInfo thumb)
+            => this.ThumbnailDoubleClick?.Invoke(this, new ThumbnailDoubleClickEventArgs(thumb));
+
         public void ScrollUp()
         {
             var newval = this.scrollBar.Value - this.scrollBar.SmallChange;
@@ -243,7 +247,7 @@ namespace OpenTween
 
             if (thumb == null) return;
 
-            this.ThumbnailDoubleClick?.Invoke(this, new ThumbnailDoubleClickEventArgs(thumb));
+            this.OpenImage(thumb);
         }
 
         private void contextMenuStrip_Opening(object sender, CancelEventArgs e)
@@ -280,6 +284,21 @@ namespace OpenTween
             var searchUri = this.GetImageSearchUriSauceNao(searchTargetUri);
 
             this.ThumbnailImageSearchClick?.Invoke(this, new ThumbnailImageSearchEventArgs(searchUri));
+        }
+
+        private void openMenuItem_Click(object sender, EventArgs e)
+            => this.OpenImage(this.Thumbnail);
+
+        private void copyUrlMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Clipboard.SetText(this.Thumbnail.FullSizeImageUrl);
+            }
+            catch (ExternalException ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
     }
 
