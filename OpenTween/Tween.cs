@@ -928,8 +928,7 @@ namespace OpenTween
             //タイトルバー領域
             if (this.WindowState != FormWindowState.Minimized)
             {
-                this.DesktopLocation = SettingManager.Local.FormLocation;
-                Rectangle tbarRect = new Rectangle(this.Location, new Size(_mySize.Width, SystemInformation.CaptionHeight));
+                Rectangle tbarRect = new Rectangle(this._myLoc, new Size(_mySize.Width, SystemInformation.CaptionHeight));
                 bool outOfScreen = true;
                 if (Screen.AllScreens.Length == 1)    //ハングするとの報告
                 {
@@ -941,12 +940,11 @@ namespace OpenTween
                             break;
                         }
                     }
+
                     if (outOfScreen)
-                    {
-                        this.DesktopLocation = new Point(0, 0);
-                        _myLoc = this.DesktopLocation;
-                    }
+                        this._myLoc = new Point(0, 0);
                 }
+                this.DesktopLocation = this._myLoc;
             }
             this.TopMost = SettingManager.Common.AlwaysTop;
             _mySpDis = ScaleBy(configScaleFactor.Height, SettingManager.Local.SplitterDistance);
