@@ -33,22 +33,6 @@ namespace OpenTween.Api.DataModel
     [DataContract]
     public class TwitterStatus
     {
-        [DataMember(Name = "contributors", IsRequired = false)]
-        public TwitterStatus.Contributor[] Contributors { get; set; } // Nullable
-
-        [DataContract]
-        public class Contributor
-        {
-            [DataMember(Name = "id")]
-            public long Id { get; set; }
-
-            [DataMember(Name = "id_str")]
-            public string IdStr { get; set; }
-
-            [DataMember(Name = "screen_name")]
-            public string ScreenName { get; set; }
-        }
-
         [DataMember(Name = "coordinates", IsRequired = false)]
         public GeoJsonPoint Coordinates { get; set; }
 
@@ -182,9 +166,6 @@ namespace OpenTween.Api.DataModel
     [DataContract]
     public class TwitterStatusCompat
     {
-        [DataMember(Name = "contributors", IsRequired = false)]
-        public TwitterStatus.Contributor[] Contributors { get; set; } // Nullable
-
         [DataMember(Name = "coordinates", IsRequired = false)]
         public GeoJsonPoint Coordinates { get; set; }
 
@@ -299,7 +280,6 @@ namespace OpenTween.Api.DataModel
         {
             var normalized = new TwitterStatus
             {
-                Contributors = this.Contributors,
                 Coordinates = this.Coordinates,
                 CreatedAt = this.CreatedAt,
                 FavoriteCount = this.FavoriteCount,
