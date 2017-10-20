@@ -9189,7 +9189,7 @@ namespace OpenTween
         private void MultiLineMenuItem_Click(object sender, EventArgs e)
         {
             //発言欄複数行
-            var menuItemChecked = MultiLinePullDownMenuItem.Checked;
+            var menuItemChecked = ((ToolStripMenuItem)sender).Checked;
             StatusText.Multiline = menuItemChecked;
             SettingManager.Local.StatusMultiline = menuItemChecked;
             if (menuItemChecked)
@@ -10221,29 +10221,39 @@ namespace OpenTween
 
         private void UrlMultibyteSplitMenuItem_CheckedChanged(object sender, EventArgs e)
         {
-            this.urlMultibyteSplit = UrlMultibyteSplitPullDownMenuItem.Checked;
+            this.urlMultibyteSplit = ((ToolStripMenuItem)sender).Checked;
         }
 
         private void PreventSmsCommandMenuItem_CheckedChanged(object sender, EventArgs e)
         {
-            this.preventSmsCommand = PreventSmsCommandPullDownMenuItem.Checked;
+            this.preventSmsCommand = ((ToolStripMenuItem)sender).Checked;
         }
 
         private void UrlAutoShortenMenuItem_CheckedChanged(object sender, EventArgs e)
         {
-            SettingManager.Common.UrlConvertAuto = UrlAutoShortenPullDownMenuItem.Checked;
+            SettingManager.Common.UrlConvertAuto = ((ToolStripMenuItem)sender).Checked;
         }
 
         private void IdeographicSpaceToSpaceMenuItem_Click(object sender, EventArgs e)
         {
-            SettingManager.Common.WideSpaceConvert = IdeographicSpaceToSpacePullDownMenuItem.Checked;
+            SettingManager.Common.WideSpaceConvert = ((ToolStripMenuItem)sender).Checked;
             ModifySettingCommon = true;
         }
 
         private void FocusLockMenuItem_CheckedChanged(object sender, EventArgs e)
         {
-            SettingManager.Common.FocusLockToStatusText = FocusLockPullDownMenuItem.Checked;
+            SettingManager.Common.FocusLockToStatusText = ((ToolStripMenuItem)sender).Checked;
             ModifySettingCommon = true;
+        }
+
+        private void PostModeMenuItem_DropDownOpening(object sender, EventArgs e)
+        {
+            UrlMultibyteSplitMenuItem.Checked = this.urlMultibyteSplit;
+            PreventSmsCommandMenuItem.Checked = this.preventSmsCommand;
+            UrlAutoShortenMenuItem.Checked = SettingManager.Common.UrlConvertAuto;
+            IdeographicSpaceToSpaceMenuItem.Checked = SettingManager.Common.WideSpaceConvert;
+            MultiLineMenuItem.Checked = SettingManager.Local.StatusMultiline;
+            FocusLockMenuItem.Checked = SettingManager.Common.FocusLockToStatusText;
         }
 
         private void ContextMenuPostMode_Opening(object sender, CancelEventArgs e)

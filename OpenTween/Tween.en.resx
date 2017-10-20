@@ -854,6 +854,72 @@
   <data name="TinyUrlConvertToolStripMenuItem.Text" xml:space="preserve">
     <value>&amp;Shorten URL</value>
   </data>
+  <data name="UrlMultibyteSplitMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>334, 22</value>
+  </data>
+  <data name="UrlMultibyteSplitMenuItem.Text" xml:space="preserve">
+    <value>&amp;Separation of multibyte character string from URL</value>
+  </data>
+  <data name="PreventSmsCommandMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>334, 22</value>
+  </data>
+  <data name="PreventSmsCommandMenuItem.Text" xml:space="preserve">
+    <value>Prevent interpreting text as SMS command</value>
+  </data>
+  <data name="UrlAutoShortenMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>334, 22</value>
+  </data>
+  <data name="UrlAutoShortenMenuItem.Text" xml:space="preserve">
+    <value>&amp;URL is automatically shortened</value>
+  </data>
+  <data name="IdeographicSpaceToSpaceMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>334, 22</value>
+  </data>
+  <data name="IdeographicSpaceToSpaceMenuItem.Text" xml:space="preserve">
+    <value>&amp;Convert IdeographicSpace to Space</value>
+  </data>
+  <data name="MultiLineMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>334, 22</value>
+  </data>
+  <data name="MultiLineMenuItem.Text" xml:space="preserve">
+    <value>Input field is &amp;Multiline</value>
+  </data>
+  <data name="FocusLockMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>334, 22</value>
+  </data>
+  <data name="FocusLockMenuItem.Text" xml:space="preserve">
+    <value>Left focus in input box after posting</value>
+  </data>
+  <data name="toolStripSeparator5.Size" type="System.Drawing.Size, System.Drawing">
+    <value>331, 6</value>
+  </data>
+  <data name="ImageSelectMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>334, 22</value>
+  </data>
+  <data name="ImageSelectMenuItem.Text" xml:space="preserve">
+    <value>&amp;Pick a media file</value>
+  </data>
+  <data name="toolStripSeparator13.Size" type="System.Drawing.Size, System.Drawing">
+    <value>331, 6</value>
+  </data>
+  <data name="HashToggleMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>334, 22</value>
+  </data>
+  <data name="HashToggleMenuItem.Text" xml:space="preserve">
+    <value>&amp;Toggle Hashtag</value>
+  </data>
+  <data name="HashManageMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>334, 22</value>
+  </data>
+  <data name="HashManageMenuItem.Text" xml:space="preserve">
+    <value>&amp;Hashtag Manager</value>
+  </data>
+  <data name="PostModeMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>211, 22</value>
+  </data>
+  <data name="PostModeMenuItem.Text" xml:space="preserve">
+    <value>Post Settings</value>
+  </data>
   <data name="UpdateFollowersMenuItem1.Size" type="System.Drawing.Size, System.Drawing">
     <value>294, 24</value>
   </data>
@@ -925,18 +991,6 @@
   </data>
   <data name="ToolStripSeparator34.Size" type="System.Drawing.Size, System.Drawing">
     <value>291, 6</value>
-  </data>
-  <data name="HashToggleToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>294, 24</value>
-  </data>
-  <data name="HashToggleToolStripMenuItem.Text" xml:space="preserve">
-    <value>&amp;Toggle Hashtag</value>
-  </data>
-  <data name="HashManageToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>294, 24</value>
-  </data>
-  <data name="HashManageToolStripMenuItem.Text" xml:space="preserve">
-    <value>&amp;Hashtag Manager</value>
   </data>
   <data name="RtCountMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>294, 24</value>

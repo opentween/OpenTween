@@ -155,6 +155,18 @@
             this.BitlyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.JmpStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.UxnuMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.PostModeMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.UrlMultibyteSplitMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.PreventSmsCommandMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.UrlAutoShortenMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.IdeographicSpaceToSpaceMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.MultiLineMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.FocusLockMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
+            this.ImageSelectMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator13 = new System.Windows.Forms.ToolStripSeparator();
+            this.HashToggleMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.HashManageMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.UpdateFollowersMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.FollowCommandMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -169,8 +181,6 @@
             this.UserTimelineToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.UserFavorareToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripSeparator34 = new System.Windows.Forms.ToolStripSeparator();
-            this.HashToggleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.HashManageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.RtCountMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ListManageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuItemUserStream = new System.Windows.Forms.ToolStripMenuItem();
@@ -1279,6 +1289,7 @@
             // 
             this.MenuItemCommand.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.TinyUrlConvertToolStripMenuItem,
+            this.PostModeMenuItem,
             this.UpdateFollowersMenuItem1,
             this.ToolStripSeparator1,
             this.FollowCommandMenuItem,
@@ -1293,8 +1304,6 @@
             this.UserTimelineToolStripMenuItem,
             this.UserFavorareToolStripMenuItem,
             this.ToolStripSeparator34,
-            this.HashToggleToolStripMenuItem,
-            this.HashManageToolStripMenuItem,
             this.RtCountMenuItem,
             this.ListManageToolStripMenuItem});
             this.MenuItemCommand.Name = "MenuItemCommand";
@@ -1362,6 +1371,98 @@
             this.UxnuMenuItem.Name = "UxnuMenuItem";
             resources.ApplyResources(this.UxnuMenuItem, "UxnuMenuItem");
             this.UxnuMenuItem.Click += new System.EventHandler(this.UxnuMenuItem_Click);
+            // 
+            // PostModeMenuItem
+            // 
+            this.PostModeMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.UrlMultibyteSplitMenuItem,
+            this.PreventSmsCommandMenuItem,
+            this.UrlAutoShortenMenuItem,
+            this.IdeographicSpaceToSpaceMenuItem,
+            this.MultiLineMenuItem,
+            this.FocusLockMenuItem,
+            this.toolStripSeparator5,
+            this.ImageSelectMenuItem,
+            this.toolStripSeparator13,
+            this.HashToggleMenuItem,
+            this.HashManageMenuItem});
+            this.PostModeMenuItem.Name = "PostModeMenuItem";
+            resources.ApplyResources(this.PostModeMenuItem, "PostModeMenuItem");
+            this.PostModeMenuItem.DropDownOpening += new System.EventHandler(this.PostModeMenuItem_DropDownOpening);
+            // 
+            // UrlMultibyteSplitMenuItem
+            // 
+            this.UrlMultibyteSplitMenuItem.CheckOnClick = true;
+            this.UrlMultibyteSplitMenuItem.Name = "UrlMultibyteSplitMenuItem";
+            resources.ApplyResources(this.UrlMultibyteSplitMenuItem, "UrlMultibyteSplitMenuItem");
+            this.UrlMultibyteSplitMenuItem.CheckedChanged += new System.EventHandler(this.UrlMultibyteSplitMenuItem_CheckedChanged);
+            // 
+            // PreventSmsCommandMenuItem
+            // 
+            this.PreventSmsCommandMenuItem.Checked = true;
+            this.PreventSmsCommandMenuItem.CheckOnClick = true;
+            this.PreventSmsCommandMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.PreventSmsCommandMenuItem.Name = "PreventSmsCommandMenuItem";
+            resources.ApplyResources(this.PreventSmsCommandMenuItem, "PreventSmsCommandMenuItem");
+            // 
+            // UrlAutoShortenMenuItem
+            // 
+            this.UrlAutoShortenMenuItem.CheckOnClick = true;
+            this.UrlAutoShortenMenuItem.Name = "UrlAutoShortenMenuItem";
+            resources.ApplyResources(this.UrlAutoShortenMenuItem, "UrlAutoShortenMenuItem");
+            this.UrlAutoShortenMenuItem.CheckedChanged += new System.EventHandler(this.UrlAutoShortenMenuItem_CheckedChanged);
+            // 
+            // IdeographicSpaceToSpaceMenuItem
+            // 
+            this.IdeographicSpaceToSpaceMenuItem.Checked = true;
+            this.IdeographicSpaceToSpaceMenuItem.CheckOnClick = true;
+            this.IdeographicSpaceToSpaceMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.IdeographicSpaceToSpaceMenuItem.Name = "IdeographicSpaceToSpaceMenuItem";
+            resources.ApplyResources(this.IdeographicSpaceToSpaceMenuItem, "IdeographicSpaceToSpaceMenuItem");
+            this.IdeographicSpaceToSpaceMenuItem.Click += new System.EventHandler(this.IdeographicSpaceToSpaceMenuItem_Click);
+            // 
+            // MultiLineMenuItem
+            // 
+            this.MultiLineMenuItem.CheckOnClick = true;
+            this.MultiLineMenuItem.Name = "MultiLineMenuItem";
+            resources.ApplyResources(this.MultiLineMenuItem, "MultiLineMenuItem");
+            this.MultiLineMenuItem.Click += new System.EventHandler(this.MultiLineMenuItem_Click);
+            // 
+            // FocusLockMenuItem
+            // 
+            this.FocusLockMenuItem.CheckOnClick = true;
+            this.FocusLockMenuItem.Name = "FocusLockMenuItem";
+            resources.ApplyResources(this.FocusLockMenuItem, "FocusLockMenuItem");
+            this.FocusLockMenuItem.CheckedChanged += new System.EventHandler(this.FocusLockMenuItem_CheckedChanged);
+            // 
+            // toolStripSeparator5
+            // 
+            this.toolStripSeparator5.Name = "toolStripSeparator5";
+            resources.ApplyResources(this.toolStripSeparator5, "toolStripSeparator5");
+            // 
+            // ImageSelectMenuItem
+            // 
+            this.ImageSelectMenuItem.Name = "ImageSelectMenuItem";
+            resources.ApplyResources(this.ImageSelectMenuItem, "ImageSelectMenuItem");
+            this.ImageSelectMenuItem.Click += new System.EventHandler(this.ImageSelectMenuItem_Click);
+            // 
+            // toolStripSeparator13
+            // 
+            this.toolStripSeparator13.Name = "toolStripSeparator13";
+            resources.ApplyResources(this.toolStripSeparator13, "toolStripSeparator13");
+            // 
+            // HashToggleMenuItem
+            // 
+            this.HashToggleMenuItem.CheckOnClick = true;
+            this.HashToggleMenuItem.Name = "HashToggleMenuItem";
+            resources.ApplyResources(this.HashToggleMenuItem, "HashToggleMenuItem");
+            this.HashToggleMenuItem.Click += new System.EventHandler(this.HashToggleMenuItem_Click);
+            // 
+            // HashManageMenuItem
+            // 
+            this.HashManageMenuItem.Name = "HashManageMenuItem";
+            resources.ApplyResources(this.HashManageMenuItem, "HashManageMenuItem");
+            this.HashManageMenuItem.Click += new System.EventHandler(this.HashManageMenuItem_Click);
             // 
             // UpdateFollowersMenuItem1
             // 
@@ -1442,19 +1543,6 @@
             // 
             this.ToolStripSeparator34.Name = "ToolStripSeparator34";
             resources.ApplyResources(this.ToolStripSeparator34, "ToolStripSeparator34");
-            // 
-            // HashToggleToolStripMenuItem
-            // 
-            this.HashToggleToolStripMenuItem.CheckOnClick = true;
-            this.HashToggleToolStripMenuItem.Name = "HashToggleToolStripMenuItem";
-            resources.ApplyResources(this.HashToggleToolStripMenuItem, "HashToggleToolStripMenuItem");
-            this.HashToggleToolStripMenuItem.Click += new System.EventHandler(this.HashToggleMenuItem_Click);
-            // 
-            // HashManageToolStripMenuItem
-            // 
-            this.HashManageToolStripMenuItem.Name = "HashManageToolStripMenuItem";
-            resources.ApplyResources(this.HashManageToolStripMenuItem, "HashManageToolStripMenuItem");
-            this.HashManageToolStripMenuItem.Click += new System.EventHandler(this.HashManageMenuItem_Click);
             // 
             // RtCountMenuItem
             // 
@@ -2261,8 +2349,6 @@
         internal System.Windows.Forms.ToolStripMenuItem UserTimelineToolStripMenuItem;
         internal System.Windows.Forms.ToolStripMenuItem UserFavorareToolStripMenuItem;
         internal System.Windows.Forms.ToolStripSeparator ToolStripSeparator34;
-        internal System.Windows.Forms.ToolStripMenuItem HashToggleToolStripMenuItem;
-        internal System.Windows.Forms.ToolStripMenuItem HashManageToolStripMenuItem;
         internal System.Windows.Forms.ToolStripMenuItem RtCountMenuItem;
         internal System.Windows.Forms.ToolStripMenuItem ListManageToolStripMenuItem;
         internal System.Windows.Forms.ToolStripMenuItem MenuItemUserStream;
@@ -2360,5 +2446,17 @@
         private System.Windows.Forms.ToolStripMenuItem SourceRuleMenuItem;
         private System.Windows.Forms.TableLayoutPanel TableLayoutPanel2;
         private TweetDetailsView tweetDetailsView;
+        private System.Windows.Forms.ToolStripMenuItem PostModeMenuItem;
+        internal System.Windows.Forms.ToolStripMenuItem UrlMultibyteSplitMenuItem;
+        internal System.Windows.Forms.ToolStripMenuItem PreventSmsCommandMenuItem;
+        internal System.Windows.Forms.ToolStripMenuItem UrlAutoShortenMenuItem;
+        internal System.Windows.Forms.ToolStripMenuItem IdeographicSpaceToSpaceMenuItem;
+        internal System.Windows.Forms.ToolStripMenuItem MultiLineMenuItem;
+        internal System.Windows.Forms.ToolStripMenuItem FocusLockMenuItem;
+        internal System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
+        internal System.Windows.Forms.ToolStripMenuItem ImageSelectMenuItem;
+        internal System.Windows.Forms.ToolStripSeparator toolStripSeparator13;
+        internal System.Windows.Forms.ToolStripMenuItem HashToggleMenuItem;
+        internal System.Windows.Forms.ToolStripMenuItem HashManageMenuItem;
     }
 }
