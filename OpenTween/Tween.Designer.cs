@@ -379,6 +379,7 @@
             this.UrlMultibyteSplitPullDownMenuItem.CheckOnClick = true;
             this.UrlMultibyteSplitPullDownMenuItem.Name = "UrlMultibyteSplitPullDownMenuItem";
             resources.ApplyResources(this.UrlMultibyteSplitPullDownMenuItem, "UrlMultibyteSplitPullDownMenuItem");
+            this.UrlMultibyteSplitPullDownMenuItem.CheckedChanged += new System.EventHandler(this.UrlMultibyteSplitMenuItem_CheckedChanged);
             // 
             // PreventSmsCommandPullDownMenuItem
             // 
@@ -387,6 +388,7 @@
             this.PreventSmsCommandPullDownMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.PreventSmsCommandPullDownMenuItem.Name = "PreventSmsCommandPullDownMenuItem";
             resources.ApplyResources(this.PreventSmsCommandPullDownMenuItem, "PreventSmsCommandPullDownMenuItem");
+            this.PreventSmsCommandPullDownMenuItem.CheckedChanged += new System.EventHandler(this.PreventSmsCommandMenuItem_CheckedChanged);
             // 
             // UrlAutoShortenPullDownMenuItem
             // 

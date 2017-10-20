@@ -276,6 +276,8 @@ namespace OpenTween
         private System.Timers.Timer TimerTimeline = new System.Timers.Timer();
 
         private string recommendedStatusFooter;
+        private bool urlMultibyteSplit = false;
+        private bool preventSmsCommand = true;
 
         //URL短縮のUndo用
         private struct urlUndo
@@ -918,9 +920,6 @@ namespace OpenTween
             this.PlaySoundMenuItem.Checked = SettingManager.Common.PlaySound;
             this.PlaySoundFileMenuItem.Checked = SettingManager.Common.PlaySound;
 
-            this.IdeographicSpaceToSpacePullDownMenuItem.Checked = SettingManager.Common.WideSpaceConvert;
-            this.FocusLockPullDownMenuItem.Checked = SettingManager.Common.FocusLockToStatusText;
-
             //ウィンドウ設定
             this.ClientSize = ScaleBy(configScaleFactor, SettingManager.Local.FormSize);
             _mySize = this.ClientSize; // サイズ保持（最小化・最大化されたまま終了した場合の対応用）
@@ -959,7 +958,6 @@ namespace OpenTween
             {
                 _mySpDis3 = ScaleBy(configScaleFactor.Width, SettingManager.Local.PreviewDistance);
             }
-            MultiLinePullDownMenuItem.Checked = SettingManager.Local.StatusMultiline;
             //this.Tween_ClientSizeChanged(this, null);
             this.PlaySoundMenuItem.Checked = SettingManager.Common.PlaySound;
             this.PlaySoundFileMenuItem.Checked = SettingManager.Common.PlaySound;
@@ -2149,7 +2147,7 @@ namespace OpenTween
             StatusText.Text = "";
             _history.Add(new PostingStatus());
             _hisIdx = _history.Count - 1;
-            if (!FocusLockPullDownMenuItem.Checked)
+            if (!SettingManager.Common.FocusLockToStatusText)
                 ((Control)ListTab.SelectedTab.Tag).Focus();
             urlUndoBuffer = null;
             UrlUndoToolStripMenuItem.Enabled = false;  //Undoをできないように設定
@@ -2813,7 +2811,7 @@ namespace OpenTween
                 else
                 {
                     // 連投モードのときだけEnterイベントが起きないので強制的に背景色を戻す
-                    if (this.FocusLockPullDownMenuItem.Checked)
+                    if (SettingManager.Common.FocusLockToStatusText)
                         this.StatusText_Enter(this.StatusText, EventArgs.Empty);
                 }
                 return;
@@ -4727,13 +4725,13 @@ namespace OpenTween
         {
             statusText = statusText.Replace("\r\n", "\n");
 
-            if (this.UrlMultibyteSplitPullDownMenuItem.Checked)
+            if (this.urlMultibyteSplit)
             {
                 // URLと全角文字の切り離し
                 statusText = Regex.Replace(statusText, @"https?:\/\/[-_.!~*'()a-zA-Z0-9;\/?:\@&=+\$,%#^]+", "$& ");
             }
 
-            if (this.IdeographicSpaceToSpacePullDownMenuItem.Checked)
+            if (SettingManager.Common.WideSpaceConvert)
             {
                 // 文中の全角スペースを半角スペース1個にする
                 statusText = statusText.Replace("　", " ");
@@ -4787,7 +4785,7 @@ namespace OpenTween
 
             statusText = header + statusText + footer;
 
-            if (this.PreventSmsCommandPullDownMenuItem.Checked)
+            if (this.preventSmsCommand)
             {
                 // ツイートが意図せず SMS コマンドとして解釈されることを回避 (D, DM, M のみ)
                 // 参照: https://support.twitter.com/articles/14020
@@ -6134,8 +6132,10 @@ namespace OpenTween
                 ShortcutCommand.Create(Keys.Control | Keys.Y)
                     .FocusedOn(FocusedControl.PostBrowser)
                     .Do(() => {
-                        MultiLinePullDownMenuItem.Checked = !MultiLinePullDownMenuItem.Checked;
-                        MultiLinePullDownMenuItem_Click(null, null);
+                        var multiline = !SettingManager.Local.StatusMultiline;
+                        SettingManager.Local.StatusMultiline = multiline;
+                        MultiLineMenuItem.Checked = multiline;
+                        MultiLineMenuItem_Click(this.MultiLineMenuItem, EventArgs.Empty);
                     }),
 
                 ShortcutCommand.Create(Keys.Shift | Keys.F3)
@@ -7203,13 +7203,6 @@ namespace OpenTween
                 SettingManager.Common.UserId = tw.UserId;
                 SettingManager.Common.Token = tw.AccessToken;
                 SettingManager.Common.TokenSecret = tw.AccessTokenSecret;
-
-                if (IdeographicSpaceToSpacePullDownMenuItem != null &&
-                   IdeographicSpaceToSpacePullDownMenuItem.IsDisposed == false)
-                {
-                    SettingManager.Common.WideSpaceConvert = this.IdeographicSpaceToSpacePullDownMenuItem.Checked;
-                }
-
                 SettingManager.Common.SortOrder = (int)_statuses.SortOrder;
                 switch (_statuses.SortMode)
                 {
@@ -7242,11 +7235,6 @@ namespace OpenTween
                 SettingManager.Common.HashIsHead = HashMgr.IsHead;
                 SettingManager.Common.HashIsPermanent = HashMgr.IsPermanent;
                 SettingManager.Common.HashIsNotAddToAtReply = HashMgr.IsNotAddToAtReply;
-                if (FocusLockPullDownMenuItem != null &&
-                        FocusLockPullDownMenuItem.IsDisposed == false)
-                {
-                    SettingManager.Common.FocusLockToStatusText = this.FocusLockPullDownMenuItem.Checked;
-                }
                 SettingManager.Common.TrackWord = tw.TrackWord;
                 SettingManager.Common.AllAtReply = tw.AllAtReply;
                 SettingManager.Common.UseImageService = ImageSelector.ServiceIndex;
@@ -9183,7 +9171,7 @@ namespace OpenTween
             if (multiline != this.StatusText.Multiline)
             {
                 this.StatusText.Multiline = multiline;
-                MultiLinePullDownMenuItem.Checked = multiline;
+                SettingManager.Local.StatusMultiline = multiline;
                 ModifySettingLocal = true;
             }
         }
@@ -9201,9 +9189,10 @@ namespace OpenTween
         private void MultiLineMenuItem_Click(object sender, EventArgs e)
         {
             //発言欄複数行
-            StatusText.Multiline = MultiLinePullDownMenuItem.Checked;
-            SettingManager.Local.StatusMultiline = MultiLinePullDownMenuItem.Checked;
-            if (MultiLinePullDownMenuItem.Checked)
+            var menuItemChecked = MultiLinePullDownMenuItem.Checked;
+            StatusText.Multiline = menuItemChecked;
+            SettingManager.Local.StatusMultiline = menuItemChecked;
+            if (menuItemChecked)
             {
                 if (SplitContainer2.Height - _mySpDis2 - SplitContainer2.SplitterWidth < 0)
                     SplitContainer2.SplitterDistance = 0;
@@ -10230,14 +10219,41 @@ namespace OpenTween
                 DebugModeToolStripMenuItem.Visible = false;
         }
 
+        private void UrlMultibyteSplitMenuItem_CheckedChanged(object sender, EventArgs e)
+        {
+            this.urlMultibyteSplit = UrlMultibyteSplitPullDownMenuItem.Checked;
+        }
+
+        private void PreventSmsCommandMenuItem_CheckedChanged(object sender, EventArgs e)
+        {
+            this.preventSmsCommand = PreventSmsCommandPullDownMenuItem.Checked;
+        }
+
         private void UrlAutoShortenMenuItem_CheckedChanged(object sender, EventArgs e)
         {
             SettingManager.Common.UrlConvertAuto = UrlAutoShortenPullDownMenuItem.Checked;
         }
 
+        private void IdeographicSpaceToSpaceMenuItem_Click(object sender, EventArgs e)
+        {
+            SettingManager.Common.WideSpaceConvert = IdeographicSpaceToSpacePullDownMenuItem.Checked;
+            ModifySettingCommon = true;
+        }
+
+        private void FocusLockMenuItem_CheckedChanged(object sender, EventArgs e)
+        {
+            SettingManager.Common.FocusLockToStatusText = FocusLockPullDownMenuItem.Checked;
+            ModifySettingCommon = true;
+        }
+
         private void ContextMenuPostMode_Opening(object sender, CancelEventArgs e)
         {
+            UrlMultibyteSplitPullDownMenuItem.Checked = this.urlMultibyteSplit;
+            PreventSmsCommandPullDownMenuItem.Checked = this.preventSmsCommand;
             UrlAutoShortenPullDownMenuItem.Checked = SettingManager.Common.UrlConvertAuto;
+            IdeographicSpaceToSpacePullDownMenuItem.Checked = SettingManager.Common.WideSpaceConvert;
+            MultiLinePullDownMenuItem.Checked = SettingManager.Local.StatusMultiline;
+            FocusLockPullDownMenuItem.Checked = SettingManager.Common.FocusLockToStatusText;
         }
 
         private void TraceOutToolStripMenuItem_Click(object sender, EventArgs e)
@@ -10550,16 +10566,6 @@ namespace OpenTween
                 return !Regex.Match(name, @"^(about|jobs|tos|privacy|who_to_follow|download|messages)$", RegexOptions.IgnoreCase).Success;
             else
                 return !this.tw.Configuration.NonUsernamePaths.Contains(name.ToLowerInvariant());
-        }
-
-        private void IdeographicSpaceToSpaceMenuItem_Click(object sender, EventArgs e)
-        {
-            ModifySettingCommon = true;
-        }
-
-        private void FocusLockMenuItem_CheckedChanged(object sender, EventArgs e)
-        {
-            ModifySettingCommon = true;
         }
 
         private void doQuoteOfficial()
