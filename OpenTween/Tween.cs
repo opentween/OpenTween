@@ -918,8 +918,8 @@ namespace OpenTween
             this.PlaySoundMenuItem.Checked = SettingManager.Common.PlaySound;
             this.PlaySoundFileMenuItem.Checked = SettingManager.Common.PlaySound;
 
-            this.IdeographicSpaceToSpaceToolStripMenuItem.Checked = SettingManager.Common.WideSpaceConvert;
-            this.ToolStripFocusLockMenuItem.Checked = SettingManager.Common.FocusLockToStatusText;
+            this.IdeographicSpaceToSpacePullDownMenuItem.Checked = SettingManager.Common.WideSpaceConvert;
+            this.FocusLockPullDownMenuItem.Checked = SettingManager.Common.FocusLockToStatusText;
 
             //ウィンドウ設定
             this.ClientSize = ScaleBy(configScaleFactor, SettingManager.Local.FormSize);
@@ -959,7 +959,7 @@ namespace OpenTween
             {
                 _mySpDis3 = ScaleBy(configScaleFactor.Width, SettingManager.Local.PreviewDistance);
             }
-            MultiLineMenuItem.Checked = SettingManager.Local.StatusMultiline;
+            MultiLinePullDownMenuItem.Checked = SettingManager.Local.StatusMultiline;
             //this.Tween_ClientSizeChanged(this, null);
             this.PlaySoundMenuItem.Checked = SettingManager.Common.PlaySound;
             this.PlaySoundFileMenuItem.Checked = SettingManager.Common.PlaySound;
@@ -2149,7 +2149,7 @@ namespace OpenTween
             StatusText.Text = "";
             _history.Add(new PostingStatus());
             _hisIdx = _history.Count - 1;
-            if (!ToolStripFocusLockMenuItem.Checked)
+            if (!FocusLockPullDownMenuItem.Checked)
                 ((Control)ListTab.SelectedTab.Tag).Focus();
             urlUndoBuffer = null;
             UrlUndoToolStripMenuItem.Enabled = false;  //Undoをできないように設定
@@ -2813,7 +2813,7 @@ namespace OpenTween
                 else
                 {
                     // 連投モードのときだけEnterイベントが起きないので強制的に背景色を戻す
-                    if (this.ToolStripFocusLockMenuItem.Checked)
+                    if (this.FocusLockPullDownMenuItem.Checked)
                         this.StatusText_Enter(this.StatusText, EventArgs.Empty);
                 }
                 return;
@@ -2832,8 +2832,8 @@ namespace OpenTween
             {
                 this.HashMgr.ClearHashtag();
                 this.HashStripSplitButton.Text = "#[-]";
+                this.HashTogglePullDownMenuItem.Checked = false;
                 this.HashToggleMenuItem.Checked = false;
-                this.HashToggleToolStripMenuItem.Checked = false;
             }
 
             this.SetMainWindowTitle();
@@ -4727,13 +4727,13 @@ namespace OpenTween
         {
             statusText = statusText.Replace("\r\n", "\n");
 
-            if (this.ToolStripMenuItemUrlMultibyteSplit.Checked)
+            if (this.UrlMultibyteSplitPullDownMenuItem.Checked)
             {
                 // URLと全角文字の切り離し
                 statusText = Regex.Replace(statusText, @"https?:\/\/[-_.!~*'()a-zA-Z0-9;\/?:\@&=+\$,%#^]+", "$& ");
             }
 
-            if (this.IdeographicSpaceToSpaceToolStripMenuItem.Checked)
+            if (this.IdeographicSpaceToSpacePullDownMenuItem.Checked)
             {
                 // 文中の全角スペースを半角スペース1個にする
                 statusText = statusText.Replace("　", " ");
@@ -4787,7 +4787,7 @@ namespace OpenTween
 
             statusText = header + statusText + footer;
 
-            if (this.ToolStripMenuItemPreventSmsCommand.Checked)
+            if (this.PreventSmsCommandPullDownMenuItem.Checked)
             {
                 // ツイートが意図せず SMS コマンドとして解釈されることを回避 (D, DM, M のみ)
                 // 参照: https://support.twitter.com/articles/14020
@@ -6134,8 +6134,8 @@ namespace OpenTween
                 ShortcutCommand.Create(Keys.Control | Keys.Y)
                     .FocusedOn(FocusedControl.PostBrowser)
                     .Do(() => {
-                        MultiLineMenuItem.Checked = !MultiLineMenuItem.Checked;
-                        MultiLineMenuItem_Click(null, null);
+                        MultiLinePullDownMenuItem.Checked = !MultiLinePullDownMenuItem.Checked;
+                        MultiLinePullDownMenuItem_Click(null, null);
                     }),
 
                 ShortcutCommand.Create(Keys.Shift | Keys.F3)
@@ -7204,10 +7204,10 @@ namespace OpenTween
                 SettingManager.Common.Token = tw.AccessToken;
                 SettingManager.Common.TokenSecret = tw.AccessTokenSecret;
 
-                if (IdeographicSpaceToSpaceToolStripMenuItem != null &&
-                   IdeographicSpaceToSpaceToolStripMenuItem.IsDisposed == false)
+                if (IdeographicSpaceToSpacePullDownMenuItem != null &&
+                   IdeographicSpaceToSpacePullDownMenuItem.IsDisposed == false)
                 {
-                    SettingManager.Common.WideSpaceConvert = this.IdeographicSpaceToSpaceToolStripMenuItem.Checked;
+                    SettingManager.Common.WideSpaceConvert = this.IdeographicSpaceToSpacePullDownMenuItem.Checked;
                 }
 
                 SettingManager.Common.SortOrder = (int)_statuses.SortOrder;
@@ -7242,10 +7242,10 @@ namespace OpenTween
                 SettingManager.Common.HashIsHead = HashMgr.IsHead;
                 SettingManager.Common.HashIsPermanent = HashMgr.IsPermanent;
                 SettingManager.Common.HashIsNotAddToAtReply = HashMgr.IsNotAddToAtReply;
-                if (ToolStripFocusLockMenuItem != null &&
-                        ToolStripFocusLockMenuItem.IsDisposed == false)
+                if (FocusLockPullDownMenuItem != null &&
+                        FocusLockPullDownMenuItem.IsDisposed == false)
                 {
-                    SettingManager.Common.FocusLockToStatusText = this.ToolStripFocusLockMenuItem.Checked;
+                    SettingManager.Common.FocusLockToStatusText = this.FocusLockPullDownMenuItem.Checked;
                 }
                 SettingManager.Common.TrackWord = tw.TrackWord;
                 SettingManager.Common.AllAtReply = tw.AllAtReply;
@@ -9183,7 +9183,7 @@ namespace OpenTween
             if (multiline != this.StatusText.Multiline)
             {
                 this.StatusText.Multiline = multiline;
-                MultiLineMenuItem.Checked = multiline;
+                MultiLinePullDownMenuItem.Checked = multiline;
                 ModifySettingLocal = true;
             }
         }
@@ -9201,9 +9201,9 @@ namespace OpenTween
         private void MultiLineMenuItem_Click(object sender, EventArgs e)
         {
             //発言欄複数行
-            StatusText.Multiline = MultiLineMenuItem.Checked;
-            SettingManager.Local.StatusMultiline = MultiLineMenuItem.Checked;
-            if (MultiLineMenuItem.Checked)
+            StatusText.Multiline = MultiLinePullDownMenuItem.Checked;
+            SettingManager.Local.StatusMultiline = MultiLinePullDownMenuItem.Checked;
+            if (MultiLinePullDownMenuItem.Checked)
             {
                 if (SplitContainer2.Height - _mySpDis2 - SplitContainer2.SplitterWidth < 0)
                     SplitContainer2.SplitterDistance = 0;
@@ -10230,14 +10230,14 @@ namespace OpenTween
                 DebugModeToolStripMenuItem.Visible = false;
         }
 
-        private void ToolStripMenuItemUrlAutoShorten_CheckedChanged(object sender, EventArgs e)
+        private void UrlAutoShortenMenuItem_CheckedChanged(object sender, EventArgs e)
         {
-            SettingManager.Common.UrlConvertAuto = ToolStripMenuItemUrlAutoShorten.Checked;
+            SettingManager.Common.UrlConvertAuto = UrlAutoShortenPullDownMenuItem.Checked;
         }
 
         private void ContextMenuPostMode_Opening(object sender, CancelEventArgs e)
         {
-            ToolStripMenuItemUrlAutoShorten.Checked = SettingManager.Common.UrlConvertAuto;
+            UrlAutoShortenPullDownMenuItem.Checked = SettingManager.Common.UrlConvertAuto;
         }
 
         private void TraceOutToolStripMenuItem_Click(object sender, EventArgs e)
@@ -10552,12 +10552,12 @@ namespace OpenTween
                 return !this.tw.Configuration.NonUsernamePaths.Contains(name.ToLowerInvariant());
         }
 
-        private void IdeographicSpaceToSpaceToolStripMenuItem_Click(object sender, EventArgs e)
+        private void IdeographicSpaceToSpaceMenuItem_Click(object sender, EventArgs e)
         {
             ModifySettingCommon = true;
         }
 
-        private void ToolStripFocusLockMenuItem_CheckedChanged(object sender, EventArgs e)
+        private void FocusLockMenuItem_CheckedChanged(object sender, EventArgs e)
         {
             ModifySettingCommon = true;
         }
@@ -10875,14 +10875,14 @@ namespace OpenTween
             if (!string.IsNullOrEmpty(HashMgr.UseHash))
             {
                 HashStripSplitButton.Text = HashMgr.UseHash;
+                HashTogglePullDownMenuItem.Checked = true;
                 HashToggleMenuItem.Checked = true;
-                HashToggleToolStripMenuItem.Checked = true;
             }
             else
             {
                 HashStripSplitButton.Text = "#[-]";
+                HashTogglePullDownMenuItem.Checked = false;
                 HashToggleMenuItem.Checked = false;
-                HashToggleToolStripMenuItem.Checked = false;
             }
             //if (HashMgr.IsInsert && HashMgr.UseHash != "")
             //{
@@ -10909,13 +10909,13 @@ namespace OpenTween
             {
                 HashStripSplitButton.Text = HashMgr.UseHash;
                 HashToggleMenuItem.Checked = true;
-                HashToggleToolStripMenuItem.Checked = true;
+                HashTogglePullDownMenuItem.Checked = true;
             }
             else
             {
                 HashStripSplitButton.Text = "#[-]";
                 HashToggleMenuItem.Checked = false;
-                HashToggleToolStripMenuItem.Checked = false;
+                HashTogglePullDownMenuItem.Checked = false;
             }
             ModifySettingCommon = true;
             this.StatusText_TextChanged(null, null);
@@ -10930,8 +10930,8 @@ namespace OpenTween
         {
             HashMgr.SetPermanentHash("#" + hashtag);
             HashStripSplitButton.Text = HashMgr.UseHash;
+            HashTogglePullDownMenuItem.Checked = true;
             HashToggleMenuItem.Checked = true;
-            HashToggleToolStripMenuItem.Checked = true;
             //使用ハッシュタグとして設定
             ModifySettingCommon = true;
         }
@@ -11288,7 +11288,7 @@ namespace OpenTween
 
         private void SplitContainer2_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            this.MultiLineMenuItem.PerformClick();
+            this.MultiLinePullDownMenuItem.PerformClick();
         }
 
         public PostClass CurPost

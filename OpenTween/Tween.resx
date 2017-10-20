@@ -160,79 +160,79 @@
   <metadata name="ContextMenuPostMode.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>651, 17</value>
   </metadata>
-  <data name="ToolStripMenuItemUrlMultibyteSplit.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="UrlMultibyteSplitPullDownMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>257, 22</value>
   </data>
-  <data name="ToolStripMenuItemUrlMultibyteSplit.Text" xml:space="preserve">
+  <data name="UrlMultibyteSplitPullDownMenuItem.Text" xml:space="preserve">
     <value>URLからの全角文字列の切り離し</value>
   </data>
-  <data name="ToolStripMenuItemPreventSmsCommand.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="PreventSmsCommandPullDownMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>257, 22</value>
   </data>
-  <data name="ToolStripMenuItemPreventSmsCommand.Text" xml:space="preserve">
+  <data name="PreventSmsCommandPullDownMenuItem.Text" xml:space="preserve">
     <value>SMSコマンドを回避する</value>
   </data>
-  <data name="ToolStripMenuItemUrlAutoShorten.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="UrlAutoShortenPullDownMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>257, 22</value>
   </data>
-  <data name="ToolStripMenuItemUrlAutoShorten.Text" xml:space="preserve">
+  <data name="UrlAutoShortenPullDownMenuItem.Text" xml:space="preserve">
     <value>自動的にURLを短縮する</value>
   </data>
-  <data name="ToolStripMenuItemUrlAutoShorten.Visible" type="System.Boolean, mscorlib">
+  <data name="UrlAutoShortenPullDownMenuItem.Visible" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
-  <data name="IdeographicSpaceToSpaceToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="IdeographicSpaceToSpacePullDownMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>257, 22</value>
   </data>
-  <data name="IdeographicSpaceToSpaceToolStripMenuItem.Text" xml:space="preserve">
+  <data name="IdeographicSpaceToSpacePullDownMenuItem.Text" xml:space="preserve">
     <value>全角スペースを半角スペースにする</value>
   </data>
-  <data name="MultiLineMenuItem.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
+  <data name="MultiLinePullDownMenuItem.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
     <value>Ctrl+Y</value>
   </data>
-  <data name="MultiLineMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="MultiLinePullDownMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>257, 22</value>
   </data>
-  <data name="MultiLineMenuItem.Text" xml:space="preserve">
+  <data name="MultiLinePullDownMenuItem.Text" xml:space="preserve">
     <value>発言欄複数行入力(&amp;M)</value>
   </data>
-  <data name="ToolStripFocusLockMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="FocusLockPullDownMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>257, 22</value>
   </data>
-  <data name="ToolStripFocusLockMenuItem.Text" xml:space="preserve">
+  <data name="FocusLockPullDownMenuItem.Text" xml:space="preserve">
     <value>フォーカスを発言欄へロックする</value>
   </data>
   <data name="ToolStripSeparator35.Size" type="System.Drawing.Size, System.Drawing">
     <value>254, 6</value>
   </data>
-  <data name="ImageSelectMenuItem.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
+  <data name="ImageSelectPullDownMenuItem.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
     <value>Ctrl+Shift+P</value>
   </data>
-  <data name="ImageSelectMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="ImageSelectPullDownMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>257, 22</value>
   </data>
-  <data name="ImageSelectMenuItem.Text" xml:space="preserve">
+  <data name="ImageSelectPullDownMenuItem.Text" xml:space="preserve">
     <value>投稿画像選択(&amp;P)</value>
   </data>
   <data name="ToolStripSeparator8.Size" type="System.Drawing.Size, System.Drawing">
     <value>254, 6</value>
   </data>
-  <data name="HashToggleMenuItem.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
+  <data name="HashTogglePullDownMenuItem.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
     <value>Ctrl+Shift+T</value>
   </data>
-  <data name="HashToggleMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="HashTogglePullDownMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>257, 22</value>
   </data>
-  <data name="HashToggleMenuItem.Text" xml:space="preserve">
+  <data name="HashTogglePullDownMenuItem.Text" xml:space="preserve">
     <value>ハッシュタグ自動付加</value>
   </data>
-  <data name="HashManageMenuItem.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
+  <data name="HashManagePullDownMenuItem.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
     <value>Ctrl+T</value>
   </data>
-  <data name="HashManageMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="HashManagePullDownMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>257, 22</value>
   </data>
-  <data name="HashManageMenuItem.Text" xml:space="preserve">
+  <data name="HashManagePullDownMenuItem.Text" xml:space="preserve">
     <value>ハッシュタグ設定</value>
   </data>
   <data name="ContextMenuPostMode.Size" type="System.Drawing.Size, System.Drawing">
@@ -2331,40 +2331,40 @@
   <data name="&gt;&gt;HashStripSplitButton.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripSplitButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;ToolStripMenuItemUrlMultibyteSplit.Name" xml:space="preserve">
-    <value>ToolStripMenuItemUrlMultibyteSplit</value>
+  <data name="&gt;&gt;UrlMultibyteSplitPullDownMenuItem.Name" xml:space="preserve">
+    <value>UrlMultibyteSplitPullDownMenuItem</value>
   </data>
-  <data name="&gt;&gt;ToolStripMenuItemUrlMultibyteSplit.Type" xml:space="preserve">
+  <data name="&gt;&gt;UrlMultibyteSplitPullDownMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;ToolStripMenuItemPreventSmsCommand.Name" xml:space="preserve">
-    <value>ToolStripMenuItemPreventSmsCommand</value>
+  <data name="&gt;&gt;PreventSmsCommandPullDownMenuItem.Name" xml:space="preserve">
+    <value>PreventSmsCommandPullDownMenuItem</value>
   </data>
-  <data name="&gt;&gt;ToolStripMenuItemPreventSmsCommand.Type" xml:space="preserve">
+  <data name="&gt;&gt;PreventSmsCommandPullDownMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;ToolStripMenuItemUrlAutoShorten.Name" xml:space="preserve">
-    <value>ToolStripMenuItemUrlAutoShorten</value>
+  <data name="&gt;&gt;UrlAutoShortenPullDownMenuItem.Name" xml:space="preserve">
+    <value>UrlAutoShortenPullDownMenuItem</value>
   </data>
-  <data name="&gt;&gt;ToolStripMenuItemUrlAutoShorten.Type" xml:space="preserve">
+  <data name="&gt;&gt;UrlAutoShortenPullDownMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;IdeographicSpaceToSpaceToolStripMenuItem.Name" xml:space="preserve">
-    <value>IdeographicSpaceToSpaceToolStripMenuItem</value>
+  <data name="&gt;&gt;IdeographicSpaceToSpacePullDownMenuItem.Name" xml:space="preserve">
+    <value>IdeographicSpaceToSpacePullDownMenuItem</value>
   </data>
-  <data name="&gt;&gt;IdeographicSpaceToSpaceToolStripMenuItem.Type" xml:space="preserve">
+  <data name="&gt;&gt;IdeographicSpaceToSpacePullDownMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;MultiLineMenuItem.Name" xml:space="preserve">
-    <value>MultiLineMenuItem</value>
+  <data name="&gt;&gt;MultiLinePullDownMenuItem.Name" xml:space="preserve">
+    <value>MultiLinePullDownMenuItem</value>
   </data>
-  <data name="&gt;&gt;MultiLineMenuItem.Type" xml:space="preserve">
+  <data name="&gt;&gt;MultiLinePullDownMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;ToolStripFocusLockMenuItem.Name" xml:space="preserve">
-    <value>ToolStripFocusLockMenuItem</value>
+  <data name="&gt;&gt;FocusLockPullDownMenuItem.Name" xml:space="preserve">
+    <value>FocusLockPullDownMenuItem</value>
   </data>
-  <data name="&gt;&gt;ToolStripFocusLockMenuItem.Type" xml:space="preserve">
+  <data name="&gt;&gt;FocusLockPullDownMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;ToolStripSeparator35.Name" xml:space="preserve">
@@ -2373,10 +2373,10 @@
   <data name="&gt;&gt;ToolStripSeparator35.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;ImageSelectMenuItem.Name" xml:space="preserve">
-    <value>ImageSelectMenuItem</value>
+  <data name="&gt;&gt;ImageSelectPullDownMenuItem.Name" xml:space="preserve">
+    <value>ImageSelectPullDownMenuItem</value>
   </data>
-  <data name="&gt;&gt;ImageSelectMenuItem.Type" xml:space="preserve">
+  <data name="&gt;&gt;ImageSelectPullDownMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;ToolStripSeparator8.Name" xml:space="preserve">
@@ -2385,16 +2385,16 @@
   <data name="&gt;&gt;ToolStripSeparator8.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;HashToggleMenuItem.Name" xml:space="preserve">
-    <value>HashToggleMenuItem</value>
+  <data name="&gt;&gt;HashTogglePullDownMenuItem.Name" xml:space="preserve">
+    <value>HashTogglePullDownMenuItem</value>
   </data>
-  <data name="&gt;&gt;HashToggleMenuItem.Type" xml:space="preserve">
+  <data name="&gt;&gt;HashTogglePullDownMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;HashManageMenuItem.Name" xml:space="preserve">
-    <value>HashManageMenuItem</value>
+  <data name="&gt;&gt;HashManagePullDownMenuItem.Name" xml:space="preserve">
+    <value>HashManagePullDownMenuItem</value>
   </data>
-  <data name="&gt;&gt;HashManageMenuItem.Type" xml:space="preserve">
+  <data name="&gt;&gt;HashManagePullDownMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;AddTabMenuItem.Name" xml:space="preserve">
