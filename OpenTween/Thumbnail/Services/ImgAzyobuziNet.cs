@@ -43,6 +43,7 @@ namespace OpenTween.Thumbnail.Services
 
         protected string[] ExcludedServiceNames =
         {
+            "Instagram",
             "Twitter",
             "Tumblr",
             "Gyazo",
