@@ -19,7 +19,7 @@ namespace OpenTween.Properties {
     // または Visual Studio のようなツールを使用して自動生成されました。
     // メンバーを追加または削除するには、.ResX ファイルを編集して、/str オプションと共に
     // ResGen を実行し直すか、または VS プロジェクトをビルドし直します。
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources {
@@ -652,19 +652,16 @@ namespace OpenTween.Properties {
         /// <summary>
         ///   更新履歴
         ///
-        ///==== Ver 1.3.9-dev(2017/xx/xx)
-        ///
-        ///==== Ver 1.3.8(2017/06/05)
-        /// * NEW: bit.ly の認証方式が変更されました
-        ///  - 短縮URLに bit.ly を使用する場合は、設定画面の「短縮URL」から bit.ly の「認可」ボタンを押して認証情報を入力して下さい
-        /// * CHG: 管理者権限での実行時に表示される警告(v1.3.7で追加)を、UACが無効化された環境では表示しないように変更しました
-        ///  - この変更はUACの無効化を推奨するものではありません
-        /// * FIX: Microsoft DataMarket廃止により翻訳機能が使用できなくなった不具合を修正
-        /// * FIX: DMの送信後に「OK:Delaying?」の警告が表示される不具合を修正 (thx @o_keiichi!)
-        ///
-        ///==== Ver 1.3.7(2017/03/20)
-        /// * NEW: PNG画像のアップロード時にJPEGへの変換による劣化を回避する機能を追加しました (pic.twitter.com のみ)
-        ///  - 設定画面の 動作→投稿 [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
+        ///==== Ver 1.4.0(2017/10/30)
+        /// * NEW: 自分宛のリプライを送信する場合に先頭の「@... 」を除去します (返信先ツイートの情報は維持したまま投稿されます)
+        /// * NEW: サムネイル画像のコンテキストメニューに「開く」「URLをコピー」を追加
+        /// * NEW: ウィンドウ上部の「その他機能」メニューに「投稿設定」を追加
+        ///  - 右下の ▼ (POST動作切り替えメニュー) と同じ内容のメニューが表示されます
+        /// * CHG: 自分宛のメンションを含むツイートがRTされた場合に、リプライとして扱わずReplyタブにも表示しないように変更 (thx @7mencho!)
+        /// * CHG: Instagramについて img.azyobuzi.net を使用したサムネイルURLの取得を一時的に無効化
+        ///  - Instagram API の問題?によりサムネイルURLの取得に失敗するため
+        /// * CHG: 最新バージョン情報の取得に使用するURLを変更 (HTTPS接続を使用する)
+        /// * FIX: 起動時に復元したウィンドウ位置が画面領域外であった場合に、強制 [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ChangeLog {
             get {
