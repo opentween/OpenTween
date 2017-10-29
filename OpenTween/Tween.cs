@@ -4757,6 +4757,14 @@ namespace OpenTween
             if (statusText.Contains("RT @"))
                 disableFooter = true;
 
+            // 自分宛のリプライの場合は先頭の「@screen_name 」の部分を除去する (in_reply_to_status_id は維持される)
+            if (this.inReplyTo != null && this.inReplyTo.Item2 == this.tw.Username)
+            {
+                var mentionSelf = $"@{this.tw.Username} ";
+                if (statusText.Length > mentionSelf.Length && statusText.StartsWith(mentionSelf, StringComparison.OrdinalIgnoreCase))
+                    statusText = statusText.Substring(mentionSelf.Length);
+            }
+
             var header = "";
             var footer = "";
 
