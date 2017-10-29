@@ -652,6 +652,8 @@ namespace OpenTween.Properties {
         /// <summary>
         ///   更新履歴
         ///
+        ///==== Ver 1.4.1-dev(xxxx/xx/xx)
+        ///
         ///==== Ver 1.4.0(2017/10/30)
         /// * NEW: 自分宛のリプライを送信する場合に先頭の「@... 」を除去します (返信先ツイートの情報は維持したまま投稿されます)
         /// * NEW: サムネイル画像のコンテキストメニューに「開く」「URLをコピー」を追加
@@ -661,7 +663,7 @@ namespace OpenTween.Properties {
         /// * CHG: Instagramについて img.azyobuzi.net を使用したサムネイルURLの取得を一時的に無効化
         ///  - Instagram API の問題?によりサムネイルURLの取得に失敗するため
         /// * CHG: 最新バージョン情報の取得に使用するURLを変更 (HTTPS接続を使用する)
-        /// * FIX: 起動時に復元したウィンドウ位置が画面領域外であった場合に、強制 [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
+        /// * FI [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ChangeLog {
             get {
