@@ -9175,6 +9175,9 @@ namespace OpenTween
 
         private void SplitContainer2_Panel2_Resize(object sender, EventArgs e)
         {
+            if (this._initialLayout)
+                return; // SettingLocal の反映が完了するまで multiline の判定を行わない
+
             var multiline = this.SplitContainer2.Panel2.Height > this.SplitContainer2.Panel2MinSize + 2;
             if (multiline != this.StatusText.Multiline)
             {
