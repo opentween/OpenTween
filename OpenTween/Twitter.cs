@@ -149,6 +149,7 @@ namespace OpenTween
 
         public TwitterApi Api { get; }
         public TwitterConfiguration Configuration { get; private set; }
+        public TwitterTextConfiguration TextConfiguration { get; private set; }
 
         delegate void GetIconImageDelegate(PostClass post);
         private readonly object LockObj = new object();
@@ -181,6 +182,7 @@ namespace OpenTween
         {
             this.Api = api;
             this.Configuration = TwitterConfiguration.DefaultConfiguration();
+            this.TextConfiguration = TwitterTextConfiguration.DefaultConfiguration();
         }
 
         public TwitterApiAccessLevel AccessLevel
@@ -1708,12 +1710,12 @@ namespace OpenTween
         {
             var matchDm = Twitter.DMSendTextRegex.Match(postText);
             if (matchDm.Success)
-                return this.GetTextLengthRemainInternal(matchDm.Groups["body"].Value, isDm: true);
+                return this.GetTextLengthRemainDM(matchDm.Groups["body"].Value);
 
-            return this.GetTextLengthRemainInternal(postText, isDm: false);
+            return this.GetTextLengthRemainWeighted(postText);
         }
 
-        private int GetTextLengthRemainInternal(string postText, bool isDm)
+        private int GetTextLengthRemainDM(string postText)
         {
             var textLength = 0;
 
@@ -1738,10 +1740,54 @@ namespace OpenTween
                 textLength += shortUrlLength - url.Length;
             }
 
-            if (isDm)
-                return this.Configuration.DmTextCharacterLimit - textLength;
-            else
-                return 140 - textLength;
+            return this.Configuration.DmTextCharacterLimit - textLength;
+        }
+
+        private int GetTextLengthRemainWeighted(string postText)
+        {
+            var config = this.TextConfiguration;
+            var totalWeight = 0;
+
+            var urls = TweetExtractor.ExtractUrlEntities(postText).ToArray();
+
+            var pos = 0;
+            while (pos < postText.Length)
+            {
+                var urlEntity = urls.FirstOrDefault(x => x.Indices[0] == pos);
+                if (urlEntity != null)
+                {
+                    totalWeight += config.TransformedURLLength * config.Scale;
+
+                    var urlLength = urlEntity.Indices[1] - urlEntity.Indices[0];
+                    pos += urlLength;
+
+                    continue;
+                }
+
+                var codepoint = char.ConvertToUtf32(postText, pos);
+                var weight = config.DefaultWeight;
+
+                foreach (var weightRange in config.Ranges)
+                {
+                    if (codepoint >= weightRange.Start && codepoint <= weightRange.End)
+                    {
+                        weight = weightRange.Weight;
+                        break;
+                    }
+                }
+
+                totalWeight += weight;
+
+                var isSurrogatePair = codepoint > 0xffff;
+                if (isSurrogatePair)
+                    pos += 2; // サロゲートペアの場合は2文字分進める
+                else
+                    pos++;
+            }
+
+            var remainWeight = config.MaxWeightedTweetLength * config.Scale - totalWeight;
+
+            return remainWeight / config.Scale;
         }
 
 
