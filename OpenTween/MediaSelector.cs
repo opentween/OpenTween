@@ -382,7 +382,6 @@ namespace OpenTween
                 MessageBox.Show(Properties.Resources.PostPictureWarn1, Properties.Resources.PostPictureWarn2);
             }
 
-            EndSelection();
             imageService = null;
             mediaItems = null;
             return false;
