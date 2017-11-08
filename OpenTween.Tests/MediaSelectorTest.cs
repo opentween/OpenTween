@@ -53,16 +53,16 @@ namespace OpenTween
         }
 
         [Fact]
-        public void Initialize_yfrogTest()
+        public void Initialize_ImgurTest()
         {
             using (var twitter = new Twitter())
             using (var mediaSelector = new MediaSelector())
             {
                 twitter.Initialize("", "", "", 0L);
-                mediaSelector.Initialize(twitter, TwitterConfiguration.DefaultConfiguration(), "yfrog");
+                mediaSelector.Initialize(twitter, TwitterConfiguration.DefaultConfiguration(), "Imgur");
 
-                // 投稿先に yfrog が選択されている
-                Assert.Equal("yfrog", mediaSelector.ImageServiceCombo.Text);
+                // 投稿先に Imgur が選択されている
+                Assert.Equal("Imgur", mediaSelector.ImageServiceCombo.Text);
 
                 // ページ番号が初期化された状態
                 var pages = mediaSelector.ImagePageCombo.Items;
@@ -458,12 +458,12 @@ namespace OpenTween
                 Assert.Equal(new[] { "1", "2", "3" }, pages.Cast<object>().Select(x => x.ToString()));
                 Assert.True(mediaSelector.ImagePageCombo.Enabled);
 
-                // 投稿先を yfrog に変更
-                var yfrogIndex = mediaSelector.ImageServiceCombo.Items.IndexOf("yfrog");
+                // 投稿先を Imgur に変更
+                var imgurIndex = mediaSelector.ImageServiceCombo.Items.IndexOf("Imgur");
                 Assert.Raises<EventArgs>(
                     x => mediaSelector.SelectedServiceChanged += x,
                     x => mediaSelector.SelectedServiceChanged -= x,
-                    () => mediaSelector.ImageServiceCombo.SelectedIndex = yfrogIndex
+                    () => mediaSelector.ImageServiceCombo.SelectedIndex = imgurIndex
                 );
 
                 // 1 ページ目のみ選択可能な状態 (Disabled)
