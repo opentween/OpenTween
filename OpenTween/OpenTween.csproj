@@ -116,7 +116,6 @@
     <Compile Include="Bing.cs" />
     <Compile Include="Connection\IApiConnection.cs" />
     <Compile Include="Connection\IMediaUploadService.cs" />
-    <Compile Include="Connection\imgly.cs" />
     <Compile Include="Connection\Imgur.cs" />
     <Compile Include="Connection\LazyJson.cs" />
     <Compile Include="Connection\Mobypicture.cs" />
