@@ -659,7 +659,10 @@ namespace OpenTween
             else
             {
                 idx = ImageServiceCombo.Items.IndexOf(svc);
-                if (idx == -1) idx = index ?? 0;
+
+                // svc が空白以外かつ存在しないサービス名の場合は Twitter を選択させる
+                // (廃止されたサービスを選択していた場合の対応)
+                if (idx == -1) idx = 0;
             }
 
             try
