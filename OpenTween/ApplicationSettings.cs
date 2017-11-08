@@ -95,15 +95,6 @@ namespace OpenTween
         public const string TwitterConsumerSecret = "prTAs2fqLv12nHxlMoLQZT8AkpZt0yYb8A7ktGS2VYeRj0TddS";
 
         //=====================================================================
-        // yfrog
-        // http://stream.imageshack.us/api/ から取得できます。
-
-        /// <summary>
-        /// yfrog APIキー
-        /// </summary>
-        public const string YfrogApiKey = "HIDP42ZO6314ee2218e2995662bad5ae320c32f1";
-
-        //=====================================================================
         // Foursquare
         // https://developer.foursquare.com/ から取得できます。
 
