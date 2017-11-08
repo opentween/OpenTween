@@ -4761,8 +4761,11 @@ namespace OpenTween
             if (this.inReplyTo != null && this.inReplyTo.Item2 == this.tw.Username)
             {
                 var mentionSelf = $"@{this.tw.Username} ";
-                if (statusText.Length > mentionSelf.Length && statusText.StartsWith(mentionSelf, StringComparison.OrdinalIgnoreCase))
-                    statusText = statusText.Substring(mentionSelf.Length);
+                if (statusText.StartsWith(mentionSelf, StringComparison.OrdinalIgnoreCase))
+                {
+                    if (statusText.Length > mentionSelf.Length || this.GetSelectedImageService() != null)
+                        statusText = statusText.Substring(mentionSelf.Length);
+                }
             }
 
             var header = "";
@@ -4817,8 +4820,8 @@ namespace OpenTween
             //文字数カウント
             var remainCount = this.tw.GetTextLengthRemain(statusText);
 
-            var uploadService = this.ImageSelector.SelectedService;
-            if (this.ImageSelector.Visible && uploadService != null)
+            var uploadService = this.GetSelectedImageService();
+            if (uploadService != null)
             {
                 // TODO: ImageSelector で選択中の画像の枚数が mediaCount 引数に渡るようにする
                 remainCount -= uploadService.GetReservedTextLength(1);
@@ -4826,6 +4829,9 @@ namespace OpenTween
 
             return remainCount;
         }
+
+        private IMediaUploadService GetSelectedImageService()
+            => this.ImageSelector.Visible ? this.ImageSelector.SelectedService : null;
 
         private void MyList_CacheVirtualItems(object sender, CacheVirtualItemsEventArgs e)
         {
