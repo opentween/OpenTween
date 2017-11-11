@@ -1447,6 +1447,9 @@ namespace OpenTween
         {
             this.Configuration = await this.Api.Configuration()
                 .ConfigureAwait(false);
+
+            // TextConfiguration 相当の JSON を得る API が存在しないため、TransformedURLLength のみ help/configuration.json に合わせて更新する
+            this.TextConfiguration.TransformedURLLength = this.Configuration.ShortUrlLengthHttps;
         }
 
         public async Task GetListsApi()
