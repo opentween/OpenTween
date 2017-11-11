@@ -397,5 +397,16 @@ namespace OpenTween
                 Assert.Equal(267, twitter.GetTextLengthRemain("🔥🐔🔥 焼き鳥"));
             }
         }
+
+        [Fact]
+        public void GetTextLengthRemain_BrokenSurrogateTest()
+        {
+            using (var twitter = new Twitter())
+            {
+                // 投稿欄に IME から絵文字を入力すると HighSurrogate のみ入力された状態で TextChanged イベントが呼ばれることがある
+                Assert.Equal(278, twitter.GetTextLengthRemain("\ud83d"));
+                Assert.Equal(9999, twitter.GetTextLengthRemain("D twitter \ud83d"));
+            }
+        }
     }
 }

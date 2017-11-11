@@ -55,5 +55,34 @@ namespace OpenTween
             Assert.True(CultureInfo.InvariantCulture.Contains(new CultureInfo("ja")));
             Assert.True(CultureInfo.InvariantCulture.Contains(CultureInfo.InvariantCulture));
         }
+
+        [Theory]
+        [InlineData("abc", 0, (int)'a')]
+        [InlineData("abc", 1, (int)'b')]
+        [InlineData("abc", 2, (int)'c')]
+        [InlineData("🍣", 0, 0x1f363)] // サロゲートペア
+        public void GetCodepointAtSafe_Test(string s, int index, int expected)
+        {
+            Assert.Equal(expected, s.GetCodepointAtSafe(index));
+        }
+
+        [Theory]
+        // char.ConvertToUtf32 をそのまま使用するとエラーになるパターン
+        [InlineData(new[] { '\ud83c', '\udf63' }, 1, 0xdf63)] // pos がサロゲートペアの後半部分を指している
+        [InlineData(new[] { '\ud83c' }, 0, 0xd83c)] // 壊れたサロゲートペア (LowSurrogate が無い)
+        [InlineData(new[] { '\udf63' }, 0, 0xdf63)] // 壊れたサロゲートペア (HighSurrogate が無い)
+        public void GetCodepointAtSafe_BrokenSurrogateTest(char[] s, int index, int expected)
+        {
+            // InlineDataAttribute で壊れたサロゲートペアの string を扱えないため char[] を使う
+            Assert.Equal(expected, new string(s).GetCodepointAtSafe(index));
+        }
+
+        [Fact]
+        public void GetCodepointAtSafe_ErrorTest()
+        {
+            Assert.Throws<ArgumentNullException>(() => ((string)null).GetCodepointAtSafe(0));
+            Assert.Throws<ArgumentOutOfRangeException>(() => "a".GetCodepointAtSafe(-1));
+            Assert.Throws<ArgumentOutOfRangeException>(() => "a".GetCodepointAtSafe(1));
+        }
     }
 }

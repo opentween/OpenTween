@@ -1767,7 +1767,7 @@ namespace OpenTween
                     continue;
                 }
 
-                var codepoint = char.ConvertToUtf32(postText, pos);
+                var codepoint = postText.GetCodepointAtSafe(pos);
                 var weight = config.DefaultWeight;
 
                 foreach (var weightRange in config.Ranges)

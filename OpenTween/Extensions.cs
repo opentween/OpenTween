@@ -73,5 +73,17 @@ namespace OpenTween
             key = kvp.Key;
             value = kvp.Value;
         }
+
+        /// <summary>
+        /// 文字列中の指定された位置にある文字のコードポイントを返します
+        /// </summary>
+        public static int GetCodepointAtSafe(this string s, int index)
+        {
+            // IsSurrogatePair が true を返す場合のみ ConvertToUtf32 メソッドを使用する
+            if (char.IsSurrogatePair(s, index))
+                return char.ConvertToUtf32(s, index);
+
+            return s[index];
+        }
     }
 }
