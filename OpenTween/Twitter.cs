@@ -133,6 +133,15 @@ namespace OpenTween
         public static readonly Regex StatusUrlRegex = new Regex(@"https?://([^.]+\.)?twitter\.com/(#!/)?(?<ScreenName>[a-zA-Z0-9_]+)/status(es)?/(?<StatusId>[0-9]+)(/photo)?", RegexOptions.IgnoreCase);
 
         /// <summary>
+        /// attachment_url に指定可能な URL を判定する正規表現
+        /// </summary>
+        public static readonly Regex AttachmentUrlRegex = new Regex(@"https?://(
+   twitter\.com/[0-9A-Za-z_]+/status/[0-9]+
+ | mobile\.twitter\.com/[0-9A-Za-z_]+/status/[0-9]+
+ | twitter\.com/messages/compose\?recipient_id=[0-9]+(&.+)?
+)$", RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace);
+
+        /// <summary>
         /// FavstarやaclogなどTwitter関連サービスのパーマリンクURLからステータスIDを抽出する正規表現
         /// </summary>
         public static readonly Regex ThirdPartyStatusUrlRegex = new Regex(@"https?://(?:[^.]+\.)?(?:
@@ -278,18 +287,19 @@ namespace OpenTween
             return orgData;
         }
 
-        public async Task PostStatus(string postStr, long? reply_to, IReadOnlyList<long> mediaIds = null)
+        public async Task PostStatus(PostStatusParams param)
         {
             this.CheckAccountState();
 
-            if (Twitter.DMSendTextRegex.IsMatch(postStr))
+            if (Twitter.DMSendTextRegex.IsMatch(param.Text))
             {
-                await this.SendDirectMessage(postStr)
+                await this.SendDirectMessage(param.Text)
                     .ConfigureAwait(false);
                 return;
             }
 
-            var response = await this.Api.StatusesUpdate(postStr, reply_to, mediaIds)
+            var response = await this.Api.StatusesUpdate(param.Text, param.InReplyToStatusId, param.MediaIds,
+                    param.AutoPopulateReplyMetadata, param.ExcludeReplyUserIds, param.AttachmentUrl)
                 .ConfigureAwait(false);
 
             var status = await response.LoadJsonAsync()
@@ -844,7 +854,7 @@ namespace OpenTween
             post.Source = string.Intern(sourceText);
             post.SourceUri = sourceUri;
 
-            post.IsReply = post.RetweetedId == null && post.ReplyToList.Contains(_uname);
+            post.IsReply = post.RetweetedId == null && post.ReplyToList.Any(x => x.Item1 == this.UserId);
             post.IsExcludeReply = false;
 
             if (post.IsMe)
@@ -1536,7 +1546,7 @@ namespace OpenTween
             }
         }
 
-        public string CreateHtmlAnchor(string text, List<string> AtList, TwitterEntities entities, List<MediaInfo> media)
+        public string CreateHtmlAnchor(string text, List<Tuple<long, string>> AtList, TwitterEntities entities, List<MediaInfo> media)
         {
             if (entities != null)
             {
@@ -1551,9 +1561,7 @@ namespace OpenTween
                 {
                     foreach (var ent in entities.UserMentions)
                     {
-                        var screenName = ent.ScreenName.ToLowerInvariant();
-                        if (!AtList.Contains(screenName))
-                            AtList.Add(screenName);
+                        AtList.Add(Tuple.Create(ent.Id, ent.ScreenName));
                     }
                 }
                 if (entities.Media != null)

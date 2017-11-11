@@ -102,7 +102,7 @@ namespace OpenTween.Models
         private long? _InReplyToStatusId;
         public string Source { get; set; }
         public Uri SourceUri { get; set; }
-        public List<string> ReplyToList { get; set; }
+        public List<Tuple<long, string>> ReplyToList { get; set; }
         public bool IsMe { get; set; }
         public bool IsDm { get; set; }
         public long UserId { get; set; }
@@ -191,7 +191,7 @@ namespace OpenTween.Models
         {
             RetweetedBy = "";
             Media = new List<MediaInfo>();
-            ReplyToList = new List<string>();
+            ReplyToList = new List<Tuple<long, string>>();
             QuoteStatusIds = new long[0];
             ExpandedUrls = new ExpandedUrlInfo[0];
         }
@@ -305,7 +305,7 @@ namespace OpenTween.Models
                     this.InReplyToUser = "";
                     this.InReplyToUserId = null;
                     this.IsReply = false;
-                    this.ReplyToList = new List<string>();
+                    this.ReplyToList = new List<Tuple<long, string>>();
                     this._states = States.None;
                 }
                 _IsDeleted = value;
@@ -461,7 +461,7 @@ namespace OpenTween.Models
         public PostClass Clone()
         {
             var clone = (PostClass)this.MemberwiseClone();
-            clone.ReplyToList = new List<string>(this.ReplyToList);
+            clone.ReplyToList = new List<Tuple<long, string>>(this.ReplyToList);
             clone.Media = new List<MediaInfo>(this.Media);
             clone.QuoteStatusIds = this.QuoteStatusIds.ToArray();
             clone.ExpandedUrls = this.ExpandedUrls.Select(x => x.Clone()).ToArray();

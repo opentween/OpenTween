@@ -221,13 +221,47 @@ namespace OpenTween.Api
                             { "tweet_mode", "extended" },
                             { "in_reply_to_status_id", "100" },
                             { "media_ids", "10,20" },
+                            { "auto_populate_reply_metadata", "true" },
+                            { "exclude_reply_user_ids", "100,200" },
+                            { "attachment_url", "https://twitter.com/twitterapi/status/22634515958" },
                         })
                 )
                 .ReturnsAsync(LazyJson.Create(new TwitterStatus()));
 
                 twitterApi.apiConnection = mock.Object;
 
-                await twitterApi.StatusesUpdate("hogehoge", replyToId: 100L, mediaIds: new[] { 10L, 20L })
+                await twitterApi.StatusesUpdate("hogehoge", replyToId: 100L, mediaIds: new[] { 10L, 20L },
+                        autoPopulateReplyMetadata: true, excludeReplyUserIds: new[] { 100L, 200L },
+                        attachmentUrl: "https://twitter.com/twitterapi/status/22634515958")
+                    .IgnoreResponse()
+                    .ConfigureAwait(false);
+
+                mock.VerifyAll();
+            }
+        }
+
+        [Fact]
+        public async Task StatusesUpdate_ExcludeReplyUserIdsEmptyTest()
+        {
+            using (var twitterApi = new TwitterApi())
+            {
+                var mock = new Mock<IApiConnection>();
+                mock.Setup(x =>
+                    x.PostLazyAsync<TwitterStatus>(
+                        new Uri("statuses/update.json", UriKind.Relative),
+                        new Dictionary<string, string> {
+                            { "status", "hogehoge" },
+                            { "include_entities", "true" },
+                            { "include_ext_alt_text", "true" },
+                            { "tweet_mode", "extended" },
+                            // exclude_reply_user_ids は空の場合には送信されない
+                        })
+                )
+                .ReturnsAsync(LazyJson.Create(new TwitterStatus()));
+
+                twitterApi.apiConnection = mock.Object;
+
+                await twitterApi.StatusesUpdate("hogehoge", replyToId: null, mediaIds: null, excludeReplyUserIds: new long[0])
                     .IgnoreResponse()
                     .ConfigureAwait(false);
 

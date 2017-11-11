@@ -70,10 +70,10 @@ namespace OpenTween.Connection
         long? GetMaxFileSize(string fileExtension);
 
         /// <summary>
-        /// メディアのアップロードとツイートの投稿を行います
+        /// メディアのアップロードを行い、結果の URL 等を <paramref name="postParams"/> に追加します
         /// </summary>
         /// <exception cref="WebApiException"/>
-        Task PostStatusAsync(string text, long? inReplyToStatusId, IMediaItem[] mediaItems);
+        Task<PostStatusParams> UploadAsync(IMediaItem[] mediaItems, PostStatusParams postParams);
 
         /// <summary>
         /// 画像URLのために確保する必要のある文字数を返します
