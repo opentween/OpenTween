@@ -309,25 +309,21 @@ namespace OpenTween
             this.TextBoxName.Height = this.LabelName.Height;
             this.TextBoxName.Width = this.LabelName.Width;
             this.TextBoxName.BackColor = this.mainForm.InputBackColor;
-            this.TextBoxName.MaxLength = 20;
 
             this.TextBoxLocation.Location = this.LabelLocation.Location;
             this.TextBoxLocation.Height = this.LabelLocation.Height;
             this.TextBoxLocation.Width = this.LabelLocation.Width;
             this.TextBoxLocation.BackColor = this.mainForm.InputBackColor;
-            this.TextBoxLocation.MaxLength = 30;
 
             this.TextBoxWeb.Location = this.LinkLabelWeb.Location;
             this.TextBoxWeb.Height = this.LinkLabelWeb.Height;
             this.TextBoxWeb.Width = this.LinkLabelWeb.Width;
             this.TextBoxWeb.BackColor = this.mainForm.InputBackColor;
-            this.TextBoxWeb.MaxLength = 100;
 
             this.TextBoxDescription.Location = this.DescriptionBrowser.Location;
             this.TextBoxDescription.Height = this.DescriptionBrowser.Height;
             this.TextBoxDescription.Width = this.DescriptionBrowser.Width;
             this.TextBoxDescription.BackColor = this.mainForm.InputBackColor;
-            this.TextBoxDescription.MaxLength = 160;
             this.TextBoxDescription.Multiline = true;
             this.TextBoxDescription.ScrollBars = ScrollBars.Vertical;
         }
