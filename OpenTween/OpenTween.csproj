@@ -167,7 +167,7 @@
     <Compile Include="Models\UserTimelineTabModel.cs" />
     <Compile Include="MouseWheelMessageFilter.cs" />
     <Compile Include="NotifyPropertyChangedBase.cs" />
-    <Compile Include="PostStatusOptions.cs" />
+    <Compile Include="PostStatusParams.cs" />
     <Compile Include="ReaderWriterLockTransaction.cs" />
     <Compile Include="SendErrorReportForm.cs">
       <SubType>Form</SubType>
