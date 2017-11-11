@@ -74,9 +74,9 @@ namespace OpenTween.Api.DataModel
         {
             return new TwitterConfiguration
             {
-                CharactersReservedPerMedia = 20,
-                ShortUrlLength = 19,
-                ShortUrlLengthHttps = 20,
+                CharactersReservedPerMedia = 24,
+                ShortUrlLength = 23,
+                ShortUrlLengthHttps = 23,
                 PhotoSizeLimit = 3145728L,
                 DmTextCharacterLimit = 10000,
             };
