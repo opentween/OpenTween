@@ -50,6 +50,11 @@ namespace OpenTween
         public event EventHandler<ThumbnailDoubleClickEventArgs>? ThumbnailDoubleClick;
         public event EventHandler<ThumbnailImageSearchEventArgs>? ThumbnailImageSearchClick;
 
+        private TweetThumbnailWindow? _thumbWindow;
+        private TweetThumbnailWindow ThumbnailWindow
+            => _thumbWindow ??= CreateTweetThumbnailWindow();
+
+
         public ThumbnailInfo Thumbnail
             => (ThumbnailInfo)this.pictureBox[this.scrollBar.Value].Tag;
 
@@ -142,6 +147,7 @@ namespace OpenTween
 
                     picbox.MouseWheel -= this.pictureBox_MouseWheel;
                     picbox.DoubleClick -= this.pictureBox_DoubleClick;
+                    picbox.MouseClick -= this.pictureBox_MouseClick;
                     picbox.Dispose();
 
                     memoryImage?.Dispose();
@@ -160,6 +166,7 @@ namespace OpenTween
                     picbox.Visible = (i == 0);
                     picbox.MouseWheel += this.pictureBox_MouseWheel;
                     picbox.DoubleClick += this.pictureBox_DoubleClick;
+                    picbox.MouseClick += this.pictureBox_MouseClick;
 
                     filter.Register(picbox);
 
@@ -229,6 +236,36 @@ namespace OpenTween
                 this.ScrollUp();
             else
                 this.ScrollDown();
+        }
+
+        private void pictureBox_MouseClick(object sender, MouseEventArgs e)
+        {
+            var picBox = sender as PictureBox;
+            if (picBox == null) return;
+
+            var thumb = picBox.Tag as ThumbnailInfo;
+            if (thumb == null || thumb.IsPlayable) return;
+
+            this.ShowThubWindow(picBox.Image, thumb);
+        }
+
+        private void ShowThubWindow(Image image, ThumbnailInfo thumbnailInfo)
+        {
+            var thumbWindow = this.ThumbnailWindow;
+            if (thumbWindow.Image == image)
+            {
+                ThumbnailWindow.HideAndClear();
+                return;
+            }
+
+            thumbWindow.Image = image;
+            thumbWindow.Show();
+        }
+        private TweetThumbnailWindow CreateTweetThumbnailWindow()
+        {
+            var window = new TweetThumbnailWindow(this.ParentForm);
+            this.components.Add(window);
+            return window;
         }
 
         private void pictureBox_DoubleClick(object sender, EventArgs e)
