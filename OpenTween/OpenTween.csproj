@@ -149,6 +149,12 @@
     <Compile Include="FilterDialog.Designer.cs">
       <DependentUpon>FilterDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="MediaViewerLightDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MediaViewerLightDialog.Designer.cs">
+      <DependentUpon>MediaViewerLightDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="IndexedSortedSet.cs" />
     <Compile Include="LoginDialog.cs">
       <SubType>Form</SubType>
@@ -162,6 +168,7 @@
     <Compile Include="Models\FavoritesTabModel.cs" />
     <Compile Include="Models\FilterTabModel.cs" />
     <Compile Include="Models\HomeTabModel.cs" />
+    <Compile Include="Models\MediaViewerLight.cs" />
     <Compile Include="Models\InternalStorageTabModel.cs" />
     <Compile Include="Models\IReadOnlyTabCollection.cs" />
     <Compile Include="Models\ListTimelineTabModel.cs" />
@@ -487,6 +494,10 @@
     </EmbeddedResource>
     <EmbeddedResource Include="HashtagManage.resx">
       <DependentUpon>HashtagManage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MediaViewerLightDialog.resx">
+      <DependentUpon>MediaViewerLightDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="InputDialog.en.resx">
       <DependentUpon>InputDialog.cs</DependentUpon>
