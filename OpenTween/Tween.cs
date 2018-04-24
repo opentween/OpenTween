@@ -11224,8 +11224,7 @@ namespace OpenTween
                 using (var viewer = new MediaViewerLight())
                 using (var viewerDialog = new MediaViewerLightDialog(viewer))
                 {
-                    viewer.ImageUrl = imageUrl;
-                    var loadTask = Task.Run(() => viewer.LoadAsync(CancellationToken.None));
+                    var loadTask = Task.Run(() => viewer.LoadAsync(imageUrl));
                     viewerDialog.ShowDialog(this);
                     await loadTask;
                 }
