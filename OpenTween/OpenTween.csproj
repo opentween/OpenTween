@@ -149,6 +149,7 @@
     <Compile Include="FilterDialog.Designer.cs">
       <DependentUpon>FilterDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="MediaHandler.cs" />
     <Compile Include="MediaViewerLightDialog.cs">
       <SubType>Form</SubType>
     </Compile>

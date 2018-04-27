@@ -11220,17 +11220,13 @@ namespace OpenTween
 
         private async Task OpenMediaViewer(ThumbnailInfo[] thumbnails, int displayIndex)
         {
-            using (var viewer = new MediaViewerLight())
-            using (var viewerDialog = new MediaViewerLightDialog(viewer))
+            var handler = new MediaHandler
             {
-                viewer.SetMediaItems(thumbnails);
-                var loadTask = Task.Run(() => viewer.SelectMedia(displayIndex));
+                MediaHandlerType = SettingManager.Local.MediaHanderType,
+                OpenInBrowser = (owner, url) => MyCommon.OpenInBrowserAsync(owner, url),
+            };
 
-                viewerDialog.OpenInBrowser = (owner, url) => MyCommon.OpenInBrowserAsync(owner, url);
-                viewerDialog.ShowDialog(this);
-
-                await loadTask;
-            }
+            await handler.OpenMediaViewer(this, thumbnails, displayIndex);
         }
 
         private async void TwitterApiStatusToolStripMenuItem_Click(object sender, EventArgs e)
