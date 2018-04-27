@@ -53,6 +53,9 @@ namespace OpenTween.Models
             private set => this.SetProperty(ref this.displayMediaIndex, value);
         }
 
+        public ThumbnailInfo DisplayMedia
+            => this.MediaItems[this.DisplayMediaIndex];
+
         public string? ImageUrl
         {
             get => this.imageUrl;
