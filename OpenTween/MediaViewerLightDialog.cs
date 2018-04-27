@@ -46,6 +46,10 @@ namespace OpenTween
         {
             switch (e.PropertyName)
             {
+                case nameof(MediaViewerLight.MediaItems):
+                case nameof(MediaViewerLight.DisplayMediaIndex):
+                    this.UpdateTitle();
+                    break;
                 case nameof(MediaViewerLight.LoadState):
                     this.UpdateLoadState();
                     break;
@@ -67,9 +71,23 @@ namespace OpenTween
 
         private void UpdateAll()
         {
+            this.UpdateTitle();
             this.UpdateLoadState();
             this.UpdateLoadProgress();
             this.UpdateImage();
+        }
+
+        private void UpdateTitle()
+        {
+            const string TITLE_TEMPLATE = "{0}/{1}";
+
+            var mediaCount = this.model.MediaItems.Length;
+            var displayIndex = this.model.DisplayMediaIndex;
+
+            if (mediaCount == 1)
+                this.Text = "";
+            else
+                this.Text = string.Format(TITLE_TEMPLATE, displayIndex + 1, mediaCount);
         }
 
         private void UpdateLoadState()
