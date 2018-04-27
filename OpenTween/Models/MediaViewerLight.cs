@@ -33,11 +33,25 @@ namespace OpenTween.Models
 {
     public sealed class MediaViewerLight : NotifyPropertyChangedBase, IDisposable
     {
+        private ThumbnailInfo[] mediaItems = Array.Empty<ThumbnailInfo>();
+        private int displayMediaIndex;
         private string? imageUrl;
         private MemoryImage? image;
         private LoadStateEnum loadState;
         private long? imageSize;
         private long? receivedSize;
+
+        public ThumbnailInfo[] MediaItems
+        {
+            get => this.mediaItems;
+            private set => this.SetProperty(ref this.mediaItems, value);
+        }
+
+        public int DisplayMediaIndex
+        {
+            get => this.displayMediaIndex;
+            private set => this.SetProperty(ref this.displayMediaIndex, value);
+        }
 
         public string? ImageUrl
         {
@@ -79,10 +93,39 @@ namespace OpenTween.Models
             LoadError = 3,
         }
 
-        public void SetFromThubnailInfo(ThumbnailInfo thumb)
-            => this.ImageUrl = thumb.FullSizeImageUrl ?? thumb.ThumbnailImageUrl;
+        public void SetMediaItems(ThumbnailInfo[] thumbnails)
+        {
+            this.DisplayMediaIndex = 0;
+            this.MediaItems = thumbnails;
+        }
 
-        public async Task LoadAsync(string imageUrl)
+        public async Task SelectMedia(int displayIndex)
+        {
+            this.DisplayMediaIndex = displayIndex;
+
+            var media = this.MediaItems[displayIndex];
+            await this.LoadAsync(media);
+        }
+
+        public async Task SelectPreviousMedia()
+        {
+            var currentIndex = this.DisplayMediaIndex;
+            if (currentIndex == 0)
+                return;
+
+            await this.SelectMedia(currentIndex - 1);
+        }
+
+        public async Task SelectNextMedia()
+        {
+            var currentIndex = this.DisplayMediaIndex;
+            if (currentIndex == this.MediaItems.Length - 1)
+                return;
+
+            await this.SelectMedia(currentIndex + 1);
+        }
+
+        internal async Task LoadAsync(ThumbnailInfo media)
         {
             var newCts = new CancellationTokenSource();
             var oldCts = Interlocked.Exchange(ref this.cts, newCts);
@@ -92,7 +135,15 @@ namespace OpenTween.Models
                 oldCts.Dispose();
             }
 
-            await this.LoadAsync(imageUrl, newCts.Token);
+            var imageUrl = media.FullSizeImageUrl ?? media.ThumbnailImageUrl;
+            if (imageUrl != null)
+            {
+                await this.LoadAsync(imageUrl, newCts.Token);
+            }
+            else
+            {
+                await this.LoadAsync(() => media.LoadThumbnailImageAsync(newCts.Token));
+            }
         }
 
         internal async Task LoadAsync(string imageUrl, CancellationToken cancellationToken)
@@ -137,6 +188,44 @@ namespace OpenTween.Models
                     this.Image = MemoryImage.CopyFromStream(memstream);
                 }
 
+                this.LoadState = LoadStateEnum.LoadSuccessed;
+            }
+            catch (Exception)
+            {
+                this.LoadState = LoadStateEnum.LoadError;
+
+                try
+                {
+                    throw;
+                }
+                catch (HttpRequestException)
+                {
+                }
+                catch (InvalidImageException)
+                {
+                }
+                catch (OperationCanceledException)
+                {
+                }
+                catch (IOException)
+                {
+                }
+            }
+        }
+
+        internal async Task LoadAsync(Func<Task<MemoryImage>> imageTaskFunc)
+        {
+            try
+            {
+                this.ImageUrl = null;
+                this.Image = null;
+                this.ImageSize = null;
+                this.ReceivedSize = null;
+                this.LoadState = LoadStateEnum.BeforeLoad;
+
+                var image = await imageTaskFunc();
+
+                this.Image = image;
                 this.LoadState = LoadStateEnum.LoadSuccessed;
             }
             catch (Exception)

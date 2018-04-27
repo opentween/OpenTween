@@ -112,10 +112,24 @@ namespace OpenTween
         private void UpdateImage()
             => this.pictureBox.Image = this.model.Image;
 
-        private void MediaViewerLightDialog_KeyDown(object sender, KeyEventArgs e)
+        private async void MediaViewerLightDialog_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyData == Keys.Escape)
-                this.Close();
+            switch (e.KeyData)
+            {
+                case Keys.Up:
+                case Keys.Left:
+                    await this.model.SelectPreviousMedia();
+                    break;
+                case Keys.Down:
+                case Keys.Right:
+                    await this.model.SelectNextMedia();
+                    break;
+                case Keys.Escape:
+                    this.Close();
+                    break;
+                default:
+                    break;
+            }
         }
 
         private void MediaViewerLightDialog_FormClosing(object sender, FormClosingEventArgs e)
