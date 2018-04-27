@@ -293,7 +293,7 @@ namespace OpenTween
         {
             try
             {
-                Clipboard.SetText(this.Thumbnail.FullSizeImageUrl);
+                Clipboard.SetText(this.Thumbnail.FullSizeImageUrl ?? this.Thumbnail.MediaPageUrl);
             }
             catch (ExternalException ex)
             {
