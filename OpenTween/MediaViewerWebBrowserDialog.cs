@@ -1,0 +1,75 @@
+﻿// OpenTween - Client of Twitter
+// Copyright (c) 2018 kim_upsilon (@kim_upsilon) <https://upsilo.net/~upsilon/>
+// All rights reserved.
+//
+// This file is part of OpenTween.
+//
+// This program is free software; you can redistribute it and/or modify it
+// under the terms of the GNU General Public License as published by the Free
+// Software Foundation; either version 3 of the License, or (at your option)
+// any later version.
+//
+// This program is distributed in the hope that it will be useful, but
+// WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+// or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
+// for more details.
+//
+// You should have received a copy of the GNU General Public License along
+// with this program. If not, see <http://www.gnu.org/licenses/>, or write to
+// the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
+// Boston, MA 02110-1301, USA.
+
+#nullable enable
+
+using System;
+using System.Net;
+using OpenTween.Thumbnail;
+
+namespace OpenTween
+{
+    public partial class MediaViewerWebBrowserDialog : OTBaseForm
+    {
+        public MediaViewerWebBrowserDialog()
+        {
+            this.InitializeComponent();
+        }
+
+        public void SetMediaItem(ThumbnailInfo media)
+            => this.webBrowser.DocumentText = this.CreateDocument(media);
+
+        internal string CreateDocument(ThumbnailInfo media)
+        {
+            const string TEMPLATE_HEAD = @"
+<!DOCTYPE html>
+<meta charset='utf-8'/>
+<meta http-equiv='X-UA-Compatible' content='IE=edge'/>
+<title>MediaViewerWebBrowserDialog</title>
+<style>
+html, body {
+  height: 100%;
+  margin: 0;
+}
+.media-panel {
+  height: 100%;
+  background: rgb(###BG_COLOR###);
+}
+.media-image {
+  height: 100%;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+</style>
+<div class='media-panel media'>
+  <div class='media-image' style='background-image: url(###IMAGE_URI###)'></div>
+</div>
+";
+            var bgColor = this.BackColor;
+            var html = TEMPLATE_HEAD
+                .Replace("###BG_COLOR###", $"{bgColor.R},{bgColor.G},{bgColor.B}")
+                .Replace("###IMAGE_URI###", WebUtility.HtmlEncode(Uri.EscapeUriString(media.FullSizeImageUrl ?? media.ThumbnailImageUrl ?? "")));
+
+            return html;
+        }
+    }
+}

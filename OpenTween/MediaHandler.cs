@@ -37,6 +37,9 @@ namespace OpenTween
 
         /// <summary>軽量ビューアーで開く</summary>
         LightViewer,
+
+        /// <summary>埋め込みブラウザで開く</summary>
+        WebBrowserViewer,
     }
 
     public class MediaHandler
@@ -54,6 +57,9 @@ namespace OpenTween
                     break;
                 case MediaHandlerType.LightViewer:
                     await this.OpenMediaInLightViewer(owner, thumbnails, displayIndex);
+                    break;
+                case MediaHandlerType.WebBrowserViewer:
+                    this.OpenMediaInWebBrowserViewer(owner, thumbnails, displayIndex);
                     break;
                 default:
                     throw new InvalidEnumArgumentException();
@@ -79,6 +85,14 @@ namespace OpenTween
             viewerDialog.ShowDialog(owner);
 
             await loadTask;
+        }
+
+        public void OpenMediaInWebBrowserViewer(IWin32Window owner, ThumbnailInfo[] thumbnails, int displayIndex)
+        {
+            using var viewerDialog = new MediaViewerWebBrowserDialog();
+
+            viewerDialog.SetMediaItem(thumbnails[displayIndex]);
+            viewerDialog.ShowDialog(owner);
         }
     }
 }
