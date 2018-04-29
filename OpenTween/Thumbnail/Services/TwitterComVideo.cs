@@ -58,8 +58,9 @@ namespace OpenTween.Thumbnail.Services
             {
                 return new ThumbnailInfo
                 {
-                    MediaPageUrl = mediaInfo.VideoUrl,
+                    MediaPageUrl = MyCommon.GetStatusUrl(post.ScreenName, post.StatusId),
                     ThumbnailImageUrl = url,
+                    VideoUrl = mediaInfo.VideoUrl,
                     TooltipText = mediaInfo.AltText,
                     IsPlayable = true,
                 };

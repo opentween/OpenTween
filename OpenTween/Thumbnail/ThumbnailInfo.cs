@@ -54,6 +54,9 @@ namespace OpenTween.Thumbnail
         /// </remarks>
         public string? FullSizeImageUrl { get; set; }
 
+        /// <summary>動画 URL (video/mp4 形式のみ)</summary>
+        public string? VideoUrl { get; set; }
+
         /// <summary>ツールチップとして表示するテキスト</summary>
         /// <remarks>
         /// サムネイル画像にマウスオーバーした際に表示されるテキスト

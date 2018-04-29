@@ -59,15 +59,38 @@ html, body {
   background-position: center;
   background-repeat: no-repeat;
 }
+.media-video {
+  width: 100%;
+  height: 100%;
+}
 </style>
+";
+            var bgColor = this.BackColor;
+            var html = TEMPLATE_HEAD
+                .Replace("###BG_COLOR###", $"{bgColor.R},{bgColor.G},{bgColor.B}");
+
+            if (media.VideoUrl != null)
+            {
+                const string TEMPLATE_VIDEO_BODY = @"
+<div class='media-panel'>
+  <video class='media-video' preload='metadata' controls>
+    <source src='###VIDEO_URI###' type='video/mp4'/>
+  </video>
+</div>
+";
+                html += TEMPLATE_VIDEO_BODY
+                    .Replace("###VIDEO_URI###", WebUtility.HtmlEncode(media.VideoUrl));
+            }
+            else
+            {
+                const string TEMPLATE_IMAGE_BODY = @"
 <div class='media-panel media'>
   <div class='media-image' style='background-image: url(###IMAGE_URI###)'></div>
 </div>
 ";
-            var bgColor = this.BackColor;
-            var html = TEMPLATE_HEAD
-                .Replace("###BG_COLOR###", $"{bgColor.R},{bgColor.G},{bgColor.B}")
-                .Replace("###IMAGE_URI###", WebUtility.HtmlEncode(Uri.EscapeUriString(media.FullSizeImageUrl ?? media.ThumbnailImageUrl ?? "")));
+                html += TEMPLATE_IMAGE_BODY
+                    .Replace("###IMAGE_URI###", WebUtility.HtmlEncode(Uri.EscapeUriString(media.FullSizeImageUrl ?? media.ThumbnailImageUrl ?? "")));
+            }
 
             return html;
         }
