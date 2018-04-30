@@ -170,6 +170,7 @@
       <DependentUpon>LoginDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="MediaItem.cs" />
+    <Compile Include="Models\ColorRGB.cs" />
     <Compile Include="Models\ComparerMode.cs" />
     <Compile Include="Models\DirectMessagesTabModel.cs" />
     <Compile Include="Models\FavoritesTabModel.cs" />
@@ -181,6 +182,7 @@
     <Compile Include="Models\ListTimelineTabModel.cs" />
     <Compile Include="Models\LocalSearchTabModel.cs" />
     <Compile Include="Models\MediaInfo.cs" />
+    <Compile Include="Models\MediaViewerWebBrowser.cs" />
     <Compile Include="Models\MentionsTabModel.cs" />
     <Compile Include="Models\MuteTabModel.cs" />
     <Compile Include="Models\PostClass.cs" />

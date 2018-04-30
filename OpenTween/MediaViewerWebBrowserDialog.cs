@@ -21,78 +21,50 @@
 
 #nullable enable
 
-using System;
-using System.Net;
-using OpenTween.Thumbnail;
+using System.ComponentModel;
+using OpenTween.Models;
 
 namespace OpenTween
 {
     public partial class MediaViewerWebBrowserDialog : OTBaseForm
     {
-        public MediaViewerWebBrowserDialog()
+        private readonly MediaViewerWebBrowser model;
+
+        public MediaViewerWebBrowserDialog(MediaViewerWebBrowser model)
         {
             this.InitializeComponent();
+
+            this.model = model;
+            this.model.SetBackColor(new ColorRGB(this.BackColor));
+
+            this.model.PropertyChanged +=
+                (s, e) => this.InvokeAsync(() => this.Model_PropertyChanged(s, e));
+
+            this.UpdateAll();
         }
 
-        public void SetMediaItem(ThumbnailInfo media)
-            => this.webBrowser.DocumentText = this.CreateDocument(media);
-
-        internal string CreateDocument(ThumbnailInfo media)
+        private void Model_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            const string TEMPLATE_HEAD = @"
-<!DOCTYPE html>
-<meta charset='utf-8'/>
-<meta http-equiv='X-UA-Compatible' content='IE=edge'/>
-<title>MediaViewerWebBrowserDialog</title>
-<style>
-html, body {
-  height: 100%;
-  margin: 0;
-}
-.media-panel {
-  height: 100%;
-  background: rgb(###BG_COLOR###);
-}
-.media-image {
-  height: 100%;
-  background-size: contain;
-  background-position: center;
-  background-repeat: no-repeat;
-}
-.media-video {
-  width: 100%;
-  height: 100%;
-}
-</style>
-";
-            var bgColor = this.BackColor;
-            var html = TEMPLATE_HEAD
-                .Replace("###BG_COLOR###", $"{bgColor.R},{bgColor.G},{bgColor.B}");
-
-            if (media.VideoUrl != null)
+            switch (e.PropertyName)
             {
-                const string TEMPLATE_VIDEO_BODY = @"
-<div class='media-panel'>
-  <video class='media-video' preload='metadata' controls>
-    <source src='###VIDEO_URI###' type='video/mp4'/>
-  </video>
-</div>
-";
-                html += TEMPLATE_VIDEO_BODY
-                    .Replace("###VIDEO_URI###", WebUtility.HtmlEncode(media.VideoUrl));
+                case nameof(MediaViewerWebBrowser.DisplayHTML):
+                    this.UpdateHTML();
+                    break;
+                case "":
+                case null:
+                    this.UpdateAll();
+                    break;
+                default:
+                    break;
             }
-            else
-            {
-                const string TEMPLATE_IMAGE_BODY = @"
-<div class='media-panel media'>
-  <div class='media-image' style='background-image: url(###IMAGE_URI###)'></div>
-</div>
-";
-                html += TEMPLATE_IMAGE_BODY
-                    .Replace("###IMAGE_URI###", WebUtility.HtmlEncode(Uri.EscapeUriString(media.FullSizeImageUrl ?? media.ThumbnailImageUrl ?? "")));
-            }
-
-            return html;
         }
+
+        private void UpdateAll()
+        {
+            this.UpdateHTML();
+        }
+
+        private void UpdateHTML()
+            => this.webBrowser.DocumentText = this.model.DisplayHTML;
     }
 }
