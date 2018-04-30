@@ -73,6 +73,24 @@ namespace OpenTween.Models
             this.DisplayHTML = this.CreateDocument();
         }
 
+        public void SelectPreviousMedia()
+        {
+            var currentIndex = this.DisplayMediaIndex;
+            if (currentIndex == 0)
+                return;
+
+            this.SelectMedia(currentIndex - 1);
+        }
+
+        public void SelectNextMedia()
+        {
+            var currentIndex = this.DisplayMediaIndex;
+            if (currentIndex == this.MediaItems.Length - 1)
+                return;
+
+            this.SelectMedia(currentIndex + 1);
+        }
+
         public void SetBackColor(ColorRGB color)
         {
             this.BackColor = color;

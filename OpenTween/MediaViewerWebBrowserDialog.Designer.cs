@@ -33,7 +33,6 @@
             // 
             // webBrowser
             // 
-            this.webBrowser.AllowNavigation = false;
             this.webBrowser.AllowWebBrowserDrop = false;
             this.webBrowser.Dock = System.Windows.Forms.DockStyle.Fill;
             this.webBrowser.IsWebBrowserContextMenuEnabled = false;
@@ -45,6 +44,7 @@
             this.webBrowser.Size = new System.Drawing.Size(500, 500);
             this.webBrowser.TabIndex = 0;
             this.webBrowser.WebBrowserShortcutsEnabled = false;
+            this.webBrowser.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.WebBrowser_PreviewKeyDown);
             // 
             // MediaViewerWebBrowserDialog
             // 

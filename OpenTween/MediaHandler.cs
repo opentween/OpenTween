@@ -94,6 +94,7 @@ namespace OpenTween
             viewer.SelectMedia(displayIndex);
 
             using var viewerDialog = new MediaViewerWebBrowserDialog(viewer);
+            viewerDialog.OpenInBrowser = this.OpenInBrowser;
             viewerDialog.ShowDialog(owner);
         }
     }
