@@ -90,7 +90,8 @@ namespace OpenTween
         public void OpenMediaInWebBrowserViewer(IWin32Window owner, ThumbnailInfo[] thumbnails, int displayIndex)
         {
             var viewer = new MediaViewerWebBrowser();
-            viewer.SetMediaItem(thumbnails[displayIndex]);
+            viewer.SetMediaItems(thumbnails);
+            viewer.SelectMedia(displayIndex);
 
             using var viewerDialog = new MediaViewerWebBrowserDialog(viewer);
             viewerDialog.ShowDialog(owner);
