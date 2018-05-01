@@ -75,7 +75,7 @@ namespace OpenTween
         [Fact]
         public void GetUrlFromDataObject_UnknownFormatTest()
         {
-            using (var memstream = new MemoryStream(new byte[0]))
+            using (var memstream = new MemoryStream(Array.Empty<byte>()))
             {
                 var data = new DataObject("application/x-hogehoge", memstream);
 

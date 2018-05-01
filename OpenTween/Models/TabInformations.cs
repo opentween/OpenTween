@@ -349,7 +349,7 @@ namespace OpenTween.Models
             lock (this.LockObj)
             {
                 soundFile = "";
-                notifyPosts = new PostClass[0];
+                notifyPosts = Array.Empty<PostClass>();
                 newMentionOrDm = false;
                 isDeletePost = false;
 

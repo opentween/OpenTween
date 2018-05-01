@@ -153,7 +153,7 @@ namespace OpenTween.Models
                 if (deepExpand)
                     this.ExpandTask = this.DeepExpandAsync();
                 else
-                    this.ExpandTask = Task.FromResult(0);
+                    this.ExpandTask = Task.CompletedTask;
             }
 
             protected virtual async Task DeepExpandAsync()
@@ -192,8 +192,8 @@ namespace OpenTween.Models
             RetweetedBy = "";
             Media = new List<MediaInfo>();
             ReplyToList = new List<Tuple<long, string>>();
-            QuoteStatusIds = new long[0];
-            ExpandedUrls = new ExpandedUrlInfo[0];
+            QuoteStatusIds = Array.Empty<long>();
+            ExpandedUrls = Array.Empty<ExpandedUrlInfo>();
         }
 
         public string TextSingleLine
