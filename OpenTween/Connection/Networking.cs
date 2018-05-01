@@ -104,6 +104,7 @@ namespace OpenTween.Connection
             Networking.initialized = true;
 
             ServicePointManager.Expect100Continue = false;
+            ServicePointManager.CheckCertificateRevocationList = true;
 
             // Win7 では SystemDefault が SSL3.0 または TLS1.0 のため、明示的にバージョンを引き上げる必要がある
             if (IsWindows7)
