@@ -183,7 +183,6 @@
       <DependentUpon>TweetDetailsView.cs</DependentUpon>
     </Compile>
     <Compile Include="TweetExtractor.cs" />
-    <Compile Include="ValueTuple.cs" />
     <Compile Include="WaitingDialog.cs">
       <SubType>Form</SubType>
     </Compile>
