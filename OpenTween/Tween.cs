@@ -7175,7 +7175,7 @@ namespace OpenTween
 
             var tabs = this.ListTab.TabPages.Cast<TabPage>()
                 .Select(x => this._statuses.Tabs[x.Text])
-                .Concat(new[] { this._statuses.GetTabByType(MyCommon.TabUsageType.Mute) });
+                .Append(this._statuses.GetTabByType(MyCommon.TabUsageType.Mute));
 
             foreach (var tab in tabs)
             {

@@ -830,7 +830,7 @@ namespace OpenTween
             var urls = entities.OfType<TwitterEntityUrl>().Select(x => x.ExpandedUrl);
 
             if (quotedStatusLink != null)
-                urls = urls.Concat(new[] { quotedStatusLink.Expanded });
+                urls = urls.Append(quotedStatusLink.Expanded);
 
             return GetQuoteTweetStatusIds(urls);
         }
