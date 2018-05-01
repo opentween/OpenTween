@@ -317,18 +317,16 @@ namespace OpenTween
         private class StatusTextHistory
         {
             public string status = "";
-            public long? inReplyToId = null;
-            public string inReplyToName = null;
+            public (long StatusId, string ScreenName)? inReplyTo = null;
             public string imageService = "";      //画像投稿サービス名
             public IMediaItem[] mediaItems = null;
             public StatusTextHistory()
             {
             }
-            public StatusTextHistory(string status, long? replyToId, string replyToName)
+            public StatusTextHistory(string status, (long StatusId, string ScreenName)? inReplyTo)
             {
                 this.status = status;
-                this.inReplyToId = replyToId;
-                this.inReplyToName = replyToName;
+                this.inReplyTo = inReplyTo;
             }
         }
 
@@ -2118,9 +2116,7 @@ namespace OpenTween
                     return;
             }
 
-            var inReplyToStatusId = this.inReplyTo?.StatusId;
-            var inReplyToScreenName = this.inReplyTo?.ScreenName;
-            _history[_history.Count - 1] = new StatusTextHistory(StatusText.Text, inReplyToStatusId, inReplyToScreenName);
+            _history[_history.Count - 1] = new StatusTextHistory(StatusText.Text, this.inReplyTo);
 
             if (SettingManager.Common.Nicoms)
             {
@@ -5965,19 +5961,13 @@ namespace OpenTween
                     .FocusedOn(FocusedControl.StatusText)
                     .Do(() => {
                         if (!string.IsNullOrWhiteSpace(StatusText.Text))
-                        {
-                            var inReplyToStatusId = this.inReplyTo?.StatusId;
-                            var inReplyToScreenName = this.inReplyTo?.ScreenName;
-                            _history[_hisIdx] = new StatusTextHistory(StatusText.Text, inReplyToStatusId, inReplyToScreenName);
-                        }
+                            _history[_hisIdx] = new StatusTextHistory(StatusText.Text, this.inReplyTo);
+
                         _hisIdx -= 1;
                         if (_hisIdx < 0) _hisIdx = 0;
 
                         var historyItem = this._history[this._hisIdx];
-                        if (historyItem.inReplyToId != null)
-                            this.inReplyTo = (historyItem.inReplyToId.Value, historyItem.inReplyToName);
-                        else
-                            this.inReplyTo = null;
+                        this.inReplyTo = historyItem.inReplyTo;
                         StatusText.Text = historyItem.status;
                         StatusText.SelectionStart = StatusText.Text.Length;
                     }),
@@ -5986,19 +5976,13 @@ namespace OpenTween
                     .FocusedOn(FocusedControl.StatusText)
                     .Do(() => {
                         if (!string.IsNullOrWhiteSpace(StatusText.Text))
-                        {
-                            var inReplyToStatusId = this.inReplyTo?.StatusId;
-                            var inReplyToScreenName = this.inReplyTo?.ScreenName;
-                            _history[_hisIdx] = new StatusTextHistory(StatusText.Text, inReplyToStatusId, inReplyToScreenName);
-                        }
+                            _history[_hisIdx] = new StatusTextHistory(StatusText.Text, this.inReplyTo);
+
                         _hisIdx += 1;
                         if (_hisIdx > _history.Count - 1) _hisIdx = _history.Count - 1;
 
                         var historyItem = this._history[this._hisIdx];
-                        if (historyItem.inReplyToId != null)
-                            this.inReplyTo = (historyItem.inReplyToId.Value, historyItem.inReplyToName);
-                        else
-                            this.inReplyTo = null;
+                        this.inReplyTo = historyItem.inReplyTo;
                         StatusText.Text = historyItem.status;
                         StatusText.SelectionStart = StatusText.Text.Length;
                     }),
