@@ -806,7 +806,7 @@ namespace OpenTween
             post.Source = string.Intern(sourceText);
             post.SourceUri = sourceUri;
 
-            post.IsReply = post.RetweetedId == null && post.ReplyToList.Any(x => x.Item1 == this.UserId);
+            post.IsReply = post.RetweetedId == null && post.ReplyToList.Any(x => x.UserId == this.UserId);
             post.IsExcludeReply = false;
 
             if (post.IsMe)
@@ -1587,7 +1587,7 @@ namespace OpenTween
             }
         }
 
-        private void ExtractEntities(TwitterEntities entities, List<Tuple<long, string>> AtList, List<MediaInfo> media)
+        private void ExtractEntities(TwitterEntities entities, List<(long UserId, string ScreenName)> AtList, List<MediaInfo> media)
         {
             if (entities != null)
             {
@@ -1602,7 +1602,7 @@ namespace OpenTween
                 {
                     foreach (var ent in entities.UserMentions)
                     {
-                        AtList.Add(Tuple.Create(ent.Id, ent.ScreenName));
+                        AtList.Add((ent.Id, ent.ScreenName));
                     }
                 }
                 if (entities.Media != null)
