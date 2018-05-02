@@ -1457,7 +1457,7 @@ namespace OpenTween
             if (MyCommon._endingFlag) return;
 
             var cursor = -1L;
-            var newFollowerIds = new HashSet<long>();
+            var newFollowerIds = Enumerable.Empty<long>();
             do
             {
                 var ret = await this.Api.FollowersIds(cursor)
@@ -1466,11 +1466,11 @@ namespace OpenTween
                 if (ret.Ids == null)
                     throw new WebApiException("ret.ids == null");
 
-                newFollowerIds.UnionWith(ret.Ids);
+                newFollowerIds = newFollowerIds.Concat(ret.Ids);
                 cursor = ret.NextCursor;
             } while (cursor != 0);
 
-            this.followerId = newFollowerIds;
+            this.followerId = newFollowerIds.ToHashSet();
             TabInformations.GetInstance().RefreshOwl(this.followerId);
 
             this.GetFollowersSuccess = true;
@@ -1712,19 +1712,20 @@ namespace OpenTween
             if (MyCommon._endingFlag) return;
 
             var cursor = -1L;
-            var newBlockIds = new HashSet<long>();
+            var newBlockIds = Enumerable.Empty<long>();
             do
             {
                 var ret = await this.Api.BlocksIds(cursor)
                     .ConfigureAwait(false);
 
-                newBlockIds.UnionWith(ret.Ids);
+                newBlockIds = newBlockIds.Concat(ret.Ids);
                 cursor = ret.NextCursor;
             } while (cursor != 0);
 
-            newBlockIds.Remove(this.UserId); // 元のソースにあったので一応残しておく
+            var blockIdsSet = newBlockIds.ToHashSet();
+            blockIdsSet.Remove(this.UserId); // 元のソースにあったので一応残しておく
 
-            TabInformations.GetInstance().BlockIds = newBlockIds;
+            TabInformations.GetInstance().BlockIds = blockIdsSet;
         }
 
         /// <summary>
@@ -1738,7 +1739,7 @@ namespace OpenTween
             var ids = await TwitterIds.GetAllItemsAsync(x => this.Api.MutesUsersIds(x))
                 .ConfigureAwait(false);
 
-            TabInformations.GetInstance().MuteUserIds = new HashSet<long>(ids);
+            TabInformations.GetInstance().MuteUserIds = ids.ToHashSet();
         }
 
         public string[] GetHashList()
