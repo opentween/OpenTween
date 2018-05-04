@@ -293,6 +293,7 @@ namespace OpenTween
             Assert.False(ret);
         }
 
+        [Fact]
         public void GetterTest()
         {
             var dict = new LRUCacheDictionary<string, string>

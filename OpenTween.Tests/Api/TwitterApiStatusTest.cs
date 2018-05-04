@@ -241,6 +241,7 @@ namespace OpenTween.Api
             Assert.Equal(TwitterApiAccessLevel.ReadWriteAndDirectMessage, status.AccessLevel);
         }
 
+        [Fact]
         public void UpdateFromJsonTest()
         {
             var status = new TwitterApiStatus();

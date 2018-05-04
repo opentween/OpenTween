@@ -86,7 +86,7 @@ namespace OpenTween
             this.MyCommonSetup();
         }
 
-        public void ThumbnailGeneratorSetup()
+        private void ThumbnailGeneratorSetup()
         {
             ThumbnailGenerator.Services.Clear();
             ThumbnailGenerator.Services.AddRange(new[]
@@ -97,7 +97,7 @@ namespace OpenTween
             });
         }
 
-        public void MyCommonSetup()
+        private void MyCommonSetup()
         {
             var mockAssembly = new Mock<_Assembly>();
             mockAssembly.Setup(m => m.GetName()).Returns(new AssemblyName("OpenTween"));

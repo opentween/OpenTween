@@ -49,6 +49,7 @@ namespace OpenTween
             Assert.Equal(expected, thisCulture.Contains(thatCulture));
         }
 
+        [Fact]
         public void Contains_InvariantCultureTest()
         {
             // InvariantCulture は全てのカルチャを内包する
