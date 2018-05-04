@@ -369,9 +369,9 @@ namespace OpenTween.Models
             Assert.Equal("@aaa", originalPost.ScreenName);
             Assert.Equal(1L, originalPost.UserId);
 
-            Assert.Equal(null, originalPost.RetweetedId);
+            Assert.Null(originalPost.RetweetedId);
             Assert.Equal("", originalPost.RetweetedBy);
-            Assert.Equal(null, originalPost.RetweetedByUserId);
+            Assert.Null(originalPost.RetweetedByUserId);
             Assert.Equal(1, originalPost.RetweetedCount);
         }
 

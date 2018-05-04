@@ -45,8 +45,8 @@ namespace OpenTween
 
                 // toolStrip.ApiEndpoint の初期値は null
 
-                Assert.Equal(null, toolStrip.ApiEndpoint);
-                Assert.Equal(null, toolStrip.ApiLimit);
+                Assert.Null(toolStrip.ApiEndpoint);
+                Assert.Null(toolStrip.ApiLimit);
 
                 toolStrip.ApiEndpoint = "endpoint1";
 
@@ -67,12 +67,12 @@ namespace OpenTween
                 toolStrip.ApiEndpoint = "hoge";
 
                 Assert.Equal("hoge", toolStrip.ApiEndpoint);
-                Assert.Equal(null, toolStrip.ApiLimit);
+                Assert.Null(toolStrip.ApiLimit);
 
                 toolStrip.ApiEndpoint = "";
 
-                Assert.Equal(null, toolStrip.ApiEndpoint);
-                Assert.Equal(null, toolStrip.ApiLimit);
+                Assert.Null(toolStrip.ApiEndpoint);
+                Assert.Null(toolStrip.ApiLimit);
 
                 MyCommon.TwitterApiInfo.AccessLimit.Clear();
             }
