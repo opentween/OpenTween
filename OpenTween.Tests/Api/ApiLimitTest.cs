@@ -44,7 +44,7 @@ namespace OpenTween.Api
         }
 
         [Theory]
-        [MemberData("Equals_TestCase")]
+        [MemberData(nameof(Equals_TestCase))]
         public void EqualsTest(object obj2, bool expected)
         {
             var obj1 = new ApiLimit(150, 100, new DateTime(2013, 1, 1, 0, 0, 0));

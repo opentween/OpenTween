@@ -88,7 +88,7 @@ namespace OpenTween.Api
         }
 
         [Theory]
-        [MemberData("ParseRateLimit_TestCase")]
+        [MemberData(nameof(ParseRateLimit_TestCase))]
         public void ParseRateLimitTest(IDictionary<string, string> header, ApiLimit expected)
         {
             var limit = TwitterApiStatus.ParseRateLimit(header, "X-RateLimit-");
@@ -126,7 +126,7 @@ namespace OpenTween.Api
         }
 
         [Theory]
-        [MemberData("ParseMediaRateLimit_TestCase")]
+        [MemberData(nameof(ParseMediaRateLimit_TestCase))]
         public void ParseMediaRateLimitTest(IDictionary<string, string> header, ApiLimit expected)
         {
             var limit = TwitterApiStatus.ParseRateLimit(header, "X-MediaRateLimit-");
@@ -161,7 +161,7 @@ namespace OpenTween.Api
         }
 
         [Theory]
-        [MemberData("ParseAccessLevel_TestCase")]
+        [MemberData(nameof(ParseAccessLevel_TestCase))]
         public void ParseAccessLevelTest(IDictionary<string, string> header, TwitterApiAccessLevel? expected)
         {
             var accessLevel = TwitterApiStatus.ParseAccessLevel(header, "X-Access-Level");
