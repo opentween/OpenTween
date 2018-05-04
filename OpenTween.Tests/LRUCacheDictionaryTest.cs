@@ -226,10 +226,10 @@ namespace OpenTween
                 ["key3"] = "value3",
             };
 
-            Assert.True(dict.Contains(new KeyValuePair<string, string>("key1", "value1")));
-            Assert.False(dict.Contains(new KeyValuePair<string, string>("key3", "value2")));
-            Assert.False(dict.Contains(new KeyValuePair<string, string>("value3", "key3")));
-            Assert.False(dict.Contains(new KeyValuePair<string, string>("hogehoge", "hogehoge")));
+            Assert.Contains(new KeyValuePair<string, string>("key1", "value1"), dict);
+            Assert.DoesNotContain(new KeyValuePair<string, string>("key3", "value2"), dict);
+            Assert.DoesNotContain(new KeyValuePair<string, string>("value3", "key3"), dict);
+            Assert.DoesNotContain(new KeyValuePair<string, string>("hogehoge", "hogehoge"), dict);
         }
 
         [Fact]

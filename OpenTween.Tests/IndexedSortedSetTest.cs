@@ -183,8 +183,8 @@ namespace OpenTween
         {
             var set = new IndexedSortedSet<int> { 1, 2, 3 };
 
-            Assert.True(set.Contains(2));
-            Assert.False(set.Contains(999));
+            Assert.Contains(2, set);
+            Assert.DoesNotContain(999, set);
         }
 
         [Fact]
