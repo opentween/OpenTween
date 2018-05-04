@@ -199,7 +199,7 @@ namespace OpenTween
                 Assert.Equal(0, thumbbox.scrollBar.Maximum);
                 Assert.False(thumbbox.scrollBar.Enabled);
 
-                Assert.Equal(1, thumbbox.pictureBox.Count);
+                Assert.Single(thumbbox.pictureBox);
                 Assert.NotNull(thumbbox.pictureBox[0].Image);
 
                 Assert.IsAssignableFrom<ThumbnailInfo>(thumbbox.pictureBox[0].Tag);

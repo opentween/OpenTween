@@ -185,7 +185,7 @@ namespace OpenTween
 
             dict.Add("key1", "value1");
 
-            Assert.Equal(1, dict.innerDict.Count);
+            Assert.Single(dict.innerDict);
             Assert.True(dict.innerDict.ContainsKey("key1"));
             var internalNode = dict.innerDict["key1"];
             Assert.Equal("key1", internalNode.Value.Key);
@@ -396,19 +396,19 @@ namespace OpenTween
         {
             var dict = new LRUCacheDictionary<string, string>();
 
-            Assert.Equal(0, dict.Count);
+            Assert.Empty(dict);
 
             dict.Add("key1", "value1");
-            Assert.Equal(1, dict.Count);
+            Assert.Single(dict);
 
             dict.Add("key2", "value2");
             Assert.Equal(2, dict.Count);
 
             dict.Remove("key1");
-            Assert.Equal(1, dict.Count);
+            Assert.Single(dict);
 
             dict.Clear();
-            Assert.Equal(0, dict.Count);
+            Assert.Empty(dict);
         }
 
         [Fact]

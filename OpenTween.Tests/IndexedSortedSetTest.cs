@@ -102,10 +102,10 @@ namespace OpenTween
         {
             var set = new IndexedSortedSet<int>();
 
-            Assert.Equal(0, set.Count);
+            Assert.Empty(set);
 
             set.Add(1);
-            Assert.Equal(1, set.Count);
+            Assert.Single(set);
         }
 
         [Fact]
