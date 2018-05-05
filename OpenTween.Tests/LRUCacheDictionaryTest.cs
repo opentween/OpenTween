@@ -185,7 +185,7 @@ namespace OpenTween
 
             dict.Add("key1", "value1");
 
-            Assert.Equal(1, dict.innerDict.Count);
+            Assert.Single(dict.innerDict);
             Assert.True(dict.innerDict.ContainsKey("key1"));
             var internalNode = dict.innerDict["key1"];
             Assert.Equal("key1", internalNode.Value.Key);
@@ -226,10 +226,10 @@ namespace OpenTween
                 ["key3"] = "value3",
             };
 
-            Assert.True(dict.Contains(new KeyValuePair<string, string>("key1", "value1")));
-            Assert.False(dict.Contains(new KeyValuePair<string, string>("key3", "value2")));
-            Assert.False(dict.Contains(new KeyValuePair<string, string>("value3", "key3")));
-            Assert.False(dict.Contains(new KeyValuePair<string, string>("hogehoge", "hogehoge")));
+            Assert.Contains(new KeyValuePair<string, string>("key1", "value1"), dict);
+            Assert.DoesNotContain(new KeyValuePair<string, string>("key3", "value2"), dict);
+            Assert.DoesNotContain(new KeyValuePair<string, string>("value3", "key3"), dict);
+            Assert.DoesNotContain(new KeyValuePair<string, string>("hogehoge", "hogehoge"), dict);
         }
 
         [Fact]
@@ -293,6 +293,7 @@ namespace OpenTween
             Assert.False(ret);
         }
 
+        [Fact]
         public void GetterTest()
         {
             var dict = new LRUCacheDictionary<string, string>
@@ -395,19 +396,19 @@ namespace OpenTween
         {
             var dict = new LRUCacheDictionary<string, string>();
 
-            Assert.Equal(0, dict.Count);
+            Assert.Empty(dict);
 
             dict.Add("key1", "value1");
-            Assert.Equal(1, dict.Count);
+            Assert.Single(dict);
 
             dict.Add("key2", "value2");
             Assert.Equal(2, dict.Count);
 
             dict.Remove("key1");
-            Assert.Equal(1, dict.Count);
+            Assert.Single(dict);
 
             dict.Clear();
-            Assert.Equal(0, dict.Count);
+            Assert.Empty(dict);
         }
 
         [Fact]

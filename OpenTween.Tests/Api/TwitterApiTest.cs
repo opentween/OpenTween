@@ -42,7 +42,7 @@ namespace OpenTween.Api
             this.MyCommonSetup();
         }
 
-        public void MyCommonSetup()
+        private void MyCommonSetup()
         {
             var mockAssembly = new Mock<_Assembly>();
             mockAssembly.Setup(m => m.GetName()).Returns(new AssemblyName("OpenTween"));

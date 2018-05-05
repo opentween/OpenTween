@@ -12,5 +12,6 @@ before_script:
   - sh -e /etc/init.d/xvfb start
 
 script:
-  - xbuild /p:Configuration=Debug /verbosity:quiet
-  - mono ./packages/xunit.runner.console.2.2.0/tools/xunit.console.exe ./OpenTween.Tests/bin/Debug/OpenTween.Tests.dll -noappdomain -parallel none
+  - nuget restore -PackagesDirectory packages
+  - msbuild /p:Configuration=Debug /verbosity:quiet
+  - mono ./packages/xunit.runner.console/2.3.1/tools/net452/xunit.console.exe ./OpenTween.Tests/bin/Debug/net452/OpenTween.Tests.dll -noappdomain -parallel none

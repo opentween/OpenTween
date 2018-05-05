@@ -1,46 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\packages\xunit.runner.visualstudio.2.2.0\build\net20\xunit.runner.visualstudio.props" Condition="Exists('..\packages\xunit.runner.visualstudio.2.2.0\build\net20\xunit.runner.visualstudio.props')" />
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.30703</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{18A32642-A8F3-425B-978D-0C6F630EDDE8}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>OpenTween</RootNamespace>
-    <AssemblyName>OpenTween.Tests</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
+    <TargetFramework>net452</TargetFramework>
+    <DisableImplicitFrameworkReferences>true</DisableImplicitFrameworkReferences>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Moq, Version=4.2.1510.2205, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
-      <HintPath>..\packages\Moq.4.2.1510.2205\lib\net40\Moq.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
@@ -48,116 +13,28 @@
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="xunit.abstractions, Version=2.0.0.0, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
-      <HintPath>..\packages\xunit.abstractions.2.0.1\lib\net35\xunit.abstractions.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="xunit.assert, Version=2.2.0.3545, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
-      <HintPath>..\packages\xunit.assert.2.2.0\lib\netstandard1.1\xunit.assert.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="xunit.core, Version=2.2.0.3545, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
-      <HintPath>..\packages\xunit.extensibility.core.2.2.0\lib\netstandard1.1\xunit.core.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="xunit.execution.desktop, Version=2.2.0.3545, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
-      <HintPath>..\packages\xunit.extensibility.execution.2.2.0\lib\net452\xunit.execution.desktop.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
+    <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AnyOrderComparer.cs" />
-    <Compile Include="Api\ApiLimitTest.cs" />
-    <Compile Include="Api\BitlyApiTest.cs" />
-    <Compile Include="Api\MicrosoftTranslatorApiTest.cs" />
-    <Compile Include="Api\TwitterApiStatusTest.cs" />
-    <Compile Include="Api\TwitterApiTest.cs" />
-    <Compile Include="BingTest.cs" />
-    <Compile Include="Connection\LazyJsonTest.cs" />
-    <Compile Include="Connection\NetworkingTest.cs" />
-    <Compile Include="Connection\OAuthHandlerTest.cs" />
-    <Compile Include="Connection\OAuthUtilityTest.cs" />
-    <Compile Include="Connection\TwitterApiConnectionTest.cs" />
-    <Compile Include="EmojiFormatterTest.cs" />
-    <Compile Include="ExtensionsTest.cs" />
-    <Compile Include="HashtagManageTest.cs" />
-    <Compile Include="HttpMessageHandlerMock.cs" />
-    <Compile Include="IndexedSortedSetTest.cs" />
-    <Compile Include="MediaSelectorTest.cs" />
-    <Compile Include="MemoryImageTest.cs" />
-    <Compile Include="MouseWheelMessageFilterTest.cs" />
-    <Compile Include="MyApplicationTest.cs" />
-    <Compile Include="OTBaseFormTest.cs" />
-    <Compile Include="OTPictureBoxTest.cs" />
-    <Compile Include="OTSplitContainerTest.cs" />
-    <Compile Include="Models\PostFilterRuleTest.cs" />
-    <Compile Include="LRUCacheDictionaryTest.cs" />
-    <Compile Include="MyCommonTest.cs" />
-    <Compile Include="Models\PostClassTest.cs" />
-    <Compile Include="Models\PostFilterRuleVersion113DeserializeTest.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RegexAsyncTest.cs" />
-    <Compile Include="ShortcutCommandTest.cs" />
-    <Compile Include="ShortUrlTest.cs" />
-    <Compile Include="Models\TabModelTest.cs" />
-    <Compile Include="Models\TabInformationTest.cs" />
-    <Compile Include="TabsDialogTest.cs" />
-    <Compile Include="TestUtils.cs" />
-    <Compile Include="Thumbnail\Services\FoursquareCheckinTest.cs" />
-    <Compile Include="Thumbnail\Services\ImgAzyobuziNetTest.cs" />
-    <Compile Include="Thumbnail\Services\MetaThumbnailServiceTest.cs" />
-    <Compile Include="Thumbnail\Services\PixivTest.cs" />
-    <Compile Include="Thumbnail\Services\SimpleThumbnailServiceTest.cs" />
-    <Compile Include="Thumbnail\Services\TinamiTest.cs" />
-    <Compile Include="Thumbnail\Services\TumblrTest.cs" />
-    <Compile Include="ToolStripAPIGaugeTest.cs" />
-    <Compile Include="TweenMainTest.cs" />
-    <Compile Include="TweetDetailsViewTest.cs" />
-    <Compile Include="TweetExtractorTest.cs" />
-    <Compile Include="TweetFormatterTest.cs" />
-    <Compile Include="TweetThumbnailTest.cs" />
-    <Compile Include="TwitterTest.cs" />
+    <ProjectReference Include="..\OpenTween\OpenTween.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\OpenTween\OpenTween.csproj">
-      <Project>{3D8995C7-BDF3-4273-9F9D-DDD902F6A101}</Project>
-      <Name>OpenTween</Name>
-    </ProjectReference>
+    <PackageReference Include="Moq" Version="4.2.1510.2205" />
+    <PackageReference Include="OpenCover" Version="4.6.519" />
+    <PackageReference Include="xunit" Version="2.3.1" />
+    <PackageReference Include="xunit.runner.console" Version="2.3.1" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.3.1" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Resources\re.gif">
+    <None Update="Resources\re.gif">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\re1.gif">
+    </None>
+    <None Update="Resources\re1.gif">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\re1.png">
+    </None>
+    <None Update="Resources\re1.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    </None>
   </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>このプロジェクトは、このコンピューター上にない NuGet パッケージを参照しています。それらのパッケージをダウンロードするには、[NuGet パッケージの復元] を使用します。詳細については、http://go.microsoft.com/fwlink/?LinkID=322105 を参照してください。見つからないファイルは {0} です。</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('..\packages\xunit.runner.visualstudio.2.2.0\build\net20\xunit.runner.visualstudio.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\xunit.runner.visualstudio.2.2.0\build\net20\xunit.runner.visualstudio.props'))" />
-  </Target>
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>

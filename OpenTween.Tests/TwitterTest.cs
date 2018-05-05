@@ -232,7 +232,7 @@ namespace OpenTween
             var usertl = SettingManager.Common.UserTimelineCountApi;
 
             // デフォルト値チェック
-            Assert.Equal(false, SettingManager.Common.UseAdditionalCount);
+            Assert.False(SettingManager.Common.UseAdditionalCount);
             Assert.Equal(60, timeline);
             Assert.Equal(40, reply);
             Assert.Equal(200, more);

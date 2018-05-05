@@ -102,10 +102,10 @@ namespace OpenTween
         {
             var set = new IndexedSortedSet<int>();
 
-            Assert.Equal(0, set.Count);
+            Assert.Empty(set);
 
             set.Add(1);
-            Assert.Equal(1, set.Count);
+            Assert.Single(set);
         }
 
         [Fact]
@@ -183,8 +183,8 @@ namespace OpenTween
         {
             var set = new IndexedSortedSet<int> { 1, 2, 3 };
 
-            Assert.True(set.Contains(2));
-            Assert.False(set.Contains(999));
+            Assert.Contains(2, set);
+            Assert.DoesNotContain(999, set);
         }
 
         [Fact]

@@ -21,7 +21,7 @@ namespace OpenTween
             this.MyCommonSetup();
         }
 
-        public void MyCommonSetup()
+        private void MyCommonSetup()
         {
             var mockAssembly = new Mock<_Assembly>();
             mockAssembly.Setup(m => m.GetName()).Returns(new AssemblyName("OpenTween"));
@@ -165,7 +165,7 @@ namespace OpenTween
 
                 // 1 ページ目が表示されている
                 Assert.Equal("1", mediaSelector.ImagePageCombo.Text);
-                Assert.True(Regex.IsMatch(mediaSelector.ImagefilePathText.Text, @"^<>MemoryImage://\d+.png$"));
+                Assert.Matches(@"^<>MemoryImage://\d+.png$", mediaSelector.ImagefilePathText.Text);
 
                 using (var bitmap = new Bitmap(width: 200, height: 200))
                 using (var image = MemoryImage.CopyFromImage(bitmap))

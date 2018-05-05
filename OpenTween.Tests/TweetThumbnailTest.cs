@@ -86,7 +86,7 @@ namespace OpenTween
             this.MyCommonSetup();
         }
 
-        public void ThumbnailGeneratorSetup()
+        private void ThumbnailGeneratorSetup()
         {
             ThumbnailGenerator.Services.Clear();
             ThumbnailGenerator.Services.AddRange(new[]
@@ -97,7 +97,7 @@ namespace OpenTween
             });
         }
 
-        public void MyCommonSetup()
+        private void MyCommonSetup()
         {
             var mockAssembly = new Mock<_Assembly>();
             mockAssembly.Setup(m => m.GetName()).Returns(new AssemblyName("OpenTween"));
@@ -199,7 +199,7 @@ namespace OpenTween
                 Assert.Equal(0, thumbbox.scrollBar.Maximum);
                 Assert.False(thumbbox.scrollBar.Enabled);
 
-                Assert.Equal(1, thumbbox.pictureBox.Count);
+                Assert.Single(thumbbox.pictureBox);
                 Assert.NotNull(thumbbox.pictureBox[0].Image);
 
                 Assert.IsAssignableFrom<ThumbnailInfo>(thumbbox.pictureBox[0].Tag);

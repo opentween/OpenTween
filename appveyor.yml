@@ -15,10 +15,10 @@ cache:
   - ./packages/
 
 before_build:
-  - nuget restore
+  - nuget restore -PackagesDirectory packages
 
 test_script:
-  - .\packages\OpenCover.4.6.519\tools\OpenCover.Console.exe -target:".\packages\xunit.runner.console.2.2.0\tools\xunit.console.exe" -targetargs:".\OpenTween.Tests\bin\Debug\OpenTween.Tests.dll -noshadow -appveyor" -register:user -filter:"+[OpenTween*]* -[OpenTween.Tests]*" -excludebyfile:"*.Designer.cs" -skipautoprops -hideskipped:All -returntargetcode -output:coverage.xml
+  - .\packages\opencover\4.6.519\tools\OpenCover.Console.exe -target:".\packages\xunit.runner.console\2.3.1\tools\net452\xunit.console.exe" -targetargs:".\OpenTween.Tests\bin\Debug\net452\OpenTween.Tests.dll -noshadow -appveyor" -register:user -filter:"+[OpenTween*]* -[OpenTween.Tests]*" -excludebyfile:"*.Designer.cs" -skipautoprops -hideskipped:All -returntargetcode -output:coverage.xml
 
 after_test:
   - npm install codecov --save

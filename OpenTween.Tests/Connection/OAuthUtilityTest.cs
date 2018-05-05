@@ -112,7 +112,7 @@ namespace OpenTween.Connection
                 "GET", new Uri("http://example.com/hoge"), new Dictionary<string, string> { ["aaa"] = "hoge" },
                 "ConsumerKey", "ConsumerSecret", "AccessToken", "AccessSecret", "Realm");
 
-            Assert.True(authorization.StartsWith("OAuth ", StringComparison.Ordinal));
+            Assert.StartsWith("OAuth ", authorization, StringComparison.Ordinal);
 
             var parsedParams = authorization.Substring(6).Split(',')
                 .Where(x => !string.IsNullOrEmpty(x))
