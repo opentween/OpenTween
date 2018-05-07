@@ -172,8 +172,8 @@ namespace OpenTween
         private Tuple<long, string> inReplyTo = null; // リプライ先のステータスID・スクリーン名
 
         //時速表示用
-        private List<DateTime> _postTimestamps = new List<DateTime>();
-        private List<DateTime> _favTimestamps = new List<DateTime>();
+        private List<DateTimeUtc> _postTimestamps = new List<DateTimeUtc>();
+        private List<DateTimeUtc> _favTimestamps = new List<DateTimeUtc>();
 
         // 以下DrawItem関連
         private SolidBrush _brsHighLight = new SolidBrush(Color.FromKnownColor(KnownColor.Highlight));
@@ -2569,7 +2569,7 @@ namespace OpenTween
                             throw new WebApiException("NG(Restricted?)");
                     }
 
-                    this._favTimestamps.Add(DateTime.Now);
+                    this._favTimestamps.Add(DateTimeUtc.Now);
 
                     // TLでも取得済みならfav反映
                     if (this._statuses.ContainsKey(statusId))
@@ -2597,7 +2597,7 @@ namespace OpenTween
                 }
 
                 // 時速表示用
-                var oneHour = DateTime.Now - TimeSpan.FromHours(1);
+                var oneHour = DateTimeUtc.Now - TimeSpan.FromHours(1);
                 foreach (var i in MyCommon.CountDown(this._favTimestamps.Count - 1, 0))
                 {
                     if (this._favTimestamps[i] < oneHour)
@@ -2847,9 +2847,9 @@ namespace OpenTween
                 return;
             }
 
-            this._postTimestamps.Add(DateTime.Now);
+            this._postTimestamps.Add(DateTimeUtc.Now);
 
-            var oneHour = DateTime.Now - TimeSpan.FromHours(1);
+            var oneHour = DateTimeUtc.Now - TimeSpan.FromHours(1);
             foreach (var i in MyCommon.CountDown(this._postTimestamps.Count - 1, 0))
             {
                 if (this._postTimestamps[i] < oneHour)
@@ -2925,9 +2925,9 @@ namespace OpenTween
 
             p.Report(Properties.Resources.PostWorker_RunWorkerCompletedText4);
 
-            this._postTimestamps.Add(DateTime.Now);
+            this._postTimestamps.Add(DateTimeUtc.Now);
 
-            var oneHour = DateTime.Now - TimeSpan.FromHours(1);
+            var oneHour = DateTimeUtc.Now - TimeSpan.FromHours(1);
             foreach (var i in MyCommon.CountDown(this._postTimestamps.Count - 1, 0))
             {
                 if (this._postTimestamps[i] < oneHour)
