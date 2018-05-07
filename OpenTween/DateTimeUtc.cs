@@ -70,6 +70,9 @@ namespace OpenTween
             this.datetime = datetime;
         }
 
+        public long ToUnixTime()
+            => (long)((this - UnixEpoch).TotalSeconds);
+
         public DateTimeOffset ToDateTimeOffset()
             => new DateTimeOffset(this.datetime);
 

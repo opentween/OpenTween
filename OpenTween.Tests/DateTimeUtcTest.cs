@@ -83,6 +83,14 @@ namespace OpenTween
         }
 
         [Fact]
+        public void ToUnixTime_Test()
+        {
+            var utc = new DateTimeUtc(2009, 2, 13, 23, 31, 30, 0);
+
+            Assert.Equal(1234567890, utc.ToUnixTime());
+        }
+
+        [Fact]
         public void ToDateTimeOffset()
         {
             var utc = new DateTimeUtc(2018, 5, 6, 11, 22, 33, 111);
