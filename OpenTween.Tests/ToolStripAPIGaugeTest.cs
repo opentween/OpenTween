@@ -37,11 +37,11 @@ namespace OpenTween
         {
             using (var toolStrip = new TestToolStripAPIGauge())
             {
-                var now = DateTime.Now;
+                var now = DateTimeUtc.Now;
                 toolStrip.DateTimeNow = now;
 
-                MyCommon.TwitterApiInfo.AccessLimit["endpoint1"] = new ApiLimit(15, 15, now.AddMinutes(15));
-                MyCommon.TwitterApiInfo.AccessLimit["endpoint2"] = new ApiLimit(180, 18, now.AddMinutes(5));
+                MyCommon.TwitterApiInfo.AccessLimit["endpoint1"] = new ApiLimit(15, 15, now + TimeSpan.FromMinutes(15));
+                MyCommon.TwitterApiInfo.AccessLimit["endpoint2"] = new ApiLimit(180, 18, now + TimeSpan.FromMinutes(5));
 
                 // toolStrip.ApiEndpoint の初期値は null
 
@@ -51,18 +51,18 @@ namespace OpenTween
                 toolStrip.ApiEndpoint = "endpoint1";
 
                 Assert.Equal("endpoint1", toolStrip.ApiEndpoint);
-                Assert.Equal(new ApiLimit(15, 15, now.AddMinutes(15)), toolStrip.ApiLimit);
+                Assert.Equal(new ApiLimit(15, 15, now + TimeSpan.FromMinutes(15)), toolStrip.ApiLimit);
 
                 toolStrip.ApiEndpoint = "endpoint2";
 
                 Assert.Equal("endpoint2", toolStrip.ApiEndpoint);
-                Assert.Equal(new ApiLimit(180, 18, now.AddMinutes(5)), toolStrip.ApiLimit);
+                Assert.Equal(new ApiLimit(180, 18, now + TimeSpan.FromMinutes(5)), toolStrip.ApiLimit);
 
-                MyCommon.TwitterApiInfo.AccessLimit["endpoint2"] = new ApiLimit(180, 17, now.AddMinutes(5));
+                MyCommon.TwitterApiInfo.AccessLimit["endpoint2"] = new ApiLimit(180, 17, now + TimeSpan.FromMinutes(5));
                 toolStrip.ApiEndpoint = "endpoint2";
 
                 Assert.Equal("endpoint2", toolStrip.ApiEndpoint);
-                Assert.Equal(new ApiLimit(180, 17, now.AddMinutes(5)), toolStrip.ApiLimit);
+                Assert.Equal(new ApiLimit(180, 17, now + TimeSpan.FromMinutes(5)), toolStrip.ApiLimit);
 
                 toolStrip.ApiEndpoint = "hoge";
 
@@ -86,7 +86,7 @@ namespace OpenTween
                 toolStrip.AutoSize = false;
                 toolStrip.Size = new Size(100, 10);
 
-                MyCommon.TwitterApiInfo.AccessLimit["endpoint"] = new ApiLimit(15, 15, DateTime.MaxValue);
+                MyCommon.TwitterApiInfo.AccessLimit["endpoint"] = new ApiLimit(15, 15, DateTimeUtc.MaxValue);
                 toolStrip.ApiEndpoint = "endpoint";
 
                 toolStrip.GaugeHeight = 5;
@@ -113,9 +113,9 @@ namespace OpenTween
         {
             using (var toolStrip = new ToolStripAPIGauge())
             {
-                MyCommon.TwitterApiInfo.AccessLimit["/statuses/home_timeline"] = new ApiLimit(15, 15, DateTime.Now.AddMinutes(15));
-                MyCommon.TwitterApiInfo.AccessLimit["/statuses/user_timeline"] = new ApiLimit(180, 18, DateTime.Now.AddMinutes(-2));
-                MyCommon.TwitterApiInfo.AccessLimit["/search/tweets"] = new ApiLimit(180, 90, DateTime.Now.AddMinutes(5));
+                MyCommon.TwitterApiInfo.AccessLimit["/statuses/home_timeline"] = new ApiLimit(15, 15, DateTimeUtc.Now + TimeSpan.FromMinutes(15));
+                MyCommon.TwitterApiInfo.AccessLimit["/statuses/user_timeline"] = new ApiLimit(180, 18, DateTimeUtc.Now + TimeSpan.FromMinutes(-2));
+                MyCommon.TwitterApiInfo.AccessLimit["/search/tweets"] = new ApiLimit(180, 90, DateTimeUtc.Now + TimeSpan.FromMinutes(5));
 
                 // toolStrip.ApiEndpoint の初期値は null
 
@@ -132,13 +132,13 @@ namespace OpenTween
                 Assert.Equal("API ???/???", toolStrip.Text);
                 Assert.Equal("API rest /statuses/user_timeline ???/???" + Environment.NewLine + "(reset after ??? minutes)", toolStrip.ToolTipText);
 
-                MyCommon.TwitterApiInfo.AccessLimit["/statuses/user_timeline"] = new ApiLimit(180, 180, DateTime.Now.AddMinutes(15));
+                MyCommon.TwitterApiInfo.AccessLimit["/statuses/user_timeline"] = new ApiLimit(180, 180, DateTimeUtc.Now + TimeSpan.FromMinutes(15));
                 toolStrip.ApiEndpoint = "/statuses/user_timeline";
 
                 Assert.Equal("API 180/180", toolStrip.Text);
                 Assert.Equal("API rest /statuses/user_timeline 180/180" + Environment.NewLine + "(reset after 15 minutes)", toolStrip.ToolTipText);
 
-                MyCommon.TwitterApiInfo.AccessLimit["/statuses/user_timeline"] = new ApiLimit(180, 179, DateTime.Now.AddMinutes(15));
+                MyCommon.TwitterApiInfo.AccessLimit["/statuses/user_timeline"] = new ApiLimit(180, 179, DateTimeUtc.Now + TimeSpan.FromMinutes(15));
                 toolStrip.ApiEndpoint = "/statuses/user_timeline";
 
                 Assert.Equal("API 179/180", toolStrip.Text);
@@ -160,7 +160,7 @@ namespace OpenTween
 
         class TestToolStripAPIGauge : ToolStripAPIGauge
         {
-            public DateTime DateTimeNow = DateTime.Now;
+            public DateTimeUtc DateTimeNow = DateTimeUtc.Now;
 
             protected override void UpdateRemainMinutes()
             {
@@ -177,7 +177,7 @@ namespace OpenTween
         {
             using (var toolStrip = new TestToolStripAPIGauge())
             {
-                var now = DateTime.Now;
+                var now = DateTimeUtc.Now;
                 toolStrip.DateTimeNow = now;
 
                 toolStrip.AutoSize = false;
@@ -189,7 +189,7 @@ namespace OpenTween
                 Assert.Equal(Rectangle.Empty, toolStrip.apiGaugeBounds);
                 Assert.Equal(Rectangle.Empty, toolStrip.timeGaugeBounds);
 
-                MyCommon.TwitterApiInfo.AccessLimit["endpoint"] = new ApiLimit(150, 60, now.AddMinutes(3));
+                MyCommon.TwitterApiInfo.AccessLimit["endpoint"] = new ApiLimit(150, 60, now + TimeSpan.FromMinutes(3));
                 toolStrip.ApiEndpoint = "endpoint";
 
                 Assert.Equal(new Rectangle(0, 0, 40, 5), toolStrip.apiGaugeBounds); // 40% (60/150)

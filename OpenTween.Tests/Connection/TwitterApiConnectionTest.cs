@@ -171,7 +171,7 @@ namespace OpenTween.Connection
                     .ConfigureAwait(false);
 
                 Assert.Equal(TwitterApiAccessLevel.ReadWriteAndDirectMessage, apiStatus.AccessLevel);
-                Assert.Equal(new ApiLimit(150, 100, new DateTime(2013, 1, 1, 0, 0, 0, DateTimeKind.Utc).ToLocalTime()), apiStatus.AccessLimit["/hoge/tetete"]);
+                Assert.Equal(new ApiLimit(150, 100, new DateTimeUtc(2013, 1, 1, 0, 0, 0)), apiStatus.AccessLimit["/hoge/tetete"]);
 
                 Assert.Equal(0, mockHandler.QueueCount);
             }

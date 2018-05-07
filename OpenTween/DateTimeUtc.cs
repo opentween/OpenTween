@@ -28,6 +28,15 @@ namespace OpenTween
     /// </summary>
     public struct DateTimeUtc : IComparable<DateTimeUtc>, IEquatable<DateTimeUtc>
     {
+        public static DateTimeUtc MinValue { get; }
+            = new DateTimeUtc(DateTime.SpecifyKind(DateTime.MinValue, DateTimeKind.Utc));
+
+        public static DateTimeUtc MaxValue { get; }
+            = new DateTimeUtc(DateTime.SpecifyKind(DateTime.MaxValue, DateTimeKind.Utc));
+
+        public static DateTimeUtc UnixEpoch { get; }
+            = new DateTimeUtc(1970, 1, 1, 0, 0, 0);
+
         public static DateTimeUtc Now
             => new DateTimeUtc(DateTime.UtcNow);
 
@@ -105,5 +114,8 @@ namespace OpenTween
 
         public static bool operator >=(DateTimeUtc a, DateTimeUtc b)
             => a.datetime >= b.datetime;
+
+        public static DateTimeUtc FromUnixTime(long unixTime)
+            => UnixEpoch + TimeSpan.FromTicks(unixTime * TimeSpan.TicksPerSecond);
     }
 }

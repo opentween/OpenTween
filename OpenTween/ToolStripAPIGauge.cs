@@ -148,7 +148,7 @@ namespace OpenTween
         protected virtual void UpdateRemainMinutes()
         {
             if (this._ApiLimit != null)
-                this.remainMinutes = (this._ApiLimit.AccessLimitResetDate - DateTime.Now).TotalMinutes;
+                this.remainMinutes = (this._ApiLimit.AccessLimitResetDate - DateTimeUtc.Now).TotalMinutes;
             else
                 this.remainMinutes = -1;
         }

@@ -79,7 +79,7 @@ namespace OpenTween
                 new string[] {
                     endpoint,
                     apiLimit.AccessLimitRemain + "/" + apiLimit.AccessLimitCount,
-                    apiLimit.AccessLimitResetDate.ToString()
+                    apiLimit.AccessLimitResetDate.ToLocalTimeString()
                 });
             item.Group = group;
             this.ListViewApi.Items.Add(item);
@@ -92,7 +92,7 @@ namespace OpenTween
             {
                 var apiLimit = MyCommon.TwitterApiInfo.AccessLimit[endpoint];
                 item.SubItems[1].Text = apiLimit.AccessLimitRemain + "/" + apiLimit.AccessLimitCount;
-                item.SubItems[2].Text = apiLimit.AccessLimitResetDate.ToString();
+                item.SubItems[2].Text = apiLimit.AccessLimitResetDate.ToLocalTimeString();
             }
         }
 

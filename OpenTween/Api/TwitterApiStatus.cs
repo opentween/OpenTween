@@ -72,7 +72,7 @@ namespace OpenTween.Api
             if (limitCount == null || limitRemain == null || limitReset == null)
                 return null;
 
-            var limitResetDate = UnixEpoch.AddSeconds(limitReset.Value).ToLocalTime();
+            var limitResetDate = DateTimeUtc.FromUnixTime(limitReset.Value);
             return new ApiLimit(limitCount.Value, limitRemain.Value, limitResetDate);
         }
 
@@ -133,8 +133,6 @@ namespace OpenTween.Api
                 this.AccessLevel = accessLevel.Value;
         }
 
-        private static readonly DateTime UnixEpoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
-
         public void UpdateFromJson(TwitterRateLimits json)
         {
             var rateLimits =
@@ -145,7 +143,7 @@ namespace OpenTween.Api
                     Limit: new ApiLimit(
                         item.Value.Limit,
                         item.Value.Remaining,
-                        UnixEpoch.AddSeconds(item.Value.Reset).ToLocalTime()
+                        DateTimeUtc.FromUnixTime(item.Value.Reset)
                     )
                 );
 

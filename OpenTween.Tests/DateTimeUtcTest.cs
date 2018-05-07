@@ -198,5 +198,22 @@ namespace OpenTween
             Assert.True(utc2 >= utc1);
 #pragma warning restore CS1718
         }
+
+        [Fact]
+        public void MinValue_Test()
+            => Assert.Equal(DateTime.MinValue.Ticks, DateTimeUtc.MinValue.ToDateTimeUnsafe().Ticks);
+
+        [Fact]
+        public void MaxValue_Test()
+            => Assert.Equal(DateTime.MaxValue.Ticks, DateTimeUtc.MaxValue.ToDateTimeUnsafe().Ticks);
+
+        [Fact]
+        public void FromUnixTime_Test()
+        {
+            var utc = DateTimeUtc.FromUnixTime(1234567890);
+
+            Assert.Equal(new DateTime(2009, 2, 13, 23, 31, 30, 0, DateTimeKind.Utc),
+                utc.ToDateTimeUnsafe());
+        }
     }
 }
