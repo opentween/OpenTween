@@ -100,6 +100,15 @@ namespace OpenTween
         }
 
         [Fact]
+        public void ToLocalTime()
+        {
+            var utc = new DateTimeUtc(2018, 5, 6, 11, 22, 33, 111);
+            var expected = new DateTimeOffset(2018, 5, 6, 11, 22, 33, 111, TimeSpan.Zero).ToLocalTime();
+
+            Assert.Equal(expected, utc.ToLocalTime());
+        }
+
+        [Fact]
         public void CompareTo_Test()
         {
             var utc1 = new DateTimeUtc(2018, 5, 6, 11, 22, 33, 111);

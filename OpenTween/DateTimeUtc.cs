@@ -76,6 +76,9 @@ namespace OpenTween
         public DateTimeOffset ToDateTimeOffset()
             => new DateTimeOffset(this.datetime);
 
+        public DateTimeOffset ToLocalTime()
+            => this.ToDateTimeOffset().ToLocalTime();
+
         public DateTime ToDateTimeUnsafe()
             => this.datetime;
 
