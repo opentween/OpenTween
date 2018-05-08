@@ -151,5 +151,17 @@ namespace OpenTween
             result = MinValue;
             return false;
         }
+
+        public static bool TryParseExact(string input, string[] formats, IFormatProvider formatProvider, out DateTimeUtc result)
+        {
+            if (DateTimeOffset.TryParseExact(input, formats, formatProvider, DateTimeStyles.AssumeUniversal, out var datetimeOffset))
+            {
+                result = new DateTimeUtc(datetimeOffset);
+                return true;
+            }
+
+            result = MinValue;
+            return false;
+        }
     }
 }

@@ -302,5 +302,24 @@ namespace OpenTween
             Assert.Equal(expectedParsed, parsed);
             Assert.Equal(expectedResult, result);
         }
+
+        public static TheoryData<string, string, bool, DateTimeUtc> TryParseExact_Test_Fixtures = new TheoryData<string, string, bool, DateTimeUtc>
+        {
+            { "2018-05-06 11:22:33.111", "yyyy-MM-dd HH:mm:ss.fff", true, new DateTimeUtc(2018, 5, 6, 11, 22, 33, 111) },
+            { "2018-05-06 11:22:33.111 +00:00", "yyyy-MM-dd HH:mm:ss.fff zzz", true, new DateTimeUtc(2018, 5, 6, 11, 22, 33, 111) },
+            { "2018-05-06 11:22:33.111 +09:00", "yyyy-MM-dd HH:mm:ss.fff zzz", true, new DateTimeUtc(2018, 5, 6, 2, 22, 33, 111) },
+            { "2018-05-06 11:22:33.111", "yyyy/MM/dd HH:mm:ss", false, DateTimeUtc.MinValue },
+            { "### INVALID ###", "yyyy-MM-dd HH:mm:ss.fff", false, DateTimeUtc.MinValue },
+        };
+
+        [Theory]
+        [MemberData(nameof(TryParseExact_Test_Fixtures))]
+        public void TryParseExact_Test(string input, string format, bool expectedParsed, DateTimeUtc expectedResult)
+        {
+            var parsed = DateTimeUtc.TryParseExact(input, new[] { format }, DateTimeFormatInfo.InvariantInfo, out var result);
+
+            Assert.Equal(expectedParsed, parsed);
+            Assert.Equal(expectedResult, result);
+        }
     }
 }

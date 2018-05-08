@@ -55,13 +55,13 @@ namespace OpenTween
             this.Protect = user.Protected;
             this.FriendsCount = user.FriendsCount;
             this.FollowersCount = user.FollowersCount;
-            this.CreatedAt = new DateTimeUtc(MyCommon.DateTimeParse(user.CreatedAt).ToUniversalTime());
+            this.CreatedAt = MyCommon.DateTimeParse(user.CreatedAt);
             this.StatusesCount = user.StatusesCount;
             this.Verified = user.Verified;
             if (user.Status != null)
             {
                 this.RecentPost = user.Status.FullText;
-                this.PostCreatedAt = new DateTimeUtc(MyCommon.DateTimeParse(user.Status.CreatedAt).ToUniversalTime());
+                this.PostCreatedAt = MyCommon.DateTimeParse(user.Status.CreatedAt);
                 this.PostSource = user.Status.Source;
             }
         }

@@ -812,29 +812,19 @@ namespace OpenTween
             }
         }
 
-        public static DateTime DateTimeParse(string input)
+        public static DateTimeUtc DateTimeParse(string input)
         {
-            string[] format = {
+            var formats = new[] {
                 "ddd MMM dd HH:mm:ss zzzz yyyy",
                 "ddd, d MMM yyyy HH:mm:ss zzzz",
             };
-            foreach (var fmt in format)
-            {
-                if (DateTime.TryParseExact(input,
-                                          fmt,
-                                          DateTimeFormatInfo.InvariantInfo,
-                                          DateTimeStyles.None,
-                                          out var rslt))
-                {
-                    return rslt;
-                }
-                else
-                {
-                    continue;
-                }
-            }
+
+            if (DateTimeUtc.TryParseExact(input, formats, DateTimeFormatInfo.InvariantInfo, out var result))
+                return result;
+
             TraceOut("Parse Error(DateTimeFormat) : " + input);
-            return new DateTime();
+
+            return DateTimeUtc.Now;
         }
 
         public static T CreateDataFromJson<T>(string content)

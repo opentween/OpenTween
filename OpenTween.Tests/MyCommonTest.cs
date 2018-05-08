@@ -122,27 +122,16 @@ namespace OpenTween
             Assert.Equal(expected, MyCommon.IsAnimatedGif(filename));
         }
 
-        public static IEnumerable<object[]> DateTimeParse_TestCase
+        public static TheoryData<string, DateTimeUtc> DateTimeParse_TestCase = new TheoryData<string, DateTimeUtc>
         {
-            get
-            {
-                yield return new object[] {
-                    "Sun Nov 25 06:10:00 +00:00 2012",
-                    new DateTime(2012, 11, 25, 6, 10, 0, DateTimeKind.Utc),
-                };
-                yield return new object[] {
-                    "Sun, 25 Nov 2012 06:10:00 +00:00",
-                    new DateTime(2012, 11, 25, 6, 10, 0, DateTimeKind.Utc),
-                };
-            }
-        }
+            { "Sun Nov 25 06:10:00 +00:00 2012", new DateTimeUtc(2012, 11, 25, 6, 10, 0) },
+            { "Sun, 25 Nov 2012 06:10:00 +00:00", new DateTimeUtc(2012, 11, 25, 6, 10, 0) },
+        };
 
         [Theory]
         [MemberData(nameof(DateTimeParse_TestCase))]
-        public void DateTimeParseTest(string date, DateTime excepted)
-        {
-            Assert.Equal(excepted, MyCommon.DateTimeParse(date).ToUniversalTime());
-        }
+        public void DateTimeParseTest(string date, DateTimeUtc excepted)
+            => Assert.Equal(excepted, MyCommon.DateTimeParse(date));
 
         [DataContract]
         public struct JsonData

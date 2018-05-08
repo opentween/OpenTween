@@ -101,7 +101,7 @@ namespace OpenTween
             this.LabelScreenName.Text = user.ScreenName;
             this.LabelName.Text = user.Name;
             this.LabelLocation.Text = user.Location ?? "";
-            this.LabelCreatedAt.Text = MyCommon.DateTimeParse(user.CreatedAt).ToString();
+            this.LabelCreatedAt.Text = MyCommon.DateTimeParse(user.CreatedAt).ToLocalTimeString();
 
             if (user.Protected)
                 this.LabelIsProtected.Text = Properties.Resources.Yes;
@@ -249,7 +249,7 @@ namespace OpenTween
 
                 var html = TweetFormatter.AutoLinkHtml(status.FullText, entities);
                 html = this.mainForm.createDetailHtml(html +
-                    " Posted at " + MyCommon.DateTimeParse(status.CreatedAt) +
+                    " Posted at " + MyCommon.DateTimeParse(status.CreatedAt).ToLocalTimeString() +
                     " via " + status.Source);
 
                 if (cancellationToken.IsCancellationRequested)

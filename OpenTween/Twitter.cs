@@ -718,7 +718,7 @@ namespace OpenTween
             {
                 var retweeted = status.RetweetedStatus;
 
-                post.CreatedAt = new DateTimeUtc(MyCommon.DateTimeParse(retweeted.CreatedAt).ToUniversalTime());
+                post.CreatedAt = MyCommon.DateTimeParse(retweeted.CreatedAt);
 
                 //Id
                 post.RetweetedId = retweeted.Id;
@@ -777,7 +777,7 @@ namespace OpenTween
             }
             else
             {
-                post.CreatedAt = new DateTimeUtc(MyCommon.DateTimeParse(status.CreatedAt).ToUniversalTime());
+                post.CreatedAt = MyCommon.DateTimeParse(status.CreatedAt);
                 //本文
                 post.TextFromApi = status.FullText;
                 entities = status.MergedEntities;
@@ -1177,7 +1177,7 @@ namespace OpenTween
                     }
                     //sender_id
                     //recipient_id
-                    post.CreatedAt = new DateTimeUtc(MyCommon.DateTimeParse(message.CreatedAt).ToUniversalTime());
+                    post.CreatedAt = MyCommon.DateTimeParse(message.CreatedAt);
                     //本文
                     var textFromApi = message.Text;
                     //HTMLに整形
@@ -2045,7 +2045,7 @@ namespace OpenTween
             {
                 Eventtype = MyCommon.EVENTTYPE.Retweet,
                 Event = "retweet",
-                CreatedAt = new DateTimeUtc(MyCommon.DateTimeParse(xElm.XPathSelectElement("/created_at").Value).ToUniversalTime()),
+                CreatedAt = MyCommon.DateTimeParse(xElm.XPathSelectElement("/created_at").Value),
                 IsMe = xElm.XPathSelectElement("/user/id_str").Value == this.UserId.ToString(),
                 Username = xElm.XPathSelectElement("/user/screen_name").Value,
                 Target = string.Format("@{0}:{1}", new[]
@@ -2074,7 +2074,7 @@ namespace OpenTween
             }
 
             var evt = new FormattedEvent();
-            evt.CreatedAt = new DateTimeUtc(MyCommon.DateTimeParse(eventData.CreatedAt).ToUniversalTime());
+            evt.CreatedAt = MyCommon.DateTimeParse(eventData.CreatedAt);
             evt.Event = eventData.Event;
             evt.Username = eventData.Source.ScreenName;
             evt.IsMe = evt.Username.ToLowerInvariant().Equals(this.Username.ToLowerInvariant());
