@@ -253,10 +253,10 @@ namespace OpenTween
             switch (rslt)
             {
                 case DialogResult.Yes:
-                    SaveFileDialog1.FileName = MyCommon.GetAssemblyName() + "Events" + _curTab.Tag + DateTime.Now.ToString("yyMMdd-HHmmss") + ".tsv";
+                    SaveFileDialog1.FileName = $"{MyCommon.GetAssemblyName()}Events{_curTab.Tag}{DateTimeUtc.Now.ToLocalTime():yyMMdd-HHmmss}.tsv";
                     break;
                 case DialogResult.No:
-                    SaveFileDialog1.FileName = MyCommon.GetAssemblyName() + "Events" + DateTime.Now.ToString("yyMMdd-HHmmss") + ".tsv";
+                    SaveFileDialog1.FileName = $"{MyCommon.GetAssemblyName()}Events{DateTimeUtc.Now.ToLocalTime():yyMMdd-HHmmss}.tsv";
                     break;
                 default:
                     return;

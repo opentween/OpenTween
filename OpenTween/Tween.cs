@@ -5740,7 +5740,7 @@ namespace OpenTween
         public async Task<VersionInfo> GetVersionInfoAsync()
         {
             var versionInfoUrl = new Uri(ApplicationSettings.VersionInfoUrl + "?" +
-                DateTime.Now.ToString("yyMMddHHmmss") + Environment.TickCount);
+                DateTimeUtc.Now.ToString("yyMMddHHmmss") + Environment.TickCount);
 
             var responseText = await Networking.Http.GetStringAsync(versionInfoUrl)
                 .ConfigureAwait(false);
@@ -7482,7 +7482,7 @@ namespace OpenTween
                     MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
             if (rslt == DialogResult.Cancel) return;
 
-            SaveFileDialog1.FileName = MyCommon.GetAssemblyName() + "Posts" + DateTime.Now.ToString("yyMMdd-HHmmss") + ".tsv";
+            SaveFileDialog1.FileName = $"{MyCommon.GetAssemblyName()}Posts{DateTimeUtc.Now.ToLocalTime():yyMMdd-HHmmss}.tsv";
             SaveFileDialog1.InitialDirectory = Application.ExecutablePath;
             SaveFileDialog1.Filter = Properties.Resources.SaveLogMenuItem_ClickText3;
             SaveFileDialog1.FilterIndex = 0;
