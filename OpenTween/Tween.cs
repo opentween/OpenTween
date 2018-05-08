@@ -402,6 +402,7 @@ namespace OpenTween
             // 終了時にRemoveHandlerしておかないとメモリリークする
             // http://msdn.microsoft.com/ja-jp/library/microsoft.win32.systemevents.powermodechanged.aspx
             Microsoft.Win32.SystemEvents.PowerModeChanged -= SystemEvents_PowerModeChanged;
+            Microsoft.Win32.SystemEvents.TimeChanged -= SystemEvents_TimeChanged;
 
             this.disposed = true;
         }
@@ -696,6 +697,7 @@ namespace OpenTween
 
             MyCommon.TwitterApiInfo.AccessLimitUpdated += TwitterApiStatus_AccessLimitUpdated;
             Microsoft.Win32.SystemEvents.PowerModeChanged += SystemEvents_PowerModeChanged;
+            Microsoft.Win32.SystemEvents.TimeChanged += SystemEvents_TimeChanged;
 
             Regex.CacheSize = 100;
 
@@ -12099,6 +12101,24 @@ namespace OpenTween
         private void SystemEvents_PowerModeChanged(object sender, Microsoft.Win32.PowerModeChangedEventArgs e)
         {
             if (e.Mode == Microsoft.Win32.PowerModes.Resume) osResumed = true;
+        }
+
+        private async void SystemEvents_TimeChanged(object sender, EventArgs e)
+        {
+            var prevTimeOffset = TimeZoneInfo.Local.BaseUtcOffset;
+
+            TimeZoneInfo.ClearCachedData();
+
+            var curTimeOffset = TimeZoneInfo.Local.BaseUtcOffset;
+
+            if (curTimeOffset != prevTimeOffset)
+            {
+                // タイムゾーンの変更を反映
+                this.PurgeListViewItemCache();
+                this._curList.Refresh();
+
+                await this.DispSelectedPost(forceupdate: true);
+            }
         }
 
         private void TimelineRefreshEnableChange(bool isEnable)
