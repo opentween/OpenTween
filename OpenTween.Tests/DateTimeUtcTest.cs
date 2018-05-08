@@ -146,6 +146,15 @@ namespace OpenTween
         }
 
         [Fact]
+        public void ToString_Test()
+        {
+            var datetime = new DateTime(2018, 5, 6, 11, 22, 33, 111, DateTimeKind.Utc);
+            var utc = new DateTimeUtc(datetime);
+
+            Assert.Equal(datetime.ToString(), utc.ToString());
+        }
+
+        [Fact]
         public void ToString_FormatTest()
         {
             var utc = new DateTimeUtc(2018, 5, 6, 11, 22, 33, 111);
@@ -154,7 +163,16 @@ namespace OpenTween
         }
 
         [Fact]
-        public void ToLocalString_FormatTest()
+        public void ToLocalTimeString_Test()
+        {
+            var datetime = new DateTime(2018, 5, 6, 11, 22, 33, 111, DateTimeKind.Local);
+            var utc = new DateTimeUtc(datetime.ToUniversalTime());
+
+            Assert.Equal(datetime.ToString(), utc.ToLocalTimeString());
+        }
+
+        [Fact]
+        public void ToLocalTimeString_FormatTest()
         {
             var localDatetime = new DateTime(2018, 5, 6, 11, 22, 33, 111, DateTimeKind.Local);
             var utc = new DateTimeUtc(localDatetime.ToUniversalTime());

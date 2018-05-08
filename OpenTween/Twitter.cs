@@ -1839,7 +1839,7 @@ namespace OpenTween
         public class FormattedEvent
         {
             public MyCommon.EVENTTYPE Eventtype { get; set; }
-            public DateTime CreatedAt { get; set; }
+            public DateTimeUtc CreatedAt { get; set; }
             public string Event { get; set; }
             public string Username { get; set; }
             public string Target { get; set; }
@@ -2045,7 +2045,7 @@ namespace OpenTween
             {
                 Eventtype = MyCommon.EVENTTYPE.Retweet,
                 Event = "retweet",
-                CreatedAt = MyCommon.DateTimeParse(xElm.XPathSelectElement("/created_at").Value),
+                CreatedAt = new DateTimeUtc(MyCommon.DateTimeParse(xElm.XPathSelectElement("/created_at").Value).ToUniversalTime()),
                 IsMe = xElm.XPathSelectElement("/user/id_str").Value == this.UserId.ToString(),
                 Username = xElm.XPathSelectElement("/user/screen_name").Value,
                 Target = string.Format("@{0}:{1}", new[]
@@ -2074,7 +2074,7 @@ namespace OpenTween
             }
 
             var evt = new FormattedEvent();
-            evt.CreatedAt = MyCommon.DateTimeParse(eventData.CreatedAt);
+            evt.CreatedAt = new DateTimeUtc(MyCommon.DateTimeParse(eventData.CreatedAt).ToUniversalTime());
             evt.Event = eventData.Event;
             evt.Username = eventData.Source.ScreenName;
             evt.IsMe = evt.Username.ToLowerInvariant().Equals(this.Username.ToLowerInvariant());

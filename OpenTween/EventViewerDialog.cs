@@ -80,7 +80,7 @@ namespace OpenTween
 
         private ListViewItem CreateListViewItem(Twitter.FormattedEvent source)
         {
-            string[] s = { source.CreatedAt.ToString(), source.Event.ToUpper(CultureInfo.CurrentCulture), source.Username, source.Target };
+            string[] s = { source.CreatedAt.ToLocalTimeString(), source.Event.ToUpper(CultureInfo.CurrentCulture), source.Username, source.Target };
             return new ListViewItem(s);
         }
 
@@ -295,7 +295,7 @@ namespace OpenTween
             foreach (Twitter.FormattedEvent _event in source)
             {
                 sw.WriteLine(_event.Eventtype + "\t" +
-                             "\"" + _event.CreatedAt + "\"\t" +
+                             "\"" + _event.CreatedAt.ToLocalTimeString() + "\"\t" +
                              _event.Event + "\t" +
                              _event.Username + "\t" +
                              _event.Target + "\t" +

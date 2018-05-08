@@ -95,10 +95,13 @@ namespace OpenTween
             => this.datetime.GetHashCode();
 
         public override string ToString()
-            => this.ToDateTimeOffset().ToString();
+            => this.ToString("G");
 
         public string ToString(string format)
             => this.ToDateTimeOffset().ToString(format);
+
+        public string ToLocalTimeString()
+            => this.ToLocalTimeString("G");
 
         public string ToLocalTimeString(string format)
             => this.ToLocalTime().ToString(format);
