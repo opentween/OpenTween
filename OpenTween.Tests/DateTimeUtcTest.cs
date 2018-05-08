@@ -269,6 +269,22 @@ namespace OpenTween
                 utc.ToDateTimeUnsafe());
         }
 
+        public static TheoryData<string, DateTimeUtc> Parse_Test_Fixtures = new TheoryData<string, DateTimeUtc>
+        {
+            { "2018-05-06T11:22:33.111", new DateTimeUtc(2018, 5, 6, 11, 22, 33, 111) },
+            { "2018-05-06T11:22:33.111+00:00", new DateTimeUtc(2018, 5, 6, 11, 22, 33, 111) },
+            { "2018-05-06T11:22:33.111+09:00", new DateTimeUtc(2018, 5, 6, 2, 22, 33, 111) },
+        };
+
+        [Theory]
+        [MemberData(nameof(Parse_Test_Fixtures))]
+        public void Parse_Test(string input, DateTimeUtc expected)
+            => Assert.Equal(expected, DateTimeUtc.Parse(input, DateTimeFormatInfo.InvariantInfo));
+
+        [Fact]
+        public void Parse_ErrorTest()
+            => Assert.Throws<FormatException>(() => DateTimeUtc.Parse("### INVALID ###", DateTimeFormatInfo.InvariantInfo));
+
         public static TheoryData<string, bool, DateTimeUtc> TryParse_Test_Fixtures = new TheoryData<string, bool, DateTimeUtc>
         {
             { "2018-05-06T11:22:33.111", true, new DateTimeUtc(2018, 5, 6, 11, 22, 33, 111) },

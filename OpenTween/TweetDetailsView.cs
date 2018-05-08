@@ -124,7 +124,7 @@ namespace OpenTween
 
                 loadTasks.Add(this.SetUserPictureAsync(post.ImageUrl));
 
-                DateTimeLabel.Text = post.CreatedAt.ToString();
+                DateTimeLabel.Text = post.CreatedAt.ToLocalTimeString();
             }
 
             if (this.DumpPostClass)
@@ -157,7 +157,7 @@ namespace OpenTween
                 sb.AppendFormat("NickName       : {0}<br>", post.Nickname);
                 sb.AppendFormat("Text   : {0}<br>", post.Text);
                 sb.AppendFormat("(PlainText)    : <xmp>{0}</xmp><br>", post.Text);
-                sb.AppendFormat("CreatedAt          : {0}<br>", post.CreatedAt);
+                sb.AppendFormat("CreatedAt          : {0}<br>", post.CreatedAt.ToLocalTimeString());
                 sb.AppendFormat("Source         : {0}<br>", post.Source);
                 sb.AppendFormat("UserId            : {0}<br>", post.UserId);
                 sb.AppendFormat("FilterHit      : {0}<br>", post.FilterHit);
@@ -330,7 +330,7 @@ namespace OpenTween
             var innerHtml = "<p>" + StripLinkTagHtml(post.Text) + "</p>" +
                 " &mdash; " + WebUtility.HtmlEncode(post.Nickname) +
                 " (@" + WebUtility.HtmlEncode(post.ScreenName) + ") " +
-                WebUtility.HtmlEncode(post.CreatedAt.ToString());
+                WebUtility.HtmlEncode(post.CreatedAt.ToLocalTimeString());
 
             return FormatQuoteTweetHtml(post.StatusId, innerHtml, isReply);
         }

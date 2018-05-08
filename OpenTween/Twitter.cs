@@ -718,7 +718,7 @@ namespace OpenTween
             {
                 var retweeted = status.RetweetedStatus;
 
-                post.CreatedAt = MyCommon.DateTimeParse(retweeted.CreatedAt);
+                post.CreatedAt = new DateTimeUtc(MyCommon.DateTimeParse(retweeted.CreatedAt).ToUniversalTime());
 
                 //Id
                 post.RetweetedId = retweeted.Id;
@@ -777,7 +777,7 @@ namespace OpenTween
             }
             else
             {
-                post.CreatedAt = MyCommon.DateTimeParse(status.CreatedAt);
+                post.CreatedAt = new DateTimeUtc(MyCommon.DateTimeParse(status.CreatedAt).ToUniversalTime());
                 //本文
                 post.TextFromApi = status.FullText;
                 entities = status.MergedEntities;
@@ -1177,7 +1177,7 @@ namespace OpenTween
                     }
                     //sender_id
                     //recipient_id
-                    post.CreatedAt = MyCommon.DateTimeParse(message.CreatedAt);
+                    post.CreatedAt = new DateTimeUtc(MyCommon.DateTimeParse(message.CreatedAt).ToUniversalTime());
                     //本文
                     var textFromApi = message.Text;
                     //HTMLに整形

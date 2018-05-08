@@ -137,6 +137,9 @@ namespace OpenTween
         public static DateTimeUtc FromUnixTime(long unixTime)
             => UnixEpoch + TimeSpan.FromTicks(unixTime * TimeSpan.TicksPerSecond);
 
+        public static DateTimeUtc Parse(string input, IFormatProvider formatProvider)
+            => new DateTimeUtc(DateTimeOffset.Parse(input, formatProvider, DateTimeStyles.AssumeUniversal));
+
         public static bool TryParse(string input, IFormatProvider formatProvider, out DateTimeUtc result)
         {
             if (DateTimeOffset.TryParse(input, formatProvider, DateTimeStyles.AssumeUniversal, out var datetimeOffset))

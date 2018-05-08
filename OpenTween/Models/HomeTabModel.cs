@@ -58,7 +58,7 @@ namespace OpenTween.Models
         public override void AddPostQueue(PostClass post)
         {
             base.AddPostQueue(post);
-            this.UpdateTimelineSpeed(new DateTimeUtc(post.CreatedAt.ToUniversalTime()));
+            this.UpdateTimelineSpeed(post.CreatedAt);
         }
 
         public override async Task RefreshAsync(Twitter tw, bool backward, bool startup, IProgress<string> progress)
