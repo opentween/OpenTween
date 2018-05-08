@@ -55,13 +55,13 @@ namespace OpenTween
             this.Protect = user.Protected;
             this.FriendsCount = user.FriendsCount;
             this.FollowersCount = user.FollowersCount;
-            this.CreatedAt = MyCommon.DateTimeParse(user.CreatedAt);
+            this.CreatedAt = new DateTimeUtc(MyCommon.DateTimeParse(user.CreatedAt).ToUniversalTime());
             this.StatusesCount = user.StatusesCount;
             this.Verified = user.Verified;
             if (user.Status != null)
             {
                 this.RecentPost = user.Status.FullText;
-                this.PostCreatedAt = MyCommon.DateTimeParse(user.Status.CreatedAt);
+                this.PostCreatedAt = new DateTimeUtc(MyCommon.DateTimeParse(user.Status.CreatedAt).ToUniversalTime());
                 this.PostSource = user.Status.Source;
             }
         }
@@ -76,11 +76,11 @@ namespace OpenTween
         public int FriendsCount = 0;
         public int FollowersCount = 0;
         public int FavoriteCount = 0;
-        public DateTime CreatedAt = new DateTime();
+        public DateTimeUtc CreatedAt;
         public int StatusesCount = 0;
         public bool Verified = false;
         public string RecentPost = "";
-        public DateTime PostCreatedAt = new DateTime();
+        public DateTimeUtc PostCreatedAt;
         public string PostSource = "";        // html形式　"<a href="http://sourceforge.jp/projects/tween/wiki/FrontPage" rel="nofollow">Tween</a>"
         public bool isFollowing = false;
         public bool isFollowed = false;

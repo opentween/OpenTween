@@ -94,6 +94,15 @@ namespace OpenTween
         public override int GetHashCode()
             => this.datetime.GetHashCode();
 
+        public override string ToString()
+            => this.ToDateTimeOffset().ToString();
+
+        public string ToString(string format)
+            => this.ToDateTimeOffset().ToString(format);
+
+        public string ToLocalTimeString(string format)
+            => this.ToLocalTime().ToString(format);
+
         public static DateTimeUtc operator +(DateTimeUtc a, TimeSpan b)
             => new DateTimeUtc(a.datetime + b);
 
