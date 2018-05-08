@@ -26,6 +26,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
@@ -104,10 +105,10 @@ namespace OpenTween.Thumbnail.Services
             }
 
             var firstRetrieveElement = thumbElement.Element("first_retrieve");
-            if (firstRetrieveElement != null && DateTime.TryParse(firstRetrieveElement.Value, out var firstRetrieveDate))
+            if (firstRetrieveElement != null && DateTimeUtc.TryParse(firstRetrieveElement.Value, DateTimeFormatInfo.InvariantInfo, out var firstRetrieveDate))
             {
                 tooltip.Append(Properties.Resources.NiconicoInfoText3);
-                tooltip.Append(firstRetrieveDate.ToString());
+                tooltip.Append(firstRetrieveDate.ToLocalTimeString());
                 tooltip.AppendLine();
             }
 

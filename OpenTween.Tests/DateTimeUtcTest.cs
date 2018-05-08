@@ -20,6 +20,7 @@
 // Boston, MA 02110-1301, USA.
 
 using System;
+using System.Globalization;
 using Xunit;
 
 namespace OpenTween
@@ -266,6 +267,24 @@ namespace OpenTween
 
             Assert.Equal(new DateTime(2009, 2, 13, 23, 31, 30, 0, DateTimeKind.Utc),
                 utc.ToDateTimeUnsafe());
+        }
+
+        public static TheoryData<string, bool, DateTimeUtc> TryParse_Test_Fixtures = new TheoryData<string, bool, DateTimeUtc>
+        {
+            { "2018-05-06T11:22:33.111", true, new DateTimeUtc(2018, 5, 6, 11, 22, 33, 111) },
+            { "2018-05-06T11:22:33.111+00:00", true, new DateTimeUtc(2018, 5, 6, 11, 22, 33, 111) },
+            { "2018-05-06T11:22:33.111+09:00", true, new DateTimeUtc(2018, 5, 6, 2, 22, 33, 111) },
+            { "### INVALID ###", false, DateTimeUtc.MinValue },
+        };
+
+        [Theory]
+        [MemberData(nameof(TryParse_Test_Fixtures))]
+        public void TryParse_Test(string input, bool expectedParsed, DateTimeUtc expectedResult)
+        {
+            var parsed = DateTimeUtc.TryParse(input, DateTimeFormatInfo.InvariantInfo, out var result);
+
+            Assert.Equal(expectedParsed, parsed);
+            Assert.Equal(expectedResult, result);
         }
     }
 }

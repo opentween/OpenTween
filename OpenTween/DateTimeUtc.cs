@@ -20,6 +20,7 @@
 // Boston, MA 02110-1301, USA.
 
 using System;
+using System.Globalization;
 
 namespace OpenTween
 {
@@ -135,5 +136,17 @@ namespace OpenTween
 
         public static DateTimeUtc FromUnixTime(long unixTime)
             => UnixEpoch + TimeSpan.FromTicks(unixTime * TimeSpan.TicksPerSecond);
+
+        public static bool TryParse(string input, IFormatProvider formatProvider, out DateTimeUtc result)
+        {
+            if (DateTimeOffset.TryParse(input, formatProvider, DateTimeStyles.AssumeUniversal, out var datetimeOffset))
+            {
+                result = new DateTimeUtc(datetimeOffset);
+                return true;
+            }
+
+            result = MinValue;
+            return false;
+        }
     }
 }
