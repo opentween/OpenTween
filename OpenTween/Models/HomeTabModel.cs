@@ -45,7 +45,7 @@ namespace OpenTween.Models
 
         // 流速計測用
         private int tweetsPerHour = 0;
-        private ConcurrentDictionary<DateTime, int> tweetsTimestamps = new ConcurrentDictionary<DateTime, int>();
+        private ConcurrentDictionary<DateTimeUtc, int> tweetsTimestamps = new ConcurrentDictionary<DateTimeUtc, int>();
 
         public HomeTabModel() : this(MyCommon.DEFAULTTAB.RECENT)
         {
@@ -86,9 +86,9 @@ namespace OpenTween.Models
         /// <summary>
         /// タイムラインに追加された発言件数を反映し、タイムラインの流速を更新します
         /// </summary>
-        private void UpdateTimelineSpeed(DateTime postCreatedAt)
+        private void UpdateTimelineSpeed(DateTimeUtc postCreatedAt)
         {
-            var now = DateTime.Now;
+            var now = DateTimeUtc.Now;
 
             // 1 時間以上前の時刻は追加しない
             var oneHour = TimeSpan.FromHours(1);
@@ -97,7 +97,7 @@ namespace OpenTween.Models
 
             this.tweetsTimestamps.AddOrUpdate(postCreatedAt, 1, (k, v) => v + 1);
 
-            var removeKeys = new List<DateTime>();
+            var removeKeys = new List<DateTimeUtc>();
             var tweetsInWindow = 0;
             foreach (var (timestamp, count) in this.tweetsTimestamps)
             {

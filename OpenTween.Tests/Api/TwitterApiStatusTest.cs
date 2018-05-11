@@ -38,8 +38,8 @@ namespace OpenTween.Api
         {
             var apiStatus = new TwitterApiStatus();
 
-            apiStatus.AccessLimit["/statuses/home_timeline"] = new ApiLimit(150, 100, new DateTime(2013, 1, 1, 0, 0, 0));
-            apiStatus.MediaUploadLimit = new ApiLimit(150, 100, new DateTime(2013, 1, 1, 0, 0, 0));
+            apiStatus.AccessLimit["/statuses/home_timeline"] = new ApiLimit(150, 100, new DateTimeUtc(2013, 1, 1, 0, 0, 0));
+            apiStatus.MediaUploadLimit = new ApiLimit(150, 100, new DateTimeUtc(2013, 1, 1, 0, 0, 0));
             apiStatus.AccessLevel = TwitterApiAccessLevel.ReadWriteAndDirectMessage;
 
             apiStatus.Reset();
@@ -59,7 +59,7 @@ namespace OpenTween.Api
                         ["X-RateLimit-Remaining"] = "100",
                         ["X-RateLimit-Reset"] = "1356998400",
                     },
-                    new ApiLimit(150, 100, new DateTime(2013, 1, 1, 0, 0, 0, DateTimeKind.Utc).ToLocalTime()),
+                    new ApiLimit(150, 100, new DateTimeUtc(2013, 1, 1, 0, 0, 0)),
                 };
                 yield return new object[] {
                     new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
@@ -67,7 +67,7 @@ namespace OpenTween.Api
                         ["x-ratelimit-remaining"] = "100",
                         ["x-ratelimit-reset"] = "1356998400",
                     },
-                    new ApiLimit(150, 100, new DateTime(2013, 1, 1, 0, 0, 0, DateTimeKind.Utc).ToLocalTime()),
+                    new ApiLimit(150, 100, new DateTimeUtc(2013, 1, 1, 0, 0, 0)),
                 };
                 yield return new object[] {
                     new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
@@ -105,7 +105,7 @@ namespace OpenTween.Api
                         ["X-MediaRateLimit-Remaining"] = "20",
                         ["X-MediaRateLimit-Reset"] = "1234567890",
                     },
-                    new ApiLimit(30, 20, new DateTime(2009, 2, 13, 23, 31, 30, DateTimeKind.Utc).ToLocalTime()),
+                    new ApiLimit(30, 20, new DateTimeUtc(2009, 2, 13, 23, 31, 30)),
                 };
                 yield return new object[] {
                     new Dictionary<string, string> {
@@ -193,12 +193,12 @@ namespace OpenTween.Api
             var rateLimit = status.AccessLimit["/statuses/home_timeline"];
             Assert.Equal(150, rateLimit.AccessLimitCount);
             Assert.Equal(100, rateLimit.AccessLimitRemain);
-            Assert.Equal(new DateTime(2013, 1, 1, 0, 0, 0, DateTimeKind.Utc).ToLocalTime(), rateLimit.AccessLimitResetDate);
+            Assert.Equal(new DateTimeUtc(2013, 1, 1, 0, 0, 0), rateLimit.AccessLimitResetDate);
 
             var mediaLimit = status.MediaUploadLimit;
             Assert.Equal(30, mediaLimit.AccessLimitCount);
             Assert.Equal(20, mediaLimit.AccessLimitRemain);
-            Assert.Equal(new DateTime(2013, 1, 2, 0, 0, 0, DateTimeKind.Utc).ToLocalTime(), mediaLimit.AccessLimitResetDate);
+            Assert.Equal(new DateTimeUtc(2013, 1, 2, 0, 0, 0), mediaLimit.AccessLimitResetDate);
 
             Assert.Equal(TwitterApiAccessLevel.ReadWriteAndDirectMessage, status.AccessLevel);
         }
@@ -231,12 +231,12 @@ namespace OpenTween.Api
             var rateLimit = status.AccessLimit["/statuses/home_timeline"];
             Assert.Equal(150, rateLimit.AccessLimitCount);
             Assert.Equal(100, rateLimit.AccessLimitRemain);
-            Assert.Equal(new DateTime(2013, 1, 1, 0, 0, 0, DateTimeKind.Utc).ToLocalTime(), rateLimit.AccessLimitResetDate);
+            Assert.Equal(new DateTimeUtc(2013, 1, 1, 0, 0, 0), rateLimit.AccessLimitResetDate);
 
             var mediaLimit = status.MediaUploadLimit;
             Assert.Equal(30, mediaLimit.AccessLimitCount);
             Assert.Equal(20, mediaLimit.AccessLimitRemain);
-            Assert.Equal(new DateTime(2013, 1, 2, 0, 0, 0, DateTimeKind.Utc).ToLocalTime(), mediaLimit.AccessLimitResetDate);
+            Assert.Equal(new DateTimeUtc(2013, 1, 2, 0, 0, 0), mediaLimit.AccessLimitResetDate);
 
             Assert.Equal(TwitterApiAccessLevel.ReadWriteAndDirectMessage, status.AccessLevel);
         }
@@ -257,7 +257,7 @@ namespace OpenTween.Api
             var rateLimit = status.AccessLimit["/statuses/home_timeline"];
             Assert.Equal(150, rateLimit.AccessLimitCount);
             Assert.Equal(100, rateLimit.AccessLimitRemain);
-            Assert.Equal(new DateTime(2013, 1, 1, 0, 0, 0, DateTimeKind.Utc).ToLocalTime(), rateLimit.AccessLimitResetDate);
+            Assert.Equal(new DateTimeUtc(2013, 1, 1, 0, 0, 0), rateLimit.AccessLimitResetDate);
         }
 
         [Fact]
@@ -268,7 +268,7 @@ namespace OpenTween.Api
             Assert.Raises<TwitterApiStatus.AccessLimitUpdatedEventArgs>(
                 x => apiStatus.AccessLimitUpdated += x,
                 x => apiStatus.AccessLimitUpdated -= x,
-                () => apiStatus.AccessLimit["/statuses/home_timeline"] = new ApiLimit(150, 100, new DateTime(2013, 1, 1, 0, 0, 0))
+                () => apiStatus.AccessLimit["/statuses/home_timeline"] = new ApiLimit(150, 100, new DateTimeUtc(2013, 1, 1, 0, 0, 0))
             );
 
             Assert.Raises<TwitterApiStatus.AccessLimitUpdatedEventArgs>(

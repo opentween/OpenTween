@@ -71,7 +71,7 @@ namespace OpenTween.Models
 
         public string ImageUrl { get; set; }
         public string ScreenName { get; set; }
-        public DateTime CreatedAt { get; set; }
+        public DateTimeUtc CreatedAt { get; set; }
         public long StatusId { get; set; }
         private bool _IsFav;
 

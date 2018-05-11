@@ -49,11 +49,11 @@ namespace OpenTween.OpenTweenCustomControl
         public class LogEntry
         {
             public LogLevel LogLevel { get; }
-            public DateTime Timestamp { get; }
+            public DateTimeUtc Timestamp { get; }
             public string Summary { get; }
             public string Detail { get; }
 
-            public LogEntry(LogLevel logLevel, DateTime timestamp, string summary, string detail)
+            public LogEntry(LogLevel logLevel, DateTimeUtc timestamp, string summary, string detail)
             {
                 this.LogLevel = logLevel;
                 this.Timestamp = timestamp;
@@ -61,13 +61,13 @@ namespace OpenTween.OpenTweenCustomControl
                 this.Detail = detail;
             }
 
-            public LogEntry(DateTime timestamp, string summary) : this(LogLevel.Debug, timestamp, summary, summary)
+            public LogEntry(DateTimeUtc timestamp, string summary) : this(LogLevel.Debug, timestamp, summary, summary)
             {
             }
 
             public override string ToString()
             {
-                return Timestamp.ToString("T") + ": " + Summary;
+                return Timestamp.ToLocalTime().ToString("T") + ": " + Summary;
             }
         }
 
@@ -80,7 +80,7 @@ namespace OpenTween.OpenTweenCustomControl
             get { return base.Text; }
             set
             {
-                _logs.AddLast(new LogEntry(DateTime.Now, value));
+                _logs.AddLast(new LogEntry(DateTimeUtc.Now, value));
                 while (_logs.Count > MAXCNT)
                 {
                     _logs.RemoveFirst();

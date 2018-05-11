@@ -125,6 +125,7 @@
     <Compile Include="Connection\OAuthHandler.cs" />
     <Compile Include="Connection\OAuthUtility.cs" />
     <Compile Include="Connection\TwitterApiConnection.cs" />
+    <Compile Include="DateTimeUtc.cs" />
     <Compile Include="EmojiFormatter.cs" />
     <Compile Include="EventViewerDialog.cs">
       <SubType>Form</SubType>

@@ -88,7 +88,7 @@ namespace OpenTween.Api
             Assert.Equal("1234abcd", translateApi.AccessToken);
 
             // 期待値との差が 3 秒以内であるか
-            var expectedExpiresAt = DateTime.Now + TimeSpan.FromSeconds(1000 - 30);
+            var expectedExpiresAt = DateTimeUtc.Now + TimeSpan.FromSeconds(1000 - 30);
             Assert.True((translateApi.RefreshAccessTokenAt - expectedExpiresAt).Duration() < TimeSpan.FromSeconds(3));
         }
 
@@ -99,7 +99,7 @@ namespace OpenTween.Api
 
             var translateApi = mock.Object;
             translateApi.AccessToken = "1234abcd";
-            translateApi.RefreshAccessTokenAt = DateTime.Now + TimeSpan.FromMinutes(3);
+            translateApi.RefreshAccessTokenAt = DateTimeUtc.Now + TimeSpan.FromMinutes(3);
 
             await translateApi.UpdateAccessTokenIfExpired()
                 .ConfigureAwait(false);
@@ -117,7 +117,7 @@ namespace OpenTween.Api
 
             var translateApi = mock.Object;
             translateApi.AccessToken = "1234abcd";
-            translateApi.RefreshAccessTokenAt = DateTime.Now - TimeSpan.FromMinutes(3);
+            translateApi.RefreshAccessTokenAt = DateTimeUtc.Now - TimeSpan.FromMinutes(3);
 
             await translateApi.UpdateAccessTokenIfExpired()
                 .ConfigureAwait(false);
@@ -125,7 +125,7 @@ namespace OpenTween.Api
             Assert.Equal("5678efgh", translateApi.AccessToken);
 
             // 期待値との差が 3 秒以内であるか
-            var expectedExpiresAt = DateTime.Now + TimeSpan.FromSeconds(1000 - 30);
+            var expectedExpiresAt = DateTimeUtc.Now + TimeSpan.FromSeconds(1000 - 30);
             Assert.True((translateApi.RefreshAccessTokenAt - expectedExpiresAt).Duration() < TimeSpan.FromSeconds(3));
         }
 

@@ -172,8 +172,8 @@ namespace OpenTween
         private Tuple<long, string> inReplyTo = null; // リプライ先のステータスID・スクリーン名
 
         //時速表示用
-        private List<DateTime> _postTimestamps = new List<DateTime>();
-        private List<DateTime> _favTimestamps = new List<DateTime>();
+        private List<DateTimeUtc> _postTimestamps = new List<DateTimeUtc>();
+        private List<DateTimeUtc> _favTimestamps = new List<DateTimeUtc>();
 
         // 以下DrawItem関連
         private SolidBrush _brsHighLight = new SolidBrush(Color.FromKnownColor(KnownColor.Highlight));
@@ -402,6 +402,7 @@ namespace OpenTween
             // 終了時にRemoveHandlerしておかないとメモリリークする
             // http://msdn.microsoft.com/ja-jp/library/microsoft.win32.systemevents.powermodechanged.aspx
             Microsoft.Win32.SystemEvents.PowerModeChanged -= SystemEvents_PowerModeChanged;
+            Microsoft.Win32.SystemEvents.TimeChanged -= SystemEvents_TimeChanged;
 
             this.disposed = true;
         }
@@ -696,6 +697,7 @@ namespace OpenTween
 
             MyCommon.TwitterApiInfo.AccessLimitUpdated += TwitterApiStatus_AccessLimitUpdated;
             Microsoft.Win32.SystemEvents.PowerModeChanged += SystemEvents_PowerModeChanged;
+            Microsoft.Win32.SystemEvents.TimeChanged += SystemEvents_TimeChanged;
 
             Regex.CacheSize = 100;
 
@@ -2569,7 +2571,7 @@ namespace OpenTween
                             throw new WebApiException("NG(Restricted?)");
                     }
 
-                    this._favTimestamps.Add(DateTime.Now);
+                    this._favTimestamps.Add(DateTimeUtc.Now);
 
                     // TLでも取得済みならfav反映
                     if (this._statuses.ContainsKey(statusId))
@@ -2597,7 +2599,7 @@ namespace OpenTween
                 }
 
                 // 時速表示用
-                var oneHour = DateTime.Now - TimeSpan.FromHours(1);
+                var oneHour = DateTimeUtc.Now - TimeSpan.FromHours(1);
                 foreach (var i in MyCommon.CountDown(this._favTimestamps.Count - 1, 0))
                 {
                     if (this._favTimestamps[i] < oneHour)
@@ -2847,9 +2849,9 @@ namespace OpenTween
                 return;
             }
 
-            this._postTimestamps.Add(DateTime.Now);
+            this._postTimestamps.Add(DateTimeUtc.Now);
 
-            var oneHour = DateTime.Now - TimeSpan.FromHours(1);
+            var oneHour = DateTimeUtc.Now - TimeSpan.FromHours(1);
             foreach (var i in MyCommon.CountDown(this._postTimestamps.Count - 1, 0))
             {
                 if (this._postTimestamps[i] < oneHour)
@@ -2925,9 +2927,9 @@ namespace OpenTween
 
             p.Report(Properties.Resources.PostWorker_RunWorkerCompletedText4);
 
-            this._postTimestamps.Add(DateTime.Now);
+            this._postTimestamps.Add(DateTimeUtc.Now);
 
-            var oneHour = DateTime.Now - TimeSpan.FromHours(1);
+            var oneHour = DateTimeUtc.Now - TimeSpan.FromHours(1);
             foreach (var i in MyCommon.CountDown(this._postTimestamps.Count - 1, 0))
             {
                 if (this._postTimestamps[i] < oneHour)
@@ -5036,7 +5038,7 @@ namespace OpenTween
                 string[] sitem= {"",
                                  Post.Nickname,
                                  Post.IsDeleted ? "(DELETED)" : Post.AccessibleText.Replace('\n', ' '),
-                                 Post.CreatedAt.ToString(SettingManager.Common.DateTimeFormat),
+                                 Post.CreatedAt.ToLocalTimeString(SettingManager.Common.DateTimeFormat),
                                  Post.ScreenName,
                                  "",
                                  mk.ToString(),
@@ -5048,7 +5050,7 @@ namespace OpenTween
                 string[] sitem = {"",
                                   Post.Nickname,
                                   Post.IsDeleted ? "(DELETED)" : Post.AccessibleText.Replace('\n', ' '),
-                                  Post.CreatedAt.ToString(SettingManager.Common.DateTimeFormat),
+                                  Post.CreatedAt.ToLocalTimeString(SettingManager.Common.DateTimeFormat),
                                   Post.ScreenName + Environment.NewLine + "(RT:" + Post.RetweetedBy + ")",
                                   "",
                                   mk.ToString(),
@@ -5740,7 +5742,7 @@ namespace OpenTween
         public async Task<VersionInfo> GetVersionInfoAsync()
         {
             var versionInfoUrl = new Uri(ApplicationSettings.VersionInfoUrl + "?" +
-                DateTime.Now.ToString("yyMMddHHmmss") + Environment.TickCount);
+                DateTimeUtc.Now.ToString("yyMMddHHmmss") + Environment.TickCount);
 
             var responseText = await Networking.Http.GetStringAsync(versionInfoUrl)
                 .ConfigureAwait(false);
@@ -7482,7 +7484,7 @@ namespace OpenTween
                     MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
             if (rslt == DialogResult.Cancel) return;
 
-            SaveFileDialog1.FileName = MyCommon.GetAssemblyName() + "Posts" + DateTime.Now.ToString("yyMMdd-HHmmss") + ".tsv";
+            SaveFileDialog1.FileName = $"{MyCommon.GetAssemblyName()}Posts{DateTimeUtc.Now.ToLocalTime():yyMMdd-HHmmss}.tsv";
             SaveFileDialog1.InitialDirectory = Application.ExecutablePath;
             SaveFileDialog1.Filter = Properties.Resources.SaveLogMenuItem_ClickText3;
             SaveFileDialog1.FilterIndex = 0;
@@ -7504,7 +7506,7 @@ namespace OpenTween
                             if (post.IsProtect) protect = "Protect";
                             sw.WriteLine(post.Nickname + "\t" +
                                      "\"" + post.TextFromApi.Replace("\n", "").Replace("\"", "\"\"") + "\"" + "\t" +
-                                     post.CreatedAt + "\t" +
+                                     post.CreatedAt.ToLocalTimeString() + "\t" +
                                      post.ScreenName + "\t" +
                                      post.StatusId + "\t" +
                                      post.ImageUrl + "\t" +
@@ -7521,7 +7523,7 @@ namespace OpenTween
                             if (post.IsProtect) protect = "Protect";
                             sw.WriteLine(post.Nickname + "\t" +
                                      "\"" + post.TextFromApi.Replace("\n", "").Replace("\"", "\"\"") + "\"" + "\t" +
-                                     post.CreatedAt + "\t" +
+                                     post.CreatedAt.ToLocalTimeString() + "\t" +
                                      post.ScreenName + "\t" +
                                      post.StatusId + "\t" +
                                      post.ImageUrl + "\t" +
@@ -9261,7 +9263,7 @@ namespace OpenTween
                 if (_statuses.ContainsKey(_curPost.InReplyToStatusId.Value))
                 {
                     PostClass repPost = _statuses[_curPost.InReplyToStatusId.Value];
-                    MessageBox.Show($"{repPost.ScreenName} / {repPost.Nickname}   ({repPost.CreatedAt})" + Environment.NewLine + repPost.TextFromApi);
+                    MessageBox.Show($"{repPost.ScreenName} / {repPost.Nickname}   ({repPost.CreatedAt.ToLocalTimeString()})" + Environment.NewLine + repPost.TextFromApi);
                 }
                 else
                 {
@@ -9269,7 +9271,7 @@ namespace OpenTween
                     {
                         if (tb == null || !tb.Contains(_curPost.InReplyToStatusId.Value)) break;
                         PostClass repPost = _statuses[_curPost.InReplyToStatusId.Value];
-                        MessageBox.Show($"{repPost.ScreenName} / {repPost.Nickname}   ({repPost.CreatedAt})" + Environment.NewLine + repPost.TextFromApi);
+                        MessageBox.Show($"{repPost.ScreenName} / {repPost.Nickname}   ({repPost.CreatedAt.ToLocalTimeString()})" + Environment.NewLine + repPost.TextFromApi);
                         return;
                     }
                     await this.OpenUriInBrowserAsync(MyCommon.GetStatusUrl(_curPost.InReplyToUser, _curPost.InReplyToStatusId.Value));
@@ -12099,6 +12101,24 @@ namespace OpenTween
         private void SystemEvents_PowerModeChanged(object sender, Microsoft.Win32.PowerModeChangedEventArgs e)
         {
             if (e.Mode == Microsoft.Win32.PowerModes.Resume) osResumed = true;
+        }
+
+        private async void SystemEvents_TimeChanged(object sender, EventArgs e)
+        {
+            var prevTimeOffset = TimeZoneInfo.Local.BaseUtcOffset;
+
+            TimeZoneInfo.ClearCachedData();
+
+            var curTimeOffset = TimeZoneInfo.Local.BaseUtcOffset;
+
+            if (curTimeOffset != prevTimeOffset)
+            {
+                // タイムゾーンの変更を反映
+                this.PurgeListViewItemCache();
+                this._curList.Refresh();
+
+                await this.DispSelectedPost(forceupdate: true);
+            }
         }
 
         private void TimelineRefreshEnableChange(bool isEnable)

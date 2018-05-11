@@ -72,7 +72,7 @@ namespace OpenTween.Setting.Panel
             var dateTimeFormat = settingCommon.DateTimeFormat;
             try
             {
-                if (DateTime.Now.ToString(dateTimeFormat).Length == 0)
+                if (DateTimeUtc.Now.ToLocalTimeString(dateTimeFormat).Length == 0)
                 {
                     // このブロックは絶対に実行されないはず
                     // 変換が成功した場合にLengthが0にならない
@@ -126,7 +126,7 @@ namespace OpenTween.Setting.Panel
         {
             try
             {
-                LabelDateTimeFormatApplied.Text = DateTime.Now.ToString(CmbDateTimeFormat.Text);
+                LabelDateTimeFormatApplied.Text = DateTimeUtc.Now.ToLocalTimeString(CmbDateTimeFormat.Text);
             }
             catch (FormatException)
             {

@@ -21,6 +21,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -40,7 +41,7 @@ namespace OpenTween
                 Nickname = "upsilon",
                 ScreenName = "kim_upsilon",
                 Text = "<a href=\"https://twitter.com/twitterapi\">@twitterapi</a> hogehoge",
-                CreatedAt = new DateTime(2015, 3, 30, 3, 30, 0),
+                CreatedAt = new DateTimeUtc(2015, 3, 30, 3, 30, 0),
             };
 
             // PostClass.Text はリンクを除去するのみでエスケープは行わない
@@ -48,7 +49,7 @@ namespace OpenTween
 
             var expected = "<a class=\"quote-tweet-link\" href=\"//opentween/status/12345\">" +
                 "<blockquote class=\"quote-tweet\">" +
-                "<p>@twitterapi hogehoge</p> &mdash; upsilon (@kim_upsilon) " + DateTime.Parse("2015/03/30 3:30:00") +
+                "<p>@twitterapi hogehoge</p> &mdash; upsilon (@kim_upsilon) " + DateTimeUtc.Parse("2015/03/30 3:30:00", DateTimeFormatInfo.InvariantInfo).ToLocalTimeString() +
                 "</blockquote></a>";
             Assert.Equal(expected, TweetDetailsView.FormatQuoteTweetHtml(post, isReply: false));
         }

@@ -34,10 +34,10 @@ namespace OpenTween.Api
         {
             get
             {
-                yield return new object[] { new ApiLimit(150, 100, new DateTime(2013, 1, 1, 0, 0, 0)), true };
-                yield return new object[] { new ApiLimit(350, 100, new DateTime(2013, 1, 1, 0, 0, 0)), false };
-                yield return new object[] { new ApiLimit(150, 150, new DateTime(2013, 1, 1, 0, 0, 0)), false };
-                yield return new object[] { new ApiLimit(150, 100, new DateTime(2012, 12, 31, 0, 0, 0)), false };
+                yield return new object[] { new ApiLimit(150, 100, new DateTimeUtc(2013, 1, 1, 0, 0, 0)), true };
+                yield return new object[] { new ApiLimit(350, 100, new DateTimeUtc(2013, 1, 1, 0, 0, 0)), false };
+                yield return new object[] { new ApiLimit(150, 150, new DateTimeUtc(2013, 1, 1, 0, 0, 0)), false };
+                yield return new object[] { new ApiLimit(150, 100, new DateTimeUtc(2012, 12, 31, 0, 0, 0)), false };
                 yield return new object[] { null, false };
                 yield return new object[] { new object(), false };
             }
@@ -47,7 +47,7 @@ namespace OpenTween.Api
         [MemberData(nameof(Equals_TestCase))]
         public void EqualsTest(object obj2, bool expected)
         {
-            var obj1 = new ApiLimit(150, 100, new DateTime(2013, 1, 1, 0, 0, 0));
+            var obj1 = new ApiLimit(150, 100, new DateTimeUtc(2013, 1, 1, 0, 0, 0));
 
             Assert.Equal(expected, obj1.Equals(obj2));
         }

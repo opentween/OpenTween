@@ -1833,13 +1833,13 @@ namespace OpenTween
         public event EventHandler UserStreamStopped;
         public event EventHandler<PostDeletedEventArgs> PostDeleted;
         public event EventHandler<UserStreamEventReceivedEventArgs> UserStreamEventReceived;
-        private DateTime _lastUserstreamDataReceived;
+        private DateTimeUtc _lastUserstreamDataReceived;
         private TwitterUserstream userStream;
 
         public class FormattedEvent
         {
             public MyCommon.EVENTTYPE Eventtype { get; set; }
-            public DateTime CreatedAt { get; set; }
+            public DateTimeUtc CreatedAt { get; set; }
             public string Event { get; set; }
             public string Username { get; set; }
             public string Target { get; set; }
@@ -1883,16 +1883,11 @@ namespace OpenTween
         };
 
         public bool IsUserstreamDataReceived
-        {
-            get
-            {
-                return DateTime.Now.Subtract(this._lastUserstreamDataReceived).TotalSeconds < 31;
-            }
-        }
+            => (DateTimeUtc.Now - this._lastUserstreamDataReceived).TotalSeconds < 31;
 
         private void userStream_StatusArrived(string line)
         {
-            this._lastUserstreamDataReceived = DateTime.Now;
+            this._lastUserstreamDataReceived = DateTimeUtc.Now;
             if (string.IsNullOrEmpty(line)) return;
 
             if (line.First() != '{' || line.Last() != '}')

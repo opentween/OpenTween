@@ -322,7 +322,7 @@ namespace OpenTween
                 this.UserProfile.Text = user.Description;
                 if (!String.IsNullOrEmpty(user.RecentPost))
                 {
-                    this.UserTweetDateTime.Text = user.PostCreatedAt.ToString("yy/MM/dd HH:mm");
+                    this.UserTweetDateTime.Text = user.PostCreatedAt.ToLocalTimeString("yy/MM/dd HH:mm");
                     this.UserTweet.Text = user.RecentPost;
                 }
                 else

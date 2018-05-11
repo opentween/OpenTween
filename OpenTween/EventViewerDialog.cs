@@ -80,7 +80,7 @@ namespace OpenTween
 
         private ListViewItem CreateListViewItem(Twitter.FormattedEvent source)
         {
-            string[] s = { source.CreatedAt.ToString(), source.Event.ToUpper(CultureInfo.CurrentCulture), source.Username, source.Target };
+            string[] s = { source.CreatedAt.ToLocalTimeString(), source.Event.ToUpper(CultureInfo.CurrentCulture), source.Username, source.Target };
             return new ListViewItem(s);
         }
 
@@ -253,10 +253,10 @@ namespace OpenTween
             switch (rslt)
             {
                 case DialogResult.Yes:
-                    SaveFileDialog1.FileName = MyCommon.GetAssemblyName() + "Events" + _curTab.Tag + DateTime.Now.ToString("yyMMdd-HHmmss") + ".tsv";
+                    SaveFileDialog1.FileName = $"{MyCommon.GetAssemblyName()}Events{_curTab.Tag}{DateTimeUtc.Now.ToLocalTime():yyMMdd-HHmmss}.tsv";
                     break;
                 case DialogResult.No:
-                    SaveFileDialog1.FileName = MyCommon.GetAssemblyName() + "Events" + DateTime.Now.ToString("yyMMdd-HHmmss") + ".tsv";
+                    SaveFileDialog1.FileName = $"{MyCommon.GetAssemblyName()}Events{DateTimeUtc.Now.ToLocalTime():yyMMdd-HHmmss}.tsv";
                     break;
                 default:
                     return;
@@ -295,7 +295,7 @@ namespace OpenTween
             foreach (Twitter.FormattedEvent _event in source)
             {
                 sw.WriteLine(_event.Eventtype + "\t" +
-                             "\"" + _event.CreatedAt + "\"\t" +
+                             "\"" + _event.CreatedAt.ToLocalTimeString() + "\"\t" +
                              _event.Event + "\t" +
                              _event.Username + "\t" +
                              _event.Target + "\t" +

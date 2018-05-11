@@ -276,13 +276,13 @@ namespace OpenTween
                 if (!Directory.Exists(logPath))
                     Directory.CreateDirectory(logPath);
 
-                var now = DateTime.Now;
-                var fileName = string.Format("{0}Trace-{1:0000}{2:00}{3:00}-{4:00}{5:00}{6:00}.log", GetAssemblyName(), now.Year, now.Month, now.Day, now.Hour, now.Minute, now.Second);
+                var now = DateTimeUtc.Now;
+                var fileName = $"{GetAssemblyName()}Trace-{now.ToLocalTime():yyyyMMdd-HHmmss}.log";
                 fileName = Path.Combine(logPath, fileName);
 
                 using (var writer = new StreamWriter(fileName))
                 {
-                    writer.WriteLine("**** TraceOut: {0} ****", DateTime.Now);
+                    writer.WriteLine("**** TraceOut: {0} ****", now.ToLocalTimeString());
                     writer.WriteLine(Properties.Resources.TraceOutText1, ApplicationSettings.FeedbackEmailAddress);
                     writer.WriteLine(Properties.Resources.TraceOutText2, ApplicationSettings.FeedbackTwitterName);
                     writer.WriteLine();
@@ -389,9 +389,10 @@ namespace OpenTween
 
                 var ident = WindowsIdentity.GetCurrent();
                 var princ = new WindowsPrincipal(ident);
+                var now = DateTimeUtc.Now;
 
                 var errorReport = string.Join(Environment.NewLine,
-                    string.Format(Properties.Resources.UnhandledExceptionText1, DateTime.Now),
+                    string.Format(Properties.Resources.UnhandledExceptionText1, now.ToLocalTimeString()),
 
                     // 権限書き出し
                     string.Format(Properties.Resources.UnhandledExceptionText11 + princ.IsInRole(WindowsBuiltInRole.Administrator)),
@@ -410,8 +411,7 @@ namespace OpenTween
                 if (!Directory.Exists(logPath))
                     Directory.CreateDirectory(logPath);
 
-                var now = DateTime.Now;
-                var fileName = string.Format("{0}-{1:0000}{2:00}{3:00}-{4:00}{5:00}{6:00}.log", GetAssemblyName(), now.Year, now.Month, now.Day, now.Hour, now.Minute, now.Second);
+                var fileName = $"{GetAssemblyName()}-{now.ToLocalTime():yyyyMMdd-HHmmss}.log";
                 using (var writer = new StreamWriter(Path.Combine(logPath, fileName)))
                 {
                     writer.Write(errorReport);
@@ -812,29 +812,19 @@ namespace OpenTween
             }
         }
 
-        public static DateTime DateTimeParse(string input)
+        public static DateTimeUtc DateTimeParse(string input)
         {
-            string[] format = {
+            var formats = new[] {
                 "ddd MMM dd HH:mm:ss zzzz yyyy",
                 "ddd, d MMM yyyy HH:mm:ss zzzz",
             };
-            foreach (var fmt in format)
-            {
-                if (DateTime.TryParseExact(input,
-                                          fmt,
-                                          DateTimeFormatInfo.InvariantInfo,
-                                          DateTimeStyles.None,
-                                          out var rslt))
-                {
-                    return rslt;
-                }
-                else
-                {
-                    continue;
-                }
-            }
+
+            if (DateTimeUtc.TryParseExact(input, formats, DateTimeFormatInfo.InvariantInfo, out var result))
+                return result;
+
             TraceOut("Parse Error(DateTimeFormat) : " + input);
-            return new DateTime();
+
+            return DateTimeUtc.Now;
         }
 
         public static T CreateDataFromJson<T>(string content)
