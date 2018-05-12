@@ -29,7 +29,7 @@ using System.Threading.Tasks;
 
 namespace OpenTween.Api.DataModel
 {
-    // 参照: https://dev.twitter.com/docs/platform-objects/entities
+    // 参照: https://developer.twitter.com/en/docs/tweets/data-dictionary/overview/entities-object
 
     [DataContract]
     public class TwitterEntities : IEnumerable<TwitterEntity>
@@ -39,6 +39,9 @@ namespace OpenTween.Api.DataModel
 
         [DataMember(Name = "media", IsRequired = false)]
         public TwitterEntityMedia[] Media { get; set; }
+
+        [DataMember(Name = "symbols", IsRequired = false)]
+        public TwitterEntitySymbol[] Symbols { get; set; }
 
         [DataMember(Name = "urls", IsRequired = false)]
         public TwitterEntityUrl[] Urls { get; set; }
@@ -52,10 +55,16 @@ namespace OpenTween.Api.DataModel
 
             if (this.Hashtags != null)
                 entities = entities.Concat(this.Hashtags);
+
             if (this.Media != null)
                 entities = entities.Concat(this.Media);
+
+            if (this.Symbols != null)
+                entities = entities.Concat(this.Symbols);
+
             if (this.Urls != null)
                 entities = entities.Concat(this.Urls);
+
             if (this.UserMentions != null)
                 entities = entities.Concat(this.UserMentions);
 
@@ -63,9 +72,7 @@ namespace OpenTween.Api.DataModel
         }
 
         IEnumerator IEnumerable.GetEnumerator()
-        {
-            return this.GetEnumerator();
-        }
+            => this.GetEnumerator();
     }
 
     [DataContract]
@@ -85,6 +92,9 @@ namespace OpenTween.Api.DataModel
     [DataContract]
     public class TwitterEntityMedia : TwitterEntityUrl
     {
+        [DataMember(Name = "additional_media_info", IsRequired = false)]
+        public TwitterMediaAdditionalInfo AdditionalMediaInfo { get; set; }
+
         [DataMember(Name = "id")]
         public long Id { get; set; }
 
@@ -169,6 +179,29 @@ namespace OpenTween.Api.DataModel
             [DataMember(Name = "url")]
             public string Url { get; set; }
         }
+    }
+
+    [DataContract]
+    public class TwitterMediaAdditionalInfo
+    {
+        [DataMember(Name = "title")]
+        public string Title { get; set; }
+
+        [DataMember(Name = "description")]
+        public string Description { get; set; }
+
+        [DataMember(Name = "embeddable")]
+        public bool Embeddable { get; set; }
+
+        [DataMember(Name = "monetizable")]
+        public bool Monetizable { get; set; }
+    }
+
+    [DataContract]
+    public class TwitterEntitySymbol : TwitterEntity
+    {
+        [DataMember(Name = "text")]
+        public string Text { get; set; }
     }
 
     [DataContract]

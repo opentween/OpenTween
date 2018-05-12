@@ -151,10 +151,11 @@ namespace OpenTween.Api.DataModel
 
                 return new TwitterEntities
                 {
-                    Hashtags = this.ExtendedEntities.Hashtags ?? this.Entities.Hashtags,
+                    Hashtags = this.Entities.Hashtags,
                     Media = this.ExtendedEntities.Media ?? this.Entities.Media,
-                    Urls = this.ExtendedEntities.Urls ?? this.Entities.Urls,
-                    UserMentions = this.ExtendedEntities.UserMentions ?? this.Entities.UserMentions,
+                    Symbols = this.Entities.Symbols,
+                    Urls = this.Entities.Urls,
+                    UserMentions = this.Entities.UserMentions,
                 };
             }
         }
