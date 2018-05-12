@@ -825,7 +825,7 @@ namespace OpenTween
             post.TextFromApi = this.ReplaceTextFromApi(post.TextFromApi, entities);
             post.TextFromApi = WebUtility.HtmlDecode(post.TextFromApi);
             post.TextFromApi = post.TextFromApi.Replace("<3", "\u2661");
-            post.AccessibleText = this.CreateAccessibleText(textFromApi, entities, (status.RetweetedStatus ?? status).QuotedStatus);
+            post.AccessibleText = CreateAccessibleText(textFromApi, entities, (status.RetweetedStatus ?? status).QuotedStatus);
             post.AccessibleText = WebUtility.HtmlDecode(post.AccessibleText);
             post.AccessibleText = post.AccessibleText.Replace("<3", "\u2661");
 
@@ -1187,7 +1187,7 @@ namespace OpenTween
                     post.TextFromApi = this.ReplaceTextFromApi(textFromApi, message.Entities);
                     post.TextFromApi = WebUtility.HtmlDecode(post.TextFromApi);
                     post.TextFromApi = post.TextFromApi.Replace("<3", "\u2661");
-                    post.AccessibleText = this.CreateAccessibleText(textFromApi, message.Entities, quoteStatus: null);
+                    post.AccessibleText = CreateAccessibleText(textFromApi, message.Entities, quoteStatus: null);
                     post.AccessibleText = WebUtility.HtmlDecode(post.AccessibleText);
                     post.AccessibleText = post.AccessibleText.Replace("<3", "\u2661");
                     post.IsFav = false;
@@ -1352,7 +1352,7 @@ namespace OpenTween
             return text;
         }
 
-        private string CreateAccessibleText(string text, TwitterEntities entities, TwitterStatus quoteStatus)
+        internal static string CreateAccessibleText(string text, TwitterEntities entities, TwitterStatus quoteStatus)
         {
             if (entities == null)
                 return text;
@@ -1366,14 +1366,14 @@ namespace OpenTween
                         var matchStatusUrl = Twitter.StatusUrlRegex.Match(entity.ExpandedUrl);
                         if (matchStatusUrl.Success && matchStatusUrl.Groups["StatusId"].Value == quoteStatus.IdStr)
                         {
-                            var quoteText = this.CreateAccessibleText(quoteStatus.FullText, quoteStatus.MergedEntities, quoteStatus: null);
+                            var quoteText = CreateAccessibleText(quoteStatus.FullText, quoteStatus.MergedEntities, quoteStatus: null);
                             text = text.Replace(entity.Url, string.Format(Properties.Resources.QuoteStatus_AccessibleText, quoteStatus.User.ScreenName, quoteText));
+                            continue;
                         }
                     }
-                    else if (!string.IsNullOrEmpty(entity.DisplayUrl))
-                    {
+
+                    if (!string.IsNullOrEmpty(entity.DisplayUrl))
                         text = text.Replace(entity.Url, entity.DisplayUrl);
-                    }
                 }
             }
 

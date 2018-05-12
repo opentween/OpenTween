@@ -110,6 +110,113 @@ namespace OpenTween
         }
 
         [Fact]
+        public void CreateAccessibleText_MediaAltTest()
+        {
+            var text = "https://t.co/hoge";
+            var entities = new TwitterEntities
+            {
+                Media = new[]
+                {
+                    new TwitterEntityMedia
+                    {
+                        Indices = new[] { 0, 17 },
+                        Url = "https://t.co/hoge",
+                        DisplayUrl = "pic.twitter.com/hoge",
+                        ExpandedUrl = "https://twitter.com/hoge/status/1234567890/photo/1",
+                        AltText = "代替テキスト",
+                    },
+                },
+            };
+
+            var expectedText = string.Format(Properties.Resources.ImageAltText, "代替テキスト");
+
+            Assert.Equal(expectedText, Twitter.CreateAccessibleText(text, entities, quoteStatus: null));
+        }
+
+        [Fact]
+        public void CreateAccessibleText_MediaNoAltTest()
+        {
+            var text = "https://t.co/hoge";
+            var entities = new TwitterEntities
+            {
+                Media = new[]
+                {
+                    new TwitterEntityMedia
+                    {
+                        Indices = new[] { 0, 17 },
+                        Url = "https://t.co/hoge",
+                        DisplayUrl = "pic.twitter.com/hoge",
+                        ExpandedUrl = "https://twitter.com/hoge/status/1234567890/photo/1",
+                        AltText = null,
+                    },
+                },
+            };
+
+            var expectedText = "pic.twitter.com/hoge";
+
+            Assert.Equal(expectedText, Twitter.CreateAccessibleText(text, entities, quoteStatus: null));
+        }
+
+        [Fact]
+        public void CreateAccessibleText_QuotedUrlTest()
+        {
+            var text = "https://t.co/hoge";
+            var entities = new TwitterEntities
+            {
+                Urls = new[]
+                {
+                    new TwitterEntityUrl
+                    {
+                        Indices = new[] { 0, 17 },
+                        Url = "https://t.co/hoge",
+                        DisplayUrl = "twitter.com/hoge/status/1…",
+                        ExpandedUrl = "https://twitter.com/hoge/status/1234567890",
+                    },
+                },
+            };
+            var quotedStatus = new TwitterStatus
+            {
+                Id = 1234567890L,
+                IdStr = "1234567890",
+                User = new TwitterUser
+                {
+                    Id = 1111,
+                    IdStr = "1111",
+                    ScreenName = "foo",
+                },
+                FullText = "test",
+            };
+
+            var expectedText = string.Format(Properties.Resources.QuoteStatus_AccessibleText, "foo", "test");
+
+            Assert.Equal(expectedText, Twitter.CreateAccessibleText(text, entities, quotedStatus));
+        }
+
+        [Fact]
+        public void CreateAccessibleText_QuotedUrlNoReferenceTest()
+        {
+            var text = "https://t.co/hoge";
+            var entities = new TwitterEntities
+            {
+                Urls = new[]
+                {
+                    new TwitterEntityUrl
+                    {
+                        Indices = new[] { 0, 17 },
+                        Url = "https://t.co/hoge",
+                        DisplayUrl = "twitter.com/hoge/status/1…",
+                        ExpandedUrl = "https://twitter.com/hoge/status/1234567890",
+                    },
+                },
+            };
+            var quotedStatus = (TwitterStatus)null;
+
+            var expectedText = "twitter.com/hoge/status/1…";
+
+            Assert.Equal(expectedText, Twitter.CreateAccessibleText(text, entities, quotedStatus));
+        }
+
+        [Fact]
         public void CreateHtmlAnchor_Test()
         {
             var text = "@twitterapi #BreakingMyTwitter https://t.co/mIJcSoVSK3";
