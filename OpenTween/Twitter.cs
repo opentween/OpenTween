@@ -1187,7 +1187,7 @@ namespace OpenTween
                     post.TextFromApi = this.ReplaceTextFromApi(textFromApi, message.Entities);
                     post.TextFromApi = WebUtility.HtmlDecode(post.TextFromApi);
                     post.TextFromApi = post.TextFromApi.Replace("<3", "\u2661");
-                    post.AccessibleText = CreateAccessibleText(textFromApi, message.Entities, quoteStatus: null);
+                    post.AccessibleText = CreateAccessibleText(textFromApi, message.Entities, quotedStatus: null);
                     post.AccessibleText = WebUtility.HtmlDecode(post.AccessibleText);
                     post.AccessibleText = post.AccessibleText.Replace("<3", "\u2661");
                     post.IsFav = false;
@@ -1352,7 +1352,7 @@ namespace OpenTween
             return text;
         }
 
-        internal static string CreateAccessibleText(string text, TwitterEntities entities, TwitterStatus quoteStatus)
+        internal static string CreateAccessibleText(string text, TwitterEntities entities, TwitterStatus quotedStatus)
         {
             if (entities == null)
                 return text;
@@ -1361,13 +1361,13 @@ namespace OpenTween
             {
                 foreach (var entity in entities.Urls)
                 {
-                    if (quoteStatus != null)
+                    if (quotedStatus != null)
                     {
                         var matchStatusUrl = Twitter.StatusUrlRegex.Match(entity.ExpandedUrl);
-                        if (matchStatusUrl.Success && matchStatusUrl.Groups["StatusId"].Value == quoteStatus.IdStr)
+                        if (matchStatusUrl.Success && matchStatusUrl.Groups["StatusId"].Value == quotedStatus.IdStr)
                         {
-                            var quoteText = CreateAccessibleText(quoteStatus.FullText, quoteStatus.MergedEntities, quoteStatus: null);
-                            text = text.Replace(entity.Url, string.Format(Properties.Resources.QuoteStatus_AccessibleText, quoteStatus.User.ScreenName, quoteText));
+                            var quotedText = CreateAccessibleText(quotedStatus.FullText, quotedStatus.MergedEntities, quotedStatus: null);
+                            text = text.Replace(entity.Url, string.Format(Properties.Resources.QuoteStatus_AccessibleText, quotedStatus.User.ScreenName, quotedText));
                             continue;
                         }
                     }

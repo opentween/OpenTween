@@ -130,7 +130,7 @@ namespace OpenTween
 
             var expectedText = string.Format(Properties.Resources.ImageAltText, "代替テキスト");
 
-            Assert.Equal(expectedText, Twitter.CreateAccessibleText(text, entities, quoteStatus: null));
+            Assert.Equal(expectedText, Twitter.CreateAccessibleText(text, entities, quotedStatus: null));
         }
 
         [Fact]
@@ -154,7 +154,7 @@ namespace OpenTween
 
             var expectedText = "pic.twitter.com/hoge";
 
-            Assert.Equal(expectedText, Twitter.CreateAccessibleText(text, entities, quoteStatus: null));
+            Assert.Equal(expectedText, Twitter.CreateAccessibleText(text, entities, quotedStatus: null));
         }
 
         [Fact]
