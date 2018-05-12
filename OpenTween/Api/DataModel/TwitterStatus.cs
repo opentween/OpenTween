@@ -28,7 +28,7 @@ using System.Threading.Tasks;
 
 namespace OpenTween.Api.DataModel
 {
-    // 参照: https://dev.twitter.com/docs/platform-objects/tweets
+    // 参照: https://developer.twitter.com/en/docs/tweets/data-dictionary/overview/tweet-object
 
     [DataContract]
     public class TwitterStatus
@@ -81,6 +81,9 @@ namespace OpenTween.Api.DataModel
         [DataMember(Name = "in_reply_to_user_id_str")]
         public string InReplyToUserIdStr { get; set; } // Nullable
 
+        [DataMember(Name = "is_quote_status")]
+        public bool IsQuoteStatus { get; set; }
+
         [DataMember(Name = "lang")]
         public string Lang { get; set; } // Nullable
 
@@ -90,6 +93,9 @@ namespace OpenTween.Api.DataModel
         [DataMember(Name = "possibly_sensitive")]
         public bool? PossiblySensitive { get; set; }
 
+        [DataMember(Name = "quote_count")]
+        public int? QuoteCount { get; set; }
+
         [DataMember(Name = "quoted_status_id", IsRequired = false)]
         public long? QuotedStatusId { get; set; }
 
@@ -98,6 +104,12 @@ namespace OpenTween.Api.DataModel
 
         [DataMember(Name = "quoted_status", IsRequired = false)]
         public TwitterStatus QuotedStatus { get; set; }
+
+        [DataMember(Name = "quoted_status_permalink", IsRequired = false)]
+        public TwitterQuotedStatusPermalink QuotedStatusPermalink { get; set; } // https://twittercommunity.com/t/105473
+
+        [DataMember(Name = "reply_count")]
+        public int ReplyCount { get; set; }
 
         [DataMember(Name = "retweet_count")]
         public int RetweetCount { get; set; }
@@ -139,10 +151,11 @@ namespace OpenTween.Api.DataModel
 
                 return new TwitterEntities
                 {
-                    Hashtags = this.ExtendedEntities.Hashtags ?? this.Entities.Hashtags,
+                    Hashtags = this.Entities.Hashtags,
                     Media = this.ExtendedEntities.Media ?? this.Entities.Media,
-                    Urls = this.ExtendedEntities.Urls ?? this.Entities.Urls,
-                    UserMentions = this.ExtendedEntities.UserMentions ?? this.Entities.UserMentions,
+                    Symbols = this.Entities.Symbols,
+                    Urls = this.Entities.Urls,
+                    UserMentions = this.Entities.UserMentions,
                 };
             }
         }
@@ -158,6 +171,19 @@ namespace OpenTween.Api.DataModel
         {
             return MyCommon.CreateDataFromJson<TwitterStatus[]>(json);
         }
+    }
+
+    [DataContract]
+    public class TwitterQuotedStatusPermalink
+    {
+        [DataMember(Name = "url")]
+        public string Url { get; set; }
+
+        [DataMember(Name = "expanded")]
+        public string Expanded { get; set; }
+
+        [DataMember(Name = "display")]
+        public string Display { get; set; }
     }
 
     /// <summary>
@@ -227,6 +253,9 @@ namespace OpenTween.Api.DataModel
         [DataMember(Name = "in_reply_to_user_id_str")]
         public string InReplyToUserIdStr { get; set; } // Nullable
 
+        [DataMember(Name = "is_quote_status")]
+        public bool IsQuoteStatus { get; set; }
+
         [DataMember(Name = "lang")]
         public string Lang { get; set; } // Nullable
 
@@ -236,6 +265,9 @@ namespace OpenTween.Api.DataModel
         [DataMember(Name = "possibly_sensitive")]
         public bool? PossiblySensitive { get; set; }
 
+        [DataMember(Name = "quote_count")]
+        public int? QuoteCount { get; set; }
+
         [DataMember(Name = "quoted_status_id", IsRequired = false)]
         public long? QuotedStatusId { get; set; }
 
@@ -244,6 +276,12 @@ namespace OpenTween.Api.DataModel
 
         [DataMember(Name = "quoted_status", IsRequired = false)]
         public TwitterStatusCompat QuotedStatus { get; set; }
+
+        [DataMember(Name = "quoted_status_permalink", IsRequired = false)]
+        public TwitterQuotedStatusPermalink QuotedStatusPermalink { get; set; } // https://twittercommunity.com/t/105473
+
+        [DataMember(Name = "reply_count")]
+        public int ReplyCount { get; set; }
 
         [DataMember(Name = "retweet_count")]
         public int RetweetCount { get; set; }
@@ -292,12 +330,16 @@ namespace OpenTween.Api.DataModel
                 InReplyToStatusIdStr = this.InReplyToStatusIdStr,
                 InReplyToUserId = this.InReplyToUserId,
                 InReplyToUserIdStr = this.InReplyToUserIdStr,
+                IsQuoteStatus = this.IsQuoteStatus,
                 Lang = this.Lang,
                 Place = this.Place,
                 PossiblySensitive = this.PossiblySensitive,
+                QuoteCount = this.QuoteCount,
                 QuotedStatusId = this.QuotedStatusId,
                 QuotedStatusIdStr = this.QuotedStatusIdStr,
                 QuotedStatus = this.QuotedStatus?.Normalize(),
+                QuotedStatusPermalink = this.QuotedStatusPermalink,
+                ReplyCount = this.ReplyCount,
                 RetweetCount = this.RetweetCount,
                 Retweeted = this.Retweeted,
                 RetweetedStatus = this.RetweetedStatus?.Normalize(),
