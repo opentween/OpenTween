@@ -820,18 +820,20 @@ namespace OpenTween
             }
             //HTMLに整形
             string textFromApi = post.TextFromApi;
-            post.Text = CreateHtmlAnchor(textFromApi, entities);
+            var quotedStatusLink = (status.RetweetedStatus ?? status).QuotedStatusPermalink;
+
+            post.Text = CreateHtmlAnchor(textFromApi, entities, quotedStatusLink);
             post.TextFromApi = textFromApi;
-            post.TextFromApi = this.ReplaceTextFromApi(post.TextFromApi, entities);
+            post.TextFromApi = this.ReplaceTextFromApi(post.TextFromApi, entities, quotedStatusLink);
             post.TextFromApi = WebUtility.HtmlDecode(post.TextFromApi);
             post.TextFromApi = post.TextFromApi.Replace("<3", "\u2661");
-            post.AccessibleText = CreateAccessibleText(textFromApi, entities, (status.RetweetedStatus ?? status).QuotedStatus);
+            post.AccessibleText = CreateAccessibleText(textFromApi, entities, (status.RetweetedStatus ?? status).QuotedStatus, quotedStatusLink);
             post.AccessibleText = WebUtility.HtmlDecode(post.AccessibleText);
             post.AccessibleText = post.AccessibleText.Replace("<3", "\u2661");
 
             this.ExtractEntities(entities, post.ReplyToList, post.Media);
 
-            post.QuoteStatusIds = GetQuoteTweetStatusIds(entities)
+            post.QuoteStatusIds = GetQuoteTweetStatusIds(entities, quotedStatusLink)
                 .Where(x => x != post.StatusId && x != post.RetweetedId)
                 .Distinct().ToArray();
 
@@ -875,9 +877,12 @@ namespace OpenTween
         /// <summary>
         /// ツイートに含まれる引用ツイートのURLからステータスIDを抽出
         /// </summary>
-        public static IEnumerable<long> GetQuoteTweetStatusIds(IEnumerable<TwitterEntity> entities)
+        public static IEnumerable<long> GetQuoteTweetStatusIds(IEnumerable<TwitterEntity> entities, TwitterQuotedStatusPermalink quotedStatusLink)
         {
             var urls = entities.OfType<TwitterEntityUrl>().Select(x => x.ExpandedUrl);
+
+            if (quotedStatusLink != null)
+                urls = urls.Concat(new[] { quotedStatusLink.Expanded });
 
             return GetQuoteTweetStatusIds(urls);
         }
@@ -1183,18 +1188,19 @@ namespace OpenTween
                     //本文
                     var textFromApi = message.Text;
                     //HTMLに整形
-                    post.Text = CreateHtmlAnchor(textFromApi, message.Entities);
-                    post.TextFromApi = this.ReplaceTextFromApi(textFromApi, message.Entities);
+                    post.Text = CreateHtmlAnchor(textFromApi, message.Entities, quotedStatusLink: null);
+                    post.TextFromApi = this.ReplaceTextFromApi(textFromApi, message.Entities, quotedStatusLink: null);
                     post.TextFromApi = WebUtility.HtmlDecode(post.TextFromApi);
                     post.TextFromApi = post.TextFromApi.Replace("<3", "\u2661");
-                    post.AccessibleText = CreateAccessibleText(textFromApi, message.Entities, quotedStatus: null);
+                    post.AccessibleText = CreateAccessibleText(textFromApi, message.Entities, quotedStatus: null, quotedStatusLink: null);
                     post.AccessibleText = WebUtility.HtmlDecode(post.AccessibleText);
                     post.AccessibleText = post.AccessibleText.Replace("<3", "\u2661");
                     post.IsFav = false;
 
                     this.ExtractEntities(message.Entities, post.ReplyToList, post.Media);
 
-                    post.QuoteStatusIds = GetQuoteTweetStatusIds(message.Entities).Distinct().ToArray();
+                    post.QuoteStatusIds = GetQuoteTweetStatusIds(message.Entities, quotedStatusLink: null)
+                        .Distinct().ToArray();
 
                     post.ExpandedUrls = message.Entities.OfType<TwitterEntityUrl>()
                         .Select(x => new PostClass.ExpandedUrlInfo(x.Url, x.ExpandedUrl))
@@ -1330,7 +1336,7 @@ namespace OpenTween
                 tab.OldestId = minimumId.Value;
         }
 
-        private string ReplaceTextFromApi(string text, TwitterEntities entities)
+        private string ReplaceTextFromApi(string text, TwitterEntities entities, TwitterQuotedStatusPermalink quotedStatusLink)
         {
             if (entities != null)
             {
@@ -1349,10 +1355,14 @@ namespace OpenTween
                     }
                 }
             }
+
+            if (quotedStatusLink != null)
+                text += " " + quotedStatusLink.Display;
+
             return text;
         }
 
-        internal static string CreateAccessibleText(string text, TwitterEntities entities, TwitterStatus quotedStatus)
+        internal static string CreateAccessibleText(string text, TwitterEntities entities, TwitterStatus quotedStatus, TwitterQuotedStatusPermalink quotedStatusLink)
         {
             if (entities == null)
                 return text;
@@ -1366,7 +1376,7 @@ namespace OpenTween
                         var matchStatusUrl = Twitter.StatusUrlRegex.Match(entity.ExpandedUrl);
                         if (matchStatusUrl.Success && matchStatusUrl.Groups["StatusId"].Value == quotedStatus.IdStr)
                         {
-                            var quotedText = CreateAccessibleText(quotedStatus.FullText, quotedStatus.MergedEntities, quotedStatus: null);
+                            var quotedText = CreateAccessibleText(quotedStatus.FullText, quotedStatus.MergedEntities, quotedStatus: null, quotedStatusLink: null);
                             text = text.Replace(entity.Url, string.Format(Properties.Resources.QuoteStatus_AccessibleText, quotedStatus.User.ScreenName, quotedText));
                             continue;
                         }
@@ -1390,6 +1400,12 @@ namespace OpenTween
                         text = text.Replace(entity.Url, entity.DisplayUrl);
                     }
                 }
+            }
+
+            if (quotedStatusLink != null)
+            {
+                var quoteText = CreateAccessibleText(quotedStatus.FullText, quotedStatus.MergedEntities, quotedStatus: null, quotedStatusLink: null);
+                text += " " + string.Format(Properties.Resources.QuoteStatus_AccessibleText, quotedStatus.User.ScreenName, quoteText);
             }
 
             return text;
@@ -1594,13 +1610,20 @@ namespace OpenTween
             }
         }
 
-        internal static string CreateHtmlAnchor(string text, TwitterEntities entities)
+        internal static string CreateHtmlAnchor(string text, TwitterEntities entities, TwitterQuotedStatusPermalink quotedStatusLink)
         {
             // PostClass.ExpandedUrlInfo を使用して非同期に URL 展開を行うためここでは expanded_url を使用しない
             text = TweetFormatter.AutoLinkHtml(text, entities, keepTco: true);
 
             text = Regex.Replace(text, "(^|[^a-zA-Z0-9_/&#＃@＠>=.~])(sm|nm)([0-9]{1,10})", "$1<a href=\"http://www.nicovideo.jp/watch/$2$3\">$2$3</a>");
             text = PreProcessUrl(text); //IDN置換
+
+            if (quotedStatusLink != null)
+            {
+                text += string.Format(" <a href=\"{0}\" title=\"{0}\">{1}</a>",
+                    WebUtility.HtmlEncode(quotedStatusLink.Url),
+                    WebUtility.HtmlEncode(quotedStatusLink.Display));
+            }
 
             return text;
         }
