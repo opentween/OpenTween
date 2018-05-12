@@ -110,6 +110,50 @@ namespace OpenTween
         }
 
         [Fact]
+        public void CreateHtmlAnchor_Test()
+        {
+            var text = "@twitterapi #BreakingMyTwitter https://t.co/mIJcSoVSK3";
+            var entities = new TwitterEntities
+            {
+                UserMentions = new[]
+                {
+                    new TwitterEntityMention { Indices = new[] { 0, 11 }, ScreenName = "twitterapi" },
+                },
+                Hashtags = new[]
+                {
+                    new TwitterEntityHashtag { Indices = new[] { 12, 30 }, Text = "BreakingMyTwitter" },
+                },
+                Urls = new[]
+                {
+                    new TwitterEntityUrl
+                    {
+                        Indices = new[] { 31, 54 },
+                        Url ="https://t.co/mIJcSoVSK3",
+                        DisplayUrl = "apps-of-a-feather.com",
+                        ExpandedUrl = "http://apps-of-a-feather.com/",
+                    },
+                },
+            };
+
+            var expectedHtml = @"<a class=""mention"" href=""https://twitter.com/twitterapi"">@twitterapi</a>"
+                + @" <a class=""hashtag"" href=""https://twitter.com/search?q=%23BreakingMyTwitter"">#BreakingMyTwitter</a>"
+                + @" <a href=""https://t.co/mIJcSoVSK3"" title=""https://t.co/mIJcSoVSK3"">apps-of-a-feather.com</a>";
+
+            Assert.Equal(expectedHtml, Twitter.CreateHtmlAnchor(text, entities));
+        }
+
+        [Fact]
+        public void CreateHtmlAnchor_NicovideoTest()
+        {
+            var text = "sm9";
+            var entities = new TwitterEntities();
+
+            var expectedHtml = @"<a href=""http://www.nicovideo.jp/watch/sm9"">sm9</a>";
+
+            Assert.Equal(expectedHtml, Twitter.CreateHtmlAnchor(text, entities));
+        }
+
+        [Fact]
         public void ParseSource_Test()
         {
             var sourceHtml = "<a href=\"http://twitter.com\" rel=\"nofollow\">Twitter Web Client</a>";

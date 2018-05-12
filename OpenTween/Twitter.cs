@@ -247,7 +247,7 @@ namespace OpenTween
             if (SettingManager.Common.UserstreamStartup) this.ReconnectUserStream();
         }
 
-        public string PreProcessUrl(string orgData)
+        internal static string PreProcessUrl(string orgData)
         {
             int posl1;
             var posl2 = 0;
@@ -1594,7 +1594,7 @@ namespace OpenTween
             }
         }
 
-        public string CreateHtmlAnchor(string text, TwitterEntities entities)
+        internal static string CreateHtmlAnchor(string text, TwitterEntities entities)
         {
             // PostClass.ExpandedUrlInfo を使用して非同期に URL 展開を行うためここでは expanded_url を使用しない
             text = TweetFormatter.AutoLinkHtml(text, entities, keepTco: true);
