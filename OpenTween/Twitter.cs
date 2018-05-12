@@ -820,7 +820,7 @@ namespace OpenTween
             }
             //HTMLに整形
             string textFromApi = post.TextFromApi;
-            post.Text = CreateHtmlAnchor(textFromApi, post.ReplyToList, entities, post.Media);
+            post.Text = CreateHtmlAnchor(textFromApi, entities);
             post.TextFromApi = textFromApi;
             post.TextFromApi = this.ReplaceTextFromApi(post.TextFromApi, entities);
             post.TextFromApi = WebUtility.HtmlDecode(post.TextFromApi);
@@ -828,6 +828,8 @@ namespace OpenTween
             post.AccessibleText = this.CreateAccessibleText(textFromApi, entities, (status.RetweetedStatus ?? status).QuotedStatus);
             post.AccessibleText = WebUtility.HtmlDecode(post.AccessibleText);
             post.AccessibleText = post.AccessibleText.Replace("<3", "\u2661");
+
+            this.ExtractEntities(entities, post.ReplyToList, post.Media);
 
             post.QuoteStatusIds = GetQuoteTweetStatusIds(entities)
                 .Where(x => x != post.StatusId && x != post.RetweetedId)
@@ -1181,7 +1183,7 @@ namespace OpenTween
                     //本文
                     var textFromApi = message.Text;
                     //HTMLに整形
-                    post.Text = CreateHtmlAnchor(textFromApi, post.ReplyToList, message.Entities, post.Media);
+                    post.Text = CreateHtmlAnchor(textFromApi, message.Entities);
                     post.TextFromApi = this.ReplaceTextFromApi(textFromApi, message.Entities);
                     post.TextFromApi = WebUtility.HtmlDecode(post.TextFromApi);
                     post.TextFromApi = post.TextFromApi.Replace("<3", "\u2661");
@@ -1189,6 +1191,8 @@ namespace OpenTween
                     post.AccessibleText = WebUtility.HtmlDecode(post.AccessibleText);
                     post.AccessibleText = post.AccessibleText.Replace("<3", "\u2661");
                     post.IsFav = false;
+
+                    this.ExtractEntities(message.Entities, post.ReplyToList, post.Media);
 
                     post.QuoteStatusIds = GetQuoteTweetStatusIds(message.Entities).Distinct().ToArray();
 
@@ -1546,7 +1550,7 @@ namespace OpenTween
             }
         }
 
-        public string CreateHtmlAnchor(string text, List<Tuple<long, string>> AtList, TwitterEntities entities, List<MediaInfo> media)
+        private void ExtractEntities(TwitterEntities entities, List<Tuple<long, string>> AtList, List<MediaInfo> media)
         {
             if (entities != null)
             {
@@ -1588,7 +1592,10 @@ namespace OpenTween
                     }
                 }
             }
+        }
 
+        public string CreateHtmlAnchor(string text, TwitterEntities entities)
+        {
             // PostClass.ExpandedUrlInfo を使用して非同期に URL 展開を行うためここでは expanded_url を使用しない
             text = TweetFormatter.AutoLinkHtml(text, entities, keepTco: true);
 
