@@ -29,7 +29,7 @@ using System.Threading.Tasks;
 
 namespace OpenTween.Api.DataModel
 {
-    // 参照: https://dev.twitter.com/docs/platform-objects/users
+    // 参照: https://developer.twitter.com/en/docs/tweets/data-dictionary/overview/user-object
 
     [DataContract]
     public class TwitterUser
@@ -42,6 +42,12 @@ namespace OpenTween.Api.DataModel
 
         [DataMember(Name = "description")]
         public string Description { get; set; } // Nullable
+
+        [DataMember(Name = "default_profile")]
+        public bool DefaultProfile { get; set; }
+
+        [DataMember(Name = "default_profile_image")]
+        public bool DefaultProfileImage { get; set; }
 
         [DataMember(Name = "entities", IsRequired = false)]
         public TwitterUser.TwitterUserEntity Entities { get; set; }
@@ -61,9 +67,6 @@ namespace OpenTween.Api.DataModel
 
         [DataMember(Name = "follow_request_sent")]
         public bool? FollowRequestSent { get; set; }
-
-        [DataMember(Name = "following")]
-        public bool? Following { get; set; }
 
         [DataMember(Name = "followers_count")]
         public int FollowersCount { get; set; }
@@ -92,10 +95,6 @@ namespace OpenTween.Api.DataModel
         [DataMember(Name = "name")]
         public string Name { get; set; }
 
-        [Obsolete]
-        [DataMember(Name = "notifications")]
-        public bool? Notifications { get; set; } // Nullable
-
         [DataMember(Name = "profile_background_color")]
         public string ProfileBackgroundColor { get; set; }
 
@@ -104,6 +103,9 @@ namespace OpenTween.Api.DataModel
 
         [DataMember(Name = "profile_background_tile")]
         public bool ProfileBackgroundTile { get; set; }
+
+        [DataMember(Name = "profile_banner_url")]
+        public string ProfileBannerUrl { get; set; }
 
         [DataMember(Name = "profile_image_url_https")]
         public string ProfileImageUrlHttps { get; set; }
@@ -137,9 +139,6 @@ namespace OpenTween.Api.DataModel
 
         [DataMember(Name = "statuses_count")]
         public int StatusesCount { get; set; }
-
-        [DataMember(Name = "time_zone")]
-        public string TimeZone { get; set; } // Nullable
 
         [DataMember(Name = "url")]
         public string Url { get; set; } // Nullable
