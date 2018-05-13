@@ -101,9 +101,6 @@ namespace OpenTween.Api.DataModel
         [DataMember(Name = "id_str")]
         public string IdStr { get; set; }
 
-        [DataMember(Name = "media_url")]
-        public string MediaUrl { get; set; }
-
         [DataMember(Name = "media_url_https")]
         public string MediaUrlHttps { get; set; }
 

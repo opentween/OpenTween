@@ -1590,7 +1590,7 @@ namespace OpenTween
                     {
                         foreach (var ent in entities.Media)
                         {
-                            if (!media.Any(x => x.Url == ent.MediaUrl))
+                            if (!media.Any(x => x.Url == ent.MediaUrlHttps))
                             {
                                 if (ent.VideoInfo != null &&
                                     ent.Type == "animated_gif" || ent.Type == "video")
@@ -1599,10 +1599,10 @@ namespace OpenTween
                                     //    .Where(v => v.ContentType == "video/mp4")
                                     //    .OrderByDescending(v => v.Bitrate)
                                     //    .Select(v => v.Url).FirstOrDefault();
-                                    media.Add(new MediaInfo(ent.MediaUrl, ent.AltText, ent.ExpandedUrl));
+                                    media.Add(new MediaInfo(ent.MediaUrlHttps, ent.AltText, ent.ExpandedUrl));
                                 }
                                 else
-                                    media.Add(new MediaInfo(ent.MediaUrl, ent.AltText, videoUrl: null));
+                                    media.Add(new MediaInfo(ent.MediaUrlHttps, ent.AltText, videoUrl: null));
                             }
                         }
                     }
