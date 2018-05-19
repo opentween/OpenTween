@@ -820,7 +820,11 @@ namespace OpenTween
             }
             //HTMLに整形
             string textFromApi = post.TextFromApi;
+
             var quotedStatusLink = (status.RetweetedStatus ?? status).QuotedStatusPermalink;
+
+            if (quotedStatusLink != null && entities.Urls.Any(x => x.ExpandedUrl == quotedStatusLink.Expanded))
+                quotedStatusLink = null; // 移行期は entities.urls と quoted_status_permalink の両方に含まれる場合がある
 
             post.Text = CreateHtmlAnchor(textFromApi, entities, quotedStatusLink);
             post.TextFromApi = textFromApi;
