@@ -105,32 +105,30 @@ namespace OpenTween
         public static IEnumerable<TwitterEntityMention> ExtractMentionEntities(string text)
         {
             // リスト
-            var matchesAtList = Regex.Matches(text, @"(^|[^a-zA-Z0-9_/])([@＠][a-zA-Z0-9_]{1,20}/[a-zA-Z][a-zA-Z0-9\p{IsLatin-1Supplement}\-]{0,79})");
+            var matchesAtList = Regex.Matches(text, @"(?<=^|[^a-zA-Z0-9_/])([@＠][a-zA-Z0-9_]{1,20}/[a-zA-Z][a-zA-Z0-9\p{IsLatin-1Supplement}\-]{0,79})");
             foreach (var match in matchesAtList.Cast<Match>())
             {
-                var groupMention = match.Groups[2];
-                var startPos = groupMention.Index;
-                var endPos = startPos + groupMention.Length;
+                var startPos = match.Index;
+                var endPos = startPos + match.Length;
 
                 yield return new TwitterEntityMention
                 {
                     Indices = new[] { startPos, endPos },
-                    ScreenName = groupMention.Value.Substring(1), // 先頭の「@」は取り除く
+                    ScreenName = match.Value.Substring(1), // 先頭の「@」は取り除く
                 };
             }
 
             // 通常のメンション
-            var matchesAtUser = Regex.Matches(text, "(^|[^a-zA-Z0-9_/])([@＠][a-zA-Z0-9_]{1,20})([^a-zA-Z0-9_/]|$)");
+            var matchesAtUser = Regex.Matches(text, "(?<=^|[^a-zA-Z0-9_/])([@＠][a-zA-Z0-9_]{1,20})(?=[^a-zA-Z0-9_/]|$)");
             foreach (var match in matchesAtUser.Cast<Match>())
             {
-                var groupMention = match.Groups[2];
-                var startPos = groupMention.Index;
-                var endPos = startPos + groupMention.Length;
+                var startPos = match.Index;
+                var endPos = startPos + match.Length;
 
                 yield return new TwitterEntityMention
                 {
                     Indices = new[] { startPos, endPos },
-                    ScreenName = groupMention.Value.Substring(1), // 先頭の「@」は取り除く
+                    ScreenName = match.Value.Substring(1), // 先頭の「@」は取り除く
                 };
             }
         }
