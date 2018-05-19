@@ -1832,6 +1832,16 @@ namespace OpenTween.Properties {
         }
         
         /// <summary>
+        ///   この内容で投稿してもよろしいですか？
+        ///{0} に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string PostConfirmText {
+            get {
+                return ResourceManager.GetString("PostConfirmText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   投稿できる文字数の上限を越えています。強制的に投稿しますか？ に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string PostLengthOverMessage1 {

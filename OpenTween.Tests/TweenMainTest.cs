@@ -165,5 +165,14 @@ namespace OpenTween
             var expected = "#てすと @TwitterAPI " + Environment.NewLine + " http://twitter.com/";
             Assert.Equal(expected, TweenMain.CreateRetweetUnofficial(html, true));
         }
+
+        [Theory]
+        [InlineData("", true)]
+        [InlineData("hoge", false)]
+        [InlineData("@twitterapi ", true)]
+        [InlineData("@twitterapi @opentween ", true)]
+        [InlineData("@twitterapi @opentween hoge", false)]
+        public void TextContainsOnlyMentions_Test(string input, bool expected)
+            => Assert.Equal(expected, TweenMain.TextContainsOnlyMentions(input));
     }
 }
