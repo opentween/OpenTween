@@ -64,6 +64,18 @@ namespace OpenTween
         }
 
         [Fact]
+        public void ExtractUrlEntities_MultipleTest()
+        {
+            var entities = TweetExtractor.ExtractUrlEntities("hogehoge http://aaa.example.com/ http://bbb.example.com/").ToArray();
+
+            Assert.Equal(2, entities.Length);
+            Assert.Equal(new[] { 9, 32 }, entities[0].Indices);
+            Assert.Equal("http://aaa.example.com/", entities[0].Url);
+            Assert.Equal(new[] { 33, 56 }, entities[1].Indices);
+            Assert.Equal("http://bbb.example.com/", entities[1].Url);
+        }
+
+        [Fact]
         public void ExtractUrlEntities_SurrogatePairTest()
         {
             var entity = TweetExtractor.ExtractUrlEntities("✨ http://example.com/ ✨").Single();
@@ -111,6 +123,18 @@ namespace OpenTween
         }
 
         [Fact]
+        public void ExtractMentionEntities_MultipleTest()
+        {
+            var entities = TweetExtractor.ExtractMentionEntities("hogehoge @twitterapi @opentween").ToArray();
+
+            Assert.Equal(2, entities.Length);
+            Assert.Equal(new[] { 9, 20 }, entities[0].Indices);
+            Assert.Equal("twitterapi", entities[0].ScreenName);
+            Assert.Equal(new[] { 21, 31 }, entities[1].Indices);
+            Assert.Equal("opentween", entities[1].ScreenName);
+        }
+
+        [Fact]
         public void ExtractMentionEntities_ListTest()
         {
             var entity = TweetExtractor.ExtractMentionEntities("hogehoge @twitter/developers").Single();
@@ -128,6 +152,18 @@ namespace OpenTween
             // Indices は「#test」の範囲を指すが、Text には「#」を含めない
             Assert.Equal(new[] { 9, 14 }, entity.Indices);
             Assert.Equal("test", entity.Text);
+        }
+
+        [Fact]
+        public void ExtractHashtagEntities_MultipleTest()
+        {
+            var entities = TweetExtractor.ExtractHashtagEntities("hogehoge #test #test2").ToArray();
+
+            Assert.Equal(2, entities.Length);
+            Assert.Equal(new[] { 9, 14 }, entities[0].Indices);
+            Assert.Equal("test", entities[0].Text);
+            Assert.Equal(new[] { 15, 21 }, entities[1].Indices);
+            Assert.Equal("test2", entities[1].Text);
         }
     }
 }

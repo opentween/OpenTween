@@ -1216,4 +1216,8 @@
   <data name="UrlConvert_BitlyAuthRequired" xml:space="preserve">
     <value>Bitlyを使用するには設定画面で認証情報を入力する必要があります</value>
   </data>
+  <data name="PostConfirmText" xml:space="preserve">
+    <value>この内容で投稿してもよろしいですか？
+{0}</value>
+  </data>
 </root>

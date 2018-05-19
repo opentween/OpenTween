@@ -1158,4 +1158,8 @@ Existing setting files are copied to {1}.
   <data name="UrlConvert_BitlyAuthRequired" xml:space="preserve">
     <value>To use Bitly, you must perform the Bitly authentication in settings dialog.</value>
   </data>
+  <data name="PostConfirmText" xml:space="preserve">
+    <value>Are you sure to you want to post this text?
+{0}</value>
+  </data>
 </root>

@@ -2101,6 +2101,15 @@ namespace OpenTween
                 }
             }
 
+            if (TextContainsOnlyMentions(this.StatusText.Text))
+            {
+                var message = string.Format(Properties.Resources.PostConfirmText, this.StatusText.Text);
+                var ret = MessageBox.Show(message, Application.ProductName, MessageBoxButtons.OKCancel, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2);
+
+                if (ret != DialogResult.OK)
+                    return;
+            }
+
             var inReplyToStatusId = this.inReplyTo?.Item1;
             var inReplyToScreenName = this.inReplyTo?.Item2;
             _history[_history.Count - 1] = new StatusTextHistory(StatusText.Text, inReplyToStatusId, inReplyToScreenName);
@@ -4748,6 +4757,32 @@ namespace OpenTween
             {
                 this.inReplyTo = null;
             }
+        }
+
+        /// <summary>
+        /// メンション以外の文字列が含まれていないテキストであるか判定します
+        /// </summary>
+        internal static bool TextContainsOnlyMentions(string text)
+        {
+            var mentions = TweetExtractor.ExtractMentionEntities(text).OrderBy(x => x.Indices[0]);
+            var startIndex = 0;
+
+            foreach (var mention in mentions)
+            {
+                var textPart = text.Substring(startIndex, mention.Indices[0] - startIndex);
+
+                if (!string.IsNullOrWhiteSpace(textPart))
+                    return false;
+
+                startIndex = mention.Indices[1];
+            }
+
+            var textPartLast = text.Substring(startIndex);
+
+            if (!string.IsNullOrWhiteSpace(textPartLast))
+                return false;
+
+            return true;
         }
 
         /// <summary>
