@@ -117,7 +117,7 @@ namespace OpenTween
         private Twitter tw;
 
         //Growl呼び出し部
-        private GrowlHelper gh = new GrowlHelper(Application.ProductName);
+        private GrowlHelper gh = new GrowlHelper(ApplicationSettings.ApplicationName);
 
         //サブ画面インスタンス
         internal SearchWordDialog SearchDialog = new SearchWordDialog();     //検索画面インスタンス
@@ -828,7 +828,7 @@ namespace OpenTween
             catch (WebApiException ex)
             {
                 MessageBox.Show(this, string.Format(Properties.Resources.StartupAuthError_Text, ex.Message),
-                    Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    ApplicationSettings.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
 
             //サムネイル関連の初期化
@@ -1782,7 +1782,7 @@ namespace OpenTween
                             {
                                 //NotifyIcon1.BalloonTipIcon = ToolTipIcon.Warning;
                                 //NotifyIcon1.BalloonTipTitle += Application.ProductName + " [DM] " + Properties.Resources.RefreshDirectMessageText1 + " " + addCount.ToString() + Properties.Resources.RefreshDirectMessageText2;
-                                title.Append(Application.ProductName);
+                                title.Append(ApplicationSettings.ApplicationName);
                                 title.Append(" [DM] ");
                                 title.AppendFormat(Properties.Resources.RefreshTimeline_NotifyText, addCount);
                                 nt = GrowlHelper.NotifyType.DirectMessage;
@@ -1791,7 +1791,7 @@ namespace OpenTween
                             {
                                 //NotifyIcon1.BalloonTipIcon = ToolTipIcon.Warning;
                                 //NotifyIcon1.BalloonTipTitle += Application.ProductName + " [Reply!] " + Properties.Resources.RefreshTimelineText1 + " " + addCount.ToString() + Properties.Resources.RefreshTimelineText2;
-                                title.Append(Application.ProductName);
+                                title.Append(ApplicationSettings.ApplicationName);
                                 title.Append(" [Reply!] ");
                                 title.AppendFormat(Properties.Resources.RefreshTimeline_NotifyText, addCount);
                                 nt = GrowlHelper.NotifyType.Reply;
@@ -1800,7 +1800,7 @@ namespace OpenTween
                             {
                                 //NotifyIcon1.BalloonTipIcon = ToolTipIcon.Info;
                                 //NotifyIcon1.BalloonTipTitle += Application.ProductName + " " + Properties.Resources.RefreshTimelineText1 + " " + addCount.ToString() + Properties.Resources.RefreshTimelineText2;
-                                title.Append(Application.ProductName);
+                                title.Append(ApplicationSettings.ApplicationName);
                                 title.Append(" ");
                                 title.AppendFormat(Properties.Resources.RefreshTimeline_NotifyText, addCount);
                                 nt = GrowlHelper.NotifyType.Notify;
@@ -1851,7 +1851,7 @@ namespace OpenTween
                             //NotifyIcon1.BalloonTipIcon = ToolTipIcon.Warning;
                             //NotifyIcon1.BalloonTipTitle += Application.ProductName + " [DM] " + Properties.Resources.RefreshDirectMessageText1 + " " + addCount.ToString() + Properties.Resources.RefreshDirectMessageText2;
                             ntIcon = ToolTipIcon.Warning;
-                            title.Append(Application.ProductName);
+                            title.Append(ApplicationSettings.ApplicationName);
                             title.Append(" [DM] ");
                             title.AppendFormat(Properties.Resources.RefreshTimeline_NotifyText, addCount);
                         }
@@ -1860,7 +1860,7 @@ namespace OpenTween
                             //NotifyIcon1.BalloonTipIcon = ToolTipIcon.Warning;
                             //NotifyIcon1.BalloonTipTitle += Application.ProductName + " [Reply!] " + Properties.Resources.RefreshTimelineText1 + " " + addCount.ToString() + Properties.Resources.RefreshTimelineText2;
                             ntIcon = ToolTipIcon.Warning;
-                            title.Append(Application.ProductName);
+                            title.Append(ApplicationSettings.ApplicationName);
                             title.Append(" [Reply!] ");
                             title.AppendFormat(Properties.Resources.RefreshTimeline_NotifyText, addCount);
                         }
@@ -1869,7 +1869,7 @@ namespace OpenTween
                             //NotifyIcon1.BalloonTipIcon = ToolTipIcon.Info;
                             //NotifyIcon1.BalloonTipTitle += Application.ProductName + " " + Properties.Resources.RefreshTimelineText1 + " " + addCount.ToString() + Properties.Resources.RefreshTimelineText2;
                             ntIcon = ToolTipIcon.Info;
-                            title.Append(Application.ProductName);
+                            title.Append(ApplicationSettings.ApplicationName);
                             title.Append(" ");
                             title.AppendFormat(Properties.Resources.RefreshTimeline_NotifyText, addCount);
                         }
@@ -2104,7 +2104,7 @@ namespace OpenTween
             if (TextContainsOnlyMentions(this.StatusText.Text))
             {
                 var message = string.Format(Properties.Resources.PostConfirmText, this.StatusText.Text);
-                var ret = MessageBox.Show(message, Application.ProductName, MessageBoxButtons.OKCancel, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2);
+                var ret = MessageBox.Show(message, ApplicationSettings.ApplicationName, MessageBoxButtons.OKCancel, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2);
 
                 if (ret != DialogResult.OK)
                     return;
@@ -5549,7 +5549,7 @@ namespace OpenTween
                     }
                     catch (TabException ex)
                     {
-                        MessageBox.Show(this, ex.Message, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show(this, ex.Message, ApplicationSettings.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
 
                     var resultTab = new LocalSearchTabModel(tabName);
@@ -7508,7 +7508,7 @@ namespace OpenTween
             }
             catch (TabException ex)
             {
-                MessageBox.Show(this, ex.Message, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(this, ex.Message, ApplicationSettings.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -8871,7 +8871,7 @@ namespace OpenTween
             }
 
             if (SettingManager.Common.DispUsername) ttl.Append(tw.Username).Append(" - ");
-            ttl.Append(Application.ProductName);
+            ttl.Append(ApplicationSettings.ApplicationName);
             ttl.Append("  ");
             switch (SettingManager.Common.DispLatestPost)
             {
@@ -9111,7 +9111,7 @@ namespace OpenTween
                 ur.Append(tw.Username);
                 ur.Append(" - ");
             }
-            ur.Append(Application.ProductName);
+            ur.Append(ApplicationSettings.ApplicationName);
 #if DEBUG
             ur.Append("(Debug Build)");
 #endif
@@ -9371,7 +9371,7 @@ namespace OpenTween
                 if (string.IsNullOrEmpty(SettingManager.Common.BitlyAccessToken) &&
                     (string.IsNullOrEmpty(SettingManager.Common.BilyUser) || string.IsNullOrEmpty(SettingManager.Common.BitlyPwd)))
                 {
-                    MessageBox.Show(this, Properties.Resources.UrlConvert_BitlyAuthRequired, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show(this, Properties.Resources.UrlConvert_BitlyAuthRequired, ApplicationSettings.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return false;
                 }
             }
@@ -11626,7 +11626,7 @@ namespace OpenTween
                 }
                 catch (TabException ex)
                 {
-                    MessageBox.Show(this, ex.Message, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(this, ex.Message, ApplicationSettings.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
@@ -11905,7 +11905,7 @@ namespace OpenTween
                 {
                     //title.Clear();
                 }
-                title.Append(Application.ProductName);
+                title.Append(ApplicationSettings.ApplicationName);
                 title.Append(" [");
                 title.Append(ev.Event.ToUpper(CultureInfo.CurrentCulture));
                 title.Append("] by ");
@@ -12063,7 +12063,7 @@ namespace OpenTween
             }
             catch (Exception)
             {
-                MessageBox.Show("Failed to restart. Please run " + Application.ProductName + " manually.");
+                MessageBox.Show("Failed to restart. Please run " + ApplicationSettings.ApplicationName + " manually.");
             }
         }
 

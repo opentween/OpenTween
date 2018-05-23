@@ -23,6 +23,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Windows.Forms;
 
 namespace OpenTween
 {
@@ -34,6 +35,14 @@ namespace OpenTween
     /// </remarks>
     internal static class ApplicationSettings
     {
+        //=====================================================================
+        // アプリケーション情報
+
+        /// <summary>
+        /// アプリケーション名
+        /// </summary>
+        public static string ApplicationName => Application.ProductName;
+
         //=====================================================================
         // フィードバック送信先
         // 異常終了時などにエラーログ等とともに表示されます。

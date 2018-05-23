@@ -725,7 +725,7 @@ namespace OpenTween
                 !e.Data.GetDataPresent(DataFormats.Html, false))  // WebBrowserコントロールからの絵文字画像D&Dは弾く
             {
                 var ret = MessageBox.Show(this, Properties.Resources.ChangeIconToolStripMenuItem_Confirm,
-                    Application.ProductName, MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+                    ApplicationSettings.ApplicationName, MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
                 if (ret != DialogResult.OK)
                     return;
 

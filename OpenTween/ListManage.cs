@@ -229,7 +229,7 @@ namespace OpenTween
             {
                 ListElement list = (ListElement)this.ListsList.SelectedItem;
                 UserInfo user = (UserInfo)this.UserList.SelectedItem;
-                if (MessageBox.Show(Properties.Resources.ListManageDeleteUser1, Application.ProductName, MessageBoxButtons.OKCancel) == DialogResult.OK)
+                if (MessageBox.Show(Properties.Resources.ListManageDeleteUser1, ApplicationSettings.ApplicationName, MessageBoxButtons.OKCancel) == DialogResult.OK)
                 {
                     try
                     {
@@ -258,7 +258,7 @@ namespace OpenTween
             {
                 ListElement list = (ListElement)this.ListsList.SelectedItem;
 
-                if (MessageBox.Show(Properties.Resources.ListManageDeleteLists1, Application.ProductName, MessageBoxButtons.OKCancel) == DialogResult.OK)
+                if (MessageBox.Show(Properties.Resources.ListManageDeleteLists1, ApplicationSettings.ApplicationName, MessageBoxButtons.OKCancel) == DialogResult.OK)
                 {
                     try
                     {

@@ -903,7 +903,7 @@ namespace OpenTween
         /// <returns>置換後の文字列</returns>
         public static string ReplaceAppName(string orig)
         {
-            return MyCommon.ReplaceAppName(orig, Application.ProductName);
+            return MyCommon.ReplaceAppName(orig, ApplicationSettings.ApplicationName);
         }
 
         /// <summary>

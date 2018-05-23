@@ -156,7 +156,7 @@ namespace OpenTween
         public async Task SendByMailAsync()
         {
             var toAddress = ApplicationSettings.FeedbackEmailAddress;
-            var subject = $"{Application.ProductName} {MyCommon.GetReadableVersion()} エラーログ";
+            var subject = $"{ApplicationSettings.ApplicationName} {MyCommon.GetReadableVersion()} エラーログ";
             var body = this.ReportText;
 
             var mailto = $"mailto:{Uri.EscapeDataString(toAddress)}?subject={Uri.EscapeDataString(subject)}&body={Uri.EscapeDataString(body)}";

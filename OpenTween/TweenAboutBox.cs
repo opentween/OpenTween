@@ -51,7 +51,7 @@ namespace OpenTween
             // バージョン情報ボックスに表示されたテキストをすべて初期化します。
             // TODO: [プロジェクト] メニューの下にある [プロジェクト プロパティ] ダイアログの [アプリケーション] ペインで、アプリケーションのアセンブリ情報を 
             //    カスタマイズします。
-            this.LabelProductName.Text = Application.ProductName;
+            this.LabelProductName.Text = ApplicationSettings.ApplicationName;
             this.LabelVersion.Text = String.Format(Properties.Resources.TweenAboutBox_LoadText2, MyCommon.GetReadableVersion());
             this.LabelCopyright.Text = GetApplicationAttribute<AssemblyCopyrightAttribute>().Copyright;
             this.LabelCompanyName.Text = Application.CompanyName;
