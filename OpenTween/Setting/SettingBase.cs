@@ -80,7 +80,7 @@ namespace OpenTween
                 string backupFile = Path.Combine(
                         Path.Combine(
                             Application.StartupPath,
-                            MyCommon.GetAssemblyName() + "Backup1st"),
+                            ApplicationSettings.AssemblyName + "Backup1st"),
                         typeof(T).Name + FileId + ".xml");
                 if (File.Exists(backupFile))
                 {

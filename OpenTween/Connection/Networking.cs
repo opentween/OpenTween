@@ -189,9 +189,9 @@ namespace OpenTween.Connection
         public static string GetUserAgentString(bool fakeMSIE = false)
         {
             if (fakeMSIE)
-                return MyCommon.GetAssemblyName() + "/" + MyCommon.FileVersion + " (compatible; MSIE 10.0)";
+                return ApplicationSettings.AssemblyName + "/" + MyCommon.FileVersion + " (compatible; MSIE 10.0)";
             else
-                return MyCommon.GetAssemblyName() + "/" + MyCommon.FileVersion;
+                return ApplicationSettings.AssemblyName + "/" + MyCommon.FileVersion;
         }
 
         /// <summary>

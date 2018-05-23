@@ -80,12 +80,12 @@ namespace OpenTween
             InitCulture();
 
             // 同じ設定ファイルを使用する OpenTween プロセスの二重起動を防止する
-            string pt = MyCommon.settingPath.Replace("\\", "/") + "/" + Application.ProductName;
+            string pt = MyCommon.settingPath.Replace("\\", "/") + "/" + ApplicationSettings.AssemblyName;
             using (Mutex mt = new Mutex(false, pt))
             {
                 if (!mt.WaitOne(0, false))
                 {
-                    var text = string.Format(MyCommon.ReplaceAppName(Properties.Resources.StartupText1), MyCommon.GetAssemblyName());
+                    var text = string.Format(MyCommon.ReplaceAppName(Properties.Resources.StartupText1), ApplicationSettings.AssemblyName);
                     MessageBox.Show(text, MyCommon.ReplaceAppName(Properties.Resources.StartupText2), MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                     TryActivatePreviousWindow();

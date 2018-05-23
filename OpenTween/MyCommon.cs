@@ -277,7 +277,7 @@ namespace OpenTween
                     Directory.CreateDirectory(logPath);
 
                 var now = DateTimeUtc.Now;
-                var fileName = $"{GetAssemblyName()}Trace-{now.ToLocalTime():yyyyMMdd-HHmmss}.log";
+                var fileName = $"{ApplicationSettings.AssemblyName}Trace-{now.ToLocalTime():yyyyMMdd-HHmmss}.log";
                 fileName = Path.Combine(logPath, fileName);
 
                 using (var writer = new StreamWriter(fileName))
@@ -289,7 +289,7 @@ namespace OpenTween
                     writer.WriteLine(Properties.Resources.TraceOutText3);
                     writer.WriteLine(Properties.Resources.TraceOutText4, Environment.OSVersion.VersionString);
                     writer.WriteLine(Properties.Resources.TraceOutText5, Environment.Version);
-                    writer.WriteLine(Properties.Resources.TraceOutText6, MyCommon.GetAssemblyName(), FileVersion);
+                    writer.WriteLine(Properties.Resources.TraceOutText6, ApplicationSettings.AssemblyName, FileVersion);
                     writer.WriteLine(Message);
                     writer.WriteLine();
                 }
@@ -403,7 +403,7 @@ namespace OpenTween
                     string.Format(Properties.Resources.UnhandledExceptionText4),
                     string.Format(Properties.Resources.UnhandledExceptionText5, Environment.OSVersion.VersionString),
                     string.Format(Properties.Resources.UnhandledExceptionText6, Environment.Version),
-                    string.Format(Properties.Resources.UnhandledExceptionText7, MyCommon.GetAssemblyName(), FileVersion),
+                    string.Format(Properties.Resources.UnhandledExceptionText7, ApplicationSettings.AssemblyName, FileVersion),
 
                     ExceptionOutMessage(ex, ref IsTerminatePermission));
 
@@ -411,7 +411,7 @@ namespace OpenTween
                 if (!Directory.Exists(logPath))
                     Directory.CreateDirectory(logPath);
 
-                var fileName = $"{GetAssemblyName()}-{now.ToLocalTime():yyyyMMdd-HHmmss}.log";
+                var fileName = $"{ApplicationSettings.AssemblyName}-{now.ToLocalTime():yyyyMMdd-HHmmss}.log";
                 using (var writer = new StreamWriter(Path.Combine(logPath, fileName)))
                 {
                     writer.Write(errorReport);

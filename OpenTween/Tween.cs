@@ -7519,7 +7519,7 @@ namespace OpenTween
                     MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
             if (rslt == DialogResult.Cancel) return;
 
-            SaveFileDialog1.FileName = $"{MyCommon.GetAssemblyName()}Posts{DateTimeUtc.Now.ToLocalTime():yyMMdd-HHmmss}.tsv";
+            SaveFileDialog1.FileName = $"{ApplicationSettings.AssemblyName}Posts{DateTimeUtc.Now.ToLocalTime():yyMMdd-HHmmss}.tsv";
             SaveFileDialog1.InitialDirectory = Application.ExecutablePath;
             SaveFileDialog1.Filter = Properties.Resources.SaveLogMenuItem_ClickText3;
             SaveFileDialog1.FilterIndex = 0;
