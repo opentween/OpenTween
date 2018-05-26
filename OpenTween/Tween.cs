@@ -1301,42 +1301,42 @@ namespace OpenTween
             {
                 Interlocked.Exchange(ref homeCounter, SettingManager.Common.TimelinePeriod);
                 if (!tw.IsUserstreamDataReceived && !ResetTimers.Timeline)
-                    refreshTasks.Add(this.GetHomeTimelineAsync());
+                    refreshTasks.Add(this.RefreshTabAsync<HomeTabModel>());
                 ResetTimers.Timeline = false;
             }
             if (ResetTimers.Reply || mentionCounter <= 0 && SettingManager.Common.ReplyPeriod > 0)
             {
                 Interlocked.Exchange(ref mentionCounter, SettingManager.Common.ReplyPeriod);
                 if (!tw.IsUserstreamDataReceived && !ResetTimers.Reply)
-                    refreshTasks.Add(this.GetReplyAsync());
+                    refreshTasks.Add(this.RefreshTabAsync<MentionsTabModel>());
                 ResetTimers.Reply = false;
             }
             if (ResetTimers.DirectMessage || dmCounter <= 0 && SettingManager.Common.DMPeriod > 0)
             {
                 Interlocked.Exchange(ref dmCounter, SettingManager.Common.DMPeriod);
                 if (!tw.IsUserstreamDataReceived && !ResetTimers.DirectMessage)
-                    refreshTasks.Add(this.GetDirectMessagesAsync());
+                    refreshTasks.Add(this.RefreshTabAsync<DirectMessagesTabModel>());
                 ResetTimers.DirectMessage = false;
             }
             if (ResetTimers.PublicSearch || pubSearchCounter <= 0 && SettingManager.Common.PubSearchPeriod > 0)
             {
                 Interlocked.Exchange(ref pubSearchCounter, SettingManager.Common.PubSearchPeriod);
                 if (!ResetTimers.PublicSearch)
-                    refreshTasks.Add(this.GetPublicSearchAllAsync());
+                    refreshTasks.Add(this.RefreshTabAsync<PublicSearchTabModel>());
                 ResetTimers.PublicSearch = false;
             }
             if (ResetTimers.UserTimeline || userTimelineCounter <= 0 && SettingManager.Common.UserTimelinePeriod > 0)
             {
                 Interlocked.Exchange(ref userTimelineCounter, SettingManager.Common.UserTimelinePeriod);
                 if (!ResetTimers.UserTimeline)
-                    refreshTasks.Add(this.GetUserTimelineAllAsync());
+                    refreshTasks.Add(this.RefreshTabAsync<UserTimelineTabModel>());
                 ResetTimers.UserTimeline = false;
             }
             if (ResetTimers.Lists || listsCounter <= 0 && SettingManager.Common.ListsPeriod > 0)
             {
                 Interlocked.Exchange(ref listsCounter, SettingManager.Common.ListsPeriod);
                 if (!ResetTimers.Lists)
-                    refreshTasks.Add(this.GetListTimelineAllAsync());
+                    refreshTasks.Add(this.RefreshTabAsync<ListTimelineTabModel>());
                 ResetTimers.Lists = false;
             }
             if (ResetTimers.UserStream || usCounter <= 0 && SettingManager.Common.UserstreamPeriod > 0)
@@ -1365,12 +1365,12 @@ namespace OpenTween
                     Interlocked.Exchange(ref ResumeWait, 0);
                     refreshTasks.AddRange(new[]
                     {
-                        this.GetHomeTimelineAsync(),
-                        this.GetReplyAsync(),
-                        this.GetDirectMessagesAsync(),
-                        this.GetPublicSearchAllAsync(),
-                        this.GetUserTimelineAllAsync(),
-                        this.GetListTimelineAllAsync(),
+                        this.RefreshTabAsync<HomeTabModel>(),
+                        this.RefreshTabAsync<MentionsTabModel>(),
+                        this.RefreshTabAsync<DirectMessagesTabModel>(),
+                        this.RefreshTabAsync<PublicSearchTabModel>(),
+                        this.RefreshTabAsync<UserTimelineTabModel>(),
+                        this.RefreshTabAsync<ListTimelineTabModel>(),
                         this.doGetFollowersMenu(),
                         this.RefreshTwitterConfigurationAsync(),
                     });
@@ -2257,260 +2257,71 @@ namespace OpenTween
             return true;
         }
 
-        private Task GetHomeTimelineAsync()
+        /// <summary>指定された型 <typeparamref name="T"/> に合致する全てのタブを更新します</summary>
+        private Task RefreshTabAsync<T>() where T : TabModel
+            => this.RefreshTabAsync<T>(backward: false);
+
+        /// <summary>指定された型 <typeparamref name="T"/> に合致する全てのタブを更新します</summary>
+        private Task RefreshTabAsync<T>(bool backward) where T : TabModel
         {
-            return this.GetHomeTimelineAsync(loadMore: false);
+            var loadTasks =
+                from tab in this._statuses.GetTabsByType<T>()
+                select this.RefreshTabAsync(tab, backward);
+
+            return Task.WhenAll(loadTasks);
         }
 
-        private async Task GetHomeTimelineAsync(bool loadMore)
+        /// <summary>指定されたタブ <paramref name="tab"/> を更新します</summary>
+        private Task RefreshTabAsync(TabModel tab)
+            => this.RefreshTabAsync(tab, backward: false);
+
+        /// <summary>指定されたタブ <paramref name="tab"/> を更新します</summary>
+        private async Task RefreshTabAsync(TabModel tab, bool backward)
         {
             await this.workerSemaphore.WaitAsync();
 
             try
             {
-                var homeTab = this._statuses.GetTabByType<HomeTabModel>();
-                await homeTab.RefreshAsync(this.tw, loadMore, this._initial, this.workerProgress);
-
+                await tab.RefreshAsync(this.tw, backward, this._initial, this.workerProgress);
                 this.RefreshTimeline();
             }
             catch (WebApiException ex)
             {
                 this._myStatusError = true;
-                this.StatusLabel.Text = $"Err:{ex.Message}(GetTimeline)";
-            }
-            finally
-            {
-                this.workerSemaphore.Release();
-            }
-        }
 
-        private Task GetReplyAsync()
-        {
-            return this.GetReplyAsync(loadMore: false);
-        }
-
-        private async Task GetReplyAsync(bool loadMore)
-        {
-            await this.workerSemaphore.WaitAsync();
-
-            try
-            {
-                var replyTab = this._statuses.GetTabByType<MentionsTabModel>();
-                await replyTab.RefreshAsync(this.tw, loadMore, this._initial, this.workerProgress);
-
-                this.RefreshTimeline();
-            }
-            catch (WebApiException ex)
-            {
-                this._myStatusError = true;
-                this.StatusLabel.Text = $"Err:{ex.Message}(GetTimeline)";
-            }
-            finally
-            {
-                this.workerSemaphore.Release();
-            }
-        }
-
-        private Task GetDirectMessagesAsync()
-        {
-            return this.GetDirectMessagesAsync(loadMore: false);
-        }
-
-        private async Task GetDirectMessagesAsync(bool loadMore)
-        {
-            await this.workerSemaphore.WaitAsync();
-
-            try
-            {
-                var dmTab = this._statuses.GetTabByType<DirectMessagesTabModel>();
-                await dmTab.RefreshAsync(this.tw, loadMore, this._initial, this.workerProgress);
-
-                this.RefreshTimeline();
-            }
-            catch (WebApiException ex)
-            {
-                this._myStatusError = true;
-                this.StatusLabel.Text = $"Err:{ex.Message}(GetDirectMessage)";
-            }
-            finally
-            {
-                this.workerSemaphore.Release();
-            }
-        }
-
-        private Task GetFavoritesAsync()
-        {
-            return this.GetFavoritesAsync(loadMore: false);
-        }
-
-        private async Task GetFavoritesAsync(bool loadMore)
-        {
-            await this.workerSemaphore.WaitAsync();
-
-            try
-            {
-                var favTab = this._statuses.GetTabByType<FavoritesTabModel>();
-                await favTab.RefreshAsync(this.tw, loadMore, this._initial, this.workerProgress);
-
-                this.RefreshTimeline();
-            }
-            catch (WebApiException ex)
-            {
-                this._myStatusError = true;
-                this.StatusLabel.Text = ex.Message;
-            }
-            finally
-            {
-                this.workerSemaphore.Release();
-            }
-        }
-
-        private Task GetPublicSearchAllAsync()
-        {
-            var tabs = this._statuses.GetTabsByType<PublicSearchTabModel>();
-
-            return this.GetPublicSearchAsync(tabs, loadMore: false);
-        }
-
-        private Task GetPublicSearchAsync(PublicSearchTabModel tab)
-        {
-            return this.GetPublicSearchAsync(tab, loadMore: false);
-        }
-
-        private Task GetPublicSearchAsync(PublicSearchTabModel tab, bool loadMore)
-        {
-            return this.GetPublicSearchAsync(new[] { tab }, loadMore);
-        }
-
-        private async Task GetPublicSearchAsync(IEnumerable<PublicSearchTabModel> tabs, bool loadMore)
-        {
-            await this.workerSemaphore.WaitAsync();
-
-            try
-            {
-                foreach (var tab in tabs)
+                string tabType;
+                switch (tab)
                 {
-                    try
-                    {
-                        await tab.RefreshAsync(this.tw, loadMore, this._initial, this.workerProgress);
-                    }
-                    catch (WebApiException ex)
-                    {
-                        this._myStatusError = true;
-                        this.StatusLabel.Text = $"Err:{ex.Message}(GetSearch)";
-                    }
+                    case HomeTabModel _:
+                        tabType = "GetTimeline";
+                        break;
+                    case MentionsTabModel _:
+                        tabType = "GetTimeline";
+                        break;
+                    case DirectMessagesTabModel _:
+                        tabType = "GetDirectMessage";
+                        break;
+                    case FavoritesTabModel _:
+                        tabType = "GetFavorites";
+                        break;
+                    case PublicSearchTabModel _:
+                        tabType = "GetSearch";
+                        break;
+                    case UserTimelineTabModel _:
+                        tabType = "GetUserTimeline";
+                        break;
+                    case ListTimelineTabModel _:
+                        tabType = "GetListStatus";
+                        break;
+                    case RelatedPostsTabModel _:
+                        tabType = "GetRelatedTweets";
+                        break;
+                    default:
+                        tabType = tab.GetType().Name.Replace("Model", "");
+                        break;
                 }
 
-                this.RefreshTimeline();
-            }
-            finally
-            {
-                this.workerSemaphore.Release();
-            }
-        }
-
-        private Task GetUserTimelineAllAsync()
-        {
-            var tabs = this._statuses.GetTabsByType<UserTimelineTabModel>();
-
-            return this.GetUserTimelineAsync(tabs, loadMore: false);
-        }
-
-        private Task GetUserTimelineAsync(UserTimelineTabModel tab)
-        {
-            return this.GetUserTimelineAsync(tab, loadMore: false);
-        }
-
-        private Task GetUserTimelineAsync(UserTimelineTabModel tab, bool loadMore)
-        {
-            return this.GetUserTimelineAsync(new[] { tab }, loadMore);
-        }
-
-        private async Task GetUserTimelineAsync(IEnumerable<UserTimelineTabModel> tabs, bool loadMore)
-        {
-            await this.workerSemaphore.WaitAsync();
-
-            try
-            {
-                foreach (var tab in tabs)
-                {
-                    try
-                    {
-                        await tab.RefreshAsync(this.tw, loadMore, this._initial, this.workerProgress);
-                    }
-                    catch (WebApiException ex)
-                    {
-                        this._myStatusError = true;
-                        this.StatusLabel.Text = $"Err:{ex.Message}(GetUserTimeline)";
-                    }
-                }
-
-                this.RefreshTimeline();
-            }
-            finally
-            {
-                this.workerSemaphore.Release();
-            }
-        }
-
-        private Task GetListTimelineAllAsync()
-        {
-            var tabs = this._statuses.GetTabsByType<ListTimelineTabModel>();
-
-            return this.GetListTimelineAsync(tabs, loadMore: false);
-        }
-
-        private Task GetListTimelineAsync(ListTimelineTabModel tab)
-        {
-            return this.GetListTimelineAsync(tab, loadMore: false);
-        }
-
-        private Task GetListTimelineAsync(ListTimelineTabModel tab, bool loadMore)
-        {
-            return this.GetListTimelineAsync(new[] { tab }, loadMore);
-        }
-
-        private async Task GetListTimelineAsync(IEnumerable<ListTimelineTabModel> tabs, bool loadMore)
-        {
-            await this.workerSemaphore.WaitAsync();
-
-            try
-            {
-                foreach (var tab in tabs)
-                {
-                    try
-                    {
-                        await tab.RefreshAsync(this.tw, loadMore, this._initial, this.workerProgress);
-                    }
-                    catch (WebApiException ex)
-                    {
-                        this._myStatusError = true;
-                        this.StatusLabel.Text = $"Err:{ex.Message}(GetListStatus)";
-                    }
-                }
-
-                this.RefreshTimeline();
-            }
-            finally
-            {
-                this.workerSemaphore.Release();
-            }
-        }
-
-        private async Task GetRelatedTweetsAsync(RelatedPostsTabModel tab)
-        {
-            await this.workerSemaphore.WaitAsync();
-
-            try
-            {
-                await tab.RefreshAsync(this.tw, this._initial, this.workerProgress);
-
-                this.RefreshTimeline();
-            }
-            catch (WebApiException ex)
-            {
-                this._myStatusError = true;
-                this.StatusLabel.Text = $"Err:{ex.Message}(GetRelatedTweets)";
+                this.StatusLabel.Text = $"Err:{ex.Message}({tabType})";
             }
             finally
             {
@@ -2882,7 +2693,7 @@ namespace OpenTween
                 if (this.tw.UserStreamActive)
                     this.RefreshTimeline();
                 else
-                    await this.GetHomeTimelineAsync();
+                    await this.RefreshTabAsync<HomeTabModel>();
             }
         }
 
@@ -2897,7 +2708,7 @@ namespace OpenTween
                 await this.RetweetAsyncInternal(progress, this.workerCts.Token, statusIds);
 
                 if (SettingManager.Common.PostAndGet && !this.tw.UserStreamActive)
-                    await this.GetHomeTimelineAsync();
+                    await this.RefreshTabAsync<HomeTabModel>();
             }
             catch (WebApiException ex)
             {
@@ -3663,77 +3474,26 @@ namespace OpenTween
                 if (!this._statuses.Tabs.TryGetValue(this._curTab.Text, out var tab))
                     return;
 
-                switch (tab)
-                {
-                    case MentionsTabModel replyTab:
-                        await this.GetReplyAsync();
-                        break;
-                    case DirectMessagesTabModel dmTab:
-                        await this.GetDirectMessagesAsync();
-                        break;
-                    case FavoritesTabModel favTab:
-                        await this.GetFavoritesAsync();
-                        break;
-                    case PublicSearchTabModel searchTab:
-                        if (string.IsNullOrEmpty(searchTab.SearchWords)) return;
-                        await this.GetPublicSearchAsync(searchTab);
-                        break;
-                    case UserTimelineTabModel userTab:
-                        await this.GetUserTimelineAsync(userTab);
-                        break;
-                    case ListTimelineTabModel listTab:
-                        if (listTab.ListInfo == null || listTab.ListInfo.Id == 0) return;
-                        await this.GetListTimelineAsync(listTab);
-                        break;
-                    default:
-                        await this.GetHomeTimelineAsync();
-                        break;
-                }
+                await this.RefreshTabAsync(tab);
             }
             else
             {
-                await this.GetHomeTimelineAsync();
+                await this.RefreshTabAsync<HomeTabModel>();
             }
         }
 
         private async Task DoRefreshMore()
         {
-            //ページ指定をマイナス1に
             if (_curTab != null)
             {
                 if (!this._statuses.Tabs.TryGetValue(this._curTab.Text, out var tab))
                     return;
 
-                switch (tab)
-                {
-                    case MentionsTabModel replyTab:
-                        await this.GetReplyAsync(loadMore: true);
-                        break;
-                    case DirectMessagesTabModel dmTab:
-                        await this.GetDirectMessagesAsync(loadMore: true);
-                        break;
-                    case FavoritesTabModel favTab:
-                        await this.GetFavoritesAsync(loadMore: true);
-                        break;
-                    case PublicSearchTabModel searchTab:
-                        if (string.IsNullOrEmpty(searchTab.SearchWords)) return;
-                        await this.GetPublicSearchAsync(searchTab, loadMore: true);
-                        break;
-                    case UserTimelineTabModel userTab:
-                        await this.GetUserTimelineAsync(userTab, loadMore: true);
-                        break;
-                    case ListTimelineTabModel listTab:
-                        if (listTab.ListInfo == null || listTab.ListInfo.Id == 0) return;
-                        await this.GetListTimelineAsync(listTab, loadMore: true);
-                        break;
-                    default:
-                        await this.GetHomeTimelineAsync(loadMore: true);
-                        break;
-                }
+                await this.RefreshTabAsync(tab, backward: true);
             }
             else
             {
-                await this.GetHomeTimelineAsync(loadMore: true);
+                await this.RefreshTabAsync<HomeTabModel>(backward: true);
             }
         }
 
@@ -4195,7 +3955,7 @@ namespace OpenTween
             ListTab.SelectedIndex = ListTab.TabPages.Count - 1;
             SaveConfigsTabs();
             //検索実行
-            this.GetUserTimelineAsync(tab);
+            this.RefreshTabAsync(tab);
         }
 
         public bool AddNewTab(TabModel tab, bool startup)
@@ -6002,10 +5762,10 @@ namespace OpenTween
                     .Do(() => this.DoRefresh()),
 
                 ShortcutCommand.Create(Keys.F6)
-                    .Do(() => this.GetReplyAsync()),
+                    .Do(() => this.RefreshTabAsync<MentionsTabModel>()),
 
                 ShortcutCommand.Create(Keys.F7)
-                    .Do(() => this.GetDirectMessagesAsync()),
+                    .Do(() => this.RefreshTabAsync<DirectMessagesTabModel>()),
 
                 ShortcutCommand.Create(Keys.Space, Keys.ProcessKey)
                     .NotFocusedOn(FocusedControl.StatusText)
@@ -6300,10 +6060,10 @@ namespace OpenTween
                     .Do(() => this.DoRefreshMore()),
 
                 ShortcutCommand.Create(Keys.Shift | Keys.F6)
-                    .Do(() => this.GetReplyAsync(loadMore: true)),
+                    .Do(() => this.RefreshTabAsync<MentionsTabModel>(backward: true)),
 
                 ShortcutCommand.Create(Keys.Shift | Keys.F7)
-                    .Do(() => this.GetDirectMessagesAsync(loadMore: true)),
+                    .Do(() => this.RefreshTabAsync<DirectMessagesTabModel>(backward: true)),
 
                 ShortcutCommand.Create(Keys.Shift | Keys.R)
                     .NotFocusedOn(FocusedControl.StatusText)
@@ -8353,8 +8113,8 @@ namespace OpenTween
                     if (tabUsage == MyCommon.TabUsageType.Lists)
                     {
                         ListTab.SelectedIndex = ListTab.TabPages.Count - 1;
-                        var listTab = (ListTimelineTabModel)this._statuses.Tabs[this._curTab.Text];
-                        this.GetListTimelineAsync(listTab);
+                        var listTab = this._statuses.Tabs[this._curTab.Text];
+                        this.RefreshTabAsync(listTab);
                     }
                 }
             }
@@ -10145,19 +9905,19 @@ namespace OpenTween
                     this.RefreshBlockIdsAsync(),
                     this.RefreshNoRetweetIdsAsync(),
                     this.RefreshTwitterConfigurationAsync(),
-                    this.GetHomeTimelineAsync(),
-                    this.GetReplyAsync(),
-                    this.GetDirectMessagesAsync(),
-                    this.GetPublicSearchAllAsync(),
-                    this.GetUserTimelineAllAsync(),
-                    this.GetListTimelineAllAsync(),
+                    this.RefreshTabAsync<HomeTabModel>(),
+                    this.RefreshTabAsync<MentionsTabModel>(),
+                    this.RefreshTabAsync<DirectMessagesTabModel>(),
+                    this.RefreshTabAsync<PublicSearchTabModel>(),
+                    this.RefreshTabAsync<UserTimelineTabModel>(),
+                    this.RefreshTabAsync<ListTimelineTabModel>(),
                 };
 
                 if (SettingManager.Common.StartupFollowers)
                     loadTasks.Add(this.RefreshFollowerIdsAsync());
 
                 if (SettingManager.Common.GetFav)
-                    loadTasks.Add(this.GetFavoritesAsync());
+                    loadTasks.Add(this.RefreshTabAsync<FavoritesTabModel>());
 
                 var allTasks = Task.WhenAll(loadTasks);
 
@@ -10857,7 +10617,7 @@ namespace OpenTween
                 SaveConfigsTabs();   //検索条件の保存
             }
 
-            this.GetPublicSearchAsync(tb);
+            this.RefreshTabAsync(tb);
             listView.Focus();
         }
 
@@ -11688,7 +11448,7 @@ namespace OpenTween
                 }
             }
 
-            await this.GetRelatedTweetsAsync(tabRelated);
+            await this.RefreshTabAsync(tabRelated);
 
             tabPage = this.ListTab.TabPages.Cast<TabPage>()
                 .FirstOrDefault(x => x.Text == tabRelated.TabName);
