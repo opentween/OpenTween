@@ -2897,7 +2897,7 @@ namespace OpenTween
                         await this.ShowUserStatus(_curPost.ScreenName, false);
                     break;
                 case 3:
-                    ShowUserTimeline();
+                    await ShowUserTimeline();
                     break;
                 case 4:
                     ShowRelatedStatusesMenuItem_Click(null, null);
@@ -3907,10 +3907,10 @@ namespace OpenTween
             this.SearchButton_Click(ListTab.SelectedTab.Controls["panelSearch"].Controls["comboSearch"], null);
         }
 
-        private void ShowUserTimeline()
+        private async Task ShowUserTimeline()
         {
             if (!this.ExistCurrentPost) return;
-            AddNewTabForUserTimeline(_curPost.ScreenName);
+            await this.AddNewTabForUserTimeline(_curPost.ScreenName);
         }
 
         private void SearchComboBox_KeyDown(object sender, KeyEventArgs e)
@@ -3924,7 +3924,7 @@ namespace OpenTween
             }
         }
 
-        public void AddNewTabForUserTimeline(string user)
+        public async Task AddNewTabForUserTimeline(string user)
         {
             //同一検索条件のタブが既に存在すれば、そのタブアクティブにして終了
             foreach (var tb in _statuses.GetTabsByType<UserTimelineTabModel>())
@@ -3955,7 +3955,7 @@ namespace OpenTween
             ListTab.SelectedIndex = ListTab.TabPages.Count - 1;
             SaveConfigsTabs();
             //検索実行
-            this.RefreshTabAsync(tab);
+            await this.RefreshTabAsync(tab);
         }
 
         public bool AddNewTab(TabModel tab, bool startup)
@@ -8052,7 +8052,7 @@ namespace OpenTween
             SaveConfigsTabs();
         }
 
-        private void AddTabMenuItem_Click(object sender, EventArgs e)
+        private async void AddTabMenuItem_Click(object sender, EventArgs e)
         {
             string tabName = null;
             MyCommon.TabUsageType tabUsage;
@@ -8114,7 +8114,7 @@ namespace OpenTween
                     {
                         ListTab.SelectedIndex = ListTab.TabPages.Count - 1;
                         var listTab = this._statuses.Tabs[this._curTab.Text];
-                        this.RefreshTabAsync(listTab);
+                        await this.RefreshTabAsync(listTab);
                     }
                 }
             }
@@ -9710,7 +9710,7 @@ namespace OpenTween
                     var screenName = userUriMatch.Groups["ScreenName"].Value;
                     if (this.IsTwitterId(screenName))
                     {
-                        this.AddNewTabForUserTimeline(screenName);
+                        await this.AddNewTabForUserTimeline(screenName);
                         return;
                     }
                 }
@@ -10554,7 +10554,7 @@ namespace OpenTween
             doQuoteOfficial();
         }
 
-        private void SearchButton_Click(object sender, EventArgs e)
+        private async void SearchButton_Click(object sender, EventArgs e)
         {
             //公式検索
             Control pnl = ((Control)sender).Parent;
@@ -10617,8 +10617,8 @@ namespace OpenTween
                 SaveConfigsTabs();   //検索条件の保存
             }
 
-            this.RefreshTabAsync(tb);
             listView.Focus();
+            await this.RefreshTabAsync(tb);
         }
 
         private async void RefreshMoreStripMenuItem_Click(object sender, EventArgs e)
@@ -11848,10 +11848,8 @@ namespace OpenTween
             }
         }
 
-        private void ShowUserTimelineToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ShowUserTimeline();
-        }
+        private async void ShowUserTimelineToolStripMenuItem_Click(object sender, EventArgs e)
+            => await this.ShowUserTimeline();
 
         private string GetUserIdFromCurPostOrInput(string caption)
         {
@@ -11875,12 +11873,12 @@ namespace OpenTween
             return id;
         }
 
-        private void UserTimelineToolStripMenuItem_Click(object sender, EventArgs e)
+        private async void UserTimelineToolStripMenuItem_Click(object sender, EventArgs e)
         {
             string id = GetUserIdFromCurPostOrInput("Show UserTimeline");
             if (!string.IsNullOrEmpty(id))
             {
-                AddNewTabForUserTimeline(id);
+                await this.AddNewTabForUserTimeline(id);
             }
         }
 

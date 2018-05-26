@@ -684,12 +684,12 @@ namespace OpenTween
             await this.Owner.ShowUserStatus(this.CurrentPost.ScreenName, false);
         }
 
-        private void SearchPostsDetailNameToolStripMenuItem_Click(object sender, EventArgs e)
+        private async void SearchPostsDetailNameToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (this.CurrentPost == null)
                 return;
 
-            this.Owner.AddNewTabForUserTimeline(this.CurrentPost.ScreenName);
+            await this.Owner.AddNewTabForUserTimeline(this.CurrentPost.ScreenName);
         }
 
         private void SearchAtPostsDetailNameToolStripMenuItem_Click(object sender, EventArgs e)
@@ -966,10 +966,11 @@ namespace OpenTween
                 await this.Owner.ShowUserStatus(name);
         }
 
-        private void SearchPostsDetailToolStripMenuItem_Click(object sender, EventArgs e)
+        private async void SearchPostsDetailToolStripMenuItem_Click(object sender, EventArgs e)
         {
             string name = GetUserId();
-            if (name != null) this.Owner.AddNewTabForUserTimeline(name);
+            if (name != null)
+                await this.Owner.AddNewTabForUserTimeline(name);
         }
 
         private void SearchAtPostsDetailToolStripMenuItem_Click(object sender, EventArgs e)

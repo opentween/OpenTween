@@ -452,9 +452,9 @@ namespace OpenTween
             await this.mainForm.OpenUriInBrowserAsync("https://support.twitter.com/groups/31-twitter-basics/topics/107-my-profile-account-settings/articles/243055-x516c-x958b-x3001-x975e-x516c-x958b-x30a2-x30ab-x30a6-x30f3-x30c8-x306b-x3064-x3044-x3066");
         }
 
-        private void ButtonSearchPosts_Click(object sender, EventArgs e)
+        private async void ButtonSearchPosts_Click(object sender, EventArgs e)
         {
-            this.mainForm.AddNewTabForUserTimeline(this._displayUser.ScreenName);
+            await this.mainForm.AddNewTabForUserTimeline(this._displayUser.ScreenName);
         }
 
         private async void UserPicture_Click(object sender, EventArgs e)
