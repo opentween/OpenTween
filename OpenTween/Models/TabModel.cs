@@ -298,13 +298,10 @@ namespace OpenTween.Models
         /// <param name="statusId">変更するツイートのID</param>
         /// <param name="read">既読状態</param>
         /// <returns>既読状態に変化があれば true、変化がなければ false</returns>
-        internal bool SetReadState(long statusId, bool read)
+        internal virtual bool SetReadState(long statusId, bool read)
         {
             if (!this._ids.Contains(statusId))
                 throw new ArgumentOutOfRangeException(nameof(statusId));
-
-            if (this.IsInnerStorageTabType)
-                this.Posts[statusId].IsRead = read;
 
             if (read)
                 return this.unreadIds.Remove(statusId);

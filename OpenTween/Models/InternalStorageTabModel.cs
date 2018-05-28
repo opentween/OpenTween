@@ -81,5 +81,13 @@ namespace OpenTween.Models
             base.ClearIDs();
             this.internalPosts.Clear();
         }
+
+        internal override bool SetReadState(long statusId, bool read)
+        {
+            if (this.Posts.TryGetValue(statusId, out var post))
+                post.IsRead = read;
+
+            return base.SetReadState(statusId, read);
+        }
     }
 }
