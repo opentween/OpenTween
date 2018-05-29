@@ -150,8 +150,7 @@ namespace OpenTween
 
         private void DrawPlayableMark(PaintEventArgs pe)
         {
-            var thumb = this.Tag as ThumbnailInfo;
-            if (thumb == null || !thumb.IsPlayable) return;
+            if (!(this.Tag is ThumbnailInfo thumb && thumb.IsPlayable)) return;
             if (base.Image == base.InitialImage || base.Image == base.ErrorImage) return;
 
             var overlayImage = Properties.Resources.PlayableOverlayImage;

@@ -46,12 +46,7 @@ namespace OpenTween.Models
         }
 
         public override bool Equals(object obj)
-        {
-            var info = obj as MediaInfo;
-            return info != null &&
-                info.Url == this.Url &&
-                info.VideoUrl == this.VideoUrl;
-        }
+            => obj is MediaInfo info && info.Url == this.Url && info.VideoUrl == this.VideoUrl;
 
         public override int GetHashCode()
         {

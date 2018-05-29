@@ -109,15 +109,7 @@ namespace OpenTween
         }
 
         public TabModel SelectedTab
-        {
-            get
-            {
-                var item = this.TabList.SelectedItem as TabListItem;
-                if (item == null) return null;
-
-                return item.Tab;
-            }
-        }
+            => this.TabList.SelectedItem is TabListItem item ? item.Tab : null;
 
         public TabModel[] SelectedTabs
         {

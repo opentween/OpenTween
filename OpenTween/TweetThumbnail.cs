@@ -243,11 +243,8 @@ namespace OpenTween
 
         private void pictureBox_DoubleClick(object sender, EventArgs e)
         {
-            var thumb = ((PictureBox)sender).Tag as ThumbnailInfo;
-
-            if (thumb == null) return;
-
-            this.OpenImage(thumb);
+            if (((PictureBox)sender).Tag is ThumbnailInfo thumb)
+                this.OpenImage(thumb);
         }
 
         private void contextMenuStrip_Opening(object sender, CancelEventArgs e)
