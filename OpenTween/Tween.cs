@@ -1670,8 +1670,10 @@ namespace OpenTween
 
         private bool BalloonRequired()
         {
-            Twitter.FormattedEvent ev = new Twitter.FormattedEvent();
-            ev.Eventtype = MyCommon.EVENTTYPE.None;
+            var ev = new Twitter.FormattedEvent
+            {
+                Eventtype = MyCommon.EVENTTYPE.None,
+            };
 
             return BalloonRequired(ev);
         }
@@ -3993,10 +3995,12 @@ namespace OpenTween
 
                 if (userTab != null || listTab != null)
                 {
-                    var label = new Label();
-                    label.Dock = DockStyle.Top;
-                    label.Name = "labelUser";
-                    label.TabIndex = 0;
+                    var label = new Label
+                    {
+                        Dock = DockStyle.Top,
+                        Name = "labelUser",
+                        TabIndex = 0,
+                    };
 
                     if (listTab != null)
                     {
@@ -5509,11 +5513,14 @@ namespace OpenTween
 
         private void RunTweenUp()
         {
-            ProcessStartInfo pinfo = new ProcessStartInfo();
-            pinfo.UseShellExecute = true;
-            pinfo.WorkingDirectory = MyCommon.settingPath;
-            pinfo.FileName = Path.Combine(MyCommon.settingPath, "TweenUp3.exe");
-            pinfo.Arguments = "\"" + Application.StartupPath + "\"";
+            var pinfo = new ProcessStartInfo
+            {
+                UseShellExecute = true,
+                WorkingDirectory = MyCommon.settingPath,
+                FileName = Path.Combine(MyCommon.settingPath, "TweenUp3.exe"),
+                Arguments = "\"" + Application.StartupPath + "\"",
+            };
+
             try
             {
                 Process.Start(pinfo);
@@ -11430,9 +11437,11 @@ namespace OpenTween
 
             var tabName = this._statuses.MakeTabName("Related Tweets");
 
-            tabRelated = new RelatedPostsTabModel(tabName, post);
-            tabRelated.UnreadManage = false;
-            tabRelated.Notify = false;
+            tabRelated = new RelatedPostsTabModel(tabName, post)
+            {
+                UnreadManage = false,
+                Notify = false,
+            };
 
             this._statuses.AddTab(tabRelated);
             this.AddNewTab(tabRelated, startup: false);
@@ -11791,14 +11800,17 @@ namespace OpenTween
         {
             if (evtDialog == null || evtDialog.IsDisposed)
             {
-                evtDialog = null;
-                evtDialog = new EventViewerDialog();
-                evtDialog.Owner = this;
+                this.evtDialog = new EventViewerDialog
+                {
+                    Owner = this,
+                };
+
                 //親の中央に表示
-                Point pos = evtDialog.Location;
-                pos.X = Convert.ToInt32(this.Location.X + this.Size.Width / 2 - evtDialog.Size.Width / 2);
-                pos.Y = Convert.ToInt32(this.Location.Y + this.Size.Height / 2 - evtDialog.Size.Height / 2);
-                evtDialog.Location = pos;
+                this.evtDialog.Location = new Point
+                {
+                    X = Convert.ToInt32(this.Location.X + this.Size.Width / 2 - evtDialog.Size.Width / 2),
+                    Y = Convert.ToInt32(this.Location.Y + this.Size.Height / 2 - evtDialog.Size.Height / 2),
+                };
             }
             evtDialog.EventSource = tw.StoredEvent;
             if (!evtDialog.Visible)

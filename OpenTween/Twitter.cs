@@ -2107,14 +2107,14 @@ namespace OpenTween
                 MyCommon.TraceOut(ex, "Event Exception!" + Environment.NewLine + content);
             }
 
-            var evt = new FormattedEvent();
-            evt.CreatedAt = MyCommon.DateTimeParse(eventData.CreatedAt);
-            evt.Event = eventData.Event;
-            evt.Username = eventData.Source.ScreenName;
-            evt.IsMe = evt.Username.ToLowerInvariant().Equals(this.Username.ToLowerInvariant());
-
-            eventTable.TryGetValue(eventData.Event, out var eventType);
-            evt.Eventtype = eventType;
+            var evt = new FormattedEvent
+            {
+                CreatedAt = MyCommon.DateTimeParse(eventData.CreatedAt),
+                Event = eventData.Event,
+                Username = eventData.Source.ScreenName,
+                IsMe = eventData.Source.ScreenName.ToLowerInvariant().Equals(this.Username.ToLowerInvariant()),
+                Eventtype = eventTable.TryGetValue(eventData.Event, out var eventType) ? eventType : MyCommon.EVENTTYPE.None,
+            };
 
             TwitterStreamEvent<TwitterStatusCompat> tweetEvent;
             TwitterStatus tweet;

@@ -54,11 +54,13 @@ namespace OpenTween.Setting
                 settings.UserAccounts = new List<UserAccount>();
                 if (!string.IsNullOrEmpty(settings.UserName))
                 {
-                    UserAccount account = new UserAccount();
-                    account.Username = settings.UserName;
-                    account.UserId = settings.UserId;
-                    account.Token = settings.Token;
-                    account.TokenSecret = settings.TokenSecret;
+                    var account = new UserAccount
+                    {
+                        Username = settings.UserName,
+                        UserId = settings.UserId,
+                        Token = settings.Token,
+                        TokenSecret = settings.TokenSecret,
+                    };
 
                     settings.UserAccounts.Add(account);
                 }

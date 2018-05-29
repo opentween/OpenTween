@@ -75,13 +75,17 @@ namespace OpenTween
 
         private void AddListViewItem(string endpoint, ApiLimit apiLimit, ListViewGroup group)
         {
-            var item = new ListViewItem(
-                new string[] {
-                    endpoint,
-                    apiLimit.AccessLimitRemain + "/" + apiLimit.AccessLimitCount,
-                    apiLimit.AccessLimitResetDate.ToLocalTimeString()
-                });
-            item.Group = group;
+            var subitems = new[]
+            {
+                endpoint,
+                apiLimit.AccessLimitRemain + "/" + apiLimit.AccessLimitCount,
+                apiLimit.AccessLimitResetDate.ToLocalTimeString(),
+            };
+            var item = new ListViewItem(subitems)
+            {
+                Group = group,
+            };
+
             this.ListViewApi.Items.Add(item);
         }
 
