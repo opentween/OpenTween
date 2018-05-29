@@ -285,7 +285,7 @@ namespace OpenTween
         private IntPtr profferServicePtr = new IntPtr();
         private WebBrowserAPI.IProfferService profferService;
 
-        private POLICY _Policy = 0; // DefaultですべてDisAllow
+        public POLICY SecurityPolicy { get; set; } = 0;
 
         public InternetSecurityManager(WebBrowser _WebBrowser)
         {
@@ -406,7 +406,7 @@ namespace OpenTween
                 dwAction <= WebBrowserAPI.URLACTION_SCRIPT_MAX)
             {
                 // スクリプト実行状態
-                if ((_Policy & POLICY.ALLOW_SCRIPT) == POLICY.ALLOW_SCRIPT)
+                if ((this.SecurityPolicy & POLICY.ALLOW_SCRIPT) == POLICY.ALLOW_SCRIPT)
                 {
                     pPolicy = WebBrowserAPI.URLPOLICY_ALLOW;
                 }
@@ -422,7 +422,7 @@ namespace OpenTween
                 dwAction <= WebBrowserAPI.URLACTION_ACTIVEX_MAX)
             {
                 // ActiveX実行状態
-                if ((_Policy & POLICY.ALLOW_ACTIVEX) == POLICY.ALLOW_ACTIVEX)
+                if ((this.SecurityPolicy & POLICY.ALLOW_ACTIVEX) == POLICY.ALLOW_ACTIVEX)
                 {
                     pPolicy = WebBrowserAPI.URLPOLICY_ALLOW;
                 }
@@ -449,19 +449,6 @@ namespace OpenTween
         int WebBrowserAPI.IInternetSecurityManager.SetZoneMapping(int dwZone, string lpszPattern, int dwFlags)
         {
             return WebBrowserAPI.INET_E_DEFAULT_ACTION;
-        }
-
-
-        public POLICY SecurityPolicy
-        {
-            get
-            {
-                return _Policy;
-            }
-            set
-            {
-                _Policy = value;
-            }
         }
     }
 }

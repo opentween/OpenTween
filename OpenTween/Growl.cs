@@ -51,8 +51,6 @@ namespace OpenTween
         private object _growlApp;
 
         private object _targetConnector;
-
-        private string _appName = "";
         bool _initialized = false;
 
         public class NotifyCallbackEventArgs : EventArgs
@@ -71,10 +69,7 @@ namespace OpenTween
 
         public event EventHandler<NotifyCallbackEventArgs> NotifyClicked;
 
-        public string AppName
-        {
-            get { return _appName; }
-        }
+        public string AppName { get; }
 
         public enum NotifyType
         {
@@ -85,9 +80,7 @@ namespace OpenTween
         }
 
         public GrowlHelper(string appName)
-        {
-            _appName = appName;
-        }
+            => this.AppName = appName;
 
         public bool IsAvailable
         {
@@ -175,7 +168,7 @@ namespace OpenTween
                 _targetConnector.GetType().InvokeMember("EncryptionAlgorithm", BindingFlags.SetProperty, null, _targetConnector, new object[] { encryptType }, CultureInfo.InvariantCulture);
 
                 _growlApp = _connector.CreateInstance(
-                    "Growl.Connector.Application", false, BindingFlags.Default, null, new object[] { _appName }, null, null);
+                    "Growl.Connector.Application", false, BindingFlags.Default, null, new object[] { AppName }, null, null);
 
 
                 if (File.Exists(Path.Combine(Application.StartupPath, "Icons\\Tween.png")))
@@ -315,7 +308,7 @@ namespace OpenTween
                         BindingFlags.CreateInstance,
                         null,
                         _connector,
-                        new object[] {_appName,
+                        new object[] {AppName,
                                       notificationName,
                                       id,
                                       title,
@@ -333,7 +326,7 @@ namespace OpenTween
                         BindingFlags.CreateInstance,
                         null,
                         _connector,
-                        new object[] {_appName,
+                        new object[] {AppName,
                                       notificationName,
                                       id,
                                       title,

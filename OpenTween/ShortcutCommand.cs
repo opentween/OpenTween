@@ -41,53 +41,37 @@ namespace OpenTween
     /// </summary>
     public class ShortcutCommand
     {
-        private Keys[] shortcuts;
-        private FocusedControl focusedOn;
-        private FocusedControl notFocusedOn;
         private Func<bool> onlyWhen;
         private Func<Task> command;
-        private bool preventDefault;
 
         /// <summary>
         /// ショートカットキーが動作する条件となるキー入力
         /// </summary>
-        public Keys[] Shortcuts
-        {
-            get { return this.shortcuts; }
-        }
+        public Keys[] Shortcuts { get; private set; }
 
         /// <summary>
         /// ショートカットキーが動作する条件となるフォーカス状態
         /// </summary>
-        public FocusedControl FocusedOn
-        {
-            get { return this.focusedOn; }
-        }
+        public FocusedControl FocusedOn { get; private set; }
 
         /// <summary>
         /// ショートカットキーが動作する否定条件となるフォーカス状態
         /// </summary>
-        public FocusedControl NotFocusedOn
-        {
-            get { return this.notFocusedOn; }
-        }
+        public FocusedControl NotFocusedOn { get; private set; }
 
         /// <summary>
         /// コマンドを実行した後、コントロール既定の動作を無効化するか否か (デフォルトは true)
         /// </summary>
-        public bool PreventDefault
-        {
-            get { return this.preventDefault; }
-        }
+        public bool PreventDefault { get; private set; }
 
         private ShortcutCommand()
         {
-            this.shortcuts = new Keys[0];
+            this.Shortcuts = new Keys[0];
             this.command = () => Task.FromResult(0);
             this.onlyWhen = () => true;
-            this.focusedOn = FocusedControl.None;
-            this.notFocusedOn = FocusedControl.None;
-            this.preventDefault = true;
+            this.FocusedOn = FocusedControl.None;
+            this.NotFocusedOn = FocusedControl.None;
+            this.PreventDefault = true;
         }
 
         /// <summary>
@@ -140,7 +124,7 @@ namespace OpenTween
             /// </summary>
             public Builder Keys(params Keys[] shortcuts)
             {
-                this.instance.shortcuts = shortcuts;
+                this.instance.Shortcuts = shortcuts;
                 return this;
             }
 
@@ -149,7 +133,7 @@ namespace OpenTween
             /// </summary>
             public Builder FocusedOn(FocusedControl focusedOn)
             {
-                this.instance.focusedOn = focusedOn;
+                this.instance.FocusedOn = focusedOn;
                 return this;
             }
 
@@ -158,7 +142,7 @@ namespace OpenTween
             /// </summary>
             public Builder NotFocusedOn(FocusedControl notFocusedOn)
             {
-                this.instance.notFocusedOn = notFocusedOn;
+                this.instance.NotFocusedOn = notFocusedOn;
                 return this;
             }
 
@@ -185,7 +169,7 @@ namespace OpenTween
             public ShortcutCommand Do(Func<Task> action, bool preventDefault = true)
             {
                 this.instance.command = action;
-                this.instance.preventDefault = preventDefault;
+                this.instance.PreventDefault = preventDefault;
 
                 return this.instance;
             }

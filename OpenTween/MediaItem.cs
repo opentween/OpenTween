@@ -187,10 +187,9 @@ namespace OpenTween
     {
         public const string PathPrefix = "<>MemoryImage://";
         private static int _fileNumber = 0;
-
-        private bool _disposed = false;
-
         private readonly MemoryImage _image;
+
+        public bool IsDisposed { get; private set; } = false;
 
         public MemoryImageMediaItem(MemoryImage image)
         {
@@ -228,11 +227,6 @@ namespace OpenTween
             get { return true; }
         }
 
-        public bool IsDisposed
-        {
-            get { return this._disposed; }
-        }
-
         public MemoryImage CreateImage()
         {
             return this._image.Clone();
@@ -265,14 +259,14 @@ namespace OpenTween
 
         protected virtual void Dispose(bool disposing)
         {
-            if (this._disposed) return;
+            if (this.IsDisposed) return;
 
             if (disposing)
             {
                 this._image.Dispose();
             }
 
-            this._disposed = true;
+            this.IsDisposed = true;
         }
 
         public void Dispose()

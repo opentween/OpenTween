@@ -47,7 +47,9 @@ namespace OpenTween
         protected Twitter _tw;
 
         private List<UserInfo> _members = null;
-        private long _cursor = -1;
+
+        [XmlIgnore]
+        public long Cursor { get; private set; } = -1;
 
         public ListElement()
         {
@@ -96,26 +98,17 @@ namespace OpenTween
             }
         }
 
-        [XmlIgnore]
-        public long Cursor
-        {
-            get
-            {
-                return _cursor;
-            }
-        }
-
         public async Task RefreshMembers()
         {
             var users = new List<UserInfo>();
-            this._cursor = await this._tw.GetListMembers(this.Id, users, cursor: -1)
+            this.Cursor = await this._tw.GetListMembers(this.Id, users, cursor: -1)
                 .ConfigureAwait(false);
             this._members = users;
         }
 
         public async Task GetMoreMembers()
         {
-            this._cursor = await this._tw.GetListMembers(this.Id, this._members, this._cursor)
+            this.Cursor = await this._tw.GetListMembers(this.Id, this._members, this.Cursor)
                 .ConfigureAwait(false);
         }
 

@@ -418,7 +418,7 @@ namespace OpenTween
 
         private class NewListElement : ListElement
         {
-            private bool _isCreated = false;
+            public bool IsCreated { get; private set; } = false;
 
             public NewListElement(Twitter tw)
             {
@@ -436,13 +436,8 @@ namespace OpenTween
                     await this._tw.CreateListApi(this.Name, !this.IsPublic, this.Description)
                         .ConfigureAwait(false);
 
-                    this._isCreated = true;
+                    this.IsCreated = true;
                 }
-            }
-
-            public bool IsCreated
-            {
-                get { return this._isCreated; }
             }
 
             public override string ToString()

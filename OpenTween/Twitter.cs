@@ -160,17 +160,16 @@ namespace OpenTween
         public TwitterConfiguration Configuration { get; private set; }
         public TwitterTextConfiguration TextConfiguration { get; private set; }
 
+        public bool GetFollowersSuccess { get; private set; } = false;
+        public bool GetNoRetweetSuccess { get; private set; } = false;
+
         delegate void GetIconImageDelegate(PostClass post);
         private readonly object LockObj = new object();
         private ISet<long> followerId = new HashSet<long>();
-        private bool _GetFollowerResult = false;
         private long[] noRTId = new long[0];
-        private bool _GetNoRetweetResult = false;
 
         //プロパティからアクセスされる共通情報
         private string _uname;
-
-        private bool _readOwnPost;
         private List<string> _hashList = new List<string>();
 
         //max_idで古い発言を取得するために保持（lists分は個別タブで管理）
@@ -438,7 +437,7 @@ namespace OpenTween
 
             post.IsRead = read;
             post.IsOwl = false;
-            if (_readOwnPost) post.IsRead = true;
+            if (this.ReadOwnPost) post.IsRead = true;
             post.IsDm = false;
 
             TabInformations.GetInstance().AddPost(post);
@@ -450,32 +449,9 @@ namespace OpenTween
         public long UserId
             => this.Api.CurrentUserId;
 
-        private static MyCommon.ACCOUNT_STATE _accountState = MyCommon.ACCOUNT_STATE.Valid;
-        public static MyCommon.ACCOUNT_STATE AccountState
-        {
-            get
-            {
-                return _accountState;
-            }
-            set
-            {
-                _accountState = value;
-            }
-        }
-
+        public static MyCommon.ACCOUNT_STATE AccountState { get; set; } = MyCommon.ACCOUNT_STATE.Valid;
         public bool RestrictFavCheck { get; set; }
-
-        public bool ReadOwnPost
-        {
-            get
-            {
-                return _readOwnPost;
-            }
-            set
-            {
-                _readOwnPost = value;
-            }
-        }
+        public bool ReadOwnPost { get; set; }
 
         public int FollowersCount { get; private set; }
         public int FriendsCount { get; private set; }
@@ -685,7 +661,7 @@ namespace OpenTween
             var item = CreatePostsFromStatusData(status);
 
             item.IsRead = read;
-            if (item.IsMe && !read && _readOwnPost) item.IsRead = true;
+            if (item.IsMe && !read && this.ReadOwnPost) item.IsRead = true;
 
             return item;
         }
@@ -933,7 +909,7 @@ namespace OpenTween
                 var post = CreatePostsFromStatusData(status);
 
                 post.IsRead = read;
-                if (post.IsMe && !read && _readOwnPost) post.IsRead = true;
+                if (post.IsMe && !read && this.ReadOwnPost) post.IsRead = true;
 
                 if (tab != null && tab.IsInnerStorageTabType)
                     tab.AddPostQueue(post);
@@ -963,7 +939,7 @@ namespace OpenTween
                 var post = CreatePostsFromStatusData(status);
 
                 post.IsRead = read;
-                if ((post.IsMe && !read) && this._readOwnPost) post.IsRead = true;
+                if ((post.IsMe && !read) && this.ReadOwnPost) post.IsRead = true;
 
                 tab.AddPostQueue(post);
             }
@@ -1122,7 +1098,7 @@ namespace OpenTween
 
             relPosts.Values.ToList().ForEach(p =>
             {
-                if (p.IsMe && !read && this._readOwnPost)
+                if (p.IsMe && !read && this.ReadOwnPost)
                     p.IsRead = true;
                 else
                     p.IsRead = read;
@@ -1268,7 +1244,7 @@ namespace OpenTween
                 }
 
                 post.IsRead = read;
-                if (post.IsMe && !read && _readOwnPost) post.IsRead = true;
+                if (post.IsMe && !read && this.ReadOwnPost) post.IsRead = true;
                 post.IsReply = false;
                 post.IsExcludeReply = false;
                 post.IsDm = true;
@@ -1440,15 +1416,7 @@ namespace OpenTween
             this.followerId = newFollowerIds;
             TabInformations.GetInstance().RefreshOwl(this.followerId);
 
-            this._GetFollowerResult = true;
-        }
-
-        public bool GetFollowersSuccess
-        {
-            get
-            {
-                return _GetFollowerResult;
-            }
+            this.GetFollowersSuccess = true;
         }
 
         /// <summary>
@@ -1462,15 +1430,7 @@ namespace OpenTween
             this.noRTId = await this.Api.NoRetweetIds()
                 .ConfigureAwait(false);
 
-            this._GetNoRetweetResult = true;
-        }
-
-        public bool GetNoRetweetSuccess
-        {
-            get
-            {
-                return _GetNoRetweetResult;
-            }
+            this.GetNoRetweetSuccess = true;
         }
 
         /// <summary>
@@ -1837,30 +1797,8 @@ namespace OpenTween
 
 
 #region "UserStream"
-        private string trackWord_ = "";
-        public string TrackWord
-        {
-            get
-            {
-                return trackWord_;
-            }
-            set
-            {
-                trackWord_ = value;
-            }
-        }
-        private bool allAtReply_ = false;
-        public bool AllAtReply
-        {
-            get
-            {
-                return allAtReply_;
-            }
-            set
-            {
-                allAtReply_ = value;
-            }
-        }
+        public string TrackWord { get; set; } = "";
+        public bool AllAtReply { get; set; } = false;
 
         public event EventHandler NewPostFromStream;
         public event EventHandler UserStreamStarted;
@@ -1881,18 +1819,7 @@ namespace OpenTween
             public bool IsMe { get; set; }
         }
 
-        public List<FormattedEvent> storedEvent_ = new List<FormattedEvent>();
-        public List<FormattedEvent> StoredEvent
-        {
-            get
-            {
-                return storedEvent_;
-            }
-            set
-            {
-                storedEvent_ = value;
-            }
-        }
+        public List<FormattedEvent> StoredEvent { get; } = new List<FormattedEvent>();
 
         private readonly IReadOnlyDictionary<string, MyCommon.EVENTTYPE> eventTable = new Dictionary<string, MyCommon.EVENTTYPE>
         {
