@@ -421,9 +421,7 @@ namespace OpenTween
             public bool IsCreated { get; private set; } = false;
 
             public NewListElement(Twitter tw)
-            {
-                this._tw = tw;
-            }
+                => this._tw = tw;
 
             public override async Task Refresh()
             {

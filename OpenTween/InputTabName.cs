@@ -38,9 +38,7 @@ namespace OpenTween
     public partial class InputTabName : OTBaseForm
     {
         public InputTabName()
-        {
-            InitializeComponent();
-        }
+            => this.InitializeComponent();
 
         private void OK_Button_Click(object sender, EventArgs e)
         {

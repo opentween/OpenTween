@@ -41,9 +41,8 @@ namespace OpenTween.Thumbnail.Services
             new Regex(@"^https?://www\.tinami\.com/view/(?<ContentId>\d+)$");
 
         protected HttpClient http
-        {
-            get { return this.localHttpClient ?? Networking.Http; }
-        }
+            => this.localHttpClient ?? Networking.Http;
+
         private readonly HttpClient localHttpClient;
 
         public Tinami()
@@ -52,9 +51,7 @@ namespace OpenTween.Thumbnail.Services
         }
 
         public Tinami(HttpClient http)
-        {
-            this.localHttpClient = http;
-        }
+            => this.localHttpClient = http;
 
         public override async Task<ThumbnailInfo> GetThumbnailInfoAsync(string url, PostClass post, CancellationToken token)
         {

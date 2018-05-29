@@ -77,9 +77,7 @@ namespace OpenTween.Models
         private readonly object _lockObj = new object();
 
         protected TabModel(string tabName)
-        {
-            this.TabName = tabName;
-        }
+            => this.TabName = tabName;
 
         public abstract Task RefreshAsync(Twitter tw, bool backward, bool startup, IProgress<string> progress);
 
@@ -129,9 +127,7 @@ namespace OpenTween.Models
         }
 
         public virtual void EnqueueRemovePost(long statusId, bool setIsDeleted)
-        {
-            this.removeQueue.Enqueue(statusId);
-        }
+            => this.removeQueue.Enqueue(statusId);
 
         public virtual bool RemovePostImmediately(long statusId)
         {

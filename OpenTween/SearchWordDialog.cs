@@ -72,7 +72,7 @@ namespace OpenTween
         private SearchOptions resultOptoins = null;
         public SearchOptions ResultOptions
         {
-            get { return this.resultOptoins; }
+            get => this.resultOptoins;
             set
             {
                 this.resultOptoins = value;
@@ -104,7 +104,7 @@ namespace OpenTween
         private bool disableNetTabButton = false;
         public bool DisableNewTabButton
         {
-            get { return this.disableNetTabButton; }
+            get => this.disableNetTabButton;
             set
             {
                 this.disableNetTabButton = value;
@@ -113,9 +113,7 @@ namespace OpenTween
         }
 
         public SearchWordDialog()
-        {
-            InitializeComponent();
-        }
+            => this.InitializeComponent();
 
         public void Reset()
         {
@@ -129,14 +127,10 @@ namespace OpenTween
         }
 
         private void SearchWordDialog_Shown(object sender, EventArgs e)
-        {
-            ActivateSelectedTabPage();
-        }
+            => this.ActivateSelectedTabPage();
 
         private void tabControl_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            ActivateSelectedTabPage();
-        }
+            => this.ActivateSelectedTabPage();
 
         private void ActivateSelectedTabPage()
         {

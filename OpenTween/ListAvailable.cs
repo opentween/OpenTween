@@ -41,9 +41,7 @@ namespace OpenTween
         public ListElement SelectedList { get; private set; }
 
         public ListAvailable()
-        {
-            InitializeComponent();
-        }
+            => this.InitializeComponent();
 
         private void OK_Button_Click(object sender, EventArgs e)
         {

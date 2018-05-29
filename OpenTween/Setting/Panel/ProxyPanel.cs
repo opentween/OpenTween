@@ -39,9 +39,7 @@ namespace OpenTween.Setting.Panel
     public partial class ProxyPanel : SettingPanelBase
     {
         public ProxyPanel()
-        {
-            InitializeComponent();
-        }
+            => this.InitializeComponent();
 
         public void LoadConfig(SettingLocal settingLocal)
         {

@@ -136,9 +136,7 @@ namespace OpenTween.Models
         }
 
         private void OnFilterModified(object sender, PropertyChangedEventArgs e)
-        {
-            this.FilterModified = true;
-        }
+            => this.FilterModified = true;
 
         public PostFilterRule[] FilterArray
         {

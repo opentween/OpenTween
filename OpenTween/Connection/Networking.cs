@@ -50,17 +50,14 @@ namespace OpenTween.Connection
         /// <summary>
         /// OpenTween 内で共通して使用する HttpClient インスタンス
         /// </summary>
-        public static HttpClient Http
-        {
-            get { return globalHttpClient; }
-        }
+        public static HttpClient Http => globalHttpClient;
 
         /// <summary>
         /// pbs.twimg.com で IPv4 を強制的に使用する
         /// </summary>
         public static bool ForceIPv4
         {
-            get { return forceIPv4; }
+            get => forceIPv4;
             set
             {
                 if (forceIPv4 == value)

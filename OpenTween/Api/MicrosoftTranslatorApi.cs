@@ -50,9 +50,7 @@ namespace OpenTween.Api
         }
 
         public MicrosoftTranslatorApi(HttpClient http)
-        {
-            this.localHttpClient = http;
-        }
+            => this.localHttpClient = http;
 
         public async Task<string> TranslateAsync(string text, string langTo, string langFrom = null)
         {

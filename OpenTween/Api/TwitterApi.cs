@@ -725,14 +725,10 @@ namespace OpenTween.Api
         }
 
         public OAuthEchoHandler CreateOAuthEchoHandler(Uri authServiceProvider, Uri realm = null)
-        {
-            return ((TwitterApiConnection)this.apiConnection).CreateOAuthEchoHandler(authServiceProvider, realm);
-        }
+            => ((TwitterApiConnection)this.apiConnection).CreateOAuthEchoHandler(authServiceProvider, realm);
 
         public void Dispose()
-        {
-            this.apiConnection?.Dispose();
-        }
+            => this.apiConnection?.Dispose();
 
         /// <summary>JSON に出力する文字列を ECMA-404 に従ってエスケープする</summary>
         public static string EscapeJsonString(string rawText)

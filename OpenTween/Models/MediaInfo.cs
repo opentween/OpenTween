@@ -49,14 +49,9 @@ namespace OpenTween.Models
             => obj is MediaInfo info && info.Url == this.Url && info.VideoUrl == this.VideoUrl;
 
         public override int GetHashCode()
-        {
-            return (this.Url == null ? 0 : this.Url.GetHashCode()) ^
-                   (this.VideoUrl == null ? 0 : this.VideoUrl.GetHashCode());
-        }
+            => (this.Url?.GetHashCode() ?? 0) ^ (this.VideoUrl?.GetHashCode() ?? 0);
 
         public override string ToString()
-        {
-            return this.Url;
-        }
+            => this.Url;
     }
 }

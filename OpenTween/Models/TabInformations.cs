@@ -79,16 +79,11 @@ namespace OpenTween.Models
         }
 
         public static TabInformations GetInstance()
-        {
-            return _instance;    //singleton
-        }
+            => _instance; // singleton
 
         public List<ListElement> SubscribableLists
         {
-            get
-            {
-                return _lists;
-            }
+            get => this._lists;
             set
             {
                 if (value != null && value.Count > 0)
@@ -165,14 +160,10 @@ namespace OpenTween.Models
         }
 
         public bool ContainsTab(string TabText)
-        {
-            return this.Tabs.ContainsKey(TabText);
-        }
+            => this.Tabs.ContainsKey(TabText);
 
         public bool ContainsTab(TabModel ts)
-        {
-            return this.Tabs.ContainsValue(ts);
-        }
+            => this.Tabs.ContainsValue(ts);
 
         /// <summary>
         /// 指定されたタブ名を元に、既存のタブ名との重複を避けた名前を生成します
@@ -181,9 +172,7 @@ namespace OpenTween.Models
         /// <returns>生成されたタブ名</returns>
         /// <exception cref="TabException">タブ名の生成を 100 回試行して失敗した場合</exception>
         public string MakeTabName(string baseTabName)
-        {
-            return this.MakeTabName(baseTabName, 100);
-        }
+            => this.MakeTabName(baseTabName, 100);
 
         /// <summary>
         /// 指定されたタブ名を元に、既存のタブ名との重複を避けた名前を生成します
@@ -211,12 +200,7 @@ namespace OpenTween.Models
         }
 
         public Dictionary<string, TabModel>.KeyCollection KeysTab
-        {
-            get
-            {
-                return this.Tabs.Keys;
-            }
-        }
+            => this.Tabs.Keys;
 
         public SortOrder SortOrder { get; private set; }
 
@@ -267,11 +251,7 @@ namespace OpenTween.Models
         //        }
         //    }
         public PostClass RetweetSource(long Id)
-        {
-            return this.Posts.TryGetValue(Id, out var status)
-                ? status
-                : null;
-        }
+            => this.Posts.TryGetValue(Id, out var status) ? status : null;
 
         public void ScrubGeoReserve(long id, long upToStatusId)
         {
@@ -322,10 +302,7 @@ namespace OpenTween.Models
         }
 
         public int SubmitUpdate()
-        {
-            return this.SubmitUpdate(out var soundFile, out var notifyPosts,
-                out var newMentionOrDm, out var isDeletePost);
-        }
+            => this.SubmitUpdate(out var soundFile, out var notifyPosts, out var newMentionOrDm, out var isDeletePost);
 
         public int SubmitUpdate(out string soundFile, out PostClass[] notifyPosts,
             out bool newMentionOrDm, out bool isDeletePost)

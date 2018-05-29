@@ -69,9 +69,7 @@ namespace OpenTween
         /// 保持しているキャッシュの件数
         /// </summary>
         public long CacheCount
-        {
-            get { return this.innerDictionary.Count; }
-        }
+            => this.innerDictionary.Count;
 
         /// <summary>
         /// 破棄されたキャッシュの件数

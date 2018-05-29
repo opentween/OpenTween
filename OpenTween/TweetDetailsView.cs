@@ -351,10 +351,7 @@ namespace OpenTween
         /// 指定されたHTMLからリンクを除去します
         /// </summary>
         internal static string StripLinkTagHtml(string html)
-        {
-            // a 要素はネストされていない前提の正規表現パターン
-            return Regex.Replace(html, @"<a[^>]*>(.*?)</a>", "$1");
-        }
+            => Regex.Replace(html, @"<a[^>]*>(.*?)</a>", "$1"); // a 要素はネストされていない前提の正規表現パターン
 
         public async Task DoTranslation()
         {
@@ -417,9 +414,7 @@ namespace OpenTween
         }
 
         protected void RaiseStatusChanged(string statusText)
-        {
-            this.StatusChanged?.Invoke(this, new TweetDetailsViewStatusChengedEventArgs(statusText));
-        }
+            => this.StatusChanged?.Invoke(this, new TweetDetailsViewStatusChengedEventArgs(statusText));
 
         private void TweetDetailsView_FontChanged(object sender, EventArgs e)
         {
@@ -439,14 +434,10 @@ namespace OpenTween
         }
 
         private void UserPicture_MouseEnter(object sender, EventArgs e)
-        {
-            this.UserPicture.Cursor = Cursors.Hand;
-        }
+            => this.UserPicture.Cursor = Cursors.Hand;
 
         private void UserPicture_MouseLeave(object sender, EventArgs e)
-        {
-            this.UserPicture.Cursor = Cursors.Default;
-        }
+            => this.UserPicture.Cursor = Cursors.Default;
 
         private async void PostBrowser_Navigated(object sender, WebBrowserNavigatedEventArgs e)
         {
@@ -541,9 +532,7 @@ namespace OpenTween
         }
 
         private void SourceLinkLabel_MouseLeave(object sender, EventArgs e)
-        {
-            this.RaiseStatusChanged(statusText: "");
-        }
+            => this.RaiseStatusChanged(statusText: "");
 
         #endregion
 
@@ -839,19 +828,13 @@ namespace OpenTween
         }
 
         private async void SearchGoogleContextMenuItem_Click(object sender, EventArgs e)
-        {
-            await this.DoSearchToolStrip(Properties.Resources.SearchItem2Url);
-        }
+            => await this.DoSearchToolStrip(Properties.Resources.SearchItem2Url);
 
         private async void SearchWikipediaContextMenuItem_Click(object sender, EventArgs e)
-        {
-            await this.DoSearchToolStrip(Properties.Resources.SearchItem1Url);
-        }
+            => await this.DoSearchToolStrip(Properties.Resources.SearchItem1Url);
 
         private async void SearchPublicSearchContextMenuItem_Click(object sender, EventArgs e)
-        {
-            await this.DoSearchToolStrip(Properties.Resources.SearchItem4Url);
-        }
+            => await this.DoSearchToolStrip(Properties.Resources.SearchItem4Url);
 
         private void CurrentTabToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -917,10 +900,7 @@ namespace OpenTween
         }
 
         private void SelectionAllContextMenuItem_Click(object sender, EventArgs e)
-        {
-            //発言詳細ですべて選択
-            PostBrowser.Document.ExecCommand("SelectAll", false, null);
-        }
+            => this.PostBrowser.Document.ExecCommand("SelectAll", false, null); // 発言詳細ですべて選択
 
         private async void FollowContextMenuItem_Click(object sender, EventArgs e)
         {
@@ -1021,9 +1001,7 @@ namespace OpenTween
         }
 
         private async void TranslationToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            await this.DoTranslation();
-        }
+            => await this.DoTranslation();
 
         #endregion
 
@@ -1086,8 +1064,6 @@ namespace OpenTween
         public string StatusText { get; }
 
         public TweetDetailsViewStatusChengedEventArgs(string statusText)
-        {
-            this.StatusText = statusText;
-        }
+            => this.StatusText = statusText;
     }
 }

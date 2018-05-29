@@ -241,9 +241,7 @@ namespace OpenTween
         }
 
         public static string GetErrorLogPath()
-        {
-            return Path.Combine(Path.GetDirectoryName(MyCommon.EntryAssembly.Location), "ErrorLogs");
-        }
+            => Path.Combine(Path.GetDirectoryName(MyCommon.EntryAssembly.Location), "ErrorLogs");
 
         public static void TraceOut(WebApiException ex)
         {
@@ -262,9 +260,7 @@ namespace OpenTween
         }
 
         public static void TraceOut(string Message)
-        {
-            TraceOut(TraceFlag, Message);
-        }
+            => TraceOut(TraceFlag, Message);
 
         public static void TraceOut(bool OutputFlag, string Message)
         {
@@ -868,9 +864,7 @@ namespace OpenTween
         /// <param name="keys">状態を調べるキー</param>
         /// <returns><paramref name="keys"/> で指定された修飾キーがすべて押されている状態であれば true。それ以外であれば false。</returns>
         public static bool IsKeyDown(params Keys[] keys)
-        {
-            return MyCommon._IsKeyDown(Control.ModifierKeys, keys);
-        }
+            => MyCommon._IsKeyDown(Control.ModifierKeys, keys);
 
         internal static bool _IsKeyDown(Keys modifierKeys, Keys[] targetKeys)
         {
@@ -892,9 +886,7 @@ namespace OpenTween
         /// </remarks>
         /// <returns>アプリケーションのアセンブリ名</returns>
         public static string GetAssemblyName()
-        {
-            return MyCommon.EntryAssembly.GetName().Name;
-        }
+            => MyCommon.EntryAssembly.GetName().Name;
 
         /// <summary>
         /// 文字列中に含まれる %AppName% をアプリケーション名に置換する
@@ -902,9 +894,7 @@ namespace OpenTween
         /// <param name="orig">対象となる文字列</param>
         /// <returns>置換後の文字列</returns>
         public static string ReplaceAppName(string orig)
-        {
-            return MyCommon.ReplaceAppName(orig, ApplicationSettings.ApplicationName);
-        }
+            => MyCommon.ReplaceAppName(orig, ApplicationSettings.ApplicationName);
 
         /// <summary>
         /// 文字列中に含まれる %AppName% をアプリケーション名に置換する
@@ -913,9 +903,7 @@ namespace OpenTween
         /// <param name="appname">アプリケーション名</param>
         /// <returns>置換後の文字列</returns>
         public static string ReplaceAppName(string orig, string appname)
-        {
-            return orig.Replace("%AppName%", appname);
-        }
+            => orig.Replace("%AppName%", appname);
 
         /// <summary>
         /// 表示用のバージョン番号の文字列を生成する
@@ -985,9 +973,7 @@ namespace OpenTween
         }
 
         public static string GetStatusUrl(string screenName, long statusId)
-        {
-            return TwitterUrl + screenName + "/status/" + statusId;
-        }
+            => TwitterUrl + screenName + "/status/" + statusId;
 
         /// <summary>
         /// 指定された IDictionary を元にクエリ文字列を生成します

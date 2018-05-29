@@ -56,24 +56,18 @@ namespace OpenTween.Models
         /// デフォルトタブかどうかを示す値を取得します。
         /// </summary>
         public static bool IsDefault(this MyCommon.TabUsageType tabType)
-        {
-            return (tabType & DefaultTabTypeMask) != 0;
-        }
+            => (tabType & DefaultTabTypeMask) != 0;
 
         /// <summary>
         /// 振り分け可能タブかどうかを示す値を取得します。
         /// </summary>
         public static bool IsDistributable(this MyCommon.TabUsageType tabType)
-        {
-            return (tabType & DistributableTabTypeMask) != 0;
-        }
+            => (tabType & DistributableTabTypeMask) != 0;
 
         /// <summary>
         /// 内部ストレージを使用するタブかどうかを示す値を取得します。
         /// </summary>
         public static bool IsInnerStorage(this MyCommon.TabUsageType tabType)
-        {
-            return (tabType & InnerStorageTabTypeMask) != 0;
-        }
+            => (tabType & InnerStorageTabTypeMask) != 0;
     }
 }

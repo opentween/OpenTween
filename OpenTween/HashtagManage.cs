@@ -250,9 +250,7 @@ namespace OpenTween
         }
 
         private void HistoryHashList_DoubleClick(object sender, EventArgs e)
-        {
-            this.OK_Button_Click(null, null);
-        }
+            => this.OK_Button_Click(null, null);
 
         public void ToggleHash()
         {
@@ -281,9 +279,7 @@ namespace OpenTween
         }
 
         public void ClearHashtag()
-        {
-            this.UseHash = "";
-        }
+            => this.UseHash = "";
 
         public void SetPermanentHash(string hash)
         {
@@ -423,8 +419,6 @@ namespace OpenTween
         }
 
         private void CheckNotAddToAtReply_CheckedChanged(object sender, EventArgs e)
-        {
-            this.IsNotAddToAtReply = CheckNotAddToAtReply.Checked;
-        }
+            => this.IsNotAddToAtReply = CheckNotAddToAtReply.Checked;
     }
 }

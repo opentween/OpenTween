@@ -39,9 +39,7 @@ namespace OpenTween
     public partial class TweenAboutBox : OTBaseForm
     {
         public TweenAboutBox()
-        {
-            InitializeComponent();
-        }
+            => this.InitializeComponent();
 
         private void TweenAboutBox_Load(object sender, EventArgs e)
         {
@@ -69,13 +67,9 @@ namespace OpenTween
         }
 
         private void OKButton_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
+            => this.Close();
 
         private void TweenAboutBox_Shown(object sender, EventArgs e)
-        {
-            OKButton.Focus();
-        }
+            => this.OKButton.Focus();
     }
 }

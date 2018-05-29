@@ -33,34 +33,22 @@ namespace OpenTween
     public partial class InputDialog : OTBaseForm
     {
         protected InputDialog()
-        {
-            InitializeComponent();
-        }
+            => this.InitializeComponent();
 
         private void buttonOK_Click(object sender, EventArgs e)
-        {
-            this.DialogResult = DialogResult.OK;
-        }
+            => this.DialogResult = DialogResult.OK;
 
         private void buttonCancel_Click(object sender, EventArgs e)
-        {
-            this.DialogResult = DialogResult.Cancel;
-        }
+            => this.DialogResult = DialogResult.Cancel;
 
         public static DialogResult Show(string text, out string inputText)
-        {
-            return Show(null, text, "", out inputText);
-        }
+            => Show(null, text, "", out inputText);
 
         public static DialogResult Show(IWin32Window owner, string text, out string inputText)
-        {
-            return Show(owner, text, "", out inputText);
-        }
+            => Show(owner, text, "", out inputText);
 
         public static DialogResult Show(string text, string caption, out string inputText)
-        {
-            return Show(null, text, caption, out inputText);
-        }
+            => Show(null, text, caption, out inputText);
 
         public static DialogResult Show(IWin32Window owner, string text, string caption, out string inputText)
         {

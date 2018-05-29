@@ -113,9 +113,7 @@ namespace OpenTween
         }
 
         protected static T LoadSettings()
-        {
-            return LoadSettings("");
-        }
+            => LoadSettings("");
 
         protected static void SaveSettings(T instance, string fileId)
         {
@@ -179,13 +177,9 @@ namespace OpenTween
         }
 
         protected static void SaveSettings(T Instance)
-        {
-            SaveSettings(Instance, "");
-        }
+            => SaveSettings(Instance, "");
 
         public static string GetSettingFilePath(string FileId)
-        {
-            return Path.Combine(MyCommon.settingPath, typeof(T).Name + FileId + ".xml");
-        }
+            => Path.Combine(MyCommon.settingPath, typeof(T).Name + FileId + ".xml");
     }
 }

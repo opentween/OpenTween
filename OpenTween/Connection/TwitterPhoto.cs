@@ -47,25 +47,14 @@ namespace OpenTween.Connection
             this.twitterConfig = twitterConfig;
         }
 
-        public int MaxMediaCount
-        {
-            get { return 4; }
-        }
+        public int MaxMediaCount => 4;
 
-        public string SupportedFormatsStrForDialog
-        {
-            get
-            {
-                return "Image Files(*.gif;*.jpg;*.jpeg;*.png)|*.gif;*.jpg;*.jpeg;*.png";
-            }
-        }
+        public string SupportedFormatsStrForDialog => "Image Files(*.gif;*.jpg;*.jpeg;*.png)|*.gif;*.jpg;*.jpeg;*.png";
 
         public bool CanUseAltText => true;
 
         public bool CheckFileExtension(string fileExtension)
-        {
-            return this.pictureExt.Contains(fileExtension.ToLowerInvariant());
-        }
+            => this.pictureExt.Contains(fileExtension.ToLowerInvariant());
 
         public bool CheckFileSize(string fileExtension, long fileSize)
         {
@@ -74,9 +63,7 @@ namespace OpenTween.Connection
         }
 
         public long? GetMaxFileSize(string fileExtension)
-        {
-            return this.twitterConfig.PhotoSizeLimit;
-        }
+            => this.twitterConfig.PhotoSizeLimit;
 
         public async Task<PostStatusParams> UploadAsync(IMediaItem[] mediaItems, PostStatusParams postParams)
         {
@@ -111,9 +98,7 @@ namespace OpenTween.Connection
             => 0;
 
         public void UpdateTwitterConfiguration(TwitterConfiguration config)
-        {
-            this.twitterConfig = config;
-        }
+            => this.twitterConfig = config;
 
         private async Task<long> UploadMediaItem(IMediaItem mediaItem)
         {

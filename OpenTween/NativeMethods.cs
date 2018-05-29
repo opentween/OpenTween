@@ -89,9 +89,7 @@ namespace OpenTween
         /// <param name="width">アイテムの最小幅。-1 を指定するとデフォルトの幅が使用されます</param>
         /// <returns>設定前の最小幅</returns>
         public static int SetMinTabWidth(TabControl tabControl, int width)
-        {
-            return (int)SendMessage(tabControl.Handle, SendMessageType.TCM_SETMINTABWIDTH, IntPtr.Zero, (IntPtr)width);
-        }
+            => (int)SendMessage(tabControl.Handle, SendMessageType.TCM_SETMINTABWIDTH, IntPtr.Zero, (IntPtr)width);
 
         // 参照: LVITEM structure (Windows)
         // http://msdn.microsoft.com/en-us/library/windows/desktop/bb774760%28v=vs.85%29.aspx
@@ -149,9 +147,7 @@ namespace OpenTween
         /// <param name="listView">対象となる ListView</param>
         /// <returns>成功した場合は true、それ以外の場合は false</returns>
         public static bool SelectAllItems(ListView listView)
-        {
-            return SelectItem(listView, -1 /* all items */);
-        }
+            => SelectItem(listView, -1 /* all items */);
 
         #region "画面ブリンク用"
         public static bool FlashMyWindow(IntPtr hwnd,
@@ -216,15 +212,11 @@ namespace OpenTween
         #region "selection mark"
         // 複数選択時の起点になるアイテム (selection mark) の位置を取得する
         public static int ListView_GetSelectionMark(IntPtr hwndLV)
-        {
-            return SendMessage(hwndLV, SendMessageType.LVM_GETSELECTIONMARK, IntPtr.Zero, IntPtr.Zero).ToInt32();
-        }
+            => SendMessage(hwndLV, SendMessageType.LVM_GETSELECTIONMARK, IntPtr.Zero, IntPtr.Zero).ToInt32();
 
         // 複数選択時の起点になるアイテム (selection mark) を設定する
         public static void ListView_SetSelectionMark(IntPtr hwndLV, int itemIndex)
-        {
-            SendMessage(hwndLV, SendMessageType.LVM_SETSELECTIONMARK, IntPtr.Zero, (IntPtr)itemIndex);
-        }
+            => SendMessage(hwndLV, SendMessageType.LVM_SETSELECTIONMARK, IntPtr.Zero, (IntPtr)itemIndex);
         #endregion
 
         #region "スクリーンセーバー起動中か判定"

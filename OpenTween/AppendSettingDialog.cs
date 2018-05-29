@@ -297,9 +297,7 @@ namespace OpenTween
         }
 
         private void CheckPostAndGet_CheckedChanged(object sender, EventArgs e)
-        {
-            this.GetPeriodPanel.LabelPostAndGet.Visible = this.GetPeriodPanel.CheckPostAndGet.Checked && !tw.UserStreamActive;
-        }
+            => this.GetPeriodPanel.LabelPostAndGet.Visible = this.GetPeriodPanel.CheckPostAndGet.Checked && !tw.UserStreamActive;
 
         private void Setting_Shown(object sender, EventArgs e)
         {
@@ -350,14 +348,10 @@ namespace OpenTween
         }
 
         private void CreateAccountButton_Click(object sender, EventArgs e)
-        {
-            this.OpenUrl("https://twitter.com/signup");
-        }
+            => this.OpenUrl("https://twitter.com/signup");
 
         private void GetPeriodPanel_IntervalChanged(object sender, IntervalChangedEventArgs e)
-        {
-            this.IntervalChanged?.Invoke(sender, e);
-        }
+            => this.IntervalChanged?.Invoke(sender, e);
     }
 
     public class IntervalChangedEventArgs : EventArgs
@@ -370,21 +364,15 @@ namespace OpenTween
         public bool Lists;
         public bool UserTimeline;
 
-        public static IntervalChangedEventArgs ResetAll
+        public static IntervalChangedEventArgs ResetAll => new IntervalChangedEventArgs
         {
-            get
-            {
-                return new IntervalChangedEventArgs
-                {
-                    UserStream = true,
-                    Timeline = true,
-                    Reply = true,
-                    DirectMessage = true,
-                    PublicSearch = true,
-                    Lists = true,
-                    UserTimeline = true,
-                };
-            }
-        }
+            UserStream = true,
+            Timeline = true,
+            Reply = true,
+            DirectMessage = true,
+            PublicSearch = true,
+            Lists = true,
+            UserTimeline = true,
+        };
     }
 }

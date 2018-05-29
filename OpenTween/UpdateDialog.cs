@@ -59,19 +59,12 @@ namespace OpenTween
         }
 
         private void YesButton_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
+            => this.Close();
 
         private void NoButton_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
+            => this.Close();
 
         private void UpdateDialog_Shown(object sender, EventArgs e)
-        {
-            // デフォルトではテキストが全選択されるため抑制
-            this.TextDetail.SelectionLength = 0;
-        }
+            => this.TextDetail.SelectionLength = 0; // デフォルトではテキストが全選択されるため抑制
     }
 }

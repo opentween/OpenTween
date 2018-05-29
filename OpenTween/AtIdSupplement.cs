@@ -70,12 +70,7 @@ namespace OpenTween
         }
 
         public int ItemCount
-        {
-            get
-            {
-                return this.TextId.AutoCompleteCustomSource.Count;
-            }
-        }
+            => this.TextId.AutoCompleteCustomSource.Count;
 
         private void ButtonOK_Click(object sender, EventArgs e) /*Handles ButtonOK.Click*/
         {
@@ -138,9 +133,7 @@ namespace OpenTween
         }
 
         public AtIdSupplement()
-        {
-            InitializeComponent();
-        }
+            => this.InitializeComponent();
 
         public AtIdSupplement(List<string> ItemList, string startCharacter)
         {

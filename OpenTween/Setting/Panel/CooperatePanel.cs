@@ -39,9 +39,7 @@ namespace OpenTween.Setting.Panel
     public partial class CooperatePanel : SettingPanelBase
     {
         public CooperatePanel()
-        {
-            InitializeComponent();
-        }
+            => this.InitializeComponent();
 
         public void LoadConfig(SettingCommon settingCommon)
         {
@@ -78,8 +76,6 @@ namespace OpenTween.Setting.Panel
         }
 
         private void EnableImgAzyobuziNetCheckBox_CheckedChanged(object sender, EventArgs e)
-        {
-            this.ImgAzyobuziNetDisabledInDMCheckBox.Enabled = this.EnableImgAzyobuziNetCheckBox.Checked;
-        }
+            => this.ImgAzyobuziNetDisabledInDMCheckBox.Enabled = this.EnableImgAzyobuziNetCheckBox.Checked;
     }
 }

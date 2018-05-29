@@ -38,9 +38,7 @@ namespace OpenTween.Setting.Panel
     public partial class BasedPanel : SettingPanelBase
     {
         public BasedPanel()
-        {
-            InitializeComponent();
-        }
+            => this.InitializeComponent();
 
         public void LoadConfig(SettingCommon settingCommon)
         {
@@ -52,9 +50,7 @@ namespace OpenTween.Setting.Panel
         }
 
         public void SaveConfig(SettingCommon settingCommon)
-        {
-            settingCommon.UserAccounts = this.AuthUserCombo.Items.Cast<UserAccount>().ToList();
-        }
+            => settingCommon.UserAccounts = this.AuthUserCombo.Items.Cast<UserAccount>().ToList();
 
         private void AuthClearButton_Click(object sender, EventArgs e)
         {

@@ -42,7 +42,7 @@ namespace OpenTween
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public new MemoryImage Image
         {
-            get { return this.memoryImage; }
+            get => this.memoryImage;
             set
             {
                 this.memoryImage = value;
@@ -57,7 +57,7 @@ namespace OpenTween
         [DefaultValue(PictureBoxSizeMode.Normal)]
         public new PictureBoxSizeMode SizeMode
         {
-            get { return this.currentSizeMode; }
+            get => this.currentSizeMode;
             set
             {
                 this.currentSizeMode = value;
@@ -92,9 +92,7 @@ namespace OpenTween
         }
 
         private void RestoreSizeMode()
-        {
-            base.SizeMode = this.currentSizeMode;
-        }
+            => base.SizeMode = this.currentSizeMode;
 
         /// <summary>
         /// SetImageFromTask メソッドを連続で呼び出した際に設定される画像が前後するのを防ぐため、
@@ -176,8 +174,6 @@ namespace OpenTween
 
         [EditorBrowsable(EditorBrowsableState.Never)]
         public new void Load(string url)
-        {
-            throw new NotSupportedException();
-        }
+            => throw new NotSupportedException();
     }
 }

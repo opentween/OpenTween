@@ -107,14 +107,10 @@ namespace OpenTween
         }
 
         public async Task GetMoreMembers()
-        {
-            this.Cursor = await this._tw.GetListMembers(this.Id, this._members, this.Cursor)
+            => this.Cursor = await this._tw.GetListMembers(this.Id, this._members, this.Cursor)
                 .ConfigureAwait(false);
-        }
 
         public override string ToString()
-        {
-            return "@" + Username + "/" + Name + " [" + (this.IsPublic ? "public" : "Protected") + "]";
-        }
+            => $"@{Username}/{Name} [{(this.IsPublic ? "public" : "Protected")}]";
     }
 }

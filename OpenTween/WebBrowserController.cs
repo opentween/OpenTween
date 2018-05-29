@@ -359,9 +359,7 @@ namespace OpenTween
         }
 
         int WebBrowserAPI.IInternetSecurityManager.GetSecurityId(string pwszUrl, byte[] pbSecurityId, ref uint pcbSecurityId, uint dwReserved)
-        {
-            return WebBrowserAPI.INET_E_DEFAULT_ACTION;
-        }
+            => WebBrowserAPI.INET_E_DEFAULT_ACTION;
 
         int WebBrowserAPI.IInternetSecurityManager.GetSecuritySite(out WebBrowserAPI.IInternetSecurityMgrSite pSite)
         {
@@ -437,18 +435,12 @@ namespace OpenTween
         }
 
         int WebBrowserAPI.IInternetSecurityManager.QueryCustomPolicy(string pwszUrl, ref Guid guidKey, byte ppPolicy, int pcbPolicy, byte pContext, int cbContext, int dwReserved)
-        {
-            return WebBrowserAPI.INET_E_DEFAULT_ACTION;
-        }
+            => WebBrowserAPI.INET_E_DEFAULT_ACTION;
 
         int WebBrowserAPI.IInternetSecurityManager.SetSecuritySite(WebBrowserAPI.IInternetSecurityMgrSite pSite)
-        {
-            return WebBrowserAPI.INET_E_DEFAULT_ACTION;
-        }
+            => WebBrowserAPI.INET_E_DEFAULT_ACTION;
 
         int WebBrowserAPI.IInternetSecurityManager.SetZoneMapping(int dwZone, string lpszPattern, int dwFlags)
-        {
-            return WebBrowserAPI.INET_E_DEFAULT_ACTION;
-        }
+            => WebBrowserAPI.INET_E_DEFAULT_ACTION;
     }
 }

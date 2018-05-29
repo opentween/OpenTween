@@ -62,21 +62,13 @@ namespace OpenTween.Api
         }
 
         public override bool Equals(object obj)
-        {
-            return this.Equals(obj as ApiLimit);
-        }
+            => this.Equals(obj as ApiLimit);
 
         public bool Equals(ApiLimit obj)
-        {
-            return obj != null &&
-                this.AccessLimitCount == obj.AccessLimitCount &&
-                this.AccessLimitRemain == obj.AccessLimitRemain &&
-                this.AccessLimitResetDate == obj.AccessLimitResetDate;
-        }
+            => obj != null && this.AccessLimitCount == obj.AccessLimitCount &&
+                this.AccessLimitRemain == obj.AccessLimitRemain && this.AccessLimitResetDate == obj.AccessLimitResetDate;
 
         public override int GetHashCode()
-        {
-            return this.AccessLimitCount ^ this.AccessLimitRemain ^ this.AccessLimitResetDate.GetHashCode();
-        }
+            => this.AccessLimitCount ^ this.AccessLimitRemain ^ this.AccessLimitResetDate.GetHashCode();
     }
 }

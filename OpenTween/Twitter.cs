@@ -194,17 +194,10 @@ namespace OpenTween
         }
 
         public TwitterApiAccessLevel AccessLevel
-        {
-            get
-            {
-                return MyCommon.TwitterApiInfo.AccessLevel;
-            }
-        }
+            => MyCommon.TwitterApiInfo.AccessLevel;
 
         protected void ResetApiStatus()
-        {
-            MyCommon.TwitterApiInfo.Reset();
-        }
+            => MyCommon.TwitterApiInfo.Reset();
 
         public void ClearAuthInfo()
         {
@@ -473,25 +466,19 @@ namespace OpenTween
         /// 渡された取得件数がWORKERTYPEに応じた取得可能範囲に収まっているか検証する
         /// </summary>
         public static bool VerifyApiResultCount(MyCommon.WORKERTYPE type, int count)
-        {
-            return count >= 20 && count <= GetMaxApiResultCount(type);
-        }
+            => count >= 20 && count <= GetMaxApiResultCount(type);
 
         /// <summary>
         /// 渡された取得件数が更新時の取得可能範囲に収まっているか検証する
         /// </summary>
         public static bool VerifyMoreApiResultCount(int count)
-        {
-            return count >= 20 && count <= 200;
-        }
+            => count >= 20 && count <= 200;
 
         /// <summary>
         /// 渡された取得件数が起動時の取得可能範囲に収まっているか検証する
         /// </summary>
         public static bool VerifyFirstApiResultCount(int count)
-        {
-            return count >= 20 && count <= 200;
-        }
+            => count >= 20 && count <= 200;
 
         /// <summary>
         /// WORKERTYPEに応じた取得可能な最大件数を取得する
@@ -679,9 +666,7 @@ namespace OpenTween
         }
 
         private PostClass CreatePostsFromStatusData(TwitterStatus status)
-        {
-            return CreatePostsFromStatusData(status, false);
-        }
+            => this.CreatePostsFromStatusData(status, false);
 
         private PostClass CreatePostsFromStatusData(TwitterStatus status, bool favTweet)
         {
@@ -2180,14 +2165,10 @@ namespace OpenTween
         }
 
         private void userStream_Started()
-        {
-            this.UserStreamStarted?.Invoke(this, EventArgs.Empty);
-        }
+            => this.UserStreamStarted?.Invoke(this, EventArgs.Empty);
 
         private void userStream_Stopped()
-        {
-            this.UserStreamStopped?.Invoke(this, EventArgs.Empty);
-        }
+            => this.UserStreamStopped?.Invoke(this, EventArgs.Empty);
 
         public bool UserStreamActive
             => this.userStream != null && this.userStream.IsStreamActive;
@@ -2237,9 +2218,7 @@ namespace OpenTween
             private CancellationTokenSource streamCts;
 
             public TwitterUserstream(TwitterApi twitterApi)
-            {
-                this.twitterApi = twitterApi;
-            }
+                => this.twitterApi = twitterApi;
 
             public void Start(bool allAtReplies, string trackwords)
             {
@@ -2391,9 +2370,7 @@ namespace OpenTween
         public long StatusId { get; }
 
         public PostDeletedEventArgs(long statusId)
-        {
-            this.StatusId = statusId;
-        }
+            => this.StatusId = statusId;
     }
 
     public class UserStreamEventReceivedEventArgs : EventArgs
@@ -2401,8 +2378,6 @@ namespace OpenTween
         public Twitter.FormattedEvent EventData { get; }
 
         public UserStreamEventReceivedEventArgs(Twitter.FormattedEvent eventData)
-        {
-            this.EventData = eventData;
-        }
+            => this.EventData = eventData;
     }
 }

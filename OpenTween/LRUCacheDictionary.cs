@@ -53,9 +53,7 @@ namespace OpenTween
             public KeyValuePair<TKey, TValue> Item { get; }
 
             public CacheRemovedEventArgs(KeyValuePair<TKey, TValue> item)
-            {
-                this.Item = item;
-            }
+                => this.Item = item;
         }
         public event EventHandler<CacheRemovedEventArgs> CacheRemoved;
 
@@ -114,9 +112,7 @@ namespace OpenTween
         }
 
         public void Add(TKey key, TValue value)
-        {
-            this.Add(new KeyValuePair<TKey, TValue>(key, value));
-        }
+            => this.Add(new KeyValuePair<TKey, TValue>(key, value));
 
         public void Add(KeyValuePair<TKey, TValue> item)
         {
@@ -129,9 +125,7 @@ namespace OpenTween
         }
 
         public bool ContainsKey(TKey key)
-        {
-            return this.innerDict.ContainsKey(key);
-        }
+            => this.innerDict.ContainsKey(key);
 
         public bool Contains(KeyValuePair<TKey, TValue> item)
         {
@@ -180,14 +174,10 @@ namespace OpenTween
         }
 
         public ICollection<TKey> Keys
-        {
-            get { return this.innerDict.Keys; }
-        }
+            => this.innerDict.Keys;
 
         public ICollection<TValue> Values
-        {
-            get { return this.innerDict.Values.Select(x => x.Value.Value).ToList(); }
-        }
+            => this.innerDict.Values.Select(x => x.Value.Value).ToList();
 
         public TValue this[TKey key]
         {
@@ -245,23 +235,15 @@ namespace OpenTween
         }
 
         public int Count
-        {
-            get { return this.innerDict.Count; }
-        }
+            => this.innerDict.Count;
 
         public bool IsReadOnly
-        {
-            get { return false; }
-        }
+            => false;
 
         public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()
-        {
-            return this.innerDict.Select(x => x.Value.Value).GetEnumerator();
-        }
+            => this.innerDict.Select(x => x.Value.Value).GetEnumerator();
 
         IEnumerator IEnumerable.GetEnumerator()
-        {
-            return this.GetEnumerator();
-        }
+            => this.GetEnumerator();
     }
 }

@@ -38,9 +38,7 @@ namespace OpenTween.Setting.Panel
     public partial class ActionPanel : SettingPanelBase
     {
         public ActionPanel()
-        {
-            InitializeComponent();
-        }
+            => this.InitializeComponent();
 
         public void LoadConfig(SettingCommon settingCommon, SettingLocal settingLocal)
         {

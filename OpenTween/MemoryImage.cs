@@ -107,9 +107,7 @@ namespace OpenTween
         /// MemoryImage が保持している画像のフォーマット
         /// </summary>
         public ImageFormat ImageFormat
-        {
-            get { return this.Image.RawFormat; }
-        }
+            => this.Image.RawFormat;
 
         /// <summary>
         /// MemoryImage が保持している画像のフォーマットに相当する拡張子 (ピリオド付き)
@@ -186,9 +184,7 @@ namespace OpenTween
         }
 
         public override bool Equals(object other)
-        {
-            return this.Equals(other as MemoryImage);
-        }
+            => this.Equals(other as MemoryImage);
 
         public bool Equals(MemoryImage other)
         {
@@ -219,9 +215,7 @@ namespace OpenTween
         }
 
         object ICloneable.Clone()
-        {
-            return this.Clone();
-        }
+            => this.Clone();
 
         protected virtual void Dispose(bool disposing)
         {

@@ -2914,25 +2914,17 @@ namespace OpenTween
         }
 
         private async void FavAddToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            await this.FavoriteChange(true);
-        }
+            => await this.FavoriteChange(true);
 
         private async void FavRemoveToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            await this.FavoriteChange(false);
-        }
+            => await this.FavoriteChange(false);
 
 
         private async void FavoriteRetweetMenuItem_Click(object sender, EventArgs e)
-        {
-            await this.FavoritesRetweetOfficial();
-        }
+            => await this.FavoritesRetweetOfficial();
 
         private async void FavoriteRetweetUnofficialMenuItem_Click(object sender, EventArgs e)
-        {
-            await this.FavoritesRetweetUnofficial();
-        }
+            => await this.FavoritesRetweetUnofficial();
 
         private async Task FavoriteChange(bool FavAdd, bool multiFavoriteChangeDialogEnable = true)
         {
@@ -3271,14 +3263,10 @@ namespace OpenTween
         }
 
         private void ReplyStripMenuItem_Click(object sender, EventArgs e)
-        {
-            MakeReplyOrDirectStatus(false, true);
-        }
+            => this.MakeReplyOrDirectStatus(false, true);
 
         private void DMStripMenuItem_Click(object sender, EventArgs e)
-        {
-            MakeReplyOrDirectStatus(false, false);
-        }
+            => this.MakeReplyOrDirectStatus(false, false);
 
         private async Task doStatusDelete()
         {
@@ -3407,9 +3395,7 @@ namespace OpenTween
         }
 
         private async void DeleteStripMenuItem_Click(object sender, EventArgs e)
-        {
-            await this.doStatusDelete();
-        }
+            => await this.doStatusDelete();
 
         private void ReadedStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -3462,9 +3448,7 @@ namespace OpenTween
         }
 
         private async void RefreshStripMenuItem_Click(object sender, EventArgs e)
-        {
-            await this.DoRefresh();
-        }
+            => await this.DoRefresh();
 
         private async Task DoRefresh()
         {
@@ -4408,14 +4392,10 @@ namespace OpenTween
         }
 
         public void ShowSuplDialog(TextBox owner, AtIdSupplement dialog)
-        {
-            ShowSuplDialog(owner, dialog, 0, "");
-        }
+            => this.ShowSuplDialog(owner, dialog, 0, "");
 
         public void ShowSuplDialog(TextBox owner, AtIdSupplement dialog, int offset)
-        {
-            ShowSuplDialog(owner, dialog, offset, "");
-        }
+            => this.ShowSuplDialog(owner, dialog, offset, "");
 
         public void ShowSuplDialog(TextBox owner, AtIdSupplement dialog, int offset, string startswith)
         {
@@ -4811,9 +4791,7 @@ namespace OpenTween
         /// DetailsListView のための ListViewItem のキャッシュを消去する
         /// </summary>
         private void PurgeListViewItemCache()
-        {
-            Interlocked.Exchange(ref this._listItemCache, null);
-        }
+            => Interlocked.Exchange(ref this._listItemCache, null);
 
         private ListViewItem CreateItem(TabPage Tab, PostClass Post, int Index)
         {
@@ -4899,15 +4877,10 @@ namespace OpenTween
         }
 
         private void MyList_DrawColumnHeader(object sender, DrawListViewColumnHeaderEventArgs e)
-        {
-            e.DrawDefault = true;
-        }
+            => e.DrawDefault = true;
 
         private void MyList_HScrolled(object sender, EventArgs e)
-        {
-            DetailsListView listView = (DetailsListView)sender;
-            listView.Refresh();
-        }
+            => ((DetailsListView)sender).Refresh();
 
         private void MyList_DrawItem(object sender, DrawListViewItemEventArgs e)
         {
@@ -5239,10 +5212,7 @@ namespace OpenTween
         }
 
         private void MenuItemSubSearch_Click(object sender, EventArgs e)
-        {
-            // 検索メニュー
-            this.ShowSearchDialog();
-        }
+            => this.ShowSearchDialog(); // 検索メニュー
 
         private void MenuItemSearchNext_Click(object sender, EventArgs e)
         {
@@ -5499,9 +5469,7 @@ namespace OpenTween
         }
 
         private async void VerUpMenuItem_Click(object sender, EventArgs e)
-        {
-            await this.CheckNewVersion(false);
-        }
+            => await this.CheckNewVersion(false);
 
         private void RunTweenUp()
         {
@@ -5642,9 +5610,7 @@ namespace OpenTween
         }
 
         private Task DispSelectedPost()
-        {
-            return this.DispSelectedPost(false);
-        }
+            => this.DispSelectedPost(false);
 
         private PostClass displayPost = new PostClass();
 
@@ -5688,19 +5654,13 @@ namespace OpenTween
         }
 
         private async void MatomeMenuItem_Click(object sender, EventArgs e)
-        {
-            await this.OpenApplicationWebsite();
-        }
+            => await this.OpenApplicationWebsite();
 
         private async Task OpenApplicationWebsite()
-        {
-            await this.OpenUriInBrowserAsync(ApplicationSettings.WebsiteUrl);
-        }
+            => await this.OpenUriInBrowserAsync(ApplicationSettings.WebsiteUrl);
 
         private async void ShortcutKeyListMenuItem_Click(object sender, EventArgs e)
-        {
-            await this.OpenUriInBrowserAsync(ApplicationSettings.ShortcutKeyUrl);
-        }
+            => await this.OpenUriInBrowserAsync(ApplicationSettings.ShortcutKeyUrl);
 
         private async void ListTab_KeyDown(object sender, KeyEventArgs e)
         {
@@ -7042,9 +7002,7 @@ namespace OpenTween
         }
 
         private void MyList_MouseClick(object sender, MouseEventArgs e)
-        {
-            _anchorFlag = false;
-        }
+            => this._anchorFlag = false;
 
         private void StatusText_Enter(object sender, EventArgs e)
         {
@@ -7392,9 +7350,7 @@ namespace OpenTween
         }
 
         private void ListTab_DoubleClick(object sender, MouseEventArgs e)
-        {
-            TabRename(this.ListTab.SelectedTab.Text, out var _);
-        }
+            => this.TabRename(this.ListTab.SelectedTab.Text, out var _);
 
         private void ListTab_MouseDown(object sender, MouseEventArgs e)
         {
@@ -7768,9 +7724,7 @@ namespace OpenTween
         }
 
         private void ListTab_MouseUp(object sender, MouseEventArgs e)
-        {
-            _tabDrag = false;
-        }
+            => this._tabDrag = false;
 
         private static int iconCnt = 0;
         private static int blinkCnt = 0;
@@ -7866,10 +7820,7 @@ namespace OpenTween
         }
 
         private async void TimerRefreshIcon_Tick(object sender, EventArgs e)
-        {
-            //200ms
-            await this.RefreshTasktrayIcon();
-        }
+            => await this.RefreshTasktrayIcon(); // 200ms
 
         private void ContextMenuTabProperty_Opening(object sender, CancelEventArgs e)
         {
@@ -8239,9 +8190,7 @@ namespace OpenTween
         }
 
         private void ReplyAllStripMenuItem_Click(object sender, EventArgs e)
-        {
-            MakeReplyOrDirectStatus(false, true, true);
-        }
+            => this.MakeReplyOrDirectStatus(false, true, true);
 
         private void IDRuleMenuItem_Click(object sender, EventArgs e)
         {
@@ -8431,15 +8380,12 @@ namespace OpenTween
                 mark = false;
             }
         }
+
         private void CopySTOTMenuItem_Click(object sender, EventArgs e)
-        {
-            this.CopyStot();
-        }
+            => this.CopyStot();
 
         private void CopyURLMenuItem_Click(object sender, EventArgs e)
-        {
-            this.CopyIdUri();
-        }
+            => this.CopyIdUri();
 
         private void SelectAllMenuItem_Click(object sender, EventArgs e)
         {
@@ -8848,14 +8794,10 @@ namespace OpenTween
         }
 
         private void SetStatusLabelUrl()
-        {
-            StatusLabelUrl.Text = GetStatusLabelText();
-        }
+            => this.StatusLabelUrl.Text = this.GetStatusLabelText();
 
         public void SetStatusLabel(string text)
-        {
-            StatusLabel.Text = text;
-        }
+            => this.StatusLabel.Text = text;
 
         private void SetNotifyIconText()
         {
@@ -9073,9 +9015,7 @@ namespace OpenTween
         }
 
         private async void RepliedStatusOpenMenuItem_Click(object sender, EventArgs e)
-        {
-            await this.doRepliedStatusOpen();
-        }
+            => await this.doRepliedStatusOpen();
 
         private void SplitContainer2_Panel2_Resize(object sender, EventArgs e)
         {
@@ -9312,24 +9252,16 @@ namespace OpenTween
         }
 
         private async void TinyURLToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            await UrlConvertAsync(MyCommon.UrlConverter.TinyUrl);
-        }
+            => await this.UrlConvertAsync(MyCommon.UrlConverter.TinyUrl);
 
         private async void IsgdToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            await UrlConvertAsync(MyCommon.UrlConverter.Isgd);
-        }
+            => await this.UrlConvertAsync(MyCommon.UrlConverter.Isgd);
 
         private async void TwurlnlToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            await UrlConvertAsync(MyCommon.UrlConverter.Twurl);
-        }
+            => await this.UrlConvertAsync(MyCommon.UrlConverter.Twurl);
 
         private async void UxnuMenuItem_Click(object sender, EventArgs e)
-        {
-            await UrlConvertAsync(MyCommon.UrlConverter.Uxnu);
-        }
+            => await this.UrlConvertAsync(MyCommon.UrlConverter.Uxnu);
 
         private async void UrlConvertAutoToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -9348,9 +9280,7 @@ namespace OpenTween
         }
 
         private void UrlUndoToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            doUrlUndo();
-        }
+            => this.doUrlUndo();
 
         private void NewPostPopMenuItem_CheckStateChanged(object sender, EventArgs e)
         {
@@ -9810,9 +9740,7 @@ namespace OpenTween
         }
 
         private void ListTab_Selecting(object sender, TabControlCancelEventArgs e)
-        {
-            ListTabSelect(e.TabPage);
-        }
+            => this.ListTabSelect(e.TabPage);
 
         private void SelectListItem(DetailsListView LView, int Index)
         {
@@ -9983,14 +9911,10 @@ namespace OpenTween
         }
 
         private async void GetFollowersAllToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            await this.doGetFollowersMenu();
-        }
+            => await this.doGetFollowersMenu();
 
         private void ReTweetUnofficialStripMenuItem_Click(object sender, EventArgs e)
-        {
-            doReTweetUnofficial();
-        }
+            => this.doReTweetUnofficial();
 
         private async Task doReTweetOfficial(bool isConfirm)
         {
@@ -10050,9 +9974,7 @@ namespace OpenTween
         }
 
         private async void ReTweetStripMenuItem_Click(object sender, EventArgs e)
-        {
-            await this.doReTweetOfficial(true);
-        }
+            => await this.doReTweetOfficial(true);
 
         private async Task FavoritesRetweetOfficial()
         {
@@ -10135,19 +10057,13 @@ namespace OpenTween
         }
 
         private void UrlMultibyteSplitMenuItem_CheckedChanged(object sender, EventArgs e)
-        {
-            this.urlMultibyteSplit = ((ToolStripMenuItem)sender).Checked;
-        }
+            => this.urlMultibyteSplit = ((ToolStripMenuItem)sender).Checked;
 
         private void PreventSmsCommandMenuItem_CheckedChanged(object sender, EventArgs e)
-        {
-            this.preventSmsCommand = ((ToolStripMenuItem)sender).Checked;
-        }
+            => this.preventSmsCommand = ((ToolStripMenuItem)sender).Checked;
 
         private void UrlAutoShortenMenuItem_CheckedChanged(object sender, EventArgs e)
-        {
-            SettingManager.Common.UrlConvertAuto = ((ToolStripMenuItem)sender).Checked;
-        }
+            => SettingManager.Common.UrlConvertAuto = ((ToolStripMenuItem)sender).Checked;
 
         private void IdeographicSpaceToSpaceMenuItem_Click(object sender, EventArgs e)
         {
@@ -10190,10 +10106,7 @@ namespace OpenTween
         }
 
         private void TweenMain_Deactivate(object sender, EventArgs e)
-        {
-            //画面が非アクティブになったら、発言欄の背景色をデフォルトへ
-            this.StatusText_Leave(StatusText, System.EventArgs.Empty);
-        }
+            => this.StatusText_Leave(StatusText, EventArgs.Empty); // 画面が非アクティブになったら、発言欄の背景色をデフォルトへ
 
         private void TabRenameMenuItem_Click(object sender, EventArgs e)
         {
@@ -10203,14 +10116,10 @@ namespace OpenTween
         }
 
         private async void BitlyToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            await UrlConvertAsync(MyCommon.UrlConverter.Bitly);
-        }
+            => await this.UrlConvertAsync(MyCommon.UrlConverter.Bitly);
 
         private async void JmpToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            await UrlConvertAsync(MyCommon.UrlConverter.Jmp);
-        }
+            => await this.UrlConvertAsync(MyCommon.UrlConverter.Jmp);
 
         private async void ApiUsageInfoMenuItem_Click(object sender, EventArgs e)
         {
@@ -10469,18 +10378,7 @@ namespace OpenTween
         }
 
         private async void OwnStatusMenuItem_Click(object sender, EventArgs e)
-        {
-            await this.doShowUserStatus(tw.Username, false);
-            //if (!string.IsNullOrEmpty(tw.UserInfoXml))
-            //{
-            //    doShowUserStatus(tw.Username, false);
-            //}
-            //else
-            //{
-            //    MessageBox.Show(Properties.Resources.ShowYourProfileText1, "Your status", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            //    return;
-            //}
-        }
+            => await this.doShowUserStatus(tw.Username, false);
 
         // TwitterIDでない固定文字列を調べる（文字列検証のみ　実際に取得はしない）
         // URLから切り出した文字列を渡す
@@ -10547,10 +10445,8 @@ namespace OpenTween
             }
         }
 
-        private void QuoteStripMenuItem_Click(object sender, EventArgs e) // Handles QuoteStripMenuItem.Click, QtOpMenuItem.Click
-        {
-            doQuoteOfficial();
-        }
+        private void QuoteStripMenuItem_Click(object sender, EventArgs e)
+            => this.doQuoteOfficial();
 
         private async void SearchButton_Click(object sender, EventArgs e)
         {
@@ -10620,10 +10516,7 @@ namespace OpenTween
         }
 
         private async void RefreshMoreStripMenuItem_Click(object sender, EventArgs e)
-        {
-            //もっと前を取得
-            await this.DoRefreshMore();
-        }
+            => await this.DoRefreshMore(); // もっと前を取得
 
         /// <summary>
         /// 指定されたタブのListTabにおける位置を返します
@@ -10739,9 +10632,7 @@ namespace OpenTween
         }
 
         private async void MoveToRTHomeMenuItem_Click(object sender, EventArgs e)
-        {
-            await this.doMoveToRTHome();
-        }
+            => await this.doMoveToRTHome();
 
         private void ListManageUserContextToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -10786,9 +10677,7 @@ namespace OpenTween
         }
 
         private void StatusLabel_DoubleClick(object sender, EventArgs e)
-        {
-            MessageBox.Show(StatusLabel.TextHistory, "Logs", MessageBoxButtons.OK, MessageBoxIcon.None);
-        }
+            => MessageBox.Show(StatusLabel.TextHistory, "Logs", MessageBoxButtons.OK, MessageBoxIcon.None);
 
         private void HashManageMenuItem_Click(object sender, EventArgs e)
         {
@@ -10853,9 +10742,7 @@ namespace OpenTween
         }
 
         private void HashStripSplitButton_ButtonClick(object sender, EventArgs e)
-        {
-            HashToggleMenuItem_Click(null, null);
-        }
+            => this.HashToggleMenuItem_Click(null, null);
 
         public void SetPermanentHashtag(string hashtag)
         {
@@ -10974,14 +10861,10 @@ namespace OpenTween
         }
 
         private void MenuItemTab_DropDownOpening(object sender, EventArgs e)
-        {
-            ContextMenuTabProperty_Opening(sender, null);
-        }
+            => this.ContextMenuTabProperty_Opening(sender, null);
 
         public Twitter TwitterInstance
-        {
-            get { return tw; }
-        }
+            => this.tw;
 
         private void SplitContainer3_SplitterMoved(object sender, SplitterEventArgs e)
         {
@@ -11046,16 +10929,10 @@ namespace OpenTween
         }
 
         private void NotifyIcon1_MouseMove(object sender, MouseEventArgs e)
-        {
-            SetNotifyIconText();
-        }
+            => this.SetNotifyIconText();
 
         private async void UserStatusToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            var id = _curPost?.ScreenName ?? "";
-
-            await this.ShowUserStatus(id);
-        }
+            => await this.ShowUserStatus(this._curPost?.ScreenName ?? "");
 
         private async Task doShowUserStatus(string id, bool ShowInputDialog)
         {
@@ -11117,14 +10994,10 @@ namespace OpenTween
         }
 
         internal Task ShowUserStatus(string id, bool ShowInputDialog)
-        {
-            return this.doShowUserStatus(id, ShowInputDialog);
-        }
+            => this.doShowUserStatus(id, ShowInputDialog);
 
         internal Task ShowUserStatus(string id)
-        {
-            return this.doShowUserStatus(id, true);
-        }
+            => this.doShowUserStatus(id, true);
 
         private async void ShowProfileMenuItem_Click(object sender, EventArgs e)
         {
@@ -11218,14 +11091,10 @@ namespace OpenTween
         }
 
         private void SplitContainer2_MouseDoubleClick(object sender, MouseEventArgs e)
-        {
-            this.MultiLinePullDownMenuItem.PerformClick();
-        }
+            => this.MultiLinePullDownMenuItem.PerformClick();
 
         public PostClass CurPost
-        {
-            get { return _curPost; }
-        }
+            => this._curPost;
 
 #region "画像投稿"
         private void ImageSelectMenuItem_Click(object sender, EventArgs e)
@@ -11268,14 +11137,10 @@ namespace OpenTween
         }
 
         private void ImageSelector_FilePickDialogOpening(object sender, EventArgs e)
-        {
-            this.AllowDrop = false;
-        }
+            => this.AllowDrop = false;
 
         private void ImageSelector_FilePickDialogClosed(object sender, EventArgs e)
-        {
-            this.AllowDrop = true;
-        }
+            => this.AllowDrop = true;
 
         private void ImageSelector_SelectedServiceChanged(object sender, EventArgs e)
         {
@@ -11289,9 +11154,7 @@ namespace OpenTween
         }
 
         private void ImageSelector_VisibleChanged(object sender, EventArgs e)
-        {
-            this.StatusText_TextChanged(null, null);
-        }
+            => this.StatusText_TextChanged(null, null);
 
         /// <summary>
         /// StatusTextでCtrl+Vが押下された時の処理
@@ -11356,9 +11219,7 @@ namespace OpenTween
         }
 
         private void CopyUserIdStripMenuItem_Click(object sender, EventArgs e)
-        {
-            CopyUserId();
-        }
+            => this.CopyUserId();
 
         private void CopyUserId()
         {
@@ -11480,9 +11341,7 @@ namespace OpenTween
         }
 
         private void tw_UserIdChanged()
-        {
-            this.ModifySettingCommon = true;
-        }
+            => this.ModifySettingCommon = true;
 
 #region "Userstream"
         private async void tw_PostDeleted(object sender, PostDeletedEventArgs e)
@@ -11837,9 +11696,7 @@ namespace OpenTween
         }
 
         private async void OpenOwnHomeMenuItem_Click(object sender, EventArgs e)
-        {
-            await this.OpenUriInBrowserAsync(MyCommon.TwitterUrl + tw.Username);
-        }
+            => await this.OpenUriInBrowserAsync(MyCommon.TwitterUrl + tw.Username);
 
         private bool ExistCurrentPost
         {
@@ -11931,9 +11788,7 @@ namespace OpenTween
         }
 
         private void StopRefreshAllMenuItem_CheckedChanged(object sender, EventArgs e)
-        {
-            TimelineRefreshEnableChange(!StopRefreshAllMenuItem.Checked);
-        }
+            => this.TimelineRefreshEnableChange(!StopRefreshAllMenuItem.Checked);
 
         private async Task OpenUserAppointUrl()
         {
@@ -11960,9 +11815,7 @@ namespace OpenTween
         }
 
         private async void OpenUserSpecifiedUrlMenuItem_Click(object sender, EventArgs e)
-        {
-            await this.OpenUserAppointUrl();
-        }
+            => await this.OpenUserAppointUrl();
 
         private async void GrowlHelper_Callback(object sender, GrowlHelper.NotifyCallbackEventArgs e)
         {
@@ -11993,19 +11846,13 @@ namespace OpenTween
         }
 
         private void tweetThumbnail1_ThumbnailLoading(object sender, EventArgs e)
-        {
-            this.SplitContainer3.Panel2Collapsed = false;
-        }
+            => this.SplitContainer3.Panel2Collapsed = false;
 
         private async void tweetThumbnail1_ThumbnailDoubleClick(object sender, ThumbnailDoubleClickEventArgs e)
-        {
-            await this.OpenThumbnailPicture(e.Thumbnail);
-        }
+            => await this.OpenThumbnailPicture(e.Thumbnail);
 
         private async void tweetThumbnail1_ThumbnailImageSearchClick(object sender, ThumbnailImageSearchEventArgs e)
-        {
-            await this.OpenUriInBrowserAsync(e.ImageUrl);
-        }
+            => await this.OpenUriInBrowserAsync(e.ImageUrl);
 
         private async Task OpenThumbnailPicture(ThumbnailInfo thumbnail)
         {
@@ -12015,9 +11862,7 @@ namespace OpenTween
         }
 
         private async void TwitterApiStatusToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            await this.OpenUriInBrowserAsync(Twitter.ServiceAvailabilityStatusUrl);
-        }
+            => await this.OpenUriInBrowserAsync(Twitter.ServiceAvailabilityStatusUrl);
 
         private void PostButton_KeyDown(object sender, KeyEventArgs e)
         {
@@ -12041,29 +11886,19 @@ namespace OpenTween
         }
 
         private void IconSizeNoneToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ChangeListViewIconSize(MyCommon.IconSizes.IconNone);
-        }
+            => this.ChangeListViewIconSize(MyCommon.IconSizes.IconNone);
 
         private void IconSize16ToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ChangeListViewIconSize(MyCommon.IconSizes.Icon16);
-        }
+            => this.ChangeListViewIconSize(MyCommon.IconSizes.Icon16);
 
         private void IconSize24ToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ChangeListViewIconSize(MyCommon.IconSizes.Icon24);
-        }
+            => this.ChangeListViewIconSize(MyCommon.IconSizes.Icon24);
 
         private void IconSize48ToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ChangeListViewIconSize(MyCommon.IconSizes.Icon48);
-        }
+            => this.ChangeListViewIconSize(MyCommon.IconSizes.Icon48);
 
         private void IconSize48_2ToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ChangeListViewIconSize(MyCommon.IconSizes.Icon48_2);
-        }
+            => this.ChangeListViewIconSize(MyCommon.IconSizes.Icon48_2);
 
         private void ChangeListViewIconSize(MyCommon.IconSizes iconSize)
         {

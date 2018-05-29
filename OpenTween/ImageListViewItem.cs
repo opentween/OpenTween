@@ -114,12 +114,7 @@ namespace OpenTween
         }
 
         public MemoryImage Image
-        {
-            get
-            {
-                return (MemoryImage)this.imageReference.Target;
-            }
-        }
+            => (MemoryImage)this.imageReference.Target;
 
         public Task RefreshImageAsync()
         {

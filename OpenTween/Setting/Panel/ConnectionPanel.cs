@@ -38,9 +38,7 @@ namespace OpenTween.Setting.Panel
     public partial class ConnectionPanel : SettingPanelBase
     {
         public ConnectionPanel()
-        {
-            InitializeComponent();
-        }
+            => InitializeComponent();
 
         public void LoadConfig(SettingCommon settingCommon)
         {

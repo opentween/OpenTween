@@ -46,9 +46,8 @@ namespace OpenTween.Thumbnail.Services
         protected static string[] PropertyNames = { "og:image", "twitter:image", "twitter:image:src" };
 
         protected HttpClient http
-        {
-            get { return this.localHttpClient ?? Networking.Http; }
-        }
+            => this.localHttpClient ?? Networking.Http;
+
         private readonly HttpClient localHttpClient;
 
         protected readonly Regex regex;

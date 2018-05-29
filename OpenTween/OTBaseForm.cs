@@ -136,26 +136,18 @@ namespace OpenTween
         /// 標準の VScrollBar のスケーリングでは不十分な処理を補います
         /// </summary>
         public static void ScaleChildControl(VScrollBar scrollBar, SizeF factor)
-        {
-            scrollBar.Width = ScaleBy(factor.Width, scrollBar.Width);
-        }
+            => scrollBar.Width = ScaleBy(factor.Width, scrollBar.Width);
 
         /// <summary>
         /// 標準の ImageList のスケーリングでは不十分な処理を補います
         /// </summary>
         public static void ScaleChildControl(ImageList imageList, SizeF factor)
-        {
-            imageList.ImageSize = ScaleBy(factor, imageList.ImageSize);
-        }
+            => imageList.ImageSize = ScaleBy(factor, imageList.ImageSize);
 
         public static Size ScaleBy(SizeF factor, Size size)
-        {
-            return Size.Round(new SizeF(size.Width * factor.Width, size.Height * factor.Height));
-        }
+            => Size.Round(new SizeF(size.Width * factor.Width, size.Height * factor.Height));
 
         public static int ScaleBy(float factor, int size)
-        {
-            return (int)Math.Round(size * factor);
-        }
+            => (int)Math.Round(size * factor);
     }
 }

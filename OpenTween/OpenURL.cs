@@ -40,9 +40,7 @@ namespace OpenTween
         private string _selUrl;
 
         public OpenURL()
-        {
-            InitializeComponent();
-        }
+            => this.InitializeComponent();
 
         private void OK_Button_Click(object sender, EventArgs e)
         {
@@ -65,14 +63,10 @@ namespace OpenTween
         }
 
         public void ClearUrl()
-        {
-            UrlList.Items.Clear();
-        }
+            => this.UrlList.Items.Clear();
 
         public void AddUrl(OpenUrlItem openUrlItem)
-        {
-            UrlList.Items.Add(openUrlItem);
-        }
+            => this.UrlList.Items.Add(openUrlItem);
 
         public string SelectedUrl
         {
@@ -153,9 +147,7 @@ namespace OpenTween
         }
 
         public override string ToString()
-        {
-            return this.Href;
-        }
+            => this.Href;
 
         public string Url { get; }
         public string Href { get; }

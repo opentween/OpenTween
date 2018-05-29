@@ -38,9 +38,7 @@ namespace OpenTween.Setting.Panel
     public partial class PreviewPanel : SettingPanelBase
     {
         public PreviewPanel()
-        {
-            InitializeComponent();
-        }
+            => this.InitializeComponent();
 
         public void LoadConfig(SettingCommon settingCommon)
         {

@@ -54,9 +54,7 @@ namespace OpenTween.Models
         /// </summary>
         [XmlIgnore]
         public string SummaryText
-        {
-            get { return this.MakeSummary(); }
-        }
+            => this.MakeSummary();
 
         /// <summary>
         /// ExecFilter() メソッドの実行時に自動でコンパイルを実行する
@@ -237,11 +235,9 @@ namespace OpenTween.Models
             this.ExUseNameField = true;
         }
 
+        // TODO: TabsClass とかの改修が終わるまでデフォルト有効
         static PostFilterRule()
-        {
-            // TODO: TabsClass とかの改修が終わるまでデフォルト有効
-            PostFilterRule.AutoCompile = true;
-        }
+            => PostFilterRule.AutoCompile = true;
 
         /// <summary>
         /// 振り分けルールをコンパイルします
@@ -516,9 +512,7 @@ namespace OpenTween.Models
         /// </summary>
         /// <returns>振り分けルールの概要</returns>
         public override string ToString()
-        {
-            return this.SummaryText;
-        }
+            => this.SummaryText;
 
         protected override void OnPropertyChanged(PropertyChangedEventArgs e)
         {
@@ -714,9 +708,7 @@ namespace OpenTween.Models
         }
 
         public override bool Equals(object obj)
-        {
-            return this.Equals(obj as PostFilterRule);
-        }
+            => this.Equals(obj as PostFilterRule);
 
         public bool Equals(PostFilterRule other)
         {

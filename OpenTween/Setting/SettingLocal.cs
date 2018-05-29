@@ -36,17 +36,13 @@ namespace OpenTween
 {
     public class SettingLocal : SettingBase<SettingLocal>, IDisposable
     {
-#region Settingクラス基本
+        #region Settingクラス基本
         public static SettingLocal Load()
-        {
-            return LoadSettings();
-        }
+            => LoadSettings();
 
         public void Save()
-        {
-            SaveSettings(this);
-        }
-#endregion
+            => SaveSettings(this);
+        #endregion
 
         /// <summary>
         /// ウィンドウサイズ等の保存時のDPI
@@ -323,27 +319,19 @@ namespace OpenTween
         private FontConverter fontConverter = new FontConverter();
 
         protected string FontToString(Font font)
-        {
-            return font != null ? this.fontConverter.ConvertToString(font) : null;
-        }
+            => font != null ? this.fontConverter.ConvertToString(font) : null;
 
         protected Font StringToFont(string str)
-        {
-            return str != null ? (Font)this.fontConverter.ConvertFromString(str) : null;
-        }
+            => str != null ? (Font)this.fontConverter.ConvertFromString(str) : null;
 
         [XmlIgnore]
         private ColorConverter colorConverter = new ColorConverter();
 
         protected string ColorToString(Color color)
-        {
-            return this.colorConverter.ConvertToString(color);
-        }
+            => this.colorConverter.ConvertToString(color);
 
         protected Color StringToColor(string str)
-        {
-            return (Color)this.colorConverter.ConvertFromString(str);
-        }
+            => (Color)this.colorConverter.ConvertFromString(str);
 
         /// <summary>
         /// 指定されたスケールと SettingLocal.ScaleDimension のスケールとの拡大比を返します

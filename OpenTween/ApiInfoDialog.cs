@@ -35,9 +35,7 @@ namespace OpenTween
     public partial class ApiInfoDialog : OTBaseForm
     {
         public ApiInfoDialog()
-        {
-            InitializeComponent();
-        }
+            => this.InitializeComponent();
 
         private readonly List<string> _tlEndpoints = new List<string>
         {
@@ -125,9 +123,7 @@ namespace OpenTween
         }
 
         private void ApiInfoDialog_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            MyCommon.TwitterApiInfo.AccessLimitUpdated -= this.TwitterApiStatus_AccessLimitUpdated;
-        }
+            => MyCommon.TwitterApiInfo.AccessLimitUpdated -= this.TwitterApiStatus_AccessLimitUpdated;
 
         protected override void ScaleControl(SizeF factor, BoundsSpecified specified)
         {
@@ -140,8 +136,6 @@ namespace OpenTween
     public class BufferedListView : ListView
     {
         public BufferedListView()
-        {
-            DoubleBuffered = true;
-        }
+            => this.DoubleBuffered = true;
     }
 }

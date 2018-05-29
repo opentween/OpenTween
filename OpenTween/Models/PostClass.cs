@@ -230,10 +230,7 @@ namespace OpenTween.Models
 
         public bool IsProtect
         {
-            get
-            {
-                return _IsProtect;
-            }
+            get => this._IsProtect;
             set
             {
                 if (value)
@@ -249,10 +246,7 @@ namespace OpenTween.Models
         }
         public bool IsMark
         {
-            get
-            {
-                return _IsMark;
-            }
+            get => this._IsMark;
             set
             {
                 if (value)
@@ -268,10 +262,7 @@ namespace OpenTween.Models
         }
         public long? InReplyToStatusId
         {
-            get
-            {
-                return _InReplyToStatusId;
-            }
+            get => this._InReplyToStatusId;
             set
             {
                 if (value != null)
@@ -288,10 +279,7 @@ namespace OpenTween.Models
 
         public bool IsDeleted
         {
-            get
-            {
-                return _IsDeleted;
-            }
+            get => this._IsDeleted;
             set
             {
                 if (value)
@@ -308,19 +296,11 @@ namespace OpenTween.Models
         }
 
         protected virtual PostClass RetweetSource
-        {
-            get
-            {
-                return TabInformations.GetInstance().RetweetSource(this.RetweetedId.Value);
-            }
-        }
+            => TabInformations.GetInstance().RetweetSource(this.RetweetedId.Value);
 
         public StatusGeo? PostGeo
         {
-            get
-            {
-                return _postGeo;
-            }
+            get => this._postGeo;
             set
             {
                 if (value != null)
@@ -336,12 +316,7 @@ namespace OpenTween.Models
         }
 
         public int StateIndex
-        {
-            get
-            {
-                return (int)_states - 1;
-            }
-        }
+            => (int)_states - 1;
 
         // 互換性のために用意
         public string SourceHtml
@@ -507,8 +482,6 @@ namespace OpenTween.Models
         }
 
         public override int GetHashCode()
-        {
-            return this.StatusId.GetHashCode();
-        }
+            => this.StatusId.GetHashCode();
     }
 }

@@ -86,8 +86,6 @@ namespace OpenTween
         public bool isFollowed = false;
 
         public override string ToString()
-        {
-            return this.ScreenName + " / " + this.Name;
-        }
+            => this.ScreenName + " / " + this.Name;
     }
 }

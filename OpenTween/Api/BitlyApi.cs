@@ -52,9 +52,7 @@ namespace OpenTween.Api
         }
 
         public BitlyApi(HttpClient http)
-        {
-            this.localHttpClient = http;
-        }
+            => this.localHttpClient = http;
 
         public async Task<Uri> ShortenAsync(Uri srcUri, string domain = null)
         {

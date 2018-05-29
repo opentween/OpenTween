@@ -131,29 +131,19 @@ namespace OpenTween.OpenTweenCustomControl
         }
 
         public void ChangeItemBackColor(int index, Color backColor)
-        {
-            ChangeSubItemBackColor(index, 0, backColor);
-        }
+            => this.ChangeSubItemBackColor(index, 0, backColor);
 
         public void ChangeItemForeColor(int index, Color foreColor)
-        {
-            ChangeSubItemForeColor(index, 0, foreColor);
-        }
+            => this.ChangeSubItemForeColor(index, 0, foreColor);
 
         public void ChangeItemFont(int index, Font fnt)
-        {
-            ChangeSubItemFont(index, 0, fnt);
-        }
+            => this.ChangeSubItemFont(index, 0, fnt);
 
         public void ChangeItemFontAndColor(int index, Color foreColor, Font fnt)
-        {
-            ChangeSubItemStyles(index, 0, BackColor, foreColor, fnt);
-        }
+            => this.ChangeSubItemStyles(index, 0, BackColor, foreColor, fnt);
 
         public void ChangeItemStyles(int index, Color backColor, Color foreColor, Font fnt)
-        {
-            ChangeSubItemStyles(index, 0, backColor, foreColor, fnt);
-        }
+            => this.ChangeSubItemStyles(index, 0, backColor, foreColor, fnt);
 
         public void ChangeSubItemBackColor(int itemIndex, int subitemIndex, Color backColor)
         {

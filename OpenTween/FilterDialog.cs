@@ -73,7 +73,7 @@ namespace OpenTween
 
         private EnableButtonMode RuleEnableButtonMode
         {
-            get { return this._ruleEnableButtonMode; }
+            get => this._ruleEnableButtonMode;
             set
             {
                 this._ruleEnableButtonMode = value;
@@ -87,9 +87,7 @@ namespace OpenTween
         private EnableButtonMode _ruleEnableButtonMode = FilterDialog.EnableButtonMode.NotSelected;
 
         public FilterDialog()
-        {
-            InitializeComponent();
-        }
+            => this.InitializeComponent();
 
         private void SetFilters(string tabName)
         {
@@ -239,9 +237,7 @@ namespace OpenTween
         }
 
         public void SetCurrent(string TabName)
-        {
-            _cur = TabName;
-        }
+            => this._cur = TabName;
 
         public void AddNewFilter(string id, string msg)
         {
@@ -725,10 +721,7 @@ namespace OpenTween
         }
 
         private bool IsValidLambdaExp(string text)
-        {
-            return false;
-            // TODO DynamicQuery相当のGPLv3互換なライブラリで置換する
-        }
+            => false; // TODO DynamicQuery相当のGPLv3互換なライブラリで置換する
 
         private bool IsValidRegexp(string text)
         {
@@ -883,14 +876,10 @@ namespace OpenTween
         }
 
         private void ButtonClose_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
+            => this.Close();
 
         private void FilterDialog_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            _directAdd = false;
-        }
+            => this._directAdd = false;
 
         private void FilterDialog_KeyDown(object sender, KeyEventArgs e)
         {
@@ -1192,19 +1181,13 @@ namespace OpenTween
         }
 
         private void OptMove_CheckedChanged(object sender, EventArgs e)
-        {
-            CheckMark.Enabled = !OptMove.Checked;
-        }
+            => this.CheckMark.Enabled = !OptMove.Checked;
 
         private void ButtonRuleUp_Click(object sender, EventArgs e)
-        {
-            MoveSelectedRules(up: true);
-        }
+            => this.MoveSelectedRules(up: true);
 
         private void ButtonRuleDown_Click(object sender, EventArgs e)
-        {
-            MoveSelectedRules(up: false);
-        }
+            => this.MoveSelectedRules(up: false);
 
         private void MoveSelectedRules(bool up)
         {

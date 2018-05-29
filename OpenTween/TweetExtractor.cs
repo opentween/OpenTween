@@ -35,9 +35,7 @@ namespace OpenTween
         /// テキストから URL を抽出して返します
         /// </summary>
         public static IEnumerable<string> ExtractUrls(string text)
-        {
-            return ExtractUrlEntities(text).Select(x => x.Url);
-        }
+            => ExtractUrlEntities(text).Select(x => x.Url);
 
         /// <summary>
         /// テキストから URL を抽出してエンティティとして返します

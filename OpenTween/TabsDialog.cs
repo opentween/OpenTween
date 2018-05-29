@@ -48,9 +48,7 @@ namespace OpenTween
             public string Label { get; set; }
 
             public override string ToString()
-            {
-                return this.Label;
-            }
+                => this.Label;
         }
 
         public TabsDialog(TabInformations tabinformation)
@@ -112,14 +110,9 @@ namespace OpenTween
             => this.TabList.SelectedItem is TabListItem item ? item.Tab : null;
 
         public TabModel[] SelectedTabs
-        {
-            get
-            {
-                return this.TabList.SelectedItems
+            => this.TabList.SelectedItems
                     .Cast<TabListItem>()
                     .Select(x => x.Tab)
                     .ToArray();
-            }
-        }
     }
 }

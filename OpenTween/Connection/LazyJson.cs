@@ -41,9 +41,7 @@ namespace OpenTween.Connection
         private bool completed = false;
 
         public LazyJson(HttpResponseMessage response)
-        {
-            this.Response = response;
-        }
+            => this.Response = response;
 
         internal LazyJson(T instance)
         {
@@ -78,9 +76,7 @@ namespace OpenTween.Connection
         }
 
         public void Dispose()
-        {
-            this.Response?.Dispose();
-        }
+            => this.Response?.Dispose();
     }
 
     public static class LazyJson

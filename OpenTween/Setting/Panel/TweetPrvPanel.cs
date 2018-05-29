@@ -38,9 +38,7 @@ namespace OpenTween.Setting.Panel
     public partial class TweetPrvPanel : SettingPanelBase
     {
         public TweetPrvPanel()
-        {
-            InitializeComponent();
-        }
+            => this.InitializeComponent();
 
         public void LoadConfig(SettingCommon settingCommon)
         {
@@ -137,14 +135,10 @@ namespace OpenTween.Setting.Panel
         }
 
         private void CmbDateTimeFormat_TextUpdate(object sender, EventArgs e)
-        {
-            CreateDateTimeFormatSample();
-        }
+            => this.CreateDateTimeFormatSample();
 
         private void CmbDateTimeFormat_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            CreateDateTimeFormatSample();
-        }
+            => this.CreateDateTimeFormatSample();
 
         private void CmbDateTimeFormat_Validating(object sender, CancelEventArgs e)
         {
@@ -156,8 +150,6 @@ namespace OpenTween.Setting.Panel
         }
 
         private void LabelDateTimeFormatApplied_VisibleChanged(object sender, EventArgs e)
-        {
-            CreateDateTimeFormatSample();
-        }
+            => this.CreateDateTimeFormatSample();
     }
 }

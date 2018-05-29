@@ -98,26 +98,20 @@ namespace OpenTween
         /// コマンドを実行します
         /// </summary>
         public async Task RunCommand()
-        {
-            await this.command();
-        }
+            => await this.command();
 
         /// <summary>
         /// 新規に ShortcutCommand インスタンスを作成するビルダーを返します
         /// </summary>
         public static ShortcutCommand.Builder Create(params Keys[] shortcuts)
-        {
-            return new Builder().Keys(shortcuts);
-        }
+            => new Builder().Keys(shortcuts);
 
         public class Builder
         {
             private readonly ShortcutCommand instance;
 
             internal Builder()
-            {
-                this.instance = new ShortcutCommand();
-            }
+                => this.instance = new ShortcutCommand();
 
             /// <summary>
             /// 指定されたキーが入力された時にショートカットを発動します
@@ -159,9 +153,7 @@ namespace OpenTween
             /// ショートカットが入力された時に行う動作の内容
             /// </summary>
             public ShortcutCommand Do(Action action, bool preventDefault = true)
-            {
-                return this.Do(SynchronousTask(action), preventDefault);
-            }
+                => this.Do(SynchronousTask(action), preventDefault);
 
             /// <summary>
             /// ショートカットが入力された時に行う動作の内容
@@ -181,9 +173,7 @@ namespace OpenTween
             /// Action を Func&lt;Task&gt; に変換します
             /// </summary>
             private static Func<Task> SynchronousTask(Action action)
-            {
-                return () => { action(); return noOpTask; };
-            }
+                => () => { action(); return noOpTask; };
         }
     }
 }

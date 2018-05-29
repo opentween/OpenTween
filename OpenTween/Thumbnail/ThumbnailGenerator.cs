@@ -39,9 +39,7 @@ namespace OpenTween.Thumbnail
         internal static ImgAzyobuziNet ImgAzyobuziNetInstance { get; private set; }
 
         static ThumbnailGenerator()
-        {
-            ThumbnailGenerator.Services = new List<IThumbnailService>();
-        }
+            => ThumbnailGenerator.Services = new List<IThumbnailService>();
 
         public static void InitializeGenerator()
         {
