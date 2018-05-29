@@ -234,11 +234,13 @@ namespace OpenTween
 
                 _t = _connector.GetType("Growl.Connector.NotificationType");
 
-                ArrayList arglist = new ArrayList();
-                arglist.Add(_growlNTreply);
-                arglist.Add(_growlNTdm);
-                arglist.Add(_growlNTnew);
-                arglist.Add(_growlNTusevent);
+                var arglist = new ArrayList
+                {
+                    _growlNTreply,
+                    _growlNTdm,
+                    _growlNTnew,
+                    _growlNTusevent,
+                };
 
                 mi.Invoke(_targetConnector, new object[] { _growlApp, arglist.ToArray(_t) });
 
