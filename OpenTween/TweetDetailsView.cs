@@ -473,8 +473,7 @@ namespace OpenTween
 
         private async void PostBrowser_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
         {
-            Task asyncTask;
-            bool KeyRes = this.Owner.CommonKeyDown(e.KeyData, FocusedControl.PostBrowser, out asyncTask);
+            var KeyRes = this.Owner.CommonKeyDown(e.KeyData, FocusedControl.PostBrowser, out var asyncTask);
             if (KeyRes)
             {
                 e.IsInputKey = true;

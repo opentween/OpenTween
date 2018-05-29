@@ -2146,9 +2146,7 @@ namespace OpenTween
             }
             else
             {
-                long[] autoPopulatedUserIds;
-                string attachmentUrl;
-                status.Text = this.FormatStatusTextExtended(this.StatusText.Text, out autoPopulatedUserIds, out attachmentUrl);
+                status.Text = this.FormatStatusTextExtended(this.StatusText.Text, out var autoPopulatedUserIds, out var attachmentUrl);
                 status.InReplyToStatusId = this.inReplyTo?.Item1;
 
                 status.AttachmentUrl = attachmentUrl;
@@ -2178,9 +2176,8 @@ namespace OpenTween
             IMediaItem[] uploadItems = null;
             if (ImageSelector.Visible)
             {
-                string serviceName;
                 //画像投稿
-                if (!ImageSelector.TryGetSelectedMedia(out serviceName, out uploadItems))
+                if (!ImageSelector.TryGetSelectedMedia(out var serviceName, out uploadItems))
                     return;
 
                 uploadService = this.ImageSelector.GetService(serviceName);
@@ -4605,12 +4602,7 @@ namespace OpenTween
         }
 
         private string FormatStatusTextExtended(string statusText)
-        {
-            long[] autoPopulatedUserIds;
-            string attachmentUrl;
-
-            return this.FormatStatusTextExtended(statusText, out autoPopulatedUserIds, out attachmentUrl);
-        }
+            => this.FormatStatusTextExtended(statusText, out var autoPopulatedUserIds, out var attachmentUrl);
 
         /// <summary>
         /// <see cref="FormatStatusText"/> に加えて、拡張モードで140字にカウントされない文字列の除去を行います
