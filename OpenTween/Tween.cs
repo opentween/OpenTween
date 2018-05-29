@@ -1811,7 +1811,7 @@ namespace OpenTween
                             if (string.IsNullOrEmpty(bText)) return;
 
                             var image = this.IconCache.TryGetFromCache(post.ImageUrl);
-                            gh.Notify(nt, post.StatusId.ToString(), title.ToString(), bText, image == null ? null : image.Image, post.ImageUrl);
+                            gh.Notify(nt, post.StatusId.ToString(), title.ToString(), bText, image?.Image, post.ImageUrl);
                         }
                     }
                     else
@@ -8368,8 +8368,7 @@ namespace OpenTween
                 {
                     if (dialog.ShowDialog(this) == DialogResult.Cancel) return false;
 
-                    var selectedTab = dialog.SelectedTab;
-                    tabName = selectedTab == null ? null : selectedTab.TabName;
+                    tabName = dialog.SelectedTab?.TabName;
                 }
 
                 ListTab.SelectedTab.Focus();

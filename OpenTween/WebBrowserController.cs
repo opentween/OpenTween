@@ -382,7 +382,7 @@ namespace OpenTween
             try
             {
                 var urlStr = MyCommon.IDNEncode(pwszUrl);
-                if (object.ReferenceEquals(urlStr, null)) return WebBrowserAPI.URLPOLICY_DISALLOW;
+                if (urlStr == null) return WebBrowserAPI.URLPOLICY_DISALLOW;
                 var url = new Uri(urlStr);
                 if (url.Scheme == "data")
                 {

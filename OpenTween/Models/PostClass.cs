@@ -197,12 +197,7 @@ namespace OpenTween.Models
         }
 
         public string TextSingleLine
-        {
-            get
-            {
-                return this.TextFromApi == null ? null : this.TextFromApi.Replace("\n", " ");
-            }
-        }
+            => this.TextFromApi?.Replace("\n", " ");
 
         public bool IsFav
         {
