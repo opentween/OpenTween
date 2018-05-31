@@ -400,7 +400,7 @@ namespace OpenTween
             using (ControlTransaction.Update(this.ListsList))
             {
                 this.ListsList.Items.Clear();
-                foreach (var listItem in lists.Where(x => x.Username == this.tw.Username))
+                foreach (var listItem in lists.Where(x => x.UserId == this.tw.UserId))
                 {
                     this.ListsList.Items.Add(listItem);
                 }

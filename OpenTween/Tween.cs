@@ -3758,7 +3758,7 @@ namespace OpenTween
             this.TopMost = SettingManager.Common.AlwaysTop;
             SaveConfigsAll(false);
 
-            if (tw.Username != oldUser.Username)
+            if (tw.UserId != oldUser.UserId)
                 await this.doGetFollowersMenu();
         }
 
@@ -7606,8 +7606,7 @@ namespace OpenTween
                             for (int cnt = 0; cnt < _curList.SelectedIndices.Count; cnt++)
                             {
                                 PostClass post = _statuses.Tabs[_curTab.Text][_curList.SelectedIndices[cnt]];
-                                if (!ids.Contains("@" + post.ScreenName + " ") &&
-                                    !post.ScreenName.Equals(tw.Username, StringComparison.CurrentCultureIgnoreCase))
+                                if (!ids.Contains("@" + post.ScreenName + " ") && post.UserId != tw.UserId)
                                 {
                                     ids += "@" + post.ScreenName + " ";
                                 }
@@ -7664,8 +7663,7 @@ namespace OpenTween
                             string ids = "";
                             int sidx = StatusText.SelectionStart;
                             PostClass post = _curPost;
-                            if (!ids.Contains("@" + post.ScreenName + " ") &&
-                                !post.ScreenName.Equals(tw.Username, StringComparison.CurrentCultureIgnoreCase))
+                            if (!ids.Contains("@" + post.ScreenName + " ") && post.UserId != tw.UserId)
                             {
                                 ids += "@" + post.ScreenName + " ";
                             }
@@ -7683,8 +7681,7 @@ namespace OpenTween
                             }
                             if (!string.IsNullOrEmpty(post.RetweetedBy))
                             {
-                                if (!ids.Contains("@" + post.RetweetedBy + " ") &&
-                                   !post.RetweetedBy.Equals(tw.Username, StringComparison.CurrentCultureIgnoreCase))
+                                if (!ids.Contains("@" + post.RetweetedBy + " ") && post.RetweetedByUserId != tw.UserId)
                                 {
                                     ids += "@" + post.RetweetedBy + " ";
                                 }

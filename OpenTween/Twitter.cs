@@ -169,7 +169,6 @@ namespace OpenTween
         private long[] noRTId = new long[0];
 
         //プロパティからアクセスされる共通情報
-        private string _uname;
         private List<string> _hashList = new List<string>();
 
         //max_idで古い発言を取得するために保持（lists分は個別タブで管理）
@@ -235,7 +234,6 @@ namespace OpenTween
             }
             this.ResetApiStatus();
             this.Api.Initialize(token, tokenSecret, userId, username);
-            _uname = username;
             if (SettingManager.Common.UserstreamStartup) this.ReconnectUserStream();
         }
 
@@ -728,7 +726,7 @@ namespace OpenTween
                 {
                     post.RetweetedBy = status.User.ScreenName;
                     post.RetweetedByUserId = status.User.Id;
-                    post.IsMe = post.RetweetedBy.Equals(_uname, StringComparison.InvariantCultureIgnoreCase);
+                    post.IsMe = post.RetweetedByUserId == this.UserId;
                 }
                 else
                 {
@@ -770,7 +768,7 @@ namespace OpenTween
                     post.Nickname = user.Name.Trim();
                     post.ImageUrl = user.ProfileImageUrlHttps;
                     post.IsProtect = user.Protected;
-                    post.IsMe = post.ScreenName.Equals(_uname, StringComparison.InvariantCultureIgnoreCase);
+                    post.IsMe = post.UserId == this.UserId;
                 }
                 else
                 {
@@ -2024,7 +2022,7 @@ namespace OpenTween
                 CreatedAt = MyCommon.DateTimeParse(eventData.CreatedAt),
                 Event = eventData.Event,
                 Username = eventData.Source.ScreenName,
-                IsMe = eventData.Source.ScreenName.Equals(this.Username, StringComparison.InvariantCultureIgnoreCase),
+                IsMe = eventData.Source.Id == this.UserId,
                 Eventtype = eventTable.TryGetValue(eventData.Event, out var eventType) ? eventType : MyCommon.EVENTTYPE.None,
             };
 
@@ -2039,7 +2037,7 @@ namespace OpenTween
                 case "user_suspend":
                     return;
                 case "follow":
-                    if (eventData.Target.ScreenName.Equals(_uname, StringComparison.InvariantCultureIgnoreCase))
+                    if (eventData.Target.Id == this.UserId)
                     {
                         if (!this.followerId.Contains(eventData.Source.Id)) this.followerId.Add(eventData.Source.Id);
                     }
