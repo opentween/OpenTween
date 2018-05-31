@@ -811,7 +811,7 @@ namespace OpenTween
             bool fAllFlag = false;
             foreach (Match mu in ma)
             {
-                if (mu.Result("${ScreenName}").ToLowerInvariant() != this.Owner.TwitterInstance.Username.ToLowerInvariant())
+                if (!mu.Result("${ScreenName}").Equals(this.Owner.TwitterInstance.Username, StringComparison.InvariantCultureIgnoreCase))
                 {
                     fAllFlag = true;
                     break;
@@ -929,7 +929,7 @@ namespace OpenTween
             List<string> ids = new List<string>();
             foreach (Match mu in ma)
             {
-                if (mu.Result("${ScreenName}").ToLower() != this.Owner.TwitterInstance.Username.ToLower())
+                if (!mu.Result("${ScreenName}").Equals(this.Owner.TwitterInstance.Username, StringComparison.InvariantCultureIgnoreCase))
                 {
                     ids.Add(mu.Result("${ScreenName}"));
                 }

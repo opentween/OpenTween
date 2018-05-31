@@ -54,7 +54,7 @@ namespace OpenTween.Connection
         public bool CanUseAltText => true;
 
         public bool CheckFileExtension(string fileExtension)
-            => this.pictureExt.Contains(fileExtension.ToLowerInvariant());
+            => this.pictureExt.Contains(fileExtension, StringComparer.InvariantCultureIgnoreCase);
 
         public bool CheckFileSize(string fileExtension, long fileSize)
         {

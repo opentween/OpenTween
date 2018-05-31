@@ -1122,7 +1122,7 @@ namespace OpenTween
 
             foreach (var ua in SettingManager.Common.UserAccounts)
             {
-                if (ua.UserId == 0 && ua.Username.ToLowerInvariant() == tw.Username.ToLowerInvariant())
+                if (ua.UserId == 0 && ua.Username.Equals(tw.Username, StringComparison.InvariantCultureIgnoreCase))
                 {
                     ua.UserId = tw.UserId;
                     break;
@@ -10388,7 +10388,7 @@ namespace OpenTween
             if (this.tw.Configuration.NonUsernamePaths == null || this.tw.Configuration.NonUsernamePaths.Length == 0)
                 return !Regex.Match(name, @"^(about|jobs|tos|privacy|who_to_follow|download|messages)$", RegexOptions.IgnoreCase).Success;
             else
-                return !this.tw.Configuration.NonUsernamePaths.Contains(name.ToLowerInvariant());
+                return !this.tw.Configuration.NonUsernamePaths.Contains(name, StringComparer.InvariantCultureIgnoreCase);
         }
 
         private void doQuoteOfficial()
@@ -11498,7 +11498,7 @@ namespace OpenTween
                     this.PurgeListViewItemCache();
                     ((DetailsListView)_curTab.Tag).Update();
                 }
-                if (ev.Event == "unfavorite" && ev.Username.ToLowerInvariant().Equals(tw.Username.ToLowerInvariant()))
+                if (ev.Event == "unfavorite" && ev.Username.Equals(tw.Username, StringComparison.InvariantCultureIgnoreCase))
                 {
                     var favTab = this._statuses.GetTabByType(MyCommon.TabUsageType.Favorites);
                     favTab.EnqueueRemovePost(ev.Id, setIsDeleted: false);

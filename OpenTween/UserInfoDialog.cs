@@ -679,12 +679,9 @@ namespace OpenTween
 
         private bool IsValidExtension(string ext)
         {
-            ext = ext.ToLowerInvariant();
+            var allowedExtensions = new[] { ".jpg", ".jpeg", ".png", ".gif" };
 
-            return ext.Equals(".jpg", StringComparison.Ordinal) ||
-                ext.Equals(".jpeg", StringComparison.Ordinal) ||
-                ext.Equals(".png", StringComparison.Ordinal) ||
-                ext.Equals(".gif", StringComparison.Ordinal);
+            return allowedExtensions.Contains(ext, StringComparer.InvariantCultureIgnoreCase);
         }
 
         private bool IsValidIconFile(FileInfo info)

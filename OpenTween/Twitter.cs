@@ -235,7 +235,7 @@ namespace OpenTween
             }
             this.ResetApiStatus();
             this.Api.Initialize(token, tokenSecret, userId, username);
-            _uname = username.ToLowerInvariant();
+            _uname = username;
             if (SettingManager.Common.UserstreamStartup) this.ReconnectUserStream();
         }
 
@@ -728,7 +728,7 @@ namespace OpenTween
                 {
                     post.RetweetedBy = status.User.ScreenName;
                     post.RetweetedByUserId = status.User.Id;
-                    post.IsMe = post.RetweetedBy.ToLowerInvariant().Equals(_uname);
+                    post.IsMe = post.RetweetedBy.Equals(_uname, StringComparison.InvariantCultureIgnoreCase);
                 }
                 else
                 {
@@ -770,7 +770,7 @@ namespace OpenTween
                     post.Nickname = user.Name.Trim();
                     post.ImageUrl = user.ProfileImageUrlHttps;
                     post.IsProtect = user.Protected;
-                    post.IsMe = post.ScreenName.ToLowerInvariant().Equals(_uname);
+                    post.IsMe = post.ScreenName.Equals(_uname, StringComparison.InvariantCultureIgnoreCase);
                 }
                 else
                 {
@@ -2024,7 +2024,7 @@ namespace OpenTween
                 CreatedAt = MyCommon.DateTimeParse(eventData.CreatedAt),
                 Event = eventData.Event,
                 Username = eventData.Source.ScreenName,
-                IsMe = eventData.Source.ScreenName.ToLowerInvariant().Equals(this.Username.ToLowerInvariant()),
+                IsMe = eventData.Source.ScreenName.Equals(this.Username, StringComparison.InvariantCultureIgnoreCase),
                 Eventtype = eventTable.TryGetValue(eventData.Event, out var eventType) ? eventType : MyCommon.EVENTTYPE.None,
             };
 
@@ -2039,7 +2039,7 @@ namespace OpenTween
                 case "user_suspend":
                     return;
                 case "follow":
-                    if (eventData.Target.ScreenName.ToLowerInvariant().Equals(_uname))
+                    if (eventData.Target.ScreenName.Equals(_uname, StringComparison.InvariantCultureIgnoreCase))
                     {
                         if (!this.followerId.Contains(eventData.Source.Id)) this.followerId.Add(eventData.Source.Id);
                     }
