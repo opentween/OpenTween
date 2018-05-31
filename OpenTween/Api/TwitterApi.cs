@@ -548,7 +548,7 @@ namespace OpenTween.Api
             return this.apiConnection.PostLazyAsync<TwitterFriendship>(endpoint, param);
         }
 
-        public Task<long[]> NoRetweetIds(long? cursor = null)
+        public Task<long[]> NoRetweetIds()
         {
             var endpoint = new Uri("friendships/no_retweets/ids.json", UriKind.Relative);
 
