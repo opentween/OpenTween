@@ -40,14 +40,16 @@ namespace OpenTween.Models
     public sealed class TabInformations
     {
         //個別タブの情報をDictionaryで保持
-        private Dictionary<string, TabModel> _tabs = new Dictionary<string, TabModel>();
-        private ConcurrentDictionary<long, PostClass> _statuses = new ConcurrentDictionary<long, PostClass>();
+        public Dictionary<string, TabModel> Tabs { get; } = new Dictionary<string, TabModel>();
+        public ConcurrentDictionary<long, PostClass> Posts { get; } = new ConcurrentDictionary<long, PostClass>();
+
         private Dictionary<long, PostClass> _quotes = new Dictionary<long, PostClass>();
-        private Stack<TabModel> _removedTab = new Stack<TabModel>();
         private ConcurrentDictionary<long, int> retweetsCount = new ConcurrentDictionary<long, int>();
 
-        public ISet<long> BlockIds = new HashSet<long>();
-        public ISet<long> MuteUserIds = new HashSet<long>();
+        public Stack<TabModel> RemovedTab { get; } = new Stack<TabModel>();
+
+        public ISet<long> BlockIds { get; set; } = new HashSet<long>();
+        public ISet<long> MuteUserIds { get; set; } = new HashSet<long>();
 
         //発言の追加
         //AddPost(複数回) -> DistributePosts          -> SubmitUpdate
@@ -77,16 +79,11 @@ namespace OpenTween.Models
         }
 
         public static TabInformations GetInstance()
-        {
-            return _instance;    //singleton
-        }
+            => _instance; // singleton
 
         public List<ListElement> SubscribableLists
         {
-            get
-            {
-                return _lists;
-            }
+            get => this._lists;
             set
             {
                 if (value != null && value.Count > 0)
@@ -111,10 +108,10 @@ namespace OpenTween.Models
         {
             lock (this.LockObj)
             {
-                if (this._tabs.ContainsKey(tab.TabName))
+                if (this.Tabs.ContainsKey(tab.TabName))
                     return false;
 
-                this._tabs.Add(tab.TabName, tab);
+                this.Tabs.Add(tab.TabName, tab);
                 tab.SetSortMode(this.SortMode, this.SortOrder);
 
                 return true;
@@ -143,7 +140,7 @@ namespace OpenTween.Models
                         var exist = false;
                         var Id = tb.GetStatusIdAt(idx);
                         if (Id < 0) continue;
-                        foreach (var tab in _tabs.Values)
+                        foreach (var tab in this.Tabs.Values)
                         {
                             if (tab != tb && tab != dmTab)
                             {
@@ -154,28 +151,19 @@ namespace OpenTween.Models
                                 }
                             }
                         }
-                        if (!exist) homeTab.AddPostImmediately(Id, _statuses[Id].IsRead);
+                        if (!exist) homeTab.AddPostImmediately(Id, this.Posts[Id].IsRead);
                     }
                 }
-                _removedTab.Push(tb);
-                _tabs.Remove(TabName);
+                this.RemovedTab.Push(tb);
+                this.Tabs.Remove(TabName);
             }
         }
 
-        public Stack<TabModel> RemovedTab
-        {
-            get { return _removedTab; }
-        }
-
         public bool ContainsTab(string TabText)
-        {
-            return _tabs.ContainsKey(TabText);
-        }
+            => this.Tabs.ContainsKey(TabText);
 
         public bool ContainsTab(TabModel ts)
-        {
-            return _tabs.ContainsValue(ts);
-        }
+            => this.Tabs.ContainsValue(ts);
 
         /// <summary>
         /// 指定されたタブ名を元に、既存のタブ名との重複を避けた名前を生成します
@@ -184,9 +172,7 @@ namespace OpenTween.Models
         /// <returns>生成されたタブ名</returns>
         /// <exception cref="TabException">タブ名の生成を 100 回試行して失敗した場合</exception>
         public string MakeTabName(string baseTabName)
-        {
-            return this.MakeTabName(baseTabName, 100);
-        }
+            => this.MakeTabName(baseTabName, 100);
 
         /// <summary>
         /// 指定されたタブ名を元に、既存のタブ名との重複を避けた名前を生成します
@@ -213,25 +199,8 @@ namespace OpenTween.Models
             throw new TabException(message);
         }
 
-        public Dictionary<string, TabModel> Tabs
-        {
-            get
-            {
-                return _tabs;
-            }
-            set
-            {
-                _tabs = value;
-            }
-        }
-
         public Dictionary<string, TabModel>.KeyCollection KeysTab
-        {
-            get
-            {
-                return _tabs.Keys;
-            }
-        }
+            => this.Tabs.Keys;
 
         public SortOrder SortOrder { get; private set; }
 
@@ -242,7 +211,7 @@ namespace OpenTween.Models
             this.SortMode = mode;
             this.SortOrder = sortOrder;
 
-            foreach (var tab in this._tabs.Values)
+            foreach (var tab in this.Tabs.Values)
                 tab.SetSortMode(mode, sortOrder);
         }
 
@@ -282,11 +251,7 @@ namespace OpenTween.Models
         //        }
         //    }
         public PostClass RetweetSource(long Id)
-        {
-            return this._statuses.TryGetValue(Id, out var status)
-                ? status
-                : null;
-        }
+            => this.Posts.TryGetValue(Id, out var status) ? status : null;
 
         public void ScrubGeoReserve(long id, long upToStatusId)
         {
@@ -301,7 +266,7 @@ namespace OpenTween.Models
         {
             lock (LockObj)
             {
-                var userPosts = from post in this._statuses.Values
+                var userPosts = from post in this.Posts.Values
                                 where post.UserId == userId && post.UserId <= upToStatusId
                                 select post;
 
@@ -331,16 +296,13 @@ namespace OpenTween.Models
 
             if (setIsDeleted)
             {
-                if (this._statuses.TryGetValue(statusId, out var post))
+                if (this.Posts.TryGetValue(statusId, out var post))
                     post.IsDeleted = true;
             }
         }
 
         public int SubmitUpdate()
-        {
-            return this.SubmitUpdate(out var soundFile, out var notifyPosts,
-                out var newMentionOrDm, out var isDeletePost);
-        }
+            => this.SubmitUpdate(out var soundFile, out var notifyPosts, out var newMentionOrDm, out var isDeletePost);
 
         public int SubmitUpdate(out string soundFile, out PostClass[] notifyPosts,
             out bool newMentionOrDm, out bool isDeletePost)
@@ -359,7 +321,7 @@ namespace OpenTween.Models
 
                 var currentNotifyPriority = -1;
 
-                foreach (var tab in this._tabs.Values)
+                foreach (var tab in this.Tabs.Values)
                 {
                     // 振分確定 (各タブに反映)
                     var addedIds = tab.AddSubmit();
@@ -424,7 +386,7 @@ namespace OpenTween.Models
 
                     // 全てのタブから表示されなくなった発言は this._statuses からも削除する
                     if (orphaned)
-                        this._statuses.TryRemove(removedId, out var removedPost);
+                        this.Posts.TryRemove(removedId, out var removedPost);
                 }
 
                 return addedCountTotal;
@@ -446,7 +408,7 @@ namespace OpenTween.Models
 
                 while (this.addQueue.TryDequeue(out var statusId))
                 {
-                    if (!this._statuses.TryGetValue(statusId, out var post))
+                    if (!this.Posts.TryGetValue(statusId, out var post))
                         continue;
 
                     var filterHit = false; // フィルタにヒットしたタブがあるか
@@ -511,7 +473,7 @@ namespace OpenTween.Models
                 if (this.IsMuted(Item, isHomeTimeline: true))
                     return;
 
-                if (_statuses.TryGetValue(Item.StatusId, out var status))
+                if (Posts.TryGetValue(Item.StatusId, out var status))
                 {
                     if (Item.IsFav)
                     {
@@ -545,7 +507,7 @@ namespace OpenTween.Models
                     if (BlockIds.Contains(Item.UserId))
                         return;
 
-                    _statuses.TryAdd(Item.StatusId, Item);
+                    Posts.TryAdd(Item.StatusId, Item);
                 }
                 if (Item.IsFav && this.retweetsCount.ContainsKey(Item.StatusId))
                 {
@@ -610,7 +572,7 @@ namespace OpenTween.Models
         {
             lock (LockObj)
             {
-                foreach (var tab in this._tabs.Values)
+                foreach (var tab in this.Tabs.Values)
                 {
                     if (!tab.Contains(statusId))
                         continue;
@@ -653,7 +615,7 @@ namespace OpenTween.Models
         {
             get
             {
-                if (this._statuses.TryGetValue(ID, out var status))
+                if (this.Posts.TryGetValue(ID, out var status))
                     return status;
 
                 if (this._quotes.TryGetValue(ID, out status))
@@ -670,7 +632,7 @@ namespace OpenTween.Models
             //DM,公式検索は非対応
             lock (LockObj)
             {
-                return _statuses.ContainsKey(Id);
+                return Posts.ContainsKey(Id);
             }
         }
 
@@ -678,10 +640,10 @@ namespace OpenTween.Models
         {
             lock (this.LockObj)
             {
-                var tb = _tabs[Original];
-                _tabs.Remove(Original);
+                var tb = this.Tabs[Original];
+                this.Tabs.Remove(Original);
                 tb.TabName = NewName;
-                _tabs.Add(NewName, tb);
+                this.Tabs.Add(NewName, tb);
             }
         }
 
@@ -692,7 +654,7 @@ namespace OpenTween.Models
                 var homeTab = GetTabByType(MyCommon.TabUsageType.Home);
                 var detachedIdsAll = Enumerable.Empty<long>();
 
-                foreach (var tab in _tabs.Values.OfType<FilterTabModel>().ToArray())
+                foreach (var tab in this.Tabs.Values.OfType<FilterTabModel>().ToArray())
                 {
                     if (tab.TabType == MyCommon.TabUsageType.Mute)
                         continue;
@@ -707,7 +669,7 @@ namespace OpenTween.Models
                     var orgIds = tab.StatusIds;
                     tab.ClearIDs();
 
-                    foreach (var post in _statuses.Values)
+                    foreach (var post in Posts.Values)
                     {
                         var filterHit = false; // フィルタにヒットしたタブがあるか
                         var mark = false; // フィルタによってマーク付けされたか
@@ -761,7 +723,7 @@ namespace OpenTween.Models
                 foreach (var id in detachedIdsAll)
                 {
                     var hit = false;
-                    foreach (var tbTemp in _tabs.Values.ToArray())
+                    foreach (var tbTemp in this.Tabs.Values.ToArray())
                     {
                         if (!tbTemp.IsDistributableTabType)
                             continue;
@@ -775,7 +737,7 @@ namespace OpenTween.Models
 
                     if (!hit)
                     {
-                        if (this._statuses.TryGetValue(id, out var post))
+                        if (this.Posts.TryGetValue(id, out var post))
                             homeTab.AddPostImmediately(post.StatusId, post.IsRead);
                     }
                 }
@@ -787,13 +749,13 @@ namespace OpenTween.Models
             //不要なPostを削除
             lock (LockObj)
             {
-                var tb = _tabs[TabName];
+                var tb = this.Tabs[TabName];
                 if (!tb.IsInnerStorageTabType)
                 {
                     foreach (var Id in tb.StatusIds)
                     {
                         var Hit = false;
-                        foreach (var tab in _tabs.Values)
+                        foreach (var tab in this.Tabs.Values)
                         {
                             if (tab.Contains(Id))
                             {
@@ -802,7 +764,7 @@ namespace OpenTween.Models
                             }
                         }
                         if (!Hit)
-                            _statuses.TryRemove(Id, out var removedPost);
+                            Posts.TryRemove(Id, out var removedPost);
                     }
                 }
 
@@ -817,7 +779,7 @@ namespace OpenTween.Models
             {
                 if (follower.Count > 0)
                 {
-                    foreach (var post in _statuses.Values)
+                    foreach (var post in Posts.Values)
                     {
                         //if (post.UserId = 0 || post.IsDm) Continue For
                         if (post.IsMe)
@@ -832,7 +794,7 @@ namespace OpenTween.Models
                 }
                 else
                 {
-                    foreach (var post in _statuses.Values)
+                    foreach (var post in Posts.Values)
                     {
                         post.IsOwl = false;
                     }
@@ -847,7 +809,7 @@ namespace OpenTween.Models
             //合致しなければnullを返す
             lock (LockObj)
             {
-                return this._tabs.Values
+                return this.Tabs.Values
                     .FirstOrDefault(x => x.TabType.HasFlag(tabType));
             }
         }
@@ -855,14 +817,14 @@ namespace OpenTween.Models
         public T GetTabByType<T>() where T : TabModel
         {
             lock (this.LockObj)
-                return this._tabs.Values.OfType<T>().FirstOrDefault();
+                return this.Tabs.Values.OfType<T>().FirstOrDefault();
         }
 
         public TabModel[] GetTabsByType(MyCommon.TabUsageType tabType)
         {
             lock (LockObj)
             {
-                return this._tabs.Values
+                return this.Tabs.Values
                     .Where(x => x.TabType.HasFlag(tabType))
                     .ToArray();
             }
@@ -871,14 +833,14 @@ namespace OpenTween.Models
         public T[] GetTabsByType<T>() where T : TabModel
         {
             lock (this.LockObj)
-                return this._tabs.Values.OfType<T>().ToArray();
+                return this.Tabs.Values.OfType<T>().ToArray();
         }
 
         public TabModel[] GetTabsInnerStorageType()
         {
             lock (LockObj)
             {
-                return this._tabs.Values
+                return this.Tabs.Values
                     .Where(x => x.IsInnerStorageTabType)
                     .ToArray();
             }
@@ -888,13 +850,10 @@ namespace OpenTween.Models
         {
             lock (LockObj)
             {
-                return _tabs.TryGetValue(tabName, out var tab)
+                return this.Tabs.TryGetValue(tabName, out var tab)
                     ? tab
                     : null;
             }
         }
-
-        public ConcurrentDictionary<long, PostClass> Posts
-            => this._statuses;
     }
 }

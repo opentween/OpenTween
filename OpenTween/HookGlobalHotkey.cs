@@ -37,28 +37,13 @@ namespace OpenTween
         private Form _targetForm;
         private class KeyEventValue
         {
-            KeyEventArgs _keyEvent;
-            int _value;
+            public KeyEventArgs KeyEvent { get; }
+            public int Value { get; }
 
             public KeyEventValue(KeyEventArgs keyEvent, int Value)
             {
-                _keyEvent = keyEvent;
-                _value = Value;
-            }
-
-            public KeyEventArgs KeyEvent
-            {
-                get
-                {
-                    return _keyEvent;
-                }
-            }
-            public int Value
-            {
-                get
-                {
-                    return _value;
-                }
+                this.KeyEvent = keyEvent;
+                this.Value = Value;
             }
         }
 
@@ -100,14 +85,10 @@ namespace OpenTween
         }
 
         public void OnHandleCreated(Object sender, EventArgs e)
-        {
-            this.AssignHandle(_targetForm.Handle);
-        }
+            => this.AssignHandle(_targetForm.Handle);
 
         public void OnHandleDestroyed(Object sender, EventArgs e)
-        {
-            this.ReleaseHandle();
-        }
+            => this.ReleaseHandle();
 
         public bool RegisterOriginalHotkey(Keys hotkey, int hotkeyValue, ModKeys modifiers)
         {

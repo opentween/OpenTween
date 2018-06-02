@@ -285,7 +285,7 @@ namespace OpenTween
         private IntPtr profferServicePtr = new IntPtr();
         private WebBrowserAPI.IProfferService profferService;
 
-        private POLICY _Policy = 0; // DefaultですべてDisAllow
+        public POLICY SecurityPolicy { get; set; } = 0;
 
         public InternetSecurityManager(WebBrowser _WebBrowser)
         {
@@ -359,9 +359,7 @@ namespace OpenTween
         }
 
         int WebBrowserAPI.IInternetSecurityManager.GetSecurityId(string pwszUrl, byte[] pbSecurityId, ref uint pcbSecurityId, uint dwReserved)
-        {
-            return WebBrowserAPI.INET_E_DEFAULT_ACTION;
-        }
+            => WebBrowserAPI.INET_E_DEFAULT_ACTION;
 
         int WebBrowserAPI.IInternetSecurityManager.GetSecuritySite(out WebBrowserAPI.IInternetSecurityMgrSite pSite)
         {
@@ -382,7 +380,7 @@ namespace OpenTween
             try
             {
                 var urlStr = MyCommon.IDNEncode(pwszUrl);
-                if (object.ReferenceEquals(urlStr, null)) return WebBrowserAPI.URLPOLICY_DISALLOW;
+                if (urlStr == null) return WebBrowserAPI.URLPOLICY_DISALLOW;
                 var url = new Uri(urlStr);
                 if (url.Scheme == "data")
                 {
@@ -406,7 +404,7 @@ namespace OpenTween
                 dwAction <= WebBrowserAPI.URLACTION_SCRIPT_MAX)
             {
                 // スクリプト実行状態
-                if ((_Policy & POLICY.ALLOW_SCRIPT) == POLICY.ALLOW_SCRIPT)
+                if ((this.SecurityPolicy & POLICY.ALLOW_SCRIPT) == POLICY.ALLOW_SCRIPT)
                 {
                     pPolicy = WebBrowserAPI.URLPOLICY_ALLOW;
                 }
@@ -422,7 +420,7 @@ namespace OpenTween
                 dwAction <= WebBrowserAPI.URLACTION_ACTIVEX_MAX)
             {
                 // ActiveX実行状態
-                if ((_Policy & POLICY.ALLOW_ACTIVEX) == POLICY.ALLOW_ACTIVEX)
+                if ((this.SecurityPolicy & POLICY.ALLOW_ACTIVEX) == POLICY.ALLOW_ACTIVEX)
                 {
                     pPolicy = WebBrowserAPI.URLPOLICY_ALLOW;
                 }
@@ -437,31 +435,12 @@ namespace OpenTween
         }
 
         int WebBrowserAPI.IInternetSecurityManager.QueryCustomPolicy(string pwszUrl, ref Guid guidKey, byte ppPolicy, int pcbPolicy, byte pContext, int cbContext, int dwReserved)
-        {
-            return WebBrowserAPI.INET_E_DEFAULT_ACTION;
-        }
+            => WebBrowserAPI.INET_E_DEFAULT_ACTION;
 
         int WebBrowserAPI.IInternetSecurityManager.SetSecuritySite(WebBrowserAPI.IInternetSecurityMgrSite pSite)
-        {
-            return WebBrowserAPI.INET_E_DEFAULT_ACTION;
-        }
+            => WebBrowserAPI.INET_E_DEFAULT_ACTION;
 
         int WebBrowserAPI.IInternetSecurityManager.SetZoneMapping(int dwZone, string lpszPattern, int dwFlags)
-        {
-            return WebBrowserAPI.INET_E_DEFAULT_ACTION;
-        }
-
-
-        public POLICY SecurityPolicy
-        {
-            get
-            {
-                return _Policy;
-            }
-            set
-            {
-                _Policy = value;
-            }
-        }
+            => WebBrowserAPI.INET_E_DEFAULT_ACTION;
     }
 }

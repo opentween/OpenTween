@@ -41,19 +41,13 @@ namespace OpenTween
         }
 
         public void Save()
-        {
-            SaveSettings(this);
-        }
+            => SaveSettings(this);
 
         public SettingAtIdList()
-        {
-            AtIdList = new List<String>();
-        }
+            => this.AtIdList = new List<String>();
 
         public SettingAtIdList(List<string> ids)
-        {
-            this.AtIdList = ids;
-        }
+            => this.AtIdList = ids;
 #endregion
 
         public List<string> AtIdList;

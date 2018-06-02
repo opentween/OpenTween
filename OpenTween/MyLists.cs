@@ -51,9 +51,7 @@ namespace OpenTween
         private long[] addedListIds = new long[0];
 
         public MyLists()
-        {
-            InitializeComponent();
-        }
+            => this.InitializeComponent();
 
         public MyLists(string screenName, TwitterApi twitterApi)
         {
@@ -202,9 +200,7 @@ namespace OpenTween
         }
 
         private void ContextMenuStrip1_Opening(object sender, CancelEventArgs e)
-        {
-            e.Cancel = this.ListsCheckedListBox.SelectedItem == null;
-        }
+            => e.Cancel = this.ListsCheckedListBox.SelectedItem == null;
 
         private async void MenuItemAdd_Click(object sender, EventArgs e)
         {
@@ -255,8 +251,6 @@ namespace OpenTween
         }
 
         private void CloseButton_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
+            => this.Close();
     }
 }

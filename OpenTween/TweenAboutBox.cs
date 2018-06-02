@@ -39,9 +39,7 @@ namespace OpenTween
     public partial class TweenAboutBox : OTBaseForm
     {
         public TweenAboutBox()
-        {
-            InitializeComponent();
-        }
+            => this.InitializeComponent();
 
         private void TweenAboutBox_Load(object sender, EventArgs e)
         {
@@ -51,7 +49,7 @@ namespace OpenTween
             // バージョン情報ボックスに表示されたテキストをすべて初期化します。
             // TODO: [プロジェクト] メニューの下にある [プロジェクト プロパティ] ダイアログの [アプリケーション] ペインで、アプリケーションのアセンブリ情報を 
             //    カスタマイズします。
-            this.LabelProductName.Text = Application.ProductName;
+            this.LabelProductName.Text = ApplicationSettings.ApplicationName;
             this.LabelVersion.Text = String.Format(Properties.Resources.TweenAboutBox_LoadText2, MyCommon.GetReadableVersion());
             this.LabelCopyright.Text = GetApplicationAttribute<AssemblyCopyrightAttribute>().Copyright;
             this.LabelCompanyName.Text = Application.CompanyName;
@@ -69,13 +67,9 @@ namespace OpenTween
         }
 
         private void OKButton_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
+            => this.Close();
 
         private void TweenAboutBox_Shown(object sender, EventArgs e)
-        {
-            OKButton.Focus();
-        }
+            => this.OKButton.Focus();
     }
 }

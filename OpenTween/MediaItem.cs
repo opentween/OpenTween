@@ -95,9 +95,7 @@ namespace OpenTween
         public string AltText { get; set; }
 
         public FileMediaItem(string path)
-        {
-            this.FileInfo = new FileInfo(path);
-        }
+            => this.FileInfo = new FileInfo(path);
 
         public FileMediaItem(FileInfo fileInfo)
             : this(fileInfo.FullName)
@@ -105,29 +103,19 @@ namespace OpenTween
         }
 
         public string Path
-        {
-            get { return this.FileInfo.FullName; }
-        }
+            => this.FileInfo.FullName;
 
         public string Name
-        {
-            get { return this.FileInfo.Name; }
-        }
+            => this.FileInfo.Name;
 
         public string Extension
-        {
-            get { return this.FileInfo.Extension; }
-        }
+            => this.FileInfo.Extension;
 
         public bool Exists
-        {
-            get { return this.FileInfo.Exists; }
-        }
+            => this.FileInfo.Exists;
 
         public long Size
-        {
-            get { return this.FileInfo.Length; }
-        }
+            => this.FileInfo.Length;
 
         public bool IsImage
         {
@@ -164,9 +152,7 @@ namespace OpenTween
         }
 
         public Stream OpenRead()
-        {
-            return this.FileInfo.OpenRead();
-        }
+            => this.FileInfo.OpenRead();
 
         public void CopyTo(Stream stream)
         {
@@ -187,10 +173,9 @@ namespace OpenTween
     {
         public const string PathPrefix = "<>MemoryImage://";
         private static int _fileNumber = 0;
-
-        private bool _disposed = false;
-
         private readonly MemoryImage _image;
+
+        public bool IsDisposed { get; private set; } = false;
 
         public MemoryImageMediaItem(MemoryImage image)
         {
@@ -204,39 +189,22 @@ namespace OpenTween
         public string AltText { get; set; }
 
         public string Name
-        {
-            get { return this.Path.Substring(PathPrefix.Length); }
-        }
+            => this.Path.Substring(PathPrefix.Length);
 
         public string Extension
-        {
-            get { return this._image.ImageFormatExt; }
-        }
+            => this._image.ImageFormatExt;
 
         public bool Exists
-        {
-            get { return this._image != null; }
-        }
+            => this._image != null;
 
         public long Size
-        {
-            get { return this._image.Stream.Length; }
-        }
+            => this._image.Stream.Length;
 
         public bool IsImage
-        {
-            get { return true; }
-        }
-
-        public bool IsDisposed
-        {
-            get { return this._disposed; }
-        }
+            => true;
 
         public MemoryImage CreateImage()
-        {
-            return this._image.Clone();
-        }
+            => this._image.Clone();
 
         public Stream OpenRead()
         {
@@ -259,20 +227,18 @@ namespace OpenTween
         }
 
         public void CopyTo(Stream stream)
-        {
-            this._image.Stream.WriteTo(stream);
-        }
+            => this._image.Stream.WriteTo(stream);
 
         protected virtual void Dispose(bool disposing)
         {
-            if (this._disposed) return;
+            if (this.IsDisposed) return;
 
             if (disposing)
             {
                 this._image.Dispose();
             }
 
-            this._disposed = true;
+            this.IsDisposed = true;
         }
 
         public void Dispose()

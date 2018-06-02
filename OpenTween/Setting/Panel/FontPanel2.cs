@@ -38,9 +38,7 @@ namespace OpenTween.Setting.Panel
     public partial class FontPanel2 : SettingPanelBase
     {
         public FontPanel2()
-        {
-            InitializeComponent();
-        }
+            => this.InitializeComponent();
 
         public void LoadConfig(SettingLocal settingLocal)
         {
@@ -93,48 +91,30 @@ namespace OpenTween.Setting.Panel
         }
 
         private void btnSelf_Click(object sender, EventArgs e)
-        {
-            this.ShowBackColorDialog(this.lblSelf);
-        }
+            => this.ShowBackColorDialog(this.lblSelf);
 
         private void btnAtSelf_Click(object sender, EventArgs e)
-        {
-            this.ShowBackColorDialog(this.lblAtSelf);
-        }
+            => this.ShowBackColorDialog(this.lblAtSelf);
 
         private void btnTarget_Click(object sender, EventArgs e)
-        {
-            this.ShowBackColorDialog(this.lblTarget);
-        }
+            => this.ShowBackColorDialog(this.lblTarget);
 
         private void btnAtTarget_Click(object sender, EventArgs e)
-        {
-            this.ShowBackColorDialog(this.lblAtTarget);
-        }
+            => this.ShowBackColorDialog(this.lblAtTarget);
 
         private void btnAtFromTarget_Click(object sender, EventArgs e)
-        {
-            this.ShowBackColorDialog(this.lblAtFromTarget);
-        }
+            => this.ShowBackColorDialog(this.lblAtFromTarget);
 
         private void btnAtTo_Click(object sender, EventArgs e)
-        {
-            this.ShowBackColorDialog(this.lblAtTo);
-        }
+            => this.ShowBackColorDialog(this.lblAtTo);
 
         private void btnListBack_Click(object sender, EventArgs e)
-        {
-            this.ShowBackColorDialog(this.lblListBackcolor);
-        }
+            => this.ShowBackColorDialog(this.lblListBackcolor);
 
         private void btnInputBackcolor_Click(object sender, EventArgs e)
-        {
-            this.ShowBackColorDialog(this.lblInputBackcolor);
-        }
+            => this.ShowBackColorDialog(this.lblInputBackcolor);
 
         private void btnInputFont_Click(object sender, EventArgs e)
-        {
-            this.ShowFontDialog(this.lblInputFont);
-        }
+            => this.ShowFontDialog(this.lblInputFont);
     }
 }

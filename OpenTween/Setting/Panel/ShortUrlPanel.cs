@@ -40,9 +40,7 @@ namespace OpenTween.Setting.Panel
     public partial class ShortUrlPanel : SettingPanelBase
     {
         public ShortUrlPanel()
-        {
-            InitializeComponent();
-        }
+            => this.InitializeComponent();
 
         public void LoadConfig(SettingCommon settingCommon)
         {
@@ -86,9 +84,7 @@ namespace OpenTween.Setting.Panel
         }
 
         private void CheckAutoConvertUrl_CheckedChanged(object sender, EventArgs e)
-        {
-            ShortenTcoCheck.Enabled = CheckAutoConvertUrl.Checked;
-        }
+            => ShortenTcoCheck.Enabled = CheckAutoConvertUrl.Checked;
 
         private void ButtonBitlyAuthorize_Click(object sender, EventArgs e)
         {

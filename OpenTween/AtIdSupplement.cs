@@ -37,12 +37,11 @@ namespace OpenTween
 {
     public partial class AtIdSupplement : OTBaseForm
     {
+        public string StartsWith { get; set; } = "";
+
         public string inputText = "";
         public bool isBack = false;
         private string startChar = "";
-        //    private bool tabkeyFix = false;
-
-        private string _StartsWith = "";
 
         public void AddItem(string id)
         {
@@ -71,12 +70,7 @@ namespace OpenTween
         }
 
         public int ItemCount
-        {
-            get
-            {
-                return this.TextId.AutoCompleteCustomSource.Count;
-            }
-        }
+            => this.TextId.AutoCompleteCustomSource.Count;
 
         private void ButtonOK_Click(object sender, EventArgs e) /*Handles ButtonOK.Click*/
         {
@@ -130,18 +124,16 @@ namespace OpenTween
         private void AtIdSupplement_Shown(object sender, EventArgs e) /*Handles this.Shown*/
         {
             TextId.Text = startChar;
-            if (!string.IsNullOrEmpty(_StartsWith))
+            if (!string.IsNullOrEmpty(this.StartsWith))
             {
-                TextId.Text += _StartsWith.Substring(0, _StartsWith.Length);
+                TextId.Text += this.StartsWith.Substring(0, this.StartsWith.Length);
             }
             TextId.SelectionStart = TextId.Text.Length;
             TextId.Focus();
         }
 
         public AtIdSupplement()
-        {
-            InitializeComponent();
-        }
+            => this.InitializeComponent();
 
         public AtIdSupplement(List<string> ItemList, string startCharacter)
         {
@@ -164,21 +156,9 @@ namespace OpenTween
             }
         }
 
-        public string StartsWith
-        {
-            get
-            {
-                return _StartsWith;
-            }
-            set
-            {
-                _StartsWith = value;
-            }
-        }
-
         private void AtIdSupplement_FormClosed(object sender, FormClosedEventArgs e) /*Handles MyBase.FormClosed*/
         {
-            _StartsWith = "";
+            this.StartsWith = "";
             if (isBack)
             {
                 this.DialogResult = DialogResult.Cancel;

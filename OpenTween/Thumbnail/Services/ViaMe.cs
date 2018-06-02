@@ -43,9 +43,8 @@ namespace OpenTween.Thumbnail.Services
             new Regex(@"^https?://via\.me/-(\w+)$");
 
         protected HttpClient http
-        {
-            get { return this.localHttpClient ?? Networking.Http; }
-        }
+            => this.localHttpClient ?? Networking.Http;
+
         private readonly HttpClient localHttpClient;
 
         public ViaMe()
@@ -54,9 +53,7 @@ namespace OpenTween.Thumbnail.Services
         }
 
         public ViaMe(HttpClient http)
-        {
-            this.localHttpClient = http;
-        }
+            => this.localHttpClient = http;
 
         public override async Task<ThumbnailInfo> GetThumbnailInfoAsync(string url, PostClass post, CancellationToken token)
         {
@@ -87,7 +84,7 @@ namespace OpenTween.Thumbnail.Services
                     {
                         MediaPageUrl = url,
                         ThumbnailImageUrl = thumbUrlElm.Value,
-                        TooltipText = textElm == null ? null : textElm.Value,
+                        TooltipText = textElm?.Value,
                     };
                 }
             }

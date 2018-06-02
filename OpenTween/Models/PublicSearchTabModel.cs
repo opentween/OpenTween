@@ -41,7 +41,7 @@ namespace OpenTween.Models
 
         public string SearchWords
         {
-            get { return this._searchWords; }
+            get => this._searchWords;
             set
             {
                 this._searchWords = value;
@@ -51,7 +51,7 @@ namespace OpenTween.Models
 
         public string SearchLang
         {
-            get { return this._searchLang; }
+            get => this._searchLang;
             set
             {
                 this._searchLang = value;

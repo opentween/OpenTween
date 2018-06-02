@@ -77,9 +77,7 @@ namespace OpenTween.Models
         private readonly object _lockObj = new object();
 
         protected TabModel(string tabName)
-        {
-            this.TabName = tabName;
-        }
+            => this.TabName = tabName;
 
         public abstract Task RefreshAsync(Twitter tw, bool backward, bool startup, IProgress<string> progress);
 
@@ -129,9 +127,7 @@ namespace OpenTween.Models
         }
 
         public virtual void EnqueueRemovePost(long statusId, bool setIsDeleted)
-        {
-            this.removeQueue.Enqueue(statusId);
-        }
+            => this.removeQueue.Enqueue(statusId);
 
         public virtual bool RemovePostImmediately(long statusId)
         {
@@ -298,13 +294,10 @@ namespace OpenTween.Models
         /// <param name="statusId">変更するツイートのID</param>
         /// <param name="read">既読状態</param>
         /// <returns>既読状態に変化があれば true、変化がなければ false</returns>
-        internal bool SetReadState(long statusId, bool read)
+        internal virtual bool SetReadState(long statusId, bool read)
         {
             if (!this._ids.Contains(statusId))
                 throw new ArgumentOutOfRangeException(nameof(statusId));
-
-            if (this.IsInnerStorageTabType)
-                this.Posts[statusId].IsRead = read;
 
             if (read)
                 return this.unreadIds.Remove(statusId);

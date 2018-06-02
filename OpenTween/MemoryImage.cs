@@ -42,10 +42,7 @@ namespace OpenTween
     /// </remarks>
     public class MemoryImage : ICloneable, IDisposable, IEquatable<MemoryImage>
     {
-        private readonly MemoryStream stream;
         private readonly Image image;
-
-        protected bool disposed = false;
 
         /// <exception cref="InvalidImageException">
         /// ストリームから読みだされる画像データが不正な場合にスローされる
@@ -79,7 +76,7 @@ namespace OpenTween
                 throw;
             }
 
-            this.stream = stream;
+            this.Stream = stream;
         }
 
         /// <summary>
@@ -99,27 +96,18 @@ namespace OpenTween
         /// <summary>
         /// MemoryImage が保持している画像のストリーム
         /// </summary>
-        public MemoryStream Stream
-        {
-            // MemoryStream は破棄されていても一部のメソッドが使用可能なためここでは例外を投げない
-            get { return this.stream; }
-        }
+        public MemoryStream Stream { get; }
 
         /// <summary>
         /// MemoryImage が破棄されているか否か
         /// </summary>
-        public bool IsDisposed
-        {
-            get { return this.disposed; }
-        }
+        public bool IsDisposed { get; private set; } = false;
 
         /// <summary>
         /// MemoryImage が保持している画像のフォーマット
         /// </summary>
         public ImageFormat ImageFormat
-        {
-            get { return this.Image.RawFormat; }
-        }
+            => this.Image.RawFormat;
 
         /// <summary>
         /// MemoryImage が保持している画像のフォーマットに相当する拡張子 (ピリオド付き)
@@ -196,9 +184,7 @@ namespace OpenTween
         }
 
         public override bool Equals(object other)
-        {
-            return this.Equals(other as MemoryImage);
-        }
+            => this.Equals(other as MemoryImage);
 
         public bool Equals(MemoryImage other)
         {
@@ -229,13 +215,11 @@ namespace OpenTween
         }
 
         object ICloneable.Clone()
-        {
-            return this.Clone();
-        }
+            => this.Clone();
 
         protected virtual void Dispose(bool disposing)
         {
-            if (this.disposed) return;
+            if (this.IsDisposed) return;
 
             if (disposing)
             {
@@ -243,7 +227,7 @@ namespace OpenTween
                 this.Stream.Dispose();
             }
 
-            this.disposed = true;
+            this.IsDisposed = true;
         }
 
         public void Dispose()

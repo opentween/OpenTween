@@ -47,9 +47,8 @@ namespace OpenTween.Thumbnail.Services
         public static readonly string ApiBase = "https://api.foursquare.com/v2";
 
         protected HttpClient http
-        {
-            get { return this.localHttpClient ?? Networking.Http; }
-        }
+            => this.localHttpClient ?? Networking.Http;
+
         private readonly HttpClient localHttpClient;
 
         public FoursquareCheckin()
@@ -58,9 +57,7 @@ namespace OpenTween.Thumbnail.Services
         }
 
         public FoursquareCheckin(HttpClient http)
-        {
-            this.localHttpClient = http;
-        }
+            => this.localHttpClient = http;
 
         public override async Task<ThumbnailInfo> GetThumbnailInfoAsync(string url, PostClass post, CancellationToken token)
         {

@@ -361,9 +361,7 @@ namespace OpenTween.Connection
             => this.Dispose(false);
 
         private void Networking_WebProxyChanged(object sender, EventArgs e)
-        {
-            this.InitializeHttpClients();
-        }
+            => this.InitializeHttpClients();
 
         public static async Task<Tuple<string, string>> GetRequestTokenAsync()
         {

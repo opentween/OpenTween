@@ -229,7 +229,7 @@ namespace OpenTween
             {
                 ListElement list = (ListElement)this.ListsList.SelectedItem;
                 UserInfo user = (UserInfo)this.UserList.SelectedItem;
-                if (MessageBox.Show(Properties.Resources.ListManageDeleteUser1, Application.ProductName, MessageBoxButtons.OKCancel) == DialogResult.OK)
+                if (MessageBox.Show(Properties.Resources.ListManageDeleteUser1, ApplicationSettings.ApplicationName, MessageBoxButtons.OKCancel) == DialogResult.OK)
                 {
                     try
                     {
@@ -258,7 +258,7 @@ namespace OpenTween
             {
                 ListElement list = (ListElement)this.ListsList.SelectedItem;
 
-                if (MessageBox.Show(Properties.Resources.ListManageDeleteLists1, Application.ProductName, MessageBoxButtons.OKCancel) == DialogResult.OK)
+                if (MessageBox.Show(Properties.Resources.ListManageDeleteLists1, ApplicationSettings.ApplicationName, MessageBoxButtons.OKCancel) == DialogResult.OK)
                 {
                     try
                     {
@@ -400,7 +400,7 @@ namespace OpenTween
             using (ControlTransaction.Update(this.ListsList))
             {
                 this.ListsList.Items.Clear();
-                foreach (var listItem in lists.Where(x => x.Username == this.tw.Username))
+                foreach (var listItem in lists.Where(x => x.UserId == this.tw.UserId))
                 {
                     this.ListsList.Items.Add(listItem);
                 }
@@ -418,12 +418,10 @@ namespace OpenTween
 
         private class NewListElement : ListElement
         {
-            private bool _isCreated = false;
+            public bool IsCreated { get; private set; } = false;
 
             public NewListElement(Twitter tw)
-            {
-                this._tw = tw;
-            }
+                => this._tw = tw;
 
             public override async Task Refresh()
             {
@@ -436,13 +434,8 @@ namespace OpenTween
                     await this._tw.CreateListApi(this.Name, !this.IsPublic, this.Description)
                         .ConfigureAwait(false);
 
-                    this._isCreated = true;
+                    this.IsCreated = true;
                 }
-            }
-
-            public bool IsCreated
-            {
-                get { return this._isCreated; }
             }
 
             public override string ToString()

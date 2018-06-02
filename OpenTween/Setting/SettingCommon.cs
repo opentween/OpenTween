@@ -36,14 +36,10 @@ namespace OpenTween
     {
         #region "Settingクラス基本"
         public static SettingCommon Load()
-        {
-            return LoadSettings();
-        }
+            => LoadSettings();
 
         public void Save()
-        {
-            SaveSettings(this);
-        }
+            => SaveSettings(this);
         #endregion
 
         public List<UserAccount> UserAccounts;
@@ -295,9 +291,8 @@ namespace OpenTween
             }
             return password;
         }
+
         public override string ToString()
-        {
-            return this.Username;
-        }
+            => this.Username;
     }
 }

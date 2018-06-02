@@ -66,9 +66,7 @@ namespace OpenTween.OpenTweenCustomControl
             }
 
             public override string ToString()
-            {
-                return Timestamp.ToLocalTime().ToString("T") + ": " + Summary;
-            }
+                => Timestamp.ToLocalTime().ToString("T") + ": " + Summary;
         }
 
         LinkedList<LogEntry> _logs;
@@ -77,7 +75,7 @@ namespace OpenTween.OpenTweenCustomControl
 
         public override string Text
         {
-            get { return base.Text; }
+            get => base.Text;
             set
             {
                 _logs.AddLast(new LogEntry(DateTimeUtc.Now, value));
@@ -103,8 +101,6 @@ namespace OpenTween.OpenTweenCustomControl
         }
 
         public ToolStripLabelHistory()
-        {
-            _logs = new LinkedList<LogEntry>();
-        }
+            => this._logs = new LinkedList<LogEntry>();
     }
 }

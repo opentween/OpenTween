@@ -23,6 +23,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Windows.Forms;
 
 namespace OpenTween
 {
@@ -34,6 +35,23 @@ namespace OpenTween
     /// </remarks>
     internal static class ApplicationSettings
     {
+        //=====================================================================
+        // アプリケーション情報
+
+        /// <summary>
+        /// アプリケーション名
+        /// </summary>
+        /// <remarks>
+        /// 派生版のアプリケーションでは名前にマルチバイト文字を含む場合があります。
+        /// ファイル名など英数字のみを含めたい用途ではこのプロパティではなく <see cref="AssemblyName"/> を使用します
+        /// </remarks>
+        public static string ApplicationName => Application.ProductName;
+
+        /// <summary>
+        /// アセンブリ名
+        /// </summary>
+        public static string AssemblyName => MyCommon.GetAssemblyName();
+
         //=====================================================================
         // フィードバック送信先
         // 異常終了時などにエラーログ等とともに表示されます。

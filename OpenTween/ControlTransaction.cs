@@ -34,24 +34,16 @@ namespace OpenTween
     public static class ControlTransaction
     {
         public static IDisposable Update(ListView control)
-        {
-            return new Transaction<ListView>(control, x => x.BeginUpdate(), x => x.EndUpdate());
-        }
+            => new Transaction<ListView>(control, x => x.BeginUpdate(), x => x.EndUpdate());
 
         public static IDisposable Update(ListBox control)
-        {
-            return new Transaction<ListBox>(control, x => x.BeginUpdate(), x => x.EndUpdate());
-        }
+            => new Transaction<ListBox>(control, x => x.BeginUpdate(), x => x.EndUpdate());
 
         public static IDisposable Update(ComboBox control)
-        {
-            return new Transaction<ComboBox>(control, x => x.BeginUpdate(), x => x.EndUpdate());
-        }
+            => new Transaction<ComboBox>(control, x => x.BeginUpdate(), x => x.EndUpdate());
 
         public static IDisposable Update(TreeView control)
-        {
-            return new Transaction<TreeView>(control, x => x.BeginUpdate(), x => x.EndUpdate());
-        }
+            => new Transaction<TreeView>(control, x => x.BeginUpdate(), x => x.EndUpdate());
 
         public static IDisposable Update(Control control)
         {
@@ -63,19 +55,13 @@ namespace OpenTween
         }
 
         public static IDisposable Layout(Control control)
-        {
-            return Layout(control, performLayout: true);
-        }
+            => Layout(control, performLayout: true);
 
         public static IDisposable Layout(Control control, bool performLayout)
-        {
-            return new Transaction<Control>(control, x => x.SuspendLayout(), x => x.ResumeLayout(performLayout));
-        }
+            => new Transaction<Control>(control, x => x.SuspendLayout(), x => x.ResumeLayout(performLayout));
 
         public static IDisposable Init(ISupportInitialize control)
-        {
-            return new Transaction<ISupportInitialize>(control, x => x.BeginInit(), x => x.EndInit());
-        }
+            => new Transaction<ISupportInitialize>(control, x => x.BeginInit(), x => x.EndInit());
 
         public static IDisposable Cursor(Control control, Cursor newCursor)
         {
@@ -116,9 +102,7 @@ namespace OpenTween
             }
 
             public void Dispose()
-            {
-                this.endTransaction(this.control);
-            }
+                => this.endTransaction(this.control);
         }
     }
 }

@@ -160,17 +160,15 @@ namespace OpenTween
         public TwitterConfiguration Configuration { get; private set; }
         public TwitterTextConfiguration TextConfiguration { get; private set; }
 
+        public bool GetFollowersSuccess { get; private set; } = false;
+        public bool GetNoRetweetSuccess { get; private set; } = false;
+
         delegate void GetIconImageDelegate(PostClass post);
         private readonly object LockObj = new object();
         private ISet<long> followerId = new HashSet<long>();
-        private bool _GetFollowerResult = false;
         private long[] noRTId = new long[0];
-        private bool _GetNoRetweetResult = false;
 
         //プロパティからアクセスされる共通情報
-        private string _uname;
-
-        private bool _readOwnPost;
         private List<string> _hashList = new List<string>();
 
         //max_idで古い発言を取得するために保持（lists分は個別タブで管理）
@@ -195,17 +193,10 @@ namespace OpenTween
         }
 
         public TwitterApiAccessLevel AccessLevel
-        {
-            get
-            {
-                return MyCommon.TwitterApiInfo.AccessLevel;
-            }
-        }
+            => MyCommon.TwitterApiInfo.AccessLevel;
 
         protected void ResetApiStatus()
-        {
-            MyCommon.TwitterApiInfo.Reset();
-        }
+            => MyCommon.TwitterApiInfo.Reset();
 
         public void ClearAuthInfo()
         {
@@ -243,7 +234,6 @@ namespace OpenTween
             }
             this.ResetApiStatus();
             this.Api.Initialize(token, tokenSecret, userId, username);
-            _uname = username.ToLowerInvariant();
             if (SettingManager.Common.UserstreamStartup) this.ReconnectUserStream();
         }
 
@@ -438,7 +428,7 @@ namespace OpenTween
 
             post.IsRead = read;
             post.IsOwl = false;
-            if (_readOwnPost) post.IsRead = true;
+            if (this.ReadOwnPost) post.IsRead = true;
             post.IsDm = false;
 
             TabInformations.GetInstance().AddPost(post);
@@ -450,32 +440,9 @@ namespace OpenTween
         public long UserId
             => this.Api.CurrentUserId;
 
-        private static MyCommon.ACCOUNT_STATE _accountState = MyCommon.ACCOUNT_STATE.Valid;
-        public static MyCommon.ACCOUNT_STATE AccountState
-        {
-            get
-            {
-                return _accountState;
-            }
-            set
-            {
-                _accountState = value;
-            }
-        }
-
+        public static MyCommon.ACCOUNT_STATE AccountState { get; set; } = MyCommon.ACCOUNT_STATE.Valid;
         public bool RestrictFavCheck { get; set; }
-
-        public bool ReadOwnPost
-        {
-            get
-            {
-                return _readOwnPost;
-            }
-            set
-            {
-                _readOwnPost = value;
-            }
-        }
+        public bool ReadOwnPost { get; set; }
 
         public int FollowersCount { get; private set; }
         public int FriendsCount { get; private set; }
@@ -497,25 +464,19 @@ namespace OpenTween
         /// 渡された取得件数がWORKERTYPEに応じた取得可能範囲に収まっているか検証する
         /// </summary>
         public static bool VerifyApiResultCount(MyCommon.WORKERTYPE type, int count)
-        {
-            return count >= 20 && count <= GetMaxApiResultCount(type);
-        }
+            => count >= 20 && count <= GetMaxApiResultCount(type);
 
         /// <summary>
         /// 渡された取得件数が更新時の取得可能範囲に収まっているか検証する
         /// </summary>
         public static bool VerifyMoreApiResultCount(int count)
-        {
-            return count >= 20 && count <= 200;
-        }
+            => count >= 20 && count <= 200;
 
         /// <summary>
         /// 渡された取得件数が起動時の取得可能範囲に収まっているか検証する
         /// </summary>
         public static bool VerifyFirstApiResultCount(int count)
-        {
-            return count >= 20 && count <= 200;
-        }
+            => count >= 20 && count <= 200;
 
         /// <summary>
         /// WORKERTYPEに応じた取得可能な最大件数を取得する
@@ -685,7 +646,7 @@ namespace OpenTween
             var item = CreatePostsFromStatusData(status);
 
             item.IsRead = read;
-            if (item.IsMe && !read && _readOwnPost) item.IsRead = true;
+            if (item.IsMe && !read && this.ReadOwnPost) item.IsRead = true;
 
             return item;
         }
@@ -703,9 +664,7 @@ namespace OpenTween
         }
 
         private PostClass CreatePostsFromStatusData(TwitterStatus status)
-        {
-            return CreatePostsFromStatusData(status, false);
-        }
+            => this.CreatePostsFromStatusData(status, false);
 
         private PostClass CreatePostsFromStatusData(TwitterStatus status, bool favTweet)
         {
@@ -767,7 +726,7 @@ namespace OpenTween
                 {
                     post.RetweetedBy = status.User.ScreenName;
                     post.RetweetedByUserId = status.User.Id;
-                    post.IsMe = post.RetweetedBy.ToLowerInvariant().Equals(_uname);
+                    post.IsMe = post.RetweetedByUserId == this.UserId;
                 }
                 else
                 {
@@ -809,7 +768,7 @@ namespace OpenTween
                     post.Nickname = user.Name.Trim();
                     post.ImageUrl = user.ProfileImageUrlHttps;
                     post.IsProtect = user.Protected;
-                    post.IsMe = post.ScreenName.ToLowerInvariant().Equals(_uname);
+                    post.IsMe = post.UserId == this.UserId;
                 }
                 else
                 {
@@ -933,7 +892,7 @@ namespace OpenTween
                 var post = CreatePostsFromStatusData(status);
 
                 post.IsRead = read;
-                if (post.IsMe && !read && _readOwnPost) post.IsRead = true;
+                if (post.IsMe && !read && this.ReadOwnPost) post.IsRead = true;
 
                 if (tab != null && tab.IsInnerStorageTabType)
                     tab.AddPostQueue(post);
@@ -963,7 +922,7 @@ namespace OpenTween
                 var post = CreatePostsFromStatusData(status);
 
                 post.IsRead = read;
-                if ((post.IsMe && !read) && this._readOwnPost) post.IsRead = true;
+                if ((post.IsMe && !read) && this.ReadOwnPost) post.IsRead = true;
 
                 tab.AddPostQueue(post);
             }
@@ -1122,7 +1081,7 @@ namespace OpenTween
 
             relPosts.Values.ToList().ForEach(p =>
             {
-                if (p.IsMe && !read && this._readOwnPost)
+                if (p.IsMe && !read && this.ReadOwnPost)
                     p.IsRead = true;
                 else
                     p.IsRead = read;
@@ -1268,7 +1227,7 @@ namespace OpenTween
                 }
 
                 post.IsRead = read;
-                if (post.IsMe && !read && _readOwnPost) post.IsRead = true;
+                if (post.IsMe && !read && this.ReadOwnPost) post.IsRead = true;
                 post.IsReply = false;
                 post.IsExcludeReply = false;
                 post.IsDm = true;
@@ -1440,15 +1399,7 @@ namespace OpenTween
             this.followerId = newFollowerIds;
             TabInformations.GetInstance().RefreshOwl(this.followerId);
 
-            this._GetFollowerResult = true;
-        }
-
-        public bool GetFollowersSuccess
-        {
-            get
-            {
-                return _GetFollowerResult;
-            }
+            this.GetFollowersSuccess = true;
         }
 
         /// <summary>
@@ -1462,15 +1413,7 @@ namespace OpenTween
             this.noRTId = await this.Api.NoRetweetIds()
                 .ConfigureAwait(false);
 
-            this._GetNoRetweetResult = true;
-        }
-
-        public bool GetNoRetweetSuccess
-        {
-            get
-            {
-                return _GetNoRetweetResult;
-            }
+            this.GetNoRetweetSuccess = true;
         }
 
         /// <summary>
@@ -1837,30 +1780,8 @@ namespace OpenTween
 
 
 #region "UserStream"
-        private string trackWord_ = "";
-        public string TrackWord
-        {
-            get
-            {
-                return trackWord_;
-            }
-            set
-            {
-                trackWord_ = value;
-            }
-        }
-        private bool allAtReply_ = false;
-        public bool AllAtReply
-        {
-            get
-            {
-                return allAtReply_;
-            }
-            set
-            {
-                allAtReply_ = value;
-            }
-        }
+        public string TrackWord { get; set; } = "";
+        public bool AllAtReply { get; set; } = false;
 
         public event EventHandler NewPostFromStream;
         public event EventHandler UserStreamStarted;
@@ -1881,18 +1802,7 @@ namespace OpenTween
             public bool IsMe { get; set; }
         }
 
-        public List<FormattedEvent> storedEvent_ = new List<FormattedEvent>();
-        public List<FormattedEvent> StoredEvent
-        {
-            get
-            {
-                return storedEvent_;
-            }
-            set
-            {
-                storedEvent_ = value;
-            }
-        }
+        public List<FormattedEvent> StoredEvent { get; } = new List<FormattedEvent>();
 
         private readonly IReadOnlyDictionary<string, MyCommon.EVENTTYPE> eventTable = new Dictionary<string, MyCommon.EVENTTYPE>
         {
@@ -2107,14 +2017,14 @@ namespace OpenTween
                 MyCommon.TraceOut(ex, "Event Exception!" + Environment.NewLine + content);
             }
 
-            var evt = new FormattedEvent();
-            evt.CreatedAt = MyCommon.DateTimeParse(eventData.CreatedAt);
-            evt.Event = eventData.Event;
-            evt.Username = eventData.Source.ScreenName;
-            evt.IsMe = evt.Username.ToLowerInvariant().Equals(this.Username.ToLowerInvariant());
-
-            eventTable.TryGetValue(eventData.Event, out var eventType);
-            evt.Eventtype = eventType;
+            var evt = new FormattedEvent
+            {
+                CreatedAt = MyCommon.DateTimeParse(eventData.CreatedAt),
+                Event = eventData.Event,
+                Username = eventData.Source.ScreenName,
+                IsMe = eventData.Source.Id == this.UserId,
+                Eventtype = eventTable.TryGetValue(eventData.Event, out var eventType) ? eventType : MyCommon.EVENTTYPE.None,
+            };
 
             TwitterStreamEvent<TwitterStatusCompat> tweetEvent;
             TwitterStatus tweet;
@@ -2127,7 +2037,7 @@ namespace OpenTween
                 case "user_suspend":
                     return;
                 case "follow":
-                    if (eventData.Target.ScreenName.ToLowerInvariant().Equals(_uname))
+                    if (eventData.Target.Id == this.UserId)
                     {
                         if (!this.followerId.Contains(eventData.Source.Id)) this.followerId.Add(eventData.Source.Id);
                     }
@@ -2253,14 +2163,10 @@ namespace OpenTween
         }
 
         private void userStream_Started()
-        {
-            this.UserStreamStarted?.Invoke(this, EventArgs.Empty);
-        }
+            => this.UserStreamStarted?.Invoke(this, EventArgs.Empty);
 
         private void userStream_Stopped()
-        {
-            this.UserStreamStopped?.Invoke(this, EventArgs.Empty);
-        }
+            => this.UserStreamStopped?.Invoke(this, EventArgs.Empty);
 
         public bool UserStreamActive
             => this.userStream != null && this.userStream.IsStreamActive;
@@ -2310,9 +2216,7 @@ namespace OpenTween
             private CancellationTokenSource streamCts;
 
             public TwitterUserstream(TwitterApi twitterApi)
-            {
-                this.twitterApi = twitterApi;
-            }
+                => this.twitterApi = twitterApi;
 
             public void Start(bool allAtReplies, string trackwords)
             {
@@ -2464,9 +2368,7 @@ namespace OpenTween
         public long StatusId { get; }
 
         public PostDeletedEventArgs(long statusId)
-        {
-            this.StatusId = statusId;
-        }
+            => this.StatusId = statusId;
     }
 
     public class UserStreamEventReceivedEventArgs : EventArgs
@@ -2474,8 +2376,6 @@ namespace OpenTween
         public Twitter.FormattedEvent EventData { get; }
 
         public UserStreamEventReceivedEventArgs(Twitter.FormattedEvent eventData)
-        {
-            this.EventData = eventData;
-        }
+            => this.EventData = eventData;
     }
 }

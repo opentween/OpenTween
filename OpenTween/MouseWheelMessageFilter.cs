@@ -38,19 +38,13 @@ namespace OpenTween
         private readonly List<Control> controls = new List<Control>();
 
         public MouseWheelMessageFilter()
-        {
-            Application.AddMessageFilter(this);
-        }
+            => Application.AddMessageFilter(this);
 
         public void Register(Control target)
-        {
-            this.controls.Add(target);
-        }
+            => this.controls.Add(target);
 
         public void Unregister(Control target)
-        {
-            this.controls.Remove(target);
-        }
+            => this.controls.Remove(target);
 
         public bool PreFilterMessage(ref Message m)
         {

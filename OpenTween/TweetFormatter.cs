@@ -153,14 +153,10 @@ namespace OpenTween
         }
 
         private static string FormatHashtagEntity(string targetText, TwitterEntityHashtag entity)
-        {
-            return "<a class=\"hashtag\" href=\"https://twitter.com/search?q=%23" + eu(entity.Text) + "\">" + t(e(targetText)) + "</a>";
-        }
+            => "<a class=\"hashtag\" href=\"https://twitter.com/search?q=%23" + eu(entity.Text) + "\">" + t(e(targetText)) + "</a>";
 
         private static string FormatMentionEntity(string targetText, TwitterEntityMention entity)
-        {
-            return "<a class=\"mention\" href=\"https://twitter.com/" + eu(entity.ScreenName) + "\">" + t(e(targetText)) + "</a>";
-        }
+            => "<a class=\"mention\" href=\"https://twitter.com/" + eu(entity.ScreenName) + "\">" + t(e(targetText)) + "</a>";
 
         // 長いのでエイリアスとして e(...), eu(...), t(...) でエスケープできるようにする
         private static Func<string, string> e = EscapeHtml;

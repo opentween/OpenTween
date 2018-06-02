@@ -173,28 +173,20 @@ namespace OpenTween
         }
 
         public Bing(HttpClient http)
-        {
-            this.translatorApi = new MicrosoftTranslatorApi(http);
-        }
+            => this.translatorApi = new MicrosoftTranslatorApi(http);
 
         /// <summary>
         /// Microsoft Translator API を使用した翻訳を非同期に行います
         /// </summary>
         /// <exception cref="HttpRequestException"/>
         public async Task<string> TranslateAsync(string text, string langFrom, string langTo)
-        {
-            return await this.translatorApi.TranslateAsync(text, langTo, langFrom)
+            => await this.translatorApi.TranslateAsync(text, langTo, langFrom)
                 .ConfigureAwait(false);
-        }
 
         public static string GetLanguageEnumFromIndex(int index)
-        {
-            return LanguageTable[index];
-        }
+            => LanguageTable[index];
 
         public static int GetIndexFromLanguageEnum(string lang)
-        {
-            return LanguageTable.IndexOf(lang);
-        }
+            => LanguageTable.IndexOf(lang);
     }
 }

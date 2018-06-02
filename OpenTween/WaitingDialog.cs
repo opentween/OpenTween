@@ -85,19 +85,13 @@ namespace OpenTween
         }
 
         public Task WaitForAsync(Task task)
-        {
-            return this.WaitForAsync(this.ConvertTaskWithValue(task));
-        }
+            => this.WaitForAsync(this.ConvertTaskWithValue(task));
 
         public Task WaitForAsync(IWin32Window owner, Task task)
-        {
-            return this.WaitForAsync(owner, this.ConvertTaskWithValue(task));
-        }
+            => this.WaitForAsync(owner, this.ConvertTaskWithValue(task));
 
         public Task<T> WaitForAsync<T>(Task<T> task)
-        {
-            return this.WaitForAsync(null, task);
-        }
+            => this.WaitForAsync(null, task);
 
         /// <summary>
         /// タスクを待機し、状況に応じて待機中ダイアログを表示します

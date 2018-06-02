@@ -38,9 +38,7 @@ namespace OpenTween.Setting.Panel
     public partial class SettingPanelBase : UserControl
     {
         public SettingPanelBase()
-        {
-            InitializeComponent();
-        }
+            => this.InitializeComponent();
 
         protected void ShowFontDialog(Label targetLabel)
         {

@@ -39,9 +39,7 @@ namespace OpenTween.Setting.Panel
     public partial class NotifyPanel : SettingPanelBase
     {
         public NotifyPanel()
-        {
-            InitializeComponent();
-        }
+            => this.InitializeComponent();
 
         public void LoadConfig(SettingCommon settingCommon)
         {

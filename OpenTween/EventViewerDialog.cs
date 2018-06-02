@@ -125,9 +125,7 @@ namespace OpenTween
         }
 
         private MyCommon.EVENTTYPE ParseEventTypeFromTag()
-        {
-            return (MyCommon.EVENTTYPE)Enum.Parse(typeof(MyCommon.EVENTTYPE), _curTab.Tag.ToString());
-        }
+            => (MyCommon.EVENTTYPE)Enum.Parse(typeof(MyCommon.EVENTTYPE), _curTab.Tag.ToString());
 
         private bool IsFilterMatch(Twitter.FormattedEvent x)
         {
@@ -175,19 +173,13 @@ namespace OpenTween
         }
 
         private void CheckExcludeMyEvent_CheckedChanged(object sender, EventArgs e)
-        {
-            CreateFilterdEventSource();
-        }
+            => this.CreateFilterdEventSource();
 
         private void ButtonRefresh_Click(object sender, EventArgs e)
-        {
-            CreateFilterdEventSource();
-        }
+            => this.CreateFilterdEventSource();
 
         private void TabEventType_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            CreateFilterdEventSource();
-        }
+            => this.CreateFilterdEventSource();
 
         private void TabEventType_Selecting(object sender, TabControlCancelEventArgs e)
         {
@@ -222,9 +214,7 @@ namespace OpenTween
         }
 
         private void EventList_CacheVirtualItems(object sender, CacheVirtualItemsEventArgs e)
-        {
-            CreateCache(e.StartIndex, e.EndIndex);
-        }
+            => this.CreateCache(e.StartIndex, e.EndIndex);
 
         private void CreateCache(int StartIndex, int EndIndex)
         {
@@ -253,10 +243,10 @@ namespace OpenTween
             switch (rslt)
             {
                 case DialogResult.Yes:
-                    SaveFileDialog1.FileName = $"{MyCommon.GetAssemblyName()}Events{_curTab.Tag}{DateTimeUtc.Now.ToLocalTime():yyMMdd-HHmmss}.tsv";
+                    SaveFileDialog1.FileName = $"{ApplicationSettings.AssemblyName}Events{_curTab.Tag}{DateTimeUtc.Now.ToLocalTime():yyMMdd-HHmmss}.tsv";
                     break;
                 case DialogResult.No:
-                    SaveFileDialog1.FileName = $"{MyCommon.GetAssemblyName()}Events{DateTimeUtc.Now.ToLocalTime():yyMMdd-HHmmss}.tsv";
+                    SaveFileDialog1.FileName = $"{ApplicationSettings.AssemblyName}Events{DateTimeUtc.Now.ToLocalTime():yyMMdd-HHmmss}.tsv";
                     break;
                 default:
                     return;

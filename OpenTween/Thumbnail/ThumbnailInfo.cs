@@ -64,14 +64,10 @@ namespace OpenTween.Thumbnail
         public bool IsPlayable { get; set; }
 
         public Task<MemoryImage> LoadThumbnailImageAsync()
-        {
-            return this.LoadThumbnailImageAsync(CancellationToken.None);
-        }
+            => this.LoadThumbnailImageAsync(CancellationToken.None);
 
         public Task<MemoryImage> LoadThumbnailImageAsync(CancellationToken cancellationToken)
-        {
-            return this.LoadThumbnailImageAsync(Networking.Http, cancellationToken);
-        }
+            => this.LoadThumbnailImageAsync(Networking.Http, cancellationToken);
 
         public async virtual Task<MemoryImage> LoadThumbnailImageAsync(HttpClient http, CancellationToken cancellationToken)
         {
@@ -101,9 +97,7 @@ namespace OpenTween.Thumbnail
         }
 
         public override bool Equals(object obj)
-        {
-            return this.Equals(obj as ThumbnailInfo);
-        }
+            => this.Equals(obj as ThumbnailInfo);
 
         public bool Equals(ThumbnailInfo other)
         {
@@ -116,8 +110,6 @@ namespace OpenTween.Thumbnail
         }
 
         public override int GetHashCode()
-        {
-            return this.MediaPageUrl.GetHashCode() ^ this.ThumbnailImageUrl.GetHashCode();
-        }
+            => this.MediaPageUrl.GetHashCode() ^ this.ThumbnailImageUrl.GetHashCode();
     }
 }

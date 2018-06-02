@@ -40,7 +40,7 @@ namespace OpenTween
     {
         public ErrorReport ErrorReport
         {
-            get { return this._errorReport; }
+            get => this._errorReport;
             set
             {
                 this._errorReport = value;
@@ -50,9 +50,7 @@ namespace OpenTween
         private ErrorReport _errorReport;
 
         public SendErrorReportForm()
-        {
-            this.InitializeComponent();
-        }
+            => this.InitializeComponent();
 
         private void SendErrorReportForm_Shown(object sender, EventArgs e)
         {
@@ -61,9 +59,7 @@ namespace OpenTween
         }
 
         private void buttonReset_Click(object sender, EventArgs e)
-        {
-            this.ErrorReport.Reset();
-        }
+            => this.ErrorReport.Reset();
 
         private async void buttonSendByMail_Click(object sender, EventArgs e)
         {
@@ -89,16 +85,14 @@ namespace OpenTween
         }
 
         private void buttonNotSend_Click(object sender, EventArgs e)
-        {
-            this.DialogResult = DialogResult.Cancel;
-        }
+            => this.DialogResult = DialogResult.Cancel;
     }
 
     public class ErrorReport : NotifyPropertyChangedBase
     {
         public string ReportText
         {
-            get { return this._reportText; }
+            get => this._reportText;
             set
             {
                 this.SetProperty(ref this._reportText, value);
@@ -109,7 +103,7 @@ namespace OpenTween
 
         public bool AnonymousReport
         {
-            get { return this._anonymousReport; }
+            get => this._anonymousReport;
             set
             {
                 this.SetProperty(ref this._anonymousReport, value);
@@ -149,14 +143,12 @@ namespace OpenTween
         }
 
         public void Reset()
-        {
-            this.ReportText = this.originalReportText;
-        }
+            => this.ReportText = this.originalReportText;
 
         public async Task SendByMailAsync()
         {
             var toAddress = ApplicationSettings.FeedbackEmailAddress;
-            var subject = $"{Application.ProductName} {MyCommon.GetReadableVersion()} エラーログ";
+            var subject = $"{ApplicationSettings.ApplicationName} {MyCommon.GetReadableVersion()} エラーログ";
             var body = this.ReportText;
 
             var mailto = $"mailto:{Uri.EscapeDataString(toAddress)}?subject={Uri.EscapeDataString(subject)}&body={Uri.EscapeDataString(body)}";
@@ -164,9 +156,7 @@ namespace OpenTween
         }
 
         public async Task SendByDmAsync()
-        {
-            await this.tw.SendDirectMessage(this.EncodedReportForDM);
-        }
+            => await this.tw.SendDirectMessage(this.EncodedReportForDM);
 
         private void UpdateEncodedReport()
         {

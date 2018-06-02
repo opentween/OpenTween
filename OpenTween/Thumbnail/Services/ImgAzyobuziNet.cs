@@ -54,9 +54,8 @@ namespace OpenTween.Thumbnail.Services
         protected Timer UpdateTimer;
 
         protected HttpClient http
-        {
-            get { return this.localHttpClient ?? Networking.Http; }
-        }
+            => this.localHttpClient ?? Networking.Http;
+
         private readonly HttpClient localHttpClient;
 
         private object LockObj = new object();
@@ -84,7 +83,7 @@ namespace OpenTween.Thumbnail.Services
 
         public bool AutoUpdate
         {
-            get { return this._AutoUpdate; }
+            get => this._AutoUpdate;
             set
             {
                 if (value)
@@ -108,14 +107,10 @@ namespace OpenTween.Thumbnail.Services
         public bool DisabledInDM { get; set; }
 
         protected void StartAutoUpdate()
-        {
-            this.UpdateTimer.Change(0, 30 * 60 * 1000); // 30分おきに更新
-        }
+            => this.UpdateTimer.Change(0, 30 * 60 * 1000); // 30分おきに更新
 
         protected void StopAutoUpdate()
-        {
-            this.UpdateTimer.Change(Timeout.Infinite, Timeout.Infinite);
-        }
+            => this.UpdateTimer.Change(Timeout.Infinite, Timeout.Infinite);
 
         public async Task LoadRegexAsync()
         {
@@ -226,8 +221,6 @@ namespace OpenTween.Thumbnail.Services
         }
 
         public virtual void Dispose()
-        {
-            this.UpdateTimer.Dispose();
-        }
+            => this.UpdateTimer.Dispose();
     }
 }

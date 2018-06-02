@@ -66,7 +66,7 @@ namespace OpenTween
             if (!CheckRuntimeVersion())
             {
                 var message = string.Format(Properties.Resources.CheckRuntimeVersion_Error, ".NET Framework 4.5.1");
-                MessageBox.Show(message, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(message, ApplicationSettings.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return 1;
             }
 
@@ -80,12 +80,12 @@ namespace OpenTween
             InitCulture();
 
             // 同じ設定ファイルを使用する OpenTween プロセスの二重起動を防止する
-            string pt = MyCommon.settingPath.Replace("\\", "/") + "/" + Application.ProductName;
+            string pt = MyCommon.settingPath.Replace("\\", "/") + "/" + ApplicationSettings.AssemblyName;
             using (Mutex mt = new Mutex(false, pt))
             {
                 if (!mt.WaitOne(0, false))
                 {
-                    var text = string.Format(MyCommon.ReplaceAppName(Properties.Resources.StartupText1), MyCommon.GetAssemblyName());
+                    var text = string.Format(MyCommon.ReplaceAppName(Properties.Resources.StartupText1), ApplicationSettings.AssemblyName);
                     MessageBox.Show(text, MyCommon.ReplaceAppName(Properties.Resources.StartupText2), MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                     TryActivatePreviousWindow();
@@ -129,8 +129,8 @@ namespace OpenTween
                 var principal = new WindowsPrincipal(currentIdentity);
                 if (principal.IsInRole(WindowsBuiltInRole.Administrator))
                 {
-                    var message = string.Format(Properties.Resources.WarnIfRunAsAdministrator_Message, Application.ProductName);
-                    MessageBox.Show(message, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    var message = string.Format(Properties.Resources.WarnIfRunAsAdministrator_Message, ApplicationSettings.ApplicationName);
+                    MessageBox.Show(message, ApplicationSettings.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
             }
         }
@@ -181,7 +181,7 @@ namespace OpenTween
                 return;
             }
 
-            IntPtr windowHandle = NativeMethods.GetWindowHandle((uint)prevProcess.Id, Application.ProductName);
+            IntPtr windowHandle = NativeMethods.GetWindowHandle((uint)prevProcess.Id, ApplicationSettings.ApplicationName);
             if (windowHandle != IntPtr.Zero)
             {
                 NativeMethods.SetActiveWindow(windowHandle);
@@ -291,7 +291,7 @@ namespace OpenTween
                 if (!Directory.Exists(configDir))
                 {
                     var text = string.Format(Properties.Resources.ConfigDirectoryNotExist, configDir);
-                    MessageBox.Show(text, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(text, ApplicationSettings.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return false;
                 }
 
@@ -317,7 +317,7 @@ namespace OpenTween
                     var roamingDir = Path.Combine(new[]
                     {
                         Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-                        Application.ProductName,
+                        ApplicationSettings.ApplicationName,
                     });
                     Directory.CreateDirectory(roamingDir);
 
@@ -359,7 +359,7 @@ namespace OpenTween
                         {
                             // StartupPath に設定ファイルが存在し、Roaming 内のファイルよりも新しい場合のみ警告を表示する
                             var message = string.Format(Properties.Resources.SettingPath_Relocation, Application.StartupPath, MyCommon.settingPath);
-                            MessageBox.Show(message, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            MessageBox.Show(message, ApplicationSettings.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Information);
                         }
 
                         // Roaming に設定ファイルを作成 (StartupPath に読み込みに成功した設定ファイルがあれば内容がコピーされる)

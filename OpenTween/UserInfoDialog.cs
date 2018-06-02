@@ -396,9 +396,7 @@ namespace OpenTween
         }
 
         private void ShowUserInfo_Shown(object sender, EventArgs e)
-        {
-            ButtonClose.Focus();
-        }
+            => this.ButtonClose.Focus();
 
         private async void WebBrowser_Navigating(object sender, WebBrowserNavigatingEventArgs e)
         {
@@ -443,19 +441,13 @@ namespace OpenTween
         }
 
         private async void LinkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            await this.mainForm.OpenUriInBrowserAsync("https://support.twitter.com/groups/31-twitter-basics/topics/111-features/articles/268350-x8a8d-x8a3c-x6e08-x307f-x30a2-x30ab-x30a6-x30f3-x30c8-x306b-x3064-x3044-x3066");
-        }
+            => await this.mainForm.OpenUriInBrowserAsync("https://support.twitter.com/groups/31-twitter-basics/topics/111-features/articles/268350-x8a8d-x8a3c-x6e08-x307f-x30a2-x30ab-x30a6-x30f3-x30c8-x306b-x3064-x3044-x3066");
 
         private async void LinkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            await this.mainForm.OpenUriInBrowserAsync("https://support.twitter.com/groups/31-twitter-basics/topics/107-my-profile-account-settings/articles/243055-x516c-x958b-x3001-x975e-x516c-x958b-x30a2-x30ab-x30a6-x30f3-x30c8-x306b-x3064-x3044-x3066");
-        }
+            => await this.mainForm.OpenUriInBrowserAsync("https://support.twitter.com/groups/31-twitter-basics/topics/107-my-profile-account-settings/articles/243055-x516c-x958b-x3001-x975e-x516c-x958b-x30a2-x30ab-x30a6-x30f3-x30c8-x306b-x3064-x3044-x3066");
 
-        private void ButtonSearchPosts_Click(object sender, EventArgs e)
-        {
-            this.mainForm.AddNewTabForUserTimeline(this._displayUser.ScreenName);
-        }
+        private async void ButtonSearchPosts_Click(object sender, EventArgs e)
+            => await this.mainForm.AddNewTabForUserTimeline(this._displayUser.ScreenName);
 
         private async void UserPicture_Click(object sender, EventArgs e)
         {
@@ -687,12 +679,9 @@ namespace OpenTween
 
         private bool IsValidExtension(string ext)
         {
-            ext = ext.ToLowerInvariant();
+            var allowedExtensions = new[] { ".jpg", ".jpeg", ".png", ".gif" };
 
-            return ext.Equals(".jpg", StringComparison.Ordinal) ||
-                ext.Equals(".jpeg", StringComparison.Ordinal) ||
-                ext.Equals(".png", StringComparison.Ordinal) ||
-                ext.Equals(".gif", StringComparison.Ordinal);
+            return allowedExtensions.Contains(ext, StringComparer.InvariantCultureIgnoreCase);
         }
 
         private bool IsValidIconFile(FileInfo info)
@@ -725,7 +714,7 @@ namespace OpenTween
                 !e.Data.GetDataPresent(DataFormats.Html, false))  // WebBrowserコントロールからの絵文字画像D&Dは弾く
             {
                 var ret = MessageBox.Show(this, Properties.Resources.ChangeIconToolStripMenuItem_Confirm,
-                    Application.ProductName, MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+                    ApplicationSettings.ApplicationName, MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
                 if (ret != DialogResult.OK)
                     return;
 

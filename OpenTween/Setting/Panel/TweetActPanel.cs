@@ -38,9 +38,7 @@ namespace OpenTween.Setting.Panel
     public partial class TweetActPanel : SettingPanelBase
     {
         public TweetActPanel()
-        {
-            InitializeComponent();
-        }
+            => this.InitializeComponent();
 
         public void LoadConfig(SettingCommon settingCommon, SettingLocal settingLocal)
         {

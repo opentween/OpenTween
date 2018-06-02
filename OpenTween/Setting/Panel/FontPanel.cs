@@ -38,9 +38,7 @@ namespace OpenTween.Setting.Panel
     public partial class FontPanel : SettingPanelBase
     {
         public FontPanel()
-        {
-            InitializeComponent();
-        }
+            => this.InitializeComponent();
 
         public void LoadConfig(SettingLocal settingLocal)
         {
@@ -98,43 +96,27 @@ namespace OpenTween.Setting.Panel
         }
 
         private void btnListFont_Click(object sender, EventArgs e)
-        {
-            this.ShowFontDialog(this.lblListFont);
-        }
+            => this.ShowFontDialog(this.lblListFont);
 
         private void btnUnread_Click(object sender, EventArgs e)
-        {
-            this.ShowFontDialog(this.lblUnread);
-        }
+            => this.ShowFontDialog(this.lblUnread);
 
         private void btnFav_Click(object sender, EventArgs e)
-        {
-            this.ShowForeColorDialog(this.lblFav);
-        }
+            => this.ShowForeColorDialog(this.lblFav);
 
         private void btnOWL_Click(object sender, EventArgs e)
-        {
-            this.ShowForeColorDialog(this.lblOWL);
-        }
+            => this.ShowForeColorDialog(this.lblOWL);
 
         private void btnRetweet_Click(object sender, EventArgs e)
-        {
-            this.ShowForeColorDialog(this.lblRetweet);
-        }
+            => this.ShowForeColorDialog(this.lblRetweet);
 
         private void btnDetail_Click(object sender, EventArgs e)
-        {
-            this.ShowFontDialog(this.lblDetail);
-        }
+            => this.ShowFontDialog(this.lblDetail);
 
         private void btnDetailLink_Click(object sender, EventArgs e)
-        {
-            this.ShowForeColorDialog(this.lblDetailLink);
-        }
+            => this.ShowForeColorDialog(this.lblDetailLink);
 
         private void btnDetailBack_Click(object sender, EventArgs e)
-        {
-            this.ShowBackColorDialog(this.lblDetailBackcolor);
-        }
+            => this.ShowBackColorDialog(this.lblDetailBackcolor);
     }
 }

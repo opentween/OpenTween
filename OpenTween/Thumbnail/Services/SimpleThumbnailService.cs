@@ -70,9 +70,7 @@ namespace OpenTween.Thumbnail.Services
         }
 
         protected string ReplaceUrl(string url)
-        {
-            return ReplaceUrl(url, this.thumb_replacement);
-        }
+            => this.ReplaceUrl(url, this.thumb_replacement);
 
         protected string ReplaceUrl(string url, string replacement)
         {

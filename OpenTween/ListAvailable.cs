@@ -38,24 +38,15 @@ namespace OpenTween
 {
     public partial class ListAvailable : OTBaseForm
     {
-        private ListElement _selectedList = null;
-        public ListElement SelectedList
-        {
-            get
-            {
-                return _selectedList;
-            }
-        }
+        public ListElement SelectedList { get; private set; }
 
         public ListAvailable()
-        {
-            InitializeComponent();
-        }
+            => this.InitializeComponent();
 
         private void OK_Button_Click(object sender, EventArgs e)
         {
             if (this.ListsList.SelectedIndex > -1) {
-                _selectedList = (ListElement)this.ListsList.SelectedItem;
+                this.SelectedList = (ListElement)this.ListsList.SelectedItem;
                 this.DialogResult = System.Windows.Forms.DialogResult.OK;
                 this.Close();
             }
@@ -63,7 +54,7 @@ namespace OpenTween
 
         private void Cancel_Button_Click(object sender, EventArgs e)
         {
-            _selectedList = null;
+            this.SelectedList = null;
             this.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.Close();
         }

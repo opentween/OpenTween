@@ -38,9 +38,7 @@ namespace OpenTween.Setting.Panel
     public partial class GetCountPanel : SettingPanelBase
     {
         public GetCountPanel()
-        {
-            InitializeComponent();
-        }
+            => this.InitializeComponent();
 
         public void LoadConfig(SettingCommon settingCommon)
         {

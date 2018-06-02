@@ -80,7 +80,7 @@ namespace OpenTween
                 string backupFile = Path.Combine(
                         Path.Combine(
                             Application.StartupPath,
-                            MyCommon.GetAssemblyName() + "Backup1st"),
+                            ApplicationSettings.AssemblyName + "Backup1st"),
                         typeof(T).Name + FileId + ".xml");
                 if (File.Exists(backupFile))
                 {
@@ -113,9 +113,7 @@ namespace OpenTween
         }
 
         protected static T LoadSettings()
-        {
-            return LoadSettings("");
-        }
+            => LoadSettings("");
 
         protected static void SaveSettings(T instance, string fileId)
         {
@@ -179,13 +177,9 @@ namespace OpenTween
         }
 
         protected static void SaveSettings(T Instance)
-        {
-            SaveSettings(Instance, "");
-        }
+            => SaveSettings(Instance, "");
 
         public static string GetSettingFilePath(string FileId)
-        {
-            return Path.Combine(MyCommon.settingPath, typeof(T).Name + FileId + ".xml");
-        }
+            => Path.Combine(MyCommon.settingPath, typeof(T).Name + FileId + ".xml");
     }
 }

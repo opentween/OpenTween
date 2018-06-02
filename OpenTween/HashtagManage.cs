@@ -38,6 +38,11 @@ namespace OpenTween
 {
     public partial class HashtagManage : OTBaseForm
     {
+        public string UseHash { get; private set; } = "";
+        public bool IsPermanent { get; private set; } = false;
+        public bool IsHead { get; private set; } = false;
+        public bool IsNotAddToAtReply { get; private set; } = true;
+
         /// <summary>
         /// エラー時にダイアログを表示させない (ユニットテストなどで使用)
         /// </summary>
@@ -45,11 +50,7 @@ namespace OpenTween
 
         //入力補助画面
         private AtIdSupplement _hashSupl;
-        //I/F用
-        private string _useHash = "";
-        private bool _isPermanent = false;
-        private bool _isHead = false;
-        private bool _isNotAddToAtReply = true;
+
         //編集モード
         private bool _isAdd = false;
 
@@ -150,7 +151,7 @@ namespace OpenTween
             hash = hash.Trim();
             if (!string.IsNullOrEmpty(hash))
             {
-                if (isIgnorePermanent || !_isPermanent)
+                if (isIgnorePermanent || !this.IsPermanent)
                 {
                     //無条件に先頭に挿入
                     int idx = GetIndexOf(HistoryHashList.Items, hash);
@@ -162,7 +163,7 @@ namespace OpenTween
                 {
                     //固定されていたら2行目に挿入
                     int idx = GetIndexOf(HistoryHashList.Items, hash);
-                    if (_isPermanent)
+                    if (this.IsPermanent)
                     {
                         if (idx > 0)
                         {
@@ -192,13 +193,13 @@ namespace OpenTween
         private void HashtagManage_Shown(object sender, EventArgs e)
         {
             //オプション
-            this.CheckPermanent.Checked = this._isPermanent;
-            this.RadioHead.Checked = this._isHead;
-            this.RadioLast.Checked = !this._isHead;
+            this.CheckPermanent.Checked = this.IsPermanent;
+            this.RadioHead.Checked = this.IsHead;
+            this.RadioLast.Checked = !this.IsHead;
             //リスト選択
-            if (this.HistoryHashList.Items.Contains(this._useHash))
+            if (this.HistoryHashList.Items.Contains(this.UseHash))
             {
-                this.HistoryHashList.SelectedItem = this._useHash;
+                this.HistoryHashList.SelectedItem = this.UseHash;
             }
             else
             {
@@ -217,10 +218,10 @@ namespace OpenTween
 
             _hashSupl = hashSuplForm;
             HistoryHashList.Items.AddRange(history);
-            _useHash = permanentHash;
-            _isPermanent = IsPermanent;
-            _isHead = IsHead;
-            _isNotAddToAtReply = IsNotAddToAtReply;
+            this.UseHash = permanentHash;
+            this.IsPermanent = IsPermanent;
+            this.IsHead = IsHead;
+            this.IsNotAddToAtReply = IsNotAddToAtReply;
         }
 
         private void UseHashText_KeyPress(object sender, KeyPressEventArgs e)
@@ -249,20 +250,18 @@ namespace OpenTween
         }
 
         private void HistoryHashList_DoubleClick(object sender, EventArgs e)
-        {
-            this.OK_Button_Click(null, null);
-        }
+            => this.OK_Button_Click(null, null);
 
         public void ToggleHash()
         {
-            if (string.IsNullOrEmpty(this._useHash))
+            if (string.IsNullOrEmpty(this.UseHash))
             {
                 if (this.HistoryHashList.Items.Count > 0)
-                    this._useHash = this.HistoryHashList.Items[0].ToString();
+                    this.UseHash = this.HistoryHashList.Items[0].ToString();
             }
             else
             {
-                this._useHash = "";
+                this.UseHash = "";
             }
         }
 
@@ -279,37 +278,15 @@ namespace OpenTween
             }
         }
 
-        public string UseHash
-        {
-            get { return _useHash; }
-        }
-
         public void ClearHashtag()
-        {
-            this._useHash = "";
-        }
+            => this.UseHash = "";
 
         public void SetPermanentHash(string hash)
         {
             //固定ハッシュタグの変更
-            _useHash = hash.Trim();
-            this.AddHashToHistory(_useHash, false);
-            this._isPermanent = true;
-        }
-
-        public bool IsPermanent
-        {
-            get { return _isPermanent; }
-        }
-
-        public bool IsHead
-        {
-            get { return _isHead; }
-        }
-
-        public bool IsNotAddToAtReply
-        {
-            get { return _isNotAddToAtReply; }
+            this.UseHash = hash.Trim();
+            this.AddHashToHistory(UseHash, false);
+            this.IsPermanent = true;
         }
 
         private void PermOK_Button_Click(object sender, EventArgs e)
@@ -407,15 +384,15 @@ namespace OpenTween
             if (!string.IsNullOrEmpty(hash))
             {
                 this.AddHashToHistory(hash, true);
-                this._isPermanent = this.CheckPermanent.Checked;
+                this.IsPermanent = this.CheckPermanent.Checked;
             }
             else
             {
                 //使用ハッシュが未選択ならば、固定オプション外す
-                this._isPermanent = false;
+                this.IsPermanent = false;
             }
-            this._isHead = this.RadioHead.Checked;
-            this._useHash = hash;
+            this.IsHead = this.RadioHead.Checked;
+            this.UseHash = hash;
 
             this.DialogResult = DialogResult.OK;
             this.Close();
@@ -442,8 +419,6 @@ namespace OpenTween
         }
 
         private void CheckNotAddToAtReply_CheckedChanged(object sender, EventArgs e)
-        {
-            _isNotAddToAtReply = CheckNotAddToAtReply.Checked;
-        }
+            => this.IsNotAddToAtReply = CheckNotAddToAtReply.Checked;
     }
 }

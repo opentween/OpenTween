@@ -51,9 +51,7 @@ namespace OpenTween
         /// ShortUrl のインスタンスを取得します
         /// </summary>
         public static ShortUrl Instance
-        {
-            get { return _instance.Value; }
-        }
+            => _instance.Value;
 
         /// <summary>
         /// 短縮 URL の展開を無効にするか否か
@@ -137,9 +135,7 @@ namespace OpenTween
         };
 
         static ShortUrl()
-        {
-            _instance = new Lazy<ShortUrl>(() => new ShortUrl(), true);
-        }
+            => _instance = new Lazy<ShortUrl>(() => new ShortUrl(), true);
 
         [SuppressMessage("Microsoft.Reliability", "CA2000:DisposeObjectsBeforeLosingScope")]
         internal ShortUrl()
@@ -182,9 +178,7 @@ namespace OpenTween
         /// <param name="uri">展開するURL</param>
         /// <returns>URLの展開を行うタスク</returns>
         public Task<Uri> ExpandUrlAsync(Uri uri)
-        {
-            return this.ExpandUrlAsync(uri, 10);
-        }
+            => this.ExpandUrlAsync(uri, 10);
 
         /// <summary>
         /// 短縮 URL を非同期に展開します
@@ -252,9 +246,7 @@ namespace OpenTween
         /// <param name="uriStr">展開するURL</param>
         /// <returns>URLの展開を行うタスク</returns>
         public Task<string> ExpandUrlAsync(string uriStr)
-        {
-            return this.ExpandUrlAsync(uriStr, 10);
-        }
+            => this.ExpandUrlAsync(uriStr, 10);
 
         /// <summary>
         /// 短縮 URL を非同期に展開します
@@ -289,9 +281,7 @@ namespace OpenTween
 
         [Obsolete]
         public string ExpandUrlHtml(string html)
-        {
-            return this.ExpandUrlHtmlAsync(html, 10).Result;
-        }
+            => this.ExpandUrlHtmlAsync(html, 10).Result;
 
         /// <summary>
         /// HTML内に含まれるリンクのURLを非同期に展開する
@@ -299,9 +289,7 @@ namespace OpenTween
         /// <param name="html">処理対象のHTML</param>
         /// <returns>URLの展開を行うタスク</returns>
         public Task<string> ExpandUrlHtmlAsync(string html)
-        {
-            return this.ExpandUrlHtmlAsync(html, 10);
-        }
+            => this.ExpandUrlHtmlAsync(html, 10);
 
         /// <summary>
         /// HTML内に含まれるリンクのURLを非同期に展開する
