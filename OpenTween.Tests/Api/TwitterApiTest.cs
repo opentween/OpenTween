@@ -724,32 +724,6 @@ namespace OpenTween.Api
         }
 
         [Fact]
-        public async Task DirectMessagesNew_Test()
-        {
-            using (var twitterApi = new TwitterApi())
-            {
-                var mock = new Mock<IApiConnection>();
-                mock.Setup(x =>
-                    x.PostLazyAsync<TwitterDirectMessage>(
-                        new Uri("direct_messages/new.json", UriKind.Relative),
-                        new Dictionary<string, string> {
-                            { "text", "hogehoge" },
-                            { "screen_name", "opentween" },
-                        })
-                )
-                .ReturnsAsync(LazyJson.Create(new TwitterDirectMessage()));
-
-                twitterApi.apiConnection = mock.Object;
-
-                await twitterApi.DirectMessagesNew("hogehoge", "opentween")
-                    .IgnoreResponse()
-                    .ConfigureAwait(false);
-
-                mock.VerifyAll();
-            }
-        }
-
-        [Fact]
         public async Task DirectMessagesDestroy_Test()
         {
             using (var twitterApi = new TwitterApi())
@@ -766,6 +740,40 @@ namespace OpenTween.Api
 
                 await twitterApi.DirectMessagesDestroy(statusId: 100L)
                     .IgnoreResponse()
+                    .ConfigureAwait(false);
+
+                mock.VerifyAll();
+            }
+        }
+
+        [Fact]
+        public async Task DirectMessagesEventsNew_Test()
+        {
+            using (var twitterApi = new TwitterApi())
+            {
+                var mock = new Mock<IApiConnection>();
+                mock.Setup(x =>
+                    x.PostJsonAsync(
+                        new Uri("direct_messages/events/new.json", UriKind.Relative),
+                        @"{
+  ""event"": {
+    ""type"": ""message_create"",
+    ""message_create"": {
+      ""target"": {
+        ""recipient_id"": ""12345""
+      },
+      ""message_data"": {
+        ""text"": ""hogehoge""
+      }
+    }
+  }
+}")
+                )
+                .Returns(Task.FromResult(0));
+
+                twitterApi.apiConnection = mock.Object;
+
+                await twitterApi.DirectMessagesEventsNew(recipientId: 12345L, text: "hogehoge")
                     .ConfigureAwait(false);
 
                 mock.VerifyAll();

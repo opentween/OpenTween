@@ -383,13 +383,14 @@ namespace OpenTween
 
             var mc = Twitter.DMSendTextRegex.Match(postStr);
 
-            var response = await this.Api.DirectMessagesNew(mc.Groups["body"].Value, mc.Groups["id"].Value)
+            var body = mc.Groups["body"].Value;
+            var recipientName = mc.Groups["id"].Value;
+
+            var recipient = await this.Api.UsersShow(recipientName)
                 .ConfigureAwait(false);
 
-            var dm = await response.LoadJsonAsync()
+            await this.Api.DirectMessagesEventsNew(recipient.Id, body)
                 .ConfigureAwait(false);
-
-            this.UpdateUserStats(dm.Sender);
         }
 
         public async Task PostRetweet(long id, bool read)

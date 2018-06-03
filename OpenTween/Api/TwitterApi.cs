@@ -421,18 +421,6 @@ namespace OpenTween.Api
             return this.apiConnection.GetAsync<TwitterDirectMessage[]>(endpoint, param, "/direct_messages/sent");
         }
 
-        public Task<LazyJson<TwitterDirectMessage>> DirectMessagesNew(string status, string sendTo)
-        {
-            var endpoint = new Uri("direct_messages/new.json", UriKind.Relative);
-            var param = new Dictionary<string, string>
-            {
-                ["text"] = status,
-                ["screen_name"] = sendTo,
-            };
-
-            return this.apiConnection.PostLazyAsync<TwitterDirectMessage>(endpoint, param);
-        }
-
         public Task<LazyJson<TwitterDirectMessage>> DirectMessagesDestroy(long statusId)
         {
             var endpoint = new Uri("direct_messages/destroy.json", UriKind.Relative);
@@ -442,6 +430,27 @@ namespace OpenTween.Api
             };
 
             return this.apiConnection.PostLazyAsync<TwitterDirectMessage>(endpoint, param);
+        }
+
+        public Task DirectMessagesEventsNew(long recipientId, string text)
+        {
+            var endpoint = new Uri("direct_messages/events/new.json", UriKind.Relative);
+
+            var json = $@"{{
+  ""event"": {{
+    ""type"": ""message_create"",
+    ""message_create"": {{
+      ""target"": {{
+        ""recipient_id"": ""{EscapeJsonString(recipientId.ToString())}""
+      }},
+      ""message_data"": {{
+        ""text"": ""{EscapeJsonString(text)}""
+      }}
+    }}
+  }}
+}}";
+
+            return this.apiConnection.PostJsonAsync(endpoint, json);
         }
 
         public Task<TwitterUser> UsersShow(string screenName)
