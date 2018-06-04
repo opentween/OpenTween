@@ -44,13 +44,11 @@ using System.Xml.XPath;
 using System;
 using System.Reflection;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Windows.Forms;
 using OpenTween.Api;
 using OpenTween.Api.DataModel;
 using OpenTween.Connection;
 using OpenTween.Models;
-using System.Drawing.Imaging;
 using OpenTween.Setting;
 
 namespace OpenTween
@@ -303,77 +301,17 @@ namespace OpenTween
             this.previousStatusId = status.Id;
         }
 
-        public Task<long> UploadMedia(IMediaItem item)
-            => this.UploadMedia(item, SettingManager.Common.AlphaPNGWorkaround);
-
-        public async Task<long> UploadMedia(IMediaItem item, bool alphaPNGWorkaround)
+        public async Task<long> UploadMedia(IMediaItem item)
         {
             this.CheckAccountState();
 
-            LazyJson<TwitterUploadMediaResult> response;
-
-            using (var origImage = item.CreateImage())
-            {
-                if (alphaPNGWorkaround && this.AddAlphaChannelIfNeeded(origImage.Image, out var newImage))
-                {
-                    using (var newMediaItem = new MemoryImageMediaItem(newImage))
-                    {
-                        response = await this.Api.MediaUpload(newMediaItem)
-                            .ConfigureAwait(false);
-                    }
-                }
-                else
-                {
-                    response = await this.Api.MediaUpload(item)
-                        .ConfigureAwait(false);
-                }
-            }
+            var response = await this.Api.MediaUpload(item)
+                .ConfigureAwait(false);
 
             var media = await response.LoadJsonAsync()
                 .ConfigureAwait(false);
 
             return media.MediaId;
-        }
-
-        /// <summary>
-        /// pic.twitter.com アップロード時に JPEG への変換を回避するための加工を行う
-        /// </summary>
-        /// <remarks>
-        /// pic.twitter.com へのアップロード時に、アルファチャンネルを持たない PNG 画像が
-        /// JPEG 形式に変換され画質が低下する問題を回避します。
-        /// PNG 以外の画像や、すでにアルファチャンネルを持つ PNG 画像に対しては何もしません。
-        /// </remarks>
-        /// <returns>加工が行われた場合は true、そうでない場合は false</returns>
-        private bool AddAlphaChannelIfNeeded(Image origImage, out MemoryImage newImage)
-        {
-            newImage = null;
-
-            // PNG 画像以外に対しては何もしない
-            if (origImage.RawFormat.Guid != ImageFormat.Png.Guid)
-                return false;
-
-            using (var bitmap = new Bitmap(origImage))
-            {
-                // アルファ値が 255 以外のピクセルが含まれていた場合は何もしない
-                foreach (var x in Enumerable.Range(0, bitmap.Width))
-                {
-                    foreach (var y in Enumerable.Range(0, bitmap.Height))
-                    {
-                        if (bitmap.GetPixel(x, y).A != 255)
-                            return false;
-                    }
-                }
-
-                // 左上の 1px だけアルファ値を 254 にする
-                var pixel = bitmap.GetPixel(0, 0);
-                var newPixel = Color.FromArgb(pixel.A - 1, pixel.R, pixel.G, pixel.B);
-                bitmap.SetPixel(0, 0, newPixel);
-
-                // MemoryImage 作成時に画像はコピーされるため、この後 bitmap は破棄しても問題ない
-                newImage = MemoryImage.CopyFromImage(bitmap);
-
-                return true;
-            }
         }
 
         public async Task SendDirectMessage(string postStr)
