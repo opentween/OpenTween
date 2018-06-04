@@ -32,8 +32,28 @@ namespace OpenTween.Api.DataModel
     //       https://dev.twitter.com/docs/api/multiple-media-extended-entities
 
     [DataContract]
+    public class TwitterUploadMediaInit
+    {
+        [DataMember(Name = "expires_after_secs")]
+        public int ExpiresAfterSecs { get; set; }
+
+        [DataMember(Name = "media_id")]
+        public long MediaId { get; set; }
+
+        [DataMember(Name = "media_id_string")]
+        public string MediaIdStr { get; set; }
+
+        /// <exception cref="SerializationException"/>
+        public static TwitterUploadMediaInit ParseJson(string json)
+            => MyCommon.CreateDataFromJson<TwitterUploadMediaInit>(json);
+    }
+
+    [DataContract]
     public class TwitterUploadMediaResult
     {
+        [DataMember(Name = "expires_after_secs")]
+        public int ExpiresAfterSecs { get; set; }
+
         [DataContract]
         public class ImageInfo
         {
@@ -47,8 +67,8 @@ namespace OpenTween.Api.DataModel
             public string ImageType { get; set; }
         }
 
-        [DataMember(Name = "image")]
-        public TwitterUploadMediaResult.ImageInfo MediaInfo { get; set; }
+        [DataMember(Name = "image", IsRequired = false)]
+        public ImageInfo Image { get; set; }
 
         [DataMember(Name = "media_id")]
         public long MediaId { get; set; }
@@ -56,13 +76,53 @@ namespace OpenTween.Api.DataModel
         [DataMember(Name = "media_id_string")]
         public string MediaIdStr { get; set; }
 
-        [DataMember(Name = "size")]
-        public long Size { get; set; }
+        [DataContract]
+        public class MediaProcessingInfo
+        {
+            [DataMember(Name = "check_after_secs", IsRequired = false)]
+            public int? CheckAfterSecs { get; set; }
+
+            [DataContract]
+            public class MediaProcessingError
+            {
+                [DataMember(Name = "code")]
+                public int Code { get; set; }
+
+                [DataMember(Name = "name")]
+                public string Name { get; set; }
+
+                [DataMember(Name = "message")]
+                public string Message { get; set; }
+            }
+
+            [DataMember(Name = "error", IsRequired = false)]
+            public MediaProcessingError Error { get; set; }
+
+            [DataMember(Name = "progress_percent")]
+            public int ProgressPercent { get; set; }
+
+            [DataMember(Name = "state")]
+            public string State { get; set; }
+        }
+
+        [DataMember(Name = "processing_info", IsRequired = false)]
+        public MediaProcessingInfo ProcessingInfo { get; set; }
+
+        [DataMember(Name = "size", IsRequired = false)]
+        public long? Size { get; set; }
+
+        [DataContract]
+        public class VideoInfo
+        {
+            [DataMember(Name = "video_type")]
+            public string VideoType { get; set; }
+        }
+
+        [DataMember(Name = "video", IsRequired = false)]
+        public VideoInfo Video { get; set; }
 
         /// <exception cref="SerializationException"/>
         public static TwitterUploadMediaResult ParseJson(string json)
-        {
-            return MyCommon.CreateDataFromJson<TwitterUploadMediaResult>(json);
-        }
+            => MyCommon.CreateDataFromJson<TwitterUploadMediaResult>(json);
     }
 }

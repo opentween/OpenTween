@@ -253,6 +253,46 @@ namespace OpenTween.Connection
             }
         }
 
+        public async Task PostAsync(Uri uri, IDictionary<string, string> param, IDictionary<string, IMediaItem> media)
+        {
+            var requestUri = new Uri(RestApiBase, uri);
+            var request = new HttpRequestMessage(HttpMethod.Post, requestUri);
+
+            using (var postContent = new MultipartFormDataContent())
+            {
+                if (param != null)
+                {
+                    foreach (var (key, value) in param)
+                        postContent.Add(new StringContent(value), key);
+                }
+                if (media != null)
+                {
+                    foreach (var (key, value) in media)
+                        postContent.Add(new StreamContent(value.OpenRead()), key, value.Name);
+                }
+
+                request.Content = postContent;
+
+                try
+                {
+                    using (var response = await this.httpUpload.SendAsync(request, HttpCompletionOption.ResponseHeadersRead)
+                        .ConfigureAwait(false))
+                    {
+                        await this.CheckStatusCode(response)
+                            .ConfigureAwait(false);
+                    }
+                }
+                catch (HttpRequestException ex)
+                {
+                    throw TwitterApiException.CreateFromException(ex);
+                }
+                catch (OperationCanceledException ex)
+                {
+                    throw TwitterApiException.CreateFromException(ex);
+                }
+            }
+        }
+
         public async Task PostJsonAsync(Uri uri, string json)
         {
             var requestUri = new Uri(RestApiBase, uri);
@@ -285,7 +325,8 @@ namespace OpenTween.Connection
         protected async Task CheckStatusCode(HttpResponseMessage response)
         {
             var statusCode = response.StatusCode;
-            if (statusCode == HttpStatusCode.OK)
+
+            if ((int)statusCode >= 200 && (int)statusCode <= 299)
             {
                 Twitter.AccountState = MyCommon.ACCOUNT_STATE.Valid;
                 return;

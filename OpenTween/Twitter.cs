@@ -305,12 +305,66 @@ namespace OpenTween
         {
             this.CheckAccountState();
 
-            var response = await this.Api.MediaUpload(item)
+            string mediaType;
+
+            switch (item.Extension)
+            {
+                case ".png":
+                    mediaType = "image/png";
+                    break;
+                case ".jpg":
+                case ".jpeg":
+                    mediaType = "image/jpeg";
+                    break;
+                case ".gif":
+                    mediaType = "image/gif";
+                    break;
+                default:
+                    mediaType = "application/octet-stream";
+                    break;
+            }
+
+            var initResponse = await this.Api.MediaUploadInit(item.Size, mediaType)
+                .ConfigureAwait(false);
+
+            var initMedia = await initResponse.LoadJsonAsync()
+                .ConfigureAwait(false);
+
+            var mediaId = initMedia.MediaId;
+
+            await this.Api.MediaUploadAppend(mediaId, 0, item)
+                .ConfigureAwait(false);
+
+            var response = await this.Api.MediaUploadFinalize(mediaId)
                 .ConfigureAwait(false);
 
             var media = await response.LoadJsonAsync()
                 .ConfigureAwait(false);
 
+            while (media.ProcessingInfo is TwitterUploadMediaResult.MediaProcessingInfo processingInfo)
+            {
+                switch (processingInfo.State)
+                {
+                    case "pending":
+                        break;
+                    case "in_progress":
+                        break;
+                    case "succeeded":
+                        goto succeeded;
+                    case "failed":
+                        throw new WebApiException($"Err:Upload failed ({processingInfo.Error?.Name})");
+                    default:
+                        throw new WebApiException($"Err:Invalid state ({processingInfo.State})");
+                }
+
+                await Task.Delay(TimeSpan.FromSeconds(processingInfo.CheckAfterSecs ?? 5))
+                    .ConfigureAwait(false);
+
+                media = await this.Api.MediaUploadStatus(mediaId)
+                    .ConfigureAwait(false);
+            }
+
+            succeeded:
             return media.MediaId;
         }
 

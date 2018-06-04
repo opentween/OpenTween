@@ -1270,7 +1270,34 @@ namespace OpenTween.Api
         }
 
         [Fact]
-        public async Task MediaUpload_Test()
+        public async Task MediaUploadInit_Test()
+        {
+            using (var twitterApi = new TwitterApi())
+            {
+                var mock = new Mock<IApiConnection>();
+                mock.Setup(x =>
+                    x.PostLazyAsync<TwitterUploadMediaInit>(
+                        new Uri("https://upload.twitter.com/1.1/media/upload.json", UriKind.Absolute),
+                        new Dictionary<string, string> {
+                            { "command", "INIT" },
+                            { "total_bytes", "123456" },
+                            { "media_type", "image/png" },
+                        })
+                )
+                .ReturnsAsync(LazyJson.Create(new TwitterUploadMediaInit()));
+
+                twitterApi.apiConnection = mock.Object;
+
+                await twitterApi.MediaUploadInit(totalBytes: 123456L, mediaType: "image/png")
+                    .IgnoreResponse()
+                    .ConfigureAwait(false);
+
+                mock.VerifyAll();
+            }
+        }
+
+        [Fact]
+        public async Task MediaUploadAppend_Test()
         {
             using (var twitterApi = new TwitterApi())
             using (var image = TestUtils.CreateDummyImage())
@@ -1278,17 +1305,72 @@ namespace OpenTween.Api
             {
                 var mock = new Mock<IApiConnection>();
                 mock.Setup(x =>
+                    x.PostAsync(
+                        new Uri("https://upload.twitter.com/1.1/media/upload.json", UriKind.Absolute),
+                        new Dictionary<string, string> {
+                            { "command", "APPEND" },
+                            { "media_id", "11111" },
+                            { "segment_index", "1" },
+                        },
+                        new Dictionary<string, IMediaItem> { { "media", media } })
+                )
+                .Returns(Task.FromResult(0));
+
+                twitterApi.apiConnection = mock.Object;
+
+                await twitterApi.MediaUploadAppend(mediaId: 11111L, segmentIndex: 1, media: media)
+                    .ConfigureAwait(false);
+
+                mock.VerifyAll();
+            }
+        }
+
+        [Fact]
+        public async Task MediaUploadFinalize_Test()
+        {
+            using (var twitterApi = new TwitterApi())
+            {
+                var mock = new Mock<IApiConnection>();
+                mock.Setup(x =>
                     x.PostLazyAsync<TwitterUploadMediaResult>(
                         new Uri("https://upload.twitter.com/1.1/media/upload.json", UriKind.Absolute),
-                        null,
-                        new Dictionary<string, IMediaItem> { { "media", media } })
+                        new Dictionary<string, string> {
+                            { "command", "FINALIZE" },
+                            { "media_id", "11111" },
+                        })
                 )
                 .ReturnsAsync(LazyJson.Create(new TwitterUploadMediaResult()));
 
                 twitterApi.apiConnection = mock.Object;
 
-                await twitterApi.MediaUpload(media)
+                await twitterApi.MediaUploadFinalize(mediaId: 11111L)
                     .IgnoreResponse()
+                    .ConfigureAwait(false);
+
+                mock.VerifyAll();
+            }
+        }
+
+        [Fact]
+        public async Task MediaUploadStatus_Test()
+        {
+            using (var twitterApi = new TwitterApi())
+            {
+                var mock = new Mock<IApiConnection>();
+                mock.Setup(x =>
+                    x.GetAsync<TwitterUploadMediaResult>(
+                        new Uri("https://upload.twitter.com/1.1/media/upload.json", UriKind.Absolute),
+                        new Dictionary<string, string> {
+                            { "command", "STATUS" },
+                            { "media_id", "11111" },
+                        },
+                        null)
+                )
+                .ReturnsAsync(new TwitterUploadMediaResult());
+
+                twitterApi.apiConnection = mock.Object;
+
+                await twitterApi.MediaUploadStatus(mediaId: 11111L)
                     .ConfigureAwait(false);
 
                 mock.VerifyAll();
