@@ -432,9 +432,21 @@ namespace OpenTween.Api
             return this.apiConnection.PostLazyAsync<TwitterDirectMessage>(endpoint, param);
         }
 
-        public Task DirectMessagesEventsNew(long recipientId, string text)
+        public Task DirectMessagesEventsNew(long recipientId, string text, long? mediaId = null)
         {
             var endpoint = new Uri("direct_messages/events/new.json", UriKind.Relative);
+
+            var attachment = "";
+            if (mediaId != null)
+            {
+                attachment = "," + $@"
+        ""attachment"": {{
+          ""type"": ""media"",
+          ""media"": {{
+            ""id"": ""{EscapeJsonString(mediaId.ToString())}""
+          }}
+        }}";
+            }
 
             var json = $@"{{
   ""event"": {{
@@ -444,7 +456,7 @@ namespace OpenTween.Api
         ""recipient_id"": ""{EscapeJsonString(recipientId.ToString())}""
       }},
       ""message_data"": {{
-        ""text"": ""{EscapeJsonString(text)}""
+        ""text"": ""{EscapeJsonString(text)}""{attachment}
       }}
     }}
   }}
@@ -699,7 +711,7 @@ namespace OpenTween.Api
             return this.apiConnection.GetAsync<TwitterConfiguration>(endpoint, null, "/help/configuration");
         }
 
-        public Task<LazyJson<TwitterUploadMediaInit>> MediaUploadInit(long totalBytes, string mediaType)
+        public Task<LazyJson<TwitterUploadMediaInit>> MediaUploadInit(long totalBytes, string mediaType, string mediaCategory = null)
         {
             var endpoint = new Uri("https://upload.twitter.com/1.1/media/upload.json");
             var param = new Dictionary<string, string>
@@ -708,6 +720,9 @@ namespace OpenTween.Api
                 ["total_bytes"] = totalBytes.ToString(),
                 ["media_type"] = mediaType,
             };
+
+            if (mediaCategory != null)
+                param["media_category"] = mediaCategory;
 
             return this.apiConnection.PostLazyAsync<TwitterUploadMediaInit>(endpoint, param);
         }

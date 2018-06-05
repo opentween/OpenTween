@@ -763,7 +763,13 @@ namespace OpenTween.Api
         ""recipient_id"": ""12345""
       },
       ""message_data"": {
-        ""text"": ""hogehoge""
+        ""text"": ""hogehoge"",
+        ""attachment"": {
+          ""type"": ""media"",
+          ""media"": {
+            ""id"": ""67890""
+          }
+        }
       }
     }
   }
@@ -773,7 +779,7 @@ namespace OpenTween.Api
 
                 twitterApi.apiConnection = mock.Object;
 
-                await twitterApi.DirectMessagesEventsNew(recipientId: 12345L, text: "hogehoge")
+                await twitterApi.DirectMessagesEventsNew(recipientId: 12345L, text: "hogehoge", mediaId: 67890L)
                     .ConfigureAwait(false);
 
                 mock.VerifyAll();
@@ -1282,13 +1288,14 @@ namespace OpenTween.Api
                             { "command", "INIT" },
                             { "total_bytes", "123456" },
                             { "media_type", "image/png" },
+                            { "media_category", "dm_image" },
                         })
                 )
                 .ReturnsAsync(LazyJson.Create(new TwitterUploadMediaInit()));
 
                 twitterApi.apiConnection = mock.Object;
 
-                await twitterApi.MediaUploadInit(totalBytes: 123456L, mediaType: "image/png")
+                await twitterApi.MediaUploadInit(totalBytes: 123456L, mediaType: "image/png", mediaCategory: "dm_image")
                     .IgnoreResponse()
                     .ConfigureAwait(false);
 

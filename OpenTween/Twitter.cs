@@ -281,7 +281,9 @@ namespace OpenTween
 
             if (Twitter.DMSendTextRegex.IsMatch(param.Text))
             {
-                await this.SendDirectMessage(param.Text)
+                var mediaId = param.MediaIds != null && param.MediaIds.Any() ? param.MediaIds[0] : (long?)null;
+
+                await this.SendDirectMessage(param.Text, mediaId)
                     .ConfigureAwait(false);
                 return;
             }
@@ -301,7 +303,7 @@ namespace OpenTween
             this.previousStatusId = status.Id;
         }
 
-        public async Task<long> UploadMedia(IMediaItem item)
+        public async Task<long> UploadMedia(IMediaItem item, string mediaCategory = null)
         {
             this.CheckAccountState();
 
@@ -324,7 +326,7 @@ namespace OpenTween
                     break;
             }
 
-            var initResponse = await this.Api.MediaUploadInit(item.Size, mediaType)
+            var initResponse = await this.Api.MediaUploadInit(item.Size, mediaType, mediaCategory)
                 .ConfigureAwait(false);
 
             var initMedia = await initResponse.LoadJsonAsync()
@@ -368,7 +370,7 @@ namespace OpenTween
             return media.MediaId;
         }
 
-        public async Task SendDirectMessage(string postStr)
+        public async Task SendDirectMessage(string postStr, long? mediaId = null)
         {
             this.CheckAccountState();
             this.CheckAccessLevel(TwitterApiAccessLevel.ReadWriteAndDirectMessage);
@@ -381,7 +383,7 @@ namespace OpenTween
             var recipient = await this.Api.UsersShow(recipientName)
                 .ConfigureAwait(false);
 
-            await this.Api.DirectMessagesEventsNew(recipient.Id, body)
+            await this.Api.DirectMessagesEventsNew(recipient.Id, body, mediaId)
                 .ConfigureAwait(false);
         }
 

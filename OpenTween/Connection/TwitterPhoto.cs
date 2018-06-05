@@ -85,11 +85,12 @@ namespace OpenTween.Connection
                     throw new ArgumentException("Err:Media not found.");
             }
 
-            var uploadTasks = from m in mediaItems
-                              select this.UploadMediaItem(m);
+            long[] mediaIds;
 
-            var mediaIds = await Task.WhenAll(uploadTasks)
-                .ConfigureAwait(false);
+            if (Twitter.DMSendTextRegex.IsMatch(postParams.Text))
+                mediaIds = new[] { await this.UploadMediaForDM(mediaItems).ConfigureAwait(false) };
+            else
+                mediaIds = await this.UploadMediaForTweet(mediaItems).ConfigureAwait(false);
 
             postParams.MediaIds = mediaIds;
 
@@ -103,11 +104,46 @@ namespace OpenTween.Connection
         public void UpdateTwitterConfiguration(TwitterConfiguration config)
             => this.twitterConfig = config;
 
-        private async Task<long> UploadMediaItem(IMediaItem mediaItem)
+        private async Task<long[]> UploadMediaForTweet(IMediaItem[] mediaItems)
         {
-            async Task<long> UploadInternal(IMediaItem media)
+            var uploadTasks = from m in mediaItems
+                              select this.UploadMediaItem(m, mediaCategory: null);
+
+            var mediaIds = await Task.WhenAll(uploadTasks)
+                .ConfigureAwait(false);
+
+            return mediaIds;
+        }
+
+        private async Task<long> UploadMediaForDM(IMediaItem[] mediaItems)
+        {
+            if (mediaItems.Length > 1)
+                throw new InvalidOperationException("Err:Can't attach multiple media to DM.");
+
+            var mediaItem = mediaItems[0];
+
+            string mediaCategory;
+            switch (mediaItem.Extension)
             {
-                var mediaId = await this.tw.UploadMedia(media)
+                case ".gif":
+                    mediaCategory = "dm_gif";
+                    break;
+                default:
+                    mediaCategory = "dm_image";
+                    break;
+            }
+
+            var mediaId = await this.UploadMediaItem(mediaItems[0], mediaCategory)
+                .ConfigureAwait(false);
+
+            return mediaId;
+        }
+
+        private async Task<long> UploadMediaItem(IMediaItem mediaItem, string mediaCategory)
+        {
+            async Task<long> UploadInternal(IMediaItem media, string category)
+            {
+                var mediaId = await this.tw.UploadMedia(media, category)
                     .ConfigureAwait(false);
 
                 if (!string.IsNullOrEmpty(media.AltText))
@@ -126,12 +162,12 @@ namespace OpenTween.Connection
                     using (var newMediaItem = new MemoryImageMediaItem(newImage))
                     {
                         newMediaItem.AltText = mediaItem.AltText;
-                        return await UploadInternal(newMediaItem);
+                        return await UploadInternal(newMediaItem, mediaCategory);
                     }
                 }
                 else
                 {
-                    return await UploadInternal(mediaItem);
+                    return await UploadInternal(mediaItem, mediaCategory);
                 }
             }
         }
