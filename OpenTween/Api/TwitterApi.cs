@@ -421,18 +421,6 @@ namespace OpenTween.Api
             return this.apiConnection.GetAsync<TwitterDirectMessage[]>(endpoint, param, "/direct_messages/sent");
         }
 
-        public Task<LazyJson<TwitterDirectMessage>> DirectMessagesNew(string status, string sendTo)
-        {
-            var endpoint = new Uri("direct_messages/new.json", UriKind.Relative);
-            var param = new Dictionary<string, string>
-            {
-                ["text"] = status,
-                ["screen_name"] = sendTo,
-            };
-
-            return this.apiConnection.PostLazyAsync<TwitterDirectMessage>(endpoint, param);
-        }
-
         public Task<LazyJson<TwitterDirectMessage>> DirectMessagesDestroy(long statusId)
         {
             var endpoint = new Uri("direct_messages/destroy.json", UriKind.Relative);
@@ -442,6 +430,39 @@ namespace OpenTween.Api
             };
 
             return this.apiConnection.PostLazyAsync<TwitterDirectMessage>(endpoint, param);
+        }
+
+        public Task DirectMessagesEventsNew(long recipientId, string text, long? mediaId = null)
+        {
+            var endpoint = new Uri("direct_messages/events/new.json", UriKind.Relative);
+
+            var attachment = "";
+            if (mediaId != null)
+            {
+                attachment = "," + $@"
+        ""attachment"": {{
+          ""type"": ""media"",
+          ""media"": {{
+            ""id"": ""{EscapeJsonString(mediaId.ToString())}""
+          }}
+        }}";
+            }
+
+            var json = $@"{{
+  ""event"": {{
+    ""type"": ""message_create"",
+    ""message_create"": {{
+      ""target"": {{
+        ""recipient_id"": ""{EscapeJsonString(recipientId.ToString())}""
+      }},
+      ""message_data"": {{
+        ""text"": ""{EscapeJsonString(text)}""{attachment}
+      }}
+    }}
+  }}
+}}";
+
+            return this.apiConnection.PostJsonAsync(endpoint, json);
         }
 
         public Task<TwitterUser> UsersShow(string screenName)
@@ -690,15 +711,61 @@ namespace OpenTween.Api
             return this.apiConnection.GetAsync<TwitterConfiguration>(endpoint, null, "/help/configuration");
         }
 
-        public Task<LazyJson<TwitterUploadMediaResult>> MediaUpload(IMediaItem media)
+        public Task<LazyJson<TwitterUploadMediaInit>> MediaUploadInit(long totalBytes, string mediaType, string mediaCategory = null)
         {
             var endpoint = new Uri("https://upload.twitter.com/1.1/media/upload.json");
+            var param = new Dictionary<string, string>
+            {
+                ["command"] = "INIT",
+                ["total_bytes"] = totalBytes.ToString(),
+                ["media_type"] = mediaType,
+            };
+
+            if (mediaCategory != null)
+                param["media_category"] = mediaCategory;
+
+            return this.apiConnection.PostLazyAsync<TwitterUploadMediaInit>(endpoint, param);
+        }
+
+        public Task MediaUploadAppend(long mediaId, int segmentIndex, IMediaItem media)
+        {
+            var endpoint = new Uri("https://upload.twitter.com/1.1/media/upload.json");
+            var param = new Dictionary<string, string>
+            {
+                ["command"] = "APPEND",
+                ["media_id"] = mediaId.ToString(),
+                ["segment_index"] = segmentIndex.ToString(),
+            };
             var paramMedia = new Dictionary<string, IMediaItem>
             {
                 ["media"] = media,
             };
 
-            return this.apiConnection.PostLazyAsync<TwitterUploadMediaResult>(endpoint, null, paramMedia);
+            return this.apiConnection.PostAsync(endpoint, param, paramMedia);
+        }
+
+        public Task<LazyJson<TwitterUploadMediaResult>> MediaUploadFinalize(long mediaId)
+        {
+            var endpoint = new Uri("https://upload.twitter.com/1.1/media/upload.json");
+            var param = new Dictionary<string, string>
+            {
+                ["command"] = "FINALIZE",
+                ["media_id"] = mediaId.ToString(),
+            };
+
+            return this.apiConnection.PostLazyAsync<TwitterUploadMediaResult>(endpoint, param);
+        }
+
+        public Task<TwitterUploadMediaResult> MediaUploadStatus(long mediaId)
+        {
+            var endpoint = new Uri("https://upload.twitter.com/1.1/media/upload.json");
+            var param = new Dictionary<string, string>
+            {
+                ["command"] = "STATUS",
+                ["media_id"] = mediaId.ToString(),
+            };
+
+            return this.apiConnection.GetAsync<TwitterUploadMediaResult>(endpoint, param, endpointName: null);
         }
 
         public Task MediaMetadataCreate(long mediaId, string altText)

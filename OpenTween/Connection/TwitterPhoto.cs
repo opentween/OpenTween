@@ -27,10 +27,13 @@
 
 using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using OpenTween.Api.DataModel;
+using OpenTween.Setting;
 
 namespace OpenTween.Connection
 {
@@ -82,11 +85,12 @@ namespace OpenTween.Connection
                     throw new ArgumentException("Err:Media not found.");
             }
 
-            var uploadTasks = from m in mediaItems
-                              select this.UploadMediaItem(m);
+            long[] mediaIds;
 
-            var mediaIds = await Task.WhenAll(uploadTasks)
-                .ConfigureAwait(false);
+            if (Twitter.DMSendTextRegex.IsMatch(postParams.Text))
+                mediaIds = new[] { await this.UploadMediaForDM(mediaItems).ConfigureAwait(false) };
+            else
+                mediaIds = await this.UploadMediaForTweet(mediaItems).ConfigureAwait(false);
 
             postParams.MediaIds = mediaIds;
 
@@ -100,18 +104,113 @@ namespace OpenTween.Connection
         public void UpdateTwitterConfiguration(TwitterConfiguration config)
             => this.twitterConfig = config;
 
-        private async Task<long> UploadMediaItem(IMediaItem mediaItem)
+        private async Task<long[]> UploadMediaForTweet(IMediaItem[] mediaItems)
         {
-            var mediaId = await this.tw.UploadMedia(mediaItem)
+            var uploadTasks = from m in mediaItems
+                              select this.UploadMediaItem(m, mediaCategory: null);
+
+            var mediaIds = await Task.WhenAll(uploadTasks)
                 .ConfigureAwait(false);
 
-            if (!string.IsNullOrEmpty(mediaItem.AltText))
+            return mediaIds;
+        }
+
+        private async Task<long> UploadMediaForDM(IMediaItem[] mediaItems)
+        {
+            if (mediaItems.Length > 1)
+                throw new InvalidOperationException("Err:Can't attach multiple media to DM.");
+
+            var mediaItem = mediaItems[0];
+
+            string mediaCategory;
+            switch (mediaItem.Extension)
             {
-                await this.tw.Api.MediaMetadataCreate(mediaId, mediaItem.AltText)
-                    .ConfigureAwait(false);
+                case ".gif":
+                    mediaCategory = "dm_gif";
+                    break;
+                default:
+                    mediaCategory = "dm_image";
+                    break;
             }
 
+            var mediaId = await this.UploadMediaItem(mediaItems[0], mediaCategory)
+                .ConfigureAwait(false);
+
             return mediaId;
+        }
+
+        private async Task<long> UploadMediaItem(IMediaItem mediaItem, string mediaCategory)
+        {
+            async Task<long> UploadInternal(IMediaItem media, string category)
+            {
+                var mediaId = await this.tw.UploadMedia(media, category)
+                    .ConfigureAwait(false);
+
+                if (!string.IsNullOrEmpty(media.AltText))
+                {
+                    await this.tw.Api.MediaMetadataCreate(mediaId, media.AltText)
+                        .ConfigureAwait(false);
+                }
+
+                return mediaId;
+            }
+
+            using (var origImage = mediaItem.CreateImage())
+            {
+                if (SettingManager.Common.AlphaPNGWorkaround && this.AddAlphaChannelIfNeeded(origImage.Image, out var newImage))
+                {
+                    using (var newMediaItem = new MemoryImageMediaItem(newImage))
+                    {
+                        newMediaItem.AltText = mediaItem.AltText;
+                        return await UploadInternal(newMediaItem, mediaCategory);
+                    }
+                }
+                else
+                {
+                    return await UploadInternal(mediaItem, mediaCategory);
+                }
+            }
+        }
+
+        /// <summary>
+        /// pic.twitter.com アップロード時に JPEG への変換を回避するための加工を行う
+        /// </summary>
+        /// <remarks>
+        /// pic.twitter.com へのアップロード時に、アルファチャンネルを持たない PNG 画像が
+        /// JPEG 形式に変換され画質が低下する問題を回避します。
+        /// PNG 以外の画像や、すでにアルファチャンネルを持つ PNG 画像に対しては何もしません。
+        /// </remarks>
+        /// <returns>加工が行われた場合は true、そうでない場合は false</returns>
+        private bool AddAlphaChannelIfNeeded(Image origImage, out MemoryImage newImage)
+        {
+            newImage = null;
+
+            // PNG 画像以外に対しては何もしない
+            if (origImage.RawFormat.Guid != ImageFormat.Png.Guid)
+                return false;
+
+            using (var bitmap = new Bitmap(origImage))
+            {
+                // アルファ値が 255 以外のピクセルが含まれていた場合は何もしない
+                foreach (var x in Enumerable.Range(0, bitmap.Width))
+                {
+                    foreach (var y in Enumerable.Range(0, bitmap.Height))
+                    {
+                        if (bitmap.GetPixel(x, y).A != 255)
+                            return false;
+                    }
+                }
+
+                // 左上の 1px だけアルファ値を 254 にする
+                var pixel = bitmap.GetPixel(0, 0);
+                var newPixel = Color.FromArgb(pixel.A - 1, pixel.R, pixel.G, pixel.B);
+                bitmap.SetPixel(0, 0, newPixel);
+
+                // MemoryImage 作成時に画像はコピーされるため、この後 bitmap は破棄しても問題ない
+                newImage = MemoryImage.CopyFromImage(bitmap);
+
+                return true;
+            }
         }
     }
 }

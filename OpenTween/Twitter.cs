@@ -44,13 +44,11 @@ using System.Xml.XPath;
 using System;
 using System.Reflection;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Windows.Forms;
 using OpenTween.Api;
 using OpenTween.Api.DataModel;
 using OpenTween.Connection;
 using OpenTween.Models;
-using System.Drawing.Imaging;
 using OpenTween.Setting;
 
 namespace OpenTween
@@ -283,7 +281,9 @@ namespace OpenTween
 
             if (Twitter.DMSendTextRegex.IsMatch(param.Text))
             {
-                await this.SendDirectMessage(param.Text)
+                var mediaId = param.MediaIds != null && param.MediaIds.Any() ? param.MediaIds[0] : (long?)null;
+
+                await this.SendDirectMessage(param.Text, mediaId)
                     .ConfigureAwait(false);
                 return;
             }
@@ -303,93 +303,88 @@ namespace OpenTween
             this.previousStatusId = status.Id;
         }
 
-        public Task<long> UploadMedia(IMediaItem item)
-            => this.UploadMedia(item, SettingManager.Common.AlphaPNGWorkaround);
-
-        public async Task<long> UploadMedia(IMediaItem item, bool alphaPNGWorkaround)
+        public async Task<long> UploadMedia(IMediaItem item, string mediaCategory = null)
         {
             this.CheckAccountState();
 
-            LazyJson<TwitterUploadMediaResult> response;
+            string mediaType;
 
-            using (var origImage = item.CreateImage())
+            switch (item.Extension)
             {
-                if (alphaPNGWorkaround && this.AddAlphaChannelIfNeeded(origImage.Image, out var newImage))
-                {
-                    using (var newMediaItem = new MemoryImageMediaItem(newImage))
-                    {
-                        response = await this.Api.MediaUpload(newMediaItem)
-                            .ConfigureAwait(false);
-                    }
-                }
-                else
-                {
-                    response = await this.Api.MediaUpload(item)
-                        .ConfigureAwait(false);
-                }
+                case ".png":
+                    mediaType = "image/png";
+                    break;
+                case ".jpg":
+                case ".jpeg":
+                    mediaType = "image/jpeg";
+                    break;
+                case ".gif":
+                    mediaType = "image/gif";
+                    break;
+                default:
+                    mediaType = "application/octet-stream";
+                    break;
             }
+
+            var initResponse = await this.Api.MediaUploadInit(item.Size, mediaType, mediaCategory)
+                .ConfigureAwait(false);
+
+            var initMedia = await initResponse.LoadJsonAsync()
+                .ConfigureAwait(false);
+
+            var mediaId = initMedia.MediaId;
+
+            await this.Api.MediaUploadAppend(mediaId, 0, item)
+                .ConfigureAwait(false);
+
+            var response = await this.Api.MediaUploadFinalize(mediaId)
+                .ConfigureAwait(false);
 
             var media = await response.LoadJsonAsync()
                 .ConfigureAwait(false);
 
+            while (media.ProcessingInfo is TwitterUploadMediaResult.MediaProcessingInfo processingInfo)
+            {
+                switch (processingInfo.State)
+                {
+                    case "pending":
+                        break;
+                    case "in_progress":
+                        break;
+                    case "succeeded":
+                        goto succeeded;
+                    case "failed":
+                        throw new WebApiException($"Err:Upload failed ({processingInfo.Error?.Name})");
+                    default:
+                        throw new WebApiException($"Err:Invalid state ({processingInfo.State})");
+                }
+
+                await Task.Delay(TimeSpan.FromSeconds(processingInfo.CheckAfterSecs ?? 5))
+                    .ConfigureAwait(false);
+
+                media = await this.Api.MediaUploadStatus(mediaId)
+                    .ConfigureAwait(false);
+            }
+
+            succeeded:
             return media.MediaId;
         }
 
-        /// <summary>
-        /// pic.twitter.com アップロード時に JPEG への変換を回避するための加工を行う
-        /// </summary>
-        /// <remarks>
-        /// pic.twitter.com へのアップロード時に、アルファチャンネルを持たない PNG 画像が
-        /// JPEG 形式に変換され画質が低下する問題を回避します。
-        /// PNG 以外の画像や、すでにアルファチャンネルを持つ PNG 画像に対しては何もしません。
-        /// </remarks>
-        /// <returns>加工が行われた場合は true、そうでない場合は false</returns>
-        private bool AddAlphaChannelIfNeeded(Image origImage, out MemoryImage newImage)
-        {
-            newImage = null;
-
-            // PNG 画像以外に対しては何もしない
-            if (origImage.RawFormat.Guid != ImageFormat.Png.Guid)
-                return false;
-
-            using (var bitmap = new Bitmap(origImage))
-            {
-                // アルファ値が 255 以外のピクセルが含まれていた場合は何もしない
-                foreach (var x in Enumerable.Range(0, bitmap.Width))
-                {
-                    foreach (var y in Enumerable.Range(0, bitmap.Height))
-                    {
-                        if (bitmap.GetPixel(x, y).A != 255)
-                            return false;
-                    }
-                }
-
-                // 左上の 1px だけアルファ値を 254 にする
-                var pixel = bitmap.GetPixel(0, 0);
-                var newPixel = Color.FromArgb(pixel.A - 1, pixel.R, pixel.G, pixel.B);
-                bitmap.SetPixel(0, 0, newPixel);
-
-                // MemoryImage 作成時に画像はコピーされるため、この後 bitmap は破棄しても問題ない
-                newImage = MemoryImage.CopyFromImage(bitmap);
-
-                return true;
-            }
-        }
-
-        public async Task SendDirectMessage(string postStr)
+        public async Task SendDirectMessage(string postStr, long? mediaId = null)
         {
             this.CheckAccountState();
             this.CheckAccessLevel(TwitterApiAccessLevel.ReadWriteAndDirectMessage);
 
             var mc = Twitter.DMSendTextRegex.Match(postStr);
 
-            var response = await this.Api.DirectMessagesNew(mc.Groups["body"].Value, mc.Groups["id"].Value)
+            var body = mc.Groups["body"].Value;
+            var recipientName = mc.Groups["id"].Value;
+
+            var recipient = await this.Api.UsersShow(recipientName)
                 .ConfigureAwait(false);
 
-            var dm = await response.LoadJsonAsync()
+            await this.Api.DirectMessagesEventsNew(recipient.Id, body, mediaId)
                 .ConfigureAwait(false);
-
-            this.UpdateUserStats(dm.Sender);
         }
 
         public async Task PostRetweet(long id, bool read)
