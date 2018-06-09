@@ -14,4 +14,4 @@ before_script:
 script:
   - nuget restore -PackagesDirectory packages
   - msbuild /p:Configuration=Debug /verbosity:quiet
-  - mono ./packages/xunit.runner.console/2.3.1/tools/net452/xunit.console.exe ./OpenTween.Tests/bin/Debug/net452/OpenTween.Tests.dll -noappdomain -parallel none
+  - mono ./packages/xunit.runner.console/2.3.1/tools/net452/xunit.console.exe ./OpenTween.Tests/bin/Debug/net472/OpenTween.Tests.dll -noappdomain -parallel none

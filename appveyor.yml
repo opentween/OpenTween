@@ -19,7 +19,7 @@ before_build:
   - choco install opencover.portable
 
 test_script:
-  - OpenCover.Console.exe -register:user -target:"%xunit20%\xunit.console.x86.exe" -targetargs:".\OpenTween.Tests\bin\Debug\net452\OpenTween.Tests.dll -noshadow -appveyor" -filter:"+[OpenTween*]* -[OpenTween.Tests]*" -excludebyfile:"*.Designer.cs" -skipautoprops -hideskipped:All -returntargetcode -output:coverage.xml
+  - OpenCover.Console.exe -register:user -target:"%xunit20%\xunit.console.x86.exe" -targetargs:".\OpenTween.Tests\bin\Debug\net472\OpenTween.Tests.dll -noshadow -appveyor" -filter:"+[OpenTween*]* -[OpenTween.Tests]*" -excludebyfile:"*.Designer.cs" -skipautoprops -hideskipped:All -returntargetcode -output:coverage.xml
 
 after_test:
   - npm install codecov --save

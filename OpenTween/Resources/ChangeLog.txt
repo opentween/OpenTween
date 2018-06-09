@@ -1,5 +1,15 @@
 ﻿更新履歴
 
+==== Ver 2.0.0-dev(xxxx/xx/xx)
+ * このバージョン以降のOpenTweenは .NET Framework 4.7.2 以上が必須になります
+  - .NET Framework 4.7.2 のインストーラーは https://go.microsoft.com/fwlink/?LinkId=863262 から入手できます
+  - Windows 10 April 2018 Update には標準で .NET Framework 4.7.2 が含まれているため追加のインストールは不要です
+ * Windows Vista ではこのバージョン以降のOpenTweenを動作させることはできません
+
+ * CHG: .NET Frameworkのバージョンが 4.5.1 から 4.7.2 に変更されました
+ * CHG: OpenTweenのバージョン番号の規則が変更されました
+  - 新しいバージョン規則については https://osdn.net/projects/opentween/wiki/Versioning を参照してください
+
 ==== Ver 1.4.2-dev(xxxx/xx/xx)
  * NEW: 画像を添付したDMの送信に対応しました
  * NEW: システムのタイムゾーンの変更を検知して、ツイートの投稿日時などの表示を新しいタイムゾーンに同期します
