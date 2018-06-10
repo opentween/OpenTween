@@ -652,6 +652,8 @@ namespace OpenTween.Properties {
         /// <summary>
         ///   更新履歴
         ///
+        ///==== Ver 2.0.2-dev(2018/xx/xx)
+        ///
         ///==== Ver 2.0.1(2018/06/13)
         /// * Windows 8.1 以降で OpenTween v2.0.0 を使用している方は v2.0.1 へのアップデートは不要です
         ///
@@ -661,8 +663,7 @@ namespace OpenTween.Properties {
         ///==== Ver 2.0.0(2018/06/11)
         /// * このバージョン以降のOpenTweenは .NET Framework 4.7.2 以上が必須になります
         ///  - .NET Framework 4.7.2 のインストーラーは https://go.microsoft.com/fwlink/?LinkId=863262 から入手できます
-        ///  - Windows 10 April 2018 Update には標準で .NET Framework 4.7.2 が含まれているため追加のインストールは不要です
-        /// * Windows Vista  [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
+        ///  - Windows 10 April 2018 Update には標準で .NET Framework 4.7.2 が含まれているた [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ChangeLog {
             get {
