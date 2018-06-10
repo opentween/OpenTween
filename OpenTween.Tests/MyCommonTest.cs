@@ -203,11 +203,11 @@ namespace OpenTween
         [Theory]
         [InlineData("1.0.0.0", "1.0.0")]
         [InlineData("1.0.0.1", "1.0.1-dev")]
-        [InlineData("1.0.0.12", "1.0.1-dev (Build 12)")]
+        [InlineData("1.0.0.12", "1.0.1-dev+build.12")]
         [InlineData("1.0.1.0", "1.0.1")]
-        [InlineData("1.0.9.1", "1.1.0-dev")]
+        [InlineData("1.0.9.1", "1.0.10-dev")]
         [InlineData("1.1.0.0", "1.1.0")]
-        [InlineData("1.9.9.1", "2.0.0-dev")]
+        [InlineData("1.9.9.1", "1.9.10-dev")]
         public void GetReadableVersionTest(string fileVersion, string expected)
         {
             Assert.Equal(expected, MyCommon.GetReadableVersion(fileVersion));
