@@ -1,5 +1,7 @@
 ﻿更新履歴
 
+==== Ver 2.0.1-dev(2018/xx/xx)
+
 ==== Ver 2.0.0(2018/06/11)
  * このバージョン以降のOpenTweenは .NET Framework 4.7.2 以上が必須になります
   - .NET Framework 4.7.2 のインストーラーは https://go.microsoft.com/fwlink/?LinkId=863262 から入手できます

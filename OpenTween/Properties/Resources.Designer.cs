@@ -652,6 +652,8 @@ namespace OpenTween.Properties {
         /// <summary>
         ///   更新履歴
         ///
+        ///==== Ver 2.0.1-dev(2018/xx/xx)
+        ///
         ///==== Ver 2.0.0(2018/06/11)
         /// * このバージョン以降のOpenTweenは .NET Framework 4.7.2 以上が必須になります
         ///  - .NET Framework 4.7.2 のインストーラーは https://go.microsoft.com/fwlink/?LinkId=863262 から入手できます
@@ -660,9 +662,7 @@ namespace OpenTween.Properties {
         ///
         /// * CHG: .NET Frameworkのバージョンが 4.5.1 から 4.7.2 に変更されました
         /// * CHG: OpenTweenのバージョン番号の規則が変更されました
-        ///  - 新しいバージョン規則については https://osdn.net/projects/opentween/wiki/Versioning を参照してください
-        ///
-        ///==== Ver [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
+        ///  - 新しいバージョン規則については https://osdn.net/projects/opentween/wik [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ChangeLog {
             get {
