@@ -95,10 +95,6 @@ namespace OpenTween.Connection
             Networking.initialized = true;
 
             ServicePointManager.Expect100Continue = false;
-
-            // 明示的に指定しないと、デフォルトでは SSL3.0, TLS1.0 のみ有効となる (.NET Framework 4.5.1)
-            // https://blogs.technet.microsoft.com/jpieblog/2015/04/07/net-framework-tls1-1-1-2/
-            ServicePointManager.SecurityProtocol |= SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
         }
 
         public static void SetWebProxy(ProxyType proxyType, string proxyAddress, int proxyPort,
