@@ -2,6 +2,7 @@
 
 ==== Ver 2.0.1-dev(2018/xx/xx)
  * FIX: 起動時に .NET Framework 4.7.2 のバージョンチェックが正しく行われるように修正
+ * FIX: Windows 7 で TLS1.1/TLS1.2 が有効にならない不具合を修正
 
 ==== Ver 2.0.0(2018/06/11)
  * このバージョン以降のOpenTweenは .NET Framework 4.7.2 以上が必須になります
