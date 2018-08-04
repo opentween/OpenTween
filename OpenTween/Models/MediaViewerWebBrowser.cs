@@ -135,7 +135,7 @@ html, body {
             {
                 const string TEMPLATE_VIDEO_BODY = @"
 <div class='media-panel'>
-  <video class='media-video' preload='metadata' controls>
+  <video id='currentMedia' class='media-video' preload='metadata' controls>
     <source src='###VIDEO_URI###' type='video/mp4'/>
   </video>
 </div>
@@ -147,7 +147,8 @@ html, body {
             {
                 const string TEMPLATE_IMAGE_BODY = @"
 <div class='media-panel media'>
-  <div class='media-image' style='background-image: url(###IMAGE_URI###)'></div>
+  <div id='currentMedia' class='media-image' style='background-image: url(###IMAGE_URI###)'>
+  </div>
 </div>
 ";
                 html += TEMPLATE_IMAGE_BODY
