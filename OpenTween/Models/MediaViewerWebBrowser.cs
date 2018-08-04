@@ -135,24 +135,28 @@ html, body {
             {
                 const string TEMPLATE_VIDEO_BODY = @"
 <div class='media-panel'>
-  <video id='currentMedia' class='media-video' preload='metadata' controls>
+  <video id='currentMedia' class='media-video' title='###MEDIA_TOOLTIP###' preload='metadata' controls>
     <source src='###VIDEO_URI###' type='video/mp4'/>
   </video>
 </div>
 ";
                 html += TEMPLATE_VIDEO_BODY
-                    .Replace("###VIDEO_URI###", WebUtility.HtmlEncode(media.VideoUrl));
+                    .Replace("###VIDEO_URI###", WebUtility.HtmlEncode(media.VideoUrl))
+                    .Replace("###MEDIA_TOOLTIP###", WebUtility.HtmlEncode(media.TooltipText));
             }
             else
             {
                 const string TEMPLATE_IMAGE_BODY = @"
 <div class='media-panel media'>
-  <div id='currentMedia' class='media-image' style='background-image: url(###IMAGE_URI###)'>
+  <div id='currentMedia' class='media-image'
+    role='img' title='###MEDIA_TOOLTIP###'
+    style='background-image: url(###IMAGE_URI###)'>
   </div>
 </div>
 ";
                 html += TEMPLATE_IMAGE_BODY
-                    .Replace("###IMAGE_URI###", WebUtility.HtmlEncode(Uri.EscapeUriString(media.FullSizeImageUrl ?? media.ThumbnailImageUrl ?? "")));
+                    .Replace("###IMAGE_URI###", WebUtility.HtmlEncode(Uri.EscapeUriString(media.FullSizeImageUrl ?? media.ThumbnailImageUrl ?? "")))
+                    .Replace("###MEDIA_TOOLTIP###", WebUtility.HtmlEncode(media.TooltipText));
             }
 
             return html;
