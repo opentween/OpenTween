@@ -85,5 +85,53 @@ namespace OpenTween
 
             return s[index];
         }
+
+        public static Task ForEachAsync<T>(this IObservable<T> observable, Action<T> subscriber)
+            => ForEachAsync(observable, value => { subscriber(value); return Task.CompletedTask; });
+
+        public static Task ForEachAsync<T>(this IObservable<T> observable, Func<T, Task> subscriber)
+            => ForEachAsync(observable, subscriber, CancellationToken.None);
+
+        public static Task ForEachAsync<T>(this IObservable<T> observable, Action<T> subscriber, CancellationToken cancellationToken)
+            => ForEachAsync(observable, value => { subscriber(value); return Task.CompletedTask; }, cancellationToken);
+
+        public static async Task ForEachAsync<T>(this IObservable<T> observable, Func<T, Task> subscriber, CancellationToken cancellationToken)
+        {
+            var observer = new ForEachObserver<T>(subscriber);
+
+            using (var unsubscriber = observable.Subscribe(observer))
+            using (cancellationToken.Register(() => unsubscriber.Dispose()))
+                await observer.Task.ConfigureAwait(false);
+        }
+
+        private class ForEachObserver<T> : IObserver<T>
+        {
+            private readonly Func<T, Task> subscriber;
+            private readonly TaskCompletionSource<int> tcs = new TaskCompletionSource<int>();
+
+            public Task Task
+                => this.tcs.Task;
+
+            public ForEachObserver(Func<T, Task> subscriber)
+                => this.subscriber = subscriber;
+
+            public async void OnNext(T value)
+            {
+                try
+                {
+                    await this.subscriber(value);
+                }
+                catch (Exception ex)
+                {
+                    this.tcs.TrySetException(ex);
+                }
+            }
+
+            public void OnCompleted()
+                => this.tcs.TrySetResult(1);
+
+            public void OnError(Exception error)
+                => this.tcs.TrySetException(error);
+        }
     }
 }

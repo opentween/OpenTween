@@ -2266,20 +2266,9 @@ namespace OpenTween
                     {
                         var replies = this.AllAtReplies ? "all" : null;
 
-                        using (var stream = await this.twitterApi.UserStreams(replies, this.TrackWords)
-                            .ConfigureAwait(false))
-                        using (var reader = new StreamReader(stream))
-                        {
-                            while (!reader.EndOfStream)
-                            {
-                                var line = await reader.ReadLineAsync()
-                                    .ConfigureAwait(false);
+                        var observable = this.twitterApi.UserStreams(replies, this.TrackWords);
 
-                                cancellationToken.ThrowIfCancellationRequested();
-
-                                this.StatusArrived?.Invoke(line);
-                            }
-                        }
+                        await observable.ForEachAsync(x => this.StatusArrived?.Invoke(x), cancellationToken);
 
                         // キャンセルされていないのにストリームが終了した場合
                         sleep = TimeSpan.FromSeconds(30);

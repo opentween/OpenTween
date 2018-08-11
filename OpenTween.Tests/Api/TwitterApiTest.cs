@@ -1424,10 +1424,8 @@ namespace OpenTween.Api
 
                 twitterApi.apiConnection = mock.Object;
 
-                var stream = await twitterApi.UserStreams(replies: "all", track: "OpenTween")
-                    .ConfigureAwait(false);
-
-                stream.Dispose();
+                var observable = twitterApi.UserStreams(replies: "all", track: "OpenTween");
+                await observable.ForEachAsync(x => { });
 
                 mock.VerifyAll();
             }

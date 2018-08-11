@@ -19,11 +19,13 @@
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
+using Moq;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -84,6 +86,108 @@ namespace OpenTween
             Assert.Throws<ArgumentNullException>(() => ((string)null).GetCodepointAtSafe(0));
             Assert.Throws<ArgumentOutOfRangeException>(() => "a".GetCodepointAtSafe(-1));
             Assert.Throws<ArgumentOutOfRangeException>(() => "a".GetCodepointAtSafe(1));
+        }
+
+        [Fact]
+        public async Task ForEachAsync_Test()
+        {
+            var mock = new Mock<IObservable<int>>();
+            mock.Setup(x => x.Subscribe(It.IsNotNull<IObserver<int>>()))
+                .Callback<IObserver<int>>(x =>
+                {
+                    x.OnNext(1);
+                    x.OnNext(2);
+                    x.OnNext(3);
+                    x.OnCompleted();
+                })
+                .Returns(Mock.Of<IDisposable>());
+
+            var results = new List<int>();
+
+            await mock.Object.ForEachAsync(x => results.Add(x));
+
+            Assert.Equal(new[] { 1, 2, 3 }, results);
+        }
+
+        [Fact]
+        public async Task ForEachAsync_EmptyTest()
+        {
+            var mock = new Mock<IObservable<int>>();
+            mock.Setup(x => x.Subscribe(It.IsNotNull<IObserver<int>>()))
+                .Callback<IObserver<int>>(x => x.OnCompleted())
+                .Returns(Mock.Of<IDisposable>());
+
+            var results = new List<int>();
+
+            await mock.Object.ForEachAsync(x => results.Add(x));
+
+            Assert.Empty(results);
+        }
+
+        [Fact]
+        public async Task ForEachAsync_CancelledTest()
+        {
+            var mockUnsubscriber = new Mock<IDisposable>();
+
+            var mockObservable = new Mock<IObservable<int>>();
+            mockObservable.Setup(x => x.Subscribe(It.IsNotNull<IObserver<int>>()))
+                .Callback<IObserver<int>>(x =>
+                {
+                    x.OnNext(1);
+                    x.OnNext(2);
+                    x.OnNext(3);
+                    x.OnCompleted();
+                })
+                .Returns(mockUnsubscriber.Object);
+
+            var cts = new CancellationTokenSource();
+
+            await mockObservable.Object.ForEachAsync(x => cts.Cancel(), cts.Token);
+
+            mockUnsubscriber.Verify(x => x.Dispose(), Times.AtLeastOnce());
+        }
+
+        [Fact]
+        public async Task ForEachAsync_ErrorOccursedAtObservableTest()
+        {
+            var mockObservable = new Mock<IObservable<int>>();
+            mockObservable.Setup(x => x.Subscribe(It.IsNotNull<IObserver<int>>()))
+                .Callback<IObserver<int>>(x =>
+                {
+                    x.OnNext(1);
+                    x.OnError(new Exception());
+                })
+                .Returns(Mock.Of<IDisposable>());
+
+            var results = new List<int>();
+
+            await Assert.ThrowsAsync<Exception>(async () =>
+            {
+                await mockObservable.Object.ForEachAsync(x => results.Add(x));
+            });
+            Assert.Equal(new[] { 1 }, results);
+        }
+
+        [Fact]
+        public async Task ForEachAsync_ErrorOccursedAtSubscriberTest()
+        {
+            var mockUnsubscriber = new Mock<IDisposable>();
+
+            var mockObservable = new Mock<IObservable<int>>();
+            mockObservable.Setup(x => x.Subscribe(It.IsNotNull<IObserver<int>>()))
+                .Callback<IObserver<int>>(x =>
+                {
+                    x.OnNext(1);
+                    x.OnCompleted();
+                })
+                .Returns(mockUnsubscriber.Object);
+
+            await Assert.ThrowsAsync<Exception>(async () =>
+            {
+                await mockObservable.Object.ForEachAsync(x => throw new Exception());
+            });
+
+            mockUnsubscriber.Verify(x => x.Dispose(), Times.AtLeastOnce());
         }
     }
 }

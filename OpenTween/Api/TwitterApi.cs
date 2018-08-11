@@ -778,7 +778,7 @@ namespace OpenTween.Api
             return this.apiConnection.PostJsonAsync(endpoint, json);
         }
 
-        public Task<Stream> UserStreams(string replies = null, string track = null)
+        public TwitterStreamObservable UserStreams(string replies = null, string track = null)
         {
             var endpoint = new Uri("https://userstream.twitter.com/1.1/user.json");
             var param = new Dictionary<string, string>();
@@ -788,7 +788,10 @@ namespace OpenTween.Api
             if (!string.IsNullOrEmpty(track))
                 param["track"] = track;
 
-            return this.apiConnection.GetStreamingStreamAsync(endpoint, param);
+            Task<Stream> openStream()
+                => this.apiConnection.GetStreamingStreamAsync(endpoint, param);
+
+            return new TwitterStreamObservable(openStream);
         }
 
         public OAuthEchoHandler CreateOAuthEchoHandler(Uri authServiceProvider, Uri realm = null)
