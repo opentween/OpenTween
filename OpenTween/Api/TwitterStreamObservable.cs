@@ -19,21 +19,28 @@
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
+using OpenTween.Api.DataModel;
 using System;
 using System.IO;
+using System.Linq;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Json;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Xml;
+using System.Xml.Linq;
 
 namespace OpenTween.Api
 {
-    public class TwitterStreamObservable : IObservable<string>
+    public class TwitterStreamObservable : IObservable<ITwitterStreamMessage>
     {
         private readonly Func<Task<Stream>> streamOpener;
 
         public TwitterStreamObservable(Func<Task<Stream>> streamOpener)
             => this.streamOpener = streamOpener;
 
-        public IDisposable Subscribe(IObserver<string> observer)
+        public IDisposable Subscribe(IObserver<ITwitterStreamMessage> observer)
         {
             var cts = new CancellationTokenSource();
 
@@ -42,7 +49,7 @@ namespace OpenTween.Api
             return new Unsubscriber(cts);
         }
 
-        private async void StreamLoop(IObserver<string> observer, CancellationToken cancellationToken)
+        private async void StreamLoop(IObserver<ITwitterStreamMessage> observer, CancellationToken cancellationToken)
         {
             try
             {
@@ -56,7 +63,9 @@ namespace OpenTween.Api
                         var line = await reader.ReadLineAsync()
                             .ConfigureAwait(false);
 
-                        observer.OnNext(line);
+                        var message = ParseLine(line);
+
+                        observer.OnNext(message);
                     }
                     observer.OnCompleted();
                 }
@@ -64,6 +73,54 @@ namespace OpenTween.Api
             catch (Exception ex)
             {
                 observer.OnError(ex);
+            }
+        }
+
+        public static ITwitterStreamMessage ParseLine(string line)
+        {
+            if (string.IsNullOrEmpty(line))
+                return new StreamMessageKeepAlive();
+
+            if (line.First() != '{' || line.Last() != '}')
+            {
+                MyCommon.TraceOut("Invalid JSON (ParseLine):" + Environment.NewLine + line);
+                return new StreamMessageUnknown(line);
+            }
+
+            try
+            {
+                var bytes = Encoding.UTF8.GetBytes(line);
+                using (var jsonReader = JsonReaderWriterFactory.CreateJsonReader(bytes, XmlDictionaryReaderQuotas.Max))
+                {
+                    var xElm = XElement.Load(jsonReader);
+
+                    if (xElm.Element("text") != null)
+                        return StreamMessageStatus.ParseJson(line);
+
+                    if (xElm.Element("delete") != null)
+                        return StreamMessageDelete.ParseJson(line);
+
+                    if (xElm.Element("event") != null)
+                        return StreamMessageEvent.ParseJson(line);
+
+                    if (xElm.Element("direct_message") != null)
+                        return StreamMessageDirectMessage.ParseJson(line);
+
+                    if (xElm.Element("scrub_geo") != null)
+                        return StreamMessageScrubGeo.ParseJson(line);
+
+                    return new StreamMessageUnknown(line);
+                }
+            }
+            catch (XmlException)
+            {
+                MyCommon.TraceOut("XmlException (ParseLine): " + line);
+                return new StreamMessageUnknown(line);
+            }
+            catch (SerializationException)
+            {
+                MyCommon.TraceOut("SerializationException (ParseLine): " + line);
+                return new StreamMessageUnknown(line);
             }
         }
 

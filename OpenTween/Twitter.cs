@@ -31,16 +31,10 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Runtime.CompilerServices;
-using System.Runtime.Serialization;
-using System.Runtime.Serialization.Json;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Web;
-using System.Xml;
-using System.Xml.Linq;
-using System.Xml.XPath;
 using System;
 using System.Reflection;
 using System.Collections.Generic;
@@ -1824,193 +1818,95 @@ namespace OpenTween
         public bool IsUserstreamDataReceived
             => (DateTimeUtc.Now - this._lastUserstreamDataReceived).TotalSeconds < 31;
 
-        private void userStream_StatusArrived(string line)
+        private void userStream_StatusArrived(ITwitterStreamMessage message)
         {
             this._lastUserstreamDataReceived = DateTimeUtc.Now;
-            if (string.IsNullOrEmpty(line)) return;
 
-            if (line.First() != '{' || line.Last() != '}')
+            switch (message)
             {
-                MyCommon.TraceOut("Invalid JSON (StatusArrived):" + Environment.NewLine + line);
-                return;
-            }
+                case StreamMessageStatus statusMessage:
+                    var status = statusMessage.Status.Normalize();
 
-            var isDm = false;
-
-            try
-            {
-                using (var jsonReader = JsonReaderWriterFactory.CreateJsonReader(Encoding.UTF8.GetBytes(line), XmlDictionaryReaderQuotas.Max))
-                {
-                    var xElm = XElement.Load(jsonReader);
-                    if (xElm.Element("friends") != null)
+                    if (status.RetweetedStatus is TwitterStatus retweetedStatus)
                     {
-                        Debug.WriteLine("friends");
-                        return;
-                    }
-                    else if (xElm.Element("delete") != null)
-                    {
-                        Debug.WriteLine("delete");
-                        Int64 id;
-                        XElement idElm;
-                        if ((idElm = xElm.Element("delete").Element("direct_message")?.Element("id")) != null)
-                        {
-                            id = 0;
-                            long.TryParse(idElm.Value, out id);
-
-                            this.PostDeleted?.Invoke(this, new PostDeletedEventArgs(id));
-                        }
-                        else if ((idElm = xElm.Element("delete").Element("status")?.Element("id")) != null)
-                        {
-                            id = 0;
-                            long.TryParse(idElm.Value, out id);
-
-                            this.PostDeleted?.Invoke(this, new PostDeletedEventArgs(id));
-                        }
-                        else
-                        {
-                            MyCommon.TraceOut("delete:" + line);
-                            return;
-                        }
-                        for (int i = this.StoredEvent.Count - 1; i >= 0; i--)
-                        {
-                            var sEvt = this.StoredEvent[i];
-                            if (sEvt.Id == id && (sEvt.Event == "favorite" || sEvt.Event == "unfavorite"))
-                            {
-                                this.StoredEvent.RemoveAt(i);
-                            }
-                        }
-                        return;
-                    }
-                    else if (xElm.Element("limit") != null)
-                    {
-                        Debug.WriteLine(line);
-                        return;
-                    }
-                    else if (xElm.Element("event") != null)
-                    {
-                        Debug.WriteLine("event: " + xElm.Element("event").Value);
-                        CreateEventFromJson(line);
-                        return;
-                    }
-                    else if (xElm.Element("direct_message") != null)
-                    {
-                        Debug.WriteLine("direct_message");
-                        isDm = true;
-                    }
-                    else if (xElm.Element("retweeted_status") != null)
-                    {
-                        var sourceUserId = xElm.XPathSelectElement("/user/id_str").Value;
-                        var targetUserId = xElm.XPathSelectElement("/retweeted_status/user/id_str").Value;
+                        var sourceUserId = statusMessage.Status.User.Id;
+                        var targetUserId = retweetedStatus.User.Id;
 
                         // 自分に関係しないリツイートの場合は無視する
-                        var selfUserId = this.UserId.ToString();
+                        var selfUserId = this.UserId;
                         if (sourceUserId == selfUserId || targetUserId == selfUserId)
                         {
                             // 公式 RT をイベントとしても扱う
-                            var evt = CreateEventFromRetweet(xElm);
-                            if (evt != null)
-                            {
-                                this.StoredEvent.Insert(0, evt);
-
-                                this.UserStreamEventReceived?.Invoke(this, new UserStreamEventReceivedEventArgs(evt));
-                            }
+                            var evt = this.CreateEventFromRetweet(status);
+                            this.StoredEvent.Insert(0, evt);
+                            this.UserStreamEventReceived?.Invoke(this, new UserStreamEventReceivedEventArgs(evt));
                         }
-
-                        // 従来通り公式 RT の表示も行うため return しない
+                        // 従来通り公式 RT の表示も行うため break しない
                     }
-                    else if (xElm.Element("scrub_geo") != null)
+
+                    this.CreatePostsFromJson(new[] { status }, MyCommon.WORKERTYPE.UserStream, null, false);
+                    this.NewPostFromStream?.Invoke(this, EventArgs.Empty);
+                    break;
+
+                case StreamMessageDirectMessage dmMessage:
+                    this.CreateDirectMessagesFromJson(new[] { dmMessage.DirectMessage }, MyCommon.WORKERTYPE.UserStream, false);
+                    this.NewPostFromStream?.Invoke(this, EventArgs.Empty);
+                    break;
+
+                case StreamMessageDelete deleteMessage:
+                    var deletedId = deleteMessage.Status?.Id ?? deleteMessage.DirectMessage?.Id;
+                    if (deletedId == null)
+                        break;
+
+                    this.PostDeleted?.Invoke(this, new PostDeletedEventArgs(deletedId.Value));
+
+                    foreach (var index in MyCommon.CountDown(this.StoredEvent.Count - 1, 0))
                     {
-                        try
+                        var evt = this.StoredEvent[index];
+                        if (evt.Id == deletedId.Value && (evt.Event == "favorite" || evt.Event == "unfavorite"))
                         {
-                            TabInformations.GetInstance().ScrubGeoReserve(long.Parse(xElm.Element("scrub_geo").Element("user_id").Value),
-                                                                        long.Parse(xElm.Element("scrub_geo").Element("up_to_status_id").Value));
+                            this.StoredEvent.RemoveAt(index);
                         }
-                        catch(Exception)
-                        {
-                            MyCommon.TraceOut("scrub_geo:" + line);
-                        }
-                        return;
                     }
-                }
+                    break;
 
-                if (isDm)
-                {
-                    try
-                    {
-                        var message = TwitterStreamEventDirectMessage.ParseJson(line).DirectMessage;
-                        this.CreateDirectMessagesFromJson(new[] { message }, MyCommon.WORKERTYPE.UserStream, false);
-                    }
-                    catch (SerializationException ex)
-                    {
-                        throw TwitterApiException.CreateFromException(ex, line);
-                    }
-                }
-                else
-                {
-                    try
-                    {
-                        var status = TwitterStatusCompat.ParseJson(line);
-                        this.CreatePostsFromJson(new[] { status.Normalize() }, MyCommon.WORKERTYPE.UserStream, null, false);
-                    }
-                    catch (SerializationException ex)
-                    {
-                        throw TwitterApiException.CreateFromException(ex, line);
-                    }
-                }
-            }
-            catch (WebApiException ex)
-            {
-                MyCommon.TraceOut(ex);
-                return;
-            }
-            catch (XmlException)
-            {
-                MyCommon.TraceOut("XmlException (StatusArrived): " + line);
-            }
-            catch(NullReferenceException)
-            {
-                MyCommon.TraceOut("NullRef StatusArrived: " + line);
-            }
+                case StreamMessageEvent eventMessage:
+                    this.CreateEventFromJson(eventMessage);
+                    break;
 
-            this.NewPostFromStream?.Invoke(this, EventArgs.Empty);
+                case StreamMessageScrubGeo scrubGeoMessage:
+                    TabInformations.GetInstance().ScrubGeoReserve(scrubGeoMessage.UserId, scrubGeoMessage.UpToStatusId);
+                    break;
+
+                default:
+                    break;
+            }
         }
 
         /// <summary>
         /// UserStreamsから受信した公式RTをイベントに変換します
         /// </summary>
-        private FormattedEvent CreateEventFromRetweet(XElement xElm)
+        private FormattedEvent CreateEventFromRetweet(TwitterStatus status)
         {
             return new FormattedEvent
             {
                 Eventtype = MyCommon.EVENTTYPE.Retweet,
                 Event = "retweet",
-                CreatedAt = MyCommon.DateTimeParse(xElm.XPathSelectElement("/created_at").Value),
-                IsMe = xElm.XPathSelectElement("/user/id_str").Value == this.UserId.ToString(),
-                Username = xElm.XPathSelectElement("/user/screen_name").Value,
+                CreatedAt = MyCommon.DateTimeParse(status.CreatedAt),
+                IsMe = status.User.Id == this.UserId,
+                Username = status.User.ScreenName,
                 Target = string.Format("@{0}:{1}", new[]
                 {
-                    xElm.XPathSelectElement("/retweeted_status/user/screen_name").Value,
-                    WebUtility.HtmlDecode(xElm.XPathSelectElement("/retweeted_status/text").Value),
+                    status.RetweetedStatus.User.ScreenName,
+                    WebUtility.HtmlDecode(status.RetweetedStatus.FullText),
                 }),
-                Id = long.Parse(xElm.XPathSelectElement("/retweeted_status/id_str").Value),
+                Id = status.RetweetedStatus.Id,
             };
         }
 
-        private void CreateEventFromJson(string content)
+        private void CreateEventFromJson(StreamMessageEvent message)
         {
-            TwitterStreamEvent eventData = null;
-            try
-            {
-                eventData = TwitterStreamEvent.ParseJson(content);
-            }
-            catch(SerializationException ex)
-            {
-                MyCommon.TraceOut(ex, "Event Serialize Exception!" + Environment.NewLine + content);
-            }
-            catch(Exception ex)
-            {
-                MyCommon.TraceOut(ex, "Event Exception!" + Environment.NewLine + content);
-            }
+            var eventData = message.Event;
 
             var evt = new FormattedEvent
             {
@@ -2050,7 +1946,7 @@ namespace OpenTween
                     return;
                 case "favorite":
                 case "unfavorite":
-                    tweetEvent = TwitterStreamEvent<TwitterStatusCompat>.ParseJson(content);
+                    tweetEvent = message.ParseTargetObjectAs<TwitterStatusCompat>();
                     tweet = tweetEvent.TargetObject.Normalize();
                     evt.Target = "@" + tweet.User.ScreenName + ":" + WebUtility.HtmlDecode(tweet.FullText);
                     evt.Id = tweet.Id;
@@ -2099,7 +1995,7 @@ namespace OpenTween
                 case "quoted_tweet":
                     if (evt.IsMe) return;
 
-                    tweetEvent = TwitterStreamEvent<TwitterStatusCompat>.ParseJson(content);
+                    tweetEvent = message.ParseTargetObjectAs<TwitterStatusCompat>();
                     tweet = tweetEvent.TargetObject.Normalize();
                     evt.Target = "@" + tweet.User.ScreenName + ":" + WebUtility.HtmlDecode(tweet.FullText);
                     evt.Id = tweet.Id;
@@ -2117,7 +2013,7 @@ namespace OpenTween
                 case "list_updated":
                 case "list_user_subscribed":
                 case "list_user_unsubscribed":
-                    var listEvent = TwitterStreamEvent<TwitterList>.ParseJson(content);
+                    var listEvent = message.ParseTargetObjectAs<TwitterList>();
                     evt.Target = listEvent.TargetObject.FullName;
                     break;
                 case "block":
@@ -2149,7 +2045,7 @@ namespace OpenTween
                     break;
 
                 default:
-                    MyCommon.TraceOut("Unknown Event:" + evt.Event + Environment.NewLine + content);
+                    MyCommon.TraceOut("Unknown Event:" + evt.Event + Environment.NewLine + message.Json);
                     break;
             }
             this.StoredEvent.Insert(0, evt);
@@ -2201,7 +2097,7 @@ namespace OpenTween
 
             public bool IsStreamActive { get; private set; }
 
-            public event Action<string> StatusArrived;
+            public event Action<ITwitterStreamMessage> StatusArrived;
             public event Action Stopped;
             public event Action Started;
 

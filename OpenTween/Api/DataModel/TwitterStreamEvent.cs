@@ -62,17 +62,4 @@ namespace OpenTween.Api.DataModel
             return MyCommon.CreateDataFromJson<TwitterStreamEvent<T>>(json);
         }
     }
-
-    [DataContract]
-    public class TwitterStreamEventDirectMessage
-    {
-        [DataMember(Name = "direct_message")]
-        public TwitterDirectMessage DirectMessage;
-
-        /// <exception cref="SerializationException"/>
-        public static TwitterStreamEventDirectMessage ParseJson(string json)
-        {
-            return MyCommon.CreateDataFromJson<TwitterStreamEventDirectMessage>(json);
-        }
-    }
 }

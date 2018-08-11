@@ -81,6 +81,7 @@
     <Compile Include="Api\DataModel\TwitterSearchResult.cs" />
     <Compile Include="Api\DataModel\TwitterStatus.cs" />
     <Compile Include="Api\DataModel\TwitterStreamEvent.cs" />
+    <Compile Include="Api\DataModel\TwitterStreamMessage.cs" />
     <Compile Include="Api\DataModel\TwitterTextConfiguration.cs" />
     <Compile Include="Api\DataModel\TwitterUploadMediaResult.cs" />
     <Compile Include="Api\DataModel\TwitterUser.cs" />
