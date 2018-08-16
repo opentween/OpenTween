@@ -274,6 +274,7 @@ namespace OpenTween
         private bool _colorize = false;
 
         private System.Timers.Timer TimerTimeline = new System.Timers.Timer();
+        private ThrottlingTimer RefreshThrottlingTimer;
 
         private string recommendedStatusFooter;
         private bool urlMultibyteSplit = false;
@@ -1107,6 +1108,10 @@ namespace OpenTween
             }
 
             //タイマー設定
+
+            this.RefreshThrottlingTimer = new ThrottlingTimer(TimeSpan.Zero,
+                () => this.InvokeAsync(() => this.RefreshTimelineInternal()));
+
             TimerTimeline.AutoReset = true;
             TimerTimeline.SynchronizingObject = this;
             //Recent取得間隔
@@ -1380,62 +1385,8 @@ namespace OpenTween
             await Task.WhenAll(refreshTasks);
         }
 
-        private TimeSpan refreshInterval = TimeSpan.Zero;
-        private DateTimeUtc lastRefreshRequested = DateTimeUtc.MinValue;
-        private DateTimeUtc lastRefreshed = DateTimeUtc.MinValue;
-        private System.Threading.Timer refreshThrottlingTimer = null;
-        private int refreshTimerEnabled = 0;
-
         private void RefreshTimeline()
-            => this.RefreshTimelineThrottling();
-
-        private void RefreshTimelineThrottling()
-        {
-            const int TIMER_DISABLED = 0;
-            const int TIMER_ENABLED = 1;
-
-            async void timerCallback()
-            {
-                var timerExpired = this.lastRefreshRequested < this.lastRefreshed;
-                if (timerExpired)
-                {
-                    // 前回実行時より後に lastRefreshRequested が更新されていなければタイマーを止める
-                    Interlocked.CompareExchange(ref this.refreshTimerEnabled, TIMER_DISABLED, TIMER_ENABLED);
-                }
-                else
-                {
-                    this.lastRefreshed = DateTimeUtc.Now;
-
-                    await this.InvokeAsync(() => this.RefreshTimelineInternal())
-                        .ConfigureAwait(false);
-
-                    // dueTime は timerCallback が呼ばれる度に再設定する (period は使用しない)
-                    // これにより RefreshTimeline の実行に refreshInterval 以上の時間が掛かっても重複して実行されることはなくなる
-                    lock (this.refreshThrottlingTimer)
-                        this.refreshThrottlingTimer.Change(dueTime: (int)this.refreshInterval.TotalMilliseconds, period: Timeout.Infinite);
-                }
-            }
-
-            if (this.refreshThrottlingTimer == null)
-            {
-                var newTimer = new System.Threading.Timer(_ => timerCallback());
-
-                // Timer インスタンスの生成が同時に複数行われた場合は先に代入された方を優先する
-                if (Interlocked.CompareExchange(ref this.refreshThrottlingTimer, newTimer, null) != null)
-                    newTimer.Dispose();
-            }
-
-            this.lastRefreshRequested = DateTimeUtc.Now;
-
-            if (this.refreshTimerEnabled == TIMER_DISABLED)
-            {
-                lock (this.refreshThrottlingTimer)
-                {
-                    if (Interlocked.CompareExchange(ref this.refreshTimerEnabled, TIMER_ENABLED, TIMER_DISABLED) == TIMER_DISABLED)
-                        this.refreshThrottlingTimer.Change(dueTime: 0, period: Timeout.Infinite);
-                }
-            }
-        }
+            => this.RefreshThrottlingTimer.Invoke();
 
         private void RefreshTimelineInternal()
         {

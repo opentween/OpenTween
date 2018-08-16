@@ -177,6 +177,7 @@
     </Compile>
     <Compile Include="Setting\SettingManager.cs" />
     <Compile Include="ShortcutCommand.cs" />
+    <Compile Include="ThrottlingTimer.cs" />
     <Compile Include="Thumbnail\Services\PbsTwimgCom.cs" />
     <Compile Include="TweetDetailsView.cs">
       <SubType>UserControl</SubType>
