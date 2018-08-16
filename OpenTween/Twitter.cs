@@ -2164,6 +2164,11 @@ namespace OpenTween
                         // キャンセルされていないのにストリームが終了した場合
                         sleep = TimeSpan.FromSeconds(30);
                     }
+                    catch (TwitterApiException ex) when (ex.StatusCode == HttpStatusCode.Gone)
+                    {
+                        // UserStreams停止によるエラーの場合は長めに間隔を開ける
+                        sleep = TimeSpan.FromMinutes(10);
+                    }
                     catch (TwitterApiException) { sleep = TimeSpan.FromSeconds(30); }
                     catch (IOException) { sleep = TimeSpan.FromSeconds(30); }
                     catch (OperationCanceledException)

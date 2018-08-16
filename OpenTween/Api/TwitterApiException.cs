@@ -34,6 +34,7 @@ namespace OpenTween.Api
     [Serializable]
     public class TwitterApiException : WebApiException
     {
+        public HttpStatusCode StatusCode { get; }
         public TwitterError ErrorResponse { get; }
 
         public TwitterApiException()
@@ -53,17 +54,20 @@ namespace OpenTween.Api
         public TwitterApiException(HttpStatusCode statusCode, string responseText)
             : base(statusCode.ToString(), responseText)
         {
+            this.StatusCode = statusCode;
         }
 
-        public TwitterApiException(TwitterError error, string responseText)
+        public TwitterApiException(HttpStatusCode statusCode, TwitterError error, string responseText)
             : base(FormatTwitterError(error), responseText)
         {
+            this.StatusCode = statusCode;
             this.ErrorResponse = error;
         }
 
         protected TwitterApiException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
+            this.StatusCode = (HttpStatusCode)info.GetValue("StatusCode", typeof(HttpStatusCode));
             this.ErrorResponse = (TwitterError)info.GetValue("ErrorResponse", typeof(TwitterError));
         }
 
@@ -76,6 +80,7 @@ namespace OpenTween.Api
         {
             base.GetObjectData(info, context);
 
+            info.AddValue("StatusCode", this.StatusCode);
             info.AddValue("ErrorResponse", this.ErrorResponse);
         }
 

@@ -153,7 +153,14 @@ namespace OpenTween.Connection
 
             try
             {
-                return await this.httpStreaming.GetStreamAsync(requestUri)
+                var request = new HttpRequestMessage(HttpMethod.Get, requestUri);
+                var response = await this.httpStreaming.SendAsync(request, HttpCompletionOption.ResponseHeadersRead)
+                    .ConfigureAwait(false);
+
+                await this.CheckStatusCode(response)
+                    .ConfigureAwait(false);
+
+                return await response.Content.ReadAsStreamAsync()
                     .ConfigureAwait(false);
             }
             catch (HttpRequestException ex)
@@ -360,7 +367,7 @@ namespace OpenTween.Connection
                     Twitter.AccountState = MyCommon.ACCOUNT_STATE.Invalid;
                 }
 
-                throw new TwitterApiException(error, responseText);
+                throw new TwitterApiException(statusCode, error, responseText);
             }
             catch (SerializationException)
             {
