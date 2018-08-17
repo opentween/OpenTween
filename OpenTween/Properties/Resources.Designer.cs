@@ -652,6 +652,8 @@ namespace OpenTween.Properties {
         /// <summary>
         ///   更新履歴
         ///
+        ///==== Ver 2.1.1-dev(2018/xx/xx)
+        ///
         ///==== Ver 2.1.0(2018/08/18)
         /// * NEW: DMの一覧取得・削除について新APIに対応しました
         /// * CHG: UserStreams停止によるエラーが発生した場合の再接続の間隔を10分に変更
@@ -664,7 +666,7 @@ namespace OpenTween.Properties {
         ///
         ///==== Ver 2.0.0(2018/06/11)
         /// * このバージョン以降のOpenTweenは .NET Framework 4.7.2 以上が必須になります
-        ///  - .NET Framework 4.7.2 のインストーラーは https://go.microsoft.com/fwlink/?LinkId=8632 [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
+        ///  - .NET Framework 4.7.2 のインストーラーは https://go [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ChangeLog {
             get {
