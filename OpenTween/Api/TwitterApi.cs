@@ -475,7 +475,10 @@ namespace OpenTween.Api
                 ["id"] = eventId.ToString(),
             };
 
-            return this.apiConnection.DeleteAsync(endpoint, param);
+            // なぜか application/x-www-form-urlencoded でパラメーターを送ると Bad Request になる謎仕様
+            endpoint = new Uri(endpoint.OriginalString + "?" + MyCommon.BuildQueryString(param), UriKind.Relative);
+
+            return this.apiConnection.DeleteAsync(endpoint);
         }
 
         public Task<TwitterUser> UsersShow(string screenName)
