@@ -329,6 +329,35 @@ namespace OpenTween.Connection
             }
         }
 
+        public async Task DeleteAsync(Uri uri, IDictionary<string, string> param)
+        {
+            var requestUri = new Uri(RestApiBase, uri);
+            var request = new HttpRequestMessage(HttpMethod.Delete, requestUri);
+
+            using (var postContent = new FormUrlEncodedContent(param))
+            {
+                request.Content = postContent;
+
+                try
+                {
+                    using (var response = await this.http.SendAsync(request, HttpCompletionOption.ResponseHeadersRead)
+                        .ConfigureAwait(false))
+                    {
+                        await this.CheckStatusCode(response)
+                            .ConfigureAwait(false);
+                    }
+                }
+                catch (HttpRequestException ex)
+                {
+                    throw TwitterApiException.CreateFromException(ex);
+                }
+                catch (OperationCanceledException ex)
+                {
+                    throw TwitterApiException.CreateFromException(ex);
+                }
+            }
+        }
+
         protected async Task CheckStatusCode(HttpResponseMessage response)
         {
             var statusCode = response.StatusCode;

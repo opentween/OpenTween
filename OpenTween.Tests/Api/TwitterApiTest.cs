@@ -724,29 +724,6 @@ namespace OpenTween.Api
         }
 
         [Fact]
-        public async Task DirectMessagesDestroy_Test()
-        {
-            using (var twitterApi = new TwitterApi())
-            {
-                var mock = new Mock<IApiConnection>();
-                mock.Setup(x =>
-                    x.PostLazyAsync<TwitterDirectMessage>(
-                        new Uri("direct_messages/destroy.json", UriKind.Relative),
-                        new Dictionary<string, string> { { "id", "100" } })
-                )
-                .ReturnsAsync(LazyJson.Create(new TwitterDirectMessage { Id = 100L }));
-
-                twitterApi.apiConnection = mock.Object;
-
-                await twitterApi.DirectMessagesDestroy(statusId: 100L)
-                    .IgnoreResponse()
-                    .ConfigureAwait(false);
-
-                mock.VerifyAll();
-            }
-        }
-
-        [Fact]
         public async Task DirectMessagesEventsList_Test()
         {
             using (var twitterApi = new TwitterApi())
@@ -806,6 +783,28 @@ namespace OpenTween.Api
                 twitterApi.apiConnection = mock.Object;
 
                 await twitterApi.DirectMessagesEventsNew(recipientId: 12345L, text: "hogehoge", mediaId: 67890L)
+                    .ConfigureAwait(false);
+
+                mock.VerifyAll();
+            }
+        }
+
+        [Fact]
+        public async Task DirectMessagesEventsDestroy_Test()
+        {
+            using (var twitterApi = new TwitterApi())
+            {
+                var mock = new Mock<IApiConnection>();
+                mock.Setup(x =>
+                    x.DeleteAsync(
+                        new Uri("direct_messages/events/destroy.json", UriKind.Relative),
+                        new Dictionary<string, string> { { "id", "100" } })
+                )
+                .Returns(Task.CompletedTask);
+
+                twitterApi.apiConnection = mock.Object;
+
+                await twitterApi.DirectMessagesEventsDestroy(eventId: "100")
                     .ConfigureAwait(false);
 
                 mock.VerifyAll();

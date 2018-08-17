@@ -43,5 +43,7 @@ namespace OpenTween.Connection
         Task PostAsync(Uri uri, IDictionary<string, string> param, IDictionary<string, IMediaItem> media);
 
         Task PostJsonAsync(Uri uri, string json);
+
+        Task DeleteAsync(Uri uri, IDictionary<string, string> param);
     }
 }
