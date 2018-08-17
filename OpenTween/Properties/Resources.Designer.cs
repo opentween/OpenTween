@@ -47,7 +47,7 @@ namespace OpenTween.Properties {
         }
         
         /// <summary>
-        ///   厳密に型指定されたこのリソース クラスを使用して、すべての検索リソースに対し、
+        ///   すべてについて、現在のスレッドの CurrentUICulture プロパティをオーバーライドします
         ///   現在のスレッドの CurrentUICulture プロパティをオーバーライドします。
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
@@ -652,7 +652,9 @@ namespace OpenTween.Properties {
         /// <summary>
         ///   更新履歴
         ///
-        ///==== Ver 2.0.2-dev(2018/xx/xx)
+        ///==== Ver 2.1.0(2018/08/18)
+        /// * NEW: DMの一覧取得・削除について新APIに対応しました
+        /// * CHG: UserStreams停止によるエラーが発生した場合の再接続の間隔を10分に変更
         ///
         ///==== Ver 2.0.1(2018/06/13)
         /// * Windows 8.1 以降で OpenTween v2.0.0 を使用している方は v2.0.1 へのアップデートは不要です
@@ -662,8 +664,7 @@ namespace OpenTween.Properties {
         ///
         ///==== Ver 2.0.0(2018/06/11)
         /// * このバージョン以降のOpenTweenは .NET Framework 4.7.2 以上が必須になります
-        ///  - .NET Framework 4.7.2 のインストーラーは https://go.microsoft.com/fwlink/?LinkId=863262 から入手できます
-        ///  - Windows 10 April 2018 Update には標準で .NET Framework 4.7.2 が含まれているた [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
+        ///  - .NET Framework 4.7.2 のインストーラーは https://go.microsoft.com/fwlink/?LinkId=8632 [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ChangeLog {
             get {
