@@ -73,6 +73,7 @@
     <Compile Include="Api\DataModel\TwitterError.cs" />
     <Compile Include="Api\DataModel\TwitterFriendship.cs" />
     <Compile Include="Api\DataModel\TwitterList.cs" />
+    <Compile Include="Api\DataModel\TwitterMessageEvent.cs" />
     <Compile Include="Api\DataModel\TwitterPageable.cs">
       <SubType>Code</SubType>
     </Compile>

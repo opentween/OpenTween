@@ -432,6 +432,19 @@ namespace OpenTween.Api
             return this.apiConnection.PostLazyAsync<TwitterDirectMessage>(endpoint, param);
         }
 
+        public Task<TwitterMessageEventList> DirectMessagesEventsList(int? count = null, string cursor = null)
+        {
+            var endpoint = new Uri("direct_messages/events/list.json", UriKind.Relative);
+            var param = new Dictionary<string, string>();
+
+            if (count != null)
+                param["count"] = count.ToString();
+            if (cursor != null)
+                param["cursor"] = cursor;
+
+            return this.apiConnection.GetAsync<TwitterMessageEventList>(endpoint, param, "/direct_messages/events/list");
+        }
+
         public Task DirectMessagesEventsNew(long recipientId, string text, long? mediaId = null)
         {
             var endpoint = new Uri("direct_messages/events/new.json", UriKind.Relative);
@@ -477,6 +490,20 @@ namespace OpenTween.Api
             };
 
             return this.apiConnection.GetAsync<TwitterUser>(endpoint, param, "/users/show/:id");
+        }
+
+        public Task<TwitterUser[]> UsersLookup(IReadOnlyList<string> userIds)
+        {
+            var endpoint = new Uri("users/lookup.json", UriKind.Relative);
+            var param = new Dictionary<string, string>
+            {
+                ["user_id"] = string.Join(",", userIds),
+                ["include_entities"] = "true",
+                ["include_ext_alt_text"] = "true",
+                ["tweet_mode"] = "extended",
+            };
+
+            return this.apiConnection.GetAsync<TwitterUser[]>(endpoint, param, "/users/lookup");
         }
 
         public Task<LazyJson<TwitterUser>> UsersReportSpam(string screenName)

@@ -747,6 +747,32 @@ namespace OpenTween.Api
         }
 
         [Fact]
+        public async Task DirectMessagesEventsList_Test()
+        {
+            using (var twitterApi = new TwitterApi())
+            {
+                var mock = new Mock<IApiConnection>();
+                mock.Setup(x =>
+                    x.GetAsync<TwitterMessageEventList>(
+                        new Uri("direct_messages/events/list.json", UriKind.Relative),
+                        new Dictionary<string, string> {
+                            { "count", "50" },
+                            { "cursor", "12345abcdefg" },
+                        },
+                        "/direct_messages/events/list")
+                )
+                .ReturnsAsync(new TwitterMessageEventList());
+
+                twitterApi.apiConnection = mock.Object;
+
+                await twitterApi.DirectMessagesEventsList(count: 50, cursor: "12345abcdefg")
+                    .ConfigureAwait(false);
+
+                mock.VerifyAll();
+            }
+        }
+
+        [Fact]
         public async Task DirectMessagesEventsNew_Test()
         {
             using (var twitterApi = new TwitterApi())
@@ -808,6 +834,34 @@ namespace OpenTween.Api
                 twitterApi.apiConnection = mock.Object;
 
                 await twitterApi.UsersShow(screenName: "twitterapi")
+                    .ConfigureAwait(false);
+
+                mock.VerifyAll();
+            }
+        }
+
+        [Fact]
+        public async Task UsersLookup_Test()
+        {
+            using (var twitterApi = new TwitterApi())
+            {
+                var mock = new Mock<IApiConnection>();
+                mock.Setup(x =>
+                    x.GetAsync<TwitterUser[]>(
+                        new Uri("users/lookup.json", UriKind.Relative),
+                        new Dictionary<string, string> {
+                            { "user_id", "11111,22222" },
+                            { "include_entities", "true" },
+                            { "include_ext_alt_text", "true" },
+                            { "tweet_mode", "extended" },
+                        },
+                        "/users/lookup")
+                )
+                .ReturnsAsync(new TwitterUser[0]);
+
+                twitterApi.apiConnection = mock.Object;
+
+                await twitterApi.UsersLookup(userIds: new[] { "11111", "22222" })
                     .ConfigureAwait(false);
 
                 mock.VerifyAll();

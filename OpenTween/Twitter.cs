@@ -44,6 +44,7 @@ using OpenTween.Api.DataModel;
 using OpenTween.Connection;
 using OpenTween.Models;
 using OpenTween.Setting;
+using System.Globalization;
 
 namespace OpenTween
 {
@@ -1262,6 +1263,145 @@ namespace OpenTween
             }
 
             CreateDirectMessagesFromJson(messages, gType, read);
+        }
+
+        public async Task GetDirectMessageEvents(bool read)
+        {
+            this.CheckAccountState();
+            this.CheckAccessLevel(TwitterApiAccessLevel.ReadWriteAndDirectMessage);
+
+            var count = 50;
+            var eventLists = new List<TwitterMessageEventList>();
+
+            string cursor = null;
+            do
+            {
+                var eventList = await this.Api.DirectMessagesEventsList(count, cursor)
+                    .ConfigureAwait(false);
+
+                eventLists.Add(eventList);
+                cursor = eventList.NextCursor;
+            }
+            while (cursor != null);
+
+            var events = eventLists.SelectMany(x => x.Events);
+            var userIds = Enumerable.Concat(
+                events.Select(x => x.MessageCreate.SenderId),
+                events.Select(x => x.MessageCreate.Target.RecipientId)
+            ).Distinct().ToArray();
+
+            var users = (await this.Api.UsersLookup(userIds).ConfigureAwait(false))
+                .ToDictionary(x => x.IdStr);
+
+            var apps = eventLists.SelectMany(x => x.Apps)
+                .ToLookup(x => x.Key)
+                .ToDictionary(x => x.Key, x => x.First().Value);
+
+            this.CreateDirectMessagesEventFromJson(events, users, apps, read);
+        }
+
+        private void CreateDirectMessagesEventFromJson(IEnumerable<TwitterMessageEvent> events, IReadOnlyDictionary<string, TwitterUser> users,
+            IReadOnlyDictionary<string, TwitterMessageEventList.App> apps, bool read)
+        {
+            foreach (var eventItem in events)
+            {
+                var post = new PostClass();
+                try
+                {
+                    post.StatusId = long.Parse(eventItem.Id);
+
+                    var timestamp = long.Parse(eventItem.CreatedTimestamp);
+                    post.CreatedAt = DateTimeUtc.UnixEpoch + TimeSpan.FromTicks(timestamp * TimeSpan.TicksPerMillisecond);
+                    //本文
+                    var textFromApi = eventItem.MessageCreate.MessageData.Text;
+
+                    var entities = eventItem.MessageCreate.MessageData.Entities;
+                    var mediaEntity = eventItem.MessageCreate.MessageData.Attachment?.Media;
+
+                    if (mediaEntity != null)
+                        entities.Media = new[] { mediaEntity };
+
+                    //HTMLに整形
+                    post.Text = CreateHtmlAnchor(textFromApi, entities, quotedStatusLink: null);
+                    post.TextFromApi = this.ReplaceTextFromApi(textFromApi, entities, quotedStatusLink: null);
+                    post.TextFromApi = WebUtility.HtmlDecode(post.TextFromApi);
+                    post.TextFromApi = post.TextFromApi.Replace("<3", "\u2661");
+                    post.AccessibleText = CreateAccessibleText(textFromApi, entities, quotedStatus: null, quotedStatusLink: null);
+                    post.AccessibleText = WebUtility.HtmlDecode(post.AccessibleText);
+                    post.AccessibleText = post.AccessibleText.Replace("<3", "\u2661");
+                    post.IsFav = false;
+
+                    this.ExtractEntities(entities, post.ReplyToList, post.Media);
+
+                    post.QuoteStatusIds = GetQuoteTweetStatusIds(entities, quotedStatusLink: null)
+                        .Distinct().ToArray();
+
+                    post.ExpandedUrls = entities.OfType<TwitterEntityUrl>()
+                        .Select(x => new PostClass.ExpandedUrlInfo(x.Url, x.ExpandedUrl))
+                        .ToArray();
+
+                    //以下、ユーザー情報
+                    TwitterUser user;
+                    if (eventItem.MessageCreate.SenderId != this.Api.CurrentUserId.ToString(CultureInfo.InvariantCulture))
+                    {
+                        user = users[eventItem.MessageCreate.SenderId];
+                        post.IsMe = false;
+                        post.IsOwl = true;
+                    }
+                    else
+                    {
+                        user = users[eventItem.MessageCreate.Target.RecipientId];
+                        post.IsMe = true;
+                        post.IsOwl = false;
+                    }
+
+                    post.UserId = user.Id;
+                    post.ScreenName = user.ScreenName;
+                    post.Nickname = user.Name.Trim();
+                    post.ImageUrl = user.ProfileImageUrlHttps;
+                    post.IsProtect = user.Protected;
+
+                    // メモリ使用量削減 (同一のテキストであれば同一の string インスタンスを参照させる)
+                    if (post.Text == post.TextFromApi)
+                        post.Text = post.TextFromApi;
+                    if (post.AccessibleText == post.TextFromApi)
+                        post.AccessibleText = post.TextFromApi;
+
+                    // 他の発言と重複しやすい (共通化できる) 文字列は string.Intern を通す
+                    post.ScreenName = string.Intern(post.ScreenName);
+                    post.Nickname = string.Intern(post.Nickname);
+                    post.ImageUrl = string.Intern(post.ImageUrl);
+
+                    var appId = eventItem.MessageCreate.SourceAppId;
+                    if (appId != null)
+                    {
+                        var app = apps[appId];
+                        post.Source = string.Intern(app.Name);
+
+                        try
+                        {
+                            post.SourceUri = new Uri(SourceUriBase, app.Url);
+                        }
+                        catch (UriFormatException) { }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MyCommon.TraceOut(ex, MethodBase.GetCurrentMethod().Name);
+                    MessageBox.Show("Parse Error(CreateDirectMessagesEventFromJson)");
+                    continue;
+                }
+
+                post.IsRead = read;
+                if (post.IsMe && !read && this.ReadOwnPost)
+                    post.IsRead = true;
+                post.IsReply = false;
+                post.IsExcludeReply = false;
+                post.IsDm = true;
+
+                var dmTab = TabInformations.GetInstance().GetTabByType<DirectMessagesTabModel>();
+                dmTab.AddPostQueue(post);
+            }
         }
 
         public async Task GetFavoritesApi(bool read, FavoritesTabModel tab, bool backward)
