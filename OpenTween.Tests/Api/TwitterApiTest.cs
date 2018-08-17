@@ -797,8 +797,7 @@ namespace OpenTween.Api
                 var mock = new Mock<IApiConnection>();
                 mock.Setup(x =>
                     x.DeleteAsync(
-                        new Uri("direct_messages/events/destroy.json", UriKind.Relative),
-                        new Dictionary<string, string> { { "id", "100" } })
+                        new Uri("direct_messages/events/destroy.json?id=100", UriKind.Relative))
                 )
                 .Returns(Task.CompletedTask);
 
