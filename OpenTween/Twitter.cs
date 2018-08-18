@@ -1311,92 +1311,83 @@ namespace OpenTween
             foreach (var eventItem in events)
             {
                 var post = new PostClass();
-                try
+                post.StatusId = long.Parse(eventItem.Id);
+
+                var timestamp = long.Parse(eventItem.CreatedTimestamp);
+                post.CreatedAt = DateTimeUtc.UnixEpoch + TimeSpan.FromTicks(timestamp * TimeSpan.TicksPerMillisecond);
+                //本文
+                var textFromApi = eventItem.MessageCreate.MessageData.Text;
+
+                var entities = eventItem.MessageCreate.MessageData.Entities;
+                var mediaEntity = eventItem.MessageCreate.MessageData.Attachment?.Media;
+
+                if (mediaEntity != null)
+                    entities.Media = new[] { mediaEntity };
+
+                //HTMLに整形
+                post.Text = CreateHtmlAnchor(textFromApi, entities, quotedStatusLink: null);
+                post.TextFromApi = this.ReplaceTextFromApi(textFromApi, entities, quotedStatusLink: null);
+                post.TextFromApi = WebUtility.HtmlDecode(post.TextFromApi);
+                post.TextFromApi = post.TextFromApi.Replace("<3", "\u2661");
+                post.AccessibleText = CreateAccessibleText(textFromApi, entities, quotedStatus: null, quotedStatusLink: null);
+                post.AccessibleText = WebUtility.HtmlDecode(post.AccessibleText);
+                post.AccessibleText = post.AccessibleText.Replace("<3", "\u2661");
+                post.IsFav = false;
+
+                this.ExtractEntities(entities, post.ReplyToList, post.Media);
+
+                post.QuoteStatusIds = GetQuoteTweetStatusIds(entities, quotedStatusLink: null)
+                    .Distinct().ToArray();
+
+                post.ExpandedUrls = entities.OfType<TwitterEntityUrl>()
+                    .Select(x => new PostClass.ExpandedUrlInfo(x.Url, x.ExpandedUrl))
+                    .ToArray();
+
+                //以下、ユーザー情報
+                string userId;
+                if (eventItem.MessageCreate.SenderId != this.Api.CurrentUserId.ToString(CultureInfo.InvariantCulture))
                 {
-                    post.StatusId = long.Parse(eventItem.Id);
-
-                    var timestamp = long.Parse(eventItem.CreatedTimestamp);
-                    post.CreatedAt = DateTimeUtc.UnixEpoch + TimeSpan.FromTicks(timestamp * TimeSpan.TicksPerMillisecond);
-                    //本文
-                    var textFromApi = eventItem.MessageCreate.MessageData.Text;
-
-                    var entities = eventItem.MessageCreate.MessageData.Entities;
-                    var mediaEntity = eventItem.MessageCreate.MessageData.Attachment?.Media;
-
-                    if (mediaEntity != null)
-                        entities.Media = new[] { mediaEntity };
-
-                    //HTMLに整形
-                    post.Text = CreateHtmlAnchor(textFromApi, entities, quotedStatusLink: null);
-                    post.TextFromApi = this.ReplaceTextFromApi(textFromApi, entities, quotedStatusLink: null);
-                    post.TextFromApi = WebUtility.HtmlDecode(post.TextFromApi);
-                    post.TextFromApi = post.TextFromApi.Replace("<3", "\u2661");
-                    post.AccessibleText = CreateAccessibleText(textFromApi, entities, quotedStatus: null, quotedStatusLink: null);
-                    post.AccessibleText = WebUtility.HtmlDecode(post.AccessibleText);
-                    post.AccessibleText = post.AccessibleText.Replace("<3", "\u2661");
-                    post.IsFav = false;
-
-                    this.ExtractEntities(entities, post.ReplyToList, post.Media);
-
-                    post.QuoteStatusIds = GetQuoteTweetStatusIds(entities, quotedStatusLink: null)
-                        .Distinct().ToArray();
-
-                    post.ExpandedUrls = entities.OfType<TwitterEntityUrl>()
-                        .Select(x => new PostClass.ExpandedUrlInfo(x.Url, x.ExpandedUrl))
-                        .ToArray();
-
-                    //以下、ユーザー情報
-                    string userId;
-                    if (eventItem.MessageCreate.SenderId != this.Api.CurrentUserId.ToString(CultureInfo.InvariantCulture))
-                    {
-                        userId = eventItem.MessageCreate.SenderId;
-                        post.IsMe = false;
-                        post.IsOwl = true;
-                    }
-                    else
-                    {
-                        userId = eventItem.MessageCreate.Target.RecipientId;
-                        post.IsMe = true;
-                        post.IsOwl = false;
-                    }
-
-                    if (!users.TryGetValue(userId, out var user))
-                        continue;
-
-                    post.UserId = user.Id;
-                    post.ScreenName = user.ScreenName;
-                    post.Nickname = user.Name.Trim();
-                    post.ImageUrl = user.ProfileImageUrlHttps;
-                    post.IsProtect = user.Protected;
-
-                    // メモリ使用量削減 (同一のテキストであれば同一の string インスタンスを参照させる)
-                    if (post.Text == post.TextFromApi)
-                        post.Text = post.TextFromApi;
-                    if (post.AccessibleText == post.TextFromApi)
-                        post.AccessibleText = post.TextFromApi;
-
-                    // 他の発言と重複しやすい (共通化できる) 文字列は string.Intern を通す
-                    post.ScreenName = string.Intern(post.ScreenName);
-                    post.Nickname = string.Intern(post.Nickname);
-                    post.ImageUrl = string.Intern(post.ImageUrl);
-
-                    var appId = eventItem.MessageCreate.SourceAppId;
-                    if (appId != null && apps.TryGetValue(appId, out var app))
-                    {
-                        post.Source = string.Intern(app.Name);
-
-                        try
-                        {
-                            post.SourceUri = new Uri(SourceUriBase, app.Url);
-                        }
-                        catch (UriFormatException) { }
-                    }
+                    userId = eventItem.MessageCreate.SenderId;
+                    post.IsMe = false;
+                    post.IsOwl = true;
                 }
-                catch (Exception ex)
+                else
                 {
-                    MyCommon.TraceOut(ex, MethodBase.GetCurrentMethod().Name);
-                    MessageBox.Show("Parse Error(CreateDirectMessagesEventFromJson)");
+                    userId = eventItem.MessageCreate.Target.RecipientId;
+                    post.IsMe = true;
+                    post.IsOwl = false;
+                }
+
+                if (!users.TryGetValue(userId, out var user))
                     continue;
+
+                post.UserId = user.Id;
+                post.ScreenName = user.ScreenName;
+                post.Nickname = user.Name.Trim();
+                post.ImageUrl = user.ProfileImageUrlHttps;
+                post.IsProtect = user.Protected;
+
+                // メモリ使用量削減 (同一のテキストであれば同一の string インスタンスを参照させる)
+                if (post.Text == post.TextFromApi)
+                    post.Text = post.TextFromApi;
+                if (post.AccessibleText == post.TextFromApi)
+                    post.AccessibleText = post.TextFromApi;
+
+                // 他の発言と重複しやすい (共通化できる) 文字列は string.Intern を通す
+                post.ScreenName = string.Intern(post.ScreenName);
+                post.Nickname = string.Intern(post.Nickname);
+                post.ImageUrl = string.Intern(post.ImageUrl);
+
+                var appId = eventItem.MessageCreate.SourceAppId;
+                if (appId != null && apps.TryGetValue(appId, out var app))
+                {
+                    post.Source = string.Intern(app.Name);
+
+                    try
+                    {
+                        post.SourceUri = new Uri(SourceUriBase, app.Url);
+                    }
+                    catch (UriFormatException) { }
                 }
 
                 post.IsRead = read;
