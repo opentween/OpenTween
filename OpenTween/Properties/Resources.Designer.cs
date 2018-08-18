@@ -652,7 +652,9 @@ namespace OpenTween.Properties {
         /// <summary>
         ///   更新履歴
         ///
-        ///==== Ver 2.1.1-dev(2018/xx/xx)
+        ///==== Ver 2.1.1(2018/08/19)
+        /// * FIX: 新DM APIで取得件数が0件の場合にエラーが発生する不具合を修正
+        /// * FIX: 新DM APIでSourceが空のDMのみ返ってきた場合にエラーが発生する不具合を修正
         ///
         ///==== Ver 2.1.0(2018/08/18)
         /// * NEW: DMの一覧取得・削除について新APIに対応しました
@@ -665,8 +667,7 @@ namespace OpenTween.Properties {
         /// * FIX: Windows 7 で TLS1.1/TLS1.2 が有効にならない不具合を修正 (thx @hetaroh!)
         ///
         ///==== Ver 2.0.0(2018/06/11)
-        /// * このバージョン以降のOpenTweenは .NET Framework 4.7.2 以上が必須になります
-        ///  - .NET Framework 4.7.2 のインストーラーは https://go [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
+        /// * このバージョン [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ChangeLog {
             get {

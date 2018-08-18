@@ -33,7 +33,7 @@ using System.Runtime.InteropServices;
 // 既定値にすることができます:
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("0.1.0.0")]
-[assembly: AssemblyFileVersion("2.1.0.1")]
+[assembly: AssemblyFileVersion("2.1.1.0")]
 
 [assembly: InternalsVisibleTo("OpenTween.Tests")]
 [assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")] // for Moq
