@@ -1346,19 +1346,22 @@ namespace OpenTween
                         .ToArray();
 
                     //以下、ユーザー情報
-                    TwitterUser user;
+                    string userId;
                     if (eventItem.MessageCreate.SenderId != this.Api.CurrentUserId.ToString(CultureInfo.InvariantCulture))
                     {
-                        user = users[eventItem.MessageCreate.SenderId];
+                        userId = eventItem.MessageCreate.SenderId;
                         post.IsMe = false;
                         post.IsOwl = true;
                     }
                     else
                     {
-                        user = users[eventItem.MessageCreate.Target.RecipientId];
+                        userId = eventItem.MessageCreate.Target.RecipientId;
                         post.IsMe = true;
                         post.IsOwl = false;
                     }
+
+                    if (!users.TryGetValue(userId, out var user))
+                        continue;
 
                     post.UserId = user.Id;
                     post.ScreenName = user.ScreenName;
@@ -1378,9 +1381,8 @@ namespace OpenTween
                     post.ImageUrl = string.Intern(post.ImageUrl);
 
                     var appId = eventItem.MessageCreate.SourceAppId;
-                    if (appId != null)
+                    if (appId != null && apps.TryGetValue(appId, out var app))
                     {
-                        var app = apps[appId];
                         post.Source = string.Intern(app.Name);
 
                         try
