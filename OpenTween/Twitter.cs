@@ -1296,7 +1296,9 @@ namespace OpenTween
             var users = (await this.Api.UsersLookup(userIds).ConfigureAwait(false))
                 .ToDictionary(x => x.IdStr);
 
-            var apps = eventLists.SelectMany(x => x.Apps)
+            var apps = eventLists
+                .Where(x => x.Apps != null)
+                .SelectMany(x => x.Apps)
                 .ToLookup(x => x.Key)
                 .ToDictionary(x => x.Key, x => x.First().Value);
 
