@@ -652,6 +652,8 @@ namespace OpenTween.Properties {
         /// <summary>
         ///   更新履歴
         ///
+        ///==== Ver 2.1.2-dev(2018/xx/xx)
+        ///
         ///==== Ver 2.1.1(2018/08/19)
         /// * FIX: 新DM APIで取得件数が0件の場合にエラーが発生する不具合を修正
         /// * FIX: 新DM APIでSourceが空のDMのみ返ってきた場合にエラーが発生する不具合を修正
@@ -666,8 +668,7 @@ namespace OpenTween.Properties {
         /// * FIX: 起動時に .NET Framework 4.7.2 のバージョンチェックが正しく行われるように修正
         /// * FIX: Windows 7 で TLS1.1/TLS1.2 が有効にならない不具合を修正 (thx @hetaroh!)
         ///
-        ///==== Ver 2.0.0(2018/06/11)
-        /// * このバージョン [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
+        ///==== [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ChangeLog {
             get {
