@@ -1284,7 +1284,10 @@ namespace OpenTween
             }
             while (cursor != null);
 
-            var events = eventLists.SelectMany(x => x.Events).ToArray();
+            var events = eventLists.SelectMany(x => x.Events)
+                .Where(x => x.Type == "message_create")
+                .ToArray();
+
             if (events.Length == 0)
                 return;
 
