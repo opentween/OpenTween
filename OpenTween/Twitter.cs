@@ -1284,7 +1284,10 @@ namespace OpenTween
             }
             while (cursor != null);
 
-            var events = eventLists.SelectMany(x => x.Events);
+            var events = eventLists.SelectMany(x => x.Events).ToArray();
+            if (events.Length == 0)
+                return;
+
             var userIds = Enumerable.Concat(
                 events.Select(x => x.MessageCreate.SenderId),
                 events.Select(x => x.MessageCreate.Target.RecipientId)
