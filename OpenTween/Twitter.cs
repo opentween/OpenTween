@@ -270,7 +270,7 @@ namespace OpenTween
             return orgData;
         }
 
-        public async Task PostStatus(PostStatusParams param)
+        public async Task<PostClass> PostStatus(PostStatusParams param)
         {
             this.CheckAccountState();
 
@@ -280,7 +280,7 @@ namespace OpenTween
 
                 await this.SendDirectMessage(param.Text, mediaId)
                     .ConfigureAwait(false);
-                return;
+                return null;
             }
 
             var response = await this.Api.StatusesUpdate(param.Text, param.InReplyToStatusId, param.MediaIds,
@@ -296,6 +296,11 @@ namespace OpenTween
                 throw new WebApiException("OK:Delaying?");
 
             this.previousStatusId = status.Id;
+
+            //投稿したものを返す
+            var post = CreatePostsFromStatusData(status);
+            if (this.ReadOwnPost) post.IsRead = true;
+            return post;
         }
 
         public async Task<long> UploadMedia(IMediaItem item, string mediaCategory = null)
@@ -382,7 +387,7 @@ namespace OpenTween
                 .ConfigureAwait(false);
         }
 
-        public async Task PostRetweet(long id, bool read)
+        public async Task<PostClass> PostRetweet(long id, bool read)
         {
             this.CheckAccountState();
 
@@ -403,16 +408,16 @@ namespace OpenTween
             lock (LockObj)
             {
                 if (TabInformations.GetInstance().ContainsKey(status.Id))
-                    return;
+                    return null;
             }
 
             //Retweet判定
             if (status.RetweetedStatus == null)
                 throw new WebApiException("Invalid Json!");
 
-            //ReTweetしたものをTLに追加
+            //Retweetしたものを返す
             post = CreatePostsFromStatusData(status);
-            
+
             //ユーザー情報
             post.IsMe = true;
 
@@ -421,7 +426,7 @@ namespace OpenTween
             if (this.ReadOwnPost) post.IsRead = true;
             post.IsDm = false;
 
-            TabInformations.GetInstance().AddPost(post);
+            return post;
         }
 
         public string Username

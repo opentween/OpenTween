@@ -2602,6 +2602,7 @@ namespace OpenTween
 
             p.Report("Posting...");
 
+            PostClass post = null;
             var errMsg = "";
 
             try
@@ -2616,7 +2617,7 @@ namespace OpenTween
                             .ConfigureAwait(false);
                     }
 
-                    await this.tw.PostStatus(postParamsWithMedia)
+                    post = await this.tw.PostStatus(postParamsWithMedia)
                         .ConfigureAwait(false);
                 });
 
@@ -2695,12 +2696,20 @@ namespace OpenTween
 
             this.SetMainWindowTitle();
 
-            if (SettingManager.Common.PostAndGet)
+            // TLに反映
+            if (!this.tw.UserStreamActive)
             {
-                if (this.tw.UserStreamActive)
-                    this.RefreshTimeline();
-                else
+                if (SettingManager.Common.PostAndGet)
                     await this.RefreshTabAsync<HomeTabModel>();
+                else
+                {
+                    if (post != null)
+                    {
+                        this._statuses.AddPost(post);
+                        this._statuses.DistributePosts();
+                        this.RefreshTimeline();
+                    }
+                }
             }
         }
 
@@ -2713,9 +2722,6 @@ namespace OpenTween
                 var progress = new Progress<string>(x => this.StatusLabel.Text = x);
 
                 await this.RetweetAsyncInternal(progress, this.workerCts.Token, statusIds);
-
-                if (SettingManager.Common.PostAndGet && !this.tw.UserStreamActive)
-                    await this.RefreshTabAsync<HomeTabModel>();
             }
             catch (WebApiException ex)
             {
@@ -2744,10 +2750,16 @@ namespace OpenTween
 
             p.Report("Posting...");
 
-            foreach (var statusId in statusIds)
+            var posts = new List<PostClass>();
+
+            await Task.Run(async () =>
             {
-                await this.tw.PostRetweet(statusId, read).ConfigureAwait(false);
-            }
+                foreach (var statusId in statusIds)
+                {
+                    var post = await this.tw.PostRetweet(statusId, read).ConfigureAwait(false);
+                    if (post != null) posts.Add(post);
+                }
+            });
 
             if (ct.IsCancellationRequested)
                 return;
@@ -2761,6 +2773,22 @@ namespace OpenTween
             {
                 if (this._postTimestamps[i] < oneHour)
                     this._postTimestamps.RemoveAt(i);
+            }
+
+            // TLに反映
+            if (!this.tw.UserStreamActive)
+            {
+                if (SettingManager.Common.PostAndGet)
+                    await this.RefreshTabAsync<HomeTabModel>();
+                else
+                {
+                    if (posts.Count > 0)
+                    {
+                        posts.ForEach(post => this._statuses.AddPost(post));
+                        this._statuses.DistributePosts();
+                        this.RefreshTimeline();
+                    }
+                }
             }
         }
 
