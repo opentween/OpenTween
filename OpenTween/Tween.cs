@@ -8748,7 +8748,7 @@ namespace OpenTween
                             break;
 
                         case MyCommon.TabUsageType.DirectMessage:
-                            endpointName = "/direct_messages";
+                            endpointName = "/direct_messages/events/list";
                             break;
 
                         case MyCommon.TabUsageType.UserTimeline:
@@ -8793,7 +8793,7 @@ namespace OpenTween
                             update = tabType == MyCommon.TabUsageType.Favorites;
                             break;
 
-                        case "/direct_messages:":
+                        case "/direct_messages/events/list":
                             update = tabType == MyCommon.TabUsageType.DirectMessage;
                             break;
 

@@ -44,6 +44,7 @@ namespace OpenTween
             "/statuses/show/:id",
             "/statuses/user_timeline",
             "/favorites/list",
+            "/direct_messages/events/list",
             "/direct_messages",
             "/direct_messages/sent",
             "/lists/statuses",
