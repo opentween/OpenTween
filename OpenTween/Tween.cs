@@ -1110,7 +1110,7 @@ namespace OpenTween
             //タイマー設定
 
             this.RefreshThrottlingTimer = new ThrottlingTimer(TimeSpan.Zero,
-                () => this.InvokeAsync(() => this.RefreshTimelineInternal()));
+                () => this.InvokeAsync(() => this.RefreshTimeline()));
 
             TimerTimeline.AutoReset = true;
             TimerTimeline.SynchronizingObject = this;
@@ -1386,9 +1386,6 @@ namespace OpenTween
         }
 
         private void RefreshTimeline()
-            => this.RefreshThrottlingTimer.Invoke();
-
-        private void RefreshTimelineInternal()
         {
             var curTabModel = this._statuses.Tabs[this._curTab.Text];
 
@@ -11417,7 +11414,7 @@ namespace OpenTween
 
             if (SettingManager.Common.UserstreamPeriod > 0) return;
 
-            this.RefreshTimeline();
+            this.RefreshThrottlingTimer.Invoke();
         }
 
         private async void tw_UserStreamStarted(object sender, EventArgs e)
