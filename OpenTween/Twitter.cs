@@ -167,6 +167,7 @@ namespace OpenTween
         //max_idで古い発言を取得するために保持（lists分は個別タブで管理）
         private long minDirectmessage = long.MaxValue;
         private long minDirectmessageSent = long.MaxValue;
+        private string nextCursorDirectMessage = null;
 
         private long previousStatusId = -1L;
 
@@ -1270,26 +1271,28 @@ namespace OpenTween
             CreateDirectMessagesFromJson(messages, gType, read);
         }
 
-        public async Task GetDirectMessageEvents(bool read)
+        public async Task GetDirectMessageEvents(bool read, bool backward)
         {
             this.CheckAccountState();
             this.CheckAccessLevel(TwitterApiAccessLevel.ReadWriteAndDirectMessage);
 
             var count = 50;
-            var eventLists = new List<TwitterMessageEventList>();
 
-            string cursor = null;
-            do
+            TwitterMessageEventList eventList;
+            if (backward)
             {
-                var eventList = await this.Api.DirectMessagesEventsList(count, cursor)
+                eventList = await this.Api.DirectMessagesEventsList(count, this.nextCursorDirectMessage)
                     .ConfigureAwait(false);
-
-                eventLists.Add(eventList);
-                cursor = eventList.NextCursor;
             }
-            while (cursor != null);
+            else
+            {
+                eventList = await this.Api.DirectMessagesEventsList(count)
+                    .ConfigureAwait(false);
+            }
 
-            var events = eventLists.SelectMany(x => x.Events)
+            this.nextCursorDirectMessage = eventList.NextCursor;
+
+            var events = eventList.Events
                 .Where(x => x.Type == "message_create")
                 .ToArray();
 
@@ -1304,11 +1307,7 @@ namespace OpenTween
             var users = (await this.Api.UsersLookup(userIds).ConfigureAwait(false))
                 .ToDictionary(x => x.IdStr);
 
-            var apps = eventLists
-                .Where(x => x.Apps != null)
-                .SelectMany(x => x.Apps)
-                .ToLookup(x => x.Key)
-                .ToDictionary(x => x.Key, x => x.First().Value);
+            var apps = eventList.Apps ?? new Dictionary<string, TwitterMessageEventList.App>();
 
             this.CreateDirectMessagesEventFromJson(events, users, apps, read);
         }
