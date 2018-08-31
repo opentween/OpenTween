@@ -25,6 +25,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -36,7 +37,7 @@ namespace OpenTween.Connection
 
         Task<Stream> GetStreamAsync(Uri uri, IDictionary<string, string>? param);
 
-        Task<Stream> GetStreamingStreamAsync(Uri uri, IDictionary<string, string>? param);
+        Task<Stream> ConnectStreamingAsync(HttpMethod method, Uri uri, IDictionary<string, string>? param);
 
         Task<LazyJson<T>> PostLazyAsync<T>(Uri uri, IDictionary<string, string>? param);
 

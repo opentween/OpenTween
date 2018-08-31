@@ -169,16 +169,20 @@ namespace OpenTween.Connection
             }
         }
 
-        public async Task<Stream> GetStreamingStreamAsync(Uri uri, IDictionary<string, string>? param)
+        public async Task<Stream> ConnectStreamingAsync(HttpMethod method, Uri uri, IDictionary<string, string>? param)
         {
             var requestUri = new Uri(RestApiBase, uri);
 
-            if (param != null)
+            if (method == HttpMethod.Get && param != null)
                 requestUri = new Uri(requestUri, "?" + MyCommon.BuildQueryString(param));
 
             try
             {
-                var request = new HttpRequestMessage(HttpMethod.Get, requestUri);
+                var request = new HttpRequestMessage(method, requestUri);
+
+                if (method != HttpMethod.Get && param != null)
+                    request.Content = new FormUrlEncodedContent(param);
+
                 var response = await this.httpStreaming.SendAsync(request, HttpCompletionOption.ResponseHeadersRead)
                     .ConfigureAwait(false);
 
