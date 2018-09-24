@@ -78,6 +78,10 @@ namespace OpenTween.Connection
 
         public async Task<T> GetAsync<T>(Uri uri, IDictionary<string, string> param, string endpointName)
         {
+            // レートリミット規制中はAPIリクエストを送信せずに直ちにエラーを発生させる
+            if (endpointName != null)
+                this.ThrowIfRateLimitExceeded(endpointName);
+
             var requestUri = new Uri(RestApiBase, uri);
 
             if (param != null)
@@ -119,6 +123,28 @@ namespace OpenTween.Connection
             catch (OperationCanceledException ex)
             {
                 throw TwitterApiException.CreateFromException(ex);
+            }
+        }
+
+        /// <summary>
+        /// 指定されたエンドポイントがレートリミット規制中であれば例外を発生させる
+        /// </summary>
+        private void ThrowIfRateLimitExceeded(string endpointName)
+        {
+            var limit = MyCommon.TwitterApiInfo.AccessLimit[endpointName];
+            if (limit == null)
+                return;
+
+            if (limit.AccessLimitRemain == 0 && limit.AccessLimitResetDate > DateTimeUtc.Now)
+            {
+                var error = new TwitterError
+                {
+                    Errors = new[]
+                    {
+                        new TwitterErrorItem { Code = TwitterErrorCode.RateLimit, Message = "" },
+                    },
+                };
+                throw new TwitterApiException(0, error, "");
             }
         }
 
