@@ -94,11 +94,11 @@ namespace OpenTween.Connection
                 using (var response = await this.http.SendAsync(request, HttpCompletionOption.ResponseHeadersRead)
                     .ConfigureAwait(false))
                 {
-                    await this.CheckStatusCode(response)
-                        .ConfigureAwait(false);
-
                     if (endpointName != null)
                         MyCommon.TwitterApiInfo.UpdateFromHeader(response.Headers, endpointName);
+
+                    await this.CheckStatusCode(response)
+                        .ConfigureAwait(false);
 
                     using (var content = response.Content)
                     {
