@@ -2287,7 +2287,7 @@ namespace OpenTween
 
             try
             {
-                await tab.RefreshAsync(this.tw, backward, this._initial, this.workerProgress);
+                await Task.Run(() => tab.RefreshAsync(this.tw, backward, this._initial, this.workerProgress));
                 this.RefreshTimeline();
             }
             catch (WebApiException ex)
