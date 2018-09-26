@@ -664,66 +664,6 @@ namespace OpenTween.Api
         }
 
         [Fact]
-        public async Task DirectMessagesRecv_Test()
-        {
-            using (var twitterApi = new TwitterApi())
-            {
-                var mock = new Mock<IApiConnection>();
-                mock.Setup(x =>
-                    x.GetAsync<TwitterDirectMessage[]>(
-                        new Uri("direct_messages.json", UriKind.Relative),
-                        new Dictionary<string, string> {
-                            { "full_text", "true" },
-                            { "include_entities", "true" },
-                            { "include_ext_alt_text", "true" },
-                            { "count", "200" },
-                            { "max_id", "900" },
-                            { "since_id", "100" },
-                        },
-                        "/direct_messages")
-                )
-                .ReturnsAsync(new TwitterDirectMessage[0]);
-
-                twitterApi.apiConnection = mock.Object;
-
-                await twitterApi.DirectMessagesRecv(count: 200, maxId: 900L, sinceId: 100L)
-                    .ConfigureAwait(false);
-
-                mock.VerifyAll();
-            }
-        }
-
-        [Fact]
-        public async Task DirectMessagesSent_Test()
-        {
-            using (var twitterApi = new TwitterApi())
-            {
-                var mock = new Mock<IApiConnection>();
-                mock.Setup(x =>
-                    x.GetAsync<TwitterDirectMessage[]>(
-                        new Uri("direct_messages/sent.json", UriKind.Relative),
-                        new Dictionary<string, string> {
-                            { "full_text", "true" },
-                            { "include_entities", "true" },
-                            { "include_ext_alt_text", "true" },
-                            { "count", "200" },
-                            { "max_id", "900" },
-                            { "since_id", "100" },
-                        },
-                        "/direct_messages/sent")
-                )
-                .ReturnsAsync(new TwitterDirectMessage[0]);
-
-                twitterApi.apiConnection = mock.Object;
-
-                await twitterApi.DirectMessagesSent(count: 200, maxId: 900L, sinceId: 100L)
-                    .ConfigureAwait(false);
-
-                mock.VerifyAll();
-            }
-        }
-
-        [Fact]
         public async Task DirectMessagesEventsList_Test()
         {
             using (var twitterApi = new TwitterApi())

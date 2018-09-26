@@ -447,7 +447,6 @@ namespace OpenTween
 
             var timeline = SettingManager.Common.CountApi;
             var reply = SettingManager.Common.CountApiReply;
-            var dm = 20;  // DMは固定値
             var more = SettingManager.Common.MoreCountApi;
             var startup = SettingManager.Common.FirstCountApi;
             var favorite = SettingManager.Common.FavoritesCountApi;
@@ -469,10 +468,6 @@ namespace OpenTween
             // Timeline,Reply
             Assert.Equal(timeline, Twitter.GetApiResultCount(MyCommon.WORKERTYPE.Timeline, false, false));
             Assert.Equal(reply, Twitter.GetApiResultCount(MyCommon.WORKERTYPE.Reply, false, false));
-
-            // DM
-            Assert.Equal(dm, Twitter.GetApiResultCount(MyCommon.WORKERTYPE.DirectMessegeRcv, false, false));
-            Assert.Equal(dm, Twitter.GetApiResultCount(MyCommon.WORKERTYPE.DirectMessegeSnt, false, false));
 
             // その他はTimelineと同値になる
             Assert.Equal(timeline, Twitter.GetApiResultCount(MyCommon.WORKERTYPE.Favorites, false, false));

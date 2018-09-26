@@ -164,9 +164,6 @@ namespace OpenTween
         //プロパティからアクセスされる共通情報
         private List<string> _hashList = new List<string>();
 
-        //max_idで古い発言を取得するために保持（lists分は個別タブで管理）
-        private long minDirectmessage = long.MaxValue;
-        private long minDirectmessageSent = long.MaxValue;
         private string nextCursorDirectMessage = null;
 
         private long previousStatusId = -1L;
@@ -487,8 +484,6 @@ namespace OpenTween
                 case MyCommon.WORKERTYPE.Reply:
                 case MyCommon.WORKERTYPE.UserTimeline:
                 case MyCommon.WORKERTYPE.Favorites:
-                case MyCommon.WORKERTYPE.DirectMessegeRcv:
-                case MyCommon.WORKERTYPE.DirectMessegeSnt:
                 case MyCommon.WORKERTYPE.List:  // 不明
                     return 200;
 
@@ -505,12 +500,6 @@ namespace OpenTween
         /// </summary>
         public static int GetApiResultCount(MyCommon.WORKERTYPE type, bool more, bool startup)
         {
-            if (type == MyCommon.WORKERTYPE.DirectMessegeRcv ||
-                type == MyCommon.WORKERTYPE.DirectMessegeSnt)
-            {
-                return 20;
-            }
-
             if (SettingManager.Common.UseAdditionalCount)
             {
                 switch (type)
@@ -1124,17 +1113,6 @@ namespace OpenTween
                 try
                 {
                     post.StatusId = message.Id;
-                    if (gType != MyCommon.WORKERTYPE.UserStream)
-                    {
-                        if (gType == MyCommon.WORKERTYPE.DirectMessegeRcv)
-                        {
-                            if (minDirectmessage > post.StatusId) minDirectmessage = post.StatusId;
-                        }
-                        else
-                        {
-                            if (minDirectmessageSent > post.StatusId) minDirectmessageSent = post.StatusId;
-                        }
-                    }
 
                     //二重取得回避
                     lock (LockObj)
@@ -1231,44 +1209,6 @@ namespace OpenTween
                 var dmTab = TabInformations.GetInstance().GetTabByType(MyCommon.TabUsageType.DirectMessage);
                 dmTab.AddPostQueue(post);
             }
-        }
-
-        public async Task GetDirectMessageApi(bool read, MyCommon.WORKERTYPE gType, bool more)
-        {
-            this.CheckAccountState();
-            this.CheckAccessLevel(TwitterApiAccessLevel.ReadWriteAndDirectMessage);
-
-            var count = GetApiResultCount(gType, more, false);
-
-            TwitterDirectMessage[] messages;
-            if (gType == MyCommon.WORKERTYPE.DirectMessegeRcv)
-            {
-                if (more)
-                {
-                    messages = await this.Api.DirectMessagesRecv(count, maxId: this.minDirectmessage)
-                        .ConfigureAwait(false);
-                }
-                else
-                {
-                    messages = await this.Api.DirectMessagesRecv(count)
-                        .ConfigureAwait(false);
-                }
-            }
-            else
-            {
-                if (more)
-                {
-                    messages = await this.Api.DirectMessagesSent(count, maxId: this.minDirectmessageSent)
-                        .ConfigureAwait(false);
-                }
-                else
-                {
-                    messages = await this.Api.DirectMessagesSent(count)
-                        .ConfigureAwait(false);
-                }
-            }
-
-            CreateDirectMessagesFromJson(messages, gType, read);
         }
 
         public async Task GetDirectMessageEvents(bool read, bool backward)

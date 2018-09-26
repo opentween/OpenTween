@@ -60,11 +60,6 @@ namespace OpenTween.Models
             await tw.GetDirectMessageEvents(read, backward)
                 .ConfigureAwait(false);
 
-            await tw.GetDirectMessageApi(read, MyCommon.WORKERTYPE.DirectMessegeRcv, backward)
-                .ConfigureAwait(false);
-            await tw.GetDirectMessageApi(read, MyCommon.WORKERTYPE.DirectMessegeSnt, backward)
-                .ConfigureAwait(false);
-
             TabInformations.GetInstance().DistributePosts();
 
             progress.Report(Properties.Resources.GetTimelineWorker_RunWorkerCompletedText11);
