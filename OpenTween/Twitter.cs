@@ -222,7 +222,7 @@ namespace OpenTween
             }
             this.ResetApiStatus();
             this.Api.Initialize(token, tokenSecret, userId, username);
-            if (SettingManager.Common.UserstreamStartup) this.ReconnectUserStream();
+            if (SettingManager.Common.UserstreamStartup) this.ReconnectFilterStream();
         }
 
         internal static string PreProcessUrl(string orgData)
@@ -1133,7 +1133,7 @@ namespace OpenTween
 
                     //以下、ユーザー情報
                     TwitterUser? user;
-                    if (gType == MyCommon.WORKERTYPE.UserStream)
+                    if (gType == MyCommon.WORKERTYPE.FilterStream)
                     {
                         if (this.Api.CurrentUserId == message.Recipient?.Id)
                         {
@@ -1878,12 +1878,12 @@ namespace OpenTween
         public bool AllAtReply { get; set; } = false;
 
         public event EventHandler? NewPostFromStream;
-        public event EventHandler? UserStreamStarted;
-        public event EventHandler? UserStreamStopped;
+        public event EventHandler? FilterStreamStarted;
+        public event EventHandler? FilterStreamStopped;
         public event EventHandler<PostDeletedEventArgs>? PostDeleted;
         public event EventHandler<UserStreamEventReceivedEventArgs>? UserStreamEventReceived;
-        private DateTimeUtc _lastUserstreamDataReceived;
-        private StreamAutoConnector? userStreamConnector;
+        private DateTimeUtc _lastFilterStreamDataReceived;
+        private StreamAutoConnector? filterStreamConnector;
 
         public class FormattedEvent
         {
@@ -1920,12 +1920,12 @@ namespace OpenTween
             ["quoted_tweet"] = MyCommon.EVENTTYPE.QuotedTweet,
         };
 
-        public bool IsUserstreamDataReceived
-            => (DateTimeUtc.Now - this._lastUserstreamDataReceived).TotalSeconds < 31;
+        public bool IsFilterStreamDataReceived
+            => (DateTimeUtc.Now - this._lastFilterStreamDataReceived).TotalSeconds < 31;
 
-        private void userStream_MessageReceived(ITwitterStreamMessage message)
+        private void filterStream_MessageReceived(ITwitterStreamMessage message)
         {
-            this._lastUserstreamDataReceived = DateTimeUtc.Now;
+            this._lastFilterStreamDataReceived = DateTimeUtc.Now;
 
             switch (message)
             {
@@ -1949,12 +1949,12 @@ namespace OpenTween
                         // 従来通り公式 RT の表示も行うため break しない
                     }
 
-                    this.CreatePostsFromJson(new[] { status }, MyCommon.WORKERTYPE.UserStream, null, false);
+                    this.CreatePostsFromJson(new[] { status }, MyCommon.WORKERTYPE.FilterStream, null, false);
                     this.NewPostFromStream?.Invoke(this, EventArgs.Empty);
                     break;
 
                 case StreamMessageDirectMessage dmMessage:
-                    this.CreateDirectMessagesFromJson(new[] { dmMessage.DirectMessage }, MyCommon.WORKERTYPE.UserStream, false);
+                    this.CreateDirectMessagesFromJson(new[] { dmMessage.DirectMessage }, MyCommon.WORKERTYPE.FilterStream, false);
                     this.NewPostFromStream?.Invoke(this, EventArgs.Empty);
                     break;
 
@@ -2161,42 +2161,41 @@ namespace OpenTween
             this.UserStreamEventReceived?.Invoke(this, new UserStreamEventReceivedEventArgs(evt));
         }
 
-        private void userStream_Started()
-            => this.UserStreamStarted?.Invoke(this, EventArgs.Empty);
+        private void filterStream_Started()
+            => this.FilterStreamStarted?.Invoke(this, EventArgs.Empty);
 
-        private void userStream_Stopped()
-            => this.UserStreamStopped?.Invoke(this, EventArgs.Empty);
+        private void filterStream_Stopped()
+            => this.FilterStreamStopped?.Invoke(this, EventArgs.Empty);
 
-        public bool UserStreamActive
-            => this.userStreamConnector != null && this.userStreamConnector.IsStreamActive;
+        public bool FilterStreamActive
+            => this.filterStreamConnector != null && this.filterStreamConnector.IsStreamActive;
 
-        public void StartUserStream()
+        public void StartFilterStream()
         {
-            var replies = this.AllAtReply ? "all" : null;
-            var streamObservable = this.Api.UserStreams(replies, this.TrackWord);
+            var streamObservable = this.Api.FilterStream(track: this.TrackWord);
             var newConnector = new StreamAutoConnector(streamObservable);
 
-            newConnector.MessageReceived += userStream_MessageReceived;
-            newConnector.Started += userStream_Started;
-            newConnector.Stopped += userStream_Stopped;
+            newConnector.MessageReceived += filterStream_MessageReceived;
+            newConnector.Started += filterStream_Started;
+            newConnector.Stopped += filterStream_Stopped;
 
             newConnector.Start();
 
-            var oldConnector = Interlocked.Exchange(ref this.userStreamConnector, newConnector);
+            var oldConnector = Interlocked.Exchange(ref this.filterStreamConnector, newConnector);
             oldConnector?.Dispose();
         }
 
-        public void StopUserStream()
+        public void StopFilterStream()
         {
-            var oldConnector = Interlocked.Exchange(ref this.userStreamConnector, null);
+            var oldConnector = Interlocked.Exchange(ref this.filterStreamConnector, null);
             oldConnector?.Dispose();
         }
 
-        public void ReconnectUserStream()
+        public void ReconnectFilterStream()
         {
-            if (this.userStreamConnector != null)
+            if (this.filterStreamConnector != null)
             {
-                this.StartUserStream();
+                this.StartFilterStream();
             }
         }
 
@@ -2326,7 +2325,7 @@ namespace OpenTween
             {
                 if (disposing)
                 {
-                    this.StopUserStream();
+                    this.StopFilterStream();
                 }
             }
             this.disposedValue = true;

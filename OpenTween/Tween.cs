@@ -2719,7 +2719,7 @@ namespace OpenTween
             this.SetMainWindowTitle();
 
             // TLに反映
-            if (!this.tw.UserStreamActive)
+            if (!this.tw.FilterStreamActive)
             {
                 if (SettingManager.Common.PostAndGet)
                     await this.RefreshTabAsync<HomeTabModel>();
@@ -2799,7 +2799,7 @@ namespace OpenTween
             }
 
             // TLに反映
-            if (!this.tw.UserStreamActive)
+            if (!this.tw.FilterStreamActive)
             {
                 // 自分のRTはTLの更新では取得できない場合があるので、
                 // 投稿時取得の有無に関わらず追加しておく
@@ -9577,15 +9577,15 @@ namespace OpenTween
         private void StartUserStream()
         {
             tw.NewPostFromStream += tw_NewPostFromStream;
-            tw.UserStreamStarted += tw_UserStreamStarted;
-            tw.UserStreamStopped += tw_UserStreamStopped;
+            tw.FilterStreamStarted += tw_UserStreamStarted;
+            tw.FilterStreamStopped += tw_UserStreamStopped;
             tw.PostDeleted += tw_PostDeleted;
             tw.UserStreamEventReceived += tw_UserStreamEventArrived;
 
             this.RefreshUserStreamsMenu();
 
             if (SettingManager.Common.UserstreamStartup)
-                tw.StartUserStream();
+                tw.StartFilterStream();
         }
 
         private async void TweenMain_Shown(object sender, EventArgs e)
@@ -11142,7 +11142,7 @@ namespace OpenTween
 
         private void RefreshUserStreamsMenu()
         {
-            if (this.tw.UserStreamActive)
+            if (this.tw.FilterStreamActive)
             {
                 this.MenuItemUserStream.Text = "&UserStream ▶";
                 this.StopToolStripMenuItem.Text = "&Stop";
@@ -11262,13 +11262,13 @@ namespace OpenTween
                 StopRefreshAllMenuItem.Checked = false;
                 return;
             }
-            if (this.tw.UserStreamActive)
+            if (this.tw.FilterStreamActive)
             {
-                tw.StopUserStream();
+                tw.StopFilterStream();
             }
             else
             {
-                tw.StartUserStream();
+                tw.StartFilterStream();
             }
         }
 
@@ -11295,13 +11295,13 @@ namespace OpenTween
                     tw.TrackWord = inputTrack;
                     this.MarkSettingCommonModified();
                     TrackToolStripMenuItem.Checked = !MyCommon.IsNullOrEmpty(inputTrack);
-                    tw.ReconnectUserStream();
+                    tw.ReconnectFilterStream();
                 }
             }
             else
             {
                 tw.TrackWord = "";
-                tw.ReconnectUserStream();
+                tw.ReconnectFilterStream();
             }
             this.MarkSettingCommonModified();
         }
@@ -11310,7 +11310,7 @@ namespace OpenTween
         {
             tw.AllAtReply = AllrepliesToolStripMenuItem.Checked;
             this.MarkSettingCommonModified();
-            tw.ReconnectUserStream();
+            tw.ReconnectFilterStream();
         }
 
         private void EventViewerMenuItem_Click(object sender, EventArgs e)
@@ -11429,11 +11429,11 @@ namespace OpenTween
         {
             if (isEnable)
             {
-                tw.StartUserStream();
+                tw.StartFilterStream();
             }
             else
             {
-                tw.StopUserStream();
+                tw.StopFilterStream();
             }
             this.timelineScheduler.Enabled = isEnable;
         }

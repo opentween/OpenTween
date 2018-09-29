@@ -149,7 +149,7 @@ namespace OpenTween
             PublicSearch,            //公式検索
             List,                    //Lists
             Related,                 //関連発言
-            UserStream,              //UserStream
+            FilterStream,            //FilterStream
             UserTimeline,            //UserTimeline
             BlockIds,                //Blocking/ids
             Configuration,           //Twitter Configuration読み込み
