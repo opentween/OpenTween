@@ -1548,7 +1548,6 @@
             // 
             // TrackToolStripMenuItem
             // 
-            this.TrackToolStripMenuItem.CheckOnClick = true;
             this.TrackToolStripMenuItem.Name = "TrackToolStripMenuItem";
             resources.ApplyResources(this.TrackToolStripMenuItem, "TrackToolStripMenuItem");
             this.TrackToolStripMenuItem.Click += new System.EventHandler(this.TrackToolStripMenuItem_Click);

@@ -1649,7 +1649,7 @@
     <value>227, 22</value>
   </data>
   <data name="TrackToolStripMenuItem.Text" xml:space="preserve">
-    <value>Track</value>
+    <value>Track...</value>
   </data>
   <data name="AllrepliesToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>227, 22</value>
@@ -1668,9 +1668,6 @@
   </data>
   <data name="EventViewerMenuItem.Text" xml:space="preserve">
     <value>View Events</value>
-  </data>
-  <data name="MenuItemUserStream.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
   </data>
   <data name="MenuItemUserStream.Size" type="System.Drawing.Size, System.Drawing">
     <value>90, 20</value>

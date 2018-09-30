@@ -2172,6 +2172,12 @@ namespace OpenTween
 
         public void StartFilterStream()
         {
+            if (string.IsNullOrWhiteSpace(this.TrackWord))
+            {
+                this.StopFilterStream();
+                return;
+            }
+
             var streamObservable = this.Api.FilterStream(track: this.TrackWord);
             var newConnector = new StreamAutoConnector(streamObservable);
 

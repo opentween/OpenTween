@@ -910,7 +910,6 @@ namespace OpenTween
             tw.RestrictFavCheck = SettingManager.Common.RestrictFavCheck;
             tw.ReadOwnPost = SettingManager.Common.ReadOwnPost;
             tw.TrackWord = SettingManager.Common.TrackWord;
-            TrackToolStripMenuItem.Checked = !MyCommon.IsNullOrEmpty(tw.TrackWord);
             tw.AllAtReply = SettingManager.Common.AllAtReply;
             AllrepliesToolStripMenuItem.Checked = tw.AllAtReply;
             ShortUrl.Instance.DisableExpanding = !SettingManager.Common.TinyUrlResolve;
@@ -11110,7 +11109,6 @@ namespace OpenTween
             }
 
             this.RefreshUserStreamsMenu();
-            this.MenuItemUserStream.Enabled = true;
 
             StatusLabel.Text = "UserStream Started.";
         }
@@ -11135,7 +11133,6 @@ namespace OpenTween
             }
 
             this.RefreshUserStreamsMenu();
-            this.MenuItemUserStream.Enabled = true;
 
             StatusLabel.Text = "UserStream Stopped.";
         }
@@ -11256,54 +11253,49 @@ namespace OpenTween
 
         private void StopToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MenuItemUserStream.Enabled = false;
             if (StopRefreshAllMenuItem.Checked)
             {
                 StopRefreshAllMenuItem.Checked = false;
                 return;
             }
+
             if (this.tw.FilterStreamActive)
             {
                 tw.StopFilterStream();
             }
             else
             {
-                tw.StartFilterStream();
+                if (string.IsNullOrEmpty(this.tw.TrackWord))
+                    this.ShowTrackWordDialog();
+
+                this.tw.StartFilterStream();
             }
         }
 
-        private static string inputTrack = "";
-
         private void TrackToolStripMenuItem_Click(object sender, EventArgs e)
+            => this.ShowTrackWordDialog();
+
+        private void ShowTrackWordDialog()
         {
-            if (TrackToolStripMenuItem.Checked)
+            string inputTrack;
+            using (var inputForm = new InputTabName())
             {
-                using (var inputForm = new InputTabName())
-                {
-                    inputForm.TabName = inputTrack;
-                    inputForm.FormTitle = "Input track word";
-                    inputForm.FormDescription = "Track word";
-                    if (inputForm.ShowDialog() != DialogResult.OK)
-                    {
-                        TrackToolStripMenuItem.Checked = false;
-                        return;
-                    }
-                    inputTrack = inputForm.TabName.Trim();
-                }
-                if (!inputTrack.Equals(tw.TrackWord))
-                {
-                    tw.TrackWord = inputTrack;
-                    this.MarkSettingCommonModified();
-                    TrackToolStripMenuItem.Checked = !MyCommon.IsNullOrEmpty(inputTrack);
-                    tw.ReconnectFilterStream();
-                }
+                inputForm.TabName = this.tw.TrackWord;
+                inputForm.FormTitle = "Input track word";
+                inputForm.FormDescription = "Track word";
+                if (inputForm.ShowDialog(this) != DialogResult.OK)
+                    return;
+
+                inputTrack = inputForm.TabName.Trim();
             }
-            else
+
+            if (inputTrack != this.tw.TrackWord)
             {
-                tw.TrackWord = "";
-                tw.ReconnectFilterStream();
+                this.tw.TrackWord = inputTrack;
+                this.tw.ReconnectFilterStream();
+                this.ModifySettingCommon = true;
+                this.MarkSettingCommonModified();
             }
-            this.MarkSettingCommonModified();
         }
 
         private void AllrepliesToolStripMenuItem_Click(object sender, EventArgs e)
