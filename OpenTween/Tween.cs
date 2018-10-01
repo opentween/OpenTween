@@ -2718,17 +2718,14 @@ namespace OpenTween
             this.SetMainWindowTitle();
 
             // TLに反映
-            if (!this.tw.FilterStreamActive)
+            if (SettingManager.Common.PostAndGet)
+                await this.RefreshTabAsync<HomeTabModel>();
+            else
             {
-                if (SettingManager.Common.PostAndGet)
-                    await this.RefreshTabAsync<HomeTabModel>();
-                else
+                if (post != null)
                 {
-                    if (post != null)
-                    {
-                        this._statuses.AddPost(post);
-                        this._statuses.DistributePosts();
-                    }
+                    this._statuses.AddPost(post);
+                    this._statuses.DistributePosts();
                     this.RefreshTimeline();
                 }
             }
@@ -2798,19 +2795,16 @@ namespace OpenTween
             }
 
             // TLに反映
-            if (!this.tw.FilterStreamActive)
-            {
-                // 自分のRTはTLの更新では取得できない場合があるので、
-                // 投稿時取得の有無に関わらず追加しておく
-                posts.ForEach(post => this._statuses.AddPost(post));
+            // 自分のRTはTLの更新では取得できない場合があるので、
+            // 投稿時取得の有無に関わらず追加しておく
+            posts.ForEach(post => this._statuses.AddPost(post));
 
-                if (SettingManager.Common.PostAndGet)
-                    await this.RefreshTabAsync<HomeTabModel>();
-                else
-                {
-                    this._statuses.DistributePosts();
-                    this.RefreshTimeline();
-                }
+            if (SettingManager.Common.PostAndGet)
+                await this.RefreshTabAsync<HomeTabModel>();
+            else
+            {
+                this._statuses.DistributePosts();
+                this.RefreshTimeline();
             }
         }
 

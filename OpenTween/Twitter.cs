@@ -1882,7 +1882,6 @@ namespace OpenTween
         public event EventHandler? FilterStreamStopped;
         public event EventHandler<PostDeletedEventArgs>? PostDeleted;
         public event EventHandler<UserStreamEventReceivedEventArgs>? UserStreamEventReceived;
-        private DateTimeUtc _lastFilterStreamDataReceived;
         private StreamAutoConnector? filterStreamConnector;
 
         public class FormattedEvent
@@ -1920,13 +1919,8 @@ namespace OpenTween
             ["quoted_tweet"] = MyCommon.EVENTTYPE.QuotedTweet,
         };
 
-        public bool IsFilterStreamDataReceived
-            => (DateTimeUtc.Now - this._lastFilterStreamDataReceived).TotalSeconds < 31;
-
         private void filterStream_MessageReceived(ITwitterStreamMessage message)
         {
-            this._lastFilterStreamDataReceived = DateTimeUtc.Now;
-
             switch (message)
             {
                 case StreamMessageStatus statusMessage:
