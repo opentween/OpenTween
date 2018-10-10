@@ -11272,15 +11272,14 @@ namespace OpenTween
         private void ShowTrackWordDialog()
         {
             string inputTrack;
-            using (var inputForm = new InputTabName())
+            using (var settingsDialog = new StreamSettingsDialog())
             {
-                inputForm.TabName = this.tw.TrackWord;
-                inputForm.FormTitle = "Input track word";
-                inputForm.FormDescription = "Track word";
-                if (inputForm.ShowDialog(this) != DialogResult.OK)
+                settingsDialog.TrackWord = this.tw.TrackWord;
+
+                if (settingsDialog.ShowDialog(this) != DialogResult.OK)
                     return;
 
-                inputTrack = inputForm.TabName.Trim();
+                inputTrack = settingsDialog.TrackWord.Trim();
             }
 
             if (inputTrack != this.tw.TrackWord)
