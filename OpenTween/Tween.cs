@@ -911,7 +911,6 @@ namespace OpenTween
             tw.ReadOwnPost = SettingManager.Common.ReadOwnPost;
             tw.TrackWord = SettingManager.Common.TrackWord;
             tw.AllAtReply = SettingManager.Common.AllAtReply;
-            AllrepliesToolStripMenuItem.Checked = tw.AllAtReply;
             ShortUrl.Instance.DisableExpanding = !SettingManager.Common.TinyUrlResolve;
             ShortUrl.Instance.BitlyAccessToken = SettingManager.Common.BitlyAccessToken;
             ShortUrl.Instance.BitlyId = SettingManager.Common.BilyUser;
@@ -11135,12 +11134,12 @@ namespace OpenTween
         {
             if (this.tw.FilterStreamActive)
             {
-                this.MenuItemUserStream.Text = "&UserStream ▶";
+                this.MenuItemStreaming.Text = "&Streaming ▶";
                 this.StopToolStripMenuItem.Text = "&Stop";
             }
             else
             {
-                this.MenuItemUserStream.Text = "&UserStream ■";
+                this.MenuItemStreaming.Text = "&Streaming ■";
                 this.StopToolStripMenuItem.Text = "&Start";
             }
         }
@@ -11289,41 +11288,6 @@ namespace OpenTween
                 this.ModifySettingCommon = true;
                 this.MarkSettingCommonModified();
             }
-        }
-
-        private void AllrepliesToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            tw.AllAtReply = AllrepliesToolStripMenuItem.Checked;
-            this.MarkSettingCommonModified();
-            tw.ReconnectFilterStream();
-        }
-
-        private void EventViewerMenuItem_Click(object sender, EventArgs e)
-        {
-            if (evtDialog == null || evtDialog.IsDisposed)
-            {
-                this.evtDialog = new EventViewerDialog
-                {
-                    Owner = this,
-                };
-
-                //親の中央に表示
-                this.evtDialog.Location = new Point
-                {
-                    X = Convert.ToInt32(this.Location.X + this.Size.Width / 2 - evtDialog.Size.Width / 2),
-                    Y = Convert.ToInt32(this.Location.Y + this.Size.Height / 2 - evtDialog.Size.Height / 2),
-                };
-            }
-            evtDialog.EventSource = tw.StoredEvent;
-            if (!evtDialog.Visible)
-            {
-                evtDialog.Show(this);
-            }
-            else
-            {
-                evtDialog.Activate();
-            }
-            this.TopMost = SettingManager.Common.AlwaysTop;
         }
 #endregion
 

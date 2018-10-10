@@ -179,13 +179,10 @@
             this.ToolStripSeparator34 = new System.Windows.Forms.ToolStripSeparator();
             this.RtCountMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ListManageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.MenuItemUserStream = new System.Windows.Forms.ToolStripMenuItem();
+            this.MenuItemStreaming = new System.Windows.Forms.ToolStripMenuItem();
             this.StopToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripSeparator40 = new System.Windows.Forms.ToolStripSeparator();
             this.TrackToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.AllrepliesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.ToolStripSeparator42 = new System.Windows.Forms.ToolStripSeparator();
-            this.EventViewerMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuItemHelp = new System.Windows.Forms.ToolStripMenuItem();
             this.MatomeMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ShortcutKeyListMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -715,7 +712,7 @@
             this.MenuItemOperate,
             this.MenuItemTab,
             this.MenuItemCommand,
-            this.MenuItemUserStream,
+            this.MenuItemStreaming,
             this.MenuItemHelp});
             this.MenuStrip1.Name = "MenuStrip1";
             this.MenuStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
@@ -1523,17 +1520,14 @@
             resources.ApplyResources(this.ListManageToolStripMenuItem, "ListManageToolStripMenuItem");
             this.ListManageToolStripMenuItem.Click += new System.EventHandler(this.ListManageToolStripMenuItem_Click);
             // 
-            // MenuItemUserStream
+            // MenuItemStreaming
             // 
-            this.MenuItemUserStream.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.MenuItemStreaming.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.StopToolStripMenuItem,
             this.ToolStripSeparator40,
-            this.TrackToolStripMenuItem,
-            this.AllrepliesToolStripMenuItem,
-            this.ToolStripSeparator42,
-            this.EventViewerMenuItem});
-            resources.ApplyResources(this.MenuItemUserStream, "MenuItemUserStream");
-            this.MenuItemUserStream.Name = "MenuItemUserStream";
+            this.TrackToolStripMenuItem});
+            this.MenuItemStreaming.Name = "MenuItemStreaming";
+            resources.ApplyResources(this.MenuItemStreaming, "MenuItemStreaming");
             // 
             // StopToolStripMenuItem
             // 
@@ -1551,24 +1545,6 @@
             this.TrackToolStripMenuItem.Name = "TrackToolStripMenuItem";
             resources.ApplyResources(this.TrackToolStripMenuItem, "TrackToolStripMenuItem");
             this.TrackToolStripMenuItem.Click += new System.EventHandler(this.TrackToolStripMenuItem_Click);
-            // 
-            // AllrepliesToolStripMenuItem
-            // 
-            this.AllrepliesToolStripMenuItem.CheckOnClick = true;
-            this.AllrepliesToolStripMenuItem.Name = "AllrepliesToolStripMenuItem";
-            resources.ApplyResources(this.AllrepliesToolStripMenuItem, "AllrepliesToolStripMenuItem");
-            this.AllrepliesToolStripMenuItem.Click += new System.EventHandler(this.AllrepliesToolStripMenuItem_Click);
-            // 
-            // ToolStripSeparator42
-            // 
-            this.ToolStripSeparator42.Name = "ToolStripSeparator42";
-            resources.ApplyResources(this.ToolStripSeparator42, "ToolStripSeparator42");
-            // 
-            // EventViewerMenuItem
-            // 
-            this.EventViewerMenuItem.Name = "EventViewerMenuItem";
-            resources.ApplyResources(this.EventViewerMenuItem, "EventViewerMenuItem");
-            this.EventViewerMenuItem.Click += new System.EventHandler(this.EventViewerMenuItem_Click);
             // 
             // MenuItemHelp
             // 
@@ -2305,13 +2281,10 @@
         internal System.Windows.Forms.ToolStripSeparator ToolStripSeparator34;
         internal System.Windows.Forms.ToolStripMenuItem RtCountMenuItem;
         internal System.Windows.Forms.ToolStripMenuItem ListManageToolStripMenuItem;
-        internal System.Windows.Forms.ToolStripMenuItem MenuItemUserStream;
+        internal System.Windows.Forms.ToolStripMenuItem MenuItemStreaming;
         internal System.Windows.Forms.ToolStripMenuItem StopToolStripMenuItem;
         internal System.Windows.Forms.ToolStripSeparator ToolStripSeparator40;
         internal System.Windows.Forms.ToolStripMenuItem TrackToolStripMenuItem;
-        internal System.Windows.Forms.ToolStripMenuItem AllrepliesToolStripMenuItem;
-        internal System.Windows.Forms.ToolStripSeparator ToolStripSeparator42;
-        internal System.Windows.Forms.ToolStripMenuItem EventViewerMenuItem;
         internal System.Windows.Forms.ToolStripMenuItem MenuItemHelp;
         internal System.Windows.Forms.ToolStripMenuItem MatomeMenuItem;
         internal System.Windows.Forms.ToolStripMenuItem ShortcutKeyListMenuItem;
