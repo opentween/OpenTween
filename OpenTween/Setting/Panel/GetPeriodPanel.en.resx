@@ -119,17 +119,10 @@
   </resheader>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="Label46.Size" type="System.Drawing.Size, System.Drawing">
-    <value>191, 12</value>
+    <value>194, 12</value>
   </data>
   <data name="Label46.Text" xml:space="preserve">
-    <value>User Streams Refresh Interval (sec)</value>
-  </data>
-  <data name="LabelUserStreamActive.Size" type="System.Drawing.Size, System.Drawing">
-    <value>395, 24</value>
-  </data>
-  <data name="LabelUserStreamActive.Text" xml:space="preserve">
-    <value>UserStream is enable.
-Periodic fetching, Timeline/Mentions/DM, and Post&amp;Fetch function is disable.</value>
+    <value>Streaming API Refresh Interval (sec)</value>
   </data>
   <data name="Label21.Text" xml:space="preserve">
     <value>UserTimeline Interval (sec)</value>
@@ -176,10 +169,10 @@ Periodic fetching, Timeline/Mentions/DM, and Post&amp;Fetch function is disable.
   <data name="Label5.Text" xml:space="preserve">
     <value>DM Fetching Interval (sec.)</value>
   </data>
-  <data name="StartupUserstreamCheck.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="StartupStreamingCheck.Size" type="System.Drawing.Size, System.Drawing">
     <value>149, 16</value>
   </data>
-  <data name="StartupUserstreamCheck.Text" xml:space="preserve">
+  <data name="StartupStreamingCheck.Text" xml:space="preserve">
     <value>Auto connect at starting</value>
   </data>
 </root>

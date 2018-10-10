@@ -311,7 +311,6 @@ namespace OpenTween
             this.TopMost = this.PreviewPanel.CheckAlwaysTop.Checked;
 
             this.GetPeriodPanel.LabelPostAndGet.Visible = this.GetPeriodPanel.CheckPostAndGet.Checked;
-            this.GetPeriodPanel.LabelUserStreamActive.Visible = tw.FilterStreamActive;
         }
 
         private void OpenUrl(string url)
