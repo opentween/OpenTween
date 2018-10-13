@@ -5635,12 +5635,7 @@ namespace OpenTween
         }
 
         public string createDetailHtml(string orgdata)
-        {
-            if (SettingManager.Local.UseTwemoji)
-                orgdata = EmojiFormatter.ReplaceEmojiToImg(orgdata);
-
-            return detailHtmlFormatHeader + orgdata + detailHtmlFormatFooter;
-        }
+            => detailHtmlFormatHeader + orgdata + detailHtmlFormatFooter;
 
         private Task DispSelectedPost()
             => this.DispSelectedPost(false);

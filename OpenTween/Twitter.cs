@@ -1633,8 +1633,10 @@ namespace OpenTween
 
         internal static string CreateHtmlAnchor(string text, TwitterEntities entities, TwitterQuotedStatusPermalink quotedStatusLink)
         {
+            var mergedEntities = entities.Concat(TweetExtractor.ExtractEmojiEntities(text));
+
             // PostClass.ExpandedUrlInfo を使用して非同期に URL 展開を行うためここでは expanded_url を使用しない
-            text = TweetFormatter.AutoLinkHtml(text, entities, keepTco: true);
+            text = TweetFormatter.AutoLinkHtml(text, mergedEntities, keepTco: true);
 
             text = Regex.Replace(text, "(^|[^a-zA-Z0-9_/&#＃@＠>=.~])(sm|nm)([0-9]{1,10})", "$1<a href=\"http://www.nicovideo.jp/watch/$2$3\">$2$3</a>");
             text = PreProcessUrl(text); //IDN置換

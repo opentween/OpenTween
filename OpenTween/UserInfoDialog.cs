@@ -168,10 +168,12 @@ namespace OpenTween
                     entity.ExpandedUrl = await ShortUrl.Instance.ExpandUrlAsync(entity.ExpandedUrl);
 
                 // user.entities には urls 以外のエンティティが含まれていないため、テキストをもとに生成する
-                entities.Hashtags = TweetExtractor.ExtractHashtagEntities(descriptionText).ToArray();
-                entities.UserMentions = TweetExtractor.ExtractMentionEntities(descriptionText).ToArray();
+                var mergedEntities = entities.Urls.AsEnumerable<TwitterEntity>()
+                    .Concat(TweetExtractor.ExtractHashtagEntities(descriptionText))
+                    .Concat(TweetExtractor.ExtractMentionEntities(descriptionText))
+                    .Concat(TweetExtractor.ExtractEmojiEntities(descriptionText));
 
-                var html = TweetFormatter.AutoLinkHtml(descriptionText, entities);
+                var html = TweetFormatter.AutoLinkHtml(descriptionText, mergedEntities);
                 html = this.mainForm.createDetailHtml(html);
 
                 if (cancellationToken.IsCancellationRequested)
@@ -247,7 +249,9 @@ namespace OpenTween
                 foreach (var entity in entities.Urls)
                     entity.ExpandedUrl = await ShortUrl.Instance.ExpandUrlAsync(entity.ExpandedUrl);
 
-                var html = TweetFormatter.AutoLinkHtml(status.FullText, entities);
+                var mergedEntities = entities.Concat(TweetExtractor.ExtractEmojiEntities(status.FullText));
+
+                var html = TweetFormatter.AutoLinkHtml(status.FullText, mergedEntities);
                 html = this.mainForm.createDetailHtml(html +
                     " Posted at " + MyCommon.DateTimeParse(status.CreatedAt).ToLocalTimeString() +
                     " via " + status.Source);
