@@ -86,6 +86,30 @@ namespace OpenTween
             return s[index];
         }
 
+        /// <summary>
+        /// 指定された部分文字列のコードポイント単位での文字数を返す
+        /// </summary>
+        /// <param name="s">文字列</param>
+        /// <param name="start">開始位置</param>
+        /// <param name="end">終了位置</param>
+        public static int GetCodepointCount(this string s, int start, int end)
+        {
+            if (s == null)
+                throw new ArgumentNullException(nameof(s));
+            if (start < 0 || start > s.Length)
+                throw new ArgumentOutOfRangeException(nameof(start));
+            if (end < 0 || end > s.Length)
+                throw new ArgumentOutOfRangeException(nameof(end));
+            if (start > end)
+                throw new ArgumentOutOfRangeException(nameof(start));
+
+            var count = 0;
+            for (var i = start; i < end; i += char.IsSurrogatePair(s, i) ? 2 : 1)
+                count++;
+
+            return count;
+        }
+
         public static Task ForEachAsync<T>(this IObservable<T> observable, Action<T> subscriber)
             => ForEachAsync(observable, value => { subscriber(value); return Task.CompletedTask; });
 

@@ -88,6 +88,26 @@ namespace OpenTween
             Assert.Throws<ArgumentOutOfRangeException>(() => "a".GetCodepointAtSafe(1));
         }
 
+        [Theory]
+        [InlineData("", 0, 0, 0)]
+        [InlineData("sushi 🍣", 0, 8, 7)]
+        [InlineData("sushi 🍣", 0, 5, 5)]
+        [InlineData("sushi 🍣", 6, 8, 1)]
+        [InlineData("sushi 🍣", 6, 7, 1)] // サロゲートペアの境界を跨ぐ範囲 (LowSurrogate が無い)
+        [InlineData("sushi 🍣", 7, 8, 1)] // サロゲートペアの境界を跨ぐ範囲 (HighSurrogate が無い)
+        public void GetCodepointCount_Test(string str, int start, int end, int expected)
+            => Assert.Equal(expected, str.GetCodepointCount(start, end));
+
+        [Fact]
+        public void GetCodepointCount_ErrorTest()
+        {
+            Assert.Throws<ArgumentNullException>(() => ((string)null).GetCodepointCount(0, 0));
+            Assert.Throws<ArgumentOutOfRangeException>(() => "abc".GetCodepointCount(-1, 3));
+            Assert.Throws<ArgumentOutOfRangeException>(() => "abc".GetCodepointCount(0, 4));
+            Assert.Throws<ArgumentOutOfRangeException>(() => "abc".GetCodepointCount(4, 5));
+            Assert.Throws<ArgumentOutOfRangeException>(() => "abc".GetCodepointCount(2, 1));
+        }
+
         [Fact]
         public async Task ForEachAsync_Test()
         {

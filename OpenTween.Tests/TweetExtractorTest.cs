@@ -78,7 +78,7 @@ namespace OpenTween
         [Fact]
         public void ExtractUrlEntities_SurrogatePairTest()
         {
-            var entity = TweetExtractor.ExtractUrlEntities("✨ http://example.com/ ✨").Single();
+            var entity = TweetExtractor.ExtractUrlEntities("🍣 http://example.com/ 🍣").Single();
 
             Assert.Equal(new[] { 2, 21 }, entity.Indices);
             Assert.Equal("http://example.com/", entity.Url);
@@ -145,6 +145,15 @@ namespace OpenTween
         }
 
         [Fact]
+        public void ExtractMentionEntities_SurrogatePairTest()
+        {
+            var entity = TweetExtractor.ExtractMentionEntities("🍣 @twitterapi").Single();
+
+            Assert.Equal(new[] { 2, 13 }, entity.Indices);
+            Assert.Equal("twitterapi", entity.ScreenName);
+        }
+
+        [Fact]
         public void ExtractHashtagEntities_Test()
         {
             var entity = TweetExtractor.ExtractHashtagEntities("hogehoge #test").Single();
@@ -164,6 +173,15 @@ namespace OpenTween
             Assert.Equal("test", entities[0].Text);
             Assert.Equal(new[] { 15, 21 }, entities[1].Indices);
             Assert.Equal("test2", entities[1].Text);
+        }
+
+        [Fact]
+        public void ExtractHashtagEntities_SurrogatePairTest()
+        {
+            var entity = TweetExtractor.ExtractHashtagEntities("🍣 #sushi").Single();
+
+            Assert.Equal(new[] { 2, 8 }, entity.Indices);
+            Assert.Equal("sushi", entity.Text);
         }
     }
 }

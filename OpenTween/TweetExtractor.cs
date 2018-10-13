@@ -83,8 +83,9 @@ namespace OpenTween
 
                 if (validUrl)
                 {
-                    var startPos = m.Groups["url"].Index;
-                    var endPos = startPos + m.Groups["url"].Length;
+                    var urlGroup = m.Groups["url"];
+                    var startPos = text.GetCodepointCount(0, urlGroup.Index);
+                    var endPos = startPos + text.GetCodepointCount(urlGroup.Index, urlGroup.Index + urlGroup.Length);
 
                     yield return new TwitterEntityUrl
                     {
@@ -106,8 +107,8 @@ namespace OpenTween
             var matchesAtList = Regex.Matches(text, @"(?<=^|[^a-zA-Z0-9_/])([@＠][a-zA-Z0-9_]{1,20}/[a-zA-Z][a-zA-Z0-9\p{IsLatin-1Supplement}\-]{0,79})");
             foreach (var match in matchesAtList.Cast<Match>())
             {
-                var startPos = match.Index;
-                var endPos = startPos + match.Length;
+                var startPos = text.GetCodepointCount(0, match.Index);
+                var endPos = startPos + text.GetCodepointCount(match.Index, match.Index + match.Length);
 
                 yield return new TwitterEntityMention
                 {
@@ -120,8 +121,8 @@ namespace OpenTween
             var matchesAtUser = Regex.Matches(text, "(?<=^|[^a-zA-Z0-9_/])([@＠][a-zA-Z0-9_]{1,20})(?=[^a-zA-Z0-9_/]|$)");
             foreach (var match in matchesAtUser.Cast<Match>())
             {
-                var startPos = match.Index;
-                var endPos = startPos + match.Length;
+                var startPos = text.GetCodepointCount(0, match.Index);
+                var endPos = startPos + text.GetCodepointCount(match.Index, match.Index + match.Length);
 
                 yield return new TwitterEntityMention
                 {
@@ -141,8 +142,8 @@ namespace OpenTween
             {
                 var groupHashtagSharp = match.Groups[2];
                 var groupHashtagText = match.Groups[3];
-                var startPos = groupHashtagSharp.Index;
-                var endPos = startPos + groupHashtagSharp.Length + groupHashtagText.Length;
+                var startPos = text.GetCodepointCount(0, groupHashtagSharp.Index);
+                var endPos = startPos + text.GetCodepointCount(groupHashtagSharp.Index, groupHashtagSharp.Index + groupHashtagSharp.Length + groupHashtagText.Length);
 
                 yield return new TwitterEntityHashtag
                 {
