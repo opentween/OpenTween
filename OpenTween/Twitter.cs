@@ -1812,7 +1812,21 @@ namespace OpenTween
             var config = this.TextConfiguration;
             var totalWeight = 0;
 
+            int GetWeightFromCodepoint(int codepoint)
+            {
+                foreach (var weightRange in config.Ranges)
+                {
+                    if (codepoint >= weightRange.Start && codepoint <= weightRange.End)
+                        return weightRange.Weight;
+                }
+
+                return config.DefaultWeight;
+            }
+
             var urls = TweetExtractor.ExtractUrlEntities(postText).ToArray();
+            var emojis = config.EmojiParsingEnabled
+                ? TweetExtractor.ExtractEmojiEntities(postText).ToArray()
+                : Array.Empty<TwitterEntityEmoji>();
 
             var codepoints = postText.ToCodepoints().ToArray();
             var index = 0;
@@ -1826,19 +1840,17 @@ namespace OpenTween
                     continue;
                 }
 
-                var codepoint = codepoints[index];
-                var weight = config.DefaultWeight;
-
-                foreach (var weightRange in config.Ranges)
+                var emojiEntity = emojis.FirstOrDefault(x => x.Indices[0] == index);
+                if (emojiEntity != null)
                 {
-                    if (codepoint >= weightRange.Start && codepoint <= weightRange.End)
-                    {
-                        weight = weightRange.Weight;
-                        break;
-                    }
+                    totalWeight += GetWeightFromCodepoint(codepoints[index]);
+                    index = emojiEntity.Indices[1];
+                    continue;
                 }
 
-                totalWeight += weight;
+                var codepoint = codepoints[index];
+                totalWeight += GetWeightFromCodepoint(codepoint);
+
                 index++;
             }
 

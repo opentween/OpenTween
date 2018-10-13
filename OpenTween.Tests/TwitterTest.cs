@@ -629,6 +629,26 @@ namespace OpenTween
         }
 
         [Fact]
+        public void GetTextLengthRemain_EmojiTest()
+        {
+            using (var twitter = new Twitter())
+            {
+                // 絵文字の文字数カウントの仕様変更に対するテストケース
+                // https://twittercommunity.com/t/114607
+
+                Assert.Equal(279, twitter.GetTextLengthRemain("©")); // 基本多言語面の絵文字
+                Assert.Equal(277, twitter.GetTextLengthRemain("©\uFE0E")); // 異字体セレクタ付き (text style)
+                Assert.Equal(279, twitter.GetTextLengthRemain("©\uFE0F")); // 異字体セレクタ付き (emoji style)
+                Assert.Equal(278, twitter.GetTextLengthRemain("🍣")); // 拡張面の絵文字
+                Assert.Equal(279, twitter.GetTextLengthRemain("#⃣")); // 合字で表現される絵文字
+                Assert.Equal(278, twitter.GetTextLengthRemain("👦\U0001F3FF")); // Emoji modifier 付きの絵文字
+                Assert.Equal(278, twitter.GetTextLengthRemain("\U0001F3FF")); // Emoji modifier 単体
+                Assert.Equal(278, twitter.GetTextLengthRemain("👨\u200D🎨")); // ZWJ で結合された絵文字
+                Assert.Equal(278, twitter.GetTextLengthRemain("🏃\u200D♀\uFE0F")); // ZWJ と異字体セレクタを含む絵文字
+            }
+        }
+
+        [Fact]
         public void GetTextLengthRemain_BrokenSurrogateTest()
         {
             using (var twitter = new Twitter())

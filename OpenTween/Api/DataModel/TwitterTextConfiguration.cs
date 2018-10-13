@@ -38,6 +38,9 @@ namespace OpenTween.Api.DataModel
         [DataMember(Name = "defaultWeight")]
         public int DefaultWeight { get; set; }
 
+        [DataMember(Name = "emojiParsingEnabled")]
+        public bool EmojiParsingEnabled { get; set; }
+
         [DataMember(Name = "transformedURLLength")]
         public int TransformedURLLength { get; set; }
 
@@ -65,13 +68,14 @@ namespace OpenTween.Api.DataModel
 
         public static TwitterTextConfiguration DefaultConfiguration()
         {
-            // 参照: https://github.com/twitter/twitter-text/blob/v2.0.5/config/v2.json
+            // 参照: https://github.com/twitter/twitter-text/blob/v3.0.0/config/v3.json
             return new TwitterTextConfiguration
             {
-                Version = 2,
+                Version = 3,
                 MaxWeightedTweetLength = 280,
                 Scale = 100,
                 DefaultWeight = 200,
+                EmojiParsingEnabled = true,
                 TransformedURLLength = 23,
                 Ranges = new[]
                 {
