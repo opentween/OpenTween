@@ -75,15 +75,33 @@ namespace OpenTween
         }
 
         /// <summary>
-        /// 文字列中の指定された位置にある文字のコードポイントを返します
+        /// 文字列をコードポイント単位に分割して返します
         /// </summary>
-        public static int GetCodepointAtSafe(this string s, int index)
+        public static IEnumerable<int> ToCodepoints(this string s)
         {
-            // IsSurrogatePair が true を返す場合のみ ConvertToUtf32 メソッドを使用する
-            if (char.IsSurrogatePair(s, index))
-                return char.ConvertToUtf32(s, index);
+            if (s == null)
+                throw new ArgumentNullException(nameof(s));
 
-            return s[index];
+            IEnumerable<int> GetEnumerable(string input)
+            {
+                var i = 0;
+                var length = input.Length;
+                while (i < length)
+                {
+                    if (char.IsSurrogatePair(input, i))
+                    {
+                        yield return char.ConvertToUtf32(input, i);
+                        i += 2;
+                    }
+                    else
+                    {
+                        yield return input[i];
+                        i++;
+                    }
+                }
+            }
+
+            return GetEnumerable(s);
         }
 
         /// <summary>

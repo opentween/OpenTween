@@ -1812,21 +1812,19 @@ namespace OpenTween
 
             var urls = TweetExtractor.ExtractUrlEntities(postText).ToArray();
 
-            var pos = 0;
-            while (pos < postText.Length)
+            var codepoints = postText.ToCodepoints().ToArray();
+            var index = 0;
+            while (index < codepoints.Length)
             {
-                var urlEntity = urls.FirstOrDefault(x => x.Indices[0] == pos);
+                var urlEntity = urls.FirstOrDefault(x => x.Indices[0] == index);
                 if (urlEntity != null)
                 {
                     totalWeight += config.TransformedURLLength * config.Scale;
-
-                    var urlLength = urlEntity.Indices[1] - urlEntity.Indices[0];
-                    pos += urlLength;
-
+                    index = urlEntity.Indices[1];
                     continue;
                 }
 
-                var codepoint = postText.GetCodepointAtSafe(pos);
+                var codepoint = codepoints[index];
                 var weight = config.DefaultWeight;
 
                 foreach (var weightRange in config.Ranges)
@@ -1839,12 +1837,7 @@ namespace OpenTween
                 }
 
                 totalWeight += weight;
-
-                var isSurrogatePair = codepoint > 0xffff;
-                if (isSurrogatePair)
-                    pos += 2; // サロゲートペアの場合は2文字分進める
-                else
-                    pos++;
+                index++;
             }
 
             var remainWeight = config.MaxWeightedTweetLength * config.Scale - totalWeight;
