@@ -229,4 +229,11 @@ namespace OpenTween.Api.DataModel
         [DataMember(Name = "screen_name")]
         public string ScreenName { get; set; }
     }
+
+    public class TwitterEntityEmoji : TwitterEntity
+    {
+        public string Text { get; set; }
+
+        public string Url { get; set; }
+    }
 }
