@@ -461,7 +461,7 @@ namespace OpenTween.Connection
         private void Networking_WebProxyChanged(object sender, EventArgs e)
             => this.InitializeHttpClients();
 
-        public static async Task<Tuple<string, string>> GetRequestTokenAsync()
+        public static async Task<(string Token, string TokenSecret)> GetRequestTokenAsync()
         {
             var param = new Dictionary<string, string>
             {
@@ -470,14 +470,14 @@ namespace OpenTween.Connection
             var response = await GetOAuthTokenAsync(new Uri("https://api.twitter.com/oauth/request_token"), param, oauthToken: null)
                 .ConfigureAwait(false);
 
-            return Tuple.Create(response["oauth_token"], response["oauth_token_secret"]);
+            return (response["oauth_token"], response["oauth_token_secret"]);
         }
 
-        public static Uri GetAuthorizeUri(Tuple<string, string> requestToken, string screenName = null)
+        public static Uri GetAuthorizeUri((string Token, string TokenSecret) requestToken, string screenName = null)
         {
             var param = new Dictionary<string, string>
             {
-                ["oauth_token"] = requestToken.Item1,
+                ["oauth_token"] = requestToken.Token,
             };
 
             if (screenName != null)
@@ -486,7 +486,7 @@ namespace OpenTween.Connection
             return new Uri("https://api.twitter.com/oauth/authorize?" + MyCommon.BuildQueryString(param));
         }
 
-        public static async Task<IDictionary<string, string>> GetAccessTokenAsync(Tuple<string, string> requestToken, string verifier)
+        public static async Task<IDictionary<string, string>> GetAccessTokenAsync((string Token, string TokenSecret) requestToken, string verifier)
         {
             var param = new Dictionary<string, string>
             {
@@ -499,11 +499,11 @@ namespace OpenTween.Connection
         }
 
         private static async Task<IDictionary<string, string>> GetOAuthTokenAsync(Uri uri, IDictionary<string, string> param,
-            Tuple<string, string> oauthToken)
+            (string Token, string TokenSecret)? oauthToken)
         {
             HttpClient authorizeClient;
             if (oauthToken != null)
-                authorizeClient = InitializeHttpClient(oauthToken.Item1, oauthToken.Item2);
+                authorizeClient = InitializeHttpClient(oauthToken.Value.Token, oauthToken.Value.TokenSecret);
             else
                 authorizeClient = InitializeHttpClient("", "");
 

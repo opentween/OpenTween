@@ -159,7 +159,7 @@ namespace OpenTween
         delegate void GetIconImageDelegate(PostClass post);
         private readonly object LockObj = new object();
         private ISet<long> followerId = new HashSet<long>();
-        private long[] noRTId = new long[0];
+        private long[] noRTId = Array.Empty<long>();
 
         //プロパティからアクセスされる共通情報
         private List<string> _hashList = new List<string>();
@@ -806,7 +806,7 @@ namespace OpenTween
             post.Source = string.Intern(sourceText);
             post.SourceUri = sourceUri;
 
-            post.IsReply = post.RetweetedId == null && post.ReplyToList.Any(x => x.Item1 == this.UserId);
+            post.IsReply = post.RetweetedId == null && post.ReplyToList.Any(x => x.UserId == this.UserId);
             post.IsExcludeReply = false;
 
             if (post.IsMe)
@@ -830,7 +830,7 @@ namespace OpenTween
             var urls = entities.OfType<TwitterEntityUrl>().Select(x => x.ExpandedUrl);
 
             if (quotedStatusLink != null)
-                urls = urls.Concat(new[] { quotedStatusLink.Expanded });
+                urls = urls.Append(quotedStatusLink.Expanded);
 
             return GetQuoteTweetStatusIds(urls);
         }
@@ -1457,7 +1457,7 @@ namespace OpenTween
             if (MyCommon._endingFlag) return;
 
             var cursor = -1L;
-            var newFollowerIds = new HashSet<long>();
+            var newFollowerIds = Enumerable.Empty<long>();
             do
             {
                 var ret = await this.Api.FollowersIds(cursor)
@@ -1466,11 +1466,11 @@ namespace OpenTween
                 if (ret.Ids == null)
                     throw new WebApiException("ret.ids == null");
 
-                newFollowerIds.UnionWith(ret.Ids);
+                newFollowerIds = newFollowerIds.Concat(ret.Ids);
                 cursor = ret.NextCursor;
             } while (cursor != 0);
 
-            this.followerId = newFollowerIds;
+            this.followerId = newFollowerIds.ToHashSet();
             TabInformations.GetInstance().RefreshOwl(this.followerId);
 
             this.GetFollowersSuccess = true;
@@ -1587,7 +1587,7 @@ namespace OpenTween
             }
         }
 
-        private void ExtractEntities(TwitterEntities entities, List<Tuple<long, string>> AtList, List<MediaInfo> media)
+        private void ExtractEntities(TwitterEntities entities, List<(long UserId, string ScreenName)> AtList, List<MediaInfo> media)
         {
             if (entities != null)
             {
@@ -1602,7 +1602,7 @@ namespace OpenTween
                 {
                     foreach (var ent in entities.UserMentions)
                     {
-                        AtList.Add(Tuple.Create(ent.Id, ent.ScreenName));
+                        AtList.Add((ent.Id, ent.ScreenName));
                     }
                 }
                 if (entities.Media != null)
@@ -1712,19 +1712,20 @@ namespace OpenTween
             if (MyCommon._endingFlag) return;
 
             var cursor = -1L;
-            var newBlockIds = new HashSet<long>();
+            var newBlockIds = Enumerable.Empty<long>();
             do
             {
                 var ret = await this.Api.BlocksIds(cursor)
                     .ConfigureAwait(false);
 
-                newBlockIds.UnionWith(ret.Ids);
+                newBlockIds = newBlockIds.Concat(ret.Ids);
                 cursor = ret.NextCursor;
             } while (cursor != 0);
 
-            newBlockIds.Remove(this.UserId); // 元のソースにあったので一応残しておく
+            var blockIdsSet = newBlockIds.ToHashSet();
+            blockIdsSet.Remove(this.UserId); // 元のソースにあったので一応残しておく
 
-            TabInformations.GetInstance().BlockIds = newBlockIds;
+            TabInformations.GetInstance().BlockIds = blockIdsSet;
         }
 
         /// <summary>
@@ -1738,7 +1739,7 @@ namespace OpenTween
             var ids = await TwitterIds.GetAllItemsAsync(x => this.Api.MutesUsersIds(x))
                 .ConfigureAwait(false);
 
-            TabInformations.GetInstance().MuteUserIds = new HashSet<long>(ids);
+            TabInformations.GetInstance().MuteUserIds = ids.ToHashSet();
         }
 
         public string[] GetHashList()

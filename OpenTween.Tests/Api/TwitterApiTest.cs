@@ -104,7 +104,7 @@ namespace OpenTween.Api
                         },
                         "/statuses/home_timeline")
                 )
-                .ReturnsAsync(new TwitterStatus[0]);
+                .ReturnsAsync(Array.Empty<TwitterStatus>());
 
                 twitterApi.apiConnection = mock.Object;
 
@@ -134,7 +134,7 @@ namespace OpenTween.Api
                         },
                         "/statuses/mentions_timeline")
                 )
-                .ReturnsAsync(new TwitterStatus[0]);
+                .ReturnsAsync(Array.Empty<TwitterStatus>());
 
                 twitterApi.apiConnection = mock.Object;
 
@@ -166,7 +166,7 @@ namespace OpenTween.Api
                         },
                         "/statuses/user_timeline")
                 )
-                .ReturnsAsync(new TwitterStatus[0]);
+                .ReturnsAsync(Array.Empty<TwitterStatus>());
 
                 twitterApi.apiConnection = mock.Object;
 
@@ -261,7 +261,7 @@ namespace OpenTween.Api
 
                 twitterApi.apiConnection = mock.Object;
 
-                await twitterApi.StatusesUpdate("hogehoge", replyToId: null, mediaIds: null, excludeReplyUserIds: new long[0])
+                await twitterApi.StatusesUpdate("hogehoge", replyToId: null, mediaIds: null, excludeReplyUserIds: Array.Empty<long>())
                     .IgnoreResponse()
                     .ConfigureAwait(false);
 
@@ -536,7 +536,7 @@ namespace OpenTween.Api
                         },
                         "/lists/statuses")
                 )
-                .ReturnsAsync(new TwitterStatus[0]);
+                .ReturnsAsync(Array.Empty<TwitterStatus>());
 
                 twitterApi.apiConnection = mock.Object;
 
@@ -718,7 +718,7 @@ namespace OpenTween.Api
   }
 }")
                 )
-                .Returns(Task.FromResult(0));
+                .Returns(Task.CompletedTask);
 
                 twitterApi.apiConnection = mock.Object;
 
@@ -795,7 +795,7 @@ namespace OpenTween.Api
                         },
                         "/users/lookup")
                 )
-                .ReturnsAsync(new TwitterUser[0]);
+                .ReturnsAsync(Array.Empty<TwitterUser>());
 
                 twitterApi.apiConnection = mock.Object;
 
@@ -851,7 +851,7 @@ namespace OpenTween.Api
                         },
                         "/favorites/list")
                 )
-                .ReturnsAsync(new TwitterStatus[0]);
+                .ReturnsAsync(Array.Empty<TwitterStatus>());
 
                 twitterApi.apiConnection = mock.Object;
 
@@ -995,7 +995,7 @@ namespace OpenTween.Api
                         null,
                         "/friendships/no_retweets/ids")
                 )
-                .ReturnsAsync(new long[0]);
+                .ReturnsAsync(Array.Empty<long>());
 
                 twitterApi.apiConnection = mock.Object;
 
@@ -1313,7 +1313,7 @@ namespace OpenTween.Api
                         },
                         new Dictionary<string, IMediaItem> { { "media", media } })
                 )
-                .Returns(Task.FromResult(0));
+                .Returns(Task.CompletedTask);
 
                 twitterApi.apiConnection = mock.Object;
 
@@ -1387,7 +1387,7 @@ namespace OpenTween.Api
                         new Uri("https://upload.twitter.com/1.1/media/metadata/create.json", UriKind.Absolute),
                         "{\"media_id\": \"12345\", \"alt_text\": {\"text\": \"hogehoge\"}}")
                 )
-                .Returns(Task.FromResult(0));
+                .Returns(Task.CompletedTask);
 
                 twitterApi.apiConnection = mock.Object;
 

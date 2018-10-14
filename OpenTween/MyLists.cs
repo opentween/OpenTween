@@ -45,10 +45,10 @@ namespace OpenTween
         private readonly string contextScreenName;
 
         /// <summary>自分が所有しているリスト</summary>
-        private ListElement[] ownedLists = new ListElement[0];
+        private ListElement[] ownedLists = Array.Empty<ListElement>();
 
         /// <summary>操作対象のユーザーが追加されているリストのID</summary>
-        private long[] addedListIds = new long[0];
+        private long[] addedListIds = Array.Empty<long>();
 
         public MyLists()
             => this.InitializeComponent();

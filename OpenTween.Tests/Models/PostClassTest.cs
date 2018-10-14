@@ -191,7 +191,7 @@ namespace OpenTween.Models
                 InReplyToUser = "hogehoge",
                 InReplyToUserId = 100L,
                 IsReply = true,
-                ReplyToList = new List<Tuple<long, string>> { Tuple.Create(100L, "hogehoge") },
+                ReplyToList = { (100L, "hogehoge") },
             };
 
             post.IsDeleted = true;

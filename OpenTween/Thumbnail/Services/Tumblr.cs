@@ -97,7 +97,7 @@ namespace OpenTween.Thumbnail.Services
 
                 var item = xElm.XPathSelectElement("/response/posts/item[1]");
                 if (item == null)
-                    return new ThumbnailInfo[0];
+                    return Array.Empty<ThumbnailInfo>();
 
                 var postUrlElm = item.Element("post_url");
 

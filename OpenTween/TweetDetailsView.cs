@@ -148,7 +148,7 @@ namespace OpenTween
                 sb.AppendFormat("IsRead         : {0}<br>", post.IsRead);
                 sb.AppendFormat("IsReply        : {0}<br>", post.IsReply);
 
-                foreach (string nm in post.ReplyToList.Select(x => x.Item2))
+                foreach (string nm in post.ReplyToList.Select(x => x.ScreenName))
                 {
                     sb.AppendFormat("ReplyToList    : {0}<br>", nm);
                 }
