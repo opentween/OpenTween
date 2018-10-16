@@ -2772,16 +2772,16 @@ namespace OpenTween
             // TLに反映
             if (!this.tw.UserStreamActive)
             {
+                // 自分のRTはTLの更新では取得できない場合があるので、
+                // 投稿時取得の有無に関わらず追加しておく
+                posts.ForEach(post => this._statuses.AddPost(post));
+
                 if (SettingManager.Common.PostAndGet)
                     await this.RefreshTabAsync<HomeTabModel>();
                 else
                 {
-                    if (posts.Count > 0)
-                    {
-                        posts.ForEach(post => this._statuses.AddPost(post));
-                        this._statuses.DistributePosts();
-                        this.RefreshTimeline();
-                    }
+                    this._statuses.DistributePosts();
+                    this.RefreshTimeline();
                 }
             }
         }
