@@ -2079,6 +2079,36 @@ namespace OpenTween
             return cl;
         }
 
+        private void StatusTextHistoryBack()
+        {
+            if (!string.IsNullOrWhiteSpace(this.StatusText.Text))
+                this._history[_hisIdx] = new StatusTextHistory(this.StatusText.Text, this.inReplyTo);
+
+            this._hisIdx -= 1;
+            if (this._hisIdx < 0)
+                this._hisIdx = 0;
+
+            var historyItem = this._history[this._hisIdx];
+            this.inReplyTo = historyItem.inReplyTo;
+            this.StatusText.Text = historyItem.status;
+            this.StatusText.SelectionStart = this.StatusText.Text.Length;
+        }
+
+        private void StatusTextHistoryForward()
+        {
+            if (!string.IsNullOrWhiteSpace(this.StatusText.Text))
+                this._history[this._hisIdx] = new StatusTextHistory(this.StatusText.Text, this.inReplyTo);
+
+            this._hisIdx += 1;
+            if (this._hisIdx > this._history.Count - 1)
+                this._hisIdx = this._history.Count - 1;
+
+            var historyItem = this._history[this._hisIdx];
+            this.inReplyTo = historyItem.inReplyTo;
+            this.StatusText.Text = historyItem.status;
+            this.StatusText.SelectionStart = this.StatusText.Text.Length;
+        }
+
         private async void PostButton_Click(object sender, EventArgs e)
         {
             if (StatusText.Text.Trim().Length == 0)
@@ -2664,6 +2694,9 @@ namespace OpenTween
                 }
                 else
                 {
+                    this.StatusTextHistoryBack();
+                    this.StatusText.Focus();
+
                     // 連投モードのときだけEnterイベントが起きないので強制的に背景色を戻す
                     if (SettingManager.Common.FocusLockToStatusText)
                         this.StatusText_Enter(this.StatusText, EventArgs.Empty);
@@ -5959,33 +5992,11 @@ namespace OpenTween
 
                 ShortcutCommand.Create(Keys.Control | Keys.Up)
                     .FocusedOn(FocusedControl.StatusText)
-                    .Do(() => {
-                        if (!string.IsNullOrWhiteSpace(StatusText.Text))
-                            _history[_hisIdx] = new StatusTextHistory(StatusText.Text, this.inReplyTo);
-
-                        _hisIdx -= 1;
-                        if (_hisIdx < 0) _hisIdx = 0;
-
-                        var historyItem = this._history[this._hisIdx];
-                        this.inReplyTo = historyItem.inReplyTo;
-                        StatusText.Text = historyItem.status;
-                        StatusText.SelectionStart = StatusText.Text.Length;
-                    }),
+                    .Do(() => this.StatusTextHistoryBack()),
 
                 ShortcutCommand.Create(Keys.Control | Keys.Down)
                     .FocusedOn(FocusedControl.StatusText)
-                    .Do(() => {
-                        if (!string.IsNullOrWhiteSpace(StatusText.Text))
-                            _history[_hisIdx] = new StatusTextHistory(StatusText.Text, this.inReplyTo);
-
-                        _hisIdx += 1;
-                        if (_hisIdx > _history.Count - 1) _hisIdx = _history.Count - 1;
-
-                        var historyItem = this._history[this._hisIdx];
-                        this.inReplyTo = historyItem.inReplyTo;
-                        StatusText.Text = historyItem.status;
-                        StatusText.SelectionStart = StatusText.Text.Length;
-                    }),
+                    .Do(() => this.StatusTextHistoryForward()),
 
                 ShortcutCommand.Create(Keys.Control | Keys.PageUp, Keys.Control | Keys.P)
                     .FocusedOn(FocusedControl.StatusText)
