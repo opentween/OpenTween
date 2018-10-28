@@ -32,11 +32,10 @@
             this.TextDetail = new System.Windows.Forms.TextBox();
             this.LabelSummary = new System.Windows.Forms.Label();
             this.PictureBox1 = new System.Windows.Forms.PictureBox();
-            this.TableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.YesButton = new System.Windows.Forms.Button();
             this.NoButton = new System.Windows.Forms.Button();
+            this.SkipButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.PictureBox1)).BeginInit();
-            this.TableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // TextDetail
@@ -56,13 +55,6 @@
             this.PictureBox1.Name = "PictureBox1";
             this.PictureBox1.TabStop = false;
             // 
-            // TableLayoutPanel1
-            // 
-            resources.ApplyResources(this.TableLayoutPanel1, "TableLayoutPanel1");
-            this.TableLayoutPanel1.Controls.Add(this.YesButton, 0, 0);
-            this.TableLayoutPanel1.Controls.Add(this.NoButton, 1, 0);
-            this.TableLayoutPanel1.Name = "TableLayoutPanel1";
-            // 
             // YesButton
             // 
             resources.ApplyResources(this.YesButton, "YesButton");
@@ -77,16 +69,25 @@
             this.NoButton.Name = "NoButton";
             this.NoButton.Click += new System.EventHandler(this.NoButton_Click);
             // 
+            // SkipButton
+            // 
+            resources.ApplyResources(this.SkipButton, "SkipButton");
+            this.SkipButton.DialogResult = System.Windows.Forms.DialogResult.Ignore;
+            this.SkipButton.Name = "SkipButton";
+            this.SkipButton.Click += new System.EventHandler(this.SkipButton_Click);
+            // 
             // UpdateDialog
             // 
             this.AcceptButton = this.YesButton;
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.CancelButton = this.NoButton;
+            this.Controls.Add(this.SkipButton);
+            this.Controls.Add(this.NoButton);
+            this.Controls.Add(this.YesButton);
             this.Controls.Add(this.TextDetail);
             this.Controls.Add(this.LabelSummary);
             this.Controls.Add(this.PictureBox1);
-            this.Controls.Add(this.TableLayoutPanel1);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "UpdateDialog";
@@ -95,7 +96,6 @@
             this.TopMost = true;
             this.Shown += new System.EventHandler(this.UpdateDialog_Shown);
             ((System.ComponentModel.ISupportInitialize)(this.PictureBox1)).EndInit();
-            this.TableLayoutPanel1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -106,8 +106,8 @@
         internal System.Windows.Forms.TextBox TextDetail;
         internal System.Windows.Forms.Label LabelSummary;
         internal System.Windows.Forms.PictureBox PictureBox1;
-        internal System.Windows.Forms.TableLayoutPanel TableLayoutPanel1;
         internal System.Windows.Forms.Button YesButton;
         internal System.Windows.Forms.Button NoButton;
+        internal System.Windows.Forms.Button SkipButton;
     }
 }

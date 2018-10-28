@@ -5612,6 +5612,9 @@ namespace OpenTween
                     return;
                 }
 
+                if (startup && versionInfo.Version <= SettingManager.Common.SkipUpdateVersion)
+                    return;
+
                 using (var dialog = new UpdateDialog())
                 {
                     dialog.SummaryText = string.Format(Properties.Resources.CheckNewVersionText3,
@@ -5621,6 +5624,11 @@ namespace OpenTween
                     if (dialog.ShowDialog(this) == DialogResult.Yes)
                     {
                         await this.OpenUriInBrowserAsync(versionInfo.DownloadUri.OriginalString);
+                    }
+                    else if (dialog.SkipButtonPressed)
+                    {
+                        SettingManager.Common.SkipUpdateVersion = versionInfo.Version;
+                        this.ModifySettingCommon = true;
                     }
                 }
             }

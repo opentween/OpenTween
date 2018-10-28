@@ -242,6 +242,17 @@ namespace OpenTween
 
         /// <summary>pic.twitter.com への画像アップロード時に JPEG への変換を回避する</summary>
         public bool AlphaPNGWorkaround { get; set; } = false;
+
+        /// <summary>アップデート通知を無視するバージョン番号</summary>
+        [XmlIgnore]
+        public Version SkipUpdateVersion
+        {
+            get => string.IsNullOrEmpty(this.SkipUpdateVersionStr) ? null : Version.Parse(this.SkipUpdateVersionStr);
+            set => this.SkipUpdateVersionStr = value == null ? "" : value.ToString();
+        }
+
+        [XmlElement(ElementName = nameof(SkipUpdateVersion))]
+        public string SkipUpdateVersionStr { get; set; }
     }
 
     public class UserAccount

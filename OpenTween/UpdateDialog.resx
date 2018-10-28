@@ -125,6 +125,9 @@
   <data name="TextDetail.Location" type="System.Drawing.Point, System.Drawing">
     <value>13, 67</value>
   </data>
+  <data name="TextDetail.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 3, 3, 8</value>
+  </data>
   <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="TextDetail.Multiline" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -133,10 +136,10 @@
     <value>Both</value>
   </data>
   <data name="TextDetail.Size" type="System.Drawing.Size, System.Drawing">
-    <value>427, 122</value>
+    <value>535, 164</value>
   </data>
   <data name="TextDetail.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
+    <value>1</value>
   </data>
   <data name="TextDetail.Text" xml:space="preserve">
     <value>Details</value>
@@ -151,7 +154,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;TextDetail.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>3</value>
   </data>
   <data name="LabelSummary.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Left, Right</value>
@@ -160,7 +163,7 @@
     <value>75, 13</value>
   </data>
   <data name="LabelSummary.Size" type="System.Drawing.Size, System.Drawing">
-    <value>365, 48</value>
+    <value>473, 48</value>
   </data>
   <data name="LabelSummary.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -181,7 +184,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;LabelSummary.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>4</value>
   </data>
   <data name="PictureBox1.Location" type="System.Drawing.Point, System.Drawing">
     <value>13, 13</value>
@@ -205,25 +208,19 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;PictureBox1.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="TableLayoutPanel1.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Bottom, Right</value>
-  </data>
-  <data name="TableLayoutPanel1.ColumnCount" type="System.Int32, mscorlib">
-    <value>2</value>
+    <value>5</value>
   </data>
   <data name="YesButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>None</value>
+    <value>Bottom, Right</value>
   </data>
   <data name="YesButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>5, 9</value>
+    <value>194, 242</value>
   </data>
   <data name="YesButton.Size" type="System.Drawing.Size, System.Drawing">
     <value>80, 26</value>
   </data>
   <data name="YesButton.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
+    <value>2</value>
   </data>
   <data name="YesButton.Text" xml:space="preserve">
     <value>はい (&amp;Y)</value>
@@ -238,25 +235,25 @@
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;YesButton.Parent" xml:space="preserve">
-    <value>TableLayoutPanel1</value>
+    <value>$this</value>
   </data>
   <data name="&gt;&gt;YesButton.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="NoButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>None</value>
-  </data>
-  <data name="NoButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>95, 9</value>
-  </data>
-  <data name="NoButton.Size" type="System.Drawing.Size, System.Drawing">
-    <value>80, 26</value>
-  </data>
-  <data name="NoButton.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
   </data>
+  <data name="NoButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Right</value>
+  </data>
+  <data name="NoButton.Location" type="System.Drawing.Point, System.Drawing">
+    <value>430, 242</value>
+  </data>
+  <data name="NoButton.Size" type="System.Drawing.Size, System.Drawing">
+    <value>118, 26</value>
+  </data>
+  <data name="NoButton.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
   <data name="NoButton.Text" xml:space="preserve">
-    <value>いいえ (&amp;N)</value>
+    <value>後で通知 (&amp;L)</value>
   </data>
   <data name="&gt;&gt;NoButton.Name" xml:space="preserve">
     <value>NoButton</value>
@@ -265,37 +262,40 @@
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;NoButton.Parent" xml:space="preserve">
-    <value>TableLayoutPanel1</value>
+    <value>$this</value>
   </data>
   <data name="&gt;&gt;NoButton.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
-  <data name="TableLayoutPanel1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>259, 195</value>
+  <data name="SkipButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Right</value>
   </data>
-  <data name="TableLayoutPanel1.RowCount" type="System.Int32, mscorlib">
-    <value>1</value>
+  <data name="SkipButton.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
   </data>
-  <data name="TableLayoutPanel1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>181, 44</value>
+  <data name="SkipButton.Location" type="System.Drawing.Point, System.Drawing">
+    <value>280, 242</value>
   </data>
-  <data name="TableLayoutPanel1.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
+  <data name="SkipButton.Size" type="System.Drawing.Size, System.Drawing">
+    <value>144, 26</value>
   </data>
-  <data name="&gt;&gt;TableLayoutPanel1.Name" xml:space="preserve">
-    <value>TableLayoutPanel1</value>
-  </data>
-  <data name="&gt;&gt;TableLayoutPanel1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;TableLayoutPanel1.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;TableLayoutPanel1.ZOrder" xml:space="preserve">
+  <data name="SkipButton.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
   </data>
-  <data name="TableLayoutPanel1.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
-    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="YesButton" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="NoButton" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,50,Percent,50" /&gt;&lt;Rows Styles="Percent,50" /&gt;&lt;/TableLayoutSettings&gt;</value>
+  <data name="SkipButton.Text" xml:space="preserve">
+    <value>このバージョンを無視 (&amp;S)</value>
+  </data>
+  <data name="&gt;&gt;SkipButton.Name" xml:space="preserve">
+    <value>SkipButton</value>
+  </data>
+  <data name="&gt;&gt;SkipButton.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;SkipButton.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;SkipButton.ZOrder" xml:space="preserve">
+    <value>0</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
@@ -304,7 +304,7 @@
     <value>96, 96</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>452, 250</value>
+    <value>560, 280</value>
   </data>
   <data name="$this.StartPosition" type="System.Windows.Forms.FormStartPosition, System.Windows.Forms">
     <value>CenterScreen</value>

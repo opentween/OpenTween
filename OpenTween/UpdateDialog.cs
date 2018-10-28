@@ -50,6 +50,8 @@ namespace OpenTween
             set => this.TextDetail.Text = value;
         }
 
+        public bool SkipButtonPressed { get; set; } = false;
+
         public UpdateDialog()
         {
             InitializeComponent();
@@ -66,5 +68,8 @@ namespace OpenTween
 
         private void UpdateDialog_Shown(object sender, EventArgs e)
             => this.TextDetail.SelectionLength = 0; // デフォルトではテキストが全選択されるため抑制
+
+        private void SkipButton_Click(object sender, EventArgs e)
+            => this.SkipButtonPressed = true;
     }
 }
