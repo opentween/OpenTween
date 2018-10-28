@@ -251,6 +251,18 @@ namespace OpenTween
         }
 
         [Fact]
+        public void ExtractEmojiEntities_Unicode11Test()
+        {
+            // Unicode 11.0 で追加された絵文字
+            var origText = "🦸"; // U+1F9B8 (SUPERHERO)
+            var entity = TweetExtractor.ExtractEmojiEntities(origText).Single();
+
+            Assert.Equal(new[] { 0, 1 }, entity.Indices);
+            Assert.Equal("🦸", entity.Text);
+            Assert.Equal("https://twemoji.maxcdn.com/2/72x72/1f9b8.png", entity.Url);
+        }
+
+        [Fact]
         public void ExtractEmojiEntities_EmojiModifiers_CombiningTest()
         {
             // Emoji modifiers を使用した合字 (リガチャー)
