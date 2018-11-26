@@ -65,7 +65,7 @@
             // buttonOk
             // 
             resources.ApplyResources(this.buttonOk, "buttonOk");
-            this.buttonOk.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.buttonOk.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.buttonOk.Name = "buttonOk";
             this.buttonOk.UseVisualStyleBackColor = true;
             // 
