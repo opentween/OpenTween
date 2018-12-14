@@ -6254,12 +6254,15 @@ namespace OpenTween
                     .Do(() => this.SetSortLastColumn()),
 
                 ShortcutCommand.Create(Keys.Control | Keys.Alt | Keys.S)
+                    .FocusedOn(FocusedControl.ListTab)
                     .Do(() => this.FavoritesRetweetOfficial()),
 
                 ShortcutCommand.Create(Keys.Control | Keys.Alt | Keys.R)
+                    .FocusedOn(FocusedControl.ListTab)
                     .Do(() => this.FavoritesRetweetUnofficial()),
 
                 ShortcutCommand.Create(Keys.Control | Keys.Alt | Keys.H)
+                    .FocusedOn(FocusedControl.ListTab)
                     .Do(() => this.OpenUserAppointUrl()),
 
                 ShortcutCommand.Create(Keys.Alt | Keys.Shift | Keys.R)
