@@ -3,6 +3,8 @@
 ==== Ver 2.2.1-dev(20xx/xx/xx)
  * CHG: 投稿欄にフォーカスしている間は、AltGrキーを使う言語のキーボートと重複する一部のショートカットを無効にします (thx @pitermach, @lukaszgo1!)
   - 対象となるショートカットは Ctrl+Alt+S (Fav+RT), Ctrl+Alt+R (Fav+非公式RT), Ctrl+Alt+H (ユーザー指定のURLを開く) の3つです
+ * CHG: Microsoft Translator Text API v3 に対応
+  - OpenTweenの古いバージョンの翻訳機能は 2019/4/30 以降に使用できなくなります
 
 ==== Ver 2.2.0(2018/11/03)
  * NEW: 絵文字に関する文字数カウントの新仕様に対応しました
