@@ -1422,17 +1422,5 @@ namespace OpenTween.Api
                 mock.VerifyAll();
             }
         }
-
-        [Theory]
-        [InlineData("", "")]
-        [InlineData("123ABCabc", "123ABCabc")]
-        [InlineData(@"\", @"\\")]
-        [InlineData("\"", "\\\"")]
-        [InlineData("\n", @"\u000A")]
-        [InlineData("\U0001D11E", @"\uD834\uDD1E")]
-        public void EscapeJsonString_Test(string targetText, string expectedText)
-        {
-            Assert.Equal(expectedText, TwitterApi.EscapeJsonString(targetText));
-        }
     }
 }

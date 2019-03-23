@@ -405,7 +405,7 @@ namespace OpenTween.Api
         ""attachment"": {{
           ""type"": ""media"",
           ""media"": {{
-            ""id"": ""{EscapeJsonString(mediaId.ToString())}""
+            ""id"": ""{JsonUtils.EscapeJsonString(mediaId.ToString())}""
           }}
         }}";
             }
@@ -415,10 +415,10 @@ namespace OpenTween.Api
     ""type"": ""message_create"",
     ""message_create"": {{
       ""target"": {{
-        ""recipient_id"": ""{EscapeJsonString(recipientId.ToString())}""
+        ""recipient_id"": ""{JsonUtils.EscapeJsonString(recipientId.ToString())}""
       }},
       ""message_data"": {{
-        ""text"": ""{EscapeJsonString(text)}""{attachment}
+        ""text"": ""{JsonUtils.EscapeJsonString(text)}""{attachment}
       }}
     }}
   }}
@@ -762,7 +762,7 @@ namespace OpenTween.Api
         {
             var endpoint = new Uri("https://upload.twitter.com/1.1/media/metadata/create.json");
 
-            var escapedAltText = EscapeJsonString(altText);
+            var escapedAltText = JsonUtils.EscapeJsonString(altText);
             var json = $@"{{""media_id"": ""{mediaId}"", ""alt_text"": {{""text"": ""{escapedAltText}""}}}}";
 
             return this.apiConnection.PostJsonAsync(endpoint, json);
@@ -789,23 +789,5 @@ namespace OpenTween.Api
 
         public void Dispose()
             => this.apiConnection?.Dispose();
-
-        /// <summary>JSON に出力する文字列を ECMA-404 に従ってエスケープする</summary>
-        public static string EscapeJsonString(string rawText)
-        {
-            var builder = new StringBuilder(rawText.Length + 20);
-
-            foreach (var c in rawText)
-            {
-                if (c <= 0x1F || char.IsSurrogate(c))
-                    builder.AppendFormat(@"\u{0:X4}", (int)c);
-                else if (c == '\\' || c == '\"')
-                    builder.Append('\\').Append(c);
-                else
-                    builder.Append(c);
-            }
-
-            return builder.ToString();
-        }
     }
 }
