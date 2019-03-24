@@ -37,8 +37,8 @@ namespace OpenTween.Thumbnail.Services
     class ImgAzyobuziNet : IThumbnailService, IDisposable
     {
         protected string[] ApiHosts = {
-            "http://img.azyobuzi.net/api/",
-            "http://img.opentween.org/api/",
+            "https://img.azyobuzi.net/api/",
+            "https://img.opentween.org/api/",
         };
 
         protected string[] ExcludedServiceNames =
