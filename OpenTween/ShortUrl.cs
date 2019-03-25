@@ -117,6 +117,23 @@ namespace OpenTween
             "youtu.be",
         };
 
+        /// <summary>
+        /// HTTPS非対応の短縮URLサービス
+        /// </summary>
+        private static readonly HashSet<string> InsecureDomains = new HashSet<string>
+        {
+            "budurl.com",
+            "ff.im",
+            "ht.ly",
+            "htn.to",
+            "moi.st",
+            "ow.ly",
+            "tinami.jp",
+            "tl.gd",
+            "twme.jp",
+            "urx2.nu",
+        };
+
         static ShortUrl()
             => _instance = new Lazy<ShortUrl>(() => new ShortUrl(), true);
 
@@ -443,6 +460,8 @@ namespace OpenTween
 
         private async Task<Uri> GetRedirectTo(Uri url)
         {
+            url = this.UpgradeToHttpsIfAvailable(url);
+
             var request = new HttpRequestMessage(HttpMethod.Head, url);
 
             using (var response = await this.http.SendAsync(request).ConfigureAwait(false))
@@ -470,6 +489,24 @@ namespace OpenTween
                 else
                     return new Uri(url, redirectedUrl);
             }
+        }
+
+        /// <summary>
+        /// 指定されたURLのスキームを https:// に書き換える
+        /// </summary>
+        private Uri UpgradeToHttpsIfAvailable(Uri original)
+        {
+            if (original.Scheme != "http")
+                return original;
+
+            if (InsecureDomains.Contains(original.Host))
+                return original;
+
+            var builder = new UriBuilder(original);
+            builder.Scheme = "https";
+            builder.Port = 443;
+
+            return builder.Uri;
         }
 
         [SuppressMessage("Microsoft.Reliability", "CA2000:DisposeObjectsBeforeLosingScope")]
