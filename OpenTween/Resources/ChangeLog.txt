@@ -10,6 +10,7 @@
  * CHG: 廃止された twurl.nl によるURL短縮機能を削除
  * CHG: img.azyobuzi.net 利用時の接続先をHTTPSに変更
  * CHG: 廃止されたサービスのサムネイル表示対応を削除
+ * CHG: サムネイル表示時にHTTPSが使用できるサービスではHTTPSを使用する
  * CHG: サービス終了したFavstarに関するメニュー項目を削除
 
 ==== Ver 2.2.0(2018/11/03)

@@ -63,7 +63,7 @@ namespace OpenTween.Thumbnail.Services
 
             try
             {
-                var apiUrl = "http://vimeo.com/api/oembed.xml?url=" + Uri.EscapeDataString(url);
+                var apiUrl = "https://vimeo.com/api/oembed.xml?url=" + Uri.EscapeDataString(url);
 
                 var xmlStr = await this.http.GetStringAsync(apiUrl)
                     .ConfigureAwait(false);

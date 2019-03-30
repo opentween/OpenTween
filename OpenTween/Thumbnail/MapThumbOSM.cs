@@ -51,7 +51,7 @@ namespace OpenTween.Thumbnail
         {
             var zoom = SettingManager.Common.MapThumbnailZoom;
 
-            return "http://www.openstreetmap.org/index.html?lat=" + latitude + "&lon=" + longitude + "&zoom=" + zoom + "&mlat=" + latitude + "&mlon=" + longitude;
+            return $"https://www.openstreetmap.org/?mlat={latitude}&mlon={longitude}#map={zoom}/{latitude}/{longitude}";
         }
     }
 

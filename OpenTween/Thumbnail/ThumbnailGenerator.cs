@@ -74,19 +74,14 @@ namespace OpenTween.Thumbnail
                 // ImgUr
                 new SimpleThumbnailService(
                     @"^https?://(?:i\.)?imgur\.com/(\w+)(?:\..{3})?$",
-                    "http://img.imgur.com/${1}l.jpg",
-                    "http://img.imgur.com/${1}.jpg"),
+                    "https://img.imgur.com/${1}l.jpg",
+                    "https://img.imgur.com/${1}.jpg"),
 
                 // Twitpic
-                new SimpleThumbnailService(
-                    @"^http://(www\.)?twitpic\.com/(?<photoId>\w+)(/full/?)?$",
-                    "http://twitpic.com/show/thumb/${photoId}",
-                    "http://twitpic.com/show/large/${photoId}"),
+                new MetaThumbnailService(@"^https?://(www\.)?twitpic\.com/.+$"),
 
                 // MobyPicture
-                new MetaThumbnailService(
-                    @"^https?://(?:www\.)?mobypicture.com/user/\w+/view/\d+$",
-                    new string[] { "og:image" }),  // twitter:imageは403が返って取得できない
+                new MetaThumbnailService(@"^https?://(?:www\.)?mobypicture.com/user/\w+/view/\d+$"),
 
                 // 携帯百景
                 new SimpleThumbnailService(
@@ -115,8 +110,8 @@ namespace OpenTween.Thumbnail
                 // フォト蔵
                 new SimpleThumbnailService(
                     @"^https?://photozou\.jp/photo/show/(?<userId>[0-9]+)/(?<photoId>[0-9]+)",
-                    "http://photozou.jp/p/thumb/${photoId}",
-                    "http://photozou.jp/p/img/${photoId}"),
+                    "https://photozou.jp/p/thumb/${photoId}",
+                    "https://photozou.jp/p/img/${photoId}"),
 
                 // Piapro
                 new MetaThumbnailService(@"^https?://piapro\.jp/(?:content/[0-9a-z]+|t/[0-9a-zA-Z_\-]+)$"),
@@ -146,16 +141,16 @@ namespace OpenTween.Thumbnail
                 new Tinami(),
 
                 // tuna.be
-                new SimpleThumbnailService(@"^https?://tuna\.be/t/(?<entryId>[a-zA-Z0-9\.\-_]+)$", "http://tuna.be/show/thumb/${entryId}"),
+                new SimpleThumbnailService(@"^https?://tuna\.be/t/(?<entryId>[a-zA-Z0-9\.\-_]+)$", "https://tuna.be/show/thumb/${entryId}"),
 
                 // GIFMAGAZINE
-                new SimpleThumbnailService(@"^https?://gifmagazine\.net/post_images/(\d+)", "http://img.gifmagazine.net/gifmagazine/images/${1}/original.gif"),
+                new SimpleThumbnailService(@"^https?://gifmagazine\.net/post_images/(\d+)", "https://img.gifmagazine.net/gifmagazine/images/${1}/original.gif"),
 
                 // SoundCloud
                 new MetaThumbnailService(@"^https?://soundcloud.com/[\w-]+/[\w-]+$"),
 
                 // Gyazo (参考: http://qiita.com/uiureo/items/9ea55b07dff28a322a9e)
-                new SimpleThumbnailService(@"^https?://gyazo\.com/([a-zA-Z0-9]+)/?$", "http://gyazo.com/${1}/raw"),
+                new SimpleThumbnailService(@"^https?://gyazo\.com/([a-zA-Z0-9]+)/?$", "https://gyazo.com/${1}/raw"),
             };
         }
 
