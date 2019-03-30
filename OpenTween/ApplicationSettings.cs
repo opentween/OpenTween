@@ -80,7 +80,7 @@ namespace OpenTween
         /// <summary>
         /// 「ヘルプ」メニューの「(アプリ名) ウェブサイト」クリック時に外部ブラウザで表示する URL
         /// </summary>
-        public const string WebsiteUrl = "http://sourceforge.jp/projects/opentween/wiki/FrontPage";
+        public const string WebsiteUrl = "https://www.opentween.org/";
 
         /// <summary>
         /// 「ヘルプ」メニューの「ショートカットキー一覧」クリック時に外部ブラウザで表示する URL
@@ -88,7 +88,7 @@ namespace OpenTween
         /// <remarks>
         /// Tween の Wiki ページのコンテンツはプロプライエタリなため転載不可
         /// </remarks>
-        public const string ShortcutKeyUrl = "http://sourceforge.jp/projects/tween/wiki/%E3%82%B7%E3%83%A7%E3%83%BC%E3%83%88%E3%82%AB%E3%83%83%E3%83%88%E3%82%AD%E3%83%BC";
+        public const string ShortcutKeyUrl = "https://ja.osdn.net/projects/tween/wiki/%E3%82%B7%E3%83%A7%E3%83%BC%E3%83%88%E3%82%AB%E3%83%83%E3%83%88%E3%82%AD%E3%83%BC";
 
         //=====================================================================
         // アップデートチェック関連

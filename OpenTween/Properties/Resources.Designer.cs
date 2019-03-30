@@ -2291,7 +2291,7 @@ namespace OpenTween.Properties {
         }
         
         /// <summary>
-        ///   http://ja.wikipedia.org/wiki/{0} に類似しているローカライズされた文字列を検索します。
+        ///   https://ja.wikipedia.org/w/index.php?search={0} に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string SearchItem1Url {
             get {
@@ -2300,7 +2300,7 @@ namespace OpenTween.Properties {
         }
         
         /// <summary>
-        ///   http://www.google.com/search?hl=ja&amp;q={0} に類似しているローカライズされた文字列を検索します。
+        ///   https://www.google.com/search?hl=ja&amp;q={0} に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string SearchItem2Url {
             get {
@@ -2309,7 +2309,7 @@ namespace OpenTween.Properties {
         }
         
         /// <summary>
-        ///   http://search.twitter.com/search?q={0} に類似しているローカライズされた文字列を検索します。
+        ///   https://twitter.com/search?q={0} に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string SearchItem4Url {
             get {

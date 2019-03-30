@@ -416,13 +416,13 @@
     <value>設定値に誤りがあります。</value>
   </data>
   <data name="SearchItem1Url" xml:space="preserve">
-    <value>http://ja.wikipedia.org/wiki/{0}</value>
+    <value>https://ja.wikipedia.org/w/index.php?search={0}</value>
   </data>
   <data name="SearchItem2Url" xml:space="preserve">
-    <value>http://www.google.com/search?hl=ja&amp;q={0}</value>
+    <value>https://www.google.com/search?hl=ja&amp;q={0}</value>
   </data>
   <data name="SearchItem4Url" xml:space="preserve">
-    <value>http://search.twitter.com/search?q={0}</value>
+    <value>https://twitter.com/search?q={0}</value>
   </data>
   <data name="SetFiltersText1" xml:space="preserve">
     <value>[ユーザ･･･{0}]  </value>
