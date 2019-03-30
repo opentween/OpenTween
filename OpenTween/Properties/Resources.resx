@@ -935,9 +935,6 @@
   <data name="MyLists1" xml:space="preserve">
     <value>を含むリストの管理</value>
   </data>
-  <data name="FavstarUrl" xml:space="preserve">
-    <value>http://ja.favstar.fm/</value>
-  </data>
   <data name="VimeoInfoText1" xml:space="preserve">
     <value>タイトル:</value>
   </data>

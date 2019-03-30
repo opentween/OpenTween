@@ -3255,7 +3255,6 @@ namespace OpenTween
                 FavAddToolStripMenuItem.Enabled = false;
                 FavRemoveToolStripMenuItem.Enabled = false;
                 StatusOpenMenuItem.Enabled = false;
-                FavorareMenuItem.Enabled = false;
                 ShowRelatedStatusesMenuItem.Enabled = false;
 
                 ReTweetStripMenuItem.Enabled = false;
@@ -3269,7 +3268,6 @@ namespace OpenTween
                 FavAddToolStripMenuItem.Enabled = true;
                 FavRemoveToolStripMenuItem.Enabled = true;
                 StatusOpenMenuItem.Enabled = true;
-                FavorareMenuItem.Enabled = true;
                 ShowRelatedStatusesMenuItem.Enabled = true;  //PublicSearchの時問題出るかも
 
                 if (!_curPost.CanRetweetBy(this.twitterApi.CurrentUserId))
@@ -5521,15 +5519,6 @@ namespace OpenTween
             }
         }
 
-        private async void FavorareMenuItem_Click(object sender, EventArgs e)
-        {
-            if (_curList.SelectedIndices.Count > 0)
-            {
-                PostClass post = _statuses.Tabs[_curTab.Text][_curList.SelectedIndices[0]];
-                await this.OpenUriInBrowserAsync(Properties.Resources.FavstarUrl + "users/" + post.ScreenName + "/recent");
-            }
-        }
-
         private async void VerUpMenuItem_Click(object sender, EventArgs e)
             => await this.CheckNewVersion(false);
 
@@ -6154,9 +6143,6 @@ namespace OpenTween
 
                 ShortcutCommand.Create(Keys.Control | Keys.Shift | Keys.H)
                     .Do(() => this.doMoveToRTHome()),
-
-                ShortcutCommand.Create(Keys.Control | Keys.Shift | Keys.O)
-                    .Do(() => this.FavorareMenuItem_Click(null, null)),
 
                 ShortcutCommand.Create(Keys.Control | Keys.Shift | Keys.Up)
                     .FocusedOn(FocusedControl.StatusText)
@@ -10825,7 +10811,6 @@ namespace OpenTween
                 this.FavOpMenuItem.Enabled = false;
                 this.UnFavOpMenuItem.Enabled = false;
                 this.OpenStatusOpMenuItem.Enabled = false;
-                this.OpenFavotterOpMenuItem.Enabled = false;
                 this.ShowRelatedStatusesMenuItem2.Enabled = false;
                 this.RtOpMenuItem.Enabled = false;
                 this.RtUnOpMenuItem.Enabled = false;
@@ -10838,7 +10823,6 @@ namespace OpenTween
                 this.FavOpMenuItem.Enabled = true;
                 this.UnFavOpMenuItem.Enabled = true;
                 this.OpenStatusOpMenuItem.Enabled = true;
-                this.OpenFavotterOpMenuItem.Enabled = true;
                 this.ShowRelatedStatusesMenuItem2.Enabled = true;  //PublicSearchの時問題出るかも
 
                 if (!_curPost.CanRetweetBy(this.twitterApi.CurrentUserId))
@@ -11704,12 +11688,6 @@ namespace OpenTween
             }
         }
 
-        private async void OpenOwnFavedMenuItem_Click(object sender, EventArgs e)
-        {
-            if (!string.IsNullOrEmpty(tw.Username))
-                await this.OpenUriInBrowserAsync(Properties.Resources.FavstarUrl + "users/" + tw.Username + "/recent");
-        }
-
         private async void OpenOwnHomeMenuItem_Click(object sender, EventArgs e)
             => await this.OpenUriInBrowserAsync(MyCommon.TwitterUrl + tw.Username);
 
@@ -11754,15 +11732,6 @@ namespace OpenTween
             if (!string.IsNullOrEmpty(id))
             {
                 await this.AddNewTabForUserTimeline(id);
-            }
-        }
-
-        private async void UserFavorareToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            string id = GetUserIdFromCurPostOrInput("Show Favstar");
-            if (!string.IsNullOrEmpty(id))
-            {
-                await this.OpenUriInBrowserAsync(Properties.Resources.FavstarUrl + "users/" + id + "/recent");
             }
         }
 

@@ -1118,15 +1118,6 @@ namespace OpenTween.Properties {
         }
         
         /// <summary>
-        ///   http://ja.favstar.fm/ に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string FavstarUrl {
-            get {
-                return ResourceManager.GetString("FavstarUrl", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   フォローしています・・・ に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string FollowCommandText1 {
