@@ -358,7 +358,6 @@
     <Compile Include="Thumbnail\Services\TonTwitterCom.cs" />
     <Compile Include="Thumbnail\Services\Tumblr.cs" />
     <Compile Include="Thumbnail\Services\TwitterComVideo.cs" />
-    <Compile Include="Thumbnail\Services\ViaMe.cs" />
     <Compile Include="Thumbnail\Services\Vimeo.cs" />
     <Compile Include="Thumbnail\Services\Youtube.cs" />
     <Compile Include="Thumbnail\ThumbnailGenerator.cs" />
