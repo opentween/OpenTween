@@ -390,9 +390,6 @@
   <data name="SearchItem2Url" xml:space="preserve">
     <value>http://www.google.com/search?q={0}</value>
   </data>
-  <data name="SearchItem3Url" xml:space="preserve">
-    <value>http://yats-data.com/yats/search?query={0}</value>
-  </data>
   <data name="SearchItem4Url" xml:space="preserve">
     <value>http://search.twitter.com/search?q={0}</value>
   </data>

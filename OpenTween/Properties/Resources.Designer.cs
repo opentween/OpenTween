@@ -2309,15 +2309,6 @@ namespace OpenTween.Properties {
         }
         
         /// <summary>
-        ///   http://yats-data.com/yats/search?query={0} に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string SearchItem3Url {
-            get {
-                return ResourceManager.GetString("SearchItem3Url", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   http://search.twitter.com/search?q={0} に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string SearchItem4Url {
