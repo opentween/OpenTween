@@ -49,9 +49,13 @@ namespace OpenTween
         public static string Shorten(string url)
         {
             //整形（http(s)://を削除）
-            if (url.Length > 7 && url.Length < 128 && url.StartsWith("http://", StringComparison.OrdinalIgnoreCase))
+            if (url.StartsWith("http://", StringComparison.OrdinalIgnoreCase))
             {
                 url = url.Substring(7);
+            }
+            else if (url.StartsWith("https://", StringComparison.OrdinalIgnoreCase))
+            {
+                url = url.Substring(8);
             }
             else
             {
@@ -61,19 +65,19 @@ namespace OpenTween
             foreach (var nv in _nicovideo)
             {
                 if (url.StartsWith(nv, StringComparison.Ordinal))
-                    return string.Format("{0}{1}", "http://nico.ms/", url.Substring(nv.Length));
+                    return string.Format("{0}{1}", "https://nico.ms/", url.Substring(nv.Length));
             }
 
             var i = url.IndexOf("nicovideo.jp/user/", StringComparison.OrdinalIgnoreCase);
-            if (i == 0 || i == 4) return string.Format("{0}{1}", "http://nico.ms/", url.Substring(13 + i));
+            if (i == 0 || i == 4) return string.Format("{0}{1}", "https://nico.ms/", url.Substring(13 + i));
 
             i = url.IndexOf("nicovideo.jp/mylist/", StringComparison.OrdinalIgnoreCase);
-            if (i == 0 || i == 4) return string.Format("{0}{1}", "http://nico.ms/", url.Substring(13 + i));
+            if (i == 0 || i == 4) return string.Format("{0}{1}", "https://nico.ms/", url.Substring(13 + i));
 
             i = url.IndexOf("seiga.nicovideo.jp/watch/", StringComparison.OrdinalIgnoreCase);
-            if (i == 0) return string.Format("{0}{1}", "http://nico.ms/", url.Substring(25));
+            if (i == 0) return string.Format("{0}{1}", "https://nico.ms/", url.Substring(25));
 
-            return "http://" + url;
+            return "https://" + url;
         }
     }
 }

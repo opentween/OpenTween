@@ -284,7 +284,7 @@ namespace OpenTween
             var text = "sm9";
             var entities = new TwitterEntities();
 
-            var expectedHtml = @"<a href=""http://www.nicovideo.jp/watch/sm9"">sm9</a>";
+            var expectedHtml = @"<a href=""https://www.nicovideo.jp/watch/sm9"">sm9</a>";
 
             Assert.Equal(expectedHtml, Twitter.CreateHtmlAnchor(text, entities, quotedStatusLink: null));
         }

@@ -7,6 +7,7 @@
   - OpenTweenの古いバージョンの翻訳機能は 2019/4/30 以降に使用できなくなります
  * CHG: 短縮URLの展開時にHTTPSが使用できるドメインは強制的にHTTPSを使用する
  * CHG: 廃止された短縮URLサービスのドメインをURL展開の対象から削除
+ * CHG: 短縮URLで生成されるURLがHTTPSになるように変更
  * CHG: 廃止された twurl.nl によるURL短縮機能を削除
  * CHG: img.azyobuzi.net 利用時の接続先をHTTPSに変更
  * CHG: 廃止されたサービスのサムネイル表示対応を削除

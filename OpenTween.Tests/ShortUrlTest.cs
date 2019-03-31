@@ -449,8 +449,8 @@ namespace OpenTween
                 handler.Enqueue(async x =>
                 {
                     Assert.Equal(HttpMethod.Post, x.Method);
-                    Assert.Equal(new Uri("http://tinyurl.com/api-create.php"), x.RequestUri);
-                    Assert.Equal("url=http%3A%2F%2Fexample.com%2Fhogehoge", await x.Content.ReadAsStringAsync());
+                    Assert.Equal(new Uri("https://tinyurl.com/api-create.php"), x.RequestUri);
+                    Assert.Equal("url=http%3A%2F%2Fexample.com%2Fhogehogehoge", await x.Content.ReadAsStringAsync());
 
                     return new HttpResponseMessage(HttpStatusCode.OK)
                     {
@@ -458,8 +458,8 @@ namespace OpenTween
                     };
                 });
 
-                Assert.Equal(new Uri("http://tinyurl.com/hoge"),
-                    await shortUrl.ShortenUrlAsync(MyCommon.UrlConverter.TinyUrl, new Uri("http://example.com/hogehoge")));
+                Assert.Equal(new Uri("https://tinyurl.com/hoge"),
+                    await shortUrl.ShortenUrlAsync(MyCommon.UrlConverter.TinyUrl, new Uri("http://example.com/hogehogehoge")));
 
                 Assert.Equal(0, handler.QueueCount);
             }
@@ -476,16 +476,16 @@ namespace OpenTween
                 handler.Enqueue(x =>
                 {
                     Assert.Equal(HttpMethod.Get, x.Method);
-                    Assert.Equal("http://ux.nu/api/short?format=plain&url=http:%2F%2Fexample.com%2Fhogehoge",
+                    Assert.Equal("https://ux.nu/api/short?format=plain&url=http:%2F%2Fexample.com%2Fhogehoge",
                         x.RequestUri.AbsoluteUri);
 
                     return new HttpResponseMessage(HttpStatusCode.OK)
                     {
-                        Content = new ByteArrayContent(Encoding.UTF8.GetBytes("http://ux.nu/hoge")),
+                        Content = new ByteArrayContent(Encoding.UTF8.GetBytes("https://ux.nu/hoge")),
                     };
                 });
 
-                Assert.Equal(new Uri("http://ux.nu/hoge"),
+                Assert.Equal(new Uri("https://ux.nu/hoge"),
                     await shortUrl.ShortenUrlAsync(MyCommon.UrlConverter.Uxnu, new Uri("http://example.com/hogehoge")));
 
                 Assert.Equal(0, handler.QueueCount);
