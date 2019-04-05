@@ -150,7 +150,6 @@
             this.UrlUndoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.TinyURLToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.IsgdToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.TwurlnlToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.BitlyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.JmpStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.UxnuMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -1304,7 +1303,6 @@
             this.UrlUndoToolStripMenuItem,
             this.TinyURLToolStripMenuItem,
             this.IsgdToolStripMenuItem,
-            this.TwurlnlToolStripMenuItem,
             this.BitlyToolStripMenuItem,
             this.JmpStripMenuItem,
             this.UxnuMenuItem});
@@ -1334,12 +1332,6 @@
             this.IsgdToolStripMenuItem.Name = "IsgdToolStripMenuItem";
             resources.ApplyResources(this.IsgdToolStripMenuItem, "IsgdToolStripMenuItem");
             this.IsgdToolStripMenuItem.Click += new System.EventHandler(this.IsgdToolStripMenuItem_Click);
-            // 
-            // TwurlnlToolStripMenuItem
-            // 
-            this.TwurlnlToolStripMenuItem.Name = "TwurlnlToolStripMenuItem";
-            resources.ApplyResources(this.TwurlnlToolStripMenuItem, "TwurlnlToolStripMenuItem");
-            this.TwurlnlToolStripMenuItem.Click += new System.EventHandler(this.TwurlnlToolStripMenuItem_Click);
             // 
             // BitlyToolStripMenuItem
             // 
@@ -2299,7 +2291,6 @@
         internal System.Windows.Forms.ToolStripMenuItem UrlUndoToolStripMenuItem;
         internal System.Windows.Forms.ToolStripMenuItem TinyURLToolStripMenuItem;
         internal System.Windows.Forms.ToolStripMenuItem IsgdToolStripMenuItem;
-        internal System.Windows.Forms.ToolStripMenuItem TwurlnlToolStripMenuItem;
         internal System.Windows.Forms.ToolStripMenuItem BitlyToolStripMenuItem;
         internal System.Windows.Forms.ToolStripMenuItem UxnuMenuItem;
         internal System.Windows.Forms.ToolStripMenuItem UpdateFollowersMenuItem1;

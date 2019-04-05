@@ -1453,12 +1453,6 @@
   <data name="IsgdToolStripMenuItem.Text" xml:space="preserve">
     <value>is.gd</value>
   </data>
-  <data name="TwurlnlToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>228, 22</value>
-  </data>
-  <data name="TwurlnlToolStripMenuItem.Text" xml:space="preserve">
-    <value>twurl.nl</value>
-  </data>
   <data name="BitlyToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>228, 22</value>
   </data>
@@ -3022,12 +3016,6 @@
     <value>IsgdToolStripMenuItem</value>
   </data>
   <data name="&gt;&gt;IsgdToolStripMenuItem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;TwurlnlToolStripMenuItem.Name" xml:space="preserve">
-    <value>TwurlnlToolStripMenuItem</value>
-  </data>
-  <data name="&gt;&gt;TwurlnlToolStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;BitlyToolStripMenuItem.Name" xml:space="preserve">

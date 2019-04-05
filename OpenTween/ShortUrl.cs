@@ -311,9 +311,6 @@ namespace OpenTween
                     case MyCommon.UrlConverter.Isgd:
                         return await this.ShortenByIsgdAsync(srcUri)
                             .ConfigureAwait(false);
-                    case MyCommon.UrlConverter.Twurl:
-                        return await this.ShortenByTwurlAsync(srcUri)
-                            .ConfigureAwait(false);
                     case MyCommon.UrlConverter.Bitly:
                         return await this.ShortenByBitlyAsync(srcUri, "bit.ly")
                             .ConfigureAwait(false);
@@ -372,31 +369,6 @@ namespace OpenTween
             });
 
             using (var response = await this.http.PostAsync("http://is.gd/create.php", content).ConfigureAwait(false))
-            {
-                response.EnsureSuccessStatusCode();
-
-                var result = await response.Content.ReadAsStringAsync()
-                    .ConfigureAwait(false);
-
-                if (!Regex.IsMatch(result, @"^https?://"))
-                    throw new WebApiException("Failed to create URL.", result);
-
-                return new Uri(result.TrimEnd());
-            }
-        }
-
-        private async Task<Uri> ShortenByTwurlAsync(Uri srcUri)
-        {
-            // 明らかに長くなると推測できる場合は短縮しない
-            if ("http://twurl.nl/xxxxxx".Length > srcUri.OriginalString.Length)
-                return srcUri;
-
-            var content = new FormUrlEncodedContent(new[]
-            {
-                new KeyValuePair<string, string>("link[url]", srcUri.OriginalString),
-            });
-
-            using (var response = await this.http.PostAsync("http://tweetburner.com/links", content).ConfigureAwait(false))
             {
                 response.EnsureSuccessStatusCode();
 

@@ -9274,9 +9274,6 @@ namespace OpenTween
         private async void IsgdToolStripMenuItem_Click(object sender, EventArgs e)
             => await this.UrlConvertAsync(MyCommon.UrlConverter.Isgd);
 
-        private async void TwurlnlToolStripMenuItem_Click(object sender, EventArgs e)
-            => await this.UrlConvertAsync(MyCommon.UrlConverter.Twurl);
-
         private async void UxnuMenuItem_Click(object sender, EventArgs e)
             => await this.UrlConvertAsync(MyCommon.UrlConverter.Uxnu);
 
