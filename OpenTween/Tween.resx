@@ -1213,15 +1213,6 @@
   <data name="OpenRepSourceOpMenuItem.Text" xml:space="preserve">
     <value>返信元ステータスを開く(&amp;I)</value>
   </data>
-  <data name="OpenFavotterOpMenuItem.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
-    <value>Ctrl+Shift+O</value>
-  </data>
-  <data name="OpenFavotterOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>289, 22</value>
-  </data>
-  <data name="OpenFavotterOpMenuItem.Text" xml:space="preserve">
-    <value>ふぁぼられを開く(&amp;P)</value>
-  </data>
   <data name="OpenUrlOpMenuItem.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
     <value>Ctrl+E</value>
   </data>
@@ -1462,12 +1453,6 @@
   <data name="IsgdToolStripMenuItem.Text" xml:space="preserve">
     <value>is.gd</value>
   </data>
-  <data name="TwurlnlToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>228, 22</value>
-  </data>
-  <data name="TwurlnlToolStripMenuItem.Text" xml:space="preserve">
-    <value>twurl.nl</value>
-  </data>
   <data name="BitlyToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>228, 22</value>
   </data>
@@ -1615,12 +1600,6 @@
   <data name="OpenOwnHomeMenuItem.Text" xml:space="preserve">
     <value>自身のホームを開く</value>
   </data>
-  <data name="OpenOwnFavedMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>257, 22</value>
-  </data>
-  <data name="OpenOwnFavedMenuItem.Text" xml:space="preserve">
-    <value>自身のふぁぼられを開く</value>
-  </data>
   <data name="ToolStripSeparator41.Size" type="System.Drawing.Size, System.Drawing">
     <value>254, 6</value>
   </data>
@@ -1635,12 +1614,6 @@
   </data>
   <data name="UserTimelineToolStripMenuItem.Text" xml:space="preserve">
     <value>ユーザーのタイムラインを開く</value>
-  </data>
-  <data name="UserFavorareToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>257, 22</value>
-  </data>
-  <data name="UserFavorareToolStripMenuItem.Text" xml:space="preserve">
-    <value>ユーザーのふぁぼられを開く</value>
   </data>
   <data name="ToolStripSeparator34.Size" type="System.Drawing.Size, System.Drawing">
     <value>254, 6</value>
@@ -1893,12 +1866,6 @@
   </data>
   <data name="MoveToRTHomeMenuItem.Text" xml:space="preserve">
     <value>RTした人のホームを開く(&amp;R)</value>
-  </data>
-  <data name="FavorareMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>205, 22</value>
-  </data>
-  <data name="FavorareMenuItem.Text" xml:space="preserve">
-    <value>ふぁぼられを開く(&amp;P)</value>
   </data>
   <data name="TabMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>222, 22</value>
@@ -2823,12 +2790,6 @@
   <data name="&gt;&gt;OpenRepSourceOpMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;OpenFavotterOpMenuItem.Name" xml:space="preserve">
-    <value>OpenFavotterOpMenuItem</value>
-  </data>
-  <data name="&gt;&gt;OpenFavotterOpMenuItem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="&gt;&gt;OpenUrlOpMenuItem.Name" xml:space="preserve">
     <value>OpenUrlOpMenuItem</value>
   </data>
@@ -3057,12 +3018,6 @@
   <data name="&gt;&gt;IsgdToolStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;TwurlnlToolStripMenuItem.Name" xml:space="preserve">
-    <value>TwurlnlToolStripMenuItem</value>
-  </data>
-  <data name="&gt;&gt;TwurlnlToolStripMenuItem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="&gt;&gt;BitlyToolStripMenuItem.Name" xml:space="preserve">
     <value>BitlyToolStripMenuItem</value>
   </data>
@@ -3201,12 +3156,6 @@
   <data name="&gt;&gt;OpenOwnHomeMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;OpenOwnFavedMenuItem.Name" xml:space="preserve">
-    <value>OpenOwnFavedMenuItem</value>
-  </data>
-  <data name="&gt;&gt;OpenOwnFavedMenuItem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="&gt;&gt;ToolStripSeparator41.Name" xml:space="preserve">
     <value>ToolStripSeparator41</value>
   </data>
@@ -3223,12 +3172,6 @@
     <value>UserTimelineToolStripMenuItem</value>
   </data>
   <data name="&gt;&gt;UserTimelineToolStripMenuItem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;UserFavorareToolStripMenuItem.Name" xml:space="preserve">
-    <value>UserFavorareToolStripMenuItem</value>
-  </data>
-  <data name="&gt;&gt;UserFavorareToolStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;ToolStripSeparator34.Name" xml:space="preserve">
@@ -3439,12 +3382,6 @@
     <value>MoveToRTHomeMenuItem</value>
   </data>
   <data name="&gt;&gt;MoveToRTHomeMenuItem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;FavorareMenuItem.Name" xml:space="preserve">
-    <value>FavorareMenuItem</value>
-  </data>
-  <data name="&gt;&gt;FavorareMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;TabMenuItem.Name" xml:space="preserve">

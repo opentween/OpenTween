@@ -632,12 +632,6 @@
   <data name="OpenRepSourceOpMenuItem.Text" xml:space="preserve">
     <value>Reply to(&amp;I)</value>
   </data>
-  <data name="OpenFavotterOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>306, 24</value>
-  </data>
-  <data name="OpenFavotterOpMenuItem.Text" xml:space="preserve">
-    <value>Favotter(&amp;P)</value>
-  </data>
   <data name="OpenUrlOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>306, 24</value>
   </data>
@@ -836,9 +830,6 @@
   <data name="IsgdToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>218, 24</value>
   </data>
-  <data name="TwurlnlToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>218, 24</value>
-  </data>
   <data name="BitlyToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>218, 24</value>
   </data>
@@ -962,12 +953,6 @@
   <data name="OpenOwnHomeMenuItem.Text" xml:space="preserve">
     <value>Open your profile page</value>
   </data>
-  <data name="OpenOwnFavedMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>294, 24</value>
-  </data>
-  <data name="OpenOwnFavedMenuItem.Text" xml:space="preserve">
-    <value>Open your Favstar page</value>
-  </data>
   <data name="ToolStripSeparator41.Size" type="System.Drawing.Size, System.Drawing">
     <value>291, 6</value>
   </data>
@@ -982,12 +967,6 @@
   </data>
   <data name="UserTimelineToolStripMenuItem.Text" xml:space="preserve">
     <value>Specified &amp;User's updates</value>
-  </data>
-  <data name="UserFavorareToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>294, 24</value>
-  </data>
-  <data name="UserFavorareToolStripMenuItem.Text" xml:space="preserve">
-    <value>Specified user's &amp;Favstar</value>
   </data>
   <data name="ToolStripSeparator34.Size" type="System.Drawing.Size, System.Drawing">
     <value>291, 6</value>
@@ -1132,12 +1111,6 @@
   </data>
   <data name="MoveToRTHomeMenuItem.Text" xml:space="preserve">
     <value>Open &amp;Retweeter Home</value>
-  </data>
-  <data name="FavorareMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>245, 24</value>
-  </data>
-  <data name="FavorareMenuItem.Text" xml:space="preserve">
-    <value>Open Favotter (&amp;P)</value>
   </data>
   <data name="TabMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>122, 22</value>

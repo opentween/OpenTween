@@ -75,16 +75,12 @@ namespace OpenTween
         private static readonly HashSet<string> ShortUrlHosts = new HashSet<string>
         {
             "4sq.com",
-            "airme.us",
             "amzn.to",
-            "bctiny.com",
             "bit.ly",
-            "bkite.com",
             "blip.fm",
             "budurl.com",
+            "budurl.me",
             "buff.ly",
-            "cli.gs",
-            "digg.com",
             "disq.us",
             "dlvr.it",
             "fb.me",
@@ -95,38 +91,25 @@ namespace OpenTween
             "goo.gl",
             "ht.ly",
             "htn.to",
-            "icanhaz.com",
             "ift.tt",
             "is.gd",
             "j.mp",
-            "linkbee.com",
             "moby.to",
             "moi.st",
             "nico.ms",
-            "nsfw.in",
+            "on.digg.com",
             "on.fb.me",
             "ow.ly",
-            "p.tl",
-            "pic.gd",
             "qurl.com",
-            "rubyurl.com",
-            "snipurl.com",
-            "snurl.com",
             "t.co",
             "tinami.jp",
             "tiny.cc",
             "tinyurl.com",
             "tl.gd",
             "tmblr.co",
-            "traceurl.com",
             "tumblr.com",
-            "twitthis.com",
             "twme.jp",
-            "twurl.nl",
-            "u-rl.jp",
-            "urlenco.de",
             "urx2.nu",
-            "ustre.am",
             "ux.nu",
             "wp.me",
             "www.qurl.com",
@@ -328,9 +311,6 @@ namespace OpenTween
                     case MyCommon.UrlConverter.Isgd:
                         return await this.ShortenByIsgdAsync(srcUri)
                             .ConfigureAwait(false);
-                    case MyCommon.UrlConverter.Twurl:
-                        return await this.ShortenByTwurlAsync(srcUri)
-                            .ConfigureAwait(false);
                     case MyCommon.UrlConverter.Bitly:
                         return await this.ShortenByBitlyAsync(srcUri, "bit.ly")
                             .ConfigureAwait(false);
@@ -389,31 +369,6 @@ namespace OpenTween
             });
 
             using (var response = await this.http.PostAsync("http://is.gd/create.php", content).ConfigureAwait(false))
-            {
-                response.EnsureSuccessStatusCode();
-
-                var result = await response.Content.ReadAsStringAsync()
-                    .ConfigureAwait(false);
-
-                if (!Regex.IsMatch(result, @"^https?://"))
-                    throw new WebApiException("Failed to create URL.", result);
-
-                return new Uri(result.TrimEnd());
-            }
-        }
-
-        private async Task<Uri> ShortenByTwurlAsync(Uri srcUri)
-        {
-            // 明らかに長くなると推測できる場合は短縮しない
-            if ("http://twurl.nl/xxxxxx".Length > srcUri.OriginalString.Length)
-                return srcUri;
-
-            var content = new FormUrlEncodedContent(new[]
-            {
-                new KeyValuePair<string, string>("link[url]", srcUri.OriginalString),
-            });
-
-            using (var response = await this.http.PostAsync("http://tweetburner.com/links", content).ConfigureAwait(false))
             {
                 response.EnsureSuccessStatusCode();
 

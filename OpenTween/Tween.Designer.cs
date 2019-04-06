@@ -112,7 +112,6 @@
             this.OpenFavOpMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.OpenStatusOpMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.OpenRepSourceOpMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.OpenFavotterOpMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.OpenUrlOpMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.OpenRterHomeMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.OpenUserSpecifiedUrlMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -151,7 +150,6 @@
             this.UrlUndoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.TinyURLToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.IsgdToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.TwurlnlToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.BitlyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.JmpStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.UxnuMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -175,11 +173,9 @@
             this.ToolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.OwnStatusMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.OpenOwnHomeMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.OpenOwnFavedMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripSeparator41 = new System.Windows.Forms.ToolStripSeparator();
             this.UserStatusToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.UserTimelineToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.UserFavorareToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripSeparator34 = new System.Windows.Forms.ToolStripSeparator();
             this.RtCountMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ListManageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -215,7 +211,6 @@
             this.OpenURLMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.IDRuleMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.MoveToRTHomeMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.FavorareMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.TabMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.OpenUserSpecifiedUrlMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.DeleteStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -1039,7 +1034,6 @@
             this.OpenFavOpMenuItem,
             this.OpenStatusOpMenuItem,
             this.OpenRepSourceOpMenuItem,
-            this.OpenFavotterOpMenuItem,
             this.OpenUrlOpMenuItem,
             this.OpenRterHomeMenuItem,
             this.OpenUserSpecifiedUrlMenuItem});
@@ -1069,12 +1063,6 @@
             this.OpenRepSourceOpMenuItem.Name = "OpenRepSourceOpMenuItem";
             resources.ApplyResources(this.OpenRepSourceOpMenuItem, "OpenRepSourceOpMenuItem");
             this.OpenRepSourceOpMenuItem.Click += new System.EventHandler(this.RepliedStatusOpenMenuItem_Click);
-            // 
-            // OpenFavotterOpMenuItem
-            // 
-            this.OpenFavotterOpMenuItem.Name = "OpenFavotterOpMenuItem";
-            resources.ApplyResources(this.OpenFavotterOpMenuItem, "OpenFavotterOpMenuItem");
-            this.OpenFavotterOpMenuItem.Click += new System.EventHandler(this.FavorareMenuItem_Click);
             // 
             // OpenUrlOpMenuItem
             // 
@@ -1298,11 +1286,9 @@
             this.ToolStripSeparator3,
             this.OwnStatusMenuItem,
             this.OpenOwnHomeMenuItem,
-            this.OpenOwnFavedMenuItem,
             this.ToolStripSeparator41,
             this.UserStatusToolStripMenuItem,
             this.UserTimelineToolStripMenuItem,
-            this.UserFavorareToolStripMenuItem,
             this.ToolStripSeparator34,
             this.RtCountMenuItem,
             this.ListManageToolStripMenuItem});
@@ -1317,7 +1303,6 @@
             this.UrlUndoToolStripMenuItem,
             this.TinyURLToolStripMenuItem,
             this.IsgdToolStripMenuItem,
-            this.TwurlnlToolStripMenuItem,
             this.BitlyToolStripMenuItem,
             this.JmpStripMenuItem,
             this.UxnuMenuItem});
@@ -1347,12 +1332,6 @@
             this.IsgdToolStripMenuItem.Name = "IsgdToolStripMenuItem";
             resources.ApplyResources(this.IsgdToolStripMenuItem, "IsgdToolStripMenuItem");
             this.IsgdToolStripMenuItem.Click += new System.EventHandler(this.IsgdToolStripMenuItem_Click);
-            // 
-            // TwurlnlToolStripMenuItem
-            // 
-            this.TwurlnlToolStripMenuItem.Name = "TwurlnlToolStripMenuItem";
-            resources.ApplyResources(this.TwurlnlToolStripMenuItem, "TwurlnlToolStripMenuItem");
-            this.TwurlnlToolStripMenuItem.Click += new System.EventHandler(this.TwurlnlToolStripMenuItem_Click);
             // 
             // BitlyToolStripMenuItem
             // 
@@ -1510,12 +1489,6 @@
             resources.ApplyResources(this.OpenOwnHomeMenuItem, "OpenOwnHomeMenuItem");
             this.OpenOwnHomeMenuItem.Click += new System.EventHandler(this.OpenOwnHomeMenuItem_Click);
             // 
-            // OpenOwnFavedMenuItem
-            // 
-            this.OpenOwnFavedMenuItem.Name = "OpenOwnFavedMenuItem";
-            resources.ApplyResources(this.OpenOwnFavedMenuItem, "OpenOwnFavedMenuItem");
-            this.OpenOwnFavedMenuItem.Click += new System.EventHandler(this.OpenOwnFavedMenuItem_Click);
-            // 
             // ToolStripSeparator41
             // 
             this.ToolStripSeparator41.Name = "ToolStripSeparator41";
@@ -1532,12 +1505,6 @@
             this.UserTimelineToolStripMenuItem.Name = "UserTimelineToolStripMenuItem";
             resources.ApplyResources(this.UserTimelineToolStripMenuItem, "UserTimelineToolStripMenuItem");
             this.UserTimelineToolStripMenuItem.Click += new System.EventHandler(this.UserTimelineToolStripMenuItem_Click);
-            // 
-            // UserFavorareToolStripMenuItem
-            // 
-            this.UserFavorareToolStripMenuItem.Name = "UserFavorareToolStripMenuItem";
-            resources.ApplyResources(this.UserFavorareToolStripMenuItem, "UserFavorareToolStripMenuItem");
-            this.UserFavorareToolStripMenuItem.Click += new System.EventHandler(this.UserFavorareToolStripMenuItem_Click);
             // 
             // ToolStripSeparator34
             // 
@@ -1766,12 +1733,6 @@
             this.MoveToRTHomeMenuItem.Name = "MoveToRTHomeMenuItem";
             resources.ApplyResources(this.MoveToRTHomeMenuItem, "MoveToRTHomeMenuItem");
             this.MoveToRTHomeMenuItem.Click += new System.EventHandler(this.MoveToRTHomeMenuItem_Click);
-            // 
-            // FavorareMenuItem
-            // 
-            this.FavorareMenuItem.Name = "FavorareMenuItem";
-            resources.ApplyResources(this.FavorareMenuItem, "FavorareMenuItem");
-            this.FavorareMenuItem.Click += new System.EventHandler(this.FavorareMenuItem_Click);
             // 
             // TabMenuItem
             // 
@@ -2044,7 +2005,6 @@
             this.MoveToFavToolStripMenuItem,
             this.StatusOpenMenuItem,
             this.RepliedStatusOpenMenuItem,
-            this.FavorareMenuItem,
             this.OpenURLMenuItem,
             this.MoveToRTHomeMenuItem,
             this.OpenUserSpecifiedUrlMenuItem2});
@@ -2295,7 +2255,6 @@
         internal System.Windows.Forms.ToolStripMenuItem OpenFavOpMenuItem;
         internal System.Windows.Forms.ToolStripMenuItem OpenStatusOpMenuItem;
         internal System.Windows.Forms.ToolStripMenuItem OpenRepSourceOpMenuItem;
-        internal System.Windows.Forms.ToolStripMenuItem OpenFavotterOpMenuItem;
         internal System.Windows.Forms.ToolStripMenuItem OpenUrlOpMenuItem;
         internal System.Windows.Forms.ToolStripMenuItem OpenRterHomeMenuItem;
         internal System.Windows.Forms.ToolStripMenuItem OpenUserSpecifiedUrlMenuItem;
@@ -2332,7 +2291,6 @@
         internal System.Windows.Forms.ToolStripMenuItem UrlUndoToolStripMenuItem;
         internal System.Windows.Forms.ToolStripMenuItem TinyURLToolStripMenuItem;
         internal System.Windows.Forms.ToolStripMenuItem IsgdToolStripMenuItem;
-        internal System.Windows.Forms.ToolStripMenuItem TwurlnlToolStripMenuItem;
         internal System.Windows.Forms.ToolStripMenuItem BitlyToolStripMenuItem;
         internal System.Windows.Forms.ToolStripMenuItem UxnuMenuItem;
         internal System.Windows.Forms.ToolStripMenuItem UpdateFollowersMenuItem1;
@@ -2343,11 +2301,9 @@
         internal System.Windows.Forms.ToolStripSeparator ToolStripSeparator3;
         internal System.Windows.Forms.ToolStripMenuItem OwnStatusMenuItem;
         internal System.Windows.Forms.ToolStripMenuItem OpenOwnHomeMenuItem;
-        internal System.Windows.Forms.ToolStripMenuItem OpenOwnFavedMenuItem;
         internal System.Windows.Forms.ToolStripSeparator ToolStripSeparator41;
         internal System.Windows.Forms.ToolStripMenuItem UserStatusToolStripMenuItem;
         internal System.Windows.Forms.ToolStripMenuItem UserTimelineToolStripMenuItem;
-        internal System.Windows.Forms.ToolStripMenuItem UserFavorareToolStripMenuItem;
         internal System.Windows.Forms.ToolStripSeparator ToolStripSeparator34;
         internal System.Windows.Forms.ToolStripMenuItem RtCountMenuItem;
         internal System.Windows.Forms.ToolStripMenuItem ListManageToolStripMenuItem;
@@ -2382,7 +2338,6 @@
         internal System.Windows.Forms.ToolStripMenuItem OpenURLMenuItem;
         internal System.Windows.Forms.ToolStripMenuItem IDRuleMenuItem;
         internal System.Windows.Forms.ToolStripMenuItem MoveToRTHomeMenuItem;
-        internal System.Windows.Forms.ToolStripMenuItem FavorareMenuItem;
         internal System.Windows.Forms.ToolStripMenuItem TabMenuItem;
         internal System.Windows.Forms.ToolStripMenuItem OpenUserSpecifiedUrlMenuItem2;
         internal System.Windows.Forms.ToolStripMenuItem DeleteStripMenuItem;

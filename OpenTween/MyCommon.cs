@@ -104,7 +104,6 @@ namespace OpenTween
         {
             TinyUrl,
             Isgd,
-            Twurl,
             Bitly,
             Jmp,
             Uxnu,
@@ -112,6 +111,7 @@ namespace OpenTween
             Nicoms,
             //廃止
             Unu = -1,
+            Twurl = -1,
         }
 
         public enum HITRESULT

@@ -1118,15 +1118,6 @@ namespace OpenTween.Properties {
         }
         
         /// <summary>
-        ///   http://ja.favstar.fm/ に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string FavstarUrl {
-            get {
-                return ResourceManager.GetString("FavstarUrl", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   フォローしています・・・ に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string FollowCommandText1 {
@@ -2314,15 +2305,6 @@ namespace OpenTween.Properties {
         internal static string SearchItem2Url {
             get {
                 return ResourceManager.GetString("SearchItem2Url", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   http://yats-data.com/yats/search?query={0} に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string SearchItem3Url {
-            get {
-                return ResourceManager.GetString("SearchItem3Url", resourceCulture);
             }
         }
         
