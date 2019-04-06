@@ -385,13 +385,13 @@
     <value>Invalid setting value.</value>
   </data>
   <data name="SearchItem1Url" xml:space="preserve">
-    <value>http://en.wikipedia.org/wiki/{0}</value>
+    <value>https://en.wikipedia.org/w/index.php?search={0}</value>
   </data>
   <data name="SearchItem2Url" xml:space="preserve">
-    <value>http://www.google.com/search?q={0}</value>
+    <value>https://www.google.com/search?q={0}</value>
   </data>
   <data name="SearchItem4Url" xml:space="preserve">
-    <value>http://search.twitter.com/search?q={0}</value>
+    <value>https://twitter.com/search?q={0}</value>
   </data>
   <data name="SetFiltersText1" xml:space="preserve">
     <value>[User: {0}]  </value>

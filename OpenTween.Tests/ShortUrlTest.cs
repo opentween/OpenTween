@@ -42,17 +42,17 @@ namespace OpenTween
             {
                 var shortUrl = new ShortUrl(http);
 
-                // http://t.co/hoge1 -> http://example.com/hoge2
+                // https://t.co/hoge1 -> http://example.com/hoge2
                 handler.Enqueue(x =>
                 {
                     Assert.Equal(HttpMethod.Head, x.Method);
-                    Assert.Equal(new Uri("http://t.co/hoge1"), x.RequestUri);
+                    Assert.Equal(new Uri("https://t.co/hoge1"), x.RequestUri);
 
                     return this.CreateRedirectResponse("http://example.com/hoge2");
                 });
 
                 Assert.Equal(new Uri("http://example.com/hoge2"),
-                    await shortUrl.ExpandUrlAsync(new Uri("http://t.co/hoge1")));
+                    await shortUrl.ExpandUrlAsync(new Uri("https://t.co/hoge1")));
 
                 Assert.Equal(0, handler.QueueCount);
             }
@@ -92,7 +92,7 @@ namespace OpenTween
 
                 shortUrl.DisableExpanding = true;
 
-                // http://t.co/hoge1 -> http://example.com/hoge2
+                // https://t.co/hoge1 -> http://example.com/hoge2
                 handler.Enqueue(x =>
                 {
                     // このリクエストは実行されないはず
@@ -100,8 +100,8 @@ namespace OpenTween
                     return this.CreateRedirectResponse("http://example.com/hoge2");
                 });
 
-                Assert.Equal(new Uri("http://t.co/hoge1"),
-                    await shortUrl.ExpandUrlAsync(new Uri("http://t.co/hoge1")));
+                Assert.Equal(new Uri("https://t.co/hoge1"),
+                    await shortUrl.ExpandUrlAsync(new Uri("https://t.co/hoge1")));
 
                 Assert.Equal(1, handler.QueueCount);
             }
@@ -115,26 +115,26 @@ namespace OpenTween
             {
                 var shortUrl = new ShortUrl(http);
 
-                // http://t.co/hoge1 -> http://bit.ly/hoge2
+                // https://t.co/hoge1 -> https://bit.ly/hoge2
                 handler.Enqueue(x =>
                 {
                     Assert.Equal(HttpMethod.Head, x.Method);
-                    Assert.Equal(new Uri("http://t.co/hoge1"), x.RequestUri);
+                    Assert.Equal(new Uri("https://t.co/hoge1"), x.RequestUri);
 
-                    return this.CreateRedirectResponse("http://bit.ly/hoge2");
+                    return this.CreateRedirectResponse("https://bit.ly/hoge2");
                 });
 
-                // http://bit.ly/hoge2 -> http://example.com/hoge3
+                // https://bit.ly/hoge2 -> http://example.com/hoge3
                 handler.Enqueue(x =>
                 {
                     Assert.Equal(HttpMethod.Head, x.Method);
-                    Assert.Equal(new Uri("http://bit.ly/hoge2"), x.RequestUri);
+                    Assert.Equal(new Uri("https://bit.ly/hoge2"), x.RequestUri);
 
                     return this.CreateRedirectResponse("http://example.com/hoge3");
                 });
 
                 Assert.Equal(new Uri("http://example.com/hoge3"),
-                    await shortUrl.ExpandUrlAsync(new Uri("http://t.co/hoge1")));
+                    await shortUrl.ExpandUrlAsync(new Uri("https://t.co/hoge1")));
 
                 Assert.Equal(0, handler.QueueCount);
             }
@@ -148,25 +148,25 @@ namespace OpenTween
             {
                 var shortUrl = new ShortUrl(http);
 
-                // http://t.co/hoge1 -> http://bit.ly/hoge2
+                // https://t.co/hoge1 -> https://bit.ly/hoge2
                 handler.Enqueue(x =>
                 {
                     Assert.Equal(HttpMethod.Head, x.Method);
-                    Assert.Equal(new Uri("http://t.co/hoge1"), x.RequestUri);
+                    Assert.Equal(new Uri("https://t.co/hoge1"), x.RequestUri);
 
-                    return this.CreateRedirectResponse("http://bit.ly/hoge2");
+                    return this.CreateRedirectResponse("https://bit.ly/hoge2");
                 });
 
-                // http://bit.ly/hoge2 -> http://tinyurl.com/hoge3
+                // https://bit.ly/hoge2 -> https://tinyurl.com/hoge3
                 handler.Enqueue(x =>
                 {
                     Assert.Equal(HttpMethod.Head, x.Method);
-                    Assert.Equal(new Uri("http://bit.ly/hoge2"), x.RequestUri);
+                    Assert.Equal(new Uri("https://bit.ly/hoge2"), x.RequestUri);
 
-                    return this.CreateRedirectResponse("http://tinyurl.com/hoge3");
+                    return this.CreateRedirectResponse("https://tinyurl.com/hoge3");
                 });
 
-                // http://tinyurl.com/hoge3 -> http://example.com/hoge4
+                // https://tinyurl.com/hoge3 -> http://example.com/hoge4
                 handler.Enqueue(x =>
                 {
                     // このリクエストは実行されないはず
@@ -174,10 +174,60 @@ namespace OpenTween
                     return this.CreateRedirectResponse("http://example.com/hoge4");
                 });
 
-                Assert.Equal(new Uri("http://tinyurl.com/hoge3"),
-                    await shortUrl.ExpandUrlAsync(new Uri("http://t.co/hoge1"), redirectLimit: 2));
+                Assert.Equal(new Uri("https://tinyurl.com/hoge3"),
+                    await shortUrl.ExpandUrlAsync(new Uri("https://t.co/hoge1"), redirectLimit: 2));
 
                 Assert.Equal(1, handler.QueueCount);
+            }
+        }
+
+        [Fact]
+        public async Task ExpandUrlAsync_UpgradeToHttpsTest()
+        {
+            var handler = new HttpMessageHandlerMock();
+            using (var http = new HttpClient(handler))
+            {
+                var shortUrl = new ShortUrl(http);
+
+                // http://t.co/hoge -> http://example.com/hoge
+                handler.Enqueue(x =>
+                {
+                    // https:// に変換されてリクエストが送信される
+                    Assert.Equal(HttpMethod.Head, x.Method);
+                    Assert.Equal(new Uri("https://t.co/hoge"), x.RequestUri);
+
+                    return this.CreateRedirectResponse("http://example.com/hoge");
+                });
+
+                Assert.Equal(new Uri("http://example.com/hoge"),
+                    await shortUrl.ExpandUrlAsync(new Uri("http://t.co/hoge")));
+
+                Assert.Equal(0, handler.QueueCount);
+            }
+        }
+
+        [Fact]
+        public async Task ExpandUrlAsync_InsecureDomainTest()
+        {
+            var handler = new HttpMessageHandlerMock();
+            using (var http = new HttpClient(handler))
+            {
+                var shortUrl = new ShortUrl(http);
+
+                // http://htn.to/hoge -> http://example.com/hoge
+                handler.Enqueue(x =>
+                {
+                    // HTTPS非対応のドメインは http:// のままリクエストが送信される
+                    Assert.Equal(HttpMethod.Head, x.Method);
+                    Assert.Equal(new Uri("http://htn.to/hoge"), x.RequestUri);
+
+                    return this.CreateRedirectResponse("http://example.com/hoge");
+                });
+
+                Assert.Equal(new Uri("http://example.com/hoge"),
+                    await shortUrl.ExpandUrlAsync(new Uri("http://htn.to/hoge")));
+
+                Assert.Equal(0, handler.QueueCount);
             }
         }
 
@@ -246,17 +296,17 @@ namespace OpenTween
             {
                 var shortUrl = new ShortUrl(http);
 
-                // http://t.co/hoge1 -> http://example.com/hoge2
+                // https://t.co/hoge1 -> http://example.com/hoge2
                 handler.Enqueue(x =>
                 {
                     Assert.Equal(HttpMethod.Head, x.Method);
-                    Assert.Equal(new Uri("http://t.co/hoge1"), x.RequestUri);
+                    Assert.Equal(new Uri("https://t.co/hoge1"), x.RequestUri);
 
                     return this.CreateRedirectResponse("http://example.com/hoge2");
                 });
 
                 Assert.Equal("http://example.com/hoge2",
-                    await shortUrl.ExpandUrlAsync("http://t.co/hoge1"));
+                    await shortUrl.ExpandUrlAsync("https://t.co/hoge1"));
 
                 Assert.Equal(0, handler.QueueCount);
             }
@@ -270,11 +320,11 @@ namespace OpenTween
             {
                 var shortUrl = new ShortUrl(http);
 
-                // http://t.co/hoge1 -> http://example.com/hoge2
+                // https://t.co/hoge1 -> http://example.com/hoge2
                 handler.Enqueue(x =>
                 {
                     Assert.Equal(HttpMethod.Head, x.Method);
-                    Assert.Equal(new Uri("http://t.co/hoge1"), x.RequestUri);
+                    Assert.Equal(new Uri("https://t.co/hoge1"), x.RequestUri);
 
                     return this.CreateRedirectResponse("http://example.com/hoge2");
                 });
@@ -317,14 +367,14 @@ namespace OpenTween
             {
                 var shortUrl = new ShortUrl(http);
 
-                // http://t.co/hoge1 -> 503 Service Unavailable
+                // https://t.co/hoge1 -> 503 Service Unavailable
                 handler.Enqueue(x =>
                 {
                     return new HttpResponseMessage(HttpStatusCode.ServiceUnavailable);
                 });
 
-                Assert.Equal(new Uri("http://t.co/hoge1"),
-                    await shortUrl.ExpandUrlAsync(new Uri("http://t.co/hoge1")));
+                Assert.Equal(new Uri("https://t.co/hoge1"),
+                    await shortUrl.ExpandUrlAsync(new Uri("https://t.co/hoge1")));
 
                 Assert.Equal(0, handler.QueueCount);
             }
@@ -338,17 +388,17 @@ namespace OpenTween
             {
                 var shortUrl = new ShortUrl(http);
 
-                // http://t.co/hoge1 -> http://example.com/hoge2
+                // https://t.co/hoge1 -> http://example.com/hoge2
                 handler.Enqueue(x =>
                 {
                     Assert.Equal(HttpMethod.Head, x.Method);
-                    Assert.Equal(new Uri("http://t.co/hoge1"), x.RequestUri);
+                    Assert.Equal(new Uri("https://t.co/hoge1"), x.RequestUri);
 
                     return this.CreateRedirectResponse("http://example.com/hoge2");
                 });
 
                 Assert.Equal("<a href=\"http://example.com/hoge2\">hogehoge</a>",
-                    await shortUrl.ExpandUrlHtmlAsync("<a href=\"http://t.co/hoge1\">hogehoge</a>"));
+                    await shortUrl.ExpandUrlHtmlAsync("<a href=\"https://t.co/hoge1\">hogehoge</a>"));
 
                 Assert.Equal(0, handler.QueueCount);
             }
@@ -399,8 +449,8 @@ namespace OpenTween
                 handler.Enqueue(async x =>
                 {
                     Assert.Equal(HttpMethod.Post, x.Method);
-                    Assert.Equal(new Uri("http://tinyurl.com/api-create.php"), x.RequestUri);
-                    Assert.Equal("url=http%3A%2F%2Fexample.com%2Fhogehoge", await x.Content.ReadAsStringAsync());
+                    Assert.Equal(new Uri("https://tinyurl.com/api-create.php"), x.RequestUri);
+                    Assert.Equal("url=http%3A%2F%2Fexample.com%2Fhogehogehoge", await x.Content.ReadAsStringAsync());
 
                     return new HttpResponseMessage(HttpStatusCode.OK)
                     {
@@ -408,8 +458,8 @@ namespace OpenTween
                     };
                 });
 
-                Assert.Equal(new Uri("http://tinyurl.com/hoge"),
-                    await shortUrl.ShortenUrlAsync(MyCommon.UrlConverter.TinyUrl, new Uri("http://example.com/hogehoge")));
+                Assert.Equal(new Uri("https://tinyurl.com/hoge"),
+                    await shortUrl.ShortenUrlAsync(MyCommon.UrlConverter.TinyUrl, new Uri("http://example.com/hogehogehoge")));
 
                 Assert.Equal(0, handler.QueueCount);
             }
@@ -426,16 +476,16 @@ namespace OpenTween
                 handler.Enqueue(x =>
                 {
                     Assert.Equal(HttpMethod.Get, x.Method);
-                    Assert.Equal("http://ux.nu/api/short?format=plain&url=http:%2F%2Fexample.com%2Fhogehoge",
+                    Assert.Equal("https://ux.nu/api/short?format=plain&url=http:%2F%2Fexample.com%2Fhogehoge",
                         x.RequestUri.AbsoluteUri);
 
                     return new HttpResponseMessage(HttpStatusCode.OK)
                     {
-                        Content = new ByteArrayContent(Encoding.UTF8.GetBytes("http://ux.nu/hoge")),
+                        Content = new ByteArrayContent(Encoding.UTF8.GetBytes("https://ux.nu/hoge")),
                     };
                 });
 
-                Assert.Equal(new Uri("http://ux.nu/hoge"),
+                Assert.Equal(new Uri("https://ux.nu/hoge"),
                     await shortUrl.ShortenUrlAsync(MyCommon.UrlConverter.Uxnu, new Uri("http://example.com/hogehoge")));
 
                 Assert.Equal(0, handler.QueueCount);

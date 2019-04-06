@@ -50,7 +50,7 @@ namespace OpenTween.Thumbnail.Services
                     return null;
 
                 var videoId = match.Groups["videoid"].Value;
-                var imgUrl = "http://i.ytimg.com/vi/" + videoId + "/hqdefault.jpg";
+                var imgUrl = "https://i.ytimg.com/vi/" + videoId + "/hqdefault.jpg";
 
                 return new ThumbnailInfo
                 {
