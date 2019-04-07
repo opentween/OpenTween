@@ -1,6 +1,6 @@
 ﻿更新履歴
 
-==== Ver 2.2.1-dev(20xx/xx/xx)
+==== Ver 2.3.0(2019/04/08)
  * CHG: 投稿欄にフォーカスしている間は一部のショートカットを無効にします (thx @pitermach, @lukaszgo1!)
   - 対象となるショートカットは Ctrl+Alt+S (Fav+RT), Ctrl+Alt+R (Fav+非公式RT), Ctrl+Alt+H (ユーザー指定のURLを開く) の3つです
   - AltGrキーを使う言語のキーボートとショートカットキーが重複する問題への対処です
