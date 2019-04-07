@@ -652,6 +652,8 @@ namespace OpenTween.Properties {
         /// <summary>
         ///   更新履歴
         ///
+        ///==== Ver 2.3.1-dev(2019/xx/xx)
+        ///
         ///==== Ver 2.3.0(2019/04/08)
         /// * CHG: 投稿欄にフォーカスしている間は一部のショートカットを無効にします (thx @pitermach, @lukaszgo1!)
         ///  - 対象となるショートカットは Ctrl+Alt+S (Fav+RT), Ctrl+Alt+R (Fav+非公式RT), Ctrl+Alt+H (ユーザー指定のURLを開く) の3つです
@@ -660,8 +662,7 @@ namespace OpenTween.Properties {
         ///  - OpenTweenの古いバージョンの翻訳機能は 2019/4/30 以降に使用できなくなります
         /// * CHG: 短縮URLの展開時にHTTPSが使用できるドメインは強制的にHTTPSを使用する
         /// * CHG: 廃止された短縮URLサービスのドメインをURL展開の対象から削除
-        /// * CHG: 短縮URLで生成されるURLがHTTPSになるように変更
-        /// * CHG: 廃止された twurl.nl によるURL短縮 [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
+        /// * CHG: 短縮URLで生成されるURLがHTTPSになるように変 [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ChangeLog {
             get {
