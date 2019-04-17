@@ -251,7 +251,6 @@ namespace OpenTween
         }
 
         private int _curItemIndex;
-        private DetailsListView _curList;
         private PostClass _curPost;
         private bool _isColumnChanged = false;
 
@@ -313,6 +312,9 @@ namespace OpenTween
 
         public TabPage CurrentTabPage
             => this.ListTab.TabPages.Cast<TabPage>().First(x => x.Text == this.CurrentTabName);
+
+        public DetailsListView CurrentListView
+            => (DetailsListView)this.CurrentTabPage.Tag;
 
         //検索処理タイプ
         internal enum SEARCHTYPE
@@ -533,7 +535,7 @@ namespace OpenTween
                     else
                     {
                         var idx = 0;
-                        foreach (var curListColumn in this._curList.Columns.Cast<ColumnHeader>())
+                        foreach (var curListColumn in this.CurrentListView.Columns.Cast<ColumnHeader>())
                         {
                             columns[idx].Width = curListColumn.Width;
                             columns[idx].DisplayIndex = curListColumn.DisplayIndex;
@@ -586,7 +588,7 @@ namespace OpenTween
                     else
                     {
                         var idx = 0;
-                        foreach (var curListColumn in this._curList.Columns.Cast<ColumnHeader>())
+                        foreach (var curListColumn in this.CurrentListView.Columns.Cast<ColumnHeader>())
                         {
                             columns[idx].Width = curListColumn.Width;
                             columns[idx].DisplayIndex = curListColumn.DisplayIndex;
@@ -703,7 +705,6 @@ namespace OpenTween
             //Win32Api.SetProxy(HttpConnection.ProxyType.Specified, "127.0.0.1", 8080, "user", "pass")
 
             Microsoft.Win32.SystemEvents.PowerModeChanged += SystemEvents_PowerModeChanged;
-            Microsoft.Win32.SystemEvents.TimeChanged += SystemEvents_TimeChanged;
 
             Regex.CacheSize = 100;
 
@@ -1070,9 +1071,9 @@ namespace OpenTween
 
             this._statuses.SelectTab(this.ListTab.SelectedTab.Text);
             _curItemIndex = -1;
-            _curList = (DetailsListView)this.CurrentTabPage.Tag;
 
             MyCommon.TwitterApiInfo.AccessLimitUpdated += TwitterApiStatus_AccessLimitUpdated;
+            Microsoft.Win32.SystemEvents.TimeChanged += SystemEvents_TimeChanged;
 
             if (SettingManager.Common.TabIconDisp)
             {
@@ -1396,9 +1397,10 @@ namespace OpenTween
         private void RefreshTimeline()
         {
             var curTabModel = this.CurrentTab;
+            var curListView = this.CurrentListView;
 
             // 現在表示中のタブのスクロール位置を退避
-            var curListScroll = this.SaveListViewScroll(this._curList, curTabModel);
+            var curListScroll = this.SaveListViewScroll(curListView, curTabModel);
 
             // 各タブのリスト上の選択位置などを退避
             var listSelections = this.SaveListViewSelection();
@@ -1420,7 +1422,7 @@ namespace OpenTween
                 {
                     using (ControlTransaction.Update(listView))
                     {
-                        if (listView == this._curList)
+                        if (listView == curListView)
                             this.PurgeListViewItemCache();
 
                         try
@@ -1459,7 +1461,7 @@ namespace OpenTween
             }
 
             // スクロール位置を復元
-            this.RestoreListViewScroll(this._curList, curTabModel, curListScroll);
+            this.RestoreListViewScroll(curListView, curTabModel, curListScroll);
 
             //新着通知
             NotifyNewPosts(notifyPosts, soundFile, addCount, newMentionOrDm);
@@ -1929,10 +1931,11 @@ namespace OpenTween
 
         private void MyList_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (_curList == null || !_curList.Equals(sender) || _curList.SelectedIndices.Count != 1) return;
+            var listView = this.CurrentListView;
+            if (!listView.Equals(sender) || listView.SelectedIndices.Count != 1) return;
 
-            _curItemIndex = _curList.SelectedIndices[0];
-            if (_curItemIndex > _curList.VirtualListSize - 1) return;
+            _curItemIndex = listView.SelectedIndices[0];
+            if (_curItemIndex > listView.VirtualListSize - 1) return;
 
             try
             {
@@ -1969,7 +1972,7 @@ namespace OpenTween
             if (!listCache.TryGetValue(Index, out var itm, out var post))
                 return;
 
-            ChangeItemStyleRead(Read, itm, post, this._curList);
+            ChangeItemStyleRead(Read, itm, post, (DetailsListView)listCache.TargetList);
         }
 
         private void ChangeItemStyleRead(bool Read, ListViewItem Item, PostClass Post, DetailsListView DList)
@@ -2033,10 +2036,11 @@ namespace OpenTween
                 return;
 
             var index = listCache.StartIndex;
+            var listView = (DetailsListView)listCache.TargetList;
             foreach (var cachedPost in listCache.Post)
             {
                 var backColor = this.JudgeColor(_post, cachedPost);
-                this._curList.ChangeItemBackColor(index++, backColor);
+                listView.ChangeItemBackColor(index++, backColor);
             }
         }
 
@@ -2057,7 +2061,7 @@ namespace OpenTween
             if (Item.Index == -1)
                 Item.BackColor = JudgeColor(_post, tPost);
             else
-                _curList.ChangeItemBackColor(Item.Index, JudgeColor(_post, tPost));
+                this.CurrentListView.ChangeItemBackColor(Item.Index, JudgeColor(_post, tPost));
         }
 
         private Color JudgeColor(PostClass BasePost, PostClass TargetPost)
@@ -2229,7 +2233,7 @@ namespace OpenTween
             _history.Add(new StatusTextHistory());
             _hisIdx = _history.Count - 1;
             if (!SettingManager.Common.FocusLockToStatusText)
-                ((Control)ListTab.SelectedTab.Tag).Focus();
+                this.CurrentListView.Focus();
             urlUndoBuffer = null;
             UrlUndoToolStripMenuItem.Enabled = false;  //Undoをできないように設定
 
@@ -2474,9 +2478,9 @@ namespace OpenTween
 
             this.RefreshTimeline();
 
-            if (this._curList != null && this.CurrentTabName == tab.TabName)
+            if (this.CurrentTabName == tab.TabName)
             {
-                using (ControlTransaction.Update(this._curList))
+                using (ControlTransaction.Update(this.CurrentListView))
                 {
                     var idx = tab.IndexOf(statusId);
                     if (idx != -1)
@@ -2576,7 +2580,7 @@ namespace OpenTween
 
             this.RefreshTimeline();
 
-            if (this._curList != null && this.CurrentTabName == tab.TabName)
+            if (this.CurrentTabName == tab.TabName)
             {
                 if (tab.TabType == MyCommon.TabUsageType.Favorites)
                 {
@@ -2584,7 +2588,7 @@ namespace OpenTween
                 }
                 else
                 {
-                    using (ControlTransaction.Update(this._curList))
+                    using (ControlTransaction.Update(this.CurrentListView))
                     {
                         foreach (var statusId in successIds)
                         {
@@ -2841,7 +2845,7 @@ namespace OpenTween
 
                 this.RefreshTimeline();
                 this.PurgeListViewItemCache();
-                this._curList?.Refresh();
+                this.CurrentListView.Refresh();
             }
             catch (WebApiException ex)
             {
@@ -2909,8 +2913,7 @@ namespace OpenTween
                 }
 
                 this.PurgeListViewItemCache();
-
-                this._curList?.Refresh();
+                this.CurrentListView.Refresh();
             }
             catch (WebApiException ex)
             {
@@ -3001,12 +3004,13 @@ namespace OpenTween
         private async Task FavoriteChange(bool FavAdd, bool multiFavoriteChangeDialogEnable = true)
         {
             var tab = this.CurrentTab;
+            var listView = this.CurrentListView;
 
             //trueでFavAdd,falseでFavRemove
-            if (tab.TabType == MyCommon.TabUsageType.DirectMessage || _curList.SelectedIndices.Count == 0
+            if (tab.TabType == MyCommon.TabUsageType.DirectMessage || listView.SelectedIndices.Count == 0
                 || !this.ExistCurrentPost) return;
 
-            if (this._curList.SelectedIndices.Count > 1)
+            if (listView.SelectedIndices.Count > 1)
             {
                 if (FavAdd)
                 {
@@ -3032,7 +3036,7 @@ namespace OpenTween
 
             if (FavAdd)
             {
-                var selectedPost = this.GetCurTabPost(_curList.SelectedIndices[0]);
+                var selectedPost = this.GetCurTabPost(listView.SelectedIndices[0]);
                 if (selectedPost.IsFav)
                 {
                     this.StatusLabel.Text = Properties.Resources.FavAddToolStripMenuItem_ClickText4;
@@ -3043,7 +3047,7 @@ namespace OpenTween
             }
             else
             {
-                var selectedPosts = this._curList.SelectedIndices.Cast<int>()
+                var selectedPosts = listView.SelectedIndices.Cast<int>()
                     .Select(x => this.GetCurTabPost(x))
                     .Where(x => x.IsFav);
 
@@ -3072,16 +3076,18 @@ namespace OpenTween
 
         private async void MoveToHomeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (_curList.SelectedIndices.Count > 0)
-                await this.OpenUriInBrowserAsync(MyCommon.TwitterUrl + GetCurTabPost(_curList.SelectedIndices[0]).ScreenName);
-            else if (_curList.SelectedIndices.Count == 0)
+            var listView = this.CurrentListView;
+            if (listView.SelectedIndices.Count > 0)
+                await this.OpenUriInBrowserAsync(MyCommon.TwitterUrl + GetCurTabPost(listView.SelectedIndices[0]).ScreenName);
+            else if (listView.SelectedIndices.Count == 0)
                 await this.OpenUriInBrowserAsync(MyCommon.TwitterUrl);
         }
 
         private async void MoveToFavToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (_curList.SelectedIndices.Count > 0)
-                await this.OpenUriInBrowserAsync(MyCommon.TwitterUrl + "#!/" + GetCurTabPost(_curList.SelectedIndices[0]).ScreenName + "/favorites");
+            var listView = this.CurrentListView;
+            if (listView.SelectedIndices.Count > 0)
+                await this.OpenUriInBrowserAsync(MyCommon.TwitterUrl + "#!/" + GetCurTabPost(listView.SelectedIndices[0]).ScreenName + "/favorites");
         }
 
         private void TweenMain_ClientSizeChanged(object sender, EventArgs e)
@@ -3143,7 +3149,7 @@ namespace OpenTween
         private void SetSortColumnByDisplayIndex(int columnIndex)
         {
             // 表示上の列の位置から ColumnHeader を求める
-            var col = this._curList.Columns.Cast<ColumnHeader>()
+            var col = this.CurrentListView.Columns.Cast<ColumnHeader>()
                 .FirstOrDefault(x => x.DisplayIndex == columnIndex);
 
             if (col == null)
@@ -3162,7 +3168,7 @@ namespace OpenTween
         private void SetSortLastColumn()
         {
             // 表示上の最後列にある ColumnHeader を求める
-            var col = this._curList.Columns.Cast<ColumnHeader>()
+            var col = this.CurrentListView.Columns.Cast<ColumnHeader>()
                 .OrderByDescending(x => x.DisplayIndex)
                 .First();
 
@@ -3184,7 +3190,7 @@ namespace OpenTween
             this._statuses.ToggleSortOrder(sortColumn);
             this.InitColumnText();
 
-            var list = this._curList;
+            var list = this.CurrentListView;
             if (_iconCol)
             {
                 list.Columns[0].Text = this.ColumnText[0];
@@ -3338,13 +3344,12 @@ namespace OpenTween
 
         private async Task doStatusDelete()
         {
-            if (this._curList == null)
+            var currentListView = this.CurrentListView;
+
+            if (currentListView.SelectedIndices.Count == 0)
                 return;
 
-            if (this._curList.SelectedIndices.Count == 0)
-                return;
-
-            var posts = this._curList.SelectedIndices.Cast<int>()
+            var posts = currentListView.SelectedIndices.Cast<int>()
                 .Select(x => this.GetCurTabPost(x))
                 .ToArray();
 
@@ -3360,7 +3365,7 @@ namespace OpenTween
             if (ret != DialogResult.OK)
                 return;
 
-            var focusedIndex = this._curList.FocusedItem?.Index ?? this._curList.TopItem?.Index ?? 0;
+            var focusedIndex = currentListView.FocusedItem?.Index ?? currentListView.TopItem?.Index ?? 0;
 
             using (ControlTransaction.Cursor(this, Cursors.WaitCursor))
             {
@@ -3466,10 +3471,11 @@ namespace OpenTween
 
         private void ReadedStripMenuItem_Click(object sender, EventArgs e)
         {
-            using (ControlTransaction.Update(this._curList))
+            var listView = this.CurrentListView;
+            using (ControlTransaction.Update(listView))
             {
                 var tab = this.CurrentTab;
-                foreach (int idx in _curList.SelectedIndices)
+                foreach (int idx in listView.SelectedIndices)
                 {
                     var post = tab[idx];
                     this._statuses.SetReadAllTab(post.StatusId, read: true);
@@ -3492,10 +3498,11 @@ namespace OpenTween
 
         private void UnreadStripMenuItem_Click(object sender, EventArgs e)
         {
-            using (ControlTransaction.Update(this._curList))
+            var listView = this.CurrentListView;
+            using (ControlTransaction.Update(listView))
             {
                 var tab = this.CurrentTab;
-                foreach (int idx in _curList.SelectedIndices)
+                foreach (int idx in listView.SelectedIndices)
                 {
                     var post = tab[idx];
                     this._statuses.SetReadAllTab(post.StatusId, read: false);
@@ -3762,7 +3769,7 @@ namespace OpenTween
                     SetNotifyIconText();
 
                     this.PurgeListViewItemCache();
-                    _curList?.Refresh();
+                    this.CurrentListView.Refresh();
                     ListTab.Refresh();
 
                     _hookGlobalHotkey.UnregisterAllOriginalHotkey();
@@ -4296,7 +4303,6 @@ namespace OpenTween
                 if (this.CurrentTabPage.Equals(_tabPage))
                 {
                     _curItemIndex = -1;
-                    _curList = null;
                     _curPost = null;
                 }
                 this.PurgeListViewItemCache();
@@ -4379,16 +4385,16 @@ namespace OpenTween
 
         private void SetListProperty()
         {
-            //削除などで見つからない場合は処理せず
-            if (_curList == null) return;
             if (!_isColumnChanged) return;
 
-            int[] dispOrder = new int[_curList.Columns.Count];
-            for (int i = 0; i < _curList.Columns.Count; i++)
+            var currentListView = this.CurrentListView;
+
+            int[] dispOrder = new int[currentListView.Columns.Count];
+            for (int i = 0; i < currentListView.Columns.Count; i++)
             {
-                for (int j = 0; j < _curList.Columns.Count; j++)
+                for (int j = 0; j < currentListView.Columns.Count; j++)
                 {
-                    if (_curList.Columns[j].DisplayIndex == i)
+                    if (currentListView.Columns[j].DisplayIndex == i)
                     {
                         dispOrder[i] = j;
                         break;
@@ -4409,7 +4415,7 @@ namespace OpenTween
                         for (int i = 0; i < lst.Columns.Count; i++)
                         {
                             lst.Columns[dispOrder[i]].DisplayIndex = i;
-                            lst.Columns[i].Width = _curList.Columns[i].Width;
+                            lst.Columns[i].Width = currentListView.Columns[i].Width;
                         }
                     }
                 }
@@ -4758,7 +4764,7 @@ namespace OpenTween
 
         private void MyList_CacheVirtualItems(object sender, CacheVirtualItemsEventArgs e)
         {
-            if (sender != this._curList)
+            if (sender != this.CurrentListView)
                 return;
 
             var listCache = this._listItemCache;
@@ -4824,7 +4830,7 @@ namespace OpenTween
 
             var listCache = new ListViewItemCache
             {
-                TargetList = this._curList,
+                TargetList = this.CurrentListView,
                 StartIndex = startIndex,
                 EndIndex = endIndex,
                 Post = posts,
@@ -5207,7 +5213,8 @@ namespace OpenTween
                 return;
             }
 
-            var selectedIndex = this._curList.SelectedIndices.Count != 0 ? this._curList.SelectedIndices[0] : -1;
+            var listView = this.CurrentListView;
+            var selectedIndex = listView.SelectedIndices.Count != 0 ? listView.SelectedIndices[0] : -1;
 
             int startIndex;
             switch (searchType)
@@ -5254,8 +5261,8 @@ namespace OpenTween
                 return;
             }
 
-            this.SelectListItem(this._curList, foundIndex);
-            this._curList.EnsureVisible(foundIndex);
+            this.SelectListItem(listView, foundIndex);
+            listView.EnsureVisible(foundIndex);
         }
 
         private void MenuItemSubSearch_Click(object sender, EventArgs e)
@@ -5500,9 +5507,10 @@ namespace OpenTween
         private async void StatusOpenMenuItem_Click(object sender, EventArgs e)
         {
             var tab = this.CurrentTab;
-            if (_curList.SelectedIndices.Count > 0 && tab.TabType != MyCommon.TabUsageType.DirectMessage)
+            var listView = this.CurrentListView;
+            if (listView.SelectedIndices.Count > 0 && tab.TabType != MyCommon.TabUsageType.DirectMessage)
             {
-                var post = tab[_curList.SelectedIndices[0]];
+                var post = tab[listView.SelectedIndices[0]];
                 await this.OpenUriInBrowserAsync(MyCommon.GetStatusUrl(post));
             }
         }
@@ -5663,7 +5671,7 @@ namespace OpenTween
 
         private async Task DispSelectedPost(bool forceupdate)
         {
-            if (_curList.SelectedIndices.Count == 0 || _curPost == null)
+            if (this.CurrentListView.SelectedIndices.Count == 0 || _curPost == null)
                 return;
 
             var oldDisplayPost = this.displayPost;
@@ -6129,24 +6137,26 @@ namespace OpenTween
                 ShortcutCommand.Create(Keys.Control | Keys.Shift | Keys.Up)
                     .FocusedOn(FocusedControl.StatusText)
                     .Do(() => {
-                        if (_curList != null && _curList.VirtualListSize != 0 &&
-                                    _curList.SelectedIndices.Count > 0 && _curList.SelectedIndices[0] > 0)
+                        var listView = this.CurrentListView;
+                        if (listView.VirtualListSize != 0 &&
+                            listView.SelectedIndices.Count > 0 && listView.SelectedIndices[0] > 0)
                         {
-                            var idx = _curList.SelectedIndices[0] - 1;
-                            SelectListItem(_curList, idx);
-                            _curList.EnsureVisible(idx);
+                            var idx = listView.SelectedIndices[0] - 1;
+                            SelectListItem(listView, idx);
+                            listView.EnsureVisible(idx);
                         }
                     }),
 
                 ShortcutCommand.Create(Keys.Control | Keys.Shift | Keys.Down)
                     .FocusedOn(FocusedControl.StatusText)
                     .Do(() => {
-                        if (_curList != null && _curList.VirtualListSize != 0 && _curList.SelectedIndices.Count > 0
-                                    && _curList.SelectedIndices[0] < _curList.VirtualListSize - 1)
+                        var listView = this.CurrentListView;
+                        if (listView.VirtualListSize != 0 && listView.SelectedIndices.Count > 0
+                            && listView.SelectedIndices[0] < listView.VirtualListSize - 1)
                         {
-                            var idx = _curList.SelectedIndices[0] + 1;
-                            SelectListItem(_curList, idx);
-                            _curList.EnsureVisible(idx);
+                            var idx = listView.SelectedIndices[0] + 1;
+                            SelectListItem(listView, idx);
+                            listView.EnsureVisible(idx);
                         }
                     }),
 
@@ -6301,7 +6311,7 @@ namespace OpenTween
             var tab = this.CurrentTab;
             bool IsProtected = false;
             var isDm = tab.TabType == MyCommon.TabUsageType.DirectMessage;
-            foreach (int idx in _curList.SelectedIndices)
+            foreach (int idx in this.CurrentListView.SelectedIndices)
             {
                 var post = tab[idx];
                 if (post.IsDeleted) continue;
@@ -6342,7 +6352,7 @@ namespace OpenTween
                 return;
 
             var copyUrls = new List<string>();
-            foreach (int idx in _curList.SelectedIndices)
+            foreach (int idx in this.CurrentListView.SelectedIndices)
             {
                 var post = tab[idx];
                 copyUrls.Add(MyCommon.GetStatusUrl(post));
@@ -6363,34 +6373,35 @@ namespace OpenTween
 
         private void GoFav(bool forward)
         {
-            if (_curList.VirtualListSize == 0) return;
+            var listView = this.CurrentListView;
+            if (listView.VirtualListSize == 0) return;
             int fIdx = 0;
             int toIdx = 0;
             int stp = 1;
 
             if (forward)
             {
-                if (_curList.SelectedIndices.Count == 0)
+                if (listView.SelectedIndices.Count == 0)
                 {
                     fIdx = 0;
                 }
                 else
                 {
-                    fIdx = _curList.SelectedIndices[0] + 1;
-                    if (fIdx > _curList.VirtualListSize - 1) return;
+                    fIdx = listView.SelectedIndices[0] + 1;
+                    if (fIdx > listView.VirtualListSize - 1) return;
                 }
-                toIdx = _curList.VirtualListSize;
+                toIdx = listView.VirtualListSize;
                 stp = 1;
             }
             else
             {
-                if (_curList.SelectedIndices.Count == 0)
+                if (listView.SelectedIndices.Count == 0)
                 {
-                    fIdx = _curList.VirtualListSize - 1;
+                    fIdx = listView.VirtualListSize - 1;
                 }
                 else
                 {
-                    fIdx = _curList.SelectedIndices[0] - 1;
+                    fIdx = listView.SelectedIndices[0] - 1;
                     if (fIdx < 0) return;
                 }
                 toIdx = -1;
@@ -6402,8 +6413,8 @@ namespace OpenTween
             {
                 if (tab[idx].IsFav)
                 {
-                    SelectListItem(_curList, idx);
-                    _curList.EnsureVisible(idx);
+                    SelectListItem(listView, idx);
+                    listView.EnsureVisible(idx);
                     break;
                 }
             }
@@ -6411,7 +6422,8 @@ namespace OpenTween
 
         private void GoSamePostToAnotherTab(bool left)
         {
-            if (this._curList.SelectedIndices.Count == 0)
+            var listView = this.CurrentListView;
+            if (listView.SelectedIndices.Count == 0)
                 return;
 
             var tab = this.CurrentTab;
@@ -6420,7 +6432,7 @@ namespace OpenTween
             if (tab.TabType == MyCommon.TabUsageType.DirectMessage)
                 return;
 
-            var selectedIndex = this._curList.SelectedIndices[0];
+            var selectedIndex = listView.SelectedIndices[0];
             var selectedStatusId = tab.GetStatusIdAt(selectedIndex);
 
             int fIdx, toIdx, stp;
@@ -6466,8 +6478,9 @@ namespace OpenTween
                 if (foundIndex != -1)
                 {
                     ListTab.SelectedIndex = tabidx;
-                    SelectListItem(_curList, foundIndex);
-                    _curList.EnsureVisible(foundIndex);
+                    listView = this.CurrentListView;
+                    SelectListItem(listView, foundIndex);
+                    listView.EnsureVisible(foundIndex);
                     return;
                 }
             }
@@ -6475,11 +6488,12 @@ namespace OpenTween
 
         private void GoPost(bool forward)
         {
-            if (_curList.SelectedIndices.Count == 0 || _curPost == null)
+            var listView = this.CurrentListView;
+            if (listView.SelectedIndices.Count == 0 || _curPost == null)
                 return;
 
             var tab = this.CurrentTab;
-            var selectedIndex = this._curList.SelectedIndices[0];
+            var selectedIndex = listView.SelectedIndices[0];
 
             int fIdx, toIdx, stp;
 
@@ -6514,8 +6528,8 @@ namespace OpenTween
                 {
                     if (post.ScreenName == name)
                     {
-                        SelectListItem(_curList, idx);
-                        _curList.EnsureVisible(idx);
+                        SelectListItem(listView, idx);
+                        listView.EnsureVisible(idx);
                         break;
                     }
                 }
@@ -6523,8 +6537,8 @@ namespace OpenTween
                 {
                     if (post.RetweetedBy == name)
                     {
-                        SelectListItem(_curList, idx);
-                        _curList.EnsureVisible(idx);
+                        SelectListItem(listView, idx);
+                        listView.EnsureVisible(idx);
                         break;
                     }
                 }
@@ -6533,11 +6547,12 @@ namespace OpenTween
 
         private void GoRelPost(bool forward)
         {
-            if (this._curList.SelectedIndices.Count == 0)
+            var listView = this.CurrentListView;
+            if (listView.SelectedIndices.Count == 0)
                 return;
 
             var tab = this.CurrentTab;
-            var selectedIndex = this._curList.SelectedIndices[0];
+            var selectedIndex = listView.SelectedIndices[0];
 
             int fIdx, toIdx, stp;
 
@@ -6579,8 +6594,8 @@ namespace OpenTween
                     post.ReplyToList.Any(x => x.UserId == _anchorPost.UserId) ||
                     post.ReplyToList.Any(x => x.UserId == _anchorPost.RetweetedByUserId))
                 {
-                    SelectListItem(_curList, idx);
-                    _curList.EnsureVisible(idx);
+                    SelectListItem(listView, idx);
+                    listView.EnsureVisible(idx);
                     break;
                 }
             }
@@ -6592,13 +6607,15 @@ namespace OpenTween
             int idx = this.CurrentTab.IndexOf(_anchorPost.StatusId);
             if (idx == -1) return;
 
-            SelectListItem(_curList, idx);
-            _curList.EnsureVisible(idx);
+            var listView = this.CurrentListView;
+            SelectListItem(listView, idx);
+            listView.EnsureVisible(idx);
         }
 
         private void GoTopEnd(bool GoTop)
         {
-            if (_curList.VirtualListSize == 0)
+            var listView = this.CurrentListView;
+            if (listView.VirtualListSize == 0)
                 return;
 
             ListViewItem _item;
@@ -6606,7 +6623,7 @@ namespace OpenTween
 
             if (GoTop)
             {
-                _item = _curList.GetItemAt(0, 25);
+                _item = listView.GetItemAt(0, 25);
                 if (_item == null)
                     idx = 0;
                 else
@@ -6614,18 +6631,19 @@ namespace OpenTween
             }
             else
             {
-                _item = _curList.GetItemAt(0, _curList.ClientSize.Height - 1);
+                _item = listView.GetItemAt(0, listView.ClientSize.Height - 1);
                 if (_item == null)
-                    idx = _curList.VirtualListSize - 1;
+                    idx = listView.VirtualListSize - 1;
                 else
                     idx = _item.Index;
             }
-            SelectListItem(_curList, idx);
+            SelectListItem(listView, idx);
         }
 
         private void GoMiddle()
         {
-            if (_curList.VirtualListSize == 0)
+            var listView = this.CurrentListView;
+            if (listView.VirtualListSize == 0)
                 return;
 
             ListViewItem _item;
@@ -6633,7 +6651,7 @@ namespace OpenTween
             int idx2;
             int idx3;
 
-            _item = _curList.GetItemAt(0, 0);
+            _item = listView.GetItemAt(0, 0);
             if (_item == null)
             {
                 idx1 = 0;
@@ -6643,10 +6661,10 @@ namespace OpenTween
                 idx1 = _item.Index;
             }
 
-            _item = _curList.GetItemAt(0, _curList.ClientSize.Height - 1);
+            _item = listView.GetItemAt(0, listView.ClientSize.Height - 1);
             if (_item == null)
             {
-                idx2 = _curList.VirtualListSize - 1;
+                idx2 = listView.VirtualListSize - 1;
             }
             else
             {
@@ -6654,38 +6672,40 @@ namespace OpenTween
             }
             idx3 = (idx1 + idx2) / 2;
 
-            SelectListItem(_curList, idx3);
+            SelectListItem(listView, idx3);
         }
 
         private void GoLast()
         {
-            if (_curList.VirtualListSize == 0) return;
+            var listView = this.CurrentListView;
+            if (listView.VirtualListSize == 0) return;
 
             if (_statuses.SortOrder == SortOrder.Ascending)
             {
-                SelectListItem(_curList, _curList.VirtualListSize - 1);
-                _curList.EnsureVisible(_curList.VirtualListSize - 1);
+                SelectListItem(listView, listView.VirtualListSize - 1);
+                listView.EnsureVisible(listView.VirtualListSize - 1);
             }
             else
             {
-                SelectListItem(_curList, 0);
-                _curList.EnsureVisible(0);
+                SelectListItem(listView, 0);
+                listView.EnsureVisible(0);
             }
         }
 
         private void MoveTop()
         {
-            if (_curList.SelectedIndices.Count == 0) return;
-            int idx = _curList.SelectedIndices[0];
+            var listView = this.CurrentListView;
+            if (listView.SelectedIndices.Count == 0) return;
+            int idx = listView.SelectedIndices[0];
             if (_statuses.SortOrder == SortOrder.Ascending)
             {
-                _curList.EnsureVisible(_curList.VirtualListSize - 1);
+                listView.EnsureVisible(listView.VirtualListSize - 1);
             }
             else
             {
-                _curList.EnsureVisible(0);
+                listView.EnsureVisible(0);
             }
-            _curList.EnsureVisible(idx);
+            listView.EnsureVisible(idx);
         }
 
         private async Task GoInReplyToPostTree()
@@ -6704,7 +6724,7 @@ namespace OpenTween
                     _curPost.InReplyToUser = post.InReplyToUser;
                     _curPost.IsReply = post.IsReply;
                     this.PurgeListViewItemCache();
-                    _curList.RedrawItems(_curItemIndex, _curItemIndex, false);
+                    this.CurrentListView.RedrawItems(_curItemIndex, _curItemIndex, false);
                 }
                 catch (WebApiException ex)
                 {
@@ -6814,7 +6834,7 @@ namespace OpenTween
                         if (post == null) post = postList.FirstOrDefault((pst) => { return pst.Tab != curTabClass; });
                         if (post == null) post = postList.First();
                         this.ListTab.SelectTab(this.ListTab.TabPages.Cast<TabPage>().First((tp) => { return tp.Text == post.Tab.TabName; }));
-                        DetailsListView listView = (DetailsListView)this.ListTab.SelectedTab.Tag;
+                        var listView = this.CurrentListView;
                         SelectListItem(listView, post.Index);
                         listView.EnsureVisible(post.Index);
                     }
@@ -6840,7 +6860,7 @@ namespace OpenTween
                     {
                         var post = posts.First();
                         this.ListTab.SelectTab(this.ListTab.TabPages.Cast<TabPage>().First((tp) => { return tp.Text == post.Tab.TabName; }));
-                        DetailsListView listView = (DetailsListView)this.ListTab.SelectedTab.Tag;
+                        var listView = this.CurrentListView;
                         SelectListItem(listView, post.Index);
                         listView.EnsureVisible(post.Index);
                     }
@@ -6869,8 +6889,9 @@ namespace OpenTween
                             {
                                 replyChains = null;
                             }
-                            SelectListItem(_curList, idx);
-                            _curList.EnsureVisible(idx);
+                            var listView = this.CurrentListView;
+                            SelectListItem(listView, idx);
+                            listView.EnsureVisible(idx);
                         }
                     }
                     else
@@ -6977,8 +6998,9 @@ namespace OpenTween
                 {
                     int idx = _statuses.Tabs[ListTab.TabPages[tabidx].Text].IndexOf(statusId);
                     ListTab.SelectedIndex = tabidx;
-                    SelectListItem(_curList, idx);
-                    _curList.EnsureVisible(idx);
+                    var listView = this.CurrentListView;
+                    SelectListItem(listView, idx);
+                    listView.EnsureVisible(idx);
                     return true;
                 }
             }
@@ -6994,8 +7016,9 @@ namespace OpenTween
                 {
                     int idx = _statuses.Tabs[ListTab.TabPages[tabidx].Text].IndexOf(statusId);
                     ListTab.SelectedIndex = tabidx;
-                    SelectListItem(_curList, idx);
-                    _curList.EnsureVisible(idx);
+                    var listView = this.CurrentListView;
+                    SelectListItem(listView, idx);
+                    listView.EnsureVisible(idx);
                     return true;
                 }
             }
@@ -7251,10 +7274,11 @@ namespace OpenTween
                 if (!SaveFileDialog1.ValidateNames) return;
                 using (StreamWriter sw = new StreamWriter(SaveFileDialog1.FileName, false, Encoding.UTF8))
                 {
+                    var listView = this.CurrentListView;
                     if (rslt == DialogResult.Yes)
                     {
                         //All
-                        for (int idx = 0; idx < _curList.VirtualListSize; idx++)
+                        for (int idx = 0; idx < listView.VirtualListSize; idx++)
                         {
                             var post = tab[idx];
                             string protect = "";
@@ -7271,7 +7295,7 @@ namespace OpenTween
                     }
                     else
                     {
-                        foreach (int idx in _curList.SelectedIndices)
+                        foreach (int idx in listView.SelectedIndices)
                         {
                             var post = tab[idx];
                             string protect = "";
@@ -7456,20 +7480,20 @@ namespace OpenTween
             //isAuto:true=先頭に挿入、false=カーソル位置に挿入
             //isReply:true=@,false=DM
             if (!StatusText.Enabled) return;
-            if (_curList == null) return;
             if (!this.ExistCurrentPost) return;
 
             var tab = this.CurrentTab;
+            var listView = this.CurrentListView;
 
             // 複数あてリプライはReplyではなく通常ポスト
             //↑仕様変更で全部リプライ扱いでＯＫ（先頭ドット付加しない）
             //090403暫定でドットを付加しないようにだけ修正。単独と複数の処理は統合できると思われる。
             //090513 all @ replies 廃止の仕様変更によりドット付加に戻し(syo68k)
 
-            if (_curList.SelectedIndices.Count > 0)
+            if (listView.SelectedIndices.Count > 0)
             {
                 // アイテムが1件以上選択されている
-                if (_curList.SelectedIndices.Count == 1 && !isAll && this.ExistCurrentPost)
+                if (listView.SelectedIndices.Count == 1 && !isAll && this.ExistCurrentPost)
                 {
                     // 単独ユーザー宛リプライまたはDM
                     if ((tab.TabType == MyCommon.TabUsageType.DirectMessage && isAuto) || (!isAuto && !isReply))
@@ -7587,9 +7611,9 @@ namespace OpenTween
                             sTxt = ". " + sTxt;
                             this.inReplyTo = null;
                         }
-                        for (int cnt = 0; cnt < _curList.SelectedIndices.Count; cnt++)
+                        for (int cnt = 0; cnt < listView.SelectedIndices.Count; cnt++)
                         {
-                            PostClass post = tab[_curList.SelectedIndices[cnt]];
+                            PostClass post = tab[listView.SelectedIndices[cnt]];
                             if (!sTxt.Contains("@" + post.ScreenName + " "))
                             {
                                 sTxt = sTxt.Insert(2, "@" + post.ScreenName + " ");
@@ -7601,15 +7625,15 @@ namespace OpenTween
                     else
                     {
                         //C-S-r or C-r
-                        if (_curList.SelectedIndices.Count > 1)
+                        if (listView.SelectedIndices.Count > 1)
                         {
                             //複数ポスト選択
 
                             string ids = "";
                             int sidx = StatusText.SelectionStart;
-                            for (int cnt = 0; cnt < _curList.SelectedIndices.Count; cnt++)
+                            for (int cnt = 0; cnt < listView.SelectedIndices.Count; cnt++)
                             {
-                                PostClass post = tab[_curList.SelectedIndices[cnt]];
+                                PostClass post = tab[listView.SelectedIndices[cnt]];
                                 if (!ids.Contains("@" + post.ScreenName + " ") && post.UserId != tw.UserId)
                                 {
                                     ids += "@" + post.ScreenName + " ";
@@ -7945,7 +7969,7 @@ namespace OpenTween
             if (this.CurrentTabName == tabName)
             {
                 this.PurgeListViewItemCache();
-                _curList.Refresh();
+                this.CurrentListView.Refresh();
             }
 
             SetMainWindowTitle();
@@ -8073,7 +8097,7 @@ namespace OpenTween
                 fltDialog.Owner = this;
 
                 //選択発言を元にフィルタ追加
-                foreach (int idx in _curList.SelectedIndices)
+                foreach (int idx in this.CurrentListView.SelectedIndices)
                 {
                     //タブ選択（or追加）
                     if (!SelectTab(out var tabName)) return;
@@ -8096,8 +8120,9 @@ namespace OpenTween
             this.ApplyPostFilters();
             SaveConfigsTabs();
 
-            if (_curList.SelectedIndices.Count > 0)
-                _curPost = this.CurrentTab[_curList.SelectedIndices[0]];
+            var listView = this.CurrentListView;
+            if (listView.SelectedIndices.Count > 0)
+                _curPost = this.CurrentTab[listView.SelectedIndices[0]];
         }
 
         protected override bool ProcessDialogKey(Keys keyData)
@@ -8196,11 +8221,13 @@ namespace OpenTween
 
         private void IDRuleMenuItem_Click(object sender, EventArgs e)
         {
+            var listView = this.CurrentListView;
+
             //未選択なら処理終了
-            if (_curList.SelectedIndices.Count == 0) return;
+            if (listView.SelectedIndices.Count == 0) return;
 
             var tab = this.CurrentTab;
-            var screenNameArray = this._curList.SelectedIndices.Cast<int>()
+            var screenNameArray = listView.SelectedIndices.Cast<int>()
                 .Select(x => tab[x])
                 .Select(x => x.RetweetedId != null ? x.RetweetedBy : x.ScreenName)
                 .ToArray();
@@ -8222,11 +8249,12 @@ namespace OpenTween
 
         private void SourceRuleMenuItem_Click(object sender, EventArgs e)
         {
-            if (this._curList.SelectedIndices.Count == 0)
+            var listView = this.CurrentListView;
+            if (listView.SelectedIndices.Count == 0)
                 return;
 
             var tab = this.CurrentTab;
-            var sourceArray = this._curList.SelectedIndices.Cast<int>()
+            var sourceArray = listView.SelectedIndices.Cast<int>()
                 .Select(x => tab[x].Source).ToArray();
 
             this.AddFilterRuleBySource(sourceArray);
@@ -8399,7 +8427,7 @@ namespace OpenTween
             else
             {
                 // ListView上でのCtrl+A
-                NativeMethods.SelectAllItems(this._curList);
+                NativeMethods.SelectAllItems(this.CurrentListView);
             }
         }
 
@@ -8409,27 +8437,28 @@ namespace OpenTween
             int idx1;
             int idx2;
 
-            if (_curList.SelectedIndices.Count == 0) return;
+            var listView = this.CurrentListView;
+            if (listView.SelectedIndices.Count == 0) return;
 
-            int idx = _curList.SelectedIndices[0];
+            int idx = listView.SelectedIndices[0];
 
-            _item = _curList.GetItemAt(0, 25);
+            _item = listView.GetItemAt(0, 25);
             if (_item == null)
                 idx1 = 0;
             else
                 idx1 = _item.Index;
 
-            _item = _curList.GetItemAt(0, _curList.ClientSize.Height - 1);
+            _item = listView.GetItemAt(0, listView.ClientSize.Height - 1);
             if (_item == null)
-                idx2 = _curList.VirtualListSize - 1;
+                idx2 = listView.VirtualListSize - 1;
             else
                 idx2 = _item.Index;
 
             idx -= Math.Abs(idx1 - idx2) / 2;
             if (idx < 0) idx = 0;
 
-            _curList.EnsureVisible(_curList.VirtualListSize - 1);
-            _curList.EnsureVisible(idx);
+            listView.EnsureVisible(listView.VirtualListSize - 1);
+            listView.EnsureVisible(idx);
         }
 
         private async void OpenURLMenuItem_Click(object sender, EventArgs e)
@@ -9702,11 +9731,11 @@ namespace OpenTween
             this.PurgeListViewItemCache();
 
             this._statuses.SelectTab(_tab.Text);
-            _curList = (DetailsListView)_tab.Tag;
 
-            if (_curList.SelectedIndices.Count > 0)
+            var listView = this.CurrentListView;
+            if (listView.SelectedIndices.Count > 0)
             {
-                _curItemIndex = _curList.SelectedIndices[0];
+                _curItemIndex = listView.SelectedIndices[0];
                 _curPost = GetCurTabPost(_curItemIndex);
             }
             else
@@ -9720,13 +9749,13 @@ namespace OpenTween
 
             if (_iconCol)
             {
-                ((DetailsListView)_tab.Tag).Columns[1].Text = ColumnText[2];
+                listView.Columns[1].Text = ColumnText[2];
             }
             else
             {
-                for (int i = 0; i < _curList.Columns.Count; i++)
+                for (int i = 0; i < listView.Columns.Count; i++)
                 {
-                    ((DetailsListView)_tab.Tag).Columns[i].Text = ColumnText[i];
+                    listView.Columns[i].Text = ColumnText[i];
                 }
             }
         }
@@ -9921,13 +9950,15 @@ namespace OpenTween
                     _DoFavRetweetFlags = false;
                     return;
                 }
-                if (_curList.SelectedIndices.Count > 15)
+
+                var listView = this.CurrentListView;
+                if (listView.SelectedIndices.Count > 15)
                 {
                     MessageBox.Show(Properties.Resources.RetweetLimitText);
                     _DoFavRetweetFlags = false;
                     return;
                 }
-                else if (_curList.SelectedIndices.Count > 1)
+                else if (listView.SelectedIndices.Count > 1)
                 {
                     string QuestionText = Properties.Resources.RetweetQuestion2;
                     if (_DoFavRetweetFlags) QuestionText = Properties.Resources.FavoriteRetweetQuestionText1;
@@ -9954,7 +9985,7 @@ namespace OpenTween
                 }
 
                 var statusIds = new List<long>();
-                foreach (int idx in _curList.SelectedIndices)
+                foreach (int idx in listView.SelectedIndices)
                 {
                     PostClass post = GetCurTabPost(idx);
                     if (post.CanRetweetBy(this.twitterApi.CurrentUserId))
@@ -10615,12 +10646,13 @@ namespace OpenTween
 
         private async Task doMoveToRTHome()
         {
-            if (_curList.SelectedIndices.Count > 0)
+            var listView = this.CurrentListView;
+            if (listView.SelectedIndices.Count > 0)
             {
-                PostClass post = GetCurTabPost(_curList.SelectedIndices[0]);
+                PostClass post = GetCurTabPost(listView.SelectedIndices[0]);
                 if (post.RetweetedId != null)
                 {
-                    await this.OpenUriInBrowserAsync("https://twitter.com/" + GetCurTabPost(_curList.SelectedIndices[0]).RetweetedBy);
+                    await this.OpenUriInBrowserAsync("https://twitter.com/" + GetCurTabPost(listView.SelectedIndices[0]).RetweetedBy);
                 }
             }
         }
@@ -11117,7 +11149,7 @@ namespace OpenTween
         {
             TimelinePanel.Visible = true;
             TimelinePanel.Enabled = true;
-            ((DetailsListView)ListTab.SelectedTab.Tag).Focus();
+            this.CurrentListView.Focus();
         }
 
         private void ImageSelector_FilePickDialogOpening(object sender, EventArgs e)
@@ -11340,7 +11372,7 @@ namespace OpenTween
                         if (this.CurrentTab.Contains(e.StatusId))
                         {
                             this.PurgeListViewItemCache();
-                            this._curList.Update();
+                            this.CurrentListView.Update();
                             if (_curPost != null && _curPost.StatusId == e.StatusId)
                                 await this.DispSelectedPost(true);
                         }
@@ -11464,7 +11496,7 @@ namespace OpenTween
                 if (this.CurrentTab.Contains(ev.Id))
                 {
                     this.PurgeListViewItemCache();
-                    this._curList.Update();
+                    this.CurrentListView.Update();
                 }
                 if (ev.Event == "unfavorite" && ev.Username.Equals(tw.Username, StringComparison.InvariantCultureIgnoreCase))
                 {
@@ -11721,7 +11753,7 @@ namespace OpenTween
             {
                 // タイムゾーンの変更を反映
                 this.PurgeListViewItemCache();
-                this._curList.Refresh();
+                this.CurrentListView.Refresh();
 
                 await this.DispSelectedPost(forceupdate: true);
             }
@@ -11870,7 +11902,7 @@ namespace OpenTween
                 }
             }
 
-            _curList?.Refresh();
+            this.CurrentListView.Refresh();
 
             ModifySettingCommon = true;
         }
