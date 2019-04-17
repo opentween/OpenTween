@@ -68,6 +68,19 @@ namespace OpenTween.Models
         }
 
         [Fact]
+        public void SelectTab_Test()
+        {
+            this.tabinfo.SelectTab("Reply");
+
+            Assert.Equal("Reply", this.tabinfo.SelectedTabName);
+            Assert.IsType<MentionsTabModel>(this.tabinfo.SelectedTab);
+        }
+
+        [Fact]
+        public void SelectTab_NotExistTest()
+            => Assert.Throws<ArgumentException>(() => this.tabinfo.SelectTab("INVALID"));
+
+        [Fact]
         public void MakeTabName_Test()
         {
             var baseTabName = "NewTab";
