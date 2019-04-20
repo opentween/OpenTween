@@ -81,6 +81,15 @@ namespace OpenTween.Models
         public PostClass SelectedPost
             => this.selectedStatusIds.Select(x => this.Posts[x]).FirstOrDefault();
 
+        public int SelectedIndex
+        {
+            get
+            {
+                var statusId = this.SelectedStatusId;
+                return statusId != -1 ? this.IndexOf(statusId) : -1;
+            }
+        }
+
         private IndexedSortedSet<long> _ids = new IndexedSortedSet<long>();
         private ConcurrentQueue<TemporaryId> addQueue = new ConcurrentQueue<TemporaryId>();
         private ConcurrentQueue<long> removeQueue = new ConcurrentQueue<long>();

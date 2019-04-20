@@ -250,7 +250,6 @@ namespace OpenTween
             }
         }
 
-        private int _curItemIndex;
         private bool _isColumnChanged = false;
 
         private const int MAX_WORKER_THREADS = 20;
@@ -1072,7 +1071,6 @@ namespace OpenTween
             }
 
             this._statuses.SelectTab(this.ListTab.SelectedTab.Text);
-            _curItemIndex = -1;
 
             MyCommon.TwitterApiInfo.AccessLimitUpdated += TwitterApiStatus_AccessLimitUpdated;
             Microsoft.Win32.SystemEvents.TimeChanged += SystemEvents_TimeChanged;
@@ -1934,15 +1932,15 @@ namespace OpenTween
             if (listView.SelectedIndices.Count != 1)
                 return;
 
-            _curItemIndex = listView.SelectedIndices[0];
-            if (_curItemIndex > listView.VirtualListSize - 1) return;
+            var index = listView.SelectedIndices[0];
+            if (index > listView.VirtualListSize - 1) return;
 
             this.PushSelectPostChain();
 
             var post = this.CurrentPost;
             this._statuses.SetReadAllTab(post.StatusId, read: true);
             //キャッシュの書き換え
-            ChangeCacheStyleRead(true, _curItemIndex);   //既読へ（フォント、文字色）
+            ChangeCacheStyleRead(true, index); // 既読へ（フォント、文字色）
 
             ColorizeList();
             _colorize = true;
@@ -3413,7 +3411,6 @@ namespace OpenTween
                     this.StatusLabel.Text = Properties.Resources.DeleteStripMenuItem_ClickText3; // 失敗
 
                 this.PurgeListViewItemCache();
-                this._curItemIndex = -1;
 
                 foreach (var tabPage in this.ListTab.TabPages.Cast<TabPage>())
                 {
@@ -4288,11 +4285,7 @@ namespace OpenTween
                 _listCustom.SmallImageList = null;
                 _listCustom.ListViewItemSorter = null;
 
-                //キャッシュのクリア
-                if (this.CurrentTabPage.Equals(_tabPage))
-                {
-                    _curItemIndex = -1;
-                }
+                // キャッシュのクリア
                 this.PurgeListViewItemCache();
             }
 
@@ -4886,7 +4879,6 @@ namespace OpenTween
             using (ControlTransaction.Cursor(this, Cursors.WaitCursor))
             {
                 this.PurgeListViewItemCache();
-                this._curItemIndex = -1;
                 this._statuses.FilterAll();
 
                 foreach (TabPage tabPage in this.ListTab.TabPages)
@@ -6713,7 +6705,9 @@ namespace OpenTween
                     currentPost.InReplyToUser = post.InReplyToUser;
                     currentPost.IsReply = post.IsReply;
                     this.PurgeListViewItemCache();
-                    this.CurrentListView.RedrawItems(_curItemIndex, _curItemIndex, false);
+
+                    var index = curTabClass.SelectedIndex;
+                    this.CurrentListView.RedrawItems(index, index, false);
                 }
                 catch (WebApiException ex)
                 {
@@ -6819,7 +6813,8 @@ namespace OpenTween
                                 postList.RemoveAt(index);
                             }
                         }
-                        var post = postList.FirstOrDefault((pst) => { return pst.Tab == curTabClass && isForward ? pst.Index > _curItemIndex : pst.Index < _curItemIndex; });
+                        var currentIndex = this.CurrentTab.SelectedIndex;
+                        var post = postList.FirstOrDefault((pst) => { return pst.Tab == curTabClass && isForward ? pst.Index > currentIndex : pst.Index < currentIndex; });
                         if (post == null) post = postList.FirstOrDefault((pst) => { return pst.Tab != curTabClass; });
                         if (post == null) post = postList.First();
                         this.ListTab.SelectTab(this.ListTab.TabPages.Cast<TabPage>().First((tp) => { return tp.Text == post.Tab.TabName; }));
@@ -8553,7 +8548,6 @@ namespace OpenTween
                 _anchorPost = null;
                 _anchorFlag = false;
                 this.PurgeListViewItemCache();
-                _curItemIndex = -1;
             }
             foreach (TabPage tb in ListTab.TabPages)
             {
@@ -9719,14 +9713,6 @@ namespace OpenTween
             this._statuses.SelectTab(_tab.Text);
 
             var listView = this.CurrentListView;
-            if (listView.SelectedIndices.Count > 0)
-            {
-                _curItemIndex = listView.SelectedIndices[0];
-            }
-            else
-            {
-                _curItemIndex = -1;
-            }
 
             _anchorPost = null;
             _anchorFlag = false;

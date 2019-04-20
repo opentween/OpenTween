@@ -54,6 +54,7 @@ namespace OpenTween.Models
             Assert.Equal(100L, tab.SelectedStatusId);
             Assert.Equal(new[] { posts[0], posts[2] }, tab.SelectedPosts);
             Assert.Equal(posts[0], tab.SelectedPost);
+            Assert.Equal(0, tab.SelectedIndex);
         }
 
         [Fact]
@@ -69,6 +70,7 @@ namespace OpenTween.Models
             Assert.Equal(-1L, tab.SelectedStatusId);
             Assert.Empty(tab.SelectedPosts);
             Assert.Null(tab.SelectedPost);
+            Assert.Equal(-1, tab.SelectedIndex);
         }
 
         [Fact]
