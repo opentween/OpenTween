@@ -251,7 +251,6 @@ namespace OpenTween
         }
 
         private int _curItemIndex;
-        private PostClass _curPost;
         private bool _isColumnChanged = false;
 
         private const int MAX_WORKER_THREADS = 20;
@@ -315,6 +314,9 @@ namespace OpenTween
 
         public DetailsListView CurrentListView
             => (DetailsListView)this.CurrentTabPage.Tag;
+
+        public PostClass CurrentPost
+            => this.CurrentTab.SelectedPost;
 
         //検索処理タイプ
         internal enum SEARCHTYPE
@@ -1595,19 +1597,10 @@ namespace OpenTween
 
             return new ListViewSelection
             {
-                SelectedStatusIds = this.GetSelectedStatusIds(listView, tab),
+                SelectedStatusIds = tab.SelectedStatusIds,
                 FocusedStatusId = this.GetFocusedStatusId(listView, tab),
                 SelectionMarkStatusId = this.GetSelectionMarkStatusId(listView, tab),
             };
-        }
-
-        private long[] GetSelectedStatusIds(DetailsListView listView, TabModel tab)
-        {
-            var selectedIndices = listView.SelectedIndices;
-            if (selectedIndices.Count > 0 && selectedIndices.Count < 61)
-                return tab.GetStatusIdAt(selectedIndices.Cast<int>());
-            else
-                return null;
         }
 
         private long? GetFocusedStatusId(DetailsListView listView, TabModel tab)
@@ -1932,23 +1925,22 @@ namespace OpenTween
         private void MyList_SelectedIndexChanged(object sender, EventArgs e)
         {
             var listView = this.CurrentListView;
-            if (!listView.Equals(sender) || listView.SelectedIndices.Count != 1) return;
+            if (listView != sender)
+                return;
+
+            var indices = listView.SelectedIndices.Cast<int>().ToArray();
+            this.CurrentTab.SelectPosts(indices);
+
+            if (listView.SelectedIndices.Count != 1)
+                return;
 
             _curItemIndex = listView.SelectedIndices[0];
             if (_curItemIndex > listView.VirtualListSize - 1) return;
 
-            try
-            {
-                this._curPost = GetCurTabPost(_curItemIndex);
-            }
-            catch (ArgumentException)
-            {
-                return;
-            }
-
             this.PushSelectPostChain();
 
-            this._statuses.SetReadAllTab(_curPost.StatusId, read: true);
+            var post = this.CurrentPost;
+            this._statuses.SetReadAllTab(post.StatusId, read: true);
             //キャッシュの書き換え
             ChangeCacheStyleRead(true, _curItemIndex);   //既読へ（フォント、文字色）
 
@@ -2027,7 +2019,7 @@ namespace OpenTween
             if (_anchorFlag)
                 _post = _anchorPost;
             else
-                _post = _curPost;
+                _post = this.CurrentPost;
 
             if (_post == null) return;
 
@@ -2052,7 +2044,7 @@ namespace OpenTween
             if (_anchorFlag)
                 _post = _anchorPost;
             else
-                _post = _curPost;
+                _post = this.CurrentPost;
 
             PostClass tPost = GetCurTabPost(Index);
 
@@ -2133,7 +2125,8 @@ namespace OpenTween
                 }
             }
 
-            if (this.ExistCurrentPost && StatusText.Text.Trim() == string.Format("RT @{0}: {1}", _curPost.ScreenName, _curPost.TextFromApi))
+            var currentPost = this.CurrentPost;
+            if (this.ExistCurrentPost && StatusText.Text.Trim() == string.Format("RT @{0}: {1}", currentPost.ScreenName, currentPost.TextFromApi))
             {
                 DialogResult rtResult = MessageBox.Show(string.Format(Properties.Resources.PostButton_Click1, Environment.NewLine),
                                                                "Retweet",
@@ -2487,7 +2480,8 @@ namespace OpenTween
                         this.ChangeCacheStyleRead(post.IsRead, idx);
                 }
 
-                if (statusId == this._curPost.StatusId)
+                var currentPost = this.CurrentPost;
+                if (currentPost != null && statusId == currentPost.StatusId)
                     await this.DispSelectedPost(true); // 選択アイテム再表示
             }
         }
@@ -2601,7 +2595,8 @@ namespace OpenTween
                         }
                     }
 
-                    if (successIds.Contains(this._curPost.StatusId))
+                    var currentPost = this.CurrentPost;
+                    if (currentPost != null && successIds.Contains(currentPost.StatusId))
                         await this.DispSelectedPost(true); // 選択アイテム再表示
                 }
             }
@@ -2967,8 +2962,9 @@ namespace OpenTween
                     await this.FavoriteChange(true);
                     break;
                 case 2:
-                    if (_curPost != null)
-                        await this.ShowUserStatus(_curPost.ScreenName, false);
+                    var post = this.CurrentPost;
+                    if (post != null)
+                        await this.ShowUserStatus(post.ScreenName, false);
                     break;
                 case 3:
                     await ShowUserTimeline();
@@ -3004,13 +3000,13 @@ namespace OpenTween
         private async Task FavoriteChange(bool FavAdd, bool multiFavoriteChangeDialogEnable = true)
         {
             var tab = this.CurrentTab;
-            var listView = this.CurrentListView;
+            var posts = tab.SelectedPosts;
 
             //trueでFavAdd,falseでFavRemove
-            if (tab.TabType == MyCommon.TabUsageType.DirectMessage || listView.SelectedIndices.Count == 0
+            if (tab.TabType == MyCommon.TabUsageType.DirectMessage || posts.Length == 0
                 || !this.ExistCurrentPost) return;
 
-            if (listView.SelectedIndices.Count > 1)
+            if (posts.Length > 1)
             {
                 if (FavAdd)
                 {
@@ -3036,7 +3032,7 @@ namespace OpenTween
 
             if (FavAdd)
             {
-                var selectedPost = this.GetCurTabPost(listView.SelectedIndices[0]);
+                var selectedPost = posts.Single();
                 if (selectedPost.IsFav)
                 {
                     this.StatusLabel.Text = Properties.Resources.FavAddToolStripMenuItem_ClickText4;
@@ -3047,10 +3043,7 @@ namespace OpenTween
             }
             else
             {
-                var selectedPosts = listView.SelectedIndices.Cast<int>()
-                    .Select(x => this.GetCurTabPost(x))
-                    .Where(x => x.IsFav);
-
+                var selectedPosts = posts.Where(x => x.IsFav);
                 var statusIds = selectedPosts.Select(x => x.StatusId).ToArray();
                 if (statusIds.Length == 0)
                 {
@@ -3076,18 +3069,18 @@ namespace OpenTween
 
         private async void MoveToHomeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var listView = this.CurrentListView;
-            if (listView.SelectedIndices.Count > 0)
-                await this.OpenUriInBrowserAsync(MyCommon.TwitterUrl + GetCurTabPost(listView.SelectedIndices[0]).ScreenName);
-            else if (listView.SelectedIndices.Count == 0)
+            var post = this.CurrentPost;
+            if (post != null)
+                await this.OpenUriInBrowserAsync(MyCommon.TwitterUrl + post.ScreenName);
+            else
                 await this.OpenUriInBrowserAsync(MyCommon.TwitterUrl);
         }
 
         private async void MoveToFavToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var listView = this.CurrentListView;
-            if (listView.SelectedIndices.Count > 0)
-                await this.OpenUriInBrowserAsync(MyCommon.TwitterUrl + "#!/" + GetCurTabPost(listView.SelectedIndices[0]).ScreenName + "/favorites");
+            var post = this.CurrentPost;
+            if (post != null)
+                await this.OpenUriInBrowserAsync(MyCommon.TwitterUrl + "#!/" + post.ScreenName + "/favorites");
         }
 
         private void TweenMain_ClientSizeChanged(object sender, EventArgs e)
@@ -3207,9 +3200,10 @@ namespace OpenTween
             this.PurgeListViewItemCache();
 
             var tab = this.CurrentTab;
-            if (tab.AllCount > 0 && this._curPost != null)
+            var post = this.CurrentPost;
+            if (tab.AllCount > 0 && post != null)
             {
-                var idx = tab.IndexOf(this._curPost.StatusId);
+                var idx = tab.IndexOf(post.StatusId);
                 if (idx > -1)
                 {
                     this.SelectListItem(list, idx);
@@ -3263,7 +3257,8 @@ namespace OpenTween
                 UnreadStripMenuItem.Enabled = true;
             }
             var tab = this.CurrentTab;
-            if (tab.TabType == MyCommon.TabUsageType.DirectMessage || !this.ExistCurrentPost || _curPost.IsDm)
+            var post = this.CurrentPost;
+            if (tab.TabType == MyCommon.TabUsageType.DirectMessage || !this.ExistCurrentPost || post.IsDm)
             {
                 FavAddToolStripMenuItem.Enabled = false;
                 FavRemoveToolStripMenuItem.Enabled = false;
@@ -3283,7 +3278,7 @@ namespace OpenTween
                 StatusOpenMenuItem.Enabled = true;
                 ShowRelatedStatusesMenuItem.Enabled = true;  //PublicSearchの時問題出るかも
 
-                if (!_curPost.CanRetweetBy(this.twitterApi.CurrentUserId))
+                if (!post.CanRetweetBy(this.twitterApi.CurrentUserId))
                 {
                     ReTweetStripMenuItem.Enabled = false;
                     ReTweetUnofficialStripMenuItem.Enabled = false;
@@ -3308,8 +3303,7 @@ namespace OpenTween
             //{
             //    RefreshMoreStripMenuItem.Enabled = false;
             //}
-            if (!this.ExistCurrentPost
-                || _curPost.InReplyToStatusId == null)
+            if (!this.ExistCurrentPost || post.InReplyToStatusId == null)
             {
                 RepliedStatusOpenMenuItem.Enabled = false;
             }
@@ -3317,7 +3311,7 @@ namespace OpenTween
             {
                 RepliedStatusOpenMenuItem.Enabled = true;
             }
-            if (!this.ExistCurrentPost || string.IsNullOrEmpty(_curPost.RetweetedBy))
+            if (!this.ExistCurrentPost || string.IsNullOrEmpty(post.RetweetedBy))
             {
                 MoveToRTHomeMenuItem.Enabled = false;
             }
@@ -3328,8 +3322,8 @@ namespace OpenTween
 
             if (this.ExistCurrentPost)
             {
-                this.DeleteStripMenuItem.Enabled = this._curPost.CanDeleteBy(this.tw.UserId);
-                if (this._curPost.RetweetedByUserId == this.tw.UserId)
+                this.DeleteStripMenuItem.Enabled = post.CanDeleteBy(this.tw.UserId);
+                if (post.RetweetedByUserId == this.tw.UserId)
                     this.DeleteStripMenuItem.Text = Properties.Resources.DeleteMenuText2;
                 else
                     this.DeleteStripMenuItem.Text = Properties.Resources.DeleteMenuText1;
@@ -3344,14 +3338,9 @@ namespace OpenTween
 
         private async Task doStatusDelete()
         {
-            var currentListView = this.CurrentListView;
-
-            if (currentListView.SelectedIndices.Count == 0)
+            var posts = this.CurrentTab.SelectedPosts;
+            if (posts.Length == 0)
                 return;
-
-            var posts = currentListView.SelectedIndices.Cast<int>()
-                .Select(x => this.GetCurTabPost(x))
-                .ToArray();
 
             // 選択されたツイートの中に削除可能なものが一つでもあるか
             if (!posts.Any(x => x.CanDeleteBy(this.tw.UserId)))
@@ -3365,6 +3354,7 @@ namespace OpenTween
             if (ret != DialogResult.OK)
                 return;
 
+            var currentListView = this.CurrentListView;
             var focusedIndex = currentListView.FocusedItem?.Index ?? currentListView.TopItem?.Index ?? 0;
 
             using (ControlTransaction.Cursor(this, Cursors.WaitCursor))
@@ -3423,7 +3413,6 @@ namespace OpenTween
                     this.StatusLabel.Text = Properties.Resources.DeleteStripMenuItem_ClickText3; // 失敗
 
                 this.PurgeListViewItemCache();
-                this._curPost = null;
                 this._curItemIndex = -1;
 
                 foreach (var tabPage in this.ListTab.TabPages.Cast<TabPage>())
@@ -3945,7 +3934,7 @@ namespace OpenTween
         private async Task ShowUserTimeline()
         {
             if (!this.ExistCurrentPost) return;
-            await this.AddNewTabForUserTimeline(_curPost.ScreenName);
+            await this.AddNewTabForUserTimeline(this.CurrentPost.ScreenName);
         }
 
         private void SearchComboBox_KeyDown(object sender, KeyEventArgs e)
@@ -4303,7 +4292,6 @@ namespace OpenTween
                 if (this.CurrentTabPage.Equals(_tabPage))
                 {
                     _curItemIndex = -1;
-                    _curPost = null;
                 }
                 this.PurgeListViewItemCache();
             }
@@ -4898,7 +4886,6 @@ namespace OpenTween
             using (ControlTransaction.Cursor(this, Cursors.WaitCursor))
             {
                 this.PurgeListViewItemCache();
-                this._curPost = null;
                 this._curItemIndex = -1;
                 this._statuses.FilterAll();
 
@@ -5507,12 +5494,9 @@ namespace OpenTween
         private async void StatusOpenMenuItem_Click(object sender, EventArgs e)
         {
             var tab = this.CurrentTab;
-            var listView = this.CurrentListView;
-            if (listView.SelectedIndices.Count > 0 && tab.TabType != MyCommon.TabUsageType.DirectMessage)
-            {
-                var post = tab[listView.SelectedIndices[0]];
+            var post = this.CurrentPost;
+            if (post != null && tab.TabType != MyCommon.TabUsageType.DirectMessage)
                 await this.OpenUriInBrowserAsync(MyCommon.GetStatusUrl(post));
-            }
         }
 
         private async void VerUpMenuItem_Click(object sender, EventArgs e)
@@ -5671,18 +5655,19 @@ namespace OpenTween
 
         private async Task DispSelectedPost(bool forceupdate)
         {
-            if (this.CurrentListView.SelectedIndices.Count == 0 || _curPost == null)
+            var currentPost = this.CurrentPost;
+            if (currentPost == null)
                 return;
 
             var oldDisplayPost = this.displayPost;
-            this.displayPost = this._curPost;
+            this.displayPost = currentPost;
 
-            if (!forceupdate && this._curPost.Equals(oldDisplayPost))
+            if (!forceupdate && currentPost.Equals(oldDisplayPost))
                 return;
 
             var loadTasks = new List<Task>
             {
-                this.tweetDetailsView.ShowPostDetails(this._curPost),
+                this.tweetDetailsView.ShowPostDetails(currentPost),
             };
 
             this.SplitContainer3.Panel2Collapsed = true;
@@ -5693,7 +5678,7 @@ namespace OpenTween
                 oldTokenSource?.Cancel();
 
                 var token = this.thumbnailTokenSource.Token;
-                loadTasks.Add(this.tweetThumbnail1.ShowThumbnailAsync(_curPost, token));
+                loadTasks.Add(this.tweetThumbnail1.ShowThumbnailAsync(currentPost, token));
             }
 
             try
@@ -6085,8 +6070,8 @@ namespace OpenTween
                     .Do(() => this.doReTweetOfficial(isConfirm: true)),
 
                 ShortcutCommand.Create(Keys.Alt | Keys.P)
-                    .OnlyWhen(() => this._curPost != null)
-                    .Do(() => this.doShowUserStatus(_curPost.ScreenName, ShowInputDialog: false)),
+                    .OnlyWhen(() => this.CurrentPost != null)
+                    .Do(() => this.doShowUserStatus(this.CurrentPost.ScreenName, ShowInputDialog: false)),
 
                 ShortcutCommand.Create(Keys.Alt | Keys.Up)
                     .Do(() => this.tweetDetailsView.ScrollDownPostBrowser(forward: false)),
@@ -6311,9 +6296,8 @@ namespace OpenTween
             var tab = this.CurrentTab;
             bool IsProtected = false;
             var isDm = tab.TabType == MyCommon.TabUsageType.DirectMessage;
-            foreach (int idx in this.CurrentListView.SelectedIndices)
+            foreach (var post in tab.SelectedPosts)
             {
-                var post = tab[idx];
                 if (post.IsDeleted) continue;
                 if (!isDm)
                 {
@@ -6352,11 +6336,8 @@ namespace OpenTween
                 return;
 
             var copyUrls = new List<string>();
-            foreach (int idx in this.CurrentListView.SelectedIndices)
-            {
-                var post = tab[idx];
+            foreach (var post in tab.SelectedPosts)
                 copyUrls.Add(MyCommon.GetStatusUrl(post));
-            }
 
             if (copyUrls.Count == 0)
                 return;
@@ -6489,10 +6470,15 @@ namespace OpenTween
         private void GoPost(bool forward)
         {
             var listView = this.CurrentListView;
-            if (listView.SelectedIndices.Count == 0 || _curPost == null)
+            if (listView.SelectedIndices.Count == 0)
                 return;
 
             var tab = this.CurrentTab;
+            var currentPost = this.CurrentPost;
+
+            if (currentPost == null)
+                return;
+
             var selectedIndex = listView.SelectedIndices[0];
 
             int fIdx, toIdx, stp;
@@ -6513,13 +6499,13 @@ namespace OpenTween
             }
 
             string name = "";
-            if (_curPost.RetweetedId == null)
+            if (currentPost.RetweetedId == null)
             {
-                name = _curPost.ScreenName;
+                name = currentPost.ScreenName;
             }
             else
             {
-                name = _curPost.RetweetedBy;
+                name = currentPost.RetweetedBy;
             }
             for (int idx = fIdx; idx != toIdx; idx += stp)
             {
@@ -6573,8 +6559,9 @@ namespace OpenTween
 
             if (!_anchorFlag)
             {
-                if (_curPost == null) return;
-                _anchorPost = _curPost;
+                var currentPost = this.CurrentPost;
+                if (currentPost == null) return;
+                _anchorPost = currentPost;
                 _anchorFlag = true;
             }
             else
@@ -6710,19 +6697,21 @@ namespace OpenTween
 
         private async Task GoInReplyToPostTree()
         {
-            if (_curPost == null) return;
-
             var curTabClass = this.CurrentTab;
+            var currentPost = this.CurrentPost;
 
-            if (curTabClass.TabType == MyCommon.TabUsageType.PublicSearch && _curPost.InReplyToStatusId == null && _curPost.TextFromApi.Contains("@"))
+            if (currentPost == null)
+                return;
+
+            if (curTabClass.TabType == MyCommon.TabUsageType.PublicSearch && currentPost.InReplyToStatusId == null && currentPost.TextFromApi.Contains("@"))
             {
                 try
                 {
-                    var post = await tw.GetStatusApi(false, _curPost.StatusId);
+                    var post = await tw.GetStatusApi(false, currentPost.StatusId);
 
-                    _curPost.InReplyToStatusId = post.InReplyToStatusId;
-                    _curPost.InReplyToUser = post.InReplyToUser;
-                    _curPost.IsReply = post.IsReply;
+                    currentPost.InReplyToStatusId = post.InReplyToStatusId;
+                    currentPost.InReplyToUser = post.InReplyToUser;
+                    currentPost.IsReply = post.IsReply;
                     this.PurgeListViewItemCache();
                     this.CurrentListView.RedrawItems(_curItemIndex, _curItemIndex, false);
                 }
@@ -6732,19 +6721,18 @@ namespace OpenTween
                 }
             }
 
-            if (!(this.ExistCurrentPost && _curPost.InReplyToUser != null && _curPost.InReplyToStatusId != null)) return;
+            if (!(this.ExistCurrentPost && currentPost.InReplyToUser != null && currentPost.InReplyToStatusId != null)) return;
 
-            if (replyChains == null || (replyChains.Count > 0 && replyChains.Peek().InReplyToId != _curPost.StatusId))
+            if (replyChains == null || (replyChains.Count > 0 && replyChains.Peek().InReplyToId != currentPost.StatusId))
             {
                 replyChains = new Stack<ReplyChain>();
             }
-            replyChains.Push(new ReplyChain(_curPost.StatusId, _curPost.InReplyToStatusId.Value, this.CurrentTabPage));
+            replyChains.Push(new ReplyChain(currentPost.StatusId, currentPost.InReplyToStatusId.Value, this.CurrentTabPage));
 
             int inReplyToIndex;
             string inReplyToTabName;
-            long inReplyToId = _curPost.InReplyToStatusId.Value;
-            string inReplyToUser = _curPost.InReplyToUser;
-            //Dictionary<long, PostClass> curTabPosts = curTabClass.Posts;
+            var inReplyToId = currentPost.InReplyToStatusId.Value;
+            var inReplyToUser = currentPost.InReplyToUser;
 
             var inReplyToPosts = from tab in _statuses.Tabs.Values
                                  orderby tab != curTabClass
@@ -6761,7 +6749,7 @@ namespace OpenTween
                 {
                     await Task.Run(async () =>
                     {
-                        var post = await tw.GetStatusApi(false, _curPost.InReplyToStatusId.Value)
+                        var post = await tw.GetStatusApi(false, currentPost.InReplyToStatusId.Value)
                             .ConfigureAwait(false);
                         post.IsRead = true;
 
@@ -6802,18 +6790,19 @@ namespace OpenTween
 
         private void GoBackInReplyToPostTree(bool parallel = false, bool isForward = true)
         {
-            if (_curPost == null) return;
-
             var curTabClass = this.CurrentTab;
-            //Dictionary<long, PostClass> curTabPosts = curTabClass.Posts;
+            var currentPost = this.CurrentPost;
+
+            if (currentPost == null)
+                return;
 
             if (parallel)
             {
-                if (_curPost.InReplyToStatusId != null)
+                if (currentPost.InReplyToStatusId != null)
                 {
                     var posts = from t in _statuses.Tabs
                                 from p in t.Value.Posts
-                                where p.Value.StatusId != _curPost.StatusId && p.Value.InReplyToStatusId == _curPost.InReplyToStatusId
+                                where p.Value.StatusId != currentPost.StatusId && p.Value.InReplyToStatusId == currentPost.InReplyToStatusId
                                 let indexOf = t.Value.IndexOf(p.Value.StatusId)
                                 where indexOf > -1
                                 orderby isForward ? indexOf : indexOf * -1
@@ -6850,7 +6839,7 @@ namespace OpenTween
                 {
                     var posts = from t in _statuses.Tabs
                                 from p in t.Value.Posts
-                                where p.Value.InReplyToStatusId == _curPost.StatusId
+                                where p.Value.InReplyToStatusId == currentPost.StatusId
                                 let indexOf = t.Value.IndexOf(p.Value.StatusId)
                                 where indexOf > -1
                                 orderby indexOf
@@ -6872,7 +6861,7 @@ namespace OpenTween
                 else
                 {
                     ReplyChain chainHead = replyChains.Pop();
-                    if (chainHead.InReplyToId == _curPost.StatusId)
+                    if (chainHead.InReplyToId == currentPost.StatusId)
                     {
                         int idx = _statuses.Tabs[chainHead.OriginalTab.Text].IndexOf(chainHead.OriginalId);
                         if (idx == -1)
@@ -6960,18 +6949,20 @@ namespace OpenTween
         private void PushSelectPostChain()
         {
             var currentTabPage = this.CurrentTabPage;
+            var currentPost = this.CurrentPost;
+
             int count = this.selectPostChains.Count;
             if (count > 0)
             {
                 var (tabPage, post) = this.selectPostChains.Peek();
                 if (tabPage == currentTabPage)
                 {
-                    if (post == this._curPost) return;  //最新の履歴と同一
+                    if (post == currentPost) return;  //最新の履歴と同一
                     if (post == null) this.selectPostChains.Pop();  //置き換えるため削除
                 }
             }
             if (count >= 2500) TrimPostChain();
-            this.selectPostChains.Push((currentTabPage, this._curPost));
+            this.selectPostChains.Push((currentTabPage, currentPost));
         }
 
         private void TrimPostChain()
@@ -7274,10 +7265,10 @@ namespace OpenTween
                 if (!SaveFileDialog1.ValidateNames) return;
                 using (StreamWriter sw = new StreamWriter(SaveFileDialog1.FileName, false, Encoding.UTF8))
                 {
-                    var listView = this.CurrentListView;
                     if (rslt == DialogResult.Yes)
                     {
                         //All
+                        var listView = this.CurrentListView;
                         for (int idx = 0; idx < listView.VirtualListSize; idx++)
                         {
                             var post = tab[idx];
@@ -7295,9 +7286,8 @@ namespace OpenTween
                     }
                     else
                     {
-                        foreach (int idx in listView.SelectedIndices)
+                        foreach (var post in this.CurrentTab.SelectedPosts)
                         {
-                            var post = tab[idx];
                             string protect = "";
                             if (post.IsProtect) protect = "Protect";
                             sw.WriteLine(post.Nickname + "\t" +
@@ -7483,24 +7473,26 @@ namespace OpenTween
             if (!this.ExistCurrentPost) return;
 
             var tab = this.CurrentTab;
-            var listView = this.CurrentListView;
+            var selectedPosts = tab.SelectedPosts;
 
             // 複数あてリプライはReplyではなく通常ポスト
             //↑仕様変更で全部リプライ扱いでＯＫ（先頭ドット付加しない）
             //090403暫定でドットを付加しないようにだけ修正。単独と複数の処理は統合できると思われる。
             //090513 all @ replies 廃止の仕様変更によりドット付加に戻し(syo68k)
 
-            if (listView.SelectedIndices.Count > 0)
+            if (selectedPosts.Length > 0)
             {
                 // アイテムが1件以上選択されている
-                if (listView.SelectedIndices.Count == 1 && !isAll && this.ExistCurrentPost)
+                if (selectedPosts.Length == 1 && !isAll && this.ExistCurrentPost)
                 {
+                    var post = selectedPosts.Single();
+
                     // 単独ユーザー宛リプライまたはDM
                     if ((tab.TabType == MyCommon.TabUsageType.DirectMessage && isAuto) || (!isAuto && !isReply))
                     {
                         // ダイレクトメッセージ
                         this.inReplyTo = null;
-                        StatusText.Text = "D " + _curPost.ScreenName + " " + StatusText.Text;
+                        StatusText.Text = "D " + post.ScreenName + " " + StatusText.Text;
                         StatusText.SelectionStart = StatusText.Text.Length;
                         StatusText.Focus();
                         return;
@@ -7508,12 +7500,12 @@ namespace OpenTween
                     if (string.IsNullOrEmpty(StatusText.Text))
                     {
                         //空の場合
-                        var inReplyToStatusId = this._curPost.RetweetedId ?? this._curPost.StatusId;
-                        var inReplyToScreenName = this._curPost.ScreenName;
+                        var inReplyToStatusId = post.RetweetedId ?? post.StatusId;
+                        var inReplyToScreenName = post.ScreenName;
                         this.inReplyTo = (inReplyToStatusId, inReplyToScreenName);
 
                         // ステータステキストが入力されていない場合先頭に@ユーザー名を追加する
-                        StatusText.Text = "@" + _curPost.ScreenName + " ";
+                        StatusText.Text = "@" + post.ScreenName + " ";
                     }
                     else
                     {
@@ -7522,13 +7514,13 @@ namespace OpenTween
                         if (isAuto)
                         {
                             //1件選んでEnter or DoubleClick
-                            if (StatusText.Text.Contains("@" + _curPost.ScreenName + " "))
+                            if (StatusText.Text.Contains("@" + post.ScreenName + " "))
                             {
-                                if (this.inReplyTo?.ScreenName == _curPost.ScreenName)
+                                if (this.inReplyTo?.ScreenName == post.ScreenName)
                                 {
                                     //返信先書き換え
-                                    var inReplyToStatusId = this._curPost.RetweetedId ?? this._curPost.StatusId;
-                                    var inReplyToScreenName = this._curPost.ScreenName;
+                                    var inReplyToStatusId = post.RetweetedId ?? post.StatusId;
+                                    var inReplyToScreenName = post.ScreenName;
                                     this.inReplyTo = (inReplyToStatusId, inReplyToScreenName);
                                 }
                                 return;
@@ -7540,15 +7532,15 @@ namespace OpenTween
                                 {
                                     // 複数リプライ
                                     this.inReplyTo = null;
-                                    StatusText.Text = StatusText.Text.Insert(2, "@" + _curPost.ScreenName + " ");
+                                    StatusText.Text = StatusText.Text.Insert(2, "@" + post.ScreenName + " ");
                                 }
                                 else
                                 {
                                     // 単独リプライ
-                                    var inReplyToStatusId = this._curPost.RetweetedId ?? this._curPost.StatusId;
-                                    var inReplyToScreenName = this._curPost.ScreenName;
+                                    var inReplyToStatusId = post.RetweetedId ?? post.StatusId;
+                                    var inReplyToScreenName = post.ScreenName;
                                     this.inReplyTo = (inReplyToStatusId, inReplyToScreenName);
-                                    StatusText.Text = "@" + _curPost.ScreenName + " " + StatusText.Text;
+                                    StatusText.Text = "@" + post.ScreenName + " " + StatusText.Text;
                                 }
                             }
                             else
@@ -7556,15 +7548,14 @@ namespace OpenTween
                                 //文頭＠
                                 // 複数リプライ
                                 this.inReplyTo = null;
-                                StatusText.Text = ". @" + _curPost.ScreenName + " " + StatusText.Text;
-                                //StatusText.Text = "@" + _curPost.ScreenName + " " + StatusText.Text;
+                                StatusText.Text = ". @" + post.ScreenName + " " + StatusText.Text;
                             }
                         }
                         else
                         {
                             //1件選んでCtrl-Rの場合（返信先操作せず）
                             int sidx = StatusText.SelectionStart;
-                            string id = "@" + _curPost.ScreenName + " ";
+                            string id = "@" + post.ScreenName + " ";
                             if (sidx > 0)
                             {
                                 if (StatusText.Text.Substring(sidx - 1, 1) != " ")
@@ -7611,9 +7602,8 @@ namespace OpenTween
                             sTxt = ". " + sTxt;
                             this.inReplyTo = null;
                         }
-                        for (int cnt = 0; cnt < listView.SelectedIndices.Count; cnt++)
+                        foreach (var post in selectedPosts)
                         {
-                            PostClass post = tab[listView.SelectedIndices[cnt]];
                             if (!sTxt.Contains("@" + post.ScreenName + " "))
                             {
                                 sTxt = sTxt.Insert(2, "@" + post.ScreenName + " ");
@@ -7625,15 +7615,15 @@ namespace OpenTween
                     else
                     {
                         //C-S-r or C-r
-                        if (listView.SelectedIndices.Count > 1)
+
+                        if (selectedPosts.Length > 1)
                         {
                             //複数ポスト選択
 
                             string ids = "";
                             int sidx = StatusText.SelectionStart;
-                            for (int cnt = 0; cnt < listView.SelectedIndices.Count; cnt++)
+                            foreach (var post in selectedPosts)
                             {
-                                PostClass post = tab[listView.SelectedIndices[cnt]];
                                 if (!ids.Contains("@" + post.ScreenName + " ") && post.UserId != tw.UserId)
                                 {
                                     ids += "@" + post.ScreenName + " ";
@@ -7690,7 +7680,7 @@ namespace OpenTween
 
                             string ids = "";
                             int sidx = StatusText.SelectionStart;
-                            PostClass post = _curPost;
+                            var post = selectedPosts.Single();
                             if (!ids.Contains("@" + post.ScreenName + " ") && post.UserId != tw.UserId)
                             {
                                 ids += "@" + post.ScreenName + " ";
@@ -7718,8 +7708,8 @@ namespace OpenTween
                             if (string.IsNullOrEmpty(StatusText.Text))
                             {
                                 //未入力の場合のみ返信先付加
-                                var inReplyToStatusId = this._curPost.RetweetedId ?? this._curPost.StatusId;
-                                var inReplyToScreenName = this._curPost.ScreenName;
+                                var inReplyToStatusId = post.RetweetedId ?? post.StatusId;
+                                var inReplyToScreenName = post.ScreenName;
                                 this.inReplyTo = (inReplyToStatusId, inReplyToScreenName);
 
                                 StatusText.Text = ids;
@@ -8097,13 +8087,13 @@ namespace OpenTween
                 fltDialog.Owner = this;
 
                 //選択発言を元にフィルタ追加
-                foreach (int idx in this.CurrentListView.SelectedIndices)
+                foreach (var post in this.CurrentTab.SelectedPosts)
                 {
                     //タブ選択（or追加）
                     if (!SelectTab(out var tabName)) return;
 
                     fltDialog.SetCurrent(tabName);
-                    var post = this.CurrentTab[idx];
+
                     if (post.RetweetedId == null)
                     {
                         fltDialog.AddNewFilter(post.ScreenName, post.TextFromApi);
@@ -8119,10 +8109,6 @@ namespace OpenTween
 
             this.ApplyPostFilters();
             SaveConfigsTabs();
-
-            var listView = this.CurrentListView;
-            if (listView.SelectedIndices.Count > 0)
-                _curPost = this.CurrentTab[listView.SelectedIndices[0]];
         }
 
         protected override bool ProcessDialogKey(Keys keyData)
@@ -8221,14 +8207,14 @@ namespace OpenTween
 
         private void IDRuleMenuItem_Click(object sender, EventArgs e)
         {
-            var listView = this.CurrentListView;
-
-            //未選択なら処理終了
-            if (listView.SelectedIndices.Count == 0) return;
-
             var tab = this.CurrentTab;
-            var screenNameArray = listView.SelectedIndices.Cast<int>()
-                .Select(x => tab[x])
+            var selectedPosts = tab.SelectedPosts;
+
+            // 未選択なら処理終了
+            if (selectedPosts.Length == 0)
+                return;
+
+            var screenNameArray = selectedPosts
                 .Select(x => x.RetweetedId != null ? x.RetweetedBy : x.ScreenName)
                 .ToArray();
 
@@ -8249,13 +8235,13 @@ namespace OpenTween
 
         private void SourceRuleMenuItem_Click(object sender, EventArgs e)
         {
-            var listView = this.CurrentListView;
-            if (listView.SelectedIndices.Count == 0)
+            var tab = this.CurrentTab;
+            var selectedPosts = tab.SelectedPosts;
+
+            if (selectedPosts.Length == 0)
                 return;
 
-            var tab = this.CurrentTab;
-            var sourceArray = listView.SelectedIndices.Cast<int>()
-                .Select(x => tab[x].Source).ToArray();
+            var sourceArray = selectedPosts.Select(x => x.Source).ToArray();
 
             this.AddFilterRuleBySource(sourceArray);
         }
@@ -8568,7 +8554,6 @@ namespace OpenTween
                 _anchorFlag = false;
                 this.PurgeListViewItemCache();
                 _curItemIndex = -1;
-                _curPost = null;
             }
             foreach (TabPage tb in ListTab.TabPages)
             {
@@ -9012,28 +8997,29 @@ namespace OpenTween
 
         private async Task doRepliedStatusOpen()
         {
-            if (this.ExistCurrentPost && _curPost.InReplyToUser != null && _curPost.InReplyToStatusId != null)
+            var currentPost = this.CurrentPost;
+            if (this.ExistCurrentPost && currentPost.InReplyToUser != null && currentPost.InReplyToStatusId != null)
             {
                 if (MyCommon.IsKeyDown(Keys.Shift))
                 {
-                    await this.OpenUriInBrowserAsync(MyCommon.GetStatusUrl(_curPost.InReplyToUser, _curPost.InReplyToStatusId.Value));
+                    await this.OpenUriInBrowserAsync(MyCommon.GetStatusUrl(currentPost.InReplyToUser, currentPost.InReplyToStatusId.Value));
                     return;
                 }
-                if (_statuses.ContainsKey(_curPost.InReplyToStatusId.Value))
+                if (_statuses.ContainsKey(currentPost.InReplyToStatusId.Value))
                 {
-                    PostClass repPost = _statuses[_curPost.InReplyToStatusId.Value];
+                    PostClass repPost = _statuses[currentPost.InReplyToStatusId.Value];
                     MessageBox.Show($"{repPost.ScreenName} / {repPost.Nickname}   ({repPost.CreatedAt.ToLocalTimeString()})" + Environment.NewLine + repPost.TextFromApi);
                 }
                 else
                 {
                     foreach (TabModel tb in _statuses.GetTabsByType(MyCommon.TabUsageType.Lists | MyCommon.TabUsageType.PublicSearch))
                     {
-                        if (tb == null || !tb.Contains(_curPost.InReplyToStatusId.Value)) break;
-                        PostClass repPost = _statuses[_curPost.InReplyToStatusId.Value];
+                        if (tb == null || !tb.Contains(currentPost.InReplyToStatusId.Value)) break;
+                        PostClass repPost = _statuses[currentPost.InReplyToStatusId.Value];
                         MessageBox.Show($"{repPost.ScreenName} / {repPost.Nickname}   ({repPost.CreatedAt.ToLocalTimeString()})" + Environment.NewLine + repPost.TextFromApi);
                         return;
                     }
-                    await this.OpenUriInBrowserAsync(MyCommon.GetStatusUrl(_curPost.InReplyToUser, _curPost.InReplyToStatusId.Value));
+                    await this.OpenUriInBrowserAsync(MyCommon.GetStatusUrl(currentPost.InReplyToUser, currentPost.InReplyToStatusId.Value));
                 }
             }
         }
@@ -9736,12 +9722,10 @@ namespace OpenTween
             if (listView.SelectedIndices.Count > 0)
             {
                 _curItemIndex = listView.SelectedIndices[0];
-                _curPost = GetCurTabPost(_curItemIndex);
             }
             else
             {
                 _curItemIndex = -1;
-                _curPost = null;
             }
 
             _anchorPost = null;
@@ -9942,23 +9926,24 @@ namespace OpenTween
             //公式RT
             if (this.ExistCurrentPost)
             {
-                if (!_curPost.CanRetweetBy(this.twitterApi.CurrentUserId))
+                var selectedPosts = this.CurrentTab.SelectedPosts;
+
+                if (selectedPosts.Any(x => !x.CanRetweetBy(this.twitterApi.CurrentUserId)))
                 {
-                    if (this._curPost.IsProtect)
+                    if (selectedPosts.Any(x => x.IsProtect))
                         MessageBox.Show("Protected.");
 
                     _DoFavRetweetFlags = false;
                     return;
                 }
 
-                var listView = this.CurrentListView;
-                if (listView.SelectedIndices.Count > 15)
+                if (selectedPosts.Length > 15)
                 {
                     MessageBox.Show(Properties.Resources.RetweetLimitText);
                     _DoFavRetweetFlags = false;
                     return;
                 }
-                else if (listView.SelectedIndices.Count > 1)
+                else if (selectedPosts.Length > 1)
                 {
                     string QuestionText = Properties.Resources.RetweetQuestion2;
                     if (_DoFavRetweetFlags) QuestionText = Properties.Resources.FavoriteRetweetQuestionText1;
@@ -9984,13 +9969,7 @@ namespace OpenTween
                     }
                 }
 
-                var statusIds = new List<long>();
-                foreach (int idx in listView.SelectedIndices)
-                {
-                    PostClass post = GetCurTabPost(idx);
-                    if (post.CanRetweetBy(this.twitterApi.CurrentUserId))
-                        statusIds.Add(post.StatusId);
-                }
+                var statusIds = selectedPosts.Select(x => x.StatusId).ToList();
 
                 await this.RetweetAsync(statusIds);
             }
@@ -10019,11 +9998,12 @@ namespace OpenTween
 
         private async Task FavoritesRetweetUnofficial()
         {
-            if (this.ExistCurrentPost && !_curPost.IsDm)
+            var post = this.CurrentPost;
+            if (this.ExistCurrentPost && !post.IsDm)
             {
                 _DoFavRetweetFlags = true;
                 var favoriteTask = this.FavoriteChange(true);
-                if (!_curPost.IsProtect && _DoFavRetweetFlags)
+                if (!post.IsProtect && _DoFavRetweetFlags)
                 {
                     _DoFavRetweetFlags = false;
                     doReTweetUnofficial();
@@ -10069,7 +10049,7 @@ namespace OpenTween
         {
             this.tweetDetailsView.DumpPostClass = this.DumpPostClassToolStripMenuItem.Checked;
 
-            if (_curPost != null)
+            if (this.CurrentPost != null)
                 await this.DispSelectedPost(true);
         }
 
@@ -10182,7 +10162,7 @@ namespace OpenTween
 
         private async void FollowCommandMenuItem_Click(object sender, EventArgs e)
         {
-            var id = _curPost?.ScreenName ?? "";
+            var id = this.CurrentPost?.ScreenName ?? "";
 
             await this.FollowCommand(id);
         }
@@ -10222,7 +10202,7 @@ namespace OpenTween
 
         private async void RemoveCommandMenuItem_Click(object sender, EventArgs e)
         {
-            var id = _curPost?.ScreenName ?? "";
+            var id = this.CurrentPost?.ScreenName ?? "";
 
             await this.RemoveCommand(id, false);
         }
@@ -10265,7 +10245,7 @@ namespace OpenTween
 
         private async void FriendshipMenuItem_Click(object sender, EventArgs e)
         {
-            var id = _curPost?.ScreenName ?? "";
+            var id = this.CurrentPost?.ScreenName ?? "";
 
             await this.ShowFriendship(id);
         }
@@ -10420,10 +10400,11 @@ namespace OpenTween
         {
             if (this.ExistCurrentPost)
             {
-                if (_curPost.IsDm ||
-                    !StatusText.Enabled) return;
+                var post = this.CurrentPost;
+                if (post.IsDm || !StatusText.Enabled)
+                    return;
 
-                if (_curPost.IsProtect)
+                if (post.IsProtect)
                 {
                     MessageBox.Show("Protected.");
                     return;
@@ -10433,7 +10414,7 @@ namespace OpenTween
 
                 this.inReplyTo = null;
 
-                StatusText.Text += " " + MyCommon.GetStatusUrl(_curPost);
+                StatusText.Text += " " + MyCommon.GetStatusUrl(post);
 
                 (this.StatusText.SelectionStart, this.StatusText.SelectionLength) = selection;
                 StatusText.Focus();
@@ -10445,25 +10426,26 @@ namespace OpenTween
             //RT @id:内容
             if (this.ExistCurrentPost)
             {
-                if (_curPost.IsDm || !StatusText.Enabled)
+                var post = this.CurrentPost;
+                if (post.IsDm || !StatusText.Enabled)
                     return;
 
-                if (_curPost.IsProtect)
+                if (post.IsProtect)
                 {
                     MessageBox.Show("Protected.");
                     return;
                 }
-                string rtdata = _curPost.Text;
+                string rtdata = post.Text;
                 rtdata = CreateRetweetUnofficial(rtdata, this.StatusText.Multiline);
 
                 var selection = (this.StatusText.SelectionStart, this.StatusText.SelectionLength);
 
                 // 投稿時に in_reply_to_status_id を付加する
-                var inReplyToStatusId = this._curPost.RetweetedId ?? this._curPost.StatusId;
-                var inReplyToScreenName = this._curPost.ScreenName;
+                var inReplyToStatusId = post.RetweetedId ?? post.StatusId;
+                var inReplyToScreenName = post.ScreenName;
                 this.inReplyTo = (inReplyToStatusId, inReplyToScreenName);
 
-                StatusText.Text += " RT @" + _curPost.ScreenName + ": " + rtdata;
+                StatusText.Text += " RT @" + post.ScreenName + ": " + rtdata;
 
                 (this.StatusText.SelectionStart, this.StatusText.SelectionLength) = selection;
                 StatusText.Focus();
@@ -10646,15 +10628,9 @@ namespace OpenTween
 
         private async Task doMoveToRTHome()
         {
-            var listView = this.CurrentListView;
-            if (listView.SelectedIndices.Count > 0)
-            {
-                PostClass post = GetCurTabPost(listView.SelectedIndices[0]);
-                if (post.RetweetedId != null)
-                {
-                    await this.OpenUriInBrowserAsync("https://twitter.com/" + GetCurTabPost(listView.SelectedIndices[0]).RetweetedBy);
-                }
-            }
+            var post = this.CurrentPost;
+            if (post != null && post.RetweetedId != null)
+                await this.OpenUriInBrowserAsync("https://twitter.com/" + post.RetweetedBy);
         }
 
         private async void MoveToRTHomeMenuItem_Click(object sender, EventArgs e)
@@ -10662,7 +10638,7 @@ namespace OpenTween
 
         private void ListManageUserContextToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var screenName = this._curPost?.ScreenName;
+            var screenName = this.CurrentPost?.ScreenName;
             if (screenName != null)
                 this.ListManageUserContext(screenName);
         }
@@ -10812,7 +10788,8 @@ namespace OpenTween
             }
 
             var tab = this.CurrentTab;
-            if (tab.TabType == MyCommon.TabUsageType.DirectMessage || !this.ExistCurrentPost || _curPost.IsDm)
+            var post = this.CurrentPost;
+            if (tab.TabType == MyCommon.TabUsageType.DirectMessage || !this.ExistCurrentPost || post.IsDm)
             {
                 this.FavOpMenuItem.Enabled = false;
                 this.UnFavOpMenuItem.Enabled = false;
@@ -10831,7 +10808,7 @@ namespace OpenTween
                 this.OpenStatusOpMenuItem.Enabled = true;
                 this.ShowRelatedStatusesMenuItem2.Enabled = true;  //PublicSearchの時問題出るかも
 
-                if (!_curPost.CanRetweetBy(this.twitterApi.CurrentUserId))
+                if (!post.CanRetweetBy(this.twitterApi.CurrentUserId))
                 {
                     this.RtOpMenuItem.Enabled = false;
                     this.RtUnOpMenuItem.Enabled = false;
@@ -10857,8 +10834,7 @@ namespace OpenTween
             {
                 this.RefreshPrevOpMenuItem.Enabled = false;
             }
-            if (!this.ExistCurrentPost
-                || _curPost.InReplyToStatusId == null)
+            if (!this.ExistCurrentPost || post.InReplyToStatusId == null)
             {
                 OpenRepSourceOpMenuItem.Enabled = false;
             }
@@ -10866,7 +10842,7 @@ namespace OpenTween
             {
                 OpenRepSourceOpMenuItem.Enabled = true;
             }
-            if (!this.ExistCurrentPost || string.IsNullOrEmpty(_curPost.RetweetedBy))
+            if (!this.ExistCurrentPost || string.IsNullOrEmpty(post.RetweetedBy))
             {
                 OpenRterHomeMenuItem.Enabled = false;
             }
@@ -10877,7 +10853,7 @@ namespace OpenTween
 
             if (this.ExistCurrentPost)
             {
-                this.DelOpMenuItem.Enabled = this._curPost.CanDeleteBy(this.tw.UserId);
+                this.DelOpMenuItem.Enabled = post.CanDeleteBy(this.tw.UserId);
             }
         }
 
@@ -10939,8 +10915,10 @@ namespace OpenTween
                 this.CopySTOTMenuItem.Enabled = true;
                 this.CopyURLMenuItem.Enabled = true;
                 this.CopyUserIdStripMenuItem.Enabled = true;
-                if (_curPost.IsDm) this.CopyURLMenuItem.Enabled = false;
-                if (_curPost.IsProtect) this.CopySTOTMenuItem.Enabled = false;
+
+                var post = this.CurrentPost;
+                if (post.IsDm) this.CopyURLMenuItem.Enabled = false;
+                if (post.IsProtect) this.CopySTOTMenuItem.Enabled = false;
             }
         }
 
@@ -10948,7 +10926,7 @@ namespace OpenTween
             => this.SetNotifyIconText();
 
         private async void UserStatusToolStripMenuItem_Click(object sender, EventArgs e)
-            => await this.ShowUserStatus(this._curPost?.ScreenName ?? "");
+            => await this.ShowUserStatus(this.CurrentPost?.ScreenName ?? "");
 
         private async Task doShowUserStatus(string id, bool ShowInputDialog)
         {
@@ -11017,9 +10995,10 @@ namespace OpenTween
 
         private async void ShowProfileMenuItem_Click(object sender, EventArgs e)
         {
-            if (_curPost != null)
+            var post = this.CurrentPost;
+            if (post != null)
             {
-                await this.ShowUserStatus(_curPost.ScreenName, false);
+                await this.ShowUserStatus(post.ScreenName, false);
             }
         }
 
@@ -11028,7 +11007,8 @@ namespace OpenTween
             if (!this.ExistCurrentPost)
                 return;
 
-            var statusId = this._curPost.RetweetedId ?? this._curPost.StatusId;
+            var post = this.CurrentPost;
+            var statusId = post.RetweetedId ?? post.StatusId;
             TwitterStatus status;
 
             using (var dialog = new WaitingDialog(Properties.Resources.RtCountMenuItem_ClickText1))
@@ -11108,9 +11088,6 @@ namespace OpenTween
 
         private void SplitContainer2_MouseDoubleClick(object sender, MouseEventArgs e)
             => this.MultiLinePullDownMenuItem.PerformClick();
-
-        public PostClass CurPost
-            => this._curPost;
 
 #region "画像投稿"
         private void ImageSelectMenuItem_Click(object sender, EventArgs e)
@@ -11223,7 +11200,8 @@ namespace OpenTween
 
         private void MenuItemCommand_DropDownOpening(object sender, EventArgs e)
         {
-            if (this.ExistCurrentPost && !_curPost.IsDm)
+            var post = this.CurrentPost;
+            if (this.ExistCurrentPost && !post.IsDm)
                 RtCountMenuItem.Enabled = true;
             else
                 RtCountMenuItem.Enabled = false;
@@ -11239,8 +11217,9 @@ namespace OpenTween
 
         private void CopyUserId()
         {
-            if (_curPost == null) return;
-            string clstr = _curPost.ScreenName;
+            var post = this.CurrentPost;
+            if (post == null) return;
+            var clstr = post.ScreenName;
             try
             {
                 Clipboard.SetDataObject(clstr, false, 5, 100);
@@ -11253,11 +11232,12 @@ namespace OpenTween
 
         private async void ShowRelatedStatusesMenuItem_Click(object sender, EventArgs e)
         {
-            if (this.ExistCurrentPost && !_curPost.IsDm)
+            var post = this.CurrentPost;
+            if (this.ExistCurrentPost && !post.IsDm)
             {
                 try
                 {
-                    await this.OpenRelatedTab(this._curPost);
+                    await this.OpenRelatedTab(post);
                 }
                 catch (TabException ex)
                 {
@@ -11373,7 +11353,8 @@ namespace OpenTween
                         {
                             this.PurgeListViewItemCache();
                             this.CurrentListView.Update();
-                            if (_curPost != null && _curPost.StatusId == e.StatusId)
+                            var post = this.CurrentPost;
+                            if (post != null && post.StatusId == e.StatusId)
                                 await this.DispSelectedPost(true);
                         }
                     });
@@ -11696,9 +11677,8 @@ namespace OpenTween
         {
             get
             {
-                if (_curPost == null) return false;
-                if (_curPost.IsDeleted) return false;
-                return true;
+                var post = this.CurrentPost;
+                return post != null && !post.IsDeleted;
             }
         }
 
@@ -11707,7 +11687,7 @@ namespace OpenTween
 
         private string GetUserIdFromCurPostOrInput(string caption)
         {
-            var id = _curPost?.ScreenName ?? "";
+            var id = this.CurrentPost?.ScreenName ?? "";
 
             using (InputTabName inputName = new InputTabName())
             {
@@ -11781,12 +11761,13 @@ namespace OpenTween
             {
                 if (SettingManager.Common.UserAppointUrl.Contains("{ID}") || SettingManager.Common.UserAppointUrl.Contains("{STATUS}"))
                 {
-                    if (_curPost != null)
+                    var post = this.CurrentPost;
+                    if (post != null)
                     {
                         string xUrl = SettingManager.Common.UserAppointUrl;
-                        xUrl = xUrl.Replace("{ID}", _curPost.ScreenName);
+                        xUrl = xUrl.Replace("{ID}", post.ScreenName);
 
-                        var statusId = _curPost.RetweetedId ?? _curPost.StatusId;
+                        var statusId = post.RetweetedId ?? post.StatusId;
                         xUrl = xUrl.Replace("{STATUS}", statusId.ToString());
 
                         await this.OpenUriInBrowserAsync(xUrl);
