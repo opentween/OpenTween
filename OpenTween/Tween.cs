@@ -10040,6 +10040,8 @@ namespace OpenTween
             statusHtml = Regex.Replace(statusHtml, "<a class=\"mention\" href=\"(?<href>.+?)\">(?<text>.+?)</a>", "${text}");
             // ハッシュタグ
             statusHtml = Regex.Replace(statusHtml, "<a class=\"hashtag\" href=\"(?<href>.+?)\">(?<text>.+?)</a>", "${text}");
+            // 絵文字
+            statusHtml = Regex.Replace(statusHtml, "<img class=\"emoji\" src=\".+?\" alt=\"(?<text>.+?)\" />", "${text}");
 
             // <br> 除去
             if (multiline)
