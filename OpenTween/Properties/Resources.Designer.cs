@@ -652,17 +652,17 @@ namespace OpenTween.Properties {
         /// <summary>
         ///   更新履歴
         ///
-        ///==== Ver 2.3.1-dev(2019/xx/xx)
+        ///==== Ver 2.3.1(2019/04/22)
+        /// * FIX: 2019/5/20に予定されているTwitter APIの仕様変更によりエラーが発生する問題を修正
+        ///  - OpenTween v2.3.0 までのバージョンは2019/5/20以降に使用できなくなる可能性があります
+        /// * FIX: 絵文字を含むツイートの非公式RTで余分なHTMLタグが混入する不具合を修正 (thx @380Nayuta!)
         ///
         ///==== Ver 2.3.0(2019/04/08)
         /// * CHG: 投稿欄にフォーカスしている間は一部のショートカットを無効にします (thx @pitermach, @lukaszgo1!)
         ///  - 対象となるショートカットは Ctrl+Alt+S (Fav+RT), Ctrl+Alt+R (Fav+非公式RT), Ctrl+Alt+H (ユーザー指定のURLを開く) の3つです
         ///  - AltGrキーを使う言語のキーボートとショートカットキーが重複する問題への対処です
         /// * CHG: Microsoft Translator Text API v3 に対応
-        ///  - OpenTweenの古いバージョンの翻訳機能は 2019/4/30 以降に使用できなくなります
-        /// * CHG: 短縮URLの展開時にHTTPSが使用できるドメインは強制的にHTTPSを使用する
-        /// * CHG: 廃止された短縮URLサービスのドメインをURL展開の対象から削除
-        /// * CHG: 短縮URLで生成されるURLがHTTPSになるように変 [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
+        /// [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ChangeLog {
             get {
