@@ -1114,8 +1114,7 @@ namespace OpenTween
             //タイマー設定
 
             var streamingRefreshInterval = TimeSpan.FromSeconds(SettingManager.Common.UserstreamPeriod);
-            this.RefreshThrottlingTimer = new ThrottlingTimer(streamingRefreshInterval,
-                () => this.InvokeAsync(() => this.RefreshTimeline()));
+            this.RefreshThrottlingTimer = ThrottlingTimer.Throttle(() => this.InvokeAsync(() => this.RefreshTimeline()), streamingRefreshInterval);
 
             TimerTimeline.AutoReset = true;
             TimerTimeline.SynchronizingObject = this;
@@ -1282,7 +1281,7 @@ namespace OpenTween
             if (e.UserStream)
             {
                 var interval = TimeSpan.FromSeconds(SettingManager.Common.UserstreamPeriod);
-                var newTimer = new ThrottlingTimer(interval, () => this.InvokeAsync(() => this.RefreshTimeline()));
+                var newTimer = ThrottlingTimer.Throttle(() => this.InvokeAsync(() => this.RefreshTimeline()), interval);
                 var oldTimer = Interlocked.Exchange(ref this.RefreshThrottlingTimer, newTimer);
                 oldTimer.Dispose();
             }
@@ -11325,7 +11324,7 @@ namespace OpenTween
 
             this._statuses.DistributePosts();
 
-            this.RefreshThrottlingTimer.Invoke();
+            this.RefreshThrottlingTimer.Call();
         }
 
         private async void tw_UserStreamStarted(object sender, EventArgs e)

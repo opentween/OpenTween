@@ -36,22 +36,22 @@ namespace OpenTween
         private readonly Timer throttlingTimer;
         private readonly Func<Task> timerCallback;
 
+        private DateTimeUtc lastCalled = DateTimeUtc.MinValue;
         private DateTimeUtc lastInvoked = DateTimeUtc.MinValue;
-        private DateTimeUtc lastExecuted = DateTimeUtc.MinValue;
         private int refreshTimerEnabled = 0;
 
         public TimeSpan Interval { get; }
 
-        public ThrottlingTimer(TimeSpan interval, Func<Task> timerCallback)
+        public ThrottlingTimer(Func<Task> timerCallback, TimeSpan interval)
         {
-            this.Interval = interval;
             this.timerCallback = timerCallback;
+            this.Interval = interval;
             this.throttlingTimer = new Timer(this.Execute);
         }
 
-        public void Invoke()
+        public void Call()
         {
-            this.lastInvoked = DateTimeUtc.Now;
+            this.lastCalled = DateTimeUtc.Now;
 
             if (this.refreshTimerEnabled == TIMER_DISABLED)
             {
@@ -65,7 +65,7 @@ namespace OpenTween
 
         private async void Execute(object _)
         {
-            var timerExpired = this.lastInvoked < this.lastExecuted;
+            var timerExpired = this.lastCalled < this.lastInvoked;
             if (timerExpired)
             {
                 // 前回実行時より後に lastInvoked が更新されていなければタイマーを止める
@@ -73,8 +73,7 @@ namespace OpenTween
             }
             else
             {
-                this.lastExecuted = DateTimeUtc.Now;
-
+                this.lastInvoked = DateTimeUtc.Now;
                 await this.timerCallback().ConfigureAwait(false);
 
                 // dueTime は Execute が呼ばれる度に再設定する (period は使用しない)
@@ -86,5 +85,9 @@ namespace OpenTween
 
         public void Dispose()
             => this.throttlingTimer.Dispose();
+
+        // lodash.js の _.throttle 的な処理をしたかったメソッド
+        public static ThrottlingTimer Throttle(Func<Task> callback, TimeSpan wait)
+            => new ThrottlingTimer(callback, wait);
     }
 }
