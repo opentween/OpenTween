@@ -211,11 +211,8 @@ namespace OpenTween
             /// <summary>キャッシュする範囲の終了インデックス</summary>
             public int EndIndex { get; set; }
 
-            /// <summary>キャッシュされた <see cref="ListViewItem"/> インスタンス</summary>
-            public ListViewItem[] ListItem { get; set; }
-
-            /// <summary>キャッシュされた範囲に対応する <see cref="PostClass"/> インスタンス</summary>
-            public PostClass[] Post { get; set; }
+            /// <summary>キャッシュされた範囲に対応する <see cref="ListViewItem"/> と <see cref="PostClass"/> の組</summary>
+            public (ListViewItem, PostClass)[] Cache { get; set; }
 
             /// <summary>キャッシュされたアイテムの件数</summary>
             public int Count
@@ -237,8 +234,7 @@ namespace OpenTween
             {
                 if (this.Contains(index))
                 {
-                    item = this.ListItem[index - this.StartIndex];
-                    post = this.Post[index - this.StartIndex];
+                    (item, post) = this.Cache[index - this.StartIndex];
                     return true;
                 }
                 else
@@ -1947,9 +1943,9 @@ namespace OpenTween
             {
                 DList.Update();
                 if (SettingManager.Common.UseUnreadStyle)
-                    DList.ChangeItemFontAndColor(Item.Index, cl, fnt);
+                    DList.ChangeItemFontAndColor(Item, cl, fnt);
                 else
-                    DList.ChangeItemForeColor(Item.Index, cl);
+                    DList.ChangeItemForeColor(Item, cl);
                 //if (_itemCache != null) DList.RedrawItems(_itemCacheIndex, _itemCacheIndex + _itemCache.Length - 1, false);
             }
         }
@@ -1970,16 +1966,15 @@ namespace OpenTween
             if (listCache == null)
                 return;
 
-            var index = listCache.StartIndex;
             var listView = (DetailsListView)listCache.TargetList;
-            foreach (var cachedPost in listCache.Post)
+            foreach (var (listViewItem, cachedPost) in listCache.Cache)
             {
                 var backColor = this.JudgeColor(_post, cachedPost);
-                listView.ChangeItemBackColor(index++, backColor);
+                listView.ChangeItemBackColor(listViewItem, backColor);
             }
         }
 
-        private void ColorizeList(ListViewItem Item, int Index)
+        private void ColorizeList(ListViewItem Item, PostClass post, int Index)
         {
             //Index:更新対象のListviewItem.Index。Colorを返す。
             //-1は全キャッシュ。Colorは返さない（ダミーを戻す）
@@ -1989,14 +1984,12 @@ namespace OpenTween
             else
                 _post = this.CurrentPost;
 
-            PostClass tPost = GetCurTabPost(Index);
-
             if (_post == null) return;
 
             if (Item.Index == -1)
-                Item.BackColor = JudgeColor(_post, tPost);
+                Item.BackColor = JudgeColor(_post, post);
             else
-                this.CurrentListView.ChangeItemBackColor(Item.Index, JudgeColor(_post, tPost));
+                this.CurrentListView.ChangeItemBackColor(Item, JudgeColor(_post, post));
         }
 
         private Color JudgeColor(PostClass BasePost, PostClass TargetPost)
@@ -4762,8 +4755,7 @@ namespace OpenTween
                 TargetList = this.CurrentListView,
                 StartIndex = startIndex,
                 EndIndex = endIndex,
-                Post = posts,
-                ListItem = listItems,
+                Cache = Enumerable.Zip(listItems, posts, (x, y) => (x, y)).ToArray(),
             };
 
             Interlocked.Exchange(ref this._listItemCache, listCache);
@@ -4819,7 +4811,7 @@ namespace OpenTween
             ChangeItemStyleRead(read, itm, Post, null);
 
             if (tab.TabName == this.CurrentTabName)
-                this.ColorizeList(itm, Index);
+                this.ColorizeList(itm, Post, Index);
 
             return itm;
         }

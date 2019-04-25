@@ -130,105 +130,50 @@ namespace OpenTween.OpenTweenCustomControl
             this.OnSelectedIndexChanged(EventArgs.Empty);
         }
 
-        public void ChangeItemBackColor(int index, Color backColor)
-            => this.ChangeSubItemBackColor(index, 0, backColor);
-
-        public void ChangeItemForeColor(int index, Color foreColor)
-            => this.ChangeSubItemForeColor(index, 0, foreColor);
-
-        public void ChangeItemFont(int index, Font fnt)
-            => this.ChangeSubItemFont(index, 0, fnt);
-
-        public void ChangeItemFontAndColor(int index, Color foreColor, Font fnt)
-            => this.ChangeSubItemStyles(index, 0, BackColor, foreColor, fnt);
-
-        public void ChangeItemStyles(int index, Color backColor, Color foreColor, Font fnt)
-            => this.ChangeSubItemStyles(index, 0, backColor, foreColor, fnt);
-
-        public void ChangeSubItemBackColor(int itemIndex, int subitemIndex, Color backColor)
+        public void ChangeItemBackColor(ListViewItem item, Color backColor)
         {
-            var item = this.Items[itemIndex];
-            item.SubItems[subitemIndex].BackColor = backColor;
-            SetUpdateBounds(item, subitemIndex);
+            if (item.BackColor == backColor)
+                return;
+
+            item.BackColor = backColor;
+            SetUpdateBounds(item);
             this.Update();
             this.changeBounds = Rectangle.Empty;
         }
 
-        public void ChangeSubItemForeColor(int itemIndex, int subitemIndex, Color foreColor)
+        public void ChangeItemForeColor(ListViewItem item, Color foreColor)
         {
-            var item = this.Items[itemIndex];
-            item.SubItems[subitemIndex].ForeColor = foreColor;
-            SetUpdateBounds(item, subitemIndex);
+            if (item.ForeColor == foreColor)
+                return;
+
+            item.ForeColor = foreColor;
+            SetUpdateBounds(item);
             this.Update();
             this.changeBounds = Rectangle.Empty;
         }
 
-        public void ChangeSubItemFont(int itemIndex, int subitemIndex, Font fnt)
+        public void ChangeItemFontAndColor(ListViewItem item, Color foreColor, Font fnt)
         {
-            var item = this.Items[itemIndex];
-            item.SubItems[subitemIndex].Font = fnt;
-            SetUpdateBounds(item, subitemIndex);
+            if (item.ForeColor == foreColor && item.Font == fnt)
+                return;
+
+            item.ForeColor = foreColor;
+            item.Font = fnt;
+            SetUpdateBounds(item);
             this.Update();
             this.changeBounds = Rectangle.Empty;
         }
 
-        public void ChangeSubItemFontAndColor(int itemIndex, int subitemIndex, Color foreColor, Font fnt)
-        {
-            var item = this.Items[itemIndex];
-            var subItem = item.SubItems[subitemIndex];
-            subItem.ForeColor = foreColor;
-            subItem.Font = fnt;
-            SetUpdateBounds(item, subitemIndex);
-            this.Update();
-            this.changeBounds = Rectangle.Empty;
-        }
-
-        public void ChangeSubItemStyles(int itemIndex, int subitemIndex, Color backColor, Color foreColor, Font fnt)
-        {
-            var item = this.Items[itemIndex];
-            var subItem = item.SubItems[subitemIndex];
-            subItem.BackColor = backColor;
-            subItem.ForeColor = foreColor;
-            subItem.Font = fnt;
-            SetUpdateBounds(item, subitemIndex);
-            this.Update();
-            this.changeBounds = Rectangle.Empty;
-        }
-
-        private void SetUpdateBounds(ListViewItem item, int subItemIndex)
+        private void SetUpdateBounds(ListViewItem item)
         {
             try
             {
-                if (subItemIndex > this.Columns.Count)
-                {
-                    throw new ArgumentOutOfRangeException(nameof(subItemIndex));
-                }
-                if (item.UseItemStyleForSubItems)
-                {
-                    this.changeBounds = item.Bounds;
-                }
-                else
-                {
-                    this.changeBounds = this.GetSubItemBounds(item, subItemIndex);
-                }
+                this.changeBounds = item.Bounds;
             }
             catch (ArgumentException)
             {
                 //タイミングによりBoundsプロパティが取れない？
                 this.changeBounds = Rectangle.Empty;
-            }
-        }
-
-        private Rectangle GetSubItemBounds(ListViewItem item, int subitemIndex)
-        {
-            if (subitemIndex == 0 && this.Columns.Count > 0)
-            {
-                Rectangle col0 = item.Bounds;
-                return new Rectangle(col0.Left, col0.Top, item.SubItems[1].Bounds.X + 1, col0.Height);
-            }
-            else
-            {
-                return item.SubItems[subitemIndex].Bounds;
             }
         }
 
