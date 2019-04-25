@@ -267,10 +267,10 @@ namespace OpenTween
         private bool osResumed = false;
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////
-        private bool _colorize = false;
 
         private System.Timers.Timer TimerTimeline = new System.Timers.Timer();
         private ThrottlingTimer RefreshThrottlingTimer;
+        private ThrottlingTimer selectionDebouncer;
 
         private string recommendedStatusFooter;
         private bool urlMultibyteSplit = false;
@@ -1115,6 +1115,7 @@ namespace OpenTween
 
             var streamingRefreshInterval = TimeSpan.FromSeconds(SettingManager.Common.UserstreamPeriod);
             this.RefreshThrottlingTimer = ThrottlingTimer.Throttle(() => this.InvokeAsync(() => this.RefreshTimeline()), streamingRefreshInterval);
+            this.selectionDebouncer = ThrottlingTimer.Debounce(() => this.InvokeAsync(() => this.UpdateSelectedPost()), TimeSpan.FromMilliseconds(100));
 
             TimerTimeline.AutoReset = true;
             TimerTimeline.SynchronizingObject = this;
@@ -1934,9 +1935,9 @@ namespace OpenTween
             this._statuses.SetReadAllTab(post.StatusId, read: true);
             //キャッシュの書き換え
             ChangeCacheStyleRead(true, index); // 既読へ（フォント、文字色）
-
             ColorizeList();
-            _colorize = true;
+
+            this.selectionDebouncer.Call();
         }
 
         private void ChangeCacheStyleRead(bool Read, int Index)
@@ -5583,10 +5584,8 @@ namespace OpenTween
             }
         }
 
-        private async Task Colorize()
+        private async Task UpdateSelectedPost()
         {
-            _colorize = false;
-            await this.DispSelectedPost();
             //件数関連の場合、タイトル即時書き換え
             if (SettingManager.Common.DispLatestPost != MyCommon.DispTitleEnum.None &&
                SettingManager.Common.DispLatestPost != MyCommon.DispTitleEnum.Post &&
@@ -5598,11 +5597,11 @@ namespace OpenTween
             if (!StatusLabelUrl.Text.StartsWith("http", StringComparison.OrdinalIgnoreCase))
                 SetStatusLabelUrl();
 
-            foreach (var (tab, index) in this._statuses.Tabs.WithIndex())
+            if (SettingManager.Common.TabIconDisp)
             {
-                if (tab.UnreadCount == 0)
+                foreach (var (tab, index) in this._statuses.Tabs.WithIndex())
                 {
-                    if (SettingManager.Common.TabIconDisp)
+                    if (tab.UnreadCount == 0)
                     {
                         var tabPage = this.ListTab.TabPages[index];
                         if (tabPage.ImageIndex == 0)
@@ -5610,7 +5609,12 @@ namespace OpenTween
                     }
                 }
             }
-            if (!SettingManager.Common.TabIconDisp) ListTab.Refresh();
+            else
+            {
+                this.ListTab.Refresh();
+            }
+
+            await this.DispSelectedPost();
         }
 
         public string createDetailHtml(string orgdata)
@@ -5869,7 +5873,7 @@ namespace OpenTween
 
                 ShortcutCommand.Create(Keys.Control | Keys.Home, Keys.Control | Keys.End)
                     .FocusedOn(FocusedControl.ListTab)
-                    .Do(() => this._colorize = true, preventDefault: false),
+                    .Do(() => this.selectionDebouncer.Call(), preventDefault: false),
 
                 ShortcutCommand.Create(Keys.Control | Keys.N)
                     .FocusedOn(FocusedControl.ListTab)
@@ -7744,11 +7748,8 @@ namespace OpenTween
         private static bool blink = false;
         private static bool idle = false;
 
-        private async Task RefreshTasktrayIcon()
+        private void RefreshTasktrayIcon()
         {
-            if (_colorize)
-                await this.Colorize();
-
             if (!TimerRefreshIcon.Enabled) return;
             //Static usCheckCnt As int = 0
 
@@ -7832,8 +7833,8 @@ namespace OpenTween
             }
         }
 
-        private async void TimerRefreshIcon_Tick(object sender, EventArgs e)
-            => await this.RefreshTasktrayIcon(); // 200ms
+        private void TimerRefreshIcon_Tick(object sender, EventArgs e)
+            => this.RefreshTasktrayIcon(); // 200ms
 
         private void ContextMenuTabProperty_Opening(object sender, CancelEventArgs e)
         {

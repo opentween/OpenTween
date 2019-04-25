@@ -41,11 +41,13 @@ namespace OpenTween
         private int refreshTimerEnabled = 0;
 
         public TimeSpan Interval { get; }
+        public TimeSpan MaxWait { get; }
 
-        public ThrottlingTimer(Func<Task> timerCallback, TimeSpan interval)
+        public ThrottlingTimer(Func<Task> timerCallback, TimeSpan interval, TimeSpan maxWait)
         {
             this.timerCallback = timerCallback;
             this.Interval = interval;
+            this.MaxWait = maxWait;
             this.throttlingTimer = new Timer(this.Execute);
         }
 
@@ -73,8 +75,12 @@ namespace OpenTween
             }
             else
             {
-                this.lastInvoked = DateTimeUtc.Now;
-                await this.timerCallback().ConfigureAwait(false);
+                var now = DateTimeUtc.Now;
+                if ((now - this.lastCalled) >= this.Interval || (now - this.lastInvoked) >= this.MaxWait)
+                {
+                    this.lastInvoked = now;
+                    await this.timerCallback().ConfigureAwait(false);
+                }
 
                 // dueTime は Execute が呼ばれる度に再設定する (period は使用しない)
                 // これにより timerCallback の実行に Interval 以上の時間が掛かっても重複して実行されることはなくなる
@@ -86,8 +92,11 @@ namespace OpenTween
         public void Dispose()
             => this.throttlingTimer.Dispose();
 
-        // lodash.js の _.throttle 的な処理をしたかったメソッド
+        // lodash.js の _.throttle, _.debounce 的な処理をしたかったメソッド群
         public static ThrottlingTimer Throttle(Func<Task> callback, TimeSpan wait)
-            => new ThrottlingTimer(callback, wait);
+            => new ThrottlingTimer(callback, wait, maxWait: wait);
+
+        public static ThrottlingTimer Debounce(Func<Task> callback, TimeSpan wait)
+            => new ThrottlingTimer(callback, wait, maxWait: TimeSpan.MaxValue);
     }
 }
