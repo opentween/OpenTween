@@ -271,6 +271,7 @@ namespace OpenTween
         private System.Timers.Timer TimerTimeline = new System.Timers.Timer();
         private ThrottlingTimer RefreshThrottlingTimer;
         private ThrottlingTimer selectionDebouncer;
+        private ThrottlingTimer saveConfigDebouncer;
 
         private string recommendedStatusFooter;
         private bool urlMultibyteSplit = false;
@@ -1116,6 +1117,7 @@ namespace OpenTween
             var streamingRefreshInterval = TimeSpan.FromSeconds(SettingManager.Common.UserstreamPeriod);
             this.RefreshThrottlingTimer = ThrottlingTimer.Throttle(() => this.InvokeAsync(() => this.RefreshTimeline()), streamingRefreshInterval);
             this.selectionDebouncer = ThrottlingTimer.Debounce(() => this.InvokeAsync(() => this.UpdateSelectedPost()), TimeSpan.FromMilliseconds(100), leading: true);
+            this.saveConfigDebouncer = ThrottlingTimer.Debounce(() => this.InvokeAsync(() => this.SaveConfigsAll(ifModified: true)), TimeSpan.FromSeconds(1));
 
             TimerTimeline.AutoReset = true;
             TimerTimeline.SynchronizingObject = this;
@@ -1388,6 +1390,33 @@ namespace OpenTween
             }
 
             await Task.WhenAll(refreshTasks);
+        }
+
+        private void MarkSettingCommonModified()
+        {
+            if (this.saveConfigDebouncer == null)
+                return;
+
+            this.ModifySettingCommon = true;
+            this.saveConfigDebouncer.Call();
+        }
+
+        private void MarkSettingLocalModified()
+        {
+            if (this.saveConfigDebouncer == null)
+                return;
+
+            this.ModifySettingLocal = true;
+            this.saveConfigDebouncer.Call();
+        }
+
+        internal void MarkSettingAtIdModified()
+        {
+            if (this.saveConfigDebouncer == null)
+                return;
+
+            this.ModifySettingAtId = true;
+            this.saveConfigDebouncer.Call();
         }
 
         private void RefreshTimeline()
@@ -3085,7 +3114,7 @@ namespace OpenTween
                     _mySpDis = this.SplitContainer1.SplitterDistance;
                     _mySpDis3 = this.SplitContainer3.SplitterDistance;
                     if (StatusText.Multiline) _mySpDis2 = this.StatusText.Height;
-                    ModifySettingLocal = true;
+                    this.MarkSettingLocalModified();
                 }
             }
         }
@@ -3204,7 +3233,7 @@ namespace OpenTween
             }
             list.Refresh();
 
-            this.ModifySettingCommon = true;
+            this.MarkSettingCommonModified();
         }
 
         private void TweenMain_LocationChanged(object sender, EventArgs e)
@@ -3212,7 +3241,7 @@ namespace OpenTween
             if (this.WindowState == FormWindowState.Normal && !_initialLayout)
             {
                 _myLoc = this.DesktopLocation;
-                ModifySettingLocal = true;
+                this.MarkSettingLocalModified();
             }
         }
 
@@ -4395,7 +4424,8 @@ namespace OpenTween
                 //@マーク
                 int cnt = AtIdSupl.ItemCount;
                 ShowSuplDialog(StatusText, AtIdSupl);
-                if (cnt != AtIdSupl.ItemCount) ModifySettingAtId = true;
+                if (cnt != AtIdSupl.ItemCount)
+                    this.MarkSettingAtIdModified();
                 e.Handled = true;
             }
             else if (e.KeyChar == '#')
@@ -5568,7 +5598,7 @@ namespace OpenTween
                     else if (dialog.SkipButtonPressed)
                     {
                         SettingManager.Common.SkipUpdateVersion = versionInfo.Version;
-                        this.ModifySettingCommon = true;
+                        this.MarkSettingCommonModified();
                     }
                 }
             }
@@ -6149,7 +6179,8 @@ namespace OpenTween
                                     startstr = StatusText.Text.Substring(i + 1, endidx - i);
                                     int cnt = AtIdSupl.ItemCount;
                                     ShowSuplDialog(StatusText, AtIdSupl, startstr.Length + 1, startstr);
-                                    if (AtIdSupl.ItemCount != cnt) ModifySettingAtId = true;
+                                    if (AtIdSupl.ItemCount != cnt)
+                                        this.MarkSettingAtIdModified();
                                 }
                                 else if (c == '#')
                                 {
@@ -7791,8 +7822,6 @@ namespace OpenTween
             if (blinkCnt > 10)
             {
                 blinkCnt = 0;
-                //未保存の変更を保存
-                SaveConfigsAll(true);
             }
 
             if (busy)
@@ -8240,7 +8269,8 @@ namespace OpenTween
                 }
                 int cnt = AtIdSupl.ItemCount;
                 AtIdSupl.AddRangeItem(atids.ToArray());
-                if (AtIdSupl.ItemCount != cnt) ModifySettingAtId = true;
+                if (AtIdSupl.ItemCount != cnt)
+                    this.MarkSettingAtIdModified();
             }
         }
 
@@ -8847,7 +8877,8 @@ namespace OpenTween
                 {
                     AtIdSupl.AddItem(mid.Result("${id}"));
                 }
-                if (bCnt != AtIdSupl.ItemCount) ModifySettingAtId = true;
+                if (bCnt != AtIdSupl.ItemCount)
+                    this.MarkSettingAtIdModified();
             }
 
             // リプライ先ステータスIDの指定がない場合は指定しない
@@ -8949,7 +8980,7 @@ namespace OpenTween
             {
                 SettingManager.Common.PlaySound = false;
             }
-            ModifySettingCommon = true;
+            this.MarkSettingCommonModified();
         }
 
         private void SplitContainer1_SplitterMoved(object sender, SplitterEventArgs e)
@@ -8974,7 +9005,7 @@ namespace OpenTween
             }
 
             this._mySpDis = splitterDistance;
-            this.ModifySettingLocal = true;
+            this.MarkSettingLocalModified();
         }
 
         private async Task doRepliedStatusOpen()
@@ -9019,7 +9050,7 @@ namespace OpenTween
             {
                 this.StatusText.Multiline = multiline;
                 SettingManager.Local.StatusMultiline = multiline;
-                ModifySettingLocal = true;
+                this.MarkSettingLocalModified();
             }
         }
 
@@ -9030,7 +9061,8 @@ namespace OpenTween
             else
                 this.StatusText.ScrollBars = ScrollBars.None;
 
-            ModifySettingLocal = true;
+            if (!this._initialLayout)
+                this.MarkSettingLocalModified();
         }
 
         private void MultiLineMenuItem_Click(object sender, EventArgs e)
@@ -9050,7 +9082,7 @@ namespace OpenTween
             {
                 SplitContainer2.SplitterDistance = SplitContainer2.Height - SplitContainer2.Panel2MinSize - SplitContainer2.SplitterWidth;
             }
-            ModifySettingLocal = true;
+            this.MarkSettingLocalModified();
         }
 
         private async Task<bool> UrlConvertAsync(MyCommon.UrlConverter Converter_Type)
@@ -9276,7 +9308,7 @@ namespace OpenTween
             this.NotifyFileMenuItem.Checked = ((ToolStripMenuItem)sender).Checked;
             this.NewPostPopMenuItem.Checked = this.NotifyFileMenuItem.Checked;
             SettingManager.Common.NewAllPop = NewPostPopMenuItem.Checked;
-            ModifySettingCommon = true;
+            this.MarkSettingCommonModified();
         }
 
         private void ListLockMenuItem_CheckStateChanged(object sender, EventArgs e)
@@ -9284,7 +9316,7 @@ namespace OpenTween
             ListLockMenuItem.Checked = ((ToolStripMenuItem)sender).Checked;
             this.LockListFileMenuItem.Checked = ListLockMenuItem.Checked;
             SettingManager.Common.ListLock = ListLockMenuItem.Checked;
-            ModifySettingCommon = true;
+            this.MarkSettingCommonModified();
         }
 
         private void MenuStrip1_MenuActivate(object sender, EventArgs e)
@@ -9371,7 +9403,7 @@ namespace OpenTween
                 SettingManager.Local.Width7 = lst.Columns[6].Width;
                 SettingManager.Local.Width8 = lst.Columns[7].Width;
             }
-            ModifySettingLocal = true;
+            this.MarkSettingLocalModified();
             _isColumnChanged = true;
         }
 
@@ -9379,19 +9411,19 @@ namespace OpenTween
         {
             DetailsListView lst = (DetailsListView)sender;
             if (SettingManager.Local == null) return;
+
+            var modified = false;
             if (_iconCol)
             {
                 if (SettingManager.Local.Width1 != lst.Columns[0].Width)
                 {
                     SettingManager.Local.Width1 = lst.Columns[0].Width;
-                    ModifySettingLocal = true;
-                    _isColumnChanged = true;
+                    modified = true;
                 }
                 if (SettingManager.Local.Width3 != lst.Columns[1].Width)
                 {
                     SettingManager.Local.Width3 = lst.Columns[1].Width;
-                    ModifySettingLocal = true;
-                    _isColumnChanged = true;
+                    modified = true;
                 }
             }
             else
@@ -9399,51 +9431,48 @@ namespace OpenTween
                 if (SettingManager.Local.Width1 != lst.Columns[0].Width)
                 {
                     SettingManager.Local.Width1 = lst.Columns[0].Width;
-                    ModifySettingLocal = true;
-                    _isColumnChanged = true;
+                    modified = true;
                 }
                 if (SettingManager.Local.Width2 != lst.Columns[1].Width)
                 {
                     SettingManager.Local.Width2 = lst.Columns[1].Width;
-                    ModifySettingLocal = true;
-                    _isColumnChanged = true;
+                    modified = true;
                 }
                 if (SettingManager.Local.Width3 != lst.Columns[2].Width)
                 {
                     SettingManager.Local.Width3 = lst.Columns[2].Width;
-                    ModifySettingLocal = true;
-                    _isColumnChanged = true;
+                    modified = true;
                 }
                 if (SettingManager.Local.Width4 != lst.Columns[3].Width)
                 {
                     SettingManager.Local.Width4 = lst.Columns[3].Width;
-                    ModifySettingLocal = true;
-                    _isColumnChanged = true;
+                    modified = true;
                 }
                 if (SettingManager.Local.Width5 != lst.Columns[4].Width)
                 {
                     SettingManager.Local.Width5 = lst.Columns[4].Width;
-                    ModifySettingLocal = true;
-                    _isColumnChanged = true;
+                    modified = true;
                 }
                 if (SettingManager.Local.Width6 != lst.Columns[5].Width)
                 {
                     SettingManager.Local.Width6 = lst.Columns[5].Width;
-                    ModifySettingLocal = true;
-                    _isColumnChanged = true;
+                    modified = true;
                 }
                 if (SettingManager.Local.Width7 != lst.Columns[6].Width)
                 {
                     SettingManager.Local.Width7 = lst.Columns[6].Width;
-                    ModifySettingLocal = true;
-                    _isColumnChanged = true;
+                    modified = true;
                 }
                 if (SettingManager.Local.Width8 != lst.Columns[7].Width)
                 {
                     SettingManager.Local.Width8 = lst.Columns[7].Width;
-                    ModifySettingLocal = true;
-                    _isColumnChanged = true;
+                    modified = true;
                 }
+            }
+            if (modified)
+            {
+                this.MarkSettingLocalModified();
+                this._isColumnChanged = true;
             }
             // 非表示の時にColumnChangedが呼ばれた場合はForm初期化処理中なので保存しない
             //if (changed)
@@ -9455,7 +9484,7 @@ namespace OpenTween
         private void SplitContainer2_SplitterMoved(object sender, SplitterEventArgs e)
         {
             if (StatusText.Multiline) _mySpDis2 = StatusText.Height;
-            ModifySettingLocal = true;
+            this.MarkSettingLocalModified();
         }
 
         private void TweenMain_DragDrop(object sender, DragEventArgs e)
@@ -10045,13 +10074,13 @@ namespace OpenTween
         private void IdeographicSpaceToSpaceMenuItem_Click(object sender, EventArgs e)
         {
             SettingManager.Common.WideSpaceConvert = ((ToolStripMenuItem)sender).Checked;
-            ModifySettingCommon = true;
+            this.MarkSettingCommonModified();
         }
 
         private void FocusLockMenuItem_CheckedChanged(object sender, EventArgs e)
         {
             SettingManager.Common.FocusLockToStatusText = ((ToolStripMenuItem)sender).Checked;
-            ModifySettingCommon = true;
+            this.MarkSettingCommonModified();
         }
 
         private void PostModeMenuItem_DropDownOpening(object sender, EventArgs e)
@@ -10678,7 +10707,7 @@ namespace OpenTween
             //    StatusText.SelectionStart = sidx;
             //    StatusText.Focus();
             //}
-            ModifySettingCommon = true;
+            this.MarkSettingCommonModified();
             this.StatusText_TextChanged(null, null);
         }
 
@@ -10697,7 +10726,7 @@ namespace OpenTween
                 HashToggleMenuItem.Checked = false;
                 HashTogglePullDownMenuItem.Checked = false;
             }
-            ModifySettingCommon = true;
+            this.MarkSettingCommonModified();
             this.StatusText_TextChanged(null, null);
         }
 
@@ -10711,7 +10740,7 @@ namespace OpenTween
             HashTogglePullDownMenuItem.Checked = true;
             HashToggleMenuItem.Checked = true;
             //使用ハッシュタグとして設定
-            ModifySettingCommon = true;
+            this.MarkSettingCommonModified();
         }
 
         private void MenuItemOperate_DropDownOpening(object sender, EventArgs e)
@@ -10845,7 +10874,7 @@ namespace OpenTween
             }
 
             this._mySpDis3 = splitterDistance;
-            this.ModifySettingLocal = true;
+            this.MarkSettingLocalModified();
         }
 
         private void MenuItemEdit_DropDownOpening(object sender, EventArgs e)
@@ -11099,9 +11128,7 @@ namespace OpenTween
         {
             if (ImageSelector.Visible)
             {
-                ModifySettingCommon = true;
-                SaveConfigsAll(true);
-
+                this.MarkSettingCommonModified();
                 this.StatusText_TextChanged(null, null);
             }
         }
@@ -11154,9 +11181,9 @@ namespace OpenTween
             }
         }
 
-        public bool ModifySettingCommon { get; set; }
-        public bool ModifySettingLocal { get; set; }
-        public bool ModifySettingAtId { get; set; }
+        private bool ModifySettingCommon { get; set; }
+        private bool ModifySettingLocal { get; set; }
+        private bool ModifySettingAtId { get; set; }
 
         private void MenuItemCommand_DropDownOpening(object sender, EventArgs e)
         {
@@ -11286,9 +11313,6 @@ namespace OpenTween
             buf.AppendFormat("キャッシュエントリ破棄数     : {0}" + Environment.NewLine, IconCache.CacheRemoveCount);
             MessageBox.Show(buf.ToString(), "アイコンキャッシュ使用状況");
         }
-
-        private void tw_UserIdChanged()
-            => this.ModifySettingCommon = true;
 
 #region "Userstream"
         private async void tw_PostDeleted(object sender, PostDeletedEventArgs e)
@@ -11558,7 +11582,7 @@ namespace OpenTween
                 if (!inputTrack.Equals(tw.TrackWord))
                 {
                     tw.TrackWord = inputTrack;
-                    this.ModifySettingCommon = true;
+                    this.MarkSettingCommonModified();
                     TrackToolStripMenuItem.Checked = !string.IsNullOrEmpty(inputTrack);
                     tw.ReconnectUserStream();
                 }
@@ -11568,13 +11592,13 @@ namespace OpenTween
                 tw.TrackWord = "";
                 tw.ReconnectUserStream();
             }
-            this.ModifySettingCommon = true;
+            this.MarkSettingCommonModified();
         }
 
         private void AllrepliesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             tw.AllAtReply = AllrepliesToolStripMenuItem.Checked;
-            this.ModifySettingCommon = true;
+            this.MarkSettingCommonModified();
             tw.ReconnectUserStream();
         }
 
@@ -11835,8 +11859,7 @@ namespace OpenTween
             }
 
             this.CurrentListView.Refresh();
-
-            ModifySettingCommon = true;
+            this.MarkSettingCommonModified();
         }
 
         private void LockListSortToolStripMenuItem_Click(object sender, EventArgs e)
@@ -11845,8 +11868,7 @@ namespace OpenTween
             if (SettingManager.Common.SortOrderLock == state) return;
 
             SettingManager.Common.SortOrderLock = state;
-
-            ModifySettingCommon = true;
+            this.MarkSettingCommonModified();
         }
 
         private void tweetDetailsView_StatusChanged(object sender, TweetDetailsViewStatusChengedEventArgs e)
