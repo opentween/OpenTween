@@ -1126,7 +1126,7 @@ namespace OpenTween
             TimerTimeline.Enabled = true;
             //更新中アイコンアニメーション間隔
             TimerRefreshIcon.Interval = 200;
-            TimerRefreshIcon.Enabled = true;
+            TimerRefreshIcon.Enabled = false;
 
             _ignoreConfigSave = false;
             this.TweenMain_Resize(null, null);
@@ -2337,6 +2337,7 @@ namespace OpenTween
         private async Task RefreshTabAsync(TabModel tab, bool backward)
         {
             await this.workerSemaphore.WaitAsync();
+            this.RefreshTasktrayIcon();
 
             try
             {
@@ -2390,6 +2391,7 @@ namespace OpenTween
         private async Task FavAddAsync(long statusId, TabModel tab)
         {
             await this.workerSemaphore.WaitAsync();
+            this.RefreshTasktrayIcon();
 
             try
             {
@@ -2510,6 +2512,7 @@ namespace OpenTween
         private async Task FavRemoveAsync(IReadOnlyList<long> statusIds, TabModel tab)
         {
             await this.workerSemaphore.WaitAsync();
+            this.RefreshTasktrayIcon();
 
             try
             {
@@ -2626,6 +2629,7 @@ namespace OpenTween
         private async Task PostMessageAsync(PostStatusParams postParams, IMediaUploadService uploadService, IMediaItem[] uploadItems)
         {
             await this.workerSemaphore.WaitAsync();
+            this.RefreshTasktrayIcon();
 
             try
             {
@@ -2772,6 +2776,7 @@ namespace OpenTween
         private async Task RetweetAsync(IReadOnlyList<long> statusIds)
         {
             await this.workerSemaphore.WaitAsync();
+            this.RefreshTasktrayIcon();
 
             try
             {
@@ -2851,6 +2856,8 @@ namespace OpenTween
         private async Task RefreshFollowerIdsAsync()
         {
             await this.workerSemaphore.WaitAsync();
+            this.RefreshTasktrayIcon();
+
             try
             {
                 this.StatusLabel.Text = Properties.Resources.UpdateFollowersMenuItem1_ClickText1;
@@ -2876,6 +2883,8 @@ namespace OpenTween
         private async Task RefreshNoRetweetIdsAsync()
         {
             await this.workerSemaphore.WaitAsync();
+            this.RefreshTasktrayIcon();
+
             try
             {
                 await this.tw.RefreshNoRetweetIds();
@@ -2895,6 +2904,8 @@ namespace OpenTween
         private async Task RefreshBlockIdsAsync()
         {
             await this.workerSemaphore.WaitAsync();
+            this.RefreshTasktrayIcon();
+
             try
             {
                 this.StatusLabel.Text = Properties.Resources.UpdateBlockUserText1;
@@ -2916,6 +2927,8 @@ namespace OpenTween
         private async Task RefreshTwitterConfigurationAsync()
         {
             await this.workerSemaphore.WaitAsync();
+            this.RefreshTasktrayIcon();
+
             try
             {
                 await this.tw.RefreshConfiguration();
@@ -7780,92 +7793,70 @@ namespace OpenTween
         private void ListTab_MouseUp(object sender, MouseEventArgs e)
             => this._tabDrag = false;
 
-        private static int iconCnt = 0;
-        private static int blinkCnt = 0;
-        private static bool blink = false;
-        private static bool idle = false;
+        private int iconCnt = 0;
+        private int blinkCnt = 0;
+        private bool blink = false;
 
         private void RefreshTasktrayIcon()
         {
-            if (!TimerRefreshIcon.Enabled) return;
-            //Static usCheckCnt As int = 0
+            void EnableTasktrayAnimation()
+                => this.TimerRefreshIcon.Enabled = true;
 
-            //Static iconDlListTopItem As ListViewItem = null
+            void DisableTasktrayAnimation()
+                => this.TimerRefreshIcon.Enabled = false;
 
-            //if (((ListView)ListTab.SelectedTab.Tag).TopItem == iconDlListTopItem)
-            //    ((ImageDictionary)this.TIconDic).PauseGetImage = false;
-            //else
-            //    ((ImageDictionary)this.TIconDic).PauseGetImage = true;
-            //
-            //iconDlListTopItem = ((ListView)ListTab.SelectedTab.Tag).TopItem;
-
-            iconCnt += 1;
-            blinkCnt += 1;
-            //usCheckCnt += 1;
-
-            //if (usCheckCnt > 300)    //1min
-            //{
-            //    usCheckCnt = 0;
-            //    if (!this.IsReceivedUserStream)
-            //    {
-            //        TraceOut("ReconnectUserStream");
-            //        tw.ReconnectUserStream();
-            //    }
-            //}
-
-            var busy = this.workerSemaphore.CurrentCount != MAX_WORKER_THREADS;
-
-            if (iconCnt >= this.NIconRefresh.Length)
+            var busyTasks = this.workerSemaphore.CurrentCount != MAX_WORKER_THREADS;
+            if (busyTasks)
             {
-                iconCnt = 0;
-            }
-            if (blinkCnt > 10)
-            {
-                blinkCnt = 0;
-            }
+                iconCnt += 1;
+                if (iconCnt >= this.NIconRefresh.Length)
+                    iconCnt = 0;
 
-            if (busy)
-            {
                 NotifyIcon1.Icon = NIconRefresh[iconCnt];
-                idle = false;
                 _myStatusError = false;
+                EnableTasktrayAnimation();
                 return;
             }
 
-            TabModel tb = _statuses.GetTabByType(MyCommon.TabUsageType.Mentions);
-            if (SettingManager.Common.ReplyIconState != MyCommon.REPLY_ICONSTATE.None && tb != null && tb.UnreadCount > 0)
+            var replyIconType = SettingManager.Common.ReplyIconState;
+            var reply = false;
+            if (replyIconType != MyCommon.REPLY_ICONSTATE.None)
             {
-                if (blinkCnt > 0) return;
-                blink = !blink;
-                if (blink || SettingManager.Common.ReplyIconState == MyCommon.REPLY_ICONSTATE.StaticIcon)
-                {
-                    NotifyIcon1.Icon = ReplyIcon;
-                }
-                else
-                {
-                    NotifyIcon1.Icon = ReplyIconBlink;
-                }
-                idle = false;
+                var replyTab = this._statuses.GetTabByType<MentionsTabModel>();
+                if (replyTab != null && replyTab.UnreadCount > 0)
+                    reply = true;
+            }
+
+            if (replyIconType == MyCommon.REPLY_ICONSTATE.BlinkIcon && reply)
+            {
+                blinkCnt += 1;
+                if (blinkCnt > 10)
+                    blinkCnt = 0;
+
+                if (blinkCnt == 0)
+                    blink = !blink;
+
+                NotifyIcon1.Icon = blink ? ReplyIconBlink : ReplyIcon;
+                EnableTasktrayAnimation();
                 return;
             }
 
-            if (idle) return;
-            idle = true;
-            //優先度：エラー→オフライン→アイドル
-            //エラーは更新アイコンでクリアされる
-            if (_myStatusError)
-            {
+            DisableTasktrayAnimation();
+
+            iconCnt = 0;
+            blinkCnt = 0;
+            blink = false;
+
+            // 優先度：リプライ→エラー→オフライン→アイドル
+            // エラーは更新アイコンでクリアされる
+            if (replyIconType == MyCommon.REPLY_ICONSTATE.StaticIcon && reply)
+                NotifyIcon1.Icon = ReplyIcon;
+            else if (_myStatusError)
                 NotifyIcon1.Icon = NIconAtRed;
-                return;
-            }
-            if (_myStatusOnline)
-            {
+            else if (_myStatusOnline)
                 NotifyIcon1.Icon = NIconAt;
-            }
             else
-            {
                 NotifyIcon1.Icon = NIconAtSmoke;
-            }
         }
 
         private void TimerRefreshIcon_Tick(object sender, EventArgs e)

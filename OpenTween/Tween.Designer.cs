@@ -2025,7 +2025,6 @@
             // 
             // TimerRefreshIcon
             // 
-            this.TimerRefreshIcon.Interval = 50;
             this.TimerRefreshIcon.Tick += new System.EventHandler(this.TimerRefreshIcon_Tick);
             // 
             // PostStateImageList
