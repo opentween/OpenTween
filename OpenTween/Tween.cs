@@ -265,6 +265,7 @@ namespace OpenTween
 
         private readonly TimelineScheduler timelineScheduler = new TimelineScheduler();
         private ThrottlingTimer RefreshThrottlingTimer;
+        private ThrottlingTimer colorizeDebouncer;
         private ThrottlingTimer selectionDebouncer;
         private ThrottlingTimer saveConfigDebouncer;
 
@@ -1127,6 +1128,7 @@ namespace OpenTween
 
             var streamingRefreshInterval = TimeSpan.FromSeconds(SettingManager.Common.UserstreamPeriod);
             this.RefreshThrottlingTimer = ThrottlingTimer.Throttle(() => this.InvokeAsync(() => this.RefreshTimeline()), streamingRefreshInterval);
+            this.colorizeDebouncer = ThrottlingTimer.Debounce(() => this.InvokeAsync(() => this.ColorizeList()), TimeSpan.FromMilliseconds(100), leading: true);
             this.selectionDebouncer = ThrottlingTimer.Debounce(() => this.InvokeAsync(() => this.UpdateSelectedPost()), TimeSpan.FromMilliseconds(100), leading: true);
             this.saveConfigDebouncer = ThrottlingTimer.Debounce(() => this.InvokeAsync(() => this.SaveConfigsAll(ifModified: true)), TimeSpan.FromSeconds(1));
 
@@ -1880,10 +1882,11 @@ namespace OpenTween
 
             var post = this.CurrentPost;
             this._statuses.SetReadAllTab(post.StatusId, read: true);
+
             //キャッシュの書き換え
             ChangeCacheStyleRead(true, index); // 既読へ（フォント、文字色）
-            ColorizeList();
 
+            this.colorizeDebouncer.Call();
             this.selectionDebouncer.Call();
         }
 
@@ -1909,17 +1912,21 @@ namespace OpenTween
         private void ChangeItemStyleRead(bool Read, ListViewItem Item, PostClass Post, DetailsListView DList)
         {
             Font fnt;
+            string star;
             //フォント
             if (Read)
             {
                 fnt = _fntReaded;
-                Item.SubItems[5].Text = "";
+                star = "";
             }
             else
             {
                 fnt = _fntUnread;
-                Item.SubItems[5].Text = "★";
+                star = "★";
             }
+            if (Item.SubItems[5].Text != star)
+                Item.SubItems[5].Text = star;
+
             //文字色
             Color cl;
             if (Post.IsFav)
@@ -2010,7 +2017,7 @@ namespace OpenTween
             else if (TargetPost.ReplyToList.Any(x => x.UserId == BasePost.UserId))
                 //その人への返信
                 cl = _clAtTarget;
-            else if (TargetPost.ScreenName.Equals(BasePost.ScreenName, StringComparison.OrdinalIgnoreCase))
+            else if (TargetPost.UserId == BasePost.UserId)
                 //発言者
                 cl = _clTarget;
             else
