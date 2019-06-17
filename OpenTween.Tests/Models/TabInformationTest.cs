@@ -56,7 +56,7 @@ namespace OpenTween.Models
             var ret = this.tabinfo.AddTab(tab);
 
             Assert.True(ret);
-            Assert.Same(tab, this.tabinfo.Tabs.Values.Last());
+            Assert.Same(tab, this.tabinfo.Tabs.Last());
         }
 
         [Fact]

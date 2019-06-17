@@ -162,6 +162,7 @@
     <Compile Include="Models\PostClass.cs" />
     <Compile Include="Models\PublicSearchTabModel.cs" />
     <Compile Include="Models\RelatedPostsTabModel.cs" />
+    <Compile Include="Models\TabCollection.cs" />
     <Compile Include="Models\TabModel.cs" />
     <Compile Include="Models\TabInformations.cs" />
     <Compile Include="Models\TabUsageTypeExt.cs" />

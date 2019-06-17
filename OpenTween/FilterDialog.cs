@@ -907,7 +907,7 @@ namespace OpenTween
         {
             _sts = TabInformations.GetInstance();
             ListTabs.Items.Clear();
-            foreach (var tab in this._sts.Tabs.Values)
+            foreach (var tab in this._sts.Tabs)
             {
                 if (tab.TabType == MyCommon.TabUsageType.Mute)
                     continue;

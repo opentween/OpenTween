@@ -78,13 +78,13 @@ namespace OpenTween
                 });
             }
 
-            foreach (var (name, tab) in this.TabInfo.Tabs)
+            foreach (var tab in this.TabInfo.Tabs)
             {
                 if (!tab.IsDistributableTabType) continue;
 
                 this.TabList.Items.Add(new TabListItem
                 {
-                    Label = name,
+                    Label = tab.TabName,
                     Tab = tab,
                 });
             }

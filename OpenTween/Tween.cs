@@ -1060,7 +1060,7 @@ namespace OpenTween
             if (this._statuses.GetTabByType<MuteTabModel>() == null)
                 this._statuses.AddTab(new MuteTabModel());
 
-            foreach (var tab in _statuses.Tabs.Values)
+            foreach (var tab in _statuses.Tabs)
             {
                 // ミュートタブは表示しない
                 if (tab.TabType == MyCommon.TabUsageType.Mute)
@@ -6730,7 +6730,7 @@ namespace OpenTween
             var inReplyToId = currentPost.InReplyToStatusId.Value;
             var inReplyToUser = currentPost.InReplyToUser;
 
-            var inReplyToPosts = from tab in _statuses.Tabs.Values
+            var inReplyToPosts = from tab in _statuses.Tabs
                                  orderby tab != curTabClass
                                  from post in tab.Posts.Values
                                  where post.StatusId == inReplyToId
@@ -6797,13 +6797,13 @@ namespace OpenTween
                 if (currentPost.InReplyToStatusId != null)
                 {
                     var posts = from t in _statuses.Tabs
-                                from p in t.Value.Posts
+                                from p in t.Posts
                                 where p.Value.StatusId != currentPost.StatusId && p.Value.InReplyToStatusId == currentPost.InReplyToStatusId
-                                let indexOf = t.Value.IndexOf(p.Value.StatusId)
+                                let indexOf = t.IndexOf(p.Value.StatusId)
                                 where indexOf > -1
                                 orderby isForward ? indexOf : indexOf * -1
-                                orderby t.Value != curTabClass
-                                select new {Tab = t.Value, Post = p.Value, Index = indexOf};
+                                orderby t != curTabClass
+                                select new {Tab = t, Post = p.Value, Index = indexOf};
                     try
                     {
                         var postList = posts.ToList();
@@ -6835,13 +6835,13 @@ namespace OpenTween
                 if (replyChains == null || replyChains.Count < 1)
                 {
                     var posts = from t in _statuses.Tabs
-                                from p in t.Value.Posts
+                                from p in t.Posts
                                 where p.Value.InReplyToStatusId == currentPost.StatusId
-                                let indexOf = t.Value.IndexOf(p.Value.StatusId)
+                                let indexOf = t.IndexOf(p.Value.StatusId)
                                 where indexOf > -1
                                 orderby indexOf
-                                orderby t.Value != curTabClass
-                                select new {Tab = t.Value, Index = indexOf};
+                                orderby t != curTabClass
+                                select new {Tab = t, Index = indexOf};
                     try
                     {
                         var post = posts.First();
@@ -6861,7 +6861,7 @@ namespace OpenTween
                     if (chainHead.InReplyToId == currentPost.StatusId)
                     {
                         var tab = chainHead.OriginalTab;
-                        if (!this._statuses.Tabs.ContainsValue(tab))
+                        if (!this._statuses.Tabs.Contains(tab))
                         {
                             replyChains = null;
                         }
@@ -6912,7 +6912,7 @@ namespace OpenTween
                         this.selectPostChains.Pop();
                         var (tab, post) = this.selectPostChains.Peek();
 
-                        if (!this._statuses.Tabs.ContainsValue(tab))
+                        if (!this._statuses.Tabs.Contains(tab))
                             continue; // 該当タブが存在しないので無視
 
                         if (post != null)
@@ -6993,7 +6993,7 @@ namespace OpenTween
         {
             if (statusId == 0) return false;
 
-            var tab = this._statuses.Tabs.Values
+            var tab = this._statuses.Tabs
                 .Where(x => x.TabType != MyCommon.TabUsageType.DirectMessage)
                 .Where(x => x.Contains(statusId))
                 .FirstOrDefault();
@@ -8598,7 +8598,7 @@ namespace OpenTween
                 SettingManager.Common.DispLatestPost != MyCommon.DispTitleEnum.Ver &&
                 SettingManager.Common.DispLatestPost != MyCommon.DispTitleEnum.OwnStatus)
             {
-                foreach (var tab in _statuses.Tabs.Values)
+                foreach (var tab in _statuses.Tabs)
                 {
                     ur += tab.UnreadCount;
                     al += tab.AllCount;
@@ -8661,7 +8661,7 @@ namespace OpenTween
             StringBuilder slbl = new StringBuilder(256);
             try
             {
-                foreach (var tab in _statuses.Tabs.Values)
+                foreach (var tab in _statuses.Tabs)
                 {
                     ur += tab.UnreadCount;
                     al += tab.AllCount;
@@ -10572,7 +10572,8 @@ namespace OpenTween
                         // 関連発言なら既存のタブを置き換える
                         tb.TabName = relatedTab.TabName;
                         this.ClearTab(tb.TabName, false);
-                        _statuses.Tabs[tb.TabName] = tb;
+                        _statuses.Tabs.Remove(tb.TabName);
+                        _statuses.Tabs.Add(tb);
 
                         for (int i = 0; i < ListTab.TabPages.Count; i++)
                         {
