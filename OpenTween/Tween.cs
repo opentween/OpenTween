@@ -3918,12 +3918,13 @@ namespace OpenTween
             //追加したタブをアクティブに
             ListTab.SelectedIndex = ListTab.TabPages.Count - 1;
             //検索条件の設定
-            ComboBox cmb = (ComboBox)ListTab.SelectedTab.Controls["panelSearch"].Controls["comboSearch"];
+            var tabPage = this.CurrentTabPage;
+            ComboBox cmb = (ComboBox)tabPage.Controls["panelSearch"].Controls["comboSearch"];
             cmb.Items.Add(searchWord);
             cmb.Text = searchWord;
             SaveConfigsTabs();
             //検索実行
-            this.SearchButton_Click(ListTab.SelectedTab.Controls["panelSearch"].Controls["comboSearch"], null);
+            this.SearchButton_Click(tabPage.Controls["panelSearch"].Controls["comboSearch"], null);
         }
 
         private async Task ShowUserTimeline()
@@ -4213,7 +4214,7 @@ namespace OpenTween
             using (ControlTransaction.Layout(this))
             using (ControlTransaction.Layout(_tabPage, false))
             {
-                if (this.ListTab.SelectedTab == _tabPage)
+                if (this.CurrentTabName == TabName)
                 {
                     this.ListTab.SelectTab((this._beforeSelectedTab != null && this.ListTab.TabPages.Contains(this._beforeSelectedTab)) ? this._beforeSelectedTab : this.ListTab.TabPages[0]);
                     this._beforeSelectedTab = null;
@@ -4317,7 +4318,7 @@ namespace OpenTween
                 if (!dragEnableRectangle.Contains(e.Location))
                 {
                     //タブが多段の場合にはMouseDownの前の段階で選択されたタブの段が変わっているので、このタイミングでカーソルの位置からタブを判定出来ない。
-                    tn = ListTab.SelectedTab.Text;
+                    tn = this.CurrentTabName;
                 }
 
                 if (string.IsNullOrEmpty(tn)) return;
@@ -4355,8 +4356,9 @@ namespace OpenTween
             SetMainWindowTitle();
             SetStatusLabelUrl();
             SetApiStatusLabel();
-            if (ListTab.Focused || ((Control)ListTab.SelectedTab.Tag).Focused) this.Tag = ListTab.Tag;
-            TabMenuControl(ListTab.SelectedTab.Text);
+            if (ListTab.Focused || ((Control)this.CurrentTabPage.Tag).Focused)
+                this.Tag = ListTab.Tag;
+            TabMenuControl(this.CurrentTabName);
             this.PushSelectPostChain();
             await DispSelectedPost();
         }
@@ -5695,7 +5697,7 @@ namespace OpenTween
             var tab = this.CurrentTab;
             if (tab.TabType == MyCommon.TabUsageType.PublicSearch)
             {
-                Control pnl = ListTab.SelectedTab.Controls["panelSearch"];
+                Control pnl = this.CurrentTabPage.Controls["panelSearch"];
                 if (pnl.Controls["comboSearch"].Focused ||
                     pnl.Controls["comboLang"].Focused ||
                     pnl.Controls["buttonSearch"].Focused) return;
@@ -8087,7 +8089,7 @@ namespace OpenTween
                     if (tabUsage == MyCommon.TabUsageType.PublicSearch)
                     {
                         ListTab.SelectedIndex = ListTab.TabPages.Count - 1;
-                        ListTab.SelectedTab.Controls["panelSearch"].Controls["comboSearch"].Focus();
+                        this.CurrentTabPage.Controls["panelSearch"].Controls["comboSearch"].Focus();
                     }
                     if (tabUsage == MyCommon.TabUsageType.Lists)
                     {
@@ -8354,7 +8356,7 @@ namespace OpenTween
                     tabName = dialog.SelectedTab?.TabName;
                 }
 
-                ListTab.SelectedTab.Focus();
+                this.CurrentTabPage.Focus();
                 //新規タブを選択→タブ作成
                 if (tabName == null)
                 {
@@ -9331,20 +9333,18 @@ namespace OpenTween
 
         private void MenuStrip1_MenuDeactivate(object sender, EventArgs e)
         {
+            var currentTabPage = this.CurrentTabPage;
             if (this.Tag != null) // 設定された戻り先へ遷移
             {
-                if (this.Tag == this.ListTab.SelectedTab)
-                    ((Control)this.ListTab.SelectedTab.Tag).Select();
+                if (this.Tag == currentTabPage)
+                    ((Control)currentTabPage.Tag).Select();
                 else
                     ((Control)this.Tag).Select();
             }
             else // 戻り先が指定されていない (初期状態) 場合はタブに遷移
             {
-                if (ListTab.SelectedIndex > -1 && ListTab.SelectedTab.HasChildren)
-                {
-                    this.Tag = ListTab.SelectedTab.Tag;
-                    ((Control)this.Tag).Select();
-                }
+                this.Tag = currentTabPage.Tag;
+                ((Control)this.Tag).Select();
             }
             // フォーカスがメニューに遷移したかどうかを表すフラグを降ろす
             MenuStrip1.Tag = null;
