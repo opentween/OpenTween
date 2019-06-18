@@ -164,6 +164,25 @@ namespace OpenTween.Models
             }
         }
 
+        public void ReplaceTab(TabModel tab)
+        {
+            if (!this.ContainsTab(tab.TabName))
+                throw new ArgumentOutOfRangeException(nameof(tab));
+
+            var index = this.Tabs.IndexOf(tab);
+            this.Tabs.RemoveAt(index);
+            this.Tabs.Insert(index, tab);
+        }
+
+        public void MoveTab(int newIndex, TabModel tab)
+        {
+            if (!this.ContainsTab(tab))
+                throw new ArgumentOutOfRangeException(nameof(tab));
+
+            this.Tabs.Remove(tab);
+            this.Tabs.Insert(newIndex, tab);
+        }
+
         public bool ContainsTab(string TabText)
             => this.Tabs.Contains(TabText);
 
@@ -650,10 +669,11 @@ namespace OpenTween.Models
         {
             lock (this.LockObj)
             {
+                var index = this.Tabs.IndexOf(Original);
                 var tb = this.Tabs[Original];
-                this.Tabs.Remove(Original);
+                this.Tabs.RemoveAt(index);
                 tb.TabName = NewName;
-                this.Tabs.Add(tb);
+                this.Tabs.Insert(index, tb);
             }
         }
 

@@ -25,6 +25,9 @@ namespace OpenTween.Models
 {
     public class TabCollection : KeyedCollection<string, TabModel>
     {
+        public int IndexOf(string tabName)
+            => this.IndexOf(this[tabName]);
+
         public bool TryGetValue(string tabName, out TabModel tab)
             => this.Dictionary.TryGetValue(tabName, out tab);
 

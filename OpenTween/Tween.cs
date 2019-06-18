@@ -7466,16 +7466,18 @@ namespace OpenTween
 
             using (ControlTransaction.Layout(this.ListTab))
             {
-                var mTp = this.ListTab.TabPages[targetIndex];
-                this.ListTab.TabPages.Remove(mTp);
+                var tab = this._statuses.Tabs[targetIndex];
+                var tabPage = this.ListTab.TabPages[targetIndex];
+                this.ListTab.TabPages.Remove(tabPage);
 
                 if (targetIndex < baseIndex)
                     baseIndex--;
 
-                if (isBeforeBaseTab)
-                    ListTab.TabPages.Insert(baseIndex, mTp);
-                else
-                    ListTab.TabPages.Insert(baseIndex + 1, mTp);
+                if (!isBeforeBaseTab)
+                    baseIndex++;
+
+                this._statuses.MoveTab(baseIndex, tab);
+                ListTab.TabPages.Insert(baseIndex, tabPage);
             }
 
             SaveConfigsTabs();
@@ -10572,8 +10574,8 @@ namespace OpenTween
                         // 関連発言なら既存のタブを置き換える
                         tb.TabName = relatedTab.TabName;
                         this.ClearTab(tb.TabName, false);
-                        _statuses.Tabs.Remove(tb.TabName);
-                        _statuses.Tabs.Add(tb);
+
+                        this._statuses.ReplaceTab(tb);
 
                         for (int i = 0; i < ListTab.TabPages.Count; i++)
                         {
