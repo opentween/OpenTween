@@ -68,6 +68,13 @@ namespace OpenTween
             return false;
         }
 
+        public static IEnumerable<(T Value, int Index)> WithIndex<T>(this IEnumerable<T> enumerable)
+        {
+            var i = 0;
+            foreach (var value in enumerable)
+                yield return (value, i++);
+        }
+
         public static void Deconstruct<TKey, TValue>(this KeyValuePair<TKey, TValue> kvp, out TKey key, out TValue value)
         {
             key = kvp.Key;

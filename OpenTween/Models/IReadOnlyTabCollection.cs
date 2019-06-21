@@ -19,19 +19,20 @@
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
-using System.Collections.ObjectModel;
+using System.Collections.Generic;
 
 namespace OpenTween.Models
 {
-    public class TabCollection : KeyedCollection<string, TabModel>, IReadOnlyTabCollection
+    public interface IReadOnlyTabCollection : IReadOnlyList<TabModel>
     {
-        public int IndexOf(string tabName)
-            => this.IndexOf(this[tabName]);
+        TabModel this[string tabName] { get; }
 
-        public bool TryGetValue(string tabName, out TabModel tab)
-            => this.Dictionary.TryGetValue(tabName, out tab);
+        int IndexOf(string tabName);
 
-        protected override string GetKeyForItem(TabModel tab)
-            => tab.TabName;
+        int IndexOf(TabModel tab);
+
+        bool Contains(string tabName);
+
+        bool TryGetValue(string tabName, out TabModel tab);
     }
 }

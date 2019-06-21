@@ -40,7 +40,9 @@ namespace OpenTween.Models
     public sealed class TabInformations
     {
         //個別タブの情報をDictionaryで保持
-        public TabCollection Tabs { get; } = new TabCollection();
+        public IReadOnlyTabCollection Tabs
+            => this.tabs;
+
         public MuteTabModel MuteTab { get; private set; }
 
         public ConcurrentDictionary<long, PostClass> Posts { get; } = new ConcurrentDictionary<long, PostClass>();
@@ -56,6 +58,7 @@ namespace OpenTween.Models
         //発言の追加
         //AddPost(複数回) -> DistributePosts          -> SubmitUpdate
 
+        private readonly TabCollection tabs = new TabCollection();
         private ConcurrentQueue<long> addQueue = new ConcurrentQueue<long>();
 
         /// <summary>通知サウンドを再生する優先順位</summary>
@@ -87,6 +90,9 @@ namespace OpenTween.Models
 
         public TabModel SelectedTab
             => this.Tabs[this.SelectedTabName];
+
+        public int SelectedTabIndex
+            => this.Tabs.IndexOf(this.SelectedTabName);
 
         public List<ListElement> SubscribableLists
         {
@@ -127,7 +133,7 @@ namespace OpenTween.Models
                 if (this.Tabs.Contains(tab.TabName))
                     return false;
 
-                this.Tabs.Add(tab);
+                this.tabs.Add(tab);
                 tab.SetSortMode(this.SortMode, this.SortOrder);
 
                 return true;
@@ -171,7 +177,7 @@ namespace OpenTween.Models
                     }
                 }
                 this.RemovedTab.Push(tb);
-                this.Tabs.Remove(TabName);
+                this.tabs.Remove(TabName);
             }
         }
 
@@ -180,9 +186,9 @@ namespace OpenTween.Models
             if (!this.ContainsTab(tab.TabName))
                 throw new ArgumentOutOfRangeException(nameof(tab));
 
-            var index = this.Tabs.IndexOf(tab);
-            this.Tabs.RemoveAt(index);
-            this.Tabs.Insert(index, tab);
+            var index = this.tabs.IndexOf(tab);
+            this.tabs.RemoveAt(index);
+            this.tabs.Insert(index, tab);
         }
 
         public void MoveTab(int newIndex, TabModel tab)
@@ -190,8 +196,8 @@ namespace OpenTween.Models
             if (!this.ContainsTab(tab))
                 throw new ArgumentOutOfRangeException(nameof(tab));
 
-            this.Tabs.Remove(tab);
-            this.Tabs.Insert(newIndex, tab);
+            this.tabs.Remove(tab);
+            this.tabs.Insert(newIndex, tab);
         }
 
         public bool ContainsTab(string TabText)
@@ -682,9 +688,9 @@ namespace OpenTween.Models
             {
                 var index = this.Tabs.IndexOf(Original);
                 var tb = this.Tabs[Original];
-                this.Tabs.RemoveAt(index);
+                this.tabs.RemoveAt(index);
                 tb.TabName = NewName;
-                this.Tabs.Insert(index, tb);
+                this.tabs.Insert(index, tb);
             }
         }
 

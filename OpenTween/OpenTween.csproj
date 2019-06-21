@@ -154,6 +154,7 @@
     <Compile Include="Models\FilterTabModel.cs" />
     <Compile Include="Models\HomeTabModel.cs" />
     <Compile Include="Models\InternalStorageTabModel.cs" />
+    <Compile Include="Models\IReadOnlyTabCollection.cs" />
     <Compile Include="Models\ListTimelineTabModel.cs" />
     <Compile Include="Models\LocalSearchTabModel.cs" />
     <Compile Include="Models\MediaInfo.cs" />

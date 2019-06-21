@@ -309,7 +309,7 @@ namespace OpenTween
             => this._statuses.SelectedTabName;
 
         public TabPage CurrentTabPage
-            => this.ListTab.TabPages.Cast<TabPage>().First(x => x.Text == this.CurrentTabName);
+            => this.ListTab.TabPages[this._statuses.Tabs.IndexOf(this.CurrentTabName)];
 
         public DetailsListView CurrentListView
             => (DetailsListView)this.CurrentTabPage.Tag;
@@ -1173,7 +1173,7 @@ namespace OpenTween
             string txt;
             try
             {
-                txt = ListTab.TabPages[e.Index].Text;
+                txt = this._statuses.Tabs[e.Index].TabName;
             }
             catch (Exception)
             {
@@ -1409,12 +1409,12 @@ namespace OpenTween
             if (MyCommon._endingFlag) return;
 
             // リストに反映＆選択状態復元
-            foreach (var tabPage in this.ListTab.TabPages.Cast<TabPage>())
+            foreach (var (tab, index) in this._statuses.Tabs.WithIndex())
             {
+                var tabPage = this.ListTab.TabPages[index];
                 var listView = (DetailsListView)tabPage.Tag;
-                var tabModel = this._statuses.Tabs[tabPage.Text];
 
-                if (listView.VirtualListSize != tabModel.AllCount || isDelete)
+                if (listView.VirtualListSize != tab.AllCount || isDelete)
                 {
                     using (ControlTransaction.Update(listView))
                     {
@@ -1424,17 +1424,17 @@ namespace OpenTween
                         try
                         {
                             // リスト件数更新
-                            listView.VirtualListSize = tabModel.AllCount;
+                            listView.VirtualListSize = tab.AllCount;
                         }
                         catch (NullReferenceException ex)
                         {
                             // WinForms 内部で ListView.set_TopItem が発生させている例外
                             // https://ja.osdn.net/ticket/browse.php?group_id=6526&tid=36588
-                            MyCommon.TraceOut(ex, $"TabType: {tabModel.TabType}, Count: {tabModel.AllCount}, ListSize: {listView.VirtualListSize}");
+                            MyCommon.TraceOut(ex, $"TabType: {tab.TabType}, Count: {tab.AllCount}, ListSize: {listView.VirtualListSize}");
                         }
 
                         // 選択位置などを復元
-                        this.RestoreListViewSelection(listView, tabModel, listSelections[tabModel.TabName]);
+                        this.RestoreListViewSelection(listView, tab, listSelections[tab.TabName]);
                     }
                 }
             }
@@ -1443,10 +1443,10 @@ namespace OpenTween
             {
                 if (SettingManager.Common.TabIconDisp)
                 {
-                    foreach (var tabPage in this.ListTab.TabPages.Cast<TabPage>())
+                    foreach (var (tab, index) in this._statuses.Tabs.WithIndex())
                     {
-                        var tabModel = this._statuses.Tabs[tabPage.Text];
-                        if (tabModel.UnreadCount > 0 && tabPage.ImageIndex != 0)
+                        var tabPage = this.ListTab.TabPages[index];
+                        if (tab.UnreadCount > 0 && tabPage.ImageIndex != 0)
                             tabPage.ImageIndex = 0; // 未読アイコン
                     }
                 }
@@ -1563,11 +1563,9 @@ namespace OpenTween
         {
             var listsDict = new Dictionary<string, ListViewSelection>();
 
-            foreach (var tabPage in this.ListTab.TabPages.Cast<TabPage>())
+            foreach (var (tab, index) in this._statuses.Tabs.WithIndex())
             {
-                var listView = (DetailsListView)tabPage.Tag;
-                var tab = _statuses.Tabs[tabPage.Text];
-
+                var listView = (DetailsListView)this.ListTab.TabPages[index].Tag;
                 listsDict[tab.TabName] = this.SaveListViewSelection(listView, tab);
             }
 
@@ -3408,10 +3406,10 @@ namespace OpenTween
 
                 this.PurgeListViewItemCache();
 
-                foreach (var tabPage in this.ListTab.TabPages.Cast<TabPage>())
+                foreach (var (tab, index) in this._statuses.Tabs.WithIndex())
                 {
+                    var tabPage = this.ListTab.TabPages[index];
                     var listView = (DetailsListView)tabPage.Tag;
-                    var tab = this._statuses.Tabs[tabPage.Text];
 
                     using (ControlTransaction.Update(listView))
                     {
@@ -3464,13 +3462,15 @@ namespace OpenTween
                 }
                 ColorizeList();
             }
-            foreach (TabPage tb in ListTab.TabPages)
+            if (SettingManager.Common.TabIconDisp)
             {
-                if (_statuses.Tabs[tb.Text].UnreadCount == 0)
+                foreach (var (tab, index) in this._statuses.Tabs.WithIndex())
                 {
-                    if (SettingManager.Common.TabIconDisp)
+                    if (tab.UnreadCount == 0)
                     {
-                        if (tb.ImageIndex == 0) tb.ImageIndex = -1; //タブアイコン
+                        var tabPage = this.ListTab.TabPages[index];
+                        if (tabPage.ImageIndex == 0)
+                            tabPage.ImageIndex = -1; // タブアイコン
                     }
                 }
             }
@@ -3490,13 +3490,15 @@ namespace OpenTween
                 }
                 ColorizeList();
             }
-            foreach (TabPage tb in ListTab.TabPages)
+            if (SettingManager.Common.TabIconDisp)
             {
-                if (_statuses.Tabs[tb.Text].UnreadCount > 0)
+                foreach (var (tab, index) in this._statuses.Tabs.WithIndex())
                 {
-                    if (SettingManager.Common.TabIconDisp)
+                    if (tab.UnreadCount > 0)
                     {
-                        if (tb.ImageIndex == -1) tb.ImageIndex = 0; //タブアイコン
+                        var tabPage = this.ListTab.TabPages[index];
+                        if (tabPage.ImageIndex == -1)
+                            tabPage.ImageIndex = 0; // タブアイコン
                     }
                 }
             }
@@ -3698,14 +3700,15 @@ namespace OpenTween
 
                     try
                     {
-                        foreach (TabPage tb in ListTab.TabPages)
+                        if (SettingManager.Common.TabIconDisp)
                         {
-                            if (SettingManager.Common.TabIconDisp)
+                            foreach (var (tab, index) in this._statuses.Tabs.WithIndex())
                             {
-                                if (_statuses.Tabs[tb.Text].UnreadCount == 0)
-                                    tb.ImageIndex = -1;
+                                var tabPage = this.ListTab.TabPages[index];
+                                if (tab.UnreadCount == 0)
+                                    tabPage.ImageIndex = -1;
                                 else
-                                    tb.ImageIndex = 0;
+                                    tabPage.ImageIndex = 0;
                             }
                         }
                     }
@@ -3807,14 +3810,13 @@ namespace OpenTween
 
             ListTab.Alignment = newAlignment;
 
-            foreach (TabPage tab in ListTab.TabPages)
+            foreach (var (tab, index) in this._statuses.Tabs.WithIndex())
             {
-                DetailsListView lst = (DetailsListView)tab.Tag;
-                TabModel tabInfo = _statuses.Tabs[tab.Text];
+                var lst = (DetailsListView)this.ListTab.TabPages[index].Tag;
                 using (ControlTransaction.Update(lst))
                 {
                     // 選択位置などを復元
-                    this.RestoreListViewSelection(lst, tabInfo, listSelections[tabInfo.TabName]);
+                    this.RestoreListViewSelection(lst, tab, listSelections[tab.TabName]);
                 }
             }
         }
@@ -3888,14 +3890,9 @@ namespace OpenTween
             {
                 if (tb.SearchWords == searchWord && string.IsNullOrEmpty(tb.SearchLang))
                 {
-                    foreach (TabPage tp in ListTab.TabPages)
-                    {
-                        if (tb.TabName == tp.Text)
-                        {
-                            ListTab.SelectedTab = tp;
-                            return;
-                        }
-                    }
+                    var tabIndex = this._statuses.Tabs.IndexOf(tb);
+                    this.ListTab.SelectedIndex = tabIndex;
+                    return;
                 }
             }
             //ユニークなタブ名生成
@@ -3912,7 +3909,7 @@ namespace OpenTween
             _statuses.AddTab(tab);
             AddNewTab(tab, startup: false);
             //追加したタブをアクティブに
-            ListTab.SelectedIndex = ListTab.TabPages.Count - 1;
+            ListTab.SelectedIndex = this._statuses.Tabs.Count - 1;
             //検索条件の設定
             var tabPage = this.CurrentTabPage;
             ComboBox cmb = (ComboBox)tabPage.Controls["panelSearch"].Controls["comboSearch"];
@@ -3946,14 +3943,9 @@ namespace OpenTween
             {
                 if (tb.ScreenName == user)
                 {
-                    foreach (TabPage tp in ListTab.TabPages)
-                    {
-                        if (tb.TabName == tp.Text)
-                        {
-                            ListTab.SelectedTab = tp;
-                            return;
-                        }
-                    }
+                    var tabIndex = this._statuses.Tabs.IndexOf(tb);
+                    this.ListTab.SelectedIndex = tabIndex;
+                    return;
                 }
             }
             //ユニークなタブ名生成
@@ -3967,7 +3959,7 @@ namespace OpenTween
             this._statuses.AddTab(tab);
             this.AddNewTab(tab, startup: false);
             //追加したタブをアクティブに
-            ListTab.SelectedIndex = ListTab.TabPages.Count - 1;
+            ListTab.SelectedIndex = this._statuses.Tabs.Count - 1;
             SaveConfigsTabs();
             //検索実行
             await this.RefreshTabAsync(tab);
@@ -3976,10 +3968,8 @@ namespace OpenTween
         public bool AddNewTab(TabModel tab, bool startup)
         {
             //重複チェック
-            foreach (TabPage tb in ListTab.TabPages)
-            {
-                if (tb.Text == tab.TabName) return false;
-            }
+            if (this.ListTab.TabPages.Cast<TabPage>().Any(x => x.Text == tab.TabName))
+                return false;
 
             //新規タブ名チェック
             if (tab.TabName == Properties.Resources.AddNewTabText1) return false;
@@ -3987,7 +3977,7 @@ namespace OpenTween
             var _tabPage = new TabPage();
             var _listCustom = new DetailsListView();
 
-            int cnt = ListTab.TabPages.Count;
+            int cnt = this._statuses.Tabs.Count;
 
             ///ToDo:Create and set controls follow tabtypes
 
@@ -4194,8 +4184,11 @@ namespace OpenTween
                 }
             }
 
-            var _tabPage = ListTab.TabPages.Cast<TabPage>().FirstOrDefault(tp => tp.Text == TabName);
-            if (_tabPage == null) return false;
+            var tabIndex = this._statuses.Tabs.IndexOf(TabName);
+            if (tabIndex == -1)
+                return false;
+
+            var _tabPage = this.ListTab.TabPages[tabIndex];
 
             SetListProperty();   //他のタブに列幅等を反映
 
@@ -4287,11 +4280,10 @@ namespace OpenTween
             _listCustom.Dispose();
             _statuses.RemoveTab(TabName);
 
-            foreach (TabPage tp in ListTab.TabPages)
+            foreach (var (tab, index) in this._statuses.Tabs.WithIndex())
             {
-                DetailsListView lst = (DetailsListView)tp.Tag;
-                var count = _statuses.Tabs[tp.Text].AllCount;
-                lst.VirtualListSize = count;
+                var lst = (DetailsListView)this.ListTab.TabPages[index].Tag;
+                lst.VirtualListSize = tab.AllCount;
             }
 
             return true;
@@ -4319,13 +4311,11 @@ namespace OpenTween
 
                 if (string.IsNullOrEmpty(tn)) return;
 
-                foreach (TabPage tb in ListTab.TabPages)
+                var tabIndex = this._statuses.Tabs.IndexOf(tn);
+                if (tabIndex != -1)
                 {
-                    if (tb.Text == tn)
-                    {
-                        ListTab.DoDragDrop(tb, DragDropEffects.All);
-                        break;
-                    }
+                    var tabPage = this.ListTab.TabPages[tabIndex];
+                    ListTab.DoDragDrop(tabPage, DragDropEffects.All);
                 }
             }
             else
@@ -4334,13 +4324,12 @@ namespace OpenTween
             }
 
             Point cpos = new Point(e.X, e.Y);
-            for (int i = 0; i < ListTab.TabPages.Count; i++)
+            foreach (var (tab, index) in this._statuses.Tabs.WithIndex())
             {
-                Rectangle rect = ListTab.GetTabRect(i);
-                if (rect.Left <= cpos.X & cpos.X <= rect.Right &
-                   rect.Top <= cpos.Y & cpos.Y <= rect.Bottom)
+                var rect = ListTab.GetTabRect(index);
+                if (rect.Contains(cpos))
                 {
-                    _rclickTabName = ListTab.TabPages[i].Text;
+                    _rclickTabName = tab.TabName;
                     break;
                 }
             }
@@ -4880,10 +4869,9 @@ namespace OpenTween
                 this.PurgeListViewItemCache();
                 this._statuses.FilterAll();
 
-                foreach (TabPage tabPage in this.ListTab.TabPages)
+                foreach (var (tab, index) in this._statuses.Tabs.WithIndex())
                 {
-                    var tab = this._statuses.Tabs[tabPage.Text];
-
+                    var tabPage = this.ListTab.TabPages[index];
                     var listview = (DetailsListView)tabPage.Tag;
                     using (ControlTransaction.Update(listview))
                     {
@@ -5343,10 +5331,8 @@ namespace OpenTween
                     this._statuses.DistributePosts();
                     this.RefreshTimeline();
 
-                    var tabPage = this.ListTab.TabPages.Cast<TabPage>()
-                        .First(x => x.Text == tabName);
-
-                    this.ListTab.SelectedTab = tabPage;
+                    var tabIndex = this._statuses.Tabs.IndexOf(tabName);
+                    this.ListTab.SelectedIndex = tabIndex;
                 }
                 else
                 {
@@ -5395,7 +5381,7 @@ namespace OpenTween
 
         private void JumpUnreadMenuItem_Click(object sender, EventArgs e)
         {
-            int bgnIdx = ListTab.TabPages.IndexOf(this.CurrentTabPage);
+            var bgnIdx = this._statuses.SelectedTabIndex;
 
             if (ImageSelector.Enabled)
                 return;
@@ -5406,18 +5392,15 @@ namespace OpenTween
             DetailsListView lst = null;
 
             //現在タブから最終タブまで探索
-            for (int i = bgnIdx; i < ListTab.TabPages.Count; i++)
+            foreach (var (tab, index) in this._statuses.Tabs.WithIndex().Skip(bgnIdx))
             {
-                var tabPage = this.ListTab.TabPages[i];
-                var tab = this._statuses.Tabs[tabPage.Text];
                 var unreadIndex = tab.NextUnreadIndex;
-
                 if (unreadIndex != -1)
                 {
-                    ListTab.SelectedIndex = i;
+                    ListTab.SelectedIndex = index;
                     foundTab = tab;
                     foundIndex = unreadIndex;
-                    lst = (DetailsListView)tabPage.Tag;
+                    lst = (DetailsListView)this.ListTab.TabPages[index].Tag;
                     break;
                 }
             }
@@ -5425,18 +5408,15 @@ namespace OpenTween
             //未読みつからず＆現在タブが先頭ではなかったら、先頭タブから現在タブの手前まで探索
             if (foundTab == null && bgnIdx > 0)
             {
-                for (int i = 0; i < bgnIdx; i++)
+                foreach (var (tab, index) in this._statuses.Tabs.WithIndex().Take(bgnIdx))
                 {
-                    var tabPage = this.ListTab.TabPages[i];
-                    var tab = this._statuses.Tabs[tabPage.Text];
                     var unreadIndex = tab.NextUnreadIndex;
-
                     if (unreadIndex != -1)
                     {
-                        ListTab.SelectedIndex = i;
+                        ListTab.SelectedIndex = index;
                         foundTab = tab;
                         foundIndex = unreadIndex;
-                        lst = (DetailsListView)tabPage.Tag;
+                        lst = (DetailsListView)this.ListTab.TabPages[index].Tag;
                         break;
                     }
                 }
@@ -5447,7 +5427,7 @@ namespace OpenTween
                 //全部調べたが未読見つからず→先頭タブの最新発言へ
                 ListTab.SelectedIndex = 0;
                 var tabPage = this.ListTab.TabPages[0];
-                var tab = this._statuses.Tabs[tabPage.Text];
+                var tab = this._statuses.Tabs[0];
 
                 if (tab.AllCount == 0)
                     return;
@@ -5618,13 +5598,16 @@ namespace OpenTween
             }
             if (!StatusLabelUrl.Text.StartsWith("http", StringComparison.OrdinalIgnoreCase))
                 SetStatusLabelUrl();
-            foreach (TabPage tb in ListTab.TabPages)
+
+            foreach (var (tab, index) in this._statuses.Tabs.WithIndex())
             {
-                if (_statuses.Tabs[tb.Text].UnreadCount == 0)
+                if (tab.UnreadCount == 0)
                 {
                     if (SettingManager.Common.TabIconDisp)
                     {
-                        if (tb.ImageIndex == 0) tb.ImageIndex = -1;
+                        var tabPage = this.ListTab.TabPages[index];
+                        if (tabPage.ImageIndex == 0)
+                            tabPage.ImageIndex = -1;
                     }
                 }
             }
@@ -5904,47 +5887,47 @@ namespace OpenTween
                 // タブダイレクト選択(Ctrl+1～8,Ctrl+9)
                 ShortcutCommand.Create(Keys.Control | Keys.D1)
                     .FocusedOn(FocusedControl.ListTab)
-                    .OnlyWhen(() => this.ListTab.TabPages.Count >= 1)
+                    .OnlyWhen(() => this._statuses.Tabs.Count >= 1)
                     .Do(() => this.ListTab.SelectedIndex = 0),
 
                 ShortcutCommand.Create(Keys.Control | Keys.D2)
                     .FocusedOn(FocusedControl.ListTab)
-                    .OnlyWhen(() => this.ListTab.TabPages.Count >= 2)
+                    .OnlyWhen(() => this._statuses.Tabs.Count >= 2)
                     .Do(() => this.ListTab.SelectedIndex = 1),
 
                 ShortcutCommand.Create(Keys.Control | Keys.D3)
                     .FocusedOn(FocusedControl.ListTab)
-                    .OnlyWhen(() => this.ListTab.TabPages.Count >= 3)
+                    .OnlyWhen(() => this._statuses.Tabs.Count >= 3)
                     .Do(() => this.ListTab.SelectedIndex = 2),
 
                 ShortcutCommand.Create(Keys.Control | Keys.D4)
                     .FocusedOn(FocusedControl.ListTab)
-                    .OnlyWhen(() => this.ListTab.TabPages.Count >= 4)
+                    .OnlyWhen(() => this._statuses.Tabs.Count >= 4)
                     .Do(() => this.ListTab.SelectedIndex = 3),
 
                 ShortcutCommand.Create(Keys.Control | Keys.D5)
                     .FocusedOn(FocusedControl.ListTab)
-                    .OnlyWhen(() => this.ListTab.TabPages.Count >= 5)
+                    .OnlyWhen(() => this._statuses.Tabs.Count >= 5)
                     .Do(() => this.ListTab.SelectedIndex = 4),
 
                 ShortcutCommand.Create(Keys.Control | Keys.D6)
                     .FocusedOn(FocusedControl.ListTab)
-                    .OnlyWhen(() => this.ListTab.TabPages.Count >= 6)
+                    .OnlyWhen(() => this._statuses.Tabs.Count >= 6)
                     .Do(() => this.ListTab.SelectedIndex = 5),
 
                 ShortcutCommand.Create(Keys.Control | Keys.D7)
                     .FocusedOn(FocusedControl.ListTab)
-                    .OnlyWhen(() => this.ListTab.TabPages.Count >= 7)
+                    .OnlyWhen(() => this._statuses.Tabs.Count >= 7)
                     .Do(() => this.ListTab.SelectedIndex = 6),
 
                 ShortcutCommand.Create(Keys.Control | Keys.D8)
                     .FocusedOn(FocusedControl.ListTab)
-                    .OnlyWhen(() => this.ListTab.TabPages.Count >= 8)
+                    .OnlyWhen(() => this._statuses.Tabs.Count >= 8)
                     .Do(() => this.ListTab.SelectedIndex = 7),
 
                 ShortcutCommand.Create(Keys.Control | Keys.D9)
                     .FocusedOn(FocusedControl.ListTab)
-                    .Do(() => this.ListTab.SelectedIndex = this.ListTab.TabPages.Count - 1),
+                    .Do(() => this.ListTab.SelectedIndex = this._statuses.Tabs.Count - 1),
 
                 ShortcutCommand.Create(Keys.Control | Keys.A)
                     .FocusedOn(FocusedControl.StatusText)
@@ -6268,16 +6251,17 @@ namespace OpenTween
 
         private void GoNextTab(bool forward)
         {
-            int idx = ListTab.SelectedIndex;
+            int idx = this._statuses.SelectedTabIndex;
+            var tabCount = this._statuses.Tabs.Count;
             if (forward)
             {
                 idx += 1;
-                if (idx > ListTab.TabPages.Count - 1) idx = 0;
+                if (idx > tabCount - 1) idx = 0;
             }
             else
             {
                 idx -= 1;
-                if (idx < 0) idx = ListTab.TabPages.Count - 1;
+                if (idx < 0) idx = tabCount - 1;
             }
             ListTab.SelectedIndex = idx;
         }
@@ -6443,7 +6427,7 @@ namespace OpenTween
 
             for (int tabidx = fIdx; tabidx != toIdx; tabidx += stp)
             {
-                var targetTab = this._statuses.Tabs[this.ListTab.TabPages[tabidx].Text];
+                var targetTab = this._statuses.Tabs[tabidx];
 
                 // Directタブは対象外
                 if (targetTab.TabType == MyCommon.TabUsageType.DirectMessage)
@@ -6770,12 +6754,13 @@ namespace OpenTween
             inReplyToTabName = inReplyPost.Tab.TabName;
             inReplyToIndex = inReplyPost.Index;
 
-            TabPage tabPage = this.ListTab.TabPages.Cast<TabPage>().First((tp) => { return tp.Text == inReplyToTabName; });
+            var tabIndex = this._statuses.Tabs.IndexOf(inReplyToTabName);
+            var tabPage = this.ListTab.TabPages[tabIndex];
             DetailsListView listView = (DetailsListView)tabPage.Tag;
 
             if (this.CurrentTabName != inReplyToTabName)
             {
-                this.ListTab.SelectTab(tabPage);
+                this.ListTab.SelectedIndex = tabIndex;
             }
 
             this.SelectListItem(listView, inReplyToIndex);
@@ -6817,7 +6802,8 @@ namespace OpenTween
                         var post = postList.FirstOrDefault((pst) => { return pst.Tab == curTabClass && isForward ? pst.Index > currentIndex : pst.Index < currentIndex; });
                         if (post == null) post = postList.FirstOrDefault((pst) => { return pst.Tab != curTabClass; });
                         if (post == null) post = postList.First();
-                        this.ListTab.SelectTab(this.ListTab.TabPages.Cast<TabPage>().First((tp) => { return tp.Text == post.Tab.TabName; }));
+                        var tabIndex = this._statuses.Tabs.IndexOf(post.Tab);
+                        this.ListTab.SelectedIndex = tabIndex;
                         var listView = this.CurrentListView;
                         SelectListItem(listView, post.Index);
                         listView.EnsureVisible(post.Index);
@@ -6843,7 +6829,8 @@ namespace OpenTween
                     try
                     {
                         var post = posts.First();
-                        this.ListTab.SelectTab(this.ListTab.TabPages.Cast<TabPage>().First((tp) => { return tp.Text == post.Tab.TabName; }));
+                        var tabIndex = this._statuses.Tabs.IndexOf(post.Tab);
+                        this.ListTab.SelectedIndex = tabIndex;
                         var listView = this.CurrentListView;
                         SelectListItem(listView, post.Index);
                         listView.EnsureVisible(post.Index);
@@ -6872,10 +6859,10 @@ namespace OpenTween
                             }
                             else
                             {
-                                var tabPage = this.ListTab.TabPages.Cast<TabPage>().First(x => x.Text == tab.TabName);
+                                var tabIndex = this._statuses.Tabs.IndexOf(tab);
                                 try
                                 {
-                                    ListTab.SelectTab(tabPage);
+                                    this.ListTab.SelectedIndex = tabIndex;
                                 }
                                 catch (Exception)
                                 {
@@ -6940,9 +6927,10 @@ namespace OpenTween
                     return;
                 }
 
-                var tabPage = this.ListTab.TabPages.Cast<TabPage>().First(x => x.Text == foundTab.TabName);
+                var tabIndex = this._statuses.Tabs.IndexOf(foundTab);
+                var tabPage = this.ListTab.TabPages[tabIndex];
                 var lst = (DetailsListView)tabPage.Tag;
-                this.ListTab.SelectedTab = tabPage;
+                this.ListTab.SelectedIndex = tabIndex;
 
                 if (idx > -1)
                 {
@@ -7001,8 +6989,8 @@ namespace OpenTween
 
             var index = tab.IndexOf(statusId);
 
-            var tabPage = this.ListTab.TabPages.Cast<TabPage>().First(x => x.Text == tab.TabName);
-            this.ListTab.SelectedTab = tabPage;
+            var tabIndex = this._statuses.Tabs.IndexOf(tab);
+            this.ListTab.SelectedIndex = tabIndex;
 
             var listView = this.CurrentListView;
             this.SelectListItem(listView, index);
@@ -7021,8 +7009,8 @@ namespace OpenTween
             if (index == -1)
                 return false;
 
-            var tabPage = this.ListTab.TabPages.Cast<TabPage>().First(x => x.Text == tab.TabName);
-            this.ListTab.SelectedTab = tabPage;
+            var tabIndex = this._statuses.Tabs.IndexOf(tab);
+            this.ListTab.SelectedIndex = tabIndex;
 
             var listView = this.CurrentListView;
             this.SelectListItem(listView, index);
@@ -7191,9 +7179,7 @@ namespace OpenTween
         {
             var tabSettingList = new List<SettingTabs.SettingTabItem>();
 
-            var tabs = this.ListTab.TabPages.Cast<TabPage>()
-                .Select(x => this._statuses.Tabs[x.Text])
-                .Append(this._statuses.MuteTab);
+            var tabs = this._statuses.Tabs.Append(this._statuses.MuteTab);
 
             foreach (var tab in tabs)
             {
@@ -7334,18 +7320,15 @@ namespace OpenTween
             if (!string.IsNullOrEmpty(newTabName))
             {
                 //新タブ名存在チェック
-                for (int i = 0; i < ListTab.TabCount; i++)
+                if (this._statuses.ContainsTab(newTabName))
                 {
-                    if (ListTab.TabPages[i].Text == newTabName)
-                    {
-                        string tmp = string.Format(Properties.Resources.Tabs_DoubleClickText1, newTabName);
-                        MessageBox.Show(tmp, Properties.Resources.Tabs_DoubleClickText2, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                        return false;
-                    }
+                    string tmp = string.Format(Properties.Resources.Tabs_DoubleClickText1, newTabName);
+                    MessageBox.Show(tmp, Properties.Resources.Tabs_DoubleClickText2, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    return false;
                 }
 
-                var tabPage = this.ListTab.TabPages.Cast<TabPage>()
-                    .FirstOrDefault(x => x.Text == origTabName);
+                var tabIndex = this._statuses.Tabs.IndexOf(origTabName);
+                var tabPage = this.ListTab.TabPages[tabIndex];
 
                 // タブ名を変更
                 if (tabPage != null)
@@ -7368,11 +7351,11 @@ namespace OpenTween
         {
             if (e.Button == MouseButtons.Middle)
             {
-                for (int i = 0; i < this.ListTab.TabPages.Count; i++)
+                foreach (var (tab, index) in this._statuses.Tabs.WithIndex())
                 {
-                    if (this.ListTab.GetTabRect(i).Contains(e.Location))
+                    if (this.ListTab.GetTabRect(index).Contains(e.Location))
                     {
-                        this.RemoveSpecifiedTab(this.ListTab.TabPages[i].Text, true);
+                        this.RemoveSpecifiedTab(tab.TabName, true);
                         this.SaveConfigsTabs();
                         break;
                     }
@@ -7388,7 +7371,7 @@ namespace OpenTween
             if (SettingManager.Common.TabMouseLock) return;
             if (e.Button == MouseButtons.Left)
             {
-                for (int i = 0; i < ListTab.TabPages.Count; i++)
+                foreach (var i in Enumerable.Range(0, this._statuses.Tabs.Count))
                 {
                     if (this.ListTab.GetTabRect(i).Contains(e.Location))
                     {
@@ -7421,14 +7404,12 @@ namespace OpenTween
             bool bef = false;
             Point cpos = new Point(e.X, e.Y);
             Point spos = ListTab.PointToClient(cpos);
-            int i;
-            for (i = 0; i < ListTab.TabPages.Count; i++)
+            foreach (var (tab, index) in this._statuses.Tabs.WithIndex())
             {
-                Rectangle rect = ListTab.GetTabRect(i);
-                if (rect.Left <= spos.X && spos.X <= rect.Right &&
-                    rect.Top <= spos.Y && spos.Y <= rect.Bottom)
+                Rectangle rect = ListTab.GetTabRect(index);
+                if (rect.Contains(spos))
                 {
-                    tn = ListTab.TabPages[i].Text;
+                    tn = tab.TabName;
                     if (spos.X <= (rect.Left + rect.Right) / 2)
                         bef = true;
                     else
@@ -7441,9 +7422,9 @@ namespace OpenTween
             //タブのないところにドロップ->最後尾へ移動
             if (string.IsNullOrEmpty(tn))
             {
-                tn = ListTab.TabPages[ListTab.TabPages.Count - 1].Text;
+                var lastTab = this._statuses.Tabs.Last();
+                tn = lastTab.TabName;
                 bef = false;
-                i = ListTab.TabPages.Count - 1;
             }
 
             TabPage tp = (TabPage)e.Data.GetData(typeof(TabPage));
@@ -7965,13 +7946,16 @@ namespace OpenTween
             if (idx == -1)
                 return;
 
-            _statuses.Tabs[tabName].UnreadManage = isManage;
+            var tab = this._statuses.Tabs[tabName];
+            tab.UnreadManage = isManage;
+
             if (SettingManager.Common.TabIconDisp)
             {
-                if (_statuses.Tabs[tabName].UnreadCount > 0)
-                    ListTab.TabPages[idx].ImageIndex = 0;
+                var tabPage = this.ListTab.TabPages[idx];
+                if (tab.UnreadCount > 0)
+                    tabPage.ImageIndex = 0;
                 else
-                    ListTab.TabPages[idx].ImageIndex = -1;
+                    tabPage.ImageIndex = -1;
             }
 
             if (this.CurrentTabName == tabName)
@@ -8084,14 +8068,17 @@ namespace OpenTween
                 {
                     //成功
                     SaveConfigsTabs();
+
+                    var tabIndex = this._statuses.Tabs.Count - 1;
+
                     if (tabUsage == MyCommon.TabUsageType.PublicSearch)
                     {
-                        ListTab.SelectedIndex = ListTab.TabPages.Count - 1;
+                        ListTab.SelectedIndex = tabIndex;
                         this.CurrentTabPage.Controls["panelSearch"].Controls["comboSearch"].Focus();
                     }
                     if (tabUsage == MyCommon.TabUsageType.Lists)
                     {
-                        ListTab.SelectedIndex = ListTab.TabPages.Count - 1;
+                        ListTab.SelectedIndex = tabIndex;
                         await this.RefreshTabAsync(this.CurrentTab);
                     }
                 }
@@ -8572,15 +8559,14 @@ namespace OpenTween
                 _anchorFlag = false;
                 this.PurgeListViewItemCache();
             }
-            foreach (TabPage tb in ListTab.TabPages)
-            {
-                if (tb.Text == tabName)
-                {
-                    ((DetailsListView)tb.Tag).VirtualListSize = 0;
-                    tb.ImageIndex = -1;
-                    break;
-                }
-            }
+
+            var tabIndex = this._statuses.Tabs.IndexOf(tabName);
+            var tabPage = this.ListTab.TabPages[tabIndex];
+            tabPage.ImageIndex = -1;
+
+            var listView = (DetailsListView)tabPage.Tag;
+            listView.VirtualListSize = 0;
+
             if (!SettingManager.Common.TabIconDisp) ListTab.Refresh();
 
             SetMainWindowTitle();
@@ -10539,18 +10525,7 @@ namespace OpenTween
         /// 非表示のタブについて -1 が返ることを常に考慮して下さい
         /// </remarks>
         public int GetTabPageIndex(string tabName)
-        {
-            var index = 0;
-            foreach (var tabPage in this.ListTab.TabPages.Cast<TabPage>())
-            {
-                if (tabPage.Text == tabName)
-                    return index;
-
-                index++;
-            }
-
-            return -1;
-        }
+            => this._statuses.Tabs.IndexOf(tabName);
 
         private void UndoRemoveTabMenuItem_Click(object sender, EventArgs e)
         {
@@ -10575,16 +10550,10 @@ namespace OpenTween
 
                         this._statuses.ReplaceTab(tb);
 
-                        for (int i = 0; i < ListTab.TabPages.Count; i++)
-                        {
-                            var tabPage = ListTab.TabPages[i];
-                            if (tb.TabName == tabPage.Text)
-                            {
-                                listView = (DetailsListView)tabPage.Tag;
-                                ListTab.SelectedIndex = i;
-                                break;
-                            }
-                        }
+                        var tabIndex = this._statuses.Tabs.IndexOf(tb);
+                        var tabPage = this.ListTab.TabPages[tabIndex];
+                        listView = (DetailsListView)tabPage.Tag;
+                        this.ListTab.SelectedIndex = tabIndex;
                     }
                     else
                     {
@@ -10600,9 +10569,11 @@ namespace OpenTween
                         _statuses.AddTab(tb);
                         AddNewTab(tb, startup: false);
 
-                        var tabPage = ListTab.TabPages[ListTab.TabPages.Count - 1];
+                        var tabIndex = this._statuses.Tabs.Count - 1;
+                        var tabPage = this.ListTab.TabPages[tabIndex];
+
                         listView = (DetailsListView)tabPage.Tag;
-                        ListTab.SelectedIndex = ListTab.TabPages.Count - 1;
+                        this.ListTab.SelectedIndex = tabIndex;
                     }
                 }
                 else
@@ -10618,9 +10589,11 @@ namespace OpenTween
                     _statuses.AddTab(tb);
                     AddNewTab(tb, startup: false);
 
-                    var tabPage = ListTab.TabPages[ListTab.TabPages.Count - 1];
+                    var tabIndex = this._statuses.Tabs.Count - 1;
+                    var tabPage = this.ListTab.TabPages[tabIndex];
+
                     listView = (DetailsListView)tabPage.Tag;
-                    ListTab.SelectedIndex = ListTab.TabPages.Count - 1;
+                    this.ListTab.SelectedIndex = tabIndex;
                 }
                 SaveConfigsTabs();
 
@@ -11302,26 +11275,17 @@ namespace OpenTween
             this._statuses.AddTab(tabRelated);
             this.AddNewTab(tabRelated, startup: false);
 
-            TabPage tabPage;
-            for (int i = 0; i < this.ListTab.TabPages.Count; i++)
-            {
-                tabPage = this.ListTab.TabPages[i];
-                if (tabName == tabPage.Text)
-                {
-                    this.ListTab.SelectedIndex = i;
-                    break;
-                }
-            }
+            this.ListTab.SelectedIndex = this._statuses.Tabs.IndexOf(tabName);
 
             await this.RefreshTabAsync(tabRelated);
 
-            tabPage = this.ListTab.TabPages.Cast<TabPage>()
-                .FirstOrDefault(x => x.Text == tabRelated.TabName);
+            var tabIndex = this._statuses.Tabs.IndexOf(tabRelated.TabName);
 
-            if (tabPage != null)
+            if (tabIndex != -1)
             {
                 // TODO: 非同期更新中にタブが閉じられている場合を厳密に考慮したい
 
+                var tabPage = this.ListTab.TabPages[tabIndex];
                 var listView = (DetailsListView)tabPage.Tag;
                 var targetPost = tabRelated.TargetPost;
                 var index = tabRelated.IndexOf(targetPost.RetweetedId ?? targetPost.StatusId);
