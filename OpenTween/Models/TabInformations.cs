@@ -81,6 +81,11 @@ namespace OpenTween.Models
         public static TabInformations GetInstance()
             => _instance; // singleton
 
+        public string SelectedTabName { get; private set; } = "";
+
+        public TabModel SelectedTab
+            => this.Tabs[this.SelectedTabName];
+
         public List<ListElement> SubscribableLists
         {
             get => this._lists;
@@ -164,6 +169,14 @@ namespace OpenTween.Models
 
         public bool ContainsTab(TabModel ts)
             => this.Tabs.ContainsValue(ts);
+
+        public void SelectTab(string tabName)
+        {
+            if (!this.Tabs.ContainsKey(tabName))
+                throw new ArgumentException($"{tabName} does not exist.", nameof(tabName));
+
+            this.SelectedTabName = tabName;
+        }
 
         /// <summary>
         /// 指定されたタブ名を元に、既存のタブ名との重複を避けた名前を生成します

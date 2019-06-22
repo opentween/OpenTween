@@ -33,6 +33,58 @@ namespace OpenTween.Models
     public class TabModelTest
     {
         [Fact]
+        public void SelectPosts_Test()
+        {
+            var tab = new PublicSearchTabModel("search");
+
+            var posts = new[]
+            {
+                new PostClass { StatusId = 100L },
+                new PostClass { StatusId = 110L },
+                new PostClass { StatusId = 120L },
+            };
+            tab.AddPostQueue(posts[0]);
+            tab.AddPostQueue(posts[1]);
+            tab.AddPostQueue(posts[2]);
+            tab.AddSubmit();
+
+            tab.SelectPosts(new[] { 0, 2 });
+
+            Assert.Equal(new[] { 100L, 120L }, tab.SelectedStatusIds);
+            Assert.Equal(100L, tab.SelectedStatusId);
+            Assert.Equal(new[] { posts[0], posts[2] }, tab.SelectedPosts);
+            Assert.Equal(posts[0], tab.SelectedPost);
+            Assert.Equal(0, tab.SelectedIndex);
+        }
+
+        [Fact]
+        public void SelectPosts_EmptyTest()
+        {
+            var tab = new PublicSearchTabModel("search");
+            tab.AddPostQueue(new PostClass { StatusId = 100L });
+            tab.AddSubmit();
+
+            tab.SelectPosts(Array.Empty<int>());
+
+            Assert.Empty(tab.SelectedStatusIds);
+            Assert.Equal(-1L, tab.SelectedStatusId);
+            Assert.Empty(tab.SelectedPosts);
+            Assert.Null(tab.SelectedPost);
+            Assert.Equal(-1, tab.SelectedIndex);
+        }
+
+        [Fact]
+        public void SelectPosts_InvalidIndexTest()
+        {
+            var tab = new PublicSearchTabModel("search");
+            tab.AddPostQueue(new PostClass { StatusId = 100L });
+            tab.AddSubmit();
+
+            Assert.Throws<ArgumentOutOfRangeException>(() => tab.SelectPosts(new[] { -1 }));
+            Assert.Throws<ArgumentOutOfRangeException>(() => tab.SelectPosts(new[] { 1 }));
+        }
+
+        [Fact]
         public void EnqueueRemovePost_Test()
         {
             var tab = new PublicSearchTabModel("search")
@@ -117,6 +169,31 @@ namespace OpenTween.Models
             Assert.Equal(1, tab.AllCount);
             Assert.Equal(1, tab.UnreadCount);
             Assert.Empty(removedIds);
+        }
+
+        [Fact]
+        public void EnqueueRemovePost_SelectedTest()
+        {
+            var tab = new PublicSearchTabModel("search");
+            tab.AddPostQueue(new PostClass { StatusId = 100L });
+            tab.AddPostQueue(new PostClass { StatusId = 110L });
+            tab.AddSubmit();
+            tab.SelectPosts(new[] { 0, 1 });
+
+            Assert.Equal(2, tab.AllCount);
+            Assert.Equal(new[] { 100L, 110L }, tab.SelectedStatusIds);
+
+            tab.EnqueueRemovePost(100L, setIsDeleted: false);
+
+            // この時点では変化しない
+            Assert.Equal(2, tab.AllCount);
+            Assert.Equal(new[] { 100L, 110L }, tab.SelectedStatusIds);
+
+            tab.RemoveSubmit();
+
+            // 削除された発言の選択が解除される
+            Assert.Equal(1, tab.AllCount);
+            Assert.Equal(new[] { 110L }, tab.SelectedStatusIds);
         }
 
         [Fact]

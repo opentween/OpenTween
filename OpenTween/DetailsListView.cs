@@ -232,6 +232,14 @@ namespace OpenTween.OpenTweenCustomControl
             }
         }
 
+        [StructLayout(LayoutKind.Sequential)]
+        private struct NMHDR
+        {
+            public IntPtr hwndFrom;
+            public IntPtr idFrom;
+            public int code;
+        }
+
         [DebuggerStepThrough]
         protected override void WndProc(ref Message m)
         {
@@ -242,8 +250,12 @@ namespace OpenTween.OpenTweenCustomControl
             const int WM_HSCROLL = 0x114;
             const int WM_VSCROLL = 0x115;
             const int WM_KEYDOWN = 0x100;
+            const int WM_USER = 0x400;
+            const int WM_REFLECT = WM_USER + 0x1C00;
+            const int WM_NOTIFY = 0x004E;
             const int WM_CONTEXTMENU = 0x7B;
             const int LVM_SETITEMCOUNT = 0x102F;
+            const int LVN_ODSTATECHANGED = ((0 - 100) - 15);
             const long LVSICF_NOSCROLL = 0x2;
             const long LVSICF_NOINVALIDATEALL = 0x1;
 
@@ -286,6 +298,13 @@ namespace OpenTween.OpenTweenCustomControl
                     break;
                 case LVM_SETITEMCOUNT:
                     m.LParam = new IntPtr(LVSICF_NOSCROLL | LVSICF_NOINVALIDATEALL);
+                    break;
+                case WM_REFLECT + WM_NOTIFY:
+                    var nmhdr = Marshal.PtrToStructure<NMHDR>(m.LParam);
+
+                    // Ctrl+クリックで選択状態を変更した場合にイベントが発生しない問題への対処
+                    if (nmhdr.code == LVN_ODSTATECHANGED)
+                        this.OnSelectedIndexChanged(EventArgs.Empty);
                     break;
             }
 

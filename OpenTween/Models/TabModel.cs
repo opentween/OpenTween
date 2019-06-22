@@ -69,10 +69,32 @@ namespace OpenTween.Models
         /// </summary>
         public virtual bool IsPermanentTabType => true;
 
+        public long[] SelectedStatusIds
+            => this.selectedStatusIds.ToArray();
+
+        public long SelectedStatusId
+            => this.selectedStatusIds.DefaultIfEmpty(-1).First();
+
+        public PostClass[] SelectedPosts
+            => this.selectedStatusIds.Select(x => this.Posts[x]).ToArray();
+
+        public PostClass SelectedPost
+            => this.selectedStatusIds.Select(x => this.Posts[x]).FirstOrDefault();
+
+        public int SelectedIndex
+        {
+            get
+            {
+                var statusId = this.SelectedStatusId;
+                return statusId != -1 ? this.IndexOf(statusId) : -1;
+            }
+        }
+
         private IndexedSortedSet<long> _ids = new IndexedSortedSet<long>();
         private ConcurrentQueue<TemporaryId> addQueue = new ConcurrentQueue<TemporaryId>();
         private ConcurrentQueue<long> removeQueue = new ConcurrentQueue<long>();
         private SortedSet<long> unreadIds = new SortedSet<long>();
+        private List<long> selectedStatusIds = new List<long>();
 
         private readonly object _lockObj = new object();
 
@@ -135,6 +157,7 @@ namespace OpenTween.Models
                 return false;
 
             this.unreadIds.Remove(statusId);
+            this.selectedStatusIds.Remove(statusId);
             return true;
         }
 
@@ -151,10 +174,24 @@ namespace OpenTween.Models
             return removedIds;
         }
 
+        public void SelectPosts(int[] indices)
+        {
+            bool IsValidIndex(int index)
+                => index >= 0 && index < this.AllCount;
+
+            var firstErrorId = indices.FirstOrDefault(x => !IsValidIndex(x));
+            if (firstErrorId != default)
+                throw new ArgumentOutOfRangeException($"Invalid index: {firstErrorId}", nameof(indices));
+
+            var statusIds = indices.Select(x => this.GetStatusIdAt(x)).ToList();
+            this.selectedStatusIds = statusIds;
+        }
+
         public virtual void ClearIDs()
         {
             this._ids.Clear();
             this.unreadIds.Clear();
+            this.selectedStatusIds.Clear();
 
             Interlocked.Exchange(ref this.addQueue, new ConcurrentQueue<TemporaryId>());
         }
