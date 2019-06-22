@@ -7470,6 +7470,7 @@ namespace OpenTween
             {
                 var tab = this._statuses.Tabs[targetIndex];
                 var tabPage = this.ListTab.TabPages[targetIndex];
+
                 this.ListTab.TabPages.Remove(tabPage);
 
                 if (targetIndex < baseIndex)
@@ -7479,6 +7480,7 @@ namespace OpenTween
                     baseIndex++;
 
                 this._statuses.MoveTab(baseIndex, tab);
+
                 ListTab.TabPages.Insert(baseIndex, tabPage);
             }
 
