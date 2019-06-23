@@ -180,7 +180,7 @@ namespace OpenTween.Models
                 => index >= 0 && index < this.AllCount;
 
             var firstErrorId = indices.FirstOrDefault(x => !IsValidIndex(x));
-            if (firstErrorId != default(int))
+            if (firstErrorId != default)
                 throw new ArgumentOutOfRangeException($"Invalid index: {firstErrorId}", nameof(indices));
 
             var statusIds = indices.Select(x => this.GetStatusIdAt(x)).ToList();
