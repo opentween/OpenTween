@@ -1057,15 +1057,11 @@ namespace OpenTween
             if (this._statuses.GetTabByType<FavoritesTabModel>() == null)
                 this._statuses.AddTab(new FavoritesTabModel());
 
-            if (this._statuses.GetTabByType<MuteTabModel>() == null)
+            if (this._statuses.MuteTab == null)
                 this._statuses.AddTab(new MuteTabModel());
 
             foreach (var tab in _statuses.Tabs)
             {
-                // ミュートタブは表示しない
-                if (tab.TabType == MyCommon.TabUsageType.Mute)
-                    continue;
-
                 if (!AddNewTab(tab, startup: true))
                     throw new TabException(Properties.Resources.TweenMain_LoadText1);
             }
@@ -7197,7 +7193,7 @@ namespace OpenTween
 
             var tabs = this.ListTab.TabPages.Cast<TabPage>()
                 .Select(x => this._statuses.Tabs[x.Text])
-                .Append(this._statuses.GetTabByType(MyCommon.TabUsageType.Mute));
+                .Append(this._statuses.MuteTab);
 
             foreach (var tab in tabs)
             {

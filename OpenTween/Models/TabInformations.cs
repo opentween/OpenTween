@@ -41,6 +41,8 @@ namespace OpenTween.Models
     {
         //個別タブの情報をDictionaryで保持
         public TabCollection Tabs { get; } = new TabCollection();
+        public MuteTabModel MuteTab { get; private set; }
+
         public ConcurrentDictionary<long, PostClass> Posts { get; } = new ConcurrentDictionary<long, PostClass>();
 
         private Dictionary<long, PostClass> _quotes = new Dictionary<long, PostClass>();
@@ -113,6 +115,15 @@ namespace OpenTween.Models
         {
             lock (this.LockObj)
             {
+                if (tab is MuteTabModel muteTab)
+                {
+                    if (this.MuteTab != null)
+                        return false;
+
+                    this.MuteTab = muteTab;
+                    return true;
+                }
+
                 if (this.Tabs.Contains(tab.TabName))
                     return false;
 
@@ -548,7 +559,7 @@ namespace OpenTween.Models
 
         public bool IsMuted(PostClass post, bool isHomeTimeline)
         {
-            var muteTab = this.GetTabByType<MuteTabModel>();
+            var muteTab = this.MuteTab;
             if (muteTab != null && muteTab.AddFiltered(post) == MyCommon.HITRESULT.Move)
                 return true;
 
@@ -686,9 +697,6 @@ namespace OpenTween.Models
 
                 foreach (var tab in this.Tabs.OfType<FilterTabModel>().ToArray())
                 {
-                    if (tab.TabType == MyCommon.TabUsageType.Mute)
-                        continue;
-
                     // フィルタに変更のあったタブのみを対象とする
                     if (!tab.FilterModified)
                         continue;

@@ -102,21 +102,7 @@ namespace OpenTween
 
         private void RefreshListTabs()
         {
-            var tabs = new List<TabModel>();
-
-            foreach (var tab in this._sts.Tabs)
-            {
-                if (tab.TabType == MyCommon.TabUsageType.Mute)
-                    continue;
-
-                tabs.Add(tab);
-            }
-
-            var muteTab = this._sts.GetTabByType(MyCommon.TabUsageType.Mute);
-            if (muteTab != null)
-                tabs.Add(muteTab);
-
-            this.tabs = tabs;
+            this.tabs = this._sts.Tabs.Append(this._sts.MuteTab).ToList();
 
             using (ControlTransaction.Update(this.ListTabs))
             {
