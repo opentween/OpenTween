@@ -103,7 +103,7 @@ namespace OpenTween.Models
 
         public abstract Task RefreshAsync(Twitter tw, bool backward, bool startup, IProgress<string> progress);
 
-        private struct TemporaryId
+        private readonly struct TemporaryId
         {
             public long StatusId { get; }
             public bool Read { get; }

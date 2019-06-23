@@ -285,11 +285,11 @@ namespace OpenTween
 
         private List<urlUndo> urlUndoBuffer = null;
 
-        private struct ReplyChain
+        private readonly struct ReplyChain
         {
-            public long OriginalId;
-            public long InReplyToId;
-            public TabModel OriginalTab;
+            public readonly long OriginalId;
+            public readonly long InReplyToId;
+            public readonly TabModel OriginalTab;
 
             public ReplyChain(long originalId, long inReplyToId, TabModel originalTab)
             {
