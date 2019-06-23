@@ -160,7 +160,7 @@ namespace OpenTween
 
             if (!ret)
             {
-                value = default(TValue);
+                value = default;
                 return false;
             }
 

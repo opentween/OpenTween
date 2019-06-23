@@ -37,7 +37,7 @@ namespace OpenTween.Models
 {
     public class PostClass : ICloneable
     {
-        public struct StatusGeo : IEquatable<StatusGeo>
+        public readonly struct StatusGeo : IEquatable<StatusGeo>
         {
             public double Longitude { get; }
             public double Latitude { get; }

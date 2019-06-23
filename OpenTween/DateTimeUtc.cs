@@ -27,7 +27,7 @@ namespace OpenTween
     /// <summary>
     /// <see cref="DateTimeKind.Utc"/> に固定された <see cref="DateTime"/> を扱うための構造体
     /// </summary>
-    public struct DateTimeUtc : IComparable<DateTimeUtc>, IEquatable<DateTimeUtc>
+    public readonly struct DateTimeUtc : IComparable<DateTimeUtc>, IEquatable<DateTimeUtc>
     {
         public static DateTimeUtc MinValue { get; }
             = new DateTimeUtc(DateTime.SpecifyKind(DateTime.MinValue, DateTimeKind.Utc));

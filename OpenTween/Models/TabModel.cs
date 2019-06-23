@@ -103,7 +103,7 @@ namespace OpenTween.Models
 
         public abstract Task RefreshAsync(Twitter tw, bool backward, bool startup, IProgress<string> progress);
 
-        private struct TemporaryId
+        private readonly struct TemporaryId
         {
             public long StatusId { get; }
             public bool Read { get; }
@@ -180,7 +180,7 @@ namespace OpenTween.Models
                 => index >= 0 && index < this.AllCount;
 
             var firstErrorId = indices.FirstOrDefault(x => !IsValidIndex(x));
-            if (firstErrorId != default(int))
+            if (firstErrorId != default)
                 throw new ArgumentOutOfRangeException($"Invalid index: {firstErrorId}", nameof(indices));
 
             var statusIds = indices.Select(x => this.GetStatusIdAt(x)).ToList();
