@@ -182,12 +182,27 @@ namespace OpenTween
                 var startPos = text.GetCodepointCount(0, match.Index);
                 var endPos = startPos + text.GetCodepointCount(match.Index, match.Index + match.Length);
 
-                yield return new TwitterEntityEmoji
+                TwitterEntityEmoji entity;
+                if (codepointHex.Count >= 1)
                 {
-                    Indices = new[] { startPos, endPos },
-                    Text = input,
-                    Url = "https://twemoji.maxcdn.com/2/72x72/" + string.Join("-", codepointHex) + ".png",
-                };
+                    entity = new TwitterEntityEmoji
+                    {
+                        Indices = new[] { startPos, endPos },
+                        Text = input,
+                        Url = "https://twemoji.maxcdn.com/2/72x72/" + string.Join("-", codepointHex) + ".png",
+                    };
+                }
+                else
+                {
+                    entity = new TwitterEntityEmoji
+                    {
+                        Indices = new[] { startPos, endPos },
+                        Text = input,
+                        Url = "",
+                    };
+                }
+
+                yield return entity;
             }
         }
     }

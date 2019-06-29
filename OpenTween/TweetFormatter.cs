@@ -166,6 +166,9 @@ namespace OpenTween
             if (!SettingManager.Local.UseTwemoji)
                 return t(e(targetText));
 
+            if (string.IsNullOrEmpty(entity.Url))
+                return "";
+
             return "<img class=\"emoji\" src=\"" + e(entity.Url) + "\" alt=\"" + e(entity.Text) + "\" />";
         }
 

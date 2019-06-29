@@ -165,7 +165,6 @@ namespace OpenTween
             Assert.Equal(expected, TweetFormatter.AutoLinkHtml(text, entities));
         }
 
-
         [Fact]
         public void FormatEmojiEntity_Test()
         {
@@ -183,6 +182,26 @@ namespace OpenTween
             var expected = "<img class=\"emoji\" src=\"https://twemoji.maxcdn.com/2/72x72/1f363.png\" alt=\"🍣\" />";
             Assert.Equal(expected, TweetFormatter.AutoLinkHtml(text, entities));
         }
+
+        [Fact]
+        public void FormatEmojiEntity_EmptyUrlTest()
+        {
+            // 余分な U+FE0F があった場合に Url が空の絵文字エンティティが渡される
+            var text = "\uFE0F";
+            var entities = new[]
+            {
+                new TwitterEntityEmoji
+                {
+                    Indices = new[] { 0, 1 },
+                    Text = "",
+                    Url = "",
+                },
+            };
+
+            var expected = "";
+            Assert.Equal(expected, TweetFormatter.AutoLinkHtml(text, entities));
+        }
+
         [Fact]
         public void AutoLinkHtml_EntityNullTest()
         {
