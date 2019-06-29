@@ -125,7 +125,6 @@ namespace OpenTween
             "budurl.com",
             "ff.im",
             "ht.ly",
-            "htn.to",
             "moi.st",
             "ow.ly",
             "tinami.jp",

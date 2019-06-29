@@ -214,18 +214,18 @@ namespace OpenTween
             {
                 var shortUrl = new ShortUrl(http);
 
-                // http://htn.to/hoge -> http://example.com/hoge
+                // http://tinami.jp/hoge -> http://example.com/hoge
                 handler.Enqueue(x =>
                 {
                     // HTTPS非対応のドメインは http:// のままリクエストが送信される
                     Assert.Equal(HttpMethod.Head, x.Method);
-                    Assert.Equal(new Uri("http://htn.to/hoge"), x.RequestUri);
+                    Assert.Equal(new Uri("http://tinami.jp/hoge"), x.RequestUri);
 
                     return this.CreateRedirectResponse("http://example.com/hoge");
                 });
 
                 Assert.Equal(new Uri("http://example.com/hoge"),
-                    await shortUrl.ExpandUrlAsync(new Uri("http://htn.to/hoge")));
+                    await shortUrl.ExpandUrlAsync(new Uri("http://tinami.jp/hoge")));
 
                 Assert.Equal(0, handler.QueueCount);
             }
