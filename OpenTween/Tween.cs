@@ -8456,83 +8456,56 @@ namespace OpenTween
         {
             var linkElements = this.tweetDetailsView.GetLinkElements();
 
-            if (linkElements.Length > 0)
+            if (linkElements.Length == 0)
+                return;
+
+            var links = new List<OpenUrlItem>(linkElements.Length);
+
+            foreach (var linkElm in linkElements)
             {
-                UrlDialog.ClearUrl();
+                var displayUrl = linkElm.GetAttribute("title");
+                var href = linkElm.GetAttribute("href");
+                var linkedText = linkElm.InnerText;
 
-                string openUrlStr = "";
+                if (string.IsNullOrEmpty(displayUrl))
+                    displayUrl = href;
 
-                if (linkElements.Length == 1)
-                {
-                    // ツイートに含まれる URL が 1 つのみの場合
-                    //   => OpenURL ダイアログを表示せずにリンクを開く
-
-                    string urlStr = "";
-                    try
-                    {
-                        urlStr = MyCommon.IDNEncode(linkElements[0].GetAttribute("href"));
-                    }
-                    catch (ArgumentException)
-                    {
-                        //変なHTML？
-                        return;
-                    }
-                    catch (Exception)
-                    {
-                        return;
-                    }
-                    if (string.IsNullOrEmpty(urlStr)) return;
-                    openUrlStr = MyCommon.urlEncodeMultibyteChar(urlStr);
-
-                    // Ctrl+E で呼ばれた場合を考慮し isReverseSettings の判定を行わない
-                    await this.OpenUriAsync(new Uri(openUrlStr));
-                }
-                else
-                {
-                    // ツイートに含まれる URL が複数ある場合
-                    //   => OpenURL を表示しユーザーが選択したリンクを開く
-
-                    foreach (var linkElm in linkElements)
-                    {
-                        string urlStr = "";
-                        string linkText = "";
-                        string href = "";
-                        try
-                        {
-                            urlStr = linkElm.GetAttribute("title");
-                            href = MyCommon.IDNEncode(linkElm.GetAttribute("href"));
-                            if (string.IsNullOrEmpty(urlStr)) urlStr = href;
-                            linkText = linkElm.InnerText;
-                        }
-                        catch (ArgumentException)
-                        {
-                            //変なHTML？
-                            return;
-                        }
-                        catch (Exception)
-                        {
-                            return;
-                        }
-                        if (string.IsNullOrEmpty(urlStr)) continue;
-                        UrlDialog.AddUrl(new OpenUrlItem(linkText, urlStr, MyCommon.urlEncodeMultibyteChar(href)));
-                    }
-                    try
-                    {
-                        if (UrlDialog.ShowDialog() == DialogResult.OK)
-                        {
-                            openUrlStr = UrlDialog.SelectedUrl;
-
-                            // Ctrlを押しながらリンクを開いた場合は、設定と逆の動作をするフラグを true としておく
-                            await this.OpenUriAsync(new Uri(openUrlStr), MyCommon.IsKeyDown(Keys.Control));
-                        }
-                    }
-                    catch (Exception)
-                    {
-                        return;
-                    }
-                    this.TopMost = SettingManager.Common.AlwaysTop;
-                }
+                links.Add(new OpenUrlItem(linkedText, displayUrl, href));
             }
+
+            string selectedUrl;
+            bool isReverseSettings;
+
+            if (links.Count == 1)
+            {
+                // ツイートに含まれる URL が 1 つのみの場合
+                //   => OpenURL ダイアログを表示せずにリンクを開く
+                selectedUrl = links[0].Href;
+
+                // Ctrl+E で呼ばれた場合を考慮し isReverseSettings の判定を行わない
+                isReverseSettings = false;
+            }
+            else
+            {
+                // ツイートに含まれる URL が複数ある場合
+                //   => OpenURL を表示しユーザーが選択したリンクを開く
+                this.UrlDialog.ClearUrl();
+
+                foreach (var link in links)
+                    this.UrlDialog.AddUrl(link);
+
+                if (this.UrlDialog.ShowDialog(this) != DialogResult.OK)
+                    return;
+
+                this.TopMost = SettingManager.Common.AlwaysTop;
+
+                selectedUrl = this.UrlDialog.SelectedUrl;
+
+                // Ctrlを押しながらリンクを開いた場合は、設定と逆の動作をするフラグを true としておく
+                isReverseSettings = MyCommon.IsKeyDown(Keys.Control);
+            }
+
+            await this.OpenUriAsync(new Uri(selectedUrl), isReverseSettings);
         }
 
         private void ClearTabMenuItem_Click(object sender, EventArgs e)
