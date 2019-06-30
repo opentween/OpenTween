@@ -9087,10 +9087,10 @@ namespace OpenTween
                     }
                     else if (Converter_Type != MyCommon.UrlConverter.Nicoms)
                     {
-                        //短縮URL変換 日本語を含むかもしれないのでURLエンコードする
+                        // 短縮URL変換
                         try
                         {
-                            var srcUri = new Uri(MyCommon.urlEncodeMultibyteChar(tmp));
+                            var srcUri = new Uri(tmp);
                             var resultUri = await ShortUrl.Instance.ShortenUrlAsync(Converter_Type, srcUri);
                             result = resultUri.AbsoluteUri;
                         }
@@ -9161,10 +9161,10 @@ namespace OpenTween
                     }
                     else if (Converter_Type != MyCommon.UrlConverter.Nicoms)
                     {
-                        //短縮URL変換 日本語を含むかもしれないのでURLエンコードする
+                        // 短縮URL変換
                         try
                         {
-                            var srcUri = new Uri(MyCommon.urlEncodeMultibyteChar(tmp));
+                            var srcUri = new Uri(tmp);
                             var resultUri = await ShortUrl.Instance.ShortenUrlAsync(Converter_Type, srcUri);
                             result = resultUri.AbsoluteUri;
                         }

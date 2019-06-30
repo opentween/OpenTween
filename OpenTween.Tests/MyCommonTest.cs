@@ -39,18 +39,6 @@ namespace OpenTween
     public class MyCommonTest
     {
         [Theory]
-        [InlineData("http://ja.wikipedia.org/wiki/Wikipedia", "http://ja.wikipedia.org/wiki/Wikipedia")]
-        [InlineData("http://ja.wikipedia.org/wiki/メインページ",
-            "http://ja.wikipedia.org/wiki/%E3%83%A1%E3%82%A4%E3%83%B3%E3%83%9A%E3%83%BC%E3%82%B8")]
-        [InlineData("http://fr.wikipedia.org/wiki/Café", "http://fr.wikipedia.org/wiki/Caf%E9")]
-        [InlineData("http://ja.wikipedia.org/wiki/勇気100%", "http://ja.wikipedia.org/wiki/%E5%8B%87%E6%B0%97100%25")]
-        [InlineData("http://ja.wikipedia.org/wiki/Bio_100%", "http://ja.wikipedia.org/wiki/Bio_100%25")]
-        public void urlEncodeMultibyteCharTest(string uri, string expected)
-        {
-            Assert.Equal(expected, MyCommon.urlEncodeMultibyteChar(uri));
-        }
-
-        [Theory]
         [InlineData("http://日本語.idn.icann.org/", "http://xn--wgv71a119e.idn.icann.org/")]
         [InlineData("http://例え.テスト/", "http://xn--r8jz45g.xn--zckzah/")]
         public void IDNEncodeTest(string uri, string expected)
