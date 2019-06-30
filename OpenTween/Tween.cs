@@ -8514,7 +8514,7 @@ namespace OpenTween
                             return;
                         }
                         if (string.IsNullOrEmpty(urlStr)) continue;
-                        UrlDialog.AddUrl(new OpenUrlItem(linkText, MyCommon.urlEncodeMultibyteChar(urlStr), href));
+                        UrlDialog.AddUrl(new OpenUrlItem(linkText, urlStr, MyCommon.urlEncodeMultibyteChar(href)));
                     }
                     try
                     {
