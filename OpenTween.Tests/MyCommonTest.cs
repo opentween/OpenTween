@@ -61,6 +61,7 @@ namespace OpenTween
         [Theory]
         [InlineData("http://xn--wgv71a119e.idn.icann.org/", "http://日本語.idn.icann.org/")]
         [InlineData("http://xn--r8jz45g.xn--zckzah/", "http://例え.テスト/")]
+        [InlineData("http://xn--a/", "http://xn--a/")] // 不正なpunycode
         public void IDNDecodeTest(string uri, string expected)
         {
             Assert.Equal(expected, MyCommon.IDNDecode(uri));
@@ -71,7 +72,10 @@ namespace OpenTween
         [InlineData("http://ja.wikipedia.org/wiki/%3F", "http://ja.wikipedia.org/wiki/%3F")] // "?" に変換しない
         [InlineData("http://ja.wikipedia.org/wiki/%E3%83%9E%E3%82%B8LOVE1000%25",
             "http://ja.wikipedia.org/wiki/マジLOVE1000%25")] // "%" も変換しない
+        [InlineData("http://xn--a/%E3%81%82", "http://xn--a/あ")] // 不正なpunycode
         [InlineData("http://example..com/", "http://example..com/")] // 不正なURL
+        [InlineData("http://example.com/%E3%81%82%FF", "http://example.com/あ%FF")] // 不正なUTF-8シーケンス
+        [InlineData("http://example.com/%E3%81%82%ED%A0%80", "http://example.com/あ%ED%A0%80")] // 不正なUTF-8シーケンス (high surrogate)
         public void ConvertToReadableUrl(string url, string expected)
         {
             Assert.Equal(expected, MyCommon.ConvertToReadableUrl(url));

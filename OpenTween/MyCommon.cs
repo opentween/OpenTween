@@ -563,7 +563,7 @@ namespace OpenTween
             }
             catch (Exception)
             {
-                return null;
+                return inputUrl;
             }
         }
 
@@ -578,8 +578,6 @@ namespace OpenTween
 
                 // Punycodeをデコードする
                 outputUrl = MyCommon.IDNDecode(outputUrl);
-                if (outputUrl == null)
-                    return inputUrl;
 
                 // URL内で特殊な意味を持つ記号は元の文字に変換されることを避けるために二重エスケープする
                 // 参考: Firefoxの losslessDecodeURI() 関数
