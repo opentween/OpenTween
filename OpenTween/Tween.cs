@@ -2474,7 +2474,7 @@ namespace OpenTween
 
                 var currentPost = this.CurrentPost;
                 if (currentPost != null && statusId == currentPost.StatusId)
-                    await this.DispSelectedPost(true); // 選択アイテム再表示
+                    this.DispSelectedPost(true); // 選択アイテム再表示
             }
         }
 
@@ -2589,7 +2589,7 @@ namespace OpenTween
 
                     var currentPost = this.CurrentPost;
                     if (currentPost != null && successIds.Contains(currentPost.StatusId))
-                        await this.DispSelectedPost(true); // 選択アイテム再表示
+                        this.DispSelectedPost(true); // 選択アイテム再表示
                 }
             }
         }
@@ -4335,7 +4335,7 @@ namespace OpenTween
             }
         }
 
-        private async void ListTab_SelectedIndexChanged(object sender, EventArgs e)
+        private void ListTab_SelectedIndexChanged(object sender, EventArgs e)
         {
             //_curList.Refresh();
             SetMainWindowTitle();
@@ -4345,7 +4345,7 @@ namespace OpenTween
                 this.Tag = ListTab.Tag;
             TabMenuControl(this.CurrentTabName);
             this.PushSelectPostChain();
-            await DispSelectedPost();
+            DispSelectedPost();
         }
 
         private void SetListProperty()
@@ -5584,7 +5584,7 @@ namespace OpenTween
             }
         }
 
-        private async Task UpdateSelectedPost()
+        private void UpdateSelectedPost()
         {
             //件数関連の場合、タイトル即時書き換え
             if (SettingManager.Common.DispLatestPost != MyCommon.DispTitleEnum.None &&
@@ -5614,13 +5614,13 @@ namespace OpenTween
                 this.ListTab.Refresh();
             }
 
-            await this.DispSelectedPost();
+            this.DispSelectedPost();
         }
 
         public string createDetailHtml(string orgdata)
             => detailHtmlFormatHeader + orgdata + detailHtmlFormatFooter;
 
-        private Task DispSelectedPost()
+        private void DispSelectedPost()
             => this.DispSelectedPost(false);
 
         private PostClass displayPost = new PostClass();
@@ -5630,7 +5630,7 @@ namespace OpenTween
         /// </summary>
         private CancellationTokenSource thumbnailTokenSource = null;
 
-        private async Task DispSelectedPost(bool forceupdate)
+        private void DispSelectedPost(bool forceupdate)
         {
             var currentPost = this.CurrentPost;
             if (currentPost == null)
@@ -5658,11 +5658,17 @@ namespace OpenTween
                 loadTasks.Add(this.tweetThumbnail1.ShowThumbnailAsync(currentPost, token));
             }
 
-            try
+            async Task delayedTasks()
             {
-                await Task.WhenAll(loadTasks);
+                try
+                {
+                    await Task.WhenAll(loadTasks);
+                }
+                catch (OperationCanceledException) { }
             }
-            catch (OperationCanceledException) { }
+
+            // サムネイルの読み込みを待たずに次に選択されたツイートを表示するため await しない
+            _ = delayedTasks();
         }
 
         private async void MatomeMenuItem_Click(object sender, EventArgs e)
@@ -9878,7 +9884,7 @@ namespace OpenTween
         private async Task doGetFollowersMenu()
         {
             await this.RefreshFollowerIdsAsync();
-            await this.DispSelectedPost(true);
+            this.DispSelectedPost(true);
         }
 
         private async void GetFollowersAllToolStripMenuItem_Click(object sender, EventArgs e)
@@ -10011,12 +10017,12 @@ namespace OpenTween
             return WebUtility.HtmlDecode(statusHtml);
         }
 
-        private async void DumpPostClassToolStripMenuItem_Click(object sender, EventArgs e)
+        private void DumpPostClassToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.tweetDetailsView.DumpPostClass = this.DumpPostClassToolStripMenuItem.Checked;
 
             if (this.CurrentPost != null)
-                await this.DispSelectedPost(true);
+                this.DispSelectedPost(true);
         }
 
         private void MenuItemHelp_DropDownOpening(object sender, EventArgs e)
@@ -11291,7 +11297,7 @@ namespace OpenTween
             {
                 if (InvokeRequired && !IsDisposed)
                 {
-                    await this.InvokeAsync(async () =>
+                    await this.InvokeAsync(() =>
                     {
                         this._statuses.RemovePostFromAllTabs(e.StatusId, setIsDeleted: true);
                         if (this.CurrentTab.Contains(e.StatusId))
@@ -11300,7 +11306,7 @@ namespace OpenTween
                             this.CurrentListView.Update();
                             var post = this.CurrentPost;
                             if (post != null && post.StatusId == e.StatusId)
-                                await this.DispSelectedPost(true);
+                                this.DispSelectedPost(true);
                         }
                     });
                     return;
@@ -11666,7 +11672,7 @@ namespace OpenTween
             if (e.Mode == Microsoft.Win32.PowerModes.Resume) osResumed = true;
         }
 
-        private async void SystemEvents_TimeChanged(object sender, EventArgs e)
+        private void SystemEvents_TimeChanged(object sender, EventArgs e)
         {
             var prevTimeOffset = TimeZoneInfo.Local.BaseUtcOffset;
 
@@ -11680,7 +11686,7 @@ namespace OpenTween
                 this.PurgeListViewItemCache();
                 this.CurrentListView.Refresh();
 
-                await this.DispSelectedPost(forceupdate: true);
+                this.DispSelectedPost(forceupdate: true);
             }
         }
 
