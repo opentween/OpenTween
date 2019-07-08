@@ -381,7 +381,13 @@ namespace OpenTween
             var recipient = await this.Api.UsersShow(recipientName)
                 .ConfigureAwait(false);
 
-            await this.Api.DirectMessagesEventsNew(recipient.Id, body, mediaId)
+            var response = await this.Api.DirectMessagesEventsNew(recipient.Id, body, mediaId)
+                .ConfigureAwait(false);
+
+            var messageEventSingle = await response.LoadJsonAsync()
+                .ConfigureAwait(false);
+
+            await this.CreateDirectMessagesEventFromJson(messageEventSingle, read: true)
                 .ConfigureAwait(false);
         }
 
@@ -1232,6 +1238,24 @@ namespace OpenTween
 
             this.nextCursorDirectMessage = eventList.NextCursor;
 
+            await this.CreateDirectMessagesEventFromJson(eventList, read)
+                .ConfigureAwait(false);
+        }
+
+        private async Task CreateDirectMessagesEventFromJson(TwitterMessageEventSingle eventSingle, bool read)
+        {
+            var eventList = new TwitterMessageEventList
+            {
+                Apps = new Dictionary<string, TwitterMessageEventList.App>(),
+                Events = new[] { eventSingle.Event },
+            };
+
+            await this.CreateDirectMessagesEventFromJson(eventList, read)
+                .ConfigureAwait(false);
+        }
+
+        private async Task CreateDirectMessagesEventFromJson(TwitterMessageEventList eventList, bool read)
+        {
             var events = eventList.Events
                 .Where(x => x.Type == "message_create")
                 .ToArray();

@@ -44,6 +44,8 @@ namespace OpenTween.Connection
 
         Task PostJsonAsync(Uri uri, string json);
 
+        Task<LazyJson<T>> PostJsonAsync<T>(Uri uri, string json);
+
         Task DeleteAsync(Uri uri);
     }
 }

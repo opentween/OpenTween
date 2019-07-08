@@ -2734,8 +2734,8 @@ namespace OpenTween
                     {
                         this._statuses.AddPost(post);
                         this._statuses.DistributePosts();
-                        this.RefreshTimeline();
                     }
+                    this.RefreshTimeline();
                 }
             }
         }

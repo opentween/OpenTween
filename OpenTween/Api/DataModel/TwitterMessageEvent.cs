@@ -52,6 +52,13 @@ namespace OpenTween.Api.DataModel
     }
 
     [DataContract]
+    public class TwitterMessageEventSingle
+    {
+        [DataMember(Name = "event")]
+        public TwitterMessageEvent Event { get; set; }
+    }
+
+    [DataContract]
     public class TwitterMessageEvent
     {
         [DataMember(Name = "created_timestamp")]

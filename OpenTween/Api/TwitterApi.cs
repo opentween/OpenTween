@@ -394,7 +394,7 @@ namespace OpenTween.Api
             return this.apiConnection.GetAsync<TwitterMessageEventList>(endpoint, param, "/direct_messages/events/list");
         }
 
-        public Task DirectMessagesEventsNew(long recipientId, string text, long? mediaId = null)
+        public Task<LazyJson<TwitterMessageEventSingle>> DirectMessagesEventsNew(long recipientId, string text, long? mediaId = null)
         {
             var endpoint = new Uri("direct_messages/events/new.json", UriKind.Relative);
 
@@ -424,7 +424,7 @@ namespace OpenTween.Api
   }}
 }}";
 
-            return this.apiConnection.PostJsonAsync(endpoint, json);
+            return this.apiConnection.PostJsonAsync<TwitterMessageEventSingle>(endpoint, json);
         }
 
         public Task DirectMessagesEventsDestroy(string eventId)

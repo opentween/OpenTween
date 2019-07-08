@@ -327,6 +327,11 @@ namespace OpenTween.Connection
         }
 
         public async Task PostJsonAsync(Uri uri, string json)
+            => await this.PostJsonAsync<object>(uri, json)
+                         .IgnoreResponse()
+                         .ConfigureAwait(false);
+
+        public async Task<LazyJson<T>> PostJsonAsync<T>(Uri uri, string json)
         {
             var requestUri = new Uri(RestApiBase, uri);
             var request = new HttpRequestMessage(HttpMethod.Post, requestUri);
@@ -337,12 +342,16 @@ namespace OpenTween.Connection
 
                 try
                 {
-                    using (var response = await this.http.SendAsync(request, HttpCompletionOption.ResponseHeadersRead)
-                        .ConfigureAwait(false))
-                    {
-                        await this.CheckStatusCode(response)
-                            .ConfigureAwait(false);
-                    }
+                    var response = await this.http.SendAsync(request, HttpCompletionOption.ResponseHeadersRead)
+                        .ConfigureAwait(false);
+
+                    await this.CheckStatusCode(response)
+                        .ConfigureAwait(false);
+
+                    var result = new LazyJson<T>(response);
+                    response = null;
+
+                    return result;
                 }
                 catch (HttpRequestException ex)
                 {

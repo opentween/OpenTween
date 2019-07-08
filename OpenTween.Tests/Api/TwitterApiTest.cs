@@ -696,7 +696,7 @@ namespace OpenTween.Api
             {
                 var mock = new Mock<IApiConnection>();
                 mock.Setup(x =>
-                    x.PostJsonAsync(
+                    x.PostJsonAsync<TwitterMessageEventSingle>(
                         new Uri("direct_messages/events/new.json", UriKind.Relative),
                         @"{
   ""event"": {
@@ -718,7 +718,7 @@ namespace OpenTween.Api
   }
 }")
                 )
-                .Returns(Task.CompletedTask);
+                .ReturnsAsync(LazyJson.Create(new TwitterMessageEventSingle()));
 
                 twitterApi.apiConnection = mock.Object;
 

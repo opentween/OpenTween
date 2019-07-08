@@ -479,6 +479,40 @@ namespace OpenTween.Connection
 
                     Assert.Equal("{\"aaaa\": 1111}", body);
 
+                    return new HttpResponseMessage(HttpStatusCode.NoContent);
+                });
+
+                var endpoint = new Uri("hoge/tetete.json", UriKind.Relative);
+
+                await apiConnection.PostJsonAsync(endpoint, "{\"aaaa\": 1111}")
+                    .ConfigureAwait(false);
+
+                Assert.Equal(0, mockHandler.QueueCount);
+            }
+        }
+
+        [Fact]
+        public async Task PostJsonAsync_T_Test()
+        {
+            using (var mockHandler = new HttpMessageHandlerMock())
+            using (var http = new HttpClient(mockHandler))
+            using (var apiConnection = new TwitterApiConnection("", ""))
+            {
+                apiConnection.http = http;
+
+                mockHandler.Enqueue(async x =>
+                {
+                    Assert.Equal(HttpMethod.Post, x.Method);
+                    Assert.Equal("https://api.twitter.com/1.1/hoge/tetete.json",
+                        x.RequestUri.AbsoluteUri);
+
+                    Assert.Equal("application/json; charset=utf-8", x.Content.Headers.ContentType.ToString());
+
+                    var body = await x.Content.ReadAsStringAsync()
+                        .ConfigureAwait(false);
+
+                    Assert.Equal("{\"aaaa\": 1111}", body);
+
                     return new HttpResponseMessage(HttpStatusCode.OK)
                     {
                         Content = new StringContent("\"hogehoge\""),
@@ -487,8 +521,13 @@ namespace OpenTween.Connection
 
                 var endpoint = new Uri("hoge/tetete.json", UriKind.Relative);
 
-                await apiConnection.PostJsonAsync(endpoint, "{\"aaaa\": 1111}")
+                var response = await apiConnection.PostJsonAsync<string>(endpoint, "{\"aaaa\": 1111}")
                     .ConfigureAwait(false);
+
+                var result = await response.LoadJsonAsync()
+                    .ConfigureAwait(false);
+
+                Assert.Equal("hogehoge", result);
 
                 Assert.Equal(0, mockHandler.QueueCount);
             }
