@@ -264,11 +264,10 @@ namespace OpenTween
         private string[] ColumnText = new string[9];
 
         private bool _DoFavRetweetFlags = false;
-        private bool osResumed = false;
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        private System.Timers.Timer TimerTimeline = new System.Timers.Timer();
+        private readonly TimelineScheduler timelineScheduler = new TimelineScheduler();
         private ThrottlingTimer RefreshThrottlingTimer;
         private ThrottlingTimer selectionDebouncer;
         private ThrottlingTimer saveConfigDebouncer;
@@ -1114,16 +1113,27 @@ namespace OpenTween
 
             //タイマー設定
 
+            this.timelineScheduler.UpdateHome = () => this.InvokeAsync(() => this.RefreshTabAsync<HomeTabModel>());
+            this.timelineScheduler.UpdateMention = () => this.InvokeAsync(() => this.RefreshTabAsync<MentionsTabModel>());
+            this.timelineScheduler.UpdateDm = () => this.InvokeAsync(() => this.RefreshTabAsync<DirectMessagesTabModel>());
+            this.timelineScheduler.UpdatePublicSearch = () => this.InvokeAsync(() => this.RefreshTabAsync<PublicSearchTabModel>());
+            this.timelineScheduler.UpdateUser = () => this.InvokeAsync(() => this.RefreshTabAsync<UserTimelineTabModel>());
+            this.timelineScheduler.UpdateList = () => this.InvokeAsync(() => this.RefreshTabAsync<ListTimelineTabModel>());
+            this.timelineScheduler.UpdateConfig = () => this.InvokeAsync(() => Task.WhenAll(new[]
+            {
+                this.doGetFollowersMenu(),
+                this.RefreshBlockIdsAsync(),
+                this.RefreshMuteUserIdsAsync(),
+                this.RefreshNoRetweetIdsAsync(),
+                this.RefreshTwitterConfigurationAsync(),
+            }));
+            this.RefreshTimelineScheduler();
+
             var streamingRefreshInterval = TimeSpan.FromSeconds(SettingManager.Common.UserstreamPeriod);
             this.RefreshThrottlingTimer = ThrottlingTimer.Throttle(() => this.InvokeAsync(() => this.RefreshTimeline()), streamingRefreshInterval);
             this.selectionDebouncer = ThrottlingTimer.Debounce(() => this.InvokeAsync(() => this.UpdateSelectedPost()), TimeSpan.FromMilliseconds(100), leading: true);
             this.saveConfigDebouncer = ThrottlingTimer.Debounce(() => this.InvokeAsync(() => this.SaveConfigsAll(ifModified: true)), TimeSpan.FromSeconds(1));
 
-            TimerTimeline.AutoReset = true;
-            TimerTimeline.SynchronizingObject = this;
-            //Recent取得間隔
-            TimerTimeline.Interval = 1000;
-            TimerTimeline.Enabled = true;
             //更新中アイコンアニメーション間隔
             TimerRefreshIcon.Interval = 200;
             TimerRefreshIcon.Enabled = false;
@@ -1279,8 +1289,6 @@ namespace OpenTween
 
         private void TimerInterval_Changed(object sender, IntervalChangedEventArgs e) //Handles SettingDialog.IntervalChanged
         {
-            if (!TimerTimeline.Enabled) return;
-
             if (e.UserStream)
             {
                 var interval = TimeSpan.FromSeconds(SettingManager.Common.UserstreamPeriod);
@@ -1289,107 +1297,21 @@ namespace OpenTween
                 oldTimer.Dispose();
             }
 
-            ResetTimers = e;
+            this.RefreshTimelineScheduler();
         }
 
-        private IntervalChangedEventArgs ResetTimers = IntervalChangedEventArgs.ResetAll;
-
-        private static int homeCounter = 0;
-        private static int mentionCounter = 0;
-        private static int dmCounter = 0;
-        private static int pubSearchCounter = 0;
-        private static int userTimelineCounter = 0;
-        private static int listsCounter = 0;
-        private static int ResumeWait = 0;
-        private static int refreshFollowers = 0;
-
-        private async void TimerTimeline_Elapsed(object sender, EventArgs e)
+        private void RefreshTimelineScheduler()
         {
-            if (homeCounter > 0) Interlocked.Decrement(ref homeCounter);
-            if (mentionCounter > 0) Interlocked.Decrement(ref mentionCounter);
-            if (dmCounter > 0) Interlocked.Decrement(ref dmCounter);
-            if (pubSearchCounter > 0) Interlocked.Decrement(ref pubSearchCounter);
-            if (userTimelineCounter > 0) Interlocked.Decrement(ref userTimelineCounter);
-            if (listsCounter > 0) Interlocked.Decrement(ref listsCounter);
-            Interlocked.Increment(ref refreshFollowers);
+            this.timelineScheduler.UpdateIntervalHome = TimeSpan.FromSeconds(SettingManager.Common.TimelinePeriod);
+            this.timelineScheduler.UpdateIntervalMention = TimeSpan.FromSeconds(SettingManager.Common.ReplyPeriod);
+            this.timelineScheduler.UpdateIntervalDm = TimeSpan.FromSeconds(SettingManager.Common.DMPeriod);
+            this.timelineScheduler.UpdateIntervalPublicSearch = TimeSpan.FromSeconds(SettingManager.Common.PubSearchPeriod);
+            this.timelineScheduler.UpdateIntervalUser = TimeSpan.FromSeconds(SettingManager.Common.UserTimelinePeriod);
+            this.timelineScheduler.UpdateIntervalList = TimeSpan.FromSeconds(SettingManager.Common.ListsPeriod);
+            this.timelineScheduler.UpdateIntervalConfig = TimeSpan.FromHours(6);
+            this.timelineScheduler.UpdateAfterSystemResume = TimeSpan.FromSeconds(30);
 
-            var refreshTasks = new List<Task>();
-
-            ////タイマー初期化
-            if (ResetTimers.Timeline || homeCounter <= 0 && SettingManager.Common.TimelinePeriod > 0)
-            {
-                Interlocked.Exchange(ref homeCounter, SettingManager.Common.TimelinePeriod);
-                if (!tw.IsUserstreamDataReceived && !ResetTimers.Timeline)
-                    refreshTasks.Add(this.RefreshTabAsync<HomeTabModel>());
-                ResetTimers.Timeline = false;
-            }
-            if (ResetTimers.Reply || mentionCounter <= 0 && SettingManager.Common.ReplyPeriod > 0)
-            {
-                Interlocked.Exchange(ref mentionCounter, SettingManager.Common.ReplyPeriod);
-                if (!tw.IsUserstreamDataReceived && !ResetTimers.Reply)
-                    refreshTasks.Add(this.RefreshTabAsync<MentionsTabModel>());
-                ResetTimers.Reply = false;
-            }
-            if (ResetTimers.DirectMessage || dmCounter <= 0 && SettingManager.Common.DMPeriod > 0)
-            {
-                Interlocked.Exchange(ref dmCounter, SettingManager.Common.DMPeriod);
-                if (!tw.IsUserstreamDataReceived && !ResetTimers.DirectMessage)
-                    refreshTasks.Add(this.RefreshTabAsync<DirectMessagesTabModel>());
-                ResetTimers.DirectMessage = false;
-            }
-            if (ResetTimers.PublicSearch || pubSearchCounter <= 0 && SettingManager.Common.PubSearchPeriod > 0)
-            {
-                Interlocked.Exchange(ref pubSearchCounter, SettingManager.Common.PubSearchPeriod);
-                if (!ResetTimers.PublicSearch)
-                    refreshTasks.Add(this.RefreshTabAsync<PublicSearchTabModel>());
-                ResetTimers.PublicSearch = false;
-            }
-            if (ResetTimers.UserTimeline || userTimelineCounter <= 0 && SettingManager.Common.UserTimelinePeriod > 0)
-            {
-                Interlocked.Exchange(ref userTimelineCounter, SettingManager.Common.UserTimelinePeriod);
-                if (!ResetTimers.UserTimeline)
-                    refreshTasks.Add(this.RefreshTabAsync<UserTimelineTabModel>());
-                ResetTimers.UserTimeline = false;
-            }
-            if (ResetTimers.Lists || listsCounter <= 0 && SettingManager.Common.ListsPeriod > 0)
-            {
-                Interlocked.Exchange(ref listsCounter, SettingManager.Common.ListsPeriod);
-                if (!ResetTimers.Lists)
-                    refreshTasks.Add(this.RefreshTabAsync<ListTimelineTabModel>());
-                ResetTimers.Lists = false;
-            }
-            if (refreshFollowers > 6 * 3600)
-            {
-                Interlocked.Exchange(ref refreshFollowers, 0);
-                refreshTasks.AddRange(new[]
-                {
-                    this.doGetFollowersMenu(),
-                    this.RefreshNoRetweetIdsAsync(),
-                    this.RefreshTwitterConfigurationAsync(),
-                });
-            }
-            if (osResumed)
-            {
-                Interlocked.Increment(ref ResumeWait);
-                if (ResumeWait > 30)
-                {
-                    osResumed = false;
-                    Interlocked.Exchange(ref ResumeWait, 0);
-                    refreshTasks.AddRange(new[]
-                    {
-                        this.RefreshTabAsync<HomeTabModel>(),
-                        this.RefreshTabAsync<MentionsTabModel>(),
-                        this.RefreshTabAsync<DirectMessagesTabModel>(),
-                        this.RefreshTabAsync<PublicSearchTabModel>(),
-                        this.RefreshTabAsync<UserTimelineTabModel>(),
-                        this.RefreshTabAsync<ListTimelineTabModel>(),
-                        this.doGetFollowersMenu(),
-                        this.RefreshTwitterConfigurationAsync(),
-                    });
-                }
-            }
-
-            await Task.WhenAll(refreshTasks);
+            this.timelineScheduler.RefreshSchedule();
         }
 
         private void MarkSettingCommonModified()
@@ -2280,7 +2202,7 @@ namespace OpenTween
                 _hookGlobalHotkey.UnregisterAllOriginalHotkey();
                 _ignoreConfigSave = true;
                 MyCommon._endingFlag = true;
-                TimerTimeline.Enabled = false;
+                this.timelineScheduler.Enabled = false;
                 TimerRefreshIcon.Enabled = false;
             }
         }
@@ -9898,7 +9820,7 @@ namespace OpenTween
 
             _initial = false;
 
-            TimerTimeline.Enabled = true;
+            this.timelineScheduler.Enabled = true;
         }
 
         private async Task doGetFollowersMenu()
@@ -11032,7 +10954,6 @@ namespace OpenTween
 
             this.tweetDetailsView.Owner = this;
 
-            this.TimerTimeline.Elapsed += this.TimerTimeline_Elapsed;
             this._hookGlobalHotkey.HotkeyPressed += _hookGlobalHotkey_HotkeyPressed;
             this.gh.NotifyClicked += GrowlHelper_Callback;
 
@@ -11684,7 +11605,8 @@ namespace OpenTween
 
         private void SystemEvents_PowerModeChanged(object sender, Microsoft.Win32.PowerModeChangedEventArgs e)
         {
-            if (e.Mode == Microsoft.Win32.PowerModes.Resume) osResumed = true;
+            if (e.Mode == Microsoft.Win32.PowerModes.Resume)
+                this.timelineScheduler.SystemResumed();
         }
 
         private void SystemEvents_TimeChanged(object sender, EventArgs e)
@@ -11715,7 +11637,7 @@ namespace OpenTween
             {
                 tw.StopUserStream();
             }
-            TimerTimeline.Enabled = isEnable;
+            this.timelineScheduler.Enabled = isEnable;
         }
 
         private void StopRefreshAllMenuItem_CheckedChanged(object sender, EventArgs e)

@@ -183,6 +183,7 @@
     <Compile Include="ShortcutCommand.cs" />
     <Compile Include="ThrottlingTimer.cs" />
     <Compile Include="Thumbnail\Services\PbsTwimgCom.cs" />
+    <Compile Include="TimelineScheduler.cs" />
     <Compile Include="TweetDetailsView.cs">
       <SubType>UserControl</SubType>
     </Compile>
