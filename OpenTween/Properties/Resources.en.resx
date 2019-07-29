@@ -716,7 +716,7 @@ Do you want to upload the {1} selected media file(s)?</value>
     <value>Failed to block.</value>
   </data>
   <data name="ButtonBlock_ClickText4" xml:space="preserve">
-    <value>Success to unblock.</value>
+    <value>Success to block.</value>
   </data>
   <data name="ButtonOK_ClickText4" xml:space="preserve">
     <value>Can't add duplicated rule.</value>
@@ -884,7 +884,7 @@ Do you want to upload the {1} selected media file(s)?</value>
     <value>Adding to favorites being able to do at a time is up to {0}.</value>
   </data>
   <data name="TextSearchCountApi_Validating1" xml:space="preserve">
-    <value>Getting number of tweet in Api-mode must be 20 to 200.</value>
+    <value>Getting number of tweet in Api-mode must be 20 to 100.</value>
   </data>
   <data name="RetweetLimitText" xml:space="preserve">
     <value>Retweet being able to do at a time is up to 15.</value>
@@ -896,7 +896,7 @@ Do you want to upload the {1} selected media file(s)?</value>
     <value>Mark favorite and retweet those selected tweets?</value>
   </data>
   <data name="FavoritesRetweetQuestionText2" xml:space="preserve">
-    <value>Favoriteに追加してRetweetします。よろしいですか？</value>
+    <value>Mark favorite and retweet this tweet?</value>
   </data>
   <data name="FavoriteRetweetQuestionText3" xml:space="preserve">
     <value>Mark favorite and retweet(unofficial) those selected tweets?</value>
