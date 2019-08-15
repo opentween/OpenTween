@@ -4,6 +4,7 @@
     <RootNamespace>OpenTween</RootNamespace>
     <TargetFramework>net472</TargetFramework>
     <LangVersion>8.0</LangVersion>
+    <Nullable>enable</Nullable>
     <DisableImplicitFrameworkReferences>true</DisableImplicitFrameworkReferences>
   </PropertyGroup>
   <ItemGroup>

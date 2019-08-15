@@ -19,6 +19,8 @@
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
+#nullable enable
+
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
@@ -72,7 +74,7 @@ namespace OpenTween.Connection
         /// <summary>
         /// OAuthの署名の対象となるパラメータを抽出します
         /// </summary>
-        internal static async Task<IEnumerable<KeyValuePair<string, string>>> GetParameters(Uri requestUri, HttpContent content)
+        internal static async Task<IEnumerable<KeyValuePair<string, string>>> GetParameters(Uri requestUri, HttpContent? content)
         {
             var parameters = Enumerable.Empty<KeyValuePair<string, string>>();
 

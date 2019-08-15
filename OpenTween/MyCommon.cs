@@ -25,6 +25,8 @@
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
+#nullable enable
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -175,7 +177,7 @@ namespace OpenTween
             //}
         }
 
-        public static readonly object Block = null;
+        public static readonly object? Block = null;
         public static bool TraceFlag = false;
 
 #if DEBUG
@@ -436,7 +438,7 @@ namespace OpenTween
             }
         }
 
-        private static void OpenErrorReportDialog(Form owner, ErrorReport report)
+        private static void OpenErrorReportDialog(Form? owner, ErrorReport report)
         {
             if (owner != null && owner.InvokeRequired)
             {
@@ -458,7 +460,7 @@ namespace OpenTween
         /// </summary>
         /// <param name="inputUrl">展開対象のURL</param>
         /// <returns>IDNが含まれていた場合はPunycodeに展開したURLをを返します。Punycode展開時にエラーが発生した場合はnullを返します。</returns>
-        public static string IDNEncode(string inputUrl)
+        public static string? IDNEncode(string inputUrl)
         {
             try
             {
@@ -559,8 +561,8 @@ namespace OpenTween
             des.Key = ResizeBytesArray(bytesKey, des.Key.Length);
             des.IV = ResizeBytesArray(bytesKey, des.IV.Length);
 
-            MemoryStream msOut = null;
-            ICryptoTransform desdecrypt = null;
+            MemoryStream? msOut = null;
+            ICryptoTransform? desdecrypt = null;
 
             try
             {
@@ -611,9 +613,9 @@ namespace OpenTween
             //Base64で文字列をバイト配列に戻す
             var bytesIn = Convert.FromBase64String(str);
 
-            MemoryStream msIn = null;
-            ICryptoTransform desdecrypt = null;
-            CryptoStream cryptStreem = null;
+            MemoryStream? msIn = null;
+            ICryptoTransform? desdecrypt = null;
+            CryptoStream? cryptStreem = null;
 
             try
             {
@@ -700,7 +702,7 @@ namespace OpenTween
 
         public static bool IsAnimatedGif(string filename)
         {
-            Image img = null;
+            Image? img = null;
             try
             {
                 img = Image.FromFile(filename);
@@ -832,7 +834,7 @@ namespace OpenTween
         /// <returns>
         /// 生成されたバージョン番号の文字列
         /// </returns>
-        public static string GetReadableVersion(string versionStr = null)
+        public static string GetReadableVersion(string? versionStr = null)
         {
             var version = Version.Parse(versionStr ?? MyCommon.FileVersion);
 

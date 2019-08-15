@@ -19,6 +19,8 @@
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
+#nullable enable
+
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -52,9 +54,9 @@ namespace OpenTween.Connection
         public string AccessToken { get; }
         public string AccessSecret { get; }
 
-        internal HttpClient http;
-        internal HttpClient httpUpload;
-        internal HttpClient httpStreaming;
+        internal HttpClient http = null!;
+        internal HttpClient httpUpload = null!;
+        internal HttpClient httpStreaming = null!;
 
         public TwitterApiConnection(string accessToken, string accessSecret)
         {
@@ -76,7 +78,7 @@ namespace OpenTween.Connection
             this.httpStreaming.Timeout = Timeout.InfiniteTimeSpan;
         }
 
-        public async Task<T> GetAsync<T>(Uri uri, IDictionary<string, string> param, string endpointName)
+        public async Task<T> GetAsync<T>(Uri uri, IDictionary<string, string>? param, string? endpointName)
         {
             // レートリミット規制中はAPIリクエストを送信せずに直ちにエラーを発生させる
             if (endpointName != null)
@@ -145,7 +147,7 @@ namespace OpenTween.Connection
             }
         }
 
-        public async Task<Stream> GetStreamAsync(Uri uri, IDictionary<string, string> param)
+        public async Task<Stream> GetStreamAsync(Uri uri, IDictionary<string, string>? param)
         {
             var requestUri = new Uri(RestApiBase, uri);
 
@@ -167,7 +169,7 @@ namespace OpenTween.Connection
             }
         }
 
-        public async Task<Stream> GetStreamingStreamAsync(Uri uri, IDictionary<string, string> param)
+        public async Task<Stream> GetStreamingStreamAsync(Uri uri, IDictionary<string, string>? param)
         {
             var requestUri = new Uri(RestApiBase, uri);
 
@@ -196,7 +198,7 @@ namespace OpenTween.Connection
             }
         }
 
-        public async Task<LazyJson<T>> PostLazyAsync<T>(Uri uri, IDictionary<string, string> param)
+        public async Task<LazyJson<T>> PostLazyAsync<T>(Uri uri, IDictionary<string, string>? param)
         {
             var requestUri = new Uri(RestApiBase, uri);
             var request = new HttpRequestMessage(HttpMethod.Post, requestUri);
@@ -204,7 +206,7 @@ namespace OpenTween.Connection
             using var postContent = new FormUrlEncodedContent(param);
             request.Content = postContent;
 
-            HttpResponseMessage response = null;
+            HttpResponseMessage? response = null;
             try
             {
                 response = await this.http.SendAsync(request, HttpCompletionOption.ResponseHeadersRead)
@@ -232,7 +234,7 @@ namespace OpenTween.Connection
             }
         }
 
-        public async Task<LazyJson<T>> PostLazyAsync<T>(Uri uri, IDictionary<string, string> param, IDictionary<string, IMediaItem> media)
+        public async Task<LazyJson<T>> PostLazyAsync<T>(Uri uri, IDictionary<string, string>? param, IDictionary<string, IMediaItem>? media)
         {
             var requestUri = new Uri(RestApiBase, uri);
             var request = new HttpRequestMessage(HttpMethod.Post, requestUri);
@@ -251,7 +253,7 @@ namespace OpenTween.Connection
 
             request.Content = postContent;
 
-            HttpResponseMessage response = null;
+            HttpResponseMessage? response = null;
             try
             {
                 response = await this.httpUpload.SendAsync(request, HttpCompletionOption.ResponseHeadersRead)
@@ -279,7 +281,7 @@ namespace OpenTween.Connection
             }
         }
 
-        public async Task PostAsync(Uri uri, IDictionary<string, string> param, IDictionary<string, IMediaItem> media)
+        public async Task PostAsync(Uri uri, IDictionary<string, string>? param, IDictionary<string, IMediaItem>? media)
         {
             var requestUri = new Uri(RestApiBase, uri);
             var request = new HttpRequestMessage(HttpMethod.Post, requestUri);
@@ -329,7 +331,7 @@ namespace OpenTween.Connection
             using var postContent = new StringContent(json, Encoding.UTF8, "application/json");
             request.Content = postContent;
 
-            HttpResponseMessage response = null;
+            HttpResponseMessage? response = null;
             try
             {
                 response = await this.http.SendAsync(request, HttpCompletionOption.ResponseHeadersRead)
@@ -426,7 +428,7 @@ namespace OpenTween.Connection
             }
         }
 
-        public OAuthEchoHandler CreateOAuthEchoHandler(Uri authServiceProvider, Uri realm = null)
+        public OAuthEchoHandler CreateOAuthEchoHandler(Uri authServiceProvider, Uri? realm = null)
         {
             var uri = new Uri(RestApiBase, authServiceProvider);
 
@@ -475,7 +477,7 @@ namespace OpenTween.Connection
             return (response["oauth_token"], response["oauth_token_secret"]);
         }
 
-        public static Uri GetAuthorizeUri((string Token, string TokenSecret) requestToken, string screenName = null)
+        public static Uri GetAuthorizeUri((string Token, string TokenSecret) requestToken, string? screenName = null)
         {
             var param = new Dictionary<string, string>
             {

@@ -19,6 +19,8 @@
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
+#nullable enable
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,7 +37,10 @@ namespace OpenTween.Api
     public class TwitterApiException : WebApiException
     {
         public HttpStatusCode StatusCode { get; }
-        public TwitterError ErrorResponse { get; }
+        public TwitterError? ErrorResponse { get; }
+
+        public TwitterErrorItem[] Errors
+            => this.ErrorResponse != null ? this.ErrorResponse.Errors : Array.Empty<TwitterErrorItem>();
 
         public TwitterApiException()
         {

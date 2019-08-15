@@ -19,6 +19,8 @@
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
+#nullable enable annotations
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -68,7 +70,7 @@ namespace OpenTween.Api.DataModel
         }
 
         [DataMember(Name = "image", IsRequired = false)]
-        public ImageInfo Image { get; set; }
+        public ImageInfo? Image { get; set; }
 
         [DataMember(Name = "media_id")]
         public long MediaId { get; set; }
@@ -96,7 +98,7 @@ namespace OpenTween.Api.DataModel
             }
 
             [DataMember(Name = "error", IsRequired = false)]
-            public MediaProcessingError Error { get; set; }
+            public MediaProcessingError? Error { get; set; }
 
             [DataMember(Name = "progress_percent")]
             public int ProgressPercent { get; set; }
@@ -106,7 +108,7 @@ namespace OpenTween.Api.DataModel
         }
 
         [DataMember(Name = "processing_info", IsRequired = false)]
-        public MediaProcessingInfo ProcessingInfo { get; set; }
+        public MediaProcessingInfo? ProcessingInfo { get; set; }
 
         [DataMember(Name = "size", IsRequired = false)]
         public long? Size { get; set; }
@@ -119,7 +121,7 @@ namespace OpenTween.Api.DataModel
         }
 
         [DataMember(Name = "video", IsRequired = false)]
-        public VideoInfo Video { get; set; }
+        public VideoInfo? Video { get; set; }
 
         /// <exception cref="SerializationException"/>
         public static TwitterUploadMediaResult ParseJson(string json)

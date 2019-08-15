@@ -206,7 +206,7 @@ namespace OpenTween
         public void AutoLinkHtml_EntityNullTest()
         {
             var text = "てすとてすとー";
-            TwitterEntities entities = null;
+            TwitterEntities? entities = null;
 
             var expected = "てすとてすとー";
             Assert.Equal(expected, TweetFormatter.AutoLinkHtml(text, entities));
@@ -232,17 +232,7 @@ namespace OpenTween
         public void AutoLinkHtml_EntityNullTest3()
         {
             var text = "てすとてすとー";
-            IEnumerable<TwitterEntity> entities = null;
-
-            var expected = "てすとてすとー";
-            Assert.Equal(expected, TweetFormatter.AutoLinkHtml(text, entities));
-        }
-
-        [Fact]
-        public void AutoLinkHtml_EntityNullTest4()
-        {
-            var text = "てすとてすとー";
-            IEnumerable<TwitterEntity> entities = new TwitterEntity[] { null };
+            IEnumerable<TwitterEntity>? entities = null;
 
             var expected = "てすとてすとー";
             Assert.Equal(expected, TweetFormatter.AutoLinkHtml(text, entities));
@@ -412,7 +402,7 @@ namespace OpenTween
         public void AutoLinkHtml_BreakLineTest()
         {
             var text = "てすと\nてすと\nてすと";
-            TwitterEntities entities = null;
+            TwitterEntities? entities = null;
 
             var expected = "てすと<br>てすと<br>てすと";
             Assert.Equal(expected, TweetFormatter.AutoLinkHtml(text, entities));

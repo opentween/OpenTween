@@ -24,6 +24,8 @@
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
+#nullable enable
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -155,7 +157,7 @@ namespace OpenTween
                 }
 
                 this.ListsList.Items.Clear();
-                this.ListManage_Load(null, EventArgs.Empty);
+                this.ListManage_Load(this, EventArgs.Empty);
 
                 this.EditCheckBox.AutoCheck = true;
                 this.EditCheckBox.Checked = false;
@@ -332,7 +334,8 @@ namespace OpenTween
                 }
                 this.DeleteUserButton.Enabled = true;
 
-                await this.LoadUserIconAsync(user.ImageUrl, user.Id);
+                if (user.ImageUrl != null)
+                    await this.LoadUserIconAsync(user.ImageUrl, user.Id);
             }
         }
 

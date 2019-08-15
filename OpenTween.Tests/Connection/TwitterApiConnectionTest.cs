@@ -221,8 +221,8 @@ namespace OpenTween.Connection
             // エラーレスポンスの JSON に含まれるエラーコードに基づいてメッセージを出力する
             Assert.Equal("DuplicateStatus", exception.Message);
 
-            Assert.Equal(TwitterErrorCode.DuplicateStatus, exception.ErrorResponse.Errors[0].Code);
-            Assert.Equal("Status is a duplicate.", exception.ErrorResponse.Errors[0].Message);
+            Assert.Equal(TwitterErrorCode.DuplicateStatus, exception.Errors[0].Code);
+            Assert.Equal("Status is a duplicate.", exception.Errors[0].Message);
 
             Assert.Equal(0, mockHandler.QueueCount);
         }

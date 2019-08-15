@@ -24,6 +24,8 @@
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
+#nullable enable
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -48,8 +50,8 @@ namespace OpenTween
     {
         public event EventHandler<IntervalChangedEventArgs> IntervalChanged;
 
-        internal Twitter tw;
-        internal TwitterApi twitterApi;
+        internal Twitter tw = null!;
+        internal TwitterApi twitterApi = null!;
 
         public AppendSettingDialog()
         {
@@ -275,7 +277,7 @@ namespace OpenTween
             TwitterApiConnection.RestApiHost = this.ConnectionPanel.TwitterAPIText.Text.Trim();
         }
 
-        private async Task<UserAccount> PinAuth()
+        private async Task<UserAccount?> PinAuth()
         {
             var requestToken = await TwitterApiConnection.GetRequestTokenAsync();
 

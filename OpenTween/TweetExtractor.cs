@@ -20,6 +20,8 @@
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
+#nullable enable
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -60,7 +62,7 @@ namespace OpenTween
                     if (Regex.IsMatch(before, Twitter.url_invalid_without_protocol_preceding_chars))
                         continue;
 
-                    string lasturl = null;
+                    string? lasturl = null;
 
                     var last_url_invalid_match = false;
                     var domainMatches = Regex.Matches(domain, Twitter.url_valid_ascii_domain, RegexOptions.IgnoreCase).Cast<Match>();

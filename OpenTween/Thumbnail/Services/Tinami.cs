@@ -19,6 +19,8 @@
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
+#nullable enable
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -43,17 +45,17 @@ namespace OpenTween.Thumbnail.Services
         protected HttpClient http
             => this.localHttpClient ?? Networking.Http;
 
-        private readonly HttpClient localHttpClient;
+        private readonly HttpClient? localHttpClient;
 
         public Tinami()
             : this(null)
         {
         }
 
-        public Tinami(HttpClient http)
+        public Tinami(HttpClient? http)
             => this.localHttpClient = http;
 
-        public override async Task<ThumbnailInfo> GetThumbnailInfoAsync(string url, PostClass post, CancellationToken token)
+        public override async Task<ThumbnailInfo?> GetThumbnailInfoAsync(string url, PostClass post, CancellationToken token)
         {
             var match = Tinami.UrlPatternRegex.Match(url);
             if (!match.Success)

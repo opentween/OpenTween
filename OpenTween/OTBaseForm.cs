@@ -19,6 +19,8 @@
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
+#nullable enable
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -42,7 +44,7 @@ namespace OpenTween
         /// <remarks>
         /// SettingLocal.xml に FontUIGlobalStr 要素を追加する事で変更できます
         /// </remarks>
-        public static Font GlobalFont { get; set; }
+        public static Font? GlobalFont { get; set; }
 
         /// <summary>
         /// デザイン時のスケールと現在のスケールの比

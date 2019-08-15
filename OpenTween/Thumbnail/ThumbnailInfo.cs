@@ -19,6 +19,8 @@
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
+#nullable enable
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,26 +39,26 @@ namespace OpenTween.Thumbnail
         /// 例えば Youtube のサムネイルの場合、動画そのものの URL ではなく
         /// https://www.youtube.com/watch?v=****** 形式の URL が含まれる
         /// </remarks>
-        public string MediaPageUrl { get; set; }
+        public string MediaPageUrl { get; set; } = "";
 
         /// <summary>サムネイルとして表示する画像の URL</summary>
         /// <remarks>
         /// ここに含まれる URL は直接画像として表示可能である必要がある
         /// </remarks>
-        public string ThumbnailImageUrl { get; set; }
+        public string ThumbnailImageUrl { get; set; } = "";
 
         /// <summary>最も高解像度な画像の URL</summary>
         /// <remarks>
         /// サムネイルとしては不適だが、より高解像度な画像を表示する場面に使用できる
         /// URL があればここに含まれる
         /// </remarks>
-        public string FullSizeImageUrl { get; set; }
+        public string? FullSizeImageUrl { get; set; }
 
         /// <summary>ツールチップとして表示するテキスト</summary>
         /// <remarks>
         /// サムネイル画像にマウスオーバーした際に表示されるテキスト
         /// </remarks>
-        public string TooltipText { get; set; }
+        public string? TooltipText { get; set; }
 
         /// <summary>
         /// 対象となるメディアが動画や音声など再生可能なものであるか否か
@@ -71,7 +73,7 @@ namespace OpenTween.Thumbnail
 
         public async virtual Task<MemoryImage> LoadThumbnailImageAsync(HttpClient http, CancellationToken cancellationToken)
         {
-            MemoryImage image = null;
+            MemoryImage? image = null;
             try
             {
                 using var response = await http.GetAsync(this.ThumbnailImageUrl, cancellationToken)
@@ -96,10 +98,10 @@ namespace OpenTween.Thumbnail
             }
         }
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
             => this.Equals(obj as ThumbnailInfo);
 
-        public bool Equals(ThumbnailInfo other)
+        public bool Equals(ThumbnailInfo? other)
             => other != null &&
                 other.MediaPageUrl == this.MediaPageUrl &&
                 other.ThumbnailImageUrl == this.ThumbnailImageUrl &&

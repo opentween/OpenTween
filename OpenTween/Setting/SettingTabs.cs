@@ -24,6 +24,8 @@
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
+#nullable enable
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -52,7 +54,7 @@ namespace OpenTween
         public class SettingTabItem
         {
             /// <summary>タブの表示名</summary>
-            public string TabName { get; set; }
+            public string TabName { get; set; } = "";
 
             /// <summary>タブの種類</summary>
             public MyCommon.TabUsageType TabType { get; set; }
@@ -68,7 +70,7 @@ namespace OpenTween
             public bool Notify { get; set; }
 
             /// <summary>通知音</summary>
-            public string SoundFile { get; set; }
+            public string SoundFile { get; set; } = "";
 
             /// <summary>
             /// 振り分けルール (<see cref="MyCommon.TabUsageType.UserDefined"/> で使用)
@@ -78,7 +80,7 @@ namespace OpenTween
             /// <summary>
             /// 表示するユーザーのスクリーンネーム (<see cref="MyCommon.TabUsageType.UserTimeline"/> で使用)
             /// </summary>
-            public string User { get; set; }
+            public string? User { get; set; }
 
             /// <summary>
             /// 検索文字列 (<see cref="MyCommon.TabUsageType.PublicSearch"/> で使用)
@@ -93,7 +95,7 @@ namespace OpenTween
             /// <summary>
             /// 表示するリスト (<see cref="MyCommon.TabUsageType.Lists"/> で使用)
             /// </summary>
-            public ListElement ListInfo { get; set; }
+            public ListElement? ListInfo { get; set; }
         }
     }
 }

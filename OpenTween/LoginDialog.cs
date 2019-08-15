@@ -19,6 +19,8 @@
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
+#nullable enable
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -36,7 +38,7 @@ namespace OpenTween
         public string LoginName => this.textboxLoginName.Text;
         public string Password => this.textboxPassword.Text;
 
-        public Func<Task<bool>> LoginCallback { get; set; } = null;
+        public Func<Task<bool>>? LoginCallback { get; set; } = null;
         public bool LoginSuccessed { get; set; } = false;
 
         public LoginDialog()

@@ -23,6 +23,8 @@
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
+#nullable enable
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -38,7 +40,7 @@ namespace OpenTween
 {
     public partial class ListAvailable : OTBaseForm
     {
-        public ListElement SelectedList { get; private set; }
+        public ListElement? SelectedList { get; private set; }
 
         public ListAvailable()
             => this.InitializeComponent();
@@ -86,7 +88,7 @@ namespace OpenTween
 
         private void ListsList_SelectedIndexChanged(object sender, EventArgs e)
         {
-            ListElement lst;
+            ListElement? lst;
             if (this.ListsList.SelectedIndex > -1)
             {
                 lst = (ListElement)this.ListsList.SelectedItem;

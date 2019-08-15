@@ -19,8 +19,11 @@
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
+#nullable enable annotations
+
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Net.Http;
 using System.Runtime.Serialization;
@@ -35,7 +38,7 @@ namespace OpenTween.Connection
     /// </summary>
     public sealed class LazyJson<T> : IDisposable
     {
-        public HttpResponseMessage Response { get; }
+        public HttpResponseMessage? Response { get; }
 
         private T instance;
         private bool completed = false;
@@ -54,7 +57,7 @@ namespace OpenTween.Connection
         public async Task<T> LoadJsonAsync()
         {
             if (this.completed)
-                return this.instance;
+                return this.instance!;
 
             using var content = this.Response.Content;
             var responseText = await content.ReadAsStringAsync()

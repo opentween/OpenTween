@@ -19,6 +19,8 @@
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
+#nullable enable
+
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -30,17 +32,17 @@ namespace OpenTween.Connection
 {
     public interface IApiConnection : IDisposable
     {
-        Task<T> GetAsync<T>(Uri uri, IDictionary<string, string> param, string endpointName);
+        Task<T> GetAsync<T>(Uri uri, IDictionary<string, string>? param, string? endpointName);
 
-        Task<Stream> GetStreamAsync(Uri uri, IDictionary<string, string> param);
+        Task<Stream> GetStreamAsync(Uri uri, IDictionary<string, string>? param);
 
-        Task<Stream> GetStreamingStreamAsync(Uri uri, IDictionary<string, string> param);
+        Task<Stream> GetStreamingStreamAsync(Uri uri, IDictionary<string, string>? param);
 
-        Task<LazyJson<T>> PostLazyAsync<T>(Uri uri, IDictionary<string, string> param);
+        Task<LazyJson<T>> PostLazyAsync<T>(Uri uri, IDictionary<string, string>? param);
 
-        Task<LazyJson<T>> PostLazyAsync<T>(Uri uri, IDictionary<string, string> param, IDictionary<string, IMediaItem> media);
+        Task<LazyJson<T>> PostLazyAsync<T>(Uri uri, IDictionary<string, string>? param, IDictionary<string, IMediaItem>? media);
 
-        Task PostAsync(Uri uri, IDictionary<string, string> param, IDictionary<string, IMediaItem> media);
+        Task PostAsync(Uri uri, IDictionary<string, string>? param, IDictionary<string, IMediaItem>? media);
 
         Task PostJsonAsync(Uri uri, string json);
 

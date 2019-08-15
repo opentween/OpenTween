@@ -24,6 +24,8 @@
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
+#nullable enable
+
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -63,9 +65,9 @@ namespace OpenTween
         /// </summary>
         public int PurgeCount { get; set; }
 
-        public string BitlyAccessToken { get; set; }
-        public string BitlyId { get; set; }
-        public string BitlyKey { get; set; }
+        public string BitlyAccessToken { get; set; } = "";
+        public string BitlyId { get; set; } = "";
+        public string BitlyKey { get; set; } = "";
 
         private HttpClient http;
         private readonly ConcurrentDictionary<Uri, Uri> urlCache = new ConcurrentDictionary<Uri, Uri>();
@@ -201,7 +203,8 @@ namespace OpenTween
                 if (!ShortUrlHosts.Contains(uri.Host) && !IsIrregularShortUrl(uri))
                     return uri;
 
-                if (this.urlCache.TryGetValue(uri, out var expanded))
+                Uri? expanded;
+                if (this.urlCache.TryGetValue(uri, out expanded))
                     return expanded;
 
                 if (this.urlCache.Count > this.PurgeCount)
@@ -459,7 +462,7 @@ namespace OpenTween
             return false;
         }
 
-        private async Task<Uri> GetRedirectTo(Uri url)
+        private async Task<Uri?> GetRedirectTo(Uri url)
         {
             url = this.UpgradeToHttpsIfAvailable(url);
 

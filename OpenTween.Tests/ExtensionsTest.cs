@@ -77,7 +77,7 @@ namespace OpenTween
 
         [Fact]
         public void ToCodepoints_ErrorTest()
-            => Assert.Throws<ArgumentNullException>(() => ((string)null).ToCodepoints());
+            => Assert.Throws<ArgumentNullException>(() => ((string)null!).ToCodepoints());
 
         [Theory]
         [InlineData("", 0, 0, 0)]
@@ -92,7 +92,7 @@ namespace OpenTween
         [Fact]
         public void GetCodepointCount_ErrorTest()
         {
-            Assert.Throws<ArgumentNullException>(() => ((string)null).GetCodepointCount(0, 0));
+            Assert.Throws<ArgumentNullException>(() => ((string)null!).GetCodepointCount(0, 0));
             Assert.Throws<ArgumentOutOfRangeException>(() => "abc".GetCodepointCount(-1, 3));
             Assert.Throws<ArgumentOutOfRangeException>(() => "abc".GetCodepointCount(0, 4));
             Assert.Throws<ArgumentOutOfRangeException>(() => "abc".GetCodepointCount(4, 5));

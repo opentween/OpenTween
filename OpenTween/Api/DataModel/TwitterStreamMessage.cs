@@ -19,6 +19,8 @@
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
+#nullable enable annotations
+
 using System.Runtime.Serialization;
 
 namespace OpenTween.Api.DataModel
@@ -77,10 +79,10 @@ namespace OpenTween.Api.DataModel
         }
 
         [DataMember(Name = "direct_message", IsRequired = false)]
-        public DeletedId DirectMessage { get; set; } // Nullable
+        public DeletedId? DirectMessage { get; set; }
 
         [DataMember(Name = "status", IsRequired = false)]
-        public DeletedId Status { get; set; } // Nullable
+        public DeletedId? Status { get; set; }
 
         public static StreamMessageDelete ParseJson(string json)
             => MyCommon.CreateDataFromJson<StreamMessageDelete>(json);

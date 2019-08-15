@@ -19,6 +19,8 @@
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
+#nullable enable
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -39,21 +41,21 @@ namespace OpenTween.Api
         public static readonly Uri IssueTokenEndpoint = new Uri("https://api.cognitive.microsoft.com/sts/v1.0/issueToken");
         public static readonly Uri TranslateEndpoint = new Uri("https://api.cognitive.microsofttranslator.com/translate");
 
-        public string AccessToken { get; internal set; }
-        public DateTimeUtc RefreshAccessTokenAt { get; internal set; }
+        public string AccessToken { get; internal set; } = "";
+        public DateTimeUtc RefreshAccessTokenAt { get; internal set; } = DateTimeUtc.MinValue;
 
         private HttpClient Http => this.localHttpClient ?? Networking.Http;
-        private readonly HttpClient localHttpClient;
+        private readonly HttpClient? localHttpClient;
 
         public MicrosoftTranslatorApi()
             : this(null)
         {
         }
 
-        public MicrosoftTranslatorApi(HttpClient http)
+        public MicrosoftTranslatorApi(HttpClient? http)
             => this.localHttpClient = http;
 
-        public async Task<string> TranslateAsync(string text, string langTo, string langFrom = null)
+        public async Task<string> TranslateAsync(string text, string langTo, string? langFrom = null)
         {
             await this.UpdateAccessTokenIfExpired()
                 .ConfigureAwait(false);
@@ -95,7 +97,7 @@ namespace OpenTween.Api
 
         public async Task UpdateAccessTokenIfExpired()
         {
-            if (this.AccessToken != null && this.RefreshAccessTokenAt > DateTimeUtc.Now)
+            if (!string.IsNullOrEmpty(this.AccessToken) && this.RefreshAccessTokenAt > DateTimeUtc.Now)
                 return;
 
             var (accessToken, expiresIn) = await this.GetAccessTokenAsync()

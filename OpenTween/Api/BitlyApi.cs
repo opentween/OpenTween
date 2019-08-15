@@ -19,6 +19,8 @@
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
+#nullable enable
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,23 +40,23 @@ namespace OpenTween.Api
     {
         public static readonly Uri ApiBase = new Uri("https://api-ssl.bitly.com/");
 
-        public string EndUserAccessToken { get; set; }
+        public string EndUserAccessToken { get; set; } = "";
 
-        public string EndUserLoginName { get; set; }
-        public string EndUserApiKey { get; set; }
+        public string EndUserLoginName { get; set; } = "";
+        public string EndUserApiKey { get; set; } = "";
 
         private HttpClient http => this.localHttpClient ?? Networking.Http;
-        private readonly HttpClient localHttpClient;
+        private readonly HttpClient? localHttpClient;
 
         public BitlyApi()
             : this(null)
         {
         }
 
-        public BitlyApi(HttpClient http)
+        public BitlyApi(HttpClient? http)
             => this.localHttpClient = http;
 
-        public async Task<Uri> ShortenAsync(Uri srcUri, string domain = null)
+        public async Task<Uri> ShortenAsync(Uri srcUri, string? domain = null)
         {
             var query = new Dictionary<string, string>
             {

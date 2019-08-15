@@ -236,7 +236,7 @@ namespace OpenTween
                     },
                 },
             };
-            var quotedStatus = (TwitterStatus)null;
+            var quotedStatus = (TwitterStatus?)null;
 
             var expectedText = "twitter.com/hoge/status/1…";
 
@@ -319,7 +319,7 @@ namespace OpenTween
         {
             var sourceHtml = "web";
 
-            var expected = ("web", (Uri)null);
+            var expected = ("web", (Uri?)null);
             Assert.Equal(expected, Twitter.ParseSource(sourceHtml));
         }
 
@@ -339,16 +339,16 @@ namespace OpenTween
             // 参照: https://twitter.com/kim_upsilon/status/595156014032244738
             var sourceHtml = "";
 
-            var expected = ("", (Uri)null);
+            var expected = ("", (Uri?)null);
             Assert.Equal(expected, Twitter.ParseSource(sourceHtml));
         }
 
         [Fact]
         public void ParseSource_NullTest()
         {
-            string sourceHtml = null;
+            string? sourceHtml = null;
 
-            var expected = ("", (Uri)null);
+            var expected = ("", (Uri?)null);
             Assert.Equal(expected, Twitter.ParseSource(sourceHtml));
         }
 
@@ -366,7 +366,7 @@ namespace OpenTween
         {
             var sourceHtml = "&lt;&lt;hogehoge&gt;&gt;";
 
-            var expected = ("<<hogehoge>>", (Uri)null);
+            var expected = ("<<hogehoge>>", (Uri?)null);
             Assert.Equal(expected, Twitter.ParseSource(sourceHtml));
         }
 

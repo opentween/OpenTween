@@ -56,14 +56,14 @@ namespace OpenTween.Models
 
             Assert.Equal(MyCommon.HITRESULT.None, filter.ExecFilter(post));
 
-            Assert.Throws<ArgumentNullException>(() => filter.FilterBody = null);
-            Assert.Throws<ArgumentNullException>(() => filter.ExFilterBody = null);
+            Assert.Throws<ArgumentNullException>(() => filter.FilterBody = null!);
+            Assert.Throws<ArgumentNullException>(() => filter.ExFilterBody = null!);
         }
 
         [Fact]
         public void FieldNullAwareTest()
         {
-            var nullPost = new PostClass { Source = null };
+            var nullPost = new PostClass { Source = null! };
 
             // Source が null であっても ArgumentNullException 等を投げない
             var filter1 = new PostFilterRule

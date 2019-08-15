@@ -24,6 +24,8 @@
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
+#nullable enable
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -93,7 +95,7 @@ namespace OpenTween.Setting.Panel
             const string DialogText = "Bitly Login";
             dialog.Text = DialogText;
 
-            string accessToken = null;
+            string? accessToken = null;
             dialog.LoginCallback = async () =>
             {
                 try

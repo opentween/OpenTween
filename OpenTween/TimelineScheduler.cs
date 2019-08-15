@@ -19,6 +19,8 @@
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
+#nullable enable
+
 using System;
 using System.Collections.Generic;
 using System.Threading;
@@ -76,13 +78,13 @@ namespace OpenTween
         public TimeSpan UpdateIntervalConfig { get; set; } = Timeout.InfiniteTimeSpan;
         public TimeSpan UpdateAfterSystemResume { get; set; } = Timeout.InfiniteTimeSpan;
 
-        public Func<Task> UpdateHome;
-        public Func<Task> UpdateMention;
-        public Func<Task> UpdateDm;
-        public Func<Task> UpdatePublicSearch;
-        public Func<Task> UpdateUser;
-        public Func<Task> UpdateList;
-        public Func<Task> UpdateConfig;
+        public Func<Task>? UpdateHome;
+        public Func<Task>? UpdateMention;
+        public Func<Task>? UpdateDm;
+        public Func<Task>? UpdatePublicSearch;
+        public Func<Task>? UpdateUser;
+        public Func<Task>? UpdateList;
+        public Func<Task>? UpdateConfig;
 
         [Flags]
         private enum UpdateTask

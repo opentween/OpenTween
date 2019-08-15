@@ -205,7 +205,7 @@ namespace OpenTween
             Assert.False(mediaSelector.Visible);
             Assert.False(mediaSelector.Enabled);
 
-            Assert.True(displayImage.IsDisposed);
+            Assert.True(displayImage!.IsDisposed);
         }
 
         [Fact]
@@ -308,12 +308,12 @@ namespace OpenTween
 
             // 2 ページ目
             var page2Image = mediaSelector.ImageSelectedPicture.Image;
-            Assert.True(page1Image.IsDisposed); // 前ページの画像が破棄されているか
+            Assert.True(page1Image!.IsDisposed); // 前ページの画像が破棄されているか
 
             mediaSelector.ImagePageCombo.SelectedIndex = 2;
 
             // 3 ページ目 (新規ページ)
-            Assert.True(page2Image.IsDisposed); // 前ページの画像が破棄されているか
+            Assert.True(page2Image!.IsDisposed); // 前ページの画像が破棄されているか
         }
 
         [Fact]
@@ -366,7 +366,7 @@ namespace OpenTween
             }
 
             // 最初に入力されていたファイルパスの表示用の MemoryImage は破棄される
-            Assert.True(image1.IsDisposed);
+            Assert.True(image1!.IsDisposed);
         }
 
         [Fact]
@@ -402,7 +402,7 @@ namespace OpenTween
             }
 
             // 最初に入力されていたファイルパスの表示用の MemoryImage は破棄される
-            Assert.True(image1.IsDisposed);
+            Assert.True(image1!.IsDisposed);
 
             // 参照されなくなった MemoryImageMediaItem も破棄される
             Assert.True(mediaItem.IsDisposed);

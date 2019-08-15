@@ -24,6 +24,8 @@
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
+#nullable enable
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -46,7 +48,7 @@ namespace OpenTween
         /// XML に含まれていた場合に破棄せず保持するため必要となる。
         /// </remarks>
         [XmlAnyElement]
-        public XmlElement[] ExtraElements;
+        public XmlElement[] ExtraElements = Array.Empty<XmlElement>();
 
         private static readonly object lockObj = new object();
 
@@ -119,7 +121,7 @@ namespace OpenTween
                 return;
 
             var retryCount = 0;
-            Exception lastException = null;
+            Exception? lastException = null;
 
             var filePath = GetSettingFilePath(fileId);
             do

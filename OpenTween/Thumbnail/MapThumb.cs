@@ -19,6 +19,8 @@
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
+#nullable enable
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,7 +36,6 @@ namespace OpenTween.Thumbnail
     {
         public double Latitude { get; set; }
         public double Longitude { get; set; }
-        public string LocateInfo { get; set; }
     }
 
     public enum MapProvider
@@ -47,7 +48,7 @@ namespace OpenTween.Thumbnail
     {
         public abstract Task<ThumbnailInfo> GetThumbnailInfoAsync(PostClass.StatusGeo geo);
 
-        private static MapThumb defaultInstance = null;
+        private static MapThumb defaultInstance = null!;
 
         public static MapThumb GetDefaultInstance()
         {
@@ -68,7 +69,7 @@ namespace OpenTween.Thumbnail
 
             if (MapThumb.defaultInstance == null || MapThumb.defaultInstance.GetType() != classType)
             {
-                MapThumb.defaultInstance = Activator.CreateInstance(classType) as MapThumb;
+                MapThumb.defaultInstance = (MapThumb)Activator.CreateInstance(classType);
             }
 
             return MapThumb.defaultInstance;

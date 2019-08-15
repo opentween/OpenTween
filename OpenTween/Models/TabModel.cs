@@ -25,6 +25,8 @@
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
+#nullable enable
+
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -78,7 +80,7 @@ namespace OpenTween.Models
         public PostClass[] SelectedPosts
             => this.selectedStatusIds.Select(x => this.Posts[x]).ToArray();
 
-        public PostClass SelectedPost
+        public PostClass? SelectedPost
             => this.selectedStatusIds.Select(x => this.Posts[x]).FirstOrDefault();
 
         public int SelectedIndex
@@ -232,16 +234,16 @@ namespace OpenTween.Models
                 {
                     default:
                     case ComparerMode.Data:
-                        postComparison = (x, y) => Comparer<string>.Default.Compare(x?.TextFromApi, y?.TextFromApi);
+                        postComparison = (x, y) => Comparer<string?>.Default.Compare(x?.TextFromApi, y?.TextFromApi);
                         break;
                     case ComparerMode.Name:
-                        postComparison = (x, y) => Comparer<string>.Default.Compare(x?.ScreenName, y?.ScreenName);
+                        postComparison = (x, y) => Comparer<string?>.Default.Compare(x?.ScreenName, y?.ScreenName);
                         break;
                     case ComparerMode.Nickname:
-                        postComparison = (x, y) => Comparer<string>.Default.Compare(x?.Nickname, y?.Nickname);
+                        postComparison = (x, y) => Comparer<string?>.Default.Compare(x?.Nickname, y?.Nickname);
                         break;
                     case ComparerMode.Source:
-                        postComparison = (x, y) => Comparer<string>.Default.Compare(x?.Source, y?.Source);
+                        postComparison = (x, y) => Comparer<string?>.Default.Compare(x?.Source, y?.Source);
                         break;
                 }
 

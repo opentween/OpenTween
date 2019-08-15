@@ -19,6 +19,8 @@
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
+#nullable enable
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -45,17 +47,17 @@ namespace OpenTween.Thumbnail.Services
         protected HttpClient http
             => this.localHttpClient ?? Networking.Http;
 
-        private readonly HttpClient localHttpClient;
+        private readonly HttpClient? localHttpClient;
 
         public Vimeo()
             : this(null)
         {
         }
 
-        public Vimeo(HttpClient http)
+        public Vimeo(HttpClient? http)
             => this.localHttpClient = http;
 
-        public override async Task<ThumbnailInfo> GetThumbnailInfoAsync(string url, PostClass post, CancellationToken token)
+        public override async Task<ThumbnailInfo?> GetThumbnailInfoAsync(string url, PostClass post, CancellationToken token)
         {
             var match = Vimeo.UrlPatternRegex.Match(url);
             if (!match.Success)

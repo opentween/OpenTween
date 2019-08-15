@@ -51,7 +51,7 @@ namespace OpenTween.Thumbnail.Services
                 this.LoadRegexAsync().Wait();
             }
 
-            public string GetApiBase()
+            public string? GetApiBase()
                 => this.ApiBase;
 
             protected override Task<byte[]> FetchRegexAsync(string apiBase)
@@ -104,7 +104,7 @@ namespace OpenTween.Thumbnail.Services
             await service.LoadRegexAsync();
             Assert.Null(service.GetApiBase());
 
-            var thumbinfo = await service.GetThumbnailInfoAsync("http://example.com/abcd", null, CancellationToken.None);
+            var thumbinfo = await service.GetThumbnailInfoAsync("http://example.com/abcd", new PostClass(), CancellationToken.None);
             Assert.Null(thumbinfo);
         }
 
@@ -112,10 +112,10 @@ namespace OpenTween.Thumbnail.Services
         public async Task MatchTest()
         {
             var service = new TestImgAzyobuziNet();
-            var thumbinfo = await service.GetThumbnailInfoAsync("http://example.com/abcd", null, CancellationToken.None);
+            var thumbinfo = await service.GetThumbnailInfoAsync("http://example.com/abcd", new PostClass(), CancellationToken.None);
 
             Assert.NotNull(thumbinfo);
-            Assert.Equal("http://example.com/abcd", thumbinfo.MediaPageUrl);
+            Assert.Equal("http://example.com/abcd", thumbinfo!.MediaPageUrl);
             Assert.Equal("http://img.azyobuzi.net/api/redirect?size=large&uri=http%3A%2F%2Fexample.com%2Fabcd", thumbinfo.ThumbnailImageUrl);
             Assert.Null(thumbinfo.TooltipText);
         }
@@ -124,7 +124,7 @@ namespace OpenTween.Thumbnail.Services
         public async Task NotMatchTest()
         {
             var service = new TestImgAzyobuziNet();
-            var thumbinfo = await service.GetThumbnailInfoAsync("http://hogehoge.com/abcd", null, CancellationToken.None);
+            var thumbinfo = await service.GetThumbnailInfoAsync("http://hogehoge.com/abcd", new PostClass(), CancellationToken.None);
 
             Assert.Null(thumbinfo);
         }
@@ -152,7 +152,7 @@ namespace OpenTween.Thumbnail.Services
             var service = new TestImgAzyobuziNet();
             service.Enabled = false;
 
-            var thumbinfo = await service.GetThumbnailInfoAsync("http://example.com/abcd", null, CancellationToken.None);
+            var thumbinfo = await service.GetThumbnailInfoAsync("http://example.com/abcd", new PostClass(), CancellationToken.None);
 
             Assert.Null(thumbinfo);
         }

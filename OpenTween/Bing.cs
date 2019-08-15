@@ -24,6 +24,8 @@
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
+#nullable enable
+
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
@@ -172,14 +174,14 @@ namespace OpenTween
         {
         }
 
-        public Bing(HttpClient http)
+        public Bing(HttpClient? http)
             => this.translatorApi = new MicrosoftTranslatorApi(http);
 
         /// <summary>
         /// Microsoft Translator API を使用した翻訳を非同期に行います
         /// </summary>
         /// <exception cref="HttpRequestException"/>
-        public async Task<string> TranslateAsync(string text, string langFrom, string langTo)
+        public async Task<string> TranslateAsync(string text, string? langFrom, string langTo)
             => await this.translatorApi.TranslateAsync(text, langTo, langFrom)
                 .ConfigureAwait(false);
 

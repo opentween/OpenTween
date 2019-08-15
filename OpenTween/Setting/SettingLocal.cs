@@ -24,6 +24,8 @@
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
+#nullable enable
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -253,7 +255,7 @@ namespace OpenTween
         }
 
         [XmlIgnore]
-        public Font FontUIGlobal = null;
+        public Font? FontUIGlobal = null;
 
         /// <summary>
         /// [隠し設定] UI フォントを指定します
@@ -261,10 +263,10 @@ namespace OpenTween
         /// <remarks>
         /// フォントによっては一部レイアウトが崩れるためこっそり追加
         /// </remarks>
-        public string FontUIGlobalStr
+        public string? FontUIGlobalStr
         {
-            get => this.FontToString(this.FontUIGlobal);
-            set => this.FontUIGlobal = this.StringToFont(value);
+            get => this.FontUIGlobal != null ? this.FontToString(this.FontUIGlobal) : null;
+            set => this.FontUIGlobal = value != null ? this.StringToFont(value) : null;
         }
 
         [XmlIgnore]
@@ -319,10 +321,10 @@ namespace OpenTween
         private readonly FontConverter fontConverter = new FontConverter();
 
         protected string FontToString(Font font)
-            => font != null ? this.fontConverter.ConvertToString(font) : null;
+            => this.fontConverter.ConvertToString(font);
 
         protected Font StringToFont(string str)
-            => str != null ? (Font)this.fontConverter.ConvertFromString(str) : null;
+            => (Font)this.fontConverter.ConvertFromString(str);
 
         [XmlIgnore]
         private readonly ColorConverter colorConverter = new ColorConverter();
@@ -351,10 +353,10 @@ namespace OpenTween
         {
             if (disposing)
             {
-                this.FontUnread.Dispose();
-                this.FontRead.Dispose();
-                this.FontDetail.Dispose();
-                this.FontInputFont.Dispose();
+                this.FontUnread?.Dispose();
+                this.FontRead?.Dispose();
+                this.FontDetail?.Dispose();
+                this.FontInputFont?.Dispose();
             }
         }
     }

@@ -438,7 +438,7 @@ namespace OpenTween
             Assert.Throws<ArgumentException>(() => dict.CopyTo(array, 3));
             Assert.Throws<ArgumentException>(() => dict.CopyTo(array, 5));
             Assert.Throws<ArgumentOutOfRangeException>(() => dict.CopyTo(array, -1));
-            Assert.Throws<ArgumentNullException>(() => dict.CopyTo(null, 0));
+            Assert.Throws<ArgumentNullException>(() => dict.CopyTo(null!, 0));
         }
 
         [Fact]

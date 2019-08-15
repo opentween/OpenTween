@@ -19,6 +19,8 @@
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
+#nullable enable
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -75,7 +77,7 @@ namespace OpenTween
         /// <param name="owner">親ウィンドウ</param>
         /// <param name="authUri">認証URL</param>
         /// <returns>PIN文字列</returns>
-        public static string DoAuth(IWin32Window owner, Uri authUri)
+        public static string? DoAuth(IWin32Window owner, Uri authUri)
         {
             using var dialog = new AuthDialog();
             dialog.AuthUrl = authUri.AbsoluteUri;

@@ -19,6 +19,8 @@
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
+#nullable enable
+
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -135,7 +137,7 @@ namespace OpenTween.Thumbnail
                 }
             }
 
-            MemoryImage result = null;
+            MemoryImage? result = null;
             try
             {
                 result = MemoryImage.CopyFromImage(bitmap);
@@ -152,7 +154,7 @@ namespace OpenTween.Thumbnail
             using var stream = await http.GetStreamAsync(tileUrl)
                 .ConfigureAwait(false);
 
-            MemoryImage result = null;
+            MemoryImage? result = null;
             try
             {
                 result = await MemoryImage.CopyFromStreamAsync(stream).ConfigureAwait(false);

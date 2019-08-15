@@ -19,6 +19,8 @@
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
+#nullable enable
+
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -49,17 +51,17 @@ namespace OpenTween.Thumbnail.Services
         protected HttpClient http
             => this.localHttpClient ?? Networking.Http;
 
-        private readonly HttpClient localHttpClient;
+        private readonly HttpClient? localHttpClient;
 
         public FoursquareCheckin()
             : this(null)
         {
         }
 
-        public FoursquareCheckin(HttpClient http)
+        public FoursquareCheckin(HttpClient? http)
             => this.localHttpClient = http;
 
-        public override async Task<ThumbnailInfo> GetThumbnailInfoAsync(string url, PostClass post, CancellationToken token)
+        public override async Task<ThumbnailInfo?> GetThumbnailInfoAsync(string url, PostClass post, CancellationToken token)
         {
             // ツイートに位置情報が付与されている場合は何もしない
             if (post.PostGeo != null)
@@ -88,7 +90,7 @@ namespace OpenTween.Thumbnail.Services
         /// <summary>
         /// Foursquare のチェックイン URL から位置情報を取得します
         /// </summary>
-        public async Task<GlobalLocation> FetchCheckinLocation(string url, CancellationToken token)
+        public async Task<GlobalLocation?> FetchCheckinLocation(string url, CancellationToken token)
         {
             var match = UrlPatternRegex.Match(url);
             if (!match.Success)
@@ -131,7 +133,7 @@ namespace OpenTween.Thumbnail.Services
         /// <summary>
         /// Foursquare のチェックイン URL から位置情報を取得します (古い形式の URL)
         /// </summary>
-        public async Task<GlobalLocation> FetchCheckinLocationLegacy(string url, CancellationToken token)
+        public async Task<GlobalLocation?> FetchCheckinLocationLegacy(string url, CancellationToken token)
         {
             var match = LegacyUrlPatternRegex.Match(url);
 
@@ -174,7 +176,7 @@ namespace OpenTween.Thumbnail.Services
             }
         }
 
-        internal static GlobalLocation ParseIntoLocation(byte[] jsonBytes)
+        internal static GlobalLocation? ParseIntoLocation(byte[] jsonBytes)
         {
             using var jsonReader = JsonReaderWriterFactory.CreateJsonReader(jsonBytes, XmlDictionaryReaderQuotas.Max);
             var xElm = XElement.Load(jsonReader);

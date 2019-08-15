@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
+using OpenTween.Models;
 using Xunit;
 
 namespace OpenTween.Thumbnail.Services
@@ -86,7 +87,7 @@ namespace OpenTween.Thumbnail.Services
                 var service = new Tumblr(http);
 
                 var url = "http://hoge.tumblr.com/post/1234567/tetetete";
-                await service.GetThumbnailInfoAsync(url, null, CancellationToken.None)
+                await service.GetThumbnailInfoAsync(url, new PostClass(), CancellationToken.None)
                     .ConfigureAwait(false);
             }
 
@@ -124,7 +125,7 @@ namespace OpenTween.Thumbnail.Services
 
                 // Tumblrのカスタムドメイン名を使ってるっぽいURL
                 var url = "http://tumblr.example.com/post/1234567/tetetete";
-                await service.GetThumbnailInfoAsync(url, null, CancellationToken.None)
+                await service.GetThumbnailInfoAsync(url, new PostClass(), CancellationToken.None)
                     .ConfigureAwait(false);
             }
 

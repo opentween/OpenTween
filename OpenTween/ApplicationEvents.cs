@@ -25,6 +25,8 @@
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
+#nullable enable
+
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -185,7 +187,7 @@ namespace OpenTween
             }
         }
 
-        private static Process GetPreviousProcess()
+        private static Process? GetPreviousProcess()
         {
             var currentProcess = Process.GetCurrentProcess();
             try

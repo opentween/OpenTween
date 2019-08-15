@@ -25,6 +25,8 @@
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
+#nullable enable
+
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -313,8 +315,8 @@ namespace OpenTween
         private struct InternetProxyInfo
         {
             public InternetOpenType dwAccessType;
-            public string proxy;
-            public string proxyBypass;
+            public string? proxy;
+            public string? proxyBypass;
         }
 
         private enum InternetOpenType
@@ -324,7 +326,7 @@ namespace OpenTween
             PROXY = 3, // Custom
         }
 
-        private static void RefreshProxySettings(string strProxy)
+        private static void RefreshProxySettings(string? strProxy)
         {
             InternetProxyInfo ipi;
 
@@ -377,7 +379,7 @@ namespace OpenTween
 
         public static void SetProxy(ProxyType pType, string host, int port)
         {
-            string proxy = null;
+            string? proxy = null;
             switch (pType)
             {
             case ProxyType.IE:

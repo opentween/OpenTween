@@ -24,6 +24,8 @@
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
+#nullable enable
+
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
@@ -44,9 +46,9 @@ namespace OpenTween
         public string Username = "";
         public string Nickname = "";
 
-        protected Twitter _tw;
+        protected Twitter _tw = null!;
 
-        private List<UserInfo> _members = null;
+        private List<UserInfo> _members = new List<UserInfo>();
 
         [XmlIgnore]
         public long Cursor { get; private set; } = -1;
@@ -90,13 +92,7 @@ namespace OpenTween
 
         [XmlIgnore]
         public List<UserInfo> Members
-        {
-            get
-            {
-                if (this._members == null) this._members = new List<UserInfo>();
-                return this._members;
-            }
-        }
+            => this._members;
 
         public async Task RefreshMembers()
         {

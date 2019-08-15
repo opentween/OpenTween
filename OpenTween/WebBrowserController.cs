@@ -24,6 +24,8 @@
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
+#nullable enable
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -239,7 +241,7 @@ namespace OpenTween
             int SetSecuritySite([In] IInternetSecurityMgrSite pSite);
 
             [PreserveSig]
-            int GetSecuritySite(out IInternetSecurityMgrSite pSite);
+            int GetSecuritySite(out IInternetSecurityMgrSite? pSite);
 
             [PreserveSig]
             int MapUrlToZone([In, MarshalAs(UnmanagedType.LPWStr)] string pwszUrl, out int pdwZone, int dwFlags);
@@ -257,7 +259,7 @@ namespace OpenTween
             int SetZoneMapping(int dwZone, [In, MarshalAs(UnmanagedType.LPWStr)] string lpszPattern, int dwFlags);
 
             [PreserveSig]
-            int GetZoneMappings(int dwZone, ref IEnumString ppenumstring, int dwFlags);
+            int GetZoneMappings(int dwZone, ref IEnumString? ppenumstring, int dwFlags);
         }
     }
     #endregion
@@ -283,7 +285,7 @@ namespace OpenTween
         private readonly object ocx = new object();
         private readonly WebBrowserAPI.IServiceProvider ocxServiceProvider;
         private readonly IntPtr profferServicePtr = new IntPtr();
-        private readonly WebBrowserAPI.IProfferService profferService;
+        private readonly WebBrowserAPI.IProfferService profferService = null!;
 
         public POLICY SecurityPolicy { get; set; } = 0;
 
@@ -361,13 +363,13 @@ namespace OpenTween
         int WebBrowserAPI.IInternetSecurityManager.GetSecurityId(string pwszUrl, byte[] pbSecurityId, ref uint pcbSecurityId, uint dwReserved)
             => WebBrowserAPI.INET_E_DEFAULT_ACTION;
 
-        int WebBrowserAPI.IInternetSecurityManager.GetSecuritySite(out WebBrowserAPI.IInternetSecurityMgrSite pSite)
+        int WebBrowserAPI.IInternetSecurityManager.GetSecuritySite(out WebBrowserAPI.IInternetSecurityMgrSite? pSite)
         {
             pSite = null;
             return WebBrowserAPI.INET_E_DEFAULT_ACTION;
         }
 
-        int WebBrowserAPI.IInternetSecurityManager.GetZoneMappings(int dwZone, ref IEnumString ppenumstring, int dwFlags)
+        int WebBrowserAPI.IInternetSecurityManager.GetZoneMappings(int dwZone, ref IEnumString? ppenumstring, int dwFlags)
         {
             ppenumstring = null;
             return WebBrowserAPI.INET_E_DEFAULT_ACTION;

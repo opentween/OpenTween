@@ -19,6 +19,8 @@
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
+#nullable enable
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -47,7 +49,7 @@ namespace OpenTween.Models
         /// コンパイルされた振り分けルール
         /// </summary>
         [XmlIgnore]
-        protected Func<PostClass, MyCommon.HITRESULT> FilterDelegate;
+        protected Func<PostClass, MyCommon.HITRESULT>? FilterDelegate;
 
         /// <summary>
         /// 振り分けルールの概要
@@ -72,20 +74,20 @@ namespace OpenTween.Models
         private bool _enabled;
 
         [XmlElement("NameFilter")]
-        public string FilterName
+        public string? FilterName
         {
             get => this._FilterName;
             set => this.SetProperty(ref this._FilterName, value);
         }
-        private string _FilterName;
+        private string? _FilterName;
 
         [XmlElement("ExNameFilter")]
-        public string ExFilterName
+        public string? ExFilterName
         {
             get => this._ExFilterName;
             set => this.SetProperty(ref this._ExFilterName, value);
         }
-        private string _ExFilterName;
+        private string? _ExFilterName;
 
         [XmlArray("BodyFilterArray")]
         public string[] FilterBody
@@ -210,20 +212,20 @@ namespace OpenTween.Models
         private bool _ExFilterRt;
 
         [XmlElement("Source")]
-        public string FilterSource
+        public string? FilterSource
         {
             get => this._FilterSource;
             set => this.SetProperty(ref this._FilterSource, value);
         }
-        private string _FilterSource;
+        private string? _FilterSource;
 
         [XmlElement("ExSource")]
-        public string ExFilterSource
+        public string? ExFilterSource
         {
             get => this._ExFilterSource;
             set => this.SetProperty(ref this._ExFilterSource, value);
         }
-        private string _ExFilterSource;
+        private string? _ExFilterSource;
 
         public PostFilterRule()
         {
@@ -322,9 +324,9 @@ namespace OpenTween.Models
             this.IsDirty = false;
         }
 
-        protected virtual Expression MakeFiltersExpr(
+        protected virtual Expression? MakeFiltersExpr(
             ParameterExpression postParam,
-            string filterName, string[] filterBody, string filterSource, bool filterRt,
+            string? filterName, string[] filterBody, string? filterSource, bool filterRt,
             bool useRegex, bool caseSensitive, bool useNameField, bool useLambda, bool filterByUrl)
         {
             var filterExprs = new List<Expression>();
@@ -477,7 +479,7 @@ namespace OpenTween.Models
                 this.Compile();
             }
 
-            return this.FilterDelegate(post);
+            return this.FilterDelegate!(post);
         }
 
         public PostFilterRule Clone()
@@ -703,10 +705,10 @@ namespace OpenTween.Models
                 !string.IsNullOrEmpty(this.ExFilterSource) ||
                 this.ExFilterRt;
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
             => this.Equals(obj as PostFilterRule);
 
-        public bool Equals(PostFilterRule other)
+        public bool Equals(PostFilterRule? other)
         {
             if (other == null)
                 return false;

@@ -19,6 +19,8 @@
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
+#nullable enable
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,22 +32,22 @@ namespace OpenTween.Models
     public class MediaInfo
     {
         public string Url { get; }
-        public string AltText { get; }
-        public string VideoUrl { get; }
+        public string? AltText { get; }
+        public string? VideoUrl { get; }
 
         public MediaInfo(string url)
             : this(url, altText: null, videoUrl: null)
         {
         }
 
-        public MediaInfo(string url, string altText, string videoUrl)
+        public MediaInfo(string url, string? altText, string? videoUrl)
         {
             this.Url = url;
             this.AltText = altText;
             this.VideoUrl = !string.IsNullOrEmpty(videoUrl) ? videoUrl : null;
         }
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
             => obj is MediaInfo info && info.Url == this.Url && info.VideoUrl == this.VideoUrl;
 
         public override int GetHashCode()

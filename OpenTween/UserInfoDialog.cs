@@ -24,6 +24,8 @@
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
+#nullable enable
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -47,8 +49,8 @@ namespace OpenTween
 {
     public partial class UserInfoDialog : OTBaseForm
     {
-        private TwitterUser _displayUser;
-        private CancellationTokenSource cancellationTokenSource = null;
+        private TwitterUser _displayUser = null!;
+        private CancellationTokenSource? cancellationTokenSource = null;
 
         private readonly TweenMain mainForm;
         private readonly TwitterApi twitterApi;
@@ -67,7 +69,7 @@ namespace OpenTween
         [SuppressMessage("Microsoft.Reliability", "CA2000:DisposeObjectsBeforeLosingScope")]
         private void CancelLoading()
         {
-            CancellationTokenSource oldTokenSource = null;
+            CancellationTokenSource? oldTokenSource = null;
             try
             {
                 var newTokenSource = new CancellationTokenSource();
@@ -93,7 +95,7 @@ namespace OpenTween
 
             this.CancelLoading();
 
-            var cancellationToken = this.cancellationTokenSource.Token;
+            var cancellationToken = this.cancellationTokenSource!.Token;
 
             this._displayUser = user;
 
@@ -152,23 +154,25 @@ namespace OpenTween
 
             await Task.WhenAll(new[]
             {
-                this.SetDescriptionAsync(user.Description, user.Entities.Description, cancellationToken),
+                this.SetDescriptionAsync(user.Description, user.Entities?.Description, cancellationToken),
                 this.SetRecentStatusAsync(user.Status, cancellationToken),
-                this.SetLinkLabelWebAsync(user.Url, user.Entities.Url, cancellationToken),
+                this.SetLinkLabelWebAsync(user.Url, user.Entities?.Url, cancellationToken),
                 this.SetUserImageAsync(user.ProfileImageUrlHttps, cancellationToken),
                 this.LoadFriendshipAsync(user.ScreenName, cancellationToken),
             });
         }
 
-        private async Task SetDescriptionAsync(string descriptionText, TwitterEntities entities, CancellationToken cancellationToken)
+        private async Task SetDescriptionAsync(string? descriptionText, TwitterEntities? entities, CancellationToken cancellationToken)
         {
             if (descriptionText != null)
             {
-                foreach (var entity in entities.Urls)
+                var urlEntities = entities?.Urls ?? Array.Empty<TwitterEntityUrl>();
+
+                foreach (var entity in urlEntities)
                     entity.ExpandedUrl = await ShortUrl.Instance.ExpandUrlAsync(entity.ExpandedUrl);
 
                 // user.entities には urls 以外のエンティティが含まれていないため、テキストをもとに生成する
-                var mergedEntities = entities.Urls.AsEnumerable<TwitterEntity>()
+                var mergedEntities = urlEntities.AsEnumerable<TwitterEntity>()
                     .Concat(TweetExtractor.ExtractHashtagEntities(descriptionText))
                     .Concat(TweetExtractor.ExtractMentionEntities(descriptionText))
                     .Concat(TweetExtractor.ExtractEmojiEntities(descriptionText));
@@ -218,11 +222,11 @@ namespace OpenTween
             });
         }
 
-        private async Task SetLinkLabelWebAsync(string uri, TwitterEntities entities, CancellationToken cancellationToken)
+        private async Task SetLinkLabelWebAsync(string? uri, TwitterEntities? entities, CancellationToken cancellationToken)
         {
             if (uri != null)
             {
-                var origUrl = entities?.Urls[0].ExpandedUrl ?? uri;
+                var origUrl = entities?.Urls?.FirstOrDefault()?.ExpandedUrl ?? uri;
                 var expandedUrl = await ShortUrl.Instance.ExpandUrlAsync(origUrl);
 
                 if (cancellationToken.IsCancellationRequested)
@@ -240,13 +244,14 @@ namespace OpenTween
             }
         }
 
-        private async Task SetRecentStatusAsync(TwitterStatus status, CancellationToken cancellationToken)
+        private async Task SetRecentStatusAsync(TwitterStatus? status, CancellationToken cancellationToken)
         {
             if (status != null)
             {
                 var entities = status.MergedEntities;
+                var urlEntities = entities.Urls ?? Array.Empty<TwitterEntityUrl>();
 
-                foreach (var entity in entities.Urls)
+                foreach (var entity in urlEntities)
                     entity.ExpandedUrl = await ShortUrl.Instance.ExpandUrlAsync(entity.ExpandedUrl);
 
                 var mergedEntities = entities.Concat(TweetExtractor.ExtractEmojiEntities(status.FullText));
@@ -504,7 +509,7 @@ namespace OpenTween
                 }
                 else
                 {
-                    Task showUserTask = null;
+                    Task? showUserTask = null;
 
                     if (TextBoxName.Modified ||
                         TextBoxLocation.Modified ||
@@ -732,8 +737,8 @@ namespace OpenTween
             if (disposing)
             {
                 var cts = this.cancellationTokenSource;
-                cts.Cancel();
-                cts.Dispose();
+                cts?.Cancel();
+                cts?.Dispose();
 
                 var oldImage = this.UserPicture.Image;
                 this.UserPicture.Image = null;

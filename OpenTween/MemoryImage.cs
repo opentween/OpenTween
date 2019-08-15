@@ -19,6 +19,8 @@
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
+#nullable enable
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -181,10 +183,10 @@ namespace OpenTween
             return Convert.ToBase64String(hash).GetHashCode();
         }
 
-        public override bool Equals(object other)
+        public override bool Equals(object? other)
             => this.Equals(other as MemoryImage);
 
-        public bool Equals(MemoryImage other)
+        public bool Equals(MemoryImage? other)
         {
             if (object.ReferenceEquals(this, other))
                 return true;
@@ -251,7 +253,7 @@ namespace OpenTween
         /// <exception cref="InvalidImageException">不正な画像データが入力された場合</exception>
         public static MemoryImage CopyFromStream(Stream stream)
         {
-            MemoryStream memstream = null;
+            MemoryStream? memstream = null;
             try
             {
                 memstream = new MemoryStream();
@@ -279,7 +281,7 @@ namespace OpenTween
         /// <exception cref="InvalidImageException">不正な画像データが入力された場合</exception>
         public async static Task<MemoryImage> CopyFromStreamAsync(Stream stream)
         {
-            MemoryStream memstream = null;
+            MemoryStream? memstream = null;
             try
             {
                 memstream = new MemoryStream();
@@ -303,7 +305,7 @@ namespace OpenTween
         /// <exception cref="InvalidImageException">不正な画像データが入力された場合</exception>
         public static MemoryImage CopyFromBytes(byte[] bytes)
         {
-            MemoryStream memstream = null;
+            MemoryStream? memstream = null;
             try
             {
                 memstream = new MemoryStream(bytes);
@@ -326,7 +328,7 @@ namespace OpenTween
         /// <returns>作成された MemoryImage</returns>
         public static MemoryImage CopyFromImage(Image image)
         {
-            MemoryStream memstream = null;
+            MemoryStream? memstream = null;
             try
             {
                 memstream = new MemoryStream();

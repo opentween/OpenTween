@@ -24,6 +24,8 @@
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
+#nullable enable
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -41,8 +43,8 @@ namespace OpenTween
 {
     public partial class MyLists : OTBaseForm
     {
-        private readonly TwitterApi twitterApi;
-        private readonly string contextScreenName;
+        private readonly TwitterApi twitterApi = null!;
+        private readonly string contextScreenName = null!;
 
         /// <summary>自分が所有しているリスト</summary>
         private ListElement[] ownedLists = Array.Empty<ListElement>();
@@ -93,7 +95,7 @@ namespace OpenTween
                 this.twitterApi.ListsOwnerships(this.twitterApi.CurrentScreenName, cursor: x, count: 1000))
                     .ConfigureAwait(false);
 
-            this.ownedLists = ownedListData.Select(x => new ListElement(x, null)).ToArray();
+            this.ownedLists = ownedListData.Select(x => new ListElement(x, null!)).ToArray();
 
             var listsUserAddedTo = await TwitterLists.GetAllItemsAsync(x =>
                 this.twitterApi.ListsMemberships(this.contextScreenName, cursor: x, count: 1000, filterToOwnedLists: true))

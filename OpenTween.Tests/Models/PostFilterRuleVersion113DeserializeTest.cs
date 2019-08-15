@@ -39,10 +39,10 @@ namespace OpenTween.Models
         // OpenTween v1.1.2 時点の FiltersClass クラス
         public sealed class FiltersClass
         {
-            public string NameFilter { get; set; }
-            public string ExNameFilter { get; set; }
-            public string[] BodyFilterArray { get; set; }
-            public string[] ExBodyFilterArray { get; set; }
+            public string? NameFilter { get; set; }
+            public string? ExNameFilter { get; set; }
+            public string[] BodyFilterArray { get; set; } = Array.Empty<string>();
+            public string[] ExBodyFilterArray { get; set; } = Array.Empty<string>();
             public bool SearchBoth { get; set; }
             public bool ExSearchBoth { get; set; }
             public bool MoveFrom { get; set; }
@@ -57,8 +57,8 @@ namespace OpenTween.Models
             public bool ExUseRegex { get; set; }
             public bool IsRt { get; set; }
             public bool IsExRt { get; set; }
-            public string Source { get; set; }
-            public string ExSource { get; set; }
+            public string? Source { get; set; }
+            public string? ExSource { get; set; }
         }
 
         [Fact]

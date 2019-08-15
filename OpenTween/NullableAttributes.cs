@@ -21,21 +21,23 @@
 
 #nullable enable
 
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-
-namespace OpenTween.Models
+namespace System.Diagnostics.CodeAnalysis
 {
-    public interface IReadOnlyTabCollection : IReadOnlyList<TabModel>
+    [AttributeUsage(AttributeTargets.Parameter, Inherited = false)]
+    internal sealed class NotNullWhenAttribute : Attribute
     {
-        TabModel this[string tabName] { get; }
+        public bool ReturnValue { get; }
 
-        int IndexOf(string tabName);
+        public NotNullWhenAttribute(bool returnValue)
+            => this.ReturnValue = returnValue;
+    }
 
-        int IndexOf(TabModel tab);
+    [AttributeUsage(AttributeTargets.Parameter, Inherited = false)]
+    internal sealed class MaybeNullWhenAttribute : Attribute
+    {
+        public bool ReturnValue { get; }
 
-        bool Contains(string tabName);
-
-        bool TryGetValue(string tabName, [NotNullWhen(true)] out TabModel? tab);
+        public MaybeNullWhenAttribute(bool returnValue)
+            => this.ReturnValue = returnValue;
     }
 }

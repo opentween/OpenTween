@@ -25,6 +25,8 @@
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
+#nullable enable
+
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -139,9 +141,9 @@ namespace OpenTween.Connection
             return mediaId;
         }
 
-        private async Task<long> UploadMediaItem(IMediaItem mediaItem, string mediaCategory)
+        private async Task<long> UploadMediaItem(IMediaItem mediaItem, string? mediaCategory)
         {
-            async Task<long> UploadInternal(IMediaItem media, string category)
+            async Task<long> UploadInternal(IMediaItem media, string? category)
             {
                 var mediaId = await this.tw.UploadMedia(media, category)
                     .ConfigureAwait(false);
@@ -159,7 +161,7 @@ namespace OpenTween.Connection
 
             if (SettingManager.Common.AlphaPNGWorkaround && this.AddAlphaChannelIfNeeded(origImage.Image, out var newImage))
             {
-                using var newMediaItem = new MemoryImageMediaItem(newImage);
+                using var newMediaItem = new MemoryImageMediaItem(newImage!);
                 newMediaItem.AltText = mediaItem.AltText;
 
                 return await UploadInternal(newMediaItem, mediaCategory);
@@ -179,7 +181,7 @@ namespace OpenTween.Connection
         /// PNG 以外の画像や、すでにアルファチャンネルを持つ PNG 画像に対しては何もしません。
         /// </remarks>
         /// <returns>加工が行われた場合は true、そうでない場合は false</returns>
-        private bool AddAlphaChannelIfNeeded(Image origImage, out MemoryImage newImage)
+        private bool AddAlphaChannelIfNeeded(Image origImage, out MemoryImage? newImage)
         {
             newImage = null;
 

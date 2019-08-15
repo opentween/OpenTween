@@ -19,7 +19,10 @@
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
+#nullable enable
+
 using System.Collections.ObjectModel;
+using System.Diagnostics.CodeAnalysis;
 
 namespace OpenTween.Models
 {
@@ -28,7 +31,7 @@ namespace OpenTween.Models
         public int IndexOf(string tabName)
             => this.IndexOf(this[tabName]);
 
-        public bool TryGetValue(string tabName, out TabModel tab)
+        public bool TryGetValue(string tabName, [NotNullWhen(true)] out TabModel? tab)
             => this.Dictionary.TryGetValue(tabName, out tab);
 
         protected override string GetKeyForItem(TabModel tab)

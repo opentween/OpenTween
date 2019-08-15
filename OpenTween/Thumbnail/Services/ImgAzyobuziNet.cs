@@ -19,6 +19,8 @@
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
+#nullable enable
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -49,14 +51,14 @@ namespace OpenTween.Thumbnail.Services
             "Gyazo",
         };
 
-        protected string ApiBase;
-        protected IEnumerable<Regex> UrlRegex = null;
+        protected string? ApiBase;
+        protected IEnumerable<Regex>? UrlRegex = null;
         protected Timer UpdateTimer;
 
         protected HttpClient http
             => this.localHttpClient ?? Networking.Http;
 
-        private readonly HttpClient localHttpClient;
+        private readonly HttpClient? localHttpClient;
 
         private readonly object LockObj = new object();
 
@@ -65,12 +67,12 @@ namespace OpenTween.Thumbnail.Services
         {
         }
 
-        public ImgAzyobuziNet(HttpClient http)
+        public ImgAzyobuziNet(HttpClient? http)
             : this(http, autoupdate: false)
         {
         }
 
-        public ImgAzyobuziNet(HttpClient http, bool autoupdate)
+        public ImgAzyobuziNet(HttpClient? http, bool autoupdate)
         {
             this.UpdateTimer = new Timer(async _ => await this.LoadRegexAsync());
             this.AutoUpdate = autoupdate;
@@ -183,7 +185,7 @@ namespace OpenTween.Thumbnail.Services
                 .ConfigureAwait(false);
         }
 
-        public override Task<ThumbnailInfo> GetThumbnailInfoAsync(string url, PostClass post, CancellationToken token)
+        public override Task<ThumbnailInfo?> GetThumbnailInfoAsync(string url, PostClass post, CancellationToken token)
         {
             return Task.Run(() =>
             {

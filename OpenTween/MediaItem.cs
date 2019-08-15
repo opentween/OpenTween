@@ -19,6 +19,8 @@
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
+#nullable enable
+
 using System;
 using System.Drawing;
 using System.IO;
@@ -62,7 +64,7 @@ namespace OpenTween
         /// <summary>
         /// 代替テキスト (アップロード先が対応している必要がある)
         /// </summary>
-        string AltText { get; set; }
+        string? AltText { get; set; }
 
         /// <summary>
         /// 表示用の MemoryImage を作成する
@@ -92,7 +94,7 @@ namespace OpenTween
     public class FileMediaItem : IMediaItem
     {
         public FileInfo FileInfo { get; }
-        public string AltText { get; set; }
+        public string? AltText { get; set; }
 
         public FileMediaItem(string path)
             => this.FileInfo = new FileInfo(path);
@@ -182,7 +184,7 @@ namespace OpenTween
         }
 
         public string Path { get; }
-        public string AltText { get; set; }
+        public string? AltText { get; set; }
 
         public string Name
             => this.Path.Substring(PathPrefix.Length);
@@ -204,7 +206,7 @@ namespace OpenTween
 
         public Stream OpenRead()
         {
-            MemoryStream memstream = null;
+            MemoryStream? memstream = null;
             try
             {
                 // コピーを作成する
