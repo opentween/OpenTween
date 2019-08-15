@@ -136,9 +136,7 @@ namespace OpenTween.OpenTweenCustomControl
                 return;
 
             item.BackColor = backColor;
-            SetUpdateBounds(item);
-            this.Update();
-            this.changeBounds = Rectangle.Empty;
+            this.RefreshItemBounds(item);
         }
 
         public void ChangeItemForeColor(ListViewItem item, Color foreColor)
@@ -147,9 +145,7 @@ namespace OpenTween.OpenTweenCustomControl
                 return;
 
             item.ForeColor = foreColor;
-            SetUpdateBounds(item);
-            this.Update();
-            this.changeBounds = Rectangle.Empty;
+            this.RefreshItemBounds(item);
         }
 
         public void ChangeItemFontAndColor(ListViewItem item, Color foreColor, Font fnt)
@@ -159,16 +155,21 @@ namespace OpenTween.OpenTweenCustomControl
 
             item.ForeColor = foreColor;
             item.Font = fnt;
-            SetUpdateBounds(item);
-            this.Update();
-            this.changeBounds = Rectangle.Empty;
+            this.RefreshItemBounds(item);
         }
 
-        private void SetUpdateBounds(ListViewItem item)
+        private void RefreshItemBounds(ListViewItem item)
         {
             try
             {
-                this.changeBounds = item.Bounds;
+                var itemBounds = item.Bounds;
+                var drawBounds = Rectangle.Intersect(this.ClientRectangle, itemBounds);
+                if (drawBounds == Rectangle.Empty)
+                    return;
+
+                this.changeBounds = drawBounds;
+                this.Update();
+                this.changeBounds = Rectangle.Empty;
             }
             catch (ArgumentException)
             {
