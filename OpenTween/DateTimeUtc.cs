@@ -63,6 +63,11 @@ namespace OpenTween
         {
         }
 
+        public DateTimeUtc(long utcTicks)
+            : this(new DateTime(utcTicks, DateTimeKind.Utc))
+        {
+        }
+
         public DateTimeUtc(DateTime datetime)
         {
             if (datetime.Kind != DateTimeKind.Utc)
@@ -70,6 +75,9 @@ namespace OpenTween
 
             this.datetime = datetime;
         }
+
+        public long UtcTicks
+            => this.datetime.Ticks;
 
         public long ToUnixTime()
             => (long)((this - UnixEpoch).TotalSeconds);

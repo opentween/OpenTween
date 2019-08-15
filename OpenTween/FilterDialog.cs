@@ -662,7 +662,7 @@ namespace OpenTween
                 owner.AtIdSupl.AddItem("@" + ft.FilterName);
                 if (cnt != owner.AtIdSupl.ItemCount)
                 {
-                    owner.ModifySettingAtId = true;
+                    owner.MarkSettingAtIdModified();
                 }
                 ft.UseNameField = true;
                 bdy = MSG1.Text;

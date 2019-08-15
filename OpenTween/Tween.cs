@@ -211,11 +211,8 @@ namespace OpenTween
             /// <summary>キャッシュする範囲の終了インデックス</summary>
             public int EndIndex { get; set; }
 
-            /// <summary>キャッシュされた <see cref="ListViewItem"/> インスタンス</summary>
-            public ListViewItem[] ListItem { get; set; }
-
-            /// <summary>キャッシュされた範囲に対応する <see cref="PostClass"/> インスタンス</summary>
-            public PostClass[] Post { get; set; }
+            /// <summary>キャッシュされた範囲に対応する <see cref="ListViewItem"/> と <see cref="PostClass"/> の組</summary>
+            public (ListViewItem, PostClass)[] Cache { get; set; }
 
             /// <summary>キャッシュされたアイテムの件数</summary>
             public int Count
@@ -237,8 +234,7 @@ namespace OpenTween
             {
                 if (this.Contains(index))
                 {
-                    item = this.ListItem[index - this.StartIndex];
-                    post = this.Post[index - this.StartIndex];
+                    (item, post) = this.Cache[index - this.StartIndex];
                     return true;
                 }
                 else
@@ -264,13 +260,14 @@ namespace OpenTween
         private string[] ColumnText = new string[9];
 
         private bool _DoFavRetweetFlags = false;
-        private bool osResumed = false;
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////
-        private bool _colorize = false;
 
-        private System.Timers.Timer TimerTimeline = new System.Timers.Timer();
+        private readonly TimelineScheduler timelineScheduler = new TimelineScheduler();
         private ThrottlingTimer RefreshThrottlingTimer;
+        private ThrottlingTimer colorizeDebouncer;
+        private ThrottlingTimer selectionDebouncer;
+        private ThrottlingTimer saveConfigDebouncer;
 
         private string recommendedStatusFooter;
         private bool urlMultibyteSplit = false;
@@ -1113,18 +1110,31 @@ namespace OpenTween
 
             //タイマー設定
 
-            var streamingRefreshInterval = TimeSpan.FromSeconds(SettingManager.Common.UserstreamPeriod);
-            this.RefreshThrottlingTimer = new ThrottlingTimer(streamingRefreshInterval,
-                () => this.InvokeAsync(() => this.RefreshTimeline()));
+            this.timelineScheduler.UpdateHome = () => this.InvokeAsync(() => this.RefreshTabAsync<HomeTabModel>());
+            this.timelineScheduler.UpdateMention = () => this.InvokeAsync(() => this.RefreshTabAsync<MentionsTabModel>());
+            this.timelineScheduler.UpdateDm = () => this.InvokeAsync(() => this.RefreshTabAsync<DirectMessagesTabModel>());
+            this.timelineScheduler.UpdatePublicSearch = () => this.InvokeAsync(() => this.RefreshTabAsync<PublicSearchTabModel>());
+            this.timelineScheduler.UpdateUser = () => this.InvokeAsync(() => this.RefreshTabAsync<UserTimelineTabModel>());
+            this.timelineScheduler.UpdateList = () => this.InvokeAsync(() => this.RefreshTabAsync<ListTimelineTabModel>());
+            this.timelineScheduler.UpdateConfig = () => this.InvokeAsync(() => Task.WhenAll(new[]
+            {
+                this.doGetFollowersMenu(),
+                this.RefreshBlockIdsAsync(),
+                this.RefreshMuteUserIdsAsync(),
+                this.RefreshNoRetweetIdsAsync(),
+                this.RefreshTwitterConfigurationAsync(),
+            }));
+            this.RefreshTimelineScheduler();
 
-            TimerTimeline.AutoReset = true;
-            TimerTimeline.SynchronizingObject = this;
-            //Recent取得間隔
-            TimerTimeline.Interval = 1000;
-            TimerTimeline.Enabled = true;
+            var streamingRefreshInterval = TimeSpan.FromSeconds(SettingManager.Common.UserstreamPeriod);
+            this.RefreshThrottlingTimer = ThrottlingTimer.Throttle(() => this.InvokeAsync(() => this.RefreshTimeline()), streamingRefreshInterval);
+            this.colorizeDebouncer = ThrottlingTimer.Debounce(() => this.InvokeAsync(() => this.ColorizeList()), TimeSpan.FromMilliseconds(100), leading: true);
+            this.selectionDebouncer = ThrottlingTimer.Debounce(() => this.InvokeAsync(() => this.UpdateSelectedPost()), TimeSpan.FromMilliseconds(100), leading: true);
+            this.saveConfigDebouncer = ThrottlingTimer.Debounce(() => this.InvokeAsync(() => this.SaveConfigsAll(ifModified: true)), TimeSpan.FromSeconds(1));
+
             //更新中アイコンアニメーション間隔
             TimerRefreshIcon.Interval = 200;
-            TimerRefreshIcon.Enabled = true;
+            TimerRefreshIcon.Enabled = false;
 
             _ignoreConfigSave = false;
             this.TweenMain_Resize(null, null);
@@ -1277,117 +1287,56 @@ namespace OpenTween
 
         private void TimerInterval_Changed(object sender, IntervalChangedEventArgs e) //Handles SettingDialog.IntervalChanged
         {
-            if (!TimerTimeline.Enabled) return;
-
             if (e.UserStream)
             {
                 var interval = TimeSpan.FromSeconds(SettingManager.Common.UserstreamPeriod);
-                var newTimer = new ThrottlingTimer(interval, () => this.InvokeAsync(() => this.RefreshTimeline()));
+                var newTimer = ThrottlingTimer.Throttle(() => this.InvokeAsync(() => this.RefreshTimeline()), interval);
                 var oldTimer = Interlocked.Exchange(ref this.RefreshThrottlingTimer, newTimer);
                 oldTimer.Dispose();
             }
 
-            ResetTimers = e;
+            this.RefreshTimelineScheduler();
         }
 
-        private IntervalChangedEventArgs ResetTimers = IntervalChangedEventArgs.ResetAll;
-
-        private static int homeCounter = 0;
-        private static int mentionCounter = 0;
-        private static int dmCounter = 0;
-        private static int pubSearchCounter = 0;
-        private static int userTimelineCounter = 0;
-        private static int listsCounter = 0;
-        private static int ResumeWait = 0;
-        private static int refreshFollowers = 0;
-
-        private async void TimerTimeline_Elapsed(object sender, EventArgs e)
+        private void RefreshTimelineScheduler()
         {
-            if (homeCounter > 0) Interlocked.Decrement(ref homeCounter);
-            if (mentionCounter > 0) Interlocked.Decrement(ref mentionCounter);
-            if (dmCounter > 0) Interlocked.Decrement(ref dmCounter);
-            if (pubSearchCounter > 0) Interlocked.Decrement(ref pubSearchCounter);
-            if (userTimelineCounter > 0) Interlocked.Decrement(ref userTimelineCounter);
-            if (listsCounter > 0) Interlocked.Decrement(ref listsCounter);
-            Interlocked.Increment(ref refreshFollowers);
+            this.timelineScheduler.UpdateIntervalHome = TimeSpan.FromSeconds(SettingManager.Common.TimelinePeriod);
+            this.timelineScheduler.UpdateIntervalMention = TimeSpan.FromSeconds(SettingManager.Common.ReplyPeriod);
+            this.timelineScheduler.UpdateIntervalDm = TimeSpan.FromSeconds(SettingManager.Common.DMPeriod);
+            this.timelineScheduler.UpdateIntervalPublicSearch = TimeSpan.FromSeconds(SettingManager.Common.PubSearchPeriod);
+            this.timelineScheduler.UpdateIntervalUser = TimeSpan.FromSeconds(SettingManager.Common.UserTimelinePeriod);
+            this.timelineScheduler.UpdateIntervalList = TimeSpan.FromSeconds(SettingManager.Common.ListsPeriod);
+            this.timelineScheduler.UpdateIntervalConfig = TimeSpan.FromHours(6);
+            this.timelineScheduler.UpdateAfterSystemResume = TimeSpan.FromSeconds(30);
 
-            var refreshTasks = new List<Task>();
+            this.timelineScheduler.RefreshSchedule();
+        }
 
-            ////タイマー初期化
-            if (ResetTimers.Timeline || homeCounter <= 0 && SettingManager.Common.TimelinePeriod > 0)
-            {
-                Interlocked.Exchange(ref homeCounter, SettingManager.Common.TimelinePeriod);
-                if (!tw.IsUserstreamDataReceived && !ResetTimers.Timeline)
-                    refreshTasks.Add(this.RefreshTabAsync<HomeTabModel>());
-                ResetTimers.Timeline = false;
-            }
-            if (ResetTimers.Reply || mentionCounter <= 0 && SettingManager.Common.ReplyPeriod > 0)
-            {
-                Interlocked.Exchange(ref mentionCounter, SettingManager.Common.ReplyPeriod);
-                if (!tw.IsUserstreamDataReceived && !ResetTimers.Reply)
-                    refreshTasks.Add(this.RefreshTabAsync<MentionsTabModel>());
-                ResetTimers.Reply = false;
-            }
-            if (ResetTimers.DirectMessage || dmCounter <= 0 && SettingManager.Common.DMPeriod > 0)
-            {
-                Interlocked.Exchange(ref dmCounter, SettingManager.Common.DMPeriod);
-                if (!tw.IsUserstreamDataReceived && !ResetTimers.DirectMessage)
-                    refreshTasks.Add(this.RefreshTabAsync<DirectMessagesTabModel>());
-                ResetTimers.DirectMessage = false;
-            }
-            if (ResetTimers.PublicSearch || pubSearchCounter <= 0 && SettingManager.Common.PubSearchPeriod > 0)
-            {
-                Interlocked.Exchange(ref pubSearchCounter, SettingManager.Common.PubSearchPeriod);
-                if (!ResetTimers.PublicSearch)
-                    refreshTasks.Add(this.RefreshTabAsync<PublicSearchTabModel>());
-                ResetTimers.PublicSearch = false;
-            }
-            if (ResetTimers.UserTimeline || userTimelineCounter <= 0 && SettingManager.Common.UserTimelinePeriod > 0)
-            {
-                Interlocked.Exchange(ref userTimelineCounter, SettingManager.Common.UserTimelinePeriod);
-                if (!ResetTimers.UserTimeline)
-                    refreshTasks.Add(this.RefreshTabAsync<UserTimelineTabModel>());
-                ResetTimers.UserTimeline = false;
-            }
-            if (ResetTimers.Lists || listsCounter <= 0 && SettingManager.Common.ListsPeriod > 0)
-            {
-                Interlocked.Exchange(ref listsCounter, SettingManager.Common.ListsPeriod);
-                if (!ResetTimers.Lists)
-                    refreshTasks.Add(this.RefreshTabAsync<ListTimelineTabModel>());
-                ResetTimers.Lists = false;
-            }
-            if (refreshFollowers > 6 * 3600)
-            {
-                Interlocked.Exchange(ref refreshFollowers, 0);
-                refreshTasks.AddRange(new[]
-                {
-                    this.doGetFollowersMenu(),
-                    this.RefreshNoRetweetIdsAsync(),
-                    this.RefreshTwitterConfigurationAsync(),
-                });
-            }
-            if (osResumed)
-            {
-                Interlocked.Increment(ref ResumeWait);
-                if (ResumeWait > 30)
-                {
-                    osResumed = false;
-                    Interlocked.Exchange(ref ResumeWait, 0);
-                    refreshTasks.AddRange(new[]
-                    {
-                        this.RefreshTabAsync<HomeTabModel>(),
-                        this.RefreshTabAsync<MentionsTabModel>(),
-                        this.RefreshTabAsync<DirectMessagesTabModel>(),
-                        this.RefreshTabAsync<PublicSearchTabModel>(),
-                        this.RefreshTabAsync<UserTimelineTabModel>(),
-                        this.RefreshTabAsync<ListTimelineTabModel>(),
-                        this.doGetFollowersMenu(),
-                        this.RefreshTwitterConfigurationAsync(),
-                    });
-                }
-            }
+        private void MarkSettingCommonModified()
+        {
+            if (this.saveConfigDebouncer == null)
+                return;
 
-            await Task.WhenAll(refreshTasks);
+            this.ModifySettingCommon = true;
+            this.saveConfigDebouncer.Call();
+        }
+
+        private void MarkSettingLocalModified()
+        {
+            if (this.saveConfigDebouncer == null)
+                return;
+
+            this.ModifySettingLocal = true;
+            this.saveConfigDebouncer.Call();
+        }
+
+        internal void MarkSettingAtIdModified()
+        {
+            if (this.saveConfigDebouncer == null)
+                return;
+
+            this.ModifySettingAtId = true;
+            this.saveConfigDebouncer.Call();
         }
 
         private void RefreshTimeline()
@@ -1933,11 +1882,12 @@ namespace OpenTween
 
             var post = this.CurrentPost;
             this._statuses.SetReadAllTab(post.StatusId, read: true);
+
             //キャッシュの書き換え
             ChangeCacheStyleRead(true, index); // 既読へ（フォント、文字色）
 
-            ColorizeList();
-            _colorize = true;
+            this.colorizeDebouncer.Call();
+            this.selectionDebouncer.Call();
         }
 
         private void ChangeCacheStyleRead(bool Read, int Index)
@@ -1962,17 +1912,21 @@ namespace OpenTween
         private void ChangeItemStyleRead(bool Read, ListViewItem Item, PostClass Post, DetailsListView DList)
         {
             Font fnt;
+            string star;
             //フォント
             if (Read)
             {
                 fnt = _fntReaded;
-                Item.SubItems[5].Text = "";
+                star = "";
             }
             else
             {
                 fnt = _fntUnread;
-                Item.SubItems[5].Text = "★";
+                star = "★";
             }
+            if (Item.SubItems[5].Text != star)
+                Item.SubItems[5].Text = star;
+
             //文字色
             Color cl;
             if (Post.IsFav)
@@ -1996,9 +1950,9 @@ namespace OpenTween
             {
                 DList.Update();
                 if (SettingManager.Common.UseUnreadStyle)
-                    DList.ChangeItemFontAndColor(Item.Index, cl, fnt);
+                    DList.ChangeItemFontAndColor(Item, cl, fnt);
                 else
-                    DList.ChangeItemForeColor(Item.Index, cl);
+                    DList.ChangeItemForeColor(Item, cl);
                 //if (_itemCache != null) DList.RedrawItems(_itemCacheIndex, _itemCacheIndex + _itemCache.Length - 1, false);
             }
         }
@@ -2019,16 +1973,19 @@ namespace OpenTween
             if (listCache == null)
                 return;
 
-            var index = listCache.StartIndex;
             var listView = (DetailsListView)listCache.TargetList;
-            foreach (var cachedPost in listCache.Post)
+
+            // ValidateRectが呼ばれる前に選択色などの描画を済ませておく
+            listView.Update();
+
+            foreach (var (listViewItem, cachedPost) in listCache.Cache)
             {
                 var backColor = this.JudgeColor(_post, cachedPost);
-                listView.ChangeItemBackColor(index++, backColor);
+                listView.ChangeItemBackColor(listViewItem, backColor);
             }
         }
 
-        private void ColorizeList(ListViewItem Item, int Index)
+        private void ColorizeList(ListViewItem Item, PostClass post, int Index)
         {
             //Index:更新対象のListviewItem.Index。Colorを返す。
             //-1は全キャッシュ。Colorは返さない（ダミーを戻す）
@@ -2038,14 +1995,12 @@ namespace OpenTween
             else
                 _post = this.CurrentPost;
 
-            PostClass tPost = GetCurTabPost(Index);
-
             if (_post == null) return;
 
             if (Item.Index == -1)
-                Item.BackColor = JudgeColor(_post, tPost);
+                Item.BackColor = JudgeColor(_post, post);
             else
-                this.CurrentListView.ChangeItemBackColor(Item.Index, JudgeColor(_post, tPost));
+                this.CurrentListView.ChangeItemBackColor(Item, JudgeColor(_post, post));
         }
 
         private Color JudgeColor(PostClass BasePost, PostClass TargetPost)
@@ -2066,7 +2021,7 @@ namespace OpenTween
             else if (TargetPost.ReplyToList.Any(x => x.UserId == BasePost.UserId))
                 //その人への返信
                 cl = _clAtTarget;
-            else if (TargetPost.ScreenName.Equals(BasePost.ScreenName, StringComparison.OrdinalIgnoreCase))
+            else if (TargetPost.UserId == BasePost.UserId)
                 //発言者
                 cl = _clTarget;
             else
@@ -2251,7 +2206,7 @@ namespace OpenTween
                 _hookGlobalHotkey.UnregisterAllOriginalHotkey();
                 _ignoreConfigSave = true;
                 MyCommon._endingFlag = true;
-                TimerTimeline.Enabled = false;
+                this.timelineScheduler.Enabled = false;
                 TimerRefreshIcon.Enabled = false;
             }
         }
@@ -2308,6 +2263,7 @@ namespace OpenTween
         private async Task RefreshTabAsync(TabModel tab, bool backward)
         {
             await this.workerSemaphore.WaitAsync();
+            this.RefreshTasktrayIcon();
 
             try
             {
@@ -2361,6 +2317,7 @@ namespace OpenTween
         private async Task FavAddAsync(long statusId, TabModel tab)
         {
             await this.workerSemaphore.WaitAsync();
+            this.RefreshTasktrayIcon();
 
             try
             {
@@ -2474,13 +2431,14 @@ namespace OpenTween
 
                 var currentPost = this.CurrentPost;
                 if (currentPost != null && statusId == currentPost.StatusId)
-                    await this.DispSelectedPost(true); // 選択アイテム再表示
+                    this.DispSelectedPost(true); // 選択アイテム再表示
             }
         }
 
         private async Task FavRemoveAsync(IReadOnlyList<long> statusIds, TabModel tab)
         {
             await this.workerSemaphore.WaitAsync();
+            this.RefreshTasktrayIcon();
 
             try
             {
@@ -2589,7 +2547,7 @@ namespace OpenTween
 
                     var currentPost = this.CurrentPost;
                     if (currentPost != null && successIds.Contains(currentPost.StatusId))
-                        await this.DispSelectedPost(true); // 選択アイテム再表示
+                        this.DispSelectedPost(true); // 選択アイテム再表示
                 }
             }
         }
@@ -2597,6 +2555,7 @@ namespace OpenTween
         private async Task PostMessageAsync(PostStatusParams postParams, IMediaUploadService uploadService, IMediaItem[] uploadItems)
         {
             await this.workerSemaphore.WaitAsync();
+            this.RefreshTasktrayIcon();
 
             try
             {
@@ -2743,6 +2702,7 @@ namespace OpenTween
         private async Task RetweetAsync(IReadOnlyList<long> statusIds)
         {
             await this.workerSemaphore.WaitAsync();
+            this.RefreshTasktrayIcon();
 
             try
             {
@@ -2822,6 +2782,8 @@ namespace OpenTween
         private async Task RefreshFollowerIdsAsync()
         {
             await this.workerSemaphore.WaitAsync();
+            this.RefreshTasktrayIcon();
+
             try
             {
                 this.StatusLabel.Text = Properties.Resources.UpdateFollowersMenuItem1_ClickText1;
@@ -2847,6 +2809,8 @@ namespace OpenTween
         private async Task RefreshNoRetweetIdsAsync()
         {
             await this.workerSemaphore.WaitAsync();
+            this.RefreshTasktrayIcon();
+
             try
             {
                 await this.tw.RefreshNoRetweetIds();
@@ -2866,6 +2830,8 @@ namespace OpenTween
         private async Task RefreshBlockIdsAsync()
         {
             await this.workerSemaphore.WaitAsync();
+            this.RefreshTasktrayIcon();
+
             try
             {
                 this.StatusLabel.Text = Properties.Resources.UpdateBlockUserText1;
@@ -2887,6 +2853,8 @@ namespace OpenTween
         private async Task RefreshTwitterConfigurationAsync()
         {
             await this.workerSemaphore.WaitAsync();
+            this.RefreshTasktrayIcon();
+
             try
             {
                 await this.tw.RefreshConfiguration();
@@ -3085,7 +3053,7 @@ namespace OpenTween
                     _mySpDis = this.SplitContainer1.SplitterDistance;
                     _mySpDis3 = this.SplitContainer3.SplitterDistance;
                     if (StatusText.Multiline) _mySpDis2 = this.StatusText.Height;
-                    ModifySettingLocal = true;
+                    this.MarkSettingLocalModified();
                 }
             }
         }
@@ -3204,7 +3172,7 @@ namespace OpenTween
             }
             list.Refresh();
 
-            this.ModifySettingCommon = true;
+            this.MarkSettingCommonModified();
         }
 
         private void TweenMain_LocationChanged(object sender, EventArgs e)
@@ -3212,7 +3180,7 @@ namespace OpenTween
             if (this.WindowState == FormWindowState.Normal && !_initialLayout)
             {
                 _myLoc = this.DesktopLocation;
-                ModifySettingLocal = true;
+                this.MarkSettingLocalModified();
             }
         }
 
@@ -4335,7 +4303,7 @@ namespace OpenTween
             }
         }
 
-        private async void ListTab_SelectedIndexChanged(object sender, EventArgs e)
+        private void ListTab_SelectedIndexChanged(object sender, EventArgs e)
         {
             //_curList.Refresh();
             SetMainWindowTitle();
@@ -4345,7 +4313,7 @@ namespace OpenTween
                 this.Tag = ListTab.Tag;
             TabMenuControl(this.CurrentTabName);
             this.PushSelectPostChain();
-            await DispSelectedPost();
+            DispSelectedPost();
         }
 
         private void SetListProperty()
@@ -4395,7 +4363,8 @@ namespace OpenTween
                 //@マーク
                 int cnt = AtIdSupl.ItemCount;
                 ShowSuplDialog(StatusText, AtIdSupl);
-                if (cnt != AtIdSupl.ItemCount) ModifySettingAtId = true;
+                if (cnt != AtIdSupl.ItemCount)
+                    this.MarkSettingAtIdModified();
                 e.Handled = true;
             }
             else if (e.KeyChar == '#')
@@ -4797,8 +4766,7 @@ namespace OpenTween
                 TargetList = this.CurrentListView,
                 StartIndex = startIndex,
                 EndIndex = endIndex,
-                Post = posts,
-                ListItem = listItems,
+                Cache = Enumerable.Zip(listItems, posts, (x, y) => (x, y)).ToArray(),
             };
 
             Interlocked.Exchange(ref this._listItemCache, listCache);
@@ -4854,7 +4822,7 @@ namespace OpenTween
             ChangeItemStyleRead(read, itm, Post, null);
 
             if (tab.TabName == this.CurrentTabName)
-                this.ColorizeList(itm, Index);
+                this.ColorizeList(itm, Post, Index);
 
             return itm;
         }
@@ -5568,7 +5536,7 @@ namespace OpenTween
                     else if (dialog.SkipButtonPressed)
                     {
                         SettingManager.Common.SkipUpdateVersion = versionInfo.Version;
-                        this.ModifySettingCommon = true;
+                        this.MarkSettingCommonModified();
                     }
                 }
             }
@@ -5584,10 +5552,8 @@ namespace OpenTween
             }
         }
 
-        private async Task Colorize()
+        private void UpdateSelectedPost()
         {
-            _colorize = false;
-            await this.DispSelectedPost();
             //件数関連の場合、タイトル即時書き換え
             if (SettingManager.Common.DispLatestPost != MyCommon.DispTitleEnum.None &&
                SettingManager.Common.DispLatestPost != MyCommon.DispTitleEnum.Post &&
@@ -5599,11 +5565,11 @@ namespace OpenTween
             if (!StatusLabelUrl.Text.StartsWith("http", StringComparison.OrdinalIgnoreCase))
                 SetStatusLabelUrl();
 
-            foreach (var (tab, index) in this._statuses.Tabs.WithIndex())
+            if (SettingManager.Common.TabIconDisp)
             {
-                if (tab.UnreadCount == 0)
+                foreach (var (tab, index) in this._statuses.Tabs.WithIndex())
                 {
-                    if (SettingManager.Common.TabIconDisp)
+                    if (tab.UnreadCount == 0)
                     {
                         var tabPage = this.ListTab.TabPages[index];
                         if (tabPage.ImageIndex == 0)
@@ -5611,13 +5577,18 @@ namespace OpenTween
                     }
                 }
             }
-            if (!SettingManager.Common.TabIconDisp) ListTab.Refresh();
+            else
+            {
+                this.ListTab.Refresh();
+            }
+
+            this.DispSelectedPost();
         }
 
         public string createDetailHtml(string orgdata)
             => detailHtmlFormatHeader + orgdata + detailHtmlFormatFooter;
 
-        private Task DispSelectedPost()
+        private void DispSelectedPost()
             => this.DispSelectedPost(false);
 
         private PostClass displayPost = new PostClass();
@@ -5627,7 +5598,7 @@ namespace OpenTween
         /// </summary>
         private CancellationTokenSource thumbnailTokenSource = null;
 
-        private async Task DispSelectedPost(bool forceupdate)
+        private void DispSelectedPost(bool forceupdate)
         {
             var currentPost = this.CurrentPost;
             if (currentPost == null)
@@ -5655,11 +5626,17 @@ namespace OpenTween
                 loadTasks.Add(this.tweetThumbnail1.ShowThumbnailAsync(currentPost, token));
             }
 
-            try
+            async Task delayedTasks()
             {
-                await Task.WhenAll(loadTasks);
+                try
+                {
+                    await Task.WhenAll(loadTasks);
+                }
+                catch (OperationCanceledException) { }
             }
-            catch (OperationCanceledException) { }
+
+            // サムネイルの読み込みを待たずに次に選択されたツイートを表示するため await しない
+            _ = delayedTasks();
         }
 
         private async void MatomeMenuItem_Click(object sender, EventArgs e)
@@ -5870,7 +5847,7 @@ namespace OpenTween
 
                 ShortcutCommand.Create(Keys.Control | Keys.Home, Keys.Control | Keys.End)
                     .FocusedOn(FocusedControl.ListTab)
-                    .Do(() => this._colorize = true, preventDefault: false),
+                    .Do(() => this.selectionDebouncer.Call(), preventDefault: false),
 
                 ShortcutCommand.Create(Keys.Control | Keys.N)
                     .FocusedOn(FocusedControl.ListTab)
@@ -6140,7 +6117,8 @@ namespace OpenTween
                                     startstr = StatusText.Text.Substring(i + 1, endidx - i);
                                     int cnt = AtIdSupl.ItemCount;
                                     ShowSuplDialog(StatusText, AtIdSupl, startstr.Length + 1, startstr);
-                                    if (AtIdSupl.ItemCount != cnt) ModifySettingAtId = true;
+                                    if (AtIdSupl.ItemCount != cnt)
+                                        this.MarkSettingAtIdModified();
                                 }
                                 else if (c == '#')
                                 {
@@ -7740,101 +7718,74 @@ namespace OpenTween
         private void ListTab_MouseUp(object sender, MouseEventArgs e)
             => this._tabDrag = false;
 
-        private static int iconCnt = 0;
-        private static int blinkCnt = 0;
-        private static bool blink = false;
-        private static bool idle = false;
+        private int iconCnt = 0;
+        private int blinkCnt = 0;
+        private bool blink = false;
 
-        private async Task RefreshTasktrayIcon()
+        private void RefreshTasktrayIcon()
         {
-            if (_colorize)
-                await this.Colorize();
+            void EnableTasktrayAnimation()
+                => this.TimerRefreshIcon.Enabled = true;
 
-            if (!TimerRefreshIcon.Enabled) return;
-            //Static usCheckCnt As int = 0
+            void DisableTasktrayAnimation()
+                => this.TimerRefreshIcon.Enabled = false;
 
-            //Static iconDlListTopItem As ListViewItem = null
-
-            //if (((ListView)ListTab.SelectedTab.Tag).TopItem == iconDlListTopItem)
-            //    ((ImageDictionary)this.TIconDic).PauseGetImage = false;
-            //else
-            //    ((ImageDictionary)this.TIconDic).PauseGetImage = true;
-            //
-            //iconDlListTopItem = ((ListView)ListTab.SelectedTab.Tag).TopItem;
-
-            iconCnt += 1;
-            blinkCnt += 1;
-            //usCheckCnt += 1;
-
-            //if (usCheckCnt > 300)    //1min
-            //{
-            //    usCheckCnt = 0;
-            //    if (!this.IsReceivedUserStream)
-            //    {
-            //        TraceOut("ReconnectUserStream");
-            //        tw.ReconnectUserStream();
-            //    }
-            //}
-
-            var busy = this.workerSemaphore.CurrentCount != MAX_WORKER_THREADS;
-
-            if (iconCnt >= this.NIconRefresh.Length)
+            var busyTasks = this.workerSemaphore.CurrentCount != MAX_WORKER_THREADS;
+            if (busyTasks)
             {
-                iconCnt = 0;
-            }
-            if (blinkCnt > 10)
-            {
-                blinkCnt = 0;
-                //未保存の変更を保存
-                SaveConfigsAll(true);
-            }
+                iconCnt += 1;
+                if (iconCnt >= this.NIconRefresh.Length)
+                    iconCnt = 0;
 
-            if (busy)
-            {
                 NotifyIcon1.Icon = NIconRefresh[iconCnt];
-                idle = false;
                 _myStatusError = false;
+                EnableTasktrayAnimation();
                 return;
             }
 
-            TabModel tb = _statuses.GetTabByType(MyCommon.TabUsageType.Mentions);
-            if (SettingManager.Common.ReplyIconState != MyCommon.REPLY_ICONSTATE.None && tb != null && tb.UnreadCount > 0)
+            var replyIconType = SettingManager.Common.ReplyIconState;
+            var reply = false;
+            if (replyIconType != MyCommon.REPLY_ICONSTATE.None)
             {
-                if (blinkCnt > 0) return;
-                blink = !blink;
-                if (blink || SettingManager.Common.ReplyIconState == MyCommon.REPLY_ICONSTATE.StaticIcon)
-                {
-                    NotifyIcon1.Icon = ReplyIcon;
-                }
-                else
-                {
-                    NotifyIcon1.Icon = ReplyIconBlink;
-                }
-                idle = false;
+                var replyTab = this._statuses.GetTabByType<MentionsTabModel>();
+                if (replyTab != null && replyTab.UnreadCount > 0)
+                    reply = true;
+            }
+
+            if (replyIconType == MyCommon.REPLY_ICONSTATE.BlinkIcon && reply)
+            {
+                blinkCnt += 1;
+                if (blinkCnt > 10)
+                    blinkCnt = 0;
+
+                if (blinkCnt == 0)
+                    blink = !blink;
+
+                NotifyIcon1.Icon = blink ? ReplyIconBlink : ReplyIcon;
+                EnableTasktrayAnimation();
                 return;
             }
 
-            if (idle) return;
-            idle = true;
-            //優先度：エラー→オフライン→アイドル
-            //エラーは更新アイコンでクリアされる
-            if (_myStatusError)
-            {
+            DisableTasktrayAnimation();
+
+            iconCnt = 0;
+            blinkCnt = 0;
+            blink = false;
+
+            // 優先度：リプライ→エラー→オフライン→アイドル
+            // エラーは更新アイコンでクリアされる
+            if (replyIconType == MyCommon.REPLY_ICONSTATE.StaticIcon && reply)
+                NotifyIcon1.Icon = ReplyIcon;
+            else if (_myStatusError)
                 NotifyIcon1.Icon = NIconAtRed;
-                return;
-            }
-            if (_myStatusOnline)
-            {
+            else if (_myStatusOnline)
                 NotifyIcon1.Icon = NIconAt;
-            }
             else
-            {
                 NotifyIcon1.Icon = NIconAtSmoke;
-            }
         }
 
-        private async void TimerRefreshIcon_Tick(object sender, EventArgs e)
-            => await this.RefreshTasktrayIcon(); // 200ms
+        private void TimerRefreshIcon_Tick(object sender, EventArgs e)
+            => this.RefreshTasktrayIcon(); // 200ms
 
         private void ContextMenuTabProperty_Opening(object sender, CancelEventArgs e)
         {
@@ -8234,7 +8185,8 @@ namespace OpenTween
                 }
                 int cnt = AtIdSupl.ItemCount;
                 AtIdSupl.AddRangeItem(atids.ToArray());
-                if (AtIdSupl.ItemCount != cnt) ModifySettingAtId = true;
+                if (AtIdSupl.ItemCount != cnt)
+                    this.MarkSettingAtIdModified();
             }
         }
 
@@ -8841,7 +8793,8 @@ namespace OpenTween
                 {
                     AtIdSupl.AddItem(mid.Result("${id}"));
                 }
-                if (bCnt != AtIdSupl.ItemCount) ModifySettingAtId = true;
+                if (bCnt != AtIdSupl.ItemCount)
+                    this.MarkSettingAtIdModified();
             }
 
             // リプライ先ステータスIDの指定がない場合は指定しない
@@ -8943,7 +8896,7 @@ namespace OpenTween
             {
                 SettingManager.Common.PlaySound = false;
             }
-            ModifySettingCommon = true;
+            this.MarkSettingCommonModified();
         }
 
         private void SplitContainer1_SplitterMoved(object sender, SplitterEventArgs e)
@@ -8968,7 +8921,7 @@ namespace OpenTween
             }
 
             this._mySpDis = splitterDistance;
-            this.ModifySettingLocal = true;
+            this.MarkSettingLocalModified();
         }
 
         private async Task doRepliedStatusOpen()
@@ -9013,7 +8966,7 @@ namespace OpenTween
             {
                 this.StatusText.Multiline = multiline;
                 SettingManager.Local.StatusMultiline = multiline;
-                ModifySettingLocal = true;
+                this.MarkSettingLocalModified();
             }
         }
 
@@ -9024,7 +8977,8 @@ namespace OpenTween
             else
                 this.StatusText.ScrollBars = ScrollBars.None;
 
-            ModifySettingLocal = true;
+            if (!this._initialLayout)
+                this.MarkSettingLocalModified();
         }
 
         private void MultiLineMenuItem_Click(object sender, EventArgs e)
@@ -9044,7 +8998,7 @@ namespace OpenTween
             {
                 SplitContainer2.SplitterDistance = SplitContainer2.Height - SplitContainer2.Panel2MinSize - SplitContainer2.SplitterWidth;
             }
-            ModifySettingLocal = true;
+            this.MarkSettingLocalModified();
         }
 
         private async Task<bool> UrlConvertAsync(MyCommon.UrlConverter Converter_Type)
@@ -9270,7 +9224,7 @@ namespace OpenTween
             this.NotifyFileMenuItem.Checked = ((ToolStripMenuItem)sender).Checked;
             this.NewPostPopMenuItem.Checked = this.NotifyFileMenuItem.Checked;
             SettingManager.Common.NewAllPop = NewPostPopMenuItem.Checked;
-            ModifySettingCommon = true;
+            this.MarkSettingCommonModified();
         }
 
         private void ListLockMenuItem_CheckStateChanged(object sender, EventArgs e)
@@ -9278,7 +9232,7 @@ namespace OpenTween
             ListLockMenuItem.Checked = ((ToolStripMenuItem)sender).Checked;
             this.LockListFileMenuItem.Checked = ListLockMenuItem.Checked;
             SettingManager.Common.ListLock = ListLockMenuItem.Checked;
-            ModifySettingCommon = true;
+            this.MarkSettingCommonModified();
         }
 
         private void MenuStrip1_MenuActivate(object sender, EventArgs e)
@@ -9365,7 +9319,7 @@ namespace OpenTween
                 SettingManager.Local.Width7 = lst.Columns[6].Width;
                 SettingManager.Local.Width8 = lst.Columns[7].Width;
             }
-            ModifySettingLocal = true;
+            this.MarkSettingLocalModified();
             _isColumnChanged = true;
         }
 
@@ -9373,19 +9327,19 @@ namespace OpenTween
         {
             DetailsListView lst = (DetailsListView)sender;
             if (SettingManager.Local == null) return;
+
+            var modified = false;
             if (_iconCol)
             {
                 if (SettingManager.Local.Width1 != lst.Columns[0].Width)
                 {
                     SettingManager.Local.Width1 = lst.Columns[0].Width;
-                    ModifySettingLocal = true;
-                    _isColumnChanged = true;
+                    modified = true;
                 }
                 if (SettingManager.Local.Width3 != lst.Columns[1].Width)
                 {
                     SettingManager.Local.Width3 = lst.Columns[1].Width;
-                    ModifySettingLocal = true;
-                    _isColumnChanged = true;
+                    modified = true;
                 }
             }
             else
@@ -9393,51 +9347,48 @@ namespace OpenTween
                 if (SettingManager.Local.Width1 != lst.Columns[0].Width)
                 {
                     SettingManager.Local.Width1 = lst.Columns[0].Width;
-                    ModifySettingLocal = true;
-                    _isColumnChanged = true;
+                    modified = true;
                 }
                 if (SettingManager.Local.Width2 != lst.Columns[1].Width)
                 {
                     SettingManager.Local.Width2 = lst.Columns[1].Width;
-                    ModifySettingLocal = true;
-                    _isColumnChanged = true;
+                    modified = true;
                 }
                 if (SettingManager.Local.Width3 != lst.Columns[2].Width)
                 {
                     SettingManager.Local.Width3 = lst.Columns[2].Width;
-                    ModifySettingLocal = true;
-                    _isColumnChanged = true;
+                    modified = true;
                 }
                 if (SettingManager.Local.Width4 != lst.Columns[3].Width)
                 {
                     SettingManager.Local.Width4 = lst.Columns[3].Width;
-                    ModifySettingLocal = true;
-                    _isColumnChanged = true;
+                    modified = true;
                 }
                 if (SettingManager.Local.Width5 != lst.Columns[4].Width)
                 {
                     SettingManager.Local.Width5 = lst.Columns[4].Width;
-                    ModifySettingLocal = true;
-                    _isColumnChanged = true;
+                    modified = true;
                 }
                 if (SettingManager.Local.Width6 != lst.Columns[5].Width)
                 {
                     SettingManager.Local.Width6 = lst.Columns[5].Width;
-                    ModifySettingLocal = true;
-                    _isColumnChanged = true;
+                    modified = true;
                 }
                 if (SettingManager.Local.Width7 != lst.Columns[6].Width)
                 {
                     SettingManager.Local.Width7 = lst.Columns[6].Width;
-                    ModifySettingLocal = true;
-                    _isColumnChanged = true;
+                    modified = true;
                 }
                 if (SettingManager.Local.Width8 != lst.Columns[7].Width)
                 {
                     SettingManager.Local.Width8 = lst.Columns[7].Width;
-                    ModifySettingLocal = true;
-                    _isColumnChanged = true;
+                    modified = true;
                 }
+            }
+            if (modified)
+            {
+                this.MarkSettingLocalModified();
+                this._isColumnChanged = true;
             }
             // 非表示の時にColumnChangedが呼ばれた場合はForm初期化処理中なので保存しない
             //if (changed)
@@ -9449,7 +9400,7 @@ namespace OpenTween
         private void SplitContainer2_SplitterMoved(object sender, SplitterEventArgs e)
         {
             if (StatusText.Multiline) _mySpDis2 = StatusText.Height;
-            ModifySettingLocal = true;
+            this.MarkSettingLocalModified();
         }
 
         private void TweenMain_DragDrop(object sender, DragEventArgs e)
@@ -9872,13 +9823,13 @@ namespace OpenTween
 
             _initial = false;
 
-            TimerTimeline.Enabled = true;
+            this.timelineScheduler.Enabled = true;
         }
 
         private async Task doGetFollowersMenu()
         {
             await this.RefreshFollowerIdsAsync();
-            await this.DispSelectedPost(true);
+            this.DispSelectedPost(true);
         }
 
         private async void GetFollowersAllToolStripMenuItem_Click(object sender, EventArgs e)
@@ -10011,12 +9962,12 @@ namespace OpenTween
             return WebUtility.HtmlDecode(statusHtml);
         }
 
-        private async void DumpPostClassToolStripMenuItem_Click(object sender, EventArgs e)
+        private void DumpPostClassToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.tweetDetailsView.DumpPostClass = this.DumpPostClassToolStripMenuItem.Checked;
 
             if (this.CurrentPost != null)
-                await this.DispSelectedPost(true);
+                this.DispSelectedPost(true);
         }
 
         private void MenuItemHelp_DropDownOpening(object sender, EventArgs e)
@@ -10039,13 +9990,13 @@ namespace OpenTween
         private void IdeographicSpaceToSpaceMenuItem_Click(object sender, EventArgs e)
         {
             SettingManager.Common.WideSpaceConvert = ((ToolStripMenuItem)sender).Checked;
-            ModifySettingCommon = true;
+            this.MarkSettingCommonModified();
         }
 
         private void FocusLockMenuItem_CheckedChanged(object sender, EventArgs e)
         {
             SettingManager.Common.FocusLockToStatusText = ((ToolStripMenuItem)sender).Checked;
-            ModifySettingCommon = true;
+            this.MarkSettingCommonModified();
         }
 
         private void PostModeMenuItem_DropDownOpening(object sender, EventArgs e)
@@ -10672,7 +10623,7 @@ namespace OpenTween
             //    StatusText.SelectionStart = sidx;
             //    StatusText.Focus();
             //}
-            ModifySettingCommon = true;
+            this.MarkSettingCommonModified();
             this.StatusText_TextChanged(null, null);
         }
 
@@ -10691,7 +10642,7 @@ namespace OpenTween
                 HashToggleMenuItem.Checked = false;
                 HashTogglePullDownMenuItem.Checked = false;
             }
-            ModifySettingCommon = true;
+            this.MarkSettingCommonModified();
             this.StatusText_TextChanged(null, null);
         }
 
@@ -10705,7 +10656,7 @@ namespace OpenTween
             HashTogglePullDownMenuItem.Checked = true;
             HashToggleMenuItem.Checked = true;
             //使用ハッシュタグとして設定
-            ModifySettingCommon = true;
+            this.MarkSettingCommonModified();
         }
 
         private void MenuItemOperate_DropDownOpening(object sender, EventArgs e)
@@ -10839,7 +10790,7 @@ namespace OpenTween
             }
 
             this._mySpDis3 = splitterDistance;
-            this.ModifySettingLocal = true;
+            this.MarkSettingLocalModified();
         }
 
         private void MenuItemEdit_DropDownOpening(object sender, EventArgs e)
@@ -11006,7 +10957,6 @@ namespace OpenTween
 
             this.tweetDetailsView.Owner = this;
 
-            this.TimerTimeline.Elapsed += this.TimerTimeline_Elapsed;
             this._hookGlobalHotkey.HotkeyPressed += _hookGlobalHotkey_HotkeyPressed;
             this.gh.NotifyClicked += GrowlHelper_Callback;
 
@@ -11093,9 +11043,7 @@ namespace OpenTween
         {
             if (ImageSelector.Visible)
             {
-                ModifySettingCommon = true;
-                SaveConfigsAll(true);
-
+                this.MarkSettingCommonModified();
                 this.StatusText_TextChanged(null, null);
             }
         }
@@ -11148,9 +11096,9 @@ namespace OpenTween
             }
         }
 
-        public bool ModifySettingCommon { get; set; }
-        public bool ModifySettingLocal { get; set; }
-        public bool ModifySettingAtId { get; set; }
+        private bool ModifySettingCommon { get; set; }
+        private bool ModifySettingLocal { get; set; }
+        private bool ModifySettingAtId { get; set; }
 
         private void MenuItemCommand_DropDownOpening(object sender, EventArgs e)
         {
@@ -11281,9 +11229,6 @@ namespace OpenTween
             MessageBox.Show(buf.ToString(), "アイコンキャッシュ使用状況");
         }
 
-        private void tw_UserIdChanged()
-            => this.ModifySettingCommon = true;
-
 #region "Userstream"
         private async void tw_PostDeleted(object sender, PostDeletedEventArgs e)
         {
@@ -11291,7 +11236,7 @@ namespace OpenTween
             {
                 if (InvokeRequired && !IsDisposed)
                 {
-                    await this.InvokeAsync(async () =>
+                    await this.InvokeAsync(() =>
                     {
                         this._statuses.RemovePostFromAllTabs(e.StatusId, setIsDeleted: true);
                         if (this.CurrentTab.Contains(e.StatusId))
@@ -11300,7 +11245,7 @@ namespace OpenTween
                             this.CurrentListView.Update();
                             var post = this.CurrentPost;
                             if (post != null && post.StatusId == e.StatusId)
-                                await this.DispSelectedPost(true);
+                                this.DispSelectedPost(true);
                         }
                     });
                     return;
@@ -11325,7 +11270,7 @@ namespace OpenTween
 
             this._statuses.DistributePosts();
 
-            this.RefreshThrottlingTimer.Invoke();
+            this.RefreshThrottlingTimer.Call();
         }
 
         private async void tw_UserStreamStarted(object sender, EventArgs e)
@@ -11552,7 +11497,7 @@ namespace OpenTween
                 if (!inputTrack.Equals(tw.TrackWord))
                 {
                     tw.TrackWord = inputTrack;
-                    this.ModifySettingCommon = true;
+                    this.MarkSettingCommonModified();
                     TrackToolStripMenuItem.Checked = !string.IsNullOrEmpty(inputTrack);
                     tw.ReconnectUserStream();
                 }
@@ -11562,13 +11507,13 @@ namespace OpenTween
                 tw.TrackWord = "";
                 tw.ReconnectUserStream();
             }
-            this.ModifySettingCommon = true;
+            this.MarkSettingCommonModified();
         }
 
         private void AllrepliesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             tw.AllAtReply = AllrepliesToolStripMenuItem.Checked;
-            this.ModifySettingCommon = true;
+            this.MarkSettingCommonModified();
             tw.ReconnectUserStream();
         }
 
@@ -11663,10 +11608,11 @@ namespace OpenTween
 
         private void SystemEvents_PowerModeChanged(object sender, Microsoft.Win32.PowerModeChangedEventArgs e)
         {
-            if (e.Mode == Microsoft.Win32.PowerModes.Resume) osResumed = true;
+            if (e.Mode == Microsoft.Win32.PowerModes.Resume)
+                this.timelineScheduler.SystemResumed();
         }
 
-        private async void SystemEvents_TimeChanged(object sender, EventArgs e)
+        private void SystemEvents_TimeChanged(object sender, EventArgs e)
         {
             var prevTimeOffset = TimeZoneInfo.Local.BaseUtcOffset;
 
@@ -11680,7 +11626,7 @@ namespace OpenTween
                 this.PurgeListViewItemCache();
                 this.CurrentListView.Refresh();
 
-                await this.DispSelectedPost(forceupdate: true);
+                this.DispSelectedPost(forceupdate: true);
             }
         }
 
@@ -11694,7 +11640,7 @@ namespace OpenTween
             {
                 tw.StopUserStream();
             }
-            TimerTimeline.Enabled = isEnable;
+            this.timelineScheduler.Enabled = isEnable;
         }
 
         private void StopRefreshAllMenuItem_CheckedChanged(object sender, EventArgs e)
@@ -11829,8 +11775,7 @@ namespace OpenTween
             }
 
             this.CurrentListView.Refresh();
-
-            ModifySettingCommon = true;
+            this.MarkSettingCommonModified();
         }
 
         private void LockListSortToolStripMenuItem_Click(object sender, EventArgs e)
@@ -11839,8 +11784,7 @@ namespace OpenTween
             if (SettingManager.Common.SortOrderLock == state) return;
 
             SettingManager.Common.SortOrderLock = state;
-
-            ModifySettingCommon = true;
+            this.MarkSettingCommonModified();
         }
 
         private void tweetDetailsView_StatusChanged(object sender, TweetDetailsViewStatusChengedEventArgs e)
