@@ -36,56 +36,84 @@ namespace OpenTween
         private readonly Timer throttlingTimer;
         private readonly Func<Task> timerCallback;
 
-        private DateTimeUtc lastCalled = DateTimeUtc.MinValue;
-        private DateTimeUtc lastInvoked = DateTimeUtc.MinValue;
-        private int refreshTimerEnabled = 0;
+        private long lastCalledTick;
+        private long lastInvokedTick;
+        private int refreshTimerEnabled = TIMER_DISABLED;
 
         public TimeSpan Interval { get; }
         public TimeSpan MaxWait { get; }
+        public bool InvokeLeading { get; }
+        public bool InvokeTrailing { get; }
 
-        public ThrottlingTimer(Func<Task> timerCallback, TimeSpan interval, TimeSpan maxWait)
+        private DateTimeUtc LastCalled
+        {
+            get => new DateTimeUtc(Interlocked.Read(ref this.lastCalledTick));
+            set => Interlocked.Exchange(ref this.lastCalledTick, value.UtcTicks);
+        }
+
+        private DateTimeUtc LastInvoked
+        {
+            get => new DateTimeUtc(Interlocked.Read(ref this.lastInvokedTick));
+            set => Interlocked.Exchange(ref this.lastInvokedTick, value.UtcTicks);
+        }
+
+        public ThrottlingTimer(Func<Task> timerCallback, TimeSpan interval, TimeSpan maxWait, bool leading, bool trailing)
         {
             this.timerCallback = timerCallback;
             this.Interval = interval;
             this.MaxWait = maxWait;
+            this.LastCalled = DateTimeUtc.MinValue;
+            this.LastInvoked = DateTimeUtc.MinValue;
+            this.InvokeLeading = leading;
+            this.InvokeTrailing = trailing;
             this.throttlingTimer = new Timer(this.Execute);
         }
 
         public void Call()
         {
-            this.lastCalled = DateTimeUtc.Now;
+            this.LastCalled = DateTimeUtc.Now;
 
             if (this.refreshTimerEnabled == TIMER_DISABLED)
             {
-                lock (this.throttlingTimer)
+                this.refreshTimerEnabled = TIMER_ENABLED;
+                this.LastInvoked = DateTimeUtc.MinValue;
+                _ = Task.Run(async () =>
                 {
-                    if (Interlocked.CompareExchange(ref this.refreshTimerEnabled, TIMER_ENABLED, TIMER_DISABLED) == TIMER_DISABLED)
-                        this.throttlingTimer.Change(dueTime: 0, period: Timeout.Infinite);
-                }
+                    if (this.InvokeLeading)
+                        await this.timerCallback().ConfigureAwait(false);
+
+                    this.throttlingTimer.Change(dueTime: this.Interval, period: Timeout.InfiniteTimeSpan);
+                });
             }
         }
 
         private async void Execute(object _)
         {
-            var timerExpired = this.lastCalled < this.lastInvoked;
+            var lastCalled = this.LastCalled;
+            var lastInvoked = this.LastInvoked;
+
+            var timerExpired = lastCalled < lastInvoked;
             if (timerExpired)
             {
                 // 前回実行時より後に lastInvoked が更新されていなければタイマーを止める
-                Interlocked.CompareExchange(ref this.refreshTimerEnabled, TIMER_DISABLED, TIMER_ENABLED);
+                this.refreshTimerEnabled = TIMER_DISABLED;
+
+                if (this.InvokeTrailing)
+                    await this.timerCallback().ConfigureAwait(false);
             }
             else
             {
                 var now = DateTimeUtc.Now;
-                if ((now - this.lastCalled) >= this.Interval || (now - this.lastInvoked) >= this.MaxWait)
-                {
-                    this.lastInvoked = now;
+
+                if ((now - lastInvoked) >= this.MaxWait)
                     await this.timerCallback().ConfigureAwait(false);
-                }
+
+                this.LastInvoked = now;
 
                 // dueTime は Execute が呼ばれる度に再設定する (period は使用しない)
                 // これにより timerCallback の実行に Interval 以上の時間が掛かっても重複して実行されることはなくなる
                 lock (this.throttlingTimer)
-                    this.throttlingTimer.Change(dueTime: (int)this.Interval.TotalMilliseconds, period: Timeout.Infinite);
+                    this.throttlingTimer.Change(dueTime: this.Interval, period: Timeout.InfiniteTimeSpan);
             }
         }
 
@@ -93,10 +121,10 @@ namespace OpenTween
             => this.throttlingTimer.Dispose();
 
         // lodash.js の _.throttle, _.debounce 的な処理をしたかったメソッド群
-        public static ThrottlingTimer Throttle(Func<Task> callback, TimeSpan wait)
-            => new ThrottlingTimer(callback, wait, maxWait: wait);
+        public static ThrottlingTimer Throttle(Func<Task> callback, TimeSpan wait, bool leading = true, bool trailing = true)
+            => new ThrottlingTimer(callback, wait, maxWait: wait, leading, trailing);
 
-        public static ThrottlingTimer Debounce(Func<Task> callback, TimeSpan wait)
-            => new ThrottlingTimer(callback, wait, maxWait: TimeSpan.MaxValue);
+        public static ThrottlingTimer Debounce(Func<Task> callback, TimeSpan wait, bool leading = false, bool trailing = true)
+            => new ThrottlingTimer(callback, wait, maxWait: TimeSpan.MaxValue, leading, trailing);
     }
 }

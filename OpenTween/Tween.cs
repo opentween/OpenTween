@@ -1115,7 +1115,7 @@ namespace OpenTween
 
             var streamingRefreshInterval = TimeSpan.FromSeconds(SettingManager.Common.UserstreamPeriod);
             this.RefreshThrottlingTimer = ThrottlingTimer.Throttle(() => this.InvokeAsync(() => this.RefreshTimeline()), streamingRefreshInterval);
-            this.selectionDebouncer = ThrottlingTimer.Debounce(() => this.InvokeAsync(() => this.UpdateSelectedPost()), TimeSpan.FromMilliseconds(100));
+            this.selectionDebouncer = ThrottlingTimer.Debounce(() => this.InvokeAsync(() => this.UpdateSelectedPost()), TimeSpan.FromMilliseconds(100), leading: true);
 
             TimerTimeline.AutoReset = true;
             TimerTimeline.SynchronizingObject = this;
