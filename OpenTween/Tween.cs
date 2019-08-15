@@ -1974,6 +1974,10 @@ namespace OpenTween
                 return;
 
             var listView = (DetailsListView)listCache.TargetList;
+
+            // ValidateRectが呼ばれる前に選択色などの描画を済ませておく
+            listView.Update();
+
             foreach (var (listViewItem, cachedPost) in listCache.Cache)
             {
                 var backColor = this.JudgeColor(_post, cachedPost);
