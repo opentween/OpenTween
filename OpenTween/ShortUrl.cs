@@ -358,18 +358,18 @@ namespace OpenTween
                 new KeyValuePair<string, string>("url", srcUri.OriginalString),
             });
 
-            using (var response = await this.http.PostAsync("https://tinyurl.com/api-create.php", content).ConfigureAwait(false))
-            {
-                response.EnsureSuccessStatusCode();
+            using var response = await this.http.PostAsync("https://tinyurl.com/api-create.php", content)
+                .ConfigureAwait(false);
 
-                var result = await response.Content.ReadAsStringAsync()
-                    .ConfigureAwait(false);
+            response.EnsureSuccessStatusCode();
 
-                if (!Regex.IsMatch(result, @"^https?://"))
-                    throw new WebApiException("Failed to create URL.", result);
+            var result = await response.Content.ReadAsStringAsync()
+                .ConfigureAwait(false);
 
-                return this.UpgradeToHttpsIfAvailable(new Uri(result.TrimEnd()));
-            }
+            if (!Regex.IsMatch(result, @"^https?://"))
+                throw new WebApiException("Failed to create URL.", result);
+
+            return this.UpgradeToHttpsIfAvailable(new Uri(result.TrimEnd()));
         }
 
         private async Task<Uri> ShortenByIsgdAsync(Uri srcUri)
@@ -384,18 +384,18 @@ namespace OpenTween
                 new KeyValuePair<string, string>("url", srcUri.OriginalString),
             });
 
-            using (var response = await this.http.PostAsync("https://is.gd/create.php", content).ConfigureAwait(false))
-            {
-                response.EnsureSuccessStatusCode();
+            using var response = await this.http.PostAsync("https://is.gd/create.php", content)
+                .ConfigureAwait(false);
 
-                var result = await response.Content.ReadAsStringAsync()
-                    .ConfigureAwait(false);
+            response.EnsureSuccessStatusCode();
 
-                if (!Regex.IsMatch(result, @"^https?://"))
-                    throw new WebApiException("Failed to create URL.", result);
+            var result = await response.Content.ReadAsStringAsync()
+                .ConfigureAwait(false);
 
-                return new Uri(result.TrimEnd());
-            }
+            if (!Regex.IsMatch(result, @"^https?://"))
+                throw new WebApiException("Failed to create URL.", result);
+
+            return new Uri(result.TrimEnd());
         }
 
         private async Task<Uri> ShortenByBitlyAsync(Uri srcUri, string domain = "bit.ly")
@@ -434,18 +434,18 @@ namespace OpenTween
             };
 
             var uri = new Uri("https://ux.nu/api/short?" + MyCommon.BuildQueryString(query));
-            using (var response = await this.http.GetAsync(uri).ConfigureAwait(false))
-            {
-                response.EnsureSuccessStatusCode();
+            using var response = await this.http.GetAsync(uri)
+                .ConfigureAwait(false);
 
-                var result = await response.Content.ReadAsStringAsync()
-                    .ConfigureAwait(false);
+            response.EnsureSuccessStatusCode();
 
-                if (!Regex.IsMatch(result, @"^https?://"))
-                    throw new WebApiException("Failed to create URL.", result);
+            var result = await response.Content.ReadAsStringAsync()
+                .ConfigureAwait(false);
 
-                return new Uri(result.TrimEnd());
-            }
+            if (!Regex.IsMatch(result, @"^https?://"))
+                throw new WebApiException("Failed to create URL.", result);
+
+            return new Uri(result.TrimEnd());
         }
 
         private bool IsIrregularShortUrl(Uri uri)
@@ -465,31 +465,31 @@ namespace OpenTween
 
             var request = new HttpRequestMessage(HttpMethod.Head, url);
 
-            using (var response = await this.http.SendAsync(request).ConfigureAwait(false))
+            using var response = await this.http.SendAsync(request)
+                .ConfigureAwait(false);
+
+            if (!response.IsSuccessStatusCode)
             {
-                if (!response.IsSuccessStatusCode)
-                {
-                    // ステータスコードが 3xx であれば例外を発生させない
-                    if ((int)response.StatusCode / 100 != 3)
-                        response.EnsureSuccessStatusCode();
-                }
-
-                var redirectedUrl = response.Headers.Location;
-
-                if (redirectedUrl == null)
-                    return null;
-
-                // サーバーが URL を適切にエンコードしていない場合、OriginalString に非 ASCII 文字が含まれる。
-                // その場合、redirectedUrl は文字化けしている可能性があるため使用しない
-                // 参照: http://stackoverflow.com/questions/1888933
-                if (redirectedUrl.OriginalString.Any(x => x < ' ' || x > '~'))
-                    return null;
-
-                if (redirectedUrl.IsAbsoluteUri)
-                    return redirectedUrl;
-                else
-                    return new Uri(url, redirectedUrl);
+                // ステータスコードが 3xx であれば例外を発生させない
+                if ((int)response.StatusCode / 100 != 3)
+                    response.EnsureSuccessStatusCode();
             }
+
+            var redirectedUrl = response.Headers.Location;
+
+            if (redirectedUrl == null)
+                return null;
+
+            // サーバーが URL を適切にエンコードしていない場合、OriginalString に非 ASCII 文字が含まれる。
+            // その場合、redirectedUrl は文字化けしている可能性があるため使用しない
+            // 参照: http://stackoverflow.com/questions/1888933
+            if (redirectedUrl.OriginalString.Any(x => x < ' ' || x > '~'))
+                return null;
+
+            if (redirectedUrl.IsAbsoluteUri)
+                return redirectedUrl;
+            else
+                return new Uri(url, redirectedUrl);
         }
 
         /// <summary>

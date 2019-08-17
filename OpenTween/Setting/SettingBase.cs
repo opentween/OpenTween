@@ -62,13 +62,11 @@ namespace OpenTween
 
                 lock (lockObj)
                 {
-                    using (var fs = new FileStream(settingFilePath, FileMode.Open, FileAccess.Read))
-                    {
-                        fs.Position = 0;
-                        var xs = new XmlSerializer(typeof(T));
-                        var instance = (T)xs.Deserialize(fs);
-                        return instance;
-                    }
+                    using var fs = new FileStream(settingFilePath, FileMode.Open, FileAccess.Read);
+                    fs.Position = 0;
+                    var xs = new XmlSerializer(typeof(T));
+                    var instance = (T)xs.Deserialize(fs);
+                    return instance;
                 }
             }
             catch (FileNotFoundException)
@@ -88,14 +86,12 @@ namespace OpenTween
                     {
                         lock (lockObj)
                         {
-                            using (var fs = new FileStream(backupFile, FileMode.Open, FileAccess.Read))
-                            {
-                                fs.Position = 0;
-                                var xs = new XmlSerializer(typeof(T));
-                                var instance = (T)xs.Deserialize(fs);
-                                MessageBox.Show("File: " + GetSettingFilePath(FileId) + Environment.NewLine + "Use old setting file, because application can't read this setting file.");
-                                return instance;
-                            }
+                            using var fs = new FileStream(backupFile, FileMode.Open, FileAccess.Read);
+                            fs.Position = 0;
+                            var xs = new XmlSerializer(typeof(T));
+                            var instance = (T)xs.Deserialize(fs);
+                            MessageBox.Show("File: " + GetSettingFilePath(FileId) + Environment.NewLine + "Use old setting file, because application can't read this setting file.");
+                            return instance;
                         }
                     }
                     catch (Exception)

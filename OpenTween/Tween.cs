@@ -1950,10 +1950,8 @@ namespace OpenTween
                     {
                         dir = Path.Combine(dir, "Sounds");
                     }
-                    using (var player = new SoundPlayer(Path.Combine(dir, soundFile)))
-                    {
-                        player.Play();
-                    }
+                    using var player = new SoundPlayer(Path.Combine(dir, soundFile));
+                    player.Play();
                 }
                 catch (Exception)
                 {
@@ -3590,33 +3588,31 @@ namespace OpenTween
         {
             var result = DialogResult.Abort;
 
-            using (var settingDialog = new AppendSettingDialog())
+            using var settingDialog = new AppendSettingDialog();
+            settingDialog.Icon = this.MainIcon;
+            settingDialog.Owner = this;
+            settingDialog.ShowInTaskbar = showTaskbarIcon;
+            settingDialog.IntervalChanged += this.TimerInterval_Changed;
+
+            settingDialog.tw = this.tw;
+            settingDialog.twitterApi = this.twitterApi;
+
+            settingDialog.LoadConfig(SettingManager.Common, SettingManager.Local);
+
+            try
             {
-                settingDialog.Icon = this.MainIcon;
-                settingDialog.Owner = this;
-                settingDialog.ShowInTaskbar = showTaskbarIcon;
-                settingDialog.IntervalChanged += this.TimerInterval_Changed;
+                result = settingDialog.ShowDialog(this);
+            }
+            catch (Exception)
+            {
+                return DialogResult.Abort;
+            }
 
-                settingDialog.tw = this.tw;
-                settingDialog.twitterApi = this.twitterApi;
-
-                settingDialog.LoadConfig(SettingManager.Common, SettingManager.Local);
-
-                try
+            if (result == DialogResult.OK)
+            {
+                lock (_syncObject)
                 {
-                    result = settingDialog.ShowDialog(this);
-                }
-                catch (Exception)
-                {
-                    return DialogResult.Abort;
-                }
-
-                if (result == DialogResult.OK)
-                {
-                    lock (_syncObject)
-                    {
-                        settingDialog.SaveConfig(SettingManager.Common, SettingManager.Local);
-                    }
+                    settingDialog.SaveConfig(SettingManager.Common, SettingManager.Local);
                 }
             }
 
@@ -4285,32 +4281,29 @@ namespace OpenTween
                 // 後付けのコントロールを破棄
                 if (tabInfo.TabType == MyCommon.TabUsageType.UserTimeline || tabInfo.TabType == MyCommon.TabUsageType.Lists)
                 {
-                    using (var label = _tabPage.Controls["labelUser"])
-                    {
-                        _tabPage.Controls.Remove(label);
-                    }
+                    using var label = _tabPage.Controls["labelUser"];
+                    _tabPage.Controls.Remove(label);
                 }
                 else if (tabInfo.TabType == MyCommon.TabUsageType.PublicSearch)
                 {
-                    using (var pnl = _tabPage.Controls["panelSearch"])
-                    {
-                        pnl.Enter -= SearchControls_Enter;
-                        pnl.Leave -= SearchControls_Leave;
-                        _tabPage.Controls.Remove(pnl);
+                    using var pnl = _tabPage.Controls["panelSearch"];
 
-                        foreach (Control ctrl in pnl.Controls)
+                    pnl.Enter -= SearchControls_Enter;
+                    pnl.Leave -= SearchControls_Leave;
+                    _tabPage.Controls.Remove(pnl);
+
+                    foreach (Control ctrl in pnl.Controls)
+                    {
+                        if (ctrl.Name == "buttonSearch")
                         {
-                            if (ctrl.Name == "buttonSearch")
-                            {
-                                ctrl.Click -= SearchButton_Click;
-                            }
-                            else if (ctrl.Name == "comboSearch")
-                            {
-                                ctrl.KeyDown -= SearchComboBox_KeyDown;
-                            }
-                            pnl.Controls.Remove(ctrl);
-                            ctrl.Dispose();
+                            ctrl.Click -= SearchButton_Click;
                         }
+                        else if (ctrl.Name == "comboSearch")
+                        {
+                            ctrl.KeyDown -= SearchComboBox_KeyDown;
+                        }
+                        pnl.Controls.Remove(ctrl);
+                        ctrl.Dispose();
                     }
                 }
 
@@ -5070,27 +5063,26 @@ namespace OpenTween
                         rctB.Width = e.Header.Width;
                         rctB.Height = fontHeight;
 
-                        using (var fnt = new Font(e.Item.Font, FontStyle.Bold))
-                        {
-                            TextRenderer.DrawText(e.Graphics,
-                                                    post.IsDeleted ? "(DELETED)" : post.TextSingleLine,
-                                                    e.Item.Font,
-                                                    Rectangle.Round(rct),
-                                                    color,
-                                                    TextFormatFlags.WordBreak |
-                                                    TextFormatFlags.EndEllipsis |
-                                                    TextFormatFlags.GlyphOverhangPadding |
-                                                    TextFormatFlags.NoPrefix);
-                            TextRenderer.DrawText(e.Graphics,
-                                                    e.Item.SubItems[4].Text + " / " + e.Item.SubItems[1].Text + " (" + e.Item.SubItems[3].Text + ") " + e.Item.SubItems[5].Text + e.Item.SubItems[6].Text + " [" + e.Item.SubItems[7].Text + "]",
-                                                    fnt,
-                                                    rctB,
-                                                    color,
-                                                    TextFormatFlags.SingleLine |
-                                                    TextFormatFlags.EndEllipsis |
-                                                    TextFormatFlags.GlyphOverhangPadding |
-                                                    TextFormatFlags.NoPrefix);
-                        }
+                        using var fnt = new Font(e.Item.Font, FontStyle.Bold);
+
+                        TextRenderer.DrawText(e.Graphics,
+                            post.IsDeleted ? "(DELETED)" : post.TextSingleLine,
+                            e.Item.Font,
+                            Rectangle.Round(rct),
+                            color,
+                            TextFormatFlags.WordBreak |
+                            TextFormatFlags.EndEllipsis |
+                            TextFormatFlags.GlyphOverhangPadding |
+                            TextFormatFlags.NoPrefix);
+                        TextRenderer.DrawText(e.Graphics,
+                            e.Item.SubItems[4].Text + " / " + e.Item.SubItems[1].Text + " (" + e.Item.SubItems[3].Text + ") " + e.Item.SubItems[5].Text + e.Item.SubItems[6].Text + " [" + e.Item.SubItems[7].Text + "]",
+                            fnt,
+                            rctB,
+                            color,
+                            TextFormatFlags.SingleLine |
+                            TextFormatFlags.EndEllipsis |
+                            TextFormatFlags.GlyphOverhangPadding |
+                            TextFormatFlags.NoPrefix);
                     }
                     else
                     {
@@ -5627,21 +5619,20 @@ namespace OpenTween
                 if (startup && versionInfo.Version <= SettingManager.Common.SkipUpdateVersion)
                     return;
 
-                using (var dialog = new UpdateDialog())
-                {
-                    dialog.SummaryText = string.Format(Properties.Resources.CheckNewVersionText3,
-                        MyCommon.GetReadableVersion(versionInfo.Version));
-                    dialog.DetailsText = versionInfo.ReleaseNote;
+                using var dialog = new UpdateDialog();
 
-                    if (dialog.ShowDialog(this) == DialogResult.Yes)
-                    {
-                        await this.OpenUriInBrowserAsync(versionInfo.DownloadUri.OriginalString);
-                    }
-                    else if (dialog.SkipButtonPressed)
-                    {
-                        SettingManager.Common.SkipUpdateVersion = versionInfo.Version;
-                        this.MarkSettingCommonModified();
-                    }
+                dialog.SummaryText = string.Format(Properties.Resources.CheckNewVersionText3,
+                    MyCommon.GetReadableVersion(versionInfo.Version));
+                dialog.DetailsText = versionInfo.ReleaseNote;
+
+                if (dialog.ShowDialog(this) == DialogResult.Yes)
+                {
+                    await this.OpenUriInBrowserAsync(versionInfo.DownloadUri.OriginalString);
+                }
+                else if (dialog.SkipButtonPressed)
+                {
+                    SettingManager.Common.SkipUpdateVersion = versionInfo.Version;
+                    this.MarkSettingCommonModified();
                 }
             }
             catch (Exception)
@@ -7347,41 +7338,41 @@ namespace OpenTween
             if (SaveFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 if (!SaveFileDialog1.ValidateNames) return;
-                using (var sw = new StreamWriter(SaveFileDialog1.FileName, false, Encoding.UTF8))
+                using var sw = new StreamWriter(SaveFileDialog1.FileName, false, Encoding.UTF8);
+                if (rslt == DialogResult.Yes)
                 {
-                    if (rslt == DialogResult.Yes)
+                    //All
+                    for (var idx = 0; idx < tab.AllCount; idx++)
                     {
-                        //All
-                        for (var idx = 0; idx < tab.AllCount; idx++)
-                        {
-                            var post = tab[idx];
-                            var protect = "";
-                            if (post.IsProtect) protect = "Protect";
-                            sw.WriteLine(post.Nickname + "\t" +
-                                     "\"" + post.TextFromApi.Replace("\n", "").Replace("\"", "\"\"") + "\"" + "\t" +
-                                     post.CreatedAt.ToLocalTimeString() + "\t" +
-                                     post.ScreenName + "\t" +
-                                     post.StatusId + "\t" +
-                                     post.ImageUrl + "\t" +
-                                     "\"" + post.Text.Replace("\n", "").Replace("\"", "\"\"") + "\"" + "\t" +
-                                     protect);
-                        }
+                        var post = tab[idx];
+                        var protect = "";
+                        if (post.IsProtect)
+                            protect = "Protect";
+                        sw.WriteLine(post.Nickname + "\t" +
+                                 "\"" + post.TextFromApi.Replace("\n", "").Replace("\"", "\"\"") + "\"" + "\t" +
+                                 post.CreatedAt.ToLocalTimeString() + "\t" +
+                                 post.ScreenName + "\t" +
+                                 post.StatusId + "\t" +
+                                 post.ImageUrl + "\t" +
+                                 "\"" + post.Text.Replace("\n", "").Replace("\"", "\"\"") + "\"" + "\t" +
+                                 protect);
                     }
-                    else
+                }
+                else
+                {
+                    foreach (var post in this.CurrentTab.SelectedPosts)
                     {
-                        foreach (var post in this.CurrentTab.SelectedPosts)
-                        {
-                            var protect = "";
-                            if (post.IsProtect) protect = "Protect";
-                            sw.WriteLine(post.Nickname + "\t" +
-                                     "\"" + post.TextFromApi.Replace("\n", "").Replace("\"", "\"\"") + "\"" + "\t" +
-                                     post.CreatedAt.ToLocalTimeString() + "\t" +
-                                     post.ScreenName + "\t" +
-                                     post.StatusId + "\t" +
-                                     post.ImageUrl + "\t" +
-                                     "\"" + post.Text.Replace("\n", "").Replace("\"", "\"\"") + "\"" + "\t" +
-                                     protect);
-                        }
+                        var protect = "";
+                        if (post.IsProtect)
+                            protect = "Protect";
+                        sw.WriteLine(post.Nickname + "\t" +
+                                 "\"" + post.TextFromApi.Replace("\n", "").Replace("\"", "\"\"") + "\"" + "\t" +
+                                 post.CreatedAt.ToLocalTimeString() + "\t" +
+                                 post.ScreenName + "\t" +
+                                 post.StatusId + "\t" +
+                                 post.ImageUrl + "\t" +
+                                 "\"" + post.Text.Replace("\n", "").Replace("\"", "\"\"") + "\"" + "\t" +
+                                 protect);
                     }
                 }
             }
@@ -8091,12 +8082,12 @@ namespace OpenTween
                 ListElement list = null;
                 if (tabUsage == MyCommon.TabUsageType.Lists)
                 {
-                    using (var listAvail = new ListAvailable())
-                    {
-                        if (listAvail.ShowDialog(this) == DialogResult.Cancel) return;
-                        if (listAvail.SelectedList == null) return;
-                        list = listAvail.SelectedList;
-                    }
+                    using var listAvail = new ListAvailable();
+                    if (listAvail.ShowDialog(this) == DialogResult.Cancel)
+                        return;
+                    if (listAvail.SelectedList == null)
+                        return;
+                    list = listAvail.SelectedList;
                 }
 
                 TabModel tab;
@@ -9562,38 +9553,32 @@ namespace OpenTween
                 // Firefox, Google Chrome で利用可能
                 // 参照: https://developer.mozilla.org/ja/docs/DragDrop/Recommended_Drag_Types
 
-                using (var stream = (MemoryStream)data.GetData("text/x-moz-url"))
-                {
-                    var lines = Encoding.Unicode.GetString(stream.ToArray()).TrimEnd('\0').Split('\n');
-                    if (lines.Length < 2)
-                        throw new ArgumentException("不正な text/x-moz-url フォーマットです", nameof(data));
+                using var stream = (MemoryStream)data.GetData("text/x-moz-url");
+                var lines = Encoding.Unicode.GetString(stream.ToArray()).TrimEnd('\0').Split('\n');
+                if (lines.Length < 2)
+                    throw new ArgumentException("不正な text/x-moz-url フォーマットです", nameof(data));
 
-                    return (lines[0], lines[1]);
-                }
+                return (lines[0], lines[1]);
             }
             else if (data.GetDataPresent("IESiteModeToUrl"))
             {
                 // Internet Exproler 用
                 // 保護モードが有効なデフォルトの IE では DragDrop イベントが発火しないため使えない
 
-                using (var stream = (MemoryStream)data.GetData("IESiteModeToUrl"))
-                {
-                    var lines = Encoding.Unicode.GetString(stream.ToArray()).TrimEnd('\0').Split('\0');
-                    if (lines.Length < 2)
-                        throw new ArgumentException("不正な IESiteModeToUrl フォーマットです", nameof(data));
+                using var stream = (MemoryStream)data.GetData("IESiteModeToUrl");
+                var lines = Encoding.Unicode.GetString(stream.ToArray()).TrimEnd('\0').Split('\0');
+                if (lines.Length < 2)
+                    throw new ArgumentException("不正な IESiteModeToUrl フォーマットです", nameof(data));
 
-                    return (lines[0], lines[1]);
-                }
+                return (lines[0], lines[1]);
             }
             else if (data.GetDataPresent("UniformResourceLocatorW"))
             {
                 // それ以外のブラウザ向け
 
-                using (var stream = (MemoryStream)data.GetData("UniformResourceLocatorW"))
-                {
-                    var url = Encoding.Unicode.GetString(stream.ToArray()).TrimEnd('\0');
-                    return (url, null);
-                }
+                using var stream = (MemoryStream)data.GetData("UniformResourceLocatorW");
+                var url = Encoding.Unicode.GetString(stream.ToArray()).TrimEnd('\0');
+                return (url, null);
             }
 
             throw new NotSupportedException("サポートされていないデータ形式です: " + data.GetFormats()[0]);
@@ -10177,10 +10162,8 @@ namespace OpenTween
                 }
             }
 
-            using (var apiDlg = new ApiInfoDialog())
-            {
-                apiDlg.ShowDialog(this);
-            }
+            using var apiDlg = new ApiInfoDialog();
+            apiDlg.ShowDialog(this);
         }
 
         private async void FollowCommandMenuItem_Click(object sender, EventArgs e)
@@ -10234,19 +10217,17 @@ namespace OpenTween
         {
             if (!skipInput)
             {
-                using (var inputName = new InputTabName())
-                {
-                    inputName.FormTitle = "Unfollow";
-                    inputName.FormDescription = Properties.Resources.FRMessage1;
-                    inputName.TabName = id;
+                using var inputName = new InputTabName();
+                inputName.FormTitle = "Unfollow";
+                inputName.FormDescription = Properties.Resources.FRMessage1;
+                inputName.TabName = id;
 
-                    if (inputName.ShowDialog(this) != DialogResult.OK)
-                        return;
-                    if (string.IsNullOrWhiteSpace(inputName.TabName))
-                        return;
+                if (inputName.ShowDialog(this) != DialogResult.OK)
+                    return;
+                if (string.IsNullOrWhiteSpace(inputName.TabName))
+                    return;
 
-                    id = inputName.TabName.Trim();
-                }
+                id = inputName.TabName.Trim();
             }
 
             using (var dialog = new WaitingDialog(Properties.Resources.RemoveCommandText1))
@@ -10657,10 +10638,8 @@ namespace OpenTween
 
         public void ListManageUserContext(string screenName)
         {
-            using (var listSelectForm = new MyLists(screenName, this.twitterApi))
-            {
-                listSelectForm.ShowDialog(this);
-            }
+            using var listSelectForm = new MyLists(screenName, this.twitterApi);
+            listSelectForm.ShowDialog(this);
         }
 
         private void SearchControls_Enter(object sender, EventArgs e)
@@ -10946,19 +10925,17 @@ namespace OpenTween
 
             if (ShowInputDialog)
             {
-                using (var inputName = new InputTabName())
-                {
-                    inputName.FormTitle = "Show UserStatus";
-                    inputName.FormDescription = Properties.Resources.FRMessage1;
-                    inputName.TabName = id;
+                using var inputName = new InputTabName();
+                inputName.FormTitle = "Show UserStatus";
+                inputName.FormDescription = Properties.Resources.FRMessage1;
+                inputName.TabName = id;
 
-                    if (inputName.ShowDialog(this) != DialogResult.OK)
-                        return;
-                    if (string.IsNullOrWhiteSpace(inputName.TabName))
-                        return;
+                if (inputName.ShowDialog(this) != DialogResult.OK)
+                    return;
+                if (string.IsNullOrWhiteSpace(inputName.TabName))
+                    return;
 
-                    id = inputName.TabName.Trim();
-                }
+                id = inputName.TabName.Trim();
             }
 
             using (var dialog = new WaitingDialog(Properties.Resources.doShowUserStatusText1))
@@ -10986,17 +10963,15 @@ namespace OpenTween
 
         private async Task doShowUserStatus(TwitterUser user)
         {
-            using (var userDialog = new UserInfoDialog(this, this.twitterApi))
-            {
-                var showUserTask = userDialog.ShowUserAsync(user);
-                userDialog.ShowDialog(this);
+            using var userDialog = new UserInfoDialog(this, this.twitterApi);
+            var showUserTask = userDialog.ShowUserAsync(user);
+            userDialog.ShowDialog(this);
 
-                this.Activate();
-                this.BringToFront();
+            this.Activate();
+            this.BringToFront();
 
-                // ユーザー情報の表示が完了するまで userDialog を破棄しない
-                await showUserTask;
-            }
+            // ユーザー情報の表示が完了するまで userDialog を破棄しない
+            await showUserTask;
         }
 
         internal Task ShowUserStatus(string id, bool ShowInputDialog)
@@ -11181,10 +11156,8 @@ namespace OpenTween
                                    == DialogResult.OK)
                     {
                         // clipboardから画像を取得
-                        using (var image = Clipboard.GetImage())
-                        {
-                            this.ImageSelector.BeginSelection(image);
-                        }
+                        using var image = Clipboard.GetImage();
+                        this.ImageSelector.BeginSelection(image);
                     }
                 }
             }
@@ -11197,10 +11170,8 @@ namespace OpenTween
 
         private void ListManageToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            using (var form = new ListManage(tw))
-            {
-                form.ShowDialog(this);
-            }
+            using var form = new ListManage(tw);
+            form.ShowDialog(this);
         }
 
         private bool ModifySettingCommon { get; set; }
@@ -11553,10 +11524,8 @@ namespace OpenTween
                         {
                             dir = Path.Combine(dir, "Sounds");
                         }
-                        using (var player = new SoundPlayer(Path.Combine(dir, snd)))
-                        {
-                            player.Play();
-                        }
+                        using var player = new SoundPlayer(Path.Combine(dir, snd));
+                        player.Play();
                     }
                     catch (Exception)
                     {
@@ -11686,20 +11655,19 @@ namespace OpenTween
         {
             var id = this.CurrentPost?.ScreenName ?? "";
 
-            using (var inputName = new InputTabName())
+            using var inputName = new InputTabName();
+            inputName.FormTitle = caption;
+            inputName.FormDescription = Properties.Resources.FRMessage1;
+            inputName.TabName = id;
+
+            if (inputName.ShowDialog() == DialogResult.OK &&
+                !string.IsNullOrEmpty(inputName.TabName.Trim()))
             {
-                inputName.FormTitle = caption;
-                inputName.FormDescription = Properties.Resources.FRMessage1;
-                inputName.TabName = id;
-                if (inputName.ShowDialog() == DialogResult.OK &&
-                    !string.IsNullOrEmpty(inputName.TabName.Trim()))
-                {
-                    id = inputName.TabName.Trim();
-                }
-                else
-                {
-                    id = "";
-                }
+                id = inputName.TabName.Trim();
+            }
+            else
+            {
+                id = "";
             }
             return id;
         }

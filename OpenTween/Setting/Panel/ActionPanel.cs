@@ -102,17 +102,16 @@ namespace OpenTween.Setting.Panel
 
         private void Button3_Click(object sender, EventArgs e)
         {
-            using (var filedlg = new OpenFileDialog())
-            {
-                filedlg.Filter = Properties.Resources.Button3_ClickText1;
-                filedlg.FilterIndex = 1;
-                filedlg.Title = Properties.Resources.Button3_ClickText2;
-                filedlg.RestoreDirectory = true;
+            using var filedlg = new OpenFileDialog();
 
-                if (filedlg.ShowDialog() == DialogResult.OK)
-                {
-                    BrowserPathText.Text = filedlg.FileName;
-                }
+            filedlg.Filter = Properties.Resources.Button3_ClickText1;
+            filedlg.FilterIndex = 1;
+            filedlg.Title = Properties.Resources.Button3_ClickText2;
+            filedlg.RestoreDirectory = true;
+
+            if (filedlg.ShowDialog() == DialogResult.OK)
+            {
+                BrowserPathText.Text = filedlg.FileName;
             }
         }
 

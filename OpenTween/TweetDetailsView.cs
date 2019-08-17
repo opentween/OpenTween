@@ -718,18 +718,15 @@ namespace OpenTween
             {
                 try
                 {
-                    using (Image orgBmp = new Bitmap(IconCache.TryGetFromCache(imageUrl).Image))
+                    using var orgBmp = new Bitmap(IconCache.TryGetFromCache(imageUrl).Image);
+                    using var bmp2 = new Bitmap(orgBmp.Size.Width, orgBmp.Size.Height);
+
+                    using (var g = Graphics.FromImage(bmp2))
                     {
-                        using (var bmp2 = new Bitmap(orgBmp.Size.Width, orgBmp.Size.Height))
-                        {
-                            using (var g = Graphics.FromImage(bmp2))
-                            {
-                                g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.High;
-                                g.DrawImage(orgBmp, 0, 0, orgBmp.Size.Width, orgBmp.Size.Height);
-                            }
-                            bmp2.Save(this.Owner.SaveFileDialog1.FileName);
-                        }
+                        g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.High;
+                        g.DrawImage(orgBmp, 0, 0, orgBmp.Size.Width, orgBmp.Size.Height);
                     }
+                    bmp2.Save(this.Owner.SaveFileDialog1.FileName);
                 }
                 catch (Exception)
                 {

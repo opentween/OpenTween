@@ -77,17 +77,15 @@ namespace OpenTween
         /// <returns>PIN文字列</returns>
         public static string DoAuth(IWin32Window owner, Uri authUri)
         {
-            using (var dialog = new AuthDialog())
-            {
-                dialog.AuthUrl = authUri.AbsoluteUri;
+            using var dialog = new AuthDialog();
+            dialog.AuthUrl = authUri.AbsoluteUri;
 
-                dialog.ShowDialog(owner);
+            dialog.ShowDialog(owner);
 
-                if (dialog.DialogResult == DialogResult.OK)
-                    return dialog.Pin;
-                else
-                    return null;
-            }
+            if (dialog.DialogResult == DialogResult.OK)
+                return dialog.Pin;
+            else
+                return null;
         }
     }
 }

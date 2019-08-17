@@ -36,138 +36,130 @@ namespace OpenTween.Api
         [Fact]
         public async Task ShortenAsync_OAuth2Test()
         {
-            using (var mockHandler = new HttpMessageHandlerMock())
-            using (var http = new HttpClient(mockHandler))
+            using var mockHandler = new HttpMessageHandlerMock();
+            using var http = new HttpClient(mockHandler);
+            var bitly = new BitlyApi(http);
+
+            mockHandler.Enqueue(x =>
             {
-                var bitly = new BitlyApi(http);
+                Assert.Equal(HttpMethod.Get, x.Method);
+                Assert.Equal("https://api-ssl.bitly.com/v3/shorten",
+                    x.RequestUri.GetLeftPart(UriPartial.Path));
 
-                mockHandler.Enqueue(x =>
+                var query = HttpUtility.ParseQueryString(x.RequestUri.Query);
+
+                Assert.Equal("http://www.example.com/", query["longUrl"]);
+                Assert.Equal("bit.ly", query["domain"]);
+                Assert.Equal("hogehoge", query["access_token"]);
+
+                return new HttpResponseMessage(HttpStatusCode.OK)
                 {
-                    Assert.Equal(HttpMethod.Get, x.Method);
-                    Assert.Equal("https://api-ssl.bitly.com/v3/shorten",
-                        x.RequestUri.GetLeftPart(UriPartial.Path));
+                    Content = new StringContent("http://bit.ly/foo"),
+                };
+            });
 
-                    var query = HttpUtility.ParseQueryString(x.RequestUri.Query);
+            bitly.EndUserAccessToken = "hogehoge";
 
-                    Assert.Equal("http://www.example.com/", query["longUrl"]);
-                    Assert.Equal("bit.ly", query["domain"]);
-                    Assert.Equal("hogehoge", query["access_token"]);
+            var result = await bitly.ShortenAsync(new Uri("http://www.example.com/"), "bit.ly")
+                .ConfigureAwait(false);
+            Assert.Equal("http://bit.ly/foo", result.OriginalString);
 
-                    return new HttpResponseMessage(HttpStatusCode.OK)
-                    {
-                        Content = new StringContent("http://bit.ly/foo"),
-                    };
-                });
-
-                bitly.EndUserAccessToken = "hogehoge";
-
-                var result = await bitly.ShortenAsync(new Uri("http://www.example.com/"), "bit.ly")
-                    .ConfigureAwait(false);
-                Assert.Equal("http://bit.ly/foo", result.OriginalString);
-
-                Assert.Equal(0, mockHandler.QueueCount);
-            }
+            Assert.Equal(0, mockHandler.QueueCount);
         }
 
         [Fact]
         public async Task ShortenAsync_LegacyApiKeyTest()
         {
-            using (var mockHandler = new HttpMessageHandlerMock())
-            using (var http = new HttpClient(mockHandler))
+            using var mockHandler = new HttpMessageHandlerMock();
+            using var http = new HttpClient(mockHandler);
+            var bitly = new BitlyApi(http);
+
+            mockHandler.Enqueue(x =>
             {
-                var bitly = new BitlyApi(http);
+                Assert.Equal(HttpMethod.Get, x.Method);
+                Assert.Equal("https://api-ssl.bitly.com/v3/shorten",
+                    x.RequestUri.GetLeftPart(UriPartial.Path));
 
-                mockHandler.Enqueue(x =>
+                var query = HttpUtility.ParseQueryString(x.RequestUri.Query);
+
+                Assert.Equal("http://www.example.com/", query["longUrl"]);
+                Assert.Equal("bit.ly", query["domain"]);
+                Assert.Equal("username", query["login"]);
+                Assert.Equal("hogehoge", query["apiKey"]);
+
+                return new HttpResponseMessage(HttpStatusCode.OK)
                 {
-                    Assert.Equal(HttpMethod.Get, x.Method);
-                    Assert.Equal("https://api-ssl.bitly.com/v3/shorten",
-                        x.RequestUri.GetLeftPart(UriPartial.Path));
+                    Content = new StringContent("http://bit.ly/foo"),
+                };
+            });
 
-                    var query = HttpUtility.ParseQueryString(x.RequestUri.Query);
+            bitly.EndUserLoginName = "username";
+            bitly.EndUserApiKey = "hogehoge";
 
-                    Assert.Equal("http://www.example.com/", query["longUrl"]);
-                    Assert.Equal("bit.ly", query["domain"]);
-                    Assert.Equal("username", query["login"]);
-                    Assert.Equal("hogehoge", query["apiKey"]);
+            var result = await bitly.ShortenAsync(new Uri("http://www.example.com/"), "bit.ly")
+                .ConfigureAwait(false);
+            Assert.Equal("http://bit.ly/foo", result.OriginalString);
 
-                    return new HttpResponseMessage(HttpStatusCode.OK)
-                    {
-                        Content = new StringContent("http://bit.ly/foo"),
-                    };
-                });
-
-                bitly.EndUserLoginName = "username";
-                bitly.EndUserApiKey = "hogehoge";
-
-                var result = await bitly.ShortenAsync(new Uri("http://www.example.com/"), "bit.ly")
-                    .ConfigureAwait(false);
-                Assert.Equal("http://bit.ly/foo", result.OriginalString);
-
-                Assert.Equal(0, mockHandler.QueueCount);
-            }
+            Assert.Equal(0, mockHandler.QueueCount);
         }
 
         [Fact]
         public async Task GetAccessTokenAsync_Test()
         {
-            using (var mockHandler = new HttpMessageHandlerMock())
-            using (var http = new HttpClient(mockHandler))
+            using var mockHandler = new HttpMessageHandlerMock();
+            using var http = new HttpClient(mockHandler);
+            var bitly = new BitlyApi(http);
+
+            mockHandler.Enqueue(async x =>
             {
-                var bitly = new BitlyApi(http);
+                Assert.Equal(HttpMethod.Post, x.Method);
+                Assert.Equal("https://api-ssl.bitly.com/oauth/access_token",
+                    x.RequestUri.GetLeftPart(UriPartial.Path));
 
-                mockHandler.Enqueue(async x =>
-                {
-                    Assert.Equal(HttpMethod.Post, x.Method);
-                    Assert.Equal("https://api-ssl.bitly.com/oauth/access_token",
-                        x.RequestUri.GetLeftPart(UriPartial.Path));
+                Assert.Equal("Basic", x.Headers.Authorization.Scheme);
+                Assert.Equal(ApplicationSettings.BitlyClientId + ":" + ApplicationSettings.BitlyClientSecret,
+                    Encoding.UTF8.GetString(Convert.FromBase64String(x.Headers.Authorization.Parameter)));
 
-                    Assert.Equal("Basic", x.Headers.Authorization.Scheme);
-                    Assert.Equal(ApplicationSettings.BitlyClientId + ":" + ApplicationSettings.BitlyClientSecret,
-                        Encoding.UTF8.GetString(Convert.FromBase64String(x.Headers.Authorization.Parameter)));
-
-                    var body = await x.Content.ReadAsStringAsync()
-                        .ConfigureAwait(false);
-                    var query = HttpUtility.ParseQueryString(body);
-
-                    Assert.Equal("password", query["grant_type"]);
-                    Assert.Equal("hogehoge", query["username"]);
-                    Assert.Equal("tetete", query["password"]);
-
-                    return new HttpResponseMessage(HttpStatusCode.OK)
-                    {
-                        Content = new StringContent("{\"access_token\": \"abcdefg\"}"),
-                    };
-                });
-
-                var result = await bitly.GetAccessTokenAsync("hogehoge", "tetete")
+                var body = await x.Content.ReadAsStringAsync()
                     .ConfigureAwait(false);
-                Assert.Equal("abcdefg", result);
+                var query = HttpUtility.ParseQueryString(body);
 
-                Assert.Equal(0, mockHandler.QueueCount);
-            }
+                Assert.Equal("password", query["grant_type"]);
+                Assert.Equal("hogehoge", query["username"]);
+                Assert.Equal("tetete", query["password"]);
+
+                return new HttpResponseMessage(HttpStatusCode.OK)
+                {
+                    Content = new StringContent("{\"access_token\": \"abcdefg\"}"),
+                };
+            });
+
+            var result = await bitly.GetAccessTokenAsync("hogehoge", "tetete")
+                .ConfigureAwait(false);
+            Assert.Equal("abcdefg", result);
+
+            Assert.Equal(0, mockHandler.QueueCount);
         }
 
         [Fact]
         public async Task GetAccessTokenAsync_ErrorResponseTest()
         {
-            using (var mockHandler = new HttpMessageHandlerMock())
-            using (var http = new HttpClient(mockHandler))
+            using var mockHandler = new HttpMessageHandlerMock();
+            using var http = new HttpClient(mockHandler);
+            var bitly = new BitlyApi(http);
+
+            mockHandler.Enqueue(x =>
             {
-                var bitly = new BitlyApi(http);
-
-                mockHandler.Enqueue(x =>
+                return new HttpResponseMessage(HttpStatusCode.OK)
                 {
-                    return new HttpResponseMessage(HttpStatusCode.OK)
-                    {
-                        Content = new StringContent("{\"status_code\": \"500\", \"status_txt\": \"MISSING_ARG_USERNAME\"}"),
-                    };
-                });
+                    Content = new StringContent("{\"status_code\": \"500\", \"status_txt\": \"MISSING_ARG_USERNAME\"}"),
+                };
+            });
 
-                await Assert.ThrowsAsync<WebApiException>(() => bitly.GetAccessTokenAsync("hogehoge", "tetete"))
-                    .ConfigureAwait(false);
+            await Assert.ThrowsAsync<WebApiException>(() => bitly.GetAccessTokenAsync("hogehoge", "tetete"))
+                .ConfigureAwait(false);
 
-                Assert.Equal(0, mockHandler.QueueCount);
-            }
+            Assert.Equal(0, mockHandler.QueueCount);
         }
     }
 }

@@ -152,31 +152,27 @@ namespace OpenTween.Connection
 
             public async Task<XDocument> UploadFileAsync(IMediaItem item, string title)
             {
-                using (var content = new MultipartFormDataContent())
-                using (var mediaStream = item.OpenRead())
-                using (var mediaContent = new StreamContent(mediaStream))
-                using (var titleContent = new StringContent(title))
-                {
-                    content.Add(mediaContent, "image", item.Name);
-                    content.Add(titleContent, "title");
+                using var content = new MultipartFormDataContent();
+                using var mediaStream = item.OpenRead();
+                using var mediaContent = new StreamContent(mediaStream);
+                using var titleContent = new StringContent(title);
 
-                    using (var request = new HttpRequestMessage(HttpMethod.Post, UploadEndpoint))
-                    {
-                        request.Headers.Authorization =
-                            new AuthenticationHeaderValue("Client-ID", ApplicationSettings.ImgurClientID);
-                        request.Content = content;
+                content.Add(mediaContent, "image", item.Name);
+                content.Add(titleContent, "title");
 
-                        using (var response = await this.http.SendAsync(request).ConfigureAwait(false))
-                        {
-                            response.EnsureSuccessStatusCode();
+                using var request = new HttpRequestMessage(HttpMethod.Post, UploadEndpoint);
+                request.Headers.Authorization = new AuthenticationHeaderValue("Client-ID", ApplicationSettings.ImgurClientID);
+                request.Content = content;
 
-                            using (var stream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false))
-                            {
-                                return XDocument.Load(stream);
-                            }
-                        }
-                    }
-                }
+                using var response = await this.http.SendAsync(request)
+                    .ConfigureAwait(false);
+
+                response.EnsureSuccessStatusCode();
+
+                using var stream = await response.Content.ReadAsStreamAsync()
+                    .ConfigureAwait(false);
+
+                return XDocument.Load(stream);
             }
         }
     }

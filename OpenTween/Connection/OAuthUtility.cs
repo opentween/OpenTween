@@ -122,11 +122,9 @@ namespace OpenTween.Connection
             if (!string.IsNullOrEmpty(tokenSecret))
                 key += MyCommon.UrlEncode(tokenSecret);
             // 鍵生成＆署名生成
-            using (var hmac = new HMACSHA1(Encoding.ASCII.GetBytes(key)))
-            {
-                var hash = hmac.ComputeHash(Encoding.ASCII.GetBytes(signatureBase));
-                return Convert.ToBase64String(hash);
-            }
+            using var hmac = new HMACSHA1(Encoding.ASCII.GetBytes(key));
+            var hash = hmac.ComputeHash(Encoding.ASCII.GetBytes(signatureBase));
+            return Convert.ToBase64String(hash);
         }
     }
 }

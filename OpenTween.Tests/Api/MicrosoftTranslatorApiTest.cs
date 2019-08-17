@@ -39,41 +39,41 @@ namespace OpenTween.Api
         [Fact]
         public async Task TranslateAsync_Test()
         {
-            using (var mockHandler = new HttpMessageHandlerMock())
-            using (var http = new HttpClient(mockHandler))
+            using var mockHandler = new HttpMessageHandlerMock();
+            using var http = new HttpClient(mockHandler);
+
+            var mock = new Mock<MicrosoftTranslatorApi>(http);
+            mock.Setup(x => x.GetAccessTokenAsync())
+                .ReturnsAsync(("1234abcd", TimeSpan.FromSeconds(1000)));
+
+            var translateApi = mock.Object;
+
+            mockHandler.Enqueue(async x =>
             {
-                var mock = new Mock<MicrosoftTranslatorApi>(http);
-                mock.Setup(x => x.GetAccessTokenAsync())
-                    .ReturnsAsync(("1234abcd", TimeSpan.FromSeconds(1000)));
+                Assert.Equal(HttpMethod.Post, x.Method);
+                Assert.Equal(MicrosoftTranslatorApi.TranslateEndpoint.AbsoluteUri,
+                    x.RequestUri.GetLeftPart(UriPartial.Path));
 
-                var translateApi = mock.Object;
+                var query = HttpUtility.ParseQueryString(x.RequestUri.Query);
 
-                mockHandler.Enqueue(async x =>
+                Assert.Equal("3.0", query["api-version"]);
+                Assert.Equal("ja", query["to"]);
+                Assert.Equal("en", query["from"]);
+
+                var requestBody = await x.Content.ReadAsByteArrayAsync()
+                    .ConfigureAwait(false);
+
+                using (var jsonReader = JsonReaderWriterFactory.CreateJsonReader(requestBody, XmlDictionaryReaderQuotas.Max))
                 {
-                    Assert.Equal(HttpMethod.Post, x.Method);
-                    Assert.Equal(MicrosoftTranslatorApi.TranslateEndpoint.AbsoluteUri,
-                        x.RequestUri.GetLeftPart(UriPartial.Path));
+                    var xElm = XElement.Load(jsonReader);
 
-                    var query = HttpUtility.ParseQueryString(x.RequestUri.Query);
+                    var textElm = xElm.XPathSelectElement("/item/Text");
+                    Assert.Equal("hogehoge", textElm.Value);
+                }
 
-                    Assert.Equal("3.0", query["api-version"]);
-                    Assert.Equal("ja", query["to"]);
-                    Assert.Equal("en", query["from"]);
-
-                    var requestBody = await x.Content.ReadAsByteArrayAsync()
-                        .ConfigureAwait(false);
-
-                    using (var jsonReader = JsonReaderWriterFactory.CreateJsonReader(requestBody, XmlDictionaryReaderQuotas.Max))
-                    {
-                        var xElm = XElement.Load(jsonReader);
-
-                        var textElm = xElm.XPathSelectElement("/item/Text");
-                        Assert.Equal("hogehoge", textElm.Value);
-                    }
-
-                    return new HttpResponseMessage(HttpStatusCode.OK)
-                    {
-                        Content = new StringContent(@"[
+                return new HttpResponseMessage(HttpStatusCode.OK)
+                {
+                    Content = new StringContent(@"[
     {
         ""translations"": [
             {
@@ -83,16 +83,15 @@ namespace OpenTween.Api
         ]
     }
 ]"),
-                    };
-                });
+                };
+            });
 
-                var result = await translateApi.TranslateAsync("hogehoge", langTo: "ja", langFrom: "en")
-                    .ConfigureAwait(false);
-                Assert.Equal("ほげほげ", result);
+            var result = await translateApi.TranslateAsync("hogehoge", langTo: "ja", langFrom: "en")
+                .ConfigureAwait(false);
+            Assert.Equal("ほげほげ", result);
 
-                mock.Verify(x => x.GetAccessTokenAsync(), Times.Once());
-                Assert.Equal(0, mockHandler.QueueCount);
-            }
+            mock.Verify(x => x.GetAccessTokenAsync(), Times.Once());
+            Assert.Equal(0, mockHandler.QueueCount);
         }
 
         [Fact]
@@ -154,33 +153,31 @@ namespace OpenTween.Api
         [Fact]
         public async Task GetAccessTokenAsync_Test()
         {
-            using (var mockHandler = new HttpMessageHandlerMock())
-            using (var http = new HttpClient(mockHandler))
+            using var mockHandler = new HttpMessageHandlerMock();
+            using var http = new HttpClient(mockHandler);
+            var translateApi = new MicrosoftTranslatorApi(http);
+
+            mockHandler.Enqueue(x =>
             {
-                var translateApi = new MicrosoftTranslatorApi(http);
+                Assert.Equal(HttpMethod.Post, x.Method);
+                Assert.Equal(MicrosoftTranslatorApi.IssueTokenEndpoint, x.RequestUri);
 
-                mockHandler.Enqueue(x =>
+                var keyHeader = x.Headers.First(y => y.Key == "Ocp-Apim-Subscription-Key");
+                Assert.Equal(ApplicationSettings.TranslatorSubscriptionKey, keyHeader.Value.Single());
+
+                return new HttpResponseMessage(HttpStatusCode.OK)
                 {
-                    Assert.Equal(HttpMethod.Post, x.Method);
-                    Assert.Equal(MicrosoftTranslatorApi.IssueTokenEndpoint, x.RequestUri);
+                    Content = new StringContent(@"ACCESS_TOKEN"),
+                };
+            });
 
-                    var keyHeader = x.Headers.First(y => y.Key == "Ocp-Apim-Subscription-Key");
-                    Assert.Equal(ApplicationSettings.TranslatorSubscriptionKey, keyHeader.Value.Single());
+            var result = await translateApi.GetAccessTokenAsync()
+                .ConfigureAwait(false);
 
-                    return new HttpResponseMessage(HttpStatusCode.OK)
-                    {
-                        Content = new StringContent(@"ACCESS_TOKEN"),
-                    };
-                });
+            var expectedToken = (@"ACCESS_TOKEN", TimeSpan.FromMinutes(10));
+            Assert.Equal(expectedToken, result);
 
-                var result = await translateApi.GetAccessTokenAsync()
-                    .ConfigureAwait(false);
-
-                var expectedToken = (@"ACCESS_TOKEN", TimeSpan.FromMinutes(10));
-                Assert.Equal(expectedToken, result);
-
-                Assert.Equal(0, mockHandler.QueueCount);
-            }
+            Assert.Equal(0, mockHandler.QueueCount);
         }
     }
 }

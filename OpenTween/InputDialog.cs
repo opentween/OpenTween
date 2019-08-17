@@ -52,16 +52,14 @@ namespace OpenTween
 
         public static DialogResult Show(IWin32Window owner, string text, string caption, out string inputText)
         {
-            using (var dialog = new InputDialog())
-            {
-                dialog.labelMain.Text = text;
-                dialog.Text = caption;
+            using var dialog = new InputDialog();
+            dialog.labelMain.Text = text;
+            dialog.Text = caption;
 
-                var result = dialog.ShowDialog(owner);
-                inputText = dialog.textBox.Text;
+            var result = dialog.ShowDialog(owner);
+            inputText = dialog.textBox.Text;
 
-                return result;
-            }
+            return result;
         }
     }
 }

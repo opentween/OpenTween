@@ -95,22 +95,16 @@ namespace OpenTween
 
         private byte[] IconToByteArray(string filename)
         {
-            using (var ic = new Icon(filename))
-            {
-                return IconToByteArray(ic);
-            }
+            using var ic = new Icon(filename);
+            return IconToByteArray(ic);
         }
 
         private byte[] IconToByteArray(Icon icondata)
         {
-            using (var ms = new MemoryStream())
-            {
-                using (var ic = new Icon(icondata, 48, 48))
-                {
-                    ic.ToBitmap().Save(ms, ImageFormat.Png);
-                    return ms.ToArray();
-                }
-            }
+            using var ms = new MemoryStream();
+            using var ic = new Icon(icondata, 48, 48);
+            ic.ToBitmap().Save(ms, ImageFormat.Png);
+            return ms.ToArray();
         }
 
         public static bool IsDllExists

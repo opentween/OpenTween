@@ -145,10 +145,8 @@ namespace OpenTween
 
         public MemoryImage CreateImage()
         {
-            using (var fs = this.FileInfo.OpenRead())
-            {
-                return MemoryImage.CopyFromStream(fs);
-            }
+            using var fs = this.FileInfo.OpenRead();
+            return MemoryImage.CopyFromStream(fs);
         }
 
         public Stream OpenRead()
@@ -156,10 +154,8 @@ namespace OpenTween
 
         public void CopyTo(Stream stream)
         {
-            using (var fs = this.FileInfo.OpenRead())
-            {
-                fs.CopyTo(stream);
-            }
+            using var fs = this.FileInfo.OpenRead();
+            fs.CopyTo(stream);
         }
     }
 

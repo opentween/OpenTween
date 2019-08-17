@@ -176,11 +176,9 @@ namespace OpenTween
 
         public override int GetHashCode()
         {
-            using (var sha1service = new System.Security.Cryptography.SHA1CryptoServiceProvider())
-            {
-                var hash = sha1service.ComputeHash(this.Stream.GetBuffer(), 0, (int)this.Stream.Length);
-                return Convert.ToBase64String(hash).GetHashCode();
-            }
+            using var sha1service = new System.Security.Cryptography.SHA1CryptoServiceProvider();
+            var hash = sha1service.ComputeHash(this.Stream.GetBuffer(), 0, (int)this.Stream.Length);
+            return Convert.ToBase64String(hash).GetHashCode();
         }
 
         public override bool Equals(object other)

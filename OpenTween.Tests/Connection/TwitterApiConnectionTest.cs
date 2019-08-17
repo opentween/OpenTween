@@ -54,508 +54,483 @@ namespace OpenTween.Connection
         [Fact]
         public async Task GetAsync_Test()
         {
-            using (var mockHandler = new HttpMessageHandlerMock())
-            using (var http = new HttpClient(mockHandler))
-            using (var apiConnection = new TwitterApiConnection("", ""))
+            using var mockHandler = new HttpMessageHandlerMock();
+            using var http = new HttpClient(mockHandler);
+            using var apiConnection = new TwitterApiConnection("", "");
+            apiConnection.http = http;
+
+            mockHandler.Enqueue(x =>
             {
-                apiConnection.http = http;
+                Assert.Equal(HttpMethod.Get, x.Method);
+                Assert.Equal("https://api.twitter.com/1.1/hoge/tetete.json",
+                    x.RequestUri.GetLeftPart(UriPartial.Path));
 
-                mockHandler.Enqueue(x =>
+                var query = HttpUtility.ParseQueryString(x.RequestUri.Query);
+
+                Assert.Equal("1111", query["aaaa"]);
+                Assert.Equal("2222", query["bbbb"]);
+
+                return new HttpResponseMessage(HttpStatusCode.OK)
                 {
-                    Assert.Equal(HttpMethod.Get, x.Method);
-                    Assert.Equal("https://api.twitter.com/1.1/hoge/tetete.json",
-                        x.RequestUri.GetLeftPart(UriPartial.Path));
-
-                    var query = HttpUtility.ParseQueryString(x.RequestUri.Query);
-
-                    Assert.Equal("1111", query["aaaa"]);
-                    Assert.Equal("2222", query["bbbb"]);
-
-                    return new HttpResponseMessage(HttpStatusCode.OK)
-                    {
-                        Content = new StringContent("\"hogehoge\""),
-                    };
-                });
-
-                var endpoint = new Uri("hoge/tetete.json", UriKind.Relative);
-                var param = new Dictionary<string, string>
-                {
-                    ["aaaa"] = "1111",
-                    ["bbbb"] = "2222",
+                    Content = new StringContent("\"hogehoge\""),
                 };
+            });
 
-                var result = await apiConnection.GetAsync<string>(endpoint, param, endpointName: "/hoge/tetete")
-                    .ConfigureAwait(false);
-                Assert.Equal("hogehoge", result);
+            var endpoint = new Uri("hoge/tetete.json", UriKind.Relative);
+            var param = new Dictionary<string, string>
+            {
+                ["aaaa"] = "1111",
+                ["bbbb"] = "2222",
+            };
 
-                Assert.Equal(0, mockHandler.QueueCount);
-            }
+            var result = await apiConnection.GetAsync<string>(endpoint, param, endpointName: "/hoge/tetete")
+                .ConfigureAwait(false);
+            Assert.Equal("hogehoge", result);
+
+            Assert.Equal(0, mockHandler.QueueCount);
         }
 
         [Fact]
         public async Task GetAsync_AbsoluteUriTest()
         {
-            using (var mockHandler = new HttpMessageHandlerMock())
-            using (var http = new HttpClient(mockHandler))
-            using (var apiConnection = new TwitterApiConnection("", ""))
+            using var mockHandler = new HttpMessageHandlerMock();
+            using var http = new HttpClient(mockHandler);
+            using var apiConnection = new TwitterApiConnection("", "");
+            apiConnection.http = http;
+
+            mockHandler.Enqueue(x =>
             {
-                apiConnection.http = http;
+                Assert.Equal(HttpMethod.Get, x.Method);
+                Assert.Equal("http://example.com/hoge/tetete.json",
+                    x.RequestUri.GetLeftPart(UriPartial.Path));
 
-                mockHandler.Enqueue(x =>
+                var query = HttpUtility.ParseQueryString(x.RequestUri.Query);
+
+                Assert.Equal("1111", query["aaaa"]);
+                Assert.Equal("2222", query["bbbb"]);
+
+                return new HttpResponseMessage(HttpStatusCode.OK)
                 {
-                    Assert.Equal(HttpMethod.Get, x.Method);
-                    Assert.Equal("http://example.com/hoge/tetete.json",
-                        x.RequestUri.GetLeftPart(UriPartial.Path));
-
-                    var query = HttpUtility.ParseQueryString(x.RequestUri.Query);
-
-                    Assert.Equal("1111", query["aaaa"]);
-                    Assert.Equal("2222", query["bbbb"]);
-
-                    return new HttpResponseMessage(HttpStatusCode.OK)
-                    {
-                        Content = new StringContent("\"hogehoge\""),
-                    };
-                });
-
-                var endpoint = new Uri("http://example.com/hoge/tetete.json", UriKind.Absolute);
-                var param = new Dictionary<string, string>
-                {
-                    ["aaaa"] = "1111",
-                    ["bbbb"] = "2222",
+                    Content = new StringContent("\"hogehoge\""),
                 };
+            });
 
-                await apiConnection.GetAsync<string>(endpoint, param, endpointName: "/hoge/tetete")
-                    .ConfigureAwait(false);
+            var endpoint = new Uri("http://example.com/hoge/tetete.json", UriKind.Absolute);
+            var param = new Dictionary<string, string>
+            {
+                ["aaaa"] = "1111",
+                ["bbbb"] = "2222",
+            };
 
-                Assert.Equal(0, mockHandler.QueueCount);
-            }
+            await apiConnection.GetAsync<string>(endpoint, param, endpointName: "/hoge/tetete")
+                .ConfigureAwait(false);
+
+            Assert.Equal(0, mockHandler.QueueCount);
         }
 
         [Fact]
         public async Task GetAsync_UpdateRateLimitTest()
         {
-            using (var mockHandler = new HttpMessageHandlerMock())
-            using (var http = new HttpClient(mockHandler))
-            using (var apiConnection = new TwitterApiConnection("", ""))
+            using var mockHandler = new HttpMessageHandlerMock();
+            using var http = new HttpClient(mockHandler);
+            using var apiConnection = new TwitterApiConnection("", "");
+            apiConnection.http = http;
+
+            mockHandler.Enqueue(x =>
             {
-                apiConnection.http = http;
+                Assert.Equal(HttpMethod.Get, x.Method);
+                Assert.Equal("https://api.twitter.com/1.1/hoge/tetete.json",
+                    x.RequestUri.GetLeftPart(UriPartial.Path));
 
-                mockHandler.Enqueue(x =>
+                return new HttpResponseMessage(HttpStatusCode.OK)
                 {
-                    Assert.Equal(HttpMethod.Get, x.Method);
-                    Assert.Equal("https://api.twitter.com/1.1/hoge/tetete.json",
-                        x.RequestUri.GetLeftPart(UriPartial.Path));
-
-                    return new HttpResponseMessage(HttpStatusCode.OK)
+                    Headers =
                     {
-                        Headers =
-                        {
                             { "X-Rate-Limit-Limit", "150" },
                             { "X-Rate-Limit-Remaining", "100" },
                             { "X-Rate-Limit-Reset", "1356998400" },
                             { "X-Access-Level", "read-write-directmessages" },
-                        },
-                        Content = new StringContent("\"hogehoge\""),
-                    };
-                });
+                    },
+                    Content = new StringContent("\"hogehoge\""),
+                };
+            });
 
-                var apiStatus = new TwitterApiStatus();
-                MyCommon.TwitterApiInfo = apiStatus;
+            var apiStatus = new TwitterApiStatus();
+            MyCommon.TwitterApiInfo = apiStatus;
 
-                var endpoint = new Uri("hoge/tetete.json", UriKind.Relative);
+            var endpoint = new Uri("hoge/tetete.json", UriKind.Relative);
 
-                await apiConnection.GetAsync<string>(endpoint, null, endpointName: "/hoge/tetete")
-                    .ConfigureAwait(false);
+            await apiConnection.GetAsync<string>(endpoint, null, endpointName: "/hoge/tetete")
+                .ConfigureAwait(false);
 
-                Assert.Equal(TwitterApiAccessLevel.ReadWriteAndDirectMessage, apiStatus.AccessLevel);
-                Assert.Equal(new ApiLimit(150, 100, new DateTimeUtc(2013, 1, 1, 0, 0, 0)), apiStatus.AccessLimit["/hoge/tetete"]);
+            Assert.Equal(TwitterApiAccessLevel.ReadWriteAndDirectMessage, apiStatus.AccessLevel);
+            Assert.Equal(new ApiLimit(150, 100, new DateTimeUtc(2013, 1, 1, 0, 0, 0)), apiStatus.AccessLimit["/hoge/tetete"]);
 
-                Assert.Equal(0, mockHandler.QueueCount);
-            }
+            Assert.Equal(0, mockHandler.QueueCount);
         }
 
         [Fact]
         public async Task GetAsync_ErrorStatusTest()
         {
-            using (var mockHandler = new HttpMessageHandlerMock())
-            using (var http = new HttpClient(mockHandler))
-            using (var apiConnection = new TwitterApiConnection("", ""))
+            using var mockHandler = new HttpMessageHandlerMock();
+            using var http = new HttpClient(mockHandler);
+            using var apiConnection = new TwitterApiConnection("", "");
+            apiConnection.http = http;
+
+            mockHandler.Enqueue(x =>
             {
-                apiConnection.http = http;
-
-                mockHandler.Enqueue(x =>
+                return new HttpResponseMessage(HttpStatusCode.BadGateway)
                 {
-                    return new HttpResponseMessage(HttpStatusCode.BadGateway)
-                    {
-                        Content = new StringContent("### Invalid JSON Response ###"),
-                    };
-                });
+                    Content = new StringContent("### Invalid JSON Response ###"),
+                };
+            });
 
-                var endpoint = new Uri("hoge/tetete.json", UriKind.Relative);
+            var endpoint = new Uri("hoge/tetete.json", UriKind.Relative);
 
-                var exception = await Assert.ThrowsAsync<TwitterApiException>(() => apiConnection.GetAsync<string>(endpoint, null, endpointName: "/hoge/tetete"))
-                    .ConfigureAwait(false);
+            var exception = await Assert.ThrowsAsync<TwitterApiException>(() => apiConnection.GetAsync<string>(endpoint, null, endpointName: "/hoge/tetete"))
+                .ConfigureAwait(false);
 
-                // エラーレスポンスの読み込みに失敗した場合はステータスコードをそのままメッセージに使用する
-                Assert.Equal("BadGateway", exception.Message);
-                Assert.Null(exception.ErrorResponse);
+            // エラーレスポンスの読み込みに失敗した場合はステータスコードをそのままメッセージに使用する
+            Assert.Equal("BadGateway", exception.Message);
+            Assert.Null(exception.ErrorResponse);
 
-                Assert.Equal(0, mockHandler.QueueCount);
-            }
+            Assert.Equal(0, mockHandler.QueueCount);
         }
 
         [Fact]
         public async Task GetAsync_ErrorJsonTest()
         {
-            using (var mockHandler = new HttpMessageHandlerMock())
-            using (var http = new HttpClient(mockHandler))
-            using (var apiConnection = new TwitterApiConnection("", ""))
+            using var mockHandler = new HttpMessageHandlerMock();
+            using var http = new HttpClient(mockHandler);
+            using var apiConnection = new TwitterApiConnection("", "");
+            apiConnection.http = http;
+
+            mockHandler.Enqueue(x =>
             {
-                apiConnection.http = http;
-
-                mockHandler.Enqueue(x =>
+                return new HttpResponseMessage(HttpStatusCode.Forbidden)
                 {
-                    return new HttpResponseMessage(HttpStatusCode.Forbidden)
-                    {
-                        Content = new StringContent("{\"errors\":[{\"code\":187,\"message\":\"Status is a duplicate.\"}]}"),
-                    };
-                });
+                    Content = new StringContent("{\"errors\":[{\"code\":187,\"message\":\"Status is a duplicate.\"}]}"),
+                };
+            });
 
-                var endpoint = new Uri("hoge/tetete.json", UriKind.Relative);
+            var endpoint = new Uri("hoge/tetete.json", UriKind.Relative);
 
-                var exception = await Assert.ThrowsAsync<TwitterApiException>(() => apiConnection.GetAsync<string>(endpoint, null, endpointName: "/hoge/tetete"))
-                    .ConfigureAwait(false);
+            var exception = await Assert.ThrowsAsync<TwitterApiException>(() => apiConnection.GetAsync<string>(endpoint, null, endpointName: "/hoge/tetete"))
+                .ConfigureAwait(false);
 
-                // エラーレスポンスの JSON に含まれるエラーコードに基づいてメッセージを出力する
-                Assert.Equal("DuplicateStatus", exception.Message);
+            // エラーレスポンスの JSON に含まれるエラーコードに基づいてメッセージを出力する
+            Assert.Equal("DuplicateStatus", exception.Message);
 
-                Assert.Equal(TwitterErrorCode.DuplicateStatus, exception.ErrorResponse.Errors[0].Code);
-                Assert.Equal("Status is a duplicate.", exception.ErrorResponse.Errors[0].Message);
+            Assert.Equal(TwitterErrorCode.DuplicateStatus, exception.ErrorResponse.Errors[0].Code);
+            Assert.Equal("Status is a duplicate.", exception.ErrorResponse.Errors[0].Message);
 
-                Assert.Equal(0, mockHandler.QueueCount);
-            }
+            Assert.Equal(0, mockHandler.QueueCount);
         }
 
         [Fact]
         public async Task GetStreamAsync_Test()
         {
-            using (var mockHandler = new HttpMessageHandlerMock())
-            using (var http = new HttpClient(mockHandler))
-            using (var apiConnection = new TwitterApiConnection("", ""))
-            using (var image = TestUtils.CreateDummyImage())
+            using var mockHandler = new HttpMessageHandlerMock();
+            using var http = new HttpClient(mockHandler);
+            using var apiConnection = new TwitterApiConnection("", "");
+            using var image = TestUtils.CreateDummyImage();
+            apiConnection.http = http;
+
+            mockHandler.Enqueue(x =>
             {
-                apiConnection.http = http;
+                Assert.Equal(HttpMethod.Get, x.Method);
+                Assert.Equal("https://api.twitter.com/1.1/hoge/tetete.json",
+                    x.RequestUri.GetLeftPart(UriPartial.Path));
 
-                mockHandler.Enqueue(x =>
+                var query = HttpUtility.ParseQueryString(x.RequestUri.Query);
+
+                Assert.Equal("1111", query["aaaa"]);
+                Assert.Equal("2222", query["bbbb"]);
+
+                return new HttpResponseMessage(HttpStatusCode.OK)
                 {
-                    Assert.Equal(HttpMethod.Get, x.Method);
-                    Assert.Equal("https://api.twitter.com/1.1/hoge/tetete.json",
-                        x.RequestUri.GetLeftPart(UriPartial.Path));
-
-                    var query = HttpUtility.ParseQueryString(x.RequestUri.Query);
-
-                    Assert.Equal("1111", query["aaaa"]);
-                    Assert.Equal("2222", query["bbbb"]);
-
-                    return new HttpResponseMessage(HttpStatusCode.OK)
-                    {
-                        Content = new ByteArrayContent(image.Stream.ToArray()),
-                    };
-                });
-
-                var endpoint = new Uri("hoge/tetete.json", UriKind.Relative);
-                var param = new Dictionary<string, string>
-                {
-                    ["aaaa"] = "1111",
-                    ["bbbb"] = "2222",
+                    Content = new ByteArrayContent(image.Stream.ToArray()),
                 };
+            });
 
-                var stream = await apiConnection.GetStreamAsync(endpoint, param)
-                    .ConfigureAwait(false);
+            var endpoint = new Uri("hoge/tetete.json", UriKind.Relative);
+            var param = new Dictionary<string, string>
+            {
+                ["aaaa"] = "1111",
+                ["bbbb"] = "2222",
+            };
 
-                using (var memoryStream = new MemoryStream())
-                {
-                    // 内容の比較のために MemoryStream にコピー
-                    await stream.CopyToAsync(memoryStream).ConfigureAwait(false);
+            var stream = await apiConnection.GetStreamAsync(endpoint, param)
+                .ConfigureAwait(false);
 
-                    Assert.Equal(image.Stream.ToArray(), memoryStream.ToArray());
-                }
+            using (var memoryStream = new MemoryStream())
+            {
+                // 内容の比較のために MemoryStream にコピー
+                await stream.CopyToAsync(memoryStream).ConfigureAwait(false);
 
-                Assert.Equal(0, mockHandler.QueueCount);
+                Assert.Equal(image.Stream.ToArray(), memoryStream.ToArray());
             }
+
+            Assert.Equal(0, mockHandler.QueueCount);
         }
 
         [Fact]
         public async Task PostLazyAsync_Test()
         {
-            using (var mockHandler = new HttpMessageHandlerMock())
-            using (var http = new HttpClient(mockHandler))
-            using (var apiConnection = new TwitterApiConnection("", ""))
+            using var mockHandler = new HttpMessageHandlerMock();
+            using var http = new HttpClient(mockHandler);
+            using var apiConnection = new TwitterApiConnection("", "");
+            apiConnection.http = http;
+
+            mockHandler.Enqueue(async x =>
             {
-                apiConnection.http = http;
+                Assert.Equal(HttpMethod.Post, x.Method);
+                Assert.Equal("https://api.twitter.com/1.1/hoge/tetete.json",
+                    x.RequestUri.AbsoluteUri);
 
-                mockHandler.Enqueue(async x =>
-                {
-                    Assert.Equal(HttpMethod.Post, x.Method);
-                    Assert.Equal("https://api.twitter.com/1.1/hoge/tetete.json",
-                        x.RequestUri.AbsoluteUri);
-
-                    var body = await x.Content.ReadAsStringAsync()
-                        .ConfigureAwait(false);
-                    var query = HttpUtility.ParseQueryString(body);
-
-                    Assert.Equal("1111", query["aaaa"]);
-                    Assert.Equal("2222", query["bbbb"]);
-
-                    return new HttpResponseMessage(HttpStatusCode.OK)
-                    {
-                        Content = new StringContent("\"hogehoge\""),
-                    };
-                });
-
-                var endpoint = new Uri("hoge/tetete.json", UriKind.Relative);
-                var param = new Dictionary<string, string>
-                {
-                    ["aaaa"] = "1111",
-                    ["bbbb"] = "2222",
-                };
-
-                var result = await apiConnection.PostLazyAsync<string>(endpoint, param)
+                var body = await x.Content.ReadAsStringAsync()
                     .ConfigureAwait(false);
+                var query = HttpUtility.ParseQueryString(body);
 
-                Assert.Equal("hogehoge", await result.LoadJsonAsync()
-                    .ConfigureAwait(false));
+                Assert.Equal("1111", query["aaaa"]);
+                Assert.Equal("2222", query["bbbb"]);
 
-                Assert.Equal(0, mockHandler.QueueCount);
-            }
+                return new HttpResponseMessage(HttpStatusCode.OK)
+                {
+                    Content = new StringContent("\"hogehoge\""),
+                };
+            });
+
+            var endpoint = new Uri("hoge/tetete.json", UriKind.Relative);
+            var param = new Dictionary<string, string>
+            {
+                ["aaaa"] = "1111",
+                ["bbbb"] = "2222",
+            };
+
+            var result = await apiConnection.PostLazyAsync<string>(endpoint, param)
+                .ConfigureAwait(false);
+
+            Assert.Equal("hogehoge", await result.LoadJsonAsync()
+                .ConfigureAwait(false));
+
+            Assert.Equal(0, mockHandler.QueueCount);
         }
 
         [Fact]
         public async Task PostLazyAsync_MultipartTest()
         {
-            using (var mockHandler = new HttpMessageHandlerMock())
-            using (var http = new HttpClient(mockHandler))
-            using (var apiConnection = new TwitterApiConnection("", ""))
+            using var mockHandler = new HttpMessageHandlerMock();
+            using var http = new HttpClient(mockHandler);
+            using var apiConnection = new TwitterApiConnection("", "");
+            apiConnection.httpUpload = http;
+
+            using var image = TestUtils.CreateDummyImage();
+            using var media = new MemoryImageMediaItem(image);
+
+            mockHandler.Enqueue(async x =>
             {
-                apiConnection.httpUpload = http;
+                Assert.Equal(HttpMethod.Post, x.Method);
+                Assert.Equal("https://api.twitter.com/1.1/hoge/tetete.json",
+                    x.RequestUri.AbsoluteUri);
 
-                using (var image = TestUtils.CreateDummyImage())
-                using (var media = new MemoryImageMediaItem(image))
+                Assert.IsType<MultipartFormDataContent>(x.Content);
+
+                var boundary = x.Content.Headers.ContentType.Parameters.Cast<NameValueHeaderValue>()
+                    .First(y => y.Name == "boundary").Value;
+
+                    // 前後のダブルクオーテーションを除去
+                    boundary = boundary.Substring(1, boundary.Length - 2);
+
+                var expectedText =
+                    $"--{boundary}\r\n" +
+                    "Content-Type: text/plain; charset=utf-8\r\n" +
+                    "Content-Disposition: form-data; name=aaaa\r\n" +
+                    "\r\n" +
+                    "1111\r\n" +
+                    $"--{boundary}\r\n" +
+                    "Content-Type: text/plain; charset=utf-8\r\n" +
+                    "Content-Disposition: form-data; name=bbbb\r\n" +
+                    "\r\n" +
+                    "2222\r\n" +
+                    $"--{boundary}\r\n" +
+                    $"Content-Disposition: form-data; name=media1; filename={media.Name}; filename*=utf-8''{media.Name}\r\n" +
+                    "\r\n";
+
+                var expected = Encoding.UTF8.GetBytes(expectedText)
+                    .Concat(image.Stream.ToArray())
+                    .Concat(Encoding.UTF8.GetBytes($"\r\n--{boundary}--\r\n"));
+
+                Assert.Equal(expected, await x.Content.ReadAsByteArrayAsync().ConfigureAwait(false));
+
+                return new HttpResponseMessage(HttpStatusCode.OK)
                 {
-                    mockHandler.Enqueue(async x =>
-                    {
-                        Assert.Equal(HttpMethod.Post, x.Method);
-                        Assert.Equal("https://api.twitter.com/1.1/hoge/tetete.json",
-                            x.RequestUri.AbsoluteUri);
+                    Content = new StringContent("\"hogehoge\""),
+                };
+            });
 
-                        Assert.IsType<MultipartFormDataContent>(x.Content);
+            var endpoint = new Uri("hoge/tetete.json", UriKind.Relative);
+            var param = new Dictionary<string, string>
+            {
+                ["aaaa"] = "1111",
+                ["bbbb"] = "2222",
+            };
+            var mediaParam = new Dictionary<string, IMediaItem>
+            {
+                ["media1"] = media,
+            };
 
-                        var boundary = x.Content.Headers.ContentType.Parameters.Cast<NameValueHeaderValue>()
-                            .First(y => y.Name == "boundary").Value;
+            var result = await apiConnection.PostLazyAsync<string>(endpoint, param, mediaParam)
+                .ConfigureAwait(false);
 
-                        // 前後のダブルクオーテーションを除去
-                        boundary = boundary.Substring(1, boundary.Length - 2);
+            Assert.Equal("hogehoge", await result.LoadJsonAsync()
+                .ConfigureAwait(false));
 
-                        var expectedText =
-                            $"--{boundary}\r\n" +
-                            "Content-Type: text/plain; charset=utf-8\r\n" +
-                            "Content-Disposition: form-data; name=aaaa\r\n" +
-                            "\r\n" +
-                            "1111\r\n"+
-                            $"--{boundary}\r\n" +
-                            "Content-Type: text/plain; charset=utf-8\r\n" +
-                            "Content-Disposition: form-data; name=bbbb\r\n" +
-                            "\r\n" +
-                            "2222\r\n" +
-                            $"--{boundary}\r\n" +
-                            $"Content-Disposition: form-data; name=media1; filename={media.Name}; filename*=utf-8''{media.Name}\r\n" +
-                            "\r\n";
-
-                        var expected = Encoding.UTF8.GetBytes(expectedText)
-                            .Concat(image.Stream.ToArray())
-                            .Concat(Encoding.UTF8.GetBytes($"\r\n--{boundary}--\r\n"));
-
-                        Assert.Equal(expected, await x.Content.ReadAsByteArrayAsync().ConfigureAwait(false));
-
-                        return new HttpResponseMessage(HttpStatusCode.OK)
-                        {
-                            Content = new StringContent("\"hogehoge\""),
-                        };
-                    });
-
-                    var endpoint = new Uri("hoge/tetete.json", UriKind.Relative);
-                    var param = new Dictionary<string, string>
-                    {
-                        ["aaaa"] = "1111",
-                        ["bbbb"] = "2222",
-                    };
-                    var mediaParam = new Dictionary<string, IMediaItem>
-                    {
-                        ["media1"] = media,
-                    };
-
-                    var result = await apiConnection.PostLazyAsync<string>(endpoint, param, mediaParam)
-                        .ConfigureAwait(false);
-
-                    Assert.Equal("hogehoge", await result.LoadJsonAsync()
-                        .ConfigureAwait(false));
-
-                    Assert.Equal(0, mockHandler.QueueCount);
-                }
-            }
+            Assert.Equal(0, mockHandler.QueueCount);
         }
 
         [Fact]
         public async Task PostLazyAsync_Multipart_NullTest()
         {
-            using (var mockHandler = new HttpMessageHandlerMock())
-            using (var http = new HttpClient(mockHandler))
-            using (var apiConnection = new TwitterApiConnection("", ""))
+            using var mockHandler = new HttpMessageHandlerMock();
+            using var http = new HttpClient(mockHandler);
+            using var apiConnection = new TwitterApiConnection("", "");
+            apiConnection.httpUpload = http;
+
+            mockHandler.Enqueue(async x =>
             {
-                apiConnection.httpUpload = http;
+                Assert.Equal(HttpMethod.Post, x.Method);
+                Assert.Equal("https://api.twitter.com/1.1/hoge/tetete.json",
+                    x.RequestUri.AbsoluteUri);
 
-                mockHandler.Enqueue(async x =>
-                {
-                    Assert.Equal(HttpMethod.Post, x.Method);
-                    Assert.Equal("https://api.twitter.com/1.1/hoge/tetete.json",
-                        x.RequestUri.AbsoluteUri);
+                Assert.IsType<MultipartFormDataContent>(x.Content);
 
-                    Assert.IsType<MultipartFormDataContent>(x.Content);
-
-                    var boundary = x.Content.Headers.ContentType.Parameters.Cast<NameValueHeaderValue>()
-                        .First(y => y.Name == "boundary").Value;
+                var boundary = x.Content.Headers.ContentType.Parameters.Cast<NameValueHeaderValue>()
+                    .First(y => y.Name == "boundary").Value;
 
                     // 前後のダブルクオーテーションを除去
                     boundary = boundary.Substring(1, boundary.Length - 2);
 
-                    var expectedText =
-                        $"--{boundary}\r\n" +
-                        $"\r\n--{boundary}--\r\n";
+                var expectedText =
+                    $"--{boundary}\r\n" +
+                    $"\r\n--{boundary}--\r\n";
 
-                    var expected = Encoding.UTF8.GetBytes(expectedText);
+                var expected = Encoding.UTF8.GetBytes(expectedText);
 
-                    Assert.Equal(expected, await x.Content.ReadAsByteArrayAsync().ConfigureAwait(false));
+                Assert.Equal(expected, await x.Content.ReadAsByteArrayAsync().ConfigureAwait(false));
 
-                    return new HttpResponseMessage(HttpStatusCode.OK)
-                    {
-                        Content = new StringContent("\"hogehoge\""),
-                    };
-                });
+                return new HttpResponseMessage(HttpStatusCode.OK)
+                {
+                    Content = new StringContent("\"hogehoge\""),
+                };
+            });
 
-                var endpoint = new Uri("hoge/tetete.json", UriKind.Relative);
+            var endpoint = new Uri("hoge/tetete.json", UriKind.Relative);
 
-                var result = await apiConnection.PostLazyAsync<string>(endpoint, param: null, media: null)
-                    .ConfigureAwait(false);
+            var result = await apiConnection.PostLazyAsync<string>(endpoint, param: null, media: null)
+                .ConfigureAwait(false);
 
-                Assert.Equal("hogehoge", await result.LoadJsonAsync()
-                    .ConfigureAwait(false));
+            Assert.Equal("hogehoge", await result.LoadJsonAsync()
+                .ConfigureAwait(false));
 
-                Assert.Equal(0, mockHandler.QueueCount);
-            }
+            Assert.Equal(0, mockHandler.QueueCount);
         }
 
         [Fact]
         public async Task PostJsonAsync_Test()
         {
-            using (var mockHandler = new HttpMessageHandlerMock())
-            using (var http = new HttpClient(mockHandler))
-            using (var apiConnection = new TwitterApiConnection("", ""))
+            using var mockHandler = new HttpMessageHandlerMock();
+            using var http = new HttpClient(mockHandler);
+            using var apiConnection = new TwitterApiConnection("", "");
+            apiConnection.http = http;
+
+            mockHandler.Enqueue(async x =>
             {
-                apiConnection.http = http;
+                Assert.Equal(HttpMethod.Post, x.Method);
+                Assert.Equal("https://api.twitter.com/1.1/hoge/tetete.json",
+                    x.RequestUri.AbsoluteUri);
 
-                mockHandler.Enqueue(async x =>
-                {
-                    Assert.Equal(HttpMethod.Post, x.Method);
-                    Assert.Equal("https://api.twitter.com/1.1/hoge/tetete.json",
-                        x.RequestUri.AbsoluteUri);
+                Assert.Equal("application/json; charset=utf-8", x.Content.Headers.ContentType.ToString());
 
-                    Assert.Equal("application/json; charset=utf-8", x.Content.Headers.ContentType.ToString());
-
-                    var body = await x.Content.ReadAsStringAsync()
-                        .ConfigureAwait(false);
-
-                    Assert.Equal("{\"aaaa\": 1111}", body);
-
-                    return new HttpResponseMessage(HttpStatusCode.NoContent);
-                });
-
-                var endpoint = new Uri("hoge/tetete.json", UriKind.Relative);
-
-                await apiConnection.PostJsonAsync(endpoint, "{\"aaaa\": 1111}")
+                var body = await x.Content.ReadAsStringAsync()
                     .ConfigureAwait(false);
 
-                Assert.Equal(0, mockHandler.QueueCount);
-            }
+                Assert.Equal("{\"aaaa\": 1111}", body);
+
+                return new HttpResponseMessage(HttpStatusCode.NoContent);
+            });
+
+            var endpoint = new Uri("hoge/tetete.json", UriKind.Relative);
+
+            await apiConnection.PostJsonAsync(endpoint, "{\"aaaa\": 1111}")
+                .ConfigureAwait(false);
+
+            Assert.Equal(0, mockHandler.QueueCount);
         }
 
         [Fact]
         public async Task PostJsonAsync_T_Test()
         {
-            using (var mockHandler = new HttpMessageHandlerMock())
-            using (var http = new HttpClient(mockHandler))
-            using (var apiConnection = new TwitterApiConnection("", ""))
+            using var mockHandler = new HttpMessageHandlerMock();
+            using var http = new HttpClient(mockHandler);
+            using var apiConnection = new TwitterApiConnection("", "");
+            apiConnection.http = http;
+
+            mockHandler.Enqueue(async x =>
             {
-                apiConnection.http = http;
+                Assert.Equal(HttpMethod.Post, x.Method);
+                Assert.Equal("https://api.twitter.com/1.1/hoge/tetete.json",
+                    x.RequestUri.AbsoluteUri);
 
-                mockHandler.Enqueue(async x =>
+                Assert.Equal("application/json; charset=utf-8", x.Content.Headers.ContentType.ToString());
+
+                var body = await x.Content.ReadAsStringAsync()
+                    .ConfigureAwait(false);
+
+                Assert.Equal("{\"aaaa\": 1111}", body);
+
+                return new HttpResponseMessage(HttpStatusCode.OK)
                 {
-                    Assert.Equal(HttpMethod.Post, x.Method);
-                    Assert.Equal("https://api.twitter.com/1.1/hoge/tetete.json",
-                        x.RequestUri.AbsoluteUri);
+                    Content = new StringContent("\"hogehoge\""),
+                };
+            });
 
-                    Assert.Equal("application/json; charset=utf-8", x.Content.Headers.ContentType.ToString());
+            var endpoint = new Uri("hoge/tetete.json", UriKind.Relative);
 
-                    var body = await x.Content.ReadAsStringAsync()
-                        .ConfigureAwait(false);
+            var response = await apiConnection.PostJsonAsync<string>(endpoint, "{\"aaaa\": 1111}")
+                .ConfigureAwait(false);
 
-                    Assert.Equal("{\"aaaa\": 1111}", body);
+            var result = await response.LoadJsonAsync()
+                .ConfigureAwait(false);
 
-                    return new HttpResponseMessage(HttpStatusCode.OK)
-                    {
-                        Content = new StringContent("\"hogehoge\""),
-                    };
-                });
+            Assert.Equal("hogehoge", result);
 
-                var endpoint = new Uri("hoge/tetete.json", UriKind.Relative);
-
-                var response = await apiConnection.PostJsonAsync<string>(endpoint, "{\"aaaa\": 1111}")
-                    .ConfigureAwait(false);
-
-                var result = await response.LoadJsonAsync()
-                    .ConfigureAwait(false);
-
-                Assert.Equal("hogehoge", result);
-
-                Assert.Equal(0, mockHandler.QueueCount);
-            }
+            Assert.Equal(0, mockHandler.QueueCount);
         }
 
         [Fact]
         public async Task DeleteAsync_Test()
         {
-            using (var mockHandler = new HttpMessageHandlerMock())
-            using (var http = new HttpClient(mockHandler))
-            using (var apiConnection = new TwitterApiConnection("", ""))
+            using var mockHandler = new HttpMessageHandlerMock();
+            using var http = new HttpClient(mockHandler);
+            using var apiConnection = new TwitterApiConnection("", "");
+            apiConnection.http = http;
+
+            mockHandler.Enqueue(x =>
             {
-                apiConnection.http = http;
+                Assert.Equal(HttpMethod.Delete, x.Method);
+                Assert.Equal("https://api.twitter.com/1.1/hoge/tetete.json",
+                    x.RequestUri.AbsoluteUri);
 
-                mockHandler.Enqueue(x =>
-                {
-                    Assert.Equal(HttpMethod.Delete, x.Method);
-                    Assert.Equal("https://api.twitter.com/1.1/hoge/tetete.json",
-                        x.RequestUri.AbsoluteUri);
+                return new HttpResponseMessage(HttpStatusCode.NoContent);
+            });
 
-                    return new HttpResponseMessage(HttpStatusCode.NoContent);
-                });
+            var endpoint = new Uri("hoge/tetete.json", UriKind.Relative);
 
-                var endpoint = new Uri("hoge/tetete.json", UriKind.Relative);
+            await apiConnection.DeleteAsync(endpoint)
+                .ConfigureAwait(false);
 
-                await apiConnection.DeleteAsync(endpoint)
-                    .ConfigureAwait(false);
-
-                Assert.Equal(0, mockHandler.QueueCount);
-            }
+            Assert.Equal(0, mockHandler.QueueCount);
         }
     }
 }

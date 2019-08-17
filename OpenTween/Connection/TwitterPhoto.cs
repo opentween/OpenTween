@@ -155,20 +155,18 @@ namespace OpenTween.Connection
                 return mediaId;
             }
 
-            using (var origImage = mediaItem.CreateImage())
+            using var origImage = mediaItem.CreateImage();
+
+            if (SettingManager.Common.AlphaPNGWorkaround && this.AddAlphaChannelIfNeeded(origImage.Image, out var newImage))
             {
-                if (SettingManager.Common.AlphaPNGWorkaround && this.AddAlphaChannelIfNeeded(origImage.Image, out var newImage))
-                {
-                    using (var newMediaItem = new MemoryImageMediaItem(newImage))
-                    {
-                        newMediaItem.AltText = mediaItem.AltText;
-                        return await UploadInternal(newMediaItem, mediaCategory);
-                    }
-                }
-                else
-                {
-                    return await UploadInternal(mediaItem, mediaCategory);
-                }
+                using var newMediaItem = new MemoryImageMediaItem(newImage);
+                newMediaItem.AltText = mediaItem.AltText;
+
+                return await UploadInternal(newMediaItem, mediaCategory);
+            }
+            else
+            {
+                return await UploadInternal(mediaItem, mediaCategory);
             }
         }
 
@@ -189,28 +187,27 @@ namespace OpenTween.Connection
             if (origImage.RawFormat.Guid != ImageFormat.Png.Guid)
                 return false;
 
-            using (var bitmap = new Bitmap(origImage))
+            using var bitmap = new Bitmap(origImage);
+
+            // アルファ値が 255 以外のピクセルが含まれていた場合は何もしない
+            foreach (var x in Enumerable.Range(0, bitmap.Width))
             {
-                // アルファ値が 255 以外のピクセルが含まれていた場合は何もしない
-                foreach (var x in Enumerable.Range(0, bitmap.Width))
+                foreach (var y in Enumerable.Range(0, bitmap.Height))
                 {
-                    foreach (var y in Enumerable.Range(0, bitmap.Height))
-                    {
-                        if (bitmap.GetPixel(x, y).A != 255)
-                            return false;
-                    }
+                    if (bitmap.GetPixel(x, y).A != 255)
+                        return false;
                 }
-
-                // 左上の 1px だけアルファ値を 254 にする
-                var pixel = bitmap.GetPixel(0, 0);
-                var newPixel = Color.FromArgb(pixel.A - 1, pixel.R, pixel.G, pixel.B);
-                bitmap.SetPixel(0, 0, newPixel);
-
-                // MemoryImage 作成時に画像はコピーされるため、この後 bitmap は破棄しても問題ない
-                newImage = MemoryImage.CopyFromImage(bitmap);
-
-                return true;
             }
+
+            // 左上の 1px だけアルファ値を 254 にする
+            var pixel = bitmap.GetPixel(0, 0);
+            var newPixel = Color.FromArgb(pixel.A - 1, pixel.R, pixel.G, pixel.B);
+            bitmap.SetPixel(0, 0, newPixel);
+
+            // MemoryImage 作成時に画像はコピーされるため、この後 bitmap は破棄しても問題ない
+            newImage = MemoryImage.CopyFromImage(bitmap);
+
+            return true;
         }
     }
 }

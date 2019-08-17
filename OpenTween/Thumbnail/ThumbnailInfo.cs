@@ -74,20 +74,20 @@ namespace OpenTween.Thumbnail
             MemoryImage image = null;
             try
             {
-                using (var response = await http.GetAsync(this.ThumbnailImageUrl, cancellationToken).ConfigureAwait(false))
-                {
-                    response.EnsureSuccessStatusCode();
+                using var response = await http.GetAsync(this.ThumbnailImageUrl, cancellationToken)
+                    .ConfigureAwait(false);
 
-                    using (var imageStream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false))
-                    {
-                        image = await MemoryImage.CopyFromStreamAsync(imageStream)
-                            .ConfigureAwait(false);
+                response.EnsureSuccessStatusCode();
 
-                        cancellationToken.ThrowIfCancellationRequested();
+                using var imageStream = await response.Content.ReadAsStreamAsync()
+                    .ConfigureAwait(false);
 
-                        return image;
-                    }
-                }
+                image = await MemoryImage.CopyFromStreamAsync(imageStream)
+                    .ConfigureAwait(false);
+
+                cancellationToken.ThrowIfCancellationRequested();
+
+                return image;
             }
             catch (OperationCanceledException)
             {

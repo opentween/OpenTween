@@ -261,20 +261,19 @@ namespace OpenTween
             if (SaveFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 if (!SaveFileDialog1.ValidateNames) return;
-                using (var sw = new StreamWriter(SaveFileDialog1.FileName, false, Encoding.UTF8))
+                using var sw = new StreamWriter(SaveFileDialog1.FileName, false, Encoding.UTF8);
+
+                switch (rslt)
                 {
-                    switch (rslt)
-                    {
-                        case DialogResult.Yes:
-                            SaveEventLog(_filterdEventSource.ToList(), sw);
-                            break;
-                        case DialogResult.No:
-                            SaveEventLog(EventSource, sw);
-                            break;
-                        default:
-                            //
-                            break;
-                    }
+                    case DialogResult.Yes:
+                        SaveEventLog(_filterdEventSource.ToList(), sw);
+                        break;
+                    case DialogResult.No:
+                        SaveEventLog(EventSource, sw);
+                        break;
+                    default:
+                        //
+                        break;
                 }
             }
             this.TopMost = SettingManager.Common.AlwaysTop;

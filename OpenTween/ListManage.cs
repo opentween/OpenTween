@@ -346,20 +346,18 @@ namespace OpenTween
             {
                 var uri = imageUri.AbsoluteUri.Replace("_normal", "_bigger");
 
-                using (var imageStream = await Networking.Http.GetStreamAsync(uri))
+                using var imageStream = await Networking.Http.GetStreamAsync(uri);
+                var image = await MemoryImage.CopyFromStreamAsync(imageStream);
+
+                // 画像の読み込み中に選択中のユーザーが変化していたらキャンセルとして扱う
+                var selectedUser = (UserInfo)this.UserList.SelectedItem;
+                if (selectedUser.Id != userId)
                 {
-                    var image = await MemoryImage.CopyFromStreamAsync(imageStream);
-
-                    // 画像の読み込み中に選択中のユーザーが変化していたらキャンセルとして扱う
-                    var selectedUser = (UserInfo)this.UserList.SelectedItem;
-                    if (selectedUser.Id != userId)
-                    {
-                        image.Dispose();
-                        throw new OperationCanceledException();
-                    }
-
-                    return image;
+                    image.Dispose();
+                    throw new OperationCanceledException();
                 }
+
+                return image;
             });
         }
 
@@ -382,15 +380,13 @@ namespace OpenTween
 
         private async Task<IReadOnlyList<ListElement>> FetchListsAsync()
         {
-            using (var dialog = new WaitingDialog(Properties.Resources.ListsGetting))
-            {
-                var cancellationToken = dialog.EnableCancellation();
+            using var dialog = new WaitingDialog(Properties.Resources.ListsGetting);
+            var cancellationToken = dialog.EnableCancellation();
 
-                var task = this.tw.GetListsApi();
-                await dialog.WaitForAsync(this, task);
+            var task = this.tw.GetListsApi();
+            await dialog.WaitForAsync(this, task);
 
-                cancellationToken.ThrowIfCancellationRequested();
-            }
+            cancellationToken.ThrowIfCancellationRequested();
 
             return TabInformations.GetInstance().SubscribableLists;
         }

@@ -146,22 +146,20 @@ namespace OpenTween.Thumbnail.Services
                 var jsonBytes = await this.FetchRegexAsync(apiBase)
                     .ConfigureAwait(false);
 
-                using (var jsonReader = JsonReaderWriterFactory.CreateJsonReader(jsonBytes, XmlDictionaryReaderQuotas.Max))
+                using var jsonReader = JsonReaderWriterFactory.CreateJsonReader(jsonBytes, XmlDictionaryReaderQuotas.Max);
+                var xElm = XElement.Load(jsonReader);
+
+                if (xElm.Element("error") != null)
+                    return false;
+
+                lock (this.LockObj)
                 {
-                    var xElm = XElement.Load(jsonReader);
+                    this.UrlRegex = xElm.Elements("item")
+                        .Where(x => !this.ExcludedServiceNames.Contains(x.Element("name").Value))
+                        .Select(e => new Regex(e.Element("regex").Value, RegexOptions.IgnoreCase))
+                        .ToArray();
 
-                    if (xElm.Element("error") != null)
-                        return false;
-
-                    lock (this.LockObj)
-                    {
-                        this.UrlRegex = xElm.Elements("item")
-                            .Where(x => !this.ExcludedServiceNames.Contains(x.Element("name").Value))
-                            .Select(e => new Regex(e.Element("regex").Value, RegexOptions.IgnoreCase))
-                            .ToArray();
-
-                        this.ApiBase = apiBase;
-                    }
+                    this.ApiBase = apiBase;
                 }
 
                 return true;
@@ -175,15 +173,14 @@ namespace OpenTween.Thumbnail.Services
 
         protected virtual async Task<byte[]> FetchRegexAsync(string apiBase)
         {
-            using (var cts = new CancellationTokenSource(millisecondsDelay: 1000))
-            using (var response = await this.http.GetAsync(apiBase + "regex.json", cts.Token)
-                .ConfigureAwait(false))
-            {
-                response.EnsureSuccessStatusCode();
+            using var cts = new CancellationTokenSource(millisecondsDelay: 1000);
+            using var response = await this.http.GetAsync(apiBase + "regex.json", cts.Token)
+                .ConfigureAwait(false);
 
-                return await response.Content.ReadAsByteArrayAsync()
-                    .ConfigureAwait(false);
-            }
+            response.EnsureSuccessStatusCode();
+
+            return await response.Content.ReadAsByteArrayAsync()
+                .ConfigureAwait(false);
         }
 
         public override Task<ThumbnailInfo> GetThumbnailInfoAsync(string url, PostClass post, CancellationToken token)

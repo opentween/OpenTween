@@ -74,15 +74,15 @@ namespace OpenTween.Thumbnail.Services
             try
             {
                 var apiUrl = string.Format("https://api.tumblr.com/v2/blog/{0}/posts?", host) + MyCommon.BuildQueryString(param);
-                using (var response = await this.http.GetAsync(apiUrl, token).ConfigureAwait(false))
-                {
-                    var jsonBytes = await response.Content.ReadAsByteArrayAsync()
-                        .ConfigureAwait(false);
+                using var response = await this.http.GetAsync(apiUrl, token)
+                    .ConfigureAwait(false);
 
-                    var thumbs = ParsePhotoPostJson(jsonBytes);
+                var jsonBytes = await response.Content.ReadAsByteArrayAsync()
+                    .ConfigureAwait(false);
 
-                    return thumbs.FirstOrDefault();
-                }
+                var thumbs = ParsePhotoPostJson(jsonBytes);
+
+                return thumbs.FirstOrDefault();
             }
             catch (XmlException) { }
             catch (HttpRequestException) { } // たまに api.tumblr.com が名前解決できない
@@ -92,27 +92,25 @@ namespace OpenTween.Thumbnail.Services
 
         internal static ThumbnailInfo[] ParsePhotoPostJson(byte[] jsonBytes)
         {
-            using (var jsonReader = JsonReaderWriterFactory.CreateJsonReader(jsonBytes, XmlDictionaryReaderQuotas.Max))
-            {
-                var xElm = XElement.Load(jsonReader);
+            using var jsonReader = JsonReaderWriterFactory.CreateJsonReader(jsonBytes, XmlDictionaryReaderQuotas.Max);
+            var xElm = XElement.Load(jsonReader);
 
-                var item = xElm.XPathSelectElement("/response/posts/item[1]");
-                if (item == null)
-                    return Array.Empty<ThumbnailInfo>();
+            var item = xElm.XPathSelectElement("/response/posts/item[1]");
+            if (item == null)
+                return Array.Empty<ThumbnailInfo>();
 
-                var postUrlElm = item.Element("post_url");
+            var postUrlElm = item.Element("post_url");
 
-                var thumbs =
-                    from photoElm in item.XPathSelectElements("photos/item/alt_sizes/item[1]/url")
-                    select new ThumbnailInfo
-                    {
-                        MediaPageUrl = postUrlElm.Value,
-                        ThumbnailImageUrl = photoElm.Value,
-                        TooltipText = null,
-                    };
+            var thumbs =
+                from photoElm in item.XPathSelectElements("photos/item/alt_sizes/item[1]/url")
+                select new ThumbnailInfo
+                {
+                    MediaPageUrl = postUrlElm.Value,
+                    ThumbnailImageUrl = photoElm.Value,
+                    TooltipText = null,
+                };
 
-                return thumbs.ToArray();
-            }
+            return thumbs.ToArray();
         }
     }
 }

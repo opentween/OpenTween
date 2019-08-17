@@ -202,19 +202,19 @@ namespace OpenTween
             {
                 var uri = imageUri.Replace("_normal", "_bigger");
 
-                using (var imageStream = await Networking.Http.GetStreamAsync(uri).ConfigureAwait(false))
+                using var imageStream = await Networking.Http.GetStreamAsync(uri)
+                    .ConfigureAwait(false);
+
+                var image = await MemoryImage.CopyFromStreamAsync(imageStream)
+                    .ConfigureAwait(false);
+
+                if (cancellationToken.IsCancellationRequested)
                 {
-                    var image = await MemoryImage.CopyFromStreamAsync(imageStream)
-                        .ConfigureAwait(false);
-
-                    if (cancellationToken.IsCancellationRequested)
-                    {
-                        image.Dispose();
-                        throw new OperationCanceledException(cancellationToken);
-                    }
-
-                    return image;
+                    image.Dispose();
+                    throw new OperationCanceledException(cancellationToken);
                 }
+
+                return image;
             });
         }
 

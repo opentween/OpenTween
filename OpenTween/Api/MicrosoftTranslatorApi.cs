@@ -69,34 +69,28 @@ namespace OpenTween.Api
 
             var requestUri = new Uri(TranslateEndpoint, "?" + MyCommon.BuildQueryString(param));
 
-            using (var request = new HttpRequestMessage(HttpMethod.Post, requestUri))
-            {
-                request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", this.AccessToken);
+            using var request = new HttpRequestMessage(HttpMethod.Post, requestUri);
+            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", this.AccessToken);
 
-                var escapedText = JsonUtils.EscapeJsonString(text);
-                var json = $@"[{{""Text"": ""{escapedText}""}}]";
+            var escapedText = JsonUtils.EscapeJsonString(text);
+            var json = $@"[{{""Text"": ""{escapedText}""}}]";
 
-                using (var body = new StringContent(json, Encoding.UTF8, "application/json"))
-                {
-                    request.Content = body;
+            using var body = new StringContent(json, Encoding.UTF8, "application/json");
+            request.Content = body;
 
-                    using (var response = await this.Http.SendAsync(request).ConfigureAwait(false))
-                    {
-                        response.EnsureSuccessStatusCode();
+            using var response = await this.Http.SendAsync(request)
+                .ConfigureAwait(false);
 
-                        var responseJson = await response.Content.ReadAsByteArrayAsync()
-                            .ConfigureAwait(false);
+            response.EnsureSuccessStatusCode();
 
-                        using (var jsonReader = JsonReaderWriterFactory.CreateJsonReader(responseJson, XmlDictionaryReaderQuotas.Max))
-                        {
-                            var xElm = XElement.Load(jsonReader);
-                            var transtlationTextElm = xElm.XPathSelectElement("/item/translations/item/text[1]");
+            var responseJson = await response.Content.ReadAsByteArrayAsync()
+                .ConfigureAwait(false);
 
-                            return transtlationTextElm?.Value ?? "";
-                        }
-                    }
-                }
-            }
+            using var jsonReader = JsonReaderWriterFactory.CreateJsonReader(responseJson, XmlDictionaryReaderQuotas.Max);
+            var xElm = XElement.Load(jsonReader);
+            var transtlationTextElm = xElm.XPathSelectElement("/item/translations/item/text[1]");
+
+            return transtlationTextElm?.Value ?? "";
         }
 
         public async Task UpdateAccessTokenIfExpired()
@@ -115,18 +109,16 @@ namespace OpenTween.Api
 
         internal virtual async Task<(string AccessToken, TimeSpan ExpiresIn)> GetAccessTokenAsync()
         {
-            using (var request = new HttpRequestMessage(HttpMethod.Post, IssueTokenEndpoint))
-            {
-                request.Headers.Add("Ocp-Apim-Subscription-Key", ApplicationSettings.TranslatorSubscriptionKey);
+            using var request = new HttpRequestMessage(HttpMethod.Post, IssueTokenEndpoint);
+            request.Headers.Add("Ocp-Apim-Subscription-Key", ApplicationSettings.TranslatorSubscriptionKey);
 
-                using (var response = await this.Http.SendAsync(request).ConfigureAwait(false))
-                {
-                    var accessToken = await response.Content.ReadAsStringAsync()
-                        .ConfigureAwait(false);
+            using var response = await this.Http.SendAsync(request)
+                .ConfigureAwait(false);
 
-                    return (accessToken, TimeSpan.FromMinutes(10));
-                }
-            }
+            var accessToken = await response.Content.ReadAsStringAsync()
+                .ConfigureAwait(false);
+
+            return (accessToken, TimeSpan.FromMinutes(10));
         }
     }
 }

@@ -141,16 +141,14 @@ namespace OpenTween
 
         private async Task<IReadOnlyList<ListElement>> FetchListsAsync()
         {
-            using (var dialog = new WaitingDialog("Getting Lists..."))
-            {
-                var cancellationToken = dialog.EnableCancellation();
+            using var dialog = new WaitingDialog("Getting Lists...");
+            var cancellationToken = dialog.EnableCancellation();
 
-                var tw = ((TweenMain)this.Owner).TwitterInstance;
-                var task = tw.GetListsApi();
-                await dialog.WaitForAsync(this, task);
+            var tw = ((TweenMain)this.Owner).TwitterInstance;
+            var task = tw.GetListsApi();
+            await dialog.WaitForAsync(this, task);
 
-                cancellationToken.ThrowIfCancellationRequested();
-            }
+            cancellationToken.ThrowIfCancellationRequested();
 
             return TabInformations.GetInstance().SubscribableLists;
         }

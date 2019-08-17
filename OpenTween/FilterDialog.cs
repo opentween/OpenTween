@@ -993,27 +993,27 @@ namespace OpenTween
                 {
                     try
                     {
-                        using (var dialog = new WaitingDialog(Properties.Resources.ListsGetting))
-                        {
-                            var cancellationToken = dialog.EnableCancellation();
+                        using var dialog = new WaitingDialog(Properties.Resources.ListsGetting);
+                        var cancellationToken = dialog.EnableCancellation();
 
-                            var task = ((TweenMain)this.Owner).TwitterInstance.GetListsApi();
-                            await dialog.WaitForAsync(this, task);
+                        var task = ((TweenMain)this.Owner).TwitterInstance.GetListsApi();
+                        await dialog.WaitForAsync(this, task);
 
-                            cancellationToken.ThrowIfCancellationRequested();
-                        }
+                        cancellationToken.ThrowIfCancellationRequested();
                     }
                     catch (OperationCanceledException) { return; }
                     catch (WebApiException ex)
                     {
                         MessageBox.Show("Failed to get lists. (" + ex.Message + ")");
                     }
-                    using (var listAvail = new ListAvailable())
-                    {
-                        if (listAvail.ShowDialog(this) == DialogResult.Cancel) return;
-                        if (listAvail.SelectedList == null) return;
-                        list = listAvail.SelectedList;
-                    }
+
+                    using var listAvail = new ListAvailable();
+
+                    if (listAvail.ShowDialog(this) == DialogResult.Cancel)
+                        return;
+                    if (listAvail.SelectedList == null)
+                        return;
+                    list = listAvail.SelectedList;
                 }
 
                 TabModel tab;

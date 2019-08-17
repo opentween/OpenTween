@@ -121,13 +121,13 @@ namespace OpenTween.Thumbnail.Services
 
         protected virtual async Task<string> FetchImageUrlAsync(string url, CancellationToken token)
         {
-            using (var response = await this.http.GetAsync(url, token).ConfigureAwait(false))
-            {
-                response.EnsureSuccessStatusCode();
+            using var response = await this.http.GetAsync(url, token)
+                .ConfigureAwait(false);
 
-                return await response.Content.ReadAsStringAsync()
-                    .ConfigureAwait(false);
-            }
+            response.EnsureSuccessStatusCode();
+
+            return await response.Content.ReadAsStringAsync()
+                .ConfigureAwait(false);
         }
     }
 }

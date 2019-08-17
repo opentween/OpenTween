@@ -147,8 +147,8 @@ namespace OpenTween
         public static async Task ForEachAsync<T>(this IObservable<T> observable, Func<T, Task> subscriber, CancellationToken cancellationToken)
         {
             var observer = new ForEachObserver<T>(subscriber);
+            using var unsubscriber = observable.Subscribe(observer);
 
-            using (var unsubscriber = observable.Subscribe(observer))
             using (cancellationToken.Register(() => unsubscriber.Dispose()))
                 await observer.Task.ConfigureAwait(false);
         }

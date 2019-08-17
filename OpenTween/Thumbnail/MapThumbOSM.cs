@@ -119,32 +119,29 @@ namespace OpenTween.Thumbnail
             await Task.WhenAll(tilesTask.Cast<Task<MemoryImage>>())
                 .ConfigureAwait(false);
 
-            using (var bitmap = new Bitmap(this.ThumbnailSize.Width, this.ThumbnailSize.Height))
-            {
-                using (var g = Graphics.FromImage(bitmap))
-                {
-                    g.TranslateTransform(tileOffset.Width, tileOffset.Height);
+            using var bitmap = new Bitmap(this.ThumbnailSize.Width, this.ThumbnailSize.Height);
 
-                    foreach (var x in Enumerable.Range(0, tileCountX))
+            using (var g = Graphics.FromImage(bitmap))
+            {
+                g.TranslateTransform(tileOffset.Width, tileOffset.Height);
+
+                foreach (var x in Enumerable.Range(0, tileCountX))
+                {
+                    foreach (var y in Enumerable.Range(0, tileCountY))
                     {
-                        foreach (var y in Enumerable.Range(0, tileCountY))
-                        {
-                            using (var image = tilesTask[x, y].Result)
-                            {
-                                g.DrawImage(image.Image, TileSize.Width * x, TileSize.Height * y);
-                            }
-                        }
+                        using var image = tilesTask[x, y].Result;
+                        g.DrawImage(image.Image, TileSize.Width * x, TileSize.Height * y);
                     }
                 }
-
-                MemoryImage result = null;
-                try
-                {
-                    result = MemoryImage.CopyFromImage(bitmap);
-                    return result;
-                }
-                catch { result?.Dispose(); throw; }
             }
+
+            MemoryImage result = null;
+            try
+            {
+                result = MemoryImage.CopyFromImage(bitmap);
+                return result;
+            }
+            catch { result?.Dispose(); throw; }
         }
 
         /// <summary>指定されたタイル番号のタイル画像を読み込むメソッド</summary>
@@ -152,16 +149,16 @@ namespace OpenTween.Thumbnail
         {
             var tileUrl = TileServerBase + $"/{this.Zoom}/{pos.X}/{pos.Y}.png";
 
-            using (var stream = await http.GetStreamAsync(tileUrl).ConfigureAwait(false))
+            using var stream = await http.GetStreamAsync(tileUrl)
+                .ConfigureAwait(false);
+
+            MemoryImage result = null;
+            try
             {
-                MemoryImage result = null;
-                try
-                {
-                    result = await MemoryImage.CopyFromStreamAsync(stream).ConfigureAwait(false);
-                    return result;
-                }
-                catch { result?.Dispose(); throw; }
+                result = await MemoryImage.CopyFromStreamAsync(stream).ConfigureAwait(false);
+                return result;
             }
+            catch { result?.Dispose(); throw; }
         }
 
         /// <summary>経度・緯度からタイル番号を算出するメソッド</summary>

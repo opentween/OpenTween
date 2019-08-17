@@ -53,22 +53,21 @@ namespace OpenTween.Api
         {
             try
             {
-                using (var stream = await this.streamOpener().ConfigureAwait(false))
-                using (var reader = new StreamReader(stream))
+                using var stream = await this.streamOpener().ConfigureAwait(false);
+                using var reader = new StreamReader(stream);
+
+                while (!reader.EndOfStream)
                 {
-                    while (!reader.EndOfStream)
-                    {
-                        cancellationToken.ThrowIfCancellationRequested();
+                    cancellationToken.ThrowIfCancellationRequested();
 
-                        var line = await reader.ReadLineAsync()
-                            .ConfigureAwait(false);
+                    var line = await reader.ReadLineAsync()
+                        .ConfigureAwait(false);
 
-                        var message = ParseLine(line);
+                    var message = ParseLine(line);
 
-                        observer.OnNext(message);
-                    }
-                    observer.OnCompleted();
+                    observer.OnNext(message);
                 }
+                observer.OnCompleted();
             }
             catch (Exception ex)
             {
@@ -90,27 +89,25 @@ namespace OpenTween.Api
             try
             {
                 var bytes = Encoding.UTF8.GetBytes(line);
-                using (var jsonReader = JsonReaderWriterFactory.CreateJsonReader(bytes, XmlDictionaryReaderQuotas.Max))
-                {
-                    var xElm = XElement.Load(jsonReader);
+                using var jsonReader = JsonReaderWriterFactory.CreateJsonReader(bytes, XmlDictionaryReaderQuotas.Max);
+                var xElm = XElement.Load(jsonReader);
 
-                    if (xElm.Element("text") != null)
-                        return StreamMessageStatus.ParseJson(line);
+                if (xElm.Element("text") != null)
+                    return StreamMessageStatus.ParseJson(line);
 
-                    if (xElm.Element("delete") != null)
-                        return StreamMessageDelete.ParseJson(line);
+                if (xElm.Element("delete") != null)
+                    return StreamMessageDelete.ParseJson(line);
 
-                    if (xElm.Element("event") != null)
-                        return StreamMessageEvent.ParseJson(line);
+                if (xElm.Element("event") != null)
+                    return StreamMessageEvent.ParseJson(line);
 
-                    if (xElm.Element("direct_message") != null)
-                        return StreamMessageDirectMessage.ParseJson(line);
+                if (xElm.Element("direct_message") != null)
+                    return StreamMessageDirectMessage.ParseJson(line);
 
-                    if (xElm.Element("scrub_geo") != null)
-                        return StreamMessageScrubGeo.ParseJson(line);
+                if (xElm.Element("scrub_geo") != null)
+                    return StreamMessageScrubGeo.ParseJson(line);
 
-                    return new StreamMessageUnknown(line);
-                }
+                return new StreamMessageUnknown(line);
             }
             catch (XmlException)
             {

@@ -73,16 +73,16 @@ namespace OpenTween.Thumbnail.Services
                 request.Headers.Add("User-Agent", Networking.GetUserAgentString(fakeMSIE: true));
                 request.Headers.Referrer = new Uri(this.MediaPageUrl);
 
-                using (var response = await http.SendAsync(request, cancellationToken).ConfigureAwait(false))
-                {
-                    response.EnsureSuccessStatusCode();
+                using var response = await http.SendAsync(request, cancellationToken)
+                    .ConfigureAwait(false);
 
-                    using (var imageStream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false))
-                    {
-                        return await MemoryImage.CopyFromStreamAsync(imageStream)
-                            .ConfigureAwait(false);
-                    }
-                }
+                response.EnsureSuccessStatusCode();
+
+                using var imageStream = await response.Content.ReadAsStreamAsync()
+                    .ConfigureAwait(false);
+
+                return await MemoryImage.CopyFromStreamAsync(imageStream)
+                    .ConfigureAwait(false);
             }
         }
     }

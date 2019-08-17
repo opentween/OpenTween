@@ -68,14 +68,13 @@ namespace OpenTween.Thumbnail.Services
                 {
                     var apiConnection = TonTwitterCom.GetApiConnection();
 
-                    using (var imageStream = await apiConnection.GetStreamAsync(new Uri(this.ThumbnailImageUrl), null)
-                        .ConfigureAwait(false))
-                    {
-                        cancellationToken.ThrowIfCancellationRequested();
+                    using var imageStream = await apiConnection.GetStreamAsync(new Uri(this.ThumbnailImageUrl), null)
+                        .ConfigureAwait(false);
 
-                        return await MemoryImage.CopyFromStreamAsync(imageStream)
-                            .ConfigureAwait(false);
-                    }
+                    cancellationToken.ThrowIfCancellationRequested();
+
+                    return await MemoryImage.CopyFromStreamAsync(imageStream)
+                        .ConfigureAwait(false);
                 }, cancellationToken);
             }
         }

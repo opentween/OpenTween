@@ -112,15 +112,15 @@ namespace OpenTween.Thumbnail.Services
 
                 var apiUrl = new Uri(ApiBase + "/checkins/resolve?" + MyCommon.BuildQueryString(query));
 
-                using (var response = await this.http.GetAsync(apiUrl, token).ConfigureAwait(false))
-                {
-                    response.EnsureSuccessStatusCode();
+                using var response = await this.http.GetAsync(apiUrl, token)
+                    .ConfigureAwait(false);
 
-                    var jsonBytes = await response.Content.ReadAsByteArrayAsync()
-                        .ConfigureAwait(false);
+                response.EnsureSuccessStatusCode();
 
-                    return ParseIntoLocation(jsonBytes);
-                }
+                var jsonBytes = await response.Content.ReadAsByteArrayAsync()
+                    .ConfigureAwait(false);
+
+                return ParseIntoLocation(jsonBytes);
             }
             catch (HttpRequestException)
             {
@@ -158,15 +158,15 @@ namespace OpenTween.Thumbnail.Services
 
                 var apiUrl = new Uri(ApiBase + "/checkins/" + checkinIdGroup.Value + "?" + MyCommon.BuildQueryString(query));
 
-                using (var response = await this.http.GetAsync(apiUrl, token).ConfigureAwait(false))
-                {
-                    response.EnsureSuccessStatusCode();
+                using var response = await this.http.GetAsync(apiUrl, token)
+                    .ConfigureAwait(false);
 
-                    var jsonBytes = await response.Content.ReadAsByteArrayAsync()
-                        .ConfigureAwait(false);
+                response.EnsureSuccessStatusCode();
 
-                    return ParseIntoLocation(jsonBytes);
-                }
+                var jsonBytes = await response.Content.ReadAsByteArrayAsync()
+                    .ConfigureAwait(false);
+
+                return ParseIntoLocation(jsonBytes);
             }
             catch (HttpRequestException)
             {
@@ -176,27 +176,25 @@ namespace OpenTween.Thumbnail.Services
 
         internal static GlobalLocation ParseIntoLocation(byte[] jsonBytes)
         {
-            using (var jsonReader = JsonReaderWriterFactory.CreateJsonReader(jsonBytes, XmlDictionaryReaderQuotas.Max))
+            using var jsonReader = JsonReaderWriterFactory.CreateJsonReader(jsonBytes, XmlDictionaryReaderQuotas.Max);
+            var xElm = XElement.Load(jsonReader);
+
+            var locationElm = xElm.XPathSelectElement("/response/checkin/venue/location");
+
+            // 座標が得られなかった場合
+            if (locationElm == null)
+                return null;
+
+            // 月など、地球以外の星の座標である場合
+            var planetElm = locationElm.Element("planet");
+            if (planetElm != null && planetElm.Value != "earth")
+                return null;
+
+            return new GlobalLocation
             {
-                var xElm = XElement.Load(jsonReader);
-
-                var locationElm = xElm.XPathSelectElement("/response/checkin/venue/location");
-
-                // 座標が得られなかった場合
-                if (locationElm == null)
-                    return null;
-
-                // 月など、地球以外の星の座標である場合
-                var planetElm = locationElm.Element("planet");
-                if (planetElm != null && planetElm.Value != "earth")
-                    return null;
-
-                return new GlobalLocation
-                {
-                    Latitude = double.Parse(locationElm.Element("lat").Value, CultureInfo.InvariantCulture),
-                    Longitude = double.Parse(locationElm.Element("lng").Value, CultureInfo.InvariantCulture),
-                };
-            }
+                Latitude = double.Parse(locationElm.Element("lat").Value, CultureInfo.InvariantCulture),
+                Longitude = double.Parse(locationElm.Element("lng").Value, CultureInfo.InvariantCulture),
+            };
         }
     }
 }

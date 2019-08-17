@@ -97,15 +97,15 @@ namespace OpenTween.Thumbnail.Services
 
             var apiUrl = new Uri("http://api.tinami.com/content/info?" + MyCommon.BuildQueryString(query));
 
-            using (var response = await this.http.GetAsync(apiUrl, token).ConfigureAwait(false))
-            {
-                response.EnsureSuccessStatusCode();
+            using var response = await this.http.GetAsync(apiUrl, token)
+                .ConfigureAwait(false);
 
-                var xmlStr = await response.Content.ReadAsStringAsync()
-                    .ConfigureAwait(false);
+            response.EnsureSuccessStatusCode();
 
-                return XDocument.Parse(xmlStr);
-            }
+            var xmlStr = await response.Content.ReadAsStringAsync()
+                .ConfigureAwait(false);
+
+            return XDocument.Parse(xmlStr);
         }
     }
 }

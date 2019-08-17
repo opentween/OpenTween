@@ -56,22 +56,20 @@ namespace OpenTween.Connection
             if (this.completed)
                 return this.instance;
 
-            using (var content = this.Response.Content)
+            using var content = this.Response.Content;
+            var responseText = await content.ReadAsStringAsync()
+                .ConfigureAwait(false);
+
+            try
             {
-                var responseText = await content.ReadAsStringAsync()
-                    .ConfigureAwait(false);
+                this.instance = MyCommon.CreateDataFromJson<T>(responseText);
+                this.completed = true;
 
-                try
-                {
-                    this.instance = MyCommon.CreateDataFromJson<T>(responseText);
-                    this.completed = true;
-
-                    return this.instance;
-                }
-                catch (SerializationException ex)
-                {
-                    throw TwitterApiException.CreateFromException(ex, responseText);
-                }
+                return this.instance;
+            }
+            catch (SerializationException ex)
+            {
+                throw TwitterApiException.CreateFromException(ex, responseText);
             }
         }
 
@@ -89,10 +87,8 @@ namespace OpenTween.Connection
     {
         public static async Task IgnoreResponse<T>(this Task<LazyJson<T>> task)
         {
-            using (var lazyJson = await task.ConfigureAwait(false))
-            {
-                // レスポンスボディを読み込まず破棄する
-            }
+            using var lazyJson = await task.ConfigureAwait(false);
+            // レスポンスボディを読み込まず破棄する
         }
     }
 }

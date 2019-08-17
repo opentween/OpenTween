@@ -79,10 +79,11 @@ namespace OpenTween
 
             InitCulture();
 
-            // 同じ設定ファイルを使用する OpenTween プロセスの二重起動を防止する
-            var pt = MyCommon.settingPath.Replace("\\", "/") + "/" + ApplicationSettings.AssemblyName;
-            using (var mt = new Mutex(false, pt))
             {
+                // 同じ設定ファイルを使用する OpenTween プロセスの二重起動を防止する
+                var pt = MyCommon.settingPath.Replace("\\", "/") + "/" + ApplicationSettings.AssemblyName;
+                using var mt = new Mutex(false, pt);
+
                 if (!mt.WaitOne(0, false))
                 {
                     var text = string.Format(MyCommon.ReplaceAppName(Properties.Resources.StartupText1), ApplicationSettings.AssemblyName);
@@ -105,9 +106,9 @@ namespace OpenTween
                 Application.Run(new TweenMain());
 
                 mt.ReleaseMutex();
-
-                return 0;
             }
+
+            return 0;
         }
 
         /// <summary>
@@ -116,22 +117,19 @@ namespace OpenTween
         private static void WarnIfRunAsAdministrator()
         {
             // UAC が無効なシステムでは警告を表示しない
-            using (var lmKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry32))
-            using (var systemKey = lmKey.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System\"))
-            {
-                var enableLUA = (int?)systemKey?.GetValue("EnableLUA");
-                if (enableLUA != 1)
-                    return;
-            }
+            using var lmKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry32);
+            using var systemKey = lmKey.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System\");
 
-            using (var currentIdentity = WindowsIdentity.GetCurrent())
+            var enableLUA = (int?)systemKey?.GetValue("EnableLUA");
+            if (enableLUA != 1)
+                return;
+
+            using var currentIdentity = WindowsIdentity.GetCurrent();
+            var principal = new WindowsPrincipal(currentIdentity);
+            if (principal.IsInRole(WindowsBuiltInRole.Administrator))
             {
-                var principal = new WindowsPrincipal(currentIdentity);
-                if (principal.IsInRole(WindowsBuiltInRole.Administrator))
-                {
-                    var message = string.Format(Properties.Resources.WarnIfRunAsAdministrator_Message, ApplicationSettings.ApplicationName);
-                    MessageBox.Show(message, ApplicationSettings.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                }
+                var message = string.Format(Properties.Resources.WarnIfRunAsAdministrator_Message, ApplicationSettings.ApplicationName);
+                MessageBox.Show(message, ApplicationSettings.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 
@@ -147,12 +145,11 @@ namespace OpenTween
             // .NET Framework 4.7.2 以降で動作しているかチェックする
             // 参照: https://docs.microsoft.com/en-us/dotnet/framework/migration-guide/how-to-determine-which-versions-are-installed
 
-            using (var lmKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry32))
-            using (var ndpKey = lmKey.OpenSubKey(@"SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full\"))
-            {
-                var releaseKey = (int)ndpKey.GetValue("Release");
-                return releaseKey >= 461808;
-            }
+            using var lmKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry32);
+            using var ndpKey = lmKey.OpenSubKey(@"SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full\");
+
+            var releaseKey = (int)ndpKey.GetValue("Release");
+            return releaseKey >= 461808;
         }
 
         /// <summary>
