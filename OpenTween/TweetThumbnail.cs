@@ -48,8 +48,14 @@ namespace OpenTween
         public event EventHandler<ThumbnailDoubleClickEventArgs> ThumbnailDoubleClick;
         public event EventHandler<ThumbnailImageSearchEventArgs> ThumbnailImageSearchClick;
 
+        public int DisplayThumbnailIndex
+            => this.scrollBar.Value;
+
+        public ThumbnailInfo[] Thumbnails
+            => this.pictureBox.Select(x => x.Tag).Cast<ThumbnailInfo>().ToArray();
+
         public ThumbnailInfo Thumbnail
-            => this.pictureBox[this.scrollBar.Value].Tag as ThumbnailInfo;
+            => this.pictureBox[this.DisplayThumbnailIndex].Tag as ThumbnailInfo;
 
         public TweetThumbnail()
             => this.InitializeComponent();

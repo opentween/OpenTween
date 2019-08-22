@@ -6227,7 +6227,7 @@ namespace OpenTween
                 ShortcutCommand.Create(Keys.Alt | Keys.Shift | Keys.Enter)
                     .FocusedOn(FocusedControl.ListTab)
                     .OnlyWhen(() => !this.SplitContainer3.Panel2Collapsed)
-                    .Do(() => this.OpenThumbnailPicture(this.tweetThumbnail1.Thumbnail)),
+                    .Do(() => this.OpenMediaViewer()),
             };
         }
 
@@ -11760,16 +11760,23 @@ namespace OpenTween
             => this.SplitContainer3.Panel2Collapsed = false;
 
         private async void tweetThumbnail1_ThumbnailDoubleClick(object sender, ThumbnailDoubleClickEventArgs e)
-            => await this.OpenThumbnailPicture(e.Thumbnail);
+            => await this.OpenMediaViewer();
 
         private async void tweetThumbnail1_ThumbnailImageSearchClick(object sender, ThumbnailImageSearchEventArgs e)
             => await this.OpenUriInBrowserAsync(e.ImageUrl);
 
-        private async Task OpenThumbnailPicture(ThumbnailInfo thumbnail)
-        {
-            var url = thumbnail.FullSizeImageUrl ?? thumbnail.MediaPageUrl;
+        private Task OpenMediaViewer()
+            => this.OpenMediaViewer(this.tweetThumbnail1.Thumbnails, this.tweetThumbnail1.DisplayThumbnailIndex);
 
-            await this.OpenUriInBrowserAsync(url);
+        private async Task OpenMediaViewer(ThumbnailInfo[] thumbnails, int displayIndex)
+        {
+            var handler = new MediaHandler
+            {
+                MediaHandlerType = SettingManager.Local.MediaHanderType,
+                OpenInBrowser = x => this.OpenUriInBrowserAsync(x),
+            };
+
+            await handler.OpenMediaViewer(this, thumbnails, displayIndex);
         }
 
         private async void TwitterApiStatusToolStripMenuItem_Click(object sender, EventArgs e)
