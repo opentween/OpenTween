@@ -58,7 +58,9 @@ namespace OpenTween
             where T : EventArgs
         {
             T raisedEvent = null;
-            EventHandler<T> handler = (s, e) => raisedEvent = e;
+
+            void handler(object s, T e)
+                => raisedEvent = e;
 
             try
             {
@@ -76,11 +78,11 @@ namespace OpenTween
 
         public static void NotPropertyChanged(INotifyPropertyChanged @object, string propertyName, Action testCode)
         {
-            PropertyChangedEventHandler handler = (s, e) =>
+            void handler(object s, PropertyChangedEventArgs e)
             {
                 if (s == @object && e.PropertyName == propertyName)
                     throw new Xunit.Sdk.PropertyChangedException(propertyName);
-            };
+            }
 
             try
             {
@@ -135,26 +137,26 @@ namespace OpenTween.Setting
     {
         public static SettingCommon Common
         {
-            get { return SettingManager.Common; }
-            set { SettingManager.Common = value; }
+            get => SettingManager.Common;
+            set => SettingManager.Common = value;
         }
 
         public static SettingLocal Local
         {
-            get { return SettingManager.Local; }
-            set { SettingManager.Local = value; }
+            get => SettingManager.Local;
+            set => SettingManager.Local = value;
         }
 
         public static SettingTabs Tabs
         {
-            get { return SettingManager.Tabs; }
-            set { SettingManager.Tabs = value; }
+            get => SettingManager.Tabs;
+            set => SettingManager.Tabs = value;
         }
 
         public static SettingAtIdList AtIdList
         {
-            get { return SettingManager.AtIdList; }
-            set { SettingManager.AtIdList = value; }
+            get => SettingManager.AtIdList;
+            set => SettingManager.AtIdList = value;
         }
     }
 }
