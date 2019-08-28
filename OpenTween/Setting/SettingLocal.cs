@@ -273,7 +273,7 @@ namespace OpenTween
         {
             get
             {
-                string pwd = ProxyPassword;
+                var pwd = ProxyPassword;
                 if (string.IsNullOrEmpty(pwd)) pwd = "";
                 if (pwd.Length > 0)
                 {
@@ -293,7 +293,7 @@ namespace OpenTween
             }
             set
             {
-                string pwd = value;
+                var pwd = value;
                 if (string.IsNullOrEmpty(pwd)) pwd = "";
                 if (pwd.Length > 0)
                 {

@@ -91,8 +91,8 @@ namespace OpenTween.OpenTweenCustomControl
         {
             get
             {
-                StringBuilder sb = new StringBuilder();
-                foreach (LogEntry e in _logs)
+                var sb = new StringBuilder();
+                foreach (var e in _logs)
                 {
                     sb.AppendLine(e.ToString());
                 }

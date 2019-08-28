@@ -95,7 +95,7 @@ namespace OpenTween.Setting.Panel
 
         private void RadioProxySpecified_CheckedChanged(object sender, EventArgs e)
         {
-            bool chk = RadioProxySpecified.Checked;
+            var chk = RadioProxySpecified.Checked;
             LabelProxyAddress.Enabled = chk;
             TextProxyAddress.Enabled = chk;
             LabelProxyPort.Enabled = chk;

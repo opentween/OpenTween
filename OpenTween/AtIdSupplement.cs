@@ -62,7 +62,7 @@ namespace OpenTween
         public List<string> GetItemList()
         {
             var ids = new List<string>();
-            for (int i = 0; i < this.TextId.AutoCompleteCustomSource.Count; ++i)
+            for (var i = 0; i < this.TextId.AutoCompleteCustomSource.Count; ++i)
             {
                 ids.Add(this.TextId.AutoCompleteCustomSource[i]);
             }
@@ -139,7 +139,7 @@ namespace OpenTween
         {
             InitializeComponent();
 
-            for (int i = 0; i < ItemList.Count; ++i)
+            for (var i = 0; i < ItemList.Count; ++i)
             {
                 this.TextId.AutoCompleteCustomSource.Add(ItemList[i]);
             }

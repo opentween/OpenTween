@@ -478,11 +478,11 @@ namespace OpenTween
 
                 if (procId == pid)
                 {
-                    int windowTitleLen = GetWindowTextLength(hWnd);
+                    var windowTitleLen = GetWindowTextLength(hWnd);
 
                     if (windowTitleLen > 0)
                     {
-                        StringBuilder windowTitle = new StringBuilder(windowTitleLen + 1);
+                        var windowTitle = new StringBuilder(windowTitleLen + 1);
                         GetWindowText(hWnd, windowTitle, windowTitle.Capacity);
 
                         if (windowTitle.ToString().Contains(searchWindowTitle))

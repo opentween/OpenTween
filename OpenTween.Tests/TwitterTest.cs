@@ -369,7 +369,7 @@ namespace OpenTween
         [Fact]
         public void ParseSource_UnescapeTest()
         {
-            string sourceHtml = "<a href=\"http://example.com/?aaa=123&amp;bbb=456\" rel=\"nofollow\">&lt;&lt;hogehoge&gt;&gt;</a>";
+            var sourceHtml = "<a href=\"http://example.com/?aaa=123&amp;bbb=456\" rel=\"nofollow\">&lt;&lt;hogehoge&gt;&gt;</a>";
 
             var expected = ("<<hogehoge>>", new Uri("http://example.com/?aaa=123&bbb=456"));
             Assert.Equal(expected, Twitter.ParseSource(sourceHtml));
@@ -378,7 +378,7 @@ namespace OpenTween
         [Fact]
         public void ParseSource_UnescapeNoUriTest()
         {
-            string sourceHtml = "&lt;&lt;hogehoge&gt;&gt;";
+            var sourceHtml = "&lt;&lt;hogehoge&gt;&gt;";
 
             var expected = ("<<hogehoge>>", (Uri)null);
             Assert.Equal(expected, Twitter.ParseSource(sourceHtml));

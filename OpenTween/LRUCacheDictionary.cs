@@ -90,7 +90,7 @@ namespace OpenTween
         {
             if (this.Count <= this.TrimLimit) return false;
 
-            for (int i = this.Count; i > this.TrimLimit; i--)
+            for (var i = this.Count; i > this.TrimLimit; i--)
             {
                 var node = this.innerList.Last;
                 this.innerList.Remove(node);

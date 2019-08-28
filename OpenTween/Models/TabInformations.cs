@@ -157,7 +157,7 @@ namespace OpenTween.Models
                     var homeTab = GetTabByType(MyCommon.TabUsageType.Home);
                     var dmTab = GetTabByType(MyCommon.TabUsageType.DirectMessage);
 
-                    for (int idx = 0; idx < tb.AllCount; ++idx)
+                    for (var idx = 0; idx < tb.AllCount; ++idx)
                     {
                         var exist = false;
                         var Id = tb.GetStatusIdAt(idx);

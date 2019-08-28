@@ -61,7 +61,7 @@ namespace OpenTween
 
         protected T GetApplicationAttribute<T>() where T : Attribute
         {
-            Assembly currentAssembly = Assembly.GetExecutingAssembly();
+            var currentAssembly = Assembly.GetExecutingAssembly();
 
             return (T) Attribute.GetCustomAttribute(currentAssembly, typeof(T));
         }

@@ -80,8 +80,8 @@ namespace OpenTween
             InitCulture();
 
             // 同じ設定ファイルを使用する OpenTween プロセスの二重起動を防止する
-            string pt = MyCommon.settingPath.Replace("\\", "/") + "/" + ApplicationSettings.AssemblyName;
-            using (Mutex mt = new Mutex(false, pt))
+            var pt = MyCommon.settingPath.Replace("\\", "/") + "/" + ApplicationSettings.AssemblyName;
+            using (var mt = new Mutex(false, pt))
             {
                 if (!mt.WaitOne(0, false))
                 {
@@ -181,7 +181,7 @@ namespace OpenTween
                 return;
             }
 
-            IntPtr windowHandle = NativeMethods.GetWindowHandle((uint)prevProcess.Id, ApplicationSettings.ApplicationName);
+            var windowHandle = NativeMethods.GetWindowHandle((uint)prevProcess.Id, ApplicationSettings.ApplicationName);
             if (windowHandle != IntPtr.Zero)
             {
                 NativeMethods.SetActiveWindow(windowHandle);

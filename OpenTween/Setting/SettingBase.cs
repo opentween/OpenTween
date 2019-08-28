@@ -62,11 +62,11 @@ namespace OpenTween
 
                 lock (lockObj)
                 {
-                    using (FileStream fs = new FileStream(settingFilePath, FileMode.Open, FileAccess.Read))
+                    using (var fs = new FileStream(settingFilePath, FileMode.Open, FileAccess.Read))
                     {
                         fs.Position = 0;
-                        XmlSerializer xs = new XmlSerializer(typeof(T));
-                        T instance = (T)xs.Deserialize(fs);
+                        var xs = new XmlSerializer(typeof(T));
+                        var instance = (T)xs.Deserialize(fs);
                         return instance;
                     }
                 }
@@ -77,7 +77,7 @@ namespace OpenTween
             }
             catch (Exception)
             {
-                string backupFile = Path.Combine(
+                var backupFile = Path.Combine(
                         Path.Combine(
                             Application.StartupPath,
                             ApplicationSettings.AssemblyName + "Backup1st"),
@@ -88,11 +88,11 @@ namespace OpenTween
                     {
                         lock (lockObj)
                         {
-                            using (FileStream fs = new FileStream(backupFile, FileMode.Open, FileAccess.Read))
+                            using (var fs = new FileStream(backupFile, FileMode.Open, FileAccess.Read))
                             {
                                 fs.Position = 0;
-                                XmlSerializer xs = new XmlSerializer(typeof(T));
-                                T instance = (T)xs.Deserialize(fs);
+                                var xs = new XmlSerializer(typeof(T));
+                                var instance = (T)xs.Deserialize(fs);
                                 MessageBox.Show("File: " + GetSettingFilePath(FileId) + Environment.NewLine + "Use old setting file, because application can't read this setting file.");
                                 return instance;
                             }

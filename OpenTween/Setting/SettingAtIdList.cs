@@ -36,7 +36,7 @@ namespace OpenTween
 #region Settingクラス基本
         public static SettingAtIdList Load()
         {
-            SettingAtIdList setting = LoadSettings();
+            var setting = LoadSettings();
             return setting;
         }
 

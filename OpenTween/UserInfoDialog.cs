@@ -591,14 +591,14 @@ namespace OpenTween
             OpenFileDialogIcon.Title = Properties.Resources.ChangeIconToolStripMenuItem_ClickText2;
             OpenFileDialogIcon.FileName = "";
 
-            DialogResult rslt = OpenFileDialogIcon.ShowDialog();
+            var rslt = OpenFileDialogIcon.ShowDialog();
 
             if (rslt != DialogResult.OK)
             {
                 return;
             }
 
-            string fn = OpenFileDialogIcon.FileName;
+            var fn = OpenFileDialogIcon.FileName;
             if (this.IsValidIconFile(new FileInfo(fn)))
             {
                 await this.DoChangeIcon(fn);
@@ -722,7 +722,7 @@ namespace OpenTween
                 if (ret != DialogResult.OK)
                     return;
 
-                string filename = ((string[])e.Data.GetData(DataFormats.FileDrop, false))[0];
+                var filename = ((string[])e.Data.GetData(DataFormats.FileDrop, false))[0];
                 await this.DoChangeIcon(filename);
             }
         }

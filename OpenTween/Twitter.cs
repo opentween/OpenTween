@@ -769,7 +769,7 @@ namespace OpenTween
                 }
             }
             //HTMLに整形
-            string textFromApi = post.TextFromApi;
+            var textFromApi = post.TextFromApi;
 
             var quotedStatusLink = (status.RetweetedStatus ?? status).QuotedStatusPermalink;
 
@@ -2253,7 +2253,7 @@ namespace OpenTween
 
             private async Task StreamLoop(CancellationToken cancellationToken)
             {
-                TimeSpan sleep = TimeSpan.Zero;
+                var sleep = TimeSpan.Zero;
                 for (; ; )
                 {
                     if (sleep != TimeSpan.Zero)
