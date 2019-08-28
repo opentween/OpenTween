@@ -121,16 +121,13 @@ namespace OpenTween
             [DataMember(Name = "id")] public string Id { get; set; }
             [DataMember(Name = "body")] public string Body { get; set; }
         }
-        public static IEnumerable<object[]> CreateDataFromJson_TestCase
+        public static readonly TheoryData<string, JsonData> CreateDataFromJson_TestCase = new TheoryData<string, JsonData>
         {
-            get
             {
-                yield return new object[] {
-                    @"{""id"":""1"", ""body"":""hogehoge""}",
-                    new JsonData { Id = "1", Body = "hogehoge" },
-                };
-            }
-        }
+                @"{""id"":""1"", ""body"":""hogehoge""}",
+                new JsonData { Id = "1", Body = "hogehoge" }
+            },
+        };
 
         [Theory]
         [MemberData(nameof(CreateDataFromJson_TestCase))]
@@ -185,20 +182,17 @@ namespace OpenTween
         public void GetReadableVersionTest(string fileVersion, string expected)
             => Assert.Equal(expected, MyCommon.GetReadableVersion(fileVersion));
 
-        public static IEnumerable<object[]> GetStatusUrlTest1_TestCase
+        public static readonly TheoryData<PostClass, string> GetStatusUrlTest1_TestCase = new TheoryData<PostClass, string>
         {
-            get
             {
-                yield return new object[] {
-                    new PostClass { StatusId = 249493863826350080L, ScreenName = "Favstar_LM", RetweetedId = null, RetweetedBy = null },
-                    "https://twitter.com/Favstar_LM/status/249493863826350080",
-                };
-                yield return new object[] {
-                    new PostClass { StatusId = 216033842434289664L, ScreenName = "haru067", RetweetedId = 200245741443235840L, RetweetedBy = "re4k"},
-                    "https://twitter.com/haru067/status/200245741443235840",
-                };
-            }
-        }
+                new PostClass { StatusId = 249493863826350080L, ScreenName = "Favstar_LM", RetweetedId = null, RetweetedBy = null },
+                "https://twitter.com/Favstar_LM/status/249493863826350080"
+            },
+            {
+                new PostClass { StatusId = 216033842434289664L, ScreenName = "haru067", RetweetedId = 200245741443235840L, RetweetedBy = "re4k"},
+                "https://twitter.com/haru067/status/200245741443235840"
+            },
+        };
 
         [Theory]
         [MemberData(nameof(GetStatusUrlTest1_TestCase))]
