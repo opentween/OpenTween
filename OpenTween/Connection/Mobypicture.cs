@@ -73,14 +73,12 @@ namespace OpenTween.Connection
             ".3gp",
         };
 
-        private readonly Twitter twitter;
         private readonly MobypictureApi mobypictureApi;
 
         private TwitterConfiguration twitterConfig;
 
         public Mobypicture(Twitter twitter, TwitterConfiguration twitterConfig)
         {
-            this.twitter = twitter ?? throw new ArgumentNullException(nameof(twitter));
             this.twitterConfig = twitterConfig ?? throw new ArgumentNullException(nameof(twitterConfig));
 
             this.mobypictureApi = new MobypictureApi(twitter.Api);
