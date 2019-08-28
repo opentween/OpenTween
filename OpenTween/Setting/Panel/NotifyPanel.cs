@@ -155,11 +155,11 @@ namespace OpenTween.Setting.Panel
                 switch (tbl.CheckBox.CheckState)
                 {
                     case CheckState.Checked:
-                        evt = evt | tbl.Type;
-                        myevt = myevt | tbl.Type;
+                        evt |= tbl.Type;
+                        myevt |= tbl.Type;
                         break;
                     case CheckState.Indeterminate:
-                        evt = evt | tbl.Type;
+                        evt |= tbl.Type;
                         break;
                     case CheckState.Unchecked:
                         break;

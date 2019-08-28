@@ -234,13 +234,10 @@ namespace OpenTween.Models
             set
             {
                 if (value)
-                {
-                    _states = _states | States.Protect;
-                }
+                    _states |= States.Protect;
                 else
-                {
-                    _states = _states & ~States.Protect;
-                }
+                    _states &= ~States.Protect;
+
                 _IsProtect = value;
             }
         }
@@ -250,13 +247,10 @@ namespace OpenTween.Models
             set
             {
                 if (value)
-                {
-                    _states = _states | States.Mark;
-                }
+                    _states |= States.Mark;
                 else
-                {
-                    _states = _states & ~States.Mark;
-                }
+                    _states &= ~States.Mark;
+
                 _IsMark = value;
             }
         }
@@ -266,13 +260,10 @@ namespace OpenTween.Models
             set
             {
                 if (value != null)
-                {
-                    _states = _states | States.Reply;
-                }
+                    _states |= States.Reply;
                 else
-                {
-                    _states = _states & ~States.Reply;
-                }
+                    _states &= ~States.Reply;
+
                 _InReplyToStatusId = value;
             }
         }
