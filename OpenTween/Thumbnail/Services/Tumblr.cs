@@ -68,7 +68,7 @@ namespace OpenTween.Thumbnail.Services
             var param = new Dictionary<string, string>
             {
                 ["api_key"] = ApplicationSettings.TumblrConsumerKey,
-                ["id"] = match.Groups["postId"].Value,
+                ["id"] = postId,
             };
 
             try

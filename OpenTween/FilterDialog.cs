@@ -1067,7 +1067,7 @@ namespace OpenTween
             if (ListTabs.SelectedIndex > -1)
             {
                 var origTabName = this.SelectedTab.TabName;
-                if (((TweenMain)this.Owner).TabRename(origTabName, out var _))
+                if (((TweenMain)this.Owner).TabRename(origTabName, out _))
                     this.RefreshListTabs();
             }
         }
@@ -1342,7 +1342,6 @@ namespace OpenTween
                 if (tbox.SelectionStart > 0)
                 {
                     var endidx = tbox.SelectionStart - 1;
-                    var startstr = "";
                     for (var i = tbox.SelectionStart - 1; i >= 0; i--)
                     {
                         var c = tbox.Text[i];
@@ -1350,6 +1349,7 @@ namespace OpenTween
                         {
                             continue;
                         }
+                        string startstr;
                         if (c == '@')
                         {
                             startstr = tbox.Text.Substring(i + 1, endidx - i);

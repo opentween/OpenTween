@@ -67,10 +67,10 @@ namespace OpenTween
         [SuppressMessage("Microsoft.Reliability", "CA2000:DisposeObjectsBeforeLosingScope")]
         private void CancelLoading()
         {
-            CancellationTokenSource newTokenSource = null, oldTokenSource = null;
+            CancellationTokenSource oldTokenSource = null;
             try
             {
-                newTokenSource = new CancellationTokenSource();
+                var newTokenSource = new CancellationTokenSource();
                 oldTokenSource = Interlocked.Exchange(ref this.cancellationTokenSource, newTokenSource);
             }
             finally

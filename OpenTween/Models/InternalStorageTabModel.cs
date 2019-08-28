@@ -71,7 +71,7 @@ namespace OpenTween.Models
             if (!base.RemovePostImmediately(statusId))
                 return false;
 
-            this.internalPosts.TryRemove(statusId, out var removedPost);
+            this.internalPosts.TryRemove(statusId, out _);
 
             return true;
         }

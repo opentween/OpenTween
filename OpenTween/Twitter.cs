@@ -239,12 +239,11 @@ namespace OpenTween
             {
                 if (orgData.IndexOf(href, posl2, StringComparison.Ordinal) > -1)
                 {
-                    var urlStr = "";
                     // IDN展開
                     posl1 = orgData.IndexOf(href, posl2, StringComparison.Ordinal);
                     posl1 += href.Length;
                     posl2 = orgData.IndexOf("\"", posl1, StringComparison.Ordinal);
-                    urlStr = orgData.Substring(posl1, posl2 - posl1);
+                    var urlStr = orgData.Substring(posl1, posl2 - posl1);
 
                     if (!urlStr.StartsWith("http://", StringComparison.Ordinal)
                         && !urlStr.StartsWith("https://", StringComparison.Ordinal)

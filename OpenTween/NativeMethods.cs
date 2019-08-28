@@ -290,7 +290,6 @@ namespace OpenTween
                 UnregisterHotKey(targetForm.Handle, hotkeyID);
                 // clean up the atom list
                 GlobalDeleteAtom(hotkeyID);
-                hotkeyID = 0;
             }
         }
         #endregion

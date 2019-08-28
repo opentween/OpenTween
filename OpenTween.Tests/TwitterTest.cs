@@ -292,18 +292,6 @@ namespace OpenTween
         {
             var text = "hoge";
             var entities = new TwitterEntities();
-            var quotedStatus = new TwitterStatus
-            {
-                Id = 1234567890L,
-                IdStr = "1234567890",
-                User = new TwitterUser
-                {
-                    Id = 1111,
-                    IdStr = "1111",
-                    ScreenName = "foo",
-                },
-                FullText = "test",
-            };
             var quotedStatusLink = new TwitterQuotedStatusPermalink
             {
                 Url = "https://t.co/hoge",

@@ -348,7 +348,7 @@ namespace OpenTween.Models
         }
 
         public int SubmitUpdate()
-            => this.SubmitUpdate(out var soundFile, out var notifyPosts, out var newMentionOrDm, out var isDeletePost);
+            => this.SubmitUpdate(out _, out _, out _, out _);
 
         public int SubmitUpdate(out string soundFile, out PostClass[] notifyPosts,
             out bool newMentionOrDm, out bool isDeletePost)

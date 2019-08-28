@@ -296,10 +296,9 @@ namespace OpenTween
             if (!this.AdjustHashtags(ref hashStr, !this.RunSilent)) return;
 
             UseHashText.Text = hashStr;
-            var idx = 0;
             if (!this._isAdd && this.HistoryHashList.SelectedIndices.Count > 0)
             {
-                idx = this.HistoryHashList.SelectedIndices[0];
+                var idx = this.HistoryHashList.SelectedIndices[0];
                 this.HistoryHashList.Items.RemoveAt(idx);
                 do
                 {

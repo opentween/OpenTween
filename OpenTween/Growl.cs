@@ -277,11 +277,11 @@ namespace OpenTween
                     notificationName = "USERSTREAM_EVENT";
                     break;
             }
-            object n = null;
+            object n;
             if (icon != null || !string.IsNullOrEmpty(url))
             {
                 var gCore = _core.GetType("Growl.CoreLibrary.Resource");
-                object res = null;
+                object res;
                 if (icon != null)
                 {
                     res = gCore.InvokeMember("op_Implicit",

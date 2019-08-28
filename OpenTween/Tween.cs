@@ -3020,7 +3020,7 @@ namespace OpenTween
             var listCache = this._listItemCache;
             if (listCache != null)
             {
-                if (listCache.TryGetValue(Index, out var item, out var post))
+                if (listCache.TryGetValue(Index, out _, out var post))
                     return post;
             }
 
@@ -4566,7 +4566,7 @@ namespace OpenTween
         }
 
         private string FormatStatusTextExtended(string statusText)
-            => this.FormatStatusTextExtended(statusText, out var autoPopulatedUserIds, out var attachmentUrl);
+            => this.FormatStatusTextExtended(statusText, out _, out _);
 
         /// <summary>
         /// <see cref="FormatStatusText"/> に加えて、拡張モードで140字にカウントされない文字列の除去を行います
@@ -4716,7 +4716,7 @@ namespace OpenTween
             var listCache = this._listItemCache;
             if (listCache?.TargetList == sender)
             {
-                if (listCache.TryGetValue(e.ItemIndex, out var item, out var cacheItemPost))
+                if (listCache.TryGetValue(e.ItemIndex, out var item, out _))
                 {
                     e.Item = item;
                     return;
@@ -4874,7 +4874,7 @@ namespace OpenTween
             if (e.State == 0) return;
             e.DrawDefault = false;
 
-            SolidBrush brs2 = null;
+            SolidBrush brs2;
             if (!e.Item.Selected)     //e.ItemStateでうまく判定できない？？？
             {
                 if (e.Item.BackColor == _clSelf)
@@ -6246,7 +6246,6 @@ namespace OpenTween
 
         private void CopyStot()
         {
-            var clstr = "";
             var sb = new StringBuilder();
             var tab = this.CurrentTab;
             var IsProtected = false;
@@ -6272,7 +6271,7 @@ namespace OpenTween
             }
             if (sb.Length > 0)
             {
-                clstr = sb.ToString();
+                var clstr = sb.ToString();
                 try
                 {
                     Clipboard.SetDataObject(clstr, false, 5, 100);
@@ -6315,9 +6314,9 @@ namespace OpenTween
 
             var selectedIndex = tab.SelectedIndex;
 
-            var fIdx = 0;
-            var toIdx = 0;
-            var stp = 1;
+            int fIdx;
+            int toIdx;
+            int stp;
 
             if (forward)
             {
@@ -6328,7 +6327,8 @@ namespace OpenTween
                 else
                 {
                     fIdx = selectedIndex + 1;
-                    if (fIdx > tab.AllCount - 1) return;
+                    if (fIdx > tab.AllCount - 1)
+                        return;
                 }
                 toIdx = tab.AllCount;
                 stp = 1;
@@ -6342,7 +6342,8 @@ namespace OpenTween
                 else
                 {
                     fIdx = selectedIndex - 1;
-                    if (fIdx < 0) return;
+                    if (fIdx < 0)
+                        return;
                 }
                 toIdx = -1;
                 stp = -1;
@@ -6450,7 +6451,7 @@ namespace OpenTween
                 stp = -1;
             }
 
-            var name = "";
+            string name;
             if (currentPost.RetweetedId == null)
             {
                 name = currentPost.ScreenName;
@@ -7342,7 +7343,7 @@ namespace OpenTween
         }
 
         private void ListTab_DoubleClick(object sender, MouseEventArgs e)
-            => this.TabRename(this.CurrentTabName, out var _);
+            => this.TabRename(this.CurrentTabName, out _);
 
         private void ListTab_MouseDown(object sender, MouseEventArgs e)
         {
@@ -9022,10 +9023,9 @@ namespace OpenTween
             //Appendix A.  Collected ABNF for URI
             //http://www.ietf.org/rfc/rfc3986.txt
 
-            var result = "";
-
             const string nico = @"^https?://[a-z]+\.(nicovideo|niconicommons|nicolive)\.jp/[a-z]+/[a-z0-9]+$";
 
+            string result;
             if (StatusText.SelectionLength > 0)
             {
                 var tmp = StatusText.SelectedText;
@@ -9100,9 +9100,11 @@ namespace OpenTween
                 // 正規表現にマッチしたURL文字列をtinyurl化
                 foreach (Match mt in Regex.Matches(StatusText.Text, url, RegexOptions.IgnoreCase))
                 {
-                    if (StatusText.Text.IndexOf(mt.Result("${url}"), StringComparison.Ordinal) == -1) continue;
+                    if (StatusText.Text.IndexOf(mt.Result("${url}"), StringComparison.Ordinal) == -1)
+                        continue;
                     var tmp = mt.Result("${url}");
-                    if (tmp.StartsWith("w", StringComparison.OrdinalIgnoreCase)) tmp = "http://" + tmp;
+                    if (tmp.StartsWith("w", StringComparison.OrdinalIgnoreCase))
+                        tmp = "http://" + tmp;
                     var undotmp = new urlUndo();
 
                     //選んだURLを選択（？）
@@ -9204,8 +9206,9 @@ namespace OpenTween
         {
             if (!await UrlConvertAsync(SettingManager.Common.AutoShortUrlFirst))
             {
-                var svc = SettingManager.Common.AutoShortUrlFirst;
                 var rnd = new Random();
+
+                MyCommon.UrlConverter svc;
                 // 前回使用した短縮URLサービス以外を選択する
                 do
                 {
@@ -9527,8 +9530,7 @@ namespace OpenTween
 
         public bool IsNetworkAvailable()
         {
-            var nw = true;
-            nw = MyCommon.IsNetworkAvailable();
+            var nw = MyCommon.IsNetworkAvailable();
             _myStatusOnline = nw;
             return nw;
         }
@@ -10034,7 +10036,7 @@ namespace OpenTween
         {
             if (string.IsNullOrEmpty(_rclickTabName)) return;
 
-            TabRename(_rclickTabName, out var _);
+            _ = TabRename(_rclickTabName, out _);
         }
 
         private async void BitlyToolStripMenuItem_Click(object sender, EventArgs e)
@@ -10208,7 +10210,7 @@ namespace OpenTween
                     return;
             }
 
-            var result = "";
+            string result;
             if (isFollowing)
             {
                 result = Properties.Resources.GetFriendshipInfo1 + System.Environment.NewLine;
@@ -10460,9 +10462,8 @@ namespace OpenTween
             }
             else
             {
-                DetailsListView listView = null;
-
                 var tb = _statuses.RemovedTab.Pop();
+                DetailsListView listView;
                 if (tb.TabType == MyCommon.TabUsageType.Related)
                 {
                     var relatedTab = _statuses.GetTabByType(MyCommon.TabUsageType.Related);
@@ -10485,7 +10486,8 @@ namespace OpenTween
                         var renamed = TabName;
                         for (var i = 2; i <= 100; i++)
                         {
-                            if (!_statuses.ContainsTab(renamed)) break;
+                            if (!_statuses.ContainsTab(renamed))
+                                break;
                             renamed = TabName + i;
                         }
                         tb.TabName = renamed;
@@ -10505,7 +10507,8 @@ namespace OpenTween
                     var renamed = tb.TabName;
                     for (var i = 1; i < int.MaxValue; i++)
                     {
-                        if (!_statuses.ContainsTab(renamed)) break;
+                        if (!_statuses.ContainsTab(renamed))
+                            break;
                         renamed = tb.TabName + "(" + i + ")";
                     }
                     tb.TabName = renamed;
@@ -10586,7 +10589,7 @@ namespace OpenTween
 
         private void HashManageMenuItem_Click(object sender, EventArgs e)
         {
-            var rslt = DialogResult.Cancel;
+            DialogResult rslt;
             try
             {
                 rslt = HashMgr.ShowDialog();
