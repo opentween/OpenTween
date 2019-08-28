@@ -280,10 +280,10 @@ namespace OpenTween
             ALLOW_SCRIPT = 0x2,
         }
 
-        private object ocx = new object();
-        private WebBrowserAPI.IServiceProvider ocxServiceProvider;
-        private IntPtr profferServicePtr = new IntPtr();
-        private WebBrowserAPI.IProfferService profferService;
+        private readonly object ocx = new object();
+        private readonly WebBrowserAPI.IServiceProvider ocxServiceProvider;
+        private readonly IntPtr profferServicePtr = new IntPtr();
+        private readonly WebBrowserAPI.IProfferService profferService;
 
         public POLICY SecurityPolicy { get; set; } = 0;
 

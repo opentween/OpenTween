@@ -121,7 +121,7 @@ namespace OpenTween
 
     public class OpenUrlItem
     {
-        private string _linkText;
+        private readonly string _linkText;
 
         public OpenUrlItem(string linkText, string url, string href)
         {

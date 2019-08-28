@@ -47,8 +47,8 @@ namespace OpenTween.Models
 
         public ConcurrentDictionary<long, PostClass> Posts { get; } = new ConcurrentDictionary<long, PostClass>();
 
-        private Dictionary<long, PostClass> _quotes = new Dictionary<long, PostClass>();
-        private ConcurrentDictionary<long, int> retweetsCount = new ConcurrentDictionary<long, int>();
+        private readonly Dictionary<long, PostClass> _quotes = new Dictionary<long, PostClass>();
+        private readonly ConcurrentDictionary<long, int> retweetsCount = new ConcurrentDictionary<long, int>();
 
         public Stack<TabModel> RemovedTab { get; } = new Stack<TabModel>();
 
@@ -59,10 +59,10 @@ namespace OpenTween.Models
         //AddPost(複数回) -> DistributePosts          -> SubmitUpdate
 
         private readonly TabCollection tabs = new TabCollection();
-        private ConcurrentQueue<long> addQueue = new ConcurrentQueue<long>();
+        private readonly ConcurrentQueue<long> addQueue = new ConcurrentQueue<long>();
 
         /// <summary>通知サウンドを再生する優先順位</summary>
-        private Dictionary<MyCommon.TabUsageType, int> notifyPriorityByTabType = new Dictionary<MyCommon.TabUsageType, int>
+        private readonly Dictionary<MyCommon.TabUsageType, int> notifyPriorityByTabType = new Dictionary<MyCommon.TabUsageType, int>
         {
             [MyCommon.TabUsageType.DirectMessage] = 100,
             [MyCommon.TabUsageType.Mentions] = 90,
@@ -74,7 +74,7 @@ namespace OpenTween.Models
         //トランザクション用
         private readonly object LockObj = new object();
 
-        private static TabInformations _instance = new TabInformations();
+        private static readonly TabInformations _instance = new TabInformations();
 
         //List
         private List<ListElement> _lists = new List<ListElement>();

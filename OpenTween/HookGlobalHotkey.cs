@@ -34,7 +34,7 @@ namespace OpenTween
 {
     public class HookGlobalHotkey : NativeWindow, IDisposable
     {
-        private Form _targetForm;
+        private readonly Form _targetForm;
         private class KeyEventValue
         {
             public KeyEventArgs KeyEvent { get; }
@@ -47,7 +47,7 @@ namespace OpenTween
             }
         }
 
-        private Dictionary<int, KeyEventValue> _hotkeyID;
+        private readonly Dictionary<int, KeyEventValue> _hotkeyID;
 
         [Flags]
         public enum ModKeys

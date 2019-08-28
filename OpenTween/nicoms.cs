@@ -30,7 +30,7 @@ namespace OpenTween
 {
     public static class nicoms
     {
-        private static string[] _nicovideo =
+        private static readonly string[] _nicovideo =
         {
             "www.nicovideo.jp/watch/",
             "live.nicovideo.jp/watch/",

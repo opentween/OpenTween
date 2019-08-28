@@ -92,7 +92,7 @@ namespace OpenTween.Models
 
         private IndexedSortedSet<long> _ids = new IndexedSortedSet<long>();
         private ConcurrentQueue<TemporaryId> addQueue = new ConcurrentQueue<TemporaryId>();
-        private ConcurrentQueue<long> removeQueue = new ConcurrentQueue<long>();
+        private readonly ConcurrentQueue<long> removeQueue = new ConcurrentQueue<long>();
         private SortedSet<long> unreadIds = new SortedSet<long>();
         private List<long> selectedStatusIds = new List<long>();
 

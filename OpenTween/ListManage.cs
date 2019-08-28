@@ -40,7 +40,7 @@ namespace OpenTween
 {
     public partial class ListManage : OTBaseForm
     {
-        private Twitter tw;
+        private readonly Twitter tw;
 
         public ListManage(Twitter tw)
         {

@@ -58,7 +58,7 @@ namespace OpenTween.Thumbnail.Services
 
         private readonly HttpClient localHttpClient;
 
-        private object LockObj = new object();
+        private readonly object LockObj = new object();
 
         public ImgAzyobuziNet(bool autoupdate)
             : this(null, autoupdate)

@@ -49,7 +49,7 @@ namespace OpenTween
         public bool RunSilent { get; set; }
 
         //入力補助画面
-        private AtIdSupplement _hashSupl;
+        private readonly AtIdSupplement _hashSupl;
 
         //編集モード
         private bool _isAdd = false;

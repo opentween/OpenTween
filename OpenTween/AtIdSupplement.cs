@@ -41,7 +41,7 @@ namespace OpenTween
 
         public string inputText = "";
         public bool isBack = false;
-        private string startChar = "";
+        private readonly string startChar = "";
 
         public void AddItem(string id)
         {

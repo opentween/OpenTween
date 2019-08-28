@@ -113,15 +113,15 @@ namespace OpenTween
         private FormWindowState _formWindowState = FormWindowState.Normal; // フォームの状態保存用 通知領域からアイコンをクリックして復帰した際に使用する
 
         //twitter解析部
-        private TwitterApi twitterApi = new TwitterApi();
+        private readonly TwitterApi twitterApi = new TwitterApi();
         private Twitter tw;
 
         //Growl呼び出し部
-        private GrowlHelper gh = new GrowlHelper(ApplicationSettings.ApplicationName);
+        private readonly GrowlHelper gh = new GrowlHelper(ApplicationSettings.ApplicationName);
 
         //サブ画面インスタンス
         internal SearchWordDialog SearchDialog = new SearchWordDialog();     //検索画面インスタンス
-        private OpenURL UrlDialog = new OpenURL();
+        private readonly OpenURL UrlDialog = new OpenURL();
         public AtIdSupplement AtIdSupl;     //@id補助
         public AtIdSupplement HashSupl;    //Hashtag補助
         public HashtagManage HashMgr;
@@ -135,7 +135,7 @@ namespace OpenTween
         private Color _clFav;               //Fav用文字色
         private Color _clOWL;               //片思い用文字色
         private Color _clRetweet;               //Retweet用文字色
-        private Color _clHighLight = Color.FromKnownColor(KnownColor.HighlightText);         //選択中の行用文字色
+        private readonly Color _clHighLight = Color.FromKnownColor(KnownColor.HighlightText);         //選択中の行用文字色
         private Font _fntDetail;            //発言詳細部用フォント
         private Color _clDetail;              //発言詳細部用色
         private Color _clDetailLink;          //発言詳細部用リンク文字色
@@ -160,23 +160,23 @@ namespace OpenTween
         private Icon ReplyIcon;               //5g
         private Icon ReplyIconBlink;          //6g
 
-        private ImageList _listViewImageList = new ImageList();    //ListViewItemの高さ変更用
+        private readonly ImageList _listViewImageList = new ImageList();    //ListViewItemの高さ変更用
 
         private PostClass _anchorPost;
         private bool _anchorFlag;        //true:関連発言移動中（関連移動以外のオペレーションをするとfalseへ。trueだとリスト背景色をアンカー発言選択中として描画）
 
-        private List<StatusTextHistory> _history = new List<StatusTextHistory>();   //発言履歴
+        private readonly List<StatusTextHistory> _history = new List<StatusTextHistory>();   //発言履歴
         private int _hisIdx;                  //発言履歴カレントインデックス
 
         //発言投稿時のAPI引数（発言編集時に設定。手書きreplyでは設定されない）
         private (long StatusId, string ScreenName)? inReplyTo = null; // リプライ先のステータスID・スクリーン名
 
         //時速表示用
-        private List<DateTimeUtc> _postTimestamps = new List<DateTimeUtc>();
-        private List<DateTimeUtc> _favTimestamps = new List<DateTimeUtc>();
+        private readonly List<DateTimeUtc> _postTimestamps = new List<DateTimeUtc>();
+        private readonly List<DateTimeUtc> _favTimestamps = new List<DateTimeUtc>();
 
         // 以下DrawItem関連
-        private SolidBrush _brsHighLight = new SolidBrush(Color.FromKnownColor(KnownColor.Highlight));
+        private readonly SolidBrush _brsHighLight = new SolidBrush(Color.FromKnownColor(KnownColor.Highlight));
         private SolidBrush _brsBackColorMine;
         private SolidBrush _brsBackColorAt;
         private SolidBrush _brsBackColorYou;
@@ -184,8 +184,8 @@ namespace OpenTween
         private SolidBrush _brsBackColorAtFromTarget;
         private SolidBrush _brsBackColorAtTo;
         private SolidBrush _brsBackColorNone;
-        private SolidBrush _brsDeactiveSelection = new SolidBrush(Color.FromKnownColor(KnownColor.ButtonFace)); //Listにフォーカスないときの選択行の背景色
-        private StringFormat sfTab = new StringFormat();
+        private readonly SolidBrush _brsDeactiveSelection = new SolidBrush(Color.FromKnownColor(KnownColor.ButtonFace)); //Listにフォーカスないときの選択行の背景色
+        private readonly StringFormat sfTab = new StringFormat();
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////
         private TabInformations _statuses;
@@ -249,15 +249,15 @@ namespace OpenTween
         private bool _isColumnChanged = false;
 
         private const int MAX_WORKER_THREADS = 20;
-        private SemaphoreSlim workerSemaphore = new SemaphoreSlim(MAX_WORKER_THREADS);
-        private CancellationTokenSource workerCts = new CancellationTokenSource();
-        private IProgress<string> workerProgress;
+        private readonly SemaphoreSlim workerSemaphore = new SemaphoreSlim(MAX_WORKER_THREADS);
+        private readonly CancellationTokenSource workerCts = new CancellationTokenSource();
+        private readonly IProgress<string> workerProgress;
 
         private int UnreadCounter = -1;
         private int UnreadAtCounter = -1;
 
-        private string[] ColumnOrgText = new string[9];
-        private string[] ColumnText = new string[9];
+        private readonly string[] ColumnOrgText = new string[9];
+        private readonly string[] ColumnText = new string[9];
 
         private bool _DoFavRetweetFlags = false;
 
@@ -297,7 +297,7 @@ namespace OpenTween
         }
 
         private Stack<ReplyChain> replyChains; //[, ]でのリプライ移動の履歴
-        private Stack<(TabModel, PostClass)> selectPostChains = new Stack<(TabModel, PostClass)>(); //ポスト選択履歴
+        private readonly Stack<(TabModel, PostClass)> selectPostChains = new Stack<(TabModel, PostClass)>(); //ポスト選択履歴
 
         public TabModel CurrentTab
             => this._statuses.SelectedTab;
@@ -10939,7 +10939,7 @@ namespace OpenTween
             MessageBox.Show(status.RetweetCount + Properties.Resources.RtCountText1);
         }
 
-        private HookGlobalHotkey _hookGlobalHotkey;
+        private readonly HookGlobalHotkey _hookGlobalHotkey;
         public TweenMain()
         {
             _hookGlobalHotkey = new HookGlobalHotkey(this);

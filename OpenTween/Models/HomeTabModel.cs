@@ -45,7 +45,7 @@ namespace OpenTween.Models
 
         // 流速計測用
         private int tweetsPerHour = 0;
-        private ConcurrentDictionary<DateTimeUtc, int> tweetsTimestamps = new ConcurrentDictionary<DateTimeUtc, int>();
+        private readonly ConcurrentDictionary<DateTimeUtc, int> tweetsTimestamps = new ConcurrentDictionary<DateTimeUtc, int>();
 
         public HomeTabModel() : this(MyCommon.DEFAULTTAB.RECENT)
         {

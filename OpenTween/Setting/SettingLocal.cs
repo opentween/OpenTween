@@ -316,7 +316,7 @@ namespace OpenTween
         public bool UseTwemoji = true;
 
         [XmlIgnore]
-        private FontConverter fontConverter = new FontConverter();
+        private readonly FontConverter fontConverter = new FontConverter();
 
         protected string FontToString(Font font)
             => font != null ? this.fontConverter.ConvertToString(font) : null;
@@ -325,7 +325,7 @@ namespace OpenTween
             => str != null ? (Font)this.fontConverter.ConvertFromString(str) : null;
 
         [XmlIgnore]
-        private ColorConverter colorConverter = new ColorConverter();
+        private readonly ColorConverter colorConverter = new ColorConverter();
 
         protected string ColorToString(Color color)
             => this.colorConverter.ConvertToString(color);

@@ -69,7 +69,7 @@ namespace OpenTween.OpenTweenCustomControl
                 => Timestamp.ToLocalTime().ToString("T") + ": " + Summary;
         }
 
-        LinkedList<LogEntry> _logs;
+        readonly LinkedList<LogEntry> _logs;
 
         const int MAXCNT = 20;
 

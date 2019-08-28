@@ -31,7 +31,7 @@ namespace OpenTween
 {
     public class LRUCacheDictionaryTest
     {
-        private static AnyOrderComparer<string> collComparer = AnyOrderComparer<string>.Instance;
+        private static readonly AnyOrderComparer<string> collComparer = AnyOrderComparer<string>.Instance;
 
         [Fact]
         public void InnerListTest()

@@ -114,7 +114,7 @@ namespace OpenTween
             Assert.Equal(expected, MyCommon.IsAnimatedGif(filename));
         }
 
-        public static TheoryData<string, DateTimeUtc> DateTimeParse_TestCase = new TheoryData<string, DateTimeUtc>
+        public static readonly TheoryData<string, DateTimeUtc> DateTimeParse_TestCase = new TheoryData<string, DateTimeUtc>
         {
             { "Sun Nov 25 06:10:00 +00:00 2012", new DateTimeUtc(2012, 11, 25, 6, 10, 0) },
             { "Sun, 25 Nov 2012 06:10:00 +00:00", new DateTimeUtc(2012, 11, 25, 6, 10, 0) },

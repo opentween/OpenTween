@@ -31,7 +31,7 @@ namespace OpenTween.Models
 {
     public class TabInformationTest
     {
-        private TabInformations tabinfo;
+        private readonly TabInformations tabinfo;
 
         public TabInformationTest()
         {

@@ -33,7 +33,7 @@ namespace OpenTween
 {
     public class TabsDialogTest
     {
-        private TabInformations tabinfo;
+        private readonly TabInformations tabinfo;
 
         public TabsDialogTest()
         {

@@ -162,7 +162,7 @@ namespace OpenTween
         private long[] noRTId = Array.Empty<long>();
 
         //プロパティからアクセスされる共通情報
-        private List<string> _hashList = new List<string>();
+        private readonly List<string> _hashList = new List<string>();
 
         private string nextCursorDirectMessage = null;
 
