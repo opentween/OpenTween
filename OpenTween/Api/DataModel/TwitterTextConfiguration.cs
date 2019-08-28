@@ -62,9 +62,7 @@ namespace OpenTween.Api.DataModel
 
         /// <exception cref="SerializationException"/>
         public static TwitterTextConfiguration ParseJson(string json)
-        {
-            return MyCommon.CreateDataFromJson<TwitterTextConfiguration>(json);
-        }
+            => MyCommon.CreateDataFromJson<TwitterTextConfiguration>(json);
 
         public static TwitterTextConfiguration DefaultConfiguration()
         {

@@ -163,10 +163,7 @@ namespace OpenTween
 
             // イベント設定
             var removedList = new List<string>();
-            dict.CacheRemoved += (s, e) =>
-            {
-                removedList.Add(e.Item.Key);
-            };
+            dict.CacheRemoved += (s, e) => removedList.Add(e.Item.Key);
 
             // 2 個までに縮小
             dict.TrimLimit = 2;

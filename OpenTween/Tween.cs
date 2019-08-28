@@ -6771,14 +6771,14 @@ namespace OpenTween
                         for (var i = postList.Count - 1; i >= 0; i--)
                         {
                             var index = i;
-                            if (postList.FindIndex((pst) => { return pst.Post.StatusId == postList[index].Post.StatusId; }) != index)
+                            if (postList.FindIndex(pst => pst.Post.StatusId == postList[index].Post.StatusId) != index)
                             {
                                 postList.RemoveAt(index);
                             }
                         }
                         var currentIndex = this.CurrentTab.SelectedIndex;
-                        var post = postList.FirstOrDefault((pst) => { return pst.Tab == curTabClass && isForward ? pst.Index > currentIndex : pst.Index < currentIndex; });
-                        if (post == null) post = postList.FirstOrDefault((pst) => { return pst.Tab != curTabClass; });
+                        var post = postList.FirstOrDefault(pst => pst.Tab == curTabClass && isForward ? pst.Index > currentIndex : pst.Index < currentIndex);
+                        if (post == null) post = postList.FirstOrDefault(pst => pst.Tab != curTabClass);
                         if (post == null) post = postList.First();
                         var tabIndex = this._statuses.Tabs.IndexOf(post.Tab);
                         this.ListTab.SelectedIndex = tabIndex;

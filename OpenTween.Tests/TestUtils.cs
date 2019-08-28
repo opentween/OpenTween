@@ -106,9 +106,7 @@ namespace OpenTween
         }
 
         public static void FireEvent<T>(T control, string eventName) where T : Control
-        {
-            TestUtils.FireEvent(control, eventName, EventArgs.Empty);
-        }
+            => TestUtils.FireEvent(control, eventName, EventArgs.Empty);
 
         public static void FireEvent<T>(T control, string eventName, EventArgs e) where T : Control
         {

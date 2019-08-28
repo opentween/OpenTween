@@ -38,9 +38,7 @@ namespace OpenTween.Api.DataModel
 
         /// <exception cref="SerializationException"/>
         public static TwitterError ParseJson(string json)
-        {
-            return MyCommon.CreateDataFromJson<TwitterError>(json);
-        }
+            => MyCommon.CreateDataFromJson<TwitterError>(json);
     }
 
     [DataContract]

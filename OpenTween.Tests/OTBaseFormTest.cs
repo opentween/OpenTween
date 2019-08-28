@@ -35,14 +35,10 @@ namespace OpenTween
         private class TestForm : OTBaseForm { }
 
         public OTBaseFormTest()
-        {
-            this.SetupSynchronizationContext();
-        }
+            => this.SetupSynchronizationContext();
 
         protected void SetupSynchronizationContext()
-        {
-            WindowsFormsSynchronizationContext.AutoInstall = false;
-        }
+            => WindowsFormsSynchronizationContext.AutoInstall = false;
 
         [Fact]
         public async Task InvokeAsync_Test()
@@ -51,7 +47,7 @@ namespace OpenTween
             {
                 await Task.Run(async () =>
                 {
-                    await form.InvokeAsync(() => { form.Text = "hoge"; });
+                    await form.InvokeAsync(() => form.Text = "hoge");
                 });
 
                 Assert.Equal("hoge", form.Text);

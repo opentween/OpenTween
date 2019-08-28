@@ -47,9 +47,7 @@ namespace OpenTween.Thumbnail.Services
             }
 
             protected override Task<XDocument> FetchContentInfoApiAsync(string contentId, CancellationToken token)
-            {
-                return Task.FromResult(XDocument.Parse(this.FakeXml));
-            }
+                => Task.FromResult(XDocument.Parse(this.FakeXml));
         }
 
         [Fact]

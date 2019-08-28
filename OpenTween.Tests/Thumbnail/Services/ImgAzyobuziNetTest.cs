@@ -52,9 +52,7 @@ namespace OpenTween.Thumbnail.Services
             }
 
             public string GetApiBase()
-            {
-                return this.ApiBase;
-            }
+                => this.ApiBase;
 
             protected override Task<byte[]> FetchRegexAsync(string apiBase)
             {

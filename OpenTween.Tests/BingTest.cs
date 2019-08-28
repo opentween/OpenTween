@@ -41,17 +41,13 @@ namespace OpenTween
         [InlineData("sq", 1)]
         [InlineData("ja", 67)]
         public void GetLanguageEnumFromIndex_Test(string expected, int index)
-        {
-            Assert.Equal(expected, Bing.GetLanguageEnumFromIndex(index));
-        }
+            => Assert.Equal(expected, Bing.GetLanguageEnumFromIndex(index));
 
         [Theory]
         [InlineData(0, "af")]
         [InlineData(1, "sq")]
         [InlineData(67, "ja")]
         public void GetIndexFromLanguageEnum_Test(int expected, string lang)
-        {
-            Assert.Equal(expected, Bing.GetIndexFromLanguageEnum(lang));
-        }
+            => Assert.Equal(expected, Bing.GetIndexFromLanguageEnum(lang));
     }
 }

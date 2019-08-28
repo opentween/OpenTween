@@ -72,14 +72,10 @@ namespace OpenTween.Api.DataModel
 
         /// <exception cref="SerializationException"/>
         public static TwitterList ParseJson(string json)
-        {
-            return MyCommon.CreateDataFromJson<TwitterList>(json);
-        }
+            => MyCommon.CreateDataFromJson<TwitterList>(json);
 
         /// <exception cref="SerializationException"/>
         public static TwitterList[] ParseJsonArray(string json)
-        {
-            return MyCommon.CreateDataFromJson<TwitterList[]>(json);
-        }
+            => MyCommon.CreateDataFromJson<TwitterList[]>(json);
     }
 }

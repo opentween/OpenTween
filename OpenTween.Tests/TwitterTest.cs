@@ -66,9 +66,7 @@ namespace OpenTween
         [InlineData("http://twitter.com/messages/compose?recipient_id=514241801", true)]
         [InlineData("https://twitter.com/messages/compose?recipient_id=514241801&text=%E3%81%BB%E3%81%92", true)]
         public void AttachmentUrlRegexTest(string url, bool isMatch)
-        {
-            Assert.Equal(isMatch, Twitter.AttachmentUrlRegex.IsMatch(url));
-        }
+            => Assert.Equal(isMatch, Twitter.AttachmentUrlRegex.IsMatch(url));
 
         [Theory]
         [InlineData("http://favstar.fm/users/twitterapi/status/22634515958", new[] { "22634515958" })]

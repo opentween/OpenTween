@@ -41,9 +41,7 @@ namespace OpenTween.Connection
     public class TwitterApiConnectionTest
     {
         public TwitterApiConnectionTest()
-        {
-            this.MyCommonSetup();
-        }
+            => this.MyCommonSetup();
 
         private void MyCommonSetup()
         {

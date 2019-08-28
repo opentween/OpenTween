@@ -112,8 +112,6 @@ namespace OpenTween.Api.DataModel
 
         /// <exception cref="SerializationException"/>
         public static TwitterUser ParseJson(string json)
-        {
-            return MyCommon.CreateDataFromJson<TwitterUser>(json);
-        }
+            => MyCommon.CreateDataFromJson<TwitterUser>(json);
     }
 }

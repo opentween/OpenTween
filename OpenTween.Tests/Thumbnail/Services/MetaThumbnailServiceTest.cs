@@ -45,9 +45,7 @@ namespace OpenTween.Thumbnail.Services
             }
 
             protected override Task<string> FetchImageUrlAsync(string url, CancellationToken token)
-            {
-                return Task.FromResult(this.FakeHtml);
-            }
+                => Task.FromResult(this.FakeHtml);
         }
 
         [Fact]

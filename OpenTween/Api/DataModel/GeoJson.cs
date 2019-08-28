@@ -42,9 +42,7 @@ namespace OpenTween.Api.DataModel
         public double[] Coordinates { get; set; }
 
         public GeoJsonPoint()
-        {
-            this.Type = "Point";
-        }
+            => this.Type = "Point";
     }
 
     [DataContract]
@@ -54,8 +52,6 @@ namespace OpenTween.Api.DataModel
         public double[][][] Coordinates { get; set; }
 
         public GeoJsonPolygon()
-        {
-            this.Type = "Polygon";
-        }
+            => this.Type = "Polygon";
     }
 }

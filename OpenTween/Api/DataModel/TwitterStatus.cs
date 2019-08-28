@@ -162,15 +162,11 @@ namespace OpenTween.Api.DataModel
 
         /// <exception cref="SerializationException"/>
         public static TwitterStatus ParseJson(string json)
-        {
-            return MyCommon.CreateDataFromJson<TwitterStatus>(json);
-        }
+            => MyCommon.CreateDataFromJson<TwitterStatus>(json);
 
         /// <exception cref="SerializationException"/>
         public static TwitterStatus[] ParseJsonArray(string json)
-        {
-            return MyCommon.CreateDataFromJson<TwitterStatus[]>(json);
-        }
+            => MyCommon.CreateDataFromJson<TwitterStatus[]>(json);
     }
 
     [DataContract]
@@ -378,15 +374,11 @@ namespace OpenTween.Api.DataModel
 
         /// <exception cref="SerializationException"/>
         public static TwitterStatusCompat ParseJson(string json)
-        {
-            return MyCommon.CreateDataFromJson<TwitterStatusCompat>(json);
-        }
+            => MyCommon.CreateDataFromJson<TwitterStatusCompat>(json);
 
         /// <exception cref="SerializationException"/>
         public static TwitterStatusCompat[] ParseJsonArray(string json)
-        {
-            return MyCommon.CreateDataFromJson<TwitterStatusCompat[]>(json);
-        }
+            => MyCommon.CreateDataFromJson<TwitterStatusCompat[]>(json);
     }
 
     [DataContract]
@@ -433,14 +425,10 @@ namespace OpenTween.Api.DataModel
 
         /// <exception cref="SerializationException"/>
         public static TwitterDirectMessage ParseJson(string json)
-        {
-            return MyCommon.CreateDataFromJson<TwitterDirectMessage>(json);
-        }
+            => MyCommon.CreateDataFromJson<TwitterDirectMessage>(json);
 
         /// <exception cref="SerializationException"/>
         public static TwitterDirectMessage[] ParseJsonArray(string json)
-        {
-            return MyCommon.CreateDataFromJson<TwitterDirectMessage[]>(json);
-        }
+            => MyCommon.CreateDataFromJson<TwitterDirectMessage[]>(json);
     }
 }

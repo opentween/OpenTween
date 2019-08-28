@@ -337,11 +337,9 @@ namespace OpenTween
         /// 指定されたスケールと SettingLocal.ScaleDimension のスケールとの拡大比を返します
         /// </summary>
         public SizeF GetConfigScaleFactor(SizeF currentSizeDimension)
-        {
-            return new SizeF(
+            => new SizeF(
                 currentSizeDimension.Width / this.ScaleDimension.Width,
                 currentSizeDimension.Height / this.ScaleDimension.Height);
-        }
 
         public void Dispose()
         {

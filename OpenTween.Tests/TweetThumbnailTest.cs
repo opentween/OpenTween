@@ -74,9 +74,7 @@ namespace OpenTween
             class MockThumbnailInfo : ThumbnailInfo
             {
                 public override Task<MemoryImage> LoadThumbnailImageAsync(HttpClient http, CancellationToken cancellationToken)
-                {
-                    return Task.FromResult(TestUtils.CreateDummyImage());
-                }
+                    => Task.FromResult(TestUtils.CreateDummyImage());
             }
         }
 

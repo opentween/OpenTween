@@ -115,29 +115,19 @@ namespace OpenTween.Connection
             }
 
             public override void Flush()
-            {
-                throw new NotSupportedException();
-            }
+                => throw new NotSupportedException();
 
             public override int Read(byte[] buffer, int offset, int count)
-            {
-                throw new IOException();
-            }
+                => throw new IOException();
 
             public override long Seek(long offset, SeekOrigin origin)
-            {
-                throw new NotSupportedException();
-            }
+                => throw new NotSupportedException();
 
             public override void SetLength(long value)
-            {
-                throw new NotSupportedException();
-            }
+                => throw new NotSupportedException();
 
             public override void Write(byte[] buffer, int offset, int count)
-            {
-                throw new NotSupportedException();
-            }
+                => throw new NotSupportedException();
 
             protected override void Dispose(bool disposing)
             {

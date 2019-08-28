@@ -31,9 +31,7 @@ namespace OpenTween.Models
     public class PostFilterRuleTest
     {
         public PostFilterRuleTest()
-        {
-            PostFilterRule.AutoCompile = true;
-        }
+            => PostFilterRule.AutoCompile = true;
 
         [Fact]
         public void EmptyRuleTest()
