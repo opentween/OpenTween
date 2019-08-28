@@ -182,25 +182,25 @@ namespace OpenTween
 
         private struct FLASHWINFO
         {
-            public Int32 cbSize;    // FLASHWINFO構造体のサイズ
+            public int cbSize;    // FLASHWINFO構造体のサイズ
             public IntPtr hwnd;     // 点滅対象のウィンドウ・ハンドル
-            public Int32 dwFlags;   // 以下の「FLASHW_XXX」のいずれか
-            public Int32 uCount;    // 点滅する回数
-            public Int32 dwTimeout; // 点滅する間隔（ミリ秒単位）
+            public int dwFlags;   // 以下の「FLASHW_XXX」のいずれか
+            public int uCount;    // 点滅する回数
+            public int dwTimeout; // 点滅する間隔（ミリ秒単位）
         }
 
         // 点滅を止める
-        private const Int32 FLASHW_STOP = 0;
+        private const int FLASHW_STOP = 0;
         // タイトルバーを点滅させる
-        private const Int32 FLASHW_CAPTION = 0x1;
+        private const int FLASHW_CAPTION = 0x1;
         // タスクバー・ボタンを点滅させる
-        private const Int32 FLASHW_TRAY = 0x2;
+        private const int FLASHW_TRAY = 0x2;
         // タスクバー・ボタンとタイトルバーを点滅させる
-        private const Int32 FLASHW_ALL = 0x3;
+        private const int FLASHW_ALL = 0x3;
         // FLASHW_STOPが指定されるまでずっと点滅させる
-        private const Int32 FLASHW_TIMER = 0x4;
+        private const int FLASHW_TIMER = 0x4;
         // ウィンドウが最前面に来るまでずっと点滅させる
-        private const Int32 FLASHW_TIMERNOFG = 0xC;
+        private const int FLASHW_TIMERNOFG = 0xC;
         #endregion
 
         [DllImport("user32.dll")]

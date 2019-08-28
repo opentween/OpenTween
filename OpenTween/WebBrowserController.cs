@@ -245,7 +245,7 @@ namespace OpenTween
             int MapUrlToZone([In, MarshalAs(UnmanagedType.LPWStr)] string pwszUrl, out int pdwZone, int dwFlags);
 
             [PreserveSig]
-            int GetSecurityId([MarshalAs(UnmanagedType.LPWStr)] string pwszUrl, [MarshalAs(UnmanagedType.LPArray)] byte[] pbSecurityId, ref UInt32 pcbSecurityId, UInt32 dwReserved);
+            int GetSecurityId([MarshalAs(UnmanagedType.LPWStr)] string pwszUrl, [MarshalAs(UnmanagedType.LPArray)] byte[] pbSecurityId, ref uint pcbSecurityId, uint dwReserved);
 
             [PreserveSig]
             int ProcessUrlAction([In, MarshalAs(UnmanagedType.LPWStr)] string pwszUrl, int dwAction, out byte pPolicy, int cbPolicy, byte pContext, int cbContext, int dwFlags, int dwReserved);

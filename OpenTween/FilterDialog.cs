@@ -1345,7 +1345,7 @@ namespace OpenTween
                     for (var i = tbox.SelectionStart - 1; i >= 0; i--)
                     {
                         var c = tbox.Text[i];
-                        if (Char.IsLetterOrDigit(c) || c == '_')
+                        if (char.IsLetterOrDigit(c) || c == '_')
                         {
                             continue;
                         }

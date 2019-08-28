@@ -64,7 +64,7 @@ namespace OpenTween
 
         private string Encrypt(string password)
         {
-            if (String.IsNullOrEmpty(password)) password = "";
+            if (string.IsNullOrEmpty(password)) password = "";
             if (password.Length > 0)
             {
                 try
@@ -83,7 +83,7 @@ namespace OpenTween
         }
         private string Decrypt(string password)
         {
-            if (String.IsNullOrEmpty(password)) password = "";
+            if (string.IsNullOrEmpty(password)) password = "";
             if (password.Length > 0)
             {
                 try
@@ -269,7 +269,7 @@ namespace OpenTween
         }
         private string Encrypt(string password)
         {
-            if (String.IsNullOrEmpty(password)) password = "";
+            if (string.IsNullOrEmpty(password)) password = "";
             if (password.Length > 0)
             {
                 try
@@ -288,7 +288,7 @@ namespace OpenTween
         }
         private string Decrypt(string password)
         {
-            if (String.IsNullOrEmpty(password)) password = "";
+            if (string.IsNullOrEmpty(password)) password = "";
             if (password.Length > 0)
             {
                 try

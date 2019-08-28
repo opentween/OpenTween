@@ -972,7 +972,7 @@ namespace OpenTween
         /// startStatusId からリプライ先の発言を辿る。発言は posts 以外からは検索しない。
         /// </summary>
         /// <returns>posts の中から検索されたリプライチェインの末端</returns>
-        internal static PostClass FindTopOfReplyChain(IDictionary<Int64, PostClass> posts, Int64 startStatusId)
+        internal static PostClass FindTopOfReplyChain(IDictionary<long, PostClass> posts, long startStatusId)
         {
             if (!posts.ContainsKey(startStatusId))
                 throw new ArgumentException("startStatusId (" + startStatusId + ") が posts の中から見つかりませんでした。", nameof(startStatusId));
@@ -991,7 +991,7 @@ namespace OpenTween
         public async Task GetRelatedResult(bool read, RelatedPostsTabModel tab)
         {
             var targetPost = tab.TargetPost;
-            var relPosts = new Dictionary<Int64, PostClass>();
+            var relPosts = new Dictionary<long, PostClass>();
             if (targetPost.TextFromApi.Contains("@") && targetPost.InReplyToStatusId == null)
             {
                 //検索結果対応
@@ -1044,7 +1044,7 @@ namespace OpenTween
                 .Concat(Twitter.ThirdPartyStatusUrlRegex.Matches(text).Cast<Match>());
             foreach (var _match in ma)
             {
-                if (Int64.TryParse(_match.Groups["StatusId"].Value, out var _statusId))
+                if (long.TryParse(_match.Groups["StatusId"].Value, out var _statusId))
                 {
                     if (relPosts.ContainsKey(_statusId))
                         continue;
@@ -1903,7 +1903,7 @@ namespace OpenTween
             public string Event { get; set; }
             public string Username { get; set; }
             public string Target { get; set; }
-            public Int64 Id { get; set; }
+            public long Id { get; set; }
             public bool IsMe { get; set; }
         }
 

@@ -84,10 +84,10 @@ namespace OpenTween
            _targetForm.HandleDestroyed += this.OnHandleDestroyed;
         }
 
-        public void OnHandleCreated(Object sender, EventArgs e)
+        public void OnHandleCreated(object sender, EventArgs e)
             => this.AssignHandle(_targetForm.Handle);
 
-        public void OnHandleDestroyed(Object sender, EventArgs e)
+        public void OnHandleDestroyed(object sender, EventArgs e)
             => this.ReleaseHandle();
 
         public bool RegisterOriginalHotkey(Keys hotkey, int hotkeyValue, ModKeys modifiers)

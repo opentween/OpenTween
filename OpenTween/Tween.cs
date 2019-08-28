@@ -816,7 +816,7 @@ namespace OpenTween
             tw.RestrictFavCheck = SettingManager.Common.RestrictFavCheck;
             tw.ReadOwnPost = SettingManager.Common.ReadOwnPost;
             tw.TrackWord = SettingManager.Common.TrackWord;
-            TrackToolStripMenuItem.Checked = !String.IsNullOrEmpty(tw.TrackWord);
+            TrackToolStripMenuItem.Checked = !string.IsNullOrEmpty(tw.TrackWord);
             tw.AllAtReply = SettingManager.Common.AllAtReply;
             AllrepliesToolStripMenuItem.Checked = tw.AllAtReply;
             ShortUrl.Instance.DisableExpanding = !SettingManager.Common.TinyUrlResolve;
@@ -6108,7 +6108,7 @@ namespace OpenTween
                             for (var i = StatusText.SelectionStart - 1; i >= 0; i--)
                             {
                                 var c = StatusText.Text[i];
-                                if (Char.IsLetterOrDigit(c) || c == '_')
+                                if (char.IsLetterOrDigit(c) || c == '_')
                                 {
                                     continue;
                                 }
@@ -9241,7 +9241,7 @@ namespace OpenTween
         private void MenuStrip1_MenuActivate(object sender, EventArgs e)
         {
             // フォーカスがメニューに移る (MenuStrip1.Tag フラグを立てる)
-            MenuStrip1.Tag = new Object();
+            MenuStrip1.Tag = new object();
             MenuStrip1.Select(); // StatusText がフォーカスを持っている場合 Leave が発生
         }
 

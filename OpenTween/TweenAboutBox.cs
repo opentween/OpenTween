@@ -50,7 +50,7 @@ namespace OpenTween
             // TODO: [プロジェクト] メニューの下にある [プロジェクト プロパティ] ダイアログの [アプリケーション] ペインで、アプリケーションのアセンブリ情報を 
             //    カスタマイズします。
             this.LabelProductName.Text = ApplicationSettings.ApplicationName;
-            this.LabelVersion.Text = String.Format(Properties.Resources.TweenAboutBox_LoadText2, MyCommon.GetReadableVersion());
+            this.LabelVersion.Text = string.Format(Properties.Resources.TweenAboutBox_LoadText2, MyCommon.GetReadableVersion());
             this.LabelCopyright.Text = GetApplicationAttribute<AssemblyCopyrightAttribute>().Copyright;
             this.LabelCompanyName.Text = Application.CompanyName;
             this.TextBoxDescription.Text = GetApplicationAttribute<AssemblyDescriptionAttribute>().Description;

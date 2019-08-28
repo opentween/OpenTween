@@ -44,7 +44,7 @@ namespace OpenTween
             => SaveSettings(this);
 
         public SettingAtIdList()
-            => this.AtIdList = new List<String>();
+            => this.AtIdList = new List<string>();
 
         public SettingAtIdList(List<string> ids)
             => this.AtIdList = ids;
