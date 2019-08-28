@@ -150,9 +150,7 @@ namespace OpenTween
             => SelectItem(listView, -1 /* all items */);
 
         #region "画面ブリンク用"
-        public static bool FlashMyWindow(IntPtr hwnd,
-            FlashSpecification flashType,
-            int flashCount)
+        public static bool FlashMyWindow(IntPtr hwnd, int flashCount)
         {
             var fInfo = new FLASHWINFO();
             fInfo.cbSize = Convert.ToInt32(Marshal.SizeOf(fInfo));
@@ -377,7 +375,7 @@ namespace OpenTween
                 throw new Win32Exception();
         }
 
-        public static void SetProxy(ProxyType pType, string host, int port, string username, string password)
+        public static void SetProxy(ProxyType pType, string host, int port)
         {
             string proxy = null;
             switch (pType)

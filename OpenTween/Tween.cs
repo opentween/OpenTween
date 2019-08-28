@@ -1859,7 +1859,7 @@ namespace OpenTween
             //mentions新着時に画面ブリンク
             if (!_initial && SettingManager.Common.BlinkNewMentions && newMentions && Form.ActiveForm == null)
             {
-                NativeMethods.FlashMyWindow(this.Handle, NativeMethods.FlashSpecification.FlashTray, 3);
+                NativeMethods.FlashMyWindow(this.Handle, 3);
             }
         }
 
@@ -1985,7 +1985,7 @@ namespace OpenTween
             }
         }
 
-        private void ColorizeList(ListViewItem Item, PostClass post, int Index)
+        private void ColorizeList(ListViewItem Item, PostClass post)
         {
             //Index:更新対象のListviewItem.Index。Colorを返す。
             //-1は全キャッシュ。Colorは返さない（ダミーを戻す）
@@ -4728,7 +4728,7 @@ namespace OpenTween
             var tab = this._statuses.Tabs[tabPage.Text];
             try
             {
-                e.Item = this.CreateItem(tab, tab[e.ItemIndex], e.ItemIndex);
+                e.Item = this.CreateItem(tab, tab[e.ItemIndex]);
             }
             catch (Exception)
             {
@@ -4758,7 +4758,7 @@ namespace OpenTween
             var tab = this.CurrentTab;
             var posts = tabInfo[startIndex, endIndex]; //配列で取得
             var listItems = Enumerable.Range(0, cacheLength)
-                .Select(x => this.CreateItem(tab, posts[x], startIndex + x))
+                .Select(x => this.CreateItem(tab, posts[x]))
                 .ToArray();
 
             var listCache = new ListViewItemCache
@@ -4778,7 +4778,7 @@ namespace OpenTween
         private void PurgeListViewItemCache()
             => Interlocked.Exchange(ref this._listItemCache, null);
 
-        private ListViewItem CreateItem(TabModel tab, PostClass Post, int Index)
+        private ListViewItem CreateItem(TabModel tab, PostClass Post)
         {
             var mk = new StringBuilder();
             //if (Post.IsDeleted) mk.Append("×");
@@ -4822,7 +4822,7 @@ namespace OpenTween
             ChangeItemStyleRead(read, itm, Post, null);
 
             if (tab.TabName == this.CurrentTabName)
-                this.ColorizeList(itm, Post, Index);
+                this.ColorizeList(itm, Post);
 
             return itm;
         }
