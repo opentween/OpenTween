@@ -60,23 +60,46 @@ namespace OpenTween
     public partial class TweenMain : OTBaseForm
     {
         //各種設定
-        private Size _mySize;           //画面サイズ
-        private Point _myLoc;           //画面位置
-        private int _mySpDis;           //区切り位置
-        private int _mySpDis2;          //発言欄区切り位置
-        private int _mySpDis3;          //プレビュー区切り位置
-        private int _iconSz;            //アイコンサイズ（現在は16、24、48の3種類。将来直接数字指定可能とする 注：24x24の場合に26と指定しているのはMSゴシック系フォントのための仕様）
-        private bool _iconCol;          //1列表示の時true（48サイズのとき）
+
+        /// <summary>画面サイズ</summary>
+        private Size _mySize;
+
+        /// <summary>画面位置</summary>
+        private Point _myLoc;
+
+        /// <summary>区切り位置</summary>
+        private int _mySpDis;
+
+        /// <summary>発言欄区切り位置</summary>
+        private int _mySpDis2;
+
+        /// <summary>プレビュー区切り位置</summary>
+        private int _mySpDis3;
+
+        /// <summary>アイコンサイズ</summary>
+        /// <remarks>
+        /// 現在は16、24、48の3種類。将来直接数字指定可能とする
+        /// 注：24x24の場合に26と指定しているのはMSゴシック系フォントのための仕様
+        /// </remarks>
+        private int _iconSz;
+
+        private bool _iconCol; // 1列表示の時true（48サイズのとき）
 
         //雑多なフラグ類
-        private bool _initial;         //true:起動時処理中
+        private bool _initial; // true:起動時処理中
         private bool _initialLayout = true;
-        private bool _ignoreConfigSave;         //true:起動時処理中
-        private bool _tabDrag;           //タブドラッグ中フラグ（DoDragDropを実行するかの判定用）
-        private TabPage _beforeSelectedTab; //タブが削除されたときに前回選択されていたときのタブを選択する為に保持
+        private bool _ignoreConfigSave; // true:起動時処理中
+
+        /// <summary>タブドラッグ中フラグ（DoDragDropを実行するかの判定用）</summary>
+        private bool _tabDrag;
+
+        private TabPage _beforeSelectedTab; // タブが削除されたときに前回選択されていたときのタブを選択する為に保持
         private Point _tabMouseDownPoint;
-        private string _rclickTabName;      //右クリックしたタブの名前（Tabコントロール機能不足対応）
-        private readonly object _syncObject = new object();    //ロック用
+
+        /// <summary>右クリックしたタブの名前（Tabコントロール機能不足対応）</summary>
+        private string _rclickTabName;
+
+        private readonly object _syncObject = new object(); // ロック用
 
         private const string detailHtmlFormatHeaderMono = 
             "<html><head><meta http-equiv=\"X-UA-Compatible\" content=\"IE=8\">"
@@ -120,56 +143,128 @@ namespace OpenTween
         private readonly GrowlHelper gh = new GrowlHelper(ApplicationSettings.ApplicationName);
 
         //サブ画面インスタンス
-        internal SearchWordDialog SearchDialog = new SearchWordDialog();     //検索画面インスタンス
+
+        /// <summary>検索画面インスタンス</summary>
+        internal SearchWordDialog SearchDialog = new SearchWordDialog();
+
         private readonly OpenURL UrlDialog = new OpenURL();
-        public AtIdSupplement AtIdSupl;     //@id補助
-        public AtIdSupplement HashSupl;    //Hashtag補助
+
+        /// <summary>@id補助</summary>
+        public AtIdSupplement AtIdSupl;
+
+        /// <summary>Hashtag補助</summary>
+        public AtIdSupplement HashSupl;
+
         public HashtagManage HashMgr;
         private EventViewerDialog evtDialog;
 
         //表示フォント、色、アイコン
-        private Font _fntUnread;            //未読用フォント
-        private Color _clUnread;            //未読用文字色
-        private Font _fntReaded;            //既読用フォント
-        private Color _clReaded;            //既読用文字色
-        private Color _clFav;               //Fav用文字色
-        private Color _clOWL;               //片思い用文字色
-        private Color _clRetweet;               //Retweet用文字色
-        private readonly Color _clHighLight = Color.FromKnownColor(KnownColor.HighlightText);         //選択中の行用文字色
-        private Font _fntDetail;            //発言詳細部用フォント
-        private Color _clDetail;              //発言詳細部用色
-        private Color _clDetailLink;          //発言詳細部用リンク文字色
-        private Color _clDetailBackcolor;     //発言詳細部用背景色
-        private Color _clSelf;              //自分の発言用背景色
-        private Color _clAtSelf;            //自分宛返信用背景色
-        private Color _clTarget;            //選択発言者の他の発言用背景色
-        private Color _clAtTarget;          //選択発言中の返信先用背景色
-        private Color _clAtFromTarget;      //選択発言者への返信発言用背景色
-        private Color _clAtTo;              //選択発言の唯一＠先
-        private Color _clListBackcolor;       //リスト部通常発言背景色
-        private Color _clInputBackcolor;      //入力欄背景色
-        private Color _clInputFont;           //入力欄文字色
-        private Font _fntInputFont;           //入力欄フォント
-        private ImageCache IconCache;        //アイコン画像リスト
-        private Icon NIconAt;               //At.ico             タスクトレイアイコン：通常時
-        private Icon NIconAtRed;            //AtRed.ico          タスクトレイアイコン：通信エラー時
-        private Icon NIconAtSmoke;          //AtSmoke.ico        タスクトレイアイコン：オフライン時
-        private Icon[] NIconRefresh = new Icon[4];       //Refresh.ico        タスクトレイアイコン：更新中（アニメーション用に4種類を保持するリスト）
-        private Icon TabIcon;               //Tab.ico            未読のあるタブ用アイコン
-        private Icon MainIcon;              //Main.ico           画面左上のアイコン
-        private Icon ReplyIcon;               //5g
-        private Icon ReplyIconBlink;          //6g
 
-        private readonly ImageList _listViewImageList = new ImageList();    //ListViewItemの高さ変更用
+        /// <summary>未読用フォント</summary>
+        private Font _fntUnread;
+
+        /// <summary>未読用文字色</summary>
+        private Color _clUnread;
+
+        /// <summary>既読用フォント</summary>
+        private Font _fntReaded;
+
+        /// <summary>既読用文字色</summary>
+        private Color _clReaded;
+
+        /// <summary>Fav用文字色</summary>
+        private Color _clFav;
+
+        /// <summary>片思い用文字色</summary>
+        private Color _clOWL;
+
+        /// <summary>Retweet用文字色</summary>
+        private Color _clRetweet;
+
+        /// <summary>選択中の行用文字色</summary>
+        private readonly Color _clHighLight = Color.FromKnownColor(KnownColor.HighlightText);
+
+        /// <summary>発言詳細部用フォント</summary>
+        private Font _fntDetail;
+
+        /// <summary>発言詳細部用色</summary>
+        private Color _clDetail;
+
+        /// <summary>発言詳細部用リンク文字色</summary>
+        private Color _clDetailLink;
+
+        /// <summary>発言詳細部用背景色</summary>
+        private Color _clDetailBackcolor;
+
+        /// <summary>自分の発言用背景色</summary>
+        private Color _clSelf;
+
+        /// <summary>自分宛返信用背景色</summary>
+        private Color _clAtSelf;
+
+        /// <summary>選択発言者の他の発言用背景色</summary>
+        private Color _clTarget;
+
+        /// <summary>選択発言中の返信先用背景色</summary>
+        private Color _clAtTarget;
+
+        /// <summary>選択発言者への返信発言用背景色</summary>
+        private Color _clAtFromTarget;
+
+        /// <summary>選択発言の唯一＠先</summary>
+        private Color _clAtTo;
+
+        /// <summary>リスト部通常発言背景色</summary>
+        private Color _clListBackcolor;
+
+        /// <summary>入力欄背景色</summary>
+        private Color _clInputBackcolor;
+
+        /// <summary>入力欄文字色</summary>
+        private Color _clInputFont;
+
+        /// <summary>入力欄フォント</summary>
+        private Font _fntInputFont;
+
+        /// <summary>アイコン画像リスト</summary>
+        private ImageCache IconCache;
+
+        /// <summary>タスクトレイアイコン：通常時 (At.ico)</summary>
+        private Icon NIconAt;
+
+        /// <summary>タスクトレイアイコン：通信エラー時 (AtRed.ico)</summary>
+        private Icon NIconAtRed;
+
+        /// <summary>タスクトレイアイコン：オフライン時 (AtSmoke.ico)</summary>
+        private Icon NIconAtSmoke;
+
+        /// <summary>タスクトレイアイコン：更新中 (Refresh.ico)</summary>
+        private Icon[] NIconRefresh = new Icon[4];
+
+        /// <summary>未読のあるタブ用アイコン (Tab.ico)</summary>
+        private Icon TabIcon;
+
+        /// <summary>画面左上のアイコン (Main.ico)</summary>
+        private Icon MainIcon;
+
+        private Icon ReplyIcon;
+        private Icon ReplyIconBlink;
+
+        private readonly ImageList _listViewImageList = new ImageList(); // ListViewItemの高さ変更用
 
         private PostClass _anchorPost;
-        private bool _anchorFlag;        //true:関連発言移動中（関連移動以外のオペレーションをするとfalseへ。trueだとリスト背景色をアンカー発言選択中として描画）
+        private bool _anchorFlag; // true:関連発言移動中（関連移動以外のオペレーションをするとfalseへ。trueだとリスト背景色をアンカー発言選択中として描画）
 
-        private readonly List<StatusTextHistory> _history = new List<StatusTextHistory>();   //発言履歴
-        private int _hisIdx;                  //発言履歴カレントインデックス
+        /// <summary>発言履歴</summary>
+        private readonly List<StatusTextHistory> _history = new List<StatusTextHistory>();
+
+        /// <summary>発言履歴カレントインデックス</summary>
+        private int _hisIdx;
 
         //発言投稿時のAPI引数（発言編集時に設定。手書きreplyでは設定されない）
-        private (long StatusId, string ScreenName)? inReplyTo = null; // リプライ先のステータスID・スクリーン名
+
+        /// <summary>リプライ先のステータスID・スクリーン名</summary>
+        private (long StatusId, string ScreenName)? inReplyTo = null;
 
         //時速表示用
         private readonly List<DateTimeUtc> _postTimestamps = new List<DateTimeUtc>();
@@ -184,7 +279,10 @@ namespace OpenTween
         private SolidBrush _brsBackColorAtFromTarget;
         private SolidBrush _brsBackColorAtTo;
         private SolidBrush _brsBackColorNone;
-        private readonly SolidBrush _brsDeactiveSelection = new SolidBrush(Color.FromKnownColor(KnownColor.ButtonFace)); //Listにフォーカスないときの選択行の背景色
+
+        /// <summary>Listにフォーカスないときの選択行の背景色</summary>
+        private readonly SolidBrush _brsDeactiveSelection = new SolidBrush(Color.FromKnownColor(KnownColor.ButtonFace));
+
         private readonly StringFormat sfTab = new StringFormat();
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -273,7 +371,7 @@ namespace OpenTween
         private bool urlMultibyteSplit = false;
         private bool preventSmsCommand = true;
 
-        //URL短縮のUndo用
+        // URL短縮のUndo用
         private struct urlUndo
         {
             public string Before;
@@ -296,8 +394,11 @@ namespace OpenTween
             }
         }
 
-        private Stack<ReplyChain> replyChains; //[, ]でのリプライ移動の履歴
-        private readonly Stack<(TabModel, PostClass)> selectPostChains = new Stack<(TabModel, PostClass)>(); //ポスト選択履歴
+        /// <summary>[, ]でのリプライ移動の履歴</summary>
+        private Stack<ReplyChain> replyChains;
+
+        /// <summary>ポスト選択履歴</summary>
+        private readonly Stack<(TabModel, PostClass)> selectPostChains = new Stack<(TabModel, PostClass)>();
 
         public TabModel CurrentTab
             => this._statuses.SelectedTab;
@@ -314,7 +415,7 @@ namespace OpenTween
         public PostClass CurrentPost
             => this.CurrentTab.SelectedPost;
 
-        //検索処理タイプ
+        /// <summary>検索処理タイプ</summary>
         internal enum SEARCHTYPE
         {
             DialogSearch,
@@ -326,7 +427,10 @@ namespace OpenTween
         {
             public string status = "";
             public (long StatusId, string ScreenName)? inReplyTo = null;
-            public string imageService = "";      //画像投稿サービス名
+
+            /// <summary>画像投稿サービス名</summary>
+            public string imageService = "";
+
             public IMediaItem[] mediaItems = null;
             public StatusTextHistory()
             {
