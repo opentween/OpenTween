@@ -91,7 +91,7 @@ namespace OpenTween
             if (s == null)
                 throw new ArgumentNullException(nameof(s));
 
-            IEnumerable<int> GetEnumerable(string input)
+            static IEnumerable<int> GetEnumerable(string input)
             {
                 var i = 0;
                 var length = input.Length;
