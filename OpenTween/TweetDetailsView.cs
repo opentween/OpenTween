@@ -129,7 +129,7 @@ namespace OpenTween
 
             if (this.DumpPostClass)
             {
-                StringBuilder sb = new StringBuilder(512);
+                var sb = new StringBuilder(512);
 
                 sb.Append("-----Start PostClass Dump<br>");
                 sb.AppendFormat("TextFromApi           : {0}<br>", post.TextFromApi);
@@ -148,7 +148,7 @@ namespace OpenTween
                 sb.AppendFormat("IsRead         : {0}<br>", post.IsRead);
                 sb.AppendFormat("IsReply        : {0}<br>", post.IsReply);
 
-                foreach (string nm in post.ReplyToList.Select(x => x.ScreenName))
+                foreach (var nm in post.ReplyToList.Select(x => x.ScreenName))
                 {
                     sb.AppendFormat("ReplyToList    : {0}<br>", nm);
                 }
@@ -167,7 +167,7 @@ namespace OpenTween
                 sb.AppendFormat("Media.Count    : {0}<br>", post.Media.Count);
                 if (post.Media.Count > 0)
                 {
-                    for (int i = 0; i < post.Media.Count; i++)
+                    for (var i = 0; i < post.Media.Count; i++)
                     {
                         var info = post.Media[i];
                         sb.AppendFormat("Media[{0}].Url         : {1}<br>", i, info.Url);
@@ -388,7 +388,7 @@ namespace OpenTween
         private async Task DoSearchToolStrip(string url)
         {
             //発言詳細で「選択文字列で検索」（選択文字列取得）
-            string _selText = this.PostBrowser.GetSelectedText();
+            var _selText = this.PostBrowser.GetSelectedText();
 
             if (_selText != null)
             {
@@ -399,14 +399,14 @@ namespace OpenTween
                     return;
                 }
 
-                string tmp = string.Format(url, Uri.EscapeDataString(_selText));
+                var tmp = string.Format(url, Uri.EscapeDataString(_selText));
                 await this.Owner.OpenUriInBrowserAsync(tmp);
             }
         }
 
         private string GetUserId()
         {
-            Match m = Regex.Match(this._postBrowserStatusText, @"^https?://twitter.com/(#!/)?(?<ScreenName>[a-zA-Z0-9_]+)(/status(es)?/[0-9]+)?$");
+            var m = Regex.Match(this._postBrowserStatusText, @"^https?://twitter.com/(#!/)?(?<ScreenName>[a-zA-Z0-9_]+)(/status(es)?/[0-9]+)?$");
             if (m.Success && this.Owner.IsTwitterId(m.Result("${ScreenName}")))
                 return m.Result("${ScreenName}");
             else
@@ -543,10 +543,10 @@ namespace OpenTween
             //発言詳細のアイコン右クリック時のメニュー制御
             if (this.CurrentPost != null)
             {
-                string name = this.CurrentPost.ImageUrl;
+                var name = this.CurrentPost.ImageUrl;
                 if (!string.IsNullOrEmpty(name))
                 {
-                    int idx = name.LastIndexOf('/');
+                    var idx = name.LastIndexOf('/');
                     if (idx != -1)
                     {
                         name = Path.GetFileName(name.Substring(idx));
@@ -720,9 +720,9 @@ namespace OpenTween
                 {
                     using (Image orgBmp = new Bitmap(IconCache.TryGetFromCache(imageUrl).Image))
                     {
-                        using (Bitmap bmp2 = new Bitmap(orgBmp.Size.Width, orgBmp.Size.Height))
+                        using (var bmp2 = new Bitmap(orgBmp.Size.Width, orgBmp.Size.Height))
                         {
-                            using (Graphics g = Graphics.FromImage(bmp2))
+                            using (var g = Graphics.FromImage(bmp2))
                             {
                                 g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.High;
                                 g.DrawImage(orgBmp, 0, 0, orgBmp.Size.Width, orgBmp.Size.Height);
@@ -748,7 +748,7 @@ namespace OpenTween
             if (PostBrowser.StatusText.StartsWith("http", StringComparison.Ordinal))
             {
                 this._postBrowserStatusText = PostBrowser.StatusText;
-                string name = GetUserId();
+                var name = GetUserId();
                 UrlCopyContextMenuItem.Enabled = true;
                 if (name != null)
                 {
@@ -793,7 +793,7 @@ namespace OpenTween
                 ListManageUserContextToolStripMenuItem.Enabled = false;
             }
             // 文字列選択されていないときは選択文字列関係の項目を非表示に
-            string _selText = this.PostBrowser.GetSelectedText();
+            var _selText = this.PostBrowser.GetSelectedText();
             if (_selText == null)
             {
                 SelectionSearchContextMenuItem.Enabled = false;
@@ -807,8 +807,8 @@ namespace OpenTween
                 SelectionTranslationToolStripMenuItem.Enabled = true;
             }
             //発言内に自分以外のユーザーが含まれてればフォロー状態全表示を有効に
-            MatchCollection ma = Regex.Matches(this.PostBrowser.DocumentText, @"href=""https?://twitter.com/(#!/)?(?<ScreenName>[a-zA-Z0-9_]+)(/status(es)?/[0-9]+)?""");
-            bool fAllFlag = false;
+            var ma = Regex.Matches(this.PostBrowser.DocumentText, @"href=""https?://twitter.com/(#!/)?(?<ScreenName>[a-zA-Z0-9_]+)(/status(es)?/[0-9]+)?""");
+            var fAllFlag = false;
             foreach (Match mu in ma)
             {
                 if (!mu.Result("${ScreenName}").Equals(this.Owner.TwitterInstance.Username, StringComparison.InvariantCultureIgnoreCase))
@@ -839,7 +839,7 @@ namespace OpenTween
         private void CurrentTabToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //発言詳細の選択文字列で現在のタブを検索
-            string _selText = this.PostBrowser.GetSelectedText();
+            var _selText = this.PostBrowser.GetSelectedText();
 
             if (_selText != null)
             {
@@ -863,7 +863,7 @@ namespace OpenTween
         private void SelectionCopyContextMenuItem_Click(object sender, EventArgs e)
         {
             //発言詳細で「選択文字列をコピー」
-            string _selText = this.PostBrowser.GetSelectedText();
+            var _selText = this.PostBrowser.GetSelectedText();
             try
             {
                 Clipboard.SetDataObject(_selText, false, 5, 100);
@@ -904,29 +904,29 @@ namespace OpenTween
 
         private async void FollowContextMenuItem_Click(object sender, EventArgs e)
         {
-            string name = GetUserId();
+            var name = GetUserId();
             if (name != null)
                 await this.Owner.FollowCommand(name);
         }
 
         private async void RemoveContextMenuItem_Click(object sender, EventArgs e)
         {
-            string name = GetUserId();
+            var name = GetUserId();
             if (name != null)
                 await this.Owner.RemoveCommand(name, false);
         }
 
         private async void FriendshipContextMenuItem_Click(object sender, EventArgs e)
         {
-            string name = GetUserId();
+            var name = GetUserId();
             if (name != null)
                 await this.Owner.ShowFriendship(name);
         }
 
         private async void FriendshipAllMenuItem_Click(object sender, EventArgs e)
         {
-            MatchCollection ma = Regex.Matches(this.PostBrowser.DocumentText, @"href=""https?://twitter.com/(#!/)?(?<ScreenName>[a-zA-Z0-9_]+)(/status(es)?/[0-9]+)?""");
-            List<string> ids = new List<string>();
+            var ma = Regex.Matches(this.PostBrowser.DocumentText, @"href=""https?://twitter.com/(#!/)?(?<ScreenName>[a-zA-Z0-9_]+)(/status(es)?/[0-9]+)?""");
+            var ids = new List<string>();
             foreach (Match mu in ma)
             {
                 if (!mu.Result("${ScreenName}").Equals(this.Owner.TwitterInstance.Username, StringComparison.InvariantCultureIgnoreCase))
@@ -940,34 +940,34 @@ namespace OpenTween
 
         private async void ShowUserStatusContextMenuItem_Click(object sender, EventArgs e)
         {
-            string name = GetUserId();
+            var name = GetUserId();
             if (name != null)
                 await this.Owner.ShowUserStatus(name);
         }
 
         private async void SearchPostsDetailToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            string name = GetUserId();
+            var name = GetUserId();
             if (name != null)
                 await this.Owner.AddNewTabForUserTimeline(name);
         }
 
         private void SearchAtPostsDetailToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            string name = GetUserId();
+            var name = GetUserId();
             if (name != null) this.Owner.AddNewTabForSearch("@" + name);
         }
 
         private void IdFilterAddMenuItem_Click(object sender, EventArgs e)
         {
-            string name = GetUserId();
+            var name = GetUserId();
             if (name != null)
                 this.Owner.AddFilterRuleByScreenName(name);
         }
 
         private void ListManageUserContextToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ToolStripMenuItem menuItem = (ToolStripMenuItem)sender;
+            var menuItem = (ToolStripMenuItem)sender;
 
             string user;
             if (menuItem.Owner == this.ContextMenuPostBrowser)
@@ -989,7 +989,7 @@ namespace OpenTween
 
         private void UseHashtagMenuItem_Click(object sender, EventArgs e)
         {
-            Match m = Regex.Match(this._postBrowserStatusText, @"^https?://twitter.com/search\?q=%23(?<hash>.+)$");
+            var m = Regex.Match(this._postBrowserStatusText, @"^https?://twitter.com/search\?q=%23(?<hash>.+)$");
             if (m.Success)
                 this.Owner.SetPermanentHashtag(Uri.UnescapeDataString(m.Groups["hash"].Value));
         }

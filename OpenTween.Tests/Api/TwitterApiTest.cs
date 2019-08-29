@@ -38,9 +38,7 @@ namespace OpenTween.Api
     public class TwitterApiTest
     {
         public TwitterApiTest()
-        {
-            this.MyCommonSetup();
-        }
+            => this.MyCommonSetup();
 
         private void MyCommonSetup()
         {

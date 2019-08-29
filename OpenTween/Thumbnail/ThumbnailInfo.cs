@@ -100,14 +100,12 @@ namespace OpenTween.Thumbnail
             => this.Equals(obj as ThumbnailInfo);
 
         public bool Equals(ThumbnailInfo other)
-        {
-            return other != null &&
+            => other != null &&
                 other.MediaPageUrl == this.MediaPageUrl &&
                 other.ThumbnailImageUrl == this.ThumbnailImageUrl &&
                 other.TooltipText == this.TooltipText &&
                 other.FullSizeImageUrl == this.FullSizeImageUrl &&
                 other.IsPlayable == this.IsPlayable;
-        }
 
         public override int GetHashCode()
             => this.MediaPageUrl.GetHashCode() ^ this.ThumbnailImageUrl.GetHashCode();

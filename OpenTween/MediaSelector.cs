@@ -136,7 +136,7 @@ namespace OpenTween
 
             this.pictureService = new Dictionary<string, IMediaUploadService> {
                 ["Twitter"] = new TwitterPhoto(tw, twitterConfig),
-                ["Imgur"] = new Imgur(tw, twitterConfig),
+                ["Imgur"] = new Imgur(twitterConfig),
                 ["Mobypicture"] = new Mobypicture(tw, twitterConfig),
             };
         }
@@ -176,9 +176,9 @@ namespace OpenTween
         /// </summary>
         public bool HasUploadableService(string fileName, bool ignoreSize)
         {
-            FileInfo fl = new FileInfo(fileName);
-            string ext = fl.Extension;
-            long? size = ignoreSize ? (long?)null : fl.Length;
+            var fl = new FileInfo(fileName);
+            var ext = fl.Extension;
+            var size = ignoreSize ? (long?)null : fl.Length;
 
             if (IsUploadable(this.ServiceName, ext, size))
                 return true;
@@ -247,7 +247,7 @@ namespace OpenTween
             }
             else
             {
-                for (int i = 0; i < count; i++)
+                for (var i = 0; i < count; i++)
                 {
                     var index = ImagePageCombo.Items.Count - 1;
                     if (index == 0)
@@ -612,7 +612,7 @@ namespace OpenTween
         {
             using (ControlTransaction.Update(ImageServiceCombo))
             {
-                string svc = "";
+                var svc = "";
                 if (ImageServiceCombo.SelectedIndex > -1) svc = ImageServiceCombo.Text;
                 ImageServiceCombo.Items.Clear();
 

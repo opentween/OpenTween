@@ -65,7 +65,7 @@ namespace OpenTween
                 this.PostSource = user.Status.Source;
             }
         }
-        public Int64 Id = 0;
+        public long Id = 0;
         public string Name = "";
         public string ScreenName = "";
         public string Location = "";

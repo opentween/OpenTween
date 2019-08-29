@@ -173,9 +173,9 @@ namespace OpenTween
         }
 
         // 長いのでエイリアスとして e(...), eu(...), t(...) でエスケープできるようにする
-        private static Func<string, string> e = EscapeHtml;
-        private static Func<string, string> eu = Uri.EscapeDataString;
-        private static Func<string, string> t = FilterText;
+        private static readonly Func<string, string> e = EscapeHtml;
+        private static readonly Func<string, string> eu = Uri.EscapeDataString;
+        private static readonly Func<string, string> t = FilterText;
 
         private static string EscapeHtml(string text)
         {

@@ -427,9 +427,7 @@ namespace OpenTween
         }
 
         private HttpResponseMessage CreateRedirectResponse(string uriStr)
-        {
-            return this.CreateRedirectResponse(uriStr, UriKind.Absolute);
-        }
+            => this.CreateRedirectResponse(uriStr, UriKind.Absolute);
 
         private HttpResponseMessage CreateRedirectResponse(string uriStr, UriKind uriKind)
         {

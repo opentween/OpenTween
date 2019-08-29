@@ -45,9 +45,7 @@ namespace OpenTween.Api.DataModel
 
         /// <exception cref="SerializationException"/>
         public static TwitterStreamEvent ParseJson(string json)
-        {
-            return MyCommon.CreateDataFromJson<TwitterStreamEvent>(json);
-        }
+            => MyCommon.CreateDataFromJson<TwitterStreamEvent>(json);
     }
 
     [DataContract]
@@ -58,8 +56,6 @@ namespace OpenTween.Api.DataModel
 
         /// <exception cref="SerializationException"/>
         public static new TwitterStreamEvent<T> ParseJson(string json)
-        {
-            return MyCommon.CreateDataFromJson<TwitterStreamEvent<T>>(json);
-        }
+            => MyCommon.CreateDataFromJson<TwitterStreamEvent<T>>(json);
     }
 }

@@ -66,9 +66,7 @@ namespace OpenTween
         [InlineData("http://twitter.com/messages/compose?recipient_id=514241801", true)]
         [InlineData("https://twitter.com/messages/compose?recipient_id=514241801&text=%E3%81%BB%E3%81%92", true)]
         public void AttachmentUrlRegexTest(string url, bool isMatch)
-        {
-            Assert.Equal(isMatch, Twitter.AttachmentUrlRegex.IsMatch(url));
-        }
+            => Assert.Equal(isMatch, Twitter.AttachmentUrlRegex.IsMatch(url));
 
         [Theory]
         [InlineData("http://favstar.fm/users/twitterapi/status/22634515958", new[] { "22634515958" })]
@@ -294,18 +292,6 @@ namespace OpenTween
         {
             var text = "hoge";
             var entities = new TwitterEntities();
-            var quotedStatus = new TwitterStatus
-            {
-                Id = 1234567890L,
-                IdStr = "1234567890",
-                User = new TwitterUser
-                {
-                    Id = 1111,
-                    IdStr = "1111",
-                    ScreenName = "foo",
-                },
-                FullText = "test",
-            };
             var quotedStatusLink = new TwitterQuotedStatusPermalink
             {
                 Url = "https://t.co/hoge",
@@ -369,7 +355,7 @@ namespace OpenTween
         [Fact]
         public void ParseSource_UnescapeTest()
         {
-            string sourceHtml = "<a href=\"http://example.com/?aaa=123&amp;bbb=456\" rel=\"nofollow\">&lt;&lt;hogehoge&gt;&gt;</a>";
+            var sourceHtml = "<a href=\"http://example.com/?aaa=123&amp;bbb=456\" rel=\"nofollow\">&lt;&lt;hogehoge&gt;&gt;</a>";
 
             var expected = ("<<hogehoge>>", new Uri("http://example.com/?aaa=123&bbb=456"));
             Assert.Equal(expected, Twitter.ParseSource(sourceHtml));
@@ -378,7 +364,7 @@ namespace OpenTween
         [Fact]
         public void ParseSource_UnescapeNoUriTest()
         {
-            string sourceHtml = "&lt;&lt;hogehoge&gt;&gt;";
+            var sourceHtml = "&lt;&lt;hogehoge&gt;&gt;";
 
             var expected = ("<<hogehoge>>", (Uri)null);
             Assert.Equal(expected, Twitter.ParseSource(sourceHtml));

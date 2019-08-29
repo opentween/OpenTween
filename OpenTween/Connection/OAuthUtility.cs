@@ -58,7 +58,7 @@ namespace OpenTween.Connection
             string realm = null)
         {
             // OAuth共通情報取得
-            Dictionary<string, string> parameter = GetOAuthParameter(consumerKey, token);
+            var parameter = GetOAuthParameter(consumerKey, token);
             // OAuth共通情報にquery情報を追加
             if (query != null)
                 foreach (var (key, value) in query)
@@ -66,7 +66,7 @@ namespace OpenTween.Connection
             // 署名の作成・追加
             parameter.Add("oauth_signature", CreateSignature(consumerSecret, tokenSecret, httpMethod, requestUri, parameter));
             // HTTPリクエストのヘッダに追加
-            StringBuilder sb = new StringBuilder("OAuth ");
+            var sb = new StringBuilder("OAuth ");
 
             if (realm != null)
                 sb.AppendFormat("realm=\"{0}\",", realm);
@@ -110,21 +110,21 @@ namespace OpenTween.Connection
         public static string CreateSignature(string consumerSecret, string tokenSecret, string method, Uri uri, Dictionary<string, string> parameter)
         {
             // パラメタをソート済みディクショナリに詰替（OAuthの仕様）
-            SortedDictionary<string, string> sorted = new SortedDictionary<string, string>(parameter);
+            var sorted = new SortedDictionary<string, string>(parameter);
             // URLエンコード済みのクエリ形式文字列に変換
-            string paramString = MyCommon.BuildQueryString(sorted);
+            var paramString = MyCommon.BuildQueryString(sorted);
             // アクセス先URLの整形
-            string url = string.Format("{0}://{1}{2}", uri.Scheme, uri.Host, uri.AbsolutePath);
+            var url = string.Format("{0}://{1}{2}", uri.Scheme, uri.Host, uri.AbsolutePath);
             // 署名のベース文字列生成（&区切り）。クエリ形式文字列は再エンコードする
-            string signatureBase = string.Format("{0}&{1}&{2}", method, MyCommon.UrlEncode(url), MyCommon.UrlEncode(paramString));
+            var signatureBase = string.Format("{0}&{1}&{2}", method, MyCommon.UrlEncode(url), MyCommon.UrlEncode(paramString));
             // 署名鍵の文字列をコンシューマー秘密鍵とアクセストークン秘密鍵から生成（&区切り。アクセストークン秘密鍵なくても&残すこと）
-            string key = MyCommon.UrlEncode(consumerSecret) + "&";
+            var key = MyCommon.UrlEncode(consumerSecret) + "&";
             if (!string.IsNullOrEmpty(tokenSecret))
                 key += MyCommon.UrlEncode(tokenSecret);
             // 鍵生成＆署名生成
-            using (HMACSHA1 hmac = new HMACSHA1(Encoding.ASCII.GetBytes(key)))
+            using (var hmac = new HMACSHA1(Encoding.ASCII.GetBytes(key)))
             {
-                byte[] hash = hmac.ComputeHash(Encoding.ASCII.GetBytes(signatureBase));
+                var hash = hmac.ComputeHash(Encoding.ASCII.GetBytes(signatureBase));
                 return Convert.ToBase64String(hash);
             }
         }

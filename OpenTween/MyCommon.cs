@@ -299,7 +299,7 @@ namespace OpenTween
 
         public static string ExceptionOutMessage(Exception ex)
         {
-            bool IsTerminatePermission = true;
+            var IsTerminatePermission = true;
             return ExceptionOutMessage(ex, ref IsTerminatePermission);
         }
 
@@ -574,10 +574,10 @@ namespace OpenTween
                     desdecrypt = des.CreateEncryptor();
 
                     //書き込むためのCryptoStreamの作成
-                    using (CryptoStream cryptStream = new CryptoStream(msOut, desdecrypt, CryptoStreamMode.Write))
+                    using (var cryptStream = new CryptoStream(msOut, desdecrypt, CryptoStreamMode.Write))
                     {
                         //Disposeが重複して呼ばれないようにする
-                        MemoryStream msTmp = msOut;
+                        var msTmp = msOut;
                         msOut = null;
                         desdecrypt = null;
 
@@ -634,7 +634,7 @@ namespace OpenTween
                     desdecrypt = null;
 
                     //復号化されたデータを取得するためのStreamReader
-                    using (StreamReader srOut = new StreamReader(cryptStreem, Encoding.UTF8))
+                    using (var srOut = new StreamReader(cryptStreem, Encoding.UTF8))
                     {
                         //Disposeが重複して呼ばれないようにする
                         cryptStreem = null;
@@ -797,7 +797,7 @@ namespace OpenTween
 
         internal static bool _IsKeyDown(Keys modifierKeys, Keys[] targetKeys)
         {
-            foreach (Keys key in targetKeys)
+            foreach (var key in targetKeys)
             {
                 if ((modifierKeys & key) != key)
                 {
@@ -1005,10 +1005,10 @@ namespace OpenTween
         public static string UrlEncode(string stringToEncode)
         {
             const string UnreservedChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_.~";
-            StringBuilder sb = new StringBuilder();
-            byte[] bytes = Encoding.UTF8.GetBytes(stringToEncode);
+            var sb = new StringBuilder();
+            var bytes = Encoding.UTF8.GetBytes(stringToEncode);
 
-            foreach (byte b in bytes)
+            foreach (var b in bytes)
             {
                 if (UnreservedChars.IndexOf((char)b) != -1)
                     sb.Append((char)b);

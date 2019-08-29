@@ -216,7 +216,7 @@ namespace OpenTween
         public void AutoLinkHtml_EntityNullTest2()
         {
             var text = "てすとてすとー";
-            TwitterEntities entities = new TwitterEntities
+            var entities = new TwitterEntities
             {
                 Urls = null,
                 Hashtags = null,

@@ -229,7 +229,7 @@ namespace OpenTween
                 "API rest {0} {1}/{2}" + Environment.NewLine +
                 "(reset after {3} minutes)";
 
-            this.ToolTipText = String.Format(toolTipTextFormat, endpointText, remainCountText, maxCountText, minuteText);
+            this.ToolTipText = string.Format(toolTipTextFormat, endpointText, remainCountText, maxCountText, minuteText);
         }
 
         #endregion

@@ -51,8 +51,6 @@ namespace OpenTween
         }
 
         public int GetHashCode(IEnumerable<T> obj)
-        {
-            throw new NotImplementedException();
-        }
+            => throw new NotImplementedException();
     }
 }

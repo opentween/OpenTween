@@ -682,9 +682,7 @@ namespace OpenTween.Models
         [InlineData(MyCommon.TabUsageType.PublicSearch,  false)]
         [InlineData(MyCommon.TabUsageType.Related,       false)]
         public void IsDefault_Test(MyCommon.TabUsageType tabType, bool expected)
-        {
-            Assert.Equal(expected, tabType.IsDefault());
-        }
+            => Assert.Equal(expected, tabType.IsDefault());
 
         [Theory]
         [InlineData(MyCommon.TabUsageType.Home,          false)]
@@ -697,9 +695,7 @@ namespace OpenTween.Models
         [InlineData(MyCommon.TabUsageType.PublicSearch,  false)]
         [InlineData(MyCommon.TabUsageType.Related,       false)]
         public void IsDistributable_Test(MyCommon.TabUsageType tabType, bool expected)
-        {
-            Assert.Equal(expected, tabType.IsDistributable());
-        }
+            => Assert.Equal(expected, tabType.IsDistributable());
 
         [Theory]
         [InlineData(MyCommon.TabUsageType.Home,          false)]
@@ -712,8 +708,6 @@ namespace OpenTween.Models
         [InlineData(MyCommon.TabUsageType.PublicSearch,  true)]
         [InlineData(MyCommon.TabUsageType.Related,       true)]
         public void IsInnerStorage_Test(MyCommon.TabUsageType tabType, bool expected)
-        {
-            Assert.Equal(expected, tabType.IsInnerStorage());
-        }
+            => Assert.Equal(expected, tabType.IsInnerStorage());
     }
 }

@@ -134,7 +134,7 @@ namespace OpenTween.Connection
             Networking.ProxyType = proxyType;
             Networking.Proxy = proxy;
 
-            NativeMethods.SetProxy(proxyType, proxyAddress, proxyPort, proxyUser, proxyPassword);
+            NativeMethods.SetProxy(proxyType, proxyAddress, proxyPort);
 
             OnWebProxyChanged(EventArgs.Empty);
         }

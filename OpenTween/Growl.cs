@@ -95,7 +95,7 @@ namespace OpenTween
 
         private byte[] IconToByteArray(string filename)
         {
-            using (Icon ic = new Icon(filename))
+            using (var ic = new Icon(filename))
             {
                 return IconToByteArray(ic);
             }
@@ -103,9 +103,9 @@ namespace OpenTween
 
         private byte[] IconToByteArray(Icon icondata)
         {
-            using (MemoryStream ms = new MemoryStream())
+            using (var ms = new MemoryStream())
             {
-                using (Icon ic = new Icon(icondata, 48, 48))
+                using (var ic = new Icon(icondata, 48, 48))
                 {
                     ic.ToBitmap().Save(ms, ImageFormat.Png);
                     return ms.ToArray();
@@ -117,9 +117,9 @@ namespace OpenTween
         {
             get
             {
-                string dir = Application.StartupPath;
-                string connectorPath = Path.Combine(dir, "Growl.Connector.dll");
-                string corePath = Path.Combine(dir, "Growl.CoreLibrary.dll");
+                var dir = Application.StartupPath;
+                var connectorPath = Path.Combine(dir, "Growl.Connector.dll");
+                var corePath = Path.Combine(dir, "Growl.CoreLibrary.dll");
                 if (File.Exists(connectorPath) && File.Exists(corePath))
                     return true;
                 else
@@ -130,9 +130,9 @@ namespace OpenTween
         public bool RegisterGrowl()
         {
             _initialized = false;
-            string dir = Application.StartupPath;
-            string connectorPath = Path.Combine(dir, "Growl.Connector.dll");
-            string corePath = Path.Combine(dir, "Growl.CoreLibrary.dll");
+            var dir = Application.StartupPath;
+            var connectorPath = Path.Combine(dir, "Growl.Connector.dll");
+            var corePath = Path.Combine(dir, "Growl.CoreLibrary.dll");
 
             try
             {
@@ -148,7 +148,7 @@ namespace OpenTween
             try
             {
                 _targetConnector = _connector.CreateInstance("Growl.Connector.GrowlConnector");
-                Type _t = _connector.GetType("Growl.Connector.NotificationType");
+                var _t = _connector.GetType("Growl.Connector.NotificationType");
 
                 _growlNTreply = _t.InvokeMember(null,
                     BindingFlags.CreateInstance, null, null, new object[] { "REPLY", "Reply" }, CultureInfo.InvariantCulture);
@@ -162,7 +162,7 @@ namespace OpenTween
                 _growlNTusevent = _t.InvokeMember(null,
                     BindingFlags.CreateInstance, null, null, new object[] { "USERSTREAM_EVENT", "UserStream Event" }, CultureInfo.InvariantCulture);
 
-                object encryptType =
+                var encryptType =
                         _connector.GetType("Growl.Connector.Cryptography+SymmetricAlgorithmType").InvokeMember(
                             "PlainText", BindingFlags.GetField, null, null, null, CultureInfo.InvariantCulture);
                 _targetConnector.GetType().InvokeMember("EncryptionAlgorithm", BindingFlags.SetProperty, null, _targetConnector, new object[] { encryptType }, CultureInfo.InvariantCulture);
@@ -174,56 +174,56 @@ namespace OpenTween
                 if (File.Exists(Path.Combine(Application.StartupPath, "Icons\\Tween.png")))
                 {
                     // Icons\Tween.pngを使用
-                    ConstructorInfo ci = _core.GetType(
+                    var ci = _core.GetType(
                         "Growl.CoreLibrary.Resource").GetConstructor(
                         BindingFlags.NonPublic | BindingFlags.Instance,
                         null, new Type[] { typeof(string) }, null);
 
-                    object data = ci.Invoke(new object[] { Path.Combine(Application.StartupPath, "Icons\\Tween.png") });
-                    PropertyInfo pi = _growlApp.GetType().GetProperty("Icon");
+                    var data = ci.Invoke(new object[] { Path.Combine(Application.StartupPath, "Icons\\Tween.png") });
+                    var pi = _growlApp.GetType().GetProperty("Icon");
                     pi.SetValue(_growlApp, data, null);
 
                 }
                 else if (File.Exists(Path.Combine(Application.StartupPath, "Icons\\MIcon.ico")))
                 {
                     // アイコンセットにMIcon.icoが存在する場合それを使用
-                    ConstructorInfo cibd = _core.GetType(
+                    var cibd = _core.GetType(
                         "Growl.CoreLibrary.BinaryData").GetConstructor(
                         BindingFlags.Public | BindingFlags.Instance,
                         null, new Type[] { typeof(byte[]) }, null);
-                    object bdata = cibd.Invoke(
+                    var bdata = cibd.Invoke(
                         new object[] { IconToByteArray(Path.Combine(Application.StartupPath, "Icons\\MIcon.ico")) });
 
-                    ConstructorInfo ciRes = _core.GetType(
+                    var ciRes = _core.GetType(
                         "Growl.CoreLibrary.Resource").GetConstructor(
                         BindingFlags.NonPublic | BindingFlags.Instance,
                         null, new Type[] { bdata.GetType() }, null);
 
-                    object data = ciRes.Invoke(new object[] { bdata });
-                    PropertyInfo pi = _growlApp.GetType().GetProperty("Icon");
+                    var data = ciRes.Invoke(new object[] { bdata });
+                    var pi = _growlApp.GetType().GetProperty("Icon");
                     pi.SetValue(_growlApp, data, null);
                 }
                 else
                 {
                     //内蔵アイコンリソースを使用
-                    ConstructorInfo cibd = _core.GetType(
+                    var cibd = _core.GetType(
                         "Growl.CoreLibrary.BinaryData").GetConstructor(
                         BindingFlags.Public | BindingFlags.Instance,
                         null, new Type[] { typeof(byte[]) }, null);
-                    object bdata = cibd.Invoke(
+                    var bdata = cibd.Invoke(
                         new object[] { IconToByteArray(Properties.Resources.MIcon) });
 
-                    ConstructorInfo ciRes = _core.GetType(
+                    var ciRes = _core.GetType(
                         "Growl.CoreLibrary.Resource").GetConstructor(
                         BindingFlags.NonPublic | BindingFlags.Instance,
                         null, new Type[] { bdata.GetType() }, null);
 
-                    object data = ciRes.Invoke(new object[] { bdata });
-                    PropertyInfo pi = _growlApp.GetType().GetProperty("Icon");
+                    var data = ciRes.Invoke(new object[] { bdata });
+                    var pi = _growlApp.GetType().GetProperty("Icon");
                     pi.SetValue(_growlApp, data, null);
                 }
 
-                MethodInfo mi = _targetConnector.GetType().GetMethod("Register", new Type[] { _growlApp.GetType(), _connector.GetType("Growl.Connector.NotificationType[]") });
+                var mi = _targetConnector.GetType().GetMethod("Register", new Type[] { _growlApp.GetType(), _connector.GetType("Growl.Connector.NotificationType[]") });
 
                 _t = _connector.GetType("Growl.Connector.NotificationType");
 
@@ -238,12 +238,12 @@ namespace OpenTween
                 mi.Invoke(_targetConnector, new object[] { _growlApp, arglist.ToArray(_t) });
 
                 // コールバックメソッドの登録
-                Type tGrowlConnector = _connector.GetType("Growl.Connector.GrowlConnector");
-                EventInfo evNotificationCallback = tGrowlConnector.GetEvent("NotificationCallback");
-                Type tDelegate = evNotificationCallback.EventHandlerType;
-                MethodInfo miHandler = typeof(GrowlHelper).GetMethod("GrowlCallbackHandler", BindingFlags.NonPublic | BindingFlags.Instance);
-                Delegate d = Delegate.CreateDelegate(tDelegate, this, miHandler);
-                MethodInfo miAddHandler = evNotificationCallback.GetAddMethod();
+                var tGrowlConnector = _connector.GetType("Growl.Connector.GrowlConnector");
+                var evNotificationCallback = tGrowlConnector.GetEvent("NotificationCallback");
+                var tDelegate = evNotificationCallback.EventHandlerType;
+                var miHandler = typeof(GrowlHelper).GetMethod("GrowlCallbackHandler", BindingFlags.NonPublic | BindingFlags.Instance);
+                var d = Delegate.CreateDelegate(tDelegate, this, miHandler);
+                var miAddHandler = evNotificationCallback.GetAddMethod();
                 object[] addHandlerArgs = { d };
                 miAddHandler.Invoke(_targetConnector, addHandlerArgs);
 
@@ -261,7 +261,7 @@ namespace OpenTween
         public void Notify(NotifyType notificationType, string id, string title, string text, Image icon = null, string url = "")
         {
             if (!_initialized) return;
-            string notificationName = "";
+            var notificationName = "";
             switch (notificationType)
             {
                 case NotifyType.Reply:
@@ -277,11 +277,11 @@ namespace OpenTween
                     notificationName = "USERSTREAM_EVENT";
                     break;
             }
-            object n = null;
+            object n;
             if (icon != null || !string.IsNullOrEmpty(url))
             {
-                Type gCore = _core.GetType("Growl.CoreLibrary.Resource");
-                object res = null;
+                var gCore = _core.GetType("Growl.CoreLibrary.Resource");
+                object res;
                 if (icon != null)
                 {
                     res = gCore.InvokeMember("op_Implicit",
@@ -300,7 +300,7 @@ namespace OpenTween
                                              new object[] { url },
                                              CultureInfo.InvariantCulture);
                 }
-                object priority =
+                var priority =
                         _connector.GetType("Growl.Connector.Priority").InvokeMember(
                             "Normal", BindingFlags.GetField, null, null, null, CultureInfo.InvariantCulture);
                 n = _connector.GetType("Growl.Connector.Notification").InvokeMember(
@@ -334,7 +334,7 @@ namespace OpenTween
                         CultureInfo.InvariantCulture);
             }
             //_targetConnector.GetType.InvokeMember("Notify", BindingFlags.InvokeMethod, null, _targetConnector, new object[] {n});
-            object cc = _connector.GetType("Growl.Connector.CallbackContext").InvokeMember(
+            var cc = _connector.GetType("Growl.Connector.CallbackContext").InvokeMember(
                 null, BindingFlags.CreateInstance, null, _connector,
                 new object[] { "some fake information", notificationName },
                 CultureInfo.InvariantCulture);
@@ -346,17 +346,17 @@ namespace OpenTween
             try
             {
                 // 定数取得
-                object vCLICK =
+                var vCLICK =
                 _core.GetType("Growl.CoreLibrary.CallbackResult").GetField(
                             "CLICK",
                            BindingFlags.Public | BindingFlags.Static).GetRawConstantValue();
                 // 実際の値
-                object vResult = callbackData.GetType().GetProperty(
+                var vResult = callbackData.GetType().GetProperty(
                             "Result",
                             BindingFlags.Public | BindingFlags.Instance).GetGetMethod().Invoke(callbackData, null);
                 vResult = (int)vResult;
-                string notifyId = (string)callbackData.GetType().GetProperty("NotificationID").GetGetMethod().Invoke(callbackData, null);
-                string notifyName = (string)callbackData.GetType().GetProperty("Type").GetGetMethod().Invoke(callbackData, null);
+                var notifyId = (string)callbackData.GetType().GetProperty("NotificationID").GetGetMethod().Invoke(callbackData, null);
+                var notifyName = (string)callbackData.GetType().GetProperty("Type").GetGetMethod().Invoke(callbackData, null);
                 if (vCLICK.Equals(vResult))
                 {
                     NotifyType nt;

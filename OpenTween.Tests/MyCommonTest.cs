@@ -42,18 +42,14 @@ namespace OpenTween
         [InlineData("http://日本語.idn.icann.org/", "http://xn--wgv71a119e.idn.icann.org/")]
         [InlineData("http://例え.テスト/", "http://xn--r8jz45g.xn--zckzah/")]
         public void IDNEncodeTest(string uri, string expected)
-        {
-            Assert.Equal(expected, MyCommon.IDNEncode(uri));
-        }
+            => Assert.Equal(expected, MyCommon.IDNEncode(uri));
 
         [Theory]
         [InlineData("http://xn--wgv71a119e.idn.icann.org/", "http://日本語.idn.icann.org/")]
         [InlineData("http://xn--r8jz45g.xn--zckzah/", "http://例え.テスト/")]
         [InlineData("http://xn--a/", "http://xn--a/")] // 不正なpunycode
         public void IDNDecodeTest(string uri, string expected)
-        {
-            Assert.Equal(expected, MyCommon.IDNDecode(uri));
-        }
+            => Assert.Equal(expected, MyCommon.IDNDecode(uri));
 
         [Theory]
         [InlineData("http://xn--r8jz45g.xn--zckzah/", "http://例え.テスト/")]
@@ -65,9 +61,7 @@ namespace OpenTween
         [InlineData("http://example.com/%E3%81%82%FF", "http://example.com/あ%FF")] // 不正なUTF-8シーケンス
         [InlineData("http://example.com/%E3%81%82%ED%A0%80", "http://example.com/あ%ED%A0%80")] // 不正なUTF-8シーケンス (high surrogate)
         public void ConvertToReadableUrl(string url, string expected)
-        {
-            Assert.Equal(expected, MyCommon.ConvertToReadableUrl(url));
-        }
+            => Assert.Equal(expected, MyCommon.ConvertToReadableUrl(url));
 
         [Theory]
         [InlineData(new int[] { 1, 2, 3, 4 }, 0, 3, new int[] { 2, 3, 4, 1 })] // 左ローテイト?
@@ -101,20 +95,16 @@ namespace OpenTween
         [InlineData(new byte[] { 0x01, 0x02 }, 2, new byte[] { 0x01, 0x02 })]
         [InlineData(new byte[] { 0x01, 0x02 }, 1, new byte[] { 0x03 })]
         public void ResizeBytesArrayTest(byte[] bytes, int size, byte[] expected)
-        {
-            Assert.Equal(expected, MyCommon.ResizeBytesArray(bytes, size));
-        }
+            => Assert.Equal(expected, MyCommon.ResizeBytesArray(bytes, size));
 
         [Theory]
         [InlineData("Resources/re.gif", true)]
         [InlineData("Resources/re1.gif", false)]
         [InlineData("Resources/re1.png", false)]
         public void IsAnimatedGifTest(string filename, bool expected)
-        {
-            Assert.Equal(expected, MyCommon.IsAnimatedGif(filename));
-        }
+            => Assert.Equal(expected, MyCommon.IsAnimatedGif(filename));
 
-        public static TheoryData<string, DateTimeUtc> DateTimeParse_TestCase = new TheoryData<string, DateTimeUtc>
+        public static readonly TheoryData<string, DateTimeUtc> DateTimeParse_TestCase = new TheoryData<string, DateTimeUtc>
         {
             { "Sun Nov 25 06:10:00 +00:00 2012", new DateTimeUtc(2012, 11, 25, 6, 10, 0) },
             { "Sun, 25 Nov 2012 06:10:00 +00:00", new DateTimeUtc(2012, 11, 25, 6, 10, 0) },
@@ -131,23 +121,18 @@ namespace OpenTween
             [DataMember(Name = "id")] public string Id { get; set; }
             [DataMember(Name = "body")] public string Body { get; set; }
         }
-        public static IEnumerable<object[]> CreateDataFromJson_TestCase
+        public static readonly TheoryData<string, JsonData> CreateDataFromJson_TestCase = new TheoryData<string, JsonData>
         {
-            get
             {
-                yield return new object[] {
-                    @"{""id"":""1"", ""body"":""hogehoge""}",
-                    new JsonData { Id = "1", Body = "hogehoge" },
-                };
-            }
-        }
+                @"{""id"":""1"", ""body"":""hogehoge""}",
+                new JsonData { Id = "1", Body = "hogehoge" }
+            },
+        };
 
         [Theory]
         [MemberData(nameof(CreateDataFromJson_TestCase))]
         public void CreateDataFromJsonTest<T>(string json, T expected)
-        {
-            Assert.Equal(expected, MyCommon.CreateDataFromJson<T>(json));
-        }
+            => Assert.Equal(expected, MyCommon.CreateDataFromJson<T>(json));
 
         [Theory]
         [InlineData("hoge123@example.com", true)]
@@ -157,9 +142,7 @@ namespace OpenTween
         [InlineData("foobar.@example.com", false)]
         [InlineData("foo+bar@example.com", true)]
         public void IsValidEmailTest(string email, bool expected)
-        {
-            Assert.Equal(expected, MyCommon.IsValidEmail(email));
-        }
+            => Assert.Equal(expected, MyCommon.IsValidEmail(email));
 
         [Theory]
         [InlineData(Keys.Shift, new[] { Keys.Shift }, true)]
@@ -169,9 +152,7 @@ namespace OpenTween
         [InlineData(Keys.Control | Keys.Alt, new[] { Keys.Control, Keys.Alt }, true)]
         [InlineData(Keys.Control | Keys.Alt, new[] { Keys.Shift }, false)]
         public void IsKeyDownTest(Keys modifierKeys, Keys[] checkKeys, bool expected)
-        {
-            Assert.Equal(expected, MyCommon._IsKeyDown(modifierKeys, checkKeys));
-        }
+            => Assert.Equal(expected, MyCommon._IsKeyDown(modifierKeys, checkKeys));
 
         [Fact]
         public void GetAssemblyNameTest()
@@ -188,9 +169,7 @@ namespace OpenTween
         [InlineData("%AppName%", "OpenTween")]
         [InlineData("%AppName% %AppName%", "OpenTween OpenTween")]
         public void ReplaceAppNameTest(string str, string excepted)
-        {
-            Assert.Equal(excepted, MyCommon.ReplaceAppName(str, "OpenTween"));
-        }
+            => Assert.Equal(excepted, MyCommon.ReplaceAppName(str, "OpenTween"));
 
         [Theory]
         [InlineData("1.0.0.0", "1.0.0")]
@@ -201,39 +180,30 @@ namespace OpenTween
         [InlineData("1.1.0.0", "1.1.0")]
         [InlineData("1.9.9.1", "1.9.10-dev")]
         public void GetReadableVersionTest(string fileVersion, string expected)
-        {
-            Assert.Equal(expected, MyCommon.GetReadableVersion(fileVersion));
-        }
+            => Assert.Equal(expected, MyCommon.GetReadableVersion(fileVersion));
 
-        public static IEnumerable<object[]> GetStatusUrlTest1_TestCase
+        public static readonly TheoryData<PostClass, string> GetStatusUrlTest1_TestCase = new TheoryData<PostClass, string>
         {
-            get
             {
-                yield return new object[] {
-                    new PostClass { StatusId = 249493863826350080L, ScreenName = "Favstar_LM", RetweetedId = null, RetweetedBy = null },
-                    "https://twitter.com/Favstar_LM/status/249493863826350080",
-                };
-                yield return new object[] {
-                    new PostClass { StatusId = 216033842434289664L, ScreenName = "haru067", RetweetedId = 200245741443235840L, RetweetedBy = "re4k"},
-                    "https://twitter.com/haru067/status/200245741443235840",
-                };
-            }
-        }
+                new PostClass { StatusId = 249493863826350080L, ScreenName = "Favstar_LM", RetweetedId = null, RetweetedBy = null },
+                "https://twitter.com/Favstar_LM/status/249493863826350080"
+            },
+            {
+                new PostClass { StatusId = 216033842434289664L, ScreenName = "haru067", RetweetedId = 200245741443235840L, RetweetedBy = "re4k"},
+                "https://twitter.com/haru067/status/200245741443235840"
+            },
+        };
 
         [Theory]
         [MemberData(nameof(GetStatusUrlTest1_TestCase))]
         public void GetStatusUrlTest1(PostClass post, string expected)
-        {
-            Assert.Equal(expected, MyCommon.GetStatusUrl(post));
-        }
+            => Assert.Equal(expected, MyCommon.GetStatusUrl(post));
 
         [Theory]
         [InlineData("Favstar_LM", 249493863826350080L, "https://twitter.com/Favstar_LM/status/249493863826350080")]
         [InlineData("haru067", 200245741443235840L, "https://twitter.com/haru067/status/200245741443235840")]
         public void GetStatusUrlTest2(string screenName, long statusId, string expected)
-        {
-            Assert.Equal(expected, MyCommon.GetStatusUrl(screenName, statusId));
-        }
+            => Assert.Equal(expected, MyCommon.GetStatusUrl(screenName, statusId));
 
         [Fact]
         public void GetErrorLogPathTest()

@@ -17,9 +17,7 @@ namespace OpenTween
     public class MediaSelectorTest
     {
         public MediaSelectorTest()
-        {
-            this.MyCommonSetup();
-        }
+            => this.MyCommonSetup();
 
         private void MyCommonSetup()
         {

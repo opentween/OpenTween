@@ -99,8 +99,6 @@ namespace OpenTween.Api.DataModel
 
         /// <exception cref="SerializationException"/>
         public static TwitterFriendship ParseJson(string json)
-        {
-            return MyCommon.CreateDataFromJson<TwitterFriendship>(json);
-        }
+            => MyCommon.CreateDataFromJson<TwitterFriendship>(json);
     }
 }

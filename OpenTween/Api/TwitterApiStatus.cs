@@ -151,7 +151,8 @@ namespace OpenTween.Api
         {
             public TwitterApiStatus Owner { get; }
 
-            private ConcurrentDictionary<string, ApiLimit> innerDict = new ConcurrentDictionary<string, ApiLimit>();
+            private readonly ConcurrentDictionary<string, ApiLimit> innerDict
+                = new ConcurrentDictionary<string, ApiLimit>();
 
             public EndpointLimits(TwitterApiStatus owner)
                 => this.Owner = owner;

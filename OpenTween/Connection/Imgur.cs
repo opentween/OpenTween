@@ -49,14 +49,12 @@ namespace OpenTween.Connection
             ".xcf",
         };
 
-        private readonly Twitter twitter;
         private readonly ImgurApi imgurApi;
 
         private TwitterConfiguration twitterConfig;
 
-        public Imgur(Twitter tw, TwitterConfiguration twitterConfig)
+        public Imgur(TwitterConfiguration twitterConfig)
         {
-            this.twitter = tw;
             this.twitterConfig = twitterConfig;
 
             this.imgurApi = new ImgurApi();

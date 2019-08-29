@@ -40,7 +40,7 @@ namespace OpenTween
 {
     public partial class ListManage : OTBaseForm
     {
-        private Twitter tw;
+        private readonly Twitter tw;
 
         public ListManage(Twitter tw)
         {
@@ -84,7 +84,7 @@ namespace OpenTween
         {
             if (this.ListsList.SelectedItem == null) return;
 
-            ListElement list = (ListElement) this.ListsList.SelectedItem;
+            var list = (ListElement) this.ListsList.SelectedItem;
             this.UsernameTextBox.Text = list.Username;
             this.NameTextBox.Text = list.Name;
             this.PublicRadioButton.Checked = list.IsPublic;
@@ -94,7 +94,7 @@ namespace OpenTween
             this.DescriptionText.Text = list.Description;
 
             this.UserList.Items.Clear();
-            foreach (UserInfo user in list.Members)
+            foreach (var user in list.Members)
                 this.UserList.Items.Add(user);
 
             this.GetMoreUsersButton.Text = this.UserList.Items.Count > 0 ? Properties.Resources.ListManageGetMoreUsers2 : Properties.Resources.ListManageGetMoreUsers1;
@@ -132,7 +132,7 @@ namespace OpenTween
 
             using (ControlTransaction.Disabled(this))
             {
-                ListElement listItem = (ListElement)this.ListsList.SelectedItem;
+                var listItem = (ListElement)this.ListsList.SelectedItem;
 
                 if (string.IsNullOrEmpty(this.NameTextBox.Text))
                 {
@@ -167,7 +167,7 @@ namespace OpenTween
             this.EditCheckBox.AutoCheck = true;
             this.EditCheckBox.Checked = false;
 
-            for (int i = this.ListsList.Items.Count - 1; i >= 0; i--)
+            for (var i = this.ListsList.Items.Count - 1; i >= 0; i--)
                 if (this.ListsList.Items[i] is NewListElement)
                     this.ListsList.Items.RemoveAt(i);
 
@@ -227,8 +227,8 @@ namespace OpenTween
 
             using (ControlTransaction.Disabled(this))
             {
-                ListElement list = (ListElement)this.ListsList.SelectedItem;
-                UserInfo user = (UserInfo)this.UserList.SelectedItem;
+                var list = (ListElement)this.ListsList.SelectedItem;
+                var user = (UserInfo)this.UserList.SelectedItem;
                 if (MessageBox.Show(Properties.Resources.ListManageDeleteUser1, ApplicationSettings.ApplicationName, MessageBoxButtons.OKCancel) == DialogResult.OK)
                 {
                     try
@@ -242,7 +242,7 @@ namespace OpenTween
                         return;
                     }
 
-                    int idx = ListsList.SelectedIndex;
+                    var idx = ListsList.SelectedIndex;
                     list.Members.Remove(user);
                     this.ListsList_SelectedIndexChanged(this.ListsList, EventArgs.Empty);
                     if (idx < ListsList.Items.Count) ListsList.SelectedIndex = idx;
@@ -256,7 +256,7 @@ namespace OpenTween
 
             using (ControlTransaction.Disabled(this))
             {
-                ListElement list = (ListElement)this.ListsList.SelectedItem;
+                var list = (ListElement)this.ListsList.SelectedItem;
 
                 if (MessageBox.Show(Properties.Resources.ListManageDeleteLists1, ApplicationSettings.ApplicationName, MessageBoxButtons.OKCancel) == DialogResult.OK)
                 {
@@ -288,7 +288,7 @@ namespace OpenTween
 
         private void AddListButton_Click(object sender, EventArgs e)
         {
-            NewListElement newList = new NewListElement(this.tw);
+            var newList = new NewListElement(this.tw);
             this.ListsList.Items.Add(newList);
             this.ListsList.SelectedItem = newList;
             this.EditCheckBox.Checked = true;
@@ -313,14 +313,14 @@ namespace OpenTween
             }
             else
             {
-                UserInfo user = (UserInfo)this.UserList.SelectedItem;
+                var user = (UserInfo)this.UserList.SelectedItem;
                 this.UserLocation.Text = user.Location;
                 this.UserWeb.Text = user.Url;
                 this.UserFollowNum.Text = user.FriendsCount.ToString("#,###,##0");
                 this.UserFollowerNum.Text = user.FollowersCount.ToString("#,###,##0");
                 this.UserPostsNum.Text = user.StatusesCount.ToString("#,###,##0");
                 this.UserProfile.Text = user.Description;
-                if (!String.IsNullOrEmpty(user.RecentPost))
+                if (!string.IsNullOrEmpty(user.RecentPost))
                 {
                     this.UserTweetDateTime.Text = user.PostCreatedAt.ToLocalTimeString("yy/MM/dd HH:mm");
                     this.UserTweet.Text = user.RecentPost;

@@ -340,9 +340,10 @@ namespace OpenTween.Connection
             {
                 request.Content = postContent;
 
+                HttpResponseMessage response = null;
                 try
                 {
-                    var response = await this.http.SendAsync(request, HttpCompletionOption.ResponseHeadersRead)
+                    response = await this.http.SendAsync(request, HttpCompletionOption.ResponseHeadersRead)
                         .ConfigureAwait(false);
 
                     await this.CheckStatusCode(response)
@@ -360,6 +361,10 @@ namespace OpenTween.Connection
                 catch (OperationCanceledException ex)
                 {
                     throw TwitterApiException.CreateFromException(ex);
+                }
+                finally
+                {
+                    response?.Dispose();
                 }
             }
         }
@@ -460,6 +465,7 @@ namespace OpenTween.Connection
             {
                 Networking.WebProxyChanged -= this.Networking_WebProxyChanged;
                 this.http.Dispose();
+                this.httpUpload.Dispose();
                 this.httpStreaming.Dispose();
             }
         }

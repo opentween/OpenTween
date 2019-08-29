@@ -84,9 +84,7 @@ namespace OpenTween.Models
         [InlineData(2L, true)]
         [InlineData(3L, true)]
         public void GetIsFavTest(long statusId, bool expected)
-        {
-            Assert.Equal(expected, PostClassTest.TestCases[statusId].IsFav);
-        }
+            => Assert.Equal(expected, PostClassTest.TestCases[statusId].IsFav);
 
         [Theory]
         [InlineData(2L, true)]

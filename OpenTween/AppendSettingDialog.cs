@@ -314,17 +314,17 @@ namespace OpenTween
 
         private void OpenUrl(string url)
         {
-            string myPath = url;
-            string path = this.ActionPanel.BrowserPathText.Text;
+            var myPath = url;
+            var path = this.ActionPanel.BrowserPathText.Text;
             try
             {
                 if (!string.IsNullOrEmpty(path))
                 {
                     if (path.StartsWith("\"", StringComparison.Ordinal) && path.Length > 2 && path.IndexOf("\"", 2, StringComparison.Ordinal) > -1)
                     {
-                        int sep = path.IndexOf("\"", 2, StringComparison.Ordinal);
-                        string browserPath = path.Substring(1, sep - 1);
-                        string arg = "";
+                        var sep = path.IndexOf("\"", 2, StringComparison.Ordinal);
+                        var browserPath = path.Substring(1, sep - 1);
+                        var arg = "";
                         if (sep < path.Length - 1)
                         {
                             arg = path.Substring(sep + 1);

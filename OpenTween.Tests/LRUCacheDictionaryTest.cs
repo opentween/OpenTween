@@ -31,7 +31,7 @@ namespace OpenTween
 {
     public class LRUCacheDictionaryTest
     {
-        private static AnyOrderComparer<string> collComparer = AnyOrderComparer<string>.Instance;
+        private static readonly AnyOrderComparer<string> collComparer = AnyOrderComparer<string>.Instance;
 
         [Fact]
         public void InnerListTest()
@@ -51,9 +51,9 @@ namespace OpenTween
             Assert.Equal("key1", node.Value.Key);
 
             // 2 -> 3 -> 1 の順に値を参照
-            var x = dict["key2"];
-            x = dict["key3"];
-            x = dict["key1"];
+            _ = dict["key2"];
+            _ = dict["key3"];
+            _ = dict["key1"];
 
             // 直近に参照した順で並んでいるかテスト
             node = dict.innerList.First;
@@ -108,11 +108,11 @@ namespace OpenTween
             };
 
             // 4 -> 2 -> 3 -> 1 -> 5 の順で参照
-            var x = dict["key4"];
-            x = dict["key2"];
-            x = dict["key3"];
-            x = dict["key1"];
-            x = dict["key5"];
+            _ = dict["key4"];
+            _ = dict["key2"];
+            _ = dict["key3"];
+            _ = dict["key1"];
+            _ = dict["key5"];
 
             // 3 個までに縮小
             dict.TrimLimit = 3;
@@ -144,8 +144,8 @@ namespace OpenTween
 
             dict["key5"] = "value5";         // 5アクセス目
             dict.Add("key6", "value6");      // 6アクセス目
-            var x = dict["key2"];            // 7アクセス目
-            dict.TryGetValue("key4", out x); // 8アクセス目 (この直後にTrim)
+            _ = dict["key2"];                // 7アクセス目
+            dict.TryGetValue("key4", out _); // 8アクセス目 (この直後にTrim)
 
             // 5 -> 6 -> 2 -> 4 の順でアクセスしたため、直近 3 件の 6, 2, 4 だけが残る
             Assert.Equal(new[] { "key6", "key2", "key4" }, dict.innerDict.Keys, collComparer);
@@ -163,10 +163,7 @@ namespace OpenTween
 
             // イベント設定
             var removedList = new List<string>();
-            dict.CacheRemoved += (s, e) =>
-            {
-                removedList.Add(e.Item.Key);
-            };
+            dict.CacheRemoved += (s, e) => removedList.Add(e.Item.Key);
 
             // 2 個までに縮小
             dict.TrimLimit = 2;

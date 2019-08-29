@@ -53,7 +53,7 @@ namespace OpenTween.Thumbnail
         {
             Type classType;
 
-            MapProvider confValue = SettingManager.Common.MapThumbnailProvider;
+            var confValue = SettingManager.Common.MapThumbnailProvider;
             switch (confValue)
             {
                 case MapProvider.OpenStreetMap:

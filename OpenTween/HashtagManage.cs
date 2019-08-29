@@ -49,7 +49,7 @@ namespace OpenTween
         public bool RunSilent { get; set; }
 
         //入力補助画面
-        private AtIdSupplement _hashSupl;
+        private readonly AtIdSupplement _hashSupl;
 
         //編集モード
         private bool _isAdd = false;
@@ -125,11 +125,11 @@ namespace OpenTween
         {
             if (string.IsNullOrEmpty(value)) return -1;
 
-            int idx = 0;
+            var idx = 0;
 
-            foreach (object l in list)
+            foreach (var l in list)
             {
-                string src = l as string;
+                var src = l as string;
                 if (string.IsNullOrEmpty(src))
                 {
                     idx += 1;
@@ -154,7 +154,7 @@ namespace OpenTween
                 if (isIgnorePermanent || !this.IsPermanent)
                 {
                     //無条件に先頭に挿入
-                    int idx = GetIndexOf(HistoryHashList.Items, hash);
+                    var idx = GetIndexOf(HistoryHashList.Items, hash);
 
                     if (idx != -1) HistoryHashList.Items.RemoveAt(idx);
                     HistoryHashList.Items.Insert(0, hash);
@@ -162,7 +162,7 @@ namespace OpenTween
                 else
                 {
                     //固定されていたら2行目に挿入
-                    int idx = GetIndexOf(HistoryHashList.Items, hash);
+                    var idx = GetIndexOf(HistoryHashList.Items, hash);
                     if (this.IsPermanent)
                     {
                         if (idx > 0)
@@ -231,9 +231,9 @@ namespace OpenTween
                 _hashSupl.ShowDialog();
                 if (!string.IsNullOrEmpty(_hashSupl.inputText))
                 {
-                    string fHalf = "";
-                    string eHalf = "";
-                    int selStart = UseHashText.SelectionStart;
+                    var fHalf = "";
+                    var eHalf = "";
+                    var selStart = UseHashText.SelectionStart;
                     if (selStart > 0)
                     {
                         fHalf = UseHashText.Text.Substring(0, selStart);
@@ -269,7 +269,7 @@ namespace OpenTween
         {
             get
             {
-                List<string> hash = new List<string>();
+                var hash = new List<string>();
                 foreach (string item in HistoryHashList.Items)
                 {
                     hash.Add(item);
@@ -292,14 +292,13 @@ namespace OpenTween
         private void PermOK_Button_Click(object sender, EventArgs e)
         {
             //ハッシュタグの整形
-            string hashStr = UseHashText.Text;
+            var hashStr = UseHashText.Text;
             if (!this.AdjustHashtags(ref hashStr, !this.RunSilent)) return;
 
             UseHashText.Text = hashStr;
-            int idx = 0;
             if (!this._isAdd && this.HistoryHashList.SelectedIndices.Count > 0)
             {
-                idx = this.HistoryHashList.SelectedIndices[0];
+                var idx = this.HistoryHashList.SelectedIndices[0];
                 this.HistoryHashList.Items.RemoveAt(idx);
                 do
                 {
@@ -350,8 +349,8 @@ namespace OpenTween
             }
             hashtag = hashtag.Replace("＃", "#");
             hashtag = hashtag.Replace("　", " ");
-            string adjust = "";
-            foreach (string hash in hashtag.Split(' '))
+            var adjust = "";
+            foreach (var hash in hashtag.Split(' '))
             {
                 if (hash.Length > 0)
                 {
@@ -375,7 +374,7 @@ namespace OpenTween
 
         private void OK_Button_Click(object sender, EventArgs e)
         {
-            string hash = "";
+            var hash = "";
             foreach (string hs in this.HistoryHashList.SelectedItems)
             {
                 hash += hs + " ";

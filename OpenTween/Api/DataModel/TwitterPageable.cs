@@ -74,15 +74,11 @@ namespace OpenTween.Api.DataModel
 
         [IgnoreDataMember]
         public override long[] Items
-        {
-            get { return this.Ids; }
-        }
+            => this.Ids;
 
         /// <exception cref="SerializationException"/>
         public static TwitterIds ParseJson(string json)
-        {
-            return MyCommon.CreateDataFromJson<TwitterIds>(json);
-        }
+            => MyCommon.CreateDataFromJson<TwitterIds>(json);
     }
 
     [DataContract]
@@ -93,15 +89,11 @@ namespace OpenTween.Api.DataModel
 
         [IgnoreDataMember]
         public override TwitterUser[] Items
-        {
-            get { return this.Users; }
-        }
+            => this.Users;
 
         /// <exception cref="SerializationException"/>
         public static TwitterUsers ParseJson(string json)
-        {
-            return MyCommon.CreateDataFromJson<TwitterUsers>(json);
-        }
+            => MyCommon.CreateDataFromJson<TwitterUsers>(json);
     }
 
     [DataContract]
@@ -112,14 +104,10 @@ namespace OpenTween.Api.DataModel
 
         [IgnoreDataMember]
         public override TwitterList[] Items
-        {
-            get { return this.Lists; }
-        }
+            => this.Lists;
 
         /// <exception cref="SerializationException"/>
         public static TwitterLists ParseJson(string json)
-        {
-            return MyCommon.CreateDataFromJson<TwitterLists>(json);
-        }
+            => MyCommon.CreateDataFromJson<TwitterLists>(json);
     }
 }

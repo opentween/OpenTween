@@ -71,12 +71,12 @@ namespace OpenTween.Setting.Panel
         {
             this.ComboBoxEventNotifySound.Items.Clear();
             this.ComboBoxEventNotifySound.Items.Add("");
-            DirectoryInfo oDir = new DirectoryInfo(Application.StartupPath + Path.DirectorySeparatorChar);
+            var oDir = new DirectoryInfo(Application.StartupPath + Path.DirectorySeparatorChar);
             if (Directory.Exists(Path.Combine(Application.StartupPath, "Sounds")))
             {
                 oDir = oDir.GetDirectories("Sounds")[0];
             }
-            foreach (FileInfo oFile in oDir.GetFiles("*.wav"))
+            foreach (var oFile in oDir.GetFiles("*.wav"))
             {
                 this.ComboBoxEventNotifySound.Items.Add(oFile.Name);
             }
@@ -147,19 +147,19 @@ namespace OpenTween.Setting.Panel
 
         private void GetEventNotifyFlag(ref MyCommon.EVENTTYPE eventnotifyflag, ref MyCommon.EVENTTYPE isMyeventnotifyflag)
         {
-            MyCommon.EVENTTYPE evt = MyCommon.EVENTTYPE.None;
-            MyCommon.EVENTTYPE myevt = MyCommon.EVENTTYPE.None;
+            var evt = MyCommon.EVENTTYPE.None;
+            var myevt = MyCommon.EVENTTYPE.None;
 
-            foreach (EventCheckboxTblElement tbl in GetEventCheckboxTable())
+            foreach (var tbl in GetEventCheckboxTable())
             {
                 switch (tbl.CheckBox.CheckState)
                 {
                     case CheckState.Checked:
-                        evt = evt | tbl.Type;
-                        myevt = myevt | tbl.Type;
+                        evt |= tbl.Type;
+                        myevt |= tbl.Type;
                         break;
                     case CheckState.Indeterminate:
-                        evt = evt | tbl.Type;
+                        evt |= tbl.Type;
                         break;
                     case CheckState.Unchecked:
                         break;
@@ -171,12 +171,12 @@ namespace OpenTween.Setting.Panel
 
         private void ApplyEventNotifyFlag(bool rootEnabled, MyCommon.EVENTTYPE eventnotifyflag, MyCommon.EVENTTYPE isMyeventnotifyflag)
         {
-            MyCommon.EVENTTYPE evt = eventnotifyflag;
-            MyCommon.EVENTTYPE myevt = isMyeventnotifyflag;
+            var evt = eventnotifyflag;
+            var myevt = isMyeventnotifyflag;
 
             this.CheckEventNotify.Checked = rootEnabled;
 
-            foreach (EventCheckboxTblElement tbl in GetEventCheckboxTable())
+            foreach (var tbl in GetEventCheckboxTable())
             {
                 if ((evt & tbl.Type) != 0)
                 {

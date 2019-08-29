@@ -205,8 +205,8 @@ namespace OpenTween.OpenTweenCustomControl
             const long LVSICF_NOSCROLL = 0x2;
             const long LVSICF_NOINVALIDATEALL = 0x1;
 
-            int hPos = -1;
-            int vPos = -1;
+            var hPos = -1;
+            var vPos = -1;
 
             switch (m.Msg)
             {

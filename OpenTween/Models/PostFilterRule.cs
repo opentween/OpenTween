@@ -689,23 +689,19 @@ namespace OpenTween.Models
         /// この振り分けルールにマッチ条件が含まれているかを返します
         /// </summary>
         public bool HasMatchConditions()
-        {
-            return !string.IsNullOrEmpty(this.FilterName) ||
+            => !string.IsNullOrEmpty(this.FilterName) ||
                 this.FilterBody.Any(x => !string.IsNullOrEmpty(x)) ||
                 !string.IsNullOrEmpty(this.FilterSource) ||
                 this.FilterRt;
-        }
 
         /// <summary>
         /// この振り分けルールに除外条件が含まれているかを返します
         /// </summary>
         public bool HasExcludeConditions()
-        {
-            return !string.IsNullOrEmpty(this.ExFilterName) ||
+            => !string.IsNullOrEmpty(this.ExFilterName) ||
                 this.ExFilterBody.Any(x => !string.IsNullOrEmpty(x)) ||
                 !string.IsNullOrEmpty(this.ExFilterSource) ||
                 this.ExFilterRt;
-        }
 
         public override bool Equals(object obj)
             => this.Equals(obj as PostFilterRule);
@@ -751,13 +747,11 @@ namespace OpenTween.Models
         }
 
         public override int GetHashCode()
-        {
-            return this.FilterName?.GetHashCode() ?? 0 ^
+            => this.FilterName?.GetHashCode() ?? 0 ^
                 this.FilterSource?.GetHashCode() ?? 0 ^
                 this.FilterBody.Select(x => x?.GetHashCode() ?? 0).Sum() ^
                 this.ExFilterName?.GetHashCode() ?? 0 ^
                 this.ExFilterSource?.GetHashCode() ?? 0 ^
                 this.ExFilterBody.Select(x => x?.GetHashCode() ?? 0).Sum();
-        }
     }
 }

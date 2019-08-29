@@ -102,7 +102,7 @@ namespace OpenTween.Setting.Panel
 
         private void Button3_Click(object sender, EventArgs e)
         {
-            using (OpenFileDialog filedlg = new OpenFileDialog())
+            using (var filedlg = new OpenFileDialog())
             {
                 filedlg.Filter = Properties.Resources.Button3_ClickText1;
                 filedlg.FilterIndex = 1;

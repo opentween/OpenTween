@@ -79,7 +79,7 @@ namespace OpenTween
             if (thumbnails.Length == 0)
                 return;
 
-            for (int i = 0; i < thumbnails.Length; i++)
+            for (var i = 0; i < thumbnails.Length; i++)
             {
                 var thumb = thumbnails[i];
                 var picbox = this.pictureBox[i];
@@ -152,7 +152,7 @@ namespace OpenTween
                 this.scrollBar.Maximum = (count > 0) ? count - 1 : 0;
                 this.scrollBar.Value = 0;
 
-                for (int i = 0; i < count; i++)
+                for (var i = 0; i < count; i++)
                 {
                     var picbox = CreatePictureBox("pictureBox" + i);
                     picbox.Visible = (i == 0);

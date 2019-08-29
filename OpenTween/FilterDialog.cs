@@ -45,12 +45,12 @@ namespace OpenTween
         private EDITMODE _mode;
         private bool _directAdd;
         private MultiSelectionState _multiSelState = MultiSelectionState.None;
-        private TabInformations _sts;
+        private readonly TabInformations _sts;
 
         private List<TabModel> tabs = new List<TabModel>();
         private int selectedTabIndex = -1;
 
-        private List<string> idlist = new List<string>();
+        private readonly List<string> idlist = new List<string>();
 
         private enum EDITMODE
         {
@@ -141,7 +141,7 @@ namespace OpenTween
             CheckManageRead.Checked = tab.UnreadManage;
             CheckNotifyNew.Checked = tab.Notify;
 
-            int idx = ComboSound.Items.IndexOf(tab.SoundFile);
+            var idx = ComboSound.Items.IndexOf(tab.SoundFile);
             if (idx == -1) idx = 0;
             ComboSound.SelectedIndex = idx;
 
@@ -386,7 +386,7 @@ namespace OpenTween
 
             ShowDetail();
 
-            int idx = ListFilters.SelectedIndex;
+            var idx = ListFilters.SelectedIndex;
             ListFilters.SelectedIndex = -1;
             ListFilters.SelectedIndex = idx;
             ListFilters.Enabled = false;
@@ -484,7 +484,7 @@ namespace OpenTween
 
             if (ListFilters.SelectedIndex > -1)
             {
-                PostFilterRule fc = (PostFilterRule)ListFilters.SelectedItem;
+                var fc = (PostFilterRule)ListFilters.SelectedItem;
                 if (fc.UseNameField)
                 {
                     RadioAND.Checked = true;
@@ -614,7 +614,7 @@ namespace OpenTween
 
         private void RadioAND_CheckedChanged(object sender, EventArgs e)
         {
-            bool flg = RadioAND.Checked;
+            var flg = RadioAND.Checked;
             UID.Enabled = flg;
             MSG1.Enabled = flg;
             MSG2.Enabled = !flg;
@@ -634,7 +634,7 @@ namespace OpenTween
             }
 
             var tab = (FilterTabModel)this.SelectedTab;
-            int i = ListFilters.SelectedIndex;
+            var i = ListFilters.SelectedIndex;
 
             PostFilterRule ft;
             if (_mode == EDITMODE.AddNew)
@@ -653,12 +653,12 @@ namespace OpenTween
                 ft.MarkMatches = false;
             }
 
-            string bdy = "";
+            var bdy = "";
             if (RadioAND.Checked)
             {
                 ft.FilterName = UID.Text;
-                TweenMain owner = (TweenMain)this.Owner;
-                int cnt = owner.AtIdSupl.ItemCount;
+                var owner = (TweenMain)this.Owner;
+                var cnt = owner.AtIdSupl.ItemCount;
                 owner.AtIdSupl.AddItem("@" + ft.FilterName);
                 if (cnt != owner.AtIdSupl.ItemCount)
                 {
@@ -937,18 +937,18 @@ namespace OpenTween
 
             ComboSound.Items.Clear();
             ComboSound.Items.Add("");
-            DirectoryInfo oDir = new DirectoryInfo(Application.StartupPath + Path.DirectorySeparatorChar);
+            var oDir = new DirectoryInfo(Application.StartupPath + Path.DirectorySeparatorChar);
             if (Directory.Exists(Path.Combine(Application.StartupPath, "Sounds")))
             {
                 oDir = oDir.GetDirectories("Sounds")[0];
             }
-            foreach (FileInfo oFile in oDir.GetFiles("*.wav"))
+            foreach (var oFile in oDir.GetFiles("*.wav"))
             {
                 ComboSound.Items.Add(oFile.Name);
             }
 
             idlist.Clear();
-            foreach (string tmp in ((TweenMain)this.Owner).AtIdSupl.GetItemList())
+            foreach (var tmp in ((TweenMain)this.Owner).AtIdSupl.GetItemList())
             {
                 idlist.Add(tmp.Remove(0, 1));  // @文字削除
             }
@@ -976,7 +976,7 @@ namespace OpenTween
         {
             string tabName = null;
             MyCommon.TabUsageType tabType;
-            using (InputTabName inputName = new InputTabName())
+            using (var inputName = new InputTabName())
             {
                 inputName.TabName = _sts.MakeTabName("MyTab");
                 inputName.IsShowUsage = true;
@@ -1008,7 +1008,7 @@ namespace OpenTween
                     {
                         MessageBox.Show("Failed to get lists. (" + ex.Message + ")");
                     }
-                    using (ListAvailable listAvail = new ListAvailable())
+                    using (var listAvail = new ListAvailable())
                     {
                         if (listAvail.ShowDialog(this) == DialogResult.Cancel) return;
                         if (listAvail.SelectedList == null) return;
@@ -1034,7 +1034,7 @@ namespace OpenTween
 
                 if (!_sts.AddTab(tab) || !((TweenMain)this.Owner).AddNewTab(tab, startup: false))
                 {
-                    string tmp = string.Format(Properties.Resources.AddTabMenuItem_ClickText1, tabName);
+                    var tmp = string.Format(Properties.Resources.AddTabMenuItem_ClickText1, tabName);
                     MessageBox.Show(tmp, Properties.Resources.AddTabMenuItem_ClickText2, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                     return;
                 }
@@ -1051,7 +1051,7 @@ namespace OpenTween
             if (ListTabs.SelectedIndex > -1)
             {
                 var tb = this.SelectedTab.TabName;
-                int idx = ListTabs.SelectedIndex;
+                var idx = ListTabs.SelectedIndex;
                 if (((TweenMain)this.Owner).RemoveSpecifiedTab(tb, true))
                 {
                     this.RefreshListTabs();
@@ -1067,7 +1067,7 @@ namespace OpenTween
             if (ListTabs.SelectedIndex > -1)
             {
                 var origTabName = this.SelectedTab.TabName;
-                if (((TweenMain)this.Owner).TabRename(origTabName, out var _))
+                if (((TweenMain)this.Owner).TabRename(origTabName, out _))
                     this.RefreshListTabs();
             }
         }
@@ -1149,7 +1149,7 @@ namespace OpenTween
         {
             if (ListTabs.SelectedIndex > -1)
             {
-                string filename = "";
+                var filename = "";
                 if (ComboSound.SelectedIndex > -1) filename = ComboSound.SelectedItem.ToString();
                 this.SelectedTab.SoundFile = filename;
             }
@@ -1157,7 +1157,7 @@ namespace OpenTween
 
         private void RadioExAnd_CheckedChanged(object sender, EventArgs e)
         {
-            bool flg = RadioExAnd.Checked;
+            var flg = RadioExAnd.Checked;
             ExUID.Enabled = flg;
             ExMSG1.Enabled = flg;
             ExMSG2.Enabled = !flg;
@@ -1258,7 +1258,7 @@ namespace OpenTween
             if (ListTabs.SelectedIndex > -1 && ListFilters.SelectedItem != null)
             {
                 TabModel[] selectedTabs;
-                using (TabsDialog dialog = new TabsDialog(_sts))
+                using (var dialog = new TabsDialog(_sts))
                 {
                     dialog.MultiSelect = true;
                     dialog.Text = Properties.Resources.ButtonRuleCopy_ClickText1;
@@ -1269,7 +1269,7 @@ namespace OpenTween
                 }
 
                 var currentTab = (FilterTabModel)this.SelectedTab;
-                List<PostFilterRule> filters = new List<PostFilterRule>();
+                var filters = new List<PostFilterRule>();
 
                 foreach (int idx in ListFilters.SelectedIndices)
                 {
@@ -1279,7 +1279,7 @@ namespace OpenTween
                 {
                     if (tb.TabName == currentTab.TabName) continue;
 
-                    foreach (PostFilterRule flt in filters)
+                    foreach (var flt in filters)
                     {
                         if (!tb.FilterArray.Contains(flt))
                             tb.AddFilter(flt.Clone());
@@ -1304,7 +1304,7 @@ namespace OpenTween
                     selectedTabs = dialog.SelectedTabs;
                 }
                 var currentTab = (FilterTabModel)this.SelectedTab;
-                List<PostFilterRule> filters = new List<PostFilterRule>();
+                var filters = new List<PostFilterRule>();
 
                 foreach (int idx in ListFilters.SelectedIndices)
                 {
@@ -1315,13 +1315,13 @@ namespace OpenTween
                 {
                     if (tb.TabName == currentTab.TabName) continue;
 
-                    foreach (PostFilterRule flt in filters)
+                    foreach (var flt in filters)
                     {
                         if (!tb.FilterArray.Contains(flt))
                             tb.AddFilter(flt.Clone());
                     }
                 }
-                for (int idx = ListFilters.Items.Count - 1; idx >= 0; idx--)
+                for (var idx = ListFilters.Items.Count - 1; idx >= 0; idx--)
                 {
                     if (ListFilters.GetSelected(idx))
                     {
@@ -1337,19 +1337,19 @@ namespace OpenTween
         {
             if (e.KeyCode == Keys.Space && e.Modifiers == (Keys.Shift | Keys.Control))
             {
-                TweenMain main = (TweenMain)this.Owner;
-                TextBox tbox = (TextBox)sender;
+                var main = (TweenMain)this.Owner;
+                var tbox = (TextBox)sender;
                 if (tbox.SelectionStart > 0)
                 {
-                    int endidx = tbox.SelectionStart - 1;
-                    string startstr = "";
-                    for (int i = tbox.SelectionStart - 1; i >= 0; i--)
+                    var endidx = tbox.SelectionStart - 1;
+                    for (var i = tbox.SelectionStart - 1; i >= 0; i--)
                     {
-                        char c = tbox.Text[i];
-                        if (Char.IsLetterOrDigit(c) || c == '_')
+                        var c = tbox.Text[i];
+                        if (char.IsLetterOrDigit(c) || c == '_')
                         {
                             continue;
                         }
+                        string startstr;
                         if (c == '@')
                         {
                             startstr = tbox.Text.Substring(i + 1, endidx - i);
@@ -1372,8 +1372,8 @@ namespace OpenTween
 
         private void FilterTextBox_KeyPress(object sender, KeyPressEventArgs e)
         {
-            TweenMain main = (TweenMain)this.Owner;
-            TextBox tbox = (TextBox)sender;
+            var main = (TweenMain)this.Owner;
+            var tbox = (TextBox)sender;
             if (e.KeyChar == '@')
             {
                 //if (!SettingDialog.UseAtIdSupplement) return;
@@ -1427,7 +1427,7 @@ namespace OpenTween
                         {
                             _multiSelState |= MultiSelectionState.SelectAll;
 
-                            for (int i = 1; i < itemCount; i++)
+                            for (var i = 1; i < itemCount; i++)
                             {
                                 this.ListFilters.SetSelected(i, true);
                             }

@@ -45,7 +45,7 @@ namespace OpenTween
     /// </summary>
     public class ShortUrl
     {
-        private static Lazy<ShortUrl> _instance;
+        private static readonly Lazy<ShortUrl> _instance;
 
         /// <summary>
         /// ShortUrl のインスタンスを取得します
@@ -68,7 +68,7 @@ namespace OpenTween
         public string BitlyKey { get; set; }
 
         private HttpClient http;
-        private ConcurrentDictionary<Uri, Uri> urlCache = new ConcurrentDictionary<Uri, Uri>();
+        private readonly ConcurrentDictionary<Uri, Uri> urlCache = new ConcurrentDictionary<Uri, Uri>();
 
         private static readonly Regex HtmlLinkPattern = new Regex(@"(<a href="")(.+?)("")");
 

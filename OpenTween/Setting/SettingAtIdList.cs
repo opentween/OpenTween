@@ -36,7 +36,7 @@ namespace OpenTween
 #region Settingクラス基本
         public static SettingAtIdList Load()
         {
-            SettingAtIdList setting = LoadSettings();
+            var setting = LoadSettings();
             return setting;
         }
 
@@ -44,7 +44,7 @@ namespace OpenTween
             => SaveSettings(this);
 
         public SettingAtIdList()
-            => this.AtIdList = new List<String>();
+            => this.AtIdList = new List<string>();
 
         public SettingAtIdList(List<string> ids)
             => this.AtIdList = ids;

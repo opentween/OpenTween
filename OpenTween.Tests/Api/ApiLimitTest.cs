@@ -30,18 +30,15 @@ namespace OpenTween.Api
 {
     public class ApiLimitTest
     {
-        public static IEnumerable<object[]> Equals_TestCase
+        public static readonly TheoryData<object, bool> Equals_TestCase = new TheoryData<object, bool>
         {
-            get
-            {
-                yield return new object[] { new ApiLimit(150, 100, new DateTimeUtc(2013, 1, 1, 0, 0, 0)), true };
-                yield return new object[] { new ApiLimit(350, 100, new DateTimeUtc(2013, 1, 1, 0, 0, 0)), false };
-                yield return new object[] { new ApiLimit(150, 150, new DateTimeUtc(2013, 1, 1, 0, 0, 0)), false };
-                yield return new object[] { new ApiLimit(150, 100, new DateTimeUtc(2012, 12, 31, 0, 0, 0)), false };
-                yield return new object[] { null, false };
-                yield return new object[] { new object(), false };
-            }
-        }
+            { new ApiLimit(150, 100, new DateTimeUtc(2013, 1, 1, 0, 0, 0)), true },
+            { new ApiLimit(350, 100, new DateTimeUtc(2013, 1, 1, 0, 0, 0)), false },
+            { new ApiLimit(150, 150, new DateTimeUtc(2013, 1, 1, 0, 0, 0)), false },
+            { new ApiLimit(150, 100, new DateTimeUtc(2012, 12, 31, 0, 0, 0)), false },
+            { null, false },
+            { new object(), false },
+        };
 
         [Theory]
         [MemberData(nameof(Equals_TestCase))]
