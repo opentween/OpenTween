@@ -98,21 +98,13 @@ namespace OpenTween
 
         private void ComboUsage_SelectedIndexChanged(object sender, EventArgs e)
         {
-            switch (ComboUsage.SelectedIndex)
+            this.Usage = ComboUsage.SelectedIndex switch
             {
-                case 0:
-                    this.Usage = MyCommon.TabUsageType.UserDefined;
-                    break;
-                case 1:
-                    this.Usage = MyCommon.TabUsageType.Lists;
-                    break;
-                case 2:
-                    this.Usage = MyCommon.TabUsageType.PublicSearch;
-                    break;
-                default:
-                    this.Usage = MyCommon.TabUsageType.Undefined;
-                    break;
-            }
+                0 => MyCommon.TabUsageType.UserDefined,
+                1 => MyCommon.TabUsageType.Lists,
+                2 => MyCommon.TabUsageType.PublicSearch,
+                _ => MyCommon.TabUsageType.Undefined,
+            };
         }
     }
 }

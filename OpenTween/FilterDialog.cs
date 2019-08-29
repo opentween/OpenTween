@@ -209,45 +209,22 @@ namespace OpenTween
                 buttonRuleToggleEnabled.Enabled = false;
             }
 
-            switch (tab.TabType)
+            this.LabelTabType.Text = tab.TabType switch
             {
-                case MyCommon.TabUsageType.Home:
-                    LabelTabType.Text = Properties.Resources.TabUsageTypeName_Home;
-                    break;
-                case MyCommon.TabUsageType.Mentions:
-                    LabelTabType.Text = Properties.Resources.TabUsageTypeName_Mentions;
-                    break;
-                case MyCommon.TabUsageType.DirectMessage:
-                    LabelTabType.Text = Properties.Resources.TabUsageTypeName_DirectMessage;
-                    break;
-                case MyCommon.TabUsageType.Favorites:
-                    LabelTabType.Text = Properties.Resources.TabUsageTypeName_Favorites;
-                    break;
-                case MyCommon.TabUsageType.UserDefined:
-                    LabelTabType.Text = Properties.Resources.TabUsageTypeName_UserDefined;
-                    break;
-                case MyCommon.TabUsageType.PublicSearch:
-                    LabelTabType.Text = Properties.Resources.TabUsageTypeName_PublicSearch;
-                    break;
-                case MyCommon.TabUsageType.Lists:
-                    LabelTabType.Text = Properties.Resources.TabUsageTypeName_Lists;
-                    break;
-                case MyCommon.TabUsageType.Related:
-                    LabelTabType.Text = Properties.Resources.TabUsageTypeName_Related;
-                    break;
-                case MyCommon.TabUsageType.UserTimeline:
-                    LabelTabType.Text = Properties.Resources.TabUsageTypeName_UserTimeline;
-                    break;
-                case MyCommon.TabUsageType.Mute:
-                    LabelTabType.Text = "Mute";
-                    break;
-                case MyCommon.TabUsageType.SearchResults:
-                    LabelTabType.Text = "SearchResults";
-                    break;
-                default:
-                    LabelTabType.Text = "UNKNOWN";
-                    break;
-            }
+                MyCommon.TabUsageType.Home => Properties.Resources.TabUsageTypeName_Home,
+                MyCommon.TabUsageType.Mentions => Properties.Resources.TabUsageTypeName_Mentions,
+                MyCommon.TabUsageType.DirectMessage => Properties.Resources.TabUsageTypeName_DirectMessage,
+                MyCommon.TabUsageType.Favorites => Properties.Resources.TabUsageTypeName_Favorites,
+                MyCommon.TabUsageType.UserDefined => Properties.Resources.TabUsageTypeName_UserDefined,
+                MyCommon.TabUsageType.PublicSearch => Properties.Resources.TabUsageTypeName_PublicSearch,
+                MyCommon.TabUsageType.Lists => Properties.Resources.TabUsageTypeName_Lists,
+                MyCommon.TabUsageType.Related => Properties.Resources.TabUsageTypeName_Related,
+                MyCommon.TabUsageType.UserTimeline => Properties.Resources.TabUsageTypeName_UserTimeline,
+                MyCommon.TabUsageType.Mute => "Mute",
+                MyCommon.TabUsageType.SearchResults => "SearchResults",
+                _ => "UNKNOWN",
+            };
+
             ButtonRenameTab.Enabled = true;
             if (tab.IsDefaultTabType || tab.Protected)
             {

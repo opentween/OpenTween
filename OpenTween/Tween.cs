@@ -736,25 +736,15 @@ namespace OpenTween
             ColumnOrgText[6] = "";
             ColumnOrgText[7] = "Source";
 
-            var c = 0;
-            switch (_statuses.SortMode)
+            var c = this._statuses.SortMode switch
             {
-                case ComparerMode.Nickname:  //ニックネーム
-                    c = 1;
-                    break;
-                case ComparerMode.Data:  //本文
-                    c = 2;
-                    break;
-                case ComparerMode.Id:  //時刻=発言Id
-                    c = 3;
-                    break;
-                case ComparerMode.Name:  //名前
-                    c = 4;
-                    break;
-                case ComparerMode.Source:  //Source
-                    c = 7;
-                    break;
-            }
+                ComparerMode.Nickname => 1, // ニックネーム
+                ComparerMode.Data => 2, // 本文
+                ComparerMode.Id => 3, // 時刻=発言Id
+                ComparerMode.Name => 4, // 名前
+                ComparerMode.Source => 7, // Source
+                _ => 0,
+            };
 
             if (_iconCol)
             {
@@ -2378,39 +2368,18 @@ namespace OpenTween
             catch (WebApiException ex)
             {
                 this._myStatusError = true;
-
-                string tabType;
-                switch (tab)
+                var tabType = tab switch
                 {
-                    case HomeTabModel _:
-                        tabType = "GetTimeline";
-                        break;
-                    case MentionsTabModel _:
-                        tabType = "GetTimeline";
-                        break;
-                    case DirectMessagesTabModel _:
-                        tabType = "GetDirectMessage";
-                        break;
-                    case FavoritesTabModel _:
-                        tabType = "GetFavorites";
-                        break;
-                    case PublicSearchTabModel _:
-                        tabType = "GetSearch";
-                        break;
-                    case UserTimelineTabModel _:
-                        tabType = "GetUserTimeline";
-                        break;
-                    case ListTimelineTabModel _:
-                        tabType = "GetListStatus";
-                        break;
-                    case RelatedPostsTabModel _:
-                        tabType = "GetRelatedTweets";
-                        break;
-                    default:
-                        tabType = tab.GetType().Name.Replace("Model", "");
-                        break;
-                }
-
+                    HomeTabModel _ => "GetTimeline",
+                    MentionsTabModel _ => "GetTimeline",
+                    DirectMessagesTabModel _ => "GetDirectMessage",
+                    FavoritesTabModel _ => "GetFavorites",
+                    PublicSearchTabModel _ => "GetSearch",
+                    UserTimelineTabModel _ => "GetUserTimeline",
+                    ListTimelineTabModel _ => "GetListStatus",
+                    RelatedPostsTabModel _ => "GetRelatedTweets",
+                    _ => tab.GetType().Name.Replace("Model", ""),
+                };
                 this.StatusLabel.Text = $"Err:{ex.Message}({tabType})";
             }
             finally
@@ -3179,22 +3148,15 @@ namespace OpenTween
             if (this._iconCol)
                 return ComparerMode.Id;
 
-            switch (columnIndex)
+            return columnIndex switch
             {
-                case 1: // ニックネーム
-                    return ComparerMode.Nickname;
-                case 2: // 本文
-                    return ComparerMode.Data;
-                case 3: // 時刻=発言Id
-                    return ComparerMode.Id;
-                case 4: // 名前
-                    return ComparerMode.Name;
-                case 7: // Source
-                    return ComparerMode.Source;
-                default:
-                    // 0:アイコン, 5:未読マーク, 6:プロテクト・フィルターマーク
-                    return null;
-            }
+                1 => ComparerMode.Nickname, // ニックネーム
+                2 => ComparerMode.Data, // 本文
+                3 => ComparerMode.Id, // 時刻=発言Id
+                4 => ComparerMode.Name, // 名前
+                7 => ComparerMode.Source, // Source
+                _ => (ComparerMode?)null, // 0:アイコン, 5:未読マーク, 6:プロテクト・フィルターマーク
+            };
         }
 
         /// <summary>
@@ -3892,26 +3854,16 @@ namespace OpenTween
         private void ApplyListViewIconSize(MyCommon.IconSizes iconSz)
         {
             // アイコンサイズの再設定
-            _iconCol = false;
-            switch (iconSz)
+            this._iconSz = iconSz switch
             {
-                case MyCommon.IconSizes.IconNone:
-                    _iconSz = 0;
-                    break;
-                case MyCommon.IconSizes.Icon16:
-                    _iconSz = 16;
-                    break;
-                case MyCommon.IconSizes.Icon24:
-                    _iconSz = 26;
-                    break;
-                case MyCommon.IconSizes.Icon48:
-                    _iconSz = 48;
-                    break;
-                case MyCommon.IconSizes.Icon48_2:
-                    _iconSz = 48;
-                    _iconCol = true;
-                    break;
-            }
+                MyCommon.IconSizes.IconNone => 0,
+                MyCommon.IconSizes.Icon16 => 16,
+                MyCommon.IconSizes.Icon24 => 26,
+                MyCommon.IconSizes.Icon48 => 48,
+                MyCommon.IconSizes.Icon48_2 => 48,
+                _ => throw new InvalidEnumArgumentException(nameof(iconSz), (int)iconSz, typeof(MyCommon.IconSizes)),
+            };
+            this._iconCol = iconSz == MyCommon.IconSizes.Icon48_2;
 
             if (_iconSz > 0)
             {
@@ -7175,25 +7127,15 @@ namespace OpenTween
                 SettingManager.Common.Token = tw.AccessToken;
                 SettingManager.Common.TokenSecret = tw.AccessTokenSecret;
                 SettingManager.Common.SortOrder = (int)_statuses.SortOrder;
-                switch (_statuses.SortMode)
+                SettingManager.Common.SortColumn = this._statuses.SortMode switch
                 {
-                    case ComparerMode.Nickname:  //ニックネーム
-                        SettingManager.Common.SortColumn = 1;
-                        break;
-                    case ComparerMode.Data:  //本文
-                        SettingManager.Common.SortColumn = 2;
-                        break;
-                    case ComparerMode.Id:  //時刻=発言Id
-                        SettingManager.Common.SortColumn = 3;
-                        break;
-                    case ComparerMode.Name:  //名前
-                        SettingManager.Common.SortColumn = 4;
-                        break;
-                    case ComparerMode.Source:  //Source
-                        SettingManager.Common.SortColumn = 7;
-                        break;
-                }
-
+                    ComparerMode.Nickname => 1, // ニックネーム
+                    ComparerMode.Data => 2, // 本文
+                    ComparerMode.Id => 3, // 時刻=発言Id
+                    ComparerMode.Name => 4, // 名前
+                    ComparerMode.Source => 7, // Source
+                    _ => throw new InvalidOperationException($"Invalid sort mode: {this._statuses.SortMode}"),
+                };
                 SettingManager.Common.HashTags = HashMgr.HashHistories;
                 if (HashMgr.IsPermanent)
                 {
@@ -8741,91 +8683,36 @@ namespace OpenTween
             if (endpointName == null)
             {
                 // 表示中のタブに応じて更新
-                switch (tabType)
+                endpointName = tabType switch
                 {
-                    case MyCommon.TabUsageType.Home:
-                    case MyCommon.TabUsageType.UserDefined:
-                        endpointName = "/statuses/home_timeline";
-                        break;
-
-                    case MyCommon.TabUsageType.Mentions:
-                        endpointName = "/statuses/mentions_timeline";
-                        break;
-
-                    case MyCommon.TabUsageType.Favorites:
-                        endpointName = "/favorites/list";
-                        break;
-
-                    case MyCommon.TabUsageType.DirectMessage:
-                        endpointName = "/direct_messages/events/list";
-                        break;
-
-                    case MyCommon.TabUsageType.UserTimeline:
-                        endpointName = "/statuses/user_timeline";
-                        break;
-
-                    case MyCommon.TabUsageType.Lists:
-                        endpointName = "/lists/statuses";
-                        break;
-
-                    case MyCommon.TabUsageType.PublicSearch:
-                        endpointName = "/search/tweets";
-                        break;
-
-                    case MyCommon.TabUsageType.Related:
-                        endpointName = "/statuses/show/:id";
-                        break;
-
-                    default:
-                        break;
-                }
-
+                    MyCommon.TabUsageType.Home => "/statuses/home_timeline",
+                    MyCommon.TabUsageType.UserDefined => "/statuses/home_timeline",
+                    MyCommon.TabUsageType.Mentions => "/statuses/mentions_timeline",
+                    MyCommon.TabUsageType.Favorites => "/favorites/list",
+                    MyCommon.TabUsageType.DirectMessage => "/direct_messages/events/list",
+                    MyCommon.TabUsageType.UserTimeline => "/statuses/user_timeline",
+                    MyCommon.TabUsageType.Lists => "/lists/statuses",
+                    MyCommon.TabUsageType.PublicSearch => "/search/tweets",
+                    MyCommon.TabUsageType.Related => "/statuses/show/:id",
+                    _ => null,
+                };
                 this.toolStripApiGauge.ApiEndpoint = endpointName;
             }
             else
             {
                 // 表示中のタブに関連する endpoint であれば更新
-                var update = false;
-
-                switch (endpointName)
+                var update = endpointName switch
                 {
-                    case "/statuses/home_timeline":
-                        update = tabType == MyCommon.TabUsageType.Home ||
-                                 tabType == MyCommon.TabUsageType.UserDefined;
-                        break;
-
-                    case "/statuses/mentions_timeline":
-                        update = tabType == MyCommon.TabUsageType.Mentions;
-                        break;
-
-                    case "/favorites/list":
-                        update = tabType == MyCommon.TabUsageType.Favorites;
-                        break;
-
-                    case "/direct_messages/events/list":
-                        update = tabType == MyCommon.TabUsageType.DirectMessage;
-                        break;
-
-                    case "/statuses/user_timeline":
-                        update = tabType == MyCommon.TabUsageType.UserTimeline;
-                        break;
-
-                    case "/lists/statuses":
-                        update = tabType == MyCommon.TabUsageType.Lists;
-                        break;
-
-                    case "/search/tweets":
-                        update = tabType == MyCommon.TabUsageType.PublicSearch;
-                        break;
-
-                    case "/statuses/show/:id":
-                        update = tabType == MyCommon.TabUsageType.Related;
-                        break;
-
-                    default:
-                        break;
-                }
-
+                    "/statuses/home_timeline" => tabType == MyCommon.TabUsageType.Home || tabType == MyCommon.TabUsageType.UserDefined,
+                    "/statuses/mentions_timeline" => tabType == MyCommon.TabUsageType.Mentions,
+                    "/favorites/list" => tabType == MyCommon.TabUsageType.Favorites,
+                    "/direct_messages/events/list" => tabType == MyCommon.TabUsageType.DirectMessage,
+                    "/statuses/user_timeline" => tabType == MyCommon.TabUsageType.UserTimeline,
+                    "/lists/statuses" => tabType == MyCommon.TabUsageType.Lists,
+                    "/search/tweets" => tabType == MyCommon.TabUsageType.PublicSearch,
+                    "/statuses/show/:id" => tabType == MyCommon.TabUsageType.Related,
+                    _ => false,
+                };
                 if (update)
                 {
                     this.toolStripApiGauge.ApiEndpoint = endpointName;

@@ -52,20 +52,13 @@ namespace OpenTween.Thumbnail
 
         public static MapThumb GetDefaultInstance()
         {
-            Type classType;
-
             var confValue = SettingManager.Common.MapThumbnailProvider;
-            switch (confValue)
+            var classType = confValue switch
             {
-                case MapProvider.OpenStreetMap:
-                    classType = typeof(MapThumbOSM);
-                    break;
-                case MapProvider.GoogleMaps:
-                    classType = typeof(MapThumbGoogle);
-                    break;
-                default:
-                    throw new NotSupportedException("Map Provider '" + confValue + "' is not supported.");
-            }
+                MapProvider.OpenStreetMap => typeof(MapThumbOSM),
+                MapProvider.GoogleMaps => typeof(MapThumbGoogle),
+                _ => throw new NotSupportedException($"Map Provider '{confValue}' is not supported."),
+            };
 
             if (MapThumb.defaultInstance == null || MapThumb.defaultInstance.GetType() != classType)
             {

@@ -123,17 +123,11 @@ namespace OpenTween.Connection
                 throw new InvalidOperationException("Err:Can't attach multiple media to DM.");
 
             var mediaItem = mediaItems[0];
-
-            string mediaCategory;
-            switch (mediaItem.Extension)
+            var mediaCategory = mediaItem.Extension switch
             {
-                case ".gif":
-                    mediaCategory = "dm_gif";
-                    break;
-                default:
-                    mediaCategory = "dm_image";
-                    break;
-            }
+                ".gif" => "dm_gif",
+                _ => "dm_image",
+            };
 
             var mediaId = await this.UploadMediaItem(mediaItems[0], mediaCategory)
                 .ConfigureAwait(false);

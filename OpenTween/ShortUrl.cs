@@ -322,26 +322,20 @@ namespace OpenTween
 
             try
             {
-                switch (shortenerType)
+                return shortenerType switch
                 {
-                    case MyCommon.UrlConverter.TinyUrl:
-                        return await this.ShortenByTinyUrlAsync(srcUri)
-                            .ConfigureAwait(false);
-                    case MyCommon.UrlConverter.Isgd:
-                        return await this.ShortenByIsgdAsync(srcUri)
-                            .ConfigureAwait(false);
-                    case MyCommon.UrlConverter.Bitly:
-                        return await this.ShortenByBitlyAsync(srcUri, "bit.ly")
-                            .ConfigureAwait(false);
-                    case MyCommon.UrlConverter.Jmp:
-                        return await this.ShortenByBitlyAsync(srcUri, "j.mp")
-                            .ConfigureAwait(false);
-                    case MyCommon.UrlConverter.Uxnu:
-                        return await this.ShortenByUxnuAsync(srcUri)
-                            .ConfigureAwait(false);
-                    default:
-                        throw new ArgumentException("Unknown shortener.", nameof(shortenerType));
-                }
+                    MyCommon.UrlConverter.TinyUrl => await this.ShortenByTinyUrlAsync(srcUri)
+                            .ConfigureAwait(false),
+                    MyCommon.UrlConverter.Isgd => await this.ShortenByIsgdAsync(srcUri)
+                            .ConfigureAwait(false),
+                    MyCommon.UrlConverter.Bitly => await this.ShortenByBitlyAsync(srcUri, "bit.ly")
+                            .ConfigureAwait(false),
+                    MyCommon.UrlConverter.Jmp => await this.ShortenByBitlyAsync(srcUri, "j.mp")
+                            .ConfigureAwait(false),
+                    MyCommon.UrlConverter.Uxnu => await this.ShortenByUxnuAsync(srcUri)
+                            .ConfigureAwait(false),
+                    _ => throw new ArgumentException("Unknown shortener.", nameof(shortenerType)),
+                };
             }
             catch (OperationCanceledException)
             {

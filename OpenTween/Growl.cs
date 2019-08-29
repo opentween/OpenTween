@@ -257,22 +257,16 @@ namespace OpenTween
         public void Notify(NotifyType notificationType, string id, string title, string text, Image? icon = null, string url = "")
         {
             if (!_initialized) return;
-            var notificationName = "";
-            switch (notificationType)
+
+            var notificationName = notificationType switch
             {
-                case NotifyType.Reply:
-                    notificationName = "REPLY";
-                    break;
-                case NotifyType.DirectMessage:
-                    notificationName = "DIRECT_MESSAGE";
-                    break;
-                case NotifyType.Notify:
-                    notificationName = "NOTIFY";
-                    break;
-                case NotifyType.UserStreamEvent:
-                    notificationName = "USERSTREAM_EVENT";
-                    break;
-            }
+                NotifyType.Reply => "REPLY",
+                NotifyType.DirectMessage => "DIRECT_MESSAGE",
+                NotifyType.Notify => "NOTIFY",
+                NotifyType.UserStreamEvent => "USERSTREAM_EVENT",
+                _ => "",
+            };
+
             object? n;
             if (icon != null || !string.IsNullOrEmpty(url))
             {

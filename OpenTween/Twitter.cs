@@ -306,24 +306,14 @@ namespace OpenTween
         {
             this.CheckAccountState();
 
-            string mediaType;
-
-            switch (item.Extension)
+            var mediaType = item.Extension switch
             {
-                case ".png":
-                    mediaType = "image/png";
-                    break;
-                case ".jpg":
-                case ".jpeg":
-                    mediaType = "image/jpeg";
-                    break;
-                case ".gif":
-                    mediaType = "image/gif";
-                    break;
-                default:
-                    mediaType = "application/octet-stream";
-                    break;
-            }
+                ".png" => "image/png",
+                ".jpg" => "image/jpeg",
+                ".jpeg" => "image/jpeg",
+                ".gif" => "image/gif",
+                _ => "application/octet-stream",
+            };
 
             var initResponse = await this.Api.MediaUploadInit(item.Size, mediaType, mediaCategory)
                 .ConfigureAwait(false);
@@ -485,21 +475,16 @@ namespace OpenTween
         {
             // 参照: REST APIs - 各endpointのcountパラメータ
             // https://dev.twitter.com/rest/public
-            switch (type)
+            return type switch
             {
-                case MyCommon.WORKERTYPE.Timeline:
-                case MyCommon.WORKERTYPE.Reply:
-                case MyCommon.WORKERTYPE.UserTimeline:
-                case MyCommon.WORKERTYPE.Favorites:
-                case MyCommon.WORKERTYPE.List:  // 不明
-                    return 200;
-
-                case MyCommon.WORKERTYPE.PublicSearch:
-                    return 100;
-
-                default:
-                    throw new InvalidOperationException("Invalid type: " + type);
-            }
+                MyCommon.WORKERTYPE.Timeline => 200,
+                MyCommon.WORKERTYPE.Reply => 200,
+                MyCommon.WORKERTYPE.UserTimeline => 200,
+                MyCommon.WORKERTYPE.Favorites => 200,
+                MyCommon.WORKERTYPE.List => 200, // 不明
+                MyCommon.WORKERTYPE.PublicSearch => 100,
+                _ => throw new InvalidOperationException("Invalid type: " + type),
+            };
         }
 
         /// <summary>

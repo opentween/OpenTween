@@ -379,19 +379,13 @@ namespace OpenTween
 
         public static void SetProxy(ProxyType pType, string host, int port)
         {
-            string? proxy = null;
-            switch (pType)
+            var proxy = pType switch
             {
-            case ProxyType.IE:
-                proxy = null;
-                break;
-            case ProxyType.None:
-                proxy = "";
-                break;
-            case ProxyType.Specified:
-                proxy = host + (port > 0 ? ":" + port : "");
-                break;
-            }
+                ProxyType.IE => null,
+                ProxyType.None => "",
+                ProxyType.Specified => host + (port > 0 ? ":" + port : ""),
+                _ => null,
+            };
             RefreshProxySettings(proxy);
         }
 #endregion
