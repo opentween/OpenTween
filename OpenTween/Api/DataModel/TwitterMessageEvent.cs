@@ -19,6 +19,8 @@
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
+#nullable enable annotations
+
 using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
@@ -48,7 +50,7 @@ namespace OpenTween.Api.DataModel
         public TwitterMessageEvent[] Events { get; set; }
 
         [DataMember(Name = "next_cursor", IsRequired = false)]
-        public string NextCursor { get; set; }
+        public string? NextCursor { get; set; }
     }
 
     [DataContract]
@@ -84,7 +86,7 @@ namespace OpenTween.Api.DataModel
         public class Data
         {
             [DataMember(Name = "attachment", IsRequired = false)]
-            public MessageAttachment Attachment { get; set; }
+            public MessageAttachment? Attachment { get; set; }
 
             [DataContract]
             public class MessageAttachment
@@ -107,7 +109,7 @@ namespace OpenTween.Api.DataModel
         public string SenderId { get; set; }
 
         [DataMember(Name = "source_app_id", IsRequired = false)]
-        public string SourceAppId { get; set; }
+        public string? SourceAppId { get; set; }
 
         [DataMember(Name = "target")]
         public MessageTarget Target { get; set; }

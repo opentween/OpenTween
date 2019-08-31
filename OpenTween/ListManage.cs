@@ -24,6 +24,8 @@
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
+#nullable enable
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -155,7 +157,7 @@ namespace OpenTween
                 }
 
                 this.ListsList.Items.Clear();
-                this.ListManage_Load(null, EventArgs.Empty);
+                this.ListManage_Load(this, EventArgs.Empty);
 
                 this.EditCheckBox.AutoCheck = true;
                 this.EditCheckBox.Checked = false;
@@ -332,7 +334,8 @@ namespace OpenTween
                 }
                 this.DeleteUserButton.Enabled = true;
 
-                await this.LoadUserIconAsync(user.ImageUrl, user.Id);
+                if (user.ImageUrl != null)
+                    await this.LoadUserIconAsync(user.ImageUrl, user.Id);
             }
         }
 
@@ -346,20 +349,18 @@ namespace OpenTween
             {
                 var uri = imageUri.AbsoluteUri.Replace("_normal", "_bigger");
 
-                using (var imageStream = await Networking.Http.GetStreamAsync(uri))
+                using var imageStream = await Networking.Http.GetStreamAsync(uri);
+                var image = await MemoryImage.CopyFromStreamAsync(imageStream);
+
+                // 画像の読み込み中に選択中のユーザーが変化していたらキャンセルとして扱う
+                var selectedUser = (UserInfo)this.UserList.SelectedItem;
+                if (selectedUser.Id != userId)
                 {
-                    var image = await MemoryImage.CopyFromStreamAsync(imageStream);
-
-                    // 画像の読み込み中に選択中のユーザーが変化していたらキャンセルとして扱う
-                    var selectedUser = (UserInfo)this.UserList.SelectedItem;
-                    if (selectedUser.Id != userId)
-                    {
-                        image.Dispose();
-                        throw new OperationCanceledException();
-                    }
-
-                    return image;
+                    image.Dispose();
+                    throw new OperationCanceledException();
                 }
+
+                return image;
             });
         }
 
@@ -382,15 +383,13 @@ namespace OpenTween
 
         private async Task<IReadOnlyList<ListElement>> FetchListsAsync()
         {
-            using (var dialog = new WaitingDialog(Properties.Resources.ListsGetting))
-            {
-                var cancellationToken = dialog.EnableCancellation();
+            using var dialog = new WaitingDialog(Properties.Resources.ListsGetting);
+            var cancellationToken = dialog.EnableCancellation();
 
-                var task = this.tw.GetListsApi();
-                await dialog.WaitForAsync(this, task);
+            var task = this.tw.GetListsApi();
+            await dialog.WaitForAsync(this, task);
 
-                cancellationToken.ThrowIfCancellationRequested();
-            }
+            cancellationToken.ThrowIfCancellationRequested();
 
             return TabInformations.GetInstance().SubscribableLists;
         }

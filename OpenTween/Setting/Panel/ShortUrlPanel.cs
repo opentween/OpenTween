@@ -24,6 +24,8 @@
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
+#nullable enable
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -88,32 +90,31 @@ namespace OpenTween.Setting.Panel
 
         private void ButtonBitlyAuthorize_Click(object sender, EventArgs e)
         {
-            using (var dialog = new LoginDialog())
+            using var dialog = new LoginDialog();
+
+            const string DialogText = "Bitly Login";
+            dialog.Text = DialogText;
+
+            string? accessToken = null;
+            dialog.LoginCallback = async () =>
             {
-                const string DialogText = "Bitly Login";
-                dialog.Text = DialogText;
-
-                string accessToken = null;
-                dialog.LoginCallback = async () =>
+                try
                 {
-                    try
-                    {
-                        var bitly = new BitlyApi();
-                        accessToken = await bitly.GetAccessTokenAsync(dialog.LoginName, dialog.Password);
-                        return true;
-                    }
-                    catch (WebApiException ex)
-                    {
-                        var text = string.Format(Properties.Resources.BitlyAuthorize_ErrorText, ex.Message);
-                        MessageBox.Show(dialog, text, DialogText, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        return false;
-                    }
-                };
-
-                if (dialog.ShowDialog(this.ParentForm) == DialogResult.OK)
-                {
-                    this.TextBitlyAccessToken.Text = accessToken;
+                    var bitly = new BitlyApi();
+                    accessToken = await bitly.GetAccessTokenAsync(dialog.LoginName, dialog.Password);
+                    return true;
                 }
+                catch (WebApiException ex)
+                {
+                    var text = string.Format(Properties.Resources.BitlyAuthorize_ErrorText, ex.Message);
+                    MessageBox.Show(dialog, text, DialogText, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return false;
+                }
+            };
+
+            if (dialog.ShowDialog(this.ParentForm) == DialogResult.OK)
+            {
+                this.TextBitlyAccessToken.Text = accessToken;
             }
         }
     }

@@ -19,6 +19,8 @@
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
+#nullable enable
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -40,7 +42,7 @@ namespace OpenTween
     {
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public new MemoryImage Image
+        public new MemoryImage? Image
         {
             get => this.memoryImage;
             set
@@ -51,7 +53,7 @@ namespace OpenTween
                 this.RestoreSizeMode();
             }
         }
-        private MemoryImage memoryImage;
+        private MemoryImage? memoryImage;
 
         [Localizable(true)]
         [DefaultValue(PictureBoxSizeMode.Normal)]
@@ -167,7 +169,7 @@ namespace OpenTween
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public new string ImageLocation
+        public new string? ImageLocation
         {
             get => null;
             set { }

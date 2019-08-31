@@ -25,6 +25,8 @@
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
+#nullable enable
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -53,9 +55,9 @@ namespace OpenTween.Connection
         /// <param name="token">アクセストークン、もしくはリクエストトークン。未取得なら空文字列</param>
         /// <param name="tokenSecret">アクセストークンシークレット。認証処理では空文字列</param>
         /// <param name="realm">realm (必要な場合のみ)</param>
-        public static string CreateAuthorization(string httpMethod, Uri requestUri, IEnumerable<KeyValuePair<string, string>> query,
+        public static string CreateAuthorization(string httpMethod, Uri requestUri, IEnumerable<KeyValuePair<string, string>>? query,
             string consumerKey, string consumerSecret, string token, string tokenSecret,
-            string realm = null)
+            string? realm = null)
         {
             // OAuth共通情報取得
             var parameter = GetOAuthParameter(consumerKey, token);
@@ -107,7 +109,7 @@ namespace OpenTween.Connection
         /// <param name="uri">アクセス先Uri</param>
         /// <param name="parameter">クエリ、もしくはPOSTデータ</param>
         /// <returns>署名文字列</returns>
-        public static string CreateSignature(string consumerSecret, string tokenSecret, string method, Uri uri, Dictionary<string, string> parameter)
+        public static string CreateSignature(string consumerSecret, string? tokenSecret, string method, Uri uri, Dictionary<string, string> parameter)
         {
             // パラメタをソート済みディクショナリに詰替（OAuthの仕様）
             var sorted = new SortedDictionary<string, string>(parameter);
@@ -122,11 +124,9 @@ namespace OpenTween.Connection
             if (!string.IsNullOrEmpty(tokenSecret))
                 key += MyCommon.UrlEncode(tokenSecret);
             // 鍵生成＆署名生成
-            using (var hmac = new HMACSHA1(Encoding.ASCII.GetBytes(key)))
-            {
-                var hash = hmac.ComputeHash(Encoding.ASCII.GetBytes(signatureBase));
-                return Convert.ToBase64String(hash);
-            }
+            using var hmac = new HMACSHA1(Encoding.ASCII.GetBytes(key));
+            var hash = hmac.ComputeHash(Encoding.ASCII.GetBytes(signatureBase));
+            return Convert.ToBase64String(hash);
         }
     }
 }

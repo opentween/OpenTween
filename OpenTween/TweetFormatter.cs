@@ -19,6 +19,8 @@
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
+#nullable enable
+
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -35,7 +37,7 @@ namespace OpenTween
     /// </summary>
     public static class TweetFormatter
     {
-        public static string AutoLinkHtml(string text, IEnumerable<TwitterEntity> entities, bool keepTco = false)
+        public static string AutoLinkHtml(string text, IEnumerable<TwitterEntity>? entities, bool keepTco = false)
         {
             if (entities == null)
                 entities = Enumerable.Empty<TwitterEntity>();

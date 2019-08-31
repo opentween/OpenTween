@@ -19,6 +19,8 @@
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
+#nullable enable
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -31,6 +33,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using OpenTween.Api.DataModel;
 using OpenTween.Connection;
+using System.Diagnostics.CodeAnalysis;
 
 namespace OpenTween
 {
@@ -46,7 +49,7 @@ namespace OpenTween
 
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public OpenFileDialog FilePickDialog { get; set; }
+        public OpenFileDialog? FilePickDialog { get; set; }
 
         /// <summary>
         /// 選択されている投稿先名を取得する。
@@ -69,7 +72,7 @@ namespace OpenTween
         /// </summary>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public IMediaUploadService SelectedService
+        public IMediaUploadService? SelectedService
         {
             get
             {
@@ -99,11 +102,11 @@ namespace OpenTween
 
         private class SelectedMedia
         {
-            public IMediaItem Item { get; set; }
+            public IMediaItem? Item { get; set; }
             public MyCommon.UploadFileType Type { get; set; }
             public string Text { get; set; }
 
-            public SelectedMedia(IMediaItem item, MyCommon.UploadFileType type, string text)
+            public SelectedMedia(IMediaItem? item, MyCommon.UploadFileType type, string text)
             {
                 this.Item = item;
                 this.Type = type;
@@ -127,12 +130,11 @@ namespace OpenTween
                 => this.Text;
         }
 
-        private Dictionary<string, IMediaUploadService> pictureService;
+        private Dictionary<string, IMediaUploadService> pictureService = new Dictionary<string, IMediaUploadService>();
 
         private void CreateServices(Twitter tw, TwitterConfiguration twitterConfig)
         {
             this.pictureService?.Clear();
-            this.pictureService = null;
 
             this.pictureService = new Dictionary<string, IMediaUploadService> {
                 ["Twitter"] = new TwitterPhoto(tw, twitterConfig),
@@ -330,7 +332,7 @@ namespace OpenTween
         /// <summary>
         /// 選択された投稿先名と投稿する MediaItem を取得する。MediaItem は不要になったら呼び出し側にて破棄すること。
         /// </summary>
-        public bool TryGetSelectedMedia(out string imageService, out IMediaItem[] mediaItems)
+        public bool TryGetSelectedMedia([NotNullWhen(true)] out string? imageService, [NotNullWhen(true)] out IMediaItem[]? mediaItems)
         {
             var validItems = ImagePageCombo.Items.Cast<SelectedMedia>()
                              .Where(x => x.IsValid).Select(x => x.Item).OfType<IMediaItem>().ToArray();
@@ -369,11 +371,11 @@ namespace OpenTween
             return false;
         }
 
-        private MemoryImageMediaItem CreateMemoryImageMediaItem(Image image, bool noMsgBox)
+        private MemoryImageMediaItem? CreateMemoryImageMediaItem(Image image, bool noMsgBox)
         {
             if (image == null) return null;
 
-            MemoryImage memoryImage = null;
+            MemoryImage? memoryImage = null;
             try
             {
                 // image から png 形式の MemoryImage を生成
@@ -390,7 +392,7 @@ namespace OpenTween
             }
         }
 
-        private IMediaItem CreateFileMediaItem(string path, bool noMsgBox)
+        private IMediaItem? CreateFileMediaItem(string path, bool noMsgBox)
         {
             if (string.IsNullOrEmpty(path)) return null;
 
@@ -426,7 +428,7 @@ namespace OpenTween
             ImageFromSelectedFile(item, noMsgBox);
         }
 
-        private void DisposeMediaItem(IMediaItem item)
+        private void DisposeMediaItem(IMediaItem? item)
         {
             var disposableItem = item as IDisposable;
             disposableItem?.Dispose();
@@ -466,10 +468,10 @@ namespace OpenTween
             ValidateNewFileMediaItem(ImagefilePathText.Text.Trim(), AlternativeTextBox.Text.Trim(), false);
         }
 
-        private void ImageFromSelectedFile(IMediaItem item, bool noMsgBox)
+        private void ImageFromSelectedFile(IMediaItem? item, bool noMsgBox)
             => this.ImageFromSelectedFile(-1, item, noMsgBox);
 
-        private void ImageFromSelectedFile(int index, IMediaItem item, bool noMsgBox)
+        private void ImageFromSelectedFile(int index, IMediaItem? item, bool noMsgBox)
         {
             var valid = false;
 
@@ -655,7 +657,11 @@ namespace OpenTween
         }
 
         private void UpdateAltTextPanelVisible()
-            => this.AlternativeTextPanel.Visible = this.SelectedService.CanUseAltText;
+            => this.AlternativeTextPanel.Visible = this.SelectedService switch
+            {
+                null => false,
+                var service => service.CanUseAltText,
+            };
 
         private void ImageServiceCombo_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -719,7 +725,7 @@ namespace OpenTween
             this.SelectedServiceChanged?.Invoke(this, EventArgs.Empty);
         }
 
-        private void SetImagePageCombo(SelectedMedia media = null)
+        private void SetImagePageCombo(SelectedMedia? media = null)
         {
             using (ControlTransaction.Update(ImagePageCombo))
             {

@@ -24,6 +24,8 @@
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
+#nullable enable
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -43,14 +45,14 @@ namespace OpenTween
 {
     public partial class EventViewerDialog : OTBaseForm
     {
-        public List<Twitter.FormattedEvent> EventSource { get; set; }
+        public List<Twitter.FormattedEvent> EventSource { get; set; } = new List<Twitter.FormattedEvent>();
 
-        private Twitter.FormattedEvent[] _filterdEventSource;
+        private Twitter.FormattedEvent[] _filterdEventSource = Array.Empty<Twitter.FormattedEvent>();
 
-        private ListViewItem[] _ItemCache = null;
+        private ListViewItem[]? _ItemCache = null;
         private int _itemCacheIndex;
 
-        private TabPage _curTab = null;
+        private TabPage _curTab = null!;
 
         public EventViewerDialog()
         {
@@ -261,20 +263,19 @@ namespace OpenTween
             if (SaveFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 if (!SaveFileDialog1.ValidateNames) return;
-                using (var sw = new StreamWriter(SaveFileDialog1.FileName, false, Encoding.UTF8))
+                using var sw = new StreamWriter(SaveFileDialog1.FileName, false, Encoding.UTF8);
+
+                switch (rslt)
                 {
-                    switch (rslt)
-                    {
-                        case DialogResult.Yes:
-                            SaveEventLog(_filterdEventSource.ToList(), sw);
-                            break;
-                        case DialogResult.No:
-                            SaveEventLog(EventSource, sw);
-                            break;
-                        default:
-                            //
-                            break;
-                    }
+                    case DialogResult.Yes:
+                        SaveEventLog(_filterdEventSource.ToList(), sw);
+                        break;
+                    case DialogResult.No:
+                        SaveEventLog(EventSource, sw);
+                        break;
+                    default:
+                        //
+                        break;
                 }
             }
             this.TopMost = SettingManager.Common.AlwaysTop;

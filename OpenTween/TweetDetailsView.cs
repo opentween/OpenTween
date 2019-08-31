@@ -24,6 +24,8 @@
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
+#nullable enable
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -45,16 +47,16 @@ namespace OpenTween
 {
     public partial class TweetDetailsView : UserControl
     {
-        public TweenMain Owner { get; set; }
+        public TweenMain Owner { get; set; } = null!;
 
         /// <summary>プロフィール画像のキャッシュ</summary>
-        public ImageCache IconCache { get; set; }
+        public ImageCache IconCache { get; set; } = null!;
 
         /// <summary><see cref="PostClass"/> のダンプを表示するか</summary>
         public bool DumpPostClass { get; set; }
 
         /// <summary>現在表示中の発言</summary>
-        public PostClass CurrentPost { get; private set; }
+        public PostClass? CurrentPost { get; private set; }
 
         [DefaultValue(false)]
         public new bool TabStop
@@ -404,7 +406,7 @@ namespace OpenTween
             }
         }
 
-        private string GetUserId()
+        private string? GetUserId()
         {
             var m = Regex.Match(this._postBrowserStatusText, @"^https?://twitter.com/(#!/)?(?<ScreenName>[a-zA-Z0-9_]+)(/status(es)?/[0-9]+)?$");
             if (m.Success && this.Owner.IsTwitterId(m.Result("${ScreenName}")))
@@ -443,7 +445,7 @@ namespace OpenTween
         {
             if (e.Url.AbsoluteUri != "about:blank")
             {
-                await this.ShowPostDetails(this.CurrentPost); // 現在の発言を表示し直す (Navigated の段階ではキャンセルできない)
+                await this.ShowPostDetails(this.CurrentPost!); // 現在の発言を表示し直す (Navigated の段階ではキャンセルできない)
                 await this.Owner.OpenUriInBrowserAsync(e.Url.OriginalString);
             }
         }
@@ -712,24 +714,25 @@ namespace OpenTween
             if (string.IsNullOrEmpty(imageUrl))
                 return;
 
+            var memoryImage = this.IconCache.TryGetFromCache(imageUrl);
+            if (memoryImage == null)
+                return;
+
             this.Owner.SaveFileDialog1.FileName = imageUrl.Substring(imageUrl.LastIndexOf('/') + 1);
 
             if (this.Owner.SaveFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 try
                 {
-                    using (Image orgBmp = new Bitmap(IconCache.TryGetFromCache(imageUrl).Image))
+                    using var orgBmp = new Bitmap(memoryImage.Image);
+                    using var bmp2 = new Bitmap(orgBmp.Size.Width, orgBmp.Size.Height);
+
+                    using (var g = Graphics.FromImage(bmp2))
                     {
-                        using (var bmp2 = new Bitmap(orgBmp.Size.Width, orgBmp.Size.Height))
-                        {
-                            using (var g = Graphics.FromImage(bmp2))
-                            {
-                                g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.High;
-                                g.DrawImage(orgBmp, 0, 0, orgBmp.Size.Width, orgBmp.Size.Height);
-                            }
-                            bmp2.Save(this.Owner.SaveFileDialog1.FileName);
-                        }
+                        g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.High;
+                        g.DrawImage(orgBmp, 0, 0, orgBmp.Size.Width, orgBmp.Size.Height);
                     }
+                    bmp2.Save(this.Owner.SaveFileDialog1.FileName);
                 }
                 catch (Exception)
                 {
@@ -969,7 +972,7 @@ namespace OpenTween
         {
             var menuItem = (ToolStripMenuItem)sender;
 
-            string user;
+            string? user;
             if (menuItem.Owner == this.ContextMenuPostBrowser)
             {
                 user = GetUserId();

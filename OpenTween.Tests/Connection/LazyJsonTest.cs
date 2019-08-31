@@ -38,66 +38,58 @@ namespace OpenTween.Connection
         public async Task LoadJsonAsync_Test()
         {
             var body = Encoding.UTF8.GetBytes("\"hogehoge\"");
-            using (var bodyStream = new MemoryStream(body))
-            using (var response = new HttpResponseMessage())
-            {
-                response.Content = new StreamContent(bodyStream);
+            using var bodyStream = new MemoryStream(body);
+            using var response = new HttpResponseMessage();
+            response.Content = new StreamContent(bodyStream);
 
-                using (var lazyJson = new LazyJson<string>(response))
-                {
-                    // この時点ではまだレスポンスボディは読まれない
-                    Assert.Equal(0, bodyStream.Position);
+            using var lazyJson = new LazyJson<string>(response);
 
-                    var result = await lazyJson.LoadJsonAsync()
-                        .ConfigureAwait(false);
+            // この時点ではまだレスポンスボディは読まれない
+            Assert.Equal(0, bodyStream.Position);
 
-                    Assert.Equal("hogehoge", result);
-                }
-            }
+            var result = await lazyJson.LoadJsonAsync()
+                .ConfigureAwait(false);
+
+            Assert.Equal("hogehoge", result);
         }
 
         [Fact]
         public async Task LoadJsonAsync_InvalidJsonTest()
         {
             var body = Encoding.UTF8.GetBytes("### Invalid JSON ###");
-            using (var bodyStream = new MemoryStream(body))
-            using (var response = new HttpResponseMessage())
-            {
-                response.Content = new StreamContent(bodyStream);
+            using var bodyStream = new MemoryStream(body);
+            using var response = new HttpResponseMessage();
+            response.Content = new StreamContent(bodyStream);
 
-                using (var lazyJson = new LazyJson<string>(response))
-                {
-                    // この時点ではまだレスポンスボディは読まれない
-                    Assert.Equal(0, bodyStream.Position);
+            using var lazyJson = new LazyJson<string>(response);
 
-                    var exception = await Assert.ThrowsAnyAsync<WebApiException>(() => lazyJson.LoadJsonAsync())
-                        .ConfigureAwait(false);
+            // この時点ではまだレスポンスボディは読まれない
+            Assert.Equal(0, bodyStream.Position);
 
-                    Assert.IsType<SerializationException>(exception.InnerException);
-                }
-            }
+            var exception = await Assert.ThrowsAnyAsync<WebApiException>(() => lazyJson.LoadJsonAsync())
+                .ConfigureAwait(false);
+
+            Assert.IsType<SerializationException>(exception.InnerException);
         }
 
         [Fact]
         public async Task IgnoreResponse_Test()
         {
-            using (var bodyStream = new InvalidStream())
-            using (var response = new HttpResponseMessage())
-            {
-                // IgnoreResponse() によってレスポンスの Stream が読まれずに破棄されることをテストするため、
-                // 読み込みが行われると IOException が発生する InvalidStream クラスを bodyStream に使用している
-                response.Content = new StreamContent(bodyStream);
+            using var bodyStream = new InvalidStream();
+            using var response = new HttpResponseMessage();
 
-                using (var lazyJson = new LazyJson<string>(response))
-                {
-                    // レスポンスボディを読まずに破棄
-                    await Task.FromResult(lazyJson)
-                        .IgnoreResponse()
-                        .ConfigureAwait(false);
+            // IgnoreResponse() によってレスポンスの Stream が読まれずに破棄されることをテストするため、
+            // 読み込みが行われると IOException が発生する InvalidStream クラスを bodyStream に使用している
+            response.Content = new StreamContent(bodyStream);
 
-                    Assert.True(bodyStream.IsDisposed);
-                }
-            }
+            using var lazyJson = new LazyJson<string>(response);
+
+            // レスポンスボディを読まずに破棄
+            await Task.FromResult(lazyJson)
+                .IgnoreResponse()
+                .ConfigureAwait(false);
+
+            Assert.True(bodyStream.IsDisposed);
         }
 
         class InvalidStream : Stream

@@ -19,6 +19,8 @@
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
+#nullable enable
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -66,7 +68,7 @@ namespace OpenTween
         /// API 実行回数制限の値
         /// </summary>
         [Browsable(false)]
-        public ApiLimit ApiLimit
+        public ApiLimit? ApiLimit
         {
             get => this._ApiLimit;
             private set
@@ -79,13 +81,13 @@ namespace OpenTween
                 this.Invalidate();
             }
         }
-        private ApiLimit _ApiLimit = null;
+        private ApiLimit? _ApiLimit = null;
 
         /// <summary>
         /// API エンドポイント名
         /// </summary>
         [Browsable(false)]
-        public string ApiEndpoint
+        public string? ApiEndpoint
         {
             get => this._ApiEndpoint;
             set
@@ -117,7 +119,7 @@ namespace OpenTween
                 }
             }
         }
-        private string _ApiEndpoint = null;
+        private string? _ApiEndpoint = null;
 
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]

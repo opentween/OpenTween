@@ -19,6 +19,8 @@
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
+#nullable enable
+
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -40,9 +42,9 @@ namespace OpenTween.Thumbnail.Services
     {
         internal static Func<IApiConnection> GetApiConnection;
 
-        public override Task<ThumbnailInfo> GetThumbnailInfoAsync(string url, PostClass post, CancellationToken token)
+        public override Task<ThumbnailInfo?> GetThumbnailInfoAsync(string url, PostClass post, CancellationToken token)
         {
-            return Task.Run<ThumbnailInfo>(() =>
+            return Task.Run<ThumbnailInfo?>(() =>
             {
                 if (GetApiConnection == null)
                     return null;
@@ -68,14 +70,13 @@ namespace OpenTween.Thumbnail.Services
                 {
                     var apiConnection = TonTwitterCom.GetApiConnection();
 
-                    using (var imageStream = await apiConnection.GetStreamAsync(new Uri(this.ThumbnailImageUrl), null)
-                        .ConfigureAwait(false))
-                    {
-                        cancellationToken.ThrowIfCancellationRequested();
+                    using var imageStream = await apiConnection.GetStreamAsync(new Uri(this.ThumbnailImageUrl), null)
+                        .ConfigureAwait(false);
 
-                        return await MemoryImage.CopyFromStreamAsync(imageStream)
-                            .ConfigureAwait(false);
-                    }
+                    cancellationToken.ThrowIfCancellationRequested();
+
+                    return await MemoryImage.CopyFromStreamAsync(imageStream)
+                        .ConfigureAwait(false);
                 }, cancellationToken);
             }
         }

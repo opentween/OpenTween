@@ -19,6 +19,8 @@
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
+#nullable enable
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,7 +35,7 @@ namespace OpenTween
     [Serializable]
     public class WebApiException : Exception
     {
-        public string ResponseText { get; } = null;
+        public string? ResponseText { get; } = null;
 
         public WebApiException() { }
         public WebApiException(string message) : base(message) { }

@@ -19,8 +19,11 @@
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
+#nullable enable annotations
+
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Net.Http;
 using System.Runtime.Serialization;
@@ -35,7 +38,7 @@ namespace OpenTween.Connection
     /// </summary>
     public sealed class LazyJson<T> : IDisposable
     {
-        public HttpResponseMessage Response { get; }
+        public HttpResponseMessage? Response { get; }
 
         private T instance;
         private bool completed = false;
@@ -54,24 +57,22 @@ namespace OpenTween.Connection
         public async Task<T> LoadJsonAsync()
         {
             if (this.completed)
-                return this.instance;
+                return this.instance!;
 
-            using (var content = this.Response.Content)
+            using var content = this.Response.Content;
+            var responseText = await content.ReadAsStringAsync()
+                .ConfigureAwait(false);
+
+            try
             {
-                var responseText = await content.ReadAsStringAsync()
-                    .ConfigureAwait(false);
+                this.instance = MyCommon.CreateDataFromJson<T>(responseText);
+                this.completed = true;
 
-                try
-                {
-                    this.instance = MyCommon.CreateDataFromJson<T>(responseText);
-                    this.completed = true;
-
-                    return this.instance;
-                }
-                catch (SerializationException ex)
-                {
-                    throw TwitterApiException.CreateFromException(ex, responseText);
-                }
+                return this.instance;
+            }
+            catch (SerializationException ex)
+            {
+                throw TwitterApiException.CreateFromException(ex, responseText);
             }
         }
 
@@ -89,10 +90,8 @@ namespace OpenTween.Connection
     {
         public static async Task IgnoreResponse<T>(this Task<LazyJson<T>> task)
         {
-            using (var lazyJson = await task.ConfigureAwait(false))
-            {
-                // レスポンスボディを読み込まず破棄する
-            }
+            using var lazyJson = await task.ConfigureAwait(false);
+            // レスポンスボディを読み込まず破棄する
         }
     }
 }

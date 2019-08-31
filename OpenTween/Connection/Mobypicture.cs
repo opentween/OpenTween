@@ -19,6 +19,8 @@
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
+#nullable enable
+
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -173,32 +175,29 @@ namespace OpenTween.Connection
             {
                 // 参照: http://developers.mobypicture.com/documentation/2-0/upload/
 
-                using (var request = new HttpRequestMessage(HttpMethod.Post, UploadEndpoint))
-                using (var multipart = new MultipartFormDataContent())
-                {
-                    request.Content = multipart;
+                using var request = new HttpRequestMessage(HttpMethod.Post, UploadEndpoint);
+                using var multipart = new MultipartFormDataContent();
+                request.Content = multipart;
 
-                    using (var apiKeyContent = new StringContent(ApplicationSettings.MobypictureKey))
-                    using (var messageContent = new StringContent(message))
-                    using (var mediaStream = item.OpenRead())
-                    using (var mediaContent = new StreamContent(mediaStream))
-                    {
-                        multipart.Add(apiKeyContent, "key");
-                        multipart.Add(messageContent, "message");
-                        multipart.Add(mediaContent, "media", item.Name);
+                using var apiKeyContent = new StringContent(ApplicationSettings.MobypictureKey);
+                using var messageContent = new StringContent(message);
+                using var mediaStream = item.OpenRead();
+                using var mediaContent = new StreamContent(mediaStream);
 
-                        using (var response = await this.http.SendAsync(request).ConfigureAwait(false))
-                        {
-                            var responseText = await response.Content.ReadAsStringAsync()
-                                .ConfigureAwait(false);
+                multipart.Add(apiKeyContent, "key");
+                multipart.Add(messageContent, "message");
+                multipart.Add(mediaContent, "media", item.Name);
 
-                            if (!response.IsSuccessStatusCode)
-                                throw new WebApiException(response.StatusCode.ToString(), responseText);
+                using var response = await this.http.SendAsync(request)
+                    .ConfigureAwait(false);
 
-                            return XDocument.Parse(responseText);
-                        }
-                    }
-                }
+                var responseText = await response.Content.ReadAsStringAsync()
+                    .ConfigureAwait(false);
+
+                if (!response.IsSuccessStatusCode)
+                    throw new WebApiException(response.StatusCode.ToString(), responseText);
+
+                return XDocument.Parse(responseText);
             }
         }
     }

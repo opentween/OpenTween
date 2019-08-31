@@ -25,6 +25,8 @@
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
+#nullable enable
+
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -121,17 +123,11 @@ namespace OpenTween.Connection
                 throw new InvalidOperationException("Err:Can't attach multiple media to DM.");
 
             var mediaItem = mediaItems[0];
-
-            string mediaCategory;
-            switch (mediaItem.Extension)
+            var mediaCategory = mediaItem.Extension switch
             {
-                case ".gif":
-                    mediaCategory = "dm_gif";
-                    break;
-                default:
-                    mediaCategory = "dm_image";
-                    break;
-            }
+                ".gif" => "dm_gif",
+                _ => "dm_image",
+            };
 
             var mediaId = await this.UploadMediaItem(mediaItems[0], mediaCategory)
                 .ConfigureAwait(false);
@@ -139,9 +135,9 @@ namespace OpenTween.Connection
             return mediaId;
         }
 
-        private async Task<long> UploadMediaItem(IMediaItem mediaItem, string mediaCategory)
+        private async Task<long> UploadMediaItem(IMediaItem mediaItem, string? mediaCategory)
         {
-            async Task<long> UploadInternal(IMediaItem media, string category)
+            async Task<long> UploadInternal(IMediaItem media, string? category)
             {
                 var mediaId = await this.tw.UploadMedia(media, category)
                     .ConfigureAwait(false);
@@ -155,20 +151,18 @@ namespace OpenTween.Connection
                 return mediaId;
             }
 
-            using (var origImage = mediaItem.CreateImage())
+            using var origImage = mediaItem.CreateImage();
+
+            if (SettingManager.Common.AlphaPNGWorkaround && this.AddAlphaChannelIfNeeded(origImage.Image, out var newImage))
             {
-                if (SettingManager.Common.AlphaPNGWorkaround && this.AddAlphaChannelIfNeeded(origImage.Image, out var newImage))
-                {
-                    using (var newMediaItem = new MemoryImageMediaItem(newImage))
-                    {
-                        newMediaItem.AltText = mediaItem.AltText;
-                        return await UploadInternal(newMediaItem, mediaCategory);
-                    }
-                }
-                else
-                {
-                    return await UploadInternal(mediaItem, mediaCategory);
-                }
+                using var newMediaItem = new MemoryImageMediaItem(newImage!);
+                newMediaItem.AltText = mediaItem.AltText;
+
+                return await UploadInternal(newMediaItem, mediaCategory);
+            }
+            else
+            {
+                return await UploadInternal(mediaItem, mediaCategory);
             }
         }
 
@@ -181,7 +175,7 @@ namespace OpenTween.Connection
         /// PNG 以外の画像や、すでにアルファチャンネルを持つ PNG 画像に対しては何もしません。
         /// </remarks>
         /// <returns>加工が行われた場合は true、そうでない場合は false</returns>
-        private bool AddAlphaChannelIfNeeded(Image origImage, out MemoryImage newImage)
+        private bool AddAlphaChannelIfNeeded(Image origImage, out MemoryImage? newImage)
         {
             newImage = null;
 
@@ -189,28 +183,27 @@ namespace OpenTween.Connection
             if (origImage.RawFormat.Guid != ImageFormat.Png.Guid)
                 return false;
 
-            using (var bitmap = new Bitmap(origImage))
+            using var bitmap = new Bitmap(origImage);
+
+            // アルファ値が 255 以外のピクセルが含まれていた場合は何もしない
+            foreach (var x in Enumerable.Range(0, bitmap.Width))
             {
-                // アルファ値が 255 以外のピクセルが含まれていた場合は何もしない
-                foreach (var x in Enumerable.Range(0, bitmap.Width))
+                foreach (var y in Enumerable.Range(0, bitmap.Height))
                 {
-                    foreach (var y in Enumerable.Range(0, bitmap.Height))
-                    {
-                        if (bitmap.GetPixel(x, y).A != 255)
-                            return false;
-                    }
+                    if (bitmap.GetPixel(x, y).A != 255)
+                        return false;
                 }
-
-                // 左上の 1px だけアルファ値を 254 にする
-                var pixel = bitmap.GetPixel(0, 0);
-                var newPixel = Color.FromArgb(pixel.A - 1, pixel.R, pixel.G, pixel.B);
-                bitmap.SetPixel(0, 0, newPixel);
-
-                // MemoryImage 作成時に画像はコピーされるため、この後 bitmap は破棄しても問題ない
-                newImage = MemoryImage.CopyFromImage(bitmap);
-
-                return true;
             }
+
+            // 左上の 1px だけアルファ値を 254 にする
+            var pixel = bitmap.GetPixel(0, 0);
+            var newPixel = Color.FromArgb(pixel.A - 1, pixel.R, pixel.G, pixel.B);
+            bitmap.SetPixel(0, 0, newPixel);
+
+            // MemoryImage 作成時に画像はコピーされるため、この後 bitmap は破棄しても問題ない
+            newImage = MemoryImage.CopyFromImage(bitmap);
+
+            return true;
         }
     }
 }

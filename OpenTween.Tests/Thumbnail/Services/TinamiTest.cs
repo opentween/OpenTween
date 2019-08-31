@@ -30,6 +30,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using Moq;
+using OpenTween.Models;
 using Xunit;
 using Xunit.Extensions;
 
@@ -39,7 +40,7 @@ namespace OpenTween.Thumbnail.Services
     {
         class TestTinami : Tinami
         {
-            public string FakeXml { get; set; }
+            public string FakeXml { get; set; } = "";
 
             public TestTinami()
                 : base(null)
@@ -70,10 +71,10 @@ namespace OpenTween.Thumbnail.Services
     </image>
   </content>
 </rsp>";
-            var thumbinfo = await service.GetThumbnailInfoAsync("http://www.tinami.com/view/12345", null, CancellationToken.None);
+            var thumbinfo = await service.GetThumbnailInfoAsync("http://www.tinami.com/view/12345", new PostClass(), CancellationToken.None);
 
             Assert.NotNull(thumbinfo);
-            Assert.Equal("http://www.tinami.com/view/12345", thumbinfo.MediaPageUrl);
+            Assert.Equal("http://www.tinami.com/view/12345", thumbinfo!.MediaPageUrl);
             Assert.Equal("http://img.tinami.com/hogehoge_150.gif", thumbinfo.ThumbnailImageUrl);
             Assert.Equal("説明", thumbinfo.TooltipText);
         }
@@ -87,7 +88,7 @@ namespace OpenTween.Thumbnail.Services
 <rsp stat='user_only'>
   <err msg='この作品は登録ユーザー限定の作品です。'/>
 </rsp>";
-            var thumbinfo = await service.GetThumbnailInfoAsync("http://www.tinami.com/view/12345", null, CancellationToken.None);
+            var thumbinfo = await service.GetThumbnailInfoAsync("http://www.tinami.com/view/12345", new PostClass(), CancellationToken.None);
 
             Assert.Null(thumbinfo);
         }

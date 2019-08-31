@@ -19,6 +19,8 @@
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
+#nullable enable
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -58,6 +60,9 @@ namespace OpenTween
             foreach (var endpoint in _tlEndpoints)
             {
                 var apiLimit = MyCommon.TwitterApiInfo.AccessLimit[endpoint];
+                if (apiLimit == null)
+                    continue;
+
                 AddListViewItem(endpoint, apiLimit, group);
             }
 
@@ -90,10 +95,10 @@ namespace OpenTween
 
         private void UpdateEndpointLimit(string endpoint)
         {
-            var item = this.ListViewApi.Items.Cast<ListViewItem>().FirstOrDefault(x => x.SubItems[0].Text == endpoint);
-            if (item != null)
+            var apiLimit = MyCommon.TwitterApiInfo.AccessLimit[endpoint];
+            if (apiLimit != null)
             {
-                var apiLimit = MyCommon.TwitterApiInfo.AccessLimit[endpoint];
+                var item = this.ListViewApi.Items.Cast<ListViewItem>().Single(x => x.SubItems[0].Text == endpoint);
                 item.SubItems[1].Text = apiLimit.AccessLimitRemain + "/" + apiLimit.AccessLimitCount;
                 item.SubItems[2].Text = apiLimit.AccessLimitResetDate.ToLocalTimeString();
             }
@@ -109,8 +114,9 @@ namespace OpenTween
                 }
                 else
                 {
-                    var endpoint = (e as TwitterApiStatus.AccessLimitUpdatedEventArgs).EndpointName;
-                    UpdateEndpointLimit(endpoint);
+                    var endpoint = ((TwitterApiStatus.AccessLimitUpdatedEventArgs)e).EndpointName;
+                    if (endpoint != null)
+                        UpdateEndpointLimit(endpoint);
                 }
             }
             catch (ObjectDisposedException)

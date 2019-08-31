@@ -232,7 +232,7 @@ namespace OpenTween.Thumbnail.Services
             var location = FoursquareCheckin.ParseIntoLocation(jsonBytes);
 
             Assert.NotNull(location);
-            Assert.Equal(34.35067978344854, location.Latitude);
+            Assert.Equal(34.35067978344854, location!.Latitude);
             Assert.Equal(134.04693603515625, location.Longitude);
         }
 
@@ -265,7 +265,7 @@ namespace OpenTween.Thumbnail.Services
             Thread.CurrentThread.CurrentCulture = origCulture;
 
             Assert.NotNull(location);
-            Assert.Equal(34.35067978344854, location.Latitude);
+            Assert.Equal(34.35067978344854, location!.Latitude);
             Assert.Equal(134.04693603515625, location.Longitude);
         }
 

@@ -19,6 +19,8 @@
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
+#nullable enable
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -47,7 +49,7 @@ namespace OpenTween
                 this.bindingSource.DataSource = value;
             }
         }
-        private ErrorReport _errorReport;
+        private ErrorReport _errorReport = null!;
 
         public SendErrorReportForm()
             => this.InitializeComponent();
@@ -99,7 +101,7 @@ namespace OpenTween
                 this.UpdateEncodedReport();
             }
         }
-        private string _reportText;
+        private string _reportText = "";
 
         public bool AnonymousReport
         {
@@ -124,9 +126,9 @@ namespace OpenTween
             get => this._encodedReportForDM;
             private set => this.SetProperty(ref this._encodedReportForDM, value);
         }
-        private string _encodedReportForDM;
+        private string _encodedReportForDM = "";
 
-        private readonly Twitter tw;
+        private readonly Twitter? tw;
         private readonly string originalReportText;
 
         public ErrorReport(string reportText)
@@ -134,7 +136,7 @@ namespace OpenTween
         {
         }
 
-        public ErrorReport(Twitter tw, string reportText)
+        public ErrorReport(Twitter? tw, string reportText)
         {
             this.tw = tw;
             this.originalReportText = reportText;
@@ -156,7 +158,12 @@ namespace OpenTween
         }
 
         public async Task SendByDmAsync()
-            => await this.tw.SendDirectMessage(this.EncodedReportForDM);
+        {
+            if (!this.CheckDmAvailable())
+                return;
+
+            await this.tw!.SendDirectMessage(this.EncodedReportForDM);
+        }
 
         private void UpdateEncodedReport()
         {
@@ -181,7 +188,7 @@ namespace OpenTween
                 this.EncodedReportForDM = $"D {destScreenName} ErrorReport: {encodedReport}";
             }
 
-            this.CanSendByDM = this.tw.GetTextLengthRemain(this.EncodedReportForDM) >= 0;
+            this.CanSendByDM = this.tw!.GetTextLengthRemain(this.EncodedReportForDM) >= 0;
         }
 
         private bool CheckDmAvailable()

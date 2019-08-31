@@ -37,7 +37,7 @@ namespace OpenTween
 
         public TabsDialogTest()
         {
-            this.tabinfo = Activator.CreateInstance(typeof(TabInformations), true) as TabInformations;
+            this.tabinfo = (TabInformations)Activator.CreateInstance(typeof(TabInformations), true);
 
             // タブを追加
             this.tabinfo.AddTab(new HomeTabModel("Recent"));
@@ -75,17 +75,17 @@ namespace OpenTween
             using (var dialog = new TabsDialog(this.tabinfo))
             {
                 // MultiSelect = false (default)
-                var firstItem = dialog.TabList.Items[0] as TabsDialog.TabListItem;
+                var firstItem = (TabsDialog.TabListItem)dialog.TabList.Items[0];
                 Assert.Null(firstItem.Tab); // 「(新規タブ)」
                 Assert.Equal(SelectionMode.One, dialog.TabList.SelectionMode);
 
                 dialog.MultiSelect = true;
-                firstItem = dialog.TabList.Items[0] as TabsDialog.TabListItem;
+                firstItem = (TabsDialog.TabListItem)dialog.TabList.Items[0];
                 Assert.NotNull(firstItem.Tab);
                 Assert.Equal(SelectionMode.MultiExtended, dialog.TabList.SelectionMode);
 
                 dialog.MultiSelect = false;
-                firstItem = dialog.TabList.Items[0] as TabsDialog.TabListItem;
+                firstItem = (TabsDialog.TabListItem)dialog.TabList.Items[0];
                 Assert.Null(firstItem.Tab);
                 Assert.Equal(SelectionMode.One, dialog.TabList.SelectionMode);
             }
@@ -117,13 +117,13 @@ namespace OpenTween
             {
                 dialog.MultiSelect = false;
 
-                var item = dialog.TabList.Items[0] as TabsDialog.TabListItem;
+                var item = (TabsDialog.TabListItem)dialog.TabList.Items[0];
                 Assert.Null(item.Tab);
 
-                item = dialog.TabList.Items[1] as TabsDialog.TabListItem;
+                item = (TabsDialog.TabListItem)dialog.TabList.Items[1];
                 Assert.Equal(this.tabinfo.Tabs["Reply"], item.Tab);
 
-                item = dialog.TabList.Items[2] as TabsDialog.TabListItem;
+                item = (TabsDialog.TabListItem)dialog.TabList.Items[2];
                 Assert.Equal(this.tabinfo.Tabs["MyTab1"], item.Tab);
             }
         }

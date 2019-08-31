@@ -19,6 +19,8 @@
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
+#nullable enable
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -87,7 +89,7 @@ namespace OpenTween
         public Task WaitForAsync(Task task)
             => this.WaitForAsync(this.ConvertTaskWithValue(task));
 
-        public Task WaitForAsync(IWin32Window owner, Task task)
+        public Task WaitForAsync(IWin32Window? owner, Task task)
             => this.WaitForAsync(owner, this.ConvertTaskWithValue(task));
 
         public Task<T> WaitForAsync<T>(Task<T> task)
@@ -98,7 +100,7 @@ namespace OpenTween
         /// </summary>
         /// <param name="owner">ダイアログのオーナー</param>
         /// <param name="task">待機するタスク</param>
-        public Task<T> WaitForAsync<T>(IWin32Window owner, Task<T> task)
+        public Task<T> WaitForAsync<T>(IWin32Window? owner, Task<T> task)
         {
             return Task.Run(async () =>
             {

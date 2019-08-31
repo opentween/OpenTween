@@ -19,6 +19,8 @@
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
+#nullable enable annotations
+
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -38,7 +40,7 @@ namespace OpenTween.Api.DataModel
         public string CreatedAt { get; set; }
 
         [DataMember(Name = "description")]
-        public string Description { get; set; } // Nullable
+        public string? Description { get; set; }
 
         [DataMember(Name = "default_profile")]
         public bool DefaultProfile { get; set; }
@@ -47,16 +49,16 @@ namespace OpenTween.Api.DataModel
         public bool DefaultProfileImage { get; set; }
 
         [DataMember(Name = "entities", IsRequired = false)]
-        public TwitterUser.TwitterUserEntity Entities { get; set; }
+        public TwitterUser.TwitterUserEntity? Entities { get; set; }
 
         [DataContract]
         public class TwitterUserEntity
         {
             [DataMember(Name = "url", IsRequired = false)]
-            public TwitterEntities Url { get; set; }
+            public TwitterEntities? Url { get; set; }
 
             [DataMember(Name = "description", IsRequired = false)]
-            public TwitterEntities Description { get; set; }
+            public TwitterEntities? Description { get; set; }
         }
 
         [DataMember(Name = "favourites_count")]
@@ -78,7 +80,7 @@ namespace OpenTween.Api.DataModel
         public int? ListedCount { get; set; }
 
         [DataMember(Name = "location")]
-        public string Location { get; set; } // Nullable
+        public string? Location { get; set; }
 
         [DataMember(Name = "name")]
         public string Name { get; set; }
@@ -99,13 +101,13 @@ namespace OpenTween.Api.DataModel
         public bool ShowAllInlineMedia { get; set; }
 
         [DataMember(Name = "status", IsRequired = false)]
-        public TwitterStatus Status { get; set; } // Nullable
+        public TwitterStatus? Status { get; set; }
 
         [DataMember(Name = "statuses_count")]
         public int StatusesCount { get; set; }
 
         [DataMember(Name = "url")]
-        public string Url { get; set; } // Nullable
+        public string? Url { get; set; }
 
         [DataMember(Name = "verified")]
         public bool Verified { get; set; }

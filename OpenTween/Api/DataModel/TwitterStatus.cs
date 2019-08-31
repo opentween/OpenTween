@@ -19,6 +19,8 @@
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
+#nullable enable annotations
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,7 +36,7 @@ namespace OpenTween.Api.DataModel
     public class TwitterStatus
     {
         [DataMember(Name = "coordinates", IsRequired = false)]
-        public GeoJsonPoint Coordinates { get; set; }
+        public GeoJsonPoint? Coordinates { get; set; }
 
         [DataMember(Name = "created_at")]
         public string CreatedAt { get; set; }
@@ -46,7 +48,7 @@ namespace OpenTween.Api.DataModel
         public TwitterEntities Entities { get; set; }
 
         [DataMember(Name = "extended_entities", IsRequired = false)]
-        public TwitterEntities ExtendedEntities { get; set; }
+        public TwitterEntities? ExtendedEntities { get; set; }
 
         [DataMember(Name = "favorite_count")]
         public int? FavoriteCount { get; set; }
@@ -67,28 +69,28 @@ namespace OpenTween.Api.DataModel
         public string IdStr { get; set; }
 
         [DataMember(Name = "in_reply_to_screen_name")]
-        public string InReplyToScreenName { get; set; } // Nullable
+        public string? InReplyToScreenName { get; set; }
 
         [DataMember(Name = "in_reply_to_status_id")]
         public long? InReplyToStatusId { get; set; }
 
         [DataMember(Name = "in_reply_to_status_id_str")]
-        public string InReplyToStatusIdStr { get; set; } // Nullable
+        public string? InReplyToStatusIdStr { get; set; }
 
         [DataMember(Name = "in_reply_to_user_id")]
         public long? InReplyToUserId { get; set; }
 
         [DataMember(Name = "in_reply_to_user_id_str")]
-        public string InReplyToUserIdStr { get; set; } // Nullable
+        public string? InReplyToUserIdStr { get; set; }
 
         [DataMember(Name = "is_quote_status")]
         public bool IsQuoteStatus { get; set; }
 
         [DataMember(Name = "lang")]
-        public string Lang { get; set; } // Nullable
+        public string? Lang { get; set; }
 
         [DataMember(Name = "place", IsRequired = false)]
-        public TwitterPlace Place { get; set; }
+        public TwitterPlace? Place { get; set; }
 
         [DataMember(Name = "possibly_sensitive")]
         public bool? PossiblySensitive { get; set; }
@@ -100,13 +102,13 @@ namespace OpenTween.Api.DataModel
         public long? QuotedStatusId { get; set; }
 
         [DataMember(Name = "quoted_status_id_str", IsRequired = false)]
-        public string QuotedStatusIdStr { get; set; }
+        public string? QuotedStatusIdStr { get; set; }
 
         [DataMember(Name = "quoted_status", IsRequired = false)]
-        public TwitterStatus QuotedStatus { get; set; }
+        public TwitterStatus? QuotedStatus { get; set; }
 
         [DataMember(Name = "quoted_status_permalink", IsRequired = false)]
-        public TwitterQuotedStatusPermalink QuotedStatusPermalink { get; set; } // https://twittercommunity.com/t/105473
+        public TwitterQuotedStatusPermalink? QuotedStatusPermalink { get; set; } // https://twittercommunity.com/t/105473
 
         [DataMember(Name = "reply_count")]
         public int ReplyCount { get; set; }
@@ -118,7 +120,7 @@ namespace OpenTween.Api.DataModel
         public bool Retweeted { get; set; }
 
         [DataMember(Name = "retweeted_status", IsRequired = false)]
-        public TwitterStatus RetweetedStatus { get; set; }
+        public TwitterStatus? RetweetedStatus { get; set; }
 
         [DataMember(Name = "source")]
         public string Source { get; set; }
@@ -189,7 +191,7 @@ namespace OpenTween.Api.DataModel
     public class TwitterStatusCompat
     {
         [DataMember(Name = "coordinates", IsRequired = false)]
-        public GeoJsonPoint Coordinates { get; set; }
+        public GeoJsonPoint? Coordinates { get; set; }
 
         [DataMember(Name = "created_at")]
         public string CreatedAt { get; set; }
@@ -198,10 +200,10 @@ namespace OpenTween.Api.DataModel
         public TwitterEntities Entities { get; set; }
 
         [DataMember(Name = "extended_entities", IsRequired = false)]
-        public TwitterEntities ExtendedEntities { get; set; }
+        public TwitterEntities? ExtendedEntities { get; set; }
 
         [DataMember(Name = "extended_tweet", IsRequired = false)]
-        public TwitterStatusCompat.Extended ExtendedTweet { get; set; }
+        public TwitterStatusCompat.Extended? ExtendedTweet { get; set; }
 
         [DataContract]
         public class Extended
@@ -213,7 +215,7 @@ namespace OpenTween.Api.DataModel
             public TwitterEntities Entities { get; set; }
 
             [DataMember(Name = "extended_entities", IsRequired = false)]
-            public TwitterEntities ExtendedEntities { get; set; }
+            public TwitterEntities? ExtendedEntities { get; set; }
 
             [DataMember(Name = "full_text")]
             public string FullText { get; set; }
@@ -235,28 +237,28 @@ namespace OpenTween.Api.DataModel
         public string IdStr { get; set; }
 
         [DataMember(Name = "in_reply_to_screen_name")]
-        public string InReplyToScreenName { get; set; } // Nullable
+        public string? InReplyToScreenName { get; set; }
 
         [DataMember(Name = "in_reply_to_status_id")]
         public long? InReplyToStatusId { get; set; }
 
         [DataMember(Name = "in_reply_to_status_id_str")]
-        public string InReplyToStatusIdStr { get; set; } // Nullable
+        public string? InReplyToStatusIdStr { get; set; }
 
         [DataMember(Name = "in_reply_to_user_id")]
         public long? InReplyToUserId { get; set; }
 
         [DataMember(Name = "in_reply_to_user_id_str")]
-        public string InReplyToUserIdStr { get; set; } // Nullable
+        public string? InReplyToUserIdStr { get; set; }
 
         [DataMember(Name = "is_quote_status")]
         public bool IsQuoteStatus { get; set; }
 
         [DataMember(Name = "lang")]
-        public string Lang { get; set; } // Nullable
+        public string? Lang { get; set; }
 
         [DataMember(Name = "place", IsRequired = false)]
-        public TwitterPlace Place { get; set; }
+        public TwitterPlace? Place { get; set; }
 
         [DataMember(Name = "possibly_sensitive")]
         public bool? PossiblySensitive { get; set; }
@@ -268,13 +270,13 @@ namespace OpenTween.Api.DataModel
         public long? QuotedStatusId { get; set; }
 
         [DataMember(Name = "quoted_status_id_str", IsRequired = false)]
-        public string QuotedStatusIdStr { get; set; }
+        public string? QuotedStatusIdStr { get; set; }
 
         [DataMember(Name = "quoted_status", IsRequired = false)]
-        public TwitterStatusCompat QuotedStatus { get; set; }
+        public TwitterStatusCompat? QuotedStatus { get; set; }
 
         [DataMember(Name = "quoted_status_permalink", IsRequired = false)]
-        public TwitterQuotedStatusPermalink QuotedStatusPermalink { get; set; } // https://twittercommunity.com/t/105473
+        public TwitterQuotedStatusPermalink? QuotedStatusPermalink { get; set; } // https://twittercommunity.com/t/105473
 
         [DataMember(Name = "reply_count")]
         public int ReplyCount { get; set; }
@@ -286,7 +288,7 @@ namespace OpenTween.Api.DataModel
         public bool Retweeted { get; set; }
 
         [DataMember(Name = "retweeted_status", IsRequired = false)]
-        public TwitterStatusCompat RetweetedStatus { get; set; }
+        public TwitterStatusCompat? RetweetedStatus { get; set; }
 
         [DataMember(Name = "source")]
         public string Source { get; set; }
@@ -385,7 +387,7 @@ namespace OpenTween.Api.DataModel
     public class TwitterDirectMessage
     {
         [DataMember(Name = "entities", IsRequired = false)]
-        public TwitterEntities Entities { get; set; }
+        public TwitterEntities? Entities { get; set; }
 
         [DataMember(Name = "created_at")]
         public string CreatedAt { get; set; }
@@ -409,7 +411,7 @@ namespace OpenTween.Api.DataModel
         public string SenderScreenName { get; set; }
 
         [DataMember(Name = "sender", IsRequired = false)]
-        public TwitterUser Sender { get; set; }
+        public TwitterUser? Sender { get; set; }
 
         [DataMember(Name = "recipient_id")]
         public long RecipientId { get; set; }
@@ -421,7 +423,7 @@ namespace OpenTween.Api.DataModel
         public string RecipientScreenName { get; set; }
 
         [DataMember(Name = "recipient", IsRequired = false)]
-        public TwitterUser Recipient { get; set; }
+        public TwitterUser? Recipient { get; set; }
 
         /// <exception cref="SerializationException"/>
         public static TwitterDirectMessage ParseJson(string json)

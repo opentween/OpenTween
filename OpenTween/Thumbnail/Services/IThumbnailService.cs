@@ -19,6 +19,8 @@
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
+#nullable enable
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,6 +33,6 @@ namespace OpenTween.Thumbnail.Services
 {
     abstract class IThumbnailService
     {
-        public abstract Task<ThumbnailInfo> GetThumbnailInfoAsync(string url, PostClass post, CancellationToken token);
+        public abstract Task<ThumbnailInfo?> GetThumbnailInfoAsync(string url, PostClass post, CancellationToken token);
     }
 }

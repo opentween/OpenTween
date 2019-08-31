@@ -3,7 +3,8 @@
   <PropertyGroup>
     <RootNamespace>OpenTween</RootNamespace>
     <TargetFramework>net472</TargetFramework>
-    <LangVersion>7.3</LangVersion>
+    <LangVersion>8.0</LangVersion>
+    <Nullable>enable</Nullable>
     <DisableImplicitFrameworkReferences>true</DisableImplicitFrameworkReferences>
   </PropertyGroup>
   <ItemGroup>

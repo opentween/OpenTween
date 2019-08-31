@@ -24,6 +24,8 @@
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
+#nullable enable
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -69,13 +71,13 @@ namespace OpenTween
             }
         }
 
-        private SearchOptions resultOptoins = null;
-        public SearchOptions ResultOptions
+        private SearchOptions? resultOptions = null;
+        public SearchOptions? ResultOptions
         {
-            get => this.resultOptoins;
+            get => this.resultOptions;
             set
             {
-                this.resultOptoins = value;
+                this.resultOptions = value;
 
                 if (value == null)
                 {

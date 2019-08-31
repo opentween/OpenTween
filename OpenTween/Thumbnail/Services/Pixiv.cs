@@ -19,6 +19,8 @@
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
+#nullable enable
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -43,12 +45,12 @@ namespace OpenTween.Thumbnail.Services
         {
         }
 
-        public Pixiv(HttpClient http)
+        public Pixiv(HttpClient? http)
             : base(http, Pixiv.UrlPattern)
         {
         }
 
-        public override async Task<ThumbnailInfo> GetThumbnailInfoAsync(string url, PostClass post, CancellationToken token)
+        public override async Task<ThumbnailInfo?> GetThumbnailInfoAsync(string url, PostClass post, CancellationToken token)
         {
             var thumb = await base.GetThumbnailInfoAsync(url, post, token)
                 .ConfigureAwait(false);
@@ -73,16 +75,16 @@ namespace OpenTween.Thumbnail.Services
                 request.Headers.Add("User-Agent", Networking.GetUserAgentString(fakeMSIE: true));
                 request.Headers.Referrer = new Uri(this.MediaPageUrl);
 
-                using (var response = await http.SendAsync(request, cancellationToken).ConfigureAwait(false))
-                {
-                    response.EnsureSuccessStatusCode();
+                using var response = await http.SendAsync(request, cancellationToken)
+                    .ConfigureAwait(false);
 
-                    using (var imageStream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false))
-                    {
-                        return await MemoryImage.CopyFromStreamAsync(imageStream)
-                            .ConfigureAwait(false);
-                    }
-                }
+                response.EnsureSuccessStatusCode();
+
+                using var imageStream = await response.Content.ReadAsStreamAsync()
+                    .ConfigureAwait(false);
+
+                return await MemoryImage.CopyFromStreamAsync(imageStream)
+                    .ConfigureAwait(false);
             }
         }
     }

@@ -19,6 +19,8 @@
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
+#nullable enable
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -44,24 +46,22 @@ namespace OpenTween
         public static DialogResult Show(string text, out string inputText)
             => Show(null, text, "", out inputText);
 
-        public static DialogResult Show(IWin32Window owner, string text, out string inputText)
+        public static DialogResult Show(IWin32Window? owner, string text, out string inputText)
             => Show(owner, text, "", out inputText);
 
         public static DialogResult Show(string text, string caption, out string inputText)
             => Show(null, text, caption, out inputText);
 
-        public static DialogResult Show(IWin32Window owner, string text, string caption, out string inputText)
+        public static DialogResult Show(IWin32Window? owner, string text, string caption, out string inputText)
         {
-            using (var dialog = new InputDialog())
-            {
-                dialog.labelMain.Text = text;
-                dialog.Text = caption;
+            using var dialog = new InputDialog();
+            dialog.labelMain.Text = text;
+            dialog.Text = caption;
 
-                var result = dialog.ShowDialog(owner);
-                inputText = dialog.textBox.Text;
+            var result = dialog.ShowDialog(owner);
+            inputText = dialog.textBox.Text;
 
-                return result;
-            }
+            return result;
         }
     }
 }

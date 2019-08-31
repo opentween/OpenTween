@@ -67,7 +67,7 @@ namespace OpenTween
             {
                 var data = new DataObject("UniformResourceLocatorW", memstream);
 
-                var expected = ("https://twitter.com/", (string)null);
+                var expected = ("https://twitter.com/", (string?)null);
                 Assert.Equal(expected, TweenMain.GetUrlFromDataObject(data));
             }
         }

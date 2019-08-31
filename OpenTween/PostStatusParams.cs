@@ -19,6 +19,8 @@
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
+#nullable enable
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,11 +32,11 @@ namespace OpenTween
 {
     public class PostStatusParams
     {
-        public string Text { get; set; }
+        public string Text { get; set; } = "";
         public long? InReplyToStatusId { get; set; }
-        public IReadOnlyList<long> MediaIds { get; set; }
+        public IReadOnlyList<long> MediaIds { get; set; } = Array.Empty<long>();
         public bool AutoPopulateReplyMetadata { get; set; }
-        public IReadOnlyList<long> ExcludeReplyUserIds { get; set; }
-        public string AttachmentUrl { get; set; }
+        public IReadOnlyList<long> ExcludeReplyUserIds { get; set; } = Array.Empty<long>();
+        public string? AttachmentUrl { get; set; }
     }
 }

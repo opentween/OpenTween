@@ -19,6 +19,8 @@
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
+#nullable enable
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -48,7 +50,7 @@ namespace OpenTween.Thumbnail.Services
         protected HttpClient http
             => this.localHttpClient ?? Networking.Http;
 
-        private readonly HttpClient localHttpClient;
+        private readonly HttpClient? localHttpClient;
 
         protected readonly Regex regex;
         protected readonly string[] propertyNames;
@@ -58,24 +60,24 @@ namespace OpenTween.Thumbnail.Services
         {
         }
 
-        public MetaThumbnailService(string urlPattern, string[] propNames)
+        public MetaThumbnailService(string urlPattern, string[]? propNames)
             : this(null, urlPattern, propNames)
         {
         }
 
-        public MetaThumbnailService(HttpClient http, string urlPattern)
+        public MetaThumbnailService(HttpClient? http, string urlPattern)
             : this(http, urlPattern, null)
         {
         }
 
-        public MetaThumbnailService(HttpClient http, string urlPattern, string[] propNames)
+        public MetaThumbnailService(HttpClient? http, string urlPattern, string[]? propNames)
         {
             this.localHttpClient = http;
             this.regex = new Regex(urlPattern);
             this.propertyNames = propNames ?? MetaThumbnailService.PropertyNames;
         }
 
-        public override async Task<ThumbnailInfo> GetThumbnailInfoAsync(string url, PostClass post, CancellationToken token)
+        public override async Task<ThumbnailInfo?> GetThumbnailInfoAsync(string url, PostClass post, CancellationToken token)
         {
             if (!this.regex.IsMatch(url))
                 return null;
@@ -100,7 +102,7 @@ namespace OpenTween.Thumbnail.Services
             return null;
         }
 
-        protected virtual string GetThumbnailUrl(string html)
+        protected virtual string? GetThumbnailUrl(string html)
         {
             foreach (var pattern in MetaThumbnailService.MetaPatterns)
             {
@@ -121,13 +123,13 @@ namespace OpenTween.Thumbnail.Services
 
         protected virtual async Task<string> FetchImageUrlAsync(string url, CancellationToken token)
         {
-            using (var response = await this.http.GetAsync(url, token).ConfigureAwait(false))
-            {
-                response.EnsureSuccessStatusCode();
+            using var response = await this.http.GetAsync(url, token)
+                .ConfigureAwait(false);
 
-                return await response.Content.ReadAsStringAsync()
-                    .ConfigureAwait(false);
-            }
+            response.EnsureSuccessStatusCode();
+
+            return await response.Content.ReadAsStringAsync()
+                .ConfigureAwait(false);
         }
     }
 }

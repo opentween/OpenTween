@@ -24,6 +24,8 @@
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
+#nullable enable
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -89,7 +91,7 @@ namespace OpenTween
         }
         private EnableButtonMode _ruleEnableButtonMode = FilterDialog.EnableButtonMode.NotSelected;
 
-        public TabModel SelectedTab
+        public TabModel? SelectedTab
             => this.selectedTabIndex != -1 ? this.tabs[this.selectedTabIndex] : null;
 
         public FilterDialog()
@@ -207,45 +209,22 @@ namespace OpenTween
                 buttonRuleToggleEnabled.Enabled = false;
             }
 
-            switch (tab.TabType)
+            this.LabelTabType.Text = tab.TabType switch
             {
-                case MyCommon.TabUsageType.Home:
-                    LabelTabType.Text = Properties.Resources.TabUsageTypeName_Home;
-                    break;
-                case MyCommon.TabUsageType.Mentions:
-                    LabelTabType.Text = Properties.Resources.TabUsageTypeName_Mentions;
-                    break;
-                case MyCommon.TabUsageType.DirectMessage:
-                    LabelTabType.Text = Properties.Resources.TabUsageTypeName_DirectMessage;
-                    break;
-                case MyCommon.TabUsageType.Favorites:
-                    LabelTabType.Text = Properties.Resources.TabUsageTypeName_Favorites;
-                    break;
-                case MyCommon.TabUsageType.UserDefined:
-                    LabelTabType.Text = Properties.Resources.TabUsageTypeName_UserDefined;
-                    break;
-                case MyCommon.TabUsageType.PublicSearch:
-                    LabelTabType.Text = Properties.Resources.TabUsageTypeName_PublicSearch;
-                    break;
-                case MyCommon.TabUsageType.Lists:
-                    LabelTabType.Text = Properties.Resources.TabUsageTypeName_Lists;
-                    break;
-                case MyCommon.TabUsageType.Related:
-                    LabelTabType.Text = Properties.Resources.TabUsageTypeName_Related;
-                    break;
-                case MyCommon.TabUsageType.UserTimeline:
-                    LabelTabType.Text = Properties.Resources.TabUsageTypeName_UserTimeline;
-                    break;
-                case MyCommon.TabUsageType.Mute:
-                    LabelTabType.Text = "Mute";
-                    break;
-                case MyCommon.TabUsageType.SearchResults:
-                    LabelTabType.Text = "SearchResults";
-                    break;
-                default:
-                    LabelTabType.Text = "UNKNOWN";
-                    break;
-            }
+                MyCommon.TabUsageType.Home => Properties.Resources.TabUsageTypeName_Home,
+                MyCommon.TabUsageType.Mentions => Properties.Resources.TabUsageTypeName_Mentions,
+                MyCommon.TabUsageType.DirectMessage => Properties.Resources.TabUsageTypeName_DirectMessage,
+                MyCommon.TabUsageType.Favorites => Properties.Resources.TabUsageTypeName_Favorites,
+                MyCommon.TabUsageType.UserDefined => Properties.Resources.TabUsageTypeName_UserDefined,
+                MyCommon.TabUsageType.PublicSearch => Properties.Resources.TabUsageTypeName_PublicSearch,
+                MyCommon.TabUsageType.Lists => Properties.Resources.TabUsageTypeName_Lists,
+                MyCommon.TabUsageType.Related => Properties.Resources.TabUsageTypeName_Related,
+                MyCommon.TabUsageType.UserTimeline => Properties.Resources.TabUsageTypeName_UserTimeline,
+                MyCommon.TabUsageType.Mute => "Mute",
+                MyCommon.TabUsageType.SearchResults => "SearchResults",
+                _ => "UNKNOWN",
+            };
+
             ButtonRenameTab.Enabled = true;
             if (tab.IsDefaultTabType || tab.Protected)
             {
@@ -427,7 +406,7 @@ namespace OpenTween
             if (rslt == DialogResult.Cancel) return;
 
             var indices = ListFilters.SelectedIndices.Cast<int>().Reverse().ToArray();  // 後ろの要素から削除
-            var tab = (FilterTabModel)this.SelectedTab;
+            var tab = (FilterTabModel)this.SelectedTab!;
 
             using (ControlTransaction.Update(ListFilters))
             {
@@ -633,7 +612,7 @@ namespace OpenTween
                 return;
             }
 
-            var tab = (FilterTabModel)this.SelectedTab;
+            var tab = (FilterTabModel)this.SelectedTab!;
             var i = ListFilters.SelectedIndex;
 
             PostFilterRule ft;
@@ -914,9 +893,9 @@ namespace OpenTween
             if (e.KeyCode == Keys.Escape)
             {
                 if (EditFilterGroup.Enabled)
-                    ButtonCancel_Click(null, null);
+                    ButtonCancel_Click(this.ButtonCancel, EventArgs.Empty);
                 else
-                    ButtonClose_Click(null, null);
+                    ButtonClose_Click(this.ButtonClose, EventArgs.Empty);
             }
         }
 
@@ -966,15 +945,16 @@ namespace OpenTween
         {
             this.selectedTabIndex = this.ListTabs.SelectedIndex;
 
-            if (ListTabs.SelectedIndex > -1)
-                SetFilters(this.SelectedTab);
+            var selectedTab = this.SelectedTab;
+            if (selectedTab != null)
+                SetFilters(selectedTab);
             else
                 ListFilters.Items.Clear();
         }
 
         private async void ButtonAddTab_Click(object sender, EventArgs e)
         {
-            string tabName = null;
+            string? tabName = null;
             MyCommon.TabUsageType tabType;
             using (var inputName = new InputTabName())
             {
@@ -988,32 +968,32 @@ namespace OpenTween
             if (!string.IsNullOrEmpty(tabName))
             {
                 //List対応
-                ListElement list = null;
+                ListElement? list = null;
                 if (tabType == MyCommon.TabUsageType.Lists)
                 {
                     try
                     {
-                        using (var dialog = new WaitingDialog(Properties.Resources.ListsGetting))
-                        {
-                            var cancellationToken = dialog.EnableCancellation();
+                        using var dialog = new WaitingDialog(Properties.Resources.ListsGetting);
+                        var cancellationToken = dialog.EnableCancellation();
 
-                            var task = ((TweenMain)this.Owner).TwitterInstance.GetListsApi();
-                            await dialog.WaitForAsync(this, task);
+                        var task = ((TweenMain)this.Owner).TwitterInstance.GetListsApi();
+                        await dialog.WaitForAsync(this, task);
 
-                            cancellationToken.ThrowIfCancellationRequested();
-                        }
+                        cancellationToken.ThrowIfCancellationRequested();
                     }
                     catch (OperationCanceledException) { return; }
                     catch (WebApiException ex)
                     {
                         MessageBox.Show("Failed to get lists. (" + ex.Message + ")");
                     }
-                    using (var listAvail = new ListAvailable())
-                    {
-                        if (listAvail.ShowDialog(this) == DialogResult.Cancel) return;
-                        if (listAvail.SelectedList == null) return;
-                        list = listAvail.SelectedList;
-                    }
+
+                    using var listAvail = new ListAvailable();
+
+                    if (listAvail.ShowDialog(this) == DialogResult.Cancel)
+                        return;
+                    if (listAvail.SelectedList == null)
+                        return;
+                    list = listAvail.SelectedList;
                 }
 
                 TabModel tab;
@@ -1026,7 +1006,7 @@ namespace OpenTween
                         tab = new PublicSearchTabModel(tabName);
                         break;
                     case MyCommon.TabUsageType.Lists:
-                        tab = new ListTimelineTabModel(tabName, list);
+                        tab = new ListTimelineTabModel(tabName, list!);
                         break;
                     default:
                         return;
@@ -1048,9 +1028,10 @@ namespace OpenTween
 
         private void ButtonDeleteTab_Click(object sender, EventArgs e)
         {
-            if (ListTabs.SelectedIndex > -1)
+            var selectedTab = this.SelectedTab;
+            if (selectedTab != null)
             {
-                var tb = this.SelectedTab.TabName;
+                var tb = selectedTab.TabName;
                 var idx = ListTabs.SelectedIndex;
                 if (((TweenMain)this.Owner).RemoveSpecifiedTab(tb, true))
                 {
@@ -1064,9 +1045,10 @@ namespace OpenTween
 
         private void ButtonRenameTab_Click(object sender, EventArgs e)
         {
-            if (ListTabs.SelectedIndex > -1)
+            var selectedTab = this.SelectedTab;
+            if (selectedTab != null)
             {
-                var origTabName = this.SelectedTab.TabName;
+                var origTabName = selectedTab.TabName;
                 if (((TweenMain)this.Owner).TabRename(origTabName, out _))
                     this.RefreshListTabs();
             }
@@ -1074,10 +1056,11 @@ namespace OpenTween
 
         private void CheckManageRead_CheckedChanged(object sender, EventArgs e)
         {
-            if (ListTabs.SelectedIndex > -1)
+            var selectedTab = this.SelectedTab;
+            if (selectedTab != null)
             {
                 ((TweenMain)this.Owner).ChangeTabUnreadManage(
-                    this.SelectedTab.TabName,
+                    selectedTab.TabName,
                     CheckManageRead.Checked);
             }
         }
@@ -1130,28 +1113,31 @@ namespace OpenTween
 
         private void CheckLocked_CheckedChanged(object sender, EventArgs e)
         {
-            if (ListTabs.SelectedIndex > -1)
+            var selectedTab = this.SelectedTab;
+            if (selectedTab != null)
             {
-                this.SelectedTab.Protected = CheckProtected.Checked;
+                selectedTab.Protected = CheckProtected.Checked;
                 ButtonDeleteTab.Enabled = !CheckProtected.Checked;
             }
         }
 
         private void CheckNotifyNew_CheckedChanged(object sender, EventArgs e)
         {
-            if (ListTabs.SelectedIndex > -1)
+            var selectedTab = this.SelectedTab;
+            if (selectedTab != null)
             {
-                this.SelectedTab.Notify = CheckNotifyNew.Checked;
+                selectedTab.Notify = CheckNotifyNew.Checked;
             }
         }
 
         private void ComboSound_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (ListTabs.SelectedIndex > -1)
+            var selectedTab = this.SelectedTab;
+            if (selectedTab != null)
             {
                 var filename = "";
                 if (ComboSound.SelectedIndex > -1) filename = ComboSound.SelectedItem.ToString();
-                this.SelectedTab.SoundFile = filename;
+                selectedTab.SoundFile = filename;
             }
         }
 
@@ -1174,9 +1160,9 @@ namespace OpenTween
 
         private void MoveSelectedRules(bool up)
         {
-            var tabIdx = ListTabs.SelectedIndex;
-            if (tabIdx == -1 ||
-                ListFilters.SelectedIndices.Count == 0) return;
+            var selectedTab = this.SelectedTab;
+            if (selectedTab == null || ListFilters.SelectedIndices.Count == 0)
+                return;
 
             var indices = ListFilters.SelectedIndices.Cast<int>().ToArray();
 
@@ -1194,7 +1180,7 @@ namespace OpenTween
             }
 
             var lastSelIdx = indices[0] + diff;
-            var tab = (FilterTabModel)this.SelectedTab;
+            var tab = (FilterTabModel)selectedTab;
 
             try
             {
@@ -1255,9 +1241,10 @@ namespace OpenTween
 
         private void ButtonRuleCopy_Click(object sender, EventArgs e)
         {
-            if (ListTabs.SelectedIndex > -1 && ListFilters.SelectedItem != null)
+            var selectedTab = this.SelectedTab;
+            if (selectedTab != null && ListFilters.SelectedItem != null)
             {
-                TabModel[] selectedTabs;
+                TabModel[] destinationTabs;
                 using (var dialog = new TabsDialog(_sts))
                 {
                     dialog.MultiSelect = true;
@@ -1265,17 +1252,17 @@ namespace OpenTween
 
                     if (dialog.ShowDialog(this) == DialogResult.Cancel) return;
 
-                    selectedTabs = dialog.SelectedTabs;
+                    destinationTabs = dialog.SelectedTabs;
                 }
 
-                var currentTab = (FilterTabModel)this.SelectedTab;
+                var currentTab = (FilterTabModel)selectedTab;
                 var filters = new List<PostFilterRule>();
 
                 foreach (int idx in ListFilters.SelectedIndices)
                 {
                     filters.Add(currentTab.FilterArray[idx].Clone());
                 }
-                foreach (var tb in selectedTabs.Cast<FilterTabModel>())
+                foreach (var tb in destinationTabs.Cast<FilterTabModel>())
                 {
                     if (tb.TabName == currentTab.TabName) continue;
 
@@ -1285,15 +1272,16 @@ namespace OpenTween
                             tb.AddFilter(flt.Clone());
                     }
                 }
-                SetFilters(this.SelectedTab);
+                SetFilters(selectedTab);
             }
         }
 
         private void ButtonRuleMove_Click(object sender, EventArgs e)
         {
-            if (ListTabs.SelectedIndex > -1 && ListFilters.SelectedItem != null)
+            var selectedTab = this.SelectedTab;
+            if (selectedTab != null && ListFilters.SelectedItem != null)
             {
-                TabModel[] selectedTabs;
+                TabModel[] destinationTabs;
                 using (var dialog = new TabsDialog(_sts))
                 {
                     dialog.MultiSelect = true;
@@ -1301,17 +1289,17 @@ namespace OpenTween
 
                     if (dialog.ShowDialog(this) == DialogResult.Cancel) return;
 
-                    selectedTabs = dialog.SelectedTabs;
+                    destinationTabs = dialog.SelectedTabs;
                 }
-                var currentTab = (FilterTabModel)this.SelectedTab;
+                var currentTab = (FilterTabModel)selectedTab;
                 var filters = new List<PostFilterRule>();
 
                 foreach (int idx in ListFilters.SelectedIndices)
                 {
                     filters.Add(currentTab.FilterArray[idx].Clone());
                 }
-                if (selectedTabs.Length == 1 && selectedTabs[0].TabName == currentTab.TabName) return;
-                foreach (var tb in selectedTabs.Cast<FilterTabModel>())
+                if (destinationTabs.Length == 1 && destinationTabs[0].TabName == currentTab.TabName) return;
+                foreach (var tb in destinationTabs.Cast<FilterTabModel>())
                 {
                     if (tb.TabName == currentTab.TabName) continue;
 
@@ -1329,7 +1317,7 @@ namespace OpenTween
                         ListFilters.Items.RemoveAt(idx);
                     }
                 }
-                SetFilters(this.SelectedTab);
+                SetFilters(selectedTab);
             }
         }
 

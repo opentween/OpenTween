@@ -38,14 +38,12 @@ namespace OpenTween
         {
             var hashtags = new[] { "#foo", "#bar" };
 
-            using (var atDialog = new AtIdSupplement())
-            using (var hashDialog = new HashtagManage(atDialog, hashtags, "", false, false, false))
-            {
-                hashDialog.RunSilent = true;
+            using var atDialog = new AtIdSupplement();
+            using var hashDialog = new HashtagManage(atDialog, hashtags, "", false, false, false);
+            hashDialog.RunSilent = true;
 
-                Assert.Equal(new[] { "#foo", "#bar" }, hashDialog.HistoryHashList.Items.Cast<string>());
-                Assert.Equal(new[] { "#foo", "#bar" }, hashDialog.HashHistories);
-            }
+            Assert.Equal(new[] { "#foo", "#bar" }, hashDialog.HistoryHashList.Items.Cast<string>());
+            Assert.Equal(new[] { "#foo", "#bar" }, hashDialog.HashHistories);
         }
 
         [Fact]
@@ -53,52 +51,46 @@ namespace OpenTween
         {
             var hashtags = Array.Empty<string>();
 
-            using (var atDialog = new AtIdSupplement())
-            using (var hashDialog = new HashtagManage(atDialog, hashtags, "", false, false, false))
-            {
-                hashDialog.RunSilent = true;
+            using var atDialog = new AtIdSupplement();
+            using var hashDialog = new HashtagManage(atDialog, hashtags, "", false, false, false);
+            hashDialog.RunSilent = true;
 
-                Assert.Empty(hashDialog.HistoryHashList.Items);
-                Assert.Empty(hashDialog.HashHistories);
-            }
+            Assert.Empty(hashDialog.HistoryHashList.Items);
+            Assert.Empty(hashDialog.HashHistories);
         }
 
         [Fact]
         public void AddHashtag_Test()
         {
-            using (var atDialog = new AtIdSupplement())
-            using (var hashDialog = new HashtagManage(atDialog, Array.Empty<string>(), "", false, false, false))
-            {
-                hashDialog.RunSilent = true;
+            using var atDialog = new AtIdSupplement();
+            using var hashDialog = new HashtagManage(atDialog, Array.Empty<string>(), "", false, false, false);
+            hashDialog.RunSilent = true;
 
-                TestUtils.FireEvent(hashDialog.AddButton, "Click"); // 「新規 (&N)」ボタン
+            TestUtils.FireEvent(hashDialog.AddButton, "Click"); // 「新規 (&N)」ボタン
 
-                hashDialog.UseHashText.Text = "#OpenTween";
+            hashDialog.UseHashText.Text = "#OpenTween";
 
-                TestUtils.FireEvent(hashDialog.PermOK_Button, "Click"); // 「詳細」グループ内の「OK」ボタン
+            TestUtils.FireEvent(hashDialog.PermOK_Button, "Click"); // 「詳細」グループ内の「OK」ボタン
 
-                Assert.Equal(new[] { "#OpenTween" }, hashDialog.HistoryHashList.Items.Cast<string>());
-                Assert.Equal(new[] { "#OpenTween" }, hashDialog.HashHistories);
-            }
+            Assert.Equal(new[] { "#OpenTween" }, hashDialog.HistoryHashList.Items.Cast<string>());
+            Assert.Equal(new[] { "#OpenTween" }, hashDialog.HashHistories);
         }
 
         [Fact]
         public void AddHashtag_FullWidthTest()
         {
-            using (var atDialog = new AtIdSupplement())
-            using (var hashDialog = new HashtagManage(atDialog, Array.Empty<string>(), "", false, false, false))
-            {
-                hashDialog.RunSilent = true;
+            using var atDialog = new AtIdSupplement();
+            using var hashDialog = new HashtagManage(atDialog, Array.Empty<string>(), "", false, false, false);
+            hashDialog.RunSilent = true;
 
-                TestUtils.FireEvent(hashDialog.AddButton, "Click"); // 「新規 (&N)」ボタン
+            TestUtils.FireEvent(hashDialog.AddButton, "Click"); // 「新規 (&N)」ボタン
 
-                hashDialog.UseHashText.Text = "＃ほげほげ";
+            hashDialog.UseHashText.Text = "＃ほげほげ";
 
-                TestUtils.FireEvent(hashDialog.PermOK_Button, "Click"); // 「詳細」グループ内の「OK」ボタン
+            TestUtils.FireEvent(hashDialog.PermOK_Button, "Click"); // 「詳細」グループ内の「OK」ボタン
 
-                Assert.Equal(new[] { "#ほげほげ" }, hashDialog.HistoryHashList.Items.Cast<string>());
-                Assert.Equal(new[] { "#ほげほげ" }, hashDialog.HashHistories);
-            }
+            Assert.Equal(new[] { "#ほげほげ" }, hashDialog.HistoryHashList.Items.Cast<string>());
+            Assert.Equal(new[] { "#ほげほげ" }, hashDialog.HashHistories);
         }
 
         [Fact]
@@ -106,60 +98,54 @@ namespace OpenTween
         {
             // ハッシュタグを表す「#」の直後に結合文字 (濁点など) が続いた場合に対するテスト
 
-            using (var atDialog = new AtIdSupplement())
-            using (var hashDialog = new HashtagManage(atDialog, Array.Empty<string>(), "", false, false, false))
-            {
-                hashDialog.RunSilent = true;
+            using var atDialog = new AtIdSupplement();
+            using var hashDialog = new HashtagManage(atDialog, Array.Empty<string>(), "", false, false, false);
+            hashDialog.RunSilent = true;
 
-                TestUtils.FireEvent(hashDialog.AddButton, "Click"); // 「新規 (&N)」ボタン
+            TestUtils.FireEvent(hashDialog.AddButton, "Click"); // 「新規 (&N)」ボタン
 
-                // どんちき└(＾ω＾ )┐♫ ┌( ＾ω＾)┘♫どんちき
-                hashDialog.UseHashText.Text = "#゛t゛e゛s゛a゛b゛u゛";
+            // どんちき└(＾ω＾ )┐♫ ┌( ＾ω＾)┘♫どんちき
+            hashDialog.UseHashText.Text = "#゛t゛e゛s゛a゛b゛u゛";
 
-                TestUtils.FireEvent(hashDialog.PermOK_Button, "Click"); // 「詳細」グループ内の「OK」ボタン
+            TestUtils.FireEvent(hashDialog.PermOK_Button, "Click"); // 「詳細」グループ内の「OK」ボタン
 
-                Assert.Equal(new[] { "#゛t゛e゛s゛a゛b゛u゛" }, hashDialog.HistoryHashList.Items.Cast<string>());
-                Assert.Equal(new[] { "#゛t゛e゛s゛a゛b゛u゛" }, hashDialog.HashHistories);
-            }
+            Assert.Equal(new[] { "#゛t゛e゛s゛a゛b゛u゛" }, hashDialog.HistoryHashList.Items.Cast<string>());
+            Assert.Equal(new[] { "#゛t゛e゛s゛a゛b゛u゛" }, hashDialog.HashHistories);
         }
 
         [Fact]
         public void AddHashtag_MultipleTest()
         {
-            using (var atDialog = new AtIdSupplement())
-            using (var hashDialog = new HashtagManage(atDialog, Array.Empty<string>(), "", false, false, false))
-            {
-                hashDialog.RunSilent = true;
+            using var atDialog = new AtIdSupplement();
+            using var hashDialog = new HashtagManage(atDialog, Array.Empty<string>(), "", false, false, false);
+            hashDialog.RunSilent = true;
 
-                TestUtils.FireEvent(hashDialog.AddButton, "Click"); // 「新規 (&N)」ボタン
+            TestUtils.FireEvent(hashDialog.AddButton, "Click"); // 「新規 (&N)」ボタン
 
-                hashDialog.UseHashText.Text = "#foo #bar";
+            hashDialog.UseHashText.Text = "#foo #bar";
 
-                TestUtils.FireEvent(hashDialog.PermOK_Button, "Click"); // 「詳細」グループ内の「OK」ボタン
+            TestUtils.FireEvent(hashDialog.PermOK_Button, "Click"); // 「詳細」グループ内の「OK」ボタン
 
-                Assert.Equal(new[] { "#foo #bar" }, hashDialog.HistoryHashList.Items.Cast<string>());
-                Assert.Equal(new[] { "#foo #bar" }, hashDialog.HashHistories);
-            }
+            Assert.Equal(new[] { "#foo #bar" }, hashDialog.HistoryHashList.Items.Cast<string>());
+            Assert.Equal(new[] { "#foo #bar" }, hashDialog.HashHistories);
         }
 
         [Fact]
         public void AddHashtag_InvalidTest()
         {
-            using (var atDialog = new AtIdSupplement())
-            using (var hashDialog = new HashtagManage(atDialog, Array.Empty<string>(), "", false, false, false))
-            {
-                hashDialog.RunSilent = true;
+            using var atDialog = new AtIdSupplement();
+            using var hashDialog = new HashtagManage(atDialog, Array.Empty<string>(), "", false, false, false);
+            hashDialog.RunSilent = true;
 
-                TestUtils.FireEvent(hashDialog.AddButton, "Click"); // 「新規 (&N)」ボタン
+            TestUtils.FireEvent(hashDialog.AddButton, "Click"); // 「新規 (&N)」ボタン
 
-                hashDialog.UseHashText.Text = "hogehoge";
+            hashDialog.UseHashText.Text = "hogehoge";
 
-                TestUtils.FireEvent(hashDialog.PermOK_Button, "Click"); // 「詳細」グループ内の「OK」ボタン
-                // 実際にはここでエラーメッセージが出る
+            TestUtils.FireEvent(hashDialog.PermOK_Button, "Click"); // 「詳細」グループ内の「OK」ボタン
+                                                                    // 実際にはここでエラーメッセージが出る
 
-                Assert.Empty(hashDialog.HistoryHashList.Items);
-                Assert.Empty(hashDialog.HashHistories);
-            }
+            Assert.Empty(hashDialog.HistoryHashList.Items);
+            Assert.Empty(hashDialog.HashHistories);
         }
 
         [Fact]
@@ -167,22 +153,20 @@ namespace OpenTween
         {
             var hashtags = new[] { "#foo", "#bar" };
 
-            using (var atDialog = new AtIdSupplement())
-            using (var hashDialog = new HashtagManage(atDialog, hashtags, "", false, false, false))
-            {
-                hashDialog.RunSilent = true;
+            using var atDialog = new AtIdSupplement();
+            using var hashDialog = new HashtagManage(atDialog, hashtags, "", false, false, false);
+            hashDialog.RunSilent = true;
 
-                hashDialog.HistoryHashList.SelectedIndices.Add(0);
+            hashDialog.HistoryHashList.SelectedIndices.Add(0);
 
-                TestUtils.FireEvent(hashDialog.EditButton, "Click"); // 「編集(&E)」ボタン
+            TestUtils.FireEvent(hashDialog.EditButton, "Click"); // 「編集(&E)」ボタン
 
-                hashDialog.UseHashText.Text = "#hoge";
+            hashDialog.UseHashText.Text = "#hoge";
 
-                TestUtils.FireEvent(hashDialog.PermOK_Button, "Click"); // 「詳細」グループ内の「OK」ボタン
+            TestUtils.FireEvent(hashDialog.PermOK_Button, "Click"); // 「詳細」グループ内の「OK」ボタン
 
-                Assert.Equal(new[] { "#hoge", "#bar" }, hashDialog.HistoryHashList.Items.Cast<string>());
-                Assert.Equal(new[] { "#hoge", "#bar" }, hashDialog.HashHistories);
-            }
+            Assert.Equal(new[] { "#hoge", "#bar" }, hashDialog.HistoryHashList.Items.Cast<string>());
+            Assert.Equal(new[] { "#hoge", "#bar" }, hashDialog.HashHistories);
         }
 
         [Fact]
@@ -190,18 +174,16 @@ namespace OpenTween
         {
             var hashtags = new[] { "#foo", "#bar" };
 
-            using (var atDialog = new AtIdSupplement())
-            using (var hashDialog = new HashtagManage(atDialog, hashtags, "", false, false, false))
-            {
-                hashDialog.RunSilent = true;
+            using var atDialog = new AtIdSupplement();
+            using var hashDialog = new HashtagManage(atDialog, hashtags, "", false, false, false);
+            hashDialog.RunSilent = true;
 
-                hashDialog.HistoryHashList.SelectedIndices.Add(1);
+            hashDialog.HistoryHashList.SelectedIndices.Add(1);
 
-                TestUtils.FireEvent(hashDialog.DeleteButton, "Click"); // 「削除(&D)」ボタン
+            TestUtils.FireEvent(hashDialog.DeleteButton, "Click"); // 「削除(&D)」ボタン
 
-                Assert.Equal(new[] { "#foo" }, hashDialog.HistoryHashList.Items.Cast<string>());
-                Assert.Equal(new[] { "#foo" }, hashDialog.HashHistories);
-            }
+            Assert.Equal(new[] { "#foo" }, hashDialog.HistoryHashList.Items.Cast<string>());
+            Assert.Equal(new[] { "#foo" }, hashDialog.HashHistories);
         }
 
         [Fact]
@@ -209,19 +191,17 @@ namespace OpenTween
         {
             var hashtags = new[] { "#foo", "#bar", "#baz" };
 
-            using (var atDialog = new AtIdSupplement())
-            using (var hashDialog = new HashtagManage(atDialog, hashtags, "", false, false, false))
-            {
-                hashDialog.RunSilent = true;
+            using var atDialog = new AtIdSupplement();
+            using var hashDialog = new HashtagManage(atDialog, hashtags, "", false, false, false);
+            hashDialog.RunSilent = true;
 
-                hashDialog.HistoryHashList.SelectedIndices.Add(2);
-                hashDialog.HistoryHashList.SelectedIndices.Add(1);
+            hashDialog.HistoryHashList.SelectedIndices.Add(2);
+            hashDialog.HistoryHashList.SelectedIndices.Add(1);
 
-                TestUtils.FireEvent(hashDialog.DeleteButton, "Click"); // 「削除(&D)」ボタン
+            TestUtils.FireEvent(hashDialog.DeleteButton, "Click"); // 「削除(&D)」ボタン
 
-                Assert.Equal(new[] { "#foo" }, hashDialog.HistoryHashList.Items.Cast<string>());
-                Assert.Equal(new[] { "#foo" }, hashDialog.HashHistories);
-            }
+            Assert.Equal(new[] { "#foo" }, hashDialog.HistoryHashList.Items.Cast<string>());
+            Assert.Equal(new[] { "#foo" }, hashDialog.HashHistories);
         }
 
         [Fact]
@@ -229,18 +209,16 @@ namespace OpenTween
         {
             var hashtags = new[] { "#foo", "#bar" };
 
-            using (var atDialog = new AtIdSupplement())
-            using (var hashDialog = new HashtagManage(atDialog, hashtags, "", false, false, false))
-            {
-                hashDialog.RunSilent = true;
+            using var atDialog = new AtIdSupplement();
+            using var hashDialog = new HashtagManage(atDialog, hashtags, "", false, false, false);
+            hashDialog.RunSilent = true;
 
-                // ハッシュタグを選択していない状態
+            // ハッシュタグを選択していない状態
 
-                TestUtils.FireEvent(hashDialog.DeleteButton, "Click"); // 「削除(&D)」ボタン
+            TestUtils.FireEvent(hashDialog.DeleteButton, "Click"); // 「削除(&D)」ボタン
 
-                Assert.Equal(new[] { "#foo", "#bar" }, hashDialog.HistoryHashList.Items.Cast<string>());
-                Assert.Equal(new[] { "#foo", "#bar" }, hashDialog.HashHistories);
-            }
+            Assert.Equal(new[] { "#foo", "#bar" }, hashDialog.HistoryHashList.Items.Cast<string>());
+            Assert.Equal(new[] { "#foo", "#bar" }, hashDialog.HashHistories);
         }
 
         [Fact]
@@ -248,47 +226,43 @@ namespace OpenTween
         {
             var hashtags = new[] { "#foo" };
 
-            using (var atDialog = new AtIdSupplement())
-            using (var hashDialog = new HashtagManage(atDialog, hashtags, "", false, false, false))
-            {
-                hashDialog.RunSilent = true;
+            using var atDialog = new AtIdSupplement();
+            using var hashDialog = new HashtagManage(atDialog, hashtags, "", false, false, false);
+            hashDialog.RunSilent = true;
 
-                hashDialog.HistoryHashList.SelectedIndices.Add(0);
+            hashDialog.HistoryHashList.SelectedIndices.Add(0);
 
-                TestUtils.FireEvent(hashDialog.UnSelectButton, "Click"); // 「非使用(&U)」ボタン
+            TestUtils.FireEvent(hashDialog.UnSelectButton, "Click"); // 「非使用(&U)」ボタン
 
-                Assert.Empty(hashDialog.HistoryHashList.SelectedIndices);
-            }
+            Assert.Empty(hashDialog.HistoryHashList.SelectedIndices);
         }
 
         [Fact]
         public void EditModeSwitch_Test()
         {
-            using (var atDialog = new AtIdSupplement())
-            using (var hashDialog = new HashtagManage(atDialog, Array.Empty<string>(), "", false, false, false))
-            {
-                hashDialog.RunSilent = true;
+            using var atDialog = new AtIdSupplement();
+            using var hashDialog = new HashtagManage(atDialog, Array.Empty<string>(), "", false, false, false);
+            hashDialog.RunSilent = true;
 
-                Assert.True(hashDialog.GroupHashtag.Enabled);
-                Assert.True(hashDialog.TableLayoutButtons.Enabled);
-                Assert.False(hashDialog.GroupDetail.Enabled);
+            Assert.True(hashDialog.GroupHashtag.Enabled);
+            Assert.True(hashDialog.TableLayoutButtons.Enabled);
+            Assert.False(hashDialog.GroupDetail.Enabled);
 
-                TestUtils.FireEvent(hashDialog.AddButton, "Click"); // 「新規 (&N)」ボタン
+            TestUtils.FireEvent(hashDialog.AddButton, "Click"); // 「新規 (&N)」ボタン
 
-                // 編集モードに入る
-                Assert.False(hashDialog.GroupHashtag.Enabled);
-                Assert.False(hashDialog.TableLayoutButtons.Enabled);
-                Assert.True(hashDialog.GroupDetail.Enabled);
+            // 編集モードに入る
+            Assert.False(hashDialog.GroupHashtag.Enabled);
+            Assert.False(hashDialog.TableLayoutButtons.Enabled);
+            Assert.True(hashDialog.GroupDetail.Enabled);
 
-                hashDialog.UseHashText.Text = "#hogehoge";
+            hashDialog.UseHashText.Text = "#hogehoge";
 
-                TestUtils.FireEvent(hashDialog.PermOK_Button, "Click"); // 「詳細」グループ内の「OK」ボタン
+            TestUtils.FireEvent(hashDialog.PermOK_Button, "Click"); // 「詳細」グループ内の「OK」ボタン
 
-                // 編集モードから抜ける
-                Assert.True(hashDialog.GroupHashtag.Enabled);
-                Assert.True(hashDialog.TableLayoutButtons.Enabled);
-                Assert.False(hashDialog.GroupDetail.Enabled);
-            }
+            // 編集モードから抜ける
+            Assert.True(hashDialog.GroupHashtag.Enabled);
+            Assert.True(hashDialog.TableLayoutButtons.Enabled);
+            Assert.False(hashDialog.GroupDetail.Enabled);
         }
     }
 }

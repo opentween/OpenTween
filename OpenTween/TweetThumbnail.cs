@@ -19,6 +19,8 @@
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
+#nullable enable
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -49,7 +51,7 @@ namespace OpenTween
         public event EventHandler<ThumbnailImageSearchEventArgs> ThumbnailImageSearchClick;
 
         public ThumbnailInfo Thumbnail
-            => this.pictureBox[this.scrollBar.Value].Tag as ThumbnailInfo;
+            => (ThumbnailInfo)this.pictureBox[this.scrollBar.Value].Tag;
 
         public TweetThumbnail()
             => this.InitializeComponent();

@@ -19,6 +19,8 @@
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
+#nullable enable
+
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -89,7 +91,7 @@ namespace OpenTween
             if (s == null)
                 throw new ArgumentNullException(nameof(s));
 
-            IEnumerable<int> GetEnumerable(string input)
+            static IEnumerable<int> GetEnumerable(string input)
             {
                 var i = 0;
                 var length = input.Length;
@@ -147,8 +149,8 @@ namespace OpenTween
         public static async Task ForEachAsync<T>(this IObservable<T> observable, Func<T, Task> subscriber, CancellationToken cancellationToken)
         {
             var observer = new ForEachObserver<T>(subscriber);
+            using var unsubscriber = observable.Subscribe(observer);
 
-            using (var unsubscriber = observable.Subscribe(observer))
             using (cancellationToken.Register(() => unsubscriber.Dispose()))
                 await observer.Task.ConfigureAwait(false);
         }

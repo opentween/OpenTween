@@ -24,6 +24,8 @@
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
+#nullable enable
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -42,25 +44,15 @@ namespace OpenTween.Setting.Panel
 
         public void LoadConfig(SettingCommon settingCommon)
         {
-            switch (settingCommon.IconSize)
+            this.IconSize.SelectedIndex = settingCommon.IconSize switch
             {
-                case MyCommon.IconSizes.IconNone:
-                    this.IconSize.SelectedIndex = 0;
-                    break;
-                case MyCommon.IconSizes.Icon16:
-                    this.IconSize.SelectedIndex = 1;
-                    break;
-                case MyCommon.IconSizes.Icon24:
-                    this.IconSize.SelectedIndex = 2;
-                    break;
-                case MyCommon.IconSizes.Icon48:
-                    this.IconSize.SelectedIndex = 3;
-                    break;
-                case MyCommon.IconSizes.Icon48_2:
-                    this.IconSize.SelectedIndex = 4;
-                    break;
-            }
-
+                MyCommon.IconSizes.IconNone => 0,
+                MyCommon.IconSizes.Icon16 => 1,
+                MyCommon.IconSizes.Icon24 => 2,
+                MyCommon.IconSizes.Icon48 => 3,
+                MyCommon.IconSizes.Icon48_2 => 4,
+                _ => 1,
+            };
             this.OneWayLv.Checked = settingCommon.OneWayLove;
             this.CheckSortOrderLock.Checked = settingCommon.SortOrderLock;
             this.CheckViewTabBottom.Checked = settingCommon.ViewTabBottom;
@@ -91,25 +83,15 @@ namespace OpenTween.Setting.Panel
 
         public void SaveConfig(SettingCommon settingCommon)
         {
-            switch (this.IconSize.SelectedIndex)
+            settingCommon.IconSize = this.IconSize.SelectedIndex switch
             {
-                case 0:
-                    settingCommon.IconSize = MyCommon.IconSizes.IconNone;
-                    break;
-                case 1:
-                    settingCommon.IconSize = MyCommon.IconSizes.Icon16;
-                    break;
-                case 2:
-                    settingCommon.IconSize = MyCommon.IconSizes.Icon24;
-                    break;
-                case 3:
-                    settingCommon.IconSize = MyCommon.IconSizes.Icon48;
-                    break;
-                case 4:
-                    settingCommon.IconSize = MyCommon.IconSizes.Icon48_2;
-                    break;
-            }
-
+                0 => MyCommon.IconSizes.IconNone,
+                1 => MyCommon.IconSizes.Icon16,
+                2 => MyCommon.IconSizes.Icon24,
+                3 => MyCommon.IconSizes.Icon48,
+                4 => MyCommon.IconSizes.Icon48_2,
+                _ => throw new IndexOutOfRangeException($"Invalid {nameof(IconSize)} index: {this.IconSize.SelectedIndex}"),
+            };
             settingCommon.OneWayLove = this.OneWayLv.Checked;
             settingCommon.SortOrderLock = this.CheckSortOrderLock.Checked;
             settingCommon.ViewTabBottom = this.CheckViewTabBottom.Checked;

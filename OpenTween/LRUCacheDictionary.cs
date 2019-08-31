@@ -19,11 +19,14 @@
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
+#nullable enable
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Collections;
+using System.Diagnostics.CodeAnalysis;
 
 namespace OpenTween
 {
@@ -131,7 +134,7 @@ namespace OpenTween
         {
             if (!this.innerDict.TryGetValue(item.Key, out var node)) return false;
 
-            return node.Value.Value.Equals(item.Value);
+            return EqualityComparer<TValue>.Default.Equals(node.Value.Value, item.Value);
         }
 
         public bool Remove(TKey key)
@@ -147,20 +150,21 @@ namespace OpenTween
         {
             if (!this.innerDict.TryGetValue(item.Key, out var node)) return false;
 
-            if (!node.Value.Value.Equals(item.Value)) return false;
+            if (!EqualityComparer<TValue>.Default.Equals(node.Value.Value, item.Value))
+                return false;
 
             this.innerList.Remove(node);
 
             return this.innerDict.Remove(item.Key);
         }
 
-        public bool TryGetValue(TKey key, out TValue value)
+        public bool TryGetValue(TKey key, [MaybeNullWhen(false)] out TValue value)
         {
             var ret = this.innerDict.TryGetValue(key, out var node);
 
             if (!ret)
             {
-                value = default;
+                value = default!;
                 return false;
             }
 

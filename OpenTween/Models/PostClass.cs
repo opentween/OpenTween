@@ -25,8 +25,11 @@
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
+#nullable enable
+
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -63,14 +66,15 @@ namespace OpenTween.Models
             public static bool operator !=(StatusGeo left, StatusGeo right)
                 => !left.Equals(right);
         }
-        public string Nickname { get; set; }
-        public string TextFromApi { get; set; }
+
+        public string Nickname { get; set; } = "";
+        public string TextFromApi { get; set; } = "";
 
         /// <summary>スクリーンリーダーでの読み上げを考慮したテキスト</summary>
-        public string AccessibleText { get; set; }
+        public string AccessibleText { get; set; } = "";
 
-        public string ImageUrl { get; set; }
-        public string ScreenName { get; set; }
+        public string ImageUrl { get; set; } = "";
+        public string ScreenName { get; set; } = "";
         public DateTimeUtc CreatedAt { get; set; }
         public long StatusId { get; set; }
         private bool _IsFav;
@@ -90,7 +94,7 @@ namespace OpenTween.Models
             }
             set => this._text = value;
         }
-        private string _text;
+        private string _text = "";
 
         public bool IsRead { get; set; }
         public bool IsReply { get; set; }
@@ -98,16 +102,16 @@ namespace OpenTween.Models
         private bool _IsProtect;
         public bool IsOwl { get; set; }
         private bool _IsMark;
-        public string InReplyToUser { get; set; }
+        public string? InReplyToUser { get; set; }
         private long? _InReplyToStatusId;
-        public string Source { get; set; }
-        public Uri SourceUri { get; set; }
+        public string Source { get; set; } = "";
+        public Uri? SourceUri { get; set; }
         public List<(long UserId, string ScreenName)> ReplyToList { get; set; }
         public bool IsMe { get; set; }
         public bool IsDm { get; set; }
         public long UserId { get; set; }
         public bool FilterHit { get; set; }
-        public string RetweetedBy { get; set; }
+        public string? RetweetedBy { get; set; }
         public long? RetweetedId { get; set; }
         private bool _IsDeleted = false;
         private StatusGeo? _postGeo = null;
@@ -189,7 +193,6 @@ namespace OpenTween.Models
 
         public PostClass()
         {
-            RetweetedBy = "";
             Media = new List<MediaInfo>();
             ReplyToList = new List<(long, string)>();
             QuoteStatusIds = Array.Empty<long>();
@@ -197,7 +200,7 @@ namespace OpenTween.Models
         }
 
         public string TextSingleLine
-            => this.TextFromApi?.Replace("\n", " ");
+            => this.TextFromApi.Replace("\n", " ");
 
         public bool IsFav
         {
@@ -286,8 +289,8 @@ namespace OpenTween.Models
             }
         }
 
-        protected virtual PostClass RetweetSource
-            => TabInformations.GetInstance().RetweetSource(this.RetweetedId.Value);
+        protected virtual PostClass? RetweetSource
+            => this.RetweetedId != null ? TabInformations.GetInstance().RetweetSource(this.RetweetedId.Value) : null;
 
         public StatusGeo? PostGeo
         {
@@ -433,13 +436,13 @@ namespace OpenTween.Models
         object ICloneable.Clone()
             => this.Clone();
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             if (obj == null || this.GetType() != obj.GetType()) return false;
             return this.Equals((PostClass)obj);
         }
 
-        public bool Equals(PostClass other)
+        public bool Equals(PostClass? other)
         {
             if (other == null) return false;
             return (this.Nickname == other.Nickname) &&

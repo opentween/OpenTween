@@ -241,7 +241,7 @@ namespace OpenTween
             Assert.Throws<ArgumentException>(() => set.CopyTo(array, 3));
             Assert.Throws<ArgumentException>(() => set.CopyTo(array, 5));
             Assert.Throws<ArgumentOutOfRangeException>(() => set.CopyTo(array, -1));
-            Assert.Throws<ArgumentNullException>(() => set.CopyTo(null, 0));
+            Assert.Throws<ArgumentNullException>(() => set.CopyTo(null!, 0));
         }
 
         [Fact]

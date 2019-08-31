@@ -24,6 +24,8 @@
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
+#nullable enable
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -102,17 +104,16 @@ namespace OpenTween.Setting.Panel
 
         private void Button3_Click(object sender, EventArgs e)
         {
-            using (var filedlg = new OpenFileDialog())
-            {
-                filedlg.Filter = Properties.Resources.Button3_ClickText1;
-                filedlg.FilterIndex = 1;
-                filedlg.Title = Properties.Resources.Button3_ClickText2;
-                filedlg.RestoreDirectory = true;
+            using var filedlg = new OpenFileDialog();
 
-                if (filedlg.ShowDialog() == DialogResult.OK)
-                {
-                    BrowserPathText.Text = filedlg.FileName;
-                }
+            filedlg.Filter = Properties.Resources.Button3_ClickText1;
+            filedlg.FilterIndex = 1;
+            filedlg.Title = Properties.Resources.Button3_ClickText2;
+            filedlg.RestoreDirectory = true;
+
+            if (filedlg.ShowDialog() == DialogResult.OK)
+            {
+                BrowserPathText.Text = filedlg.FileName;
             }
         }
 

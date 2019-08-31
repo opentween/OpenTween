@@ -24,6 +24,8 @@
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
+#nullable enable
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -42,85 +44,46 @@ namespace OpenTween.Setting.Panel
 
         public void LoadConfig(SettingCommon settingCommon)
         {
-            switch (settingCommon.NameBalloon)
+            this.cmbNameBalloon.SelectedIndex = settingCommon.NameBalloon switch
             {
-                case MyCommon.NameBalloonEnum.None:
-                    this.cmbNameBalloon.SelectedIndex = 0;
-                    break;
-                case MyCommon.NameBalloonEnum.UserID:
-                    this.cmbNameBalloon.SelectedIndex = 1;
-                    break;
-                case MyCommon.NameBalloonEnum.NickName:
-                    this.cmbNameBalloon.SelectedIndex = 2;
-                    break;
-            }
-
+                MyCommon.NameBalloonEnum.None => 0,
+                MyCommon.NameBalloonEnum.UserID => 1,
+                MyCommon.NameBalloonEnum.NickName => 2,
+                _ => 2,
+            };
             this.CheckDispUsername.Checked = settingCommon.DispUsername;
-
-            switch (settingCommon.DispLatestPost)
+            this.ComboDispTitle.SelectedIndex = settingCommon.DispLatestPost switch
             {
-                case MyCommon.DispTitleEnum.None:
-                    this.ComboDispTitle.SelectedIndex = 0;
-                    break;
-                case MyCommon.DispTitleEnum.Ver:
-                    this.ComboDispTitle.SelectedIndex = 1;
-                    break;
-                case MyCommon.DispTitleEnum.Post:
-                    this.ComboDispTitle.SelectedIndex = 2;
-                    break;
-                case MyCommon.DispTitleEnum.UnreadRepCount:
-                    this.ComboDispTitle.SelectedIndex = 3;
-                    break;
-                case MyCommon.DispTitleEnum.UnreadAllCount:
-                    this.ComboDispTitle.SelectedIndex = 4;
-                    break;
-                case MyCommon.DispTitleEnum.UnreadAllRepCount:
-                    this.ComboDispTitle.SelectedIndex = 5;
-                    break;
-                case MyCommon.DispTitleEnum.UnreadCountAllCount:
-                    this.ComboDispTitle.SelectedIndex = 6;
-                    break;
-                case MyCommon.DispTitleEnum.OwnStatus:
-                    this.ComboDispTitle.SelectedIndex = 7;
-                    break;
-            }
-
+                MyCommon.DispTitleEnum.None => 0,
+                MyCommon.DispTitleEnum.Ver => 1,
+                MyCommon.DispTitleEnum.Post => 2,
+                MyCommon.DispTitleEnum.UnreadRepCount => 3,
+                MyCommon.DispTitleEnum.UnreadAllCount => 4,
+                MyCommon.DispTitleEnum.UnreadAllRepCount => 5,
+                MyCommon.DispTitleEnum.UnreadCountAllCount => 6,
+                MyCommon.DispTitleEnum.OwnStatus => 7,
+                _ => 2,
+            };
             this.CheckAlwaysTop.Checked = settingCommon.AlwaysTop;
             this.CheckBalloonLimit.Checked = settingCommon.LimitBalloon;
             this.chkTabIconDisp.Checked = settingCommon.TabIconDisp;
             this.CheckMonospace.Checked = settingCommon.IsMonospace;
             this.CheckPreviewEnable.Checked = settingCommon.PreviewEnable;
             this.CheckStatusAreaAtBottom.Checked = settingCommon.StatusAreaAtBottom;
-
-            switch (settingCommon.ReplyIconState)
+            this.ReplyIconStateCombo.SelectedIndex = settingCommon.ReplyIconState switch
             {
-                case MyCommon.REPLY_ICONSTATE.None:
-                    this.ReplyIconStateCombo.SelectedIndex = 0;
-                    break;
-                case MyCommon.REPLY_ICONSTATE.StaticIcon:
-                    this.ReplyIconStateCombo.SelectedIndex = 1;
-                    break;
-                case MyCommon.REPLY_ICONSTATE.BlinkIcon:
-                    this.ReplyIconStateCombo.SelectedIndex = 2;
-                    break;
-            }
-
-            switch (settingCommon.Language)
+                MyCommon.REPLY_ICONSTATE.None => 0,
+                MyCommon.REPLY_ICONSTATE.StaticIcon => 1,
+                MyCommon.REPLY_ICONSTATE.BlinkIcon => 2,
+                _ => 1,
+            };
+            this.LanguageCombo.SelectedIndex = settingCommon.Language switch
             {
-                case "OS":
-                    this.LanguageCombo.SelectedIndex = 0;
-                    break;
-                case "ja":
-                    this.LanguageCombo.SelectedIndex = 1;
-                    break;
-                case "en":
-                    this.LanguageCombo.SelectedIndex = 2;
-                    break;
-                default:
-                    this.LanguageCombo.SelectedIndex = 0;
-                    break;
-            }
-
+                "OS" => 0,
+                "ja" => 1,
+                "en" => 2,
+                _ => 0,
+            };
             this.ChkNewMentionsBlink.Checked = settingCommon.BlinkNewMentions;
             this.IsNotifyUseGrowlCheckBox.Checked = settingCommon.IsUseNotifyGrowl;
             this.IsNotifyUseGrowlCheckBox.Enabled = GrowlHelper.IsDllExists;
@@ -128,85 +91,46 @@ namespace OpenTween.Setting.Panel
 
         public void SaveConfig(SettingCommon settingCommon)
         {
-            switch (this.cmbNameBalloon.SelectedIndex)
+            settingCommon.NameBalloon = this.cmbNameBalloon.SelectedIndex switch
             {
-                case 0:
-                    settingCommon.NameBalloon = MyCommon.NameBalloonEnum.None;
-                    break;
-                case 1:
-                    settingCommon.NameBalloon = MyCommon.NameBalloonEnum.UserID;
-                    break;
-                case 2:
-                    settingCommon.NameBalloon = MyCommon.NameBalloonEnum.NickName;
-                    break;
-            }
-
+                0 => MyCommon.NameBalloonEnum.None,
+                1 => MyCommon.NameBalloonEnum.UserID,
+                2 => MyCommon.NameBalloonEnum.NickName,
+                _ => throw new IndexOutOfRangeException(),
+            };
             settingCommon.DispUsername = this.CheckDispUsername.Checked;
-
-            switch (this.ComboDispTitle.SelectedIndex)
+            settingCommon.DispLatestPost = this.ComboDispTitle.SelectedIndex switch
             {
-                case 0: // None
-                    settingCommon.DispLatestPost = MyCommon.DispTitleEnum.None;
-                    break;
-                case 1: // Ver
-                    settingCommon.DispLatestPost = MyCommon.DispTitleEnum.Ver;
-                    break;
-                case 2: // Post
-                    settingCommon.DispLatestPost = MyCommon.DispTitleEnum.Post;
-                    break;
-                case 3: // RepCount
-                    settingCommon.DispLatestPost = MyCommon.DispTitleEnum.UnreadRepCount;
-                    break;
-                case 4: // AllCount
-                    settingCommon.DispLatestPost = MyCommon.DispTitleEnum.UnreadAllCount;
-                    break;
-                case 5: // Rep+All
-                    settingCommon.DispLatestPost = MyCommon.DispTitleEnum.UnreadAllRepCount;
-                    break;
-                case 6: // Unread/All
-                    settingCommon.DispLatestPost = MyCommon.DispTitleEnum.UnreadCountAllCount;
-                    break;
-                case 7: // Count of Status/Follow/Follower
-                    settingCommon.DispLatestPost = MyCommon.DispTitleEnum.OwnStatus;
-                    break;
-            }
-
+                0 => MyCommon.DispTitleEnum.None,
+                1 => MyCommon.DispTitleEnum.Ver,
+                2 => MyCommon.DispTitleEnum.Post,
+                3 => MyCommon.DispTitleEnum.UnreadRepCount,
+                4 => MyCommon.DispTitleEnum.UnreadAllCount,
+                5 => MyCommon.DispTitleEnum.UnreadAllRepCount,
+                6 => MyCommon.DispTitleEnum.UnreadCountAllCount,
+                7 => MyCommon.DispTitleEnum.OwnStatus,
+                _ => throw new IndexOutOfRangeException(),
+            };
             settingCommon.AlwaysTop = this.CheckAlwaysTop.Checked;
             settingCommon.LimitBalloon = this.CheckBalloonLimit.Checked;
             settingCommon.TabIconDisp = this.chkTabIconDisp.Checked;
             settingCommon.IsMonospace = this.CheckMonospace.Checked;
             settingCommon.PreviewEnable = this.CheckPreviewEnable.Checked;
             settingCommon.StatusAreaAtBottom = this.CheckStatusAreaAtBottom.Checked;
-
-            switch (this.ReplyIconStateCombo.SelectedIndex)
+            settingCommon.ReplyIconState = this.ReplyIconStateCombo.SelectedIndex switch
             {
-                case 0:
-                    settingCommon.ReplyIconState = MyCommon.REPLY_ICONSTATE.None;
-                    break;
-                case 1:
-                    settingCommon.ReplyIconState = MyCommon.REPLY_ICONSTATE.StaticIcon;
-                    break;
-                case 2:
-                    settingCommon.ReplyIconState = MyCommon.REPLY_ICONSTATE.BlinkIcon;
-                    break;
-            }
-
-            switch (this.LanguageCombo.SelectedIndex)
+                0 => MyCommon.REPLY_ICONSTATE.None,
+                1 => MyCommon.REPLY_ICONSTATE.StaticIcon,
+                2 => MyCommon.REPLY_ICONSTATE.BlinkIcon,
+                _ => throw new IndexOutOfRangeException(),
+            };
+            settingCommon.Language = this.LanguageCombo.SelectedIndex switch
             {
-                case 0:
-                    settingCommon.Language = "OS";
-                    break;
-                case 1:
-                    settingCommon.Language = "ja";
-                    break;
-                case 2:
-                    settingCommon.Language = "en";
-                    break;
-                default:
-                    settingCommon.Language = "en";
-                    break;
-            }
-
+                0 => "OS",
+                1 => "ja",
+                2 => "en",
+                _ => "en",
+            };
             settingCommon.BlinkNewMentions = this.ChkNewMentionsBlink.Checked;
             settingCommon.IsUseNotifyGrowl = this.IsNotifyUseGrowlCheckBox.Checked;
         }

@@ -19,6 +19,8 @@
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
+#nullable enable
+
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
@@ -45,7 +47,7 @@ namespace OpenTween.Connection
         /// <summary>
         /// 通信に使用するプロキシ
         /// </summary>
-        public static IWebProxy Proxy { get; private set; } = null;
+        public static IWebProxy? Proxy { get; private set; } = null;
 
         /// <summary>
         /// OpenTween 内で共通して使用する HttpClient インスタンス
@@ -114,7 +116,7 @@ namespace OpenTween.Connection
         public static void SetWebProxy(ProxyType proxyType, string proxyAddress, int proxyPort,
             string proxyUser, string proxyPassword)
         {
-            IWebProxy proxy;
+            IWebProxy? proxy;
             switch (proxyType)
             {
                 case ProxyType.None:
@@ -214,7 +216,7 @@ namespace OpenTween.Connection
 
         private class ForceIPv4Handler : DelegatingHandler
         {
-            private readonly IPAddress ipv4Address;
+            private readonly IPAddress? ipv4Address;
 
             public ForceIPv4Handler(HttpMessageHandler innerHandler)
                 : base(innerHandler)
@@ -226,12 +228,15 @@ namespace OpenTween.Connection
 
             protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
             {
-                var requestUri = request.RequestUri;
-                if (requestUri.Host == "pbs.twimg.com")
+                if (this.ipv4Address != null)
                 {
-                    var rewriteUriStr = requestUri.GetLeftPart(UriPartial.Scheme) + this.ipv4Address + requestUri.PathAndQuery;
-                    request.RequestUri = new Uri(rewriteUriStr);
-                    request.Headers.Host = "pbs.twimg.com";
+                    var requestUri = request.RequestUri;
+                    if (requestUri.Host == "pbs.twimg.com")
+                    {
+                        var rewriteUriStr = requestUri.GetLeftPart(UriPartial.Scheme) + this.ipv4Address + requestUri.PathAndQuery;
+                        request.RequestUri = new Uri(rewriteUriStr);
+                        request.Headers.Host = "pbs.twimg.com";
+                    }
                 }
 
                 return base.SendAsync(request, cancellationToken);

@@ -19,6 +19,8 @@
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
+#nullable enable
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -61,10 +63,10 @@ namespace OpenTween.Api
             this.UpdatedAt = updatedAt;
         }
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
             => this.Equals(obj as ApiLimit);
 
-        public bool Equals(ApiLimit obj)
+        public bool Equals(ApiLimit? obj)
             => obj != null && this.AccessLimitCount == obj.AccessLimitCount &&
                 this.AccessLimitRemain == obj.AccessLimitRemain && this.AccessLimitResetDate == obj.AccessLimitResetDate;
 

@@ -57,18 +57,17 @@ namespace OpenTween.Connection
                 new KeyValuePair<string, string>("bbb", "2"),
             };
 
-            using (var content = new FormUrlEncodedContent(formParams))
-            {
-                var actual = await OAuthHandler.GetParameters(requestUri, content)
-                    .ConfigureAwait(false);
-                var expected = new[]
-                {
-                    new KeyValuePair<string, string>("aaa", "1"),
-                    new KeyValuePair<string, string>("bbb", "2"),
-                };
+            using var content = new FormUrlEncodedContent(formParams);
+            var actual = await OAuthHandler.GetParameters(requestUri, content)
+                .ConfigureAwait(false);
 
-                Assert.Equal(expected, actual);
-            }
+            var expected = new[]
+            {
+                new KeyValuePair<string, string>("aaa", "1"),
+                new KeyValuePair<string, string>("bbb", "2"),
+            };
+
+            Assert.Equal(expected, actual);
         }
 
         [Fact]
@@ -76,19 +75,17 @@ namespace OpenTween.Connection
         {
             var requestUri = new Uri("http://example.com/api");
 
-            using (var content = new MultipartFormDataContent())
-            using (var paramA = new StringContent("1"))
-            using (var paramB = new StringContent("2"))
-            {
-                content.Add(paramA, "aaa");
-                content.Add(paramB, "bbb");
+            using var content = new MultipartFormDataContent();
+            using var paramA = new StringContent("1");
+            using var paramB = new StringContent("2");
+            content.Add(paramA, "aaa");
+            content.Add(paramB, "bbb");
 
-                var actual = await OAuthHandler.GetParameters(requestUri, content)
-                    .ConfigureAwait(false);
+            var actual = await OAuthHandler.GetParameters(requestUri, content)
+                .ConfigureAwait(false);
 
-                // multipart/form-data のリクエストではパラメータを署名対象にしない
-                Assert.Empty(actual);
-            }
+            // multipart/form-data のリクエストではパラメータを署名対象にしない
+            Assert.Empty(actual);
         }
     }
 }

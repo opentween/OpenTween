@@ -49,7 +49,7 @@ namespace OpenTween.Api
             Assert.Equal(TwitterApiAccessLevel.Anonymous, apiStatus.AccessLevel);
         }
 
-        public static readonly TheoryData<IDictionary<string, string>, ApiLimit> ParseRateLimit_TestCase = new TheoryData<IDictionary<string, string>, ApiLimit>
+        public static readonly TheoryData<Dictionary<string, string>, ApiLimit?> ParseRateLimit_TestCase = new TheoryData<Dictionary<string, string>, ApiLimit?>
         {
             {
                 new Dictionary<string, string> {
@@ -86,13 +86,13 @@ namespace OpenTween.Api
 
         [Theory]
         [MemberData(nameof(ParseRateLimit_TestCase))]
-        public void ParseRateLimitTest(IDictionary<string, string> header, ApiLimit expected)
+        public void ParseRateLimitTest(IDictionary<string, string> header, ApiLimit? expected)
         {
             var limit = TwitterApiStatus.ParseRateLimit(header, "X-RateLimit-");
             Assert.Equal(expected, limit);
         }
 
-        public static readonly TheoryData<IDictionary<string, string>, ApiLimit> ParseMediaRateLimit_TestCase = new TheoryData<IDictionary<string, string>, ApiLimit>
+        public static readonly TheoryData<Dictionary<string, string>, ApiLimit?> ParseMediaRateLimit_TestCase = new TheoryData<Dictionary<string, string>, ApiLimit?>
         {
             {
                 new Dictionary<string, string> {
@@ -121,13 +121,13 @@ namespace OpenTween.Api
 
         [Theory]
         [MemberData(nameof(ParseMediaRateLimit_TestCase))]
-        public void ParseMediaRateLimitTest(IDictionary<string, string> header, ApiLimit expected)
+        public void ParseMediaRateLimitTest(IDictionary<string, string> header, ApiLimit? expected)
         {
             var limit = TwitterApiStatus.ParseRateLimit(header, "X-MediaRateLimit-");
             Assert.Equal(expected, limit);
         }
 
-        public static readonly TheoryData<IDictionary<string, string>, TwitterApiAccessLevel?> ParseAccessLevel_TestCase = new TheoryData<IDictionary<string, string>, TwitterApiAccessLevel?>
+        public static readonly TheoryData<Dictionary<string, string>, TwitterApiAccessLevel?> ParseAccessLevel_TestCase = new TheoryData<Dictionary<string, string>, TwitterApiAccessLevel?>
         {
             {
                 new Dictionary<string, string> { {"X-Access-Level", "read"} },
@@ -181,12 +181,12 @@ namespace OpenTween.Api
                 () => status.UpdateFromHeader(header, "/statuses/home_timeline")
             );
 
-            var rateLimit = status.AccessLimit["/statuses/home_timeline"];
+            var rateLimit = status.AccessLimit["/statuses/home_timeline"]!;
             Assert.Equal(150, rateLimit.AccessLimitCount);
             Assert.Equal(100, rateLimit.AccessLimitRemain);
             Assert.Equal(new DateTimeUtc(2013, 1, 1, 0, 0, 0), rateLimit.AccessLimitResetDate);
 
-            var mediaLimit = status.MediaUploadLimit;
+            var mediaLimit = status.MediaUploadLimit!;
             Assert.Equal(30, mediaLimit.AccessLimitCount);
             Assert.Equal(20, mediaLimit.AccessLimitRemain);
             Assert.Equal(new DateTimeUtc(2013, 1, 2, 0, 0, 0), mediaLimit.AccessLimitResetDate);
@@ -219,12 +219,12 @@ namespace OpenTween.Api
                 () => status.UpdateFromHeader(response.Headers, "/statuses/home_timeline")
             );
 
-            var rateLimit = status.AccessLimit["/statuses/home_timeline"];
+            var rateLimit = status.AccessLimit["/statuses/home_timeline"]!;
             Assert.Equal(150, rateLimit.AccessLimitCount);
             Assert.Equal(100, rateLimit.AccessLimitRemain);
             Assert.Equal(new DateTimeUtc(2013, 1, 1, 0, 0, 0), rateLimit.AccessLimitResetDate);
 
-            var mediaLimit = status.MediaUploadLimit;
+            var mediaLimit = status.MediaUploadLimit!;
             Assert.Equal(30, mediaLimit.AccessLimitCount);
             Assert.Equal(20, mediaLimit.AccessLimitRemain);
             Assert.Equal(new DateTimeUtc(2013, 1, 2, 0, 0, 0), mediaLimit.AccessLimitResetDate);
@@ -245,7 +245,7 @@ namespace OpenTween.Api
                 () => status.UpdateFromJson(TwitterRateLimits.ParseJson(json))
             );
 
-            var rateLimit = status.AccessLimit["/statuses/home_timeline"];
+            var rateLimit = status.AccessLimit["/statuses/home_timeline"]!;
             Assert.Equal(150, rateLimit.AccessLimitCount);
             Assert.Equal(100, rateLimit.AccessLimitRemain);
             Assert.Equal(new DateTimeUtc(2013, 1, 1, 0, 0, 0), rateLimit.AccessLimitResetDate);

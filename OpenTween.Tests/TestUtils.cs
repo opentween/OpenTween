@@ -57,7 +57,7 @@ namespace OpenTween
         public static async Task NotRaisesAsync<T>(Action<EventHandler<T>> attach, Action<EventHandler<T>> detach, Func<Task> testCode)
             where T : EventArgs
         {
-            T raisedEvent = null;
+            T? raisedEvent = null;
 
             void handler(object s, T e)
                 => raisedEvent = e;

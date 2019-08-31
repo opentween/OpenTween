@@ -19,6 +19,8 @@
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
+#nullable enable
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -95,10 +97,7 @@ namespace OpenTween
                     if (cachedImageTask != null)
                     {
                         if (force)
-                        {
                             this.innerDictionary.Remove(address);
-                            cachedImageTask = null;
-                        }
                         else
                             return cachedImageTask;
                     }
@@ -115,19 +114,19 @@ namespace OpenTween
 
         private async Task<MemoryImage> FetchImageAsync(string uri, CancellationToken cancelToken)
         {
-            using (var response = await Networking.Http.GetAsync(uri, cancelToken).ConfigureAwait(false))
-            {
-                response.EnsureSuccessStatusCode();
+            using var response = await Networking.Http.GetAsync(uri, cancelToken)
+                .ConfigureAwait(false);
 
-                using (var imageStream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false))
-                {
-                    return await MemoryImage.CopyFromStreamAsync(imageStream)
-                        .ConfigureAwait(false);
-                }
-            }
+            response.EnsureSuccessStatusCode();
+
+            using var imageStream = await response.Content.ReadAsStreamAsync()
+                .ConfigureAwait(false);
+
+            return await MemoryImage.CopyFromStreamAsync(imageStream)
+                .ConfigureAwait(false);
         }
 
-        public MemoryImage TryGetFromCache(string address)
+        public MemoryImage? TryGetFromCache(string address)
         {
             lock (this.lockObject)
             {

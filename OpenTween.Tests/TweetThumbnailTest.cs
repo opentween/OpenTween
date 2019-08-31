@@ -45,16 +45,16 @@ namespace OpenTween
         {
             private readonly Regex regex;
             private readonly string replaceUrl;
-            private readonly string replaceTooltip;
+            private readonly string? replaceTooltip;
 
-            public TestThumbnailService(string pattern, string replaceUrl, string replaceTooltip)
+            public TestThumbnailService(string pattern, string replaceUrl, string? replaceTooltip)
             {
                 this.regex = new Regex(pattern);
                 this.replaceUrl = replaceUrl;
                 this.replaceTooltip = replaceTooltip;
             }
 
-            public override async Task<ThumbnailInfo> GetThumbnailInfoAsync(string url, PostClass post, CancellationToken token)
+            public override async Task<ThumbnailInfo?> GetThumbnailInfoAsync(string url, PostClass post, CancellationToken token)
             {
                 var match = this.regex.Match(url);
 
@@ -112,7 +112,7 @@ namespace OpenTween
                 var picbox = method.Invoke(thumbBox, new[] { "pictureBox1" }) as PictureBox;
 
                 Assert.NotNull(picbox);
-                Assert.Equal("pictureBox1", picbox.Name);
+                Assert.Equal("pictureBox1", picbox!.Name);
                 Assert.Equal(PictureBoxSizeMode.Zoom, picbox.SizeMode);
                 Assert.False(picbox.WaitOnLoad);
                 Assert.Equal(DockStyle.Fill, picbox.Dock);

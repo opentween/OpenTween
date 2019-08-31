@@ -24,6 +24,8 @@
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
+#nullable enable
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -40,7 +42,7 @@ namespace OpenTween.OpenTweenCustomControl
     {
         private Rectangle changeBounds;
 
-        public ContextMenuStrip ColumnHeaderContextMenuStrip { get; set; }
+        public ContextMenuStrip? ColumnHeaderContextMenuStrip { get; set; }
 
         public event EventHandler VScrolled;
         public event EventHandler HScrolled;

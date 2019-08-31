@@ -19,6 +19,8 @@
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
+#nullable enable
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -43,12 +45,12 @@ namespace OpenTween.Thumbnail.Services
         {
         }
 
-        public TwitterComVideo(HttpClient http)
+        public TwitterComVideo(HttpClient? http)
             : base(http, TwitterComVideo.UrlPattern)
         {
         }
 
-        public override async Task<ThumbnailInfo> GetThumbnailInfoAsync(string url, PostClass post, CancellationToken token)
+        public override async Task<ThumbnailInfo?> GetThumbnailInfoAsync(string url, PostClass post, CancellationToken token)
         {
             // 前処理で動画用URLが準備されていればそれを使う
             var mediaInfo = post.Media.FirstOrDefault(x => x.Url == url);

@@ -28,6 +28,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Moq;
+using OpenTween.Models;
 using Xunit;
 using Xunit.Extensions;
 
@@ -40,10 +41,10 @@ namespace OpenTween.Thumbnail.Services
         {
             var service = new SimpleThumbnailService(@"http://example.com/(.+)", @"http://img.example.com/$1");
 
-            var thumbinfo = await service.GetThumbnailInfoAsync("http://example.com/abcd", null, CancellationToken.None);
+            var thumbinfo = await service.GetThumbnailInfoAsync("http://example.com/abcd", new PostClass(), CancellationToken.None);
 
             Assert.NotNull(thumbinfo);
-            Assert.Equal("http://example.com/abcd", thumbinfo.MediaPageUrl);
+            Assert.Equal("http://example.com/abcd", thumbinfo!.MediaPageUrl);
             Assert.Equal("http://img.example.com/abcd", thumbinfo.ThumbnailImageUrl);
             Assert.Null(thumbinfo.TooltipText);
         }
@@ -53,7 +54,7 @@ namespace OpenTween.Thumbnail.Services
         {
             var service = new SimpleThumbnailService(@"http://example.com/(.+)", @"http://img.example.com/\1");
 
-            var thumbinfo = await service.GetThumbnailInfoAsync("http://hogehoge.com/abcd", null, CancellationToken.None);
+            var thumbinfo = await service.GetThumbnailInfoAsync("http://hogehoge.com/abcd", new PostClass(), CancellationToken.None);
 
             Assert.Null(thumbinfo);
         }

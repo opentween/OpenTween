@@ -24,6 +24,8 @@
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
+#nullable enable
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -129,7 +131,7 @@ namespace OpenTween
 
             foreach (var l in list)
             {
-                var src = l as string;
+                var src = (string)l;
                 if (string.IsNullOrEmpty(src))
                 {
                     idx += 1;
@@ -250,7 +252,7 @@ namespace OpenTween
         }
 
         private void HistoryHashList_DoubleClick(object sender, EventArgs e)
-            => this.OK_Button_Click(null, null);
+            => this.OK_Button_Click(this.OK_Button, EventArgs.Empty);
 
         public void ToggleHash()
         {
@@ -333,9 +335,9 @@ namespace OpenTween
         private void HistoryHashList_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Delete)
-                this.DeleteButton_Click(null, null);
+                this.DeleteButton_Click(this.DeleteButton, EventArgs.Empty);
             else if (e.KeyCode == Keys.Insert)
-                this.AddButton_Click(null, null);
+                this.AddButton_Click(this.AddButton, EventArgs.Empty);
         }
 
         private bool AdjustHashtags(ref string hashtag, bool isShowWarn)
@@ -403,17 +405,17 @@ namespace OpenTween
             {
                 e.Handled = true;
                 if (this.GroupDetail.Enabled)
-                    this.PermOK_Button_Click(null, null);
+                    this.PermOK_Button_Click(this.PermOK_Button, EventArgs.Empty);
                 else
-                    this.OK_Button_Click(null, null);
+                    this.OK_Button_Click(this.OK_Button, EventArgs.Empty);
             }
             else if (e.KeyCode == Keys.Escape)
             {
                 e.Handled = true;
                 if (this.GroupDetail.Enabled)
-                    this.PermCancel_Button_Click(null, null);
+                    this.PermCancel_Button_Click(this.PermCancel_Button, EventArgs.Empty);
                 else
-                    this.Cancel_Button_Click(null, null);
+                    this.Cancel_Button_Click(this.Cancel_Button, EventArgs.Empty);
             }
         }
 

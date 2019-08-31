@@ -19,6 +19,8 @@
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
+#nullable enable
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,21 +40,21 @@ namespace OpenTween.Thumbnail.Services
     {
         protected Regex regex;
         protected string thumb_replacement;
-        protected string fullsize_replacement;
+        protected string? fullsize_replacement;
 
         public SimpleThumbnailService(string pattern, string replacement)
             : this(pattern, replacement, null)
         {
         }
 
-        public SimpleThumbnailService(string pattern, string replacement, string file_replacement)
+        public SimpleThumbnailService(string pattern, string replacement, string? file_replacement)
         {
             this.regex = new Regex(pattern, RegexOptions.IgnoreCase);
             this.thumb_replacement = replacement;
             this.fullsize_replacement = file_replacement;
         }
 
-        public override Task<ThumbnailInfo> GetThumbnailInfoAsync(string url, PostClass post, CancellationToken token)
+        public override Task<ThumbnailInfo?> GetThumbnailInfoAsync(string url, PostClass post, CancellationToken token)
         {
             return Task.Run(() =>
             {
@@ -69,10 +71,10 @@ namespace OpenTween.Thumbnail.Services
             }, token);
         }
 
-        protected string ReplaceUrl(string url)
+        protected string? ReplaceUrl(string url)
             => this.ReplaceUrl(url, this.thumb_replacement);
 
-        protected string ReplaceUrl(string url, string replacement)
+        protected string? ReplaceUrl(string url, string? replacement)
         {
             if (replacement == null) return null;
             var match = this.regex.Match(url);

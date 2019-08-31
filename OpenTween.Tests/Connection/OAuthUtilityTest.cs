@@ -59,11 +59,9 @@ namespace OpenTween.Connection
             var expectSignatureBase = "GET&http%3A%2F%2Fexample.com%2Fhoge&aaa%3Dfoo";
             var expectSignatureKey = "ConsumerSecret&TokenSecret";
 
-            using (var hmacsha1 = new HMACSHA1(Encoding.ASCII.GetBytes(expectSignatureKey)))
-            {
-                var expectSignature = Convert.ToBase64String(hmacsha1.ComputeHash(Encoding.ASCII.GetBytes(expectSignatureBase)));
-                Assert.Equal(expectSignature, oauthSignature);
-            }
+            using var hmacsha1 = new HMACSHA1(Encoding.ASCII.GetBytes(expectSignatureKey));
+            var expectSignature = Convert.ToBase64String(hmacsha1.ComputeHash(Encoding.ASCII.GetBytes(expectSignatureBase)));
+            Assert.Equal(expectSignature, oauthSignature);
         }
 
         [Fact]
@@ -80,11 +78,9 @@ namespace OpenTween.Connection
             var expectSignatureBase = "GET&http%3A%2F%2Fexample.com%2Fhoge&aaa%3Dfoo%26bbb%3Dbar";
             var expectSignatureKey = "ConsumerSecret&TokenSecret";
 
-            using (var hmacsha1 = new HMACSHA1(Encoding.ASCII.GetBytes(expectSignatureKey)))
-            {
-                var expectSignature = Convert.ToBase64String(hmacsha1.ComputeHash(Encoding.ASCII.GetBytes(expectSignatureBase)));
-                Assert.Equal(expectSignature, oauthSignature);
-            }
+            using var hmacsha1 = new HMACSHA1(Encoding.ASCII.GetBytes(expectSignatureKey));
+            var expectSignature = Convert.ToBase64String(hmacsha1.ComputeHash(Encoding.ASCII.GetBytes(expectSignatureBase)));
+            Assert.Equal(expectSignature, oauthSignature);
         }
 
         [Fact]
@@ -98,11 +94,9 @@ namespace OpenTween.Connection
             var expectSignatureBase = "GET&http%3A%2F%2Fexample.com%2Fhoge&aaa%3Dfoo";
             var expectSignatureKey = "ConsumerSecret&"; // 末尾の & は除去されない
 
-            using (var hmacsha1 = new HMACSHA1(Encoding.ASCII.GetBytes(expectSignatureKey)))
-            {
-                var expectSignature = Convert.ToBase64String(hmacsha1.ComputeHash(Encoding.ASCII.GetBytes(expectSignatureBase)));
-                Assert.Equal(expectSignature, oauthSignature);
-            }
+            using var hmacsha1 = new HMACSHA1(Encoding.ASCII.GetBytes(expectSignatureKey));
+            var expectSignature = Convert.ToBase64String(hmacsha1.ComputeHash(Encoding.ASCII.GetBytes(expectSignatureBase)));
+            Assert.Equal(expectSignature, oauthSignature);
         }
 
         [Fact]
@@ -137,11 +131,9 @@ namespace OpenTween.Connection
 
             var expectSignatureKey = "ConsumerSecret&AccessSecret";
 
-            using (var hmacsha1 = new HMACSHA1(Encoding.ASCII.GetBytes(expectSignatureKey)))
-            {
-                var expectSignature = Convert.ToBase64String(hmacsha1.ComputeHash(Encoding.ASCII.GetBytes(expectSignatureBase)));
-                Assert.Equal(expectSignature, Uri.UnescapeDataString(parsedParams["oauth_signature"]));
-            }
+            using var hmacsha1 = new HMACSHA1(Encoding.ASCII.GetBytes(expectSignatureKey));
+            var expectSignature = Convert.ToBase64String(hmacsha1.ComputeHash(Encoding.ASCII.GetBytes(expectSignatureBase)));
+            Assert.Equal(expectSignature, Uri.UnescapeDataString(parsedParams["oauth_signature"]));
         }
     }
 }

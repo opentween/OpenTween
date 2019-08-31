@@ -19,6 +19,8 @@
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
+#nullable enable
+
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -49,17 +51,17 @@ namespace OpenTween.Thumbnail.Services
         protected HttpClient http
             => this.localHttpClient ?? Networking.Http;
 
-        private readonly HttpClient localHttpClient;
+        private readonly HttpClient? localHttpClient;
 
         public FoursquareCheckin()
             : this(null)
         {
         }
 
-        public FoursquareCheckin(HttpClient http)
+        public FoursquareCheckin(HttpClient? http)
             => this.localHttpClient = http;
 
-        public override async Task<ThumbnailInfo> GetThumbnailInfoAsync(string url, PostClass post, CancellationToken token)
+        public override async Task<ThumbnailInfo?> GetThumbnailInfoAsync(string url, PostClass post, CancellationToken token)
         {
             // ツイートに位置情報が付与されている場合は何もしない
             if (post.PostGeo != null)
@@ -88,7 +90,7 @@ namespace OpenTween.Thumbnail.Services
         /// <summary>
         /// Foursquare のチェックイン URL から位置情報を取得します
         /// </summary>
-        public async Task<GlobalLocation> FetchCheckinLocation(string url, CancellationToken token)
+        public async Task<GlobalLocation?> FetchCheckinLocation(string url, CancellationToken token)
         {
             var match = UrlPatternRegex.Match(url);
             if (!match.Success)
@@ -112,15 +114,15 @@ namespace OpenTween.Thumbnail.Services
 
                 var apiUrl = new Uri(ApiBase + "/checkins/resolve?" + MyCommon.BuildQueryString(query));
 
-                using (var response = await this.http.GetAsync(apiUrl, token).ConfigureAwait(false))
-                {
-                    response.EnsureSuccessStatusCode();
+                using var response = await this.http.GetAsync(apiUrl, token)
+                    .ConfigureAwait(false);
 
-                    var jsonBytes = await response.Content.ReadAsByteArrayAsync()
-                        .ConfigureAwait(false);
+                response.EnsureSuccessStatusCode();
 
-                    return ParseIntoLocation(jsonBytes);
-                }
+                var jsonBytes = await response.Content.ReadAsByteArrayAsync()
+                    .ConfigureAwait(false);
+
+                return ParseIntoLocation(jsonBytes);
             }
             catch (HttpRequestException)
             {
@@ -131,7 +133,7 @@ namespace OpenTween.Thumbnail.Services
         /// <summary>
         /// Foursquare のチェックイン URL から位置情報を取得します (古い形式の URL)
         /// </summary>
-        public async Task<GlobalLocation> FetchCheckinLocationLegacy(string url, CancellationToken token)
+        public async Task<GlobalLocation?> FetchCheckinLocationLegacy(string url, CancellationToken token)
         {
             var match = LegacyUrlPatternRegex.Match(url);
 
@@ -158,15 +160,15 @@ namespace OpenTween.Thumbnail.Services
 
                 var apiUrl = new Uri(ApiBase + "/checkins/" + checkinIdGroup.Value + "?" + MyCommon.BuildQueryString(query));
 
-                using (var response = await this.http.GetAsync(apiUrl, token).ConfigureAwait(false))
-                {
-                    response.EnsureSuccessStatusCode();
+                using var response = await this.http.GetAsync(apiUrl, token)
+                    .ConfigureAwait(false);
 
-                    var jsonBytes = await response.Content.ReadAsByteArrayAsync()
-                        .ConfigureAwait(false);
+                response.EnsureSuccessStatusCode();
 
-                    return ParseIntoLocation(jsonBytes);
-                }
+                var jsonBytes = await response.Content.ReadAsByteArrayAsync()
+                    .ConfigureAwait(false);
+
+                return ParseIntoLocation(jsonBytes);
             }
             catch (HttpRequestException)
             {
@@ -174,29 +176,27 @@ namespace OpenTween.Thumbnail.Services
             }
         }
 
-        internal static GlobalLocation ParseIntoLocation(byte[] jsonBytes)
+        internal static GlobalLocation? ParseIntoLocation(byte[] jsonBytes)
         {
-            using (var jsonReader = JsonReaderWriterFactory.CreateJsonReader(jsonBytes, XmlDictionaryReaderQuotas.Max))
+            using var jsonReader = JsonReaderWriterFactory.CreateJsonReader(jsonBytes, XmlDictionaryReaderQuotas.Max);
+            var xElm = XElement.Load(jsonReader);
+
+            var locationElm = xElm.XPathSelectElement("/response/checkin/venue/location");
+
+            // 座標が得られなかった場合
+            if (locationElm == null)
+                return null;
+
+            // 月など、地球以外の星の座標である場合
+            var planetElm = locationElm.Element("planet");
+            if (planetElm != null && planetElm.Value != "earth")
+                return null;
+
+            return new GlobalLocation
             {
-                var xElm = XElement.Load(jsonReader);
-
-                var locationElm = xElm.XPathSelectElement("/response/checkin/venue/location");
-
-                // 座標が得られなかった場合
-                if (locationElm == null)
-                    return null;
-
-                // 月など、地球以外の星の座標である場合
-                var planetElm = locationElm.Element("planet");
-                if (planetElm != null && planetElm.Value != "earth")
-                    return null;
-
-                return new GlobalLocation
-                {
-                    Latitude = double.Parse(locationElm.Element("lat").Value, CultureInfo.InvariantCulture),
-                    Longitude = double.Parse(locationElm.Element("lng").Value, CultureInfo.InvariantCulture),
-                };
-            }
+                Latitude = double.Parse(locationElm.Element("lat").Value, CultureInfo.InvariantCulture),
+                Longitude = double.Parse(locationElm.Element("lng").Value, CultureInfo.InvariantCulture),
+            };
         }
     }
 }

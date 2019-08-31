@@ -19,6 +19,8 @@
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
+#nullable enable
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -44,8 +46,8 @@ namespace OpenTween
 
         protected internal class TabListItem
         {
-            public TabModel Tab { get; set; }
-            public string Label { get; set; }
+            public TabModel? Tab { get; set; }
+            public string Label { get; set; } = "";
 
             public override string ToString()
                 => this.Label;
@@ -106,13 +108,14 @@ namespace OpenTween
                 this.OK_Button.Enabled = true;
         }
 
-        public TabModel SelectedTab
+        public TabModel? SelectedTab
             => this.TabList.SelectedItem is TabListItem item ? item.Tab : null;
 
         public TabModel[] SelectedTabs
             => this.TabList.SelectedItems
                     .Cast<TabListItem>()
                     .Select(x => x.Tab)
+                    .OfType<TabModel>()
                     .ToArray();
     }
 }

@@ -25,6 +25,8 @@
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
+#nullable enable
+
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -43,7 +45,7 @@ namespace OpenTween.Models
         public IReadOnlyTabCollection Tabs
             => this.tabs;
 
-        public MuteTabModel MuteTab { get; private set; }
+        public MuteTabModel MuteTab { get; private set; } = new MuteTabModel();
 
         public ConcurrentDictionary<long, PostClass> Posts { get; } = new ConcurrentDictionary<long, PostClass>();
 
@@ -99,7 +101,7 @@ namespace OpenTween.Models
             get => this._lists;
             set
             {
-                if (value != null && value.Count > 0)
+                if (value.Count > 0)
                 {
                     foreach (var tb in this.GetTabsByType<ListTimelineTabModel>())
                     {
@@ -123,9 +125,6 @@ namespace OpenTween.Models
             {
                 if (tab is MuteTabModel muteTab)
                 {
-                    if (this.MuteTab != null)
-                        return false;
-
                     this.MuteTab = muteTab;
                     return true;
                 }
@@ -150,12 +149,12 @@ namespace OpenTween.Models
             lock (LockObj)
             {
                 var tb = GetTabByName(TabName);
-                if (tb.IsDefaultTabType) return; //念のため
+                if (tb == null || tb.IsDefaultTabType) return; //念のため
 
                 if (!tb.IsInnerStorageTabType)
                 {
-                    var homeTab = GetTabByType(MyCommon.TabUsageType.Home);
-                    var dmTab = GetTabByType(MyCommon.TabUsageType.DirectMessage);
+                    var homeTab = this.HomeTab;
+                    var dmTab = this.DirectMessageTab;
 
                     for (var idx = 0; idx < tb.AllCount; ++idx)
                     {
@@ -296,7 +295,7 @@ namespace OpenTween.Models
         //            }
         //        }
         //    }
-        public PostClass RetweetSource(long Id)
+        public PostClass? RetweetSource(long Id)
             => this.Posts.TryGetValue(Id, out var status) ? status : null;
 
         public void ScrubGeoReserve(long id, long upToStatusId)
@@ -443,9 +442,9 @@ namespace OpenTween.Models
         {
             lock (this.LockObj)
             {
-                var homeTab = this.GetTabByType(MyCommon.TabUsageType.Home);
-                var replyTab = this.GetTabByType(MyCommon.TabUsageType.Mentions);
-                var favTab = this.GetTabByType(MyCommon.TabUsageType.Favorites);
+                var homeTab = this.HomeTab;
+                var replyTab = this.MentionTab;
+                var favTab = this.FavoriteTab;
 
                 var distributableTabs = this.GetTabsByType<FilterTabModel>()
                     .ToArray();
@@ -591,6 +590,9 @@ namespace OpenTween.Models
 
         private int UpdateRetweetCount(PostClass retweetPost)
         {
+            if (retweetPost.RetweetedId == null)
+                throw new InvalidOperationException();
+
             var retweetedId = retweetPost.RetweetedId.Value;
 
             return this.retweetsCount.AddOrUpdate(retweetedId, 1, (k, v) => v >= 10 ? 1 : v + 1);
@@ -640,7 +642,7 @@ namespace OpenTween.Models
         /// </summary>
         public void SetReadHomeTab()
         {
-            var homeTab = this.GetTabByType(MyCommon.TabUsageType.Home);
+            var homeTab = this.HomeTab;
 
             lock (LockObj)
             {
@@ -657,7 +659,7 @@ namespace OpenTween.Models
             }
         }
 
-        public PostClass this[long ID]
+        public PostClass? this[long ID]
         {
             get
             {
@@ -698,7 +700,7 @@ namespace OpenTween.Models
         {
             lock (LockObj)
             {
-                var homeTab = GetTabByType(MyCommon.TabUsageType.Home);
+                var homeTab = this.HomeTab;
                 var detachedIdsAll = Enumerable.Empty<long>();
 
                 foreach (var tab in this.Tabs.OfType<FilterTabModel>().ToArray())
@@ -846,7 +848,19 @@ namespace OpenTween.Models
             }
         }
 
-        public TabModel GetTabByType(MyCommon.TabUsageType tabType)
+        public HomeTabModel HomeTab
+            => this.GetTabByType<HomeTabModel>()!;
+
+        public DirectMessagesTabModel DirectMessageTab
+            => this.GetTabByType<DirectMessagesTabModel>()!;
+
+        public MentionsTabModel MentionTab
+            => this.GetTabByType<MentionsTabModel>()!;
+
+        public FavoritesTabModel FavoriteTab
+            => this.GetTabByType<FavoritesTabModel>()!;
+
+        public TabModel? GetTabByType(MyCommon.TabUsageType tabType)
         {
             //Home,Mentions,DM,Favは1つに制限する
             //その他のタイプを指定されたら、最初に合致したものを返す
@@ -857,7 +871,7 @@ namespace OpenTween.Models
             }
         }
 
-        public T GetTabByType<T>() where T : TabModel
+        public T? GetTabByType<T>() where T : TabModel
         {
             lock (this.LockObj)
                 return this.Tabs.OfType<T>().FirstOrDefault();
@@ -889,7 +903,7 @@ namespace OpenTween.Models
             }
         }
 
-        public TabModel GetTabByName(string tabName)
+        public TabModel? GetTabByName(string tabName)
         {
             lock (LockObj)
             {

@@ -19,6 +19,8 @@
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
+#nullable enable annotations
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -35,19 +37,19 @@ namespace OpenTween.Api.DataModel
     public class TwitterEntities : IEnumerable<TwitterEntity>
     {
         [DataMember(Name = "hashtags", IsRequired = false)]
-        public TwitterEntityHashtag[] Hashtags { get; set; }
+        public TwitterEntityHashtag[]? Hashtags { get; set; }
 
         [DataMember(Name = "media", IsRequired = false)]
-        public TwitterEntityMedia[] Media { get; set; }
+        public TwitterEntityMedia[]? Media { get; set; }
 
         [DataMember(Name = "symbols", IsRequired = false)]
-        public TwitterEntitySymbol[] Symbols { get; set; }
+        public TwitterEntitySymbol[]? Symbols { get; set; }
 
         [DataMember(Name = "urls", IsRequired = false)]
-        public TwitterEntityUrl[] Urls { get; set; }
+        public TwitterEntityUrl[]? Urls { get; set; }
 
         [DataMember(Name = "user_mentions", IsRequired = false)]
-        public TwitterEntityMention[] UserMentions { get; set; }
+        public TwitterEntityMention[]? UserMentions { get; set; }
 
         public IEnumerator<TwitterEntity> GetEnumerator()
         {
@@ -93,7 +95,7 @@ namespace OpenTween.Api.DataModel
     public class TwitterEntityMedia : TwitterEntityUrl
     {
         [DataMember(Name = "additional_media_info", IsRequired = false)]
-        public TwitterMediaAdditionalInfo AdditionalMediaInfo { get; set; }
+        public TwitterMediaAdditionalInfo? AdditionalMediaInfo { get; set; }
 
         [DataMember(Name = "id")]
         public long Id { get; set; }
@@ -117,10 +119,10 @@ namespace OpenTween.Api.DataModel
         public string Type { get; set; }
 
         [DataMember(Name = "video_info", IsRequired = false)]
-        public TwitterMediaVideoInfo VideoInfo { get; set; }
+        public TwitterMediaVideoInfo? VideoInfo { get; set; }
 
         [DataMember(Name = "ext_alt_text", IsRequired = false)]
-        public string AltText { get; set; }
+        public string? AltText { get; set; }
     }
 
     [DataContract]

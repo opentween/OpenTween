@@ -24,6 +24,8 @@
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
+#nullable enable
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -41,16 +43,16 @@ namespace OpenTween
 {
     public class GrowlHelper
     {
-        private Assembly _connector = null;
-        private Assembly _core = null;
+        private Assembly? _connector = null;
+        private Assembly? _core = null;
 
-        private object _growlNTreply;
-        private object _growlNTdm;
-        private object _growlNTnew;
-        private object _growlNTusevent;
-        private object _growlApp;
+        private object? _growlNTreply;
+        private object? _growlNTdm;
+        private object? _growlNTnew;
+        private object? _growlNTusevent;
+        private object? _growlApp;
 
-        private object _targetConnector;
+        private object? _targetConnector;
         bool _initialized = false;
 
         public class NotifyCallbackEventArgs : EventArgs
@@ -95,22 +97,16 @@ namespace OpenTween
 
         private byte[] IconToByteArray(string filename)
         {
-            using (var ic = new Icon(filename))
-            {
-                return IconToByteArray(ic);
-            }
+            using var ic = new Icon(filename);
+            return IconToByteArray(ic);
         }
 
         private byte[] IconToByteArray(Icon icondata)
         {
-            using (var ms = new MemoryStream())
-            {
-                using (var ic = new Icon(icondata, 48, 48))
-                {
-                    ic.ToBitmap().Save(ms, ImageFormat.Png);
-                    return ms.ToArray();
-                }
-            }
+            using var ms = new MemoryStream();
+            using var ic = new Icon(icondata, 48, 48);
+            ic.ToBitmap().Save(ms, ImageFormat.Png);
+            return ms.ToArray();
         }
 
         public static bool IsDllExists
@@ -258,30 +254,24 @@ namespace OpenTween
             return true;
         }
 
-        public void Notify(NotifyType notificationType, string id, string title, string text, Image icon = null, string url = "")
+        public void Notify(NotifyType notificationType, string id, string title, string text, Image? icon = null, string url = "")
         {
             if (!_initialized) return;
-            var notificationName = "";
-            switch (notificationType)
+
+            var notificationName = notificationType switch
             {
-                case NotifyType.Reply:
-                    notificationName = "REPLY";
-                    break;
-                case NotifyType.DirectMessage:
-                    notificationName = "DIRECT_MESSAGE";
-                    break;
-                case NotifyType.Notify:
-                    notificationName = "NOTIFY";
-                    break;
-                case NotifyType.UserStreamEvent:
-                    notificationName = "USERSTREAM_EVENT";
-                    break;
-            }
-            object n;
+                NotifyType.Reply => "REPLY",
+                NotifyType.DirectMessage => "DIRECT_MESSAGE",
+                NotifyType.Notify => "NOTIFY",
+                NotifyType.UserStreamEvent => "USERSTREAM_EVENT",
+                _ => "",
+            };
+
+            object? n;
             if (icon != null || !string.IsNullOrEmpty(url))
             {
-                var gCore = _core.GetType("Growl.CoreLibrary.Resource");
-                object res;
+                var gCore = _core!.GetType("Growl.CoreLibrary.Resource");
+                object? res;
                 if (icon != null)
                 {
                     res = gCore.InvokeMember("op_Implicit",
@@ -301,9 +291,9 @@ namespace OpenTween
                                              CultureInfo.InvariantCulture);
                 }
                 var priority =
-                        _connector.GetType("Growl.Connector.Priority").InvokeMember(
+                        _connector!.GetType("Growl.Connector.Priority").InvokeMember(
                             "Normal", BindingFlags.GetField, null, null, null, CultureInfo.InvariantCulture);
-                n = _connector.GetType("Growl.Connector.Notification").InvokeMember(
+                n = _connector!.GetType("Growl.Connector.Notification").InvokeMember(
                         "Notification",
                         BindingFlags.CreateInstance,
                         null,
@@ -321,7 +311,7 @@ namespace OpenTween
             }
             else
             {
-                n = _connector.GetType("Growl.Connector.Notification").InvokeMember(
+                n = _connector!.GetType("Growl.Connector.Notification").InvokeMember(
                         "Notification",
                         BindingFlags.CreateInstance,
                         null,
@@ -338,7 +328,7 @@ namespace OpenTween
                 null, BindingFlags.CreateInstance, null, _connector,
                 new object[] { "some fake information", notificationName },
                 CultureInfo.InvariantCulture);
-            _targetConnector.GetType().InvokeMember("Notify", BindingFlags.InvokeMethod, null, _targetConnector, new object[] { n, cc }, CultureInfo.InvariantCulture);
+            _targetConnector!.GetType().InvokeMember("Notify", BindingFlags.InvokeMethod, null, _targetConnector, new object[] { n, cc }, CultureInfo.InvariantCulture);
         }
 
         private void GrowlCallbackHandler(object response, object callbackData, object state)
@@ -347,7 +337,7 @@ namespace OpenTween
             {
                 // 定数取得
                 var vCLICK =
-                _core.GetType("Growl.CoreLibrary.CallbackResult").GetField(
+                _core!.GetType("Growl.CoreLibrary.CallbackResult").GetField(
                             "CLICK",
                            BindingFlags.Public | BindingFlags.Static).GetRawConstantValue();
                 // 実際の値

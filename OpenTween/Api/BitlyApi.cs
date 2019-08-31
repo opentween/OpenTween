@@ -19,6 +19,8 @@
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
+#nullable enable
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,23 +40,23 @@ namespace OpenTween.Api
     {
         public static readonly Uri ApiBase = new Uri("https://api-ssl.bitly.com/");
 
-        public string EndUserAccessToken { get; set; }
+        public string EndUserAccessToken { get; set; } = "";
 
-        public string EndUserLoginName { get; set; }
-        public string EndUserApiKey { get; set; }
+        public string EndUserLoginName { get; set; } = "";
+        public string EndUserApiKey { get; set; } = "";
 
         private HttpClient http => this.localHttpClient ?? Networking.Http;
-        private readonly HttpClient localHttpClient;
+        private readonly HttpClient? localHttpClient;
 
         public BitlyApi()
             : this(null)
         {
         }
 
-        public BitlyApi(HttpClient http)
+        public BitlyApi(HttpClient? http)
             => this.localHttpClient = http;
 
-        public async Task<Uri> ShortenAsync(Uri srcUri, string domain = null)
+        public async Task<Uri> ShortenAsync(Uri srcUri, string? domain = null)
         {
             var query = new Dictionary<string, string>
             {
@@ -79,13 +81,13 @@ namespace OpenTween.Api
             var paramWithToken = param.Concat(this.CreateAccessTokenParams());
 
             var requestUri = new Uri(new Uri(ApiBase, endpoint), "?" + MyCommon.BuildQueryString(paramWithToken));
+            using var request = new HttpRequestMessage(HttpMethod.Get, requestUri);
 
-            using (var request = new HttpRequestMessage(HttpMethod.Get, requestUri))
-            using (var response = await this.http.SendAsync(request).ConfigureAwait(false))
-            {
-                return await response.Content.ReadAsStringAsync()
-                    .ConfigureAwait(false);
-            }
+            using var response = await this.http.SendAsync(request)
+                .ConfigureAwait(false);
+
+            return await response.Content.ReadAsStringAsync()
+                .ConfigureAwait(false);
         }
 
         public async Task<string> GetAccessTokenAsync(string username, string password)
@@ -99,43 +101,39 @@ namespace OpenTween.Api
 
             var endpoint = new Uri(ApiBase, "/oauth/access_token");
 
-            using (var request = new HttpRequestMessage(HttpMethod.Post, endpoint))
-            using (var postContent = new FormUrlEncodedContent(param))
-            {
-                var authzParam = ApplicationSettings.BitlyClientId + ":" + ApplicationSettings.BitlyClientSecret;
-                request.Headers.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(Encoding.UTF8.GetBytes(authzParam)));
+            using var request = new HttpRequestMessage(HttpMethod.Post, endpoint);
+            using var postContent = new FormUrlEncodedContent(param);
 
-                request.Content = postContent;
+            var authzParam = ApplicationSettings.BitlyClientId + ":" + ApplicationSettings.BitlyClientSecret;
+            request.Headers.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(Encoding.UTF8.GetBytes(authzParam)));
 
-                using (var response = await this.http.SendAsync(request).ConfigureAwait(false))
-                {
-                    var responseBytes = await response.Content.ReadAsByteArrayAsync()
-                        .ConfigureAwait(false);
+            request.Content = postContent;
 
-                    return this.ParseOAuthCredential(responseBytes);
-                }
-            }
+            using var response = await this.http.SendAsync(request)
+                .ConfigureAwait(false);
+            var responseBytes = await response.Content.ReadAsByteArrayAsync()
+                .ConfigureAwait(false);
+
+            return this.ParseOAuthCredential(responseBytes);
         }
 
         private string ParseOAuthCredential(byte[] responseBytes)
         {
-            using (var jsonReader = JsonReaderWriterFactory.CreateJsonReader(responseBytes, XmlDictionaryReaderQuotas.Max))
+            using var jsonReader = JsonReaderWriterFactory.CreateJsonReader(responseBytes, XmlDictionaryReaderQuotas.Max);
+            var xElm = XElement.Load(jsonReader);
+
+            var statusCode = xElm.Element("status_code")?.Value ?? "200";
+            if (statusCode != "200")
             {
-                var xElm = XElement.Load(jsonReader);
-
-                var statusCode = xElm.Element("status_code")?.Value ?? "200";
-                if (statusCode != "200")
-                {
-                    var statusText = xElm.Element("status_txt")?.Value;
-                    throw new WebApiException(statusText ?? $"status_code = {statusCode}");
-                }
-
-                var accessToken = xElm.Element("access_token")?.Value;
-                if (accessToken == null)
-                    throw new WebApiException("Property `access_token` required");
-
-                return accessToken;
+                var statusText = xElm.Element("status_txt")?.Value;
+                throw new WebApiException(statusText ?? $"status_code = {statusCode}");
             }
+
+            var accessToken = xElm.Element("access_token")?.Value;
+            if (accessToken == null)
+                throw new WebApiException("Property `access_token` required");
+
+            return accessToken;
         }
 
         private IEnumerable<KeyValuePair<string, string>> CreateAccessTokenParams()

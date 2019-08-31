@@ -19,6 +19,8 @@
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
+#nullable enable
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -51,7 +53,7 @@ namespace OpenTween.Connection
         }
 
         public static OAuthEchoHandler CreateHandler(HttpMessageHandler innerHandler, Uri authServiceProvider,
-            string consumerKey, string consumerSecret, string accessToken, string accessSecret, Uri realm = null)
+            string consumerKey, string consumerSecret, string accessToken, string accessSecret, Uri? realm = null)
         {
             var credential = OAuthUtility.CreateAuthorization("GET", authServiceProvider, null,
                 consumerKey, consumerSecret, accessToken, accessSecret, realm?.AbsoluteUri);
