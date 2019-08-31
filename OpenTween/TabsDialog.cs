@@ -80,7 +80,9 @@ namespace OpenTween
                 });
             }
 
-            foreach (var tab in this.TabInfo.Tabs)
+            var tabs = this.TabInfo.Tabs.Append(this.TabInfo.MuteTab);
+
+            foreach (var tab in tabs)
             {
                 if (!tab.IsDistributableTabType) continue;
 
