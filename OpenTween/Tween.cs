@@ -8091,9 +8091,9 @@ namespace OpenTween
                 foreach (var post in this.CurrentTab.SelectedPosts)
                 {
                     //タブ選択（or追加）
-                    if (!SelectTab(out var tabName)) return;
+                    if (!SelectTab(out var tab)) return;
 
-                    fltDialog.SetCurrent(tabName);
+                    fltDialog.SetCurrent(tab.TabName);
 
                     if (post.RetweetedBy == null)
                     {
@@ -8251,9 +8251,7 @@ namespace OpenTween
         public void AddFilterRuleByScreenName(params string[] screenNameArray)
         {
             //タブ選択（or追加）
-            if (!SelectTab(out var tabName)) return;
-
-            var tab = (FilterTabModel)this._statuses.Tabs[tabName];
+            if (!SelectTab(out var tab)) return;
 
             bool mv;
             bool mk;
@@ -8288,10 +8286,8 @@ namespace OpenTween
         public void AddFilterRuleBySource(params string[] sourceArray)
         {
             // タブ選択ダイアログを表示（or追加）
-            if (!this.SelectTab(out var tabName))
+            if (!this.SelectTab(out var filterTab))
                 return;
-
-            var filterTab = (FilterTabModel)this._statuses.Tabs[tabName];
 
             bool mv;
             bool mk;
@@ -8324,24 +8320,25 @@ namespace OpenTween
             this.SaveConfigsTabs();
         }
 
-        private bool SelectTab([NotNullWhen(true)] out string? tabName)
+        private bool SelectTab([NotNullWhen(true)] out FilterTabModel? tab)
         {
             do
             {
-                tabName = null;
+                tab = null;
 
                 //振り分け先タブ選択
                 using (var dialog = new TabsDialog(_statuses))
                 {
                     if (dialog.ShowDialog(this) == DialogResult.Cancel) return false;
 
-                    tabName = dialog.SelectedTab?.TabName;
+                    tab = dialog.SelectedTab;
                 }
 
                 this.CurrentTabPage.Focus();
                 //新規タブを選択→タブ作成
-                if (tabName == null)
+                if (tab == null)
                 {
+                    string tabName;
                     using (var inputName = new InputTabName())
                     {
                         inputName.TabName = _statuses.MakeTabName("MyTab");
@@ -8352,8 +8349,8 @@ namespace OpenTween
                     this.TopMost = SettingManager.Common.AlwaysTop;
                     if (!string.IsNullOrEmpty(tabName))
                     {
-                        var tab = new FilterTabModel(tabName);
-                        if (!_statuses.AddTab(tab) || !AddNewTab(tab, startup: false))
+                        var newTab = new FilterTabModel(tabName);
+                        if (!_statuses.AddTab(newTab) || !AddNewTab(newTab, startup: false))
                         {
                             var tmp = string.Format(Properties.Resources.IDRuleMenuItem_ClickText2, tabName);
                             MessageBox.Show(tmp, Properties.Resources.IDRuleMenuItem_ClickText3, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
@@ -8361,6 +8358,7 @@ namespace OpenTween
                         }
                         else
                         {
+                            tab = newTab;
                             return true;
                         }
                     }

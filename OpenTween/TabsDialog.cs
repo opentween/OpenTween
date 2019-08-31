@@ -46,7 +46,7 @@ namespace OpenTween
 
         protected internal class TabListItem
         {
-            public TabModel? Tab { get; set; }
+            public FilterTabModel? Tab { get; set; }
             public string Label { get; set; } = "";
 
             public override string ToString()
@@ -82,10 +82,8 @@ namespace OpenTween
 
             var tabs = this.TabInfo.Tabs.Append(this.TabInfo.MuteTab);
 
-            foreach (var tab in tabs)
+            foreach (var tab in tabs.OfType<FilterTabModel>())
             {
-                if (!tab.IsDistributableTabType) continue;
-
                 this.TabList.Items.Add(new TabListItem
                 {
                     Label = tab.TabName,
@@ -110,14 +108,14 @@ namespace OpenTween
                 this.OK_Button.Enabled = true;
         }
 
-        public TabModel? SelectedTab
+        public FilterTabModel? SelectedTab
             => this.TabList.SelectedItem is TabListItem item ? item.Tab : null;
 
-        public TabModel[] SelectedTabs
+        public FilterTabModel[] SelectedTabs
             => this.TabList.SelectedItems
                     .Cast<TabListItem>()
                     .Select(x => x.Tab)
-                    .OfType<TabModel>()
+                    .OfType<FilterTabModel>()
                     .ToArray();
     }
 }
