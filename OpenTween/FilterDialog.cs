@@ -140,8 +140,13 @@ namespace OpenTween
                 CheckProtected.Enabled = true;
             }
 
+            CheckManageRead.CheckedChanged -= this.CheckManageRead_CheckedChanged;
             CheckManageRead.Checked = tab.UnreadManage;
+            CheckManageRead.CheckedChanged += this.CheckManageRead_CheckedChanged;
+
+            CheckNotifyNew.CheckedChanged -= this.CheckNotifyNew_CheckedChanged;
             CheckNotifyNew.Checked = tab.Notify;
+            CheckNotifyNew.CheckedChanged += this.CheckNotifyNew_CheckedChanged;
 
             var idx = ComboSound.Items.IndexOf(tab.SoundFile);
             if (idx == -1) idx = 0;
@@ -151,6 +156,7 @@ namespace OpenTween
 
             if (tab.TabType == MyCommon.TabUsageType.Mute)
             {
+                this.ButtonRenameTab.Enabled = false;
                 this.CheckManageRead.Enabled = false;
                 this.CheckNotifyNew.Enabled = false;
                 this.ComboSound.Enabled = false;
@@ -160,6 +166,7 @@ namespace OpenTween
             }
             else
             {
+                this.ButtonRenameTab.Enabled = true;
                 this.CheckManageRead.Enabled = true;
                 this.CheckNotifyNew.Enabled = true;
                 this.ComboSound.Enabled = true;
@@ -225,7 +232,6 @@ namespace OpenTween
                 _ => "UNKNOWN",
             };
 
-            ButtonRenameTab.Enabled = true;
             if (tab.IsDefaultTabType || tab.Protected)
             {
                 ButtonDeleteTab.Enabled = false;
