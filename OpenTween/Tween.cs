@@ -2043,7 +2043,6 @@ namespace OpenTween
             }
             else
             {
-                DList.Update();
                 if (SettingManager.Common.UseUnreadStyle)
                     DList.ChangeItemFontAndColor(Item, cl, fnt);
                 else
