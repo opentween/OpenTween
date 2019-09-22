@@ -797,8 +797,6 @@ namespace OpenTween
 
             InitializeTraceFrag();
 
-            //Win32Api.SetProxy(HttpConnection.ProxyType.Specified, "127.0.0.1", 8080, "user", "pass")
-
             Microsoft.Win32.SystemEvents.PowerModeChanged += SystemEvents_PowerModeChanged;
 
             Regex.CacheSize = 100;
@@ -990,19 +988,14 @@ namespace OpenTween
             _brsBackColorAtYou = new SolidBrush(_clAtTarget);
             _brsBackColorAtFromTarget = new SolidBrush(_clAtFromTarget);
             _brsBackColorAtTo = new SolidBrush(_clAtTo);
-            //_brsBackColorNone = new SolidBrush(Color.FromKnownColor(KnownColor.Window));
             _brsBackColorNone = new SolidBrush(_clListBackcolor);
 
             // StringFormatオブジェクトへの事前設定
-            //sf.Alignment = StringAlignment.Near;             // Textを近くへ配置（左から右の場合は左寄せ）
-            //sf.LineAlignment = StringAlignment.Near;         // Textを近くへ配置（上寄せ）
-            //sf.FormatFlags = StringFormatFlags.LineLimit;    // 
             sfTab.Alignment = StringAlignment.Center;
             sfTab.LineAlignment = StringAlignment.Center;
 
             InitDetailHtmlFormat();
 
-            //Regex statregex = new Regex("^0*");
             this.recommendedStatusFooter = " [TWNv" + Regex.Replace(MyCommon.FileVersion.Replace(".", ""), "^0*", "") + "]";
 
             _history.Add(new StatusTextHistory());
@@ -1062,7 +1055,6 @@ namespace OpenTween
             {
                 _mySpDis3 = ScaleBy(configScaleFactor.Width, SettingManager.Local.PreviewDistance);
             }
-            //this.Tween_ClientSizeChanged(this, null);
             this.PlaySoundMenuItem.Checked = SettingManager.Common.PlaySound;
             this.PlaySoundFileMenuItem.Checked = SettingManager.Common.PlaySound;
             //入力欄
@@ -1382,7 +1374,7 @@ namespace OpenTween
             }
         }
 
-        private void TimerInterval_Changed(object sender, IntervalChangedEventArgs e) //Handles SettingDialog.IntervalChanged
+        private void TimerInterval_Changed(object sender, IntervalChangedEventArgs e)
         {
             if (e.UserStream)
             {
@@ -1822,14 +1814,9 @@ namespace OpenTween
                                 title.Append(tw.Username);
                                 title.Append(" - ");
                             }
-                            else
-                            {
-                                //title.Clear();
-                            }
+
                             if (dm)
                             {
-                                //NotifyIcon1.BalloonTipIcon = ToolTipIcon.Warning;
-                                //NotifyIcon1.BalloonTipTitle += Application.ProductName + " [DM] " + Properties.Resources.RefreshDirectMessageText1 + " " + addCount.ToString() + Properties.Resources.RefreshDirectMessageText2;
                                 title.Append(ApplicationSettings.ApplicationName);
                                 title.Append(" [DM] ");
                                 title.AppendFormat(Properties.Resources.RefreshTimeline_NotifyText, addCount);
@@ -1837,8 +1824,6 @@ namespace OpenTween
                             }
                             else if (reply)
                             {
-                                //NotifyIcon1.BalloonTipIcon = ToolTipIcon.Warning;
-                                //NotifyIcon1.BalloonTipTitle += Application.ProductName + " [Reply!] " + Properties.Resources.RefreshTimelineText1 + " " + addCount.ToString() + Properties.Resources.RefreshTimelineText2;
                                 title.Append(ApplicationSettings.ApplicationName);
                                 title.Append(" [Reply!] ");
                                 title.AppendFormat(Properties.Resources.RefreshTimeline_NotifyText, addCount);
@@ -1846,8 +1831,6 @@ namespace OpenTween
                             }
                             else
                             {
-                                //NotifyIcon1.BalloonTipIcon = ToolTipIcon.Info;
-                                //NotifyIcon1.BalloonTipTitle += Application.ProductName + " " + Properties.Resources.RefreshTimelineText1 + " " + addCount.ToString() + Properties.Resources.RefreshTimelineText2;
                                 title.Append(ApplicationSettings.ApplicationName);
                                 title.Append(" ");
                                 title.AppendFormat(Properties.Resources.RefreshTimeline_NotifyText, addCount);
@@ -1882,7 +1865,7 @@ namespace OpenTween
                             sb.Append(post.TextFromApi);
 
                         }
-                        //if (SettingDialog.DispUsername) { NotifyIcon1.BalloonTipTitle = tw.Username + " - "; } else { NotifyIcon1.BalloonTipTitle = ""; }
+
                         var title = new StringBuilder();
                         ToolTipIcon ntIcon;
                         if (SettingManager.Common.DispUsername)
@@ -1890,14 +1873,9 @@ namespace OpenTween
                             title.Append(tw.Username);
                             title.Append(" - ");
                         }
-                        else
-                        {
-                            //title.Clear();
-                        }
+
                         if (dm)
                         {
-                            //NotifyIcon1.BalloonTipIcon = ToolTipIcon.Warning;
-                            //NotifyIcon1.BalloonTipTitle += Application.ProductName + " [DM] " + Properties.Resources.RefreshDirectMessageText1 + " " + addCount.ToString() + Properties.Resources.RefreshDirectMessageText2;
                             ntIcon = ToolTipIcon.Warning;
                             title.Append(ApplicationSettings.ApplicationName);
                             title.Append(" [DM] ");
@@ -1905,8 +1883,6 @@ namespace OpenTween
                         }
                         else if (reply)
                         {
-                            //NotifyIcon1.BalloonTipIcon = ToolTipIcon.Warning;
-                            //NotifyIcon1.BalloonTipTitle += Application.ProductName + " [Reply!] " + Properties.Resources.RefreshTimelineText1 + " " + addCount.ToString() + Properties.Resources.RefreshTimelineText2;
                             ntIcon = ToolTipIcon.Warning;
                             title.Append(ApplicationSettings.ApplicationName);
                             title.Append(" [Reply!] ");
@@ -1914,8 +1890,6 @@ namespace OpenTween
                         }
                         else
                         {
-                            //NotifyIcon1.BalloonTipIcon = ToolTipIcon.Info;
-                            //NotifyIcon1.BalloonTipTitle += Application.ProductName + " " + Properties.Resources.RefreshTimelineText1 + " " + addCount.ToString() + Properties.Resources.RefreshTimelineText2;
                             ntIcon = ToolTipIcon.Info;
                             title.Append(ApplicationSettings.ApplicationName);
                             title.Append(" ");
@@ -1923,8 +1897,7 @@ namespace OpenTween
                         }
                         var bText = sb.ToString();
                         if (string.IsNullOrEmpty(bText)) return;
-                        //NotifyIcon1.BalloonTipText = sb.ToString();
-                        //NotifyIcon1.ShowBalloonTip(500);
+
                         NotifyIcon1.BalloonTipTitle = title.ToString();
                         NotifyIcon1.BalloonTipText = bText;
                         NotifyIcon1.BalloonTipIcon = ntIcon;
@@ -2047,7 +2020,6 @@ namespace OpenTween
                     DList.ChangeItemFontAndColor(Item, cl, fnt);
                 else
                     DList.ChangeItemForeColor(Item, cl);
-                //if (_itemCache != null) DList.RedrawItems(_itemCacheIndex, _itemCacheIndex + _itemCache.Length - 1, false);
             }
         }
 
@@ -2200,16 +2172,7 @@ namespace OpenTween
                 StatusText.SelectionStart = StatusText.Text.Length;
                 await UrlConvertAsync(MyCommon.UrlConverter.Nicoms);
             }
-            //if (SettingDialog.UrlConvertAuto)
-            //{
-            //    StatusText.SelectionStart = StatusText.Text.Length;
-            //    UrlConvertAutoToolStripMenuItem_Click(null, null);
-            //}
-            //else if (SettingDialog.Nicoms)
-            //{
-            //    StatusText.SelectionStart = StatusText.Text.Length;
-            //    UrlConvert(UrlConverter.Nicoms);
-            //}
+
             StatusText.SelectionStart = StatusText.Text.Length;
             CheckReplyTo(StatusText.Text);
 
@@ -3318,14 +3281,7 @@ namespace OpenTween
                     FavoriteRetweetUnofficialContextMenu.Enabled = true;
                 }
             }
-            //if (_statuses.Tabs[ListTab.SelectedTab.Text].TabType != MyCommon.TabUsageType.Favorites)
-            //{
-            //    RefreshMoreStripMenuItem.Enabled = true;
-            //}
-            //else
-            //{
-            //    RefreshMoreStripMenuItem.Enabled = false;
-            //}
+
             if (!this.ExistCurrentPost || post == null || post.InReplyToStatusId == null)
             {
                 RepliedStatusOpenMenuItem.Enabled = false;
@@ -4355,7 +4311,6 @@ namespace OpenTween
 
         private void ListTab_SelectedIndexChanged(object sender, EventArgs e)
         {
-            //_curList.Refresh();
             SetMainWindowTitle();
             SetStatusLabelUrl();
             SetApiStatusLabel();
@@ -4831,10 +4786,7 @@ namespace OpenTween
         private ListViewItem CreateItem(TabModel tab, PostClass Post)
         {
             var mk = new StringBuilder();
-            //if (Post.IsDeleted) mk.Append("×");
-            //if (Post.IsMark) mk.Append("♪");
-            //if (Post.IsProtect) mk.Append("Ю");
-            //if (Post.InReplyToStatusId != null) mk.Append("⇒");
+
             if (Post.FavoritedCount > 0) mk.Append("+" + Post.FavoritedCount);
             ImageListViewItem itm;
             if (Post.RetweetedId == null)
@@ -4975,34 +4927,19 @@ namespace OpenTween
 
                 var drawLineCount = Math.Max(1, Math.DivRem((int)rct.Height, fontHeight, out var heightDiff));
 
-                //if (heightDiff > fontHeight * 0.7)
-                //{
-                //    rct.Height += fontHeight;
-                //    drawLineCount += 1;
-                //}
-
                 //フォントの高さの半分を足してるのは保険。無くてもいいかも。
-                if (!_iconCol && drawLineCount <= 1)
+                if (this._iconCol || drawLineCount > 1)
                 {
-                    //rct.Inflate(0, heightDiff / -2);
-                    //rct.Height += fontHeight / 2;
+                    if (heightDiff < fontHeight * 0.7)
+                    {
+                        // 最終行が70%以上欠けていたら、最終行は表示しない
+                        rct.Height = (fontHeight * drawLineCount) - 1;
+                    }
+                    else
+                    {
+                        drawLineCount += 1;
+                    }
                 }
-                else if (heightDiff < fontHeight * 0.7)
-                {
-                    //最終行が70%以上欠けていたら、最終行は表示しない
-                    //rct.Height = (float)((fontHeight * drawLineCount) + (fontHeight / 2));
-                    rct.Height = (fontHeight * drawLineCount) - 1;
-                }
-                else
-                {
-                    drawLineCount += 1;
-                }
-
-                //if (!_iconCol && drawLineCount > 1)
-                //{
-                //    rct.Y += fontHeight * 0.2;
-                //    if (heightDiff >= fontHeight * 0.8) rct.Height -= fontHeight * 0.2;
-                //}
 
                 if (rct.Width > 0)
                 {
@@ -5071,7 +5008,6 @@ namespace OpenTween
                                                     TextFormatFlags.NoPrefix);
                         }
                     }
-                    //if (e.ColumnIndex == 6) this.DrawListViewItemStateIcon(e, rct);
                 }
             }
         }
@@ -5124,7 +5060,6 @@ namespace OpenTween
             else
             {
                 iconRect = Rectangle.Intersect(new Rectangle(e.Item.GetBounds(ItemBoundsPortion.Icon).Location, new Size(1, 1)), itemRect);
-                //iconRect.Offset(0, Math.Max(0, (itemRect.Height - realIconSize.Height) / 2));
 
                 item.GetImageAsync();
             }
@@ -5133,11 +5068,7 @@ namespace OpenTween
             {
                 var stateRect = Rectangle.Intersect(new Rectangle(new Point(iconRect.X + realIconSize.Width + 2, iconRect.Y), realStateSize), itemRect);
                 if (stateRect.Width > 0)
-                {
-                    //e.Graphics.FillRectangle(Brushes.White, stateRect);
-                    //e.Graphics.InterpolationMode = Drawing2D.InterpolationMode.High;
                     e.Graphics.DrawImage(this.PostStateImageList.Images[item.StateIndex], stateRect);
-                }
             }
         }
 
@@ -5155,36 +5086,6 @@ namespace OpenTween
                 ScaleChildControl(listview, factor);
             }
         }
-
-        //private void DrawListViewItemStateIcon(DrawListViewSubItemEventArgs e, RectangleF rct)
-        //{
-        //    ImageListViewItem item = (ImageListViewItem)e.Item;
-        //    if (item.StateImageIndex > -1)
-        //    {
-        //        ////e.Bounds.Leftが常に0を指すから自前で計算
-        //        //Rectangle itemRect = item.Bounds;
-        //        //itemRect.Width = e.Item.ListView.Columns[4].Width;
-
-        //        //foreach (ColumnHeader clm in e.Item.ListView.Columns)
-        //        //{
-        //        //    if (clm.DisplayIndex < e.Item.ListView.Columns[4].DisplayIndex)
-        //        //    {
-        //        //        itemRect.X += clm.Width;
-        //        //    }
-        //        //}
-
-        //        //Rectangle iconRect = Rectangle.Intersect(new Rectangle(e.Item.GetBounds(ItemBoundsPortion.Icon).Location, new Size(_iconSz, _iconSz)), itemRect);
-        //        //iconRect.Offset(0, Math.Max(0, (itemRect.Height - _iconSz) / 2));
-
-        //        if (rct.Width > 0)
-        //        {
-        //            RectangleF stateRect = RectangleF.Intersect(rct, new RectangleF(rct.Location, new Size(18, 16)));
-        //            //e.Graphics.FillRectangle(Brushes.White, rct);
-        //            //e.Graphics.InterpolationMode = Drawing2D.InterpolationMode.High;
-        //            e.Graphics.DrawImage(this.PostStateImageList.Images(item.StateImageIndex), stateRect);
-        //        }
-        //    }
-        //}
 
         internal void DoTabSearch(string searchWord, bool caseSensitive, bool useRegex, SEARCHTYPE searchType)
         {
@@ -7586,22 +7487,8 @@ namespace OpenTween
                             }
                             StatusText.Text = StatusText.Text.Insert(sidx, id);
                             sidx += id.Length;
-                            //if (StatusText.Text.StartsWith("@"))
-                            //{
-                            //    //複数リプライ
-                            //    StatusText.Text = ". " + StatusText.Text.Insert(sidx, " @" + _curPost.ScreenName + " ");
-                            //    sidx += 5 + _curPost.ScreenName.Length;
-                            //}
-                            //else
-                            //{
-                            //    // 複数リプライ
-                            //    StatusText.Text = StatusText.Text.Insert(sidx, " @" + _curPost.ScreenName + " ");
-                            //    sidx += 3 + _curPost.ScreenName.Length;
-                            //}
                             StatusText.SelectionStart = sidx;
                             StatusText.Focus();
-                            //_reply_to_id = 0;
-                            //_reply_to_name = null;
                             return;
                         }
                     }
@@ -7626,10 +7513,7 @@ namespace OpenTween
                         foreach (var post in selectedPosts)
                         {
                             if (!sTxt.Contains("@" + post.ScreenName + " "))
-                            {
                                 sTxt = sTxt.Insert(2, "@" + post.ScreenName + " ");
-                                //sTxt = "@" + post.ScreenName + " " + sTxt;
-                            }
                         }
                         StatusText.Text = sTxt;
                     }
@@ -7681,16 +7565,6 @@ namespace OpenTween
                             }
                             StatusText.Text = StatusText.Text.Insert(sidx, ids);
                             sidx += ids.Length;
-                            //if (StatusText.Text.StartsWith("@"))
-                            //{
-                            //    StatusText.Text = ". " + StatusText.Text.Insert(sidx, ids);
-                            //    sidx += 2 + ids.Length;
-                            //}
-                            //else
-                            //{
-                            //    StatusText.Text = StatusText.Text.Insert(sidx, ids);
-                            //    sidx += 1 + ids.Length;
-                            //}
                             StatusText.SelectionStart = sidx;
                             StatusText.Focus();
                             return;
@@ -9000,9 +8874,6 @@ namespace OpenTween
                 }
             }
 
-            //t.coで投稿時自動短縮する場合は、外部サービスでの短縮禁止
-            //if (SettingDialog.UrlConvertAuto && SettingDialog.ShortenTco) return;
-
             //Converter_Type=Nicomsの場合は、nicovideoのみ短縮する
             //参考資料 RFC3986 Uniform Resource Identifier (URI): Generic Syntax
             //Appendix A.  Collected ABNF for URI
@@ -9378,11 +9249,6 @@ namespace OpenTween
                 this.MarkSettingLocalModified();
                 this._isColumnChanged = true;
             }
-            // 非表示の時にColumnChangedが呼ばれた場合はForm初期化処理中なので保存しない
-            //if (changed)
-            //{
-            //    SaveConfigsLocal();
-            //}
         }
 
         private void SplitContainer2_SplitterMoved(object sender, SplitterEventArgs e)
@@ -9611,7 +9477,6 @@ namespace OpenTween
                 }
                 catch (Exception)
                 {
-                    //MessageBox.Show("ブラウザの起動に失敗、またはタイムアウトしました。" + ex.ToString());
                 }
             });
         }
@@ -10586,20 +10451,7 @@ namespace OpenTween
                 HashTogglePullDownMenuItem.Checked = false;
                 HashToggleMenuItem.Checked = false;
             }
-            //if (HashMgr.IsInsert && HashMgr.UseHash != "")
-            //{
-            //    int sidx = StatusText.SelectionStart;
-            //    string hash = HashMgr.UseHash + " ";
-            //    if (sidx > 0)
-            //    {
-            //        if (StatusText.Text.Substring(sidx - 1, 1) != " ")
-            //            hash = " " + hash;
-            //    }
-            //    StatusText.Text = StatusText.Text.Insert(sidx, hash);
-            //    sidx += hash.Length;
-            //    StatusText.SelectionStart = sidx;
-            //    StatusText.Focus();
-            //}
+
             this.MarkSettingCommonModified();
             this.StatusText_TextChanged(this.StatusText, EventArgs.Empty);
         }
@@ -11076,11 +10928,6 @@ namespace OpenTween
                 RtCountMenuItem.Enabled = true;
             else
                 RtCountMenuItem.Enabled = false;
-
-            //if (SettingDialog.UrlConvertAuto && SettingDialog.ShortenTco)
-            //    TinyUrlConvertToolStripMenuItem.Enabled = false;
-            //else
-            //    TinyUrlConvertToolStripMenuItem.Enabled = true;
         }
 
         private void CopyUserIdStripMenuItem_Click(object sender, EventArgs e)
@@ -11191,8 +11038,6 @@ namespace OpenTween
         private void CacheInfoMenuItem_Click(object sender, EventArgs e)
         {
             var buf = new StringBuilder();
-            //buf.AppendFormat("キャッシュメモリ容量         : {0}bytes({1}MB)" + Environment.NewLine, IconCache.CacheMemoryLimit, ((ImageDictionary)IconCache).CacheMemoryLimit / 1048576);
-            //buf.AppendFormat("物理メモリ使用割合           : {0}%" + Environment.NewLine, IconCache.PhysicalMemoryLimit);
             buf.AppendFormat("キャッシュエントリ保持数     : {0}" + Environment.NewLine, IconCache.CacheCount);
             buf.AppendFormat("キャッシュエントリ破棄数     : {0}" + Environment.NewLine, IconCache.CacheRemoveCount);
             MessageBox.Show(buf.ToString(), "アイコンキャッシュ使用状況");
@@ -11326,10 +11171,6 @@ namespace OpenTween
             }
             var ev = e.EventData;
             StatusLabel.Text = "Event: " + ev.Event;
-            //if (ev.Event == "favorite")
-            //{
-            //    NotifyFavorite(ev);
-            //}
             NotifyEvent(ev);
             if (ev.Event == "favorite" || ev.Event == "unfavorite")
             {
@@ -11352,17 +11193,11 @@ namespace OpenTween
             if (BalloonRequired(ev))
             {
                 NotifyIcon1.BalloonTipIcon = ToolTipIcon.Info;
-                //if (SettingDialog.DispUsername) NotifyIcon1.BalloonTipTitle = tw.Username + " - "; else NotifyIcon1.BalloonTipTitle = "";
-                //NotifyIcon1.BalloonTipTitle += Application.ProductName + " [" + ev.Event.ToUpper() + "] by " + ((string)(!string.IsNullOrEmpty(ev.Username) ? ev.Username : ""), string);
                 var title = new StringBuilder();
                 if (SettingManager.Common.DispUsername)
                 {
                     title.Append(tw.Username);
                     title.Append(" - ");
-                }
-                else
-                {
-                    //title.Clear();
                 }
                 title.Append(ApplicationSettings.ApplicationName);
                 title.Append(" [");
@@ -11372,22 +11207,13 @@ namespace OpenTween
                 {
                     title.Append(ev.Username);
                 }
-                else
-                {
-                    //title.Append("");
-                }
+
                 string text;
                 if (!string.IsNullOrEmpty(ev.Target))
-                {
-                    //NotifyIcon1.BalloonTipText = ev.Target;
                     text = ev.Target;
-                }
                 else
-                {
-                    //NotifyIcon1.BalloonTipText = " ";
                     text = " ";
-                }
-                //NotifyIcon1.ShowBalloonTip(500);
+
                 if (SettingManager.Common.IsUseNotifyGrowl)
                 {
                     gh.Notify(GrowlHelper.NotifyType.UserStreamEvent,

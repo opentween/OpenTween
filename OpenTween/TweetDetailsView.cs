@@ -137,7 +137,6 @@ namespace OpenTween
                 sb.AppendFormat("TextFromApi           : {0}<br>", post.TextFromApi);
                 sb.AppendFormat("(PlainText)    : <xmp>{0}</xmp><br>", post.TextFromApi);
                 sb.AppendFormat("StatusId             : {0}<br>", post.StatusId);
-                //sb.AppendFormat("ImageIndex     : {0}<br>", post.ImageIndex);
                 sb.AppendFormat("ImageUrl       : {0}<br>", post.ImageUrl);
                 sb.AppendFormat("InReplyToStatusId    : {0}<br>", post.InReplyToStatusId);
                 sb.AppendFormat("InReplyToUser  : {0}<br>", post.InReplyToUser);

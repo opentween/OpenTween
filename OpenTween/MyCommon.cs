@@ -164,17 +164,6 @@ namespace OpenTween
             public const string DM = "Direct";
             public const string FAV = "Favorites";
             public static readonly string MUTE = Properties.Resources.MuteTabName;
-
-            //private string dummy;
-
-            //private object ReferenceEquals()
-            //{
-            //    return new object();
-            //}
-            //private object Equals()
-            //{
-            //    return new object();
-            //}
         }
 
         public static readonly object? Block = null;
@@ -693,9 +682,6 @@ namespace OpenTween
             UserTimeline = 1024,
             Mute = 2048,
             SearchResults = 4096,
-            //RTMyTweet
-            //RTByOthers
-            //RTByMe
         }
 
         public static TwitterApiStatus TwitterApiInfo = new TwitterApiStatus();

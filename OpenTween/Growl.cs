@@ -323,7 +323,6 @@ namespace OpenTween
                                       text},
                         CultureInfo.InvariantCulture);
             }
-            //_targetConnector.GetType.InvokeMember("Notify", BindingFlags.InvokeMethod, null, _targetConnector, new object[] {n});
             var cc = _connector.GetType("Growl.Connector.CallbackContext").InvokeMember(
                 null, BindingFlags.CreateInstance, null, _connector,
                 new object[] { "some fake information", notificationName },

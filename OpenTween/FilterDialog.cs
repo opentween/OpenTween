@@ -1370,14 +1370,12 @@ namespace OpenTween
             var tbox = (TextBox)sender;
             if (e.KeyChar == '@')
             {
-                //if (!SettingDialog.UseAtIdSupplement) return;
                 //@マーク
                 main.ShowSuplDialog(tbox, main.AtIdSupl);
                 e.Handled = true;
             }
             else if (e.KeyChar == '#')
             {
-                //if (!SettingDialog.UseHashSupplement) return;
                 main.ShowSuplDialog(tbox, main.HashSupl);
                 e.Handled = true;
             }

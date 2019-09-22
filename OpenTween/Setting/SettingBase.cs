@@ -102,11 +102,6 @@ namespace OpenTween
                 }
                 MessageBox.Show("File: " + GetSettingFilePath(FileId) + Environment.NewLine + "Use default setting, because application can't read this setting file.");
                 return new T();
-                //ex.Data.Add("FilePath", GetSettingFilePath(FileId));
-                //FileInfo fi = new IO.FileInfo(GetSettingFilePath(FileId));
-                //ex.Data.Add("FileSize", fi.Length.ToString());
-                //ex.Data.Add("FileData", File.ReadAllText(GetSettingFilePath(FileId)));
-                //throw;
             }
         }
 

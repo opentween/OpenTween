@@ -74,7 +74,6 @@ namespace OpenTween
         //Hashtag用正規表現
         private const string LATIN_ACCENTS = @"\u00c0-\u00d6\u00d8-\u00f6\u00f8-\u00ff\u0100-\u024f\u0253\u0254\u0256\u0257\u0259\u025b\u0263\u0268\u026f\u0272\u0289\u028b\u02bb\u1e00-\u1eff";
         private const string NON_LATIN_HASHTAG_CHARS = @"\u0400-\u04ff\u0500-\u0527\u1100-\u11ff\u3130-\u3185\uA960-\uA97F\uAC00-\uD7AF\uD7B0-\uD7FF";
-        //private const string CJ_HASHTAG_CHARACTERS = @"\u30A1-\u30FA\uFF66-\uFF9F\uFF10-\uFF19\uFF21-\uFF3A\uFF41-\uFF5A\u3041-\u3096\u3400-\u4DBF\u4E00-\u9FFF\u20000-\u2A6DF\u2A700-\u2B73F\u2B740-\u2B81F\u2F800-\u2FA1F";
         private const string CJ_HASHTAG_CHARACTERS = @"\u30A1-\u30FA\u30FC\u3005\uFF66-\uFF9F\uFF10-\uFF19\uFF21-\uFF3A\uFF41-\uFF5A\u3041-\u309A\u3400-\u4DBF\p{IsCJKUnifiedIdeographs}";
         private const string HASHTAG_BOUNDARY = @"^|$|\s|「|」|。|\.|!";
         private const string HASHTAG_ALPHA = "[a-z_" + LATIN_ACCENTS + NON_LATIN_HASHTAG_CHARS + CJ_HASHTAG_CHARACTERS + "]";
@@ -170,10 +169,6 @@ namespace OpenTween
 
         private long previousStatusId = -1L;
 
-        //private FavoriteQueue favQueue;
-
-        //private List<PostClass> _deletemessages = new List<PostClass>();
-
         public Twitter() : this(new TwitterApi())
         {
         }
@@ -234,7 +229,6 @@ namespace OpenTween
         {
             int posl1;
             var posl2 = 0;
-            //var IDNConveter = new IdnMapping();
             var href = "<a href=\"";
 
             while (true)
@@ -1638,10 +1632,6 @@ namespace OpenTween
                                 if (ent.VideoInfo != null &&
                                     ent.Type == "animated_gif" || ent.Type == "video")
                                 {
-                                    //var videoUrl = ent.VideoInfo.Variants
-                                    //    .Where(v => v.ContentType == "video/mp4")
-                                    //    .OrderByDescending(v => v.Bitrate)
-                                    //    .Select(v => v.Url).FirstOrDefault();
                                     media.Add(new MediaInfo(ent.MediaUrlHttps, ent.AltText, ent.ExpandedUrl));
                                 }
                                 else
@@ -2341,13 +2331,6 @@ namespace OpenTween
             }
             this.disposedValue = true;
         }
-
-        //protected Overrides void Finalize()
-        //{
-        //    // このコードを変更しないでください。クリーンアップ コードを上の Dispose(bool disposing) に記述します。
-        //    Dispose(false)
-        //    MyBase.Finalize()
-        //}
 
         // このコードは、破棄可能なパターンを正しく実装できるように Visual Basic によって追加されました。
         public void Dispose()

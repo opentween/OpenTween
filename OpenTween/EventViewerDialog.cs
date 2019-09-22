@@ -274,7 +274,6 @@ namespace OpenTween
                         SaveEventLog(EventSource, sw);
                         break;
                     default:
-                        //
                         break;
                 }
             }
@@ -301,7 +300,6 @@ namespace OpenTween
                        .Where(e => e != "None" && e != "All")
                        .Select(e => new TabPage(e)
                        {
-                           // Name = "TabPage" + e,
                            Tag = e,
                            UseVisualStyleBackColor = true,
                            AccessibleRole = AccessibleRole.PageTab,

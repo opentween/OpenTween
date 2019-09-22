@@ -139,11 +139,6 @@ namespace OpenTween.Models
             }
         }
 
-        //public void AddTab(string TabName, TabClass Tab)
-        //{
-        //    _tabs.Add(TabName, Tab);
-        //}
-
         public void RemoveTab(string TabName)
         {
             lock (LockObj)
@@ -281,30 +276,13 @@ namespace OpenTween.Models
             return this.SortOrder;
         }
 
-        //    public PostClass RetweetSource(long Id)
-        //    {
-        //        get
-        //        {
-        //            if (_retweets.ContainsKey(Id))
-        //            {
-        //                return _retweets[Id];
-        //            }
-        //            else
-        //            {
-        //                return null;
-        //            }
-        //        }
-        //    }
         public PostClass? RetweetSource(long Id)
             => this.Posts.TryGetValue(Id, out var status) ? status : null;
 
         public void ScrubGeoReserve(long id, long upToStatusId)
         {
             lock (LockObj)
-            {
-                //this._scrubGeo.Add(new ScrubGeoInfo With {.UserId = id, .UpToStatusId = upToStatusId});
                 this.ScrubGeo(id, upToStatusId);
-            }
         }
 
         private void ScrubGeo(long userId, long upToStatusId)

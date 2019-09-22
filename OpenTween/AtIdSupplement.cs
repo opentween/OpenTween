@@ -74,19 +74,19 @@ namespace OpenTween
         public int ItemCount
             => this.TextId.AutoCompleteCustomSource.Count;
 
-        private void ButtonOK_Click(object sender, EventArgs e) /*Handles ButtonOK.Click*/
+        private void ButtonOK_Click(object sender, EventArgs e)
         {
             inputText = this.TextId.Text;
             isBack = false;
         }
 
-        private void ButtonCancel_Click(object sender, EventArgs e) /*Handles ButtonCancel.Click*/
+        private void ButtonCancel_Click(object sender, EventArgs e)
         {
             inputText = "";
             isBack = false;
         }
 
-        private void TextId_KeyDown(object sender, KeyEventArgs e) /*Handles TextId.KeyDown*/
+        private void TextId_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Back && string.IsNullOrEmpty(this.TextId.Text))
             {
@@ -114,7 +114,7 @@ namespace OpenTween
             }
         }
 
-        private void AtIdSupplement_Load(object sender, EventArgs e) /*Handles this.Load*/
+        private void AtIdSupplement_Load(object sender, EventArgs e)
         {
             if (startChar == "#")
             {
@@ -123,7 +123,7 @@ namespace OpenTween
             }
         }
 
-        private void AtIdSupplement_Shown(object sender, EventArgs e) /*Handles this.Shown*/
+        private void AtIdSupplement_Shown(object sender, EventArgs e)
         {
             TextId.Text = startChar;
             if (!string.IsNullOrEmpty(this.StartsWith))
@@ -148,7 +148,7 @@ namespace OpenTween
             startChar = startCharacter;
         }
 
-        private void TextId_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e) /*Handles TextId.PreviewKeyDown*/
+        private void TextId_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
         {
             if (e.KeyCode == Keys.Tab)
             {
@@ -158,7 +158,7 @@ namespace OpenTween
             }
         }
 
-        private void AtIdSupplement_FormClosed(object sender, FormClosedEventArgs e) /*Handles MyBase.FormClosed*/
+        private void AtIdSupplement_FormClosed(object sender, FormClosedEventArgs e)
         {
             this.StartsWith = "";
             if (isBack)

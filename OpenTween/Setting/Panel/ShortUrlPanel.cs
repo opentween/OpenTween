@@ -50,8 +50,6 @@ namespace OpenTween.Setting.Panel
 
             // 使われていない設定項目 (Tween v1.0.5.0)
             this.CheckAutoConvertUrl.Checked = false;
-            //this.CheckAutoConvertUrl.Checked = settingCommon.UrlConvertAuto;
-            //this.ShortenTcoCheck.Checked = settingCommon.ShortenTco;
             this.ShortenTcoCheck.Enabled = this.CheckAutoConvertUrl.Checked;
 
             this.ComboBoxAutoShortUrlFirst.SelectedIndex = (int)settingCommon.AutoShortUrlFirst;
@@ -63,7 +61,6 @@ namespace OpenTween.Setting.Panel
         {
             settingCommon.TinyUrlResolve = this.CheckTinyURL.Checked;
             settingCommon.UrlConvertAuto = this.CheckAutoConvertUrl.Checked;
-            //settingCommon.ShortenTco = this.ShortenTcoCheck.Checked;
             settingCommon.AutoShortUrlFirst = (MyCommon.UrlConverter)this.ComboBoxAutoShortUrlFirst.SelectedIndex;
             settingCommon.BitlyAccessToken = this.TextBitlyAccessToken.Text;
         }

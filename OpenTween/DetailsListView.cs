@@ -55,50 +55,6 @@ namespace OpenTween.OpenTweenCustomControl
             DoubleBuffered = true;
         }
 
-        //[System.ComponentModel.DefaultValue(0),
-        // System.ComponentModel.RefreshProperties(System.ComponentModel.RefreshProperties.Repaint)]
-        //public new int VirtualListSize
-        //{
-        //    get { return base.VirtualListSize; }
-        //    set
-        //    {
-        //        if (value == base.VirtualListSize) return;
-        //        if (base.VirtualListSize > 0 && value > 0)
-        //        {
-        //            int topIndex = 0;
-        //            if (!this.IsDisposed)
-        //            {
-        //                if (base.VirtualListSize < value)
-        //                {
-        //                    if (this.TopItem == null)
-        //                    {
-        //                        topIndex = 0;
-        //                    }
-        //                    else
-        //                    {
-        //                        topIndex = this.TopItem.Index;
-        //                    }
-        //                    topIndex = Math.Min(topIndex, Math.Abs(value - 1));
-        //                    this.TopItem = this.Items[topIndex];
-        //                }
-        //                else
-        //                {
-        //                    if (this.TopItem == null)
-        //                    {
-        //                        topIndex = 0;
-        //                    }
-        //                    else
-        //                    {
-        //
-        //                    }
-        //                    this.TopItem = this.Items[0];
-        //                }
-        //            }
-        //        }
-        //        base.VirtualListSize = value;
-        //    }
-        //}
-
         /// <summary>
         /// 複数選択時の起点になるアイテム (selection mark) の位置を取得・設定する
         /// </summary>

@@ -321,7 +321,6 @@ namespace OpenTween
 
         private enum InternetOpenType
         {
-            //PRECONFIG = 0, // IE setting
             DIRECT = 1, // Direct
             PROXY = 3, // Custom
         }
