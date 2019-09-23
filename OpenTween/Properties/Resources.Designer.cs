@@ -19,7 +19,7 @@ namespace OpenTween.Properties {
     // または Visual Studio のようなツールを使用して自動生成されました。
     // メンバーを追加または削除するには、.ResX ファイルを編集して、/str オプションと共に
     // ResGen を実行し直すか、または VS プロジェクトをビルドし直します。
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources {
@@ -652,18 +652,18 @@ namespace OpenTween.Properties {
         /// <summary>
         ///   更新履歴
         ///
-        ///==== Ver 2.3.2-dev(2019/xx/xx)
-        ///
-        ///==== Ver 2.3.1(2019/04/22)
-        /// * FIX: 2019/5/20に予定されているTwitter APIの仕様変更によりエラーが発生する問題を修正
-        ///  - OpenTween v2.3.0 までのバージョンは2019/5/20以降に使用できなくなる可能性があります
-        /// * FIX: 絵文字を含むツイートの非公式RTで余分なHTMLタグが混入する不具合を修正 (thx @380Nayuta!)
-        ///
-        ///==== Ver 2.3.0(2019/04/08)
-        /// * CHG: 投稿欄にフォーカスしている間は一部のショートカットを無効にします (thx @pitermach, @lukaszgo1!)
-        ///  - 対象となるショートカットは Ctrl+Alt+S (Fav+RT), Ctrl+Alt+R (Fav+非公式RT), Ctrl+Alt+H (ユーザー指定のURLを開く) の3つです
-        ///  - AltGrキーを使う言語のキーボートとショートカットキーが重複する問題への対処です
-        /// * CHG: Micr [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
+        ///==== Ver 2.4.0(2019/09/24)
+        /// * NEW: Twemoji 12.0.0 に対応しました
+        ///  - Unicode 12.0 で追加された絵文字が表示されるようになります
+        /// * CHG: DMの送信が完了したらDirectタブに送信したDMを即座に反映する
+        /// * CHG: htn.to の短縮URLを展開する際に強制的にHTTPSを使用する
+        /// * CHG: OpenTween内部で動作するタイマーの使用方法を見直し
+        ///  - 従来まで毎秒5回程度のタイマーイベントが常に発生していたのを、無操作時かつ発言一覧の更新がない間はほぼゼロになるよう改善しました
+        /// * FIX: Twemojiを有効にすると絵文字の後に余分な文字が表示される場合がある不具合を修正
+        /// * FIX: Tumblrのサムネイル表示時にエラーが表示される場合がある不具合を修正
+        /// * FIX: 発言内URLを開く(Ctrl+E)でURLにマルチバイト文字を含むとエラーが発生する場合がある不具合を修正
+        /// * FIX: 英語版のメッセージの誤りを修正 (thx @Tan90909090!)
+        /// [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ChangeLog {
             get {
