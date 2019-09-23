@@ -874,7 +874,7 @@ namespace OpenTween
             this.tw = new Twitter(this.twitterApi);
 
             //認証関連
-            if (string.IsNullOrEmpty(SettingManager.Common.Token)) SettingManager.Common.UserName = "";
+            if (MyCommon.IsNullOrEmpty(SettingManager.Common.Token)) SettingManager.Common.UserName = "";
             tw.Initialize(SettingManager.Common.Token, SettingManager.Common.TokenSecret, SettingManager.Common.UserName, SettingManager.Common.UserId);
 
             _initial = true;
@@ -885,14 +885,14 @@ namespace OpenTween
             var firstRun = false;
 
             //ユーザー名、パスワードが未設定なら設定画面を表示（初回起動時など）
-            if (string.IsNullOrEmpty(tw.Username))
+            if (MyCommon.IsNullOrEmpty(tw.Username))
             {
                 saveRequired = true;
                 firstRun = true;
 
                 //設定せずにキャンセルされたか、設定されたが依然ユーザー名が未設定ならプログラム終了
                 if (ShowSettingDialog(showTaskbarIcon: true) != DialogResult.OK ||
-                    string.IsNullOrEmpty(tw.Username))
+                    MyCommon.IsNullOrEmpty(tw.Username))
                 {
                     Application.Exit();  //強制終了
                     return;
@@ -911,7 +911,7 @@ namespace OpenTween
             tw.RestrictFavCheck = SettingManager.Common.RestrictFavCheck;
             tw.ReadOwnPost = SettingManager.Common.ReadOwnPost;
             tw.TrackWord = SettingManager.Common.TrackWord;
-            TrackToolStripMenuItem.Checked = !string.IsNullOrEmpty(tw.TrackWord);
+            TrackToolStripMenuItem.Checked = !MyCommon.IsNullOrEmpty(tw.TrackWord);
             tw.AllAtReply = SettingManager.Common.AllAtReply;
             AllrepliesToolStripMenuItem.Checked = tw.AllAtReply;
             ShortUrl.Instance.DisableExpanding = !SettingManager.Common.TinyUrlResolve;
@@ -953,7 +953,7 @@ namespace OpenTween
                                     SettingManager.Common.HashIsPermanent,
                                     SettingManager.Common.HashIsHead,
                                     SettingManager.Common.HashIsNotAddToAtReply);
-            if (!string.IsNullOrEmpty(HashMgr.UseHash) && HashMgr.IsPermanent) HashStripSplitButton.Text = HashMgr.UseHash;
+            if (!MyCommon.IsNullOrEmpty(HashMgr.UseHash) && HashMgr.IsPermanent) HashStripSplitButton.Text = HashMgr.UseHash;
 
             //アイコンリスト作成
             this.IconCache = new ImageCache();
@@ -1838,7 +1838,7 @@ namespace OpenTween
                                 nt = GrowlHelper.NotifyType.Notify;
                             }
                             var bText = sb.ToString();
-                            if (string.IsNullOrEmpty(bText)) return;
+                            if (MyCommon.IsNullOrEmpty(bText)) return;
 
                             var image = this.IconCache.TryGetFromCache(post.ImageUrl);
                             gh.Notify(nt, post.StatusId.ToString(), title.ToString(), bText, image?.Image, post.ImageUrl);
@@ -1897,7 +1897,7 @@ namespace OpenTween
                             title.AppendFormat(Properties.Resources.RefreshTimeline_NotifyText, addCount);
                         }
                         var bText = sb.ToString();
-                        if (string.IsNullOrEmpty(bText)) return;
+                        if (MyCommon.IsNullOrEmpty(bText)) return;
 
                         NotifyIcon1.BalloonTipTitle = title.ToString();
                         NotifyIcon1.BalloonTipText = bText;
@@ -1908,7 +1908,7 @@ namespace OpenTween
             }
 
             //サウンド再生
-            if (!_initial && SettingManager.Common.PlaySound && !string.IsNullOrEmpty(soundFile))
+            if (!_initial && SettingManager.Common.PlaySound && !MyCommon.IsNullOrEmpty(soundFile))
             {
                 try
                 {
@@ -2669,7 +2669,7 @@ namespace OpenTween
             if (ct.IsCancellationRequested)
                 return;
 
-            if (!string.IsNullOrEmpty(errMsg) &&
+            if (!MyCommon.IsNullOrEmpty(errMsg) &&
                 !errMsg.StartsWith("OK:", StringComparison.Ordinal) &&
                 !errMsg.StartsWith("Warn:", StringComparison.Ordinal))
             {
@@ -2706,7 +2706,7 @@ namespace OpenTween
                     this._postTimestamps.RemoveAt(i);
             }
 
-            if (!this.HashMgr.IsPermanent && !string.IsNullOrEmpty(this.HashMgr.UseHash))
+            if (!this.HashMgr.IsPermanent && !MyCommon.IsNullOrEmpty(this.HashMgr.UseHash))
             {
                 this.HashMgr.ClearHashtag();
                 this.HashStripSplitButton.Text = "#[-]";
@@ -3291,7 +3291,7 @@ namespace OpenTween
             {
                 RepliedStatusOpenMenuItem.Enabled = true;
             }
-            if (!this.ExistCurrentPost || post == null || string.IsNullOrEmpty(post.RetweetedBy))
+            if (!this.ExistCurrentPost || post == null || MyCommon.IsNullOrEmpty(post.RetweetedBy))
             {
                 MoveToRTHomeMenuItem.Enabled = false;
             }
@@ -3864,7 +3864,7 @@ namespace OpenTween
             //同一検索条件のタブが既に存在すれば、そのタブアクティブにして終了
             foreach (var tb in _statuses.GetTabsByType<PublicSearchTabModel>())
             {
-                if (tb.SearchWords == searchWord && string.IsNullOrEmpty(tb.SearchLang))
+                if (tb.SearchWords == searchWord && MyCommon.IsNullOrEmpty(tb.SearchLang))
                 {
                     var tabIndex = this._statuses.Tabs.IndexOf(tb);
                     this.ListTab.SelectedIndex = tabIndex;
@@ -4076,7 +4076,7 @@ namespace OpenTween
                         btn.TabIndex = 3;
                         btn.Click += SearchButton_Click;
 
-                        if (!string.IsNullOrEmpty(searchTab.SearchWords))
+                        if (!MyCommon.IsNullOrEmpty(searchTab.SearchWords))
                         {
                             cmb.Items.Add(searchTab.SearchWords);
                             cmb.Text = searchTab.SearchWords;
@@ -4284,7 +4284,7 @@ namespace OpenTween
                     tn = this.CurrentTabName;
                 }
 
-                if (string.IsNullOrEmpty(tn)) return;
+                if (MyCommon.IsNullOrEmpty(tn)) return;
 
                 var tabIndex = this._statuses.Tabs.IndexOf(tn);
                 if (tabIndex != -1)
@@ -4404,7 +4404,7 @@ namespace OpenTween
             var eHalf = "";
             if (dialog.DialogResult == DialogResult.OK)
             {
-                if (!string.IsNullOrEmpty(dialog.inputText))
+                if (!MyCommon.IsNullOrEmpty(dialog.inputText))
                 {
                     if (selStart > 0)
                     {
@@ -4484,7 +4484,7 @@ namespace OpenTween
 
             this.StatusText.AccessibleDescription = string.Format(Properties.Resources.StatusText_AccessibleDescription, pLen);
 
-            if (string.IsNullOrEmpty(StatusText.Text))
+            if (MyCommon.IsNullOrEmpty(StatusText.Text))
             {
                 this.inReplyTo = null;
             }
@@ -4640,7 +4640,7 @@ namespace OpenTween
             var footer = "";
 
             var hashtag = this.HashMgr.UseHash;
-            if (!string.IsNullOrEmpty(hashtag) && !(this.HashMgr.IsNotAddToAtReply && this.inReplyTo != null))
+            if (!MyCommon.IsNullOrEmpty(hashtag) && !(this.HashMgr.IsNotAddToAtReply && this.inReplyTo != null))
             {
                 if (HashMgr.IsHead)
                     header = HashMgr.UseHash + " ";
@@ -4655,7 +4655,7 @@ namespace OpenTween
                     // 推奨ステータスを使用する
                     footer += this.recommendedStatusFooter;
                 }
-                else if (!string.IsNullOrEmpty(SettingManager.Local.StatusText))
+                else if (!MyCommon.IsNullOrEmpty(SettingManager.Local.StatusText))
                 {
                     // テキストボックスに入力されている文字列を使用する
                     footer += " " + SettingManager.Local.StatusText.Trim();
@@ -6484,7 +6484,7 @@ namespace OpenTween
                 if (post.ScreenName == _anchorPost.ScreenName ||
                     post.RetweetedBy == _anchorPost.ScreenName ||
                     post.ScreenName == _anchorPost.RetweetedBy ||
-                    (!string.IsNullOrEmpty(post.RetweetedBy) && post.RetweetedBy == _anchorPost.RetweetedBy) ||
+                    (!MyCommon.IsNullOrEmpty(post.RetweetedBy) && post.RetweetedBy == _anchorPost.RetweetedBy) ||
                     _anchorPost.ReplyToList.Any(x => x.UserId == post.UserId) ||
                     _anchorPost.ReplyToList.Any(x => x.UserId == post.RetweetedByUserId) ||
                     post.ReplyToList.Any(x => x.UserId == _anchorPost.UserId) ||
@@ -7241,7 +7241,7 @@ namespace OpenTween
                 newTabName = inputName.TabName;
             }
             this.TopMost = SettingManager.Common.AlwaysTop;
-            if (!string.IsNullOrEmpty(newTabName))
+            if (!MyCommon.IsNullOrEmpty(newTabName))
             {
                 //新タブ名存在チェック
                 if (this._statuses.ContainsTab(newTabName))
@@ -7344,7 +7344,7 @@ namespace OpenTween
             }
 
             //タブのないところにドロップ->最後尾へ移動
-            if (string.IsNullOrEmpty(tn))
+            if (MyCommon.IsNullOrEmpty(tn))
             {
                 var lastTab = this._statuses.Tabs.Last();
                 tn = lastTab.TabName;
@@ -7420,7 +7420,7 @@ namespace OpenTween
                         StatusText.Focus();
                         return;
                     }
-                    if (string.IsNullOrEmpty(StatusText.Text))
+                    if (MyCommon.IsNullOrEmpty(StatusText.Text))
                     {
                         //空の場合
                         var inReplyToStatusId = post.RetweetedId ?? post.StatusId;
@@ -7593,7 +7593,7 @@ namespace OpenTween
                                         ids += "@" + screenName + " ";
                                 }
                             }
-                            if (!string.IsNullOrEmpty(post.RetweetedBy))
+                            if (!MyCommon.IsNullOrEmpty(post.RetweetedBy))
                             {
                                 if (!ids.Contains("@" + post.RetweetedBy + " ") && post.RetweetedByUserId != tw.UserId)
                                 {
@@ -7601,7 +7601,7 @@ namespace OpenTween
                                 }
                             }
                             if (ids.Length == 0) return;
-                            if (string.IsNullOrEmpty(StatusText.Text))
+                            if (MyCommon.IsNullOrEmpty(StatusText.Text))
                             {
                                 //未入力の場合のみ返信先付加
                                 var inReplyToStatusId = post.RetweetedId ?? post.StatusId;
@@ -7709,7 +7709,7 @@ namespace OpenTween
         private void ContextMenuTabProperty_Opening(object sender, CancelEventArgs e)
         {
             //右クリックの場合はタブ名が設定済。アプリケーションキーの場合は現在のタブを対象とする
-            if (string.IsNullOrEmpty(_rclickTabName) || sender != ContextMenuTabProperty)
+            if (MyCommon.IsNullOrEmpty(_rclickTabName) || sender != ContextMenuTabProperty)
                 _rclickTabName = this.CurrentTabName;
 
             if (_statuses == null) return;
@@ -7793,7 +7793,7 @@ namespace OpenTween
             this.DeleteTabMenuItem.Enabled = !checkState;
             this.DeleteTbMenuItem.Enabled = !checkState;
 
-            if (string.IsNullOrEmpty(_rclickTabName)) return;
+            if (MyCommon.IsNullOrEmpty(_rclickTabName)) return;
             _statuses.Tabs[_rclickTabName].Protected = checkState;
 
             SaveConfigsTabs();
@@ -7804,7 +7804,7 @@ namespace OpenTween
             UreadManageMenuItem.Checked = ((ToolStripMenuItem)sender).Checked;
             this.UnreadMngTbMenuItem.Checked = UreadManageMenuItem.Checked;
 
-            if (string.IsNullOrEmpty(_rclickTabName)) return;
+            if (MyCommon.IsNullOrEmpty(_rclickTabName)) return;
             ChangeTabUnreadManage(_rclickTabName, UreadManageMenuItem.Checked);
 
             SaveConfigsTabs();
@@ -7844,7 +7844,7 @@ namespace OpenTween
             NotifyDispMenuItem.Checked = ((ToolStripMenuItem)sender).Checked;
             this.NotifyTbMenuItem.Checked = NotifyDispMenuItem.Checked;
 
-            if (string.IsNullOrEmpty(_rclickTabName)) return;
+            if (MyCommon.IsNullOrEmpty(_rclickTabName)) return;
 
             _statuses.Tabs[_rclickTabName].Notify = NotifyDispMenuItem.Checked;
 
@@ -7853,7 +7853,7 @@ namespace OpenTween
 
         private void SoundFileComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (soundfileListup || string.IsNullOrEmpty(_rclickTabName)) return;
+            if (soundfileListup || MyCommon.IsNullOrEmpty(_rclickTabName)) return;
 
             _statuses.Tabs[_rclickTabName].SoundFile = (string)((ToolStripComboBox)sender).SelectedItem;
 
@@ -7862,7 +7862,7 @@ namespace OpenTween
 
         private void DeleteTabMenuItem_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(_rclickTabName) || sender == this.DeleteTbMenuItem)
+            if (MyCommon.IsNullOrEmpty(_rclickTabName) || sender == this.DeleteTbMenuItem)
                 _rclickTabName = this.CurrentTabName;
 
             RemoveSpecifiedTab(_rclickTabName, true);
@@ -7871,7 +7871,7 @@ namespace OpenTween
 
         private void FilterEditMenuItem_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(_rclickTabName)) _rclickTabName = _statuses.HomeTab.TabName;
+            if (MyCommon.IsNullOrEmpty(_rclickTabName)) _rclickTabName = _statuses.HomeTab.TabName;
 
             using (var fltDialog = new FilterDialog())
             {
@@ -7899,7 +7899,7 @@ namespace OpenTween
                 tabUsage = inputName.Usage;
             }
             this.TopMost = SettingManager.Common.AlwaysTop;
-            if (!string.IsNullOrEmpty(tabName))
+            if (!MyCommon.IsNullOrEmpty(tabName))
             {
                 //List対応
                 ListElement? list = null;
@@ -8221,7 +8221,7 @@ namespace OpenTween
                         tabName = inputName.TabName;
                     }
                     this.TopMost = SettingManager.Common.AlwaysTop;
-                    if (!string.IsNullOrEmpty(tabName))
+                    if (!MyCommon.IsNullOrEmpty(tabName))
                     {
                         var newTab = new FilterTabModel(tabName);
                         if (!_statuses.AddTab(newTab) || !AddNewTab(newTab, startup: false))
@@ -8336,7 +8336,7 @@ namespace OpenTween
                 var href = linkElm.GetAttribute("href");
                 var linkedText = linkElm.InnerText;
 
-                if (string.IsNullOrEmpty(displayUrl))
+                if (MyCommon.IsNullOrEmpty(displayUrl))
                     displayUrl = href;
 
                 links.Add(new OpenUrlItem(linkedText, displayUrl, href));
@@ -8379,7 +8379,7 @@ namespace OpenTween
 
         private void ClearTabMenuItem_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(_rclickTabName)) return;
+            if (MyCommon.IsNullOrEmpty(_rclickTabName)) return;
             ClearTab(_rclickTabName, true);
         }
 
@@ -8639,11 +8639,11 @@ namespace OpenTween
                     HashSupl.AddItem("#" + hm.Result("$3"));
                 }
             }
-            if (!string.IsNullOrEmpty(HashMgr.UseHash) && !hstr.Contains(HashMgr.UseHash + " "))
+            if (!MyCommon.IsNullOrEmpty(HashMgr.UseHash) && !hstr.Contains(HashMgr.UseHash + " "))
             {
                 hstr += HashMgr.UseHash;
             }
-            if (!string.IsNullOrEmpty(hstr)) HashMgr.AddHashToHistory(hstr.Trim(), false);
+            if (!MyCommon.IsNullOrEmpty(hstr)) HashMgr.AddHashToHistory(hstr.Trim(), false);
 
             // 本当にリプライ先指定すべきかどうかの判定
             m = Regex.Matches(StatusText, "(^|[ -/:-@[-^`{-~])(?<id>@[a-zA-Z0-9_]+)");
@@ -8867,8 +8867,8 @@ namespace OpenTween
             if (Converter_Type == MyCommon.UrlConverter.Bitly || Converter_Type == MyCommon.UrlConverter.Jmp)
             {
                 // OAuth2 アクセストークンまたは API キー (旧方式) のいずれも設定されていなければ短縮しない
-                if (string.IsNullOrEmpty(SettingManager.Common.BitlyAccessToken) &&
-                    (string.IsNullOrEmpty(SettingManager.Common.BilyUser) || string.IsNullOrEmpty(SettingManager.Common.BitlyPwd)))
+                if (MyCommon.IsNullOrEmpty(SettingManager.Common.BitlyAccessToken) &&
+                    (MyCommon.IsNullOrEmpty(SettingManager.Common.BilyUser) || MyCommon.IsNullOrEmpty(SettingManager.Common.BitlyPwd)))
                 {
                     MessageBox.Show(this, Properties.Resources.UrlConvert_BitlyAuthRequired, ApplicationSettings.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return false;
@@ -8921,7 +8921,7 @@ namespace OpenTween
                         return true;
                     }
 
-                    if (!string.IsNullOrEmpty(result))
+                    if (!MyCommon.IsNullOrEmpty(result))
                     {
                         var undotmp = new urlUndo();
 
@@ -9006,7 +9006,7 @@ namespace OpenTween
                         continue;
                     }
 
-                    if (!string.IsNullOrEmpty(result))
+                    if (!MyCommon.IsNullOrEmpty(result))
                     {
                         // 短縮 URL が生成されるまでの間に投稿欄から元の URL が削除されていたら中断する
                         var origUrlIndex = this.StatusText.Text.IndexOf(mt.Result("${url}"), StringComparison.Ordinal);
@@ -9452,7 +9452,7 @@ namespace OpenTween
                 try
                 {
                     var configBrowserPath = SettingManager.Local.BrowserPath;
-                    if (!string.IsNullOrEmpty(configBrowserPath))
+                    if (!MyCommon.IsNullOrEmpty(configBrowserPath))
                     {
                         if (configBrowserPath.StartsWith("\"", StringComparison.Ordinal) && configBrowserPath.Length > 2 && configBrowserPath.IndexOf("\"", 2, StringComparison.Ordinal) > -1)
                         {
@@ -9879,7 +9879,7 @@ namespace OpenTween
 
         private void TabRenameMenuItem_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(_rclickTabName)) return;
+            if (MyCommon.IsNullOrEmpty(_rclickTabName)) return;
 
             _ = TabRename(_rclickTabName, out _);
         }
@@ -10259,7 +10259,7 @@ namespace OpenTween
 
             tb.SearchWords = cmb.Text;
             tb.SearchLang = cmbLang.Text;
-            if (string.IsNullOrEmpty(cmb.Text))
+            if (MyCommon.IsNullOrEmpty(cmb.Text))
             {
                 listView.Focus();
                 SaveConfigsTabs();
@@ -10440,7 +10440,7 @@ namespace OpenTween
             }
             this.TopMost = SettingManager.Common.AlwaysTop;
             if (rslt == DialogResult.Cancel) return;
-            if (!string.IsNullOrEmpty(HashMgr.UseHash))
+            if (!MyCommon.IsNullOrEmpty(HashMgr.UseHash))
             {
                 HashStripSplitButton.Text = HashMgr.UseHash;
                 HashTogglePullDownMenuItem.Checked = true;
@@ -10460,7 +10460,7 @@ namespace OpenTween
         private void HashToggleMenuItem_Click(object sender, EventArgs e)
         {
             HashMgr.ToggleHash();
-            if (!string.IsNullOrEmpty(HashMgr.UseHash))
+            if (!MyCommon.IsNullOrEmpty(HashMgr.UseHash))
             {
                 HashStripSplitButton.Text = HashMgr.UseHash;
                 HashToggleMenuItem.Checked = true;
@@ -10577,7 +10577,7 @@ namespace OpenTween
             {
                 OpenRepSourceOpMenuItem.Enabled = true;
             }
-            if (!this.ExistCurrentPost || post == null || string.IsNullOrEmpty(post.RetweetedBy))
+            if (!this.ExistCurrentPost || post == null || MyCommon.IsNullOrEmpty(post.RetweetedBy))
             {
                 OpenRterHomeMenuItem.Enabled = false;
             }
@@ -11204,13 +11204,13 @@ namespace OpenTween
                 title.Append(" [");
                 title.Append(ev.Event.ToUpper(CultureInfo.CurrentCulture));
                 title.Append("] by ");
-                if (!string.IsNullOrEmpty(ev.Username))
+                if (!MyCommon.IsNullOrEmpty(ev.Username))
                 {
                     title.Append(ev.Username);
                 }
 
                 string text;
-                if (!string.IsNullOrEmpty(ev.Target))
+                if (!MyCommon.IsNullOrEmpty(ev.Target))
                     text = ev.Target;
                 else
                     text = " ";
@@ -11231,7 +11231,7 @@ namespace OpenTween
 
             //サウンド再生
             var snd = SettingManager.Common.EventSoundFile;
-            if (!_initial && SettingManager.Common.PlaySound && !string.IsNullOrEmpty(snd))
+            if (!_initial && SettingManager.Common.PlaySound && !MyCommon.IsNullOrEmpty(snd))
             {
                 if ((ev.Eventtype & SettingManager.Common.EventNotifyFlag) != 0 && IsMyEventNotityAsEventType(ev))
                 {
@@ -11292,7 +11292,7 @@ namespace OpenTween
                 {
                     tw.TrackWord = inputTrack;
                     this.MarkSettingCommonModified();
-                    TrackToolStripMenuItem.Checked = !string.IsNullOrEmpty(inputTrack);
+                    TrackToolStripMenuItem.Checked = !MyCommon.IsNullOrEmpty(inputTrack);
                     tw.ReconnectUserStream();
                 }
             }
@@ -11379,7 +11379,7 @@ namespace OpenTween
             inputName.TabName = id;
 
             if (inputName.ShowDialog() == DialogResult.OK &&
-                !string.IsNullOrEmpty(inputName.TabName.Trim()))
+                !MyCommon.IsNullOrEmpty(inputName.TabName.Trim()))
             {
                 id = inputName.TabName.Trim();
             }
@@ -11393,7 +11393,7 @@ namespace OpenTween
         private async void UserTimelineToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var id = GetUserIdFromCurPostOrInput("Show UserTimeline");
-            if (!string.IsNullOrEmpty(id))
+            if (!MyCommon.IsNullOrEmpty(id))
             {
                 await this.AddNewTabForUserTimeline(id);
             }
@@ -11582,7 +11582,7 @@ namespace OpenTween
 
         private void tweetDetailsView_StatusChanged(object sender, TweetDetailsViewStatusChengedEventArgs e)
         {
-            if (!string.IsNullOrEmpty(e.StatusText))
+            if (!MyCommon.IsNullOrEmpty(e.StatusText))
             {
                 this.StatusLabelUrl.Text = e.StatusText;
             }

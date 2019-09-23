@@ -284,7 +284,7 @@ namespace OpenTween
             var pinPageUrl = TwitterApiConnection.GetAuthorizeUri(requestToken);
 
             var pin = AuthDialog.DoAuth(this, pinPageUrl);
-            if (string.IsNullOrEmpty(pin))
+            if (MyCommon.IsNullOrEmpty(pin))
                 return null; // キャンセルされた場合
 
             var accessTokenResponse = await TwitterApiConnection.GetAccessTokenAsync(requestToken, pin);
@@ -320,7 +320,7 @@ namespace OpenTween
             var path = this.ActionPanel.BrowserPathText.Text;
             try
             {
-                if (!string.IsNullOrEmpty(path))
+                if (!MyCommon.IsNullOrEmpty(path))
                 {
                     if (path.StartsWith("\"", StringComparison.Ordinal) && path.Length > 2 && path.IndexOf("\"", 2, StringComparison.Ordinal) > -1)
                     {

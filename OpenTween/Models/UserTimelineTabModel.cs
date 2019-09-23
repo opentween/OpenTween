@@ -51,7 +51,7 @@ namespace OpenTween.Models
 
         public override async Task RefreshAsync(Twitter tw, bool backward, bool startup, IProgress<string> progress)
         {
-            if (string.IsNullOrEmpty(this.ScreenName))
+            if (MyCommon.IsNullOrEmpty(this.ScreenName))
                 return;
 
             bool read;

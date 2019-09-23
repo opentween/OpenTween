@@ -233,7 +233,7 @@ namespace OpenTween
 
         private async Task SetUserPictureAsync(string imageUrl, bool force = false)
         {
-            if (string.IsNullOrEmpty(imageUrl))
+            if (MyCommon.IsNullOrEmpty(imageUrl))
                 return;
 
             if (this.IconCache == null)
@@ -364,7 +364,7 @@ namespace OpenTween
 
         private async Task DoTranslation(string str)
         {
-            if (string.IsNullOrEmpty(str))
+            if (MyCommon.IsNullOrEmpty(str))
                 return;
 
             var bing = new Bing();
@@ -504,7 +504,7 @@ namespace OpenTween
                 {
                     this.RaiseStatusChanged(this.PostBrowser.StatusText.Replace("&", "&&"));
                 }
-                if (string.IsNullOrEmpty(PostBrowser.StatusText))
+                if (MyCommon.IsNullOrEmpty(PostBrowser.StatusText))
                 {
                     this.RaiseStatusChanged(statusText: "");
                 }
@@ -545,7 +545,7 @@ namespace OpenTween
             if (this.CurrentPost != null)
             {
                 var name = this.CurrentPost.ImageUrl;
-                if (!string.IsNullOrEmpty(name))
+                if (!MyCommon.IsNullOrEmpty(name))
                 {
                     var idx = name.LastIndexOf('/');
                     if (idx != -1)
@@ -692,7 +692,7 @@ namespace OpenTween
         private async void IconNameToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var imageUrl = this.CurrentPost?.ImageUrl;
-            if (string.IsNullOrEmpty(imageUrl))
+            if (MyCommon.IsNullOrEmpty(imageUrl))
                 return;
 
             await this.Owner.OpenUriInBrowserAsync(imageUrl.Remove(imageUrl.LastIndexOf("_normal", StringComparison.Ordinal), 7)); // "_normal".Length
@@ -701,7 +701,7 @@ namespace OpenTween
         private async void ReloadIconToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var imageUrl = this.CurrentPost?.ImageUrl;
-            if (string.IsNullOrEmpty(imageUrl))
+            if (MyCommon.IsNullOrEmpty(imageUrl))
                 return;
 
             await this.SetUserPictureAsync(imageUrl, force: true);
@@ -710,7 +710,7 @@ namespace OpenTween
         private void SaveIconPictureToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var imageUrl = this.CurrentPost?.ImageUrl;
-            if (string.IsNullOrEmpty(imageUrl))
+            if (MyCommon.IsNullOrEmpty(imageUrl))
                 return;
 
             var memoryImage = this.IconCache.TryGetFromCache(imageUrl);
@@ -885,7 +885,7 @@ namespace OpenTween
                     if (link.GetAttribute("href") == this._postBrowserStatusText)
                     {
                         var linkStr = link.GetAttribute("title");
-                        if (string.IsNullOrEmpty(linkStr))
+                        if (MyCommon.IsNullOrEmpty(linkStr))
                             linkStr = link.GetAttribute("href");
 
                         Clipboard.SetDataObject(linkStr, false, 5, 100);

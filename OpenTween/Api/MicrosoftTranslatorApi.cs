@@ -97,7 +97,7 @@ namespace OpenTween.Api
 
         public async Task UpdateAccessTokenIfExpired()
         {
-            if (!string.IsNullOrEmpty(this.AccessToken) && this.RefreshAccessTokenAt > DateTimeUtc.Now)
+            if (!MyCommon.IsNullOrEmpty(this.AccessToken) && this.RefreshAccessTokenAt > DateTimeUtc.Now)
                 return;
 
             var (accessToken, expiresIn) = await this.GetAccessTokenAsync()

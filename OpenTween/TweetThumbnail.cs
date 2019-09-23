@@ -93,7 +93,7 @@ namespace OpenTween
                 loadTasks.Add(loadTask);
 
                 var tooltipText = thumb.TooltipText;
-                if (!string.IsNullOrEmpty(tooltipText))
+                if (!MyCommon.IsNullOrEmpty(tooltipText))
                 {
                     this.toolTip.SetToolTip(picbox, tooltipText);
                     picbox.AccessibleDescription = tooltipText;

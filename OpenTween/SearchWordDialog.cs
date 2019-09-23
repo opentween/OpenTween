@@ -152,7 +152,7 @@ namespace OpenTween
 
         private void buttonSearchTimeline_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(this.textSearchTimeline.Text))
+            if (MyCommon.IsNullOrEmpty(this.textSearchTimeline.Text))
             {
                 this.DialogResult = DialogResult.Cancel;
                 return;
@@ -171,7 +171,7 @@ namespace OpenTween
 
         private void buttonSearchTimelineNew_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(this.textSearchTimeline.Text))
+            if (MyCommon.IsNullOrEmpty(this.textSearchTimeline.Text))
             {
                 this.DialogResult = DialogResult.Cancel;
                 return;
@@ -190,7 +190,7 @@ namespace OpenTween
 
         private void buttonSearchPublic_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(this.textSearchPublic.Text))
+            if (MyCommon.IsNullOrEmpty(this.textSearchPublic.Text))
             {
                 this.DialogResult = DialogResult.Cancel;
                 return;

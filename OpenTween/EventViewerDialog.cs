@@ -131,7 +131,7 @@ namespace OpenTween
 
         private bool IsFilterMatch(Twitter.FormattedEvent x)
         {
-            if (!CheckBoxFilter.Checked || string.IsNullOrEmpty(TextBoxKeyword.Text))
+            if (!CheckBoxFilter.Checked || MyCommon.IsNullOrEmpty(TextBoxKeyword.Text))
             {
                 return true;
             }

@@ -44,7 +44,7 @@ namespace OpenTween.Models
         {
             this.Url = url;
             this.AltText = altText;
-            this.VideoUrl = !string.IsNullOrEmpty(videoUrl) ? videoUrl : null;
+            this.VideoUrl = !MyCommon.IsNullOrEmpty(videoUrl) ? videoUrl : null;
         }
 
         public override bool Equals(object? obj)

@@ -136,7 +136,7 @@ namespace OpenTween
             {
                 var listItem = (ListElement)this.ListsList.SelectedItem;
 
-                if (string.IsNullOrEmpty(this.NameTextBox.Text))
+                if (MyCommon.IsNullOrEmpty(this.NameTextBox.Text))
                 {
                     MessageBox.Show(Properties.Resources.ListManageOKButton1);
                     return;
@@ -322,7 +322,7 @@ namespace OpenTween
                 this.UserFollowerNum.Text = user.FollowersCount.ToString("#,###,##0");
                 this.UserPostsNum.Text = user.StatusesCount.ToString("#,###,##0");
                 this.UserProfile.Text = user.Description;
-                if (!string.IsNullOrEmpty(user.RecentPost))
+                if (!MyCommon.IsNullOrEmpty(user.RecentPost))
                 {
                     this.UserTweetDateTime.Text = user.PostCreatedAt.ToLocalTimeString("yy/MM/dd HH:mm");
                     this.UserTweet.Text = user.RecentPost;

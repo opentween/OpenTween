@@ -77,7 +77,7 @@ namespace OpenTween
             get
             {
                 var serviceName = this.ServiceName;
-                if (string.IsNullOrEmpty(serviceName))
+                if (MyCommon.IsNullOrEmpty(serviceName))
                     return null;
 
                 return this.pictureService.TryGetValue(serviceName, out var service)
@@ -200,7 +200,7 @@ namespace OpenTween
         /// </summary>
         private bool IsUploadable(string serviceName, string ext, long? size)
         {
-            if (!string.IsNullOrEmpty(serviceName))
+            if (!MyCommon.IsNullOrEmpty(serviceName))
             {
                 var imageService = this.pictureService[serviceName];
                 if (imageService.CheckFileExtension(ext))
@@ -394,7 +394,7 @@ namespace OpenTween
 
         private IMediaItem? CreateFileMediaItem(string path, bool noMsgBox)
         {
-            if (string.IsNullOrEmpty(path)) return null;
+            if (MyCommon.IsNullOrEmpty(path)) return null;
 
             try
             {
@@ -491,7 +491,7 @@ namespace OpenTween
                 if (isSelectedPage)
                     this.ClearImageSelectedPicture();
 
-                if (item == null || string.IsNullOrEmpty(item.Path)) return;
+                if (item == null || MyCommon.IsNullOrEmpty(item.Path)) return;
 
                 try
                 {
@@ -563,11 +563,11 @@ namespace OpenTween
             var text = string.Join(", ",
                 ImageServiceCombo.Items.Cast<string>()
                     .Where(serviceName =>
-                        !string.IsNullOrEmpty(serviceName) &&
+                        !MyCommon.IsNullOrEmpty(serviceName) &&
                         this.pictureService[serviceName].CheckFileExtension(ext) &&
                         this.pictureService[serviceName].CheckFileSize(ext, fileSize)));
 
-            if (string.IsNullOrEmpty(text))
+            if (MyCommon.IsNullOrEmpty(text))
                 return Properties.Resources.PostPictureWarn6;
 
             return text;
@@ -631,7 +631,7 @@ namespace OpenTween
         private void SelectImageServiceComboItem(string svc, int? index = null)
         {
             int idx;
-            if (string.IsNullOrEmpty(svc))
+            if (MyCommon.IsNullOrEmpty(svc))
             {
                 idx = index ?? 0;
             }

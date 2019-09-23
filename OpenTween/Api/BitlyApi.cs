@@ -64,7 +64,7 @@ namespace OpenTween.Api
                 ["longUrl"] = srcUri.OriginalString,
             };
 
-            if (!string.IsNullOrEmpty(domain))
+            if (!MyCommon.IsNullOrEmpty(domain))
                 query["domain"] = domain;
 
             var uri = new Uri("/v3/shorten", UriKind.Relative);
@@ -138,7 +138,7 @@ namespace OpenTween.Api
 
         private IEnumerable<KeyValuePair<string, string>> CreateAccessTokenParams()
         {
-            if (string.IsNullOrEmpty(this.EndUserAccessToken))
+            if (MyCommon.IsNullOrEmpty(this.EndUserAccessToken))
             {
                 return new[]
                 {

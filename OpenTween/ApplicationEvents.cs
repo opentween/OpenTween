@@ -284,7 +284,7 @@ namespace OpenTween
 
         private static bool SetConfigDirectoryPath()
         {
-            if (StartupOptions.TryGetValue("configDir", out var configDir) && !string.IsNullOrEmpty(configDir))
+            if (StartupOptions.TryGetValue("configDir", out var configDir) && !MyCommon.IsNullOrEmpty(configDir))
             {
                 // 起動オプション /configDir で設定ファイルの参照先を変更できます
                 if (!Directory.Exists(configDir))

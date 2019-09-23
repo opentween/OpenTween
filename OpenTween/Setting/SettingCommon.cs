@@ -66,7 +66,7 @@ namespace OpenTween
 
         private string Encrypt(string password)
         {
-            if (string.IsNullOrEmpty(password)) password = "";
+            if (MyCommon.IsNullOrEmpty(password)) password = "";
             if (password.Length > 0)
             {
                 try
@@ -85,7 +85,7 @@ namespace OpenTween
         }
         private string Decrypt(string password)
         {
-            if (string.IsNullOrEmpty(password)) password = "";
+            if (MyCommon.IsNullOrEmpty(password)) password = "";
             if (password.Length > 0)
             {
                 try
@@ -249,7 +249,7 @@ namespace OpenTween
         [XmlIgnore]
         public Version? SkipUpdateVersion
         {
-            get => string.IsNullOrEmpty(this.SkipUpdateVersionStr) ? null : Version.Parse(this.SkipUpdateVersionStr);
+            get => MyCommon.IsNullOrEmpty(this.SkipUpdateVersionStr) ? null : Version.Parse(this.SkipUpdateVersionStr);
             set => this.SkipUpdateVersionStr = value == null ? "" : value.ToString();
         }
 
@@ -271,7 +271,7 @@ namespace OpenTween
         }
         private string Encrypt(string password)
         {
-            if (string.IsNullOrEmpty(password)) password = "";
+            if (MyCommon.IsNullOrEmpty(password)) password = "";
             if (password.Length > 0)
             {
                 try
@@ -290,7 +290,7 @@ namespace OpenTween
         }
         private string Decrypt(string password)
         {
-            if (string.IsNullOrEmpty(password)) password = "";
+            if (MyCommon.IsNullOrEmpty(password)) password = "";
             if (password.Length > 0)
             {
                 try

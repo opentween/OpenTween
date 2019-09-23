@@ -216,7 +216,7 @@ namespace OpenTween
         public void Initialize(string token, string tokenSecret, string username, long userId)
         {
             //OAuth認証
-            if (string.IsNullOrEmpty(token) || string.IsNullOrEmpty(tokenSecret) || string.IsNullOrEmpty(username))
+            if (MyCommon.IsNullOrEmpty(token) || MyCommon.IsNullOrEmpty(tokenSecret) || MyCommon.IsNullOrEmpty(username))
             {
                 Twitter.AccountState = MyCommon.ACCOUNT_STATE.Invalid;
             }
@@ -579,10 +579,10 @@ namespace OpenTween
             var count = GetApiResultCount(MyCommon.WORKERTYPE.UserTimeline, more, false);
 
             TwitterStatus[] statuses;
-            if (string.IsNullOrEmpty(userName))
+            if (MyCommon.IsNullOrEmpty(userName))
             {
                 var target = tab.ScreenName;
-                if (string.IsNullOrEmpty(target)) return;
+                if (MyCommon.IsNullOrEmpty(target)) return;
                 userName = target;
                 statuses = await this.Api.StatusesUserTimeline(userName, count)
                     .ConfigureAwait(false);
@@ -1397,14 +1397,14 @@ namespace OpenTween
                 {
                     foreach (var m in entities.Urls)
                     {
-                        if (!string.IsNullOrEmpty(m.DisplayUrl)) text = text.Replace(m.Url, m.DisplayUrl);
+                        if (!MyCommon.IsNullOrEmpty(m.DisplayUrl)) text = text.Replace(m.Url, m.DisplayUrl);
                     }
                 }
                 if (entities.Media != null)
                 {
                     foreach (var m in entities.Media)
                     {
-                        if (!string.IsNullOrEmpty(m.DisplayUrl)) text = text.Replace(m.Url, m.DisplayUrl);
+                        if (!MyCommon.IsNullOrEmpty(m.DisplayUrl)) text = text.Replace(m.Url, m.DisplayUrl);
                     }
                 }
             }
@@ -1435,7 +1435,7 @@ namespace OpenTween
                         }
                     }
 
-                    if (!string.IsNullOrEmpty(entity.DisplayUrl))
+                    if (!MyCommon.IsNullOrEmpty(entity.DisplayUrl))
                         text = text.Replace(entity.Url, entity.DisplayUrl);
                 }
             }
@@ -1444,11 +1444,11 @@ namespace OpenTween
             {
                 foreach (var entity in entities.Media)
                 {
-                    if (!string.IsNullOrEmpty(entity.AltText))
+                    if (!MyCommon.IsNullOrEmpty(entity.AltText))
                     {
                         text = text.Replace(entity.Url, string.Format(Properties.Resources.ImageAltText, entity.AltText));
                     }
-                    else if (!string.IsNullOrEmpty(entity.DisplayUrl))
+                    else if (!MyCommon.IsNullOrEmpty(entity.DisplayUrl))
                     {
                         text = text.Replace(entity.Url, entity.DisplayUrl);
                     }
@@ -1670,7 +1670,7 @@ namespace OpenTween
         /// </summary>
         internal static (string SourceText, Uri? SourceUri) ParseSource(string? sourceHtml)
         {
-            if (string.IsNullOrEmpty(sourceHtml))
+            if (MyCommon.IsNullOrEmpty(sourceHtml))
                 return ("", null);
 
             string sourceText;

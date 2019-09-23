@@ -142,7 +142,7 @@ namespace OpenTween.Connection
                 var mediaId = await this.tw.UploadMedia(media, category)
                     .ConfigureAwait(false);
 
-                if (!string.IsNullOrEmpty(media.AltText))
+                if (!MyCommon.IsNullOrEmpty(media.AltText))
                 {
                     await this.tw.Api.MediaMetadataCreate(mediaId, media.AltText)
                         .ConfigureAwait(false);

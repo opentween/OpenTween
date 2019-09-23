@@ -124,7 +124,7 @@ namespace OpenTween.Connection
                     break;
                 case ProxyType.Specified:
                     proxy = new WebProxy(proxyAddress, proxyPort);
-                    if (!string.IsNullOrEmpty(proxyUser) || !string.IsNullOrEmpty(proxyPassword))
+                    if (!MyCommon.IsNullOrEmpty(proxyUser) || !MyCommon.IsNullOrEmpty(proxyPassword))
                         proxy.Credentials = new NetworkCredential(proxyUser, proxyPassword);
                     break;
                 case ProxyType.IE:

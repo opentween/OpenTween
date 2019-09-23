@@ -80,7 +80,7 @@ namespace OpenTween.Api
                 return null;
 
             // たまに出てくる空文字列は無視する
-            if (string.IsNullOrEmpty(header[headerName]))
+            if (MyCommon.IsNullOrEmpty(header[headerName]))
                 return null;
 
             switch (header[headerName])

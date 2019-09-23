@@ -92,7 +92,7 @@ namespace OpenTween
             get => this._ApiEndpoint;
             set
             {
-                if (string.IsNullOrEmpty(value))
+                if (MyCommon.IsNullOrEmpty(value))
                 {
                     // リセット
                     this._ApiEndpoint = null;
@@ -222,7 +222,7 @@ namespace OpenTween
                 minuteText = Math.Ceiling(this.remainMinutes).ToString();
             }
 
-            var endpointText = string.IsNullOrEmpty(this._ApiEndpoint) ? "unknown" : this._ApiEndpoint;
+            var endpointText = MyCommon.IsNullOrEmpty(this._ApiEndpoint) ? "unknown" : this._ApiEndpoint;
 
             var textFormat = "API {0}/{1}";
             this.Text = string.Format(textFormat, remainCountText, maxCountText);

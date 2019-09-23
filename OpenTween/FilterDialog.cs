@@ -667,7 +667,7 @@ namespace OpenTween
             else
             {
                 ft.FilterBody = bdy.Split(' ', '　')
-                    .Where(x => !string.IsNullOrEmpty(x))
+                    .Where(x => !MyCommon.IsNullOrEmpty(x))
                     .ToArray();
             }
 
@@ -699,7 +699,7 @@ namespace OpenTween
             else
             {
                 ft.ExFilterBody = bdy.Split(' ', '　')
-                    .Where(x => !string.IsNullOrEmpty(x))
+                    .Where(x => !MyCommon.IsNullOrEmpty(x))
                     .ToArray();
             }
 
@@ -755,7 +755,7 @@ namespace OpenTween
             isBlank = false;
             if (RadioAND.Checked)
             {
-                if (string.IsNullOrEmpty(UID.Text) && string.IsNullOrEmpty(MSG1.Text) && string.IsNullOrEmpty(TextSource.Text) && CheckRetweet.Checked == false)
+                if (MyCommon.IsNullOrEmpty(UID.Text) && MyCommon.IsNullOrEmpty(MSG1.Text) && MyCommon.IsNullOrEmpty(TextSource.Text) && CheckRetweet.Checked == false)
                 {
                     isBlank = true;
                     return true;
@@ -785,7 +785,7 @@ namespace OpenTween
             }
             else
             {
-                if (string.IsNullOrEmpty(MSG2.Text) && string.IsNullOrEmpty(TextSource.Text) && CheckRetweet.Checked == false)
+                if (MyCommon.IsNullOrEmpty(MSG2.Text) && MyCommon.IsNullOrEmpty(TextSource.Text) && CheckRetweet.Checked == false)
                 {
                     isBlank = true;
                     return true;
@@ -812,7 +812,7 @@ namespace OpenTween
             isBlank = false;
             if (RadioExAnd.Checked)
             {
-                if (string.IsNullOrEmpty(ExUID.Text) && string.IsNullOrEmpty(ExMSG1.Text) && string.IsNullOrEmpty(TextExSource.Text) && CheckExRetweet.Checked == false)
+                if (MyCommon.IsNullOrEmpty(ExUID.Text) && MyCommon.IsNullOrEmpty(ExMSG1.Text) && MyCommon.IsNullOrEmpty(TextExSource.Text) && CheckExRetweet.Checked == false)
                 {
                     isBlank = true;
                     return true;
@@ -842,7 +842,7 @@ namespace OpenTween
             }
             else
             {
-                if (string.IsNullOrEmpty(ExMSG2.Text) && string.IsNullOrEmpty(TextExSource.Text) && CheckExRetweet.Checked == false)
+                if (MyCommon.IsNullOrEmpty(ExMSG2.Text) && MyCommon.IsNullOrEmpty(TextExSource.Text) && CheckExRetweet.Checked == false)
                 {
                     isBlank = true;
                     return true;
@@ -971,7 +971,7 @@ namespace OpenTween
                 tabName = inputName.TabName;
                 tabType = inputName.Usage;
             }
-            if (!string.IsNullOrEmpty(tabName))
+            if (!MyCommon.IsNullOrEmpty(tabName))
             {
                 //List対応
                 ListElement? list = null;

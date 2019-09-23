@@ -96,7 +96,7 @@ namespace OpenTween.Connection
                 ["oauth_nonce"] = NonceRandom.Next(123400, 9999999).ToString(),
                 ["oauth_version"] = "1.0",
             };
-            if (!string.IsNullOrEmpty(token))
+            if (!MyCommon.IsNullOrEmpty(token))
                 parameter.Add("oauth_token", token); // トークンがあれば追加
             return parameter;
         }
@@ -121,7 +121,7 @@ namespace OpenTween.Connection
             var signatureBase = string.Format("{0}&{1}&{2}", method, MyCommon.UrlEncode(url), MyCommon.UrlEncode(paramString));
             // 署名鍵の文字列をコンシューマー秘密鍵とアクセストークン秘密鍵から生成（&区切り。アクセストークン秘密鍵なくても&残すこと）
             var key = MyCommon.UrlEncode(consumerSecret) + "&";
-            if (!string.IsNullOrEmpty(tokenSecret))
+            if (!MyCommon.IsNullOrEmpty(tokenSecret))
                 key += MyCommon.UrlEncode(tokenSecret);
             // 鍵生成＆署名生成
             using var hmac = new HMACSHA1(Encoding.ASCII.GetBytes(key));

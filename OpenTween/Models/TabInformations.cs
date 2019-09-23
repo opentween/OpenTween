@@ -370,7 +370,7 @@ namespace OpenTween.Models
 
                         // 通知サウンドは TabClass.Notify の値に関わらず鳴らす
                         // SettingCommon.PlaySound が false であれば TweenMain 側で無効化される
-                        if (!string.IsNullOrEmpty(tab.SoundFile))
+                        if (!MyCommon.IsNullOrEmpty(tab.SoundFile))
                         {
                             if (!this.notifyPriorityByTabType.TryGetValue(tab.TabType, out var notifyPriority))
                                 notifyPriority = 0;
