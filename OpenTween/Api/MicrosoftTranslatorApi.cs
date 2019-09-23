@@ -117,6 +117,8 @@ namespace OpenTween.Api
             using var response = await this.Http.SendAsync(request)
                 .ConfigureAwait(false);
 
+            response.EnsureSuccessStatusCode();
+
             var accessToken = await response.Content.ReadAsStringAsync()
                 .ConfigureAwait(false);
 
