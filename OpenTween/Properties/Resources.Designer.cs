@@ -652,6 +652,8 @@ namespace OpenTween.Properties {
         /// <summary>
         ///   更新履歴
         ///
+        ///==== Ver 2.4.1-dev(2019/xx/xx)
+        ///
         ///==== Ver 2.4.0(2019/09/24)
         /// * NEW: Twemoji 12.0.0 に対応しました
         ///  - Unicode 12.0 で追加された絵文字が表示されるようになります
@@ -662,8 +664,7 @@ namespace OpenTween.Properties {
         /// * FIX: Twemojiを有効にすると絵文字の後に余分な文字が表示される場合がある不具合を修正
         /// * FIX: Tumblrのサムネイル表示時にエラーが表示される場合がある不具合を修正
         /// * FIX: 発言内URLを開く(Ctrl+E)でURLにマルチバイト文字を含むとエラーが発生する場合がある不具合を修正
-        /// * FIX: 英語版のメッセージの誤りを修正 (thx @Tan90909090!)
-        /// [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
+        /// * FIX: 英語版 [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ChangeLog {
             get {
