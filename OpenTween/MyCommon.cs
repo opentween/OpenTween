@@ -59,7 +59,7 @@ namespace OpenTween
     {
         private static readonly object LockObj = new object();
         public static bool _endingFlag;        //終了フラグ
-        public static string settingPath;
+        public static string settingPath = null!;
 
         public enum IconSizes
         {

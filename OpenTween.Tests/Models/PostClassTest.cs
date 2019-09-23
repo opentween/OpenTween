@@ -47,7 +47,7 @@ namespace OpenTween.Models
 
         private static Dictionary<long, PostClass> TestCases;
 
-        public PostClassTest()
+        static PostClassTest()
         {
             PostClassTest.TestCases = new Dictionary<long, PostClass>
             {

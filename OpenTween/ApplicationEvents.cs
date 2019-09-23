@@ -55,7 +55,7 @@ namespace OpenTween
         /// <summary>
         /// 起動時に指定されたオプションを取得します
         /// </summary>
-        public static IDictionary<string, string> StartupOptions { get; private set; }
+        public static IDictionary<string, string> StartupOptions { get; private set; } = null!;
 
         /// <summary>
         /// アプリケーションのメイン エントリ ポイントです。
