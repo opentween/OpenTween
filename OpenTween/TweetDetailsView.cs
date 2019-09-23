@@ -66,7 +66,7 @@ namespace OpenTween
         }
 
         /// <summary>ステータスバーに表示するテキストの変化を通知するイベント</summary>
-        public event EventHandler<TweetDetailsViewStatusChengedEventArgs> StatusChanged;
+        public event EventHandler<TweetDetailsViewStatusChengedEventArgs>? StatusChanged;
 
         /// <summary><see cref="ContextMenuPostBrowser"/> 展開時の <see cref="PostBrowser"/>.StatusText を保持するフィールド</summary>
         private string _postBrowserStatusText = "";

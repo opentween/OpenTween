@@ -39,7 +39,7 @@ namespace OpenTween.Setting.Panel
 {
     public partial class GetPeriodPanel : SettingPanelBase
     {
-        public event EventHandler<IntervalChangedEventArgs> IntervalChanged;
+        public event EventHandler<IntervalChangedEventArgs>? IntervalChanged;
 
         public GetPeriodPanel()
             => this.InitializeComponent();

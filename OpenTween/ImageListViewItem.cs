@@ -51,7 +51,7 @@ namespace OpenTween
         private readonly WeakReference imageReference = new WeakReference(null);
         private Task? imageTask = null;
 
-        public event EventHandler ImageDownloaded;
+        public event EventHandler? ImageDownloaded;
 
         public ImageListViewItem(string[] items)
             : this(items, null, null)

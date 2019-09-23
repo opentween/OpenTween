@@ -84,7 +84,7 @@ namespace OpenTween.Connection
         /// <summary>
         /// Webプロキシの設定が変更された場合に発生します
         /// </summary>
-        public static event EventHandler WebProxyChanged;
+        public static event EventHandler? WebProxyChanged;
 
         private static bool initialized = false;
         private static HttpClient globalHttpClient;

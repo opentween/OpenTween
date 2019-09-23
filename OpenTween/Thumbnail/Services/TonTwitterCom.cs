@@ -40,7 +40,7 @@ namespace OpenTween.Thumbnail.Services
     /// </summary>
     class TonTwitterCom : IThumbnailService
     {
-        internal static Func<IApiConnection> GetApiConnection;
+        internal static Func<IApiConnection>? GetApiConnection;
 
         public override Task<ThumbnailInfo?> GetThumbnailInfoAsync(string url, PostClass post, CancellationToken token)
         {
@@ -68,7 +68,7 @@ namespace OpenTween.Thumbnail.Services
             {
                 return Task.Run(async () =>
                 {
-                    var apiConnection = TonTwitterCom.GetApiConnection();
+                    var apiConnection = TonTwitterCom.GetApiConnection!();
 
                     using var imageStream = await apiConnection.GetStreamAsync(new Uri(this.ThumbnailImageUrl), null)
                         .ConfigureAwait(false);

@@ -69,7 +69,7 @@ namespace OpenTween
             }
         }
 
-        public event EventHandler<NotifyCallbackEventArgs> NotifyClicked;
+        public event EventHandler<NotifyCallbackEventArgs>? NotifyClicked;
 
         public string AppName { get; }
 

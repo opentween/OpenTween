@@ -1877,11 +1877,11 @@ namespace OpenTween
         public string TrackWord { get; set; } = "";
         public bool AllAtReply { get; set; } = false;
 
-        public event EventHandler NewPostFromStream;
-        public event EventHandler UserStreamStarted;
-        public event EventHandler UserStreamStopped;
-        public event EventHandler<PostDeletedEventArgs> PostDeleted;
-        public event EventHandler<UserStreamEventReceivedEventArgs> UserStreamEventReceived;
+        public event EventHandler? NewPostFromStream;
+        public event EventHandler? UserStreamStarted;
+        public event EventHandler? UserStreamStopped;
+        public event EventHandler<PostDeletedEventArgs>? PostDeleted;
+        public event EventHandler<UserStreamEventReceivedEventArgs>? UserStreamEventReceived;
         private DateTimeUtc _lastUserstreamDataReceived;
         private StreamAutoConnector? userStreamConnector;
 

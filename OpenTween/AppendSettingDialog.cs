@@ -48,7 +48,7 @@ namespace OpenTween
 {
     public partial class AppendSettingDialog : OTBaseForm
     {
-        public event EventHandler<IntervalChangedEventArgs> IntervalChanged;
+        public event EventHandler<IntervalChangedEventArgs>? IntervalChanged;
 
         internal Twitter tw = null!;
         internal TwitterApi twitterApi = null!;

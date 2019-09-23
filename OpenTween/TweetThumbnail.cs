@@ -46,9 +46,9 @@ namespace OpenTween
         protected internal List<OTPictureBox> pictureBox = new List<OTPictureBox>();
         protected MouseWheelMessageFilter filter = new MouseWheelMessageFilter();
 
-        public event EventHandler<EventArgs> ThumbnailLoading;
-        public event EventHandler<ThumbnailDoubleClickEventArgs> ThumbnailDoubleClick;
-        public event EventHandler<ThumbnailImageSearchEventArgs> ThumbnailImageSearchClick;
+        public event EventHandler<EventArgs>? ThumbnailLoading;
+        public event EventHandler<ThumbnailDoubleClickEventArgs>? ThumbnailDoubleClick;
+        public event EventHandler<ThumbnailImageSearchEventArgs>? ThumbnailImageSearchClick;
 
         public ThumbnailInfo Thumbnail
             => (ThumbnailInfo)this.pictureBox[this.scrollBar.Value].Tag;

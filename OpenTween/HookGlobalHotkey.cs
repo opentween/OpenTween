@@ -61,7 +61,7 @@ namespace OpenTween
             Win = 0x8,
         }
 
-        public event KeyEventHandler HotkeyPressed;
+        public event KeyEventHandler? HotkeyPressed;
 
         protected override void WndProc(ref Message m)
         {

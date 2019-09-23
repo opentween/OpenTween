@@ -39,13 +39,13 @@ namespace OpenTween
 {
     public partial class MediaSelector : UserControl
     {
-        public event EventHandler<EventArgs> BeginSelecting;
-        public event EventHandler<EventArgs> EndSelecting;
+        public event EventHandler<EventArgs>? BeginSelecting;
+        public event EventHandler<EventArgs>? EndSelecting;
 
-        public event EventHandler<EventArgs> FilePickDialogOpening;
-        public event EventHandler<EventArgs> FilePickDialogClosed;
+        public event EventHandler<EventArgs>? FilePickDialogOpening;
+        public event EventHandler<EventArgs>? FilePickDialogClosed;
 
-        public event EventHandler<EventArgs> SelectedServiceChanged;
+        public event EventHandler<EventArgs>? SelectedServiceChanged;
 
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]

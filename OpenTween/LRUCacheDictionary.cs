@@ -58,7 +58,7 @@ namespace OpenTween
             public CacheRemovedEventArgs(KeyValuePair<TKey, TValue> item)
                 => this.Item = item;
         }
-        public event EventHandler<CacheRemovedEventArgs> CacheRemoved;
+        public event EventHandler<CacheRemovedEventArgs>? CacheRemoved;
 
         internal LinkedList<KeyValuePair<TKey, TValue>> innerList;
         internal Dictionary<TKey, LinkedListNode<KeyValuePair<TKey, TValue>>> innerDict;

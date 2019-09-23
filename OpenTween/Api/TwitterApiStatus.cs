@@ -49,7 +49,7 @@ namespace OpenTween.Api
             public AccessLimitUpdatedEventArgs(string? endpointName)
                 => this.EndpointName = endpointName;
         }
-        public event EventHandler<AccessLimitUpdatedEventArgs> AccessLimitUpdated;
+        public event EventHandler<AccessLimitUpdatedEventArgs>? AccessLimitUpdated;
 
         public TwitterApiStatus()
             => this.AccessLimit = new EndpointLimits(this);
