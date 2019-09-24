@@ -1127,8 +1127,6 @@ namespace OpenTween
             ApplyListViewIconSize(SettingManager.Common.IconSize);
 
             //<<<<<<<<タブ関連>>>>>>>
-            // タブの位置を調整する
-            SetTabAlignment();
 
             //デフォルトタブの存在チェック、ない場合には追加
             if (this._statuses.GetTabByType<HomeTabModel>() == null)
@@ -1153,6 +1151,9 @@ namespace OpenTween
             }
 
             this._statuses.SelectTab(this.ListTab.SelectedTab.Text);
+
+            // タブの位置を調整する
+            SetTabAlignment();
 
             MyCommon.TwitterApiInfo.AccessLimitUpdated += TwitterApiStatus_AccessLimitUpdated;
             Microsoft.Win32.SystemEvents.TimeChanged += SystemEvents_TimeChanged;
