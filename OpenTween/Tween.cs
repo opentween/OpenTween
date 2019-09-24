@@ -1388,12 +1388,15 @@ namespace OpenTween
 
         private void RefreshTimelineScheduler()
         {
-            this.timelineScheduler.UpdateIntervalHome = TimeSpan.FromSeconds(SettingManager.Common.TimelinePeriod);
-            this.timelineScheduler.UpdateIntervalMention = TimeSpan.FromSeconds(SettingManager.Common.ReplyPeriod);
-            this.timelineScheduler.UpdateIntervalDm = TimeSpan.FromSeconds(SettingManager.Common.DMPeriod);
-            this.timelineScheduler.UpdateIntervalPublicSearch = TimeSpan.FromSeconds(SettingManager.Common.PubSearchPeriod);
-            this.timelineScheduler.UpdateIntervalUser = TimeSpan.FromSeconds(SettingManager.Common.UserTimelinePeriod);
-            this.timelineScheduler.UpdateIntervalList = TimeSpan.FromSeconds(SettingManager.Common.ListsPeriod);
+            static TimeSpan intervalSecondsOrDisabled(int seconds)
+                => seconds == 0 ? Timeout.InfiniteTimeSpan : TimeSpan.FromSeconds(seconds);
+
+            this.timelineScheduler.UpdateIntervalHome = intervalSecondsOrDisabled(SettingManager.Common.TimelinePeriod);
+            this.timelineScheduler.UpdateIntervalMention = intervalSecondsOrDisabled(SettingManager.Common.ReplyPeriod);
+            this.timelineScheduler.UpdateIntervalDm = intervalSecondsOrDisabled(SettingManager.Common.DMPeriod);
+            this.timelineScheduler.UpdateIntervalPublicSearch = intervalSecondsOrDisabled(SettingManager.Common.PubSearchPeriod);
+            this.timelineScheduler.UpdateIntervalUser = intervalSecondsOrDisabled(SettingManager.Common.UserTimelinePeriod);
+            this.timelineScheduler.UpdateIntervalList = intervalSecondsOrDisabled(SettingManager.Common.ListsPeriod);
             this.timelineScheduler.UpdateIntervalConfig = TimeSpan.FromHours(6);
             this.timelineScheduler.UpdateAfterSystemResume = TimeSpan.FromSeconds(30);
 

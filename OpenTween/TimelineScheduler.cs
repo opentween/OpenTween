@@ -78,6 +78,30 @@ namespace OpenTween
         public TimeSpan UpdateIntervalConfig { get; set; } = Timeout.InfiniteTimeSpan;
         public TimeSpan UpdateAfterSystemResume { get; set; } = Timeout.InfiniteTimeSpan;
 
+        public bool EnableUpdateHome
+            => this.UpdateIntervalHome != Timeout.InfiniteTimeSpan;
+
+        public bool EnableUpdateMention
+            => this.UpdateIntervalMention != Timeout.InfiniteTimeSpan;
+
+        public bool EnableUpdateDm
+            => this.UpdateIntervalDm != Timeout.InfiniteTimeSpan;
+
+        public bool EnableUpdatePublicSearch
+            => this.UpdateIntervalPublicSearch != Timeout.InfiniteTimeSpan;
+
+        public bool EnableUpdateUser
+            => this.UpdateIntervalUser != Timeout.InfiniteTimeSpan;
+
+        public bool EnableUpdateList
+            => this.UpdateIntervalList != Timeout.InfiniteTimeSpan;
+
+        public bool EnableUpdateConfig
+            => this.UpdateIntervalConfig != Timeout.InfiniteTimeSpan;
+
+        public bool EnableUpdateSystemResume
+            => this.UpdateAfterSystemResume != Timeout.InfiniteTimeSpan;
+
         public Func<Task>? UpdateHome;
         public Func<Task>? UpdateMention;
         public Func<Task>? UpdateDm;
@@ -116,6 +140,9 @@ namespace OpenTween
 
         public void SystemResumed()
         {
+            if (!this.EnableUpdateSystemResume)
+                return;
+
             this.SystemResumedAt = DateTimeUtc.Now;
             this.systemResumeMode = true;
             this.RefreshSchedule();
@@ -145,33 +172,54 @@ namespace OpenTween
             var round = TimeSpan.FromSeconds(1); // 1秒未満の差異であればまとめて実行する
             var tasks = UpdateTask.None;
 
-            var nextScheduledHome = this.LastUpdateHome + this.UpdateIntervalHome;
-            if (nextScheduledHome - now < round)
-                tasks |= UpdateTask.Home;
+            if (this.EnableUpdateHome)
+            {
+                var nextScheduledHome = this.LastUpdateHome + this.UpdateIntervalHome;
+                if (nextScheduledHome - now < round)
+                    tasks |= UpdateTask.Home;
+            }
 
-            var nextScheduledMention = this.LastUpdateMention + this.UpdateIntervalMention;
-            if (nextScheduledMention - now < round)
-                tasks |= UpdateTask.Mention;
+            if (this.EnableUpdateMention)
+            {
+                var nextScheduledMention = this.LastUpdateMention + this.UpdateIntervalMention;
+                if (nextScheduledMention - now < round)
+                    tasks |= UpdateTask.Mention;
+            }
 
-            var nextScheduledDm = this.LastUpdateDm + this.UpdateIntervalDm;
-            if (nextScheduledDm - now < round)
-                tasks |= UpdateTask.Dm;
+            if (this.EnableUpdateDm)
+            {
+                var nextScheduledDm = this.LastUpdateDm + this.UpdateIntervalDm;
+                if (nextScheduledDm - now < round)
+                    tasks |= UpdateTask.Dm;
+            }
 
-            var nextScheduledPublicSearch = this.LastUpdatePublicSearch + this.UpdateIntervalPublicSearch;
-            if (nextScheduledPublicSearch - now < round)
-                tasks |= UpdateTask.PublicSearch;
+            if (this.EnableUpdatePublicSearch)
+            {
+                var nextScheduledPublicSearch = this.LastUpdatePublicSearch + this.UpdateIntervalPublicSearch;
+                if (nextScheduledPublicSearch - now < round)
+                    tasks |= UpdateTask.PublicSearch;
+            }
 
-            var nextScheduledUser = this.LastUpdateUser + this.UpdateIntervalUser;
-            if (nextScheduledUser - now < round)
-                tasks |= UpdateTask.User;
+            if (this.EnableUpdateUser)
+            {
+                var nextScheduledUser = this.LastUpdateUser + this.UpdateIntervalUser;
+                if (nextScheduledUser - now < round)
+                    tasks |= UpdateTask.User;
+            }
 
-            var nextScheduledList = this.LastUpdateList + this.UpdateIntervalList;
-            if (nextScheduledList - now < round)
-                tasks |= UpdateTask.List;
+            if (this.EnableUpdateList)
+            {
+                var nextScheduledList = this.LastUpdateList + this.UpdateIntervalList;
+                if (nextScheduledList - now < round)
+                    tasks |= UpdateTask.List;
+            }
 
-            var nextScheduledConfig = this.LastUpdateConfig + this.UpdateIntervalConfig;
-            if (nextScheduledConfig - now < round)
-                tasks |= UpdateTask.Config;
+            if (this.EnableUpdateConfig)
+            {
+                var nextScheduledConfig = this.LastUpdateConfig + this.UpdateIntervalConfig;
+                if (nextScheduledConfig - now < round)
+                    tasks |= UpdateTask.Config;
+            }
 
             await this.RunUpdateTasks(tasks, now).ConfigureAwait(false);
         }
@@ -264,33 +312,54 @@ namespace OpenTween
             // 次に更新が予定される時刻を判定する
             var min = DateTimeUtc.MaxValue;
 
-            var nextScheduledHome = this.LastUpdateHome + this.UpdateIntervalHome;
-            if (nextScheduledHome < min)
-                min = nextScheduledHome;
+            if (this.EnableUpdateHome)
+            {
+                var nextScheduledHome = this.LastUpdateHome + this.UpdateIntervalHome;
+                if (nextScheduledHome < min)
+                    min = nextScheduledHome;
+            }
 
-            var nextScheduledMention = this.LastUpdateMention + this.UpdateIntervalMention;
-            if (nextScheduledMention < min)
-                min = nextScheduledMention;
+            if (this.EnableUpdateMention)
+            {
+                var nextScheduledMention = this.LastUpdateMention + this.UpdateIntervalMention;
+                if (nextScheduledMention < min)
+                    min = nextScheduledMention;
+            }
 
-            var nextScheduledDm = this.LastUpdateDm + this.UpdateIntervalDm;
-            if (nextScheduledDm < min)
-                min = nextScheduledDm;
+            if (this.EnableUpdateDm)
+            {
+                var nextScheduledDm = this.LastUpdateDm + this.UpdateIntervalDm;
+                if (nextScheduledDm < min)
+                    min = nextScheduledDm;
+            }
 
-            var nextScheduledPublicSearch = this.LastUpdatePublicSearch + this.UpdateIntervalPublicSearch;
-            if (nextScheduledPublicSearch < min)
-                min = nextScheduledPublicSearch;
+            if (this.EnableUpdatePublicSearch)
+            {
+                var nextScheduledPublicSearch = this.LastUpdatePublicSearch + this.UpdateIntervalPublicSearch;
+                if (nextScheduledPublicSearch < min)
+                    min = nextScheduledPublicSearch;
+            }
 
-            var nextScheduledUser = this.LastUpdateUser + this.UpdateIntervalUser;
-            if (nextScheduledUser < min)
-                min = nextScheduledUser;
+            if (this.EnableUpdateUser)
+            {
+                var nextScheduledUser = this.LastUpdateUser + this.UpdateIntervalUser;
+                if (nextScheduledUser < min)
+                    min = nextScheduledUser;
+            }
 
-            var nextScheduledList = this.LastUpdateList + this.UpdateIntervalList;
-            if (nextScheduledList < min)
-                min = nextScheduledList;
+            if (this.EnableUpdateList)
+            {
+                var nextScheduledList = this.LastUpdateList + this.UpdateIntervalList;
+                if (nextScheduledList < min)
+                    min = nextScheduledList;
+            }
 
-            var nextScheduledConfig = this.LastUpdateConfig + this.UpdateIntervalConfig;
-            if (nextScheduledConfig < min)
-                min = nextScheduledConfig;
+            if (this.EnableUpdateConfig)
+            {
+                var nextScheduledConfig = this.LastUpdateConfig + this.UpdateIntervalConfig;
+                if (nextScheduledConfig < min)
+                    min = nextScheduledConfig;
+            }
 
             delay = min - DateTimeUtc.Now;
 
