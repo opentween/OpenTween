@@ -366,7 +366,6 @@ namespace OpenTween
 
         private readonly TimelineScheduler timelineScheduler = new TimelineScheduler();
         private ThrottlingTimer RefreshThrottlingTimer = null!;
-        private ThrottlingTimer colorizeDebouncer = null!;
         private ThrottlingTimer selectionDebouncer = null!;
         private ThrottlingTimer saveConfigDebouncer = null!;
 
@@ -1218,7 +1217,6 @@ namespace OpenTween
 
             var streamingRefreshInterval = TimeSpan.FromSeconds(SettingManager.Common.UserstreamPeriod);
             this.RefreshThrottlingTimer = ThrottlingTimer.Throttle(() => this.InvokeAsync(() => this.RefreshTimeline()), streamingRefreshInterval);
-            this.colorizeDebouncer = ThrottlingTimer.Debounce(() => this.InvokeAsync(() => this.ColorizeList()), TimeSpan.FromMilliseconds(100), leading: true);
             this.selectionDebouncer = ThrottlingTimer.Debounce(() => this.InvokeAsync(() => this.UpdateSelectedPost()), TimeSpan.FromMilliseconds(100), leading: true);
             this.saveConfigDebouncer = ThrottlingTimer.Debounce(() => this.InvokeAsync(() => this.SaveConfigsAll(ifModified: true)), TimeSpan.FromSeconds(1));
 
@@ -1955,7 +1953,7 @@ namespace OpenTween
             //キャッシュの書き換え
             ChangeCacheStyleRead(true, index); // 既読へ（フォント、文字色）
 
-            this.colorizeDebouncer.Call();
+            this.ColorizeList();
             this.selectionDebouncer.Call();
         }
 
@@ -2017,6 +2015,7 @@ namespace OpenTween
             }
             else
             {
+                DList.Update();
                 if (SettingManager.Common.UseUnreadStyle)
                     DList.ChangeItemFontAndColor(Item, cl, fnt);
                 else

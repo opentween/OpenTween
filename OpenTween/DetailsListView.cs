@@ -108,7 +108,7 @@ namespace OpenTween.OpenTweenCustomControl
 
         public void ChangeItemFontAndColor(ListViewItem item, Color foreColor, Font fnt)
         {
-            if (item.ForeColor == foreColor && item.Font == fnt)
+            if (item.ForeColor == foreColor && item.Font.Equals(fnt))
                 return;
 
             item.ForeColor = foreColor;
