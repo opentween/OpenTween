@@ -331,7 +331,7 @@ namespace OpenTween.Models
         {
             var filterExprs = new List<Expression>();
 
-            if (useNameField && !string.IsNullOrEmpty(filterName))
+            if (useNameField && !MyCommon.IsNullOrEmpty(filterName))
             {
                 filterExprs.Add(Expression.OrElse(
                     this.MakeGenericFilter(postParam, "ScreenName", filterName, useRegex, caseSensitive, exactMatch: true),
@@ -339,7 +339,7 @@ namespace OpenTween.Models
             }
             foreach (var body in filterBody)
             {
-                if (string.IsNullOrEmpty(body))
+                if (MyCommon.IsNullOrEmpty(body))
                     continue;
 
                 Expression bodyExpr;
@@ -378,7 +378,7 @@ namespace OpenTween.Models
 
                 filterExprs.Add(bodyExpr);
             }
-            if (!string.IsNullOrEmpty(filterSource))
+            if (!MyCommon.IsNullOrEmpty(filterSource))
             {
                 if (filterByUrl)
                     filterExprs.Add(this.MakeGenericFilter(postParam, "SourceHtml", filterSource, useRegex, caseSensitive));
@@ -544,7 +544,7 @@ namespace OpenTween.Models
             {
                 if (this.UseNameField)
                 {
-                    if (!string.IsNullOrEmpty(this.FilterName))
+                    if (!MyCommon.IsNullOrEmpty(this.FilterName))
                     {
                         fs.AppendFormat(Properties.Resources.SetFiltersText1, this.FilterName);
                     }
@@ -593,7 +593,7 @@ namespace OpenTween.Models
                 {
                     fs.Append("LambdaExp/");
                 }
-                if (!string.IsNullOrEmpty(this.FilterSource))
+                if (!MyCommon.IsNullOrEmpty(this.FilterSource))
                 {
                     fs.AppendFormat("Src…{0}/", this.FilterSource);
                 }
@@ -606,7 +606,7 @@ namespace OpenTween.Models
                 fs.Append(Properties.Resources.SetFiltersText12);
                 if (this.ExUseNameField)
                 {
-                    if (!string.IsNullOrEmpty(this.ExFilterName))
+                    if (!MyCommon.IsNullOrEmpty(this.ExFilterName))
                     {
                         fs.AppendFormat(Properties.Resources.SetFiltersText1, this.ExFilterName);
                     }
@@ -655,7 +655,7 @@ namespace OpenTween.Models
                 {
                     fs.Append("LambdaExp/");
                 }
-                if (!string.IsNullOrEmpty(this.ExFilterSource))
+                if (!MyCommon.IsNullOrEmpty(this.ExFilterSource))
                 {
                     fs.AppendFormat("Src…{0}/", this.ExFilterSource);
                 }
@@ -691,18 +691,18 @@ namespace OpenTween.Models
         /// この振り分けルールにマッチ条件が含まれているかを返します
         /// </summary>
         public bool HasMatchConditions()
-            => !string.IsNullOrEmpty(this.FilterName) ||
-                this.FilterBody.Any(x => !string.IsNullOrEmpty(x)) ||
-                !string.IsNullOrEmpty(this.FilterSource) ||
+            => !MyCommon.IsNullOrEmpty(this.FilterName) ||
+                this.FilterBody.Any(x => !MyCommon.IsNullOrEmpty(x)) ||
+                !MyCommon.IsNullOrEmpty(this.FilterSource) ||
                 this.FilterRt;
 
         /// <summary>
         /// この振り分けルールに除外条件が含まれているかを返します
         /// </summary>
         public bool HasExcludeConditions()
-            => !string.IsNullOrEmpty(this.ExFilterName) ||
-                this.ExFilterBody.Any(x => !string.IsNullOrEmpty(x)) ||
-                !string.IsNullOrEmpty(this.ExFilterSource) ||
+            => !MyCommon.IsNullOrEmpty(this.ExFilterName) ||
+                this.ExFilterBody.Any(x => !MyCommon.IsNullOrEmpty(x)) ||
+                !MyCommon.IsNullOrEmpty(this.ExFilterSource) ||
                 this.ExFilterRt;
 
         public override bool Equals(object? obj)

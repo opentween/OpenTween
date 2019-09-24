@@ -88,7 +88,7 @@ namespace OpenTween
 
         private void TextId_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.Back && string.IsNullOrEmpty(this.TextId.Text))
+            if (e.KeyCode == Keys.Back && MyCommon.IsNullOrEmpty(this.TextId.Text))
             {
                 inputText = "";
                 isBack = true;
@@ -102,7 +102,7 @@ namespace OpenTween
             }
             else if (e.Control && e.KeyCode == Keys.Delete)
             {
-                if (!string.IsNullOrEmpty(this.TextId.Text))
+                if (!MyCommon.IsNullOrEmpty(this.TextId.Text))
                 {
                     var idx = this.TextId.AutoCompleteCustomSource.IndexOf(this.TextId.Text);
                     if (idx > -1)
@@ -126,7 +126,7 @@ namespace OpenTween
         private void AtIdSupplement_Shown(object sender, EventArgs e)
         {
             TextId.Text = startChar;
-            if (!string.IsNullOrEmpty(this.StartsWith))
+            if (!MyCommon.IsNullOrEmpty(this.StartsWith))
             {
                 TextId.Text += this.StartsWith.Substring(0, this.StartsWith.Length);
             }

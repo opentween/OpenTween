@@ -84,7 +84,7 @@ namespace OpenTween.Connection
         /// <summary>
         /// Webプロキシの設定が変更された場合に発生します
         /// </summary>
-        public static event EventHandler WebProxyChanged;
+        public static event EventHandler? WebProxyChanged;
 
         private static bool initialized = false;
         private static HttpClient globalHttpClient;
@@ -124,7 +124,7 @@ namespace OpenTween.Connection
                     break;
                 case ProxyType.Specified:
                     proxy = new WebProxy(proxyAddress, proxyPort);
-                    if (!string.IsNullOrEmpty(proxyUser) || !string.IsNullOrEmpty(proxyPassword))
+                    if (!MyCommon.IsNullOrEmpty(proxyUser) || !MyCommon.IsNullOrEmpty(proxyPassword))
                         proxy.Credentials = new NetworkCredential(proxyUser, proxyPassword);
                     break;
                 case ProxyType.IE:

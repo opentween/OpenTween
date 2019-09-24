@@ -330,7 +330,7 @@ namespace OpenTween
             InternetProxyInfo ipi;
 
             // Filling in structure
-            if (!string.IsNullOrEmpty(strProxy))
+            if (!MyCommon.IsNullOrEmpty(strProxy))
             {
                 ipi = new InternetProxyInfo
                 {

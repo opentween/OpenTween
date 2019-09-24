@@ -51,6 +51,7 @@ using System.Runtime.InteropServices;
 using OpenTween.Api;
 using OpenTween.Models;
 using OpenTween.Setting;
+using System.Diagnostics.CodeAnalysis;
 
 namespace OpenTween
 {
@@ -58,7 +59,7 @@ namespace OpenTween
     {
         private static readonly object LockObj = new object();
         public static bool _endingFlag;        //終了フラグ
-        public static string settingPath;
+        public static string settingPath = null!;
 
         public enum IconSizes
         {
@@ -535,7 +536,7 @@ namespace OpenTween
 
         public static string EncryptString(string str)
         {
-            if (string.IsNullOrEmpty(str)) return "";
+            if (MyCommon.IsNullOrEmpty(str)) return "";
 
             //文字列をバイト型配列にする
             var bytesIn = Encoding.UTF8.GetBytes(str);
@@ -587,7 +588,7 @@ namespace OpenTween
 
         public static string DecryptString(string str)
         {
-            if (string.IsNullOrEmpty(str)) return "";
+            if (MyCommon.IsNullOrEmpty(str)) return "";
 
             //DESCryptoServiceProviderオブジェクトの作成
             using var des = new DESCryptoServiceProvider();
@@ -994,5 +995,8 @@ namespace OpenTween
             }
             return sb.ToString();
         }
+
+        public static bool IsNullOrEmpty([NotNullWhen(false)] string? value)
+            => string.IsNullOrEmpty(value);
     }
 }

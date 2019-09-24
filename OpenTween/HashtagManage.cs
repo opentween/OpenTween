@@ -125,14 +125,14 @@ namespace OpenTween
 
         private int GetIndexOf(ListBox.ObjectCollection list, string value)
         {
-            if (string.IsNullOrEmpty(value)) return -1;
+            if (MyCommon.IsNullOrEmpty(value)) return -1;
 
             var idx = 0;
 
             foreach (var l in list)
             {
                 var src = (string)l;
-                if (string.IsNullOrEmpty(src))
+                if (MyCommon.IsNullOrEmpty(src))
                 {
                     idx += 1;
                     continue;
@@ -151,7 +151,7 @@ namespace OpenTween
         public void AddHashToHistory(string hash, bool isIgnorePermanent)
         {
             hash = hash.Trim();
-            if (!string.IsNullOrEmpty(hash))
+            if (!MyCommon.IsNullOrEmpty(hash))
             {
                 if (isIgnorePermanent || !this.IsPermanent)
                 {
@@ -231,7 +231,7 @@ namespace OpenTween
             if (e.KeyChar == '#')
             {
                 _hashSupl.ShowDialog();
-                if (!string.IsNullOrEmpty(_hashSupl.inputText))
+                if (!MyCommon.IsNullOrEmpty(_hashSupl.inputText))
                 {
                     var fHalf = "";
                     var eHalf = "";
@@ -256,7 +256,7 @@ namespace OpenTween
 
         public void ToggleHash()
         {
-            if (string.IsNullOrEmpty(this.UseHash))
+            if (MyCommon.IsNullOrEmpty(this.UseHash))
             {
                 if (this.HistoryHashList.Items.Count > 0)
                     this.UseHash = this.HistoryHashList.Items[0].ToString();
@@ -344,7 +344,7 @@ namespace OpenTween
         {
             //ハッシュタグの整形
             hashtag = hashtag.Trim();
-            if (string.IsNullOrEmpty(hashtag))
+            if (MyCommon.IsNullOrEmpty(hashtag))
             {
                 if (isShowWarn) MessageBox.Show("emply hashtag.", "Hashtag warning", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                 return false;
@@ -382,7 +382,7 @@ namespace OpenTween
                 hash += hs + " ";
             }
             hash = hash.Trim();
-            if (!string.IsNullOrEmpty(hash))
+            if (!MyCommon.IsNullOrEmpty(hash))
             {
                 this.AddHashToHistory(hash, true);
                 this.IsPermanent = this.CheckPermanent.Checked;

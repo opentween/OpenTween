@@ -88,7 +88,7 @@ namespace OpenTween.Thumbnail.Services
                     .ConfigureAwait(false);
 
                 var thumbnailUrl = this.GetThumbnailUrl(content);
-                if (string.IsNullOrEmpty(thumbnailUrl)) return null;
+                if (MyCommon.IsNullOrEmpty(thumbnailUrl)) return null;
 
                 return new ThumbnailInfo
                 {

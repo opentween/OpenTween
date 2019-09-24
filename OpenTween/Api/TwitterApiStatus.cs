@@ -49,7 +49,7 @@ namespace OpenTween.Api
             public AccessLimitUpdatedEventArgs(string? endpointName)
                 => this.EndpointName = endpointName;
         }
-        public event EventHandler<AccessLimitUpdatedEventArgs> AccessLimitUpdated;
+        public event EventHandler<AccessLimitUpdatedEventArgs>? AccessLimitUpdated;
 
         public TwitterApiStatus()
             => this.AccessLimit = new EndpointLimits(this);
@@ -80,7 +80,7 @@ namespace OpenTween.Api
                 return null;
 
             // たまに出てくる空文字列は無視する
-            if (string.IsNullOrEmpty(header[headerName]))
+            if (MyCommon.IsNullOrEmpty(header[headerName]))
                 return null;
 
             switch (header[headerName])

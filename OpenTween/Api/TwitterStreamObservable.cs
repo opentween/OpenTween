@@ -79,7 +79,7 @@ namespace OpenTween.Api
 
         public static ITwitterStreamMessage ParseLine(string line)
         {
-            if (string.IsNullOrEmpty(line))
+            if (MyCommon.IsNullOrEmpty(line))
                 return new StreamMessageKeepAlive();
 
             if (line.First() != '{' || line.Last() != '}')

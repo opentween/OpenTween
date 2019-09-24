@@ -54,7 +54,7 @@ namespace OpenTween.Setting
             if (settings.UserAccounts == null || settings.UserAccounts.Count == 0)
             {
                 settings.UserAccounts = new List<UserAccount>();
-                if (!string.IsNullOrEmpty(settings.UserName))
+                if (!MyCommon.IsNullOrEmpty(settings.UserName))
                 {
                     var account = new UserAccount
                     {

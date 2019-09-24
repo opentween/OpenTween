@@ -402,7 +402,7 @@ namespace OpenTween
                 return srcUri;
 
             // OAuth2 アクセストークンまたは API キー (旧方式) のいずれも設定されていなければ短縮しない
-            if (string.IsNullOrEmpty(this.BitlyAccessToken) && (string.IsNullOrEmpty(this.BitlyId) || string.IsNullOrEmpty(this.BitlyKey)))
+            if (MyCommon.IsNullOrEmpty(this.BitlyAccessToken) && (MyCommon.IsNullOrEmpty(this.BitlyId) || MyCommon.IsNullOrEmpty(this.BitlyKey)))
                 return srcUri;
 
             var bitly = new BitlyApi

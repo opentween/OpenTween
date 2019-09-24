@@ -51,7 +51,7 @@ namespace OpenTween
         private readonly WeakReference imageReference = new WeakReference(null);
         private Task? imageTask = null;
 
-        public event EventHandler ImageDownloaded;
+        public event EventHandler? ImageDownloaded;
 
         public ImageListViewItem(string[] items)
             : this(items, null, null)
@@ -88,7 +88,7 @@ namespace OpenTween
 
         private async Task GetImageAsyncInternal(bool force)
         {
-            if (string.IsNullOrEmpty(this.imageUrl) || this.imageCache == null)
+            if (MyCommon.IsNullOrEmpty(this.imageUrl) || this.imageCache == null)
                 return;
 
             if (!force && this.imageReference.Target != null)

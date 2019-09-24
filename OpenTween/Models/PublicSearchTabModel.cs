@@ -70,7 +70,7 @@ namespace OpenTween.Models
 
         public override async Task RefreshAsync(Twitter tw, bool backward, bool startup, IProgress<string> progress)
         {
-            if (string.IsNullOrEmpty(this.SearchWords))
+            if (MyCommon.IsNullOrEmpty(this.SearchWords))
                 return;
 
             bool read;

@@ -69,7 +69,7 @@ namespace OpenTween
             }
         }
 
-        public event EventHandler<NotifyCallbackEventArgs> NotifyClicked;
+        public event EventHandler<NotifyCallbackEventArgs>? NotifyClicked;
 
         public string AppName { get; }
 
@@ -268,7 +268,7 @@ namespace OpenTween
             };
 
             object? n;
-            if (icon != null || !string.IsNullOrEmpty(url))
+            if (icon != null || !MyCommon.IsNullOrEmpty(url))
             {
                 var gCore = _core!.GetType("Growl.CoreLibrary.Resource");
                 object? res;
