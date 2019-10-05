@@ -98,6 +98,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ApplicationSettings.cs" />
+    <Compile Include="AsyncTimer.cs" />
     <Compile Include="AtIdSupplement.cs">
       <SubType>Form</SubType>
     </Compile>

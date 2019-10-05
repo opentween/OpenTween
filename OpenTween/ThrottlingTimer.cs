@@ -35,7 +35,7 @@ namespace OpenTween
         private const int TIMER_DISABLED = 0;
         private const int TIMER_ENABLED = 1;
 
-        private readonly Timer throttlingTimer;
+        private readonly AsyncTimer throttlingTimer;
         private readonly Func<Task> timerCallback;
 
         private long lastCalledTick;
@@ -68,7 +68,7 @@ namespace OpenTween
             this.LastInvoked = DateTimeUtc.MinValue;
             this.InvokeLeading = leading;
             this.InvokeTrailing = trailing;
-            this.throttlingTimer = new Timer(this.Execute);
+            this.throttlingTimer = new AsyncTimer(this.Execute);
         }
 
         public void Call()
@@ -89,7 +89,7 @@ namespace OpenTween
             }
         }
 
-        private async void Execute(object _)
+        private async Task Execute()
         {
             var lastCalled = this.LastCalled;
             var lastInvoked = this.LastInvoked;

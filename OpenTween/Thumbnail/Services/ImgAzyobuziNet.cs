@@ -53,7 +53,7 @@ namespace OpenTween.Thumbnail.Services
 
         protected string? ApiBase;
         protected IEnumerable<Regex>? UrlRegex = null;
-        protected Timer UpdateTimer;
+        protected AsyncTimer UpdateTimer;
 
         protected HttpClient http
             => this.localHttpClient ?? Networking.Http;
@@ -74,7 +74,7 @@ namespace OpenTween.Thumbnail.Services
 
         public ImgAzyobuziNet(HttpClient? http, bool autoupdate)
         {
-            this.UpdateTimer = new Timer(async _ => await this.LoadRegexAsync());
+            this.UpdateTimer = new AsyncTimer(this.LoadRegexAsync);
             this.AutoUpdate = autoupdate;
 
             this.Enabled = true;
@@ -109,10 +109,10 @@ namespace OpenTween.Thumbnail.Services
         public bool DisabledInDM { get; set; }
 
         protected void StartAutoUpdate()
-            => this.UpdateTimer.Change(0, 30 * 60 * 1000); // 30分おきに更新
+            => this.UpdateTimer.Change(TimeSpan.Zero, TimeSpan.FromMinutes(30)); // 30分おきに更新
 
         protected void StopAutoUpdate()
-            => this.UpdateTimer.Change(Timeout.Infinite, Timeout.Infinite);
+            => this.UpdateTimer.Change(Timeout.InfiniteTimeSpan, Timeout.InfiniteTimeSpan);
 
         public async Task LoadRegexAsync()
         {

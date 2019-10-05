@@ -102,6 +102,7 @@ namespace OpenTween
                 };
                 Application.ThreadException += (s, e) => OnUnhandledException(e.Exception);
                 AppDomain.CurrentDomain.UnhandledException += (s, e) => OnUnhandledException((Exception)e.ExceptionObject);
+                AsyncTimer.UnhandledException += (s, e) => OnUnhandledException(e.Exception);
 
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);

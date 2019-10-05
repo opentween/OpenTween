@@ -30,7 +30,7 @@ namespace OpenTween
 {
     public class TimelineScheduler
     {
-        private readonly Timer timer;
+        private readonly AsyncTimer timer;
 
         private bool enabled = false;
         private bool systemResumeMode = false;
@@ -125,7 +125,7 @@ namespace OpenTween
         }
 
         public TimelineScheduler()
-            => this.timer = new Timer(_ => this.TimerCallback());
+            => this.timer = new AsyncTimer(this.TimerCallback);
 
         public void RefreshSchedule()
         {
@@ -148,7 +148,7 @@ namespace OpenTween
             this.RefreshSchedule();
         }
 
-        private async void TimerCallback()
+        private async Task TimerCallback()
         {
             try
             {
