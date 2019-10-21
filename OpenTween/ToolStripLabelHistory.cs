@@ -80,12 +80,13 @@ namespace OpenTween.OpenTweenCustomControl
             get => base.Text;
             set
             {
-                _logs.AddLast(new LogEntry(DateTimeUtc.Now, value));
+                var oneline = value.Replace("\n", " ");
+                _logs.AddLast(new LogEntry(DateTimeUtc.Now, oneline));
                 while (_logs.Count > MAXCNT)
                 {
                     _logs.RemoveFirst();
                 }
-                base.Text = value;
+                base.Text = oneline;
             }
         }
 
