@@ -68,6 +68,31 @@ namespace OpenTween.Models
         }
 
         [Fact]
+        public void RenameTab_PositionTest()
+        {
+            var replyTab = this.tabinfo.Tabs["Reply"];
+            Assert.Equal(1, this.tabinfo.Tabs.IndexOf(replyTab));
+
+            this.tabinfo.RenameTab("Reply", "Reply12345");
+
+            Assert.Equal("Reply12345", replyTab.TabName);
+            Assert.Equal(1, this.tabinfo.Tabs.IndexOf(replyTab));
+        }
+
+        [Fact]
+        public void RenameTab_SelectedTabTest()
+        {
+            var replyTab = this.tabinfo.Tabs["Reply"];
+
+            this.tabinfo.SelectTab("Reply");
+            this.tabinfo.RenameTab("Reply", "Reply12345");
+
+            Assert.Equal("Reply12345", replyTab.TabName);
+            Assert.Equal("Reply12345", this.tabinfo.SelectedTabName);
+            Assert.Equal(replyTab, this.tabinfo.SelectedTab);
+        }
+
+        [Fact]
         public void SelectTab_Test()
         {
             this.tabinfo.SelectTab("Reply");

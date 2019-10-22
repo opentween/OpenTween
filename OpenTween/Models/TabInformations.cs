@@ -670,6 +670,10 @@ namespace OpenTween.Models
                 var tb = this.Tabs[Original];
                 this.tabs.RemoveAt(index);
                 tb.TabName = NewName;
+
+                if (this.SelectedTabName == Original)
+                    this.SelectedTabName = NewName;
+
                 this.tabs.Insert(index, tb);
             }
         }
