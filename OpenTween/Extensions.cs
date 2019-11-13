@@ -70,6 +70,27 @@ namespace OpenTween
             return false;
         }
 
+        public static int FindIndex<T>(this IEnumerable<T> enumerable, Predicate<T> finder)
+        {
+            if (enumerable is List<T> list)
+                return list.FindIndex(finder);
+
+            if (enumerable is T[] array)
+                return Array.FindIndex(array, finder);
+
+            var index = 0;
+
+            foreach (var item in enumerable)
+            {
+                if (finder(item))
+                    return index;
+
+                index++;
+            }
+
+            return -1;
+        }
+
         public static IEnumerable<(T Value, int Index)> WithIndex<T>(this IEnumerable<T> enumerable)
         {
             var i = 0;

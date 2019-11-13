@@ -23,16 +23,24 @@
 
 using System.Collections.ObjectModel;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 
 namespace OpenTween.Models
 {
     public class TabCollection : KeyedCollection<string, TabModel>, IReadOnlyTabCollection
     {
         public int IndexOf(string tabName)
-            => this.IndexOf(this[tabName]);
+            => this.Items.FindIndex(x => x.TabName == tabName);
 
         public bool TryGetValue(string tabName, [NotNullWhen(true)] out TabModel? tab)
-            => this.Dictionary.TryGetValue(tabName, out tab);
+        {
+            if (this.Dictionary is { } dict)
+                return dict.TryGetValue(tabName, out tab);
+
+            tab = this.Items.FirstOrDefault(x => x.TabName == tabName);
+
+            return tab != null;
+        }
 
         protected override string GetKeyForItem(TabModel tab)
             => tab.TabName;
