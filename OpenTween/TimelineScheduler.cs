@@ -23,6 +23,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -239,61 +240,59 @@ namespace OpenTween
 
         private async Task RunUpdateTasks(UpdateTask tasks, DateTimeUtc now)
         {
-            var updateTasks = new List<Task>(capacity: 7);
-
-            // LastUpdate* を次の時刻に更新してから Update* を実行すること
-            // （LastUpdate* が更新されずに Update* が例外を投げると無限ループに陥る）
+            var updateTasks = new List<Func<Task>>(capacity: 7);
 
             if ((tasks & UpdateTask.Home) == UpdateTask.Home)
             {
                 this.LastUpdateHome = now;
                 if (this.UpdateHome != null)
-                    updateTasks.Add(this.UpdateHome());
+                    updateTasks.Add(this.UpdateHome);
             }
 
             if ((tasks & UpdateTask.Mention) == UpdateTask.Mention)
             {
                 this.LastUpdateMention = now;
                 if (this.UpdateMention != null)
-                    updateTasks.Add(this.UpdateMention());
+                    updateTasks.Add(this.UpdateMention);
             }
 
             if ((tasks & UpdateTask.Dm) == UpdateTask.Dm)
             {
                 this.LastUpdateDm = now;
                 if (this.UpdateDm != null)
-                    updateTasks.Add(this.UpdateDm());
+                    updateTasks.Add(this.UpdateDm);
             }
 
             if ((tasks & UpdateTask.PublicSearch) == UpdateTask.PublicSearch)
             {
                 this.LastUpdatePublicSearch = now;
                 if (this.UpdatePublicSearch != null)
-                    updateTasks.Add(this.UpdatePublicSearch());
+                    updateTasks.Add(this.UpdatePublicSearch);
             }
 
             if ((tasks & UpdateTask.User) == UpdateTask.User)
             {
                 this.LastUpdateUser = now;
                 if (this.UpdateUser != null)
-                    updateTasks.Add(this.UpdateUser());
+                    updateTasks.Add(this.UpdateUser);
             }
 
             if ((tasks & UpdateTask.List) == UpdateTask.List)
             {
                 this.LastUpdateList = now;
                 if (this.UpdateList != null)
-                    updateTasks.Add(this.UpdateList());
+                    updateTasks.Add(this.UpdateList);
             }
 
             if ((tasks & UpdateTask.Config) == UpdateTask.Config)
             {
                 this.LastUpdateConfig = now;
                 if (this.UpdateConfig != null)
-                    updateTasks.Add(this.UpdateConfig());
+                    updateTasks.Add(this.UpdateConfig);
             }
 
-            await Task.WhenAll(updateTasks).ConfigureAwait(false);
+            await Task.WhenAll(updateTasks.Select(x => Task.Run(x)))
+                .ConfigureAwait(false);
         }
 
         private TimeSpan NextTimerDelay()
