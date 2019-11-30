@@ -2323,10 +2323,10 @@ namespace OpenTween
         private async Task RefreshTabAsync(TabModel tab, bool backward)
         {
             await this.workerSemaphore.WaitAsync();
-            this.RefreshTasktrayIcon();
 
             try
             {
+                this.RefreshTasktrayIcon();
                 await Task.Run(() => tab.RefreshAsync(this.tw, backward, this._initial, this.workerProgress));
                 this.RefreshTimeline();
             }
@@ -2356,12 +2356,12 @@ namespace OpenTween
         private async Task FavAddAsync(long statusId, TabModel tab)
         {
             await this.workerSemaphore.WaitAsync();
-            this.RefreshTasktrayIcon();
 
             try
             {
                 var progress = new Progress<string>(x => this.StatusLabel.Text = x);
 
+                this.RefreshTasktrayIcon();
                 await this.FavAddAsyncInternal(progress, this.workerCts.Token, statusId, tab);
             }
             catch (WebApiException ex)
@@ -2476,12 +2476,12 @@ namespace OpenTween
         private async Task FavRemoveAsync(IReadOnlyList<long> statusIds, TabModel tab)
         {
             await this.workerSemaphore.WaitAsync();
-            this.RefreshTasktrayIcon();
 
             try
             {
                 var progress = new Progress<string>(x => this.StatusLabel.Text = x);
 
+                this.RefreshTasktrayIcon();
                 await this.FavRemoveAsyncInternal(progress, this.workerCts.Token, statusIds, tab);
             }
             catch (WebApiException ex)
@@ -2591,12 +2591,12 @@ namespace OpenTween
         private async Task PostMessageAsync(PostStatusParams postParams, IMediaUploadService? uploadService, IMediaItem[]? uploadItems)
         {
             await this.workerSemaphore.WaitAsync();
-            this.RefreshTasktrayIcon();
 
             try
             {
                 var progress = new Progress<string>(x => this.StatusLabel.Text = x);
 
+                this.RefreshTasktrayIcon();
                 await this.PostMessageAsyncInternal(progress, this.workerCts.Token, postParams, uploadService, uploadItems);
             }
             catch (WebApiException ex)
@@ -2738,12 +2738,12 @@ namespace OpenTween
         private async Task RetweetAsync(IReadOnlyList<long> statusIds)
         {
             await this.workerSemaphore.WaitAsync();
-            this.RefreshTasktrayIcon();
 
             try
             {
                 var progress = new Progress<string>(x => this.StatusLabel.Text = x);
 
+                this.RefreshTasktrayIcon();
                 await this.RetweetAsyncInternal(progress, this.workerCts.Token, statusIds);
             }
             catch (WebApiException ex)
@@ -2818,10 +2818,10 @@ namespace OpenTween
         private async Task RefreshFollowerIdsAsync()
         {
             await this.workerSemaphore.WaitAsync();
-            this.RefreshTasktrayIcon();
 
             try
             {
+                this.RefreshTasktrayIcon();
                 this.StatusLabel.Text = Properties.Resources.UpdateFollowersMenuItem1_ClickText1;
 
                 await this.tw.RefreshFollowerIds();
@@ -2845,10 +2845,10 @@ namespace OpenTween
         private async Task RefreshNoRetweetIdsAsync()
         {
             await this.workerSemaphore.WaitAsync();
-            this.RefreshTasktrayIcon();
 
             try
             {
+                this.RefreshTasktrayIcon();
                 await this.tw.RefreshNoRetweetIds();
 
                 this.StatusLabel.Text = "NoRetweetIds refreshed";
@@ -2866,10 +2866,10 @@ namespace OpenTween
         private async Task RefreshBlockIdsAsync()
         {
             await this.workerSemaphore.WaitAsync();
-            this.RefreshTasktrayIcon();
 
             try
             {
+                this.RefreshTasktrayIcon();
                 this.StatusLabel.Text = Properties.Resources.UpdateBlockUserText1;
 
                 await this.tw.RefreshBlockIds();
@@ -2889,10 +2889,10 @@ namespace OpenTween
         private async Task RefreshTwitterConfigurationAsync()
         {
             await this.workerSemaphore.WaitAsync();
-            this.RefreshTasktrayIcon();
 
             try
             {
+                this.RefreshTasktrayIcon();
                 await this.tw.RefreshConfiguration();
 
                 if (this.tw.Configuration.PhotoSizeLimit != 0)
