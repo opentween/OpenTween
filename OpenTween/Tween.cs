@@ -7959,16 +7959,16 @@ namespace OpenTween
 
         private void TabMenuItem_Click(object sender, EventArgs e)
         {
-            using (var fltDialog = new FilterDialog())
+            // 選択発言を元にフィルタ追加
+            foreach (var post in this.CurrentTab.SelectedPosts)
             {
-                fltDialog.Owner = this;
+                // タブ選択（or追加）
+                if (!SelectTab(out var tab))
+                    return;
 
-                //選択発言を元にフィルタ追加
-                foreach (var post in this.CurrentTab.SelectedPosts)
+                using (var fltDialog = new FilterDialog())
                 {
-                    //タブ選択（or追加）
-                    if (!SelectTab(out var tab)) return;
-
+                    fltDialog.Owner = this;
                     fltDialog.SetCurrent(tab.TabName);
 
                     if (post.RetweetedBy == null)
@@ -7980,8 +7980,9 @@ namespace OpenTween
                         fltDialog.AddNewFilter(post.RetweetedBy, post.TextFromApi);
                     }
                     fltDialog.ShowDialog(this);
-                    this.TopMost = SettingManager.Common.AlwaysTop;
                 }
+
+                this.TopMost = SettingManager.Common.AlwaysTop;
             }
 
             this.ApplyPostFilters();
