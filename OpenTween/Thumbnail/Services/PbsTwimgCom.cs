@@ -32,28 +32,52 @@ using OpenTween.Models;
 
 namespace OpenTween.Thumbnail.Services
 {
-    class PbsTwimgCom : SimpleThumbnailService
+    class PbsTwimgCom : IThumbnailService
     {
-        public static readonly string UrlPattern = @"^(https?://pbs\.twimg\.com/[^:]+)(?:\:.+)?$";
+        public static readonly Regex ModernUrlPattern =
+            new Regex(@"^(?<base_url>https?://pbs\.twimg\.com/[^:.]+)\?([^&]+?&)?format=(?<format>[A-Za-z]+)");
 
-        public PbsTwimgCom()
-            : base(UrlPattern, "${1}", "${1}:orig")
+        public static readonly Regex LegacyUrlPattern =
+            new Regex(@"^(?<base_url>https?://pbs\.twimg\.com/[^.]+)\.(?<format>[A-Za-z]+)(?:\:.+)?$");
+
+        public override Task<ThumbnailInfo?> GetThumbnailInfoAsync(string url, PostClass post, CancellationToken token)
+            => Task.FromResult(this.GetThumbnailInfo(url, post, token));
+
+        private ThumbnailInfo? GetThumbnailInfo(string url, PostClass post, CancellationToken token)
         {
-        }
+            string baseUrl;
+            string format;
 
-        public override async Task<ThumbnailInfo?> GetThumbnailInfoAsync(string url, PostClass post, CancellationToken token)
-        {
-            var thumb = await base.GetThumbnailInfoAsync(url, post, token)
-                .ConfigureAwait(false);
-
-            if (thumb == null)
+            // 現状の Twitter API から返る media_url_https は LegacyUrlPettern の形式になっているが、
+            // どちらの形式でも動くようにする
+            if (ModernUrlPattern.Match(url) is { Success: true } matchesModern)
+            {
+                baseUrl = matchesModern.Groups["base_url"].Value;
+                format = matchesModern.Groups["format"].Value;
+            }
+            else if (LegacyUrlPattern.Match(url) is { Success: true } matchesLegacy)
+            {
+                baseUrl = matchesLegacy.Groups["base_url"].Value;
+                format = matchesLegacy.Groups["format"].Value;
+            }
+            else
+            {
                 return null;
+            }
+
+            var mediaOrig = $"{baseUrl}?format={format}&name=orig";
+            var mediaLarge = $"{baseUrl}?format={format}&name=large";
 
             var media = post.Media.FirstOrDefault(x => x.Url == url);
-            if (media != null)
+            var altText = media?.AltText;
+
+            var thumb = new ThumbnailInfo
             {
-                thumb.TooltipText = media.AltText;
-            }
+                MediaPageUrl = mediaOrig,
+                ThumbnailImageUrl = mediaLarge,
+                TooltipText = altText,
+                FullSizeImageUrl = mediaOrig,
+            };
 
             return thumb;
         }
