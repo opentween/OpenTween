@@ -52,12 +52,14 @@ namespace OpenTween.Thumbnail.Services
                 if (!url.StartsWith(@"https://ton.twitter.com/1.1/ton/data/", StringComparison.Ordinal))
                     return null;
 
+                var largeUrl = url + ":large";
+
                 return new TonTwitterCom.Thumbnail
                 {
-                    MediaPageUrl = url,
+                    MediaPageUrl = largeUrl,
                     ThumbnailImageUrl = url,
                     TooltipText = null,
-                    FullSizeImageUrl = url,
+                    FullSizeImageUrl = largeUrl,
                 };
             }, token);
         }
