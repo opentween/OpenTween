@@ -49,7 +49,7 @@ namespace OpenTween.Setting
 
         /// <summary>ユーザによる設定が必要な項目が残っているか</summary>
         public bool IsIncomplete
-            => this.Common.PrimaryAccount == null;
+            => this.Common.PrimaryAccount == null && this.Common.MastodonPrimaryAccount == null;
 
         public bool IsFirstRun { get; private set; } = false;
 

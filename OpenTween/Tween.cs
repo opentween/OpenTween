@@ -524,8 +524,11 @@ namespace OpenTween
             var configScaleFactor = this.settings.Local.GetConfigScaleFactor(this.CurrentAutoScaleDimensions);
 
             // 認証関連
-            var primaryAccount = this.settings.Common.PrimaryAccount;
-            this.tw.Initialize(primaryAccount.AccessToken, primaryAccount.AccessSecretPlain, primaryAccount.Username, primaryAccount.UserId);
+            var twitterAccount = this.settings.Common.PrimaryAccount;
+            if (twitterAccount != null)
+                this.tw.Initialize(twitterAccount.AccessToken, twitterAccount.AccessSecretPlain, twitterAccount.Username, twitterAccount.UserId);
+            else
+                this.tw.Initialize("", "", "", 0L);
 
             var mastodonAccount = this.settings.Common.MastodonPrimaryAccount;
             if (mastodonAccount != null)
@@ -538,22 +541,6 @@ namespace OpenTween
 
             this.tw.RestrictFavCheck = this.settings.Common.RestrictFavCheck;
             this.tw.ReadOwnPost = this.settings.Common.ReadOwnPost;
-
-            // アクセストークンが有効であるか確認する
-            // ここが Twitter API への最初のアクセスになるようにすること
-            try
-            {
-                this.tw.VerifyCredentials();
-            }
-            catch (WebApiException ex)
-            {
-                MessageBox.Show(
-                    this,
-                    string.Format(Properties.Resources.StartupAuthError_Text, ex.Message),
-                    ApplicationSettings.ApplicationName,
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning);
-            }
 
             // サムネイル関連の初期化
             // プロキシ設定等の通信まわりの初期化が済んでから処理する

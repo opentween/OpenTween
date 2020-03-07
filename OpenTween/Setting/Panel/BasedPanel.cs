@@ -40,6 +40,8 @@ namespace OpenTween.Setting.Panel
 {
     public partial class BasedPanel : SettingPanelBase
     {
+        public bool HasMastodonCredential => this.mastodonCredential != null;
+
         private MastodonCredential? mastodonCredential = null;
 
         public BasedPanel()
