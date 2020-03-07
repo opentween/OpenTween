@@ -828,16 +828,16 @@ namespace OpenTween
 
             if (versionNum[3] == 0)
             {
-                return string.Format("{0}.{1}.{2}", versionNum[0], versionNum[1], versionNum[2]);
+                return string.Format("{0}.{1}.{2}+mastodon", versionNum[0], versionNum[1], versionNum[2]);
             }
             else
             {
                 versionNum[2] = versionNum[2] + 1;
 
                 if (versionNum[3] == 1)
-                    return string.Format("{0}.{1}.{2}-dev", versionNum[0], versionNum[1], versionNum[2]);
+                    return string.Format("{0}.{1}.{2}-dev+mastodon", versionNum[0], versionNum[1], versionNum[2]);
                 else
-                    return string.Format("{0}.{1}.{2}-dev+build.{3}", versionNum[0], versionNum[1], versionNum[2], versionNum[3]);
+                    return string.Format("{0}.{1}.{2}-dev+mastodon+build.{3}", versionNum[0], versionNum[1], versionNum[2], versionNum[3]);
             }
         }
 
