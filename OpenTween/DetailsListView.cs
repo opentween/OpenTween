@@ -70,15 +70,39 @@ namespace OpenTween.OpenTweenCustomControl
 
         public void SelectItems(int[] indices)
         {
-            foreach (var index in indices)
+            var listSize = this.VirtualListSize;
+            if (indices.Any(x => x < 0 || x >= listSize))
+                throw new ArgumentOutOfRangeException(nameof(indices));
+
+            if (indices.Length == 0)
             {
-                if (index < 0 || index >= this.VirtualListSize)
-                    throw new ArgumentOutOfRangeException(nameof(indices));
-
-                NativeMethods.SelectItem(this, index);
+                this.SelectedIndices.Clear();
             }
+            else if (indices.Length == 1)
+            {
+                this.SelectedIndices.Clear();
+                this.SelectedIndices.Add(indices[0]);
+            }
+            else
+            {
+                var currentSelectedIndices = this.SelectedIndices.Cast<int>().ToArray();
+                var selectIndices = indices.Except(currentSelectedIndices).ToArray();
+                var deselectIndices = currentSelectedIndices.Except(indices).ToArray();
 
-            this.OnSelectedIndexChanged(EventArgs.Empty);
+                if (selectIndices.Length + deselectIndices.Length > currentSelectedIndices.Length)
+                {
+                    // Clearして選択し直した方が早い場合
+                    this.SelectedIndices.Clear();
+                    selectIndices = indices;
+                    deselectIndices = Array.Empty<int>();
+                }
+
+                foreach (var index in selectIndices)
+                    NativeMethods.SelectItem(this, index, selected: true);
+
+                foreach (var index in deselectIndices)
+                    NativeMethods.SelectItem(this, index, selected: false);
+            }
         }
 
         public void SelectAllItems()

@@ -121,6 +121,7 @@ namespace OpenTween
         [Flags]
         private enum LVIS : uint
         {
+            None = 0,
             SELECTED = 0x02,
         }
 
@@ -130,13 +131,13 @@ namespace OpenTween
         /// <param name="listView">対象となる ListView</param>
         /// <param name="index">選択するアイテムのインデックス</param>
         /// <returns>成功した場合は true、それ以外の場合は false</returns>
-        public static bool SelectItem(ListView listView, int index)
+        public static bool SelectItem(ListView listView, int index, bool selected = true)
         {
             // LVM_SETITEMSTATE では stateMask, state 以外のメンバーは無視される
             var lvitem = new LVITEM
             {
                 stateMask = LVIS.SELECTED,
-                state = LVIS.SELECTED,
+                state = selected ? LVIS.SELECTED : LVIS.None,
             };
 
             var ret = (int)SendMessage(listView.Handle, SendMessageType.LVM_SETITEMSTATE, (IntPtr)index, ref lvitem);
