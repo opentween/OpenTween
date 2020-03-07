@@ -1942,10 +1942,10 @@ namespace OpenTween
             var indices = listView.SelectedIndices.Cast<int>().ToArray();
             this.CurrentTab.SelectPosts(indices);
 
-            if (listView.SelectedIndices.Count != 1)
+            if (indices.Length != 1)
                 return;
 
-            var index = listView.SelectedIndices[0];
+            var index = indices[0];
             if (index > listView.VirtualListSize - 1) return;
 
             this.PushSelectPostChain();
