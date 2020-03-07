@@ -697,6 +697,16 @@ namespace OpenTween
 
             this.ListTabSelect(this.ListTab.SelectedTab);
 
+            TabModel firstSelectedTab;
+            if (this.settings.Common.PrimaryAccount == null && this.settings.Common.MastodonPrimaryAccount != null)
+                firstSelectedTab = this.statuses.GetTabByType<MastodonHomeTab>()!;
+            else
+                firstSelectedTab = this.statuses.Tabs[0];
+
+            var firstSelectedTabIndex = this.statuses.Tabs.IndexOf(firstSelectedTab);
+            this.ListTab.SelectedIndex = firstSelectedTabIndex;
+            this.ListTabSelect(this.ListTab.SelectedTab);
+
             // タブの位置を調整する
             this.SetTabAlignment();
 
