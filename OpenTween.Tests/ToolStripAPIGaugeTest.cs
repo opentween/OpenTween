@@ -203,5 +203,32 @@ namespace OpenTween
                 MyCommon.TwitterApiInfo.AccessLimit.Clear();
             }
         }
+
+        [Fact]
+        public void OneBillionTest()
+        {
+            using var toolStrip = new TestToolStripAPIGauge();
+
+            var now = new DateTimeUtc(2020, 2, 25, 19, 0, 0);
+            toolStrip.DateTimeNow = now;
+
+            toolStrip.AutoSize = false;
+            toolStrip.Size = new Size(100, 10);
+            toolStrip.GaugeHeight = 5;
+
+            MyCommon.TwitterApiInfo.AccessLimit["/statuses/user_timeline"] = new ApiLimit(
+                limitCount: 1_000_000_000,
+                limitRemain: 999_999_999,
+                resetDate: now + TimeSpan.FromMinutes(15)
+            );
+            toolStrip.ApiEndpoint = "/statuses/user_timeline";
+
+            Assert.Equal(new Rectangle(0, 0, 99, 5), toolStrip.apiGaugeBounds); // 99% (999999999/1000000000)
+            Assert.Equal(new Rectangle(0, 5, 100, 5), toolStrip.timeGaugeBounds); // 100% (15/15)
+            Assert.Equal("API 999999999/1000000000", toolStrip.Text);
+            Assert.Equal("API rest /statuses/user_timeline 999999999/1000000000" + Environment.NewLine + "(reset after 15 minutes)", toolStrip.ToolTipText);
+
+            MyCommon.TwitterApiInfo.AccessLimit.Clear();
+        }
     }
 }
