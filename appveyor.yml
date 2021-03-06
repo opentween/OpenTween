@@ -2,10 +2,43 @@ version: 2.4.3.{build}
 
 os: Visual Studio 2019
 
-assembly_info:
-  patch: true
-  file: OpenTween\Properties\AssemblyInfo.cs
-  assembly_file_version: '{version}'
+environment:
+  matrix:
+    - RELEASE_TAG: 'false'
+    - RELEASE_TAG: 'true'
+
+configuration:
+  - Debug
+  - Release
+
+matrix:
+  exclude:
+    - RELEASE_TAG: 'false'
+      configuration: Release
+    - RELEASE_TAG: 'true'
+      configuration: Debug
+
+for:
+  - # for dev build
+    matrix:
+      only:
+        - RELEASE_TAG: 'false'
+    skip_tags: true
+    assembly_info:
+      patch: true
+      file: OpenTween\Properties\AssemblyInfo.cs
+      assembly_version: '{version}'
+    artifacts:
+      - name: OpenTween.zip
+        path: OpenTween_dev-$(APPVEYOR_BUILD_NUMBER).zip
+  - # for release build
+    matrix:
+      only:
+        - RELEASE_TAG: 'true'
+    skip_non_tags: true
+    artifacts:
+      - name: OpenTween.zip
+        path: $(APPVEYOR_REPO_TAG_NAME).zip
 
 build:
   project: OpenTween.sln
@@ -22,17 +55,22 @@ before_build:
   - choco install opencover.portable
 
 test_script:
-  - OpenCover.Console.exe -register -target:"%xunit20%\xunit.console.exe" -targetargs:".\OpenTween.Tests\bin\Debug\net472\OpenTween.Tests.dll -noshadow -appveyor" -filter:"+[OpenTween*]* -[OpenTween.Tests]*" -excludebyfile:"*.Designer.cs" -skipautoprops -hideskipped:All -returntargetcode -output:coverage.xml
+  - OpenCover.Console.exe -register -target:"%xunit20%\xunit.console.exe" -targetargs:".\OpenTween.Tests\bin\%CONFIGURATION%\net472\OpenTween.Tests.dll -noshadow -appveyor" -filter:"+[OpenTween*]* -[OpenTween.Tests]*" -excludebyfile:"*.Designer.cs" -skipautoprops -hideskipped:All -returntargetcode -output:coverage.xml
 
 after_test:
   - npm install codecov --save
   - ./node_modules/.bin/codecov -f coverage.xml
 
-  - del %APPVEYOR_BUILD_FOLDER%\OpenTween\bin\Debug\OpenTween.pdb
-  - 7z a OpenTween_dev-%APPVEYOR_BUILD_NUMBER%.zip %APPVEYOR_BUILD_FOLDER%\OpenTween\bin\Debug\*
-
-artifacts:
-  - name: OpenTween.zip
-    path: OpenTween_dev-$(APPVEYOR_BUILD_NUMBER).zip
+  - ps: |
+      $env:PATH = $env:PATH + ';C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Current\bin\Roslyn\;C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.8 Tools\'
+      $binDir = '.\OpenTween\bin\' + $env:CONFIGURATION + '\'
+      $objDir = '.\OpenTween\obj\' + $env:CONFIGURATION + '\'
+      $assemblyInfo = '.\OpenTween\Properties\AssemblyInfo.cs'
+      if ($env:RELEASE_TAG -eq 'true') {
+        $destPath = $env:APPVEYOR_REPO_TAG_NAME + '.zip'
+      } else {
+        $destPath = 'OpenTween_dev-' + $env:APPVEYOR_BUILD_NUMBER + '.zip'
+      }
+      .\tools\build-zip-archive.ps1 -BinDir $binDir -ObjDir $objDir -AssemblyInfo $assemblyInfo -DestPath $destPath
 
 # vim: et fenc=utf-8 sts=2 sw=2 ts=2
