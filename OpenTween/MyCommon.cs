@@ -227,9 +227,8 @@ namespace OpenTween
             var assembly = Assembly.GetExecutingAssembly();
             MyCommon.EntryAssembly = assembly;
 
-            var fileVersionAttribute = (AssemblyFileVersionAttribute)assembly
-                .GetCustomAttributes(typeof(AssemblyFileVersionAttribute)).First();
-            MyCommon.FileVersion = fileVersionAttribute.Version;
+            var assemblyVersion = assembly.GetName().Version;
+            MyCommon.FileVersion = assemblyVersion.ToString();
         }
 
         public static string GetErrorLogPath()
