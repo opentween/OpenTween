@@ -28,11 +28,12 @@ after_test:
   - npm install codecov --save
   - ./node_modules/.bin/codecov -f coverage.xml
 
-  - del %APPVEYOR_BUILD_FOLDER%\OpenTween\bin\Debug\OpenTween.pdb
-  - 7z a OpenTween_dev-%APPVEYOR_BUILD_NUMBER%.zip %APPVEYOR_BUILD_FOLDER%\OpenTween\bin\Debug\*
-
-artifacts:
-  - name: OpenTween.zip
-    path: OpenTween_dev-$(APPVEYOR_BUILD_NUMBER).zip
+  - ps: |
+      $env:PATH = $env:PATH + ';C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Current\bin\Roslyn\;C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.8 Tools\'
+      $binDir = '.\OpenTween\bin\' + $env:CONFIGURATION + '\'
+      $objDir = '.\OpenTween\obj\' + $env:CONFIGURATION + '\'
+      $assemblyInfo = '.\OpenTween\Properties\AssemblyInfo.cs'
+      $destPath = 'OpenTween_dev-' + $env:APPVEYOR_BUILD_NUMBER + '.zip'
+      .\tools\build-zip-archive.ps1 -BinDir $binDir -ObjDir $objDir -AssemblyInfo $assemblyInfo -DestPath $destPath
 
 # vim: et fenc=utf-8 sts=2 sw=2 ts=2
