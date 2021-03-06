@@ -2,10 +2,43 @@ version: 2.4.3.{build}
 
 os: Visual Studio 2019
 
-assembly_info:
-  patch: true
-  file: OpenTween\Properties\AssemblyInfo.cs
-  assembly_file_version: '{version}'
+environment:
+  matrix:
+    - RELEASE_TAG: 'false'
+    - RELEASE_TAG: 'true'
+
+configuration:
+  - Debug
+  - Release
+
+matrix:
+  exclude:
+    - RELEASE_TAG: 'false'
+      configuration: Release
+    - RELEASE_TAG: 'true'
+      configuration: Debug
+
+for:
+  - # for dev build
+    matrix:
+      only:
+        - RELEASE_TAG: 'false'
+    skip_tags: true
+    assembly_info:
+      patch: true
+      file: OpenTween\Properties\AssemblyInfo.cs
+      assembly_version: '{version}'
+    artifacts:
+      - name: OpenTween.zip
+        path: OpenTween_dev-$(APPVEYOR_BUILD_NUMBER).zip
+  - # for release build
+    matrix:
+      only:
+        - RELEASE_TAG: 'true'
+    skip_non_tags: true
+    artifacts:
+      - name: OpenTween.zip
+        path: $(APPVEYOR_REPO_TAG_NAME).zip
 
 build:
   project: OpenTween.sln
@@ -22,7 +55,7 @@ before_build:
   - choco install opencover.portable
 
 test_script:
-  - OpenCover.Console.exe -register -target:"%xunit20%\xunit.console.exe" -targetargs:".\OpenTween.Tests\bin\Debug\net472\OpenTween.Tests.dll -noshadow -appveyor" -filter:"+[OpenTween*]* -[OpenTween.Tests]*" -excludebyfile:"*.Designer.cs" -skipautoprops -hideskipped:All -returntargetcode -output:coverage.xml
+  - OpenCover.Console.exe -register -target:"%xunit20%\xunit.console.exe" -targetargs:".\OpenTween.Tests\bin\%CONFIGURATION%\net472\OpenTween.Tests.dll -noshadow -appveyor" -filter:"+[OpenTween*]* -[OpenTween.Tests]*" -excludebyfile:"*.Designer.cs" -skipautoprops -hideskipped:All -returntargetcode -output:coverage.xml
 
 after_test:
   - npm install codecov --save
@@ -33,7 +66,11 @@ after_test:
       $binDir = '.\OpenTween\bin\' + $env:CONFIGURATION + '\'
       $objDir = '.\OpenTween\obj\' + $env:CONFIGURATION + '\'
       $assemblyInfo = '.\OpenTween\Properties\AssemblyInfo.cs'
-      $destPath = 'OpenTween_dev-' + $env:APPVEYOR_BUILD_NUMBER + '.zip'
+      if ($env:RELEASE_TAG -eq 'true') {
+        $destPath = $env:APPVEYOR_REPO_TAG_NAME + '.zip'
+      } else {
+        $destPath = 'OpenTween_dev-' + $env:APPVEYOR_BUILD_NUMBER + '.zip'
+      }
       .\tools\build-zip-archive.ps1 -BinDir $binDir -ObjDir $objDir -AssemblyInfo $assemblyInfo -DestPath $destPath
 
 # vim: et fenc=utf-8 sts=2 sw=2 ts=2
