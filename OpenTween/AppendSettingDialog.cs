@@ -82,12 +82,6 @@ namespace OpenTween
             this.CooperatePanel.LoadConfig(settingCommon);
             this.ConnectionPanel.LoadConfig(settingCommon);
             this.NotifyPanel.LoadConfig(settingCommon);
-
-            var activeUser = settingCommon.UserAccounts.FirstOrDefault(x => x.UserId == this.tw.UserId);
-            if (activeUser != null)
-            {
-                this.BasedPanel.AuthUserCombo.SelectedItem = activeUser;
-            }
         }
 
         public void SaveConfig(SettingCommon settingCommon, SettingLocal settingLocal)
@@ -107,18 +101,6 @@ namespace OpenTween
             this.CooperatePanel.SaveConfig(settingCommon);
             this.ConnectionPanel.SaveConfig(settingCommon);
             this.NotifyPanel.SaveConfig(settingCommon);
-
-            var userAccountIdx = this.BasedPanel.AuthUserCombo.SelectedIndex;
-            if (userAccountIdx != -1)
-            {
-                var u = settingCommon.UserAccounts[userAccountIdx];
-                this.tw.Initialize(u.Token, u.TokenSecret, u.Username, u.UserId);
-            }
-            else
-            {
-                this.tw.ClearAuthInfo();
-                this.tw.Initialize("", "", "", 0);
-            }
         }
 
         private void TreeViewSetting_BeforeSelect(object sender, TreeViewCancelEventArgs e)
@@ -155,7 +137,7 @@ namespace OpenTween
         {
             if (MyCommon._endingFlag) return;
 
-            if (this.BasedPanel.AuthUserCombo.SelectedIndex == -1 && e.CloseReason == CloseReason.None)
+            if (this.BasedPanel.AuthUserCombo.SelectedIndex == -1 && !this.BasedPanel.HasMastodonCredential && e.CloseReason == CloseReason.None)
             {
                 if (MessageBox.Show(Properties.Resources.Setting_FormClosing1, "Confirm", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.Cancel)
                 {
@@ -293,8 +275,8 @@ namespace OpenTween
             {
                 Username = accessTokenResponse["screen_name"],
                 UserId = long.Parse(accessTokenResponse["user_id"]),
-                Token = accessTokenResponse["oauth_token"],
-                TokenSecret = accessTokenResponse["oauth_token_secret"],
+                AccessToken = accessTokenResponse["oauth_token"],
+                AccessSecretPlain = accessTokenResponse["oauth_token_secret"],
             };
         }
 

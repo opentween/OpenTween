@@ -34,6 +34,9 @@
             this.StartAuthButton = new System.Windows.Forms.Button();
             this.AuthClearButton = new System.Windows.Forms.Button();
             this.Label4 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.labelMastodonAccount = new System.Windows.Forms.Label();
+            this.buttonMastodonAuth = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // AuthUserCombo
@@ -67,6 +70,24 @@
             resources.ApplyResources(this.Label4, "Label4");
             this.Label4.Name = "Label4";
             // 
+            // label1
+            // 
+            resources.ApplyResources(this.label1, "label1");
+            this.label1.Name = "label1";
+            // 
+            // labelMastodonAccount
+            // 
+            resources.ApplyResources(this.labelMastodonAccount, "labelMastodonAccount");
+            this.labelMastodonAccount.AutoEllipsis = true;
+            this.labelMastodonAccount.Name = "labelMastodonAccount";
+            // 
+            // buttonMastodonAuth
+            // 
+            resources.ApplyResources(this.buttonMastodonAuth, "buttonMastodonAuth");
+            this.buttonMastodonAuth.Name = "buttonMastodonAuth";
+            this.buttonMastodonAuth.UseVisualStyleBackColor = true;
+            this.buttonMastodonAuth.Click += new System.EventHandler(this.buttonMastodonAuth_Click);
+            // 
             // BasedPanel
             // 
             resources.ApplyResources(this, "$this");
@@ -76,6 +97,9 @@
             this.Controls.Add(this.StartAuthButton);
             this.Controls.Add(this.AuthClearButton);
             this.Controls.Add(this.Label4);
+            this.Controls.Add(this.buttonMastodonAuth);
+            this.Controls.Add(this.labelMastodonAccount);
+            this.Controls.Add(this.label1);
             this.Name = "BasedPanel";
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -89,5 +113,8 @@
         internal System.Windows.Forms.Button StartAuthButton;
         internal System.Windows.Forms.Button AuthClearButton;
         internal System.Windows.Forms.Label Label4;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label labelMastodonAccount;
+        private System.Windows.Forms.Button buttonMastodonAuth;
     }
 }

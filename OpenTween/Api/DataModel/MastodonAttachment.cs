@@ -1,5 +1,5 @@
 ﻿// OpenTween - Client of Twitter
-// Copyright (c) 2016 kim_upsilon (@kim_upsilon) <https://upsilo.net/~upsilon/>
+// Copyright (c) 2017 kim_upsilon (@kim_upsilon) <https://upsilo.net/~upsilon/>
 // All rights reserved.
 //
 // This file is part of OpenTween.
@@ -19,25 +19,31 @@
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
-#nullable enable
+#nullable enable annotations
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using OpenTween.Connection;
+using System.Runtime.Serialization;
 
-namespace OpenTween
+namespace OpenTween.Api.DataModel
 {
-    public class PostStatusParams
+    [DataContract]
+    public class MastodonAttachment
     {
-        public string Text { get; set; } = "";
-        public long? InReplyToStatusId { get; set; }
-        public IReadOnlyList<long> MediaIds { get; set; } = Array.Empty<long>();
-        public bool AutoPopulateReplyMetadata { get; set; }
-        public IReadOnlyList<long> ExcludeReplyUserIds { get; set; } = Array.Empty<long>();
-        public string? AttachmentUrl { get; set; }
-        public bool PostToMastodon { get; set; } = false;
+        [DataMember(Name = "id")]
+        public long Id { get; set; }
+
+        [DataMember(Name = "type")]
+        public string Type { get; set; }
+
+        [DataMember(Name = "url")]
+        public string Url { get; set; }
+
+        [DataMember(Name = "remote_url")]
+        public string RemoteUrl { get; set; }
+
+        [DataMember(Name = "preview_url")]
+        public string PreviewUrl { get; set; }
+
+        [DataMember(Name = "text_url")]
+        public string TextUrl { get; set; }
     }
 }

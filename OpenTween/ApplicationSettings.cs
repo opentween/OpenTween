@@ -102,7 +102,7 @@ namespace OpenTween
         /// version.txt のフォーマットについては http://sourceforge.jp/projects/opentween/wiki/VersionTxt を参照。
         /// 派生プロジェクトなどでこの機能を無効にする場合は null をセットして下さい。
         /// </remarks>
-        public static readonly string VersionInfoUrl = "https://www.opentween.org/status/version.txt";
+        public static readonly string? VersionInfoUrl = null;
 
         //=====================================================================
         // Twitter
@@ -113,6 +113,20 @@ namespace OpenTween
         /// </summary>
         public const string TwitterConsumerKey = "zIoJPq3FsuViPTAs89FetDHYz";
         public const string TwitterConsumerSecret = "prTAs2fqLv12nHxlMoLQZT8AkpZt0yYb8A7ktGS2VYeRj0TddS";
+
+        //=====================================================================
+        // Mastodon
+
+        /// <summary>
+        /// Mastodon インスタンス毎に事前に発行した client_id, client_secret の組
+        /// </summary>
+        /// <remarks>
+        /// ここに含まれていないインスタンスでは <see cref="Api.MastodonApi.AppsRegister"/> によって
+        /// アプリケーションの登録を都度行います
+        /// </remarks>
+        public static readonly IReadOnlyDictionary<string, Tuple<string, string>> MastodonClientIds = new Dictionary<string, Tuple<string, string>>
+        {
+        };
 
         //=====================================================================
         // Foursquare

@@ -110,7 +110,7 @@ namespace OpenTween
                     nameText = "";
                 }
                 nameText += post.ScreenName + "/" + post.Nickname;
-                if (post.RetweetedId != null)
+                if (post.IsRetweet)
                     nameText += " (RT:" + post.RetweetedBy + ")";
 
                 NameLabel.Text = nameText;
@@ -118,7 +118,7 @@ namespace OpenTween
                 var nameForeColor = SystemColors.ControlText;
                 if (post.IsOwl && (SettingManager.Common.OneWayLove || post.IsDm))
                     nameForeColor = SettingManager.Local.ColorOWL;
-                if (post.RetweetedId != null)
+                if (post.IsRetweet)
                     nameForeColor = SettingManager.Local.ColorRetweet;
                 if (post.IsFav)
                     nameForeColor = SettingManager.Local.ColorFav;
@@ -138,8 +138,13 @@ namespace OpenTween
                 sb.AppendFormat("(PlainText)    : <xmp>{0}</xmp><br>", post.TextFromApi);
                 sb.AppendFormat("StatusId             : {0}<br>", post.StatusId);
                 sb.AppendFormat("ImageUrl       : {0}<br>", post.ImageUrl);
-                sb.AppendFormat("InReplyToStatusId    : {0}<br>", post.InReplyToStatusId);
-                sb.AppendFormat("InReplyToUser  : {0}<br>", post.InReplyToUser);
+
+                if (post.HasInReplyTo)
+                {
+                    sb.AppendFormat("InReplyToStatusId    : {0}<br>", post.InReplyToStatusId);
+                    sb.AppendFormat("InReplyToUser  : {0}<br>", post.InReplyToUser);
+                }
+
                 sb.AppendFormat("IsDM           : {0}<br>", post.IsDm);
                 sb.AppendFormat("IsFav          : {0}<br>", post.IsFav);
                 sb.AppendFormat("IsMark         : {0}<br>", post.IsMark);
@@ -162,8 +167,12 @@ namespace OpenTween
                 sb.AppendFormat("Source         : {0}<br>", post.Source);
                 sb.AppendFormat("UserId            : {0}<br>", post.UserId);
                 sb.AppendFormat("FilterHit      : {0}<br>", post.FilterHit);
-                sb.AppendFormat("RetweetedBy    : {0}<br>", post.RetweetedBy);
-                sb.AppendFormat("RetweetedId    : {0}<br>", post.RetweetedId);
+
+                if (post.IsRetweet)
+                {
+                    sb.AppendFormat("RetweetedBy    : {0}<br>", post.RetweetedBy);
+                    sb.AppendFormat("RetweetedId    : {0}<br>", post.RetweetedId);
+                }
 
                 sb.AppendFormat("Media.Count    : {0}<br>", post.Media.Count);
                 if (post.Media.Count > 0)
@@ -270,15 +279,15 @@ namespace OpenTween
         private async Task AppendQuoteTweetAsync(PostClass post)
         {
             var quoteStatusIds = post.QuoteStatusIds;
-            if (quoteStatusIds.Length == 0 && post.InReplyToStatusId == null)
+            if (quoteStatusIds.Length == 0 && !post.HasInReplyTo)
                 return;
 
             // 「読み込み中」テキストを表示
             var loadingQuoteHtml = quoteStatusIds.Select(x => FormatQuoteTweetHtml(x, Properties.Resources.LoadingText, isReply: false));
 
             var loadingReplyHtml = string.Empty;
-            if (post.InReplyToStatusId != null)
-                loadingReplyHtml = FormatQuoteTweetHtml(post.InReplyToStatusId.Value, Properties.Resources.LoadingText, isReply: true);
+            if (post.HasInReplyTo)
+                loadingReplyHtml = FormatQuoteTweetHtml(post.InReplyToStatusId, Properties.Resources.LoadingText, isReply: true);
 
             var body = post.Text + string.Concat(loadingQuoteHtml) + loadingReplyHtml;
 
@@ -288,8 +297,8 @@ namespace OpenTween
             // 引用ツイートを読み込み
             var loadTweetTasks = quoteStatusIds.Select(x => this.CreateQuoteTweetHtml(x, isReply: false)).ToList();
 
-            if (post.InReplyToStatusId != null)
-                loadTweetTasks.Add(this.CreateQuoteTweetHtml(post.InReplyToStatusId.Value, isReply: true));
+            if (post.HasInReplyTo)
+                loadTweetTasks.Add(this.CreateQuoteTweetHtml(post.InReplyToStatusId, isReply: true));
 
             var quoteHtmls = await Task.WhenAll(loadTweetTasks);
 

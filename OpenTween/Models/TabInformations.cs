@@ -500,7 +500,7 @@ namespace OpenTween.Models
                 {
                     if (Item.IsFav)
                     {
-                        if (Item.RetweetedId == null)
+                        if (!Item.IsRetweet)
                         {
                             status.IsFav = true;
                         }
@@ -516,10 +516,10 @@ namespace OpenTween.Models
                 }
                 else
                 {
-                    if (Item.IsFav && Item.RetweetedId != null) Item.IsFav = false;
+                    if (Item.IsFav && Item.IsRetweet) Item.IsFav = false;
 
                     //既に持っている公式RTは捨てる
-                    if (Item.RetweetedId != null && SettingManager.Common.HideDuplicatedRetweets)
+                    if (Item.IsRetweet && SettingManager.Common.HideDuplicatedRetweets)
                     {
                         var retweetCount = this.UpdateRetweetCount(Item);
 
@@ -560,7 +560,7 @@ namespace OpenTween.Models
             if (this.MuteUserIds.Contains(post.UserId))
                 return true;
 
-            if (post.RetweetedByUserId != null && this.MuteUserIds.Contains(post.RetweetedByUserId.Value))
+            if (post.IsRetweet && this.MuteUserIds.Contains(post.RetweetedByUserId))
                 return true;
 
             return false;
@@ -568,10 +568,10 @@ namespace OpenTween.Models
 
         private int UpdateRetweetCount(PostClass retweetPost)
         {
-            if (retweetPost.RetweetedId == null)
+            if (!retweetPost.IsRetweet)
                 throw new InvalidOperationException();
 
-            var retweetedId = retweetPost.RetweetedId.Value;
+            var retweetedId = retweetPost.RetweetedId;
 
             return this.retweetsCount.AddOrUpdate(retweetedId, 1, (k, v) => v >= 10 ? 1 : v + 1);
         }

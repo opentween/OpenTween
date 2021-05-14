@@ -1,5 +1,5 @@
 ﻿// OpenTween - Client of Twitter
-// Copyright (c) 2016 kim_upsilon (@kim_upsilon) <https://upsilo.net/~upsilon/>
+// Copyright (c) 2017 kim_upsilon (@kim_upsilon) <https://upsilo.net/~upsilon/>
 // All rights reserved.
 //
 // This file is part of OpenTween.
@@ -21,23 +21,19 @@
 
 #nullable enable
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Globalization;
 using System.Threading.Tasks;
-using OpenTween.Connection;
 
-namespace OpenTween
+namespace OpenTween.Models
 {
-    public class PostStatusParams
+    public class TwitterDmPost : PostClass
     {
-        public string Text { get; set; } = "";
-        public long? InReplyToStatusId { get; set; }
-        public IReadOnlyList<long> MediaIds { get; set; } = Array.Empty<long>();
-        public bool AutoPopulateReplyMetadata { get; set; }
-        public IReadOnlyList<long> ExcludeReplyUserIds { get; set; } = Array.Empty<long>();
-        public string? AttachmentUrl { get; set; }
-        public bool PostToMastodon { get; set; } = false;
+        private readonly Twitter twitter;
+
+        public TwitterDmPost(Twitter twitter)
+            => this.twitter = twitter;
+
+        public override Task DeleteAsync()
+            => this.twitter.Api.DirectMessagesEventsDestroy(this.StatusId.ToString(CultureInfo.InvariantCulture));
     }
 }

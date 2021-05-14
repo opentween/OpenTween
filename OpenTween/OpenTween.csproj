@@ -71,6 +71,16 @@
     <Compile Include="Api\ApiLimit.cs" />
     <Compile Include="Api\BitlyApi.cs" />
     <Compile Include="Api\DataModel\GeoJson.cs" />
+    <Compile Include="Api\DataModel\MastodonAccessToken.cs" />
+    <Compile Include="Api\DataModel\MastodonAccount.cs" />
+    <Compile Include="Api\DataModel\MastodonApplication.cs" />
+    <Compile Include="Api\DataModel\MastodonAttachment.cs" />
+    <Compile Include="Api\DataModel\MastodonError.cs" />
+    <Compile Include="Api\DataModel\MastodonInstance.cs" />
+    <Compile Include="Api\DataModel\MastodonMention.cs" />
+    <Compile Include="Api\DataModel\MastodonRegisteredApp.cs" />
+    <Compile Include="Api\DataModel\MastodonStatus.cs" />
+    <Compile Include="Api\DataModel\MastodonTag.cs" />
     <Compile Include="Api\DataModel\TwitterConfiguration.cs" />
     <Compile Include="Api\DataModel\TwitterEntity.cs" />
     <Compile Include="Api\DataModel\TwitterError.cs" />
@@ -91,6 +101,7 @@
     <Compile Include="Api\DataModel\TwitterUser.cs" />
     <Compile Include="Api\DataModel\TwitterApiAccessLevel.cs" />
     <Compile Include="Api\JsonUtils.cs" />
+    <Compile Include="Api\MastodonApi.cs" />
     <Compile Include="Api\MicrosoftTranslatorApi.cs" />
     <Compile Include="Api\TwitterApi.cs" />
     <Compile Include="Api\TwitterApiException.cs" />
@@ -121,9 +132,11 @@
     </Compile>
     <Compile Include="Bing.cs" />
     <Compile Include="Connection\IApiConnection.cs" />
+    <Compile Include="Connection\IMastodonApiConnection.cs" />
     <Compile Include="Connection\IMediaUploadService.cs" />
     <Compile Include="Connection\Imgur.cs" />
     <Compile Include="Connection\LazyJson.cs" />
+    <Compile Include="Connection\MastodonApiConnection.cs" />
     <Compile Include="Connection\Mobypicture.cs" />
     <Compile Include="Connection\Networking.cs" />
     <Compile Include="Connection\OAuthEchoHandler.cs" />
@@ -151,6 +164,7 @@
     <Compile Include="LoginDialog.Designer.cs">
       <DependentUpon>LoginDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="Mastodon.cs" />
     <Compile Include="MediaItem.cs" />
     <Compile Include="Models\ComparerMode.cs" />
     <Compile Include="Models\DirectMessagesTabModel.cs" />
@@ -161,6 +175,8 @@
     <Compile Include="Models\IReadOnlyTabCollection.cs" />
     <Compile Include="Models\ListTimelineTabModel.cs" />
     <Compile Include="Models\LocalSearchTabModel.cs" />
+    <Compile Include="Models\MastodonHomeTab.cs" />
+    <Compile Include="Models\MastodonPost.cs" />
     <Compile Include="Models\MediaInfo.cs" />
     <Compile Include="Models\MentionsTabModel.cs" />
     <Compile Include="Models\MuteTabModel.cs" />
@@ -171,6 +187,8 @@
     <Compile Include="Models\TabModel.cs" />
     <Compile Include="Models\TabInformations.cs" />
     <Compile Include="Models\TabUsageTypeExt.cs" />
+    <Compile Include="Models\TwitterDmPost.cs" />
+    <Compile Include="Models\TwitterStatusPost.cs" />
     <Compile Include="Models\UserTimelineTabModel.cs" />
     <Compile Include="MouseWheelMessageFilter.cs" />
     <Compile Include="NotifyPropertyChangedBase.cs" />

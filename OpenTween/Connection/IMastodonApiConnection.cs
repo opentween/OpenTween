@@ -1,5 +1,5 @@
 ﻿// OpenTween - Client of Twitter
-// Copyright (c) 2016 kim_upsilon (@kim_upsilon) <https://upsilo.net/~upsilon/>
+// Copyright (c) 2017 kim_upsilon (@kim_upsilon) <https://upsilo.net/~upsilon/>
 // All rights reserved.
 //
 // This file is part of OpenTween.
@@ -23,21 +23,19 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.IO;
+using System.Net.Http;
 using System.Threading.Tasks;
-using OpenTween.Connection;
 
-namespace OpenTween
+namespace OpenTween.Connection
 {
-    public class PostStatusParams
+    public interface IMastodonApiConnection : IDisposable
     {
-        public string Text { get; set; } = "";
-        public long? InReplyToStatusId { get; set; }
-        public IReadOnlyList<long> MediaIds { get; set; } = Array.Empty<long>();
-        public bool AutoPopulateReplyMetadata { get; set; }
-        public IReadOnlyList<long> ExcludeReplyUserIds { get; set; } = Array.Empty<long>();
-        public string? AttachmentUrl { get; set; }
-        public bool PostToMastodon { get; set; } = false;
+        Task<T> GetAsync<T>(Uri uri, IEnumerable<KeyValuePair<string, string>>? param);
+
+        Task<LazyJson<T>> PostLazyAsync<T>(Uri uri, IEnumerable<KeyValuePair<string, string>>? param);
+        Task<LazyJson<T>> PostLazyAsync<T>(HttpMethod method, Uri uri, IEnumerable<KeyValuePair<string, string>>? param);
+
+        Task<Stream> GetStreamAsync(Uri uri, IEnumerable<KeyValuePair<string, string>>? param);
     }
 }

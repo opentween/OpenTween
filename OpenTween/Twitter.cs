@@ -385,7 +385,7 @@ namespace OpenTween
             if (post == null)
                 throw new WebApiException("Err:Target isn't found.");
 
-            var target = post.RetweetedId ?? id;  //再RTの場合は元発言をRT
+            var target = post.IsRetweet ? post.RetweetedId : id;  //再RTの場合は元発言をRT
 
             var response = await this.Api.StatusesRetweet(target)
                 .ConfigureAwait(false);
@@ -639,7 +639,7 @@ namespace OpenTween
 
         private PostClass CreatePostsFromStatusData(TwitterStatus status, bool favTweet)
         {
-            var post = new PostClass();
+            var post = new TwitterStatusPost(this);
             TwitterEntities entities;
             string sourceHtml;
 
@@ -657,9 +657,12 @@ namespace OpenTween
                 entities = retweeted.MergedEntities;
                 sourceHtml = retweeted.Source;
                 //Reply先
-                post.InReplyToStatusId = retweeted.InReplyToStatusId;
-                post.InReplyToUser = retweeted.InReplyToScreenName;
-                post.InReplyToUserId = status.InReplyToUserId;
+                if (retweeted.InReplyToStatusId != null)
+                {
+                    post.InReplyToStatusId = retweeted.InReplyToStatusId.Value;
+                    post.InReplyToUser = retweeted.InReplyToScreenName!;
+                    post.InReplyToUserId = retweeted.InReplyToUserId!.Value;
+                }
 
                 if (favTweet)
                 {
@@ -712,9 +715,13 @@ namespace OpenTween
                 post.TextFromApi = status.FullText;
                 entities = status.MergedEntities;
                 sourceHtml = status.Source;
-                post.InReplyToStatusId = status.InReplyToStatusId;
-                post.InReplyToUser = status.InReplyToScreenName;
-                post.InReplyToUserId = status.InReplyToUserId;
+
+                if (status.InReplyToStatusId != null)
+                {
+                    post.InReplyToStatusId = status.InReplyToStatusId.Value;
+                    post.InReplyToUser = status.InReplyToScreenName!;
+                    post.InReplyToUserId = status.InReplyToUserId!.Value;
+                }
 
                 if (favTweet)
                 {
@@ -768,7 +775,7 @@ namespace OpenTween
             this.ExtractEntities(entities, post.ReplyToList, post.Media);
 
             post.QuoteStatusIds = GetQuoteTweetStatusIds(entities, quotedStatusLink)
-                .Where(x => x != post.StatusId && x != post.RetweetedId)
+                .Where(x => x != post.StatusId && !(post.IsRetweet && x == post.RetweetedId))
                 .Distinct().ToArray();
 
             post.ExpandedUrls = entities.OfType<TwitterEntityUrl>()
@@ -785,14 +792,15 @@ namespace OpenTween
             post.ScreenName = string.Intern(post.ScreenName);
             post.Nickname = string.Intern(post.Nickname);
             post.ImageUrl = string.Intern(post.ImageUrl);
-            post.RetweetedBy = post.RetweetedBy != null ? string.Intern(post.RetweetedBy) : null;
+            if (post.IsRetweet)
+                post.RetweetedBy = string.Intern(post.RetweetedBy);
 
             //Source整形
             var (sourceText, sourceUri) = ParseSource(sourceHtml);
             post.Source = string.Intern(sourceText);
             post.SourceUri = sourceUri;
 
-            post.IsReply = post.RetweetedId == null && post.ReplyToList.Any(x => x.UserId == this.UserId);
+            post.IsReply = !post.IsRetweet && post.ReplyToList.Any(x => x.UserId == this.UserId);
             post.IsExcludeReply = false;
 
             if (post.IsMe)
@@ -961,11 +969,11 @@ namespace OpenTween
                 throw new ArgumentException("startStatusId (" + startStatusId + ") が posts の中から見つかりませんでした。", nameof(startStatusId));
 
             var nextPost = posts[startStatusId];
-            while (nextPost.InReplyToStatusId != null)
+            while (nextPost.HasInReplyTo)
             {
-                if (!posts.ContainsKey(nextPost.InReplyToStatusId.Value))
+                if (!posts.ContainsKey(nextPost.InReplyToStatusId))
                     break;
-                nextPost = posts[nextPost.InReplyToStatusId.Value];
+                nextPost = posts[nextPost.InReplyToStatusId];
             }
 
             return nextPost;
@@ -975,11 +983,11 @@ namespace OpenTween
         {
             var targetPost = tab.TargetPost;
             var relPosts = new Dictionary<long, PostClass>();
-            if (targetPost.TextFromApi.Contains("@") && targetPost.InReplyToStatusId == null)
+            if (targetPost.TextFromApi.Contains("@") && !targetPost.HasInReplyTo)
             {
                 //検索結果対応
                 var p = TabInformations.GetInstance()[targetPost.StatusId];
-                if (p != null && p.InReplyToStatusId != null)
+                if (p != null && p.HasInReplyTo)
                 {
                     targetPost = p;
                 }
@@ -997,9 +1005,9 @@ namespace OpenTween
             // in_reply_to_status_id を使用してリプライチェインを辿る
             var nextPost = FindTopOfReplyChain(relPosts, targetPost.StatusId);
             var loopCount = 1;
-            while (nextPost.InReplyToStatusId != null && loopCount++ <= 20)
+            while (nextPost.HasInReplyTo && loopCount++ <= 20)
             {
-                var inReplyToId = nextPost.InReplyToStatusId.Value;
+                var inReplyToId = nextPost.InReplyToStatusId;
 
                 var inReplyToPost = TabInformations.GetInstance()[inReplyToId];
                 if (inReplyToPost == null)
@@ -1097,7 +1105,7 @@ namespace OpenTween
         {
             foreach (var message in item)
             {
-                var post = new PostClass();
+                var post = new TwitterDmPost(this);
                 try
                 {
                     post.StatusId = message.Id;

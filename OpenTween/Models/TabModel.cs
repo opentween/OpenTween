@@ -62,9 +62,20 @@ namespace OpenTween.Models
         public int AllCount => this._ids.Count;
         public long[] StatusIds => this._ids.ToArray();
 
+        /// <summary>
+        /// デフォルトタブかどうかを示す値を取得します。
+        /// </summary>
         public bool IsDefaultTabType => this.TabType.IsDefault();
-        public bool IsDistributableTabType => this.TabType.IsDistributable();
-        public bool IsInnerStorageTabType => this.TabType.IsInnerStorage();
+
+        /// <summary>
+        /// 振り分け可能タブかどうかを示す値を取得します。
+        /// </summary>
+        public bool IsDistributableTabType => this is FilterTabModel;
+
+        /// <summary>
+        /// 内部ストレージを使用するタブかどうかを示す値を取得します。
+        /// </summary>
+        public bool IsInnerStorageTabType => this is InternalStorageTabModel;
 
         /// <summary>
         /// 次回起動時にも保持されるタブか（SettingTabsに保存されるか）
