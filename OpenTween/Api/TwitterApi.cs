@@ -25,6 +25,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -781,7 +782,21 @@ namespace OpenTween.Api
                 param["track"] = track;
 
             Task<Stream> openStream()
-                => this.Connection.GetStreamingStreamAsync(endpoint, param);
+                => this.Connection.ConnectStreamingAsync(HttpMethod.Get, endpoint, param);
+
+            return new TwitterStreamObservable(openStream);
+        }
+
+        public TwitterStreamObservable FilterStream(string track = null)
+        {
+            var endpoint = new Uri("https://stream.twitter.com/1.1/statuses/filter.json");
+            var param = new Dictionary<string, string>();
+
+            if (!string.IsNullOrEmpty(track))
+                param["track"] = track;
+
+            Task<Stream> openStream()
+                => this.Connection.ConnectStreamingAsync(HttpMethod.Post, endpoint, param);
 
             return new TwitterStreamObservable(openStream);
         }

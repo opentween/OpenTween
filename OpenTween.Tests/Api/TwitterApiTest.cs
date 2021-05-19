@@ -1304,7 +1304,8 @@ namespace OpenTween.Api
         {
             var mock = new Mock<IApiConnection>();
             mock.Setup(x =>
-                x.GetStreamingStreamAsync(
+                x.ConnectStreamingAsync(
+                    HttpMethod.Get,
                     new Uri("https://userstream.twitter.com/1.1/user.json", UriKind.Absolute),
                     new Dictionary<string, string> {
                             { "replies", "all" },
@@ -1317,6 +1318,29 @@ namespace OpenTween.Api
             twitterApi.apiConnection = mock.Object;
 
             var observable = twitterApi.UserStreams(replies: "all", track: "OpenTween");
+            await observable.ForEachAsync(x => { });
+
+            mock.VerifyAll();
+        }
+
+        [Fact]
+        public async Task FilterStream_Test()
+        {
+            var mock = new Mock<IApiConnection>();
+            mock.Setup(x =>
+                x.ConnectStreamingAsync(
+                    HttpMethod.Post,
+                    new Uri("https://stream.twitter.com/1.1/statuses/filter.json", UriKind.Absolute),
+                    new Dictionary<string, string> {
+                        { "track", "OpenTween" },
+                    })
+            )
+            .ReturnsAsync(new MemoryStream());
+
+            using var twitterApi = new TwitterApi();
+            twitterApi.apiConnection = mock.Object;
+
+            var observable = twitterApi.FilterStream(track: "OpenTween");
             await observable.ForEachAsync(x => { });
 
             mock.VerifyAll();

@@ -910,9 +910,7 @@ namespace OpenTween
             tw.RestrictFavCheck = SettingManager.Common.RestrictFavCheck;
             tw.ReadOwnPost = SettingManager.Common.ReadOwnPost;
             tw.TrackWord = SettingManager.Common.TrackWord;
-            TrackToolStripMenuItem.Checked = !MyCommon.IsNullOrEmpty(tw.TrackWord);
             tw.AllAtReply = SettingManager.Common.AllAtReply;
-            AllrepliesToolStripMenuItem.Checked = tw.AllAtReply;
             ShortUrl.Instance.DisableExpanding = !SettingManager.Common.TinyUrlResolve;
             ShortUrl.Instance.BitlyAccessToken = SettingManager.Common.BitlyAccessToken;
             ShortUrl.Instance.BitlyId = SettingManager.Common.BilyUser;
@@ -2719,17 +2717,14 @@ namespace OpenTween
             this.SetMainWindowTitle();
 
             // TLに反映
-            if (!this.tw.UserStreamActive)
+            if (SettingManager.Common.PostAndGet)
+                await this.RefreshTabAsync<HomeTabModel>();
+            else
             {
-                if (SettingManager.Common.PostAndGet)
-                    await this.RefreshTabAsync<HomeTabModel>();
-                else
+                if (post != null)
                 {
-                    if (post != null)
-                    {
-                        this._statuses.AddPost(post);
-                        this._statuses.DistributePosts();
-                    }
+                    this._statuses.AddPost(post);
+                    this._statuses.DistributePosts();
                     this.RefreshTimeline();
                 }
             }
@@ -2799,19 +2794,16 @@ namespace OpenTween
             }
 
             // TLに反映
-            if (!this.tw.UserStreamActive)
-            {
-                // 自分のRTはTLの更新では取得できない場合があるので、
-                // 投稿時取得の有無に関わらず追加しておく
-                posts.ForEach(post => this._statuses.AddPost(post));
+            // 自分のRTはTLの更新では取得できない場合があるので、
+            // 投稿時取得の有無に関わらず追加しておく
+            posts.ForEach(post => this._statuses.AddPost(post));
 
-                if (SettingManager.Common.PostAndGet)
-                    await this.RefreshTabAsync<HomeTabModel>();
-                else
-                {
-                    this._statuses.DistributePosts();
-                    this.RefreshTimeline();
-                }
+            if (SettingManager.Common.PostAndGet)
+                await this.RefreshTabAsync<HomeTabModel>();
+            else
+            {
+                this._statuses.DistributePosts();
+                this.RefreshTimeline();
             }
         }
 
@@ -9573,15 +9565,15 @@ namespace OpenTween
         private void StartUserStream()
         {
             tw.NewPostFromStream += tw_NewPostFromStream;
-            tw.UserStreamStarted += tw_UserStreamStarted;
-            tw.UserStreamStopped += tw_UserStreamStopped;
+            tw.FilterStreamStarted += tw_UserStreamStarted;
+            tw.FilterStreamStopped += tw_UserStreamStopped;
             tw.PostDeleted += tw_PostDeleted;
             tw.UserStreamEventReceived += tw_UserStreamEventArrived;
 
             this.RefreshUserStreamsMenu();
 
             if (SettingManager.Common.UserstreamStartup)
-                tw.StartUserStream();
+                tw.StartFilterStream();
         }
 
         private async void TweenMain_Shown(object sender, EventArgs e)
@@ -11106,7 +11098,6 @@ namespace OpenTween
             }
 
             this.RefreshUserStreamsMenu();
-            this.MenuItemUserStream.Enabled = true;
 
             StatusLabel.Text = "UserStream Started.";
         }
@@ -11131,21 +11122,20 @@ namespace OpenTween
             }
 
             this.RefreshUserStreamsMenu();
-            this.MenuItemUserStream.Enabled = true;
 
             StatusLabel.Text = "UserStream Stopped.";
         }
 
         private void RefreshUserStreamsMenu()
         {
-            if (this.tw.UserStreamActive)
+            if (this.tw.FilterStreamActive)
             {
-                this.MenuItemUserStream.Text = "&UserStream ▶";
+                this.MenuItemStreaming.Text = "&Streaming ▶";
                 this.StopToolStripMenuItem.Text = "&Stop";
             }
             else
             {
-                this.MenuItemUserStream.Text = "&UserStream ■";
+                this.MenuItemStreaming.Text = "&Streaming ■";
                 this.StopToolStripMenuItem.Text = "&Start";
             }
         }
@@ -11252,89 +11242,48 @@ namespace OpenTween
 
         private void StopToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MenuItemUserStream.Enabled = false;
             if (StopRefreshAllMenuItem.Checked)
             {
                 StopRefreshAllMenuItem.Checked = false;
                 return;
             }
-            if (this.tw.UserStreamActive)
+
+            if (this.tw.FilterStreamActive)
             {
-                tw.StopUserStream();
+                tw.StopFilterStream();
             }
             else
             {
-                tw.StartUserStream();
+                if (string.IsNullOrEmpty(this.tw.TrackWord))
+                    this.ShowTrackWordDialog();
+
+                this.tw.StartFilterStream();
             }
         }
-
-        private static string inputTrack = "";
 
         private void TrackToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (TrackToolStripMenuItem.Checked)
-            {
-                using (var inputForm = new InputTabName())
-                {
-                    inputForm.TabName = inputTrack;
-                    inputForm.FormTitle = "Input track word";
-                    inputForm.FormDescription = "Track word";
-                    if (inputForm.ShowDialog() != DialogResult.OK)
-                    {
-                        TrackToolStripMenuItem.Checked = false;
-                        return;
-                    }
-                    inputTrack = inputForm.TabName.Trim();
-                }
-                if (!inputTrack.Equals(tw.TrackWord))
-                {
-                    tw.TrackWord = inputTrack;
-                    this.MarkSettingCommonModified();
-                    TrackToolStripMenuItem.Checked = !MyCommon.IsNullOrEmpty(inputTrack);
-                    tw.ReconnectUserStream();
-                }
-            }
-            else
-            {
-                tw.TrackWord = "";
-                tw.ReconnectUserStream();
-            }
-            this.MarkSettingCommonModified();
-        }
+            => this.ShowTrackWordDialog();
 
-        private void AllrepliesToolStripMenuItem_Click(object sender, EventArgs e)
+        private void ShowTrackWordDialog()
         {
-            tw.AllAtReply = AllrepliesToolStripMenuItem.Checked;
-            this.MarkSettingCommonModified();
-            tw.ReconnectUserStream();
-        }
+            string inputTrack;
+            using (var settingsDialog = new StreamSettingsDialog())
+            {
+                settingsDialog.TrackWord = this.tw.TrackWord;
 
-        private void EventViewerMenuItem_Click(object sender, EventArgs e)
-        {
-            if (evtDialog == null || evtDialog.IsDisposed)
-            {
-                this.evtDialog = new EventViewerDialog
-                {
-                    Owner = this,
-                };
+                if (settingsDialog.ShowDialog(this) != DialogResult.OK)
+                    return;
 
-                //親の中央に表示
-                this.evtDialog.Location = new Point
-                {
-                    X = Convert.ToInt32(this.Location.X + this.Size.Width / 2 - evtDialog.Size.Width / 2),
-                    Y = Convert.ToInt32(this.Location.Y + this.Size.Height / 2 - evtDialog.Size.Height / 2),
-                };
+                inputTrack = settingsDialog.TrackWord.Trim();
             }
-            evtDialog.EventSource = tw.StoredEvent;
-            if (!evtDialog.Visible)
+
+            if (inputTrack != this.tw.TrackWord)
             {
-                evtDialog.Show(this);
+                this.tw.TrackWord = inputTrack;
+                this.tw.ReconnectFilterStream();
+                this.ModifySettingCommon = true;
+                this.MarkSettingCommonModified();
             }
-            else
-            {
-                evtDialog.Activate();
-            }
-            this.TopMost = SettingManager.Common.AlwaysTop;
         }
 #endregion
 
@@ -11425,11 +11374,11 @@ namespace OpenTween
         {
             if (isEnable)
             {
-                tw.StartUserStream();
+                tw.StartFilterStream();
             }
             else
             {
-                tw.StopUserStream();
+                tw.StopFilterStream();
             }
             this.timelineScheduler.Enabled = isEnable;
         }

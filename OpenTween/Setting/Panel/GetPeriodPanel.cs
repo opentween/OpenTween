@@ -46,9 +46,9 @@ namespace OpenTween.Setting.Panel
 
         public void LoadConfig(SettingCommon settingCommon)
         {
-            this.StartupUserstreamCheck.Checked = settingCommon.UserstreamStartup;
+            this.StartupStreamingCheck.Checked = settingCommon.UserstreamStartup;
             this.CheckPostAndGet.Checked = settingCommon.PostAndGet;
-            this.UserstreamPeriod.Text = settingCommon.UserstreamPeriod.ToString();
+            this.StreamingPeriod.Text = settingCommon.UserstreamPeriod.ToString();
             this.TimelinePeriod.Text = settingCommon.TimelinePeriod.ToString();
             this.ReplyPeriod.Text = settingCommon.ReplyPeriod.ToString();
             this.DMPeriod.Text = settingCommon.DMPeriod.ToString();
@@ -59,13 +59,13 @@ namespace OpenTween.Setting.Panel
 
         public void SaveConfig(SettingCommon settingCommon)
         {
-            settingCommon.UserstreamStartup = this.StartupUserstreamCheck.Checked;
+            settingCommon.UserstreamStartup = this.StartupStreamingCheck.Checked;
             settingCommon.PostAndGet = this.CheckPostAndGet.Checked;
 
             var arg = new IntervalChangedEventArgs();
             var isIntervalChanged = false;
 
-            var userstreamPeriod = int.Parse(this.UserstreamPeriod.Text);
+            var userstreamPeriod = int.Parse(this.StreamingPeriod.Text);
             if (settingCommon.UserstreamPeriod != userstreamPeriod)
             {
                 settingCommon.UserstreamPeriod = userstreamPeriod;
@@ -130,7 +130,7 @@ namespace OpenTween.Setting.Panel
             int prd;
             try
             {
-                prd = int.Parse(UserstreamPeriod.Text);
+                prd = int.Parse(StreamingPeriod.Text);
             }
             catch (Exception)
             {
