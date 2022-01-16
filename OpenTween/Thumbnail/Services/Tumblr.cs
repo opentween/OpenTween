@@ -46,20 +46,27 @@ namespace OpenTween.Thumbnail.Services
         protected HttpClient http
             => this.localHttpClient ?? Networking.Http;
 
+        private readonly ApiKey tumblrConsumerKey;
         private readonly HttpClient? localHttpClient;
 
         public Tumblr()
-            : this(null)
+            : this(ApplicationSettings.TumblrConsumerKey, null)
         {
         }
 
-        public Tumblr(HttpClient? http)
-            => this.localHttpClient = http;
+        public Tumblr(ApiKey apiKey, HttpClient? http)
+        {
+            this.tumblrConsumerKey = apiKey;
+            this.localHttpClient = http;
+        }
 
         public override async Task<ThumbnailInfo?> GetThumbnailInfoAsync(string url, PostClass post, CancellationToken token)
         {
             var match = Tumblr.UrlPatternRegex.Match(url);
             if (!match.Success)
+                return null;
+
+            if (!this.tumblrConsumerKey.TryGetValue(out var apiKey))
                 return null;
 
             // 参照: http://www.tumblr.com/docs/en/api/v2#photo-posts
@@ -69,7 +76,7 @@ namespace OpenTween.Thumbnail.Services
 
             var param = new Dictionary<string, string>
             {
-                ["api_key"] = ApplicationSettings.TumblrConsumerKey,
+                ["api_key"] = apiKey,
                 ["id"] = postId,
             };
 

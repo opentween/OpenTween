@@ -42,7 +42,7 @@ namespace OpenTween.Api
             using var mockHandler = new HttpMessageHandlerMock();
             using var http = new HttpClient(mockHandler);
 
-            var mock = new Mock<MicrosoftTranslatorApi>(http);
+            var mock = new Mock<MicrosoftTranslatorApi>(ApiKey.Create("fake_api_key"), http);
             mock.Setup(x => x.GetAccessTokenAsync())
                 .ReturnsAsync(("1234abcd", TimeSpan.FromSeconds(1000)));
 
@@ -95,9 +95,26 @@ namespace OpenTween.Api
         }
 
         [Fact]
+        public async Task TranslateAsync_ApiKeyErrorTest()
+        {
+            using var mockHandler = new HttpMessageHandlerMock();
+            using var http = new HttpClient(mockHandler);
+
+            var mock = new Mock<MicrosoftTranslatorApi>(ApiKey.Create("%e%INVALID_API_KEY"), http);
+            var translateApi = mock.Object;
+
+            await Assert.ThrowsAsync<WebApiException>(
+                () => translateApi.TranslateAsync("hogehoge", langTo: "ja", langFrom: "en")
+            );
+
+            mock.Verify(x => x.GetAccessTokenAsync(), Times.Never());
+            Assert.Equal(0, mockHandler.QueueCount);
+        }
+
+        [Fact]
         public async Task UpdateAccessTokenIfExpired_FirstCallTest()
         {
-            var mock = new Mock<MicrosoftTranslatorApi>();
+            var mock = new Mock<MicrosoftTranslatorApi>(ApiKey.Create("fake_api_key"), null);
             mock.Setup(x => x.GetAccessTokenAsync())
                 .ReturnsAsync(("1234abcd", TimeSpan.FromSeconds(1000)));
 
@@ -116,7 +133,7 @@ namespace OpenTween.Api
         [Fact]
         public async Task UpdateAccessTokenIfExpired_NotExpiredTest()
         {
-            var mock = new Mock<MicrosoftTranslatorApi>();
+            var mock = new Mock<MicrosoftTranslatorApi>(ApiKey.Create("fake_api_key"), null);
 
             var translateApi = mock.Object;
             translateApi.AccessToken = "1234abcd";
@@ -132,7 +149,7 @@ namespace OpenTween.Api
         [Fact]
         public async Task UpdateAccessTokenIfExpired_ExpiredTest()
         {
-            var mock = new Mock<MicrosoftTranslatorApi>();
+            var mock = new Mock<MicrosoftTranslatorApi>(ApiKey.Create("fake_api_key"), null);
             mock.Setup(x => x.GetAccessTokenAsync())
                 .ReturnsAsync(("5678efgh", TimeSpan.FromSeconds(1000)));
 
@@ -155,7 +172,7 @@ namespace OpenTween.Api
         {
             using var mockHandler = new HttpMessageHandlerMock();
             using var http = new HttpClient(mockHandler);
-            var translateApi = new MicrosoftTranslatorApi(http);
+            var translateApi = new MicrosoftTranslatorApi(ApiKey.Create("fake_api_key"), http);
 
             mockHandler.Enqueue(x =>
             {
@@ -163,7 +180,7 @@ namespace OpenTween.Api
                 Assert.Equal(MicrosoftTranslatorApi.IssueTokenEndpoint, x.RequestUri);
 
                 var keyHeader = x.Headers.First(y => y.Key == "Ocp-Apim-Subscription-Key");
-                Assert.Equal(ApplicationSettings.TranslatorSubscriptionKey, keyHeader.Value.Single());
+                Assert.Equal("fake_api_key", keyHeader.Value.Single());
 
                 return new HttpResponseMessage(HttpStatusCode.OK)
                 {

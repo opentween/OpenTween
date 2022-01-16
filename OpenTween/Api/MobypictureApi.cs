@@ -36,7 +36,7 @@ namespace OpenTween.Api
 {
     public class MobypictureApi : IMobypictureApi
     {
-        private readonly string apiKey;
+        private readonly ApiKey apiKey;
         private readonly HttpClient http;
 
         public static readonly Uri UploadEndpoint = new Uri("https://api.mobypicture.com/2.0/upload.xml");
@@ -49,7 +49,7 @@ namespace OpenTween.Api
         {
         }
 
-        public MobypictureApi(string apiKey, TwitterApi twitterApi)
+        public MobypictureApi(ApiKey apiKey, TwitterApi twitterApi)
         {
             this.apiKey = apiKey;
 
@@ -58,7 +58,7 @@ namespace OpenTween.Api
             this.http.Timeout = Networking.UploadImageTimeout;
         }
 
-        public MobypictureApi(string apiKey, HttpClient http)
+        public MobypictureApi(ApiKey apiKey, HttpClient http)
         {
             this.apiKey = apiKey;
             this.http = http;
@@ -98,13 +98,16 @@ namespace OpenTween.Api
 
         private async Task<HttpResponseMessage> SendRequestAsync(IMediaItem item, string message)
         {
+            if (!this.apiKey.TryGetValue(out var apiKey))
+                throw new WebApiException("Err:Mobypicture APIキーが使用できません");
+
             // 参照: http://developers.mobypicture.com/documentation/2-0/upload/
 
             using var request = new HttpRequestMessage(HttpMethod.Post, UploadEndpoint);
             using var multipart = new MultipartFormDataContent();
             request.Content = multipart;
 
-            using var apiKeyContent = new StringContent(this.apiKey);
+            using var apiKeyContent = new StringContent(apiKey);
             using var messageContent = new StringContent(message);
             using var mediaStream = item.OpenRead();
             using var mediaContent = new StreamContent(mediaStream);

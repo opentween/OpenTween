@@ -52,14 +52,20 @@ namespace OpenTween.Thumbnail.Services
             => this.localHttpClient ?? Networking.Http;
 
         private readonly HttpClient? localHttpClient;
+        private readonly ApiKey clientId;
+        private readonly ApiKey clientSecret;
 
         public FoursquareCheckin()
-            : this(null)
+            : this(null, ApplicationSettings.FoursquareClientId, ApplicationSettings.FoursquareClientSecret)
         {
         }
 
-        public FoursquareCheckin(HttpClient? http)
-            => this.localHttpClient = http;
+        public FoursquareCheckin(HttpClient? http, ApiKey clientId, ApiKey clientSecret)
+        {
+            this.localHttpClient = http;
+            this.clientId = clientId;
+            this.clientSecret = clientSecret;
+        }
 
         public override async Task<ThumbnailInfo?> GetThumbnailInfoAsync(string url, PostClass post, CancellationToken token)
         {
@@ -96,6 +102,10 @@ namespace OpenTween.Thumbnail.Services
             if (!match.Success)
                 return null;
 
+            if (!(this.clientId, this.clientSecret).TryGetValue(out var keyPair))
+                return null;
+
+            var (clientId, clientSecret) = keyPair;
             var checkinIdGroup = match.Groups["checkin_id"];
 
             try
@@ -105,8 +115,8 @@ namespace OpenTween.Thumbnail.Services
 
                 var query = new Dictionary<string, string>
                 {
-                    ["client_id"] = ApplicationSettings.FoursquareClientId,
-                    ["client_secret"] = ApplicationSettings.FoursquareClientSecret,
+                    ["client_id"] = clientId,
+                    ["client_secret"] = clientSecret,
                     ["v"] = "20140419", // https://developer.foursquare.com/overview/versioning
 
                     ["shortId"] = checkinIdGroup.Value,
@@ -140,6 +150,10 @@ namespace OpenTween.Thumbnail.Services
             if (!match.Success)
                 return null;
 
+            if (!(this.clientId, this.clientSecret).TryGetValue(out var keyPair))
+                return null;
+
+            var (clientId, clientSecret) = keyPair;
             var checkinIdGroup = match.Groups["checkin_id"];
             var signatureGroup = match.Groups["signature"];
 
@@ -150,8 +164,8 @@ namespace OpenTween.Thumbnail.Services
 
                 var query = new Dictionary<string, string>
                 {
-                    ["client_id"] = ApplicationSettings.FoursquareClientId,
-                    ["client_secret"] = ApplicationSettings.FoursquareClientSecret,
+                    ["client_id"] = clientId,
+                    ["client_secret"] = clientSecret,
                     ["v"] = "20140419", // https://developer.foursquare.com/overview/versioning
                 };
 

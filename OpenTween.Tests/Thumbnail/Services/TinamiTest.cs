@@ -43,11 +43,11 @@ namespace OpenTween.Thumbnail.Services
             public string FakeXml { get; set; } = "";
 
             public TestTinami()
-                : base(null)
+                : base(ApiKey.Create("fake_api_key"), null)
             {
             }
 
-            protected override Task<XDocument> FetchContentInfoApiAsync(string contentId, CancellationToken token)
+            protected override Task<XDocument> FetchContentInfoApiAsync(string apiKey, string contentId, CancellationToken token)
                 => Task.FromResult(XDocument.Parse(this.FakeXml));
         }
 
@@ -89,6 +89,17 @@ namespace OpenTween.Thumbnail.Services
   <err msg='この作品は登録ユーザー限定の作品です。'/>
 </rsp>";
             var thumbinfo = await service.GetThumbnailInfoAsync("http://www.tinami.com/view/12345", new PostClass(), CancellationToken.None);
+
+            Assert.Null(thumbinfo);
+        }
+
+        [Fact]
+        public async Task GetThumbnailInfoAsync_ApiKeyErrorTest()
+        {
+            var service = new Tinami(ApiKey.Create("%e%INVALID_API_KEY"), null);
+
+            var thumbinfo = await service.GetThumbnailInfoAsync("http://www.tinami.com/view/12345", new PostClass(), CancellationToken.None)
+                .ConfigureAwait(false);
 
             Assert.Null(thumbinfo);
         }

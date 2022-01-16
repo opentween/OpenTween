@@ -30,7 +30,7 @@ using Xunit;
 
 namespace OpenTween.Api
 {
-    public class MobypictureApiTest
+    public class MobypictureApiText
     {
         [Fact]
         public async Task UploadFileAsync_Test()
@@ -54,7 +54,7 @@ namespace OpenTween.Api
                 };
             });
 
-            var mobypictureApi = new MobypictureApi("fake_api_key", http);
+            var mobypictureApi = new MobypictureApi(ApiKey.Create("fake_api_key"), http);
             using var mediaItem = TestUtils.CreateDummyMediaItem();
             var uploadedUrl = await mobypictureApi.UploadFileAsync(mediaItem, "てすと")
                 .ConfigureAwait(false);
@@ -80,7 +80,22 @@ namespace OpenTween.Api
                 };
             });
 
-            var mobypictureApi = new MobypictureApi("fake_api_key", http);
+            var mobypictureApi = new MobypictureApi(ApiKey.Create("fake_api_key"), http);
+            using var mediaItem = TestUtils.CreateDummyMediaItem();
+            await Assert.ThrowsAsync<WebApiException>(
+                () => mobypictureApi.UploadFileAsync(mediaItem, "てすと")
+            );
+
+            Assert.Equal(0, mockHandler.QueueCount);
+        }
+
+        [Fact]
+        public async Task UploadFileAsync_ApiKeyErrorTest()
+        {
+            using var mockHandler = new HttpMessageHandlerMock();
+            using var http = new HttpClient(mockHandler);
+
+            var mobypictureApi = new MobypictureApi(ApiKey.Create("%e%INVALID_API_KEY"), http);
             using var mediaItem = TestUtils.CreateDummyMediaItem();
             await Assert.ThrowsAsync<WebApiException>(
                 () => mobypictureApi.UploadFileAsync(mediaItem, "てすと")

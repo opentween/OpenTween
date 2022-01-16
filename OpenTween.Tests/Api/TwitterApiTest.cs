@@ -51,7 +51,7 @@ namespace OpenTween.Api
         [Fact]
         public void Initialize_Test()
         {
-            using var twitterApi = new TwitterApi();
+            using var twitterApi = new TwitterApi(ApiKey.Create("fake_consumer_key"), ApiKey.Create("fake_consumer_secret"));
             Assert.Null(twitterApi.apiConnection);
 
             twitterApi.Initialize("*** AccessToken ***", "*** AccessSecret ***", userId: 100L, screenName: "hogehoge");
@@ -100,7 +100,7 @@ namespace OpenTween.Api
             )
             .ReturnsAsync(Array.Empty<TwitterStatus>());
 
-            using var twitterApi = new TwitterApi();
+            using var twitterApi = new TwitterApi(ApiKey.Create("fake_consumer_key"), ApiKey.Create("fake_consumer_secret"));
             twitterApi.apiConnection = mock.Object;
 
             await twitterApi.StatusesHomeTimeline(200, maxId: 900L, sinceId: 100L)
@@ -128,7 +128,7 @@ namespace OpenTween.Api
             )
             .ReturnsAsync(Array.Empty<TwitterStatus>());
 
-            using var twitterApi = new TwitterApi();
+            using var twitterApi = new TwitterApi(ApiKey.Create("fake_consumer_key"), ApiKey.Create("fake_consumer_secret"));
             twitterApi.apiConnection = mock.Object;
 
             await twitterApi.StatusesMentionsTimeline(200, maxId: 900L, sinceId: 100L)
@@ -158,7 +158,7 @@ namespace OpenTween.Api
             )
             .ReturnsAsync(Array.Empty<TwitterStatus>());
 
-            using var twitterApi = new TwitterApi();
+            using var twitterApi = new TwitterApi(ApiKey.Create("fake_consumer_key"), ApiKey.Create("fake_consumer_secret"));
             twitterApi.apiConnection = mock.Object;
 
             await twitterApi.StatusesUserTimeline("twitterapi", count: 200, maxId: 900L, sinceId: 100L)
@@ -184,7 +184,7 @@ namespace OpenTween.Api
             )
             .ReturnsAsync(new TwitterStatus { Id = 100L });
 
-            using var twitterApi = new TwitterApi();
+            using var twitterApi = new TwitterApi(ApiKey.Create("fake_consumer_key"), ApiKey.Create("fake_consumer_secret"));
             twitterApi.apiConnection = mock.Object;
 
             await twitterApi.StatusesShow(statusId: 100L)
@@ -214,7 +214,7 @@ namespace OpenTween.Api
             )
             .ReturnsAsync(LazyJson.Create(new TwitterStatus()));
 
-            using var twitterApi = new TwitterApi();
+            using var twitterApi = new TwitterApi(ApiKey.Create("fake_consumer_key"), ApiKey.Create("fake_consumer_secret"));
             twitterApi.apiConnection = mock.Object;
 
             await twitterApi.StatusesUpdate("hogehoge", replyToId: 100L, mediaIds: new[] { 10L, 20L },
@@ -243,7 +243,7 @@ namespace OpenTween.Api
             )
             .ReturnsAsync(LazyJson.Create(new TwitterStatus()));
 
-            using var twitterApi = new TwitterApi();
+            using var twitterApi = new TwitterApi(ApiKey.Create("fake_consumer_key"), ApiKey.Create("fake_consumer_secret"));
             twitterApi.apiConnection = mock.Object;
 
             await twitterApi.StatusesUpdate("hogehoge", replyToId: null, mediaIds: null, excludeReplyUserIds: Array.Empty<long>())
@@ -264,7 +264,7 @@ namespace OpenTween.Api
             )
             .ReturnsAsync(LazyJson.Create(new TwitterStatus { Id = 100L }));
 
-            using var twitterApi = new TwitterApi();
+            using var twitterApi = new TwitterApi(ApiKey.Create("fake_consumer_key"), ApiKey.Create("fake_consumer_secret"));
             twitterApi.apiConnection = mock.Object;
 
             await twitterApi.StatusesDestroy(statusId: 100L)
@@ -290,7 +290,7 @@ namespace OpenTween.Api
             )
             .ReturnsAsync(LazyJson.Create(new TwitterStatus()));
 
-            using var twitterApi = new TwitterApi();
+            using var twitterApi = new TwitterApi(ApiKey.Create("fake_consumer_key"), ApiKey.Create("fake_consumer_secret"));
             twitterApi.apiConnection = mock.Object;
 
             await twitterApi.StatusesRetweet(100L)
@@ -322,7 +322,7 @@ namespace OpenTween.Api
             )
             .ReturnsAsync(new TwitterSearchResult());
 
-            using var twitterApi = new TwitterApi();
+            using var twitterApi = new TwitterApi(ApiKey.Create("fake_consumer_key"), ApiKey.Create("fake_consumer_secret"));
             twitterApi.apiConnection = mock.Object;
 
             await twitterApi.SearchTweets("from:twitterapi", "en", count: 200, maxId: 900L, sinceId: 100L)
@@ -347,7 +347,7 @@ namespace OpenTween.Api
             )
             .ReturnsAsync(new TwitterLists());
 
-            using var twitterApi = new TwitterApi();
+            using var twitterApi = new TwitterApi(ApiKey.Create("fake_consumer_key"), ApiKey.Create("fake_consumer_secret"));
             twitterApi.apiConnection = mock.Object;
 
             await twitterApi.ListsOwnerships("twitterapi", cursor: -1L, count: 100)
@@ -372,7 +372,7 @@ namespace OpenTween.Api
             )
             .ReturnsAsync(new TwitterLists());
 
-            using var twitterApi = new TwitterApi();
+            using var twitterApi = new TwitterApi(ApiKey.Create("fake_consumer_key"), ApiKey.Create("fake_consumer_secret"));
             twitterApi.apiConnection = mock.Object;
 
             await twitterApi.ListsSubscriptions("twitterapi", cursor: -1L, count: 100)
@@ -398,7 +398,7 @@ namespace OpenTween.Api
             )
             .ReturnsAsync(new TwitterLists());
 
-            using var twitterApi = new TwitterApi();
+            using var twitterApi = new TwitterApi(ApiKey.Create("fake_consumer_key"), ApiKey.Create("fake_consumer_secret"));
             twitterApi.apiConnection = mock.Object;
 
             await twitterApi.ListsMemberships("twitterapi", cursor: -1L, count: 100, filterToOwnedLists: true)
@@ -422,7 +422,7 @@ namespace OpenTween.Api
             )
             .ReturnsAsync(LazyJson.Create(new TwitterList()));
 
-            using var twitterApi = new TwitterApi();
+            using var twitterApi = new TwitterApi(ApiKey.Create("fake_consumer_key"), ApiKey.Create("fake_consumer_secret"));
             twitterApi.apiConnection = mock.Object;
 
             await twitterApi.ListsCreate("hogehoge", description: "aaaa", @private: true)
@@ -448,7 +448,7 @@ namespace OpenTween.Api
             )
             .ReturnsAsync(LazyJson.Create(new TwitterList()));
 
-            using var twitterApi = new TwitterApi();
+            using var twitterApi = new TwitterApi(ApiKey.Create("fake_consumer_key"), ApiKey.Create("fake_consumer_secret"));
             twitterApi.apiConnection = mock.Object;
 
             await twitterApi.ListsUpdate(12345L, name: "hogehoge", description: "aaaa", @private: true)
@@ -471,7 +471,7 @@ namespace OpenTween.Api
             )
             .ReturnsAsync(LazyJson.Create(new TwitterList()));
 
-            using var twitterApi = new TwitterApi();
+            using var twitterApi = new TwitterApi(ApiKey.Create("fake_consumer_key"), ApiKey.Create("fake_consumer_secret"));
             twitterApi.apiConnection = mock.Object;
 
             await twitterApi.ListsDestroy(12345L)
@@ -502,7 +502,7 @@ namespace OpenTween.Api
             )
             .ReturnsAsync(Array.Empty<TwitterStatus>());
 
-            using var twitterApi = new TwitterApi();
+            using var twitterApi = new TwitterApi(ApiKey.Create("fake_consumer_key"), ApiKey.Create("fake_consumer_secret"));
             twitterApi.apiConnection = mock.Object;
 
             await twitterApi.ListsStatuses(12345L, count: 200, maxId: 900L, sinceId: 100L, includeRTs: true)
@@ -529,7 +529,7 @@ namespace OpenTween.Api
             )
             .ReturnsAsync(new TwitterUsers());
 
-            using var twitterApi = new TwitterApi();
+            using var twitterApi = new TwitterApi(ApiKey.Create("fake_consumer_key"), ApiKey.Create("fake_consumer_secret"));
             twitterApi.apiConnection = mock.Object;
 
             await twitterApi.ListsMembers(12345L, cursor: -1)
@@ -556,7 +556,7 @@ namespace OpenTween.Api
             )
             .ReturnsAsync(new TwitterUser());
 
-            using var twitterApi = new TwitterApi();
+            using var twitterApi = new TwitterApi(ApiKey.Create("fake_consumer_key"), ApiKey.Create("fake_consumer_secret"));
             twitterApi.apiConnection = mock.Object;
 
             await twitterApi.ListsMembersShow(12345L, "twitterapi")
@@ -582,7 +582,7 @@ namespace OpenTween.Api
             )
             .ReturnsAsync(LazyJson.Create(new TwitterUser()));
 
-            using var twitterApi = new TwitterApi();
+            using var twitterApi = new TwitterApi(ApiKey.Create("fake_consumer_key"), ApiKey.Create("fake_consumer_secret"));
             twitterApi.apiConnection = mock.Object;
 
             await twitterApi.ListsMembersCreate(12345L, "twitterapi")
@@ -609,7 +609,7 @@ namespace OpenTween.Api
             )
             .ReturnsAsync(LazyJson.Create(new TwitterUser()));
 
-            using var twitterApi = new TwitterApi();
+            using var twitterApi = new TwitterApi(ApiKey.Create("fake_consumer_key"), ApiKey.Create("fake_consumer_secret"));
             twitterApi.apiConnection = mock.Object;
 
             await twitterApi.ListsMembersDestroy(12345L, "twitterapi")
@@ -634,7 +634,7 @@ namespace OpenTween.Api
             )
             .ReturnsAsync(new TwitterMessageEventList());
 
-            using var twitterApi = new TwitterApi();
+            using var twitterApi = new TwitterApi(ApiKey.Create("fake_consumer_key"), ApiKey.Create("fake_consumer_secret"));
             twitterApi.apiConnection = mock.Object;
 
             await twitterApi.DirectMessagesEventsList(count: 50, cursor: "12345abcdefg")
@@ -672,7 +672,7 @@ namespace OpenTween.Api
             )
             .ReturnsAsync(LazyJson.Create(new TwitterMessageEventSingle()));
 
-            using var twitterApi = new TwitterApi();
+            using var twitterApi = new TwitterApi(ApiKey.Create("fake_consumer_key"), ApiKey.Create("fake_consumer_secret"));
             twitterApi.apiConnection = mock.Object;
 
             await twitterApi.DirectMessagesEventsNew(recipientId: 12345L, text: "hogehoge", mediaId: 67890L)
@@ -691,7 +691,7 @@ namespace OpenTween.Api
             )
             .Returns(Task.CompletedTask);
 
-            using var twitterApi = new TwitterApi();
+            using var twitterApi = new TwitterApi(ApiKey.Create("fake_consumer_key"), ApiKey.Create("fake_consumer_secret"));
             twitterApi.apiConnection = mock.Object;
 
             await twitterApi.DirectMessagesEventsDestroy(eventId: "100")
@@ -717,7 +717,7 @@ namespace OpenTween.Api
             )
             .ReturnsAsync(new TwitterUser { ScreenName = "twitterapi" });
 
-            using var twitterApi = new TwitterApi();
+            using var twitterApi = new TwitterApi(ApiKey.Create("fake_consumer_key"), ApiKey.Create("fake_consumer_secret"));
             twitterApi.apiConnection = mock.Object;
 
             await twitterApi.UsersShow(screenName: "twitterapi")
@@ -743,7 +743,7 @@ namespace OpenTween.Api
             )
             .ReturnsAsync(Array.Empty<TwitterUser>());
 
-            using var twitterApi = new TwitterApi();
+            using var twitterApi = new TwitterApi(ApiKey.Create("fake_consumer_key"), ApiKey.Create("fake_consumer_secret"));
             twitterApi.apiConnection = mock.Object;
 
             await twitterApi.UsersLookup(userIds: new[] { "11111", "22222" })
@@ -766,7 +766,7 @@ namespace OpenTween.Api
             )
             .ReturnsAsync(LazyJson.Create(new TwitterUser { ScreenName = "twitterapi" }));
 
-            using var twitterApi = new TwitterApi();
+            using var twitterApi = new TwitterApi(ApiKey.Create("fake_consumer_key"), ApiKey.Create("fake_consumer_secret"));
             twitterApi.apiConnection = mock.Object;
 
             await twitterApi.UsersReportSpam(screenName: "twitterapi")
@@ -795,7 +795,7 @@ namespace OpenTween.Api
             )
             .ReturnsAsync(Array.Empty<TwitterStatus>());
 
-            using var twitterApi = new TwitterApi();
+            using var twitterApi = new TwitterApi(ApiKey.Create("fake_consumer_key"), ApiKey.Create("fake_consumer_secret"));
             twitterApi.apiConnection = mock.Object;
 
             await twitterApi.FavoritesList(200, maxId: 900L, sinceId: 100L)
@@ -818,7 +818,7 @@ namespace OpenTween.Api
             )
             .ReturnsAsync(LazyJson.Create(new TwitterStatus { Id = 100L }));
 
-            using var twitterApi = new TwitterApi();
+            using var twitterApi = new TwitterApi(ApiKey.Create("fake_consumer_key"), ApiKey.Create("fake_consumer_secret"));
             twitterApi.apiConnection = mock.Object;
 
             await twitterApi.FavoritesCreate(statusId: 100L)
@@ -842,7 +842,7 @@ namespace OpenTween.Api
             )
             .ReturnsAsync(LazyJson.Create(new TwitterStatus { Id = 100L }));
 
-            using var twitterApi = new TwitterApi();
+            using var twitterApi = new TwitterApi(ApiKey.Create("fake_consumer_key"), ApiKey.Create("fake_consumer_secret"));
             twitterApi.apiConnection = mock.Object;
 
             await twitterApi.FavoritesDestroy(statusId: 100L)
@@ -864,7 +864,7 @@ namespace OpenTween.Api
             )
             .ReturnsAsync(new TwitterFriendship());
 
-            using var twitterApi = new TwitterApi();
+            using var twitterApi = new TwitterApi(ApiKey.Create("fake_consumer_key"), ApiKey.Create("fake_consumer_secret"));
             twitterApi.apiConnection = mock.Object;
 
             await twitterApi.FriendshipsShow(sourceScreenName: "twitter", targetScreenName: "twitterapi")
@@ -884,7 +884,7 @@ namespace OpenTween.Api
             )
             .ReturnsAsync(LazyJson.Create(new TwitterFriendship()));
 
-            using var twitterApi = new TwitterApi();
+            using var twitterApi = new TwitterApi(ApiKey.Create("fake_consumer_key"), ApiKey.Create("fake_consumer_secret"));
             twitterApi.apiConnection = mock.Object;
 
             await twitterApi.FriendshipsCreate(screenName: "twitterapi")
@@ -905,7 +905,7 @@ namespace OpenTween.Api
             )
             .ReturnsAsync(LazyJson.Create(new TwitterFriendship()));
 
-            using var twitterApi = new TwitterApi();
+            using var twitterApi = new TwitterApi(ApiKey.Create("fake_consumer_key"), ApiKey.Create("fake_consumer_secret"));
             twitterApi.apiConnection = mock.Object;
 
             await twitterApi.FriendshipsDestroy(screenName: "twitterapi")
@@ -927,7 +927,7 @@ namespace OpenTween.Api
             )
             .ReturnsAsync(Array.Empty<long>());
 
-            using var twitterApi = new TwitterApi();
+            using var twitterApi = new TwitterApi(ApiKey.Create("fake_consumer_key"), ApiKey.Create("fake_consumer_secret"));
             twitterApi.apiConnection = mock.Object;
 
             await twitterApi.NoRetweetIds()
@@ -948,7 +948,7 @@ namespace OpenTween.Api
             )
             .ReturnsAsync(new TwitterIds());
 
-            using var twitterApi = new TwitterApi();
+            using var twitterApi = new TwitterApi(ApiKey.Create("fake_consumer_key"), ApiKey.Create("fake_consumer_secret"));
             twitterApi.apiConnection = mock.Object;
 
             await twitterApi.FollowersIds(cursor: -1L)
@@ -969,7 +969,7 @@ namespace OpenTween.Api
             )
             .ReturnsAsync(new TwitterIds());
 
-            using var twitterApi = new TwitterApi();
+            using var twitterApi = new TwitterApi(ApiKey.Create("fake_consumer_key"), ApiKey.Create("fake_consumer_secret"));
             twitterApi.apiConnection = mock.Object;
 
             await twitterApi.MutesUsersIds(cursor: -1L)
@@ -990,7 +990,7 @@ namespace OpenTween.Api
             )
             .ReturnsAsync(new TwitterIds());
 
-            using var twitterApi = new TwitterApi();
+            using var twitterApi = new TwitterApi(ApiKey.Create("fake_consumer_key"), ApiKey.Create("fake_consumer_secret"));
             twitterApi.apiConnection = mock.Object;
 
             await twitterApi.BlocksIds(cursor: -1L)
@@ -1013,7 +1013,7 @@ namespace OpenTween.Api
             )
             .ReturnsAsync(LazyJson.Create(new TwitterUser()));
 
-            using var twitterApi = new TwitterApi();
+            using var twitterApi = new TwitterApi(ApiKey.Create("fake_consumer_key"), ApiKey.Create("fake_consumer_secret"));
             twitterApi.apiConnection = mock.Object;
 
             await twitterApi.BlocksCreate(screenName: "twitterapi")
@@ -1037,7 +1037,7 @@ namespace OpenTween.Api
             )
             .ReturnsAsync(LazyJson.Create(new TwitterUser()));
 
-            using var twitterApi = new TwitterApi();
+            using var twitterApi = new TwitterApi(ApiKey.Create("fake_consumer_key"), ApiKey.Create("fake_consumer_secret"));
             twitterApi.apiConnection = mock.Object;
 
             await twitterApi.BlocksDestroy(screenName: "twitterapi")
@@ -1067,7 +1067,7 @@ namespace OpenTween.Api
                 ScreenName = "opentween",
             });
 
-            using var twitterApi = new TwitterApi();
+            using var twitterApi = new TwitterApi(ApiKey.Create("fake_consumer_key"), ApiKey.Create("fake_consumer_secret"));
             twitterApi.apiConnection = mock.Object;
 
             await twitterApi.AccountVerifyCredentials()
@@ -1098,7 +1098,7 @@ namespace OpenTween.Api
             )
             .ReturnsAsync(LazyJson.Create(new TwitterUser()));
 
-            using var twitterApi = new TwitterApi();
+            using var twitterApi = new TwitterApi(ApiKey.Create("fake_consumer_key"), ApiKey.Create("fake_consumer_secret"));
             twitterApi.apiConnection = mock.Object;
 
             await twitterApi.AccountUpdateProfile(name: "Name", url: "http://example.com/", location: "Location", description: "<script>alert(1)</script>")
@@ -1126,7 +1126,7 @@ namespace OpenTween.Api
             )
             .ReturnsAsync(LazyJson.Create(new TwitterUser()));
 
-            using var twitterApi = new TwitterApi();
+            using var twitterApi = new TwitterApi(ApiKey.Create("fake_consumer_key"), ApiKey.Create("fake_consumer_secret"));
             twitterApi.apiConnection = mock.Object;
 
             await twitterApi.AccountUpdateProfileImage(media)
@@ -1148,7 +1148,7 @@ namespace OpenTween.Api
             )
             .ReturnsAsync(new TwitterRateLimits());
 
-            using var twitterApi = new TwitterApi();
+            using var twitterApi = new TwitterApi(ApiKey.Create("fake_consumer_key"), ApiKey.Create("fake_consumer_secret"));
             twitterApi.apiConnection = mock.Object;
 
             await twitterApi.ApplicationRateLimitStatus()
@@ -1169,7 +1169,7 @@ namespace OpenTween.Api
             )
             .ReturnsAsync(new TwitterConfiguration());
 
-            using var twitterApi = new TwitterApi();
+            using var twitterApi = new TwitterApi(ApiKey.Create("fake_consumer_key"), ApiKey.Create("fake_consumer_secret"));
             twitterApi.apiConnection = mock.Object;
 
             await twitterApi.Configuration()
@@ -1194,7 +1194,7 @@ namespace OpenTween.Api
             )
             .ReturnsAsync(LazyJson.Create(new TwitterUploadMediaInit()));
 
-            using var twitterApi = new TwitterApi();
+            using var twitterApi = new TwitterApi(ApiKey.Create("fake_consumer_key"), ApiKey.Create("fake_consumer_secret"));
             twitterApi.apiConnection = mock.Object;
 
             await twitterApi.MediaUploadInit(totalBytes: 123456L, mediaType: "image/png", mediaCategory: "dm_image")
@@ -1222,7 +1222,7 @@ namespace OpenTween.Api
             )
             .Returns(Task.CompletedTask);
 
-            using var twitterApi = new TwitterApi();
+            using var twitterApi = new TwitterApi(ApiKey.Create("fake_consumer_key"), ApiKey.Create("fake_consumer_secret"));
             twitterApi.apiConnection = mock.Object;
 
             await twitterApi.MediaUploadAppend(mediaId: 11111L, segmentIndex: 1, media: media)
@@ -1245,7 +1245,7 @@ namespace OpenTween.Api
             )
             .ReturnsAsync(LazyJson.Create(new TwitterUploadMediaResult()));
 
-            using var twitterApi = new TwitterApi();
+            using var twitterApi = new TwitterApi(ApiKey.Create("fake_consumer_key"), ApiKey.Create("fake_consumer_secret"));
             twitterApi.apiConnection = mock.Object;
 
             await twitterApi.MediaUploadFinalize(mediaId: 11111L)
@@ -1270,7 +1270,7 @@ namespace OpenTween.Api
             )
             .ReturnsAsync(new TwitterUploadMediaResult());
 
-            using var twitterApi = new TwitterApi();
+            using var twitterApi = new TwitterApi(ApiKey.Create("fake_consumer_key"), ApiKey.Create("fake_consumer_secret"));
             twitterApi.apiConnection = mock.Object;
 
             await twitterApi.MediaUploadStatus(mediaId: 11111L)
@@ -1290,7 +1290,7 @@ namespace OpenTween.Api
             )
             .Returns(Task.CompletedTask);
 
-            using var twitterApi = new TwitterApi();
+            using var twitterApi = new TwitterApi(ApiKey.Create("fake_consumer_key"), ApiKey.Create("fake_consumer_secret"));
             twitterApi.apiConnection = mock.Object;
 
             await twitterApi.MediaMetadataCreate(mediaId: 12345L, altText: "hogehoge")
@@ -1313,7 +1313,7 @@ namespace OpenTween.Api
             )
             .ReturnsAsync(new MemoryStream());
 
-            using var twitterApi = new TwitterApi();
+            using var twitterApi = new TwitterApi(ApiKey.Create("fake_consumer_key"), ApiKey.Create("fake_consumer_secret"));
             twitterApi.apiConnection = mock.Object;
 
             var observable = twitterApi.UserStreams(replies: "all", track: "OpenTween");

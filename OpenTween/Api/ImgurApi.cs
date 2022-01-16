@@ -37,17 +37,17 @@ namespace OpenTween.Api
 {
     public class ImgurApi : IImgurApi
     {
-        private readonly string clientId;
+        private readonly ApiKey clientId;
         private readonly HttpClient http;
 
         public static readonly Uri UploadEndpoint = new Uri("https://api.imgur.com/3/image.xml");
 
         public ImgurApi()
-            : this(ApplicationSettings.ImgurClientID, null)
+            : this(ApplicationSettings.ImgurClientId, null)
         {
         }
 
-        public ImgurApi(string clientId, HttpClient? http)
+        public ImgurApi(ApiKey clientId, HttpClient? http)
         {
             this.clientId = clientId;
 
@@ -97,6 +97,9 @@ namespace OpenTween.Api
 
         private async Task<HttpResponseMessage> SendRequestAsync(IMediaItem item, string title)
         {
+            if (!this.clientId.TryGetValue(out var clientId))
+                throw new WebApiException("Err:imgur APIキーが使用できません");
+
             using var content = new MultipartFormDataContent();
             using var mediaStream = item.OpenRead();
             using var mediaContent = new StreamContent(mediaStream);
@@ -106,7 +109,7 @@ namespace OpenTween.Api
             content.Add(titleContent, "title");
 
             using var request = new HttpRequestMessage(HttpMethod.Post, UploadEndpoint);
-            request.Headers.Authorization = new AuthenticationHeaderValue("Client-ID", this.clientId);
+            request.Headers.Authorization = new AuthenticationHeaderValue("Client-ID", clientId);
             request.Content = content;
 
             return await this.http.SendAsync(request)

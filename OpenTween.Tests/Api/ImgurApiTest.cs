@@ -82,7 +82,7 @@ namespace OpenTween.Api
                 };
             });
 
-            var imgurApi = new ImgurApi("fake_api_key", http);
+            var imgurApi = new ImgurApi(ApiKey.Create("fake_api_key"), http);
             using var mediaItem = TestUtils.CreateDummyMediaItem();
             var uploadedUrl = await imgurApi.UploadFileAsync(mediaItem, "てすと")
                 .ConfigureAwait(false);
@@ -113,7 +113,7 @@ namespace OpenTween.Api
                 };
             });
 
-            var imgurApi = new ImgurApi("fake_api_key", http);
+            var imgurApi = new ImgurApi(ApiKey.Create("fake_api_key"), http);
             using var mediaItem = TestUtils.CreateDummyMediaItem();
             await Assert.ThrowsAsync<WebApiException>(
                 () => imgurApi.UploadFileAsync(mediaItem, "てすと")
@@ -139,7 +139,22 @@ namespace OpenTween.Api
                 };
             });
 
-            var imgurApi = new ImgurApi("fake_api_key", http);
+            var imgurApi = new ImgurApi(ApiKey.Create("fake_api_key"), http);
+            using var mediaItem = TestUtils.CreateDummyMediaItem();
+            await Assert.ThrowsAsync<WebApiException>(
+                () => imgurApi.UploadFileAsync(mediaItem, "てすと")
+            );
+
+            Assert.Equal(0, mockHandler.QueueCount);
+        }
+
+        [Fact]
+        public async Task UploadFileAsync_ApiKeyErrorTest()
+        {
+            using var mockHandler = new HttpMessageHandlerMock();
+            using var http = new HttpClient(mockHandler);
+
+            var imgurApi = new ImgurApi(ApiKey.Create("%e%INVALID_API_KEY"), http);
             using var mediaItem = TestUtils.CreateDummyMediaItem();
             await Assert.ThrowsAsync<WebApiException>(
                 () => imgurApi.UploadFileAsync(mediaItem, "てすと")

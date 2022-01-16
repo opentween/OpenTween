@@ -23,6 +23,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
@@ -105,14 +106,26 @@ namespace OpenTween
         public static readonly string VersionInfoUrl = "https://www.opentween.org/status/version.txt";
 
         //=====================================================================
-        // Twitter
-        // https://dev.twitter.com/ から取得できます。
+        // 暗号化キー
 
         /// <summary>
-        /// Twitter コンシューマーキー
+        /// APIキーの暗号化・復号に使用するパスワード
         /// </summary>
-        public const string TwitterConsumerKey = "zIoJPq3FsuViPTAs89FetDHYz";
-        public const string TwitterConsumerSecret = "prTAs2fqLv12nHxlMoLQZT8AkpZt0yYb8A7ktGS2VYeRj0TddS";
+        public static readonly string EncryptionPassword = ApplicationName;
+
+        //=====================================================================
+        // Twitter
+        // https://developer.twitter.com/ から取得できます。
+
+        /// <summary>
+        /// Twitter API Key
+        /// </summary>
+        public static readonly ApiKey TwitterConsumerKey = ApiKey.Create("zIoJPq3FsuViPTAs89FetDHYz");
+
+        /// <summary>
+        /// Twitter API Key Secret
+        /// </summary>
+        public static readonly ApiKey TwitterConsumerSecret = ApiKey.Create("prTAs2fqLv12nHxlMoLQZT8AkpZt0yYb8A7ktGS2VYeRj0TddS");
 
         //=====================================================================
         // Foursquare
@@ -121,12 +134,12 @@ namespace OpenTween
         /// <summary>
         /// Foursquare Client Id
         /// </summary>
-        public const string FoursquareClientId = "5H3K5YQPT55DNQUFEOAJFNJA5D01ZJGO2ITEAJ3ASRIDONUB";
+        public static readonly ApiKey FoursquareClientId = ApiKey.Create("5H3K5YQPT55DNQUFEOAJFNJA5D01ZJGO2ITEAJ3ASRIDONUB");
 
         /// <summary>
         /// Foursquare Client Secret
         /// </summary>
-        public const string FoursquareClientSecret = "JFRHP1L451M3AEPF11UZLTIIUZCZTZRVHVOWB5TQ0AJOVPBB";
+        public static readonly ApiKey FoursquareClientSecret = ApiKey.Create("JFRHP1L451M3AEPF11UZLTIIUZCZTZRVHVOWB5TQ0AJOVPBB");
 
         //=====================================================================
         // bit.ly
@@ -135,12 +148,12 @@ namespace OpenTween
         /// <summary>
         /// bit.ly Client ID
         /// </summary>
-        public const string BitlyClientId = "ddab8ec50f4459c315cbde9d923cf490923b6d2e";
+        public static readonly ApiKey BitlyClientId = ApiKey.Create("ddab8ec50f4459c315cbde9d923cf490923b6d2e");
 
         /// <summary>
         /// bit.ly Client Secret
         /// </summary>
-        public const string BitlyClientSecret = "485c9d03dd264f8eeb4fc65d38e2762c4420cee7";
+        public static readonly ApiKey BitlyClientSecret = ApiKey.Create("485c9d03dd264f8eeb4fc65d38e2762c4420cee7");
 
         //=====================================================================
         // TINAMI
@@ -149,7 +162,7 @@ namespace OpenTween
         /// <summary>
         /// TINAMI APIキー
         /// </summary>
-        public const string TINAMIApiKey = "4f48bb4858d36";
+        public static readonly ApiKey TINAMIApiKey = ApiKey.Create("4f48bb4858d36");
 
         //=====================================================================
         // Microsoft Translator API (Cognitive Service)
@@ -158,7 +171,7 @@ namespace OpenTween
         /// <summary>
         /// Translator Text API Subscription Key
         /// </summary>
-        public readonly static string TranslatorSubscriptionKey = "6c47d2ea341148bf856bdbfafd429db7";
+        public static readonly ApiKey TranslatorSubscriptionKey = ApiKey.Create("6c47d2ea341148bf856bdbfafd429db7");
 
         //=====================================================================
         // Imgur
@@ -167,12 +180,12 @@ namespace OpenTween
         /// <summary>
         /// Imgur Client ID
         /// </summary>
-        public readonly static string ImgurClientID = "a5fff36fb83568c";
+        public static readonly ApiKey ImgurClientId = ApiKey.Create("a5fff36fb83568c");
 
         /// <summary>
         /// Imgur Client Secret
         /// </summary>
-        public readonly static string ImgurClientSecret = "af5d668a9aa83b34a8f0f735e12073edafbc9a5d";
+        public static readonly ApiKey ImgurClientSecret = ApiKey.Create("af5d668a9aa83b34a8f0f735e12073edafbc9a5d");
 
         //=====================================================================
         // Mobypicture
@@ -181,7 +194,7 @@ namespace OpenTween
         /// <summary>
         /// Mobypicture Developer Key
         /// </summary>
-        public readonly static string MobypictureKey = "quPWTX0UrPHxqdH7";
+        public static readonly ApiKey MobypictureKey = ApiKey.Create("quPWTX0UrPHxqdH7");
 
         //=====================================================================
         // Tumblr
@@ -190,6 +203,6 @@ namespace OpenTween
         /// <summary>
         /// Tumblr OAuth Consumer Key
         /// </summary>
-        public readonly static string TumblrConsumerKey = "Nsk62V6wMIqVNbiGyN0g3aDGBlgU7Fcb9GJ8Se0z2MUDHAY15l";
+        public static readonly ApiKey TumblrConsumerKey = ApiKey.Create("Nsk62V6wMIqVNbiGyN0g3aDGBlgU7Fcb9GJ8Se0z2MUDHAY15l");
     }
 }

@@ -45,15 +45,19 @@ namespace OpenTween.Thumbnail.Services
         protected HttpClient http
             => this.localHttpClient ?? Networking.Http;
 
+        private readonly ApiKey apiKey;
         private readonly HttpClient? localHttpClient;
 
         public Tinami()
-            : this(null)
+            : this(ApplicationSettings.TINAMIApiKey, null)
         {
         }
 
-        public Tinami(HttpClient? http)
-            => this.localHttpClient = http;
+        public Tinami(ApiKey apiKey, HttpClient? http)
+        {
+            this.apiKey = apiKey;
+            this.localHttpClient = http;
+        }
 
         public override async Task<ThumbnailInfo?> GetThumbnailInfoAsync(string url, PostClass post, CancellationToken token)
         {
@@ -61,11 +65,14 @@ namespace OpenTween.Thumbnail.Services
             if (!match.Success)
                 return null;
 
+            if (!this.apiKey.TryGetValue(out var apiKey))
+                return null;
+
             var contentId = match.Groups["ContentId"].Value;
 
             try
             {
-                var xdoc = await this.FetchContentInfoApiAsync(contentId, token)
+                var xdoc = await this.FetchContentInfoApiAsync(apiKey, contentId, token)
                     .ConfigureAwait(false);
 
                 if (xdoc.XPathSelectElement("/rsp").Attribute("stat").Value != "ok")
@@ -89,11 +96,11 @@ namespace OpenTween.Thumbnail.Services
             return null;
         }
 
-        protected virtual async Task<XDocument> FetchContentInfoApiAsync(string contentId, CancellationToken token)
+        protected virtual async Task<XDocument> FetchContentInfoApiAsync(string apiKey, string contentId, CancellationToken token)
         {
             var query = new Dictionary<string, string>
             {
-                ["api_key"] = ApplicationSettings.TINAMIApiKey,
+                ["api_key"] = apiKey,
                 ["cont_id"] = contentId,
             };
 

@@ -68,6 +68,7 @@
     <Compile Include="ApiInfoDialog.Designer.cs">
       <DependentUpon>ApiInfoDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="ApiKey.cs" />
     <Compile Include="Api\ApiLimit.cs" />
     <Compile Include="Api\BitlyApi.cs" />
     <Compile Include="Api\DataModel\GeoJson.cs" />
