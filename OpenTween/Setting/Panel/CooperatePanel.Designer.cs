@@ -45,6 +45,7 @@
             this.CheckNicoms = new System.Windows.Forms.CheckBox();
             this.EnableImgAzyobuziNetCheckBox = new System.Windows.Forms.CheckBox();
             this.ImgAzyobuziNetDisabledInDMCheckBox = new System.Windows.Forms.CheckBox();
+            this.EncryptApiKeyButton = new System.Windows.Forms.Button();
             this.MapThumbnailGroupBox.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -278,10 +279,18 @@
             this.ImgAzyobuziNetDisabledInDMCheckBox.Name = "ImgAzyobuziNetDisabledInDMCheckBox";
             this.ImgAzyobuziNetDisabledInDMCheckBox.UseVisualStyleBackColor = true;
             // 
+            // EncryptApiKeyButton
+            // 
+            resources.ApplyResources(this.EncryptApiKeyButton, "EncryptApiKeyButton");
+            this.EncryptApiKeyButton.Name = "EncryptApiKeyButton";
+            this.EncryptApiKeyButton.UseVisualStyleBackColor = true;
+            this.EncryptApiKeyButton.Click += new System.EventHandler(this.EncryptApiKeyButton_Click);
+            // 
             // CooperatePanel
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
+            this.Controls.Add(this.EncryptApiKeyButton);
             this.Controls.Add(this.ImgAzyobuziNetDisabledInDMCheckBox);
             this.Controls.Add(this.EnableImgAzyobuziNetCheckBox);
             this.Controls.Add(this.MapThumbnailGroupBox);
@@ -316,5 +325,6 @@
         internal System.Windows.Forms.ComboBox MapThumbnailProviderComboBox;
         internal System.Windows.Forms.CheckBox EnableImgAzyobuziNetCheckBox;
         internal System.Windows.Forms.CheckBox ImgAzyobuziNetDisabledInDMCheckBox;
+        private System.Windows.Forms.Button EncryptApiKeyButton;
     }
 }
