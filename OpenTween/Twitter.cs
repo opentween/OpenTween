@@ -169,10 +169,6 @@ namespace OpenTween
 
         private long previousStatusId = -1L;
 
-        public Twitter() : this(new TwitterApi())
-        {
-        }
-
         public Twitter(TwitterApi api)
         {
             this.Api = api;

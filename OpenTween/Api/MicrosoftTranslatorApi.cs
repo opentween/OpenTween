@@ -44,19 +44,27 @@ namespace OpenTween.Api
         public string AccessToken { get; internal set; } = "";
         public DateTimeUtc RefreshAccessTokenAt { get; internal set; } = DateTimeUtc.MinValue;
 
+        private readonly ApiKey subscriptionKey;
+
         private HttpClient Http => this.localHttpClient ?? Networking.Http;
         private readonly HttpClient? localHttpClient;
 
         public MicrosoftTranslatorApi()
-            : this(null)
+            : this(ApplicationSettings.TranslatorSubscriptionKey, null)
         {
         }
 
-        public MicrosoftTranslatorApi(HttpClient? http)
-            => this.localHttpClient = http;
+        public MicrosoftTranslatorApi(ApiKey subscriptionKey, HttpClient? http)
+        {
+            this.subscriptionKey = subscriptionKey;
+            this.localHttpClient = http;
+        }
 
         public async Task<string> TranslateAsync(string text, string langTo, string? langFrom = null)
         {
+            if (!this.subscriptionKey.TryGetValue(out _))
+                throw new WebApiException("APIキーが使用できません");
+
             await this.UpdateAccessTokenIfExpired()
                 .ConfigureAwait(false);
 
@@ -83,7 +91,8 @@ namespace OpenTween.Api
             using var response = await this.Http.SendAsync(request)
                 .ConfigureAwait(false);
 
-            response.EnsureSuccessStatusCode();
+            if (!response.IsSuccessStatusCode)
+                throw new WebApiException(response.StatusCode.ToString());
 
             var responseJson = await response.Content.ReadAsByteArrayAsync()
                 .ConfigureAwait(false);
@@ -112,7 +121,7 @@ namespace OpenTween.Api
         internal virtual async Task<(string AccessToken, TimeSpan ExpiresIn)> GetAccessTokenAsync()
         {
             using var request = new HttpRequestMessage(HttpMethod.Post, IssueTokenEndpoint);
-            request.Headers.Add("Ocp-Apim-Subscription-Key", ApplicationSettings.TranslatorSubscriptionKey);
+            request.Headers.Add("Ocp-Apim-Subscription-Key", this.subscriptionKey.Value);
 
             using var response = await this.Http.SendAsync(request)
                 .ConfigureAwait(false);

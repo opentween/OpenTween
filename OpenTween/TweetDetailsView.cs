@@ -376,7 +376,7 @@ namespace OpenTween
 
                 this.PostBrowser.DocumentText = this.Owner.createDetailHtml(translatedText);
             }
-            catch (HttpRequestException e)
+            catch (WebApiException e)
             {
                 this.RaiseStatusChanged("Err:" + e.Message);
             }

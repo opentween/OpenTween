@@ -53,7 +53,7 @@ namespace OpenTween.Connection
         }
 
         public static OAuthEchoHandler CreateHandler(HttpMessageHandler innerHandler, Uri authServiceProvider,
-            string consumerKey, string consumerSecret, string accessToken, string accessSecret, Uri? realm = null)
+            ApiKey consumerKey, ApiKey consumerSecret, string accessToken, string accessSecret, Uri? realm = null)
         {
             var credential = OAuthUtility.CreateAuthorization("GET", authServiceProvider, null,
                 consumerKey, consumerSecret, accessToken, accessSecret, realm?.AbsoluteUri);

@@ -45,16 +45,23 @@ namespace OpenTween.Api
         public string EndUserLoginName { get; set; } = "";
         public string EndUserApiKey { get; set; } = "";
 
+        private readonly ApiKey clientId;
+        private readonly ApiKey clientSecret;
+
         private HttpClient http => this.localHttpClient ?? Networking.Http;
         private readonly HttpClient? localHttpClient;
 
         public BitlyApi()
-            : this(null)
+            : this(ApplicationSettings.BitlyClientId, ApplicationSettings.BitlyClientSecret, null)
         {
         }
 
-        public BitlyApi(HttpClient? http)
-            => this.localHttpClient = http;
+        public BitlyApi(ApiKey clientId, ApiKey clientSecret, HttpClient? http)
+        {
+            this.clientId = clientId;
+            this.clientSecret = clientSecret;
+            this.localHttpClient = http;
+        }
 
         public async Task<Uri> ShortenAsync(Uri srcUri, string? domain = null)
         {
@@ -104,7 +111,12 @@ namespace OpenTween.Api
             using var request = new HttpRequestMessage(HttpMethod.Post, endpoint);
             using var postContent = new FormUrlEncodedContent(param);
 
-            var authzParam = ApplicationSettings.BitlyClientId + ":" + ApplicationSettings.BitlyClientSecret;
+            if (!(this.clientId, this.clientSecret).TryGetValue(out var keyPair))
+                throw new WebApiException("bit.ly APIキーが使用できません");
+
+            var (clientId, clientSecret) = keyPair;
+
+            var authzParam = clientId + ":" + clientSecret;
             request.Headers.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(Encoding.UTF8.GetBytes(authzParam)));
 
             request.Content = postContent;

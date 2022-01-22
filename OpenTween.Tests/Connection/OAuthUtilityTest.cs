@@ -34,7 +34,7 @@ namespace OpenTween.Connection
         [Fact]
         public void GetOAuthParameter_Test()
         {
-            var param = OAuthUtility.GetOAuthParameter("ConsumerKey", "Token");
+            var param = OAuthUtility.GetOAuthParameter(ApiKey.Create("ConsumerKey"), "Token");
 
             Assert.Equal("ConsumerKey", param["oauth_consumer_key"]);
             Assert.Equal("HMAC-SHA1", param["oauth_signature_method"]);
@@ -53,7 +53,7 @@ namespace OpenTween.Connection
         {
             // GET http://example.com/hoge?aaa=foo に対する署名を生成
             // 実際の param は oauth_consumer_key などのパラメーターが加わった状態で渡される
-            var oauthSignature = OAuthUtility.CreateSignature("ConsumerSecret", "TokenSecret",
+            var oauthSignature = OAuthUtility.CreateSignature(ApiKey.Create("ConsumerSecret"), "TokenSecret",
                 "GET", new Uri("http://example.com/hoge"), new Dictionary<string, string> { ["aaa"] = "foo" });
 
             var expectSignatureBase = "GET&http%3A%2F%2Fexample.com%2Fhoge&aaa%3Dfoo";
@@ -69,7 +69,7 @@ namespace OpenTween.Connection
         {
             // GET http://example.com/hoge?aaa=foo&bbb=bar に対する署名を生成
             // 複数のパラメータが渡される場合は name 順でソートされる
-            var oauthSignature = OAuthUtility.CreateSignature("ConsumerSecret", "TokenSecret",
+            var oauthSignature = OAuthUtility.CreateSignature(ApiKey.Create("ConsumerSecret"), "TokenSecret",
                 "GET", new Uri("http://example.com/hoge"), new Dictionary<string, string> {
                     ["bbb"] = "bar",
                     ["aaa"] = "foo",
@@ -88,7 +88,7 @@ namespace OpenTween.Connection
         {
             // GET http://example.com/hoge?aaa=foo に対する署名を生成
             // リクエストトークンの発行時は tokenSecret が空の状態で署名を生成することになる
-            var oauthSignature = OAuthUtility.CreateSignature("ConsumerSecret", null,
+            var oauthSignature = OAuthUtility.CreateSignature(ApiKey.Create("ConsumerSecret"), null,
                 "GET", new Uri("http://example.com/hoge"), new Dictionary<string, string> { ["aaa"] = "foo" });
 
             var expectSignatureBase = "GET&http%3A%2F%2Fexample.com%2Fhoge&aaa%3Dfoo";
@@ -104,7 +104,7 @@ namespace OpenTween.Connection
         {
             var authorization = OAuthUtility.CreateAuthorization(
                 "GET", new Uri("http://example.com/hoge"), new Dictionary<string, string> { ["aaa"] = "hoge" },
-                "ConsumerKey", "ConsumerSecret", "AccessToken", "AccessSecret", "Realm");
+                ApiKey.Create("ConsumerKey"), ApiKey.Create("ConsumerSecret"), "AccessToken", "AccessSecret", "Realm");
 
             Assert.StartsWith("OAuth ", authorization, StringComparison.Ordinal);
 

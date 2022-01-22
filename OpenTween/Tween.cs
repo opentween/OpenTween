@@ -140,7 +140,7 @@ namespace OpenTween
         private FormWindowState _formWindowState = FormWindowState.Normal; // フォームの状態保存用 通知領域からアイコンをクリックして復帰した際に使用する
 
         //twitter解析部
-        private readonly TwitterApi twitterApi = new TwitterApi();
+        private readonly TwitterApi twitterApi = new TwitterApi(ApplicationSettings.TwitterConsumerKey, ApplicationSettings.TwitterConsumerSecret);
         private Twitter tw = null!;
 
         //Growl呼び出し部

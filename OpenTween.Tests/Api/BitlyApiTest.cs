@@ -38,7 +38,7 @@ namespace OpenTween.Api
         {
             using var mockHandler = new HttpMessageHandlerMock();
             using var http = new HttpClient(mockHandler);
-            var bitly = new BitlyApi(http);
+            var bitly = new BitlyApi(ApiKey.Create("fake_client_id"), ApiKey.Create("fake_client_secret"), http);
 
             mockHandler.Enqueue(x =>
             {
@@ -72,7 +72,7 @@ namespace OpenTween.Api
         {
             using var mockHandler = new HttpMessageHandlerMock();
             using var http = new HttpClient(mockHandler);
-            var bitly = new BitlyApi(http);
+            var bitly = new BitlyApi(ApiKey.Create("fake_client_id"), ApiKey.Create("fake_client_secret"), http);
 
             mockHandler.Enqueue(x =>
             {
@@ -108,7 +108,7 @@ namespace OpenTween.Api
         {
             using var mockHandler = new HttpMessageHandlerMock();
             using var http = new HttpClient(mockHandler);
-            var bitly = new BitlyApi(http);
+            var bitly = new BitlyApi(ApiKey.Create("fake_client_id"), ApiKey.Create("fake_client_secret"), http);
 
             mockHandler.Enqueue(async x =>
             {
@@ -117,8 +117,10 @@ namespace OpenTween.Api
                     x.RequestUri.GetLeftPart(UriPartial.Path));
 
                 Assert.Equal("Basic", x.Headers.Authorization.Scheme);
-                Assert.Equal(ApplicationSettings.BitlyClientId + ":" + ApplicationSettings.BitlyClientSecret,
-                    Encoding.UTF8.GetString(Convert.FromBase64String(x.Headers.Authorization.Parameter)));
+                Assert.Equal(
+                    Convert.ToBase64String(Encoding.UTF8.GetBytes("fake_client_id:fake_client_secret")),
+                    x.Headers.Authorization.Parameter
+                );
 
                 var body = await x.Content.ReadAsStringAsync()
                     .ConfigureAwait(false);
@@ -146,7 +148,7 @@ namespace OpenTween.Api
         {
             using var mockHandler = new HttpMessageHandlerMock();
             using var http = new HttpClient(mockHandler);
-            var bitly = new BitlyApi(http);
+            var bitly = new BitlyApi(ApiKey.Create("fake_client_id"), ApiKey.Create("fake_client_secret"), http);
 
             mockHandler.Enqueue(x =>
             {
@@ -160,6 +162,18 @@ namespace OpenTween.Api
                 .ConfigureAwait(false);
 
             Assert.Equal(0, mockHandler.QueueCount);
+        }
+
+        [Fact]
+        public async Task GetAccessTokenAsync_ApiKeyErrorTest()
+        {
+            using var mockHandler = new HttpMessageHandlerMock();
+            using var http = new HttpClient(mockHandler);
+            var bitly = new BitlyApi(ApiKey.Create("%e%INVALID_API_KEY"), ApiKey.Create("%e%INVALID_API_KEY"), http);
+
+            await Assert.ThrowsAsync<WebApiException>(
+                () => bitly.GetAccessTokenAsync("hogehoge", "tetete")
+            );
         }
     }
 }

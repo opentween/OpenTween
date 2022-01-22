@@ -71,7 +71,7 @@ namespace OpenTween.Thumbnail.Services
             var handler = new HttpMessageHandlerMock();
             using (var http = new HttpClient(handler))
             {
-                var service = new FoursquareCheckin(http);
+                var service = new FoursquareCheckin(http, ApiKey.Create("fake_client_id"), ApiKey.Create("fake_client_secret"));
 
                 handler.Enqueue(x =>
                 {
@@ -81,8 +81,8 @@ namespace OpenTween.Thumbnail.Services
 
                     var query = HttpUtility.ParseQueryString(x.RequestUri.Query);
 
-                    Assert.Equal(ApplicationSettings.FoursquareClientId, query["client_id"]);
-                    Assert.Equal(ApplicationSettings.FoursquareClientSecret, query["client_secret"]);
+                    Assert.Equal("fake_client_id", query["client_id"]);
+                    Assert.Equal("fake_client_secret", query["client_secret"]);
                     Assert.NotNull(query["v"]);
                     Assert.Equal("xxxxxxxx", query["shortId"]);
 
@@ -109,7 +109,7 @@ namespace OpenTween.Thumbnail.Services
             var handler = new HttpMessageHandlerMock();
             using (var http = new HttpClient(handler))
             {
-                var service = new FoursquareCheckin(http);
+                var service = new FoursquareCheckin(http, ApiKey.Create("fake_client_id"), ApiKey.Create("fake_client_secret"));
 
                 handler.Enqueue(x =>
                 {
@@ -119,8 +119,8 @@ namespace OpenTween.Thumbnail.Services
 
                     var query = HttpUtility.ParseQueryString(x.RequestUri.Query);
 
-                    Assert.Equal(ApplicationSettings.FoursquareClientId, query["client_id"]);
-                    Assert.Equal(ApplicationSettings.FoursquareClientSecret, query["client_secret"]);
+                    Assert.Equal("fake_client_id", query["client_id"]);
+                    Assert.Equal("fake_client_secret", query["client_secret"]);
                     Assert.NotNull(query["v"]);
                     Assert.Null(query["signature"]);
 
@@ -147,7 +147,7 @@ namespace OpenTween.Thumbnail.Services
             var handler = new HttpMessageHandlerMock();
             using (var http = new HttpClient(handler))
             {
-                var service = new FoursquareCheckin(http);
+                var service = new FoursquareCheckin(http, ApiKey.Create("fake_client_id"), ApiKey.Create("fake_client_secret"));
 
                 handler.Enqueue(x =>
                 {
@@ -157,8 +157,8 @@ namespace OpenTween.Thumbnail.Services
 
                     var query = HttpUtility.ParseQueryString(x.RequestUri.Query);
 
-                    Assert.Equal(ApplicationSettings.FoursquareClientId, query["client_id"]);
-                    Assert.Equal(ApplicationSettings.FoursquareClientSecret, query["client_secret"]);
+                    Assert.Equal("fake_client_id", query["client_id"]);
+                    Assert.Equal("fake_client_secret", query["client_secret"]);
                     Assert.NotNull(query["v"]);
                     Assert.Equal("aaaaaaa", query["signature"]);
 
@@ -185,7 +185,7 @@ namespace OpenTween.Thumbnail.Services
             var handler = new HttpMessageHandlerMock();
             using (var http = new HttpClient(handler))
             {
-                var service = new FoursquareCheckin(http);
+                var service = new FoursquareCheckin(http, ApiKey.Create("fake_client_id"), ApiKey.Create("fake_client_secret"));
 
                 handler.Enqueue(x =>
                 {
@@ -206,6 +206,20 @@ namespace OpenTween.Thumbnail.Services
 
                 Assert.Equal(1, handler.QueueCount);
             }
+        }
+
+        [Fact]
+        public async Task GetThumbnailInfoAsync_ApiKeyErrorTest()
+        {
+            var handler = new HttpMessageHandlerMock();
+            using var http = new HttpClient(handler);
+            var service = new FoursquareCheckin(http, ApiKey.Create("%e%INVALID_API_KEY"), ApiKey.Create("%e%INVALID_API_KEY"));
+
+            var post = new PostClass();
+            var thumb = await service.GetThumbnailInfoAsync("https://www.swarmapp.com/c/xxxxxxxx", post, CancellationToken.None)
+                .ConfigureAwait(false);
+
+            Assert.Null(thumb);
         }
 
         [Fact]

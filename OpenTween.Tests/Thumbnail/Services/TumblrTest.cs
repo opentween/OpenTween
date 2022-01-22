@@ -70,7 +70,7 @@ namespace OpenTween.Thumbnail.Services
 
                 var query = HttpUtility.ParseQueryString(x.RequestUri.Query);
 
-                Assert.Equal(ApplicationSettings.TumblrConsumerKey, query["api_key"]);
+                Assert.Equal("fake_api_key", query["api_key"]);
                 Assert.Equal("1234567", query["id"]);
 
                 return new HttpResponseMessage(HttpStatusCode.OK)
@@ -84,7 +84,7 @@ namespace OpenTween.Thumbnail.Services
 
             using (var http = new HttpClient(handler))
             {
-                var service = new Tumblr(http);
+                var service = new Tumblr(ApiKey.Create("fake_api_key"), http);
 
                 var url = "http://hoge.tumblr.com/post/1234567/tetetete";
                 await service.GetThumbnailInfoAsync(url, new PostClass(), CancellationToken.None)
@@ -107,7 +107,7 @@ namespace OpenTween.Thumbnail.Services
 
                 var query = HttpUtility.ParseQueryString(x.RequestUri.Query);
 
-                Assert.Equal(ApplicationSettings.TumblrConsumerKey, query["api_key"]);
+                Assert.Equal("fake_api_key", query["api_key"]);
                 Assert.Equal("1234567", query["id"]);
 
                 return new HttpResponseMessage(HttpStatusCode.OK)
@@ -121,7 +121,7 @@ namespace OpenTween.Thumbnail.Services
 
             using (var http = new HttpClient(handler))
             {
-                var service = new Tumblr(http);
+                var service = new Tumblr(ApiKey.Create("fake_api_key"), http);
 
                 // Tumblrのカスタムドメイン名を使ってるっぽいURL
                 var url = "http://tumblr.example.com/post/1234567/tetetete";
@@ -130,6 +130,20 @@ namespace OpenTween.Thumbnail.Services
             }
 
             Assert.Equal(0, handler.QueueCount);
+        }
+
+        [Fact]
+        public async Task GetThumbnailInfoAsync_ApiKeyErrorTest()
+        {
+            var handler = new HttpMessageHandlerMock();
+
+            using var http = new HttpClient(handler);
+            var service = new Tumblr(ApiKey.Create("%e%INVALID_API_KEY"), http);
+
+            var url = "http://hoge.tumblr.com/post/1234567/tetetete";
+            var thumb = await service.GetThumbnailInfoAsync(url, new PostClass(), CancellationToken.None)
+                .ConfigureAwait(false);
+            Assert.Null(thumb);
         }
     }
 }

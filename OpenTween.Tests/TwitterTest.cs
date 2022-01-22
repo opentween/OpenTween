@@ -24,6 +24,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using OpenTween.Api;
 using OpenTween.Api.DataModel;
 using OpenTween.Models;
 using OpenTween.Setting;
@@ -541,108 +542,108 @@ namespace OpenTween
         [Fact]
         public void GetTextLengthRemain_Test()
         {
-            using (var twitter = new Twitter())
-            {
-                Assert.Equal(280, twitter.GetTextLengthRemain(""));
-                Assert.Equal(272, twitter.GetTextLengthRemain("hogehoge"));
-            }
+            using var twitterApi = new TwitterApi(ApiKey.Create(""), ApiKey.Create(""));
+            using var twitter = new Twitter(twitterApi);
+
+            Assert.Equal(280, twitter.GetTextLengthRemain(""));
+            Assert.Equal(272, twitter.GetTextLengthRemain("hogehoge"));
         }
 
         [Fact]
         public void GetTextLengthRemain_DirectMessageTest()
         {
-            using (var twitter = new Twitter())
-            {
-                // 2015年8月から DM の文字数上限が 10,000 文字に変更された
-                // https://twittercommunity.com/t/41348
-                twitter.Configuration.DmTextCharacterLimit = 10000;
+            using var twitterApi = new TwitterApi(ApiKey.Create(""), ApiKey.Create(""));
+            using var twitter = new Twitter(twitterApi);
 
-                Assert.Equal(10000, twitter.GetTextLengthRemain("D twitter "));
-                Assert.Equal(9992, twitter.GetTextLengthRemain("D twitter hogehoge"));
+            // 2015年8月から DM の文字数上限が 10,000 文字に変更された
+            // https://twittercommunity.com/t/41348
+            twitter.Configuration.DmTextCharacterLimit = 10000;
 
-                // t.co に短縮される分の文字数を考慮
-                twitter.Configuration.ShortUrlLength = 20;
-                Assert.Equal(9971, twitter.GetTextLengthRemain("D twitter hogehoge http://example.com/"));
+            Assert.Equal(10000, twitter.GetTextLengthRemain("D twitter "));
+            Assert.Equal(9992, twitter.GetTextLengthRemain("D twitter hogehoge"));
 
-                twitter.Configuration.ShortUrlLengthHttps = 21;
-                Assert.Equal(9970, twitter.GetTextLengthRemain("D twitter hogehoge https://example.com/"));
-            }
+            // t.co に短縮される分の文字数を考慮
+            twitter.Configuration.ShortUrlLength = 20;
+            Assert.Equal(9971, twitter.GetTextLengthRemain("D twitter hogehoge http://example.com/"));
+
+            twitter.Configuration.ShortUrlLengthHttps = 21;
+            Assert.Equal(9970, twitter.GetTextLengthRemain("D twitter hogehoge https://example.com/"));
         }
 
         [Fact]
         public void GetTextLengthRemain_UrlTest()
         {
-            using (var twitter = new Twitter())
-            {
-                // t.co に短縮される分の文字数を考慮
-                twitter.TextConfiguration.TransformedURLLength = 20;
-                Assert.Equal(260, twitter.GetTextLengthRemain("http://example.com/"));
-                Assert.Equal(260, twitter.GetTextLengthRemain("http://example.com/hogehoge"));
-                Assert.Equal(251, twitter.GetTextLengthRemain("hogehoge http://example.com/"));
+            using var twitterApi = new TwitterApi(ApiKey.Create(""), ApiKey.Create(""));
+            using var twitter = new Twitter(twitterApi);
 
-                Assert.Equal(260, twitter.GetTextLengthRemain("https://example.com/"));
-                Assert.Equal(260, twitter.GetTextLengthRemain("https://example.com/hogehoge"));
-                Assert.Equal(251, twitter.GetTextLengthRemain("hogehoge https://example.com/"));
-            }
+            // t.co に短縮される分の文字数を考慮
+            twitter.TextConfiguration.TransformedURLLength = 20;
+            Assert.Equal(260, twitter.GetTextLengthRemain("http://example.com/"));
+            Assert.Equal(260, twitter.GetTextLengthRemain("http://example.com/hogehoge"));
+            Assert.Equal(251, twitter.GetTextLengthRemain("hogehoge http://example.com/"));
+
+            Assert.Equal(260, twitter.GetTextLengthRemain("https://example.com/"));
+            Assert.Equal(260, twitter.GetTextLengthRemain("https://example.com/hogehoge"));
+            Assert.Equal(251, twitter.GetTextLengthRemain("hogehoge https://example.com/"));
         }
 
         [Fact]
         public void GetTextLengthRemain_UrlWithoutSchemeTest()
         {
-            using (var twitter = new Twitter())
-            {
-                // t.co に短縮される分の文字数を考慮
-                twitter.TextConfiguration.TransformedURLLength = 20;
-                Assert.Equal(260, twitter.GetTextLengthRemain("example.com"));
-                Assert.Equal(260, twitter.GetTextLengthRemain("example.com/hogehoge"));
-                Assert.Equal(251, twitter.GetTextLengthRemain("hogehoge example.com"));
+            using var twitterApi = new TwitterApi(ApiKey.Create(""), ApiKey.Create(""));
+            using var twitter = new Twitter(twitterApi);
 
-                // スキーム (http://) を省略かつ末尾が ccTLD の場合は t.co に短縮されない
-                Assert.Equal(270, twitter.GetTextLengthRemain("example.jp"));
-                // ただし、末尾にパスが続く場合は t.co に短縮される
-                Assert.Equal(260, twitter.GetTextLengthRemain("example.jp/hogehoge"));
-            }
+            // t.co に短縮される分の文字数を考慮
+            twitter.TextConfiguration.TransformedURLLength = 20;
+            Assert.Equal(260, twitter.GetTextLengthRemain("example.com"));
+            Assert.Equal(260, twitter.GetTextLengthRemain("example.com/hogehoge"));
+            Assert.Equal(251, twitter.GetTextLengthRemain("hogehoge example.com"));
+
+            // スキーム (http://) を省略かつ末尾が ccTLD の場合は t.co に短縮されない
+            Assert.Equal(270, twitter.GetTextLengthRemain("example.jp"));
+            // ただし、末尾にパスが続く場合は t.co に短縮される
+            Assert.Equal(260, twitter.GetTextLengthRemain("example.jp/hogehoge"));
         }
 
         [Fact]
         public void GetTextLengthRemain_SurrogatePairTest()
         {
-            using (var twitter = new Twitter())
-            {
-                Assert.Equal(278, twitter.GetTextLengthRemain("🍣"));
-                Assert.Equal(267, twitter.GetTextLengthRemain("🔥🐔🔥 焼き鳥"));
-            }
+            using var twitterApi = new TwitterApi(ApiKey.Create(""), ApiKey.Create(""));
+            using var twitter = new Twitter(twitterApi);
+
+            Assert.Equal(278, twitter.GetTextLengthRemain("🍣"));
+            Assert.Equal(267, twitter.GetTextLengthRemain("🔥🐔🔥 焼き鳥"));
         }
 
         [Fact]
         public void GetTextLengthRemain_EmojiTest()
         {
-            using (var twitter = new Twitter())
-            {
-                // 絵文字の文字数カウントの仕様変更に対するテストケース
-                // https://twittercommunity.com/t/114607
+            using var twitterApi = new TwitterApi(ApiKey.Create(""), ApiKey.Create(""));
+            using var twitter = new Twitter(twitterApi);
 
-                Assert.Equal(279, twitter.GetTextLengthRemain("©")); // 基本多言語面の絵文字
-                Assert.Equal(277, twitter.GetTextLengthRemain("©\uFE0E")); // 異字体セレクタ付き (text style)
-                Assert.Equal(279, twitter.GetTextLengthRemain("©\uFE0F")); // 異字体セレクタ付き (emoji style)
-                Assert.Equal(278, twitter.GetTextLengthRemain("🍣")); // 拡張面の絵文字
-                Assert.Equal(279, twitter.GetTextLengthRemain("#⃣")); // 合字で表現される絵文字
-                Assert.Equal(278, twitter.GetTextLengthRemain("👦\U0001F3FF")); // Emoji modifier 付きの絵文字
-                Assert.Equal(278, twitter.GetTextLengthRemain("\U0001F3FF")); // Emoji modifier 単体
-                Assert.Equal(278, twitter.GetTextLengthRemain("👨\u200D🎨")); // ZWJ で結合された絵文字
-                Assert.Equal(278, twitter.GetTextLengthRemain("🏃\u200D♀\uFE0F")); // ZWJ と異字体セレクタを含む絵文字
-            }
+            // 絵文字の文字数カウントの仕様変更に対するテストケース
+            // https://twittercommunity.com/t/114607
+
+            Assert.Equal(279, twitter.GetTextLengthRemain("©")); // 基本多言語面の絵文字
+            Assert.Equal(277, twitter.GetTextLengthRemain("©\uFE0E")); // 異字体セレクタ付き (text style)
+            Assert.Equal(279, twitter.GetTextLengthRemain("©\uFE0F")); // 異字体セレクタ付き (emoji style)
+            Assert.Equal(278, twitter.GetTextLengthRemain("🍣")); // 拡張面の絵文字
+            Assert.Equal(279, twitter.GetTextLengthRemain("#⃣")); // 合字で表現される絵文字
+            Assert.Equal(278, twitter.GetTextLengthRemain("👦\U0001F3FF")); // Emoji modifier 付きの絵文字
+            Assert.Equal(278, twitter.GetTextLengthRemain("\U0001F3FF")); // Emoji modifier 単体
+            Assert.Equal(278, twitter.GetTextLengthRemain("👨\u200D🎨")); // ZWJ で結合された絵文字
+            Assert.Equal(278, twitter.GetTextLengthRemain("🏃\u200D♀\uFE0F")); // ZWJ と異字体セレクタを含む絵文字
         }
 
         [Fact]
         public void GetTextLengthRemain_BrokenSurrogateTest()
         {
-            using (var twitter = new Twitter())
-            {
-                // 投稿欄に IME から絵文字を入力すると HighSurrogate のみ入力された状態で TextChanged イベントが呼ばれることがある
-                Assert.Equal(278, twitter.GetTextLengthRemain("\ud83d"));
-                Assert.Equal(9999, twitter.GetTextLengthRemain("D twitter \ud83d"));
-            }
+            using var twitterApi = new TwitterApi(ApiKey.Create(""), ApiKey.Create(""));
+            using var twitter = new Twitter(twitterApi);
+
+            // 投稿欄に IME から絵文字を入力すると HighSurrogate のみ入力された状態で TextChanged イベントが呼ばれることがある
+            Assert.Equal(278, twitter.GetTextLengthRemain("\ud83d"));
+            Assert.Equal(9999, twitter.GetTextLengthRemain("D twitter \ud83d"));
         }
     }
 }

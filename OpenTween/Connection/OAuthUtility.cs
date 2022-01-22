@@ -56,7 +56,7 @@ namespace OpenTween.Connection
         /// <param name="tokenSecret">アクセストークンシークレット。認証処理では空文字列</param>
         /// <param name="realm">realm (必要な場合のみ)</param>
         public static string CreateAuthorization(string httpMethod, Uri requestUri, IEnumerable<KeyValuePair<string, string>>? query,
-            string consumerKey, string consumerSecret, string token, string tokenSecret,
+            ApiKey consumerKey, ApiKey consumerSecret, string token, string tokenSecret,
             string? realm = null)
         {
             // OAuth共通情報取得
@@ -86,11 +86,11 @@ namespace OpenTween.Connection
         /// </summary>
         /// <param name="token">アクセストークン、もしくはリクエストトークン。未取得なら空文字列</param>
         /// <returns>OAuth情報のディクショナリ</returns>
-        public static Dictionary<string, string> GetOAuthParameter(string consumerKey, string token)
+        public static Dictionary<string, string> GetOAuthParameter(ApiKey consumerKey, string token)
         {
             var parameter = new Dictionary<string, string>
             {
-                ["oauth_consumer_key"] = consumerKey,
+                ["oauth_consumer_key"] = consumerKey.Value,
                 ["oauth_signature_method"] = "HMAC-SHA1",
                 ["oauth_timestamp"] = DateTimeUtc.Now.ToUnixTime().ToString(), // epoch秒
                 ["oauth_nonce"] = NonceRandom.Next(123400, 9999999).ToString(),
@@ -109,7 +109,7 @@ namespace OpenTween.Connection
         /// <param name="uri">アクセス先Uri</param>
         /// <param name="parameter">クエリ、もしくはPOSTデータ</param>
         /// <returns>署名文字列</returns>
-        public static string CreateSignature(string consumerSecret, string? tokenSecret, string method, Uri uri, Dictionary<string, string> parameter)
+        public static string CreateSignature(ApiKey consumerSecret, string? tokenSecret, string method, Uri uri, Dictionary<string, string> parameter)
         {
             // パラメタをソート済みディクショナリに詰替（OAuthの仕様）
             var sorted = new SortedDictionary<string, string>(parameter);
@@ -120,7 +120,7 @@ namespace OpenTween.Connection
             // 署名のベース文字列生成（&区切り）。クエリ形式文字列は再エンコードする
             var signatureBase = string.Format("{0}&{1}&{2}", method, MyCommon.UrlEncode(url), MyCommon.UrlEncode(paramString));
             // 署名鍵の文字列をコンシューマー秘密鍵とアクセストークン秘密鍵から生成（&区切り。アクセストークン秘密鍵なくても&残すこと）
-            var key = MyCommon.UrlEncode(consumerSecret) + "&";
+            var key = MyCommon.UrlEncode(consumerSecret.Value) + "&";
             if (!MyCommon.IsNullOrEmpty(tokenSecret))
                 key += MyCommon.UrlEncode(tokenSecret);
             // 鍵生成＆署名生成

@@ -42,9 +42,18 @@ namespace OpenTween.Api
 
         internal IApiConnection? apiConnection;
 
+        private readonly ApiKey consumerKey;
+        private readonly ApiKey consumerSecret;
+
+        public TwitterApi(ApiKey consumerKey, ApiKey consumerSecret)
+        {
+            this.consumerKey = consumerKey;
+            this.consumerSecret = consumerSecret;
+        }
+
         public void Initialize(string accessToken, string accessSecret, long userId, string screenName)
         {
-            var newInstance = new TwitterApiConnection(accessToken, accessSecret);
+            var newInstance = new TwitterApiConnection(this.consumerKey, this.consumerSecret, accessToken, accessSecret);
             var oldInstance = Interlocked.Exchange(ref this.apiConnection, newInstance);
             oldInstance?.Dispose();
 

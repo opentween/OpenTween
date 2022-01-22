@@ -170,12 +170,7 @@ namespace OpenTween
         private readonly MicrosoftTranslatorApi translatorApi;
 
         public Bing()
-            : this(null)
-        {
-        }
-
-        public Bing(HttpClient? http)
-            => this.translatorApi = new MicrosoftTranslatorApi(http);
+            => this.translatorApi = new MicrosoftTranslatorApi();
 
         /// <summary>
         /// Microsoft Translator API を使用した翻訳を非同期に行います

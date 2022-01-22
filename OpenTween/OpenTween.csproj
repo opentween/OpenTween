@@ -68,6 +68,7 @@
     <Compile Include="ApiInfoDialog.Designer.cs">
       <DependentUpon>ApiInfoDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="ApiKey.cs" />
     <Compile Include="Api\ApiLimit.cs" />
     <Compile Include="Api\BitlyApi.cs" />
     <Compile Include="Api\DataModel\GeoJson.cs" />
@@ -133,6 +134,12 @@
     <Compile Include="Connection\OAuthUtility.cs" />
     <Compile Include="Connection\TwitterApiConnection.cs" />
     <Compile Include="DateTimeUtc.cs" />
+    <Compile Include="EncryptApiKeyDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EncryptApiKeyDialog.Designer.cs">
+      <DependentUpon>EncryptApiKeyDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="EventViewerDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -469,6 +476,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="AuthDialog.resx">
       <DependentUpon>AuthDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EncryptApiKeyDialog.resx">
+      <DependentUpon>EncryptApiKeyDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="EventViewerDialog.en.resx">
       <DependentUpon>EventViewerDialog.cs</DependentUpon>

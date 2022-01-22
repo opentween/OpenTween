@@ -41,7 +41,10 @@ namespace OpenTween.Setting.Panel
     public partial class CooperatePanel : SettingPanelBase
     {
         public CooperatePanel()
-            => this.InitializeComponent();
+        {
+            this.InitializeComponent();
+            this.EncryptApiKeyButton.Visible = MyCommon.DebugBuild;
+        }
 
         public void LoadConfig(SettingCommon settingCommon)
         {
@@ -79,5 +82,11 @@ namespace OpenTween.Setting.Panel
 
         private void EnableImgAzyobuziNetCheckBox_CheckedChanged(object sender, EventArgs e)
             => this.ImgAzyobuziNetDisabledInDMCheckBox.Enabled = this.EnableImgAzyobuziNetCheckBox.Checked;
+
+        private void EncryptApiKeyButton_Click(object sender, EventArgs e)
+        {
+            using var dialog = new EncryptApiKeyDialog();
+            dialog.ShowDialog(this.ParentForm);
+        }
     }
 }
