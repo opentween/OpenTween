@@ -36,6 +36,11 @@ namespace OpenTween.Thumbnail
 {
     class ThumbnailGenerator
     {
+        public static readonly Regex InstagramPattern = new Regex(
+            @"^https?://(?:instagram.com|instagr\.am|i\.instagram\.com|www\.instagram\.com)/([^/]+/)?p/(?<mediaId>[^/]+)/(\?.*)?$",
+            RegexOptions.IgnoreCase
+        );
+
         public static List<IThumbnailService> Services { get; protected set; }
 
         internal static ImgAzyobuziNet ImgAzyobuziNetInstance { get; private set; } = null!;
@@ -132,9 +137,9 @@ namespace OpenTween.Thumbnail
 
                 // Instagram
                 new SimpleThumbnailService(
-                    @"^https?://(?:instagram.com|instagr\.am|i\.instagram\.com|www\.instagram\.com)/p/.+/",
-                    "${0}media/?size=m",
-                    "${0}media/?size=l"),
+                    InstagramPattern,
+                    "https://www.instagram.com/p/${mediaId}/media/?size=m",
+                    "https://www.instagram.com/p/${mediaId}/media/?size=l"),
 
                 // Foursquare
                 new FoursquareCheckin(),
