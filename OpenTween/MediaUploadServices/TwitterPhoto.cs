@@ -37,7 +37,7 @@ using System.Threading.Tasks;
 using OpenTween.Api.DataModel;
 using OpenTween.Setting;
 
-namespace OpenTween.Connection
+namespace OpenTween.MediaUploadServices
 {
     public class TwitterPhoto : IMediaUploadService
     {

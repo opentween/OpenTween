@@ -90,8 +90,10 @@
     <Compile Include="Api\DataModel\TwitterUploadMediaResult.cs" />
     <Compile Include="Api\DataModel\TwitterUser.cs" />
     <Compile Include="Api\DataModel\TwitterApiAccessLevel.cs" />
+    <Compile Include="Api\ImgurApi.cs" />
     <Compile Include="Api\JsonUtils.cs" />
     <Compile Include="Api\MicrosoftTranslatorApi.cs" />
+    <Compile Include="Api\MobypictureApi.cs" />
     <Compile Include="Api\TwitterApi.cs" />
     <Compile Include="Api\TwitterApiException.cs" />
     <Compile Include="Api\TwitterApiStatus.cs" />
@@ -121,10 +123,10 @@
     </Compile>
     <Compile Include="Bing.cs" />
     <Compile Include="Connection\IApiConnection.cs" />
-    <Compile Include="Connection\IMediaUploadService.cs" />
-    <Compile Include="Connection\Imgur.cs" />
+    <Compile Include="MediaUploadServices\IMediaUploadService.cs" />
+    <Compile Include="MediaUploadServices\Imgur.cs" />
     <Compile Include="Connection\LazyJson.cs" />
-    <Compile Include="Connection\Mobypicture.cs" />
+    <Compile Include="MediaUploadServices\Mobypicture.cs" />
     <Compile Include="Connection\Networking.cs" />
     <Compile Include="Connection\OAuthEchoHandler.cs" />
     <Compile Include="Connection\OAuthHandler.cs" />
@@ -242,7 +244,7 @@
     <Compile Include="ListManage.Designer.cs">
       <DependentUpon>ListManage.cs</DependentUpon>
     </Compile>
-    <Compile Include="Connection\TwitterPhoto.cs" />
+    <Compile Include="MediaUploadServices\TwitterPhoto.cs" />
     <Compile Include="DetailsListView.cs">
       <SubType>Component</SubType>
     </Compile>

@@ -23,16 +23,13 @@
 
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
-using System.Xml.Linq;
+using OpenTween.Api;
 using OpenTween.Api.DataModel;
 
-namespace OpenTween.Connection
+namespace OpenTween.MediaUploadServices
 {
     public class Imgur : IMediaUploadService
     {
@@ -139,43 +136,5 @@ namespace OpenTween.Connection
 
         public void UpdateTwitterConfiguration(TwitterConfiguration config)
             => this.twitterConfig = config;
-
-        public class ImgurApi
-        {
-            private readonly HttpClient http;
-
-            private static readonly Uri UploadEndpoint = new Uri("https://api.imgur.com/3/image.xml");
-
-            public ImgurApi()
-            {
-                this.http = Networking.CreateHttpClient(Networking.CreateHttpClientHandler());
-                this.http.Timeout = Networking.UploadImageTimeout;
-            }
-
-            public async Task<XDocument> UploadFileAsync(IMediaItem item, string title)
-            {
-                using var content = new MultipartFormDataContent();
-                using var mediaStream = item.OpenRead();
-                using var mediaContent = new StreamContent(mediaStream);
-                using var titleContent = new StringContent(title);
-
-                content.Add(mediaContent, "image", item.Name);
-                content.Add(titleContent, "title");
-
-                using var request = new HttpRequestMessage(HttpMethod.Post, UploadEndpoint);
-                request.Headers.Authorization = new AuthenticationHeaderValue("Client-ID", ApplicationSettings.ImgurClientID);
-                request.Content = content;
-
-                using var response = await this.http.SendAsync(request)
-                    .ConfigureAwait(false);
-
-                response.EnsureSuccessStatusCode();
-
-                using var stream = await response.Content.ReadAsStreamAsync()
-                    .ConfigureAwait(false);
-
-                return XDocument.Load(stream);
-            }
-        }
     }
 }
