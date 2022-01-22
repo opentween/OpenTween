@@ -48,15 +48,19 @@ namespace OpenTween.MediaUploadServices
             ".xcf",
         };
 
-        private readonly ImgurApi imgurApi;
+        private readonly IImgurApi imgurApi;
 
         private TwitterConfiguration twitterConfig;
 
         public Imgur(TwitterConfiguration twitterConfig)
+            : this(new ImgurApi(), twitterConfig)
         {
-            this.twitterConfig = twitterConfig;
+        }
 
-            this.imgurApi = new ImgurApi();
+        public Imgur(IImgurApi imgurApi, TwitterConfiguration twitterConfig)
+        {
+            this.imgurApi = imgurApi;
+            this.twitterConfig = twitterConfig;
         }
 
         public int MaxMediaCount => 1;
@@ -104,31 +108,19 @@ namespace OpenTween.MediaUploadServices
             if (!item.Exists)
                 throw new ArgumentException("Err:Media not found.");
 
-            XDocument xml;
             try
             {
-                xml = await this.imgurApi.UploadFileAsync(item, postParams.Text)
+                var imageUrl = await this.imgurApi.UploadFileAsync(item, postParams.Text)
                     .ConfigureAwait(false);
-            }
-            catch (HttpRequestException ex)
-            {
-                throw new WebApiException("Err:" + ex.Message, ex);
+
+                postParams.Text += " " + imageUrl;
+
+                return postParams;
             }
             catch (OperationCanceledException ex)
             {
                 throw new WebApiException("Err:Timeout", ex);
             }
-
-            var imageElm = xml.Element("data");
-
-            if (imageElm.Attribute("success").Value != "1")
-                throw new WebApiException("Err:" + imageElm.Attribute("status").Value);
-
-            var imageUrl = imageElm.Element("link").Value;
-
-            postParams.Text += " " + imageUrl.Trim();
-
-            return postParams;
         }
 
         public int GetReservedTextLength(int mediaCount)

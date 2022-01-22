@@ -28,31 +28,74 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
 using System.Xml.Linq;
+using System.Xml.XPath;
 using OpenTween.Connection;
 
 namespace OpenTween.Api
 {
-    public class ImgurApi
+    public class ImgurApi : IImgurApi
     {
         private readonly string clientId;
         private readonly HttpClient http;
 
-        private static readonly Uri UploadEndpoint = new Uri("https://api.imgur.com/3/image.xml");
+        public static readonly Uri UploadEndpoint = new Uri("https://api.imgur.com/3/image.xml");
 
         public ImgurApi()
-            : this(ApplicationSettings.ImgurClientID)
+            : this(ApplicationSettings.ImgurClientID, null)
         {
         }
 
-        public ImgurApi(string clientId)
+        public ImgurApi(string clientId, HttpClient? http)
         {
             this.clientId = clientId;
-            this.http = Networking.CreateHttpClient(Networking.CreateHttpClientHandler());
-            this.http.Timeout = Networking.UploadImageTimeout;
+
+            if (http != null)
+            {
+                this.http = http;
+            }
+            else
+            {
+                this.http = Networking.CreateHttpClient(Networking.CreateHttpClientHandler());
+                this.http.Timeout = Networking.UploadImageTimeout;
+            }
         }
 
-        public async Task<XDocument> UploadFileAsync(IMediaItem item, string title)
+        public async Task<string> UploadFileAsync(IMediaItem item, string title)
+        {
+            using var response = await this.SendRequestAsync(item, title)
+                .ConfigureAwait(false);
+
+            var responseText = await response.Content.ReadAsStringAsync()
+                .ConfigureAwait(false);
+
+            XDocument responseXml;
+            try
+            {
+                responseXml = XDocument.Parse(responseText);
+            }
+            catch (XmlException ex)
+            {
+                var errorMessage = response.IsSuccessStatusCode ? "Invalid response" : response.StatusCode.ToString();
+                throw new WebApiException("Err:" + errorMessage, responseText, ex);
+            }
+
+            var imageElm = responseXml.Element("data");
+            if (imageElm?.Attribute("success")?.Value != "1")
+            {
+                var errorMessage = imageElm?.Element("error")?.Value ?? "Invalid response";
+                throw new WebApiException("Err:" + errorMessage, responseText);
+            }
+
+            var imageUrl = responseXml.XPathSelectElement("/data/link")?.Value;
+            if (imageUrl == null)
+                throw new WebApiException("Err:Invalid response", responseText);
+
+            return imageUrl.Trim();
+        }
+
+        private async Task<HttpResponseMessage> SendRequestAsync(IMediaItem item, string title)
         {
             using var content = new MultipartFormDataContent();
             using var mediaStream = item.OpenRead();
@@ -66,15 +109,13 @@ namespace OpenTween.Api
             request.Headers.Authorization = new AuthenticationHeaderValue("Client-ID", this.clientId);
             request.Content = content;
 
-            using var response = await this.http.SendAsync(request)
+            return await this.http.SendAsync(request)
                 .ConfigureAwait(false);
-
-            response.EnsureSuccessStatusCode();
-
-            using var stream = await response.Content.ReadAsStreamAsync()
-                .ConfigureAwait(false);
-
-            return XDocument.Load(stream);
         }
+    }
+
+    public interface IImgurApi
+    {
+        Task<string> UploadFileAsync(IMediaItem item, string title);
     }
 }

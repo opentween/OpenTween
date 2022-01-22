@@ -27,17 +27,19 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
 using System.Xml.Linq;
+using System.Xml.XPath;
 using OpenTween.Connection;
 
 namespace OpenTween.Api
 {
-    public class MobypictureApi
+    public class MobypictureApi : IMobypictureApi
     {
         private readonly string apiKey;
         private readonly HttpClient http;
 
-        private static readonly Uri UploadEndpoint = new Uri("https://api.mobypicture.com/2.0/upload.xml");
+        public static readonly Uri UploadEndpoint = new Uri("https://api.mobypicture.com/2.0/upload.xml");
 
         private static readonly Uri OAuthRealm = new Uri("http://api.twitter.com/");
         private static readonly Uri AuthServiceProvider = new Uri("https://api.twitter.com/1.1/account/verify_credentials.json");
@@ -56,12 +58,45 @@ namespace OpenTween.Api
             this.http.Timeout = Networking.UploadImageTimeout;
         }
 
+        public MobypictureApi(string apiKey, HttpClient http)
+        {
+            this.apiKey = apiKey;
+            this.http = http;
+        }
+
         /// <summary>
         /// 画像のアップロードを行います
         /// </summary>
+        /// <exception cref="ApiKeyDecryptException"/>
         /// <exception cref="WebApiException"/>
         /// <exception cref="XmlException"/>
-        public async Task<XDocument> UploadFileAsync(IMediaItem item, string message)
+        public async Task<string> UploadFileAsync(IMediaItem item, string message)
+        {
+            using var response = await this.SendRequestAsync(item, message)
+                .ConfigureAwait(false);
+
+            var responseText = await response.Content.ReadAsStringAsync()
+                .ConfigureAwait(false);
+
+            XDocument responseXml;
+            try
+            {
+                responseXml = XDocument.Parse(responseText);
+            }
+            catch (XmlException ex)
+            {
+                var errorMessage = response.IsSuccessStatusCode ? "Invalid response" : response.StatusCode.ToString();
+                throw new WebApiException("Err:" + errorMessage, responseText, ex);
+            }
+
+            var imageUrlElm = responseXml.XPathSelectElement("/rsp/media/mediaurl");
+            if (imageUrlElm == null)
+                throw new WebApiException("Invalid API response", responseText);
+
+            return imageUrlElm.Value.Trim();
+        }
+
+        private async Task<HttpResponseMessage> SendRequestAsync(IMediaItem item, string message)
         {
             // 参照: http://developers.mobypicture.com/documentation/2-0/upload/
 
@@ -78,16 +113,13 @@ namespace OpenTween.Api
             multipart.Add(messageContent, "message");
             multipart.Add(mediaContent, "media", item.Name);
 
-            using var response = await this.http.SendAsync(request)
+            return await this.http.SendAsync(request)
                 .ConfigureAwait(false);
-
-            var responseText = await response.Content.ReadAsStringAsync()
-                .ConfigureAwait(false);
-
-            if (!response.IsSuccessStatusCode)
-                throw new WebApiException(response.StatusCode.ToString(), responseText);
-
-            return XDocument.Parse(responseText);
         }
+    }
+
+    public interface IMobypictureApi
+    {
+        Task<string> UploadFileAsync(IMediaItem item, string message);
     }
 }

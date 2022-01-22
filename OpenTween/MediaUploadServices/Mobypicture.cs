@@ -68,15 +68,19 @@ namespace OpenTween.MediaUploadServices
             ".3gp",
         };
 
-        private readonly MobypictureApi mobypictureApi;
+        private readonly IMobypictureApi mobypictureApi;
 
         private TwitterConfiguration twitterConfig;
 
         public Mobypicture(Twitter twitter, TwitterConfiguration twitterConfig)
+            : this(new MobypictureApi(twitter.Api), twitterConfig)
         {
-            this.twitterConfig = twitterConfig ?? throw new ArgumentNullException(nameof(twitterConfig));
+        }
 
-            this.mobypictureApi = new MobypictureApi(twitter.Api);
+        public Mobypicture(IMobypictureApi mobypictureApi, TwitterConfiguration twitterConfig)
+        {
+            this.mobypictureApi = mobypictureApi;
+            this.twitterConfig = twitterConfig ?? throw new ArgumentNullException(nameof(twitterConfig));
         }
 
         public int MaxMediaCount => 1;
@@ -124,16 +128,19 @@ namespace OpenTween.MediaUploadServices
             if (!item.Exists)
                 throw new ArgumentException("Err:Media not found.");
 
-            var xml = await this.mobypictureApi.UploadFileAsync(item, postParams.Text)
-                .ConfigureAwait(false);
+            try
+            {
+                var imageUrl = await this.mobypictureApi.UploadFileAsync(item, postParams.Text)
+                    .ConfigureAwait(false);
 
-            var imageUrlElm = xml.XPathSelectElement("/rsp/media/mediaurl");
-            if (imageUrlElm == null)
-                throw new WebApiException("Invalid API response", xml.ToString());
+                postParams.Text += " " + imageUrl;
 
-            postParams.Text += " " + imageUrlElm.Value.Trim();
-
-            return postParams;
+                return postParams;
+            }
+            catch (OperationCanceledException ex)
+            {
+                throw new WebApiException("Err:Timeout", ex);
+            }
         }
 
         public int GetReservedTextLength(int mediaCount)
