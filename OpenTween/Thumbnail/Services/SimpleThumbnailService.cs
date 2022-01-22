@@ -48,8 +48,13 @@ namespace OpenTween.Thumbnail.Services
         }
 
         public SimpleThumbnailService(string pattern, string replacement, string? file_replacement)
+            : this(new Regex(pattern, RegexOptions.IgnoreCase), replacement, file_replacement)
         {
-            this.regex = new Regex(pattern, RegexOptions.IgnoreCase);
+        }
+
+        public SimpleThumbnailService(Regex regex, string replacement, string? file_replacement)
+        {
+            this.regex = regex;
             this.thumb_replacement = replacement;
             this.fullsize_replacement = file_replacement;
         }
