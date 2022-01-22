@@ -53,6 +53,7 @@ using System.Windows.Forms;
 using OpenTween.Api;
 using OpenTween.Api.DataModel;
 using OpenTween.Connection;
+using OpenTween.MediaUploadServices;
 using OpenTween.Models;
 using OpenTween.OpenTweenCustomControl;
 using OpenTween.Setting;

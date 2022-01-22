@@ -23,16 +23,13 @@
 
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
-using System.Xml.Linq;
+using OpenTween.Api;
 using OpenTween.Api.DataModel;
 
-namespace OpenTween.Connection
+namespace OpenTween.MediaUploadServices
 {
     public class Imgur : IMediaUploadService
     {
@@ -51,15 +48,19 @@ namespace OpenTween.Connection
             ".xcf",
         };
 
-        private readonly ImgurApi imgurApi;
+        private readonly IImgurApi imgurApi;
 
         private TwitterConfiguration twitterConfig;
 
         public Imgur(TwitterConfiguration twitterConfig)
+            : this(new ImgurApi(), twitterConfig)
         {
-            this.twitterConfig = twitterConfig;
+        }
 
-            this.imgurApi = new ImgurApi();
+        public Imgur(IImgurApi imgurApi, TwitterConfiguration twitterConfig)
+        {
+            this.imgurApi = imgurApi;
+            this.twitterConfig = twitterConfig;
         }
 
         public int MaxMediaCount => 1;
@@ -107,31 +108,19 @@ namespace OpenTween.Connection
             if (!item.Exists)
                 throw new ArgumentException("Err:Media not found.");
 
-            XDocument xml;
             try
             {
-                xml = await this.imgurApi.UploadFileAsync(item, postParams.Text)
+                var imageUrl = await this.imgurApi.UploadFileAsync(item, postParams.Text)
                     .ConfigureAwait(false);
-            }
-            catch (HttpRequestException ex)
-            {
-                throw new WebApiException("Err:" + ex.Message, ex);
+
+                postParams.Text += " " + imageUrl;
+
+                return postParams;
             }
             catch (OperationCanceledException ex)
             {
                 throw new WebApiException("Err:Timeout", ex);
             }
-
-            var imageElm = xml.Element("data");
-
-            if (imageElm.Attribute("success").Value != "1")
-                throw new WebApiException("Err:" + imageElm.Attribute("status").Value);
-
-            var imageUrl = imageElm.Element("link").Value;
-
-            postParams.Text += " " + imageUrl.Trim();
-
-            return postParams;
         }
 
         public int GetReservedTextLength(int mediaCount)
@@ -139,43 +128,5 @@ namespace OpenTween.Connection
 
         public void UpdateTwitterConfiguration(TwitterConfiguration config)
             => this.twitterConfig = config;
-
-        public class ImgurApi
-        {
-            private readonly HttpClient http;
-
-            private static readonly Uri UploadEndpoint = new Uri("https://api.imgur.com/3/image.xml");
-
-            public ImgurApi()
-            {
-                this.http = Networking.CreateHttpClient(Networking.CreateHttpClientHandler());
-                this.http.Timeout = Networking.UploadImageTimeout;
-            }
-
-            public async Task<XDocument> UploadFileAsync(IMediaItem item, string title)
-            {
-                using var content = new MultipartFormDataContent();
-                using var mediaStream = item.OpenRead();
-                using var mediaContent = new StreamContent(mediaStream);
-                using var titleContent = new StringContent(title);
-
-                content.Add(mediaContent, "image", item.Name);
-                content.Add(titleContent, "title");
-
-                using var request = new HttpRequestMessage(HttpMethod.Post, UploadEndpoint);
-                request.Headers.Authorization = new AuthenticationHeaderValue("Client-ID", ApplicationSettings.ImgurClientID);
-                request.Content = content;
-
-                using var response = await this.http.SendAsync(request)
-                    .ConfigureAwait(false);
-
-                response.EnsureSuccessStatusCode();
-
-                using var stream = await response.Content.ReadAsStreamAsync()
-                    .ConfigureAwait(false);
-
-                return XDocument.Load(stream);
-            }
-        }
     }
 }

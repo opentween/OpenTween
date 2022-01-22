@@ -24,16 +24,16 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Drawing;
 using System.Data;
+using System.Diagnostics.CodeAnalysis;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using OpenTween.Api.DataModel;
-using OpenTween.Connection;
-using System.Diagnostics.CodeAnalysis;
+using OpenTween.MediaUploadServices;
 
 namespace OpenTween
 {

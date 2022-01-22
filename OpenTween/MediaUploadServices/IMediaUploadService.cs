@@ -29,7 +29,7 @@ using System.Text;
 using System.Threading.Tasks;
 using OpenTween.Api.DataModel;
 
-namespace OpenTween.Connection
+namespace OpenTween.MediaUploadServices
 {
     /// <summary>
     /// Twitterでの画像の共有に使用できるサービスを表すインタフェース

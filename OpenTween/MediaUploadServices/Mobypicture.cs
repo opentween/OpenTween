@@ -23,20 +23,13 @@
 
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Forms;
-using System.Xml;
-using System.Xml.Linq;
-using System.Xml.XPath;
 using OpenTween.Api;
 using OpenTween.Api.DataModel;
 
-namespace OpenTween.Connection
+namespace OpenTween.MediaUploadServices
 {
     public class Mobypicture : IMediaUploadService
     {
@@ -75,15 +68,19 @@ namespace OpenTween.Connection
             ".3gp",
         };
 
-        private readonly MobypictureApi mobypictureApi;
+        private readonly IMobypictureApi mobypictureApi;
 
         private TwitterConfiguration twitterConfig;
 
         public Mobypicture(Twitter twitter, TwitterConfiguration twitterConfig)
+            : this(new MobypictureApi(twitter.Api), twitterConfig)
         {
-            this.twitterConfig = twitterConfig ?? throw new ArgumentNullException(nameof(twitterConfig));
+        }
 
-            this.mobypictureApi = new MobypictureApi(twitter.Api);
+        public Mobypicture(IMobypictureApi mobypictureApi, TwitterConfiguration twitterConfig)
+        {
+            this.mobypictureApi = mobypictureApi;
+            this.twitterConfig = twitterConfig ?? throw new ArgumentNullException(nameof(twitterConfig));
         }
 
         public int MaxMediaCount => 1;
@@ -131,16 +128,19 @@ namespace OpenTween.Connection
             if (!item.Exists)
                 throw new ArgumentException("Err:Media not found.");
 
-            var xml = await this.mobypictureApi.UploadFileAsync(item, postParams.Text)
-                .ConfigureAwait(false);
+            try
+            {
+                var imageUrl = await this.mobypictureApi.UploadFileAsync(item, postParams.Text)
+                    .ConfigureAwait(false);
 
-            var imageUrlElm = xml.XPathSelectElement("/rsp/media/mediaurl");
-            if (imageUrlElm == null)
-                throw new WebApiException("Invalid API response", xml.ToString());
+                postParams.Text += " " + imageUrl;
 
-            postParams.Text += " " + imageUrlElm.Value.Trim();
-
-            return postParams;
+                return postParams;
+            }
+            catch (OperationCanceledException ex)
+            {
+                throw new WebApiException("Err:Timeout", ex);
+            }
         }
 
         public int GetReservedTextLength(int mediaCount)
@@ -148,57 +148,5 @@ namespace OpenTween.Connection
 
         public void UpdateTwitterConfiguration(TwitterConfiguration config)
             => this.twitterConfig = config;
-
-        public class MobypictureApi
-        {
-            private readonly HttpClient http;
-
-            private static readonly Uri UploadEndpoint = new Uri("https://api.mobypicture.com/2.0/upload.xml");
-
-            private static readonly Uri OAuthRealm = new Uri("http://api.twitter.com/");
-            private static readonly Uri AuthServiceProvider = new Uri("https://api.twitter.com/1.1/account/verify_credentials.json");
-
-            public MobypictureApi(TwitterApi twitterApi)
-            {
-                var handler = twitterApi.CreateOAuthEchoHandler(AuthServiceProvider, OAuthRealm);
-
-                this.http = Networking.CreateHttpClient(handler);
-                this.http.Timeout = Networking.UploadImageTimeout;
-            }
-
-            /// <summary>
-            /// 画像のアップロードを行います
-            /// </summary>
-            /// <exception cref="WebApiException"/>
-            /// <exception cref="XmlException"/>
-            public async Task<XDocument> UploadFileAsync(IMediaItem item, string message)
-            {
-                // 参照: http://developers.mobypicture.com/documentation/2-0/upload/
-
-                using var request = new HttpRequestMessage(HttpMethod.Post, UploadEndpoint);
-                using var multipart = new MultipartFormDataContent();
-                request.Content = multipart;
-
-                using var apiKeyContent = new StringContent(ApplicationSettings.MobypictureKey);
-                using var messageContent = new StringContent(message);
-                using var mediaStream = item.OpenRead();
-                using var mediaContent = new StreamContent(mediaStream);
-
-                multipart.Add(apiKeyContent, "key");
-                multipart.Add(messageContent, "message");
-                multipart.Add(mediaContent, "media", item.Name);
-
-                using var response = await this.http.SendAsync(request)
-                    .ConfigureAwait(false);
-
-                var responseText = await response.Content.ReadAsStringAsync()
-                    .ConfigureAwait(false);
-
-                if (!response.IsSuccessStatusCode)
-                    throw new WebApiException(response.StatusCode.ToString(), responseText);
-
-                return XDocument.Parse(responseText);
-            }
-        }
     }
 }
