@@ -30,10 +30,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Web;
 using System.Xml;
-using System.Text.RegularExpressions;
 using OpenTween.Models;
 
 namespace OpenTween.Thumbnail.Services
@@ -41,17 +42,16 @@ namespace OpenTween.Thumbnail.Services
     class Youtube : IThumbnailService
     {
         public static readonly Regex UrlPatternRegex =
-            new Regex(@"^https?://(?:((?:www|m)\.youtube\.com)|(youtu\.be))/(watch\?v=)?(?<videoid>([\w\-]+))");
+            new Regex(@"^https?://(?:www\.youtube\.com|m\.youtube\.com|youtu\.be)/");
 
         public override Task<ThumbnailInfo?> GetThumbnailInfoAsync(string url, PostClass post, CancellationToken token)
         {
             return Task.Run(() =>
             {
-                var match = Youtube.UrlPatternRegex.Match(url);
-                if (!match.Success)
+                var videoId = Youtube.GetVideoIdFromUrl(url);
+                if (videoId == null)
                     return null;
 
-                var videoId = match.Groups["videoid"].Value;
                 var imgUrl = "https://i.ytimg.com/vi/" + videoId + "/hqdefault.jpg";
 
                 return new ThumbnailInfo
@@ -62,6 +62,30 @@ namespace OpenTween.Thumbnail.Services
                     IsPlayable = true,
                 };
             }, token);
+        }
+
+        public static string? GetVideoIdFromUrl(string urlStr)
+        {
+            if (!Youtube.UrlPatternRegex.IsMatch(urlStr))
+                return null;
+
+            var url = new Uri(urlStr);
+            switch (url.Host)
+            {
+                case "www.youtube.com":
+                case "m.youtube.com":
+                    {
+                        if (url.AbsolutePath != "/watch")
+                            return null;
+
+                        var query = HttpUtility.ParseQueryString(url.Query);
+                        return query["v"];
+                    }
+                case "youtu.be":
+                    return url.AbsolutePath.Substring(1);
+                default:
+                    return null;
+            }
         }
     }
 }
