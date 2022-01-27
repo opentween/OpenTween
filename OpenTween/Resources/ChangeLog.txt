@@ -2,7 +2,8 @@
 
 ==== Ver 2.4.4-dev(2019/xx/xx)
  * CHG: pic.twitter.com の画像URLのフォーマット変更に対応
- * CHG: Instagram, Youtubeのサムネイルを表示するURLのパターンを追加
+ * CHG: Instagramのサムネイルを表示するURLのパターンを追加
+ * CHG: YouTubeのサムネイルを表示するURLのパターンを追加 (thx @Hawklaver!)
  * FIX: DMの添付画像をブラウザで開く場合に使用するURLを変更
  * FIX: 大文字アルファベットを含むハッシュタグがユーザー情報画面で正しくリンク化されない不具合を修正 (thx @naminodarie!)
 

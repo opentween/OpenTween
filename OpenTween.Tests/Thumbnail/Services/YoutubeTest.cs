@@ -35,10 +35,19 @@ namespace OpenTween.Thumbnail.Services
         [InlineData("https://www.youtube.com/watch?v=aaaaa#hoge", "aaaaa")]
         [InlineData("https://www.youtube.com/watch?feature=youtu.be&v=aaaaa&app=desktop", "aaaaa")]
         [InlineData("https://m.youtube.com/watch?v=aaaaa", "aaaaa")]
+        [InlineData("https://gaming.youtube.com/watch?v=aaaaa", "aaaaa")]
+        [InlineData("https://music.youtube.com/watch?v=aaaaa", "aaaaa")]
+        [InlineData("https://www.youtube.com/shorts/aaaaa", "aaaaa")]
+        [InlineData("https://www.youtube.com/embed/aaaaa", "aaaaa")]
         [InlineData("https://youtu.be/aaaaa", "aaaaa")]
         [InlineData("https://youtu.be/aaaaa?t=123", "aaaaa")]
         [InlineData("https://www.youtube.com/channel/aaaaa", null)] // チャンネルページ
-        public void GetVideoIdFromUrl_Test(string testUrl, string expected)
-            => Assert.Equal(expected, Youtube.GetVideoIdFromUrl(testUrl));
+        public void UrlPatternRegex_Test(string testUrl, string expected)
+        {
+            var match = Youtube.UrlPatternRegex.Match(testUrl);
+
+            var matchedVideoId = match.Success ? match.Groups["videoId"].Value : null;
+            Assert.Equal(expected, matchedVideoId);
+        }
     }
 }
