@@ -366,9 +366,9 @@ namespace OpenTween
         //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         private readonly TimelineScheduler timelineScheduler = new TimelineScheduler();
-        private ThrottlingTimer RefreshThrottlingTimer = null!;
-        private ThrottlingTimer selectionDebouncer = null!;
-        private ThrottlingTimer saveConfigDebouncer = null!;
+        private ThrottleTimer refreshThrottlingTimer = null!;
+        private DebounceTimer selectionDebouncer = null!;
+        private DebounceTimer saveConfigDebouncer = null!;
 
         private string recommendedStatusFooter = null!;
         private bool urlMultibyteSplit = false;
@@ -1217,9 +1217,9 @@ namespace OpenTween
             this.RefreshTimelineScheduler();
 
             var streamingRefreshInterval = TimeSpan.FromSeconds(SettingManager.Common.UserstreamPeriod);
-            this.RefreshThrottlingTimer = ThrottlingTimer.Throttle(() => this.InvokeAsync(() => this.RefreshTimeline()), streamingRefreshInterval);
-            this.selectionDebouncer = ThrottlingTimer.Debounce(() => this.InvokeAsync(() => this.UpdateSelectedPost()), TimeSpan.FromMilliseconds(100), leading: true);
-            this.saveConfigDebouncer = ThrottlingTimer.Debounce(() => this.InvokeAsync(() => this.SaveConfigsAll(ifModified: true)), TimeSpan.FromSeconds(1));
+            this.refreshThrottlingTimer = ThrottleTimer.Create(() => this.InvokeAsync(() => this.RefreshTimeline()), streamingRefreshInterval);
+            this.selectionDebouncer = DebounceTimer.Create(() => this.InvokeAsync(() => this.UpdateSelectedPost()), TimeSpan.FromMilliseconds(100), leading: true);
+            this.saveConfigDebouncer = DebounceTimer.Create(() => this.InvokeAsync(() => this.SaveConfigsAll(ifModified: true)), TimeSpan.FromSeconds(1));
 
             //更新中アイコンアニメーション間隔
             TimerRefreshIcon.Interval = 200;
@@ -1379,8 +1379,8 @@ namespace OpenTween
             if (e.UserStream)
             {
                 var interval = TimeSpan.FromSeconds(SettingManager.Common.UserstreamPeriod);
-                var newTimer = ThrottlingTimer.Throttle(() => this.InvokeAsync(() => this.RefreshTimeline()), interval);
-                var oldTimer = Interlocked.Exchange(ref this.RefreshThrottlingTimer, newTimer);
+                var newTimer = ThrottleTimer.Create(() => this.InvokeAsync(() => this.RefreshTimeline()), interval);
+                var oldTimer = Interlocked.Exchange(ref this.refreshThrottlingTimer, newTimer);
                 oldTimer.Dispose();
             }
 
@@ -1410,7 +1410,7 @@ namespace OpenTween
                 return;
 
             this.ModifySettingCommon = true;
-            this.saveConfigDebouncer.Call();
+            _ = this.saveConfigDebouncer.Call();
         }
 
         private void MarkSettingLocalModified()
@@ -1419,7 +1419,7 @@ namespace OpenTween
                 return;
 
             this.ModifySettingLocal = true;
-            this.saveConfigDebouncer.Call();
+            _ = this.saveConfigDebouncer.Call();
         }
 
         internal void MarkSettingAtIdModified()
@@ -1428,7 +1428,7 @@ namespace OpenTween
                 return;
 
             this.ModifySettingAtId = true;
-            this.saveConfigDebouncer.Call();
+            _ = this.saveConfigDebouncer.Call();
         }
 
         private void RefreshTimeline()
@@ -1934,7 +1934,7 @@ namespace OpenTween
             }
         }
 
-        private void MyList_SelectedIndexChanged(object sender, EventArgs e)
+        private async void MyList_SelectedIndexChanged(object sender, EventArgs e)
         {
             var listView = this.CurrentListView;
             if (listView != sender)
@@ -1958,7 +1958,7 @@ namespace OpenTween
             ChangeCacheStyleRead(true, index); // 既読へ（フォント、文字色）
 
             this.ColorizeList();
-            this.selectionDebouncer.Call();
+            await this.selectionDebouncer.Call();
         }
 
         private void ChangeCacheStyleRead(bool Read, int Index)
@@ -11084,7 +11084,7 @@ namespace OpenTween
 
             this._statuses.DistributePosts();
 
-            this.RefreshThrottlingTimer.Call();
+            _ = this.refreshThrottlingTimer.Call();
         }
 
         private async void tw_UserStreamStarted(object sender, EventArgs e)

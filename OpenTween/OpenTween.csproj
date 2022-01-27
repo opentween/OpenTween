@@ -124,6 +124,7 @@
     </Compile>
     <Compile Include="Bing.cs" />
     <Compile Include="Connection\IApiConnection.cs" />
+    <Compile Include="DebounceTimer.cs" />
     <Compile Include="MediaUploadServices\IMediaUploadService.cs" />
     <Compile Include="MediaUploadServices\Imgur.cs" />
     <Compile Include="Connection\LazyJson.cs" />
@@ -194,7 +195,7 @@
     </Compile>
     <Compile Include="Setting\SettingManager.cs" />
     <Compile Include="ShortcutCommand.cs" />
-    <Compile Include="ThrottlingTimer.cs" />
+    <Compile Include="ThrottleTimer.cs" />
     <Compile Include="Thumbnail\Services\PbsTwimgCom.cs" />
     <Compile Include="TimelineScheduler.cs" />
     <Compile Include="TweetDetailsView.cs">
