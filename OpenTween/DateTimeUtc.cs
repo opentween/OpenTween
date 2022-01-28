@@ -41,7 +41,12 @@ namespace OpenTween
             = new DateTimeUtc(1970, 1, 1, 0, 0, 0);
 
         public static DateTimeUtc Now
-            => new DateTimeUtc(DateTime.UtcNow);
+            => UseFakeNow ? FakeNow + FakeNowDrift : new DateTimeUtc(DateTime.UtcNow);
+
+        // テストコード用
+        internal static bool UseFakeNow = false;
+        internal static DateTimeUtc FakeNow = DateTimeUtc.MinValue;
+        internal static TimeSpan FakeNowDrift = TimeSpan.Zero;
 
         private readonly DateTime datetime;
 

@@ -27,8 +27,11 @@ using System.Threading.Tasks;
 
 namespace OpenTween
 {
-    public sealed class AsyncTimer : IDisposable
+    public sealed class AsyncTimer : ITimer
     {
+        public TimeSpan DueTime { get; private set; } = Timeout.InfiniteTimeSpan;
+        public TimeSpan Period { get; private set; } = Timeout.InfiniteTimeSpan;
+
         private readonly Func<Task> callback;
         private readonly Timer timer;
 
@@ -53,9 +56,18 @@ namespace OpenTween
         }
 
         public void Change(TimeSpan dueTime, TimeSpan period)
-            => this.timer.Change(dueTime, period);
+        {
+            this.DueTime = dueTime;
+            this.Period = period;
+            this.timer.Change(dueTime, period);
+        }
 
         public void Dispose()
             => this.timer.Dispose();
+    }
+
+    public interface ITimer : IDisposable
+    {
+        void Change(TimeSpan dueTime, TimeSpan period);
     }
 }

@@ -131,6 +131,23 @@ namespace OpenTween
 
             TestUtils.FireEvent(control, "Validated");
         }
+
+        public static IDisposable FreezeTime(DateTimeUtc datetime)
+        {
+            DateTimeUtc.UseFakeNow = true;
+            DateTimeUtc.FakeNow = datetime;
+            DateTimeUtc.FakeNowDrift = TimeSpan.Zero;
+            return new RestoreFreezedTime();
+        }
+
+        public static void DriftTime(TimeSpan drift)
+            => DateTimeUtc.FakeNowDrift += drift;
+
+        private sealed class RestoreFreezedTime : IDisposable
+        {
+            public void Dispose()
+                => DateTimeUtc.UseFakeNow = false;
+        }
     }
 }
 

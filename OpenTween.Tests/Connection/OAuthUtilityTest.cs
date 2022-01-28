@@ -39,8 +39,7 @@ namespace OpenTween.Connection
             Assert.Equal("ConsumerKey", param["oauth_consumer_key"]);
             Assert.Equal("HMAC-SHA1", param["oauth_signature_method"]);
 
-            var unixEpoch = new DateTime(1970, 1, 1, 0, 0, 0);
-            var unixTimeNow = Math.Ceiling((DateTime.UtcNow - unixEpoch).TotalSeconds);
+            var unixTimeNow = DateTimeUtc.Now.ToUnixTime();
             Assert.InRange(long.Parse(param["oauth_timestamp"]), unixTimeNow - 5, unixTimeNow);
 
             Assert.NotEmpty(param["oauth_nonce"]);
