@@ -299,7 +299,7 @@ namespace OpenTween
         }
 
         private void CheckPostAndGet_CheckedChanged(object sender, EventArgs e)
-            => this.GetPeriodPanel.LabelPostAndGet.Visible = this.GetPeriodPanel.CheckPostAndGet.Checked && !tw.UserStreamActive;
+            => this.GetPeriodPanel.LabelPostAndGet.Visible = this.GetPeriodPanel.CheckPostAndGet.Checked;
 
         private void Setting_Shown(object sender, EventArgs e)
         {
@@ -310,8 +310,7 @@ namespace OpenTween
             } while (!this.IsHandleCreated);
             this.TopMost = this.PreviewPanel.CheckAlwaysTop.Checked;
 
-            this.GetPeriodPanel.LabelPostAndGet.Visible = this.GetPeriodPanel.CheckPostAndGet.Checked && !tw.UserStreamActive;
-            this.GetPeriodPanel.LabelUserStreamActive.Visible = tw.UserStreamActive;
+            this.GetPeriodPanel.LabelPostAndGet.Visible = this.GetPeriodPanel.CheckPostAndGet.Checked;
         }
 
         private void OpenUrl(string url)
@@ -358,7 +357,6 @@ namespace OpenTween
 
     public class IntervalChangedEventArgs : EventArgs
     {
-        public bool UserStream;
         public bool Timeline;
         public bool Reply;
         public bool DirectMessage;
@@ -368,7 +366,6 @@ namespace OpenTween
 
         public static IntervalChangedEventArgs ResetAll => new IntervalChangedEventArgs
         {
-            UserStream = true,
             Timeline = true,
             Reply = true,
             DirectMessage = true,

@@ -40,67 +40,6 @@ namespace OpenTween.Api.DataModel
             => new StreamMessageStatus(TwitterStatusCompat.ParseJson(json));
     }
 
-    public class StreamMessageEvent : ITwitterStreamMessage
-    {
-        public TwitterStreamEvent Event { get; }
-        public string Json { get; }
-
-        public StreamMessageEvent(TwitterStreamEvent eventData, string json)
-        {
-            this.Event = eventData;
-            this.Json = json;
-        }
-
-        public TwitterStreamEvent<T> ParseTargetObjectAs<T>()
-            => TwitterStreamEvent<T>.ParseJson(this.Json);
-
-        public static StreamMessageEvent ParseJson(string json)
-            => new StreamMessageEvent(TwitterStreamEvent.ParseJson(json), json);
-    }
-
-    [DataContract]
-    public class StreamMessageDirectMessage : ITwitterStreamMessage
-    {
-        [DataMember(Name = "direct_message")]
-        public TwitterDirectMessage DirectMessage { get; set; }
-
-        public static StreamMessageDirectMessage ParseJson(string json)
-            => MyCommon.CreateDataFromJson<StreamMessageDirectMessage>(json);
-    }
-
-    [DataContract]
-    public class StreamMessageDelete : ITwitterStreamMessage
-    {
-        [DataContract]
-        public class DeletedId
-        {
-            [DataMember(Name = "id")]
-            public long Id { get; set; }
-        }
-
-        [DataMember(Name = "direct_message", IsRequired = false)]
-        public DeletedId? DirectMessage { get; set; }
-
-        [DataMember(Name = "status", IsRequired = false)]
-        public DeletedId? Status { get; set; }
-
-        public static StreamMessageDelete ParseJson(string json)
-            => MyCommon.CreateDataFromJson<StreamMessageDelete>(json);
-    }
-
-    [DataContract]
-    public class StreamMessageScrubGeo : ITwitterStreamMessage
-    {
-        [DataMember(Name = "user_id")]
-        public long UserId { get; set; }
-
-        [DataMember(Name = "up_to_status_id")]
-        public long UpToStatusId { get; set; }
-
-        public static StreamMessageScrubGeo ParseJson(string json)
-            => MyCommon.CreateDataFromJson<StreamMessageScrubGeo>(json);
-    }
-
     public class StreamMessageKeepAlive : ITwitterStreamMessage
     {
     }

@@ -116,13 +116,7 @@ namespace OpenTween
         public bool ListLock = false;
         public MyCommon.IconSizes IconSize = MyCommon.IconSizes.Icon16;
         public bool NewAllPop = true;
-        public bool EventNotifyEnabled = true;
-        public MyCommon.EVENTTYPE EventNotifyFlag = MyCommon.EVENTTYPE.All;
-        public MyCommon.EVENTTYPE IsMyEventNotifyFlag = MyCommon.EVENTTYPE.All;
-        public bool ForceEventNotify = false;
-        public bool FavEventUnread = true;
         public string TranslateLanguage = Properties.Resources.TranslateDefaultLanguage;
-        public string EventSoundFile = "";
 
         /// <summary>
         /// サウンド再生（タブ別設定より優先）
@@ -216,10 +210,6 @@ namespace OpenTween
         public int FirstCountApi = 100;
         public int SearchCountApi = 100;
         public int FavoritesCountApi = 40;
-        public string TrackWord = "";
-        public bool AllAtReply = false;
-        public bool UserstreamStartup = true;
-        public int UserstreamPeriod = 0;
         public int UserTimelineCountApi = 20;
         public int UserTimelinePeriod = 600;
         public bool OpenUserTimeline = true;
@@ -237,7 +227,6 @@ namespace OpenTween
         public MapProvider MapThumbnailProvider = MapProvider.OpenStreetMap;
         public bool IsListsIncludeRts = false;
         public bool TabMouseLock = false;
-        public bool IsRemoveSameEvent = false;
         public bool IsUseNotifyGrowl = false;
         public bool ForceIPv4 = false;
         public bool ErrorReportAnonymous = true;

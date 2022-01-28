@@ -1636,48 +1636,6 @@
   <data name="MenuItemCommand.Text" xml:space="preserve">
     <value>その他機能(&amp;C)</value>
   </data>
-  <data name="StopToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>227, 22</value>
-  </data>
-  <data name="StopToolStripMenuItem.Text" xml:space="preserve">
-    <value>Stop</value>
-  </data>
-  <data name="ToolStripSeparator40.Size" type="System.Drawing.Size, System.Drawing">
-    <value>224, 6</value>
-  </data>
-  <data name="TrackToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>227, 22</value>
-  </data>
-  <data name="TrackToolStripMenuItem.Text" xml:space="preserve">
-    <value>Track</value>
-  </data>
-  <data name="AllrepliesToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>227, 22</value>
-  </data>
-  <data name="AllrepliesToolStripMenuItem.Text" xml:space="preserve">
-    <value>All @replies</value>
-  </data>
-  <data name="ToolStripSeparator42.Size" type="System.Drawing.Size, System.Drawing">
-    <value>224, 6</value>
-  </data>
-  <data name="EventViewerMenuItem.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
-    <value>Ctrl+Shift+E</value>
-  </data>
-  <data name="EventViewerMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>227, 22</value>
-  </data>
-  <data name="EventViewerMenuItem.Text" xml:space="preserve">
-    <value>View Events</value>
-  </data>
-  <data name="MenuItemUserStream.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="MenuItemUserStream.Size" type="System.Drawing.Size, System.Drawing">
-    <value>90, 20</value>
-  </data>
-  <data name="MenuItemUserStream.Text" xml:space="preserve">
-    <value>UserStream</value>
-  </data>
   <data name="MatomeMenuItem.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
     <value>F1</value>
   </data>
@@ -3190,48 +3148,6 @@
     <value>ListManageToolStripMenuItem</value>
   </data>
   <data name="&gt;&gt;ListManageToolStripMenuItem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;MenuItemUserStream.Name" xml:space="preserve">
-    <value>MenuItemUserStream</value>
-  </data>
-  <data name="&gt;&gt;MenuItemUserStream.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;StopToolStripMenuItem.Name" xml:space="preserve">
-    <value>StopToolStripMenuItem</value>
-  </data>
-  <data name="&gt;&gt;StopToolStripMenuItem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;ToolStripSeparator40.Name" xml:space="preserve">
-    <value>ToolStripSeparator40</value>
-  </data>
-  <data name="&gt;&gt;ToolStripSeparator40.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;TrackToolStripMenuItem.Name" xml:space="preserve">
-    <value>TrackToolStripMenuItem</value>
-  </data>
-  <data name="&gt;&gt;TrackToolStripMenuItem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;AllrepliesToolStripMenuItem.Name" xml:space="preserve">
-    <value>AllrepliesToolStripMenuItem</value>
-  </data>
-  <data name="&gt;&gt;AllrepliesToolStripMenuItem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;ToolStripSeparator42.Name" xml:space="preserve">
-    <value>ToolStripSeparator42</value>
-  </data>
-  <data name="&gt;&gt;ToolStripSeparator42.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;EventViewerMenuItem.Name" xml:space="preserve">
-    <value>EventViewerMenuItem</value>
-  </data>
-  <data name="&gt;&gt;EventViewerMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;MenuItemHelp.Name" xml:space="preserve">

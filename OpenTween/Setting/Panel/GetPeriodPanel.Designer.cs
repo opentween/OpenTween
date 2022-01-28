@@ -29,9 +29,6 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GetPeriodPanel));
-            this.UserstreamPeriod = new System.Windows.Forms.TextBox();
-            this.Label46 = new System.Windows.Forms.Label();
-            this.LabelUserStreamActive = new System.Windows.Forms.Label();
             this.Label21 = new System.Windows.Forms.Label();
             this.UserTimelinePeriod = new System.Windows.Forms.TextBox();
             this.TimelinePeriod = new System.Windows.Forms.TextBox();
@@ -46,24 +43,7 @@
             this.CheckPostAndGet = new System.Windows.Forms.CheckBox();
             this.Label5 = new System.Windows.Forms.Label();
             this.DMPeriod = new System.Windows.Forms.TextBox();
-            this.StartupUserstreamCheck = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
-            // 
-            // UserstreamPeriod
-            // 
-            resources.ApplyResources(this.UserstreamPeriod, "UserstreamPeriod");
-            this.UserstreamPeriod.Name = "UserstreamPeriod";
-            this.UserstreamPeriod.Validating += new System.ComponentModel.CancelEventHandler(this.UserstreamPeriod_Validating);
-            // 
-            // Label46
-            // 
-            resources.ApplyResources(this.Label46, "Label46");
-            this.Label46.Name = "Label46";
-            // 
-            // LabelUserStreamActive
-            // 
-            resources.ApplyResources(this.LabelUserStreamActive, "LabelUserStreamActive");
-            this.LabelUserStreamActive.Name = "LabelUserStreamActive";
             // 
             // Label21
             // 
@@ -141,19 +121,10 @@
             this.DMPeriod.Name = "DMPeriod";
             this.DMPeriod.Validating += new System.ComponentModel.CancelEventHandler(this.DMPeriod_Validating);
             // 
-            // StartupUserstreamCheck
-            // 
-            resources.ApplyResources(this.StartupUserstreamCheck, "StartupUserstreamCheck");
-            this.StartupUserstreamCheck.Name = "StartupUserstreamCheck";
-            this.StartupUserstreamCheck.UseVisualStyleBackColor = true;
-            // 
             // GetPeriodPanel
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-            this.Controls.Add(this.UserstreamPeriod);
-            this.Controls.Add(this.Label46);
-            this.Controls.Add(this.LabelUserStreamActive);
             this.Controls.Add(this.Label21);
             this.Controls.Add(this.UserTimelinePeriod);
             this.Controls.Add(this.TimelinePeriod);
@@ -168,7 +139,6 @@
             this.Controls.Add(this.CheckPostAndGet);
             this.Controls.Add(this.Label5);
             this.Controls.Add(this.DMPeriod);
-            this.Controls.Add(this.StartupUserstreamCheck);
             this.Name = "GetPeriodPanel";
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -176,10 +146,6 @@
         }
 
         #endregion
-
-        internal System.Windows.Forms.TextBox UserstreamPeriod;
-        internal System.Windows.Forms.Label Label46;
-        internal System.Windows.Forms.Label LabelUserStreamActive;
         internal System.Windows.Forms.Label Label21;
         internal System.Windows.Forms.TextBox UserTimelinePeriod;
         internal System.Windows.Forms.TextBox TimelinePeriod;
@@ -194,6 +160,5 @@
         internal System.Windows.Forms.CheckBox CheckPostAndGet;
         internal System.Windows.Forms.Label Label5;
         internal System.Windows.Forms.TextBox DMPeriod;
-        internal System.Windows.Forms.CheckBox StartupUserstreamCheck;
     }
 }

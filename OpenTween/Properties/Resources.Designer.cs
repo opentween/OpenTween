@@ -19,7 +19,7 @@ namespace OpenTween.Properties {
     // または Visual Studio のようなツールを使用して自動生成されました。
     // メンバーを追加または削除するには、.ResX ファイルを編集して、/str オプションと共に
     // ResGen を実行し直すか、または VS プロジェクトをビルドし直します。
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources {
@@ -142,51 +142,6 @@ namespace OpenTween.Properties {
         }
         
         /// <summary>
-        ///   REST API上限 :  に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string ApiInfo1 {
-            get {
-                return ResourceManager.GetString("ApiInfo1", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   画像投稿API残数： に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string ApiInfo10 {
-            get {
-                return ResourceManager.GetString("ApiInfo10", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   画像投稿APIリセット日時： に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string ApiInfo11 {
-            get {
-                return ResourceManager.GetString("ApiInfo11", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   REST API残数 :  に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string ApiInfo2 {
-            get {
-                return ResourceManager.GetString("ApiInfo2", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   REST API残数リセット日時 :  に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string ApiInfo3 {
-            get {
-                return ResourceManager.GetString("ApiInfo3", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   API情報 に類似しているローカライズされた文字列を検索します。
         /// </summary>
         internal static string ApiInfo4 {
@@ -210,42 +165,6 @@ namespace OpenTween.Properties {
         internal static string ApiInfo6 {
             get {
                 return ResourceManager.GetString("ApiInfo6", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   UserStream接続 :  に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string ApiInfo7 {
-            get {
-                return ResourceManager.GetString("ApiInfo7", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   APIアクセス権限： に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string ApiInfo8 {
-            get {
-                return ResourceManager.GetString("ApiInfo8", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   画像投稿API上限： に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string ApiInfo9 {
-            get {
-                return ResourceManager.GetString("ApiInfo9", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   （画像投稿後に取得/更新されます） に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string ApiInfo91 {
-            get {
-                return ResourceManager.GetString("ApiInfo91", resourceCulture);
             }
         }
         
@@ -3209,15 +3128,6 @@ namespace OpenTween.Properties {
         internal static string UserInfoButtonEdit_ClickText2 {
             get {
                 return ResourceManager.GetString("UserInfoButtonEdit_ClickText2", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   反映間隔には数値（0～60）を指定してください。 に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        internal static string UserstreamPeriod_ValidatingText1 {
-            get {
-                return ResourceManager.GetString("UserstreamPeriod_ValidatingText1", resourceCulture);
             }
         }
         

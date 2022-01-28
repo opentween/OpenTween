@@ -49,7 +49,6 @@ namespace OpenTween
         private object? _growlNTreply;
         private object? _growlNTdm;
         private object? _growlNTnew;
-        private object? _growlNTusevent;
         private object? _growlApp;
 
         private object? _targetConnector;
@@ -78,7 +77,6 @@ namespace OpenTween
             Reply = 0,
             DirectMessage = 1,
             Notify = 2,
-            UserStreamEvent = 3,
         }
 
         public GrowlHelper(string appName)
@@ -155,9 +153,6 @@ namespace OpenTween
                 _growlNTnew = _t.InvokeMember(null,
                     BindingFlags.CreateInstance, null, null, new object[] { "NOTIFY", "新着通知" }, CultureInfo.InvariantCulture);
 
-                _growlNTusevent = _t.InvokeMember(null,
-                    BindingFlags.CreateInstance, null, null, new object[] { "USERSTREAM_EVENT", "UserStream Event" }, CultureInfo.InvariantCulture);
-
                 var encryptType =
                         _connector.GetType("Growl.Connector.Cryptography+SymmetricAlgorithmType").InvokeMember(
                             "PlainText", BindingFlags.GetField, null, null, null, CultureInfo.InvariantCulture);
@@ -228,7 +223,6 @@ namespace OpenTween
                     _growlNTreply,
                     _growlNTdm,
                     _growlNTnew,
-                    _growlNTusevent,
                 };
 
                 mi.Invoke(_targetConnector, new object[] { _growlApp, arglist.ToArray(_t) });
@@ -263,7 +257,6 @@ namespace OpenTween
                 NotifyType.Reply => "REPLY",
                 NotifyType.DirectMessage => "DIRECT_MESSAGE",
                 NotifyType.Notify => "NOTIFY",
-                NotifyType.UserStreamEvent => "USERSTREAM_EVENT",
                 _ => "",
             };
 
@@ -359,9 +352,6 @@ namespace OpenTween
                             break;
                         case "NOTIFY":
                             nt = NotifyType.Notify;
-                            break;
-                        case "USERSTREAM_EVENT":
-                            nt = NotifyType.UserStreamEvent;
                             break;
                         default:
                             return;

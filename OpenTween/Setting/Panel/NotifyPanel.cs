@@ -28,13 +28,8 @@
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
 using System.Linq;
 using System.Text;
-using System.Windows.Forms;
-using System.IO;
 
 namespace OpenTween.Setting.Panel
 {
@@ -45,166 +40,10 @@ namespace OpenTween.Setting.Panel
 
         public void LoadConfig(SettingCommon settingCommon)
         {
-            this.ApplyEventNotifyFlag(settingCommon.EventNotifyEnabled, settingCommon.EventNotifyFlag, settingCommon.IsMyEventNotifyFlag);
-            this.CheckForceEventNotify.Checked = settingCommon.ForceEventNotify;
-            this.CheckFavEventUnread.Checked = settingCommon.FavEventUnread;
-
-            this.SoundFileListup();
-
-            var soundFile = settingCommon.EventSoundFile ?? "";
-            var soundFileIdx = this.ComboBoxEventNotifySound.Items.IndexOf(soundFile);
-            if (soundFileIdx != -1)
-                this.ComboBoxEventNotifySound.SelectedIndex = soundFileIdx;
-
-            this.IsRemoveSameFavEventCheckBox.Checked = settingCommon.IsRemoveSameEvent;
         }
 
         public void SaveConfig(SettingCommon settingCommon)
         {
-            settingCommon.EventNotifyEnabled = this.CheckEventNotify.Checked;
-            this.GetEventNotifyFlag(ref settingCommon.EventNotifyFlag, ref settingCommon.IsMyEventNotifyFlag);
-            settingCommon.ForceEventNotify = this.CheckForceEventNotify.Checked;
-            settingCommon.FavEventUnread = this.CheckFavEventUnread.Checked;
-            settingCommon.EventSoundFile = (string)this.ComboBoxEventNotifySound.SelectedItem;
-            settingCommon.IsRemoveSameEvent = this.IsRemoveSameFavEventCheckBox.Checked;
-        }
-
-        private void SoundFileListup()
-        {
-            this.ComboBoxEventNotifySound.Items.Clear();
-            this.ComboBoxEventNotifySound.Items.Add("");
-            var oDir = new DirectoryInfo(Application.StartupPath + Path.DirectorySeparatorChar);
-            if (Directory.Exists(Path.Combine(Application.StartupPath, "Sounds")))
-            {
-                oDir = oDir.GetDirectories("Sounds")[0];
-            }
-            foreach (var oFile in oDir.GetFiles("*.wav"))
-            {
-                this.ComboBoxEventNotifySound.Items.Add(oFile.Name);
-            }
-        }
-
-        private class EventCheckboxTblElement
-        {
-            public CheckBox CheckBox = null!;
-            public MyCommon.EVENTTYPE Type;
-        }
-
-        private EventCheckboxTblElement[] GetEventCheckboxTable()
-        {
-            return new[]
-            {
-                new EventCheckboxTblElement
-                {
-                    CheckBox = this.CheckFavoritesEvent,
-                    Type = MyCommon.EVENTTYPE.Favorite,
-                },
-                new EventCheckboxTblElement
-                {
-                    CheckBox = this.CheckUnfavoritesEvent,
-                    Type = MyCommon.EVENTTYPE.Unfavorite,
-                },
-                new EventCheckboxTblElement
-                {
-                    CheckBox = this.CheckFollowEvent,
-                    Type = MyCommon.EVENTTYPE.Follow,
-                },
-                new EventCheckboxTblElement
-                {
-                    CheckBox = this.CheckListMemberAddedEvent,
-                    Type = MyCommon.EVENTTYPE.ListMemberAdded,
-                },
-                new EventCheckboxTblElement
-                {
-                    CheckBox = this.CheckListMemberRemovedEvent,
-                    Type = MyCommon.EVENTTYPE.ListMemberRemoved,
-                },
-                new EventCheckboxTblElement
-                {
-                    CheckBox = this.CheckBlockEvent,
-                    Type = MyCommon.EVENTTYPE.Block,
-                },
-                new EventCheckboxTblElement
-                {
-                    CheckBox = this.CheckUserUpdateEvent,
-                    Type = MyCommon.EVENTTYPE.UserUpdate,
-                },
-                new EventCheckboxTblElement
-                {
-                    CheckBox = this.CheckListCreatedEvent,
-                    Type = MyCommon.EVENTTYPE.ListCreated,
-                },
-                new EventCheckboxTblElement
-                {
-                    CheckBox = this.CheckQuotedTweetEvent,
-                    Type = MyCommon.EVENTTYPE.QuotedTweet,
-                },
-                new EventCheckboxTblElement
-                {
-                    CheckBox = this.CheckRetweetEvent,
-                    Type = MyCommon.EVENTTYPE.Retweet,
-                },
-            };
-        }
-
-        private void GetEventNotifyFlag(ref MyCommon.EVENTTYPE eventnotifyflag, ref MyCommon.EVENTTYPE isMyeventnotifyflag)
-        {
-            var evt = MyCommon.EVENTTYPE.None;
-            var myevt = MyCommon.EVENTTYPE.None;
-
-            foreach (var tbl in GetEventCheckboxTable())
-            {
-                switch (tbl.CheckBox.CheckState)
-                {
-                    case CheckState.Checked:
-                        evt |= tbl.Type;
-                        myevt |= tbl.Type;
-                        break;
-                    case CheckState.Indeterminate:
-                        evt |= tbl.Type;
-                        break;
-                    case CheckState.Unchecked:
-                        break;
-                }
-            }
-            eventnotifyflag = evt;
-            isMyeventnotifyflag = myevt;
-        }
-
-        private void ApplyEventNotifyFlag(bool rootEnabled, MyCommon.EVENTTYPE eventnotifyflag, MyCommon.EVENTTYPE isMyeventnotifyflag)
-        {
-            var evt = eventnotifyflag;
-            var myevt = isMyeventnotifyflag;
-
-            this.CheckEventNotify.Checked = rootEnabled;
-
-            foreach (var tbl in GetEventCheckboxTable())
-            {
-                if ((evt & tbl.Type) != 0)
-                {
-                    if ((myevt & tbl.Type) != 0)
-                    {
-                        tbl.CheckBox.CheckState = CheckState.Checked;
-                    }
-                    else
-                    {
-                        tbl.CheckBox.CheckState = CheckState.Indeterminate;
-                    }
-                }
-                else
-                {
-                    tbl.CheckBox.CheckState = CheckState.Unchecked;
-                }
-                tbl.CheckBox.Enabled = rootEnabled;
-            }
-        }
-
-        private void CheckEventNotify_CheckedChanged(object sender, EventArgs e)
-        {
-            foreach (var tbl in this.GetEventCheckboxTable())
-            {
-                tbl.CheckBox.Enabled = this.CheckEventNotify.Checked;
-            }
         }
     }
 }
