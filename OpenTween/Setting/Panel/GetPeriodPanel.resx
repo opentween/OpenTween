@@ -117,103 +117,17 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="UserstreamPeriod.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>Disable</value>
-  </data>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="UserstreamPeriod.Location" type="System.Drawing.Point, System.Drawing">
-    <value>259, 23</value>
-  </data>
-  <data name="UserstreamPeriod.Size" type="System.Drawing.Size, System.Drawing">
-    <value>65, 19</value>
-  </data>
   <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="UserstreamPeriod.TabIndex" type="System.Int32, mscorlib">
-    <value>21</value>
-  </data>
-  <data name="&gt;&gt;UserstreamPeriod.Name" xml:space="preserve">
-    <value>UserstreamPeriod</value>
-  </data>
-  <data name="&gt;&gt;UserstreamPeriod.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;UserstreamPeriod.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;UserstreamPeriod.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="Label46.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="Label46.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="Label46.Location" type="System.Drawing.Point, System.Drawing">
-    <value>23, 26</value>
-  </data>
-  <data name="Label46.Size" type="System.Drawing.Size, System.Drawing">
-    <value>137, 12</value>
-  </data>
-  <data name="Label46.TabIndex" type="System.Int32, mscorlib">
-    <value>20</value>
-  </data>
-  <data name="Label46.Text" xml:space="preserve">
-    <value>UserStream反映間隔（秒）</value>
-  </data>
-  <data name="&gt;&gt;Label46.Name" xml:space="preserve">
-    <value>Label46</value>
-  </data>
-  <data name="&gt;&gt;Label46.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;Label46.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;Label46.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="LabelUserStreamActive.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="LabelUserStreamActive.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="LabelUserStreamActive.Location" type="System.Drawing.Point, System.Drawing">
-    <value>23, 303</value>
-  </data>
-  <data name="LabelUserStreamActive.Size" type="System.Drawing.Size, System.Drawing">
-    <value>348, 36</value>
-  </data>
-  <data name="LabelUserStreamActive.TabIndex" type="System.Int32, mscorlib">
-    <value>37</value>
-  </data>
-  <data name="LabelUserStreamActive.Text" xml:space="preserve">
-    <value>UserStreamが有効です。
-タイムライン/Mentions/DMの定期更新、投稿時取得は停止しています。
-これらはUserStreamによりリアルタイム更新されます。</value>
-  </data>
-  <data name="&gt;&gt;LabelUserStreamActive.Name" xml:space="preserve">
-    <value>LabelUserStreamActive</value>
-  </data>
-  <data name="&gt;&gt;LabelUserStreamActive.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;LabelUserStreamActive.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;LabelUserStreamActive.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
   <data name="Label21.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="Label21.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="Label21.Location" type="System.Drawing.Point, System.Drawing">
-    <value>23, 217</value>
+    <value>23, 182</value>
   </data>
   <data name="Label21.Size" type="System.Drawing.Size, System.Drawing">
     <value>144, 12</value>
@@ -234,13 +148,13 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;Label21.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>0</value>
   </data>
   <data name="UserTimelinePeriod.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>Disable</value>
   </data>
   <data name="UserTimelinePeriod.Location" type="System.Drawing.Point, System.Drawing">
-    <value>259, 214</value>
+    <value>259, 179</value>
   </data>
   <data name="UserTimelinePeriod.Size" type="System.Drawing.Size, System.Drawing">
     <value>65, 19</value>
@@ -258,13 +172,13 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;UserTimelinePeriod.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>1</value>
   </data>
   <data name="TimelinePeriod.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>Disable</value>
   </data>
   <data name="TimelinePeriod.Location" type="System.Drawing.Point, System.Drawing">
-    <value>259, 52</value>
+    <value>259, 17</value>
   </data>
   <data name="TimelinePeriod.Size" type="System.Drawing.Size, System.Drawing">
     <value>65, 19</value>
@@ -282,7 +196,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;TimelinePeriod.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>2</value>
   </data>
   <data name="Label3.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -291,7 +205,7 @@
     <value>NoControl</value>
   </data>
   <data name="Label3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>23, 55</value>
+    <value>23, 20</value>
   </data>
   <data name="Label3.Size" type="System.Drawing.Size, System.Drawing">
     <value>130, 12</value>
@@ -312,7 +226,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;Label3.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>3</value>
   </data>
   <data name="LabelPostAndGet.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -342,7 +256,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;LabelPostAndGet.ZOrder" xml:space="preserve">
-    <value>7</value>
+    <value>4</value>
   </data>
   <data name="Label33.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -351,7 +265,7 @@
     <value>NoControl</value>
   </data>
   <data name="Label33.Location" type="System.Drawing.Point, System.Drawing">
-    <value>23, 188</value>
+    <value>23, 153</value>
   </data>
   <data name="Label33.Size" type="System.Drawing.Size, System.Drawing">
     <value>102, 12</value>
@@ -372,13 +286,13 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;Label33.ZOrder" xml:space="preserve">
-    <value>8</value>
+    <value>5</value>
   </data>
   <data name="ListsPeriod.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>Disable</value>
   </data>
   <data name="ListsPeriod.Location" type="System.Drawing.Point, System.Drawing">
-    <value>259, 185</value>
+    <value>259, 150</value>
   </data>
   <data name="ListsPeriod.Size" type="System.Drawing.Size, System.Drawing">
     <value>65, 19</value>
@@ -396,7 +310,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;ListsPeriod.ZOrder" xml:space="preserve">
-    <value>9</value>
+    <value>6</value>
   </data>
   <data name="Label7.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -405,7 +319,7 @@
     <value>NoControl</value>
   </data>
   <data name="Label7.Location" type="System.Drawing.Point, System.Drawing">
-    <value>23, 159</value>
+    <value>23, 124</value>
   </data>
   <data name="Label7.Size" type="System.Drawing.Size, System.Drawing">
     <value>137, 12</value>
@@ -426,13 +340,13 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;Label7.ZOrder" xml:space="preserve">
-    <value>10</value>
+    <value>7</value>
   </data>
   <data name="PubSearchPeriod.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>Disable</value>
   </data>
   <data name="PubSearchPeriod.Location" type="System.Drawing.Point, System.Drawing">
-    <value>259, 156</value>
+    <value>259, 121</value>
   </data>
   <data name="PubSearchPeriod.Size" type="System.Drawing.Size, System.Drawing">
     <value>65, 19</value>
@@ -450,7 +364,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;PubSearchPeriod.ZOrder" xml:space="preserve">
-    <value>11</value>
+    <value>8</value>
   </data>
   <data name="Label69.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -459,7 +373,7 @@
     <value>NoControl</value>
   </data>
   <data name="Label69.Location" type="System.Drawing.Point, System.Drawing">
-    <value>23, 101</value>
+    <value>23, 66</value>
   </data>
   <data name="Label69.Size" type="System.Drawing.Size, System.Drawing">
     <value>123, 12</value>
@@ -480,13 +394,13 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;Label69.ZOrder" xml:space="preserve">
-    <value>12</value>
+    <value>9</value>
   </data>
   <data name="ReplyPeriod.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>Disable</value>
   </data>
   <data name="ReplyPeriod.Location" type="System.Drawing.Point, System.Drawing">
-    <value>259, 98</value>
+    <value>259, 63</value>
   </data>
   <data name="ReplyPeriod.Size" type="System.Drawing.Size, System.Drawing">
     <value>65, 19</value>
@@ -504,7 +418,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;ReplyPeriod.ZOrder" xml:space="preserve">
-    <value>13</value>
+    <value>10</value>
   </data>
   <data name="CheckPostAndGet.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -513,7 +427,7 @@
     <value>NoControl</value>
   </data>
   <data name="CheckPostAndGet.Location" type="System.Drawing.Point, System.Drawing">
-    <value>45, 73</value>
+    <value>45, 38</value>
   </data>
   <data name="CheckPostAndGet.Size" type="System.Drawing.Size, System.Drawing">
     <value>84, 16</value>
@@ -534,7 +448,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;CheckPostAndGet.ZOrder" xml:space="preserve">
-    <value>14</value>
+    <value>11</value>
   </data>
   <data name="Label5.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -543,7 +457,7 @@
     <value>NoControl</value>
   </data>
   <data name="Label5.Location" type="System.Drawing.Point, System.Drawing">
-    <value>23, 130</value>
+    <value>23, 95</value>
   </data>
   <data name="Label5.Size" type="System.Drawing.Size, System.Drawing">
     <value>94, 12</value>
@@ -564,13 +478,13 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;Label5.ZOrder" xml:space="preserve">
-    <value>15</value>
+    <value>12</value>
   </data>
   <data name="DMPeriod.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>Disable</value>
   </data>
   <data name="DMPeriod.Location" type="System.Drawing.Point, System.Drawing">
-    <value>259, 127</value>
+    <value>259, 92</value>
   </data>
   <data name="DMPeriod.Size" type="System.Drawing.Size, System.Drawing">
     <value>65, 19</value>
@@ -588,37 +502,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;DMPeriod.ZOrder" xml:space="preserve">
-    <value>16</value>
-  </data>
-  <data name="StartupUserstreamCheck.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="StartupUserstreamCheck.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="StartupUserstreamCheck.Location" type="System.Drawing.Point, System.Drawing">
-    <value>330, 25</value>
-  </data>
-  <data name="StartupUserstreamCheck.Size" type="System.Drawing.Size, System.Drawing">
-    <value>117, 16</value>
-  </data>
-  <data name="StartupUserstreamCheck.TabIndex" type="System.Int32, mscorlib">
-    <value>22</value>
-  </data>
-  <data name="StartupUserstreamCheck.Text" xml:space="preserve">
-    <value>起動時に自動接続</value>
-  </data>
-  <data name="&gt;&gt;StartupUserstreamCheck.Name" xml:space="preserve">
-    <value>StartupUserstreamCheck</value>
-  </data>
-  <data name="&gt;&gt;StartupUserstreamCheck.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;StartupUserstreamCheck.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;StartupUserstreamCheck.ZOrder" xml:space="preserve">
-    <value>17</value>
+    <value>13</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
@@ -630,6 +514,6 @@
     <value>GetPeriodPanel</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>OpenTween.Setting.Panel.SettingPanelBase, OpenTween, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>OpenTween.Setting.Panel.SettingPanelBase, OpenTween, Version=2.4.3.1, Culture=neutral, PublicKeyToken=null</value>
   </data>
 </root>

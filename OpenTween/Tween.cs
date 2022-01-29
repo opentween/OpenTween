@@ -160,7 +160,6 @@ namespace OpenTween
         public AtIdSupplement HashSupl = null!;
 
         public HashtagManage HashMgr = null!;
-        private EventViewerDialog evtDialog = null!;
 
         //表示フォント、色、アイコン
 
@@ -366,7 +365,6 @@ namespace OpenTween
         //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         private readonly TimelineScheduler timelineScheduler = new TimelineScheduler();
-        private ThrottleTimer refreshThrottlingTimer = null!;
         private DebounceTimer selectionDebouncer = null!;
         private DebounceTimer saveConfigDebouncer = null!;
 
@@ -508,7 +506,6 @@ namespace OpenTween
 
                 this.thumbnailTokenSource?.Dispose();
 
-                this.tw.Dispose();
                 this.twitterApi.Dispose();
                 this._hookGlobalHotkey.Dispose();
             }
@@ -910,10 +907,6 @@ namespace OpenTween
             TwitterApiConnection.RestApiHost = SettingManager.Common.TwitterApiHost;
             tw.RestrictFavCheck = SettingManager.Common.RestrictFavCheck;
             tw.ReadOwnPost = SettingManager.Common.ReadOwnPost;
-            tw.TrackWord = SettingManager.Common.TrackWord;
-            TrackToolStripMenuItem.Checked = !MyCommon.IsNullOrEmpty(tw.TrackWord);
-            tw.AllAtReply = SettingManager.Common.AllAtReply;
-            AllrepliesToolStripMenuItem.Checked = tw.AllAtReply;
             ShortUrl.Instance.DisableExpanding = !SettingManager.Common.TinyUrlResolve;
             ShortUrl.Instance.BitlyAccessToken = SettingManager.Common.BitlyAccessToken;
             ShortUrl.Instance.BitlyId = SettingManager.Common.BilyUser;
@@ -1216,8 +1209,6 @@ namespace OpenTween
             }));
             this.RefreshTimelineScheduler();
 
-            var streamingRefreshInterval = TimeSpan.FromSeconds(SettingManager.Common.UserstreamPeriod);
-            this.refreshThrottlingTimer = ThrottleTimer.Create(() => this.InvokeAsync(() => this.RefreshTimeline()), streamingRefreshInterval);
             this.selectionDebouncer = DebounceTimer.Create(() => this.InvokeAsync(() => this.UpdateSelectedPost()), TimeSpan.FromMilliseconds(100), leading: true);
             this.saveConfigDebouncer = DebounceTimer.Create(() => this.InvokeAsync(() => this.SaveConfigsAll(ifModified: true)), TimeSpan.FromSeconds(1));
 
@@ -1376,14 +1367,6 @@ namespace OpenTween
 
         private void TimerInterval_Changed(object sender, IntervalChangedEventArgs e)
         {
-            if (e.UserStream)
-            {
-                var interval = TimeSpan.FromSeconds(SettingManager.Common.UserstreamPeriod);
-                var newTimer = ThrottleTimer.Create(() => this.InvokeAsync(() => this.RefreshTimeline()), interval);
-                var oldTimer = Interlocked.Exchange(ref this.refreshThrottlingTimer, newTimer);
-                oldTimer.Dispose();
-            }
-
             this.RefreshTimelineScheduler();
         }
 
@@ -1711,35 +1694,6 @@ namespace OpenTween
 
         private bool BalloonRequired()
         {
-            var ev = new Twitter.FormattedEvent
-            {
-                Eventtype = MyCommon.EVENTTYPE.None,
-            };
-
-            return BalloonRequired(ev);
-        }
-
-        private bool IsEventNotifyAsEventType(MyCommon.EVENTTYPE type)
-        {
-            if (type == MyCommon.EVENTTYPE.None)
-                return true;
-
-            if (!SettingManager.Common.EventNotifyEnabled)
-                return false;
-
-            return SettingManager.Common.EventNotifyFlag.HasFlag(type);
-        }
-
-        private bool IsMyEventNotityAsEventType(Twitter.FormattedEvent ev)
-        {
-            if (!ev.IsMe)
-                return true;
-
-            return SettingManager.Common.IsMyEventNotifyFlag.HasFlag(ev.Eventtype);
-        }
-
-        private bool BalloonRequired(Twitter.FormattedEvent ev)
-        {
             if (this._initial)
                 return false;
 
@@ -1748,11 +1702,7 @@ namespace OpenTween
 
             // 「新着通知」が無効
             if (!this.NewPostPopMenuItem.Checked)
-            {
-                // 「新着通知が無効でもイベントを通知する」にも該当しない
-                if (!SettingManager.Common.ForceEventNotify || ev.Eventtype == MyCommon.EVENTTYPE.None)
-                    return false;
-            }
+                return false;
 
             // 「画面最小化・アイコン時のみバルーンを表示する」が有効
             if (SettingManager.Common.LimitBalloon)
@@ -1761,7 +1711,7 @@ namespace OpenTween
                     return false;
             }
 
-            return this.IsEventNotifyAsEventType(ev.Eventtype) && this.IsMyEventNotityAsEventType(ev);
+            return true;
         }
 
         private void NotifyNewPosts(PostClass[] notifyPosts, string soundFile, int addCount, bool newMentions)
@@ -2720,19 +2670,16 @@ namespace OpenTween
             this.SetMainWindowTitle();
 
             // TLに反映
-            if (!this.tw.UserStreamActive)
+            if (SettingManager.Common.PostAndGet)
+                await this.RefreshTabAsync<HomeTabModel>();
+            else
             {
-                if (SettingManager.Common.PostAndGet)
-                    await this.RefreshTabAsync<HomeTabModel>();
-                else
+                if (post != null)
                 {
-                    if (post != null)
-                    {
-                        this._statuses.AddPost(post);
-                        this._statuses.DistributePosts();
-                    }
-                    this.RefreshTimeline();
+                    this._statuses.AddPost(post);
+                    this._statuses.DistributePosts();
                 }
+                this.RefreshTimeline();
             }
         }
 
@@ -2799,20 +2746,16 @@ namespace OpenTween
                     this._postTimestamps.RemoveAt(i);
             }
 
-            // TLに反映
-            if (!this.tw.UserStreamActive)
-            {
-                // 自分のRTはTLの更新では取得できない場合があるので、
-                // 投稿時取得の有無に関わらず追加しておく
-                posts.ForEach(post => this._statuses.AddPost(post));
+            // 自分のRTはTLの更新では取得できない場合があるので、
+            // 投稿時取得の有無に関わらず追加しておく
+            posts.ForEach(post => this._statuses.AddPost(post));
 
-                if (SettingManager.Common.PostAndGet)
-                    await this.RefreshTabAsync<HomeTabModel>();
-                else
-                {
-                    this._statuses.DistributePosts();
-                    this.RefreshTimeline();
-                }
+            if (SettingManager.Common.PostAndGet)
+                await this.RefreshTabAsync<HomeTabModel>();
+            else
+            {
+                this._statuses.DistributePosts();
+                this.RefreshTimeline();
             }
         }
 
@@ -7052,8 +6995,6 @@ namespace OpenTween
                 SettingManager.Common.HashIsHead = HashMgr.IsHead;
                 SettingManager.Common.HashIsPermanent = HashMgr.IsPermanent;
                 SettingManager.Common.HashIsNotAddToAtReply = HashMgr.IsNotAddToAtReply;
-                SettingManager.Common.TrackWord = tw.TrackWord;
-                SettingManager.Common.AllAtReply = tw.AllAtReply;
                 SettingManager.Common.UseImageService = ImageSelector.ServiceIndex;
                 SettingManager.Common.UseImageServiceName = ImageSelector.ServiceName;
 
@@ -9571,28 +9512,12 @@ namespace OpenTween
             if (flg) LView.Invalidate(bnd);
         }
 
-        private void StartUserStream()
-        {
-            tw.NewPostFromStream += tw_NewPostFromStream;
-            tw.UserStreamStarted += tw_UserStreamStarted;
-            tw.UserStreamStopped += tw_UserStreamStopped;
-            tw.PostDeleted += tw_PostDeleted;
-            tw.UserStreamEventReceived += tw_UserStreamEventArrived;
-
-            this.RefreshUserStreamsMenu();
-
-            if (SettingManager.Common.UserstreamStartup)
-                tw.StartUserStream();
-        }
-
         private async void TweenMain_Shown(object sender, EventArgs e)
         {
             NotifyIcon1.Visible = true;
 
             if (this.IsNetworkAvailable())
             {
-                StartUserStream();
-
                 var loadTasks = new List<Task>
                 {
                     this.RefreshMuteUserIdsAsync(),
@@ -11043,302 +10968,6 @@ namespace OpenTween
             MessageBox.Show(buf.ToString(), "アイコンキャッシュ使用状況");
         }
 
-#region "Userstream"
-        private async void tw_PostDeleted(object sender, PostDeletedEventArgs e)
-        {
-            try
-            {
-                if (InvokeRequired && !IsDisposed)
-                {
-                    await this.InvokeAsync(() =>
-                    {
-                        this._statuses.RemovePostFromAllTabs(e.StatusId, setIsDeleted: true);
-                        if (this.CurrentTab.Contains(e.StatusId))
-                        {
-                            this.PurgeListViewItemCache();
-                            this.CurrentListView.Update();
-                            var post = this.CurrentPost;
-                            if (post != null && post.StatusId == e.StatusId)
-                                this.DispSelectedPost(true);
-                        }
-                    });
-                    return;
-                }
-            }
-            catch (ObjectDisposedException)
-            {
-                return;
-            }
-            catch (InvalidOperationException)
-            {
-                return;
-            }
-        }
-
-        private void tw_NewPostFromStream(object sender, EventArgs e)
-        {
-            if (SettingManager.Common.ReadOldPosts)
-            {
-                _statuses.SetReadHomeTab(); //新着時未読クリア
-            }
-
-            this._statuses.DistributePosts();
-
-            _ = this.refreshThrottlingTimer.Call();
-        }
-
-        private async void tw_UserStreamStarted(object sender, EventArgs e)
-        {
-            try
-            {
-                if (InvokeRequired && !IsDisposed)
-                {
-                    await this.InvokeAsync(() => this.tw_UserStreamStarted(sender, e));
-                    return;
-                }
-            }
-            catch (ObjectDisposedException)
-            {
-                return;
-            }
-            catch (InvalidOperationException)
-            {
-                return;
-            }
-
-            this.RefreshUserStreamsMenu();
-            this.MenuItemUserStream.Enabled = true;
-
-            StatusLabel.Text = "UserStream Started.";
-        }
-
-        private async void tw_UserStreamStopped(object sender, EventArgs e)
-        {
-            try
-            {
-                if (InvokeRequired && !IsDisposed)
-                {
-                    await this.InvokeAsync(() => this.tw_UserStreamStopped(sender, e));
-                    return;
-                }
-            }
-            catch (ObjectDisposedException)
-            {
-                return;
-            }
-            catch (InvalidOperationException)
-            {
-                return;
-            }
-
-            this.RefreshUserStreamsMenu();
-            this.MenuItemUserStream.Enabled = true;
-
-            StatusLabel.Text = "UserStream Stopped.";
-        }
-
-        private void RefreshUserStreamsMenu()
-        {
-            if (this.tw.UserStreamActive)
-            {
-                this.MenuItemUserStream.Text = "&UserStream ▶";
-                this.StopToolStripMenuItem.Text = "&Stop";
-            }
-            else
-            {
-                this.MenuItemUserStream.Text = "&UserStream ■";
-                this.StopToolStripMenuItem.Text = "&Start";
-            }
-        }
-
-        private async void tw_UserStreamEventArrived(object sender, UserStreamEventReceivedEventArgs e)
-        {
-            try
-            {
-                if (InvokeRequired && !IsDisposed)
-                {
-                    await this.InvokeAsync(() => this.tw_UserStreamEventArrived(sender, e));
-                    return;
-                }
-            }
-            catch (ObjectDisposedException)
-            {
-                return;
-            }
-            catch (InvalidOperationException)
-            {
-                return;
-            }
-            var ev = e.EventData;
-            StatusLabel.Text = "Event: " + ev.Event;
-            NotifyEvent(ev);
-            if (ev.Event == "favorite" || ev.Event == "unfavorite")
-            {
-                if (this.CurrentTab.Contains(ev.Id))
-                {
-                    this.PurgeListViewItemCache();
-                    this.CurrentListView.Update();
-                }
-                if (ev.Event == "unfavorite" && ev.Username.Equals(tw.Username, StringComparison.InvariantCultureIgnoreCase))
-                {
-                    var favTab = this._statuses.FavoriteTab;
-                    favTab.EnqueueRemovePost(ev.Id, setIsDeleted: false);
-                }
-            }
-        }
-
-        private void NotifyEvent(Twitter.FormattedEvent ev)
-        {
-            //新着通知 
-            if (BalloonRequired(ev))
-            {
-                NotifyIcon1.BalloonTipIcon = ToolTipIcon.Info;
-                var title = new StringBuilder();
-                if (SettingManager.Common.DispUsername)
-                {
-                    title.Append(tw.Username);
-                    title.Append(" - ");
-                }
-                title.Append(ApplicationSettings.ApplicationName);
-                title.Append(" [");
-                title.Append(ev.Event.ToUpper(CultureInfo.CurrentCulture));
-                title.Append("] by ");
-                if (!MyCommon.IsNullOrEmpty(ev.Username))
-                {
-                    title.Append(ev.Username);
-                }
-
-                string text;
-                if (!MyCommon.IsNullOrEmpty(ev.Target))
-                    text = ev.Target;
-                else
-                    text = " ";
-
-                if (SettingManager.Common.IsUseNotifyGrowl)
-                {
-                    gh.Notify(GrowlHelper.NotifyType.UserStreamEvent,
-                              ev.Id.ToString(), title.ToString(), text);
-                }
-                else
-                {
-                    NotifyIcon1.BalloonTipIcon = ToolTipIcon.Info;
-                    NotifyIcon1.BalloonTipTitle = title.ToString();
-                    NotifyIcon1.BalloonTipText = text;
-                    NotifyIcon1.ShowBalloonTip(500);
-                }
-            }
-
-            //サウンド再生
-            var snd = SettingManager.Common.EventSoundFile;
-            if (!_initial && SettingManager.Common.PlaySound && !MyCommon.IsNullOrEmpty(snd))
-            {
-                if ((ev.Eventtype & SettingManager.Common.EventNotifyFlag) != 0 && IsMyEventNotityAsEventType(ev))
-                {
-                    try
-                    {
-                        var dir = Application.StartupPath;
-                        if (Directory.Exists(Path.Combine(dir, "Sounds")))
-                        {
-                            dir = Path.Combine(dir, "Sounds");
-                        }
-                        using var player = new SoundPlayer(Path.Combine(dir, snd));
-                        player.Play();
-                    }
-                    catch (Exception)
-                    {
-                    }
-                }
-            }
-        }
-
-        private void StopToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            MenuItemUserStream.Enabled = false;
-            if (StopRefreshAllMenuItem.Checked)
-            {
-                StopRefreshAllMenuItem.Checked = false;
-                return;
-            }
-            if (this.tw.UserStreamActive)
-            {
-                tw.StopUserStream();
-            }
-            else
-            {
-                tw.StartUserStream();
-            }
-        }
-
-        private static string inputTrack = "";
-
-        private void TrackToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (TrackToolStripMenuItem.Checked)
-            {
-                using (var inputForm = new InputTabName())
-                {
-                    inputForm.TabName = inputTrack;
-                    inputForm.FormTitle = "Input track word";
-                    inputForm.FormDescription = "Track word";
-                    if (inputForm.ShowDialog() != DialogResult.OK)
-                    {
-                        TrackToolStripMenuItem.Checked = false;
-                        return;
-                    }
-                    inputTrack = inputForm.TabName.Trim();
-                }
-                if (!inputTrack.Equals(tw.TrackWord))
-                {
-                    tw.TrackWord = inputTrack;
-                    this.MarkSettingCommonModified();
-                    TrackToolStripMenuItem.Checked = !MyCommon.IsNullOrEmpty(inputTrack);
-                    tw.ReconnectUserStream();
-                }
-            }
-            else
-            {
-                tw.TrackWord = "";
-                tw.ReconnectUserStream();
-            }
-            this.MarkSettingCommonModified();
-        }
-
-        private void AllrepliesToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            tw.AllAtReply = AllrepliesToolStripMenuItem.Checked;
-            this.MarkSettingCommonModified();
-            tw.ReconnectUserStream();
-        }
-
-        private void EventViewerMenuItem_Click(object sender, EventArgs e)
-        {
-            if (evtDialog == null || evtDialog.IsDisposed)
-            {
-                this.evtDialog = new EventViewerDialog
-                {
-                    Owner = this,
-                };
-
-                //親の中央に表示
-                this.evtDialog.Location = new Point
-                {
-                    X = Convert.ToInt32(this.Location.X + this.Size.Width / 2 - evtDialog.Size.Width / 2),
-                    Y = Convert.ToInt32(this.Location.Y + this.Size.Height / 2 - evtDialog.Size.Height / 2),
-                };
-            }
-            evtDialog.EventSource = tw.StoredEvent;
-            if (!evtDialog.Visible)
-            {
-                evtDialog.Show(this);
-            }
-            else
-            {
-                evtDialog.Activate();
-            }
-            this.TopMost = SettingManager.Common.AlwaysTop;
-        }
-#endregion
-
         private void TweenRestartMenuItem_Click(object sender, EventArgs e)
         {
             MyCommon._endingFlag = true;
@@ -11424,14 +11053,6 @@ namespace OpenTween
 
         private void TimelineRefreshEnableChange(bool isEnable)
         {
-            if (isEnable)
-            {
-                tw.StartUserStream();
-            }
-            else
-            {
-                tw.StopUserStream();
-            }
             this.timelineScheduler.Enabled = isEnable;
         }
 

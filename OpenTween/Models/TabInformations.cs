@@ -279,37 +279,6 @@ namespace OpenTween.Models
         public PostClass? RetweetSource(long Id)
             => this.Posts.TryGetValue(Id, out var status) ? status : null;
 
-        public void ScrubGeoReserve(long id, long upToStatusId)
-        {
-            lock (LockObj)
-                this.ScrubGeo(id, upToStatusId);
-        }
-
-        private void ScrubGeo(long userId, long upToStatusId)
-        {
-            lock (LockObj)
-            {
-                var userPosts = from post in this.Posts.Values
-                                where post.UserId == userId && post.UserId <= upToStatusId
-                                select post;
-
-                foreach (var p in userPosts)
-                {
-                    p.PostGeo = null;
-                }
-
-                var userPosts2 = from tb in this.GetTabsInnerStorageType()
-                                 from post in tb.Posts.Values
-                                 where post.UserId == userId && post.UserId <= upToStatusId
-                                 select post;
-
-                foreach (var p in userPosts2)
-                {
-                    p.PostGeo = null;
-                }
-            }
-        }
-
         public void RemovePostFromAllTabs(long statusId, bool setIsDeleted)
         {
             foreach (var tab in this.Tabs)

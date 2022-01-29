@@ -46,9 +46,7 @@ namespace OpenTween.Setting.Panel
 
         public void LoadConfig(SettingCommon settingCommon)
         {
-            this.StartupUserstreamCheck.Checked = settingCommon.UserstreamStartup;
             this.CheckPostAndGet.Checked = settingCommon.PostAndGet;
-            this.UserstreamPeriod.Text = settingCommon.UserstreamPeriod.ToString();
             this.TimelinePeriod.Text = settingCommon.TimelinePeriod.ToString();
             this.ReplyPeriod.Text = settingCommon.ReplyPeriod.ToString();
             this.DMPeriod.Text = settingCommon.DMPeriod.ToString();
@@ -59,19 +57,10 @@ namespace OpenTween.Setting.Panel
 
         public void SaveConfig(SettingCommon settingCommon)
         {
-            settingCommon.UserstreamStartup = this.StartupUserstreamCheck.Checked;
             settingCommon.PostAndGet = this.CheckPostAndGet.Checked;
 
             var arg = new IntervalChangedEventArgs();
             var isIntervalChanged = false;
-
-            var userstreamPeriod = int.Parse(this.UserstreamPeriod.Text);
-            if (settingCommon.UserstreamPeriod != userstreamPeriod)
-            {
-                settingCommon.UserstreamPeriod = userstreamPeriod;
-                arg.UserStream = true;
-                isIntervalChanged = true;
-            }
 
             var timelinePeriod = int.Parse(this.TimelinePeriod.Text);
             if (settingCommon.TimelinePeriod != timelinePeriod)
@@ -123,28 +112,6 @@ namespace OpenTween.Setting.Panel
 
             if (isIntervalChanged)
                 this.IntervalChanged?.Invoke(this, arg);
-        }
-
-        private void UserstreamPeriod_Validating(object sender, CancelEventArgs e)
-        {
-            int prd;
-            try
-            {
-                prd = int.Parse(UserstreamPeriod.Text);
-            }
-            catch (Exception)
-            {
-                MessageBox.Show(Properties.Resources.UserstreamPeriod_ValidatingText1);
-                e.Cancel = true;
-                return;
-            }
-
-            if (prd < 0 || prd > 60)
-            {
-                MessageBox.Show(Properties.Resources.UserstreamPeriod_ValidatingText1);
-                e.Cancel = true;
-                return;
-            }
         }
 
         private void TimelinePeriod_Validating(object sender, CancelEventArgs e)

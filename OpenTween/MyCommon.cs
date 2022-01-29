@@ -149,7 +149,6 @@ namespace OpenTween
             PublicSearch,            //公式検索
             List,                    //Lists
             Related,                 //関連発言
-            UserStream,              //UserStream
             UserTimeline,            //UserTimeline
             BlockIds,                //Blocking/ids
             Configuration,           //Twitter Configuration読み込み
@@ -187,36 +186,6 @@ namespace OpenTween
             None,
             StaticIcon,
             BlinkIcon,
-        }
-
-        [Flags]
-        public enum EVENTTYPE
-        {
-            None = 0,
-            Favorite = 1,
-            Unfavorite = 2,
-            Follow = 4,
-            ListMemberAdded = 8,
-            ListMemberRemoved = 16,
-            Block = 32,
-            Unblock = 64,
-            UserUpdate = 128,
-            Deleted = 256,
-            ListCreated = 512,
-            ListUpdated = 1024,
-            Unfollow = 2048,
-            ListUserSubscribed = 4096,
-            ListUserUnsubscribed = 8192,
-            ListDestroyed = 16384,
-            Mute = 32768,
-            Unmute = 65536,
-            QuotedTweet = 131072,
-            Retweet = 262144,
-
-            All = (None | Favorite | Unfavorite | Follow | ListMemberAdded | ListMemberRemoved |
-                   Block | Unblock | UserUpdate | Deleted | ListCreated | ListUpdated | Unfollow |
-                   ListUserSubscribed | ListUserUnsubscribed | ListDestroyed |
-                   Mute | Unmute | QuotedTweet | Retweet),
         }
 
         public static _Assembly EntryAssembly { get; internal set; }

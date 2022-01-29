@@ -97,18 +97,6 @@ namespace OpenTween.Api
                 if (xElm.Element("text") != null)
                     return StreamMessageStatus.ParseJson(line);
 
-                if (xElm.Element("delete") != null)
-                    return StreamMessageDelete.ParseJson(line);
-
-                if (xElm.Element("event") != null)
-                    return StreamMessageEvent.ParseJson(line);
-
-                if (xElm.Element("direct_message") != null)
-                    return StreamMessageDirectMessage.ParseJson(line);
-
-                if (xElm.Element("scrub_geo") != null)
-                    return StreamMessageScrubGeo.ParseJson(line);
-
                 return new StreamMessageUnknown(line);
             }
             catch (XmlException)
