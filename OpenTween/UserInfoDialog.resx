@@ -1,1464 +1,457 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<root>
-  <!-- 
-    Microsoft ResX Schema 
-    
-    Version 2.0
-    
-    The primary goals of this format is to allow a simple XML format 
-    that is mostly human readable. The generation and parsing of the 
-    various data types are done through the TypeConverter classes 
-    associated with the data types.
-    
-    Example:
-    
-    ... ado.net/XML headers & schema ...
-    <resheader name="resmimetype">text/microsoft-resx</resheader>
-    <resheader name="version">2.0</resheader>
-    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
-    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
-    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
-    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
-    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
-        <value>[base64 mime encoded serialized .NET Framework object]</value>
-    </data>
-    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
-        <comment>This is a comment</comment>
-    </data>
-                
-    There are any number of "resheader" rows that contain simple 
-    name/value pairs.
-    
-    Each data row contains a name, and value. The row also contains a 
-    type or mimetype. Type corresponds to a .NET class that support 
-    text/value conversion through the TypeConverter architecture. 
-    Classes that don't support this are serialized and stored with the 
-    mimetype set.
-    
-    The mimetype is used for serialized objects, and tells the 
-    ResXResourceReader how to depersist the object. This is currently not 
-    extensible. For a given mimetype the value must be set accordingly:
-    
-    Note - application/x-microsoft.net.object.binary.base64 is the format 
-    that the ResXResourceWriter will generate, however the reader can 
-    read any of the formats listed below.
-    
-    mimetype: application/x-microsoft.net.object.binary.base64
-    value   : The object must be serialized with 
-            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
-            : and then encoded with base64 encoding.
-    
-    mimetype: application/x-microsoft.net.object.soap.base64
-    value   : The object must be serialized with 
-            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
-            : and then encoded with base64 encoding.
+<?xml version="1.0" encoding="utf-8"?><root xml:space="preserve">
+	<resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+	<resheader name="version"><value>2.0</value></resheader>
+	<resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+	<resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+	<assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+	<assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+	<assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
 
-    mimetype: application/x-microsoft.net.object.bytearray.base64
-    value   : The object must be serialized into a byte array 
-            : using a System.ComponentModel.TypeConverter
-            : and then encoded with base64 encoding.
-    -->
-  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
-    <xsd:element name="root" msdata:IsDataSet="true">
-      <xsd:complexType>
-        <xsd:choice maxOccurs="unbounded">
-          <xsd:element name="metadata">
-            <xsd:complexType>
-              <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" />
-              </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string" />
-              <xsd:attribute name="type" type="xsd:string" />
-              <xsd:attribute name="mimetype" type="xsd:string" />
-              <xsd:attribute ref="xml:space" />
-            </xsd:complexType>
-          </xsd:element>
-          <xsd:element name="assembly">
-            <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string" />
-              <xsd:attribute name="name" type="xsd:string" />
-            </xsd:complexType>
-          </xsd:element>
-          <xsd:element name="data">
-            <xsd:complexType>
-              <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
-              </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-              <xsd:attribute ref="xml:space" />
-            </xsd:complexType>
-          </xsd:element>
-          <xsd:element name="resheader">
-            <xsd:complexType>
-              <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-              </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" />
-            </xsd:complexType>
-          </xsd:element>
-        </xsd:choice>
-      </xsd:complexType>
-    </xsd:element>
-  </xsd:schema>
-  <resheader name="resmimetype">
-    <value>text/microsoft-resx</value>
-  </resheader>
-  <resheader name="version">
-    <value>2.0</value>
-  </resheader>
-  <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </resheader>
-  <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </resheader>
-  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="LinkLabel2.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="LinkLabel2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>152, 127</value>
-  </data>
-  <data name="LinkLabel2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>86, 12</value>
-  </data>
-  <data name="LinkLabel2.TabIndex" type="System.Int32, mscorlib">
-    <value>11</value>
-  </data>
-  <data name="LinkLabel2.Text" xml:space="preserve">
-    <value>非公開(Protect)</value>
-  </data>
-  <data name="&gt;&gt;LinkLabel2.Name" xml:space="preserve">
-    <value>LinkLabel2</value>
-  </data>
-  <data name="&gt;&gt;LinkLabel2.Type" xml:space="preserve">
-    <value>System.Windows.Forms.LinkLabel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;LinkLabel2.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;LinkLabel2.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="ButtonBlockDestroy.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="ButtonBlockDestroy.Location" type="System.Drawing.Point, System.Drawing">
-    <value>335, 182</value>
-  </data>
-  <data name="ButtonBlockDestroy.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 25</value>
-  </data>
-  <data name="ButtonBlockDestroy.TabIndex" type="System.Int32, mscorlib">
-    <value>20</value>
-  </data>
-  <data name="ButtonBlockDestroy.Text" xml:space="preserve">
-    <value>ブロック解除</value>
-  </data>
-  <data name="&gt;&gt;ButtonBlockDestroy.Name" xml:space="preserve">
-    <value>ButtonBlockDestroy</value>
-  </data>
-  <data name="&gt;&gt;ButtonBlockDestroy.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;ButtonBlockDestroy.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;ButtonBlockDestroy.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="ButtonReportSpam.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="ButtonReportSpam.Location" type="System.Drawing.Point, System.Drawing">
-    <value>497, 182</value>
-  </data>
-  <data name="ButtonReportSpam.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 25</value>
-  </data>
-  <data name="ButtonReportSpam.TabIndex" type="System.Int32, mscorlib">
-    <value>22</value>
-  </data>
-  <data name="ButtonReportSpam.Text" xml:space="preserve">
-    <value>スパム報告</value>
-  </data>
-  <data name="&gt;&gt;ButtonReportSpam.Name" xml:space="preserve">
-    <value>ButtonReportSpam</value>
-  </data>
-  <data name="&gt;&gt;ButtonReportSpam.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;ButtonReportSpam.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;ButtonReportSpam.ZOrder" xml:space="preserve">
-    <value>4</value>
-  </data>
-  <data name="SelectionCopyToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>170, 22</value>
-  </data>
-  <data name="SelectionCopyToolStripMenuItem.Text" xml:space="preserve">
-    <value>選択文字列をコピー</value>
-  </data>
-  <data name="ButtonBlock.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="ButtonBlock.Location" type="System.Drawing.Point, System.Drawing">
-    <value>416, 182</value>
-  </data>
-  <data name="ButtonBlock.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 25</value>
-  </data>
-  <data name="ButtonBlock.TabIndex" type="System.Int32, mscorlib">
-    <value>21</value>
-  </data>
-  <data name="ButtonBlock.Text" xml:space="preserve">
-    <value>ブロック</value>
-  </data>
-  <data name="&gt;&gt;ButtonBlock.Name" xml:space="preserve">
-    <value>ButtonBlock</value>
-  </data>
-  <data name="&gt;&gt;ButtonBlock.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;ButtonBlock.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;ButtonBlock.ZOrder" xml:space="preserve">
-    <value>5</value>
-  </data>
-  <data name="TextBoxDescription.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="TextBoxDescription.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 182</value>
-  </data>
-  <data name="TextBoxDescription.Size" type="System.Drawing.Size, System.Drawing">
-    <value>16, 19</value>
-  </data>
-  <data name="TextBoxDescription.TabIndex" type="System.Int32, mscorlib">
-    <value>40</value>
-  </data>
-  <data name="TextBoxDescription.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="&gt;&gt;TextBoxDescription.Name" xml:space="preserve">
-    <value>TextBoxDescription</value>
-  </data>
-  <data name="&gt;&gt;TextBoxDescription.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;TextBoxDescription.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;TextBoxDescription.ZOrder" xml:space="preserve">
-    <value>6</value>
-  </data>
-  <data name="TextBoxWeb.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="TextBoxWeb.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 153</value>
-  </data>
-  <data name="TextBoxWeb.Size" type="System.Drawing.Size, System.Drawing">
-    <value>16, 19</value>
-  </data>
-  <data name="TextBoxWeb.TabIndex" type="System.Int32, mscorlib">
-    <value>39</value>
-  </data>
-  <data name="TextBoxWeb.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="&gt;&gt;TextBoxWeb.Name" xml:space="preserve">
-    <value>TextBoxWeb</value>
-  </data>
-  <data name="&gt;&gt;TextBoxWeb.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;TextBoxWeb.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;TextBoxWeb.ZOrder" xml:space="preserve">
-    <value>7</value>
-  </data>
-  <data name="ButtonEdit.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="ButtonEdit.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="ButtonEdit.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 429</value>
-  </data>
-  <data name="ButtonEdit.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 25</value>
-  </data>
-  <data name="ButtonEdit.TabIndex" type="System.Int32, mscorlib">
-    <value>35</value>
-  </data>
-  <data name="ButtonEdit.Text" xml:space="preserve">
-    <value>編集</value>
-  </data>
-  <data name="&gt;&gt;ButtonEdit.Name" xml:space="preserve">
-    <value>ButtonEdit</value>
-  </data>
-  <data name="&gt;&gt;ButtonEdit.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;ButtonEdit.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;ButtonEdit.ZOrder" xml:space="preserve">
-    <value>8</value>
-  </data>
-  <data name="LabelId.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Right</value>
-  </data>
-  <data name="LabelId.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="LabelId.Location" type="System.Drawing.Point, System.Drawing">
-    <value>446, 56</value>
-  </data>
-  <data name="LabelId.Size" type="System.Drawing.Size, System.Drawing">
-    <value>126, 17</value>
-  </data>
-  <data name="LabelId.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
-  </data>
-  <data name="LabelId.Text" xml:space="preserve">
-    <value>LabelId</value>
-  </data>
-  <data name="LabelId.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>MiddleRight</value>
-  </data>
-  <data name="&gt;&gt;LabelId.Name" xml:space="preserve">
-    <value>LabelId</value>
-  </data>
-  <data name="&gt;&gt;LabelId.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;LabelId.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;LabelId.ZOrder" xml:space="preserve">
-    <value>9</value>
-  </data>
-  <metadata name="ContextMenuRecentPostBrowser.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>120, 17</value>
-  </metadata>
-  <data name="SelectAllToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>170, 22</value>
-  </data>
-  <data name="SelectAllToolStripMenuItem.Text" xml:space="preserve">
-    <value>すべて選択</value>
-  </data>
-  <data name="ContextMenuRecentPostBrowser.Size" type="System.Drawing.Size, System.Drawing">
-    <value>171, 48</value>
-  </data>
-  <data name="&gt;&gt;ContextMenuRecentPostBrowser.Name" xml:space="preserve">
-    <value>ContextMenuRecentPostBrowser</value>
-  </data>
-  <data name="&gt;&gt;ContextMenuRecentPostBrowser.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="TextBoxLocation.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="TextBoxLocation.Location" type="System.Drawing.Point, System.Drawing">
-    <value>34, 182</value>
-  </data>
-  <data name="TextBoxLocation.Size" type="System.Drawing.Size, System.Drawing">
-    <value>16, 19</value>
-  </data>
-  <data name="TextBoxLocation.TabIndex" type="System.Int32, mscorlib">
-    <value>38</value>
-  </data>
-  <data name="TextBoxLocation.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="&gt;&gt;TextBoxLocation.Name" xml:space="preserve">
-    <value>TextBoxLocation</value>
-  </data>
-  <data name="&gt;&gt;TextBoxLocation.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;TextBoxLocation.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;TextBoxLocation.ZOrder" xml:space="preserve">
-    <value>10</value>
-  </data>
-  <metadata name="ToolTip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 17</value>
-  </metadata>
-  <data name="TextBoxName.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="TextBoxName.Location" type="System.Drawing.Point, System.Drawing">
-    <value>34, 153</value>
-  </data>
-  <data name="TextBoxName.Size" type="System.Drawing.Size, System.Drawing">
-    <value>16, 19</value>
-  </data>
-  <data name="TextBoxName.TabIndex" type="System.Int32, mscorlib">
-    <value>37</value>
-  </data>
-  <data name="TextBoxName.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="&gt;&gt;TextBoxName.Name" xml:space="preserve">
-    <value>TextBoxName</value>
-  </data>
-  <data name="&gt;&gt;TextBoxName.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;TextBoxName.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;TextBoxName.ZOrder" xml:space="preserve">
-    <value>11</value>
-  </data>
-  <data name="Label12.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Right</value>
-  </data>
-  <data name="Label12.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="Label12.Location" type="System.Drawing.Point, System.Drawing">
-    <value>446, 41</value>
-  </data>
-  <data name="Label12.Size" type="System.Drawing.Size, System.Drawing">
-    <value>126, 15</value>
-  </data>
-  <data name="Label12.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
-  </data>
-  <data name="Label12.Text" xml:space="preserve">
-    <value>アカウントID</value>
-  </data>
-  <data name="Label12.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>TopRight</value>
-  </data>
-  <data name="&gt;&gt;Label12.Name" xml:space="preserve">
-    <value>Label12</value>
-  </data>
-  <data name="&gt;&gt;Label12.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;Label12.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;Label12.ZOrder" xml:space="preserve">
-    <value>12</value>
-  </data>
-  <data name="ButtonSearchPosts.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="ButtonSearchPosts.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="ButtonSearchPosts.Location" type="System.Drawing.Point, System.Drawing">
-    <value>243, 182</value>
-  </data>
-  <data name="ButtonSearchPosts.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 25</value>
-  </data>
-  <data name="ButtonSearchPosts.TabIndex" type="System.Int32, mscorlib">
-    <value>19</value>
-  </data>
-  <data name="ButtonSearchPosts.Text" xml:space="preserve">
-    <value>TLを取得</value>
-  </data>
-  <data name="&gt;&gt;ButtonSearchPosts.Name" xml:space="preserve">
-    <value>ButtonSearchPosts</value>
-  </data>
-  <data name="&gt;&gt;ButtonSearchPosts.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;ButtonSearchPosts.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;ButtonSearchPosts.ZOrder" xml:space="preserve">
-    <value>13</value>
-  </data>
-  <data name="LinkLabel1.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="LinkLabel1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="LinkLabel1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>384, 127</value>
-  </data>
-  <data name="LinkLabel1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>100, 12</value>
-  </data>
-  <data name="LinkLabel1.TabIndex" type="System.Int32, mscorlib">
-    <value>13</value>
-  </data>
-  <data name="LinkLabel1.Text" xml:space="preserve">
-    <value>認証済み(Verified)</value>
-  </data>
-  <data name="&gt;&gt;LinkLabel1.Name" xml:space="preserve">
-    <value>LinkLabel1</value>
-  </data>
-  <data name="&gt;&gt;LinkLabel1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.LinkLabel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;LinkLabel1.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;LinkLabel1.ZOrder" xml:space="preserve">
-    <value>14</value>
-  </data>
-  <data name="RecentPostBrowser.Location" type="System.Drawing.Point, System.Drawing">
-    <value>82, 303</value>
-  </data>
-  <data name="RecentPostBrowser.Size" type="System.Drawing.Size, System.Drawing">
-    <value>490, 65</value>
-  </data>
-  <data name="RecentPostBrowser.TabIndex" type="System.Int32, mscorlib">
-    <value>26</value>
-  </data>
-  <data name="&gt;&gt;RecentPostBrowser.Name" xml:space="preserve">
-    <value>RecentPostBrowser</value>
-  </data>
-  <data name="&gt;&gt;RecentPostBrowser.Type" xml:space="preserve">
-    <value>System.Windows.Forms.WebBrowser, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;RecentPostBrowser.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;RecentPostBrowser.ZOrder" xml:space="preserve">
-    <value>15</value>
-  </data>
-  <data name="ChangeIconToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>143, 22</value>
-  </data>
-  <data name="ChangeIconToolStripMenuItem.Text" xml:space="preserve">
-    <value>アイコンの変更</value>
-  </data>
-  <data name="LabelIsVerified.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Right</value>
-  </data>
-  <data name="LabelIsVerified.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="LabelIsVerified.Location" type="System.Drawing.Point, System.Drawing">
-    <value>497, 126</value>
-  </data>
-  <data name="LabelIsVerified.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 17</value>
-  </data>
-  <data name="LabelIsVerified.TabIndex" type="System.Int32, mscorlib">
-    <value>14</value>
-  </data>
-  <data name="LabelIsVerified.Text" xml:space="preserve">
-    <value>LabelIsVerified</value>
-  </data>
-  <data name="LabelIsVerified.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>MiddleLeft</value>
-  </data>
-  <data name="&gt;&gt;LabelIsVerified.Name" xml:space="preserve">
-    <value>LabelIsVerified</value>
-  </data>
-  <data name="&gt;&gt;LabelIsVerified.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;LabelIsVerified.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;LabelIsVerified.ZOrder" xml:space="preserve">
-    <value>16</value>
-  </data>
-  <data name="DescriptionBrowser.Location" type="System.Drawing.Point, System.Drawing">
-    <value>82, 211</value>
-  </data>
-  <data name="DescriptionBrowser.Size" type="System.Drawing.Size, System.Drawing">
-    <value>490, 73</value>
-  </data>
-  <data name="DescriptionBrowser.TabIndex" type="System.Int32, mscorlib">
-    <value>24</value>
-  </data>
-  <data name="&gt;&gt;DescriptionBrowser.Name" xml:space="preserve">
-    <value>DescriptionBrowser</value>
-  </data>
-  <data name="&gt;&gt;DescriptionBrowser.Type" xml:space="preserve">
-    <value>System.Windows.Forms.WebBrowser, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;DescriptionBrowser.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;DescriptionBrowser.ZOrder" xml:space="preserve">
-    <value>17</value>
-  </data>
-  <data name="LabelScreenName.Font" type="System.Drawing.Font, System.Drawing">
-    <value>MS UI Gothic, 12pt</value>
-  </data>
-  <data name="LabelScreenName.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="LabelScreenName.Location" type="System.Drawing.Point, System.Drawing">
-    <value>9, 20</value>
-  </data>
-  <data name="LabelScreenName.Size" type="System.Drawing.Size, System.Drawing">
-    <value>431, 22</value>
-  </data>
-  <data name="LabelScreenName.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="LabelScreenName.Text" xml:space="preserve">
-    <value>ScreenName</value>
-  </data>
-  <data name="LabelScreenName.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>MiddleLeft</value>
-  </data>
-  <data name="&gt;&gt;LabelScreenName.Name" xml:space="preserve">
-    <value>LabelScreenName</value>
-  </data>
-  <data name="&gt;&gt;LabelScreenName.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;LabelScreenName.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;LabelScreenName.ZOrder" xml:space="preserve">
-    <value>18</value>
-  </data>
-  <data name="LabelRecentPost.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="LabelRecentPost.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="LabelRecentPost.Location" type="System.Drawing.Point, System.Drawing">
-    <value>10, 305</value>
-  </data>
-  <data name="LabelRecentPost.Size" type="System.Drawing.Size, System.Drawing">
-    <value>63, 12</value>
-  </data>
-  <data name="LabelRecentPost.TabIndex" type="System.Int32, mscorlib">
-    <value>25</value>
-  </data>
-  <data name="LabelRecentPost.Text" xml:space="preserve">
-    <value>最近の発言</value>
-  </data>
-  <data name="&gt;&gt;LabelRecentPost.Name" xml:space="preserve">
-    <value>LabelRecentPost</value>
-  </data>
-  <data name="&gt;&gt;LabelRecentPost.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;LabelRecentPost.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;LabelRecentPost.ZOrder" xml:space="preserve">
-    <value>19</value>
-  </data>
-  <data name="ButtonClose.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="ButtonClose.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="ButtonClose.Location" type="System.Drawing.Point, System.Drawing">
-    <value>497, 429</value>
-  </data>
-  <data name="ButtonClose.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 25</value>
-  </data>
-  <data name="ButtonClose.TabIndex" type="System.Int32, mscorlib">
-    <value>36</value>
-  </data>
-  <data name="ButtonClose.Text" xml:space="preserve">
-    <value>閉じる</value>
-  </data>
-  <data name="&gt;&gt;ButtonClose.Name" xml:space="preserve">
-    <value>ButtonClose</value>
-  </data>
-  <data name="&gt;&gt;ButtonClose.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;ButtonClose.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;ButtonClose.ZOrder" xml:space="preserve">
-    <value>20</value>
-  </data>
-  <metadata name="ContextMenuUserPicture.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>534, 17</value>
-  </metadata>
-  <data name="ContextMenuUserPicture.Size" type="System.Drawing.Size, System.Drawing">
-    <value>144, 26</value>
-  </data>
-  <data name="&gt;&gt;ContextMenuUserPicture.Name" xml:space="preserve">
-    <value>ContextMenuUserPicture</value>
-  </data>
-  <data name="&gt;&gt;ContextMenuUserPicture.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="UserPicture.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="UserPicture.InitialImage" type="System.Resources.ResXNullRef, System.Windows.Forms">
-    <value />
-  </data>
-  <data name="UserPicture.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 59</value>
-  </data>
-  <data name="UserPicture.Size" type="System.Drawing.Size, System.Drawing">
-    <value>73, 73</value>
-  </data>
-  <data name="UserPicture.SizeMode" type="System.Windows.Forms.PictureBoxSizeMode, System.Windows.Forms">
-    <value>StretchImage</value>
-  </data>
-  <data name="UserPicture.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;UserPicture.Name" xml:space="preserve">
-    <value>UserPicture</value>
-  </data>
-  <data name="&gt;&gt;UserPicture.Type" xml:space="preserve">
-    <value>OpenTween.OTPictureBox, OpenTween, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;UserPicture.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;UserPicture.ZOrder" xml:space="preserve">
-    <value>21</value>
-  </data>
-  <data name="LinkLabelFav.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="LinkLabelFav.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="LinkLabelFav.Location" type="System.Drawing.Point, System.Drawing">
-    <value>414, 407</value>
-  </data>
-  <data name="LinkLabelFav.Size" type="System.Drawing.Size, System.Drawing">
-    <value>72, 12</value>
-  </data>
-  <data name="LinkLabelFav.TabIndex" type="System.Int32, mscorlib">
-    <value>34</value>
-  </data>
-  <data name="LinkLabelFav.Text" xml:space="preserve">
-    <value>LinkLabelFav</value>
-  </data>
-  <data name="&gt;&gt;LinkLabelFav.Name" xml:space="preserve">
-    <value>LinkLabelFav</value>
-  </data>
-  <data name="&gt;&gt;LinkLabelFav.Type" xml:space="preserve">
-    <value>System.Windows.Forms.LinkLabel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;LinkLabelFav.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;LinkLabelFav.ZOrder" xml:space="preserve">
-    <value>22</value>
-  </data>
-  <data name="Label9.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="Label9.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="Label9.Location" type="System.Drawing.Point, System.Drawing">
-    <value>290, 407</value>
-  </data>
-  <data name="Label9.Size" type="System.Drawing.Size, System.Drawing">
-    <value>56, 12</value>
-  </data>
-  <data name="Label9.TabIndex" type="System.Int32, mscorlib">
-    <value>33</value>
-  </data>
-  <data name="Label9.Text" xml:space="preserve">
-    <value>お気に入り</value>
-  </data>
-  <data name="&gt;&gt;Label9.Name" xml:space="preserve">
-    <value>Label9</value>
-  </data>
-  <data name="&gt;&gt;Label9.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;Label9.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;Label9.ZOrder" xml:space="preserve">
-    <value>23</value>
-  </data>
-  <data name="LabelIsProtected.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Right</value>
-  </data>
-  <data name="LabelIsProtected.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="LabelIsProtected.Location" type="System.Drawing.Point, System.Drawing">
-    <value>253, 126</value>
-  </data>
-  <data name="LabelIsProtected.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 17</value>
-  </data>
-  <data name="LabelIsProtected.TabIndex" type="System.Int32, mscorlib">
-    <value>12</value>
-  </data>
-  <data name="LabelIsProtected.Text" xml:space="preserve">
-    <value>LabelIsProtected</value>
-  </data>
-  <data name="LabelIsProtected.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>MiddleLeft</value>
-  </data>
-  <data name="&gt;&gt;LabelIsProtected.Name" xml:space="preserve">
-    <value>LabelIsProtected</value>
-  </data>
-  <data name="&gt;&gt;LabelIsProtected.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;LabelIsProtected.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;LabelIsProtected.ZOrder" xml:space="preserve">
-    <value>24</value>
-  </data>
-  <data name="LabelCreatedAt.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Right</value>
-  </data>
-  <data name="LabelCreatedAt.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="LabelCreatedAt.Location" type="System.Drawing.Point, System.Drawing">
-    <value>446, 24</value>
-  </data>
-  <data name="LabelCreatedAt.Size" type="System.Drawing.Size, System.Drawing">
-    <value>126, 17</value>
-  </data>
-  <data name="LabelCreatedAt.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="LabelCreatedAt.Text" xml:space="preserve">
-    <value>LabelCreatedAt</value>
-  </data>
-  <data name="LabelCreatedAt.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>MiddleRight</value>
-  </data>
-  <data name="&gt;&gt;LabelCreatedAt.Name" xml:space="preserve">
-    <value>LabelCreatedAt</value>
-  </data>
-  <data name="&gt;&gt;LabelCreatedAt.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;LabelCreatedAt.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;LabelCreatedAt.ZOrder" xml:space="preserve">
-    <value>25</value>
-  </data>
-  <data name="LinkLabelTweet.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="LinkLabelTweet.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="LinkLabelTweet.Location" type="System.Drawing.Point, System.Drawing">
-    <value>107, 408</value>
-  </data>
-  <data name="LinkLabelTweet.Size" type="System.Drawing.Size, System.Drawing">
-    <value>84, 12</value>
-  </data>
-  <data name="LinkLabelTweet.TabIndex" type="System.Int32, mscorlib">
-    <value>32</value>
-  </data>
-  <data name="LinkLabelTweet.Text" xml:space="preserve">
-    <value>LinkLabelTweet</value>
-  </data>
-  <data name="&gt;&gt;LinkLabelTweet.Name" xml:space="preserve">
-    <value>LinkLabelTweet</value>
-  </data>
-  <data name="&gt;&gt;LinkLabelTweet.Type" xml:space="preserve">
-    <value>System.Windows.Forms.LinkLabel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;LinkLabelTweet.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;LinkLabelTweet.ZOrder" xml:space="preserve">
-    <value>26</value>
-  </data>
-  <data name="LabelIsFollowed.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="LabelIsFollowed.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="LabelIsFollowed.Location" type="System.Drawing.Point, System.Drawing">
-    <value>364, 156</value>
-  </data>
-  <data name="LabelIsFollowed.Size" type="System.Drawing.Size, System.Drawing">
-    <value>84, 12</value>
-  </data>
-  <data name="LabelIsFollowed.TabIndex" type="System.Int32, mscorlib">
-    <value>16</value>
-  </data>
-  <data name="LabelIsFollowed.Text" xml:space="preserve">
-    <value>Getting datas ...</value>
-  </data>
-  <data name="&gt;&gt;LabelIsFollowed.Name" xml:space="preserve">
-    <value>LabelIsFollowed</value>
-  </data>
-  <data name="&gt;&gt;LabelIsFollowed.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;LabelIsFollowed.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;LabelIsFollowed.ZOrder" xml:space="preserve">
-    <value>27</value>
-  </data>
-  <data name="Label8.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="Label8.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="Label8.Location" type="System.Drawing.Point, System.Drawing">
-    <value>14, 408</value>
-  </data>
-  <data name="Label8.Size" type="System.Drawing.Size, System.Drawing">
-    <value>83, 12</value>
-  </data>
-  <data name="Label8.TabIndex" type="System.Int32, mscorlib">
-    <value>31</value>
-  </data>
-  <data name="Label8.Text" xml:space="preserve">
-    <value>発言数（ホーム）</value>
-  </data>
-  <data name="&gt;&gt;Label8.Name" xml:space="preserve">
-    <value>Label8</value>
-  </data>
-  <data name="&gt;&gt;Label8.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;Label8.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;Label8.ZOrder" xml:space="preserve">
-    <value>28</value>
-  </data>
-  <data name="LabelIsFollowing.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="LabelIsFollowing.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="LabelIsFollowing.Location" type="System.Drawing.Point, System.Drawing">
-    <value>145, 156</value>
-  </data>
-  <data name="LabelIsFollowing.Size" type="System.Drawing.Size, System.Drawing">
-    <value>84, 12</value>
-  </data>
-  <data name="LabelIsFollowing.TabIndex" type="System.Int32, mscorlib">
-    <value>15</value>
-  </data>
-  <data name="LabelIsFollowing.Text" xml:space="preserve">
-    <value>Getting datas ...</value>
-  </data>
-  <data name="&gt;&gt;LabelIsFollowing.Name" xml:space="preserve">
-    <value>LabelIsFollowing</value>
-  </data>
-  <data name="&gt;&gt;LabelIsFollowing.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;LabelIsFollowing.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;LabelIsFollowing.ZOrder" xml:space="preserve">
-    <value>29</value>
-  </data>
-  <data name="LinkLabelFollowers.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="LinkLabelFollowers.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="LinkLabelFollowers.Location" type="System.Drawing.Point, System.Drawing">
-    <value>414, 383</value>
-  </data>
-  <data name="LinkLabelFollowers.Size" type="System.Drawing.Size, System.Drawing">
-    <value>102, 12</value>
-  </data>
-  <data name="LinkLabelFollowers.TabIndex" type="System.Int32, mscorlib">
-    <value>30</value>
-  </data>
-  <data name="LinkLabelFollowers.Text" xml:space="preserve">
-    <value>LinkLabelFollowers</value>
-  </data>
-  <data name="&gt;&gt;LinkLabelFollowers.Name" xml:space="preserve">
-    <value>LinkLabelFollowers</value>
-  </data>
-  <data name="&gt;&gt;LinkLabelFollowers.Type" xml:space="preserve">
-    <value>System.Windows.Forms.LinkLabel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;LinkLabelFollowers.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;LinkLabelFollowers.ZOrder" xml:space="preserve">
-    <value>30</value>
-  </data>
-  <data name="ButtonUnFollow.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="ButtonUnFollow.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="ButtonUnFollow.Location" type="System.Drawing.Point, System.Drawing">
-    <value>154, 182</value>
-  </data>
-  <data name="ButtonUnFollow.Size" type="System.Drawing.Size, System.Drawing">
-    <value>76, 25</value>
-  </data>
-  <data name="ButtonUnFollow.TabIndex" type="System.Int32, mscorlib">
-    <value>18</value>
-  </data>
-  <data name="ButtonUnFollow.Text" xml:space="preserve">
-    <value>フォロー解除</value>
-  </data>
-  <data name="&gt;&gt;ButtonUnFollow.Name" xml:space="preserve">
-    <value>ButtonUnFollow</value>
-  </data>
-  <data name="&gt;&gt;ButtonUnFollow.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;ButtonUnFollow.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;ButtonUnFollow.ZOrder" xml:space="preserve">
-    <value>31</value>
-  </data>
-  <data name="LinkLabelFollowing.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="LinkLabelFollowing.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="LinkLabelFollowing.Location" type="System.Drawing.Point, System.Drawing">
-    <value>107, 383</value>
-  </data>
-  <data name="LinkLabelFollowing.Size" type="System.Drawing.Size, System.Drawing">
-    <value>101, 12</value>
-  </data>
-  <data name="LinkLabelFollowing.TabIndex" type="System.Int32, mscorlib">
-    <value>28</value>
-  </data>
-  <data name="LinkLabelFollowing.Text" xml:space="preserve">
-    <value>LinkLabelFollowing</value>
-  </data>
-  <data name="&gt;&gt;LinkLabelFollowing.Name" xml:space="preserve">
-    <value>LinkLabelFollowing</value>
-  </data>
-  <data name="&gt;&gt;LinkLabelFollowing.Type" xml:space="preserve">
-    <value>System.Windows.Forms.LinkLabel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;LinkLabelFollowing.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;LinkLabelFollowing.ZOrder" xml:space="preserve">
-    <value>32</value>
-  </data>
-  <data name="Label6.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="Label6.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="Label6.Location" type="System.Drawing.Point, System.Drawing">
-    <value>290, 383</value>
-  </data>
-  <data name="Label6.Size" type="System.Drawing.Size, System.Drawing">
-    <value>87, 12</value>
-  </data>
-  <data name="Label6.TabIndex" type="System.Int32, mscorlib">
-    <value>29</value>
-  </data>
-  <data name="Label6.Text" xml:space="preserve">
-    <value>フォローされている</value>
-  </data>
-  <data name="&gt;&gt;Label6.Name" xml:space="preserve">
-    <value>Label6</value>
-  </data>
-  <data name="&gt;&gt;Label6.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;Label6.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;Label6.ZOrder" xml:space="preserve">
-    <value>33</value>
-  </data>
-  <data name="LabelName.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="LabelName.Location" type="System.Drawing.Point, System.Drawing">
-    <value>154, 56</value>
-  </data>
-  <data name="LabelName.Size" type="System.Drawing.Size, System.Drawing">
-    <value>286, 17</value>
-  </data>
-  <data name="LabelName.TabIndex" type="System.Int32, mscorlib">
-    <value>6</value>
-  </data>
-  <data name="LabelName.Text" xml:space="preserve">
-    <value>LabelName</value>
-  </data>
-  <data name="LabelName.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>MiddleLeft</value>
-  </data>
-  <data name="&gt;&gt;LabelName.Name" xml:space="preserve">
-    <value>LabelName</value>
-  </data>
-  <data name="&gt;&gt;LabelName.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;LabelName.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;LabelName.ZOrder" xml:space="preserve">
-    <value>34</value>
-  </data>
-  <data name="ButtonFollow.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="ButtonFollow.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="ButtonFollow.Location" type="System.Drawing.Point, System.Drawing">
-    <value>72, 182</value>
-  </data>
-  <data name="ButtonFollow.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 25</value>
-  </data>
-  <data name="ButtonFollow.TabIndex" type="System.Int32, mscorlib">
-    <value>17</value>
-  </data>
-  <data name="ButtonFollow.Text" xml:space="preserve">
-    <value>フォローする</value>
-  </data>
-  <data name="&gt;&gt;ButtonFollow.Name" xml:space="preserve">
-    <value>ButtonFollow</value>
-  </data>
-  <data name="&gt;&gt;ButtonFollow.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;ButtonFollow.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;ButtonFollow.ZOrder" xml:space="preserve">
-    <value>35</value>
-  </data>
-  <data name="Label5.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="Label5.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="Label5.Location" type="System.Drawing.Point, System.Drawing">
-    <value>14, 383</value>
-  </data>
-  <data name="Label5.Size" type="System.Drawing.Size, System.Drawing">
-    <value>77, 12</value>
-  </data>
-  <data name="Label5.TabIndex" type="System.Int32, mscorlib">
-    <value>27</value>
-  </data>
-  <data name="Label5.Text" xml:space="preserve">
-    <value>フォローしている</value>
-  </data>
-  <data name="&gt;&gt;Label5.Name" xml:space="preserve">
-    <value>Label5</value>
-  </data>
-  <data name="&gt;&gt;Label5.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;Label5.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;Label5.ZOrder" xml:space="preserve">
-    <value>36</value>
-  </data>
-  <data name="Label7.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Right</value>
-  </data>
-  <data name="Label7.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="Label7.Location" type="System.Drawing.Point, System.Drawing">
-    <value>446, 9</value>
-  </data>
-  <data name="Label7.Size" type="System.Drawing.Size, System.Drawing">
-    <value>126, 15</value>
-  </data>
-  <data name="Label7.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="Label7.Text" xml:space="preserve">
-    <value>アカウント作成日時</value>
-  </data>
-  <data name="Label7.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>TopRight</value>
-  </data>
-  <data name="&gt;&gt;Label7.Name" xml:space="preserve">
-    <value>Label7</value>
-  </data>
-  <data name="&gt;&gt;Label7.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;Label7.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;Label7.ZOrder" xml:space="preserve">
-    <value>37</value>
-  </data>
-  <data name="Label4.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="Label4.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="Label4.Location" type="System.Drawing.Point, System.Drawing">
-    <value>10, 215</value>
-  </data>
-  <data name="Label4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>53, 12</value>
-  </data>
-  <data name="Label4.TabIndex" type="System.Int32, mscorlib">
-    <value>23</value>
-  </data>
-  <data name="Label4.Text" xml:space="preserve">
-    <value>自己紹介</value>
-  </data>
-  <data name="&gt;&gt;Label4.Name" xml:space="preserve">
-    <value>Label4</value>
-  </data>
-  <data name="&gt;&gt;Label4.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;Label4.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;Label4.ZOrder" xml:space="preserve">
-    <value>38</value>
-  </data>
-  <data name="LabelLocation.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="LabelLocation.Location" type="System.Drawing.Point, System.Drawing">
-    <value>154, 80</value>
-  </data>
-  <data name="LabelLocation.Size" type="System.Drawing.Size, System.Drawing">
-    <value>418, 17</value>
-  </data>
-  <data name="LabelLocation.TabIndex" type="System.Int32, mscorlib">
-    <value>8</value>
-  </data>
-  <data name="LabelLocation.Text" xml:space="preserve">
-    <value>LabelLocation</value>
-  </data>
-  <data name="LabelLocation.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>MiddleLeft</value>
-  </data>
-  <data name="&gt;&gt;LabelLocation.Name" xml:space="preserve">
-    <value>LabelLocation</value>
-  </data>
-  <data name="&gt;&gt;LabelLocation.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;LabelLocation.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;LabelLocation.ZOrder" xml:space="preserve">
-    <value>39</value>
-  </data>
-  <metadata name="OpenFileDialogIcon.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>367, 17</value>
-  </metadata>
-  <data name="LinkLabelWeb.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="LinkLabelWeb.Location" type="System.Drawing.Point, System.Drawing">
-    <value>154, 103</value>
-  </data>
-  <data name="LinkLabelWeb.Size" type="System.Drawing.Size, System.Drawing">
-    <value>418, 17</value>
-  </data>
-  <data name="LinkLabelWeb.TabIndex" type="System.Int32, mscorlib">
-    <value>10</value>
-  </data>
-  <data name="LinkLabelWeb.Text" xml:space="preserve">
-    <value>LinkLabelWeb</value>
-  </data>
-  <data name="LinkLabelWeb.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>MiddleLeft</value>
-  </data>
-  <data name="&gt;&gt;LinkLabelWeb.Name" xml:space="preserve">
-    <value>LinkLabelWeb</value>
-  </data>
-  <data name="&gt;&gt;LinkLabelWeb.Type" xml:space="preserve">
-    <value>System.Windows.Forms.LinkLabel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;LinkLabelWeb.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;LinkLabelWeb.ZOrder" xml:space="preserve">
-    <value>40</value>
-  </data>
-  <data name="Label1.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="Label1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="Label1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>100, 57</value>
-  </data>
-  <data name="Label1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>29, 12</value>
-  </data>
-  <data name="Label1.TabIndex" type="System.Int32, mscorlib">
-    <value>5</value>
-  </data>
-  <data name="Label1.Text" xml:space="preserve">
-    <value>名前</value>
-  </data>
-  <data name="&gt;&gt;Label1.Name" xml:space="preserve">
-    <value>Label1</value>
-  </data>
-  <data name="&gt;&gt;Label1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;Label1.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;Label1.ZOrder" xml:space="preserve">
-    <value>41</value>
-  </data>
-  <data name="Label3.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="Label3.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="Label3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>100, 104</value>
-  </data>
-  <data name="Label3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>26, 12</value>
-  </data>
-  <data name="Label3.TabIndex" type="System.Int32, mscorlib">
-    <value>9</value>
-  </data>
-  <data name="Label3.Text" xml:space="preserve">
-    <value>Web</value>
-  </data>
-  <data name="&gt;&gt;Label3.Name" xml:space="preserve">
-    <value>Label3</value>
-  </data>
-  <data name="&gt;&gt;Label3.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;Label3.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;Label3.ZOrder" xml:space="preserve">
-    <value>42</value>
-  </data>
-  <data name="Label2.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="Label2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="Label2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>100, 81</value>
-  </data>
-  <data name="Label2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>41, 12</value>
-  </data>
-  <data name="Label2.TabIndex" type="System.Int32, mscorlib">
-    <value>7</value>
-  </data>
-  <data name="Label2.Text" xml:space="preserve">
-    <value>現在地</value>
-  </data>
-  <data name="&gt;&gt;Label2.Name" xml:space="preserve">
-    <value>Label2</value>
-  </data>
-  <data name="&gt;&gt;Label2.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;Label2.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;Label2.ZOrder" xml:space="preserve">
-    <value>43</value>
-  </data>
-  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>45</value>
-  </metadata>
-  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
-    <value>96, 96</value>
-  </data>
-  <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>584, 466</value>
-  </data>
-  <data name="$this.StartPosition" type="System.Windows.Forms.FormStartPosition, System.Windows.Forms">
-    <value>CenterParent</value>
-  </data>
-  <data name="$this.Text" xml:space="preserve">
-    <value>ユーザー情報</value>
-  </data>
-  <data name="&gt;&gt;SelectionCopyToolStripMenuItem.Name" xml:space="preserve">
-    <value>SelectionCopyToolStripMenuItem</value>
-  </data>
-  <data name="&gt;&gt;SelectionCopyToolStripMenuItem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;SelectAllToolStripMenuItem.Name" xml:space="preserve">
-    <value>SelectAllToolStripMenuItem</value>
-  </data>
-  <data name="&gt;&gt;SelectAllToolStripMenuItem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;ToolTip1.Name" xml:space="preserve">
-    <value>ToolTip1</value>
-  </data>
-  <data name="&gt;&gt;ToolTip1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolTip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;ChangeIconToolStripMenuItem.Name" xml:space="preserve">
-    <value>ChangeIconToolStripMenuItem</value>
-  </data>
-  <data name="&gt;&gt;ChangeIconToolStripMenuItem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;OpenFileDialogIcon.Name" xml:space="preserve">
-    <value>OpenFileDialogIcon</value>
-  </data>
-  <data name="&gt;&gt;OpenFileDialogIcon.Type" xml:space="preserve">
-    <value>System.Windows.Forms.OpenFileDialog, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;$this.Name" xml:space="preserve">
-    <value>UserInfoDialog</value>
-  </data>
-  <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>OpenTween.OTBaseForm, OpenTween, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
+	<data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing"><value>96, 96</value></data>
+	<data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing"><value>584, 466</value></data>
+	<metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"><value>True</value></metadata>
+	<data name="$this.StartPosition" type="System.Windows.Forms.FormStartPosition, System.Windows.Forms"><value>CenterParent</value></data>
+	<data name="$this.Text"><value>ユーザー情報</value></data>
+	<metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"><value>45</value></metadata>
+	<data name="&gt;&gt;$this.Name"><value>UserInfoDialog</value></data>
+	<data name="&gt;&gt;$this.Type"><value>OpenTween.OTBaseForm, OpenTween, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</value></data>
+	<data name="&gt;&gt;ButtonBlock.Name"><value>ButtonBlock</value></data>
+	<data name="&gt;&gt;ButtonBlock.Parent"><value>$this</value></data>
+	<data name="&gt;&gt;ButtonBlock.Type"><value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;ButtonBlock.ZOrder"><value>5</value></data>
+	<data name="&gt;&gt;ButtonBlockDestroy.Name"><value>ButtonBlockDestroy</value></data>
+	<data name="&gt;&gt;ButtonBlockDestroy.Parent"><value>$this</value></data>
+	<data name="&gt;&gt;ButtonBlockDestroy.Type"><value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;ButtonBlockDestroy.ZOrder"><value>3</value></data>
+	<data name="&gt;&gt;ButtonClose.Name"><value>ButtonClose</value></data>
+	<data name="&gt;&gt;ButtonClose.Parent"><value>$this</value></data>
+	<data name="&gt;&gt;ButtonClose.Type"><value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;ButtonClose.ZOrder"><value>20</value></data>
+	<data name="&gt;&gt;ButtonEdit.Name"><value>ButtonEdit</value></data>
+	<data name="&gt;&gt;ButtonEdit.Parent"><value>$this</value></data>
+	<data name="&gt;&gt;ButtonEdit.Type"><value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;ButtonEdit.ZOrder"><value>8</value></data>
+	<data name="&gt;&gt;ButtonFollow.Name"><value>ButtonFollow</value></data>
+	<data name="&gt;&gt;ButtonFollow.Parent"><value>$this</value></data>
+	<data name="&gt;&gt;ButtonFollow.Type"><value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;ButtonFollow.ZOrder"><value>35</value></data>
+	<data name="&gt;&gt;ButtonReportSpam.Name"><value>ButtonReportSpam</value></data>
+	<data name="&gt;&gt;ButtonReportSpam.Parent"><value>$this</value></data>
+	<data name="&gt;&gt;ButtonReportSpam.Type"><value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;ButtonReportSpam.ZOrder"><value>4</value></data>
+	<data name="&gt;&gt;ButtonSearchPosts.Name"><value>ButtonSearchPosts</value></data>
+	<data name="&gt;&gt;ButtonSearchPosts.Parent"><value>$this</value></data>
+	<data name="&gt;&gt;ButtonSearchPosts.Type"><value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;ButtonSearchPosts.ZOrder"><value>13</value></data>
+	<data name="&gt;&gt;ButtonUnFollow.Name"><value>ButtonUnFollow</value></data>
+	<data name="&gt;&gt;ButtonUnFollow.Parent"><value>$this</value></data>
+	<data name="&gt;&gt;ButtonUnFollow.Type"><value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;ButtonUnFollow.ZOrder"><value>31</value></data>
+	<data name="&gt;&gt;ChangeIconToolStripMenuItem.Name"><value>ChangeIconToolStripMenuItem</value></data>
+	<data name="&gt;&gt;ChangeIconToolStripMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;ContextMenuRecentPostBrowser.Name"><value>ContextMenuRecentPostBrowser</value></data>
+	<data name="&gt;&gt;ContextMenuRecentPostBrowser.Type"><value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;ContextMenuUserPicture.Name"><value>ContextMenuUserPicture</value></data>
+	<data name="&gt;&gt;ContextMenuUserPicture.Type"><value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;DescriptionBrowser.Name"><value>DescriptionBrowser</value></data>
+	<data name="&gt;&gt;DescriptionBrowser.Parent"><value>$this</value></data>
+	<data name="&gt;&gt;DescriptionBrowser.Type"><value>System.Windows.Forms.WebBrowser, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;DescriptionBrowser.ZOrder"><value>17</value></data>
+	<data name="&gt;&gt;Label1.Name"><value>Label1</value></data>
+	<data name="&gt;&gt;Label1.Parent"><value>$this</value></data>
+	<data name="&gt;&gt;Label1.Type"><value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;Label1.ZOrder"><value>41</value></data>
+	<data name="&gt;&gt;Label12.Name"><value>Label12</value></data>
+	<data name="&gt;&gt;Label12.Parent"><value>$this</value></data>
+	<data name="&gt;&gt;Label12.Type"><value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;Label12.ZOrder"><value>12</value></data>
+	<data name="&gt;&gt;Label2.Name"><value>Label2</value></data>
+	<data name="&gt;&gt;Label2.Parent"><value>$this</value></data>
+	<data name="&gt;&gt;Label2.Type"><value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;Label2.ZOrder"><value>43</value></data>
+	<data name="&gt;&gt;Label3.Name"><value>Label3</value></data>
+	<data name="&gt;&gt;Label3.Parent"><value>$this</value></data>
+	<data name="&gt;&gt;Label3.Type"><value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;Label3.ZOrder"><value>42</value></data>
+	<data name="&gt;&gt;Label4.Name"><value>Label4</value></data>
+	<data name="&gt;&gt;Label4.Parent"><value>$this</value></data>
+	<data name="&gt;&gt;Label4.Type"><value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;Label4.ZOrder"><value>38</value></data>
+	<data name="&gt;&gt;Label5.Name"><value>Label5</value></data>
+	<data name="&gt;&gt;Label5.Parent"><value>$this</value></data>
+	<data name="&gt;&gt;Label5.Type"><value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;Label5.ZOrder"><value>36</value></data>
+	<data name="&gt;&gt;Label6.Name"><value>Label6</value></data>
+	<data name="&gt;&gt;Label6.Parent"><value>$this</value></data>
+	<data name="&gt;&gt;Label6.Type"><value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;Label6.ZOrder"><value>33</value></data>
+	<data name="&gt;&gt;Label7.Name"><value>Label7</value></data>
+	<data name="&gt;&gt;Label7.Parent"><value>$this</value></data>
+	<data name="&gt;&gt;Label7.Type"><value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;Label7.ZOrder"><value>37</value></data>
+	<data name="&gt;&gt;Label8.Name"><value>Label8</value></data>
+	<data name="&gt;&gt;Label8.Parent"><value>$this</value></data>
+	<data name="&gt;&gt;Label8.Type"><value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;Label8.ZOrder"><value>28</value></data>
+	<data name="&gt;&gt;Label9.Name"><value>Label9</value></data>
+	<data name="&gt;&gt;Label9.Parent"><value>$this</value></data>
+	<data name="&gt;&gt;Label9.Type"><value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;Label9.ZOrder"><value>23</value></data>
+	<data name="&gt;&gt;LabelCreatedAt.Name"><value>LabelCreatedAt</value></data>
+	<data name="&gt;&gt;LabelCreatedAt.Parent"><value>$this</value></data>
+	<data name="&gt;&gt;LabelCreatedAt.Type"><value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;LabelCreatedAt.ZOrder"><value>25</value></data>
+	<data name="&gt;&gt;LabelId.Name"><value>LabelId</value></data>
+	<data name="&gt;&gt;LabelId.Parent"><value>$this</value></data>
+	<data name="&gt;&gt;LabelId.Type"><value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;LabelId.ZOrder"><value>9</value></data>
+	<data name="&gt;&gt;LabelIsFollowed.Name"><value>LabelIsFollowed</value></data>
+	<data name="&gt;&gt;LabelIsFollowed.Parent"><value>$this</value></data>
+	<data name="&gt;&gt;LabelIsFollowed.Type"><value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;LabelIsFollowed.ZOrder"><value>27</value></data>
+	<data name="&gt;&gt;LabelIsFollowing.Name"><value>LabelIsFollowing</value></data>
+	<data name="&gt;&gt;LabelIsFollowing.Parent"><value>$this</value></data>
+	<data name="&gt;&gt;LabelIsFollowing.Type"><value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;LabelIsFollowing.ZOrder"><value>29</value></data>
+	<data name="&gt;&gt;LabelIsProtected.Name"><value>LabelIsProtected</value></data>
+	<data name="&gt;&gt;LabelIsProtected.Parent"><value>$this</value></data>
+	<data name="&gt;&gt;LabelIsProtected.Type"><value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;LabelIsProtected.ZOrder"><value>24</value></data>
+	<data name="&gt;&gt;LabelIsVerified.Name"><value>LabelIsVerified</value></data>
+	<data name="&gt;&gt;LabelIsVerified.Parent"><value>$this</value></data>
+	<data name="&gt;&gt;LabelIsVerified.Type"><value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;LabelIsVerified.ZOrder"><value>16</value></data>
+	<data name="&gt;&gt;LabelLocation.Name"><value>LabelLocation</value></data>
+	<data name="&gt;&gt;LabelLocation.Parent"><value>$this</value></data>
+	<data name="&gt;&gt;LabelLocation.Type"><value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;LabelLocation.ZOrder"><value>39</value></data>
+	<data name="&gt;&gt;LabelName.Name"><value>LabelName</value></data>
+	<data name="&gt;&gt;LabelName.Parent"><value>$this</value></data>
+	<data name="&gt;&gt;LabelName.Type"><value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;LabelName.ZOrder"><value>34</value></data>
+	<data name="&gt;&gt;LabelRecentPost.Name"><value>LabelRecentPost</value></data>
+	<data name="&gt;&gt;LabelRecentPost.Parent"><value>$this</value></data>
+	<data name="&gt;&gt;LabelRecentPost.Type"><value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;LabelRecentPost.ZOrder"><value>19</value></data>
+	<data name="&gt;&gt;LabelScreenName.Name"><value>LabelScreenName</value></data>
+	<data name="&gt;&gt;LabelScreenName.Parent"><value>$this</value></data>
+	<data name="&gt;&gt;LabelScreenName.Type"><value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;LabelScreenName.ZOrder"><value>18</value></data>
+	<data name="&gt;&gt;LinkLabel1.Name"><value>LinkLabel1</value></data>
+	<data name="&gt;&gt;LinkLabel1.Parent"><value>$this</value></data>
+	<data name="&gt;&gt;LinkLabel1.Type"><value>System.Windows.Forms.LinkLabel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;LinkLabel1.ZOrder"><value>14</value></data>
+	<data name="&gt;&gt;LinkLabel2.Name"><value>LinkLabel2</value></data>
+	<data name="&gt;&gt;LinkLabel2.Parent"><value>$this</value></data>
+	<data name="&gt;&gt;LinkLabel2.Type"><value>System.Windows.Forms.LinkLabel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;LinkLabel2.ZOrder"><value>2</value></data>
+	<data name="&gt;&gt;LinkLabelFav.Name"><value>LinkLabelFav</value></data>
+	<data name="&gt;&gt;LinkLabelFav.Parent"><value>$this</value></data>
+	<data name="&gt;&gt;LinkLabelFav.Type"><value>System.Windows.Forms.LinkLabel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;LinkLabelFav.ZOrder"><value>22</value></data>
+	<data name="&gt;&gt;LinkLabelFollowers.Name"><value>LinkLabelFollowers</value></data>
+	<data name="&gt;&gt;LinkLabelFollowers.Parent"><value>$this</value></data>
+	<data name="&gt;&gt;LinkLabelFollowers.Type"><value>System.Windows.Forms.LinkLabel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;LinkLabelFollowers.ZOrder"><value>30</value></data>
+	<data name="&gt;&gt;LinkLabelFollowing.Name"><value>LinkLabelFollowing</value></data>
+	<data name="&gt;&gt;LinkLabelFollowing.Parent"><value>$this</value></data>
+	<data name="&gt;&gt;LinkLabelFollowing.Type"><value>System.Windows.Forms.LinkLabel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;LinkLabelFollowing.ZOrder"><value>32</value></data>
+	<data name="&gt;&gt;LinkLabelTweet.Name"><value>LinkLabelTweet</value></data>
+	<data name="&gt;&gt;LinkLabelTweet.Parent"><value>$this</value></data>
+	<data name="&gt;&gt;LinkLabelTweet.Type"><value>System.Windows.Forms.LinkLabel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;LinkLabelTweet.ZOrder"><value>26</value></data>
+	<data name="&gt;&gt;LinkLabelWeb.Name"><value>LinkLabelWeb</value></data>
+	<data name="&gt;&gt;LinkLabelWeb.Parent"><value>$this</value></data>
+	<data name="&gt;&gt;LinkLabelWeb.Type"><value>System.Windows.Forms.LinkLabel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;LinkLabelWeb.ZOrder"><value>40</value></data>
+	<data name="&gt;&gt;OpenFileDialogIcon.Name"><value>OpenFileDialogIcon</value></data>
+	<data name="&gt;&gt;OpenFileDialogIcon.Type"><value>System.Windows.Forms.OpenFileDialog, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;RecentPostBrowser.Name"><value>RecentPostBrowser</value></data>
+	<data name="&gt;&gt;RecentPostBrowser.Parent"><value>$this</value></data>
+	<data name="&gt;&gt;RecentPostBrowser.Type"><value>System.Windows.Forms.WebBrowser, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;RecentPostBrowser.ZOrder"><value>15</value></data>
+	<data name="&gt;&gt;SelectAllToolStripMenuItem.Name"><value>SelectAllToolStripMenuItem</value></data>
+	<data name="&gt;&gt;SelectAllToolStripMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;SelectionCopyToolStripMenuItem.Name"><value>SelectionCopyToolStripMenuItem</value></data>
+	<data name="&gt;&gt;SelectionCopyToolStripMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;TextBoxDescription.Name"><value>TextBoxDescription</value></data>
+	<data name="&gt;&gt;TextBoxDescription.Parent"><value>$this</value></data>
+	<data name="&gt;&gt;TextBoxDescription.Type"><value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;TextBoxDescription.ZOrder"><value>6</value></data>
+	<data name="&gt;&gt;TextBoxLocation.Name"><value>TextBoxLocation</value></data>
+	<data name="&gt;&gt;TextBoxLocation.Parent"><value>$this</value></data>
+	<data name="&gt;&gt;TextBoxLocation.Type"><value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;TextBoxLocation.ZOrder"><value>10</value></data>
+	<data name="&gt;&gt;TextBoxName.Name"><value>TextBoxName</value></data>
+	<data name="&gt;&gt;TextBoxName.Parent"><value>$this</value></data>
+	<data name="&gt;&gt;TextBoxName.Type"><value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;TextBoxName.ZOrder"><value>11</value></data>
+	<data name="&gt;&gt;TextBoxWeb.Name"><value>TextBoxWeb</value></data>
+	<data name="&gt;&gt;TextBoxWeb.Parent"><value>$this</value></data>
+	<data name="&gt;&gt;TextBoxWeb.Type"><value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;TextBoxWeb.ZOrder"><value>7</value></data>
+	<data name="&gt;&gt;ToolTip1.Name"><value>ToolTip1</value></data>
+	<data name="&gt;&gt;ToolTip1.Type"><value>System.Windows.Forms.ToolTip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;UserPicture.Name"><value>UserPicture</value></data>
+	<data name="&gt;&gt;UserPicture.Parent"><value>$this</value></data>
+	<data name="&gt;&gt;UserPicture.Type"><value>OpenTween.OTPictureBox, OpenTween, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</value></data>
+	<data name="&gt;&gt;UserPicture.ZOrder"><value>21</value></data>
+	<data name="ButtonBlock.AutoSize" type="System.Boolean, mscorlib"><value>True</value></data>
+	<data name="ButtonBlock.Location" type="System.Drawing.Point, System.Drawing"><value>416, 182</value></data>
+	<data name="ButtonBlock.Size" type="System.Drawing.Size, System.Drawing"><value>75, 25</value></data>
+	<data name="ButtonBlock.TabIndex" type="System.Int32, mscorlib"><value>21</value></data>
+	<data name="ButtonBlock.Text"><value>ブロック</value></data>
+	<data name="ButtonBlockDestroy.AutoSize" type="System.Boolean, mscorlib"><value>True</value></data>
+	<data name="ButtonBlockDestroy.Location" type="System.Drawing.Point, System.Drawing"><value>335, 182</value></data>
+	<data name="ButtonBlockDestroy.Size" type="System.Drawing.Size, System.Drawing"><value>75, 25</value></data>
+	<data name="ButtonBlockDestroy.TabIndex" type="System.Int32, mscorlib"><value>20</value></data>
+	<data name="ButtonBlockDestroy.Text"><value>ブロック解除</value></data>
+	<data name="ButtonClose.AutoSize" type="System.Boolean, mscorlib"><value>True</value></data>
+	<data name="ButtonClose.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms"><value>NoControl</value></data>
+	<data name="ButtonClose.Location" type="System.Drawing.Point, System.Drawing"><value>497, 429</value></data>
+	<data name="ButtonClose.Size" type="System.Drawing.Size, System.Drawing"><value>75, 25</value></data>
+	<data name="ButtonClose.TabIndex" type="System.Int32, mscorlib"><value>36</value></data>
+	<data name="ButtonClose.Text"><value>閉じる</value></data>
+	<data name="ButtonEdit.AutoSize" type="System.Boolean, mscorlib"><value>True</value></data>
+	<data name="ButtonEdit.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms"><value>NoControl</value></data>
+	<data name="ButtonEdit.Location" type="System.Drawing.Point, System.Drawing"><value>12, 429</value></data>
+	<data name="ButtonEdit.Size" type="System.Drawing.Size, System.Drawing"><value>75, 25</value></data>
+	<data name="ButtonEdit.TabIndex" type="System.Int32, mscorlib"><value>35</value></data>
+	<data name="ButtonEdit.Text"><value>編集</value></data>
+	<data name="ButtonFollow.AutoSize" type="System.Boolean, mscorlib"><value>True</value></data>
+	<data name="ButtonFollow.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms"><value>NoControl</value></data>
+	<data name="ButtonFollow.Location" type="System.Drawing.Point, System.Drawing"><value>72, 182</value></data>
+	<data name="ButtonFollow.Size" type="System.Drawing.Size, System.Drawing"><value>75, 25</value></data>
+	<data name="ButtonFollow.TabIndex" type="System.Int32, mscorlib"><value>17</value></data>
+	<data name="ButtonFollow.Text"><value>フォローする</value></data>
+	<data name="ButtonReportSpam.AutoSize" type="System.Boolean, mscorlib"><value>True</value></data>
+	<data name="ButtonReportSpam.Location" type="System.Drawing.Point, System.Drawing"><value>497, 182</value></data>
+	<data name="ButtonReportSpam.Size" type="System.Drawing.Size, System.Drawing"><value>75, 25</value></data>
+	<data name="ButtonReportSpam.TabIndex" type="System.Int32, mscorlib"><value>22</value></data>
+	<data name="ButtonReportSpam.Text"><value>スパム報告</value></data>
+	<data name="ButtonSearchPosts.AutoSize" type="System.Boolean, mscorlib"><value>True</value></data>
+	<data name="ButtonSearchPosts.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms"><value>NoControl</value></data>
+	<data name="ButtonSearchPosts.Location" type="System.Drawing.Point, System.Drawing"><value>243, 182</value></data>
+	<data name="ButtonSearchPosts.Size" type="System.Drawing.Size, System.Drawing"><value>75, 25</value></data>
+	<data name="ButtonSearchPosts.TabIndex" type="System.Int32, mscorlib"><value>19</value></data>
+	<data name="ButtonSearchPosts.Text"><value>TLを取得</value></data>
+	<data name="ButtonUnFollow.AutoSize" type="System.Boolean, mscorlib"><value>True</value></data>
+	<data name="ButtonUnFollow.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms"><value>NoControl</value></data>
+	<data name="ButtonUnFollow.Location" type="System.Drawing.Point, System.Drawing"><value>154, 182</value></data>
+	<data name="ButtonUnFollow.Size" type="System.Drawing.Size, System.Drawing"><value>76, 25</value></data>
+	<data name="ButtonUnFollow.TabIndex" type="System.Int32, mscorlib"><value>18</value></data>
+	<data name="ButtonUnFollow.Text"><value>フォロー解除</value></data>
+	<data name="ChangeIconToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>143, 22</value></data>
+	<data name="ChangeIconToolStripMenuItem.Text"><value>アイコンの変更</value></data>
+	<data name="ContextMenuRecentPostBrowser.Size" type="System.Drawing.Size, System.Drawing"><value>171, 48</value></data>
+	<metadata name="ContextMenuRecentPostBrowser.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"><value>120, 17</value></metadata>
+	<data name="ContextMenuUserPicture.Size" type="System.Drawing.Size, System.Drawing"><value>144, 26</value></data>
+	<metadata name="ContextMenuUserPicture.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"><value>534, 17</value></metadata>
+	<data name="DescriptionBrowser.Location" type="System.Drawing.Point, System.Drawing"><value>82, 211</value></data>
+	<data name="DescriptionBrowser.Size" type="System.Drawing.Size, System.Drawing"><value>490, 73</value></data>
+	<data name="DescriptionBrowser.TabIndex" type="System.Int32, mscorlib"><value>24</value></data>
+	<data name="Label1.AutoSize" type="System.Boolean, mscorlib"><value>True</value></data>
+	<data name="Label1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms"><value>NoControl</value></data>
+	<data name="Label1.Location" type="System.Drawing.Point, System.Drawing"><value>100, 57</value></data>
+	<data name="Label1.Size" type="System.Drawing.Size, System.Drawing"><value>29, 12</value></data>
+	<data name="Label1.TabIndex" type="System.Int32, mscorlib"><value>5</value></data>
+	<data name="Label1.Text"><value>名前</value></data>
+	<data name="Label12.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms"><value>Top, Right</value></data>
+	<data name="Label12.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms"><value>NoControl</value></data>
+	<data name="Label12.Location" type="System.Drawing.Point, System.Drawing"><value>446, 41</value></data>
+	<data name="Label12.Size" type="System.Drawing.Size, System.Drawing"><value>126, 15</value></data>
+	<data name="Label12.TabIndex" type="System.Int32, mscorlib"><value>3</value></data>
+	<data name="Label12.Text"><value>アカウントID</value></data>
+	<data name="Label12.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing"><value>TopRight</value></data>
+	<data name="Label2.AutoSize" type="System.Boolean, mscorlib"><value>True</value></data>
+	<data name="Label2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms"><value>NoControl</value></data>
+	<data name="Label2.Location" type="System.Drawing.Point, System.Drawing"><value>100, 81</value></data>
+	<data name="Label2.Size" type="System.Drawing.Size, System.Drawing"><value>41, 12</value></data>
+	<data name="Label2.TabIndex" type="System.Int32, mscorlib"><value>7</value></data>
+	<data name="Label2.Text"><value>現在地</value></data>
+	<data name="Label3.AutoSize" type="System.Boolean, mscorlib"><value>True</value></data>
+	<data name="Label3.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms"><value>NoControl</value></data>
+	<data name="Label3.Location" type="System.Drawing.Point, System.Drawing"><value>100, 104</value></data>
+	<data name="Label3.Size" type="System.Drawing.Size, System.Drawing"><value>26, 12</value></data>
+	<data name="Label3.TabIndex" type="System.Int32, mscorlib"><value>9</value></data>
+	<data name="Label3.Text"><value>Web</value></data>
+	<data name="Label4.AutoSize" type="System.Boolean, mscorlib"><value>True</value></data>
+	<data name="Label4.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms"><value>NoControl</value></data>
+	<data name="Label4.Location" type="System.Drawing.Point, System.Drawing"><value>10, 215</value></data>
+	<data name="Label4.Size" type="System.Drawing.Size, System.Drawing"><value>53, 12</value></data>
+	<data name="Label4.TabIndex" type="System.Int32, mscorlib"><value>23</value></data>
+	<data name="Label4.Text"><value>自己紹介</value></data>
+	<data name="Label5.AutoSize" type="System.Boolean, mscorlib"><value>True</value></data>
+	<data name="Label5.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms"><value>NoControl</value></data>
+	<data name="Label5.Location" type="System.Drawing.Point, System.Drawing"><value>14, 383</value></data>
+	<data name="Label5.Size" type="System.Drawing.Size, System.Drawing"><value>77, 12</value></data>
+	<data name="Label5.TabIndex" type="System.Int32, mscorlib"><value>27</value></data>
+	<data name="Label5.Text"><value>フォローしている</value></data>
+	<data name="Label6.AutoSize" type="System.Boolean, mscorlib"><value>True</value></data>
+	<data name="Label6.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms"><value>NoControl</value></data>
+	<data name="Label6.Location" type="System.Drawing.Point, System.Drawing"><value>290, 383</value></data>
+	<data name="Label6.Size" type="System.Drawing.Size, System.Drawing"><value>87, 12</value></data>
+	<data name="Label6.TabIndex" type="System.Int32, mscorlib"><value>29</value></data>
+	<data name="Label6.Text"><value>フォローされている</value></data>
+	<data name="Label7.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms"><value>Top, Right</value></data>
+	<data name="Label7.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms"><value>NoControl</value></data>
+	<data name="Label7.Location" type="System.Drawing.Point, System.Drawing"><value>446, 9</value></data>
+	<data name="Label7.Size" type="System.Drawing.Size, System.Drawing"><value>126, 15</value></data>
+	<data name="Label7.TabIndex" type="System.Int32, mscorlib"><value>1</value></data>
+	<data name="Label7.Text"><value>アカウント作成日時</value></data>
+	<data name="Label7.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing"><value>TopRight</value></data>
+	<data name="Label8.AutoSize" type="System.Boolean, mscorlib"><value>True</value></data>
+	<data name="Label8.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms"><value>NoControl</value></data>
+	<data name="Label8.Location" type="System.Drawing.Point, System.Drawing"><value>14, 408</value></data>
+	<data name="Label8.Size" type="System.Drawing.Size, System.Drawing"><value>83, 12</value></data>
+	<data name="Label8.TabIndex" type="System.Int32, mscorlib"><value>31</value></data>
+	<data name="Label8.Text"><value>発言数（ホーム）</value></data>
+	<data name="Label9.AutoSize" type="System.Boolean, mscorlib"><value>True</value></data>
+	<data name="Label9.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms"><value>NoControl</value></data>
+	<data name="Label9.Location" type="System.Drawing.Point, System.Drawing"><value>290, 407</value></data>
+	<data name="Label9.Size" type="System.Drawing.Size, System.Drawing"><value>56, 12</value></data>
+	<data name="Label9.TabIndex" type="System.Int32, mscorlib"><value>33</value></data>
+	<data name="Label9.Text"><value>お気に入り</value></data>
+	<data name="LabelCreatedAt.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms"><value>Top, Right</value></data>
+	<data name="LabelCreatedAt.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms"><value>NoControl</value></data>
+	<data name="LabelCreatedAt.Location" type="System.Drawing.Point, System.Drawing"><value>446, 24</value></data>
+	<data name="LabelCreatedAt.Size" type="System.Drawing.Size, System.Drawing"><value>126, 17</value></data>
+	<data name="LabelCreatedAt.TabIndex" type="System.Int32, mscorlib"><value>2</value></data>
+	<data name="LabelCreatedAt.Text"><value>LabelCreatedAt</value></data>
+	<data name="LabelCreatedAt.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing"><value>MiddleRight</value></data>
+	<data name="LabelId.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms"><value>Top, Right</value></data>
+	<data name="LabelId.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms"><value>NoControl</value></data>
+	<data name="LabelId.Location" type="System.Drawing.Point, System.Drawing"><value>446, 56</value></data>
+	<data name="LabelId.Size" type="System.Drawing.Size, System.Drawing"><value>126, 17</value></data>
+	<data name="LabelId.TabIndex" type="System.Int32, mscorlib"><value>4</value></data>
+	<data name="LabelId.Text"><value>LabelId</value></data>
+	<data name="LabelId.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing"><value>MiddleRight</value></data>
+	<data name="LabelIsFollowed.AutoSize" type="System.Boolean, mscorlib"><value>True</value></data>
+	<data name="LabelIsFollowed.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms"><value>NoControl</value></data>
+	<data name="LabelIsFollowed.Location" type="System.Drawing.Point, System.Drawing"><value>364, 156</value></data>
+	<data name="LabelIsFollowed.Size" type="System.Drawing.Size, System.Drawing"><value>84, 12</value></data>
+	<data name="LabelIsFollowed.TabIndex" type="System.Int32, mscorlib"><value>16</value></data>
+	<data name="LabelIsFollowed.Text"><value>Getting datas ...</value></data>
+	<data name="LabelIsFollowing.AutoSize" type="System.Boolean, mscorlib"><value>True</value></data>
+	<data name="LabelIsFollowing.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms"><value>NoControl</value></data>
+	<data name="LabelIsFollowing.Location" type="System.Drawing.Point, System.Drawing"><value>145, 156</value></data>
+	<data name="LabelIsFollowing.Size" type="System.Drawing.Size, System.Drawing"><value>84, 12</value></data>
+	<data name="LabelIsFollowing.TabIndex" type="System.Int32, mscorlib"><value>15</value></data>
+	<data name="LabelIsFollowing.Text"><value>Getting datas ...</value></data>
+	<data name="LabelIsProtected.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms"><value>Top, Right</value></data>
+	<data name="LabelIsProtected.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms"><value>NoControl</value></data>
+	<data name="LabelIsProtected.Location" type="System.Drawing.Point, System.Drawing"><value>253, 126</value></data>
+	<data name="LabelIsProtected.Size" type="System.Drawing.Size, System.Drawing"><value>75, 17</value></data>
+	<data name="LabelIsProtected.TabIndex" type="System.Int32, mscorlib"><value>12</value></data>
+	<data name="LabelIsProtected.Text"><value>LabelIsProtected</value></data>
+	<data name="LabelIsProtected.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing"><value>MiddleLeft</value></data>
+	<data name="LabelIsVerified.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms"><value>Top, Right</value></data>
+	<data name="LabelIsVerified.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms"><value>NoControl</value></data>
+	<data name="LabelIsVerified.Location" type="System.Drawing.Point, System.Drawing"><value>497, 126</value></data>
+	<data name="LabelIsVerified.Size" type="System.Drawing.Size, System.Drawing"><value>75, 17</value></data>
+	<data name="LabelIsVerified.TabIndex" type="System.Int32, mscorlib"><value>14</value></data>
+	<data name="LabelIsVerified.Text"><value>LabelIsVerified</value></data>
+	<data name="LabelIsVerified.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing"><value>MiddleLeft</value></data>
+	<data name="LabelLocation.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms"><value>NoControl</value></data>
+	<data name="LabelLocation.Location" type="System.Drawing.Point, System.Drawing"><value>154, 80</value></data>
+	<data name="LabelLocation.Size" type="System.Drawing.Size, System.Drawing"><value>418, 17</value></data>
+	<data name="LabelLocation.TabIndex" type="System.Int32, mscorlib"><value>8</value></data>
+	<data name="LabelLocation.Text"><value>LabelLocation</value></data>
+	<data name="LabelLocation.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing"><value>MiddleLeft</value></data>
+	<data name="LabelName.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms"><value>NoControl</value></data>
+	<data name="LabelName.Location" type="System.Drawing.Point, System.Drawing"><value>154, 56</value></data>
+	<data name="LabelName.Size" type="System.Drawing.Size, System.Drawing"><value>286, 17</value></data>
+	<data name="LabelName.TabIndex" type="System.Int32, mscorlib"><value>6</value></data>
+	<data name="LabelName.Text"><value>LabelName</value></data>
+	<data name="LabelName.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing"><value>MiddleLeft</value></data>
+	<data name="LabelRecentPost.AutoSize" type="System.Boolean, mscorlib"><value>True</value></data>
+	<data name="LabelRecentPost.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms"><value>NoControl</value></data>
+	<data name="LabelRecentPost.Location" type="System.Drawing.Point, System.Drawing"><value>10, 305</value></data>
+	<data name="LabelRecentPost.Size" type="System.Drawing.Size, System.Drawing"><value>63, 12</value></data>
+	<data name="LabelRecentPost.TabIndex" type="System.Int32, mscorlib"><value>25</value></data>
+	<data name="LabelRecentPost.Text"><value>最近の発言</value></data>
+	<data name="LabelScreenName.Font" type="System.Drawing.Font, System.Drawing"><value>MS UI Gothic, 12pt</value></data>
+	<data name="LabelScreenName.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms"><value>NoControl</value></data>
+	<data name="LabelScreenName.Location" type="System.Drawing.Point, System.Drawing"><value>9, 20</value></data>
+	<data name="LabelScreenName.Size" type="System.Drawing.Size, System.Drawing"><value>431, 22</value></data>
+	<data name="LabelScreenName.TabIndex" type="System.Int32, mscorlib"><value>0</value></data>
+	<data name="LabelScreenName.Text"><value>ScreenName</value></data>
+	<data name="LabelScreenName.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing"><value>MiddleLeft</value></data>
+	<data name="LinkLabel1.AutoSize" type="System.Boolean, mscorlib"><value>True</value></data>
+	<data name="LinkLabel1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms"><value>NoControl</value></data>
+	<data name="LinkLabel1.Location" type="System.Drawing.Point, System.Drawing"><value>384, 127</value></data>
+	<data name="LinkLabel1.Size" type="System.Drawing.Size, System.Drawing"><value>100, 12</value></data>
+	<data name="LinkLabel1.TabIndex" type="System.Int32, mscorlib"><value>13</value></data>
+	<data name="LinkLabel1.Text"><value>認証済み(Verified)</value></data>
+	<data name="LinkLabel2.AutoSize" type="System.Boolean, mscorlib"><value>True</value></data>
+	<data name="LinkLabel2.Location" type="System.Drawing.Point, System.Drawing"><value>152, 127</value></data>
+	<data name="LinkLabel2.Size" type="System.Drawing.Size, System.Drawing"><value>86, 12</value></data>
+	<data name="LinkLabel2.TabIndex" type="System.Int32, mscorlib"><value>11</value></data>
+	<data name="LinkLabel2.Text"><value>非公開(Protect)</value></data>
+	<data name="LinkLabelFav.AutoSize" type="System.Boolean, mscorlib"><value>True</value></data>
+	<data name="LinkLabelFav.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms"><value>NoControl</value></data>
+	<data name="LinkLabelFav.Location" type="System.Drawing.Point, System.Drawing"><value>414, 407</value></data>
+	<data name="LinkLabelFav.Size" type="System.Drawing.Size, System.Drawing"><value>72, 12</value></data>
+	<data name="LinkLabelFav.TabIndex" type="System.Int32, mscorlib"><value>34</value></data>
+	<data name="LinkLabelFav.Text"><value>LinkLabelFav</value></data>
+	<data name="LinkLabelFollowers.AutoSize" type="System.Boolean, mscorlib"><value>True</value></data>
+	<data name="LinkLabelFollowers.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms"><value>NoControl</value></data>
+	<data name="LinkLabelFollowers.Location" type="System.Drawing.Point, System.Drawing"><value>414, 383</value></data>
+	<data name="LinkLabelFollowers.Size" type="System.Drawing.Size, System.Drawing"><value>102, 12</value></data>
+	<data name="LinkLabelFollowers.TabIndex" type="System.Int32, mscorlib"><value>30</value></data>
+	<data name="LinkLabelFollowers.Text"><value>LinkLabelFollowers</value></data>
+	<data name="LinkLabelFollowing.AutoSize" type="System.Boolean, mscorlib"><value>True</value></data>
+	<data name="LinkLabelFollowing.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms"><value>NoControl</value></data>
+	<data name="LinkLabelFollowing.Location" type="System.Drawing.Point, System.Drawing"><value>107, 383</value></data>
+	<data name="LinkLabelFollowing.Size" type="System.Drawing.Size, System.Drawing"><value>101, 12</value></data>
+	<data name="LinkLabelFollowing.TabIndex" type="System.Int32, mscorlib"><value>28</value></data>
+	<data name="LinkLabelFollowing.Text"><value>LinkLabelFollowing</value></data>
+	<data name="LinkLabelTweet.AutoSize" type="System.Boolean, mscorlib"><value>True</value></data>
+	<data name="LinkLabelTweet.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms"><value>NoControl</value></data>
+	<data name="LinkLabelTweet.Location" type="System.Drawing.Point, System.Drawing"><value>107, 408</value></data>
+	<data name="LinkLabelTweet.Size" type="System.Drawing.Size, System.Drawing"><value>84, 12</value></data>
+	<data name="LinkLabelTweet.TabIndex" type="System.Int32, mscorlib"><value>32</value></data>
+	<data name="LinkLabelTweet.Text"><value>LinkLabelTweet</value></data>
+	<data name="LinkLabelWeb.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms"><value>NoControl</value></data>
+	<data name="LinkLabelWeb.Location" type="System.Drawing.Point, System.Drawing"><value>154, 103</value></data>
+	<data name="LinkLabelWeb.Size" type="System.Drawing.Size, System.Drawing"><value>418, 17</value></data>
+	<data name="LinkLabelWeb.TabIndex" type="System.Int32, mscorlib"><value>10</value></data>
+	<data name="LinkLabelWeb.Text"><value>LinkLabelWeb</value></data>
+	<data name="LinkLabelWeb.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing"><value>MiddleLeft</value></data>
+	<metadata name="OpenFileDialogIcon.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"><value>367, 17</value></metadata>
+	<data name="RecentPostBrowser.Location" type="System.Drawing.Point, System.Drawing"><value>82, 303</value></data>
+	<data name="RecentPostBrowser.Size" type="System.Drawing.Size, System.Drawing"><value>490, 65</value></data>
+	<data name="RecentPostBrowser.TabIndex" type="System.Int32, mscorlib"><value>26</value></data>
+	<data name="SelectAllToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>170, 22</value></data>
+	<data name="SelectAllToolStripMenuItem.Text"><value>すべて選択</value></data>
+	<data name="SelectionCopyToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>170, 22</value></data>
+	<data name="SelectionCopyToolStripMenuItem.Text"><value>選択文字列をコピー</value></data>
+	<data name="TextBoxDescription.Enabled" type="System.Boolean, mscorlib"><value>False</value></data>
+	<data name="TextBoxDescription.Location" type="System.Drawing.Point, System.Drawing"><value>12, 182</value></data>
+	<data name="TextBoxDescription.Size" type="System.Drawing.Size, System.Drawing"><value>16, 19</value></data>
+	<data name="TextBoxDescription.TabIndex" type="System.Int32, mscorlib"><value>40</value></data>
+	<data name="TextBoxDescription.Visible" type="System.Boolean, mscorlib"><value>False</value></data>
+	<data name="TextBoxLocation.Enabled" type="System.Boolean, mscorlib"><value>False</value></data>
+	<data name="TextBoxLocation.Location" type="System.Drawing.Point, System.Drawing"><value>34, 182</value></data>
+	<data name="TextBoxLocation.Size" type="System.Drawing.Size, System.Drawing"><value>16, 19</value></data>
+	<data name="TextBoxLocation.TabIndex" type="System.Int32, mscorlib"><value>38</value></data>
+	<data name="TextBoxLocation.Visible" type="System.Boolean, mscorlib"><value>False</value></data>
+	<data name="TextBoxName.Enabled" type="System.Boolean, mscorlib"><value>False</value></data>
+	<data name="TextBoxName.Location" type="System.Drawing.Point, System.Drawing"><value>34, 153</value></data>
+	<data name="TextBoxName.Size" type="System.Drawing.Size, System.Drawing"><value>16, 19</value></data>
+	<data name="TextBoxName.TabIndex" type="System.Int32, mscorlib"><value>37</value></data>
+	<data name="TextBoxName.Visible" type="System.Boolean, mscorlib"><value>False</value></data>
+	<data name="TextBoxWeb.Enabled" type="System.Boolean, mscorlib"><value>False</value></data>
+	<data name="TextBoxWeb.Location" type="System.Drawing.Point, System.Drawing"><value>12, 153</value></data>
+	<data name="TextBoxWeb.Size" type="System.Drawing.Size, System.Drawing"><value>16, 19</value></data>
+	<data name="TextBoxWeb.TabIndex" type="System.Int32, mscorlib"><value>39</value></data>
+	<data name="TextBoxWeb.Visible" type="System.Boolean, mscorlib"><value>False</value></data>
+	<metadata name="ToolTip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"><value>17, 17</value></metadata>
+	<data name="UserPicture.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms"><value>NoControl</value></data>
+	<data name="UserPicture.InitialImage" type="System.Resources.ResXNullRef, System.Windows.Forms"><value /></data>
+	<data name="UserPicture.Location" type="System.Drawing.Point, System.Drawing"><value>12, 59</value></data>
+	<data name="UserPicture.Size" type="System.Drawing.Size, System.Drawing"><value>73, 73</value></data>
+	<data name="UserPicture.SizeMode" type="System.Windows.Forms.PictureBoxSizeMode, System.Windows.Forms"><value>StretchImage</value></data>
+	<data name="UserPicture.TabIndex" type="System.Int32, mscorlib"><value>1</value></data>
 </root>

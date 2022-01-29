@@ -1,963 +1,290 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<root>
-  <!-- 
-    Microsoft ResX Schema 
-    
-    Version 2.0
-    
-    The primary goals of this format is to allow a simple XML format 
-    that is mostly human readable. The generation and parsing of the 
-    various data types are done through the TypeConverter classes 
-    associated with the data types.
-    
-    Example:
-    
-    ... ado.net/XML headers & schema ...
-    <resheader name="resmimetype">text/microsoft-resx</resheader>
-    <resheader name="version">2.0</resheader>
-    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
-    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
-    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
-    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
-    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
-        <value>[base64 mime encoded serialized .NET Framework object]</value>
-    </data>
-    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
-        <comment>This is a comment</comment>
-    </data>
-                
-    There are any number of "resheader" rows that contain simple 
-    name/value pairs.
-    
-    Each data row contains a name, and value. The row also contains a 
-    type or mimetype. Type corresponds to a .NET class that support 
-    text/value conversion through the TypeConverter architecture. 
-    Classes that don't support this are serialized and stored with the 
-    mimetype set.
-    
-    The mimetype is used for serialized objects, and tells the 
-    ResXResourceReader how to depersist the object. This is currently not 
-    extensible. For a given mimetype the value must be set accordingly:
-    
-    Note - application/x-microsoft.net.object.binary.base64 is the format 
-    that the ResXResourceWriter will generate, however the reader can 
-    read any of the formats listed below.
-    
-    mimetype: application/x-microsoft.net.object.binary.base64
-    value   : The object must be serialized with 
-            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
-            : and then encoded with base64 encoding.
-    
-    mimetype: application/x-microsoft.net.object.soap.base64
-    value   : The object must be serialized with 
-            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
-            : and then encoded with base64 encoding.
+<?xml version="1.0" encoding="utf-8"?><root xml:space="preserve">
+	<resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+	<resheader name="version"><value>2.0</value></resheader>
+	<resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+	<resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+	<assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+	<assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+	<assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
 
-    mimetype: application/x-microsoft.net.object.bytearray.base64
-    value   : The object must be serialized into a byte array 
-            : using a System.ComponentModel.TypeConverter
-            : and then encoded with base64 encoding.
-    -->
-  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
-    <xsd:element name="root" msdata:IsDataSet="true">
-      <xsd:complexType>
-        <xsd:choice maxOccurs="unbounded">
-          <xsd:element name="metadata">
-            <xsd:complexType>
-              <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" />
-              </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string" />
-              <xsd:attribute name="type" type="xsd:string" />
-              <xsd:attribute name="mimetype" type="xsd:string" />
-              <xsd:attribute ref="xml:space" />
-            </xsd:complexType>
-          </xsd:element>
-          <xsd:element name="assembly">
-            <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string" />
-              <xsd:attribute name="name" type="xsd:string" />
-            </xsd:complexType>
-          </xsd:element>
-          <xsd:element name="data">
-            <xsd:complexType>
-              <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
-              </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-              <xsd:attribute ref="xml:space" />
-            </xsd:complexType>
-          </xsd:element>
-          <xsd:element name="resheader">
-            <xsd:complexType>
-              <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-              </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" />
-            </xsd:complexType>
-          </xsd:element>
-        </xsd:choice>
-      </xsd:complexType>
-    </xsd:element>
-  </xsd:schema>
-  <resheader name="resmimetype">
-    <value>text/microsoft-resx</value>
-  </resheader>
-  <resheader name="version">
-    <value>2.0</value>
-  </resheader>
-  <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </resheader>
-  <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </resheader>
-  <data name="MapThumbnailProviderComboBox.Items" xml:space="preserve">
-    <value>OpenStreetMap</value>
-  </data>
-  <data name="MapThumbnailProviderComboBox.Items1" xml:space="preserve">
-    <value>Google Maps</value>
-  </data>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="MapThumbnailProviderComboBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>102, 22</value>
-  </data>
-  <data name="MapThumbnailProviderComboBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>121, 20</value>
-  </data>
-  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="MapThumbnailProviderComboBox.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;MapThumbnailProviderComboBox.Name" xml:space="preserve">
-    <value>MapThumbnailProviderComboBox</value>
-  </data>
-  <data name="&gt;&gt;MapThumbnailProviderComboBox.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;MapThumbnailProviderComboBox.Parent" xml:space="preserve">
-    <value>MapThumbnailGroupBox</value>
-  </data>
-  <data name="&gt;&gt;MapThumbnailProviderComboBox.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="label48.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="label48.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="label48.Location" type="System.Drawing.Point, System.Drawing">
-    <value>11, 25</value>
-  </data>
-  <data name="label48.Size" type="System.Drawing.Size, System.Drawing">
-    <value>66, 12</value>
-  </data>
-  <data name="label48.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="label48.Text" xml:space="preserve">
-    <value>地図サービス</value>
-  </data>
-  <data name="&gt;&gt;label48.Name" xml:space="preserve">
-    <value>label48</value>
-  </data>
-  <data name="&gt;&gt;label48.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label48.Parent" xml:space="preserve">
-    <value>MapThumbnailGroupBox</value>
-  </data>
-  <data name="&gt;&gt;label48.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="Label42.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="Label42.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="Label42.Location" type="System.Drawing.Point, System.Drawing">
-    <value>160, 56</value>
-  </data>
-  <data name="Label42.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>5, 0, 5, 0</value>
-  </data>
-  <data name="Label42.Size" type="System.Drawing.Size, System.Drawing">
-    <value>11, 12</value>
-  </data>
-  <data name="Label42.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
-  </data>
-  <data name="Label42.Text" xml:space="preserve">
-    <value>x</value>
-  </data>
-  <data name="&gt;&gt;Label42.Name" xml:space="preserve">
-    <value>Label42</value>
-  </data>
-  <data name="&gt;&gt;Label42.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;Label42.Parent" xml:space="preserve">
-    <value>MapThumbnailGroupBox</value>
-  </data>
-  <data name="&gt;&gt;Label42.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="MapThumbnailWidthTextBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>102, 51</value>
-  </data>
-  <data name="MapThumbnailWidthTextBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>50, 19</value>
-  </data>
-  <data name="MapThumbnailWidthTextBox.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
-  </data>
-  <data name="&gt;&gt;MapThumbnailWidthTextBox.Name" xml:space="preserve">
-    <value>MapThumbnailWidthTextBox</value>
-  </data>
-  <data name="&gt;&gt;MapThumbnailWidthTextBox.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;MapThumbnailWidthTextBox.Parent" xml:space="preserve">
-    <value>MapThumbnailGroupBox</value>
-  </data>
-  <data name="&gt;&gt;MapThumbnailWidthTextBox.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="MapThumbnailZoomTextBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>346, 51</value>
-  </data>
-  <data name="MapThumbnailZoomTextBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>63, 19</value>
-  </data>
-  <data name="MapThumbnailZoomTextBox.TabIndex" type="System.Int32, mscorlib">
-    <value>7</value>
-  </data>
-  <data name="&gt;&gt;MapThumbnailZoomTextBox.Name" xml:space="preserve">
-    <value>MapThumbnailZoomTextBox</value>
-  </data>
-  <data name="&gt;&gt;MapThumbnailZoomTextBox.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;MapThumbnailZoomTextBox.Parent" xml:space="preserve">
-    <value>MapThumbnailGroupBox</value>
-  </data>
-  <data name="&gt;&gt;MapThumbnailZoomTextBox.ZOrder" xml:space="preserve">
-    <value>4</value>
-  </data>
-  <data name="MapThumbnailHeightTextBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>179, 51</value>
-  </data>
-  <data name="MapThumbnailHeightTextBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>50, 19</value>
-  </data>
-  <data name="MapThumbnailHeightTextBox.TabIndex" type="System.Int32, mscorlib">
-    <value>5</value>
-  </data>
-  <data name="&gt;&gt;MapThumbnailHeightTextBox.Name" xml:space="preserve">
-    <value>MapThumbnailHeightTextBox</value>
-  </data>
-  <data name="&gt;&gt;MapThumbnailHeightTextBox.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;MapThumbnailHeightTextBox.Parent" xml:space="preserve">
-    <value>MapThumbnailGroupBox</value>
-  </data>
-  <data name="&gt;&gt;MapThumbnailHeightTextBox.ZOrder" xml:space="preserve">
-    <value>5</value>
-  </data>
-  <data name="Label41.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="Label41.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="Label41.Location" type="System.Drawing.Point, System.Drawing">
-    <value>270, 54</value>
-  </data>
-  <data name="Label41.Size" type="System.Drawing.Size, System.Drawing">
-    <value>64, 12</value>
-  </data>
-  <data name="Label41.TabIndex" type="System.Int32, mscorlib">
-    <value>6</value>
-  </data>
-  <data name="Label41.Text" xml:space="preserve">
-    <value>ズームレベル</value>
-  </data>
-  <data name="&gt;&gt;Label41.Name" xml:space="preserve">
-    <value>Label41</value>
-  </data>
-  <data name="&gt;&gt;Label41.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;Label41.Parent" xml:space="preserve">
-    <value>MapThumbnailGroupBox</value>
-  </data>
-  <data name="&gt;&gt;Label41.ZOrder" xml:space="preserve">
-    <value>6</value>
-  </data>
-  <data name="Label40.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="Label40.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="Label40.Location" type="System.Drawing.Point, System.Drawing">
-    <value>11, 54</value>
-  </data>
-  <data name="Label40.Size" type="System.Drawing.Size, System.Drawing">
-    <value>83, 12</value>
-  </data>
-  <data name="Label40.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="Label40.Text" xml:space="preserve">
-    <value>サムネイルサイズ</value>
-  </data>
-  <data name="&gt;&gt;Label40.Name" xml:space="preserve">
-    <value>Label40</value>
-  </data>
-  <data name="&gt;&gt;Label40.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;Label40.Parent" xml:space="preserve">
-    <value>MapThumbnailGroupBox</value>
-  </data>
-  <data name="&gt;&gt;Label40.ZOrder" xml:space="preserve">
-    <value>7</value>
-  </data>
-  <data name="MapThumbnailGroupBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>23, 206</value>
-  </data>
-  <data name="MapThumbnailGroupBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>473, 80</value>
-  </data>
-  <data name="MapThumbnailGroupBox.TabIndex" type="System.Int32, mscorlib">
-    <value>7</value>
-  </data>
-  <data name="MapThumbnailGroupBox.Text" xml:space="preserve">
-    <value>地図サムネイル</value>
-  </data>
-  <data name="&gt;&gt;MapThumbnailGroupBox.Name" xml:space="preserve">
-    <value>MapThumbnailGroupBox</value>
-  </data>
-  <data name="&gt;&gt;MapThumbnailGroupBox.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;MapThumbnailGroupBox.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;MapThumbnailGroupBox.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="Label39.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="Label39.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="Label39.Location" type="System.Drawing.Point, System.Drawing">
-    <value>23, 84</value>
-  </data>
-  <data name="Label39.Size" type="System.Drawing.Size, System.Drawing">
-    <value>401, 12</value>
-  </data>
-  <data name="Label39.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
-  </data>
-  <data name="Label39.Text" xml:space="preserve">
-    <value>ユーザー指定のURL({ID}をScreenNameに、{STATUS}をステータスIDに置き換えます)</value>
-  </data>
-  <data name="&gt;&gt;Label39.Name" xml:space="preserve">
-    <value>Label39</value>
-  </data>
-  <data name="&gt;&gt;Label39.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;Label39.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;Label39.ZOrder" xml:space="preserve">
-    <value>4</value>
-  </data>
-  <data name="UserAppointUrlText.Location" type="System.Drawing.Point, System.Drawing">
-    <value>218, 102</value>
-  </data>
-  <data name="UserAppointUrlText.Size" type="System.Drawing.Size, System.Drawing">
-    <value>278, 19</value>
-  </data>
-  <data name="UserAppointUrlText.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
-  </data>
-  <data name="&gt;&gt;UserAppointUrlText.Name" xml:space="preserve">
-    <value>UserAppointUrlText</value>
-  </data>
-  <data name="&gt;&gt;UserAppointUrlText.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;UserAppointUrlText.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;UserAppointUrlText.ZOrder" xml:space="preserve">
-    <value>5</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items" xml:space="preserve">
-    <value>Afrikaans</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items1" xml:space="preserve">
-    <value>Albanian</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items2" xml:space="preserve">
-    <value>Arabic (Saudi Arabia)</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items3" xml:space="preserve">
-    <value>Arabic (Iraq)</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items4" xml:space="preserve">
-    <value>Arabic (Egypt)</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items5" xml:space="preserve">
-    <value>Arabic (Libya)</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items6" xml:space="preserve">
-    <value>Arabic (Algeria)</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items7" xml:space="preserve">
-    <value>Arabic (Morocco)</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items8" xml:space="preserve">
-    <value>Arabic (Tunisia)</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items9" xml:space="preserve">
-    <value>Arabic (Oman)</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items10" xml:space="preserve">
-    <value>Arabic (Yemen)</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items11" xml:space="preserve">
-    <value>Arabic (Syria)</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items12" xml:space="preserve">
-    <value>Arabic (Jordan)</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items13" xml:space="preserve">
-    <value>Arabic (Lebanon)</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items14" xml:space="preserve">
-    <value>Arabic (Kuwait)</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items15" xml:space="preserve">
-    <value>Arabic (U.A.E.)</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items16" xml:space="preserve">
-    <value>Arabic (Bahrain)</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items17" xml:space="preserve">
-    <value>Arabic (Qatar)</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items18" xml:space="preserve">
-    <value>Basque</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items19" xml:space="preserve">
-    <value>Bulgarian</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items20" xml:space="preserve">
-    <value>Belarusian</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items21" xml:space="preserve">
-    <value>Catalan</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items22" xml:space="preserve">
-    <value>Chinese (Taiwan)</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items23" xml:space="preserve">
-    <value>Chinese (PRC)</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items24" xml:space="preserve">
-    <value>Chinese (Hong Kong SAR)</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items25" xml:space="preserve">
-    <value>Chinese (Singapore)</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items26" xml:space="preserve">
-    <value>Croatian</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items27" xml:space="preserve">
-    <value>Czech</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items28" xml:space="preserve">
-    <value>Danish</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items29" xml:space="preserve">
-    <value>Dutch (Standard)</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items30" xml:space="preserve">
-    <value>Dutch (Belgium)</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items31" xml:space="preserve">
-    <value>English</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items32" xml:space="preserve">
-    <value>English (United States)</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items33" xml:space="preserve">
-    <value>English (United Kingdom)</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items34" xml:space="preserve">
-    <value>English (Australia)</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items35" xml:space="preserve">
-    <value>English (Canada)</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items36" xml:space="preserve">
-    <value>English (New Zealand)</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items37" xml:space="preserve">
-    <value>English (Ireland)</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items38" xml:space="preserve">
-    <value>English (South Africa)</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items39" xml:space="preserve">
-    <value>English (Jamaica)</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items40" xml:space="preserve">
-    <value>English (Caribbean)</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items41" xml:space="preserve">
-    <value>English (Belize)</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items42" xml:space="preserve">
-    <value>English (Trinidad)</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items43" xml:space="preserve">
-    <value>Estonian</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items44" xml:space="preserve">
-    <value>Faeroese</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items45" xml:space="preserve">
-    <value>Farsi</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items46" xml:space="preserve">
-    <value>Finnish</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items47" xml:space="preserve">
-    <value>French (Standard)</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items48" xml:space="preserve">
-    <value>French (Belgium)</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items49" xml:space="preserve">
-    <value>French (Canada)</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items50" xml:space="preserve">
-    <value>French (Switzerland)</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items51" xml:space="preserve">
-    <value>French (Luxembourg)</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items52" xml:space="preserve">
-    <value>Gaelic (Scotland)</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items53" xml:space="preserve">
-    <value>Irish</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items54" xml:space="preserve">
-    <value>German (Standard)</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items55" xml:space="preserve">
-    <value>German (Switzerland)</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items56" xml:space="preserve">
-    <value>German (Austria)</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items57" xml:space="preserve">
-    <value>German (Luxembourg)</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items58" xml:space="preserve">
-    <value>German (Liechtenstein)</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items59" xml:space="preserve">
-    <value>Greek</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items60" xml:space="preserve">
-    <value>Hebrew</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items61" xml:space="preserve">
-    <value>Hindi</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items62" xml:space="preserve">
-    <value>Hungarian</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items63" xml:space="preserve">
-    <value>Icelandic</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items64" xml:space="preserve">
-    <value>Indonesian</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items65" xml:space="preserve">
-    <value>Italian (Standard)</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items66" xml:space="preserve">
-    <value>Italian (Switzerland)</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items67" xml:space="preserve">
-    <value>Japanese</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items68" xml:space="preserve">
-    <value>Korean</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items69" xml:space="preserve">
-    <value>Korean (Johab)</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items70" xml:space="preserve">
-    <value>Latvian</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items71" xml:space="preserve">
-    <value>Lithuanian</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items72" xml:space="preserve">
-    <value>Macedonian (FYROM)</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items73" xml:space="preserve">
-    <value>Malaysian</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items74" xml:space="preserve">
-    <value>Maltese</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items75" xml:space="preserve">
-    <value>Norwegian (Bokmal)</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items76" xml:space="preserve">
-    <value>Norwegian (Nynorsk)</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items77" xml:space="preserve">
-    <value>Polish</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items78" xml:space="preserve">
-    <value>Portuguese (Brazil)</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items79" xml:space="preserve">
-    <value>Portuguese (Portugal)</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items80" xml:space="preserve">
-    <value>Rhaeto-Romanic</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items81" xml:space="preserve">
-    <value>Romanian</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items82" xml:space="preserve">
-    <value>Romanian (Republic of Moldova)</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items83" xml:space="preserve">
-    <value>Russian</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items84" xml:space="preserve">
-    <value>Russian (Republic of Moldova)</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items85" xml:space="preserve">
-    <value>Sami (Lappish)</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items86" xml:space="preserve">
-    <value>Serbian (Cyrillic)</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items87" xml:space="preserve">
-    <value>Serbian (Latin)</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items88" xml:space="preserve">
-    <value>Slovak</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items89" xml:space="preserve">
-    <value>Slovenian</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items90" xml:space="preserve">
-    <value>Sorbian</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items91" xml:space="preserve">
-    <value>Spanish (Spain)</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items92" xml:space="preserve">
-    <value>Spanish (Mexico)</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items93" xml:space="preserve">
-    <value>Spanish (Guatemala)</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items94" xml:space="preserve">
-    <value>Spanish (Costa Rica)</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items95" xml:space="preserve">
-    <value>Spanish (Panama)</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items96" xml:space="preserve">
-    <value>Spanish (Dominican Republic)</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items97" xml:space="preserve">
-    <value>Spanish (Venezuela)</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items98" xml:space="preserve">
-    <value>Spanish (Colombia)</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items99" xml:space="preserve">
-    <value>Spanish (Peru)</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items100" xml:space="preserve">
-    <value>Spanish (Argentina)</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items101" xml:space="preserve">
-    <value>Spanish (Ecuador)</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items102" xml:space="preserve">
-    <value>Spanish (Chile)</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items103" xml:space="preserve">
-    <value>Spanish (Uruguay)</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items104" xml:space="preserve">
-    <value>Spanish (Paraguay)</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items105" xml:space="preserve">
-    <value>Spanish (Bolivia)</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items106" xml:space="preserve">
-    <value>Spanish (El Salvador)</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items107" xml:space="preserve">
-    <value>Spanish (Honduras)</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items108" xml:space="preserve">
-    <value>Spanish (Nicaragua)</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items109" xml:space="preserve">
-    <value>Spanish (Puerto Rico)</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items110" xml:space="preserve">
-    <value>Sutu</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items111" xml:space="preserve">
-    <value>Swedish</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items112" xml:space="preserve">
-    <value>Swedish (Finland)</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items113" xml:space="preserve">
-    <value>Thai</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items114" xml:space="preserve">
-    <value>Tsonga</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items115" xml:space="preserve">
-    <value>Tswana</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items116" xml:space="preserve">
-    <value>Turkish</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items117" xml:space="preserve">
-    <value>Ukrainian</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items118" xml:space="preserve">
-    <value>Urdu</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items119" xml:space="preserve">
-    <value>Venda</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items120" xml:space="preserve">
-    <value>Vietnamese</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items121" xml:space="preserve">
-    <value>Xhosa</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items122" xml:space="preserve">
-    <value>Yiddish</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Items123" xml:space="preserve">
-    <value>Zulu</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Location" type="System.Drawing.Point, System.Drawing">
-    <value>218, 48</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.Size" type="System.Drawing.Size, System.Drawing">
-    <value>182, 20</value>
-  </data>
-  <data name="ComboBoxTranslateLanguage.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="&gt;&gt;ComboBoxTranslateLanguage.Name" xml:space="preserve">
-    <value>ComboBoxTranslateLanguage</value>
-  </data>
-  <data name="&gt;&gt;ComboBoxTranslateLanguage.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;ComboBoxTranslateLanguage.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;ComboBoxTranslateLanguage.ZOrder" xml:space="preserve">
-    <value>6</value>
-  </data>
-  <data name="Label29.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="Label29.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="Label29.Location" type="System.Drawing.Point, System.Drawing">
-    <value>23, 51</value>
-  </data>
-  <data name="Label29.Size" type="System.Drawing.Size, System.Drawing">
-    <value>99, 12</value>
-  </data>
-  <data name="Label29.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="Label29.Text" xml:space="preserve">
-    <value>発言翻訳先の言語</value>
-  </data>
-  <data name="&gt;&gt;Label29.Name" xml:space="preserve">
-    <value>Label29</value>
-  </data>
-  <data name="&gt;&gt;Label29.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;Label29.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;Label29.ZOrder" xml:space="preserve">
-    <value>7</value>
-  </data>
-  <data name="CheckNicoms.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="CheckNicoms.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="CheckNicoms.Location" type="System.Drawing.Point, System.Drawing">
-    <value>23, 23</value>
-  </data>
-  <data name="CheckNicoms.Size" type="System.Drawing.Size, System.Drawing">
-    <value>237, 16</value>
-  </data>
-  <data name="CheckNicoms.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="CheckNicoms.Text" xml:space="preserve">
-    <value>ニコニコ動画のURLをnico.msで短縮して送信</value>
-  </data>
-  <data name="&gt;&gt;CheckNicoms.Name" xml:space="preserve">
-    <value>CheckNicoms</value>
-  </data>
-  <data name="&gt;&gt;CheckNicoms.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;CheckNicoms.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;CheckNicoms.ZOrder" xml:space="preserve">
-    <value>8</value>
-  </data>
-  <data name="EnableImgAzyobuziNetCheckBox.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="EnableImgAzyobuziNetCheckBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>23, 131</value>
-  </data>
-  <data name="EnableImgAzyobuziNetCheckBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>389, 16</value>
-  </data>
-  <data name="EnableImgAzyobuziNetCheckBox.TabIndex" type="System.Int32, mscorlib">
-    <value>5</value>
-  </data>
-  <data name="EnableImgAzyobuziNetCheckBox.Text" xml:space="preserve">
-    <value>ツイートに含まれる画像URLのサムネイル表示に img.azyobuzi.net を利用する</value>
-  </data>
-  <data name="&gt;&gt;EnableImgAzyobuziNetCheckBox.Name" xml:space="preserve">
-    <value>EnableImgAzyobuziNetCheckBox</value>
-  </data>
-  <data name="&gt;&gt;EnableImgAzyobuziNetCheckBox.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;EnableImgAzyobuziNetCheckBox.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;EnableImgAzyobuziNetCheckBox.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="ImgAzyobuziNetDisabledInDMCheckBox.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="ImgAzyobuziNetDisabledInDMCheckBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>50, 156</value>
-  </data>
-  <data name="ImgAzyobuziNetDisabledInDMCheckBox.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>30, 3, 3, 3</value>
-  </data>
-  <data name="ImgAzyobuziNetDisabledInDMCheckBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>256, 16</value>
-  </data>
-  <data name="ImgAzyobuziNetDisabledInDMCheckBox.TabIndex" type="System.Int32, mscorlib">
-    <value>6</value>
-  </data>
-  <data name="ImgAzyobuziNetDisabledInDMCheckBox.Text" xml:space="preserve">
-    <value>ダイレクトメッセージに含まれるURLには使用しない</value>
-  </data>
-  <data name="&gt;&gt;ImgAzyobuziNetDisabledInDMCheckBox.Name" xml:space="preserve">
-    <value>ImgAzyobuziNetDisabledInDMCheckBox</value>
-  </data>
-  <data name="&gt;&gt;ImgAzyobuziNetDisabledInDMCheckBox.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;ImgAzyobuziNetDisabledInDMCheckBox.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;ImgAzyobuziNetDisabledInDMCheckBox.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="EncryptApiKeyButton.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="EncryptApiKeyButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>23, 293</value>
-  </data>
-  <data name="EncryptApiKeyButton.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>20, 0, 20, 0</value>
-  </data>
-  <data name="EncryptApiKeyButton.Size" type="System.Drawing.Size, System.Drawing">
-    <value>135, 23</value>
-  </data>
-  <data name="EncryptApiKeyButton.TabIndex" type="System.Int32, mscorlib">
-    <value>8</value>
-  </data>
-  <data name="EncryptApiKeyButton.Text" xml:space="preserve">
-    <value>APIキー暗号化</value>
-  </data>
-  <data name="&gt;&gt;EncryptApiKeyButton.Name" xml:space="preserve">
-    <value>EncryptApiKeyButton</value>
-  </data>
-  <data name="&gt;&gt;EncryptApiKeyButton.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;EncryptApiKeyButton.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;EncryptApiKeyButton.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
-    <value>96, 96</value>
-  </data>
-  <data name="&gt;&gt;$this.Name" xml:space="preserve">
-    <value>CooperatePanel</value>
-  </data>
-  <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>OpenTween.Setting.Panel.SettingPanelBase, OpenTween, Version=2.4.3.1, Culture=neutral, PublicKeyToken=null</value>
-  </data>
+	<data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing"><value>96, 96</value></data>
+	<metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"><value>True</value></metadata>
+	<data name="&gt;&gt;$this.Name"><value>CooperatePanel</value></data>
+	<data name="&gt;&gt;$this.Type"><value>OpenTween.Setting.Panel.SettingPanelBase, OpenTween, Version=2.4.3.1, Culture=neutral, PublicKeyToken=null</value></data>
+	<data name="&gt;&gt;CheckNicoms.Name"><value>CheckNicoms</value></data>
+	<data name="&gt;&gt;CheckNicoms.Parent"><value>$this</value></data>
+	<data name="&gt;&gt;CheckNicoms.Type"><value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;CheckNicoms.ZOrder"><value>8</value></data>
+	<data name="&gt;&gt;ComboBoxTranslateLanguage.Name"><value>ComboBoxTranslateLanguage</value></data>
+	<data name="&gt;&gt;ComboBoxTranslateLanguage.Parent"><value>$this</value></data>
+	<data name="&gt;&gt;ComboBoxTranslateLanguage.Type"><value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;ComboBoxTranslateLanguage.ZOrder"><value>6</value></data>
+	<data name="&gt;&gt;EnableImgAzyobuziNetCheckBox.Name"><value>EnableImgAzyobuziNetCheckBox</value></data>
+	<data name="&gt;&gt;EnableImgAzyobuziNetCheckBox.Parent"><value>$this</value></data>
+	<data name="&gt;&gt;EnableImgAzyobuziNetCheckBox.Type"><value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;EnableImgAzyobuziNetCheckBox.ZOrder"><value>2</value></data>
+	<data name="&gt;&gt;EncryptApiKeyButton.Name"><value>EncryptApiKeyButton</value></data>
+	<data name="&gt;&gt;EncryptApiKeyButton.Parent"><value>$this</value></data>
+	<data name="&gt;&gt;EncryptApiKeyButton.Type"><value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;EncryptApiKeyButton.ZOrder"><value>0</value></data>
+	<data name="&gt;&gt;ImgAzyobuziNetDisabledInDMCheckBox.Name"><value>ImgAzyobuziNetDisabledInDMCheckBox</value></data>
+	<data name="&gt;&gt;ImgAzyobuziNetDisabledInDMCheckBox.Parent"><value>$this</value></data>
+	<data name="&gt;&gt;ImgAzyobuziNetDisabledInDMCheckBox.Type"><value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;ImgAzyobuziNetDisabledInDMCheckBox.ZOrder"><value>1</value></data>
+	<data name="&gt;&gt;Label29.Name"><value>Label29</value></data>
+	<data name="&gt;&gt;Label29.Parent"><value>$this</value></data>
+	<data name="&gt;&gt;Label29.Type"><value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;Label29.ZOrder"><value>7</value></data>
+	<data name="&gt;&gt;Label39.Name"><value>Label39</value></data>
+	<data name="&gt;&gt;Label39.Parent"><value>$this</value></data>
+	<data name="&gt;&gt;Label39.Type"><value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;Label39.ZOrder"><value>4</value></data>
+	<data name="&gt;&gt;Label40.Name"><value>Label40</value></data>
+	<data name="&gt;&gt;Label40.Parent"><value>MapThumbnailGroupBox</value></data>
+	<data name="&gt;&gt;Label40.Type"><value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;Label40.ZOrder"><value>7</value></data>
+	<data name="&gt;&gt;Label41.Name"><value>Label41</value></data>
+	<data name="&gt;&gt;Label41.Parent"><value>MapThumbnailGroupBox</value></data>
+	<data name="&gt;&gt;Label41.Type"><value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;Label41.ZOrder"><value>6</value></data>
+	<data name="&gt;&gt;Label42.Name"><value>Label42</value></data>
+	<data name="&gt;&gt;Label42.Parent"><value>MapThumbnailGroupBox</value></data>
+	<data name="&gt;&gt;Label42.Type"><value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;Label42.ZOrder"><value>2</value></data>
+	<data name="&gt;&gt;label48.Name"><value>label48</value></data>
+	<data name="&gt;&gt;label48.Parent"><value>MapThumbnailGroupBox</value></data>
+	<data name="&gt;&gt;label48.Type"><value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;label48.ZOrder"><value>1</value></data>
+	<data name="&gt;&gt;MapThumbnailGroupBox.Name"><value>MapThumbnailGroupBox</value></data>
+	<data name="&gt;&gt;MapThumbnailGroupBox.Parent"><value>$this</value></data>
+	<data name="&gt;&gt;MapThumbnailGroupBox.Type"><value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;MapThumbnailGroupBox.ZOrder"><value>3</value></data>
+	<data name="&gt;&gt;MapThumbnailHeightTextBox.Name"><value>MapThumbnailHeightTextBox</value></data>
+	<data name="&gt;&gt;MapThumbnailHeightTextBox.Parent"><value>MapThumbnailGroupBox</value></data>
+	<data name="&gt;&gt;MapThumbnailHeightTextBox.Type"><value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;MapThumbnailHeightTextBox.ZOrder"><value>5</value></data>
+	<data name="&gt;&gt;MapThumbnailProviderComboBox.Name"><value>MapThumbnailProviderComboBox</value></data>
+	<data name="&gt;&gt;MapThumbnailProviderComboBox.Parent"><value>MapThumbnailGroupBox</value></data>
+	<data name="&gt;&gt;MapThumbnailProviderComboBox.Type"><value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;MapThumbnailProviderComboBox.ZOrder"><value>0</value></data>
+	<data name="&gt;&gt;MapThumbnailWidthTextBox.Name"><value>MapThumbnailWidthTextBox</value></data>
+	<data name="&gt;&gt;MapThumbnailWidthTextBox.Parent"><value>MapThumbnailGroupBox</value></data>
+	<data name="&gt;&gt;MapThumbnailWidthTextBox.Type"><value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;MapThumbnailWidthTextBox.ZOrder"><value>3</value></data>
+	<data name="&gt;&gt;MapThumbnailZoomTextBox.Name"><value>MapThumbnailZoomTextBox</value></data>
+	<data name="&gt;&gt;MapThumbnailZoomTextBox.Parent"><value>MapThumbnailGroupBox</value></data>
+	<data name="&gt;&gt;MapThumbnailZoomTextBox.Type"><value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;MapThumbnailZoomTextBox.ZOrder"><value>4</value></data>
+	<data name="&gt;&gt;UserAppointUrlText.Name"><value>UserAppointUrlText</value></data>
+	<data name="&gt;&gt;UserAppointUrlText.Parent"><value>$this</value></data>
+	<data name="&gt;&gt;UserAppointUrlText.Type"><value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;UserAppointUrlText.ZOrder"><value>5</value></data>
+	<data name="CheckNicoms.AutoSize" type="System.Boolean, mscorlib"><value>True</value></data>
+	<data name="CheckNicoms.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms"><value>NoControl</value></data>
+	<data name="CheckNicoms.Location" type="System.Drawing.Point, System.Drawing"><value>23, 23</value></data>
+	<data name="CheckNicoms.Size" type="System.Drawing.Size, System.Drawing"><value>237, 16</value></data>
+	<data name="CheckNicoms.TabIndex" type="System.Int32, mscorlib"><value>0</value></data>
+	<data name="CheckNicoms.Text"><value>ニコニコ動画のURLをnico.msで短縮して送信</value></data>
+	<data name="ComboBoxTranslateLanguage.Items"><value>Afrikaans</value></data>
+	<data name="ComboBoxTranslateLanguage.Items1"><value>Albanian</value></data>
+	<data name="ComboBoxTranslateLanguage.Items10"><value>Arabic (Yemen)</value></data>
+	<data name="ComboBoxTranslateLanguage.Items100"><value>Spanish (Argentina)</value></data>
+	<data name="ComboBoxTranslateLanguage.Items101"><value>Spanish (Ecuador)</value></data>
+	<data name="ComboBoxTranslateLanguage.Items102"><value>Spanish (Chile)</value></data>
+	<data name="ComboBoxTranslateLanguage.Items103"><value>Spanish (Uruguay)</value></data>
+	<data name="ComboBoxTranslateLanguage.Items104"><value>Spanish (Paraguay)</value></data>
+	<data name="ComboBoxTranslateLanguage.Items105"><value>Spanish (Bolivia)</value></data>
+	<data name="ComboBoxTranslateLanguage.Items106"><value>Spanish (El Salvador)</value></data>
+	<data name="ComboBoxTranslateLanguage.Items107"><value>Spanish (Honduras)</value></data>
+	<data name="ComboBoxTranslateLanguage.Items108"><value>Spanish (Nicaragua)</value></data>
+	<data name="ComboBoxTranslateLanguage.Items109"><value>Spanish (Puerto Rico)</value></data>
+	<data name="ComboBoxTranslateLanguage.Items11"><value>Arabic (Syria)</value></data>
+	<data name="ComboBoxTranslateLanguage.Items110"><value>Sutu</value></data>
+	<data name="ComboBoxTranslateLanguage.Items111"><value>Swedish</value></data>
+	<data name="ComboBoxTranslateLanguage.Items112"><value>Swedish (Finland)</value></data>
+	<data name="ComboBoxTranslateLanguage.Items113"><value>Thai</value></data>
+	<data name="ComboBoxTranslateLanguage.Items114"><value>Tsonga</value></data>
+	<data name="ComboBoxTranslateLanguage.Items115"><value>Tswana</value></data>
+	<data name="ComboBoxTranslateLanguage.Items116"><value>Turkish</value></data>
+	<data name="ComboBoxTranslateLanguage.Items117"><value>Ukrainian</value></data>
+	<data name="ComboBoxTranslateLanguage.Items118"><value>Urdu</value></data>
+	<data name="ComboBoxTranslateLanguage.Items119"><value>Venda</value></data>
+	<data name="ComboBoxTranslateLanguage.Items12"><value>Arabic (Jordan)</value></data>
+	<data name="ComboBoxTranslateLanguage.Items120"><value>Vietnamese</value></data>
+	<data name="ComboBoxTranslateLanguage.Items121"><value>Xhosa</value></data>
+	<data name="ComboBoxTranslateLanguage.Items122"><value>Yiddish</value></data>
+	<data name="ComboBoxTranslateLanguage.Items123"><value>Zulu</value></data>
+	<data name="ComboBoxTranslateLanguage.Items13"><value>Arabic (Lebanon)</value></data>
+	<data name="ComboBoxTranslateLanguage.Items14"><value>Arabic (Kuwait)</value></data>
+	<data name="ComboBoxTranslateLanguage.Items15"><value>Arabic (U.A.E.)</value></data>
+	<data name="ComboBoxTranslateLanguage.Items16"><value>Arabic (Bahrain)</value></data>
+	<data name="ComboBoxTranslateLanguage.Items17"><value>Arabic (Qatar)</value></data>
+	<data name="ComboBoxTranslateLanguage.Items18"><value>Basque</value></data>
+	<data name="ComboBoxTranslateLanguage.Items19"><value>Bulgarian</value></data>
+	<data name="ComboBoxTranslateLanguage.Items2"><value>Arabic (Saudi Arabia)</value></data>
+	<data name="ComboBoxTranslateLanguage.Items20"><value>Belarusian</value></data>
+	<data name="ComboBoxTranslateLanguage.Items21"><value>Catalan</value></data>
+	<data name="ComboBoxTranslateLanguage.Items22"><value>Chinese (Taiwan)</value></data>
+	<data name="ComboBoxTranslateLanguage.Items23"><value>Chinese (PRC)</value></data>
+	<data name="ComboBoxTranslateLanguage.Items24"><value>Chinese (Hong Kong SAR)</value></data>
+	<data name="ComboBoxTranslateLanguage.Items25"><value>Chinese (Singapore)</value></data>
+	<data name="ComboBoxTranslateLanguage.Items26"><value>Croatian</value></data>
+	<data name="ComboBoxTranslateLanguage.Items27"><value>Czech</value></data>
+	<data name="ComboBoxTranslateLanguage.Items28"><value>Danish</value></data>
+	<data name="ComboBoxTranslateLanguage.Items29"><value>Dutch (Standard)</value></data>
+	<data name="ComboBoxTranslateLanguage.Items3"><value>Arabic (Iraq)</value></data>
+	<data name="ComboBoxTranslateLanguage.Items30"><value>Dutch (Belgium)</value></data>
+	<data name="ComboBoxTranslateLanguage.Items31"><value>English</value></data>
+	<data name="ComboBoxTranslateLanguage.Items32"><value>English (United States)</value></data>
+	<data name="ComboBoxTranslateLanguage.Items33"><value>English (United Kingdom)</value></data>
+	<data name="ComboBoxTranslateLanguage.Items34"><value>English (Australia)</value></data>
+	<data name="ComboBoxTranslateLanguage.Items35"><value>English (Canada)</value></data>
+	<data name="ComboBoxTranslateLanguage.Items36"><value>English (New Zealand)</value></data>
+	<data name="ComboBoxTranslateLanguage.Items37"><value>English (Ireland)</value></data>
+	<data name="ComboBoxTranslateLanguage.Items38"><value>English (South Africa)</value></data>
+	<data name="ComboBoxTranslateLanguage.Items39"><value>English (Jamaica)</value></data>
+	<data name="ComboBoxTranslateLanguage.Items4"><value>Arabic (Egypt)</value></data>
+	<data name="ComboBoxTranslateLanguage.Items40"><value>English (Caribbean)</value></data>
+	<data name="ComboBoxTranslateLanguage.Items41"><value>English (Belize)</value></data>
+	<data name="ComboBoxTranslateLanguage.Items42"><value>English (Trinidad)</value></data>
+	<data name="ComboBoxTranslateLanguage.Items43"><value>Estonian</value></data>
+	<data name="ComboBoxTranslateLanguage.Items44"><value>Faeroese</value></data>
+	<data name="ComboBoxTranslateLanguage.Items45"><value>Farsi</value></data>
+	<data name="ComboBoxTranslateLanguage.Items46"><value>Finnish</value></data>
+	<data name="ComboBoxTranslateLanguage.Items47"><value>French (Standard)</value></data>
+	<data name="ComboBoxTranslateLanguage.Items48"><value>French (Belgium)</value></data>
+	<data name="ComboBoxTranslateLanguage.Items49"><value>French (Canada)</value></data>
+	<data name="ComboBoxTranslateLanguage.Items5"><value>Arabic (Libya)</value></data>
+	<data name="ComboBoxTranslateLanguage.Items50"><value>French (Switzerland)</value></data>
+	<data name="ComboBoxTranslateLanguage.Items51"><value>French (Luxembourg)</value></data>
+	<data name="ComboBoxTranslateLanguage.Items52"><value>Gaelic (Scotland)</value></data>
+	<data name="ComboBoxTranslateLanguage.Items53"><value>Irish</value></data>
+	<data name="ComboBoxTranslateLanguage.Items54"><value>German (Standard)</value></data>
+	<data name="ComboBoxTranslateLanguage.Items55"><value>German (Switzerland)</value></data>
+	<data name="ComboBoxTranslateLanguage.Items56"><value>German (Austria)</value></data>
+	<data name="ComboBoxTranslateLanguage.Items57"><value>German (Luxembourg)</value></data>
+	<data name="ComboBoxTranslateLanguage.Items58"><value>German (Liechtenstein)</value></data>
+	<data name="ComboBoxTranslateLanguage.Items59"><value>Greek</value></data>
+	<data name="ComboBoxTranslateLanguage.Items6"><value>Arabic (Algeria)</value></data>
+	<data name="ComboBoxTranslateLanguage.Items60"><value>Hebrew</value></data>
+	<data name="ComboBoxTranslateLanguage.Items61"><value>Hindi</value></data>
+	<data name="ComboBoxTranslateLanguage.Items62"><value>Hungarian</value></data>
+	<data name="ComboBoxTranslateLanguage.Items63"><value>Icelandic</value></data>
+	<data name="ComboBoxTranslateLanguage.Items64"><value>Indonesian</value></data>
+	<data name="ComboBoxTranslateLanguage.Items65"><value>Italian (Standard)</value></data>
+	<data name="ComboBoxTranslateLanguage.Items66"><value>Italian (Switzerland)</value></data>
+	<data name="ComboBoxTranslateLanguage.Items67"><value>Japanese</value></data>
+	<data name="ComboBoxTranslateLanguage.Items68"><value>Korean</value></data>
+	<data name="ComboBoxTranslateLanguage.Items69"><value>Korean (Johab)</value></data>
+	<data name="ComboBoxTranslateLanguage.Items7"><value>Arabic (Morocco)</value></data>
+	<data name="ComboBoxTranslateLanguage.Items70"><value>Latvian</value></data>
+	<data name="ComboBoxTranslateLanguage.Items71"><value>Lithuanian</value></data>
+	<data name="ComboBoxTranslateLanguage.Items72"><value>Macedonian (FYROM)</value></data>
+	<data name="ComboBoxTranslateLanguage.Items73"><value>Malaysian</value></data>
+	<data name="ComboBoxTranslateLanguage.Items74"><value>Maltese</value></data>
+	<data name="ComboBoxTranslateLanguage.Items75"><value>Norwegian (Bokmal)</value></data>
+	<data name="ComboBoxTranslateLanguage.Items76"><value>Norwegian (Nynorsk)</value></data>
+	<data name="ComboBoxTranslateLanguage.Items77"><value>Polish</value></data>
+	<data name="ComboBoxTranslateLanguage.Items78"><value>Portuguese (Brazil)</value></data>
+	<data name="ComboBoxTranslateLanguage.Items79"><value>Portuguese (Portugal)</value></data>
+	<data name="ComboBoxTranslateLanguage.Items8"><value>Arabic (Tunisia)</value></data>
+	<data name="ComboBoxTranslateLanguage.Items80"><value>Rhaeto-Romanic</value></data>
+	<data name="ComboBoxTranslateLanguage.Items81"><value>Romanian</value></data>
+	<data name="ComboBoxTranslateLanguage.Items82"><value>Romanian (Republic of Moldova)</value></data>
+	<data name="ComboBoxTranslateLanguage.Items83"><value>Russian</value></data>
+	<data name="ComboBoxTranslateLanguage.Items84"><value>Russian (Republic of Moldova)</value></data>
+	<data name="ComboBoxTranslateLanguage.Items85"><value>Sami (Lappish)</value></data>
+	<data name="ComboBoxTranslateLanguage.Items86"><value>Serbian (Cyrillic)</value></data>
+	<data name="ComboBoxTranslateLanguage.Items87"><value>Serbian (Latin)</value></data>
+	<data name="ComboBoxTranslateLanguage.Items88"><value>Slovak</value></data>
+	<data name="ComboBoxTranslateLanguage.Items89"><value>Slovenian</value></data>
+	<data name="ComboBoxTranslateLanguage.Items9"><value>Arabic (Oman)</value></data>
+	<data name="ComboBoxTranslateLanguage.Items90"><value>Sorbian</value></data>
+	<data name="ComboBoxTranslateLanguage.Items91"><value>Spanish (Spain)</value></data>
+	<data name="ComboBoxTranslateLanguage.Items92"><value>Spanish (Mexico)</value></data>
+	<data name="ComboBoxTranslateLanguage.Items93"><value>Spanish (Guatemala)</value></data>
+	<data name="ComboBoxTranslateLanguage.Items94"><value>Spanish (Costa Rica)</value></data>
+	<data name="ComboBoxTranslateLanguage.Items95"><value>Spanish (Panama)</value></data>
+	<data name="ComboBoxTranslateLanguage.Items96"><value>Spanish (Dominican Republic)</value></data>
+	<data name="ComboBoxTranslateLanguage.Items97"><value>Spanish (Venezuela)</value></data>
+	<data name="ComboBoxTranslateLanguage.Items98"><value>Spanish (Colombia)</value></data>
+	<data name="ComboBoxTranslateLanguage.Items99"><value>Spanish (Peru)</value></data>
+	<data name="ComboBoxTranslateLanguage.Location" type="System.Drawing.Point, System.Drawing"><value>218, 48</value></data>
+	<data name="ComboBoxTranslateLanguage.Size" type="System.Drawing.Size, System.Drawing"><value>182, 20</value></data>
+	<data name="ComboBoxTranslateLanguage.TabIndex" type="System.Int32, mscorlib"><value>2</value></data>
+	<data name="EnableImgAzyobuziNetCheckBox.AutoSize" type="System.Boolean, mscorlib"><value>True</value></data>
+	<data name="EnableImgAzyobuziNetCheckBox.Location" type="System.Drawing.Point, System.Drawing"><value>23, 131</value></data>
+	<data name="EnableImgAzyobuziNetCheckBox.Size" type="System.Drawing.Size, System.Drawing"><value>389, 16</value></data>
+	<data name="EnableImgAzyobuziNetCheckBox.TabIndex" type="System.Int32, mscorlib"><value>5</value></data>
+	<data name="EnableImgAzyobuziNetCheckBox.Text"><value>ツイートに含まれる画像URLのサムネイル表示に img.azyobuzi.net を利用する</value></data>
+	<data name="EncryptApiKeyButton.AutoSize" type="System.Boolean, mscorlib"><value>True</value></data>
+	<data name="EncryptApiKeyButton.Location" type="System.Drawing.Point, System.Drawing"><value>23, 293</value></data>
+	<data name="EncryptApiKeyButton.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms"><value>20, 0, 20, 0</value></data>
+	<data name="EncryptApiKeyButton.Size" type="System.Drawing.Size, System.Drawing"><value>135, 23</value></data>
+	<data name="EncryptApiKeyButton.TabIndex" type="System.Int32, mscorlib"><value>8</value></data>
+	<data name="EncryptApiKeyButton.Text"><value>APIキー暗号化</value></data>
+	<data name="ImgAzyobuziNetDisabledInDMCheckBox.AutoSize" type="System.Boolean, mscorlib"><value>True</value></data>
+	<data name="ImgAzyobuziNetDisabledInDMCheckBox.Location" type="System.Drawing.Point, System.Drawing"><value>50, 156</value></data>
+	<data name="ImgAzyobuziNetDisabledInDMCheckBox.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms"><value>30, 3, 3, 3</value></data>
+	<data name="ImgAzyobuziNetDisabledInDMCheckBox.Size" type="System.Drawing.Size, System.Drawing"><value>256, 16</value></data>
+	<data name="ImgAzyobuziNetDisabledInDMCheckBox.TabIndex" type="System.Int32, mscorlib"><value>6</value></data>
+	<data name="ImgAzyobuziNetDisabledInDMCheckBox.Text"><value>ダイレクトメッセージに含まれるURLには使用しない</value></data>
+	<data name="Label29.AutoSize" type="System.Boolean, mscorlib"><value>True</value></data>
+	<data name="Label29.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms"><value>NoControl</value></data>
+	<data name="Label29.Location" type="System.Drawing.Point, System.Drawing"><value>23, 51</value></data>
+	<data name="Label29.Size" type="System.Drawing.Size, System.Drawing"><value>99, 12</value></data>
+	<data name="Label29.TabIndex" type="System.Int32, mscorlib"><value>1</value></data>
+	<data name="Label29.Text"><value>発言翻訳先の言語</value></data>
+	<data name="Label39.AutoSize" type="System.Boolean, mscorlib"><value>True</value></data>
+	<data name="Label39.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms"><value>NoControl</value></data>
+	<data name="Label39.Location" type="System.Drawing.Point, System.Drawing"><value>23, 84</value></data>
+	<data name="Label39.Size" type="System.Drawing.Size, System.Drawing"><value>401, 12</value></data>
+	<data name="Label39.TabIndex" type="System.Int32, mscorlib"><value>3</value></data>
+	<data name="Label39.Text"><value>ユーザー指定のURL({ID}をScreenNameに、{STATUS}をステータスIDに置き換えます)</value></data>
+	<data name="Label40.AutoSize" type="System.Boolean, mscorlib"><value>True</value></data>
+	<data name="Label40.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms"><value>NoControl</value></data>
+	<data name="Label40.Location" type="System.Drawing.Point, System.Drawing"><value>11, 54</value></data>
+	<data name="Label40.Size" type="System.Drawing.Size, System.Drawing"><value>83, 12</value></data>
+	<data name="Label40.TabIndex" type="System.Int32, mscorlib"><value>2</value></data>
+	<data name="Label40.Text"><value>サムネイルサイズ</value></data>
+	<data name="Label41.AutoSize" type="System.Boolean, mscorlib"><value>True</value></data>
+	<data name="Label41.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms"><value>NoControl</value></data>
+	<data name="Label41.Location" type="System.Drawing.Point, System.Drawing"><value>270, 54</value></data>
+	<data name="Label41.Size" type="System.Drawing.Size, System.Drawing"><value>64, 12</value></data>
+	<data name="Label41.TabIndex" type="System.Int32, mscorlib"><value>6</value></data>
+	<data name="Label41.Text"><value>ズームレベル</value></data>
+	<data name="Label42.AutoSize" type="System.Boolean, mscorlib"><value>True</value></data>
+	<data name="Label42.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms"><value>NoControl</value></data>
+	<data name="Label42.Location" type="System.Drawing.Point, System.Drawing"><value>160, 56</value></data>
+	<data name="Label42.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms"><value>5, 0, 5, 0</value></data>
+	<data name="Label42.Size" type="System.Drawing.Size, System.Drawing"><value>11, 12</value></data>
+	<data name="Label42.TabIndex" type="System.Int32, mscorlib"><value>4</value></data>
+	<data name="Label42.Text"><value>x</value></data>
+	<data name="label48.AutoSize" type="System.Boolean, mscorlib"><value>True</value></data>
+	<data name="label48.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms"><value>NoControl</value></data>
+	<data name="label48.Location" type="System.Drawing.Point, System.Drawing"><value>11, 25</value></data>
+	<data name="label48.Size" type="System.Drawing.Size, System.Drawing"><value>66, 12</value></data>
+	<data name="label48.TabIndex" type="System.Int32, mscorlib"><value>0</value></data>
+	<data name="label48.Text"><value>地図サービス</value></data>
+	<data name="MapThumbnailGroupBox.Location" type="System.Drawing.Point, System.Drawing"><value>23, 206</value></data>
+	<data name="MapThumbnailGroupBox.Size" type="System.Drawing.Size, System.Drawing"><value>473, 80</value></data>
+	<data name="MapThumbnailGroupBox.TabIndex" type="System.Int32, mscorlib"><value>7</value></data>
+	<data name="MapThumbnailGroupBox.Text"><value>地図サムネイル</value></data>
+	<data name="MapThumbnailHeightTextBox.Location" type="System.Drawing.Point, System.Drawing"><value>179, 51</value></data>
+	<data name="MapThumbnailHeightTextBox.Size" type="System.Drawing.Size, System.Drawing"><value>50, 19</value></data>
+	<data name="MapThumbnailHeightTextBox.TabIndex" type="System.Int32, mscorlib"><value>5</value></data>
+	<data name="MapThumbnailProviderComboBox.Items"><value>OpenStreetMap</value></data>
+	<data name="MapThumbnailProviderComboBox.Items1"><value>Google Maps</value></data>
+	<data name="MapThumbnailProviderComboBox.Location" type="System.Drawing.Point, System.Drawing"><value>102, 22</value></data>
+	<data name="MapThumbnailProviderComboBox.Size" type="System.Drawing.Size, System.Drawing"><value>121, 20</value></data>
+	<data name="MapThumbnailProviderComboBox.TabIndex" type="System.Int32, mscorlib"><value>1</value></data>
+	<data name="MapThumbnailWidthTextBox.Location" type="System.Drawing.Point, System.Drawing"><value>102, 51</value></data>
+	<data name="MapThumbnailWidthTextBox.Size" type="System.Drawing.Size, System.Drawing"><value>50, 19</value></data>
+	<data name="MapThumbnailWidthTextBox.TabIndex" type="System.Int32, mscorlib"><value>3</value></data>
+	<data name="MapThumbnailZoomTextBox.Location" type="System.Drawing.Point, System.Drawing"><value>346, 51</value></data>
+	<data name="MapThumbnailZoomTextBox.Size" type="System.Drawing.Size, System.Drawing"><value>63, 19</value></data>
+	<data name="MapThumbnailZoomTextBox.TabIndex" type="System.Int32, mscorlib"><value>7</value></data>
+	<data name="UserAppointUrlText.Location" type="System.Drawing.Point, System.Drawing"><value>218, 102</value></data>
+	<data name="UserAppointUrlText.Size" type="System.Drawing.Size, System.Drawing"><value>278, 19</value></data>
+	<data name="UserAppointUrlText.TabIndex" type="System.Int32, mscorlib"><value>4</value></data>
 </root>

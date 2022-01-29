@@ -1,1187 +1,380 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<root>
-  <!-- 
-    Microsoft ResX Schema 
-    
-    Version 2.0
-    
-    The primary goals of this format is to allow a simple XML format 
-    that is mostly human readable. The generation and parsing of the 
-    various data types are done through the TypeConverter classes 
-    associated with the data types.
-    
-    Example:
-    
-    ... ado.net/XML headers & schema ...
-    <resheader name="resmimetype">text/microsoft-resx</resheader>
-    <resheader name="version">2.0</resheader>
-    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
-    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
-    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
-    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
-    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
-        <value>[base64 mime encoded serialized .NET Framework object]</value>
-    </data>
-    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
-        <comment>This is a comment</comment>
-    </data>
-                
-    There are any number of "resheader" rows that contain simple 
-    name/value pairs.
-    
-    Each data row contains a name, and value. The row also contains a 
-    type or mimetype. Type corresponds to a .NET class that support 
-    text/value conversion through the TypeConverter architecture. 
-    Classes that don't support this are serialized and stored with the 
-    mimetype set.
-    
-    The mimetype is used for serialized objects, and tells the 
-    ResXResourceReader how to depersist the object. This is currently not 
-    extensible. For a given mimetype the value must be set accordingly:
-    
-    Note - application/x-microsoft.net.object.binary.base64 is the format 
-    that the ResXResourceWriter will generate, however the reader can 
-    read any of the formats listed below.
-    
-    mimetype: application/x-microsoft.net.object.binary.base64
-    value   : The object must be serialized with 
-            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
-            : and then encoded with base64 encoding.
-    
-    mimetype: application/x-microsoft.net.object.soap.base64
-    value   : The object must be serialized with 
-            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
-            : and then encoded with base64 encoding.
+<?xml version="1.0" encoding="utf-8"?><root xml:space="preserve">
+	<resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+	<resheader name="version"><value>2.0</value></resheader>
+	<resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+	<resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+	<assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
 
-    mimetype: application/x-microsoft.net.object.bytearray.base64
-    value   : The object must be serialized into a byte array 
-            : using a System.ComponentModel.TypeConverter
-            : and then encoded with base64 encoding.
-    -->
-  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
-    <xsd:element name="root" msdata:IsDataSet="true">
-      <xsd:complexType>
-        <xsd:choice maxOccurs="unbounded">
-          <xsd:element name="metadata">
-            <xsd:complexType>
-              <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" />
-              </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string" />
-              <xsd:attribute name="type" type="xsd:string" />
-              <xsd:attribute name="mimetype" type="xsd:string" />
-              <xsd:attribute ref="xml:space" />
-            </xsd:complexType>
-          </xsd:element>
-          <xsd:element name="assembly">
-            <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string" />
-              <xsd:attribute name="name" type="xsd:string" />
-            </xsd:complexType>
-          </xsd:element>
-          <xsd:element name="data">
-            <xsd:complexType>
-              <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
-              </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-              <xsd:attribute ref="xml:space" />
-            </xsd:complexType>
-          </xsd:element>
-          <xsd:element name="resheader">
-            <xsd:complexType>
-              <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-              </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" />
-            </xsd:complexType>
-          </xsd:element>
-        </xsd:choice>
-      </xsd:complexType>
-    </xsd:element>
-  </xsd:schema>
-  <resheader name="resmimetype">
-    <value>text/microsoft-resx</value>
-  </resheader>
-  <resheader name="version">
-    <value>2.0</value>
-  </resheader>
-  <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </resheader>
-  <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </resheader>
-  <data name="AddNewTabText1" xml:space="preserve">
-    <value>(新規タブ)</value>
-  </data>
-  <data name="AddNewTabText2" xml:space="preserve">
-    <value>名前</value>
-  </data>
-  <data name="AddNewTabText3" xml:space="preserve">
-    <value>投稿</value>
-  </data>
-  <data name="AddNewTabText4" xml:space="preserve">
-    <value>取得日時</value>
-  </data>
-  <data name="AddNewTabText5" xml:space="preserve">
-    <value>ユーザ名</value>
-  </data>
-  <data name="AddTabMenuItem_ClickText1" xml:space="preserve">
-    <value>タブ　""{0}""　は既に存在するため、追加できません。別の名前を指定してください。</value>
-  </data>
-  <data name="AddTabMenuItem_ClickText2" xml:space="preserve">
-    <value>タブ追加</value>
-  </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="At" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\5b.ico;System.Drawing.Icon, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="AtBlink" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\6b.ico;System.Drawing.Icon, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="AtRed" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\5r.ico;System.Drawing.Icon, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="AtSmoke" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\5y.ico;System.Drawing.Icon, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Button3_ClickText1" xml:space="preserve">
-    <value>実行形式ファイル(*.exe)|*.exe|すべてのファイル(*.*)|*.*</value>
-  </data>
-  <data name="Button3_ClickText2" xml:space="preserve">
-    <value>ブラウザを指定してください</value>
-  </data>
-  <data name="ButtonDelete_ClickText1" xml:space="preserve">
-    <value>このルールを削除してもよろしいですか？{0}   『{1}』</value>
-  </data>
-  <data name="ButtonDelete_ClickText2" xml:space="preserve">
-    <value>ルール削除確認</value>
-  </data>
-  <data name="ButtonOK_ClickText1" xml:space="preserve">
-    <value>ルールを指定してください。</value>
-  </data>
-  <data name="ButtonOK_ClickText2" xml:space="preserve">
-    <value>ルールチェック</value>
-  </data>
-  <data name="ButtonOK_ClickText3" xml:space="preserve">
-    <value>正規表現エラー：</value>
-  </data>
-  <data name="ChangeLog" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ChangeLog.txt;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="CheckNewVersionText1" xml:space="preserve">
-    <value>%AppName%更新確認</value>
-  </data>
-  <data name="CheckNewVersionText10" xml:space="preserve">
-    <value>更新版のバージョン取得に失敗しました。しばらく待ってから再度お試しください。</value>
-  </data>
-  <data name="CheckNewVersionText2" xml:space="preserve">
-    <value>%AppName%更新結果</value>
-  </data>
-  <data name="CheckNewVersionText3" xml:space="preserve">
-    <value>新しいバージョン {0} が公開されています。更新しますか？</value>
-  </data>
-  <data name="CheckNewVersionText4" xml:space="preserve">
-    <value>アップデーターのダウンロードに失敗しました。しばらく待ってから再度お試しください。</value>
-  </data>
-  <data name="CheckNewVersionText5" xml:space="preserve">
-    <value>最新版が公開されていますが、ダウンロードに失敗しました。しばらく待ってから再度お試しください。</value>
-  </data>
-  <data name="CheckNewVersionText6" xml:space="preserve">
-    <value>新しいバージョンは見つかりません。 {0} が公開されています。強制的に更新しますか？</value>
-  </data>
-  <data name="CheckNewVersionText7" xml:space="preserve">
-    <value>最新版をお使いです。更新の必要はありませんでした。使用中Ver：{0} 最新Ver：{1}</value>
-  </data>
-  <data name="CheckNewVersionText9" xml:space="preserve">
-    <value>バージョンチェック失敗</value>
-  </data>
-  <data name="ClearTabMenuItem_ClickText1" xml:space="preserve">
-    <value>このタブの発言をクリアしてもよろしいですか？{0}（サーバーから発言は削除しません。）</value>
-  </data>
-  <data name="ClearTabMenuItem_ClickText2" xml:space="preserve">
-    <value>タブクリア確認</value>
-  </data>
-  <data name="ContextMenuStrip3_OpeningText1" xml:space="preserve">
-    <value>(アイコンが取得できていません)</value>
-  </data>
-  <data name="ContextMenuStrip3_OpeningText2" xml:space="preserve">
-    <value>(発言を選択してください)</value>
-  </data>
-  <data name="DeleteStripMenuItem_ClickText1" xml:space="preserve">
-    <value>選択されている自発言(またはDM)を削除してもよろしいですか？{0}注意　：　Twitterサーバからも削除されます！{0}　タブからIDを削除する場合は、「IDを移動」を使ってください。{0}　タブを削除する場合は、「タブを削除」を使ってください。{0}{0}削除処理を中止するには、「キャンセル」ボタンを押してください。</value>
-  </data>
-  <data name="DeleteStripMenuItem_ClickText2" xml:space="preserve">
-    <value>削除確認</value>
-  </data>
-  <data name="DeleteStripMenuItem_ClickText3" xml:space="preserve">
-    <value>削除失敗</value>
-  </data>
-  <data name="DeleteStripMenuItem_ClickText4" xml:space="preserve">
-    <value>削除成功</value>
-  </data>
-  <data name="DMPeriod_ValidatingText1" xml:space="preserve">
-    <value>更新間隔には数値（0または15～6000）を指定してください。</value>
-  </data>
-  <data name="DMPeriod_ValidatingText2" xml:space="preserve">
-    <value>更新間隔には数値（0または15～6000）を指定してください。</value>
-  </data>
-  <data name="DoTabSearchText1" xml:space="preserve">
-    <value>正規表現パターンが間違っています。</value>
-  </data>
-  <data name="DoTabSearchText2" xml:space="preserve">
-    <value>検索条件に一致するデータは見つかりません。</value>
-  </data>
-  <data name="DoTabSearchText3" xml:space="preserve">
-    <value>検索</value>
-  </data>
-  <data name="FavAddToolStripMenuItem_ClickText1" xml:space="preserve">
-    <value>選択された発言をFavoritesに追加します。よろしいですか？</value>
-  </data>
-  <data name="FavAddToolStripMenuItem_ClickText2" xml:space="preserve">
-    <value>Fav確認</value>
-  </data>
-  <data name="FavAddToolStripMenuItem_ClickText3" xml:space="preserve">
-    <value>Fav追加中...</value>
-  </data>
-  <data name="FavAddToolStripMenuItem_ClickText4" xml:space="preserve">
-    <value>Fav追加なし</value>
-  </data>
-  <data name="FavRemoveToolStripMenuItem_ClickText1" xml:space="preserve">
-    <value>選択された発言をFavoritesから削除します。よろしいですか？</value>
-  </data>
-  <data name="FavRemoveToolStripMenuItem_ClickText2" xml:space="preserve">
-    <value>Fav確認</value>
-  </data>
-  <data name="FavRemoveToolStripMenuItem_ClickText3" xml:space="preserve">
-    <value>Fav削除中...</value>
-  </data>
-  <data name="FavRemoveToolStripMenuItem_ClickText4" xml:space="preserve">
-    <value>Fav削除なし</value>
-  </data>
-  <data name="Form1_LoadText1" xml:space="preserve">
-    <value>更新中...</value>
-  </data>
-  <data name="GetTimelineWorker_RunWorkerCompletedText1" xml:space="preserve">
-    <value>Recent更新完了</value>
-  </data>
-  <data name="GetTimelineWorker_RunWorkerCompletedText10" xml:space="preserve">
-    <value>起動時読込完了</value>
-  </data>
-  <data name="GetTimelineWorker_RunWorkerCompletedText11" xml:space="preserve">
-    <value>DMRcv更新完了</value>
-  </data>
-  <data name="GetTimelineWorker_RunWorkerCompletedText12" xml:space="preserve">
-    <value>DMSnt更新中...</value>
-  </data>
-  <data name="GetTimelineWorker_RunWorkerCompletedText13" xml:space="preserve">
-    <value>DMSnt更新完了</value>
-  </data>
-  <data name="GetTimelineWorker_RunWorkerCompletedText14" xml:space="preserve">
-    <value>POST完了</value>
-  </data>
-  <data name="GetTimelineWorker_RunWorkerCompletedText15" xml:space="preserve">
-    <value>Fav追加({0}/{1}) 失敗:{2}</value>
-  </data>
-  <data name="GetTimelineWorker_RunWorkerCompletedText17" xml:space="preserve">
-    <value>Fav削除({0}/{1}) 失敗:{2}</value>
-  </data>
-  <data name="GetTimelineWorker_RunWorkerCompletedText3" xml:space="preserve">
-    <value>読み込み継続確認</value>
-  </data>
-  <data name="GetTimelineWorker_RunWorkerCompletedText4" xml:space="preserve">
-    <value>Reply更新中...{0}pages</value>
-  </data>
-  <data name="GetTimelineWorker_RunWorkerCompletedText5" xml:space="preserve">
-    <value>Recent更新中...{0}pages</value>
-  </data>
-  <data name="GetTimelineWorker_RunWorkerCompletedText8" xml:space="preserve">
-    <value>DMRcv更新中...{0}pages</value>
-  </data>
-  <data name="GetTimelineWorker_RunWorkerCompletedText9" xml:space="preserve">
-    <value>Reply更新完了</value>
-  </data>
-  <data name="IDRuleMenuItem_ClickText1" xml:space="preserve">
-    <value>(新規タブ)</value>
-  </data>
-  <data name="IDRuleMenuItem_ClickText2" xml:space="preserve">
-    <value>タブ　""{0}""　は既に存在するため、追加できません。別の名前を指定してください。</value>
-  </data>
-  <data name="IDRuleMenuItem_ClickText3" xml:space="preserve">
-    <value>タブ追加</value>
-  </data>
-  <data name="IDRuleMenuItem_ClickText4" xml:space="preserve">
-    <value>Recentに残しますか？{0}  「はい」　：残す{0}  「いいえ」：残さない</value>
-  </data>
-  <data name="IDRuleMenuItem_ClickText5" xml:space="preserve">
-    <value>移動確認</value>
-  </data>
-  <data name="IDRuleMenuItem_ClickText6" xml:space="preserve">
-    <value>マークをつけますか？{0}  「はい」　：つける{0}  「いいえ」：つけない</value>
-  </data>
-  <data name="IDRuleMenuItem_ClickText7" xml:space="preserve">
-    <value>マーク確認</value>
-  </data>
-  <data name="LoadConfigurationText1" xml:space="preserve">
-    <value>この設定ファイルは %AppName% により自動生成されました。手動で変更しないでください。</value>
-  </data>
-  <data name="MenuItemSearchNext_ClickText1" xml:space="preserve">
-    <value>正規表現パターンが間違っています。</value>
-  </data>
-  <data name="MenuItemSearchNext_ClickText2" xml:space="preserve">
-    <value>検索条件に一致するデータは見つかりません。</value>
-  </data>
-  <data name="MenuItemSearchNext_ClickText3" xml:space="preserve">
-    <value>検索</value>
-  </data>
-  <data name="MenuItemSearchPrev_ClickText1" xml:space="preserve">
-    <value>正規表現パターンが間違っています。</value>
-  </data>
-  <data name="MenuItemSearchPrev_ClickText2" xml:space="preserve">
-    <value>検索条件に一致するデータは見つかりません。</value>
-  </data>
-  <data name="MenuItemSearchPrev_ClickText3" xml:space="preserve">
-    <value>検索</value>
-  </data>
-  <data name="MIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\4b.ico;System.Drawing.Icon, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="PostWorker_RunWorkerCompletedText4" xml:space="preserve">
-    <value>POST完了</value>
-  </data>
-  <data name="PostWorker_RunWorkerCompletedText5" xml:space="preserve">
-    <value>Recent更新中...</value>
-  </data>
-  <data name="Refresh" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\re.ico;System.Drawing.Icon, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Refresh2" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\re2.ico;System.Drawing.Icon, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Refresh3" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\re3.ico;System.Drawing.Icon, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Refresh4" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\re4.ico;System.Drawing.Icon, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="RefreshStripMenuItem_ClickText1" xml:space="preserve">
-    <value>Recent更新中...</value>
-  </data>
-  <data name="RefreshStripMenuItem_ClickText2" xml:space="preserve">
-    <value>Reply更新中...</value>
-  </data>
-  <data name="RefreshStripMenuItem_ClickText3" xml:space="preserve">
-    <value>DMRcv更新中...</value>
-  </data>
-  <data name="RefreshTimeline_NotifyText" xml:space="preserve">
-    <value>新着 {0} 件</value>
-  </data>
-  <data name="RefreshTimelineText3" xml:space="preserve">
-    <value>ログ読込</value>
-  </data>
-  <data name="RefreshTimelineText4" xml:space="preserve">
-    <value>起動読込</value>
-  </data>
-  <data name="RemoveSpecifiedTabText1" xml:space="preserve">
-    <value>このタブを削除してもよろしいですか？{0}</value>
-  </data>
-  <data name="RemoveSpecifiedTabText2" xml:space="preserve">
-    <value>タブの削除確認</value>
-  </data>
-  <data name="SaveLogMenuItem_ClickText1" xml:space="preserve">
-    <value>選択中タブの全発言を保存しますか？{0}　「はい」　　　：全発言を保存する{0}　「いいえ」　　：選択している発言のみ保存する{0}　「キャンセル」：保存処理をキャンセル{0}（タブ区切りのテキストファイル形式で保存します）</value>
-  </data>
-  <data name="SaveLogMenuItem_ClickText2" xml:space="preserve">
-    <value>保存対象選択</value>
-  </data>
-  <data name="SaveLogMenuItem_ClickText3" xml:space="preserve">
-    <value>TSVファイル(*.tsv)|*.tsv|すべてのファイル(*.*)|*.*</value>
-  </data>
-  <data name="SaveLogMenuItem_ClickText4" xml:space="preserve">
-    <value>保存先のファイルを選択してください</value>
-  </data>
-  <data name="Save_ClickText1" xml:space="preserve">
-    <value>ユーザー名とパスワードを指定してください。</value>
-  </data>
-  <data name="Save_ClickText2" xml:space="preserve">
-    <value>ユーザー名に『@』を含めないでください。（メールアドレス不可）</value>
-  </data>
-  <data name="Save_ClickText3" xml:space="preserve">
-    <value>設定値に誤りがあります。</value>
-  </data>
-  <data name="SearchItem1Url" xml:space="preserve">
-    <value>https://ja.wikipedia.org/w/index.php?search={0}</value>
-  </data>
-  <data name="SearchItem2Url" xml:space="preserve">
-    <value>https://www.google.com/search?hl=ja&amp;q={0}</value>
-  </data>
-  <data name="SearchItem4Url" xml:space="preserve">
-    <value>https://twitter.com/search?q={0}</value>
-  </data>
-  <data name="SetFiltersText1" xml:space="preserve">
-    <value>[ユーザ･･･{0}]  </value>
-  </data>
-  <data name="SetFiltersText10" xml:space="preserve">
-    <value>マークする</value>
-  </data>
-  <data name="SetFiltersText11" xml:space="preserve">
-    <value>コピーする/</value>
-  </data>
-  <data name="SetFiltersText2" xml:space="preserve">
-    <value>[ユーザ･･･(全て)]  </value>
-  </data>
-  <data name="SetFiltersText3" xml:space="preserve">
-    <value>[本文･･･</value>
-  </data>
-  <data name="SetFiltersText4" xml:space="preserve">
-    <value>]  </value>
-  </data>
-  <data name="SetFiltersText5" xml:space="preserve">
-    <value>複合/</value>
-  </data>
-  <data name="SetFiltersText6" xml:space="preserve">
-    <value>単一/</value>
-  </data>
-  <data name="SetFiltersText7" xml:space="preserve">
-    <value>Regexp/</value>
-  </data>
-  <data name="SetFiltersText8" xml:space="preserve">
-    <value>URL/</value>
-  </data>
-  <data name="SetFiltersText9" xml:space="preserve">
-    <value>移動する</value>
-  </data>
-  <data name="SetMainWindowTitleText1" xml:space="preserve">
-    <value>{0}件 (未読＠)</value>
-  </data>
-  <data name="SetMainWindowTitleText2" xml:space="preserve">
-    <value>{0}件 (未読)</value>
-  </data>
-  <data name="SetMainWindowTitleText3" xml:space="preserve">
-    <value>{0} ({1})件 (未読)</value>
-  </data>
-  <data name="SetMainWindowTitleText4" xml:space="preserve">
-    <value>{0}/{1}件 (未読/総件数)</value>
-  </data>
-  <data name="SetStatusLabelText1" xml:space="preserve">
-    <value>[タブ: {0}/{1} 全体: {2}/{3} (返信: {4})] [時速: 投 {5}/ ☆ {6}/ 流 {7}] [間隔: </value>
-  </data>
-  <data name="SetStatusLabelText2" xml:space="preserve">
-    <value>-]</value>
-  </data>
-  <data name="SetStatusLabelText3" xml:space="preserve">
-    <value>]</value>
-  </data>
-  <data name="StartupReadDM_ValidatingText1" xml:space="preserve">
-    <value>読み込みページ数には数値（1～999）を指定してください。</value>
-  </data>
-  <data name="StartupReadDM_ValidatingText2" xml:space="preserve">
-    <value>読み込みページ数には数値（1～999）を指定してください。</value>
-  </data>
-  <data name="StartupReadPages_ValidatingText1" xml:space="preserve">
-    <value>読み込みページ数には数値（1～999）を指定してください。</value>
-  </data>
-  <data name="StartupReadPages_ValidatingText2" xml:space="preserve">
-    <value>読み込みページ数には数値（1～999）を指定してください。</value>
-  </data>
-  <data name="StartupReadReply_ValidatingText1" xml:space="preserve">
-    <value>読み込みページ数には数値（0～999）を指定してください。</value>
-  </data>
-  <data name="StartupReadReply_ValidatingText2" xml:space="preserve">
-    <value>読み込みページ数には数値（0～999）を指定してください。</value>
-  </data>
-  <data name="StartupText1" xml:space="preserve">
-    <value>%AppName%は既に起動されています。2重起動する場合は /configDir オプションを使用して設定ファイルを分離するか、別フォルダの{0}.exeを実行してください。</value>
-  </data>
-  <data name="StartupText2" xml:space="preserve">
-    <value>%AppName%二重起動チェック</value>
-  </data>
-  <data name="TabIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\3b.ico;System.Drawing.Icon, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="TabMenuItem_ClickText1" xml:space="preserve">
-    <value>(新規タブ)</value>
-  </data>
-  <data name="TabMenuItem_ClickText2" xml:space="preserve">
-    <value>タブ　""{0}""　は既に存在するため、追加できません。別の名前を指定してください。</value>
-  </data>
-  <data name="TabMenuItem_ClickText3" xml:space="preserve">
-    <value>タブ追加</value>
-  </data>
-  <data name="TextProxyPort_ValidatingText1" xml:space="preserve">
-    <value>ポート番号には整数値を指定してください。</value>
-  </data>
-  <data name="TextProxyPort_ValidatingText2" xml:space="preserve">
-    <value>ポート番号には0～65535を指定してください。</value>
-  </data>
-  <data name="TimelinePeriod_ValidatingText1" xml:space="preserve">
-    <value>更新間隔には数値（0または15～6000）を指定してください。</value>
-  </data>
-  <data name="TimelinePeriod_ValidatingText2" xml:space="preserve">
-    <value>更新間隔には数値（0または15～6000）を指定してください。</value>
-  </data>
-  <data name="TimerDM_TickText1" xml:space="preserve">
-    <value>DMRcv更新中...</value>
-  </data>
-  <data name="TimerTimeline_TickText1" xml:space="preserve">
-    <value>Recent更新中...</value>
-  </data>
-  <data name="TraceOutText1" xml:space="preserve">
-    <value>このファイルの内容を {0} まで送っていただけると助かります。</value>
-  </data>
-  <data name="TraceOutText2" xml:space="preserve">
-    <value>ご面倒なら{0}までお知らせ頂くだけでも助かります。</value>
-  </data>
-  <data name="TraceOutText3" xml:space="preserve">
-    <value>動作環境:</value>
-  </data>
-  <data name="TraceOutText4" xml:space="preserve">
-    <value>   オペレーティング システム: {0}</value>
-  </data>
-  <data name="TraceOutText5" xml:space="preserve">
-    <value>   共通言語ランタイム: {0}</value>
-  </data>
-  <data name="TraceOutText6" xml:space="preserve">
-    <value>   {0}.exeのバージョン: {1}</value>
-  </data>
-  <data name="TweenAboutBox_LoadText2" xml:space="preserve">
-    <value>バージョン {0}</value>
-  </data>
-  <data name="UnhandledExceptionText1" xml:space="preserve">
-    <value>**** エラー ログ: {0} ****</value>
-  </data>
-  <data name="UnhandledExceptionText10" xml:space="preserve">
-    <value>エラー発生</value>
-  </data>
-  <data name="UnhandledExceptionText2" xml:space="preserve">
-    <value>このファイルの内容を {0} まで送っていただけると助かります。</value>
-  </data>
-  <data name="UnhandledExceptionText3" xml:space="preserve">
-    <value>ご面倒なら{0}までお知らせ頂くだけでも助かります。</value>
-  </data>
-  <data name="UnhandledExceptionText4" xml:space="preserve">
-    <value>動作環境:</value>
-  </data>
-  <data name="UnhandledExceptionText5" xml:space="preserve">
-    <value>   オペレーティング システム: {0}</value>
-  </data>
-  <data name="UnhandledExceptionText6" xml:space="preserve">
-    <value>   共通言語ランタイム: {0}</value>
-  </data>
-  <data name="UnhandledExceptionText7" xml:space="preserve">
-    <value>   {0}.exeのバージョン: {1}</value>
-  </data>
-  <data name="UnhandledExceptionText8" xml:space="preserve">
-    <value>例外 {0}: {1}</value>
-  </data>
-  <data name="UnhandledExceptionText9" xml:space="preserve">
-    <value>エラーが発生しました。ごめんなさい。ログをexeファイルのある場所に {0} として作ったので、{1}まで送っていただけると助かります。{3}ご面倒なら{2}までお知らせ頂くだけでも助かります。{3}「はい」ボタンをクリックするとログを開きます。ログを開かない場合は「いいえ」、このまま終了する場合は「キャンセル」ボタンをクリックしてください。</value>
-  </data>
-  <data name="UpdateFollowersMenuItem1_ClickText1" xml:space="preserve">
-    <value>Followers取得中...</value>
-  </data>
-  <data name="UpdateFollowersMenuItem1_ClickText2" xml:space="preserve">
-    <value>Followers取得エラー：</value>
-  </data>
-  <data name="UpdateFollowersMenuItem1_ClickText3" xml:space="preserve">
-    <value>Followers取得完了</value>
-  </data>
-  <data name="CmbDateTimeFormat_Validating" xml:space="preserve">
-    <value>無効な日時書式指定文字列です</value>
-  </data>
-  <data name="CreateDateTimeFormatSampleText1" xml:space="preserve">
-    <value>無効な日時書式指定文字列です</value>
-  </data>
-  <data name="ConnectionTimeOut_ValidatingText1" xml:space="preserve">
-    <value>タイムアウトまでの時間には数値（10～120）を指定してください。</value>
-  </data>
-  <data name="TextCountApi_Validating1" xml:space="preserve">
-    <value>取得発言数は20～200件を指定してください。</value>
-  </data>
-  <data name="UnhandledExceptionText11" xml:space="preserve">
-    <value>Administrator権限：</value>
-  </data>
-  <data name="UnhandledExceptionText12" xml:space="preserve">
-    <value>Users権限：</value>
-  </data>
-  <data name="AddNewTabText4_2" xml:space="preserve">
-    <value>日時</value>
-  </data>
-  <data name="Tabs_DoubleClickText1" xml:space="preserve">
-    <value>タブ　""{0}""　は既に存在するため、変更できません。別の名前を指定してください。</value>
-  </data>
-  <data name="Tabs_DoubleClickText2" xml:space="preserve">
-    <value>タブ名変更</value>
-  </data>
-  <data name="ButtonOK_ClickText4" xml:space="preserve">
-    <value>既に存在するルールは追加できません</value>
-  </data>
-  <data name="GetTimelineWorker_RunWorkerCompletedText19" xml:space="preserve">
-    <value>Fav取得中...</value>
-  </data>
-  <data name="GetTimelineWorker_RunWorkerCompletedText20" xml:space="preserve">
-    <value>Fav取得完了</value>
-  </data>
-  <data name="Reply" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\5g.ico;System.Drawing.Icon, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="ReplyBlink" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\6g.ico;System.Drawing.Icon, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="SetFiltersText12" xml:space="preserve">
-    <value> &lt;&lt;除外&gt;&gt; </value>
-  </data>
-  <data name="SetFiltersText13" xml:space="preserve">
-    <value>大小区別/</value>
-  </data>
-  <data name="ApiInfo4" xml:space="preserve">
-    <value>API情報</value>
-  </data>
-  <data name="ApiInfo5" xml:space="preserve">
-    <value> * API情報の取得に失敗 *</value>
-  </data>
-  <data name="FRMessage1" xml:space="preserve">
-    <value>idを入力して下さい。</value>
-  </data>
-  <data name="FRMessage2" xml:space="preserve">
-    <value>失敗 : </value>
-  </data>
-  <data name="FRMessage3" xml:space="preserve">
-    <value>完了！</value>
-  </data>
-  <data name="PostLengthOverMessage1" xml:space="preserve">
-    <value>投稿できる文字数の上限を越えています。強制的に投稿しますか？</value>
-  </data>
-  <data name="PostLengthOverMessage2" xml:space="preserve">
-    <value>文字数制限オーバー</value>
-  </data>
-  <data name="RetweetQuestion1" xml:space="preserve">
-    <value>Retweetしてもよろしいですか？</value>
-  </data>
-  <data name="InputTabName_Load1" xml:space="preserve">
-    <value>タイムライン振り分け</value>
-  </data>
-  <data name="ShowYourProfileText1" xml:space="preserve">
-    <value>まだあなたのプロフィール情報を取得していません。投稿後に再度お試しください。</value>
-  </data>
-  <data name="DeleteHashtagsMessage1" xml:space="preserve">
-    <value>選択しているハッシュタグを削除してもよろしいですか？</value>
-  </data>
-  <data name="GetFriendshipInfo1" xml:space="preserve">
-    <value>&gt;&gt;&gt; ◯ フォローしています</value>
-  </data>
-  <data name="GetFriendshipInfo2" xml:space="preserve">
-    <value>&gt;&gt;&gt; × フォローしていません</value>
-  </data>
-  <data name="GetFriendshipInfo3" xml:space="preserve">
-    <value>&lt;&lt;&lt; ◯ フォローされています</value>
-  </data>
-  <data name="GetFriendshipInfo4" xml:space="preserve">
-    <value>&lt;&lt;&lt; × フォローされていません</value>
-  </data>
-  <data name="GetFriendshipInfo5" xml:space="preserve">
-    <value> さんとのフォロー関係</value>
-  </data>
-  <data name="AuthorizeButton_Click1" xml:space="preserve">
-    <value>認証しました</value>
-  </data>
-  <data name="AuthorizeButton_Click2" xml:space="preserve">
-    <value>認証できませんでした</value>
-  </data>
-  <data name="AuthorizeButton_Click3" xml:space="preserve">
-    <value>認証済</value>
-  </data>
-  <data name="AuthorizeButton_Click4" xml:space="preserve">
-    <value>未認証</value>
-  </data>
-  <data name="Setting_FormClosing1" xml:space="preserve">
-    <value>「認証開始」ボタンを押すとブラウザが開きます。「連携アプリを認証」し、表示されたPINを画面上部に入力後、「Finish」ボタンを押してください。認証せずに終了してもよろしいですか？</value>
-  </data>
-  <data name="No" xml:space="preserve">
-    <value>いいえ</value>
-  </data>
-  <data name="ShowUserInfo1" xml:space="preserve">
-    <value>ユーザー情報解析失敗</value>
-  </data>
-  <data name="Yes" xml:space="preserve">
-    <value>はい</value>
-  </data>
-  <data name="GetFriendshipInfo6" xml:space="preserve">
-    <value>フォロー状況取得失敗</value>
-  </data>
-  <data name="ShowUserInfo2" xml:space="preserve">
-    <value>最新発言の取得に失敗しました</value>
-  </data>
-  <data name="RtCountText1" xml:space="preserve">
-    <value>回Retweetされています</value>
-  </data>
-  <data name="RtCountText2" xml:space="preserve">
-    <value>Retweetカウントの取得に失敗しました</value>
-  </data>
-  <data name="PubSearchPeriod_ValidatingText1" xml:space="preserve">
-    <value>更新間隔には数値（0または30～6000）を指定してください。</value>
-  </data>
-  <data name="PubSearchPeriod_ValidatingText2" xml:space="preserve">
-    <value>更新間隔には数値（0または30～6000）を指定してください。</value>
-  </data>
-  <data name="doShowUserStatusText1" xml:space="preserve">
-    <value>プロフィール取得中・・・</value>
-  </data>
-  <data name="RtCountMenuItem_ClickText1" xml:space="preserve">
-    <value>Retweetカウント取得中・・・</value>
-  </data>
-  <data name="FollowCommandText1" xml:space="preserve">
-    <value>フォローしています・・・</value>
-  </data>
-  <data name="RemoveCommandText1" xml:space="preserve">
-    <value>フォローを解除しています・・・</value>
-  </data>
-  <data name="ShowFriendshipText1" xml:space="preserve">
-    <value>フォロー状況取得中・・・</value>
-  </data>
-  <data name="NiconicoInfoText1" xml:space="preserve">
-    <value>タイトル:</value>
-  </data>
-  <data name="NiconicoInfoText2" xml:space="preserve">
-    <value>再生時間:</value>
-  </data>
-  <data name="NiconicoInfoText3" xml:space="preserve">
-    <value>投稿日時:</value>
-  </data>
-  <data name="NiconicoInfoText4" xml:space="preserve">
-    <value>再生数:</value>
-  </data>
-  <data name="NiconicoInfoText5" xml:space="preserve">
-    <value>コメント数:</value>
-  </data>
-  <data name="NiconicoInfoText6" xml:space="preserve">
-    <value>マイリスト数:</value>
-  </data>
-  <data name="OwnStatusTitle" xml:space="preserve">
-    <value>発言 {0}  フォロー {1}  フォロワー {2}({3})</value>
-  </data>
-  <data name="ChangeIconToolStripMenuItem_ClickText1" xml:space="preserve">
-    <value>画像ファイル(*.gif;*.jpg;*.jpeg;*.png)|*.gif;*.jpg;*.jpeg;*.png</value>
-  </data>
-  <data name="ChangeIconToolStripMenuItem_ClickText2" xml:space="preserve">
-    <value>サイズ700KBまでのアイコン画像ファイルを選択してください</value>
-  </data>
-  <data name="ChangeIconToolStripMenuItem_ClickText3" xml:space="preserve">
-    <value>アイコン設定中・・・</value>
-  </data>
-  <data name="ChangeIconToolStripMenuItem_ClickText4" xml:space="preserve">
-    <value>注意：Twitterの仕様により、エラーが発生してもアイコンが変更できている場合があります。次回発言の際にご確認ください。</value>
-  </data>
-  <data name="ChangeIconToolStripMenuItem_ClickText5" xml:space="preserve">
-    <value>アイコンを変更しました。 次回発言より反映されます。</value>
-  </data>
-  <data name="UserInfoButtonEdit_ClickText1" xml:space="preserve">
-    <value>適用</value>
-  </data>
-  <data name="UserInfoButtonEdit_ClickText2" xml:space="preserve">
-    <value>プロフィール更新中・・・</value>
-  </data>
-  <data name="ButtonBlockDestroy_ClickText1" xml:space="preserve">
-    <value> をブロック解除します。よろしいですか？</value>
-  </data>
-  <data name="ButtonBlockDestroy_ClickText2" xml:space="preserve">
-    <value>ブロック解除確認</value>
-  </data>
-  <data name="ButtonBlockDestroy_ClickText3" xml:space="preserve">
-    <value>エラーが発生しました。成功しているかどうかWebでご確認ください。</value>
-  </data>
-  <data name="ButtonBlockDestroy_ClickText4" xml:space="preserve">
-    <value>ブロック解除を行いました。成功しているかどうかWebでご確認ください。</value>
-  </data>
-  <data name="ButtonBlock_ClickText1" xml:space="preserve">
-    <value> をブロックします。よろしいですか？</value>
-  </data>
-  <data name="ButtonBlock_ClickText2" xml:space="preserve">
-    <value>ブロック確認</value>
-  </data>
-  <data name="ButtonBlock_ClickText3" xml:space="preserve">
-    <value>エラーが発生しました。成功しているかどうかWebでご確認ください。</value>
-  </data>
-  <data name="ButtonBlock_ClickText4" xml:space="preserve">
-    <value>ブロックを行いました。成功しているかどうかWebでご確認ください。</value>
-  </data>
-  <data name="ButtonReportSpam_ClickText1" xml:space="preserve">
-    <value> をブロックしスパム報告を行います。よろしいですか？</value>
-  </data>
-  <data name="ButtonReportSpam_ClickText2" xml:space="preserve">
-    <value>スパム報告確認</value>
-  </data>
-  <data name="ButtonReportSpam_ClickText3" xml:space="preserve">
-    <value>エラーが発生しました。成功しているかどうかWebでご確認ください。</value>
-  </data>
-  <data name="ButtonReportSpam_ClickText4" xml:space="preserve">
-    <value>ブロックしスパム報告を行いました。成功しているかどうかWebでご確認ください。</value>
-  </data>
-  <data name="ButtonUnFollow_ClickText1" xml:space="preserve">
-    <value> をフォロー解除します。よろしいですか？</value>
-  </data>
-  <data name="ButtonUnFollow_ClickText2" xml:space="preserve">
-    <value>フォロー解除確認</value>
-  </data>
-  <data name="CopyStotText1" xml:space="preserve">
-    <value>警告：Protected発言はコピーされていません。</value>
-  </data>
-  <data name="ButtonDelete_ClickText3" xml:space="preserve">
-    <value>選択されている{0}件のルールを削除してもよろしいですか？   </value>
-  </data>
-  <data name="ButtonRuleCopy_ClickText1" xml:space="preserve">
-    <value>ルールコピー先タブの選択</value>
-  </data>
-  <data name="ButtonRuleMove_ClickText1" xml:space="preserve">
-    <value>ルール移動先タブの選択</value>
-  </data>
-  <data name="TabUsageTypeName_DirectMessage" xml:space="preserve">
-    <value>DirectMessage</value>
-  </data>
-  <data name="TabUsageTypeName_Favorites" xml:space="preserve">
-    <value>Favorites</value>
-  </data>
-  <data name="TabUsageTypeName_Home" xml:space="preserve">
-    <value>タイムライン</value>
-  </data>
-  <data name="TabUsageTypeName_Lists" xml:space="preserve">
-    <value>Lists</value>
-  </data>
-  <data name="TabUsageTypeName_Mentions" xml:space="preserve">
-    <value>Reply</value>
-  </data>
-  <data name="TabUsageTypeName_PublicSearch" xml:space="preserve">
-    <value>PublicSearch</value>
-  </data>
-  <data name="TabUsageTypeName_UserDefined" xml:space="preserve">
-    <value>タイムライン振り分け</value>
-  </data>
-  <data name="ApiInfo6" xml:space="preserve">
-    <value>API情報取得中・・・</value>
-  </data>
-  <data name="CalcApiUsingText1" xml:space="preserve">
-    <value>API情報取得中・・・</value>
-  </data>
-  <data name="InitialImage" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\InitialImage.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="PickPictureDialog1" xml:space="preserve">
-    <value>投稿する画像を選択</value>
-  </data>
-  <data name="PostPictureConfirm1" xml:space="preserve">
-    <value>[投稿先: {0}]
-{1} 枚の画像を投稿します。よろしいですか？</value>
-  </data>
-  <data name="PostPictureConfirm2" xml:space="preserve">
-    <value>画像投稿確認</value>
-  </data>
-  <data name="PostPictureWarn1" xml:space="preserve">
-    <value>投稿する画像または投稿先サービスが選択されていません。</value>
-  </data>
-  <data name="PostPictureWarn2" xml:space="preserve">
-    <value>画像投稿</value>
-  </data>
-  <data name="MultiMediaImage" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\MultiMediaImage.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="PostButton_Click1" xml:space="preserve">
-    <value>編集されていないため、公式RTとして投稿します。　よろしいですか？{0}[はい：公式RTで投稿]{0}[いいえ：非公式RTで投稿]{0}[キャンセル：投稿しない]</value>
-  </data>
-  <data name="Description" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Description.txt;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="ListManageDeleteLists1" xml:space="preserve">
-    <value>このリストを削除してもよろしいですか？</value>
-  </data>
-  <data name="ListManageDeleteUser1" xml:space="preserve">
-    <value>このユーザーをリストから削除してよろしいですか？</value>
-  </data>
-  <data name="ListManageDeleteUser2" xml:space="preserve">
-    <value>メンバーの削除に失敗しました（{0}）</value>
-  </data>
-  <data name="ListManageGetListMembersCallback1" xml:space="preserve">
-    <value>メンバーの取得に失敗しました（{0}）</value>
-  </data>
-  <data name="ListManageOKButton1" xml:space="preserve">
-    <value>リスト名を入力してください</value>
-  </data>
-  <data name="ListManageOKButton2" xml:space="preserve">
-    <value>リスト情報の反映に失敗しました（{0}）</value>
-  </data>
-  <data name="ListsDeleteFailed" xml:space="preserve">
-    <value>リスト情報の取得に失敗しました（{0}）</value>
-  </data>
-  <data name="ListsGetting" xml:space="preserve">
-    <value>リスト情報を取得しています。しばらくお待ちください...</value>
-  </data>
-  <data name="MyLists1" xml:space="preserve">
-    <value>を含むリストの管理</value>
-  </data>
-  <data name="VimeoInfoText1" xml:space="preserve">
-    <value>タイトル:</value>
-  </data>
-  <data name="VimeoInfoText2" xml:space="preserve">
-    <value>投稿日時:</value>
-  </data>
-  <data name="VimeoInfoText3" xml:space="preserve">
-    <value>Likes:</value>
-  </data>
-  <data name="VimeoInfoText4" xml:space="preserve">
-    <value>再生数:</value>
-  </data>
-  <data name="VimeoInfoText5" xml:space="preserve">
-    <value>コメント数:</value>
-  </data>
-  <data name="VimeoInfoText6" xml:space="preserve">
-    <value>再生時間:</value>
-  </data>
-  <data name="YouTubeInfoText1" xml:space="preserve">
-    <value>タイトル:</value>
-  </data>
-  <data name="YouTubeInfoText2" xml:space="preserve">
-    <value>再生時間:</value>
-  </data>
-  <data name="YouTubeInfoText3" xml:space="preserve">
-    <value>投稿日時:</value>
-  </data>
-  <data name="YouTubeInfoText4" xml:space="preserve">
-    <value>再生数:</value>
-  </data>
-  <data name="FavoriteLimitCountText" xml:space="preserve">
-    <value>一度にFav追加が実行できるのは{0}件までです</value>
-  </data>
-  <data name="TextSearchCountApi_Validating1" xml:space="preserve">
-    <value>取得発言数は20～100件を指定してください。</value>
-  </data>
-  <data name="RetweetLimitText" xml:space="preserve">
-    <value>一度にRetweetできるのは15件までです</value>
-  </data>
-  <data name="RetweetQuestion2" xml:space="preserve">
-    <value>選択された発言をRetweetしてもよろしいですか？</value>
-  </data>
-  <data name="FavoriteRetweetQuestionText1" xml:space="preserve">
-    <value>選択された発言をFavoriteに追加してRetweetします。よろしいですか？</value>
-  </data>
-  <data name="FavoritesRetweetQuestionText2" xml:space="preserve">
-    <value>Favoriteに追加してRetweetします。よろしいですか？</value>
-  </data>
-  <data name="TabUsageTypeName_Related" xml:space="preserve">
-    <value>RelatedTweets</value>
-  </data>
-  <data name="FavoriteRetweetQuestionText3" xml:space="preserve">
-    <value>選択された発言をFavoritesに追加して非公式RTを実行します。よろしいですか？</value>
-  </data>
-  <data name="GetFriendshipInfo7" xml:space="preserve">
-    <value>フォロー解除しますか？</value>
-  </data>
-  <data name="GetFriendshipInfo8" xml:space="preserve">
-    <value>フォロー解除確認</value>
-  </data>
-  <data name="TabUsageTypeName_UserTimeline" xml:space="preserve">
-    <value>UserTimeline</value>
-  </data>
-  <data name="TranslateDefaultLanguage" xml:space="preserve">
-    <value>ja</value>
-  </data>
-  <data name="Disabled" xml:space="preserve">
-    <value>無効</value>
-  </data>
-  <data name="Enabled" xml:space="preserve">
-    <value>有効</value>
-  </data>
-  <data name="ChangeIconToolStripMenuItem_ClickText6" xml:space="preserve">
-    <value>ユーザーアイコンとして使用できないファイルです</value>
-  </data>
-  <data name="IsValidLambdaExpText1" xml:space="preserve">
-    <value>構文エラー：</value>
-  </data>
-  <data name="IsValidLambdaExpText2" xml:space="preserve">
-    <value>ラムダ式構文チェック</value>
-  </data>
-  <data name="TweenMain_LoadText1" xml:space="preserve">
-    <value>タブ作成エラー</value>
-  </data>
-  <data name="SaveLogMenuItem_ClickText5" xml:space="preserve">
-    <value>現在のタブに表示されているイベントログを保存しますか？{0}　「はい」　　：現在タブに表示されているイベントログを保存する{0}　「いいえ」　：全てのイベントログを保存する{0}「キャンセル」：保存処理をキャンセル{0}（タブ区切りのテキストファイル形式で保存します）</value>
-  </data>
-  <data name="UpdateBlockUserText1" xml:space="preserve">
-    <value>BlockIds取得中...</value>
-  </data>
-  <data name="UpdateBlockUserText2" xml:space="preserve">
-    <value>BlockIds取得エラー :</value>
-  </data>
-  <data name="UpdateBlockUserText3" xml:space="preserve">
-    <value>BlockIds取得完了</value>
-  </data>
-  <data name="ListManageGetMoreUsers1" xml:space="preserve">
-    <value>取得(&amp;M)</value>
-  </data>
-  <data name="ListManageGetMoreUsers2" xml:space="preserve">
-    <value>さらに取得(&amp;M)</value>
-  </data>
-  <data name="AuthorizeButton_Click6" xml:space="preserve">
-    <value>認証サーバーに接続できませんでした。</value>
-  </data>
-  <data name="Save_ClickText4" xml:space="preserve">
-    <value>PINを入力してください。</value>
-  </data>
-  <data name="Unauthorized" xml:space="preserve">
-    <value>You are not authorized.</value>
-  </data>
-  <data name="ReAuthorizeText" xml:space="preserve">
-    <value>Direct Messageの送受信をするため、もう一度認証処理をして下さい。</value>
-  </data>
-  <data name="RegistrationEmail1" xml:space="preserve">
-    <value>Emailアドレスが正しくありません。</value>
-  </data>
-  <data name="RegistrationEmail2" xml:space="preserve">
-    <value>登録ありがとうございます。</value>
-  </data>
-  <data name="DeleteMenuText1" xml:space="preserve">
-    <value>削除(&amp;D)</value>
-  </data>
-  <data name="DeleteMenuText2" xml:space="preserve">
-    <value>公式RTの取り消し(&amp;D)</value>
-  </data>
-  <data name="LogoImage" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\LogoImage.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="BrowserStartFailed" xml:space="preserve">
-    <value>ブラウザの起動に失敗しました。エラーコード: {0}</value>
-  </data>
-  <data name="ConfigDirectoryNotExist" xml:space="preserve">
-    <value>"/configDir" で指定されたディレクトリ ({0}) は存在しないかアクセスできません。</value>
-  </data>
-  <data name="OpenURL_Caption" xml:space="preserve">
-    <value>ツイートURLを開く</value>
-  </data>
-  <data name="OpenURL_InputText" xml:space="preserve">
-    <value>ツイートの URL を入力して下さい。</value>
-  </data>
-  <data name="OpenURL_InvalidFormat" xml:space="preserve">
-    <value>入力された URL が正しくありません。</value>
-  </data>
-  <data name="OpenURL_LoadFailed" xml:space="preserve">
-    <value>ツイートの取得に失敗しました ({0})</value>
-  </data>
-  <data name="TabNameDuplicate_Text" xml:space="preserve">
-    <value>タブ "{0}" が既に存在するため追加できません。同名のタブを削除して再度やり直して下さい。</value>
-  </data>
-  <data name="PostPictureWarn3" xml:space="preserve">
-    <value>[投稿先: {0}]
+	<data name="AddNewTab_ListView_AccessibleName"><value>発言一覧</value></data>
+	<data name="AddNewTabText1"><value>(新規タブ)</value></data>
+	<data name="AddNewTabText2"><value>名前</value></data>
+	<data name="AddNewTabText3"><value>投稿</value></data>
+	<data name="AddNewTabText4"><value>取得日時</value></data>
+	<data name="AddNewTabText4_2"><value>日時</value></data>
+	<data name="AddNewTabText5"><value>ユーザ名</value></data>
+	<data name="AddTabMenuItem_ClickText1"><value>タブ　""{0}""　は既に存在するため、追加できません。別の名前を指定してください。</value></data>
+	<data name="AddTabMenuItem_ClickText2"><value>タブ追加</value></data>
+	<data name="ApiInfo4"><value>API情報</value></data>
+	<data name="ApiInfo5"><value> * API情報の取得に失敗 *</value></data>
+	<data name="ApiInfo6"><value>API情報取得中・・・</value></data>
+	<data name="At" type="System.Resources.ResXFileRef, System.Windows.Forms"><value>..\Resources\5b.ico;System.Drawing.Icon, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value></data>
+	<data name="AtBlink" type="System.Resources.ResXFileRef, System.Windows.Forms"><value>..\Resources\6b.ico;System.Drawing.Icon, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value></data>
+	<data name="AtRed" type="System.Resources.ResXFileRef, System.Windows.Forms"><value>..\Resources\5r.ico;System.Drawing.Icon, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value></data>
+	<data name="AtSmoke" type="System.Resources.ResXFileRef, System.Windows.Forms"><value>..\Resources\5y.ico;System.Drawing.Icon, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value></data>
+	<data name="AuthorizeButton_Click1"><value>認証しました</value></data>
+	<data name="AuthorizeButton_Click2"><value>認証できませんでした</value></data>
+	<data name="AuthorizeButton_Click3"><value>認証済</value></data>
+	<data name="AuthorizeButton_Click4"><value>未認証</value></data>
+	<data name="AuthorizeButton_Click6"><value>認証サーバーに接続できませんでした。</value></data>
+	<data name="BitlyAuthorize_ErrorText"><value>認証に失敗しました ({0})</value></data>
+	<data name="BrowserStartFailed"><value>ブラウザの起動に失敗しました。エラーコード: {0}</value></data>
+	<data name="Button3_ClickText1"><value>実行形式ファイル(*.exe)|*.exe|すべてのファイル(*.*)|*.*</value></data>
+	<data name="Button3_ClickText2"><value>ブラウザを指定してください</value></data>
+	<data name="ButtonBlock_ClickText1"><value> をブロックします。よろしいですか？</value></data>
+	<data name="ButtonBlock_ClickText2"><value>ブロック確認</value></data>
+	<data name="ButtonBlock_ClickText3"><value>エラーが発生しました。成功しているかどうかWebでご確認ください。</value></data>
+	<data name="ButtonBlock_ClickText4"><value>ブロックを行いました。成功しているかどうかWebでご確認ください。</value></data>
+	<data name="ButtonBlockDestroy_ClickText1"><value> をブロック解除します。よろしいですか？</value></data>
+	<data name="ButtonBlockDestroy_ClickText2"><value>ブロック解除確認</value></data>
+	<data name="ButtonBlockDestroy_ClickText3"><value>エラーが発生しました。成功しているかどうかWebでご確認ください。</value></data>
+	<data name="ButtonBlockDestroy_ClickText4"><value>ブロック解除を行いました。成功しているかどうかWebでご確認ください。</value></data>
+	<data name="ButtonDelete_ClickText1"><value>このルールを削除してもよろしいですか？{0}   『{1}』</value></data>
+	<data name="ButtonDelete_ClickText2"><value>ルール削除確認</value></data>
+	<data name="ButtonDelete_ClickText3"><value>選択されている{0}件のルールを削除してもよろしいですか？   </value></data>
+	<data name="ButtonOK_ClickText1"><value>ルールを指定してください。</value></data>
+	<data name="ButtonOK_ClickText2"><value>ルールチェック</value></data>
+	<data name="ButtonOK_ClickText3"><value>正規表現エラー：</value></data>
+	<data name="ButtonOK_ClickText4"><value>既に存在するルールは追加できません</value></data>
+	<data name="ButtonReportSpam_ClickText1"><value> をブロックしスパム報告を行います。よろしいですか？</value></data>
+	<data name="ButtonReportSpam_ClickText2"><value>スパム報告確認</value></data>
+	<data name="ButtonReportSpam_ClickText3"><value>エラーが発生しました。成功しているかどうかWebでご確認ください。</value></data>
+	<data name="ButtonReportSpam_ClickText4"><value>ブロックしスパム報告を行いました。成功しているかどうかWebでご確認ください。</value></data>
+	<data name="ButtonRuleCopy_ClickText1"><value>ルールコピー先タブの選択</value></data>
+	<data name="ButtonRuleMove_ClickText1"><value>ルール移動先タブの選択</value></data>
+	<data name="ButtonUnFollow_ClickText1"><value> をフォロー解除します。よろしいですか？</value></data>
+	<data name="ButtonUnFollow_ClickText2"><value>フォロー解除確認</value></data>
+	<data name="CalcApiUsingText1"><value>API情報取得中・・・</value></data>
+	<data name="ChangeIconToolStripMenuItem_ClickText1"><value>画像ファイル(*.gif;*.jpg;*.jpeg;*.png)|*.gif;*.jpg;*.jpeg;*.png</value></data>
+	<data name="ChangeIconToolStripMenuItem_ClickText2"><value>サイズ700KBまでのアイコン画像ファイルを選択してください</value></data>
+	<data name="ChangeIconToolStripMenuItem_ClickText3"><value>アイコン設定中・・・</value></data>
+	<data name="ChangeIconToolStripMenuItem_ClickText4"><value>注意：Twitterの仕様により、エラーが発生してもアイコンが変更できている場合があります。次回発言の際にご確認ください。</value></data>
+	<data name="ChangeIconToolStripMenuItem_ClickText5"><value>アイコンを変更しました。 次回発言より反映されます。</value></data>
+	<data name="ChangeIconToolStripMenuItem_ClickText6"><value>ユーザーアイコンとして使用できないファイルです</value></data>
+	<data name="ChangeIconToolStripMenuItem_Confirm"><value>アイコンを変更します。よろしいですか？</value></data>
+	<data name="ChangeLog" type="System.Resources.ResXFileRef, System.Windows.Forms"><value>..\Resources\ChangeLog.txt;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value></data>
+	<data name="CheckNewVersionText1"><value>%AppName%更新確認</value></data>
+	<data name="CheckNewVersionText10"><value>更新版のバージョン取得に失敗しました。しばらく待ってから再度お試しください。</value></data>
+	<data name="CheckNewVersionText2"><value>%AppName%更新結果</value></data>
+	<data name="CheckNewVersionText3"><value>新しいバージョン {0} が公開されています。更新しますか？</value></data>
+	<data name="CheckNewVersionText4"><value>アップデーターのダウンロードに失敗しました。しばらく待ってから再度お試しください。</value></data>
+	<data name="CheckNewVersionText5"><value>最新版が公開されていますが、ダウンロードに失敗しました。しばらく待ってから再度お試しください。</value></data>
+	<data name="CheckNewVersionText6"><value>新しいバージョンは見つかりません。 {0} が公開されています。強制的に更新しますか？</value></data>
+	<data name="CheckNewVersionText7"><value>最新版をお使いです。更新の必要はありませんでした。使用中Ver：{0} 最新Ver：{1}</value></data>
+	<data name="CheckNewVersionText9"><value>バージョンチェック失敗</value></data>
+	<data name="CheckRuntimeVersion_Error"><value>このソフトウェアは {0} 以降が必要です。</value></data>
+	<data name="ClearTabMenuItem_ClickText1"><value>このタブの発言をクリアしてもよろしいですか？{0}（サーバーから発言は削除しません。）</value></data>
+	<data name="ClearTabMenuItem_ClickText2"><value>タブクリア確認</value></data>
+	<data name="CmbDateTimeFormat_Validating"><value>無効な日時書式指定文字列です</value></data>
+	<data name="ConfigDirectoryNotExist"><value>"/configDir" で指定されたディレクトリ ({0}) は存在しないかアクセスできません。</value></data>
+	<data name="ConnectionTimeOut_ValidatingText1"><value>タイムアウトまでの時間には数値（10～120）を指定してください。</value></data>
+	<data name="ContextMenuStrip3_OpeningText1"><value>(アイコンが取得できていません)</value></data>
+	<data name="ContextMenuStrip3_OpeningText2"><value>(発言を選択してください)</value></data>
+	<data name="CopyStotText1"><value>警告：Protected発言はコピーされていません。</value></data>
+	<data name="CreateDateTimeFormatSampleText1"><value>無効な日時書式指定文字列です</value></data>
+	<data name="DeleteHashtagsMessage1"><value>選択しているハッシュタグを削除してもよろしいですか？</value></data>
+	<data name="DeleteMenuText1"><value>削除(&amp;D)</value></data>
+	<data name="DeleteMenuText2"><value>公式RTの取り消し(&amp;D)</value></data>
+	<data name="DeleteStripMenuItem_ClickText1"><value>選択されている自発言(またはDM)を削除してもよろしいですか？{0}注意　：　Twitterサーバからも削除されます！{0}　タブからIDを削除する場合は、「IDを移動」を使ってください。{0}　タブを削除する場合は、「タブを削除」を使ってください。{0}{0}削除処理を中止するには、「キャンセル」ボタンを押してください。</value></data>
+	<data name="DeleteStripMenuItem_ClickText2"><value>削除確認</value></data>
+	<data name="DeleteStripMenuItem_ClickText3"><value>削除失敗</value></data>
+	<data name="DeleteStripMenuItem_ClickText4"><value>削除成功</value></data>
+	<data name="Description" type="System.Resources.ResXFileRef, System.Windows.Forms"><value>..\Resources\Description.txt;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value></data>
+	<data name="DisableButtonCaption"><value>無効化</value></data>
+	<data name="Disabled"><value>無効</value></data>
+	<data name="DMPeriod_ValidatingText1"><value>更新間隔には数値（0または15～6000）を指定してください。</value></data>
+	<data name="DMPeriod_ValidatingText2"><value>更新間隔には数値（0または15～6000）を指定してください。</value></data>
+	<data name="doShowUserStatusText1"><value>プロフィール取得中・・・</value></data>
+	<data name="DoTabSearchText1"><value>正規表現パターンが間違っています。</value></data>
+	<data name="DoTabSearchText2"><value>検索条件に一致するデータは見つかりません。</value></data>
+	<data name="DoTabSearchText3"><value>検索</value></data>
+	<data name="EnableButtonCaption"><value>有効化</value></data>
+	<data name="Enabled"><value>有効</value></data>
+	<data name="FavAddToolStripMenuItem_ClickText1"><value>選択された発言をFavoritesに追加します。よろしいですか？</value></data>
+	<data name="FavAddToolStripMenuItem_ClickText2"><value>Fav確認</value></data>
+	<data name="FavAddToolStripMenuItem_ClickText3"><value>Fav追加中...</value></data>
+	<data name="FavAddToolStripMenuItem_ClickText4"><value>Fav追加なし</value></data>
+	<data name="FavoriteLimitCountText"><value>一度にFav追加が実行できるのは{0}件までです</value></data>
+	<data name="FavoriteRetweetQuestionText1"><value>選択された発言をFavoriteに追加してRetweetします。よろしいですか？</value></data>
+	<data name="FavoriteRetweetQuestionText3"><value>選択された発言をFavoritesに追加して非公式RTを実行します。よろしいですか？</value></data>
+	<data name="FavoritesRetweetQuestionText2"><value>Favoriteに追加してRetweetします。よろしいですか？</value></data>
+	<data name="FavRemoveToolStripMenuItem_ClickText1"><value>選択された発言をFavoritesから削除します。よろしいですか？</value></data>
+	<data name="FavRemoveToolStripMenuItem_ClickText2"><value>Fav確認</value></data>
+	<data name="FavRemoveToolStripMenuItem_ClickText3"><value>Fav削除中...</value></data>
+	<data name="FavRemoveToolStripMenuItem_ClickText4"><value>Fav削除なし</value></data>
+	<data name="FollowCommandText1"><value>フォローしています・・・</value></data>
+	<data name="Form1_LoadText1"><value>更新中...</value></data>
+	<data name="FRMessage1"><value>idを入力して下さい。</value></data>
+	<data name="FRMessage2"><value>失敗 : </value></data>
+	<data name="FRMessage3"><value>完了！</value></data>
+	<data name="GetFriendshipInfo1"><value>&gt;&gt;&gt; ◯ フォローしています</value></data>
+	<data name="GetFriendshipInfo2"><value>&gt;&gt;&gt; × フォローしていません</value></data>
+	<data name="GetFriendshipInfo3"><value>&lt;&lt;&lt; ◯ フォローされています</value></data>
+	<data name="GetFriendshipInfo4"><value>&lt;&lt;&lt; × フォローされていません</value></data>
+	<data name="GetFriendshipInfo5"><value> さんとのフォロー関係</value></data>
+	<data name="GetFriendshipInfo6"><value>フォロー状況取得失敗</value></data>
+	<data name="GetFriendshipInfo7"><value>フォロー解除しますか？</value></data>
+	<data name="GetFriendshipInfo8"><value>フォロー解除確認</value></data>
+	<data name="GetTimelineWorker_RunWorkerCompletedText1"><value>Recent更新完了</value></data>
+	<data name="GetTimelineWorker_RunWorkerCompletedText10"><value>起動時読込完了</value></data>
+	<data name="GetTimelineWorker_RunWorkerCompletedText11"><value>DMRcv更新完了</value></data>
+	<data name="GetTimelineWorker_RunWorkerCompletedText12"><value>DMSnt更新中...</value></data>
+	<data name="GetTimelineWorker_RunWorkerCompletedText13"><value>DMSnt更新完了</value></data>
+	<data name="GetTimelineWorker_RunWorkerCompletedText14"><value>POST完了</value></data>
+	<data name="GetTimelineWorker_RunWorkerCompletedText15"><value>Fav追加({0}/{1}) 失敗:{2}</value></data>
+	<data name="GetTimelineWorker_RunWorkerCompletedText17"><value>Fav削除({0}/{1}) 失敗:{2}</value></data>
+	<data name="GetTimelineWorker_RunWorkerCompletedText19"><value>Fav取得中...</value></data>
+	<data name="GetTimelineWorker_RunWorkerCompletedText20"><value>Fav取得完了</value></data>
+	<data name="GetTimelineWorker_RunWorkerCompletedText3"><value>読み込み継続確認</value></data>
+	<data name="GetTimelineWorker_RunWorkerCompletedText4"><value>Reply更新中...{0}pages</value></data>
+	<data name="GetTimelineWorker_RunWorkerCompletedText5"><value>Recent更新中...{0}pages</value></data>
+	<data name="GetTimelineWorker_RunWorkerCompletedText8"><value>DMRcv更新中...{0}pages</value></data>
+	<data name="GetTimelineWorker_RunWorkerCompletedText9"><value>Reply更新完了</value></data>
+	<data name="IDRuleMenuItem_ClickText1"><value>(新規タブ)</value></data>
+	<data name="IDRuleMenuItem_ClickText2"><value>タブ　""{0}""　は既に存在するため、追加できません。別の名前を指定してください。</value></data>
+	<data name="IDRuleMenuItem_ClickText3"><value>タブ追加</value></data>
+	<data name="IDRuleMenuItem_ClickText4"><value>Recentに残しますか？{0}  「はい」　：残す{0}  「いいえ」：残さない</value></data>
+	<data name="IDRuleMenuItem_ClickText5"><value>移動確認</value></data>
+	<data name="IDRuleMenuItem_ClickText6"><value>マークをつけますか？{0}  「はい」　：つける{0}  「いいえ」：つけない</value></data>
+	<data name="IDRuleMenuItem_ClickText7"><value>マーク確認</value></data>
+	<data name="ImageAltText"><value>[画像: {0}]</value></data>
+	<data name="InitialImage" type="System.Resources.ResXFileRef, System.Windows.Forms"><value>..\Resources\InitialImage.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value></data>
+	<data name="InputTabName_Load1"><value>タイムライン振り分け</value></data>
+	<data name="IsValidLambdaExpText1"><value>構文エラー：</value></data>
+	<data name="IsValidLambdaExpText2"><value>ラムダ式構文チェック</value></data>
+	<data name="ListManageDeleteLists1"><value>このリストを削除してもよろしいですか？</value></data>
+	<data name="ListManageDeleteUser1"><value>このユーザーをリストから削除してよろしいですか？</value></data>
+	<data name="ListManageDeleteUser2"><value>メンバーの削除に失敗しました（{0}）</value></data>
+	<data name="ListManageGetListMembersCallback1"><value>メンバーの取得に失敗しました（{0}）</value></data>
+	<data name="ListManageGetMoreUsers1"><value>取得(&amp;M)</value></data>
+	<data name="ListManageGetMoreUsers2"><value>さらに取得(&amp;M)</value></data>
+	<data name="ListManageOKButton1"><value>リスト名を入力してください</value></data>
+	<data name="ListManageOKButton2"><value>リスト情報の反映に失敗しました（{0}）</value></data>
+	<data name="ListsDeleteFailed"><value>リスト情報の取得に失敗しました（{0}）</value></data>
+	<data name="ListsGetting"><value>リスト情報を取得しています。しばらくお待ちください...</value></data>
+	<data name="LoadConfigurationText1"><value>この設定ファイルは %AppName% により自動生成されました。手動で変更しないでください。</value></data>
+	<data name="LoadingText"><value>読み込み中...</value></data>
+	<data name="LogoImage" type="System.Resources.ResXFileRef, System.Windows.Forms"><value>..\Resources\LogoImage.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value></data>
+	<data name="MenuItemSearchNext_ClickText1"><value>正規表現パターンが間違っています。</value></data>
+	<data name="MenuItemSearchNext_ClickText2"><value>検索条件に一致するデータは見つかりません。</value></data>
+	<data name="MenuItemSearchNext_ClickText3"><value>検索</value></data>
+	<data name="MenuItemSearchPrev_ClickText1"><value>正規表現パターンが間違っています。</value></data>
+	<data name="MenuItemSearchPrev_ClickText2"><value>検索条件に一致するデータは見つかりません。</value></data>
+	<data name="MenuItemSearchPrev_ClickText3"><value>検索</value></data>
+	<data name="MIcon" type="System.Resources.ResXFileRef, System.Windows.Forms"><value>..\Resources\4b.ico;System.Drawing.Icon, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value></data>
+	<data name="MultiMediaImage" type="System.Resources.ResXFileRef, System.Windows.Forms"><value>..\Resources\MultiMediaImage.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value></data>
+	<data name="MuteTabName"><value>(ミュート)</value></data>
+	<data name="MyLists1"><value>を含むリストの管理</value></data>
+	<data name="NiconicoInfoText1"><value>タイトル:</value></data>
+	<data name="NiconicoInfoText2"><value>再生時間:</value></data>
+	<data name="NiconicoInfoText3"><value>投稿日時:</value></data>
+	<data name="NiconicoInfoText4"><value>再生数:</value></data>
+	<data name="NiconicoInfoText5"><value>コメント数:</value></data>
+	<data name="NiconicoInfoText6"><value>マイリスト数:</value></data>
+	<data name="No"><value>いいえ</value></data>
+	<data name="OpenURL_Caption"><value>ツイートURLを開く</value></data>
+	<data name="OpenURL_InputText"><value>ツイートの URL を入力して下さい。</value></data>
+	<data name="OpenURL_InvalidFormat"><value>入力された URL が正しくありません。</value></data>
+	<data name="OpenURL_LoadFailed"><value>ツイートの取得に失敗しました ({0})</value></data>
+	<data name="OwnStatusTitle"><value>発言 {0}  フォロー {1}  フォロワー {2}({3})</value></data>
+	<data name="PickPictureDialog1"><value>投稿する画像を選択</value></data>
+	<data name="PlayableOverlayImage" type="System.Resources.ResXFileRef, System.Windows.Forms"><value>..\Resources\PlayableOverlayImage.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value></data>
+	<data name="PostButton_Click1"><value>編集されていないため、公式RTとして投稿します。　よろしいですか？{0}[はい：公式RTで投稿]{0}[いいえ：非公式RTで投稿]{0}[キャンセル：投稿しない]</value></data>
+	<data name="PostConfirmText"><value>この内容で投稿してもよろしいですか？
+{0}</value></data>
+	<data name="PostLengthOverMessage1"><value>投稿できる文字数の上限を越えています。強制的に投稿しますか？</value></data>
+	<data name="PostLengthOverMessage2"><value>文字数制限オーバー</value></data>
+	<data name="PostPictureConfirm1"><value>[投稿先: {0}]
+{1} 枚の画像を投稿します。よろしいですか？</value></data>
+	<data name="PostPictureConfirm2"><value>画像投稿確認</value></data>
+	<data name="PostPictureConfirm3"><value>クリップボードから画像を貼り付けようとしています。よろしいですか？</value></data>
+	<data name="PostPictureWarn1"><value>投稿する画像または投稿先サービスが選択されていません。</value></data>
+	<data name="PostPictureWarn2"><value>画像投稿</value></data>
+	<data name="PostPictureWarn3"><value>[投稿先: {0}]
 "{2}" の投稿には対応していません。他の投稿先を使用してください。
 
 ファイル名: {3}
-使用可能な投稿先: {1}</value>
-  </data>
-  <data name="PostPictureWarn4" xml:space="preserve">
-    <value>投稿画像選択</value>
-  </data>
-  <data name="PostPictureWarn5" xml:space="preserve">
-    <value>[投稿先: {0}]
+使用可能な投稿先: {1}</value></data>
+	<data name="PostPictureWarn4"><value>投稿画像選択</value></data>
+	<data name="PostPictureWarn5"><value>[投稿先: {0}]
 ファイルが大きすぎます。ファイルサイズを小さくするか、他の投稿先を使用してください。
 
 ファイル名: {2}
-使用可能な投稿先: {1}</value>
-  </data>
-  <data name="PostPictureWarn6" xml:space="preserve">
-    <value>なし</value>
-  </data>
-  <data name="UpdateMuteUserIds_Error" xml:space="preserve">
-    <value>MuteUserIds取得エラー: {0}</value>
-  </data>
-  <data name="UpdateMuteUserIds_Finish" xml:space="preserve">
-    <value>MuteUserIds取得完了</value>
-  </data>
-  <data name="UpdateMuteUserIds_Start" xml:space="preserve">
-    <value>MuteUserIds取得中...</value>
-  </data>
-  <data name="CheckRuntimeVersion_Error" xml:space="preserve">
-    <value>このソフトウェアは {0} 以降が必要です。</value>
-  </data>
-  <data name="ChangeIconToolStripMenuItem_Confirm" xml:space="preserve">
-    <value>アイコンを変更します。よろしいですか？</value>
-  </data>
-  <data name="PlayableOverlayImage" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\PlayableOverlayImage.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="MuteTabName" xml:space="preserve">
-    <value>(ミュート)</value>
-  </data>
-  <data name="DisableButtonCaption" xml:space="preserve">
-    <value>無効化</value>
-  </data>
-  <data name="EnableButtonCaption" xml:space="preserve">
-    <value>有効化</value>
-  </data>
-  <data name="LoadingText" xml:space="preserve">
-    <value>読み込み中...</value>
-  </data>
-  <data name="PostPictureConfirm3" xml:space="preserve">
-    <value>クリップボードから画像を貼り付けようとしています。よろしいですか？</value>
-  </data>
-  <data name="SearchResults_TabName" xml:space="preserve">
-    <value>検索結果</value>
-  </data>
-  <data name="StartupAuthError_Text" xml:space="preserve">
-    <value>Twitter API へのアクセスに失敗しました。
+使用可能な投稿先: {1}</value></data>
+	<data name="PostPictureWarn6"><value>なし</value></data>
+	<data name="PostWorker_RunWorkerCompletedText4"><value>POST完了</value></data>
+	<data name="PostWorker_RunWorkerCompletedText5"><value>Recent更新中...</value></data>
+	<data name="PubSearchPeriod_ValidatingText1"><value>更新間隔には数値（0または30～6000）を指定してください。</value></data>
+	<data name="PubSearchPeriod_ValidatingText2"><value>更新間隔には数値（0または30～6000）を指定してください。</value></data>
+	<data name="QuoteStatus_AccessibleText"><value>[引用 @{0}: {1}]</value></data>
+	<data name="ReAuthorizeText"><value>Direct Messageの送受信をするため、もう一度認証処理をして下さい。</value></data>
+	<data name="Refresh" type="System.Resources.ResXFileRef, System.Windows.Forms"><value>..\Resources\re.ico;System.Drawing.Icon, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value></data>
+	<data name="Refresh2" type="System.Resources.ResXFileRef, System.Windows.Forms"><value>..\Resources\re2.ico;System.Drawing.Icon, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value></data>
+	<data name="Refresh3" type="System.Resources.ResXFileRef, System.Windows.Forms"><value>..\Resources\re3.ico;System.Drawing.Icon, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value></data>
+	<data name="Refresh4" type="System.Resources.ResXFileRef, System.Windows.Forms"><value>..\Resources\re4.ico;System.Drawing.Icon, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value></data>
+	<data name="RefreshStripMenuItem_ClickText1"><value>Recent更新中...</value></data>
+	<data name="RefreshStripMenuItem_ClickText2"><value>Reply更新中...</value></data>
+	<data name="RefreshStripMenuItem_ClickText3"><value>DMRcv更新中...</value></data>
+	<data name="RefreshTimeline_NotifyText"><value>新着 {0} 件</value></data>
+	<data name="RefreshTimelineText3"><value>ログ読込</value></data>
+	<data name="RefreshTimelineText4"><value>起動読込</value></data>
+	<data name="RegistrationEmail1"><value>Emailアドレスが正しくありません。</value></data>
+	<data name="RegistrationEmail2"><value>登録ありがとうございます。</value></data>
+	<data name="RemoveCommandText1"><value>フォローを解除しています・・・</value></data>
+	<data name="RemoveSpecifiedTabText1"><value>このタブを削除してもよろしいですか？{0}</value></data>
+	<data name="RemoveSpecifiedTabText2"><value>タブの削除確認</value></data>
+	<data name="Reply" type="System.Resources.ResXFileRef, System.Windows.Forms"><value>..\Resources\5g.ico;System.Drawing.Icon, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value></data>
+	<data name="ReplyBlink" type="System.Resources.ResXFileRef, System.Windows.Forms"><value>..\Resources\6g.ico;System.Drawing.Icon, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value></data>
+	<data name="RetweetLimitText"><value>一度にRetweetできるのは15件までです</value></data>
+	<data name="RetweetQuestion1"><value>Retweetしてもよろしいですか？</value></data>
+	<data name="RetweetQuestion2"><value>選択された発言をRetweetしてもよろしいですか？</value></data>
+	<data name="RtCountMenuItem_ClickText1"><value>Retweetカウント取得中・・・</value></data>
+	<data name="RtCountText1"><value>回Retweetされています</value></data>
+	<data name="RtCountText2"><value>Retweetカウントの取得に失敗しました</value></data>
+	<data name="Save_ClickText1"><value>ユーザー名とパスワードを指定してください。</value></data>
+	<data name="Save_ClickText2"><value>ユーザー名に『@』を含めないでください。（メールアドレス不可）</value></data>
+	<data name="Save_ClickText3"><value>設定値に誤りがあります。</value></data>
+	<data name="Save_ClickText4"><value>PINを入力してください。</value></data>
+	<data name="SaveLogMenuItem_ClickText1"><value>選択中タブの全発言を保存しますか？{0}　「はい」　　　：全発言を保存する{0}　「いいえ」　　：選択している発言のみ保存する{0}　「キャンセル」：保存処理をキャンセル{0}（タブ区切りのテキストファイル形式で保存します）</value></data>
+	<data name="SaveLogMenuItem_ClickText2"><value>保存対象選択</value></data>
+	<data name="SaveLogMenuItem_ClickText3"><value>TSVファイル(*.tsv)|*.tsv|すべてのファイル(*.*)|*.*</value></data>
+	<data name="SaveLogMenuItem_ClickText4"><value>保存先のファイルを選択してください</value></data>
+	<data name="SaveLogMenuItem_ClickText5"><value>現在のタブに表示されているイベントログを保存しますか？{0}　「はい」　　：現在タブに表示されているイベントログを保存する{0}　「いいえ」　：全てのイベントログを保存する{0}「キャンセル」：保存処理をキャンセル{0}（タブ区切りのテキストファイル形式で保存します）</value></data>
+	<data name="SearchItem1Url"><value>https://ja.wikipedia.org/w/index.php?search={0}</value></data>
+	<data name="SearchItem2Url"><value>https://www.google.com/search?hl=ja&amp;q={0}</value></data>
+	<data name="SearchItem4Url"><value>https://twitter.com/search?q={0}</value></data>
+	<data name="SearchResults_TabName"><value>検索結果</value></data>
+	<data name="SendErrorReport_DmSendCompleted"><value>DM の送信が完了しました</value></data>
+	<data name="SendErrorReport_DmSendError"><value>DM の送信に失敗しました</value></data>
+	<data name="SetFiltersText1"><value>[ユーザ･･･{0}]  </value></data>
+	<data name="SetFiltersText10"><value>マークする</value></data>
+	<data name="SetFiltersText11"><value>コピーする/</value></data>
+	<data name="SetFiltersText12"><value> &lt;&lt;除外&gt;&gt; </value></data>
+	<data name="SetFiltersText13"><value>大小区別/</value></data>
+	<data name="SetFiltersText2"><value>[ユーザ･･･(全て)]  </value></data>
+	<data name="SetFiltersText3"><value>[本文･･･</value></data>
+	<data name="SetFiltersText4"><value>]  </value></data>
+	<data name="SetFiltersText5"><value>複合/</value></data>
+	<data name="SetFiltersText6"><value>単一/</value></data>
+	<data name="SetFiltersText7"><value>Regexp/</value></data>
+	<data name="SetFiltersText8"><value>URL/</value></data>
+	<data name="SetFiltersText9"><value>移動する</value></data>
+	<data name="SetMainWindowTitleText1"><value>{0}件 (未読＠)</value></data>
+	<data name="SetMainWindowTitleText2"><value>{0}件 (未読)</value></data>
+	<data name="SetMainWindowTitleText3"><value>{0} ({1})件 (未読)</value></data>
+	<data name="SetMainWindowTitleText4"><value>{0}/{1}件 (未読/総件数)</value></data>
+	<data name="SetStatusLabelText1"><value>[タブ: {0}/{1} 全体: {2}/{3} (返信: {4})] [時速: 投 {5}/ ☆ {6}/ 流 {7}] [間隔: </value></data>
+	<data name="SetStatusLabelText2"><value>-]</value></data>
+	<data name="SetStatusLabelText3"><value>]</value></data>
+	<data name="Setting_FormClosing1"><value>「認証開始」ボタンを押すとブラウザが開きます。「連携アプリを認証」し、表示されたPINを画面上部に入力後、「Finish」ボタンを押してください。認証せずに終了してもよろしいですか？</value></data>
+	<data name="SettingPath_Relocation"><value>{0} での設定の書き込みに失敗しました。
+
+既存の設定ファイルは {1} にコピーされます。
+（次回起動時は {1} の設定ファイルが優先されます）</value></data>
+	<data name="ShowFriendshipText1"><value>フォロー状況取得中・・・</value></data>
+	<data name="ShowUserInfo1"><value>ユーザー情報解析失敗</value></data>
+	<data name="ShowUserInfo2"><value>最新発言の取得に失敗しました</value></data>
+	<data name="ShowYourProfileText1"><value>まだあなたのプロフィール情報を取得していません。投稿後に再度お試しください。</value></data>
+	<data name="StartupAuthError_Text"><value>Twitter API へのアクセスに失敗しました。
 [{0}]
 
 ・ネットワーク設定が正しいか確認して下さい
 ・PC の時計が正しいか確認して下さい
  （大幅にずれていると認証に失敗することがあります）
-・設定画面から Twitter アカウントをもう一度追加し直して下さい</value>
-  </data>
-  <data name="SendErrorReport_DmSendCompleted" xml:space="preserve">
-    <value>DM の送信が完了しました</value>
-  </data>
-  <data name="SendErrorReport_DmSendError" xml:space="preserve">
-    <value>DM の送信に失敗しました</value>
-  </data>
-  <data name="ImageAltText" xml:space="preserve">
-    <value>[画像: {0}]</value>
-  </data>
-  <data name="AddNewTab_ListView_AccessibleName" xml:space="preserve">
-    <value>発言一覧</value>
-  </data>
-  <data name="QuoteStatus_AccessibleText" xml:space="preserve">
-    <value>[引用 @{0}: {1}]</value>
-  </data>
-  <data name="StatusText_AccessibleDescription" xml:space="preserve">
-    <value>残り{0}文字</value>
-  </data>
-  <data name="StatusUpdateFailed" xml:space="preserve">
-    <value>投稿に失敗しました   ---&gt;   [ {0} ]
+・設定画面から Twitter アカウントをもう一度追加し直して下さい</value></data>
+	<data name="StartupReadDM_ValidatingText1"><value>読み込みページ数には数値（1～999）を指定してください。</value></data>
+	<data name="StartupReadDM_ValidatingText2"><value>読み込みページ数には数値（1～999）を指定してください。</value></data>
+	<data name="StartupReadPages_ValidatingText1"><value>読み込みページ数には数値（1～999）を指定してください。</value></data>
+	<data name="StartupReadPages_ValidatingText2"><value>読み込みページ数には数値（1～999）を指定してください。</value></data>
+	<data name="StartupReadReply_ValidatingText1"><value>読み込みページ数には数値（0～999）を指定してください。</value></data>
+	<data name="StartupReadReply_ValidatingText2"><value>読み込みページ数には数値（0～999）を指定してください。</value></data>
+	<data name="StartupText1"><value>%AppName%は既に起動されています。2重起動する場合は /configDir オプションを使用して設定ファイルを分離するか、別フォルダの{0}.exeを実行してください。</value></data>
+	<data name="StartupText2"><value>%AppName%二重起動チェック</value></data>
+	<data name="StatusText_AccessibleDescription"><value>残り{0}文字</value></data>
+	<data name="StatusUpdateFailed"><value>投稿に失敗しました   ---&gt;   [ {0} ]
 "{1}"
-もう一度投稿を試みますか？</value>
-  </data>
-  <data name="SettingPath_Relocation" xml:space="preserve">
-    <value>{0} での設定の書き込みに失敗しました。
-
-既存の設定ファイルは {1} にコピーされます。
-（次回起動時は {1} の設定ファイルが優先されます）</value>
-  </data>
-  <data name="WarnIfRunAsAdministrator_Message" xml:space="preserve">
-    <value>{0}を管理者権限で実行する事は推奨されません。
+もう一度投稿を試みますか？</value></data>
+	<data name="TabIcon" type="System.Resources.ResXFileRef, System.Windows.Forms"><value>..\Resources\3b.ico;System.Drawing.Icon, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value></data>
+	<data name="TabMenuItem_ClickText1"><value>(新規タブ)</value></data>
+	<data name="TabMenuItem_ClickText2"><value>タブ　""{0}""　は既に存在するため、追加できません。別の名前を指定してください。</value></data>
+	<data name="TabMenuItem_ClickText3"><value>タブ追加</value></data>
+	<data name="TabNameDuplicate_Text"><value>タブ "{0}" が既に存在するため追加できません。同名のタブを削除して再度やり直して下さい。</value></data>
+	<data name="Tabs_DoubleClickText1"><value>タブ　""{0}""　は既に存在するため、変更できません。別の名前を指定してください。</value></data>
+	<data name="Tabs_DoubleClickText2"><value>タブ名変更</value></data>
+	<data name="TabUsageTypeName_DirectMessage"><value>DirectMessage</value></data>
+	<data name="TabUsageTypeName_Favorites"><value>Favorites</value></data>
+	<data name="TabUsageTypeName_Home"><value>タイムライン</value></data>
+	<data name="TabUsageTypeName_Lists"><value>Lists</value></data>
+	<data name="TabUsageTypeName_Mentions"><value>Reply</value></data>
+	<data name="TabUsageTypeName_PublicSearch"><value>PublicSearch</value></data>
+	<data name="TabUsageTypeName_Related"><value>RelatedTweets</value></data>
+	<data name="TabUsageTypeName_UserDefined"><value>タイムライン振り分け</value></data>
+	<data name="TabUsageTypeName_UserTimeline"><value>UserTimeline</value></data>
+	<data name="TextCountApi_Validating1"><value>取得発言数は20～200件を指定してください。</value></data>
+	<data name="TextProxyPort_ValidatingText1"><value>ポート番号には整数値を指定してください。</value></data>
+	<data name="TextProxyPort_ValidatingText2"><value>ポート番号には0～65535を指定してください。</value></data>
+	<data name="TextSearchCountApi_Validating1"><value>取得発言数は20～100件を指定してください。</value></data>
+	<data name="TimelinePeriod_ValidatingText1"><value>更新間隔には数値（0または15～6000）を指定してください。</value></data>
+	<data name="TimelinePeriod_ValidatingText2"><value>更新間隔には数値（0または15～6000）を指定してください。</value></data>
+	<data name="TimerDM_TickText1"><value>DMRcv更新中...</value></data>
+	<data name="TimerTimeline_TickText1"><value>Recent更新中...</value></data>
+	<data name="TraceOutText1"><value>このファイルの内容を {0} まで送っていただけると助かります。</value></data>
+	<data name="TraceOutText2"><value>ご面倒なら{0}までお知らせ頂くだけでも助かります。</value></data>
+	<data name="TraceOutText3"><value>動作環境:</value></data>
+	<data name="TraceOutText4"><value>   オペレーティング システム: {0}</value></data>
+	<data name="TraceOutText5"><value>   共通言語ランタイム: {0}</value></data>
+	<data name="TraceOutText6"><value>   {0}.exeのバージョン: {1}</value></data>
+	<data name="TranslateDefaultLanguage"><value>ja</value></data>
+	<data name="TweenAboutBox_LoadText2"><value>バージョン {0}</value></data>
+	<data name="TweenMain_LoadText1"><value>タブ作成エラー</value></data>
+	<data name="Unauthorized"><value>You are not authorized.</value></data>
+	<data name="UnhandledExceptionText1"><value>**** エラー ログ: {0} ****</value></data>
+	<data name="UnhandledExceptionText10"><value>エラー発生</value></data>
+	<data name="UnhandledExceptionText11"><value>Administrator権限：</value></data>
+	<data name="UnhandledExceptionText12"><value>Users権限：</value></data>
+	<data name="UnhandledExceptionText2"><value>このファイルの内容を {0} まで送っていただけると助かります。</value></data>
+	<data name="UnhandledExceptionText3"><value>ご面倒なら{0}までお知らせ頂くだけでも助かります。</value></data>
+	<data name="UnhandledExceptionText4"><value>動作環境:</value></data>
+	<data name="UnhandledExceptionText5"><value>   オペレーティング システム: {0}</value></data>
+	<data name="UnhandledExceptionText6"><value>   共通言語ランタイム: {0}</value></data>
+	<data name="UnhandledExceptionText7"><value>   {0}.exeのバージョン: {1}</value></data>
+	<data name="UnhandledExceptionText8"><value>例外 {0}: {1}</value></data>
+	<data name="UnhandledExceptionText9"><value>エラーが発生しました。ごめんなさい。ログをexeファイルのある場所に {0} として作ったので、{1}まで送っていただけると助かります。{3}ご面倒なら{2}までお知らせ頂くだけでも助かります。{3}「はい」ボタンをクリックするとログを開きます。ログを開かない場合は「いいえ」、このまま終了する場合は「キャンセル」ボタンをクリックしてください。</value></data>
+	<data name="UpdateBlockUserText1"><value>BlockIds取得中...</value></data>
+	<data name="UpdateBlockUserText2"><value>BlockIds取得エラー :</value></data>
+	<data name="UpdateBlockUserText3"><value>BlockIds取得完了</value></data>
+	<data name="UpdateFollowersMenuItem1_ClickText1"><value>Followers取得中...</value></data>
+	<data name="UpdateFollowersMenuItem1_ClickText2"><value>Followers取得エラー：</value></data>
+	<data name="UpdateFollowersMenuItem1_ClickText3"><value>Followers取得完了</value></data>
+	<data name="UpdateMuteUserIds_Error"><value>MuteUserIds取得エラー: {0}</value></data>
+	<data name="UpdateMuteUserIds_Finish"><value>MuteUserIds取得完了</value></data>
+	<data name="UpdateMuteUserIds_Start"><value>MuteUserIds取得中...</value></data>
+	<data name="UrlConvert_BitlyAuthRequired"><value>Bitlyを使用するには設定画面で認証情報を入力する必要があります</value></data>
+	<data name="UserInfoButtonEdit_ClickText1"><value>適用</value></data>
+	<data name="UserInfoButtonEdit_ClickText2"><value>プロフィール更新中・・・</value></data>
+	<data name="VimeoInfoText1"><value>タイトル:</value></data>
+	<data name="VimeoInfoText2"><value>投稿日時:</value></data>
+	<data name="VimeoInfoText3"><value>Likes:</value></data>
+	<data name="VimeoInfoText4"><value>再生数:</value></data>
+	<data name="VimeoInfoText5"><value>コメント数:</value></data>
+	<data name="VimeoInfoText6"><value>再生時間:</value></data>
+	<data name="WarnIfRunAsAdministrator_Message"><value>{0}を管理者権限で実行する事は推奨されません。
 
  * {0}は管理者権限を必要とするソフトウェアではありません。
  * 管理者権限で実行するとD&amp;Dで画像を投稿する操作が制限されます。
- * {0}の設定ファイルが一般ユーザー権限で編集できなくなります。</value>
-  </data>
-  <data name="BitlyAuthorize_ErrorText" xml:space="preserve">
-    <value>認証に失敗しました ({0})</value>
-  </data>
-  <data name="UrlConvert_BitlyAuthRequired" xml:space="preserve">
-    <value>Bitlyを使用するには設定画面で認証情報を入力する必要があります</value>
-  </data>
-  <data name="PostConfirmText" xml:space="preserve">
-    <value>この内容で投稿してもよろしいですか？
-{0}</value>
-  </data>
+ * {0}の設定ファイルが一般ユーザー権限で編集できなくなります。</value></data>
+	<data name="Yes"><value>はい</value></data>
+	<data name="YouTubeInfoText1"><value>タイトル:</value></data>
+	<data name="YouTubeInfoText2"><value>再生時間:</value></data>
+	<data name="YouTubeInfoText3"><value>投稿日時:</value></data>
+	<data name="YouTubeInfoText4"><value>再生数:</value></data>
 </root>

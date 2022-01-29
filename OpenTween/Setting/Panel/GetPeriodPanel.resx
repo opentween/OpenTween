@@ -1,519 +1,142 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<root>
-  <!-- 
-    Microsoft ResX Schema 
-    
-    Version 2.0
-    
-    The primary goals of this format is to allow a simple XML format 
-    that is mostly human readable. The generation and parsing of the 
-    various data types are done through the TypeConverter classes 
-    associated with the data types.
-    
-    Example:
-    
-    ... ado.net/XML headers & schema ...
-    <resheader name="resmimetype">text/microsoft-resx</resheader>
-    <resheader name="version">2.0</resheader>
-    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
-    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
-    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
-    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
-    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
-        <value>[base64 mime encoded serialized .NET Framework object]</value>
-    </data>
-    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
-        <comment>This is a comment</comment>
-    </data>
-                
-    There are any number of "resheader" rows that contain simple 
-    name/value pairs.
-    
-    Each data row contains a name, and value. The row also contains a 
-    type or mimetype. Type corresponds to a .NET class that support 
-    text/value conversion through the TypeConverter architecture. 
-    Classes that don't support this are serialized and stored with the 
-    mimetype set.
-    
-    The mimetype is used for serialized objects, and tells the 
-    ResXResourceReader how to depersist the object. This is currently not 
-    extensible. For a given mimetype the value must be set accordingly:
-    
-    Note - application/x-microsoft.net.object.binary.base64 is the format 
-    that the ResXResourceWriter will generate, however the reader can 
-    read any of the formats listed below.
-    
-    mimetype: application/x-microsoft.net.object.binary.base64
-    value   : The object must be serialized with 
-            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
-            : and then encoded with base64 encoding.
-    
-    mimetype: application/x-microsoft.net.object.soap.base64
-    value   : The object must be serialized with 
-            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
-            : and then encoded with base64 encoding.
+<?xml version="1.0" encoding="utf-8"?><root xml:space="preserve">
+	<resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+	<resheader name="version"><value>2.0</value></resheader>
+	<resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+	<resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+	<assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+	<assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+	<assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
 
-    mimetype: application/x-microsoft.net.object.bytearray.base64
-    value   : The object must be serialized into a byte array 
-            : using a System.ComponentModel.TypeConverter
-            : and then encoded with base64 encoding.
-    -->
-  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
-    <xsd:element name="root" msdata:IsDataSet="true">
-      <xsd:complexType>
-        <xsd:choice maxOccurs="unbounded">
-          <xsd:element name="metadata">
-            <xsd:complexType>
-              <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" />
-              </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string" />
-              <xsd:attribute name="type" type="xsd:string" />
-              <xsd:attribute name="mimetype" type="xsd:string" />
-              <xsd:attribute ref="xml:space" />
-            </xsd:complexType>
-          </xsd:element>
-          <xsd:element name="assembly">
-            <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string" />
-              <xsd:attribute name="name" type="xsd:string" />
-            </xsd:complexType>
-          </xsd:element>
-          <xsd:element name="data">
-            <xsd:complexType>
-              <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
-              </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-              <xsd:attribute ref="xml:space" />
-            </xsd:complexType>
-          </xsd:element>
-          <xsd:element name="resheader">
-            <xsd:complexType>
-              <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-              </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" />
-            </xsd:complexType>
-          </xsd:element>
-        </xsd:choice>
-      </xsd:complexType>
-    </xsd:element>
-  </xsd:schema>
-  <resheader name="resmimetype">
-    <value>text/microsoft-resx</value>
-  </resheader>
-  <resheader name="version">
-    <value>2.0</value>
-  </resheader>
-  <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </resheader>
-  <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </resheader>
-  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="Label21.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="Label21.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="Label21.Location" type="System.Drawing.Point, System.Drawing">
-    <value>23, 182</value>
-  </data>
-  <data name="Label21.Size" type="System.Drawing.Size, System.Drawing">
-    <value>144, 12</value>
-  </data>
-  <data name="Label21.TabIndex" type="System.Int32, mscorlib">
-    <value>34</value>
-  </data>
-  <data name="Label21.Text" xml:space="preserve">
-    <value>UserTimeline更新間隔（秒）</value>
-  </data>
-  <data name="&gt;&gt;Label21.Name" xml:space="preserve">
-    <value>Label21</value>
-  </data>
-  <data name="&gt;&gt;Label21.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;Label21.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;Label21.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="UserTimelinePeriod.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>Disable</value>
-  </data>
-  <data name="UserTimelinePeriod.Location" type="System.Drawing.Point, System.Drawing">
-    <value>259, 179</value>
-  </data>
-  <data name="UserTimelinePeriod.Size" type="System.Drawing.Size, System.Drawing">
-    <value>65, 19</value>
-  </data>
-  <data name="UserTimelinePeriod.TabIndex" type="System.Int32, mscorlib">
-    <value>35</value>
-  </data>
-  <data name="&gt;&gt;UserTimelinePeriod.Name" xml:space="preserve">
-    <value>UserTimelinePeriod</value>
-  </data>
-  <data name="&gt;&gt;UserTimelinePeriod.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;UserTimelinePeriod.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;UserTimelinePeriod.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="TimelinePeriod.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>Disable</value>
-  </data>
-  <data name="TimelinePeriod.Location" type="System.Drawing.Point, System.Drawing">
-    <value>259, 17</value>
-  </data>
-  <data name="TimelinePeriod.Size" type="System.Drawing.Size, System.Drawing">
-    <value>65, 19</value>
-  </data>
-  <data name="TimelinePeriod.TabIndex" type="System.Int32, mscorlib">
-    <value>24</value>
-  </data>
-  <data name="&gt;&gt;TimelinePeriod.Name" xml:space="preserve">
-    <value>TimelinePeriod</value>
-  </data>
-  <data name="&gt;&gt;TimelinePeriod.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;TimelinePeriod.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;TimelinePeriod.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="Label3.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="Label3.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="Label3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>23, 20</value>
-  </data>
-  <data name="Label3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>130, 12</value>
-  </data>
-  <data name="Label3.TabIndex" type="System.Int32, mscorlib">
-    <value>23</value>
-  </data>
-  <data name="Label3.Text" xml:space="preserve">
-    <value>タイムライン更新間隔（秒）</value>
-  </data>
-  <data name="&gt;&gt;Label3.Name" xml:space="preserve">
-    <value>Label3</value>
-  </data>
-  <data name="&gt;&gt;Label3.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;Label3.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;Label3.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="LabelPostAndGet.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="LabelPostAndGet.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="LabelPostAndGet.Location" type="System.Drawing.Point, System.Drawing">
-    <value>23, 279</value>
-  </data>
-  <data name="LabelPostAndGet.Size" type="System.Drawing.Size, System.Drawing">
-    <value>285, 12</value>
-  </data>
-  <data name="LabelPostAndGet.TabIndex" type="System.Int32, mscorlib">
-    <value>36</value>
-  </data>
-  <data name="LabelPostAndGet.Text" xml:space="preserve">
-    <value>投稿時取得が有効のため、投稿のたびにAPIを消費します。</value>
-  </data>
-  <data name="&gt;&gt;LabelPostAndGet.Name" xml:space="preserve">
-    <value>LabelPostAndGet</value>
-  </data>
-  <data name="&gt;&gt;LabelPostAndGet.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;LabelPostAndGet.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;LabelPostAndGet.ZOrder" xml:space="preserve">
-    <value>4</value>
-  </data>
-  <data name="Label33.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="Label33.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="Label33.Location" type="System.Drawing.Point, System.Drawing">
-    <value>23, 153</value>
-  </data>
-  <data name="Label33.Size" type="System.Drawing.Size, System.Drawing">
-    <value>102, 12</value>
-  </data>
-  <data name="Label33.TabIndex" type="System.Int32, mscorlib">
-    <value>32</value>
-  </data>
-  <data name="Label33.Text" xml:space="preserve">
-    <value>Lists更新間隔（秒）</value>
-  </data>
-  <data name="&gt;&gt;Label33.Name" xml:space="preserve">
-    <value>Label33</value>
-  </data>
-  <data name="&gt;&gt;Label33.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;Label33.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;Label33.ZOrder" xml:space="preserve">
-    <value>5</value>
-  </data>
-  <data name="ListsPeriod.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>Disable</value>
-  </data>
-  <data name="ListsPeriod.Location" type="System.Drawing.Point, System.Drawing">
-    <value>259, 150</value>
-  </data>
-  <data name="ListsPeriod.Size" type="System.Drawing.Size, System.Drawing">
-    <value>65, 19</value>
-  </data>
-  <data name="ListsPeriod.TabIndex" type="System.Int32, mscorlib">
-    <value>33</value>
-  </data>
-  <data name="&gt;&gt;ListsPeriod.Name" xml:space="preserve">
-    <value>ListsPeriod</value>
-  </data>
-  <data name="&gt;&gt;ListsPeriod.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;ListsPeriod.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;ListsPeriod.ZOrder" xml:space="preserve">
-    <value>6</value>
-  </data>
-  <data name="Label7.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="Label7.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="Label7.Location" type="System.Drawing.Point, System.Drawing">
-    <value>23, 124</value>
-  </data>
-  <data name="Label7.Size" type="System.Drawing.Size, System.Drawing">
-    <value>137, 12</value>
-  </data>
-  <data name="Label7.TabIndex" type="System.Int32, mscorlib">
-    <value>30</value>
-  </data>
-  <data name="Label7.Text" xml:space="preserve">
-    <value>Twitter検索更新間隔（秒）</value>
-  </data>
-  <data name="&gt;&gt;Label7.Name" xml:space="preserve">
-    <value>Label7</value>
-  </data>
-  <data name="&gt;&gt;Label7.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;Label7.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;Label7.ZOrder" xml:space="preserve">
-    <value>7</value>
-  </data>
-  <data name="PubSearchPeriod.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>Disable</value>
-  </data>
-  <data name="PubSearchPeriod.Location" type="System.Drawing.Point, System.Drawing">
-    <value>259, 121</value>
-  </data>
-  <data name="PubSearchPeriod.Size" type="System.Drawing.Size, System.Drawing">
-    <value>65, 19</value>
-  </data>
-  <data name="PubSearchPeriod.TabIndex" type="System.Int32, mscorlib">
-    <value>31</value>
-  </data>
-  <data name="&gt;&gt;PubSearchPeriod.Name" xml:space="preserve">
-    <value>PubSearchPeriod</value>
-  </data>
-  <data name="&gt;&gt;PubSearchPeriod.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;PubSearchPeriod.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;PubSearchPeriod.ZOrder" xml:space="preserve">
-    <value>8</value>
-  </data>
-  <data name="Label69.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="Label69.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="Label69.Location" type="System.Drawing.Point, System.Drawing">
-    <value>23, 66</value>
-  </data>
-  <data name="Label69.Size" type="System.Drawing.Size, System.Drawing">
-    <value>123, 12</value>
-  </data>
-  <data name="Label69.TabIndex" type="System.Int32, mscorlib">
-    <value>26</value>
-  </data>
-  <data name="Label69.Text" xml:space="preserve">
-    <value>Mentions更新間隔（秒）</value>
-  </data>
-  <data name="&gt;&gt;Label69.Name" xml:space="preserve">
-    <value>Label69</value>
-  </data>
-  <data name="&gt;&gt;Label69.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;Label69.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;Label69.ZOrder" xml:space="preserve">
-    <value>9</value>
-  </data>
-  <data name="ReplyPeriod.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>Disable</value>
-  </data>
-  <data name="ReplyPeriod.Location" type="System.Drawing.Point, System.Drawing">
-    <value>259, 63</value>
-  </data>
-  <data name="ReplyPeriod.Size" type="System.Drawing.Size, System.Drawing">
-    <value>65, 19</value>
-  </data>
-  <data name="ReplyPeriod.TabIndex" type="System.Int32, mscorlib">
-    <value>27</value>
-  </data>
-  <data name="&gt;&gt;ReplyPeriod.Name" xml:space="preserve">
-    <value>ReplyPeriod</value>
-  </data>
-  <data name="&gt;&gt;ReplyPeriod.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;ReplyPeriod.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;ReplyPeriod.ZOrder" xml:space="preserve">
-    <value>10</value>
-  </data>
-  <data name="CheckPostAndGet.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="CheckPostAndGet.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="CheckPostAndGet.Location" type="System.Drawing.Point, System.Drawing">
-    <value>45, 38</value>
-  </data>
-  <data name="CheckPostAndGet.Size" type="System.Drawing.Size, System.Drawing">
-    <value>84, 16</value>
-  </data>
-  <data name="CheckPostAndGet.TabIndex" type="System.Int32, mscorlib">
-    <value>25</value>
-  </data>
-  <data name="CheckPostAndGet.Text" xml:space="preserve">
-    <value>投稿時取得</value>
-  </data>
-  <data name="&gt;&gt;CheckPostAndGet.Name" xml:space="preserve">
-    <value>CheckPostAndGet</value>
-  </data>
-  <data name="&gt;&gt;CheckPostAndGet.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;CheckPostAndGet.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;CheckPostAndGet.ZOrder" xml:space="preserve">
-    <value>11</value>
-  </data>
-  <data name="Label5.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="Label5.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="Label5.Location" type="System.Drawing.Point, System.Drawing">
-    <value>23, 95</value>
-  </data>
-  <data name="Label5.Size" type="System.Drawing.Size, System.Drawing">
-    <value>94, 12</value>
-  </data>
-  <data name="Label5.TabIndex" type="System.Int32, mscorlib">
-    <value>28</value>
-  </data>
-  <data name="Label5.Text" xml:space="preserve">
-    <value>DM更新間隔（秒）</value>
-  </data>
-  <data name="&gt;&gt;Label5.Name" xml:space="preserve">
-    <value>Label5</value>
-  </data>
-  <data name="&gt;&gt;Label5.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;Label5.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;Label5.ZOrder" xml:space="preserve">
-    <value>12</value>
-  </data>
-  <data name="DMPeriod.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>Disable</value>
-  </data>
-  <data name="DMPeriod.Location" type="System.Drawing.Point, System.Drawing">
-    <value>259, 92</value>
-  </data>
-  <data name="DMPeriod.Size" type="System.Drawing.Size, System.Drawing">
-    <value>65, 19</value>
-  </data>
-  <data name="DMPeriod.TabIndex" type="System.Int32, mscorlib">
-    <value>29</value>
-  </data>
-  <data name="&gt;&gt;DMPeriod.Name" xml:space="preserve">
-    <value>DMPeriod</value>
-  </data>
-  <data name="&gt;&gt;DMPeriod.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;DMPeriod.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;DMPeriod.ZOrder" xml:space="preserve">
-    <value>13</value>
-  </data>
-  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
-    <value>96, 96</value>
-  </data>
-  <data name="&gt;&gt;$this.Name" xml:space="preserve">
-    <value>GetPeriodPanel</value>
-  </data>
-  <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>OpenTween.Setting.Panel.SettingPanelBase, OpenTween, Version=2.4.3.1, Culture=neutral, PublicKeyToken=null</value>
-  </data>
+	<data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing"><value>96, 96</value></data>
+	<metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"><value>True</value></metadata>
+	<data name="&gt;&gt;$this.Name"><value>GetPeriodPanel</value></data>
+	<data name="&gt;&gt;$this.Type"><value>OpenTween.Setting.Panel.SettingPanelBase, OpenTween, Version=2.4.3.1, Culture=neutral, PublicKeyToken=null</value></data>
+	<data name="&gt;&gt;CheckPostAndGet.Name"><value>CheckPostAndGet</value></data>
+	<data name="&gt;&gt;CheckPostAndGet.Parent"><value>$this</value></data>
+	<data name="&gt;&gt;CheckPostAndGet.Type"><value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;CheckPostAndGet.ZOrder"><value>11</value></data>
+	<data name="&gt;&gt;DMPeriod.Name"><value>DMPeriod</value></data>
+	<data name="&gt;&gt;DMPeriod.Parent"><value>$this</value></data>
+	<data name="&gt;&gt;DMPeriod.Type"><value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;DMPeriod.ZOrder"><value>13</value></data>
+	<data name="&gt;&gt;Label21.Name"><value>Label21</value></data>
+	<data name="&gt;&gt;Label21.Parent"><value>$this</value></data>
+	<data name="&gt;&gt;Label21.Type"><value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;Label21.ZOrder"><value>0</value></data>
+	<data name="&gt;&gt;Label3.Name"><value>Label3</value></data>
+	<data name="&gt;&gt;Label3.Parent"><value>$this</value></data>
+	<data name="&gt;&gt;Label3.Type"><value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;Label3.ZOrder"><value>3</value></data>
+	<data name="&gt;&gt;Label33.Name"><value>Label33</value></data>
+	<data name="&gt;&gt;Label33.Parent"><value>$this</value></data>
+	<data name="&gt;&gt;Label33.Type"><value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;Label33.ZOrder"><value>5</value></data>
+	<data name="&gt;&gt;Label5.Name"><value>Label5</value></data>
+	<data name="&gt;&gt;Label5.Parent"><value>$this</value></data>
+	<data name="&gt;&gt;Label5.Type"><value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;Label5.ZOrder"><value>12</value></data>
+	<data name="&gt;&gt;Label69.Name"><value>Label69</value></data>
+	<data name="&gt;&gt;Label69.Parent"><value>$this</value></data>
+	<data name="&gt;&gt;Label69.Type"><value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;Label69.ZOrder"><value>9</value></data>
+	<data name="&gt;&gt;Label7.Name"><value>Label7</value></data>
+	<data name="&gt;&gt;Label7.Parent"><value>$this</value></data>
+	<data name="&gt;&gt;Label7.Type"><value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;Label7.ZOrder"><value>7</value></data>
+	<data name="&gt;&gt;LabelPostAndGet.Name"><value>LabelPostAndGet</value></data>
+	<data name="&gt;&gt;LabelPostAndGet.Parent"><value>$this</value></data>
+	<data name="&gt;&gt;LabelPostAndGet.Type"><value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;LabelPostAndGet.ZOrder"><value>4</value></data>
+	<data name="&gt;&gt;ListsPeriod.Name"><value>ListsPeriod</value></data>
+	<data name="&gt;&gt;ListsPeriod.Parent"><value>$this</value></data>
+	<data name="&gt;&gt;ListsPeriod.Type"><value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;ListsPeriod.ZOrder"><value>6</value></data>
+	<data name="&gt;&gt;PubSearchPeriod.Name"><value>PubSearchPeriod</value></data>
+	<data name="&gt;&gt;PubSearchPeriod.Parent"><value>$this</value></data>
+	<data name="&gt;&gt;PubSearchPeriod.Type"><value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;PubSearchPeriod.ZOrder"><value>8</value></data>
+	<data name="&gt;&gt;ReplyPeriod.Name"><value>ReplyPeriod</value></data>
+	<data name="&gt;&gt;ReplyPeriod.Parent"><value>$this</value></data>
+	<data name="&gt;&gt;ReplyPeriod.Type"><value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;ReplyPeriod.ZOrder"><value>10</value></data>
+	<data name="&gt;&gt;TimelinePeriod.Name"><value>TimelinePeriod</value></data>
+	<data name="&gt;&gt;TimelinePeriod.Parent"><value>$this</value></data>
+	<data name="&gt;&gt;TimelinePeriod.Type"><value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;TimelinePeriod.ZOrder"><value>2</value></data>
+	<data name="&gt;&gt;UserTimelinePeriod.Name"><value>UserTimelinePeriod</value></data>
+	<data name="&gt;&gt;UserTimelinePeriod.Parent"><value>$this</value></data>
+	<data name="&gt;&gt;UserTimelinePeriod.Type"><value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;UserTimelinePeriod.ZOrder"><value>1</value></data>
+	<data name="CheckPostAndGet.AutoSize" type="System.Boolean, mscorlib"><value>True</value></data>
+	<data name="CheckPostAndGet.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms"><value>NoControl</value></data>
+	<data name="CheckPostAndGet.Location" type="System.Drawing.Point, System.Drawing"><value>45, 38</value></data>
+	<data name="CheckPostAndGet.Size" type="System.Drawing.Size, System.Drawing"><value>84, 16</value></data>
+	<data name="CheckPostAndGet.TabIndex" type="System.Int32, mscorlib"><value>25</value></data>
+	<data name="CheckPostAndGet.Text"><value>投稿時取得</value></data>
+	<data name="DMPeriod.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms"><value>Disable</value></data>
+	<data name="DMPeriod.Location" type="System.Drawing.Point, System.Drawing"><value>259, 92</value></data>
+	<data name="DMPeriod.Size" type="System.Drawing.Size, System.Drawing"><value>65, 19</value></data>
+	<data name="DMPeriod.TabIndex" type="System.Int32, mscorlib"><value>29</value></data>
+	<data name="Label21.AutoSize" type="System.Boolean, mscorlib"><value>True</value></data>
+	<data name="Label21.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms"><value>NoControl</value></data>
+	<data name="Label21.Location" type="System.Drawing.Point, System.Drawing"><value>23, 182</value></data>
+	<data name="Label21.Size" type="System.Drawing.Size, System.Drawing"><value>144, 12</value></data>
+	<data name="Label21.TabIndex" type="System.Int32, mscorlib"><value>34</value></data>
+	<data name="Label21.Text"><value>UserTimeline更新間隔（秒）</value></data>
+	<data name="Label3.AutoSize" type="System.Boolean, mscorlib"><value>True</value></data>
+	<data name="Label3.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms"><value>NoControl</value></data>
+	<data name="Label3.Location" type="System.Drawing.Point, System.Drawing"><value>23, 20</value></data>
+	<data name="Label3.Size" type="System.Drawing.Size, System.Drawing"><value>130, 12</value></data>
+	<data name="Label3.TabIndex" type="System.Int32, mscorlib"><value>23</value></data>
+	<data name="Label3.Text"><value>タイムライン更新間隔（秒）</value></data>
+	<data name="Label33.AutoSize" type="System.Boolean, mscorlib"><value>True</value></data>
+	<data name="Label33.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms"><value>NoControl</value></data>
+	<data name="Label33.Location" type="System.Drawing.Point, System.Drawing"><value>23, 153</value></data>
+	<data name="Label33.Size" type="System.Drawing.Size, System.Drawing"><value>102, 12</value></data>
+	<data name="Label33.TabIndex" type="System.Int32, mscorlib"><value>32</value></data>
+	<data name="Label33.Text"><value>Lists更新間隔（秒）</value></data>
+	<data name="Label5.AutoSize" type="System.Boolean, mscorlib"><value>True</value></data>
+	<data name="Label5.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms"><value>NoControl</value></data>
+	<data name="Label5.Location" type="System.Drawing.Point, System.Drawing"><value>23, 95</value></data>
+	<data name="Label5.Size" type="System.Drawing.Size, System.Drawing"><value>94, 12</value></data>
+	<data name="Label5.TabIndex" type="System.Int32, mscorlib"><value>28</value></data>
+	<data name="Label5.Text"><value>DM更新間隔（秒）</value></data>
+	<data name="Label69.AutoSize" type="System.Boolean, mscorlib"><value>True</value></data>
+	<data name="Label69.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms"><value>NoControl</value></data>
+	<data name="Label69.Location" type="System.Drawing.Point, System.Drawing"><value>23, 66</value></data>
+	<data name="Label69.Size" type="System.Drawing.Size, System.Drawing"><value>123, 12</value></data>
+	<data name="Label69.TabIndex" type="System.Int32, mscorlib"><value>26</value></data>
+	<data name="Label69.Text"><value>Mentions更新間隔（秒）</value></data>
+	<data name="Label7.AutoSize" type="System.Boolean, mscorlib"><value>True</value></data>
+	<data name="Label7.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms"><value>NoControl</value></data>
+	<data name="Label7.Location" type="System.Drawing.Point, System.Drawing"><value>23, 124</value></data>
+	<data name="Label7.Size" type="System.Drawing.Size, System.Drawing"><value>137, 12</value></data>
+	<data name="Label7.TabIndex" type="System.Int32, mscorlib"><value>30</value></data>
+	<data name="Label7.Text"><value>Twitter検索更新間隔（秒）</value></data>
+	<data name="LabelPostAndGet.AutoSize" type="System.Boolean, mscorlib"><value>True</value></data>
+	<data name="LabelPostAndGet.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms"><value>NoControl</value></data>
+	<data name="LabelPostAndGet.Location" type="System.Drawing.Point, System.Drawing"><value>23, 279</value></data>
+	<data name="LabelPostAndGet.Size" type="System.Drawing.Size, System.Drawing"><value>285, 12</value></data>
+	<data name="LabelPostAndGet.TabIndex" type="System.Int32, mscorlib"><value>36</value></data>
+	<data name="LabelPostAndGet.Text"><value>投稿時取得が有効のため、投稿のたびにAPIを消費します。</value></data>
+	<data name="ListsPeriod.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms"><value>Disable</value></data>
+	<data name="ListsPeriod.Location" type="System.Drawing.Point, System.Drawing"><value>259, 150</value></data>
+	<data name="ListsPeriod.Size" type="System.Drawing.Size, System.Drawing"><value>65, 19</value></data>
+	<data name="ListsPeriod.TabIndex" type="System.Int32, mscorlib"><value>33</value></data>
+	<data name="PubSearchPeriod.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms"><value>Disable</value></data>
+	<data name="PubSearchPeriod.Location" type="System.Drawing.Point, System.Drawing"><value>259, 121</value></data>
+	<data name="PubSearchPeriod.Size" type="System.Drawing.Size, System.Drawing"><value>65, 19</value></data>
+	<data name="PubSearchPeriod.TabIndex" type="System.Int32, mscorlib"><value>31</value></data>
+	<data name="ReplyPeriod.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms"><value>Disable</value></data>
+	<data name="ReplyPeriod.Location" type="System.Drawing.Point, System.Drawing"><value>259, 63</value></data>
+	<data name="ReplyPeriod.Size" type="System.Drawing.Size, System.Drawing"><value>65, 19</value></data>
+	<data name="ReplyPeriod.TabIndex" type="System.Int32, mscorlib"><value>27</value></data>
+	<data name="TimelinePeriod.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms"><value>Disable</value></data>
+	<data name="TimelinePeriod.Location" type="System.Drawing.Point, System.Drawing"><value>259, 17</value></data>
+	<data name="TimelinePeriod.Size" type="System.Drawing.Size, System.Drawing"><value>65, 19</value></data>
+	<data name="TimelinePeriod.TabIndex" type="System.Int32, mscorlib"><value>24</value></data>
+	<data name="UserTimelinePeriod.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms"><value>Disable</value></data>
+	<data name="UserTimelinePeriod.Location" type="System.Drawing.Point, System.Drawing"><value>259, 179</value></data>
+	<data name="UserTimelinePeriod.Size" type="System.Drawing.Size, System.Drawing"><value>65, 19</value></data>
+	<data name="UserTimelinePeriod.TabIndex" type="System.Int32, mscorlib"><value>35</value></data>
 </root>
