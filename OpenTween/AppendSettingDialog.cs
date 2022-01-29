@@ -137,18 +137,6 @@ namespace OpenTween
             if (pnl == null) return;
             pnl.Enabled = true;
             pnl.Visible = true;
-
-            if (pnl.Name == "PreviewPanel")
-            {
-                if (GrowlHelper.IsDllExists)
-                {
-                    this.PreviewPanel.IsNotifyUseGrowlCheckBox.Enabled = true;
-                }
-                else
-                {
-                    this.PreviewPanel.IsNotifyUseGrowlCheckBox.Enabled = false;
-                }
-            }
         }
 
         private void Setting_FormClosing(object sender, FormClosingEventArgs e)

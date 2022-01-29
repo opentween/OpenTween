@@ -3,5 +3,28 @@
 	<resheader name="version"><value>2.0</value></resheader>
 	<resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
 	<resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+	<assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
 
+	<data name="CheckBoxEnableBlinkOnReply.Size" type="System.Drawing.Size, System.Drawing"><value>269, 16</value></data>
+	<data name="CheckBoxEnableBlinkOnReply.Text"><value>Blink window when new reply or DM is received</value></data>
+	<data name="CheckBoxEnableNotificationSound.Size" type="System.Drawing.Size, System.Drawing"><value>221, 16</value></data>
+	<data name="CheckBoxEnableNotificationSound.Text"><value>Enable notification sound for new post</value></data>
+	<data name="CheckBoxNotificationPopup.Size" type="System.Drawing.Size, System.Drawing"><value>221, 16</value></data>
+	<data name="CheckBoxNotificationPopup.Text"><value>Enable popup notification for new post</value></data>
+	<data name="CheckBoxUseGrowlForNotification.Size" type="System.Drawing.Size, System.Drawing"><value>190, 16</value></data>
+	<data name="CheckBoxUseGrowlForNotification.Text"><value>Use Growl for popup notification</value></data>
+	<data name="ComboBoxNameInPopup.Items"><value>None</value></data>
+	<data name="ComboBoxNameInPopup.Items1"><value>User ID</value></data>
+	<data name="ComboBoxNameInPopup.Items2"><value>Nickname</value></data>
+	<data name="label1.Size" type="System.Drawing.Size, System.Drawing"><value>167, 12</value></data>
+	<data name="label1.Text"><value>Username format in notification</value></data>
+	<data name="label2.Size" type="System.Drawing.Size, System.Drawing"><value>229, 12</value></data>
+	<data name="label2.Text"><value>* Require Growl Connector Libraries (DLLs)</value></data>
+	<data name="label2.ToolTip"><value>Require to get DLLs below and to copy to the path same as Tween.exe.
+Growl.Connector.DLL
+Growl.CoreLibrary.DLL
+These are contained in 'Growl_NET_Connector_SDK.zip'.
+This file is released for developers in Growl for Windows web site.</value></data>
+	<data name="label3.Size" type="System.Drawing.Size, System.Drawing"><value>435, 12</value></data>
+	<data name="label3.Text"><value>If you enable it and set the sound file for tabs, the notification sound will be played.</value></data>
 </root>

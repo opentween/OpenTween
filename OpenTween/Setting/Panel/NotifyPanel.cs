@@ -40,10 +40,33 @@ namespace OpenTween.Setting.Panel
 
         public void LoadConfig(SettingCommon settingCommon)
         {
+            this.CheckBoxNotificationPopup.Checked = settingCommon.NewAllPop;
+            this.ComboBoxNameInPopup.SelectedIndex = settingCommon.NameBalloon switch
+            {
+                MyCommon.NameBalloonEnum.None => 0,
+                MyCommon.NameBalloonEnum.UserID => 1,
+                MyCommon.NameBalloonEnum.NickName => 2,
+                _ => 2,
+            };
+            this.CheckBoxUseGrowlForNotification.Checked = settingCommon.IsUseNotifyGrowl;
+            this.CheckBoxUseGrowlForNotification.Enabled = GrowlHelper.IsDllExists;
+            this.CheckBoxEnableNotificationSound.Checked = settingCommon.PlaySound;
+            this.CheckBoxEnableBlinkOnReply.Checked = settingCommon.BlinkNewMentions;
         }
 
         public void SaveConfig(SettingCommon settingCommon)
         {
+            settingCommon.NewAllPop = this.CheckBoxNotificationPopup.Checked;
+            settingCommon.NameBalloon = this.ComboBoxNameInPopup.SelectedIndex switch
+            {
+                0 => MyCommon.NameBalloonEnum.None,
+                1 => MyCommon.NameBalloonEnum.UserID,
+                2 => MyCommon.NameBalloonEnum.NickName,
+                _ => throw new IndexOutOfRangeException(),
+            };
+            settingCommon.IsUseNotifyGrowl = this.CheckBoxUseGrowlForNotification.Checked;
+            settingCommon.PlaySound = this.CheckBoxEnableNotificationSound.Checked;
+            settingCommon.BlinkNewMentions = this.CheckBoxEnableBlinkOnReply.Checked;
         }
     }
 }

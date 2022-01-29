@@ -44,13 +44,6 @@ namespace OpenTween.Setting.Panel
 
         public void LoadConfig(SettingCommon settingCommon)
         {
-            this.cmbNameBalloon.SelectedIndex = settingCommon.NameBalloon switch
-            {
-                MyCommon.NameBalloonEnum.None => 0,
-                MyCommon.NameBalloonEnum.UserID => 1,
-                MyCommon.NameBalloonEnum.NickName => 2,
-                _ => 2,
-            };
             this.CheckDispUsername.Checked = settingCommon.DispUsername;
             this.ComboDispTitle.SelectedIndex = settingCommon.DispLatestPost switch
             {
@@ -84,20 +77,10 @@ namespace OpenTween.Setting.Panel
                 "en" => 2,
                 _ => 0,
             };
-            this.ChkNewMentionsBlink.Checked = settingCommon.BlinkNewMentions;
-            this.IsNotifyUseGrowlCheckBox.Checked = settingCommon.IsUseNotifyGrowl;
-            this.IsNotifyUseGrowlCheckBox.Enabled = GrowlHelper.IsDllExists;
         }
 
         public void SaveConfig(SettingCommon settingCommon)
         {
-            settingCommon.NameBalloon = this.cmbNameBalloon.SelectedIndex switch
-            {
-                0 => MyCommon.NameBalloonEnum.None,
-                1 => MyCommon.NameBalloonEnum.UserID,
-                2 => MyCommon.NameBalloonEnum.NickName,
-                _ => throw new IndexOutOfRangeException(),
-            };
             settingCommon.DispUsername = this.CheckDispUsername.Checked;
             settingCommon.DispLatestPost = this.ComboDispTitle.SelectedIndex switch
             {
@@ -131,8 +114,6 @@ namespace OpenTween.Setting.Panel
                 2 => "en",
                 _ => "en",
             };
-            settingCommon.BlinkNewMentions = this.ChkNewMentionsBlink.Checked;
-            settingCommon.IsUseNotifyGrowl = this.IsNotifyUseGrowlCheckBox.Checked;
         }
     }
 }
