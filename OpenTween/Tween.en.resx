@@ -1,194 +1,98 @@
-<?xml version="1.0" encoding="utf-8"?>
-<root>
-  <!-- 
-    Microsoft ResX Schema 
-    
-    Version 2.0
-    
-    The primary goals of this format is to allow a simple XML format 
-    that is mostly human readable. The generation and parsing of the 
-    various data types are done through the TypeConverter classes 
-    associated with the data types.
-    
-    Example:
-    
-    ... ado.net/XML headers & schema ...
-    <resheader name="resmimetype">text/microsoft-resx</resheader>
-    <resheader name="version">2.0</resheader>
-    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
-    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
-    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
-    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
-    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
-        <value>[base64 mime encoded serialized .NET Framework object]</value>
-    </data>
-    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
-        <comment>This is a comment</comment>
-    </data>
-                
-    There are any number of "resheader" rows that contain simple 
-    name/value pairs.
-    
-    Each data row contains a name, and value. The row also contains a 
-    type or mimetype. Type corresponds to a .NET class that support 
-    text/value conversion through the TypeConverter architecture. 
-    Classes that don't support this are serialized and stored with the 
-    mimetype set.
-    
-    The mimetype is used for serialized objects, and tells the 
-    ResXResourceReader how to depersist the object. This is currently not 
-    extensible. For a given mimetype the value must be set accordingly:
-    
-    Note - application/x-microsoft.net.object.binary.base64 is the format 
-    that the ResXResourceWriter will generate, however the reader can 
-    read any of the formats listed below.
-    
-    mimetype: application/x-microsoft.net.object.binary.base64
-    value   : The object must be serialized with 
-            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
-            : and then encoded with base64 encoding.
-    
-    mimetype: application/x-microsoft.net.object.soap.base64
-    value   : The object must be serialized with 
-            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
-            : and then encoded with base64 encoding.
+<?xml version="1.0" encoding="utf-8"?><root xml:space="preserve">
+	<resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+	<resheader name="version"><value>2.0</value></resheader>
+	<resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+	<resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+	<assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+	<assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
 
-    mimetype: application/x-microsoft.net.object.bytearray.base64
-    value   : The object must be serialized into a byte array 
-            : using a System.ComponentModel.TypeConverter
-            : and then encoded with base64 encoding.
-    -->
-  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
-    <xsd:element name="root" msdata:IsDataSet="true">
-      <xsd:complexType>
-        <xsd:choice maxOccurs="unbounded">
-          <xsd:element name="metadata">
-            <xsd:complexType>
-              <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" />
-              </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string" />
-              <xsd:attribute name="type" type="xsd:string" />
-              <xsd:attribute name="mimetype" type="xsd:string" />
-              <xsd:attribute ref="xml:space" />
-            </xsd:complexType>
-          </xsd:element>
-          <xsd:element name="assembly">
-            <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string" />
-              <xsd:attribute name="name" type="xsd:string" />
-            </xsd:complexType>
-          </xsd:element>
-          <xsd:element name="data">
-            <xsd:complexType>
-              <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
-              </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-              <xsd:attribute ref="xml:space" />
-            </xsd:complexType>
-          </xsd:element>
-          <xsd:element name="resheader">
-            <xsd:complexType>
-              <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-              </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" />
-            </xsd:complexType>
-          </xsd:element>
-        </xsd:choice>
-      </xsd:complexType>
-    </xsd:element>
-  </xsd:schema>
-  <resheader name="resmimetype">
-    <value>text/microsoft-resx</value>
-  </resheader>
-  <resheader name="version">
-    <value>2.0</value>
-  </resheader>
-  <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </resheader>
-  <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </resheader>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="StatusLabelUrl.Size" type="System.Drawing.Size, System.Drawing">
-    <value>410, 23</value>
-  </data>
-  <data name="UrlMultibyteSplitPullDownMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>445, 24</value>
-  </data>
-  <data name="UrlMultibyteSplitPullDownMenuItem.Text" xml:space="preserve">
-    <value>&amp;Separation of multibyte character string from URL</value>
-  </data>
-  <data name="PreventSmsCommandPullDownMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>445, 24</value>
-  </data>
-  <data name="PreventSmsCommandPullDownMenuItem.Text" xml:space="preserve">
-    <value>Prevent interpreting text as SMS command</value>
-  </data>
-  <data name="UrlAutoShortenPullDownMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>445, 24</value>
-  </data>
-  <data name="UrlAutoShortenPullDownMenuItem.Text" xml:space="preserve">
-    <value>&amp;URL is automatically shortened</value>
-  </data>
-  <data name="IdeographicSpaceToSpacePullDownMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>445, 24</value>
-  </data>
-  <data name="IdeographicSpaceToSpacePullDownMenuItem.Text" xml:space="preserve">
-    <value>&amp;Convert IdeographicSpace to Space</value>
-  </data>
-  <data name="MultiLinePullDownMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>445, 24</value>
-  </data>
-  <data name="MultiLinePullDownMenuItem.Text" xml:space="preserve">
-    <value>Input field is &amp;Multiline</value>
-  </data>
-  <data name="FocusLockPullDownMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>445, 24</value>
-  </data>
-  <data name="FocusLockPullDownMenuItem.Text" xml:space="preserve">
-    <value>Left focus in input box after posting</value>
-  </data>
-  <data name="ToolStripSeparator35.Size" type="System.Drawing.Size, System.Drawing">
-    <value>442, 6</value>
-  </data>
-  <data name="ImageSelectPullDownMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>445, 24</value>
-  </data>
-  <data name="ImageSelectPullDownMenuItem.Text" xml:space="preserve">
-    <value>&amp;Pick a media file</value>
-  </data>
-  <data name="ToolStripSeparator8.Size" type="System.Drawing.Size, System.Drawing">
-    <value>442, 6</value>
-  </data>
-  <data name="HashTogglePullDownMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>445, 24</value>
-  </data>
-  <data name="HashTogglePullDownMenuItem.Text" xml:space="preserve">
-    <value>&amp;Toggle Hashtag</value>
-  </data>
-  <data name="HashManagePullDownMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>445, 24</value>
-  </data>
-  <data name="HashManagePullDownMenuItem.Text" xml:space="preserve">
-    <value>Hashtag &amp;Manager</value>
-  </data>
-  <data name="ContextMenuPostMode.Size" type="System.Drawing.Size, System.Drawing">
-    <value>446, 232</value>
-  </data>
-  <data name="ContextMenuPostMode.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="HashStripSplitButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
+	<data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing"><value>574, 382</value></data>
+	<data name="$this.ToolTip"><value /></data>
+	<data name="AboutMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>278, 24</value></data>
+	<data name="AboutMenuItem.Text"><value>&amp;About %AppName%...</value></data>
+	<data name="AddTabMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>247, 24</value></data>
+	<data name="AddTabMenuItem.Text"><value>Create &amp;New Tab...</value></data>
+	<data name="ApiUsageInfoMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>278, 24</value></data>
+	<data name="ApiUsageInfoMenuItem.Text"><value>Twitter API Usage</value></data>
+	<data name="BitlyToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>218, 24</value></data>
+	<data name="ChangeReadOpMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>347, 24</value></data>
+	<data name="ChangeReadOpMenuItem.Text"><value>Change Unread state ...</value></data>
+	<data name="ClearTabMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>247, 24</value></data>
+	<data name="ClearTabMenuItem.Text"><value>Clear Posts in This Tab</value></data>
+	<data name="ClearTbMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>248, 24</value></data>
+	<data name="ClearTbMenuItem.Text"><value>&amp;Clear posts in this tab</value></data>
+	<data name="ContextMenuFile.Size" type="System.Drawing.Size, System.Drawing"><value>248, 166</value></data>
+	<data name="ContextMenuFile.ToolTip"><value /></data>
+	<data name="ContextMenuOperate.Size" type="System.Drawing.Size, System.Drawing"><value>259, 556</value></data>
+	<data name="ContextMenuOperate.ToolTip"><value /></data>
+	<data name="ContextMenuPostMode.Size" type="System.Drawing.Size, System.Drawing"><value>446, 232</value></data>
+	<data name="ContextMenuPostMode.ToolTip"><value /></data>
+	<data name="ContextMenuTabProperty.Size" type="System.Drawing.Size, System.Drawing"><value>248, 251</value></data>
+	<data name="ContextMenuTabProperty.ToolTip"><value /></data>
+	<data name="CopySTOTMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>320, 24</value></data>
+	<data name="CopySTOTMenuItem.Text"><value>&amp;Copy (STOT-style)</value></data>
+	<data name="CopyURLMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>320, 24</value></data>
+	<data name="CopyURLMenuItem.Text"><value>Copy (&amp;Status URL)</value></data>
+	<data name="CopyUserIdStripMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>320, 24</value></data>
+	<data name="CopyUserIdStripMenuItem.Text"><value>Copy（Usern&amp;ame）</value></data>
+	<data name="CreateIdRuleOpMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>118, 22</value></data>
+	<data name="CreateIdRuleOpMenuItem.Text"><value>&amp;ID</value></data>
+	<data name="CreateRuleOpMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>347, 24</value></data>
+	<data name="CreateRuleOpMenuItem.Text"><value>&amp;Filter by ...</value></data>
+	<data name="CreateSourceRuleOpMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>118, 22</value></data>
+	<data name="CreateSourceRuleOpMenuItem.Text"><value>&amp;Source</value></data>
+	<data name="CreateTabRuleOpMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>118, 22</value></data>
+	<data name="CreateTabRuleOpMenuItem.Text"><value>Post(&amp;N)</value></data>
+	<data name="CreateTbMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>248, 24</value></data>
+	<data name="CreateTbMenuItem.Text"><value>Create &amp;New Tab...</value></data>
+	<data name="DebugModeToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>278, 24</value></data>
+	<data name="DeleteStripMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>258, 24</value></data>
+	<data name="DeleteStripMenuItem.Text"><value>&amp;Delete</value></data>
+	<data name="DeleteTabMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>247, 24</value></data>
+	<data name="DeleteTabMenuItem.Text"><value>&amp;Delete This Tab</value></data>
+	<data name="DeleteTbMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>248, 24</value></data>
+	<data name="DeleteTbMenuItem.Text"><value>&amp;Delete this tab</value></data>
+	<data name="DelOpMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>347, 24</value></data>
+	<data name="DelOpMenuItem.Text"><value>&amp;Delete your tweet/DM</value></data>
+	<data name="DmOpMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>347, 24</value></data>
+	<data name="DmOpMenuItem.Text"><value>Send D&amp;M</value></data>
+	<data name="DMStripMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>258, 24</value></data>
+	<data name="DMStripMenuItem.Text"><value>Send D&amp;M</value></data>
+	<data name="EditRuleTbMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>248, 24</value></data>
+	<data name="EditRuleTbMenuItem.Text"><value>Edit &amp;Filtering rules...</value></data>
+	<data name="EndFileMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>242, 24</value></data>
+	<data name="EndFileMenuItem.Text"><value>E&amp;xit</value></data>
+	<data name="EndToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>247, 24</value></data>
+	<data name="EndToolStripMenuItem.Text"><value>E&amp;xit</value></data>
+	<data name="FavAddToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>258, 24</value></data>
+	<data name="FavAddToolStripMenuItem.Text"><value>Mark &amp;Favorite</value></data>
+	<data name="FavOpMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>347, 24</value></data>
+	<data name="FavOpMenuItem.Text"><value>Favorite(&amp;S)</value></data>
+	<data name="FavoriteRetweetContextMenu.Size" type="System.Drawing.Size, System.Drawing"><value>258, 24</value></data>
+	<data name="FavoriteRetweetContextMenu.Text"><value>Fav+Retweet</value></data>
+	<data name="FavoriteRetweetMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>347, 24</value></data>
+	<data name="FavoriteRetweetMenuItem.Text"><value>Fav+Retweet</value></data>
+	<data name="FavoriteRetweetUnofficialContextMenu.Size" type="System.Drawing.Size, System.Drawing"><value>258, 24</value></data>
+	<data name="FavoriteRetweetUnofficialContextMenu.Text"><value>Fav+Retweet(Unofficial)</value></data>
+	<data name="FavoriteRetweetUnofficialMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>347, 24</value></data>
+	<data name="FavoriteRetweetUnofficialMenuItem.Text"><value>Fav+Retweet(Unofficial)</value></data>
+	<data name="FavRemoveToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>258, 24</value></data>
+	<data name="FavRemoveToolStripMenuItem.Text"><value>Unmark Favorite</value></data>
+	<data name="FilterEditMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>247, 24</value></data>
+	<data name="FilterEditMenuItem.Text"><value>Edit &amp;Filtering Rules...</value></data>
+	<data name="FocusLockMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>334, 22</value></data>
+	<data name="FocusLockMenuItem.Text"><value>Left focus in input box after posting</value></data>
+	<data name="FocusLockPullDownMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>445, 24</value></data>
+	<data name="FocusLockPullDownMenuItem.Text"><value>Left focus in input box after posting</value></data>
+	<data name="FollowCommandMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>294, 24</value></data>
+	<data name="FollowCommandMenuItem.Text"><value>&amp;Follow</value></data>
+	<data name="FriendshipMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>294, 24</value></data>
+	<data name="FriendshipMenuItem.Text"><value>S&amp;how Friendship</value></data>
+	<data name="HashManageMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>334, 22</value></data>
+	<data name="HashManageMenuItem.Text"><value>&amp;Hashtag Manager</value></data>
+	<data name="HashManagePullDownMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>445, 24</value></data>
+	<data name="HashManagePullDownMenuItem.Text"><value>Hashtag &amp;Manager</value></data>
+	<data name="HashStripSplitButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64"><value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6
         JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAACA0lEQVQ4T6WS60uTYRjG94+ElodKEUFR
         MQ+IKJ5A6YOIRmCsRulgaIJDGSoDzQhFSRQRnRhExL4MMjvQyRObMmcNzyJTxBPaYAQi2eV73TAfBMPI
@@ -200,1124 +104,118 @@
         0T9x41rKIwXgqJgxKOZjY7sHhRr41oNhAYQm6ZFu/IbUhx8EcjXZoABczxHntohZM2sstji180+IK+lH
         VJ5V67pZbMcUPpMdIPAUwN2mZQbrY0k8ozg6v1nEHFvwfyXuDkIS7ykA58zdZqdJ55LwIUfFbjMza6Zt
         ZqY4JKFcAf7/A04A0AEgNTFacM8AAAAASUVORK5CYII=
-</value>
-  </data>
-  <data name="StatusStrip1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>574, 28</value>
-  </data>
-  <data name="StatusStrip1.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="ToolStripContainer1.BottomToolStripPanel.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="TimelinePanel.AccessibleName" xml:space="preserve">
-    <value>PostsListArea</value>
-  </data>
-  <data name="AddTabMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>247, 24</value>
-  </data>
-  <data name="AddTabMenuItem.Text" xml:space="preserve">
-    <value>Create &amp;New Tab...</value>
-  </data>
-  <data name="TabRenameMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>247, 24</value>
-  </data>
-  <data name="TabRenameMenuItem.Text" xml:space="preserve">
-    <value>Rename Tab</value>
-  </data>
-  <data name="ToolStripSeparator20.Size" type="System.Drawing.Size, System.Drawing">
-    <value>244, 6</value>
-  </data>
-  <data name="ProtectTabMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>247, 24</value>
-  </data>
-  <data name="ProtectTabMenuItem.Text" xml:space="preserve">
-    <value>&amp;Protect Tab</value>
-  </data>
-  <data name="UreadManageMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>247, 24</value>
-  </data>
-  <data name="UreadManageMenuItem.Text" xml:space="preserve">
-    <value>Manage Reading (&amp;U)</value>
-  </data>
-  <data name="NotifyDispMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>247, 24</value>
-  </data>
-  <data name="NotifyDispMenuItem.Text" xml:space="preserve">
-    <value>&amp;Enable Alert Popup (&amp;Q)</value>
-  </data>
-  <data name="SoundFileComboBox.ToolTipText" xml:space="preserve">
-    <value>Select a wav file.</value>
-  </data>
-  <data name="ToolStripSeparator18.Size" type="System.Drawing.Size, System.Drawing">
-    <value>244, 6</value>
-  </data>
-  <data name="FilterEditMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>247, 24</value>
-  </data>
-  <data name="FilterEditMenuItem.Text" xml:space="preserve">
-    <value>Edit &amp;Filtering Rules...</value>
-  </data>
-  <data name="ToolStripSeparator19.Size" type="System.Drawing.Size, System.Drawing">
-    <value>244, 6</value>
-  </data>
-  <data name="ClearTabMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>247, 24</value>
-  </data>
-  <data name="ClearTabMenuItem.Text" xml:space="preserve">
-    <value>Clear Posts in This Tab</value>
-  </data>
-  <data name="ToolStripSeparator11.Size" type="System.Drawing.Size, System.Drawing">
-    <value>244, 6</value>
-  </data>
-  <data name="DeleteTabMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>247, 24</value>
-  </data>
-  <data name="DeleteTabMenuItem.Text" xml:space="preserve">
-    <value>&amp;Delete This Tab</value>
-  </data>
-  <data name="ContextMenuTabProperty.Size" type="System.Drawing.Size, System.Drawing">
-    <value>248, 251</value>
-  </data>
-  <data name="ContextMenuTabProperty.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="ListTab.Size" type="System.Drawing.Size, System.Drawing">
-    <value>570, 149</value>
-  </data>
-  <data name="ListTab.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="TimelinePanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>570, 149</value>
-  </data>
-  <data name="TimelinePanel.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="ProfilePanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>570, 149</value>
-  </data>
-  <data name="ProfilePanel.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="SplitContainer1.Panel1.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="tweetDetailsView.AccessibleName" xml:space="preserve">
-    <value>PostDetailsArea</value>
-  </data>
-  <data name="SplitContainer2.Panel1.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="TableLayoutPanel2.AccessibleName" xml:space="preserve">
-    <value>PostComposeArea</value>
-  </data>
-  <data name="StatusText.Size" type="System.Drawing.Size, System.Drawing">
-    <value>452, 22</value>
-  </data>
-  <data name="StatusText.AccessibleName" xml:space="preserve">
-    <value>PostBodyInput</value>
-  </data>
-  <data name="StatusText.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="lblLen.Location" type="System.Drawing.Point, System.Drawing">
-    <value>452, 0</value>
-  </data>
-  <data name="lblLen.AccessibleName" xml:space="preserve">
-    <value>RemainCharacterLength</value>
-  </data>
-  <data name="lblLen.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="PostButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>511, 0</value>
-  </data>
-  <data name="PostButton.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="SplitContainer2.Panel2.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="SplitContainer2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>570, 168</value>
-  </data>
-  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="SplitContainer2.SplitterDistance" type="System.Int32, mscorlib">
-    <value>141</value>
-  </data>
-  <data name="SplitContainer2.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="SplitContainer3.Panel1.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="tweetThumbnail1.AccessibleName" xml:space="preserve">
-    <value>ThumbnailArea</value>
-  </data>
-  <data name="tweetThumbnail1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>55, 170</value>
-  </data>
-  <data name="tweetThumbnail1.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="SplitContainer3.Panel2.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="SplitContainer3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>570, 168</value>
-  </data>
-  <data name="SplitContainer3.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="SplitContainer1.Panel2.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="SplitContainer1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>574, 327</value>
-  </data>
-  <data name="SplitContainer1.SplitterDistance" type="System.Int32, mscorlib">
-    <value>153</value>
-  </data>
-  <data name="SplitContainer1.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="ToolStripContainer1.ContentPanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>574, 327</value>
-  </data>
-  <data name="ToolStripContainer1.ContentPanel.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="ToolStripContainer1.LeftToolStripPanel.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="ToolStripContainer1.RightToolStripPanel.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="ToolStripContainer1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>574, 382</value>
-  </data>
-  <data name="ToolStripContainer1.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="SettingFileMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>242, 24</value>
-  </data>
-  <data name="SettingFileMenuItem.Text" xml:space="preserve">
-    <value>Settings(&amp;O)...</value>
-  </data>
-  <data name="OpenURLFileMenuItem.Text" xml:space="preserve">
-    <value>Open URL(&amp;L)...</value>
-  </data>
-  <data name="ToolStripSeparator21.Size" type="System.Drawing.Size, System.Drawing">
-    <value>239, 6</value>
-  </data>
-  <data name="SaveFileMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>242, 24</value>
-  </data>
-  <data name="SaveFileMenuItem.Text" xml:space="preserve">
-    <value>&amp;Save to text file</value>
-  </data>
-  <data name="ToolStripSeparator23.Size" type="System.Drawing.Size, System.Drawing">
-    <value>239, 6</value>
-  </data>
-  <data name="NotifyFileMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>242, 24</value>
-  </data>
-  <data name="NotifyFileMenuItem.Text" xml:space="preserve">
-    <value>Enable Alert popup(&amp;Q)</value>
-  </data>
-  <data name="PlaySoundFileMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>242, 24</value>
-  </data>
-  <data name="PlaySoundFileMenuItem.Text" xml:space="preserve">
-    <value>Enable Sounds</value>
-  </data>
-  <data name="LockListFileMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>242, 24</value>
-  </data>
-  <data name="LockListFileMenuItem.Text" xml:space="preserve">
-    <value>Stick &amp;List</value>
-  </data>
-  <data name="ToolStripSeparator43.Size" type="System.Drawing.Size, System.Drawing">
-    <value>239, 6</value>
-  </data>
-  <data name="StopRefreshAllMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>242, 24</value>
-  </data>
-  <data name="StopRefreshAllMenuItem.Text" xml:space="preserve">
-    <value>Stop Refresh</value>
-  </data>
-  <data name="ToolStripSeparator24.Size" type="System.Drawing.Size, System.Drawing">
-    <value>239, 6</value>
-  </data>
-  <data name="TweenRestartMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>242, 24</value>
-  </data>
-  <data name="TweenRestartMenuItem.Text" xml:space="preserve">
-    <value>&amp;Restart</value>
-  </data>
-  <data name="EndFileMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>242, 24</value>
-  </data>
-  <data name="EndFileMenuItem.Text" xml:space="preserve">
-    <value>E&amp;xit</value>
-  </data>
-  <data name="MenuItemFile.Size" type="System.Drawing.Size, System.Drawing">
-    <value>47, 23</value>
-  </data>
-  <data name="MenuItemFile.Text" xml:space="preserve">
-    <value>&amp;File</value>
-  </data>
-  <data name="UndoRemoveTabMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>320, 24</value>
-  </data>
-  <data name="UndoRemoveTabMenuItem.Text" xml:space="preserve">
-    <value>Undo remove tab</value>
-  </data>
-  <data name="ToolStripSeparator12.Size" type="System.Drawing.Size, System.Drawing">
-    <value>317, 6</value>
-  </data>
-  <data name="CopySTOTMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>320, 24</value>
-  </data>
-  <data name="CopySTOTMenuItem.Text" xml:space="preserve">
-    <value>&amp;Copy (STOT-style)</value>
-  </data>
-  <data name="CopyURLMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>320, 24</value>
-  </data>
-  <data name="CopyURLMenuItem.Text" xml:space="preserve">
-    <value>Copy (&amp;Status URL)</value>
-  </data>
-  <data name="CopyUserIdStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>320, 24</value>
-  </data>
-  <data name="CopyUserIdStripMenuItem.Text" xml:space="preserve">
-    <value>Copy（Usern&amp;ame）</value>
-  </data>
-  <data name="ToolStripSeparator6.Size" type="System.Drawing.Size, System.Drawing">
-    <value>317, 6</value>
-  </data>
-  <data name="MenuItemSubSearch.Size" type="System.Drawing.Size, System.Drawing">
-    <value>320, 24</value>
-  </data>
-  <data name="MenuItemSubSearch.Text" xml:space="preserve">
-    <value>&amp;Find...</value>
-  </data>
-  <data name="MenuItemSearchNext.Size" type="System.Drawing.Size, System.Drawing">
-    <value>320, 24</value>
-  </data>
-  <data name="MenuItemSearchNext.Text" xml:space="preserve">
-    <value>Find Ne&amp;xt</value>
-  </data>
-  <data name="MenuItemSearchPrev.Size" type="System.Drawing.Size, System.Drawing">
-    <value>320, 24</value>
-  </data>
-  <data name="MenuItemSearchPrev.Text" xml:space="preserve">
-    <value>Find &amp;Previous</value>
-  </data>
-  <data name="ToolStripSeparator22.Size" type="System.Drawing.Size, System.Drawing">
-    <value>317, 6</value>
-  </data>
-  <data name="PublicSearchQueryMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>320, 24</value>
-  </data>
-  <data name="PublicSearchQueryMenuItem.Text" xml:space="preserve">
-    <value>Input search &amp;Query</value>
-  </data>
-  <data name="MenuItemEdit.Size" type="System.Drawing.Size, System.Drawing">
-    <value>49, 23</value>
-  </data>
-  <data name="MenuItemEdit.Text" xml:space="preserve">
-    <value>&amp;Edit</value>
-  </data>
-  <data name="ReplyOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>347, 24</value>
-  </data>
-  <data name="ReplyOpMenuItem.Text" xml:space="preserve">
-    <value>@&amp;Reply</value>
-  </data>
-  <data name="ReplyAllOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>347, 24</value>
-  </data>
-  <data name="ReplyAllOpMenuItem.Text" xml:space="preserve">
-    <value>@R&amp;eply All</value>
-  </data>
-  <data name="DmOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>347, 24</value>
-  </data>
-  <data name="DmOpMenuItem.Text" xml:space="preserve">
-    <value>Send D&amp;M</value>
-  </data>
-  <data name="RtOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>347, 24</value>
-  </data>
-  <data name="RtUnOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>347, 24</value>
-  </data>
-  <data name="QtOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>347, 24</value>
-  </data>
-  <data name="ToolStripSeparator25.Size" type="System.Drawing.Size, System.Drawing">
-    <value>344, 6</value>
-  </data>
-  <data name="FavOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>347, 24</value>
-  </data>
-  <data name="FavOpMenuItem.Text" xml:space="preserve">
-    <value>Favorite(&amp;S)</value>
-  </data>
-  <data name="FavoriteRetweetMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>347, 24</value>
-  </data>
-  <data name="FavoriteRetweetMenuItem.Text" xml:space="preserve">
-    <value>Fav+Retweet</value>
-  </data>
-  <data name="FavoriteRetweetUnofficialMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>347, 24</value>
-  </data>
-  <data name="FavoriteRetweetUnofficialMenuItem.Text" xml:space="preserve">
-    <value>Fav+Retweet(Unofficial)</value>
-  </data>
-  <data name="UnFavOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>347, 24</value>
-  </data>
-  <data name="UnFavOpMenuItem.Text" xml:space="preserve">
-    <value>Unfavorite(&amp;V)</value>
-  </data>
-  <data name="ToolStripSeparator38.Size" type="System.Drawing.Size, System.Drawing">
-    <value>344, 6</value>
-  </data>
-  <data name="ShowProfMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>347, 24</value>
-  </data>
-  <data name="ShowProfMenuItem.Text" xml:space="preserve">
-    <value>User &amp;Profile</value>
-  </data>
-  <data name="ShowRelatedStatusesMenuItem2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>347, 24</value>
-  </data>
-  <data name="ShowRelatedStatusesMenuItem2.Text" xml:space="preserve">
-    <value>Related Posts (&amp;G)</value>
-  </data>
-  <data name="ShowUserTimelineToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>347, 24</value>
-  </data>
-  <data name="ShowUserTimelineToolStripMenuItem.Text" xml:space="preserve">
-    <value>User's updates</value>
-  </data>
-  <data name="OpenHomeOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>306, 24</value>
-  </data>
-  <data name="OpenHomeOpMenuItem.Text" xml:space="preserve">
-    <value>&amp;Home</value>
-  </data>
-  <data name="OpenFavOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>306, 24</value>
-  </data>
-  <data name="OpenFavOpMenuItem.Text" xml:space="preserve">
-    <value>Favorites(&amp;G)</value>
-  </data>
-  <data name="OpenStatusOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>306, 24</value>
-  </data>
-  <data name="OpenStatusOpMenuItem.Text" xml:space="preserve">
-    <value>Status(&amp;O)</value>
-  </data>
-  <data name="OpenRepSourceOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>306, 24</value>
-  </data>
-  <data name="OpenRepSourceOpMenuItem.Text" xml:space="preserve">
-    <value>Reply to(&amp;I)</value>
-  </data>
-  <data name="OpenUrlOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>306, 24</value>
-  </data>
-  <data name="OpenUrlOpMenuItem.Text" xml:space="preserve">
-    <value>Referred &amp;Urls</value>
-  </data>
-  <data name="OpenRterHomeMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>306, 24</value>
-  </data>
-  <data name="OpenRterHomeMenuItem.Text" xml:space="preserve">
-    <value>&amp;Retweeter Home</value>
-  </data>
-  <data name="OpenUserSpecifiedUrlMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>306, 24</value>
-  </data>
-  <data name="OpenUserSpecifiedUrlMenuItem.Text" xml:space="preserve">
-    <value>User defined URL</value>
-  </data>
-  <data name="OpenOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>347, 24</value>
-  </data>
-  <data name="OpenOpMenuItem.Text" xml:space="preserve">
-    <value>&amp;Open as ...</value>
-  </data>
-  <data name="CreateTabRuleOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>118, 22</value>
-  </data>
-  <data name="CreateTabRuleOpMenuItem.Text" xml:space="preserve">
-    <value>Post(&amp;N)</value>
-  </data>
-  <data name="CreateIdRuleOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>118, 22</value>
-  </data>
-  <data name="CreateIdRuleOpMenuItem.Text" xml:space="preserve">
-    <value>&amp;ID</value>
-  </data>
-  <data name="CreateSourceRuleOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>118, 22</value>
-  </data>
-  <data name="CreateSourceRuleOpMenuItem.Text" xml:space="preserve">
-    <value>&amp;Source</value>
-  </data>
-  <data name="CreateRuleOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>347, 24</value>
-  </data>
-  <data name="CreateRuleOpMenuItem.Text" xml:space="preserve">
-    <value>&amp;Filter by ...</value>
-  </data>
-  <data name="ListManageMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>347, 24</value>
-  </data>
-  <data name="ListManageMenuItem.Text" xml:space="preserve">
-    <value>Manage &amp;Lists</value>
-  </data>
-  <data name="ToolStripSeparator26.Size" type="System.Drawing.Size, System.Drawing">
-    <value>344, 6</value>
-  </data>
-  <data name="ReadOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>311, 24</value>
-  </data>
-  <data name="ReadOpMenuItem.Text" xml:space="preserve">
-    <value>Make read(&amp;B)</value>
-  </data>
-  <data name="UnreadOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>311, 24</value>
-  </data>
-  <data name="UnreadOpMenuItem.Text" xml:space="preserve">
-    <value>Make not read(&amp;U)</value>
-  </data>
-  <data name="ChangeReadOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>347, 24</value>
-  </data>
-  <data name="ChangeReadOpMenuItem.Text" xml:space="preserve">
-    <value>Change Unread state ...</value>
-  </data>
-  <data name="JumpReadOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>347, 24</value>
-  </data>
-  <data name="JumpReadOpMenuItem.Text" xml:space="preserve">
-    <value>Jump next to read tweet</value>
-  </data>
-  <data name="ToolStripSeparator27.Size" type="System.Drawing.Size, System.Drawing">
-    <value>344, 6</value>
-  </data>
-  <data name="SelAllOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>347, 24</value>
-  </data>
-  <data name="SelAllOpMenuItem.Text" xml:space="preserve">
-    <value>Select &amp;All</value>
-  </data>
-  <data name="DelOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>347, 24</value>
-  </data>
-  <data name="DelOpMenuItem.Text" xml:space="preserve">
-    <value>&amp;Delete your tweet/DM</value>
-  </data>
-  <data name="RefreshOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>347, 24</value>
-  </data>
-  <data name="RefreshOpMenuItem.Text" xml:space="preserve">
-    <value>Refresh(&amp;U)</value>
-  </data>
-  <data name="RefreshPrevOpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>347, 24</value>
-  </data>
-  <data name="RefreshPrevOpMenuItem.Text" xml:space="preserve">
-    <value>Fetch previous tweets(&amp;I)...</value>
-  </data>
-  <data name="MenuItemOperate.Size" type="System.Drawing.Size, System.Drawing">
-    <value>93, 23</value>
-  </data>
-  <data name="MenuItemOperate.Text" xml:space="preserve">
-    <value>&amp;Operation</value>
-  </data>
-  <data name="CreateTbMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>248, 24</value>
-  </data>
-  <data name="CreateTbMenuItem.Text" xml:space="preserve">
-    <value>Create &amp;New Tab...</value>
-  </data>
-  <data name="RenameTbMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>248, 24</value>
-  </data>
-  <data name="RenameTbMenuItem.Text" xml:space="preserve">
-    <value>&amp;Rename Tab...</value>
-  </data>
-  <data name="ToolStripSeparator28.Size" type="System.Drawing.Size, System.Drawing">
-    <value>245, 6</value>
-  </data>
-  <data name="ProtectTbMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>248, 24</value>
-  </data>
-  <data name="ProtectTbMenuItem.Text" xml:space="preserve">
-    <value>&amp;Protect Tab</value>
-  </data>
-  <data name="UnreadMngTbMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>248, 24</value>
-  </data>
-  <data name="UnreadMngTbMenuItem.Text" xml:space="preserve">
-    <value>Manage Reading(&amp;U)</value>
-  </data>
-  <data name="NotifyTbMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>248, 24</value>
-  </data>
-  <data name="NotifyTbMenuItem.Text" xml:space="preserve">
-    <value>Enable Alert Popup(&amp;Q)</value>
-  </data>
-  <data name="ToolStripSeparator29.Size" type="System.Drawing.Size, System.Drawing">
-    <value>245, 6</value>
-  </data>
-  <data name="EditRuleTbMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>248, 24</value>
-  </data>
-  <data name="EditRuleTbMenuItem.Text" xml:space="preserve">
-    <value>Edit &amp;Filtering rules...</value>
-  </data>
-  <data name="ToolStripSeparator30.Size" type="System.Drawing.Size, System.Drawing">
-    <value>245, 6</value>
-  </data>
-  <data name="ClearTbMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>248, 24</value>
-  </data>
-  <data name="ClearTbMenuItem.Text" xml:space="preserve">
-    <value>&amp;Clear posts in this tab</value>
-  </data>
-  <data name="ToolStripSeparator31.Size" type="System.Drawing.Size, System.Drawing">
-    <value>245, 6</value>
-  </data>
-  <data name="DeleteTbMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>248, 24</value>
-  </data>
-  <data name="DeleteTbMenuItem.Text" xml:space="preserve">
-    <value>&amp;Delete this tab</value>
-  </data>
-  <data name="MenuItemTab.Size" type="System.Drawing.Size, System.Drawing">
-    <value>47, 23</value>
-  </data>
-  <data name="MenuItemTab.Text" xml:space="preserve">
-    <value>&amp;Tab</value>
-  </data>
-  <data name="UrlConvertAutoToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>218, 24</value>
-  </data>
-  <data name="UrlConvertAutoToolStripMenuItem.Text" xml:space="preserve">
-    <value>Auto Select</value>
-  </data>
-  <data name="UrlUndoToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>218, 24</value>
-  </data>
-  <data name="UrlUndoToolStripMenuItem.Text" xml:space="preserve">
-    <value>Undo</value>
-  </data>
-  <data name="TinyURLToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>218, 24</value>
-  </data>
-  <data name="IsgdToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>218, 24</value>
-  </data>
-  <data name="BitlyToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>218, 24</value>
-  </data>
-  <data name="JmpStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>218, 24</value>
-  </data>
-  <data name="UxnuMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>218, 24</value>
-  </data>
-  <data name="TinyUrlConvertToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>294, 24</value>
-  </data>
-  <data name="TinyUrlConvertToolStripMenuItem.Text" xml:space="preserve">
-    <value>&amp;Shorten URL</value>
-  </data>
-  <data name="UrlMultibyteSplitMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>334, 22</value>
-  </data>
-  <data name="UrlMultibyteSplitMenuItem.Text" xml:space="preserve">
-    <value>&amp;Separation of multibyte character string from URL</value>
-  </data>
-  <data name="PreventSmsCommandMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>334, 22</value>
-  </data>
-  <data name="PreventSmsCommandMenuItem.Text" xml:space="preserve">
-    <value>Prevent interpreting text as SMS command</value>
-  </data>
-  <data name="UrlAutoShortenMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>334, 22</value>
-  </data>
-  <data name="UrlAutoShortenMenuItem.Text" xml:space="preserve">
-    <value>&amp;URL is automatically shortened</value>
-  </data>
-  <data name="IdeographicSpaceToSpaceMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>334, 22</value>
-  </data>
-  <data name="IdeographicSpaceToSpaceMenuItem.Text" xml:space="preserve">
-    <value>&amp;Convert IdeographicSpace to Space</value>
-  </data>
-  <data name="MultiLineMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>334, 22</value>
-  </data>
-  <data name="MultiLineMenuItem.Text" xml:space="preserve">
-    <value>Input field is &amp;Multiline</value>
-  </data>
-  <data name="FocusLockMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>334, 22</value>
-  </data>
-  <data name="FocusLockMenuItem.Text" xml:space="preserve">
-    <value>Left focus in input box after posting</value>
-  </data>
-  <data name="toolStripSeparator5.Size" type="System.Drawing.Size, System.Drawing">
-    <value>331, 6</value>
-  </data>
-  <data name="ImageSelectMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>334, 22</value>
-  </data>
-  <data name="ImageSelectMenuItem.Text" xml:space="preserve">
-    <value>&amp;Pick a media file</value>
-  </data>
-  <data name="toolStripSeparator13.Size" type="System.Drawing.Size, System.Drawing">
-    <value>331, 6</value>
-  </data>
-  <data name="HashToggleMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>334, 22</value>
-  </data>
-  <data name="HashToggleMenuItem.Text" xml:space="preserve">
-    <value>&amp;Toggle Hashtag</value>
-  </data>
-  <data name="HashManageMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>334, 22</value>
-  </data>
-  <data name="HashManageMenuItem.Text" xml:space="preserve">
-    <value>&amp;Hashtag Manager</value>
-  </data>
-  <data name="PostModeMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>211, 22</value>
-  </data>
-  <data name="PostModeMenuItem.Text" xml:space="preserve">
-    <value>Post Settings</value>
-  </data>
-  <data name="UpdateFollowersMenuItem1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>294, 24</value>
-  </data>
-  <data name="UpdateFollowersMenuItem1.Text" xml:space="preserve">
-    <value>Fetch User List</value>
-  </data>
-  <data name="ToolStripSeparator1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>291, 6</value>
-  </data>
-  <data name="FollowCommandMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>294, 24</value>
-  </data>
-  <data name="FollowCommandMenuItem.Text" xml:space="preserve">
-    <value>&amp;Follow</value>
-  </data>
-  <data name="RemoveCommandMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>294, 24</value>
-  </data>
-  <data name="RemoveCommandMenuItem.Text" xml:space="preserve">
-    <value>U&amp;nfollow</value>
-  </data>
-  <data name="FriendshipMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>294, 24</value>
-  </data>
-  <data name="FriendshipMenuItem.Text" xml:space="preserve">
-    <value>S&amp;how Friendship</value>
-  </data>
-  <data name="ToolStripSeparator3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>291, 6</value>
-  </data>
-  <data name="OwnStatusMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>294, 24</value>
-  </data>
-  <data name="OwnStatusMenuItem.Text" xml:space="preserve">
-    <value>Show your profile</value>
-  </data>
-  <data name="OpenOwnHomeMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>294, 24</value>
-  </data>
-  <data name="OpenOwnHomeMenuItem.Text" xml:space="preserve">
-    <value>Open your profile page</value>
-  </data>
-  <data name="ToolStripSeparator41.Size" type="System.Drawing.Size, System.Drawing">
-    <value>291, 6</value>
-  </data>
-  <data name="UserStatusToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>294, 24</value>
-  </data>
-  <data name="UserStatusToolStripMenuItem.Text" xml:space="preserve">
-    <value>Show Profile selected user</value>
-  </data>
-  <data name="UserTimelineToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>294, 24</value>
-  </data>
-  <data name="UserTimelineToolStripMenuItem.Text" xml:space="preserve">
-    <value>Specified &amp;User's updates</value>
-  </data>
-  <data name="ToolStripSeparator34.Size" type="System.Drawing.Size, System.Drawing">
-    <value>291, 6</value>
-  </data>
-  <data name="RtCountMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>294, 24</value>
-  </data>
-  <data name="RtCountMenuItem.Text" xml:space="preserve">
-    <value>Retweets of this tweet(&amp;C)</value>
-  </data>
-  <data name="ListManageToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>294, 24</value>
-  </data>
-  <data name="ListManageToolStripMenuItem.Text" xml:space="preserve">
-    <value>Edit Lists</value>
-  </data>
-  <data name="MenuItemCommand.Size" type="System.Drawing.Size, System.Drawing">
-    <value>95, 23</value>
-  </data>
-  <data name="MenuItemCommand.Text" xml:space="preserve">
-    <value>&amp;Command</value>
-  </data>
-  <data name="MatomeMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>278, 24</value>
-  </data>
-  <data name="MatomeMenuItem.Text" xml:space="preserve">
-    <value>%AppName% &amp;Help Site</value>
-  </data>
-  <data name="ShortcutKeyListMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>278, 24</value>
-  </data>
-  <data name="ShortcutKeyListMenuItem.Text" xml:space="preserve">
-    <value>Shortcut keys</value>
-  </data>
-  <data name="ToolStripSeparator16.Size" type="System.Drawing.Size, System.Drawing">
-    <value>275, 6</value>
-  </data>
-  <data name="VerUpMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>278, 24</value>
-  </data>
-  <data name="VerUpMenuItem.Text" xml:space="preserve">
-    <value>Check for Updates (&amp;G)</value>
-  </data>
-  <data name="ToolStripSeparator14.Size" type="System.Drawing.Size, System.Drawing">
-    <value>275, 6</value>
-  </data>
-  <data name="TwitterApiStatusToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>278, 24</value>
-  </data>
-  <data name="TwitterApiStatusToolStripMenuItem.Text" xml:space="preserve">
-    <value>Twitter API Status (web)</value>
-  </data>
-  <data name="ApiUsageInfoMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>278, 24</value>
-  </data>
-  <data name="ApiUsageInfoMenuItem.Text" xml:space="preserve">
-    <value>Twitter API Usage</value>
-  </data>
-  <data name="ToolStripSeparator7.Size" type="System.Drawing.Size, System.Drawing">
-    <value>275, 6</value>
-  </data>
-  <data name="AboutMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>278, 24</value>
-  </data>
-  <data name="AboutMenuItem.Text" xml:space="preserve">
-    <value>&amp;About %AppName%...</value>
-  </data>
-  <data name="DebugModeToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>278, 24</value>
-  </data>
-  <data name="MenuItemHelp.Size" type="System.Drawing.Size, System.Drawing">
-    <value>54, 23</value>
-  </data>
-  <data name="MenuItemHelp.Text" xml:space="preserve">
-    <value>&amp;Help</value>
-  </data>
-  <data name="MenuStrip1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>574, 27</value>
-  </data>
-  <data name="MenuStrip1.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="ToolStripContainer1.TopToolStripPanel.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="ReadedStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>189, 24</value>
-  </data>
-  <data name="ReadedStripMenuItem.Text" xml:space="preserve">
-    <value>Make Read (&amp;B)</value>
-  </data>
-  <data name="UnreadStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>189, 24</value>
-  </data>
-  <data name="UnreadStripMenuItem.Text" xml:space="preserve">
-    <value>Make Not Read</value>
-  </data>
-  <data name="ToolStripMenuItem11.Size" type="System.Drawing.Size, System.Drawing">
-    <value>258, 24</value>
-  </data>
-  <data name="ToolStripMenuItem11.Text" xml:space="preserve">
-    <value>Change unread state</value>
-  </data>
-  <data name="SelectAllMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>258, 24</value>
-  </data>
-  <data name="SelectAllMenuItem.Text" xml:space="preserve">
-    <value>Select &amp;All</value>
-  </data>
-  <data name="JumpUnreadMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>258, 24</value>
-  </data>
-  <data name="JumpUnreadMenuItem.Text" xml:space="preserve">
-    <value>Jump Next to read post</value>
-  </data>
-  <data name="ToolStripSeparator4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>255, 6</value>
-  </data>
-  <data name="ToolStripSeparator10.Size" type="System.Drawing.Size, System.Drawing">
-    <value>255, 6</value>
-  </data>
-  <data name="ListManageUserContextToolStripMenuItem2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>258, 24</value>
-  </data>
-  <data name="ListManageUserContextToolStripMenuItem2.Text" xml:space="preserve">
-    <value>Add to &amp;Lists</value>
-  </data>
-  <data name="OpenURLMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>245, 24</value>
-  </data>
-  <data name="OpenURLMenuItem.Text" xml:space="preserve">
-    <value>Referred &amp;URL</value>
-  </data>
-  <data name="IDRuleMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>122, 22</value>
-  </data>
-  <data name="IDRuleMenuItem.Text" xml:space="preserve">
-    <value>ID</value>
-  </data>
-  <data name="MoveToRTHomeMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>245, 24</value>
-  </data>
-  <data name="MoveToRTHomeMenuItem.Text" xml:space="preserve">
-    <value>Open &amp;Retweeter Home</value>
-  </data>
-  <data name="TabMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>122, 22</value>
-  </data>
-  <data name="TabMenuItem.Text" xml:space="preserve">
-    <value>Post (&amp;N)</value>
-  </data>
-  <data name="OpenUserSpecifiedUrlMenuItem2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>245, 24</value>
-  </data>
-  <data name="OpenUserSpecifiedUrlMenuItem2.Text" xml:space="preserve">
-    <value>User defined URL</value>
-  </data>
-  <data name="DeleteStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>258, 24</value>
-  </data>
-  <data name="DeleteStripMenuItem.Text" xml:space="preserve">
-    <value>&amp;Delete</value>
-  </data>
-  <data name="SourceRuleMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>122, 22</value>
-  </data>
-  <data name="SourceRuleMenuItem.Text" xml:space="preserve">
-    <value>&amp;Source</value>
-  </data>
-  <data name="ToolStripMenuItem7.Size" type="System.Drawing.Size, System.Drawing">
-    <value>258, 24</value>
-  </data>
-  <data name="ToolStripMenuItem7.Text" xml:space="preserve">
-    <value>Filter by ...</value>
-  </data>
-  <data name="RefreshStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>258, 24</value>
-  </data>
-  <data name="RefreshStripMenuItem.Text" xml:space="preserve">
-    <value>&amp;Update</value>
-  </data>
-  <data name="SettingStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>247, 24</value>
-  </data>
-  <data name="SettingStripMenuItem.Text" xml:space="preserve">
-    <value>Settings (&amp;O)...</value>
-  </data>
-  <data name="ToolStripSeparator9.Size" type="System.Drawing.Size, System.Drawing">
-    <value>244, 6</value>
-  </data>
-  <data name="SaveLogMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>247, 24</value>
-  </data>
-  <data name="SaveLogMenuItem.Text" xml:space="preserve">
-    <value>&amp;Save...</value>
-  </data>
-  <data name="ToolStripSeparator17.Size" type="System.Drawing.Size, System.Drawing">
-    <value>244, 6</value>
-  </data>
-  <data name="NewPostPopMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>247, 24</value>
-  </data>
-  <data name="NewPostPopMenuItem.Text" xml:space="preserve">
-    <value>Enable Alert Popup (&amp;Q)</value>
-  </data>
-  <data name="PlaySoundMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>247, 24</value>
-  </data>
-  <data name="PlaySoundMenuItem.Text" xml:space="preserve">
-    <value>Enable Sounds</value>
-  </data>
-  <data name="ListLockMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>247, 24</value>
-  </data>
-  <data name="ListLockMenuItem.Text" xml:space="preserve">
-    <value>Stick &amp;List</value>
-  </data>
-  <data name="ToolStripSeparator15.Size" type="System.Drawing.Size, System.Drawing">
-    <value>244, 6</value>
-  </data>
-  <data name="EndToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>247, 24</value>
-  </data>
-  <data name="EndToolStripMenuItem.Text" xml:space="preserve">
-    <value>E&amp;xit</value>
-  </data>
-  <data name="ContextMenuFile.Size" type="System.Drawing.Size, System.Drawing">
-    <value>248, 166</value>
-  </data>
-  <data name="ContextMenuFile.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="RefreshMoreStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>258, 24</value>
-  </data>
-  <data name="RefreshMoreStripMenuItem.Text" xml:space="preserve">
-    <value>Fetch previous tweets</value>
-  </data>
-  <data name="RepliedStatusOpenMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>245, 24</value>
-  </data>
-  <data name="RepliedStatusOpenMenuItem.Text" xml:space="preserve">
-    <value>Open Repl&amp;ied Status</value>
-  </data>
-  <data name="StatusOpenMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>245, 24</value>
-  </data>
-  <data name="StatusOpenMenuItem.Text" xml:space="preserve">
-    <value>&amp;Open Status</value>
-  </data>
-  <data name="ReplyStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>258, 24</value>
-  </data>
-  <data name="ReplyStripMenuItem.Text" xml:space="preserve">
-    <value>@ &amp;Reply</value>
-  </data>
-  <data name="ReplyAllStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>258, 24</value>
-  </data>
-  <data name="ReplyAllStripMenuItem.Text" xml:space="preserve">
-    <value>@ Reply ALL</value>
-  </data>
-  <data name="DMStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>258, 24</value>
-  </data>
-  <data name="DMStripMenuItem.Text" xml:space="preserve">
-    <value>Send D&amp;M</value>
-  </data>
-  <data name="ReTweetStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>258, 24</value>
-  </data>
-  <data name="ReTweetUnofficialStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>258, 24</value>
-  </data>
-  <data name="QuoteStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>258, 24</value>
-  </data>
-  <data name="ToolStripSeparator39.Size" type="System.Drawing.Size, System.Drawing">
-    <value>255, 6</value>
-  </data>
-  <data name="FavAddToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>258, 24</value>
-  </data>
-  <data name="FavAddToolStripMenuItem.Text" xml:space="preserve">
-    <value>Mark &amp;Favorite</value>
-  </data>
-  <data name="FavoriteRetweetContextMenu.Size" type="System.Drawing.Size, System.Drawing">
-    <value>258, 24</value>
-  </data>
-  <data name="FavoriteRetweetContextMenu.Text" xml:space="preserve">
-    <value>Fav+Retweet</value>
-  </data>
-  <data name="FavoriteRetweetUnofficialContextMenu.Size" type="System.Drawing.Size, System.Drawing">
-    <value>258, 24</value>
-  </data>
-  <data name="FavoriteRetweetUnofficialContextMenu.Text" xml:space="preserve">
-    <value>Fav+Retweet(Unofficial)</value>
-  </data>
-  <data name="FavRemoveToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>258, 24</value>
-  </data>
-  <data name="FavRemoveToolStripMenuItem.Text" xml:space="preserve">
-    <value>Unmark Favorite</value>
-  </data>
-  <data name="ToolStripSeparator2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>255, 6</value>
-  </data>
-  <data name="ShowProfileMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>258, 24</value>
-  </data>
-  <data name="ShowProfileMenuItem.Text" xml:space="preserve">
-    <value>User &amp;Profile</value>
-  </data>
-  <data name="ShowRelatedStatusesMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>258, 24</value>
-  </data>
-  <data name="ShowRelatedStatusesMenuItem.Text" xml:space="preserve">
-    <value>Related Posts (&amp;G)</value>
-  </data>
-  <data name="ShowUserTimelineContextMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>258, 24</value>
-  </data>
-  <data name="ShowUserTimelineContextMenuItem.Text" xml:space="preserve">
-    <value>&amp;User's updates</value>
-  </data>
-  <data name="MoveToHomeToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>245, 24</value>
-  </data>
-  <data name="MoveToHomeToolStripMenuItem.Text" xml:space="preserve">
-    <value>Open &amp;Home page</value>
-  </data>
-  <data name="MoveToFavToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>245, 24</value>
-  </data>
-  <data name="MoveToFavToolStripMenuItem.Text" xml:space="preserve">
-    <value>Open Favorites (&amp;G)</value>
-  </data>
-  <data name="ToolStripMenuItem6.Size" type="System.Drawing.Size, System.Drawing">
-    <value>258, 24</value>
-  </data>
-  <data name="ToolStripMenuItem6.Text" xml:space="preserve">
-    <value>Open as ...</value>
-  </data>
-  <data name="ContextMenuOperate.Size" type="System.Drawing.Size, System.Drawing">
-    <value>259, 556</value>
-  </data>
-  <data name="ContextMenuOperate.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="PostStateImageList.ImageStream" mimetype="application/x-microsoft.net.object.binary.base64">
-    <value>
+</value></data>
+	<data name="HashToggleMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>334, 22</value></data>
+	<data name="HashToggleMenuItem.Text"><value>&amp;Toggle Hashtag</value></data>
+	<data name="HashTogglePullDownMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>445, 24</value></data>
+	<data name="HashTogglePullDownMenuItem.Text"><value>&amp;Toggle Hashtag</value></data>
+	<data name="IconSizeToolStripMenuItem.Text"><value>Icon size</value></data>
+	<data name="IdeographicSpaceToSpaceMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>334, 22</value></data>
+	<data name="IdeographicSpaceToSpaceMenuItem.Text"><value>&amp;Convert IdeographicSpace to Space</value></data>
+	<data name="IdeographicSpaceToSpacePullDownMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>445, 24</value></data>
+	<data name="IdeographicSpaceToSpacePullDownMenuItem.Text"><value>&amp;Convert IdeographicSpace to Space</value></data>
+	<data name="IDRuleMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>122, 22</value></data>
+	<data name="IDRuleMenuItem.Text"><value>ID</value></data>
+	<data name="ImageSelectMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>334, 22</value></data>
+	<data name="ImageSelectMenuItem.Text"><value>&amp;Pick a media file</value></data>
+	<data name="ImageSelectPullDownMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>445, 24</value></data>
+	<data name="ImageSelectPullDownMenuItem.Text"><value>&amp;Pick a media file</value></data>
+	<data name="IsgdToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>218, 24</value></data>
+	<data name="JmpStripMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>218, 24</value></data>
+	<data name="JumpReadOpMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>347, 24</value></data>
+	<data name="JumpReadOpMenuItem.Text"><value>Jump next to read tweet</value></data>
+	<data name="JumpUnreadMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>258, 24</value></data>
+	<data name="JumpUnreadMenuItem.Text"><value>Jump Next to read post</value></data>
+	<data name="lblLen.AccessibleName"><value>RemainCharacterLength</value></data>
+	<data name="lblLen.Location" type="System.Drawing.Point, System.Drawing"><value>452, 0</value></data>
+	<data name="lblLen.ToolTip"><value /></data>
+	<data name="ListLockMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>247, 24</value></data>
+	<data name="ListLockMenuItem.Text"><value>Stick &amp;List</value></data>
+	<data name="ListManageMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>347, 24</value></data>
+	<data name="ListManageMenuItem.Text"><value>Manage &amp;Lists</value></data>
+	<data name="ListManageToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>294, 24</value></data>
+	<data name="ListManageToolStripMenuItem.Text"><value>Edit Lists</value></data>
+	<data name="ListManageUserContextToolStripMenuItem2.Size" type="System.Drawing.Size, System.Drawing"><value>258, 24</value></data>
+	<data name="ListManageUserContextToolStripMenuItem2.Text"><value>Add to &amp;Lists</value></data>
+	<data name="ListTab.Size" type="System.Drawing.Size, System.Drawing"><value>570, 149</value></data>
+	<data name="ListTab.ToolTip"><value /></data>
+	<data name="LockListFileMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>242, 24</value></data>
+	<data name="LockListFileMenuItem.Text"><value>Stick &amp;List</value></data>
+	<data name="LockListSortOrderToolStripMenuItem.Text"><value>Lock sort order</value></data>
+	<data name="MatomeMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>278, 24</value></data>
+	<data name="MatomeMenuItem.Text"><value>%AppName% &amp;Help Site</value></data>
+	<data name="MenuItemCommand.Size" type="System.Drawing.Size, System.Drawing"><value>95, 23</value></data>
+	<data name="MenuItemCommand.Text"><value>&amp;Command</value></data>
+	<data name="MenuItemEdit.Size" type="System.Drawing.Size, System.Drawing"><value>49, 23</value></data>
+	<data name="MenuItemEdit.Text"><value>&amp;Edit</value></data>
+	<data name="MenuItemFile.Size" type="System.Drawing.Size, System.Drawing"><value>47, 23</value></data>
+	<data name="MenuItemFile.Text"><value>&amp;File</value></data>
+	<data name="MenuItemHelp.Size" type="System.Drawing.Size, System.Drawing"><value>54, 23</value></data>
+	<data name="MenuItemHelp.Text"><value>&amp;Help</value></data>
+	<data name="MenuItemOperate.Size" type="System.Drawing.Size, System.Drawing"><value>93, 23</value></data>
+	<data name="MenuItemOperate.Text"><value>&amp;Operation</value></data>
+	<data name="MenuItemSearchNext.Size" type="System.Drawing.Size, System.Drawing"><value>320, 24</value></data>
+	<data name="MenuItemSearchNext.Text"><value>Find Ne&amp;xt</value></data>
+	<data name="MenuItemSearchPrev.Size" type="System.Drawing.Size, System.Drawing"><value>320, 24</value></data>
+	<data name="MenuItemSearchPrev.Text"><value>Find &amp;Previous</value></data>
+	<data name="MenuItemSubSearch.Size" type="System.Drawing.Size, System.Drawing"><value>320, 24</value></data>
+	<data name="MenuItemSubSearch.Text"><value>&amp;Find...</value></data>
+	<data name="MenuItemTab.Size" type="System.Drawing.Size, System.Drawing"><value>47, 23</value></data>
+	<data name="MenuItemTab.Text"><value>&amp;Tab</value></data>
+	<data name="MenuStrip1.Size" type="System.Drawing.Size, System.Drawing"><value>574, 27</value></data>
+	<data name="MenuStrip1.ToolTip"><value /></data>
+	<data name="MoveToFavToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>245, 24</value></data>
+	<data name="MoveToFavToolStripMenuItem.Text"><value>Open Favorites (&amp;G)</value></data>
+	<data name="MoveToHomeToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>245, 24</value></data>
+	<data name="MoveToHomeToolStripMenuItem.Text"><value>Open &amp;Home page</value></data>
+	<data name="MoveToRTHomeMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>245, 24</value></data>
+	<data name="MoveToRTHomeMenuItem.Text"><value>Open &amp;Retweeter Home</value></data>
+	<data name="MultiLineMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>334, 22</value></data>
+	<data name="MultiLineMenuItem.Text"><value>Input field is &amp;Multiline</value></data>
+	<data name="MultiLinePullDownMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>445, 24</value></data>
+	<data name="MultiLinePullDownMenuItem.Text"><value>Input field is &amp;Multiline</value></data>
+	<data name="NewPostPopMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>247, 24</value></data>
+	<data name="NewPostPopMenuItem.Text"><value>Enable Alert Popup (&amp;Q)</value></data>
+	<data name="NotifyDispMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>247, 24</value></data>
+	<data name="NotifyDispMenuItem.Text"><value>&amp;Enable Alert Popup (&amp;Q)</value></data>
+	<data name="NotifyFileMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>242, 24</value></data>
+	<data name="NotifyFileMenuItem.Text"><value>Enable Alert popup(&amp;Q)</value></data>
+	<data name="NotifyTbMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>248, 24</value></data>
+	<data name="NotifyTbMenuItem.Text"><value>Enable Alert Popup(&amp;Q)</value></data>
+	<data name="OpenFavOpMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>306, 24</value></data>
+	<data name="OpenFavOpMenuItem.Text"><value>Favorites(&amp;G)</value></data>
+	<data name="OpenHomeOpMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>306, 24</value></data>
+	<data name="OpenHomeOpMenuItem.Text"><value>&amp;Home</value></data>
+	<data name="OpenOpMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>347, 24</value></data>
+	<data name="OpenOpMenuItem.Text"><value>&amp;Open as ...</value></data>
+	<data name="OpenOwnHomeMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>294, 24</value></data>
+	<data name="OpenOwnHomeMenuItem.Text"><value>Open your profile page</value></data>
+	<data name="OpenRepSourceOpMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>306, 24</value></data>
+	<data name="OpenRepSourceOpMenuItem.Text"><value>Reply to(&amp;I)</value></data>
+	<data name="OpenRterHomeMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>306, 24</value></data>
+	<data name="OpenRterHomeMenuItem.Text"><value>&amp;Retweeter Home</value></data>
+	<data name="OpenStatusOpMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>306, 24</value></data>
+	<data name="OpenStatusOpMenuItem.Text"><value>Status(&amp;O)</value></data>
+	<data name="OpenURLFileMenuItem.Text"><value>Open URL(&amp;L)...</value></data>
+	<data name="OpenURLMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>245, 24</value></data>
+	<data name="OpenURLMenuItem.Text"><value>Referred &amp;URL</value></data>
+	<data name="OpenUrlOpMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>306, 24</value></data>
+	<data name="OpenUrlOpMenuItem.Text"><value>Referred &amp;Urls</value></data>
+	<data name="OpenUserSpecifiedUrlMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>306, 24</value></data>
+	<data name="OpenUserSpecifiedUrlMenuItem.Text"><value>User defined URL</value></data>
+	<data name="OpenUserSpecifiedUrlMenuItem2.Size" type="System.Drawing.Size, System.Drawing"><value>245, 24</value></data>
+	<data name="OpenUserSpecifiedUrlMenuItem2.Text"><value>User defined URL</value></data>
+	<data name="OwnStatusMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>294, 24</value></data>
+	<data name="OwnStatusMenuItem.Text"><value>Show your profile</value></data>
+	<data name="PlaySoundFileMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>242, 24</value></data>
+	<data name="PlaySoundFileMenuItem.Text"><value>Enable Sounds</value></data>
+	<data name="PlaySoundMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>247, 24</value></data>
+	<data name="PlaySoundMenuItem.Text"><value>Enable Sounds</value></data>
+	<data name="PostButton.Location" type="System.Drawing.Point, System.Drawing"><value>511, 0</value></data>
+	<data name="PostButton.ToolTip"><value /></data>
+	<data name="PostModeMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>211, 22</value></data>
+	<data name="PostModeMenuItem.Text"><value>Post Settings</value></data>
+	<data name="PostStateImageList.ImageStream" mimetype="application/x-microsoft.net.object.binary.base64"><value>
         AAEAAAD/////AQAAAAAAAAAMAgAAAFdTeXN0ZW0uV2luZG93cy5Gb3JtcywgVmVyc2lvbj00LjAuMC4w
         LCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWI3N2E1YzU2MTkzNGUwODkFAQAAACZTeXN0
         ZW0uV2luZG93cy5Gb3Jtcy5JbWFnZUxpc3RTdHJlYW1lcgEAAAAERGF0YQcCAgAAAAkDAAAADwMAAACW
@@ -1448,18 +346,207 @@
         Av8B8QGnAfEC/wHPAv8B+wHPAfsQ/wHzB/8B5wf/AYEH/wEBB/8BAQf/AQEH/wEDCf8BgQL/Ac8BgQHP
         Av8BAQL/AYcBAQGHAv8BAQL/AQMBAQEDAv8BAQH/Af4BQwEAAUMC/wEDAf8B/gHhAQIB4QL/AacC/wHx
         AacB8QL/Ac8C/wH7Ac8B+wL/Cw==
-</value>
-  </data>
-  <data name="IconSizeToolStripMenuItem.Text" xml:space="preserve">
-    <value>Icon size</value>
-  </data>
-  <data name="LockListSortOrderToolStripMenuItem.Text" xml:space="preserve">
-    <value>Lock sort order</value>
-  </data>
-  <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>574, 382</value>
-  </data>
-  <data name="$this.ToolTip" xml:space="preserve">
-    <value />
-  </data>
+</value></data>
+	<data name="PreventSmsCommandMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>334, 22</value></data>
+	<data name="PreventSmsCommandMenuItem.Text"><value>Prevent interpreting text as SMS command</value></data>
+	<data name="PreventSmsCommandPullDownMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>445, 24</value></data>
+	<data name="PreventSmsCommandPullDownMenuItem.Text"><value>Prevent interpreting text as SMS command</value></data>
+	<data name="ProfilePanel.Size" type="System.Drawing.Size, System.Drawing"><value>570, 149</value></data>
+	<data name="ProfilePanel.ToolTip"><value /></data>
+	<data name="ProtectTabMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>247, 24</value></data>
+	<data name="ProtectTabMenuItem.Text"><value>&amp;Protect Tab</value></data>
+	<data name="ProtectTbMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>248, 24</value></data>
+	<data name="ProtectTbMenuItem.Text"><value>&amp;Protect Tab</value></data>
+	<data name="PublicSearchQueryMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>320, 24</value></data>
+	<data name="PublicSearchQueryMenuItem.Text"><value>Input search &amp;Query</value></data>
+	<data name="QtOpMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>347, 24</value></data>
+	<data name="QuoteStripMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>258, 24</value></data>
+	<data name="ReadedStripMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>189, 24</value></data>
+	<data name="ReadedStripMenuItem.Text"><value>Make Read (&amp;B)</value></data>
+	<data name="ReadOpMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>311, 24</value></data>
+	<data name="ReadOpMenuItem.Text"><value>Make read(&amp;B)</value></data>
+	<data name="RefreshMoreStripMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>258, 24</value></data>
+	<data name="RefreshMoreStripMenuItem.Text"><value>Fetch previous tweets</value></data>
+	<data name="RefreshOpMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>347, 24</value></data>
+	<data name="RefreshOpMenuItem.Text"><value>Refresh(&amp;U)</value></data>
+	<data name="RefreshPrevOpMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>347, 24</value></data>
+	<data name="RefreshPrevOpMenuItem.Text"><value>Fetch previous tweets(&amp;I)...</value></data>
+	<data name="RefreshStripMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>258, 24</value></data>
+	<data name="RefreshStripMenuItem.Text"><value>&amp;Update</value></data>
+	<data name="RemoveCommandMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>294, 24</value></data>
+	<data name="RemoveCommandMenuItem.Text"><value>U&amp;nfollow</value></data>
+	<data name="RenameTbMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>248, 24</value></data>
+	<data name="RenameTbMenuItem.Text"><value>&amp;Rename Tab...</value></data>
+	<data name="RepliedStatusOpenMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>245, 24</value></data>
+	<data name="RepliedStatusOpenMenuItem.Text"><value>Open Repl&amp;ied Status</value></data>
+	<data name="ReplyAllOpMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>347, 24</value></data>
+	<data name="ReplyAllOpMenuItem.Text"><value>@R&amp;eply All</value></data>
+	<data name="ReplyAllStripMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>258, 24</value></data>
+	<data name="ReplyAllStripMenuItem.Text"><value>@ Reply ALL</value></data>
+	<data name="ReplyOpMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>347, 24</value></data>
+	<data name="ReplyOpMenuItem.Text"><value>@&amp;Reply</value></data>
+	<data name="ReplyStripMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>258, 24</value></data>
+	<data name="ReplyStripMenuItem.Text"><value>@ &amp;Reply</value></data>
+	<data name="ReTweetStripMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>258, 24</value></data>
+	<data name="ReTweetUnofficialStripMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>258, 24</value></data>
+	<data name="RtCountMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>294, 24</value></data>
+	<data name="RtCountMenuItem.Text"><value>Retweets of this tweet(&amp;C)</value></data>
+	<data name="RtOpMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>347, 24</value></data>
+	<data name="RtUnOpMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>347, 24</value></data>
+	<data name="SaveFileMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>242, 24</value></data>
+	<data name="SaveFileMenuItem.Text"><value>&amp;Save to text file</value></data>
+	<data name="SaveLogMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>247, 24</value></data>
+	<data name="SaveLogMenuItem.Text"><value>&amp;Save...</value></data>
+	<data name="SelAllOpMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>347, 24</value></data>
+	<data name="SelAllOpMenuItem.Text"><value>Select &amp;All</value></data>
+	<data name="SelectAllMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>258, 24</value></data>
+	<data name="SelectAllMenuItem.Text"><value>Select &amp;All</value></data>
+	<data name="SettingFileMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>242, 24</value></data>
+	<data name="SettingFileMenuItem.Text"><value>Settings(&amp;O)...</value></data>
+	<data name="SettingStripMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>247, 24</value></data>
+	<data name="SettingStripMenuItem.Text"><value>Settings (&amp;O)...</value></data>
+	<data name="ShortcutKeyListMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>278, 24</value></data>
+	<data name="ShortcutKeyListMenuItem.Text"><value>Shortcut keys</value></data>
+	<data name="ShowProfileMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>258, 24</value></data>
+	<data name="ShowProfileMenuItem.Text"><value>User &amp;Profile</value></data>
+	<data name="ShowProfMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>347, 24</value></data>
+	<data name="ShowProfMenuItem.Text"><value>User &amp;Profile</value></data>
+	<data name="ShowRelatedStatusesMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>258, 24</value></data>
+	<data name="ShowRelatedStatusesMenuItem.Text"><value>Related Posts (&amp;G)</value></data>
+	<data name="ShowRelatedStatusesMenuItem2.Size" type="System.Drawing.Size, System.Drawing"><value>347, 24</value></data>
+	<data name="ShowRelatedStatusesMenuItem2.Text"><value>Related Posts (&amp;G)</value></data>
+	<data name="ShowUserTimelineContextMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>258, 24</value></data>
+	<data name="ShowUserTimelineContextMenuItem.Text"><value>&amp;User's updates</value></data>
+	<data name="ShowUserTimelineToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>347, 24</value></data>
+	<data name="ShowUserTimelineToolStripMenuItem.Text"><value>User's updates</value></data>
+	<data name="SoundFileComboBox.ToolTipText"><value>Select a wav file.</value></data>
+	<data name="SourceRuleMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>122, 22</value></data>
+	<data name="SourceRuleMenuItem.Text"><value>&amp;Source</value></data>
+	<data name="SplitContainer1.Panel1.ToolTip"><value /></data>
+	<data name="SplitContainer1.Panel2.ToolTip"><value /></data>
+	<data name="SplitContainer1.Size" type="System.Drawing.Size, System.Drawing"><value>574, 327</value></data>
+	<data name="SplitContainer1.SplitterDistance" type="System.Int32, mscorlib"><value>153</value></data>
+	<data name="SplitContainer1.ToolTip"><value /></data>
+	<data name="SplitContainer2.Panel1.ToolTip"><value /></data>
+	<data name="SplitContainer2.Panel2.ToolTip"><value /></data>
+	<data name="SplitContainer2.Size" type="System.Drawing.Size, System.Drawing"><value>570, 168</value></data>
+	<data name="SplitContainer2.SplitterDistance" type="System.Int32, mscorlib"><value>141</value></data>
+	<data name="SplitContainer2.ToolTip"><value /></data>
+	<data name="SplitContainer3.Panel1.ToolTip"><value /></data>
+	<data name="SplitContainer3.Panel2.ToolTip"><value /></data>
+	<data name="SplitContainer3.Size" type="System.Drawing.Size, System.Drawing"><value>570, 168</value></data>
+	<data name="SplitContainer3.ToolTip"><value /></data>
+	<data name="StatusLabelUrl.Size" type="System.Drawing.Size, System.Drawing"><value>410, 23</value></data>
+	<data name="StatusOpenMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>245, 24</value></data>
+	<data name="StatusOpenMenuItem.Text"><value>&amp;Open Status</value></data>
+	<data name="StatusStrip1.Size" type="System.Drawing.Size, System.Drawing"><value>574, 28</value></data>
+	<data name="StatusStrip1.ToolTip"><value /></data>
+	<data name="StatusText.AccessibleName"><value>PostBodyInput</value></data>
+	<data name="StatusText.Size" type="System.Drawing.Size, System.Drawing"><value>452, 22</value></data>
+	<data name="StatusText.ToolTip"><value /></data>
+	<data name="StopRefreshAllMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>242, 24</value></data>
+	<data name="StopRefreshAllMenuItem.Text"><value>Stop Refresh</value></data>
+	<data name="TableLayoutPanel2.AccessibleName"><value>PostComposeArea</value></data>
+	<data name="TabMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>122, 22</value></data>
+	<data name="TabMenuItem.Text"><value>Post (&amp;N)</value></data>
+	<data name="TabRenameMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>247, 24</value></data>
+	<data name="TabRenameMenuItem.Text"><value>Rename Tab</value></data>
+	<data name="TimelinePanel.AccessibleName"><value>PostsListArea</value></data>
+	<data name="TimelinePanel.Size" type="System.Drawing.Size, System.Drawing"><value>570, 149</value></data>
+	<data name="TimelinePanel.ToolTip"><value /></data>
+	<data name="TinyUrlConvertToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>294, 24</value></data>
+	<data name="TinyUrlConvertToolStripMenuItem.Text"><value>&amp;Shorten URL</value></data>
+	<data name="TinyURLToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>218, 24</value></data>
+	<data name="ToolStripContainer1.BottomToolStripPanel.ToolTip"><value /></data>
+	<data name="ToolStripContainer1.ContentPanel.Size" type="System.Drawing.Size, System.Drawing"><value>574, 327</value></data>
+	<data name="ToolStripContainer1.ContentPanel.ToolTip"><value /></data>
+	<data name="ToolStripContainer1.LeftToolStripPanel.ToolTip"><value /></data>
+	<data name="ToolStripContainer1.RightToolStripPanel.ToolTip"><value /></data>
+	<data name="ToolStripContainer1.Size" type="System.Drawing.Size, System.Drawing"><value>574, 382</value></data>
+	<data name="ToolStripContainer1.ToolTip"><value /></data>
+	<data name="ToolStripContainer1.TopToolStripPanel.ToolTip"><value /></data>
+	<data name="ToolStripMenuItem11.Size" type="System.Drawing.Size, System.Drawing"><value>258, 24</value></data>
+	<data name="ToolStripMenuItem11.Text"><value>Change unread state</value></data>
+	<data name="ToolStripMenuItem6.Size" type="System.Drawing.Size, System.Drawing"><value>258, 24</value></data>
+	<data name="ToolStripMenuItem6.Text"><value>Open as ...</value></data>
+	<data name="ToolStripMenuItem7.Size" type="System.Drawing.Size, System.Drawing"><value>258, 24</value></data>
+	<data name="ToolStripMenuItem7.Text"><value>Filter by ...</value></data>
+	<data name="ToolStripSeparator1.Size" type="System.Drawing.Size, System.Drawing"><value>291, 6</value></data>
+	<data name="ToolStripSeparator10.Size" type="System.Drawing.Size, System.Drawing"><value>255, 6</value></data>
+	<data name="ToolStripSeparator11.Size" type="System.Drawing.Size, System.Drawing"><value>244, 6</value></data>
+	<data name="ToolStripSeparator12.Size" type="System.Drawing.Size, System.Drawing"><value>317, 6</value></data>
+	<data name="toolStripSeparator13.Size" type="System.Drawing.Size, System.Drawing"><value>331, 6</value></data>
+	<data name="ToolStripSeparator14.Size" type="System.Drawing.Size, System.Drawing"><value>275, 6</value></data>
+	<data name="ToolStripSeparator15.Size" type="System.Drawing.Size, System.Drawing"><value>244, 6</value></data>
+	<data name="ToolStripSeparator16.Size" type="System.Drawing.Size, System.Drawing"><value>275, 6</value></data>
+	<data name="ToolStripSeparator17.Size" type="System.Drawing.Size, System.Drawing"><value>244, 6</value></data>
+	<data name="ToolStripSeparator18.Size" type="System.Drawing.Size, System.Drawing"><value>244, 6</value></data>
+	<data name="ToolStripSeparator19.Size" type="System.Drawing.Size, System.Drawing"><value>244, 6</value></data>
+	<data name="ToolStripSeparator2.Size" type="System.Drawing.Size, System.Drawing"><value>255, 6</value></data>
+	<data name="ToolStripSeparator20.Size" type="System.Drawing.Size, System.Drawing"><value>244, 6</value></data>
+	<data name="ToolStripSeparator21.Size" type="System.Drawing.Size, System.Drawing"><value>239, 6</value></data>
+	<data name="ToolStripSeparator22.Size" type="System.Drawing.Size, System.Drawing"><value>317, 6</value></data>
+	<data name="ToolStripSeparator23.Size" type="System.Drawing.Size, System.Drawing"><value>239, 6</value></data>
+	<data name="ToolStripSeparator24.Size" type="System.Drawing.Size, System.Drawing"><value>239, 6</value></data>
+	<data name="ToolStripSeparator25.Size" type="System.Drawing.Size, System.Drawing"><value>344, 6</value></data>
+	<data name="ToolStripSeparator26.Size" type="System.Drawing.Size, System.Drawing"><value>344, 6</value></data>
+	<data name="ToolStripSeparator27.Size" type="System.Drawing.Size, System.Drawing"><value>344, 6</value></data>
+	<data name="ToolStripSeparator28.Size" type="System.Drawing.Size, System.Drawing"><value>245, 6</value></data>
+	<data name="ToolStripSeparator29.Size" type="System.Drawing.Size, System.Drawing"><value>245, 6</value></data>
+	<data name="ToolStripSeparator3.Size" type="System.Drawing.Size, System.Drawing"><value>291, 6</value></data>
+	<data name="ToolStripSeparator30.Size" type="System.Drawing.Size, System.Drawing"><value>245, 6</value></data>
+	<data name="ToolStripSeparator31.Size" type="System.Drawing.Size, System.Drawing"><value>245, 6</value></data>
+	<data name="ToolStripSeparator34.Size" type="System.Drawing.Size, System.Drawing"><value>291, 6</value></data>
+	<data name="ToolStripSeparator35.Size" type="System.Drawing.Size, System.Drawing"><value>442, 6</value></data>
+	<data name="ToolStripSeparator38.Size" type="System.Drawing.Size, System.Drawing"><value>344, 6</value></data>
+	<data name="ToolStripSeparator39.Size" type="System.Drawing.Size, System.Drawing"><value>255, 6</value></data>
+	<data name="ToolStripSeparator4.Size" type="System.Drawing.Size, System.Drawing"><value>255, 6</value></data>
+	<data name="ToolStripSeparator41.Size" type="System.Drawing.Size, System.Drawing"><value>291, 6</value></data>
+	<data name="ToolStripSeparator43.Size" type="System.Drawing.Size, System.Drawing"><value>239, 6</value></data>
+	<data name="toolStripSeparator5.Size" type="System.Drawing.Size, System.Drawing"><value>331, 6</value></data>
+	<data name="ToolStripSeparator6.Size" type="System.Drawing.Size, System.Drawing"><value>317, 6</value></data>
+	<data name="ToolStripSeparator7.Size" type="System.Drawing.Size, System.Drawing"><value>275, 6</value></data>
+	<data name="ToolStripSeparator8.Size" type="System.Drawing.Size, System.Drawing"><value>442, 6</value></data>
+	<data name="ToolStripSeparator9.Size" type="System.Drawing.Size, System.Drawing"><value>244, 6</value></data>
+	<data name="TweenRestartMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>242, 24</value></data>
+	<data name="TweenRestartMenuItem.Text"><value>&amp;Restart</value></data>
+	<data name="tweetDetailsView.AccessibleName"><value>PostDetailsArea</value></data>
+	<data name="tweetThumbnail1.AccessibleName"><value>ThumbnailArea</value></data>
+	<data name="tweetThumbnail1.Size" type="System.Drawing.Size, System.Drawing"><value>55, 170</value></data>
+	<data name="tweetThumbnail1.ToolTip"><value /></data>
+	<data name="TwitterApiStatusToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>278, 24</value></data>
+	<data name="TwitterApiStatusToolStripMenuItem.Text"><value>Twitter API Status (web)</value></data>
+	<data name="UndoRemoveTabMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>320, 24</value></data>
+	<data name="UndoRemoveTabMenuItem.Text"><value>Undo remove tab</value></data>
+	<data name="UnFavOpMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>347, 24</value></data>
+	<data name="UnFavOpMenuItem.Text"><value>Unfavorite(&amp;V)</value></data>
+	<data name="UnreadMngTbMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>248, 24</value></data>
+	<data name="UnreadMngTbMenuItem.Text"><value>Manage Reading(&amp;U)</value></data>
+	<data name="UnreadOpMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>311, 24</value></data>
+	<data name="UnreadOpMenuItem.Text"><value>Make not read(&amp;U)</value></data>
+	<data name="UnreadStripMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>189, 24</value></data>
+	<data name="UnreadStripMenuItem.Text"><value>Make Not Read</value></data>
+	<data name="UpdateFollowersMenuItem1.Size" type="System.Drawing.Size, System.Drawing"><value>294, 24</value></data>
+	<data name="UpdateFollowersMenuItem1.Text"><value>Fetch User List</value></data>
+	<data name="UreadManageMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>247, 24</value></data>
+	<data name="UreadManageMenuItem.Text"><value>Manage Reading (&amp;U)</value></data>
+	<data name="UrlAutoShortenMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>334, 22</value></data>
+	<data name="UrlAutoShortenMenuItem.Text"><value>&amp;URL is automatically shortened</value></data>
+	<data name="UrlAutoShortenPullDownMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>445, 24</value></data>
+	<data name="UrlAutoShortenPullDownMenuItem.Text"><value>&amp;URL is automatically shortened</value></data>
+	<data name="UrlConvertAutoToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>218, 24</value></data>
+	<data name="UrlConvertAutoToolStripMenuItem.Text"><value>Auto Select</value></data>
+	<data name="UrlMultibyteSplitMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>334, 22</value></data>
+	<data name="UrlMultibyteSplitMenuItem.Text"><value>&amp;Separation of multibyte character string from URL</value></data>
+	<data name="UrlMultibyteSplitPullDownMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>445, 24</value></data>
+	<data name="UrlMultibyteSplitPullDownMenuItem.Text"><value>&amp;Separation of multibyte character string from URL</value></data>
+	<data name="UrlUndoToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>218, 24</value></data>
+	<data name="UrlUndoToolStripMenuItem.Text"><value>Undo</value></data>
+	<data name="UserStatusToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>294, 24</value></data>
+	<data name="UserStatusToolStripMenuItem.Text"><value>Show Profile selected user</value></data>
+	<data name="UserTimelineToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>294, 24</value></data>
+	<data name="UserTimelineToolStripMenuItem.Text"><value>Specified &amp;User's updates</value></data>
+	<data name="UxnuMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>218, 24</value></data>
+	<data name="VerUpMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>278, 24</value></data>
+	<data name="VerUpMenuItem.Text"><value>Check for Updates (&amp;G)</value></data>
 </root>

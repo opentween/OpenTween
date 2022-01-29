@@ -1,462 +1,123 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<root>
-  <!-- 
-    Microsoft ResX Schema 
-    
-    Version 2.0
-    
-    The primary goals of this format is to allow a simple XML format 
-    that is mostly human readable. The generation and parsing of the 
-    various data types are done through the TypeConverter classes 
-    associated with the data types.
-    
-    Example:
-    
-    ... ado.net/XML headers & schema ...
-    <resheader name="resmimetype">text/microsoft-resx</resheader>
-    <resheader name="version">2.0</resheader>
-    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
-    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
-    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
-    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
-    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
-        <value>[base64 mime encoded serialized .NET Framework object]</value>
-    </data>
-    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
-        <comment>This is a comment</comment>
-    </data>
-                
-    There are any number of "resheader" rows that contain simple 
-    name/value pairs.
-    
-    Each data row contains a name, and value. The row also contains a 
-    type or mimetype. Type corresponds to a .NET class that support 
-    text/value conversion through the TypeConverter architecture. 
-    Classes that don't support this are serialized and stored with the 
-    mimetype set.
-    
-    The mimetype is used for serialized objects, and tells the 
-    ResXResourceReader how to depersist the object. This is currently not 
-    extensible. For a given mimetype the value must be set accordingly:
-    
-    Note - application/x-microsoft.net.object.binary.base64 is the format 
-    that the ResXResourceWriter will generate, however the reader can 
-    read any of the formats listed below.
-    
-    mimetype: application/x-microsoft.net.object.binary.base64
-    value   : The object must be serialized with 
-            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
-            : and then encoded with base64 encoding.
-    
-    mimetype: application/x-microsoft.net.object.soap.base64
-    value   : The object must be serialized with 
-            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
-            : and then encoded with base64 encoding.
+<?xml version="1.0" encoding="utf-8"?><root xml:space="preserve">
+	<resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+	<resheader name="version"><value>2.0</value></resheader>
+	<resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+	<resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+	<assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+	<assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+	<assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
 
-    mimetype: application/x-microsoft.net.object.bytearray.base64
-    value   : The object must be serialized into a byte array 
-            : using a System.ComponentModel.TypeConverter
-            : and then encoded with base64 encoding.
-    -->
-  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
-    <xsd:element name="root" msdata:IsDataSet="true">
-      <xsd:complexType>
-        <xsd:choice maxOccurs="unbounded">
-          <xsd:element name="metadata">
-            <xsd:complexType>
-              <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" />
-              </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string" />
-              <xsd:attribute name="type" type="xsd:string" />
-              <xsd:attribute name="mimetype" type="xsd:string" />
-              <xsd:attribute ref="xml:space" />
-            </xsd:complexType>
-          </xsd:element>
-          <xsd:element name="assembly">
-            <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string" />
-              <xsd:attribute name="name" type="xsd:string" />
-            </xsd:complexType>
-          </xsd:element>
-          <xsd:element name="data">
-            <xsd:complexType>
-              <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
-              </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-              <xsd:attribute ref="xml:space" />
-            </xsd:complexType>
-          </xsd:element>
-          <xsd:element name="resheader">
-            <xsd:complexType>
-              <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-              </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" />
-            </xsd:complexType>
-          </xsd:element>
-        </xsd:choice>
-      </xsd:complexType>
-    </xsd:element>
-  </xsd:schema>
-  <resheader name="resmimetype">
-    <value>text/microsoft-resx</value>
-  </resheader>
-  <resheader name="version">
-    <value>2.0</value>
-  </resheader>
-  <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </resheader>
-  <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </resheader>
-  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="Label55.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="Label55.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="Label55.Location" type="System.Drawing.Point, System.Drawing">
-    <value>50, 153</value>
-  </data>
-  <data name="Label55.Size" type="System.Drawing.Size, System.Drawing">
-    <value>314, 12</value>
-  </data>
-  <data name="Label55.TabIndex" type="System.Int32, mscorlib">
-    <value>23</value>
-  </data>
-  <data name="Label55.Text" xml:space="preserve">
-    <value>※認証が不要な場合は、ユーザ名とパスワードは空にしてください。</value>
-  </data>
-  <data name="&gt;&gt;Label55.Name" xml:space="preserve">
-    <value>Label55</value>
-  </data>
-  <data name="&gt;&gt;Label55.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;Label55.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;Label55.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="TextProxyPassword.Location" type="System.Drawing.Point, System.Drawing">
-    <value>356, 127</value>
-  </data>
-  <data name="TextProxyPassword.Size" type="System.Drawing.Size, System.Drawing">
-    <value>130, 19</value>
-  </data>
-  <data name="TextProxyPassword.TabIndex" type="System.Int32, mscorlib">
-    <value>22</value>
-  </data>
-  <data name="&gt;&gt;TextProxyPassword.Name" xml:space="preserve">
-    <value>TextProxyPassword</value>
-  </data>
-  <data name="&gt;&gt;TextProxyPassword.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;TextProxyPassword.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;TextProxyPassword.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="RadioProxyNone.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="RadioProxyNone.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="RadioProxyNone.Location" type="System.Drawing.Point, System.Drawing">
-    <value>23, 23</value>
-  </data>
-  <data name="RadioProxyNone.Size" type="System.Drawing.Size, System.Drawing">
-    <value>76, 16</value>
-  </data>
-  <data name="RadioProxyNone.TabIndex" type="System.Int32, mscorlib">
-    <value>12</value>
-  </data>
-  <data name="RadioProxyNone.Text" xml:space="preserve">
-    <value>使用しない</value>
-  </data>
-  <data name="&gt;&gt;RadioProxyNone.Name" xml:space="preserve">
-    <value>RadioProxyNone</value>
-  </data>
-  <data name="&gt;&gt;RadioProxyNone.Type" xml:space="preserve">
-    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;RadioProxyNone.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;RadioProxyNone.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="LabelProxyPassword.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="LabelProxyPassword.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="LabelProxyPassword.Location" type="System.Drawing.Point, System.Drawing">
-    <value>275, 130</value>
-  </data>
-  <data name="LabelProxyPassword.Size" type="System.Drawing.Size, System.Drawing">
-    <value>69, 12</value>
-  </data>
-  <data name="LabelProxyPassword.TabIndex" type="System.Int32, mscorlib">
-    <value>21</value>
-  </data>
-  <data name="LabelProxyPassword.Text" xml:space="preserve">
-    <value>パスワード(&amp;W)</value>
-  </data>
-  <data name="&gt;&gt;LabelProxyPassword.Name" xml:space="preserve">
-    <value>LabelProxyPassword</value>
-  </data>
-  <data name="&gt;&gt;LabelProxyPassword.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;LabelProxyPassword.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;LabelProxyPassword.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="RadioProxyIE.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="RadioProxyIE.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="RadioProxyIE.Location" type="System.Drawing.Point, System.Drawing">
-    <value>23, 48</value>
-  </data>
-  <data name="RadioProxyIE.Size" type="System.Drawing.Size, System.Drawing">
-    <value>190, 16</value>
-  </data>
-  <data name="RadioProxyIE.TabIndex" type="System.Int32, mscorlib">
-    <value>13</value>
-  </data>
-  <data name="RadioProxyIE.Text" xml:space="preserve">
-    <value>InternetExplorerの設定を使用する</value>
-  </data>
-  <data name="&gt;&gt;RadioProxyIE.Name" xml:space="preserve">
-    <value>RadioProxyIE</value>
-  </data>
-  <data name="&gt;&gt;RadioProxyIE.Type" xml:space="preserve">
-    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;RadioProxyIE.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;RadioProxyIE.ZOrder" xml:space="preserve">
-    <value>4</value>
-  </data>
-  <data name="TextProxyUser.Location" type="System.Drawing.Point, System.Drawing">
-    <value>124, 127</value>
-  </data>
-  <data name="TextProxyUser.Size" type="System.Drawing.Size, System.Drawing">
-    <value>130, 19</value>
-  </data>
-  <data name="TextProxyUser.TabIndex" type="System.Int32, mscorlib">
-    <value>20</value>
-  </data>
-  <data name="&gt;&gt;TextProxyUser.Name" xml:space="preserve">
-    <value>TextProxyUser</value>
-  </data>
-  <data name="&gt;&gt;TextProxyUser.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;TextProxyUser.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;TextProxyUser.ZOrder" xml:space="preserve">
-    <value>5</value>
-  </data>
-  <data name="RadioProxySpecified.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="RadioProxySpecified.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="RadioProxySpecified.Location" type="System.Drawing.Point, System.Drawing">
-    <value>23, 73</value>
-  </data>
-  <data name="RadioProxySpecified.Size" type="System.Drawing.Size, System.Drawing">
-    <value>66, 16</value>
-  </data>
-  <data name="RadioProxySpecified.TabIndex" type="System.Int32, mscorlib">
-    <value>14</value>
-  </data>
-  <data name="RadioProxySpecified.Text" xml:space="preserve">
-    <value>指定する</value>
-  </data>
-  <data name="&gt;&gt;RadioProxySpecified.Name" xml:space="preserve">
-    <value>RadioProxySpecified</value>
-  </data>
-  <data name="&gt;&gt;RadioProxySpecified.Type" xml:space="preserve">
-    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;RadioProxySpecified.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;RadioProxySpecified.ZOrder" xml:space="preserve">
-    <value>6</value>
-  </data>
-  <data name="LabelProxyUser.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="LabelProxyUser.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="LabelProxyUser.Location" type="System.Drawing.Point, System.Drawing">
-    <value>50, 130</value>
-  </data>
-  <data name="LabelProxyUser.Size" type="System.Drawing.Size, System.Drawing">
-    <value>63, 12</value>
-  </data>
-  <data name="LabelProxyUser.TabIndex" type="System.Int32, mscorlib">
-    <value>19</value>
-  </data>
-  <data name="LabelProxyUser.Text" xml:space="preserve">
-    <value>ユーザ名(&amp;U)</value>
-  </data>
-  <data name="&gt;&gt;LabelProxyUser.Name" xml:space="preserve">
-    <value>LabelProxyUser</value>
-  </data>
-  <data name="&gt;&gt;LabelProxyUser.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;LabelProxyUser.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;LabelProxyUser.ZOrder" xml:space="preserve">
-    <value>7</value>
-  </data>
-  <data name="LabelProxyAddress.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="LabelProxyAddress.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="LabelProxyAddress.Location" type="System.Drawing.Point, System.Drawing">
-    <value>50, 101</value>
-  </data>
-  <data name="LabelProxyAddress.Size" type="System.Drawing.Size, System.Drawing">
-    <value>58, 12</value>
-  </data>
-  <data name="LabelProxyAddress.TabIndex" type="System.Int32, mscorlib">
-    <value>15</value>
-  </data>
-  <data name="LabelProxyAddress.Text" xml:space="preserve">
-    <value>プロキシ(&amp;X)</value>
-  </data>
-  <data name="&gt;&gt;LabelProxyAddress.Name" xml:space="preserve">
-    <value>LabelProxyAddress</value>
-  </data>
-  <data name="&gt;&gt;LabelProxyAddress.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;LabelProxyAddress.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;LabelProxyAddress.ZOrder" xml:space="preserve">
-    <value>8</value>
-  </data>
-  <data name="TextProxyPort.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>Disable</value>
-  </data>
-  <data name="TextProxyPort.Location" type="System.Drawing.Point, System.Drawing">
-    <value>356, 98</value>
-  </data>
-  <data name="TextProxyPort.Size" type="System.Drawing.Size, System.Drawing">
-    <value>73, 19</value>
-  </data>
-  <data name="TextProxyPort.TabIndex" type="System.Int32, mscorlib">
-    <value>18</value>
-  </data>
-  <data name="&gt;&gt;TextProxyPort.Name" xml:space="preserve">
-    <value>TextProxyPort</value>
-  </data>
-  <data name="&gt;&gt;TextProxyPort.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;TextProxyPort.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;TextProxyPort.ZOrder" xml:space="preserve">
-    <value>9</value>
-  </data>
-  <data name="TextProxyAddress.Location" type="System.Drawing.Point, System.Drawing">
-    <value>124, 98</value>
-  </data>
-  <data name="TextProxyAddress.Size" type="System.Drawing.Size, System.Drawing">
-    <value>130, 19</value>
-  </data>
-  <data name="TextProxyAddress.TabIndex" type="System.Int32, mscorlib">
-    <value>16</value>
-  </data>
-  <data name="&gt;&gt;TextProxyAddress.Name" xml:space="preserve">
-    <value>TextProxyAddress</value>
-  </data>
-  <data name="&gt;&gt;TextProxyAddress.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;TextProxyAddress.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;TextProxyAddress.ZOrder" xml:space="preserve">
-    <value>10</value>
-  </data>
-  <data name="LabelProxyPort.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="LabelProxyPort.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="LabelProxyPort.Location" type="System.Drawing.Point, System.Drawing">
-    <value>275, 101</value>
-  </data>
-  <data name="LabelProxyPort.Size" type="System.Drawing.Size, System.Drawing">
-    <value>48, 12</value>
-  </data>
-  <data name="LabelProxyPort.TabIndex" type="System.Int32, mscorlib">
-    <value>17</value>
-  </data>
-  <data name="LabelProxyPort.Text" xml:space="preserve">
-    <value>ポート(&amp;P)</value>
-  </data>
-  <data name="&gt;&gt;LabelProxyPort.Name" xml:space="preserve">
-    <value>LabelProxyPort</value>
-  </data>
-  <data name="&gt;&gt;LabelProxyPort.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;LabelProxyPort.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;LabelProxyPort.ZOrder" xml:space="preserve">
-    <value>11</value>
-  </data>
-  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
-    <value>96, 96</value>
-  </data>
-  <data name="&gt;&gt;$this.Name" xml:space="preserve">
-    <value>ProxyPanel</value>
-  </data>
-  <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>OpenTween.Setting.Panel.SettingPanelBase, OpenTween, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
+	<data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing"><value>96, 96</value></data>
+	<metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"><value>True</value></metadata>
+	<data name="&gt;&gt;$this.Name"><value>ProxyPanel</value></data>
+	<data name="&gt;&gt;$this.Type"><value>OpenTween.Setting.Panel.SettingPanelBase, OpenTween, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</value></data>
+	<data name="&gt;&gt;Label55.Name"><value>Label55</value></data>
+	<data name="&gt;&gt;Label55.Parent"><value>$this</value></data>
+	<data name="&gt;&gt;Label55.Type"><value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;Label55.ZOrder"><value>0</value></data>
+	<data name="&gt;&gt;LabelProxyAddress.Name"><value>LabelProxyAddress</value></data>
+	<data name="&gt;&gt;LabelProxyAddress.Parent"><value>$this</value></data>
+	<data name="&gt;&gt;LabelProxyAddress.Type"><value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;LabelProxyAddress.ZOrder"><value>8</value></data>
+	<data name="&gt;&gt;LabelProxyPassword.Name"><value>LabelProxyPassword</value></data>
+	<data name="&gt;&gt;LabelProxyPassword.Parent"><value>$this</value></data>
+	<data name="&gt;&gt;LabelProxyPassword.Type"><value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;LabelProxyPassword.ZOrder"><value>3</value></data>
+	<data name="&gt;&gt;LabelProxyPort.Name"><value>LabelProxyPort</value></data>
+	<data name="&gt;&gt;LabelProxyPort.Parent"><value>$this</value></data>
+	<data name="&gt;&gt;LabelProxyPort.Type"><value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;LabelProxyPort.ZOrder"><value>11</value></data>
+	<data name="&gt;&gt;LabelProxyUser.Name"><value>LabelProxyUser</value></data>
+	<data name="&gt;&gt;LabelProxyUser.Parent"><value>$this</value></data>
+	<data name="&gt;&gt;LabelProxyUser.Type"><value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;LabelProxyUser.ZOrder"><value>7</value></data>
+	<data name="&gt;&gt;RadioProxyIE.Name"><value>RadioProxyIE</value></data>
+	<data name="&gt;&gt;RadioProxyIE.Parent"><value>$this</value></data>
+	<data name="&gt;&gt;RadioProxyIE.Type"><value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;RadioProxyIE.ZOrder"><value>4</value></data>
+	<data name="&gt;&gt;RadioProxyNone.Name"><value>RadioProxyNone</value></data>
+	<data name="&gt;&gt;RadioProxyNone.Parent"><value>$this</value></data>
+	<data name="&gt;&gt;RadioProxyNone.Type"><value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;RadioProxyNone.ZOrder"><value>2</value></data>
+	<data name="&gt;&gt;RadioProxySpecified.Name"><value>RadioProxySpecified</value></data>
+	<data name="&gt;&gt;RadioProxySpecified.Parent"><value>$this</value></data>
+	<data name="&gt;&gt;RadioProxySpecified.Type"><value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;RadioProxySpecified.ZOrder"><value>6</value></data>
+	<data name="&gt;&gt;TextProxyAddress.Name"><value>TextProxyAddress</value></data>
+	<data name="&gt;&gt;TextProxyAddress.Parent"><value>$this</value></data>
+	<data name="&gt;&gt;TextProxyAddress.Type"><value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;TextProxyAddress.ZOrder"><value>10</value></data>
+	<data name="&gt;&gt;TextProxyPassword.Name"><value>TextProxyPassword</value></data>
+	<data name="&gt;&gt;TextProxyPassword.Parent"><value>$this</value></data>
+	<data name="&gt;&gt;TextProxyPassword.Type"><value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;TextProxyPassword.ZOrder"><value>1</value></data>
+	<data name="&gt;&gt;TextProxyPort.Name"><value>TextProxyPort</value></data>
+	<data name="&gt;&gt;TextProxyPort.Parent"><value>$this</value></data>
+	<data name="&gt;&gt;TextProxyPort.Type"><value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;TextProxyPort.ZOrder"><value>9</value></data>
+	<data name="&gt;&gt;TextProxyUser.Name"><value>TextProxyUser</value></data>
+	<data name="&gt;&gt;TextProxyUser.Parent"><value>$this</value></data>
+	<data name="&gt;&gt;TextProxyUser.Type"><value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;TextProxyUser.ZOrder"><value>5</value></data>
+	<data name="Label55.AutoSize" type="System.Boolean, mscorlib"><value>True</value></data>
+	<data name="Label55.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms"><value>NoControl</value></data>
+	<data name="Label55.Location" type="System.Drawing.Point, System.Drawing"><value>50, 153</value></data>
+	<data name="Label55.Size" type="System.Drawing.Size, System.Drawing"><value>314, 12</value></data>
+	<data name="Label55.TabIndex" type="System.Int32, mscorlib"><value>23</value></data>
+	<data name="Label55.Text"><value>※認証が不要な場合は、ユーザ名とパスワードは空にしてください。</value></data>
+	<data name="LabelProxyAddress.AutoSize" type="System.Boolean, mscorlib"><value>True</value></data>
+	<data name="LabelProxyAddress.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms"><value>NoControl</value></data>
+	<data name="LabelProxyAddress.Location" type="System.Drawing.Point, System.Drawing"><value>50, 101</value></data>
+	<data name="LabelProxyAddress.Size" type="System.Drawing.Size, System.Drawing"><value>58, 12</value></data>
+	<data name="LabelProxyAddress.TabIndex" type="System.Int32, mscorlib"><value>15</value></data>
+	<data name="LabelProxyAddress.Text"><value>プロキシ(&amp;X)</value></data>
+	<data name="LabelProxyPassword.AutoSize" type="System.Boolean, mscorlib"><value>True</value></data>
+	<data name="LabelProxyPassword.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms"><value>NoControl</value></data>
+	<data name="LabelProxyPassword.Location" type="System.Drawing.Point, System.Drawing"><value>275, 130</value></data>
+	<data name="LabelProxyPassword.Size" type="System.Drawing.Size, System.Drawing"><value>69, 12</value></data>
+	<data name="LabelProxyPassword.TabIndex" type="System.Int32, mscorlib"><value>21</value></data>
+	<data name="LabelProxyPassword.Text"><value>パスワード(&amp;W)</value></data>
+	<data name="LabelProxyPort.AutoSize" type="System.Boolean, mscorlib"><value>True</value></data>
+	<data name="LabelProxyPort.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms"><value>NoControl</value></data>
+	<data name="LabelProxyPort.Location" type="System.Drawing.Point, System.Drawing"><value>275, 101</value></data>
+	<data name="LabelProxyPort.Size" type="System.Drawing.Size, System.Drawing"><value>48, 12</value></data>
+	<data name="LabelProxyPort.TabIndex" type="System.Int32, mscorlib"><value>17</value></data>
+	<data name="LabelProxyPort.Text"><value>ポート(&amp;P)</value></data>
+	<data name="LabelProxyUser.AutoSize" type="System.Boolean, mscorlib"><value>True</value></data>
+	<data name="LabelProxyUser.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms"><value>NoControl</value></data>
+	<data name="LabelProxyUser.Location" type="System.Drawing.Point, System.Drawing"><value>50, 130</value></data>
+	<data name="LabelProxyUser.Size" type="System.Drawing.Size, System.Drawing"><value>63, 12</value></data>
+	<data name="LabelProxyUser.TabIndex" type="System.Int32, mscorlib"><value>19</value></data>
+	<data name="LabelProxyUser.Text"><value>ユーザ名(&amp;U)</value></data>
+	<data name="RadioProxyIE.AutoSize" type="System.Boolean, mscorlib"><value>True</value></data>
+	<data name="RadioProxyIE.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms"><value>NoControl</value></data>
+	<data name="RadioProxyIE.Location" type="System.Drawing.Point, System.Drawing"><value>23, 48</value></data>
+	<data name="RadioProxyIE.Size" type="System.Drawing.Size, System.Drawing"><value>190, 16</value></data>
+	<data name="RadioProxyIE.TabIndex" type="System.Int32, mscorlib"><value>13</value></data>
+	<data name="RadioProxyIE.Text"><value>InternetExplorerの設定を使用する</value></data>
+	<data name="RadioProxyNone.AutoSize" type="System.Boolean, mscorlib"><value>True</value></data>
+	<data name="RadioProxyNone.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms"><value>NoControl</value></data>
+	<data name="RadioProxyNone.Location" type="System.Drawing.Point, System.Drawing"><value>23, 23</value></data>
+	<data name="RadioProxyNone.Size" type="System.Drawing.Size, System.Drawing"><value>76, 16</value></data>
+	<data name="RadioProxyNone.TabIndex" type="System.Int32, mscorlib"><value>12</value></data>
+	<data name="RadioProxyNone.Text"><value>使用しない</value></data>
+	<data name="RadioProxySpecified.AutoSize" type="System.Boolean, mscorlib"><value>True</value></data>
+	<data name="RadioProxySpecified.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms"><value>NoControl</value></data>
+	<data name="RadioProxySpecified.Location" type="System.Drawing.Point, System.Drawing"><value>23, 73</value></data>
+	<data name="RadioProxySpecified.Size" type="System.Drawing.Size, System.Drawing"><value>66, 16</value></data>
+	<data name="RadioProxySpecified.TabIndex" type="System.Int32, mscorlib"><value>14</value></data>
+	<data name="RadioProxySpecified.Text"><value>指定する</value></data>
+	<data name="TextProxyAddress.Location" type="System.Drawing.Point, System.Drawing"><value>124, 98</value></data>
+	<data name="TextProxyAddress.Size" type="System.Drawing.Size, System.Drawing"><value>130, 19</value></data>
+	<data name="TextProxyAddress.TabIndex" type="System.Int32, mscorlib"><value>16</value></data>
+	<data name="TextProxyPassword.Location" type="System.Drawing.Point, System.Drawing"><value>356, 127</value></data>
+	<data name="TextProxyPassword.Size" type="System.Drawing.Size, System.Drawing"><value>130, 19</value></data>
+	<data name="TextProxyPassword.TabIndex" type="System.Int32, mscorlib"><value>22</value></data>
+	<data name="TextProxyPort.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms"><value>Disable</value></data>
+	<data name="TextProxyPort.Location" type="System.Drawing.Point, System.Drawing"><value>356, 98</value></data>
+	<data name="TextProxyPort.Size" type="System.Drawing.Size, System.Drawing"><value>73, 19</value></data>
+	<data name="TextProxyPort.TabIndex" type="System.Int32, mscorlib"><value>18</value></data>
+	<data name="TextProxyUser.Location" type="System.Drawing.Point, System.Drawing"><value>124, 127</value></data>
+	<data name="TextProxyUser.Size" type="System.Drawing.Size, System.Drawing"><value>130, 19</value></data>
+	<data name="TextProxyUser.TabIndex" type="System.Int32, mscorlib"><value>20</value></data>
 </root>

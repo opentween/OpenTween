@@ -1,776 +1,231 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<root>
-  <!-- 
-    Microsoft ResX Schema 
-    
-    Version 2.0
-    
-    The primary goals of this format is to allow a simple XML format 
-    that is mostly human readable. The generation and parsing of the 
-    various data types are done through the TypeConverter classes 
-    associated with the data types.
-    
-    Example:
-    
-    ... ado.net/XML headers & schema ...
-    <resheader name="resmimetype">text/microsoft-resx</resheader>
-    <resheader name="version">2.0</resheader>
-    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
-    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
-    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
-    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
-    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
-        <value>[base64 mime encoded serialized .NET Framework object]</value>
-    </data>
-    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
-        <comment>This is a comment</comment>
-    </data>
-                
-    There are any number of "resheader" rows that contain simple 
-    name/value pairs.
-    
-    Each data row contains a name, and value. The row also contains a 
-    type or mimetype. Type corresponds to a .NET class that support 
-    text/value conversion through the TypeConverter architecture. 
-    Classes that don't support this are serialized and stored with the 
-    mimetype set.
-    
-    The mimetype is used for serialized objects, and tells the 
-    ResXResourceReader how to depersist the object. This is currently not 
-    extensible. For a given mimetype the value must be set accordingly:
-    
-    Note - application/x-microsoft.net.object.binary.base64 is the format 
-    that the ResXResourceWriter will generate, however the reader can 
-    read any of the formats listed below.
-    
-    mimetype: application/x-microsoft.net.object.binary.base64
-    value   : The object must be serialized with 
-            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
-            : and then encoded with base64 encoding.
-    
-    mimetype: application/x-microsoft.net.object.soap.base64
-    value   : The object must be serialized with 
-            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
-            : and then encoded with base64 encoding.
+<?xml version="1.0" encoding="utf-8"?><root xml:space="preserve">
+	<resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+	<resheader name="version"><value>2.0</value></resheader>
+	<resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+	<resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+	<assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+	<assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+	<assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
 
-    mimetype: application/x-microsoft.net.object.bytearray.base64
-    value   : The object must be serialized into a byte array 
-            : using a System.ComponentModel.TypeConverter
-            : and then encoded with base64 encoding.
-    -->
-  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
-    <xsd:element name="root" msdata:IsDataSet="true">
-      <xsd:complexType>
-        <xsd:choice maxOccurs="unbounded">
-          <xsd:element name="metadata">
-            <xsd:complexType>
-              <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" />
-              </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string" />
-              <xsd:attribute name="type" type="xsd:string" />
-              <xsd:attribute name="mimetype" type="xsd:string" />
-              <xsd:attribute ref="xml:space" />
-            </xsd:complexType>
-          </xsd:element>
-          <xsd:element name="assembly">
-            <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string" />
-              <xsd:attribute name="name" type="xsd:string" />
-            </xsd:complexType>
-          </xsd:element>
-          <xsd:element name="data">
-            <xsd:complexType>
-              <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
-              </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-              <xsd:attribute ref="xml:space" />
-            </xsd:complexType>
-          </xsd:element>
-          <xsd:element name="resheader">
-            <xsd:complexType>
-              <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-              </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" />
-            </xsd:complexType>
-          </xsd:element>
-        </xsd:choice>
-      </xsd:complexType>
-    </xsd:element>
-  </xsd:schema>
-  <resheader name="resmimetype">
-    <value>text/microsoft-resx</value>
-  </resheader>
-  <resheader name="version">
-    <value>2.0</value>
-  </resheader>
-  <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </resheader>
-  <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </resheader>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="PreviewPanel.TabIndex" type="System.Int32, mscorlib">
-    <value>7</value>
-  </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="PreviewPanel.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="Save.Text" xml:space="preserve">
-    <value>OK</value>
-  </data>
-  <data name="SplitContainer1.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="TweetActPanel.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="CooperatePanel.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="&gt;&gt;Save.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;StartupPanel.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;ShortUrlPanel.Name" xml:space="preserve">
-    <value>ShortUrlPanel</value>
-  </data>
-  <data name="GetPeriodPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="BasedPanel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="&gt;&gt;ToolTip1.Name" xml:space="preserve">
-    <value>ToolTip1</value>
-  </data>
-  <data name="BasedPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="$this.StartPosition" type="System.Windows.Forms.FormStartPosition, System.Windows.Forms">
-    <value>CenterParent</value>
-  </data>
-  <data name="TreeViewSetting.Nodes1" mimetype="application/x-microsoft.net.object.binary.base64">
-    <value>
-        AAEAAAD/////AQAAAAAAAAAMAgAAAFdTeXN0ZW0uV2luZG93cy5Gb3JtcywgVmVyc2lvbj00LjAuMC4w
-        LCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWI3N2E1YzU2MTkzNGUwODkFAQAAAB1TeXN0
-        ZW0uV2luZG93cy5Gb3Jtcy5UcmVlTm9kZQoAAAAEVGV4dAtUb29sVGlwVGV4dAROYW1lCUlzQ2hlY2tl
-        ZApJbWFnZUluZGV4CEltYWdlS2V5ElNlbGVjdGVkSW1hZ2VJbmRleBBTZWxlY3RlZEltYWdlS2V5CkNo
-        aWxkQ291bnQJY2hpbGRyZW4wAQEBAAABAAEABAEICAgdU3lzdGVtLldpbmRvd3MuRm9ybXMuVHJlZU5v
-        ZGUCAAAAAgAAAAYDAAAABuWLleS9nAYEAAAAAAYFAAAACkFjdGlvbk5vZGUA/////wkEAAAA/////wkE
-        AAAAAQAAAAkHAAAABQcAAAAdU3lzdGVtLldpbmRvd3MuRm9ybXMuVHJlZU5vZGUJAAAABFRleHQLVG9v
-        bFRpcFRleHQETmFtZQlJc0NoZWNrZWQKSW1hZ2VJbmRleAhJbWFnZUtleRJTZWxlY3RlZEltYWdlSW5k
-        ZXgQU2VsZWN0ZWRJbWFnZUtleQpDaGlsZENvdW50AQEBAAABAAEAAQgICAIAAAAGCAAAAAbmipXnqL8J
-        BAAAAAYKAAAADFR3ZWV0QWN0Tm9kZQD/////CQQAAAD/////CQQAAAAAAAAACw==
-</value>
-  </data>
-  <data name="CooperatePanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>519, 368</value>
-  </data>
-  <data name="&gt;&gt;SplitContainer1.Panel1.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="GetCountPanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>519, 368</value>
-  </data>
-  <data name="&gt;&gt;FontPanel.Name" xml:space="preserve">
-    <value>FontPanel</value>
-  </data>
-  <data name="SplitContainer1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="StartupPanel.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="&gt;&gt;NotifyPanel.ZOrder" xml:space="preserve">
-    <value>7</value>
-  </data>
-  <data name="BasedPanel.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="&gt;&gt;FontPanel.ZOrder" xml:space="preserve">
-    <value>13</value>
-  </data>
-  <data name="SplitContainer1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>691, 368</value>
-  </data>
-  <data name="ActionPanel.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="FontPanel.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="BasedPanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>519, 368</value>
-  </data>
-  <data name="TreeViewSetting.Nodes4" mimetype="application/x-microsoft.net.object.binary.base64">
-    <value>
-        AAEAAAD/////AQAAAAAAAAAMAgAAAFdTeXN0ZW0uV2luZG93cy5Gb3JtcywgVmVyc2lvbj00LjAuMC4w
-        LCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWI3N2E1YzU2MTkzNGUwODkFAQAAAB1TeXN0
-        ZW0uV2luZG93cy5Gb3Jtcy5UcmVlTm9kZQwAAAAEVGV4dAtUb29sVGlwVGV4dAROYW1lCUlzQ2hlY2tl
-        ZApJbWFnZUluZGV4CEltYWdlS2V5ElNlbGVjdGVkSW1hZ2VJbmRleBBTZWxlY3RlZEltYWdlS2V5CkNo
-        aWxkQ291bnQJY2hpbGRyZW4wCWNoaWxkcmVuMQljaGlsZHJlbjIBAQEAAAEAAQAEBAQBCAgIHVN5c3Rl
-        bS5XaW5kb3dzLkZvcm1zLlRyZWVOb2RlAgAAAB1TeXN0ZW0uV2luZG93cy5Gb3Jtcy5UcmVlTm9kZQIA
-        AAAdU3lzdGVtLldpbmRvd3MuRm9ybXMuVHJlZU5vZGUCAAAAAgAAAAYDAAAABumAmuS/oQYEAAAAAAYF
-        AAAADkNvbm5lY3Rpb25Ob2RlAP////8JBAAAAP////8JBAAAAAMAAAAJBwAAAAkIAAAACQkAAAAFBwAA
-        AB1TeXN0ZW0uV2luZG93cy5Gb3Jtcy5UcmVlTm9kZQkAAAAEVGV4dAtUb29sVGlwVGV4dAROYW1lCUlz
-        Q2hlY2tlZApJbWFnZUluZGV4CEltYWdlS2V5ElNlbGVjdGVkSW1hZ2VJbmRleBBTZWxlY3RlZEltYWdl
-        S2V5CkNoaWxkQ291bnQBAQEAAAEAAQABCAgIAgAAAAYKAAAADOODl+ODreOCreOCtwkEAAAABgwAAAAJ
-        UHJveHlOb2RlAP////8JBAAAAP////8JBAAAAAAAAAAFCAAAAB1TeXN0ZW0uV2luZG93cy5Gb3Jtcy5U
-        cmVlTm9kZQkAAAAEVGV4dAtUb29sVGlwVGV4dAROYW1lCUlzQ2hlY2tlZApJbWFnZUluZGV4CEltYWdl
-        S2V5ElNlbGVjdGVkSW1hZ2VJbmRleBBTZWxlY3RlZEltYWdlS2V5CkNoaWxkQ291bnQBAQEAAAEAAQAB
-        CAgIAgAAAAYOAAAAEumAo+aQuuOCteODvOODk+OCuQkEAAAABhAAAAANQ29vcGVyYXRlTm9kZQD/////
-        CQQAAAD/////CQQAAAAAAAAABQkAAAAdU3lzdGVtLldpbmRvd3MuRm9ybXMuVHJlZU5vZGUJAAAABFRl
-        eHQLVG9vbFRpcFRleHQETmFtZQlJc0NoZWNrZWQKSW1hZ2VJbmRleAhJbWFnZUtleRJTZWxlY3RlZElt
-        YWdlSW5kZXgQU2VsZWN0ZWRJbWFnZUtleQpDaGlsZENvdW50AQEBAAABAAEAAQgICAIAAAAGEgAAAAnn
-        n63nuK5VUkwJBAAAAAYUAAAADFNob3J0VXJsTm9kZQD/////CQQAAAD/////CQQAAAAAAAAACw==
-</value>
-  </data>
-  <data name="GetPeriodPanel.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="&gt;&gt;TreeViewSetting.Parent" xml:space="preserve">
-    <value>SplitContainer1.Panel1</value>
-  </data>
-  <data name="&gt;&gt;PreviewPanel.Type" xml:space="preserve">
-    <value>OpenTween.Setting.Panel.PreviewPanel, OpenTween, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;SplitContainer1.Panel2.Parent" xml:space="preserve">
-    <value>SplitContainer1</value>
-  </data>
-  <data name="&gt;&gt;GetCountPanel.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="TreeViewSetting.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="TreeViewSetting.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="ConnectionPanel.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="&gt;&gt;ProxyPanel.Name" xml:space="preserve">
-    <value>ProxyPanel</value>
-  </data>
-  <data name="ShortUrlPanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>519, 368</value>
-  </data>
-  <data name="SplitContainer1.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;Cancel.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="StartupPanel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="StartupPanel.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>20, 20, 20, 20</value>
-  </data>
-  <data name="TweetActPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="&gt;&gt;Cancel.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="BasedPanel.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="NotifyPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="Cancel.Text" xml:space="preserve">
-    <value>キャンセル</value>
-  </data>
-  <data name="NotifyPanel.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="&gt;&gt;ActionPanel.ZOrder" xml:space="preserve">
-    <value>12</value>
-  </data>
-  <data name="TweetActPanel.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="TweetPrvPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="FontPanel2.TabIndex" type="System.Int32, mscorlib">
-    <value>10</value>
-  </data>
-  <data name="&gt;&gt;ColorDialog1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ColorDialog, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;ActionPanel.Parent" xml:space="preserve">
-    <value>SplitContainer1.Panel2</value>
-  </data>
-  <data name="TweetPrvPanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>519, 368</value>
-  </data>
-  <data name="&gt;&gt;TweetActPanel.Name" xml:space="preserve">
-    <value>TweetActPanel</value>
-  </data>
-  <data name="ProxyPanel.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="&gt;&gt;TreeViewSetting.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="FontPanel2.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="PreviewPanel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="PreviewPanel.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>20, 10, 20, 10</value>
-  </data>
-  <data name="StartupPanel.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="&gt;&gt;ActionPanel.Type" xml:space="preserve">
-    <value>OpenTween.Setting.Panel.ActionPanel, OpenTween, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="Cancel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>604, 374</value>
-  </data>
-  <data name="Cancel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 23</value>
-  </data>
-  <data name="FontPanel2.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="TweetPrvPanel.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="&gt;&gt;ProxyPanel.Type" xml:space="preserve">
-    <value>OpenTween.Setting.Panel.ProxyPanel, OpenTween, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;FontPanel2.ZOrder" xml:space="preserve">
-    <value>14</value>
-  </data>
-  <data name="ProxyPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="&gt;&gt;NotifyPanel.Type" xml:space="preserve">
-    <value>OpenTween.Setting.Panel.NotifyPanel, OpenTween, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="GetCountPanel.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
-  </data>
-  <data name="TweetPrvPanel.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="ShortUrlPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="ProxyPanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>519, 368</value>
-  </data>
-  <data name="GetPeriodPanel.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;SplitContainer1.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;CooperatePanel.Parent" xml:space="preserve">
-    <value>SplitContainer1.Panel2</value>
-  </data>
-  <data name="&gt;&gt;BasedPanel.Name" xml:space="preserve">
-    <value>BasedPanel</value>
-  </data>
-  <data name="&gt;&gt;ColorDialog1.Name" xml:space="preserve">
-    <value>ColorDialog1</value>
-  </data>
-  <data name="StartupPanel.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="&gt;&gt;ShortUrlPanel.ZOrder" xml:space="preserve">
-    <value>4</value>
-  </data>
-  <data name="&gt;&gt;GetPeriodPanel.ZOrder" xml:space="preserve">
-    <value>11</value>
-  </data>
-  <data name="ConnectionPanel.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="TweetActPanel.TabIndex" type="System.Int32, mscorlib">
-    <value>6</value>
-  </data>
-  <data name="ProxyPanel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="PreviewPanel.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="GetPeriodPanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>519, 368</value>
-  </data>
-  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
-    <value>96, 96</value>
-  </data>
-  <data name="PreviewPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="&gt;&gt;NotifyPanel.Parent" xml:space="preserve">
-    <value>SplitContainer1.Panel2</value>
-  </data>
-  <data name="&gt;&gt;BasedPanel.ZOrder" xml:space="preserve">
-    <value>5</value>
-  </data>
-  <data name="&gt;&gt;ConnectionPanel.Type" xml:space="preserve">
-    <value>OpenTween.Setting.Panel.ConnectionPanel, OpenTween, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;SplitContainer1.Panel2.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;Cancel.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;FontDialog1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.FontDialog, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="NotifyPanel.TabIndex" type="System.Int32, mscorlib">
-    <value>12</value>
-  </data>
-  <data name="&gt;&gt;PreviewPanel.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="TweetActPanel.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="GetCountPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="ProxyPanel.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="&gt;&gt;ConnectionPanel.Name" xml:space="preserve">
-    <value>ConnectionPanel</value>
-  </data>
-  <data name="&gt;&gt;ActionPanel.Name" xml:space="preserve">
-    <value>ActionPanel</value>
-  </data>
-  <data name="&gt;&gt;TweetPrvPanel.Type" xml:space="preserve">
-    <value>OpenTween.Setting.Panel.TweetPrvPanel, OpenTween, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="ConnectionPanel.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="ConnectionPanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>519, 368</value>
-  </data>
-  <data name="&gt;&gt;ShortUrlPanel.Parent" xml:space="preserve">
-    <value>SplitContainer1.Panel2</value>
-  </data>
-  <data name="CooperatePanel.TabIndex" type="System.Int32, mscorlib">
-    <value>12</value>
-  </data>
-  <data name="BasedPanel.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="&gt;&gt;GetCountPanel.Name" xml:space="preserve">
-    <value>GetCountPanel</value>
-  </data>
-  <data name="&gt;&gt;SplitContainer1.Panel1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.SplitterPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="SplitContainer1.Panel1.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="ActionPanel.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="FontPanel.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="&gt;&gt;TweetPrvPanel.Name" xml:space="preserve">
-    <value>TweetPrvPanel</value>
-  </data>
-  <data name="&gt;&gt;TreeViewSetting.Name" xml:space="preserve">
-    <value>TreeViewSetting</value>
-  </data>
-  <data name="&gt;&gt;SplitContainer1.Name" xml:space="preserve">
-    <value>SplitContainer1</value>
-  </data>
-  <data name="&gt;&gt;SplitContainer1.Panel1.Name" xml:space="preserve">
-    <value>SplitContainer1.Panel1</value>
-  </data>
-  <data name="&gt;&gt;FontPanel.Type" xml:space="preserve">
-    <value>OpenTween.Setting.Panel.FontPanel, OpenTween, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="NotifyPanel.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="&gt;&gt;TweetPrvPanel.ZOrder" xml:space="preserve">
-    <value>6</value>
-  </data>
-  <data name="TreeViewSetting.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="&gt;&gt;Save.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="ProxyPanel.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="ActionPanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>519, 368</value>
-  </data>
-  <data name="ActionPanel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="SplitContainer1.Panel2.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="TweetPrvPanel.TabIndex" type="System.Int32, mscorlib">
-    <value>8</value>
-  </data>
-  <data name="StartupPanel.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="&gt;&gt;ShortUrlPanel.Type" xml:space="preserve">
-    <value>OpenTween.Setting.Panel.ShortUrlPanel, OpenTween, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="FontPanel2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="&gt;&gt;SplitContainer1.Panel1.Parent" xml:space="preserve">
-    <value>SplitContainer1</value>
-  </data>
-  <data name="&gt;&gt;FontPanel2.Name" xml:space="preserve">
-    <value>FontPanel2</value>
-  </data>
-  <data name="NotifyPanel.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="CooperatePanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="TweetActPanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>519, 368</value>
-  </data>
-  <data name="GetCountPanel.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="&gt;&gt;FontPanel2.Parent" xml:space="preserve">
-    <value>SplitContainer1.Panel2</value>
-  </data>
-  <data name="&gt;&gt;FontPanel2.Type" xml:space="preserve">
-    <value>OpenTween.Setting.Panel.FontPanel2, OpenTween, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="CooperatePanel.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="SplitContainer1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Top</value>
-  </data>
-  <data name="BasedPanel.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="ActionPanel.TabIndex" type="System.Int32, mscorlib">
-    <value>5</value>
-  </data>
-  <data name="FontPanel.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="ShortUrlPanel.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="ShortUrlPanel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="FontPanel.TabIndex" type="System.Int32, mscorlib">
-    <value>9</value>
-  </data>
-  <data name="CooperatePanel.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="CooperatePanel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="&gt;&gt;FontDialog1.Name" xml:space="preserve">
-    <value>FontDialog1</value>
-  </data>
-  <data name="GetCountPanel.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="&gt;&gt;StartupPanel.Name" xml:space="preserve">
-    <value>StartupPanel</value>
-  </data>
-  <data name="Save.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 23</value>
-  </data>
-  <data name="NotifyPanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>519, 368</value>
-  </data>
-  <data name="&gt;&gt;Save.Name" xml:space="preserve">
-    <value>Save</value>
-  </data>
-  <data name="&gt;&gt;NotifyPanel.Name" xml:space="preserve">
-    <value>NotifyPanel</value>
-  </data>
-  <data name="&gt;&gt;StartupPanel.Type" xml:space="preserve">
-    <value>OpenTween.Setting.Panel.StartupPanel, OpenTween, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;TweetActPanel.Type" xml:space="preserve">
-    <value>OpenTween.Setting.Panel.TweetActPanel, OpenTween, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="TweetPrvPanel.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="&gt;&gt;CooperatePanel.Name" xml:space="preserve">
-    <value>CooperatePanel</value>
-  </data>
-  <data name="FontPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="FontPanel2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>519, 368</value>
-  </data>
-  <data name="StartupPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="&gt;&gt;SplitContainer1.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;BasedPanel.Parent" xml:space="preserve">
-    <value>SplitContainer1.Panel2</value>
-  </data>
-  <data name="TreeViewSetting.Nodes2" mimetype="application/x-microsoft.net.object.binary.base64">
-    <value>
-        AAEAAAD/////AQAAAAAAAAAMAgAAAFdTeXN0ZW0uV2luZG93cy5Gb3JtcywgVmVyc2lvbj00LjAuMC4w
-        LCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWI3N2E1YzU2MTkzNGUwODkFAQAAAB1TeXN0
-        ZW0uV2luZG93cy5Gb3Jtcy5UcmVlTm9kZQsAAAAEVGV4dAtUb29sVGlwVGV4dAROYW1lCUlzQ2hlY2tl
-        ZApJbWFnZUluZGV4CEltYWdlS2V5ElNlbGVjdGVkSW1hZ2VJbmRleBBTZWxlY3RlZEltYWdlS2V5CkNo
-        aWxkQ291bnQJY2hpbGRyZW4wCWNoaWxkcmVuMQEBAQAAAQABAAQEAQgICB1TeXN0ZW0uV2luZG93cy5G
-        b3Jtcy5UcmVlTm9kZQIAAAAdU3lzdGVtLldpbmRvd3MuRm9ybXMuVHJlZU5vZGUCAAAAAgAAAAYDAAAA
-        BuihqOekugYEAAAAAAYFAAAAC1ByZXZpZXdOb2RlAP////8JBAAAAP////8JBAAAAAIAAAAJBwAAAAkI
-        AAAABQcAAAAdU3lzdGVtLldpbmRvd3MuRm9ybXMuVHJlZU5vZGUJAAAABFRleHQLVG9vbFRpcFRleHQE
-        TmFtZQlJc0NoZWNrZWQKSW1hZ2VJbmRleAhJbWFnZUtleRJTZWxlY3RlZEltYWdlSW5kZXgQU2VsZWN0
-        ZWRJbWFnZUtleQpDaGlsZENvdW50AQEBAAABAAEAAQgICAIAAAAGCQAAAAznmbroqIDkuIDopqcJBAAA
-        AAYLAAAADFR3ZWV0UHJ2Tm9kZQD/////CQQAAAD/////CQQAAAAAAAAABQgAAAAdU3lzdGVtLldpbmRv
-        d3MuRm9ybXMuVHJlZU5vZGUJAAAABFRleHQLVG9vbFRpcFRleHQETmFtZQlJc0NoZWNrZWQKSW1hZ2VJ
-        bmRleAhJbWFnZUtleRJTZWxlY3RlZEltYWdlSW5kZXgQU2VsZWN0ZWRJbWFnZUtleQpDaGlsZENvdW50
-        AQEBAAABAAEAAQgICAIAAAAGDQAAABLjgqTjg5njg7Pjg4jpgJrnn6UJBAAAAAYPAAAACk5vdGlmeU5v
-        ZGUA/////wkEAAAA/////wkEAAAAAAAAAAs=
-</value>
-  </data>
-  <data name="&gt;&gt;FontPanel.Parent" xml:space="preserve">
-    <value>SplitContainer1.Panel2</value>
-  </data>
-  <data name="Cancel.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
-  </data>
-  <data name="FontPanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>519, 368</value>
-  </data>
-  <data name="$this.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="&gt;&gt;GetCountPanel.Parent" xml:space="preserve">
-    <value>SplitContainer1.Panel2</value>
-  </data>
-  <data name="TreeViewSetting.Nodes3" mimetype="application/x-microsoft.net.object.binary.base64">
-    <value>
-        AAEAAAD/////AQAAAAAAAAAMAgAAAFdTeXN0ZW0uV2luZG93cy5Gb3JtcywgVmVyc2lvbj00LjAuMC4w
-        LCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWI3N2E1YzU2MTkzNGUwODkFAQAAAB1TeXN0
-        ZW0uV2luZG93cy5Gb3Jtcy5UcmVlTm9kZQoAAAAEVGV4dAtUb29sVGlwVGV4dAROYW1lCUlzQ2hlY2tl
-        ZApJbWFnZUluZGV4CEltYWdlS2V5ElNlbGVjdGVkSW1hZ2VJbmRleBBTZWxlY3RlZEltYWdlS2V5CkNo
-        aWxkQ291bnQJY2hpbGRyZW4wAQEBAAABAAEABAEICAgdU3lzdGVtLldpbmRvd3MuRm9ybXMuVHJlZU5v
-        ZGUCAAAAAgAAAAYDAAAADOODleOCqeODs+ODiAYEAAAAAAYFAAAACEZvbnROb2RlAP////8JBAAAAP//
-        //8JBAAAAAEAAAAJBwAAAAUHAAAAHVN5c3RlbS5XaW5kb3dzLkZvcm1zLlRyZWVOb2RlCQAAAARUZXh0
-        C1Rvb2xUaXBUZXh0BE5hbWUJSXNDaGVja2VkCkltYWdlSW5kZXgISW1hZ2VLZXkSU2VsZWN0ZWRJbWFn
-        ZUluZGV4EFNlbGVjdGVkSW1hZ2VLZXkKQ2hpbGRDb3VudAEBAQAAAQABAAEICAgCAAAABggAAAAN44OV
-        44Kp44Oz44OIMgkEAAAABgoAAAAJRm9udE5vZGUyAP////8JBAAAAP////8JBAAAAAAAAAAL
-</value>
-  </data>
-  <data name="GetPeriodPanel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="PreviewPanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>519, 368</value>
-  </data>
-  <data name="&gt;&gt;SplitContainer1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.SplitContainer, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;TweetActPanel.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="&gt;&gt;TweetPrvPanel.Parent" xml:space="preserve">
-    <value>SplitContainer1.Panel2</value>
-  </data>
-  <data name="SplitContainer1.IsSplitterFixed" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="$this.Text" xml:space="preserve">
-    <value>            </value>
-  </data>
-  <data name="ConnectionPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="Save.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="FontPanel2.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="Cancel.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="&gt;&gt;SplitContainer1.Panel2.Type" xml:space="preserve">
-    <value>System.Windows.Forms.SplitterPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;ProxyPanel.Parent" xml:space="preserve">
-    <value>SplitContainer1.Panel2</value>
-  </data>
-  <data name="&gt;&gt;SplitContainer1.Panel2.Name" xml:space="preserve">
-    <value>SplitContainer1.Panel2</value>
-  </data>
-  <data name="Cancel.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>691, 403</value>
-  </data>
-  <data name="NotifyPanel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="&gt;&gt;CooperatePanel.ZOrder" xml:space="preserve">
-    <value>8</value>
-  </data>
-  <data name="&gt;&gt;GetPeriodPanel.Parent" xml:space="preserve">
-    <value>SplitContainer1.Panel2</value>
-  </data>
-  <data name="&gt;&gt;PreviewPanel.Parent" xml:space="preserve">
-    <value>SplitContainer1.Panel2</value>
-  </data>
-  <data name="TweetPrvPanel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="GetCountPanel.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="GetPeriodPanel.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="StartupPanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>519, 368</value>
-  </data>
-  <data name="TreeViewSetting.Nodes" mimetype="application/x-microsoft.net.object.binary.base64">
-    <value>
+	<data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing"><value>96, 96</value></data>
+	<data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing"><value>691, 403</value></data>
+	<metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"><value>True</value></metadata>
+	<data name="$this.StartPosition" type="System.Windows.Forms.FormStartPosition, System.Windows.Forms"><value>CenterParent</value></data>
+	<data name="$this.Text"><value>            </value></data>
+	<data name="$this.ToolTip"><value /></data>
+	<metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"><value>82</value></metadata>
+	<data name="&gt;&gt;$this.Name"><value>AppendSettingDialog</value></data>
+	<data name="&gt;&gt;$this.Type"><value>OpenTween.OTBaseForm, OpenTween, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</value></data>
+	<data name="&gt;&gt;ActionPanel.Name"><value>ActionPanel</value></data>
+	<data name="&gt;&gt;ActionPanel.Parent"><value>SplitContainer1.Panel2</value></data>
+	<data name="&gt;&gt;ActionPanel.Type"><value>OpenTween.Setting.Panel.ActionPanel, OpenTween, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</value></data>
+	<data name="&gt;&gt;ActionPanel.ZOrder"><value>12</value></data>
+	<data name="&gt;&gt;BasedPanel.Name"><value>BasedPanel</value></data>
+	<data name="&gt;&gt;BasedPanel.Parent"><value>SplitContainer1.Panel2</value></data>
+	<data name="&gt;&gt;BasedPanel.Type"><value>OpenTween.Setting.Panel.BasedPanel, OpenTween, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</value></data>
+	<data name="&gt;&gt;BasedPanel.ZOrder"><value>5</value></data>
+	<data name="&gt;&gt;Cancel.Name"><value>Cancel</value></data>
+	<data name="&gt;&gt;Cancel.Parent"><value>$this</value></data>
+	<data name="&gt;&gt;Cancel.Type"><value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;Cancel.ZOrder"><value>2</value></data>
+	<data name="&gt;&gt;ColorDialog1.Name"><value>ColorDialog1</value></data>
+	<data name="&gt;&gt;ColorDialog1.Type"><value>System.Windows.Forms.ColorDialog, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;ConnectionPanel.Name"><value>ConnectionPanel</value></data>
+	<data name="&gt;&gt;ConnectionPanel.Parent"><value>SplitContainer1.Panel2</value></data>
+	<data name="&gt;&gt;ConnectionPanel.Type"><value>OpenTween.Setting.Panel.ConnectionPanel, OpenTween, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</value></data>
+	<data name="&gt;&gt;ConnectionPanel.ZOrder"><value>10</value></data>
+	<data name="&gt;&gt;CooperatePanel.Name"><value>CooperatePanel</value></data>
+	<data name="&gt;&gt;CooperatePanel.Parent"><value>SplitContainer1.Panel2</value></data>
+	<data name="&gt;&gt;CooperatePanel.Type"><value>OpenTween.Setting.Panel.CooperatePanel, OpenTween, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</value></data>
+	<data name="&gt;&gt;CooperatePanel.ZOrder"><value>8</value></data>
+	<data name="&gt;&gt;FontDialog1.Name"><value>FontDialog1</value></data>
+	<data name="&gt;&gt;FontDialog1.Type"><value>System.Windows.Forms.FontDialog, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;FontPanel.Name"><value>FontPanel</value></data>
+	<data name="&gt;&gt;FontPanel.Parent"><value>SplitContainer1.Panel2</value></data>
+	<data name="&gt;&gt;FontPanel.Type"><value>OpenTween.Setting.Panel.FontPanel, OpenTween, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</value></data>
+	<data name="&gt;&gt;FontPanel.ZOrder"><value>13</value></data>
+	<data name="&gt;&gt;FontPanel2.Name"><value>FontPanel2</value></data>
+	<data name="&gt;&gt;FontPanel2.Parent"><value>SplitContainer1.Panel2</value></data>
+	<data name="&gt;&gt;FontPanel2.Type"><value>OpenTween.Setting.Panel.FontPanel2, OpenTween, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</value></data>
+	<data name="&gt;&gt;FontPanel2.ZOrder"><value>14</value></data>
+	<data name="&gt;&gt;GetCountPanel.Name"><value>GetCountPanel</value></data>
+	<data name="&gt;&gt;GetCountPanel.Parent"><value>SplitContainer1.Panel2</value></data>
+	<data name="&gt;&gt;GetCountPanel.Type"><value>OpenTween.Setting.Panel.GetCountPanel, OpenTween, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</value></data>
+	<data name="&gt;&gt;GetCountPanel.ZOrder"><value>3</value></data>
+	<data name="&gt;&gt;GetPeriodPanel.Name"><value>GetPeriodPanel</value></data>
+	<data name="&gt;&gt;GetPeriodPanel.Parent"><value>SplitContainer1.Panel2</value></data>
+	<data name="&gt;&gt;GetPeriodPanel.Type"><value>OpenTween.Setting.Panel.GetPeriodPanel, OpenTween, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</value></data>
+	<data name="&gt;&gt;GetPeriodPanel.ZOrder"><value>11</value></data>
+	<data name="&gt;&gt;NotifyPanel.Name"><value>NotifyPanel</value></data>
+	<data name="&gt;&gt;NotifyPanel.Parent"><value>SplitContainer1.Panel2</value></data>
+	<data name="&gt;&gt;NotifyPanel.Type"><value>OpenTween.Setting.Panel.NotifyPanel, OpenTween, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</value></data>
+	<data name="&gt;&gt;NotifyPanel.ZOrder"><value>7</value></data>
+	<data name="&gt;&gt;PreviewPanel.Name"><value>PreviewPanel</value></data>
+	<data name="&gt;&gt;PreviewPanel.Parent"><value>SplitContainer1.Panel2</value></data>
+	<data name="&gt;&gt;PreviewPanel.Type"><value>OpenTween.Setting.Panel.PreviewPanel, OpenTween, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</value></data>
+	<data name="&gt;&gt;PreviewPanel.ZOrder"><value>1</value></data>
+	<data name="&gt;&gt;ProxyPanel.Name"><value>ProxyPanel</value></data>
+	<data name="&gt;&gt;ProxyPanel.Parent"><value>SplitContainer1.Panel2</value></data>
+	<data name="&gt;&gt;ProxyPanel.Type"><value>OpenTween.Setting.Panel.ProxyPanel, OpenTween, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</value></data>
+	<data name="&gt;&gt;ProxyPanel.ZOrder"><value>9</value></data>
+	<data name="&gt;&gt;Save.Name"><value>Save</value></data>
+	<data name="&gt;&gt;Save.Parent"><value>$this</value></data>
+	<data name="&gt;&gt;Save.Type"><value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;Save.ZOrder"><value>1</value></data>
+	<data name="&gt;&gt;ShortUrlPanel.Name"><value>ShortUrlPanel</value></data>
+	<data name="&gt;&gt;ShortUrlPanel.Parent"><value>SplitContainer1.Panel2</value></data>
+	<data name="&gt;&gt;ShortUrlPanel.Type"><value>OpenTween.Setting.Panel.ShortUrlPanel, OpenTween, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</value></data>
+	<data name="&gt;&gt;ShortUrlPanel.ZOrder"><value>4</value></data>
+	<data name="&gt;&gt;SplitContainer1.Name"><value>SplitContainer1</value></data>
+	<data name="&gt;&gt;SplitContainer1.Panel1.Name"><value>SplitContainer1.Panel1</value></data>
+	<data name="&gt;&gt;SplitContainer1.Panel1.Parent"><value>SplitContainer1</value></data>
+	<data name="&gt;&gt;SplitContainer1.Panel1.Type"><value>System.Windows.Forms.SplitterPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;SplitContainer1.Panel1.ZOrder"><value>0</value></data>
+	<data name="&gt;&gt;SplitContainer1.Panel2.Name"><value>SplitContainer1.Panel2</value></data>
+	<data name="&gt;&gt;SplitContainer1.Panel2.Parent"><value>SplitContainer1</value></data>
+	<data name="&gt;&gt;SplitContainer1.Panel2.Type"><value>System.Windows.Forms.SplitterPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;SplitContainer1.Panel2.ZOrder"><value>1</value></data>
+	<data name="&gt;&gt;SplitContainer1.Parent"><value>$this</value></data>
+	<data name="&gt;&gt;SplitContainer1.Type"><value>System.Windows.Forms.SplitContainer, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;SplitContainer1.ZOrder"><value>0</value></data>
+	<data name="&gt;&gt;StartupPanel.Name"><value>StartupPanel</value></data>
+	<data name="&gt;&gt;StartupPanel.Parent"><value>SplitContainer1.Panel2</value></data>
+	<data name="&gt;&gt;StartupPanel.Type"><value>OpenTween.Setting.Panel.StartupPanel, OpenTween, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</value></data>
+	<data name="&gt;&gt;StartupPanel.ZOrder"><value>0</value></data>
+	<data name="&gt;&gt;ToolTip1.Name"><value>ToolTip1</value></data>
+	<data name="&gt;&gt;ToolTip1.Type"><value>System.Windows.Forms.ToolTip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;TreeViewSetting.Name"><value>TreeViewSetting</value></data>
+	<data name="&gt;&gt;TreeViewSetting.Parent"><value>SplitContainer1.Panel1</value></data>
+	<data name="&gt;&gt;TreeViewSetting.Type"><value>System.Windows.Forms.TreeView, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;TreeViewSetting.ZOrder"><value>0</value></data>
+	<data name="&gt;&gt;TweetActPanel.Name"><value>TweetActPanel</value></data>
+	<data name="&gt;&gt;TweetActPanel.Parent"><value>SplitContainer1.Panel2</value></data>
+	<data name="&gt;&gt;TweetActPanel.Type"><value>OpenTween.Setting.Panel.TweetActPanel, OpenTween, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</value></data>
+	<data name="&gt;&gt;TweetActPanel.ZOrder"><value>2</value></data>
+	<data name="&gt;&gt;TweetPrvPanel.Name"><value>TweetPrvPanel</value></data>
+	<data name="&gt;&gt;TweetPrvPanel.Parent"><value>SplitContainer1.Panel2</value></data>
+	<data name="&gt;&gt;TweetPrvPanel.Type"><value>OpenTween.Setting.Panel.TweetPrvPanel, OpenTween, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</value></data>
+	<data name="&gt;&gt;TweetPrvPanel.ZOrder"><value>6</value></data>
+	<data name="ActionPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms"><value>Fill</value></data>
+	<data name="ActionPanel.Enabled" type="System.Boolean, mscorlib"><value>False</value></data>
+	<data name="ActionPanel.Location" type="System.Drawing.Point, System.Drawing"><value>0, 0</value></data>
+	<data name="ActionPanel.Size" type="System.Drawing.Size, System.Drawing"><value>519, 368</value></data>
+	<data name="ActionPanel.TabIndex" type="System.Int32, mscorlib"><value>5</value></data>
+	<data name="ActionPanel.ToolTip"><value /></data>
+	<data name="ActionPanel.Visible" type="System.Boolean, mscorlib"><value>False</value></data>
+	<data name="BasedPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms"><value>Fill</value></data>
+	<data name="BasedPanel.Enabled" type="System.Boolean, mscorlib"><value>False</value></data>
+	<data name="BasedPanel.Location" type="System.Drawing.Point, System.Drawing"><value>0, 0</value></data>
+	<data name="BasedPanel.Size" type="System.Drawing.Size, System.Drawing"><value>519, 368</value></data>
+	<data name="BasedPanel.TabIndex" type="System.Int32, mscorlib"><value>0</value></data>
+	<data name="BasedPanel.ToolTip"><value /></data>
+	<data name="BasedPanel.Visible" type="System.Boolean, mscorlib"><value>False</value></data>
+	<data name="Cancel.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms"><value>NoControl</value></data>
+	<data name="Cancel.Location" type="System.Drawing.Point, System.Drawing"><value>604, 374</value></data>
+	<data name="Cancel.Size" type="System.Drawing.Size, System.Drawing"><value>75, 23</value></data>
+	<data name="Cancel.TabIndex" type="System.Int32, mscorlib"><value>4</value></data>
+	<data name="Cancel.Text"><value>キャンセル</value></data>
+	<data name="Cancel.ToolTip"><value /></data>
+	<metadata name="ColorDialog1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"><value>140, 17</value></metadata>
+	<data name="ConnectionPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms"><value>Fill</value></data>
+	<data name="ConnectionPanel.Enabled" type="System.Boolean, mscorlib"><value>False</value></data>
+	<data name="ConnectionPanel.Location" type="System.Drawing.Point, System.Drawing"><value>0, 0</value></data>
+	<data name="ConnectionPanel.Size" type="System.Drawing.Size, System.Drawing"><value>519, 368</value></data>
+	<data name="ConnectionPanel.TabIndex" type="System.Int32, mscorlib"><value>11</value></data>
+	<data name="ConnectionPanel.ToolTip"><value /></data>
+	<data name="ConnectionPanel.Visible" type="System.Boolean, mscorlib"><value>False</value></data>
+	<data name="CooperatePanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms"><value>Fill</value></data>
+	<data name="CooperatePanel.Enabled" type="System.Boolean, mscorlib"><value>False</value></data>
+	<data name="CooperatePanel.Location" type="System.Drawing.Point, System.Drawing"><value>0, 0</value></data>
+	<data name="CooperatePanel.Size" type="System.Drawing.Size, System.Drawing"><value>519, 368</value></data>
+	<data name="CooperatePanel.TabIndex" type="System.Int32, mscorlib"><value>12</value></data>
+	<data name="CooperatePanel.ToolTip"><value /></data>
+	<data name="CooperatePanel.Visible" type="System.Boolean, mscorlib"><value>False</value></data>
+	<metadata name="FontDialog1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"><value>17, 17</value></metadata>
+	<data name="FontPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms"><value>Fill</value></data>
+	<data name="FontPanel.Enabled" type="System.Boolean, mscorlib"><value>False</value></data>
+	<data name="FontPanel.Location" type="System.Drawing.Point, System.Drawing"><value>0, 0</value></data>
+	<data name="FontPanel.Size" type="System.Drawing.Size, System.Drawing"><value>519, 368</value></data>
+	<data name="FontPanel.TabIndex" type="System.Int32, mscorlib"><value>9</value></data>
+	<data name="FontPanel.ToolTip"><value /></data>
+	<data name="FontPanel.Visible" type="System.Boolean, mscorlib"><value>False</value></data>
+	<data name="FontPanel2.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms"><value>Fill</value></data>
+	<data name="FontPanel2.Enabled" type="System.Boolean, mscorlib"><value>False</value></data>
+	<data name="FontPanel2.Location" type="System.Drawing.Point, System.Drawing"><value>0, 0</value></data>
+	<data name="FontPanel2.Size" type="System.Drawing.Size, System.Drawing"><value>519, 368</value></data>
+	<data name="FontPanel2.TabIndex" type="System.Int32, mscorlib"><value>10</value></data>
+	<data name="FontPanel2.ToolTip"><value /></data>
+	<data name="FontPanel2.Visible" type="System.Boolean, mscorlib"><value>False</value></data>
+	<data name="GetCountPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms"><value>Fill</value></data>
+	<data name="GetCountPanel.Enabled" type="System.Boolean, mscorlib"><value>False</value></data>
+	<data name="GetCountPanel.Location" type="System.Drawing.Point, System.Drawing"><value>0, 0</value></data>
+	<data name="GetCountPanel.Size" type="System.Drawing.Size, System.Drawing"><value>519, 368</value></data>
+	<data name="GetCountPanel.TabIndex" type="System.Int32, mscorlib"><value>3</value></data>
+	<data name="GetCountPanel.ToolTip"><value /></data>
+	<data name="GetCountPanel.Visible" type="System.Boolean, mscorlib"><value>False</value></data>
+	<data name="GetPeriodPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms"><value>Fill</value></data>
+	<data name="GetPeriodPanel.Enabled" type="System.Boolean, mscorlib"><value>False</value></data>
+	<data name="GetPeriodPanel.Location" type="System.Drawing.Point, System.Drawing"><value>0, 0</value></data>
+	<data name="GetPeriodPanel.Size" type="System.Drawing.Size, System.Drawing"><value>519, 368</value></data>
+	<data name="GetPeriodPanel.TabIndex" type="System.Int32, mscorlib"><value>1</value></data>
+	<data name="GetPeriodPanel.ToolTip"><value /></data>
+	<data name="GetPeriodPanel.Visible" type="System.Boolean, mscorlib"><value>False</value></data>
+	<data name="NotifyPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms"><value>Fill</value></data>
+	<data name="NotifyPanel.Enabled" type="System.Boolean, mscorlib"><value>False</value></data>
+	<data name="NotifyPanel.Location" type="System.Drawing.Point, System.Drawing"><value>0, 0</value></data>
+	<data name="NotifyPanel.Size" type="System.Drawing.Size, System.Drawing"><value>519, 368</value></data>
+	<data name="NotifyPanel.TabIndex" type="System.Int32, mscorlib"><value>12</value></data>
+	<data name="NotifyPanel.ToolTip"><value /></data>
+	<data name="NotifyPanel.Visible" type="System.Boolean, mscorlib"><value>False</value></data>
+	<data name="PreviewPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms"><value>Fill</value></data>
+	<data name="PreviewPanel.Enabled" type="System.Boolean, mscorlib"><value>False</value></data>
+	<data name="PreviewPanel.Location" type="System.Drawing.Point, System.Drawing"><value>0, 0</value></data>
+	<data name="PreviewPanel.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms"><value>20, 10, 20, 10</value></data>
+	<data name="PreviewPanel.Size" type="System.Drawing.Size, System.Drawing"><value>519, 368</value></data>
+	<data name="PreviewPanel.TabIndex" type="System.Int32, mscorlib"><value>7</value></data>
+	<data name="PreviewPanel.ToolTip"><value /></data>
+	<data name="PreviewPanel.Visible" type="System.Boolean, mscorlib"><value>False</value></data>
+	<data name="ProxyPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms"><value>Fill</value></data>
+	<data name="ProxyPanel.Enabled" type="System.Boolean, mscorlib"><value>False</value></data>
+	<data name="ProxyPanel.Location" type="System.Drawing.Point, System.Drawing"><value>0, 0</value></data>
+	<data name="ProxyPanel.Size" type="System.Drawing.Size, System.Drawing"><value>519, 368</value></data>
+	<data name="ProxyPanel.TabIndex" type="System.Int32, mscorlib"><value>12</value></data>
+	<data name="ProxyPanel.ToolTip"><value /></data>
+	<data name="ProxyPanel.Visible" type="System.Boolean, mscorlib"><value>False</value></data>
+	<data name="Save.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms"><value>NoControl</value></data>
+	<data name="Save.Location" type="System.Drawing.Point, System.Drawing"><value>521, 374</value></data>
+	<data name="Save.Size" type="System.Drawing.Size, System.Drawing"><value>75, 23</value></data>
+	<data name="Save.TabIndex" type="System.Int32, mscorlib"><value>3</value></data>
+	<data name="Save.Text"><value>OK</value></data>
+	<data name="Save.ToolTip"><value /></data>
+	<data name="ShortUrlPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms"><value>Fill</value></data>
+	<data name="ShortUrlPanel.Enabled" type="System.Boolean, mscorlib"><value>False</value></data>
+	<data name="ShortUrlPanel.Location" type="System.Drawing.Point, System.Drawing"><value>0, 0</value></data>
+	<data name="ShortUrlPanel.Size" type="System.Drawing.Size, System.Drawing"><value>519, 368</value></data>
+	<data name="ShortUrlPanel.TabIndex" type="System.Int32, mscorlib"><value>13</value></data>
+	<data name="ShortUrlPanel.ToolTip"><value /></data>
+	<data name="ShortUrlPanel.Visible" type="System.Boolean, mscorlib"><value>False</value></data>
+	<data name="SplitContainer1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms"><value>Top</value></data>
+	<data name="SplitContainer1.IsSplitterFixed" type="System.Boolean, mscorlib"><value>True</value></data>
+	<data name="SplitContainer1.Location" type="System.Drawing.Point, System.Drawing"><value>0, 0</value></data>
+	<data name="SplitContainer1.Panel1.ToolTip"><value /></data>
+	<data name="SplitContainer1.Panel2.ToolTip"><value /></data>
+	<data name="SplitContainer1.Size" type="System.Drawing.Size, System.Drawing"><value>691, 368</value></data>
+	<data name="SplitContainer1.SplitterDistance" type="System.Int32, mscorlib"><value>168</value></data>
+	<data name="SplitContainer1.TabIndex" type="System.Int32, mscorlib"><value>0</value></data>
+	<data name="SplitContainer1.ToolTip"><value /></data>
+	<data name="StartupPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms"><value>Fill</value></data>
+	<data name="StartupPanel.Enabled" type="System.Boolean, mscorlib"><value>False</value></data>
+	<data name="StartupPanel.Location" type="System.Drawing.Point, System.Drawing"><value>0, 0</value></data>
+	<data name="StartupPanel.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms"><value>20, 20, 20, 20</value></data>
+	<data name="StartupPanel.Size" type="System.Drawing.Size, System.Drawing"><value>519, 368</value></data>
+	<data name="StartupPanel.TabIndex" type="System.Int32, mscorlib"><value>2</value></data>
+	<data name="StartupPanel.ToolTip"><value /></data>
+	<data name="StartupPanel.Visible" type="System.Boolean, mscorlib"><value>False</value></data>
+	<metadata name="ToolTip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"><value>268, 17</value></metadata>
+	<data name="TreeViewSetting.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms"><value>Fill</value></data>
+	<data name="TreeViewSetting.Location" type="System.Drawing.Point, System.Drawing"><value>0, 0</value></data>
+	<data name="TreeViewSetting.Nodes" mimetype="application/x-microsoft.net.object.binary.base64"><value>
         AAEAAAD/////AQAAAAAAAAAMAgAAAFdTeXN0ZW0uV2luZG93cy5Gb3JtcywgVmVyc2lvbj00LjAuMC4w
         LCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWI3N2E1YzU2MTkzNGUwODkFAQAAAB1TeXN0
         ZW0uV2luZG93cy5Gb3Jtcy5UcmVlTm9kZQ0AAAAEVGV4dAtUb29sVGlwVGV4dAROYW1lCUlzQ2hlY2tl
@@ -791,132 +246,84 @@
         ZWxlY3RlZEltYWdlSW5kZXgQU2VsZWN0ZWRJbWFnZUtleQpDaGlsZENvdW50AQEBAAABAAEAAQgICAIA
         AAAGEwAAAAzlj5blvpfku7bmlbAJBAAAAAYVAAAADEdldENvdW50Tm9kZQD/////CQQAAAD/////CQQA
         AAAAAAAACw==
-</value>
-  </data>
-  <data name="GetCountPanel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="ActionPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="Save.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="&gt;&gt;Cancel.Name" xml:space="preserve">
-    <value>Cancel</value>
-  </data>
-  <data name="TweetActPanel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="&gt;&gt;GetCountPanel.Type" xml:space="preserve">
-    <value>OpenTween.Setting.Panel.GetCountPanel, OpenTween, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;GetPeriodPanel.Name" xml:space="preserve">
-    <value>GetPeriodPanel</value>
-  </data>
-  <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>OpenTween.OTBaseForm, OpenTween, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="ShortUrlPanel.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="ShortUrlPanel.TabIndex" type="System.Int32, mscorlib">
-    <value>13</value>
-  </data>
-  <data name="TreeViewSetting.Size" type="System.Drawing.Size, System.Drawing">
-    <value>168, 368</value>
-  </data>
-  <data name="&gt;&gt;PreviewPanel.Name" xml:space="preserve">
-    <value>PreviewPanel</value>
-  </data>
-  <data name="&gt;&gt;CooperatePanel.Type" xml:space="preserve">
-    <value>OpenTween.Setting.Panel.CooperatePanel, OpenTween, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;Save.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="ProxyPanel.TabIndex" type="System.Int32, mscorlib">
-    <value>12</value>
-  </data>
-  <data name="&gt;&gt;TweetActPanel.Parent" xml:space="preserve">
-    <value>SplitContainer1.Panel2</value>
-  </data>
-  <data name="&gt;&gt;GetPeriodPanel.Type" xml:space="preserve">
-    <value>OpenTween.Setting.Panel.GetPeriodPanel, OpenTween, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="FontPanel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="ActionPanel.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="&gt;&gt;ProxyPanel.ZOrder" xml:space="preserve">
-    <value>9</value>
-  </data>
-  <data name="&gt;&gt;BasedPanel.Type" xml:space="preserve">
-    <value>OpenTween.Setting.Panel.BasedPanel, OpenTween, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="Save.Location" type="System.Drawing.Point, System.Drawing">
-    <value>521, 374</value>
-  </data>
-  <data name="&gt;&gt;ToolTip1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolTip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="ConnectionPanel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="PreviewPanel.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Save.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
-  </data>
-  <data name="&gt;&gt;TreeViewSetting.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TreeView, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="ShortUrlPanel.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="GetPeriodPanel.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="&gt;&gt;StartupPanel.Parent" xml:space="preserve">
-    <value>SplitContainer1.Panel2</value>
-  </data>
-  <data name="&gt;&gt;ConnectionPanel.ZOrder" xml:space="preserve">
-    <value>10</value>
-  </data>
-  <data name="&gt;&gt;ConnectionPanel.Parent" xml:space="preserve">
-    <value>SplitContainer1.Panel2</value>
-  </data>
-  <data name="SplitContainer1.SplitterDistance" type="System.Int32, mscorlib">
-    <value>168</value>
-  </data>
-  <data name="ConnectionPanel.TabIndex" type="System.Int32, mscorlib">
-    <value>11</value>
-  </data>
-  <data name="TreeViewSetting.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;$this.Name" xml:space="preserve">
-    <value>AppendSettingDialog</value>
-  </data>
-  <data name="FontPanel2.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <metadata name="FontDialog1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 17</value>
-  </metadata>
-  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="ToolTip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>268, 17</value>
-  </metadata>
-  <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>82</value>
-  </metadata>
-  <metadata name="ColorDialog1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>140, 17</value>
-  </metadata>
+</value></data>
+	<data name="TreeViewSetting.Nodes1" mimetype="application/x-microsoft.net.object.binary.base64"><value>
+        AAEAAAD/////AQAAAAAAAAAMAgAAAFdTeXN0ZW0uV2luZG93cy5Gb3JtcywgVmVyc2lvbj00LjAuMC4w
+        LCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWI3N2E1YzU2MTkzNGUwODkFAQAAAB1TeXN0
+        ZW0uV2luZG93cy5Gb3Jtcy5UcmVlTm9kZQoAAAAEVGV4dAtUb29sVGlwVGV4dAROYW1lCUlzQ2hlY2tl
+        ZApJbWFnZUluZGV4CEltYWdlS2V5ElNlbGVjdGVkSW1hZ2VJbmRleBBTZWxlY3RlZEltYWdlS2V5CkNo
+        aWxkQ291bnQJY2hpbGRyZW4wAQEBAAABAAEABAEICAgdU3lzdGVtLldpbmRvd3MuRm9ybXMuVHJlZU5v
+        ZGUCAAAAAgAAAAYDAAAABuWLleS9nAYEAAAAAAYFAAAACkFjdGlvbk5vZGUA/////wkEAAAA/////wkE
+        AAAAAQAAAAkHAAAABQcAAAAdU3lzdGVtLldpbmRvd3MuRm9ybXMuVHJlZU5vZGUJAAAABFRleHQLVG9v
+        bFRpcFRleHQETmFtZQlJc0NoZWNrZWQKSW1hZ2VJbmRleAhJbWFnZUtleRJTZWxlY3RlZEltYWdlSW5k
+        ZXgQU2VsZWN0ZWRJbWFnZUtleQpDaGlsZENvdW50AQEBAAABAAEAAQgICAIAAAAGCAAAAAbmipXnqL8J
+        BAAAAAYKAAAADFR3ZWV0QWN0Tm9kZQD/////CQQAAAD/////CQQAAAAAAAAACw==
+</value></data>
+	<data name="TreeViewSetting.Nodes2" mimetype="application/x-microsoft.net.object.binary.base64"><value>
+        AAEAAAD/////AQAAAAAAAAAMAgAAAFdTeXN0ZW0uV2luZG93cy5Gb3JtcywgVmVyc2lvbj00LjAuMC4w
+        LCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWI3N2E1YzU2MTkzNGUwODkFAQAAAB1TeXN0
+        ZW0uV2luZG93cy5Gb3Jtcy5UcmVlTm9kZQsAAAAEVGV4dAtUb29sVGlwVGV4dAROYW1lCUlzQ2hlY2tl
+        ZApJbWFnZUluZGV4CEltYWdlS2V5ElNlbGVjdGVkSW1hZ2VJbmRleBBTZWxlY3RlZEltYWdlS2V5CkNo
+        aWxkQ291bnQJY2hpbGRyZW4wCWNoaWxkcmVuMQEBAQAAAQABAAQEAQgICB1TeXN0ZW0uV2luZG93cy5G
+        b3Jtcy5UcmVlTm9kZQIAAAAdU3lzdGVtLldpbmRvd3MuRm9ybXMuVHJlZU5vZGUCAAAAAgAAAAYDAAAA
+        BuihqOekugYEAAAAAAYFAAAAC1ByZXZpZXdOb2RlAP////8JBAAAAP////8JBAAAAAIAAAAJBwAAAAkI
+        AAAABQcAAAAdU3lzdGVtLldpbmRvd3MuRm9ybXMuVHJlZU5vZGUJAAAABFRleHQLVG9vbFRpcFRleHQE
+        TmFtZQlJc0NoZWNrZWQKSW1hZ2VJbmRleAhJbWFnZUtleRJTZWxlY3RlZEltYWdlSW5kZXgQU2VsZWN0
+        ZWRJbWFnZUtleQpDaGlsZENvdW50AQEBAAABAAEAAQgICAIAAAAGCQAAAAznmbroqIDkuIDopqcJBAAA
+        AAYLAAAADFR3ZWV0UHJ2Tm9kZQD/////CQQAAAD/////CQQAAAAAAAAABQgAAAAdU3lzdGVtLldpbmRv
+        d3MuRm9ybXMuVHJlZU5vZGUJAAAABFRleHQLVG9vbFRpcFRleHQETmFtZQlJc0NoZWNrZWQKSW1hZ2VJ
+        bmRleAhJbWFnZUtleRJTZWxlY3RlZEltYWdlSW5kZXgQU2VsZWN0ZWRJbWFnZUtleQpDaGlsZENvdW50
+        AQEBAAABAAEAAQgICAIAAAAGDQAAABLjgqTjg5njg7Pjg4jpgJrnn6UJBAAAAAYPAAAACk5vdGlmeU5v
+        ZGUA/////wkEAAAA/////wkEAAAAAAAAAAs=
+</value></data>
+	<data name="TreeViewSetting.Nodes3" mimetype="application/x-microsoft.net.object.binary.base64"><value>
+        AAEAAAD/////AQAAAAAAAAAMAgAAAFdTeXN0ZW0uV2luZG93cy5Gb3JtcywgVmVyc2lvbj00LjAuMC4w
+        LCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWI3N2E1YzU2MTkzNGUwODkFAQAAAB1TeXN0
+        ZW0uV2luZG93cy5Gb3Jtcy5UcmVlTm9kZQoAAAAEVGV4dAtUb29sVGlwVGV4dAROYW1lCUlzQ2hlY2tl
+        ZApJbWFnZUluZGV4CEltYWdlS2V5ElNlbGVjdGVkSW1hZ2VJbmRleBBTZWxlY3RlZEltYWdlS2V5CkNo
+        aWxkQ291bnQJY2hpbGRyZW4wAQEBAAABAAEABAEICAgdU3lzdGVtLldpbmRvd3MuRm9ybXMuVHJlZU5v
+        ZGUCAAAAAgAAAAYDAAAADOODleOCqeODs+ODiAYEAAAAAAYFAAAACEZvbnROb2RlAP////8JBAAAAP//
+        //8JBAAAAAEAAAAJBwAAAAUHAAAAHVN5c3RlbS5XaW5kb3dzLkZvcm1zLlRyZWVOb2RlCQAAAARUZXh0
+        C1Rvb2xUaXBUZXh0BE5hbWUJSXNDaGVja2VkCkltYWdlSW5kZXgISW1hZ2VLZXkSU2VsZWN0ZWRJbWFn
+        ZUluZGV4EFNlbGVjdGVkSW1hZ2VLZXkKQ2hpbGRDb3VudAEBAQAAAQABAAEICAgCAAAABggAAAAN44OV
+        44Kp44Oz44OIMgkEAAAABgoAAAAJRm9udE5vZGUyAP////8JBAAAAP////8JBAAAAAAAAAAL
+</value></data>
+	<data name="TreeViewSetting.Nodes4" mimetype="application/x-microsoft.net.object.binary.base64"><value>
+        AAEAAAD/////AQAAAAAAAAAMAgAAAFdTeXN0ZW0uV2luZG93cy5Gb3JtcywgVmVyc2lvbj00LjAuMC4w
+        LCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWI3N2E1YzU2MTkzNGUwODkFAQAAAB1TeXN0
+        ZW0uV2luZG93cy5Gb3Jtcy5UcmVlTm9kZQwAAAAEVGV4dAtUb29sVGlwVGV4dAROYW1lCUlzQ2hlY2tl
+        ZApJbWFnZUluZGV4CEltYWdlS2V5ElNlbGVjdGVkSW1hZ2VJbmRleBBTZWxlY3RlZEltYWdlS2V5CkNo
+        aWxkQ291bnQJY2hpbGRyZW4wCWNoaWxkcmVuMQljaGlsZHJlbjIBAQEAAAEAAQAEBAQBCAgIHVN5c3Rl
+        bS5XaW5kb3dzLkZvcm1zLlRyZWVOb2RlAgAAAB1TeXN0ZW0uV2luZG93cy5Gb3Jtcy5UcmVlTm9kZQIA
+        AAAdU3lzdGVtLldpbmRvd3MuRm9ybXMuVHJlZU5vZGUCAAAAAgAAAAYDAAAABumAmuS/oQYEAAAAAAYF
+        AAAADkNvbm5lY3Rpb25Ob2RlAP////8JBAAAAP////8JBAAAAAMAAAAJBwAAAAkIAAAACQkAAAAFBwAA
+        AB1TeXN0ZW0uV2luZG93cy5Gb3Jtcy5UcmVlTm9kZQkAAAAEVGV4dAtUb29sVGlwVGV4dAROYW1lCUlz
+        Q2hlY2tlZApJbWFnZUluZGV4CEltYWdlS2V5ElNlbGVjdGVkSW1hZ2VJbmRleBBTZWxlY3RlZEltYWdl
+        S2V5CkNoaWxkQ291bnQBAQEAAAEAAQABCAgIAgAAAAYKAAAADOODl+ODreOCreOCtwkEAAAABgwAAAAJ
+        UHJveHlOb2RlAP////8JBAAAAP////8JBAAAAAAAAAAFCAAAAB1TeXN0ZW0uV2luZG93cy5Gb3Jtcy5U
+        cmVlTm9kZQkAAAAEVGV4dAtUb29sVGlwVGV4dAROYW1lCUlzQ2hlY2tlZApJbWFnZUluZGV4CEltYWdl
+        S2V5ElNlbGVjdGVkSW1hZ2VJbmRleBBTZWxlY3RlZEltYWdlS2V5CkNoaWxkQ291bnQBAQEAAAEAAQAB
+        CAgIAgAAAAYOAAAAEumAo+aQuuOCteODvOODk+OCuQkEAAAABhAAAAANQ29vcGVyYXRlTm9kZQD/////
+        CQQAAAD/////CQQAAAAAAAAABQkAAAAdU3lzdGVtLldpbmRvd3MuRm9ybXMuVHJlZU5vZGUJAAAABFRl
+        eHQLVG9vbFRpcFRleHQETmFtZQlJc0NoZWNrZWQKSW1hZ2VJbmRleAhJbWFnZUtleRJTZWxlY3RlZElt
+        YWdlSW5kZXgQU2VsZWN0ZWRJbWFnZUtleQpDaGlsZENvdW50AQEBAAABAAEAAQgICAIAAAAGEgAAAAnn
+        n63nuK5VUkwJBAAAAAYUAAAADFNob3J0VXJsTm9kZQD/////CQQAAAD/////CQQAAAAAAAAACw==
+</value></data>
+	<data name="TreeViewSetting.Size" type="System.Drawing.Size, System.Drawing"><value>168, 368</value></data>
+	<data name="TreeViewSetting.TabIndex" type="System.Int32, mscorlib"><value>0</value></data>
+	<data name="TreeViewSetting.ToolTip"><value /></data>
+	<data name="TweetActPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms"><value>Fill</value></data>
+	<data name="TweetActPanel.Enabled" type="System.Boolean, mscorlib"><value>False</value></data>
+	<data name="TweetActPanel.Location" type="System.Drawing.Point, System.Drawing"><value>0, 0</value></data>
+	<data name="TweetActPanel.Size" type="System.Drawing.Size, System.Drawing"><value>519, 368</value></data>
+	<data name="TweetActPanel.TabIndex" type="System.Int32, mscorlib"><value>6</value></data>
+	<data name="TweetActPanel.ToolTip"><value /></data>
+	<data name="TweetActPanel.Visible" type="System.Boolean, mscorlib"><value>False</value></data>
+	<data name="TweetPrvPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms"><value>Fill</value></data>
+	<data name="TweetPrvPanel.Enabled" type="System.Boolean, mscorlib"><value>False</value></data>
+	<data name="TweetPrvPanel.Location" type="System.Drawing.Point, System.Drawing"><value>0, 0</value></data>
+	<data name="TweetPrvPanel.Size" type="System.Drawing.Size, System.Drawing"><value>519, 368</value></data>
+	<data name="TweetPrvPanel.TabIndex" type="System.Int32, mscorlib"><value>8</value></data>
+	<data name="TweetPrvPanel.ToolTip"><value /></data>
+	<data name="TweetPrvPanel.Visible" type="System.Boolean, mscorlib"><value>False</value></data>
 </root>

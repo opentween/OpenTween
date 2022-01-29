@@ -1,1129 +1,360 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<root>
-  <!-- 
-    Microsoft ResX Schema 
-    
-    Version 2.0
-    
-    The primary goals of this format is to allow a simple XML format 
-    that is mostly human readable. The generation and parsing of the 
-    various data types are done through the TypeConverter classes 
-    associated with the data types.
-    
-    Example:
-    
-    ... ado.net/XML headers & schema ...
-    <resheader name="resmimetype">text/microsoft-resx</resheader>
-    <resheader name="version">2.0</resheader>
-    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
-    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
-    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
-    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
-    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
-        <value>[base64 mime encoded serialized .NET Framework object]</value>
-    </data>
-    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
-        <comment>This is a comment</comment>
-    </data>
-                
-    There are any number of "resheader" rows that contain simple 
-    name/value pairs.
-    
-    Each data row contains a name, and value. The row also contains a 
-    type or mimetype. Type corresponds to a .NET class that support 
-    text/value conversion through the TypeConverter architecture. 
-    Classes that don't support this are serialized and stored with the 
-    mimetype set.
-    
-    The mimetype is used for serialized objects, and tells the 
-    ResXResourceReader how to depersist the object. This is currently not 
-    extensible. For a given mimetype the value must be set accordingly:
-    
-    Note - application/x-microsoft.net.object.binary.base64 is the format 
-    that the ResXResourceWriter will generate, however the reader can 
-    read any of the formats listed below.
-    
-    mimetype: application/x-microsoft.net.object.binary.base64
-    value   : The object must be serialized with 
-            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
-            : and then encoded with base64 encoding.
-    
-    mimetype: application/x-microsoft.net.object.soap.base64
-    value   : The object must be serialized with 
-            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
-            : and then encoded with base64 encoding.
+<?xml version="1.0" encoding="utf-8"?><root xml:space="preserve">
+	<resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+	<resheader name="version"><value>2.0</value></resheader>
+	<resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+	<resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
 
-    mimetype: application/x-microsoft.net.object.bytearray.base64
-    value   : The object must be serialized into a byte array 
-            : using a System.ComponentModel.TypeConverter
-            : and then encoded with base64 encoding.
-    -->
-  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
-    <xsd:element name="root" msdata:IsDataSet="true">
-      <xsd:complexType>
-        <xsd:choice maxOccurs="unbounded">
-          <xsd:element name="metadata">
-            <xsd:complexType>
-              <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" />
-              </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string" />
-              <xsd:attribute name="type" type="xsd:string" />
-              <xsd:attribute name="mimetype" type="xsd:string" />
-              <xsd:attribute ref="xml:space" />
-            </xsd:complexType>
-          </xsd:element>
-          <xsd:element name="assembly">
-            <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string" />
-              <xsd:attribute name="name" type="xsd:string" />
-            </xsd:complexType>
-          </xsd:element>
-          <xsd:element name="data">
-            <xsd:complexType>
-              <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
-              </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-              <xsd:attribute ref="xml:space" />
-            </xsd:complexType>
-          </xsd:element>
-          <xsd:element name="resheader">
-            <xsd:complexType>
-              <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-              </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" />
-            </xsd:complexType>
-          </xsd:element>
-        </xsd:choice>
-      </xsd:complexType>
-    </xsd:element>
-  </xsd:schema>
-  <resheader name="resmimetype">
-    <value>text/microsoft-resx</value>
-  </resheader>
-  <resheader name="version">
-    <value>2.0</value>
-  </resheader>
-  <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </resheader>
-  <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </resheader>
-  <data name="AddNewTabText1" xml:space="preserve">
-    <value>(New Tab)</value>
-  </data>
-  <data name="AddNewTabText2" xml:space="preserve">
-    <value>Name</value>
-  </data>
-  <data name="AddNewTabText3" xml:space="preserve">
-    <value>Post</value>
-  </data>
-  <data name="AddNewTabText4" xml:space="preserve">
-    <value>Date</value>
-  </data>
-  <data name="AddNewTabText5" xml:space="preserve">
-    <value>Username</value>
-  </data>
-  <data name="AddTabMenuItem_ClickText1" xml:space="preserve">
-    <value>Tab ""{0}""　is already exists; please specify other name.</value>
-  </data>
-  <data name="AddTabMenuItem_ClickText2" xml:space="preserve">
-    <value>Add tab</value>
-  </data>
-  <data name="Button3_ClickText1" xml:space="preserve">
-    <value>Executable (*.exe)|*.exe|All files (*.*)|*.*</value>
-  </data>
-  <data name="Button3_ClickText2" xml:space="preserve">
-    <value>Choose the web browser</value>
-  </data>
-  <data name="ButtonDelete_ClickText1" xml:space="preserve">
-    <value>Delete this rules? {0}   『{1}』</value>
-  </data>
-  <data name="ButtonDelete_ClickText2" xml:space="preserve">
-    <value>Confirm deleting rule</value>
-  </data>
-  <data name="ButtonOK_ClickText1" xml:space="preserve">
-    <value>Choice the rule.</value>
-  </data>
-  <data name="ButtonOK_ClickText2" xml:space="preserve">
-    <value>Rule checking</value>
-  </data>
-  <data name="ButtonOK_ClickText3" xml:space="preserve">
-    <value>Invalid regular expression pattern.</value>
-  </data>
-  <data name="CheckNewVersionText1" xml:space="preserve">
-    <value>%AppName% Update Check</value>
-  </data>
-  <data name="CheckNewVersionText10" xml:space="preserve">
-    <value>Versioin check failed. Please try again later.</value>
-  </data>
-  <data name="CheckNewVersionText2" xml:space="preserve">
-    <value>%AppName% Update Check Result</value>
-  </data>
-  <data name="CheckNewVersionText3" xml:space="preserve">
-    <value>New version  {0} is available. Update?</value>
-  </data>
-  <data name="CheckNewVersionText4" xml:space="preserve">
-    <value>Downloading updater failed. Try again later.</value>
-  </data>
-  <data name="CheckNewVersionText5" xml:space="preserve">
-    <value>New version is available but download failed. Try again later.</value>
-  </data>
-  <data name="CheckNewVersionText6" xml:space="preserve">
-    <value>New version is not found. Latest version is {0}. Download it?</value>
-  </data>
-  <data name="CheckNewVersionText7" xml:space="preserve">
-    <value>Your %AppName% is latest; you don't need to update. Version: {0} Latest version: {1}</value>
-  </data>
-  <data name="CheckNewVersionText9" xml:space="preserve">
-    <value>Version check failed</value>
-  </data>
-  <data name="ClearTabMenuItem_ClickText1" xml:space="preserve">
-    <value>Delete all tweets in this tab {0} ? (posts aren't deleted from the server.)</value>
-  </data>
-  <data name="ClearTabMenuItem_ClickText2" xml:space="preserve">
-    <value>Confirm Clearing Tab</value>
-  </data>
-  <data name="ContextMenuStrip3_OpeningText1" xml:space="preserve">
-    <value>(Icon fetch failed)</value>
-  </data>
-  <data name="ContextMenuStrip3_OpeningText2" xml:space="preserve">
-    <value>(Choice the tweet)</value>
-  </data>
-  <data name="DeleteStripMenuItem_ClickText1" xml:space="preserve">
-    <value>Delete selected tweets/messages?{0}WARNING: They are deleted from server too!{0}  To remove ID from tab, select [Move ID].{0}  To remove tab, select [Delete Tab].{0}{0}To cancel operation, select [Cancel].</value>
-  </data>
-  <data name="DeleteStripMenuItem_ClickText2" xml:space="preserve">
-    <value>Check removing</value>
-  </data>
-  <data name="DeleteStripMenuItem_ClickText3" xml:space="preserve">
-    <value>Remove failed</value>
-  </data>
-  <data name="DeleteStripMenuItem_ClickText4" xml:space="preserve">
-    <value>Remove succeeded</value>
-  </data>
-  <data name="DMPeriod_ValidatingText1" xml:space="preserve">
-    <value>Fetching interval must a value in 0 or 15 to 6000.</value>
-  </data>
-  <data name="DMPeriod_ValidatingText2" xml:space="preserve">
-    <value>Fetching interval must a value in 0 or 15 to 6000.</value>
-  </data>
-  <data name="DoTabSearchText1" xml:space="preserve">
-    <value>Invalid regular expression pattern.</value>
-  </data>
-  <data name="DoTabSearchText2" xml:space="preserve">
-    <value>No matches found.</value>
-  </data>
-  <data name="DoTabSearchText3" xml:space="preserve">
-    <value>Find</value>
-  </data>
-  <data name="FavAddToolStripMenuItem_ClickText1" xml:space="preserve">
-    <value>Mark favorite those selected tweets?</value>
-  </data>
-  <data name="FavAddToolStripMenuItem_ClickText2" xml:space="preserve">
-    <value>Check favoring</value>
-  </data>
-  <data name="FavAddToolStripMenuItem_ClickText3" xml:space="preserve">
-    <value>Favoring</value>
-  </data>
-  <data name="FavAddToolStripMenuItem_ClickText4" xml:space="preserve">
-    <value>No fav added</value>
-  </data>
-  <data name="FavRemoveToolStripMenuItem_ClickText1" xml:space="preserve">
-    <value>Unmark favorite those selected tweets?</value>
-  </data>
-  <data name="FavRemoveToolStripMenuItem_ClickText2" xml:space="preserve">
-    <value>Check favoring</value>
-  </data>
-  <data name="FavRemoveToolStripMenuItem_ClickText3" xml:space="preserve">
-    <value>Unfavoring</value>
-  </data>
-  <data name="FavRemoveToolStripMenuItem_ClickText4" xml:space="preserve">
-    <value>No fav removed</value>
-  </data>
-  <data name="Form1_LoadText1" xml:space="preserve">
-    <value>Refreshing...</value>
-  </data>
-  <data name="GetTimelineWorker_RunWorkerCompletedText1" xml:space="preserve">
-    <value>Recent refreshed</value>
-  </data>
-  <data name="GetTimelineWorker_RunWorkerCompletedText10" xml:space="preserve">
-    <value>Initial fetch completed</value>
-  </data>
-  <data name="GetTimelineWorker_RunWorkerCompletedText11" xml:space="preserve">
-    <value>DMRcv refreshed</value>
-  </data>
-  <data name="GetTimelineWorker_RunWorkerCompletedText12" xml:space="preserve">
-    <value>DMSnt refreshing...</value>
-  </data>
-  <data name="GetTimelineWorker_RunWorkerCompletedText13" xml:space="preserve">
-    <value>DMSnt refreshed</value>
-  </data>
-  <data name="GetTimelineWorker_RunWorkerCompletedText14" xml:space="preserve">
-    <value>POST completed</value>
-  </data>
-  <data name="GetTimelineWorker_RunWorkerCompletedText15" xml:space="preserve">
-    <value>Mark fav({0}/{1}) failed:{2}</value>
-  </data>
-  <data name="GetTimelineWorker_RunWorkerCompletedText17" xml:space="preserve">
-    <value>Unmark fav({0}/{1}) failed:{2}</value>
-  </data>
-  <data name="GetTimelineWorker_RunWorkerCompletedText3" xml:space="preserve">
-    <value>Confirm continue reading</value>
-  </data>
-  <data name="GetTimelineWorker_RunWorkerCompletedText4" xml:space="preserve">
-    <value>Reply refreshing...{0}pages</value>
-  </data>
-  <data name="GetTimelineWorker_RunWorkerCompletedText5" xml:space="preserve">
-    <value>Recent refreshing...{0}pages</value>
-  </data>
-  <data name="GetTimelineWorker_RunWorkerCompletedText8" xml:space="preserve">
-    <value>DMRcv refreshing...{0}pages</value>
-  </data>
-  <data name="GetTimelineWorker_RunWorkerCompletedText9" xml:space="preserve">
-    <value>Reply refreshed</value>
-  </data>
-  <data name="IDRuleMenuItem_ClickText1" xml:space="preserve">
-    <value>(New Tab)</value>
-  </data>
-  <data name="IDRuleMenuItem_ClickText2" xml:space="preserve">
-    <value>Tab ""{0}""　is already exists; please specify other name.</value>
-  </data>
-  <data name="IDRuleMenuItem_ClickText3" xml:space="preserve">
-    <value>Add tab</value>
-  </data>
-  <data name="IDRuleMenuItem_ClickText4" xml:space="preserve">
-    <value>Leave in Recent?</value>
-  </data>
-  <data name="IDRuleMenuItem_ClickText5" xml:space="preserve">
-    <value>Moving</value>
-  </data>
-  <data name="IDRuleMenuItem_ClickText6" xml:space="preserve">
-    <value>Make post mark?</value>
-  </data>
-  <data name="IDRuleMenuItem_ClickText7" xml:space="preserve">
-    <value>Marking</value>
-  </data>
-  <data name="LoadConfigurationText1" xml:space="preserve">
-    <value>This configuration file was generated by %AppName% automatically. Do not modify by hand.</value>
-  </data>
-  <data name="MenuItemSearchNext_ClickText1" xml:space="preserve">
-    <value>Invalid regular expression pattern.</value>
-  </data>
-  <data name="MenuItemSearchNext_ClickText2" xml:space="preserve">
-    <value>No matches found.</value>
-  </data>
-  <data name="MenuItemSearchNext_ClickText3" xml:space="preserve">
-    <value>Find</value>
-  </data>
-  <data name="MenuItemSearchPrev_ClickText1" xml:space="preserve">
-    <value>Invalid regular expression pattern.</value>
-  </data>
-  <data name="MenuItemSearchPrev_ClickText2" xml:space="preserve">
-    <value>No matches found.</value>
-  </data>
-  <data name="MenuItemSearchPrev_ClickText3" xml:space="preserve">
-    <value>Find</value>
-  </data>
-  <data name="PostWorker_RunWorkerCompletedText4" xml:space="preserve">
-    <value>POST completed</value>
-  </data>
-  <data name="PostWorker_RunWorkerCompletedText5" xml:space="preserve">
-    <value>Recent refreshing...</value>
-  </data>
-  <data name="RefreshStripMenuItem_ClickText1" xml:space="preserve">
-    <value>Recent refreshing...</value>
-  </data>
-  <data name="RefreshStripMenuItem_ClickText2" xml:space="preserve">
-    <value>Reply refreshing...</value>
-  </data>
-  <data name="RefreshStripMenuItem_ClickText3" xml:space="preserve">
-    <value>DMRcv refreshing...</value>
-  </data>
-  <data name="RefreshTimeline_NotifyText" xml:space="preserve">
-    <value>New {0} tweets</value>
-  </data>
-  <data name="RefreshTimelineText3" xml:space="preserve">
-    <value>Load log</value>
-  </data>
-  <data name="RefreshTimelineText4" xml:space="preserve">
-    <value>Initial loading</value>
-  </data>
-  <data name="RemoveSpecifiedTabText1" xml:space="preserve">
-    <value>Remove this tab?{0}</value>
-  </data>
-  <data name="RemoveSpecifiedTabText2" xml:space="preserve">
-    <value>Confirm removing tab</value>
-  </data>
-  <data name="SaveLogMenuItem_ClickText1" xml:space="preserve">
-    <value>Save all selected tweets?{0}  [Yes]: Save all tweets{0}  [No]: Save all SELECTED tweets{0}  [Cancel]: Cancel to save.{0}(Save as Tab-Separated-Text)</value>
-  </data>
-  <data name="SaveLogMenuItem_ClickText2" xml:space="preserve">
-    <value>Select save target</value>
-  </data>
-  <data name="SaveLogMenuItem_ClickText3" xml:space="preserve">
-    <value>TSV files (*.tsv)|*.tsv|All files (*.*)|*.*</value>
-  </data>
-  <data name="SaveLogMenuItem_ClickText4" xml:space="preserve">
-    <value>Specify save as...</value>
-  </data>
-  <data name="Save_ClickText1" xml:space="preserve">
-    <value>Specify username and password.</value>
-  </data>
-  <data name="Save_ClickText2" xml:space="preserve">
-    <value>Invalid username (E-mail address is not allowed in username)</value>
-  </data>
-  <data name="Save_ClickText3" xml:space="preserve">
-    <value>Invalid setting value.</value>
-  </data>
-  <data name="SearchItem1Url" xml:space="preserve">
-    <value>https://en.wikipedia.org/w/index.php?search={0}</value>
-  </data>
-  <data name="SearchItem2Url" xml:space="preserve">
-    <value>https://www.google.com/search?q={0}</value>
-  </data>
-  <data name="SearchItem4Url" xml:space="preserve">
-    <value>https://twitter.com/search?q={0}</value>
-  </data>
-  <data name="SetFiltersText1" xml:space="preserve">
-    <value>[User: {0}]  </value>
-  </data>
-  <data name="SetFiltersText10" xml:space="preserve">
-    <value>Make post mark</value>
-  </data>
-  <data name="SetFiltersText11" xml:space="preserve">
-    <value>Copy/</value>
-  </data>
-  <data name="SetFiltersText2" xml:space="preserve">
-    <value>[User: (All)] </value>
-  </data>
-  <data name="SetFiltersText3" xml:space="preserve">
-    <value>[Body: </value>
-  </data>
-  <data name="SetFiltersText4" xml:space="preserve">
-    <value>]  </value>
-  </data>
-  <data name="SetFiltersText5" xml:space="preserve">
-    <value>Complex/</value>
-  </data>
-  <data name="SetFiltersText6" xml:space="preserve">
-    <value>Simple/</value>
-  </data>
-  <data name="SetFiltersText7" xml:space="preserve">
-    <value>Regexp/</value>
-  </data>
-  <data name="SetFiltersText8" xml:space="preserve">
-    <value>URL/</value>
-  </data>
-  <data name="SetFiltersText9" xml:space="preserve">
-    <value>Move</value>
-  </data>
-  <data name="SetMainWindowTitleText1" xml:space="preserve">
-    <value>{0} (Not Read Reply)</value>
-  </data>
-  <data name="SetMainWindowTitleText2" xml:space="preserve">
-    <value>{0} (Not Read)</value>
-  </data>
-  <data name="SetMainWindowTitleText3" xml:space="preserve">
-    <value>{0} ({1}) (Reply)</value>
-  </data>
-  <data name="SetMainWindowTitleText4" xml:space="preserve">
-    <value>{0}/{1} (Not Read/All)</value>
-  </data>
-  <data name="SetStatusLabelText1" xml:space="preserve">
-    <value>[Tab: {0}/{1} All: {2}/{3} (Reply: {4})] [Spd: Pst {5}/ Fav {6}/ TL {7}] [Interval: </value>
-  </data>
-  <data name="SetStatusLabelText2" xml:space="preserve">
-    <value>-]</value>
-  </data>
-  <data name="SetStatusLabelText3" xml:space="preserve">
-    <value>]</value>
-  </data>
-  <data name="StartupReadDM_ValidatingText1" xml:space="preserve">
-    <value>Reading page number must be number 1 to 999.</value>
-  </data>
-  <data name="StartupReadDM_ValidatingText2" xml:space="preserve">
-    <value>Reading page number must be number 1 to 999.</value>
-  </data>
-  <data name="StartupReadPages_ValidatingText1" xml:space="preserve">
-    <value>Reading page number must be number 1 to 999.</value>
-  </data>
-  <data name="StartupReadPages_ValidatingText2" xml:space="preserve">
-    <value>Reading page number must be number 1 to 999.</value>
-  </data>
-  <data name="StartupReadReply_ValidatingText1" xml:space="preserve">
-    <value>Reading page number must be number 1 to 999.</value>
-  </data>
-  <data name="StartupReadReply_ValidatingText2" xml:space="preserve">
-    <value>Reading page number must be number 1 to 999.</value>
-  </data>
-  <data name="StartupText1" xml:space="preserve">
-    <value>%AppName% is already running. If you want to run multiple %AppName% processes, change the path to settings location by the /configDir:&lt;dirpath&gt; option or run the {0}.exe from another folder.</value>
-  </data>
-  <data name="StartupText2" xml:space="preserve">
-    <value>%AppName%</value>
-  </data>
-  <data name="TabMenuItem_ClickText1" xml:space="preserve">
-    <value>(New Tab)</value>
-  </data>
-  <data name="TabMenuItem_ClickText2" xml:space="preserve">
-    <value>Tab ""{0}""　is already exists; please specify other name.</value>
-  </data>
-  <data name="TabMenuItem_ClickText3" xml:space="preserve">
-    <value>Add tab</value>
-  </data>
-  <data name="TextProxyPort_ValidatingText1" xml:space="preserve">
-    <value>Port number must be integer number.</value>
-  </data>
-  <data name="TextProxyPort_ValidatingText2" xml:space="preserve">
-    <value>Port number must be number 0 to 65535.</value>
-  </data>
-  <data name="TimelinePeriod_ValidatingText1" xml:space="preserve">
-    <value>Refresh interval must be number 0 or 15 to 6000</value>
-  </data>
-  <data name="TimelinePeriod_ValidatingText2" xml:space="preserve">
-    <value>Refresh interval must be number 0 or 15 to 6000</value>
-  </data>
-  <data name="TimerDM_TickText1" xml:space="preserve">
-    <value>DMRcv refreshing...</value>
-  </data>
-  <data name="TimerTimeline_TickText1" xml:space="preserve">
-    <value>Recent refreshing...</value>
-  </data>
-  <data name="TraceOutText1" xml:space="preserve">
-    <value>Please send this file to {0}.</value>
-  </data>
-  <data name="TraceOutText2" xml:space="preserve">
-    <value>Please tweet to {0} in Twitter if you can.</value>
-  </data>
-  <data name="TraceOutText3" xml:space="preserve">
-    <value>Environment:</value>
-  </data>
-  <data name="TraceOutText4" xml:space="preserve">
-    <value>   Operating System: {0}</value>
-  </data>
-  <data name="TraceOutText5" xml:space="preserve">
-    <value>   Common Language Runtime: {0}</value>
-  </data>
-  <data name="TraceOutText6" xml:space="preserve">
-    <value>   {0}.exe Version: {1}</value>
-  </data>
-  <data name="TweenAboutBox_LoadText2" xml:space="preserve">
-    <value>Version {0}</value>
-  </data>
-  <data name="UnhandledExceptionText1" xml:space="preserve">
-    <value>**** Error Log: {0} ****</value>
-  </data>
-  <data name="UnhandledExceptionText10" xml:space="preserve">
-    <value>Error</value>
-  </data>
-  <data name="UnhandledExceptionText2" xml:space="preserve">
-    <value>Please send this file to {0}.</value>
-  </data>
-  <data name="UnhandledExceptionText3" xml:space="preserve">
-    <value>Please tweet to {0} in Twitter if you can.</value>
-  </data>
-  <data name="UnhandledExceptionText4" xml:space="preserve">
-    <value>Environment:</value>
-  </data>
-  <data name="UnhandledExceptionText5" xml:space="preserve">
-    <value>Operating System: {0}</value>
-  </data>
-  <data name="UnhandledExceptionText6" xml:space="preserve">
-    <value>Common Language Runtime: {0}</value>
-  </data>
-  <data name="UnhandledExceptionText7" xml:space="preserve">
-    <value>{0}.exe Version: {1}</value>
-  </data>
-  <data name="UnhandledExceptionText8" xml:space="preserve">
-    <value>Exception {0}: {1}</value>
-  </data>
-  <data name="UnhandledExceptionText9" xml:space="preserve">
-    <value>We are sorry but error was happened. A log text was created as {0} in same folder of %AppName%. Please send this to {1} or{3}tweet to {2} in Twitter.{3}[OK] to open log file. [Cancel] to continue.</value>
-  </data>
-  <data name="UpdateFollowersMenuItem1_ClickText1" xml:space="preserve">
-    <value>Followers refreshing...</value>
-  </data>
-  <data name="UpdateFollowersMenuItem1_ClickText2" xml:space="preserve">
-    <value>Followers refresh error: </value>
-  </data>
-  <data name="UpdateFollowersMenuItem1_ClickText3" xml:space="preserve">
-    <value>Followers refreshed</value>
-  </data>
-  <data name="TextCountApi_Validating1" xml:space="preserve">
-    <value>Getting number of tweet in Api-mode must be 20 to 200.</value>
-  </data>
-  <data name="AddNewTabText4_2" xml:space="preserve">
-    <value>Date</value>
-  </data>
-  <data name="Tabs_DoubleClickText1" xml:space="preserve">
-    <value>Tab ""{0}""　is already exists; please specify other name.</value>
-  </data>
-  <data name="Tabs_DoubleClickText2" xml:space="preserve">
-    <value>Rename tab</value>
-  </data>
-  <data name="UnhandledExceptionText11" xml:space="preserve">
-    <value>Administrator  authority：</value>
-  </data>
-  <data name="UnhandledExceptionText12" xml:space="preserve">
-    <value>Users  authority：</value>
-  </data>
-  <data name="GetTimelineWorker_RunWorkerCompletedText19" xml:space="preserve">
-    <value>Fav refreshing...</value>
-  </data>
-  <data name="GetTimelineWorker_RunWorkerCompletedText20" xml:space="preserve">
-    <value>Fav refreshed</value>
-  </data>
-  <data name="SetFiltersText12" xml:space="preserve">
-    <value> &lt;&lt;Exclude&gt;&gt; </value>
-  </data>
-  <data name="SetFiltersText13" xml:space="preserve">
-    <value>CaseSensitive/</value>
-  </data>
-  <data name="ApiInfo4" xml:space="preserve">
-    <value>API Information</value>
-  </data>
-  <data name="ApiInfo5" xml:space="preserve">
-    <value>* Failed to get API information. *</value>
-  </data>
-  <data name="FRMessage1" xml:space="preserve">
-    <value>Please input user ID.</value>
-  </data>
-  <data name="FRMessage2" xml:space="preserve">
-    <value>Failed : </value>
-  </data>
-  <data name="FRMessage3" xml:space="preserve">
-    <value>Done!</value>
-  </data>
-  <data name="PostLengthOverMessage1" xml:space="preserve">
-    <value>The length of the tweet exceeds the limit. Are you sure you want to force the post?</value>
-  </data>
-  <data name="PostLengthOverMessage2" xml:space="preserve">
-    <value>Tweet length exceeded</value>
-  </data>
-  <data name="RetweetQuestion1" xml:space="preserve">
-    <value>Retweet this tweet?</value>
-  </data>
-  <data name="InputTabName_Load1" xml:space="preserve">
-    <value>Filtered Timeline</value>
-  </data>
-  <data name="ShowYourProfileText1" xml:space="preserve">
-    <value>Your profile info don't taken yet. Please try again after posting the tweet.</value>
-  </data>
-  <data name="DeleteHashtagsMessage1" xml:space="preserve">
-    <value>Will you delete these selecting hashtags?</value>
-  </data>
-  <data name="GetFriendshipInfo1" xml:space="preserve">
-    <value>&gt;&gt;&gt; Following</value>
-  </data>
-  <data name="GetFriendshipInfo2" xml:space="preserve">
-    <value>&gt;&gt;&gt; NOT Following</value>
-  </data>
-  <data name="GetFriendshipInfo3" xml:space="preserve">
-    <value>&lt;&lt;&lt; Followed</value>
-  </data>
-  <data name="GetFriendshipInfo4" xml:space="preserve">
-    <value>&lt;&lt;&lt; NOT Followed</value>
-  </data>
-  <data name="GetFriendshipInfo5" xml:space="preserve">
-    <value> Relationship</value>
-  </data>
-  <data name="AuthorizeButton_Click1" xml:space="preserve">
-    <value>Authentication success</value>
-  </data>
-  <data name="AuthorizeButton_Click2" xml:space="preserve">
-    <value>Authentication failed</value>
-  </data>
-  <data name="AuthorizeButton_Click3" xml:space="preserve">
-    <value>Authenticated</value>
-  </data>
-  <data name="AuthorizeButton_Click4" xml:space="preserve">
-    <value>Not authenticated</value>
-  </data>
-  <data name="Setting_FormClosing1" xml:space="preserve">
-    <value>Press [Start Authentication] button and  [Authorize App]. Key in PIN then press [Finish] button. Will you exit application without validating your account?</value>
-  </data>
-  <data name="ShowUserInfo1" xml:space="preserve">
-    <value>User Information analyze failed.</value>
-  </data>
-  <data name="PubSearchPeriod_ValidatingText1" xml:space="preserve">
-    <value>Fetching interval must a value in 0 or 30 to 6000.</value>
-  </data>
-  <data name="PubSearchPeriod_ValidatingText2" xml:space="preserve">
-    <value>Fetching interval must a value in 0 or 30 to 6000.</value>
-  </data>
-  <data name="OwnStatusTitle" xml:space="preserve">
-    <value>Tweets: {0}  Following: {1}  Followers: {2}({3})</value>
-  </data>
-  <data name="PickPictureDialog1" xml:space="preserve">
-    <value>Select a media file to upload</value>
-  </data>
-  <data name="PostPictureConfirm1" xml:space="preserve">
-    <value>[Service: {0}]
-Do you want to upload the {1} selected media file(s)?</value>
-  </data>
-  <data name="PostPictureConfirm2" xml:space="preserve">
-    <value>Confirm to upload</value>
-  </data>
-  <data name="PostPictureWarn1" xml:space="preserve">
-    <value>Please select a service to upload the media file.</value>
-  </data>
-  <data name="PostPictureWarn2" xml:space="preserve">
-    <value>Media sharing service</value>
-  </data>
-  <data name="PostButton_Click1" xml:space="preserve">
-    <value>This tweet isn't changed. Post this tweet as Official Retweet?{0}[Yes:Official Retweet]{0}[No:resume]{0}[Cancel:abort to post]</value>
-  </data>
-  <data name="ApiInfo6" xml:space="preserve">
-    <value>Getting Api Information...</value>
-  </data>
-  <data name="ButtonBlockDestroy_ClickText1" xml:space="preserve">
-    <value> : Unblock this user?</value>
-  </data>
-  <data name="ButtonBlockDestroy_ClickText2" xml:space="preserve">
-    <value>Confirm unblock</value>
-  </data>
-  <data name="ButtonBlockDestroy_ClickText3" xml:space="preserve">
-    <value>Failed to unblock.</value>
-  </data>
-  <data name="ButtonBlockDestroy_ClickText4" xml:space="preserve">
-    <value>Unbloked.</value>
-  </data>
-  <data name="ButtonBlock_ClickText1" xml:space="preserve">
-    <value> : Block this user?</value>
-  </data>
-  <data name="ButtonBlock_ClickText2" xml:space="preserve">
-    <value>Confirm block.</value>
-  </data>
-  <data name="ButtonBlock_ClickText3" xml:space="preserve">
-    <value>Failed to block.</value>
-  </data>
-  <data name="ButtonBlock_ClickText4" xml:space="preserve">
-    <value>Success to block.</value>
-  </data>
-  <data name="ButtonOK_ClickText4" xml:space="preserve">
-    <value>Can't add duplicated rule.</value>
-  </data>
-  <data name="ButtonReportSpam_ClickText1" xml:space="preserve">
-    <value> : Report spam this user?</value>
-  </data>
-  <data name="ButtonReportSpam_ClickText2" xml:space="preserve">
-    <value>Confirm Sapm Report</value>
-  </data>
-  <data name="ButtonReportSpam_ClickText3" xml:space="preserve">
-    <value>Failed to report spam.</value>
-  </data>
-  <data name="ButtonReportSpam_ClickText4" xml:space="preserve">
-    <value>Spam reported. Please confirm the result in web.</value>
-  </data>
-  <data name="ButtonRuleCopy_ClickText1" xml:space="preserve">
-    <value>Select a tab copy to.</value>
-  </data>
-  <data name="ButtonRuleMove_ClickText1" xml:space="preserve">
-    <value>Select a tab move to.</value>
-  </data>
-  <data name="ButtonUnFollow_ClickText1" xml:space="preserve">
-    <value> : Unfollow this user?</value>
-  </data>
-  <data name="ButtonUnFollow_ClickText2" xml:space="preserve">
-    <value>Confirm unfollowing</value>
-  </data>
-  <data name="CalcApiUsingText1" xml:space="preserve">
-    <value>Now getting API informations...</value>
-  </data>
-  <data name="ChangeIconToolStripMenuItem_ClickText1" xml:space="preserve">
-    <value>Images(*.gif;*.jpg;*.jpeg;*.png)|*.gif;*.jpg;*.jpeg;*.png</value>
-  </data>
-  <data name="ChangeIconToolStripMenuItem_ClickText2" xml:space="preserve">
-    <value>The icon file size is limited under 700kb.</value>
-  </data>
-  <data name="ChangeIconToolStripMenuItem_ClickText3" xml:space="preserve">
-    <value>Now changing icon...</value>
-  </data>
-  <data name="ChangeIconToolStripMenuItem_ClickText4" xml:space="preserve">
-    <value>Caution: Please confirm the icon after next tweet, if error was occured but icon was already updated.</value>
-  </data>
-  <data name="ChangeIconToolStripMenuItem_ClickText5" xml:space="preserve">
-    <value>Success to chage icon.</value>
-  </data>
-  <data name="CmbDateTimeFormat_Validating" xml:space="preserve">
-    <value>Invalid datetime format.</value>
-  </data>
-  <data name="ConnectionTimeOut_ValidatingText1" xml:space="preserve">
-    <value>The timeout seconds must be between 10 to 120.</value>
-  </data>
-  <data name="CopyStotText1" xml:space="preserve">
-    <value>Warning: Haven't copied the tweets of protected users.</value>
-  </data>
-  <data name="CreateDateTimeFormatSampleText1" xml:space="preserve">
-    <value>Invalid datetime format.</value>
-  </data>
-  <data name="doShowUserStatusText1" xml:space="preserve">
-    <value>Now getting the profile...</value>
-  </data>
-  <data name="FollowCommandText1" xml:space="preserve">
-    <value>Following...</value>
-  </data>
-  <data name="RemoveCommandText1" xml:space="preserve">
-    <value>Unfollowing...</value>
-  </data>
-  <data name="RtCountText1" xml:space="preserve">
-    <value>time(s) retweeted.</value>
-  </data>
-  <data name="RtCountText2" xml:space="preserve">
-    <value>Failed to get retweeted count.</value>
-  </data>
-  <data name="ShowFriendshipText1" xml:space="preserve">
-    <value>Now getting relations...</value>
-  </data>
-  <data name="ShowUserInfo2" xml:space="preserve">
-    <value>Failed to get latest tweet.</value>
-  </data>
-  <data name="TabUsageTypeName_DirectMessage" xml:space="preserve">
-    <value>DirectMessage</value>
-  </data>
-  <data name="TabUsageTypeName_Favorites" xml:space="preserve">
-    <value>Favorites</value>
-  </data>
-  <data name="TabUsageTypeName_Home" xml:space="preserve">
-    <value>Timeline</value>
-  </data>
-  <data name="TabUsageTypeName_Lists" xml:space="preserve">
-    <value>Lists</value>
-  </data>
-  <data name="TabUsageTypeName_Mentions" xml:space="preserve">
-    <value>Reply</value>
-  </data>
-  <data name="TabUsageTypeName_PublicSearch" xml:space="preserve">
-    <value>PublicSearch</value>
-  </data>
-  <data name="TabUsageTypeName_UserDefined" xml:space="preserve">
-    <value>Distributed Timeline</value>
-  </data>
-  <data name="UserInfoButtonEdit_ClickText1" xml:space="preserve">
-    <value>Accept</value>
-  </data>
-  <data name="UserInfoButtonEdit_ClickText2" xml:space="preserve">
-    <value>Updating Profile...</value>
-  </data>
-  <data name="ListManageDeleteLists1" xml:space="preserve">
-    <value>Delete this Lists?</value>
-  </data>
-  <data name="ListManageDeleteUser1" xml:space="preserve">
-    <value>Remove this member from this Lists?</value>
-  </data>
-  <data name="ListManageDeleteUser2" xml:space="preserve">
-    <value>Failed to delete this member from this Lists. ({0})</value>
-  </data>
-  <data name="ListManageGetListMembersCallback1" xml:space="preserve">
-    <value>Failed to get members. ({0})</value>
-  </data>
-  <data name="ListManageOKButton1" xml:space="preserve">
-    <value>Lists name required.</value>
-  </data>
-  <data name="ListManageOKButton2" xml:space="preserve">
-    <value>Failed to update Lists informations. ({0})</value>
-  </data>
-  <data name="ListsDeleteFailed" xml:space="preserve">
-    <value>Failed to get Lists. ({0})</value>
-  </data>
-  <data name="ListsGetting" xml:space="preserve">
-    <value>Getting Lists informations. Please wait...</value>
-  </data>
-  <data name="MyLists1" xml:space="preserve">
-    <value> : Manage Lists</value>
-  </data>
-  <data name="VimeoInfoText1" xml:space="preserve">
-    <value>Title:</value>
-  </data>
-  <data name="VimeoInfoText2" xml:space="preserve">
-    <value>Posted at:</value>
-  </data>
-  <data name="VimeoInfoText3" xml:space="preserve">
-    <value>Likes:</value>
-  </data>
-  <data name="VimeoInfoText4" xml:space="preserve">
-    <value>Views:</value>
-  </data>
-  <data name="VimeoInfoText5" xml:space="preserve">
-    <value>Comments:</value>
-  </data>
-  <data name="VimeoInfoText6" xml:space="preserve">
-    <value>Length:</value>
-  </data>
-  <data name="YouTubeInfoText1" xml:space="preserve">
-    <value>Title:</value>
-  </data>
-  <data name="YouTubeInfoText2" xml:space="preserve">
-    <value>Length:</value>
-  </data>
-  <data name="YouTubeInfoText3" xml:space="preserve">
-    <value>Posted at:</value>
-  </data>
-  <data name="YouTubeInfoText4" xml:space="preserve">
-    <value>Views:</value>
-  </data>
-  <data name="FavoriteLimitCountText" xml:space="preserve">
-    <value>Adding to favorites being able to do at a time is up to {0}.</value>
-  </data>
-  <data name="TextSearchCountApi_Validating1" xml:space="preserve">
-    <value>Getting number of tweet in Api-mode must be 20 to 100.</value>
-  </data>
-  <data name="RetweetLimitText" xml:space="preserve">
-    <value>Retweet being able to do at a time is up to 15.</value>
-  </data>
-  <data name="RetweetQuestion2" xml:space="preserve">
-    <value>Retweet this tweet?</value>
-  </data>
-  <data name="FavoriteRetweetQuestionText1" xml:space="preserve">
-    <value>Mark favorite and retweet those selected tweets?</value>
-  </data>
-  <data name="FavoritesRetweetQuestionText2" xml:space="preserve">
-    <value>Mark favorite and retweet this tweet?</value>
-  </data>
-  <data name="FavoriteRetweetQuestionText3" xml:space="preserve">
-    <value>Mark favorite and retweet(unofficial) those selected tweets?</value>
-  </data>
-  <data name="GetFriendshipInfo7" xml:space="preserve">
-    <value>Really Unfollow?</value>
-  </data>
-  <data name="GetFriendshipInfo8" xml:space="preserve">
-    <value>Confirm Unfollow</value>
-  </data>
-  <data name="TabUsageTypeName_UserTimeline" xml:space="preserve">
-    <value>UserTimeline</value>
-  </data>
-  <data name="ListManageGetMoreUsers1" xml:space="preserve">
-    <value>Get members(&amp;M)</value>
-  </data>
-  <data name="ListManageGetMoreUsers2" xml:space="preserve">
-    <value>Get more(&amp;M)</value>
-  </data>
-  <data name="AuthorizeButton_Click6" xml:space="preserve">
-    <value>Failed to connect auth server.</value>
-  </data>
-  <data name="Save_ClickText4" xml:space="preserve">
-    <value>Type PIN code.</value>
-  </data>
-  <data name="Unauthorized" xml:space="preserve">
-    <value>You are not authorized.</value>
-  </data>
-  <data name="ReAuthorizeText" xml:space="preserve">
-    <value>Please do Authentication processing to get/send Direct Messages again.</value>
-  </data>
-  <data name="RegistrationEmail1" xml:space="preserve">
-    <value>Invalid Email address.</value>
-  </data>
-  <data name="RegistrationEmail2" xml:space="preserve">
-    <value>Thank you for registration!</value>
-  </data>
-  <data name="ButtonDelete_ClickText3" xml:space="preserve">
-    <value>Delete selected rules? ({0} nums)</value>
-  </data>
-  <data name="ChangeIconToolStripMenuItem_ClickText6" xml:space="preserve">
-    <value>This file type forbidden to use as icon image.</value>
-  </data>
-  <data name="Disabled" xml:space="preserve">
-    <value>Disabled</value>
-  </data>
-  <data name="Enabled" xml:space="preserve">
-    <value>Enabled</value>
-  </data>
-  <data name="GetFriendshipInfo6" xml:space="preserve">
-    <value>Faild to get relation info.</value>
-  </data>
-  <data name="IsValidLambdaExpText1" xml:space="preserve">
-    <value>Syntax Error : </value>
-  </data>
-  <data name="IsValidLambdaExpText2" xml:space="preserve">
-    <value>Lambda Expression Syntax Check</value>
-  </data>
-  <data name="NiconicoInfoText1" xml:space="preserve">
-    <value>Title:</value>
-  </data>
-  <data name="NiconicoInfoText2" xml:space="preserve">
-    <value>PlayTime:</value>
-  </data>
-  <data name="NiconicoInfoText3" xml:space="preserve">
-    <value>Posted at:</value>
-  </data>
-  <data name="NiconicoInfoText4" xml:space="preserve">
-    <value>Views:</value>
-  </data>
-  <data name="NiconicoInfoText5" xml:space="preserve">
-    <value>Comments:</value>
-  </data>
-  <data name="NiconicoInfoText6" xml:space="preserve">
-    <value>MyLists:</value>
-  </data>
-  <data name="No" xml:space="preserve">
-    <value>No</value>
-  </data>
-  <data name="RtCountMenuItem_ClickText1" xml:space="preserve">
-    <value>Get counts...</value>
-  </data>
-  <data name="SaveLogMenuItem_ClickText5" xml:space="preserve">
-    <value>Save events?{0}  [Yes]    :Save events in this tab{0}  [No]  :Save all events{0}[Cancel]:Cancel{0}(Save as Tab separated text(TSV))</value>
-  </data>
-  <data name="TranslateDefaultLanguage" xml:space="preserve">
-    <value>en</value>
-  </data>
-  <data name="TweenMain_LoadText1" xml:space="preserve">
-    <value>Failed to add tab.</value>
-  </data>
-  <data name="UpdateBlockUserText1" xml:space="preserve">
-    <value>Getting BlockIds...</value>
-  </data>
-  <data name="UpdateBlockUserText2" xml:space="preserve">
-    <value>Failed to get BlockIds: </value>
-  </data>
-  <data name="UpdateBlockUserText3" xml:space="preserve">
-    <value>Done to get BlockIds</value>
-  </data>
-  <data name="Yes" xml:space="preserve">
-    <value>Yes</value>
-  </data>
-  <data name="BrowserStartFailed" xml:space="preserve">
-    <value>Failed to start browser. Error code: {0}</value>
-  </data>
-  <data name="DeleteMenuText1" xml:space="preserve">
-    <value>&amp;Delete</value>
-  </data>
-  <data name="DeleteMenuText2" xml:space="preserve">
-    <value>Undo Retweet (&amp;D)</value>
-  </data>
-  <data name="ConfigDirectoryNotExist" xml:space="preserve">
-    <value>The configuration directory ({0}) specified by the "/configDir" option does not exist or is not accessible.</value>
-  </data>
-  <data name="OpenURL_Caption" xml:space="preserve">
-    <value>Open URL</value>
-  </data>
-  <data name="OpenURL_InputText" xml:space="preserve">
-    <value>Enter the URL of the tweet you want to open.</value>
-  </data>
-  <data name="OpenURL_InvalidFormat" xml:space="preserve">
-    <value>The input URL is not valid.</value>
-  </data>
-  <data name="OpenURL_LoadFailed" xml:space="preserve">
-    <value>Failed to load the tweet. ({0})</value>
-  </data>
-  <data name="TabNameDuplicate_Text" xml:space="preserve">
-    <value>The tab "{0}" was already exists. Please remove the tab and try again.</value>
-  </data>
-  <data name="PostPictureWarn3" xml:space="preserve">
-    <value>[Service: {0}]
+	<data name="AddNewTab_ListView_AccessibleName"><value>PostsList</value></data>
+	<data name="AddNewTabText1"><value>(New Tab)</value></data>
+	<data name="AddNewTabText2"><value>Name</value></data>
+	<data name="AddNewTabText3"><value>Post</value></data>
+	<data name="AddNewTabText4"><value>Date</value></data>
+	<data name="AddNewTabText4_2"><value>Date</value></data>
+	<data name="AddNewTabText5"><value>Username</value></data>
+	<data name="AddTabMenuItem_ClickText1"><value>Tab ""{0}""　is already exists; please specify other name.</value></data>
+	<data name="AddTabMenuItem_ClickText2"><value>Add tab</value></data>
+	<data name="ApiInfo4"><value>API Information</value></data>
+	<data name="ApiInfo5"><value>* Failed to get API information. *</value></data>
+	<data name="ApiInfo6"><value>Getting Api Information...</value></data>
+	<data name="AuthorizeButton_Click1"><value>Authentication success</value></data>
+	<data name="AuthorizeButton_Click2"><value>Authentication failed</value></data>
+	<data name="AuthorizeButton_Click3"><value>Authenticated</value></data>
+	<data name="AuthorizeButton_Click4"><value>Not authenticated</value></data>
+	<data name="AuthorizeButton_Click6"><value>Failed to connect auth server.</value></data>
+	<data name="BitlyAuthorize_ErrorText"><value>Failed to authorize. ({0})</value></data>
+	<data name="BrowserStartFailed"><value>Failed to start browser. Error code: {0}</value></data>
+	<data name="Button3_ClickText1"><value>Executable (*.exe)|*.exe|All files (*.*)|*.*</value></data>
+	<data name="Button3_ClickText2"><value>Choose the web browser</value></data>
+	<data name="ButtonBlock_ClickText1"><value> : Block this user?</value></data>
+	<data name="ButtonBlock_ClickText2"><value>Confirm block.</value></data>
+	<data name="ButtonBlock_ClickText3"><value>Failed to block.</value></data>
+	<data name="ButtonBlock_ClickText4"><value>Success to block.</value></data>
+	<data name="ButtonBlockDestroy_ClickText1"><value> : Unblock this user?</value></data>
+	<data name="ButtonBlockDestroy_ClickText2"><value>Confirm unblock</value></data>
+	<data name="ButtonBlockDestroy_ClickText3"><value>Failed to unblock.</value></data>
+	<data name="ButtonBlockDestroy_ClickText4"><value>Unbloked.</value></data>
+	<data name="ButtonDelete_ClickText1"><value>Delete this rules? {0}   『{1}』</value></data>
+	<data name="ButtonDelete_ClickText2"><value>Confirm deleting rule</value></data>
+	<data name="ButtonDelete_ClickText3"><value>Delete selected rules? ({0} nums)</value></data>
+	<data name="ButtonOK_ClickText1"><value>Choice the rule.</value></data>
+	<data name="ButtonOK_ClickText2"><value>Rule checking</value></data>
+	<data name="ButtonOK_ClickText3"><value>Invalid regular expression pattern.</value></data>
+	<data name="ButtonOK_ClickText4"><value>Can't add duplicated rule.</value></data>
+	<data name="ButtonReportSpam_ClickText1"><value> : Report spam this user?</value></data>
+	<data name="ButtonReportSpam_ClickText2"><value>Confirm Sapm Report</value></data>
+	<data name="ButtonReportSpam_ClickText3"><value>Failed to report spam.</value></data>
+	<data name="ButtonReportSpam_ClickText4"><value>Spam reported. Please confirm the result in web.</value></data>
+	<data name="ButtonRuleCopy_ClickText1"><value>Select a tab copy to.</value></data>
+	<data name="ButtonRuleMove_ClickText1"><value>Select a tab move to.</value></data>
+	<data name="ButtonUnFollow_ClickText1"><value> : Unfollow this user?</value></data>
+	<data name="ButtonUnFollow_ClickText2"><value>Confirm unfollowing</value></data>
+	<data name="CalcApiUsingText1"><value>Now getting API informations...</value></data>
+	<data name="ChangeIconToolStripMenuItem_ClickText1"><value>Images(*.gif;*.jpg;*.jpeg;*.png)|*.gif;*.jpg;*.jpeg;*.png</value></data>
+	<data name="ChangeIconToolStripMenuItem_ClickText2"><value>The icon file size is limited under 700kb.</value></data>
+	<data name="ChangeIconToolStripMenuItem_ClickText3"><value>Now changing icon...</value></data>
+	<data name="ChangeIconToolStripMenuItem_ClickText4"><value>Caution: Please confirm the icon after next tweet, if error was occured but icon was already updated.</value></data>
+	<data name="ChangeIconToolStripMenuItem_ClickText5"><value>Success to chage icon.</value></data>
+	<data name="ChangeIconToolStripMenuItem_ClickText6"><value>This file type forbidden to use as icon image.</value></data>
+	<data name="ChangeIconToolStripMenuItem_Confirm"><value>Do you really want to change icon?</value></data>
+	<data name="CheckNewVersionText1"><value>%AppName% Update Check</value></data>
+	<data name="CheckNewVersionText10"><value>Versioin check failed. Please try again later.</value></data>
+	<data name="CheckNewVersionText2"><value>%AppName% Update Check Result</value></data>
+	<data name="CheckNewVersionText3"><value>New version  {0} is available. Update?</value></data>
+	<data name="CheckNewVersionText4"><value>Downloading updater failed. Try again later.</value></data>
+	<data name="CheckNewVersionText5"><value>New version is available but download failed. Try again later.</value></data>
+	<data name="CheckNewVersionText6"><value>New version is not found. Latest version is {0}. Download it?</value></data>
+	<data name="CheckNewVersionText7"><value>Your %AppName% is latest; you don't need to update. Version: {0} Latest version: {1}</value></data>
+	<data name="CheckNewVersionText9"><value>Version check failed</value></data>
+	<data name="CheckRuntimeVersion_Error"><value>This software requires {0} or later version.</value></data>
+	<data name="ClearTabMenuItem_ClickText1"><value>Delete all tweets in this tab {0} ? (posts aren't deleted from the server.)</value></data>
+	<data name="ClearTabMenuItem_ClickText2"><value>Confirm Clearing Tab</value></data>
+	<data name="CmbDateTimeFormat_Validating"><value>Invalid datetime format.</value></data>
+	<data name="ConfigDirectoryNotExist"><value>The configuration directory ({0}) specified by the "/configDir" option does not exist or is not accessible.</value></data>
+	<data name="ConnectionTimeOut_ValidatingText1"><value>The timeout seconds must be between 10 to 120.</value></data>
+	<data name="ContextMenuStrip3_OpeningText1"><value>(Icon fetch failed)</value></data>
+	<data name="ContextMenuStrip3_OpeningText2"><value>(Choice the tweet)</value></data>
+	<data name="CopyStotText1"><value>Warning: Haven't copied the tweets of protected users.</value></data>
+	<data name="CreateDateTimeFormatSampleText1"><value>Invalid datetime format.</value></data>
+	<data name="DeleteHashtagsMessage1"><value>Will you delete these selecting hashtags?</value></data>
+	<data name="DeleteMenuText1"><value>&amp;Delete</value></data>
+	<data name="DeleteMenuText2"><value>Undo Retweet (&amp;D)</value></data>
+	<data name="DeleteStripMenuItem_ClickText1"><value>Delete selected tweets/messages?{0}WARNING: They are deleted from server too!{0}  To remove ID from tab, select [Move ID].{0}  To remove tab, select [Delete Tab].{0}{0}To cancel operation, select [Cancel].</value></data>
+	<data name="DeleteStripMenuItem_ClickText2"><value>Check removing</value></data>
+	<data name="DeleteStripMenuItem_ClickText3"><value>Remove failed</value></data>
+	<data name="DeleteStripMenuItem_ClickText4"><value>Remove succeeded</value></data>
+	<data name="DisableButtonCaption"><value>Disable</value></data>
+	<data name="Disabled"><value>Disabled</value></data>
+	<data name="DMPeriod_ValidatingText1"><value>Fetching interval must a value in 0 or 15 to 6000.</value></data>
+	<data name="DMPeriod_ValidatingText2"><value>Fetching interval must a value in 0 or 15 to 6000.</value></data>
+	<data name="doShowUserStatusText1"><value>Now getting the profile...</value></data>
+	<data name="DoTabSearchText1"><value>Invalid regular expression pattern.</value></data>
+	<data name="DoTabSearchText2"><value>No matches found.</value></data>
+	<data name="DoTabSearchText3"><value>Find</value></data>
+	<data name="EnableButtonCaption"><value>Enable</value></data>
+	<data name="Enabled"><value>Enabled</value></data>
+	<data name="FavAddToolStripMenuItem_ClickText1"><value>Mark favorite those selected tweets?</value></data>
+	<data name="FavAddToolStripMenuItem_ClickText2"><value>Check favoring</value></data>
+	<data name="FavAddToolStripMenuItem_ClickText3"><value>Favoring</value></data>
+	<data name="FavAddToolStripMenuItem_ClickText4"><value>No fav added</value></data>
+	<data name="FavoriteLimitCountText"><value>Adding to favorites being able to do at a time is up to {0}.</value></data>
+	<data name="FavoriteRetweetQuestionText1"><value>Mark favorite and retweet those selected tweets?</value></data>
+	<data name="FavoriteRetweetQuestionText3"><value>Mark favorite and retweet(unofficial) those selected tweets?</value></data>
+	<data name="FavoritesRetweetQuestionText2"><value>Mark favorite and retweet this tweet?</value></data>
+	<data name="FavRemoveToolStripMenuItem_ClickText1"><value>Unmark favorite those selected tweets?</value></data>
+	<data name="FavRemoveToolStripMenuItem_ClickText2"><value>Check favoring</value></data>
+	<data name="FavRemoveToolStripMenuItem_ClickText3"><value>Unfavoring</value></data>
+	<data name="FavRemoveToolStripMenuItem_ClickText4"><value>No fav removed</value></data>
+	<data name="FollowCommandText1"><value>Following...</value></data>
+	<data name="Form1_LoadText1"><value>Refreshing...</value></data>
+	<data name="FRMessage1"><value>Please input user ID.</value></data>
+	<data name="FRMessage2"><value>Failed : </value></data>
+	<data name="FRMessage3"><value>Done!</value></data>
+	<data name="GetFriendshipInfo1"><value>&gt;&gt;&gt; Following</value></data>
+	<data name="GetFriendshipInfo2"><value>&gt;&gt;&gt; NOT Following</value></data>
+	<data name="GetFriendshipInfo3"><value>&lt;&lt;&lt; Followed</value></data>
+	<data name="GetFriendshipInfo4"><value>&lt;&lt;&lt; NOT Followed</value></data>
+	<data name="GetFriendshipInfo5"><value> Relationship</value></data>
+	<data name="GetFriendshipInfo6"><value>Faild to get relation info.</value></data>
+	<data name="GetFriendshipInfo7"><value>Really Unfollow?</value></data>
+	<data name="GetFriendshipInfo8"><value>Confirm Unfollow</value></data>
+	<data name="GetTimelineWorker_RunWorkerCompletedText1"><value>Recent refreshed</value></data>
+	<data name="GetTimelineWorker_RunWorkerCompletedText10"><value>Initial fetch completed</value></data>
+	<data name="GetTimelineWorker_RunWorkerCompletedText11"><value>DMRcv refreshed</value></data>
+	<data name="GetTimelineWorker_RunWorkerCompletedText12"><value>DMSnt refreshing...</value></data>
+	<data name="GetTimelineWorker_RunWorkerCompletedText13"><value>DMSnt refreshed</value></data>
+	<data name="GetTimelineWorker_RunWorkerCompletedText14"><value>POST completed</value></data>
+	<data name="GetTimelineWorker_RunWorkerCompletedText15"><value>Mark fav({0}/{1}) failed:{2}</value></data>
+	<data name="GetTimelineWorker_RunWorkerCompletedText17"><value>Unmark fav({0}/{1}) failed:{2}</value></data>
+	<data name="GetTimelineWorker_RunWorkerCompletedText19"><value>Fav refreshing...</value></data>
+	<data name="GetTimelineWorker_RunWorkerCompletedText20"><value>Fav refreshed</value></data>
+	<data name="GetTimelineWorker_RunWorkerCompletedText3"><value>Confirm continue reading</value></data>
+	<data name="GetTimelineWorker_RunWorkerCompletedText4"><value>Reply refreshing...{0}pages</value></data>
+	<data name="GetTimelineWorker_RunWorkerCompletedText5"><value>Recent refreshing...{0}pages</value></data>
+	<data name="GetTimelineWorker_RunWorkerCompletedText8"><value>DMRcv refreshing...{0}pages</value></data>
+	<data name="GetTimelineWorker_RunWorkerCompletedText9"><value>Reply refreshed</value></data>
+	<data name="IDRuleMenuItem_ClickText1"><value>(New Tab)</value></data>
+	<data name="IDRuleMenuItem_ClickText2"><value>Tab ""{0}""　is already exists; please specify other name.</value></data>
+	<data name="IDRuleMenuItem_ClickText3"><value>Add tab</value></data>
+	<data name="IDRuleMenuItem_ClickText4"><value>Leave in Recent?</value></data>
+	<data name="IDRuleMenuItem_ClickText5"><value>Moving</value></data>
+	<data name="IDRuleMenuItem_ClickText6"><value>Make post mark?</value></data>
+	<data name="IDRuleMenuItem_ClickText7"><value>Marking</value></data>
+	<data name="ImageAltText"><value>[Image: {0}]</value></data>
+	<data name="InputTabName_Load1"><value>Filtered Timeline</value></data>
+	<data name="IsValidLambdaExpText1"><value>Syntax Error : </value></data>
+	<data name="IsValidLambdaExpText2"><value>Lambda Expression Syntax Check</value></data>
+	<data name="ListManageDeleteLists1"><value>Delete this Lists?</value></data>
+	<data name="ListManageDeleteUser1"><value>Remove this member from this Lists?</value></data>
+	<data name="ListManageDeleteUser2"><value>Failed to delete this member from this Lists. ({0})</value></data>
+	<data name="ListManageGetListMembersCallback1"><value>Failed to get members. ({0})</value></data>
+	<data name="ListManageGetMoreUsers1"><value>Get members(&amp;M)</value></data>
+	<data name="ListManageGetMoreUsers2"><value>Get more(&amp;M)</value></data>
+	<data name="ListManageOKButton1"><value>Lists name required.</value></data>
+	<data name="ListManageOKButton2"><value>Failed to update Lists informations. ({0})</value></data>
+	<data name="ListsDeleteFailed"><value>Failed to get Lists. ({0})</value></data>
+	<data name="ListsGetting"><value>Getting Lists informations. Please wait...</value></data>
+	<data name="LoadConfigurationText1"><value>This configuration file was generated by %AppName% automatically. Do not modify by hand.</value></data>
+	<data name="LoadingText"><value>Loading...</value></data>
+	<data name="MenuItemSearchNext_ClickText1"><value>Invalid regular expression pattern.</value></data>
+	<data name="MenuItemSearchNext_ClickText2"><value>No matches found.</value></data>
+	<data name="MenuItemSearchNext_ClickText3"><value>Find</value></data>
+	<data name="MenuItemSearchPrev_ClickText1"><value>Invalid regular expression pattern.</value></data>
+	<data name="MenuItemSearchPrev_ClickText2"><value>No matches found.</value></data>
+	<data name="MenuItemSearchPrev_ClickText3"><value>Find</value></data>
+	<data name="MuteTabName"><value>(Mute)</value></data>
+	<data name="MyLists1"><value> : Manage Lists</value></data>
+	<data name="NiconicoInfoText1"><value>Title:</value></data>
+	<data name="NiconicoInfoText2"><value>PlayTime:</value></data>
+	<data name="NiconicoInfoText3"><value>Posted at:</value></data>
+	<data name="NiconicoInfoText4"><value>Views:</value></data>
+	<data name="NiconicoInfoText5"><value>Comments:</value></data>
+	<data name="NiconicoInfoText6"><value>MyLists:</value></data>
+	<data name="No"><value>No</value></data>
+	<data name="OpenURL_Caption"><value>Open URL</value></data>
+	<data name="OpenURL_InputText"><value>Enter the URL of the tweet you want to open.</value></data>
+	<data name="OpenURL_InvalidFormat"><value>The input URL is not valid.</value></data>
+	<data name="OpenURL_LoadFailed"><value>Failed to load the tweet. ({0})</value></data>
+	<data name="OwnStatusTitle"><value>Tweets: {0}  Following: {1}  Followers: {2}({3})</value></data>
+	<data name="PickPictureDialog1"><value>Select a media file to upload</value></data>
+	<data name="PostButton_Click1"><value>This tweet isn't changed. Post this tweet as Official Retweet?{0}[Yes:Official Retweet]{0}[No:resume]{0}[Cancel:abort to post]</value></data>
+	<data name="PostConfirmText"><value>Are you sure to you want to post this text?
+{0}</value></data>
+	<data name="PostLengthOverMessage1"><value>The length of the tweet exceeds the limit. Are you sure you want to force the post?</value></data>
+	<data name="PostLengthOverMessage2"><value>Tweet length exceeded</value></data>
+	<data name="PostPictureConfirm1"><value>[Service: {0}]
+Do you want to upload the {1} selected media file(s)?</value></data>
+	<data name="PostPictureConfirm2"><value>Confirm to upload</value></data>
+	<data name="PostPictureConfirm3"><value>Do you want to paste image from clipboard?</value></data>
+	<data name="PostPictureWarn1"><value>Please select a service to upload the media file.</value></data>
+	<data name="PostPictureWarn2"><value>Media sharing service</value></data>
+	<data name="PostPictureWarn3"><value>[Service: {0}]
 "{2}" is unsupported file type. Use other service.
 
 File: {3}
-Available service: {1}</value>
-  </data>
-  <data name="PostPictureWarn4" xml:space="preserve">
-    <value>Select media</value>
-  </data>
-  <data name="PostPictureWarn5" xml:space="preserve">
-    <value>[Service: {0}]
+Available service: {1}</value></data>
+	<data name="PostPictureWarn4"><value>Select media</value></data>
+	<data name="PostPictureWarn5"><value>[Service: {0}]
 File is too large. Reduce the file size, or use other service.
 
 File: {2}
-Available service: {1}</value>
-  </data>
-  <data name="PostPictureWarn6" xml:space="preserve">
-    <value>none</value>
-  </data>
-  <data name="UpdateMuteUserIds_Error" xml:space="preserve">
-    <value>Failed to get MuteUserIds: {0}</value>
-  </data>
-  <data name="UpdateMuteUserIds_Finish" xml:space="preserve">
-    <value>Done to get MuteUserIds</value>
-  </data>
-  <data name="UpdateMuteUserIds_Start" xml:space="preserve">
-    <value>Getting MuteUserIds...</value>
-  </data>
-  <data name="CheckRuntimeVersion_Error" xml:space="preserve">
-    <value>This software requires {0} or later version.</value>
-  </data>
-  <data name="ChangeIconToolStripMenuItem_Confirm" xml:space="preserve">
-    <value>Do you really want to change icon?</value>
-  </data>
-  <data name="MuteTabName" xml:space="preserve">
-    <value>(Mute)</value>
-  </data>
-  <data name="LoadingText" xml:space="preserve">
-    <value>Loading...</value>
-  </data>
-  <data name="DisableButtonCaption" xml:space="preserve">
-    <value>Disable</value>
-  </data>
-  <data name="EnableButtonCaption" xml:space="preserve">
-    <value>Enable</value>
-  </data>
-  <data name="PostPictureConfirm3" xml:space="preserve">
-    <value>Do you want to paste image from clipboard?</value>
-  </data>
-  <data name="SearchResults_TabName" xml:space="preserve">
-    <value>Search Results</value>
-  </data>
-  <data name="StartupAuthError_Text" xml:space="preserve">
-    <value>Unable to access Twitter API.
+Available service: {1}</value></data>
+	<data name="PostPictureWarn6"><value>none</value></data>
+	<data name="PostWorker_RunWorkerCompletedText4"><value>POST completed</value></data>
+	<data name="PostWorker_RunWorkerCompletedText5"><value>Recent refreshing...</value></data>
+	<data name="PubSearchPeriod_ValidatingText1"><value>Fetching interval must a value in 0 or 30 to 6000.</value></data>
+	<data name="PubSearchPeriod_ValidatingText2"><value>Fetching interval must a value in 0 or 30 to 6000.</value></data>
+	<data name="QuoteStatus_AccessibleText"><value>[Quote @{0}: {1}]</value></data>
+	<data name="ReAuthorizeText"><value>Please do Authentication processing to get/send Direct Messages again.</value></data>
+	<data name="RefreshStripMenuItem_ClickText1"><value>Recent refreshing...</value></data>
+	<data name="RefreshStripMenuItem_ClickText2"><value>Reply refreshing...</value></data>
+	<data name="RefreshStripMenuItem_ClickText3"><value>DMRcv refreshing...</value></data>
+	<data name="RefreshTimeline_NotifyText"><value>New {0} tweets</value></data>
+	<data name="RefreshTimelineText3"><value>Load log</value></data>
+	<data name="RefreshTimelineText4"><value>Initial loading</value></data>
+	<data name="RegistrationEmail1"><value>Invalid Email address.</value></data>
+	<data name="RegistrationEmail2"><value>Thank you for registration!</value></data>
+	<data name="RemoveCommandText1"><value>Unfollowing...</value></data>
+	<data name="RemoveSpecifiedTabText1"><value>Remove this tab?{0}</value></data>
+	<data name="RemoveSpecifiedTabText2"><value>Confirm removing tab</value></data>
+	<data name="RetweetLimitText"><value>Retweet being able to do at a time is up to 15.</value></data>
+	<data name="RetweetQuestion1"><value>Retweet this tweet?</value></data>
+	<data name="RetweetQuestion2"><value>Retweet this tweet?</value></data>
+	<data name="RtCountMenuItem_ClickText1"><value>Get counts...</value></data>
+	<data name="RtCountText1"><value>time(s) retweeted.</value></data>
+	<data name="RtCountText2"><value>Failed to get retweeted count.</value></data>
+	<data name="Save_ClickText1"><value>Specify username and password.</value></data>
+	<data name="Save_ClickText2"><value>Invalid username (E-mail address is not allowed in username)</value></data>
+	<data name="Save_ClickText3"><value>Invalid setting value.</value></data>
+	<data name="Save_ClickText4"><value>Type PIN code.</value></data>
+	<data name="SaveLogMenuItem_ClickText1"><value>Save all selected tweets?{0}  [Yes]: Save all tweets{0}  [No]: Save all SELECTED tweets{0}  [Cancel]: Cancel to save.{0}(Save as Tab-Separated-Text)</value></data>
+	<data name="SaveLogMenuItem_ClickText2"><value>Select save target</value></data>
+	<data name="SaveLogMenuItem_ClickText3"><value>TSV files (*.tsv)|*.tsv|All files (*.*)|*.*</value></data>
+	<data name="SaveLogMenuItem_ClickText4"><value>Specify save as...</value></data>
+	<data name="SaveLogMenuItem_ClickText5"><value>Save events?{0}  [Yes]    :Save events in this tab{0}  [No]  :Save all events{0}[Cancel]:Cancel{0}(Save as Tab separated text(TSV))</value></data>
+	<data name="SearchItem1Url"><value>https://en.wikipedia.org/w/index.php?search={0}</value></data>
+	<data name="SearchItem2Url"><value>https://www.google.com/search?q={0}</value></data>
+	<data name="SearchItem4Url"><value>https://twitter.com/search?q={0}</value></data>
+	<data name="SearchResults_TabName"><value>Search Results</value></data>
+	<data name="SendErrorReport_DmSendCompleted"><value>Succeeded to send DM.</value></data>
+	<data name="SendErrorReport_DmSendError"><value>Failed to send DM.</value></data>
+	<data name="SetFiltersText1"><value>[User: {0}]  </value></data>
+	<data name="SetFiltersText10"><value>Make post mark</value></data>
+	<data name="SetFiltersText11"><value>Copy/</value></data>
+	<data name="SetFiltersText12"><value> &lt;&lt;Exclude&gt;&gt; </value></data>
+	<data name="SetFiltersText13"><value>CaseSensitive/</value></data>
+	<data name="SetFiltersText2"><value>[User: (All)] </value></data>
+	<data name="SetFiltersText3"><value>[Body: </value></data>
+	<data name="SetFiltersText4"><value>]  </value></data>
+	<data name="SetFiltersText5"><value>Complex/</value></data>
+	<data name="SetFiltersText6"><value>Simple/</value></data>
+	<data name="SetFiltersText7"><value>Regexp/</value></data>
+	<data name="SetFiltersText8"><value>URL/</value></data>
+	<data name="SetFiltersText9"><value>Move</value></data>
+	<data name="SetMainWindowTitleText1"><value>{0} (Not Read Reply)</value></data>
+	<data name="SetMainWindowTitleText2"><value>{0} (Not Read)</value></data>
+	<data name="SetMainWindowTitleText3"><value>{0} ({1}) (Reply)</value></data>
+	<data name="SetMainWindowTitleText4"><value>{0}/{1} (Not Read/All)</value></data>
+	<data name="SetStatusLabelText1"><value>[Tab: {0}/{1} All: {2}/{3} (Reply: {4})] [Spd: Pst {5}/ Fav {6}/ TL {7}] [Interval: </value></data>
+	<data name="SetStatusLabelText2"><value>-]</value></data>
+	<data name="SetStatusLabelText3"><value>]</value></data>
+	<data name="Setting_FormClosing1"><value>Press [Start Authentication] button and  [Authorize App]. Key in PIN then press [Finish] button. Will you exit application without validating your account?</value></data>
+	<data name="SettingPath_Relocation"><value>Failed to write settings to {0}.
+
+Existing setting files are copied to {1}.
+(The setting files in {1} will be used at next startup)</value></data>
+	<data name="ShowFriendshipText1"><value>Now getting relations...</value></data>
+	<data name="ShowUserInfo1"><value>User Information analyze failed.</value></data>
+	<data name="ShowUserInfo2"><value>Failed to get latest tweet.</value></data>
+	<data name="ShowYourProfileText1"><value>Your profile info don't taken yet. Please try again after posting the tweet.</value></data>
+	<data name="StartupAuthError_Text"><value>Unable to access Twitter API.
 [{0}]
 
  * Please confirm the network settings.
  * Please confirm whether your PC's clock is accurate.
     (It may fail to authentication when clock is delayed.)
- * Please re-add the Twitter account in the settings dialog.</value>
-  </data>
-  <data name="SendErrorReport_DmSendCompleted" xml:space="preserve">
-    <value>Succeeded to send DM.</value>
-  </data>
-  <data name="SendErrorReport_DmSendError" xml:space="preserve">
-    <value>Failed to send DM.</value>
-  </data>
-  <data name="ImageAltText" xml:space="preserve">
-    <value>[Image: {0}]</value>
-  </data>
-  <data name="AddNewTab_ListView_AccessibleName" xml:space="preserve">
-    <value>PostsList</value>
-  </data>
-  <data name="QuoteStatus_AccessibleText" xml:space="preserve">
-    <value>[Quote @{0}: {1}]</value>
-  </data>
-  <data name="StatusText_AccessibleDescription" xml:space="preserve">
-    <value>{0} characters remaining</value>
-  </data>
-  <data name="StatusUpdateFailed" xml:space="preserve">
-    <value>Failed to update status.   ---&gt;   [ {0} ]
+ * Please re-add the Twitter account in the settings dialog.</value></data>
+	<data name="StartupReadDM_ValidatingText1"><value>Reading page number must be number 1 to 999.</value></data>
+	<data name="StartupReadDM_ValidatingText2"><value>Reading page number must be number 1 to 999.</value></data>
+	<data name="StartupReadPages_ValidatingText1"><value>Reading page number must be number 1 to 999.</value></data>
+	<data name="StartupReadPages_ValidatingText2"><value>Reading page number must be number 1 to 999.</value></data>
+	<data name="StartupReadReply_ValidatingText1"><value>Reading page number must be number 1 to 999.</value></data>
+	<data name="StartupReadReply_ValidatingText2"><value>Reading page number must be number 1 to 999.</value></data>
+	<data name="StartupText1"><value>%AppName% is already running. If you want to run multiple %AppName% processes, change the path to settings location by the /configDir:&lt;dirpath&gt; option or run the {0}.exe from another folder.</value></data>
+	<data name="StartupText2"><value>%AppName%</value></data>
+	<data name="StatusText_AccessibleDescription"><value>{0} characters remaining</value></data>
+	<data name="StatusUpdateFailed"><value>Failed to update status.   ---&gt;   [ {0} ]
 "{1}"
-Do you retry to update status?</value>
-  </data>
-  <data name="SettingPath_Relocation" xml:space="preserve">
-    <value>Failed to write settings to {0}.
-
-Existing setting files are copied to {1}.
-(The setting files in {1} will be used at next startup)</value>
-  </data>
-  <data name="WarnIfRunAsAdministrator_Message" xml:space="preserve">
-    <value>It is not recommended to run {0} as administrator.
+Do you retry to update status?</value></data>
+	<data name="TabMenuItem_ClickText1"><value>(New Tab)</value></data>
+	<data name="TabMenuItem_ClickText2"><value>Tab ""{0}""　is already exists; please specify other name.</value></data>
+	<data name="TabMenuItem_ClickText3"><value>Add tab</value></data>
+	<data name="TabNameDuplicate_Text"><value>The tab "{0}" was already exists. Please remove the tab and try again.</value></data>
+	<data name="Tabs_DoubleClickText1"><value>Tab ""{0}""　is already exists; please specify other name.</value></data>
+	<data name="Tabs_DoubleClickText2"><value>Rename tab</value></data>
+	<data name="TabUsageTypeName_DirectMessage"><value>DirectMessage</value></data>
+	<data name="TabUsageTypeName_Favorites"><value>Favorites</value></data>
+	<data name="TabUsageTypeName_Home"><value>Timeline</value></data>
+	<data name="TabUsageTypeName_Lists"><value>Lists</value></data>
+	<data name="TabUsageTypeName_Mentions"><value>Reply</value></data>
+	<data name="TabUsageTypeName_PublicSearch"><value>PublicSearch</value></data>
+	<data name="TabUsageTypeName_UserDefined"><value>Distributed Timeline</value></data>
+	<data name="TabUsageTypeName_UserTimeline"><value>UserTimeline</value></data>
+	<data name="TextCountApi_Validating1"><value>Getting number of tweet in Api-mode must be 20 to 200.</value></data>
+	<data name="TextProxyPort_ValidatingText1"><value>Port number must be integer number.</value></data>
+	<data name="TextProxyPort_ValidatingText2"><value>Port number must be number 0 to 65535.</value></data>
+	<data name="TextSearchCountApi_Validating1"><value>Getting number of tweet in Api-mode must be 20 to 100.</value></data>
+	<data name="TimelinePeriod_ValidatingText1"><value>Refresh interval must be number 0 or 15 to 6000</value></data>
+	<data name="TimelinePeriod_ValidatingText2"><value>Refresh interval must be number 0 or 15 to 6000</value></data>
+	<data name="TimerDM_TickText1"><value>DMRcv refreshing...</value></data>
+	<data name="TimerTimeline_TickText1"><value>Recent refreshing...</value></data>
+	<data name="TraceOutText1"><value>Please send this file to {0}.</value></data>
+	<data name="TraceOutText2"><value>Please tweet to {0} in Twitter if you can.</value></data>
+	<data name="TraceOutText3"><value>Environment:</value></data>
+	<data name="TraceOutText4"><value>   Operating System: {0}</value></data>
+	<data name="TraceOutText5"><value>   Common Language Runtime: {0}</value></data>
+	<data name="TraceOutText6"><value>   {0}.exe Version: {1}</value></data>
+	<data name="TranslateDefaultLanguage"><value>en</value></data>
+	<data name="TweenAboutBox_LoadText2"><value>Version {0}</value></data>
+	<data name="TweenMain_LoadText1"><value>Failed to add tab.</value></data>
+	<data name="Unauthorized"><value>You are not authorized.</value></data>
+	<data name="UnhandledExceptionText1"><value>**** Error Log: {0} ****</value></data>
+	<data name="UnhandledExceptionText10"><value>Error</value></data>
+	<data name="UnhandledExceptionText11"><value>Administrator  authority：</value></data>
+	<data name="UnhandledExceptionText12"><value>Users  authority：</value></data>
+	<data name="UnhandledExceptionText2"><value>Please send this file to {0}.</value></data>
+	<data name="UnhandledExceptionText3"><value>Please tweet to {0} in Twitter if you can.</value></data>
+	<data name="UnhandledExceptionText4"><value>Environment:</value></data>
+	<data name="UnhandledExceptionText5"><value>Operating System: {0}</value></data>
+	<data name="UnhandledExceptionText6"><value>Common Language Runtime: {0}</value></data>
+	<data name="UnhandledExceptionText7"><value>{0}.exe Version: {1}</value></data>
+	<data name="UnhandledExceptionText8"><value>Exception {0}: {1}</value></data>
+	<data name="UnhandledExceptionText9"><value>We are sorry but error was happened. A log text was created as {0} in same folder of %AppName%. Please send this to {1} or{3}tweet to {2} in Twitter.{3}[OK] to open log file. [Cancel] to continue.</value></data>
+	<data name="UpdateBlockUserText1"><value>Getting BlockIds...</value></data>
+	<data name="UpdateBlockUserText2"><value>Failed to get BlockIds: </value></data>
+	<data name="UpdateBlockUserText3"><value>Done to get BlockIds</value></data>
+	<data name="UpdateFollowersMenuItem1_ClickText1"><value>Followers refreshing...</value></data>
+	<data name="UpdateFollowersMenuItem1_ClickText2"><value>Followers refresh error: </value></data>
+	<data name="UpdateFollowersMenuItem1_ClickText3"><value>Followers refreshed</value></data>
+	<data name="UpdateMuteUserIds_Error"><value>Failed to get MuteUserIds: {0}</value></data>
+	<data name="UpdateMuteUserIds_Finish"><value>Done to get MuteUserIds</value></data>
+	<data name="UpdateMuteUserIds_Start"><value>Getting MuteUserIds...</value></data>
+	<data name="UrlConvert_BitlyAuthRequired"><value>To use Bitly, you must perform the Bitly authentication in settings dialog.</value></data>
+	<data name="UserInfoButtonEdit_ClickText1"><value>Accept</value></data>
+	<data name="UserInfoButtonEdit_ClickText2"><value>Updating Profile...</value></data>
+	<data name="VimeoInfoText1"><value>Title:</value></data>
+	<data name="VimeoInfoText2"><value>Posted at:</value></data>
+	<data name="VimeoInfoText3"><value>Likes:</value></data>
+	<data name="VimeoInfoText4"><value>Views:</value></data>
+	<data name="VimeoInfoText5"><value>Comments:</value></data>
+	<data name="VimeoInfoText6"><value>Length:</value></data>
+	<data name="WarnIfRunAsAdministrator_Message"><value>It is not recommended to run {0} as administrator.
 
  * {0} does not require administrator privileges.
  * If you run as administrator, operations to post images with D&amp;D will be restricted.
- * After running, the setting files of {0} will be able to modify only from administrator.</value>
-  </data>
-  <data name="BitlyAuthorize_ErrorText" xml:space="preserve">
-    <value>Failed to authorize. ({0})</value>
-  </data>
-  <data name="UrlConvert_BitlyAuthRequired" xml:space="preserve">
-    <value>To use Bitly, you must perform the Bitly authentication in settings dialog.</value>
-  </data>
-  <data name="PostConfirmText" xml:space="preserve">
-    <value>Are you sure to you want to post this text?
-{0}</value>
-  </data>
+ * After running, the setting files of {0} will be able to modify only from administrator.</value></data>
+	<data name="Yes"><value>Yes</value></data>
+	<data name="YouTubeInfoText1"><value>Title:</value></data>
+	<data name="YouTubeInfoText2"><value>Length:</value></data>
+	<data name="YouTubeInfoText3"><value>Posted at:</value></data>
+	<data name="YouTubeInfoText4"><value>Views:</value></data>
 </root>
