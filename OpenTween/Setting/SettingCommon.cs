@@ -134,7 +134,7 @@ namespace OpenTween
         public bool OneWayLove = true;
 
         public MyCommon.NameBalloonEnum NameBalloon = MyCommon.NameBalloonEnum.NickName;
-        public bool PostCtrlEnter = false;
+        public bool PostCtrlEnter = true;
         public bool PostShiftEnter = false;
         public int CountApi = 60;
         public int CountApiReply = 40;
