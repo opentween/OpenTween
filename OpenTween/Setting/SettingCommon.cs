@@ -225,7 +225,10 @@ namespace OpenTween
         public int MapThumbnailWidth = 200;
         public int MapThumbnailZoom = 15;
         public MapProvider MapThumbnailProvider = MapProvider.OpenStreetMap;
-        public bool IsListsIncludeRts = false;
+
+        /// <summary>Listの発言取得に公式RTを含める</summary>
+        public bool IsListsIncludeRts = true;
+
         public bool TabMouseLock = false;
         public bool IsUseNotifyGrowl = false;
         public bool ForceIPv4 = false;
