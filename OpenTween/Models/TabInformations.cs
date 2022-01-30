@@ -209,6 +209,36 @@ namespace OpenTween.Models
         }
 
         /// <summary>
+        /// デフォルトのタブを追加する
+        /// </summary>
+        public void AddDefaultTabs()
+        {
+            if (this.GetTabByType<HomeTabModel>() == null)
+                this.AddTab(new HomeTabModel());
+
+            if (this.GetTabByType<MentionsTabModel>() == null)
+            {
+                var mentionsTab = new MentionsTabModel
+                {
+                    Notify = true,
+                };
+                this.AddTab(mentionsTab);
+            }
+
+            if (this.GetTabByType<DirectMessagesTabModel>() == null)
+            {
+                var dmTab = new DirectMessagesTabModel
+                {
+                    Notify = true,
+                };
+                this.AddTab(dmTab);
+            }
+
+            if (this.GetTabByType<FavoritesTabModel>() == null)
+                this.AddTab(new FavoritesTabModel());
+        }
+
+        /// <summary>
         /// 指定されたタブ名を元に、既存のタブ名との重複を避けた名前を生成します
         /// </summary>
         /// <param name="baseTabName">作成したいタブ名</param>

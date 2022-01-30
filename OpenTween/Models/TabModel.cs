@@ -45,7 +45,7 @@ namespace OpenTween.Models
 
         public bool UnreadManage { get; set; } = true;
         public bool Protected { get; set; }
-        public bool Notify { get; set; } = true;
+        public bool Notify { get; set; } = false;
         public string SoundFile { get; set; } = "";
 
         public ComparerMode SortMode { get; private set; }

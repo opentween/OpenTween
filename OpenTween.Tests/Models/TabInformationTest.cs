@@ -35,7 +35,7 @@ namespace OpenTween.Models
 
         public TabInformationTest()
         {
-            this.tabinfo = (TabInformations)Activator.CreateInstance(typeof(TabInformations), true);
+            this.tabinfo = this.CreateInstance();
 
             // TabInformation.GetInstance() で取得できるようにする
             var field = typeof(TabInformations).GetField("_instance",
@@ -48,6 +48,9 @@ namespace OpenTween.Models
             this.tabinfo.AddTab(new DirectMessagesTabModel("DM"));
             this.tabinfo.AddTab(new FavoritesTabModel("Favorites"));
         }
+
+        private TabInformations CreateInstance()
+            => (TabInformations)Activator.CreateInstance(typeof(TabInformations), true);
 
         [Fact]
         public void AddTab_Test()
@@ -104,6 +107,33 @@ namespace OpenTween.Models
         [Fact]
         public void SelectTab_NotExistTest()
             => Assert.Throws<ArgumentException>(() => this.tabinfo.SelectTab("INVALID"));
+
+        [Fact]
+        public void AddDefaultTabs_Test()
+        {
+            var tabinfo = this.CreateInstance();
+            Assert.Equal(0, tabinfo.Tabs.Count);
+
+            tabinfo.AddDefaultTabs();
+
+            Assert.Equal(4, tabinfo.Tabs.Count);
+            Assert.IsType<HomeTabModel>(tabinfo.Tabs[0]);
+            Assert.IsType<MentionsTabModel>(tabinfo.Tabs[1]);
+            Assert.IsType<DirectMessagesTabModel>(tabinfo.Tabs[2]);
+            Assert.IsType<FavoritesTabModel>(tabinfo.Tabs[3]);
+
+            var homeTab = tabinfo.HomeTab;
+            Assert.False(homeTab.Notify);
+
+            var mentionsTab = tabinfo.MentionTab;
+            Assert.True(mentionsTab.Notify);
+
+            var dmTab = tabinfo.DirectMessageTab;
+            Assert.True(dmTab.Notify);
+
+            var favsTab = tabinfo.FavoriteTab;
+            Assert.False(favsTab.Notify);
+        }
 
         [Fact]
         public void MakeTabName_Test()
@@ -483,14 +513,17 @@ namespace OpenTween.Models
         {
             var homeTab = this.tabinfo.HomeTab;
             homeTab.UnreadManage = true;
+            homeTab.Notify = true;
             homeTab.SoundFile = "home.wav";
 
             var replyTab = this.tabinfo.MentionTab;
             replyTab.UnreadManage = true;
+            replyTab.Notify = true;
             replyTab.SoundFile = "reply.wav";
 
             var dmTab = this.tabinfo.DirectMessageTab;
             dmTab.UnreadManage = true;
+            dmTab.Notify = true;
             dmTab.SoundFile = "dm.wav";
 
             // 通常ツイート
@@ -518,10 +551,12 @@ namespace OpenTween.Models
         {
             var homeTab = this.tabinfo.HomeTab;
             homeTab.UnreadManage = true;
+            homeTab.Notify = true;
             homeTab.SoundFile = "home.wav";
 
             var replyTab = this.tabinfo.MentionTab;
             replyTab.UnreadManage = true;
+            replyTab.Notify = true;
             replyTab.SoundFile = "";
 
             // 通常ツイート
