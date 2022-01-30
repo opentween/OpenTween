@@ -1,6 +1,7 @@
 ﻿更新履歴
 
 ==== Ver 2.4.4-dev(2019/xx/xx)
+ * NEW: アカウント追加時の認可URLを右クリックでコピー可能にしました
  * CHG: pic.twitter.com の画像URLのフォーマット変更に対応
  * CHG: Instagramのサムネイルを表示するURLのパターンを追加
  * CHG: YouTubeのサムネイルを表示するURLのパターンを追加 (thx @Hawklaver!)

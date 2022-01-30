@@ -27,6 +27,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
 
@@ -59,8 +60,21 @@ namespace OpenTween
 
         private async void AuthLinkLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
+            // 右クリックの場合は無視する
+            if (e.Button == MouseButtons.Right)
+                return;
+
             AuthLinkLabel.LinkVisited = true;
             await MyCommon.OpenInBrowserAsync(this, this.AuthUrl);
+        }
+
+        private void MenuItemCopyURL_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Clipboard.SetText(this.AuthUrl);
+            }
+            catch (ExternalException) { }
         }
 
         /// <summary>
