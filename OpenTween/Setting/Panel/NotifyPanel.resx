@@ -3,10 +3,119 @@
 	<resheader name="version"><value>2.0</value></resheader>
 	<resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
 	<resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+	<assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
 	<assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+	<assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
 
 	<data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing"><value>96, 96</value></data>
 	<metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"><value>True</value></metadata>
+	<data name="$this.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms"><value>0, 0, 0, 0</value></data>
 	<data name="&gt;&gt;$this.Name"><value>NotifyPanel</value></data>
 	<data name="&gt;&gt;$this.Type"><value>OpenTween.Setting.Panel.SettingPanelBase, OpenTween, Version=2.4.3.1, Culture=neutral, PublicKeyToken=null</value></data>
+	<data name="&gt;&gt;CheckBoxEnableBlinkOnReply.Name"><value>CheckBoxEnableBlinkOnReply</value></data>
+	<data name="&gt;&gt;CheckBoxEnableBlinkOnReply.Parent"><value>panel1</value></data>
+	<data name="&gt;&gt;CheckBoxEnableBlinkOnReply.Type"><value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;CheckBoxEnableBlinkOnReply.ZOrder"><value>1</value></data>
+	<data name="&gt;&gt;CheckBoxEnableNotificationSound.Name"><value>CheckBoxEnableNotificationSound</value></data>
+	<data name="&gt;&gt;CheckBoxEnableNotificationSound.Parent"><value>panel1</value></data>
+	<data name="&gt;&gt;CheckBoxEnableNotificationSound.Type"><value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;CheckBoxEnableNotificationSound.ZOrder"><value>5</value></data>
+	<data name="&gt;&gt;CheckBoxNotificationPopup.Name"><value>CheckBoxNotificationPopup</value></data>
+	<data name="&gt;&gt;CheckBoxNotificationPopup.Parent"><value>panel1</value></data>
+	<data name="&gt;&gt;CheckBoxNotificationPopup.Type"><value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;CheckBoxNotificationPopup.ZOrder"><value>0</value></data>
+	<data name="&gt;&gt;CheckBoxUseGrowlForNotification.Name"><value>CheckBoxUseGrowlForNotification</value></data>
+	<data name="&gt;&gt;CheckBoxUseGrowlForNotification.Parent"><value>panel1</value></data>
+	<data name="&gt;&gt;CheckBoxUseGrowlForNotification.Type"><value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;CheckBoxUseGrowlForNotification.ZOrder"><value>6</value></data>
+	<data name="&gt;&gt;ComboBoxNameInPopup.Name"><value>ComboBoxNameInPopup</value></data>
+	<data name="&gt;&gt;ComboBoxNameInPopup.Parent"><value>panel1</value></data>
+	<data name="&gt;&gt;ComboBoxNameInPopup.Type"><value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;ComboBoxNameInPopup.ZOrder"><value>4</value></data>
+	<data name="&gt;&gt;label1.Name"><value>label1</value></data>
+	<data name="&gt;&gt;label1.Parent"><value>panel1</value></data>
+	<data name="&gt;&gt;label1.Type"><value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;label1.ZOrder"><value>2</value></data>
+	<data name="&gt;&gt;label2.Name"><value>label2</value></data>
+	<data name="&gt;&gt;label2.Parent"><value>panel1</value></data>
+	<data name="&gt;&gt;label2.Type"><value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;label2.ZOrder"><value>7</value></data>
+	<data name="&gt;&gt;label3.Name"><value>label3</value></data>
+	<data name="&gt;&gt;label3.Parent"><value>panel1</value></data>
+	<data name="&gt;&gt;label3.Type"><value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;label3.ZOrder"><value>3</value></data>
+	<data name="&gt;&gt;panel1.Name"><value>panel1</value></data>
+	<data name="&gt;&gt;panel1.Parent"><value>$this</value></data>
+	<data name="&gt;&gt;panel1.Type"><value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;panel1.ZOrder"><value>0</value></data>
+	<data name="&gt;&gt;toolTip.Name"><value>toolTip</value></data>
+	<data name="&gt;&gt;toolTip.Type"><value>System.Windows.Forms.ToolTip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="CheckBoxEnableBlinkOnReply.AutoSize" type="System.Boolean, mscorlib"><value>True</value></data>
+	<data name="CheckBoxEnableBlinkOnReply.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms"><value>NoControl</value></data>
+	<data name="CheckBoxEnableBlinkOnReply.Location" type="System.Drawing.Point, System.Drawing"><value>20, 156</value></data>
+	<data name="CheckBoxEnableBlinkOnReply.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms"><value>0, 6, 6, 6</value></data>
+	<data name="CheckBoxEnableBlinkOnReply.Size" type="System.Drawing.Size, System.Drawing"><value>254, 16</value></data>
+	<data name="CheckBoxEnableBlinkOnReply.TabIndex" type="System.Int32, mscorlib"><value>7</value></data>
+	<data name="CheckBoxEnableBlinkOnReply.Text"><value>リプライまたはDMの新着時にウインドウを点滅する</value></data>
+	<data name="CheckBoxEnableNotificationSound.AutoSize" type="System.Boolean, mscorlib"><value>True</value></data>
+	<data name="CheckBoxEnableNotificationSound.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms"><value>NoControl</value></data>
+	<data name="CheckBoxEnableNotificationSound.Location" type="System.Drawing.Point, System.Drawing"><value>20, 102</value></data>
+	<data name="CheckBoxEnableNotificationSound.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms"><value>0, 6, 6, 6</value></data>
+	<data name="CheckBoxEnableNotificationSound.Size" type="System.Drawing.Size, System.Drawing"><value>157, 16</value></data>
+	<data name="CheckBoxEnableNotificationSound.TabIndex" type="System.Int32, mscorlib"><value>5</value></data>
+	<data name="CheckBoxEnableNotificationSound.Text"><value>新着時に通知音を再生する</value></data>
+	<data name="CheckBoxNotificationPopup.AutoSize" type="System.Boolean, mscorlib"><value>True</value></data>
+	<data name="CheckBoxNotificationPopup.Location" type="System.Drawing.Point, System.Drawing"><value>20, 20</value></data>
+	<data name="CheckBoxNotificationPopup.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms"><value>0, 6, 6, 6</value></data>
+	<data name="CheckBoxNotificationPopup.Size" type="System.Drawing.Size, System.Drawing"><value>196, 16</value></data>
+	<data name="CheckBoxNotificationPopup.TabIndex" type="System.Int32, mscorlib"><value>0</value></data>
+	<data name="CheckBoxNotificationPopup.Text"><value>新着時にポップアップ通知を表示する</value></data>
+	<data name="CheckBoxUseGrowlForNotification.AutoSize" type="System.Boolean, mscorlib"><value>True</value></data>
+	<data name="CheckBoxUseGrowlForNotification.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms"><value>NoControl</value></data>
+	<data name="CheckBoxUseGrowlForNotification.Location" type="System.Drawing.Point, System.Drawing"><value>40, 74</value></data>
+	<data name="CheckBoxUseGrowlForNotification.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms"><value>20, 6, 6, 6</value></data>
+	<data name="CheckBoxUseGrowlForNotification.Size" type="System.Drawing.Size, System.Drawing"><value>170, 16</value></data>
+	<data name="CheckBoxUseGrowlForNotification.TabIndex" type="System.Int32, mscorlib"><value>3</value></data>
+	<data name="CheckBoxUseGrowlForNotification.Text"><value>ポップアップ通知にGrowlを使用</value></data>
+	<data name="ComboBoxNameInPopup.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms"><value>Top, Right</value></data>
+	<data name="ComboBoxNameInPopup.Items"><value>なし</value></data>
+	<data name="ComboBoxNameInPopup.Items1"><value>ユーザーID</value></data>
+	<data name="ComboBoxNameInPopup.Items2"><value>ニックネーム</value></data>
+	<data name="ComboBoxNameInPopup.Location" type="System.Drawing.Point, System.Drawing"><value>299, 46</value></data>
+	<data name="ComboBoxNameInPopup.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms"><value>3, 3, 0, 3</value></data>
+	<data name="ComboBoxNameInPopup.Size" type="System.Drawing.Size, System.Drawing"><value>200, 20</value></data>
+	<data name="ComboBoxNameInPopup.TabIndex" type="System.Int32, mscorlib"><value>2</value></data>
+	<data name="label1.AutoSize" type="System.Boolean, mscorlib"><value>True</value></data>
+	<data name="label1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms"><value>NoControl</value></data>
+	<data name="label1.Location" type="System.Drawing.Point, System.Drawing"><value>40, 49</value></data>
+	<data name="label1.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms"><value>20, 7, 7, 7</value></data>
+	<data name="label1.Size" type="System.Drawing.Size, System.Drawing"><value>184, 12</value></data>
+	<data name="label1.TabIndex" type="System.Int32, mscorlib"><value>1</value></data>
+	<data name="label1.Text"><value>通知ポップアップに表示するユーザー名</value></data>
+	<data name="label2.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms"><value>Top, Right</value></data>
+	<data name="label2.AutoSize" type="System.Boolean, mscorlib"><value>True</value></data>
+	<data name="label2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms"><value>NoControl</value></data>
+	<data name="label2.Location" type="System.Drawing.Point, System.Drawing"><value>276, 75</value></data>
+	<data name="label2.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms"><value>3, 0, 0, 0</value></data>
+	<data name="label2.Size" type="System.Drawing.Size, System.Drawing"><value>223, 12</value></data>
+	<data name="label2.TabIndex" type="System.Int32, mscorlib"><value>4</value></data>
+	<data name="label2.Text"><value>※別途DLLが必要です(マウスオーバーで表示)</value></data>
+	<data name="label2.ToolTip"><value>Growl for Windowsの開発者向けに公開されている、
+Growl_NET_Connector_SDK.zipに同梱の次のDLLが必要です
+Growl.Connector.DLL
+Growl.CoreLibrary.DLL
+</value></data>
+	<data name="label3.AutoSize" type="System.Boolean, mscorlib"><value>True</value></data>
+	<data name="label3.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms"><value>NoControl</value></data>
+	<data name="label3.Location" type="System.Drawing.Point, System.Drawing"><value>40, 131</value></data>
+	<data name="label3.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms"><value>20, 7, 7, 7</value></data>
+	<data name="label3.Size" type="System.Drawing.Size, System.Drawing"><value>339, 12</value></data>
+	<data name="label3.TabIndex" type="System.Int32, mscorlib"><value>6</value></data>
+	<data name="label3.Text"><value>この項目を有効にした上で、タブごとの通知音を設定すると再生されます</value></data>
+	<data name="panel1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms"><value>Fill</value></data>
+	<data name="panel1.Location" type="System.Drawing.Point, System.Drawing"><value>0, 0</value></data>
+	<data name="panel1.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms"><value>20, 20, 20, 20</value></data>
+	<data name="panel1.Size" type="System.Drawing.Size, System.Drawing"><value>519, 368</value></data>
+	<data name="panel1.TabIndex" type="System.Int32, mscorlib"><value>0</value></data>
+	<metadata name="toolTip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"><value>17, 17</value></metadata>
 </root>

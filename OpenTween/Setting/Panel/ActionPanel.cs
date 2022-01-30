@@ -45,7 +45,6 @@ namespace OpenTween.Setting.Panel
         public void LoadConfig(SettingCommon settingCommon, SettingLocal settingLocal)
         {
             this.UReadMng.Checked = settingCommon.UnreadManage;
-            this.PlaySnd.Checked = settingCommon.PlaySound;
             this.BrowserPathText.Text = settingLocal.BrowserPath;
             this.CheckCloseToExit.Checked = settingCommon.CloseToExit;
             this.CheckMinimizeToTray.Checked = settingCommon.MinimizeToTray;
@@ -75,7 +74,6 @@ namespace OpenTween.Setting.Panel
 
         public void SaveConfig(SettingCommon settingCommon, SettingLocal settingLocal)
         {
-            settingCommon.PlaySound = this.PlaySnd.Checked;
             settingCommon.UnreadManage = this.UReadMng.Checked;
             settingLocal.BrowserPath = this.BrowserPathText.Text.Trim();
             settingCommon.CloseToExit = this.CheckCloseToExit.Checked;

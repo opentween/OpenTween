@@ -3570,6 +3570,8 @@ namespace OpenTween
                     imgazyobizinet.Enabled = SettingManager.Common.EnableImgAzyobuziNet;
                     imgazyobizinet.DisabledInDM = SettingManager.Common.ImgAzyobuziNetDisabledInDM;
 
+                    this.NewPostPopMenuItem.Checked = SettingManager.Common.NewAllPop;
+                    this.NotifyFileMenuItem.Checked = SettingManager.Common.NewAllPop;
                     this.PlaySoundMenuItem.Checked = SettingManager.Common.PlaySound;
                     this.PlaySoundFileMenuItem.Checked = SettingManager.Common.PlaySound;
                     _fntUnread = SettingManager.Local.FontUnread;

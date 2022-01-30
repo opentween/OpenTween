@@ -44,9 +44,7 @@
             this.Label57 = new System.Windows.Forms.Label();
             this.CheckFavRestrict = new System.Windows.Forms.CheckBox();
             this.Button3 = new System.Windows.Forms.Button();
-            this.PlaySnd = new System.Windows.Forms.CheckBox();
             this.chkReadOwnPost = new System.Windows.Forms.CheckBox();
-            this.Label15 = new System.Windows.Forms.Label();
             this.BrowserPathText = new System.Windows.Forms.TextBox();
             this.UReadMng = new System.Windows.Forms.CheckBox();
             this.Label44 = new System.Windows.Forms.Label();
@@ -166,24 +164,11 @@
             this.Button3.UseVisualStyleBackColor = true;
             this.Button3.Click += new System.EventHandler(this.Button3_Click);
             // 
-            // PlaySnd
-            // 
-            resources.ApplyResources(this.PlaySnd, "PlaySnd");
-            this.PlaySnd.Name = "PlaySnd";
-            this.PlaySnd.UseVisualStyleBackColor = true;
-            // 
             // chkReadOwnPost
             // 
             resources.ApplyResources(this.chkReadOwnPost, "chkReadOwnPost");
             this.chkReadOwnPost.Name = "chkReadOwnPost";
             this.chkReadOwnPost.UseVisualStyleBackColor = true;
-            // 
-            // Label15
-            // 
-            resources.ApplyResources(this.Label15, "Label15");
-            this.Label15.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.Label15.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.Label15.Name = "Label15";
             // 
             // BrowserPathText
             // 
@@ -231,9 +216,7 @@
             this.Controls.Add(this.Label57);
             this.Controls.Add(this.CheckFavRestrict);
             this.Controls.Add(this.Button3);
-            this.Controls.Add(this.PlaySnd);
             this.Controls.Add(this.chkReadOwnPost);
-            this.Controls.Add(this.Label15);
             this.Controls.Add(this.BrowserPathText);
             this.Controls.Add(this.UReadMng);
             this.Controls.Add(this.Label44);
@@ -265,9 +248,7 @@
         internal System.Windows.Forms.Label Label57;
         internal System.Windows.Forms.CheckBox CheckFavRestrict;
         internal System.Windows.Forms.Button Button3;
-        internal System.Windows.Forms.CheckBox PlaySnd;
         internal System.Windows.Forms.CheckBox chkReadOwnPost;
-        internal System.Windows.Forms.Label Label15;
         internal System.Windows.Forms.TextBox BrowserPathText;
         internal System.Windows.Forms.CheckBox UReadMng;
         internal System.Windows.Forms.Label Label44;
