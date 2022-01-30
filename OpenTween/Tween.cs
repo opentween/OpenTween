@@ -1120,23 +1120,6 @@ namespace OpenTween
             ApplyListViewIconSize(SettingManager.Common.IconSize);
 
             //<<<<<<<<タブ関連>>>>>>>
-
-            //デフォルトタブの存在チェック、ない場合には追加
-            if (this._statuses.GetTabByType<HomeTabModel>() == null)
-                this._statuses.AddTab(new HomeTabModel());
-
-            if (this._statuses.GetTabByType<MentionsTabModel>() == null)
-                this._statuses.AddTab(new MentionsTabModel());
-
-            if (this._statuses.GetTabByType<DirectMessagesTabModel>() == null)
-                this._statuses.AddTab(new DirectMessagesTabModel());
-
-            if (this._statuses.GetTabByType<FavoritesTabModel>() == null)
-                this._statuses.AddTab(new FavoritesTabModel());
-
-            if (this._statuses.MuteTab == null)
-                this._statuses.AddTab(new MuteTabModel());
-
             foreach (var tab in _statuses.Tabs)
             {
                 if (!AddNewTab(tab, startup: true))
@@ -1356,13 +1339,8 @@ namespace OpenTween
 
                 this._statuses.AddTab(tab);
             }
-            if (_statuses.Tabs.Count == 0)
-            {
-                _statuses.AddTab(new HomeTabModel());
-                _statuses.AddTab(new MentionsTabModel());
-                _statuses.AddTab(new DirectMessagesTabModel());
-                _statuses.AddTab(new FavoritesTabModel());
-            }
+
+            this._statuses.AddDefaultTabs();
         }
 
         private void TimerInterval_Changed(object sender, IntervalChangedEventArgs e)
