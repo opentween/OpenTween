@@ -271,7 +271,8 @@ namespace OpenTween
 
             var pinPageUrl = TwitterApiConnection.GetAuthorizeUri(requestToken);
 
-            var pin = AuthDialog.DoAuth(this, pinPageUrl);
+            var browserPath = this.ActionPanel.BrowserPathText.Text;
+            var pin = AuthDialog.DoAuth(this, pinPageUrl, browserPath);
             if (MyCommon.IsNullOrEmpty(pin))
                 return null; // キャンセルされた場合
 

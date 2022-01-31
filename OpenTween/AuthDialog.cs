@@ -58,6 +58,8 @@ namespace OpenTween
             set => PinTextBox.Text = value;
         }
 
+        public string? BrowserPath { get; set; }
+
         private async void AuthLinkLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             // 右クリックの場合は無視する
@@ -65,7 +67,7 @@ namespace OpenTween
                 return;
 
             AuthLinkLabel.LinkVisited = true;
-            await MyCommon.OpenInBrowserAsync(this, this.AuthUrl);
+            await MyCommon.OpenInBrowserAsync(this, this.BrowserPath, this.AuthUrl);
         }
 
         private void MenuItemCopyURL_Click(object sender, EventArgs e)
@@ -82,11 +84,13 @@ namespace OpenTween
         /// </summary>
         /// <param name="owner">親ウィンドウ</param>
         /// <param name="authUri">認証URL</param>
+        /// <param name="browserPath">Webブラウザのパス</param>
         /// <returns>PIN文字列</returns>
-        public static string? DoAuth(IWin32Window owner, Uri authUri)
+        public static string? DoAuth(IWin32Window owner, Uri authUri, string? browserPath)
         {
             using var dialog = new AuthDialog();
             dialog.AuthUrl = authUri.AbsoluteUri;
+            dialog.BrowserPath = browserPath;
 
             dialog.ShowDialog(owner);
 
