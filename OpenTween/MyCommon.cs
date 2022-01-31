@@ -52,6 +52,8 @@ using OpenTween.Api;
 using OpenTween.Models;
 using OpenTween.Setting;
 using System.Diagnostics.CodeAnalysis;
+using System.Threading.Tasks;
+using System.ComponentModel;
 
 namespace OpenTween
 {
@@ -966,5 +968,65 @@ namespace OpenTween
 
         public static bool IsNullOrEmpty([NotNullWhen(false)] string? value)
             => string.IsNullOrEmpty(value);
+
+        public static Task OpenInBrowserAsync(IWin32Window? owner, string url)
+            => MyCommon.OpenInBrowserAsync(owner, SettingManager.Local.BrowserPath, url);
+
+        public static Task OpenInBrowserAsync(IWin32Window? owner, string? browserPath, string url)
+        {
+            return Task.Run(() =>
+            {
+                try
+                {
+                    var startInfo = MyCommon.CreateBrowserProcessStartInfo(browserPath, url);
+                    Process.Start(startInfo);
+                }
+                catch (Win32Exception ex)
+                {
+                    var message = string.Format(Properties.Resources.BrowserStartFailed, ex.ErrorCode);
+                    MessageBox.Show(owner, message, ApplicationSettings.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+            });
+        }
+
+        public static ProcessStartInfo CreateBrowserProcessStartInfo(string? browserPathWithArgs, string url)
+        {
+            if (MyCommon.IsNullOrEmpty(browserPathWithArgs))
+            {
+                return new ProcessStartInfo
+                {
+                    FileName = url,
+                    UseShellExecute = true,
+                };
+            }
+
+            int quoteEnd = -1;
+            if (browserPathWithArgs.StartsWith("\"", StringComparison.Ordinal))
+                quoteEnd = browserPathWithArgs.IndexOf("\"", 1, StringComparison.Ordinal);
+
+            string browserPath, browserArgs;
+            var isQuoted = quoteEnd != -1;
+            if (isQuoted)
+            {
+                browserPath = browserPathWithArgs.Substring(1, quoteEnd - 1);
+                browserArgs = browserPathWithArgs.Substring(quoteEnd + 1).Trim();
+            }
+            else
+            {
+                browserPath = browserPathWithArgs;
+                browserArgs = "";
+            }
+
+            var quotedUrl = "\"" + url.Replace("\"", "\\\"") + "\"";
+            var args = MyCommon.IsNullOrEmpty(browserArgs) ? quotedUrl : browserArgs + " " + quotedUrl;
+
+            return new ProcessStartInfo
+            {
+                FileName = browserPath,
+                Arguments = args,
+                UseShellExecute = false,
+                
+            };
+        }
     }
 }
