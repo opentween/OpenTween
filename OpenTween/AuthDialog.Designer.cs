@@ -28,14 +28,18 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AuthDialog));
             this.label1 = new System.Windows.Forms.Label();
             this.AuthLinkLabel = new System.Windows.Forms.LinkLabel();
+            this.contextMenuLinkLabel = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.MenuItemCopyURL = new System.Windows.Forms.ToolStripMenuItem();
             this.label2 = new System.Windows.Forms.Label();
             this.PinTextBox = new System.Windows.Forms.TextBox();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.CancelBtn = new System.Windows.Forms.Button();
             this.OKBtn = new System.Windows.Forms.Button();
+            this.contextMenuLinkLabel.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -47,10 +51,24 @@
             // AuthLinkLabel
             // 
             this.AuthLinkLabel.AutoEllipsis = true;
+            this.AuthLinkLabel.ContextMenuStrip = this.contextMenuLinkLabel;
             resources.ApplyResources(this.AuthLinkLabel, "AuthLinkLabel");
             this.AuthLinkLabel.Name = "AuthLinkLabel";
             this.AuthLinkLabel.TabStop = true;
             this.AuthLinkLabel.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.AuthLinkLabel_LinkClicked);
+            // 
+            // contextMenuLinkLabel
+            // 
+            this.contextMenuLinkLabel.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.MenuItemCopyURL});
+            this.contextMenuLinkLabel.Name = "contextMenuLinkLabel";
+            resources.ApplyResources(this.contextMenuLinkLabel, "contextMenuLinkLabel");
+            // 
+            // MenuItemCopyURL
+            // 
+            this.MenuItemCopyURL.Name = "MenuItemCopyURL";
+            resources.ApplyResources(this.MenuItemCopyURL, "MenuItemCopyURL");
+            this.MenuItemCopyURL.Click += new System.EventHandler(this.MenuItemCopyURL_Click);
             // 
             // label2
             // 
@@ -99,6 +117,7 @@
             this.Name = "AuthDialog";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
+            this.contextMenuLinkLabel.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             this.ResumeLayout(false);
@@ -115,5 +134,7 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Button CancelBtn;
         private System.Windows.Forms.Button OKBtn;
+        private System.Windows.Forms.ContextMenuStrip contextMenuLinkLabel;
+        private System.Windows.Forms.ToolStripMenuItem MenuItemCopyURL;
     }
 }
