@@ -9,53 +9,63 @@
 
 	<data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing"><value>96, 96</value></data>
 	<metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"><value>True</value></metadata>
+	<data name="$this.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms"><value>0, 0, 0, 0</value></data>
 	<data name="&gt;&gt;$this.Name"><value>BasedPanel</value></data>
-	<data name="&gt;&gt;$this.Type"><value>OpenTween.Setting.Panel.SettingPanelBase, OpenTween, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null</value></data>
+	<data name="&gt;&gt;$this.Type"><value>OpenTween.Setting.Panel.SettingPanelBase, OpenTween, Version=2.4.3.1, Culture=neutral, PublicKeyToken=null</value></data>
 	<data name="&gt;&gt;AuthClearButton.Name"><value>AuthClearButton</value></data>
-	<data name="&gt;&gt;AuthClearButton.Parent"><value>$this</value></data>
+	<data name="&gt;&gt;AuthClearButton.Parent"><value>panel1</value></data>
 	<data name="&gt;&gt;AuthClearButton.Type"><value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
 	<data name="&gt;&gt;AuthClearButton.ZOrder"><value>3</value></data>
 	<data name="&gt;&gt;AuthUserCombo.Name"><value>AuthUserCombo</value></data>
-	<data name="&gt;&gt;AuthUserCombo.Parent"><value>$this</value></data>
+	<data name="&gt;&gt;AuthUserCombo.Parent"><value>panel1</value></data>
 	<data name="&gt;&gt;AuthUserCombo.Type"><value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
 	<data name="&gt;&gt;AuthUserCombo.ZOrder"><value>0</value></data>
 	<data name="&gt;&gt;CreateAccountButton.Name"><value>CreateAccountButton</value></data>
-	<data name="&gt;&gt;CreateAccountButton.Parent"><value>$this</value></data>
+	<data name="&gt;&gt;CreateAccountButton.Parent"><value>panel1</value></data>
 	<data name="&gt;&gt;CreateAccountButton.Type"><value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
 	<data name="&gt;&gt;CreateAccountButton.ZOrder"><value>1</value></data>
 	<data name="&gt;&gt;Label4.Name"><value>Label4</value></data>
-	<data name="&gt;&gt;Label4.Parent"><value>$this</value></data>
+	<data name="&gt;&gt;Label4.Parent"><value>panel1</value></data>
 	<data name="&gt;&gt;Label4.Type"><value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
 	<data name="&gt;&gt;Label4.ZOrder"><value>4</value></data>
+	<data name="&gt;&gt;panel1.Name"><value>panel1</value></data>
+	<data name="&gt;&gt;panel1.Parent"><value>$this</value></data>
+	<data name="&gt;&gt;panel1.Type"><value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;panel1.ZOrder"><value>0</value></data>
 	<data name="&gt;&gt;StartAuthButton.Name"><value>StartAuthButton</value></data>
-	<data name="&gt;&gt;StartAuthButton.Parent"><value>$this</value></data>
+	<data name="&gt;&gt;StartAuthButton.Parent"><value>panel1</value></data>
 	<data name="&gt;&gt;StartAuthButton.Type"><value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
 	<data name="&gt;&gt;StartAuthButton.ZOrder"><value>2</value></data>
 	<data name="AuthClearButton.AutoSize" type="System.Boolean, mscorlib"><value>True</value></data>
 	<data name="AuthClearButton.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms"><value>NoControl</value></data>
 	<data name="AuthClearButton.Location" type="System.Drawing.Point, System.Drawing"><value>293, 20</value></data>
 	<data name="AuthClearButton.Size" type="System.Drawing.Size, System.Drawing"><value>75, 25</value></data>
-	<data name="AuthClearButton.TabIndex" type="System.Int32, mscorlib"><value>9</value></data>
+	<data name="AuthClearButton.TabIndex" type="System.Int32, mscorlib"><value>2</value></data>
 	<data name="AuthClearButton.Text"><value>削除</value></data>
 	<data name="AuthUserCombo.Location" type="System.Drawing.Point, System.Drawing"><value>111, 22</value></data>
 	<data name="AuthUserCombo.Size" type="System.Drawing.Size, System.Drawing"><value>160, 20</value></data>
-	<data name="AuthUserCombo.TabIndex" type="System.Int32, mscorlib"><value>8</value></data>
+	<data name="AuthUserCombo.TabIndex" type="System.Int32, mscorlib"><value>1</value></data>
 	<data name="CreateAccountButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms"><value>Bottom, Right</value></data>
 	<data name="CreateAccountButton.AutoSize" type="System.Boolean, mscorlib"><value>True</value></data>
 	<data name="CreateAccountButton.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms"><value>NoControl</value></data>
 	<data name="CreateAccountButton.Location" type="System.Drawing.Point, System.Drawing"><value>310, 320</value></data>
 	<data name="CreateAccountButton.Size" type="System.Drawing.Size, System.Drawing"><value>186, 25</value></data>
-	<data name="CreateAccountButton.TabIndex" type="System.Int32, mscorlib"><value>11</value></data>
+	<data name="CreateAccountButton.TabIndex" type="System.Int32, mscorlib"><value>4</value></data>
 	<data name="CreateAccountButton.Text"><value>Twitter アカウントを作成する</value></data>
 	<data name="Label4.AutoSize" type="System.Boolean, mscorlib"><value>True</value></data>
 	<data name="Label4.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms"><value>NoControl</value></data>
 	<data name="Label4.Location" type="System.Drawing.Point, System.Drawing"><value>23, 25</value></data>
 	<data name="Label4.Size" type="System.Drawing.Size, System.Drawing"><value>49, 12</value></data>
-	<data name="Label4.TabIndex" type="System.Int32, mscorlib"><value>7</value></data>
+	<data name="Label4.TabIndex" type="System.Int32, mscorlib"><value>0</value></data>
 	<data name="Label4.Text"><value>アカウント</value></data>
+	<data name="panel1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms"><value>Fill</value></data>
+	<data name="panel1.Location" type="System.Drawing.Point, System.Drawing"><value>0, 0</value></data>
+	<data name="panel1.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms"><value>20, 20, 20, 20</value></data>
+	<data name="panel1.Size" type="System.Drawing.Size, System.Drawing"><value>519, 368</value></data>
+	<data name="panel1.TabIndex" type="System.Int32, mscorlib"><value>0</value></data>
 	<data name="StartAuthButton.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms"><value>NoControl</value></data>
 	<data name="StartAuthButton.Location" type="System.Drawing.Point, System.Drawing"><value>98, 63</value></data>
 	<data name="StartAuthButton.Size" type="System.Drawing.Size, System.Drawing"><value>321, 45</value></data>
-	<data name="StartAuthButton.TabIndex" type="System.Int32, mscorlib"><value>10</value></data>
+	<data name="StartAuthButton.TabIndex" type="System.Int32, mscorlib"><value>3</value></data>
 	<data name="StartAuthButton.Text"><value>認証開始</value></data>
 </root>

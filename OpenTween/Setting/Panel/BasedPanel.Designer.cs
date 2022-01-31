@@ -34,6 +34,8 @@
             this.StartAuthButton = new System.Windows.Forms.Button();
             this.AuthClearButton = new System.Windows.Forms.Button();
             this.Label4 = new System.Windows.Forms.Label();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // AuthUserCombo
@@ -67,18 +69,25 @@
             resources.ApplyResources(this.Label4, "Label4");
             this.Label4.Name = "Label4";
             // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.AuthUserCombo);
+            this.panel1.Controls.Add(this.CreateAccountButton);
+            this.panel1.Controls.Add(this.StartAuthButton);
+            this.panel1.Controls.Add(this.AuthClearButton);
+            this.panel1.Controls.Add(this.Label4);
+            resources.ApplyResources(this.panel1, "panel1");
+            this.panel1.Name = "panel1";
+            // 
             // BasedPanel
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-            this.Controls.Add(this.AuthUserCombo);
-            this.Controls.Add(this.CreateAccountButton);
-            this.Controls.Add(this.StartAuthButton);
-            this.Controls.Add(this.AuthClearButton);
-            this.Controls.Add(this.Label4);
+            this.Controls.Add(this.panel1);
             this.Name = "BasedPanel";
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -89,5 +98,6 @@
         internal System.Windows.Forms.Button StartAuthButton;
         internal System.Windows.Forms.Button AuthClearButton;
         internal System.Windows.Forms.Label Label4;
+        private System.Windows.Forms.Panel panel1;
     }
 }

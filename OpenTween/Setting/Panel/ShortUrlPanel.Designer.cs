@@ -77,8 +77,7 @@
             resources.GetString("ComboBoxAutoShortUrlFirst.Items1"),
             resources.GetString("ComboBoxAutoShortUrlFirst.Items2"),
             resources.GetString("ComboBoxAutoShortUrlFirst.Items3"),
-            resources.GetString("ComboBoxAutoShortUrlFirst.Items4"),
-            resources.GetString("ComboBoxAutoShortUrlFirst.Items5")});
+            resources.GetString("ComboBoxAutoShortUrlFirst.Items4")});
             resources.ApplyResources(this.ComboBoxAutoShortUrlFirst, "ComboBoxAutoShortUrlFirst");
             this.ComboBoxAutoShortUrlFirst.Name = "ComboBoxAutoShortUrlFirst";
             this.ComboBoxAutoShortUrlFirst.SelectedIndexChanged += new System.EventHandler(this.ComboBoxAutoShortUrlFirst_SelectedIndexChanged);

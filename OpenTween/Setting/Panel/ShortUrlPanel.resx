@@ -62,10 +62,9 @@
 	<data name="CheckTinyURL.Text"><value>短縮URLを解決する</value></data>
 	<data name="ComboBoxAutoShortUrlFirst.Items"><value>tinyurl</value></data>
 	<data name="ComboBoxAutoShortUrlFirst.Items1"><value>is.gd</value></data>
-	<data name="ComboBoxAutoShortUrlFirst.Items2"><value>twurl.nl</value></data>
-	<data name="ComboBoxAutoShortUrlFirst.Items3"><value>bit.ly</value></data>
-	<data name="ComboBoxAutoShortUrlFirst.Items4"><value>j.mp</value></data>
-	<data name="ComboBoxAutoShortUrlFirst.Items5"><value>ux.nu</value></data>
+	<data name="ComboBoxAutoShortUrlFirst.Items2"><value>bit.ly</value></data>
+	<data name="ComboBoxAutoShortUrlFirst.Items3"><value>j.mp</value></data>
+	<data name="ComboBoxAutoShortUrlFirst.Items4"><value>ux.nu</value></data>
 	<data name="ComboBoxAutoShortUrlFirst.Location" type="System.Drawing.Point, System.Drawing"><value>249, 98</value></data>
 	<data name="ComboBoxAutoShortUrlFirst.Size" type="System.Drawing.Size, System.Drawing"><value>246, 20</value></data>
 	<data name="ComboBoxAutoShortUrlFirst.TabIndex" type="System.Int32, mscorlib"><value>4</value></data>
