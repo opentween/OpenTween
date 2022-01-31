@@ -301,43 +301,14 @@ namespace OpenTween
             this.GetPeriodPanel.LabelPostAndGet.Visible = this.GetPeriodPanel.CheckPostAndGet.Checked;
         }
 
-        private void OpenUrl(string url)
+        private async Task OpenUrl(string url)
         {
-            var myPath = url;
-            var path = this.ActionPanel.BrowserPathText.Text;
-            try
-            {
-                if (!MyCommon.IsNullOrEmpty(path))
-                {
-                    if (path.StartsWith("\"", StringComparison.Ordinal) && path.Length > 2 && path.IndexOf("\"", 2, StringComparison.Ordinal) > -1)
-                    {
-                        var sep = path.IndexOf("\"", 2, StringComparison.Ordinal);
-                        var browserPath = path.Substring(1, sep - 1);
-                        var arg = "";
-                        if (sep < path.Length - 1)
-                        {
-                            arg = path.Substring(sep + 1);
-                        }
-                        myPath = arg + " " + myPath;
-                        System.Diagnostics.Process.Start(browserPath, myPath);
-                    }
-                    else
-                    {
-                        System.Diagnostics.Process.Start(path, myPath);
-                    }
-                }
-                else
-                {
-                    System.Diagnostics.Process.Start(myPath);
-                }
-            }
-            catch(Exception)
-            {
-            }
+            var browserPathWithArgs = this.ActionPanel.BrowserPathText.Text;
+            await MyCommon.OpenInBrowserAsync(this, browserPathWithArgs, url);
         }
 
-        private void CreateAccountButton_Click(object sender, EventArgs e)
-            => this.OpenUrl("https://twitter.com/signup");
+        private async void CreateAccountButton_Click(object sender, EventArgs e)
+            => await this.OpenUrl("https://twitter.com/signup");
 
         private void GetPeriodPanel_IntervalChanged(object sender, IntervalChangedEventArgs e)
             => this.IntervalChanged?.Invoke(sender, e);

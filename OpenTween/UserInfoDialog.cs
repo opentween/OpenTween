@@ -345,7 +345,7 @@ namespace OpenTween
             if (linkUrl == null)
                 return;
 
-            await this.mainForm.OpenUriInBrowserAsync(linkUrl);
+            await MyCommon.OpenInBrowserAsync(this, linkUrl);
         }
 
         private async void ButtonFollow_Click(object sender, EventArgs e)
@@ -450,10 +450,10 @@ namespace OpenTween
         }
 
         private async void LinkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-            => await this.mainForm.OpenUriInBrowserAsync("https://support.twitter.com/groups/31-twitter-basics/topics/111-features/articles/268350-x8a8d-x8a3c-x6e08-x307f-x30a2-x30ab-x30a6-x30f3-x30c8-x306b-x3064-x3044-x3066");
+            => await MyCommon.OpenInBrowserAsync(this, "https://support.twitter.com/groups/31-twitter-basics/topics/111-features/articles/268350-x8a8d-x8a3c-x6e08-x307f-x30a2-x30ab-x30a6-x30f3-x30c8-x306b-x3064-x3044-x3066");
 
         private async void LinkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-            => await this.mainForm.OpenUriInBrowserAsync("https://support.twitter.com/groups/31-twitter-basics/topics/107-my-profile-account-settings/articles/243055-x516c-x958b-x3001-x975e-x516c-x958b-x30a2-x30ab-x30a6-x30f3-x30c8-x306b-x3064-x3044-x3066");
+            => await MyCommon.OpenInBrowserAsync(this, "https://support.twitter.com/groups/31-twitter-basics/topics/107-my-profile-account-settings/articles/243055-x516c-x958b-x3001-x975e-x516c-x958b-x30a2-x30ab-x30a6-x30f3-x30c8-x306b-x3064-x3044-x3066");
 
         private async void ButtonSearchPosts_Click(object sender, EventArgs e)
             => await this.mainForm.AddNewTabForUserTimeline(this._displayUser.ScreenName);
@@ -463,7 +463,7 @@ namespace OpenTween
             var imageUrl = this._displayUser.ProfileImageUrlHttps;
             imageUrl = imageUrl.Remove(imageUrl.LastIndexOf("_normal", StringComparison.Ordinal), 7);
 
-            await this.mainForm.OpenUriInBrowserAsync(imageUrl);
+            await MyCommon.OpenInBrowserAsync(this, imageUrl);
         }
 
         private bool IsEditing = false;

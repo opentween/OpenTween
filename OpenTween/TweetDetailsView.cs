@@ -401,7 +401,7 @@ namespace OpenTween
                 }
 
                 var tmp = string.Format(url, Uri.EscapeDataString(_selText));
-                await this.Owner.OpenUriInBrowserAsync(tmp);
+                await MyCommon.OpenInBrowserAsync(this, tmp);
             }
         }
 
@@ -431,7 +431,7 @@ namespace OpenTween
             if (this.CurrentPost == null)
                 return;
 
-            await this.Owner.OpenUriInBrowserAsync(MyCommon.TwitterUrl + this.CurrentPost.ScreenName);
+            await MyCommon.OpenInBrowserAsync(this, MyCommon.TwitterUrl + this.CurrentPost.ScreenName);
         }
 
         private void UserPicture_MouseEnter(object sender, EventArgs e)
@@ -445,7 +445,7 @@ namespace OpenTween
             if (e.Url.AbsoluteUri != "about:blank")
             {
                 await this.ShowPostDetails(this.CurrentPost!); // 現在の発言を表示し直す (Navigated の段階ではキャンセルできない)
-                await this.Owner.OpenUriInBrowserAsync(e.Url.OriginalString);
+                await MyCommon.OpenInBrowserAsync(this, e.Url.OriginalString);
             }
         }
 
@@ -519,7 +519,7 @@ namespace OpenTween
             var sourceUri = this.CurrentPost?.SourceUri;
             if (sourceUri != null && e.Button == MouseButtons.Left)
             {
-                await this.Owner.OpenUriInBrowserAsync(sourceUri.AbsoluteUri);
+                await MyCommon.OpenInBrowserAsync(this, sourceUri.AbsoluteUri);
             }
         }
 
@@ -695,7 +695,7 @@ namespace OpenTween
             if (MyCommon.IsNullOrEmpty(imageUrl))
                 return;
 
-            await this.Owner.OpenUriInBrowserAsync(imageUrl.Remove(imageUrl.LastIndexOf("_normal", StringComparison.Ordinal), 7)); // "_normal".Length
+            await MyCommon.OpenInBrowserAsync(this, imageUrl.Remove(imageUrl.LastIndexOf("_normal", StringComparison.Ordinal), 7)); // "_normal".Length
         }
 
         private async void ReloadIconToolStripMenuItem_Click(object sender, EventArgs e)

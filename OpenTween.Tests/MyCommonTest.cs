@@ -305,5 +305,50 @@ namespace OpenTween
 
             Assert.Equal(new[] { 5, 4, 3, 2, 1, 0 }, actual);
         }
+
+        [Fact]
+        public void CreateBrowserProcessStartInfo_DefaultBrowserTest()
+        {
+            var startInfo = MyCommon.CreateBrowserProcessStartInfo(browserPathWithArgs:  null, "https://example.com/");
+            Assert.Equal("https://example.com/", startInfo.FileName);
+            Assert.Equal("", startInfo.Arguments);
+            Assert.True(startInfo.UseShellExecute);
+        }
+
+        [Fact]
+        public void CreateBrowserProcessStartInfo_BrowserPathTest()
+        {
+            var startInfo = MyCommon.CreateBrowserProcessStartInfo("C:\\browser.exe", "https://example.com/");
+            Assert.Equal("C:\\browser.exe", startInfo.FileName);
+            Assert.Equal("\"https://example.com/\"", startInfo.Arguments);
+            Assert.False(startInfo.UseShellExecute);
+        }
+
+        [Fact]
+        public void CreateBrowserProcessStartInfo_BrowserPathWithSpacesTest()
+        {
+            var startInfo = MyCommon.CreateBrowserProcessStartInfo("C:\\Program Files\\browser.exe", "https://example.com/");
+            Assert.Equal("C:\\Program Files\\browser.exe", startInfo.FileName);
+            Assert.Equal("\"https://example.com/\"", startInfo.Arguments);
+            Assert.False(startInfo.UseShellExecute);
+        }
+
+        [Fact]
+        public void CreateBrowserProcessStartInfo_QuotedBrowserPathTest()
+        {
+            var startInfo = MyCommon.CreateBrowserProcessStartInfo("\"C:\\Program Files\\browser.exe\"", "https://example.com/");
+            Assert.Equal("C:\\Program Files\\browser.exe", startInfo.FileName);
+            Assert.Equal("\"https://example.com/\"", startInfo.Arguments);
+            Assert.False(startInfo.UseShellExecute);
+        }
+
+        [Fact]
+        public void CreateBrowserProcessStartInfo_QuotedBrowserPathWithArgsTest()
+        {
+            var startInfo = MyCommon.CreateBrowserProcessStartInfo("\"C:\\Program Files\\browser.exe\" /hoge", "https://example.com/");
+            Assert.Equal("C:\\Program Files\\browser.exe", startInfo.FileName);
+            Assert.Equal("/hoge \"https://example.com/\"", startInfo.Arguments);
+            Assert.False(startInfo.UseShellExecute);
+        }
     }
 }

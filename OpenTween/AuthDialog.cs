@@ -57,18 +57,10 @@ namespace OpenTween
             set => PinTextBox.Text = value;
         }
 
-        private void AuthLinkLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private async void AuthLinkLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             AuthLinkLabel.LinkVisited = true;
-
-            try
-            {
-                System.Diagnostics.Process.Start(AuthUrl);
-            }
-            catch (Win32Exception ex)
-            {
-                MessageBox.Show(this, string.Format(Properties.Resources.BrowserStartFailed, ex.ErrorCode), this.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
+            await MyCommon.OpenInBrowserAsync(this, this.AuthUrl);
         }
 
         /// <summary>
