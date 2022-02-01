@@ -62,14 +62,20 @@ namespace OpenTween.Models
             else
                 read = startup && SettingManager.Common.Read;
 
-            progress.Report("Related refreshing...");
+            try
+            {
+                progress.Report("Related refreshing...");
 
-            await tw.GetRelatedResult(read, this)
-                .ConfigureAwait(false);
+                await tw.GetRelatedResult(read, this)
+                    .ConfigureAwait(false);
 
-            TabInformations.GetInstance().DistributePosts();
-
-            progress.Report("Related refreshed");
+                progress.Report("Related refreshed");
+            }
+            finally
+            {
+                // WebException が発生した場合も一部のツイートは読み込めている可能性があるため常に DistoributePosts を呼ぶ
+                TabInformations.GetInstance().DistributePosts();
+            }
         }
     }
 }

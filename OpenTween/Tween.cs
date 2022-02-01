@@ -2257,7 +2257,6 @@ namespace OpenTween
             {
                 this.RefreshTasktrayIcon();
                 await Task.Run(() => tab.RefreshAsync(this.tw, backward, this._initial, this.workerProgress));
-                this.RefreshTimeline();
             }
             catch (WebApiException ex)
             {
@@ -2278,6 +2277,7 @@ namespace OpenTween
             }
             finally
             {
+                this.RefreshTimeline();
                 this.workerSemaphore.Release();
             }
         }
