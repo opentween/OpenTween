@@ -120,12 +120,12 @@ namespace OpenTween
         /// <summary>
         /// Twitter API Key
         /// </summary>
-        public static readonly ApiKey TwitterConsumerKey = ApiKey.Create("%e%EGv00cec1j05bMzbfAnsug==%ApO4PjZvnhixxFDqNh5qeqUTyAIEhoDvhhTaspVVjoA=%48Wxazf5JpDdIbkG0I8nme6/weUdEmZMRqfXAmCNr+Y=");
+        public static readonly ApiKey TwitterConsumerKey = ApiKey.Create("%e%qDp/VaX9FqN86TBznspjyg==%idrCd4S0jPTfFNhqTc21XT/vADksqLIj9x7MO13O2sQ=%/Zf9x95CNa6cQTXUYcrqR+poU31lZysqmdEqorhruWo=");
 
         /// <summary>
         /// Twitter API Key Secret
         /// </summary>
-        public static readonly ApiKey TwitterConsumerSecret = ApiKey.Create("%e%p93BdDzlwbYIC5Ych/47OQ==%xYZTCYaBxzS4An3o7Qcigjp9QMtu5vi5iEAW/sNgoOoAUyuHJRPP3Ovs20ZV2fAYKxUDiu76dxLfObwI7QjSRA==%YEruRDAQdbJzO+y6kn7+U/uIyIyNra/8Ulo+L6KJcWA=");
+        public static readonly ApiKey TwitterConsumerSecret = ApiKey.Create("%e%ocBkKu4aZI5PsbboE7+Ajg==%4IlCFjqusmFPQHbcDutms/1bTOSwgxd3ah1NPCj23WUu66nGjUb5oAEMiNSv41Pb6n5utbFQrgqwJRdl3jVnfQ==%jpx+NlcN1w8UQ8kda1LgyHEmiVwl/PLGCVPotrp6pd8=");
 
         //=====================================================================
         // Foursquare
@@ -134,12 +134,12 @@ namespace OpenTween
         /// <summary>
         /// Foursquare Client Id
         /// </summary>
-        public static readonly ApiKey FoursquareClientId = ApiKey.Create("%e%zNX0U6Eul2bdpkzQgcd/WA==%koGoTYoVLvQ6T5bsnI+dJjJ+REMnlJIhTnibhI6MagmHPA5hzY6DQom+PpQxBZX2CS2fZW1Ac82HzTzb3J7gNw==%qOMdPQ3UN7IWT4jJegYQnRxorZm/zaEt7/n6fd1eFcM=");
+        public static readonly ApiKey FoursquareClientId = ApiKey.Create("%e%KyanhtUu0qXIU2AnLkvPnQ==%S/xBHNqFOxoxzvm78ELIxihdzq+Hu7iXboWQEIPztc928zVY/jJ50Qyc/ic/twGzBkdz/Mz+63wfoU/u7jDg4A==%zJDIOdYGgbQ5gJNvBqGl1ETVok7IJrBB/nXxvcUCuPA=");
 
         /// <summary>
         /// Foursquare Client Secret
         /// </summary>
-        public static readonly ApiKey FoursquareClientSecret = ApiKey.Create("%e%3Zw+G9P32WgIi1ooBeDSCg==%coygRxFBSrxMW5o4dkD64ftx0C7axFkJlceb52XqDaiQKkf8q0Szavcw+t3MsxFQTkwL3ob7mehmCSdSpJPLTA==%XTrAyfrDBzdeKGPIXTD2JFU65uZqh8fs9tyf+fLaJeY=");
+        public static readonly ApiKey FoursquareClientSecret = ApiKey.Create("%e%YZeT/G9cZ0Lub68LFU15bw==%x9LQxogt6ejhWOAV1toXn0zeDeBpV0lMEmJGRCpsIrizJNl3kDcDKWGu1CYSOXgk2hAoqm5IOBq4RAExE0Z2Qw==%yMdCK6WJo7WmvAYBIJ+qZrxAKVIPOR3nftfoXzyzlgY=");
 
         //=====================================================================
         // bit.ly
@@ -148,12 +148,12 @@ namespace OpenTween
         /// <summary>
         /// bit.ly Client ID
         /// </summary>
-        public static readonly ApiKey BitlyClientId = ApiKey.Create("%e%VtBYaO301PMy/eesjAJwuQ==%wK9fwaXlaq2wOCbJqzfwUzf4h+xAUJ445+wjI6uT3ANyag2LPJBYpfCQ3V+qnNlR%kmyyVMp8JPubACjFEd1zZMV2bddMimSj86e/ONegTeI=");
+        public static readonly ApiKey BitlyClientId = ApiKey.Create("%e%Yg3QHOAzEo189O5ujHbizA==%CnzHsBl4mUTFf2wJr9cRYd2OzDnnlLux48xhWT0hdkDz+XgGeiBCqZ/L17rGze4r%VCZDb+LcYtPviR0H1QYnRDMugrhL9MXicw3yt2jKAPA=");
 
         /// <summary>
         /// bit.ly Client Secret
         /// </summary>
-        public static readonly ApiKey BitlyClientSecret = ApiKey.Create("%e%jvdQqgh0Aj4e8HANczWELA==%FHevK6YJ/5L083pCJnUQ65bfz+sbwLZw4hUXIOw9PXRa8YnmVZ2KMwuHRRbdZUZl%1f/0LoSAuC0wyfKMhiohXNPGWY7wyQbqr2XVyKtjpFk=");
+        public static readonly ApiKey BitlyClientSecret = ApiKey.Create("%e%NOCzRjTNRC64Hx0d6e4spA==%XJjn/yAsTsmtgLMdFpjptss66DFh15nvV+Ff2omHxYk0tKyc5Wn5qFxVquAQ4Yg3%yJnMWwcs/FfTYJZ1Wg3r7m0TMogAPj85ViUXImom890=");
 
         //=====================================================================
         // TINAMI
@@ -162,7 +162,7 @@ namespace OpenTween
         /// <summary>
         /// TINAMI APIキー
         /// </summary>
-        public static readonly ApiKey TINAMIApiKey = ApiKey.Create("%e%OA+C4u5v/9Oc2xIOEKt6Ng==%xLrMgeXaYSIaW5LYEA2viA==%/0bWO/UMCYH2BRxPKvi7JCW/CXxp/JmincpFNRlvhOQ=");
+        public static readonly ApiKey TINAMIApiKey = ApiKey.Create("%e%5wz/IYAfWvY9y731F3yCIQ==%7y8i0qD9AF4DqFWjY1zn1w==%eVU155W/1sr3ZPDcuRMGTpSQyGXF4egWFto/HzBdGJ4=");
 
         //=====================================================================
         // Microsoft Translator API (Cognitive Service)
@@ -171,7 +171,7 @@ namespace OpenTween
         /// <summary>
         /// Translator Text API Subscription Key
         /// </summary>
-        public static readonly ApiKey TranslatorSubscriptionKey = ApiKey.Create("%e%ysNsopqjk7fEikJNfX3ZtQ==%ZS4Gzq9PSUzBGKabQWi5To2nVLl8R3D+i/7nj5dACFAkBvQkxmrgJCnvON9cdF/+%1bayEnkpd4gbcyTTwB9PILWdku3YS52FuHskkpIhlXQ=");
+        public static readonly ApiKey TranslatorSubscriptionKey = ApiKey.Create("%e%N0EPwqCbM0qiNX4h7VsrXQ==%uOf/IdH2RO6fTgrhrvXuJJ7IT+R44aS7ROY3aQFCqqrLHru4fZh2hJAEoAI239BY%p26g6G/ANsAf+1Xq/iLE2zuTwA4ok/zZ61SQkvqqTZ8=");
 
         //=====================================================================
         // Imgur
@@ -180,12 +180,12 @@ namespace OpenTween
         /// <summary>
         /// Imgur Client ID
         /// </summary>
-        public static readonly ApiKey ImgurClientId = ApiKey.Create("%e%YQirOk0lRw8zjhrTPlyRrQ==%ysNbeo//DruosSIzXquwiw==%126uNNTZshuw/SW9hd1ME/KCMpKSfjeboSRtQRfVQwc=");
+        public static readonly ApiKey ImgurClientId = ApiKey.Create("%e%kNnrm5hWWwTPZ9MgqF9osg==%yCbBWxtlZmzdBgR1v57+uQ==%FHJAyKZ7w4c0OWzgU86nq7p2J5trJVjOjdFSOfIArU0=");
 
         /// <summary>
         /// Imgur Client Secret
         /// </summary>
-        public static readonly ApiKey ImgurClientSecret = ApiKey.Create("%e%+IHTR8uXh2Mig6zGkawjeA==%vYQDZ+Tw5Rol4mQRC/yzXywuaNPWgoL5kLIg5VdUiCnSX5EPGQC5+QUkTzGz/fqv%+mOv8ekXLoZKe05yyXJ8Sx0cjuimoPQA30k/571wVRw=");
+        public static readonly ApiKey ImgurClientSecret = ApiKey.Create("%e%nLVIw/raU3ozrGmkfIk3Ig==%2iKGe1reB5p6VHkvrMkH1w==%lwwvuejEuy0eZZ9nS4BT1Jw7S7pkLktGPKzsfQErttw=");
 
         //=====================================================================
         // Mobypicture
@@ -194,7 +194,7 @@ namespace OpenTween
         /// <summary>
         /// Mobypicture Developer Key
         /// </summary>
-        public static readonly ApiKey MobypictureKey = ApiKey.Create("%e%1FQ6vgxHCduEDyyJ7UK1ug==%xNBXVlAgJ8XiXZ1LSgGvEL1Vk1m4EzQ+6T/yigTgRHw=%xCAlJ1gBpe8G1Us6wXZBkYGxccFvRyRhmnFM4ocuhHQ=");
+        public static readonly ApiKey MobypictureKey = ApiKey.Create("%e%G9elTyjHy18MCbUvVqHKIw==%TDUSyoO4HS5SX+t50cUlRQ5tIFDib0xjsnCKX+K/+DI=%s2qPqrxXrmi8oeQWoeigqNDbecUAqcYuv2LPRFDLwJk=");
 
         //=====================================================================
         // Tumblr
@@ -203,6 +203,6 @@ namespace OpenTween
         /// <summary>
         /// Tumblr OAuth Consumer Key
         /// </summary>
-        public static readonly ApiKey TumblrConsumerKey = ApiKey.Create("%e%1jQuOn2+l8O9i0/ld/VV5Q==%SiBRxJWj4Cbq/btPs63Rr2xOyw4XgTlV+lVkHkvIapBRkUaqGJxV7R/j5ljX+QW0ruBXNy+cpZFeEZFfB2jvSQ==%3GdYHow0pAlPQRY/wquX1AaxjzSabStRj8zbTXct1S4=");
+        public static readonly ApiKey TumblrConsumerKey = ApiKey.Create("%e%YEjYH0khBP52A9mbP6XMQQ==%V2B5KP9JJrE0A/o1+9fyq1OCnM4Ez1D8Qd3sVaeRKmvNIq8pY76pQB1R2PFMMI1nLZCCUH2PyA959490ujuvig==%GD8FiQzBOUM9lQta+1oTYs1ANE9Qp7+2XamfyQGmiMs=");
     }
 }
