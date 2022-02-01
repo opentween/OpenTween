@@ -134,12 +134,12 @@ namespace OpenTween
         /// <summary>
         /// Foursquare Client Id
         /// </summary>
-        public static readonly ApiKey FoursquareClientId = ApiKey.Create("%e%V/zwwnhz2ubgeXExKHm+0Q==%6QVbfha2Mzj0jgfI53jtup5sTov1T36BDdb6Bj3WeceHY/D3/7ZcqIlgIM/9ao6ZK/UWVq2iedgP826JnHL8Mg==%JROQDGrJaw6g4uFUO0SC/sgYgyXhbE/N82zJvYoOx+A=");
+        public static readonly ApiKey FoursquareClientId = ApiKey.Create("%e%PUhzXizCMlOCLv6AjDEwWw==%p6wCukrAWVmPv+mevyhIBJsTmld+nN8jqqdcrUM2bnqvVU9+W1V9rtMrM19Ew2A2Uw2N7yPAmymR6YgVxO5hZw==%PcIbp7rt0Bom/igLAbOR5TwIfdF7Ucej4+tCQuZ7ALE=");
 
         /// <summary>
         /// Foursquare Client Secret
         /// </summary>
-        public static readonly ApiKey FoursquareClientSecret = ApiKey.Create("%e%OHLwPR511lrD5I/7q3uwZA==%Qr1q996MLlPhlo0tWCNHsU44sU1Q8MCO23I/fWkJE/gQha1RpEVcrdRXIiCzNC/Z3dKPSZZvPxinOCjOIDTSUw==%NPBn8TnvT24FAPZvAnwhNFGXZ+MB3YCZ6QLplivNtDE=");
+        public static readonly ApiKey FoursquareClientSecret = ApiKey.Create("%e%MfvV15MhI4znNalkQLKGUA==%ONIAN5e6ZUeCeAqFl6rkDIZWvKT9xEUA7S2c6H5KVs6Ba8p0fzxKnH+ay1x/awpjtTRtfkY7d8dOwouxEJJviQ==%WvG6oTGYIvUpKGyofIdAcP5jVTC7oLuK8KB7aT4U9vA=");
 
         //=====================================================================
         // bit.ly
@@ -171,7 +171,7 @@ namespace OpenTween
         /// <summary>
         /// Translator Text API Subscription Key
         /// </summary>
-        public static readonly ApiKey TranslatorSubscriptionKey = ApiKey.Create("%e%Ga0nDykCVBaQqG3i4Up2lg==%4YOYlRN+SOB7exH/9NFwyMMJzuiRgPWIk5tNNXOmq1+OVcjUpz9McAlzs6zx8/7D%iX+okw1Wq5um+U3ioZacoTbYVsB9tWGmqu7r2vDtmxY=");
+        public static readonly ApiKey TranslatorSubscriptionKey = ApiKey.Create("%e%OftqWcavvEFL3ecdcE80KQ==%B/u2U2A84zfhHPV2MARqDTD0YPFruSgdOdP1+JqRaAAg5gEpTjCQfzr7noDN8YCa%73W3WtAt4e9G4HRou2Zu9s/D5cIQ8ccxDsv60KnLvWA=");
 
         //=====================================================================
         // Imgur
@@ -180,12 +180,12 @@ namespace OpenTween
         /// <summary>
         /// Imgur Client ID
         /// </summary>
-        public static readonly ApiKey ImgurClientId = ApiKey.Create("%e%f7UHH6fRBgLN6pxmjiiEWg==%vO2rqQQv9tQDeaTJX9FSyg==%98vuz4Pd1lN/HvbtzPG4x8yZcB+aKZjvRSKjvbe+kuA=");
+        public static readonly ApiKey ImgurClientId = ApiKey.Create("%e%+ncaqKgmWPsHj8vm9vuR0A==%sw2Vvu3QQAFqqUU9FTGeRQ==%3cJIVrvCot+8LU4/l9iYQtsjn3dUYOdere56VsQIpNU=");
 
         /// <summary>
         /// Imgur Client Secret
         /// </summary>
-        public static readonly ApiKey ImgurClientSecret = ApiKey.Create("%e%mc+eebhAF+zJXPN8Pb6pgQ==%zNuPAx+sT32l1Aank7nZk5YlXLWsLC0tCg/ac09dHe+nO0pBoVQtQ0z6C825olJE%NIaCwpyNvwmj1fsYtgp4i7xfMBYhzyf4mo6wTcTKssQ=");
+        public static readonly ApiKey ImgurClientSecret = ApiKey.Create("%e%p3wLXhBzIpGOBpYn0w5G4w==%y0UO+MKvGnebqWJd6nKLifBYecFc9i4Bdf6n5+SuDEoGFSaDF54zCeRvJ8pVk9DF%LY6jZ/duMjRprZSR0qiIj/dentKm7AtLMjQq17mdlCg=");
 
         //=====================================================================
         // Mobypicture
