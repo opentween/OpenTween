@@ -347,6 +347,10 @@ Do you retry to update status?</value></data>
 	<data name="VimeoInfoText4"><value>Views:</value></data>
 	<data name="VimeoInfoText5"><value>Comments:</value></data>
 	<data name="VimeoInfoText6"><value>Length:</value></data>
+	<data name="WarnIfApiKeyError_Message"><value>Failed to retrieve the API key.
+
+If you change the product name of OpenTween, you must apply for a new API key and modify the ApplicationSettings.
+At least if the Twitter API key has been changed correctly, you can launch the application.</value></data>
 	<data name="WarnIfRunAsAdministrator_Message"><value>It is not recommended to run {0} as administrator.
 
  * {0} does not require administrator privileges.

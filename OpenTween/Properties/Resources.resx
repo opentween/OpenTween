@@ -367,6 +367,10 @@
 	<data name="VimeoInfoText4"><value>再生数:</value></data>
 	<data name="VimeoInfoText5"><value>コメント数:</value></data>
 	<data name="VimeoInfoText6"><value>再生時間:</value></data>
+	<data name="WarnIfApiKeyError_Message"><value>API キーの取得に失敗しました。
+
+OpenTween の製品名を変更して使用する場合は、新たに API キーを取得して ApplicationSetting.cs に設定し直してください。
+少なくとも Twitter API のキーが正しく設定されていれば、起動できる状態になります。</value></data>
 	<data name="WarnIfRunAsAdministrator_Message"><value>{0}を管理者権限で実行する事は推奨されません。
 
  * {0}は管理者権限を必要とするソフトウェアではありません。

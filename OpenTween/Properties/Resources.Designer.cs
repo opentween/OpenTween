@@ -3186,6 +3186,18 @@ namespace OpenTween.Properties {
         }
         
         /// <summary>
+        ///   API キーの取得に失敗しました。
+        ///
+        ///OpenTween の製品名を変更して使用する場合は、新たに API キーを取得して ApplicationSetting.cs に設定し直してください。
+        ///少なくとも Twitter API のキーが正しく設定されていれば、起動できる状態になります。 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string WarnIfApiKeyError_Message {
+            get {
+                return ResourceManager.GetString("WarnIfApiKeyError_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   {0}を管理者権限で実行する事は推奨されません。
         ///
         /// * {0}は管理者権限を必要とするソフトウェアではありません。
