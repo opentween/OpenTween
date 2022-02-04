@@ -29,13 +29,15 @@ using System.Threading.Tasks;
 
 namespace OpenTween
 {
-    public class TimelineScheduler
+    public class TimelineScheduler : IDisposable
     {
         private readonly AsyncTimer timer;
 
         private bool enabled = false;
         private bool systemResumeMode = false;
         private bool preventTimerUpdate = false;
+
+        public bool IsDisposed { get; private set; } = false;
 
         public bool Enabled
         {
@@ -359,6 +361,23 @@ namespace OpenTween
             delay = min - DateTimeUtc.Now;
 
             return delay > TimeSpan.Zero ? delay : TimeSpan.Zero;
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (this.IsDisposed)
+                return;
+
+            if (disposing)
+                this.timer.Dispose();
+
+            this.IsDisposed = true;
+        }
+
+        public void Dispose()
+        {
+            this.Dispose(disposing: true);
+            GC.SuppressFinalize(this);
         }
     }
 }

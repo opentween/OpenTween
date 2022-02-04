@@ -496,6 +496,7 @@ namespace OpenTween
                 //sf.Dispose();
                 sfTab.Dispose();
 
+                this.timelineScheduler.Dispose();
                 this.workerCts.Cancel();
 
                 if (IconCache != null)
