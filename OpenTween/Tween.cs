@@ -10991,6 +10991,8 @@ namespace OpenTween
 
                 this.DispSelectedPost(forceupdate: true);
             }
+
+            this.timelineScheduler.Reset();
         }
 
         private void TimelineRefreshEnableChange(bool isEnable)
