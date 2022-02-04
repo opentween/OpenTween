@@ -230,12 +230,8 @@ namespace OpenTween
             // systemResumeMode では一定期間経過後に全てのタイムラインを更新する
             var now = DateTimeUtc.Now;
 
-            var nextScheduledUpdateAll = this.SystemResumedAt + this.UpdateAfterSystemResume;
-            if (nextScheduledUpdateAll - now < TimeSpan.Zero)
-            {
-                this.systemResumeMode = false;
-                await this.RunUpdateTasks(UpdateTask.All, now).ConfigureAwait(false);
-            }
+            this.systemResumeMode = false;
+            await this.RunUpdateTasks(UpdateTask.All, now).ConfigureAwait(false);
         }
 
         private async Task RunUpdateTasks(UpdateTask tasks, DateTimeUtc now)
