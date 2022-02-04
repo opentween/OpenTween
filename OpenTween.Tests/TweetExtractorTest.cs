@@ -293,6 +293,18 @@ namespace OpenTween
         }
 
         [Fact]
+        public void ExtractEmojiEntities_Unicode13Test()
+        {
+            // Unicode 13.0 で追加された絵文字
+            var origText = "🥷"; // U+1F977 (NINJA)
+            var entity = TweetExtractor.ExtractEmojiEntities(origText).Single();
+
+            Assert.Equal(new[] { 0, 1 }, entity.Indices);
+            Assert.Equal("🥷", entity.Text);
+            Assert.Equal("https://twemoji.maxcdn.com/2/72x72/1f977.png", entity.Url);
+        }
+
+        [Fact]
         public void ExtractEmojiEntities_EmojiModifiers_CombiningTest()
         {
             // Emoji modifiers を使用した合字 (リガチャー)
