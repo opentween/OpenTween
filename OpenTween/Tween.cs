@@ -1177,13 +1177,13 @@ namespace OpenTween
 
             //タイマー設定
 
-            this.timelineScheduler.UpdateHome = () => this.InvokeAsync(() => this.RefreshTabAsync<HomeTabModel>());
-            this.timelineScheduler.UpdateMention = () => this.InvokeAsync(() => this.RefreshTabAsync<MentionsTabModel>());
-            this.timelineScheduler.UpdateDm = () => this.InvokeAsync(() => this.RefreshTabAsync<DirectMessagesTabModel>());
-            this.timelineScheduler.UpdatePublicSearch = () => this.InvokeAsync(() => this.RefreshTabAsync<PublicSearchTabModel>());
-            this.timelineScheduler.UpdateUser = () => this.InvokeAsync(() => this.RefreshTabAsync<UserTimelineTabModel>());
-            this.timelineScheduler.UpdateList = () => this.InvokeAsync(() => this.RefreshTabAsync<ListTimelineTabModel>());
-            this.timelineScheduler.UpdateConfig = () => this.InvokeAsync(() => Task.WhenAll(new[]
+            this.timelineScheduler.UpdateFunc[TimelineSchedulerTaskType.Home] = () => this.InvokeAsync(() => this.RefreshTabAsync<HomeTabModel>());
+            this.timelineScheduler.UpdateFunc[TimelineSchedulerTaskType.Mention] = () => this.InvokeAsync(() => this.RefreshTabAsync<MentionsTabModel>());
+            this.timelineScheduler.UpdateFunc[TimelineSchedulerTaskType.Dm] = () => this.InvokeAsync(() => this.RefreshTabAsync<DirectMessagesTabModel>());
+            this.timelineScheduler.UpdateFunc[TimelineSchedulerTaskType.PublicSearch] = () => this.InvokeAsync(() => this.RefreshTabAsync<PublicSearchTabModel>());
+            this.timelineScheduler.UpdateFunc[TimelineSchedulerTaskType.User] = () => this.InvokeAsync(() => this.RefreshTabAsync<UserTimelineTabModel>());
+            this.timelineScheduler.UpdateFunc[TimelineSchedulerTaskType.List] = () => this.InvokeAsync(() => this.RefreshTabAsync<ListTimelineTabModel>());
+            this.timelineScheduler.UpdateFunc[TimelineSchedulerTaskType.Config] = () => this.InvokeAsync(() => Task.WhenAll(new[]
             {
                 this.doGetFollowersMenu(),
                 this.RefreshBlockIdsAsync(),
@@ -1354,13 +1354,13 @@ namespace OpenTween
             static TimeSpan intervalSecondsOrDisabled(int seconds)
                 => seconds == 0 ? Timeout.InfiniteTimeSpan : TimeSpan.FromSeconds(seconds);
 
-            this.timelineScheduler.UpdateIntervalHome = intervalSecondsOrDisabled(SettingManager.Common.TimelinePeriod);
-            this.timelineScheduler.UpdateIntervalMention = intervalSecondsOrDisabled(SettingManager.Common.ReplyPeriod);
-            this.timelineScheduler.UpdateIntervalDm = intervalSecondsOrDisabled(SettingManager.Common.DMPeriod);
-            this.timelineScheduler.UpdateIntervalPublicSearch = intervalSecondsOrDisabled(SettingManager.Common.PubSearchPeriod);
-            this.timelineScheduler.UpdateIntervalUser = intervalSecondsOrDisabled(SettingManager.Common.UserTimelinePeriod);
-            this.timelineScheduler.UpdateIntervalList = intervalSecondsOrDisabled(SettingManager.Common.ListsPeriod);
-            this.timelineScheduler.UpdateIntervalConfig = TimeSpan.FromHours(6);
+            this.timelineScheduler.UpdateInterval[TimelineSchedulerTaskType.Home] = intervalSecondsOrDisabled(SettingManager.Common.TimelinePeriod);
+            this.timelineScheduler.UpdateInterval[TimelineSchedulerTaskType.Mention] = intervalSecondsOrDisabled(SettingManager.Common.ReplyPeriod);
+            this.timelineScheduler.UpdateInterval[TimelineSchedulerTaskType.Dm] = intervalSecondsOrDisabled(SettingManager.Common.DMPeriod);
+            this.timelineScheduler.UpdateInterval[TimelineSchedulerTaskType.PublicSearch] = intervalSecondsOrDisabled(SettingManager.Common.PubSearchPeriod);
+            this.timelineScheduler.UpdateInterval[TimelineSchedulerTaskType.User] = intervalSecondsOrDisabled(SettingManager.Common.UserTimelinePeriod);
+            this.timelineScheduler.UpdateInterval[TimelineSchedulerTaskType.List] = intervalSecondsOrDisabled(SettingManager.Common.ListsPeriod);
+            this.timelineScheduler.UpdateInterval[TimelineSchedulerTaskType.Config] = TimeSpan.FromHours(6);
             this.timelineScheduler.UpdateAfterSystemResume = TimeSpan.FromSeconds(30);
 
             this.timelineScheduler.RefreshSchedule();
