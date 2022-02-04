@@ -1,7 +1,9 @@
 ﻿更新履歴
 
-==== Ver 2.4.4-dev(2019/xx/xx)
+==== Ver 2.5.0(2022/02/05)
  * NEW: アカウント追加時の認可URLを右クリックでコピー可能にしました
+ * NEW: Twemoji 13.1 に対応しました
+  - Unicode 13.0 で追加された絵文字が表示されるようになります
  * CHG: pic.twitter.com の画像URLのフォーマット変更に対応
  * CHG: Instagramのサムネイルを表示するURLのパターンを追加
  * CHG: YouTubeのサムネイルを表示するURLのパターンを追加 (thx @Hawklaver!)
