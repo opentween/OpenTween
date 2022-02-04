@@ -63,6 +63,7 @@ namespace OpenTween
         [STAThread]
         static int Main(string[] args)
         {
+            WarnIfApiKeyError();
             WarnIfRunAsAdministrator();
 
             if (!CheckRuntimeVersion())
@@ -112,6 +113,17 @@ namespace OpenTween
             }
 
             return 0;
+        }
+
+        private static void WarnIfApiKeyError()
+        {
+            var canDecrypt = ApplicationSettings.TwitterConsumerKey.TryGetValue(out _);
+            if (!canDecrypt)
+            {
+                var message = Properties.Resources.WarnIfApiKeyError_Message;
+                MessageBox.Show(message, ApplicationSettings.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                Environment.Exit(-1);
+            }
         }
 
         /// <summary>
