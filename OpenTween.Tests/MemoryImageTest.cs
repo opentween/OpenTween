@@ -54,6 +54,48 @@ namespace OpenTween
         }
 
         [Fact]
+        public async Task CopyFromStream_Test()
+        {
+            using var stream = File.OpenRead("Resources/re.gif");
+            using var memstream = new MemoryStream();
+            await stream.CopyToAsync(memstream)
+                .ConfigureAwait(false);
+
+            stream.Seek(0, SeekOrigin.Begin);
+
+            using var image = MemoryImage.CopyFromStream(stream);
+            Assert.Equal(memstream.ToArray(), image.Stream.ToArray());
+        }
+
+        [Fact]
+        public async Task CopyFromStreamAsync_Test()
+        {
+            using var stream = File.OpenRead("Resources/re.gif");
+            using var memstream = new MemoryStream();
+            await stream.CopyToAsync(memstream)
+                .ConfigureAwait(false);
+
+            stream.Seek(0, SeekOrigin.Begin);
+
+            using var image = await MemoryImage.CopyFromStreamAsync(stream)
+                .ConfigureAwait(false);
+            Assert.Equal(memstream.ToArray(), image.Stream.ToArray());
+        }
+
+        [Fact]
+        public async Task CopyFromBytes_Test()
+        {
+            using var stream = File.OpenRead("Resources/re.gif");
+            using var memstream = new MemoryStream();
+            await stream.CopyToAsync(memstream)
+                .ConfigureAwait(false);
+            var imageBytes = memstream.ToArray();
+
+            using var image = MemoryImage.CopyFromBytes(imageBytes);
+            Assert.Equal(imageBytes, image.Stream.ToArray());
+        }
+
+        [Fact]
         public void CopyFromImage_Test()
         {
             using var bitmap = new Bitmap(width: 200, height: 200);

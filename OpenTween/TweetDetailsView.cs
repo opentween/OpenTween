@@ -278,8 +278,7 @@ namespace OpenTween
                     var image = await this.IconCache.DownloadImageAsync(imageUrl, force)
                         .ConfigureAwait(false);
 
-                    return await image.CloneAsync()
-                        .ConfigureAwait(false);
+                    return image.Clone();
                 },
                 useStatusImage: false
             );
