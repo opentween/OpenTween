@@ -4979,7 +4979,6 @@ namespace OpenTween
                     }
                     catch (ArgumentException)
                     {
-                        item.RefreshImageAsync();
                     }
                 }
             }

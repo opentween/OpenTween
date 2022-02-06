@@ -88,27 +88,27 @@ namespace OpenTween
             return Twitter.CreateProfileImageUrl(normalImageUrl, sizeName);
         }
 
-        public Task GetImageAsync(bool force = false)
+        public Task GetImageAsync()
         {
             if (this.imageTask == null || this.imageTask.IsCompleted)
             {
-                this.imageTask = this.GetImageAsyncInternal(force);
+                this.imageTask = this.GetImageAsyncInternal();
             }
 
             return this.imageTask;
         }
 
-        private async Task GetImageAsyncInternal(bool force)
+        private async Task GetImageAsyncInternal()
         {
             if (MyCommon.IsNullOrEmpty(this.imageUrl) || this.imageCache == null)
                 return;
 
-            if (!force && this.imageReference.Target != null)
+            if (this.imageReference.Target != null)
                 return;
 
             try
             {
-                var image = await this.imageCache.DownloadImageAsync(this.imageUrl, force);
+                var image = await this.imageCache.DownloadImageAsync(this.imageUrl);
 
                 this.imageReference.Target = image;
 
@@ -135,11 +135,5 @@ namespace OpenTween
 
         public MemoryImage Image
             => (MemoryImage)this.imageReference.Target;
-
-        public Task RefreshImageAsync()
-        {
-            this.imageReference.Target = null;
-            return this.GetImageAsync(true);
-        }
     }
 }
