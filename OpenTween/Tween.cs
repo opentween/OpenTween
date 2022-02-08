@@ -3830,6 +3830,15 @@ namespace OpenTween
             await this.AddNewTabForUserTimeline(post.ScreenName);
         }
 
+
+        private async Task ShowRetweeterTimeline()
+        {
+            var retweetedBy = this.CurrentPost?.RetweetedBy;
+            if (retweetedBy == null || !this.ExistCurrentPost) return;
+            await this.AddNewTabForUserTimeline(retweetedBy);
+        }
+
+
         private void SearchComboBox_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Escape)
@@ -10357,6 +10366,8 @@ namespace OpenTween
 
         private void MenuItemOperate_DropDownOpening(object sender, EventArgs e)
         {
+            var tab = this.CurrentTab;
+            var post = this.CurrentPost;
             if (!this.ExistCurrentPost)
             {
                 this.ReplyOpMenuItem.Enabled = false;
@@ -10364,6 +10375,8 @@ namespace OpenTween
                 this.DmOpMenuItem.Enabled = false;
                 this.ShowProfMenuItem.Enabled = false;
                 this.ShowUserTimelineToolStripMenuItem.Enabled = false;
+                this.ShowRetweeterProfMenuItem.Enabled = false;
+                this.ShowRetweeterUserTimelineToolStripMenuItem.Enabled = false;
                 this.ListManageMenuItem.Enabled = false;
                 this.OpenFavOpMenuItem.Enabled = false;
                 this.CreateTabRuleOpMenuItem.Enabled = false;
@@ -10379,6 +10392,9 @@ namespace OpenTween
                 this.DmOpMenuItem.Enabled = true;
                 this.ShowProfMenuItem.Enabled = true;
                 this.ShowUserTimelineToolStripMenuItem.Enabled = true;
+                this.ShowRetweeterProfMenuItem.Enabled 
+                    = this.ShowRetweeterUserTimelineToolStripMenuItem.Enabled
+                    = post?.RetweetedByUserId != null;
                 this.ListManageMenuItem.Enabled = true;
                 this.OpenFavOpMenuItem.Enabled = true;
                 this.CreateTabRuleOpMenuItem.Enabled = true;
@@ -10388,8 +10404,6 @@ namespace OpenTween
                 this.UnreadOpMenuItem.Enabled = true;
             }
 
-            var tab = this.CurrentTab;
-            var post = this.CurrentPost;
             if (tab.TabType == MyCommon.TabUsageType.DirectMessage || !this.ExistCurrentPost || post == null || post.IsDm)
             {
                 this.FavOpMenuItem.Enabled = false;
@@ -10596,6 +10610,15 @@ namespace OpenTween
             if (post != null)
             {
                 await this.ShowUserStatus(post.ScreenName, false);
+            }
+        }
+
+        private async void ShowRetweeterProfileMenuItem_Click(object sender, EventArgs e)
+        {
+            var retweetedBy = this.CurrentPost?.RetweetedBy;
+            if (retweetedBy != null)
+            {
+                await this.ShowUserStatus(retweetedBy, false);
             }
         }
 
@@ -10938,6 +10961,9 @@ namespace OpenTween
 
         private async void ShowUserTimelineToolStripMenuItem_Click(object sender, EventArgs e)
             => await this.ShowUserTimeline();
+
+        private async void ShowRetweeterUserTimelineToolStripMenuItem_Click(object sender, EventArgs e)
+            => await this.ShowRetweeterTimeline();
 
         private string GetUserIdFromCurPostOrInput(string caption)
         {

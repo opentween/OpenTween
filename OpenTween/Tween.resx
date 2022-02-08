@@ -330,6 +330,14 @@
 	<data name="&gt;&gt;ShowRelatedStatusesMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
 	<data name="&gt;&gt;ShowRelatedStatusesMenuItem2.Name"><value>ShowRelatedStatusesMenuItem2</value></data>
 	<data name="&gt;&gt;ShowRelatedStatusesMenuItem2.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;ShowRetweeterProfileMenuItem.Name"><value>ShowProfileMenuItem</value></data>
+	<data name="&gt;&gt;ShowRetweeterProfileMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;ShowRetweeterProfMenuItem.Name"><value>ShowProfMenuItem</value></data>
+	<data name="&gt;&gt;ShowRetweeterProfMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;ShowRetweeterUserTimelineContextMenuItem.Name"><value>ShowUserTimelineContextMenuItem</value></data>
+	<data name="&gt;&gt;ShowRetweeterUserTimelineContextMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;ShowRetweeterUserTimelineToolStripMenuItem.Name"><value>ShowUserTimelineToolStripMenuItem</value></data>
+	<data name="&gt;&gt;ShowRetweeterUserTimelineToolStripMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
 	<data name="&gt;&gt;ShowUserTimelineContextMenuItem.Name"><value>ShowUserTimelineContextMenuItem</value></data>
 	<data name="&gt;&gt;ShowUserTimelineContextMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
 	<data name="&gt;&gt;ShowUserTimelineToolStripMenuItem.Name"><value>ShowUserTimelineToolStripMenuItem</value></data>
@@ -1066,6 +1074,14 @@
 	<data name="ShowRelatedStatusesMenuItem.Text"><value>関連発言表示(&amp;G)</value></data>
 	<data name="ShowRelatedStatusesMenuItem2.Size" type="System.Drawing.Size, System.Drawing"><value>313, 22</value></data>
 	<data name="ShowRelatedStatusesMenuItem2.Text"><value>関連発言表示(&amp;G)</value></data>
+	<data name="ShowRetweeterProfileMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>258, 24</value></data>
+	<data name="ShowRetweeterProfileMenuItem.Text"><value>RT元のプロフィール表示</value></data>
+	<data name="ShowRetweeterProfMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>347, 24</value></data>
+	<data name="ShowRetweeterProfMenuItem.Text"><value>RT元のプロフィール表示</value></data>
+	<data name="ShowRetweeterUserTimelineContextMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>258, 24</value></data>
+	<data name="ShowRetweeterUserTimelineContextMenuItem.Text"><value>RT元ユーザーのタイムラインを表示</value></data>
+	<data name="ShowRetweeterUserTimelineToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>347, 24</value></data>
+	<data name="ShowRetweeterUserTimelineToolStripMenuItem.Text"><value>RT元ユーザーのタイムラインを表示</value></data>
 	<data name="ShowUserTimelineContextMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>241, 22</value></data>
 	<data name="ShowUserTimelineContextMenuItem.Text"><value>ユーザーのタイムラインを表示</value></data>
 	<data name="ShowUserTimelineToolStripMenuItem.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms"><value>Ctrl+U</value></data>
