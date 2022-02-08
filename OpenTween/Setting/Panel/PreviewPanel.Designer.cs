@@ -33,6 +33,7 @@
             this.Label72 = new System.Windows.Forms.Label();
             this.chkTabIconDisp = new System.Windows.Forms.CheckBox();
             this.CheckPreviewEnable = new System.Windows.Forms.CheckBox();
+            this.CheckPreviewWindowEnable = new System.Windows.Forms.CheckBox();
             this.Label81 = new System.Windows.Forms.Label();
             this.LanguageCombo = new System.Windows.Forms.ComboBox();
             this.Label13 = new System.Windows.Forms.Label();
@@ -72,6 +73,13 @@
             resources.ApplyResources(this.CheckPreviewEnable, "CheckPreviewEnable");
             this.CheckPreviewEnable.Name = "CheckPreviewEnable";
             this.CheckPreviewEnable.UseVisualStyleBackColor = true;
+            this.CheckPreviewEnable.CheckedChanged += new System.EventHandler(this.CheckPreviewEnable_CheckedChanged);
+            // 
+            // CheckPreviewWindowEnable
+            // 
+            resources.ApplyResources(this.CheckPreviewWindowEnable, "CheckPreviewWindowEnable");
+            this.CheckPreviewWindowEnable.Name = "CheckPreviewWindowEnable";
+            this.CheckPreviewWindowEnable.UseVisualStyleBackColor = true;
             // 
             // Label81
             // 
@@ -155,6 +163,7 @@
             this.Controls.Add(this.Label72);
             this.Controls.Add(this.chkTabIconDisp);
             this.Controls.Add(this.CheckPreviewEnable);
+            this.Controls.Add(this.CheckPreviewWindowEnable);
             this.Controls.Add(this.Label81);
             this.Controls.Add(this.LanguageCombo);
             this.Controls.Add(this.Label13);
@@ -176,6 +185,7 @@
         internal System.Windows.Forms.Label Label72;
         internal System.Windows.Forms.CheckBox chkTabIconDisp;
         internal System.Windows.Forms.CheckBox CheckPreviewEnable;
+        internal System.Windows.Forms.CheckBox CheckPreviewWindowEnable;
         internal System.Windows.Forms.Label Label81;
         internal System.Windows.Forms.ComboBox LanguageCombo;
         internal System.Windows.Forms.Label Label13;

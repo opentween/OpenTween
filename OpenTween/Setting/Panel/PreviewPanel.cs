@@ -62,6 +62,8 @@ namespace OpenTween.Setting.Panel
             this.chkTabIconDisp.Checked = settingCommon.TabIconDisp;
             this.CheckMonospace.Checked = settingCommon.IsMonospace;
             this.CheckPreviewEnable.Checked = settingCommon.PreviewEnable;
+            this.CheckPreviewWindowEnable.Enabled = this.CheckPreviewEnable.Checked;
+            this.CheckPreviewWindowEnable.Checked = settingCommon.PreviewWindowEnable;
             this.CheckStatusAreaAtBottom.Checked = settingCommon.StatusAreaAtBottom;
             this.ReplyIconStateCombo.SelectedIndex = settingCommon.ReplyIconState switch
             {
@@ -99,6 +101,7 @@ namespace OpenTween.Setting.Panel
             settingCommon.TabIconDisp = this.chkTabIconDisp.Checked;
             settingCommon.IsMonospace = this.CheckMonospace.Checked;
             settingCommon.PreviewEnable = this.CheckPreviewEnable.Checked;
+            settingCommon.PreviewWindowEnable = this.CheckPreviewWindowEnable.Checked;
             settingCommon.StatusAreaAtBottom = this.CheckStatusAreaAtBottom.Checked;
             settingCommon.ReplyIconState = this.ReplyIconStateCombo.SelectedIndex switch
             {
@@ -114,6 +117,11 @@ namespace OpenTween.Setting.Panel
                 2 => "en",
                 _ => "en",
             };
+        }
+
+        private void CheckPreviewEnable_CheckedChanged(object sender, EventArgs e)
+        {
+            this.CheckPreviewWindowEnable.Enabled = this.CheckPreviewEnable.Checked;
         }
     }
 }

@@ -21,6 +21,9 @@
 	<data name="CheckPreviewEnable.Size" type="System.Drawing.Size, System.Drawing"><value>138, 16</value></data>
 	<data name="CheckPreviewEnable.Text"><value>Show image thumbnail</value></data>
 	<data name="CheckPreviewEnable.ToolTip"><value /></data>
+	<data name="CheckPreviewWindowEnable.Size" type="System.Drawing.Size, System.Drawing"><value>138, 16</value></data>
+	<data name="CheckPreviewWindowEnable.Text"><value>Open image thumbnail window on click</value></data>
+	<data name="CheckPreviewWindowEnable.ToolTip"><value /></data>
 	<data name="CheckStatusAreaAtBottom.Size" type="System.Drawing.Size, System.Drawing"><value>278, 16</value></data>
 	<data name="CheckStatusAreaAtBottom.Text"><value>Locate tweet detail and input area at the bottom</value></data>
 	<data name="CheckStatusAreaAtBottom.ToolTip"><value /></data>

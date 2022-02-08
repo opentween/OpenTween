@@ -169,6 +169,7 @@ namespace OpenTween
         public bool HashIsHead = false;
         public bool HashIsNotAddToAtReply = true;
         public bool PreviewEnable = true;
+        public bool PreviewWindowEnable = true;
         public bool StatusAreaAtBottom = true;
 
         public MyCommon.UrlConverter AutoShortUrlFirst = MyCommon.UrlConverter.Uxnu;

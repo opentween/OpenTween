@@ -21,23 +21,19 @@
 
 #nullable enable
 
+using OpenTween.Models;
+using OpenTween.Setting;
+using OpenTween.Thumbnail;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
-using System.Data;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Text;
-using System.Windows.Forms;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using OpenTween.Thumbnail;
-using System.Threading;
-using OpenTween.Models;
 using System.Runtime.InteropServices;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace OpenTween
 {
@@ -240,16 +236,16 @@ namespace OpenTween
 
         private void pictureBox_MouseClick(object sender, MouseEventArgs e)
         {
-            var picBox = sender as PictureBox;
-            if (picBox == null) return;
-
-            var thumb = picBox.Tag as ThumbnailInfo;
-            if (thumb == null || thumb.IsPlayable) return;
-
-            this.ShowThubWindow(picBox.Image, thumb);
+            if (SettingManager.Common.PreviewWindowEnable
+                && sender is PictureBox picBox
+                && picBox.Tag is ThumbnailInfo thumb
+                && !thumb.IsPlayable)
+            {
+                this.ShowThubWindow(picBox.Image);
+            }
         }
 
-        private void ShowThubWindow(Image image, ThumbnailInfo thumbnailInfo)
+        private void ShowThubWindow(Image image)
         {
             var thumbWindow = this.ThumbnailWindow;
             if (thumbWindow.Image == image)
