@@ -32,29 +32,45 @@ namespace OpenTween.Models
 {
     public class PostClassTest
     {
+        class PostClassGroup
+        {
+            private Dictionary<long, PostClass> testCases;
+            public PostClassGroup(params TestPostClass[] postClasses)
+            {
+                testCases = new Dictionary<long, PostClass>();
+                foreach (var p in postClasses)
+                {
+                    p.Group = this;
+                    testCases.Add(p.StatusId, p);
+                }
+            }
+            public PostClass this[long id] => testCases[id];
+        }
         class TestPostClass : PostClass
         {
+            public PostClassGroup? Group;
             protected override PostClass RetweetSource
             {
                 get
                 {
                     var retweetedId = this.RetweetedId!.Value;
+                    var group = this.Group;
+                    if (group == null)
+                        throw new InvalidOperationException("TestPostClass needs group");
 
-                    return PostClassTest.TestCases[retweetedId];
+                    return group[retweetedId];
                 }
             }
         }
 
-        private static Dictionary<long, PostClass> TestCases;
+        private PostClassGroup PostGroup;
 
-        static PostClassTest()
+        public PostClassTest()
         {
-            PostClassTest.TestCases = new Dictionary<long, PostClass>
-            {
-                [1L] = new TestPostClass { StatusId = 1L },
-                [2L] = new TestPostClass { StatusId = 2L, IsFav = true },
-                [3L] = new TestPostClass { StatusId = 3L, IsFav = false, RetweetedId = 2L },
-            };
+            this.PostGroup = new PostClassGroup(
+                new TestPostClass { StatusId = 1L },
+                new TestPostClass { StatusId = 2L, IsFav = true },
+                new TestPostClass { StatusId = 3L, IsFav = false, RetweetedId = 2L });
         }
 
         [Fact]
@@ -81,7 +97,7 @@ namespace OpenTween.Models
         [InlineData(2L, true)]
         [InlineData(3L, true)]
         public void GetIsFavTest(long statusId, bool expected)
-            => Assert.Equal(expected, PostClassTest.TestCases[statusId].IsFav);
+            => Assert.Equal(expected, PostGroup[statusId].IsFav);
 
         [Theory]
         [InlineData(2L, true)]
@@ -90,13 +106,13 @@ namespace OpenTween.Models
         [InlineData(3L, false)]
         public void SetIsFavTest(long statusId, bool isFav)
         {
-            var post = PostClassTest.TestCases[statusId];
+            var post = PostGroup[statusId];
 
             post.IsFav = isFav;
             Assert.Equal(isFav, post.IsFav);
 
             if (post.RetweetedId != null)
-                Assert.Equal(isFav, PostClassTest.TestCases[post.RetweetedId.Value].IsFav);
+                Assert.Equal(isFav, PostGroup[post.RetweetedId.Value].IsFav);
         }
 
         [Theory]
