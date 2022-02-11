@@ -107,6 +107,8 @@
             this.ShowProfMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ShowRelatedStatusesMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.ShowUserTimelineToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ShowRetweeterProfMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ShowRetweeterUserTimelineToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.OpenOpMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.OpenHomeOpMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.OpenFavOpMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -242,6 +244,8 @@
             this.ShowProfileMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ShowRelatedStatusesMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ShowUserTimelineContextMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ShowRetweeterProfileMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ShowRetweeterUserTimelineContextMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem6 = new System.Windows.Forms.ToolStripMenuItem();
             this.MoveToHomeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.MoveToFavToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -919,6 +923,8 @@
             this.OpenOpMenuItem,
             this.CreateRuleOpMenuItem,
             this.ListManageMenuItem,
+            this.ShowRetweeterProfMenuItem,
+            this.ShowRetweeterUserTimelineToolStripMenuItem,
             this.ToolStripSeparator26,
             this.ChangeReadOpMenuItem,
             this.JumpReadOpMenuItem,
@@ -1018,6 +1024,18 @@
             this.ShowUserTimelineToolStripMenuItem.Name = "ShowUserTimelineToolStripMenuItem";
             resources.ApplyResources(this.ShowUserTimelineToolStripMenuItem, "ShowUserTimelineToolStripMenuItem");
             this.ShowUserTimelineToolStripMenuItem.Click += new System.EventHandler(this.ShowUserTimelineToolStripMenuItem_Click);
+            // 
+            // ShowRetweeterProfMenuItem
+            // 
+            this.ShowRetweeterProfMenuItem.Name = "ShowRetweeterProfMenuItem";
+            resources.ApplyResources(this.ShowRetweeterProfMenuItem, "ShowRetweeterProfMenuItem");
+            this.ShowRetweeterProfMenuItem.Click += new System.EventHandler(this.ShowRetweeterProfileMenuItem_Click);
+            // 
+            // ShowRetweeterUserTimelineToolStripMenuItem
+            // 
+            this.ShowRetweeterUserTimelineToolStripMenuItem.Name = "ShowRetweeterUserTimelineToolStripMenuItem";
+            resources.ApplyResources(this.ShowRetweeterUserTimelineToolStripMenuItem, "ShowRetweeterUserTimelineToolStripMenuItem");
+            this.ShowRetweeterUserTimelineToolStripMenuItem.Click += new System.EventHandler(this.ShowRetweeterUserTimelineToolStripMenuItem_Click);
             // 
             // OpenOpMenuItem
             // 
@@ -1841,6 +1859,8 @@
             this.ToolStripMenuItem6,
             this.ToolStripMenuItem7,
             this.ListManageUserContextToolStripMenuItem2,
+            this.ShowRetweeterProfileMenuItem,
+            this.ShowRetweeterUserTimelineContextMenuItem,
             this.ToolStripSeparator4,
             this.ToolStripMenuItem11,
             this.JumpUnreadMenuItem,
@@ -1941,6 +1961,18 @@
             this.ShowUserTimelineContextMenuItem.Name = "ShowUserTimelineContextMenuItem";
             resources.ApplyResources(this.ShowUserTimelineContextMenuItem, "ShowUserTimelineContextMenuItem");
             this.ShowUserTimelineContextMenuItem.Click += new System.EventHandler(this.ShowUserTimelineToolStripMenuItem_Click);
+            // 
+            // ShowRetweeterProfileMenuItem
+            // 
+            this.ShowRetweeterProfileMenuItem.Name = "ShowRetweeterProfileMenuItem";
+            resources.ApplyResources(this.ShowRetweeterProfileMenuItem, "ShowRetweeterProfileMenuItem");
+            this.ShowRetweeterProfileMenuItem.Click += new System.EventHandler(this.ShowRetweeterProfileMenuItem_Click);
+            // 
+            // ShowRetweeterUserTimelineContextMenuItem
+            // 
+            this.ShowRetweeterUserTimelineContextMenuItem.Name = "ShowRetweeterUserTimelineContextMenuItem";
+            resources.ApplyResources(this.ShowRetweeterUserTimelineContextMenuItem, "ShowRetweeterUserTimelineContextMenuItem");
+            this.ShowRetweeterUserTimelineContextMenuItem.Click += new System.EventHandler(this.ShowRetweeterUserTimelineToolStripMenuItem_Click);
             // 
             // ToolStripMenuItem6
             // 
@@ -2193,6 +2225,8 @@
         internal System.Windows.Forms.ToolStripMenuItem ShowProfMenuItem;
         internal System.Windows.Forms.ToolStripMenuItem ShowRelatedStatusesMenuItem2;
         internal System.Windows.Forms.ToolStripMenuItem ShowUserTimelineToolStripMenuItem;
+        internal System.Windows.Forms.ToolStripMenuItem ShowRetweeterProfMenuItem;
+        internal System.Windows.Forms.ToolStripMenuItem ShowRetweeterUserTimelineToolStripMenuItem;
         internal System.Windows.Forms.ToolStripMenuItem OpenOpMenuItem;
         internal System.Windows.Forms.ToolStripMenuItem OpenHomeOpMenuItem;
         internal System.Windows.Forms.ToolStripMenuItem OpenFavOpMenuItem;
@@ -2311,6 +2345,8 @@
         internal System.Windows.Forms.ToolStripMenuItem ShowProfileMenuItem;
         internal System.Windows.Forms.ToolStripMenuItem ShowRelatedStatusesMenuItem;
         internal System.Windows.Forms.ToolStripMenuItem ShowUserTimelineContextMenuItem;
+        internal System.Windows.Forms.ToolStripMenuItem ShowRetweeterProfileMenuItem;
+        internal System.Windows.Forms.ToolStripMenuItem ShowRetweeterUserTimelineContextMenuItem;
         internal System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem6;
         internal System.Windows.Forms.ToolStripMenuItem MoveToHomeToolStripMenuItem;
         internal System.Windows.Forms.ToolStripMenuItem MoveToFavToolStripMenuItem;

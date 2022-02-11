@@ -415,6 +415,14 @@
 	<data name="ShowRelatedStatusesMenuItem.Text"><value>Related Posts (&amp;G)</value></data>
 	<data name="ShowRelatedStatusesMenuItem2.Size" type="System.Drawing.Size, System.Drawing"><value>347, 24</value></data>
 	<data name="ShowRelatedStatusesMenuItem2.Text"><value>Related Posts (&amp;G)</value></data>
+	<data name="ShowRetweeterProfileMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>258, 24</value></data>
+	<data name="ShowRetweeterProfileMenuItem.Text"><value>Retweeter &amp;Profile</value></data>
+	<data name="ShowRetweeterProfMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>347, 24</value></data>
+	<data name="ShowRetweeterProfMenuItem.Text"><value>Retweeter &amp;Profile</value></data>
+	<data name="ShowRetweeterUserTimelineContextMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>258, 24</value></data>
+	<data name="ShowRetweeterUserTimelineContextMenuItem.Text"><value>&amp;Retweeter's updates</value></data>
+	<data name="ShowRetweeterUserTimelineToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>347, 24</value></data>
+	<data name="ShowRetweeterUserTimelineToolStripMenuItem.Text"><value>Retweeter's updates</value></data>
 	<data name="ShowUserTimelineContextMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>258, 24</value></data>
 	<data name="ShowUserTimelineContextMenuItem.Text"><value>&amp;User's updates</value></data>
 	<data name="ShowUserTimelineToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>347, 24</value></data>
