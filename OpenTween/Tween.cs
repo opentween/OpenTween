@@ -9344,8 +9344,8 @@ namespace OpenTween
 
             // ユーザープロフィールURL
             // フラグが立っている場合は設定と逆の動作をする
-            if( SettingManager.Common.OpenUserTimeline && !isReverseSettings ||
-                !SettingManager.Common.OpenUserTimeline && isReverseSettings )
+            if (SettingManager.Common.OpenUserTimeline && !isReverseSettings ||
+                !SettingManager.Common.OpenUserTimeline && isReverseSettings)
             {
                 var userUriMatch = Regex.Match(uriStr, "^https?://twitter.com/(#!/)?(?<ScreenName>[a-zA-Z0-9_]+)$");
                 if (userUriMatch.Success)

@@ -721,7 +721,7 @@ namespace OpenTween
             {
                 return NetworkInterface.GetIsNetworkAvailable();
             }
-            catch(Exception)
+            catch (Exception)
             {
                 return false;
             }
