@@ -41,7 +41,7 @@ namespace OpenTween
     {
         public ToolStripAPIGauge()
         {
-            UpdateText();
+            this.UpdateText();
 
             this.DisplayStyle = ToolStripItemDisplayStyle.Text;
         }

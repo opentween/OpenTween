@@ -56,7 +56,7 @@ namespace OpenTween
 
         public UpdateDialog()
         {
-            InitializeComponent();
+            this.InitializeComponent();
 
             this.PictureBox1.Image = SystemIcons.Question.ToBitmap();
             this.Text = MyCommon.ReplaceAppName(this.Text);

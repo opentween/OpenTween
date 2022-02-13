@@ -40,7 +40,7 @@ namespace OpenTween.Setting.Panel
     public partial class ConnectionPanel : SettingPanelBase
     {
         public ConnectionPanel()
-            => InitializeComponent();
+            => this.InitializeComponent();
 
         public void LoadConfig(SettingCommon settingCommon)
         {
@@ -63,7 +63,7 @@ namespace OpenTween.Setting.Panel
             int tm;
             try
             {
-                tm = int.Parse(ConnectionTimeOut.Text);
+                tm = int.Parse(this.ConnectionTimeOut.Text);
             }
             catch (Exception)
             {

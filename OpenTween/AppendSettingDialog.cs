@@ -150,9 +150,9 @@ namespace OpenTween
                     e.Cancel = true;
                 }
             }
-            if (e.Cancel == false && TreeViewSetting.SelectedNode != null)
+            if (e.Cancel == false && this.TreeViewSetting.SelectedNode != null)
             {
-                var curPanel = (SettingPanelBase)TreeViewSetting.SelectedNode.Tag;
+                var curPanel = (SettingPanelBase)this.TreeViewSetting.SelectedNode.Tag;
                 curPanel.Visible = false;
                 curPanel.Enabled = false;
             }
@@ -160,26 +160,26 @@ namespace OpenTween
 
         private void Setting_Load(object sender, EventArgs e)
         {
-            this.TreeViewSetting.Nodes["BasedNode"].Tag = BasedPanel;
-            this.TreeViewSetting.Nodes["BasedNode"].Nodes["PeriodNode"].Tag = GetPeriodPanel;
-            this.TreeViewSetting.Nodes["BasedNode"].Nodes["StartUpNode"].Tag = StartupPanel;
-            this.TreeViewSetting.Nodes["BasedNode"].Nodes["GetCountNode"].Tag = GetCountPanel;
-            this.TreeViewSetting.Nodes["ActionNode"].Tag = ActionPanel;
-            this.TreeViewSetting.Nodes["ActionNode"].Nodes["TweetActNode"].Tag = TweetActPanel;
-            this.TreeViewSetting.Nodes["PreviewNode"].Tag = PreviewPanel;
-            this.TreeViewSetting.Nodes["PreviewNode"].Nodes["TweetPrvNode"].Tag = TweetPrvPanel;
-            this.TreeViewSetting.Nodes["PreviewNode"].Nodes["NotifyNode"].Tag = NotifyPanel;
-            this.TreeViewSetting.Nodes["FontNode"].Tag = FontPanel;
-            this.TreeViewSetting.Nodes["FontNode"].Nodes["FontNode2"].Tag = FontPanel2;
-            this.TreeViewSetting.Nodes["ConnectionNode"].Tag = ConnectionPanel;
-            this.TreeViewSetting.Nodes["ConnectionNode"].Nodes["ProxyNode"].Tag = ProxyPanel;
-            this.TreeViewSetting.Nodes["ConnectionNode"].Nodes["CooperateNode"].Tag = CooperatePanel;
-            this.TreeViewSetting.Nodes["ConnectionNode"].Nodes["ShortUrlNode"].Tag = ShortUrlPanel;
+            this.TreeViewSetting.Nodes["BasedNode"].Tag = this.BasedPanel;
+            this.TreeViewSetting.Nodes["BasedNode"].Nodes["PeriodNode"].Tag = this.GetPeriodPanel;
+            this.TreeViewSetting.Nodes["BasedNode"].Nodes["StartUpNode"].Tag = this.StartupPanel;
+            this.TreeViewSetting.Nodes["BasedNode"].Nodes["GetCountNode"].Tag = this.GetCountPanel;
+            this.TreeViewSetting.Nodes["ActionNode"].Tag = this.ActionPanel;
+            this.TreeViewSetting.Nodes["ActionNode"].Nodes["TweetActNode"].Tag = this.TweetActPanel;
+            this.TreeViewSetting.Nodes["PreviewNode"].Tag = this.PreviewPanel;
+            this.TreeViewSetting.Nodes["PreviewNode"].Nodes["TweetPrvNode"].Tag = this.TweetPrvPanel;
+            this.TreeViewSetting.Nodes["PreviewNode"].Nodes["NotifyNode"].Tag = this.NotifyPanel;
+            this.TreeViewSetting.Nodes["FontNode"].Tag = this.FontPanel;
+            this.TreeViewSetting.Nodes["FontNode"].Nodes["FontNode2"].Tag = this.FontPanel2;
+            this.TreeViewSetting.Nodes["ConnectionNode"].Tag = this.ConnectionPanel;
+            this.TreeViewSetting.Nodes["ConnectionNode"].Nodes["ProxyNode"].Tag = this.ProxyPanel;
+            this.TreeViewSetting.Nodes["ConnectionNode"].Nodes["CooperateNode"].Tag = this.CooperatePanel;
+            this.TreeViewSetting.Nodes["ConnectionNode"].Nodes["ShortUrlNode"].Tag = this.ShortUrlPanel;
 
             this.TreeViewSetting.SelectedNode = this.TreeViewSetting.Nodes[0];
             this.TreeViewSetting.ExpandAll();
 
-            ActiveControl = BasedPanel.StartAuthButton;
+            this.ActiveControl = this.BasedPanel.StartAuthButton;
         }
 
         private void UReadMng_CheckedChanged(object sender, EventArgs e)

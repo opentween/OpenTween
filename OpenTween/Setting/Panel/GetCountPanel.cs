@@ -86,7 +86,7 @@ namespace OpenTween.Setting.Panel
             int cnt;
             try
             {
-                cnt = int.Parse(TextCountApi.Text);
+                cnt = int.Parse(this.TextCountApi.Text);
             }
             catch (Exception)
             {
@@ -108,7 +108,7 @@ namespace OpenTween.Setting.Panel
             int cnt;
             try
             {
-                cnt = int.Parse(TextCountApiReply.Text);
+                cnt = int.Parse(this.TextCountApiReply.Text);
             }
             catch (Exception)
             {
@@ -130,7 +130,7 @@ namespace OpenTween.Setting.Panel
             int cnt;
             try
             {
-                cnt = int.Parse(GetMoreTextCountApi.Text);
+                cnt = int.Parse(this.GetMoreTextCountApi.Text);
             }
             catch (Exception)
             {
@@ -149,18 +149,18 @@ namespace OpenTween.Setting.Panel
 
         private void UseChangeGetCount_CheckedChanged(object sender, EventArgs e)
         {
-            GetMoreTextCountApi.Enabled = UseChangeGetCount.Checked;
-            FirstTextCountApi.Enabled = UseChangeGetCount.Checked;
-            Label28.Enabled = UseChangeGetCount.Checked;
-            Label30.Enabled = UseChangeGetCount.Checked;
-            Label53.Enabled = UseChangeGetCount.Checked;
-            Label66.Enabled = UseChangeGetCount.Checked;
-            Label17.Enabled = UseChangeGetCount.Checked;
-            Label25.Enabled = UseChangeGetCount.Checked;
-            SearchTextCountApi.Enabled = UseChangeGetCount.Checked;
-            FavoritesTextCountApi.Enabled = UseChangeGetCount.Checked;
-            UserTimelineTextCountApi.Enabled = UseChangeGetCount.Checked;
-            ListTextCountApi.Enabled = UseChangeGetCount.Checked;
+            this.GetMoreTextCountApi.Enabled = this.UseChangeGetCount.Checked;
+            this.FirstTextCountApi.Enabled = this.UseChangeGetCount.Checked;
+            this.Label28.Enabled = this.UseChangeGetCount.Checked;
+            this.Label30.Enabled = this.UseChangeGetCount.Checked;
+            this.Label53.Enabled = this.UseChangeGetCount.Checked;
+            this.Label66.Enabled = this.UseChangeGetCount.Checked;
+            this.Label17.Enabled = this.UseChangeGetCount.Checked;
+            this.Label25.Enabled = this.UseChangeGetCount.Checked;
+            this.SearchTextCountApi.Enabled = this.UseChangeGetCount.Checked;
+            this.FavoritesTextCountApi.Enabled = this.UseChangeGetCount.Checked;
+            this.UserTimelineTextCountApi.Enabled = this.UseChangeGetCount.Checked;
+            this.ListTextCountApi.Enabled = this.UseChangeGetCount.Checked;
         }
 
         private void FirstTextCountApi_Validating(object sender, CancelEventArgs e)
@@ -168,7 +168,7 @@ namespace OpenTween.Setting.Panel
             int cnt;
             try
             {
-                cnt = int.Parse(FirstTextCountApi.Text);
+                cnt = int.Parse(this.FirstTextCountApi.Text);
             }
             catch (Exception)
             {
@@ -190,7 +190,7 @@ namespace OpenTween.Setting.Panel
             int cnt;
             try
             {
-                cnt = int.Parse(SearchTextCountApi.Text);
+                cnt = int.Parse(this.SearchTextCountApi.Text);
             }
             catch (Exception)
             {
@@ -212,7 +212,7 @@ namespace OpenTween.Setting.Panel
             int cnt;
             try
             {
-                cnt = int.Parse(FavoritesTextCountApi.Text);
+                cnt = int.Parse(this.FavoritesTextCountApi.Text);
             }
             catch (Exception)
             {
@@ -234,7 +234,7 @@ namespace OpenTween.Setting.Panel
             int cnt;
             try
             {
-                cnt = int.Parse(UserTimelineTextCountApi.Text);
+                cnt = int.Parse(this.UserTimelineTextCountApi.Text);
             }
             catch (Exception)
             {
@@ -256,7 +256,7 @@ namespace OpenTween.Setting.Panel
             int cnt;
             try
             {
-                cnt = int.Parse(ListTextCountApi.Text);
+                cnt = int.Parse(this.ListTextCountApi.Text);
             }
             catch (Exception)
             {

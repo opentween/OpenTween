@@ -139,7 +139,7 @@ namespace OpenTween
                 base.OnPaint(pe);
 
                 // 動画なら再生ボタンを上から描画
-                DrawPlayableMark(pe);
+                this.DrawPlayableMark(pe);
             }
             catch (ExternalException)
             {

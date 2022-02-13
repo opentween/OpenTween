@@ -200,7 +200,7 @@ namespace OpenTween
 
             try
             {
-                if (!ShortUrlHosts.Contains(uri.Host) && !IsIrregularShortUrl(uri))
+                if (!ShortUrlHosts.Contains(uri.Host) && !this.IsIrregularShortUrl(uri))
                     return uri;
 
                 Uri? expanded;

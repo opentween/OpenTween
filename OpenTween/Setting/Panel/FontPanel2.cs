@@ -72,24 +72,24 @@ namespace OpenTween.Setting.Panel
 
         private void ButtonBackToDefaultFontColor2_Click(object sender, EventArgs e)
         {
-            lblInputFont.ForeColor = Color.FromKnownColor(System.Drawing.KnownColor.ControlText);
-            lblInputFont.Font = System.Drawing.SystemFonts.DefaultFont;
+            this.lblInputFont.ForeColor = Color.FromKnownColor(System.Drawing.KnownColor.ControlText);
+            this.lblInputFont.Font = System.Drawing.SystemFonts.DefaultFont;
 
-            lblSelf.BackColor = Color.FromKnownColor(System.Drawing.KnownColor.AliceBlue);
+            this.lblSelf.BackColor = Color.FromKnownColor(System.Drawing.KnownColor.AliceBlue);
 
-            lblAtSelf.BackColor = Color.FromKnownColor(System.Drawing.KnownColor.AntiqueWhite);
+            this.lblAtSelf.BackColor = Color.FromKnownColor(System.Drawing.KnownColor.AntiqueWhite);
 
-            lblTarget.BackColor = Color.FromKnownColor(System.Drawing.KnownColor.LemonChiffon);
+            this.lblTarget.BackColor = Color.FromKnownColor(System.Drawing.KnownColor.LemonChiffon);
 
-            lblAtTarget.BackColor = Color.FromKnownColor(System.Drawing.KnownColor.LavenderBlush);
+            this.lblAtTarget.BackColor = Color.FromKnownColor(System.Drawing.KnownColor.LavenderBlush);
 
-            lblAtFromTarget.BackColor = Color.FromKnownColor(System.Drawing.KnownColor.Honeydew);
+            this.lblAtFromTarget.BackColor = Color.FromKnownColor(System.Drawing.KnownColor.Honeydew);
 
-            lblInputBackcolor.BackColor = Color.FromKnownColor(System.Drawing.KnownColor.LemonChiffon);
+            this.lblInputBackcolor.BackColor = Color.FromKnownColor(System.Drawing.KnownColor.LemonChiffon);
 
-            lblAtTo.BackColor = Color.FromKnownColor(System.Drawing.KnownColor.Pink);
+            this.lblAtTo.BackColor = Color.FromKnownColor(System.Drawing.KnownColor.Pink);
 
-            lblListBackcolor.BackColor = Color.FromKnownColor(System.Drawing.KnownColor.Window);
+            this.lblListBackcolor.BackColor = Color.FromKnownColor(System.Drawing.KnownColor.Window);
         }
 
         private void btnSelf_Click(object sender, EventArgs e)

@@ -60,7 +60,7 @@ namespace OpenTween
             this.mainForm = mainForm;
             this.twitterApi = twitterApi;
 
-            InitializeComponent();
+            this.InitializeComponent();
 
             // LabelScreenName のフォントを OTBaseForm.GlobalFont に変更
             this.LabelScreenName.Font = this.ReplaceToGlobalFont(this.LabelScreenName.Font);
@@ -289,8 +289,8 @@ namespace OpenTween
             }
             catch (WebApiException)
             {
-                LabelIsFollowed.Text = Properties.Resources.GetFriendshipInfo6;
-                LabelIsFollowing.Text = Properties.Resources.GetFriendshipInfo6;
+                this.LabelIsFollowed.Text = Properties.Resources.GetFriendshipInfo6;
+                this.LabelIsFollowing.Text = Properties.Resources.GetFriendshipInfo6;
                 return;
             }
 
@@ -365,9 +365,9 @@ namespace OpenTween
             }
 
             MessageBox.Show(Properties.Resources.FRMessage3);
-            LabelIsFollowing.Text = Properties.Resources.GetFriendshipInfo1;
-            ButtonFollow.Enabled = false;
-            ButtonUnFollow.Enabled = true;
+            this.LabelIsFollowing.Text = Properties.Resources.GetFriendshipInfo1;
+            this.ButtonFollow.Enabled = false;
+            this.ButtonUnFollow.Enabled = true;
         }
 
         private async void ButtonUnFollow_Click(object sender, EventArgs e)
@@ -391,17 +391,17 @@ namespace OpenTween
                 }
 
                 MessageBox.Show(Properties.Resources.FRMessage3);
-                LabelIsFollowing.Text = Properties.Resources.GetFriendshipInfo2;
-                ButtonFollow.Enabled = true;
-                ButtonUnFollow.Enabled = false;
+                this.LabelIsFollowing.Text = Properties.Resources.GetFriendshipInfo2;
+                this.ButtonFollow.Enabled = true;
+                this.ButtonUnFollow.Enabled = false;
             }
         }
 
         private void ShowUserInfo_Activated(object sender, EventArgs e)
         {
             // 画面が他画面の裏に隠れると、アイコン画像が再描画されない問題の対応
-            if (UserPicture.Image != null)
-                UserPicture.Invalidate(false);
+            if (this.UserPicture.Image != null)
+                this.UserPicture.Invalidate(false);
         }
 
         private void ShowUserInfo_Shown(object sender, EventArgs e)
@@ -477,44 +477,44 @@ namespace OpenTween
 
             using (ControlTransaction.Disabled(this.ButtonEdit))
             {
-                if (!IsEditing)
+                if (!this.IsEditing)
                 {
-                    ButtonEditText = ButtonEdit.Text;
-                    ButtonEdit.Text = Properties.Resources.UserInfoButtonEdit_ClickText1;
+                    this.ButtonEditText = this.ButtonEdit.Text;
+                    this.ButtonEdit.Text = Properties.Resources.UserInfoButtonEdit_ClickText1;
 
-                    TextBoxName.Text = LabelName.Text;
-                    TextBoxName.Enabled = true;
-                    TextBoxName.Visible = true;
-                    LabelName.Visible = false;
+                    this.TextBoxName.Text = this.LabelName.Text;
+                    this.TextBoxName.Enabled = true;
+                    this.TextBoxName.Visible = true;
+                    this.LabelName.Visible = false;
 
-                    TextBoxLocation.Text = LabelLocation.Text;
-                    TextBoxLocation.Enabled = true;
-                    TextBoxLocation.Visible = true;
-                    LabelLocation.Visible = false;
+                    this.TextBoxLocation.Text = this.LabelLocation.Text;
+                    this.TextBoxLocation.Enabled = true;
+                    this.TextBoxLocation.Visible = true;
+                    this.LabelLocation.Visible = false;
 
-                    TextBoxWeb.Text = this._displayUser.Url;
-                    TextBoxWeb.Enabled = true;
-                    TextBoxWeb.Visible = true;
-                    LinkLabelWeb.Visible = false;
+                    this.TextBoxWeb.Text = this._displayUser.Url;
+                    this.TextBoxWeb.Enabled = true;
+                    this.TextBoxWeb.Visible = true;
+                    this.LinkLabelWeb.Visible = false;
 
-                    TextBoxDescription.Text = this._displayUser.Description;
-                    TextBoxDescription.Enabled = true;
-                    TextBoxDescription.Visible = true;
-                    DescriptionBrowser.Visible = false;
+                    this.TextBoxDescription.Text = this._displayUser.Description;
+                    this.TextBoxDescription.Enabled = true;
+                    this.TextBoxDescription.Visible = true;
+                    this.DescriptionBrowser.Visible = false;
 
-                    TextBoxName.Focus();
-                    TextBoxName.Select(TextBoxName.Text.Length, 0);
+                    this.TextBoxName.Focus();
+                    this.TextBoxName.Select(this.TextBoxName.Text.Length, 0);
 
-                    IsEditing = true;
+                    this.IsEditing = true;
                 }
                 else
                 {
                     Task? showUserTask = null;
 
-                    if (TextBoxName.Modified ||
-                        TextBoxLocation.Modified ||
-                        TextBoxWeb.Modified ||
-                        TextBoxDescription.Modified)
+                    if (this.TextBoxName.Modified ||
+                        this.TextBoxLocation.Modified ||
+                        this.TextBoxWeb.Modified ||
+                        this.TextBoxDescription.Modified)
                     {
                         try
                         {
@@ -534,25 +534,25 @@ namespace OpenTween
                         }
                     }
 
-                    TextBoxName.Enabled = false;
-                    TextBoxName.Visible = false;
-                    LabelName.Visible = true;
+                    this.TextBoxName.Enabled = false;
+                    this.TextBoxName.Visible = false;
+                    this.LabelName.Visible = true;
 
-                    TextBoxLocation.Enabled = false;
-                    TextBoxLocation.Visible = false;
-                    LabelLocation.Visible = true;
+                    this.TextBoxLocation.Enabled = false;
+                    this.TextBoxLocation.Visible = false;
+                    this.LabelLocation.Visible = true;
 
-                    TextBoxWeb.Enabled = false;
-                    TextBoxWeb.Visible = false;
-                    LinkLabelWeb.Visible = true;
+                    this.TextBoxWeb.Enabled = false;
+                    this.TextBoxWeb.Visible = false;
+                    this.LinkLabelWeb.Visible = true;
 
-                    TextBoxDescription.Enabled = false;
-                    TextBoxDescription.Visible = false;
-                    DescriptionBrowser.Visible = true;
+                    this.TextBoxDescription.Enabled = false;
+                    this.TextBoxDescription.Visible = false;
+                    this.DescriptionBrowser.Visible = true;
 
-                    ButtonEdit.Text = ButtonEditText;
+                    this.ButtonEdit.Text = this.ButtonEditText;
 
-                    IsEditing = false;
+                    this.IsEditing = false;
 
                     if (showUserTask != null)
                         await showUserTask;
@@ -592,18 +592,18 @@ namespace OpenTween
 
         private async void ChangeIconToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            OpenFileDialogIcon.Filter = Properties.Resources.ChangeIconToolStripMenuItem_ClickText1;
-            OpenFileDialogIcon.Title = Properties.Resources.ChangeIconToolStripMenuItem_ClickText2;
-            OpenFileDialogIcon.FileName = "";
+            this.OpenFileDialogIcon.Filter = Properties.Resources.ChangeIconToolStripMenuItem_ClickText1;
+            this.OpenFileDialogIcon.Title = Properties.Resources.ChangeIconToolStripMenuItem_ClickText2;
+            this.OpenFileDialogIcon.FileName = "";
 
-            var rslt = OpenFileDialogIcon.ShowDialog();
+            var rslt = this.OpenFileDialogIcon.ShowDialog();
 
             if (rslt != DialogResult.OK)
             {
                 return;
             }
 
-            var fn = OpenFileDialogIcon.FileName;
+            var fn = this.OpenFileDialogIcon.FileName;
             if (this.IsValidIconFile(new FileInfo(fn)))
             {
                 await this.DoChangeIcon(fn);

@@ -49,10 +49,10 @@ namespace OpenTween.OpenTweenCustomControl
 
         public DetailsListView()
         {
-            View = View.Details;
-            FullRowSelect = true;
-            HideSelection = false;
-            DoubleBuffered = true;
+            this.View = View.Details;
+            this.FullRowSelect = true;
+            this.HideSelection = false;
+            this.DoubleBuffered = true;
         }
 
         /// <summary>
@@ -205,10 +205,10 @@ namespace OpenTween.OpenTweenCustomControl
                     }
                     break;
                 case WM_HSCROLL:
-                    HScrolled?.Invoke(this, EventArgs.Empty);
+                    this.HScrolled?.Invoke(this, EventArgs.Empty);
                     break;
                 case WM_VSCROLL:
-                    VScrolled?.Invoke(this, EventArgs.Empty);
+                    this.VScrolled?.Invoke(this, EventArgs.Empty);
                     break;
                 case WM_MOUSEWHEEL:
                 case WM_MOUSEHWHEEL:
@@ -252,10 +252,10 @@ namespace OpenTween.OpenTweenCustomControl
 
             if (vPos != -1)
                 if (vPos != NativeMethods.GetScrollPosition(this, NativeMethods.ScrollBarDirection.SB_VERT))
-                    VScrolled?.Invoke(this, EventArgs.Empty);
+                    this.VScrolled?.Invoke(this, EventArgs.Empty);
             if (hPos != -1)
                 if (hPos != NativeMethods.GetScrollPosition(this, NativeMethods.ScrollBarDirection.SB_HORZ))
-                    HScrolled?.Invoke(this, EventArgs.Empty);
+                    this.HScrolled?.Invoke(this, EventArgs.Empty);
         }
    }
 }

@@ -68,7 +68,7 @@ namespace OpenTween.OpenTweenCustomControl
             }
 
             public override string ToString()
-                => Timestamp.ToLocalTime().ToString("T") + ": " + Summary;
+                => this.Timestamp.ToLocalTime().ToString("T") + ": " + this.Summary;
         }
 
         readonly LinkedList<LogEntry> _logs;
@@ -81,10 +81,10 @@ namespace OpenTween.OpenTweenCustomControl
             set
             {
                 var oneline = value.Replace("\n", " ");
-                _logs.AddLast(new LogEntry(DateTimeUtc.Now, oneline));
-                while (_logs.Count > MAXCNT)
+                this._logs.AddLast(new LogEntry(DateTimeUtc.Now, oneline));
+                while (this._logs.Count > MAXCNT)
                 {
-                    _logs.RemoveFirst();
+                    this._logs.RemoveFirst();
                 }
                 base.Text = oneline;
             }
@@ -95,7 +95,7 @@ namespace OpenTween.OpenTweenCustomControl
             get
             {
                 var sb = new StringBuilder();
-                foreach (var e in _logs)
+                foreach (var e in this._logs)
                 {
                     sb.AppendLine(e.ToString());
                 }

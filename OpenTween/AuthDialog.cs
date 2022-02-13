@@ -40,7 +40,7 @@ namespace OpenTween
     {
         public AuthDialog()
         {
-            InitializeComponent();
+            this.InitializeComponent();
 
             // PinTextBox のフォントを OTBaseForm.GlobalFont に変更
             this.PinTextBox.Font = this.ReplaceToGlobalFont(this.PinTextBox.Font);
@@ -48,14 +48,14 @@ namespace OpenTween
 
         public string AuthUrl
         {
-            get => AuthLinkLabel.Text;
-            set => AuthLinkLabel.Text = value;
+            get => this.AuthLinkLabel.Text;
+            set => this.AuthLinkLabel.Text = value;
         }
 
         public string Pin
         {
-            get => PinTextBox.Text.Trim();
-            set => PinTextBox.Text = value;
+            get => this.PinTextBox.Text.Trim();
+            set => this.PinTextBox.Text = value;
         }
 
         public string? BrowserPath { get; set; }
@@ -66,7 +66,7 @@ namespace OpenTween
             if (e.Button == MouseButtons.Right)
                 return;
 
-            AuthLinkLabel.LinkVisited = true;
+            this.AuthLinkLabel.LinkVisited = true;
             await MyCommon.OpenInBrowserAsync(this, this.BrowserPath, this.AuthUrl);
         }
 

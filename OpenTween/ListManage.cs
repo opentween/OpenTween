@@ -46,7 +46,7 @@ namespace OpenTween
 
         public ListManage(Twitter tw)
         {
-            InitializeComponent();
+            this.InitializeComponent();
 
             this.tw = tw;
         }
@@ -244,10 +244,10 @@ namespace OpenTween
                         return;
                     }
 
-                    var idx = ListsList.SelectedIndex;
+                    var idx = this.ListsList.SelectedIndex;
                     list.Members.Remove(user);
                     this.ListsList_SelectedIndexChanged(this.ListsList, EventArgs.Empty);
-                    if (idx < ListsList.Items.Count) ListsList.SelectedIndex = idx;
+                    if (idx < this.ListsList.Items.Count) this.ListsList.SelectedIndex = idx;
                 }
             }
         }
@@ -299,7 +299,7 @@ namespace OpenTween
 
         private async void UserList_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (UserList.SelectedItem == null)
+            if (this.UserList.SelectedItem == null)
             {
                 this.UserIcon.Image?.Dispose();
                 this.UserIcon.Image = null;
@@ -436,7 +436,7 @@ namespace OpenTween
 
             public override string ToString()
             {
-                if (IsCreated)
+                if (this.IsCreated)
                     return base.ToString();
                 else
                     return "NewList";

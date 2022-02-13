@@ -76,28 +76,28 @@ namespace OpenTween
 
         private void ButtonOK_Click(object sender, EventArgs e)
         {
-            inputText = this.TextId.Text;
-            isBack = false;
+            this.inputText = this.TextId.Text;
+            this.isBack = false;
         }
 
         private void ButtonCancel_Click(object sender, EventArgs e)
         {
-            inputText = "";
-            isBack = false;
+            this.inputText = "";
+            this.isBack = false;
         }
 
         private void TextId_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Back && MyCommon.IsNullOrEmpty(this.TextId.Text))
             {
-                inputText = "";
-                isBack = true;
+                this.inputText = "";
+                this.isBack = true;
                 this.Close();
             }
             else if (e.KeyCode == Keys.Space || e.KeyCode == Keys.Tab)
             {
-                inputText = this.TextId.Text + " ";
-                isBack = false;
+                this.inputText = this.TextId.Text + " ";
+                this.isBack = false;
                 this.Close();
             }
             else if (e.Control && e.KeyCode == Keys.Delete)
@@ -116,7 +116,7 @@ namespace OpenTween
 
         private void AtIdSupplement_Load(object sender, EventArgs e)
         {
-            if (startChar == "#")
+            if (this.startChar == "#")
             {
                 this.ClientSize = new Size(this.TextId.Width, this.TextId.Height); // プロパティで切り替えできるように
                 this.TextId.ImeMode = ImeMode.Inherit;
@@ -125,13 +125,13 @@ namespace OpenTween
 
         private void AtIdSupplement_Shown(object sender, EventArgs e)
         {
-            TextId.Text = startChar;
+            this.TextId.Text = this.startChar;
             if (!MyCommon.IsNullOrEmpty(this.StartsWith))
             {
-                TextId.Text += this.StartsWith.Substring(0, this.StartsWith.Length);
+                this.TextId.Text += this.StartsWith.Substring(0, this.StartsWith.Length);
             }
-            TextId.SelectionStart = TextId.Text.Length;
-            TextId.Focus();
+            this.TextId.SelectionStart = this.TextId.Text.Length;
+            this.TextId.Focus();
         }
 
         public AtIdSupplement()
@@ -139,21 +139,21 @@ namespace OpenTween
 
         public AtIdSupplement(List<string> ItemList, string startCharacter)
         {
-            InitializeComponent();
+            this.InitializeComponent();
 
             for (var i = 0; i < ItemList.Count; ++i)
             {
                 this.TextId.AutoCompleteCustomSource.Add(ItemList[i]);
             }
-            startChar = startCharacter;
+            this.startChar = startCharacter;
         }
 
         private void TextId_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
         {
             if (e.KeyCode == Keys.Tab)
             {
-                inputText = this.TextId.Text + " ";
-                isBack = false;
+                this.inputText = this.TextId.Text + " ";
+                this.isBack = false;
                 this.Close();
             }
         }
@@ -161,7 +161,7 @@ namespace OpenTween
         private void AtIdSupplement_FormClosed(object sender, FormClosedEventArgs e)
         {
             this.StartsWith = "";
-            if (isBack)
+            if (this.isBack)
             {
                 this.DialogResult = DialogResult.Cancel;
             }

@@ -61,7 +61,7 @@ namespace OpenTween.Models
             // 全フィルタ評価（優先順位あり）
             lock (this.lockObjFilters)
             {
-                foreach (var ft in _filters)
+                foreach (var ft in this._filters)
                 {
                     try
                     {
@@ -111,7 +111,7 @@ namespace OpenTween.Models
         {
             lock (this.lockObjFilters)
             {
-                return _filters.ToArray();
+                return this._filters.ToArray();
             }
         }
 
@@ -119,7 +119,7 @@ namespace OpenTween.Models
         {
             lock (this.lockObjFilters)
             {
-                _filters.Remove(filter);
+                this._filters.Remove(filter);
                 filter.PropertyChanged -= this.OnFilterModified;
                 this.FilterModified = true;
             }
@@ -129,9 +129,9 @@ namespace OpenTween.Models
         {
             lock (this.lockObjFilters)
             {
-                if (_filters.Contains(filter)) return false;
+                if (this._filters.Contains(filter)) return false;
                 filter.PropertyChanged += this.OnFilterModified;
-                _filters.Add(filter);
+                this._filters.Add(filter);
                 this.FilterModified = true;
                 return true;
             }
@@ -146,7 +146,7 @@ namespace OpenTween.Models
             {
                 lock (this.lockObjFilters)
                 {
-                    return _filters.ToArray();
+                    return this._filters.ToArray();
                 }
             }
             set
@@ -163,7 +163,7 @@ namespace OpenTween.Models
 
                     foreach (var newFilter in value)
                     {
-                        _filters.Add(newFilter);
+                        this._filters.Add(newFilter);
                         newFilter.PropertyChanged += this.OnFilterModified;
                     }
                 }

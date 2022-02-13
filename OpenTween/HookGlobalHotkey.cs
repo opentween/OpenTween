@@ -68,9 +68,9 @@ namespace OpenTween
             const int WM_HOTKEY = 0x312;
             if (m.Msg == WM_HOTKEY)
             {
-                if (_hotkeyID.ContainsKey(m.WParam.ToInt32()))
+                if (this._hotkeyID.ContainsKey(m.WParam.ToInt32()))
                 {
-                    HotkeyPressed?.Invoke(this, _hotkeyID[m.WParam.ToInt32()].KeyEvent);
+                    this.HotkeyPressed?.Invoke(this, this._hotkeyID[m.WParam.ToInt32()].KeyEvent);
                 }
                 return;
             }
@@ -79,15 +79,15 @@ namespace OpenTween
 
         public HookGlobalHotkey(Form targetForm)
         {
-            _targetForm = targetForm;
-            _hotkeyID = new Dictionary<int, KeyEventValue>();
+            this._targetForm = targetForm;
+            this._hotkeyID = new Dictionary<int, KeyEventValue>();
 
-           _targetForm.HandleCreated += this.OnHandleCreated;
-           _targetForm.HandleDestroyed += this.OnHandleDestroyed;
+            this._targetForm.HandleCreated += this.OnHandleCreated;
+            this._targetForm.HandleDestroyed += this.OnHandleDestroyed;
         }
 
         public void OnHandleCreated(object sender, EventArgs e)
-            => this.AssignHandle(_targetForm.Handle);
+            => this.AssignHandle(this._targetForm.Handle);
 
         public void OnHandleDestroyed(object sender, EventArgs e)
             => this.ReleaseHandle();
@@ -136,8 +136,8 @@ namespace OpenTween
                 if (this._targetForm != null && !this._targetForm.IsDisposed)
                 {
                     this.UnregisterAllOriginalHotkey();
-                    _targetForm.HandleCreated -= this.OnHandleCreated;
-                    _targetForm.HandleDestroyed -= this.OnHandleDestroyed;
+                    this._targetForm.HandleCreated -= this.OnHandleCreated;
+                    this._targetForm.HandleDestroyed -= this.OnHandleDestroyed;
                 }
             }
             this.disposedValue = true;
@@ -148,7 +148,7 @@ namespace OpenTween
         public void Dispose()
         {
             // このコードを変更しないでください。クリーンアップ コードを上の Dispose(bool disposing) に記述します。
-            Dispose(true);
+            this.Dispose(true);
             GC.SuppressFinalize(this);
         }
 #endregion

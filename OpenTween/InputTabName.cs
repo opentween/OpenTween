@@ -50,7 +50,7 @@ namespace OpenTween
 
         private void Cancel_Button_Click(object sender, EventArgs e)
         {
-            TextTabName.Text = "";
+            this.TextTabName.Text = "";
             this.DialogResult = DialogResult.Cancel;
             this.Close();
         }
@@ -58,7 +58,7 @@ namespace OpenTween
         public string TabName
         {
             get => this.TextTabName.Text.Trim();
-            set => TextTabName.Text = value.Trim();
+            set => this.TextTabName.Text = value.Trim();
         }
 
         public string FormTitle
@@ -88,7 +88,7 @@ namespace OpenTween
 
         private void InputTabName_Shown(object sender, EventArgs e)
         {
-            ActiveControl = TextTabName;
+            this.ActiveControl = this.TextTabName;
             if (this.IsShowUsage)
             {
                 this.LabelUsage.Visible = true;
@@ -98,7 +98,7 @@ namespace OpenTween
 
         private void ComboUsage_SelectedIndexChanged(object sender, EventArgs e)
         {
-            this.Usage = ComboUsage.SelectedIndex switch
+            this.Usage = this.ComboUsage.SelectedIndex switch
             {
                 0 => MyCommon.TabUsageType.UserDefined,
                 1 => MyCommon.TabUsageType.Lists,

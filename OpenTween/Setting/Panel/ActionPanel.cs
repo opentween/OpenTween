@@ -111,7 +111,7 @@ namespace OpenTween.Setting.Panel
 
             if (filedlg.ShowDialog() == DialogResult.OK)
             {
-                BrowserPathText.Text = filedlg.FileName;
+                this.BrowserPathText.Text = filedlg.FileName;
             }
         }
 
@@ -119,21 +119,21 @@ namespace OpenTween.Setting.Panel
         {
             // KeyValueで判定する。
             // 表示文字とのテーブルを用意すること
-            HotkeyText.Text = e.KeyCode.ToString();
-            HotkeyCode.Text = e.KeyValue.ToString();
-            HotkeyText.Tag = e.KeyCode;
+            this.HotkeyText.Text = e.KeyCode.ToString();
+            this.HotkeyCode.Text = e.KeyValue.ToString();
+            this.HotkeyText.Tag = e.KeyCode;
             e.Handled = true;
             e.SuppressKeyPress = true;
         }
 
         private void HotkeyCheck_CheckedChanged(object sender, EventArgs e)
         {
-            HotkeyCtrl.Enabled = HotkeyCheck.Checked;
-            HotkeyAlt.Enabled = HotkeyCheck.Checked;
-            HotkeyShift.Enabled = HotkeyCheck.Checked;
-            HotkeyWin.Enabled = HotkeyCheck.Checked;
-            HotkeyText.Enabled = HotkeyCheck.Checked;
-            HotkeyCode.Enabled = HotkeyCheck.Checked;
+            this.HotkeyCtrl.Enabled = this.HotkeyCheck.Checked;
+            this.HotkeyAlt.Enabled = this.HotkeyCheck.Checked;
+            this.HotkeyShift.Enabled = this.HotkeyCheck.Checked;
+            this.HotkeyWin.Enabled = this.HotkeyCheck.Checked;
+            this.HotkeyText.Enabled = this.HotkeyCheck.Checked;
+            this.HotkeyCode.Enabled = this.HotkeyCheck.Checked;
         }
     }
 }

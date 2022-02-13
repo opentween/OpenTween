@@ -51,8 +51,8 @@ namespace OpenTween
         public string Password = "";
         public string EncryptPassword
         {
-            get => Encrypt(Password);
-            set => Password = Decrypt(value);
+            get => this.Encrypt(this.Password);
+            set => this.Password = this.Decrypt(value);
         }
 
         public string Token = "";
@@ -60,8 +60,8 @@ namespace OpenTween
         public string TokenSecret = "";
         public string EncryptTokenSecret
         {
-            get => Encrypt(TokenSecret);
-            set => TokenSecret = Decrypt(value);
+            get => this.Encrypt(this.TokenSecret);
+            set => this.TokenSecret = this.Decrypt(value);
         }
 
         private string Encrypt(string password)
@@ -258,8 +258,8 @@ namespace OpenTween
         public string TokenSecret = "";
         public string EncryptTokenSecret
         {
-            get => Encrypt(TokenSecret);
-            set => TokenSecret = Decrypt(value);
+            get => this.Encrypt(this.TokenSecret);
+            set => this.TokenSecret = this.Decrypt(value);
         }
         private string Encrypt(string password)
         {

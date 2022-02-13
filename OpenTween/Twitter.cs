@@ -285,7 +285,7 @@ namespace OpenTween
             this.previousStatusId = status.Id;
 
             // 投稿したものを返す
-            var post = CreatePostsFromStatusData(status);
+            var post = this.CreatePostsFromStatusData(status);
             if (this.ReadOwnPost) post.IsRead = true;
             return post;
         }
@@ -388,7 +388,7 @@ namespace OpenTween
                 .ConfigureAwait(false);
 
             // 二重取得回避
-            lock (LockObj)
+            lock (this.LockObj)
             {
                 if (TabInformations.GetInstance().ContainsKey(status.Id))
                     return null;
@@ -399,7 +399,7 @@ namespace OpenTween
                 throw new WebApiException("Invalid Json!");
 
             // Retweetしたものを返す
-            post = CreatePostsFromStatusData(status);
+            post = this.CreatePostsFromStatusData(status);
 
             // ユーザー情報
             post.IsMe = true;
@@ -595,7 +595,7 @@ namespace OpenTween
                 }
             }
 
-            var minimumId = CreatePostsFromJson(statuses, MyCommon.WORKERTYPE.UserTimeline, tab, read);
+            var minimumId = this.CreatePostsFromJson(statuses, MyCommon.WORKERTYPE.UserTimeline, tab, read);
 
             if (minimumId != null)
                 tab.OldestId = minimumId.Value;
@@ -608,7 +608,7 @@ namespace OpenTween
             var status = await this.Api.StatusesShow(id)
                 .ConfigureAwait(false);
 
-            var item = CreatePostsFromStatusData(status);
+            var item = this.CreatePostsFromStatusData(status);
 
             item.IsRead = read;
             if (item.IsMe && !read && this.ReadOwnPost) item.IsRead = true;
@@ -795,7 +795,7 @@ namespace OpenTween
             }
             else
             {
-                if (followerId.Count > 0) post.IsOwl = !followerId.Contains(post.UserId);
+                if (this.followerId.Count > 0) post.IsOwl = !this.followerId.Contains(post.UserId);
             }
 
             post.IsDm = false;
@@ -840,7 +840,7 @@ namespace OpenTween
                     minimumId = status.Id;
 
                 // 二重取得回避
-                lock (LockObj)
+                lock (this.LockObj)
                 {
                     if (tab == null)
                     {
@@ -856,7 +856,7 @@ namespace OpenTween
                 if (gType != MyCommon.WORKERTYPE.UserTimeline &&
                     status.RetweetedStatus != null && this.noRTId.Contains(status.User.Id)) continue;
 
-                var post = CreatePostsFromStatusData(status);
+                var post = this.CreatePostsFromStatusData(status);
 
                 post.IsRead = read;
                 if (post.IsMe && !read && this.ReadOwnPost) post.IsRead = true;
@@ -881,12 +881,12 @@ namespace OpenTween
 
                 if (!more && status.Id > tab.SinceId) tab.SinceId = status.Id;
                 // 二重取得回避
-                lock (LockObj)
+                lock (this.LockObj)
                 {
                     if (tab.Contains(status.Id)) continue;
                 }
 
-                var post = CreatePostsFromStatusData(status);
+                var post = this.CreatePostsFromStatusData(status);
 
                 post.IsRead = read;
                 if ((post.IsMe && !read) && this.ReadOwnPost) post.IsRead = true;
@@ -908,12 +908,12 @@ namespace OpenTween
                     minimumId = status.Id;
 
                 // 二重取得回避
-                lock (LockObj)
+                lock (this.LockObj)
                 {
                     if (favTab.Contains(status.Id)) continue;
                 }
 
-                var post = CreatePostsFromStatusData(status, true);
+                var post = this.CreatePostsFromStatusData(status, true);
 
                 post.IsRead = read;
 
@@ -939,7 +939,7 @@ namespace OpenTween
                     .ConfigureAwait(false);
             }
 
-            var minimumId = CreatePostsFromJson(statuses, MyCommon.WORKERTYPE.List, tab, read);
+            var minimumId = this.CreatePostsFromJson(statuses, MyCommon.WORKERTYPE.List, tab, read);
 
             if (minimumId != null)
                 tab.OldestId = minimumId.Value;
@@ -1635,10 +1635,10 @@ namespace OpenTween
         public string[] GetHashList()
         {
             string[] hashArray;
-            lock (LockObj)
+            lock (this.LockObj)
             {
-                hashArray = _hashList.ToArray();
-                _hashList.Clear();
+                hashArray = this._hashList.ToArray();
+                this._hashList.Clear();
             }
             return hashArray;
         }
@@ -1767,7 +1767,7 @@ namespace OpenTween
 
         public void Dispose()
         {
-            Dispose(true);
+            this.Dispose(true);
             GC.SuppressFinalize(this);
         }
     }

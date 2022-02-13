@@ -46,13 +46,13 @@ namespace OpenTween
 
         private void OK_Button_Click(object sender, EventArgs e)
         {
-            if (UrlList.SelectedItems.Count == 0)
+            if (this.UrlList.SelectedItems.Count == 0)
             {
                 this.DialogResult = DialogResult.Cancel;
             }
             else
             {
-                _selUrl = UrlList.SelectedItem.ToString();
+                this._selUrl = this.UrlList.SelectedItem.ToString();
                 this.DialogResult = DialogResult.OK;
             }
             this.Close();
@@ -74,8 +74,8 @@ namespace OpenTween
         {
             get
             {
-                if (UrlList.SelectedItems.Count == 1)
-                    return _selUrl!;
+                if (this.UrlList.SelectedItems.Count == 1)
+                    return this._selUrl!;
                 else
                     return "";
             }
@@ -83,40 +83,40 @@ namespace OpenTween
 
         private void OpenURL_Shown(object sender, EventArgs e)
         {
-            UrlList.Focus();
-            if (UrlList.Items.Count > 0)
-                UrlList.SelectedIndex = 0;
+            this.UrlList.Focus();
+            if (this.UrlList.Items.Count > 0)
+                this.UrlList.SelectedIndex = 0;
         }
 
         private void UrlList_DoubleClick(object sender, EventArgs e)
         {
-            if (UrlList.SelectedItem == null)
+            if (this.UrlList.SelectedItem == null)
                 return;
 
-            if (UrlList.IndexFromPoint(UrlList.PointToClient(Control.MousePosition)) == ListBox.NoMatches)
+            if (this.UrlList.IndexFromPoint(this.UrlList.PointToClient(Control.MousePosition)) == ListBox.NoMatches)
                 return;
 
-            if (UrlList.Items[UrlList.IndexFromPoint(UrlList.PointToClient(Control.MousePosition))] == null)
+            if (this.UrlList.Items[this.UrlList.IndexFromPoint(this.UrlList.PointToClient(Control.MousePosition))] == null)
                 return;
-            OK_Button_Click(sender, e);
+            this.OK_Button_Click(sender, e);
         }
 
         private void UrlList_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.J && UrlList.SelectedIndex < UrlList.Items.Count - 1)
+            if (e.KeyCode == Keys.J && this.UrlList.SelectedIndex < this.UrlList.Items.Count - 1)
             {
                 e.SuppressKeyPress = true;
-                UrlList.SelectedIndex += 1;
+                this.UrlList.SelectedIndex += 1;
             }
-            if (e.KeyCode == Keys.K && UrlList.SelectedIndex > 0)
+            if (e.KeyCode == Keys.K && this.UrlList.SelectedIndex > 0)
             {
                 e.SuppressKeyPress = true;
-                UrlList.SelectedIndex -= 1;
+                this.UrlList.SelectedIndex -= 1;
             }
             if (e.Control && e.KeyCode == Keys.Oem4)
             {
                 e.SuppressKeyPress = true;
-                Cancel_Button_Click(this.Cancel_Button, EventArgs.Empty);
+                this.Cancel_Button_Click(this.Cancel_Button, EventArgs.Empty);
             }
         }
     }

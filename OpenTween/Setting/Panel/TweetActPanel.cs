@@ -95,13 +95,13 @@ namespace OpenTween.Setting.Panel
 
         private void CheckUseRecommendStatus_CheckedChanged(object sender, EventArgs e)
         {
-            if (CheckUseRecommendStatus.Checked == true)
+            if (this.CheckUseRecommendStatus.Checked == true)
             {
-                StatusText.Enabled = false;
+                this.StatusText.Enabled = false;
             }
             else
             {
-                StatusText.Enabled = true;
+                this.StatusText.Enabled = true;
             }
         }
     }

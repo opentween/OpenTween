@@ -76,16 +76,16 @@ namespace OpenTween
         private void AddButton_Click(object sender, EventArgs e)
         {
             this.UseHashText.Text = "";
-            ChangeMode(true);
-            _isAdd = true;
+            this.ChangeMode(true);
+            this._isAdd = true;
         }
 
         private void EditButton_Click(object sender, EventArgs e)
         {
             if (this.HistoryHashList.SelectedIndices.Count == 0) return;
             this.UseHashText.Text = this.HistoryHashList.SelectedItems[0].ToString();
-            ChangeMode(true);
-            _isAdd = false;
+            this.ChangeMode(true);
+            this._isAdd = false;
         }
 
         private void DeleteButton_Click(object sender, EventArgs e)
@@ -106,12 +106,12 @@ namespace OpenTween
 
             foreach (var idx in selectedIndices)
             {
-                if (UseHashText.Text == HistoryHashList.Items[idx].ToString()) UseHashText.Text = "";
-                HistoryHashList.Items.RemoveAt(idx);
+                if (this.UseHashText.Text == this.HistoryHashList.Items[idx].ToString()) this.UseHashText.Text = "";
+                this.HistoryHashList.Items.RemoveAt(idx);
             }
-            if (HistoryHashList.Items.Count > 0)
+            if (this.HistoryHashList.Items.Count > 0)
             {
-                HistoryHashList.SelectedIndex = 0;
+                this.HistoryHashList.SelectedIndex = 0;
             }
         }
 
@@ -119,8 +119,8 @@ namespace OpenTween
         {
             do
             {
-                HistoryHashList.SelectedIndices.Clear();
-            } while (HistoryHashList.SelectedIndices.Count > 0);
+                this.HistoryHashList.SelectedIndices.Clear();
+            } while (this.HistoryHashList.SelectedIndices.Count > 0);
         }
 
         private int GetIndexOf(ListBox.ObjectCollection list, string value)
@@ -156,35 +156,35 @@ namespace OpenTween
                 if (isIgnorePermanent || !this.IsPermanent)
                 {
                     // 無条件に先頭に挿入
-                    var idx = GetIndexOf(HistoryHashList.Items, hash);
+                    var idx = this.GetIndexOf(this.HistoryHashList.Items, hash);
 
-                    if (idx != -1) HistoryHashList.Items.RemoveAt(idx);
-                    HistoryHashList.Items.Insert(0, hash);
+                    if (idx != -1) this.HistoryHashList.Items.RemoveAt(idx);
+                    this.HistoryHashList.Items.Insert(0, hash);
                 }
                 else
                 {
                     // 固定されていたら2行目に挿入
-                    var idx = GetIndexOf(HistoryHashList.Items, hash);
+                    var idx = this.GetIndexOf(this.HistoryHashList.Items, hash);
                     if (this.IsPermanent)
                     {
                         if (idx > 0)
                         {
                             // 重複アイテムが2行目以降にあれば2行目へ
-                            HistoryHashList.Items.RemoveAt(idx);
-                            HistoryHashList.Items.Insert(1, hash);
+                            this.HistoryHashList.Items.RemoveAt(idx);
+                            this.HistoryHashList.Items.Insert(1, hash);
                         }
                         else if (idx == -1)
                         {
                             // 重複アイテムなし
-                            if (HistoryHashList.Items.Count == 0)
+                            if (this.HistoryHashList.Items.Count == 0)
                             {
                                 // リストが空なら追加
-                                HistoryHashList.Items.Add(hash);
+                                this.HistoryHashList.Items.Add(hash);
                             }
                             else
                             {
                                 // リストにアイテムがあれば2行目へ
-                                HistoryHashList.Items.Insert(1, hash);
+                                this.HistoryHashList.Items.Insert(1, hash);
                             }
                         }
                     }
@@ -214,12 +214,12 @@ namespace OpenTween
         public HashtagManage(AtIdSupplement hashSuplForm, string[] history, string permanentHash, bool IsPermanent, bool IsHead, bool IsNotAddToAtReply)
         {
             // この呼び出しは、Windows フォーム デザイナで必要です。
-            InitializeComponent();
+            this.InitializeComponent();
 
             // InitializeComponent() 呼び出しの後で初期化を追加します。
 
-            _hashSupl = hashSuplForm;
-            HistoryHashList.Items.AddRange(history);
+            this._hashSupl = hashSuplForm;
+            this.HistoryHashList.Items.AddRange(history);
             this.UseHash = permanentHash;
             this.IsPermanent = IsPermanent;
             this.IsHead = IsHead;
@@ -230,22 +230,22 @@ namespace OpenTween
         {
             if (e.KeyChar == '#')
             {
-                _hashSupl.ShowDialog();
-                if (!MyCommon.IsNullOrEmpty(_hashSupl.inputText))
+                this._hashSupl.ShowDialog();
+                if (!MyCommon.IsNullOrEmpty(this._hashSupl.inputText))
                 {
                     var fHalf = "";
                     var eHalf = "";
-                    var selStart = UseHashText.SelectionStart;
+                    var selStart = this.UseHashText.SelectionStart;
                     if (selStart > 0)
                     {
-                        fHalf = UseHashText.Text.Substring(0, selStart);
+                        fHalf = this.UseHashText.Text.Substring(0, selStart);
                     }
-                    if (selStart < UseHashText.Text.Length)
+                    if (selStart < this.UseHashText.Text.Length)
                     {
-                        eHalf = UseHashText.Text.Substring(selStart);
+                        eHalf = this.UseHashText.Text.Substring(selStart);
                     }
-                    UseHashText.Text = fHalf + _hashSupl.inputText + eHalf;
-                    UseHashText.SelectionStart = selStart + _hashSupl.inputText.Length;
+                    this.UseHashText.Text = fHalf + this._hashSupl.inputText + eHalf;
+                    this.UseHashText.SelectionStart = selStart + this._hashSupl.inputText.Length;
                 }
                 e.Handled = true;
             }
@@ -272,7 +272,7 @@ namespace OpenTween
             get
             {
                 var hash = new List<string>();
-                foreach (string item in HistoryHashList.Items)
+                foreach (string item in this.HistoryHashList.Items)
                 {
                     hash.Add(item);
                 }
@@ -287,17 +287,17 @@ namespace OpenTween
         {
             // 固定ハッシュタグの変更
             this.UseHash = hash.Trim();
-            this.AddHashToHistory(UseHash, false);
+            this.AddHashToHistory(this.UseHash, false);
             this.IsPermanent = true;
         }
 
         private void PermOK_Button_Click(object sender, EventArgs e)
         {
             // ハッシュタグの整形
-            var hashStr = UseHashText.Text;
+            var hashStr = this.UseHashText.Text;
             if (!this.AdjustHashtags(ref hashStr, !this.RunSilent)) return;
 
-            UseHashText.Text = hashStr;
+            this.UseHashText.Text = hashStr;
             if (!this._isAdd && this.HistoryHashList.SelectedIndices.Count > 0)
             {
                 var idx = this.HistoryHashList.SelectedIndices[0];
@@ -319,7 +319,7 @@ namespace OpenTween
                 this.HistoryHashList.SelectedIndex = this.HistoryHashList.Items.IndexOf(hashStr);
             }
 
-            ChangeMode(false);
+            this.ChangeMode(false);
         }
 
         private void PermCancel_Button_Click(object sender, EventArgs e)
@@ -329,7 +329,7 @@ namespace OpenTween
             else
                 this.UseHashText.Text = "";
 
-            ChangeMode(false);
+            this.ChangeMode(false);
         }
 
         private void HistoryHashList_KeyDown(object sender, KeyEventArgs e)
@@ -420,6 +420,6 @@ namespace OpenTween
         }
 
         private void CheckNotAddToAtReply_CheckedChanged(object sender, EventArgs e)
-            => this.IsNotAddToAtReply = CheckNotAddToAtReply.Checked;
+            => this.IsNotAddToAtReply = this.CheckNotAddToAtReply.Checked;
     }
 }

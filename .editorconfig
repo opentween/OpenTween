@@ -90,3 +90,9 @@ dotnet_diagnostic.SA1629.severity = none
 
 # SA1633: The file header XML is invalid
 dotnet_diagnostic.SA1633.severity = none
+
+# conflict with StyleCop rules
+dotnet_style_qualification_for_field = true
+dotnet_style_qualification_for_property = true
+dotnet_style_qualification_for_method = true
+dotnet_style_qualification_for_event = true

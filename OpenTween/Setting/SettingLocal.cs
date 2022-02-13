@@ -275,7 +275,7 @@ namespace OpenTween
         {
             get
             {
-                var pwd = ProxyPassword;
+                var pwd = this.ProxyPassword;
                 if (MyCommon.IsNullOrEmpty(pwd)) pwd = "";
                 if (pwd.Length > 0)
                 {
@@ -308,7 +308,7 @@ namespace OpenTween
                         pwd = "";
                     }
                 }
-                ProxyPassword = pwd;
+                this.ProxyPassword = pwd;
             }
         }
 

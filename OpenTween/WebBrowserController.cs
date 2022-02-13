@@ -300,16 +300,16 @@ namespace OpenTween
                 Application.DoEvents();
             } while (_WebBrowser.ReadyState != WebBrowserReadyState.Complete);
 
-            ocx = _WebBrowser.ActiveXInstance;
+            this.ocx = _WebBrowser.ActiveXInstance;
 
             // IServiceProvider.QueryService() を使って IProfferService を取得
-            ocxServiceProvider = (WebBrowserAPI.IServiceProvider)ocx;
+            this.ocxServiceProvider = (WebBrowserAPI.IServiceProvider)this.ocx;
 
             try
             {
-                ocxServiceProvider.QueryService(
+                this.ocxServiceProvider.QueryService(
                     ref WebBrowserAPI.SID_SProfferService,
-                    ref WebBrowserAPI.IID_IProfferService, out profferServicePtr);
+                    ref WebBrowserAPI.IID_IProfferService, out this.profferServicePtr);
             }
             catch (SEHException ex)
             {
@@ -323,13 +323,13 @@ namespace OpenTween
             }
 
 
-            profferService = (WebBrowserAPI.IProfferService)Marshal.GetObjectForIUnknown(profferServicePtr);
+            this.profferService = (WebBrowserAPI.IProfferService)Marshal.GetObjectForIUnknown(this.profferServicePtr);
 
             // IProfferService.ProfferService() を使って
             // 自分を IInternetSecurityManager として提供
             try
             {
-                profferService.ProfferService(
+                this.profferService.ProfferService(
                     ref WebBrowserAPI.IID_IInternetSecurityManager, this, out var cookie);
             }
             catch (SEHException ex)

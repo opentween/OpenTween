@@ -55,10 +55,10 @@ namespace OpenTween
 
         public TabsDialog(TabInformations tabinformation)
         {
-            InitializeComponent();
+            this.InitializeComponent();
 
             this.TabInfo = tabinformation;
-            UpdateTabList();
+            this.UpdateTabList();
         }
 
         protected void UpdateTabList()

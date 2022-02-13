@@ -37,14 +37,14 @@ namespace OpenTween.Models
             private Dictionary<long, PostClass> testCases;
             public PostClassGroup(params TestPostClass[] postClasses)
             {
-                testCases = new Dictionary<long, PostClass>();
+                this.testCases = new Dictionary<long, PostClass>();
                 foreach (var p in postClasses)
                 {
                     p.Group = this;
-                    testCases.Add(p.StatusId, p);
+                    this.testCases.Add(p.StatusId, p);
                 }
             }
-            public PostClass this[long id] => testCases[id];
+            public PostClass this[long id] => this.testCases[id];
         }
         class TestPostClass : PostClass
         {
@@ -97,7 +97,7 @@ namespace OpenTween.Models
         [InlineData(2L, true)]
         [InlineData(3L, true)]
         public void GetIsFavTest(long statusId, bool expected)
-            => Assert.Equal(expected, PostGroup[statusId].IsFav);
+            => Assert.Equal(expected, this.PostGroup[statusId].IsFav);
 
         [Theory]
         [InlineData(2L, true)]
@@ -106,13 +106,13 @@ namespace OpenTween.Models
         [InlineData(3L, false)]
         public void SetIsFavTest(long statusId, bool isFav)
         {
-            var post = PostGroup[statusId];
+            var post = this.PostGroup[statusId];
 
             post.IsFav = isFav;
             Assert.Equal(isFav, post.IsFav);
 
             if (post.RetweetedId != null)
-                Assert.Equal(isFav, PostGroup[post.RetweetedId.Value].IsFav);
+                Assert.Equal(isFav, this.PostGroup[post.RetweetedId.Value].IsFav);
         }
 
 #pragma warning disable SA1008 // Opening parenthesis should be spaced correctly

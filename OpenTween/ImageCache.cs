@@ -92,7 +92,7 @@ namespace OpenTween
             {
                 lock (this.lockObject)
                 {
-                    innerDictionary.TryGetValue(address, out var cachedImageTask);
+                    this.innerDictionary.TryGetValue(address, out var cachedImageTask);
 
                     if (cachedImageTask != null)
                     {

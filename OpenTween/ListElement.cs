@@ -75,7 +75,7 @@ namespace OpenTween
 
         public virtual async Task Refresh()
         {
-            var newList = await _tw.EditList(this.Id, Name, !this.IsPublic, this.Description)
+            var newList = await this._tw.EditList(this.Id, this.Name, !this.IsPublic, this.Description)
                 .ConfigureAwait(false);
 
             this.Description = newList.Description;
@@ -107,6 +107,6 @@ namespace OpenTween
                 .ConfigureAwait(false);
 
         public override string ToString()
-            => $"@{Username}/{Name} [{(this.IsPublic ? "public" : "Protected")}]";
+            => $"@{this.Username}/{this.Name} [{(this.IsPublic ? "public" : "Protected")}]";
     }
 }

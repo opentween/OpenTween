@@ -57,21 +57,21 @@ namespace OpenTween
         {
             // TL更新用エンドポイントの追加
             var group = this.ListViewApi.Groups[0];
-            foreach (var endpoint in _tlEndpoints)
+            foreach (var endpoint in this._tlEndpoints)
             {
                 var apiLimit = MyCommon.TwitterApiInfo.AccessLimit[endpoint];
                 if (apiLimit == null)
                     continue;
 
-                AddListViewItem(endpoint, apiLimit, group);
+                this.AddListViewItem(endpoint, apiLimit, group);
             }
 
             // その他
             group = this.ListViewApi.Groups[1];
-            var apiStatuses = MyCommon.TwitterApiInfo.AccessLimit.Where(x => !_tlEndpoints.Contains(x.Key)).OrderBy(x => x.Key);
+            var apiStatuses = MyCommon.TwitterApiInfo.AccessLimit.Where(x => !this._tlEndpoints.Contains(x.Key)).OrderBy(x => x.Key);
             foreach (var (endpoint, apiLimit) in apiStatuses)
             {
-                AddListViewItem(endpoint, apiLimit, group);
+                this.AddListViewItem(endpoint, apiLimit, group);
             }
 
             MyCommon.TwitterApiInfo.AccessLimitUpdated += this.TwitterApiStatus_AccessLimitUpdated;
@@ -116,7 +116,7 @@ namespace OpenTween
                 {
                     var endpoint = ((TwitterApiStatus.AccessLimitUpdatedEventArgs)e).EndpointName;
                     if (endpoint != null)
-                        UpdateEndpointLimit(endpoint);
+                        this.UpdateEndpointLimit(endpoint);
                 }
             }
             catch (ObjectDisposedException)

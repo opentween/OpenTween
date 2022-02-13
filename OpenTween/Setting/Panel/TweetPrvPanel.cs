@@ -90,7 +90,7 @@ namespace OpenTween.Setting.Panel
                 2 => MyCommon.IconSizes.Icon24,
                 3 => MyCommon.IconSizes.Icon48,
                 4 => MyCommon.IconSizes.Icon48_2,
-                _ => throw new IndexOutOfRangeException($"Invalid {nameof(IconSize)} index: {this.IconSize.SelectedIndex}"),
+                _ => throw new IndexOutOfRangeException($"Invalid {nameof(this.IconSize)} index: {this.IconSize.SelectedIndex}"),
             };
             settingCommon.OneWayLove = this.OneWayLv.Checked;
             settingCommon.SortOrderLock = this.CheckSortOrderLock.Checked;
@@ -106,11 +106,11 @@ namespace OpenTween.Setting.Panel
         {
             try
             {
-                LabelDateTimeFormatApplied.Text = DateTimeUtc.Now.ToLocalTimeString(CmbDateTimeFormat.Text);
+                this.LabelDateTimeFormatApplied.Text = DateTimeUtc.Now.ToLocalTimeString(this.CmbDateTimeFormat.Text);
             }
             catch (FormatException)
             {
-                LabelDateTimeFormatApplied.Text = Properties.Resources.CreateDateTimeFormatSampleText1;
+                this.LabelDateTimeFormatApplied.Text = Properties.Resources.CreateDateTimeFormatSampleText1;
                 return false;
             }
             return true;
@@ -124,7 +124,7 @@ namespace OpenTween.Setting.Panel
 
         private void CmbDateTimeFormat_Validating(object sender, CancelEventArgs e)
         {
-            if (!CreateDateTimeFormatSample())
+            if (!this.CreateDateTimeFormatSample())
             {
                 MessageBox.Show(Properties.Resources.CmbDateTimeFormat_Validating);
                 e.Cancel = true;

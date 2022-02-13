@@ -193,10 +193,10 @@ namespace OpenTween.Models
 
         public PostClass()
         {
-            Media = new List<MediaInfo>();
-            ReplyToList = new List<(long, string)>();
-            QuoteStatusIds = Array.Empty<long>();
-            ExpandedUrls = Array.Empty<ExpandedUrlInfo>();
+            this.Media = new List<MediaInfo>();
+            this.ReplyToList = new List<(long, string)>();
+            this.QuoteStatusIds = Array.Empty<long>();
+            this.ExpandedUrls = Array.Empty<ExpandedUrlInfo>();
         }
 
         public string TextSingleLine
@@ -215,11 +215,11 @@ namespace OpenTween.Models
                     }
                 }
 
-                return _IsFav;
+                return this._IsFav;
             }
             set
             {
-                _IsFav = value;
+                this._IsFav = value;
                 if (this.RetweetedId != null)
                 {
                     var post = this.RetweetSource;
@@ -237,11 +237,11 @@ namespace OpenTween.Models
             set
             {
                 if (value)
-                    _states |= States.Protect;
+                    this._states |= States.Protect;
                 else
-                    _states &= ~States.Protect;
+                    this._states &= ~States.Protect;
 
-                _IsProtect = value;
+                this._IsProtect = value;
             }
         }
         public bool IsMark
@@ -250,11 +250,11 @@ namespace OpenTween.Models
             set
             {
                 if (value)
-                    _states |= States.Mark;
+                    this._states |= States.Mark;
                 else
-                    _states &= ~States.Mark;
+                    this._states &= ~States.Mark;
 
-                _IsMark = value;
+                this._IsMark = value;
             }
         }
         public long? InReplyToStatusId
@@ -263,11 +263,11 @@ namespace OpenTween.Models
             set
             {
                 if (value != null)
-                    _states |= States.Reply;
+                    this._states |= States.Reply;
                 else
-                    _states &= ~States.Reply;
+                    this._states &= ~States.Reply;
 
-                _InReplyToStatusId = value;
+                this._InReplyToStatusId = value;
             }
         }
 
@@ -285,7 +285,7 @@ namespace OpenTween.Models
                     this.ReplyToList = new List<(long, string)>();
                     this._states = States.None;
                 }
-                _IsDeleted = value;
+                this._IsDeleted = value;
             }
         }
 
@@ -299,18 +299,18 @@ namespace OpenTween.Models
             {
                 if (value != null)
                 {
-                    _states |= States.Geo;
+                    this._states |= States.Geo;
                 }
                 else
                 {
-                    _states &= ~States.Geo;
+                    this._states &= ~States.Geo;
                 }
-                _postGeo = value;
+                this._postGeo = value;
             }
         }
 
         public int StateIndex
-            => (int)_states - 1;
+            => (int)this._states - 1;
 
         // 互換性のために用意
         public string SourceHtml

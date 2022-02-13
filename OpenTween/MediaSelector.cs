@@ -145,7 +145,7 @@ namespace OpenTween
 
         public MediaSelector()
         {
-            InitializeComponent();
+            this.InitializeComponent();
 
             this.ImageSelectedPicture.InitialImage = Properties.Resources.InitialImage;
         }
@@ -155,12 +155,12 @@ namespace OpenTween
         /// </summary>
         public void Initialize(Twitter tw, TwitterConfiguration twitterConfig, string svc, int? index = null)
         {
-            CreateServices(tw, twitterConfig);
+            this.CreateServices(tw, twitterConfig);
 
-            SetImageServiceCombo();
-            SetImagePageCombo();
+            this.SetImageServiceCombo();
+            this.SetImagePageCombo();
 
-            SelectImageServiceComboItem(svc, index);
+            this.SelectImageServiceComboItem(svc, index);
         }
 
         /// <summary>
@@ -168,9 +168,9 @@ namespace OpenTween
         /// </summary>
         public void Reset(Twitter tw, TwitterConfiguration twitterConfig)
         {
-            CreateServices(tw, twitterConfig);
+            this.CreateServices(tw, twitterConfig);
 
-            SetImageServiceCombo();
+            this.SetImageServiceCombo();
         }
 
         /// <summary>
@@ -182,12 +182,12 @@ namespace OpenTween
             var ext = fl.Extension;
             var size = ignoreSize ? (long?)null : fl.Length;
 
-            if (IsUploadable(this.ServiceName, ext, size))
+            if (this.IsUploadable(this.ServiceName, ext, size))
                 return true;
 
-            foreach (string svc in ImageServiceCombo.Items)
+            foreach (string svc in this.ImageServiceCombo.Items)
             {
-                if (IsUploadable(svc, ext, size))
+                if (this.IsUploadable(svc, ext, size))
                     return true;
             }
 
@@ -222,7 +222,7 @@ namespace OpenTween
         {
             if (items == null || items.Length == 0)
             {
-                BeginSelection();
+                this.BeginSelection();
                 return;
             }
 
@@ -233,7 +233,7 @@ namespace OpenTween
             if (!this.Visible || count > 1)
             {
                 // 非表示時または複数のファイル指定は新規選択として扱う
-                SetImagePageCombo();
+                this.SetImagePageCombo();
 
                 this.BeginSelecting?.Invoke(this, EventArgs.Empty);
 
@@ -243,21 +243,21 @@ namespace OpenTween
 
             if (count == 1)
             {
-                ImagefilePathText.Text = items[0].Path;
-                AlternativeTextBox.Text = items[0].AltText;
-                ImageFromSelectedFile(items[0], false);
+                this.ImagefilePathText.Text = items[0].Path;
+                this.AlternativeTextBox.Text = items[0].AltText;
+                this.ImageFromSelectedFile(items[0], false);
             }
             else
             {
                 for (var i = 0; i < count; i++)
                 {
-                    var index = ImagePageCombo.Items.Count - 1;
+                    var index = this.ImagePageCombo.Items.Count - 1;
                     if (index == 0)
                     {
-                        ImagefilePathText.Text = items[i].Path;
-                        AlternativeTextBox.Text = items[i].AltText;
+                        this.ImagefilePathText.Text = items[i].Path;
+                        this.AlternativeTextBox.Text = items[i].AltText;
                     }
-                    ImageFromSelectedFile(index, items[i], false);
+                    this.ImageFromSelectedFile(index, items[i], false);
                 }
             }
         }
@@ -269,12 +269,12 @@ namespace OpenTween
         {
             if (fileNames == null || fileNames.Length == 0)
             {
-                BeginSelection();
+                this.BeginSelection();
                 return;
             }
 
-            var items = fileNames.Select(x => CreateFileMediaItem(x, false)).OfType<IMediaItem>().ToArray();
-            BeginSelection(items);
+            var items = fileNames.Select(x => this.CreateFileMediaItem(x, false)).OfType<IMediaItem>().ToArray();
+            this.BeginSelection(items);
         }
 
         /// <summary>
@@ -284,12 +284,12 @@ namespace OpenTween
         {
             if (image == null)
             {
-                BeginSelection();
+                this.BeginSelection();
                 return;
             }
 
-            var items = new[] { CreateMemoryImageMediaItem(image, false) }.OfType<IMediaItem>().ToArray();
-            BeginSelection(items);
+            var items = new[] { this.CreateMemoryImageMediaItem(image, false) }.OfType<IMediaItem>().ToArray();
+            this.BeginSelection(items);
         }
 
         /// <summary>
@@ -304,9 +304,9 @@ namespace OpenTween
                 this.Visible = true;
                 this.Enabled = true;
 
-                var media = (SelectedMedia)ImagePageCombo.SelectedItem;
-                ImageFromSelectedFile(media.Item, true);
-                ImagefilePathText.Focus();
+                var media = (SelectedMedia)this.ImagePageCombo.SelectedItem;
+                this.ImageFromSelectedFile(media.Item, true);
+                this.ImagefilePathText.Focus();
             }
         }
 
@@ -317,15 +317,15 @@ namespace OpenTween
         {
             if (this.Visible)
             {
-                ImagefilePathText.CausesValidation = false;
+                this.ImagefilePathText.CausesValidation = false;
 
                 this.EndSelecting?.Invoke(this, EventArgs.Empty);
 
                 this.Visible = false;
                 this.Enabled = false;
-                ClearImageSelectedPicture();
+                this.ClearImageSelectedPicture();
 
-                ImagefilePathText.CausesValidation = true;
+                this.ImagefilePathText.CausesValidation = true;
             }
         }
 
@@ -334,11 +334,11 @@ namespace OpenTween
         /// </summary>
         public bool TryGetSelectedMedia([NotNullWhen(true)] out string? imageService, [NotNullWhen(true)] out IMediaItem[]? mediaItems)
         {
-            var validItems = ImagePageCombo.Items.Cast<SelectedMedia>()
+            var validItems = this.ImagePageCombo.Items.Cast<SelectedMedia>()
                              .Where(x => x.IsValid).Select(x => x.Item).OfType<IMediaItem>().ToArray();
 
             if (validItems.Length > 0 &&
-                ImageServiceCombo.SelectedIndex > -1)
+                this.ImageServiceCombo.SelectedIndex > -1)
             {
                 var serviceName = this.ServiceName;
                 if (MessageBox.Show(string.Format(Properties.Resources.PostPictureConfirm1, serviceName, validItems.Length),
@@ -349,15 +349,15 @@ namespace OpenTween
                                == DialogResult.OK)
                 {
                     // 収集した MediaItem が破棄されないように、予め null を代入しておく
-                    foreach (SelectedMedia media in ImagePageCombo.Items)
+                    foreach (SelectedMedia media in this.ImagePageCombo.Items)
                     {
                         if (media != null) media.Item = null;
                     }
 
                     imageService = serviceName;
                     mediaItems = validItems;
-                    EndSelection();
-                    SetImagePageCombo();
+                    this.EndSelection();
+                    this.SetImagePageCombo();
                     return true;
                 }
             }
@@ -409,23 +409,23 @@ namespace OpenTween
 
         private void ValidateNewFileMediaItem(string path, string altText, bool noMsgBox)
         {
-            var media = (SelectedMedia)ImagePageCombo.SelectedItem;
+            var media = (SelectedMedia)this.ImagePageCombo.SelectedItem;
             var item = media.Item;
 
             if (path != media.Path)
             {
-                DisposeMediaItem(media.Item);
+                this.DisposeMediaItem(media.Item);
                 media.Item = null;
 
-                item = CreateFileMediaItem(path, noMsgBox);
+                item = this.CreateFileMediaItem(path, noMsgBox);
             }
 
             if (item != null)
                 item.AltText = altText;
 
-            ImagefilePathText.Text = path;
-            AlternativeTextBox.Text = altText;
-            ImageFromSelectedFile(item, noMsgBox);
+            this.ImagefilePathText.Text = path;
+            this.AlternativeTextBox.Text = altText;
+            this.ImageFromSelectedFile(item, noMsgBox);
         }
 
         private void DisposeMediaItem(IMediaItem? item)
@@ -438,34 +438,34 @@ namespace OpenTween
         {
             var service = this.SelectedService;
 
-            if (FilePickDialog == null || service == null) return;
-            FilePickDialog.Filter = service.SupportedFormatsStrForDialog;
-            FilePickDialog.Title = Properties.Resources.PickPictureDialog1;
-            FilePickDialog.FileName = "";
+            if (this.FilePickDialog == null || service == null) return;
+            this.FilePickDialog.Filter = service.SupportedFormatsStrForDialog;
+            this.FilePickDialog.Title = Properties.Resources.PickPictureDialog1;
+            this.FilePickDialog.FileName = "";
 
             this.FilePickDialogOpening?.Invoke(this, EventArgs.Empty);
 
             try
             {
-                if (FilePickDialog.ShowDialog() == DialogResult.Cancel) return;
+                if (this.FilePickDialog.ShowDialog() == DialogResult.Cancel) return;
             }
             finally
             {
                 this.FilePickDialogClosed?.Invoke(this, EventArgs.Empty);
             }
 
-            ValidateNewFileMediaItem(FilePickDialog.FileName, AlternativeTextBox.Text.Trim(), false);
+            this.ValidateNewFileMediaItem(this.FilePickDialog.FileName, this.AlternativeTextBox.Text.Trim(), false);
         }
 
         private void ImagefilePathText_Validating(object sender, CancelEventArgs e)
         {
-            if (ImageCancelButton.Focused)
+            if (this.ImageCancelButton.Focused)
             {
-                ImagefilePathText.CausesValidation = false;
+                this.ImagefilePathText.CausesValidation = false;
                 return;
             }
 
-            ValidateNewFileMediaItem(ImagefilePathText.Text.Trim(), AlternativeTextBox.Text.Trim(), false);
+            this.ValidateNewFileMediaItem(this.ImagefilePathText.Text.Trim(), this.AlternativeTextBox.Text.Trim(), false);
         }
 
         private void ImageFromSelectedFile(IMediaItem? item, bool noMsgBox)
@@ -480,10 +480,10 @@ namespace OpenTween
                 var imageService = this.SelectedService;
                 if (imageService == null) return;
 
-                var selectedIndex = ImagePageCombo.SelectedIndex;
+                var selectedIndex = this.ImagePageCombo.SelectedIndex;
                 if (index < 0) index = selectedIndex;
 
-                if (index >= ImagePageCombo.Items.Count)
+                if (index >= this.ImagePageCombo.Items.Count)
                     throw new ArgumentOutOfRangeException(nameof(index));
 
                 var isSelectedPage = (index == selectedIndex);
@@ -504,7 +504,7 @@ namespace OpenTween
                         if (!noMsgBox)
                         {
                             MessageBox.Show(
-                                string.Format(Properties.Resources.PostPictureWarn3, this.ServiceName, MakeAvailableServiceText(ext, size), ext, item.Name),
+                                string.Format(Properties.Resources.PostPictureWarn3, this.ServiceName, this.MakeAvailableServiceText(ext, size), ext, item.Name),
                                 Properties.Resources.PostPictureWarn4,
                                 MessageBoxButtons.OK,
                                 MessageBoxIcon.Warning);
@@ -518,7 +518,7 @@ namespace OpenTween
                         if (!noMsgBox)
                         {
                             MessageBox.Show(
-                                string.Format(Properties.Resources.PostPictureWarn5, this.ServiceName, MakeAvailableServiceText(ext, size), item.Name),
+                                string.Format(Properties.Resources.PostPictureWarn5, this.ServiceName, this.MakeAvailableServiceText(ext, size), item.Name),
                                 Properties.Resources.PostPictureWarn4,
                                 MessageBoxButtons.OK,
                                 MessageBoxIcon.Warning);
@@ -529,12 +529,12 @@ namespace OpenTween
                     if (item.IsImage)
                     {
                         if (isSelectedPage)
-                            ImageSelectedPicture.Image = item.CreateImage();
-                        SetImagePage(index, item, MyCommon.UploadFileType.Picture);
+                            this.ImageSelectedPicture.Image = item.CreateImage();
+                        this.SetImagePage(index, item, MyCommon.UploadFileType.Picture);
                     }
                     else
                     {
-                        SetImagePage(index, item, MyCommon.UploadFileType.MultiMedia);
+                        this.SetImagePage(index, item, MyCommon.UploadFileType.MultiMedia);
                     }
 
                     valid = true;  // 正常終了
@@ -552,8 +552,8 @@ namespace OpenTween
             {
                 if (!valid)
                 {
-                    ClearImagePage(index);
-                    DisposeMediaItem(item);
+                    this.ClearImagePage(index);
+                    this.DisposeMediaItem(item);
                 }
             }
         }
@@ -561,7 +561,7 @@ namespace OpenTween
         private string MakeAvailableServiceText(string ext, long fileSize)
         {
             var text = string.Join(", ",
-                ImageServiceCombo.Items.Cast<string>()
+                this.ImageServiceCombo.Items.Cast<string>()
                     .Where(serviceName =>
                         !MyCommon.IsNullOrEmpty(serviceName) &&
                         this.pictureService[serviceName].CheckFileExtension(ext) &&
@@ -589,7 +589,7 @@ namespace OpenTween
         {
             if (e.KeyCode == Keys.Escape)
             {
-                EndSelection();
+                this.EndSelection();
             }
         }
 
@@ -597,7 +597,7 @@ namespace OpenTween
         {
             if (Convert.ToInt32(e.KeyChar) == 0x1B)
             {
-                ImagefilePathText.CausesValidation = false;
+                this.ImagefilePathText.CausesValidation = false;
                 e.Handled = true;
             }
         }
@@ -606,25 +606,25 @@ namespace OpenTween
         {
             if (e.KeyCode == Keys.Escape)
             {
-                ImagefilePathText.CausesValidation = false;
+                this.ImagefilePathText.CausesValidation = false;
             }
         }
 
         private void SetImageServiceCombo()
         {
-            using (ControlTransaction.Update(ImageServiceCombo))
+            using (ControlTransaction.Update(this.ImageServiceCombo))
             {
                 var svc = "";
-                if (ImageServiceCombo.SelectedIndex > -1) svc = ImageServiceCombo.Text;
-                ImageServiceCombo.Items.Clear();
+                if (this.ImageServiceCombo.SelectedIndex > -1) svc = this.ImageServiceCombo.Text;
+                this.ImageServiceCombo.Items.Clear();
 
                 // Add service names to combobox
-                foreach (var key in pictureService.Keys)
+                foreach (var key in this.pictureService.Keys)
                 {
-                    ImageServiceCombo.Items.Add(key);
+                    this.ImageServiceCombo.Items.Add(key);
                 }
 
-                SelectImageServiceComboItem(svc);
+                this.SelectImageServiceComboItem(svc);
             }
         }
 
@@ -637,7 +637,7 @@ namespace OpenTween
             }
             else
             {
-                idx = ImageServiceCombo.Items.IndexOf(svc);
+                idx = this.ImageServiceCombo.Items.IndexOf(svc);
 
                 // svc が空白以外かつ存在しないサービス名の場合は Twitter を選択させる
                 // (廃止されたサービスを選択していた場合の対応)
@@ -646,11 +646,11 @@ namespace OpenTween
 
             try
             {
-                ImageServiceCombo.SelectedIndex = idx;
+                this.ImageServiceCombo.SelectedIndex = idx;
             }
             catch (ArgumentOutOfRangeException)
             {
-                ImageServiceCombo.SelectedIndex = 0;
+                this.ImageServiceCombo.SelectedIndex = 0;
             }
 
             this.UpdateAltTextPanelVisible();
@@ -672,29 +672,29 @@ namespace OpenTween
                 {
                     this.UpdateAltTextPanelVisible();
 
-                    if (ImagePageCombo.Items.Count > 0)
+                    if (this.ImagePageCombo.Items.Count > 0)
                     {
                         // 画像が選択された投稿先に対応しているかをチェックする
                         // TODO: 複数の選択済み画像があるなら、できれば全てを再チェックしたほうがいい
                         if (this.ServiceName == "Twitter")
                         {
-                            ValidateSelectedImagePage();
+                            this.ValidateSelectedImagePage();
                         }
                         else
                         {
-                            if (ImagePageCombo.Items.Count > 1)
+                            if (this.ImagePageCombo.Items.Count > 1)
                             {
                                 // 複数の選択済み画像のうち、1枚目のみを残す
-                                SetImagePageCombo((SelectedMedia)ImagePageCombo.Items[0]);
+                                this.SetImagePageCombo((SelectedMedia)this.ImagePageCombo.Items[0]);
                             }
                             else
                             {
-                                ImagePageCombo.Enabled = false;
+                                this.ImagePageCombo.Enabled = false;
                                 var valid = false;
 
                                 try
                                 {
-                                    var item = ((SelectedMedia)ImagePageCombo.Items[0]).Item;
+                                    var item = ((SelectedMedia)this.ImagePageCombo.Items[0]).Item;
                                     if (item != null)
                                     {
                                         var ext = item.Extension;
@@ -712,8 +712,8 @@ namespace OpenTween
                                 {
                                     if (!valid)
                                     {
-                                        ClearImageSelectedPicture();
-                                        ClearSelectedImagePage();
+                                        this.ClearImageSelectedPicture();
+                                        this.ClearSelectedImagePage();
                                     }
                                 }
                             }
@@ -727,25 +727,25 @@ namespace OpenTween
 
         private void SetImagePageCombo(SelectedMedia? media = null)
         {
-            using (ControlTransaction.Update(ImagePageCombo))
+            using (ControlTransaction.Update(this.ImagePageCombo))
             {
-                ImagePageCombo.Enabled = false;
+                this.ImagePageCombo.Enabled = false;
 
-                foreach (SelectedMedia oldMedia in ImagePageCombo.Items)
+                foreach (SelectedMedia oldMedia in this.ImagePageCombo.Items)
                 {
                     if (oldMedia == null || oldMedia == media) continue;
-                    DisposeMediaItem(oldMedia.Item);
+                    this.DisposeMediaItem(oldMedia.Item);
                 }
-                ImagePageCombo.Items.Clear();
+                this.ImagePageCombo.Items.Clear();
 
                 if (media == null)
                     media = new SelectedMedia("1");
 
-                ImagePageCombo.Items.Add(media);
-                ImagefilePathText.Text = media.Path;
-                AlternativeTextBox.Text = media.AltText;
+                this.ImagePageCombo.Items.Add(media);
+                this.ImagefilePathText.Text = media.Path;
+                this.AlternativeTextBox.Text = media.AltText;
 
-                ImagePageCombo.SelectedIndex = 0;
+                this.ImagePageCombo.SelectedIndex = 0;
             }
         }
 
@@ -757,12 +757,12 @@ namespace OpenTween
             if (selectedIndex < service.MaxMediaCount - 1)
             {
                 // 投稿先の投稿可能枚数まで選択できるようにする
-                var count = ImagePageCombo.Items.Count;
+                var count = this.ImagePageCombo.Items.Count;
                 if (selectedIndex == count - 1)
                 {
                     count++;
-                    ImagePageCombo.Items.Add(new SelectedMedia(count.ToString()));
-                    ImagePageCombo.Enabled = true;
+                    this.ImagePageCombo.Items.Add(new SelectedMedia(count.ToString()));
+                    this.ImagePageCombo.Enabled = true;
                 }
             }
         }
@@ -772,18 +772,18 @@ namespace OpenTween
 
         private void SetImagePage(int index, IMediaItem item, MyCommon.UploadFileType type)
         {
-            var selectedIndex = ImagePageCombo.SelectedIndex;
+            var selectedIndex = this.ImagePageCombo.SelectedIndex;
             if (index < 0) index = selectedIndex;
 
-            var media = (SelectedMedia)ImagePageCombo.Items[index];
+            var media = (SelectedMedia)this.ImagePageCombo.Items[index];
             if (media.Item != item)
             {
-                DisposeMediaItem(media.Item);
+                this.DisposeMediaItem(media.Item);
                 media.Item = item;
             }
             media.Type = type;
 
-            AddNewImagePage(index);
+            this.AddNewImagePage(index);
         }
 
         private void ClearSelectedImagePage()
@@ -791,29 +791,29 @@ namespace OpenTween
 
         private void ClearImagePage(int index)
         {
-            var selectedIndex = ImagePageCombo.SelectedIndex;
+            var selectedIndex = this.ImagePageCombo.SelectedIndex;
             if (index < 0) index = selectedIndex;
 
-            var media = (SelectedMedia)ImagePageCombo.Items[index];
-            DisposeMediaItem(media.Item);
+            var media = (SelectedMedia)this.ImagePageCombo.Items[index];
+            this.DisposeMediaItem(media.Item);
             media.Item = null;
             media.Type = MyCommon.UploadFileType.Invalid;
 
             if (index == selectedIndex)
             {
-                ImagefilePathText.Text = "";
-                AlternativeTextBox.Text = "";
+                this.ImagefilePathText.Text = "";
+                this.AlternativeTextBox.Text = "";
             }
         }
 
         private void ValidateSelectedImagePage()
         {
-            var idx = ImagePageCombo.SelectedIndex;
-            var media = (SelectedMedia)ImagePageCombo.Items[idx];
-            ImageServiceCombo.Enabled = (idx == 0);  // idx == 0 以外では投稿先サービスを選べないようにする
-            ImagefilePathText.Text = media.Path;
-            AlternativeTextBox.Text = media.AltText;
-            ImageFromSelectedFile(media.Item, true);
+            var idx = this.ImagePageCombo.SelectedIndex;
+            var media = (SelectedMedia)this.ImagePageCombo.Items[idx];
+            this.ImageServiceCombo.Enabled = (idx == 0);  // idx == 0 以外では投稿先サービスを選べないようにする
+            this.ImagefilePathText.Text = media.Path;
+            this.AlternativeTextBox.Text = media.AltText;
+            this.ImageFromSelectedFile(media.Item, true);
         }
 
         private void ImagePageCombo_SelectedIndexChanged(object sender, EventArgs e)

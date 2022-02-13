@@ -76,25 +76,25 @@ namespace OpenTween.Setting.Panel
 
         private void ButtonBackToDefaultFontColor_Click(object sender, EventArgs e)
         {
-            lblUnread.ForeColor = SystemColors.ControlText;
-            lblUnread.Font = new Font(SystemFonts.DefaultFont, FontStyle.Bold | FontStyle.Underline);
+            this.lblUnread.ForeColor = SystemColors.ControlText;
+            this.lblUnread.Font = new Font(SystemFonts.DefaultFont, FontStyle.Bold | FontStyle.Underline);
 
-            lblListFont.ForeColor = System.Drawing.SystemColors.ControlText;
-            lblListFont.Font = System.Drawing.SystemFonts.DefaultFont;
+            this.lblListFont.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.lblListFont.Font = System.Drawing.SystemFonts.DefaultFont;
 
-            lblDetail.ForeColor = Color.FromKnownColor(System.Drawing.KnownColor.ControlText);
-            lblDetail.Font = System.Drawing.SystemFonts.DefaultFont;
-            checkBoxUseTwemoji.Checked = true;
+            this.lblDetail.ForeColor = Color.FromKnownColor(System.Drawing.KnownColor.ControlText);
+            this.lblDetail.Font = System.Drawing.SystemFonts.DefaultFont;
+            this.checkBoxUseTwemoji.Checked = true;
 
-            lblFav.ForeColor = Color.FromKnownColor(System.Drawing.KnownColor.Red);
+            this.lblFav.ForeColor = Color.FromKnownColor(System.Drawing.KnownColor.Red);
 
-            lblOWL.ForeColor = Color.FromKnownColor(System.Drawing.KnownColor.Blue);
+            this.lblOWL.ForeColor = Color.FromKnownColor(System.Drawing.KnownColor.Blue);
 
-            lblDetailBackcolor.BackColor = Color.FromKnownColor(System.Drawing.KnownColor.Window);
+            this.lblDetailBackcolor.BackColor = Color.FromKnownColor(System.Drawing.KnownColor.Window);
 
-            lblDetailLink.ForeColor = Color.FromKnownColor(System.Drawing.KnownColor.Blue);
+            this.lblDetailLink.ForeColor = Color.FromKnownColor(System.Drawing.KnownColor.Blue);
 
-            lblRetweet.ForeColor = Color.FromKnownColor(System.Drawing.KnownColor.Green);
+            this.lblRetweet.ForeColor = Color.FromKnownColor(System.Drawing.KnownColor.Green);
         }
 
         private void btnListFont_Click(object sender, EventArgs e)

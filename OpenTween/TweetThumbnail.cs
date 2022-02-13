@@ -138,7 +138,7 @@ namespace OpenTween
                 {
                     var memoryImage = picbox.Image;
 
-                    filter.Unregister(picbox);
+                    this.filter.Unregister(picbox);
 
                     picbox.MouseWheel -= this.pictureBox_MouseWheel;
                     picbox.DoubleClick -= this.pictureBox_DoubleClick;
@@ -156,12 +156,12 @@ namespace OpenTween
 
                 for (var i = 0; i < count; i++)
                 {
-                    var picbox = CreatePictureBox("pictureBox" + i);
+                    var picbox = this.CreatePictureBox("pictureBox" + i);
                     picbox.Visible = (i == 0);
                     picbox.MouseWheel += this.pictureBox_MouseWheel;
                     picbox.DoubleClick += this.pictureBox_DoubleClick;
 
-                    filter.Register(picbox);
+                    this.filter.Register(picbox);
 
                     this.panelPictureBox.Controls.Add(picbox);
                     this.pictureBox.Add(picbox);

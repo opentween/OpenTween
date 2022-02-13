@@ -119,7 +119,7 @@ namespace OpenTween.Setting.Panel
             int prd;
             try
             {
-                prd = int.Parse(TimelinePeriod.Text);
+                prd = int.Parse(this.TimelinePeriod.Text);
             }
             catch (Exception)
             {
@@ -141,7 +141,7 @@ namespace OpenTween.Setting.Panel
             int prd;
             try
             {
-                prd = int.Parse(ReplyPeriod.Text);
+                prd = int.Parse(this.ReplyPeriod.Text);
             }
             catch (Exception)
             {
@@ -163,7 +163,7 @@ namespace OpenTween.Setting.Panel
             int prd;
             try
             {
-                prd = int.Parse(DMPeriod.Text);
+                prd = int.Parse(this.DMPeriod.Text);
             }
             catch (Exception)
             {
@@ -185,7 +185,7 @@ namespace OpenTween.Setting.Panel
             int prd;
             try
             {
-                prd = int.Parse(PubSearchPeriod.Text);
+                prd = int.Parse(this.PubSearchPeriod.Text);
             }
             catch (Exception)
             {
@@ -206,7 +206,7 @@ namespace OpenTween.Setting.Panel
             int prd;
             try
             {
-                prd = int.Parse(ListsPeriod.Text);
+                prd = int.Parse(this.ListsPeriod.Text);
             }
             catch (Exception)
             {
@@ -228,7 +228,7 @@ namespace OpenTween.Setting.Panel
             int prd;
             try
             {
-                prd = int.Parse(UserTimelinePeriod.Text);
+                prd = int.Parse(this.UserTimelinePeriod.Text);
             }
             catch (Exception)
             {
