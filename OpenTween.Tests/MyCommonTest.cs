@@ -189,7 +189,7 @@ namespace OpenTween
                 "https://twitter.com/Favstar_LM/status/249493863826350080"
             },
             {
-                new PostClass { StatusId = 216033842434289664L, ScreenName = "haru067", RetweetedId = 200245741443235840L, RetweetedBy = "re4k"},
+                new PostClass { StatusId = 216033842434289664L, ScreenName = "haru067", RetweetedId = 200245741443235840L, RetweetedBy = "re4k" },
                 "https://twitter.com/haru067/status/200245741443235840"
             },
         };

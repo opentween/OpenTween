@@ -130,19 +130,19 @@ namespace OpenTween.Api
         public static readonly TheoryData<Dictionary<string, string>, TwitterApiAccessLevel?> ParseAccessLevel_TestCase = new TheoryData<Dictionary<string, string>, TwitterApiAccessLevel?>
         {
             {
-                new Dictionary<string, string> { {"X-Access-Level", "read"} },
+                new Dictionary<string, string> { { "X-Access-Level", "read" } },
                 TwitterApiAccessLevel.Read
             },
             {
-                new Dictionary<string, string> { {"X-Access-Level", "read-write"} },
+                new Dictionary<string, string> { { "X-Access-Level", "read-write" } },
                 TwitterApiAccessLevel.ReadWrite
             },
             {
-                new Dictionary<string, string> { {"X-Access-Level", "read-write-directmessages"} },
+                new Dictionary<string, string> { { "X-Access-Level", "read-write-directmessages" } },
                 TwitterApiAccessLevel.ReadWriteAndDirectMessage
             },
             {
-                new Dictionary<string, string> { {"X-Access-Level", ""} }, // 何故かたまに出てくるやつ
+                new Dictionary<string, string> { { "X-Access-Level", "" } }, // 何故かたまに出てくるやつ
                 null
             },
             {

@@ -291,15 +291,18 @@ namespace OpenTween
                         BindingFlags.CreateInstance,
                         null,
                         _connector,
-                        new object[] {AppName,
-                                      notificationName,
-                                      id,
-                                      title,
-                                      text,
-                                      res,
-                                      false,
-                                      priority,
-                                      "aaa"},
+                        new object[]
+                        {
+                            AppName,
+                            notificationName,
+                            id,
+                            title,
+                            text,
+                            res,
+                            false,
+                            priority,
+                            "aaa",
+                        },
                         CultureInfo.InvariantCulture);
             }
             else
@@ -309,11 +312,14 @@ namespace OpenTween
                         BindingFlags.CreateInstance,
                         null,
                         _connector,
-                        new object[] {AppName,
-                                      notificationName,
-                                      id,
-                                      title,
-                                      text},
+                        new object[]
+                        {
+                            AppName,
+                            notificationName,
+                            id,
+                            title,
+                            text,
+                        },
                         CultureInfo.InvariantCulture);
             }
             var cc = _connector.GetType("Growl.Connector.CallbackContext").InvokeMember(
