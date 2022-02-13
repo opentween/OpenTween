@@ -65,7 +65,7 @@ namespace OpenTween
         {
             var currentAssembly = Assembly.GetExecutingAssembly();
 
-            return (T) Attribute.GetCustomAttribute(currentAssembly, typeof(T));
+            return (T)Attribute.GetCustomAttribute(currentAssembly, typeof(T));
         }
 
         private void OKButton_Click(object sender, EventArgs e)

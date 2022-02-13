@@ -86,7 +86,7 @@ namespace OpenTween
         {
             if (this.ListsList.SelectedItem == null) return;
 
-            var list = (ListElement) this.ListsList.SelectedItem;
+            var list = (ListElement)this.ListsList.SelectedItem;
             this.UsernameTextBox.Text = list.Username;
             this.NameTextBox.Text = list.Name;
             this.PublicRadioButton.Checked = list.IsPublic;

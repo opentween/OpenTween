@@ -4728,7 +4728,7 @@ namespace OpenTween
             ImageListViewItem itm;
             if (Post.RetweetedId == null)
             {
-                string[] sitem= {"",
+                string[] sitem = {"",
                                  Post.Nickname,
                                  Post.IsDeleted ? "(DELETED)" : Post.AccessibleText.Replace('\n', ' '),
                                  Post.CreatedAt.ToLocalTimeString(SettingManager.Common.DateTimeFormat),
