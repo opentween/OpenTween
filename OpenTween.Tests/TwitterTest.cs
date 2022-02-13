@@ -263,7 +263,7 @@ namespace OpenTween
                     new TwitterEntityUrl
                     {
                         Indices = new[] { 31, 54 },
-                        Url ="https://t.co/mIJcSoVSK3",
+                        Url = "https://t.co/mIJcSoVSK3",
                         DisplayUrl = "apps-of-a-feather.com",
                         ExpandedUrl = "http://apps-of-a-feather.com/",
                     },
