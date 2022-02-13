@@ -65,7 +65,7 @@ namespace OpenTween.Models
                 {
                     try
                     {
-                        switch (ft.ExecFilter(post))   // フィルタクラスでヒット判定
+                        switch (ft.ExecFilter(post)) // フィルタクラスでヒット判定
                         {
                             case MyCommon.HITRESULT.None:
                                 break;

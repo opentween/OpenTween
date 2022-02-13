@@ -867,7 +867,7 @@ namespace OpenTween
 
         private void ListFilters_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (_multiSelState != MultiSelectionState.None)  // 複数選択処理中は無視する
+            if (_multiSelState != MultiSelectionState.None) // 複数選択処理中は無視する
                 return;
 
             ShowDetail();

@@ -420,7 +420,7 @@ namespace OpenTween.Models
                 {
                     new FakeExpandedUrlInfo(
                         // 展開前の t.co ドメインの URL
-                        url:  "http://t.co/aaaaaaa",
+                        url: "http://t.co/aaaaaaa",
 
                         // Entity の expanded_url に含まれる URL
                         expandedUrl: "http://bit.ly/abcde",
