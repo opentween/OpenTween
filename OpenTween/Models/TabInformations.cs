@@ -41,7 +41,7 @@ namespace OpenTween.Models
 {
     public sealed class TabInformations
     {
-        //個別タブの情報をDictionaryで保持
+        // 個別タブの情報をDictionaryで保持
         public IReadOnlyTabCollection Tabs
             => this.tabs;
 
@@ -57,8 +57,8 @@ namespace OpenTween.Models
         public ISet<long> BlockIds { get; set; } = new HashSet<long>();
         public ISet<long> MuteUserIds { get; set; } = new HashSet<long>();
 
-        //発言の追加
-        //AddPost(複数回) -> DistributePosts          -> SubmitUpdate
+        // 発言の追加
+        // AddPost(複数回) -> DistributePosts          -> SubmitUpdate
 
         private readonly TabCollection tabs = new TabCollection();
         private readonly ConcurrentQueue<long> addQueue = new ConcurrentQueue<long>();
@@ -73,12 +73,12 @@ namespace OpenTween.Models
             [MyCommon.TabUsageType.Favorites] = 60,
         };
 
-        //トランザクション用
+        // トランザクション用
         private readonly object LockObj = new object();
 
         private static readonly TabInformations _instance = new TabInformations();
 
-        //List
+        // List
         private List<ListElement> _lists = new List<ListElement>();
 
         private TabInformations()
@@ -144,7 +144,7 @@ namespace OpenTween.Models
             lock (LockObj)
             {
                 var tb = GetTabByName(TabName);
-                if (tb == null || tb.IsDefaultTabType) return; //念のため
+                if (tb == null || tb.IsDefaultTabType) return; // 念のため
 
                 if (!tb.IsInnerStorageTabType)
                 {
@@ -510,14 +510,14 @@ namespace OpenTween.Models
                     }
                     else
                     {
-                        return;        //追加済みなら何もしない
+                        return;        // 追加済みなら何もしない
                     }
                 }
                 else
                 {
                     if (Item.IsFav && Item.RetweetedId != null) Item.IsFav = false;
 
-                    //既に持っている公式RTは捨てる
+                    // 既に持っている公式RTは捨てる
                     if (Item.RetweetedId != null && SettingManager.Common.HideDuplicatedRetweets)
                     {
                         var retweetCount = this.UpdateRetweetCount(Item);
@@ -533,7 +533,7 @@ namespace OpenTween.Models
                 }
                 if (Item.IsFav && this.retweetsCount.ContainsKey(Item.StatusId))
                 {
-                    return;    //Fav済みのRetweet元発言は追加しない
+                    return;    // Fav済みのRetweet元発言は追加しない
                 }
                 this.addQueue.Enqueue(Item.StatusId);
             }
@@ -654,7 +654,7 @@ namespace OpenTween.Models
 
         public bool ContainsKey(long Id)
         {
-            //DM,公式検索は非対応
+            // DM,公式検索は非対応
             lock (LockObj)
             {
                 return Posts.ContainsKey(Id);
@@ -773,7 +773,7 @@ namespace OpenTween.Models
 
         public void ClearTabIds(string TabName)
         {
-            //不要なPostを削除
+            // 不要なPostを削除
             lock (LockObj)
             {
                 var tb = this.Tabs[TabName];
@@ -795,7 +795,7 @@ namespace OpenTween.Models
                     }
                 }
 
-                //指定タブをクリア
+                // 指定タブをクリア
                 tb.ClearIDs();
             }
         }
@@ -808,7 +808,6 @@ namespace OpenTween.Models
                 {
                     foreach (var post in Posts.Values)
                     {
-                        //if (post.UserId = 0 || post.IsDm) Continue For
                         if (post.IsMe)
                         {
                             post.IsOwl = false;
@@ -843,9 +842,9 @@ namespace OpenTween.Models
 
         public TabModel? GetTabByType(MyCommon.TabUsageType tabType)
         {
-            //Home,Mentions,DM,Favは1つに制限する
-            //その他のタイプを指定されたら、最初に合致したものを返す
-            //合致しなければnullを返す
+            // Home,Mentions,DM,Favは1つに制限する
+            // その他のタイプを指定されたら、最初に合致したものを返す
+            // 合致しなければnullを返す
             lock (LockObj)
             {
                 return this.Tabs.FirstOrDefault(x => x.TabType.HasFlag(tabType));

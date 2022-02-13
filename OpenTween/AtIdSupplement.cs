@@ -118,7 +118,7 @@ namespace OpenTween
         {
             if (startChar == "#")
             {
-                this.ClientSize = new Size(this.TextId.Width, this.TextId.Height); //プロパティで切り替えできるように
+                this.ClientSize = new Size(this.TextId.Width, this.TextId.Height); // プロパティで切り替えできるように
                 this.TextId.ImeMode = ImeMode.Inherit;
             }
         }

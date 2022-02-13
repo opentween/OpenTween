@@ -490,7 +490,7 @@ namespace OpenTween
             // Reply
             Assert.Equal(reply, Twitter.GetApiResultCount(MyCommon.WORKERTYPE.Reply, false, false));
             Assert.Equal(more, Twitter.GetApiResultCount(MyCommon.WORKERTYPE.Reply, true, false));
-            Assert.Equal(reply, Twitter.GetApiResultCount(MyCommon.WORKERTYPE.Reply, false, true));  //Replyの値が使われる
+            Assert.Equal(reply, Twitter.GetApiResultCount(MyCommon.WORKERTYPE.Reply, false, true));  // Replyの値が使われる
 
             // Favorites
             Assert.Equal(favorite, Twitter.GetApiResultCount(MyCommon.WORKERTYPE.Favorites, false, false));
@@ -522,7 +522,7 @@ namespace OpenTween
             SettingManager.Common.SearchCountApi = 0;
 
             Assert.Equal(timeline, Twitter.GetApiResultCount(MyCommon.WORKERTYPE.PublicSearch, false, false));
-            Assert.Equal(search, Twitter.GetApiResultCount(MyCommon.WORKERTYPE.PublicSearch, true, false));  //MoreCountApiの値がPublicSearchの最大値に制限される
+            Assert.Equal(search, Twitter.GetApiResultCount(MyCommon.WORKERTYPE.PublicSearch, true, false));  // MoreCountApiの値がPublicSearchの最大値に制限される
             Assert.Equal(startup, Twitter.GetApiResultCount(MyCommon.WORKERTYPE.PublicSearch, false, true));
 
             // UserTimeline

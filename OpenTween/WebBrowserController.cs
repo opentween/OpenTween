@@ -292,7 +292,7 @@ namespace OpenTween
         public InternetSecurityManager(WebBrowser _WebBrowser)
         {
             // ActiveXコントロール取得
-            _WebBrowser.Url = new Uri("about:blank"); //ActiveXを初期化する
+            _WebBrowser.Url = new Uri("about:blank"); // ActiveXを初期化する
 
             do
             {
@@ -401,7 +401,7 @@ namespace OpenTween
         int WebBrowserAPI.IInternetSecurityManager.ProcessUrlAction(string pwszUrl, int dwAction, out byte pPolicy, int cbPolicy, byte pContext, int cbContext, int dwFlags, int dwReserved)
         {
             pPolicy = URLPOLICY_ALLOW;
-            //スクリプト実行状態かを検査しポリシー設定
+            // スクリプト実行状態かを検査しポリシー設定
             if (WebBrowserAPI.URLACTION_SCRIPT_MIN <= dwAction &
                 dwAction <= WebBrowserAPI.URLACTION_SCRIPT_MAX)
             {
@@ -432,7 +432,7 @@ namespace OpenTween
                 }
                 return (int)HRESULT.S_OK;
             }
-            //他のものについてはデフォルト処理
+            // 他のものについてはデフォルト処理
             return WebBrowserAPI.INET_E_DEFAULT_ACTION;
         }
 

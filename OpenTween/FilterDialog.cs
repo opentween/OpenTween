@@ -254,7 +254,7 @@ namespace OpenTween
 
         public void AddNewFilter(string id, string msg)
         {
-            //元フォームから直接呼ばれる
+            // 元フォームから直接呼ばれる
             ButtonNew.Enabled = false;
             ButtonEdit.Enabled = false;
             ButtonRuleUp.Enabled = false;
@@ -607,7 +607,7 @@ namespace OpenTween
 
         private void ButtonOK_Click(object sender, EventArgs e)
         {
-            //入力チェック
+            // 入力チェック
             if (!CheckMatchRule(out var isBlankMatch) || !CheckExcludeRule(out var isBlankExclude))
             {
                 return;
@@ -867,7 +867,7 @@ namespace OpenTween
 
         private void ListFilters_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (_multiSelState != MultiSelectionState.None)  //複数選択処理中は無視する
+            if (_multiSelState != MultiSelectionState.None)  // 複数選択処理中は無視する
                 return;
 
             ShowDetail();
@@ -943,7 +943,7 @@ namespace OpenTween
             ExUID.AutoCompleteCustomSource.Clear();
             ExUID.AutoCompleteCustomSource.AddRange(idlist.ToArray());
 
-            //選択タブ変更
+            // 選択タブ変更
             this.ListTabs.SelectedIndex = this.selectedTabIndex;
         }
 
@@ -973,7 +973,7 @@ namespace OpenTween
             }
             if (!MyCommon.IsNullOrEmpty(tabName))
             {
-                //List対応
+                // List対応
                 ListElement? list = null;
                 if (tabType == MyCommon.TabUsageType.Lists)
                 {
@@ -1370,7 +1370,7 @@ namespace OpenTween
             var tbox = (TextBox)sender;
             if (e.KeyChar == '@')
             {
-                //@マーク
+                // @マーク
                 main.ShowSuplDialog(tbox, main.AtIdSupl);
                 e.Handled = true;
             }

@@ -196,7 +196,7 @@ namespace OpenTween
                 }
                 else
                 {
-                    //内蔵アイコンリソースを使用
+                    // 内蔵アイコンリソースを使用
                     var cibd = _core.GetType(
                         "Growl.CoreLibrary.BinaryData").GetConstructor(
                         BindingFlags.Public | BindingFlags.Instance,

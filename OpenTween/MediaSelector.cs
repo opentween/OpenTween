@@ -348,7 +348,7 @@ namespace OpenTween
                                    MessageBoxDefaultButton.Button1)
                                == DialogResult.OK)
                 {
-                    //収集した MediaItem が破棄されないように、予め null を代入しておく
+                    // 収集した MediaItem が破棄されないように、予め null を代入しておく
                     foreach (SelectedMedia media in ImagePageCombo.Items)
                     {
                         if (media != null) media.Item = null;
@@ -500,7 +500,7 @@ namespace OpenTween
 
                     if (!imageService.CheckFileExtension(ext))
                     {
-                        //画像以外の形式
+                        // 画像以外の形式
                         if (!noMsgBox)
                         {
                             MessageBox.Show(
@@ -537,7 +537,7 @@ namespace OpenTween
                         SetImagePage(index, item, MyCommon.UploadFileType.MultiMedia);
                     }
 
-                    valid = true;  //正常終了
+                    valid = true;  // 正常終了
                 }
                 catch (FileNotFoundException)
                 {

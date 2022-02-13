@@ -178,7 +178,7 @@ namespace OpenTween
             switch (e.Button)
             {
                 case MouseButtons.Left:
-                    //項目が無い部分をクリックしても、選択されている項目のチェック状態が変更されてしまうので、その対策
+                    // 項目が無い部分をクリックしても、選択されている項目のチェック状態が変更されてしまうので、その対策
                     for (var index = 0; index < this.ListsCheckedListBox.Items.Count; index++)
                     {
                         if (this.ListsCheckedListBox.GetItemRectangle(index).Contains(e.Location))
@@ -187,7 +187,7 @@ namespace OpenTween
                     this.ListsCheckedListBox.SelectedItem = null;
                     break;
                 case MouseButtons.Right:
-                    //コンテキストメニューの項目実行時にSelectedItemプロパティを利用出来るように
+                    // コンテキストメニューの項目実行時にSelectedItemプロパティを利用出来るように
                     for (var index = 0; index < this.ListsCheckedListBox.Items.Count; index++)
                     {
                         if (this.ListsCheckedListBox.GetItemRectangle(index).Contains(e.Location))

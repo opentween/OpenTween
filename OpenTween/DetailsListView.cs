@@ -155,7 +155,7 @@ namespace OpenTween.OpenTweenCustomControl
             }
             catch (ArgumentException)
             {
-                //タイミングによりBoundsプロパティが取れない？
+                // タイミングによりBoundsプロパティが取れない？
                 this.changeBounds = Rectangle.Empty;
             }
         }
@@ -219,7 +219,7 @@ namespace OpenTween.OpenTweenCustomControl
                 case WM_CONTEXTMENU:
                     if (m.WParam != this.Handle)
                     {
-                        //カラムヘッダメニューを表示
+                        // カラムヘッダメニューを表示
                         this.ColumnHeaderContextMenuStrip?.Show(new Point(m.LParam.ToInt32()));
                         return;
                     }
@@ -242,11 +242,11 @@ namespace OpenTween.OpenTweenCustomControl
             }
             catch (ArgumentOutOfRangeException)
             {
-                //Substringでlengthが0以下。アイコンサイズが影響？
+                // Substringでlengthが0以下。アイコンサイズが影響？
             }
             catch (AccessViolationException)
             {
-                //WndProcのさらに先で発生する。
+                // WndProcのさらに先で発生する。
             }
             if (this.IsDisposed) return;
 

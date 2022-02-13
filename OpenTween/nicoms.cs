@@ -50,7 +50,7 @@ namespace OpenTween
 
         public static string Shorten(string url)
         {
-            //整形（http(s)://を削除）
+            // 整形（http(s)://を削除）
             if (url.StartsWith("http://", StringComparison.OrdinalIgnoreCase))
             {
                 url = url.Substring(7);

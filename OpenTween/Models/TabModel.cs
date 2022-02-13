@@ -125,7 +125,7 @@ namespace OpenTween.Models
             this.addQueue.Enqueue(new TemporaryId(post.StatusId, post.IsRead));
         }
 
-        //無条件に追加
+        // 無条件に追加
         internal bool AddPostImmediately(long statusId, bool read)
         {
             if (!this._ids.Add(statusId))

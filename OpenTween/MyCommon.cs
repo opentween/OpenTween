@@ -60,7 +60,7 @@ namespace OpenTween
     public static class MyCommon
     {
         private static readonly object LockObj = new object();
-        public static bool _endingFlag;        //終了フラグ
+        public static bool _endingFlag;        // 終了フラグ
         public static string settingPath = null!;
 
         public enum IconSizes
@@ -112,9 +112,9 @@ namespace OpenTween
             Bitly,
             Jmp,
             Uxnu,
-            //特殊
+            // 特殊
             Nicoms,
-            //廃止
+            // 廃止
             Unu = -1,
             Twurl = -1,
         }
@@ -135,28 +135,28 @@ namespace OpenTween
             DefaultValue = 20,
         }
 
-        //Backgroundworkerへ処理種別を通知するための引数用enum
+        // Backgroundworkerへ処理種別を通知するための引数用enum
         public enum WORKERTYPE
         {
-            Timeline,                //タイムライン取得
-            Reply,                   //返信取得
-            DirectMessegeRcv,        //受信DM取得
-            DirectMessegeSnt,        //送信DM取得
-            PostMessage,             //発言POST
-            FavAdd,                  //Fav追加
-            FavRemove,               //Fav削除
-            Follower,                //Followerリスト取得
-            Favorites,               //Fav取得
-            Retweet,                 //Retweetする
-            PublicSearch,            //公式検索
-            List,                    //Lists
-            Related,                 //関連発言
-            UserTimeline,            //UserTimeline
-            BlockIds,                //Blocking/ids
-            Configuration,           //Twitter Configuration読み込み
-            NoRetweetIds,            //RT非表示ユーザー取得
+            Timeline,                // タイムライン取得
+            Reply,                   // 返信取得
+            DirectMessegeRcv,        // 受信DM取得
+            DirectMessegeSnt,        // 送信DM取得
+            PostMessage,             // 発言POST
+            FavAdd,                  // Fav追加
+            FavRemove,               // Fav削除
+            Follower,                // Followerリスト取得
+            Favorites,               // Fav取得
+            Retweet,                 // Retweetする
+            PublicSearch,            // 公式検索
+            List,                    // Lists
+            Related,                 // 関連発言
+            UserTimeline,            // UserTimeline
+            BlockIds,                // Blocking/ids
+            Configuration,           // Twitter Configuration読み込み
+            NoRetweetIds,            // RT非表示ユーザー取得
             //////
-            ErrorState,              //エラー表示のみで後処理終了(認証エラー時など)
+            ErrorState,              // エラー表示のみで後処理終了(認証エラー時など)
         }
 
         public static class DEFAULTTAB
@@ -298,7 +298,7 @@ namespace OpenTween
             buf.AppendLine(ex.StackTrace);
             buf.AppendLine();
 
-            //InnerExceptionが存在する場合書き出す
+            // InnerExceptionが存在する場合書き出す
             var _ex = ex.InnerException;
             var nesting = 0;
             while (_ex != null)
@@ -508,16 +508,16 @@ namespace OpenTween
         {
             if (MyCommon.IsNullOrEmpty(str)) return "";
 
-            //文字列をバイト型配列にする
+            // 文字列をバイト型配列にする
             var bytesIn = Encoding.UTF8.GetBytes(str);
 
-            //DESCryptoServiceProviderオブジェクトの作成
+            // DESCryptoServiceProviderオブジェクトの作成
             using var des = new DESCryptoServiceProvider();
 
-            //共有キーと初期化ベクタを決定
-            //パスワードをバイト配列にする
+            // 共有キーと初期化ベクタを決定
+            // パスワードをバイト配列にする
             var bytesKey = Encoding.UTF8.GetBytes("_tween_encrypt_key_");
-            //共有キーと初期化ベクタを設定
+            // 共有キーと初期化ベクタを設定
             des.Key = ResizeBytesArray(bytesKey, des.Key.Length);
             des.IV = ResizeBytesArray(bytesKey, des.IV.Length);
 
@@ -526,27 +526,27 @@ namespace OpenTween
 
             try
             {
-                //暗号化されたデータを書き出すためのMemoryStream
+                // 暗号化されたデータを書き出すためのMemoryStream
                 msOut = new MemoryStream();
 
-                //DES暗号化オブジェクトの作成
+                // DES暗号化オブジェクトの作成
                 desdecrypt = des.CreateEncryptor();
 
-                //書き込むためのCryptoStreamの作成
+                // 書き込むためのCryptoStreamの作成
                 using var cryptStream = new CryptoStream(msOut, desdecrypt, CryptoStreamMode.Write);
 
-                //Disposeが重複して呼ばれないようにする
+                // Disposeが重複して呼ばれないようにする
                 var msTmp = msOut;
                 msOut = null;
                 desdecrypt = null;
 
-                //書き込む
+                // 書き込む
                 cryptStream.Write(bytesIn, 0, bytesIn.Length);
                 cryptStream.FlushFinalBlock();
-                //暗号化されたデータを取得
+                // 暗号化されたデータを取得
                 var bytesOut = msTmp.ToArray();
 
-                //Base64で文字列に変更して結果を返す
+                // Base64で文字列に変更して結果を返す
                 return Convert.ToBase64String(bytesOut);
             }
             finally
@@ -560,17 +560,17 @@ namespace OpenTween
         {
             if (MyCommon.IsNullOrEmpty(str)) return "";
 
-            //DESCryptoServiceProviderオブジェクトの作成
+            // DESCryptoServiceProviderオブジェクトの作成
             using var des = new DESCryptoServiceProvider();
 
-            //共有キーと初期化ベクタを決定
-            //パスワードをバイト配列にする
+            // 共有キーと初期化ベクタを決定
+            // パスワードをバイト配列にする
             var bytesKey = Encoding.UTF8.GetBytes("_tween_encrypt_key_");
-            //共有キーと初期化ベクタを設定
+            // 共有キーと初期化ベクタを設定
             des.Key = ResizeBytesArray(bytesKey, des.Key.Length);
             des.IV = ResizeBytesArray(bytesKey, des.IV.Length);
 
-            //Base64で文字列をバイト配列に戻す
+            // Base64で文字列をバイト配列に戻す
             var bytesIn = Convert.FromBase64String(str);
 
             MemoryStream? msIn = null;
@@ -579,24 +579,24 @@ namespace OpenTween
 
             try
             {
-                //暗号化されたデータを読み込むためのMemoryStream
+                // 暗号化されたデータを読み込むためのMemoryStream
                 msIn = new MemoryStream(bytesIn);
-                //DES復号化オブジェクトの作成
+                // DES復号化オブジェクトの作成
                 desdecrypt = des.CreateDecryptor();
-                //読み込むためのCryptoStreamの作成
+                // 読み込むためのCryptoStreamの作成
                 cryptStreem = new CryptoStream(msIn, desdecrypt, CryptoStreamMode.Read);
 
-                //Disposeが重複して呼ばれないようにする
+                // Disposeが重複して呼ばれないようにする
                 msIn = null;
                 desdecrypt = null;
 
-                //復号化されたデータを取得するためのStreamReader
+                // 復号化されたデータを取得するためのStreamReader
                 using var srOut = new StreamReader(cryptStreem, Encoding.UTF8);
 
-                //Disposeが重複して呼ばれないようにする
+                // Disposeが重複して呼ばれないようにする
                 cryptStreem = null;
 
-                //復号化されたデータを取得する
+                // 復号化されたデータを取得する
                 var result = srOut.ReadToEnd();
 
                 return result;
@@ -640,14 +640,14 @@ namespace OpenTween
         public enum TabUsageType
         {
             Undefined = 0,
-            Home = 1,      //Unique
-            Mentions = 2,     //Unique
-            DirectMessage = 4,   //Unique
-            Favorites = 8,       //Unique
+            Home = 1,      // Unique
+            Mentions = 2,     // Unique
+            DirectMessage = 4,   // Unique
+            Favorites = 8,       // Unique
             UserDefined = 16,
-            LocalQuery = 32,      //Pin(no save/no save query/distribute/no update(normal update))
-            Profile = 64,         //Pin(save/no distribute/manual update)
-            PublicSearch = 128,    //Pin(save/no distribute/auto update)
+            LocalQuery = 32,      // Pin(no save/no save query/distribute/no update(normal update))
+            Profile = 64,         // Pin(save/no distribute/manual update)
+            PublicSearch = 128,    // Pin(save/no distribute/auto update)
             Lists = 256,
             Related = 512,
             UserTimeline = 1024,

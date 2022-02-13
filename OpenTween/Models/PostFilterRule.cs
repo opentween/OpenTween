@@ -602,7 +602,7 @@ namespace OpenTween.Models
             }
             if (this.HasExcludeConditions())
             {
-                //除外
+                // 除外
                 fs.Append(Properties.Resources.SetFiltersText12);
                 if (this.ExUseNameField)
                 {

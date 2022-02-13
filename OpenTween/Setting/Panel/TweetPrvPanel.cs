@@ -58,7 +58,7 @@ namespace OpenTween.Setting.Panel
             this.CheckViewTabBottom.Checked = settingCommon.ViewTabBottom;
             this.chkUnreadStyle.Checked = settingCommon.UseUnreadStyle;
 
-            //書式指定文字列エラーチェック
+            // 書式指定文字列エラーチェック
             var dateTimeFormat = settingCommon.DateTimeFormat;
             try
             {

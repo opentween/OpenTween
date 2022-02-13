@@ -71,7 +71,7 @@ namespace OpenTween
         //   implied. See the License for the specific language governing
         //   permissions and limitations under the License.
 
-        //Hashtag用正規表現
+        // Hashtag用正規表現
         private const string LATIN_ACCENTS = @"\u00c0-\u00d6\u00d8-\u00f6\u00f8-\u00ff\u0100-\u024f\u0253\u0254\u0256\u0257\u0259\u025b\u0263\u0268\u026f\u0272\u0289\u028b\u02bb\u1e00-\u1eff";
         private const string NON_LATIN_HASHTAG_CHARS = @"\u0400-\u04ff\u0500-\u0527\u1100-\u11ff\u3130-\u3185\uA960-\uA97F\uAC00-\uD7AF\uD7B0-\uD7FF";
         private const string CJ_HASHTAG_CHARACTERS = @"\u30A1-\u30FA\u30FC\u3005\uFF66-\uFF9F\uFF10-\uFF19\uFF21-\uFF3A\uFF41-\uFF5A\u3041-\u309A\u3400-\u4DBF\p{IsCJKUnifiedIdeographs}";
@@ -80,7 +80,7 @@ namespace OpenTween
         private const string HASHTAG_ALPHANUMERIC = "[A-Za-z0-9_" + LATIN_ACCENTS + NON_LATIN_HASHTAG_CHARS + CJ_HASHTAG_CHARACTERS + "]";
         private const string HASHTAG_TERMINATOR = "[^A-Za-z0-9_" + LATIN_ACCENTS + NON_LATIN_HASHTAG_CHARS + CJ_HASHTAG_CHARACTERS + "]";
         public const string HASHTAG = "(" + HASHTAG_BOUNDARY + ")(#|＃)(" + HASHTAG_ALPHANUMERIC + "*" + HASHTAG_ALPHA + HASHTAG_ALPHANUMERIC + "*)(?=" + HASHTAG_TERMINATOR + "|" + HASHTAG_BOUNDARY + ")";
-        //URL正規表現
+        // URL正規表現
         private const string url_valid_preceding_chars = @"(?:[^A-Za-z0-9@＠$#＃\ufffe\ufeff\uffff\u202a-\u202e]|^)";
         public const string url_invalid_without_protocol_preceding_chars = @"[-_./]$";
         private const string url_invalid_domain_chars = @"\!'#%&'\(\)*\+,\\\-\.\/:;<=>\?@\[\]\^_{|}~\$\u2000-\u200a\u0009-\u000d\u0020\u0085\u00a0\u1680\u180e\u2028\u2029\u202f\u205f\u3000\ufffe\ufeff\uffff\u202a-\u202e";
@@ -162,7 +162,7 @@ namespace OpenTween
         private ISet<long> followerId = new HashSet<long>();
         private long[] noRTId = Array.Empty<long>();
 
-        //プロパティからアクセスされる共通情報
+        // プロパティからアクセスされる共通情報
         private readonly List<string> _hashList = new List<string>();
 
         private string? nextCursorDirectMessage = null;
@@ -210,7 +210,7 @@ namespace OpenTween
 
         public void Initialize(string token, string tokenSecret, string username, long userId)
         {
-            //OAuth認証
+            // OAuth認証
             if (MyCommon.IsNullOrEmpty(token) || MyCommon.IsNullOrEmpty(tokenSecret) || MyCommon.IsNullOrEmpty(username))
             {
                 Twitter.AccountState = MyCommon.ACCOUNT_STATE.Invalid;
@@ -284,7 +284,7 @@ namespace OpenTween
 
             this.previousStatusId = status.Id;
 
-            //投稿したものを返す
+            // 投稿したものを返す
             var post = CreatePostsFromStatusData(status);
             if (this.ReadOwnPost) post.IsRead = true;
             return post;
@@ -374,12 +374,12 @@ namespace OpenTween
         {
             this.CheckAccountState();
 
-            //データ部分の生成
+            // データ部分の生成
             var post = TabInformations.GetInstance()[id];
             if (post == null)
                 throw new WebApiException("Err:Target isn't found.");
 
-            var target = post.RetweetedId ?? id;  //再RTの場合は元発言をRT
+            var target = post.RetweetedId ?? id;  // 再RTの場合は元発言をRT
 
             var response = await this.Api.StatusesRetweet(target)
                 .ConfigureAwait(false);
@@ -387,21 +387,21 @@ namespace OpenTween
             var status = await response.LoadJsonAsync()
                 .ConfigureAwait(false);
 
-            //二重取得回避
+            // 二重取得回避
             lock (LockObj)
             {
                 if (TabInformations.GetInstance().ContainsKey(status.Id))
                     return null;
             }
 
-            //Retweet判定
+            // Retweet判定
             if (status.RetweetedStatus == null)
                 throw new WebApiException("Invalid Json!");
 
-            //Retweetしたものを返す
+            // Retweetしたものを返す
             post = CreatePostsFromStatusData(status);
 
-            //ユーザー情報
+            // ユーザー情報
             post.IsMe = true;
 
             post.IsRead = read;
@@ -621,7 +621,7 @@ namespace OpenTween
             var post = await this.GetStatusApi(read, id)
                 .ConfigureAwait(false);
 
-            //非同期アイコン取得＆StatusDictionaryに追加
+            // 非同期アイコン取得＆StatusDictionaryに追加
             if (tab != null && tab.IsInnerStorageTabType)
                 tab.AddPostQueue(post);
             else
@@ -644,13 +644,13 @@ namespace OpenTween
 
                 post.CreatedAt = MyCommon.DateTimeParse(retweeted.CreatedAt);
 
-                //Id
+                // Id
                 post.RetweetedId = retweeted.Id;
-                //本文
+                // 本文
                 post.TextFromApi = retweeted.FullText;
                 entities = retweeted.MergedEntities;
                 sourceHtml = retweeted.Source;
-                //Reply先
+                // Reply先
                 post.InReplyToStatusId = retweeted.InReplyToStatusId;
                 post.InReplyToUser = retweeted.InReplyToScreenName;
                 post.InReplyToUserId = status.InReplyToUserId;
@@ -661,7 +661,7 @@ namespace OpenTween
                 }
                 else
                 {
-                    //幻覚fav対策
+                    // 幻覚fav対策
                     var tc = TabInformations.GetInstance().FavoriteTab;
                     post.IsFav = tc.Contains(retweeted.Id);
                 }
@@ -669,7 +669,7 @@ namespace OpenTween
                 if (retweeted.Coordinates != null)
                     post.PostGeo = new PostClass.StatusGeo(retweeted.Coordinates.Coordinates[0], retweeted.Coordinates.Coordinates[1]);
 
-                //以下、ユーザー情報
+                // 以下、ユーザー情報
                 var user = retweeted.User;
                 if (user != null)
                 {
@@ -686,7 +686,7 @@ namespace OpenTween
                     post.Nickname = "Unknown User";
                 }
 
-                //Retweetした人
+                // Retweetした人
                 if (status.User != null)
                 {
                     post.RetweetedBy = status.User.ScreenName;
@@ -702,7 +702,7 @@ namespace OpenTween
             else
             {
                 post.CreatedAt = MyCommon.DateTimeParse(status.CreatedAt);
-                //本文
+                // 本文
                 post.TextFromApi = status.FullText;
                 entities = status.MergedEntities;
                 sourceHtml = status.Source;
@@ -716,7 +716,7 @@ namespace OpenTween
                 }
                 else
                 {
-                    //幻覚fav対策
+                    // 幻覚fav対策
                     var tc = TabInformations.GetInstance().FavoriteTab;
                     post.IsFav = tc.Posts.TryGetValue(post.StatusId, out var tabinfoPost) && tabinfoPost.IsFav;
                 }
@@ -724,7 +724,7 @@ namespace OpenTween
                 if (status.Coordinates != null)
                     post.PostGeo = new PostClass.StatusGeo(status.Coordinates.Coordinates[0], status.Coordinates.Coordinates[1]);
 
-                //以下、ユーザー情報
+                // 以下、ユーザー情報
                 var user = status.User;
                 if (user != null)
                 {
@@ -742,7 +742,7 @@ namespace OpenTween
                     post.Nickname = "Unknown User";
                 }
             }
-            //HTMLに整形
+            // HTMLに整形
             var textFromApi = post.TextFromApi;
 
             var quotedStatusLink = (status.RetweetedStatus ?? status).QuotedStatusPermalink;
@@ -781,7 +781,7 @@ namespace OpenTween
             post.ImageUrl = string.Intern(post.ImageUrl);
             post.RetweetedBy = post.RetweetedBy != null ? string.Intern(post.RetweetedBy) : null;
 
-            //Source整形
+            // Source整形
             var (sourceText, sourceUri) = ParseSource(sourceHtml);
             post.Source = string.Intern(sourceText);
             post.SourceUri = sourceUri;
@@ -839,7 +839,7 @@ namespace OpenTween
                 if (minimumId == null || minimumId.Value > status.Id)
                     minimumId = status.Id;
 
-                //二重取得回避
+                // 二重取得回避
                 lock (LockObj)
                 {
                     if (tab == null)
@@ -852,7 +852,7 @@ namespace OpenTween
                     }
                 }
 
-                //RT禁止ユーザーによるもの
+                // RT禁止ユーザーによるもの
                 if (gType != MyCommon.WORKERTYPE.UserTimeline &&
                     status.RetweetedStatus != null && this.noRTId.Contains(status.User.Id)) continue;
 
@@ -880,7 +880,7 @@ namespace OpenTween
                     minimumId = status.Id;
 
                 if (!more && status.Id > tab.SinceId) tab.SinceId = status.Id;
-                //二重取得回避
+                // 二重取得回避
                 lock (LockObj)
                 {
                     if (tab.Contains(status.Id)) continue;
@@ -907,7 +907,7 @@ namespace OpenTween
                 if (minimumId == null || minimumId.Value > status.Id)
                     minimumId = status.Id;
 
-                //二重取得回避
+                // 二重取得回避
                 lock (LockObj)
                 {
                     if (favTab.Contains(status.Id)) continue;
@@ -971,7 +971,7 @@ namespace OpenTween
             var relPosts = new Dictionary<long, PostClass>();
             if (targetPost.TextFromApi.Contains("@") && targetPost.InReplyToStatusId == null)
             {
-                //検索結果対応
+                // 検索結果対応
                 var p = TabInformations.GetInstance()[targetPost.StatusId];
                 if (p != null && p.InReplyToStatusId != null)
                 {
@@ -1015,7 +1015,7 @@ namespace OpenTween
                 nextPost = FindTopOfReplyChain(relPosts, nextPost.StatusId);
             }
 
-            //MRTとかに対応のためツイート内にあるツイートを指すURLを取り込む
+            // MRTとかに対応のためツイート内にあるツイートを指すURLを取り込む
             var text = targetPost.Text;
             var ma = Twitter.StatusUrlRegex.Matches(text).Cast<Match>()
                 .Concat(Twitter.ThirdPartyStatusUrlRegex.Matches(text).Cast<Match>());
@@ -1156,7 +1156,7 @@ namespace OpenTween
 
                 var timestamp = long.Parse(eventItem.CreatedTimestamp);
                 post.CreatedAt = DateTimeUtc.UnixEpoch + TimeSpan.FromTicks(timestamp * TimeSpan.TicksPerMillisecond);
-                //本文
+                // 本文
                 var textFromApi = eventItem.MessageCreate.MessageData.Text;
 
                 var entities = eventItem.MessageCreate.MessageData.Entities;
@@ -1165,7 +1165,7 @@ namespace OpenTween
                 if (mediaEntity != null)
                     entities.Media = new[] { mediaEntity };
 
-                //HTMLに整形
+                // HTMLに整形
                 post.Text = CreateHtmlAnchor(textFromApi, entities, quotedStatusLink: null);
                 post.TextFromApi = this.ReplaceTextFromApi(textFromApi, entities, quotedStatusLink: null);
                 post.TextFromApi = WebUtility.HtmlDecode(post.TextFromApi);
@@ -1184,7 +1184,7 @@ namespace OpenTween
                     .Select(x => new PostClass.ExpandedUrlInfo(x.Url, x.ExpandedUrl))
                     .ToArray();
 
-                //以下、ユーザー情報
+                // 以下、ユーザー情報
                 string userId;
                 if (eventItem.MessageCreate.SenderId != this.Api.CurrentUserId.ToString(CultureInfo.InvariantCulture))
                 {
@@ -1529,7 +1529,7 @@ namespace OpenTween
             text = TweetFormatter.AutoLinkHtml(text, mergedEntities, keepTco: true);
 
             text = Regex.Replace(text, "(^|[^a-zA-Z0-9_/&#＃@＠>=.~])(sm|nm)([0-9]{1,10})", "$1<a href=\"https://www.nicovideo.jp/watch/$2$3\">$2$3</a>");
-            text = PreProcessUrl(text); //IDN置換
+            text = PreProcessUrl(text); // IDN置換
 
             if (quotedStatusLink != null)
             {

@@ -117,8 +117,8 @@ namespace OpenTween.Setting.Panel
 
         private void HotkeyText_KeyDown(object sender, KeyEventArgs e)
         {
-            //KeyValueで判定する。
-            //表示文字とのテーブルを用意すること
+            // KeyValueで判定する。
+            // 表示文字とのテーブルを用意すること
             HotkeyText.Text = e.KeyCode.ToString();
             HotkeyCode.Text = e.KeyValue.ToString();
             HotkeyText.Tag = e.KeyCode;

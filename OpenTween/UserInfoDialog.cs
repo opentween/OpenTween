@@ -399,7 +399,7 @@ namespace OpenTween
 
         private void ShowUserInfo_Activated(object sender, EventArgs e)
         {
-            //画面が他画面の裏に隠れると、アイコン画像が再描画されない問題の対応
+            // 画面が他画面の裏に隠れると、アイコン画像が再描画されない問題の対応
             if (UserPicture.Image != null)
                 UserPicture.Invalidate(false);
         }

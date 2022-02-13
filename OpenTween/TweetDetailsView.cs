@@ -77,7 +77,7 @@ namespace OpenTween
 
             this.TabStop = false;
 
-            //発言詳細部の初期化
+            // 発言詳細部の初期化
             NameLabel.Text = "";
             DateTimeLabel.Text = "";
             SourceLinkLabel.Text = "";
@@ -388,14 +388,14 @@ namespace OpenTween
 
         private async Task DoSearchToolStrip(string url)
         {
-            //発言詳細で「選択文字列で検索」（選択文字列取得）
+            // 発言詳細で「選択文字列で検索」（選択文字列取得）
             var _selText = this.PostBrowser.GetSelectedText();
 
             if (_selText != null)
             {
                 if (url == Properties.Resources.SearchItem4Url)
                 {
-                    //公式検索
+                    // 公式検索
                     this.Owner.AddNewTabForSearch(_selText);
                     return;
                 }
@@ -541,7 +541,7 @@ namespace OpenTween
 
         private void ContextMenuUserPicture_Opening(object sender, CancelEventArgs e)
         {
-            //発言詳細のアイコン右クリック時のメニュー制御
+            // 発言詳細のアイコン右クリック時のメニュー制御
             if (this.CurrentPost != null)
             {
                 var name = this.CurrentPost.ImageUrl;
@@ -735,7 +735,7 @@ namespace OpenTween
                 }
                 catch (Exception)
                 {
-                    //処理中にキャッシュアウトする可能性あり
+                    // 処理中にキャッシュアウトする可能性あり
                 }
             }
         }
@@ -808,7 +808,7 @@ namespace OpenTween
                 SelectionCopyContextMenuItem.Enabled = true;
                 SelectionTranslationToolStripMenuItem.Enabled = true;
             }
-            //発言内に自分以外のユーザーが含まれてればフォロー状態全表示を有効に
+            // 発言内に自分以外のユーザーが含まれてればフォロー状態全表示を有効に
             var ma = Regex.Matches(this.PostBrowser.DocumentText, @"href=""https?://twitter.com/(#!/)?(?<ScreenName>[a-zA-Z0-9_]+)(/status(es)?/[0-9]+)?""");
             var fAllFlag = false;
             foreach (Match mu in ma)
@@ -840,7 +840,7 @@ namespace OpenTween
 
         private void CurrentTabToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //発言詳細の選択文字列で現在のタブを検索
+            // 発言詳細の選択文字列で現在のタブを検索
             var _selText = this.PostBrowser.GetSelectedText();
 
             if (_selText != null)
@@ -864,7 +864,7 @@ namespace OpenTween
 
         private void SelectionCopyContextMenuItem_Click(object sender, EventArgs e)
         {
-            //発言詳細で「選択文字列をコピー」
+            // 発言詳細で「選択文字列をコピー」
             var _selText = this.PostBrowser.GetSelectedText();
             try
             {

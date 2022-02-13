@@ -50,10 +50,10 @@ namespace OpenTween
         /// </summary>
         public bool RunSilent { get; set; }
 
-        //入力補助画面
+        // 入力補助画面
         private readonly AtIdSupplement _hashSupl;
 
-        //編集モード
+        // 編集モード
         private bool _isAdd = false;
 
         private void ChangeMode(bool isEdit)
@@ -155,7 +155,7 @@ namespace OpenTween
             {
                 if (isIgnorePermanent || !this.IsPermanent)
                 {
-                    //無条件に先頭に挿入
+                    // 無条件に先頭に挿入
                     var idx = GetIndexOf(HistoryHashList.Items, hash);
 
                     if (idx != -1) HistoryHashList.Items.RemoveAt(idx);
@@ -163,27 +163,27 @@ namespace OpenTween
                 }
                 else
                 {
-                    //固定されていたら2行目に挿入
+                    // 固定されていたら2行目に挿入
                     var idx = GetIndexOf(HistoryHashList.Items, hash);
                     if (this.IsPermanent)
                     {
                         if (idx > 0)
                         {
-                            //重複アイテムが2行目以降にあれば2行目へ
+                            // 重複アイテムが2行目以降にあれば2行目へ
                             HistoryHashList.Items.RemoveAt(idx);
                             HistoryHashList.Items.Insert(1, hash);
                         }
                         else if (idx == -1)
                         {
-                            //重複アイテムなし
+                            // 重複アイテムなし
                             if (HistoryHashList.Items.Count == 0)
                             {
-                                //リストが空なら追加
+                                // リストが空なら追加
                                 HistoryHashList.Items.Add(hash);
                             }
                             else
                             {
-                                //リストにアイテムがあれば2行目へ
+                                // リストにアイテムがあれば2行目へ
                                 HistoryHashList.Items.Insert(1, hash);
                             }
                         }
@@ -194,11 +194,11 @@ namespace OpenTween
 
         private void HashtagManage_Shown(object sender, EventArgs e)
         {
-            //オプション
+            // オプション
             this.CheckPermanent.Checked = this.IsPermanent;
             this.RadioHead.Checked = this.IsHead;
             this.RadioLast.Checked = !this.IsHead;
-            //リスト選択
+            // リスト選択
             if (this.HistoryHashList.Items.Contains(this.UseHash))
             {
                 this.HistoryHashList.SelectedItem = this.UseHash;
@@ -285,7 +285,7 @@ namespace OpenTween
 
         public void SetPermanentHash(string hash)
         {
-            //固定ハッシュタグの変更
+            // 固定ハッシュタグの変更
             this.UseHash = hash.Trim();
             this.AddHashToHistory(UseHash, false);
             this.IsPermanent = true;
@@ -293,7 +293,7 @@ namespace OpenTween
 
         private void PermOK_Button_Click(object sender, EventArgs e)
         {
-            //ハッシュタグの整形
+            // ハッシュタグの整形
             var hashStr = UseHashText.Text;
             if (!this.AdjustHashtags(ref hashStr, !this.RunSilent)) return;
 
@@ -342,7 +342,7 @@ namespace OpenTween
 
         private bool AdjustHashtags(ref string hashtag, bool isShowWarn)
         {
-            //ハッシュタグの整形
+            // ハッシュタグの整形
             hashtag = hashtag.Trim();
             if (MyCommon.IsNullOrEmpty(hashtag))
             {
@@ -366,7 +366,7 @@ namespace OpenTween
                         if (isShowWarn) MessageBox.Show("empty hashtag.", "Hashtag warning", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                         return false;
                     }
-                    //使用不可の文字チェックはしない
+                    // 使用不可の文字チェックはしない
                     adjust += hash + " ";
                 }
             }
@@ -389,7 +389,7 @@ namespace OpenTween
             }
             else
             {
-                //使用ハッシュが未選択ならば、固定オプション外す
+                // 使用ハッシュが未選択ならば、固定オプション外す
                 this.IsPermanent = false;
             }
             this.IsHead = this.RadioHead.Checked;

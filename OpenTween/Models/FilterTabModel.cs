@@ -50,7 +50,7 @@ namespace OpenTween.Models
         {
         }
 
-        //フィルタに合致したら追加
+        // フィルタに合致したら追加
         public MyCommon.HITRESULT AddFiltered(PostClass post, bool immediately = false)
         {
             if (this.IsInnerStorageTabType)
@@ -58,14 +58,14 @@ namespace OpenTween.Models
 
             var rslt = MyCommon.HITRESULT.None;
 
-            //全フィルタ評価（優先順位あり）
+            // 全フィルタ評価（優先順位あり）
             lock (this.lockObjFilters)
             {
                 foreach (var ft in _filters)
                 {
                     try
                     {
-                        switch (ft.ExecFilter(post))   //フィルタクラスでヒット判定
+                        switch (ft.ExecFilter(post))   // フィルタクラスでヒット判定
                         {
                             case MyCommon.HITRESULT.None:
                                 break;
@@ -103,7 +103,7 @@ namespace OpenTween.Models
                     this.AddPostQueue(post);
             }
 
-            return rslt; //マーク付けは呼び出し元で行うこと
+            return rslt; // マーク付けは呼び出し元で行うこと
         }
 
 

@@ -60,16 +60,16 @@ namespace OpenTween
         // SendMessageで送信するメッセージ
         private enum SendMessageType : uint
         {
-            WM_SETREDRAW = 0x000B,               //再描画を許可するかを設定
-            WM_USER = 0x400,                     //ユーザー定義メッセージ
+            WM_SETREDRAW = 0x000B,               // 再描画を許可するかを設定
+            WM_USER = 0x400,                     // ユーザー定義メッセージ
 
-            TCM_FIRST = 0x1300,                  //タブコントロールメッセージ
-            TCM_SETMINTABWIDTH = TCM_FIRST + 49, //タブアイテムの最小幅を設定
+            TCM_FIRST = 0x1300,                  // タブコントロールメッセージ
+            TCM_SETMINTABWIDTH = TCM_FIRST + 49, // タブアイテムの最小幅を設定
 
-            LVM_FIRST = 0x1000,                    //リストビューメッセージ
-            LVM_SETITEMSTATE = LVM_FIRST + 43,     //アイテムの状態を設定
-            LVM_GETSELECTIONMARK = LVM_FIRST + 66, //複数選択時の起点になるアイテムの位置を取得
-            LVM_SETSELECTIONMARK = LVM_FIRST + 67, //複数選択時の起点になるアイテムを設定
+            LVM_FIRST = 0x1000,                    // リストビューメッセージ
+            LVM_SETITEMSTATE = LVM_FIRST + 43,     // アイテムの状態を設定
+            LVM_GETSELECTIONMARK = LVM_FIRST + 66, // 複数選択時の起点になるアイテムの位置を取得
+            LVM_SETSELECTIONMARK = LVM_FIRST + 67, // 複数選択時の起点になるアイテムを設定
         }
 
         /// <summary>
@@ -230,7 +230,7 @@ namespace OpenTween
                     int intWinIniFlag);
         // returns non-zero value if function succeeds
 
-        //スクリーンセーバーが起動中かを取得する定数
+        // スクリーンセーバーが起動中かを取得する定数
         private const int SPI_GETSCREENSAVERRUNNING = 0x0072;
 
         public static bool IsScreenSaverRunning()
@@ -342,7 +342,7 @@ namespace OpenTween
             }
             else if (strProxy == null)
             {
-                //IE Default
+                // IE Default
                 var p = WebRequest.GetSystemWebProxy();
                 if (p.IsBypassed(new Uri("http://www.google.com/")))
                 {

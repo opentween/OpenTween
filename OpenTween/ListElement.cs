@@ -40,8 +40,8 @@ namespace OpenTween
         public string Description = "";
         public string Slug = "";
         public bool IsPublic = true;
-        public int SubscriberCount = 0;   //購読者数
-        public int MemberCount = 0;   //リストメンバ数
+        public int SubscriberCount = 0;   // 購読者数
+        public int MemberCount = 0;   // リストメンバ数
         public long UserId = 0;
         public string Username = "";
         public string Nickname = "";
