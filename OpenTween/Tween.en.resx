@@ -20,10 +20,6 @@
 	<data name="AuthorListManageMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>223, 22</value></data>
 	<data name="AuthorListManageMenuItem.Text"><value>Add/Remove from &amp;Lists</value></data>
 	<data name="AuthorMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>259, 22</value></data>
-	<data name="AuthorOpenFavoritesContextMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>197, 22</value></data>
-	<data name="AuthorOpenFavoritesContextMenuItem.Text"><value>Open Favorites (&amp;G)</value></data>
-	<data name="AuthorOpenFavoritesMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>223, 22</value></data>
-	<data name="AuthorOpenFavoritesMenuItem.Text"><value>Open Favorites (&amp;G)</value></data>
 	<data name="AuthorOpenInBrowserContextMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>197, 22</value></data>
 	<data name="AuthorOpenInBrowserContextMenuItem.Text"><value>Open in browser (&amp;H)</value></data>
 	<data name="AuthorOpenInBrowserMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>223, 22</value></data>

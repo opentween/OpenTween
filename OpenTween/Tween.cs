@@ -3024,13 +3024,6 @@ namespace OpenTween
                 await MyCommon.OpenInBrowserAsync(this, MyCommon.TwitterUrl);
         }
 
-        private async void AuthorOpenFavoritesMenuItem_Click(object sender, EventArgs e)
-        {
-            var post = this.CurrentPost;
-            if (post != null)
-                await MyCommon.OpenInBrowserAsync(this, MyCommon.TwitterUrl + "#!/" + post.ScreenName + "/favorites");
-        }
-
         private void TweenMain_ClientSizeChanged(object sender, EventArgs e)
         {
             if ((!this.initialLayout) && this.Visible)
@@ -5823,9 +5816,6 @@ namespace OpenTween
 
                 ShortcutCommand.Create(Keys.Control | Keys.H)
                     .Do(() => this.AuthorOpenInBrowserMenuItem_Click(this.AuthorOpenInBrowserContextMenuItem, EventArgs.Empty)),
-
-                ShortcutCommand.Create(Keys.Control | Keys.G)
-                    .Do(() => this.AuthorOpenFavoritesMenuItem_Click(this.AuthorOpenFavoritesContextMenuItem, EventArgs.Empty)),
 
                 ShortcutCommand.Create(Keys.Control | Keys.O)
                     .Do(() => this.StatusOpenMenuItem_Click(this.StatusOpenMenuItem, EventArgs.Empty)),

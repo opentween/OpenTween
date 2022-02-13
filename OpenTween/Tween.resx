@@ -30,10 +30,6 @@
 	<data name="&gt;&gt;AuthorListManageMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
 	<data name="&gt;&gt;AuthorMenuItem.Name"><value>AuthorMenuItem</value></data>
 	<data name="&gt;&gt;AuthorMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
-	<data name="&gt;&gt;AuthorOpenFavoritesContextMenuItem.Name"><value>AuthorOpenFavoritesContextMenuItem</value></data>
-	<data name="&gt;&gt;AuthorOpenFavoritesContextMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
-	<data name="&gt;&gt;AuthorOpenFavoritesMenuItem.Name"><value>AuthorOpenFavoritesMenuItem</value></data>
-	<data name="&gt;&gt;AuthorOpenFavoritesMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
 	<data name="&gt;&gt;AuthorOpenInBrowserContextMenuItem.Name"><value>AuthorOpenInBrowserContextMenuItem</value></data>
 	<data name="&gt;&gt;AuthorOpenInBrowserContextMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
 	<data name="&gt;&gt;AuthorOpenInBrowserMenuItem.Name"><value>AuthorOpenInBrowserMenuItem</value></data>
@@ -602,11 +598,6 @@
 	<data name="AuthorListManageMenuItem.Text"><value>リスト管理(&amp;L)</value></data>
 	<data name="AuthorMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>244, 22</value></data>
 	<data name="AuthorMenuItem.Text"><value>%Author%</value></data>
-	<data name="AuthorOpenFavoritesContextMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>206, 22</value></data>
-	<data name="AuthorOpenFavoritesContextMenuItem.Text"><value>Favを開く(&amp;G)</value></data>
-	<data name="AuthorOpenFavoritesMenuItem.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms"><value>Ctrl+G</value></data>
-	<data name="AuthorOpenFavoritesMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>247, 22</value></data>
-	<data name="AuthorOpenFavoritesMenuItem.Text"><value>Favを開く(&amp;G)</value></data>
 	<data name="AuthorOpenInBrowserContextMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>206, 22</value></data>
 	<data name="AuthorOpenInBrowserContextMenuItem.Text"><value>ブラウザで開く(&amp;H)</value></data>
 	<data name="AuthorOpenInBrowserMenuItem.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms"><value>Ctrl+H</value></data>

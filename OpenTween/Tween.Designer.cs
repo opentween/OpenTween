@@ -110,7 +110,6 @@
             this.AuthorShowUserTimelineMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.AuthorListManageMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.AuthorOpenInBrowserMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.AuthorOpenFavoritesMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.RetweetedByMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.RetweetedByShowProfileMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.RetweetedByShowUserTimelineMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -247,7 +246,6 @@
             this.AuthorShowUserTimelineContextMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.AuthorListManageContextMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.AuthorOpenInBrowserContextMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.AuthorOpenFavoritesContextMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.RetweetedByContextMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.RetweetedByShowProfileContextMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.RetweetedByShowUserTimelineContextMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -1020,8 +1018,7 @@
             this.AuthorShowProfileMenuItem,
             this.AuthorShowUserTimelineMenuItem,
             this.AuthorListManageMenuItem,
-            this.AuthorOpenInBrowserMenuItem,
-            this.AuthorOpenFavoritesMenuItem});
+            this.AuthorOpenInBrowserMenuItem});
             this.AuthorMenuItem.Name = "AuthorMenuItem";
             resources.ApplyResources(this.AuthorMenuItem, "AuthorMenuItem");
             // 
@@ -1048,12 +1045,6 @@
             this.AuthorOpenInBrowserMenuItem.Name = "AuthorOpenInBrowserMenuItem";
             resources.ApplyResources(this.AuthorOpenInBrowserMenuItem, "AuthorOpenInBrowserMenuItem");
             this.AuthorOpenInBrowserMenuItem.Click += new System.EventHandler(this.AuthorOpenInBrowserMenuItem_Click);
-            // 
-            // AuthorOpenFavoritesMenuItem
-            // 
-            this.AuthorOpenFavoritesMenuItem.Name = "AuthorOpenFavoritesMenuItem";
-            resources.ApplyResources(this.AuthorOpenFavoritesMenuItem, "AuthorOpenFavoritesMenuItem");
-            this.AuthorOpenFavoritesMenuItem.Click += new System.EventHandler(this.AuthorOpenFavoritesMenuItem_Click);
             // 
             // RetweetedByMenuItem
             // 
@@ -1959,8 +1950,7 @@
             this.AuthorShowProfileContextMenuItem,
             this.AuthorShowUserTimelineContextMenuItem,
             this.AuthorListManageContextMenuItem,
-            this.AuthorOpenInBrowserContextMenuItem,
-            this.AuthorOpenFavoritesContextMenuItem});
+            this.AuthorOpenInBrowserContextMenuItem});
             this.AuthorContextMenuItem.Name = "AuthorContextMenuItem";
             resources.ApplyResources(this.AuthorContextMenuItem, "AuthorContextMenuItem");
             // 
@@ -1987,12 +1977,6 @@
             this.AuthorOpenInBrowserContextMenuItem.Name = "AuthorOpenInBrowserContextMenuItem";
             resources.ApplyResources(this.AuthorOpenInBrowserContextMenuItem, "AuthorOpenInBrowserContextMenuItem");
             this.AuthorOpenInBrowserContextMenuItem.Click += new System.EventHandler(this.AuthorOpenInBrowserMenuItem_Click);
-            // 
-            // AuthorOpenFavoritesContextMenuItem
-            // 
-            this.AuthorOpenFavoritesContextMenuItem.Name = "AuthorOpenFavoritesContextMenuItem";
-            resources.ApplyResources(this.AuthorOpenFavoritesContextMenuItem, "AuthorOpenFavoritesContextMenuItem");
-            this.AuthorOpenFavoritesContextMenuItem.Click += new System.EventHandler(this.AuthorOpenFavoritesMenuItem_Click);
             // 
             // RetweetedByContextMenuItem
             // 
@@ -2406,7 +2390,6 @@
         private System.Windows.Forms.ToolStripMenuItem AuthorShowUserTimelineMenuItem;
         private System.Windows.Forms.ToolStripMenuItem AuthorListManageMenuItem;
         private System.Windows.Forms.ToolStripMenuItem AuthorOpenInBrowserMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem AuthorOpenFavoritesMenuItem;
         private System.Windows.Forms.ToolStripMenuItem RetweetedByMenuItem;
         private System.Windows.Forms.ToolStripMenuItem RetweetedByShowProfileMenuItem;
         private System.Windows.Forms.ToolStripMenuItem RetweetedByShowUserTimelineMenuItem;
@@ -2416,7 +2399,6 @@
         private System.Windows.Forms.ToolStripMenuItem AuthorShowUserTimelineContextMenuItem;
         private System.Windows.Forms.ToolStripMenuItem AuthorListManageContextMenuItem;
         private System.Windows.Forms.ToolStripMenuItem AuthorOpenInBrowserContextMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem AuthorOpenFavoritesContextMenuItem;
         private System.Windows.Forms.ToolStripMenuItem RetweetedByContextMenuItem;
         private System.Windows.Forms.ToolStripMenuItem RetweetedByShowProfileContextMenuItem;
         private System.Windows.Forms.ToolStripMenuItem RetweetedByShowUserTimelineContextMenuItem;
