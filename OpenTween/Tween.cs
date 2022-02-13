@@ -9431,7 +9431,7 @@ namespace OpenTween
             if (flg) LView.Invalidate(bnd);
         }
 
-        private void SelectListItem(DetailsListView LView , int[]? Index, int focusedIndex, int selectionMarkIndex)
+        private void SelectListItem(DetailsListView LView, int[]? Index, int focusedIndex, int selectionMarkIndex)
         {
             //複数
             var bnd = new Rectangle();
