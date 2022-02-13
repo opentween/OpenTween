@@ -41,7 +41,11 @@ namespace OpenTween
         public bool MultiSelect
         {
             get => this._MultiSelect;
-            set { this._MultiSelect = value; this.UpdateTabList(); }
+            set
+            {
+                this._MultiSelect = value;
+                this.UpdateTabList();
+            }
         }
 
         protected internal class TabListItem

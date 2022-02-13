@@ -5602,11 +5602,19 @@ namespace OpenTween
 
                 ShortcutCommand.Create(Keys.Space, Keys.ProcessKey)
                     .NotFocusedOn(FocusedControl.StatusText)
-                    .Do(() => { this._anchorFlag = false; this.JumpUnreadMenuItem_Click(this.JumpUnreadMenuItem, EventArgs.Empty); }),
+                    .Do(() =>
+                    {
+                        this._anchorFlag = false;
+                        this.JumpUnreadMenuItem_Click(this.JumpUnreadMenuItem, EventArgs.Empty);
+                    }),
 
                 ShortcutCommand.Create(Keys.G)
                     .NotFocusedOn(FocusedControl.StatusText)
-                    .Do(() => { this._anchorFlag = false; this.ShowRelatedStatusesMenuItem_Click(this.ShowRelatedStatusesMenuItem, EventArgs.Empty); }),
+                    .Do(() =>
+                    {
+                        this._anchorFlag = false;
+                        this.ShowRelatedStatusesMenuItem_Click(this.ShowRelatedStatusesMenuItem, EventArgs.Empty);
+                    }),
 
                 ShortcutCommand.Create(Keys.Right, Keys.N)
                     .FocusedOn(FocusedControl.ListTab)
@@ -5635,33 +5643,61 @@ namespace OpenTween
 
                 ShortcutCommand.Create(Keys.L)
                     .FocusedOn(FocusedControl.ListTab)
-                    .Do(() => { this._anchorFlag = false; this.GoPost(forward: true); }),
+                    .Do(() =>
+                    {
+                        this._anchorFlag = false;
+                        this.GoPost(forward: true);
+                    }),
 
                 ShortcutCommand.Create(Keys.H)
                     .FocusedOn(FocusedControl.ListTab)
-                    .Do(() => { this._anchorFlag = false; this.GoPost(forward: false); }),
+                    .Do(() =>
+                    {
+                        this._anchorFlag = false;
+                        this.GoPost(forward: false);
+                    }),
 
                 ShortcutCommand.Create(Keys.Z, Keys.Oemcomma)
                     .FocusedOn(FocusedControl.ListTab)
-                    .Do(() => { this._anchorFlag = false; this.MoveTop(); }),
+                    .Do(() =>
+                    {
+                        this._anchorFlag = false;
+                        this.MoveTop();
+                    }),
 
                 ShortcutCommand.Create(Keys.S)
                     .FocusedOn(FocusedControl.ListTab)
-                    .Do(() => { this._anchorFlag = false; this.GoNextTab(forward: true); }),
+                    .Do(() =>
+                    {
+                        this._anchorFlag = false;
+                        this.GoNextTab(forward: true);
+                    }),
 
                 ShortcutCommand.Create(Keys.A)
                     .FocusedOn(FocusedControl.ListTab)
-                    .Do(() => { this._anchorFlag = false; this.GoNextTab(forward: false); }),
+                    .Do(() =>
+                    {
+                        this._anchorFlag = false;
+                        this.GoNextTab(forward: false);
+                    }),
 
                 // ] in_reply_to参照元へ戻る
                 ShortcutCommand.Create(Keys.Oem4)
                     .FocusedOn(FocusedControl.ListTab)
-                    .Do(() => { this._anchorFlag = false; return this.GoInReplyToPostTree(); }),
+                    .Do(() =>
+                    {
+                        this._anchorFlag = false;
+                        return this.GoInReplyToPostTree();
+                    }),
 
                 // [ in_reply_toへジャンプ
                 ShortcutCommand.Create(Keys.Oem6)
                     .FocusedOn(FocusedControl.ListTab)
-                    .Do(() => { this._anchorFlag = false; this.GoBackInReplyToPostTree(); }),
+                    .Do(() =>
+                    {
+                        this._anchorFlag = false;
+                        this.GoBackInReplyToPostTree();
+                    }),
 
                 ShortcutCommand.Create(Keys.Escape)
                     .FocusedOn(FocusedControl.ListTab)

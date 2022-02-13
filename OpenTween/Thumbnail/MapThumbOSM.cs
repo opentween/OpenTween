@@ -143,7 +143,11 @@ namespace OpenTween.Thumbnail
                 result = MemoryImage.CopyFromImage(bitmap);
                 return result;
             }
-            catch { result?.Dispose(); throw; }
+            catch
+            {
+                result?.Dispose();
+                throw;
+            }
         }
 
         /// <summary>指定されたタイル番号のタイル画像を読み込むメソッド</summary>
@@ -160,7 +164,11 @@ namespace OpenTween.Thumbnail
                 result = await MemoryImage.CopyFromStreamAsync(stream).ConfigureAwait(false);
                 return result;
             }
-            catch { result?.Dispose(); throw; }
+            catch
+            {
+                result?.Dispose();
+                throw;
+            }
         }
 
         /// <summary>経度・緯度からタイル番号を算出するメソッド</summary>

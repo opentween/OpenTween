@@ -159,13 +159,29 @@ namespace OpenTween
         }
 
         public static Task ForEachAsync<T>(this IObservable<T> observable, Action<T> subscriber)
-            => ForEachAsync(observable, value => { subscriber(value); return Task.CompletedTask; });
+        {
+            return ForEachAsync(observable, value =>
+            {
+                subscriber(value);
+                return Task.CompletedTask;
+            });
+        }
 
         public static Task ForEachAsync<T>(this IObservable<T> observable, Func<T, Task> subscriber)
             => ForEachAsync(observable, subscriber, CancellationToken.None);
 
         public static Task ForEachAsync<T>(this IObservable<T> observable, Action<T> subscriber, CancellationToken cancellationToken)
-            => ForEachAsync(observable, value => { subscriber(value); return Task.CompletedTask; }, cancellationToken);
+        {
+            return ForEachAsync(
+                observable,
+                value =>
+                {
+                    subscriber(value);
+                    return Task.CompletedTask;
+                },
+                cancellationToken
+            );
+        }
 
         public static async Task ForEachAsync<T>(this IObservable<T> observable, Func<T, Task> subscriber, CancellationToken cancellationToken)
         {

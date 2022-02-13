@@ -53,7 +53,11 @@ namespace OpenTween
             // WM_SETREDRAW メッセージを直接コントロールに送信する。
             return new Transaction<Control>(control,
                 x => NativeMethods.SetRedrawState(x, false),
-                x => { NativeMethods.SetRedrawState(x, true); x.Invalidate(true); });
+                x =>
+                {
+                    NativeMethods.SetRedrawState(x, true);
+                    x.Invalidate(true);
+                });
         }
 
         public static IDisposable Layout(Control control)
