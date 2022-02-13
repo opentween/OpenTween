@@ -115,6 +115,7 @@ namespace OpenTween.Models
                 Assert.Equal(isFav, PostGroup[post.RetweetedId.Value].IsFav);
         }
 
+#pragma warning disable SA1008 // Opening parenthesis should be spaced correctly
         [Theory]
         [InlineData(false, false, false, false, -0x01)]
         [InlineData( true, false, false, false, 0x00)]
@@ -132,6 +133,7 @@ namespace OpenTween.Models
         [InlineData( true, false,  true,  true, 0x0C)]
         [InlineData(false,  true,  true,  true, 0x0D)]
         [InlineData( true,  true,  true,  true, 0x0E)]
+#pragma warning restore SA1008
         public void StateIndexTest(bool protect, bool mark, bool reply, bool geo, int expected)
         {
             var post = new TestPostClass

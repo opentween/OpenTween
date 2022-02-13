@@ -215,7 +215,9 @@ namespace OpenTween
 
     public static class ApiKeyExtensions
     {
+#pragma warning disable SA1141
         public static bool TryGetValue(this ValueTuple<ApiKey, ApiKey> apiKeys, out ValueTuple<string, string> decryptedKeys)
+#pragma warning restore SA1141
         {
             var (apiKey1, apiKey2) = apiKeys;
             if (apiKey1.TryGetValue(out var decrypted1) && apiKey2.TryGetValue(out var decrypted2))

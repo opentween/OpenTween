@@ -151,6 +151,8 @@ namespace OpenTween
     }
 }
 
+#pragma warning disable SA1403
+
 namespace OpenTween.Setting
 {
     public class SettingManagerTest
