@@ -288,7 +288,7 @@ namespace OpenTween
                 return;
             }
 
-            var items = new [] { CreateMemoryImageMediaItem(image, false) }.OfType<IMediaItem>().ToArray();
+            var items = new[] { CreateMemoryImageMediaItem(image, false) }.OfType<IMediaItem>().ToArray();
             BeginSelection(items);
         }
 
