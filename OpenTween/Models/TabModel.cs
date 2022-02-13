@@ -419,7 +419,6 @@ namespace OpenTween.Models
         /// <param name="stringComparer">発言内容、スクリーン名、名前と比較する条件。マッチしたら true を返す</param>
         /// <param name="startIndex">検索を開始する位置</param>
         /// <param name="reverse">インデックスの昇順に検索する場合は false、降順の場合は true</param>
-        /// <returns></returns>
         public IEnumerable<int> SearchPostsAll(Func<string, bool> stringComparer, int startIndex, bool reverse)
         {
             if (this.AllCount == 0)

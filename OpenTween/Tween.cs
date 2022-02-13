@@ -3671,7 +3671,7 @@ namespace OpenTween
                     _hookGlobalHotkey.UnregisterAllOriginalHotkey();
                     if (SettingManager.Common.HotkeyEnabled)
                     {
-                        ///グローバルホットキーの登録。設定で変更可能にするかも
+                        // グローバルホットキーの登録。設定で変更可能にするかも
                         var modKey = HookGlobalHotkey.ModKeys.None;
                         if ((SettingManager.Common.HotkeyModifier & Keys.Alt) == Keys.Alt)
                             modKey |= HookGlobalHotkey.ModKeys.Alt;
@@ -3892,7 +3892,7 @@ namespace OpenTween
 
             var cnt = this._statuses.Tabs.Count;
 
-            ///ToDo:Create and set controls follow tabtypes
+            // ToDo:Create and set controls follow tabtypes
 
             using (ControlTransaction.Update(_listCustom))
             using (ControlTransaction.Layout(this.SplitContainer1.Panel1, false))
@@ -3904,7 +3904,7 @@ namespace OpenTween
             {
                 _tabPage.Controls.Add(_listCustom);
 
-                /// UserTimeline関連
+                // UserTimeline関連
                 var userTab = tab as UserTimelineTabModel;
                 var listTab = tab as ListTimelineTabModel;
                 var searchTab = tab as PublicSearchTabModel;
@@ -3933,7 +3933,7 @@ namespace OpenTween
                     }
                     _tabPage.Controls.Add(label);
                 }
-                /// 検索関連の準備
+                // 検索関連の準備
                 else if (searchTab != null)
                 {
                     var pnl = new Panel();

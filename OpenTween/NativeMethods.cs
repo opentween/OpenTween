@@ -174,7 +174,7 @@ namespace OpenTween
             FlashTimer = FLASHW_TIMER,
             FlashTimerNoForeground = FLASHW_TIMERNOFG,
         }
-        /// http://www.atmarkit.co.jp/fdotnet/dotnettips/723flashwindow/flashwindow.html
+        // http://www.atmarkit.co.jp/fdotnet/dotnettips/723flashwindow/flashwindow.html
         [DllImport("user32.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]
         private static extern bool FlashWindowEx(
