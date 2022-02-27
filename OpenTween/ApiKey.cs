@@ -187,7 +187,7 @@ namespace OpenTween
             return salt;
         }
 
-        private static (byte[], byte[], byte[]) GenerateKeyAndIV(string password, byte[] salt)
+        private static (byte[] EncryptionKey, byte[] IV, byte[] MacKey) GenerateKeyAndIV(string password, byte[] salt)
         {
             using var generator = new Rfc2898DeriveBytes(password, salt, IterationCount, HashAlgorithm);
             var encryptionKey = generator.GetBytes(KeySize);
