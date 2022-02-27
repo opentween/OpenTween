@@ -83,11 +83,11 @@ namespace OpenTween
         public static int URLACTION_SCRIPT_MAX = 0x15FF;
 
         public static int URLACTION_HTML_MIN = 0x1600;
-        public static int URLACTION_HTML_SUBMIT_FORMS = 0x1601;                                 // aggregate next two
-        public static int URLACTION_HTML_SUBMIT_FORMS_FROM = 0x1602;                            //
-        public static int URLACTION_HTML_SUBMIT_FORMS_TO = 0x1603;                              //
+        public static int URLACTION_HTML_SUBMIT_FORMS = 0x1601; // aggregate next two
+        public static int URLACTION_HTML_SUBMIT_FORMS_FROM = 0x1602;
+        public static int URLACTION_HTML_SUBMIT_FORMS_TO = 0x1603;
         public static int URLACTION_HTML_FONT_DOWNLOAD = 0x1604;
-        public static int URLACTION_HTML_JAVA_RUN = 0x1605;                                     // derive from Java custom policy
+        public static int URLACTION_HTML_JAVA_RUN = 0x1605; // derive from Java custom policy
         public static int URLACTION_HTML_USERDATA_SAVE = 0x1606;
         public static int URLACTION_HTML_SUBFRAME_NAVIGATE = 0x1607;
         public static int URLACTION_HTML_META_REFRESH = 0x1608;

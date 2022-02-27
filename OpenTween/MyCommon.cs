@@ -138,25 +138,25 @@ namespace OpenTween
         // Backgroundworkerへ処理種別を通知するための引数用enum
         public enum WORKERTYPE
         {
-            Timeline,                // タイムライン取得
-            Reply,                   // 返信取得
-            DirectMessegeRcv,        // 受信DM取得
-            DirectMessegeSnt,        // 送信DM取得
-            PostMessage,             // 発言POST
-            FavAdd,                  // Fav追加
-            FavRemove,               // Fav削除
-            Follower,                // Followerリスト取得
-            Favorites,               // Fav取得
-            Retweet,                 // Retweetする
-            PublicSearch,            // 公式検索
-            List,                    // Lists
-            Related,                 // 関連発言
-            UserTimeline,            // UserTimeline
-            BlockIds,                // Blocking/ids
-            Configuration,           // Twitter Configuration読み込み
-            NoRetweetIds,            // RT非表示ユーザー取得
+            Timeline, // タイムライン取得
+            Reply, // 返信取得
+            DirectMessegeRcv, // 受信DM取得
+            DirectMessegeSnt, // 送信DM取得
+            PostMessage, // 発言POST
+            FavAdd, // Fav追加
+            FavRemove, // Fav削除
+            Follower, // Followerリスト取得
+            Favorites, // Fav取得
+            Retweet, // Retweetする
+            PublicSearch, // 公式検索
+            List, // Lists
+            Related, // 関連発言
+            UserTimeline, // UserTimeline
+            BlockIds, // Blocking/ids
+            Configuration, // Twitter Configuration読み込み
+            NoRetweetIds, // RT非表示ユーザー取得
             //////
-            ErrorState,              // エラー表示のみで後処理終了(認証エラー時など)
+            ErrorState, // エラー表示のみで後処理終了(認証エラー時など)
         }
 
         public static class DEFAULTTAB
@@ -640,14 +640,14 @@ namespace OpenTween
         public enum TabUsageType
         {
             Undefined = 0,
-            Home = 1,      // Unique
-            Mentions = 2,     // Unique
-            DirectMessage = 4,   // Unique
-            Favorites = 8,       // Unique
+            Home = 1, // Unique
+            Mentions = 2, // Unique
+            DirectMessage = 4, // Unique
+            Favorites = 8, // Unique
             UserDefined = 16,
-            LocalQuery = 32,      // Pin(no save/no save query/distribute/no update(normal update))
-            Profile = 64,         // Pin(save/no distribute/manual update)
-            PublicSearch = 128,    // Pin(save/no distribute/auto update)
+            LocalQuery = 32, // Pin(no save/no save query/distribute/no update(normal update))
+            Profile = 64, // Pin(save/no distribute/manual update)
+            PublicSearch = 128, // Pin(save/no distribute/auto update)
             Lists = 256,
             Related = 512,
             UserTimeline = 1024,

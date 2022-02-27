@@ -6,19 +6,19 @@
 //           (c) 2010-2011 fantasticswallow (@f_swallow) <http://twitter.com/f_swallow>
 //           (c) 2011      kim_upsilon (@kim_upsilon) <https://upsilo.net/~upsilon/>
 // All rights reserved.
-// 
+//
 // This file is part of OpenTween.
-// 
+//
 // This program is free software; you can redistribute it and/or modify it
 // under the terms of the GNU General public License as published by the Free
 // Software Foundation; either version 3 of the License, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful, but
 // WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
 // or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General public License
-// for more details. 
-// 
+// for more details.
+//
 // You should have received a copy of the GNU General public License along
 // with this program. If not, see <http://www.gnu.org/licenses/>, or write to
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
@@ -105,7 +105,7 @@ namespace OpenTween
 
         private readonly object _syncObject = new object(); // ロック用
 
-        private const string detailHtmlFormatHeaderMono = 
+        private const string detailHtmlFormatHeaderMono =
             "<html><head><meta http-equiv=\"X-UA-Compatible\" content=\"IE=8\">"
             + "<style type=\"text/css\"><!-- "
             + "body, p, pre {margin: 0;} "
@@ -118,7 +118,7 @@ namespace OpenTween
             + "--></style>"
             + "</head><body><pre>";
         private const string detailHtmlFormatFooterMono = "</pre></body></html>";
-        private const string detailHtmlFormatHeaderColor = 
+        private const string detailHtmlFormatHeaderColor =
             "<html><head><meta http-equiv=\"X-UA-Compatible\" content=\"IE=8\">"
             + "<style type=\"text/css\"><!-- "
             + "body, p, pre {margin: 0;} "
@@ -253,10 +253,10 @@ namespace OpenTween
         private Icon ReplyIcon = null!;
         private Icon ReplyIconBlink = null!;
 
-        private readonly ImageList _listViewImageList = new ImageList();    // ListViewItemの高さ変更用
+        private readonly ImageList _listViewImageList = new ImageList(); // ListViewItemの高さ変更用
 
         private PostClass? _anchorPost;
-        private bool _anchorFlag;        // true:関連発言移動中（関連移動以外のオペレーションをするとfalseへ。trueだとリスト背景色をアンカー発言選択中として描画）
+        private bool _anchorFlag; // true:関連発言移動中（関連移動以外のオペレーションをするとfalseへ。trueだとリスト背景色をアンカー発言選択中として描画）
 
         /// <summary>発言履歴</summary>
         private readonly List<StatusTextHistory> _history = new List<StatusTextHistory>();
@@ -1019,7 +1019,7 @@ namespace OpenTween
             {
                 var tbarRect = new Rectangle(this._myLoc, new Size(this._mySize.Width, SystemInformation.CaptionHeight));
                 var outOfScreen = true;
-                if (Screen.AllScreens.Length == 1)    // ハングするとの報告
+                if (Screen.AllScreens.Length == 1) // ハングするとの報告
                 {
                     foreach (var scr in Screen.AllScreens)
                     {
@@ -1092,25 +1092,25 @@ namespace OpenTween
             var mode = ComparerMode.Id;
             switch (SettingManager.Common.SortColumn)
             {
-                case 0:    // 0:アイコン,5:未読マーク,6:プロテクト・フィルターマーク
+                case 0: // 0:アイコン,5:未読マーク,6:プロテクト・フィルターマーク
                 case 5:
                 case 6:
                     // ソートしない
                     mode = ComparerMode.Id;  // Idソートに読み替え
                     break;
-                case 1:  // ニックネーム
+                case 1: // ニックネーム
                     mode = ComparerMode.Nickname;
                     break;
-                case 2:  // 本文
+                case 2: // 本文
                     mode = ComparerMode.Data;
                     break;
-                case 3:  // 時刻=発言Id
+                case 3: // 時刻=発言Id
                     mode = ComparerMode.Id;
                     break;
-                case 4:  // 名前
+                case 4: // 名前
                     mode = ComparerMode.Name;
                     break;
-                case 7:  // Source
+                case 7: // Source
                     mode = ComparerMode.Source;
                     break;
             }
@@ -3677,7 +3677,7 @@ namespace OpenTween
                         if ((SettingManager.Common.HotkeyModifier & Keys.Control) == Keys.Control)
                             modKey |= HookGlobalHotkey.ModKeys.Ctrl;
                         if ((SettingManager.Common.HotkeyModifier & Keys.Shift) == Keys.Shift)
-                            modKey |=  HookGlobalHotkey.ModKeys.Shift;
+                            modKey |= HookGlobalHotkey.ModKeys.Shift;
                         if ((SettingManager.Common.HotkeyModifier & Keys.LWin) == Keys.LWin)
                             modKey |= HookGlobalHotkey.ModKeys.Win;
 
@@ -4813,7 +4813,7 @@ namespace OpenTween
             e.DrawDefault = false;
 
             SolidBrush brs2;
-            if (!e.Item.Selected)     // e.ItemStateでうまく判定できない？？？
+            if (!e.Item.Selected) // e.ItemStateでうまく判定できない？？？
             {
                 if (e.Item.BackColor == this._clSelf)
                     brs2 = this._brsBackColorMine;
@@ -4879,8 +4879,8 @@ namespace OpenTween
 
                 if (rct.Width > 0)
                 {
-                    var color = (!e.Item.Selected) ? e.Item.ForeColor :   // 選択されていない行
-                        (((Control)sender).Focused) ? this._clHighLight :        // 選択中の行
+                    var color = (!e.Item.Selected) ? e.Item.ForeColor : // 選択されていない行
+                        (((Control)sender).Focused) ? this._clHighLight : // 選択中の行
                         this._clUnread;
 
                     if (this._iconCol)
@@ -9232,7 +9232,7 @@ namespace OpenTween
         {
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
             {
-                if (!e.Data.GetDataPresent(DataFormats.Html, false))  // WebBrowserコントロールからの絵文字画像Drag&Dropは弾く
+                if (!e.Data.GetDataPresent(DataFormats.Html, false)) // WebBrowserコントロールからの絵文字画像Drag&Dropは弾く
                 {
                     this.SelectMedia_DragDrop(e);
                 }
@@ -9315,7 +9315,7 @@ namespace OpenTween
         {
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
             {
-                if (!e.Data.GetDataPresent(DataFormats.Html, false))  // WebBrowserコントロールからの絵文字画像Drag&Dropは弾く
+                if (!e.Data.GetDataPresent(DataFormats.Html, false)) // WebBrowserコントロールからの絵文字画像Drag&Dropは弾く
                 {
                     this.SelectMedia_DragEnter(e);
                     return;
@@ -10427,7 +10427,7 @@ namespace OpenTween
                 this.DmOpMenuItem.Enabled = true;
                 this.ShowProfMenuItem.Enabled = true;
                 this.ShowUserTimelineToolStripMenuItem.Enabled = true;
-                this.ShowRetweeterProfMenuItem.Enabled 
+                this.ShowRetweeterProfMenuItem.Enabled
                     = this.ShowRetweeterUserTimelineToolStripMenuItem.Enabled
                     = post?.RetweetedByUserId != null;
                 this.ListManageMenuItem.Enabled = true;
