@@ -486,7 +486,7 @@ namespace OpenTween
                 if (index >= this.ImagePageCombo.Items.Count)
                     throw new ArgumentOutOfRangeException(nameof(index));
 
-                var isSelectedPage = (index == selectedIndex);
+                var isSelectedPage = index == selectedIndex;
 
                 if (isSelectedPage)
                     this.ClearImageSelectedPicture();
@@ -810,7 +810,7 @@ namespace OpenTween
         {
             var idx = this.ImagePageCombo.SelectedIndex;
             var media = (SelectedMedia)this.ImagePageCombo.Items[idx];
-            this.ImageServiceCombo.Enabled = (idx == 0);  // idx == 0 以外では投稿先サービスを選べないようにする
+            this.ImageServiceCombo.Enabled = idx == 0;  // idx == 0 以外では投稿先サービスを選べないようにする
             this.ImagefilePathText.Text = media.Path;
             this.AlternativeTextBox.Text = media.AltText;
             this.ImageFromSelectedFile(media.Item, true);

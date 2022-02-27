@@ -710,7 +710,7 @@ namespace OpenTween
             {
                 UseSimpleDictionaryFormat = true,
             };
-            return (T)((new DataContractJsonSerializer(typeof(T), settings)).ReadObject(stream));
+            return (T)new DataContractJsonSerializer(typeof(T), settings).ReadObject(stream);
         }
 
         public static bool IsNetworkAvailable()

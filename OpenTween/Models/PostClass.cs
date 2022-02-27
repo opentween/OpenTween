@@ -465,7 +465,7 @@ namespace OpenTween.Models
                     (this.InReplyToStatusId == other.InReplyToStatusId) &&
                     (this.Source == other.Source) &&
                     (this.SourceUri == other.SourceUri) &&
-                    (this.ReplyToList.SequenceEqual(other.ReplyToList)) &&
+                    this.ReplyToList.SequenceEqual(other.ReplyToList) &&
                     (this.IsMe == other.IsMe) &&
                     (this.IsDm == other.IsDm) &&
                     (this.UserId == other.UserId) &&

@@ -157,7 +157,7 @@ namespace OpenTween
                 for (var i = 0; i < count; i++)
                 {
                     var picbox = this.CreatePictureBox("pictureBox" + i);
-                    picbox.Visible = (i == 0);
+                    picbox.Visible = i == 0;
                     picbox.MouseWheel += this.pictureBox_MouseWheel;
                     picbox.DoubleClick += this.pictureBox_DoubleClick;
 
@@ -218,7 +218,7 @@ namespace OpenTween
                 var value = this.scrollBar.Value;
                 for (var i = 0; i < this.pictureBox.Count; i++)
                 {
-                    this.pictureBox[i].Visible = (i == value);
+                    this.pictureBox[i].Visible = i == value;
                 }
             }
         }

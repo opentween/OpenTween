@@ -183,7 +183,7 @@ namespace OpenTween.OpenTweenCustomControl
             const int WM_NOTIFY = 0x004E;
             const int WM_CONTEXTMENU = 0x7B;
             const int LVM_SETITEMCOUNT = 0x102F;
-            const int LVN_ODSTATECHANGED = ((0 - 100) - 15);
+            const int LVN_ODSTATECHANGED = 0 - 100 - 15;
             const long LVSICF_NOSCROLL = 0x2;
             const long LVSICF_NOINVALIDATEALL = 0x1;
 

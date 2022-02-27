@@ -4906,7 +4906,7 @@ namespace OpenTween
                 if (rct.Width > 0)
                 {
                     var color = (!e.Item.Selected) ? e.Item.ForeColor : // 選択されていない行
-                        (((Control)sender).Focused) ? this._clHighLight : // 選択中の行
+                        ((Control)sender).Focused ? this._clHighLight : // 選択中の行
                         this._clUnread;
 
                     if (this._iconCol)
@@ -8027,7 +8027,7 @@ namespace OpenTween
                         }
                         else
                         {
-                            if (((keyData & Keys.Control) == Keys.Control)) _Post = true;
+                            if ((keyData & Keys.Control) == Keys.Control) _Post = true;
                         }
 
                     }
@@ -8041,7 +8041,7 @@ namespace OpenTween
                         }
                         else
                         {
-                            if (((keyData & Keys.Shift) == Keys.Shift)) _Post = true;
+                            if ((keyData & Keys.Shift) == Keys.Shift) _Post = true;
                         }
 
                     }

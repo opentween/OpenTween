@@ -61,7 +61,7 @@ namespace OpenTween
         {
             this.Description = listElementData.Description;
             this.Id = listElementData.Id;
-            this.IsPublic = (listElementData.Mode == "public");
+            this.IsPublic = listElementData.Mode == "public";
             this.MemberCount = listElementData.MemberCount;
             this.Name = listElementData.Name;
             this.SubscriberCount = listElementData.SubscriberCount;

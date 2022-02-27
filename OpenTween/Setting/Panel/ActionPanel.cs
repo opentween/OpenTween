@@ -53,10 +53,10 @@ namespace OpenTween.Setting.Panel
             this.CheckReadOldPosts.Checked = settingCommon.ReadOldPosts;
 
             this.HotkeyCheck.Checked = settingCommon.HotkeyEnabled;
-            this.HotkeyAlt.Checked = ((settingCommon.HotkeyModifier & Keys.Alt) == Keys.Alt);
-            this.HotkeyCtrl.Checked = ((settingCommon.HotkeyModifier & Keys.Control) == Keys.Control);
-            this.HotkeyShift.Checked = ((settingCommon.HotkeyModifier & Keys.Shift) == Keys.Shift);
-            this.HotkeyWin.Checked = ((settingCommon.HotkeyModifier & Keys.LWin) == Keys.LWin);
+            this.HotkeyAlt.Checked = (settingCommon.HotkeyModifier & Keys.Alt) == Keys.Alt;
+            this.HotkeyCtrl.Checked = (settingCommon.HotkeyModifier & Keys.Control) == Keys.Control;
+            this.HotkeyShift.Checked = (settingCommon.HotkeyModifier & Keys.Shift) == Keys.Shift;
+            this.HotkeyWin.Checked = (settingCommon.HotkeyModifier & Keys.LWin) == Keys.LWin;
             this.HotkeyCode.Text = settingCommon.HotkeyValue.ToString();
             this.HotkeyText.Text = settingCommon.HotkeyKey.ToString();
             this.HotkeyText.Tag = settingCommon.HotkeyKey;

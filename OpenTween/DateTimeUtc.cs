@@ -87,7 +87,7 @@ namespace OpenTween
             => this.datetime.Ticks;
 
         public long ToUnixTime()
-            => (long)((this - UnixEpoch).TotalSeconds);
+            => (long)(this - UnixEpoch).TotalSeconds;
 
         public DateTimeOffset ToDateTimeOffset()
             => new DateTimeOffset(this.datetime);
