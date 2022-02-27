@@ -4674,7 +4674,7 @@ namespace OpenTween
             catch (Exception)
             {
                 // 不正な要求に対する間に合わせの応答
-                string[] sitem = {"", "", "", "", "", "", "", ""};
+                string[] sitem = { "", "", "", "", "", "", "", "" };
                 e.Item = new ImageListViewItem(sitem);
             }
         }
@@ -4727,26 +4727,26 @@ namespace OpenTween
             ImageListViewItem itm;
             if (Post.RetweetedId == null)
             {
-                string[] sitem = {"",
+                string[] sitem = { "",
                                  Post.Nickname,
                                  Post.IsDeleted ? "(DELETED)" : Post.AccessibleText.Replace('\n', ' '),
                                  Post.CreatedAt.ToLocalTimeString(SettingManager.Common.DateTimeFormat),
                                  Post.ScreenName,
                                  "",
                                  mk.ToString(),
-                                 Post.Source};
+                                 Post.Source };
                 itm = new ImageListViewItem(sitem, this.IconCache, Post.ImageUrl);
             }
             else
             {
-                string[] sitem = {"",
+                string[] sitem = { "",
                                   Post.Nickname,
                                   Post.IsDeleted ? "(DELETED)" : Post.AccessibleText.Replace('\n', ' '),
                                   Post.CreatedAt.ToLocalTimeString(SettingManager.Common.DateTimeFormat),
                                   Post.ScreenName + Environment.NewLine + "(RT:" + Post.RetweetedBy + ")",
                                   "",
                                   mk.ToString(),
-                                  Post.Source};
+                                  Post.Source };
                 itm = new ImageListViewItem(sitem, this.IconCache, Post.ImageUrl);
             }
             itm.StateIndex = Post.StateIndex;
@@ -6623,7 +6623,7 @@ namespace OpenTween
                                  where post.StatusId == inReplyToId
                                  let index = tab.IndexOf(post.StatusId)
                                  where index != -1
-                                 select new {Tab = tab, Index = index};
+                                 select new { Tab = tab, Index = index };
 
             var inReplyPost = inReplyToPosts.FirstOrDefault();
             if (inReplyPost == null)
@@ -6691,7 +6691,7 @@ namespace OpenTween
                                 where indexOf > -1
                                 orderby isForward ? indexOf : indexOf * -1
                                 orderby t != curTabClass
-                                select new {Tab = t, Post = p.Value, Index = indexOf};
+                                select new { Tab = t, Post = p.Value, Index = indexOf };
                     try
                     {
                         var postList = posts.ToList();
@@ -6730,7 +6730,7 @@ namespace OpenTween
                                 where indexOf > -1
                                 orderby indexOf
                                 orderby t != curTabClass
-                                select new {Tab = t, Index = indexOf};
+                                select new { Tab = t, Index = indexOf };
                     try
                     {
                         var post = posts.First();
