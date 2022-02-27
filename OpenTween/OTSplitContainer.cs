@@ -75,6 +75,7 @@ namespace OpenTween
                 }
             }
         }
+
         private bool isPanelInverted = false;
 
         /// <summary>
@@ -107,6 +108,7 @@ namespace OpenTween
                 else
                     return base.FixedPanel;
             }
+
             set
             {
                 if (value != FixedPanel.None && this.IsPanelInverted)
@@ -128,6 +130,7 @@ namespace OpenTween
                 else
                     return base.SplitterDistance;
             }
+
             set
             {
                 if (this.IsPanelInverted)

@@ -55,6 +55,7 @@ namespace OpenTween.Models
         public Stack<TabModel> RemovedTab { get; } = new Stack<TabModel>();
 
         public ISet<long> BlockIds { get; set; } = new HashSet<long>();
+
         public ISet<long> MuteUserIds { get; set; } = new HashSet<long>();
 
         // 発言の追加

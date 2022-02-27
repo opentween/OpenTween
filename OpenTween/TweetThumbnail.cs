@@ -47,7 +47,9 @@ namespace OpenTween
         protected MouseWheelMessageFilter filter = new MouseWheelMessageFilter();
 
         public event EventHandler<EventArgs>? ThumbnailLoading;
+
         public event EventHandler<ThumbnailDoubleClickEventArgs>? ThumbnailDoubleClick;
+
         public event EventHandler<ThumbnailImageSearchEventArgs>? ThumbnailImageSearchClick;
 
         public ThumbnailInfo Thumbnail

@@ -37,9 +37,11 @@ namespace OpenTween
     public class HookGlobalHotkey : NativeWindow, IDisposable
     {
         private readonly Form targetForm;
+
         private class KeyEventValue
         {
             public KeyEventArgs KeyEvent { get; }
+
             public int Value { get; }
 
             public KeyEventValue(KeyEventArgs keyEvent, int value)

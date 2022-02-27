@@ -64,6 +64,7 @@ namespace OpenTween
         }
 
         public DateTimeUtc SystemResumedAt { get; private set; } = DateTimeUtc.MinValue;
+
         public TimeSpan UpdateAfterSystemResume { get; set; } = Timeout.InfiniteTimeSpan;
 
         public bool EnableUpdateSystemResume

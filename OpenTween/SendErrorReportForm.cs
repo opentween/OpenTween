@@ -49,6 +49,7 @@ namespace OpenTween
                 this.bindingSource.DataSource = value;
             }
         }
+
         private ErrorReport errorReport = null!;
 
         public SendErrorReportForm()
@@ -101,6 +102,7 @@ namespace OpenTween
                 this.UpdateEncodedReport();
             }
         }
+
         private string reportText = "";
 
         public bool AnonymousReport
@@ -112,6 +114,7 @@ namespace OpenTween
                 this.UpdateEncodedReport();
             }
         }
+
         private bool anonymousReport = true;
 
         public bool CanSendByDM
@@ -119,6 +122,7 @@ namespace OpenTween
             get => this.canSendByDm;
             private set => this.SetProperty(ref this.canSendByDm, value);
         }
+
         private bool canSendByDm;
 
         public string EncodedReportForDM
@@ -126,6 +130,7 @@ namespace OpenTween
             get => this.encodedReportForDM;
             private set => this.SetProperty(ref this.encodedReportForDM, value);
         }
+
         private string encodedReportForDM = "";
 
         private readonly Twitter? tw;

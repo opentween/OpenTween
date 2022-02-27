@@ -35,6 +35,7 @@ namespace OpenTween.Connection
     public class OAuthEchoHandler : DelegatingHandler
     {
         public Uri AuthServiceProvider { get; }
+
         public string VerifyCredentialsAuthorization { get; }
 
         public OAuthEchoHandler(HttpMessageHandler innerHandler, Uri authServiceProvider, string authorizationValue)

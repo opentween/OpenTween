@@ -36,6 +36,7 @@ namespace OpenTween.Api
     public sealed class TwitterApi : IDisposable
     {
         public long CurrentUserId { get; private set; }
+
         public string CurrentScreenName { get; private set; } = "";
 
         public IApiConnection Connection => this.ApiConnection ?? throw new InvalidOperationException();

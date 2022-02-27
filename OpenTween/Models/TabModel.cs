@@ -44,14 +44,19 @@ namespace OpenTween.Models
         public string TabName { get; set; }
 
         public bool UnreadManage { get; set; } = true;
+
         public bool Protected { get; set; }
+
         public bool Notify { get; set; } = false;
+
         public string SoundFile { get; set; } = "";
 
         public ComparerMode SortMode { get; private set; }
+
         public SortOrder SortOrder { get; private set; }
 
         public long OldestId { get; set; } = long.MaxValue;
+
         public long SinceId { get; set; }
 
         public abstract MyCommon.TabUsageType TabType { get; }
@@ -60,10 +65,13 @@ namespace OpenTween.Models
             => TabInformations.GetInstance().Posts;
 
         public int AllCount => this.ids.Count;
+
         public long[] StatusIds => this.ids.ToArray();
 
         public bool IsDefaultTabType => this.TabType.IsDefault();
+
         public bool IsDistributableTabType => this.TabType.IsDistributable();
+
         public bool IsInnerStorageTabType => this.TabType.IsInnerStorage();
 
         /// <summary>
@@ -108,6 +116,7 @@ namespace OpenTween.Models
         private readonly struct TemporaryId
         {
             public long StatusId { get; }
+
             public bool Read { get; }
 
             public TemporaryId(long statusId, bool read)

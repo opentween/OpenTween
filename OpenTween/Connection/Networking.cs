@@ -37,6 +37,7 @@ namespace OpenTween.Connection
     public static class Networking
     {
         public static TimeSpan DefaultTimeout { get; set; }
+
         public static TimeSpan UploadImageTimeout { get; set; }
 
         /// <summary>

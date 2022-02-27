@@ -74,6 +74,7 @@ namespace OpenTween
         }
 
         public bool IsShowUsage { get; set; }
+
         public MyCommon.TabUsageType Usage { get; set; }
 
         private void InputTabName_Load(object sender, EventArgs e)

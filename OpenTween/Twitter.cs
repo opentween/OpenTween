@@ -105,6 +105,7 @@ namespace OpenTween
                 UrlValidPathEndingChars +
                 ")|(?:@" + UrlValidGeneralPathChars + "+/)" +
             ")";
+
         private const string Qry = @"(?<query>\?[a-z0-9!?*'();:&=+$/%#\[\]\-_.,~|]*[a-z0-9_&=#/])?";
         public const string RgUrl = @"(?<before>" + UrlValidPrecedingChars + ")" +
                                     "(?<url>(?<protocol>https?://)?" +
@@ -155,13 +156,17 @@ namespace OpenTween
         public static readonly Regex DMSendTextRegex = new Regex(@"^DM? +(?<id>[a-zA-Z0-9_]+) +(?<body>.*)", RegexOptions.IgnoreCase | RegexOptions.Singleline);
 
         public TwitterApi Api { get; }
+
         public TwitterConfiguration Configuration { get; private set; }
+
         public TwitterTextConfiguration TextConfiguration { get; private set; }
 
         public bool GetFollowersSuccess { get; private set; } = false;
+
         public bool GetNoRetweetSuccess { get; private set; } = false;
 
         private delegate void GetIconImageDelegate(PostClass post);
+
         private readonly object lockObj = new object();
         private ISet<long> followerId = new HashSet<long>();
         private long[] noRTId = Array.Empty<long>();
@@ -429,13 +434,19 @@ namespace OpenTween
             => this.Api.CurrentUserId;
 
         public static MyCommon.ACCOUNT_STATE AccountState { get; set; } = MyCommon.ACCOUNT_STATE.Valid;
+
         public bool RestrictFavCheck { get; set; }
+
         public bool ReadOwnPost { get; set; }
 
         public int FollowersCount { get; private set; }
+
         public int FriendsCount { get; private set; }
+
         public int StatusesCount { get; private set; }
+
         public string Location { get; private set; } = "";
+
         public string Bio { get; private set; } = "";
 
         /// <summary>ユーザーのフォロワー数などの情報を更新します</summary>

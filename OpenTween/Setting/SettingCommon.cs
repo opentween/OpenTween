@@ -49,6 +49,7 @@ namespace OpenTween
 
         [XmlIgnore]
         public string Password = "";
+
         public string EncryptPassword
         {
             get => this.Encrypt(this.Password);
@@ -58,6 +59,7 @@ namespace OpenTween
         public string Token = "";
         [XmlIgnore]
         public string TokenSecret = "";
+
         public string EncryptTokenSecret
         {
             get => this.Encrypt(this.TokenSecret);
@@ -83,6 +85,7 @@ namespace OpenTween
                 return "";
             }
         }
+
         private string Decrypt(string password)
         {
             if (MyCommon.IsNullOrEmpty(password)) password = "";
@@ -256,11 +259,13 @@ namespace OpenTween
         public string Token = "";
         [XmlIgnore]
         public string TokenSecret = "";
+
         public string EncryptTokenSecret
         {
             get => this.Encrypt(this.TokenSecret);
             set => this.TokenSecret = this.Decrypt(value);
         }
+
         private string Encrypt(string password)
         {
             if (MyCommon.IsNullOrEmpty(password)) password = "";
@@ -280,6 +285,7 @@ namespace OpenTween
                 return "";
             }
         }
+
         private string Decrypt(string password)
         {
             if (MyCommon.IsNullOrEmpty(password)) password = "";

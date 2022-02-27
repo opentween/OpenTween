@@ -124,6 +124,7 @@ namespace OpenTween
             [DataMember(Name = "body")]
             public string Body { get; set; }
         }
+
         public static readonly TheoryData<string, JsonData> CreateDataFromJsonTestCase = new TheoryData<string, JsonData>
         {
             {

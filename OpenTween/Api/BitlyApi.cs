@@ -43,12 +43,14 @@ namespace OpenTween.Api
         public string EndUserAccessToken { get; set; } = "";
 
         public string EndUserLoginName { get; set; } = "";
+
         public string EndUserApiKey { get; set; } = "";
 
         private readonly ApiKey clientId;
         private readonly ApiKey clientSecret;
 
         private HttpClient Http => this.localHttpClient ?? Networking.Http;
+
         private readonly HttpClient? localHttpClient;
 
         public BitlyApi()

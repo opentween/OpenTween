@@ -20,6 +20,7 @@
 // Boston, MA 02110-1301, USA.
 
 #nullable enable annotations
+#pragma warning disable SA1649
 
 using System;
 using System.Collections.Generic;

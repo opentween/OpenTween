@@ -42,6 +42,7 @@ namespace OpenTween
         public string StartsWith { get; set; } = "";
 
         public string InputText { get; set; } = "";
+
         private bool isBack = false;
         private readonly string startChar = "";
 

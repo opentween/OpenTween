@@ -38,6 +38,7 @@ namespace OpenTween
         private readonly TabInformations tabInfo;
 
         private bool multiSelect = false;
+
         public bool MultiSelect
         {
             get => this.multiSelect;
@@ -51,6 +52,7 @@ namespace OpenTween
         protected internal class TabListItem
         {
             public FilterTabModel? Tab { get; set; }
+
             public string Label { get; set; } = "";
 
             public override string ToString()

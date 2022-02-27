@@ -152,6 +152,7 @@ namespace OpenTween
             => this.Href;
 
         public string Url { get; }
+
         public string Href { get; }
     }
 }

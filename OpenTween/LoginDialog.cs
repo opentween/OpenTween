@@ -36,9 +36,11 @@ namespace OpenTween
     public partial class LoginDialog : OTBaseForm
     {
         public string LoginName => this.textboxLoginName.Text;
+
         public string Password => this.textboxPassword.Text;
 
         public Func<Task<bool>>? LoginCallback { get; set; } = null;
+
         public bool LoginSuccessed { get; set; } = false;
 
         public LoginDialog()

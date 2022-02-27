@@ -88,6 +88,7 @@ namespace OpenTween
 
         [XmlIgnore]
         public Font FontUnread = new Font(SystemFonts.DefaultFont, FontStyle.Bold | FontStyle.Underline);
+
         public string FontUnreadStr
         {
             get => this.FontToString(this.FontUnread);
@@ -96,6 +97,7 @@ namespace OpenTween
 
         [XmlIgnore]
         public Color ColorUnread = System.Drawing.SystemColors.ControlText;
+
         public string ColorUnreadStr
         {
             get => this.ColorToString(this.ColorUnread);
@@ -104,6 +106,7 @@ namespace OpenTween
 
         [XmlIgnore]
         public Font FontRead = System.Drawing.SystemFonts.DefaultFont;
+
         public string FontReadStr
         {
             get => this.FontToString(this.FontRead);
@@ -112,6 +115,7 @@ namespace OpenTween
 
         [XmlIgnore]
         public Color ColorRead = System.Drawing.SystemColors.ControlText;
+
         public string ColorReadStr
         {
             get => this.ColorToString(this.ColorRead);
@@ -120,6 +124,7 @@ namespace OpenTween
 
         [XmlIgnore]
         public Color ColorFav = Color.FromKnownColor(System.Drawing.KnownColor.Red);
+
         public string ColorFavStr
         {
             get => this.ColorToString(this.ColorFav);
@@ -128,6 +133,7 @@ namespace OpenTween
 
         [XmlIgnore]
         public Color ColorOWL = Color.FromKnownColor(System.Drawing.KnownColor.Blue);
+
         public string ColorOWLStr
         {
             get => this.ColorToString(this.ColorOWL);
@@ -136,6 +142,7 @@ namespace OpenTween
 
         [XmlIgnore]
         public Color ColorRetweet = Color.FromKnownColor(System.Drawing.KnownColor.Green);
+
         public string ColorRetweetStr
         {
             get => this.ColorToString(this.ColorRetweet);
@@ -144,6 +151,7 @@ namespace OpenTween
 
         [XmlIgnore]
         public Font FontDetail = System.Drawing.SystemFonts.DefaultFont;
+
         public string FontDetailStr
         {
             get => this.FontToString(this.FontDetail);
@@ -152,6 +160,7 @@ namespace OpenTween
 
         [XmlIgnore]
         public Color ColorSelf = Color.FromKnownColor(System.Drawing.KnownColor.AliceBlue);
+
         public string ColorSelfStr
         {
             get => this.ColorToString(this.ColorSelf);
@@ -160,6 +169,7 @@ namespace OpenTween
 
         [XmlIgnore]
         public Color ColorAtSelf = Color.FromKnownColor(System.Drawing.KnownColor.AntiqueWhite);
+
         public string ColorAtSelfStr
         {
             get => this.ColorToString(this.ColorAtSelf);
@@ -168,6 +178,7 @@ namespace OpenTween
 
         [XmlIgnore]
         public Color ColorTarget = Color.FromKnownColor(System.Drawing.KnownColor.LemonChiffon);
+
         public string ColorTargetStr
         {
             get => this.ColorToString(this.ColorTarget);
@@ -176,6 +187,7 @@ namespace OpenTween
 
         [XmlIgnore]
         public Color ColorAtTarget = Color.FromKnownColor(System.Drawing.KnownColor.LavenderBlush);
+
         public string ColorAtTargetStr
         {
             get => this.ColorToString(this.ColorAtTarget);
@@ -184,6 +196,7 @@ namespace OpenTween
 
         [XmlIgnore]
         public Color ColorAtFromTarget = Color.FromKnownColor(System.Drawing.KnownColor.Honeydew);
+
         public string ColorAtFromTargetStr
         {
             get => this.ColorToString(this.ColorAtFromTarget);
@@ -192,6 +205,7 @@ namespace OpenTween
 
         [XmlIgnore]
         public Color ColorAtTo = Color.FromKnownColor(System.Drawing.KnownColor.Pink);
+
         public string ColorAtToStr
         {
             get => this.ColorToString(this.ColorAtTo);
@@ -200,6 +214,7 @@ namespace OpenTween
 
         [XmlIgnore]
         public Color ColorInputBackcolor = Color.FromKnownColor(System.Drawing.KnownColor.LemonChiffon);
+
         public string ColorInputBackcolorStr
         {
             get => this.ColorToString(this.ColorInputBackcolor);
@@ -208,6 +223,7 @@ namespace OpenTween
 
         [XmlIgnore]
         public Color ColorInputFont = Color.FromKnownColor(System.Drawing.KnownColor.ControlText);
+
         public string ColorInputFontStr
         {
             get => this.ColorToString(this.ColorInputFont);
@@ -216,6 +232,7 @@ namespace OpenTween
 
         [XmlIgnore]
         public Font FontInputFont = System.Drawing.SystemFonts.DefaultFont;
+
         public string FontInputFontStr
         {
             get => this.FontToString(this.FontInputFont);
@@ -224,6 +241,7 @@ namespace OpenTween
 
         [XmlIgnore]
         public Color ColorListBackcolor = Color.FromKnownColor(System.Drawing.KnownColor.Window);
+
         public string ColorListBackcolorStr
         {
             get => this.ColorToString(this.ColorListBackcolor);
@@ -232,6 +250,7 @@ namespace OpenTween
 
         [XmlIgnore]
         public Color ColorDetailBackcolor = Color.FromKnownColor(System.Drawing.KnownColor.Window);
+
         public string ColorDetailBackcolorStr
         {
             get => this.ColorToString(this.ColorDetailBackcolor);
@@ -240,6 +259,7 @@ namespace OpenTween
 
         [XmlIgnore]
         public Color ColorDetail = Color.FromKnownColor(System.Drawing.KnownColor.ControlText);
+
         public string ColorDetailStr
         {
             get => this.ColorToString(this.ColorDetail);
@@ -248,6 +268,7 @@ namespace OpenTween
 
         [XmlIgnore]
         public Color ColorDetailLink = Color.FromKnownColor(System.Drawing.KnownColor.Blue);
+
         public string ColorDetailLinkStr
         {
             get => this.ColorToString(this.ColorDetailLink);
@@ -271,6 +292,7 @@ namespace OpenTween
 
         [XmlIgnore]
         public string ProxyPassword = "";
+
         public string EncryptProxyPassword
         {
             get
@@ -293,6 +315,7 @@ namespace OpenTween
                     return "";
                 }
             }
+
             set
             {
                 var pwd = value;

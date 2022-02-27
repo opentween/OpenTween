@@ -174,6 +174,7 @@ namespace OpenTween
             FlashTimer = FLASHW_TIMER,
             FlashTimerNoForeground = FLASHW_TIMERNOFG,
         }
+
         // http://www.atmarkit.co.jp/fdotnet/dotnettips/723flashwindow/flashwindow.html
         [DllImport("user32.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]
@@ -243,14 +244,18 @@ namespace OpenTween
         #region "グローバルフック"
         [DllImport("user32")]
         private static extern int RegisterHotKey(IntPtr hwnd, int id, int fsModifiers, int vk);
+
         [DllImport("user32")]
         private static extern int UnregisterHotKey(IntPtr hwnd, int id);
+
         [DllImport("kernel32", CharSet = CharSet.Auto, BestFitMapping = false, ThrowOnUnmappableChar = true)]
         private static extern ushort GlobalAddAtom([MarshalAs(UnmanagedType.LPTStr)] string lpString);
+
         [DllImport("kernel32")]
         private static extern ushort GlobalDeleteAtom(ushort nAtom);
 
         private static int registerCount = 0;
+
         // register a global hot key
         public static int RegisterGlobalHotKey(int hotkeyValue, int modifiers, Form targetForm)
         {

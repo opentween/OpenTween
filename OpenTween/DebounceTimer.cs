@@ -44,7 +44,9 @@ namespace OpenTween
         private bool refreshTimerEnabled;
 
         public TimeSpan Interval { get; }
+
         public bool InvokeLeading { get; }
+
         public bool InvokeTrailing { get; }
 
         public DebounceTimer(Func<Task> timerCallback, TimeSpan interval, bool leading, bool trailing)

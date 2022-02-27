@@ -51,8 +51,11 @@ namespace OpenTween.OpenTweenCustomControl
         public class LogEntry
         {
             public LogLevel LogLevel { get; }
+
             public DateTimeUtc Timestamp { get; }
+
             public string Summary { get; }
+
             public string Detail { get; }
 
             public LogEntry(LogLevel logLevel, DateTimeUtc timestamp, string summary, string detail)

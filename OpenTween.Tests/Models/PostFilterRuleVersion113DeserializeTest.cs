@@ -40,24 +40,43 @@ namespace OpenTween.Models
         public sealed class FiltersClass
         {
             public string? NameFilter { get; set; }
+
             public string? ExNameFilter { get; set; }
+
             public string[] BodyFilterArray { get; set; } = Array.Empty<string>();
+
             public string[] ExBodyFilterArray { get; set; } = Array.Empty<string>();
+
             public bool SearchBoth { get; set; }
+
             public bool ExSearchBoth { get; set; }
+
             public bool MoveFrom { get; set; }
+
             public bool SetMark { get; set; }
+
             public bool SearchUrl { get; set; }
+
             public bool ExSearchUrl { get; set; }
+
             public bool CaseSensitive { get; set; }
+
             public bool ExCaseSensitive { get; set; }
+
             public bool UseLambda { get; set; }
+
             public bool ExUseLambda { get; set; }
+
             public bool UseRegex { get; set; }
+
             public bool ExUseRegex { get; set; }
+
             public bool IsRt { get; set; }
+
             public bool IsExRt { get; set; }
+
             public string? Source { get; set; }
+
             public string? ExSource { get; set; }
         }
 

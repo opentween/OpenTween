@@ -45,6 +45,7 @@ namespace OpenTween.Thumbnail.Services
             new Regex("<meta (name|property)=[\"'](?<name>.+?)[\"'] (content|value)=[\"'](?<content>[^>]+?)[\"']"),
             new Regex("<meta (content|value)=[\"'](?<content>[^>]+?)[\"'] (name|property)=[\"'](?<name>.+?)[\"']"),
         };
+
         protected static string[] defaultPropertyNames = { "og:image", "twitter:image", "twitter:image:src" };
 
         protected HttpClient Http

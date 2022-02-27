@@ -52,6 +52,7 @@ namespace OpenTween.Connection
         public bool IsDisposed { get; private set; } = false;
 
         public string AccessToken { get; }
+
         public string AccessSecret { get; }
 
         internal HttpClient Http = null!;

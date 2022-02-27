@@ -20,6 +20,7 @@
 // Boston, MA 02110-1301, USA.
 
 #nullable enable
+#pragma warning disable SA1649
 
 using System;
 using System.Drawing;
@@ -94,6 +95,7 @@ namespace OpenTween
     public class FileMediaItem : IMediaItem
     {
         public FileInfo FileInfo { get; }
+
         public string? AltText { get; set; }
 
         public FileMediaItem(string path)
@@ -186,6 +188,7 @@ namespace OpenTween
         }
 
         public string Path { get; }
+
         public string? AltText { get; set; }
 
         public string Name

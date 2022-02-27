@@ -40,9 +40,11 @@ namespace OpenTween
     public partial class MediaSelector : UserControl
     {
         public event EventHandler<EventArgs>? BeginSelecting;
+
         public event EventHandler<EventArgs>? EndSelecting;
 
         public event EventHandler<EventArgs>? FilePickDialogOpening;
+
         public event EventHandler<EventArgs>? FilePickDialogClosed;
 
         public event EventHandler<EventArgs>? SelectedServiceChanged;
@@ -103,7 +105,9 @@ namespace OpenTween
         private class SelectedMedia
         {
             public IMediaItem? Item { get; set; }
+
             public MyCommon.UploadFileType Type { get; set; }
+
             public string Text { get; set; }
 
             public SelectedMedia(IMediaItem? item, MyCommon.UploadFileType type, string text)

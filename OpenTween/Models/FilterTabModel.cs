@@ -149,6 +149,7 @@ namespace OpenTween.Models
                     return this.filters.ToArray();
                 }
             }
+
             set
             {
                 lock (this.lockObjFilters)

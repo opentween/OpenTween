@@ -54,11 +54,14 @@ namespace OpenTween
         public class SearchOptions
         {
             public SearchType Type { get; }
+
             public string Query { get; }
 
             // タイムライン内検索のみで使用する
             public bool NewTab { get; }
+
             public bool CaseSensitive { get; }
+
             public bool UseRegex { get; }
 
             public SearchOptions(SearchType type, string query, bool newTab, bool caseSensitive, bool useRegex)
@@ -72,6 +75,7 @@ namespace OpenTween
         }
 
         private SearchOptions? resultOptions = null;
+
         public SearchOptions? ResultOptions
         {
             get => this.resultOptions;
@@ -104,6 +108,7 @@ namespace OpenTween
         }
 
         private bool disableNetTabButton = false;
+
         public bool DisableNewTabButton
         {
             get => this.disableNetTabButton;

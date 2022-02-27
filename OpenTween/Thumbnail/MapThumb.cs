@@ -35,6 +35,7 @@ namespace OpenTween.Thumbnail
     public class GlobalLocation
     {
         public double Latitude { get; set; }
+
         public double Longitude { get; set; }
     }
 

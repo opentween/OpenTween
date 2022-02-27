@@ -89,6 +89,7 @@ namespace OpenTween
                 this.buttonRuleToggleEnabled.Enabled = value != EnableButtonMode.NotSelected;
             }
         }
+
         private EnableButtonMode ruleEnableButtonMode = FilterDialog.EnableButtonMode.NotSelected;
 
         public TabModel? SelectedTab

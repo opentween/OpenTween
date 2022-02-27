@@ -66,7 +66,9 @@ namespace OpenTween
         public int PurgeCount { get; set; }
 
         public string BitlyAccessToken { get; set; } = "";
+
         public string BitlyId { get; set; } = "";
+
         public string BitlyKey { get; set; } = "";
 
         private HttpClient http;

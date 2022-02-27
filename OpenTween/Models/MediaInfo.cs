@@ -32,7 +32,9 @@ namespace OpenTween.Models
     public class MediaInfo
     {
         public string Url { get; }
+
         public string? AltText { get; }
+
         public string? VideoUrl { get; }
 
         public MediaInfo(string url)

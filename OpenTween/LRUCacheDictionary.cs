@@ -58,6 +58,7 @@ namespace OpenTween
             public CacheRemovedEventArgs(KeyValuePair<TKey, TValue> item)
                 => this.Item = item;
         }
+
         public event EventHandler<CacheRemovedEventArgs>? CacheRemoved;
 
         internal LinkedList<KeyValuePair<TKey, TValue>> InnerList;
@@ -197,6 +198,7 @@ namespace OpenTween
 
                 return node.Value.Value;
             }
+
             set
             {
                 var pair = new KeyValuePair<TKey, TValue>(key, value);

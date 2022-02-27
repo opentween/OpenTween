@@ -35,6 +35,7 @@ namespace OpenTween.Models
         private class PostClassGroup
         {
             private Dictionary<long, PostClass> testCases;
+
             public PostClassGroup(params TestPostClass[] postClasses)
             {
                 this.testCases = new Dictionary<long, PostClass>();
@@ -44,11 +45,14 @@ namespace OpenTween.Models
                     this.testCases.Add(p.StatusId, p);
                 }
             }
+
             public PostClass this[long id] => this.testCases[id];
         }
+
         private class TestPostClass : PostClass
         {
             public PostClassGroup? Group;
+
             protected override PostClass RetweetSource
             {
                 get

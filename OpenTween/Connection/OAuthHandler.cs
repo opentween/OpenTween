@@ -39,8 +39,11 @@ namespace OpenTween.Connection
     public class OAuthHandler : DelegatingHandler
     {
         public ApiKey ConsumerKey { get; }
+
         public ApiKey ConsumerSecret { get; }
+
         public string AccessToken { get; }
+
         public string AccessSecret { get; }
 
         public OAuthHandler(HttpMessageHandler innerHandler, ApiKey consumerKey, ApiKey consumerSecret, string accessToken, string accessSecret)

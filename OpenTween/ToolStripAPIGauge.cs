@@ -62,6 +62,7 @@ namespace OpenTween
                 this.Invalidate();
             }
         }
+
         private int gaugeHeight = 8;
 
         /// <summary>
@@ -81,6 +82,7 @@ namespace OpenTween
                 this.Invalidate();
             }
         }
+
         private ApiLimit? apiLimit = null;
 
         /// <summary>
@@ -119,6 +121,7 @@ namespace OpenTween
                 }
             }
         }
+
         private string? apiEndpoint = null;
 
         [Browsable(false)]

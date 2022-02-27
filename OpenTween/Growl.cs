@@ -57,7 +57,9 @@ namespace OpenTween
         public class NotifyCallbackEventArgs : EventArgs
         {
             public long StatusId { get; set; }
+
             public NotifyType NotifyType { get; set; }
+
             public NotifyCallbackEventArgs(NotifyType notifyType, string statusId)
             {
                 if (statusId.Length > 1)

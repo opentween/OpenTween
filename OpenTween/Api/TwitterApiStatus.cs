@@ -39,7 +39,9 @@ namespace OpenTween.Api
     public class TwitterApiStatus
     {
         public TwitterApiAccessLevel AccessLevel { get; set; }
+
         public EndpointLimits AccessLimit { get; }
+
         public ApiLimit? MediaUploadLimit { get; set; }
 
         public class AccessLimitUpdatedEventArgs : EventArgs
@@ -49,6 +51,7 @@ namespace OpenTween.Api
             public AccessLimitUpdatedEventArgs(string? endpointName)
                 => this.EndpointName = endpointName;
         }
+
         public event EventHandler<AccessLimitUpdatedEventArgs>? AccessLimitUpdated;
 
         public TwitterApiStatus()

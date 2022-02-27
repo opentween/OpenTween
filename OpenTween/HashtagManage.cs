@@ -41,8 +41,11 @@ namespace OpenTween
     public partial class HashtagManage : OTBaseForm
     {
         public string UseHash { get; private set; } = "";
+
         public bool IsPermanent { get; private set; } = false;
+
         public bool IsHead { get; private set; } = false;
+
         public bool IsNotAddToAtReply { get; private set; } = true;
 
         /// <summary>

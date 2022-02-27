@@ -43,6 +43,7 @@ namespace OpenTween.Models
         public readonly struct StatusGeo : IEquatable<StatusGeo>
         {
             public double Longitude { get; }
+
             public double Latitude { get; }
 
             public StatusGeo(double longitude, double latitude)
@@ -68,15 +69,20 @@ namespace OpenTween.Models
         }
 
         public string Nickname { get; set; } = "";
+
         public string TextFromApi { get; set; } = "";
 
         /// <summary>スクリーンリーダーでの読み上げを考慮したテキスト</summary>
         public string AccessibleText { get; set; } = "";
 
         public string ImageUrl { get; set; } = "";
+
         public string ScreenName { get; set; } = "";
+
         public DateTimeUtc CreatedAt { get; set; }
+
         public long StatusId { get; set; }
+
         private bool isFav;
 
         public string Text
@@ -94,32 +100,56 @@ namespace OpenTween.Models
             }
             set => this.text = value;
         }
+
         private string text = "";
 
         public bool IsRead { get; set; }
+
         public bool IsReply { get; set; }
+
         public bool IsExcludeReply { get; set; }
+
         private bool isProtect;
+
         public bool IsOwl { get; set; }
+
         private bool isMark;
+
         public string? InReplyToUser { get; set; }
+
         private long? inReplyToStatusId;
+
         public string Source { get; set; } = "";
+
         public Uri? SourceUri { get; set; }
+
         public List<(long UserId, string ScreenName)> ReplyToList { get; set; }
+
         public bool IsMe { get; set; }
+
         public bool IsDm { get; set; }
+
         public long UserId { get; set; }
+
         public bool FilterHit { get; set; }
+
         public string? RetweetedBy { get; set; }
+
         public long? RetweetedId { get; set; }
+
         private bool isDeleted = false;
         private StatusGeo? postGeo = null;
+
         public int RetweetedCount { get; set; }
+
         public long? RetweetedByUserId { get; set; }
+
         public long? InReplyToUserId { get; set; }
+
         public List<MediaInfo> Media { get; set; }
+
         public long[] QuoteStatusIds { get; set; }
+
         public ExpandedUrlInfo[] ExpandedUrls { get; set; }
 
         /// <summary>
@@ -217,6 +247,7 @@ namespace OpenTween.Models
 
                 return this.isFav;
             }
+
             set
             {
                 this.isFav = value;
@@ -244,6 +275,7 @@ namespace OpenTween.Models
                 this.isProtect = value;
             }
         }
+
         public bool IsMark
         {
             get => this.isMark;
@@ -257,6 +289,7 @@ namespace OpenTween.Models
                 this.isMark = value;
             }
         }
+
         public long? InReplyToStatusId
         {
             get => this.inReplyToStatusId;

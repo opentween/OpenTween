@@ -97,6 +97,7 @@ namespace OpenTween.Thumbnail.Services
                 this.autoUpdate = value;
             }
         }
+
         private bool autoUpdate = false;
 
         /// <summary>

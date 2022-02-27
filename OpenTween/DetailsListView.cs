@@ -45,6 +45,7 @@ namespace OpenTween.OpenTweenCustomControl
         public ContextMenuStrip? ColumnHeaderContextMenuStrip { get; set; }
 
         public event EventHandler? VScrolled;
+
         public event EventHandler? HScrolled;
 
         public DetailsListView()

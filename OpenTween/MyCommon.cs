@@ -60,7 +60,9 @@ namespace OpenTween
     public static class MyCommon
     {
         private static readonly object LockObj = new object();
+
         public static bool EndingFlag { get; set; } // 終了フラグ
+
         public static string SettingPath { get; set; } = null!;
 
         public enum IconSizes
@@ -191,6 +193,7 @@ namespace OpenTween
         }
 
         public static _Assembly EntryAssembly { get; internal set; }
+
         public static string FileVersion { get; internal set; }
 
         static MyCommon()

@@ -117,7 +117,9 @@ namespace OpenTween
             + ".quote-tweet-link {color: inherit !important; text-decoration: none;}"
             + "--></style>"
             + "</head><body><pre>";
+
         private const string DetailHtmlFormatFooterMono = "</pre></body></html>";
+
         private const string DetailHtmlFormatHeaderColor =
             "<html><head><meta http-equiv=\"X-UA-Compatible\" content=\"IE=8\">"
             + "<style type=\"text/css\"><!-- "
@@ -130,6 +132,7 @@ namespace OpenTween
             + ".quote-tweet-link {color: inherit !important; text-decoration: none;}"
             + "--></style>"
             + "</head><body><p>";
+
         private const string DetailHtmlFormatFooterColor = "</p></body></html>";
         private string detailHtmlFormatHeader = null!;
         private string detailHtmlFormatFooter = null!;
@@ -427,15 +430,18 @@ namespace OpenTween
         private class StatusTextHistory
         {
             public string Status { get; } = "";
+
             public (long StatusId, string ScreenName)? InReplyTo { get; } = null;
 
             /// <summary>画像投稿サービス名</summary>
             public string ImageService { get; set; } = "";
 
             public IMediaItem[]? MediaItems { get; set; } = null;
+
             public StatusTextHistory()
             {
             }
+
             public StatusTextHistory(string status, (long StatusId, string ScreenName)? inReplyTo)
             {
                 this.Status = status;
@@ -791,7 +797,7 @@ namespace OpenTween
             this.ignoreConfigSave = true;
             this.Visible = false;
 
-            if (MyApplication.StartupOptions.ContainsKey("d"))
+            if (ApplicationEvents.StartupOptions.ContainsKey("d"))
                 MyCommon.TraceFlag = true;
 
             this.InitializeTraceFrag();
@@ -825,7 +831,7 @@ namespace OpenTween
             }
 
             // 不正値チェック
-            if (!MyApplication.StartupOptions.ContainsKey("nolimit"))
+            if (!ApplicationEvents.StartupOptions.ContainsKey("nolimit"))
             {
                 if (SettingManager.Common.TimelinePeriod < 15 && SettingManager.Common.TimelinePeriod > 0)
                     SettingManager.Common.TimelinePeriod = 15;
@@ -1485,6 +1491,7 @@ namespace OpenTween
         internal struct ListViewScroll
         {
             public ScrollLockMode ScrollLockMode { get; set; }
+
             public long? TopItemStatusId { get; set; }
         }
 
@@ -1565,7 +1572,9 @@ namespace OpenTween
         internal struct ListViewSelection
         {
             public long[]? SelectedStatusIds { get; set; }
+
             public long? SelectionMarkStatusId { get; set; }
+
             public long? FocusedStatusId { get; set; }
         }
 
@@ -5396,7 +5405,9 @@ namespace OpenTween
         public class VersionInfo
         {
             public Version Version { get; }
+
             public Uri DownloadUri { get; }
+
             public string ReleaseNote { get; }
 
             public VersionInfo(Version version, Uri downloadUri, string releaseNote)
@@ -10754,6 +10765,7 @@ namespace OpenTween
         }
 
         private readonly HookGlobalHotkey hookGlobalHotkey;
+
         public TweenMain()
         {
             this.hookGlobalHotkey = new HookGlobalHotkey(this);
@@ -10907,7 +10919,9 @@ namespace OpenTween
         }
 
         private bool ModifySettingCommon { get; set; }
+
         private bool ModifySettingLocal { get; set; }
+
         private bool ModifySettingAtId { get; set; }
 
         private void MenuItemCommand_DropDownOpening(object sender, EventArgs e)

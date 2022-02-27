@@ -71,6 +71,7 @@ namespace OpenTween.Models
             get => this.enabled;
             set => this.SetProperty(ref this.enabled, value);
         }
+
         private bool enabled;
 
         [XmlElement("NameFilter")]
@@ -79,6 +80,7 @@ namespace OpenTween.Models
             get => this.filterName;
             set => this.SetProperty(ref this.filterName, value);
         }
+
         private string? filterName;
 
         [XmlElement("ExNameFilter")]
@@ -87,6 +89,7 @@ namespace OpenTween.Models
             get => this.exFilterName;
             set => this.SetProperty(ref this.exFilterName, value);
         }
+
         private string? exFilterName;
 
         [XmlArray("BodyFilterArray")]
@@ -95,6 +98,7 @@ namespace OpenTween.Models
             get => this.filterBody;
             set => this.SetProperty(ref this.filterBody, value ?? throw new ArgumentNullException(nameof(value)));
         }
+
         private string[] filterBody = Array.Empty<string>();
 
         [XmlArray("ExBodyFilterArray")]
@@ -103,6 +107,7 @@ namespace OpenTween.Models
             get => this.exFilterBody;
             set => this.SetProperty(ref this.exFilterBody, value ?? throw new ArgumentNullException(nameof(value)));
         }
+
         private string[] exFilterBody = Array.Empty<string>();
 
         [XmlElement("SearchBoth")]
@@ -111,6 +116,7 @@ namespace OpenTween.Models
             get => this.useNameField;
             set => this.SetProperty(ref this.useNameField, value);
         }
+
         private bool useNameField;
 
         [XmlElement("ExSearchBoth")]
@@ -119,6 +125,7 @@ namespace OpenTween.Models
             get => this.exUseNameField;
             set => this.SetProperty(ref this.exUseNameField, value);
         }
+
         private bool exUseNameField;
 
         [XmlElement("MoveFrom")]
@@ -127,6 +134,7 @@ namespace OpenTween.Models
             get => this.moveMatches;
             set => this.SetProperty(ref this.moveMatches, value);
         }
+
         private bool moveMatches;
 
         [XmlElement("SetMark")]
@@ -135,6 +143,7 @@ namespace OpenTween.Models
             get => this.markMatches;
             set => this.SetProperty(ref this.markMatches, value);
         }
+
         private bool markMatches;
 
         [XmlElement("SearchUrl")]
@@ -143,6 +152,7 @@ namespace OpenTween.Models
             get => this.filterByUrl;
             set => this.SetProperty(ref this.filterByUrl, value);
         }
+
         private bool filterByUrl;
 
         [XmlElement("ExSearchUrl")]
@@ -151,6 +161,7 @@ namespace OpenTween.Models
             get => this.exFilterByUrl;
             set => this.SetProperty(ref this.exFilterByUrl, value);
         }
+
         private bool exFilterByUrl;
 
         public bool CaseSensitive
@@ -158,6 +169,7 @@ namespace OpenTween.Models
             get => this.caseSensitive;
             set => this.SetProperty(ref this.caseSensitive, value);
         }
+
         private bool caseSensitive;
 
         public bool ExCaseSensitive
@@ -165,6 +177,7 @@ namespace OpenTween.Models
             get => this.exCaseSensitive;
             set => this.SetProperty(ref this.exCaseSensitive, value);
         }
+
         private bool exCaseSensitive;
 
         public bool UseLambda
@@ -172,6 +185,7 @@ namespace OpenTween.Models
             get => this.useLambda;
             set => this.SetProperty(ref this.useLambda, value);
         }
+
         private bool useLambda;
 
         public bool ExUseLambda
@@ -179,6 +193,7 @@ namespace OpenTween.Models
             get => this.exUseLambda;
             set => this.SetProperty(ref this.exUseLambda, value);
         }
+
         private bool exUseLambda;
 
         public bool UseRegex
@@ -186,6 +201,7 @@ namespace OpenTween.Models
             get => this.useRegex;
             set => this.SetProperty(ref this.useRegex, value);
         }
+
         private bool useRegex;
 
         public bool ExUseRegex
@@ -193,6 +209,7 @@ namespace OpenTween.Models
             get => this.exUseRegex;
             set => this.SetProperty(ref this.exUseRegex, value);
         }
+
         private bool exUseRegex;
 
         [XmlElement("IsRt")]
@@ -201,6 +218,7 @@ namespace OpenTween.Models
             get => this.filterRt;
             set => this.SetProperty(ref this.filterRt, value);
         }
+
         private bool filterRt;
 
         [XmlElement("IsExRt")]
@@ -209,6 +227,7 @@ namespace OpenTween.Models
             get => this.exFilterRt;
             set => this.SetProperty(ref this.exFilterRt, value);
         }
+
         private bool exFilterRt;
 
         [XmlElement("Source")]
@@ -217,6 +236,7 @@ namespace OpenTween.Models
             get => this.filterSource;
             set => this.SetProperty(ref this.filterSource, value);
         }
+
         private string? filterSource;
 
         [XmlElement("ExSource")]
@@ -225,6 +245,7 @@ namespace OpenTween.Models
             get => this.exFilterSource;
             set => this.SetProperty(ref this.exFilterSource, value);
         }
+
         private string? exFilterSource;
 
         public PostFilterRule()

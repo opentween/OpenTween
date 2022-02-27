@@ -53,6 +53,7 @@ namespace OpenTween
                 this.RestoreSizeMode();
             }
         }
+
         private MemoryImage? memoryImage;
 
         [Localizable(true)]
