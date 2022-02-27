@@ -854,7 +854,8 @@ namespace OpenTween.Models
             }
         }
 
-        public T? GetTabByType<T>() where T : TabModel
+        public T? GetTabByType<T>()
+            where T : TabModel
         {
             lock (this.LockObj)
                 return this.Tabs.OfType<T>().FirstOrDefault();
@@ -870,7 +871,8 @@ namespace OpenTween.Models
             }
         }
 
-        public T[] GetTabsByType<T>() where T : TabModel
+        public T[] GetTabsByType<T>()
+            where T : TabModel
         {
             lock (this.LockObj)
                 return this.Tabs.OfType<T>().ToArray();

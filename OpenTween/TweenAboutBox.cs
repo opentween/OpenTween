@@ -61,7 +61,8 @@ namespace OpenTween
                 + "This software was created by The OpenTween Project, based on Tween v1.1.0.0, which is licensed under GPLv3.";
         }
 
-        protected T GetApplicationAttribute<T>() where T : Attribute
+        protected T GetApplicationAttribute<T>()
+            where T : Attribute
         {
             var currentAssembly = Assembly.GetExecutingAssembly();
 

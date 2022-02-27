@@ -2241,11 +2241,13 @@ namespace OpenTween
         }
 
         /// <summary>指定された型 <typeparamref name="T"/> に合致する全てのタブを更新します</summary>
-        private Task RefreshTabAsync<T>() where T : TabModel
+        private Task RefreshTabAsync<T>()
+            where T : TabModel
             => this.RefreshTabAsync<T>(backward: false);
 
         /// <summary>指定された型 <typeparamref name="T"/> に合致する全てのタブを更新します</summary>
-        private Task RefreshTabAsync<T>(bool backward) where T : TabModel
+        private Task RefreshTabAsync<T>(bool backward)
+            where T : TabModel
         {
             var loadTasks =
                 from tab in this._statuses.GetTabsByType<T>()

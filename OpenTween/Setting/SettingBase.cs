@@ -38,7 +38,8 @@ using System.Threading;
 
 namespace OpenTween
 {
-    abstract public class SettingBase<T> where T : class, new()
+    abstract public class SettingBase<T>
+        where T : class, new()
     {
         /// <summary>
         /// XML に含まれる追加データを保持するフィールド

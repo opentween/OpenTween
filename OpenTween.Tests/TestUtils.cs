@@ -110,10 +110,12 @@ namespace OpenTween
         public static MemoryImageMediaItem CreateDummyMediaItem()
             => new MemoryImageMediaItem(CreateDummyImage());
 
-        public static void FireEvent<T>(T control, string eventName) where T : Control
+        public static void FireEvent<T>(T control, string eventName)
+            where T : Control
             => TestUtils.FireEvent(control, eventName, EventArgs.Empty);
 
-        public static void FireEvent<T>(T control, string eventName, EventArgs e) where T : Control
+        public static void FireEvent<T>(T control, string eventName, EventArgs e)
+            where T : Control
         {
             var methodName = "On" + eventName;
             var method = typeof(T).GetMethod(methodName, BindingFlags.Instance | BindingFlags.NonPublic);
@@ -121,7 +123,8 @@ namespace OpenTween
             method.Invoke(control, new[] { e });
         }
 
-        public static void Validate<T>(T control) where T : Control
+        public static void Validate<T>(T control)
+            where T : Control
         {
             var cancelEventArgs = new CancelEventArgs();
             TestUtils.FireEvent(control, "Validating", cancelEventArgs);
