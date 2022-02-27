@@ -118,8 +118,11 @@ namespace OpenTween
         [DataContract]
         public struct JsonData
         {
-            [DataMember(Name = "id")] public string Id { get; set; }
-            [DataMember(Name = "body")] public string Body { get; set; }
+            [DataMember(Name = "id")]
+            public string Id { get; set; }
+
+            [DataMember(Name = "body")]
+            public string Body { get; set; }
         }
         public static readonly TheoryData<string, JsonData> CreateDataFromJson_TestCase = new TheoryData<string, JsonData>
         {

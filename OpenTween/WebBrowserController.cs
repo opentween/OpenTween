@@ -199,18 +199,18 @@ namespace OpenTween
         public static Guid SID_SProfferService = new Guid("cb728b20-f786-11ce-92ad-00aa00a74cd0");
         public static Guid IID_IInternetSecurityManager = new Guid("79eac9ee-baf9-11ce-8c82-00aa004ba90b");
 
-        [ComImport,
-        Guid("6d5140c1-7436-11ce-8034-00aa006009fa"),
-        InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+        [ComImport]
+        [Guid("6d5140c1-7436-11ce-8034-00aa006009fa")]
+        [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
         public interface IServiceProvider
         {
             [PreserveSig]
             int QueryService([In] ref Guid guidService, [In] ref Guid riid, out IntPtr ppvObject);
         }
 
-        [ComImport,
-        Guid("cb728b20-f786-11ce-92ad-00aa00a74cd0"),
-        InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+        [ComImport]
+        [Guid("cb728b20-f786-11ce-92ad-00aa00a74cd0")]
+        [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
         public interface IProfferService
         {
             [PreserveSig]
@@ -220,9 +220,9 @@ namespace OpenTween
             int RevokeService([In] int cookie);
         }
 
-        [ComImport,
-        Guid("79eac9ed-baf9-11ce-8c82-00aa004ba90b"),
-        InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+        [ComImport]
+        [Guid("79eac9ed-baf9-11ce-8c82-00aa004ba90b")]
+        [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
         public interface IInternetSecurityMgrSite
         {
             [PreserveSig]
@@ -232,9 +232,9 @@ namespace OpenTween
             int EnableModeless([In, MarshalAs(UnmanagedType.Bool)] bool fEnable);
         }
 
-        [ComImport,
-        Guid("79eac9ee-baf9-11ce-8c82-00aa004ba90b"),
-        InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+        [ComImport]
+        [Guid("79eac9ee-baf9-11ce-8c82-00aa004ba90b")]
+        [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
         public interface IInternetSecurityManager
         {
             [PreserveSig]
@@ -276,7 +276,8 @@ namespace OpenTween
         }
     #endregion
 
-        [Flags] public enum POLICY
+        [Flags]
+        public enum POLICY
         {
             ALLOW_ACTIVEX = 0x1,
             ALLOW_SCRIPT = 0x2,
