@@ -4916,6 +4916,10 @@ namespace OpenTween
                         rctB.Height = fontHeight;
 
                         using var fnt = new Font(e.Item.Font, FontStyle.Bold);
+                        var formatFlags1 = TextFormatFlags.WordBreak |
+                            TextFormatFlags.EndEllipsis |
+                            TextFormatFlags.GlyphOverhangPadding |
+                            TextFormatFlags.NoPrefix;
 
                         TextRenderer.DrawText(
                             e.Graphics,
@@ -4923,20 +4927,20 @@ namespace OpenTween
                             e.Item.Font,
                             Rectangle.Round(rct),
                             color,
-                            TextFormatFlags.WordBreak |
+                            formatFlags1);
+
+                        var formatFlags2 = TextFormatFlags.SingleLine |
                             TextFormatFlags.EndEllipsis |
                             TextFormatFlags.GlyphOverhangPadding |
-                            TextFormatFlags.NoPrefix);
+                            TextFormatFlags.NoPrefix;
+
                         TextRenderer.DrawText(
                             e.Graphics,
                             e.Item.SubItems[4].Text + " / " + e.Item.SubItems[1].Text + " (" + e.Item.SubItems[3].Text + ") " + e.Item.SubItems[5].Text + e.Item.SubItems[6].Text + " [" + e.Item.SubItems[7].Text + "]",
                             fnt,
                             rctB,
                             color,
-                            TextFormatFlags.SingleLine |
-                            TextFormatFlags.EndEllipsis |
-                            TextFormatFlags.GlyphOverhangPadding |
-                            TextFormatFlags.NoPrefix);
+                            formatFlags2);
                     }
                     else
                     {
@@ -4948,30 +4952,34 @@ namespace OpenTween
 
                         if (drawLineCount == 1)
                         {
-                            TextRenderer.DrawText(
-                                e.Graphics,
-                                text,
-                                e.Item.Font,
-                                Rectangle.Round(rct),
-                                color,
-                                TextFormatFlags.SingleLine |
+                            var formatFlags = TextFormatFlags.SingleLine |
                                 TextFormatFlags.EndEllipsis |
                                 TextFormatFlags.GlyphOverhangPadding |
                                 TextFormatFlags.NoPrefix |
-                                TextFormatFlags.VerticalCenter);
-                        }
-                        else
-                        {
+                                TextFormatFlags.VerticalCenter;
+
                             TextRenderer.DrawText(
                                 e.Graphics,
                                 text,
                                 e.Item.Font,
                                 Rectangle.Round(rct),
                                 color,
-                                TextFormatFlags.WordBreak |
+                                formatFlags);
+                        }
+                        else
+                        {
+                            var formatFlags = TextFormatFlags.WordBreak |
                                 TextFormatFlags.EndEllipsis |
                                 TextFormatFlags.GlyphOverhangPadding |
-                                TextFormatFlags.NoPrefix);
+                                TextFormatFlags.NoPrefix;
+
+                            TextRenderer.DrawText(
+                                e.Graphics,
+                                text,
+                                e.Item.Font,
+                                Rectangle.Round(rct),
+                                color,
+                                formatFlags);
                         }
                     }
                 }

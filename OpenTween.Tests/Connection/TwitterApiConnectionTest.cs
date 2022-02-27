@@ -311,8 +311,7 @@ namespace OpenTween.Connection
             var result = await apiConnection.PostLazyAsync<string>(endpoint, param)
                 .ConfigureAwait(false);
 
-            Assert.Equal("hogehoge", await result.LoadJsonAsync()
-                .ConfigureAwait(false));
+            Assert.Equal("hogehoge", await result.LoadJsonAsync().ConfigureAwait(false));
 
             Assert.Equal(0, mockHandler.QueueCount);
         }
@@ -383,8 +382,7 @@ namespace OpenTween.Connection
             var result = await apiConnection.PostLazyAsync<string>(endpoint, param, mediaParam)
                 .ConfigureAwait(false);
 
-            Assert.Equal("hogehoge", await result.LoadJsonAsync()
-                .ConfigureAwait(false));
+            Assert.Equal("hogehoge", await result.LoadJsonAsync().ConfigureAwait(false));
 
             Assert.Equal(0, mockHandler.QueueCount);
         }
@@ -430,8 +428,7 @@ namespace OpenTween.Connection
             var result = await apiConnection.PostLazyAsync<string>(endpoint, param: null, media: null)
                 .ConfigureAwait(false);
 
-            Assert.Equal("hogehoge", await result.LoadJsonAsync()
-                .ConfigureAwait(false));
+            Assert.Equal("hogehoge", await result.LoadJsonAsync().ConfigureAwait(false));
 
             Assert.Equal(0, mockHandler.QueueCount);
         }

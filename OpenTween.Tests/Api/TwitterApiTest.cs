@@ -652,10 +652,7 @@ namespace OpenTween.Api
         public async Task DirectMessagesEventsNew_Test()
         {
             var mock = new Mock<IApiConnection>();
-            mock.Setup(x =>
-                x.PostJsonAsync<TwitterMessageEventSingle>(
-                    new Uri("direct_messages/events/new.json", UriKind.Relative),
-                    @"{
+            var responseText = @"{
   ""event"": {
     ""type"": ""message_create"",
     ""message_create"": {
@@ -673,7 +670,11 @@ namespace OpenTween.Api
       }
     }
   }
-}")
+}";
+            mock.Setup(x =>
+                x.PostJsonAsync<TwitterMessageEventSingle>(
+                    new Uri("direct_messages/events/new.json", UriKind.Relative),
+                    responseText)
             )
             .ReturnsAsync(LazyJson.Create(new TwitterMessageEventSingle()));
 
