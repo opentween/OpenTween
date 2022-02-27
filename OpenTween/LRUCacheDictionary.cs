@@ -158,7 +158,9 @@ namespace OpenTween
             return this.innerDict.Remove(item.Key);
         }
 
+#pragma warning disable CS8767
         public bool TryGetValue(TKey key, [MaybeNullWhen(false)] out TValue value)
+#pragma warning restore CS8767
         {
             var ret = this.innerDict.TryGetValue(key, out var node);
 

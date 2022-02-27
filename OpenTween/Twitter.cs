@@ -188,7 +188,6 @@ namespace OpenTween
             this.ResetApiStatus();
         }
 
-        [Obsolete]
         public void VerifyCredentials()
         {
             try
