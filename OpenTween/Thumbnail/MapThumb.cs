@@ -32,19 +32,6 @@ using OpenTween.Thumbnail.Services;
 
 namespace OpenTween.Thumbnail
 {
-    public class GlobalLocation
-    {
-        public double Latitude { get; set; }
-
-        public double Longitude { get; set; }
-    }
-
-    public enum MapProvider
-    {
-        OpenStreetMap,
-        GoogleMaps,
-    }
-
     public abstract class MapThumb
     {
         public abstract Task<ThumbnailInfo> GetThumbnailInfoAsync(PostClass.StatusGeo geo);
@@ -68,5 +55,18 @@ namespace OpenTween.Thumbnail
 
             return MapThumb.defaultInstance;
         }
+    }
+
+    public class GlobalLocation
+    {
+        public double Latitude { get; set; }
+
+        public double Longitude { get; set; }
+    }
+
+    public enum MapProvider
+    {
+        OpenStreetMap,
+        GoogleMaps,
     }
 }

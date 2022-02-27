@@ -44,7 +44,7 @@ using OpenTween.Setting;
 
 namespace OpenTween
 {
-    internal class MyApplication
+    internal class ApplicationEvents
     {
         public static readonly CultureInfo[] SupportedUICulture = new[]
         {

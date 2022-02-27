@@ -39,6 +39,191 @@ using System.Windows.Forms;
 
 namespace OpenTween
 {
+    public class InternetSecurityManager : WebBrowserAPI.IServiceProvider, WebBrowserAPI.IInternetSecurityManager
+    {
+        #region "HRESULT"
+        private enum HRESULT
+        {
+            S_OK = 0x0,
+            S_FALSE = 0x1,
+            E_NOTIMPL = unchecked((int)0x80004001),
+            E_NOINTERFACE = unchecked((int)0x80004002),
+        }
+        #endregion
+
+        [Flags]
+        public enum POLICY
+        {
+            ALLOW_ACTIVEX = 0x1,
+            ALLOW_SCRIPT = 0x2,
+        }
+
+        private readonly object ocx = new object();
+        private readonly WebBrowserAPI.IServiceProvider ocxServiceProvider;
+        private readonly IntPtr profferServicePtr = new IntPtr();
+        private readonly WebBrowserAPI.IProfferService profferService = null!;
+
+        public POLICY SecurityPolicy { get; set; } = 0;
+
+        public InternetSecurityManager(WebBrowser webBrowser)
+        {
+            // ActiveXコントロール取得
+            webBrowser.Url = new Uri("about:blank"); // ActiveXを初期化する
+
+            do
+            {
+                Thread.Sleep(100);
+                Application.DoEvents();
+            }
+            while (webBrowser.ReadyState != WebBrowserReadyState.Complete);
+
+            this.ocx = webBrowser.ActiveXInstance;
+
+            // IServiceProvider.QueryService() を使って IProfferService を取得
+            this.ocxServiceProvider = (WebBrowserAPI.IServiceProvider)this.ocx;
+
+            try
+            {
+                this.ocxServiceProvider.QueryService(
+                    ref WebBrowserAPI.SID_SProfferService,
+                    ref WebBrowserAPI.IID_IProfferService,
+                    out this.profferServicePtr);
+            }
+            catch (SEHException ex)
+            {
+                MyCommon.TraceOut(ex, "ocxServiceProvider.QueryService() HRESULT:" + ex.ErrorCode.ToString("X8") + Environment.NewLine);
+                return;
+            }
+            catch (ExternalException ex)
+            {
+                MyCommon.TraceOut(ex, "ocxServiceProvider.QueryService() HRESULT:" + ex.ErrorCode.ToString("X8") + Environment.NewLine);
+                return;
+            }
+
+            this.profferService = (WebBrowserAPI.IProfferService)Marshal.GetObjectForIUnknown(this.profferServicePtr);
+
+            // IProfferService.ProfferService() を使って
+            // 自分を IInternetSecurityManager として提供
+            try
+            {
+                this.profferService.ProfferService(
+                    ref WebBrowserAPI.IID_IInternetSecurityManager, this, out var cookie);
+            }
+            catch (SEHException ex)
+            {
+                MyCommon.TraceOut(ex, "IProfferSerive.ProfferService() HRESULT:" + ex.ErrorCode.ToString("X8") + Environment.NewLine);
+                return;
+            }
+            catch (ExternalException ex)
+            {
+                MyCommon.TraceOut(ex, "IProfferSerive.ProfferService() HRESULT:" + ex.ErrorCode.ToString("X8") + Environment.NewLine);
+                return;
+            }
+        }
+
+        int WebBrowserAPI.IServiceProvider.QueryService(
+            ref Guid guidService,
+            ref Guid riid,
+            out IntPtr ppvObject)
+        {
+            ppvObject = IntPtr.Zero;
+            if (guidService.CompareTo(
+                WebBrowserAPI.IID_IInternetSecurityManager) == 0)
+            {
+                // 自分から IID_IInternetSecurityManager を
+                // QueryInterface して返す
+                var punk = Marshal.GetIUnknownForObject(this);
+                return Marshal.QueryInterface(punk, ref riid, out ppvObject);
+            }
+            return (int)HRESULT.E_NOINTERFACE;
+        }
+
+        int WebBrowserAPI.IInternetSecurityManager.GetSecurityId(string pwszUrl, byte[] pbSecurityId, ref uint pcbSecurityId, uint dwReserved)
+            => WebBrowserAPI.INET_E_DEFAULT_ACTION;
+
+        int WebBrowserAPI.IInternetSecurityManager.GetSecuritySite(out WebBrowserAPI.IInternetSecurityMgrSite? pSite)
+        {
+            pSite = null;
+            return WebBrowserAPI.INET_E_DEFAULT_ACTION;
+        }
+
+        int WebBrowserAPI.IInternetSecurityManager.GetZoneMappings(int dwZone, ref IEnumString? ppenumstring, int dwFlags)
+        {
+            ppenumstring = null;
+            return WebBrowserAPI.INET_E_DEFAULT_ACTION;
+        }
+
+        int WebBrowserAPI.IInternetSecurityManager.MapUrlToZone(string pwszUrl, out int pdwZone, int dwFlags)
+        {
+            pdwZone = 0;
+            if (pwszUrl == "about:blank") return WebBrowserAPI.INET_E_DEFAULT_ACTION;
+            try
+            {
+                var urlStr = MyCommon.IDNEncode(pwszUrl);
+                if (urlStr == null) return WebBrowserAPI.URLPOLICY_DISALLOW;
+                var url = new Uri(urlStr);
+                if (url.Scheme == "data")
+                {
+                    return WebBrowserAPI.URLPOLICY_DISALLOW;
+                }
+            }
+            catch (Exception)
+            {
+                return WebBrowserAPI.URLPOLICY_DISALLOW;
+            }
+            return WebBrowserAPI.INET_E_DEFAULT_ACTION;
+        }
+
+        private const byte URLPOLICY_ALLOW = 0;
+
+        int WebBrowserAPI.IInternetSecurityManager.ProcessUrlAction(string pwszUrl, int dwAction, out byte pPolicy, int cbPolicy, byte pContext, int cbContext, int dwFlags, int dwReserved)
+        {
+            pPolicy = URLPOLICY_ALLOW;
+            // スクリプト実行状態かを検査しポリシー設定
+            if (WebBrowserAPI.URLACTION_SCRIPT_MIN <= dwAction &
+                dwAction <= WebBrowserAPI.URLACTION_SCRIPT_MAX)
+            {
+                // スクリプト実行状態
+                if ((this.SecurityPolicy & POLICY.ALLOW_SCRIPT) == POLICY.ALLOW_SCRIPT)
+                {
+                    pPolicy = WebBrowserAPI.URLPOLICY_ALLOW;
+                }
+                else
+                {
+                    pPolicy = WebBrowserAPI.URLPOLICY_DISALLOW;
+                }
+                if (Regex.IsMatch(pwszUrl, @"^https?://((api\.)?twitter\.com/|([a-zA-Z0-9]+\.)?twimg\.com/)")) pPolicy = WebBrowserAPI.URLPOLICY_ALLOW;
+                return (int)HRESULT.S_OK;
+            }
+            // ActiveX実行状態かを検査しポリシー設定
+            if (WebBrowserAPI.URLACTION_ACTIVEX_MIN <= dwAction &
+                dwAction <= WebBrowserAPI.URLACTION_ACTIVEX_MAX)
+            {
+                // ActiveX実行状態
+                if ((this.SecurityPolicy & POLICY.ALLOW_ACTIVEX) == POLICY.ALLOW_ACTIVEX)
+                {
+                    pPolicy = WebBrowserAPI.URLPOLICY_ALLOW;
+                }
+                else
+                {
+                    pPolicy = WebBrowserAPI.URLPOLICY_DISALLOW;
+                }
+                return (int)HRESULT.S_OK;
+            }
+            // 他のものについてはデフォルト処理
+            return WebBrowserAPI.INET_E_DEFAULT_ACTION;
+        }
+
+        int WebBrowserAPI.IInternetSecurityManager.QueryCustomPolicy(string pwszUrl, ref Guid guidKey, byte ppPolicy, int pcbPolicy, byte pContext, int cbContext, int dwReserved)
+            => WebBrowserAPI.INET_E_DEFAULT_ACTION;
+
+        int WebBrowserAPI.IInternetSecurityManager.SetSecuritySite(WebBrowserAPI.IInternetSecurityMgrSite pSite)
+            => WebBrowserAPI.INET_E_DEFAULT_ACTION;
+
+        int WebBrowserAPI.IInternetSecurityManager.SetZoneMapping(int dwZone, string lpszPattern, int dwFlags)
+            => WebBrowserAPI.INET_E_DEFAULT_ACTION;
+    }
+
     #region "WebBrowserAPI"
     internal static class WebBrowserAPI
     {
@@ -259,189 +444,4 @@ namespace OpenTween
         }
     }
     #endregion
-
-    public class InternetSecurityManager : WebBrowserAPI.IServiceProvider, WebBrowserAPI.IInternetSecurityManager
-    {
-    #region "HRESULT"
-        private enum HRESULT
-        {
-            S_OK = 0x0,
-            S_FALSE = 0x1,
-            E_NOTIMPL = unchecked((int)0x80004001),
-            E_NOINTERFACE = unchecked((int)0x80004002),
-        }
-    #endregion
-
-        [Flags]
-        public enum POLICY
-        {
-            ALLOW_ACTIVEX = 0x1,
-            ALLOW_SCRIPT = 0x2,
-        }
-
-        private readonly object ocx = new object();
-        private readonly WebBrowserAPI.IServiceProvider ocxServiceProvider;
-        private readonly IntPtr profferServicePtr = new IntPtr();
-        private readonly WebBrowserAPI.IProfferService profferService = null!;
-
-        public POLICY SecurityPolicy { get; set; } = 0;
-
-        public InternetSecurityManager(WebBrowser webBrowser)
-        {
-            // ActiveXコントロール取得
-            webBrowser.Url = new Uri("about:blank"); // ActiveXを初期化する
-
-            do
-            {
-                Thread.Sleep(100);
-                Application.DoEvents();
-            }
-            while (webBrowser.ReadyState != WebBrowserReadyState.Complete);
-
-            this.ocx = webBrowser.ActiveXInstance;
-
-            // IServiceProvider.QueryService() を使って IProfferService を取得
-            this.ocxServiceProvider = (WebBrowserAPI.IServiceProvider)this.ocx;
-
-            try
-            {
-                this.ocxServiceProvider.QueryService(
-                    ref WebBrowserAPI.SID_SProfferService,
-                    ref WebBrowserAPI.IID_IProfferService,
-                    out this.profferServicePtr);
-            }
-            catch (SEHException ex)
-            {
-                MyCommon.TraceOut(ex, "ocxServiceProvider.QueryService() HRESULT:" + ex.ErrorCode.ToString("X8") + Environment.NewLine);
-                return;
-            }
-            catch (ExternalException ex)
-            {
-                MyCommon.TraceOut(ex, "ocxServiceProvider.QueryService() HRESULT:" + ex.ErrorCode.ToString("X8") + Environment.NewLine);
-                return;
-            }
-
-            this.profferService = (WebBrowserAPI.IProfferService)Marshal.GetObjectForIUnknown(this.profferServicePtr);
-
-            // IProfferService.ProfferService() を使って
-            // 自分を IInternetSecurityManager として提供
-            try
-            {
-                this.profferService.ProfferService(
-                    ref WebBrowserAPI.IID_IInternetSecurityManager, this, out var cookie);
-            }
-            catch (SEHException ex)
-            {
-                MyCommon.TraceOut(ex, "IProfferSerive.ProfferService() HRESULT:" + ex.ErrorCode.ToString("X8") + Environment.NewLine);
-                return;
-            }
-            catch (ExternalException ex)
-            {
-                MyCommon.TraceOut(ex, "IProfferSerive.ProfferService() HRESULT:" + ex.ErrorCode.ToString("X8") + Environment.NewLine);
-                return;
-            }
-        }
-
-        int WebBrowserAPI.IServiceProvider.QueryService(
-            ref Guid guidService,
-            ref Guid riid,
-            out IntPtr ppvObject)
-        {
-            ppvObject = IntPtr.Zero;
-            if (guidService.CompareTo(
-                WebBrowserAPI.IID_IInternetSecurityManager) == 0)
-            {
-                // 自分から IID_IInternetSecurityManager を
-                // QueryInterface して返す
-                var punk = Marshal.GetIUnknownForObject(this);
-                return Marshal.QueryInterface(punk, ref riid, out ppvObject);
-            }
-            return (int)HRESULT.E_NOINTERFACE;
-        }
-
-        int WebBrowserAPI.IInternetSecurityManager.GetSecurityId(string pwszUrl, byte[] pbSecurityId, ref uint pcbSecurityId, uint dwReserved)
-            => WebBrowserAPI.INET_E_DEFAULT_ACTION;
-
-        int WebBrowserAPI.IInternetSecurityManager.GetSecuritySite(out WebBrowserAPI.IInternetSecurityMgrSite? pSite)
-        {
-            pSite = null;
-            return WebBrowserAPI.INET_E_DEFAULT_ACTION;
-        }
-
-        int WebBrowserAPI.IInternetSecurityManager.GetZoneMappings(int dwZone, ref IEnumString? ppenumstring, int dwFlags)
-        {
-            ppenumstring = null;
-            return WebBrowserAPI.INET_E_DEFAULT_ACTION;
-        }
-
-        int WebBrowserAPI.IInternetSecurityManager.MapUrlToZone(string pwszUrl, out int pdwZone, int dwFlags)
-        {
-            pdwZone = 0;
-            if (pwszUrl == "about:blank") return WebBrowserAPI.INET_E_DEFAULT_ACTION;
-            try
-            {
-                var urlStr = MyCommon.IDNEncode(pwszUrl);
-                if (urlStr == null) return WebBrowserAPI.URLPOLICY_DISALLOW;
-                var url = new Uri(urlStr);
-                if (url.Scheme == "data")
-                {
-                    return WebBrowserAPI.URLPOLICY_DISALLOW;
-                }
-            }
-            catch (Exception)
-            {
-                return WebBrowserAPI.URLPOLICY_DISALLOW;
-            }
-            return WebBrowserAPI.INET_E_DEFAULT_ACTION;
-        }
-
-        private const byte URLPOLICY_ALLOW = 0;
-
-        int WebBrowserAPI.IInternetSecurityManager.ProcessUrlAction(string pwszUrl, int dwAction, out byte pPolicy, int cbPolicy, byte pContext, int cbContext, int dwFlags, int dwReserved)
-        {
-            pPolicy = URLPOLICY_ALLOW;
-            // スクリプト実行状態かを検査しポリシー設定
-            if (WebBrowserAPI.URLACTION_SCRIPT_MIN <= dwAction &
-                dwAction <= WebBrowserAPI.URLACTION_SCRIPT_MAX)
-            {
-                // スクリプト実行状態
-                if ((this.SecurityPolicy & POLICY.ALLOW_SCRIPT) == POLICY.ALLOW_SCRIPT)
-                {
-                    pPolicy = WebBrowserAPI.URLPOLICY_ALLOW;
-                }
-                else
-                {
-                    pPolicy = WebBrowserAPI.URLPOLICY_DISALLOW;
-                }
-                if (Regex.IsMatch(pwszUrl, @"^https?://((api\.)?twitter\.com/|([a-zA-Z0-9]+\.)?twimg\.com/)")) pPolicy = WebBrowserAPI.URLPOLICY_ALLOW;
-                return (int)HRESULT.S_OK;
-            }
-            // ActiveX実行状態かを検査しポリシー設定
-            if (WebBrowserAPI.URLACTION_ACTIVEX_MIN <= dwAction &
-                dwAction <= WebBrowserAPI.URLACTION_ACTIVEX_MAX)
-            {
-                // ActiveX実行状態
-                if ((this.SecurityPolicy & POLICY.ALLOW_ACTIVEX) == POLICY.ALLOW_ACTIVEX)
-                {
-                    pPolicy = WebBrowserAPI.URLPOLICY_ALLOW;
-                }
-                else
-                {
-                    pPolicy = WebBrowserAPI.URLPOLICY_DISALLOW;
-                }
-                return (int)HRESULT.S_OK;
-            }
-            // 他のものについてはデフォルト処理
-            return WebBrowserAPI.INET_E_DEFAULT_ACTION;
-        }
-
-        int WebBrowserAPI.IInternetSecurityManager.QueryCustomPolicy(string pwszUrl, ref Guid guidKey, byte ppPolicy, int pcbPolicy, byte pContext, int cbContext, int dwReserved)
-            => WebBrowserAPI.INET_E_DEFAULT_ACTION;
-
-        int WebBrowserAPI.IInternetSecurityManager.SetSecuritySite(WebBrowserAPI.IInternetSecurityMgrSite pSite)
-            => WebBrowserAPI.INET_E_DEFAULT_ACTION;
-
-        int WebBrowserAPI.IInternetSecurityManager.SetZoneMapping(int dwZone, string lpszPattern, int dwFlags)
-            => WebBrowserAPI.INET_E_DEFAULT_ACTION;
-    }
 }

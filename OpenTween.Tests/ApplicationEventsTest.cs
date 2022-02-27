@@ -29,14 +29,14 @@ using Xunit.Extensions;
 
 namespace OpenTween
 {
-    public class MyApplicationTest
+    public class ApplicationEventsTest
     {
         [Fact]
         public void ParseArguments_NoOptionsTest()
         {
             var args = new string[] { };
 
-            Assert.Empty(MyApplication.ParseArguments(args));
+            Assert.Empty(ApplicationEvents.ParseArguments(args));
         }
 
         [Fact]
@@ -48,7 +48,7 @@ namespace OpenTween
             {
                 ["foo"] = "",
             },
-            MyApplication.ParseArguments(args));
+            ApplicationEvents.ParseArguments(args));
         }
 
         [Fact]
@@ -61,7 +61,7 @@ namespace OpenTween
                 ["foo"] = "",
                 ["bar"] = "",
             },
-            MyApplication.ParseArguments(args));
+            ApplicationEvents.ParseArguments(args));
         }
 
         [Fact]
@@ -73,7 +73,7 @@ namespace OpenTween
             {
                 ["foo"] = "hogehoge",
             },
-            MyApplication.ParseArguments(args));
+            ApplicationEvents.ParseArguments(args));
         }
 
         [Fact]
@@ -85,7 +85,7 @@ namespace OpenTween
             {
                 ["foo"] = "",
             },
-            MyApplication.ParseArguments(args));
+            ApplicationEvents.ParseArguments(args));
         }
 
         [Fact]
@@ -93,7 +93,7 @@ namespace OpenTween
         {
             var args = new string[] { "--foo", "/" };
 
-            Assert.Empty(MyApplication.ParseArguments(args));
+            Assert.Empty(ApplicationEvents.ParseArguments(args));
         }
 
         [Fact]
@@ -105,7 +105,7 @@ namespace OpenTween
             {
                 ["foo"] = "123",
             },
-            MyApplication.ParseArguments(args));
+            ApplicationEvents.ParseArguments(args));
         }
 
         [Theory]
@@ -115,7 +115,7 @@ namespace OpenTween
         [InlineData("zh-TW", "en")]
         public void GetPreferredCulture_Test(string currentCulture, string expectedCulture)
         {
-            var actual = MyApplication.GetPreferredCulture(new CultureInfo(currentCulture));
+            var actual = ApplicationEvents.GetPreferredCulture(new CultureInfo(currentCulture));
             Assert.Equal(expectedCulture, actual.Name);
         }
     }

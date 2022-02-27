@@ -38,7 +38,7 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>OpenTween.MyApplication</StartupObject>
+    <StartupObject>OpenTween.ApplicationEvents</StartupObject>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>Resources\4b.ico</ApplicationIcon>
@@ -73,11 +73,13 @@
     <Compile Include="Api\BitlyApi.cs" />
     <Compile Include="Api\DataModel\GeoJson.cs" />
     <Compile Include="Api\DataModel\TwitterConfiguration.cs" />
+    <Compile Include="Api\DataModel\TwitterEntities.cs" />
     <Compile Include="Api\DataModel\TwitterEntity.cs" />
     <Compile Include="Api\DataModel\TwitterError.cs" />
     <Compile Include="Api\DataModel\TwitterFriendship.cs" />
     <Compile Include="Api\DataModel\TwitterList.cs" />
     <Compile Include="Api\DataModel\TwitterMessageEvent.cs" />
+    <Compile Include="Api\DataModel\TwitterMessageEventList.cs" />
     <Compile Include="Api\DataModel\TwitterPageable.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -386,7 +388,7 @@
     <Compile Include="UpdateDialog.Designer.cs">
       <DependentUpon>UpdateDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="Growl.cs" />
+    <Compile Include="GrowlHelper.cs" />
     <Compile Include="HookGlobalHotkey.cs" />
     <Compile Include="InputTabName.cs">
       <SubType>Form</SubType>
@@ -458,7 +460,7 @@
     <Compile Include="Twitter.cs" />
     <Compile Include="UserInfo.cs" />
     <Compile Include="WebApiException.cs" />
-    <Compile Include="WebBrowserController.cs" />
+    <Compile Include="InternetSecurityManager.cs" />
     <Compile Include="ControlTransaction.cs" />
   </ItemGroup>
   <ItemGroup>
