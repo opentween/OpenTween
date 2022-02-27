@@ -158,7 +158,7 @@ namespace OpenTween
             }
         }
 
-        class TestToolStripAPIGauge : ToolStripAPIGauge
+        private class TestToolStripAPIGauge : ToolStripAPIGauge
         {
             public DateTimeUtc DateTimeNow = DateTimeUtc.Now;
 

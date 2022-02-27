@@ -36,7 +36,7 @@ namespace OpenTween.Thumbnail.Services
     /// <summary>
     /// 正規表現によるURLの単純な置換でサムネイルURLを生成する
     /// </summary>
-    class SimpleThumbnailService : IThumbnailService
+    public class SimpleThumbnailService : IThumbnailService
     {
         protected Regex regex;
         protected string thumbReplacement;

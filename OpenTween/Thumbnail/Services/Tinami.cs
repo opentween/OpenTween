@@ -37,7 +37,7 @@ using OpenTween.Models;
 
 namespace OpenTween.Thumbnail.Services
 {
-    class Tinami : IThumbnailService
+    public class Tinami : IThumbnailService
     {
         public static readonly Regex UrlPatternRegex =
             new Regex(@"^https?://www\.tinami\.com/view/(?<ContentId>\d+)$");

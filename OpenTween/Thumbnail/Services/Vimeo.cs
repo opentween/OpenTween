@@ -39,7 +39,7 @@ using OpenTween.Models;
 
 namespace OpenTween.Thumbnail.Services
 {
-    class Vimeo : IThumbnailService
+    public class Vimeo : IThumbnailService
     {
         public static readonly Regex UrlPatternRegex =
             new Regex(@"https?://vimeo\.com/(?<postID>[0-9]+)");

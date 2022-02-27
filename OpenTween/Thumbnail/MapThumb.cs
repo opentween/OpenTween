@@ -44,7 +44,7 @@ namespace OpenTween.Thumbnail
         GoogleMaps,
     }
 
-    abstract class MapThumb
+    public abstract class MapThumb
     {
         public abstract Task<ThumbnailInfo> GetThumbnailInfoAsync(PostClass.StatusGeo geo);
 

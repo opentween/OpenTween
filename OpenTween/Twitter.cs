@@ -161,7 +161,7 @@ namespace OpenTween
         public bool GetFollowersSuccess { get; private set; } = false;
         public bool GetNoRetweetSuccess { get; private set; } = false;
 
-        delegate void GetIconImageDelegate(PostClass post);
+        private delegate void GetIconImageDelegate(PostClass post);
         private readonly object lockObj = new object();
         private ISet<long> followerId = new HashSet<long>();
         private long[] noRTId = Array.Empty<long>();

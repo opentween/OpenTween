@@ -31,7 +31,7 @@ using OpenTween.Models;
 
 namespace OpenTween.Thumbnail.Services
 {
-    abstract class IThumbnailService
+    public abstract class IThumbnailService
     {
         public abstract Task<ThumbnailInfo?> GetThumbnailInfoAsync(string url, PostClass post, CancellationToken token);
     }

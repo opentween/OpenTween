@@ -38,7 +38,7 @@ using OpenTween.Models;
 
 namespace OpenTween.Thumbnail.Services
 {
-    class FoursquareCheckin : IThumbnailService
+    public class FoursquareCheckin : IThumbnailService
     {
         public static readonly Regex UrlPatternRegex =
             new Regex(@"^https?://www\.swarmapp\.com/c/(?<checkin_id>[0-9a-zA-Z]+)");

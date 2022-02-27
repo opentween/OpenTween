@@ -33,7 +33,7 @@ namespace OpenTween
     /// <summary>
     /// LRU によるキャッシュを行うための辞書クラス
     /// </summary>
-    class LRUCacheDictionary<TKey, TValue> : IDictionary<TKey, TValue>
+    public class LRUCacheDictionary<TKey, TValue> : IDictionary<TKey, TValue>
     {
         /// <summary>
         /// 保持するアイテムの個数

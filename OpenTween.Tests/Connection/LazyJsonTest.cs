@@ -92,7 +92,7 @@ namespace OpenTween.Connection
             Assert.True(bodyStream.IsDisposed);
         }
 
-        class InvalidStream : Stream
+        private class InvalidStream : Stream
         {
             public bool IsDisposed { get; private set; } = false;
 

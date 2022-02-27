@@ -37,7 +37,7 @@ namespace OpenTween.Thumbnail.Services
 {
     public class ImgAzyobuziNetTest
     {
-        class TestImgAzyobuziNet : ImgAzyobuziNet
+        private class TestImgAzyobuziNet : ImgAzyobuziNet
         {
             public TestImgAzyobuziNet()
                 : this(new[] { "http://img.azyobuzi.net/api/" })

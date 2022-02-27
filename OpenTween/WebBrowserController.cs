@@ -401,7 +401,7 @@ namespace OpenTween
             return WebBrowserAPI.INET_E_DEFAULT_ACTION;
         }
 
-        const byte URLPOLICY_ALLOW = 0;
+        private const byte URLPOLICY_ALLOW = 0;
 
         int WebBrowserAPI.IInternetSecurityManager.ProcessUrlAction(string pwszUrl, int dwAction, out byte pPolicy, int cbPolicy, byte pContext, int cbContext, int dwFlags, int dwReserved)
         {

@@ -36,7 +36,7 @@ using OpenTween.Models;
 
 namespace OpenTween.Thumbnail.Services
 {
-    class ImgAzyobuziNet : IThumbnailService, IDisposable
+    public class ImgAzyobuziNet : IThumbnailService, IDisposable
     {
         protected string[] apiHosts = {
             "https://img.azyobuzi.net/api/",

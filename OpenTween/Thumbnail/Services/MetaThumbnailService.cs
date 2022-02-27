@@ -38,7 +38,7 @@ namespace OpenTween.Thumbnail.Services
     /// <summary>
     /// og:image や twitter:image をスクレイピングしてサムネイルURLを抽出する
     /// </summary>
-    class MetaThumbnailService : IThumbnailService
+    public class MetaThumbnailService : IThumbnailService
     {
         protected static Regex[] metaPatterns =
         {

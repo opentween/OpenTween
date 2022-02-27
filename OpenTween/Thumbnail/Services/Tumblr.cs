@@ -38,7 +38,7 @@ using OpenTween.Models;
 
 namespace OpenTween.Thumbnail.Services
 {
-    class Tumblr : IThumbnailService
+    public class Tumblr : IThumbnailService
     {
         public static readonly Regex UrlPatternRegex =
             new Regex(@"^https?://(?<host>[^.]+\.tumblr\.com|tumblr\.[^.]+\.[^.]+)/post/(?<postId>[0-9]+)(/.*)?");

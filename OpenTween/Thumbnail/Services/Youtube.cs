@@ -37,7 +37,7 @@ using OpenTween.Models;
 
 namespace OpenTween.Thumbnail.Services
 {
-    class Youtube : IThumbnailService
+    public class Youtube : IThumbnailService
     {
         public static readonly Regex UrlPatternRegex =
             new Regex(@"^https?://(?:(?:(?:m|www|music|gaming)\.)?youtube\.com/(?:watch\?(?:[^#]*&)?v=|embed/|shorts/)|youtu\.be/)(?<videoId>[\w\-]+)");

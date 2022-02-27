@@ -830,7 +830,7 @@ namespace OpenTween.Models
             Assert.True(this.tabinfo[200L]!.IsExcludeReply);
         }
 
-        class TestPostFilterRule : PostFilterRule
+        private class TestPostFilterRule : PostFilterRule
         {
             public static PostFilterRule Create(Func<PostClass, MyCommon.HITRESULT> filterDelegate)
             {

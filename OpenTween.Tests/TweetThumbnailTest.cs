@@ -41,7 +41,7 @@ namespace OpenTween
 {
     public class TweetThumbnailTest
     {
-        class TestThumbnailService : IThumbnailService
+        private class TestThumbnailService : IThumbnailService
         {
             private readonly Regex regex;
             private readonly string replaceUrl;
@@ -71,7 +71,7 @@ namespace OpenTween
                 };
             }
 
-            class MockThumbnailInfo : ThumbnailInfo
+            private class MockThumbnailInfo : ThumbnailInfo
             {
                 public override Task<MemoryImage> LoadThumbnailImageAsync(HttpClient http, CancellationToken cancellationToken)
                     => Task.FromResult(TestUtils.CreateDummyImage());

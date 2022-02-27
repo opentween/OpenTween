@@ -32,7 +32,7 @@ namespace OpenTween.Models
 {
     public class PostClassTest
     {
-        class PostClassGroup
+        private class PostClassGroup
         {
             private Dictionary<long, PostClass> testCases;
             public PostClassGroup(params TestPostClass[] postClasses)
@@ -46,7 +46,7 @@ namespace OpenTween.Models
             }
             public PostClass this[long id] => this.testCases[id];
         }
-        class TestPostClass : PostClass
+        private class TestPostClass : PostClass
         {
             public PostClassGroup? Group;
             protected override PostClass RetweetSource
@@ -397,7 +397,7 @@ namespace OpenTween.Models
             Assert.Throws<InvalidOperationException>(() => post.ConvertToOriginalPost());
         }
 
-        class FakeExpandedUrlInfo : PostClass.ExpandedUrlInfo
+        private class FakeExpandedUrlInfo : PostClass.ExpandedUrlInfo
         {
             public TaskCompletionSource<string> FakeResult = new TaskCompletionSource<string>();
 

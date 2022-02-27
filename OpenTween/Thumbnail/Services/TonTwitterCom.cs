@@ -38,7 +38,7 @@ namespace OpenTween.Thumbnail.Services
     /// <summary>
     /// Twitter の DM に添付された画像をサムネイル表示するためのクラス
     /// </summary>
-    class TonTwitterCom : IThumbnailService
+    public class TonTwitterCom : IThumbnailService
     {
         internal static Func<IApiConnection>? GetApiConnection;
 

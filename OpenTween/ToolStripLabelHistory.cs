@@ -74,7 +74,7 @@ namespace OpenTween.OpenTweenCustomControl
 
         private readonly LinkedList<LogEntry> logs;
 
-        const int MAXCNT = 20;
+        private const int MAXCNT = 20;
 
         public override string Text
         {

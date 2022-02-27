@@ -32,7 +32,7 @@ using OpenTween.Models;
 
 namespace OpenTween.Thumbnail.Services
 {
-    class PbsTwimgCom : IThumbnailService
+    public class PbsTwimgCom : IThumbnailService
     {
         public static readonly Regex ModernUrlPattern =
             new Regex(@"^(?<base_url>https?://pbs\.twimg\.com/[^:.]+)\?([^&]+?&)?format=(?<format>[A-Za-z]+)");

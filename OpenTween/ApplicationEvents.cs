@@ -61,7 +61,7 @@ namespace OpenTween
         /// アプリケーションのメイン エントリ ポイントです。
         /// </summary>
         [STAThread]
-        static int Main(string[] args)
+        public static int Main(string[] args)
         {
             WarnIfApiKeyError();
             WarnIfRunAsAdministrator();

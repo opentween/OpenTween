@@ -35,7 +35,7 @@ using OpenTween.Models;
 
 namespace OpenTween.Thumbnail.Services
 {
-    class Pixiv : MetaThumbnailService
+    public class Pixiv : MetaThumbnailService
     {
         public static readonly string UrlPattern =
             @"^https?://(www|touch)\.pixiv\.net/(member_illust|index)\.php\?(?=.*mode=(medium|big))(?=.*illust_id=(?<illustId>[0-9]+)).*$";
