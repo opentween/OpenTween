@@ -216,8 +216,12 @@ namespace OpenTween
                     expanded = await this.GetRedirectTo(uri)
                         .ConfigureAwait(false);
                 }
-                catch (TaskCanceledException) { }
-                catch (HttpRequestException) { }
+                catch (TaskCanceledException)
+                {
+                }
+                catch (HttpRequestException)
+                {
+                }
 
                 if (expanded == null || expanded == uri)
                     return uri;

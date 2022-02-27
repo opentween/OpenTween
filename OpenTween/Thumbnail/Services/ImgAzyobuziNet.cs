@@ -38,7 +38,8 @@ namespace OpenTween.Thumbnail.Services
 {
     public class ImgAzyobuziNet : IThumbnailService, IDisposable
     {
-        protected string[] apiHosts = {
+        protected string[] apiHosts =
+        {
             "https://img.azyobuzi.net/api/",
             "https://img.opentween.org/api/",
         };
@@ -166,9 +167,18 @@ namespace OpenTween.Thumbnail.Services
 
                 return true;
             }
-            catch (HttpRequestException) { } // サーバーが2xx以外のステータスコードを返した場合
-            catch (OperationCanceledException) { } // リクエストがタイムアウトした場合
-            catch (XmlException) { } // サーバーが不正なJSONを返した場合
+            catch (HttpRequestException)
+            {
+                // サーバーが2xx以外のステータスコードを返した場合
+            }
+            catch (OperationCanceledException)
+            {
+                // リクエストがタイムアウトした場合
+            }
+            catch (XmlException)
+            {
+                // サーバーが不正なJSONを返した場合
+            }
 
             return false;
         }

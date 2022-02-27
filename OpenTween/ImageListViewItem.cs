@@ -110,9 +110,15 @@ namespace OpenTween
                     this.ImageDownloaded?.Invoke(this, EventArgs.Empty);
                 }
             }
-            catch (HttpRequestException) { }
-            catch (InvalidImageException) { }
-            catch (TaskCanceledException) { }
+            catch (HttpRequestException)
+            {
+            }
+            catch (InvalidImageException)
+            {
+            }
+            catch (TaskCanceledException)
+            {
+            }
         }
 
         public MemoryImage Image

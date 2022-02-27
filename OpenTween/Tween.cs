@@ -569,7 +569,8 @@ namespace OpenTween
 
             if (iconRefresh1 == null)
             {
-                this.nIconRefresh = new[] {
+                this.nIconRefresh = new[]
+                {
                     Properties.Resources.Refresh, Properties.Resources.Refresh2,
                     Properties.Resources.Refresh3, Properties.Resources.Refresh4,
                 };
@@ -675,7 +676,8 @@ namespace OpenTween
                         columns[6].Width = ScaleBy(widthScaleFactor, SettingManager.Local.Width7);
                         columns[7].Width = ScaleBy(widthScaleFactor, SettingManager.Local.Width8);
 
-                        var displayIndex = new[] {
+                        var displayIndex = new[]
+                        {
                             SettingManager.Local.DisplayIndex1, SettingManager.Local.DisplayIndex2,
                             SettingManager.Local.DisplayIndex3, SettingManager.Local.DisplayIndex4,
                             SettingManager.Local.DisplayIndex5, SettingManager.Local.DisplayIndex6,
@@ -4755,27 +4757,31 @@ namespace OpenTween
             ImageListViewItem itm;
             if (post.RetweetedId == null)
             {
-                string[] sitem = { "",
-                                 post.Nickname,
-                                 post.IsDeleted ? "(DELETED)" : post.AccessibleText.Replace('\n', ' '),
-                                 post.CreatedAt.ToLocalTimeString(SettingManager.Common.DateTimeFormat),
-                                 post.ScreenName,
-                                 "",
-                                 mk.ToString(),
-                                 post.Source,
+                string[] sitem =
+                {
+                    "",
+                    post.Nickname,
+                    post.IsDeleted ? "(DELETED)" : post.AccessibleText.Replace('\n', ' '),
+                    post.CreatedAt.ToLocalTimeString(SettingManager.Common.DateTimeFormat),
+                    post.ScreenName,
+                    "",
+                    mk.ToString(),
+                    post.Source,
                 };
                 itm = new ImageListViewItem(sitem, this.iconCache, post.ImageUrl);
             }
             else
             {
-                string[] sitem = { "",
-                                  post.Nickname,
-                                  post.IsDeleted ? "(DELETED)" : post.AccessibleText.Replace('\n', ' '),
-                                  post.CreatedAt.ToLocalTimeString(SettingManager.Common.DateTimeFormat),
-                                  post.ScreenName + Environment.NewLine + "(RT:" + post.RetweetedBy + ")",
-                                  "",
-                                  mk.ToString(),
-                                  post.Source,
+                string[] sitem =
+                {
+                    "",
+                    post.Nickname,
+                    post.IsDeleted ? "(DELETED)" : post.AccessibleText.Replace('\n', ' '),
+                    post.CreatedAt.ToLocalTimeString(SettingManager.Common.DateTimeFormat),
+                    post.ScreenName + Environment.NewLine + "(RT:" + post.RetweetedBy + ")",
+                    "",
+                    mk.ToString(),
+                    post.Source,
                 };
                 itm = new ImageListViewItem(sitem, this.iconCache, post.ImageUrl);
             }
@@ -5571,7 +5577,9 @@ namespace OpenTween
                 {
                     await Task.WhenAll(loadTasks);
                 }
-                catch (OperationCanceledException) { }
+                catch (OperationCanceledException)
+                {
+                }
             }
 
             // サムネイルの読み込みを待たずに次に選択されたツイートを表示するため await しない
@@ -5750,7 +5758,8 @@ namespace OpenTween
 
                 ShortcutCommand.Create(Keys.Escape)
                     .FocusedOn(FocusedControl.ListTab)
-                    .Do(() => {
+                    .Do(() =>
+                    {
                         this.anchorFlag = false;
                         var tab = this.CurrentTab;
                         var tabtype = tab.TabType;
@@ -5899,7 +5908,8 @@ namespace OpenTween
 
                 ShortcutCommand.Create(Keys.Control | Keys.PageUp, Keys.Control | Keys.P)
                     .FocusedOn(FocusedControl.StatusText)
-                    .Do(() => {
+                    .Do(() =>
+                    {
                         if (this.ListTab.SelectedIndex == 0)
                         {
                             this.ListTab.SelectedIndex = this.ListTab.TabCount - 1;
@@ -5913,7 +5923,8 @@ namespace OpenTween
 
                 ShortcutCommand.Create(Keys.Control | Keys.PageDown, Keys.Control | Keys.N)
                     .FocusedOn(FocusedControl.StatusText)
-                    .Do(() => {
+                    .Do(() =>
+                    {
                         if (this.ListTab.SelectedIndex == this.ListTab.TabCount - 1)
                         {
                             this.ListTab.SelectedIndex = 0;
@@ -5927,7 +5938,8 @@ namespace OpenTween
 
                 ShortcutCommand.Create(Keys.Control | Keys.Y)
                     .FocusedOn(FocusedControl.PostBrowser)
-                    .Do(() => {
+                    .Do(() =>
+                    {
                         var multiline = !SettingManager.Local.StatusMultiline;
                         SettingManager.Local.StatusMultiline = multiline;
                         this.MultiLineMenuItem.Checked = multiline;
@@ -6047,7 +6059,8 @@ namespace OpenTween
 
                 ShortcutCommand.Create(Keys.Control | Keys.Shift | Keys.Up)
                     .FocusedOn(FocusedControl.StatusText)
-                    .Do(() => {
+                    .Do(() =>
+                    {
                         var tab = this.CurrentTab;
                         var selectedIndex = tab.SelectedIndex;
                         if (selectedIndex != -1 && selectedIndex > 0)
@@ -6061,7 +6074,8 @@ namespace OpenTween
 
                 ShortcutCommand.Create(Keys.Control | Keys.Shift | Keys.Down)
                     .FocusedOn(FocusedControl.StatusText)
-                    .Do(() => {
+                    .Do(() =>
+                    {
                         var tab = this.CurrentTab;
                         var selectedIndex = tab.SelectedIndex;
                         if (selectedIndex != -1 && selectedIndex < tab.AllCount - 1)
@@ -6075,7 +6089,8 @@ namespace OpenTween
 
                 ShortcutCommand.Create(Keys.Control | Keys.Shift | Keys.Space)
                     .FocusedOn(FocusedControl.StatusText)
-                    .Do(() => {
+                    .Do(() =>
+                    {
                         if (this.StatusText.SelectionStart > 0)
                         {
                             var endidx = this.StatusText.SelectionStart - 1;

@@ -987,7 +987,10 @@ namespace OpenTween
 
                         cancellationToken.ThrowIfCancellationRequested();
                     }
-                    catch (OperationCanceledException) { return; }
+                    catch (OperationCanceledException)
+                    {
+                        return;
+                    }
                     catch (WebApiException ex)
                     {
                         MessageBox.Show("Failed to get lists. (" + ex.Message + ")");

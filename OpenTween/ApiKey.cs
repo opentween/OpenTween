@@ -234,12 +234,23 @@ namespace OpenTween
     [Serializable]
     public class ApiKeyDecryptException : Exception
     {
-        public ApiKeyDecryptException() { }
+        public ApiKeyDecryptException()
+        {
+        }
+
         public ApiKeyDecryptException(string message)
-            : base(message) { }
+            : base(message)
+        {
+        }
+
         public ApiKeyDecryptException(string message, Exception innerException)
-            : base(message, innerException) { }
+            : base(message, innerException)
+        {
+        }
+
         protected ApiKeyDecryptException(SerializationInfo info, StreamingContext context)
-            : base(info, context) { }
+            : base(info, context)
+        {
+        }
     }
 }

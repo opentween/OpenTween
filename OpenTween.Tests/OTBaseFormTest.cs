@@ -32,7 +32,9 @@ namespace OpenTween
 {
     public class OTBaseFormTest
     {
-        private class TestForm : OTBaseForm { }
+        private class TestForm : OTBaseForm
+        {
+        }
 
         public OTBaseFormTest()
             => this.SetupSynchronizationContext();

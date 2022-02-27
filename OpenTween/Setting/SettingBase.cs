@@ -154,14 +154,17 @@ namespace OpenTween
                         if (File.Exists(tmpfilePath))
                             File.Delete(tmpfilePath);
                     }
-                    catch (Exception) { }
+                    catch (Exception)
+                    {
+                    }
                 }
 
                 // リトライ
                 retryCount++;
                 Thread.Sleep(1000);
 
-            } while (retryCount <= SaveRetryMax);
+            }
+            while (retryCount <= SaveRetryMax);
 
             // リトライオーバー
             if (lastException != null)

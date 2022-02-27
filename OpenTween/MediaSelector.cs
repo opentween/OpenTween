@@ -136,7 +136,8 @@ namespace OpenTween
         {
             this.pictureService?.Clear();
 
-            this.pictureService = new Dictionary<string, IMediaUploadService> {
+            this.pictureService = new Dictionary<string, IMediaUploadService>
+            {
                 ["Twitter"] = new TwitterPhoto(tw, twitterConfig),
                 ["Imgur"] = new Imgur(twitterConfig),
                 ["Mobypicture"] = new Mobypicture(tw, twitterConfig),

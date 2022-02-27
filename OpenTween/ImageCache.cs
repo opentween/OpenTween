@@ -59,7 +59,8 @@ namespace OpenTween
         public ImageCache()
         {
             this.InnerDictionary = new LRUCacheDictionary<string, Task<MemoryImage>>(trimLimit: 300, autoTrimCount: 100);
-            this.InnerDictionary.CacheRemoved += (s, e) => {
+            this.InnerDictionary.CacheRemoved += (s, e) =>
+            {
                 // まだ参照されている場合もあるのでDisposeはファイナライザ任せ
                 this.CacheRemoveCount++;
             };

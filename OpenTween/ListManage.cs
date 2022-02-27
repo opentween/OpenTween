@@ -373,7 +373,9 @@ namespace OpenTween
                     var lists = await this.FetchListsAsync();
                     this.UpdateListsListBox(lists);
                 }
-                catch (OperationCanceledException) { }
+                catch (OperationCanceledException)
+                {
+                }
                 catch (WebApiException ex)
                 {
                     MessageBox.Show(string.Format(Properties.Resources.ListsDeleteFailed, ex.Message));

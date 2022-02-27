@@ -93,8 +93,13 @@ namespace OpenTween.Thumbnail.Services
 
                 return thumbs.FirstOrDefault();
             }
-            catch (XmlException) { }
-            catch (HttpRequestException) { } // たまに api.tumblr.com が名前解決できない
+            catch (XmlException)
+            {
+            }
+            catch (HttpRequestException)
+            {
+                // たまに api.tumblr.com が名前解決できない
+            }
 
             return null;
         }

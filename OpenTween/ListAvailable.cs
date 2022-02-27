@@ -47,7 +47,8 @@ namespace OpenTween
 
         private void OK_Button_Click(object sender, EventArgs e)
         {
-            if (this.ListsList.SelectedIndex > -1) {
+            if (this.ListsList.SelectedIndex > -1)
+            {
                 this.SelectedList = (ListElement)this.ListsList.SelectedItem;
                 this.DialogResult = System.Windows.Forms.DialogResult.OK;
                 this.Close();
@@ -133,7 +134,9 @@ namespace OpenTween
                     var lists = await this.FetchListsAsync();
                     this.UpdateListsListBox(lists);
                 }
-                catch (OperationCanceledException) { }
+                catch (OperationCanceledException)
+                {
+                }
                 catch (WebApiException ex)
                 {
                     MessageBox.Show("Failed to get lists. (" + ex.Message + ")");

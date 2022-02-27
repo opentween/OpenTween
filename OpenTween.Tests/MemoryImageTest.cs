@@ -62,7 +62,9 @@ namespace OpenTween
             using (var bitmap = new Bitmap(width: 200, height: 200))
             {
                 // MemoryImage をエラー無く作成できることをテストする
-                using (var image = MemoryImage.CopyFromImage(bitmap)) { }
+                using (var image = MemoryImage.CopyFromImage(bitmap))
+                {
+                }
             }
         }
 

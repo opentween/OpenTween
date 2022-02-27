@@ -689,7 +689,8 @@ namespace OpenTween
 
         public static DateTimeUtc DateTimeParse(string input)
         {
-            var formats = new[] {
+            var formats = new[]
+            {
                 "ddd MMM dd HH:mm:ss zzzz yyyy",
                 "ddd, d MMM yyyy HH:mm:ss zzzz",
             };

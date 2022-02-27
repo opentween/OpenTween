@@ -76,7 +76,9 @@ namespace OpenTween
             {
                 Clipboard.SetText(this.AuthUrl);
             }
-            catch (ExternalException) { }
+            catch (ExternalException)
+            {
+            }
         }
 
         /// <summary>

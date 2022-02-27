@@ -77,7 +77,8 @@ namespace OpenTween.Connection
                 "TokenSecret",
                 "GET",
                 new Uri("http://example.com/hoge"),
-                new Dictionary<string, string> {
+                new Dictionary<string, string>
+                {
                     ["bbb"] = "bar",
                     ["aaa"] = "foo",
                 });
@@ -130,7 +131,8 @@ namespace OpenTween.Connection
                 .Select(x => x.Split(new[] { '=' }, 2))
                 .ToDictionary(x => x[0], x => x[1].Substring(1, x[1].Length - 2)); // x[1] は前後の「"」を除去する
 
-            var expectAuthzParamKeys = new[] {
+            var expectAuthzParamKeys = new[]
+            {
                 "realm",
                 "oauth_consumer_key",
                 "oauth_nonce",

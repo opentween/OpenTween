@@ -228,7 +228,9 @@ namespace OpenTween
                 {
                     await this.RefreshListBox();
                 }
-                catch (OperationCanceledException) { }
+                catch (OperationCanceledException)
+                {
+                }
                 catch (WebApiException ex)
                 {
                     MessageBox.Show($"Failed to get lists. ({ex.Message})");
@@ -244,7 +246,9 @@ namespace OpenTween
                 {
                     await this.RefreshListBox();
                 }
-                catch (OperationCanceledException) { }
+                catch (OperationCanceledException)
+                {
+                }
                 catch (WebApiException ex)
                 {
                     MessageBox.Show($"Failed to get lists. ({ex.Message})");

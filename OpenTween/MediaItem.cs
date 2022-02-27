@@ -128,7 +128,9 @@ namespace OpenTween
                     try
                     {
                         // MemoryImage が生成できるかを検証する
-                        using (var image = this.CreateImage()) { }
+                        using (var image = this.CreateImage())
+                        {
+                        }
 
                         this.isImage = true;
                     }

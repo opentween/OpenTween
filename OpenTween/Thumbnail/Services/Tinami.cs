@@ -91,7 +91,9 @@ namespace OpenTween.Thumbnail.Services
                     TooltipText = descElm?.Value,
                 };
             }
-            catch (HttpRequestException) { }
+            catch (HttpRequestException)
+            {
+            }
 
             return null;
         }

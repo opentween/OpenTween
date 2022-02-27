@@ -120,7 +120,8 @@ namespace OpenTween
             do
             {
                 this.HistoryHashList.SelectedIndices.Clear();
-            } while (this.HistoryHashList.SelectedIndices.Count > 0);
+            }
+            while (this.HistoryHashList.SelectedIndices.Count > 0);
         }
 
         private int GetIndexOf(ListBox.ObjectCollection list, string value)
@@ -305,7 +306,8 @@ namespace OpenTween
                 do
                 {
                     this.HistoryHashList.SelectedIndices.Clear();
-                } while (this.HistoryHashList.SelectedIndices.Count > 0);
+                }
+                while (this.HistoryHashList.SelectedIndices.Count > 0);
                 this.HistoryHashList.Items.Insert(idx, hashStr);
                 this.HistoryHashList.SelectedIndex = idx;
             }
@@ -315,7 +317,8 @@ namespace OpenTween
                 do
                 {
                     this.HistoryHashList.SelectedIndices.Clear();
-                } while (this.HistoryHashList.SelectedIndices.Count > 0);
+                }
+                while (this.HistoryHashList.SelectedIndices.Count > 0);
                 this.HistoryHashList.SelectedIndex = this.HistoryHashList.Items.IndexOf(hashStr);
             }
 

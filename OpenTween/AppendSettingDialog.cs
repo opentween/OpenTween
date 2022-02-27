@@ -299,7 +299,8 @@ namespace OpenTween
             {
                 Thread.Sleep(10);
                 if (this.Disposing || this.IsDisposed) return;
-            } while (!this.IsHandleCreated);
+            }
+            while (!this.IsHandleCreated);
             this.TopMost = this.PreviewPanel.CheckAlwaysTop.Checked;
 
             this.GetPeriodPanel.LabelPostAndGet.Visible = this.GetPeriodPanel.CheckPostAndGet.Checked;

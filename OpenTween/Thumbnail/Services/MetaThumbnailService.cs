@@ -97,7 +97,9 @@ namespace OpenTween.Thumbnail.Services
                     TooltipText = null,
                 };
             }
-            catch (HttpRequestException) { }
+            catch (HttpRequestException)
+            {
+            }
 
             return null;
         }

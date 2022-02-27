@@ -276,7 +276,9 @@ namespace OpenTween
                 {
                     currentCulture = new CultureInfo(settingCultureStr);
                 }
-                catch (CultureNotFoundException) { }
+                catch (CultureNotFoundException)
+                {
+                }
             }
 
             var preferredCulture = GetPreferredCulture(currentCulture);

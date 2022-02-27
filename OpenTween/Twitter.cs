@@ -1241,7 +1241,9 @@ namespace OpenTween
                     {
                         post.SourceUri = new Uri(SourceUriBase, app.Url);
                     }
-                    catch (UriFormatException) { }
+                    catch (UriFormatException)
+                    {
+                    }
                 }
 
                 post.IsRead = read;
@@ -1375,7 +1377,8 @@ namespace OpenTween
 
                 newFollowerIds = newFollowerIds.Concat(ret.Ids);
                 cursor = ret.NextCursor;
-            } while (cursor != 0);
+            }
+            while (cursor != 0);
 
             this.followerId = newFollowerIds.ToHashSet();
             TabInformations.GetInstance().RefreshOwl(this.followerId);
@@ -1623,7 +1626,8 @@ namespace OpenTween
 
                 newBlockIds = newBlockIds.Concat(ret.Ids);
                 cursor = ret.NextCursor;
-            } while (cursor != 0);
+            }
+            while (cursor != 0);
 
             var blockIdsSet = newBlockIds.ToHashSet();
             blockIdsSet.Remove(this.UserId); // 元のソースにあったので一応残しておく

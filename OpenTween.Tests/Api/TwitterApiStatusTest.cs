@@ -52,7 +52,8 @@ namespace OpenTween.Api
         public static readonly TheoryData<Dictionary<string, string>, ApiLimit?> ParseRateLimitTestCase = new TheoryData<Dictionary<string, string>, ApiLimit?>
         {
             {
-                new Dictionary<string, string> {
+                new Dictionary<string, string>
+                {
                     ["X-RateLimit-Limit"] = "150",
                     ["X-RateLimit-Remaining"] = "100",
                     ["X-RateLimit-Reset"] = "1356998400",
@@ -60,7 +61,8 @@ namespace OpenTween.Api
                 new ApiLimit(150, 100, new DateTimeUtc(2013, 1, 1, 0, 0, 0))
             },
             {
-                new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
+                new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+                {
                     ["x-ratelimit-limit"] = "150",
                     ["x-ratelimit-remaining"] = "100",
                     ["x-ratelimit-reset"] = "1356998400",
@@ -68,7 +70,8 @@ namespace OpenTween.Api
                 new ApiLimit(150, 100, new DateTimeUtc(2013, 1, 1, 0, 0, 0))
             },
             {
-                new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
+                new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+                {
                     ["X-RateLimit-Limit"] = "150",
                     ["X-RateLimit-Remaining"] = "100",
                     ["X-RateLimit-Reset"] = "hogehoge",
@@ -76,7 +79,8 @@ namespace OpenTween.Api
                 null
             },
             {
-                new Dictionary<string, string> {
+                new Dictionary<string, string>
+                {
                     ["X-RateLimit-Limit"] = "150",
                     ["X-RateLimit-Remaining"] = "100",
                 },
@@ -95,7 +99,8 @@ namespace OpenTween.Api
         public static readonly TheoryData<Dictionary<string, string>, ApiLimit?> ParseMediaRateLimitTestCase = new TheoryData<Dictionary<string, string>, ApiLimit?>
         {
             {
-                new Dictionary<string, string> {
+                new Dictionary<string, string>
+                {
                     ["X-MediaRateLimit-Limit"] = "30",
                     ["X-MediaRateLimit-Remaining"] = "20",
                     ["X-MediaRateLimit-Reset"] = "1234567890",
@@ -103,7 +108,8 @@ namespace OpenTween.Api
                 new ApiLimit(30, 20, new DateTimeUtc(2009, 2, 13, 23, 31, 30))
             },
             {
-                new Dictionary<string, string> {
+                new Dictionary<string, string>
+                {
                     ["X-MediaRateLimit-Limit"] = "30",
                     ["X-MediaRateLimit-Remaining"] = "20",
                     ["X-MediaRateLimit-Reset"] = "hogehoge",
@@ -111,7 +117,8 @@ namespace OpenTween.Api
                 null
             },
             {
-                new Dictionary<string, string> {
+                new Dictionary<string, string>
+                {
                     ["X-MediaRateLimit-Limit"] = "30",
                     ["X-MediaRateLimit-Remaining"] = "20",
                 },

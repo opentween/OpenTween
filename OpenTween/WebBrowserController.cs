@@ -300,7 +300,8 @@ namespace OpenTween
             {
                 Thread.Sleep(100);
                 Application.DoEvents();
-            } while (webBrowser.ReadyState != WebBrowserReadyState.Complete);
+            }
+            while (webBrowser.ReadyState != WebBrowserReadyState.Complete);
 
             this.ocx = webBrowser.ActiveXInstance;
 

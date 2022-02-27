@@ -88,7 +88,8 @@ namespace OpenTween.Api
             mock.Setup(x =>
                 x.GetAsync<TwitterStatus[]>(
                     new Uri("statuses/home_timeline.json", UriKind.Relative),
-                    new Dictionary<string, string> {
+                    new Dictionary<string, string>
+                    {
                             { "include_entities", "true" },
                             { "include_ext_alt_text", "true" },
                             { "tweet_mode", "extended" },
@@ -116,7 +117,8 @@ namespace OpenTween.Api
             mock.Setup(x =>
                 x.GetAsync<TwitterStatus[]>(
                     new Uri("statuses/mentions_timeline.json", UriKind.Relative),
-                    new Dictionary<string, string> {
+                    new Dictionary<string, string>
+                    {
                             { "include_entities", "true" },
                             { "include_ext_alt_text", "true" },
                             { "tweet_mode", "extended" },
@@ -144,7 +146,8 @@ namespace OpenTween.Api
             mock.Setup(x =>
                 x.GetAsync<TwitterStatus[]>(
                     new Uri("statuses/user_timeline.json", UriKind.Relative),
-                    new Dictionary<string, string> {
+                    new Dictionary<string, string>
+                    {
                             { "screen_name", "twitterapi" },
                             { "include_rts", "true" },
                             { "include_entities", "true" },
@@ -174,7 +177,8 @@ namespace OpenTween.Api
             mock.Setup(x =>
                 x.GetAsync<TwitterStatus>(
                     new Uri("statuses/show.json", UriKind.Relative),
-                    new Dictionary<string, string> {
+                    new Dictionary<string, string>
+                    {
                             { "id", "100" },
                             { "include_entities", "true" },
                             { "include_ext_alt_text", "true" },
@@ -200,7 +204,8 @@ namespace OpenTween.Api
             mock.Setup(x =>
                 x.PostLazyAsync<TwitterStatus>(
                     new Uri("statuses/update.json", UriKind.Relative),
-                    new Dictionary<string, string> {
+                    new Dictionary<string, string>
+                    {
                             { "status", "hogehoge" },
                             { "include_entities", "true" },
                             { "include_ext_alt_text", "true" },
@@ -238,11 +243,12 @@ namespace OpenTween.Api
             mock.Setup(x =>
                 x.PostLazyAsync<TwitterStatus>(
                     new Uri("statuses/update.json", UriKind.Relative),
-                    new Dictionary<string, string> {
-                            { "status", "hogehoge" },
-                            { "include_entities", "true" },
-                            { "include_ext_alt_text", "true" },
-                            { "tweet_mode", "extended" },
+                    new Dictionary<string, string>
+                    {
+                        { "status", "hogehoge" },
+                        { "include_entities", "true" },
+                        { "include_ext_alt_text", "true" },
+                        { "tweet_mode", "extended" },
                         // exclude_reply_user_ids は空の場合には送信されない
                     })
             )
@@ -286,7 +292,8 @@ namespace OpenTween.Api
             mock.Setup(x =>
                 x.PostLazyAsync<TwitterStatus>(
                     new Uri("statuses/retweet.json", UriKind.Relative),
-                    new Dictionary<string, string> {
+                    new Dictionary<string, string>
+                    {
                             { "id", "100" },
                             { "include_entities", "true" },
                             { "include_ext_alt_text", "true" },
@@ -312,7 +319,8 @@ namespace OpenTween.Api
             mock.Setup(x =>
                 x.GetAsync<TwitterSearchResult>(
                     new Uri("search/tweets.json", UriKind.Relative),
-                    new Dictionary<string, string> {
+                    new Dictionary<string, string>
+                    {
                             { "q", "from:twitterapi" },
                             { "result_type", "recent" },
                             { "include_entities", "true" },
@@ -343,7 +351,8 @@ namespace OpenTween.Api
             mock.Setup(x =>
                 x.GetAsync<TwitterLists>(
                     new Uri("lists/ownerships.json", UriKind.Relative),
-                    new Dictionary<string, string> {
+                    new Dictionary<string, string>
+                    {
                             { "screen_name", "twitterapi" },
                             { "cursor", "-1" },
                             { "count", "100" },
@@ -368,7 +377,8 @@ namespace OpenTween.Api
             mock.Setup(x =>
                 x.GetAsync<TwitterLists>(
                     new Uri("lists/subscriptions.json", UriKind.Relative),
-                    new Dictionary<string, string> {
+                    new Dictionary<string, string>
+                    {
                             { "screen_name", "twitterapi" },
                             { "cursor", "-1" },
                             { "count", "100" },
@@ -393,7 +403,8 @@ namespace OpenTween.Api
             mock.Setup(x =>
                 x.GetAsync<TwitterLists>(
                     new Uri("lists/memberships.json", UriKind.Relative),
-                    new Dictionary<string, string> {
+                    new Dictionary<string, string>
+                    {
                             { "screen_name", "twitterapi" },
                             { "cursor", "-1" },
                             { "count", "100" },
@@ -419,7 +430,8 @@ namespace OpenTween.Api
             mock.Setup(x =>
                 x.PostLazyAsync<TwitterList>(
                     new Uri("lists/create.json", UriKind.Relative),
-                    new Dictionary<string, string> {
+                    new Dictionary<string, string>
+                    {
                             { "name", "hogehoge" },
                             { "description", "aaaa" },
                             { "mode", "private" },
@@ -444,7 +456,8 @@ namespace OpenTween.Api
             mock.Setup(x =>
                 x.PostLazyAsync<TwitterList>(
                     new Uri("lists/update.json", UriKind.Relative),
-                    new Dictionary<string, string> {
+                    new Dictionary<string, string>
+                    {
                             { "list_id", "12345" },
                             { "name", "hogehoge" },
                             { "description", "aaaa" },
@@ -470,7 +483,8 @@ namespace OpenTween.Api
             mock.Setup(x =>
                 x.PostLazyAsync<TwitterList>(
                     new Uri("lists/destroy.json", UriKind.Relative),
-                    new Dictionary<string, string> {
+                    new Dictionary<string, string>
+                    {
                             { "list_id", "12345" },
                     })
             )
@@ -493,7 +507,8 @@ namespace OpenTween.Api
             mock.Setup(x =>
                 x.GetAsync<TwitterStatus[]>(
                     new Uri("lists/statuses.json", UriKind.Relative),
-                    new Dictionary<string, string> {
+                    new Dictionary<string, string>
+                    {
                             { "list_id", "12345" },
                             { "include_entities", "true" },
                             { "include_ext_alt_text", "true" },
@@ -523,7 +538,8 @@ namespace OpenTween.Api
             mock.Setup(x =>
                 x.GetAsync<TwitterUsers>(
                     new Uri("lists/members.json", UriKind.Relative),
-                    new Dictionary<string, string> {
+                    new Dictionary<string, string>
+                    {
                             { "list_id", "12345" },
                             { "include_entities", "true" },
                             { "include_ext_alt_text", "true" },
@@ -550,7 +566,8 @@ namespace OpenTween.Api
             mock.Setup(x =>
                 x.GetAsync<TwitterUser>(
                     new Uri("lists/members/show.json", UriKind.Relative),
-                    new Dictionary<string, string> {
+                    new Dictionary<string, string>
+                    {
                             { "list_id", "12345" },
                             { "screen_name", "twitterapi" },
                             { "include_entities", "true" },
@@ -577,7 +594,8 @@ namespace OpenTween.Api
             mock.Setup(x =>
                 x.PostLazyAsync<TwitterUser>(
                     new Uri("lists/members/create.json", UriKind.Relative),
-                    new Dictionary<string, string> {
+                    new Dictionary<string, string>
+                    {
                             { "list_id", "12345" },
                             { "screen_name", "twitterapi" },
                             { "include_entities", "true" },
@@ -604,7 +622,8 @@ namespace OpenTween.Api
             mock.Setup(x =>
                 x.PostLazyAsync<TwitterUser>(
                     new Uri("lists/members/destroy.json", UriKind.Relative),
-                    new Dictionary<string, string> {
+                    new Dictionary<string, string>
+                    {
                             { "list_id", "12345" },
                             { "screen_name", "twitterapi" },
                             { "include_entities", "true" },
@@ -631,7 +650,8 @@ namespace OpenTween.Api
             mock.Setup(x =>
                 x.GetAsync<TwitterMessageEventList>(
                     new Uri("direct_messages/events/list.json", UriKind.Relative),
-                    new Dictionary<string, string> {
+                    new Dictionary<string, string>
+                    {
                             { "count", "50" },
                             { "cursor", "12345abcdefg" },
                     },
@@ -713,7 +733,8 @@ namespace OpenTween.Api
             mock.Setup(x =>
                 x.GetAsync<TwitterUser>(
                     new Uri("users/show.json", UriKind.Relative),
-                    new Dictionary<string, string> {
+                    new Dictionary<string, string>
+                    {
                             { "screen_name", "twitterapi" },
                             { "include_entities", "true" },
                             { "include_ext_alt_text", "true" },
@@ -739,7 +760,8 @@ namespace OpenTween.Api
             mock.Setup(x =>
                 x.GetAsync<TwitterUser[]>(
                     new Uri("users/lookup.json", UriKind.Relative),
-                    new Dictionary<string, string> {
+                    new Dictionary<string, string>
+                    {
                             { "user_id", "11111,22222" },
                             { "include_entities", "true" },
                             { "include_ext_alt_text", "true" },
@@ -765,7 +787,8 @@ namespace OpenTween.Api
             mock.Setup(x =>
                 x.PostLazyAsync<TwitterUser>(
                     new Uri("users/report_spam.json", UriKind.Relative),
-                    new Dictionary<string, string> {
+                    new Dictionary<string, string>
+                    {
                             { "screen_name", "twitterapi" },
                             { "tweet_mode", "extended" },
                     })
@@ -789,7 +812,8 @@ namespace OpenTween.Api
             mock.Setup(x =>
                 x.GetAsync<TwitterStatus[]>(
                     new Uri("favorites/list.json", UriKind.Relative),
-                    new Dictionary<string, string> {
+                    new Dictionary<string, string>
+                    {
                             { "include_entities", "true" },
                             { "include_ext_alt_text", "true" },
                             { "tweet_mode", "extended" },
@@ -817,7 +841,8 @@ namespace OpenTween.Api
             mock.Setup(x =>
                 x.PostLazyAsync<TwitterStatus>(
                     new Uri("favorites/create.json", UriKind.Relative),
-                    new Dictionary<string, string> {
+                    new Dictionary<string, string>
+                    {
                             { "id", "100" },
                             { "tweet_mode", "extended" },
                     })
@@ -841,7 +866,8 @@ namespace OpenTween.Api
             mock.Setup(x =>
                 x.PostLazyAsync<TwitterStatus>(
                     new Uri("favorites/destroy.json", UriKind.Relative),
-                    new Dictionary<string, string> {
+                    new Dictionary<string, string>
+                    {
                             { "id", "100" },
                             { "tweet_mode", "extended" },
                     })
@@ -1012,7 +1038,8 @@ namespace OpenTween.Api
             mock.Setup(x =>
                 x.PostLazyAsync<TwitterUser>(
                     new Uri("blocks/create.json", UriKind.Relative),
-                    new Dictionary<string, string> {
+                    new Dictionary<string, string>
+                    {
                             { "screen_name", "twitterapi" },
                             { "tweet_mode", "extended" },
                     })
@@ -1036,7 +1063,8 @@ namespace OpenTween.Api
             mock.Setup(x =>
                 x.PostLazyAsync<TwitterUser>(
                     new Uri("blocks/destroy.json", UriKind.Relative),
-                    new Dictionary<string, string> {
+                    new Dictionary<string, string>
+                    {
                             { "screen_name", "twitterapi" },
                             { "tweet_mode", "extended" },
                     })
@@ -1060,7 +1088,8 @@ namespace OpenTween.Api
             mock.Setup(x =>
                 x.GetAsync<TwitterUser>(
                     new Uri("account/verify_credentials.json", UriKind.Relative),
-                    new Dictionary<string, string> {
+                    new Dictionary<string, string>
+                    {
                             { "include_entities", "true" },
                             { "include_ext_alt_text", "true" },
                             { "tweet_mode", "extended" },
@@ -1092,7 +1121,8 @@ namespace OpenTween.Api
             mock.Setup(x =>
                 x.PostLazyAsync<TwitterUser>(
                     new Uri("account/update_profile.json", UriKind.Relative),
-                    new Dictionary<string, string> {
+                    new Dictionary<string, string>
+                    {
                             { "include_entities", "true" },
                             { "include_ext_alt_text", "true" },
                             { "tweet_mode", "extended" },
@@ -1123,7 +1153,8 @@ namespace OpenTween.Api
             mock.Setup(x =>
                 x.PostLazyAsync<TwitterUser>(
                     new Uri("account/update_profile_image.json", UriKind.Relative),
-                    new Dictionary<string, string> {
+                    new Dictionary<string, string>
+                    {
                             { "include_entities", "true" },
                             { "include_ext_alt_text", "true" },
                             { "tweet_mode", "extended" },
@@ -1191,7 +1222,8 @@ namespace OpenTween.Api
             mock.Setup(x =>
                 x.PostLazyAsync<TwitterUploadMediaInit>(
                     new Uri("https://upload.twitter.com/1.1/media/upload.json", UriKind.Absolute),
-                    new Dictionary<string, string> {
+                    new Dictionary<string, string>
+                    {
                             { "command", "INIT" },
                             { "total_bytes", "123456" },
                             { "media_type", "image/png" },
@@ -1219,7 +1251,8 @@ namespace OpenTween.Api
             mock.Setup(x =>
                 x.PostAsync(
                     new Uri("https://upload.twitter.com/1.1/media/upload.json", UriKind.Absolute),
-                    new Dictionary<string, string> {
+                    new Dictionary<string, string>
+                    {
                             { "command", "APPEND" },
                             { "media_id", "11111" },
                             { "segment_index", "1" },
@@ -1244,7 +1277,8 @@ namespace OpenTween.Api
             mock.Setup(x =>
                 x.PostLazyAsync<TwitterUploadMediaResult>(
                     new Uri("https://upload.twitter.com/1.1/media/upload.json", UriKind.Absolute),
-                    new Dictionary<string, string> {
+                    new Dictionary<string, string>
+                    {
                             { "command", "FINALIZE" },
                             { "media_id", "11111" },
                     })
@@ -1268,7 +1302,8 @@ namespace OpenTween.Api
             mock.Setup(x =>
                 x.GetAsync<TwitterUploadMediaResult>(
                     new Uri("https://upload.twitter.com/1.1/media/upload.json", UriKind.Absolute),
-                    new Dictionary<string, string> {
+                    new Dictionary<string, string>
+                    {
                             { "command", "STATUS" },
                             { "media_id", "11111" },
                     },
