@@ -81,7 +81,6 @@ namespace OpenTween
             SettingManager.LoadAll();
 
             InitCulture();
-
             {
                 // 同じ設定ファイルを使用する OpenTween プロセスの二重起動を防止する
                 var pt = MyCommon.SettingPath.Replace("\\", "/") + "/" + ApplicationSettings.AssemblyName;

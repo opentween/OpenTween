@@ -472,7 +472,6 @@ namespace OpenTween.Models
                         typeof(string).GetMethod("Equals", new[] { typeof(string), typeof(StringComparison) }),
                         targetValue,
                         Expression.Constant(compOpt));
-
                 }
                 else
                 {

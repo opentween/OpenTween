@@ -180,7 +180,6 @@ namespace OpenTween
         private static extern bool FlashWindowEx(
             ref FLASHWINFO FWInfo);
 
-
         private struct FLASHWINFO
         {
             public int cbSize;    // FLASHWINFO構造体のサイズ

@@ -107,7 +107,6 @@ namespace OpenTween.Models
             return rslt; // マーク付けは呼び出し元で行うこと
         }
 
-
         public PostFilterRule[] GetFilters()
         {
             lock (this.lockObjFilters)

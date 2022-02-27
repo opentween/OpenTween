@@ -175,7 +175,6 @@ namespace OpenTween
                 this.growlApp = this.connector.CreateInstance(
                     "Growl.Connector.Application", false, BindingFlags.Default, null, new object[] { this.AppName }, null, null);
 
-
                 if (File.Exists(Path.Combine(Application.StartupPath, "Icons\\Tween.png")))
                 {
                     // Icons\Tween.pngを使用
@@ -188,7 +187,6 @@ namespace OpenTween
                     var data = ci.Invoke(new object[] { Path.Combine(Application.StartupPath, "Icons\\Tween.png") });
                     var pi = this.growlApp.GetType().GetProperty("Icon");
                     pi.SetValue(this.growlApp, data, null);
-
                 }
                 else if (File.Exists(Path.Combine(Application.StartupPath, "Icons\\MIcon.ico")))
                 {

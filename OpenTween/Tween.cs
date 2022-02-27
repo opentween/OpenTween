@@ -1480,7 +1480,6 @@ namespace OpenTween
             if (!this.StatusLabelUrl.Text.StartsWith("http", StringComparison.Ordinal)) this.SetStatusLabelUrl();
 
             this.HashSupl.AddRangeItem(this.tw.GetHashList());
-
         }
 
         internal struct ListViewScroll
@@ -1806,7 +1805,6 @@ namespace OpenTween
                                     break;
                             }
                             sb.Append(post.TextFromApi);
-
                         }
 
                         var title = new StringBuilder();
@@ -2926,7 +2924,6 @@ namespace OpenTween
         private async void FavRemoveToolStripMenuItem_Click(object sender, EventArgs e)
             => await this.FavoriteChange(false);
 
-
         private async void FavoriteRetweetMenuItem_Click(object sender, EventArgs e)
             => await this.FavoritesRetweetOfficial();
 
@@ -3854,14 +3851,12 @@ namespace OpenTween
             await this.AddNewTabForUserTimeline(post.ScreenName);
         }
 
-
         private async Task ShowRetweeterTimeline()
         {
             var retweetedBy = this.CurrentPost?.RetweetedBy;
             if (retweetedBy == null || !this.ExistCurrentPost) return;
             await this.AddNewTabForUserTimeline(retweetedBy);
         }
-
 
         private void SearchComboBox_KeyDown(object sender, KeyEventArgs e)
         {
@@ -8048,7 +8043,6 @@ namespace OpenTween
                         {
                             if ((keyData & Keys.Control) == Keys.Control) post = true;
                         }
-
                     }
                     else if (SettingManager.Common.PostShiftEnter) // SHift+Enter投稿時
                     {
@@ -8062,7 +8056,6 @@ namespace OpenTween
                         {
                             if ((keyData & Keys.Shift) == Keys.Shift) post = true;
                         }
-
                     }
                     else // Enter投稿時
                     {

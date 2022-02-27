@@ -474,7 +474,6 @@ namespace OpenTween.Models
                     (this.RetweetedId == other.RetweetedId) &&
                     (this.IsDeleted == other.IsDeleted) &&
                     (this.InReplyToUserId == other.InReplyToUserId);
-
         }
 
         public override int GetHashCode()

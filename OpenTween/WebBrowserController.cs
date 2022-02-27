@@ -118,7 +118,6 @@ namespace OpenTween
         public static int URLPOLICY_AUTHENTICATE_CHALLENGE_RESPONSE = 0x10000;
         public static int URLPOLICY_AUTHENTICATE_MUTUAL_ONLY = 0x30000;
 
-
         public static int URLACTION_COOKIES = 0x1A02;
         public static int URLACTION_COOKIES_SESSION = 0x1A03;
 
@@ -132,7 +131,6 @@ namespace OpenTween
         public static int URLACTION_NETWORK_CURR_MAX = 0x1A10;
         public static int URLACTION_NETWORK_MAX = 0x1BFF;
 
-
         public static int URLACTION_JAVA_MIN = 0x1C00;
         public static int URLACTION_JAVA_PERMISSIONS = 0x1C00;
         public static int URLPOLICY_JAVA_PROHIBIT = 0x0;
@@ -142,7 +140,6 @@ namespace OpenTween
         public static int URLPOLICY_JAVA_CUSTOM = 0x800000;
         public static int URLACTION_JAVA_CURR_MAX = 0x1C00;
         public static int URLACTION_JAVA_MAX = 0x1CFF;
-
 
         // The following Infodelivery actions should have no default policies
         // in the registry.  They assume that no default policy means fall
@@ -190,9 +187,7 @@ namespace OpenTween
 
         public static int URLPOLICY_MASK_PERMISSIONS = 0xF;
 
-
         public static int URLPOLICY_DONTCHECKDLGBOX = 0x100;
-
 
         // ----------------------------------------------------------------------
         // ここ以下は COM Interface の宣言です。
@@ -326,7 +321,6 @@ namespace OpenTween
                 return;
             }
 
-
             this.profferService = (WebBrowserAPI.IProfferService)Marshal.GetObjectForIUnknown(this.profferServicePtr);
 
             // IProfferService.ProfferService() を使って
@@ -353,7 +347,6 @@ namespace OpenTween
             ref Guid riid,
             out IntPtr ppvObject)
         {
-
             ppvObject = IntPtr.Zero;
             if (guidService.CompareTo(
                 WebBrowserAPI.IID_IInternetSecurityManager) == 0)

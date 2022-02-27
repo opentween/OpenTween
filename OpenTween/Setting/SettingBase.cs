@@ -162,7 +162,6 @@ namespace OpenTween
                 // リトライ
                 retryCount++;
                 Thread.Sleep(1000);
-
             }
             while (retryCount <= SaveRetryMax);
 
