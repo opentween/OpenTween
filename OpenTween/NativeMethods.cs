@@ -44,14 +44,14 @@ namespace OpenTween
     {
         // 指定されたウィンドウへ、指定されたメッセージを送信します
         [DllImport("user32.dll")]
-        private extern static IntPtr SendMessage(
+        private static extern IntPtr SendMessage(
             IntPtr hwnd,
             SendMessageType wMsg,
             IntPtr wParam,
             IntPtr lParam);
 
         [DllImport("user32.dll")]
-        private extern static IntPtr SendMessage(
+        private static extern IntPtr SendMessage(
             IntPtr hwnd,
             SendMessageType wMsg,
             IntPtr wParam,

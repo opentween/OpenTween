@@ -38,7 +38,7 @@ using System.Threading;
 
 namespace OpenTween
 {
-    abstract public class SettingBase<T>
+    public abstract class SettingBase<T>
         where T : class, new()
     {
         /// <summary>

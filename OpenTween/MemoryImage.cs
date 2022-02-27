@@ -279,7 +279,7 @@ namespace OpenTween
         /// <param name="stream">読み込む対象となる Stream</param>
         /// <returns>作成された MemoryImage を返すタスク</returns>
         /// <exception cref="InvalidImageException">不正な画像データが入力された場合</exception>
-        public async static Task<MemoryImage> CopyFromStreamAsync(Stream stream)
+        public static async Task<MemoryImage> CopyFromStreamAsync(Stream stream)
         {
             MemoryStream? memstream = null;
             try
