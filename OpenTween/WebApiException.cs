@@ -38,8 +38,10 @@ namespace OpenTween
         public string? ResponseText { get; } = null;
 
         public WebApiException() { }
-        public WebApiException(string message) : base(message) { }
-        public WebApiException(string message, Exception innerException) : base(message, innerException) { }
+        public WebApiException(string message)
+            : base(message) { }
+        public WebApiException(string message, Exception innerException)
+            : base(message, innerException) { }
 
         public WebApiException(string message, string responseText)
             : this(message)

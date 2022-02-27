@@ -63,7 +63,8 @@ namespace OpenTween.OpenTweenCustomControl
                 this.Detail = detail;
             }
 
-            public LogEntry(DateTimeUtc timestamp, string summary) : this(LogLevel.Debug, timestamp, summary, summary)
+            public LogEntry(DateTimeUtc timestamp, string summary)
+                : this(LogLevel.Debug, timestamp, summary, summary)
             {
             }
 

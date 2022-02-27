@@ -34,11 +34,13 @@ namespace OpenTween.Models
         public override MyCommon.TabUsageType TabType
             => MyCommon.TabUsageType.Mute;
 
-        public MuteTabModel() : this(MyCommon.DEFAULTTAB.MUTE)
+        public MuteTabModel()
+            : this(MyCommon.DEFAULTTAB.MUTE)
         {
         }
 
-        public MuteTabModel(string tabName) : base(tabName)
+        public MuteTabModel(string tabName)
+            : base(tabName)
         {
         }
 

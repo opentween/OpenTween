@@ -235,8 +235,11 @@ namespace OpenTween
     public class ApiKeyDecryptException : Exception
     {
         public ApiKeyDecryptException() { }
-        public ApiKeyDecryptException(string message) : base(message) { }
-        public ApiKeyDecryptException(string message, Exception innerException) : base(message, innerException) { }
-        protected ApiKeyDecryptException(SerializationInfo info, StreamingContext context) : base(info, context) { }
+        public ApiKeyDecryptException(string message)
+            : base(message) { }
+        public ApiKeyDecryptException(string message, Exception innerException)
+            : base(message, innerException) { }
+        protected ApiKeyDecryptException(SerializationInfo info, StreamingContext context)
+            : base(info, context) { }
     }
 }

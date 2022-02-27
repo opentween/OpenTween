@@ -41,11 +41,13 @@ namespace OpenTween.Models
         public override MyCommon.TabUsageType TabType
             => MyCommon.TabUsageType.Favorites;
 
-        public FavoritesTabModel() : this(MyCommon.DEFAULTTAB.FAV)
+        public FavoritesTabModel()
+            : this(MyCommon.DEFAULTTAB.FAV)
         {
         }
 
-        public FavoritesTabModel(string tabName) : base(tabName)
+        public FavoritesTabModel(string tabName)
+            : base(tabName)
         {
         }
 

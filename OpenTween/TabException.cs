@@ -36,8 +36,11 @@ namespace OpenTween
     public class TabException : Exception
     {
         public TabException() { }
-        public TabException(string message) : base(message) { }
-        public TabException(string message, Exception innerException) : base(message, innerException) { }
-        protected TabException(SerializationInfo info, StreamingContext context) : base(info, context) { }
+        public TabException(string message)
+            : base(message) { }
+        public TabException(string message, Exception innerException)
+            : base(message, innerException) { }
+        protected TabException(SerializationInfo info, StreamingContext context)
+            : base(info, context) { }
     }
 }

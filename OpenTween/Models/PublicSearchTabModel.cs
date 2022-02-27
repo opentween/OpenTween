@@ -64,7 +64,8 @@ namespace OpenTween.Models
         private string _searchWords = "";
         private string _searchLang = "";
 
-        public PublicSearchTabModel(string tabName) : base(tabName)
+        public PublicSearchTabModel(string tabName)
+            : base(tabName)
         {
         }
 

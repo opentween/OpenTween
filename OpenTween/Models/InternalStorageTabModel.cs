@@ -43,7 +43,8 @@ namespace OpenTween.Models
         public override ConcurrentDictionary<long, PostClass> Posts
             => this.internalPosts;
 
-        protected InternalStorageTabModel(string tabName) : base(tabName)
+        protected InternalStorageTabModel(string tabName)
+            : base(tabName)
         {
         }
 
