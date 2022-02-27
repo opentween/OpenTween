@@ -130,8 +130,16 @@ namespace OpenTween.Connection
                 .Select(x => x.Split(new[] { '=' }, 2))
                 .ToDictionary(x => x[0], x => x[1].Substring(1, x[1].Length - 2)); // x[1] は前後の「"」を除去する
 
-            var expectAuthzParamKeys = new[] { "realm", "oauth_consumer_key", "oauth_nonce", "oauth_signature_method",
-                "oauth_timestamp", "oauth_token", "oauth_version", "oauth_signature" };
+            var expectAuthzParamKeys = new[] {
+                "realm",
+                "oauth_consumer_key",
+                "oauth_nonce",
+                "oauth_signature_method",
+                "oauth_timestamp",
+                "oauth_token",
+                "oauth_version",
+                "oauth_signature",
+            };
             Assert.Equal(expectAuthzParamKeys, parsedParams.Keys, AnyOrderComparer<string>.Instance);
 
             Assert.Equal("Realm", parsedParams["realm"]);

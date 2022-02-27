@@ -679,7 +679,7 @@ namespace OpenTween
                             SettingManager.Local.DisplayIndex1, SettingManager.Local.DisplayIndex2,
                             SettingManager.Local.DisplayIndex3, SettingManager.Local.DisplayIndex4,
                             SettingManager.Local.DisplayIndex5, SettingManager.Local.DisplayIndex6,
-                            SettingManager.Local.DisplayIndex7, SettingManager.Local.DisplayIndex8
+                            SettingManager.Local.DisplayIndex7, SettingManager.Local.DisplayIndex8,
                         };
 
                         foreach (var i in Enumerable.Range(0, displayIndex.Length))
@@ -4762,7 +4762,8 @@ namespace OpenTween
                                  post.ScreenName,
                                  "",
                                  mk.ToString(),
-                                 post.Source };
+                                 post.Source,
+                };
                 itm = new ImageListViewItem(sitem, this.iconCache, post.ImageUrl);
             }
             else
@@ -4774,7 +4775,8 @@ namespace OpenTween
                                   post.ScreenName + Environment.NewLine + "(RT:" + post.RetweetedBy + ")",
                                   "",
                                   mk.ToString(),
-                                  post.Source };
+                                  post.Source,
+                };
                 itm = new ImageListViewItem(sitem, this.iconCache, post.ImageUrl);
             }
             itm.StateIndex = post.StateIndex;
