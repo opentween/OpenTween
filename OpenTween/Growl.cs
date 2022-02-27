@@ -358,8 +358,8 @@ namespace OpenTween
                 // 定数取得
                 var vCLICK =
                 this._core!.GetType("Growl.CoreLibrary.CallbackResult").GetField(
-                            "CLICK",
-                           BindingFlags.Public | BindingFlags.Static).GetRawConstantValue();
+                    "CLICK",
+                    BindingFlags.Public | BindingFlags.Static).GetRawConstantValue();
                 // 実際の値
                 var vResult = callbackData.GetType().GetProperty(
                             "Result",

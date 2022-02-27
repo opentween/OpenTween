@@ -338,8 +338,8 @@ namespace OpenTween.Connection
                 var boundary = x.Content.Headers.ContentType.Parameters.Cast<NameValueHeaderValue>()
                     .First(y => y.Name == "boundary").Value;
 
-                    // 前後のダブルクオーテーションを除去
-                    boundary = boundary.Substring(1, boundary.Length - 2);
+                // 前後のダブルクオーテーションを除去
+                boundary = boundary.Substring(1, boundary.Length - 2);
 
                 var expectedText =
                     $"--{boundary}\r\n" +
@@ -406,8 +406,8 @@ namespace OpenTween.Connection
                 var boundary = x.Content.Headers.ContentType.Parameters.Cast<NameValueHeaderValue>()
                     .First(y => y.Name == "boundary").Value;
 
-                    // 前後のダブルクオーテーションを除去
-                    boundary = boundary.Substring(1, boundary.Length - 2);
+                // 前後のダブルクオーテーションを除去
+                boundary = boundary.Substring(1, boundary.Length - 2);
 
                 var expectedText =
                     $"--{boundary}\r\n" +
