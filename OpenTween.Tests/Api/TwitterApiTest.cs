@@ -217,9 +217,14 @@ namespace OpenTween.Api
             using var twitterApi = new TwitterApi(ApiKey.Create("fake_consumer_key"), ApiKey.Create("fake_consumer_secret"));
             twitterApi.apiConnection = mock.Object;
 
-            await twitterApi.StatusesUpdate("hogehoge", replyToId: 100L, mediaIds: new[] { 10L, 20L },
-                    autoPopulateReplyMetadata: true, excludeReplyUserIds: new[] { 100L, 200L },
-                    attachmentUrl: "https://twitter.com/twitterapi/status/22634515958")
+            await twitterApi.StatusesUpdate(
+                    "hogehoge",
+                    replyToId: 100L,
+                    mediaIds: new[] { 10L, 20L },
+                    autoPopulateReplyMetadata: true,
+                    excludeReplyUserIds: new[] { 100L, 200L },
+                    attachmentUrl: "https://twitter.com/twitterapi/status/22634515958"
+                )
                 .IgnoreResponse()
                 .ConfigureAwait(false);
 

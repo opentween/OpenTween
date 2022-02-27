@@ -61,25 +61,28 @@ namespace OpenTween.Thumbnail.Services
                     TooltipText = null,
                     FullSizeImageUrl = largeUrl,
                 };
-            }, token);
+            },
+            token);
         }
 
         public class Thumbnail : ThumbnailInfo
         {
             public override Task<MemoryImage> LoadThumbnailImageAsync(HttpClient http, CancellationToken cancellationToken)
             {
-                return Task.Run(async () =>
-                {
-                    var apiConnection = TonTwitterCom.GetApiConnection!();
+                return Task.Run(
+                    async () =>
+                    {
+                        var apiConnection = TonTwitterCom.GetApiConnection!();
 
-                    using var imageStream = await apiConnection.GetStreamAsync(new Uri(this.ThumbnailImageUrl), null)
-                        .ConfigureAwait(false);
+                        using var imageStream = await apiConnection.GetStreamAsync(new Uri(this.ThumbnailImageUrl), null)
+                            .ConfigureAwait(false);
 
-                    cancellationToken.ThrowIfCancellationRequested();
+                        cancellationToken.ThrowIfCancellationRequested();
 
-                    return await MemoryImage.CopyFromStreamAsync(imageStream)
-                        .ConfigureAwait(false);
-                }, cancellationToken);
+                        return await MemoryImage.CopyFromStreamAsync(imageStream)
+                            .ConfigureAwait(false);
+                    },
+                    cancellationToken);
             }
         }
     }

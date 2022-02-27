@@ -320,8 +320,10 @@ namespace OpenTween.Models
                 if (this.SourceUri == null)
                     return WebUtility.HtmlEncode(this.Source);
 
-                return string.Format("<a href=\"{0}\" rel=\"nofollow\">{1}</a>",
-                    WebUtility.HtmlEncode(this.SourceUri.AbsoluteUri), WebUtility.HtmlEncode(this.Source));
+                return string.Format(
+                    "<a href=\"{0}\" rel=\"nofollow\">{1}</a>",
+                    WebUtility.HtmlEncode(this.SourceUri.AbsoluteUri),
+                    WebUtility.HtmlEncode(this.Source));
             }
         }
 

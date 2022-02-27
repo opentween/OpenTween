@@ -243,8 +243,7 @@ namespace OpenTween
 
         #region "グローバルフック"
         [DllImport("user32")]
-        private static extern int RegisterHotKey(IntPtr hwnd, int id,
-            int fsModifiers, int vk);
+        private static extern int RegisterHotKey(IntPtr hwnd, int id, int fsModifiers, int vk);
         [DllImport("user32")]
         private static extern int UnregisterHotKey(IntPtr hwnd, int id);
         [DllImport("kernel32", CharSet = CharSet.Auto, BestFitMapping = false, ThrowOnUnmappableChar = true)]
@@ -465,29 +464,31 @@ namespace OpenTween
         {
             var foundHwnd = IntPtr.Zero;
 
-            EnumWindows((hWnd, lParam) =>
-            {
-                GetWindowThreadProcessId(hWnd, out var procId);
-
-                if (procId == pid)
+            EnumWindows(
+                (hWnd, lParam) =>
                 {
-                    var windowTitleLen = GetWindowTextLength(hWnd);
+                    GetWindowThreadProcessId(hWnd, out var procId);
 
-                    if (windowTitleLen > 0)
+                    if (procId == pid)
                     {
-                        var windowTitle = new StringBuilder(windowTitleLen + 1);
-                        GetWindowText(hWnd, windowTitle, windowTitle.Capacity);
+                        var windowTitleLen = GetWindowTextLength(hWnd);
 
-                        if (windowTitle.ToString().Contains(searchWindowTitle))
+                        if (windowTitleLen > 0)
                         {
-                            foundHwnd = hWnd;
-                            return false;
+                            var windowTitle = new StringBuilder(windowTitleLen + 1);
+                            GetWindowText(hWnd, windowTitle, windowTitle.Capacity);
+
+                            if (windowTitle.ToString().Contains(searchWindowTitle))
+                            {
+                                foundHwnd = hWnd;
+                                return false;
+                            }
                         }
                     }
-                }
 
-                return true;
-            }, IntPtr.Zero);
+                    return true;
+                },
+                IntPtr.Zero);
 
             return foundHwnd;
         }

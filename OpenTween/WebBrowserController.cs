@@ -309,7 +309,8 @@ namespace OpenTween
             {
                 this.ocxServiceProvider.QueryService(
                     ref WebBrowserAPI.SID_SProfferService,
-                    ref WebBrowserAPI.IID_IProfferService, out this.profferServicePtr);
+                    ref WebBrowserAPI.IID_IProfferService,
+                    out this.profferServicePtr);
             }
             catch (SEHException ex)
             {
@@ -344,8 +345,10 @@ namespace OpenTween
             }
         }
 
-        int WebBrowserAPI.IServiceProvider.QueryService(ref Guid guidService,
-            ref Guid riid, out IntPtr ppvObject)
+        int WebBrowserAPI.IServiceProvider.QueryService(
+            ref Guid guidService,
+            ref Guid riid,
+            out IntPtr ppvObject)
         {
 
             ppvObject = IntPtr.Zero;

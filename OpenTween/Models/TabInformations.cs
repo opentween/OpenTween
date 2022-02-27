@@ -326,8 +326,11 @@ namespace OpenTween.Models
         public int SubmitUpdate()
             => this.SubmitUpdate(out _, out _, out _, out _);
 
-        public int SubmitUpdate(out string soundFile, out PostClass[] notifyPosts,
-            out bool newMentionOrDm, out bool isDeletePost)
+        public int SubmitUpdate(
+            out string soundFile,
+            out PostClass[] notifyPosts,
+            out bool newMentionOrDm,
+            out bool isDeletePost)
         {
             // 注：メインスレッドから呼ぶこと
             lock (this.LockObj)

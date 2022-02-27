@@ -216,7 +216,8 @@ namespace OpenTween.Thumbnail.Services
                 }
 
                 return null;
-            }, token);
+            },
+            token);
         }
 
         public virtual void Dispose()

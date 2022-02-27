@@ -224,8 +224,11 @@ namespace OpenTween
 
                     authUserCombo.SelectedIndex = idx;
 
-                    MessageBox.Show(this, Properties.Resources.AuthorizeButton_Click1,
-                        "Authenticate", MessageBoxButtons.OK);
+                    MessageBox.Show(
+                        this,
+                        Properties.Resources.AuthorizeButton_Click1,
+                        "Authenticate",
+                        MessageBoxButtons.OK);
                 }
                 catch (WebApiException ex)
                 {

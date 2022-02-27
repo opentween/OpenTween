@@ -113,8 +113,12 @@ namespace OpenTween.Connection
                 ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
         }
 
-        public static void SetWebProxy(ProxyType proxyType, string proxyAddress, int proxyPort,
-            string proxyUser, string proxyPassword)
+        public static void SetWebProxy(
+            ProxyType proxyType,
+            string proxyAddress,
+            int proxyPort,
+            string proxyUser,
+            string proxyPassword)
         {
             IWebProxy? proxy;
             switch (proxyType)

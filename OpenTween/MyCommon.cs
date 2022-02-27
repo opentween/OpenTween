@@ -492,13 +492,11 @@ namespace OpenTween
 
             if (idx_to < idx_fr)
             {
-                Array.Copy(values, idx_to, values,
-                    idx_to + 1, num_moved);
+                Array.Copy(values, idx_to, values, idx_to + 1, num_moved);
             }
             else
             {
-                Array.Copy(values, idx_fr + 1, values,
-                    idx_fr, num_moved);
+                Array.Copy(values, idx_fr + 1, values, idx_fr, num_moved);
             }
 
             values[idx_to] = moved_value;

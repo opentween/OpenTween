@@ -372,9 +372,12 @@ namespace OpenTween
 
         private async void ButtonUnFollow_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show(this._displayUser.ScreenName + Properties.Resources.ButtonUnFollow_ClickText1,
-                               Properties.Resources.ButtonUnFollow_ClickText2,
-                               MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2) == DialogResult.Yes)
+            if (MessageBox.Show(
+                this._displayUser.ScreenName + Properties.Resources.ButtonUnFollow_ClickText1,
+                Properties.Resources.ButtonUnFollow_ClickText2,
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Warning,
+                MessageBoxDefaultButton.Button2) == DialogResult.Yes)
             {
                 using (ControlTransaction.Disabled(this.ButtonUnFollow))
                 {
@@ -616,9 +619,12 @@ namespace OpenTween
 
         private async void ButtonBlock_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show(this._displayUser.ScreenName + Properties.Resources.ButtonBlock_ClickText1,
-                                Properties.Resources.ButtonBlock_ClickText2,
-                                MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2) == DialogResult.Yes)
+            if (MessageBox.Show(
+                this._displayUser.ScreenName + Properties.Resources.ButtonBlock_ClickText1,
+                Properties.Resources.ButtonBlock_ClickText2,
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Warning,
+                MessageBoxDefaultButton.Button2) == DialogResult.Yes)
             {
                 using (ControlTransaction.Disabled(this.ButtonBlock))
                 {
@@ -640,9 +646,12 @@ namespace OpenTween
 
         private async void ButtonReportSpam_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show(this._displayUser.ScreenName + Properties.Resources.ButtonReportSpam_ClickText1,
-                                Properties.Resources.ButtonReportSpam_ClickText2,
-                                MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2) == DialogResult.Yes)
+            if (MessageBox.Show(
+                this._displayUser.ScreenName + Properties.Resources.ButtonReportSpam_ClickText1,
+                Properties.Resources.ButtonReportSpam_ClickText2,
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Warning,
+                MessageBoxDefaultButton.Button2) == DialogResult.Yes)
             {
                 using (ControlTransaction.Disabled(this.ButtonReportSpam))
                 {
@@ -664,9 +673,12 @@ namespace OpenTween
 
         private async void ButtonBlockDestroy_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show(this._displayUser.ScreenName + Properties.Resources.ButtonBlockDestroy_ClickText1,
-                                Properties.Resources.ButtonBlockDestroy_ClickText2,
-                                MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2) == DialogResult.Yes)
+            if (MessageBox.Show(
+                this._displayUser.ScreenName + Properties.Resources.ButtonBlockDestroy_ClickText1,
+                Properties.Resources.ButtonBlockDestroy_ClickText2,
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Warning,
+                MessageBoxDefaultButton.Button2) == DialogResult.Yes)
             {
                 using (ControlTransaction.Disabled(this.ButtonBlockDestroy))
                 {
@@ -722,8 +734,12 @@ namespace OpenTween
             if (e.Data.GetDataPresent(DataFormats.FileDrop) &&
                 !e.Data.GetDataPresent(DataFormats.Html, false)) // WebBrowserコントロールからの絵文字画像D&Dは弾く
             {
-                var ret = MessageBox.Show(this, Properties.Resources.ChangeIconToolStripMenuItem_Confirm,
-                    ApplicationSettings.ApplicationName, MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+                var ret = MessageBox.Show(
+                    this,
+                    Properties.Resources.ChangeIconToolStripMenuItem_Confirm,
+                    ApplicationSettings.ApplicationName,
+                    MessageBoxButtons.OKCancel,
+                    MessageBoxIcon.Question);
                 if (ret != DialogResult.OK)
                     return;
 

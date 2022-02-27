@@ -73,7 +73,8 @@ namespace OpenTween.Thumbnail.Services
                     TooltipText = null,
                     FullSizeImageUrl = this.ReplaceUrl(url, this.fullsize_replacement)
                 };
-            }, token);
+            },
+            token);
         }
 
         protected string? ReplaceUrl(string url)

@@ -101,7 +101,8 @@ namespace OpenTween
                 {
                     tcs.SetException(ex);
                 }
-            }, null);
+            },
+            null);
 
             return tcs.Task;
         }

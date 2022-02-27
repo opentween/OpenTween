@@ -60,7 +60,8 @@ namespace OpenTween.Thumbnail.Services
                     TooltipText = null,
                     IsPlayable = true,
                 };
-            }, token);
+            },
+            token);
         }
     }
 }

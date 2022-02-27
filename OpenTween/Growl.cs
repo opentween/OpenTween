@@ -144,14 +144,28 @@ namespace OpenTween
                 this._targetConnector = this._connector.CreateInstance("Growl.Connector.GrowlConnector");
                 var _t = this._connector.GetType("Growl.Connector.NotificationType");
 
-                this._growlNTreply = _t.InvokeMember(null,
-                    BindingFlags.CreateInstance, null, null, new object[] { "REPLY", "Reply" }, CultureInfo.InvariantCulture);
+                this._growlNTreply = _t.InvokeMember(
+                    null,
+                    BindingFlags.CreateInstance,
+                    null,
+                    null,
+                    new object[] { "REPLY", "Reply" },
+                    CultureInfo.InvariantCulture);
 
                 this._growlNTdm = _t.InvokeMember(null,
-                    BindingFlags.CreateInstance, null, null, new object[] { "DIRECT_MESSAGE", "DirectMessage" }, CultureInfo.InvariantCulture);
+                    BindingFlags.CreateInstance,
+                    null,
+                    null,
+                    new object[] { "DIRECT_MESSAGE", "DirectMessage" },
+                    CultureInfo.InvariantCulture);
 
-                this._growlNTnew = _t.InvokeMember(null,
-                    BindingFlags.CreateInstance, null, null, new object[] { "NOTIFY", "新着通知" }, CultureInfo.InvariantCulture);
+                this._growlNTnew = _t.InvokeMember(
+                    null,
+                    BindingFlags.CreateInstance,
+                    null,
+                    null,
+                    new object[] { "NOTIFY", "新着通知" },
+                    CultureInfo.InvariantCulture);
 
                 var encryptType =
                         this._connector.GetType("Growl.Connector.Cryptography+SymmetricAlgorithmType").InvokeMember(
@@ -165,10 +179,11 @@ namespace OpenTween
                 if (File.Exists(Path.Combine(Application.StartupPath, "Icons\\Tween.png")))
                 {
                     // Icons\Tween.pngを使用
-                    var ci = this._core.GetType(
-                        "Growl.CoreLibrary.Resource").GetConstructor(
+                    var ci = this._core.GetType("Growl.CoreLibrary.Resource").GetConstructor(
                         BindingFlags.NonPublic | BindingFlags.Instance,
-                        null, new Type[] { typeof(string) }, null);
+                        null,
+                        new Type[] { typeof(string) },
+                        null);
 
                     var data = ci.Invoke(new object[] { Path.Combine(Application.StartupPath, "Icons\\Tween.png") });
                     var pi = this._growlApp.GetType().GetProperty("Icon");
@@ -178,17 +193,19 @@ namespace OpenTween
                 else if (File.Exists(Path.Combine(Application.StartupPath, "Icons\\MIcon.ico")))
                 {
                     // アイコンセットにMIcon.icoが存在する場合それを使用
-                    var cibd = this._core.GetType(
-                        "Growl.CoreLibrary.BinaryData").GetConstructor(
+                    var cibd = this._core.GetType("Growl.CoreLibrary.BinaryData").GetConstructor(
                         BindingFlags.Public | BindingFlags.Instance,
-                        null, new Type[] { typeof(byte[]) }, null);
+                        null,
+                        new Type[] { typeof(byte[]) },
+                        null);
                     var bdata = cibd.Invoke(
                         new object[] { this.IconToByteArray(Path.Combine(Application.StartupPath, "Icons\\MIcon.ico")) });
 
-                    var ciRes = this._core.GetType(
-                        "Growl.CoreLibrary.Resource").GetConstructor(
+                    var ciRes = this._core.GetType("Growl.CoreLibrary.Resource").GetConstructor(
                         BindingFlags.NonPublic | BindingFlags.Instance,
-                        null, new Type[] { bdata.GetType() }, null);
+                        null,
+                        new Type[] { bdata.GetType() },
+                        null);
 
                     var data = ciRes.Invoke(new object[] { bdata });
                     var pi = this._growlApp.GetType().GetProperty("Icon");
@@ -197,17 +214,19 @@ namespace OpenTween
                 else
                 {
                     // 内蔵アイコンリソースを使用
-                    var cibd = this._core.GetType(
-                        "Growl.CoreLibrary.BinaryData").GetConstructor(
+                    var cibd = this._core.GetType("Growl.CoreLibrary.BinaryData").GetConstructor(
                         BindingFlags.Public | BindingFlags.Instance,
-                        null, new Type[] { typeof(byte[]) }, null);
+                        null,
+                        new Type[] { typeof(byte[]) },
+                        null);
                     var bdata = cibd.Invoke(
                         new object[] { this.IconToByteArray(Properties.Resources.MIcon) });
 
-                    var ciRes = this._core.GetType(
-                        "Growl.CoreLibrary.Resource").GetConstructor(
+                    var ciRes = this._core.GetType("Growl.CoreLibrary.Resource").GetConstructor(
                         BindingFlags.NonPublic | BindingFlags.Instance,
-                        null, new Type[] { bdata.GetType() }, null);
+                        null,
+                        new Type[] { bdata.GetType() },
+                        null);
 
                     var data = ciRes.Invoke(new object[] { bdata });
                     var pi = this._growlApp.GetType().GetProperty("Icon");
@@ -323,7 +342,10 @@ namespace OpenTween
                         CultureInfo.InvariantCulture);
             }
             var cc = this._connector.GetType("Growl.Connector.CallbackContext").InvokeMember(
-                null, BindingFlags.CreateInstance, null, this._connector,
+                null,
+                BindingFlags.CreateInstance,
+                null,
+                this._connector,
                 new object[] { "some fake information", notificationName },
                 CultureInfo.InvariantCulture);
             this._targetConnector!.GetType().InvokeMember("Notify", BindingFlags.InvokeMethod, null, this._targetConnector, new object[] { n, cc }, CultureInfo.InvariantCulture);

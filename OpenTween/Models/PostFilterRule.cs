@@ -257,13 +257,27 @@ namespace OpenTween.Models
 
             var matchExpr = this.MakeFiltersExpr(
                 postParam,
-                this.FilterName, this.FilterBody, this.FilterSource, this.FilterRt,
-                this.UseRegex, this.CaseSensitive, this.UseNameField, this.UseLambda, this.FilterByUrl);
+                this.FilterName,
+                this.FilterBody,
+                this.FilterSource,
+                this.FilterRt,
+                this.UseRegex,
+                this.CaseSensitive,
+                this.UseNameField,
+                this.UseLambda,
+                this.FilterByUrl);
 
             var excludeExpr = this.MakeFiltersExpr(
                 postParam,
-                this.ExFilterName, this.ExFilterBody, this.ExFilterSource, this.ExFilterRt,
-                this.ExUseRegex, this.ExCaseSensitive, this.ExUseNameField, this.ExUseLambda, this.ExFilterByUrl);
+                this.ExFilterName,
+                this.ExFilterBody,
+                this.ExFilterSource,
+                this.ExFilterRt,
+                this.ExUseRegex,
+                this.ExCaseSensitive,
+                this.ExUseNameField,
+                this.ExUseLambda,
+                this.ExFilterByUrl);
 
             Expression<Func<PostClass, MyCommon.HITRESULT>> filterExpr;
 
@@ -326,8 +340,15 @@ namespace OpenTween.Models
 
         protected virtual Expression? MakeFiltersExpr(
             ParameterExpression postParam,
-            string? filterName, string[] filterBody, string? filterSource, bool filterRt,
-            bool useRegex, bool caseSensitive, bool useNameField, bool useLambda, bool filterByUrl)
+            string? filterName,
+            string[] filterBody,
+            string? filterSource,
+            bool filterRt,
+            bool useRegex,
+            bool caseSensitive,
+            bool useNameField,
+            bool useLambda,
+            bool filterByUrl)
         {
             var filterExprs = new List<Expression>();
 
@@ -413,8 +434,12 @@ namespace OpenTween.Models
         }
 
         protected Expression MakeGenericFilter(
-            ParameterExpression postParam, string targetFieldName, string pattern,
-            bool useRegex, bool caseSensitive, bool exactMatch = false)
+            ParameterExpression postParam,
+            string targetFieldName,
+            string pattern,
+            bool useRegex,
+            bool caseSensitive,
+            bool exactMatch = false)
         {
             // x.<targetFieldName>
             var targetField = Expression.Property(

@@ -899,9 +899,12 @@ namespace OpenTween
             // Twitter用通信クラス初期化
             Networking.DefaultTimeout = TimeSpan.FromSeconds(SettingManager.Common.DefaultTimeOut);
             Networking.UploadImageTimeout = TimeSpan.FromSeconds(SettingManager.Common.UploadImageTimeout);
-            Networking.SetWebProxy(SettingManager.Local.ProxyType,
-                SettingManager.Local.ProxyAddress, SettingManager.Local.ProxyPort,
-                SettingManager.Local.ProxyUser, SettingManager.Local.ProxyPassword);
+            Networking.SetWebProxy(
+                SettingManager.Local.ProxyType,
+                SettingManager.Local.ProxyAddress,
+                SettingManager.Local.ProxyPort,
+                SettingManager.Local.ProxyUser,
+                SettingManager.Local.ProxyPassword);
             Networking.ForceIPv4 = SettingManager.Common.ForceIPv4;
 
             TwitterApiConnection.RestApiHost = SettingManager.Common.TwitterApiHost;
@@ -920,8 +923,12 @@ namespace OpenTween
             }
             catch (WebApiException ex)
             {
-                MessageBox.Show(this, string.Format(Properties.Resources.StartupAuthError_Text, ex.Message),
-                    ApplicationSettings.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(
+                    this,
+                    string.Format(Properties.Resources.StartupAuthError_Text, ex.Message),
+                    ApplicationSettings.ApplicationName,
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
             }
 
             // サムネイル関連の初期化
@@ -1405,8 +1412,11 @@ namespace OpenTween
 
             // 更新確定
             int addCount;
-            addCount = this._statuses.SubmitUpdate(out var soundFile, out var notifyPosts,
-                out var newMentionOrDm, out var isDelete);
+            addCount = this._statuses.SubmitUpdate(
+                out var soundFile,
+                out var notifyPosts,
+                out var newMentionOrDm,
+                out var isDelete);
 
             if (MyCommon._endingFlag) return;
 
@@ -2539,8 +2549,12 @@ namespace OpenTween
             }
         }
 
-        private async Task PostMessageAsyncInternal(IProgress<string> p, CancellationToken ct, PostStatusParams postParams,
-            IMediaUploadService? uploadService, IMediaItem[]? uploadItems)
+        private async Task PostMessageAsyncInternal(
+            IProgress<string> p,
+            CancellationToken ct,
+            PostStatusParams postParams,
+            IMediaUploadService? uploadService,
+            IMediaItem[]? uploadItems)
         {
             if (ct.IsCancellationRequested)
                 return;
@@ -2938,9 +2952,11 @@ namespace OpenTween
                 {
                     if (multiFavoriteChangeDialogEnable)
                     {
-                        var confirm = MessageBox.Show(Properties.Resources.FavRemoveToolStripMenuItem_ClickText1,
+                        var confirm = MessageBox.Show(
+                            Properties.Resources.FavRemoveToolStripMenuItem_ClickText1,
                             Properties.Resources.FavRemoveToolStripMenuItem_ClickText2,
-                            MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+                            MessageBoxButtons.OKCancel,
+                            MessageBoxIcon.Question);
 
                         if (confirm == DialogResult.Cancel)
                             return;
@@ -3250,10 +3266,12 @@ namespace OpenTween
             if (!posts.Any(x => x.CanDeleteBy(this.tw.UserId)))
                 return;
 
-            var ret = MessageBox.Show(this,
+            var ret = MessageBox.Show(
+                this,
                 string.Format(Properties.Resources.DeleteStripMenuItem_ClickText1, Environment.NewLine),
                 Properties.Resources.DeleteStripMenuItem_ClickText2,
-                MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+                MessageBoxButtons.OKCancel,
+                MessageBoxIcon.Question);
 
             if (ret != DialogResult.OK)
                 return;
@@ -3482,9 +3500,12 @@ namespace OpenTween
 
                     Networking.DefaultTimeout = TimeSpan.FromSeconds(SettingManager.Common.DefaultTimeOut);
                     Networking.UploadImageTimeout = TimeSpan.FromSeconds(SettingManager.Common.UploadImageTimeout);
-                    Networking.SetWebProxy(SettingManager.Local.ProxyType,
-                        SettingManager.Local.ProxyAddress, SettingManager.Local.ProxyPort,
-                        SettingManager.Local.ProxyUser, SettingManager.Local.ProxyPassword);
+                    Networking.SetWebProxy(
+                        SettingManager.Local.ProxyType,
+                        SettingManager.Local.ProxyAddress,
+                        SettingManager.Local.ProxyPort,
+                        SettingManager.Local.ProxyUser,
+                        SettingManager.Local.ProxyPassword);
                     Networking.ForceIPv4 = SettingManager.Common.ForceIPv4;
 
                     this.ImageSelector.Reset(this.tw, this.tw.Configuration);
@@ -4090,8 +4111,13 @@ namespace OpenTween
             if (confirm)
             {
                 var tmp = string.Format(Properties.Resources.RemoveSpecifiedTabText1, Environment.NewLine);
-                if (MessageBox.Show(tmp, TabName + " " + Properties.Resources.RemoveSpecifiedTabText2,
-                                 MessageBoxButtons.OKCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.Cancel)
+                var result = MessageBox.Show(
+                    tmp,
+                    TabName + " " + Properties.Resources.RemoveSpecifiedTabText2,
+                    MessageBoxButtons.OKCancel,
+                    MessageBoxIcon.Question,
+                    MessageBoxDefaultButton.Button2);
+                if (result == DialogResult.Cancel)
                 {
                     return false;
                 }
@@ -4891,7 +4917,8 @@ namespace OpenTween
 
                         using var fnt = new Font(e.Item.Font, FontStyle.Bold);
 
-                        TextRenderer.DrawText(e.Graphics,
+                        TextRenderer.DrawText(
+                            e.Graphics,
                             post.IsDeleted ? "(DELETED)" : post.TextSingleLine,
                             e.Item.Font,
                             Rectangle.Round(rct),
@@ -4900,7 +4927,8 @@ namespace OpenTween
                             TextFormatFlags.EndEllipsis |
                             TextFormatFlags.GlyphOverhangPadding |
                             TextFormatFlags.NoPrefix);
-                        TextRenderer.DrawText(e.Graphics,
+                        TextRenderer.DrawText(
+                            e.Graphics,
                             e.Item.SubItems[4].Text + " / " + e.Item.SubItems[1].Text + " (" + e.Item.SubItems[3].Text + ") " + e.Item.SubItems[5].Text + e.Item.SubItems[6].Text + " [" + e.Item.SubItems[7].Text + "]",
                             fnt,
                             rctB,
@@ -4920,28 +4948,30 @@ namespace OpenTween
 
                         if (drawLineCount == 1)
                         {
-                            TextRenderer.DrawText(e.Graphics,
-                                                    text,
-                                                    e.Item.Font,
-                                                    Rectangle.Round(rct),
-                                                    color,
-                                                    TextFormatFlags.SingleLine |
-                                                    TextFormatFlags.EndEllipsis |
-                                                    TextFormatFlags.GlyphOverhangPadding |
-                                                    TextFormatFlags.NoPrefix |
-                                                    TextFormatFlags.VerticalCenter);
+                            TextRenderer.DrawText(
+                                e.Graphics,
+                                text,
+                                e.Item.Font,
+                                Rectangle.Round(rct),
+                                color,
+                                TextFormatFlags.SingleLine |
+                                TextFormatFlags.EndEllipsis |
+                                TextFormatFlags.GlyphOverhangPadding |
+                                TextFormatFlags.NoPrefix |
+                                TextFormatFlags.VerticalCenter);
                         }
                         else
                         {
-                            TextRenderer.DrawText(e.Graphics,
-                                                    text,
-                                                    e.Item.Font,
-                                                    Rectangle.Round(rct),
-                                                    color,
-                                                    TextFormatFlags.WordBreak |
-                                                    TextFormatFlags.EndEllipsis |
-                                                    TextFormatFlags.GlyphOverhangPadding |
-                                                    TextFormatFlags.NoPrefix);
+                            TextRenderer.DrawText(
+                                e.Graphics,
+                                text,
+                                e.Item.Font,
+                                Rectangle.Round(rct),
+                                color,
+                                TextFormatFlags.WordBreak |
+                                TextFormatFlags.EndEllipsis |
+                                TextFormatFlags.GlyphOverhangPadding |
+                                TextFormatFlags.NoPrefix);
                         }
                     }
                 }
@@ -5400,13 +5430,17 @@ namespace OpenTween
                     // 更新不要
                     if (!startup)
                     {
-                        var msgtext = string.Format(Properties.Resources.CheckNewVersionText7,
-                            MyCommon.GetReadableVersion(), MyCommon.GetReadableVersion(versionInfo.Version));
+                        var msgtext = string.Format(
+                            Properties.Resources.CheckNewVersionText7,
+                            MyCommon.GetReadableVersion(),
+                            MyCommon.GetReadableVersion(versionInfo.Version));
                         msgtext = MyCommon.ReplaceAppName(msgtext);
 
-                        MessageBox.Show(msgtext,
+                        MessageBox.Show(
+                            msgtext,
                             MyCommon.ReplaceAppName(Properties.Resources.CheckNewVersionText2),
-                            MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Information);
                     }
                     return;
                 }
@@ -5435,9 +5469,12 @@ namespace OpenTween
                 this.StatusLabel.Text = Properties.Resources.CheckNewVersionText9;
                 if (!startup)
                 {
-                    MessageBox.Show(Properties.Resources.CheckNewVersionText10,
+                    MessageBox.Show(
+                        Properties.Resources.CheckNewVersionText10,
                         MyCommon.ReplaceAppName(Properties.Resources.CheckNewVersionText2),
-                        MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2);
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Exclamation,
+                        MessageBoxDefaultButton.Button2);
                 }
             }
         }
@@ -7122,8 +7159,12 @@ namespace OpenTween
             var match = Twitter.StatusUrlRegex.Match(inputText);
             if (!match.Success)
             {
-                MessageBox.Show(this, Properties.Resources.OpenURL_InvalidFormat,
-                    Properties.Resources.OpenURL_Caption, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(
+                    this,
+                    Properties.Resources.OpenURL_InvalidFormat,
+                    Properties.Resources.OpenURL_Caption,
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
                 return;
             }
 
@@ -7142,9 +7183,11 @@ namespace OpenTween
         {
             var tab = this.CurrentTab;
 
-            var rslt = MessageBox.Show(string.Format(Properties.Resources.SaveLogMenuItem_ClickText1, Environment.NewLine),
-                    Properties.Resources.SaveLogMenuItem_ClickText2,
-                    MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
+            var rslt = MessageBox.Show(
+                string.Format(Properties.Resources.SaveLogMenuItem_ClickText1, Environment.NewLine),
+                Properties.Resources.SaveLogMenuItem_ClickText2,
+                MessageBoxButtons.YesNoCancel,
+                MessageBoxIcon.Question);
             if (rslt == DialogResult.Cancel) return;
 
             this.SaveFileDialog1.FileName = $"{ApplicationSettings.AssemblyName}Posts{DateTimeUtc.Now.ToLocalTime():yyMMdd-HHmmss}.tsv";
@@ -10037,7 +10080,8 @@ namespace OpenTween
                 if (isFollowing)
                 {
                     if (MessageBox.Show(
-                        Properties.Resources.GetFriendshipInfo7 + System.Environment.NewLine + result, Properties.Resources.GetFriendshipInfo8,
+                        Properties.Resources.GetFriendshipInfo7 + System.Environment.NewLine + result,
+                        Properties.Resources.GetFriendshipInfo8,
                         MessageBoxButtons.YesNo,
                         MessageBoxIcon.Question,
                         MessageBoxDefaultButton.Button2) == DialogResult.Yes)

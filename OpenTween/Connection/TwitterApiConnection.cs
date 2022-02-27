@@ -437,8 +437,14 @@ namespace OpenTween.Connection
         {
             var uri = new Uri(RestApiBase, authServiceProvider);
 
-            return OAuthEchoHandler.CreateHandler(Networking.CreateHttpClientHandler(), uri,
-                this.consumerKey, this.consumerSecret, this.AccessToken, this.AccessSecret, realm);
+            return OAuthEchoHandler.CreateHandler(
+                Networking.CreateHttpClientHandler(),
+                uri,
+                this.consumerKey,
+                this.consumerSecret,
+                this.AccessToken,
+                this.AccessSecret,
+                realm);
         }
 
         public void Dispose()
@@ -512,8 +518,12 @@ namespace OpenTween.Connection
             return response;
         }
 
-        private static async Task<IDictionary<string, string>> GetOAuthTokenAsync(Uri uri, IDictionary<string, string> param,
-            ApiKey consumerKey, ApiKey consumerSecret, (string Token, string TokenSecret)? oauthToken)
+        private static async Task<IDictionary<string, string>> GetOAuthTokenAsync(
+            Uri uri,
+            IDictionary<string, string> param,
+            ApiKey consumerKey,
+            ApiKey consumerSecret,
+            (string Token, string TokenSecret)? oauthToken)
         {
             HttpClient authorizeClient;
             if (oauthToken != null)

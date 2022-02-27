@@ -137,8 +137,13 @@ namespace OpenTween.Api
             return this.Connection.GetAsync<TwitterStatus>(endpoint, param, "/statuses/show/:id");
         }
 
-        public Task<LazyJson<TwitterStatus>> StatusesUpdate(string status, long? replyToId, IReadOnlyList<long>? mediaIds,
-            bool? autoPopulateReplyMetadata = null, IReadOnlyList<long>? excludeReplyUserIds = null, string? attachmentUrl = null)
+        public Task<LazyJson<TwitterStatus>> StatusesUpdate(
+            string status,
+            long? replyToId,
+            IReadOnlyList<long>? mediaIds,
+            bool? autoPopulateReplyMetadata = null,
+            IReadOnlyList<long>? excludeReplyUserIds = null,
+            string? attachmentUrl = null)
         {
             var endpoint = new Uri("statuses/update.json", UriKind.Relative);
             var param = new Dictionary<string, string>

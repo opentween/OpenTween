@@ -1438,7 +1438,8 @@ namespace OpenTween.Models
             var filter = new PostFilterRule();
 
             Assert.PropertyChanged(
-                filter, "FilterName",
+                filter,
+                "FilterName",
                 () => filter.FilterName = "hogehoge"
             );
 
@@ -1454,7 +1455,8 @@ namespace OpenTween.Models
 
             // 値に変化がないので PropertyChanged イベントは発生しない
             TestUtils.NotPropertyChanged(
-                filter, "FilterName",
+                filter,
+                "FilterName",
                 () => filter.FilterName = "hogehoge"
             );
 

@@ -109,7 +109,8 @@ namespace OpenTween
 
                     return imageTask;
                 }
-            }, cancelToken);
+            },
+            cancelToken);
         }
 
         private async Task<MemoryImage> FetchImageAsync(string uri, CancellationToken cancelToken)

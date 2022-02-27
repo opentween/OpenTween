@@ -129,21 +129,25 @@ namespace OpenTween
         /// <summary>
         /// attachment_url に指定可能な URL を判定する正規表現
         /// </summary>
-        public static readonly Regex AttachmentUrlRegex = new Regex(@"https?://(
+        public static readonly Regex AttachmentUrlRegex = new Regex(
+            @"https?://(
    twitter\.com/[0-9A-Za-z_]+/status/[0-9]+
  | mobile\.twitter\.com/[0-9A-Za-z_]+/status/[0-9]+
  | twitter\.com/messages/compose\?recipient_id=[0-9]+(&.+)?
-)$", RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace);
+)$",
+            RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace);
 
         /// <summary>
         /// FavstarやaclogなどTwitter関連サービスのパーマリンクURLからステータスIDを抽出する正規表現
         /// </summary>
-        public static readonly Regex ThirdPartyStatusUrlRegex = new Regex(@"https?://(?:[^.]+\.)?(?:
+        public static readonly Regex ThirdPartyStatusUrlRegex = new Regex(
+            @"https?://(?:[^.]+\.)?(?:
   favstar\.fm/users/[a-zA-Z0-9_]+/status/       # Favstar
 | favstar\.fm/t/                                # Favstar (short)
 | aclog\.koba789\.com/i/                        # aclog
 | frtrt\.net/solo_status\.php\?status=          # RtRT
-)(?<StatusId>[0-9]+)", RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace);
+)(?<StatusId>[0-9]+)",
+            RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace);
 
         /// <summary>
         /// DM送信かどうかを判定する正規表現
@@ -270,8 +274,14 @@ namespace OpenTween
                 return null;
             }
 
-            var response = await this.Api.StatusesUpdate(param.Text, param.InReplyToStatusId, param.MediaIds,
-                    param.AutoPopulateReplyMetadata, param.ExcludeReplyUserIds, param.AttachmentUrl)
+            var response = await this.Api.StatusesUpdate(
+                    param.Text,
+                    param.InReplyToStatusId,
+                    param.MediaIds,
+                    param.AutoPopulateReplyMetadata,
+                    param.ExcludeReplyUserIds,
+                    param.AttachmentUrl
+                )
                 .ConfigureAwait(false);
 
             var status = await response.LoadJsonAsync()
@@ -1146,8 +1156,11 @@ namespace OpenTween
             this.CreateDirectMessagesEventFromJson(events, users, apps, read);
         }
 
-        private void CreateDirectMessagesEventFromJson(IEnumerable<TwitterMessageEvent> events, IReadOnlyDictionary<string, TwitterUser> users,
-            IReadOnlyDictionary<string, TwitterMessageEventList.App> apps, bool read)
+        private void CreateDirectMessagesEventFromJson(
+            IEnumerable<TwitterMessageEvent> events,
+            IReadOnlyDictionary<string, TwitterUser> users,
+            IReadOnlyDictionary<string, TwitterMessageEventList.App> apps,
+            bool read)
         {
             foreach (var eventItem in events)
             {
