@@ -349,8 +349,8 @@ namespace OpenTween
 
         private bool isColumnChanged = false;
 
-        private const int MAX_WORKER_THREADS = 20;
-        private readonly SemaphoreSlim workerSemaphore = new SemaphoreSlim(MAX_WORKER_THREADS);
+        private const int MaxWorderThreads = 20;
+        private readonly SemaphoreSlim workerSemaphore = new SemaphoreSlim(MaxWorderThreads);
         private readonly CancellationTokenSource workerCts = new CancellationTokenSource();
         private readonly IProgress<string> workerProgress = null!;
 
@@ -7671,7 +7671,7 @@ namespace OpenTween
             void DisableTasktrayAnimation()
                 => this.TimerRefreshIcon.Enabled = false;
 
-            var busyTasks = this.workerSemaphore.CurrentCount != MAX_WORKER_THREADS;
+            var busyTasks = this.workerSemaphore.CurrentCount != MaxWorderThreads;
             if (busyTasks)
             {
                 this.iconCnt += 1;
@@ -8652,7 +8652,7 @@ namespace OpenTween
         {
             MatchCollection m;
             // ハッシュタグの保存
-            m = Regex.Matches(statusText, Twitter.HASHTAG, RegexOptions.IgnoreCase);
+            m = Regex.Matches(statusText, Twitter.Hashtag, RegexOptions.IgnoreCase);
             var hstr = "";
             foreach (Match hm in m)
             {

@@ -49,7 +49,7 @@ namespace OpenTween.Api
             Assert.Equal(TwitterApiAccessLevel.Anonymous, apiStatus.AccessLevel);
         }
 
-        public static readonly TheoryData<Dictionary<string, string>, ApiLimit?> ParseRateLimit_TestCase = new TheoryData<Dictionary<string, string>, ApiLimit?>
+        public static readonly TheoryData<Dictionary<string, string>, ApiLimit?> ParseRateLimitTestCase = new TheoryData<Dictionary<string, string>, ApiLimit?>
         {
             {
                 new Dictionary<string, string> {
@@ -85,14 +85,14 @@ namespace OpenTween.Api
         };
 
         [Theory]
-        [MemberData(nameof(ParseRateLimit_TestCase))]
+        [MemberData(nameof(ParseRateLimitTestCase))]
         public void ParseRateLimitTest(IDictionary<string, string> header, ApiLimit? expected)
         {
             var limit = TwitterApiStatus.ParseRateLimit(header, "X-RateLimit-");
             Assert.Equal(expected, limit);
         }
 
-        public static readonly TheoryData<Dictionary<string, string>, ApiLimit?> ParseMediaRateLimit_TestCase = new TheoryData<Dictionary<string, string>, ApiLimit?>
+        public static readonly TheoryData<Dictionary<string, string>, ApiLimit?> ParseMediaRateLimitTestCase = new TheoryData<Dictionary<string, string>, ApiLimit?>
         {
             {
                 new Dictionary<string, string> {
@@ -120,14 +120,14 @@ namespace OpenTween.Api
         };
 
         [Theory]
-        [MemberData(nameof(ParseMediaRateLimit_TestCase))]
+        [MemberData(nameof(ParseMediaRateLimitTestCase))]
         public void ParseMediaRateLimitTest(IDictionary<string, string> header, ApiLimit? expected)
         {
             var limit = TwitterApiStatus.ParseRateLimit(header, "X-MediaRateLimit-");
             Assert.Equal(expected, limit);
         }
 
-        public static readonly TheoryData<Dictionary<string, string>, TwitterApiAccessLevel?> ParseAccessLevel_TestCase = new TheoryData<Dictionary<string, string>, TwitterApiAccessLevel?>
+        public static readonly TheoryData<Dictionary<string, string>, TwitterApiAccessLevel?> ParseAccessLevelTestCase = new TheoryData<Dictionary<string, string>, TwitterApiAccessLevel?>
         {
             {
                 new Dictionary<string, string> { { "X-Access-Level", "read" } },
@@ -152,7 +152,7 @@ namespace OpenTween.Api
         };
 
         [Theory]
-        [MemberData(nameof(ParseAccessLevel_TestCase))]
+        [MemberData(nameof(ParseAccessLevelTestCase))]
         public void ParseAccessLevelTest(IDictionary<string, string> header, TwitterApiAccessLevel? expected)
         {
             var accessLevel = TwitterApiStatus.ParseAccessLevel(header, "X-Access-Level");

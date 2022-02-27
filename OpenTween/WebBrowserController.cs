@@ -25,6 +25,7 @@
 // Boston, MA 02110-1301, USA.
 
 #nullable enable
+#pragma warning disable SA1310
 
 using System;
 using System.Collections.Generic;

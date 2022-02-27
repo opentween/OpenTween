@@ -142,7 +142,7 @@ namespace OpenTween
         /// </summary>
         public static IEnumerable<TwitterEntityHashtag> ExtractHashtagEntities(string text)
         {
-            var matches = Regex.Matches(text, Twitter.HASHTAG);
+            var matches = Regex.Matches(text, Twitter.Hashtag);
             foreach (var match in matches.Cast<Match>())
             {
                 var groupHashtagSharp = match.Groups[2];
