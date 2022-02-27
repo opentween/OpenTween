@@ -48,7 +48,7 @@ namespace OpenTween.Api
         private readonly ApiKey clientId;
         private readonly ApiKey clientSecret;
 
-        private HttpClient http => this.localHttpClient ?? Networking.Http;
+        private HttpClient Http => this.localHttpClient ?? Networking.Http;
         private readonly HttpClient? localHttpClient;
 
         public BitlyApi()
@@ -90,7 +90,7 @@ namespace OpenTween.Api
             var requestUri = new Uri(new Uri(ApiBase, endpoint), "?" + MyCommon.BuildQueryString(paramWithToken));
             using var request = new HttpRequestMessage(HttpMethod.Get, requestUri);
 
-            using var response = await this.http.SendAsync(request)
+            using var response = await this.Http.SendAsync(request)
                 .ConfigureAwait(false);
 
             return await response.Content.ReadAsStringAsync()
@@ -121,7 +121,7 @@ namespace OpenTween.Api
 
             request.Content = postContent;
 
-            using var response = await this.http.SendAsync(request)
+            using var response = await this.Http.SendAsync(request)
                 .ConfigureAwait(false);
             var responseBytes = await response.Content.ReadAsByteArrayAsync()
                 .ConfigureAwait(false);

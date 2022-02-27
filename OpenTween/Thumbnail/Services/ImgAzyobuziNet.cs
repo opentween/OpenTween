@@ -55,7 +55,7 @@ namespace OpenTween.Thumbnail.Services
         protected IEnumerable<Regex>? UrlRegex = null;
         protected AsyncTimer UpdateTimer;
 
-        protected HttpClient http
+        protected HttpClient Http
             => this.localHttpClient ?? Networking.Http;
 
         private readonly HttpClient? localHttpClient;
@@ -176,7 +176,7 @@ namespace OpenTween.Thumbnail.Services
         protected virtual async Task<byte[]> FetchRegexAsync(string apiBase)
         {
             using var cts = new CancellationTokenSource(millisecondsDelay: 1000);
-            using var response = await this.http.GetAsync(apiBase + "regex.json", cts.Token)
+            using var response = await this.Http.GetAsync(apiBase + "regex.json", cts.Token)
                 .ConfigureAwait(false);
 
             response.EnsureSuccessStatusCode();

@@ -30,9 +30,9 @@ using System;
 
 namespace OpenTween
 {
-    public static class nicoms
+    public static class Nicoms
     {
-        private static readonly string[] _nicovideo =
+        private static readonly string[] Nicovideo =
         {
             "www.nicovideo.jp/watch/",
             "live.nicovideo.jp/watch/",
@@ -64,7 +64,7 @@ namespace OpenTween
                 return url;
             }
 
-            foreach (var nv in _nicovideo)
+            foreach (var nv in Nicovideo)
             {
                 if (url.StartsWith(nv, StringComparison.Ordinal))
                     return string.Format("{0}{1}", "https://nico.ms/", url.Substring(nv.Length));

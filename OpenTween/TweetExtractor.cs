@@ -47,7 +47,7 @@ namespace OpenTween
         /// </summary>
         public static IEnumerable<TwitterEntityUrl> ExtractUrlEntities(string text)
         {
-            var urlMatches = Regex.Matches(text, Twitter.rgUrl, RegexOptions.IgnoreCase).Cast<Match>();
+            var urlMatches = Regex.Matches(text, Twitter.RgUrl, RegexOptions.IgnoreCase).Cast<Match>();
             foreach (var m in urlMatches)
             {
                 var before = m.Groups["before"].Value;
@@ -59,17 +59,17 @@ namespace OpenTween
                 var validUrl = false;
                 if (protocol.Length == 0)
                 {
-                    if (Regex.IsMatch(before, Twitter.url_invalid_without_protocol_preceding_chars))
+                    if (Regex.IsMatch(before, Twitter.UrlInvalidWithoutProtocolPrecedingChars))
                         continue;
 
                     string? lasturl = null;
 
                     var last_url_invalid_match = false;
-                    var domainMatches = Regex.Matches(domain, Twitter.url_valid_ascii_domain, RegexOptions.IgnoreCase).Cast<Match>();
+                    var domainMatches = Regex.Matches(domain, Twitter.UrlValidAsciiDomain, RegexOptions.IgnoreCase).Cast<Match>();
                     foreach (var mm in domainMatches)
                     {
                         lasturl = mm.Value;
-                        last_url_invalid_match = Regex.IsMatch(lasturl, Twitter.url_invalid_short_domain, RegexOptions.IgnoreCase);
+                        last_url_invalid_match = Regex.IsMatch(lasturl, Twitter.UrlInvalidShortDomain, RegexOptions.IgnoreCase);
                         if (!last_url_invalid_match)
                         {
                             validUrl = true;

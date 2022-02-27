@@ -41,8 +41,8 @@ namespace OpenTween
     {
         public string StartsWith { get; set; } = "";
 
-        public string inputText = "";
-        public bool isBack = false;
+        public string InputText { get; set; } = "";
+        private bool isBack = false;
         private readonly string startChar = "";
 
         public void AddItem(string id)
@@ -76,13 +76,13 @@ namespace OpenTween
 
         private void ButtonOK_Click(object sender, EventArgs e)
         {
-            this.inputText = this.TextId.Text;
+            this.InputText = this.TextId.Text;
             this.isBack = false;
         }
 
         private void ButtonCancel_Click(object sender, EventArgs e)
         {
-            this.inputText = "";
+            this.InputText = "";
             this.isBack = false;
         }
 
@@ -90,13 +90,13 @@ namespace OpenTween
         {
             if (e.KeyCode == Keys.Back && MyCommon.IsNullOrEmpty(this.TextId.Text))
             {
-                this.inputText = "";
+                this.InputText = "";
                 this.isBack = true;
                 this.Close();
             }
             else if (e.KeyCode == Keys.Space || e.KeyCode == Keys.Tab)
             {
-                this.inputText = this.TextId.Text + " ";
+                this.InputText = this.TextId.Text + " ";
                 this.isBack = false;
                 this.Close();
             }
@@ -152,7 +152,7 @@ namespace OpenTween
         {
             if (e.KeyCode == Keys.Tab)
             {
-                this.inputText = this.TextId.Text + " ";
+                this.InputText = this.TextId.Text + " ";
                 this.isBack = false;
                 this.Close();
             }

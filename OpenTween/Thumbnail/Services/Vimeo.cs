@@ -44,7 +44,7 @@ namespace OpenTween.Thumbnail.Services
         public static readonly Regex UrlPatternRegex =
             new Regex(@"https?://vimeo\.com/(?<postID>[0-9]+)");
 
-        protected HttpClient http
+        protected HttpClient Http
             => this.localHttpClient ?? Networking.Http;
 
         private readonly HttpClient? localHttpClient;
@@ -67,7 +67,7 @@ namespace OpenTween.Thumbnail.Services
             {
                 var apiUrl = "https://vimeo.com/api/oembed.xml?url=" + Uri.EscapeDataString(url);
 
-                var xmlStr = await this.http.GetStringAsync(apiUrl)
+                var xmlStr = await this.Http.GetStringAsync(apiUrl)
                     .ConfigureAwait(false);
 
                 var xdoc = XDocument.Parse(xmlStr);

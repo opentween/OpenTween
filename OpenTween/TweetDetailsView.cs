@@ -177,14 +177,14 @@ namespace OpenTween
                 }
                 sb.Append("-----End PostClass Dump<br>");
 
-                this.PostBrowser.DocumentText = this.Owner.createDetailHtml(sb.ToString());
+                this.PostBrowser.DocumentText = this.Owner.CreateDetailHtml(sb.ToString());
                 return;
             }
 
             using (ControlTransaction.Update(this.PostBrowser))
             {
                 this.PostBrowser.DocumentText =
-                    this.Owner.createDetailHtml(post.IsDeleted ? "(DELETED)" : post.Text);
+                    this.Owner.CreateDetailHtml(post.IsDeleted ? "(DELETED)" : post.Text);
 
                 this.PostBrowser.Document.Window.ScrollTo(0, 0);
             }
@@ -283,7 +283,7 @@ namespace OpenTween
             var body = post.Text + string.Concat(loadingQuoteHtml) + loadingReplyHtml;
 
             using (ControlTransaction.Update(this.PostBrowser))
-                this.PostBrowser.DocumentText = this.Owner.createDetailHtml(body);
+                this.PostBrowser.DocumentText = this.Owner.CreateDetailHtml(body);
 
             // 引用ツイートを読み込み
             var loadTweetTasks = quoteStatusIds.Select(x => this.CreateQuoteTweetHtml(x, isReply: false)).ToList();
@@ -300,7 +300,7 @@ namespace OpenTween
             body = post.Text + string.Concat(quoteHtmls);
 
             using (ControlTransaction.Update(this.PostBrowser))
-                this.PostBrowser.DocumentText = this.Owner.createDetailHtml(body);
+                this.PostBrowser.DocumentText = this.Owner.CreateDetailHtml(body);
         }
 
         private async Task<string> CreateQuoteTweetHtml(long statusId, bool isReply)
@@ -374,7 +374,7 @@ namespace OpenTween
                     langFrom: null,
                     langTo: SettingManager.Common.TranslateLanguage);
 
-                this.PostBrowser.DocumentText = this.Owner.createDetailHtml(translatedText);
+                this.PostBrowser.DocumentText = this.Owner.CreateDetailHtml(translatedText);
             }
             catch (WebApiException e)
             {

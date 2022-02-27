@@ -155,7 +155,7 @@ namespace OpenTween
         [InlineData(Keys.Control | Keys.Alt, new[] { Keys.Control, Keys.Alt }, true)]
         [InlineData(Keys.Control | Keys.Alt, new[] { Keys.Shift }, false)]
         public void IsKeyDownTest(Keys modifierKeys, Keys[] checkKeys, bool expected)
-            => Assert.Equal(expected, MyCommon._IsKeyDown(modifierKeys, checkKeys));
+            => Assert.Equal(expected, MyCommon.IsKeyDownInternal(modifierKeys, checkKeys));
 
         [Fact]
         public void GetAssemblyNameTest()

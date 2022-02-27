@@ -60,10 +60,10 @@ namespace OpenTween
         }
         public event EventHandler<CacheRemovedEventArgs>? CacheRemoved;
 
-        internal LinkedList<KeyValuePair<TKey, TValue>> innerList;
-        internal Dictionary<TKey, LinkedListNode<KeyValuePair<TKey, TValue>>> innerDict;
+        internal LinkedList<KeyValuePair<TKey, TValue>> InnerList;
+        internal Dictionary<TKey, LinkedListNode<KeyValuePair<TKey, TValue>>> InnerDict;
 
-        internal int accessCount = 0;
+        internal int AccessCount = 0;
 
         public LRUCacheDictionary()
             : this(trimLimit: int.MaxValue, autoTrimCount: int.MaxValue)
@@ -75,8 +75,8 @@ namespace OpenTween
             this.TrimLimit = trimLimit;
             this.AutoTrimCount = autoTrimCount;
 
-            this.innerList = new LinkedList<KeyValuePair<TKey, TValue>>();
-            this.innerDict = new Dictionary<TKey, LinkedListNode<KeyValuePair<TKey, TValue>>>();
+            this.InnerList = new LinkedList<KeyValuePair<TKey, TValue>>();
+            this.InnerDict = new Dictionary<TKey, LinkedListNode<KeyValuePair<TKey, TValue>>>();
         }
 
         /// <summary>
@@ -85,8 +85,8 @@ namespace OpenTween
         /// </summary>
         protected void UpdateAccess(LinkedListNode<KeyValuePair<TKey, TValue>> node)
         {
-            this.innerList.Remove(node);
-            this.innerList.AddFirst(node);
+            this.InnerList.Remove(node);
+            this.InnerList.AddFirst(node);
         }
 
         public bool Trim()
@@ -95,9 +95,9 @@ namespace OpenTween
 
             for (var i = this.Count; i > this.TrimLimit; i--)
             {
-                var node = this.innerList.Last;
-                this.innerList.Remove(node);
-                this.innerDict.Remove(node.Value.Key);
+                var node = this.InnerList.Last;
+                this.InnerList.Remove(node);
+                this.InnerDict.Remove(node.Value.Key);
 
                 this.CacheRemoved?.Invoke(this, new CacheRemovedEventArgs(node.Value));
             }
@@ -107,9 +107,9 @@ namespace OpenTween
 
         internal bool AutoTrim()
         {
-            if (this.accessCount < this.AutoTrimCount) return false;
+            if (this.AccessCount < this.AutoTrimCount) return false;
 
-            this.accessCount = 0; // カウンターをリセット
+            this.AccessCount = 0; // カウンターをリセット
 
             return this.Trim();
         }
@@ -120,49 +120,49 @@ namespace OpenTween
         public void Add(KeyValuePair<TKey, TValue> item)
         {
             var node = new LinkedListNode<KeyValuePair<TKey, TValue>>(item);
-            this.innerList.AddFirst(node);
-            this.innerDict.Add(item.Key, node);
+            this.InnerList.AddFirst(node);
+            this.InnerDict.Add(item.Key, node);
 
-            this.accessCount++;
+            this.AccessCount++;
             this.AutoTrim();
         }
 
         public bool ContainsKey(TKey key)
-            => this.innerDict.ContainsKey(key);
+            => this.InnerDict.ContainsKey(key);
 
         public bool Contains(KeyValuePair<TKey, TValue> item)
         {
-            if (!this.innerDict.TryGetValue(item.Key, out var node)) return false;
+            if (!this.InnerDict.TryGetValue(item.Key, out var node)) return false;
 
             return EqualityComparer<TValue>.Default.Equals(node.Value.Value, item.Value);
         }
 
         public bool Remove(TKey key)
         {
-            if (!this.innerDict.TryGetValue(key, out var node)) return false;
+            if (!this.InnerDict.TryGetValue(key, out var node)) return false;
 
-            this.innerList.Remove(node);
+            this.InnerList.Remove(node);
 
-            return this.innerDict.Remove(key);
+            return this.InnerDict.Remove(key);
         }
 
         public bool Remove(KeyValuePair<TKey, TValue> item)
         {
-            if (!this.innerDict.TryGetValue(item.Key, out var node)) return false;
+            if (!this.InnerDict.TryGetValue(item.Key, out var node)) return false;
 
             if (!EqualityComparer<TValue>.Default.Equals(node.Value.Value, item.Value))
                 return false;
 
-            this.innerList.Remove(node);
+            this.InnerList.Remove(node);
 
-            return this.innerDict.Remove(item.Key);
+            return this.InnerDict.Remove(item.Key);
         }
 
 #pragma warning disable CS8767
         public bool TryGetValue(TKey key, [MaybeNullWhen(false)] out TValue value)
 #pragma warning restore CS8767
         {
-            var ret = this.innerDict.TryGetValue(key, out var node);
+            var ret = this.InnerDict.TryGetValue(key, out var node);
 
             if (!ret)
             {
@@ -173,26 +173,26 @@ namespace OpenTween
             this.UpdateAccess(node);
             value = node.Value.Value;
 
-            this.accessCount++;
+            this.AccessCount++;
             this.AutoTrim();
 
             return true;
         }
 
         public ICollection<TKey> Keys
-            => this.innerDict.Keys;
+            => this.InnerDict.Keys;
 
         public ICollection<TValue> Values
-            => this.innerDict.Values.Select(x => x.Value.Value).ToList();
+            => this.InnerDict.Values.Select(x => x.Value.Value).ToList();
 
         public TValue this[TKey key]
         {
             get
             {
-                var node = this.innerDict[key];
+                var node = this.InnerDict[key];
                 this.UpdateAccess(node);
 
-                this.accessCount++;
+                this.AccessCount++;
                 this.AutoTrim();
 
                 return node.Value.Value;
@@ -201,28 +201,28 @@ namespace OpenTween
             {
                 var pair = new KeyValuePair<TKey, TValue>(key, value);
 
-                if (this.innerDict.TryGetValue(key, out var node))
+                if (this.InnerDict.TryGetValue(key, out var node))
                 {
-                    this.innerList.Remove(node);
+                    this.InnerList.Remove(node);
                     node.Value = pair;
                 }
                 else
                 {
                     node = new LinkedListNode<KeyValuePair<TKey, TValue>>(pair);
-                    this.innerDict[key] = node;
+                    this.InnerDict[key] = node;
                 }
 
-                this.innerList.AddFirst(node);
+                this.InnerList.AddFirst(node);
 
-                this.accessCount++;
+                this.AccessCount++;
                 this.AutoTrim();
             }
         }
 
         public void Clear()
         {
-            this.innerList.Clear();
-            this.innerDict.Clear();
+            this.InnerList.Clear();
+            this.InnerDict.Clear();
         }
 
         public void CopyTo(KeyValuePair<TKey, TValue>[] array, int arrayIndex)
@@ -241,13 +241,13 @@ namespace OpenTween
         }
 
         public int Count
-            => this.innerDict.Count;
+            => this.InnerDict.Count;
 
         public bool IsReadOnly
             => false;
 
         public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()
-            => this.innerDict.Select(x => x.Value.Value).GetEnumerator();
+            => this.InnerDict.Select(x => x.Value.Value).GetEnumerator();
 
         IEnumerator IEnumerable.GetEnumerator()
             => this.GetEnumerator();

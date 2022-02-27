@@ -38,7 +38,7 @@ namespace OpenTween.Models
             this.tabinfo = this.CreateInstance();
 
             // TabInformation.GetInstance() で取得できるようにする
-            var field = typeof(TabInformations).GetField("_instance",
+            var field = typeof(TabInformations).GetField("Instance",
                 BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.SetField);
             field.SetValue(null, this.tabinfo);
 

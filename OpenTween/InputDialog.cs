@@ -37,10 +37,10 @@ namespace OpenTween
         protected InputDialog()
             => this.InitializeComponent();
 
-        private void buttonOK_Click(object sender, EventArgs e)
+        private void ButtonOK_Click(object sender, EventArgs e)
             => this.DialogResult = DialogResult.OK;
 
-        private void buttonCancel_Click(object sender, EventArgs e)
+        private void ButtonCancel_Click(object sender, EventArgs e)
             => this.DialogResult = DialogResult.Cancel;
 
         public static DialogResult Show(string text, out string inputText)

@@ -658,7 +658,7 @@
             // 
             resources.ApplyResources(this.tweetDetailsView, "tweetDetailsView");
             this.tweetDetailsView.Name = "tweetDetailsView";
-            this.tweetDetailsView.StatusChanged += new System.EventHandler<OpenTween.TweetDetailsViewStatusChengedEventArgs>(this.tweetDetailsView_StatusChanged);
+            this.tweetDetailsView.StatusChanged += new System.EventHandler<OpenTween.TweetDetailsViewStatusChengedEventArgs>(this.TweetDetailsView_StatusChanged);
             // 
             // TableLayoutPanel2
             // 
@@ -699,9 +699,9 @@
             resources.ApplyResources(this.tweetThumbnail1, "tweetThumbnail1");
             this.tweetThumbnail1.Name = "tweetThumbnail1";
             this.tweetThumbnail1.TabStop = false;
-            this.tweetThumbnail1.ThumbnailLoading += new System.EventHandler<System.EventArgs>(this.tweetThumbnail1_ThumbnailLoading);
-            this.tweetThumbnail1.ThumbnailDoubleClick += new System.EventHandler<OpenTween.ThumbnailDoubleClickEventArgs>(this.tweetThumbnail1_ThumbnailDoubleClick);
-            this.tweetThumbnail1.ThumbnailImageSearchClick += new System.EventHandler<OpenTween.ThumbnailImageSearchEventArgs>(this.tweetThumbnail1_ThumbnailImageSearchClick);
+            this.tweetThumbnail1.ThumbnailLoading += new System.EventHandler<System.EventArgs>(this.TweetThumbnail_ThumbnailLoading);
+            this.tweetThumbnail1.ThumbnailDoubleClick += new System.EventHandler<OpenTween.ThumbnailDoubleClickEventArgs>(this.TweetThumbnail_ThumbnailDoubleClick);
+            this.tweetThumbnail1.ThumbnailImageSearchClick += new System.EventHandler<OpenTween.ThumbnailImageSearchEventArgs>(this.TweetThumbnail_ThumbnailImageSearchClick);
             // 
             // MenuStrip1
             // 

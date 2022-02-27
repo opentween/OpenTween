@@ -178,7 +178,7 @@ namespace OpenTween
                     .Concat(TweetExtractor.ExtractEmojiEntities(descriptionText));
 
                 var html = TweetFormatter.AutoLinkHtml(descriptionText, mergedEntities);
-                html = this.mainForm.createDetailHtml(html);
+                html = this.mainForm.CreateDetailHtml(html);
 
                 if (cancellationToken.IsCancellationRequested)
                     return;
@@ -257,7 +257,7 @@ namespace OpenTween
                 var mergedEntities = entities.Concat(TweetExtractor.ExtractEmojiEntities(status.FullText));
 
                 var html = TweetFormatter.AutoLinkHtml(status.FullText, mergedEntities);
-                html = this.mainForm.createDetailHtml(html +
+                html = this.mainForm.CreateDetailHtml(html +
                     " Posted at " + MyCommon.DateTimeParse(status.CreatedAt).ToLocalTimeString() +
                     " via " + status.Source);
 

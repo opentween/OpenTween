@@ -47,7 +47,7 @@ namespace OpenTween.Thumbnail.Services
         };
         protected static string[] PropertyNames = { "og:image", "twitter:image", "twitter:image:src" };
 
-        protected HttpClient http
+        protected HttpClient Http
             => this.localHttpClient ?? Networking.Http;
 
         private readonly HttpClient? localHttpClient;
@@ -123,7 +123,7 @@ namespace OpenTween.Thumbnail.Services
 
         protected virtual async Task<string> FetchImageUrlAsync(string url, CancellationToken token)
         {
-            using var response = await this.http.GetAsync(url, token)
+            using var response = await this.Http.GetAsync(url, token)
                 .ConfigureAwait(false);
 
             response.EnsureSuccessStatusCode();

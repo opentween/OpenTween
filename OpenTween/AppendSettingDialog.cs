@@ -50,8 +50,8 @@ namespace OpenTween
     {
         public event EventHandler<IntervalChangedEventArgs>? IntervalChanged;
 
-        internal Twitter tw = null!;
-        internal TwitterApi twitterApi = null!;
+        internal Twitter Tw = null!;
+        internal TwitterApi TwitterApi = null!;
 
         public AppendSettingDialog()
         {
@@ -83,7 +83,7 @@ namespace OpenTween
             this.ConnectionPanel.LoadConfig(settingCommon);
             this.NotifyPanel.LoadConfig(settingCommon);
 
-            var activeUser = settingCommon.UserAccounts.FirstOrDefault(x => x.UserId == this.tw.UserId);
+            var activeUser = settingCommon.UserAccounts.FirstOrDefault(x => x.UserId == this.Tw.UserId);
             if (activeUser != null)
             {
                 this.BasedPanel.AuthUserCombo.SelectedItem = activeUser;
@@ -112,12 +112,12 @@ namespace OpenTween
             if (userAccountIdx != -1)
             {
                 var u = settingCommon.UserAccounts[userAccountIdx];
-                this.tw.Initialize(u.Token, u.TokenSecret, u.Username, u.UserId);
+                this.Tw.Initialize(u.Token, u.TokenSecret, u.Username, u.UserId);
             }
             else
             {
-                this.tw.ClearAuthInfo();
-                this.tw.Initialize("", "", "", 0);
+                this.Tw.ClearAuthInfo();
+                this.Tw.Initialize("", "", "", 0);
             }
         }
 
@@ -141,7 +141,7 @@ namespace OpenTween
 
         private void Setting_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (MyCommon._endingFlag) return;
+            if (MyCommon.EndingFlag) return;
 
             if (this.BasedPanel.AuthUserCombo.SelectedIndex == -1 && e.CloseReason == CloseReason.None)
             {

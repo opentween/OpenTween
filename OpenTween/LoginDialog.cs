@@ -44,7 +44,7 @@ namespace OpenTween
         public LoginDialog()
             => this.InitializeComponent();
 
-        private async void buttonLogin_Click(object sender, EventArgs e)
+        private async void ButtonLogin_Click(object sender, EventArgs e)
         {
             if (this.LoginCallback == null)
                 return;

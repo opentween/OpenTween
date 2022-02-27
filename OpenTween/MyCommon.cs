@@ -60,8 +60,8 @@ namespace OpenTween
     public static class MyCommon
     {
         private static readonly object LockObj = new object();
-        public static bool _endingFlag;        // 終了フラグ
-        public static string settingPath = null!;
+        public static bool EndingFlag { get; set; } // 終了フラグ
+        public static string SettingPath { get; set; } = null!;
 
         public enum IconSizes
         {
@@ -740,9 +740,9 @@ namespace OpenTween
         /// <param name="keys">状態を調べるキー</param>
         /// <returns><paramref name="keys"/> で指定された修飾キーがすべて押されている状態であれば true。それ以外であれば false。</returns>
         public static bool IsKeyDown(params Keys[] keys)
-            => MyCommon._IsKeyDown(Control.ModifierKeys, keys);
+            => MyCommon.IsKeyDownInternal(Control.ModifierKeys, keys);
 
-        internal static bool _IsKeyDown(Keys modifierKeys, Keys[] targetKeys)
+        internal static bool IsKeyDownInternal(Keys modifierKeys, Keys[] targetKeys)
         {
             foreach (var key in targetKeys)
             {

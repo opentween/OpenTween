@@ -47,13 +47,13 @@ namespace OpenTween
     /// </summary>
     public class ShortUrl
     {
-        private static readonly Lazy<ShortUrl> _instance;
+        private static readonly Lazy<ShortUrl> InstanceLazy;
 
         /// <summary>
         /// ShortUrl のインスタンスを取得します
         /// </summary>
         public static ShortUrl Instance
-            => _instance.Value;
+            => InstanceLazy.Value;
 
         /// <summary>
         /// 短縮 URL の展開を無効にするか否か
@@ -136,7 +136,7 @@ namespace OpenTween
         };
 
         static ShortUrl()
-            => _instance = new Lazy<ShortUrl>(() => new ShortUrl(), true);
+            => InstanceLazy = new Lazy<ShortUrl>(() => new ShortUrl(), true);
 
         [SuppressMessage("Microsoft.Reliability", "CA2000:DisposeObjectsBeforeLosingScope")]
         internal ShortUrl()

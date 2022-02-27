@@ -84,7 +84,7 @@ namespace OpenTween
 
             {
                 // 同じ設定ファイルを使用する OpenTween プロセスの二重起動を防止する
-                var pt = MyCommon.settingPath.Replace("\\", "/") + "/" + ApplicationSettings.AssemblyName;
+                var pt = MyCommon.SettingPath.Replace("\\", "/") + "/" + ApplicationSettings.AssemblyName;
                 using var mt = new Mutex(false, pt);
 
                 if (!mt.WaitOne(0, false))
@@ -307,12 +307,12 @@ namespace OpenTween
                     return false;
                 }
 
-                MyCommon.settingPath = Path.GetFullPath(configDir);
+                MyCommon.SettingPath = Path.GetFullPath(configDir);
             }
             else
             {
                 // OpenTween.exe と同じディレクトリに設定ファイルを配置する
-                MyCommon.settingPath = Application.StartupPath;
+                MyCommon.SettingPath = Application.StartupPath;
 
                 SettingManager.LoadAll();
 
@@ -333,7 +333,7 @@ namespace OpenTween
                     });
                     Directory.CreateDirectory(roamingDir);
 
-                    MyCommon.settingPath = roamingDir;
+                    MyCommon.SettingPath = roamingDir;
 
                     /*
                      * 書き込みが制限されたディレクトリ内で起動された場合の設定ファイルの扱い
@@ -370,7 +370,7 @@ namespace OpenTween
                         if (startupDirFile.Exists)
                         {
                             // StartupPath に設定ファイルが存在し、Roaming 内のファイルよりも新しい場合のみ警告を表示する
-                            var message = string.Format(Properties.Resources.SettingPath_Relocation, Application.StartupPath, MyCommon.settingPath);
+                            var message = string.Format(Properties.Resources.SettingPath_Relocation, Application.StartupPath, MyCommon.SettingPath);
                             MessageBox.Show(message, ApplicationSettings.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Information);
                         }
 

@@ -382,7 +382,7 @@
             resources.ApplyResources(this.buttonRuleToggleEnabled, "buttonRuleToggleEnabled");
             this.buttonRuleToggleEnabled.Name = "buttonRuleToggleEnabled";
             this.buttonRuleToggleEnabled.UseVisualStyleBackColor = true;
-            this.buttonRuleToggleEnabled.Click += new System.EventHandler(this.buttonRuleToggleEnabled_Click);
+            this.buttonRuleToggleEnabled.Click += new System.EventHandler(this.ButtonRuleToggleEnabled_Click);
             // 
             // ListFilters
             // 

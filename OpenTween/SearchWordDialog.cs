@@ -131,7 +131,7 @@ namespace OpenTween
         private void SearchWordDialog_Shown(object sender, EventArgs e)
             => this.ActivateSelectedTabPage();
 
-        private void tabControl_SelectedIndexChanged(object sender, EventArgs e)
+        private void TabControl_SelectedIndexChanged(object sender, EventArgs e)
             => this.ActivateSelectedTabPage();
 
         private void ActivateSelectedTabPage()
@@ -150,7 +150,7 @@ namespace OpenTween
             }
         }
 
-        private void buttonSearchTimeline_Click(object sender, EventArgs e)
+        private void ButtonSearchTimeline_Click(object sender, EventArgs e)
         {
             if (MyCommon.IsNullOrEmpty(this.textSearchTimeline.Text))
             {
@@ -169,7 +169,7 @@ namespace OpenTween
             );
         }
 
-        private void buttonSearchTimelineNew_Click(object sender, EventArgs e)
+        private void ButtonSearchTimelineNew_Click(object sender, EventArgs e)
         {
             if (MyCommon.IsNullOrEmpty(this.textSearchTimeline.Text))
             {
@@ -188,7 +188,7 @@ namespace OpenTween
             );
         }
 
-        private void buttonSearchPublic_Click(object sender, EventArgs e)
+        private void ButtonSearchPublic_Click(object sender, EventArgs e)
         {
             if (MyCommon.IsNullOrEmpty(this.textSearchPublic.Text))
             {
@@ -207,7 +207,7 @@ namespace OpenTween
             );
         }
 
-        private async void linkLabelSearchHelp_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private async void LinkLabelSearchHelp_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             // 「検索オプションの使い方」ページのURL
             const string PublicSearchHelpUrl = "https://support.twitter.com/articles/249059";

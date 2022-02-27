@@ -76,7 +76,7 @@ namespace OpenTween.Models
         // トランザクション用
         private readonly object LockObj = new object();
 
-        private static readonly TabInformations _instance = new TabInformations();
+        private static readonly TabInformations Instance = new TabInformations();
 
         // List
         private List<ListElement> _lists = new List<ListElement>();
@@ -86,7 +86,7 @@ namespace OpenTween.Models
         }
 
         public static TabInformations GetInstance()
-            => _instance; // singleton
+            => Instance; // singleton
 
         public string SelectedTabName { get; private set; } = "";
 

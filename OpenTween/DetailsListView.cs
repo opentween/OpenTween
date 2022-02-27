@@ -163,9 +163,9 @@ namespace OpenTween.OpenTweenCustomControl
         [StructLayout(LayoutKind.Sequential)]
         private struct NMHDR
         {
-            public IntPtr hwndFrom;
-            public IntPtr idFrom;
-            public int code;
+            public IntPtr HwndFrom;
+            public IntPtr IdFrom;
+            public int Code;
         }
 
         [DebuggerStepThrough]
@@ -231,7 +231,7 @@ namespace OpenTween.OpenTweenCustomControl
                     var nmhdr = Marshal.PtrToStructure<NMHDR>(m.LParam);
 
                     // Ctrl+クリックで選択状態を変更した場合にイベントが発生しない問題への対処
-                    if (nmhdr.code == LVN_ODSTATECHANGED)
+                    if (nmhdr.Code == LVN_ODSTATECHANGED)
                         this.OnSelectedIndexChanged(EventArgs.Empty);
                     break;
             }

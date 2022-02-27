@@ -1223,7 +1223,7 @@ namespace OpenTween
             }
         }
 
-        private void buttonRuleToggleEnabled_Click(object sender, EventArgs e)
+        private void ButtonRuleToggleEnabled_Click(object sender, EventArgs e)
         {
             if (this.RuleEnableButtonMode == EnableButtonMode.NotSelected)
                 return;

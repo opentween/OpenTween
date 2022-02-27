@@ -51,7 +51,7 @@ namespace OpenTween
         [XmlAnyElement]
         public XmlElement[] ExtraElements = Array.Empty<XmlElement>();
 
-        private static readonly object lockObj = new object();
+        private static readonly object LockObj = new object();
 
         protected static T LoadSettings(string FileId)
         {
@@ -63,7 +63,7 @@ namespace OpenTween
                     return new T();
                 }
 
-                lock (lockObj)
+                lock (LockObj)
                 {
                     using var fs = new FileStream(settingFilePath, FileMode.Open, FileAccess.Read);
                     fs.Position = 0;
@@ -87,7 +87,7 @@ namespace OpenTween
                 {
                     try
                     {
-                        lock (lockObj)
+                        lock (LockObj)
                         {
                             using var fs = new FileStream(backupFile, FileMode.Open, FileAccess.Read);
                             fs.Position = 0;
@@ -125,7 +125,7 @@ namespace OpenTween
                 var tmpfilePath = GetSettingFilePath("_" + Path.GetRandomFileName());
                 try
                 {
-                    lock (lockObj)
+                    lock (LockObj)
                     {
                         using (var stream = new FileStream(tmpfilePath, FileMode.Create, FileAccess.Write))
                         {
@@ -174,6 +174,6 @@ namespace OpenTween
             => SaveSettings(Instance, "");
 
         public static string GetSettingFilePath(string FileId)
-            => Path.Combine(MyCommon.settingPath, typeof(T).Name + FileId + ".xml");
+            => Path.Combine(MyCommon.SettingPath, typeof(T).Name + FileId + ".xml");
     }
 }

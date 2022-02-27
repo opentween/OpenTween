@@ -59,12 +59,12 @@ namespace OpenTween
         {
             T? raisedEvent = null;
 
-            void handler(object s, T e)
+            void Handler(object s, T e)
                 => raisedEvent = e;
 
             try
             {
-                attach(handler);
+                attach(Handler);
                 await testCode().ConfigureAwait(false);
 
                 if (raisedEvent != null)
@@ -72,13 +72,13 @@ namespace OpenTween
             }
             finally
             {
-                detach(handler);
+                detach(Handler);
             }
         }
 
         public static void NotPropertyChanged(INotifyPropertyChanged @object, string propertyName, Action testCode)
         {
-            void handler(object s, PropertyChangedEventArgs e)
+            void Handler(object s, PropertyChangedEventArgs e)
             {
                 if (s == @object && e.PropertyName == propertyName)
                     throw new Xunit.Sdk.PropertyChangedException(propertyName);
@@ -86,12 +86,12 @@ namespace OpenTween
 
             try
             {
-                @object.PropertyChanged += handler;
+                @object.PropertyChanged += Handler;
                 testCode();
             }
             finally
             {
-                @object.PropertyChanged -= handler;
+                @object.PropertyChanged -= Handler;
             }
         }
 

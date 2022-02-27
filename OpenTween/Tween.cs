@@ -105,7 +105,7 @@ namespace OpenTween
 
         private readonly object _syncObject = new object(); // ロック用
 
-        private const string detailHtmlFormatHeaderMono =
+        private const string DetailHtmlFormatHeaderMono =
             "<html><head><meta http-equiv=\"X-UA-Compatible\" content=\"IE=8\">"
             + "<style type=\"text/css\"><!-- "
             + "body, p, pre {margin: 0;} "
@@ -117,8 +117,8 @@ namespace OpenTween
             + ".quote-tweet-link {color: inherit !important; text-decoration: none;}"
             + "--></style>"
             + "</head><body><pre>";
-        private const string detailHtmlFormatFooterMono = "</pre></body></html>";
-        private const string detailHtmlFormatHeaderColor =
+        private const string DetailHtmlFormatFooterMono = "</pre></body></html>";
+        private const string DetailHtmlFormatHeaderColor =
             "<html><head><meta http-equiv=\"X-UA-Compatible\" content=\"IE=8\">"
             + "<style type=\"text/css\"><!-- "
             + "body, p, pre {margin: 0;} "
@@ -130,7 +130,7 @@ namespace OpenTween
             + ".quote-tweet-link {color: inherit !important; text-decoration: none;}"
             + "--></style>"
             + "</head><body><p>";
-        private const string detailHtmlFormatFooterColor = "</p></body></html>";
+        private const string DetailHtmlFormatFooterColor = "</p></body></html>";
         private string detailHtmlFormatHeader = null!;
         private string detailHtmlFormatFooter = null!;
 
@@ -373,13 +373,13 @@ namespace OpenTween
         private bool preventSmsCommand = true;
 
         // URL短縮のUndo用
-        private struct urlUndo
+        private struct UrlUndo
         {
             public string Before;
             public string After;
         }
 
-        private List<urlUndo>? urlUndoBuffer = null;
+        private List<UrlUndo>? urlUndoBuffer = null;
 
         private readonly struct ReplyChain
         {
@@ -426,20 +426,20 @@ namespace OpenTween
 
         private class StatusTextHistory
         {
-            public string status = "";
-            public (long StatusId, string ScreenName)? inReplyTo = null;
+            public string Status { get; } = "";
+            public (long StatusId, string ScreenName)? InReplyTo { get; } = null;
 
             /// <summary>画像投稿サービス名</summary>
-            public string imageService = "";
+            public string ImageService { get; set; } = "";
 
-            public IMediaItem[]? mediaItems = null;
+            public IMediaItem[]? MediaItems { get; set; } = null;
             public StatusTextHistory()
             {
             }
             public StatusTextHistory(string status, (long StatusId, string ScreenName)? inReplyTo)
             {
-                this.status = status;
-                this.inReplyTo = inReplyTo;
+                this.Status = status;
+                this.InReplyTo = inReplyTo;
             }
         }
 
@@ -1191,7 +1191,7 @@ namespace OpenTween
             this.timelineScheduler.UpdateFunc[TimelineSchedulerTaskType.List] = () => this.InvokeAsync(() => this.RefreshTabAsync<ListTimelineTabModel>());
             this.timelineScheduler.UpdateFunc[TimelineSchedulerTaskType.Config] = () => this.InvokeAsync(() => Task.WhenAll(new[]
             {
-                this.doGetFollowersMenu(),
+                this.DoGetFollowersMenu(),
                 this.RefreshBlockIdsAsync(),
                 this.RefreshMuteUserIdsAsync(),
                 this.RefreshNoRetweetIdsAsync(),
@@ -1230,13 +1230,13 @@ namespace OpenTween
         {
             if (SettingManager.Common.IsMonospace)
             {
-                this.detailHtmlFormatHeader = detailHtmlFormatHeaderMono;
-                this.detailHtmlFormatFooter = detailHtmlFormatFooterMono;
+                this.detailHtmlFormatHeader = DetailHtmlFormatHeaderMono;
+                this.detailHtmlFormatFooter = DetailHtmlFormatFooterMono;
             }
             else
             {
-                this.detailHtmlFormatHeader = detailHtmlFormatHeaderColor;
-                this.detailHtmlFormatFooter = detailHtmlFormatFooterColor;
+                this.detailHtmlFormatHeader = DetailHtmlFormatHeaderColor;
+                this.detailHtmlFormatFooter = DetailHtmlFormatFooterColor;
             }
 
             this.detailHtmlFormatHeader = this.detailHtmlFormatHeader
@@ -1357,15 +1357,15 @@ namespace OpenTween
 
         private void RefreshTimelineScheduler()
         {
-            static TimeSpan intervalSecondsOrDisabled(int seconds)
+            static TimeSpan IntervalSecondsOrDisabled(int seconds)
                 => seconds == 0 ? Timeout.InfiniteTimeSpan : TimeSpan.FromSeconds(seconds);
 
-            this.timelineScheduler.UpdateInterval[TimelineSchedulerTaskType.Home] = intervalSecondsOrDisabled(SettingManager.Common.TimelinePeriod);
-            this.timelineScheduler.UpdateInterval[TimelineSchedulerTaskType.Mention] = intervalSecondsOrDisabled(SettingManager.Common.ReplyPeriod);
-            this.timelineScheduler.UpdateInterval[TimelineSchedulerTaskType.Dm] = intervalSecondsOrDisabled(SettingManager.Common.DMPeriod);
-            this.timelineScheduler.UpdateInterval[TimelineSchedulerTaskType.PublicSearch] = intervalSecondsOrDisabled(SettingManager.Common.PubSearchPeriod);
-            this.timelineScheduler.UpdateInterval[TimelineSchedulerTaskType.User] = intervalSecondsOrDisabled(SettingManager.Common.UserTimelinePeriod);
-            this.timelineScheduler.UpdateInterval[TimelineSchedulerTaskType.List] = intervalSecondsOrDisabled(SettingManager.Common.ListsPeriod);
+            this.timelineScheduler.UpdateInterval[TimelineSchedulerTaskType.Home] = IntervalSecondsOrDisabled(SettingManager.Common.TimelinePeriod);
+            this.timelineScheduler.UpdateInterval[TimelineSchedulerTaskType.Mention] = IntervalSecondsOrDisabled(SettingManager.Common.ReplyPeriod);
+            this.timelineScheduler.UpdateInterval[TimelineSchedulerTaskType.Dm] = IntervalSecondsOrDisabled(SettingManager.Common.DMPeriod);
+            this.timelineScheduler.UpdateInterval[TimelineSchedulerTaskType.PublicSearch] = IntervalSecondsOrDisabled(SettingManager.Common.PubSearchPeriod);
+            this.timelineScheduler.UpdateInterval[TimelineSchedulerTaskType.User] = IntervalSecondsOrDisabled(SettingManager.Common.UserTimelinePeriod);
+            this.timelineScheduler.UpdateInterval[TimelineSchedulerTaskType.List] = IntervalSecondsOrDisabled(SettingManager.Common.ListsPeriod);
             this.timelineScheduler.UpdateInterval[TimelineSchedulerTaskType.Config] = TimeSpan.FromHours(6);
             this.timelineScheduler.UpdateAfterSystemResume = TimeSpan.FromSeconds(30);
 
@@ -1418,7 +1418,7 @@ namespace OpenTween
                 out var newMentionOrDm,
                 out var isDelete);
 
-            if (MyCommon._endingFlag) return;
+            if (MyCommon.EndingFlag) return;
 
             // リストに反映＆選択状態復元
             foreach (var (tab, index) in this._statuses.Tabs.WithIndex())
@@ -2049,8 +2049,8 @@ namespace OpenTween
                 this._hisIdx = 0;
 
             var historyItem = this._history[this._hisIdx];
-            this.inReplyTo = historyItem.inReplyTo;
-            this.StatusText.Text = historyItem.status;
+            this.inReplyTo = historyItem.InReplyTo;
+            this.StatusText.Text = historyItem.Status;
             this.StatusText.SelectionStart = this.StatusText.Text.Length;
         }
 
@@ -2064,8 +2064,8 @@ namespace OpenTween
                 this._hisIdx = this._history.Count - 1;
 
             var historyItem = this._history[this._hisIdx];
-            this.inReplyTo = historyItem.inReplyTo;
-            this.StatusText.Text = historyItem.status;
+            this.inReplyTo = historyItem.InReplyTo;
+            this.StatusText.Text = historyItem.Status;
             this.StatusText.SelectionStart = this.StatusText.Text.Length;
         }
 
@@ -2091,7 +2091,7 @@ namespace OpenTween
                 {
                     case DialogResult.Yes:
                         this.StatusText.Text = "";
-                        await this.doReTweetOfficial(false);
+                        await this.DoReTweetOfficial(false);
                         return;
                     case DialogResult.Cancel:
                         return;
@@ -2188,13 +2188,13 @@ namespace OpenTween
 
         private void EndToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MyCommon._endingFlag = true;
+            MyCommon.EndingFlag = true;
             this.Close();
         }
 
         private void TweenMain_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (!SettingManager.Common.CloseToExit && e.CloseReason == CloseReason.UserClosing && MyCommon._endingFlag == false)
+            if (!SettingManager.Common.CloseToExit && e.CloseReason == CloseReason.UserClosing && MyCommon.EndingFlag == false)
             {
                 // _endingFlag=false:フォームの×ボタン
                 e.Cancel = true;
@@ -2204,7 +2204,7 @@ namespace OpenTween
             {
                 this._hookGlobalHotkey.UnregisterAllOriginalHotkey();
                 this._ignoreConfigSave = true;
-                MyCommon._endingFlag = true;
+                MyCommon.EndingFlag = true;
                 this.timelineScheduler.Enabled = false;
                 this.TimerRefreshIcon.Enabled = false;
             }
@@ -3258,7 +3258,7 @@ namespace OpenTween
         private void DMStripMenuItem_Click(object sender, EventArgs e)
             => this.MakeReplyOrDirectStatus(false, false);
 
-        private async Task doStatusDelete()
+        private async Task DoStatusDelete()
         {
             var posts = this.CurrentTab.SelectedPosts;
             if (posts.Length == 0)
@@ -3379,7 +3379,7 @@ namespace OpenTween
         }
 
         private async void DeleteStripMenuItem_Click(object sender, EventArgs e)
-            => await this.doStatusDelete();
+            => await this.DoStatusDelete();
 
         private void ReadedStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -3456,8 +3456,8 @@ namespace OpenTween
             settingDialog.ShowInTaskbar = showTaskbarIcon;
             settingDialog.IntervalChanged += this.TimerInterval_Changed;
 
-            settingDialog.tw = this.tw;
-            settingDialog.twitterApi = this.twitterApi;
+            settingDialog.Tw = this.tw;
+            settingDialog.TwitterApi = this.twitterApi;
 
             settingDialog.LoadConfig(SettingManager.Common, SettingManager.Local);
 
@@ -3729,7 +3729,7 @@ namespace OpenTween
             this.SaveConfigsAll(false);
 
             if (this.tw.UserId != oldUser.UserId)
-                await this.doGetFollowersMenu();
+                await this.DoGetFollowersMenu();
         }
 
         /// <summary>
@@ -4367,7 +4367,7 @@ namespace OpenTween
             var eHalf = "";
             if (dialog.DialogResult == DialogResult.OK)
             {
-                if (!MyCommon.IsNullOrEmpty(dialog.inputText))
+                if (!MyCommon.IsNullOrEmpty(dialog.InputText))
                 {
                     if (selStart > 0)
                     {
@@ -4377,8 +4377,8 @@ namespace OpenTween
                     {
                         eHalf = owner.Text.Substring(selStart);
                     }
-                    owner.Text = fHalf + dialog.inputText + eHalf;
-                    owner.SelectionStart = selStart + dialog.inputText.Length;
+                    owner.Text = fHalf + dialog.InputText + eHalf;
+                    owner.SelectionStart = selStart + dialog.InputText.Length;
                 }
             }
             else
@@ -5375,8 +5375,8 @@ namespace OpenTween
             var pinfo = new ProcessStartInfo
             {
                 UseShellExecute = true,
-                WorkingDirectory = MyCommon.settingPath,
-                FileName = Path.Combine(MyCommon.settingPath, "TweenUp3.exe"),
+                WorkingDirectory = MyCommon.SettingPath,
+                FileName = Path.Combine(MyCommon.SettingPath, "TweenUp3.exe"),
                 Arguments = "\"" + Application.StartupPath + "\"",
             };
 
@@ -5522,7 +5522,7 @@ namespace OpenTween
             this.DispSelectedPost();
         }
 
-        public string createDetailHtml(string orgdata)
+        public string CreateDetailHtml(string orgdata)
             => this.detailHtmlFormatHeader + orgdata + this.detailHtmlFormatFooter;
 
         private void DispSelectedPost()
@@ -5563,7 +5563,7 @@ namespace OpenTween
                 loadTasks.Add(this.tweetThumbnail1.ShowThumbnailAsync(currentPost, token));
             }
 
-            async Task delayedTasks()
+            async Task DelayedTasks()
             {
                 try
                 {
@@ -5573,7 +5573,7 @@ namespace OpenTween
             }
 
             // サムネイルの読み込みを待たずに次に選択されたツイートを表示するため await しない
-            _ = delayedTasks();
+            _ = DelayedTasks();
         }
 
         private async void MatomeMenuItem_Click(object sender, EventArgs e)
@@ -5773,7 +5773,7 @@ namespace OpenTween
                     .Do(() => this.MakeReplyOrDirectStatus(isAuto: false, isReply: true)),
 
                 ShortcutCommand.Create(Keys.Control | Keys.D)
-                    .Do(() => this.doStatusDelete()),
+                    .Do(() => this.DoStatusDelete()),
 
                 ShortcutCommand.Create(Keys.Control | Keys.M)
                     .Do(() => this.MakeReplyOrDirectStatus(isAuto: false, isReply: false)),
@@ -5782,10 +5782,10 @@ namespace OpenTween
                     .Do(() => this.FavoriteChange(FavAdd: true)),
 
                 ShortcutCommand.Create(Keys.Control | Keys.I)
-                    .Do(() => this.doRepliedStatusOpen()),
+                    .Do(() => this.DoRepliedStatusOpen()),
 
                 ShortcutCommand.Create(Keys.Control | Keys.Q)
-                    .Do(() => this.doQuoteOfficial()),
+                    .Do(() => this.DoQuoteOfficial()),
 
                 ShortcutCommand.Create(Keys.Control | Keys.B)
                     .Do(() => this.ReadedStripMenuItem_Click(this.ReadedStripMenuItem, EventArgs.Empty)),
@@ -5991,11 +5991,11 @@ namespace OpenTween
                     .Do(() => this.GoBackSelectPostChain()),
 
                 ShortcutCommand.Create(Keys.Alt | Keys.R)
-                    .Do(() => this.doReTweetOfficial(isConfirm: true)),
+                    .Do(() => this.DoReTweetOfficial(isConfirm: true)),
 
                 ShortcutCommand.Create(Keys.Alt | Keys.P)
                     .OnlyWhen(() => this.CurrentPost != null)
-                    .Do(() => this.doShowUserStatus(this.CurrentPost!.ScreenName, ShowInputDialog: false)),
+                    .Do(() => this.DoShowUserStatus(this.CurrentPost!.ScreenName, ShowInputDialog: false)),
 
                 ShortcutCommand.Create(Keys.Alt | Keys.Up)
                     .Do(() => this.tweetDetailsView.ScrollDownPostBrowser(forward: false)),
@@ -6041,7 +6041,7 @@ namespace OpenTween
                     .Do(() => this.ImageSelectMenuItem_Click(this.ImageSelectMenuItem, EventArgs.Empty)),
 
                 ShortcutCommand.Create(Keys.Control | Keys.Shift | Keys.H)
-                    .Do(() => this.doMoveToRTHome()),
+                    .Do(() => this.DoMoveToRTHome()),
 
                 ShortcutCommand.Create(Keys.Control | Keys.Shift | Keys.Up)
                     .FocusedOn(FocusedControl.StatusText)
@@ -6157,14 +6157,14 @@ namespace OpenTween
 
                 ShortcutCommand.Create(Keys.Alt | Keys.Shift | Keys.R)
                     .FocusedOn(FocusedControl.PostBrowser)
-                    .Do(() => this.doReTweetUnofficial()),
+                    .Do(() => this.DoReTweetUnofficial()),
 
                 ShortcutCommand.Create(Keys.Alt | Keys.Shift | Keys.T)
                     .OnlyWhen(() => this.ExistCurrentPost)
                     .Do(() => this.tweetDetailsView.DoTranslation()),
 
                 ShortcutCommand.Create(Keys.Alt | Keys.Shift | Keys.R)
-                    .Do(() => this.doReTweetUnofficial()),
+                    .Do(() => this.DoReTweetUnofficial()),
 
                 ShortcutCommand.Create(Keys.Alt | Keys.Shift | Keys.C, Keys.Alt | Keys.Shift | Keys.Insert)
                     .Do(() => this.CopyUserId()),
@@ -8468,7 +8468,7 @@ namespace OpenTween
                     break;
                 case MyCommon.DispTitleEnum.Post:
                     if (this._history != null && this._history.Count > 1)
-                        ttl.Append(this._history[this._history.Count - 2].status.Replace("\r\n", " "));
+                        ttl.Append(this._history[this._history.Count - 2].Status.Replace("\r\n", " "));
                     break;
                 case MyCommon.DispTitleEnum.UnreadRepCount:
                     ttl.AppendFormat(Properties.Resources.SetMainWindowTitleText1, this._statuses.MentionTab.UnreadCount + this._statuses.DirectMessageTab.UnreadCount);
@@ -8809,7 +8809,7 @@ namespace OpenTween
             this.MarkSettingLocalModified();
         }
 
-        private async Task doRepliedStatusOpen()
+        private async Task DoRepliedStatusOpen()
         {
             var currentPost = this.CurrentPost;
             if (this.ExistCurrentPost && currentPost != null && currentPost.InReplyToUser != null && currentPost.InReplyToStatusId != null)
@@ -8838,7 +8838,7 @@ namespace OpenTween
         }
 
         private async void RepliedStatusOpenMenuItem_Click(object sender, EventArgs e)
-            => await this.doRepliedStatusOpen();
+            => await this.DoRepliedStatusOpen();
 
         private void SplitContainer2_Panel2_Resize(object sender, EventArgs e)
         {
@@ -8917,7 +8917,7 @@ namespace OpenTween
                     // nico.ms使用、nicovideoにマッチしたら変換
                     if (SettingManager.Common.Nicoms && Regex.IsMatch(tmp, nico))
                     {
-                        result = nicoms.Shorten(tmp);
+                        result = Nicoms.Shorten(tmp);
                     }
                     else if (Converter_Type != MyCommon.UrlConverter.Nicoms)
                     {
@@ -8946,7 +8946,7 @@ namespace OpenTween
 
                     if (!MyCommon.IsNullOrEmpty(result))
                     {
-                        var undotmp = new urlUndo();
+                        var undotmp = new UrlUndo();
 
                         // 短縮 URL が生成されるまでの間に投稿欄から元の URL が削除されていたら中断する
                         var origUrlIndex = this.StatusText.Text.IndexOf(tmp, StringComparison.Ordinal);
@@ -8962,7 +8962,7 @@ namespace OpenTween
 
                         if (this.urlUndoBuffer == null)
                         {
-                            this.urlUndoBuffer = new List<urlUndo>();
+                            this.urlUndoBuffer = new List<UrlUndo>();
                             this.UrlUndoToolStripMenuItem.Enabled = true;
                         }
 
@@ -8985,7 +8985,7 @@ namespace OpenTween
                     var tmp = mt.Result("${url}");
                     if (tmp.StartsWith("w", StringComparison.OrdinalIgnoreCase))
                         tmp = "http://" + tmp;
-                    var undotmp = new urlUndo();
+                    var undotmp = new UrlUndo();
 
                     // 選んだURLを選択（？）
                     this.StatusText.Select(this.StatusText.Text.IndexOf(mt.Result("${url}"), StringComparison.Ordinal), mt.Result("${url}").Length);
@@ -8993,7 +8993,7 @@ namespace OpenTween
                     // nico.ms使用、nicovideoにマッチしたら変換
                     if (SettingManager.Common.Nicoms && Regex.IsMatch(tmp, nico))
                     {
-                        result = nicoms.Shorten(tmp);
+                        result = Nicoms.Shorten(tmp);
                     }
                     else if (Converter_Type != MyCommon.UrlConverter.Nicoms)
                     {
@@ -9044,7 +9044,7 @@ namespace OpenTween
 
                         if (this.urlUndoBuffer == null)
                         {
-                            this.urlUndoBuffer = new List<urlUndo>();
+                            this.urlUndoBuffer = new List<UrlUndo>();
                             this.UrlUndoToolStripMenuItem.Enabled = true;
                         }
 
@@ -9056,7 +9056,7 @@ namespace OpenTween
             return true;
         }
 
-        private void doUrlUndo()
+        private void DoUrlUndo()
         {
             if (this.urlUndoBuffer != null)
             {
@@ -9100,7 +9100,7 @@ namespace OpenTween
         }
 
         private void UrlUndoToolStripMenuItem_Click(object sender, EventArgs e)
-            => this.doUrlUndo();
+            => this.DoUrlUndo();
 
         private void NewPostPopMenuItem_CheckStateChanged(object sender, EventArgs e)
         {
@@ -9589,11 +9589,11 @@ namespace OpenTween
                     i += 1;
                     if (i > 24) break; // 120秒間初期処理が終了しなかったら強制的に打ち切る
 
-                    if (MyCommon._endingFlag)
+                    if (MyCommon.EndingFlag)
                         return;
                 }
 
-                if (MyCommon._endingFlag) return;
+                if (MyCommon.EndingFlag) return;
 
                 if (ApplicationSettings.VersionInfoUrl != null)
                 {
@@ -9636,19 +9636,19 @@ namespace OpenTween
             this.timelineScheduler.Enabled = true;
         }
 
-        private async Task doGetFollowersMenu()
+        private async Task DoGetFollowersMenu()
         {
             await this.RefreshFollowerIdsAsync();
             this.DispSelectedPost(true);
         }
 
         private async void GetFollowersAllToolStripMenuItem_Click(object sender, EventArgs e)
-            => await this.doGetFollowersMenu();
+            => await this.DoGetFollowersMenu();
 
         private void ReTweetUnofficialStripMenuItem_Click(object sender, EventArgs e)
-            => this.doReTweetUnofficial();
+            => this.DoReTweetUnofficial();
 
-        private async Task doReTweetOfficial(bool isConfirm)
+        private async Task DoReTweetOfficial(bool isConfirm)
         {
             // 公式RT
             if (this.ExistCurrentPost)
@@ -9703,13 +9703,13 @@ namespace OpenTween
         }
 
         private async void ReTweetStripMenuItem_Click(object sender, EventArgs e)
-            => await this.doReTweetOfficial(true);
+            => await this.DoReTweetOfficial(true);
 
         private async Task FavoritesRetweetOfficial()
         {
             if (!this.ExistCurrentPost) return;
             this._DoFavRetweetFlags = true;
-            var retweetTask = this.doReTweetOfficial(true);
+            var retweetTask = this.DoReTweetOfficial(true);
             if (this._DoFavRetweetFlags)
             {
                 this._DoFavRetweetFlags = false;
@@ -9733,7 +9733,7 @@ namespace OpenTween
                 if (!post.IsProtect && this._DoFavRetweetFlags)
                 {
                     this._DoFavRetweetFlags = false;
-                    this.doReTweetUnofficial();
+                    this.DoReTweetUnofficial();
                 }
 
                 await favoriteTask;
@@ -10107,7 +10107,7 @@ namespace OpenTween
         }
 
         private async void OwnStatusMenuItem_Click(object sender, EventArgs e)
-            => await this.doShowUserStatus(this.tw.Username, false);
+            => await this.DoShowUserStatus(this.tw.Username, false);
 
         // TwitterIDでない固定文字列を調べる（文字列検証のみ　実際に取得はしない）
         // URLから切り出した文字列を渡す
@@ -10120,7 +10120,7 @@ namespace OpenTween
                 return !this.tw.Configuration.NonUsernamePaths.Contains(name, StringComparer.InvariantCultureIgnoreCase);
         }
 
-        private void doQuoteOfficial()
+        private void DoQuoteOfficial()
         {
             var post = this.CurrentPost;
             if (this.ExistCurrentPost && post != null)
@@ -10145,7 +10145,7 @@ namespace OpenTween
             }
         }
 
-        private void doReTweetUnofficial()
+        private void DoReTweetUnofficial()
         {
             // RT @id:内容
             var post = this.CurrentPost;
@@ -10177,7 +10177,7 @@ namespace OpenTween
         }
 
         private void QuoteStripMenuItem_Click(object sender, EventArgs e)
-            => this.doQuoteOfficial();
+            => this.DoQuoteOfficial();
 
         private async void SearchButton_Click(object sender, EventArgs e)
         {
@@ -10340,7 +10340,7 @@ namespace OpenTween
             }
         }
 
-        private async Task doMoveToRTHome()
+        private async Task DoMoveToRTHome()
         {
             var post = this.CurrentPost;
             if (post != null && post.RetweetedId != null)
@@ -10348,7 +10348,7 @@ namespace OpenTween
         }
 
         private async void MoveToRTHomeMenuItem_Click(object sender, EventArgs e)
-            => await this.doMoveToRTHome();
+            => await this.DoMoveToRTHome();
 
         private void ListManageUserContextToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -10632,7 +10632,7 @@ namespace OpenTween
         private async void UserStatusToolStripMenuItem_Click(object sender, EventArgs e)
             => await this.ShowUserStatus(this.CurrentPost?.ScreenName ?? "");
 
-        private async Task doShowUserStatus(string id, bool ShowInputDialog)
+        private async Task DoShowUserStatus(string id, bool ShowInputDialog)
         {
             TwitterUser? user = null;
 
@@ -10671,10 +10671,10 @@ namespace OpenTween
                     return;
             }
 
-            await this.doShowUserStatus(user);
+            await this.DoShowUserStatus(user);
         }
 
-        private async Task doShowUserStatus(TwitterUser user)
+        private async Task DoShowUserStatus(TwitterUser user)
         {
             using var userDialog = new UserInfoDialog(this, this.twitterApi);
             var showUserTask = userDialog.ShowUserAsync(user);
@@ -10688,10 +10688,10 @@ namespace OpenTween
         }
 
         internal Task ShowUserStatus(string id, bool ShowInputDialog)
-            => this.doShowUserStatus(id, ShowInputDialog);
+            => this.DoShowUserStatus(id, ShowInputDialog);
 
         internal Task ShowUserStatus(string id)
-            => this.doShowUserStatus(id, true);
+            => this.DoShowUserStatus(id, true);
 
         private async void ShowProfileMenuItem_Click(object sender, EventArgs e)
         {
@@ -10761,7 +10761,7 @@ namespace OpenTween
 
             this.tweetDetailsView.Owner = this;
 
-            this._hookGlobalHotkey.HotkeyPressed += this._hookGlobalHotkey_HotkeyPressed;
+            this._hookGlobalHotkey.HotkeyPressed += this.HookGlobalHotkey_HotkeyPressed;
             this.gh.NotifyClicked += this.GrowlHelper_Callback;
 
             // メイリオフォント指定時にタブの最小幅が広くなる問題の対策
@@ -10777,7 +10777,7 @@ namespace OpenTween
             this.InitializeShortcuts();
         }
 
-        private void _hookGlobalHotkey_HotkeyPressed(object sender, KeyEventArgs e)
+        private void HookGlobalHotkey_HotkeyPressed(object sender, KeyEventArgs e)
         {
             if ((this.WindowState == FormWindowState.Normal || this.WindowState == FormWindowState.Maximized) && this.Visible && Form.ActiveForm == this)
             {
@@ -11024,7 +11024,7 @@ namespace OpenTween
 
         private void TweenRestartMenuItem_Click(object sender, EventArgs e)
         {
-            MyCommon._endingFlag = true;
+            MyCommon.EndingFlag = true;
             try
             {
                 this.Close();
@@ -11174,13 +11174,13 @@ namespace OpenTween
             this.AboutMenuItem.Text = MyCommon.ReplaceAppName(this.AboutMenuItem.Text);
         }
 
-        private void tweetThumbnail1_ThumbnailLoading(object sender, EventArgs e)
+        private void TweetThumbnail_ThumbnailLoading(object sender, EventArgs e)
             => this.SplitContainer3.Panel2Collapsed = false;
 
-        private async void tweetThumbnail1_ThumbnailDoubleClick(object sender, ThumbnailDoubleClickEventArgs e)
+        private async void TweetThumbnail_ThumbnailDoubleClick(object sender, ThumbnailDoubleClickEventArgs e)
             => await this.OpenThumbnailPicture(e.Thumbnail);
 
-        private async void tweetThumbnail1_ThumbnailImageSearchClick(object sender, ThumbnailImageSearchEventArgs e)
+        private async void TweetThumbnail_ThumbnailImageSearchClick(object sender, ThumbnailImageSearchEventArgs e)
             => await MyCommon.OpenInBrowserAsync(this, e.ImageUrl);
 
         private async Task OpenThumbnailPicture(ThumbnailInfo thumbnail)
@@ -11259,7 +11259,7 @@ namespace OpenTween
             this.MarkSettingCommonModified();
         }
 
-        private void tweetDetailsView_StatusChanged(object sender, TweetDetailsViewStatusChengedEventArgs e)
+        private void TweetDetailsView_StatusChanged(object sender, TweetDetailsViewStatusChengedEventArgs e)
         {
             if (!MyCommon.IsNullOrEmpty(e.StatusText))
             {

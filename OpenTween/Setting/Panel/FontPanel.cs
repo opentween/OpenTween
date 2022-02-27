@@ -97,28 +97,28 @@ namespace OpenTween.Setting.Panel
             this.lblRetweet.ForeColor = Color.FromKnownColor(System.Drawing.KnownColor.Green);
         }
 
-        private void btnListFont_Click(object sender, EventArgs e)
+        private void BtnListFont_Click(object sender, EventArgs e)
             => this.ShowFontDialog(this.lblListFont);
 
-        private void btnUnread_Click(object sender, EventArgs e)
+        private void BtnUnread_Click(object sender, EventArgs e)
             => this.ShowFontDialog(this.lblUnread);
 
-        private void btnFav_Click(object sender, EventArgs e)
+        private void BtnFav_Click(object sender, EventArgs e)
             => this.ShowForeColorDialog(this.lblFav);
 
-        private void btnOWL_Click(object sender, EventArgs e)
+        private void BtnOWL_Click(object sender, EventArgs e)
             => this.ShowForeColorDialog(this.lblOWL);
 
-        private void btnRetweet_Click(object sender, EventArgs e)
+        private void BtnRetweet_Click(object sender, EventArgs e)
             => this.ShowForeColorDialog(this.lblRetweet);
 
-        private void btnDetail_Click(object sender, EventArgs e)
+        private void BtnDetail_Click(object sender, EventArgs e)
             => this.ShowFontDialog(this.lblDetail);
 
-        private void btnDetailLink_Click(object sender, EventArgs e)
+        private void BtnDetailLink_Click(object sender, EventArgs e)
             => this.ShowForeColorDialog(this.lblDetailLink);
 
-        private void btnDetailBack_Click(object sender, EventArgs e)
+        private void BtnDetailBack_Click(object sender, EventArgs e)
             => this.ShowBackColorDialog(this.lblDetailBackcolor);
     }
 }

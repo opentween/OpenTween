@@ -59,7 +59,7 @@
             resources.ApplyResources(this.buttonSendByMail, "buttonSendByMail");
             this.buttonSendByMail.Name = "buttonSendByMail";
             this.buttonSendByMail.UseVisualStyleBackColor = true;
-            this.buttonSendByMail.Click += new System.EventHandler(this.buttonSendByMail_Click);
+            this.buttonSendByMail.Click += new System.EventHandler(this.ButtonSendByMail_Click);
             // 
             // buttonSendByDM
             // 
@@ -67,7 +67,7 @@
             resources.ApplyResources(this.buttonSendByDM, "buttonSendByDM");
             this.buttonSendByDM.Name = "buttonSendByDM";
             this.buttonSendByDM.UseVisualStyleBackColor = true;
-            this.buttonSendByDM.Click += new System.EventHandler(this.buttonSendByDM_Click);
+            this.buttonSendByDM.Click += new System.EventHandler(this.ButtonSendByDM_Click);
             // 
             // bindingSource
             // 
@@ -79,7 +79,7 @@
             resources.ApplyResources(this.buttonNotSend, "buttonNotSend");
             this.buttonNotSend.Name = "buttonNotSend";
             this.buttonNotSend.UseVisualStyleBackColor = true;
-            this.buttonNotSend.Click += new System.EventHandler(this.buttonNotSend_Click);
+            this.buttonNotSend.Click += new System.EventHandler(this.ButtonNotSend_Click);
             // 
             // textBoxErrorReport
             // 
@@ -103,7 +103,7 @@
             resources.ApplyResources(this.buttonReset, "buttonReset");
             this.buttonReset.Name = "buttonReset";
             this.buttonReset.UseVisualStyleBackColor = true;
-            this.buttonReset.Click += new System.EventHandler(this.buttonReset_Click);
+            this.buttonReset.Click += new System.EventHandler(this.ButtonReset_Click);
             // 
             // pictureBoxIcon
             // 

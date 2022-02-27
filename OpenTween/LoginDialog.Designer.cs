@@ -63,7 +63,7 @@
             resources.ApplyResources(this.buttonLogin, "buttonLogin");
             this.buttonLogin.Name = "buttonLogin";
             this.buttonLogin.UseVisualStyleBackColor = true;
-            this.buttonLogin.Click += new System.EventHandler(this.buttonLogin_Click);
+            this.buttonLogin.Click += new System.EventHandler(this.ButtonLogin_Click);
             // 
             // buttonCancel
             // 

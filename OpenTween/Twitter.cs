@@ -81,37 +81,37 @@ namespace OpenTween
         private const string HASHTAG_TERMINATOR = "[^A-Za-z0-9_" + LATIN_ACCENTS + NON_LATIN_HASHTAG_CHARS + CJ_HASHTAG_CHARACTERS + "]";
         public const string HASHTAG = "(" + HASHTAG_BOUNDARY + ")(#|＃)(" + HASHTAG_ALPHANUMERIC + "*" + HASHTAG_ALPHA + HASHTAG_ALPHANUMERIC + "*)(?=" + HASHTAG_TERMINATOR + "|" + HASHTAG_BOUNDARY + ")";
         // URL正規表現
-        private const string url_valid_preceding_chars = @"(?:[^A-Za-z0-9@＠$#＃\ufffe\ufeff\uffff\u202a-\u202e]|^)";
-        public const string url_invalid_without_protocol_preceding_chars = @"[-_./]$";
-        private const string url_invalid_domain_chars = @"\!'#%&'\(\)*\+,\\\-\.\/:;<=>\?@\[\]\^_{|}~\$\u2000-\u200a\u0009-\u000d\u0020\u0085\u00a0\u1680\u180e\u2028\u2029\u202f\u205f\u3000\ufffe\ufeff\uffff\u202a-\u202e";
-        private const string url_valid_domain_chars = @"[^" + url_invalid_domain_chars + "]";
-        private const string url_valid_subdomain = @"(?:(?:" + url_valid_domain_chars + @"(?:[_-]|" + url_valid_domain_chars + @")*)?" + url_valid_domain_chars + @"\.)";
-        private const string url_valid_domain_name = @"(?:(?:" + url_valid_domain_chars + @"(?:-|" + url_valid_domain_chars + @")*)?" + url_valid_domain_chars + @"\.)";
-        private const string url_valid_GTLD = @"(?:(?:aero|asia|biz|cat|com|coop|edu|gov|info|int|jobs|mil|mobi|museum|name|net|org|pro|tel|travel|xxx)(?=[^0-9a-zA-Z]|$))";
-        private const string url_valid_CCTLD = @"(?:(?:ac|ad|ae|af|ag|ai|al|am|an|ao|aq|ar|as|at|au|aw|ax|az|ba|bb|bd|be|bf|bg|bh|bi|bj|bm|bn|bo|br|bs|bt|bv|bw|by|bz|ca|cc|cd|cf|cg|ch|ci|ck|cl|cm|cn|co|cr|cs|cu|cv|cx|cy|cz|dd|de|dj|dk|dm|do|dz|ec|ee|eg|eh|er|es|et|eu|fi|fj|fk|fm|fo|fr|ga|gb|gd|ge|gf|gg|gh|gi|gl|gm|gn|gp|gq|gr|gs|gt|gu|gw|gy|hk|hm|hn|hr|ht|hu|id|ie|il|im|in|io|iq|ir|is|it|je|jm|jo|jp|ke|kg|kh|ki|km|kn|kp|kr|kw|ky|kz|la|lb|lc|li|lk|lr|ls|lt|lu|lv|ly|ma|mc|md|me|mg|mh|mk|ml|mm|mn|mo|mp|mq|mr|ms|mt|mu|mv|mw|mx|my|mz|na|nc|ne|nf|ng|ni|nl|no|np|nr|nu|nz|om|pa|pe|pf|pg|ph|pk|pl|pm|pn|pr|ps|pt|pw|py|qa|re|ro|rs|ru|rw|sa|sb|sc|sd|se|sg|sh|si|sj|sk|sl|sm|sn|so|sr|ss|st|su|sv|sy|sz|tc|td|tf|tg|th|tj|tk|tl|tm|tn|to|tp|tr|tt|tv|tw|tz|ua|ug|uk|us|uy|uz|va|vc|ve|vg|vi|vn|vu|wf|ws|ye|yt|za|zm|zw)(?=[^0-9a-zA-Z]|$))";
-        private const string url_valid_punycode = @"(?:xn--[0-9a-z]+)";
-        private const string url_valid_domain = @"(?<domain>" + url_valid_subdomain + "*" + url_valid_domain_name + "(?:" + url_valid_GTLD + "|" + url_valid_CCTLD + ")|" + url_valid_punycode + ")";
-        public const string url_valid_ascii_domain = @"(?:(?:[a-z0-9" + LATIN_ACCENTS + @"]+)\.)+(?:" + url_valid_GTLD + "|" + url_valid_CCTLD + "|" + url_valid_punycode + ")";
-        public const string url_invalid_short_domain = "^" + url_valid_domain_name + url_valid_CCTLD + "$";
-        private const string url_valid_port_number = @"[0-9]+";
+        private const string UrlValidPrecedingChars = @"(?:[^A-Za-z0-9@＠$#＃\ufffe\ufeff\uffff\u202a-\u202e]|^)";
+        public const string UrlInvalidWithoutProtocolPrecedingChars = @"[-_./]$";
+        private const string UrlInvalidDomainChars = @"\!'#%&'\(\)*\+,\\\-\.\/:;<=>\?@\[\]\^_{|}~\$\u2000-\u200a\u0009-\u000d\u0020\u0085\u00a0\u1680\u180e\u2028\u2029\u202f\u205f\u3000\ufffe\ufeff\uffff\u202a-\u202e";
+        private const string UrlValidDomainChars = @"[^" + UrlInvalidDomainChars + "]";
+        private const string UrlValidSubdomain = @"(?:(?:" + UrlValidDomainChars + @"(?:[_-]|" + UrlValidDomainChars + @")*)?" + UrlValidDomainChars + @"\.)";
+        private const string UrlValidDomainName = @"(?:(?:" + UrlValidDomainChars + @"(?:-|" + UrlValidDomainChars + @")*)?" + UrlValidDomainChars + @"\.)";
+        private const string UrlValidGTLD = @"(?:(?:aero|asia|biz|cat|com|coop|edu|gov|info|int|jobs|mil|mobi|museum|name|net|org|pro|tel|travel|xxx)(?=[^0-9a-zA-Z]|$))";
+        private const string UrlValidCCTLD = @"(?:(?:ac|ad|ae|af|ag|ai|al|am|an|ao|aq|ar|as|at|au|aw|ax|az|ba|bb|bd|be|bf|bg|bh|bi|bj|bm|bn|bo|br|bs|bt|bv|bw|by|bz|ca|cc|cd|cf|cg|ch|ci|ck|cl|cm|cn|co|cr|cs|cu|cv|cx|cy|cz|dd|de|dj|dk|dm|do|dz|ec|ee|eg|eh|er|es|et|eu|fi|fj|fk|fm|fo|fr|ga|gb|gd|ge|gf|gg|gh|gi|gl|gm|gn|gp|gq|gr|gs|gt|gu|gw|gy|hk|hm|hn|hr|ht|hu|id|ie|il|im|in|io|iq|ir|is|it|je|jm|jo|jp|ke|kg|kh|ki|km|kn|kp|kr|kw|ky|kz|la|lb|lc|li|lk|lr|ls|lt|lu|lv|ly|ma|mc|md|me|mg|mh|mk|ml|mm|mn|mo|mp|mq|mr|ms|mt|mu|mv|mw|mx|my|mz|na|nc|ne|nf|ng|ni|nl|no|np|nr|nu|nz|om|pa|pe|pf|pg|ph|pk|pl|pm|pn|pr|ps|pt|pw|py|qa|re|ro|rs|ru|rw|sa|sb|sc|sd|se|sg|sh|si|sj|sk|sl|sm|sn|so|sr|ss|st|su|sv|sy|sz|tc|td|tf|tg|th|tj|tk|tl|tm|tn|to|tp|tr|tt|tv|tw|tz|ua|ug|uk|us|uy|uz|va|vc|ve|vg|vi|vn|vu|wf|ws|ye|yt|za|zm|zw)(?=[^0-9a-zA-Z]|$))";
+        private const string UrlValidPunycode = @"(?:xn--[0-9a-z]+)";
+        private const string UrlValidDomain = @"(?<domain>" + UrlValidSubdomain + "*" + UrlValidDomainName + "(?:" + UrlValidGTLD + "|" + UrlValidCCTLD + ")|" + UrlValidPunycode + ")";
+        public const string UrlValidAsciiDomain = @"(?:(?:[a-z0-9" + LATIN_ACCENTS + @"]+)\.)+(?:" + UrlValidGTLD + "|" + UrlValidCCTLD + "|" + UrlValidPunycode + ")";
+        public const string UrlInvalidShortDomain = "^" + UrlValidDomainName + UrlValidCCTLD + "$";
+        private const string UrlValidPortNumber = @"[0-9]+";
 
-        private const string url_valid_general_path_chars = @"[a-z0-9!*';:=+,.$/%#\[\]\-_~|&" + LATIN_ACCENTS + "]";
-        private const string url_balance_parens = @"(?:\(" + url_valid_general_path_chars + @"+\))";
-        private const string url_valid_path_ending_chars = @"(?:[+\-a-z0-9=_#/" + LATIN_ACCENTS + "]|" + url_balance_parens + ")";
-        private const string pth = "(?:" +
+        private const string UrlValidGeneralPathChars = @"[a-z0-9!*';:=+,.$/%#\[\]\-_~|&" + LATIN_ACCENTS + "]";
+        private const string UrlBalanceParens = @"(?:\(" + UrlValidGeneralPathChars + @"+\))";
+        private const string UrlValidPathEndingChars = @"(?:[+\-a-z0-9=_#/" + LATIN_ACCENTS + "]|" + UrlBalanceParens + ")";
+        private const string Pth = "(?:" +
             "(?:" +
-                url_valid_general_path_chars + "*" +
-                "(?:" + url_balance_parens + url_valid_general_path_chars + "*)*" +
-                url_valid_path_ending_chars +
-                ")|(?:@" + url_valid_general_path_chars + "+/)" +
+                UrlValidGeneralPathChars + "*" +
+                "(?:" + UrlBalanceParens + UrlValidGeneralPathChars + "*)*" +
+                UrlValidPathEndingChars +
+                ")|(?:@" + UrlValidGeneralPathChars + "+/)" +
             ")";
-        private const string qry = @"(?<query>\?[a-z0-9!?*'();:&=+$/%#\[\]\-_.,~|]*[a-z0-9_&=#/])?";
-        public const string rgUrl = @"(?<before>" + url_valid_preceding_chars + ")" +
+        private const string Qry = @"(?<query>\?[a-z0-9!?*'();:&=+$/%#\[\]\-_.,~|]*[a-z0-9_&=#/])?";
+        public const string RgUrl = @"(?<before>" + UrlValidPrecedingChars + ")" +
                                     "(?<url>(?<protocol>https?://)?" +
-                                    "(?<domain>" + url_valid_domain + ")" +
-                                    "(?::" + url_valid_port_number + ")?" +
-                                    "(?<path>/" + pth + "*)?" +
-                                    qry +
+                                    "(?<domain>" + UrlValidDomain + ")" +
+                                    "(?::" + UrlValidPortNumber + ")?" +
+                                    "(?<path>/" + Pth + "*)?" +
+                                    Qry +
                                     ")";
 
         #endregion
@@ -1361,7 +1361,7 @@ namespace OpenTween
         /// <exception cref="WebApiException"/>
         public async Task RefreshFollowerIds()
         {
-            if (MyCommon._endingFlag) return;
+            if (MyCommon.EndingFlag) return;
 
             var cursor = -1L;
             var newFollowerIds = Enumerable.Empty<long>();
@@ -1389,7 +1389,7 @@ namespace OpenTween
         /// <exception cref="WebApiException"/>
         public async Task RefreshNoRetweetIds()
         {
-            if (MyCommon._endingFlag) return;
+            if (MyCommon.EndingFlag) return;
 
             this.noRTId = await this.Api.NoRetweetIds()
                 .ConfigureAwait(false);
@@ -1596,7 +1596,7 @@ namespace OpenTween
         {
             if (Twitter.AccountState != MyCommon.ACCOUNT_STATE.Valid) return null;
 
-            if (MyCommon._endingFlag) return null;
+            if (MyCommon.EndingFlag) return null;
 
             var limits = await this.Api.ApplicationRateLimitStatus()
                 .ConfigureAwait(false);
@@ -1612,7 +1612,7 @@ namespace OpenTween
         /// <exception cref="WebApiException"/>
         public async Task RefreshBlockIds()
         {
-            if (MyCommon._endingFlag) return;
+            if (MyCommon.EndingFlag) return;
 
             var cursor = -1L;
             var newBlockIds = Enumerable.Empty<long>();
@@ -1637,7 +1637,7 @@ namespace OpenTween
         /// <exception cref="WebApiException"/>
         public async Task RefreshMuteUserIdsAsync()
         {
-            if (MyCommon._endingFlag) return;
+            if (MyCommon.EndingFlag) return;
 
             var ids = await TwitterIds.GetAllItemsAsync(x => this.Api.MutesUsersIds(x))
                 .ConfigureAwait(false);

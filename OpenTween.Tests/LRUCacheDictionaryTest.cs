@@ -31,7 +31,7 @@ namespace OpenTween
 {
     public class LRUCacheDictionaryTest
     {
-        private static readonly AnyOrderComparer<string> collComparer = AnyOrderComparer<string>.Instance;
+        private static readonly AnyOrderComparer<string> CollComparer = AnyOrderComparer<string>.Instance;
 
         [Fact]
         public void InnerListTest()
@@ -43,7 +43,7 @@ namespace OpenTween
                 ["key3"] = "value3",
             };
 
-            var node = dict.innerList.First;
+            var node = dict.InnerList.First;
             Assert.Equal("key3", node.Value.Key);
             node = node.Next;
             Assert.Equal("key2", node.Value.Key);
@@ -56,7 +56,7 @@ namespace OpenTween
             _ = dict["key1"];
 
             // 直近に参照した順で並んでいるかテスト
-            node = dict.innerList.First;
+            node = dict.InnerList.First;
             Assert.Equal("key1", node.Value.Key);
             node = node.Next;
             Assert.Equal("key3", node.Value.Key);
@@ -140,7 +140,7 @@ namespace OpenTween
             dict["key4"] = "value4"; // 4アクセス目 (この直後にTrim)
 
             // 1 -> 2 -> 3 -> 4 の順にアクセスしたため、直近 3 件の 2, 3, 4 だけが残る
-            Assert.Equal(new[] { "key2", "key3", "key4" }, dict.innerDict.Keys, collComparer);
+            Assert.Equal(new[] { "key2", "key3", "key4" }, dict.InnerDict.Keys, CollComparer);
 
             dict["key5"] = "value5";         // 5アクセス目
             dict.Add("key6", "value6");      // 6アクセス目
@@ -148,7 +148,7 @@ namespace OpenTween
             dict.TryGetValue("key4", out _); // 8アクセス目 (この直後にTrim)
 
             // 5 -> 6 -> 2 -> 4 の順でアクセスしたため、直近 3 件の 6, 2, 4 だけが残る
-            Assert.Equal(new[] { "key6", "key2", "key4" }, dict.innerDict.Keys, collComparer);
+            Assert.Equal(new[] { "key6", "key2", "key4" }, dict.InnerDict.Keys, CollComparer);
         }
 
         [Fact]
@@ -170,7 +170,7 @@ namespace OpenTween
             dict.Trim();
 
             // 直近に参照された 3, 4 以外のアイテムに対してイベントが発生しているはず
-            Assert.Equal(new[] { "key1", "key2" }, removedList, collComparer);
+            Assert.Equal(new[] { "key1", "key2" }, removedList, CollComparer);
         }
 
         // ここから下は IDictionary としての機能が正しく動作するかのテスト
@@ -182,17 +182,17 @@ namespace OpenTween
 
             dict.Add("key1", "value1");
 
-            Assert.Single(dict.innerDict);
-            Assert.True(dict.innerDict.ContainsKey("key1"));
-            var internalNode = dict.innerDict["key1"];
+            Assert.Single(dict.InnerDict);
+            Assert.True(dict.InnerDict.ContainsKey("key1"));
+            var internalNode = dict.InnerDict["key1"];
             Assert.Equal("key1", internalNode.Value.Key);
             Assert.Equal("value1", internalNode.Value.Value);
 
             dict.Add("key2", "value2");
 
-            Assert.Equal(2, dict.innerDict.Count);
-            Assert.True(dict.innerDict.ContainsKey("key2"));
-            internalNode = dict.innerDict["key2"];
+            Assert.Equal(2, dict.InnerDict.Count);
+            Assert.True(dict.InnerDict.ContainsKey("key2"));
+            internalNode = dict.InnerDict["key2"];
             Assert.Equal("key2", internalNode.Value.Key);
             Assert.Equal("value2", internalNode.Value.Value);
         }
@@ -242,17 +242,17 @@ namespace OpenTween
             var ret = dict.Remove("key1");
 
             Assert.True(ret);
-            Assert.Equal(2, dict.innerDict.Count);
-            Assert.Equal(2, dict.innerList.Count);
-            Assert.False(dict.innerDict.ContainsKey("key1"));
-            Assert.True(dict.innerDict.ContainsKey("key2"));
-            Assert.True(dict.innerDict.ContainsKey("key3"));
+            Assert.Equal(2, dict.InnerDict.Count);
+            Assert.Equal(2, dict.InnerList.Count);
+            Assert.False(dict.InnerDict.ContainsKey("key1"));
+            Assert.True(dict.InnerDict.ContainsKey("key2"));
+            Assert.True(dict.InnerDict.ContainsKey("key3"));
 
             dict.Remove("key2");
             dict.Remove("key3");
 
-            Assert.Empty(dict.innerDict);
-            Assert.Empty(dict.innerList);
+            Assert.Empty(dict.InnerDict);
+            Assert.Empty(dict.InnerList);
 
             ret = dict.Remove("hogehoge");
             Assert.False(ret);
@@ -271,11 +271,11 @@ namespace OpenTween
             var ret = dict.Remove(new KeyValuePair<string, string>("key1", "value1"));
 
             Assert.True(ret);
-            Assert.Equal(2, dict.innerDict.Count);
-            Assert.Equal(2, dict.innerList.Count);
-            Assert.False(dict.innerDict.ContainsKey("key1"));
-            Assert.True(dict.innerDict.ContainsKey("key2"));
-            Assert.True(dict.innerDict.ContainsKey("key3"));
+            Assert.Equal(2, dict.InnerDict.Count);
+            Assert.Equal(2, dict.InnerList.Count);
+            Assert.False(dict.InnerDict.ContainsKey("key1"));
+            Assert.True(dict.InnerDict.ContainsKey("key2"));
+            Assert.True(dict.InnerDict.ContainsKey("key3"));
 
             ret = dict.Remove(new KeyValuePair<string, string>("key2", "hogehoge"));
             Assert.False(ret);
@@ -283,8 +283,8 @@ namespace OpenTween
             dict.Remove(new KeyValuePair<string, string>("key2", "value2"));
             dict.Remove(new KeyValuePair<string, string>("key3", "value3"));
 
-            Assert.Empty(dict.innerDict);
-            Assert.Empty(dict.innerList);
+            Assert.Empty(dict.InnerDict);
+            Assert.Empty(dict.InnerList);
 
             ret = dict.Remove(new KeyValuePair<string, string>("hogehoge", "hogehoge"));
             Assert.False(ret);
@@ -318,11 +318,11 @@ namespace OpenTween
             };
 
             dict["key1"] = "foo";
-            Assert.Equal("foo", dict.innerDict["key1"].Value.Value);
+            Assert.Equal("foo", dict.InnerDict["key1"].Value.Value);
 
             dict["hogehoge"] = "bar";
-            Assert.True(dict.innerDict.ContainsKey("hogehoge"));
-            Assert.Equal("bar", dict.innerDict["hogehoge"].Value.Value);
+            Assert.True(dict.InnerDict.ContainsKey("hogehoge"));
+            Assert.Equal("bar", dict.InnerDict["hogehoge"].Value.Value);
         }
 
         [Fact]
@@ -354,13 +354,13 @@ namespace OpenTween
                 ["key3"] = "value3",
             };
 
-            Assert.Equal(new[] { "key1", "key2", "key3" }, dict.Keys, collComparer);
+            Assert.Equal(new[] { "key1", "key2", "key3" }, dict.Keys, CollComparer);
 
             dict.Add("foo", "bar");
-            Assert.Equal(new[] { "key1", "key2", "key3", "foo" }, dict.Keys, collComparer);
+            Assert.Equal(new[] { "key1", "key2", "key3", "foo" }, dict.Keys, CollComparer);
 
             dict.Remove("key2");
-            Assert.Equal(new[] { "key1", "key3", "foo" }, dict.Keys, collComparer);
+            Assert.Equal(new[] { "key1", "key3", "foo" }, dict.Keys, CollComparer);
 
             dict.Clear();
             Assert.Empty(dict.Keys);
@@ -376,13 +376,13 @@ namespace OpenTween
                 ["key3"] = "value3",
             };
 
-            Assert.Equal(new[] { "value1", "value2", "value3" }, dict.Values, collComparer);
+            Assert.Equal(new[] { "value1", "value2", "value3" }, dict.Values, CollComparer);
 
             dict.Add("foo", "bar");
-            Assert.Equal(new[] { "value1", "value2", "value3", "bar" }, dict.Values, collComparer);
+            Assert.Equal(new[] { "value1", "value2", "value3", "bar" }, dict.Values, CollComparer);
 
             dict.Remove("key2");
-            Assert.Equal(new[] { "value1", "value3", "bar" }, dict.Values, collComparer);
+            Assert.Equal(new[] { "value1", "value3", "bar" }, dict.Values, CollComparer);
 
             dict.Clear();
             Assert.Empty(dict.Values);

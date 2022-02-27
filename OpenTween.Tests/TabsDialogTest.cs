@@ -47,7 +47,7 @@ namespace OpenTween
             this.tabinfo.AddTab(new FilterTabModel("MyTab1"));
 
             // 一応 TabInformation.GetInstance() でも取得できるようにする
-            var field = typeof(TabInformations).GetField("_instance",
+            var field = typeof(TabInformations).GetField("Instance",
                 BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.SetField);
             field.SetValue(null, this.tabinfo);
         }

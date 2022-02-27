@@ -92,31 +92,31 @@ namespace OpenTween.Setting.Panel
             this.lblListBackcolor.BackColor = Color.FromKnownColor(System.Drawing.KnownColor.Window);
         }
 
-        private void btnSelf_Click(object sender, EventArgs e)
+        private void BtnSelf_Click(object sender, EventArgs e)
             => this.ShowBackColorDialog(this.lblSelf);
 
-        private void btnAtSelf_Click(object sender, EventArgs e)
+        private void BtnAtSelf_Click(object sender, EventArgs e)
             => this.ShowBackColorDialog(this.lblAtSelf);
 
-        private void btnTarget_Click(object sender, EventArgs e)
+        private void BtnTarget_Click(object sender, EventArgs e)
             => this.ShowBackColorDialog(this.lblTarget);
 
-        private void btnAtTarget_Click(object sender, EventArgs e)
+        private void BtnAtTarget_Click(object sender, EventArgs e)
             => this.ShowBackColorDialog(this.lblAtTarget);
 
-        private void btnAtFromTarget_Click(object sender, EventArgs e)
+        private void BtnAtFromTarget_Click(object sender, EventArgs e)
             => this.ShowBackColorDialog(this.lblAtFromTarget);
 
-        private void btnAtTo_Click(object sender, EventArgs e)
+        private void BtnAtTo_Click(object sender, EventArgs e)
             => this.ShowBackColorDialog(this.lblAtTo);
 
-        private void btnListBack_Click(object sender, EventArgs e)
+        private void BtnListBack_Click(object sender, EventArgs e)
             => this.ShowBackColorDialog(this.lblListBackcolor);
 
-        private void btnInputBackcolor_Click(object sender, EventArgs e)
+        private void BtnInputBackcolor_Click(object sender, EventArgs e)
             => this.ShowBackColorDialog(this.lblInputBackcolor);
 
-        private void btnInputFont_Click(object sender, EventArgs e)
+        private void BtnInputFont_Click(object sender, EventArgs e)
             => this.ShowFontDialog(this.lblInputFont);
     }
 }

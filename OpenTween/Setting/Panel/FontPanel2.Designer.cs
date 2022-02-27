@@ -145,63 +145,63 @@
             resources.ApplyResources(this.btnInputFont, "btnInputFont");
             this.btnInputFont.Name = "btnInputFont";
             this.btnInputFont.UseVisualStyleBackColor = true;
-            this.btnInputFont.Click += new System.EventHandler(this.btnInputFont_Click);
+            this.btnInputFont.Click += new System.EventHandler(this.BtnInputFont_Click);
             // 
             // btnInputBackcolor
             // 
             resources.ApplyResources(this.btnInputBackcolor, "btnInputBackcolor");
             this.btnInputBackcolor.Name = "btnInputBackcolor";
             this.btnInputBackcolor.UseVisualStyleBackColor = true;
-            this.btnInputBackcolor.Click += new System.EventHandler(this.btnInputBackcolor_Click);
+            this.btnInputBackcolor.Click += new System.EventHandler(this.BtnInputBackcolor_Click);
             // 
             // btnAtTo
             // 
             resources.ApplyResources(this.btnAtTo, "btnAtTo");
             this.btnAtTo.Name = "btnAtTo";
             this.btnAtTo.UseVisualStyleBackColor = true;
-            this.btnAtTo.Click += new System.EventHandler(this.btnAtTo_Click);
+            this.btnAtTo.Click += new System.EventHandler(this.BtnAtTo_Click);
             // 
             // btnListBack
             // 
             resources.ApplyResources(this.btnListBack, "btnListBack");
             this.btnListBack.Name = "btnListBack";
             this.btnListBack.UseVisualStyleBackColor = true;
-            this.btnListBack.Click += new System.EventHandler(this.btnListBack_Click);
+            this.btnListBack.Click += new System.EventHandler(this.BtnListBack_Click);
             // 
             // btnAtFromTarget
             // 
             resources.ApplyResources(this.btnAtFromTarget, "btnAtFromTarget");
             this.btnAtFromTarget.Name = "btnAtFromTarget";
             this.btnAtFromTarget.UseVisualStyleBackColor = true;
-            this.btnAtFromTarget.Click += new System.EventHandler(this.btnAtFromTarget_Click);
+            this.btnAtFromTarget.Click += new System.EventHandler(this.BtnAtFromTarget_Click);
             // 
             // btnAtTarget
             // 
             resources.ApplyResources(this.btnAtTarget, "btnAtTarget");
             this.btnAtTarget.Name = "btnAtTarget";
             this.btnAtTarget.UseVisualStyleBackColor = true;
-            this.btnAtTarget.Click += new System.EventHandler(this.btnAtTarget_Click);
+            this.btnAtTarget.Click += new System.EventHandler(this.BtnAtTarget_Click);
             // 
             // btnTarget
             // 
             resources.ApplyResources(this.btnTarget, "btnTarget");
             this.btnTarget.Name = "btnTarget";
             this.btnTarget.UseVisualStyleBackColor = true;
-            this.btnTarget.Click += new System.EventHandler(this.btnTarget_Click);
+            this.btnTarget.Click += new System.EventHandler(this.BtnTarget_Click);
             // 
             // btnAtSelf
             // 
             resources.ApplyResources(this.btnAtSelf, "btnAtSelf");
             this.btnAtSelf.Name = "btnAtSelf";
             this.btnAtSelf.UseVisualStyleBackColor = true;
-            this.btnAtSelf.Click += new System.EventHandler(this.btnAtSelf_Click);
+            this.btnAtSelf.Click += new System.EventHandler(this.BtnAtSelf_Click);
             // 
             // btnSelf
             // 
             resources.ApplyResources(this.btnSelf, "btnSelf");
             this.btnSelf.Name = "btnSelf";
             this.btnSelf.UseVisualStyleBackColor = true;
-            this.btnSelf.Click += new System.EventHandler(this.btnSelf_Click);
+            this.btnSelf.Click += new System.EventHandler(this.BtnSelf_Click);
             // 
             // lblInputFont
             // 

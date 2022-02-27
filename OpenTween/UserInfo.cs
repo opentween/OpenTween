@@ -84,8 +84,6 @@ namespace OpenTween
         public string RecentPost = "";
         public DateTimeUtc PostCreatedAt;
         public string PostSource = "";        // html形式　"<a href="http://sourceforge.jp/projects/tween/wiki/FrontPage" rel="nofollow">Tween</a>"
-        public bool isFollowing = false;
-        public bool isFollowed = false;
 
         public override string ToString()
             => this.ScreenName + " / " + this.Name;

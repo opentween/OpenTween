@@ -231,7 +231,7 @@ namespace OpenTween
             if (e.KeyChar == '#')
             {
                 this._hashSupl.ShowDialog();
-                if (!MyCommon.IsNullOrEmpty(this._hashSupl.inputText))
+                if (!MyCommon.IsNullOrEmpty(this._hashSupl.InputText))
                 {
                     var fHalf = "";
                     var eHalf = "";
@@ -244,8 +244,8 @@ namespace OpenTween
                     {
                         eHalf = this.UseHashText.Text.Substring(selStart);
                     }
-                    this.UseHashText.Text = fHalf + this._hashSupl.inputText + eHalf;
-                    this.UseHashText.SelectionStart = selStart + this._hashSupl.inputText.Length;
+                    this.UseHashText.Text = fHalf + this._hashSupl.InputText + eHalf;
+                    this.UseHashText.SelectionStart = selStart + this._hashSupl.InputText.Length;
                 }
                 e.Handled = true;
             }

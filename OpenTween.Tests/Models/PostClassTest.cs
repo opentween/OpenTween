@@ -399,7 +399,7 @@ namespace OpenTween.Models
 
         class FakeExpandedUrlInfo : PostClass.ExpandedUrlInfo
         {
-            public TaskCompletionSource<string> fakeResult = new TaskCompletionSource<string>();
+            public TaskCompletionSource<string> FakeResult = new TaskCompletionSource<string>();
 
             public FakeExpandedUrlInfo(string url, string expandedUrl, bool deepExpand)
                 : base(url, expandedUrl, deepExpand)
@@ -407,7 +407,7 @@ namespace OpenTween.Models
             }
 
             protected override async Task DeepExpandAsync()
-                => this._expandedUrl = await this.fakeResult.Task;
+                => this._expandedUrl = await this.FakeResult.Task;
         }
 
         [Fact]
@@ -442,7 +442,7 @@ namespace OpenTween.Models
             Assert.Equal("<a href=\"http://t.co/aaaaaaa\" title=\"http://bit.ly/abcde\">bit.ly/abcde</a>", post.Text);
 
             // bit.ly 展開後の URL は「http://example.com/abcde」
-            urlInfo.fakeResult.SetResult("http://example.com/abcde");
+            urlInfo.FakeResult.SetResult("http://example.com/abcde");
             await urlInfo.ExpandTask;
 
             // ExpandedUrlInfo による展開が完了した後の状態

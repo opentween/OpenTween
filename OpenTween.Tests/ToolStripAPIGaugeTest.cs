@@ -91,18 +91,18 @@ namespace OpenTween
 
                 toolStrip.GaugeHeight = 5;
 
-                Assert.Equal(new Rectangle(0, 0, 100, 5), toolStrip.apiGaugeBounds);
-                Assert.Equal(new Rectangle(0, 5, 100, 5), toolStrip.timeGaugeBounds);
+                Assert.Equal(new Rectangle(0, 0, 100, 5), toolStrip.ApiGaugeBounds);
+                Assert.Equal(new Rectangle(0, 5, 100, 5), toolStrip.TimeGaugeBounds);
 
                 toolStrip.GaugeHeight = 3;
 
-                Assert.Equal(new Rectangle(0, 2, 100, 3), toolStrip.apiGaugeBounds);
-                Assert.Equal(new Rectangle(0, 5, 100, 3), toolStrip.timeGaugeBounds);
+                Assert.Equal(new Rectangle(0, 2, 100, 3), toolStrip.ApiGaugeBounds);
+                Assert.Equal(new Rectangle(0, 5, 100, 3), toolStrip.TimeGaugeBounds);
 
                 toolStrip.GaugeHeight = 0;
 
-                Assert.Equal(Rectangle.Empty, toolStrip.apiGaugeBounds);
-                Assert.Equal(Rectangle.Empty, toolStrip.timeGaugeBounds);
+                Assert.Equal(Rectangle.Empty, toolStrip.ApiGaugeBounds);
+                Assert.Equal(Rectangle.Empty, toolStrip.TimeGaugeBounds);
 
                 MyCommon.TwitterApiInfo.AccessLimit.Clear();
             }
@@ -186,19 +186,19 @@ namespace OpenTween
 
                 // toolStrip.ApiEndpoint の初期値は null
 
-                Assert.Equal(Rectangle.Empty, toolStrip.apiGaugeBounds);
-                Assert.Equal(Rectangle.Empty, toolStrip.timeGaugeBounds);
+                Assert.Equal(Rectangle.Empty, toolStrip.ApiGaugeBounds);
+                Assert.Equal(Rectangle.Empty, toolStrip.TimeGaugeBounds);
 
                 MyCommon.TwitterApiInfo.AccessLimit["endpoint"] = new ApiLimit(150, 60, now + TimeSpan.FromMinutes(3));
                 toolStrip.ApiEndpoint = "endpoint";
 
-                Assert.Equal(new Rectangle(0, 0, 40, 5), toolStrip.apiGaugeBounds); // 40% (60/150)
-                Assert.Equal(new Rectangle(0, 5, 20, 5), toolStrip.timeGaugeBounds); // 20% (3/15)
+                Assert.Equal(new Rectangle(0, 0, 40, 5), toolStrip.ApiGaugeBounds); // 40% (60/150)
+                Assert.Equal(new Rectangle(0, 5, 20, 5), toolStrip.TimeGaugeBounds); // 20% (3/15)
 
                 toolStrip.ApiEndpoint = "";
 
-                Assert.Equal(Rectangle.Empty, toolStrip.apiGaugeBounds);
-                Assert.Equal(Rectangle.Empty, toolStrip.timeGaugeBounds);
+                Assert.Equal(Rectangle.Empty, toolStrip.ApiGaugeBounds);
+                Assert.Equal(Rectangle.Empty, toolStrip.TimeGaugeBounds);
 
                 MyCommon.TwitterApiInfo.AccessLimit.Clear();
             }
@@ -223,8 +223,8 @@ namespace OpenTween
             );
             toolStrip.ApiEndpoint = "/statuses/user_timeline";
 
-            Assert.Equal(new Rectangle(0, 0, 99, 5), toolStrip.apiGaugeBounds); // 99% (999999999/1000000000)
-            Assert.Equal(new Rectangle(0, 5, 100, 5), toolStrip.timeGaugeBounds); // 100% (15/15)
+            Assert.Equal(new Rectangle(0, 0, 99, 5), toolStrip.ApiGaugeBounds); // 99% (999999999/1000000000)
+            Assert.Equal(new Rectangle(0, 5, 100, 5), toolStrip.TimeGaugeBounds); // 100% (15/15)
             Assert.Equal("API 999999999/1000000000", toolStrip.Text);
             Assert.Equal("API rest /statuses/user_timeline 999999999/1000000000" + Environment.NewLine + "(reset after 15 minutes)", toolStrip.ToolTipText);
 

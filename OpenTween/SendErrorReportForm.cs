@@ -60,16 +60,16 @@ namespace OpenTween
             this.textBoxErrorReport.DeselectAll();
         }
 
-        private void buttonReset_Click(object sender, EventArgs e)
+        private void ButtonReset_Click(object sender, EventArgs e)
             => this.ErrorReport.Reset();
 
-        private async void buttonSendByMail_Click(object sender, EventArgs e)
+        private async void ButtonSendByMail_Click(object sender, EventArgs e)
         {
             this.DialogResult = DialogResult.OK;
             await this.ErrorReport.SendByMailAsync();
         }
 
-        private async void buttonSendByDM_Click(object sender, EventArgs e)
+        private async void ButtonSendByDM_Click(object sender, EventArgs e)
         {
             this.DialogResult = DialogResult.OK;
 
@@ -86,7 +86,7 @@ namespace OpenTween
             }
         }
 
-        private void buttonNotSend_Click(object sender, EventArgs e)
+        private void ButtonNotSend_Click(object sender, EventArgs e)
             => this.DialogResult = DialogResult.Cancel;
     }
 

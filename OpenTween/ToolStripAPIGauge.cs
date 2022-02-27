@@ -159,11 +159,11 @@ namespace OpenTween
         {
             var g = e.Graphics;
 
-            if (this.apiGaugeBounds != Rectangle.Empty)
-                g.FillRectangle(Brushes.LightBlue, this.apiGaugeBounds);
+            if (this.ApiGaugeBounds != Rectangle.Empty)
+                g.FillRectangle(Brushes.LightBlue, this.ApiGaugeBounds);
 
-            if (this.timeGaugeBounds != Rectangle.Empty)
-                g.FillRectangle(Brushes.LightPink, this.timeGaugeBounds);
+            if (this.TimeGaugeBounds != Rectangle.Empty)
+                g.FillRectangle(Brushes.LightPink, this.TimeGaugeBounds);
 
             base.OnPaint(e);
         }
@@ -174,20 +174,20 @@ namespace OpenTween
         //   (C) 2010 anis774 (@anis774) <http://d.hatena.ne.jp/anis774/>
         //   (C) 2010 Moz (@syo68k)
 
-        internal Rectangle apiGaugeBounds = Rectangle.Empty;
-        internal Rectangle timeGaugeBounds = Rectangle.Empty;
+        internal Rectangle ApiGaugeBounds = Rectangle.Empty;
+        internal Rectangle TimeGaugeBounds = Rectangle.Empty;
 
         protected virtual void UpdateGaugeBounds()
         {
             if (this._ApiLimit == null || this._GaugeHeight < 1)
             {
-                this.apiGaugeBounds = Rectangle.Empty;
-                this.timeGaugeBounds = Rectangle.Empty;
+                this.ApiGaugeBounds = Rectangle.Empty;
+                this.TimeGaugeBounds = Rectangle.Empty;
                 return;
             }
 
             var apiGaugeValue = (double)this._ApiLimit.AccessLimitRemain / this._ApiLimit.AccessLimitCount;
-            this.apiGaugeBounds = new Rectangle(
+            this.ApiGaugeBounds = new Rectangle(
                 0,
                 (this.Height - this._GaugeHeight * 2) / 2,
                 (int)(this.Width * apiGaugeValue),
@@ -195,9 +195,9 @@ namespace OpenTween
             );
 
             var timeGaugeValue = this.remainMinutes >= 15 ? 1.00 : this.remainMinutes / 15;
-            this.timeGaugeBounds = new Rectangle(
+            this.TimeGaugeBounds = new Rectangle(
                 0,
-                this.apiGaugeBounds.Top + this._GaugeHeight,
+                this.ApiGaugeBounds.Top + this._GaugeHeight,
                 (int)(this.Width * timeGaugeValue),
                 this._GaugeHeight
             );
