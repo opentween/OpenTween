@@ -252,11 +252,16 @@ namespace OpenTween.OpenTweenCustomControl
             if (this.IsDisposed) return;
 
             if (vPos != -1)
+            {
                 if (vPos != NativeMethods.GetScrollPosition(this, NativeMethods.ScrollBarDirection.SB_VERT))
                     this.VScrolled?.Invoke(this, EventArgs.Empty);
+            }
+
             if (hPos != -1)
+            {
                 if (hPos != NativeMethods.GetScrollPosition(this, NativeMethods.ScrollBarDirection.SB_HORZ))
                     this.HScrolled?.Invoke(this, EventArgs.Empty);
+            }
         }
    }
 }

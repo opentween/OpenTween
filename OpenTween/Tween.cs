@@ -2674,7 +2674,9 @@ namespace OpenTween
 
             // TLに反映
             if (SettingManager.Common.PostAndGet)
+            {
                 await this.RefreshTabAsync<HomeTabModel>();
+            }
             else
             {
                 if (post != null)
@@ -2754,7 +2756,9 @@ namespace OpenTween
             posts.ForEach(post => this.statuses.AddPost(post));
 
             if (SettingManager.Common.PostAndGet)
+            {
                 await this.RefreshTabAsync<HomeTabModel>();
+            }
             else
             {
                 this.statuses.DistributePosts();
@@ -3317,15 +3321,19 @@ namespace OpenTween
                                 if (post.UserId == this.tw.UserId)
                                 {
                                     if (post.RetweetedId != null)
+                                    {
                                         // 他人に RT された自分のツイート
                                         //   => RT 元の自分のツイートを削除
                                         await this.twitterApi.StatusesDestroy(post.RetweetedId.Value)
                                             .IgnoreResponse();
+                                    }
                                     else
+                                    {
                                         // 自分のツイート
                                         //   => ツイートを削除
                                         await this.twitterApi.StatusesDestroy(post.StatusId)
                                             .IgnoreResponse();
+                                    }
                                 }
                             }
                         }

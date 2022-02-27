@@ -1540,7 +1540,9 @@ namespace OpenTween
                                     media.Add(new MediaInfo(ent.MediaUrlHttps, ent.AltText, ent.ExpandedUrl));
                                 }
                                 else
+                                {
                                     media.Add(new MediaInfo(ent.MediaUrlHttps, ent.AltText, videoUrl: null));
+                                }
                             }
                         }
                     }

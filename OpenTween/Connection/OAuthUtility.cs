@@ -69,8 +69,10 @@ namespace OpenTween.Connection
             var parameter = GetOAuthParameter(consumerKey, token);
             // OAuth共通情報にquery情報を追加
             if (query != null)
+            {
                 foreach (var (key, value) in query)
                     parameter.Add(key, value);
+            }
             // 署名の作成・追加
             parameter.Add("oauth_signature", CreateSignature(consumerSecret, tokenSecret, httpMethod, requestUri, parameter));
             // HTTPリクエストのヘッダに追加

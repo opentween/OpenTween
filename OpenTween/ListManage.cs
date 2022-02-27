@@ -170,8 +170,10 @@ namespace OpenTween
             this.EditCheckBox.Checked = false;
 
             for (var i = this.ListsList.Items.Count - 1; i >= 0; i--)
+            {
                 if (this.ListsList.Items[i] is NewListElement)
                     this.ListsList.Items.RemoveAt(i);
+            }
 
             this.ListsList_SelectedIndexChanged(this.ListsList, EventArgs.Empty);
         }

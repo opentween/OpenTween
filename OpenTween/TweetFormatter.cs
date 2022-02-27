@@ -104,15 +104,19 @@ namespace OpenTween
                 var endIndex = entity.Indices[1];
 
                 for (var i = curIndex; i < (startIndex + indexOffset); i++)
+                {
                     if (i + 1 < text.Length && char.IsSurrogatePair(text[i], text[i + 1]))
                         indexOffset++;
+                }
 
                 startIndex += indexOffset;
                 curIndex = startIndex;
 
                 for (var i = curIndex; i < (endIndex + indexOffset); i++)
+                {
                     if (i + 1 < text.Length && char.IsSurrogatePair(text[i], text[i + 1]))
                         indexOffset++;
+                }
 
                 endIndex += indexOffset;
                 curIndex = endIndex;
