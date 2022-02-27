@@ -30,6 +30,19 @@ namespace OpenTween.Api
 {
     public class ApiLimit
     {
+        public ApiLimit(int limitCount, int limitRemain, DateTimeUtc resetDate)
+            : this(limitCount, limitRemain, resetDate, DateTimeUtc.Now)
+        {
+        }
+
+        public ApiLimit(int limitCount, int limitRemain, DateTimeUtc resetDate, DateTimeUtc updatedAt)
+        {
+            this.AccessLimitCount = limitCount;
+            this.AccessLimitRemain = limitRemain;
+            this.AccessLimitResetDate = resetDate;
+            this.UpdatedAt = updatedAt;
+        }
+
         /// <summary>
         /// API 実行回数制限の値
         /// </summary>
@@ -49,19 +62,6 @@ namespace OpenTween.Api
         /// API 実行回数制限値を取得した日時
         /// </summary>
         public DateTimeUtc UpdatedAt { get; }
-
-        public ApiLimit(int limitCount, int limitRemain, DateTimeUtc resetDate)
-            : this(limitCount, limitRemain, resetDate, DateTimeUtc.Now)
-        {
-        }
-
-        public ApiLimit(int limitCount, int limitRemain, DateTimeUtc resetDate, DateTimeUtc updatedAt)
-        {
-            this.AccessLimitCount = limitCount;
-            this.AccessLimitRemain = limitRemain;
-            this.AccessLimitResetDate = resetDate;
-            this.UpdatedAt = updatedAt;
-        }
 
         public override bool Equals(object? obj)
             => this.Equals(obj as ApiLimit);
