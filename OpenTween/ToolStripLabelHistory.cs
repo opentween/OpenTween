@@ -72,7 +72,7 @@ namespace OpenTween.OpenTweenCustomControl
                 => this.Timestamp.ToLocalTime().ToString("T") + ": " + this.Summary;
         }
 
-        readonly LinkedList<LogEntry> _logs;
+        private readonly LinkedList<LogEntry> logs;
 
         const int MAXCNT = 20;
 
@@ -82,10 +82,10 @@ namespace OpenTween.OpenTweenCustomControl
             set
             {
                 var oneline = value.Replace("\n", " ");
-                this._logs.AddLast(new LogEntry(DateTimeUtc.Now, oneline));
-                while (this._logs.Count > MAXCNT)
+                this.logs.AddLast(new LogEntry(DateTimeUtc.Now, oneline));
+                while (this.logs.Count > MAXCNT)
                 {
-                    this._logs.RemoveFirst();
+                    this.logs.RemoveFirst();
                 }
                 base.Text = oneline;
             }
@@ -96,7 +96,7 @@ namespace OpenTween.OpenTweenCustomControl
             get
             {
                 var sb = new StringBuilder();
-                foreach (var e in this._logs)
+                foreach (var e in this.logs)
                 {
                     sb.AppendLine(e.ToString());
                 }
@@ -105,6 +105,6 @@ namespace OpenTween.OpenTweenCustomControl
         }
 
         public ToolStripLabelHistory()
-            => this._logs = new LinkedList<LogEntry>();
+            => this.logs = new LinkedList<LogEntry>();
     }
 }

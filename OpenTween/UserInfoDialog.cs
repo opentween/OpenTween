@@ -49,7 +49,7 @@ namespace OpenTween
 {
     public partial class UserInfoDialog : OTBaseForm
     {
-        private TwitterUser _displayUser = null!;
+        private TwitterUser displayUser = null!;
         private CancellationTokenSource? cancellationTokenSource = null;
 
         private readonly TweenMain mainForm;
@@ -90,14 +90,14 @@ namespace OpenTween
             if (this.IsDisposed)
                 return;
 
-            if (user == null || user == this._displayUser)
+            if (user == null || user == this.displayUser)
                 return;
 
             this.CancelLoading();
 
             var cancellationToken = this.cancellationTokenSource!.Token;
 
-            this._displayUser = user;
+            this.displayUser = user;
 
             this.LabelId.Text = user.IdStr;
             this.LabelScreenName.Text = user.ScreenName;
@@ -354,7 +354,7 @@ namespace OpenTween
             {
                 try
                 {
-                    await this.twitterApi.FriendshipsCreate(this._displayUser.ScreenName)
+                    await this.twitterApi.FriendshipsCreate(this.displayUser.ScreenName)
                         .IgnoreResponse();
                 }
                 catch (WebApiException ex)
@@ -373,7 +373,7 @@ namespace OpenTween
         private async void ButtonUnFollow_Click(object sender, EventArgs e)
         {
             if (MessageBox.Show(
-                this._displayUser.ScreenName + Properties.Resources.ButtonUnFollow_ClickText1,
+                this.displayUser.ScreenName + Properties.Resources.ButtonUnFollow_ClickText1,
                 Properties.Resources.ButtonUnFollow_ClickText2,
                 MessageBoxButtons.YesNo,
                 MessageBoxIcon.Warning,
@@ -383,7 +383,7 @@ namespace OpenTween
                 {
                     try
                     {
-                        await this.twitterApi.FriendshipsDestroy(this._displayUser.ScreenName)
+                        await this.twitterApi.FriendshipsDestroy(this.displayUser.ScreenName)
                             .IgnoreResponse();
                     }
                     catch (WebApiException ex)
@@ -459,30 +459,30 @@ namespace OpenTween
             => await MyCommon.OpenInBrowserAsync(this, "https://support.twitter.com/groups/31-twitter-basics/topics/107-my-profile-account-settings/articles/243055-x516c-x958b-x3001-x975e-x516c-x958b-x30a2-x30ab-x30a6-x30f3-x30c8-x306b-x3064-x3044-x3066");
 
         private async void ButtonSearchPosts_Click(object sender, EventArgs e)
-            => await this.mainForm.AddNewTabForUserTimeline(this._displayUser.ScreenName);
+            => await this.mainForm.AddNewTabForUserTimeline(this.displayUser.ScreenName);
 
         private async void UserPicture_Click(object sender, EventArgs e)
         {
-            var imageUrl = this._displayUser.ProfileImageUrlHttps;
+            var imageUrl = this.displayUser.ProfileImageUrlHttps;
             imageUrl = imageUrl.Remove(imageUrl.LastIndexOf("_normal", StringComparison.Ordinal), 7);
 
             await MyCommon.OpenInBrowserAsync(this, imageUrl);
         }
 
-        private bool IsEditing = false;
-        private string ButtonEditText = "";
+        private bool isEditing = false;
+        private string buttonEditText = "";
 
         private async void ButtonEdit_Click(object sender, EventArgs e)
         {
             // 自分以外のプロフィールは変更できない
-            if (this.twitterApi.CurrentUserId != this._displayUser.Id)
+            if (this.twitterApi.CurrentUserId != this.displayUser.Id)
                 return;
 
             using (ControlTransaction.Disabled(this.ButtonEdit))
             {
-                if (!this.IsEditing)
+                if (!this.isEditing)
                 {
-                    this.ButtonEditText = this.ButtonEdit.Text;
+                    this.buttonEditText = this.ButtonEdit.Text;
                     this.ButtonEdit.Text = Properties.Resources.UserInfoButtonEdit_ClickText1;
 
                     this.TextBoxName.Text = this.LabelName.Text;
@@ -495,12 +495,12 @@ namespace OpenTween
                     this.TextBoxLocation.Visible = true;
                     this.LabelLocation.Visible = false;
 
-                    this.TextBoxWeb.Text = this._displayUser.Url;
+                    this.TextBoxWeb.Text = this.displayUser.Url;
                     this.TextBoxWeb.Enabled = true;
                     this.TextBoxWeb.Visible = true;
                     this.LinkLabelWeb.Visible = false;
 
-                    this.TextBoxDescription.Text = this._displayUser.Description;
+                    this.TextBoxDescription.Text = this.displayUser.Description;
                     this.TextBoxDescription.Enabled = true;
                     this.TextBoxDescription.Visible = true;
                     this.DescriptionBrowser.Visible = false;
@@ -508,7 +508,7 @@ namespace OpenTween
                     this.TextBoxName.Focus();
                     this.TextBoxName.Select(this.TextBoxName.Text.Length, 0);
 
-                    this.IsEditing = true;
+                    this.isEditing = true;
                 }
                 else
                 {
@@ -553,9 +553,9 @@ namespace OpenTween
                     this.TextBoxDescription.Visible = false;
                     this.DescriptionBrowser.Visible = true;
 
-                    this.ButtonEdit.Text = this.ButtonEditText;
+                    this.ButtonEdit.Text = this.buttonEditText;
 
-                    this.IsEditing = false;
+                    this.isEditing = false;
 
                     if (showUserTask != null)
                         await showUserTask;
@@ -582,7 +582,7 @@ namespace OpenTween
 
             try
             {
-                var user = await this.twitterApi.UsersShow(this._displayUser.ScreenName);
+                var user = await this.twitterApi.UsersShow(this.displayUser.ScreenName);
 
                 if (user != null)
                     await this.ShowUserAsync(user);
@@ -620,7 +620,7 @@ namespace OpenTween
         private async void ButtonBlock_Click(object sender, EventArgs e)
         {
             if (MessageBox.Show(
-                this._displayUser.ScreenName + Properties.Resources.ButtonBlock_ClickText1,
+                this.displayUser.ScreenName + Properties.Resources.ButtonBlock_ClickText1,
                 Properties.Resources.ButtonBlock_ClickText2,
                 MessageBoxButtons.YesNo,
                 MessageBoxIcon.Warning,
@@ -630,7 +630,7 @@ namespace OpenTween
                 {
                     try
                     {
-                        await this.twitterApi.BlocksCreate(this._displayUser.ScreenName)
+                        await this.twitterApi.BlocksCreate(this.displayUser.ScreenName)
                             .IgnoreResponse();
                     }
                     catch (WebApiException ex)
@@ -647,7 +647,7 @@ namespace OpenTween
         private async void ButtonReportSpam_Click(object sender, EventArgs e)
         {
             if (MessageBox.Show(
-                this._displayUser.ScreenName + Properties.Resources.ButtonReportSpam_ClickText1,
+                this.displayUser.ScreenName + Properties.Resources.ButtonReportSpam_ClickText1,
                 Properties.Resources.ButtonReportSpam_ClickText2,
                 MessageBoxButtons.YesNo,
                 MessageBoxIcon.Warning,
@@ -657,7 +657,7 @@ namespace OpenTween
                 {
                     try
                     {
-                        await this.twitterApi.UsersReportSpam(this._displayUser.ScreenName)
+                        await this.twitterApi.UsersReportSpam(this.displayUser.ScreenName)
                             .IgnoreResponse();
                     }
                     catch (WebApiException ex)
@@ -674,7 +674,7 @@ namespace OpenTween
         private async void ButtonBlockDestroy_Click(object sender, EventArgs e)
         {
             if (MessageBox.Show(
-                this._displayUser.ScreenName + Properties.Resources.ButtonBlockDestroy_ClickText1,
+                this.displayUser.ScreenName + Properties.Resources.ButtonBlockDestroy_ClickText1,
                 Properties.Resources.ButtonBlockDestroy_ClickText2,
                 MessageBoxButtons.YesNo,
                 MessageBoxIcon.Warning,
@@ -684,7 +684,7 @@ namespace OpenTween
                 {
                     try
                     {
-                        await this.twitterApi.BlocksDestroy(this._displayUser.ScreenName)
+                        await this.twitterApi.BlocksDestroy(this.displayUser.ScreenName)
                             .IgnoreResponse();
                     }
                     catch (WebApiException ex)

@@ -53,11 +53,11 @@ namespace OpenTween
 
         private static readonly object LockObj = new object();
 
-        protected static T LoadSettings(string FileId)
+        protected static T LoadSettings(string fileId)
         {
             try
             {
-                var settingFilePath = GetSettingFilePath(FileId);
+                var settingFilePath = GetSettingFilePath(fileId);
                 if (!File.Exists(settingFilePath))
                 {
                     return new T();
@@ -82,7 +82,7 @@ namespace OpenTween
                         Path.Combine(
                             Application.StartupPath,
                             ApplicationSettings.AssemblyName + "Backup1st"),
-                        typeof(T).Name + FileId + ".xml");
+                        typeof(T).Name + fileId + ".xml");
                 if (File.Exists(backupFile))
                 {
                     try
@@ -93,7 +93,7 @@ namespace OpenTween
                             fs.Position = 0;
                             var xs = new XmlSerializer(typeof(T));
                             var instance = (T)xs.Deserialize(fs);
-                            MessageBox.Show("File: " + GetSettingFilePath(FileId) + Environment.NewLine + "Use old setting file, because application can't read this setting file.");
+                            MessageBox.Show("File: " + GetSettingFilePath(fileId) + Environment.NewLine + "Use old setting file, because application can't read this setting file.");
                             return instance;
                         }
                     }
@@ -101,7 +101,7 @@ namespace OpenTween
                     {
                     }
                 }
-                MessageBox.Show("File: " + GetSettingFilePath(FileId) + Environment.NewLine + "Use default setting, because application can't read this setting file.");
+                MessageBox.Show("File: " + GetSettingFilePath(fileId) + Environment.NewLine + "Use default setting, because application can't read this setting file.");
                 return new T();
             }
         }
@@ -170,10 +170,10 @@ namespace OpenTween
             MessageBox.Show("Can't write setting XML.(" + filePath + ")", "Save Settings", MessageBoxButtons.OK);
         }
 
-        protected static void SaveSettings(T Instance)
-            => SaveSettings(Instance, "");
+        protected static void SaveSettings(T instance)
+            => SaveSettings(instance, "");
 
-        public static string GetSettingFilePath(string FileId)
-            => Path.Combine(MyCommon.SettingPath, typeof(T).Name + FileId + ".xml");
+        public static string GetSettingFilePath(string fileId)
+            => Path.Combine(MyCommon.SettingPath, typeof(T).Name + fileId + ".xml");
     }
 }

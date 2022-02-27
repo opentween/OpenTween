@@ -170,17 +170,17 @@ namespace OpenTween
     public class MemoryImageMediaItem : IMediaItem, IDisposable
     {
         public const string PathPrefix = "<>MemoryImage://";
-        private static int _fileNumber = 0;
-        private readonly MemoryImage _image;
+        private static int fileNumber = 0;
+        private readonly MemoryImage image;
 
         public bool IsDisposed { get; private set; } = false;
 
         public MemoryImageMediaItem(MemoryImage image)
         {
-            this._image = image ?? throw new ArgumentNullException(nameof(image));
+            this.image = image ?? throw new ArgumentNullException(nameof(image));
 
-            var num = Interlocked.Increment(ref _fileNumber);
-            this.Path = PathPrefix + num + this._image.ImageFormatExt;
+            var num = Interlocked.Increment(ref fileNumber);
+            this.Path = PathPrefix + num + this.image.ImageFormatExt;
         }
 
         public string Path { get; }
@@ -190,19 +190,19 @@ namespace OpenTween
             => this.Path.Substring(PathPrefix.Length);
 
         public string Extension
-            => this._image.ImageFormatExt;
+            => this.image.ImageFormatExt;
 
         public bool Exists
-            => this._image != null;
+            => this.image != null;
 
         public long Size
-            => this._image.Stream.Length;
+            => this.image.Stream.Length;
 
         public bool IsImage
             => true;
 
         public MemoryImage CreateImage()
-            => this._image.Clone();
+            => this.image.Clone();
 
         public Stream OpenRead()
         {
@@ -212,7 +212,7 @@ namespace OpenTween
                 // コピーを作成する
                 memstream = new MemoryStream();
 
-                this._image.Stream.WriteTo(memstream);
+                this.image.Stream.WriteTo(memstream);
                 memstream.Seek(0, SeekOrigin.Begin);
 
                 return memstream;
@@ -225,7 +225,7 @@ namespace OpenTween
         }
 
         public void CopyTo(Stream stream)
-            => this._image.Stream.WriteTo(stream);
+            => this.image.Stream.WriteTo(stream);
 
         protected virtual void Dispose(bool disposing)
         {
@@ -233,7 +233,7 @@ namespace OpenTween
 
             if (disposing)
             {
-                this._image.Dispose();
+                this.image.Dispose();
             }
 
             this.IsDisposed = true;

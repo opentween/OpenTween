@@ -59,8 +59,8 @@ namespace OpenTween.Models
         public virtual ConcurrentDictionary<long, PostClass> Posts
             => TabInformations.GetInstance().Posts;
 
-        public int AllCount => this._ids.Count;
-        public long[] StatusIds => this._ids.ToArray();
+        public int AllCount => this.ids.Count;
+        public long[] StatusIds => this.ids.ToArray();
 
         public bool IsDefaultTabType => this.TabType.IsDefault();
         public bool IsDistributableTabType => this.TabType.IsDistributable();
@@ -92,13 +92,13 @@ namespace OpenTween.Models
             }
         }
 
-        private IndexedSortedSet<long> _ids = new IndexedSortedSet<long>();
+        private IndexedSortedSet<long> ids = new IndexedSortedSet<long>();
         private ConcurrentQueue<TemporaryId> addQueue = new ConcurrentQueue<TemporaryId>();
         private readonly ConcurrentQueue<long> removeQueue = new ConcurrentQueue<long>();
         private SortedSet<long> unreadIds = new SortedSet<long>();
         private List<long> selectedStatusIds = new List<long>();
 
-        private readonly object _lockObj = new object();
+        private readonly object lockObj = new object();
 
         protected TabModel(string tabName)
             => this.TabName = tabName;
@@ -128,7 +128,7 @@ namespace OpenTween.Models
         // 無条件に追加
         internal bool AddPostImmediately(long statusId, bool read)
         {
-            if (!this._ids.Add(statusId))
+            if (!this.ids.Add(statusId))
                 return false;
 
             if (!read)
@@ -155,7 +155,7 @@ namespace OpenTween.Models
 
         public virtual bool RemovePostImmediately(long statusId)
         {
-            if (!this._ids.Remove(statusId))
+            if (!this.ids.Remove(statusId))
                 return false;
 
             this.unreadIds.Remove(statusId);
@@ -191,7 +191,7 @@ namespace OpenTween.Models
 
         public virtual void ClearIDs()
         {
-            this._ids.Clear();
+            this.ids.Clear();
             this.unreadIds.Clear();
             this.selectedStatusIds.Clear();
 
@@ -263,7 +263,7 @@ namespace OpenTween.Models
 
             var comparer = Comparer<long>.Create(comparison);
 
-            this._ids = new IndexedSortedSet<long>(this._ids, comparer);
+            this.ids = new IndexedSortedSet<long>(this.ids, comparer);
             this.unreadIds = new SortedSet<long>(this.unreadIds, comparer);
         }
 
@@ -320,7 +320,7 @@ namespace OpenTween.Models
         /// </summary>
         public long[] GetUnreadIds()
         {
-            lock (this._lockObj)
+            lock (this.lockObj)
                 return this.unreadIds.ToArray();
         }
 
@@ -335,7 +335,7 @@ namespace OpenTween.Models
         /// <returns>既読状態に変化があれば true、変化がなければ false</returns>
         internal virtual bool SetReadState(long statusId, bool read)
         {
-            if (!this._ids.Contains(statusId))
+            if (!this.ids.Contains(statusId))
                 throw new ArgumentOutOfRangeException(nameof(statusId));
 
             if (read)
@@ -345,7 +345,7 @@ namespace OpenTween.Models
         }
 
         public bool Contains(long statusId)
-            => this._ids.Contains(statusId);
+            => this.ids.Contains(statusId);
 
         public PostClass this[int index]
         {
@@ -387,7 +387,7 @@ namespace OpenTween.Models
             => indexes.Select(x => this.GetStatusIdAt(x)).ToArray();
 
         public long GetStatusIdAt(int index)
-            => this._ids[index];
+            => this.ids[index];
 
         public int[] IndexOf(long[] statusIds)
         {
@@ -398,7 +398,7 @@ namespace OpenTween.Models
         }
 
         public int IndexOf(long statusId)
-            => this._ids.IndexOf(statusId);
+            => this.ids.IndexOf(statusId);
 
         public IEnumerable<int> SearchPostsAll(Func<string, bool> stringComparer)
             => this.SearchPostsAll(stringComparer, reverse: false);

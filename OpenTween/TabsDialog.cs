@@ -35,15 +35,15 @@ namespace OpenTween
 {
     public partial class TabsDialog : OTBaseForm
     {
-        private readonly TabInformations TabInfo;
+        private readonly TabInformations tabInfo;
 
-        private bool _MultiSelect = false;
+        private bool multiSelect = false;
         public bool MultiSelect
         {
-            get => this._MultiSelect;
+            get => this.multiSelect;
             set
             {
-                this._MultiSelect = value;
+                this.multiSelect = value;
                 this.UpdateTabList();
             }
         }
@@ -61,7 +61,7 @@ namespace OpenTween
         {
             this.InitializeComponent();
 
-            this.TabInfo = tabinformation;
+            this.tabInfo = tabinformation;
             this.UpdateTabList();
         }
 
@@ -84,7 +84,7 @@ namespace OpenTween
                 });
             }
 
-            var tabs = this.TabInfo.Tabs.Append(this.TabInfo.MuteTab);
+            var tabs = this.tabInfo.Tabs.Append(this.tabInfo.MuteTab);
 
             foreach (var tab in tabs.OfType<FilterTabModel>())
             {

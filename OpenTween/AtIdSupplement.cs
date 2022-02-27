@@ -137,13 +137,13 @@ namespace OpenTween
         public AtIdSupplement()
             => this.InitializeComponent();
 
-        public AtIdSupplement(List<string> ItemList, string startCharacter)
+        public AtIdSupplement(List<string> itemList, string startCharacter)
         {
             this.InitializeComponent();
 
-            for (var i = 0; i < ItemList.Count; ++i)
+            for (var i = 0; i < itemList.Count; ++i)
             {
-                this.TextId.AutoCompleteCustomSource.Add(ItemList[i]);
+                this.TextId.AutoCompleteCustomSource.Add(itemList[i]);
             }
             this.startChar = startCharacter;
         }

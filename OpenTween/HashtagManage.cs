@@ -51,10 +51,10 @@ namespace OpenTween
         public bool RunSilent { get; set; }
 
         // 入力補助画面
-        private readonly AtIdSupplement _hashSupl;
+        private readonly AtIdSupplement hashSupl;
 
         // 編集モード
-        private bool _isAdd = false;
+        private bool isAdd = false;
 
         private void ChangeMode(bool isEdit)
         {
@@ -77,7 +77,7 @@ namespace OpenTween
         {
             this.UseHashText.Text = "";
             this.ChangeMode(true);
-            this._isAdd = true;
+            this.isAdd = true;
         }
 
         private void EditButton_Click(object sender, EventArgs e)
@@ -85,7 +85,7 @@ namespace OpenTween
             if (this.HistoryHashList.SelectedIndices.Count == 0) return;
             this.UseHashText.Text = this.HistoryHashList.SelectedItems[0].ToString();
             this.ChangeMode(true);
-            this._isAdd = false;
+            this.isAdd = false;
         }
 
         private void DeleteButton_Click(object sender, EventArgs e)
@@ -211,27 +211,27 @@ namespace OpenTween
             this.ChangeMode(false);
         }
 
-        public HashtagManage(AtIdSupplement hashSuplForm, string[] history, string permanentHash, bool IsPermanent, bool IsHead, bool IsNotAddToAtReply)
+        public HashtagManage(AtIdSupplement hashSuplForm, string[] history, string permanentHash, bool isPermanent, bool isHead, bool isNotAddToAtReply)
         {
             // この呼び出しは、Windows フォーム デザイナで必要です。
             this.InitializeComponent();
 
             // InitializeComponent() 呼び出しの後で初期化を追加します。
 
-            this._hashSupl = hashSuplForm;
+            this.hashSupl = hashSuplForm;
             this.HistoryHashList.Items.AddRange(history);
             this.UseHash = permanentHash;
-            this.IsPermanent = IsPermanent;
-            this.IsHead = IsHead;
-            this.IsNotAddToAtReply = IsNotAddToAtReply;
+            this.IsPermanent = isPermanent;
+            this.IsHead = isHead;
+            this.IsNotAddToAtReply = isNotAddToAtReply;
         }
 
         private void UseHashText_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (e.KeyChar == '#')
             {
-                this._hashSupl.ShowDialog();
-                if (!MyCommon.IsNullOrEmpty(this._hashSupl.InputText))
+                this.hashSupl.ShowDialog();
+                if (!MyCommon.IsNullOrEmpty(this.hashSupl.InputText))
                 {
                     var fHalf = "";
                     var eHalf = "";
@@ -244,8 +244,8 @@ namespace OpenTween
                     {
                         eHalf = this.UseHashText.Text.Substring(selStart);
                     }
-                    this.UseHashText.Text = fHalf + this._hashSupl.InputText + eHalf;
-                    this.UseHashText.SelectionStart = selStart + this._hashSupl.InputText.Length;
+                    this.UseHashText.Text = fHalf + this.hashSupl.InputText + eHalf;
+                    this.UseHashText.SelectionStart = selStart + this.hashSupl.InputText.Length;
                 }
                 e.Handled = true;
             }
@@ -298,7 +298,7 @@ namespace OpenTween
             if (!this.AdjustHashtags(ref hashStr, !this.RunSilent)) return;
 
             this.UseHashText.Text = hashStr;
-            if (!this._isAdd && this.HistoryHashList.SelectedIndices.Count > 0)
+            if (!this.isAdd && this.HistoryHashList.SelectedIndices.Count > 0)
             {
                 var idx = this.HistoryHashList.SelectedIndices[0];
                 this.HistoryHashList.Items.RemoveAt(idx);

@@ -38,12 +38,12 @@ namespace OpenTween.Thumbnail.Services
 {
     class ImgAzyobuziNet : IThumbnailService, IDisposable
     {
-        protected string[] ApiHosts = {
+        protected string[] apiHosts = {
             "https://img.azyobuzi.net/api/",
             "https://img.opentween.org/api/",
         };
 
-        protected string[] ExcludedServiceNames =
+        protected string[] excludedServiceNames =
         {
             "Instagram",
             "Twitter",
@@ -51,16 +51,16 @@ namespace OpenTween.Thumbnail.Services
             "Gyazo",
         };
 
-        protected string? ApiBase;
-        protected IEnumerable<Regex>? UrlRegex = null;
-        protected AsyncTimer UpdateTimer;
+        protected string? apiBase;
+        protected IEnumerable<Regex>? urlRegex = null;
+        protected AsyncTimer updateTimer;
 
         protected HttpClient Http
             => this.localHttpClient ?? Networking.Http;
 
         private readonly HttpClient? localHttpClient;
 
-        private readonly object LockObj = new object();
+        private readonly object lockObj = new object();
 
         public ImgAzyobuziNet(bool autoupdate)
             : this(null, autoupdate)
@@ -74,7 +74,7 @@ namespace OpenTween.Thumbnail.Services
 
         public ImgAzyobuziNet(HttpClient? http, bool autoupdate)
         {
-            this.UpdateTimer = new AsyncTimer(this.LoadRegexAsync);
+            this.updateTimer = new AsyncTimer(this.LoadRegexAsync);
             this.AutoUpdate = autoupdate;
 
             this.Enabled = true;
@@ -85,7 +85,7 @@ namespace OpenTween.Thumbnail.Services
 
         public bool AutoUpdate
         {
-            get => this._AutoUpdate;
+            get => this.autoUpdate;
             set
             {
                 if (value)
@@ -93,10 +93,10 @@ namespace OpenTween.Thumbnail.Services
                 else
                     this.StopAutoUpdate();
 
-                this._AutoUpdate = value;
+                this.autoUpdate = value;
             }
         }
-        private bool _AutoUpdate = false;
+        private bool autoUpdate = false;
 
         /// <summary>
         /// img.azyobizi.net によるサムネイル情報の取得を有効にするか
@@ -109,14 +109,14 @@ namespace OpenTween.Thumbnail.Services
         public bool DisabledInDM { get; set; }
 
         protected void StartAutoUpdate()
-            => this.UpdateTimer.Change(TimeSpan.Zero, TimeSpan.FromMinutes(30)); // 30分おきに更新
+            => this.updateTimer.Change(TimeSpan.Zero, TimeSpan.FromMinutes(30)); // 30分おきに更新
 
         protected void StopAutoUpdate()
-            => this.UpdateTimer.Change(Timeout.InfiniteTimeSpan, Timeout.InfiniteTimeSpan);
+            => this.updateTimer.Change(Timeout.InfiniteTimeSpan, Timeout.InfiniteTimeSpan);
 
         public async Task LoadRegexAsync()
         {
-            foreach (var host in this.ApiHosts)
+            foreach (var host in this.apiHosts)
             {
                 try
                 {
@@ -134,10 +134,10 @@ namespace OpenTween.Thumbnail.Services
             }
 
             // どのサーバーも使用できない場合
-            lock (this.LockObj)
+            lock (this.lockObj)
             {
-                this.UrlRegex = null;
-                this.ApiBase = null;
+                this.urlRegex = null;
+                this.apiBase = null;
             }
         }
 
@@ -154,14 +154,14 @@ namespace OpenTween.Thumbnail.Services
                 if (xElm.Element("error") != null)
                     return false;
 
-                lock (this.LockObj)
+                lock (this.lockObj)
                 {
-                    this.UrlRegex = xElm.Elements("item")
-                        .Where(x => !this.ExcludedServiceNames.Contains(x.Element("name").Value))
+                    this.urlRegex = xElm.Elements("item")
+                        .Where(x => !this.excludedServiceNames.Contains(x.Element("name").Value))
                         .Select(e => new Regex(e.Element("regex").Value, RegexOptions.IgnoreCase))
                         .ToArray();
 
-                    this.ApiBase = apiBase;
+                    this.apiBase = apiBase;
                 }
 
                 return true;
@@ -195,20 +195,20 @@ namespace OpenTween.Thumbnail.Services
                 if (this.DisabledInDM && post != null && post.IsDm)
                     return null;
 
-                lock (this.LockObj)
+                lock (this.lockObj)
                 {
-                    if (this.UrlRegex == null)
+                    if (this.urlRegex == null)
                         return null;
 
-                    foreach (var regex in this.UrlRegex)
+                    foreach (var regex in this.urlRegex)
                     {
                         if (regex.IsMatch(url))
                         {
                             return new ThumbnailInfo
                             {
                                 MediaPageUrl = url,
-                                ThumbnailImageUrl = this.ApiBase + "redirect?size=large&uri=" + Uri.EscapeDataString(url),
-                                FullSizeImageUrl = this.ApiBase + "redirect?size=full&uri=" + Uri.EscapeDataString(url),
+                                ThumbnailImageUrl = this.apiBase + "redirect?size=large&uri=" + Uri.EscapeDataString(url),
+                                FullSizeImageUrl = this.apiBase + "redirect?size=full&uri=" + Uri.EscapeDataString(url),
                                 TooltipText = null,
                             };
                         }
@@ -221,6 +221,6 @@ namespace OpenTween.Thumbnail.Services
         }
 
         public virtual void Dispose()
-            => this.UpdateTimer.Dispose();
+            => this.updateTimer.Dispose();
     }
 }

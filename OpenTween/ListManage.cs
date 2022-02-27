@@ -417,7 +417,7 @@ namespace OpenTween
             public bool IsCreated { get; private set; } = false;
 
             public NewListElement(Twitter tw)
-                => this._tw = tw;
+                => this.tw = tw;
 
             public override async Task Refresh()
             {
@@ -427,7 +427,7 @@ namespace OpenTween
                 }
                 else
                 {
-                    await this._tw.CreateListApi(this.Name, !this.IsPublic, this.Description)
+                    await this.tw.CreateListApi(this.Name, !this.IsPublic, this.Description)
                         .ConfigureAwait(false);
 
                     this.IsCreated = true;

@@ -40,12 +40,12 @@ namespace OpenTween.Thumbnail.Services
     /// </summary>
     class MetaThumbnailService : IThumbnailService
     {
-        protected static Regex[] MetaPatterns =
+        protected static Regex[] metaPatterns =
         {
             new Regex("<meta (name|property)=[\"'](?<name>.+?)[\"'] (content|value)=[\"'](?<content>[^>]+?)[\"']"),
             new Regex("<meta (content|value)=[\"'](?<content>[^>]+?)[\"'] (name|property)=[\"'](?<name>.+?)[\"']"),
         };
-        protected static string[] PropertyNames = { "og:image", "twitter:image", "twitter:image:src" };
+        protected static string[] defaultPropertyNames = { "og:image", "twitter:image", "twitter:image:src" };
 
         protected HttpClient Http
             => this.localHttpClient ?? Networking.Http;
@@ -74,7 +74,7 @@ namespace OpenTween.Thumbnail.Services
         {
             this.localHttpClient = http;
             this.regex = new Regex(urlPattern);
-            this.propertyNames = propNames ?? MetaThumbnailService.PropertyNames;
+            this.propertyNames = propNames ?? MetaThumbnailService.defaultPropertyNames;
         }
 
         public override async Task<ThumbnailInfo?> GetThumbnailInfoAsync(string url, PostClass post, CancellationToken token)
@@ -104,7 +104,7 @@ namespace OpenTween.Thumbnail.Services
 
         protected virtual string? GetThumbnailUrl(string html)
         {
-            foreach (var pattern in MetaThumbnailService.MetaPatterns)
+            foreach (var pattern in MetaThumbnailService.metaPatterns)
             {
                 var matches = pattern.Matches(html);
 

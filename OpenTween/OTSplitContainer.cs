@@ -39,12 +39,12 @@ namespace OpenTween
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public bool IsPanelInverted
         {
-            get => this._isPanelInverted;
+            get => this.isPanelInverted;
             set
             {
-                if (this._isPanelInverted == value)
+                if (this.isPanelInverted == value)
                     return;
-                this._isPanelInverted = value;
+                this.isPanelInverted = value;
 
                 // Panel1 と Panel2 の中身を入れ替え
                 using (ControlTransaction.Layout(this, false))
@@ -75,7 +75,7 @@ namespace OpenTween
                 }
             }
         }
-        private bool _isPanelInverted = false;
+        private bool isPanelInverted = false;
 
         /// <summary>
         /// SplitContainer.Orientation プロパティの設定に応じて、スプリッタが移動する方向の幅を返す。

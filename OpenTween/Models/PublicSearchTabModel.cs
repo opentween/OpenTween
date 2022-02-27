@@ -43,26 +43,26 @@ namespace OpenTween.Models
 
         public string SearchWords
         {
-            get => this._searchWords;
+            get => this.searchWords;
             set
             {
-                this._searchWords = value;
+                this.searchWords = value;
                 this.ResetFetchIds();
             }
         }
 
         public string SearchLang
         {
-            get => this._searchLang;
+            get => this.searchLang;
             set
             {
-                this._searchLang = value;
+                this.searchLang = value;
                 this.ResetFetchIds();
             }
         }
 
-        private string _searchWords = "";
-        private string _searchLang = "";
+        private string searchWords = "";
+        private string searchLang = "";
 
         public PublicSearchTabModel(string tabName)
             : base(tabName)

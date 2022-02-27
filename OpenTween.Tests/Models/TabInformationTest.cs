@@ -836,7 +836,7 @@ namespace OpenTween.Models
             {
                 return new TestPostFilterRule
                 {
-                    FilterDelegate = filterDelegate,
+                    filterDelegate = filterDelegate,
                     IsDirty = false,
                 };
             }

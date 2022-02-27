@@ -43,7 +43,7 @@ namespace OpenTween.Models
 
         public bool FilterModified { get; set; }
 
-        private readonly List<PostFilterRule> _filters = new List<PostFilterRule>();
+        private readonly List<PostFilterRule> filters = new List<PostFilterRule>();
         private readonly object lockObjFilters = new object();
 
         public FilterTabModel(string tabName)
@@ -62,7 +62,7 @@ namespace OpenTween.Models
             // 全フィルタ評価（優先順位あり）
             lock (this.lockObjFilters)
             {
-                foreach (var ft in this._filters)
+                foreach (var ft in this.filters)
                 {
                     try
                     {
@@ -112,7 +112,7 @@ namespace OpenTween.Models
         {
             lock (this.lockObjFilters)
             {
-                return this._filters.ToArray();
+                return this.filters.ToArray();
             }
         }
 
@@ -120,7 +120,7 @@ namespace OpenTween.Models
         {
             lock (this.lockObjFilters)
             {
-                this._filters.Remove(filter);
+                this.filters.Remove(filter);
                 filter.PropertyChanged -= this.OnFilterModified;
                 this.FilterModified = true;
             }
@@ -130,9 +130,9 @@ namespace OpenTween.Models
         {
             lock (this.lockObjFilters)
             {
-                if (this._filters.Contains(filter)) return false;
+                if (this.filters.Contains(filter)) return false;
                 filter.PropertyChanged += this.OnFilterModified;
-                this._filters.Add(filter);
+                this.filters.Add(filter);
                 this.FilterModified = true;
                 return true;
             }
@@ -147,24 +147,24 @@ namespace OpenTween.Models
             {
                 lock (this.lockObjFilters)
                 {
-                    return this._filters.ToArray();
+                    return this.filters.ToArray();
                 }
             }
             set
             {
                 lock (this.lockObjFilters)
                 {
-                    foreach (var oldFilter in this._filters)
+                    foreach (var oldFilter in this.filters)
                     {
                         oldFilter.PropertyChanged -= this.OnFilterModified;
                     }
 
-                    this._filters.Clear();
+                    this.filters.Clear();
                     this.FilterModified = true;
 
                     foreach (var newFilter in value)
                     {
-                        this._filters.Add(newFilter);
+                        this.filters.Add(newFilter);
                         newFilter.PropertyChanged += this.OnFilterModified;
                     }
                 }

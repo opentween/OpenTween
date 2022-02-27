@@ -290,18 +290,18 @@ namespace OpenTween
 
         public POLICY SecurityPolicy { get; set; } = 0;
 
-        public InternetSecurityManager(WebBrowser _WebBrowser)
+        public InternetSecurityManager(WebBrowser webBrowser)
         {
             // ActiveXコントロール取得
-            _WebBrowser.Url = new Uri("about:blank"); // ActiveXを初期化する
+            webBrowser.Url = new Uri("about:blank"); // ActiveXを初期化する
 
             do
             {
                 Thread.Sleep(100);
                 Application.DoEvents();
-            } while (_WebBrowser.ReadyState != WebBrowserReadyState.Complete);
+            } while (webBrowser.ReadyState != WebBrowserReadyState.Complete);
 
-            this.ocx = _WebBrowser.ActiveXInstance;
+            this.ocx = webBrowser.ActiveXInstance;
 
             // IServiceProvider.QueryService() を使って IProfferService を取得
             this.ocxServiceProvider = (WebBrowserAPI.IServiceProvider)this.ocx;

@@ -36,20 +36,20 @@ namespace OpenTween
 {
     public class HookGlobalHotkey : NativeWindow, IDisposable
     {
-        private readonly Form _targetForm;
+        private readonly Form targetForm;
         private class KeyEventValue
         {
             public KeyEventArgs KeyEvent { get; }
             public int Value { get; }
 
-            public KeyEventValue(KeyEventArgs keyEvent, int Value)
+            public KeyEventValue(KeyEventArgs keyEvent, int value)
             {
                 this.KeyEvent = keyEvent;
-                this.Value = Value;
+                this.Value = value;
             }
         }
 
-        private readonly Dictionary<int, KeyEventValue> _hotkeyID;
+        private readonly Dictionary<int, KeyEventValue> hotkeyID;
 
         [Flags]
         public enum ModKeys
@@ -68,9 +68,9 @@ namespace OpenTween
             const int WM_HOTKEY = 0x312;
             if (m.Msg == WM_HOTKEY)
             {
-                if (this._hotkeyID.ContainsKey(m.WParam.ToInt32()))
+                if (this.hotkeyID.ContainsKey(m.WParam.ToInt32()))
                 {
-                    this.HotkeyPressed?.Invoke(this, this._hotkeyID[m.WParam.ToInt32()].KeyEvent);
+                    this.HotkeyPressed?.Invoke(this, this.hotkeyID[m.WParam.ToInt32()].KeyEvent);
                 }
                 return;
             }
@@ -79,15 +79,15 @@ namespace OpenTween
 
         public HookGlobalHotkey(Form targetForm)
         {
-            this._targetForm = targetForm;
-            this._hotkeyID = new Dictionary<int, KeyEventValue>();
+            this.targetForm = targetForm;
+            this.hotkeyID = new Dictionary<int, KeyEventValue>();
 
-            this._targetForm.HandleCreated += this.OnHandleCreated;
-            this._targetForm.HandleDestroyed += this.OnHandleDestroyed;
+            this.targetForm.HandleCreated += this.OnHandleCreated;
+            this.targetForm.HandleDestroyed += this.OnHandleDestroyed;
         }
 
         public void OnHandleCreated(object sender, EventArgs e)
-            => this.AssignHandle(this._targetForm.Handle);
+            => this.AssignHandle(this.targetForm.Handle);
 
         public void OnHandleDestroyed(object sender, EventArgs e)
             => this.ReleaseHandle();
@@ -100,14 +100,14 @@ namespace OpenTween
             if ((modifiers & ModKeys.Shift) == ModKeys.Shift) modKey |= Keys.Shift;
             if ((modifiers & ModKeys.Win) == ModKeys.Win) modKey |= Keys.LWin;
             var key = new KeyEventArgs(hotkey | modKey);
-            foreach (var (_, value) in this._hotkeyID)
+            foreach (var (_, value) in this.hotkeyID)
             {
                 if (value.KeyEvent.KeyData == key.KeyData && value.Value == hotkeyValue) return true; // 登録済みなら正常終了
             }
-            var hotkeyId = NativeMethods.RegisterGlobalHotKey(hotkeyValue, (int)modifiers, this._targetForm);
+            var hotkeyId = NativeMethods.RegisterGlobalHotKey(hotkeyValue, (int)modifiers, this.targetForm);
             if (hotkeyId > 0)
             {
-                this._hotkeyID.Add(hotkeyId, new KeyEventValue(key, hotkeyValue));
+                this.hotkeyID.Add(hotkeyId, new KeyEventValue(key, hotkeyValue));
                 return true;
             }
             return false;
@@ -115,11 +115,11 @@ namespace OpenTween
 
         public void UnregisterAllOriginalHotkey()
         {
-            foreach (ushort hotkeyId in this._hotkeyID.Keys)
+            foreach (ushort hotkeyId in this.hotkeyID.Keys)
             {
-                NativeMethods.UnregisterGlobalHotKey(hotkeyId, this._targetForm);
+                NativeMethods.UnregisterGlobalHotKey(hotkeyId, this.targetForm);
             }
-            this._hotkeyID.Clear();
+            this.hotkeyID.Clear();
         }
 
         private bool disposedValue = false;        // 重複する呼び出しを検出するには
@@ -133,11 +133,11 @@ namespace OpenTween
                 {
                 }
 
-                if (this._targetForm != null && !this._targetForm.IsDisposed)
+                if (this.targetForm != null && !this.targetForm.IsDisposed)
                 {
                     this.UnregisterAllOriginalHotkey();
-                    this._targetForm.HandleCreated -= this.OnHandleCreated;
-                    this._targetForm.HandleDestroyed -= this.OnHandleDestroyed;
+                    this.targetForm.HandleCreated -= this.OnHandleCreated;
+                    this.targetForm.HandleDestroyed -= this.OnHandleDestroyed;
                 }
             }
             this.disposedValue = true;

@@ -43,7 +43,7 @@ namespace OpenTween
             this.timer = new Timer(this.TimerCallback);
         }
 
-        private async void TimerCallback(object _)
+        private async void TimerCallback(object state)
         {
             try
             {

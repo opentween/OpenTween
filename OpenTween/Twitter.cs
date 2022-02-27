@@ -162,12 +162,12 @@ namespace OpenTween
         public bool GetNoRetweetSuccess { get; private set; } = false;
 
         delegate void GetIconImageDelegate(PostClass post);
-        private readonly object LockObj = new object();
+        private readonly object lockObj = new object();
         private ISet<long> followerId = new HashSet<long>();
         private long[] noRTId = Array.Empty<long>();
 
         // プロパティからアクセスされる共通情報
-        private readonly List<string> _hashList = new List<string>();
+        private readonly List<string> hashList = new List<string>();
 
         private string? nextCursorDirectMessage = null;
 
@@ -398,7 +398,7 @@ namespace OpenTween
                 .ConfigureAwait(false);
 
             // 二重取得回避
-            lock (this.LockObj)
+            lock (this.lockObj)
             {
                 if (TabInformations.GetInstance().ContainsKey(status.Id))
                     return null;
@@ -850,7 +850,7 @@ namespace OpenTween
                     minimumId = status.Id;
 
                 // 二重取得回避
-                lock (this.LockObj)
+                lock (this.lockObj)
                 {
                     if (tab == null)
                     {
@@ -891,7 +891,7 @@ namespace OpenTween
 
                 if (!more && status.Id > tab.SinceId) tab.SinceId = status.Id;
                 // 二重取得回避
-                lock (this.LockObj)
+                lock (this.lockObj)
                 {
                     if (tab.Contains(status.Id)) continue;
                 }
@@ -918,7 +918,7 @@ namespace OpenTween
                     minimumId = status.Id;
 
                 // 二重取得回避
-                lock (this.LockObj)
+                lock (this.lockObj)
                 {
                     if (favTab.Contains(status.Id)) continue;
                 }
@@ -1029,19 +1029,19 @@ namespace OpenTween
             var text = targetPost.Text;
             var ma = Twitter.StatusUrlRegex.Matches(text).Cast<Match>()
                 .Concat(Twitter.ThirdPartyStatusUrlRegex.Matches(text).Cast<Match>());
-            foreach (var _match in ma)
+            foreach (var match in ma)
             {
-                if (long.TryParse(_match.Groups["StatusId"].Value, out var _statusId))
+                if (long.TryParse(match.Groups["StatusId"].Value, out var statusId))
                 {
-                    if (relPosts.ContainsKey(_statusId))
+                    if (relPosts.ContainsKey(statusId))
                         continue;
 
-                    var p = TabInformations.GetInstance()[_statusId];
+                    var p = TabInformations.GetInstance()[statusId];
                     if (p == null)
                     {
                         try
                         {
-                            p = await this.GetStatusApi(read, _statusId)
+                            p = await this.GetStatusApi(read, statusId)
                                 .ConfigureAwait(false);
                         }
                         catch (WebApiException ex)
@@ -1494,22 +1494,22 @@ namespace OpenTween
             }
         }
 
-        private void ExtractEntities(TwitterEntities? entities, List<(long UserId, string ScreenName)> AtList, List<MediaInfo> media)
+        private void ExtractEntities(TwitterEntities? entities, List<(long UserId, string ScreenName)> atList, List<MediaInfo> media)
         {
             if (entities != null)
             {
                 if (entities.Hashtags != null)
                 {
-                    lock (this.LockObj)
+                    lock (this.lockObj)
                     {
-                        this._hashList.AddRange(entities.Hashtags.Select(x => "#" + x.Text));
+                        this.hashList.AddRange(entities.Hashtags.Select(x => "#" + x.Text));
                     }
                 }
                 if (entities.UserMentions != null)
                 {
                     foreach (var ent in entities.UserMentions)
                     {
-                        AtList.Add((ent.Id, ent.ScreenName));
+                        atList.Add((ent.Id, ent.ScreenName));
                     }
                 }
                 if (entities.Media != null)
@@ -1648,10 +1648,10 @@ namespace OpenTween
         public string[] GetHashList()
         {
             string[] hashArray;
-            lock (this.LockObj)
+            lock (this.lockObj)
             {
-                hashArray = this._hashList.ToArray();
-                this._hashList.Clear();
+                hashArray = this.hashList.ToArray();
+                this.hashList.Clear();
             }
             return hashArray;
         }

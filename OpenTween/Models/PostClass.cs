@@ -77,33 +77,33 @@ namespace OpenTween.Models
         public string ScreenName { get; set; } = "";
         public DateTimeUtc CreatedAt { get; set; }
         public long StatusId { get; set; }
-        private bool _IsFav;
+        private bool isFav;
 
         public string Text
         {
             get
             {
                 if (this.expandComplatedAll)
-                    return this._text;
+                    return this.text;
 
-                var expandedHtml = this.ReplaceToExpandedUrl(this._text, out this.expandComplatedAll);
+                var expandedHtml = this.ReplaceToExpandedUrl(this.text, out this.expandComplatedAll);
                 if (this.expandComplatedAll)
-                    this._text = expandedHtml;
+                    this.text = expandedHtml;
 
                 return expandedHtml;
             }
-            set => this._text = value;
+            set => this.text = value;
         }
-        private string _text = "";
+        private string text = "";
 
         public bool IsRead { get; set; }
         public bool IsReply { get; set; }
         public bool IsExcludeReply { get; set; }
-        private bool _IsProtect;
+        private bool isProtect;
         public bool IsOwl { get; set; }
-        private bool _IsMark;
+        private bool isMark;
         public string? InReplyToUser { get; set; }
-        private long? _InReplyToStatusId;
+        private long? inReplyToStatusId;
         public string Source { get; set; } = "";
         public Uri? SourceUri { get; set; }
         public List<(long UserId, string ScreenName)> ReplyToList { get; set; }
@@ -113,8 +113,8 @@ namespace OpenTween.Models
         public bool FilterHit { get; set; }
         public string? RetweetedBy { get; set; }
         public long? RetweetedId { get; set; }
-        private bool _IsDeleted = false;
-        private StatusGeo? _postGeo = null;
+        private bool isDeleted = false;
+        private StatusGeo? postGeo = null;
         public int RetweetedCount { get; set; }
         public long? RetweetedByUserId { get; set; }
         public long? InReplyToUserId { get; set; }
@@ -134,7 +134,7 @@ namespace OpenTween.Models
             /// <remarks>
             /// <see cref="ShortUrl"/> による展開が完了するまでは Entity に含まれる expanded_url の値を返します
             /// </remarks>
-            public string ExpandedUrl => this._expandedUrl;
+            public string ExpandedUrl => this.expandedUrl;
 
             /// <summary><see cref="ShortUrl"/> による展開を行うタスク</summary>
             public Task ExpandTask { get; private set; }
@@ -142,7 +142,7 @@ namespace OpenTween.Models
             /// <summary><see cref="DeepExpandAsync"/> による展開が完了したか否か</summary>
             public bool ExpandedCompleted => this.ExpandTask.IsCompleted;
 
-            protected string _expandedUrl;
+            protected string expandedUrl;
 
             public ExpandedUrlInfo(string url, string expandedUrl)
                 : this(url, expandedUrl, deepExpand: true)
@@ -152,7 +152,7 @@ namespace OpenTween.Models
             public ExpandedUrlInfo(string url, string expandedUrl, bool deepExpand)
             {
                 this.Url = url;
-                this._expandedUrl = expandedUrl;
+                this.expandedUrl = expandedUrl;
 
                 if (deepExpand)
                     this.ExpandTask = this.DeepExpandAsync();
@@ -162,11 +162,11 @@ namespace OpenTween.Models
 
             protected virtual async Task DeepExpandAsync()
             {
-                var origUrl = this._expandedUrl;
+                var origUrl = this.expandedUrl;
                 var newUrl = await ShortUrl.Instance.ExpandUrlAsync(origUrl)
                     .ConfigureAwait(false);
 
-                Interlocked.CompareExchange(ref this._expandedUrl, newUrl, origUrl);
+                Interlocked.CompareExchange(ref this.expandedUrl, newUrl, origUrl);
             }
 
             public ExpandedUrlInfo Clone()
@@ -178,7 +178,7 @@ namespace OpenTween.Models
 
         public int FavoritedCount { get; set; }
 
-        private States _states = States.None;
+        private States states = States.None;
         private bool expandComplatedAll = false;
 
         [Flags]
@@ -215,11 +215,11 @@ namespace OpenTween.Models
                     }
                 }
 
-                return this._IsFav;
+                return this.isFav;
             }
             set
             {
-                this._IsFav = value;
+                this.isFav = value;
                 if (this.RetweetedId != null)
                 {
                     var post = this.RetweetSource;
@@ -233,47 +233,47 @@ namespace OpenTween.Models
 
         public bool IsProtect
         {
-            get => this._IsProtect;
+            get => this.isProtect;
             set
             {
                 if (value)
-                    this._states |= States.Protect;
+                    this.states |= States.Protect;
                 else
-                    this._states &= ~States.Protect;
+                    this.states &= ~States.Protect;
 
-                this._IsProtect = value;
+                this.isProtect = value;
             }
         }
         public bool IsMark
         {
-            get => this._IsMark;
+            get => this.isMark;
             set
             {
                 if (value)
-                    this._states |= States.Mark;
+                    this.states |= States.Mark;
                 else
-                    this._states &= ~States.Mark;
+                    this.states &= ~States.Mark;
 
-                this._IsMark = value;
+                this.isMark = value;
             }
         }
         public long? InReplyToStatusId
         {
-            get => this._InReplyToStatusId;
+            get => this.inReplyToStatusId;
             set
             {
                 if (value != null)
-                    this._states |= States.Reply;
+                    this.states |= States.Reply;
                 else
-                    this._states &= ~States.Reply;
+                    this.states &= ~States.Reply;
 
-                this._InReplyToStatusId = value;
+                this.inReplyToStatusId = value;
             }
         }
 
         public bool IsDeleted
         {
-            get => this._IsDeleted;
+            get => this.isDeleted;
             set
             {
                 if (value)
@@ -283,9 +283,9 @@ namespace OpenTween.Models
                     this.InReplyToUserId = null;
                     this.IsReply = false;
                     this.ReplyToList = new List<(long, string)>();
-                    this._states = States.None;
+                    this.states = States.None;
                 }
-                this._IsDeleted = value;
+                this.isDeleted = value;
             }
         }
 
@@ -294,23 +294,23 @@ namespace OpenTween.Models
 
         public StatusGeo? PostGeo
         {
-            get => this._postGeo;
+            get => this.postGeo;
             set
             {
                 if (value != null)
                 {
-                    this._states |= States.Geo;
+                    this.states |= States.Geo;
                 }
                 else
                 {
-                    this._states &= ~States.Geo;
+                    this.states &= ~States.Geo;
                 }
-                this._postGeo = value;
+                this.postGeo = value;
             }
         }
 
         public int StateIndex
-            => (int)this._states - 1;
+            => (int)this.states - 1;
 
         // 互換性のために用意
         public string SourceHtml

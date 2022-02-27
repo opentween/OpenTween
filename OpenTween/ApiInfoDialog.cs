@@ -39,7 +39,7 @@ namespace OpenTween
         public ApiInfoDialog()
             => this.InitializeComponent();
 
-        private readonly List<string> _tlEndpoints = new List<string>
+        private readonly List<string> tlEndpoints = new List<string>
         {
             "/statuses/home_timeline",
             "/statuses/mentions_timeline",
@@ -57,7 +57,7 @@ namespace OpenTween
         {
             // TL更新用エンドポイントの追加
             var group = this.ListViewApi.Groups[0];
-            foreach (var endpoint in this._tlEndpoints)
+            foreach (var endpoint in this.tlEndpoints)
             {
                 var apiLimit = MyCommon.TwitterApiInfo.AccessLimit[endpoint];
                 if (apiLimit == null)
@@ -68,7 +68,7 @@ namespace OpenTween
 
             // その他
             group = this.ListViewApi.Groups[1];
-            var apiStatuses = MyCommon.TwitterApiInfo.AccessLimit.Where(x => !this._tlEndpoints.Contains(x.Key)).OrderBy(x => x.Key);
+            var apiStatuses = MyCommon.TwitterApiInfo.AccessLimit.Where(x => !this.tlEndpoints.Contains(x.Key)).OrderBy(x => x.Key);
             foreach (var (endpoint, apiLimit) in apiStatuses)
             {
                 this.AddListViewItem(endpoint, apiLimit, group);

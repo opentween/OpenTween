@@ -215,20 +215,20 @@ namespace OpenTween
             TraceOut(TraceFlag, message);
         }
 
-        public static void TraceOut(Exception ex, string Message)
+        public static void TraceOut(Exception ex, string message)
         {
             var buf = ExceptionOutMessage(ex);
-            TraceOut(TraceFlag, Message + Environment.NewLine + buf);
+            TraceOut(TraceFlag, message + Environment.NewLine + buf);
         }
 
-        public static void TraceOut(string Message)
-            => TraceOut(TraceFlag, Message);
+        public static void TraceOut(string message)
+            => TraceOut(TraceFlag, message);
 
-        public static void TraceOut(bool OutputFlag, string Message)
+        public static void TraceOut(bool outputFlag, string message)
         {
             lock (LockObj)
             {
-                if (!OutputFlag) return;
+                if (!outputFlag) return;
 
                 var logPath = MyCommon.GetErrorLogPath();
                 if (!Directory.Exists(logPath))
@@ -248,7 +248,7 @@ namespace OpenTween
                 writer.WriteLine(Properties.Resources.TraceOutText4, Environment.OSVersion.VersionString);
                 writer.WriteLine(Properties.Resources.TraceOutText5, Environment.Version);
                 writer.WriteLine(Properties.Resources.TraceOutText6, ApplicationSettings.AssemblyName, FileVersion);
-                writer.WriteLine(Message);
+                writer.WriteLine(message);
                 writer.WriteLine();
             }
         }
@@ -260,11 +260,11 @@ namespace OpenTween
 
         public static string ExceptionOutMessage(Exception ex)
         {
-            var IsTerminatePermission = true;
-            return ExceptionOutMessage(ex, ref IsTerminatePermission);
+            var isTerminatePermission = true;
+            return ExceptionOutMessage(ex, ref isTerminatePermission);
         }
 
-        public static string ExceptionOutMessage(Exception ex, ref bool IsTerminatePermission)
+        public static string ExceptionOutMessage(Exception ex, ref bool isTerminatePermission)
         {
             if (ex == null) return "";
 
@@ -287,7 +287,7 @@ namespace OpenTween
                     buf.AppendLine();
                     if (dt.Key.Equals("IsTerminatePermission"))
                     {
-                        IsTerminatePermission = (bool)dt.Value;
+                        isTerminatePermission = (bool)dt.Value;
                     }
                 }
                 if (!needHeader)
@@ -299,19 +299,19 @@ namespace OpenTween
             buf.AppendLine();
 
             // InnerExceptionが存在する場合書き出す
-            var _ex = ex.InnerException;
+            var innerException = ex.InnerException;
             var nesting = 0;
-            while (_ex != null)
+            while (innerException != null)
             {
                 buf.AppendFormat("-----InnerException[{0}]-----\r\n", nesting);
                 buf.AppendLine();
-                buf.AppendFormat(Properties.Resources.UnhandledExceptionText8, _ex.GetType().FullName, _ex.Message);
+                buf.AppendFormat(Properties.Resources.UnhandledExceptionText8, innerException.GetType().FullName, innerException.Message);
                 buf.AppendLine();
-                if (_ex.Data != null)
+                if (innerException.Data != null)
                 {
                     var needHeader = true;
 
-                    foreach (DictionaryEntry dt in _ex.Data)
+                    foreach (DictionaryEntry dt in innerException.Data)
                     {
                         if (needHeader)
                         {
@@ -322,7 +322,7 @@ namespace OpenTween
                         buf.AppendFormat("{0}  :  {1}", dt.Key, dt.Value);
                         if (dt.Key.Equals("IsTerminatePermission"))
                         {
-                            IsTerminatePermission = (bool)dt.Value;
+                            isTerminatePermission = (bool)dt.Value;
                         }
                     }
                     if (!needHeader)
@@ -330,10 +330,10 @@ namespace OpenTween
                         buf.AppendLine("-----End Extra Information-----");
                     }
                 }
-                buf.AppendLine(_ex.StackTrace);
+                buf.AppendLine(innerException.StackTrace);
                 buf.AppendLine();
                 nesting++;
-                _ex = _ex.InnerException;
+                innerException = innerException.InnerException;
             }
             return buf.ToString();
         }
@@ -342,7 +342,7 @@ namespace OpenTween
         {
             lock (LockObj)
             {
-                var IsTerminatePermission = true;
+                var isTerminatePermission = true;
 
                 var ident = WindowsIdentity.GetCurrent();
                 var princ = new WindowsPrincipal(ident);
@@ -362,7 +362,7 @@ namespace OpenTween
                     string.Format(Properties.Resources.UnhandledExceptionText6, Environment.Version),
                     string.Format(Properties.Resources.UnhandledExceptionText7, ApplicationSettings.AssemblyName, FileVersion),
 
-                    ExceptionOutMessage(ex, ref IsTerminatePermission));
+                    ExceptionOutMessage(ex, ref isTerminatePermission));
 
                 var logPath = MyCommon.GetErrorLogPath();
                 if (!Directory.Exists(logPath))

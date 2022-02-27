@@ -69,7 +69,7 @@ namespace OpenTween
         public event EventHandler<TweetDetailsViewStatusChengedEventArgs>? StatusChanged;
 
         /// <summary><see cref="ContextMenuPostBrowser"/> 展開時の <see cref="PostBrowser"/>.StatusText を保持するフィールド</summary>
-        private string _postBrowserStatusText = "";
+        private string postBrowserStatusText = "";
 
         public TweetDetailsView()
         {
@@ -389,25 +389,25 @@ namespace OpenTween
         private async Task DoSearchToolStrip(string url)
         {
             // 発言詳細で「選択文字列で検索」（選択文字列取得）
-            var _selText = this.PostBrowser.GetSelectedText();
+            var selText = this.PostBrowser.GetSelectedText();
 
-            if (_selText != null)
+            if (selText != null)
             {
                 if (url == Properties.Resources.SearchItem4Url)
                 {
                     // 公式検索
-                    this.Owner.AddNewTabForSearch(_selText);
+                    this.Owner.AddNewTabForSearch(selText);
                     return;
                 }
 
-                var tmp = string.Format(url, Uri.EscapeDataString(_selText));
+                var tmp = string.Format(url, Uri.EscapeDataString(selText));
                 await MyCommon.OpenInBrowserAsync(this, tmp);
             }
         }
 
         private string? GetUserId()
         {
-            var m = Regex.Match(this._postBrowserStatusText, @"^https?://twitter.com/(#!/)?(?<ScreenName>[a-zA-Z0-9_]+)(/status(es)?/[0-9]+)?$");
+            var m = Regex.Match(this.postBrowserStatusText, @"^https?://twitter.com/(#!/)?(?<ScreenName>[a-zA-Z0-9_]+)(/status(es)?/[0-9]+)?$");
             if (m.Success && this.Owner.IsTwitterId(m.Result("${ScreenName}")))
                 return m.Result("${ScreenName}");
             else
@@ -465,8 +465,8 @@ namespace OpenTween
 
         private async void PostBrowser_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
         {
-            var KeyRes = this.Owner.CommonKeyDown(e.KeyData, FocusedControl.PostBrowser, out var asyncTask);
-            if (KeyRes)
+            var keyRes = this.Owner.CommonKeyDown(e.KeyData, FocusedControl.PostBrowser, out var asyncTask);
+            if (keyRes)
             {
                 e.IsInputKey = true;
             }
@@ -749,7 +749,7 @@ namespace OpenTween
             // URLコピーの項目の表示/非表示
             if (this.PostBrowser.StatusText.StartsWith("http", StringComparison.Ordinal))
             {
-                this._postBrowserStatusText = this.PostBrowser.StatusText;
+                this.postBrowserStatusText = this.PostBrowser.StatusText;
                 var name = this.GetUserId();
                 this.UrlCopyContextMenuItem.Enabled = true;
                 if (name != null)
@@ -775,14 +775,14 @@ namespace OpenTween
                     this.SearchAtPostsDetailToolStripMenuItem.Enabled = false;
                 }
 
-                if (Regex.IsMatch(this._postBrowserStatusText, @"^https?://twitter.com/search\?q=%23"))
+                if (Regex.IsMatch(this.postBrowserStatusText, @"^https?://twitter.com/search\?q=%23"))
                     this.UseHashtagMenuItem.Enabled = true;
                 else
                     this.UseHashtagMenuItem.Enabled = false;
             }
             else
             {
-                this._postBrowserStatusText = "";
+                this.postBrowserStatusText = "";
                 this.UrlCopyContextMenuItem.Enabled = false;
                 this.FollowContextMenuItem.Enabled = false;
                 this.RemoveContextMenuItem.Enabled = false;
@@ -795,8 +795,8 @@ namespace OpenTween
                 this.ListManageUserContextToolStripMenuItem.Enabled = false;
             }
             // 文字列選択されていないときは選択文字列関係の項目を非表示に
-            var _selText = this.PostBrowser.GetSelectedText();
-            if (_selText == null)
+            var selText = this.PostBrowser.GetSelectedText();
+            if (selText == null)
             {
                 this.SelectionSearchContextMenuItem.Enabled = false;
                 this.SelectionCopyContextMenuItem.Enabled = false;
@@ -841,13 +841,13 @@ namespace OpenTween
         private void CurrentTabToolStripMenuItem_Click(object sender, EventArgs e)
         {
             // 発言詳細の選択文字列で現在のタブを検索
-            var _selText = this.PostBrowser.GetSelectedText();
+            var selText = this.PostBrowser.GetSelectedText();
 
-            if (_selText != null)
+            if (selText != null)
             {
                 var searchOptions = new SearchWordDialog.SearchOptions(
                     SearchWordDialog.SearchType.Timeline,
-                    _selText,
+                    selText,
                     newTab: false,
                     caseSensitive: false,
                     useRegex: false);
@@ -865,10 +865,10 @@ namespace OpenTween
         private void SelectionCopyContextMenuItem_Click(object sender, EventArgs e)
         {
             // 発言詳細で「選択文字列をコピー」
-            var _selText = this.PostBrowser.GetSelectedText();
+            var selText = this.PostBrowser.GetSelectedText();
             try
             {
-                Clipboard.SetDataObject(_selText, false, 5, 100);
+                Clipboard.SetDataObject(selText, false, 5, 100);
             }
             catch (Exception ex)
             {
@@ -882,7 +882,7 @@ namespace OpenTween
             {
                 foreach (var link in this.PostBrowser.Document.Links.Cast<HtmlElement>())
                 {
-                    if (link.GetAttribute("href") == this._postBrowserStatusText)
+                    if (link.GetAttribute("href") == this.postBrowserStatusText)
                     {
                         var linkStr = link.GetAttribute("title");
                         if (MyCommon.IsNullOrEmpty(linkStr))
@@ -893,7 +893,7 @@ namespace OpenTween
                     }
                 }
 
-                Clipboard.SetDataObject(this._postBrowserStatusText, false, 5, 100);
+                Clipboard.SetDataObject(this.postBrowserStatusText, false, 5, 100);
             }
             catch (Exception ex)
             {
@@ -991,7 +991,7 @@ namespace OpenTween
 
         private void UseHashtagMenuItem_Click(object sender, EventArgs e)
         {
-            var m = Regex.Match(this._postBrowserStatusText, @"^https?://twitter.com/search\?q=%23(?<hash>.+)$");
+            var m = Regex.Match(this.postBrowserStatusText, @"^https?://twitter.com/search\?q=%23(?<hash>.+)$");
             if (m.Success)
                 this.Owner.SetPermanentHashtag(Uri.UnescapeDataString(m.Groups["hash"].Value));
         }

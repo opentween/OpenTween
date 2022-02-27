@@ -39,7 +39,7 @@ namespace OpenTween
 {
     public partial class OpenURL : OTBaseForm
     {
-        private string? _selUrl;
+        private string? selUrl;
 
         public OpenURL()
             => this.InitializeComponent();
@@ -52,7 +52,7 @@ namespace OpenTween
             }
             else
             {
-                this._selUrl = this.UrlList.SelectedItem.ToString();
+                this.selUrl = this.UrlList.SelectedItem.ToString();
                 this.DialogResult = DialogResult.OK;
             }
             this.Close();
@@ -75,7 +75,7 @@ namespace OpenTween
             get
             {
                 if (this.UrlList.SelectedItems.Count == 1)
-                    return this._selUrl!;
+                    return this.selUrl!;
                 else
                     return "";
             }
@@ -123,11 +123,11 @@ namespace OpenTween
 
     public class OpenUrlItem
     {
-        private readonly string _linkText;
+        private readonly string linkText;
 
         public OpenUrlItem(string linkText, string url, string href)
         {
-            this._linkText = linkText;
+            this.linkText = linkText;
             this.Url = url;
             this.Href = href;
         }
@@ -136,15 +136,15 @@ namespace OpenTween
         {
             get
             {
-                if (this._linkText.StartsWith("@", StringComparison.Ordinal)
-                    || this._linkText.StartsWith("＠", StringComparison.Ordinal)
-                    || this._linkText.StartsWith("#", StringComparison.Ordinal)
-                    || this._linkText.StartsWith("＃", StringComparison.Ordinal))
-                    return this._linkText;
-                if (this._linkText.TrimEnd('/') == this.Url.TrimEnd('/'))
+                if (this.linkText.StartsWith("@", StringComparison.Ordinal)
+                    || this.linkText.StartsWith("＠", StringComparison.Ordinal)
+                    || this.linkText.StartsWith("#", StringComparison.Ordinal)
+                    || this.linkText.StartsWith("＃", StringComparison.Ordinal))
+                    return this.linkText;
+                if (this.linkText.TrimEnd('/') == this.Url.TrimEnd('/'))
                     return this.Url;
                 else
-                    return this._linkText + "  >>>  " + this.Url;
+                    return this.linkText + "  >>>  " + this.Url;
             }
         }
 

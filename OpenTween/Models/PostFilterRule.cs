@@ -49,7 +49,7 @@ namespace OpenTween.Models
         /// コンパイルされた振り分けルール
         /// </summary>
         [XmlIgnore]
-        protected Func<PostClass, MyCommon.HITRESULT>? FilterDelegate;
+        protected Func<PostClass, MyCommon.HITRESULT>? filterDelegate;
 
         /// <summary>
         /// 振り分けルールの概要
@@ -68,164 +68,164 @@ namespace OpenTween.Models
 
         public bool Enabled
         {
-            get => this._enabled;
-            set => this.SetProperty(ref this._enabled, value);
+            get => this.enabled;
+            set => this.SetProperty(ref this.enabled, value);
         }
-        private bool _enabled;
+        private bool enabled;
 
         [XmlElement("NameFilter")]
         public string? FilterName
         {
-            get => this._FilterName;
-            set => this.SetProperty(ref this._FilterName, value);
+            get => this.filterName;
+            set => this.SetProperty(ref this.filterName, value);
         }
-        private string? _FilterName;
+        private string? filterName;
 
         [XmlElement("ExNameFilter")]
         public string? ExFilterName
         {
-            get => this._ExFilterName;
-            set => this.SetProperty(ref this._ExFilterName, value);
+            get => this.exFilterName;
+            set => this.SetProperty(ref this.exFilterName, value);
         }
-        private string? _ExFilterName;
+        private string? exFilterName;
 
         [XmlArray("BodyFilterArray")]
         public string[] FilterBody
         {
-            get => this._FilterBody;
-            set => this.SetProperty(ref this._FilterBody, value ?? throw new ArgumentNullException(nameof(value)));
+            get => this.filterBody;
+            set => this.SetProperty(ref this.filterBody, value ?? throw new ArgumentNullException(nameof(value)));
         }
-        private string[] _FilterBody = Array.Empty<string>();
+        private string[] filterBody = Array.Empty<string>();
 
         [XmlArray("ExBodyFilterArray")]
         public string[] ExFilterBody
         {
-            get => this._ExFilterBody;
-            set => this.SetProperty(ref this._ExFilterBody, value ?? throw new ArgumentNullException(nameof(value)));
+            get => this.exFilterBody;
+            set => this.SetProperty(ref this.exFilterBody, value ?? throw new ArgumentNullException(nameof(value)));
         }
-        private string[] _ExFilterBody = Array.Empty<string>();
+        private string[] exFilterBody = Array.Empty<string>();
 
         [XmlElement("SearchBoth")]
         public bool UseNameField
         {
-            get => this._UseNameField;
-            set => this.SetProperty(ref this._UseNameField, value);
+            get => this.useNameField;
+            set => this.SetProperty(ref this.useNameField, value);
         }
-        private bool _UseNameField;
+        private bool useNameField;
 
         [XmlElement("ExSearchBoth")]
         public bool ExUseNameField
         {
-            get => this._ExUseNameField;
-            set => this.SetProperty(ref this._ExUseNameField, value);
+            get => this.exUseNameField;
+            set => this.SetProperty(ref this.exUseNameField, value);
         }
-        private bool _ExUseNameField;
+        private bool exUseNameField;
 
         [XmlElement("MoveFrom")]
         public bool MoveMatches
         {
-            get => this._MoveMatches;
-            set => this.SetProperty(ref this._MoveMatches, value);
+            get => this.moveMatches;
+            set => this.SetProperty(ref this.moveMatches, value);
         }
-        private bool _MoveMatches;
+        private bool moveMatches;
 
         [XmlElement("SetMark")]
         public bool MarkMatches
         {
-            get => this._MarkMatches;
-            set => this.SetProperty(ref this._MarkMatches, value);
+            get => this.markMatches;
+            set => this.SetProperty(ref this.markMatches, value);
         }
-        private bool _MarkMatches;
+        private bool markMatches;
 
         [XmlElement("SearchUrl")]
         public bool FilterByUrl
         {
-            get => this._FilterByUrl;
-            set => this.SetProperty(ref this._FilterByUrl, value);
+            get => this.filterByUrl;
+            set => this.SetProperty(ref this.filterByUrl, value);
         }
-        private bool _FilterByUrl;
+        private bool filterByUrl;
 
         [XmlElement("ExSearchUrl")]
         public bool ExFilterByUrl
         {
-            get => this._ExFilterByUrl;
-            set => this.SetProperty(ref this._ExFilterByUrl, value);
+            get => this.exFilterByUrl;
+            set => this.SetProperty(ref this.exFilterByUrl, value);
         }
-        private bool _ExFilterByUrl;
+        private bool exFilterByUrl;
 
         public bool CaseSensitive
         {
-            get => this._CaseSensitive;
-            set => this.SetProperty(ref this._CaseSensitive, value);
+            get => this.caseSensitive;
+            set => this.SetProperty(ref this.caseSensitive, value);
         }
-        private bool _CaseSensitive;
+        private bool caseSensitive;
 
         public bool ExCaseSensitive
         {
-            get => this._ExCaseSensitive;
-            set => this.SetProperty(ref this._ExCaseSensitive, value);
+            get => this.exCaseSensitive;
+            set => this.SetProperty(ref this.exCaseSensitive, value);
         }
-        private bool _ExCaseSensitive;
+        private bool exCaseSensitive;
 
         public bool UseLambda
         {
-            get => this._UseLambda;
-            set => this.SetProperty(ref this._UseLambda, value);
+            get => this.useLambda;
+            set => this.SetProperty(ref this.useLambda, value);
         }
-        private bool _UseLambda;
+        private bool useLambda;
 
         public bool ExUseLambda
         {
-            get => this._ExUseLambda;
-            set => this.SetProperty(ref this._ExUseLambda, value);
+            get => this.exUseLambda;
+            set => this.SetProperty(ref this.exUseLambda, value);
         }
-        private bool _ExUseLambda;
+        private bool exUseLambda;
 
         public bool UseRegex
         {
-            get => this._UseRegex;
-            set => this.SetProperty(ref this._UseRegex, value);
+            get => this.useRegex;
+            set => this.SetProperty(ref this.useRegex, value);
         }
-        private bool _UseRegex;
+        private bool useRegex;
 
         public bool ExUseRegex
         {
-            get => this._ExUseRegex;
-            set => this.SetProperty(ref this._ExUseRegex, value);
+            get => this.exUseRegex;
+            set => this.SetProperty(ref this.exUseRegex, value);
         }
-        private bool _ExUseRegex;
+        private bool exUseRegex;
 
         [XmlElement("IsRt")]
         public bool FilterRt
         {
-            get => this._FilterRt;
-            set => this.SetProperty(ref this._FilterRt, value);
+            get => this.filterRt;
+            set => this.SetProperty(ref this.filterRt, value);
         }
-        private bool _FilterRt;
+        private bool filterRt;
 
         [XmlElement("IsExRt")]
         public bool ExFilterRt
         {
-            get => this._ExFilterRt;
-            set => this.SetProperty(ref this._ExFilterRt, value);
+            get => this.exFilterRt;
+            set => this.SetProperty(ref this.exFilterRt, value);
         }
-        private bool _ExFilterRt;
+        private bool exFilterRt;
 
         [XmlElement("Source")]
         public string? FilterSource
         {
-            get => this._FilterSource;
-            set => this.SetProperty(ref this._FilterSource, value);
+            get => this.filterSource;
+            set => this.SetProperty(ref this.filterSource, value);
         }
-        private string? _FilterSource;
+        private string? filterSource;
 
         [XmlElement("ExSource")]
         public string? ExFilterSource
         {
-            get => this._ExFilterSource;
-            set => this.SetProperty(ref this._ExFilterSource, value);
+            get => this.exFilterSource;
+            set => this.SetProperty(ref this.exFilterSource, value);
         }
-        private string? _ExFilterSource;
+        private string? exFilterSource;
 
         public PostFilterRule()
         {
@@ -248,7 +248,7 @@ namespace OpenTween.Models
         {
             if (!this.Enabled)
             {
-                this.FilterDelegate = x => MyCommon.HITRESULT.None;
+                this.filterDelegate = x => MyCommon.HITRESULT.None;
                 this.IsDirty = false;
                 return;
             }
@@ -334,7 +334,7 @@ namespace OpenTween.Models
                 filterExpr = x => MyCommon.HITRESULT.None;
             }
 
-            this.FilterDelegate = filterExpr.Compile();
+            this.filterDelegate = filterExpr.Compile();
             this.IsDirty = false;
         }
 
@@ -504,7 +504,7 @@ namespace OpenTween.Models
                 this.Compile();
             }
 
-            return this.FilterDelegate!(post);
+            return this.filterDelegate!(post);
         }
 
         public PostFilterRule Clone()

@@ -63,11 +63,11 @@ namespace OpenTween.Models
             }
         }
 
-        private PostClassGroup PostGroup;
+        private PostClassGroup postGroup;
 
         public PostClassTest()
         {
-            this.PostGroup = new PostClassGroup(
+            this.postGroup = new PostClassGroup(
                 new TestPostClass { StatusId = 1L },
                 new TestPostClass { StatusId = 2L, IsFav = true },
                 new TestPostClass { StatusId = 3L, IsFav = false, RetweetedId = 2L });
@@ -97,7 +97,7 @@ namespace OpenTween.Models
         [InlineData(2L, true)]
         [InlineData(3L, true)]
         public void GetIsFavTest(long statusId, bool expected)
-            => Assert.Equal(expected, this.PostGroup[statusId].IsFav);
+            => Assert.Equal(expected, this.postGroup[statusId].IsFav);
 
         [Theory]
         [InlineData(2L, true)]
@@ -106,13 +106,13 @@ namespace OpenTween.Models
         [InlineData(3L, false)]
         public void SetIsFavTest(long statusId, bool isFav)
         {
-            var post = this.PostGroup[statusId];
+            var post = this.postGroup[statusId];
 
             post.IsFav = isFav;
             Assert.Equal(isFav, post.IsFav);
 
             if (post.RetweetedId != null)
-                Assert.Equal(isFav, this.PostGroup[post.RetweetedId.Value].IsFav);
+                Assert.Equal(isFav, this.postGroup[post.RetweetedId.Value].IsFav);
         }
 
 #pragma warning disable SA1008 // Opening parenthesis should be spaced correctly
@@ -407,7 +407,7 @@ namespace OpenTween.Models
             }
 
             protected override async Task DeepExpandAsync()
-                => this._expandedUrl = await this.FakeResult.Task;
+                => this.expandedUrl = await this.FakeResult.Task;
         }
 
         [Fact]

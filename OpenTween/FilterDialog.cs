@@ -44,10 +44,10 @@ namespace OpenTween
 {
     public partial class FilterDialog : OTBaseForm
     {
-        private EDITMODE _mode;
-        private bool _directAdd;
-        private MultiSelectionState _multiSelState = MultiSelectionState.None;
-        private readonly TabInformations _sts;
+        private EDITMODE mode;
+        private bool directAdd;
+        private MultiSelectionState multiSelState = MultiSelectionState.None;
+        private readonly TabInformations sts;
 
         private List<TabModel> tabs = new List<TabModel>();
         private int selectedTabIndex = -1;
@@ -78,10 +78,10 @@ namespace OpenTween
 
         private EnableButtonMode RuleEnableButtonMode
         {
-            get => this._ruleEnableButtonMode;
+            get => this.ruleEnableButtonMode;
             set
             {
-                this._ruleEnableButtonMode = value;
+                this.ruleEnableButtonMode = value;
 
                 this.buttonRuleToggleEnabled.Text = value == FilterDialog.EnableButtonMode.Enable
                     ? Properties.Resources.EnableButtonCaption
@@ -89,7 +89,7 @@ namespace OpenTween
                 this.buttonRuleToggleEnabled.Enabled = value != EnableButtonMode.NotSelected;
             }
         }
-        private EnableButtonMode _ruleEnableButtonMode = FilterDialog.EnableButtonMode.NotSelected;
+        private EnableButtonMode ruleEnableButtonMode = FilterDialog.EnableButtonMode.NotSelected;
 
         public TabModel? SelectedTab
             => this.selectedTabIndex != -1 ? this.tabs[this.selectedTabIndex] : null;
@@ -98,13 +98,13 @@ namespace OpenTween
         {
             this.InitializeComponent();
 
-            this._sts = TabInformations.GetInstance();
+            this.sts = TabInformations.GetInstance();
             this.RefreshListTabs();
         }
 
         private void RefreshListTabs()
         {
-            this.tabs = this._sts.Tabs.Append(this._sts.MuteTab).ToList();
+            this.tabs = this.sts.Tabs.Append(this.sts.MuteTab).ToList();
 
             using (ControlTransaction.Update(this.ListTabs))
             {
@@ -152,7 +152,7 @@ namespace OpenTween
             if (idx == -1) idx = 0;
             this.ComboSound.SelectedIndex = idx;
 
-            if (this._directAdd) return;
+            if (this.directAdd) return;
 
             if (tab.TabType == MyCommon.TabUsageType.Mute)
             {
@@ -308,8 +308,8 @@ namespace OpenTween
             this.OptCopy.Checked = true;
             this.CheckMark.Checked = true;
             this.UID.Focus();
-            this._mode = EDITMODE.AddNew;
-            this._directAdd = true;
+            this.mode = EDITMODE.AddNew;
+            this.directAdd = true;
         }
 
         private void ButtonNew_Click(object sender, EventArgs e)
@@ -362,7 +362,7 @@ namespace OpenTween
             this.OptCopy.Checked = true;
             this.CheckMark.Checked = true;
             this.UID.Focus();
-            this._mode = EDITMODE.AddNew;
+            this.mode = EDITMODE.AddNew;
         }
 
         private void ButtonEdit_Click(object sender, EventArgs e)
@@ -389,7 +389,7 @@ namespace OpenTween
             this.ListTabs.Enabled = false;
             this.GroupTab.Enabled = false;
 
-            this._mode = EDITMODE.Edit;
+            this.mode = EDITMODE.Edit;
         }
 
         private void ButtonDelete_Click(object sender, EventArgs e)
@@ -457,7 +457,7 @@ namespace OpenTween
                 this.buttonRuleToggleEnabled.Enabled = false;
             }
             this.ButtonClose.Enabled = true;
-            if (this._directAdd)
+            if (this.directAdd)
             {
                 this.Close();
             }
@@ -465,7 +465,7 @@ namespace OpenTween
 
         private void ShowDetail()
         {
-            if (this._directAdd) return;
+            if (this.directAdd) return;
 
             if (this.ListFilters.SelectedIndex > -1)
             {
@@ -622,7 +622,7 @@ namespace OpenTween
             var i = this.ListFilters.SelectedIndex;
 
             PostFilterRule ft;
-            if (this._mode == EDITMODE.AddNew)
+            if (this.mode == EDITMODE.AddNew)
                 ft = new PostFilterRule();
             else
                 ft = (PostFilterRule)this.ListFilters.SelectedItem;
@@ -709,7 +709,7 @@ namespace OpenTween
             ft.ExFilterRt = this.CheckExRetweet.Checked;
             ft.ExUseLambda = this.CheckExLambDa.Checked;
 
-            if (this._mode == EDITMODE.AddNew)
+            if (this.mode == EDITMODE.AddNew)
             {
                 if (!tab.AddFilter(ft))
                     MessageBox.Show(Properties.Resources.ButtonOK_ClickText4, Properties.Resources.ButtonOK_ClickText2, MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -717,7 +717,7 @@ namespace OpenTween
 
             this.SetFilters(tab);
             this.ListFilters.SelectedIndex = -1;
-            if (this._mode == EDITMODE.AddNew)
+            if (this.mode == EDITMODE.AddNew)
             {
                 this.ListFilters.SelectedIndex = this.ListFilters.Items.Count - 1;
             }
@@ -725,9 +725,9 @@ namespace OpenTween
             {
                 this.ListFilters.SelectedIndex = i;
             }
-            this._mode = EDITMODE.None;
+            this.mode = EDITMODE.None;
 
-            if (this._directAdd)
+            if (this.directAdd)
             {
                 this.Close();
             }
@@ -867,7 +867,7 @@ namespace OpenTween
 
         private void ListFilters_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (this._multiSelState != MultiSelectionState.None) // 複数選択処理中は無視する
+            if (this.multiSelState != MultiSelectionState.None) // 複数選択処理中は無視する
                 return;
 
             this.ShowDetail();
@@ -892,7 +892,7 @@ namespace OpenTween
             => this.Close();
 
         private void FilterDialog_FormClosed(object sender, FormClosedEventArgs e)
-            => this._directAdd = false;
+            => this.directAdd = false;
 
         private void FilterDialog_KeyDown(object sender, KeyEventArgs e)
         {
@@ -964,7 +964,7 @@ namespace OpenTween
             MyCommon.TabUsageType tabType;
             using (var inputName = new InputTabName())
             {
-                inputName.TabName = this._sts.MakeTabName("MyTab");
+                inputName.TabName = this.sts.MakeTabName("MyTab");
                 inputName.IsShowUsage = true;
                 inputName.ShowDialog();
                 if (inputName.DialogResult == DialogResult.Cancel) return;
@@ -1018,7 +1018,7 @@ namespace OpenTween
                         return;
                 }
 
-                if (!this._sts.AddTab(tab) || !((TweenMain)this.Owner).AddNewTab(tab, startup: false))
+                if (!this.sts.AddTab(tab) || !((TweenMain)this.Owner).AddNewTab(tab, startup: false))
                 {
                     var tmp = string.Format(Properties.Resources.AddTabMenuItem_ClickText1, tabName);
                     MessageBox.Show(tmp, Properties.Resources.AddTabMenuItem_ClickText2, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
@@ -1190,7 +1190,7 @@ namespace OpenTween
 
             try
             {
-                this._multiSelState |= MultiSelectionState.MoveSelected;
+                this.multiSelState |= MultiSelectionState.MoveSelected;
 
                 using (ControlTransaction.Update(this.ListFilters))
                 {
@@ -1219,7 +1219,7 @@ namespace OpenTween
             }
             finally
             {
-                this._multiSelState &= ~MultiSelectionState.MoveSelected;
+                this.multiSelState &= ~MultiSelectionState.MoveSelected;
             }
         }
 
@@ -1251,7 +1251,7 @@ namespace OpenTween
             if (selectedTab != null && this.ListFilters.SelectedItem != null)
             {
                 TabModel[] destinationTabs;
-                using (var dialog = new TabsDialog(this._sts))
+                using (var dialog = new TabsDialog(this.sts))
                 {
                     dialog.MultiSelect = true;
                     dialog.Text = Properties.Resources.ButtonRuleCopy_ClickText1;
@@ -1288,7 +1288,7 @@ namespace OpenTween
             if (selectedTab != null && this.ListFilters.SelectedItem != null)
             {
                 TabModel[] destinationTabs;
-                using (var dialog = new TabsDialog(this._sts))
+                using (var dialog = new TabsDialog(this.sts))
                 {
                     dialog.MultiSelect = true;
                     dialog.Text = Properties.Resources.ButtonRuleMove_ClickText1;
@@ -1417,7 +1417,7 @@ namespace OpenTween
                     {
                         try
                         {
-                            this._multiSelState |= MultiSelectionState.SelectAll;
+                            this.multiSelState |= MultiSelectionState.SelectAll;
 
                             for (var i = 1; i < itemCount; i++)
                             {
@@ -1426,7 +1426,7 @@ namespace OpenTween
                         }
                         finally
                         {
-                            this._multiSelState &= ~MultiSelectionState.SelectAll;
+                            this.multiSelState &= ~MultiSelectionState.SelectAll;
                         }
                     }
 

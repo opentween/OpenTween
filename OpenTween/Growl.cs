@@ -43,16 +43,16 @@ namespace OpenTween
 {
     public class GrowlHelper
     {
-        private Assembly? _connector = null;
-        private Assembly? _core = null;
+        private Assembly? connector = null;
+        private Assembly? core = null;
 
-        private object? _growlNTreply;
-        private object? _growlNTdm;
-        private object? _growlNTnew;
-        private object? _growlApp;
+        private object? growlNTreply;
+        private object? growlNTdm;
+        private object? growlNTnew;
+        private object? growlApp;
 
-        private object? _targetConnector;
-        bool _initialized = false;
+        private object? targetConnector;
+        private bool initialized = false;
 
         public class NotifyCallbackEventArgs : EventArgs
         {
@@ -86,7 +86,7 @@ namespace OpenTween
         {
             get
             {
-                if (this._connector == null || this._core == null || !this._initialized)
+                if (this.connector == null || this.core == null || !this.initialized)
                     return false;
                 else
                     return true;
@@ -123,7 +123,7 @@ namespace OpenTween
 
         public bool RegisterGrowl()
         {
-            this._initialized = false;
+            this.initialized = false;
             var dir = Application.StartupPath;
             var connectorPath = Path.Combine(dir, "Growl.Connector.dll");
             var corePath = Path.Combine(dir, "Growl.CoreLibrary.dll");
@@ -131,8 +131,8 @@ namespace OpenTween
             try
             {
                 if (!IsDllExists) return false;
-                this._connector = Assembly.LoadFile(connectorPath);
-                this._core = Assembly.LoadFile(corePath);
+                this.connector = Assembly.LoadFile(connectorPath);
+                this.core = Assembly.LoadFile(corePath);
             }
             catch (Exception)
             {
@@ -141,10 +141,10 @@ namespace OpenTween
 
             try
             {
-                this._targetConnector = this._connector.CreateInstance("Growl.Connector.GrowlConnector");
-                var _t = this._connector.GetType("Growl.Connector.NotificationType");
+                this.targetConnector = this.connector.CreateInstance("Growl.Connector.GrowlConnector");
+                var t = this.connector.GetType("Growl.Connector.NotificationType");
 
-                this._growlNTreply = _t.InvokeMember(
+                this.growlNTreply = t.InvokeMember(
                     null,
                     BindingFlags.CreateInstance,
                     null,
@@ -152,14 +152,14 @@ namespace OpenTween
                     new object[] { "REPLY", "Reply" },
                     CultureInfo.InvariantCulture);
 
-                this._growlNTdm = _t.InvokeMember(null,
+                this.growlNTdm = t.InvokeMember(null,
                     BindingFlags.CreateInstance,
                     null,
                     null,
                     new object[] { "DIRECT_MESSAGE", "DirectMessage" },
                     CultureInfo.InvariantCulture);
 
-                this._growlNTnew = _t.InvokeMember(
+                this.growlNTnew = t.InvokeMember(
                     null,
                     BindingFlags.CreateInstance,
                     null,
@@ -168,32 +168,32 @@ namespace OpenTween
                     CultureInfo.InvariantCulture);
 
                 var encryptType =
-                        this._connector.GetType("Growl.Connector.Cryptography+SymmetricAlgorithmType").InvokeMember(
+                        this.connector.GetType("Growl.Connector.Cryptography+SymmetricAlgorithmType").InvokeMember(
                             "PlainText", BindingFlags.GetField, null, null, null, CultureInfo.InvariantCulture);
-                this._targetConnector.GetType().InvokeMember("EncryptionAlgorithm", BindingFlags.SetProperty, null, this._targetConnector, new object[] { encryptType }, CultureInfo.InvariantCulture);
+                this.targetConnector.GetType().InvokeMember("EncryptionAlgorithm", BindingFlags.SetProperty, null, this.targetConnector, new object[] { encryptType }, CultureInfo.InvariantCulture);
 
-                this._growlApp = this._connector.CreateInstance(
+                this.growlApp = this.connector.CreateInstance(
                     "Growl.Connector.Application", false, BindingFlags.Default, null, new object[] { this.AppName }, null, null);
 
 
                 if (File.Exists(Path.Combine(Application.StartupPath, "Icons\\Tween.png")))
                 {
                     // Icons\Tween.pngを使用
-                    var ci = this._core.GetType("Growl.CoreLibrary.Resource").GetConstructor(
+                    var ci = this.core.GetType("Growl.CoreLibrary.Resource").GetConstructor(
                         BindingFlags.NonPublic | BindingFlags.Instance,
                         null,
                         new Type[] { typeof(string) },
                         null);
 
                     var data = ci.Invoke(new object[] { Path.Combine(Application.StartupPath, "Icons\\Tween.png") });
-                    var pi = this._growlApp.GetType().GetProperty("Icon");
-                    pi.SetValue(this._growlApp, data, null);
+                    var pi = this.growlApp.GetType().GetProperty("Icon");
+                    pi.SetValue(this.growlApp, data, null);
 
                 }
                 else if (File.Exists(Path.Combine(Application.StartupPath, "Icons\\MIcon.ico")))
                 {
                     // アイコンセットにMIcon.icoが存在する場合それを使用
-                    var cibd = this._core.GetType("Growl.CoreLibrary.BinaryData").GetConstructor(
+                    var cibd = this.core.GetType("Growl.CoreLibrary.BinaryData").GetConstructor(
                         BindingFlags.Public | BindingFlags.Instance,
                         null,
                         new Type[] { typeof(byte[]) },
@@ -201,20 +201,20 @@ namespace OpenTween
                     var bdata = cibd.Invoke(
                         new object[] { this.IconToByteArray(Path.Combine(Application.StartupPath, "Icons\\MIcon.ico")) });
 
-                    var ciRes = this._core.GetType("Growl.CoreLibrary.Resource").GetConstructor(
+                    var ciRes = this.core.GetType("Growl.CoreLibrary.Resource").GetConstructor(
                         BindingFlags.NonPublic | BindingFlags.Instance,
                         null,
                         new Type[] { bdata.GetType() },
                         null);
 
                     var data = ciRes.Invoke(new object[] { bdata });
-                    var pi = this._growlApp.GetType().GetProperty("Icon");
-                    pi.SetValue(this._growlApp, data, null);
+                    var pi = this.growlApp.GetType().GetProperty("Icon");
+                    pi.SetValue(this.growlApp, data, null);
                 }
                 else
                 {
                     // 内蔵アイコンリソースを使用
-                    var cibd = this._core.GetType("Growl.CoreLibrary.BinaryData").GetConstructor(
+                    var cibd = this.core.GetType("Growl.CoreLibrary.BinaryData").GetConstructor(
                         BindingFlags.Public | BindingFlags.Instance,
                         null,
                         new Type[] { typeof(byte[]) },
@@ -222,45 +222,45 @@ namespace OpenTween
                     var bdata = cibd.Invoke(
                         new object[] { this.IconToByteArray(Properties.Resources.MIcon) });
 
-                    var ciRes = this._core.GetType("Growl.CoreLibrary.Resource").GetConstructor(
+                    var ciRes = this.core.GetType("Growl.CoreLibrary.Resource").GetConstructor(
                         BindingFlags.NonPublic | BindingFlags.Instance,
                         null,
                         new Type[] { bdata.GetType() },
                         null);
 
                     var data = ciRes.Invoke(new object[] { bdata });
-                    var pi = this._growlApp.GetType().GetProperty("Icon");
-                    pi.SetValue(this._growlApp, data, null);
+                    var pi = this.growlApp.GetType().GetProperty("Icon");
+                    pi.SetValue(this.growlApp, data, null);
                 }
 
-                var mi = this._targetConnector.GetType().GetMethod("Register", new Type[] { this._growlApp.GetType(), this._connector.GetType("Growl.Connector.NotificationType[]") });
+                var mi = this.targetConnector.GetType().GetMethod("Register", new Type[] { this.growlApp.GetType(), this.connector.GetType("Growl.Connector.NotificationType[]") });
 
-                _t = this._connector.GetType("Growl.Connector.NotificationType");
+                t = this.connector.GetType("Growl.Connector.NotificationType");
 
                 var arglist = new ArrayList
                 {
-                    this._growlNTreply,
-                    this._growlNTdm,
-                    this._growlNTnew,
+                    this.growlNTreply,
+                    this.growlNTdm,
+                    this.growlNTnew,
                 };
 
-                mi.Invoke(this._targetConnector, new object[] { this._growlApp, arglist.ToArray(_t) });
+                mi.Invoke(this.targetConnector, new object[] { this.growlApp, arglist.ToArray(t) });
 
                 // コールバックメソッドの登録
-                var tGrowlConnector = this._connector.GetType("Growl.Connector.GrowlConnector");
+                var tGrowlConnector = this.connector.GetType("Growl.Connector.GrowlConnector");
                 var evNotificationCallback = tGrowlConnector.GetEvent("NotificationCallback");
                 var tDelegate = evNotificationCallback.EventHandlerType;
                 var miHandler = typeof(GrowlHelper).GetMethod("GrowlCallbackHandler", BindingFlags.NonPublic | BindingFlags.Instance);
                 var d = Delegate.CreateDelegate(tDelegate, this, miHandler);
                 var miAddHandler = evNotificationCallback.GetAddMethod();
                 object[] addHandlerArgs = { d };
-                miAddHandler.Invoke(this._targetConnector, addHandlerArgs);
+                miAddHandler.Invoke(this.targetConnector, addHandlerArgs);
 
-                this._initialized = true;
+                this.initialized = true;
             }
             catch (Exception)
             {
-                this._initialized = false;
+                this.initialized = false;
                 return false;
             }
 
@@ -269,7 +269,7 @@ namespace OpenTween
 
         public void Notify(NotifyType notificationType, string id, string title, string text, Image? icon = null, string url = "")
         {
-            if (!this._initialized) return;
+            if (!this.initialized) return;
 
             var notificationName = notificationType switch
             {
@@ -282,7 +282,7 @@ namespace OpenTween
             object? n;
             if (icon != null || !MyCommon.IsNullOrEmpty(url))
             {
-                var gCore = this._core!.GetType("Growl.CoreLibrary.Resource");
+                var gCore = this.core!.GetType("Growl.CoreLibrary.Resource");
                 object? res;
                 if (icon != null)
                 {
@@ -303,13 +303,13 @@ namespace OpenTween
                                              CultureInfo.InvariantCulture);
                 }
                 var priority =
-                        this._connector!.GetType("Growl.Connector.Priority").InvokeMember(
+                        this.connector!.GetType("Growl.Connector.Priority").InvokeMember(
                             "Normal", BindingFlags.GetField, null, null, null, CultureInfo.InvariantCulture);
-                n = this._connector!.GetType("Growl.Connector.Notification").InvokeMember(
+                n = this.connector!.GetType("Growl.Connector.Notification").InvokeMember(
                         "Notification",
                         BindingFlags.CreateInstance,
                         null,
-                        this._connector,
+                        this.connector,
                         new object[]
                         {
                             this.AppName,
@@ -326,11 +326,11 @@ namespace OpenTween
             }
             else
             {
-                n = this._connector!.GetType("Growl.Connector.Notification").InvokeMember(
+                n = this.connector!.GetType("Growl.Connector.Notification").InvokeMember(
                         "Notification",
                         BindingFlags.CreateInstance,
                         null,
-                        this._connector,
+                        this.connector,
                         new object[]
                         {
                             this.AppName,
@@ -341,14 +341,14 @@ namespace OpenTween
                         },
                         CultureInfo.InvariantCulture);
             }
-            var cc = this._connector.GetType("Growl.Connector.CallbackContext").InvokeMember(
+            var cc = this.connector.GetType("Growl.Connector.CallbackContext").InvokeMember(
                 null,
                 BindingFlags.CreateInstance,
                 null,
-                this._connector,
+                this.connector,
                 new object[] { "some fake information", notificationName },
                 CultureInfo.InvariantCulture);
-            this._targetConnector!.GetType().InvokeMember("Notify", BindingFlags.InvokeMethod, null, this._targetConnector, new object[] { n, cc }, CultureInfo.InvariantCulture);
+            this.targetConnector!.GetType().InvokeMember("Notify", BindingFlags.InvokeMethod, null, this.targetConnector, new object[] { n, cc }, CultureInfo.InvariantCulture);
         }
 
         private void GrowlCallbackHandler(object response, object callbackData, object state)
@@ -357,7 +357,7 @@ namespace OpenTween
             {
                 // 定数取得
                 var vCLICK =
-                this._core!.GetType("Growl.CoreLibrary.CallbackResult").GetField(
+                this.core!.GetType("Growl.CoreLibrary.CallbackResult").GetField(
                     "CLICK",
                     BindingFlags.Public | BindingFlags.Static).GetRawConstantValue();
                 // 実際の値
