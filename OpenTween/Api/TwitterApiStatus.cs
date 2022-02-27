@@ -22,17 +22,17 @@
 #nullable enable
 
 using System;
+using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Collections;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Runtime.Serialization.Json;
 using System.Text;
 using System.Xml;
 using System.Xml.Linq;
 using System.Xml.XPath;
 using OpenTween.Api.DataModel;
-using System.Net.Http.Headers;
 
 namespace OpenTween.Api
 {

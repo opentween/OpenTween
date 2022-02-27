@@ -30,20 +30,20 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows.Forms;
-using System.Text.RegularExpressions;
 using System.Web;
-using System.IO;
-using System.Net;
+using System.Windows.Forms;
 using OpenTween.Api;
 using OpenTween.Api.DataModel;
 using OpenTween.Connection;
-using System.Diagnostics.CodeAnalysis;
 
 namespace OpenTween
 {

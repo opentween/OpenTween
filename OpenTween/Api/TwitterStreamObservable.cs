@@ -21,7 +21,6 @@
 
 #nullable enable
 
-using OpenTween.Api.DataModel;
 using System;
 using System.IO;
 using System.Linq;
@@ -32,6 +31,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Linq;
+using OpenTween.Api.DataModel;
 
 namespace OpenTween.Api
 {

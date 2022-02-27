@@ -27,9 +27,9 @@
 #nullable enable
 
 using System;
-using System.Xml.Serialization;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using System.Xml.Serialization;
 using OpenTween.Thumbnail;
 
 namespace OpenTween

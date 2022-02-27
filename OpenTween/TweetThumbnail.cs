@@ -24,20 +24,20 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Data;
 using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
-using System.Data;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Text;
-using System.Windows.Forms;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using OpenTween.Thumbnail;
-using System.Threading;
-using OpenTween.Models;
 using System.Runtime.InteropServices;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using OpenTween.Models;
+using OpenTween.Thumbnail;
 
 namespace OpenTween
 {

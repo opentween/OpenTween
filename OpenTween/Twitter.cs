@@ -27,26 +27,26 @@
 
 #nullable enable
 
+using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
-using System;
-using System.Reflection;
-using System.Collections.Generic;
 using System.Windows.Forms;
 using OpenTween.Api;
 using OpenTween.Api.DataModel;
 using OpenTween.Connection;
 using OpenTween.Models;
 using OpenTween.Setting;
-using System.Globalization;
 
 namespace OpenTween
 {

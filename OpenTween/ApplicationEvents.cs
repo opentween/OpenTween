@@ -29,18 +29,18 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Diagnostics;
-using System.Windows.Forms;
+using System.Reflection;
+using System.Security.Principal;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Globalization;
-using System.Reflection;
+using System.Windows.Forms;
 using Microsoft.Win32;
 using OpenTween.Setting;
-using System.Security.Principal;
 
 namespace OpenTween
 {

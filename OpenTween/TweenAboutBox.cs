@@ -32,9 +32,9 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Windows.Forms;
-using System.Reflection;
 
 namespace OpenTween
 {

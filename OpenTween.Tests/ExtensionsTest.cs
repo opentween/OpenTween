@@ -19,7 +19,6 @@
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
 // Boston, MA 02110-1301, USA.
 
-using Moq;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -27,6 +26,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Moq;
 using Xunit;
 
 namespace OpenTween

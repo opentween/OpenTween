@@ -31,18 +31,18 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
-using System.Text;
-using System.Windows.Forms;
-using System.Threading;
-using System.IO;
 using System.Resources;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Windows.Forms;
 using OpenTween.Api;
 using OpenTween.Connection;
-using OpenTween.Thumbnail;
-using System.Threading.Tasks;
 using OpenTween.Setting.Panel;
+using OpenTween.Thumbnail;
 
 namespace OpenTween
 {
