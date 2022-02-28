@@ -24,12 +24,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Net;
-using System.Threading;
-using System.Xml.Serialization;
 using System.Net.Http;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Xml.Serialization;
 using OpenTween.Connection;
 
 namespace OpenTween
@@ -39,7 +39,7 @@ namespace OpenTween
         /// <summary>
         /// キャッシュとして URL と取得した画像を対に保持する辞書
         /// </summary>
-        internal LRUCacheDictionary<string, Task<MemoryImage>> innerDictionary;
+        internal LRUCacheDictionary<string, Task<MemoryImage>> InnerDictionary;
 
         /// <summary>
         /// 非同期タスクをキャンセルするためのトークンのもと
@@ -58,8 +58,9 @@ namespace OpenTween
 
         public ImageCache()
         {
-            this.innerDictionary = new LRUCacheDictionary<string, Task<MemoryImage>>(trimLimit: 300, autoTrimCount: 100);
-            this.innerDictionary.CacheRemoved += (s, e) => {
+            this.InnerDictionary = new LRUCacheDictionary<string, Task<MemoryImage>>(trimLimit: 300, autoTrimCount: 100);
+            this.InnerDictionary.CacheRemoved += (s, e) =>
+            {
                 // まだ参照されている場合もあるのでDisposeはファイナライザ任せ
                 this.CacheRemoveCount++;
             };
@@ -71,7 +72,7 @@ namespace OpenTween
         /// 保持しているキャッシュの件数
         /// </summary>
         public long CacheCount
-            => this.innerDictionary.Count;
+            => this.InnerDictionary.Count;
 
         /// <summary>
         /// 破棄されたキャッシュの件数
@@ -92,12 +93,12 @@ namespace OpenTween
             {
                 lock (this.lockObject)
                 {
-                    innerDictionary.TryGetValue(address, out var cachedImageTask);
+                    this.InnerDictionary.TryGetValue(address, out var cachedImageTask);
 
                     if (cachedImageTask != null)
                     {
                         if (force)
-                            this.innerDictionary.Remove(address);
+                            this.InnerDictionary.Remove(address);
                         else
                             return cachedImageTask;
                     }
@@ -105,11 +106,12 @@ namespace OpenTween
                     cancelToken.ThrowIfCancellationRequested();
 
                     var imageTask = this.FetchImageAsync(address, cancelToken);
-                    this.innerDictionary[address] = imageTask;
+                    this.InnerDictionary[address] = imageTask;
 
                     return imageTask;
                 }
-            }, cancelToken);
+            },
+            cancelToken);
         }
 
         private async Task<MemoryImage> FetchImageAsync(string uri, CancellationToken cancelToken)
@@ -130,7 +132,7 @@ namespace OpenTween
         {
             lock (this.lockObject)
             {
-                if (!this.innerDictionary.TryGetValue(address, out var imageTask) ||
+                if (!this.InnerDictionary.TryGetValue(address, out var imageTask) ||
                     imageTask.Status != TaskStatus.RanToCompletion)
                     return null;
 
@@ -160,13 +162,13 @@ namespace OpenTween
 
                 lock (this.lockObject)
                 {
-                    foreach (var (_, task) in this.innerDictionary)
+                    foreach (var (_, task) in this.InnerDictionary)
                     {
                         if (task.Status == TaskStatus.RanToCompletion)
                             task.Result?.Dispose();
                     }
 
-                    this.innerDictionary.Clear();
+                    this.InnerDictionary.Clear();
                     this.cancelTokenSource.Dispose();
                 }
             }

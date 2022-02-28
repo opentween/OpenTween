@@ -34,7 +34,7 @@ using OpenTween.Thumbnail.Services;
 
 namespace OpenTween.Thumbnail
 {
-    class ThumbnailGenerator
+    public class ThumbnailGenerator
     {
         public static readonly Regex InstagramPattern = new Regex(
             @"^https?://(?:instagram.com|instagr\.am|i\.instagram\.com|www\.instagram\.com)/([^/]+/)?p/(?<mediaId>[^/]+)/(\?.*)?$",

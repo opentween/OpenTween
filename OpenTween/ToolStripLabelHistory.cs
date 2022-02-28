@@ -6,19 +6,19 @@
 //           (c) 2010-2011 fantasticswallow (@f_swallow) <http://twitter.com/f_swallow>
 //           (c) 2011      kim_upsilon (@kim_upsilon) <https://upsilo.net/~upsilon/>
 // All rights reserved.
-// 
+//
 // This file is part of OpenTween.
-// 
+//
 // This program is free software; you can redistribute it and/or modify it
 // under the terms of the GNU General Public License as published by the Free
 // Software Foundation; either version 3 of the License, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful, but
 // WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
 // or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
-// for more details. 
-// 
+// for more details.
+//
 // You should have received a copy of the GNU General Public License along
 // with this program. If not, see <http://www.gnu.org/licenses/>, or write to
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
@@ -51,8 +51,11 @@ namespace OpenTween.OpenTweenCustomControl
         public class LogEntry
         {
             public LogLevel LogLevel { get; }
+
             public DateTimeUtc Timestamp { get; }
+
             public string Summary { get; }
+
             public string Detail { get; }
 
             public LogEntry(LogLevel logLevel, DateTimeUtc timestamp, string summary, string detail)
@@ -63,17 +66,18 @@ namespace OpenTween.OpenTweenCustomControl
                 this.Detail = detail;
             }
 
-            public LogEntry(DateTimeUtc timestamp, string summary) : this(LogLevel.Debug, timestamp, summary, summary)
+            public LogEntry(DateTimeUtc timestamp, string summary)
+                : this(LogLevel.Debug, timestamp, summary, summary)
             {
             }
 
             public override string ToString()
-                => Timestamp.ToLocalTime().ToString("T") + ": " + Summary;
+                => this.Timestamp.ToLocalTime().ToString("T") + ": " + this.Summary;
         }
 
-        readonly LinkedList<LogEntry> _logs;
+        private readonly LinkedList<LogEntry> logs;
 
-        const int MAXCNT = 20;
+        private const int MAXCNT = 20;
 
         public override string Text
         {
@@ -81,10 +85,10 @@ namespace OpenTween.OpenTweenCustomControl
             set
             {
                 var oneline = value.Replace("\n", " ");
-                _logs.AddLast(new LogEntry(DateTimeUtc.Now, oneline));
-                while (_logs.Count > MAXCNT)
+                this.logs.AddLast(new LogEntry(DateTimeUtc.Now, oneline));
+                while (this.logs.Count > MAXCNT)
                 {
-                    _logs.RemoveFirst();
+                    this.logs.RemoveFirst();
                 }
                 base.Text = oneline;
             }
@@ -95,7 +99,7 @@ namespace OpenTween.OpenTweenCustomControl
             get
             {
                 var sb = new StringBuilder();
-                foreach (var e in _logs)
+                foreach (var e in this.logs)
                 {
                     sb.AppendLine(e.ToString());
                 }
@@ -104,6 +108,6 @@ namespace OpenTween.OpenTweenCustomControl
         }
 
         public ToolStripLabelHistory()
-            => this._logs = new LinkedList<LogEntry>();
+            => this.logs = new LinkedList<LogEntry>();
     }
 }

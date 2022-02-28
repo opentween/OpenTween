@@ -6,19 +6,19 @@
 //           (c) 2010-2011 fantasticswallow (@f_swallow) <http://twitter.com/f_swallow>
 //           (c) 2011      kim_upsilon (@kim_upsilon) <https://upsilo.net/~upsilon/>
 // All rights reserved.
-// 
+//
 // This file is part of OpenTween.
-// 
+//
 // This program is free software; you can redistribute it and/or modify it
 // under the terms of the GNU General Public License as published by the Free
 // Software Foundation; either version 3 of the License, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful, but
 // WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
 // or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
-// for more details. 
-// 
+// for more details.
+//
 // You should have received a copy of the GNU General Public License along
 // with this program. If not, see <http://www.gnu.org/licenses/>, or write to
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
@@ -27,9 +27,9 @@
 #nullable enable
 
 using System;
-using System.Xml.Serialization;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using System.Xml.Serialization;
 using OpenTween.Thumbnail;
 
 namespace OpenTween
@@ -49,19 +49,21 @@ namespace OpenTween
 
         [XmlIgnore]
         public string Password = "";
+
         public string EncryptPassword
         {
-            get => Encrypt(Password);
-            set => Password = Decrypt(value);
+            get => this.Encrypt(this.Password);
+            set => this.Password = this.Decrypt(value);
         }
 
         public string Token = "";
         [XmlIgnore]
         public string TokenSecret = "";
+
         public string EncryptTokenSecret
         {
-            get => Encrypt(TokenSecret);
-            set => TokenSecret = Decrypt(value);
+            get => this.Encrypt(this.TokenSecret);
+            set => this.TokenSecret = this.Decrypt(value);
         }
 
         private string Encrypt(string password)
@@ -83,6 +85,7 @@ namespace OpenTween
                 return "";
             }
         }
+
         private string Decrypt(string password)
         {
             if (MyCommon.IsNullOrEmpty(password)) password = "";
@@ -256,11 +259,13 @@ namespace OpenTween
         public string Token = "";
         [XmlIgnore]
         public string TokenSecret = "";
+
         public string EncryptTokenSecret
         {
-            get => Encrypt(TokenSecret);
-            set => TokenSecret = Decrypt(value);
+            get => this.Encrypt(this.TokenSecret);
+            set => this.TokenSecret = this.Decrypt(value);
         }
+
         private string Encrypt(string password)
         {
             if (MyCommon.IsNullOrEmpty(password)) password = "";
@@ -280,6 +285,7 @@ namespace OpenTween
                 return "";
             }
         }
+
         private string Decrypt(string password)
         {
             if (MyCommon.IsNullOrEmpty(password)) password = "";

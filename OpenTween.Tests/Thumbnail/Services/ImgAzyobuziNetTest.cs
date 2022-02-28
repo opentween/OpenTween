@@ -37,7 +37,7 @@ namespace OpenTween.Thumbnail.Services
 {
     public class ImgAzyobuziNetTest
     {
-        class TestImgAzyobuziNet : ImgAzyobuziNet
+        private class TestImgAzyobuziNet : ImgAzyobuziNet
         {
             public TestImgAzyobuziNet()
                 : this(new[] { "http://img.azyobuzi.net/api/" })
@@ -47,12 +47,12 @@ namespace OpenTween.Thumbnail.Services
             public TestImgAzyobuziNet(string[] apiHosts)
                 : base(null, autoupdate: false)
             {
-                this.ApiHosts = apiHosts;
+                this.apiHosts = apiHosts;
                 this.LoadRegexAsync().Wait();
             }
 
             public string? GetApiBase()
-                => this.ApiBase;
+                => this.apiBase;
 
             protected override Task<byte[]> FetchRegexAsync(string apiBase)
             {

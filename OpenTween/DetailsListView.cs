@@ -6,19 +6,19 @@
 //           (c) 2010-2011 fantasticswallow (@f_swallow) <http://twitter.com/f_swallow>
 //           (c) 2011      kim_upsilon (@kim_upsilon) <https://upsilo.net/~upsilon/>
 // All rights reserved.
-// 
+//
 // This file is part of OpenTween.
-// 
+//
 // This program is free software; you can redistribute it and/or modify it
 // under the terms of the GNU General Public License as published by the Free
 // Software Foundation; either version 3 of the License, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful, but
 // WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
 // or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
-// for more details. 
-// 
+// for more details.
+//
 // You should have received a copy of the GNU General Public License along
 // with this program. If not, see <http://www.gnu.org/licenses/>, or write to
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
@@ -28,13 +28,13 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Diagnostics;
+using System.Drawing;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
-using System.Drawing;
-using System.ComponentModel;
-using System.Runtime.InteropServices;
-using System.Diagnostics;
 
 namespace OpenTween.OpenTweenCustomControl
 {
@@ -45,14 +45,15 @@ namespace OpenTween.OpenTweenCustomControl
         public ContextMenuStrip? ColumnHeaderContextMenuStrip { get; set; }
 
         public event EventHandler? VScrolled;
+
         public event EventHandler? HScrolled;
 
         public DetailsListView()
         {
-            View = View.Details;
-            FullRowSelect = true;
-            HideSelection = false;
-            DoubleBuffered = true;
+            this.View = View.Details;
+            this.FullRowSelect = true;
+            this.HideSelection = false;
+            this.DoubleBuffered = true;
         }
 
         /// <summary>
@@ -155,7 +156,7 @@ namespace OpenTween.OpenTweenCustomControl
             }
             catch (ArgumentException)
             {
-                //タイミングによりBoundsプロパティが取れない？
+                // タイミングによりBoundsプロパティが取れない？
                 this.changeBounds = Rectangle.Empty;
             }
         }
@@ -163,9 +164,9 @@ namespace OpenTween.OpenTweenCustomControl
         [StructLayout(LayoutKind.Sequential)]
         private struct NMHDR
         {
-            public IntPtr hwndFrom;
-            public IntPtr idFrom;
-            public int code;
+            public IntPtr HwndFrom;
+            public IntPtr IdFrom;
+            public int Code;
         }
 
         [DebuggerStepThrough]
@@ -183,7 +184,7 @@ namespace OpenTween.OpenTweenCustomControl
             const int WM_NOTIFY = 0x004E;
             const int WM_CONTEXTMENU = 0x7B;
             const int LVM_SETITEMCOUNT = 0x102F;
-            const int LVN_ODSTATECHANGED = ((0 - 100) - 15);
+            const int LVN_ODSTATECHANGED = 0 - 100 - 15;
             const long LVSICF_NOSCROLL = 0x2;
             const long LVSICF_NOINVALIDATEALL = 0x1;
 
@@ -205,10 +206,10 @@ namespace OpenTween.OpenTweenCustomControl
                     }
                     break;
                 case WM_HSCROLL:
-                    HScrolled?.Invoke(this, EventArgs.Empty);
+                    this.HScrolled?.Invoke(this, EventArgs.Empty);
                     break;
                 case WM_VSCROLL:
-                    VScrolled?.Invoke(this, EventArgs.Empty);
+                    this.VScrolled?.Invoke(this, EventArgs.Empty);
                     break;
                 case WM_MOUSEWHEEL:
                 case WM_MOUSEHWHEEL:
@@ -219,7 +220,7 @@ namespace OpenTween.OpenTweenCustomControl
                 case WM_CONTEXTMENU:
                     if (m.WParam != this.Handle)
                     {
-                        //カラムヘッダメニューを表示
+                        // カラムヘッダメニューを表示
                         this.ColumnHeaderContextMenuStrip?.Show(new Point(m.LParam.ToInt32()));
                         return;
                     }
@@ -231,7 +232,7 @@ namespace OpenTween.OpenTweenCustomControl
                     var nmhdr = Marshal.PtrToStructure<NMHDR>(m.LParam);
 
                     // Ctrl+クリックで選択状態を変更した場合にイベントが発生しない問題への対処
-                    if (nmhdr.code == LVN_ODSTATECHANGED)
+                    if (nmhdr.Code == LVN_ODSTATECHANGED)
                         this.OnSelectedIndexChanged(EventArgs.Empty);
                     break;
             }
@@ -242,20 +243,25 @@ namespace OpenTween.OpenTweenCustomControl
             }
             catch (ArgumentOutOfRangeException)
             {
-                //Substringでlengthが0以下。アイコンサイズが影響？
+                // Substringでlengthが0以下。アイコンサイズが影響？
             }
             catch (AccessViolationException)
             {
-                //WndProcのさらに先で発生する。
+                // WndProcのさらに先で発生する。
             }
             if (this.IsDisposed) return;
 
             if (vPos != -1)
+            {
                 if (vPos != NativeMethods.GetScrollPosition(this, NativeMethods.ScrollBarDirection.SB_VERT))
-                    VScrolled?.Invoke(this, EventArgs.Empty);
+                    this.VScrolled?.Invoke(this, EventArgs.Empty);
+            }
+
             if (hPos != -1)
+            {
                 if (hPos != NativeMethods.GetScrollPosition(this, NativeMethods.ScrollBarDirection.SB_HORZ))
-                    HScrolled?.Invoke(this, EventArgs.Empty);
+                    this.HScrolled?.Invoke(this, EventArgs.Empty);
+            }
         }
    }
 }

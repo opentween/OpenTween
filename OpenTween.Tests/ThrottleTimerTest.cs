@@ -33,7 +33,7 @@ namespace OpenTween
     {
         private class TestThrottleTimer : ThrottleTimer
         {
-            public MockTimer mockTimer = new MockTimer(() => Task.CompletedTask);
+            public MockTimer MockTimer = new MockTimer(() => Task.CompletedTask);
 
             public TestThrottleTimer(Func<Task> timerCallback, TimeSpan interval)
                 : base(timerCallback, interval)
@@ -41,7 +41,7 @@ namespace OpenTween
             }
 
             protected override ITimer CreateTimer(Func<Task> callback)
-                => this.mockTimer = new MockTimer(callback);
+                => this.MockTimer = new MockTimer(callback);
         }
 
         [Fact]
@@ -59,7 +59,7 @@ namespace OpenTween
                 var interval = TimeSpan.FromMinutes(2);
                 var maxWait = TimeSpan.FromMinutes(2);
                 using var throttling = new TestThrottleTimer(callback, interval);
-                var mockTimer = throttling.mockTimer;
+                var mockTimer = throttling.MockTimer;
 
                 Assert.Equal(0, count);
                 Assert.False(mockTimer.IsTimerRunning);
@@ -114,7 +114,7 @@ namespace OpenTween
                 var interval = TimeSpan.FromMinutes(2);
                 var maxWait = TimeSpan.FromMinutes(2);
                 using var throttling = new TestThrottleTimer(callback, interval);
-                var mockTimer = throttling.mockTimer;
+                var mockTimer = throttling.MockTimer;
 
                 Assert.Equal(0, count);
                 Assert.False(mockTimer.IsTimerRunning);
@@ -152,7 +152,7 @@ namespace OpenTween
                 var interval = TimeSpan.FromMinutes(2);
                 var maxWait = TimeSpan.FromMinutes(2);
                 using var throttling = new TestThrottleTimer(callback, interval);
-                var mockTimer = throttling.mockTimer;
+                var mockTimer = throttling.MockTimer;
 
                 Assert.Equal(0, count);
                 Assert.False(mockTimer.IsTimerRunning);

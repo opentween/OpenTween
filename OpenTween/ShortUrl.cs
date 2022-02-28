@@ -47,13 +47,13 @@ namespace OpenTween
     /// </summary>
     public class ShortUrl
     {
-        private static readonly Lazy<ShortUrl> _instance;
+        private static readonly Lazy<ShortUrl> InstanceLazy;
 
         /// <summary>
         /// ShortUrl のインスタンスを取得します
         /// </summary>
         public static ShortUrl Instance
-            => _instance.Value;
+            => InstanceLazy.Value;
 
         /// <summary>
         /// 短縮 URL の展開を無効にするか否か
@@ -66,7 +66,9 @@ namespace OpenTween
         public int PurgeCount { get; set; }
 
         public string BitlyAccessToken { get; set; } = "";
+
         public string BitlyId { get; set; } = "";
+
         public string BitlyKey { get; set; } = "";
 
         private HttpClient http;
@@ -136,7 +138,7 @@ namespace OpenTween
         };
 
         static ShortUrl()
-            => _instance = new Lazy<ShortUrl>(() => new ShortUrl(), true);
+            => InstanceLazy = new Lazy<ShortUrl>(() => new ShortUrl(), true);
 
         [SuppressMessage("Microsoft.Reliability", "CA2000:DisposeObjectsBeforeLosingScope")]
         internal ShortUrl()
@@ -200,7 +202,7 @@ namespace OpenTween
 
             try
             {
-                if (!ShortUrlHosts.Contains(uri.Host) && !IsIrregularShortUrl(uri))
+                if (!ShortUrlHosts.Contains(uri.Host) && !this.IsIrregularShortUrl(uri))
                     return uri;
 
                 Uri? expanded;
@@ -216,8 +218,12 @@ namespace OpenTween
                     expanded = await this.GetRedirectTo(uri)
                         .ConfigureAwait(false);
                 }
-                catch (TaskCanceledException) { }
-                catch (HttpRequestException) { }
+                catch (TaskCanceledException)
+                {
+                }
+                catch (HttpRequestException)
+                {
+                }
 
                 if (expanded == null || expanded == uri)
                     return uri;

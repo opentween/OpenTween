@@ -6,19 +6,19 @@
 //           (c) 2010-2011 fantasticswallow (@f_swallow) <http://twitter.com/f_swallow>
 //           (c) 2011      kim_upsilon (@kim_upsilon) <https://upsilo.net/~upsilon/>
 // All rights reserved.
-// 
+//
 // This file is part of OpenTween.
-// 
+//
 // This program is free software; you can redistribute it and/or modify it
 // under the terms of the GNU General Public License as published by the Free
 // Software Foundation; either version 3 of the License, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful, but
 // WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
 // or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
-// for more details. 
-// 
+// for more details.
+//
 // You should have received a copy of the GNU General Public License along
 // with this program. If not, see <http://www.gnu.org/licenses/>, or write to
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
@@ -50,7 +50,7 @@ namespace OpenTween
 
         private void Cancel_Button_Click(object sender, EventArgs e)
         {
-            TextTabName.Text = "";
+            this.TextTabName.Text = "";
             this.DialogResult = DialogResult.Cancel;
             this.Close();
         }
@@ -58,7 +58,7 @@ namespace OpenTween
         public string TabName
         {
             get => this.TextTabName.Text.Trim();
-            set => TextTabName.Text = value.Trim();
+            set => this.TextTabName.Text = value.Trim();
         }
 
         public string FormTitle
@@ -74,6 +74,7 @@ namespace OpenTween
         }
 
         public bool IsShowUsage { get; set; }
+
         public MyCommon.TabUsageType Usage { get; set; }
 
         private void InputTabName_Load(object sender, EventArgs e)
@@ -88,7 +89,7 @@ namespace OpenTween
 
         private void InputTabName_Shown(object sender, EventArgs e)
         {
-            ActiveControl = TextTabName;
+            this.ActiveControl = this.TextTabName;
             if (this.IsShowUsage)
             {
                 this.LabelUsage.Visible = true;
@@ -98,7 +99,7 @@ namespace OpenTween
 
         private void ComboUsage_SelectedIndexChanged(object sender, EventArgs e)
         {
-            this.Usage = ComboUsage.SelectedIndex switch
+            this.Usage = this.ComboUsage.SelectedIndex switch
             {
                 0 => MyCommon.TabUsageType.UserDefined,
                 1 => MyCommon.TabUsageType.Lists,

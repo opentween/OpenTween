@@ -36,7 +36,7 @@ namespace OpenTween.Thumbnail.Services
 {
     public class MetaThumbnailServiceTest
     {
-        class TestMetaThumbnailService : MetaThumbnailService
+        private class TestMetaThumbnailService : MetaThumbnailService
         {
             public string FakeHtml { get; set; } = "";
 

@@ -74,7 +74,7 @@ namespace OpenTween
                 return true;
             }
 
-            var index = this.innerList.BinarySearch(item, comparer);
+            var index = this.innerList.BinarySearch(item, this.comparer);
             if (index >= 0)
                 return false;
 

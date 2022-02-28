@@ -187,7 +187,7 @@ namespace OpenTween
             return salt;
         }
 
-        private static (byte[], byte[], byte[]) GenerateKeyAndIV(string password, byte[] salt)
+        private static (byte[] EncryptionKey, byte[] IV, byte[] MacKey) GenerateKeyAndIV(string password, byte[] salt)
         {
             using var generator = new Rfc2898DeriveBytes(password, salt, IterationCount, HashAlgorithm);
             var encryptionKey = generator.GetBytes(KeySize);
@@ -215,7 +215,9 @@ namespace OpenTween
 
     public static class ApiKeyExtensions
     {
+#pragma warning disable SA1141
         public static bool TryGetValue(this ValueTuple<ApiKey, ApiKey> apiKeys, out ValueTuple<string, string> decryptedKeys)
+#pragma warning restore SA1141
         {
             var (apiKey1, apiKey2) = apiKeys;
             if (apiKey1.TryGetValue(out var decrypted1) && apiKey2.TryGetValue(out var decrypted2))
@@ -232,9 +234,23 @@ namespace OpenTween
     [Serializable]
     public class ApiKeyDecryptException : Exception
     {
-        public ApiKeyDecryptException() { }
-        public ApiKeyDecryptException(string message) : base(message) { }
-        public ApiKeyDecryptException(string message, Exception innerException) : base(message, innerException) { }
-        protected ApiKeyDecryptException(SerializationInfo info, StreamingContext context) : base(info, context) { }
+        public ApiKeyDecryptException()
+        {
+        }
+
+        public ApiKeyDecryptException(string message)
+            : base(message)
+        {
+        }
+
+        public ApiKeyDecryptException(string message, Exception innerException)
+            : base(message, innerException)
+        {
+        }
+
+        protected ApiKeyDecryptException(SerializationInfo info, StreamingContext context)
+            : base(info, context)
+        {
+        }
     }
 }

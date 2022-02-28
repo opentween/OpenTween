@@ -40,15 +40,15 @@ namespace OpenTween
         public string Description = "";
         public string Slug = "";
         public bool IsPublic = true;
-        public int SubscriberCount = 0;   //購読者数
-        public int MemberCount = 0;   //リストメンバ数
+        public int SubscriberCount = 0;   // 購読者数
+        public int MemberCount = 0;   // リストメンバ数
         public long UserId = 0;
         public string Username = "";
         public string Nickname = "";
 
-        protected Twitter _tw = null!;
+        protected Twitter tw = null!;
 
-        private List<UserInfo> _members = new List<UserInfo>();
+        private List<UserInfo> members = new List<UserInfo>();
 
         [XmlIgnore]
         public long Cursor { get; private set; } = -1;
@@ -61,7 +61,7 @@ namespace OpenTween
         {
             this.Description = listElementData.Description;
             this.Id = listElementData.Id;
-            this.IsPublic = (listElementData.Mode == "public");
+            this.IsPublic = listElementData.Mode == "public";
             this.MemberCount = listElementData.MemberCount;
             this.Name = listElementData.Name;
             this.SubscriberCount = listElementData.SubscriberCount;
@@ -70,12 +70,12 @@ namespace OpenTween
             this.Username = listElementData.User.ScreenName;
             this.UserId = listElementData.User.Id;
 
-            this._tw = tw;
+            this.tw = tw;
         }
 
         public virtual async Task Refresh()
         {
-            var newList = await _tw.EditList(this.Id, Name, !this.IsPublic, this.Description)
+            var newList = await this.tw.EditList(this.Id, this.Name, !this.IsPublic, this.Description)
                 .ConfigureAwait(false);
 
             this.Description = newList.Description;
@@ -92,21 +92,21 @@ namespace OpenTween
 
         [XmlIgnore]
         public List<UserInfo> Members
-            => this._members;
+            => this.members;
 
         public async Task RefreshMembers()
         {
             var users = new List<UserInfo>();
-            this.Cursor = await this._tw.GetListMembers(this.Id, users, cursor: -1)
+            this.Cursor = await this.tw.GetListMembers(this.Id, users, cursor: -1)
                 .ConfigureAwait(false);
-            this._members = users;
+            this.members = users;
         }
 
         public async Task GetMoreMembers()
-            => this.Cursor = await this._tw.GetListMembers(this.Id, this._members, this.Cursor)
+            => this.Cursor = await this.tw.GetListMembers(this.Id, this.members, this.Cursor)
                 .ConfigureAwait(false);
 
         public override string ToString()
-            => $"@{Username}/{Name} [{(this.IsPublic ? "public" : "Protected")}]";
+            => $"@{this.Username}/{this.Name} [{(this.IsPublic ? "public" : "Protected")}]";
     }
 }

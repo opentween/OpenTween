@@ -44,14 +44,19 @@ namespace OpenTween.Models
         public string TabName { get; set; }
 
         public bool UnreadManage { get; set; } = true;
+
         public bool Protected { get; set; }
+
         public bool Notify { get; set; } = false;
+
         public string SoundFile { get; set; } = "";
 
         public ComparerMode SortMode { get; private set; }
+
         public SortOrder SortOrder { get; private set; }
 
         public long OldestId { get; set; } = long.MaxValue;
+
         public long SinceId { get; set; }
 
         public abstract MyCommon.TabUsageType TabType { get; }
@@ -59,11 +64,14 @@ namespace OpenTween.Models
         public virtual ConcurrentDictionary<long, PostClass> Posts
             => TabInformations.GetInstance().Posts;
 
-        public int AllCount => this._ids.Count;
-        public long[] StatusIds => this._ids.ToArray();
+        public int AllCount => this.ids.Count;
+
+        public long[] StatusIds => this.ids.ToArray();
 
         public bool IsDefaultTabType => this.TabType.IsDefault();
+
         public bool IsDistributableTabType => this.TabType.IsDistributable();
+
         public bool IsInnerStorageTabType => this.TabType.IsInnerStorage();
 
         /// <summary>
@@ -92,13 +100,13 @@ namespace OpenTween.Models
             }
         }
 
-        private IndexedSortedSet<long> _ids = new IndexedSortedSet<long>();
+        private IndexedSortedSet<long> ids = new IndexedSortedSet<long>();
         private ConcurrentQueue<TemporaryId> addQueue = new ConcurrentQueue<TemporaryId>();
         private readonly ConcurrentQueue<long> removeQueue = new ConcurrentQueue<long>();
         private SortedSet<long> unreadIds = new SortedSet<long>();
         private List<long> selectedStatusIds = new List<long>();
 
-        private readonly object _lockObj = new object();
+        private readonly object lockObj = new object();
 
         protected TabModel(string tabName)
             => this.TabName = tabName;
@@ -108,6 +116,7 @@ namespace OpenTween.Models
         private readonly struct TemporaryId
         {
             public long StatusId { get; }
+
             public bool Read { get; }
 
             public TemporaryId(long statusId, bool read)
@@ -125,10 +134,10 @@ namespace OpenTween.Models
             this.addQueue.Enqueue(new TemporaryId(post.StatusId, post.IsRead));
         }
 
-        //無条件に追加
+        // 無条件に追加
         internal bool AddPostImmediately(long statusId, bool read)
         {
-            if (!this._ids.Add(statusId))
+            if (!this.ids.Add(statusId))
                 return false;
 
             if (!read)
@@ -155,7 +164,7 @@ namespace OpenTween.Models
 
         public virtual bool RemovePostImmediately(long statusId)
         {
-            if (!this._ids.Remove(statusId))
+            if (!this.ids.Remove(statusId))
                 return false;
 
             this.unreadIds.Remove(statusId);
@@ -191,7 +200,7 @@ namespace OpenTween.Models
 
         public virtual void ClearIDs()
         {
-            this._ids.Clear();
+            this.ids.Clear();
             this.unreadIds.Clear();
             this.selectedStatusIds.Clear();
 
@@ -263,7 +272,7 @@ namespace OpenTween.Models
 
             var comparer = Comparer<long>.Create(comparison);
 
-            this._ids = new IndexedSortedSet<long>(this._ids, comparer);
+            this.ids = new IndexedSortedSet<long>(this.ids, comparer);
             this.unreadIds = new SortedSet<long>(this.unreadIds, comparer);
         }
 
@@ -320,7 +329,7 @@ namespace OpenTween.Models
         /// </summary>
         public long[] GetUnreadIds()
         {
-            lock (this._lockObj)
+            lock (this.lockObj)
                 return this.unreadIds.ToArray();
         }
 
@@ -335,7 +344,7 @@ namespace OpenTween.Models
         /// <returns>既読状態に変化があれば true、変化がなければ false</returns>
         internal virtual bool SetReadState(long statusId, bool read)
         {
-            if (!this._ids.Contains(statusId))
+            if (!this.ids.Contains(statusId))
                 throw new ArgumentOutOfRangeException(nameof(statusId));
 
             if (read)
@@ -345,7 +354,7 @@ namespace OpenTween.Models
         }
 
         public bool Contains(long statusId)
-            => this._ids.Contains(statusId);
+            => this.ids.Contains(statusId);
 
         public PostClass this[int index]
         {
@@ -387,7 +396,7 @@ namespace OpenTween.Models
             => indexes.Select(x => this.GetStatusIdAt(x)).ToArray();
 
         public long GetStatusIdAt(int index)
-            => this._ids[index];
+            => this.ids[index];
 
         public int[] IndexOf(long[] statusIds)
         {
@@ -398,7 +407,7 @@ namespace OpenTween.Models
         }
 
         public int IndexOf(long statusId)
-            => this._ids.IndexOf(statusId);
+            => this.ids.IndexOf(statusId);
 
         public IEnumerable<int> SearchPostsAll(Func<string, bool> stringComparer)
             => this.SearchPostsAll(stringComparer, reverse: false);
@@ -419,7 +428,6 @@ namespace OpenTween.Models
         /// <param name="stringComparer">発言内容、スクリーン名、名前と比較する条件。マッチしたら true を返す</param>
         /// <param name="startIndex">検索を開始する位置</param>
         /// <param name="reverse">インデックスの昇順に検索する場合は false、降順の場合は true</param>
-        /// <returns></returns>
         public IEnumerable<int> SearchPostsAll(Func<string, bool> stringComparer, int startIndex, bool reverse)
         {
             if (this.AllCount == 0)

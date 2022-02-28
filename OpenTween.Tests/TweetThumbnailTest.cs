@@ -41,7 +41,7 @@ namespace OpenTween
 {
     public class TweetThumbnailTest
     {
-        class TestThumbnailService : IThumbnailService
+        private class TestThumbnailService : IThumbnailService
         {
             private readonly Regex regex;
             private readonly string replaceUrl;
@@ -71,7 +71,7 @@ namespace OpenTween
                 };
             }
 
-            class MockThumbnailInfo : ThumbnailInfo
+            private class MockThumbnailInfo : ThumbnailInfo
             {
                 public override Task<MemoryImage> LoadThumbnailImageAsync(HttpClient http, CancellationToken cancellationToken)
                     => Task.FromResult(TestUtils.CreateDummyImage());
@@ -157,16 +157,16 @@ namespace OpenTween
                 var method = typeof(TweetThumbnail).GetMethod("SetThumbnailCount", BindingFlags.Instance | BindingFlags.NonPublic);
                 method.Invoke(thumbbox, new[] { (object)count });
 
-                Assert.Equal(count, thumbbox.pictureBox.Count);
+                Assert.Equal(count, thumbbox.PictureBox.Count);
 
                 var num = 0;
-                foreach (var picbox in thumbbox.pictureBox)
+                foreach (var picbox in thumbbox.PictureBox)
                 {
                     Assert.Equal("pictureBox" + num, picbox.Name);
                     num++;
                 }
 
-                Assert.Equal(thumbbox.pictureBox, thumbbox.panelPictureBox.Controls.Cast<OTPictureBox>());
+                Assert.Equal(thumbbox.PictureBox, thumbbox.panelPictureBox.Controls.Cast<OTPictureBox>());
 
                 Assert.Equal(0, thumbbox.scrollBar.Minimum);
 
@@ -197,16 +197,16 @@ namespace OpenTween
                 Assert.Equal(0, thumbbox.scrollBar.Maximum);
                 Assert.False(thumbbox.scrollBar.Enabled);
 
-                Assert.Single(thumbbox.pictureBox);
-                Assert.NotNull(thumbbox.pictureBox[0].Image);
+                Assert.Single(thumbbox.PictureBox);
+                Assert.NotNull(thumbbox.PictureBox[0].Image);
 
-                Assert.IsAssignableFrom<ThumbnailInfo>(thumbbox.pictureBox[0].Tag);
-                var thumbinfo = (ThumbnailInfo)thumbbox.pictureBox[0].Tag;
+                Assert.IsAssignableFrom<ThumbnailInfo>(thumbbox.PictureBox[0].Tag);
+                var thumbinfo = (ThumbnailInfo)thumbbox.PictureBox[0].Tag;
 
                 Assert.Equal("http://foo.example.com/abcd", thumbinfo.MediaPageUrl);
                 Assert.Equal("http://img.example.com/abcd.png", thumbinfo.ThumbnailImageUrl);
 
-                Assert.Equal("", thumbbox.toolTip.GetToolTip(thumbbox.pictureBox[0]));
+                Assert.Equal("", thumbbox.toolTip.GetToolTip(thumbbox.PictureBox[0]));
             }
         }
 
@@ -231,24 +231,24 @@ namespace OpenTween
                 Assert.Equal(1, thumbbox.scrollBar.Maximum);
                 Assert.True(thumbbox.scrollBar.Enabled);
 
-                Assert.Equal(2, thumbbox.pictureBox.Count);
-                Assert.NotNull(thumbbox.pictureBox[0].Image);
-                Assert.NotNull(thumbbox.pictureBox[1].Image);
+                Assert.Equal(2, thumbbox.PictureBox.Count);
+                Assert.NotNull(thumbbox.PictureBox[0].Image);
+                Assert.NotNull(thumbbox.PictureBox[1].Image);
 
-                Assert.IsAssignableFrom<ThumbnailInfo>(thumbbox.pictureBox[0].Tag);
-                var thumbinfo = (ThumbnailInfo)thumbbox.pictureBox[0].Tag;
+                Assert.IsAssignableFrom<ThumbnailInfo>(thumbbox.PictureBox[0].Tag);
+                var thumbinfo = (ThumbnailInfo)thumbbox.PictureBox[0].Tag;
 
                 Assert.Equal("http://foo.example.com/abcd", thumbinfo.MediaPageUrl);
                 Assert.Equal("http://img.example.com/abcd.png", thumbinfo.ThumbnailImageUrl);
 
-                Assert.IsAssignableFrom<ThumbnailInfo>(thumbbox.pictureBox[1].Tag);
-                thumbinfo = (ThumbnailInfo)thumbbox.pictureBox[1].Tag;
+                Assert.IsAssignableFrom<ThumbnailInfo>(thumbbox.PictureBox[1].Tag);
+                thumbinfo = (ThumbnailInfo)thumbbox.PictureBox[1].Tag;
 
                 Assert.Equal("http://bar.example.com/efgh", thumbinfo.MediaPageUrl);
                 Assert.Equal("http://img.example.com/efgh.png", thumbinfo.ThumbnailImageUrl);
 
-                Assert.Equal("", thumbbox.toolTip.GetToolTip(thumbbox.pictureBox[0]));
-                Assert.Equal("efgh", thumbbox.toolTip.GetToolTip(thumbbox.pictureBox[1]));
+                Assert.Equal("", thumbbox.toolTip.GetToolTip(thumbbox.PictureBox[0]));
+                Assert.Equal("efgh", thumbbox.toolTip.GetToolTip(thumbbox.PictureBox[1]));
             }
         }
 
@@ -316,23 +316,23 @@ namespace OpenTween
 
                 thumbbox.ScrollDown();
                 Assert.Equal(1, thumbbox.scrollBar.Value);
-                Assert.False(thumbbox.pictureBox[0].Visible);
-                Assert.True(thumbbox.pictureBox[1].Visible);
+                Assert.False(thumbbox.PictureBox[0].Visible);
+                Assert.True(thumbbox.PictureBox[1].Visible);
 
                 thumbbox.ScrollDown();
                 Assert.Equal(1, thumbbox.scrollBar.Value);
-                Assert.False(thumbbox.pictureBox[0].Visible);
-                Assert.True(thumbbox.pictureBox[1].Visible);
+                Assert.False(thumbbox.PictureBox[0].Visible);
+                Assert.True(thumbbox.PictureBox[1].Visible);
 
                 thumbbox.ScrollUp();
                 Assert.Equal(0, thumbbox.scrollBar.Value);
-                Assert.True(thumbbox.pictureBox[0].Visible);
-                Assert.False(thumbbox.pictureBox[1].Visible);
+                Assert.True(thumbbox.PictureBox[0].Visible);
+                Assert.False(thumbbox.PictureBox[1].Visible);
 
                 thumbbox.ScrollUp();
                 Assert.Equal(0, thumbbox.scrollBar.Value);
-                Assert.True(thumbbox.pictureBox[0].Visible);
-                Assert.False(thumbbox.pictureBox[1].Visible);
+                Assert.True(thumbbox.PictureBox[0].Visible);
+                Assert.False(thumbbox.PictureBox[1].Visible);
             }
         }
     }

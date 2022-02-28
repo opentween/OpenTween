@@ -97,7 +97,8 @@ namespace OpenTween.Thumbnail.Services
 
                 await service.GetThumbnailInfoAsync(
                     "https://www.swarmapp.com/c/xxxxxxxx",
-                    post, CancellationToken.None);
+                    post,
+                    CancellationToken.None);
 
                 Assert.Equal(0, handler.QueueCount);
             }
@@ -135,7 +136,8 @@ namespace OpenTween.Thumbnail.Services
 
                 await service.GetThumbnailInfoAsync(
                     "https://foursquare.com/hogehoge/checkin/xxxxxxxx",
-                    post, CancellationToken.None);
+                    post,
+                    CancellationToken.None);
 
                 Assert.Equal(0, handler.QueueCount);
             }
@@ -173,7 +175,8 @@ namespace OpenTween.Thumbnail.Services
 
                 await service.GetThumbnailInfoAsync(
                     "https://foursquare.com/hogehoge/checkin/xxxxxxxx?s=aaaaaaa",
-                    post, CancellationToken.None);
+                    post,
+                    CancellationToken.None);
 
                 Assert.Equal(0, handler.QueueCount);
             }
@@ -202,7 +205,8 @@ namespace OpenTween.Thumbnail.Services
 
                 await service.GetThumbnailInfoAsync(
                     "https://www.swarmapp.com/c/xxxxxxxx",
-                    post, CancellationToken.None);
+                    post,
+                    CancellationToken.None);
 
                 Assert.Equal(1, handler.QueueCount);
             }

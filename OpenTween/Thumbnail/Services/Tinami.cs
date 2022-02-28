@@ -37,12 +37,12 @@ using OpenTween.Models;
 
 namespace OpenTween.Thumbnail.Services
 {
-    class Tinami : IThumbnailService
+    public class Tinami : IThumbnailService
     {
         public static readonly Regex UrlPatternRegex =
             new Regex(@"^https?://www\.tinami\.com/view/(?<ContentId>\d+)$");
 
-        protected HttpClient http
+        protected HttpClient Http
             => this.localHttpClient ?? Networking.Http;
 
         private readonly ApiKey apiKey;
@@ -91,7 +91,9 @@ namespace OpenTween.Thumbnail.Services
                     TooltipText = descElm?.Value,
                 };
             }
-            catch (HttpRequestException) { }
+            catch (HttpRequestException)
+            {
+            }
 
             return null;
         }
@@ -106,7 +108,7 @@ namespace OpenTween.Thumbnail.Services
 
             var apiUrl = new Uri("http://api.tinami.com/content/info?" + MyCommon.BuildQueryString(query));
 
-            using var response = await this.http.GetAsync(apiUrl, token)
+            using var response = await this.Http.GetAsync(apiUrl, token)
                 .ConfigureAwait(false);
 
             response.EnsureSuccessStatusCode();

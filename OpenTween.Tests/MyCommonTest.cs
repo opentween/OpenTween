@@ -104,24 +104,28 @@ namespace OpenTween
         public void IsAnimatedGifTest(string filename, bool expected)
             => Assert.Equal(expected, MyCommon.IsAnimatedGif(filename));
 
-        public static readonly TheoryData<string, DateTimeUtc> DateTimeParse_TestCase = new TheoryData<string, DateTimeUtc>
+        public static readonly TheoryData<string, DateTimeUtc> DateTimeParseTestCase = new TheoryData<string, DateTimeUtc>
         {
             { "Sun Nov 25 06:10:00 +00:00 2012", new DateTimeUtc(2012, 11, 25, 6, 10, 0) },
             { "Sun, 25 Nov 2012 06:10:00 +00:00", new DateTimeUtc(2012, 11, 25, 6, 10, 0) },
         };
 
         [Theory]
-        [MemberData(nameof(DateTimeParse_TestCase))]
+        [MemberData(nameof(DateTimeParseTestCase))]
         public void DateTimeParseTest(string date, DateTimeUtc excepted)
             => Assert.Equal(excepted, MyCommon.DateTimeParse(date));
 
         [DataContract]
         public struct JsonData
         {
-            [DataMember(Name = "id")] public string Id { get; set; }
-            [DataMember(Name = "body")] public string Body { get; set; }
+            [DataMember(Name = "id")]
+            public string Id { get; set; }
+
+            [DataMember(Name = "body")]
+            public string Body { get; set; }
         }
-        public static readonly TheoryData<string, JsonData> CreateDataFromJson_TestCase = new TheoryData<string, JsonData>
+
+        public static readonly TheoryData<string, JsonData> CreateDataFromJsonTestCase = new TheoryData<string, JsonData>
         {
             {
                 @"{""id"":""1"", ""body"":""hogehoge""}",
@@ -130,7 +134,7 @@ namespace OpenTween
         };
 
         [Theory]
-        [MemberData(nameof(CreateDataFromJson_TestCase))]
+        [MemberData(nameof(CreateDataFromJsonTestCase))]
         public void CreateDataFromJsonTest<T>(string json, T expected)
             => Assert.Equal(expected, MyCommon.CreateDataFromJson<T>(json));
 
@@ -152,7 +156,7 @@ namespace OpenTween
         [InlineData(Keys.Control | Keys.Alt, new[] { Keys.Control, Keys.Alt }, true)]
         [InlineData(Keys.Control | Keys.Alt, new[] { Keys.Shift }, false)]
         public void IsKeyDownTest(Keys modifierKeys, Keys[] checkKeys, bool expected)
-            => Assert.Equal(expected, MyCommon._IsKeyDown(modifierKeys, checkKeys));
+            => Assert.Equal(expected, MyCommon.IsKeyDownInternal(modifierKeys, checkKeys));
 
         [Fact]
         public void GetAssemblyNameTest()
@@ -182,20 +186,20 @@ namespace OpenTween
         public void GetReadableVersionTest(string fileVersion, string expected)
             => Assert.Equal(expected, MyCommon.GetReadableVersion(fileVersion));
 
-        public static readonly TheoryData<PostClass, string> GetStatusUrlTest1_TestCase = new TheoryData<PostClass, string>
+        public static readonly TheoryData<PostClass, string> GetStatusUrlTest1TestCase = new TheoryData<PostClass, string>
         {
             {
                 new PostClass { StatusId = 249493863826350080L, ScreenName = "Favstar_LM", RetweetedId = null, RetweetedBy = null },
                 "https://twitter.com/Favstar_LM/status/249493863826350080"
             },
             {
-                new PostClass { StatusId = 216033842434289664L, ScreenName = "haru067", RetweetedId = 200245741443235840L, RetweetedBy = "re4k"},
+                new PostClass { StatusId = 216033842434289664L, ScreenName = "haru067", RetweetedId = 200245741443235840L, RetweetedBy = "re4k" },
                 "https://twitter.com/haru067/status/200245741443235840"
             },
         };
 
         [Theory]
-        [MemberData(nameof(GetStatusUrlTest1_TestCase))]
+        [MemberData(nameof(GetStatusUrlTest1TestCase))]
         public void GetStatusUrlTest1(PostClass post, string expected)
             => Assert.Equal(expected, MyCommon.GetStatusUrl(post));
 
@@ -309,7 +313,7 @@ namespace OpenTween
         [Fact]
         public void CreateBrowserProcessStartInfo_DefaultBrowserTest()
         {
-            var startInfo = MyCommon.CreateBrowserProcessStartInfo(browserPathWithArgs:  null, "https://example.com/");
+            var startInfo = MyCommon.CreateBrowserProcessStartInfo(browserPathWithArgs: null, "https://example.com/");
             Assert.Equal("https://example.com/", startInfo.FileName);
             Assert.Equal("", startInfo.Arguments);
             Assert.True(startInfo.UseShellExecute);

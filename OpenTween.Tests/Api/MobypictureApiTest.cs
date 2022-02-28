@@ -30,7 +30,7 @@ using Xunit;
 
 namespace OpenTween.Api
 {
-    public class MobypictureApiText
+    public class MobypictureApiTest
     {
         [Fact]
         public async Task UploadFileAsync_Test()

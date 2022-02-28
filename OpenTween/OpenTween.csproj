@@ -25,6 +25,7 @@
     <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
     <Prefer32Bit>false</Prefer32Bit>
     <CodeAnalysisRuleSet>OpenTween.ruleset</CodeAnalysisRuleSet>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -38,7 +39,7 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>OpenTween.MyApplication</StartupObject>
+    <StartupObject>OpenTween.ApplicationEvents</StartupObject>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>Resources\4b.ico</ApplicationIcon>
@@ -73,11 +74,13 @@
     <Compile Include="Api\BitlyApi.cs" />
     <Compile Include="Api\DataModel\GeoJson.cs" />
     <Compile Include="Api\DataModel\TwitterConfiguration.cs" />
+    <Compile Include="Api\DataModel\TwitterEntities.cs" />
     <Compile Include="Api\DataModel\TwitterEntity.cs" />
     <Compile Include="Api\DataModel\TwitterError.cs" />
     <Compile Include="Api\DataModel\TwitterFriendship.cs" />
     <Compile Include="Api\DataModel\TwitterList.cs" />
     <Compile Include="Api\DataModel\TwitterMessageEvent.cs" />
+    <Compile Include="Api\DataModel\TwitterMessageEventList.cs" />
     <Compile Include="Api\DataModel\TwitterPageable.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -386,7 +389,7 @@
     <Compile Include="UpdateDialog.Designer.cs">
       <DependentUpon>UpdateDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="Growl.cs" />
+    <Compile Include="GrowlHelper.cs" />
     <Compile Include="HookGlobalHotkey.cs" />
     <Compile Include="InputTabName.cs">
       <SubType>Form</SubType>
@@ -406,7 +409,7 @@
     <Compile Include="MyLists.Designer.cs">
       <DependentUpon>MyLists.cs</DependentUpon>
     </Compile>
-    <Compile Include="nicoms.cs" />
+    <Compile Include="Nicoms.cs" />
     <Compile Include="OpenURL.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -458,7 +461,7 @@
     <Compile Include="Twitter.cs" />
     <Compile Include="UserInfo.cs" />
     <Compile Include="WebApiException.cs" />
-    <Compile Include="WebBrowserController.cs" />
+    <Compile Include="InternetSecurityManager.cs" />
     <Compile Include="ControlTransaction.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -724,6 +727,9 @@
       <Link>LICENSE.LGPL-3</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <AdditionalFiles Include="..\stylecop.json">
+      <Link>stylecop.json</Link>
+    </AdditionalFiles>
     <None Include="app.config" />
     <None Include="app.manifest">
       <SubType>Designer</SubType>
@@ -756,6 +762,11 @@
   <ItemGroup>
     <PackageReference Include="ResXcue">
       <Version>1.0.1</Version>
+    </PackageReference>
+    <PackageReference Include="StyleCop.Analyzers">
+      <Version>1.2.0-beta.406</Version>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
     </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

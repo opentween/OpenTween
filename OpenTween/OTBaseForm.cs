@@ -70,7 +70,13 @@ namespace OpenTween
         }
 
         public Task InvokeAsync(Action x)
-            => this.InvokeAsync(new Func<int>(() => { x(); return 0; }));
+        {
+            return this.InvokeAsync(new Func<int>(() =>
+            {
+                x();
+                return 0;
+            }));
+        }
 
         public Task InvokeAsync(Func<Task> x)
             => this.InvokeAsync<Task>(x).Unwrap();
@@ -95,7 +101,8 @@ namespace OpenTween
                 {
                     tcs.SetException(ex);
                 }
-            }, null);
+            },
+            null);
 
             return tcs.Task;
         }

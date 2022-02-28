@@ -37,6 +37,7 @@ namespace OpenTween.Api
     public class TwitterApiException : WebApiException
     {
         public HttpStatusCode StatusCode { get; }
+
         public TwitterError? ErrorResponse { get; }
 
         public TwitterErrorItem[] Errors

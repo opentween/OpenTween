@@ -269,7 +269,7 @@ namespace OpenTween
                 utc.ToDateTimeUnsafe());
         }
 
-        public static readonly TheoryData<string, DateTimeUtc> Parse_Test_Fixtures = new TheoryData<string, DateTimeUtc>
+        public static readonly TheoryData<string, DateTimeUtc> ParseTestFixtures = new TheoryData<string, DateTimeUtc>
         {
             { "2018-05-06T11:22:33.111", new DateTimeUtc(2018, 5, 6, 11, 22, 33, 111) },
             { "2018-05-06T11:22:33.111+00:00", new DateTimeUtc(2018, 5, 6, 11, 22, 33, 111) },
@@ -277,7 +277,7 @@ namespace OpenTween
         };
 
         [Theory]
-        [MemberData(nameof(Parse_Test_Fixtures))]
+        [MemberData(nameof(ParseTestFixtures))]
         public void Parse_Test(string input, DateTimeUtc expected)
             => Assert.Equal(expected, DateTimeUtc.Parse(input, DateTimeFormatInfo.InvariantInfo));
 
@@ -285,7 +285,7 @@ namespace OpenTween
         public void Parse_ErrorTest()
             => Assert.Throws<FormatException>(() => DateTimeUtc.Parse("### INVALID ###", DateTimeFormatInfo.InvariantInfo));
 
-        public static readonly TheoryData<string, bool, DateTimeUtc> TryParse_Test_Fixtures = new TheoryData<string, bool, DateTimeUtc>
+        public static readonly TheoryData<string, bool, DateTimeUtc> TryParseTestFixtures = new TheoryData<string, bool, DateTimeUtc>
         {
             { "2018-05-06T11:22:33.111", true, new DateTimeUtc(2018, 5, 6, 11, 22, 33, 111) },
             { "2018-05-06T11:22:33.111+00:00", true, new DateTimeUtc(2018, 5, 6, 11, 22, 33, 111) },
@@ -294,7 +294,7 @@ namespace OpenTween
         };
 
         [Theory]
-        [MemberData(nameof(TryParse_Test_Fixtures))]
+        [MemberData(nameof(TryParseTestFixtures))]
         public void TryParse_Test(string input, bool expectedParsed, DateTimeUtc expectedResult)
         {
             var parsed = DateTimeUtc.TryParse(input, DateTimeFormatInfo.InvariantInfo, out var result);
@@ -303,7 +303,7 @@ namespace OpenTween
             Assert.Equal(expectedResult, result);
         }
 
-        public static readonly TheoryData<string, string, bool, DateTimeUtc> TryParseExact_Test_Fixtures = new TheoryData<string, string, bool, DateTimeUtc>
+        public static readonly TheoryData<string, string, bool, DateTimeUtc> TryParseExactTestFixtures = new TheoryData<string, string, bool, DateTimeUtc>
         {
             { "2018-05-06 11:22:33.111", "yyyy-MM-dd HH:mm:ss.fff", true, new DateTimeUtc(2018, 5, 6, 11, 22, 33, 111) },
             { "2018-05-06 11:22:33.111 +00:00", "yyyy-MM-dd HH:mm:ss.fff zzz", true, new DateTimeUtc(2018, 5, 6, 11, 22, 33, 111) },
@@ -313,7 +313,7 @@ namespace OpenTween
         };
 
         [Theory]
-        [MemberData(nameof(TryParseExact_Test_Fixtures))]
+        [MemberData(nameof(TryParseExactTestFixtures))]
         public void TryParseExact_Test(string input, string format, bool expectedParsed, DateTimeUtc expectedResult)
         {
             var parsed = DateTimeUtc.TryParseExact(input, new[] { format }, DateTimeFormatInfo.InvariantInfo, out var result);

@@ -32,7 +32,7 @@ using OpenTween.Setting;
 
 namespace OpenTween.Thumbnail
 {
-    class MapThumbGoogle : MapThumb
+    public class MapThumbGoogle : MapThumb
     {
         public override Task<ThumbnailInfo> GetThumbnailInfoAsync(PostClass.StatusGeo geo)
         {

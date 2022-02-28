@@ -30,6 +30,7 @@ namespace OpenTween
     public sealed class AsyncTimer : ITimer
     {
         public TimeSpan DueTime { get; private set; } = Timeout.InfiniteTimeSpan;
+
         public TimeSpan Period { get; private set; } = Timeout.InfiniteTimeSpan;
 
         private readonly Func<Task> callback;
@@ -43,7 +44,7 @@ namespace OpenTween
             this.timer = new Timer(this.TimerCallback);
         }
 
-        private async void TimerCallback(object _)
+        private async void TimerCallback(object state)
         {
             try
             {

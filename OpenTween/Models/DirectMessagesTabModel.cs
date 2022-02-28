@@ -41,11 +41,13 @@ namespace OpenTween.Models
         public override MyCommon.TabUsageType TabType
             => MyCommon.TabUsageType.DirectMessage;
 
-        public DirectMessagesTabModel() : this(MyCommon.DEFAULTTAB.DM)
+        public DirectMessagesTabModel()
+            : this(MyCommon.DEFAULTTAB.DM)
         {
         }
 
-        public DirectMessagesTabModel(string tabName) : base(tabName)
+        public DirectMessagesTabModel(string tabName)
+            : base(tabName)
         {
         }
 

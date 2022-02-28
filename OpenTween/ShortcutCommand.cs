@@ -172,7 +172,13 @@ namespace OpenTween
             /// Action を Func&lt;Task&gt; に変換します
             /// </summary>
             private static Func<Task> SynchronousTask(Action action)
-                => () => { action(); return Task.CompletedTask; };
+            {
+                return () =>
+                {
+                    action();
+                    return Task.CompletedTask;
+                };
+            }
         }
     }
 }

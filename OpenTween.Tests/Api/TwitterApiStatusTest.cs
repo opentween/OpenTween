@@ -49,10 +49,11 @@ namespace OpenTween.Api
             Assert.Equal(TwitterApiAccessLevel.Anonymous, apiStatus.AccessLevel);
         }
 
-        public static readonly TheoryData<Dictionary<string, string>, ApiLimit?> ParseRateLimit_TestCase = new TheoryData<Dictionary<string, string>, ApiLimit?>
+        public static readonly TheoryData<Dictionary<string, string>, ApiLimit?> ParseRateLimitTestCase = new TheoryData<Dictionary<string, string>, ApiLimit?>
         {
             {
-                new Dictionary<string, string> {
+                new Dictionary<string, string>
+                {
                     ["X-RateLimit-Limit"] = "150",
                     ["X-RateLimit-Remaining"] = "100",
                     ["X-RateLimit-Reset"] = "1356998400",
@@ -60,7 +61,8 @@ namespace OpenTween.Api
                 new ApiLimit(150, 100, new DateTimeUtc(2013, 1, 1, 0, 0, 0))
             },
             {
-                new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
+                new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+                {
                     ["x-ratelimit-limit"] = "150",
                     ["x-ratelimit-remaining"] = "100",
                     ["x-ratelimit-reset"] = "1356998400",
@@ -68,7 +70,8 @@ namespace OpenTween.Api
                 new ApiLimit(150, 100, new DateTimeUtc(2013, 1, 1, 0, 0, 0))
             },
             {
-                new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
+                new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+                {
                     ["X-RateLimit-Limit"] = "150",
                     ["X-RateLimit-Remaining"] = "100",
                     ["X-RateLimit-Reset"] = "hogehoge",
@@ -76,7 +79,8 @@ namespace OpenTween.Api
                 null
             },
             {
-                new Dictionary<string, string> {
+                new Dictionary<string, string>
+                {
                     ["X-RateLimit-Limit"] = "150",
                     ["X-RateLimit-Remaining"] = "100",
                 },
@@ -85,17 +89,18 @@ namespace OpenTween.Api
         };
 
         [Theory]
-        [MemberData(nameof(ParseRateLimit_TestCase))]
+        [MemberData(nameof(ParseRateLimitTestCase))]
         public void ParseRateLimitTest(IDictionary<string, string> header, ApiLimit? expected)
         {
             var limit = TwitterApiStatus.ParseRateLimit(header, "X-RateLimit-");
             Assert.Equal(expected, limit);
         }
 
-        public static readonly TheoryData<Dictionary<string, string>, ApiLimit?> ParseMediaRateLimit_TestCase = new TheoryData<Dictionary<string, string>, ApiLimit?>
+        public static readonly TheoryData<Dictionary<string, string>, ApiLimit?> ParseMediaRateLimitTestCase = new TheoryData<Dictionary<string, string>, ApiLimit?>
         {
             {
-                new Dictionary<string, string> {
+                new Dictionary<string, string>
+                {
                     ["X-MediaRateLimit-Limit"] = "30",
                     ["X-MediaRateLimit-Remaining"] = "20",
                     ["X-MediaRateLimit-Reset"] = "1234567890",
@@ -103,7 +108,8 @@ namespace OpenTween.Api
                 new ApiLimit(30, 20, new DateTimeUtc(2009, 2, 13, 23, 31, 30))
             },
             {
-                new Dictionary<string, string> {
+                new Dictionary<string, string>
+                {
                     ["X-MediaRateLimit-Limit"] = "30",
                     ["X-MediaRateLimit-Remaining"] = "20",
                     ["X-MediaRateLimit-Reset"] = "hogehoge",
@@ -111,7 +117,8 @@ namespace OpenTween.Api
                 null
             },
             {
-                new Dictionary<string, string> {
+                new Dictionary<string, string>
+                {
                     ["X-MediaRateLimit-Limit"] = "30",
                     ["X-MediaRateLimit-Remaining"] = "20",
                 },
@@ -120,29 +127,29 @@ namespace OpenTween.Api
         };
 
         [Theory]
-        [MemberData(nameof(ParseMediaRateLimit_TestCase))]
+        [MemberData(nameof(ParseMediaRateLimitTestCase))]
         public void ParseMediaRateLimitTest(IDictionary<string, string> header, ApiLimit? expected)
         {
             var limit = TwitterApiStatus.ParseRateLimit(header, "X-MediaRateLimit-");
             Assert.Equal(expected, limit);
         }
 
-        public static readonly TheoryData<Dictionary<string, string>, TwitterApiAccessLevel?> ParseAccessLevel_TestCase = new TheoryData<Dictionary<string, string>, TwitterApiAccessLevel?>
+        public static readonly TheoryData<Dictionary<string, string>, TwitterApiAccessLevel?> ParseAccessLevelTestCase = new TheoryData<Dictionary<string, string>, TwitterApiAccessLevel?>
         {
             {
-                new Dictionary<string, string> { {"X-Access-Level", "read"} },
+                new Dictionary<string, string> { { "X-Access-Level", "read" } },
                 TwitterApiAccessLevel.Read
             },
             {
-                new Dictionary<string, string> { {"X-Access-Level", "read-write"} },
+                new Dictionary<string, string> { { "X-Access-Level", "read-write" } },
                 TwitterApiAccessLevel.ReadWrite
             },
             {
-                new Dictionary<string, string> { {"X-Access-Level", "read-write-directmessages"} },
+                new Dictionary<string, string> { { "X-Access-Level", "read-write-directmessages" } },
                 TwitterApiAccessLevel.ReadWriteAndDirectMessage
             },
             {
-                new Dictionary<string, string> { {"X-Access-Level", ""} }, // 何故かたまに出てくるやつ
+                new Dictionary<string, string> { { "X-Access-Level", "" } }, // 何故かたまに出てくるやつ
                 null
             },
             {
@@ -152,7 +159,7 @@ namespace OpenTween.Api
         };
 
         [Theory]
-        [MemberData(nameof(ParseAccessLevel_TestCase))]
+        [MemberData(nameof(ParseAccessLevelTestCase))]
         public void ParseAccessLevelTest(IDictionary<string, string> header, TwitterApiAccessLevel? expected)
         {
             var accessLevel = TwitterApiStatus.ParseAccessLevel(header, "X-Access-Level");

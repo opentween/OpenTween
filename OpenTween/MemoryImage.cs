@@ -23,15 +23,15 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Runtime.Serialization;
 using System.Text;
-using System.Diagnostics.CodeAnalysis;
-using System.Drawing;
-using System.IO;
 using System.Threading.Tasks;
-using System.Drawing.Imaging;
 
 namespace OpenTween
 {
@@ -279,7 +279,7 @@ namespace OpenTween
         /// <param name="stream">読み込む対象となる Stream</param>
         /// <returns>作成された MemoryImage を返すタスク</returns>
         /// <exception cref="InvalidImageException">不正な画像データが入力された場合</exception>
-        public async static Task<MemoryImage> CopyFromStreamAsync(Stream stream)
+        public static async Task<MemoryImage> CopyFromStreamAsync(Stream stream)
         {
             MemoryStream? memstream = null;
             try
@@ -351,9 +351,23 @@ namespace OpenTween
     [Serializable]
     public class InvalidImageException : Exception
     {
-        public InvalidImageException() { }
-        public InvalidImageException(string message) : base(message) { }
-        public InvalidImageException(string message, Exception innerException) : base(message, innerException) { }
-        protected InvalidImageException(SerializationInfo info, StreamingContext context) : base(info, context) { }
+        public InvalidImageException()
+        {
+        }
+
+        public InvalidImageException(string message)
+            : base(message)
+        {
+        }
+
+        public InvalidImageException(string message, Exception innerException)
+            : base(message, innerException)
+        {
+        }
+
+        protected InvalidImageException(SerializationInfo info, StreamingContext context)
+            : base(info, context)
+        {
+        }
     }
 }

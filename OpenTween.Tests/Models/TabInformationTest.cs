@@ -38,7 +38,7 @@ namespace OpenTween.Models
             this.tabinfo = this.CreateInstance();
 
             // TabInformation.GetInstance() で取得できるようにする
-            var field = typeof(TabInformations).GetField("_instance",
+            var field = typeof(TabInformations).GetField("Instance",
                 BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.SetField);
             field.SetValue(null, this.tabinfo);
 
@@ -830,13 +830,13 @@ namespace OpenTween.Models
             Assert.True(this.tabinfo[200L]!.IsExcludeReply);
         }
 
-        class TestPostFilterRule : PostFilterRule
+        private class TestPostFilterRule : PostFilterRule
         {
             public static PostFilterRule Create(Func<PostClass, MyCommon.HITRESULT> filterDelegate)
             {
                 return new TestPostFilterRule
                 {
-                    FilterDelegate = filterDelegate,
+                    filterDelegate = filterDelegate,
                     IsDirty = false,
                 };
             }

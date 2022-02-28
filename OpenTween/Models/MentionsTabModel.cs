@@ -41,11 +41,13 @@ namespace OpenTween.Models
         public override MyCommon.TabUsageType TabType
             => MyCommon.TabUsageType.Mentions;
 
-        public MentionsTabModel() : this(MyCommon.DEFAULTTAB.REPLY)
+        public MentionsTabModel()
+            : this(MyCommon.DEFAULTTAB.REPLY)
         {
         }
 
-        public MentionsTabModel(string tabName) : base(tabName)
+        public MentionsTabModel(string tabName)
+            : base(tabName)
         {
         }
 

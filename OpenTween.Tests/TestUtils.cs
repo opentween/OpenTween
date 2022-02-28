@@ -59,12 +59,12 @@ namespace OpenTween
         {
             T? raisedEvent = null;
 
-            void handler(object s, T e)
+            void Handler(object s, T e)
                 => raisedEvent = e;
 
             try
             {
-                attach(handler);
+                attach(Handler);
                 await testCode().ConfigureAwait(false);
 
                 if (raisedEvent != null)
@@ -72,13 +72,13 @@ namespace OpenTween
             }
             finally
             {
-                detach(handler);
+                detach(Handler);
             }
         }
 
         public static void NotPropertyChanged(INotifyPropertyChanged @object, string propertyName, Action testCode)
         {
-            void handler(object s, PropertyChangedEventArgs e)
+            void Handler(object s, PropertyChangedEventArgs e)
             {
                 if (s == @object && e.PropertyName == propertyName)
                     throw new Xunit.Sdk.PropertyChangedException(propertyName);
@@ -86,12 +86,12 @@ namespace OpenTween
 
             try
             {
-                @object.PropertyChanged += handler;
+                @object.PropertyChanged += Handler;
                 testCode();
             }
             finally
             {
-                @object.PropertyChanged -= handler;
+                @object.PropertyChanged -= Handler;
             }
         }
 
@@ -110,10 +110,12 @@ namespace OpenTween
         public static MemoryImageMediaItem CreateDummyMediaItem()
             => new MemoryImageMediaItem(CreateDummyImage());
 
-        public static void FireEvent<T>(T control, string eventName) where T : Control
+        public static void FireEvent<T>(T control, string eventName)
+            where T : Control
             => TestUtils.FireEvent(control, eventName, EventArgs.Empty);
 
-        public static void FireEvent<T>(T control, string eventName, EventArgs e) where T : Control
+        public static void FireEvent<T>(T control, string eventName, EventArgs e)
+            where T : Control
         {
             var methodName = "On" + eventName;
             var method = typeof(T).GetMethod(methodName, BindingFlags.Instance | BindingFlags.NonPublic);
@@ -121,7 +123,8 @@ namespace OpenTween
             method.Invoke(control, new[] { e });
         }
 
-        public static void Validate<T>(T control) where T : Control
+        public static void Validate<T>(T control)
+            where T : Control
         {
             var cancelEventArgs = new CancelEventArgs();
             TestUtils.FireEvent(control, "Validating", cancelEventArgs);
@@ -150,6 +153,8 @@ namespace OpenTween
         }
     }
 }
+
+#pragma warning disable SA1403
 
 namespace OpenTween.Setting
 {

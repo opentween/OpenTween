@@ -1,19 +1,19 @@
 ﻿// OpenTween - Client of Twitter
 // Copyright (c) 2015 spx (@5px)
 // All rights reserved.
-// 
+//
 // This file is part of OpenTween.
-// 
+//
 // This program is free software; you can redistribute it and/or modify it
 // under the terms of the GNU General Public License as published by the Free
 // Software Foundation; either version 3 of the License, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful, but
 // WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
 // or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
-// for more details. 
-// 
+// for more details.
+//
 // You should have received a copy of the GNU General Public License along
 // with this program. If not, see <http://www.gnu.org/licenses/>, or write to
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
@@ -39,7 +39,7 @@ namespace OpenTween
         public ApiInfoDialog()
             => this.InitializeComponent();
 
-        private readonly List<string> _tlEndpoints = new List<string>
+        private readonly List<string> tlEndpoints = new List<string>
         {
             "/statuses/home_timeline",
             "/statuses/mentions_timeline",
@@ -57,21 +57,21 @@ namespace OpenTween
         {
             // TL更新用エンドポイントの追加
             var group = this.ListViewApi.Groups[0];
-            foreach (var endpoint in _tlEndpoints)
+            foreach (var endpoint in this.tlEndpoints)
             {
                 var apiLimit = MyCommon.TwitterApiInfo.AccessLimit[endpoint];
                 if (apiLimit == null)
                     continue;
 
-                AddListViewItem(endpoint, apiLimit, group);
+                this.AddListViewItem(endpoint, apiLimit, group);
             }
 
             // その他
             group = this.ListViewApi.Groups[1];
-            var apiStatuses = MyCommon.TwitterApiInfo.AccessLimit.Where(x => !_tlEndpoints.Contains(x.Key)).OrderBy(x => x.Key);
+            var apiStatuses = MyCommon.TwitterApiInfo.AccessLimit.Where(x => !this.tlEndpoints.Contains(x.Key)).OrderBy(x => x.Key);
             foreach (var (endpoint, apiLimit) in apiStatuses)
             {
-                AddListViewItem(endpoint, apiLimit, group);
+                this.AddListViewItem(endpoint, apiLimit, group);
             }
 
             MyCommon.TwitterApiInfo.AccessLimitUpdated += this.TwitterApiStatus_AccessLimitUpdated;
@@ -116,7 +116,7 @@ namespace OpenTween
                 {
                     var endpoint = ((TwitterApiStatus.AccessLimitUpdatedEventArgs)e).EndpointName;
                     if (endpoint != null)
-                        UpdateEndpointLimit(endpoint);
+                        this.UpdateEndpointLimit(endpoint);
                 }
             }
             catch (ObjectDisposedException)

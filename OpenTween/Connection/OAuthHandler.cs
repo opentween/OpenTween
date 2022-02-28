@@ -39,8 +39,11 @@ namespace OpenTween.Connection
     public class OAuthHandler : DelegatingHandler
     {
         public ApiKey ConsumerKey { get; }
+
         public ApiKey ConsumerSecret { get; }
+
         public string AccessToken { get; }
+
         public string AccessSecret { get; }
 
         public OAuthHandler(HttpMessageHandler innerHandler, ApiKey consumerKey, ApiKey consumerSecret, string accessToken, string accessSecret)
@@ -57,8 +60,14 @@ namespace OpenTween.Connection
             var query = await GetParameters(request.RequestUri, request.Content)
                 .ConfigureAwait(false);
 
-            var credential = OAuthUtility.CreateAuthorization(request.Method.ToString().ToUpperInvariant(), request.RequestUri, query,
-                this.ConsumerKey, this.ConsumerSecret, this.AccessToken, this.AccessSecret);
+            var credential = OAuthUtility.CreateAuthorization(
+                request.Method.ToString().ToUpperInvariant(),
+                request.RequestUri,
+                query,
+                this.ConsumerKey,
+                this.ConsumerSecret,
+                this.AccessToken,
+                this.AccessSecret);
             request.Headers.TryAddWithoutValidation("Authorization", credential);
 
             if (request.Content is FormUrlEncodedContent postContent)

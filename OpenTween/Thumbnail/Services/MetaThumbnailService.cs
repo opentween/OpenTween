@@ -38,16 +38,17 @@ namespace OpenTween.Thumbnail.Services
     /// <summary>
     /// og:image や twitter:image をスクレイピングしてサムネイルURLを抽出する
     /// </summary>
-    class MetaThumbnailService : IThumbnailService
+    public class MetaThumbnailService : IThumbnailService
     {
-        protected static Regex[] MetaPatterns =
+        protected static Regex[] metaPatterns =
         {
             new Regex("<meta (name|property)=[\"'](?<name>.+?)[\"'] (content|value)=[\"'](?<content>[^>]+?)[\"']"),
             new Regex("<meta (content|value)=[\"'](?<content>[^>]+?)[\"'] (name|property)=[\"'](?<name>.+?)[\"']"),
         };
-        protected static string[] PropertyNames = { "og:image", "twitter:image", "twitter:image:src" };
 
-        protected HttpClient http
+        protected static string[] defaultPropertyNames = { "og:image", "twitter:image", "twitter:image:src" };
+
+        protected HttpClient Http
             => this.localHttpClient ?? Networking.Http;
 
         private readonly HttpClient? localHttpClient;
@@ -74,7 +75,7 @@ namespace OpenTween.Thumbnail.Services
         {
             this.localHttpClient = http;
             this.regex = new Regex(urlPattern);
-            this.propertyNames = propNames ?? MetaThumbnailService.PropertyNames;
+            this.propertyNames = propNames ?? MetaThumbnailService.defaultPropertyNames;
         }
 
         public override async Task<ThumbnailInfo?> GetThumbnailInfoAsync(string url, PostClass post, CancellationToken token)
@@ -97,14 +98,16 @@ namespace OpenTween.Thumbnail.Services
                     TooltipText = null,
                 };
             }
-            catch (HttpRequestException) { }
+            catch (HttpRequestException)
+            {
+            }
 
             return null;
         }
 
         protected virtual string? GetThumbnailUrl(string html)
         {
-            foreach (var pattern in MetaThumbnailService.MetaPatterns)
+            foreach (var pattern in MetaThumbnailService.metaPatterns)
             {
                 var matches = pattern.Matches(html);
 
@@ -123,7 +126,7 @@ namespace OpenTween.Thumbnail.Services
 
         protected virtual async Task<string> FetchImageUrlAsync(string url, CancellationToken token)
         {
-            using var response = await this.http.GetAsync(url, token)
+            using var response = await this.Http.GetAsync(url, token)
                 .ConfigureAwait(false);
 
             response.EnsureSuccessStatusCode();

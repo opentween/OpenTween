@@ -29,8 +29,8 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Drawing;
 using System.Data;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
@@ -74,7 +74,7 @@ namespace OpenTween.Setting.Panel
 
         private void UserAppointUrlText_Validating(object sender, CancelEventArgs e)
         {
-            if (!UserAppointUrlText.Text.StartsWith("http", StringComparison.Ordinal) && !MyCommon.IsNullOrEmpty(UserAppointUrlText.Text))
+            if (!this.UserAppointUrlText.Text.StartsWith("http", StringComparison.Ordinal) && !MyCommon.IsNullOrEmpty(this.UserAppointUrlText.Text))
             {
                 MessageBox.Show("Text Error:正しいURLではありません");
             }

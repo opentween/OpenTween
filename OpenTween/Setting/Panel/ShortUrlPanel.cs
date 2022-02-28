@@ -29,13 +29,13 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Drawing;
 using System.Data;
+using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using OpenTween.Api;
-using System.Threading.Tasks;
 
 namespace OpenTween.Setting.Panel
 {
@@ -67,23 +67,23 @@ namespace OpenTween.Setting.Panel
 
         private void ComboBoxAutoShortUrlFirst_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (ComboBoxAutoShortUrlFirst.SelectedIndex == (int)MyCommon.UrlConverter.Bitly ||
-               ComboBoxAutoShortUrlFirst.SelectedIndex == (int)MyCommon.UrlConverter.Jmp)
+            if (this.ComboBoxAutoShortUrlFirst.SelectedIndex == (int)MyCommon.UrlConverter.Bitly ||
+               this.ComboBoxAutoShortUrlFirst.SelectedIndex == (int)MyCommon.UrlConverter.Jmp)
             {
-                Label77.Enabled = true;
-                TextBitlyAccessToken.Enabled = true;
-                ButtonBitlyAuthorize.Enabled = true;
+                this.Label77.Enabled = true;
+                this.TextBitlyAccessToken.Enabled = true;
+                this.ButtonBitlyAuthorize.Enabled = true;
             }
             else
             {
-                Label77.Enabled = false;
-                TextBitlyAccessToken.Enabled = false;
-                ButtonBitlyAuthorize.Enabled = false;
+                this.Label77.Enabled = false;
+                this.TextBitlyAccessToken.Enabled = false;
+                this.ButtonBitlyAuthorize.Enabled = false;
             }
         }
 
         private void CheckAutoConvertUrl_CheckedChanged(object sender, EventArgs e)
-            => ShortenTcoCheck.Enabled = CheckAutoConvertUrl.Checked;
+            => this.ShortenTcoCheck.Enabled = this.CheckAutoConvertUrl.Checked;
 
         private void ButtonBitlyAuthorize_Click(object sender, EventArgs e)
         {

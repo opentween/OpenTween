@@ -49,11 +49,13 @@ namespace OpenTween.Models
         private int tweetsPerHour = 0;
         private readonly ConcurrentDictionary<DateTimeUtc, int> tweetsTimestamps = new ConcurrentDictionary<DateTimeUtc, int>();
 
-        public HomeTabModel() : this(MyCommon.DEFAULTTAB.RECENT)
+        public HomeTabModel()
+            : this(MyCommon.DEFAULTTAB.RECENT)
         {
         }
 
-        public HomeTabModel(string tabName) : base(tabName)
+        public HomeTabModel(string tabName)
+            : base(tabName)
         {
         }
 

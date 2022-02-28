@@ -1,19 +1,19 @@
 ﻿// OpenTween - Client of Twitter
 // Copyright (c) 2012      kim_upsilon (@kim_upsilon) <https://upsilo.net/~upsilon/>
 // All rights reserved.
-// 
+//
 // This file is part of OpenTween.
-// 
+//
 // This program is free software; you can redistribute it and/or modify it
 // under the terms of the GNU General public License as published by the Free
 // Software Foundation; either version 3 of the License, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful, but
 // WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
 // or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General public License
-// for more details. 
-// 
+// for more details.
+//
 // You should have received a copy of the GNU General public License along
 // with this program. If not, see <http://www.gnu.org/licenses/>, or write to
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
@@ -40,7 +40,7 @@ namespace OpenTween
     {
         public AuthDialog()
         {
-            InitializeComponent();
+            this.InitializeComponent();
 
             // PinTextBox のフォントを OTBaseForm.GlobalFont に変更
             this.PinTextBox.Font = this.ReplaceToGlobalFont(this.PinTextBox.Font);
@@ -48,14 +48,14 @@ namespace OpenTween
 
         public string AuthUrl
         {
-            get => AuthLinkLabel.Text;
-            set => AuthLinkLabel.Text = value;
+            get => this.AuthLinkLabel.Text;
+            set => this.AuthLinkLabel.Text = value;
         }
 
         public string Pin
         {
-            get => PinTextBox.Text.Trim();
-            set => PinTextBox.Text = value;
+            get => this.PinTextBox.Text.Trim();
+            set => this.PinTextBox.Text = value;
         }
 
         public string? BrowserPath { get; set; }
@@ -66,7 +66,7 @@ namespace OpenTween
             if (e.Button == MouseButtons.Right)
                 return;
 
-            AuthLinkLabel.LinkVisited = true;
+            this.AuthLinkLabel.LinkVisited = true;
             await MyCommon.OpenInBrowserAsync(this, this.BrowserPath, this.AuthUrl);
         }
 
@@ -76,7 +76,9 @@ namespace OpenTween
             {
                 Clipboard.SetText(this.AuthUrl);
             }
-            catch (ExternalException) { }
+            catch (ExternalException)
+            {
+            }
         }
 
         /// <summary>

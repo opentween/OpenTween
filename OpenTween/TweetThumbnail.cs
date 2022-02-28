@@ -24,34 +24,36 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Data;
 using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
-using System.Data;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Text;
-using System.Windows.Forms;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using OpenTween.Thumbnail;
-using System.Threading;
-using OpenTween.Models;
 using System.Runtime.InteropServices;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using OpenTween.Models;
+using OpenTween.Thumbnail;
 
 namespace OpenTween
 {
     public partial class TweetThumbnail : UserControl
     {
-        protected internal List<OTPictureBox> pictureBox = new List<OTPictureBox>();
+        protected internal List<OTPictureBox> PictureBox = new List<OTPictureBox>();
         protected MouseWheelMessageFilter filter = new MouseWheelMessageFilter();
 
         public event EventHandler<EventArgs>? ThumbnailLoading;
+
         public event EventHandler<ThumbnailDoubleClickEventArgs>? ThumbnailDoubleClick;
+
         public event EventHandler<ThumbnailImageSearchEventArgs>? ThumbnailImageSearchClick;
 
         public ThumbnailInfo Thumbnail
-            => (ThumbnailInfo)this.pictureBox[this.scrollBar.Value].Tag;
+            => (ThumbnailInfo)this.PictureBox[this.scrollBar.Value].Tag;
 
         public TweetThumbnail()
             => this.InitializeComponent();
@@ -84,7 +86,7 @@ namespace OpenTween
             for (var i = 0; i < thumbnails.Length; i++)
             {
                 var thumb = thumbnails[i];
-                var picbox = this.pictureBox[i];
+                var picbox = this.PictureBox[i];
 
                 picbox.Tag = thumb;
                 picbox.ContextMenuStrip = this.contextMenuStrip;
@@ -128,20 +130,20 @@ namespace OpenTween
         /// <param name="count">表示するサムネイルの数</param>
         protected void SetThumbnailCount(int count)
         {
-            if (count == 0 && this.pictureBox.Count == 0)
+            if (count == 0 && this.PictureBox.Count == 0)
                 return;
 
             using (ControlTransaction.Layout(this.panelPictureBox, false))
             {
                 this.panelPictureBox.Controls.Clear();
-                foreach (var picbox in this.pictureBox)
+                foreach (var picbox in this.PictureBox)
                 {
                     var memoryImage = picbox.Image;
 
-                    filter.Unregister(picbox);
+                    this.filter.Unregister(picbox);
 
-                    picbox.MouseWheel -= this.pictureBox_MouseWheel;
-                    picbox.DoubleClick -= this.pictureBox_DoubleClick;
+                    picbox.MouseWheel -= this.PictureBox_MouseWheel;
+                    picbox.DoubleClick -= this.PictureBox_DoubleClick;
                     picbox.Dispose();
 
                     memoryImage?.Dispose();
@@ -149,22 +151,22 @@ namespace OpenTween
                     // メモリリーク対策 (http://stackoverflow.com/questions/2792427#2793714)
                     picbox.ContextMenuStrip = null;
                 }
-                this.pictureBox.Clear();
+                this.PictureBox.Clear();
 
                 this.scrollBar.Maximum = (count > 0) ? count - 1 : 0;
                 this.scrollBar.Value = 0;
 
                 for (var i = 0; i < count; i++)
                 {
-                    var picbox = CreatePictureBox("pictureBox" + i);
-                    picbox.Visible = (i == 0);
-                    picbox.MouseWheel += this.pictureBox_MouseWheel;
-                    picbox.DoubleClick += this.pictureBox_DoubleClick;
+                    var picbox = this.CreatePictureBox("pictureBox" + i);
+                    picbox.Visible = i == 0;
+                    picbox.MouseWheel += this.PictureBox_MouseWheel;
+                    picbox.DoubleClick += this.PictureBox_DoubleClick;
 
-                    filter.Register(picbox);
+                    this.filter.Register(picbox);
 
                     this.panelPictureBox.Controls.Add(picbox);
-                    this.pictureBox.Add(picbox);
+                    this.PictureBox.Add(picbox);
                 }
             }
         }
@@ -211,19 +213,19 @@ namespace OpenTween
             OTBaseForm.ScaleChildControl(this.scrollBar, factor);
         }
 
-        private void scrollBar_ValueChanged(object sender, EventArgs e)
+        private void ScrollBar_ValueChanged(object sender, EventArgs e)
         {
             using (ControlTransaction.Layout(this, false))
             {
                 var value = this.scrollBar.Value;
-                for (var i = 0; i < this.pictureBox.Count; i++)
+                for (var i = 0; i < this.PictureBox.Count; i++)
                 {
-                    this.pictureBox[i].Visible = (i == value);
+                    this.PictureBox[i].Visible = i == value;
                 }
             }
         }
 
-        private void pictureBox_MouseWheel(object sender, MouseEventArgs e)
+        private void PictureBox_MouseWheel(object sender, MouseEventArgs e)
         {
             if (e.Delta > 0)
                 this.ScrollUp();
@@ -231,13 +233,13 @@ namespace OpenTween
                 this.ScrollDown();
         }
 
-        private void pictureBox_DoubleClick(object sender, EventArgs e)
+        private void PictureBox_DoubleClick(object sender, EventArgs e)
         {
             if (((PictureBox)sender).Tag is ThumbnailInfo thumb)
                 this.OpenImage(thumb);
         }
 
-        private void contextMenuStrip_Opening(object sender, CancelEventArgs e)
+        private void ContextMenuStrip_Opening(object sender, CancelEventArgs e)
         {
             var picbox = (OTPictureBox)this.contextMenuStrip.SourceControl;
             var thumb = (ThumbnailInfo)picbox.Tag;
@@ -257,7 +259,7 @@ namespace OpenTween
             }
         }
 
-        private void searchSimilarImageMenuItem_Click(object sender, EventArgs e)
+        private void SearchSimilarImageMenuItem_Click(object sender, EventArgs e)
         {
             var searchTargetUri = (string)this.searchImageGoogleMenuItem.Tag;
             var searchUri = this.GetImageSearchUriGoogle(searchTargetUri);
@@ -265,7 +267,7 @@ namespace OpenTween
             this.ThumbnailImageSearchClick?.Invoke(this, new ThumbnailImageSearchEventArgs(searchUri));
         }
 
-        private void searchImageSauceNaoMenuItem_Click(object sender, EventArgs e)
+        private void SearchImageSauceNaoMenuItem_Click(object sender, EventArgs e)
         {
             var searchTargetUri = (string)this.searchImageSauceNaoMenuItem.Tag;
             var searchUri = this.GetImageSearchUriSauceNao(searchTargetUri);
@@ -273,10 +275,10 @@ namespace OpenTween
             this.ThumbnailImageSearchClick?.Invoke(this, new ThumbnailImageSearchEventArgs(searchUri));
         }
 
-        private void openMenuItem_Click(object sender, EventArgs e)
+        private void OpenMenuItem_Click(object sender, EventArgs e)
             => this.OpenImage(this.Thumbnail);
 
-        private void copyUrlMenuItem_Click(object sender, EventArgs e)
+        private void CopyUrlMenuItem_Click(object sender, EventArgs e)
         {
             try
             {

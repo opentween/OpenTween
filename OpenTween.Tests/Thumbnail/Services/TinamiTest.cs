@@ -38,7 +38,7 @@ namespace OpenTween.Thumbnail.Services
 {
     public class TinamiTest
     {
-        class TestTinami : Tinami
+        private class TestTinami : Tinami
         {
             public string FakeXml { get; set; } = "";
 

@@ -6,19 +6,19 @@
 //           (c) 2010-2011 fantasticswallow (@f_swallow) <http://twitter.com/f_swallow>
 //           (c) 2011      kim_upsilon (@kim_upsilon) <https://upsilo.net/~upsilon/>
 // All rights reserved.
-// 
+//
 // This file is part of OpenTween.
-// 
+//
 // This program is free software; you can redistribute it and/or modify it
 // under the terms of the GNU General Public License as published by the Free
 // Software Foundation; either version 3 of the License, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful, but
 // WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
 // or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
-// for more details. 
-// 
+// for more details.
+//
 // You should have received a copy of the GNU General Public License along
 // with this program. If not, see <http://www.gnu.org/licenses/>, or write to
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
@@ -28,17 +28,18 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
-using System.IO;
+using System.Threading;
+using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Serialization;
-using System.Windows.Forms;
-using System.Threading;
 
 namespace OpenTween
 {
-    abstract public class SettingBase<T> where T : class, new()
+    public abstract class SettingBase<T>
+        where T : class, new()
     {
         /// <summary>
         /// XML に含まれる追加データを保持するフィールド
@@ -50,19 +51,19 @@ namespace OpenTween
         [XmlAnyElement]
         public XmlElement[] ExtraElements = Array.Empty<XmlElement>();
 
-        private static readonly object lockObj = new object();
+        private static readonly object LockObj = new object();
 
-        protected static T LoadSettings(string FileId)
+        protected static T LoadSettings(string fileId)
         {
             try
             {
-                var settingFilePath = GetSettingFilePath(FileId);
+                var settingFilePath = GetSettingFilePath(fileId);
                 if (!File.Exists(settingFilePath))
                 {
                     return new T();
                 }
 
-                lock (lockObj)
+                lock (LockObj)
                 {
                     using var fs = new FileStream(settingFilePath, FileMode.Open, FileAccess.Read);
                     fs.Position = 0;
@@ -81,18 +82,18 @@ namespace OpenTween
                         Path.Combine(
                             Application.StartupPath,
                             ApplicationSettings.AssemblyName + "Backup1st"),
-                        typeof(T).Name + FileId + ".xml");
+                        typeof(T).Name + fileId + ".xml");
                 if (File.Exists(backupFile))
                 {
                     try
                     {
-                        lock (lockObj)
+                        lock (LockObj)
                         {
                             using var fs = new FileStream(backupFile, FileMode.Open, FileAccess.Read);
                             fs.Position = 0;
                             var xs = new XmlSerializer(typeof(T));
                             var instance = (T)xs.Deserialize(fs);
-                            MessageBox.Show("File: " + GetSettingFilePath(FileId) + Environment.NewLine + "Use old setting file, because application can't read this setting file.");
+                            MessageBox.Show("File: " + GetSettingFilePath(fileId) + Environment.NewLine + "Use old setting file, because application can't read this setting file.");
                             return instance;
                         }
                     }
@@ -100,7 +101,7 @@ namespace OpenTween
                     {
                     }
                 }
-                MessageBox.Show("File: " + GetSettingFilePath(FileId) + Environment.NewLine + "Use default setting, because application can't read this setting file.");
+                MessageBox.Show("File: " + GetSettingFilePath(fileId) + Environment.NewLine + "Use default setting, because application can't read this setting file.");
                 return new T();
             }
         }
@@ -124,7 +125,7 @@ namespace OpenTween
                 var tmpfilePath = GetSettingFilePath("_" + Path.GetRandomFileName());
                 try
                 {
-                    lock (lockObj)
+                    lock (LockObj)
                     {
                         using (var stream = new FileStream(tmpfilePath, FileMode.Create, FileAccess.Write))
                         {
@@ -153,14 +154,16 @@ namespace OpenTween
                         if (File.Exists(tmpfilePath))
                             File.Delete(tmpfilePath);
                     }
-                    catch (Exception) { }
+                    catch (Exception)
+                    {
+                    }
                 }
 
                 // リトライ
                 retryCount++;
                 Thread.Sleep(1000);
-
-            } while (retryCount <= SaveRetryMax);
+            }
+            while (retryCount <= SaveRetryMax);
 
             // リトライオーバー
             if (lastException != null)
@@ -169,10 +172,10 @@ namespace OpenTween
             MessageBox.Show("Can't write setting XML.(" + filePath + ")", "Save Settings", MessageBoxButtons.OK);
         }
 
-        protected static void SaveSettings(T Instance)
-            => SaveSettings(Instance, "");
+        protected static void SaveSettings(T instance)
+            => SaveSettings(instance, "");
 
-        public static string GetSettingFilePath(string FileId)
-            => Path.Combine(MyCommon.settingPath, typeof(T).Name + FileId + ".xml");
+        public static string GetSettingFilePath(string fileId)
+            => Path.Combine(MyCommon.SettingPath, typeof(T).Name + fileId + ".xml");
     }
 }

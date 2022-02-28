@@ -49,7 +49,7 @@
             this.scrollBar.Maximum = 0;
             this.scrollBar.Name = "scrollBar";
             this.toolTip.SetToolTip(this.scrollBar, resources.GetString("scrollBar.ToolTip"));
-            this.scrollBar.ValueChanged += new System.EventHandler(this.scrollBar_ValueChanged);
+            this.scrollBar.ValueChanged += new System.EventHandler(this.ScrollBar_ValueChanged);
             // 
             // panelPictureBox
             // 
@@ -68,19 +68,19 @@
             this.searchImageSauceNaoMenuItem});
             this.contextMenuStrip.Name = "contextMenuStrip";
             this.toolTip.SetToolTip(this.contextMenuStrip, resources.GetString("contextMenuStrip.ToolTip"));
-            this.contextMenuStrip.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip_Opening);
+            this.contextMenuStrip.Opening += new System.ComponentModel.CancelEventHandler(this.ContextMenuStrip_Opening);
             // 
             // openMenuItem
             // 
             resources.ApplyResources(this.openMenuItem, "openMenuItem");
             this.openMenuItem.Name = "openMenuItem";
-            this.openMenuItem.Click += new System.EventHandler(this.openMenuItem_Click);
+            this.openMenuItem.Click += new System.EventHandler(this.OpenMenuItem_Click);
             // 
             // copyUrlMenuItem
             // 
             resources.ApplyResources(this.copyUrlMenuItem, "copyUrlMenuItem");
             this.copyUrlMenuItem.Name = "copyUrlMenuItem";
-            this.copyUrlMenuItem.Click += new System.EventHandler(this.copyUrlMenuItem_Click);
+            this.copyUrlMenuItem.Click += new System.EventHandler(this.CopyUrlMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
@@ -91,13 +91,13 @@
             // 
             resources.ApplyResources(this.searchImageGoogleMenuItem, "searchImageGoogleMenuItem");
             this.searchImageGoogleMenuItem.Name = "searchImageGoogleMenuItem";
-            this.searchImageGoogleMenuItem.Click += new System.EventHandler(this.searchSimilarImageMenuItem_Click);
+            this.searchImageGoogleMenuItem.Click += new System.EventHandler(this.SearchSimilarImageMenuItem_Click);
             // 
             // searchImageSauceNaoMenuItem
             // 
             resources.ApplyResources(this.searchImageSauceNaoMenuItem, "searchImageSauceNaoMenuItem");
             this.searchImageSauceNaoMenuItem.Name = "searchImageSauceNaoMenuItem";
-            this.searchImageSauceNaoMenuItem.Click += new System.EventHandler(this.searchImageSauceNaoMenuItem_Click);
+            this.searchImageSauceNaoMenuItem.Click += new System.EventHandler(this.SearchImageSauceNaoMenuItem_Click);
             // 
             // TweetThumbnail
             // 

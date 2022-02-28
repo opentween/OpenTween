@@ -20,6 +20,7 @@
 // Boston, MA 02110-1301, USA.
 
 #nullable enable
+#pragma warning disable SA1649
 
 namespace System.Diagnostics.CodeAnalysis
 {

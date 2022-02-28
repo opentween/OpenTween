@@ -29,8 +29,8 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Drawing;
 using System.Data;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
@@ -76,49 +76,49 @@ namespace OpenTween.Setting.Panel
 
         private void ButtonBackToDefaultFontColor_Click(object sender, EventArgs e)
         {
-            lblUnread.ForeColor = SystemColors.ControlText;
-            lblUnread.Font = new Font(SystemFonts.DefaultFont, FontStyle.Bold | FontStyle.Underline);
+            this.lblUnread.ForeColor = SystemColors.ControlText;
+            this.lblUnread.Font = new Font(SystemFonts.DefaultFont, FontStyle.Bold | FontStyle.Underline);
 
-            lblListFont.ForeColor = System.Drawing.SystemColors.ControlText;
-            lblListFont.Font = System.Drawing.SystemFonts.DefaultFont;
+            this.lblListFont.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.lblListFont.Font = System.Drawing.SystemFonts.DefaultFont;
 
-            lblDetail.ForeColor = Color.FromKnownColor(System.Drawing.KnownColor.ControlText);
-            lblDetail.Font = System.Drawing.SystemFonts.DefaultFont;
-            checkBoxUseTwemoji.Checked = true;
+            this.lblDetail.ForeColor = Color.FromKnownColor(System.Drawing.KnownColor.ControlText);
+            this.lblDetail.Font = System.Drawing.SystemFonts.DefaultFont;
+            this.checkBoxUseTwemoji.Checked = true;
 
-            lblFav.ForeColor = Color.FromKnownColor(System.Drawing.KnownColor.Red);
+            this.lblFav.ForeColor = Color.FromKnownColor(System.Drawing.KnownColor.Red);
 
-            lblOWL.ForeColor = Color.FromKnownColor(System.Drawing.KnownColor.Blue);
+            this.lblOWL.ForeColor = Color.FromKnownColor(System.Drawing.KnownColor.Blue);
 
-            lblDetailBackcolor.BackColor = Color.FromKnownColor(System.Drawing.KnownColor.Window);
+            this.lblDetailBackcolor.BackColor = Color.FromKnownColor(System.Drawing.KnownColor.Window);
 
-            lblDetailLink.ForeColor = Color.FromKnownColor(System.Drawing.KnownColor.Blue);
+            this.lblDetailLink.ForeColor = Color.FromKnownColor(System.Drawing.KnownColor.Blue);
 
-            lblRetweet.ForeColor = Color.FromKnownColor(System.Drawing.KnownColor.Green);
+            this.lblRetweet.ForeColor = Color.FromKnownColor(System.Drawing.KnownColor.Green);
         }
 
-        private void btnListFont_Click(object sender, EventArgs e)
+        private void BtnListFont_Click(object sender, EventArgs e)
             => this.ShowFontDialog(this.lblListFont);
 
-        private void btnUnread_Click(object sender, EventArgs e)
+        private void BtnUnread_Click(object sender, EventArgs e)
             => this.ShowFontDialog(this.lblUnread);
 
-        private void btnFav_Click(object sender, EventArgs e)
+        private void BtnFav_Click(object sender, EventArgs e)
             => this.ShowForeColorDialog(this.lblFav);
 
-        private void btnOWL_Click(object sender, EventArgs e)
+        private void BtnOWL_Click(object sender, EventArgs e)
             => this.ShowForeColorDialog(this.lblOWL);
 
-        private void btnRetweet_Click(object sender, EventArgs e)
+        private void BtnRetweet_Click(object sender, EventArgs e)
             => this.ShowForeColorDialog(this.lblRetweet);
 
-        private void btnDetail_Click(object sender, EventArgs e)
+        private void BtnDetail_Click(object sender, EventArgs e)
             => this.ShowFontDialog(this.lblDetail);
 
-        private void btnDetailLink_Click(object sender, EventArgs e)
+        private void BtnDetailLink_Click(object sender, EventArgs e)
             => this.ShowForeColorDialog(this.lblDetailLink);
 
-        private void btnDetailBack_Click(object sender, EventArgs e)
+        private void BtnDetailBack_Click(object sender, EventArgs e)
             => this.ShowBackColorDialog(this.lblDetailBackcolor);
     }
 }

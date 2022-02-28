@@ -43,14 +43,15 @@ namespace OpenTween.Models
 
         public bool FilterModified { get; set; }
 
-        private readonly List<PostFilterRule> _filters = new List<PostFilterRule>();
+        private readonly List<PostFilterRule> filters = new List<PostFilterRule>();
         private readonly object lockObjFilters = new object();
 
-        public FilterTabModel(string tabName) : base(tabName)
+        public FilterTabModel(string tabName)
+            : base(tabName)
         {
         }
 
-        //フィルタに合致したら追加
+        // フィルタに合致したら追加
         public MyCommon.HITRESULT AddFiltered(PostClass post, bool immediately = false)
         {
             if (this.IsInnerStorageTabType)
@@ -58,14 +59,14 @@ namespace OpenTween.Models
 
             var rslt = MyCommon.HITRESULT.None;
 
-            //全フィルタ評価（優先順位あり）
+            // 全フィルタ評価（優先順位あり）
             lock (this.lockObjFilters)
             {
-                foreach (var ft in _filters)
+                foreach (var ft in this.filters)
                 {
                     try
                     {
-                        switch (ft.ExecFilter(post))   //フィルタクラスでヒット判定
+                        switch (ft.ExecFilter(post)) // フィルタクラスでヒット判定
                         {
                             case MyCommon.HITRESULT.None:
                                 break;
@@ -103,15 +104,14 @@ namespace OpenTween.Models
                     this.AddPostQueue(post);
             }
 
-            return rslt; //マーク付けは呼び出し元で行うこと
+            return rslt; // マーク付けは呼び出し元で行うこと
         }
-
 
         public PostFilterRule[] GetFilters()
         {
             lock (this.lockObjFilters)
             {
-                return _filters.ToArray();
+                return this.filters.ToArray();
             }
         }
 
@@ -119,7 +119,7 @@ namespace OpenTween.Models
         {
             lock (this.lockObjFilters)
             {
-                _filters.Remove(filter);
+                this.filters.Remove(filter);
                 filter.PropertyChanged -= this.OnFilterModified;
                 this.FilterModified = true;
             }
@@ -129,9 +129,9 @@ namespace OpenTween.Models
         {
             lock (this.lockObjFilters)
             {
-                if (_filters.Contains(filter)) return false;
+                if (this.filters.Contains(filter)) return false;
                 filter.PropertyChanged += this.OnFilterModified;
-                _filters.Add(filter);
+                this.filters.Add(filter);
                 this.FilterModified = true;
                 return true;
             }
@@ -146,24 +146,25 @@ namespace OpenTween.Models
             {
                 lock (this.lockObjFilters)
                 {
-                    return _filters.ToArray();
+                    return this.filters.ToArray();
                 }
             }
+
             set
             {
                 lock (this.lockObjFilters)
                 {
-                    foreach (var oldFilter in this._filters)
+                    foreach (var oldFilter in this.filters)
                     {
                         oldFilter.PropertyChanged -= this.OnFilterModified;
                     }
 
-                    this._filters.Clear();
+                    this.filters.Clear();
                     this.FilterModified = true;
 
                     foreach (var newFilter in value)
                     {
-                        _filters.Add(newFilter);
+                        this.filters.Add(newFilter);
                         newFilter.PropertyChanged += this.OnFilterModified;
                     }
                 }

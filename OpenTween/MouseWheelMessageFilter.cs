@@ -78,6 +78,7 @@ namespace OpenTween
         internal class MouseEvent
         {
             public Point ScreenLocation { get; }
+
             public int WheelDelta { get; }
 
             public MouseEvent(Point location, int delta)

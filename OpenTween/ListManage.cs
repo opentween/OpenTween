@@ -6,19 +6,19 @@
 //           (c) 2010-2011 fantasticswallow (@f_swallow) <http://twitter.com/f_swallow>
 //           (c) 2011      kim_upsilon (@kim_upsilon) <https://upsilo.net/~upsilon/>
 // All rights reserved.
-// 
+//
 // This file is part of OpenTween.
-// 
+//
 // This program is free software; you can redistribute it and/or modify it
 // under the terms of the GNU General Public License as published by the Free
 // Software Foundation; either version 3 of the License, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful, but
 // WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
 // or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
-// for more details. 
-// 
+// for more details.
+//
 // You should have received a copy of the GNU General Public License along
 // with this program. If not, see <http://www.gnu.org/licenses/>, or write to
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
@@ -46,7 +46,7 @@ namespace OpenTween
 
         public ListManage(Twitter tw)
         {
-            InitializeComponent();
+            this.InitializeComponent();
 
             this.tw = tw;
         }
@@ -86,7 +86,7 @@ namespace OpenTween
         {
             if (this.ListsList.SelectedItem == null) return;
 
-            var list = (ListElement) this.ListsList.SelectedItem;
+            var list = (ListElement)this.ListsList.SelectedItem;
             this.UsernameTextBox.Text = list.Username;
             this.NameTextBox.Text = list.Name;
             this.PublicRadioButton.Checked = list.IsPublic;
@@ -170,8 +170,10 @@ namespace OpenTween
             this.EditCheckBox.Checked = false;
 
             for (var i = this.ListsList.Items.Count - 1; i >= 0; i--)
+            {
                 if (this.ListsList.Items[i] is NewListElement)
                     this.ListsList.Items.RemoveAt(i);
+            }
 
             this.ListsList_SelectedIndexChanged(this.ListsList, EventArgs.Empty);
         }
@@ -244,10 +246,10 @@ namespace OpenTween
                         return;
                     }
 
-                    var idx = ListsList.SelectedIndex;
+                    var idx = this.ListsList.SelectedIndex;
                     list.Members.Remove(user);
                     this.ListsList_SelectedIndexChanged(this.ListsList, EventArgs.Empty);
-                    if (idx < ListsList.Items.Count) ListsList.SelectedIndex = idx;
+                    if (idx < this.ListsList.Items.Count) this.ListsList.SelectedIndex = idx;
                 }
             }
         }
@@ -299,7 +301,7 @@ namespace OpenTween
 
         private async void UserList_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (UserList.SelectedItem == null)
+            if (this.UserList.SelectedItem == null)
             {
                 this.UserIcon.Image?.Dispose();
                 this.UserIcon.Image = null;
@@ -373,7 +375,9 @@ namespace OpenTween
                     var lists = await this.FetchListsAsync();
                     this.UpdateListsListBox(lists);
                 }
-                catch (OperationCanceledException) { }
+                catch (OperationCanceledException)
+                {
+                }
                 catch (WebApiException ex)
                 {
                     MessageBox.Show(string.Format(Properties.Resources.ListsDeleteFailed, ex.Message));
@@ -417,7 +421,7 @@ namespace OpenTween
             public bool IsCreated { get; private set; } = false;
 
             public NewListElement(Twitter tw)
-                => this._tw = tw;
+                => this.tw = tw;
 
             public override async Task Refresh()
             {
@@ -427,7 +431,7 @@ namespace OpenTween
                 }
                 else
                 {
-                    await this._tw.CreateListApi(this.Name, !this.IsPublic, this.Description)
+                    await this.tw.CreateListApi(this.Name, !this.IsPublic, this.Description)
                         .ConfigureAwait(false);
 
                     this.IsCreated = true;
@@ -436,7 +440,7 @@ namespace OpenTween
 
             public override string ToString()
             {
-                if (IsCreated)
+                if (this.IsCreated)
                     return base.ToString();
                 else
                     return "NewList";

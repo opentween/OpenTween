@@ -7,19 +7,19 @@
 //           (c) 2012      Egtra (@egtra) <http://dev.activebasic.com/egtra/>
 //           (c) 2012      kim_upsilon (@kim_upsilon) <https://upsilo.net/~upsilon/>
 // All rights reserved.
-// 
+//
 // This file is part of OpenTween.
-// 
+//
 // This program is free software; you can redistribute it and/or modify it
 // under the terms of the GNU General public License as published by the Free
 // Software Foundation; either version 3 of the License, or (at your option)
 // any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful, but
 // WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
 // or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General public License
 // for more details.
-// 
+//
 // You should have received a copy of the GNU General public License along
 // with this program. If not, see <http://www.gnu.org/licenses/>, or write to
 // the Free Software Foundation, Inc., 51 Franklin Street - Fifth Floor,
@@ -29,22 +29,22 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Diagnostics;
-using System.Windows.Forms;
+using System.Reflection;
+using System.Security.Principal;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Globalization;
-using System.Reflection;
+using System.Windows.Forms;
 using Microsoft.Win32;
 using OpenTween.Setting;
-using System.Security.Principal;
 
 namespace OpenTween
 {
-    internal class MyApplication
+    internal class ApplicationEvents
     {
         public static readonly CultureInfo[] SupportedUICulture = new[]
         {
@@ -61,7 +61,7 @@ namespace OpenTween
         /// アプリケーションのメイン エントリ ポイントです。
         /// </summary>
         [STAThread]
-        static int Main(string[] args)
+        public static int Main(string[] args)
         {
             WarnIfApiKeyError();
             WarnIfRunAsAdministrator();
@@ -81,10 +81,9 @@ namespace OpenTween
             SettingManager.LoadAll();
 
             InitCulture();
-
             {
                 // 同じ設定ファイルを使用する OpenTween プロセスの二重起動を防止する
-                var pt = MyCommon.settingPath.Replace("\\", "/") + "/" + ApplicationSettings.AssemblyName;
+                var pt = MyCommon.SettingPath.Replace("\\", "/") + "/" + ApplicationSettings.AssemblyName;
                 using var mt = new Mutex(false, pt);
 
                 if (!mt.WaitOne(0, false))
@@ -276,7 +275,9 @@ namespace OpenTween
                 {
                     currentCulture = new CultureInfo(settingCultureStr);
                 }
-                catch (CultureNotFoundException) { }
+                catch (CultureNotFoundException)
+                {
+                }
             }
 
             var preferredCulture = GetPreferredCulture(currentCulture);
@@ -307,12 +308,12 @@ namespace OpenTween
                     return false;
                 }
 
-                MyCommon.settingPath = Path.GetFullPath(configDir);
+                MyCommon.SettingPath = Path.GetFullPath(configDir);
             }
             else
             {
                 // OpenTween.exe と同じディレクトリに設定ファイルを配置する
-                MyCommon.settingPath = Application.StartupPath;
+                MyCommon.SettingPath = Application.StartupPath;
 
                 SettingManager.LoadAll();
 
@@ -333,7 +334,7 @@ namespace OpenTween
                     });
                     Directory.CreateDirectory(roamingDir);
 
-                    MyCommon.settingPath = roamingDir;
+                    MyCommon.SettingPath = roamingDir;
 
                     /*
                      * 書き込みが制限されたディレクトリ内で起動された場合の設定ファイルの扱い
@@ -370,7 +371,7 @@ namespace OpenTween
                         if (startupDirFile.Exists)
                         {
                             // StartupPath に設定ファイルが存在し、Roaming 内のファイルよりも新しい場合のみ警告を表示する
-                            var message = string.Format(Properties.Resources.SettingPath_Relocation, Application.StartupPath, MyCommon.settingPath);
+                            var message = string.Format(Properties.Resources.SettingPath_Relocation, Application.StartupPath, MyCommon.SettingPath);
                             MessageBox.Show(message, ApplicationSettings.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Information);
                         }
 

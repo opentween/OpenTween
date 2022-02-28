@@ -20,36 +20,46 @@
 // Boston, MA 02110-1301, USA.
 
 #nullable enable annotations
-#pragma warning disable SA1649
 
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.Serialization;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace OpenTween.Api.DataModel
 {
-    public interface ITwitterStreamMessage
+    [DataContract]
+    public class TwitterMessageEventList
     {
+        [DataMember(Name = "apps")]
+        public Dictionary<string, App> Apps { get; set; }
+
+        [DataContract]
+        public class App
+        {
+            [DataMember(Name = "id")]
+            public string Id { get; set; }
+
+            [DataMember(Name = "name")]
+            public string Name { get; set; }
+
+            [DataMember(Name = "url")]
+            public string Url { get; set; }
+        }
+
+        [DataMember(Name = "events")]
+        public TwitterMessageEvent[] Events { get; set; }
+
+        [DataMember(Name = "next_cursor", IsRequired = false)]
+        public string? NextCursor { get; set; }
     }
 
-    public class StreamMessageStatus : ITwitterStreamMessage
+    [DataContract]
+    public class TwitterMessageEventSingle
     {
-        public TwitterStatusCompat Status { get; }
-
-        public StreamMessageStatus(TwitterStatusCompat status)
-            => this.Status = status;
-
-        public static StreamMessageStatus ParseJson(string json)
-            => new StreamMessageStatus(TwitterStatusCompat.ParseJson(json));
-    }
-
-    public class StreamMessageKeepAlive : ITwitterStreamMessage
-    {
-    }
-
-    public class StreamMessageUnknown : ITwitterStreamMessage
-    {
-        public string Json { get; }
-
-        public StreamMessageUnknown(string json)
-            => this.Json = json;
+        [DataMember(Name = "event")]
+        public TwitterMessageEvent Event { get; set; }
     }
 }

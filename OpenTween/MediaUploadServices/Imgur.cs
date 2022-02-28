@@ -33,9 +33,9 @@ namespace OpenTween.MediaUploadServices
 {
     public class Imgur : IMediaUploadService
     {
-        private readonly static long MaxFileSize = 10L * 1024 * 1024;
+        private static readonly long MaxFileSize = 10L * 1024 * 1024;
 
-        private readonly static IEnumerable<string> SupportedExtensions = new[]
+        private static readonly IEnumerable<string> SupportedExtensions = new[]
         {
             ".jpg",
             ".jpeg",

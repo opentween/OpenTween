@@ -35,18 +35,24 @@ namespace OpenTween
 {
     public partial class TabsDialog : OTBaseForm
     {
-        private readonly TabInformations TabInfo;
+        private readonly TabInformations tabInfo;
 
-        private bool _MultiSelect = false;
+        private bool multiSelect = false;
+
         public bool MultiSelect
         {
-            get => this._MultiSelect;
-            set { this._MultiSelect = value; this.UpdateTabList(); }
+            get => this.multiSelect;
+            set
+            {
+                this.multiSelect = value;
+                this.UpdateTabList();
+            }
         }
 
         protected internal class TabListItem
         {
             public FilterTabModel? Tab { get; set; }
+
             public string Label { get; set; } = "";
 
             public override string ToString()
@@ -55,10 +61,10 @@ namespace OpenTween
 
         public TabsDialog(TabInformations tabinformation)
         {
-            InitializeComponent();
+            this.InitializeComponent();
 
-            this.TabInfo = tabinformation;
-            UpdateTabList();
+            this.tabInfo = tabinformation;
+            this.UpdateTabList();
         }
 
         protected void UpdateTabList()
@@ -80,7 +86,7 @@ namespace OpenTween
                 });
             }
 
-            var tabs = this.TabInfo.Tabs.Append(this.TabInfo.MuteTab);
+            var tabs = this.tabInfo.Tabs.Append(this.tabInfo.MuteTab);
 
             foreach (var tab in tabs.OfType<FilterTabModel>())
             {
