@@ -830,6 +830,69 @@ namespace OpenTween.Models
             Assert.True(this.tabinfo[200L]!.IsExcludeReply);
         }
 
+        [Fact]
+        public void RefreshOwl_HomeTabTest()
+        {
+            var post = new PostClass
+            {
+                StatusId = 100L,
+                ScreenName = "aaa",
+                UserId = 123L,
+                IsOwl = true,
+            };
+            this.tabinfo.AddPost(post);
+            this.tabinfo.DistributePosts();
+            this.tabinfo.SubmitUpdate();
+
+            var followerIds = new HashSet<long> { 123L };
+            this.tabinfo.RefreshOwl(followerIds);
+
+            Assert.False(post.IsOwl);
+        }
+
+        [Fact]
+        public void RefreshOwl_InnerStoregeTabTest()
+        {
+            var tab = new PublicSearchTabModel("search");
+            this.tabinfo.AddTab(tab);
+
+            var post = new PostClass
+            {
+                StatusId = 100L,
+                ScreenName = "aaa",
+                UserId = 123L,
+                IsOwl = true,
+            };
+            tab.AddPostQueue(post);
+            this.tabinfo.DistributePosts();
+            this.tabinfo.SubmitUpdate();
+
+            var followerIds = new HashSet<long> { 123L };
+            this.tabinfo.RefreshOwl(followerIds);
+
+            Assert.False(post.IsOwl);
+        }
+
+        [Fact]
+        public void RefreshOwl_UnfollowedTest()
+        {
+            var post = new PostClass
+            {
+                StatusId = 100L,
+                ScreenName = "aaa",
+                UserId = 123L,
+                IsOwl = false,
+            };
+            this.tabinfo.AddPost(post);
+            this.tabinfo.DistributePosts();
+            this.tabinfo.SubmitUpdate();
+
+            var followerIds = new HashSet<long> { 456L };
+            this.tabinfo.RefreshOwl(followerIds);
+
+            Assert.True(post.IsOwl);
+        }
+
         private class TestPostFilterRule : PostFilterRule
         {
             public static PostFilterRule Create(Func<PostClass, MyCommon.HITRESULT> filterDelegate)

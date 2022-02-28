@@ -808,9 +808,13 @@ namespace OpenTween.Models
         {
             lock (this.lockObj)
             {
+                var allPosts = this.GetTabsInnerStorageType()
+                    .SelectMany(x => x.Posts.Values)
+                    .Concat(this.Posts.Values);
+
                 if (follower.Count > 0)
                 {
-                    foreach (var post in this.Posts.Values)
+                    foreach (var post in allPosts)
                     {
                         if (post.IsMe)
                         {
@@ -824,7 +828,7 @@ namespace OpenTween.Models
                 }
                 else
                 {
-                    foreach (var post in this.Posts.Values)
+                    foreach (var post in allPosts)
                     {
                         post.IsOwl = false;
                     }
