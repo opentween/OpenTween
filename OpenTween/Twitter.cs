@@ -120,7 +120,7 @@ namespace OpenTween
         /// <summary>
         /// Twitter API のステータスページのURL
         /// </summary>
-        public const string ServiceAvailabilityStatusUrl = "https://status.io.watchmouse.com/7617";
+        public const string ServiceAvailabilityStatusUrl = "https://api.twitterstat.us/";
 
         /// <summary>
         /// ツイートへのパーマリンクURLを判定する正規表現
