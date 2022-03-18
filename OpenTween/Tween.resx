@@ -302,6 +302,10 @@
 	<data name="&gt;&gt;ReplyStripMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
 	<data name="&gt;&gt;RetweetedByContextMenuItem.Name"><value>RetweetedByContextMenuItem</value></data>
 	<data name="&gt;&gt;RetweetedByContextMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;RetweetedByListManageContextMenuItem.Name"><value>RetweetedByListManageContextMenuItem</value></data>
+	<data name="&gt;&gt;RetweetedByListManageContextMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;RetweetedByListManageMenuItem.Name"><value>RetweetedByListManageMenuItem</value></data>
+	<data name="&gt;&gt;RetweetedByListManageMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
 	<data name="&gt;&gt;RetweetedByMenuItem.Name"><value>RetweetedByMenuItem</value></data>
 	<data name="&gt;&gt;RetweetedByMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
 	<data name="&gt;&gt;RetweetedByOpenInBrowserContextMenuItem.Name"><value>RetweetedByOpenInBrowserContextMenuItem</value></data>
@@ -1047,6 +1051,10 @@
 	<data name="ReplyStripMenuItem.Text"><value>@返信(&amp;R)</value></data>
 	<data name="RetweetedByContextMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>224, 22</value></data>
 	<data name="RetweetedByContextMenuItem.Text"><value>%RetweetedBy%</value></data>
+	<data name="RetweetedByListManageContextMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>206, 22</value></data>
+	<data name="RetweetedByListManageContextMenuItem.Text"><value>リスト管理(&amp;L)</value></data>
+	<data name="RetweetedByListManageMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>230, 22</value></data>
+	<data name="RetweetedByListManageMenuItem.Text"><value>リスト管理(&amp;L)</value></data>
 	<data name="RetweetedByMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>244, 22</value></data>
 	<data name="RetweetedByMenuItem.Text"><value>%RetweetedBy%</value></data>
 	<data name="RetweetedByOpenInBrowserContextMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>206, 22</value></data>

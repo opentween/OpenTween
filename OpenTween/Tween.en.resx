@@ -390,6 +390,10 @@
 	<data name="ReplyStripMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>258, 24</value></data>
 	<data name="ReplyStripMenuItem.Text"><value>@ &amp;Reply</value></data>
 	<data name="RetweetedByContextMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>200, 22</value></data>
+	<data name="RetweetedByListManageContextMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>197, 22</value></data>
+	<data name="RetweetedByListManageContextMenuItem.Text"><value>Add/Remove from &amp;Lists</value></data>
+	<data name="RetweetedByListManageMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>255, 22</value></data>
+	<data name="RetweetedByListManageMenuItem.Text"><value>Add/Remove from &amp;Lists</value></data>
 	<data name="RetweetedByMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>259, 22</value></data>
 	<data name="RetweetedByOpenInBrowserContextMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>181, 22</value></data>
 	<data name="RetweetedByOpenInBrowserContextMenuItem.Text"><value>Open in browser (&amp;H)</value></data>

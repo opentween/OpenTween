@@ -113,6 +113,7 @@
             this.RetweetedByMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.RetweetedByShowProfileMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.RetweetedByShowUserTimelineMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.RetweetedByListManageMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.RetweetedByOpenInBrowserMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.OpenOpMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.OpenStatusOpMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -249,6 +250,7 @@
             this.RetweetedByContextMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.RetweetedByShowProfileContextMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.RetweetedByShowUserTimelineContextMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.RetweetedByListManageContextMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.RetweetedByOpenInBrowserContextMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItem6 = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolTip1 = new System.Windows.Forms.ToolTip(this.components);
@@ -1051,6 +1053,7 @@
             this.RetweetedByMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.RetweetedByShowProfileMenuItem,
             this.RetweetedByShowUserTimelineMenuItem,
+            this.RetweetedByListManageMenuItem,
             this.RetweetedByOpenInBrowserMenuItem});
             this.RetweetedByMenuItem.Name = "RetweetedByMenuItem";
             resources.ApplyResources(this.RetweetedByMenuItem, "RetweetedByMenuItem");
@@ -1066,6 +1069,12 @@
             this.RetweetedByShowUserTimelineMenuItem.Name = "RetweetedByShowUserTimelineMenuItem";
             resources.ApplyResources(this.RetweetedByShowUserTimelineMenuItem, "RetweetedByShowUserTimelineMenuItem");
             this.RetweetedByShowUserTimelineMenuItem.Click += new System.EventHandler(this.RetweetedByShowUserTimelineMenuItem_Click);
+            // 
+            // RetweetedByListManageMenuItem
+            // 
+            this.RetweetedByListManageMenuItem.Name = "RetweetedByListManageMenuItem";
+            resources.ApplyResources(this.RetweetedByListManageMenuItem, "RetweetedByListManageMenuItem");
+            this.RetweetedByListManageMenuItem.Click += new System.EventHandler(this.RetweetedByListManageMenuItem_Click);
             // 
             // RetweetedByOpenInBrowserMenuItem
             // 
@@ -1983,6 +1992,7 @@
             this.RetweetedByContextMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.RetweetedByShowProfileContextMenuItem,
             this.RetweetedByShowUserTimelineContextMenuItem,
+            this.RetweetedByListManageContextMenuItem,
             this.RetweetedByOpenInBrowserContextMenuItem});
             this.RetweetedByContextMenuItem.Name = "RetweetedByContextMenuItem";
             resources.ApplyResources(this.RetweetedByContextMenuItem, "RetweetedByContextMenuItem");
@@ -1998,6 +2008,12 @@
             this.RetweetedByShowUserTimelineContextMenuItem.Name = "RetweetedByShowUserTimelineContextMenuItem";
             resources.ApplyResources(this.RetweetedByShowUserTimelineContextMenuItem, "RetweetedByShowUserTimelineContextMenuItem");
             this.RetweetedByShowUserTimelineContextMenuItem.Click += new System.EventHandler(this.RetweetedByShowUserTimelineMenuItem_Click);
+            // 
+            // RetweetedByListManageContextMenuItem
+            // 
+            this.RetweetedByListManageContextMenuItem.Name = "RetweetedByListManageContextMenuItem";
+            resources.ApplyResources(this.RetweetedByListManageContextMenuItem, "RetweetedByListManageContextMenuItem");
+            this.RetweetedByListManageContextMenuItem.Click += new System.EventHandler(this.RetweetedByListManageMenuItem_Click);
             // 
             // RetweetedByOpenInBrowserContextMenuItem
             // 
@@ -2393,6 +2409,7 @@
         private System.Windows.Forms.ToolStripMenuItem RetweetedByMenuItem;
         private System.Windows.Forms.ToolStripMenuItem RetweetedByShowProfileMenuItem;
         private System.Windows.Forms.ToolStripMenuItem RetweetedByShowUserTimelineMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem RetweetedByListManageMenuItem;
         private System.Windows.Forms.ToolStripMenuItem RetweetedByOpenInBrowserMenuItem;
         private System.Windows.Forms.ToolStripMenuItem AuthorContextMenuItem;
         private System.Windows.Forms.ToolStripMenuItem AuthorShowProfileContextMenuItem;
@@ -2402,6 +2419,7 @@
         private System.Windows.Forms.ToolStripMenuItem RetweetedByContextMenuItem;
         private System.Windows.Forms.ToolStripMenuItem RetweetedByShowProfileContextMenuItem;
         private System.Windows.Forms.ToolStripMenuItem RetweetedByShowUserTimelineContextMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem RetweetedByListManageContextMenuItem;
         private System.Windows.Forms.ToolStripMenuItem RetweetedByOpenInBrowserContextMenuItem;
     }
 }

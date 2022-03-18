@@ -10366,6 +10366,13 @@ namespace OpenTween
                 this.ListManageUserContext(screenName);
         }
 
+        private void RetweetedByListManageMenuItem_Click(object sender, EventArgs e)
+        {
+            var screenName = this.CurrentPost?.RetweetedBy;
+            if (screenName != null)
+                this.ListManageUserContext(screenName);
+        }
+
         public void ListManageUserContext(string screenName)
         {
             using var listSelectForm = new MyLists(screenName, this.twitterApi);
