@@ -2920,7 +2920,7 @@ namespace OpenTween
                     this.ShowRelatedStatusesMenuItem_Click(this.ShowRelatedStatusesMenuItem, EventArgs.Empty);
                     break;
                 case 5:
-                    this.MoveToHomeToolStripMenuItem_Click(this.MoveToHomeToolStripMenuItem, EventArgs.Empty);
+                    this.AuthorOpenInBrowserMenuItem_Click(this.AuthorOpenInBrowserContextMenuItem, EventArgs.Empty);
                     break;
                 case 6:
                     this.StatusOpenMenuItem_Click(this.StatusOpenMenuItem, EventArgs.Empty);
@@ -3015,7 +3015,7 @@ namespace OpenTween
             return this.CurrentTab[index];
         }
 
-        private async void MoveToHomeToolStripMenuItem_Click(object sender, EventArgs e)
+        private async void AuthorOpenInBrowserMenuItem_Click(object sender, EventArgs e)
         {
             var post = this.CurrentPost;
             if (post != null)
@@ -3024,7 +3024,7 @@ namespace OpenTween
                 await MyCommon.OpenInBrowserAsync(this, MyCommon.TwitterUrl);
         }
 
-        private async void MoveToFavToolStripMenuItem_Click(object sender, EventArgs e)
+        private async void AuthorOpenFavoritesMenuItem_Click(object sender, EventArgs e)
         {
             var post = this.CurrentPost;
             if (post != null)
@@ -3167,38 +3167,36 @@ namespace OpenTween
 
         private void ContextMenuOperate_Opening(object sender, CancelEventArgs e)
         {
+            var post = this.CurrentPost;
             if (!this.ExistCurrentPost)
             {
                 this.ReplyStripMenuItem.Enabled = false;
                 this.ReplyAllStripMenuItem.Enabled = false;
                 this.DMStripMenuItem.Enabled = false;
-                this.ShowProfileMenuItem.Enabled = false;
-                this.ShowUserTimelineContextMenuItem.Enabled = false;
-                this.ListManageUserContextToolStripMenuItem2.Enabled = false;
-                this.MoveToFavToolStripMenuItem.Enabled = false;
                 this.TabMenuItem.Enabled = false;
                 this.IDRuleMenuItem.Enabled = false;
                 this.SourceRuleMenuItem.Enabled = false;
                 this.ReadedStripMenuItem.Enabled = false;
                 this.UnreadStripMenuItem.Enabled = false;
+                this.AuthorContextMenuItem.Visible = false;
+                this.RetweetedByContextMenuItem.Visible = false;
             }
             else
             {
-                this.ShowProfileMenuItem.Enabled = true;
-                this.ListManageUserContextToolStripMenuItem2.Enabled = true;
                 this.ReplyStripMenuItem.Enabled = true;
                 this.ReplyAllStripMenuItem.Enabled = true;
                 this.DMStripMenuItem.Enabled = true;
-                this.ShowUserTimelineContextMenuItem.Enabled = true;
-                this.MoveToFavToolStripMenuItem.Enabled = true;
                 this.TabMenuItem.Enabled = true;
                 this.IDRuleMenuItem.Enabled = true;
                 this.SourceRuleMenuItem.Enabled = true;
                 this.ReadedStripMenuItem.Enabled = true;
                 this.UnreadStripMenuItem.Enabled = true;
+                this.AuthorContextMenuItem.Visible = true;
+                this.AuthorContextMenuItem.Text = $"@{post!.ScreenName}";
+                this.RetweetedByContextMenuItem.Visible = post.RetweetedByUserId != null;
+                this.RetweetedByContextMenuItem.Text = $"@{post.RetweetedBy}";
             }
             var tab = this.CurrentTab;
-            var post = this.CurrentPost;
             if (tab.TabType == MyCommon.TabUsageType.DirectMessage || !this.ExistCurrentPost || post == null || post.IsDm)
             {
                 this.FavAddToolStripMenuItem.Enabled = false;
@@ -3244,14 +3242,6 @@ namespace OpenTween
             else
             {
                 this.RepliedStatusOpenMenuItem.Enabled = true;
-            }
-            if (!this.ExistCurrentPost || post == null || MyCommon.IsNullOrEmpty(post.RetweetedBy))
-            {
-                this.MoveToRTHomeMenuItem.Enabled = false;
-            }
-            else
-            {
-                this.MoveToRTHomeMenuItem.Enabled = true;
             }
 
             if (this.ExistCurrentPost && post != null)
@@ -5832,10 +5822,10 @@ namespace OpenTween
                     .Do(() => this.ShowUserTimeline()),
 
                 ShortcutCommand.Create(Keys.Control | Keys.H)
-                    .Do(() => this.MoveToHomeToolStripMenuItem_Click(this.MoveToHomeToolStripMenuItem, EventArgs.Empty)),
+                    .Do(() => this.AuthorOpenInBrowserMenuItem_Click(this.AuthorOpenInBrowserContextMenuItem, EventArgs.Empty)),
 
                 ShortcutCommand.Create(Keys.Control | Keys.G)
-                    .Do(() => this.MoveToFavToolStripMenuItem_Click(this.MoveToFavToolStripMenuItem, EventArgs.Empty)),
+                    .Do(() => this.AuthorOpenFavoritesMenuItem_Click(this.AuthorOpenFavoritesContextMenuItem, EventArgs.Empty)),
 
                 ShortcutCommand.Create(Keys.Control | Keys.O)
                     .Do(() => this.StatusOpenMenuItem_Click(this.StatusOpenMenuItem, EventArgs.Empty)),
@@ -10376,10 +10366,10 @@ namespace OpenTween
                 await MyCommon.OpenInBrowserAsync(this, "https://twitter.com/" + post.RetweetedBy);
         }
 
-        private async void MoveToRTHomeMenuItem_Click(object sender, EventArgs e)
+        private async void RetweetedByOpenInBrowserMenuItem_Click(object sender, EventArgs e)
             => await this.DoMoveToRTHome();
 
-        private void ListManageUserContextToolStripMenuItem_Click(object sender, EventArgs e)
+        private void AuthorListManageMenuItem_Click(object sender, EventArgs e)
         {
             var screenName = this.CurrentPost?.ScreenName;
             if (screenName != null)
@@ -10491,35 +10481,28 @@ namespace OpenTween
                 this.ReplyOpMenuItem.Enabled = false;
                 this.ReplyAllOpMenuItem.Enabled = false;
                 this.DmOpMenuItem.Enabled = false;
-                this.ShowProfMenuItem.Enabled = false;
-                this.ShowUserTimelineToolStripMenuItem.Enabled = false;
-                this.ShowRetweeterProfMenuItem.Enabled = false;
-                this.ShowRetweeterUserTimelineToolStripMenuItem.Enabled = false;
-                this.ListManageMenuItem.Enabled = false;
-                this.OpenFavOpMenuItem.Enabled = false;
                 this.CreateTabRuleOpMenuItem.Enabled = false;
                 this.CreateIdRuleOpMenuItem.Enabled = false;
                 this.CreateSourceRuleOpMenuItem.Enabled = false;
                 this.ReadOpMenuItem.Enabled = false;
                 this.UnreadOpMenuItem.Enabled = false;
+                this.AuthorMenuItem.Visible = false;
+                this.RetweetedByMenuItem.Visible = false;
             }
             else
             {
                 this.ReplyOpMenuItem.Enabled = true;
                 this.ReplyAllOpMenuItem.Enabled = true;
                 this.DmOpMenuItem.Enabled = true;
-                this.ShowProfMenuItem.Enabled = true;
-                this.ShowUserTimelineToolStripMenuItem.Enabled = true;
-                this.ShowRetweeterProfMenuItem.Enabled
-                    = this.ShowRetweeterUserTimelineToolStripMenuItem.Enabled
-                    = post?.RetweetedByUserId != null;
-                this.ListManageMenuItem.Enabled = true;
-                this.OpenFavOpMenuItem.Enabled = true;
                 this.CreateTabRuleOpMenuItem.Enabled = true;
                 this.CreateIdRuleOpMenuItem.Enabled = true;
                 this.CreateSourceRuleOpMenuItem.Enabled = true;
                 this.ReadOpMenuItem.Enabled = true;
                 this.UnreadOpMenuItem.Enabled = true;
+                this.AuthorMenuItem.Visible = true;
+                this.AuthorMenuItem.Text = $"@{post!.ScreenName}";
+                this.RetweetedByMenuItem.Visible = post.RetweetedByUserId != null;
+                this.RetweetedByMenuItem.Text = $"@{post.RetweetedBy}";
             }
 
             if (tab.TabType == MyCommon.TabUsageType.DirectMessage || !this.ExistCurrentPost || post == null || post.IsDm)
@@ -10574,14 +10557,6 @@ namespace OpenTween
             else
             {
                 this.OpenRepSourceOpMenuItem.Enabled = true;
-            }
-            if (!this.ExistCurrentPost || post == null || MyCommon.IsNullOrEmpty(post.RetweetedBy))
-            {
-                this.OpenRterHomeMenuItem.Enabled = false;
-            }
-            else
-            {
-                this.OpenRterHomeMenuItem.Enabled = true;
             }
 
             if (this.ExistCurrentPost && post != null)
@@ -10722,7 +10697,7 @@ namespace OpenTween
         internal Task ShowUserStatus(string id)
             => this.DoShowUserStatus(id, true);
 
-        private async void ShowProfileMenuItem_Click(object sender, EventArgs e)
+        private async void AuthorShowProfileMenuItem_Click(object sender, EventArgs e)
         {
             var post = this.CurrentPost;
             if (post != null)
@@ -10731,7 +10706,7 @@ namespace OpenTween
             }
         }
 
-        private async void ShowRetweeterProfileMenuItem_Click(object sender, EventArgs e)
+        private async void RetweetedByShowProfileMenuItem_Click(object sender, EventArgs e)
         {
             var retweetedBy = this.CurrentPost?.RetweetedBy;
             if (retweetedBy != null)
@@ -11080,10 +11055,10 @@ namespace OpenTween
             }
         }
 
-        private async void ShowUserTimelineToolStripMenuItem_Click(object sender, EventArgs e)
+        private async void AuthorShowUserTimelineMenuItem_Click(object sender, EventArgs e)
             => await this.ShowUserTimeline();
 
-        private async void ShowRetweeterUserTimelineToolStripMenuItem_Click(object sender, EventArgs e)
+        private async void RetweetedByShowUserTimelineMenuItem_Click(object sender, EventArgs e)
             => await this.ShowRetweeterTimeline();
 
         private string GetUserIdFromCurPostOrInput(string caption)

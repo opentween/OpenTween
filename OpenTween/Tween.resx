@@ -22,6 +22,30 @@
 	<data name="&gt;&gt;AddTabMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
 	<data name="&gt;&gt;ApiUsageInfoMenuItem.Name"><value>ApiUsageInfoMenuItem</value></data>
 	<data name="&gt;&gt;ApiUsageInfoMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;AuthorContextMenuItem.Name"><value>AuthorContextMenuItem</value></data>
+	<data name="&gt;&gt;AuthorContextMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;AuthorListManageContextMenuItem.Name"><value>AuthorListManageContextMenuItem</value></data>
+	<data name="&gt;&gt;AuthorListManageContextMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;AuthorListManageMenuItem.Name"><value>AuthorListManageMenuItem</value></data>
+	<data name="&gt;&gt;AuthorListManageMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;AuthorMenuItem.Name"><value>AuthorMenuItem</value></data>
+	<data name="&gt;&gt;AuthorMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;AuthorOpenFavoritesContextMenuItem.Name"><value>AuthorOpenFavoritesContextMenuItem</value></data>
+	<data name="&gt;&gt;AuthorOpenFavoritesContextMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;AuthorOpenFavoritesMenuItem.Name"><value>AuthorOpenFavoritesMenuItem</value></data>
+	<data name="&gt;&gt;AuthorOpenFavoritesMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;AuthorOpenInBrowserContextMenuItem.Name"><value>AuthorOpenInBrowserContextMenuItem</value></data>
+	<data name="&gt;&gt;AuthorOpenInBrowserContextMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;AuthorOpenInBrowserMenuItem.Name"><value>AuthorOpenInBrowserMenuItem</value></data>
+	<data name="&gt;&gt;AuthorOpenInBrowserMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;AuthorShowProfileContextMenuItem.Name"><value>AuthorShowProfileContextMenuItem</value></data>
+	<data name="&gt;&gt;AuthorShowProfileContextMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;AuthorShowProfileMenuItem.Name"><value>AuthorShowProfileMenuItem</value></data>
+	<data name="&gt;&gt;AuthorShowProfileMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;AuthorShowUserTimelineContextMenuItem.Name"><value>AuthorShowUserTimelineContextMenuItem</value></data>
+	<data name="&gt;&gt;AuthorShowUserTimelineContextMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;AuthorShowUserTimelineMenuItem.Name"><value>AuthorShowUserTimelineMenuItem</value></data>
+	<data name="&gt;&gt;AuthorShowUserTimelineMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
 	<data name="&gt;&gt;BitlyToolStripMenuItem.Name"><value>BitlyToolStripMenuItem</value></data>
 	<data name="&gt;&gt;BitlyToolStripMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
 	<data name="&gt;&gt;CacheInfoMenuItem.Name"><value>CacheInfoMenuItem</value></data>
@@ -154,12 +178,8 @@
 	<data name="&gt;&gt;lblLen.ZOrder"><value>2</value></data>
 	<data name="&gt;&gt;ListLockMenuItem.Name"><value>ListLockMenuItem</value></data>
 	<data name="&gt;&gt;ListLockMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
-	<data name="&gt;&gt;ListManageMenuItem.Name"><value>ListManageMenuItem</value></data>
-	<data name="&gt;&gt;ListManageMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
 	<data name="&gt;&gt;ListManageToolStripMenuItem.Name"><value>ListManageToolStripMenuItem</value></data>
 	<data name="&gt;&gt;ListManageToolStripMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
-	<data name="&gt;&gt;ListManageUserContextToolStripMenuItem2.Name"><value>ListManageUserContextToolStripMenuItem2</value></data>
-	<data name="&gt;&gt;ListManageUserContextToolStripMenuItem2.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
 	<data name="&gt;&gt;ListTab.Name"><value>ListTab</value></data>
 	<data name="&gt;&gt;ListTab.Parent"><value>TimelinePanel</value></data>
 	<data name="&gt;&gt;ListTab.Type"><value>System.Windows.Forms.TabControl, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
@@ -192,12 +212,6 @@
 	<data name="&gt;&gt;MenuStrip1.Parent"><value>ToolStripContainer1.TopToolStripPanel</value></data>
 	<data name="&gt;&gt;MenuStrip1.Type"><value>System.Windows.Forms.MenuStrip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
 	<data name="&gt;&gt;MenuStrip1.ZOrder"><value>0</value></data>
-	<data name="&gt;&gt;MoveToFavToolStripMenuItem.Name"><value>MoveToFavToolStripMenuItem</value></data>
-	<data name="&gt;&gt;MoveToFavToolStripMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
-	<data name="&gt;&gt;MoveToHomeToolStripMenuItem.Name"><value>MoveToHomeToolStripMenuItem</value></data>
-	<data name="&gt;&gt;MoveToHomeToolStripMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
-	<data name="&gt;&gt;MoveToRTHomeMenuItem.Name"><value>MoveToRTHomeMenuItem</value></data>
-	<data name="&gt;&gt;MoveToRTHomeMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
 	<data name="&gt;&gt;MultiLineMenuItem.Name"><value>MultiLineMenuItem</value></data>
 	<data name="&gt;&gt;MultiLineMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
 	<data name="&gt;&gt;MultiLinePullDownMenuItem.Name"><value>MultiLinePullDownMenuItem</value></data>
@@ -212,20 +226,14 @@
 	<data name="&gt;&gt;NotifyIcon1.Type"><value>System.Windows.Forms.NotifyIcon, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
 	<data name="&gt;&gt;NotifyTbMenuItem.Name"><value>NotifyTbMenuItem</value></data>
 	<data name="&gt;&gt;NotifyTbMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
-	<data name="&gt;&gt;OpenFavOpMenuItem.Name"><value>OpenFavOpMenuItem</value></data>
-	<data name="&gt;&gt;OpenFavOpMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
 	<data name="&gt;&gt;OpenFileDialog1.Name"><value>OpenFileDialog1</value></data>
 	<data name="&gt;&gt;OpenFileDialog1.Type"><value>System.Windows.Forms.OpenFileDialog, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
-	<data name="&gt;&gt;OpenHomeOpMenuItem.Name"><value>OpenHomeOpMenuItem</value></data>
-	<data name="&gt;&gt;OpenHomeOpMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
 	<data name="&gt;&gt;OpenOpMenuItem.Name"><value>OpenOpMenuItem</value></data>
 	<data name="&gt;&gt;OpenOpMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
 	<data name="&gt;&gt;OpenOwnHomeMenuItem.Name"><value>OpenOwnHomeMenuItem</value></data>
 	<data name="&gt;&gt;OpenOwnHomeMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
 	<data name="&gt;&gt;OpenRepSourceOpMenuItem.Name"><value>OpenRepSourceOpMenuItem</value></data>
 	<data name="&gt;&gt;OpenRepSourceOpMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
-	<data name="&gt;&gt;OpenRterHomeMenuItem.Name"><value>OpenRterHomeMenuItem</value></data>
-	<data name="&gt;&gt;OpenRterHomeMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
 	<data name="&gt;&gt;OpenStatusOpMenuItem.Name"><value>OpenStatusOpMenuItem</value></data>
 	<data name="&gt;&gt;OpenStatusOpMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
 	<data name="&gt;&gt;OpenURLFileMenuItem.Name"><value>OpenURLFileMenuItem</value></data>
@@ -296,6 +304,22 @@
 	<data name="&gt;&gt;ReplyOpMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
 	<data name="&gt;&gt;ReplyStripMenuItem.Name"><value>ReplyStripMenuItem</value></data>
 	<data name="&gt;&gt;ReplyStripMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;RetweetedByContextMenuItem.Name"><value>RetweetedByContextMenuItem</value></data>
+	<data name="&gt;&gt;RetweetedByContextMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;RetweetedByMenuItem.Name"><value>RetweetedByMenuItem</value></data>
+	<data name="&gt;&gt;RetweetedByMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;RetweetedByOpenInBrowserContextMenuItem.Name"><value>RetweetedByOpenInBrowserContextMenuItem</value></data>
+	<data name="&gt;&gt;RetweetedByOpenInBrowserContextMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;RetweetedByOpenInBrowserMenuItem.Name"><value>RetweetedByOpenInBrowserMenuItem</value></data>
+	<data name="&gt;&gt;RetweetedByOpenInBrowserMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;RetweetedByShowProfileContextMenuItem.Name"><value>RetweetedByShowProfileContextMenuItem</value></data>
+	<data name="&gt;&gt;RetweetedByShowProfileContextMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;RetweetedByShowProfileMenuItem.Name"><value>RetweetedByShowProfileMenuItem</value></data>
+	<data name="&gt;&gt;RetweetedByShowProfileMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;RetweetedByShowUserTimelineContextMenuItem.Name"><value>RetweetedByShowUserTimelineContextMenuItem</value></data>
+	<data name="&gt;&gt;RetweetedByShowUserTimelineContextMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
+	<data name="&gt;&gt;RetweetedByShowUserTimelineMenuItem.Name"><value>RetweetedByShowUserTimelineMenuItem</value></data>
+	<data name="&gt;&gt;RetweetedByShowUserTimelineMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
 	<data name="&gt;&gt;ReTweetStripMenuItem.Name"><value>ReTweetStripMenuItem</value></data>
 	<data name="&gt;&gt;ReTweetStripMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
 	<data name="&gt;&gt;ReTweetUnofficialStripMenuItem.Name"><value>ReTweetUnofficialStripMenuItem</value></data>
@@ -322,26 +346,10 @@
 	<data name="&gt;&gt;SettingStripMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
 	<data name="&gt;&gt;ShortcutKeyListMenuItem.Name"><value>ShortcutKeyListMenuItem</value></data>
 	<data name="&gt;&gt;ShortcutKeyListMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
-	<data name="&gt;&gt;ShowProfileMenuItem.Name"><value>ShowProfileMenuItem</value></data>
-	<data name="&gt;&gt;ShowProfileMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
-	<data name="&gt;&gt;ShowProfMenuItem.Name"><value>ShowProfMenuItem</value></data>
-	<data name="&gt;&gt;ShowProfMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
 	<data name="&gt;&gt;ShowRelatedStatusesMenuItem.Name"><value>ShowRelatedStatusesMenuItem</value></data>
 	<data name="&gt;&gt;ShowRelatedStatusesMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
 	<data name="&gt;&gt;ShowRelatedStatusesMenuItem2.Name"><value>ShowRelatedStatusesMenuItem2</value></data>
 	<data name="&gt;&gt;ShowRelatedStatusesMenuItem2.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
-	<data name="&gt;&gt;ShowRetweeterProfileMenuItem.Name"><value>ShowProfileMenuItem</value></data>
-	<data name="&gt;&gt;ShowRetweeterProfileMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
-	<data name="&gt;&gt;ShowRetweeterProfMenuItem.Name"><value>ShowProfMenuItem</value></data>
-	<data name="&gt;&gt;ShowRetweeterProfMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
-	<data name="&gt;&gt;ShowRetweeterUserTimelineContextMenuItem.Name"><value>ShowUserTimelineContextMenuItem</value></data>
-	<data name="&gt;&gt;ShowRetweeterUserTimelineContextMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
-	<data name="&gt;&gt;ShowRetweeterUserTimelineToolStripMenuItem.Name"><value>ShowUserTimelineToolStripMenuItem</value></data>
-	<data name="&gt;&gt;ShowRetweeterUserTimelineToolStripMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
-	<data name="&gt;&gt;ShowUserTimelineContextMenuItem.Name"><value>ShowUserTimelineContextMenuItem</value></data>
-	<data name="&gt;&gt;ShowUserTimelineContextMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
-	<data name="&gt;&gt;ShowUserTimelineToolStripMenuItem.Name"><value>ShowUserTimelineToolStripMenuItem</value></data>
-	<data name="&gt;&gt;ShowUserTimelineToolStripMenuItem.Type"><value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
 	<data name="&gt;&gt;SoundFileComboBox.Name"><value>SoundFileComboBox</value></data>
 	<data name="&gt;&gt;SoundFileComboBox.Type"><value>System.Windows.Forms.ToolStripComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></data>
 	<data name="&gt;&gt;SoundFileTbComboBox.Name"><value>SoundFileTbComboBox</value></data>
@@ -586,6 +594,35 @@
 	<data name="AddTabMenuItem.Text"><value>タブ作成(&amp;N)...</value></data>
 	<data name="ApiUsageInfoMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>251, 22</value></data>
 	<data name="ApiUsageInfoMenuItem.Text"><value>Twitter API 使用情報</value></data>
+	<data name="AuthorContextMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>224, 22</value></data>
+	<data name="AuthorContextMenuItem.Text"><value>%Author%</value></data>
+	<data name="AuthorListManageContextMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>206, 22</value></data>
+	<data name="AuthorListManageContextMenuItem.Text"><value>リスト管理(&amp;L)</value></data>
+	<data name="AuthorListManageMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>247, 22</value></data>
+	<data name="AuthorListManageMenuItem.Text"><value>リスト管理(&amp;L)</value></data>
+	<data name="AuthorMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>244, 22</value></data>
+	<data name="AuthorMenuItem.Text"><value>%Author%</value></data>
+	<data name="AuthorOpenFavoritesContextMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>206, 22</value></data>
+	<data name="AuthorOpenFavoritesContextMenuItem.Text"><value>Favを開く(&amp;G)</value></data>
+	<data name="AuthorOpenFavoritesMenuItem.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms"><value>Ctrl+G</value></data>
+	<data name="AuthorOpenFavoritesMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>247, 22</value></data>
+	<data name="AuthorOpenFavoritesMenuItem.Text"><value>Favを開く(&amp;G)</value></data>
+	<data name="AuthorOpenInBrowserContextMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>206, 22</value></data>
+	<data name="AuthorOpenInBrowserContextMenuItem.Text"><value>ブラウザで開く(&amp;H)</value></data>
+	<data name="AuthorOpenInBrowserMenuItem.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms"><value>Ctrl+H</value></data>
+	<data name="AuthorOpenInBrowserMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>247, 22</value></data>
+	<data name="AuthorOpenInBrowserMenuItem.Text"><value>ブラウザで開く(&amp;H)</value></data>
+	<data name="AuthorShowProfileContextMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>206, 22</value></data>
+	<data name="AuthorShowProfileContextMenuItem.Text"><value>プロフィール表示</value></data>
+	<data name="AuthorShowProfileMenuItem.ShortcutKeyDisplayString"><value /></data>
+	<data name="AuthorShowProfileMenuItem.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms"><value>Alt+P</value></data>
+	<data name="AuthorShowProfileMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>247, 22</value></data>
+	<data name="AuthorShowProfileMenuItem.Text"><value>プロフィール表示</value></data>
+	<data name="AuthorShowUserTimelineContextMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>206, 22</value></data>
+	<data name="AuthorShowUserTimelineContextMenuItem.Text"><value>ユーザーのタイムラインを表示</value></data>
+	<data name="AuthorShowUserTimelineMenuItem.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms"><value>Ctrl+U</value></data>
+	<data name="AuthorShowUserTimelineMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>247, 22</value></data>
+	<data name="AuthorShowUserTimelineMenuItem.Text"><value>ユーザーのタイムラインを表示</value></data>
 	<data name="BitlyToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>228, 22</value></data>
 	<data name="BitlyToolStripMenuItem.Text"><value>bit.ly</value></data>
 	<data name="CacheInfoMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>200, 22</value></data>
@@ -736,12 +773,8 @@
 	<data name="lblLen.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing"><value>MiddleCenter</value></data>
 	<data name="ListLockMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>175, 22</value></data>
 	<data name="ListLockMenuItem.Text"><value>新着時リスト固定(&amp;L)</value></data>
-	<data name="ListManageMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>313, 22</value></data>
-	<data name="ListManageMenuItem.Text"><value>リスト管理(&amp;L)</value></data>
 	<data name="ListManageToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>257, 22</value></data>
 	<data name="ListManageToolStripMenuItem.Text"><value>リスト編集</value></data>
-	<data name="ListManageUserContextToolStripMenuItem2.Size" type="System.Drawing.Size, System.Drawing"><value>241, 22</value></data>
-	<data name="ListManageUserContextToolStripMenuItem2.Text"><value>リスト管理(&amp;L)</value></data>
 	<data name="ListTab.Alignment" type="System.Windows.Forms.TabAlignment, System.Windows.Forms"><value>Bottom</value></data>
 	<data name="ListTab.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms"><value>Fill</value></data>
 	<data name="ListTab.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms"><value>Disable</value></data>
@@ -783,12 +816,6 @@
 	<data name="MenuStrip1.TabIndex" type="System.Int32, mscorlib"><value>0</value></data>
 	<data name="MenuStrip1.Text"><value>MenuStrip1</value></data>
 	<metadata name="MenuStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"><value>531, 17</value></metadata>
-	<data name="MoveToFavToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>205, 22</value></data>
-	<data name="MoveToFavToolStripMenuItem.Text"><value>Favを開く(&amp;G)</value></data>
-	<data name="MoveToHomeToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>205, 22</value></data>
-	<data name="MoveToHomeToolStripMenuItem.Text"><value>ホームを開く(&amp;H)</value></data>
-	<data name="MoveToRTHomeMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>205, 22</value></data>
-	<data name="MoveToRTHomeMenuItem.Text"><value>RTした人のホームを開く(&amp;R)</value></data>
 	<data name="MultiLineMenuItem.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms"><value>Ctrl+Y</value></data>
 	<data name="MultiLineMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>246, 22</value></data>
 	<data name="MultiLineMenuItem.Text"><value>発言欄複数行入力(&amp;M)</value></data>
@@ -805,13 +832,7 @@
 	<metadata name="NotifyIcon1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"><value>395, 55</value></metadata>
 	<data name="NotifyTbMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>199, 22</value></data>
 	<data name="NotifyTbMenuItem.Text"><value>新着通知表示(&amp;Q)</value></data>
-	<data name="OpenFavOpMenuItem.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms"><value>Ctrl+G</value></data>
-	<data name="OpenFavOpMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>289, 22</value></data>
-	<data name="OpenFavOpMenuItem.Text"><value>Favを開く(&amp;G)</value></data>
 	<metadata name="OpenFileDialog1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"><value>681, 93</value></metadata>
-	<data name="OpenHomeOpMenuItem.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms"><value>Ctrl+H</value></data>
-	<data name="OpenHomeOpMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>289, 22</value></data>
-	<data name="OpenHomeOpMenuItem.Text"><value>ホームを開く(&amp;H)</value></data>
 	<data name="OpenOpMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>313, 22</value></data>
 	<data name="OpenOpMenuItem.Text"><value>開く(&amp;O)</value></data>
 	<data name="OpenOwnHomeMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>257, 22</value></data>
@@ -819,9 +840,6 @@
 	<data name="OpenRepSourceOpMenuItem.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms"><value>Ctrl+I</value></data>
 	<data name="OpenRepSourceOpMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>289, 22</value></data>
 	<data name="OpenRepSourceOpMenuItem.Text"><value>返信元ステータスを開く(&amp;I)</value></data>
-	<data name="OpenRterHomeMenuItem.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms"><value>Ctrl+Shift+H</value></data>
-	<data name="OpenRterHomeMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>289, 22</value></data>
-	<data name="OpenRterHomeMenuItem.Text"><value>RTした人のホームを開く(&amp;R)</value></data>
 	<data name="OpenStatusOpMenuItem.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms"><value>Ctrl+O</value></data>
 	<data name="OpenStatusOpMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>289, 22</value></data>
 	<data name="OpenStatusOpMenuItem.Text"><value>ステータスを開く(&amp;O)</value></data>
@@ -1036,6 +1054,23 @@
 	<data name="ReplyOpMenuItem.Text"><value>＠返信(&amp;R)</value></data>
 	<data name="ReplyStripMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>241, 22</value></data>
 	<data name="ReplyStripMenuItem.Text"><value>@返信(&amp;R)</value></data>
+	<data name="RetweetedByContextMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>224, 22</value></data>
+	<data name="RetweetedByContextMenuItem.Text"><value>%RetweetedBy%</value></data>
+	<data name="RetweetedByMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>244, 22</value></data>
+	<data name="RetweetedByMenuItem.Text"><value>%RetweetedBy%</value></data>
+	<data name="RetweetedByOpenInBrowserContextMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>206, 22</value></data>
+	<data name="RetweetedByOpenInBrowserContextMenuItem.Text"><value>ブラウザで開く(&amp;H)</value></data>
+	<data name="RetweetedByOpenInBrowserMenuItem.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms"><value>Ctrl+Shift+H</value></data>
+	<data name="RetweetedByOpenInBrowserMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>230, 22</value></data>
+	<data name="RetweetedByOpenInBrowserMenuItem.Text"><value>ブラウザで開く(&amp;H)</value></data>
+	<data name="RetweetedByShowProfileContextMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>206, 22</value></data>
+	<data name="RetweetedByShowProfileContextMenuItem.Text"><value>プロフィール表示</value></data>
+	<data name="RetweetedByShowProfileMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>230, 22</value></data>
+	<data name="RetweetedByShowProfileMenuItem.Text"><value>プロフィール表示</value></data>
+	<data name="RetweetedByShowUserTimelineContextMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>206, 22</value></data>
+	<data name="RetweetedByShowUserTimelineContextMenuItem.Text"><value>ユーザーのタイムラインを表示</value></data>
+	<data name="RetweetedByShowUserTimelineMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>230, 22</value></data>
+	<data name="RetweetedByShowUserTimelineMenuItem.Text"><value>ユーザーのタイムラインを表示</value></data>
 	<data name="ReTweetStripMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>241, 22</value></data>
 	<data name="ReTweetStripMenuItem.Text"><value>Re&amp;tweet</value></data>
 	<data name="ReTweetUnofficialStripMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>241, 22</value></data>
@@ -1064,29 +1099,10 @@
 	<data name="SettingStripMenuItem.Text"><value>設定(&amp;O)...</value></data>
 	<data name="ShortcutKeyListMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>251, 22</value></data>
 	<data name="ShortcutKeyListMenuItem.Text"><value>ショートカットキー一覧</value></data>
-	<data name="ShowProfileMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>241, 22</value></data>
-	<data name="ShowProfileMenuItem.Text"><value>プロフィール表示</value></data>
-	<data name="ShowProfMenuItem.ShortcutKeyDisplayString"><value /></data>
-	<data name="ShowProfMenuItem.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms"><value>Alt+P</value></data>
-	<data name="ShowProfMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>313, 22</value></data>
-	<data name="ShowProfMenuItem.Text"><value>プロフィール表示</value></data>
 	<data name="ShowRelatedStatusesMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>241, 22</value></data>
 	<data name="ShowRelatedStatusesMenuItem.Text"><value>関連発言表示(&amp;G)</value></data>
 	<data name="ShowRelatedStatusesMenuItem2.Size" type="System.Drawing.Size, System.Drawing"><value>313, 22</value></data>
 	<data name="ShowRelatedStatusesMenuItem2.Text"><value>関連発言表示(&amp;G)</value></data>
-	<data name="ShowRetweeterProfileMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>258, 24</value></data>
-	<data name="ShowRetweeterProfileMenuItem.Text"><value>RT元のプロフィール表示</value></data>
-	<data name="ShowRetweeterProfMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>347, 24</value></data>
-	<data name="ShowRetweeterProfMenuItem.Text"><value>RT元のプロフィール表示</value></data>
-	<data name="ShowRetweeterUserTimelineContextMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>258, 24</value></data>
-	<data name="ShowRetweeterUserTimelineContextMenuItem.Text"><value>RT元ユーザーのタイムラインを表示</value></data>
-	<data name="ShowRetweeterUserTimelineToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>347, 24</value></data>
-	<data name="ShowRetweeterUserTimelineToolStripMenuItem.Text"><value>RT元ユーザーのタイムラインを表示</value></data>
-	<data name="ShowUserTimelineContextMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>241, 22</value></data>
-	<data name="ShowUserTimelineContextMenuItem.Text"><value>ユーザーのタイムラインを表示</value></data>
-	<data name="ShowUserTimelineToolStripMenuItem.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms"><value>Ctrl+U</value></data>
-	<data name="ShowUserTimelineToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>313, 22</value></data>
-	<data name="ShowUserTimelineToolStripMenuItem.Text"><value>ユーザーのタイムラインを表示</value></data>
 	<data name="SoundFileComboBox.Size" type="System.Drawing.Size, System.Drawing"><value>121, 23</value></data>
 	<data name="SoundFileComboBox.ToolTipText"><value>再生するwavファイルを指定してください</value></data>
 	<data name="SoundFileTbComboBox.Size" type="System.Drawing.Size, System.Drawing"><value>121, 23</value></data>

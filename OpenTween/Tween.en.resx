@@ -14,6 +14,28 @@
 	<data name="AddTabMenuItem.Text"><value>Create &amp;New Tab...</value></data>
 	<data name="ApiUsageInfoMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>278, 24</value></data>
 	<data name="ApiUsageInfoMenuItem.Text"><value>Twitter API Usage</value></data>
+	<data name="AuthorContextMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>200, 22</value></data>
+	<data name="AuthorListManageContextMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>197, 22</value></data>
+	<data name="AuthorListManageContextMenuItem.Text"><value>Add/Remove from &amp;Lists</value></data>
+	<data name="AuthorListManageMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>223, 22</value></data>
+	<data name="AuthorListManageMenuItem.Text"><value>Add/Remove from &amp;Lists</value></data>
+	<data name="AuthorMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>259, 22</value></data>
+	<data name="AuthorOpenFavoritesContextMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>197, 22</value></data>
+	<data name="AuthorOpenFavoritesContextMenuItem.Text"><value>Open Favorites (&amp;G)</value></data>
+	<data name="AuthorOpenFavoritesMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>223, 22</value></data>
+	<data name="AuthorOpenFavoritesMenuItem.Text"><value>Open Favorites (&amp;G)</value></data>
+	<data name="AuthorOpenInBrowserContextMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>197, 22</value></data>
+	<data name="AuthorOpenInBrowserContextMenuItem.Text"><value>Open in browser (&amp;H)</value></data>
+	<data name="AuthorOpenInBrowserMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>223, 22</value></data>
+	<data name="AuthorOpenInBrowserMenuItem.Text"><value>Open in browser (&amp;H)</value></data>
+	<data name="AuthorShowProfileContextMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>197, 22</value></data>
+	<data name="AuthorShowProfileContextMenuItem.Text"><value>User &amp;Profile</value></data>
+	<data name="AuthorShowProfileMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>223, 22</value></data>
+	<data name="AuthorShowProfileMenuItem.Text"><value>User &amp;Profile</value></data>
+	<data name="AuthorShowUserTimelineContextMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>197, 22</value></data>
+	<data name="AuthorShowUserTimelineContextMenuItem.Text"><value>User's updates</value></data>
+	<data name="AuthorShowUserTimelineMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>223, 22</value></data>
+	<data name="AuthorShowUserTimelineMenuItem.Text"><value>User's updates</value></data>
 	<data name="BitlyToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>218, 24</value></data>
 	<data name="ChangeReadOpMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>347, 24</value></data>
 	<data name="ChangeReadOpMenuItem.Text"><value>Change Unread state ...</value></data>
@@ -131,12 +153,8 @@
 	<data name="lblLen.ToolTip"><value /></data>
 	<data name="ListLockMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>247, 24</value></data>
 	<data name="ListLockMenuItem.Text"><value>Stick &amp;List</value></data>
-	<data name="ListManageMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>347, 24</value></data>
-	<data name="ListManageMenuItem.Text"><value>Manage &amp;Lists</value></data>
 	<data name="ListManageToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>294, 24</value></data>
 	<data name="ListManageToolStripMenuItem.Text"><value>Edit Lists</value></data>
-	<data name="ListManageUserContextToolStripMenuItem2.Size" type="System.Drawing.Size, System.Drawing"><value>258, 24</value></data>
-	<data name="ListManageUserContextToolStripMenuItem2.Text"><value>Add to &amp;Lists</value></data>
 	<data name="ListTab.Size" type="System.Drawing.Size, System.Drawing"><value>570, 149</value></data>
 	<data name="ListTab.ToolTip"><value /></data>
 	<data name="LockListFileMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>242, 24</value></data>
@@ -164,12 +182,6 @@
 	<data name="MenuItemTab.Text"><value>&amp;Tab</value></data>
 	<data name="MenuStrip1.Size" type="System.Drawing.Size, System.Drawing"><value>574, 27</value></data>
 	<data name="MenuStrip1.ToolTip"><value /></data>
-	<data name="MoveToFavToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>245, 24</value></data>
-	<data name="MoveToFavToolStripMenuItem.Text"><value>Open Favorites (&amp;G)</value></data>
-	<data name="MoveToHomeToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>245, 24</value></data>
-	<data name="MoveToHomeToolStripMenuItem.Text"><value>Open &amp;Home page</value></data>
-	<data name="MoveToRTHomeMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>245, 24</value></data>
-	<data name="MoveToRTHomeMenuItem.Text"><value>Open &amp;Retweeter Home</value></data>
 	<data name="MultiLineMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>334, 22</value></data>
 	<data name="MultiLineMenuItem.Text"><value>Input field is &amp;Multiline</value></data>
 	<data name="MultiLinePullDownMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>445, 24</value></data>
@@ -182,18 +194,12 @@
 	<data name="NotifyFileMenuItem.Text"><value>Enable Alert popup(&amp;Q)</value></data>
 	<data name="NotifyTbMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>248, 24</value></data>
 	<data name="NotifyTbMenuItem.Text"><value>Enable Alert Popup(&amp;Q)</value></data>
-	<data name="OpenFavOpMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>306, 24</value></data>
-	<data name="OpenFavOpMenuItem.Text"><value>Favorites(&amp;G)</value></data>
-	<data name="OpenHomeOpMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>306, 24</value></data>
-	<data name="OpenHomeOpMenuItem.Text"><value>&amp;Home</value></data>
 	<data name="OpenOpMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>347, 24</value></data>
 	<data name="OpenOpMenuItem.Text"><value>&amp;Open as ...</value></data>
 	<data name="OpenOwnHomeMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>294, 24</value></data>
 	<data name="OpenOwnHomeMenuItem.Text"><value>Open your profile page</value></data>
 	<data name="OpenRepSourceOpMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>306, 24</value></data>
 	<data name="OpenRepSourceOpMenuItem.Text"><value>Reply to(&amp;I)</value></data>
-	<data name="OpenRterHomeMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>306, 24</value></data>
-	<data name="OpenRterHomeMenuItem.Text"><value>&amp;Retweeter Home</value></data>
 	<data name="OpenStatusOpMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>306, 24</value></data>
 	<data name="OpenStatusOpMenuItem.Text"><value>Status(&amp;O)</value></data>
 	<data name="OpenURLFileMenuItem.Text"><value>Open URL(&amp;L)...</value></data>
@@ -387,6 +393,20 @@
 	<data name="ReplyOpMenuItem.Text"><value>@&amp;Reply</value></data>
 	<data name="ReplyStripMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>258, 24</value></data>
 	<data name="ReplyStripMenuItem.Text"><value>@ &amp;Reply</value></data>
+	<data name="RetweetedByContextMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>200, 22</value></data>
+	<data name="RetweetedByMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>259, 22</value></data>
+	<data name="RetweetedByOpenInBrowserContextMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>181, 22</value></data>
+	<data name="RetweetedByOpenInBrowserContextMenuItem.Text"><value>Open in browser (&amp;H)</value></data>
+	<data name="RetweetedByOpenInBrowserMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>255, 22</value></data>
+	<data name="RetweetedByOpenInBrowserMenuItem.Text"><value>Open in browser (&amp;H)</value></data>
+	<data name="RetweetedByShowProfileContextMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>181, 22</value></data>
+	<data name="RetweetedByShowProfileContextMenuItem.Text"><value>User &amp;Profile</value></data>
+	<data name="RetweetedByShowProfileMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>255, 22</value></data>
+	<data name="RetweetedByShowProfileMenuItem.Text"><value>User &amp;Profile</value></data>
+	<data name="RetweetedByShowUserTimelineContextMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>181, 22</value></data>
+	<data name="RetweetedByShowUserTimelineContextMenuItem.Text"><value>User's updates</value></data>
+	<data name="RetweetedByShowUserTimelineMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>255, 22</value></data>
+	<data name="RetweetedByShowUserTimelineMenuItem.Text"><value>User's updates</value></data>
 	<data name="ReTweetStripMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>258, 24</value></data>
 	<data name="ReTweetUnofficialStripMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>258, 24</value></data>
 	<data name="RtCountMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>294, 24</value></data>
@@ -407,26 +427,10 @@
 	<data name="SettingStripMenuItem.Text"><value>Settings (&amp;O)...</value></data>
 	<data name="ShortcutKeyListMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>278, 24</value></data>
 	<data name="ShortcutKeyListMenuItem.Text"><value>Shortcut keys</value></data>
-	<data name="ShowProfileMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>258, 24</value></data>
-	<data name="ShowProfileMenuItem.Text"><value>User &amp;Profile</value></data>
-	<data name="ShowProfMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>347, 24</value></data>
-	<data name="ShowProfMenuItem.Text"><value>User &amp;Profile</value></data>
 	<data name="ShowRelatedStatusesMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>258, 24</value></data>
 	<data name="ShowRelatedStatusesMenuItem.Text"><value>Related Posts (&amp;G)</value></data>
 	<data name="ShowRelatedStatusesMenuItem2.Size" type="System.Drawing.Size, System.Drawing"><value>347, 24</value></data>
 	<data name="ShowRelatedStatusesMenuItem2.Text"><value>Related Posts (&amp;G)</value></data>
-	<data name="ShowRetweeterProfileMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>258, 24</value></data>
-	<data name="ShowRetweeterProfileMenuItem.Text"><value>Retweeter &amp;Profile</value></data>
-	<data name="ShowRetweeterProfMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>347, 24</value></data>
-	<data name="ShowRetweeterProfMenuItem.Text"><value>Retweeter &amp;Profile</value></data>
-	<data name="ShowRetweeterUserTimelineContextMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>258, 24</value></data>
-	<data name="ShowRetweeterUserTimelineContextMenuItem.Text"><value>&amp;Retweeter's updates</value></data>
-	<data name="ShowRetweeterUserTimelineToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>347, 24</value></data>
-	<data name="ShowRetweeterUserTimelineToolStripMenuItem.Text"><value>Retweeter's updates</value></data>
-	<data name="ShowUserTimelineContextMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>258, 24</value></data>
-	<data name="ShowUserTimelineContextMenuItem.Text"><value>&amp;User's updates</value></data>
-	<data name="ShowUserTimelineToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>347, 24</value></data>
-	<data name="ShowUserTimelineToolStripMenuItem.Text"><value>User's updates</value></data>
 	<data name="SoundFileComboBox.ToolTipText"><value>Select a wav file.</value></data>
 	<data name="SourceRuleMenuItem.Size" type="System.Drawing.Size, System.Drawing"><value>122, 22</value></data>
 	<data name="SourceRuleMenuItem.Text"><value>&amp;Source</value></data>
