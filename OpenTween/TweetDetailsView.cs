@@ -78,7 +78,8 @@ namespace OpenTween
             this.TabStop = false;
 
             // 発言詳細部の初期化
-            this.NameLabel.Text = "";
+            this.AuthorNameLinkLabel.Text = "";
+            this.RetweetedByLinkLabel.Text = "";
             this.DateTimeLabel.Text = "";
             this.SourceLinkLabel.Text = "";
 
@@ -110,10 +111,18 @@ namespace OpenTween
                     nameText = "";
                 }
                 nameText += post.ScreenName + "/" + post.Nickname;
-                if (post.RetweetedId != null)
-                    nameText += " (RT:" + post.RetweetedBy + ")";
+                this.AuthorNameLinkLabel.Text = nameText;
 
-                this.NameLabel.Text = nameText;
+                if (post.RetweetedId != null)
+                {
+                    this.RetweetedByLinkLabel.Visible = true;
+                    this.RetweetedByLinkLabel.Text = $"(RT:{post.RetweetedBy})";
+                }
+                else
+                {
+                    this.RetweetedByLinkLabel.Visible = false;
+                    this.RetweetedByLinkLabel.Text = "";
+                }
 
                 var nameForeColor = SystemColors.ControlText;
                 if (post.IsOwl && (SettingManager.Common.OneWayLove || post.IsDm))
@@ -122,7 +131,11 @@ namespace OpenTween
                     nameForeColor = SettingManager.Local.ColorRetweet;
                 if (post.IsFav)
                     nameForeColor = SettingManager.Local.ColorFav;
-                this.NameLabel.ForeColor = nameForeColor;
+
+                this.AuthorNameLinkLabel.LinkColor = nameForeColor;
+                this.AuthorNameLinkLabel.ActiveLinkColor = nameForeColor;
+                this.RetweetedByLinkLabel.LinkColor = nameForeColor;
+                this.RetweetedByLinkLabel.ActiveLinkColor = nameForeColor;
 
                 loadTasks.Add(this.SetUserPictureAsync(post.ImageUrl));
 
@@ -420,25 +433,19 @@ namespace OpenTween
         private void TweetDetailsView_FontChanged(object sender, EventArgs e)
         {
             // OTBaseForm.GlobalFont による UI フォントの変更に対応
-            var origFont = this.NameLabel.Font;
-            this.NameLabel.Font = new Font(this.Font.Name, origFont.Size, origFont.Style);
+            var origFont = this.AuthorNameLinkLabel.Font;
+            this.AuthorNameLinkLabel.Font = new Font(this.Font.Name, origFont.Size, origFont.Style);
+            this.RetweetedByLinkLabel.Font = new Font(this.Font.Name, origFont.Size, origFont.Style);
         }
 
         #region TableLayoutPanel1
 
-        private async void UserPicture_DoubleClick(object sender, EventArgs e)
+        private async void UserPicture_Click(object sender, EventArgs e)
         {
-            if (this.CurrentPost == null)
-                return;
-
-            await MyCommon.OpenInBrowserAsync(this, MyCommon.TwitterUrl + this.CurrentPost.ScreenName);
+            var screenName = this.CurrentPost?.ScreenName;
+            if (screenName != null)
+                await this.Owner.ShowUserStatus(screenName, showInputDialog: false);
         }
-
-        private void UserPicture_MouseEnter(object sender, EventArgs e)
-            => this.UserPicture.Cursor = Cursors.Hand;
-
-        private void UserPicture_MouseLeave(object sender, EventArgs e)
-            => this.UserPicture.Cursor = Cursors.Default;
 
         private async void PostBrowser_Navigated(object sender, WebBrowserNavigatedEventArgs e)
         {
@@ -1055,6 +1062,20 @@ namespace OpenTween
         }
 
         #endregion
+
+        private async void AuthorNameLinkLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            var screenName = this.CurrentPost?.ScreenName;
+            if (screenName != null)
+                await this.Owner.ShowUserStatus(screenName, showInputDialog: false);
+        }
+
+        private async void RetweetedByLinkLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            var screenName = this.CurrentPost?.RetweetedBy;
+            if (screenName != null)
+                await this.Owner.ShowUserStatus(screenName, showInputDialog: false);
+        }
     }
 
     public class TweetDetailsViewStatusChengedEventArgs : EventArgs
