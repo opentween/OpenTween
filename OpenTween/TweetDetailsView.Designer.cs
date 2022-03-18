@@ -45,7 +45,9 @@
             this.IconNameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ReloadIconToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.SaveIconPictureToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.NameLabel = new System.Windows.Forms.Label();
+            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.AuthorNameLinkLabel = new System.Windows.Forms.LinkLabel();
+            this.RetweetedByLinkLabel = new System.Windows.Forms.LinkLabel();
             this.PostBrowser = new System.Windows.Forms.WebBrowser();
             this.ContextMenuPostBrowser = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.SelectionSearchContextMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -81,6 +83,7 @@
             this.TableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.UserPicture)).BeginInit();
             this.ContextMenuUserPicture.SuspendLayout();
+            this.flowLayoutPanel1.SuspendLayout();
             this.ContextMenuPostBrowser.SuspendLayout();
             this.ContextMenuSource.SuspendLayout();
             this.SuspendLayout();
@@ -89,7 +92,7 @@
             // 
             resources.ApplyResources(this.TableLayoutPanel1, "TableLayoutPanel1");
             this.TableLayoutPanel1.Controls.Add(this.UserPicture, 0, 0);
-            this.TableLayoutPanel1.Controls.Add(this.NameLabel, 1, 0);
+            this.TableLayoutPanel1.Controls.Add(this.flowLayoutPanel1, 1, 0);
             this.TableLayoutPanel1.Controls.Add(this.PostBrowser, 1, 1);
             this.TableLayoutPanel1.Controls.Add(this.DateTimeLabel, 2, 0);
             this.TableLayoutPanel1.Controls.Add(this.SourceLinkLabel, 3, 0);
@@ -102,12 +105,11 @@
             this.UserPicture.BackColor = System.Drawing.Color.White;
             this.UserPicture.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.UserPicture.ContextMenuStrip = this.ContextMenuUserPicture;
+            this.UserPicture.Cursor = System.Windows.Forms.Cursors.Hand;
             this.UserPicture.Name = "UserPicture";
             this.TableLayoutPanel1.SetRowSpan(this.UserPicture, 2);
             this.UserPicture.TabStop = false;
-            this.UserPicture.DoubleClick += new System.EventHandler(this.UserPicture_DoubleClick);
-            this.UserPicture.MouseEnter += new System.EventHandler(this.UserPicture_MouseEnter);
-            this.UserPicture.MouseLeave += new System.EventHandler(this.UserPicture_MouseLeave);
+            this.UserPicture.Click += new System.EventHandler(this.UserPicture_Click);
             // 
             // ContextMenuUserPicture
             // 
@@ -199,12 +201,34 @@
             resources.ApplyResources(this.SaveIconPictureToolStripMenuItem, "SaveIconPictureToolStripMenuItem");
             this.SaveIconPictureToolStripMenuItem.Click += new System.EventHandler(this.SaveIconPictureToolStripMenuItem_Click);
             // 
-            // NameLabel
+            // flowLayoutPanel1
             // 
-            this.NameLabel.AutoEllipsis = true;
-            resources.ApplyResources(this.NameLabel, "NameLabel");
-            this.NameLabel.Name = "NameLabel";
-            this.NameLabel.UseMnemonic = false;
+            resources.ApplyResources(this.flowLayoutPanel1, "flowLayoutPanel1");
+            this.flowLayoutPanel1.Controls.Add(this.AuthorNameLinkLabel);
+            this.flowLayoutPanel1.Controls.Add(this.RetweetedByLinkLabel);
+            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
+            // 
+            // AuthorNameLinkLabel
+            // 
+            this.AuthorNameLinkLabel.ActiveLinkColor = System.Drawing.SystemColors.ControlText;
+            resources.ApplyResources(this.AuthorNameLinkLabel, "AuthorNameLinkLabel");
+            this.AuthorNameLinkLabel.AutoEllipsis = true;
+            this.AuthorNameLinkLabel.LinkBehavior = System.Windows.Forms.LinkBehavior.NeverUnderline;
+            this.AuthorNameLinkLabel.LinkColor = System.Drawing.SystemColors.ControlText;
+            this.AuthorNameLinkLabel.Name = "AuthorNameLinkLabel";
+            this.AuthorNameLinkLabel.TabStop = true;
+            this.AuthorNameLinkLabel.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.AuthorNameLinkLabel_LinkClicked);
+            // 
+            // RetweetedByLinkLabel
+            // 
+            this.RetweetedByLinkLabel.ActiveLinkColor = System.Drawing.SystemColors.ControlText;
+            resources.ApplyResources(this.RetweetedByLinkLabel, "RetweetedByLinkLabel");
+            this.RetweetedByLinkLabel.AutoEllipsis = true;
+            this.RetweetedByLinkLabel.LinkBehavior = System.Windows.Forms.LinkBehavior.NeverUnderline;
+            this.RetweetedByLinkLabel.LinkColor = System.Drawing.SystemColors.ControlText;
+            this.RetweetedByLinkLabel.Name = "RetweetedByLinkLabel";
+            this.RetweetedByLinkLabel.TabStop = true;
+            this.RetweetedByLinkLabel.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.RetweetedByLinkLabel_LinkClicked);
             // 
             // PostBrowser
             // 
@@ -445,6 +469,8 @@
             this.TableLayoutPanel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.UserPicture)).EndInit();
             this.ContextMenuUserPicture.ResumeLayout(false);
+            this.flowLayoutPanel1.ResumeLayout(false);
+            this.flowLayoutPanel1.PerformLayout();
             this.ContextMenuPostBrowser.ResumeLayout(false);
             this.ContextMenuSource.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -455,7 +481,9 @@
 
         internal System.Windows.Forms.TableLayoutPanel TableLayoutPanel1;
         internal OTPictureBox UserPicture;
-        internal System.Windows.Forms.Label NameLabel;
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
+        private System.Windows.Forms.LinkLabel AuthorNameLinkLabel;
+        private System.Windows.Forms.LinkLabel RetweetedByLinkLabel;
         internal System.Windows.Forms.WebBrowser PostBrowser;
         internal System.Windows.Forms.Label DateTimeLabel;
         internal System.Windows.Forms.LinkLabel SourceLinkLabel;
