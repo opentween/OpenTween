@@ -1,6 +1,6 @@
 version: 2.5.0.{build}
 
-os: Visual Studio 2019
+os: Visual Studio 2022
 
 environment:
   matrix:
@@ -62,7 +62,7 @@ after_test:
   - ./node_modules/.bin/codecov -f coverage.xml
 
   - ps: |
-      $env:PATH = $env:PATH + ';C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Current\bin\Roslyn\;C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.8 Tools\'
+      $env:PATH = $env:PATH + ';C:\Program Files\Microsoft Visual Studio\2022\Community\Msbuild\Current\Bin\Roslyn\;C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.8 Tools\'
       $binDir = '.\OpenTween\bin\' + $env:CONFIGURATION + '\'
       $objDir = '.\OpenTween\obj\' + $env:CONFIGURATION + '\'
       $assemblyInfo = '.\OpenTween\Properties\AssemblyInfo.cs'
