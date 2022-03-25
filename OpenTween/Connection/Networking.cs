@@ -73,15 +73,6 @@ namespace OpenTween.Connection
             }
         }
 
-        private static bool IsWindows7
-        {
-            get
-            {
-                var os = Environment.OSVersion;
-                return os.Platform == PlatformID.Win32NT && os.Version.Major == 6 && os.Version.Minor == 1;
-            }
-        }
-
         /// <summary>
         /// Webプロキシの設定が変更された場合に発生します
         /// </summary>
@@ -108,10 +99,6 @@ namespace OpenTween.Connection
 
             ServicePointManager.Expect100Continue = false;
             ServicePointManager.CheckCertificateRevocationList = true;
-
-            // Win7 では SystemDefault が SSL3.0 または TLS1.0 のため、明示的にバージョンを引き上げる必要がある
-            if (IsWindows7)
-                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
         }
 
         public static void SetWebProxy(
