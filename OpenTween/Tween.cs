@@ -2885,7 +2885,7 @@ namespace OpenTween
             switch (SettingManager.Common.ListDoubleClickAction)
             {
                 case 0:
-                    this.MakeReplyOrDirectStatus();
+                    this.MakeReplyText();
                     break;
                 case 1:
                     await this.FavoriteChange(true);
@@ -3230,10 +3230,10 @@ namespace OpenTween
         }
 
         private void ReplyStripMenuItem_Click(object sender, EventArgs e)
-            => this.MakeReplyOrDirectStatus(false, true);
+            => this.MakeReplyText();
 
         private void DMStripMenuItem_Click(object sender, EventArgs e)
-            => this.MakeReplyOrDirectStatus(false, false);
+            => this.MakeDirectMessageText();
 
         private async Task DoStatusDelete()
         {
@@ -5676,7 +5676,7 @@ namespace OpenTween
 
                 ShortcutCommand.Create(Keys.Enter)
                     .FocusedOn(FocusedControl.ListTab)
-                    .Do(() => this.MakeReplyOrDirectStatus()),
+                    .Do(() => this.MakeReplyText()),
 
                 ShortcutCommand.Create(Keys.R)
                     .FocusedOn(FocusedControl.ListTab)
@@ -5765,13 +5765,13 @@ namespace OpenTween
                     .Do(() => { }),
 
                 ShortcutCommand.Create(Keys.Control | Keys.R)
-                    .Do(() => this.MakeReplyOrDirectStatus(isAuto: false, isReply: true)),
+                    .Do(() => this.MakeReplyText()),
 
                 ShortcutCommand.Create(Keys.Control | Keys.D)
                     .Do(() => this.DoStatusDelete()),
 
                 ShortcutCommand.Create(Keys.Control | Keys.M)
-                    .Do(() => this.MakeReplyOrDirectStatus(isAuto: false, isReply: false)),
+                    .Do(() => this.MakeDirectMessageText()),
 
                 ShortcutCommand.Create(Keys.Control | Keys.S)
                     .Do(() => this.FavoriteChange(favAdd: true)),
@@ -6014,7 +6014,7 @@ namespace OpenTween
                     .Do(() => this.GoSamePostToAnotherTab(left: true)),
 
                 ShortcutCommand.Create(Keys.Control | Keys.Shift | Keys.R)
-                    .Do(() => this.MakeReplyOrDirectStatus(isAuto: false, isReply: true, isAll: true)),
+                    .Do(() => this.MakeReplyText(atAll: true)),
 
                 ShortcutCommand.Create(Keys.Control | Keys.Shift | Keys.C, Keys.Control | Keys.Shift | Keys.Insert)
                     .Do(() => this.CopyIdUri()),
@@ -7408,250 +7408,77 @@ namespace OpenTween
             this.SaveConfigsTabs();
         }
 
-        private void MakeReplyOrDirectStatus(bool isAuto = true, bool isReply = true, bool isAll = false)
+        private void MakeDirectMessageText()
         {
-            // isAuto:true=先頭に挿入、false=カーソル位置に挿入
-            // isReply:true=@,false=DM
-            if (!this.StatusText.Enabled) return;
-            if (!this.ExistCurrentPost) return;
+            var selectedPosts = this.CurrentTab.SelectedPosts;
+            if (selectedPosts.Length > 1)
+                return;
 
-            var tab = this.CurrentTab;
-            var selectedPosts = tab.SelectedPosts;
+            var post = selectedPosts.Single();
+            var text = $"D {post.ScreenName} {this.StatusText.Text}";
 
-            // 複数あてリプライはReplyではなく通常ポスト
-            // ↑仕様変更で全部リプライ扱いでＯＫ（先頭ドット付加しない）
-            // 090403暫定でドットを付加しないようにだけ修正。単独と複数の処理は統合できると思われる。
-            // 090513 all @ replies 廃止の仕様変更によりドット付加に戻し(syo68k)
+            this.inReplyTo = null;
+            this.StatusText.Text = text;
+            this.StatusText.SelectionStart = text.Length;
+            this.StatusText.Focus();
+        }
 
-            if (selectedPosts.Length > 0)
+        private void MakeReplyText(bool atAll = false)
+        {
+            var selectedPosts = this.CurrentTab.SelectedPosts;
+            if (selectedPosts.Any(x => x.IsDm))
             {
-                // アイテムが1件以上選択されている
-                if (selectedPosts.Length == 1 && !isAll && this.ExistCurrentPost)
-                {
-                    var post = selectedPosts.Single();
-
-                    // 単独ユーザー宛リプライまたはDM
-                    if ((tab.TabType == MyCommon.TabUsageType.DirectMessage && isAuto) || (!isAuto && !isReply))
-                    {
-                        // ダイレクトメッセージ
-                        this.inReplyTo = null;
-                        this.StatusText.Text = "D " + post.ScreenName + " " + this.StatusText.Text;
-                        this.StatusText.SelectionStart = this.StatusText.Text.Length;
-                        this.StatusText.Focus();
-                        return;
-                    }
-                    if (MyCommon.IsNullOrEmpty(this.StatusText.Text))
-                    {
-                        // 空の場合
-                        var inReplyToStatusId = post.RetweetedId ?? post.StatusId;
-                        var inReplyToScreenName = post.ScreenName;
-                        this.inReplyTo = (inReplyToStatusId, inReplyToScreenName);
-
-                        // ステータステキストが入力されていない場合先頭に@ユーザー名を追加する
-                        this.StatusText.Text = "@" + post.ScreenName + " ";
-                    }
-                    else
-                    {
-                        // 何か入力済の場合
-
-                        if (isAuto)
-                        {
-                            // 1件選んでEnter or DoubleClick
-                            if (this.StatusText.Text.Contains("@" + post.ScreenName + " "))
-                            {
-                                if (this.inReplyTo?.ScreenName == post.ScreenName)
-                                {
-                                    // 返信先書き換え
-                                    var inReplyToStatusId = post.RetweetedId ?? post.StatusId;
-                                    var inReplyToScreenName = post.ScreenName;
-                                    this.inReplyTo = (inReplyToStatusId, inReplyToScreenName);
-                                }
-                                return;
-                            }
-                            if (!this.StatusText.Text.StartsWith("@", StringComparison.Ordinal))
-                            {
-                                // 文頭＠以外
-                                if (this.StatusText.Text.StartsWith(". ", StringComparison.Ordinal))
-                                {
-                                    // 複数リプライ
-                                    this.inReplyTo = null;
-                                    this.StatusText.Text = this.StatusText.Text.Insert(2, "@" + post.ScreenName + " ");
-                                }
-                                else
-                                {
-                                    // 単独リプライ
-                                    var inReplyToStatusId = post.RetweetedId ?? post.StatusId;
-                                    var inReplyToScreenName = post.ScreenName;
-                                    this.inReplyTo = (inReplyToStatusId, inReplyToScreenName);
-                                    this.StatusText.Text = "@" + post.ScreenName + " " + this.StatusText.Text;
-                                }
-                            }
-                            else
-                            {
-                                // 文頭＠
-                                // 複数リプライ
-                                this.inReplyTo = null;
-                                this.StatusText.Text = ". @" + post.ScreenName + " " + this.StatusText.Text;
-                            }
-                        }
-                        else
-                        {
-                            // 1件選んでCtrl-Rの場合（返信先操作せず）
-                            var sidx = this.StatusText.SelectionStart;
-                            var id = "@" + post.ScreenName + " ";
-                            if (sidx > 0)
-                            {
-                                if (this.StatusText.Text.Substring(sidx - 1, 1) != " ")
-                                {
-                                    id = " " + id;
-                                }
-                            }
-                            this.StatusText.Text = this.StatusText.Text.Insert(sidx, id);
-                            sidx += id.Length;
-                            this.StatusText.SelectionStart = sidx;
-                            this.StatusText.Focus();
-                            return;
-                        }
-                    }
-                }
-                else
-                {
-                    // 複数リプライ
-                    if (!isAuto && !isReply) return;
-
-                    // C-S-rか、複数の宛先を選択中にEnter/DoubleClick/C-r/C-S-r
-
-                    if (isAuto)
-                    {
-                        // Enter or DoubleClick
-
-                        var sTxt = this.StatusText.Text;
-                        if (!sTxt.StartsWith(". ", StringComparison.Ordinal))
-                        {
-                            sTxt = ". " + sTxt;
-                            this.inReplyTo = null;
-                        }
-                        foreach (var post in selectedPosts)
-                        {
-                            if (!sTxt.Contains("@" + post.ScreenName + " "))
-                                sTxt = sTxt.Insert(2, "@" + post.ScreenName + " ");
-                        }
-                        this.StatusText.Text = sTxt;
-                    }
-                    else
-                    {
-                        // C-S-r or C-r
-
-                        if (selectedPosts.Length > 1)
-                        {
-                            // 複数ポスト選択
-
-                            var ids = "";
-                            var sidx = this.StatusText.SelectionStart;
-                            foreach (var post in selectedPosts)
-                            {
-                                if (!ids.Contains("@" + post.ScreenName + " ") && post.UserId != this.tw.UserId)
-                                {
-                                    ids += "@" + post.ScreenName + " ";
-                                }
-                                if (isAll)
-                                {
-                                    foreach (var (_, screenName) in post.ReplyToList)
-                                    {
-                                        if (!ids.Contains("@" + screenName + " ") &&
-                                            !screenName.Equals(this.tw.Username, StringComparison.CurrentCultureIgnoreCase))
-                                        {
-                                            var m = Regex.Match(post.TextFromApi, "[@＠](?<id>" + screenName + ")([^a-zA-Z0-9]|$)", RegexOptions.IgnoreCase);
-                                            if (m.Success)
-                                                ids += "@" + m.Result("${id}") + " ";
-                                            else
-                                                ids += "@" + screenName + " ";
-                                        }
-                                    }
-                                }
-                            }
-                            if (ids.Length == 0) return;
-                            if (!this.StatusText.Text.StartsWith(". ", StringComparison.Ordinal))
-                            {
-                                this.inReplyTo = null;
-                                this.StatusText.Text = ". " + this.StatusText.Text;
-                                sidx += 2;
-                            }
-                            if (sidx > 0)
-                            {
-                                if (this.StatusText.Text.Substring(sidx - 1, 1) != " ")
-                                {
-                                    ids = " " + ids;
-                                }
-                            }
-                            this.StatusText.Text = this.StatusText.Text.Insert(sidx, ids);
-                            sidx += ids.Length;
-                            this.StatusText.SelectionStart = sidx;
-                            this.StatusText.Focus();
-                            return;
-                        }
-                        else
-                        {
-                            // 1件のみ選択のC-S-r（返信元付加する可能性あり）
-
-                            var ids = "";
-                            var sidx = this.StatusText.SelectionStart;
-                            var post = selectedPosts.Single();
-                            if (!ids.Contains("@" + post.ScreenName + " ") && post.UserId != this.tw.UserId)
-                            {
-                                ids += "@" + post.ScreenName + " ";
-                            }
-                            foreach (var (_, screenName) in post.ReplyToList)
-                            {
-                                if (!ids.Contains("@" + screenName + " ") &&
-                                    !screenName.Equals(this.tw.Username, StringComparison.CurrentCultureIgnoreCase))
-                                {
-                                    var m = Regex.Match(post.TextFromApi, "[@＠](?<id>" + screenName + ")([^a-zA-Z0-9]|$)", RegexOptions.IgnoreCase);
-                                    if (m.Success)
-                                        ids += "@" + m.Result("${id}") + " ";
-                                    else
-                                        ids += "@" + screenName + " ";
-                                }
-                            }
-                            if (!MyCommon.IsNullOrEmpty(post.RetweetedBy))
-                            {
-                                if (!ids.Contains("@" + post.RetweetedBy + " ") && post.RetweetedByUserId != this.tw.UserId)
-                                {
-                                    ids += "@" + post.RetweetedBy + " ";
-                                }
-                            }
-                            if (ids.Length == 0) return;
-                            if (MyCommon.IsNullOrEmpty(this.StatusText.Text))
-                            {
-                                // 未入力の場合のみ返信先付加
-                                var inReplyToStatusId = post.RetweetedId ?? post.StatusId;
-                                var inReplyToScreenName = post.ScreenName;
-                                this.inReplyTo = (inReplyToStatusId, inReplyToScreenName);
-
-                                this.StatusText.Text = ids;
-                                this.StatusText.SelectionStart = ids.Length;
-                                this.StatusText.Focus();
-                                return;
-                            }
-
-                            if (sidx > 0)
-                            {
-                                if (this.StatusText.Text.Substring(sidx - 1, 1) != " ")
-                                {
-                                    ids = " " + ids;
-                                }
-                            }
-                            this.StatusText.Text = this.StatusText.Text.Insert(sidx, ids);
-                            sidx += ids.Length;
-                            this.StatusText.SelectionStart = sidx;
-                            this.StatusText.Focus();
-                            return;
-                        }
-                    }
-                }
-                this.StatusText.SelectionStart = this.StatusText.Text.Length;
-                this.StatusText.Focus();
+                this.MakeDirectMessageText();
+                return;
             }
+
+            if (selectedPosts.Length == 1)
+            {
+                var post = selectedPosts.Single();
+                var inReplyToStatusId = post.RetweetedId ?? post.StatusId;
+                var inReplyToScreenName = post.ScreenName;
+                this.inReplyTo = (inReplyToStatusId, inReplyToScreenName);
+            }
+            else
+            {
+                this.inReplyTo = null;
+            }
+
+            var selfScreenName = this.tw.Username;
+            var targetScreenNames = new List<string>();
+            foreach (var post in selectedPosts)
+            {
+                if (post.ScreenName != selfScreenName)
+                    targetScreenNames.Add(post.ScreenName);
+
+                if (atAll)
+                {
+                    foreach (var (_, screenName) in post.ReplyToList)
+                    {
+                        if (screenName != selfScreenName)
+                            targetScreenNames.Add(screenName);
+                    }
+                }
+            }
+
+            if (this.inReplyTo != null)
+            {
+                var (_, screenName) = this.inReplyTo.Value;
+                if (screenName == selfScreenName)
+                    targetScreenNames.Insert(0, screenName);
+            }
+
+            var text = this.StatusText.Text;
+            foreach (var screenName in targetScreenNames.AsEnumerable().Reverse())
+            {
+                var atText = $"@{screenName} ";
+                if (!text.Contains(atText))
+                    text = atText + text;
+            }
+
+            this.StatusText.Text = text;
+            this.StatusText.SelectionStart = text.Length;
+            this.StatusText.Focus();
         }
 
         private void ListTab_MouseUp(object sender, MouseEventArgs e)
@@ -8097,7 +7924,7 @@ namespace OpenTween
         }
 
         private void ReplyAllStripMenuItem_Click(object sender, EventArgs e)
-            => this.MakeReplyOrDirectStatus(false, true, true);
+            => this.MakeReplyText(atAll: true);
 
         private void IDRuleMenuItem_Click(object sender, EventArgs e)
         {
