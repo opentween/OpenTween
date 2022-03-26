@@ -658,5 +658,15 @@ namespace OpenTween
         [Fact]
         public void CreateProfileImageUrl_InvalidSizeTest()
             => Assert.Throws<ArgumentException>(() => Twitter.CreateProfileImageUrl("https://pbs.twimg.com/profile_images/00000/foo_normal.jpg", "INVALID"));
+
+        [Theory]
+        [InlineData(24, "mini")]
+        [InlineData(25, "normal")]
+        [InlineData(48, "normal")]
+        [InlineData(49, "bigger")]
+        [InlineData(73, "bigger")]
+        [InlineData(74, "original")]
+        public void DecideProfileImageSize_Test(int sizePx, string expected)
+            => Assert.Equal(expected, Twitter.DecideProfileImageSize(sizePx));
     }
 }

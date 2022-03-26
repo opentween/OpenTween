@@ -54,18 +54,18 @@ namespace OpenTween
         public event EventHandler? ImageDownloaded;
 
         public ImageListViewItem(string[] items)
-            : this(items, null, null)
+            : this(items, null, null, 0)
         {
         }
 
-        public ImageListViewItem(string[] items, ImageCache? imageCache, string? imageUrl)
+        public ImageListViewItem(string[] items, ImageCache? imageCache, string? imageNormalUrl, int imageSize)
             : base(items)
         {
             this.imageCache = imageCache;
-            this.imageUrl = imageUrl;
+            this.imageUrl = this.CreateImageUrl(imageNormalUrl, imageSize);
             this.StateIndex = -1;
 
-            var image = imageUrl != null ? imageCache?.TryGetFromCache(imageUrl) : null;
+            var image = this.imageUrl != null ? imageCache?.TryGetFromCache(this.imageUrl) : null;
 
             if (image != null)
                 this.imageReference.Target = image;
@@ -74,6 +74,18 @@ namespace OpenTween
         protected ImageListViewItem(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
+        }
+
+        private string? CreateImageUrl(string? normalImageUrl, int imageSize)
+        {
+            if (MyCommon.IsNullOrEmpty(normalImageUrl))
+                return null;
+
+            if (imageSize <= 0)
+                return null;
+
+            var sizeName = Twitter.DecideProfileImageSize(imageSize);
+            return Twitter.CreateProfileImageUrl(normalImageUrl, sizeName);
         }
 
         public Task GetImageAsync(bool force = false)

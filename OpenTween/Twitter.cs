@@ -1802,6 +1802,18 @@ namespace OpenTween
             }
         }
 
+        public static string DecideProfileImageSize(int sizePx)
+        {
+            if (sizePx <= 24)
+                return "mini";
+            else if (sizePx <= 48)
+                return "normal";
+            else if (sizePx <= 73)
+                return "bigger";
+            else
+                return "original";
+        }
+
         public bool IsDisposed { get; private set; } = false;
 
         protected virtual void Dispose(bool disposing)

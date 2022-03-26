@@ -204,7 +204,8 @@ namespace OpenTween
 
             await this.UserPicture.SetImageFromTask(async () =>
             {
-                var uri = Twitter.CreateProfileImageUrl(imageUri, "bigger");
+                var sizeName = Twitter.DecideProfileImageSize(this.UserPicture.Width);
+                var uri = Twitter.CreateProfileImageUrl(imageUri, sizeName);
 
                 using var imageStream = await Networking.Http.GetStreamAsync(uri)
                     .ConfigureAwait(false);
