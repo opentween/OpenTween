@@ -3751,6 +3751,8 @@ namespace OpenTween
             };
             this.iconCol = iconSz == MyCommon.IconSizes.Icon48_2;
 
+            this.PurgeListViewItemCache();
+
             if (this.iconSz > 0)
             {
                 // ディスプレイの DPI 設定を考慮したサイズを設定する
@@ -4731,6 +4733,9 @@ namespace OpenTween
             var mk = new StringBuilder();
 
             if (post.FavoritedCount > 0) mk.Append("+" + post.FavoritedCount);
+
+            var scaledIconSz = (int)Math.Ceiling(this.iconSz * this.CurrentScaleFactor.Width);
+
             ImageListViewItem itm;
             if (post.RetweetedId == null)
             {
@@ -4745,7 +4750,7 @@ namespace OpenTween
                     mk.ToString(),
                     post.Source,
                 };
-                itm = new ImageListViewItem(sitem, this.iconCache, post.ImageUrl);
+                itm = new ImageListViewItem(sitem, this.iconCache, post.ImageUrl, scaledIconSz);
             }
             else
             {
@@ -4760,7 +4765,7 @@ namespace OpenTween
                     mk.ToString(),
                     post.Source,
                 };
-                itm = new ImageListViewItem(sitem, this.iconCache, post.ImageUrl);
+                itm = new ImageListViewItem(sitem, this.iconCache, post.ImageUrl, scaledIconSz);
             }
             itm.StateIndex = post.StateIndex;
             itm.Tag = post;

@@ -247,9 +247,9 @@ namespace OpenTween
                 .ToArray();
         }
 
-        private async Task SetUserPictureAsync(string imageUrl, bool force = false)
+        private async Task SetUserPictureAsync(string normalImageUrl, bool force = false)
         {
-            if (MyCommon.IsNullOrEmpty(imageUrl))
+            if (MyCommon.IsNullOrEmpty(normalImageUrl))
                 return;
 
             if (this.IconCache == null)
@@ -257,14 +257,32 @@ namespace OpenTween
 
             this.ClearUserPicture();
 
-            await this.UserPicture.SetImageFromTask(async () =>
+            var imageSize = Twitter.DecideProfileImageSize(this.UserPicture.Width);
+            var cachedImage = this.IconCache.TryGetLargerOrSameSizeFromCache(normalImageUrl, imageSize);
+            if (cachedImage != null)
             {
-                var image = await this.IconCache.DownloadImageAsync(imageUrl, force)
-                    .ConfigureAwait(false);
+                // 既にキャッシュされていればそれを表示して終了
+                this.UserPicture.Image = cachedImage.Clone();
+                return;
+            }
 
-                return await image.CloneAsync()
-                    .ConfigureAwait(false);
-            });
+            // 小さいサイズの画像がキャッシュにある場合は高解像度の画像が取得できるまでの間表示する
+            var fallbackImage = this.IconCache.TryGetLargerOrSameSizeFromCache(normalImageUrl, "mini");
+            if (fallbackImage != null)
+                this.UserPicture.Image = fallbackImage.Clone();
+
+            await this.UserPicture.SetImageFromTask(
+                async () =>
+                {
+                    var imageUrl = Twitter.CreateProfileImageUrl(normalImageUrl, imageSize);
+                    var image = await this.IconCache.DownloadImageAsync(imageUrl, force)
+                        .ConfigureAwait(false);
+
+                    return await image.CloneAsync()
+                        .ConfigureAwait(false);
+                },
+                useStatusImage: false
+            );
         }
 
         /// <summary>
@@ -701,11 +719,12 @@ namespace OpenTween
 
         private async void IconNameToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var imageUrl = this.CurrentPost?.ImageUrl;
-            if (MyCommon.IsNullOrEmpty(imageUrl))
+            var imageNormalUrl = this.CurrentPost?.ImageUrl;
+            if (MyCommon.IsNullOrEmpty(imageNormalUrl))
                 return;
 
-            await MyCommon.OpenInBrowserAsync(this, imageUrl.Remove(imageUrl.LastIndexOf("_normal", StringComparison.Ordinal), 7)); // "_normal".Length
+            var imageOriginalUrl = Twitter.CreateProfileImageUrl(imageNormalUrl, "original");
+            await MyCommon.OpenInBrowserAsync(this, imageOriginalUrl);
         }
 
         private async void ReloadIconToolStripMenuItem_Click(object sender, EventArgs e)

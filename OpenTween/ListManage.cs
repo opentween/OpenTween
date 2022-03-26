@@ -349,7 +349,8 @@ namespace OpenTween
 
             await this.UserIcon.SetImageFromTask(async () =>
             {
-                var uri = imageUri.AbsoluteUri.Replace("_normal", "_bigger");
+                var sizeName = Twitter.DecideProfileImageSize(this.UserIcon.Width);
+                var uri = Twitter.CreateProfileImageUrl(imageUri.AbsoluteUri, sizeName);
 
                 using var imageStream = await Networking.Http.GetStreamAsync(uri);
                 var image = await MemoryImage.CopyFromStreamAsync(imageStream);

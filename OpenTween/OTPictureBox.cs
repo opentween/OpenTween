@@ -103,13 +103,14 @@ namespace OpenTween
         /// </summary>
         private int currentImageTaskId = 0;
 
-        public async Task SetImageFromTask(Func<Task<MemoryImage>> imageTask)
+        public async Task SetImageFromTask(Func<Task<MemoryImage>> imageTask, bool useStatusImage = true)
         {
             var id = Interlocked.Increment(ref this.currentImageTaskId);
 
             try
             {
-                this.ShowInitialImage();
+                if (useStatusImage)
+                    this.ShowInitialImage();
 
                 var image = await imageTask();
 
@@ -118,7 +119,7 @@ namespace OpenTween
             }
             catch (Exception)
             {
-                if (id == this.currentImageTaskId)
+                if (id == this.currentImageTaskId && useStatusImage)
                     this.ShowErrorImage();
                 try
                 {
