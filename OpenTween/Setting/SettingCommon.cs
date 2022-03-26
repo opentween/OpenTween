@@ -219,7 +219,17 @@ namespace OpenTween
         public int ListCountApi = 100;
         public int UseImageService = 0;
         public string UseImageServiceName = "";
-        public int ListDoubleClickAction = 0;
+
+        [XmlIgnore]
+        public MyCommon.ListItemDoubleClickActionType ListDoubleClickAction { get; set; } = MyCommon.ListItemDoubleClickActionType.Reply;
+
+        [XmlElement(ElementName = nameof(ListDoubleClickAction))]
+        public int ListDoubleClickActionNumeric
+        {
+            get => (int)this.ListDoubleClickAction;
+            set => this.ListDoubleClickAction = (MyCommon.ListItemDoubleClickActionType)value;
+        }
+
         public string UserAppointUrl = "";
         public bool HideDuplicatedRetweets = false;
         public bool EnableImgAzyobuziNet = true;
