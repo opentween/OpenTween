@@ -701,11 +701,12 @@ namespace OpenTween
 
         private async void IconNameToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var imageUrl = this.CurrentPost?.ImageUrl;
-            if (MyCommon.IsNullOrEmpty(imageUrl))
+            var imageNormalUrl = this.CurrentPost?.ImageUrl;
+            if (MyCommon.IsNullOrEmpty(imageNormalUrl))
                 return;
 
-            await MyCommon.OpenInBrowserAsync(this, imageUrl.Remove(imageUrl.LastIndexOf("_normal", StringComparison.Ordinal), 7)); // "_normal".Length
+            var imageOriginalUrl = Twitter.CreateProfileImageUrl(imageNormalUrl, "original");
+            await MyCommon.OpenInBrowserAsync(this, imageOriginalUrl);
         }
 
         private async void ReloadIconToolStripMenuItem_Click(object sender, EventArgs e)

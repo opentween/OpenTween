@@ -645,5 +645,18 @@ namespace OpenTween
             Assert.Equal(278, twitter.GetTextLengthRemain("\ud83d"));
             Assert.Equal(9999, twitter.GetTextLengthRemain("D twitter \ud83d"));
         }
+
+        [Theory]
+        [InlineData("https://pbs.twimg.com/profile_images/00000/foo_normal.jpg", "normal", "https://pbs.twimg.com/profile_images/00000/foo_normal.jpg")]
+        [InlineData("https://pbs.twimg.com/profile_images/00000/foo_normal.jpg", "bigger", "https://pbs.twimg.com/profile_images/00000/foo_bigger.jpg")]
+        [InlineData("https://pbs.twimg.com/profile_images/00000/foo_normal.jpg", "mini", "https://pbs.twimg.com/profile_images/00000/foo_mini.jpg")]
+        [InlineData("https://pbs.twimg.com/profile_images/00000/foo_normal.jpg", "original", "https://pbs.twimg.com/profile_images/00000/foo.jpg")]
+        [InlineData("https://pbs.twimg.com/profile_images/00000/foo_normal_bar_normal.jpg", "original", "https://pbs.twimg.com/profile_images/00000/foo_normal_bar.jpg")]
+        public void CreateProfileImageUrl_Test(string normalUrl, string size, string expected)
+            => Assert.Equal(expected, Twitter.CreateProfileImageUrl(normalUrl, size));
+
+        [Fact]
+        public void CreateProfileImageUrl_InvalidSizeTest()
+            => Assert.Throws<ArgumentException>(() => Twitter.CreateProfileImageUrl("https://pbs.twimg.com/profile_images/00000/foo_normal.jpg", "INVALID"));
     }
 }

@@ -1780,6 +1780,28 @@ namespace OpenTween
             return remainWeight / config.Scale;
         }
 
+        /// <summary>
+        /// プロフィール画像のサイズを指定したURLを生成
+        /// </summary>
+        /// <remarks>
+        /// https://developer.twitter.com/en/docs/twitter-api/v1/accounts-and-users/user-profile-images-and-banners を参照
+        /// </remarks>
+        public static string CreateProfileImageUrl(string normalUrl, string size)
+        {
+            switch (size)
+            {
+                case "original":
+                    return normalUrl.Replace("_normal.", ".");
+                case "normal":
+                    return normalUrl;
+                case "bigger":
+                case "mini":
+                    return normalUrl.Replace("_normal.", $"_{size}.");
+                default:
+                    throw new ArgumentException($"Invalid size: ${size}", nameof(size));
+            }
+        }
+
         public bool IsDisposed { get; private set; } = false;
 
         protected virtual void Dispose(bool disposing)

@@ -204,7 +204,7 @@ namespace OpenTween
 
             await this.UserPicture.SetImageFromTask(async () =>
             {
-                var uri = imageUri.Replace("_normal", "_bigger");
+                var uri = Twitter.CreateProfileImageUrl(imageUri, "bigger");
 
                 using var imageStream = await Networking.Http.GetStreamAsync(uri)
                     .ConfigureAwait(false);
@@ -464,7 +464,7 @@ namespace OpenTween
         private async void UserPicture_Click(object sender, EventArgs e)
         {
             var imageUrl = this.displayUser.ProfileImageUrlHttps;
-            imageUrl = imageUrl.Remove(imageUrl.LastIndexOf("_normal", StringComparison.Ordinal), 7);
+            imageUrl = Twitter.CreateProfileImageUrl(imageUrl, "original");
 
             await MyCommon.OpenInBrowserAsync(this, imageUrl);
         }
