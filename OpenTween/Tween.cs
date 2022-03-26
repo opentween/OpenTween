@@ -10866,6 +10866,11 @@ namespace OpenTween
                         this.ImageSelector.BeginSelection(image);
                     }
                 }
+                else if (Clipboard.ContainsFileDropList())
+                {
+                    var files = Clipboard.GetFileDropList().Cast<string>().ToArray();
+                    this.ImageSelector.BeginSelection(files);
+                }
             }
             catch (ExternalException ex)
             {
