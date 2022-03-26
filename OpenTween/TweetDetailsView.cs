@@ -87,6 +87,9 @@ namespace OpenTween
             this.PostBrowser.AllowWebBrowserDrop = false;  // COMException を回避するため、ActiveX の初期化が終わってから設定する
         }
 
+        public void ClearPostBrowser()
+            => this.PostBrowser.DocumentText = this.Owner.CreateDetailHtml("");
+
         public async Task ShowPostDetails(PostClass post)
         {
             this.CurrentPost = post;

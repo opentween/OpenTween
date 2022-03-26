@@ -993,6 +993,7 @@ namespace OpenTween
             this.sfTab.LineAlignment = StringAlignment.Center;
 
             this.InitDetailHtmlFormat();
+            this.tweetDetailsView.ClearPostBrowser();
 
             this.recommendedStatusFooter = " [TWNv" + Regex.Replace(MyCommon.FileVersion.Replace(".", ""), "^0*", "") + "]";
 

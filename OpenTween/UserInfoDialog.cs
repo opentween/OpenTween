@@ -187,7 +187,7 @@ namespace OpenTween
             }
             else
             {
-                this.DescriptionBrowser.DocumentText = "";
+                this.DescriptionBrowser.DocumentText = this.mainForm.CreateDetailHtml("");
             }
         }
 
@@ -268,7 +268,7 @@ namespace OpenTween
             }
             else
             {
-                this.RecentPostBrowser.DocumentText = Properties.Resources.ShowUserInfo2;
+                this.RecentPostBrowser.DocumentText = this.mainForm.CreateDetailHtml(Properties.Resources.ShowUserInfo2);
             }
         }
 
