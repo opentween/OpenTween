@@ -2881,6 +2881,9 @@ namespace OpenTween
         }
 
         private async void MyList_MouseDoubleClick(object sender, MouseEventArgs e)
+            => await this.ListItemDoubleClickAction();
+
+        private async Task ListItemDoubleClickAction()
         {
             switch (SettingManager.Common.ListDoubleClickAction)
             {
@@ -5676,7 +5679,7 @@ namespace OpenTween
 
                 ShortcutCommand.Create(Keys.Enter)
                     .FocusedOn(FocusedControl.ListTab)
-                    .Do(() => this.MakeReplyText()),
+                    .Do(() => this.ListItemDoubleClickAction()),
 
                 ShortcutCommand.Create(Keys.R)
                     .FocusedOn(FocusedControl.ListTab)
