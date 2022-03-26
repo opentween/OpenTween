@@ -105,37 +105,27 @@ namespace OpenTween
 
         private readonly object syncObject = new object(); // ロック用
 
-        private const string DetailHtmlFormatHeaderMono =
-            "<html><head><meta http-equiv=\"X-UA-Compatible\" content=\"IE=8\">"
+        private const string DetailHtmlFormatHead =
+            "<head><meta http-equiv=\"X-UA-Compatible\" content=\"IE=8\">"
             + "<style type=\"text/css\"><!-- "
             + "body, p, pre {margin: 0;} "
-            + "pre {font-family: \"%FONT_FAMILY%\", sans-serif; font-size: %FONT_SIZE%pt; background-color:rgb(%BG_COLOR%); word-wrap: break-word; color:rgb(%FONT_COLOR%);} "
-            + "a:link, a:visited, a:active, a:hover {color:rgb(%LINK_COLOR%); } "
-            + "img.emoji {width: 1em; height: 1em; margin: 0 .05em 0 .1em; vertical-align: -0.1em; border: none;} "
-            + ".quote-tweet {border: 1px solid #ccc; margin: 1em; padding: 0.5em;} "
-            + ".quote-tweet.reply {border-color: #f33;} "
-            + ".quote-tweet-link {color: inherit !important; text-decoration: none;}"
-            + "--></style>"
-            + "</head><body><pre>";
-
-        private const string DetailHtmlFormatFooterMono = "</pre></body></html>";
-
-        private const string DetailHtmlFormatHeaderColor =
-            "<html><head><meta http-equiv=\"X-UA-Compatible\" content=\"IE=8\">"
-            + "<style type=\"text/css\"><!-- "
-            + "body, p, pre {margin: 0;} "
-            + "body {font-family: \"%FONT_FAMILY%\", sans-serif; font-size: %FONT_SIZE%pt; background-color:rgb(%BG_COLOR%); margin: 0; word-wrap: break-word; color:rgb(%FONT_COLOR%);} "
+            + "body {font-family: \"%FONT_FAMILY%\", sans-serif; font-size: %FONT_SIZE%pt; background-color:rgb(%BG_COLOR%); word-wrap: break-word; color:rgb(%FONT_COLOR%);} "
+            + "pre {font-family: inherit;} "
             + "a:link, a:visited, a:active, a:hover {color:rgb(%LINK_COLOR%); } "
             + "img.emoji {width: 1em; height: 1em; margin: 0 .05em 0 .1em; vertical-align: -0.1em; border: none;} "
             + ".quote-tweet {border: 1px solid #ccc; margin: 1em; padding: 0.5em;} "
             + ".quote-tweet.reply {border-color: rgb(%BG_REPLY_COLOR%);} "
             + ".quote-tweet-link {color: inherit !important; text-decoration: none;}"
             + "--></style>"
-            + "</head><body><p>";
+            + "</head>";
 
-        private const string DetailHtmlFormatFooterColor = "</p></body></html>";
-        private string detailHtmlFormatHeader = null!;
-        private string detailHtmlFormatFooter = null!;
+        private const string DetailHtmlFormatTemplateMono =
+            "<html>" + DetailHtmlFormatHead + "<body><pre>%CONTENT_HTML%</pre></body></html>";
+
+        private const string DetailHtmlFormatTemplateNormal =
+            "<html>" + DetailHtmlFormatHead + "<body><p>%CONTENT_HTML%</p></body></html>";
+
+        private string detailHtmlFormatPreparedTemplate = null!;
 
         private bool myStatusError = false;
         private bool myStatusOnline = false;
@@ -1003,6 +993,7 @@ namespace OpenTween
             this.sfTab.LineAlignment = StringAlignment.Center;
 
             this.InitDetailHtmlFormat();
+            this.tweetDetailsView.ClearPostBrowser();
 
             this.recommendedStatusFooter = " [TWNv" + Regex.Replace(MyCommon.FileVersion.Replace(".", ""), "^0*", "") + "]";
 
@@ -1236,24 +1227,15 @@ namespace OpenTween
 
         private void InitDetailHtmlFormat()
         {
-            if (SettingManager.Common.IsMonospace)
-            {
-                this.detailHtmlFormatHeader = DetailHtmlFormatHeaderMono;
-                this.detailHtmlFormatFooter = DetailHtmlFormatFooterMono;
-            }
-            else
-            {
-                this.detailHtmlFormatHeader = DetailHtmlFormatHeaderColor;
-                this.detailHtmlFormatFooter = DetailHtmlFormatFooterColor;
-            }
+            var htmlTemplate = SettingManager.Common.IsMonospace ? DetailHtmlFormatTemplateMono : DetailHtmlFormatTemplateNormal;
 
-            this.detailHtmlFormatHeader = this.detailHtmlFormatHeader
-                    .Replace("%FONT_FAMILY%", this.fntDetail.Name)
-                    .Replace("%FONT_SIZE%", this.fntDetail.Size.ToString())
-                    .Replace("%FONT_COLOR%", $"{this.clDetail.R},{this.clDetail.G},{this.clDetail.B}")
-                    .Replace("%LINK_COLOR%", $"{this.clDetailLink.R},{this.clDetailLink.G},{this.clDetailLink.B}")
-                    .Replace("%BG_COLOR%", $"{this.clDetailBackcolor.R},{this.clDetailBackcolor.G},{this.clDetailBackcolor.B}")
-                    .Replace("%BG_REPLY_COLOR%", $"{this.clAtTo.R}, {this.clAtTo.G}, {this.clAtTo.B}");
+            this.detailHtmlFormatPreparedTemplate = htmlTemplate
+                .Replace("%FONT_FAMILY%", this.fntDetail.Name)
+                .Replace("%FONT_SIZE%", this.fntDetail.Size.ToString())
+                .Replace("%FONT_COLOR%", $"{this.clDetail.R},{this.clDetail.G},{this.clDetail.B}")
+                .Replace("%LINK_COLOR%", $"{this.clDetailLink.R},{this.clDetailLink.G},{this.clDetailLink.B}")
+                .Replace("%BG_COLOR%", $"{this.clDetailBackcolor.R},{this.clDetailBackcolor.G},{this.clDetailBackcolor.B}")
+                .Replace("%BG_REPLY_COLOR%", $"{this.clAtTo.R}, {this.clAtTo.G}, {this.clAtTo.B}");
         }
 
         private void ListTab_DrawItem(object sender, DrawItemEventArgs e)
@@ -5528,7 +5510,7 @@ namespace OpenTween
         }
 
         public string CreateDetailHtml(string orgdata)
-            => this.detailHtmlFormatHeader + orgdata + this.detailHtmlFormatFooter;
+            => this.detailHtmlFormatPreparedTemplate.Replace("%CONTENT_HTML%", orgdata);
 
         private void DispSelectedPost()
             => this.DispSelectedPost(false);
