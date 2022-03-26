@@ -2890,6 +2890,9 @@ namespace OpenTween
                 case MyCommon.ListItemDoubleClickActionType.Reply:
                     this.MakeReplyText();
                     break;
+                case MyCommon.ListItemDoubleClickActionType.ReplyAll:
+                    this.MakeReplyText(atAll: true);
+                    break;
                 case MyCommon.ListItemDoubleClickActionType.Favorite:
                     await this.FavoriteChange(true);
                     break;

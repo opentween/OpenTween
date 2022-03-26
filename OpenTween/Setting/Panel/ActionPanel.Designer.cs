@@ -77,7 +77,8 @@
             resources.GetString("ListDoubleClickActionComboBox.Items4"),
             resources.GetString("ListDoubleClickActionComboBox.Items5"),
             resources.GetString("ListDoubleClickActionComboBox.Items6"),
-            resources.GetString("ListDoubleClickActionComboBox.Items7")});
+            resources.GetString("ListDoubleClickActionComboBox.Items7"),
+            resources.GetString("ListDoubleClickActionComboBox.Items8")});
             resources.ApplyResources(this.ListDoubleClickActionComboBox, "ListDoubleClickActionComboBox");
             this.ListDoubleClickActionComboBox.Name = "ListDoubleClickActionComboBox";
             // 

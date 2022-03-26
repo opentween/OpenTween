@@ -72,12 +72,13 @@ namespace OpenTween.Setting.Panel
             {
                 MyCommon.ListItemDoubleClickActionType.None => 0,
                 MyCommon.ListItemDoubleClickActionType.Reply => 1,
-                MyCommon.ListItemDoubleClickActionType.Favorite => 2,
-                MyCommon.ListItemDoubleClickActionType.ShowProfile => 3,
-                MyCommon.ListItemDoubleClickActionType.ShowTimeline => 4,
-                MyCommon.ListItemDoubleClickActionType.ShowRelated => 5,
-                MyCommon.ListItemDoubleClickActionType.OpenHomeInBrowser => 6,
-                MyCommon.ListItemDoubleClickActionType.OpenStatusInBrowser => 7,
+                MyCommon.ListItemDoubleClickActionType.ReplyAll => 2,
+                MyCommon.ListItemDoubleClickActionType.Favorite => 3,
+                MyCommon.ListItemDoubleClickActionType.ShowProfile => 4,
+                MyCommon.ListItemDoubleClickActionType.ShowTimeline => 5,
+                MyCommon.ListItemDoubleClickActionType.ShowRelated => 6,
+                MyCommon.ListItemDoubleClickActionType.OpenHomeInBrowser => 7,
+                MyCommon.ListItemDoubleClickActionType.OpenStatusInBrowser => 8,
                 _ => 1,
             };
             this.TabMouseLockCheck.Checked = settingCommon.TabMouseLock;
@@ -111,12 +112,13 @@ namespace OpenTween.Setting.Panel
             {
                 0 => MyCommon.ListItemDoubleClickActionType.None,
                 1 => MyCommon.ListItemDoubleClickActionType.Reply,
-                2 => MyCommon.ListItemDoubleClickActionType.Favorite,
-                3 => MyCommon.ListItemDoubleClickActionType.ShowProfile,
-                4 => MyCommon.ListItemDoubleClickActionType.ShowTimeline,
-                5 => MyCommon.ListItemDoubleClickActionType.ShowRelated,
-                6 => MyCommon.ListItemDoubleClickActionType.OpenHomeInBrowser,
-                7 => MyCommon.ListItemDoubleClickActionType.OpenStatusInBrowser,
+                2 => MyCommon.ListItemDoubleClickActionType.ReplyAll,
+                3 => MyCommon.ListItemDoubleClickActionType.Favorite,
+                4 => MyCommon.ListItemDoubleClickActionType.ShowProfile,
+                5 => MyCommon.ListItemDoubleClickActionType.ShowTimeline,
+                6 => MyCommon.ListItemDoubleClickActionType.ShowRelated,
+                7 => MyCommon.ListItemDoubleClickActionType.OpenHomeInBrowser,
+                8 => MyCommon.ListItemDoubleClickActionType.OpenStatusInBrowser,
                 _ => MyCommon.ListItemDoubleClickActionType.Reply,
             };
             settingCommon.TabMouseLock = this.TabMouseLockCheck.Checked;

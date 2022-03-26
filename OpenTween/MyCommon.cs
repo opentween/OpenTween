@@ -132,6 +132,7 @@ namespace OpenTween
             OpenHomeInBrowser,
             OpenStatusInBrowser,
             None,
+            ReplyAll,
         }
 
         public enum HITRESULT
