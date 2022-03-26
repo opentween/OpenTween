@@ -29,12 +29,12 @@
 	<data name="Label44.Text"><value>Path to Browser</value></data>
 	<data name="Label57.Size" type="System.Drawing.Size, System.Drawing"><value>484, 12</value></data>
 	<data name="Label57.Text"><value>Refetch tweets and verify whether marked favorites. This option causes traffic increasement.</value></data>
-	<data name="ListDoubleClickActionComboBox.Items2"><value>Show user's profile</value></data>
-	<data name="ListDoubleClickActionComboBox.Items3"><value>Show user's timeline</value></data>
-	<data name="ListDoubleClickActionComboBox.Items4"><value>Show Relational tweet</value></data>
-	<data name="ListDoubleClickActionComboBox.Items5"><value>Open user's home of twitter.com</value></data>
-	<data name="ListDoubleClickActionComboBox.Items6"><value>Open status of twitter.com</value></data>
-	<data name="ListDoubleClickActionComboBox.Items7"><value>Not bihavier</value></data>
+	<data name="ListDoubleClickActionComboBox.Items"><value>Do nothing</value></data>
+	<data name="ListDoubleClickActionComboBox.Items3"><value>Show user's profile</value></data>
+	<data name="ListDoubleClickActionComboBox.Items4"><value>Show user's timeline</value></data>
+	<data name="ListDoubleClickActionComboBox.Items5"><value>Show Relational tweet</value></data>
+	<data name="ListDoubleClickActionComboBox.Items6"><value>Open user's home of twitter.com</value></data>
+	<data name="ListDoubleClickActionComboBox.Items7"><value>Open status of twitter.com</value></data>
 	<data name="PlaySnd.Size" type="System.Drawing.Size, System.Drawing"><value>215, 16</value></data>
 	<data name="PlaySnd.Text"><value>Play sounds when new status arrived</value></data>
 	<data name="TabMouseLockCheck.Size" type="System.Drawing.Size, System.Drawing"><value>157, 16</value></data>

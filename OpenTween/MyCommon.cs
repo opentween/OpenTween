@@ -121,6 +121,19 @@ namespace OpenTween
             Twurl = -1,
         }
 
+        public enum ListItemDoubleClickActionType
+        {
+            // 設定ファイルの互換性を保つため新規の項目は途中に追加しないこと
+            Reply,
+            Favorite,
+            ShowProfile,
+            ShowTimeline,
+            ShowRelated,
+            OpenHomeInBrowser,
+            OpenStatusInBrowser,
+            None,
+        }
+
         public enum HITRESULT
         {
             None,

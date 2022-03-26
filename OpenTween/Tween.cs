@@ -2887,30 +2887,31 @@ namespace OpenTween
         {
             switch (SettingManager.Common.ListDoubleClickAction)
             {
-                case 0:
+                case MyCommon.ListItemDoubleClickActionType.Reply:
                     this.MakeReplyText();
                     break;
-                case 1:
+                case MyCommon.ListItemDoubleClickActionType.Favorite:
                     await this.FavoriteChange(true);
                     break;
-                case 2:
+                case MyCommon.ListItemDoubleClickActionType.ShowProfile:
                     var post = this.CurrentPost;
                     if (post != null)
                         await this.ShowUserStatus(post.ScreenName, false);
                     break;
-                case 3:
+                case MyCommon.ListItemDoubleClickActionType.ShowTimeline:
                     await this.ShowUserTimeline();
                     break;
-                case 4:
+                case MyCommon.ListItemDoubleClickActionType.ShowRelated:
                     this.ShowRelatedStatusesMenuItem_Click(this.ShowRelatedStatusesMenuItem, EventArgs.Empty);
                     break;
-                case 5:
+                case MyCommon.ListItemDoubleClickActionType.OpenHomeInBrowser:
                     this.AuthorOpenInBrowserMenuItem_Click(this.AuthorOpenInBrowserContextMenuItem, EventArgs.Empty);
                     break;
-                case 6:
+                case MyCommon.ListItemDoubleClickActionType.OpenStatusInBrowser:
                     this.StatusOpenMenuItem_Click(this.StatusOpenMenuItem, EventArgs.Empty);
                     break;
-                case 7:
+                case MyCommon.ListItemDoubleClickActionType.None:
+                default:
                     // 動作なし
                     break;
             }
