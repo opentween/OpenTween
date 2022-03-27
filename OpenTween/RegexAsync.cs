@@ -41,7 +41,7 @@ namespace OpenTween
                 .GroupBy(x => x.Value) // ToDictionaryする際に key が重複しないようにする
                 .Select(async x => new
                 {
-                    Key = x.Key,
+                    x.Key,
                     Value = await evaluator(x.First()).ConfigureAwait(false),
                 });
 
