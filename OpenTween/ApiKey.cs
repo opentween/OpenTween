@@ -65,7 +65,7 @@ namespace OpenTween
         /// <returns>
         /// 成功した場合は true、暗号化された API キーの復号に失敗した場合は false を返します
         /// </returns>
-        public bool TryGetValue([NotNullWhen(true)]out string output)
+        public bool TryGetValue([NotNullWhen(true)]out string? output)
         {
             try
             {
@@ -74,7 +74,7 @@ namespace OpenTween
             }
             catch (ApiKeyDecryptException)
             {
-                output = null!;
+                output = null;
                 return false;
             }
         }

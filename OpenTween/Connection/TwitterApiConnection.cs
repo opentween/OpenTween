@@ -23,6 +23,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -55,9 +56,9 @@ namespace OpenTween.Connection
 
         public string AccessSecret { get; }
 
-        internal HttpClient Http = null!;
-        internal HttpClient HttpUpload = null!;
-        internal HttpClient HttpStreaming = null!;
+        internal HttpClient Http;
+        internal HttpClient HttpUpload;
+        internal HttpClient HttpStreaming;
 
         private readonly ApiKey consumerKey;
         private readonly ApiKey consumerSecret;
@@ -73,6 +74,7 @@ namespace OpenTween.Connection
             Networking.WebProxyChanged += this.Networking_WebProxyChanged;
         }
 
+        [MemberNotNull(nameof(Http), nameof(HttpUpload), nameof(HttpStreaming))]
         private void InitializeHttpClients()
         {
             this.Http = InitializeHttpClient(this.consumerKey, this.consumerSecret, this.AccessToken, this.AccessSecret);

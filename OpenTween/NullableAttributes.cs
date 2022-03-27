@@ -41,4 +41,13 @@ namespace System.Diagnostics.CodeAnalysis
         public MaybeNullWhenAttribute(bool returnValue)
             => this.ReturnValue = returnValue;
     }
+
+    [AttributeUsage(AttributeTargets.Method | AttributeTargets.Property, Inherited = false)]
+    internal sealed class MemberNotNullAttribute : Attribute
+    {
+        public string[] Members { get; }
+
+        public MemberNotNullAttribute(params string[] members)
+            => this.Members = members;
+    }
 }
