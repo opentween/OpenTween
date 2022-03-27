@@ -34,7 +34,7 @@ namespace OpenTween.Models
     {
         private class PostClassGroup
         {
-            private Dictionary<long, PostClass> testCases;
+            private readonly Dictionary<long, PostClass> testCases;
 
             public PostClassGroup(params TestPostClass[] postClasses)
             {
@@ -67,7 +67,7 @@ namespace OpenTween.Models
             }
         }
 
-        private PostClassGroup postGroup;
+        private readonly PostClassGroup postGroup;
 
         public PostClassTest()
         {
