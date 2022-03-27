@@ -62,13 +62,8 @@ namespace OpenTween
 
                     base.SplitterDistance = this.SplitterTotalWidth - (base.SplitterDistance + this.SplitterWidth);
 
-                    var tmpMinSize = base.Panel1MinSize;
-                    base.Panel1MinSize = base.Panel2MinSize;
-                    base.Panel2MinSize = tmpMinSize;
-
-                    var tmpCollapsed = base.Panel1Collapsed;
-                    base.Panel1Collapsed = base.Panel2Collapsed;
-                    base.Panel2Collapsed = tmpCollapsed;
+                    (base.Panel2MinSize, base.Panel1MinSize) = (base.Panel1MinSize, base.Panel2MinSize);
+                    (base.Panel2Collapsed, base.Panel1Collapsed) = (base.Panel1Collapsed, base.Panel2Collapsed);
 
                     base.Panel1.Controls.AddRange(cont2.ToArray());
                     base.Panel2.Controls.AddRange(cont1.ToArray());
