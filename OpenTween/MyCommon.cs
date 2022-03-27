@@ -1017,7 +1017,7 @@ namespace OpenTween
                 };
             }
 
-            int quoteEnd = -1;
+            var quoteEnd = -1;
             if (browserPathWithArgs.StartsWith("\"", StringComparison.Ordinal))
                 quoteEnd = browserPathWithArgs.IndexOf("\"", 1, StringComparison.Ordinal);
 
