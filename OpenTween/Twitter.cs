@@ -1069,12 +1069,13 @@ namespace OpenTween
 
             relPosts.Values.ToList().ForEach(p =>
             {
-                if (p.IsMe && !read && this.ReadOwnPost)
-                    p.IsRead = true;
+                var post = p.Clone();
+                if (post.IsMe && !read && this.ReadOwnPost)
+                    post.IsRead = true;
                 else
-                    p.IsRead = read;
+                    post.IsRead = read;
 
-                tab.AddPostQueue(p);
+                tab.AddPostQueue(post);
             });
 
             if (lastException != null)
