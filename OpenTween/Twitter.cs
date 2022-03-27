@@ -1789,18 +1789,13 @@ namespace OpenTween
         /// </remarks>
         public static string CreateProfileImageUrl(string normalUrl, string size)
         {
-            switch (size)
+            return size switch
             {
-                case "original":
-                    return normalUrl.Replace("_normal.", ".");
-                case "normal":
-                    return normalUrl;
-                case "bigger":
-                case "mini":
-                    return normalUrl.Replace("_normal.", $"_{size}.");
-                default:
-                    throw new ArgumentException($"Invalid size: ${size}", nameof(size));
-            }
+                "original" => normalUrl.Replace("_normal.", "."),
+                "normal" => normalUrl,
+                "bigger" or "mini" => normalUrl.Replace("_normal.", $"_{size}."),
+                _ => throw new ArgumentException($"Invalid size: ${size}", nameof(size)),
+            };
         }
 
         public static string DecideProfileImageSize(int sizePx)

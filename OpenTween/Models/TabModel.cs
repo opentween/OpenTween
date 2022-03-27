@@ -238,23 +238,13 @@ namespace OpenTween.Models
             }
             else
             {
-                Comparison<PostClass> postComparison;
-                switch (this.SortMode)
+                Comparison<PostClass> postComparison = this.SortMode switch
                 {
-                    default:
-                    case ComparerMode.Data:
-                        postComparison = (x, y) => Comparer<string?>.Default.Compare(x?.TextFromApi, y?.TextFromApi);
-                        break;
-                    case ComparerMode.Name:
-                        postComparison = (x, y) => Comparer<string?>.Default.Compare(x?.ScreenName, y?.ScreenName);
-                        break;
-                    case ComparerMode.Nickname:
-                        postComparison = (x, y) => Comparer<string?>.Default.Compare(x?.Nickname, y?.Nickname);
-                        break;
-                    case ComparerMode.Source:
-                        postComparison = (x, y) => Comparer<string?>.Default.Compare(x?.Source, y?.Source);
-                        break;
-                }
+                    ComparerMode.Name => (x, y) => Comparer<string?>.Default.Compare(x?.ScreenName, y?.ScreenName),
+                    ComparerMode.Nickname => (x, y) => Comparer<string?>.Default.Compare(x?.Nickname, y?.Nickname),
+                    ComparerMode.Source => (x, y) => Comparer<string?>.Default.Compare(x?.Source, y?.Source),
+                    _ => (x, y) => Comparer<string?>.Default.Compare(x?.TextFromApi, y?.TextFromApi),
+                };
 
                 comparison = (x, y) =>
                 {
