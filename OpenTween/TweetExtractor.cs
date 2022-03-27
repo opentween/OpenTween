@@ -62,13 +62,11 @@ namespace OpenTween
                     if (Regex.IsMatch(before, Twitter.UrlInvalidWithoutProtocolPrecedingChars))
                         continue;
 
-                    string? lasturl = null;
-
                     var last_url_invalid_match = false;
                     var domainMatches = Regex.Matches(domain, Twitter.UrlValidAsciiDomain, RegexOptions.IgnoreCase).Cast<Match>();
                     foreach (var mm in domainMatches)
                     {
-                        lasturl = mm.Value;
+                        var lasturl = mm.Value;
                         last_url_invalid_match = Regex.IsMatch(lasturl, Twitter.UrlInvalidShortDomain, RegexOptions.IgnoreCase);
                         if (!last_url_invalid_match)
                         {
