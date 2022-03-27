@@ -205,8 +205,7 @@ namespace OpenTween
                 if (!ShortUrlHosts.Contains(uri.Host) && !this.IsIrregularShortUrl(uri))
                     return uri;
 
-                Uri? expanded;
-                if (this.urlCache.TryGetValue(uri, out expanded))
+                if (this.urlCache.TryGetValue(uri, out var expanded))
                     return expanded;
 
                 if (this.urlCache.Count > this.PurgeCount)
