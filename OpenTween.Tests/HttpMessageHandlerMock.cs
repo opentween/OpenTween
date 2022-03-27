@@ -32,7 +32,7 @@ namespace OpenTween
     public class HttpMessageHandlerMock : HttpMessageHandler
     {
         private readonly Queue<Func<HttpRequestMessage, Task<HttpResponseMessage>>> queue =
-            new Queue<Func<HttpRequestMessage, Task<HttpResponseMessage>>>();
+            new();
 
         public int QueueCount
             => this.queue.Count;

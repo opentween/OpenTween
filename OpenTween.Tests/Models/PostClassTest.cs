@@ -403,7 +403,7 @@ namespace OpenTween.Models
 
         private class FakeExpandedUrlInfo : PostClass.ExpandedUrlInfo
         {
-            public TaskCompletionSource<string> FakeResult = new TaskCompletionSource<string>();
+            public TaskCompletionSource<string> FakeResult = new();
 
             public FakeExpandedUrlInfo(string url, string expandedUrl, bool deepExpand)
                 : base(url, expandedUrl, deepExpand)

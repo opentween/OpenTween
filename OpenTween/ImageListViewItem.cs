@@ -48,7 +48,7 @@ namespace OpenTween
         /// </remarks>
         public int StateIndex { get; set; }
 
-        private readonly WeakReference imageReference = new WeakReference(null);
+        private readonly WeakReference imageReference = new(null);
         private Task? imageTask = null;
 
         public event EventHandler? ImageDownloaded;

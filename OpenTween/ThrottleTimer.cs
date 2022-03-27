@@ -37,7 +37,7 @@ namespace OpenTween
     {
         private readonly ITimer throttlingTimer;
         private readonly Func<Task> timerCallback;
-        private readonly object lockObject = new object();
+        private readonly object lockObject = new();
 
         private bool calledSinceLastInvoke;
         private bool refreshTimerEnabled;
@@ -118,6 +118,6 @@ namespace OpenTween
             => this.throttlingTimer.Dispose();
 
         public static ThrottleTimer Create(Func<Task> callback, TimeSpan wait)
-            => new ThrottleTimer(callback, wait);
+            => new(callback, wait);
     }
 }

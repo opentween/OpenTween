@@ -63,7 +63,7 @@ namespace OpenTween.Thumbnail
         public static readonly string TileServerBase = "https://a.tile.openstreetmap.org";
 
         /// <summary>タイル画像一枚当たりの大きさ (ピクセル単位)</summary>
-        public static readonly Size TileSize = new Size(256, 256);
+        public static readonly Size TileSize = new(256, 256);
 
         /// <summary>画像の中心点の緯度</summary>
         public double Latitude { get; }

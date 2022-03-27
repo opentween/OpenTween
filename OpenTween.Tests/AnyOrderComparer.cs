@@ -32,7 +32,7 @@ namespace OpenTween
     internal class AnyOrderComparer<T> : IEqualityComparer<IEnumerable<T>>
         where T : IEquatable<T>
     {
-        public static readonly AnyOrderComparer<T> Instance = new AnyOrderComparer<T>();
+        public static readonly AnyOrderComparer<T> Instance = new();
 
         public bool Equals(IEnumerable<T> x, IEnumerable<T> y)
         {

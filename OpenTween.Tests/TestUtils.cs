@@ -108,7 +108,7 @@ namespace OpenTween
         }
 
         public static MemoryImageMediaItem CreateDummyMediaItem()
-            => new MemoryImageMediaItem(CreateDummyImage());
+            => new(CreateDummyImage());
 
         public static void FireEvent<T>(T control, string eventName)
             where T : Control

@@ -104,7 +104,7 @@ namespace OpenTween
         public void IsAnimatedGifTest(string filename, bool expected)
             => Assert.Equal(expected, MyCommon.IsAnimatedGif(filename));
 
-        public static readonly TheoryData<string, DateTimeUtc> DateTimeParseTestCase = new TheoryData<string, DateTimeUtc>
+        public static readonly TheoryData<string, DateTimeUtc> DateTimeParseTestCase = new()
         {
             { "Sun Nov 25 06:10:00 +00:00 2012", new DateTimeUtc(2012, 11, 25, 6, 10, 0) },
             { "Sun, 25 Nov 2012 06:10:00 +00:00", new DateTimeUtc(2012, 11, 25, 6, 10, 0) },
@@ -125,7 +125,7 @@ namespace OpenTween
             public string Body { get; set; }
         }
 
-        public static readonly TheoryData<string, JsonData> CreateDataFromJsonTestCase = new TheoryData<string, JsonData>
+        public static readonly TheoryData<string, JsonData> CreateDataFromJsonTestCase = new()
         {
             {
                 @"{""id"":""1"", ""body"":""hogehoge""}",
@@ -186,7 +186,7 @@ namespace OpenTween
         public void GetReadableVersionTest(string fileVersion, string expected)
             => Assert.Equal(expected, MyCommon.GetReadableVersion(fileVersion));
 
-        public static readonly TheoryData<PostClass, string> GetStatusUrlTest1TestCase = new TheoryData<PostClass, string>
+        public static readonly TheoryData<PostClass, string> GetStatusUrlTest1TestCase = new()
         {
             {
                 new PostClass { StatusId = 249493863826350080L, ScreenName = "Favstar_LM", RetweetedId = null, RetweetedBy = null },

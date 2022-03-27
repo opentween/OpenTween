@@ -125,12 +125,12 @@ namespace OpenTween
         /// <summary>
         /// ツイートへのパーマリンクURLを判定する正規表現
         /// </summary>
-        public static readonly Regex StatusUrlRegex = new Regex(@"https?://([^.]+\.)?twitter\.com/(#!/)?(?<ScreenName>[a-zA-Z0-9_]+)/status(es)?/(?<StatusId>[0-9]+)(/photo)?", RegexOptions.IgnoreCase);
+        public static readonly Regex StatusUrlRegex = new(@"https?://([^.]+\.)?twitter\.com/(#!/)?(?<ScreenName>[a-zA-Z0-9_]+)/status(es)?/(?<StatusId>[0-9]+)(/photo)?", RegexOptions.IgnoreCase);
 
         /// <summary>
         /// attachment_url に指定可能な URL を判定する正規表現
         /// </summary>
-        public static readonly Regex AttachmentUrlRegex = new Regex(
+        public static readonly Regex AttachmentUrlRegex = new(
             @"https?://(
    twitter\.com/[0-9A-Za-z_]+/status/[0-9]+
  | mobile\.twitter\.com/[0-9A-Za-z_]+/status/[0-9]+
@@ -141,7 +141,7 @@ namespace OpenTween
         /// <summary>
         /// FavstarやaclogなどTwitter関連サービスのパーマリンクURLからステータスIDを抽出する正規表現
         /// </summary>
-        public static readonly Regex ThirdPartyStatusUrlRegex = new Regex(
+        public static readonly Regex ThirdPartyStatusUrlRegex = new(
             @"https?://(?:[^.]+\.)?(?:
   favstar\.fm/users/[a-zA-Z0-9_]+/status/       # Favstar
 | favstar\.fm/t/                                # Favstar (short)
@@ -153,7 +153,7 @@ namespace OpenTween
         /// <summary>
         /// DM送信かどうかを判定する正規表現
         /// </summary>
-        public static readonly Regex DMSendTextRegex = new Regex(@"^DM? +(?<id>[a-zA-Z0-9_]+) +(?<body>.*)", RegexOptions.IgnoreCase | RegexOptions.Singleline);
+        public static readonly Regex DMSendTextRegex = new(@"^DM? +(?<id>[a-zA-Z0-9_]+) +(?<body>.*)", RegexOptions.IgnoreCase | RegexOptions.Singleline);
 
         public TwitterApi Api { get; }
 
@@ -167,12 +167,12 @@ namespace OpenTween
 
         private delegate void GetIconImageDelegate(PostClass post);
 
-        private readonly object lockObj = new object();
+        private readonly object lockObj = new();
         private ISet<long> followerId = new HashSet<long>();
         private long[] noRTId = Array.Empty<long>();
 
         // プロパティからアクセスされる共通情報
-        private readonly List<string> hashList = new List<string>();
+        private readonly List<string> hashList = new();
 
         private string? nextCursorDirectMessage = null;
 
@@ -1571,7 +1571,7 @@ namespace OpenTween
             return text;
         }
 
-        private static readonly Uri SourceUriBase = new Uri("https://twitter.com/");
+        private static readonly Uri SourceUriBase = new("https://twitter.com/");
 
         /// <summary>
         /// Twitter APIから得たHTML形式のsource文字列を分析し、source名とURLに分離します

@@ -51,9 +51,9 @@ namespace OpenTween
         /// </summary>
         public SizeF ScaleDimension = SizeF.Empty;
 
-        public Point FormLocation = new Point(0, 0);
+        public Point FormLocation = new(0, 0);
         public int SplitterDistance = 200;
-        public Size FormSize = new Size(600, 500);
+        public Size FormSize = new(600, 500);
 
         /// <summary>
         /// 文末ステータス
@@ -87,7 +87,7 @@ namespace OpenTween
         public int PreviewDistance = -1;
 
         [XmlIgnore]
-        public Font FontUnread = new Font(SystemFonts.DefaultFont, FontStyle.Bold | FontStyle.Underline);
+        public Font FontUnread = new(SystemFonts.DefaultFont, FontStyle.Bold | FontStyle.Underline);
 
         public string FontUnreadStr
         {
@@ -341,7 +341,7 @@ namespace OpenTween
         public bool UseTwemoji = true;
 
         [XmlIgnore]
-        private readonly FontConverter fontConverter = new FontConverter();
+        private readonly FontConverter fontConverter = new();
 
         protected string FontToString(Font font)
             => this.fontConverter.ConvertToString(font);
@@ -350,7 +350,7 @@ namespace OpenTween
             => (Font)this.fontConverter.ConvertFromString(str);
 
         [XmlIgnore]
-        private readonly ColorConverter colorConverter = new ColorConverter();
+        private readonly ColorConverter colorConverter = new();
 
         protected string ColorToString(Color color)
             => this.colorConverter.ConvertToString(color);
@@ -362,7 +362,7 @@ namespace OpenTween
         /// 指定されたスケールと SettingLocal.ScaleDimension のスケールとの拡大比を返します
         /// </summary>
         public SizeF GetConfigScaleFactor(SizeF currentSizeDimension)
-            => new SizeF(
+            => new(
                 currentSizeDimension.Width / this.ScaleDimension.Width,
                 currentSizeDimension.Height / this.ScaleDimension.Height);
 

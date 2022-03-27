@@ -51,7 +51,7 @@ namespace OpenTween
         [XmlAnyElement]
         public XmlElement[] ExtraElements = Array.Empty<XmlElement>();
 
-        private static readonly object LockObj = new object();
+        private static readonly object LockObj = new();
 
         protected static T LoadSettings(string fileId)
         {

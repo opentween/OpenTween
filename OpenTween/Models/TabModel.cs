@@ -100,13 +100,13 @@ namespace OpenTween.Models
             }
         }
 
-        private IndexedSortedSet<long> ids = new IndexedSortedSet<long>();
-        private ConcurrentQueue<TemporaryId> addQueue = new ConcurrentQueue<TemporaryId>();
-        private readonly ConcurrentQueue<long> removeQueue = new ConcurrentQueue<long>();
-        private SortedSet<long> unreadIds = new SortedSet<long>();
-        private List<long> selectedStatusIds = new List<long>();
+        private IndexedSortedSet<long> ids = new();
+        private ConcurrentQueue<TemporaryId> addQueue = new();
+        private readonly ConcurrentQueue<long> removeQueue = new();
+        private SortedSet<long> unreadIds = new();
+        private List<long> selectedStatusIds = new();
 
-        private readonly object lockObj = new object();
+        private readonly object lockObj = new();
 
         protected TabModel(string tabName)
             => this.TabName = tabName;

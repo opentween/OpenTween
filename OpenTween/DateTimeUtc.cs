@@ -90,7 +90,7 @@ namespace OpenTween
             => (long)(this - UnixEpoch).TotalSeconds;
 
         public DateTimeOffset ToDateTimeOffset()
-            => new DateTimeOffset(this.datetime);
+            => new(this.datetime);
 
         public DateTimeOffset ToLocalTime()
             => this.ToDateTimeOffset().ToLocalTime();
@@ -123,10 +123,10 @@ namespace OpenTween
             => this.ToLocalTime().ToString(format);
 
         public static DateTimeUtc operator +(DateTimeUtc a, TimeSpan b)
-            => new DateTimeUtc(a.datetime + b);
+            => new(a.datetime + b);
 
         public static DateTimeUtc operator -(DateTimeUtc a, TimeSpan b)
-            => new DateTimeUtc(a.datetime - b);
+            => new(a.datetime - b);
 
         public static TimeSpan operator -(DateTimeUtc a, DateTimeUtc b)
             => a.datetime - b.datetime;
@@ -153,7 +153,7 @@ namespace OpenTween
             => UnixEpoch + TimeSpan.FromTicks(unixTime * TimeSpan.TicksPerSecond);
 
         public static DateTimeUtc Parse(string input, IFormatProvider formatProvider)
-            => new DateTimeUtc(DateTimeOffset.Parse(input, formatProvider, DateTimeStyles.AssumeUniversal));
+            => new(DateTimeOffset.Parse(input, formatProvider, DateTimeStyles.AssumeUniversal));
 
         public static bool TryParse(string input, IFormatProvider formatProvider, out DateTimeUtc result)
         {

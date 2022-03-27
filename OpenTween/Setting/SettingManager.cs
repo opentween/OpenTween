@@ -31,13 +31,13 @@ namespace OpenTween.Setting
 {
     public static class SettingManager
     {
-        public static SettingCommon Common { get; internal set; } = new SettingCommon();
+        public static SettingCommon Common { get; internal set; } = new();
 
-        public static SettingLocal Local { get; internal set; } = new SettingLocal();
+        public static SettingLocal Local { get; internal set; } = new();
 
-        public static SettingTabs Tabs { get; internal set; } = new SettingTabs();
+        public static SettingTabs Tabs { get; internal set; } = new();
 
-        public static SettingAtIdList AtIdList { get; internal set; } = new SettingAtIdList();
+        public static SettingAtIdList AtIdList { get; internal set; } = new();
 
         public static void LoadAll()
         {

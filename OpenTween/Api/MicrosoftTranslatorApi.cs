@@ -38,8 +38,8 @@ namespace OpenTween.Api
 {
     public class MicrosoftTranslatorApi
     {
-        public static readonly Uri IssueTokenEndpoint = new Uri("https://api.cognitive.microsoft.com/sts/v1.0/issueToken");
-        public static readonly Uri TranslateEndpoint = new Uri("https://api.cognitive.microsofttranslator.com/translate");
+        public static readonly Uri IssueTokenEndpoint = new("https://api.cognitive.microsoft.com/sts/v1.0/issueToken");
+        public static readonly Uri TranslateEndpoint = new("https://api.cognitive.microsofttranslator.com/translate");
 
         public string AccessToken { get; internal set; } = "";
 

@@ -37,7 +37,7 @@ namespace OpenTween
     /// </summary>
     public class MouseWheelMessageFilter : IMessageFilter
     {
-        private readonly List<Control> controls = new List<Control>();
+        private readonly List<Control> controls = new();
 
         public MouseWheelMessageFilter()
             => Application.AddMessageFilter(this);

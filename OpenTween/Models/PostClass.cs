@@ -200,7 +200,7 @@ namespace OpenTween.Models
             }
 
             public ExpandedUrlInfo Clone()
-                => new ExpandedUrlInfo(this.Url, this.ExpandedUrl, deepExpand: false);
+                => new(this.Url, this.ExpandedUrl, deepExpand: false);
 
             object ICloneable.Clone()
                 => this.Clone();

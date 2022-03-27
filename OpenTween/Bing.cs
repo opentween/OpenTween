@@ -39,7 +39,7 @@ namespace OpenTween
 {
     public class Bing
     {
-        private static readonly List<string> LanguageTable = new List<string>
+        private static readonly List<string> LanguageTable = new()
         {
             "af",
             "sq",

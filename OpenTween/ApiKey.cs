@@ -89,7 +89,7 @@ namespace OpenTween
         /// <see cref="ApiKey"/> インスタンスを作成します
         /// </summary>
         public static ApiKey Create(string password, string rawKey)
-            => new ApiKey(password, rawKey);
+            => new(password, rawKey);
 
         /// <summary>
         /// 指定された文字列を暗号化して返します

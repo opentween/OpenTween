@@ -269,7 +269,7 @@ namespace OpenTween
                 utc.ToDateTimeUnsafe());
         }
 
-        public static readonly TheoryData<string, DateTimeUtc> ParseTestFixtures = new TheoryData<string, DateTimeUtc>
+        public static readonly TheoryData<string, DateTimeUtc> ParseTestFixtures = new()
         {
             { "2018-05-06T11:22:33.111", new DateTimeUtc(2018, 5, 6, 11, 22, 33, 111) },
             { "2018-05-06T11:22:33.111+00:00", new DateTimeUtc(2018, 5, 6, 11, 22, 33, 111) },
@@ -285,7 +285,7 @@ namespace OpenTween
         public void Parse_ErrorTest()
             => Assert.Throws<FormatException>(() => DateTimeUtc.Parse("### INVALID ###", DateTimeFormatInfo.InvariantInfo));
 
-        public static readonly TheoryData<string, bool, DateTimeUtc> TryParseTestFixtures = new TheoryData<string, bool, DateTimeUtc>
+        public static readonly TheoryData<string, bool, DateTimeUtc> TryParseTestFixtures = new()
         {
             { "2018-05-06T11:22:33.111", true, new DateTimeUtc(2018, 5, 6, 11, 22, 33, 111) },
             { "2018-05-06T11:22:33.111+00:00", true, new DateTimeUtc(2018, 5, 6, 11, 22, 33, 111) },
@@ -303,7 +303,7 @@ namespace OpenTween
             Assert.Equal(expectedResult, result);
         }
 
-        public static readonly TheoryData<string, string, bool, DateTimeUtc> TryParseExactTestFixtures = new TheoryData<string, string, bool, DateTimeUtc>
+        public static readonly TheoryData<string, string, bool, DateTimeUtc> TryParseExactTestFixtures = new()
         {
             { "2018-05-06 11:22:33.111", "yyyy-MM-dd HH:mm:ss.fff", true, new DateTimeUtc(2018, 5, 6, 11, 22, 33, 111) },
             { "2018-05-06 11:22:33.111 +00:00", "yyyy-MM-dd HH:mm:ss.fff zzz", true, new DateTimeUtc(2018, 5, 6, 11, 22, 33, 111) },

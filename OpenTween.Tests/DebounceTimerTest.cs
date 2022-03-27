@@ -32,7 +32,7 @@ namespace OpenTween
     {
         private class TestDebounceTimer : DebounceTimer
         {
-            public MockTimer MockTimer = new MockTimer(() => Task.CompletedTask);
+            public MockTimer MockTimer = new(() => Task.CompletedTask);
 
             public TestDebounceTimer(Func<Task> timerCallback, TimeSpan interval, bool leading, bool trailing)
                 : base(timerCallback, interval, leading, trailing)

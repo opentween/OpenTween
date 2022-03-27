@@ -38,7 +38,7 @@ namespace OpenTween.Api.DataModel
             => this.Status = status;
 
         public static StreamMessageStatus ParseJson(string json)
-            => new StreamMessageStatus(TwitterStatusCompat.ParseJson(json));
+            => new(TwitterStatusCompat.ParseJson(json));
     }
 
     public class StreamMessageKeepAlive : ITwitterStreamMessage

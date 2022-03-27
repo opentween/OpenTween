@@ -38,7 +38,7 @@ namespace OpenTween.Api
 {
     public class BitlyApi
     {
-        public static readonly Uri ApiBase = new Uri("https://api-ssl.bitly.com/");
+        public static readonly Uri ApiBase = new("https://api-ssl.bitly.com/");
 
         public string EndUserAccessToken { get; set; } = "";
 

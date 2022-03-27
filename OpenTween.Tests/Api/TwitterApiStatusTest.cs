@@ -49,7 +49,7 @@ namespace OpenTween.Api
             Assert.Equal(TwitterApiAccessLevel.Anonymous, apiStatus.AccessLevel);
         }
 
-        public static readonly TheoryData<Dictionary<string, string>, ApiLimit?> ParseRateLimitTestCase = new TheoryData<Dictionary<string, string>, ApiLimit?>
+        public static readonly TheoryData<Dictionary<string, string>, ApiLimit?> ParseRateLimitTestCase = new()
         {
             {
                 new Dictionary<string, string>
@@ -96,7 +96,7 @@ namespace OpenTween.Api
             Assert.Equal(expected, limit);
         }
 
-        public static readonly TheoryData<Dictionary<string, string>, ApiLimit?> ParseMediaRateLimitTestCase = new TheoryData<Dictionary<string, string>, ApiLimit?>
+        public static readonly TheoryData<Dictionary<string, string>, ApiLimit?> ParseMediaRateLimitTestCase = new()
         {
             {
                 new Dictionary<string, string>
@@ -134,7 +134,7 @@ namespace OpenTween.Api
             Assert.Equal(expected, limit);
         }
 
-        public static readonly TheoryData<Dictionary<string, string>, TwitterApiAccessLevel?> ParseAccessLevelTestCase = new TheoryData<Dictionary<string, string>, TwitterApiAccessLevel?>
+        public static readonly TheoryData<Dictionary<string, string>, TwitterApiAccessLevel?> ParseAccessLevelTestCase = new()
         {
             {
                 new Dictionary<string, string> { { "X-Access-Level", "read" } },

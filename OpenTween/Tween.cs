@@ -103,7 +103,7 @@ namespace OpenTween
         /// <summary>右クリックしたタブの名前（Tabコントロール機能不足対応）</summary>
         private string? rclickTabName;
 
-        private readonly object syncObject = new object(); // ロック用
+        private readonly object syncObject = new(); // ロック用
 
         private const string DetailHtmlFormatHead =
             "<head><meta http-equiv=\"X-UA-Compatible\" content=\"IE=8\">"
@@ -133,18 +133,18 @@ namespace OpenTween
         private FormWindowState formWindowState = FormWindowState.Normal; // フォームの状態保存用 通知領域からアイコンをクリックして復帰した際に使用する
 
         // twitter解析部
-        private readonly TwitterApi twitterApi = new TwitterApi(ApplicationSettings.TwitterConsumerKey, ApplicationSettings.TwitterConsumerSecret);
+        private readonly TwitterApi twitterApi = new(ApplicationSettings.TwitterConsumerKey, ApplicationSettings.TwitterConsumerSecret);
         private Twitter tw = null!;
 
         // Growl呼び出し部
-        private readonly GrowlHelper gh = new GrowlHelper(ApplicationSettings.ApplicationName);
+        private readonly GrowlHelper gh = new(ApplicationSettings.ApplicationName);
 
         // サブ画面インスタンス
 
         /// <summary>検索画面インスタンス</summary>
-        internal SearchWordDialog SearchDialog = new SearchWordDialog();
+        internal SearchWordDialog SearchDialog = new();
 
-        private readonly OpenURL urlDialog = new OpenURL();
+        private readonly OpenURL urlDialog = new();
 
         /// <summary>@id補助</summary>
         public AtIdSupplement AtIdSupl = null!;
@@ -246,13 +246,13 @@ namespace OpenTween
         private Icon replyIcon = null!;
         private Icon replyIconBlink = null!;
 
-        private readonly ImageList listViewImageList = new ImageList(); // ListViewItemの高さ変更用
+        private readonly ImageList listViewImageList = new(); // ListViewItemの高さ変更用
 
         private PostClass? anchorPost;
         private bool anchorFlag; // true:関連発言移動中（関連移動以外のオペレーションをするとfalseへ。trueだとリスト背景色をアンカー発言選択中として描画）
 
         /// <summary>発言履歴</summary>
-        private readonly List<StatusTextHistory> history = new List<StatusTextHistory>();
+        private readonly List<StatusTextHistory> history = new();
 
         /// <summary>発言履歴カレントインデックス</summary>
         private int hisIdx;
@@ -263,11 +263,11 @@ namespace OpenTween
         private (long StatusId, string ScreenName)? inReplyTo = null;
 
         // 時速表示用
-        private readonly List<DateTimeUtc> postTimestamps = new List<DateTimeUtc>();
-        private readonly List<DateTimeUtc> favTimestamps = new List<DateTimeUtc>();
+        private readonly List<DateTimeUtc> postTimestamps = new();
+        private readonly List<DateTimeUtc> favTimestamps = new();
 
         // 以下DrawItem関連
-        private readonly SolidBrush brsHighLight = new SolidBrush(Color.FromKnownColor(KnownColor.Highlight));
+        private readonly SolidBrush brsHighLight = new(Color.FromKnownColor(KnownColor.Highlight));
         private SolidBrush brsBackColorMine = null!;
         private SolidBrush brsBackColorAt = null!;
         private SolidBrush brsBackColorYou = null!;
@@ -277,9 +277,9 @@ namespace OpenTween
         private SolidBrush brsBackColorNone = null!;
 
         /// <summary>Listにフォーカスないときの選択行の背景色</summary>
-        private readonly SolidBrush brsDeactiveSelection = new SolidBrush(Color.FromKnownColor(KnownColor.ButtonFace));
+        private readonly SolidBrush brsDeactiveSelection = new(Color.FromKnownColor(KnownColor.ButtonFace));
 
-        private readonly StringFormat sfTab = new StringFormat();
+        private readonly StringFormat sfTab = new();
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////
         private TabInformations statuses = null!;
@@ -343,8 +343,8 @@ namespace OpenTween
         private bool isColumnChanged = false;
 
         private const int MaxWorderThreads = 20;
-        private readonly SemaphoreSlim workerSemaphore = new SemaphoreSlim(MaxWorderThreads);
-        private readonly CancellationTokenSource workerCts = new CancellationTokenSource();
+        private readonly SemaphoreSlim workerSemaphore = new(MaxWorderThreads);
+        private readonly CancellationTokenSource workerCts = new();
         private readonly IProgress<string> workerProgress = null!;
 
         private int unreadCounter = -1;
@@ -357,7 +357,7 @@ namespace OpenTween
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        private readonly TimelineScheduler timelineScheduler = new TimelineScheduler();
+        private readonly TimelineScheduler timelineScheduler = new();
         private DebounceTimer selectionDebouncer = null!;
         private DebounceTimer saveConfigDebouncer = null!;
 
@@ -392,7 +392,7 @@ namespace OpenTween
         private Stack<ReplyChain>? replyChains;
 
         /// <summary>ポスト選択履歴</summary>
-        private readonly Stack<(TabModel, PostClass?)> selectPostChains = new Stack<(TabModel, PostClass?)>();
+        private readonly Stack<(TabModel, PostClass?)> selectPostChains = new();
 
         public TabModel CurrentTab
             => this.statuses.SelectedTab;
@@ -5527,7 +5527,7 @@ namespace OpenTween
         private void DispSelectedPost()
             => this.DispSelectedPost(false);
 
-        private PostClass displayPost = new PostClass();
+        private PostClass displayPost = new();
 
         /// <summary>
         /// サムネイル表示に使用する CancellationToken の生成元

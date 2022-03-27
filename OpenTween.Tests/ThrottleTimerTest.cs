@@ -33,7 +33,7 @@ namespace OpenTween
     {
         private class TestThrottleTimer : ThrottleTimer
         {
-            public MockTimer MockTimer = new MockTimer(() => Task.CompletedTask);
+            public MockTimer MockTimer = new(() => Task.CompletedTask);
 
             public TestThrottleTimer(Func<Task> timerCallback, TimeSpan interval)
                 : base(timerCallback, interval)

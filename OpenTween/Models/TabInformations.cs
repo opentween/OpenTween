@@ -45,14 +45,14 @@ namespace OpenTween.Models
         public IReadOnlyTabCollection Tabs
             => this.tabs;
 
-        public MuteTabModel MuteTab { get; private set; } = new MuteTabModel();
+        public MuteTabModel MuteTab { get; private set; } = new();
 
-        public ConcurrentDictionary<long, PostClass> Posts { get; } = new ConcurrentDictionary<long, PostClass>();
+        public ConcurrentDictionary<long, PostClass> Posts { get; } = new();
 
-        private readonly Dictionary<long, PostClass> quotes = new Dictionary<long, PostClass>();
-        private readonly ConcurrentDictionary<long, int> retweetsCount = new ConcurrentDictionary<long, int>();
+        private readonly Dictionary<long, PostClass> quotes = new();
+        private readonly ConcurrentDictionary<long, int> retweetsCount = new();
 
-        public Stack<TabModel> RemovedTab { get; } = new Stack<TabModel>();
+        public Stack<TabModel> RemovedTab { get; } = new();
 
         public ISet<long> BlockIds { get; set; } = new HashSet<long>();
 
@@ -61,11 +61,11 @@ namespace OpenTween.Models
         // 発言の追加
         // AddPost(複数回) -> DistributePosts          -> SubmitUpdate
 
-        private readonly TabCollection tabs = new TabCollection();
-        private readonly ConcurrentQueue<long> addQueue = new ConcurrentQueue<long>();
+        private readonly TabCollection tabs = new();
+        private readonly ConcurrentQueue<long> addQueue = new();
 
         /// <summary>通知サウンドを再生する優先順位</summary>
-        private readonly Dictionary<MyCommon.TabUsageType, int> notifyPriorityByTabType = new Dictionary<MyCommon.TabUsageType, int>
+        private readonly Dictionary<MyCommon.TabUsageType, int> notifyPriorityByTabType = new()
         {
             [MyCommon.TabUsageType.DirectMessage] = 100,
             [MyCommon.TabUsageType.Mentions] = 90,
@@ -75,12 +75,12 @@ namespace OpenTween.Models
         };
 
         // トランザクション用
-        private readonly object lockObj = new object();
+        private readonly object lockObj = new();
 
-        private static readonly TabInformations Instance = new TabInformations();
+        private static readonly TabInformations Instance = new();
 
         // List
-        private List<ListElement> lists = new List<ListElement>();
+        private List<ListElement> lists = new();
 
         private TabInformations()
         {
