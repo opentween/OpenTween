@@ -45,6 +45,7 @@ namespace OpenTween
             /// タイムライン内を検索
             /// </summary>
             Timeline,
+
             /// <summary>
             /// Twitter検索
             /// </summary>
