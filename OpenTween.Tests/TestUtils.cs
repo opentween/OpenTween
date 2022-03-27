@@ -97,14 +97,12 @@ namespace OpenTween
 
         public static MemoryImage CreateDummyImage()
         {
-            using (var bitmap = new Bitmap(100, 100))
-            using (var stream = new MemoryStream())
-            {
-                bitmap.Save(stream, ImageFormat.Png);
-                stream.Position = 0;
+            using var bitmap = new Bitmap(100, 100);
+            using var stream = new MemoryStream();
+            bitmap.Save(stream, ImageFormat.Png);
+            stream.Position = 0;
 
-                return MemoryImage.CopyFromStream(stream);
-            }
+            return MemoryImage.CopyFromStream(stream);
         }
 
         public static MemoryImageMediaItem CreateDummyMediaItem()

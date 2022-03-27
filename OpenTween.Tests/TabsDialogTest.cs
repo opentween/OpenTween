@@ -55,113 +55,103 @@ namespace OpenTween
         [Fact]
         public void OKButtonEnabledTest()
         {
-            using (var dialog = new TabsDialog(this.tabinfo))
-            {
-                Assert.False(dialog.OK_Button.Enabled);
+            using var dialog = new TabsDialog(this.tabinfo);
+            Assert.False(dialog.OK_Button.Enabled);
 
-                dialog.TabList.SelectedIndex = 0;
+            dialog.TabList.SelectedIndex = 0;
 
-                Assert.True(dialog.OK_Button.Enabled);
+            Assert.True(dialog.OK_Button.Enabled);
 
-                dialog.TabList.SelectedIndex = -1;
+            dialog.TabList.SelectedIndex = -1;
 
-                Assert.False(dialog.OK_Button.Enabled);
-            }
+            Assert.False(dialog.OK_Button.Enabled);
         }
 
         [Fact]
         public void MultiSelectTest()
         {
-            using (var dialog = new TabsDialog(this.tabinfo))
-            {
-                // MultiSelect = false (default)
-                var firstItem = (TabsDialog.TabListItem)dialog.TabList.Items[0];
-                Assert.Null(firstItem.Tab); // 「(新規タブ)」
-                Assert.Equal(SelectionMode.One, dialog.TabList.SelectionMode);
+            using var dialog = new TabsDialog(this.tabinfo);
 
-                dialog.MultiSelect = true;
-                firstItem = (TabsDialog.TabListItem)dialog.TabList.Items[0];
-                Assert.NotNull(firstItem.Tab);
-                Assert.Equal(SelectionMode.MultiExtended, dialog.TabList.SelectionMode);
+            // MultiSelect = false (default)
+            var firstItem = (TabsDialog.TabListItem)dialog.TabList.Items[0];
+            Assert.Null(firstItem.Tab); // 「(新規タブ)」
+            Assert.Equal(SelectionMode.One, dialog.TabList.SelectionMode);
 
-                dialog.MultiSelect = false;
-                firstItem = (TabsDialog.TabListItem)dialog.TabList.Items[0];
-                Assert.Null(firstItem.Tab);
-                Assert.Equal(SelectionMode.One, dialog.TabList.SelectionMode);
-            }
+            dialog.MultiSelect = true;
+            firstItem = (TabsDialog.TabListItem)dialog.TabList.Items[0];
+            Assert.NotNull(firstItem.Tab);
+            Assert.Equal(SelectionMode.MultiExtended, dialog.TabList.SelectionMode);
+
+            dialog.MultiSelect = false;
+            firstItem = (TabsDialog.TabListItem)dialog.TabList.Items[0];
+            Assert.Null(firstItem.Tab);
+            Assert.Equal(SelectionMode.One, dialog.TabList.SelectionMode);
         }
 
         [Fact]
         public void DoubleClickTest()
         {
-            using (var dialog = new TabsDialog(this.tabinfo))
-            {
-                dialog.TabList.SelectedIndex = -1;
-                TestUtils.FireEvent(dialog.TabList, "DoubleClick");
+            using var dialog = new TabsDialog(this.tabinfo);
 
-                Assert.Equal(DialogResult.None, dialog.DialogResult);
-                Assert.False(dialog.IsDisposed);
+            dialog.TabList.SelectedIndex = -1;
+            TestUtils.FireEvent(dialog.TabList, "DoubleClick");
 
-                dialog.TabList.SelectedIndex = 1;
-                TestUtils.FireEvent(dialog.TabList, "DoubleClick");
+            Assert.Equal(DialogResult.None, dialog.DialogResult);
+            Assert.False(dialog.IsDisposed);
 
-                Assert.Equal(DialogResult.OK, dialog.DialogResult);
-                Assert.True(dialog.IsDisposed);
-            }
+            dialog.TabList.SelectedIndex = 1;
+            TestUtils.FireEvent(dialog.TabList, "DoubleClick");
+
+            Assert.Equal(DialogResult.OK, dialog.DialogResult);
+            Assert.True(dialog.IsDisposed);
         }
 
         [Fact]
         public void SelectableTabTest()
         {
-            using (var dialog = new TabsDialog(this.tabinfo))
-            {
-                dialog.MultiSelect = false;
+            using var dialog = new TabsDialog(this.tabinfo);
+            dialog.MultiSelect = false;
 
-                var item = (TabsDialog.TabListItem)dialog.TabList.Items[0];
-                Assert.Null(item.Tab);
+            var item = (TabsDialog.TabListItem)dialog.TabList.Items[0];
+            Assert.Null(item.Tab);
 
-                item = (TabsDialog.TabListItem)dialog.TabList.Items[1];
-                Assert.Equal(this.tabinfo.Tabs["Reply"], item.Tab);
+            item = (TabsDialog.TabListItem)dialog.TabList.Items[1];
+            Assert.Equal(this.tabinfo.Tabs["Reply"], item.Tab);
 
-                item = (TabsDialog.TabListItem)dialog.TabList.Items[2];
-                Assert.Equal(this.tabinfo.Tabs["MyTab1"], item.Tab);
-            }
+            item = (TabsDialog.TabListItem)dialog.TabList.Items[2];
+            Assert.Equal(this.tabinfo.Tabs["MyTab1"], item.Tab);
         }
 
         [Fact]
         public void SelectedTabTest()
         {
-            using (var dialog = new TabsDialog(this.tabinfo))
-            {
-                dialog.MultiSelect = false;
+            using var dialog = new TabsDialog(this.tabinfo);
+            dialog.MultiSelect = false;
 
-                dialog.TabList.SelectedIndex = 0;
-                Assert.Null(dialog.SelectedTab);
+            dialog.TabList.SelectedIndex = 0;
+            Assert.Null(dialog.SelectedTab);
 
-                dialog.TabList.SelectedIndex = 1;
-                Assert.Equal(this.tabinfo.Tabs["Reply"], dialog.SelectedTab);
-            }
+            dialog.TabList.SelectedIndex = 1;
+            Assert.Equal(this.tabinfo.Tabs["Reply"], dialog.SelectedTab);
         }
 
         [Fact]
         public void SelectedTabsTest()
         {
-            using (var dialog = new TabsDialog(this.tabinfo))
-            {
-                dialog.MultiSelect = true;
+            using var dialog = new TabsDialog(this.tabinfo);
+            dialog.MultiSelect = true;
 
-                dialog.TabList.SelectedIndices.Clear();
-                var selectedTabs = dialog.SelectedTabs;
-                Assert.Empty(selectedTabs);
+            dialog.TabList.SelectedIndices.Clear();
+            var selectedTabs = dialog.SelectedTabs;
+            Assert.Empty(selectedTabs);
 
-                dialog.TabList.SelectedIndices.Add(0);
-                selectedTabs = dialog.SelectedTabs;
-                Assert.Equal(new[] { this.tabinfo.Tabs["Reply"] }, selectedTabs);
+            dialog.TabList.SelectedIndices.Add(0);
+            selectedTabs = dialog.SelectedTabs;
+            Assert.Equal(new[] { this.tabinfo.Tabs["Reply"] }, selectedTabs);
 
-                dialog.TabList.SelectedIndices.Add(1);
-                selectedTabs = dialog.SelectedTabs;
-                Assert.Equal(new[] { this.tabinfo.Tabs["Reply"], this.tabinfo.Tabs["MyTab1"] }, selectedTabs);
-            }
+            dialog.TabList.SelectedIndices.Add(1);
+            selectedTabs = dialog.SelectedTabs;
+            Assert.Equal(new[] { this.tabinfo.Tabs["Reply"], this.tabinfo.Tabs["MyTab1"] }, selectedTabs);
         }
     }
 }

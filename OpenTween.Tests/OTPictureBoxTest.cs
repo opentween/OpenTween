@@ -32,100 +32,90 @@ namespace OpenTween
         [Fact]
         public void SizeMode_SetterGetterTest()
         {
-            using (var picbox = new OTPictureBox())
-            {
-                picbox.SizeMode = PictureBoxSizeMode.Zoom;
+            using var picbox = new OTPictureBox();
+            picbox.SizeMode = PictureBoxSizeMode.Zoom;
 
-                Assert.Equal(PictureBoxSizeMode.Zoom, picbox.SizeMode);
-                Assert.Equal(PictureBoxSizeMode.Zoom, ((PictureBox)picbox).SizeMode);
-            }
+            Assert.Equal(PictureBoxSizeMode.Zoom, picbox.SizeMode);
+            Assert.Equal(PictureBoxSizeMode.Zoom, ((PictureBox)picbox).SizeMode);
         }
 
         [Fact]
         public void SizeMode_ErrorImageTest()
         {
-            using (var picbox = new OTPictureBox())
-            {
-                picbox.SizeMode = PictureBoxSizeMode.Zoom;
+            using var picbox = new OTPictureBox();
+            picbox.SizeMode = PictureBoxSizeMode.Zoom;
 
-                picbox.ShowErrorImage();
+            picbox.ShowErrorImage();
 
-                Assert.Equal(PictureBoxSizeMode.Zoom, picbox.SizeMode);
-                Assert.Equal(PictureBoxSizeMode.CenterImage, ((PictureBox)picbox).SizeMode);
-            }
+            Assert.Equal(PictureBoxSizeMode.Zoom, picbox.SizeMode);
+            Assert.Equal(PictureBoxSizeMode.CenterImage, ((PictureBox)picbox).SizeMode);
         }
 
         [Fact]
         public void SizeMode_ErrorImageTest2()
         {
-            using (var picbox = new OTPictureBox())
-            {
-                picbox.ShowErrorImage();
+            using var picbox = new OTPictureBox();
+            picbox.ShowErrorImage();
 
-                picbox.SizeMode = PictureBoxSizeMode.Zoom;
+            picbox.SizeMode = PictureBoxSizeMode.Zoom;
 
-                Assert.Equal(PictureBoxSizeMode.Zoom, picbox.SizeMode);
-                Assert.Equal(PictureBoxSizeMode.CenterImage, ((PictureBox)picbox).SizeMode);
-            }
+            Assert.Equal(PictureBoxSizeMode.Zoom, picbox.SizeMode);
+            Assert.Equal(PictureBoxSizeMode.CenterImage, ((PictureBox)picbox).SizeMode);
         }
 
         [Fact]
         public void SizeMode_RestoreTest()
         {
-            using (var picbox = new OTPictureBox())
-            {
-                picbox.SizeMode = PictureBoxSizeMode.Zoom;
+            using var picbox = new OTPictureBox();
+            picbox.SizeMode = PictureBoxSizeMode.Zoom;
 
-                picbox.ShowErrorImage();
+            picbox.ShowErrorImage();
 
-                picbox.Image = TestUtils.CreateDummyImage();
+            picbox.Image = TestUtils.CreateDummyImage();
 
-                Assert.Equal(PictureBoxSizeMode.Zoom, picbox.SizeMode);
-                Assert.Equal(PictureBoxSizeMode.Zoom, ((PictureBox)picbox).SizeMode);
-            }
+            Assert.Equal(PictureBoxSizeMode.Zoom, picbox.SizeMode);
+            Assert.Equal(PictureBoxSizeMode.Zoom, ((PictureBox)picbox).SizeMode);
         }
 
         [Fact]
         public async Task SetImageFromAsync_Test()
         {
-            using (var picbox = new OTPictureBox())
-            {
-                // Mono でのテスト実行時にデッドロックする問題の対策
-                SynchronizationContext.SetSynchronizationContext(new SynchronizationContext());
+            using var picbox = new OTPictureBox();
 
-                var tcs = new TaskCompletionSource<MemoryImage>();
+            // Mono でのテスト実行時にデッドロックする問題の対策
+            SynchronizationContext.SetSynchronizationContext(new SynchronizationContext());
 
-                var setImageTask = picbox.SetImageFromTask(() => tcs.Task);
+            var tcs = new TaskCompletionSource<MemoryImage>();
 
-                Assert.Equal(picbox.InitialImage, ((PictureBox)picbox).Image);
+            var setImageTask = picbox.SetImageFromTask(() => tcs.Task);
 
-                var image = TestUtils.CreateDummyImage();
-                tcs.SetResult(image);
-                await setImageTask;
+            Assert.Equal(picbox.InitialImage, ((PictureBox)picbox).Image);
 
-                Assert.Equal(image, picbox.Image);
-            }
+            var image = TestUtils.CreateDummyImage();
+            tcs.SetResult(image);
+            await setImageTask;
+
+            Assert.Equal(image, picbox.Image);
         }
 
         [Fact]
         public async Task SetImageFromAsync_ErrorTest()
         {
-            using (var picbox = new OTPictureBox())
-            {
-                // Mono でのテスト実行時にデッドロックする問題の対策
-                SynchronizationContext.SetSynchronizationContext(new SynchronizationContext());
+            using var picbox = new OTPictureBox();
 
-                var tcs = new TaskCompletionSource<MemoryImage>();
+            // Mono でのテスト実行時にデッドロックする問題の対策
+            SynchronizationContext.SetSynchronizationContext(new SynchronizationContext());
 
-                var setImageTask = picbox.SetImageFromTask(() => tcs.Task);
+            var tcs = new TaskCompletionSource<MemoryImage>();
 
-                Assert.Equal(picbox.InitialImage, ((PictureBox)picbox).Image);
+            var setImageTask = picbox.SetImageFromTask(() => tcs.Task);
 
-                tcs.SetException(new InvalidImageException());
-                await setImageTask;
+            Assert.Equal(picbox.InitialImage, ((PictureBox)picbox).Image);
 
-                Assert.Equal(picbox.ErrorImage, ((PictureBox)picbox).Image);
-            }
+            tcs.SetException(new InvalidImageException());
+            await setImageTask;
+
+            Assert.Equal(picbox.ErrorImage, ((PictureBox)picbox).Image);
         }
     }
 }
