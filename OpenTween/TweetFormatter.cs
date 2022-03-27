@@ -72,16 +72,14 @@ namespace OpenTween
 
                 var targetText = text.Substring(startIndex, endIndex - startIndex);
 
-                if (entity is TwitterEntityUrl urlEntity)
-                    yield return FormatUrlEntity(targetText, urlEntity, keepTco);
-                else if (entity is TwitterEntityHashtag hashtagEntity)
-                    yield return FormatHashtagEntity(targetText, hashtagEntity);
-                else if (entity is TwitterEntityMention mentionEntity)
-                    yield return FormatMentionEntity(targetText, mentionEntity);
-                else if (entity is TwitterEntityEmoji emojiEntity)
-                    yield return FormatEmojiEntity(targetText, emojiEntity);
-                else
-                    yield return T(E(targetText));
+                yield return entity switch
+                {
+                    TwitterEntityUrl urlEntity => FormatUrlEntity(targetText, urlEntity, keepTco),
+                    TwitterEntityHashtag hashtagEntity => FormatHashtagEntity(targetText, hashtagEntity),
+                    TwitterEntityMention mentionEntity => FormatMentionEntity(targetText, mentionEntity),
+                    TwitterEntityEmoji emojiEntity => FormatEmojiEntity(targetText, emojiEntity),
+                    _ => T(E(targetText)),
+                };
 
                 curIndex = endIndex;
             }
@@ -194,27 +192,15 @@ namespace OpenTween
             {
                 // 「<」「>」「&」「"」「'」についてエスケープ処理を施す
                 // 参照: http://d.hatena.ne.jp/ockeghem/20070510/1178813849
-                switch (c)
+                result.Append(c switch
                 {
-                    case '<':
-                        result.Append("&lt;");
-                        break;
-                    case '>':
-                        result.Append("&gt;");
-                        break;
-                    case '&':
-                        result.Append("&amp;");
-                        break;
-                    case '"':
-                        result.Append("&quot;");
-                        break;
-                    case '\'':
-                        result.Append("&#39;");
-                        break;
-                    default:
-                        result.Append(c);
-                        break;
-                }
+                    '<' => "&lt;",
+                    '>' => "&gt;",
+                    '&' => "&amp;",
+                    '"' => "&quot;",
+                    '\'' => "&#39;",
+                    _ => c,
+                });
             }
 
             return result.ToString();

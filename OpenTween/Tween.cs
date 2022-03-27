@@ -1095,31 +1095,17 @@ namespace OpenTween
 
             ////////////////////////////////////////////////////////////////////////////////
             var sortOrder = (SortOrder)SettingManager.Common.SortOrder;
-            var mode = ComparerMode.Id;
-            switch (SettingManager.Common.SortColumn)
+            var mode = SettingManager.Common.SortColumn switch
             {
-                case 0: // 0:アイコン,5:未読マーク,6:プロテクト・フィルターマーク
-                case 5:
-                case 6:
-                    // ソートしない
-                    mode = ComparerMode.Id;  // Idソートに読み替え
-                    break;
-                case 1: // ニックネーム
-                    mode = ComparerMode.Nickname;
-                    break;
-                case 2: // 本文
-                    mode = ComparerMode.Data;
-                    break;
-                case 3: // 時刻=発言Id
-                    mode = ComparerMode.Id;
-                    break;
-                case 4: // 名前
-                    mode = ComparerMode.Name;
-                    break;
-                case 7: // Source
-                    mode = ComparerMode.Source;
-                    break;
-            }
+                // 0:アイコン,5:未読マーク,6:プロテクト・フィルターマーク
+                0 or 5 or 6 => ComparerMode.Id, // Idソートに読み替え
+                1 => ComparerMode.Nickname, // ニックネーム
+                2 => ComparerMode.Data, // 本文
+                3 => ComparerMode.Id, // 時刻=発言Id
+                4 => ComparerMode.Name, // 名前
+                7 => ComparerMode.Source, // Source
+                _ => ComparerMode.Id,
+            };
             this.statuses.SetSortMode(mode, sortOrder);
             ////////////////////////////////////////////////////////////////////////////////
 
@@ -2266,14 +2252,14 @@ namespace OpenTween
                 this.myStatusError = true;
                 var tabType = tab switch
                 {
-                    HomeTabModel _ => "GetTimeline",
-                    MentionsTabModel _ => "GetTimeline",
-                    DirectMessagesTabModel _ => "GetDirectMessage",
-                    FavoritesTabModel _ => "GetFavorites",
-                    PublicSearchTabModel _ => "GetSearch",
-                    UserTimelineTabModel _ => "GetUserTimeline",
-                    ListTimelineTabModel _ => "GetListStatus",
-                    RelatedPostsTabModel _ => "GetRelatedTweets",
+                    HomeTabModel => "GetTimeline",
+                    MentionsTabModel => "GetTimeline",
+                    DirectMessagesTabModel => "GetDirectMessage",
+                    FavoritesTabModel => "GetFavorites",
+                    PublicSearchTabModel => "GetSearch",
+                    UserTimelineTabModel => "GetUserTimeline",
+                    ListTimelineTabModel => "GetListStatus",
+                    RelatedPostsTabModel => "GetRelatedTweets",
                     _ => tab.GetType().Name.Replace("Model", ""),
                 };
                 this.StatusLabel.Text = $"Err:{ex.Message}({tabType})";

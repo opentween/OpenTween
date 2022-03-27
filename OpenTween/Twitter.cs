@@ -1800,14 +1800,13 @@ namespace OpenTween
 
         public static string DecideProfileImageSize(int sizePx)
         {
-            if (sizePx <= 24)
-                return "mini";
-            else if (sizePx <= 48)
-                return "normal";
-            else if (sizePx <= 73)
-                return "bigger";
-            else
-                return "original";
+            return sizePx switch
+            {
+                <= 24 => "mini",
+                <= 48 => "normal",
+                <= 73 => "bigger",
+                _ => "original",
+            };
         }
 
         public bool IsDisposed { get; private set; } = false;
