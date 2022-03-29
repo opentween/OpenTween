@@ -120,10 +120,10 @@ namespace OpenTween
             + "</head>";
 
         private const string DetailHtmlFormatTemplateMono =
-            "<html>" + DetailHtmlFormatHead + "<body><pre>%CONTENT_HTML%</pre></body></html>";
+            $"<html>{DetailHtmlFormatHead}<body><pre>%CONTENT_HTML%</pre></body></html>";
 
         private const string DetailHtmlFormatTemplateNormal =
-            "<html>" + DetailHtmlFormatHead + "<body><p>%CONTENT_HTML%</p></body></html>";
+            $"<html>{DetailHtmlFormatHead}<body><p>%CONTENT_HTML%</p></body></html>";
 
         private string detailHtmlFormatPreparedTemplate = null!;
 
