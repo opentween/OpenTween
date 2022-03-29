@@ -49,12 +49,11 @@ namespace OpenTween
             }
         }
 
-        protected internal class TabListItem
+        protected internal record TabListItem(
+            string Label,
+            FilterTabModel? Tab
+        )
         {
-            public FilterTabModel? Tab { get; set; }
-
-            public string Label { get; set; } = "";
-
             public override string ToString()
                 => this.Label;
         }
@@ -79,22 +78,20 @@ namespace OpenTween
             {
                 this.TabList.SelectionMode = SelectionMode.One;
 
-                this.TabList.Items.Add(new TabListItem
-                {
-                    Label = Properties.Resources.AddNewTabText1,
-                    Tab = null,
-                });
+                this.TabList.Items.Add(new TabListItem(
+                    Label: Properties.Resources.AddNewTabText1,
+                    Tab: null
+                ));
             }
 
             var tabs = this.tabInfo.Tabs.Append(this.tabInfo.MuteTab);
 
             foreach (var tab in tabs.OfType<FilterTabModel>())
             {
-                this.TabList.Items.Add(new TabListItem
-                {
-                    Label = tab.TabName,
-                    Tab = tab,
-                });
+                this.TabList.Items.Add(new TabListItem(
+                    Label: tab.TabName,
+                    Tab: tab
+                ));
             }
         }
 

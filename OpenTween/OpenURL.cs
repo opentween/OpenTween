@@ -121,36 +121,27 @@ namespace OpenTween
         }
     }
 
-    public class OpenUrlItem
+    public readonly record struct OpenUrlItem(
+        string LinkText,
+        string Url,
+        string Href
+    )
     {
-        private readonly string linkText;
-
-        public OpenUrlItem(string linkText, string url, string href)
-        {
-            this.linkText = linkText;
-            this.Url = url;
-            this.Href = href;
-        }
-
         public string Text
         {
             get
             {
-                if (this.linkText[0] is '@' or '＠' or '#' or '＃')
-                    return this.linkText;
+                if (this.LinkText[0] is '@' or '＠' or '#' or '＃')
+                    return this.LinkText;
 
-                if (this.linkText.TrimEnd('/') == this.Url.TrimEnd('/'))
+                if (this.LinkText.TrimEnd('/') == this.Url.TrimEnd('/'))
                     return this.Url;
 
-                return this.linkText + "  >>>  " + this.Url;
+                return this.LinkText + "  >>>  " + this.Url;
             }
         }
 
         public override string ToString()
             => this.Href;
-
-        public string Url { get; }
-
-        public string Href { get; }
     }
 }

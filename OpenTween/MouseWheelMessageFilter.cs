@@ -75,18 +75,10 @@ namespace OpenTween
             return false;
         }
 
-        internal class MouseEvent
-        {
-            public Point ScreenLocation { get; }
-
-            public int WheelDelta { get; }
-
-            public MouseEvent(Point location, int delta)
-            {
-                this.ScreenLocation = location;
-                this.WheelDelta = delta;
-            }
-        }
+        internal readonly record struct MouseEvent(
+            Point ScreenLocation,
+            int WheelDelta
+        );
 
         internal static MouseEvent ParseMessage(Message m)
         {

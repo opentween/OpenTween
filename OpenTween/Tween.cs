@@ -294,20 +294,17 @@ namespace OpenTween
         /// </remarks>
         private ListViewItemCache? listItemCache = null;
 
-        internal class ListViewItemCache
+        /// <param name="TargetList">アイテムをキャッシュする対象の <see cref="ListView"/></param>
+        /// <param name="StartIndex">キャッシュする範囲の開始インデックス</param>
+        /// <param name="EndIndex">キャッシュする範囲の終了インデックス</param>
+        /// <param name="Cache">ャッシュされた範囲に対応する <see cref="ListViewItem"/> と <see cref="PostClass"/> の組</param>
+        internal record class ListViewItemCache(
+            ListView TargetList,
+            int StartIndex,
+            int EndIndex,
+            (ListViewItem, PostClass)[] Cache
+        )
         {
-            /// <summary>アイテムをキャッシュする対象の <see cref="ListView"/></summary>
-            public ListView TargetList { get; set; } = null!;
-
-            /// <summary>キャッシュする範囲の開始インデックス</summary>
-            public int StartIndex { get; set; }
-
-            /// <summary>キャッシュする範囲の終了インデックス</summary>
-            public int EndIndex { get; set; }
-
-            /// <summary>キャッシュされた範囲に対応する <see cref="ListViewItem"/> と <see cref="PostClass"/> の組</summary>
-            public (ListViewItem, PostClass)[] Cache { get; set; } = null!;
-
             /// <summary>キャッシュされたアイテムの件数</summary>
             public int Count
                 => this.EndIndex - this.StartIndex + 1;
@@ -366,27 +363,18 @@ namespace OpenTween
         private bool preventSmsCommand = true;
 
         // URL短縮のUndo用
-        private struct UrlUndo
-        {
-            public string Before;
-            public string After;
-        }
+        private readonly record struct UrlUndo(
+            string Before,
+            string After
+        );
 
         private List<UrlUndo>? urlUndoBuffer = null;
 
-        private readonly struct ReplyChain
-        {
-            public readonly long OriginalId;
-            public readonly long InReplyToId;
-            public readonly TabModel OriginalTab;
-
-            public ReplyChain(long originalId, long inReplyToId, TabModel originalTab)
-            {
-                this.OriginalId = originalId;
-                this.InReplyToId = inReplyToId;
-                this.OriginalTab = originalTab;
-            }
-        }
+        private readonly record struct ReplyChain(
+            long OriginalId,
+            long InReplyToId,
+            TabModel OriginalTab
+        );
 
         /// <summary>[, ]でのリプライ移動の履歴</summary>
         private Stack<ReplyChain>? replyChains;
@@ -417,27 +405,10 @@ namespace OpenTween
             PrevSearch,
         }
 
-        private class StatusTextHistory
-        {
-            public string Status { get; } = "";
-
-            public (long StatusId, string ScreenName)? InReplyTo { get; } = null;
-
-            /// <summary>画像投稿サービス名</summary>
-            public string ImageService { get; set; } = "";
-
-            public IMediaItem[]? MediaItems { get; set; } = null;
-
-            public StatusTextHistory()
-            {
-            }
-
-            public StatusTextHistory(string status, (long StatusId, string ScreenName)? inReplyTo)
-            {
-                this.Status = status;
-                this.InReplyTo = inReplyTo;
-            }
-        }
+        private readonly record struct StatusTextHistory(
+            string Status,
+            (long StatusId, string ScreenName)? InReplyTo = null
+        );
 
         private void TweenMain_Activated(object sender, EventArgs e)
         {
@@ -997,7 +968,7 @@ namespace OpenTween
 
             this.recommendedStatusFooter = " [TWNv" + Regex.Replace(MyCommon.FileVersion.Replace(".", ""), "^0*", "") + "]";
 
-            this.history.Add(new StatusTextHistory());
+            this.history.Add(new StatusTextHistory(""));
             this.hisIdx = 0;
             this.inReplyTo = null;
 
@@ -1456,12 +1427,10 @@ namespace OpenTween
             this.HashSupl.AddRangeItem(this.tw.GetHashList());
         }
 
-        internal struct ListViewScroll
-        {
-            public ScrollLockMode ScrollLockMode { get; set; }
-
-            public long? TopItemStatusId { get; set; }
-        }
+        internal readonly record struct ListViewScroll(
+            ScrollLockMode ScrollLockMode,
+            long? TopItemStatusId
+        );
 
         internal enum ScrollLockMode
         {
@@ -1483,19 +1452,21 @@ namespace OpenTween
         /// </summary>
         private ListViewScroll SaveListViewScroll(DetailsListView listView, TabModel tab)
         {
-            var listScroll = new ListViewScroll
-            {
-                ScrollLockMode = this.GetScrollLockMode(listView),
-            };
+            var lockMode = this.GetScrollLockMode(listView);
+            long? topItemStatusId = null;
 
-            if (listScroll.ScrollLockMode == ScrollLockMode.FixedToItem)
+            if (lockMode == ScrollLockMode.FixedToItem)
             {
                 var topItemIndex = listView.TopItem?.Index ?? -1;
                 if (topItemIndex != -1 && topItemIndex < tab.AllCount)
-                    listScroll.TopItemStatusId = tab.GetStatusIdAt(topItemIndex);
+                    topItemStatusId = tab.GetStatusIdAt(topItemIndex);
             }
 
-            return listScroll;
+            return new ListViewScroll
+            {
+                ScrollLockMode = lockMode,
+                TopItemStatusId = topItemStatusId,
+            };
         }
 
         private ScrollLockMode GetScrollLockMode(DetailsListView listView)
@@ -1537,14 +1508,11 @@ namespace OpenTween
             }
         }
 
-        internal struct ListViewSelection
-        {
-            public long[]? SelectedStatusIds { get; set; }
-
-            public long? SelectionMarkStatusId { get; set; }
-
-            public long? FocusedStatusId { get; set; }
-        }
+        internal readonly record struct ListViewSelection(
+            long[]? SelectedStatusIds,
+            long? SelectionMarkStatusId,
+            long? FocusedStatusId
+        );
 
         /// <summary>
         /// <see cref="ListView"/> の選択状態を <see cref="ListViewSelection"/> として返します
@@ -2146,7 +2114,7 @@ namespace OpenTween
 
             this.inReplyTo = null;
             this.StatusText.Text = "";
-            this.history.Add(new StatusTextHistory());
+            this.history.Add(new StatusTextHistory(""));
             this.hisIdx = this.history.Count - 1;
             if (!SettingManager.Common.FocusLockToStatusText)
                 this.CurrentListView.Focus();
@@ -4704,13 +4672,12 @@ namespace OpenTween
                 .Select(x => this.CreateItem(tab, posts[x]))
                 .ToArray();
 
-            var listCache = new ListViewItemCache
-            {
-                TargetList = this.CurrentListView,
-                StartIndex = startIndex,
-                EndIndex = endIndex,
-                Cache = Enumerable.Zip(listItems, posts, (x, y) => (x, y)).ToArray(),
-            };
+            var listCache = new ListViewItemCache(
+                TargetList: this.CurrentListView,
+                StartIndex: startIndex,
+                EndIndex: endIndex,
+                Cache: Enumerable.Zip(listItems, posts, (x, y) => (x, y)).ToArray()
+            );
 
             Interlocked.Exchange(ref this.listItemCache, listCache);
         }
@@ -5373,17 +5340,11 @@ namespace OpenTween
             }
         }
 
-        public class VersionInfo
-        {
-            public Version Version { get; }
-
-            public Uri DownloadUri { get; }
-
-            public string ReleaseNote { get; }
-
-            public VersionInfo(Version version, Uri downloadUri, string releaseNote)
-                => (this.Version, this.DownloadUri, this.ReleaseNote) = (version, downloadUri, releaseNote);
-        }
+        public readonly record struct VersionInfo(
+            Version Version,
+            Uri DownloadUri,
+            string ReleaseNote
+        );
 
         /// <summary>
         /// OpenTween の最新バージョンの情報を取得します
@@ -5404,11 +5365,12 @@ namespace OpenTween
 
             msgBody = Regex.Replace(msgBody, "(?<!\r)\n", "\r\n"); // LF -> CRLF
 
-            return new VersionInfo(
-                version: Version.Parse(msgHeader[0]),
-                downloadUri: new Uri(msgHeader[1]),
-                releaseNote: msgBody
-            );
+            return new VersionInfo
+            {
+                Version = Version.Parse(msgHeader[0]),
+                DownloadUri = new Uri(msgHeader[1]),
+                ReleaseNote = msgBody,
+            };
         }
 
         private async Task CheckNewVersion(bool startup = false)
@@ -8762,8 +8724,6 @@ namespace OpenTween
 
                     if (!MyCommon.IsNullOrEmpty(result))
                     {
-                        var undotmp = new UrlUndo();
-
                         // 短縮 URL が生成されるまでの間に投稿欄から元の URL が削除されていたら中断する
                         var origUrlIndex = this.StatusText.Text.IndexOf(tmp, StringComparison.Ordinal);
                         if (origUrlIndex == -1)
@@ -8773,8 +8733,11 @@ namespace OpenTween
                         this.StatusText.SelectedText = result;
 
                         // undoバッファにセット
-                        undotmp.Before = tmp;
-                        undotmp.After = result;
+                        var undo = new UrlUndo
+                        {
+                            Before = tmp,
+                            After = result,
+                        };
 
                         if (this.urlUndoBuffer == null)
                         {
@@ -8782,7 +8745,7 @@ namespace OpenTween
                             this.UrlUndoToolStripMenuItem.Enabled = true;
                         }
 
-                        this.urlUndoBuffer.Add(undotmp);
+                        this.urlUndoBuffer.Add(undo);
                     }
                 }
             }
@@ -8801,7 +8764,6 @@ namespace OpenTween
                     var tmp = mt.Result("${url}");
                     if (tmp.StartsWith("w", StringComparison.OrdinalIgnoreCase))
                         tmp = "http://" + tmp;
-                    var undotmp = new UrlUndo();
 
                     // 選んだURLを選択（？）
                     this.StatusText.Select(this.StatusText.Text.IndexOf(mt.Result("${url}"), StringComparison.Ordinal), mt.Result("${url}").Length);
@@ -8855,8 +8817,11 @@ namespace OpenTween
                         this.StatusText.Select(origUrlIndex, mt.Result("${url}").Length);
                         this.StatusText.SelectedText = result;
                         // undoバッファにセット
-                        undotmp.Before = mt.Result("${url}");
-                        undotmp.After = result;
+                        var undo = new UrlUndo
+                        {
+                            Before = mt.Result("${url}"),
+                            After = result,
+                        };
 
                         if (this.urlUndoBuffer == null)
                         {
@@ -8864,7 +8829,7 @@ namespace OpenTween
                             this.UrlUndoToolStripMenuItem.Enabled = true;
                         }
 
-                        this.urlUndoBuffer.Add(undotmp);
+                        this.urlUndoBuffer.Add(undo);
                     }
                 }
             }

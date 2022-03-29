@@ -877,9 +877,10 @@ namespace OpenTween
                 var searchOptions = new SearchWordDialog.SearchOptions(
                     SearchWordDialog.SearchType.Timeline,
                     selText,
-                    newTab: false,
-                    caseSensitive: false,
-                    useRegex: false);
+                    NewTab: false,
+                    CaseSensitive: false,
+                    UseRegex: false
+                );
 
                 this.Owner.SearchDialog.ResultOptions = searchOptions;
 

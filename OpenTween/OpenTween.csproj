@@ -126,6 +126,7 @@
     <Compile Include="Bing.cs" />
     <Compile Include="Connection\IApiConnection.cs" />
     <Compile Include="DebounceTimer.cs" />
+    <Compile Include="IsExternalInit.cs" />
     <Compile Include="MediaUploadServices\IMediaUploadService.cs" />
     <Compile Include="MediaUploadServices\Imgur.cs" />
     <Compile Include="Connection\LazyJson.cs" />

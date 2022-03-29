@@ -113,18 +113,10 @@ namespace OpenTween.Models
 
         public abstract Task RefreshAsync(Twitter tw, bool backward, bool startup, IProgress<string> progress);
 
-        private readonly struct TemporaryId
-        {
-            public long StatusId { get; }
-
-            public bool Read { get; }
-
-            public TemporaryId(long statusId, bool read)
-            {
-                this.StatusId = statusId;
-                this.Read = read;
-            }
-        }
+        private readonly record struct TemporaryId(
+            long StatusId,
+            bool Read
+        );
 
         public virtual void AddPostQueue(PostClass post)
         {

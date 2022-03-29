@@ -206,11 +206,10 @@ namespace OpenTween.Thumbnail.Services
             if (planetElm != null && planetElm.Value != "earth")
                 return null;
 
-            return new GlobalLocation
-            {
-                Latitude = double.Parse(locationElm.Element("lat").Value, CultureInfo.InvariantCulture),
-                Longitude = double.Parse(locationElm.Element("lng").Value, CultureInfo.InvariantCulture),
-            };
+            return new GlobalLocation(
+                Latitude: double.Parse(locationElm.Element("lat").Value, CultureInfo.InvariantCulture),
+                Longitude: double.Parse(locationElm.Element("lng").Value, CultureInfo.InvariantCulture)
+            );
         }
     }
 }

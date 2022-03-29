@@ -211,9 +211,9 @@ namespace OpenTween
             toolStrip.GaugeHeight = 5;
 
             MyCommon.TwitterApiInfo.AccessLimit["/statuses/user_timeline"] = new ApiLimit(
-                limitCount: 1_000_000_000,
-                limitRemain: 999_999_999,
-                resetDate: now + TimeSpan.FromMinutes(15)
+                AccessLimitCount: 1_000_000_000,
+                AccessLimitRemain: 999_999_999,
+                AccessLimitResetDate: now + TimeSpan.FromMinutes(15)
             );
             toolStrip.ApiEndpoint = "/statuses/user_timeline";
 
