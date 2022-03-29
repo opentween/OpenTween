@@ -37,7 +37,7 @@ namespace OpenTween
     /// </summary>
     public class MouseWheelMessageFilter : IMessageFilter
     {
-        private readonly List<Control> controls = new List<Control>();
+        private readonly List<Control> controls = new();
 
         public MouseWheelMessageFilter()
             => Application.AddMessageFilter(this);
@@ -75,18 +75,10 @@ namespace OpenTween
             return false;
         }
 
-        internal class MouseEvent
-        {
-            public Point ScreenLocation { get; }
-
-            public int WheelDelta { get; }
-
-            public MouseEvent(Point location, int delta)
-            {
-                this.ScreenLocation = location;
-                this.WheelDelta = delta;
-            }
-        }
+        internal readonly record struct MouseEvent(
+            Point ScreenLocation,
+            int WheelDelta
+        );
 
         internal static MouseEvent ParseMessage(Message m)
         {

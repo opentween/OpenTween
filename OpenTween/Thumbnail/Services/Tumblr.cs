@@ -41,7 +41,7 @@ namespace OpenTween.Thumbnail.Services
     public class Tumblr : IThumbnailService
     {
         public static readonly Regex UrlPatternRegex =
-            new Regex(@"^https?://(?<host>[^.]+\.tumblr\.com|tumblr\.[^.]+\.[^.]+)/post/(?<postId>[0-9]+)(/.*)?");
+            new(@"^https?://(?<host>[^.]+\.tumblr\.com|tumblr\.[^.]+\.[^.]+)/post/(?<postId>[0-9]+)(/.*)?");
 
         protected HttpClient Http
             => this.localHttpClient ?? Networking.Http;

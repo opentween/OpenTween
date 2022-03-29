@@ -328,7 +328,7 @@ namespace OpenTween
         public bool Lists;
         public bool UserTimeline;
 
-        public static IntervalChangedEventArgs ResetAll => new IntervalChangedEventArgs
+        public static IntervalChangedEventArgs ResetAll => new()
         {
             Timeline = true,
             Reply = true,

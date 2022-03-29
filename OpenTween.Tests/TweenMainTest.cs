@@ -37,50 +37,42 @@ namespace OpenTween
         public void GetUrlFromDataObject_XMozUrlTest()
         {
             var dataBytes = Encoding.Unicode.GetBytes("https://twitter.com/\nTwitter\0");
-            using (var memstream = new MemoryStream(dataBytes))
-            {
-                var data = new DataObject("text/x-moz-url", memstream);
+            using var memstream = new MemoryStream(dataBytes);
+            var data = new DataObject("text/x-moz-url", memstream);
 
-                var expected = ("https://twitter.com/", "Twitter");
-                Assert.Equal(expected, TweenMain.GetUrlFromDataObject(data));
-            }
+            var expected = ("https://twitter.com/", "Twitter");
+            Assert.Equal(expected, TweenMain.GetUrlFromDataObject(data));
         }
 
         [Fact]
         public void GetUrlFromDataObject_IESiteModeToUrlTest()
         {
             var dataBytes = Encoding.Unicode.GetBytes("https://twitter.com/\0Twitter\0");
-            using (var memstream = new MemoryStream(dataBytes))
-            {
-                var data = new DataObject("IESiteModeToUrl", memstream);
+            using var memstream = new MemoryStream(dataBytes);
+            var data = new DataObject("IESiteModeToUrl", memstream);
 
-                var expected = ("https://twitter.com/", "Twitter");
-                Assert.Equal(expected, TweenMain.GetUrlFromDataObject(data));
-            }
+            var expected = ("https://twitter.com/", "Twitter");
+            Assert.Equal(expected, TweenMain.GetUrlFromDataObject(data));
         }
 
         [Fact]
         public void GetUrlFromDataObject_UniformResourceLocatorWTest()
         {
             var dataBytes = Encoding.Unicode.GetBytes("https://twitter.com/\0");
-            using (var memstream = new MemoryStream(dataBytes))
-            {
-                var data = new DataObject("UniformResourceLocatorW", memstream);
+            using var memstream = new MemoryStream(dataBytes);
+            var data = new DataObject("UniformResourceLocatorW", memstream);
 
-                var expected = ("https://twitter.com/", (string?)null);
-                Assert.Equal(expected, TweenMain.GetUrlFromDataObject(data));
-            }
+            var expected = ("https://twitter.com/", (string?)null);
+            Assert.Equal(expected, TweenMain.GetUrlFromDataObject(data));
         }
 
         [Fact]
         public void GetUrlFromDataObject_UnknownFormatTest()
         {
-            using (var memstream = new MemoryStream(Array.Empty<byte>()))
-            {
-                var data = new DataObject("application/x-hogehoge", memstream);
+            using var memstream = new MemoryStream(Array.Empty<byte>());
+            var data = new DataObject("application/x-hogehoge", memstream);
 
-                Assert.Throws<NotSupportedException>(() => TweenMain.GetUrlFromDataObject(data));
-            }
+            Assert.Throws<NotSupportedException>(() => TweenMain.GetUrlFromDataObject(data));
         }
 
         [Fact]

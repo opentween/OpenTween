@@ -70,7 +70,7 @@ namespace OpenTween
         }
 
         public WriteLockTransaction UpgradeToWriteLock()
-            => new WriteLockTransaction(this.lockObj);
+            => new(this.lockObj);
 
         public void Dispose()
             => this.lockObj.ExitUpgradeableReadLock();

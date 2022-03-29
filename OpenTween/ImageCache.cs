@@ -49,7 +49,7 @@ namespace OpenTween
         /// <summary>
         /// innerDictionary の排他制御のためのロックオブジェクト
         /// </summary>
-        private readonly object lockObject = new object();
+        private readonly object lockObject = new();
 
         /// <summary>
         /// オブジェクトが破棄された否か

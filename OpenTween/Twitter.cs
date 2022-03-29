@@ -76,42 +76,42 @@ namespace OpenTween
         private const string NonLatinHashtagChars = @"\u0400-\u04ff\u0500-\u0527\u1100-\u11ff\u3130-\u3185\uA960-\uA97F\uAC00-\uD7AF\uD7B0-\uD7FF";
         private const string CJHashtagCharacters = @"\u30A1-\u30FA\u30FC\u3005\uFF66-\uFF9F\uFF10-\uFF19\uFF21-\uFF3A\uFF41-\uFF5A\u3041-\u309A\u3400-\u4DBF\p{IsCJKUnifiedIdeographs}";
         private const string HashtagBoundary = @"^|$|\s|「|」|。|\.|!";
-        private const string HashtagAlpha = "[A-Za-z_" + LatinAccents + NonLatinHashtagChars + CJHashtagCharacters + "]";
-        private const string HashtagAlphanumeric = "[A-Za-z0-9_" + LatinAccents + NonLatinHashtagChars + CJHashtagCharacters + "]";
-        private const string HashtagTerminator = "[^A-Za-z0-9_" + LatinAccents + NonLatinHashtagChars + CJHashtagCharacters + "]";
-        public const string Hashtag = "(" + HashtagBoundary + ")(#|＃)(" + HashtagAlphanumeric + "*" + HashtagAlpha + HashtagAlphanumeric + "*)(?=" + HashtagTerminator + "|" + HashtagBoundary + ")";
+        private const string HashtagAlpha = $"[A-Za-z_{LatinAccents}{NonLatinHashtagChars}{CJHashtagCharacters}]";
+        private const string HashtagAlphanumeric = $"[A-Za-z0-9_{LatinAccents}{NonLatinHashtagChars}{CJHashtagCharacters}]";
+        private const string HashtagTerminator = $"[^A-Za-z0-9_{LatinAccents}{NonLatinHashtagChars}{CJHashtagCharacters}]";
+        public const string Hashtag = $"({HashtagBoundary})(#|＃)({HashtagAlphanumeric}*{HashtagAlpha}{HashtagAlphanumeric}*)(?={HashtagTerminator}|{HashtagBoundary})";
         // URL正規表現
         private const string UrlValidPrecedingChars = @"(?:[^A-Za-z0-9@＠$#＃\ufffe\ufeff\uffff\u202a-\u202e]|^)";
         public const string UrlInvalidWithoutProtocolPrecedingChars = @"[-_./]$";
         private const string UrlInvalidDomainChars = @"\!'#%&'\(\)*\+,\\\-\.\/:;<=>\?@\[\]\^_{|}~\$\u2000-\u200a\u0009-\u000d\u0020\u0085\u00a0\u1680\u180e\u2028\u2029\u202f\u205f\u3000\ufffe\ufeff\uffff\u202a-\u202e";
-        private const string UrlValidDomainChars = @"[^" + UrlInvalidDomainChars + "]";
-        private const string UrlValidSubdomain = @"(?:(?:" + UrlValidDomainChars + @"(?:[_-]|" + UrlValidDomainChars + @")*)?" + UrlValidDomainChars + @"\.)";
-        private const string UrlValidDomainName = @"(?:(?:" + UrlValidDomainChars + @"(?:-|" + UrlValidDomainChars + @")*)?" + UrlValidDomainChars + @"\.)";
+        private const string UrlValidDomainChars = $@"[^{UrlInvalidDomainChars}]";
+        private const string UrlValidSubdomain = $@"(?:(?:{UrlValidDomainChars}(?:[_-]|{UrlValidDomainChars})*)?{UrlValidDomainChars}\.)";
+        private const string UrlValidDomainName = $@"(?:(?:{UrlValidDomainChars}(?:-|{UrlValidDomainChars})*)?{UrlValidDomainChars}\.)";
         private const string UrlValidGTLD = @"(?:(?:aero|asia|biz|cat|com|coop|edu|gov|info|int|jobs|mil|mobi|museum|name|net|org|pro|tel|travel|xxx)(?=[^0-9a-zA-Z]|$))";
         private const string UrlValidCCTLD = @"(?:(?:ac|ad|ae|af|ag|ai|al|am|an|ao|aq|ar|as|at|au|aw|ax|az|ba|bb|bd|be|bf|bg|bh|bi|bj|bm|bn|bo|br|bs|bt|bv|bw|by|bz|ca|cc|cd|cf|cg|ch|ci|ck|cl|cm|cn|co|cr|cs|cu|cv|cx|cy|cz|dd|de|dj|dk|dm|do|dz|ec|ee|eg|eh|er|es|et|eu|fi|fj|fk|fm|fo|fr|ga|gb|gd|ge|gf|gg|gh|gi|gl|gm|gn|gp|gq|gr|gs|gt|gu|gw|gy|hk|hm|hn|hr|ht|hu|id|ie|il|im|in|io|iq|ir|is|it|je|jm|jo|jp|ke|kg|kh|ki|km|kn|kp|kr|kw|ky|kz|la|lb|lc|li|lk|lr|ls|lt|lu|lv|ly|ma|mc|md|me|mg|mh|mk|ml|mm|mn|mo|mp|mq|mr|ms|mt|mu|mv|mw|mx|my|mz|na|nc|ne|nf|ng|ni|nl|no|np|nr|nu|nz|om|pa|pe|pf|pg|ph|pk|pl|pm|pn|pr|ps|pt|pw|py|qa|re|ro|rs|ru|rw|sa|sb|sc|sd|se|sg|sh|si|sj|sk|sl|sm|sn|so|sr|ss|st|su|sv|sy|sz|tc|td|tf|tg|th|tj|tk|tl|tm|tn|to|tp|tr|tt|tv|tw|tz|ua|ug|uk|us|uy|uz|va|vc|ve|vg|vi|vn|vu|wf|ws|ye|yt|za|zm|zw)(?=[^0-9a-zA-Z]|$))";
         private const string UrlValidPunycode = @"(?:xn--[0-9a-z]+)";
-        private const string UrlValidDomain = @"(?<domain>" + UrlValidSubdomain + "*" + UrlValidDomainName + "(?:" + UrlValidGTLD + "|" + UrlValidCCTLD + ")|" + UrlValidPunycode + ")";
-        public const string UrlValidAsciiDomain = @"(?:(?:[a-z0-9" + LatinAccents + @"]+)\.)+(?:" + UrlValidGTLD + "|" + UrlValidCCTLD + "|" + UrlValidPunycode + ")";
-        public const string UrlInvalidShortDomain = "^" + UrlValidDomainName + UrlValidCCTLD + "$";
+        private const string UrlValidDomain = $@"(?<domain>{UrlValidSubdomain}*{UrlValidDomainName}(?:{UrlValidGTLD}|{UrlValidCCTLD})|{UrlValidPunycode})";
+        public const string UrlValidAsciiDomain = $@"(?:(?:[a-z0-9{LatinAccents}]+)\.)+(?:{UrlValidGTLD}|{UrlValidCCTLD}|{UrlValidPunycode})";
+        public const string UrlInvalidShortDomain = $"^{UrlValidDomainName}{UrlValidCCTLD}$";
         private const string UrlValidPortNumber = @"[0-9]+";
 
-        private const string UrlValidGeneralPathChars = @"[a-z0-9!*';:=+,.$/%#\[\]\-_~|&" + LatinAccents + "]";
-        private const string UrlBalanceParens = @"(?:\(" + UrlValidGeneralPathChars + @"+\))";
-        private const string UrlValidPathEndingChars = @"(?:[+\-a-z0-9=_#/" + LatinAccents + "]|" + UrlBalanceParens + ")";
+        private const string UrlValidGeneralPathChars = $@"[a-z0-9!*';:=+,.$/%#\[\]\-_~|&{LatinAccents}]";
+        private const string UrlBalanceParens = $@"(?:\({UrlValidGeneralPathChars}+\))";
+        private const string UrlValidPathEndingChars = $@"(?:[+\-a-z0-9=_#/{LatinAccents}]|{UrlBalanceParens})";
         private const string Pth = "(?:" +
             "(?:" +
-                UrlValidGeneralPathChars + "*" +
-                "(?:" + UrlBalanceParens + UrlValidGeneralPathChars + "*)*" +
+                $"{UrlValidGeneralPathChars}*" +
+                $"(?:{UrlBalanceParens}{UrlValidGeneralPathChars}*)*" +
                 UrlValidPathEndingChars +
-                ")|(?:@" + UrlValidGeneralPathChars + "+/)" +
+                $")|(?:@{UrlValidGeneralPathChars}+/)" +
             ")";
 
         private const string Qry = @"(?<query>\?[a-z0-9!?*'();:&=+$/%#\[\]\-_.,~|]*[a-z0-9_&=#/])?";
-        public const string RgUrl = @"(?<before>" + UrlValidPrecedingChars + ")" +
+        public const string RgUrl = $@"(?<before>{UrlValidPrecedingChars})" +
                                     "(?<url>(?<protocol>https?://)?" +
-                                    "(?<domain>" + UrlValidDomain + ")" +
-                                    "(?::" + UrlValidPortNumber + ")?" +
-                                    "(?<path>/" + Pth + "*)?" +
+                                    $"(?<domain>{UrlValidDomain})" +
+                                    $"(?::{UrlValidPortNumber})?" +
+                                    $"(?<path>/{Pth}*)?" +
                                     Qry +
                                     ")";
 
@@ -125,12 +125,12 @@ namespace OpenTween
         /// <summary>
         /// ツイートへのパーマリンクURLを判定する正規表現
         /// </summary>
-        public static readonly Regex StatusUrlRegex = new Regex(@"https?://([^.]+\.)?twitter\.com/(#!/)?(?<ScreenName>[a-zA-Z0-9_]+)/status(es)?/(?<StatusId>[0-9]+)(/photo)?", RegexOptions.IgnoreCase);
+        public static readonly Regex StatusUrlRegex = new(@"https?://([^.]+\.)?twitter\.com/(#!/)?(?<ScreenName>[a-zA-Z0-9_]+)/status(es)?/(?<StatusId>[0-9]+)(/photo)?", RegexOptions.IgnoreCase);
 
         /// <summary>
         /// attachment_url に指定可能な URL を判定する正規表現
         /// </summary>
-        public static readonly Regex AttachmentUrlRegex = new Regex(
+        public static readonly Regex AttachmentUrlRegex = new(
             @"https?://(
    twitter\.com/[0-9A-Za-z_]+/status/[0-9]+
  | mobile\.twitter\.com/[0-9A-Za-z_]+/status/[0-9]+
@@ -141,7 +141,7 @@ namespace OpenTween
         /// <summary>
         /// FavstarやaclogなどTwitter関連サービスのパーマリンクURLからステータスIDを抽出する正規表現
         /// </summary>
-        public static readonly Regex ThirdPartyStatusUrlRegex = new Regex(
+        public static readonly Regex ThirdPartyStatusUrlRegex = new(
             @"https?://(?:[^.]+\.)?(?:
   favstar\.fm/users/[a-zA-Z0-9_]+/status/       # Favstar
 | favstar\.fm/t/                                # Favstar (short)
@@ -153,7 +153,7 @@ namespace OpenTween
         /// <summary>
         /// DM送信かどうかを判定する正規表現
         /// </summary>
-        public static readonly Regex DMSendTextRegex = new Regex(@"^DM? +(?<id>[a-zA-Z0-9_]+) +(?<body>.*)", RegexOptions.IgnoreCase | RegexOptions.Singleline);
+        public static readonly Regex DMSendTextRegex = new(@"^DM? +(?<id>[a-zA-Z0-9_]+) +(?<body>.*)", RegexOptions.IgnoreCase | RegexOptions.Singleline);
 
         public TwitterApi Api { get; }
 
@@ -167,12 +167,12 @@ namespace OpenTween
 
         private delegate void GetIconImageDelegate(PostClass post);
 
-        private readonly object lockObj = new object();
+        private readonly object lockObj = new();
         private ISet<long> followerId = new HashSet<long>();
         private long[] noRTId = Array.Empty<long>();
 
         // プロパティからアクセスされる共通情報
-        private readonly List<string> hashList = new List<string>();
+        private readonly List<string> hashList = new();
 
         private string? nextCursorDirectMessage = null;
 
@@ -1571,7 +1571,7 @@ namespace OpenTween
             return text;
         }
 
-        private static readonly Uri SourceUriBase = new Uri("https://twitter.com/");
+        private static readonly Uri SourceUriBase = new("https://twitter.com/");
 
         /// <summary>
         /// Twitter APIから得たHTML形式のsource文字列を分析し、source名とURLに分離します
@@ -1789,30 +1789,24 @@ namespace OpenTween
         /// </remarks>
         public static string CreateProfileImageUrl(string normalUrl, string size)
         {
-            switch (size)
+            return size switch
             {
-                case "original":
-                    return normalUrl.Replace("_normal.", ".");
-                case "normal":
-                    return normalUrl;
-                case "bigger":
-                case "mini":
-                    return normalUrl.Replace("_normal.", $"_{size}.");
-                default:
-                    throw new ArgumentException($"Invalid size: ${size}", nameof(size));
-            }
+                "original" => normalUrl.Replace("_normal.", "."),
+                "normal" => normalUrl,
+                "bigger" or "mini" => normalUrl.Replace("_normal.", $"_{size}."),
+                _ => throw new ArgumentException($"Invalid size: ${size}", nameof(size)),
+            };
         }
 
         public static string DecideProfileImageSize(int sizePx)
         {
-            if (sizePx <= 24)
-                return "mini";
-            else if (sizePx <= 48)
-                return "normal";
-            else if (sizePx <= 73)
-                return "bigger";
-            else
-                return "original";
+            return sizePx switch
+            {
+                <= 24 => "mini",
+                <= 48 => "normal",
+                <= 73 => "bigger",
+                _ => "original",
+            };
         }
 
         public bool IsDisposed { get; private set; } = false;

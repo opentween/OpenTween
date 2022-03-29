@@ -1,5 +1,5 @@
 ﻿// OpenTween - Client of Twitter
-// Copyright (c) 2013 kim_upsilon (@kim_upsilon) <https://upsilo.net/~upsilon/>
+// Copyright (c) 2022 kim_upsilon (@kim_upsilon) <https://upsilo.net/~upsilon/>
 // All rights reserved.
 //
 // This file is part of OpenTween.
@@ -21,19 +21,9 @@
 
 #nullable enable
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace OpenTween.Api
+namespace System.Runtime.CompilerServices
 {
-    /// <param name="AccessLimitCount">API 実行回数制限の値</param>
-    /// <param name="AccessLimitRemain">API 実行回数制限までの残回数</param>
-    /// <param name="AccessLimitResetDate">API 実行回数制限がリセットされる日時</param>
-    public record ApiLimit(
-        int AccessLimitCount,
-        int AccessLimitRemain,
-        DateTimeUtc AccessLimitResetDate
-    );
+    internal sealed class IsExternalInit
+    {
+    }
 }

@@ -32,7 +32,7 @@ namespace OpenTween
     {
         private class TestTimelineScheduler : TimelineScheduler
         {
-            public MockTimer MockTimer = new MockTimer(() => Task.CompletedTask);
+            public MockTimer MockTimer = new(() => Task.CompletedTask);
 
             public TestTimelineScheduler()
                 : base()

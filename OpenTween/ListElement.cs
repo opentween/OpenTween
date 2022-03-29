@@ -48,7 +48,7 @@ namespace OpenTween
 
         protected Twitter tw = null!;
 
-        private List<UserInfo> members = new List<UserInfo>();
+        private List<UserInfo> members = new();
 
         [XmlIgnore]
         public long Cursor { get; private set; } = -1;

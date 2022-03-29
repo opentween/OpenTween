@@ -45,34 +45,20 @@ namespace OpenTween
             /// タイムライン内を検索
             /// </summary>
             Timeline,
+
             /// <summary>
             /// Twitter検索
             /// </summary>
             Public,
         }
 
-        public class SearchOptions
-        {
-            public SearchType Type { get; }
-
-            public string Query { get; }
-
-            // タイムライン内検索のみで使用する
-            public bool NewTab { get; }
-
-            public bool CaseSensitive { get; }
-
-            public bool UseRegex { get; }
-
-            public SearchOptions(SearchType type, string query, bool newTab, bool caseSensitive, bool useRegex)
-            {
-                this.Type = type;
-                this.Query = query;
-                this.NewTab = newTab;
-                this.CaseSensitive = caseSensitive;
-                this.UseRegex = useRegex;
-            }
-        }
+        public record SearchOptions(
+            SearchType Type,
+            string Query,
+            bool NewTab, // タイムライン内検索のみで使用する
+            bool CaseSensitive,
+            bool UseRegex
+        );
 
         private SearchOptions? resultOptions = null;
 

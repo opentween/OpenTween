@@ -58,9 +58,9 @@ namespace OpenTween
             ALLOW_SCRIPT = 0x2,
         }
 
-        private readonly object ocx = new object();
+        private readonly object ocx = new();
         private readonly WebBrowserAPI.IServiceProvider ocxServiceProvider;
-        private readonly IntPtr profferServicePtr = new IntPtr();
+        private readonly IntPtr profferServicePtr = new();
         private readonly WebBrowserAPI.IProfferService profferService = null!;
 
         public POLICY SecurityPolicy { get; set; } = 0;
@@ -376,9 +376,9 @@ namespace OpenTween
 
         // ----------------------------------------------------------------------
         // ここ以下は COM Interface の宣言です。
-        public static Guid IID_IProfferService = new Guid("cb728b20-f786-11ce-92ad-00aa00a74cd0");
-        public static Guid SID_SProfferService = new Guid("cb728b20-f786-11ce-92ad-00aa00a74cd0");
-        public static Guid IID_IInternetSecurityManager = new Guid("79eac9ee-baf9-11ce-8c82-00aa004ba90b");
+        public static Guid IID_IProfferService = new("cb728b20-f786-11ce-92ad-00aa00a74cd0");
+        public static Guid SID_SProfferService = new("cb728b20-f786-11ce-92ad-00aa00a74cd0");
+        public static Guid IID_IInternetSecurityManager = new("79eac9ee-baf9-11ce-8c82-00aa004ba90b");
 
         [ComImport]
         [Guid("6d5140c1-7436-11ce-8034-00aa006009fa")]

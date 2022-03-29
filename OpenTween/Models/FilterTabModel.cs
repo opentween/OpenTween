@@ -43,8 +43,8 @@ namespace OpenTween.Models
 
         public bool FilterModified { get; set; }
 
-        private readonly List<PostFilterRule> filters = new List<PostFilterRule>();
-        private readonly object lockObjFilters = new object();
+        private readonly List<PostFilterRule> filters = new();
+        private readonly object lockObjFilters = new();
 
         public FilterTabModel(string tabName)
             : base(tabName)

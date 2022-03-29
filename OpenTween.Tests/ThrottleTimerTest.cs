@@ -33,7 +33,7 @@ namespace OpenTween
     {
         private class TestThrottleTimer : ThrottleTimer
         {
-            public MockTimer MockTimer = new MockTimer(() => Task.CompletedTask);
+            public MockTimer MockTimer = new(() => Task.CompletedTask);
 
             public TestThrottleTimer(Func<Task> timerCallback, TimeSpan interval)
                 : base(timerCallback, interval)
@@ -50,15 +50,17 @@ namespace OpenTween
             using (TestUtils.FreezeTime(new DateTimeUtc(2022, 1, 1, 0, 0, 0)))
             {
                 var count = 0;
-                Func<Task> callback = () =>
+
+                Task Callback()
                 {
                     count++;
                     TestUtils.DriftTime(TimeSpan.FromSeconds(10));
                     return Task.CompletedTask;
-                };
+                }
+
                 var interval = TimeSpan.FromMinutes(2);
                 var maxWait = TimeSpan.FromMinutes(2);
-                using var throttling = new TestThrottleTimer(callback, interval);
+                using var throttling = new TestThrottleTimer(Callback, interval);
                 var mockTimer = throttling.MockTimer;
 
                 Assert.Equal(0, count);
@@ -105,15 +107,17 @@ namespace OpenTween
             using (TestUtils.FreezeTime(new DateTimeUtc(2022, 1, 1, 0, 0, 0)))
             {
                 var count = 0;
-                Func<Task> callback = () =>
+
+                Task Callback()
                 {
                     count++;
                     TestUtils.DriftTime(TimeSpan.FromSeconds(10));
                     return Task.CompletedTask;
-                };
+                }
+
                 var interval = TimeSpan.FromMinutes(2);
                 var maxWait = TimeSpan.FromMinutes(2);
-                using var throttling = new TestThrottleTimer(callback, interval);
+                using var throttling = new TestThrottleTimer(Callback, interval);
                 var mockTimer = throttling.MockTimer;
 
                 Assert.Equal(0, count);
@@ -143,15 +147,17 @@ namespace OpenTween
             using (TestUtils.FreezeTime(new DateTimeUtc(2022, 1, 1, 0, 0, 0)))
             {
                 var count = 0;
-                Func<Task> callback = () =>
+
+                Task Callback()
                 {
                     count++;
                     TestUtils.DriftTime(TimeSpan.FromSeconds(10));
                     return Task.CompletedTask;
-                };
+                }
+
                 var interval = TimeSpan.FromMinutes(2);
                 var maxWait = TimeSpan.FromMinutes(2);
-                using var throttling = new TestThrottleTimer(callback, interval);
+                using var throttling = new TestThrottleTimer(Callback, interval);
                 var mockTimer = throttling.MockTimer;
 
                 Assert.Equal(0, count);

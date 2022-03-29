@@ -32,7 +32,7 @@ namespace OpenTween
     {
         private class TestDebounceTimer : DebounceTimer
         {
-            public MockTimer MockTimer = new MockTimer(() => Task.CompletedTask);
+            public MockTimer MockTimer = new(() => Task.CompletedTask);
 
             public TestDebounceTimer(Func<Task> timerCallback, TimeSpan interval, bool leading, bool trailing)
                 : base(timerCallback, interval, leading, trailing)
@@ -49,15 +49,17 @@ namespace OpenTween
             using (TestUtils.FreezeTime(new DateTimeUtc(2022, 1, 1, 0, 0, 0)))
             {
                 var count = 0;
-                Func<Task> callback = () =>
+
+                Task Callback()
                 {
                     count++;
                     TestUtils.DriftTime(TimeSpan.FromSeconds(10));
                     return Task.CompletedTask;
-                };
+                }
+
                 var interval = TimeSpan.FromMinutes(2);
                 var maxWait = TimeSpan.MaxValue;
-                using var debouncing = new TestDebounceTimer(callback, interval, leading: false, trailing: true);
+                using var debouncing = new TestDebounceTimer(Callback, interval, leading: false, trailing: true);
                 var mockTimer = debouncing.MockTimer;
 
                 Assert.Equal(0, count);
@@ -104,15 +106,17 @@ namespace OpenTween
             using (TestUtils.FreezeTime(new DateTimeUtc(2022, 1, 1, 0, 0, 0)))
             {
                 var count = 0;
-                Func<Task> callback = () =>
+
+                Task Callback()
                 {
                     count++;
                     TestUtils.DriftTime(TimeSpan.FromSeconds(10));
                     return Task.CompletedTask;
-                };
+                }
+
                 var interval = TimeSpan.FromMinutes(2);
                 var maxWait = TimeSpan.MaxValue;
-                using var debouncing = new TestDebounceTimer(callback, interval, leading: false, trailing: true);
+                using var debouncing = new TestDebounceTimer(Callback, interval, leading: false, trailing: true);
                 var mockTimer = debouncing.MockTimer;
 
                 Assert.Equal(0, count);
@@ -142,15 +146,17 @@ namespace OpenTween
             using (TestUtils.FreezeTime(new DateTimeUtc(2022, 1, 1, 0, 0, 0)))
             {
                 var count = 0;
-                Func<Task> callback = () =>
+
+                Task Callback()
                 {
                     count++;
                     TestUtils.DriftTime(TimeSpan.FromSeconds(10));
                     return Task.CompletedTask;
-                };
+                }
+
                 var interval = TimeSpan.FromMinutes(2);
                 var maxWait = TimeSpan.MaxValue;
-                using var debouncing = new TestDebounceTimer(callback, interval, leading: false, trailing: true);
+                using var debouncing = new TestDebounceTimer(Callback, interval, leading: false, trailing: true);
                 var mockTimer = debouncing.MockTimer;
 
                 Assert.Equal(0, count);
@@ -196,15 +202,17 @@ namespace OpenTween
             using (TestUtils.FreezeTime(new DateTimeUtc(2022, 1, 1, 0, 0, 0)))
             {
                 var count = 0;
-                Func<Task> callback = () =>
+
+                Task Callback()
                 {
                     count++;
                     TestUtils.DriftTime(TimeSpan.FromSeconds(10));
                     return Task.CompletedTask;
-                };
+                }
+
                 var interval = TimeSpan.FromMinutes(2);
                 var maxWait = TimeSpan.MaxValue;
-                using var debouncing = new TestDebounceTimer(callback, interval, leading: true, trailing: true);
+                using var debouncing = new TestDebounceTimer(Callback, interval, leading: true, trailing: true);
                 var mockTimer = debouncing.MockTimer;
 
                 Assert.Equal(0, count);
@@ -251,15 +259,17 @@ namespace OpenTween
             using (TestUtils.FreezeTime(new DateTimeUtc(2022, 1, 1, 0, 0, 0)))
             {
                 var count = 0;
-                Func<Task> callback = () =>
+
+                Task Callback()
                 {
                     count++;
                     TestUtils.DriftTime(TimeSpan.FromSeconds(10));
                     return Task.CompletedTask;
-                };
+                }
+
                 var interval = TimeSpan.FromMinutes(2);
                 var maxWait = TimeSpan.MaxValue;
-                using var debouncing = new TestDebounceTimer(callback, interval, leading: true, trailing: true);
+                using var debouncing = new TestDebounceTimer(Callback, interval, leading: true, trailing: true);
                 var mockTimer = debouncing.MockTimer;
 
                 Assert.Equal(0, count);
@@ -289,15 +299,17 @@ namespace OpenTween
             using (TestUtils.FreezeTime(new DateTimeUtc(2022, 1, 1, 0, 0, 0)))
             {
                 var count = 0;
-                Func<Task> callback = () =>
+
+                Task Callback()
                 {
                     count++;
                     TestUtils.DriftTime(TimeSpan.FromSeconds(10));
                     return Task.CompletedTask;
-                };
+                }
+
                 var interval = TimeSpan.FromMinutes(2);
                 var maxWait = TimeSpan.MaxValue;
-                using var debouncing = new TestDebounceTimer(callback, interval, leading: true, trailing: true);
+                using var debouncing = new TestDebounceTimer(Callback, interval, leading: true, trailing: true);
                 var mockTimer = debouncing.MockTimer;
 
                 Assert.Equal(0, count);
@@ -360,15 +372,17 @@ namespace OpenTween
             using (TestUtils.FreezeTime(new DateTimeUtc(2022, 1, 1, 1, 0, 0)))
             {
                 var count = 0;
-                Func<Task> callback = () =>
+
+                Task Callback()
                 {
                     count++;
                     TestUtils.DriftTime(TimeSpan.FromSeconds(10));
                     return Task.CompletedTask;
-                };
+                }
+
                 var interval = TimeSpan.FromMinutes(2);
                 var maxWait = TimeSpan.MaxValue;
-                using var debouncing = new TestDebounceTimer(callback, interval, leading: false, trailing: true);
+                using var debouncing = new TestDebounceTimer(Callback, interval, leading: false, trailing: true);
                 var mockTimer = debouncing.MockTimer;
 
                 Assert.Equal(0, count);

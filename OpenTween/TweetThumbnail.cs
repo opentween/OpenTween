@@ -43,8 +43,8 @@ namespace OpenTween
 {
     public partial class TweetThumbnail : UserControl
     {
-        protected internal List<OTPictureBox> PictureBox = new List<OTPictureBox>();
-        protected MouseWheelMessageFilter filter = new MouseWheelMessageFilter();
+        protected internal List<OTPictureBox> PictureBox = new();
+        protected MouseWheelMessageFilter filter = new();
 
         public event EventHandler<EventArgs>? ThumbnailLoading;
 

@@ -39,7 +39,7 @@ namespace OpenTween
         public ApiInfoDialog()
             => this.InitializeComponent();
 
-        private readonly List<string> tlEndpoints = new List<string>
+        private readonly List<string> tlEndpoints = new()
         {
             "/statuses/home_timeline",
             "/statuses/mentions_timeline",

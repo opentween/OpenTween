@@ -69,147 +69,139 @@ namespace OpenTween.Thumbnail.Services
         public async Task GetThumbnailInfoAsync_NewUrlTest()
         {
             var handler = new HttpMessageHandlerMock();
-            using (var http = new HttpClient(handler))
+            using var http = new HttpClient(handler);
+            var service = new FoursquareCheckin(http, ApiKey.Create("fake_client_id"), ApiKey.Create("fake_client_secret"));
+
+            handler.Enqueue(x =>
             {
-                var service = new FoursquareCheckin(http, ApiKey.Create("fake_client_id"), ApiKey.Create("fake_client_secret"));
+                Assert.Equal(HttpMethod.Get, x.Method);
+                Assert.Equal("https://api.foursquare.com/v2/checkins/resolve",
+                    x.RequestUri.GetLeftPart(UriPartial.Path));
 
-                handler.Enqueue(x =>
-                {
-                    Assert.Equal(HttpMethod.Get, x.Method);
-                    Assert.Equal("https://api.foursquare.com/v2/checkins/resolve",
-                        x.RequestUri.GetLeftPart(UriPartial.Path));
+                var query = HttpUtility.ParseQueryString(x.RequestUri.Query);
 
-                    var query = HttpUtility.ParseQueryString(x.RequestUri.Query);
+                Assert.Equal("fake_client_id", query["client_id"]);
+                Assert.Equal("fake_client_secret", query["client_secret"]);
+                Assert.NotNull(query["v"]);
+                Assert.Equal("xxxxxxxx", query["shortId"]);
 
-                    Assert.Equal("fake_client_id", query["client_id"]);
-                    Assert.Equal("fake_client_secret", query["client_secret"]);
-                    Assert.NotNull(query["v"]);
-                    Assert.Equal("xxxxxxxx", query["shortId"]);
+                // リクエストに対するテストなのでレスポンスは適当に返す
+                return new HttpResponseMessage(HttpStatusCode.NotFound);
+            });
 
-                    // リクエストに対するテストなのでレスポンスは適当に返す
-                    return new HttpResponseMessage(HttpStatusCode.NotFound);
-                });
+            var post = new PostClass
+            {
+                PostGeo = null,
+            };
 
-                var post = new PostClass
-                {
-                    PostGeo = null,
-                };
+            await service.GetThumbnailInfoAsync(
+                "https://www.swarmapp.com/c/xxxxxxxx",
+                post,
+                CancellationToken.None);
 
-                await service.GetThumbnailInfoAsync(
-                    "https://www.swarmapp.com/c/xxxxxxxx",
-                    post,
-                    CancellationToken.None);
-
-                Assert.Equal(0, handler.QueueCount);
-            }
+            Assert.Equal(0, handler.QueueCount);
         }
 
         [Fact]
         public async Task GetThumbnailInfoAsync_LegacyUrlTest()
         {
             var handler = new HttpMessageHandlerMock();
-            using (var http = new HttpClient(handler))
+            using var http = new HttpClient(handler);
+            var service = new FoursquareCheckin(http, ApiKey.Create("fake_client_id"), ApiKey.Create("fake_client_secret"));
+
+            handler.Enqueue(x =>
             {
-                var service = new FoursquareCheckin(http, ApiKey.Create("fake_client_id"), ApiKey.Create("fake_client_secret"));
+                Assert.Equal(HttpMethod.Get, x.Method);
+                Assert.Equal("https://api.foursquare.com/v2/checkins/xxxxxxxx",
+                    x.RequestUri.GetLeftPart(UriPartial.Path));
 
-                handler.Enqueue(x =>
-                {
-                    Assert.Equal(HttpMethod.Get, x.Method);
-                    Assert.Equal("https://api.foursquare.com/v2/checkins/xxxxxxxx",
-                        x.RequestUri.GetLeftPart(UriPartial.Path));
+                var query = HttpUtility.ParseQueryString(x.RequestUri.Query);
 
-                    var query = HttpUtility.ParseQueryString(x.RequestUri.Query);
+                Assert.Equal("fake_client_id", query["client_id"]);
+                Assert.Equal("fake_client_secret", query["client_secret"]);
+                Assert.NotNull(query["v"]);
+                Assert.Null(query["signature"]);
 
-                    Assert.Equal("fake_client_id", query["client_id"]);
-                    Assert.Equal("fake_client_secret", query["client_secret"]);
-                    Assert.NotNull(query["v"]);
-                    Assert.Null(query["signature"]);
+                // リクエストに対するテストなのでレスポンスは適当に返す
+                return new HttpResponseMessage(HttpStatusCode.NotFound);
+            });
 
-                    // リクエストに対するテストなのでレスポンスは適当に返す
-                    return new HttpResponseMessage(HttpStatusCode.NotFound);
-                });
+            var post = new PostClass
+            {
+                PostGeo = null,
+            };
 
-                var post = new PostClass
-                {
-                    PostGeo = null,
-                };
+            await service.GetThumbnailInfoAsync(
+                "https://foursquare.com/hogehoge/checkin/xxxxxxxx",
+                post,
+                CancellationToken.None);
 
-                await service.GetThumbnailInfoAsync(
-                    "https://foursquare.com/hogehoge/checkin/xxxxxxxx",
-                    post,
-                    CancellationToken.None);
-
-                Assert.Equal(0, handler.QueueCount);
-            }
+            Assert.Equal(0, handler.QueueCount);
         }
 
         [Fact]
         public async Task GetThumbnailInfoAsync_LegacyUrlWithSignatureTest()
         {
             var handler = new HttpMessageHandlerMock();
-            using (var http = new HttpClient(handler))
+            using var http = new HttpClient(handler);
+            var service = new FoursquareCheckin(http, ApiKey.Create("fake_client_id"), ApiKey.Create("fake_client_secret"));
+
+            handler.Enqueue(x =>
             {
-                var service = new FoursquareCheckin(http, ApiKey.Create("fake_client_id"), ApiKey.Create("fake_client_secret"));
+                Assert.Equal(HttpMethod.Get, x.Method);
+                Assert.Equal("https://api.foursquare.com/v2/checkins/xxxxxxxx",
+                    x.RequestUri.GetLeftPart(UriPartial.Path));
 
-                handler.Enqueue(x =>
-                {
-                    Assert.Equal(HttpMethod.Get, x.Method);
-                    Assert.Equal("https://api.foursquare.com/v2/checkins/xxxxxxxx",
-                        x.RequestUri.GetLeftPart(UriPartial.Path));
+                var query = HttpUtility.ParseQueryString(x.RequestUri.Query);
 
-                    var query = HttpUtility.ParseQueryString(x.RequestUri.Query);
+                Assert.Equal("fake_client_id", query["client_id"]);
+                Assert.Equal("fake_client_secret", query["client_secret"]);
+                Assert.NotNull(query["v"]);
+                Assert.Equal("aaaaaaa", query["signature"]);
 
-                    Assert.Equal("fake_client_id", query["client_id"]);
-                    Assert.Equal("fake_client_secret", query["client_secret"]);
-                    Assert.NotNull(query["v"]);
-                    Assert.Equal("aaaaaaa", query["signature"]);
+                // リクエストに対するテストなのでレスポンスは適当に返す
+                return new HttpResponseMessage(HttpStatusCode.NotFound);
+            });
 
-                    // リクエストに対するテストなのでレスポンスは適当に返す
-                    return new HttpResponseMessage(HttpStatusCode.NotFound);
-                });
+            var post = new PostClass
+            {
+                PostGeo = null,
+            };
 
-                var post = new PostClass
-                {
-                    PostGeo = null,
-                };
+            await service.GetThumbnailInfoAsync(
+                "https://foursquare.com/hogehoge/checkin/xxxxxxxx?s=aaaaaaa",
+                post,
+                CancellationToken.None);
 
-                await service.GetThumbnailInfoAsync(
-                    "https://foursquare.com/hogehoge/checkin/xxxxxxxx?s=aaaaaaa",
-                    post,
-                    CancellationToken.None);
-
-                Assert.Equal(0, handler.QueueCount);
-            }
+            Assert.Equal(0, handler.QueueCount);
         }
 
         [Fact]
         public async Task GetThumbnailInfoAsync_GeoLocatedTweetTest()
         {
             var handler = new HttpMessageHandlerMock();
-            using (var http = new HttpClient(handler))
+            using var http = new HttpClient(handler);
+            var service = new FoursquareCheckin(http, ApiKey.Create("fake_client_id"), ApiKey.Create("fake_client_secret"));
+
+            handler.Enqueue(x =>
             {
-                var service = new FoursquareCheckin(http, ApiKey.Create("fake_client_id"), ApiKey.Create("fake_client_secret"));
+                // このリクエストは実行されないはず
+                Assert.True(false);
+                return new HttpResponseMessage(HttpStatusCode.NotFound);
+            });
 
-                handler.Enqueue(x =>
-                {
-                    // このリクエストは実行されないはず
-                    Assert.True(false);
-                    return new HttpResponseMessage(HttpStatusCode.NotFound);
-                });
+            // 既にジオタグが付いているツイートに対しては何もしない
+            var post = new PostClass
+            {
+                PostGeo = new PostClass.StatusGeo(134.04693603515625, 34.35067978344854),
+            };
 
-                // 既にジオタグが付いているツイートに対しては何もしない
-                var post = new PostClass
-                {
-                    PostGeo = new PostClass.StatusGeo(134.04693603515625, 34.35067978344854),
-                };
+            await service.GetThumbnailInfoAsync(
+                "https://www.swarmapp.com/c/xxxxxxxx",
+                post,
+                CancellationToken.None);
 
-                await service.GetThumbnailInfoAsync(
-                    "https://www.swarmapp.com/c/xxxxxxxx",
-                    post,
-                    CancellationToken.None);
-
-                Assert.Equal(1, handler.QueueCount);
-            }
+            Assert.Equal(1, handler.QueueCount);
         }
 
         [Fact]

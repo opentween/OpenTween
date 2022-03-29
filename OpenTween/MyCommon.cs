@@ -59,7 +59,7 @@ namespace OpenTween
 {
     public static class MyCommon
     {
-        private static readonly object LockObj = new object();
+        private static readonly object LockObj = new();
 
         public static bool EndingFlag { get; set; } // 終了フラグ
 
@@ -670,7 +670,7 @@ namespace OpenTween
             SearchResults = 4096,
         }
 
-        public static TwitterApiStatus TwitterApiInfo = new TwitterApiStatus();
+        public static TwitterApiStatus TwitterApiInfo = new();
 
         public static bool IsAnimatedGif(string filename)
         {
@@ -874,7 +874,7 @@ namespace OpenTween
 
         // .NET 4.5+: Reserved characters のうち、Uriクラスによってエスケープ強制解除されてしまうものも最初から Unreserved として扱う
         private static readonly HashSet<char> UnreservedChars =
-            new HashSet<char>("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_.~!'()*:");
+            new("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_.~!'()*:");
 
         /// <summary>
         /// 2バイト文字も考慮したクエリ用エンコード
@@ -1017,7 +1017,7 @@ namespace OpenTween
                 };
             }
 
-            int quoteEnd = -1;
+            var quoteEnd = -1;
             if (browserPathWithArgs.StartsWith("\"", StringComparison.Ordinal))
                 quoteEnd = browserPathWithArgs.IndexOf("\"", 1, StringComparison.Ordinal);
 

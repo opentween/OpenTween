@@ -49,10 +49,10 @@ namespace OpenTween
         private MultiSelectionState multiSelState = MultiSelectionState.None;
         private readonly TabInformations sts;
 
-        private List<TabModel> tabs = new List<TabModel>();
+        private List<TabModel> tabs = new();
         private int selectedTabIndex = -1;
 
-        private readonly List<string> idlist = new List<string>();
+        private readonly List<string> idlist = new();
 
         private enum EDITMODE
         {

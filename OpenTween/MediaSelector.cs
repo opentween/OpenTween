@@ -134,7 +134,7 @@ namespace OpenTween
                 => this.Text;
         }
 
-        private Dictionary<string, IMediaUploadService> pictureService = new Dictionary<string, IMediaUploadService>();
+        private Dictionary<string, IMediaUploadService> pictureService = new();
 
         private void CreateServices(Twitter tw, TwitterConfiguration twitterConfig)
         {

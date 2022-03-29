@@ -42,7 +42,7 @@ namespace OpenTween.Connection
         /// <summary>
         /// OAuth署名のoauth_nonce算出用乱数クラス
         /// </summary>
-        private static readonly Random NonceRandom = new Random();
+        private static readonly Random NonceRandom = new();
 
         /// <summary>
         /// HTTPリクエストに追加するAuthorizationヘッダの値を生成します

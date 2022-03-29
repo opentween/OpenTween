@@ -38,18 +38,10 @@ namespace OpenTween
     {
         private readonly Form targetForm;
 
-        private class KeyEventValue
-        {
-            public KeyEventArgs KeyEvent { get; }
-
-            public int Value { get; }
-
-            public KeyEventValue(KeyEventArgs keyEvent, int value)
-            {
-                this.KeyEvent = keyEvent;
-                this.Value = value;
-            }
-        }
+        private readonly record struct KeyEventValue(
+            KeyEventArgs KeyEvent,
+            int Value
+        );
 
         private readonly Dictionary<int, KeyEventValue> hotkeyID;
 

@@ -40,7 +40,7 @@ namespace OpenTween.Api
         private readonly ApiKey clientId;
         private readonly HttpClient http;
 
-        public static readonly Uri UploadEndpoint = new Uri("https://api.imgur.com/3/image.xml");
+        public static readonly Uri UploadEndpoint = new("https://api.imgur.com/3/image.xml");
 
         public ImgurApi()
             : this(ApplicationSettings.ImgurClientId, null)

@@ -35,10 +35,10 @@ namespace OpenTween.Thumbnail.Services
     public class PbsTwimgCom : IThumbnailService
     {
         public static readonly Regex ModernUrlPattern =
-            new Regex(@"^(?<base_url>https?://pbs\.twimg\.com/[^:.]+)\?([^&]+?&)?format=(?<format>[A-Za-z]+)");
+            new(@"^(?<base_url>https?://pbs\.twimg\.com/[^:.]+)\?([^&]+?&)?format=(?<format>[A-Za-z]+)");
 
         public static readonly Regex LegacyUrlPattern =
-            new Regex(@"^(?<base_url>https?://pbs\.twimg\.com/[^.]+)\.(?<format>[A-Za-z]+)(?:\:.+)?$");
+            new(@"^(?<base_url>https?://pbs\.twimg\.com/[^.]+)\.(?<format>[A-Za-z]+)(?:\:.+)?$");
 
         public override Task<ThumbnailInfo?> GetThumbnailInfoAsync(string url, PostClass post, CancellationToken token)
             => Task.FromResult(this.GetThumbnailInfo(url, post, token));

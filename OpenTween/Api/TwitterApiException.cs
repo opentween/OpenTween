@@ -91,13 +91,13 @@ namespace OpenTween.Api
         }
 
         public static TwitterApiException CreateFromException(HttpRequestException ex)
-            => new TwitterApiException(ex.InnerException?.Message ?? ex.Message, ex);
+            => new(ex.InnerException?.Message ?? ex.Message, ex);
 
         public static TwitterApiException CreateFromException(OperationCanceledException ex)
-            => new TwitterApiException("Timeout", ex);
+            => new("Timeout", ex);
 
         public static TwitterApiException CreateFromException(SerializationException ex, string responseText)
-            => new TwitterApiException("Invalid JSON", responseText, ex);
+            => new("Invalid JSON", responseText, ex);
 
         private static string FormatTwitterError(TwitterError error)
             => string.Join(",", error.Errors.Select(x => x.ToString()));

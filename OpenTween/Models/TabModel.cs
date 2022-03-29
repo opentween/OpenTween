@@ -100,31 +100,23 @@ namespace OpenTween.Models
             }
         }
 
-        private IndexedSortedSet<long> ids = new IndexedSortedSet<long>();
-        private ConcurrentQueue<TemporaryId> addQueue = new ConcurrentQueue<TemporaryId>();
-        private readonly ConcurrentQueue<long> removeQueue = new ConcurrentQueue<long>();
-        private SortedSet<long> unreadIds = new SortedSet<long>();
-        private List<long> selectedStatusIds = new List<long>();
+        private IndexedSortedSet<long> ids = new();
+        private ConcurrentQueue<TemporaryId> addQueue = new();
+        private readonly ConcurrentQueue<long> removeQueue = new();
+        private SortedSet<long> unreadIds = new();
+        private List<long> selectedStatusIds = new();
 
-        private readonly object lockObj = new object();
+        private readonly object lockObj = new();
 
         protected TabModel(string tabName)
             => this.TabName = tabName;
 
         public abstract Task RefreshAsync(Twitter tw, bool backward, bool startup, IProgress<string> progress);
 
-        private readonly struct TemporaryId
-        {
-            public long StatusId { get; }
-
-            public bool Read { get; }
-
-            public TemporaryId(long statusId, bool read)
-            {
-                this.StatusId = statusId;
-                this.Read = read;
-            }
-        }
+        private readonly record struct TemporaryId(
+            long StatusId,
+            bool Read
+        );
 
         public virtual void AddPostQueue(PostClass post)
         {
@@ -238,23 +230,13 @@ namespace OpenTween.Models
             }
             else
             {
-                Comparison<PostClass> postComparison;
-                switch (this.SortMode)
+                Comparison<PostClass> postComparison = this.SortMode switch
                 {
-                    default:
-                    case ComparerMode.Data:
-                        postComparison = (x, y) => Comparer<string?>.Default.Compare(x?.TextFromApi, y?.TextFromApi);
-                        break;
-                    case ComparerMode.Name:
-                        postComparison = (x, y) => Comparer<string?>.Default.Compare(x?.ScreenName, y?.ScreenName);
-                        break;
-                    case ComparerMode.Nickname:
-                        postComparison = (x, y) => Comparer<string?>.Default.Compare(x?.Nickname, y?.Nickname);
-                        break;
-                    case ComparerMode.Source:
-                        postComparison = (x, y) => Comparer<string?>.Default.Compare(x?.Source, y?.Source);
-                        break;
-                }
+                    ComparerMode.Name => (x, y) => Comparer<string?>.Default.Compare(x?.ScreenName, y?.ScreenName),
+                    ComparerMode.Nickname => (x, y) => Comparer<string?>.Default.Compare(x?.Nickname, y?.Nickname),
+                    ComparerMode.Source => (x, y) => Comparer<string?>.Default.Compare(x?.Source, y?.Source),
+                    _ => (x, y) => Comparer<string?>.Default.Compare(x?.TextFromApi, y?.TextFromApi),
+                };
 
                 comparison = (x, y) =>
                 {

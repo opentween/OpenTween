@@ -39,10 +39,10 @@ namespace OpenTween.Api
         private readonly ApiKey apiKey;
         private readonly HttpClient http;
 
-        public static readonly Uri UploadEndpoint = new Uri("https://api.mobypicture.com/2.0/upload.xml");
+        public static readonly Uri UploadEndpoint = new("https://api.mobypicture.com/2.0/upload.xml");
 
-        private static readonly Uri OAuthRealm = new Uri("http://api.twitter.com/");
-        private static readonly Uri AuthServiceProvider = new Uri("https://api.twitter.com/1.1/account/verify_credentials.json");
+        private static readonly Uri OAuthRealm = new("http://api.twitter.com/");
+        private static readonly Uri AuthServiceProvider = new("https://api.twitter.com/1.1/account/verify_credentials.json");
 
         public MobypictureApi(TwitterApi twitterApi)
             : this(ApplicationSettings.MobypictureKey, twitterApi)

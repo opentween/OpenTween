@@ -44,7 +44,7 @@ namespace OpenTween
             => SaveSettings(this);
         #endregion
 
-        public List<UserAccount> UserAccounts = new List<UserAccount>();
+        public List<UserAccount> UserAccounts = new();
         public string UserName = "";
 
         [XmlIgnore]
@@ -104,7 +104,7 @@ namespace OpenTween
         }
 
         public long UserId = 0;
-        public List<string> TabList = new List<string>();
+        public List<string> TabList = new();
         public int TimelinePeriod = 90;
         public int ReplyPeriod = 180;
         public int DMPeriod = 600;
@@ -166,7 +166,7 @@ namespace OpenTween
         public bool ReadOldPosts = false;
         public string Language = "OS";
         public bool Nicoms = false;
-        public List<string> HashTags = new List<string>();
+        public List<string> HashTags = new();
         public string HashSelected = "";
         public bool HashIsPermanent = false;
         public bool HashIsHead = false;

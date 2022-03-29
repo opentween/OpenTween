@@ -9,7 +9,7 @@
     <RootNamespace>OpenTween</RootNamespace>
     <AssemblyName>OpenTween</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
-    <LangVersion>8.0</LangVersion>
+    <LangVersion>10.0</LangVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
     <PathMap>$(MSBuildProjectDirectory)=.</PathMap>
@@ -126,6 +126,7 @@
     <Compile Include="Bing.cs" />
     <Compile Include="Connection\IApiConnection.cs" />
     <Compile Include="DebounceTimer.cs" />
+    <Compile Include="IsExternalInit.cs" />
     <Compile Include="MediaUploadServices\IMediaUploadService.cs" />
     <Compile Include="MediaUploadServices\Imgur.cs" />
     <Compile Include="Connection\LazyJson.cs" />

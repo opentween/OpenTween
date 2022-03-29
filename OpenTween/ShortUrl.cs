@@ -72,11 +72,11 @@ namespace OpenTween
         public string BitlyKey { get; set; } = "";
 
         private HttpClient http;
-        private readonly ConcurrentDictionary<Uri, Uri> urlCache = new ConcurrentDictionary<Uri, Uri>();
+        private readonly ConcurrentDictionary<Uri, Uri> urlCache = new();
 
-        private static readonly Regex HtmlLinkPattern = new Regex(@"(<a href="")(.+?)("")");
+        private static readonly Regex HtmlLinkPattern = new(@"(<a href="")(.+?)("")");
 
-        private static readonly HashSet<string> ShortUrlHosts = new HashSet<string>
+        private static readonly HashSet<string> ShortUrlHosts = new()
         {
             "4sq.com",
             "amzn.to",
@@ -124,7 +124,7 @@ namespace OpenTween
         /// <summary>
         /// HTTPS非対応の短縮URLサービス
         /// </summary>
-        private static readonly HashSet<string> InsecureDomains = new HashSet<string>
+        private static readonly HashSet<string> InsecureDomains = new()
         {
             "budurl.com",
             "ff.im",
@@ -205,8 +205,7 @@ namespace OpenTween
                 if (!ShortUrlHosts.Contains(uri.Host) && !this.IsIrregularShortUrl(uri))
                     return uri;
 
-                Uri? expanded;
-                if (this.urlCache.TryGetValue(uri, out expanded))
+                if (this.urlCache.TryGetValue(uri, out var expanded))
                     return expanded;
 
                 if (this.urlCache.Count > this.PurgeCount)

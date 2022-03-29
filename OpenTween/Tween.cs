@@ -103,7 +103,7 @@ namespace OpenTween
         /// <summary>右クリックしたタブの名前（Tabコントロール機能不足対応）</summary>
         private string? rclickTabName;
 
-        private readonly object syncObject = new object(); // ロック用
+        private readonly object syncObject = new(); // ロック用
 
         private const string DetailHtmlFormatHead =
             "<head><meta http-equiv=\"X-UA-Compatible\" content=\"IE=8\">"
@@ -120,10 +120,10 @@ namespace OpenTween
             + "</head>";
 
         private const string DetailHtmlFormatTemplateMono =
-            "<html>" + DetailHtmlFormatHead + "<body><pre>%CONTENT_HTML%</pre></body></html>";
+            $"<html>{DetailHtmlFormatHead}<body><pre>%CONTENT_HTML%</pre></body></html>";
 
         private const string DetailHtmlFormatTemplateNormal =
-            "<html>" + DetailHtmlFormatHead + "<body><p>%CONTENT_HTML%</p></body></html>";
+            $"<html>{DetailHtmlFormatHead}<body><p>%CONTENT_HTML%</p></body></html>";
 
         private string detailHtmlFormatPreparedTemplate = null!;
 
@@ -133,18 +133,18 @@ namespace OpenTween
         private FormWindowState formWindowState = FormWindowState.Normal; // フォームの状態保存用 通知領域からアイコンをクリックして復帰した際に使用する
 
         // twitter解析部
-        private readonly TwitterApi twitterApi = new TwitterApi(ApplicationSettings.TwitterConsumerKey, ApplicationSettings.TwitterConsumerSecret);
+        private readonly TwitterApi twitterApi = new(ApplicationSettings.TwitterConsumerKey, ApplicationSettings.TwitterConsumerSecret);
         private Twitter tw = null!;
 
         // Growl呼び出し部
-        private readonly GrowlHelper gh = new GrowlHelper(ApplicationSettings.ApplicationName);
+        private readonly GrowlHelper gh = new(ApplicationSettings.ApplicationName);
 
         // サブ画面インスタンス
 
         /// <summary>検索画面インスタンス</summary>
-        internal SearchWordDialog SearchDialog = new SearchWordDialog();
+        internal SearchWordDialog SearchDialog = new();
 
-        private readonly OpenURL urlDialog = new OpenURL();
+        private readonly OpenURL urlDialog = new();
 
         /// <summary>@id補助</summary>
         public AtIdSupplement AtIdSupl = null!;
@@ -246,13 +246,13 @@ namespace OpenTween
         private Icon replyIcon = null!;
         private Icon replyIconBlink = null!;
 
-        private readonly ImageList listViewImageList = new ImageList(); // ListViewItemの高さ変更用
+        private readonly ImageList listViewImageList = new(); // ListViewItemの高さ変更用
 
         private PostClass? anchorPost;
         private bool anchorFlag; // true:関連発言移動中（関連移動以外のオペレーションをするとfalseへ。trueだとリスト背景色をアンカー発言選択中として描画）
 
         /// <summary>発言履歴</summary>
-        private readonly List<StatusTextHistory> history = new List<StatusTextHistory>();
+        private readonly List<StatusTextHistory> history = new();
 
         /// <summary>発言履歴カレントインデックス</summary>
         private int hisIdx;
@@ -263,11 +263,11 @@ namespace OpenTween
         private (long StatusId, string ScreenName)? inReplyTo = null;
 
         // 時速表示用
-        private readonly List<DateTimeUtc> postTimestamps = new List<DateTimeUtc>();
-        private readonly List<DateTimeUtc> favTimestamps = new List<DateTimeUtc>();
+        private readonly List<DateTimeUtc> postTimestamps = new();
+        private readonly List<DateTimeUtc> favTimestamps = new();
 
         // 以下DrawItem関連
-        private readonly SolidBrush brsHighLight = new SolidBrush(Color.FromKnownColor(KnownColor.Highlight));
+        private readonly SolidBrush brsHighLight = new(Color.FromKnownColor(KnownColor.Highlight));
         private SolidBrush brsBackColorMine = null!;
         private SolidBrush brsBackColorAt = null!;
         private SolidBrush brsBackColorYou = null!;
@@ -277,9 +277,9 @@ namespace OpenTween
         private SolidBrush brsBackColorNone = null!;
 
         /// <summary>Listにフォーカスないときの選択行の背景色</summary>
-        private readonly SolidBrush brsDeactiveSelection = new SolidBrush(Color.FromKnownColor(KnownColor.ButtonFace));
+        private readonly SolidBrush brsDeactiveSelection = new(Color.FromKnownColor(KnownColor.ButtonFace));
 
-        private readonly StringFormat sfTab = new StringFormat();
+        private readonly StringFormat sfTab = new();
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////
         private TabInformations statuses = null!;
@@ -294,20 +294,17 @@ namespace OpenTween
         /// </remarks>
         private ListViewItemCache? listItemCache = null;
 
-        internal class ListViewItemCache
+        /// <param name="TargetList">アイテムをキャッシュする対象の <see cref="ListView"/></param>
+        /// <param name="StartIndex">キャッシュする範囲の開始インデックス</param>
+        /// <param name="EndIndex">キャッシュする範囲の終了インデックス</param>
+        /// <param name="Cache">ャッシュされた範囲に対応する <see cref="ListViewItem"/> と <see cref="PostClass"/> の組</param>
+        internal record class ListViewItemCache(
+            ListView TargetList,
+            int StartIndex,
+            int EndIndex,
+            (ListViewItem, PostClass)[] Cache
+        )
         {
-            /// <summary>アイテムをキャッシュする対象の <see cref="ListView"/></summary>
-            public ListView TargetList { get; set; } = null!;
-
-            /// <summary>キャッシュする範囲の開始インデックス</summary>
-            public int StartIndex { get; set; }
-
-            /// <summary>キャッシュする範囲の終了インデックス</summary>
-            public int EndIndex { get; set; }
-
-            /// <summary>キャッシュされた範囲に対応する <see cref="ListViewItem"/> と <see cref="PostClass"/> の組</summary>
-            public (ListViewItem, PostClass)[] Cache { get; set; } = null!;
-
             /// <summary>キャッシュされたアイテムの件数</summary>
             public int Count
                 => this.EndIndex - this.StartIndex + 1;
@@ -343,8 +340,8 @@ namespace OpenTween
         private bool isColumnChanged = false;
 
         private const int MaxWorderThreads = 20;
-        private readonly SemaphoreSlim workerSemaphore = new SemaphoreSlim(MaxWorderThreads);
-        private readonly CancellationTokenSource workerCts = new CancellationTokenSource();
+        private readonly SemaphoreSlim workerSemaphore = new(MaxWorderThreads);
+        private readonly CancellationTokenSource workerCts = new();
         private readonly IProgress<string> workerProgress = null!;
 
         private int unreadCounter = -1;
@@ -357,7 +354,7 @@ namespace OpenTween
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        private readonly TimelineScheduler timelineScheduler = new TimelineScheduler();
+        private readonly TimelineScheduler timelineScheduler = new();
         private DebounceTimer selectionDebouncer = null!;
         private DebounceTimer saveConfigDebouncer = null!;
 
@@ -366,33 +363,24 @@ namespace OpenTween
         private bool preventSmsCommand = true;
 
         // URL短縮のUndo用
-        private struct UrlUndo
-        {
-            public string Before;
-            public string After;
-        }
+        private readonly record struct UrlUndo(
+            string Before,
+            string After
+        );
 
         private List<UrlUndo>? urlUndoBuffer = null;
 
-        private readonly struct ReplyChain
-        {
-            public readonly long OriginalId;
-            public readonly long InReplyToId;
-            public readonly TabModel OriginalTab;
-
-            public ReplyChain(long originalId, long inReplyToId, TabModel originalTab)
-            {
-                this.OriginalId = originalId;
-                this.InReplyToId = inReplyToId;
-                this.OriginalTab = originalTab;
-            }
-        }
+        private readonly record struct ReplyChain(
+            long OriginalId,
+            long InReplyToId,
+            TabModel OriginalTab
+        );
 
         /// <summary>[, ]でのリプライ移動の履歴</summary>
         private Stack<ReplyChain>? replyChains;
 
         /// <summary>ポスト選択履歴</summary>
-        private readonly Stack<(TabModel, PostClass?)> selectPostChains = new Stack<(TabModel, PostClass?)>();
+        private readonly Stack<(TabModel, PostClass?)> selectPostChains = new();
 
         public TabModel CurrentTab
             => this.statuses.SelectedTab;
@@ -417,27 +405,10 @@ namespace OpenTween
             PrevSearch,
         }
 
-        private class StatusTextHistory
-        {
-            public string Status { get; } = "";
-
-            public (long StatusId, string ScreenName)? InReplyTo { get; } = null;
-
-            /// <summary>画像投稿サービス名</summary>
-            public string ImageService { get; set; } = "";
-
-            public IMediaItem[]? MediaItems { get; set; } = null;
-
-            public StatusTextHistory()
-            {
-            }
-
-            public StatusTextHistory(string status, (long StatusId, string ScreenName)? inReplyTo)
-            {
-                this.Status = status;
-                this.InReplyTo = inReplyTo;
-            }
-        }
+        private readonly record struct StatusTextHistory(
+            string Status,
+            (long StatusId, string ScreenName)? InReplyTo = null
+        );
 
         private void TweenMain_Activated(object sender, EventArgs e)
         {
@@ -997,7 +968,7 @@ namespace OpenTween
 
             this.recommendedStatusFooter = " [TWNv" + Regex.Replace(MyCommon.FileVersion.Replace(".", ""), "^0*", "") + "]";
 
-            this.history.Add(new StatusTextHistory());
+            this.history.Add(new StatusTextHistory(""));
             this.hisIdx = 0;
             this.inReplyTo = null;
 
@@ -1095,31 +1066,17 @@ namespace OpenTween
 
             ////////////////////////////////////////////////////////////////////////////////
             var sortOrder = (SortOrder)SettingManager.Common.SortOrder;
-            var mode = ComparerMode.Id;
-            switch (SettingManager.Common.SortColumn)
+            var mode = SettingManager.Common.SortColumn switch
             {
-                case 0: // 0:アイコン,5:未読マーク,6:プロテクト・フィルターマーク
-                case 5:
-                case 6:
-                    // ソートしない
-                    mode = ComparerMode.Id;  // Idソートに読み替え
-                    break;
-                case 1: // ニックネーム
-                    mode = ComparerMode.Nickname;
-                    break;
-                case 2: // 本文
-                    mode = ComparerMode.Data;
-                    break;
-                case 3: // 時刻=発言Id
-                    mode = ComparerMode.Id;
-                    break;
-                case 4: // 名前
-                    mode = ComparerMode.Name;
-                    break;
-                case 7: // Source
-                    mode = ComparerMode.Source;
-                    break;
-            }
+                // 0:アイコン,5:未読マーク,6:プロテクト・フィルターマーク
+                0 or 5 or 6 => ComparerMode.Id, // Idソートに読み替え
+                1 => ComparerMode.Nickname, // ニックネーム
+                2 => ComparerMode.Data, // 本文
+                3 => ComparerMode.Id, // 時刻=発言Id
+                4 => ComparerMode.Name, // 名前
+                7 => ComparerMode.Source, // Source
+                _ => ComparerMode.Id,
+            };
             this.statuses.SetSortMode(mode, sortOrder);
             ////////////////////////////////////////////////////////////////////////////////
 
@@ -1470,12 +1427,10 @@ namespace OpenTween
             this.HashSupl.AddRangeItem(this.tw.GetHashList());
         }
 
-        internal struct ListViewScroll
-        {
-            public ScrollLockMode ScrollLockMode { get; set; }
-
-            public long? TopItemStatusId { get; set; }
-        }
+        internal readonly record struct ListViewScroll(
+            ScrollLockMode ScrollLockMode,
+            long? TopItemStatusId
+        );
 
         internal enum ScrollLockMode
         {
@@ -1497,19 +1452,21 @@ namespace OpenTween
         /// </summary>
         private ListViewScroll SaveListViewScroll(DetailsListView listView, TabModel tab)
         {
-            var listScroll = new ListViewScroll
-            {
-                ScrollLockMode = this.GetScrollLockMode(listView),
-            };
+            var lockMode = this.GetScrollLockMode(listView);
+            long? topItemStatusId = null;
 
-            if (listScroll.ScrollLockMode == ScrollLockMode.FixedToItem)
+            if (lockMode == ScrollLockMode.FixedToItem)
             {
                 var topItemIndex = listView.TopItem?.Index ?? -1;
                 if (topItemIndex != -1 && topItemIndex < tab.AllCount)
-                    listScroll.TopItemStatusId = tab.GetStatusIdAt(topItemIndex);
+                    topItemStatusId = tab.GetStatusIdAt(topItemIndex);
             }
 
-            return listScroll;
+            return new ListViewScroll
+            {
+                ScrollLockMode = lockMode,
+                TopItemStatusId = topItemStatusId,
+            };
         }
 
         private ScrollLockMode GetScrollLockMode(DetailsListView listView)
@@ -1551,14 +1508,11 @@ namespace OpenTween
             }
         }
 
-        internal struct ListViewSelection
-        {
-            public long[]? SelectedStatusIds { get; set; }
-
-            public long? SelectionMarkStatusId { get; set; }
-
-            public long? FocusedStatusId { get; set; }
-        }
+        internal readonly record struct ListViewSelection(
+            long[]? SelectedStatusIds,
+            long? SelectionMarkStatusId,
+            long? FocusedStatusId
+        );
 
         /// <summary>
         /// <see cref="ListView"/> の選択状態を <see cref="ListViewSelection"/> として返します
@@ -2160,7 +2114,7 @@ namespace OpenTween
 
             this.inReplyTo = null;
             this.StatusText.Text = "";
-            this.history.Add(new StatusTextHistory());
+            this.history.Add(new StatusTextHistory(""));
             this.hisIdx = this.history.Count - 1;
             if (!SettingManager.Common.FocusLockToStatusText)
                 this.CurrentListView.Focus();
@@ -2266,14 +2220,14 @@ namespace OpenTween
                 this.myStatusError = true;
                 var tabType = tab switch
                 {
-                    HomeTabModel _ => "GetTimeline",
-                    MentionsTabModel _ => "GetTimeline",
-                    DirectMessagesTabModel _ => "GetDirectMessage",
-                    FavoritesTabModel _ => "GetFavorites",
-                    PublicSearchTabModel _ => "GetSearch",
-                    UserTimelineTabModel _ => "GetUserTimeline",
-                    ListTimelineTabModel _ => "GetListStatus",
-                    RelatedPostsTabModel _ => "GetRelatedTweets",
+                    HomeTabModel => "GetTimeline",
+                    MentionsTabModel => "GetTimeline",
+                    DirectMessagesTabModel => "GetDirectMessage",
+                    FavoritesTabModel => "GetFavorites",
+                    PublicSearchTabModel => "GetSearch",
+                    UserTimelineTabModel => "GetUserTimeline",
+                    ListTimelineTabModel => "GetListStatus",
+                    RelatedPostsTabModel => "GetRelatedTweets",
                     _ => tab.GetType().Name.Replace("Model", ""),
                 };
                 this.StatusLabel.Text = $"Err:{ex.Message}({tabType})";
@@ -4718,13 +4672,12 @@ namespace OpenTween
                 .Select(x => this.CreateItem(tab, posts[x]))
                 .ToArray();
 
-            var listCache = new ListViewItemCache
-            {
-                TargetList = this.CurrentListView,
-                StartIndex = startIndex,
-                EndIndex = endIndex,
-                Cache = Enumerable.Zip(listItems, posts, (x, y) => (x, y)).ToArray(),
-            };
+            var listCache = new ListViewItemCache(
+                TargetList: this.CurrentListView,
+                StartIndex: startIndex,
+                EndIndex: endIndex,
+                Cache: Enumerable.Zip(listItems, posts, (x, y) => (x, y)).ToArray()
+            );
 
             Interlocked.Exchange(ref this.listItemCache, listCache);
         }
@@ -5387,17 +5340,11 @@ namespace OpenTween
             }
         }
 
-        public class VersionInfo
-        {
-            public Version Version { get; }
-
-            public Uri DownloadUri { get; }
-
-            public string ReleaseNote { get; }
-
-            public VersionInfo(Version version, Uri downloadUri, string releaseNote)
-                => (this.Version, this.DownloadUri, this.ReleaseNote) = (version, downloadUri, releaseNote);
-        }
+        public readonly record struct VersionInfo(
+            Version Version,
+            Uri DownloadUri,
+            string ReleaseNote
+        );
 
         /// <summary>
         /// OpenTween の最新バージョンの情報を取得します
@@ -5418,11 +5365,12 @@ namespace OpenTween
 
             msgBody = Regex.Replace(msgBody, "(?<!\r)\n", "\r\n"); // LF -> CRLF
 
-            return new VersionInfo(
-                version: Version.Parse(msgHeader[0]),
-                downloadUri: new Uri(msgHeader[1]),
-                releaseNote: msgBody
-            );
+            return new VersionInfo
+            {
+                Version = Version.Parse(msgHeader[0]),
+                DownloadUri = new Uri(msgHeader[1]),
+                ReleaseNote = msgBody,
+            };
         }
 
         private async Task CheckNewVersion(bool startup = false)
@@ -5527,7 +5475,7 @@ namespace OpenTween
         private void DispSelectedPost()
             => this.DispSelectedPost(false);
 
-        private PostClass displayPost = new PostClass();
+        private PostClass displayPost = new();
 
         /// <summary>
         /// サムネイル表示に使用する CancellationToken の生成元
@@ -8776,8 +8724,6 @@ namespace OpenTween
 
                     if (!MyCommon.IsNullOrEmpty(result))
                     {
-                        var undotmp = new UrlUndo();
-
                         // 短縮 URL が生成されるまでの間に投稿欄から元の URL が削除されていたら中断する
                         var origUrlIndex = this.StatusText.Text.IndexOf(tmp, StringComparison.Ordinal);
                         if (origUrlIndex == -1)
@@ -8787,8 +8733,11 @@ namespace OpenTween
                         this.StatusText.SelectedText = result;
 
                         // undoバッファにセット
-                        undotmp.Before = tmp;
-                        undotmp.After = result;
+                        var undo = new UrlUndo
+                        {
+                            Before = tmp,
+                            After = result,
+                        };
 
                         if (this.urlUndoBuffer == null)
                         {
@@ -8796,7 +8745,7 @@ namespace OpenTween
                             this.UrlUndoToolStripMenuItem.Enabled = true;
                         }
 
-                        this.urlUndoBuffer.Add(undotmp);
+                        this.urlUndoBuffer.Add(undo);
                     }
                 }
             }
@@ -8815,7 +8764,6 @@ namespace OpenTween
                     var tmp = mt.Result("${url}");
                     if (tmp.StartsWith("w", StringComparison.OrdinalIgnoreCase))
                         tmp = "http://" + tmp;
-                    var undotmp = new UrlUndo();
 
                     // 選んだURLを選択（？）
                     this.StatusText.Select(this.StatusText.Text.IndexOf(mt.Result("${url}"), StringComparison.Ordinal), mt.Result("${url}").Length);
@@ -8869,8 +8817,11 @@ namespace OpenTween
                         this.StatusText.Select(origUrlIndex, mt.Result("${url}").Length);
                         this.StatusText.SelectedText = result;
                         // undoバッファにセット
-                        undotmp.Before = mt.Result("${url}");
-                        undotmp.After = result;
+                        var undo = new UrlUndo
+                        {
+                            Before = mt.Result("${url}"),
+                            After = result,
+                        };
 
                         if (this.urlUndoBuffer == null)
                         {
@@ -8878,7 +8829,7 @@ namespace OpenTween
                             this.UrlUndoToolStripMenuItem.Enabled = true;
                         }
 
-                        this.urlUndoBuffer.Add(undotmp);
+                        this.urlUndoBuffer.Add(undo);
                     }
                 }
             }

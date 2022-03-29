@@ -40,7 +40,7 @@ namespace OpenTween.Thumbnail.Services
     public class Tinami : IThumbnailService
     {
         public static readonly Regex UrlPatternRegex =
-            new Regex(@"^https?://www\.tinami\.com/view/(?<ContentId>\d+)$");
+            new(@"^https?://www\.tinami\.com/view/(?<ContentId>\d+)$");
 
         protected HttpClient Http
             => this.localHttpClient ?? Networking.Http;

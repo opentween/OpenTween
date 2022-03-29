@@ -48,24 +48,13 @@ namespace OpenTween.OpenTweenCustomControl
             Highest = 256,
         }
 
-        public class LogEntry
+        public readonly record struct LogEntry(
+            LogLevel LogLevel,
+            DateTimeUtc Timestamp,
+            string Summary,
+            string Detail
+        )
         {
-            public LogLevel LogLevel { get; }
-
-            public DateTimeUtc Timestamp { get; }
-
-            public string Summary { get; }
-
-            public string Detail { get; }
-
-            public LogEntry(LogLevel logLevel, DateTimeUtc timestamp, string summary, string detail)
-            {
-                this.LogLevel = logLevel;
-                this.Timestamp = timestamp;
-                this.Summary = summary;
-                this.Detail = detail;
-            }
-
             public LogEntry(DateTimeUtc timestamp, string summary)
                 : this(LogLevel.Debug, timestamp, summary, summary)
             {

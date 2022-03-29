@@ -69,11 +69,13 @@ namespace OpenTween
         public async Task UnhandledException_Test()
         {
             var tcs = new TaskCompletionSource<Exception>();
-            EventHandler<ThreadExceptionEventArgs> handler = (_, ev) => tcs.TrySetResult(ev.Exception);
+
+            void Handler(object sender, ThreadExceptionEventArgs ev)
+                => tcs.TrySetResult(ev.Exception);
 
             try
             {
-                AsyncTimer.UnhandledException += handler;
+                AsyncTimer.UnhandledException += Handler;
 
                 using var timer = new AsyncTimer(() =>
                 {
@@ -88,7 +90,7 @@ namespace OpenTween
             }
             finally
             {
-                AsyncTimer.UnhandledException -= handler;
+                AsyncTimer.UnhandledException -= Handler;
             }
         }
     }
