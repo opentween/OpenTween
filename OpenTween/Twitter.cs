@@ -989,6 +989,16 @@ namespace OpenTween
         public async Task GetRelatedResult(bool read, RelatedPostsTabModel tab)
         {
             var targetPost = tab.TargetPost;
+
+            if (targetPost.RetweetedId != null)
+            {
+                var originalPost = targetPost.Clone();
+                originalPost.StatusId = targetPost.RetweetedId.Value;
+                originalPost.RetweetedId = null;
+                originalPost.RetweetedBy = null;
+                targetPost = originalPost;
+            }
+
             var relPosts = new Dictionary<long, PostClass>();
             if (targetPost.TextFromApi.Contains("@") && targetPost.InReplyToStatusId == null)
             {
