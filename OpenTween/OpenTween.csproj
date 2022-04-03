@@ -128,6 +128,7 @@
     <Compile Include="Bing.cs" />
     <Compile Include="CommandLineArgs.cs" />
     <Compile Include="Connection\IApiConnection.cs" />
+    <Compile Include="CultureService.cs" />
     <Compile Include="DebounceTimer.cs" />
     <Compile Include="ErrorReportHandler.cs" />
     <Compile Include="IsExternalInit.cs" />

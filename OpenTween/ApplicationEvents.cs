@@ -28,10 +28,7 @@
 #nullable enable
 
 using System;
-using System.Globalization;
 using System.IO;
-using System.Linq;
-using System.Threading;
 using System.Windows.Forms;
 using OpenTween.Setting;
 
@@ -39,12 +36,6 @@ namespace OpenTween
 {
     internal class ApplicationEvents
     {
-        public static readonly CultureInfo[] SupportedUICulture = new[]
-        {
-            new CultureInfo("en"), // 先頭のカルチャはフォールバック先として使用される
-            new CultureInfo("ja"),
-        };
-
         /// <summary>
         /// 起動時に指定されたオプションを取得します
         /// </summary>
@@ -71,7 +62,8 @@ namespace OpenTween
 
             SettingManager.LoadAll();
 
-            InitCulture();
+            var cultureService = new CultureService(SettingManager.Common);
+            cultureService.Initialize();
 
             // 同じ設定ファイルを使用する OpenTween プロセスの二重起動を防止する
             using var mutex = new ApplicationInstanceMutex(ApplicationSettings.AssemblyName, MyCommon.SettingPath);
@@ -88,38 +80,6 @@ namespace OpenTween
             Application.Run(new TweenMain());
 
             return 0;
-        }
-
-        public static void InitCulture()
-        {
-            var currentCulture = CultureInfo.CurrentUICulture;
-
-            var settingCultureStr = SettingManager.Common.Language;
-            if (settingCultureStr != "OS")
-            {
-                try
-                {
-                    currentCulture = new CultureInfo(settingCultureStr);
-                }
-                catch (CultureNotFoundException)
-                {
-                }
-            }
-
-            var preferredCulture = GetPreferredCulture(currentCulture);
-            CultureInfo.DefaultThreadCurrentUICulture = preferredCulture;
-            Thread.CurrentThread.CurrentUICulture = preferredCulture;
-        }
-
-        /// <summary>
-        /// サポートしているカルチャの中から、指定されたカルチャに対して適切なカルチャを選択して返します
-        /// </summary>
-        public static CultureInfo GetPreferredCulture(CultureInfo culture)
-        {
-            if (SupportedUICulture.Any(x => x.Contains(culture)))
-                return culture;
-
-            return SupportedUICulture[0];
         }
 
         private static bool SetConfigDirectoryPath()

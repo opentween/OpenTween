@@ -29,7 +29,7 @@ using Xunit.Extensions;
 
 namespace OpenTween
 {
-    public class ApplicationEventsTest
+    public class CultureServiceTest
     {
         [Theory]
         [InlineData("ja-JP", "ja-JP")]
@@ -38,7 +38,7 @@ namespace OpenTween
         [InlineData("zh-TW", "en")]
         public void GetPreferredCulture_Test(string currentCulture, string expectedCulture)
         {
-            var actual = ApplicationEvents.GetPreferredCulture(new CultureInfo(currentCulture));
+            var actual = CultureService.GetPreferredCulture(new CultureInfo(currentCulture));
             Assert.Equal(expectedCulture, actual.Name);
         }
     }
