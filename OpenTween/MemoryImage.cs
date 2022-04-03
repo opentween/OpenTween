@@ -44,41 +44,65 @@ namespace OpenTween
     /// </remarks>
     public class MemoryImage : ICloneable, IDisposable, IEquatable<MemoryImage>
     {
+        private readonly byte[] buffer;
+        private readonly int bufferOffset;
+        private readonly int bufferCount;
         private readonly Image image;
+
+        private static readonly Dictionary<ImageFormat, string> ExtensionByFormat = new()
+        {
+            { ImageFormat.Bmp, ".bmp" },
+            { ImageFormat.Emf, ".emf" },
+            { ImageFormat.Gif, ".gif" },
+            { ImageFormat.Icon, ".ico" },
+            { ImageFormat.Jpeg, ".jpg" },
+            { ImageFormat.MemoryBmp, ".bmp" },
+            { ImageFormat.Png, ".png" },
+            { ImageFormat.Tiff, ".tiff" },
+            { ImageFormat.Wmf, ".wmf" },
+        };
 
         /// <exception cref="InvalidImageException">
         /// ストリームから読みだされる画像データが不正な場合にスローされる
         /// </exception>
-        protected MemoryImage(MemoryStream stream)
+        protected MemoryImage(byte[] buffer, int offset, int count)
         {
             try
             {
-                this.image = Image.FromStream(stream);
+                this.buffer = buffer;
+                this.bufferOffset = offset;
+                this.bufferCount = count;
+
+                this.Stream = new(buffer, offset, count, writable: false);
+                this.image = this.CreateImage(this.Stream);
+            }
+            catch
+            {
+                this.Stream?.Dispose();
+                throw;
+            }
+        }
+
+        private Image CreateImage(Stream stream)
+        {
+            try
+            {
+                return Image.FromStream(stream);
             }
             catch (ArgumentException e)
             {
-                stream.Dispose();
                 throw new InvalidImageException("Invalid image", e);
             }
             catch (OutOfMemoryException e)
             {
                 // GDI+ がサポートしない画像形式で OutOfMemoryException がスローされる場合があるらしい
-                stream.Dispose();
                 throw new InvalidImageException("Invalid image?", e);
             }
             catch (ExternalException e)
             {
                 // 「GDI+ で汎用エラーが発生しました」という大雑把な例外がスローされる場合があるらしい
-                stream.Dispose();
                 throw new InvalidImageException("Invalid image?", e);
             }
-            catch (Exception)
-            {
-                stream.Dispose();
-                throw;
-            }
-
-            this.Stream = stream;
         }
 
         /// <summary>
@@ -115,71 +139,19 @@ namespace OpenTween
         /// MemoryImage が保持している画像のフォーマットに相当する拡張子 (ピリオド付き)
         /// </summary>
         public string ImageFormatExt
-        {
-            get
-            {
-                var format = this.ImageFormat;
-
-                // ImageFormat は == で正しく比較できないため Equals を使用する必要がある
-                if (format.Equals(ImageFormat.Bmp))
-                    return ".bmp";
-                if (format.Equals(ImageFormat.Emf))
-                    return ".emf";
-                if (format.Equals(ImageFormat.Gif))
-                    return ".gif";
-                if (format.Equals(ImageFormat.Icon))
-                    return ".ico";
-                if (format.Equals(ImageFormat.Jpeg))
-                    return ".jpg";
-                if (format.Equals(ImageFormat.MemoryBmp))
-                    return ".bmp";
-                if (format.Equals(ImageFormat.Png))
-                    return ".png";
-                if (format.Equals(ImageFormat.Tiff))
-                    return ".tiff";
-                if (format.Equals(ImageFormat.Wmf))
-                    return ".wmf";
-
-                // 対応する形式がなければ空文字列を返す
-                // (上記以外のフォーマットは Image.FromStream を通過できないため、ここが実行されることはまず無い)
-                return string.Empty;
-            }
-        }
+            => MemoryImage.ExtensionByFormat.TryGetValue(this.ImageFormat, out var ext) ? ext : "";
 
         /// <summary>
         /// MemoryImage インスタンスを複製します
         /// </summary>
-        /// <remarks>
-        /// メソッド実行中にストリームのシークが行われないよう注意して下さい。
-        /// 特に PictureBox で Gif アニメーションを表示している場合は Enabled に false をセットするなどして更新を止めて下さい。
-        /// </remarks>
         /// <returns>複製された MemoryImage</returns>
         public MemoryImage Clone()
-        {
-            this.Stream.Seek(0, SeekOrigin.Begin);
-
-            return MemoryImage.CopyFromStream(this.Stream);
-        }
-
-        /// <summary>
-        /// MemoryImage インスタンスを非同期に複製します
-        /// </summary>
-        /// <remarks>
-        /// メソッド実行中にストリームのシークが行われないよう注意して下さい。
-        /// 特に PictureBox で Gif アニメーションを表示している場合は Enabled に false をセットするなどして更新を止めて下さい。
-        /// </remarks>
-        /// <returns>複製された MemoryImage を返すタスク</returns>
-        public Task<MemoryImage> CloneAsync()
-        {
-            this.Stream.Seek(0, SeekOrigin.Begin);
-
-            return MemoryImage.CopyFromStreamAsync(this.Stream);
-        }
+            => new(this.buffer, this.bufferOffset, this.bufferCount);
 
         public override int GetHashCode()
         {
             using var sha1service = new System.Security.Cryptography.SHA1CryptoServiceProvider();
-            var hash = sha1service.ComputeHash(this.Stream.GetBuffer(), 0, (int)this.Stream.Length);
+            var hash = sha1service.ComputeHash(this.buffer, this.bufferOffset, this.bufferCount);
             return Convert.ToBase64String(hash).GetHashCode();
         }
 
@@ -195,23 +167,13 @@ namespace OpenTween
                 return false;
 
             // それぞれが保持する MemoryStream の内容が等しいことを検証する
+            var selfBuffer = new ArraySegment<byte>(this.buffer, this.bufferOffset, this.bufferCount);
+            var otherBuffer = new ArraySegment<byte>(other.buffer, other.bufferOffset, other.bufferCount);
 
-            var selfLength = this.Stream.Length;
-            var otherLength = other.Stream.Length;
-
-            if (selfLength != otherLength)
+            if (selfBuffer.Count != otherBuffer.Count)
                 return false;
 
-            var selfBuffer = this.Stream.GetBuffer();
-            var otherBuffer = other.Stream.GetBuffer();
-
-            for (var pos = 0L; pos < selfLength; pos++)
-            {
-                if (selfBuffer[pos] != otherBuffer[pos])
-                    return false;
-            }
-
-            return true;
+            return selfBuffer.Zip(otherBuffer, (x, y) => x == y).All(x => x);
         }
 
         object ICloneable.Clone()
@@ -253,20 +215,11 @@ namespace OpenTween
         /// <exception cref="InvalidImageException">不正な画像データが入力された場合</exception>
         public static MemoryImage CopyFromStream(Stream stream)
         {
-            MemoryStream? memstream = null;
-            try
-            {
-                memstream = new MemoryStream();
+            using var memstream = new MemoryStream();
 
-                stream.CopyTo(memstream);
+            stream.CopyTo(memstream);
 
-                return new MemoryImage(memstream);
-            }
-            catch
-            {
-                memstream?.Dispose();
-                throw;
-            }
+            return new(memstream.GetBuffer(), 0, (int)memstream.Length);
         }
 
         /// <summary>
@@ -279,22 +232,14 @@ namespace OpenTween
         /// <param name="stream">読み込む対象となる Stream</param>
         /// <returns>作成された MemoryImage を返すタスク</returns>
         /// <exception cref="InvalidImageException">不正な画像データが入力された場合</exception>
-        public static async Task<MemoryImage> CopyFromStreamAsync(Stream stream)
+        public static async Task<MemoryImage> CopyFromStreamAsync(Stream stream, int capacity = 0)
         {
-            MemoryStream? memstream = null;
-            try
-            {
-                memstream = new MemoryStream();
+            using var memstream = new MemoryStream(capacity);
 
-                await stream.CopyToAsync(memstream).ConfigureAwait(false);
+            await stream.CopyToAsync(memstream)
+                .ConfigureAwait(false);
 
-                return new MemoryImage(memstream);
-            }
-            catch
-            {
-                memstream?.Dispose();
-                throw;
-            }
+            return new(memstream.GetBuffer(), 0, (int)memstream.Length);
         }
 
         /// <summary>
@@ -304,19 +249,7 @@ namespace OpenTween
         /// <returns>作成された MemoryImage</returns>
         /// <exception cref="InvalidImageException">不正な画像データが入力された場合</exception>
         public static MemoryImage CopyFromBytes(byte[] bytes)
-        {
-            MemoryStream? memstream = null;
-            try
-            {
-                memstream = new MemoryStream(bytes);
-                return new MemoryImage(memstream);
-            }
-            catch
-            {
-                memstream?.Dispose();
-                throw;
-            }
-        }
+            => new(bytes, 0, bytes.Length);
 
         /// <summary>
         /// Image インスタンスから MemoryImage を作成します
@@ -328,20 +261,11 @@ namespace OpenTween
         /// <returns>作成された MemoryImage</returns>
         public static MemoryImage CopyFromImage(Image image)
         {
-            MemoryStream? memstream = null;
-            try
-            {
-                memstream = new MemoryStream();
+            using var memstream = new MemoryStream();
 
-                image.Save(memstream, ImageFormat.Png);
+            image.Save(memstream, ImageFormat.Png);
 
-                return new MemoryImage(memstream);
-            }
-            catch
-            {
-                memstream?.Dispose();
-                throw;
-            }
+            return new(memstream.GetBuffer(), 0, (int)memstream.Length);
         }
     }
 
