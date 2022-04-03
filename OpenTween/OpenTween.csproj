@@ -103,6 +103,7 @@
     <Compile Include="ApplicationEvents.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ApplicationPreconditions.cs" />
     <Compile Include="ApplicationSettings.cs" />
     <Compile Include="AsyncTimer.cs" />
     <Compile Include="AtIdSupplement.cs">

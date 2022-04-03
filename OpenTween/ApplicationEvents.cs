@@ -32,10 +32,8 @@ using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Security.Principal;
 using System.Threading;
 using System.Windows.Forms;
-using Microsoft.Win32;
 using OpenTween.Setting;
 
 namespace OpenTween
@@ -66,15 +64,8 @@ namespace OpenTween
 
             StartupOptions = new(args);
 
-            WarnIfApiKeyError();
-            WarnIfRunAsAdministrator();
-
-            if (!CheckRuntimeVersion())
-            {
-                var message = string.Format(Properties.Resources.CheckRuntimeVersion_Error, ".NET Framework 4.7.2");
-                MessageBox.Show(message, ApplicationSettings.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            if (!ApplicationPreconditions.CheckAll())
                 return 1;
-            }
 
             if (!SetConfigDirectoryPath())
                 return 1;
@@ -102,58 +93,6 @@ namespace OpenTween
             }
 
             return 0;
-        }
-
-        private static void WarnIfApiKeyError()
-        {
-            var canDecrypt = ApplicationSettings.TwitterConsumerKey.TryGetValue(out _);
-            if (!canDecrypt)
-            {
-                var message = Properties.Resources.WarnIfApiKeyError_Message;
-                MessageBox.Show(message, ApplicationSettings.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                Environment.Exit(-1);
-            }
-        }
-
-        /// <summary>
-        /// OpenTween が管理者権限で実行されている場合に警告を表示します
-        /// </summary>
-        private static void WarnIfRunAsAdministrator()
-        {
-            // UAC が無効なシステムでは警告を表示しない
-            using var lmKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry32);
-            using var systemKey = lmKey.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System\");
-
-            var enableLUA = (int?)systemKey?.GetValue("EnableLUA");
-            if (enableLUA != 1)
-                return;
-
-            using var currentIdentity = WindowsIdentity.GetCurrent();
-            var principal = new WindowsPrincipal(currentIdentity);
-            if (principal.IsInRole(WindowsBuiltInRole.Administrator))
-            {
-                var message = string.Format(Properties.Resources.WarnIfRunAsAdministrator_Message, ApplicationSettings.ApplicationName);
-                MessageBox.Show(message, ApplicationSettings.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
-        }
-
-        /// <summary>
-        /// 動作中の .NET Framework のバージョンが適切かチェックします
-        /// </summary>
-        private static bool CheckRuntimeVersion()
-        {
-            // Mono 上で動作している場合はバージョンチェックを無視します
-            if (Type.GetType("Mono.Runtime", false) != null)
-                return true;
-
-            // .NET Framework 4.7.2 以降で動作しているかチェックする
-            // 参照: https://docs.microsoft.com/en-us/dotnet/framework/migration-guide/how-to-determine-which-versions-are-installed
-
-            using var lmKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry32);
-            using var ndpKey = lmKey.OpenSubKey(@"SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full\");
-
-            var releaseKey = (int)ndpKey.GetValue("Release");
-            return releaseKey >= 461808;
         }
 
         private static void TryActivatePreviousWindow()
