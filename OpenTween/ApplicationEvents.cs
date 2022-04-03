@@ -28,7 +28,6 @@
 #nullable enable
 
 using System;
-using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -73,57 +72,22 @@ namespace OpenTween
             SettingManager.LoadAll();
 
             InitCulture();
+
+            // 同じ設定ファイルを使用する OpenTween プロセスの二重起動を防止する
+            using var mutex = new ApplicationInstanceMutex(ApplicationSettings.AssemblyName, MyCommon.SettingPath);
+
+            if (mutex.InstanceExists)
             {
-                // 同じ設定ファイルを使用する OpenTween プロセスの二重起動を防止する
-                var pt = MyCommon.SettingPath.Replace("\\", "/") + "/" + ApplicationSettings.AssemblyName;
-                using var mt = new Mutex(false, pt);
+                var text = string.Format(MyCommon.ReplaceAppName(Properties.Resources.StartupText1), ApplicationSettings.AssemblyName);
+                MessageBox.Show(text, MyCommon.ReplaceAppName(Properties.Resources.StartupText2), MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                if (!mt.WaitOne(0, false))
-                {
-                    var text = string.Format(MyCommon.ReplaceAppName(Properties.Resources.StartupText1), ApplicationSettings.AssemblyName);
-                    MessageBox.Show(text, MyCommon.ReplaceAppName(Properties.Resources.StartupText2), MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                    TryActivatePreviousWindow();
-                    return 1;
-                }
-
-                Application.Run(new TweenMain());
-
-                mt.ReleaseMutex();
+                mutex.TryActivatePreviousInstance();
+                return 1;
             }
+
+            Application.Run(new TweenMain());
 
             return 0;
-        }
-
-        private static void TryActivatePreviousWindow()
-        {
-            // 実行中の同じアプリケーションのウィンドウ・ハンドルの取得
-            var prevProcess = GetPreviousProcess();
-            if (prevProcess == null)
-            {
-                return;
-            }
-
-            var windowHandle = NativeMethods.GetWindowHandle((uint)prevProcess.Id, ApplicationSettings.ApplicationName);
-            if (windowHandle != IntPtr.Zero)
-            {
-                NativeMethods.SetActiveWindow(windowHandle);
-            }
-        }
-
-        private static Process? GetPreviousProcess()
-        {
-            var currentProcess = Process.GetCurrentProcess();
-            try
-            {
-                return Process.GetProcessesByName(currentProcess.ProcessName)
-                    .Where(p => p.Id != currentProcess.Id)
-                    .FirstOrDefault(p => p.MainModule.FileName.Equals(currentProcess.MainModule.FileName, StringComparison.OrdinalIgnoreCase));
-            }
-            catch
-            {
-                return null;
-            }
         }
 
         public static void InitCulture()
