@@ -2128,7 +2128,6 @@
             this.Activated += new System.EventHandler(this.TweenMain_Activated);
             this.Deactivate += new System.EventHandler(this.TweenMain_Deactivate);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.TweenMain_FormClosing);
-            this.Load += new System.EventHandler(this.TweenMain_Load);
             this.Shown += new System.EventHandler(this.TweenMain_Shown);
             this.ClientSizeChanged += new System.EventHandler(this.TweenMain_ClientSizeChanged);
             this.LocationChanged += new System.EventHandler(this.TweenMain_LocationChanged);

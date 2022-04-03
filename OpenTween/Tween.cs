@@ -137,7 +137,7 @@ namespace OpenTween
 
         // twitter解析部
         private readonly TwitterApi twitterApi = new(ApplicationSettings.TwitterConsumerKey, ApplicationSettings.TwitterConsumerSecret);
-        private Twitter tw = null!;
+        private readonly Twitter tw;
 
         // Growl呼び出し部
         private readonly GrowlHelper gh = new(ApplicationSettings.ApplicationName);
@@ -226,7 +226,7 @@ namespace OpenTween
         private Font fntInputFont = null!;
 
         /// <summary>アイコン画像リスト</summary>
-        private ImageCache iconCache = null!;
+        private readonly ImageCache iconCache;
 
         /// <summary>タスクトレイアイコン：通常時 (At.ico)</summary>
         private Icon nIconAt = null!;
@@ -285,7 +285,7 @@ namespace OpenTween
         private readonly StringFormat sfTab = new();
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////
-        private TabInformations statuses = null!;
+        private readonly TabInformations statuses;
 
         /// <summary>
         /// 現在表示している発言一覧の <see cref="ListView"/> に対するキャッシュ
@@ -358,10 +358,10 @@ namespace OpenTween
         //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         private readonly TimelineScheduler timelineScheduler = new();
-        private DebounceTimer selectionDebouncer = null!;
-        private DebounceTimer saveConfigDebouncer = null!;
+        private readonly DebounceTimer selectionDebouncer;
+        private readonly DebounceTimer saveConfigDebouncer;
 
-        private string recommendedStatusFooter = null!;
+        private readonly string recommendedStatusFooter;
         private bool urlMultibyteSplit = false;
         private bool preventSmsCommand = true;
 
@@ -412,6 +412,8 @@ namespace OpenTween
             string Status,
             (long StatusId, string ScreenName)? InReplyTo = null
         );
+
+        private readonly HookGlobalHotkey hookGlobalHotkey;
 
         private void TweenMain_Activated(object sender, EventArgs e)
         {
@@ -756,8 +758,35 @@ namespace OpenTween
             }
         }
 
-        private void TweenMain_Load(object sender, EventArgs e)
+        public TweenMain()
         {
+            this.InitializeComponent();
+
+            if (!this.DesignMode)
+            {
+                // デザイナでの編集時にレイアウトが縦方向に数pxずれる問題の対策
+                this.StatusText.Dock = DockStyle.Fill;
+            }
+
+            this.hookGlobalHotkey = new HookGlobalHotkey(this);
+
+            this.tweetDetailsView.Owner = this;
+
+            this.hookGlobalHotkey.HotkeyPressed += this.HookGlobalHotkey_HotkeyPressed;
+            this.gh.NotifyClicked += this.GrowlHelper_Callback;
+
+            // メイリオフォント指定時にタブの最小幅が広くなる問題の対策
+            this.ListTab.HandleCreated += (s, e) => NativeMethods.SetMinTabWidth((TabControl)s, 40);
+
+            this.ImageSelector.Visible = false;
+            this.ImageSelector.Enabled = false;
+            this.ImageSelector.FilePickDialog = this.OpenFileDialog1;
+
+            this.workerProgress = new Progress<string>(x => this.StatusLabel.Text = x);
+
+            this.ReplaceAppName();
+            this.InitializeShortcuts();
+
             this.ignoreConfigSave = true;
             this.Visible = false;
 
@@ -864,7 +893,6 @@ namespace OpenTween
                     MyCommon.IsNullOrEmpty(this.tw.Username))
                 {
                     Application.Exit();  // 強制終了
-                    return;
                 }
             }
 
@@ -10514,41 +10542,6 @@ namespace OpenTween
             }
 
             MessageBox.Show(status.RetweetCount + Properties.Resources.RtCountText1);
-        }
-
-        private readonly HookGlobalHotkey hookGlobalHotkey;
-
-        public TweenMain()
-        {
-            this.hookGlobalHotkey = new HookGlobalHotkey(this);
-
-            // この呼び出しは、Windows フォーム デザイナで必要です。
-            this.InitializeComponent();
-
-            // InitializeComponent() 呼び出しの後で初期化を追加します。
-
-            if (!this.DesignMode)
-            {
-                // デザイナでの編集時にレイアウトが縦方向に数pxずれる問題の対策
-                this.StatusText.Dock = DockStyle.Fill;
-            }
-
-            this.tweetDetailsView.Owner = this;
-
-            this.hookGlobalHotkey.HotkeyPressed += this.HookGlobalHotkey_HotkeyPressed;
-            this.gh.NotifyClicked += this.GrowlHelper_Callback;
-
-            // メイリオフォント指定時にタブの最小幅が広くなる問題の対策
-            this.ListTab.HandleCreated += (s, e) => NativeMethods.SetMinTabWidth((TabControl)s, 40);
-
-            this.ImageSelector.Visible = false;
-            this.ImageSelector.Enabled = false;
-            this.ImageSelector.FilePickDialog = this.OpenFileDialog1;
-
-            this.workerProgress = new Progress<string>(x => this.StatusLabel.Text = x);
-
-            this.ReplaceAppName();
-            this.InitializeShortcuts();
         }
 
         private void HookGlobalHotkey_HotkeyPressed(object sender, KeyEventArgs e)
