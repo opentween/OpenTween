@@ -18,6 +18,11 @@ matrix:
     - RELEASE_TAG: 'true'
       configuration: Debug
 
+branches:
+  only:
+    - develop
+    - release
+
 for:
   - # for dev build
     matrix:
