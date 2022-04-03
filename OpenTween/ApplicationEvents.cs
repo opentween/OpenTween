@@ -33,11 +33,9 @@ using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Security.Principal;
 using System.Text.RegularExpressions;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Microsoft.Win32;
 using OpenTween.Setting;
@@ -63,6 +61,11 @@ namespace OpenTween
         [STAThread]
         public static int Main(string[] args)
         {
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+
+            using var errorReportHandler = new ErrorReportHandler();
+
             WarnIfApiKeyError();
             WarnIfRunAsAdministrator();
 
@@ -95,17 +98,6 @@ namespace OpenTween
                     return 1;
                 }
 
-                TaskScheduler.UnobservedTaskException += (s, e) =>
-                {
-                    e.SetObserved();
-                    OnUnhandledException(e.Exception.Flatten());
-                };
-                Application.ThreadException += (s, e) => OnUnhandledException(e.Exception);
-                AppDomain.CurrentDomain.UnhandledException += (s, e) => OnUnhandledException((Exception)e.ExceptionObject);
-                AsyncTimer.UnhandledException += (s, e) => OnUnhandledException(e.Exception);
-
-                Application.EnableVisualStyles();
-                Application.SetCompatibleTextRenderingDefault(false);
                 Application.Run(new TweenMain());
 
                 mt.ReleaseMutex();
@@ -212,56 +204,6 @@ namespace OpenTween
             {
                 return null;
             }
-        }
-
-        private static void OnUnhandledException(Exception ex)
-        {
-            if (CheckIgnorableError(ex))
-                return;
-
-            if (MyCommon.ExceptionOut(ex))
-            {
-                Application.Exit();
-            }
-        }
-
-        /// <summary>
-        /// 無視しても問題のない既知の例外であれば true を返す
-        /// </summary>
-        private static bool CheckIgnorableError(Exception ex)
-        {
-#if DEBUG
-            return false;
-#else
-            if (ex is AggregateException aggregated)
-            {
-                if (aggregated.InnerExceptions.Count != 1)
-                    return false;
-
-                ex = aggregated.InnerExceptions.Single();
-            }
-
-            switch (ex)
-            {
-                case System.Net.WebException webEx:
-                    // SSL/TLS のネゴシエーションに失敗した場合に発生する。なぜかキャッチできない例外
-                    // https://osdn.net/ticket/browse.php?group_id=6526&tid=37432
-                    if (webEx.Status == System.Net.WebExceptionStatus.SecureChannelFailure)
-                        return true;
-                    break;
-                case System.Threading.Tasks.TaskCanceledException cancelEx:
-                    // ton.twitter.com の画像でタイムアウトした場合、try-catch で例外がキャッチできない
-                    // https://osdn.net/ticket/browse.php?group_id=6526&tid=37433
-                    var stackTrace = new System.Diagnostics.StackTrace(cancelEx);
-                    var lastFrameMethod = stackTrace.GetFrame(stackTrace.FrameCount - 1).GetMethod();
-                    if (lastFrameMethod.ReflectedType == typeof(Connection.TwitterApiConnection) &&
-                        lastFrameMethod.Name == nameof(Connection.TwitterApiConnection.GetStreamAsync))
-                        return true;
-                    break;
-            }
-
-            return false;
-#endif
         }
 
         public static void InitCulture()
