@@ -29,25 +29,27 @@ using System.Threading.Tasks;
 
 namespace OpenTween.Setting
 {
-    public static class SettingManager
+    public class SettingManager
     {
-        public static SettingCommon Common { get; internal set; } = new();
+        public static SettingManager Instance { get; } = new();
 
-        public static SettingLocal Local { get; internal set; } = new();
+        public SettingCommon Common { get; internal set; } = new();
 
-        public static SettingTabs Tabs { get; internal set; } = new();
+        public SettingLocal Local { get; internal set; } = new();
 
-        public static SettingAtIdList AtIdList { get; internal set; } = new();
+        public SettingTabs Tabs { get; internal set; } = new();
 
-        public static void LoadAll()
+        public SettingAtIdList AtIdList { get; internal set; } = new();
+
+        public void LoadAll()
         {
-            LoadCommon();
-            LoadLocal();
-            LoadTabs();
-            LoadAtIdList();
+            this.LoadCommon();
+            this.LoadLocal();
+            this.LoadTabs();
+            this.LoadAtIdList();
         }
 
-        public static void LoadCommon()
+        public void LoadCommon()
         {
             var settings = SettingCommon.Load();
 
@@ -68,36 +70,36 @@ namespace OpenTween.Setting
                 }
             }
 
-            SettingManager.Common = settings;
+            this.Common = settings;
         }
 
-        public static void LoadLocal()
-            => SettingManager.Local = SettingLocal.Load();
+        public void LoadLocal()
+            => this.Local = SettingLocal.Load();
 
-        public static void LoadTabs()
-            => SettingManager.Tabs = SettingTabs.Load();
+        public void LoadTabs()
+            => this.Tabs = SettingTabs.Load();
 
-        public static void LoadAtIdList()
-            => SettingManager.AtIdList = SettingAtIdList.Load();
+        public void LoadAtIdList()
+            => this.AtIdList = SettingAtIdList.Load();
 
-        public static void SaveAll()
+        public void SaveAll()
         {
-            SaveCommon();
-            SaveLocal();
-            SaveTabs();
-            SaveAtIdList();
+            this.SaveCommon();
+            this.SaveLocal();
+            this.SaveTabs();
+            this.SaveAtIdList();
         }
 
-        public static void SaveCommon()
-            => SettingManager.Common.Save();
+        public void SaveCommon()
+            => this.Common.Save();
 
-        public static void SaveLocal()
-            => SettingManager.Local.Save();
+        public void SaveLocal()
+            => this.Local.Save();
 
-        public static void SaveTabs()
-            => SettingManager.Tabs.Save();
+        public void SaveTabs()
+            => this.Tabs.Save();
 
-        public static void SaveAtIdList()
-            => SettingManager.AtIdList.Save();
+        public void SaveAtIdList()
+            => this.AtIdList.Save();
     }
 }

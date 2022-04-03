@@ -522,7 +522,7 @@ namespace OpenTween.Models
                     if (item.IsFav && item.RetweetedId != null) item.IsFav = false;
 
                     // 既に持っている公式RTは捨てる
-                    if (item.RetweetedId != null && SettingManager.Common.HideDuplicatedRetweets)
+                    if (item.RetweetedId != null && SettingManager.Instance.Common.HideDuplicatedRetweets)
                     {
                         var retweetCount = this.UpdateRetweetCount(item);
 

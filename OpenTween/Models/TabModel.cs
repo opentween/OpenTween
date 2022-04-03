@@ -266,7 +266,7 @@ namespace OpenTween.Models
         {
             get
             {
-                if (!this.UnreadManage || !SettingManager.Common.UnreadManage)
+                if (!this.UnreadManage || !SettingManager.Instance.Common.UnreadManage)
                     return -1L;
 
                 if (this.unreadIds.Count == 0)
@@ -299,7 +299,7 @@ namespace OpenTween.Models
         {
             get
             {
-                if (!this.UnreadManage || !SettingManager.Common.UnreadManage)
+                if (!this.UnreadManage || !SettingManager.Instance.Common.UnreadManage)
                     return 0;
 
                 return this.unreadIds.Count;

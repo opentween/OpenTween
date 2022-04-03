@@ -60,9 +60,9 @@ namespace OpenTween
             if (!SetConfigDirectoryPath())
                 return 1;
 
-            SettingManager.LoadAll();
+            SettingManager.Instance.LoadAll();
 
-            var cultureService = new CultureService(SettingManager.Common);
+            var cultureService = new CultureService(SettingManager.Instance.Common);
             cultureService.Initialize();
 
             // 同じ設定ファイルを使用する OpenTween プロセスの二重起動を防止する
@@ -101,12 +101,12 @@ namespace OpenTween
                 // OpenTween.exe と同じディレクトリに設定ファイルを配置する
                 MyCommon.SettingPath = Application.StartupPath;
 
-                SettingManager.LoadAll();
+                SettingManager.Instance.LoadAll();
 
                 try
                 {
                     // 設定ファイルが書き込み可能な状態であるかテストする
-                    SettingManager.SaveAll();
+                    SettingManager.Instance.SaveAll();
                 }
                 catch (UnauthorizedAccessException)
                 {
@@ -150,7 +150,7 @@ namespace OpenTween
                     {
                         // 既に Roaming に設定ファイルが存在し、Roaming 内のファイルの方が新しい場合は
                         // StartupPath に設定ファイルが存在しても無視する
-                        SettingManager.LoadAll();
+                        SettingManager.Instance.LoadAll();
                     }
                     else
                     {
@@ -162,7 +162,7 @@ namespace OpenTween
                         }
 
                         // Roaming に設定ファイルを作成 (StartupPath に読み込みに成功した設定ファイルがあれば内容がコピーされる)
-                        SettingManager.SaveAll();
+                        SettingManager.Instance.SaveAll();
                     }
                 }
             }

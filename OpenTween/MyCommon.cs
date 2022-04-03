@@ -391,7 +391,7 @@ namespace OpenTween
                     writer.Write(errorReport);
                 }
 
-                var settings = SettingManager.Common;
+                var settings = SettingManager.Instance.Common;
                 var mainForm = Application.OpenForms.OfType<TweenMain>().FirstOrDefault();
 
                 ErrorReport report;
@@ -987,7 +987,7 @@ namespace OpenTween
             => string.IsNullOrEmpty(value);
 
         public static Task OpenInBrowserAsync(IWin32Window? owner, string url)
-            => MyCommon.OpenInBrowserAsync(owner, SettingManager.Local.BrowserPath, url);
+            => MyCommon.OpenInBrowserAsync(owner, SettingManager.Instance.Local.BrowserPath, url);
 
         public static Task OpenInBrowserAsync(IWin32Window? owner, string? browserPath, string url)
         {

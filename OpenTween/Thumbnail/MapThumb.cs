@@ -40,7 +40,7 @@ namespace OpenTween.Thumbnail
 
         public static MapThumb GetDefaultInstance()
         {
-            var confValue = SettingManager.Common.MapThumbnailProvider;
+            var confValue = SettingManager.Instance.Common.MapThumbnailProvider;
             var classType = confValue switch
             {
                 MapProvider.OpenStreetMap => typeof(MapThumbOSM),

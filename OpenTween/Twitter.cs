@@ -501,42 +501,42 @@ namespace OpenTween
         /// </summary>
         public static int GetApiResultCount(MyCommon.WORKERTYPE type, bool more, bool startup)
         {
-            if (SettingManager.Common.UseAdditionalCount)
+            if (SettingManager.Instance.Common.UseAdditionalCount)
             {
                 switch (type)
                 {
                     case MyCommon.WORKERTYPE.Favorites:
-                        if (SettingManager.Common.FavoritesCountApi != 0)
-                            return SettingManager.Common.FavoritesCountApi;
+                        if (SettingManager.Instance.Common.FavoritesCountApi != 0)
+                            return SettingManager.Instance.Common.FavoritesCountApi;
                         break;
                     case MyCommon.WORKERTYPE.List:
-                        if (SettingManager.Common.ListCountApi != 0)
-                            return SettingManager.Common.ListCountApi;
+                        if (SettingManager.Instance.Common.ListCountApi != 0)
+                            return SettingManager.Instance.Common.ListCountApi;
                         break;
                     case MyCommon.WORKERTYPE.PublicSearch:
-                        if (SettingManager.Common.SearchCountApi != 0)
-                            return SettingManager.Common.SearchCountApi;
+                        if (SettingManager.Instance.Common.SearchCountApi != 0)
+                            return SettingManager.Instance.Common.SearchCountApi;
                         break;
                     case MyCommon.WORKERTYPE.UserTimeline:
-                        if (SettingManager.Common.UserTimelineCountApi != 0)
-                            return SettingManager.Common.UserTimelineCountApi;
+                        if (SettingManager.Instance.Common.UserTimelineCountApi != 0)
+                            return SettingManager.Instance.Common.UserTimelineCountApi;
                         break;
                 }
-                if (more && SettingManager.Common.MoreCountApi != 0)
+                if (more && SettingManager.Instance.Common.MoreCountApi != 0)
                 {
-                    return Math.Min(SettingManager.Common.MoreCountApi, GetMaxApiResultCount(type));
+                    return Math.Min(SettingManager.Instance.Common.MoreCountApi, GetMaxApiResultCount(type));
                 }
-                if (startup && SettingManager.Common.FirstCountApi != 0 && type != MyCommon.WORKERTYPE.Reply)
+                if (startup && SettingManager.Instance.Common.FirstCountApi != 0 && type != MyCommon.WORKERTYPE.Reply)
                 {
-                    return Math.Min(SettingManager.Common.FirstCountApi, GetMaxApiResultCount(type));
+                    return Math.Min(SettingManager.Instance.Common.FirstCountApi, GetMaxApiResultCount(type));
                 }
             }
 
             // 上記に当てはまらない場合の共通処理
-            var count = SettingManager.Common.CountApi;
+            var count = SettingManager.Instance.Common.CountApi;
 
             if (type == MyCommon.WORKERTYPE.Reply)
-                count = SettingManager.Common.CountApiReply;
+                count = SettingManager.Instance.Common.CountApiReply;
 
             return Math.Min(count, GetMaxApiResultCount(type));
         }
@@ -951,12 +951,12 @@ namespace OpenTween
             TwitterStatus[] statuses;
             if (more)
             {
-                statuses = await this.Api.ListsStatuses(tab.ListInfo.Id, count, maxId: tab.OldestId, includeRTs: SettingManager.Common.IsListsIncludeRts)
+                statuses = await this.Api.ListsStatuses(tab.ListInfo.Id, count, maxId: tab.OldestId, includeRTs: SettingManager.Instance.Common.IsListsIncludeRts)
                     .ConfigureAwait(false);
             }
             else
             {
-                statuses = await this.Api.ListsStatuses(tab.ListInfo.Id, count, includeRTs: SettingManager.Common.IsListsIncludeRts)
+                statuses = await this.Api.ListsStatuses(tab.ListInfo.Id, count, includeRTs: SettingManager.Instance.Common.IsListsIncludeRts)
                     .ConfigureAwait(false);
             }
 

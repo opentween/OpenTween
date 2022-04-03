@@ -38,8 +38,8 @@ namespace OpenTween.Thumbnail
     {
         public override Task<ThumbnailInfo> GetThumbnailInfoAsync(PostClass.StatusGeo geo)
         {
-            var size = new Size(SettingManager.Common.MapThumbnailWidth, SettingManager.Common.MapThumbnailHeight);
-            var zoom = SettingManager.Common.MapThumbnailZoom;
+            var size = new Size(SettingManager.Instance.Common.MapThumbnailWidth, SettingManager.Instance.Common.MapThumbnailHeight);
+            var zoom = SettingManager.Instance.Common.MapThumbnailZoom;
 
             var thumb = new OSMThumbnailInfo(geo.Latitude, geo.Longitude, zoom, size)
             {
@@ -51,7 +51,7 @@ namespace OpenTween.Thumbnail
 
         public string CreateMapLinkUrl(double latitude, double longitude)
         {
-            var zoom = SettingManager.Common.MapThumbnailZoom;
+            var zoom = SettingManager.Instance.Common.MapThumbnailZoom;
 
             return $"https://www.openstreetmap.org/?mlat={latitude}&mlon={longitude}#map={zoom}/{latitude}/{longitude}";
         }
