@@ -22,6 +22,7 @@
 #nullable enable
 
 using System;
+using OpenTween.Models;
 using OpenTween.Setting;
 
 namespace OpenTween
@@ -31,6 +32,8 @@ namespace OpenTween
         public bool IsDisposed { get; private set; } = false;
 
         public SettingManager Settings { get; } = SettingManager.Instance;
+
+        public TabInformations TabInfo { get; } = TabInformations.GetInstance();
 
         public CultureService CultureService
             => this.cultureServiceLazy.Value;
@@ -51,7 +54,7 @@ namespace OpenTween
             => new(this.Settings.Common);
 
         private TweenMain CreateTweenMain()
-            => new();
+            => new(this.Settings, this.TabInfo);
 
         public void Dispose()
         {

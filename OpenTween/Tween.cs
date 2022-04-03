@@ -133,7 +133,7 @@ namespace OpenTween
         private FormWindowState formWindowState = FormWindowState.Normal; // フォームの状態保存用 通知領域からアイコンをクリックして復帰した際に使用する
 
         // 設定ファイル
-        private readonly SettingManager settings = SettingManager.Instance;
+        private readonly SettingManager settings;
 
         // twitter解析部
         private readonly TwitterApi twitterApi = new(ApplicationSettings.TwitterConsumerKey, ApplicationSettings.TwitterConsumerSecret);
@@ -285,6 +285,8 @@ namespace OpenTween
         private readonly StringFormat sfTab = new();
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        /// <summary>発言保持クラス</summary>
         private readonly TabInformations statuses;
 
         /// <summary>
@@ -758,8 +760,11 @@ namespace OpenTween
             }
         }
 
-        public TweenMain()
+        public TweenMain(SettingManager settingManager, TabInformations tabInfo)
         {
+            this.settings = settingManager;
+            this.statuses = tabInfo;
+
             this.InitializeComponent();
 
             if (!this.DesignMode)
@@ -798,9 +803,6 @@ namespace OpenTween
             Microsoft.Win32.SystemEvents.PowerModeChanged += this.SystemEvents_PowerModeChanged;
 
             Regex.CacheSize = 100;
-
-            // 発言保持クラス
-            this.statuses = TabInformations.GetInstance();
 
             // アイコン設定
             this.LoadIcons();
