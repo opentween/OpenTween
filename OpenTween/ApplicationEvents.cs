@@ -62,8 +62,9 @@ namespace OpenTween
 
             SettingManager.Instance.LoadAll();
 
-            var cultureService = new CultureService(SettingManager.Instance.Common);
-            cultureService.Initialize();
+            using var container = new ApplicationContainer();
+
+            container.CultureService.Initialize();
 
             // 同じ設定ファイルを使用する OpenTween プロセスの二重起動を防止する
             using var mutex = new ApplicationInstanceMutex(ApplicationSettings.AssemblyName, MyCommon.SettingPath);
@@ -77,7 +78,7 @@ namespace OpenTween
                 return 1;
             }
 
-            Application.Run(new TweenMain());
+            Application.Run(container.MainForm);
 
             return 0;
         }

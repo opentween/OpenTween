@@ -100,6 +100,7 @@
     <Compile Include="Api\TwitterApiException.cs" />
     <Compile Include="Api\TwitterApiStatus.cs" />
     <Compile Include="Api\TwitterStreamObservable.cs" />
+    <Compile Include="ApplicationContainer.cs" />
     <Compile Include="ApplicationEvents.cs">
       <SubType>Code</SubType>
     </Compile>
