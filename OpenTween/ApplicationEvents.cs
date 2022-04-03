@@ -28,13 +28,11 @@
 #nullable enable
 
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Security.Principal;
-using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
 using Microsoft.Win32;
@@ -53,7 +51,7 @@ namespace OpenTween
         /// <summary>
         /// 起動時に指定されたオプションを取得します
         /// </summary>
-        public static IDictionary<string, string> StartupOptions { get; private set; } = null!;
+        public static CommandLineArgs StartupOptions { get; private set; } = null!;
 
         /// <summary>
         /// アプリケーションのメイン エントリ ポイントです。
@@ -66,6 +64,8 @@ namespace OpenTween
 
             using var errorReportHandler = new ErrorReportHandler();
 
+            StartupOptions = new(args);
+
             WarnIfApiKeyError();
             WarnIfRunAsAdministrator();
 
@@ -75,8 +75,6 @@ namespace OpenTween
                 MessageBox.Show(message, ApplicationSettings.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return 1;
             }
-
-            StartupOptions = ParseArguments(args);
 
             if (!SetConfigDirectoryPath())
                 return 1;
@@ -156,23 +154,6 @@ namespace OpenTween
 
             var releaseKey = (int)ndpKey.GetValue("Release");
             return releaseKey >= 461808;
-        }
-
-        /// <summary>
-        /// “/key:value”形式の起動オプションを解釈し IDictionary に変換する
-        /// </summary>
-        /// <remarks>
-        /// 不正な形式のオプションは除外されます。
-        /// また、重複したキーのオプションが入力された場合は末尾に書かれたオプションが採用されます。
-        /// </remarks>
-        internal static IDictionary<string, string> ParseArguments(IEnumerable<string> arguments)
-        {
-            var optionPattern = new Regex(@"^/(.+?)(?::(.*))?$");
-
-            return arguments.Select(x => optionPattern.Match(x))
-                .Where(x => x.Success)
-                .GroupBy(x => x.Groups[1].Value)
-                .ToDictionary(x => x.Key, x => x.Last().Groups[2].Value);
         }
 
         private static void TryActivatePreviousWindow()

@@ -124,6 +124,7 @@
       <DependentUpon>AuthDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="Bing.cs" />
+    <Compile Include="CommandLineArgs.cs" />
     <Compile Include="Connection\IApiConnection.cs" />
     <Compile Include="DebounceTimer.cs" />
     <Compile Include="ErrorReportHandler.cs" />
