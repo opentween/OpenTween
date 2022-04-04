@@ -22,6 +22,7 @@
 #nullable enable
 
 using System;
+using OpenTween.Api;
 using OpenTween.Models;
 using OpenTween.Setting;
 
@@ -38,23 +39,39 @@ namespace OpenTween
         public CultureService CultureService
             => this.cultureServiceLazy.Value;
 
+        public TwitterApi TwitterApi
+            => this.twitterApiLazy.Value;
+
+        public Twitter Twitter
+            => this.twitterLazy.Value;
+
         public TweenMain MainForm
             => this.mainFormLazy.Value;
 
         private readonly Lazy<CultureService> cultureServiceLazy;
+        private readonly Lazy<TwitterApi> twitterApiLazy;
+        private readonly Lazy<Twitter> twitterLazy;
         private readonly Lazy<TweenMain> mainFormLazy;
 
         public ApplicationContainer()
         {
             this.cultureServiceLazy = new(this.CreateCultureService);
+            this.twitterApiLazy = new(this.CreateTwitterApi);
+            this.twitterLazy = new(this.CreateTwitter);
             this.mainFormLazy = new(this.CreateTweenMain);
         }
 
         private CultureService CreateCultureService()
             => new(this.Settings.Common);
 
+        private TwitterApi CreateTwitterApi()
+            => new(ApplicationSettings.TwitterConsumerKey, ApplicationSettings.TwitterConsumerSecret);
+
+        private Twitter CreateTwitter()
+            => new(this.TwitterApi);
+
         private TweenMain CreateTweenMain()
-            => new(this.Settings, this.TabInfo);
+            => new(this.Settings, this.TabInfo, this.Twitter);
 
         public void Dispose()
         {
@@ -63,6 +80,8 @@ namespace OpenTween
 
             this.IsDisposed = true;
             this.MainForm.Dispose();
+            this.Twitter.Dispose();
+            this.TwitterApi.Dispose();
         }
     }
 }

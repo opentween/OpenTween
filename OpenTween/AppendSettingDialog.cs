@@ -39,7 +39,6 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using OpenTween.Api;
 using OpenTween.Connection;
 using OpenTween.Setting.Panel;
 using OpenTween.Thumbnail;
@@ -51,7 +50,6 @@ namespace OpenTween
         public event EventHandler<IntervalChangedEventArgs>? IntervalChanged;
 
         internal Twitter Tw = null!;
-        internal TwitterApi TwitterApi = null!;
 
         public AppendSettingDialog()
         {

@@ -136,7 +136,6 @@ namespace OpenTween
         private readonly SettingManager settings;
 
         // twitter解析部
-        private readonly TwitterApi twitterApi = new(ApplicationSettings.TwitterConsumerKey, ApplicationSettings.TwitterConsumerSecret);
         private readonly Twitter tw;
 
         // Growl呼び出し部
@@ -480,7 +479,6 @@ namespace OpenTween
 
                 this.thumbnailTokenSource?.Dispose();
 
-                this.twitterApi.Dispose();
                 this.hookGlobalHotkey.Dispose();
             }
 
@@ -747,10 +745,11 @@ namespace OpenTween
             }
         }
 
-        public TweenMain(SettingManager settingManager, TabInformations tabInfo)
+        public TweenMain(SettingManager settingManager, TabInformations tabInfo, Twitter twitter)
         {
             this.settings = settingManager;
             this.statuses = tabInfo;
+            this.tw = twitter;
 
             this.InitializeComponent();
 
@@ -810,7 +809,6 @@ namespace OpenTween
             }
 
             TwitterApiConnection.RestApiHost = this.settings.Common.TwitterApiHost;
-            this.tw = new Twitter(this.twitterApi);
 
             // 認証関連
             this.tw.Initialize(this.settings.Common.Token, this.settings.Common.TokenSecret, this.settings.Common.UserName, this.settings.Common.UserId);
@@ -879,7 +877,7 @@ namespace OpenTween
             imgazyobizinet.Enabled = this.settings.Common.EnableImgAzyobuziNet;
             imgazyobizinet.DisabledInDM = this.settings.Common.ImgAzyobuziNetDisabledInDM;
 
-            Thumbnail.Services.TonTwitterCom.GetApiConnection = () => this.twitterApi.Connection;
+            Thumbnail.Services.TonTwitterCom.GetApiConnection = () => this.tw.Api.Connection;
 
             // 画像投稿サービス
             this.ImageSelector.Initialize(this.tw, this.tw.Configuration, this.settings.Common.UseImageServiceName, this.settings.Common.UseImageService);
@@ -2243,7 +2241,7 @@ namespace OpenTween
                 {
                     try
                     {
-                        await this.twitterApi.FavoritesCreate(post.RetweetedId ?? post.StatusId)
+                        await this.tw.Api.FavoritesCreate(post.RetweetedId ?? post.StatusId)
                             .IgnoreResponse()
                             .ConfigureAwait(false);
                     }
@@ -2255,7 +2253,7 @@ namespace OpenTween
 
                     if (this.settings.Common.RestrictFavCheck)
                     {
-                        var status = await this.twitterApi.StatusesShow(post.RetweetedId ?? post.StatusId)
+                        var status = await this.tw.Api.StatusesShow(post.RetweetedId ?? post.StatusId)
                             .ConfigureAwait(false);
 
                         if (status.Favorited != true)
@@ -2369,7 +2367,7 @@ namespace OpenTween
 
                     try
                     {
-                        await this.twitterApi.FavoritesDestroy(post.RetweetedId ?? post.StatusId)
+                        await this.tw.Api.FavoritesDestroy(post.RetweetedId ?? post.StatusId)
                             .IgnoreResponse()
                             .ConfigureAwait(false);
                     }
@@ -3113,7 +3111,7 @@ namespace OpenTween
                 this.StatusOpenMenuItem.Enabled = true;
                 this.ShowRelatedStatusesMenuItem.Enabled = true;  // PublicSearchの時問題出るかも
 
-                if (!post.CanRetweetBy(this.twitterApi.CurrentUserId))
+                if (!post.CanRetweetBy(this.tw.UserId))
                 {
                     this.ReTweetStripMenuItem.Enabled = false;
                     this.ReTweetUnofficialStripMenuItem.Enabled = false;
@@ -3191,7 +3189,7 @@ namespace OpenTween
                     {
                         if (post.IsDm)
                         {
-                            await this.twitterApi.DirectMessagesEventsDestroy(post.StatusId.ToString(CultureInfo.InvariantCulture));
+                            await this.tw.Api.DirectMessagesEventsDestroy(post.StatusId.ToString(CultureInfo.InvariantCulture));
                         }
                         else
                         {
@@ -3199,7 +3197,7 @@ namespace OpenTween
                             {
                                 // 自分が RT したツイート (自分が RT した自分のツイートも含む)
                                 //   => RT を取り消し
-                                await this.twitterApi.StatusesDestroy(post.StatusId)
+                                await this.tw.Api.StatusesDestroy(post.StatusId)
                                     .IgnoreResponse();
                             }
                             else
@@ -3210,14 +3208,14 @@ namespace OpenTween
                                     {
                                         // 他人に RT された自分のツイート
                                         //   => RT 元の自分のツイートを削除
-                                        await this.twitterApi.StatusesDestroy(post.RetweetedId.Value)
+                                        await this.tw.Api.StatusesDestroy(post.RetweetedId.Value)
                                             .IgnoreResponse();
                                     }
                                     else
                                     {
                                         // 自分のツイート
                                         //   => ツイートを削除
-                                        await this.twitterApi.StatusesDestroy(post.StatusId)
+                                        await this.tw.Api.StatusesDestroy(post.StatusId)
                                             .IgnoreResponse();
                                     }
                                 }
@@ -3359,7 +3357,6 @@ namespace OpenTween
             settingDialog.IntervalChanged += this.TimerInterval_Changed;
 
             settingDialog.Tw = this.tw;
-            settingDialog.TwitterApi = this.twitterApi;
 
             settingDialog.LoadConfig(this.settings.Common, this.settings.Local);
 
@@ -9395,7 +9392,7 @@ namespace OpenTween
             {
                 var selectedPosts = this.CurrentTab.SelectedPosts;
 
-                if (selectedPosts.Any(x => !x.CanRetweetBy(this.twitterApi.CurrentUserId)))
+                if (selectedPosts.Any(x => !x.CanRetweetBy(this.tw.UserId)))
                 {
                     if (selectedPosts.Any(x => x.IsProtect))
                         MessageBox.Show("Protected.");
@@ -9652,7 +9649,7 @@ namespace OpenTween
             {
                 try
                 {
-                    var task = this.twitterApi.FriendshipsCreate(id).IgnoreResponse();
+                    var task = this.tw.Api.FriendshipsCreate(id).IgnoreResponse();
                     await dialog.WaitForAsync(this, task);
                 }
                 catch (WebApiException ex)
@@ -9693,7 +9690,7 @@ namespace OpenTween
             {
                 try
                 {
-                    var task = this.twitterApi.FriendshipsDestroy(id).IgnoreResponse();
+                    var task = this.tw.Api.FriendshipsDestroy(id).IgnoreResponse();
                     await dialog.WaitForAsync(this, task);
                 }
                 catch (WebApiException ex)
@@ -9737,7 +9734,7 @@ namespace OpenTween
 
                 try
                 {
-                    var task = this.twitterApi.FriendshipsShow(this.twitterApi.CurrentScreenName, id);
+                    var task = this.tw.Api.FriendshipsShow(this.tw.Username, id);
                     var friendship = await dialog.WaitForAsync(this, task);
 
                     isFollowing = friendship.Relationship.Source.Following;
@@ -9787,7 +9784,7 @@ namespace OpenTween
 
                     try
                     {
-                        var task = this.twitterApi.FriendshipsShow(this.twitterApi.CurrentScreenName, id);
+                        var task = this.tw.Api.FriendshipsShow(this.tw.Username, id);
                         var friendship = await dialog.WaitForAsync(this, task);
 
                         isFollowing = friendship.Relationship.Source.Following;
@@ -10106,7 +10103,7 @@ namespace OpenTween
 
         public void ListManageUserContext(string screenName)
         {
-            using var listSelectForm = new MyLists(screenName, this.twitterApi);
+            using var listSelectForm = new MyLists(screenName, this.tw.Api);
             listSelectForm.ShowDialog(this);
         }
 
@@ -10252,7 +10249,7 @@ namespace OpenTween
                 this.OpenStatusOpMenuItem.Enabled = true;
                 this.ShowRelatedStatusesMenuItem2.Enabled = true;  // PublicSearchの時問題出るかも
 
-                if (!post.CanRetweetBy(this.twitterApi.CurrentUserId))
+                if (!post.CanRetweetBy(this.tw.UserId))
                 {
                     this.RtOpMenuItem.Enabled = false;
                     this.RtUnOpMenuItem.Enabled = false;
@@ -10389,7 +10386,7 @@ namespace OpenTween
 
                 try
                 {
-                    var task = this.twitterApi.UsersShow(id);
+                    var task = this.tw.Api.UsersShow(id);
                     user = await dialog.WaitForAsync(this, task);
                 }
                 catch (WebApiException ex)
@@ -10408,7 +10405,7 @@ namespace OpenTween
 
         private async Task DoShowUserStatus(TwitterUser user)
         {
-            using var userDialog = new UserInfoDialog(this, this.twitterApi);
+            using var userDialog = new UserInfoDialog(this, this.tw.Api);
             var showUserTask = userDialog.ShowUserAsync(user);
             userDialog.ShowDialog(this);
 
@@ -10458,7 +10455,7 @@ namespace OpenTween
 
                 try
                 {
-                    var task = this.twitterApi.StatusesShow(statusId);
+                    var task = this.tw.Api.StatusesShow(statusId);
                     status = await dialog.WaitForAsync(this, task);
                 }
                 catch (WebApiException ex)
