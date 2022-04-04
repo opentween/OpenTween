@@ -52,10 +52,10 @@ namespace OpenTween
             => this.mainFormLazy.Value;
 
         private readonly Lazy<CultureService> cultureServiceLazy;
-        private readonly Lazy<TwitterApi> twitterApiLazy;
-        private readonly Lazy<Twitter> twitterLazy;
-        private readonly Lazy<ImageCache> imageCacheLazy;
-        private readonly Lazy<TweenMain> mainFormLazy;
+        private readonly DisposableLazy<TwitterApi> twitterApiLazy;
+        private readonly DisposableLazy<Twitter> twitterLazy;
+        private readonly DisposableLazy<ImageCache> imageCacheLazy;
+        private readonly DisposableLazy<TweenMain> mainFormLazy;
 
         public ApplicationContainer()
         {
@@ -87,11 +87,10 @@ namespace OpenTween
                 return;
 
             this.IsDisposed = true;
-            this.MainForm.Dispose();
-            this.Twitter.Dispose();
-            this.TwitterApi.Dispose();
-            this.ImageCache.CancelAsync();
-            this.ImageCache.Dispose();
+            this.mainFormLazy.Dispose();
+            this.twitterLazy.Dispose();
+            this.twitterApiLazy.Dispose();
+            this.imageCacheLazy.Dispose();
         }
     }
 }

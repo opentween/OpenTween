@@ -131,6 +131,7 @@
     <Compile Include="Connection\IApiConnection.cs" />
     <Compile Include="CultureService.cs" />
     <Compile Include="DebounceTimer.cs" />
+    <Compile Include="DisposableLazy.cs" />
     <Compile Include="ErrorReportHandler.cs" />
     <Compile Include="IsExternalInit.cs" />
     <Compile Include="MediaUploadServices\IMediaUploadService.cs" />
