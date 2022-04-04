@@ -45,12 +45,16 @@ namespace OpenTween
         public Twitter Twitter
             => this.twitterLazy.Value;
 
+        public ImageCache ImageCache
+            => this.imageCacheLazy.Value;
+
         public TweenMain MainForm
             => this.mainFormLazy.Value;
 
         private readonly Lazy<CultureService> cultureServiceLazy;
         private readonly Lazy<TwitterApi> twitterApiLazy;
         private readonly Lazy<Twitter> twitterLazy;
+        private readonly Lazy<ImageCache> imageCacheLazy;
         private readonly Lazy<TweenMain> mainFormLazy;
 
         public ApplicationContainer()
@@ -58,6 +62,7 @@ namespace OpenTween
             this.cultureServiceLazy = new(this.CreateCultureService);
             this.twitterApiLazy = new(this.CreateTwitterApi);
             this.twitterLazy = new(this.CreateTwitter);
+            this.imageCacheLazy = new(this.CreateImageCache);
             this.mainFormLazy = new(this.CreateTweenMain);
         }
 
@@ -70,8 +75,11 @@ namespace OpenTween
         private Twitter CreateTwitter()
             => new(this.TwitterApi);
 
+        private ImageCache CreateImageCache()
+            => new();
+
         private TweenMain CreateTweenMain()
-            => new(this.Settings, this.TabInfo, this.Twitter);
+            => new(this.Settings, this.TabInfo, this.Twitter, this.ImageCache);
 
         public void Dispose()
         {
@@ -82,6 +90,8 @@ namespace OpenTween
             this.MainForm.Dispose();
             this.Twitter.Dispose();
             this.TwitterApi.Dispose();
+            this.ImageCache.CancelAsync();
+            this.ImageCache.Dispose();
         }
     }
 }

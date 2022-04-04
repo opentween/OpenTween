@@ -470,13 +470,6 @@ namespace OpenTween
 
                 this.timelineScheduler.Dispose();
                 this.workerCts.Cancel();
-
-                if (this.iconCache != null)
-                {
-                    this.iconCache.CancelAsync();
-                    this.iconCache.Dispose();
-                }
-
                 this.thumbnailTokenSource?.Dispose();
 
                 this.hookGlobalHotkey.Dispose();
@@ -745,11 +738,12 @@ namespace OpenTween
             }
         }
 
-        public TweenMain(SettingManager settingManager, TabInformations tabInfo, Twitter twitter)
+        public TweenMain(SettingManager settingManager, TabInformations tabInfo, Twitter twitter, ImageCache imageCache)
         {
             this.settings = settingManager;
             this.statuses = tabInfo;
             this.tw = twitter;
+            this.iconCache = imageCache;
 
             this.InitializeComponent();
 
@@ -874,7 +868,6 @@ namespace OpenTween
             if (!MyCommon.IsNullOrEmpty(this.HashMgr.UseHash) && this.HashMgr.IsPermanent) this.HashStripSplitButton.Text = this.HashMgr.UseHash;
 
             // アイコンリスト作成
-            this.iconCache = new ImageCache();
             this.tweetDetailsView.IconCache = this.iconCache;
 
             // フォント＆文字色＆背景色保持
