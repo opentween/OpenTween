@@ -26,6 +26,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OpenTween.Connection;
+using OpenTween.Thumbnail;
 
 namespace OpenTween.Setting
 {
@@ -101,5 +103,26 @@ namespace OpenTween.Setting
 
         public void SaveAtIdList()
             => this.AtIdList.Save();
+
+        public void ApplySettings()
+        {
+            // 静的フィールドにセットする必要のある設定値を更新
+            Networking.DefaultTimeout = TimeSpan.FromSeconds(this.Common.DefaultTimeOut);
+            Networking.UploadImageTimeout = TimeSpan.FromSeconds(this.Common.UploadImageTimeout);
+            Networking.ForceIPv4 = this.Common.ForceIPv4;
+            Networking.SetWebProxy(
+                this.Local.ProxyType,
+                this.Local.ProxyAddress,
+                this.Local.ProxyPort,
+                this.Local.ProxyUser,
+                this.Local.ProxyPassword);
+
+            TwitterApiConnection.RestApiHost = this.Common.TwitterApiHost;
+
+            ShortUrl.Instance.DisableExpanding = !this.Common.TinyUrlResolve;
+            ShortUrl.Instance.BitlyAccessToken = this.Common.BitlyAccessToken;
+            ShortUrl.Instance.BitlyId = this.Common.BilyUser;
+            ShortUrl.Instance.BitlyKey = this.Common.BitlyPwd;
+        }
     }
 }

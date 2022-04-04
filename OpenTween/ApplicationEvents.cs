@@ -30,6 +30,7 @@
 using System;
 using System.IO;
 using System.Windows.Forms;
+using OpenTween.Connection;
 using OpenTween.Setting;
 
 namespace OpenTween
@@ -70,6 +71,9 @@ namespace OpenTween
             settings.Common.Validate(noLimit);
 
             container.CultureService.Initialize();
+
+            Networking.Initialize();
+            settings.ApplySettings();
 
             // 同じ設定ファイルを使用する OpenTween プロセスの二重起動を防止する
             using var mutex = new ApplicationInstanceMutex(ApplicationSettings.AssemblyName, MyCommon.SettingPath);

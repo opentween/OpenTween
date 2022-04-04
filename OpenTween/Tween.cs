@@ -808,14 +808,10 @@ namespace OpenTween
                 this.Font = fontUIGlobal;
             }
 
-            TwitterApiConnection.RestApiHost = this.settings.Common.TwitterApiHost;
-
             // 認証関連
             this.tw.Initialize(this.settings.Common.Token, this.settings.Common.TokenSecret, this.settings.Common.UserName, this.settings.Common.UserId);
 
             this.initial = true;
-
-            Networking.Initialize();
 
             var saveRequired = false;
             var firstRun = false;
@@ -834,24 +830,8 @@ namespace OpenTween
                 }
             }
 
-            // Twitter用通信クラス初期化
-            Networking.DefaultTimeout = TimeSpan.FromSeconds(this.settings.Common.DefaultTimeOut);
-            Networking.UploadImageTimeout = TimeSpan.FromSeconds(this.settings.Common.UploadImageTimeout);
-            Networking.SetWebProxy(
-                this.settings.Local.ProxyType,
-                this.settings.Local.ProxyAddress,
-                this.settings.Local.ProxyPort,
-                this.settings.Local.ProxyUser,
-                this.settings.Local.ProxyPassword);
-            Networking.ForceIPv4 = this.settings.Common.ForceIPv4;
-
-            TwitterApiConnection.RestApiHost = this.settings.Common.TwitterApiHost;
             this.tw.RestrictFavCheck = this.settings.Common.RestrictFavCheck;
             this.tw.ReadOwnPost = this.settings.Common.ReadOwnPost;
-            ShortUrl.Instance.DisableExpanding = !this.settings.Common.TinyUrlResolve;
-            ShortUrl.Instance.BitlyAccessToken = this.settings.Common.BitlyAccessToken;
-            ShortUrl.Instance.BitlyId = this.settings.Common.BilyUser;
-            ShortUrl.Instance.BitlyKey = this.settings.Common.BitlyPwd;
 
             // アクセストークンが有効であるか確認する
             // ここが Twitter API への最初のアクセスになるようにすること
@@ -3391,23 +3371,9 @@ namespace OpenTween
             {
                 lock (this.syncObject)
                 {
+                    this.settings.ApplySettings();
                     this.tw.RestrictFavCheck = this.settings.Common.RestrictFavCheck;
                     this.tw.ReadOwnPost = this.settings.Common.ReadOwnPost;
-                    ShortUrl.Instance.DisableExpanding = !this.settings.Common.TinyUrlResolve;
-                    ShortUrl.Instance.BitlyAccessToken = this.settings.Common.BitlyAccessToken;
-                    ShortUrl.Instance.BitlyId = this.settings.Common.BilyUser;
-                    ShortUrl.Instance.BitlyKey = this.settings.Common.BitlyPwd;
-                    TwitterApiConnection.RestApiHost = this.settings.Common.TwitterApiHost;
-
-                    Networking.DefaultTimeout = TimeSpan.FromSeconds(this.settings.Common.DefaultTimeOut);
-                    Networking.UploadImageTimeout = TimeSpan.FromSeconds(this.settings.Common.UploadImageTimeout);
-                    Networking.SetWebProxy(
-                        this.settings.Local.ProxyType,
-                        this.settings.Local.ProxyAddress,
-                        this.settings.Local.ProxyPort,
-                        this.settings.Local.ProxyUser,
-                        this.settings.Local.ProxyPassword);
-                    Networking.ForceIPv4 = this.settings.Common.ForceIPv4;
 
                     this.ImageSelector.Reset(this.tw, this.tw.Configuration);
 
