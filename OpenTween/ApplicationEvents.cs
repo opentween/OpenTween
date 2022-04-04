@@ -53,6 +53,7 @@ namespace OpenTween
             using var errorReportHandler = new ErrorReportHandler();
 
             StartupOptions = new(args);
+            InitializeTraceFrag();
 
             if (!ApplicationPreconditions.CheckAll())
                 return 1;
@@ -85,6 +86,24 @@ namespace OpenTween
             Application.Run(container.MainForm);
 
             return 0;
+        }
+
+        private static void InitializeTraceFrag()
+        {
+            var traceFlag = false;
+
+#if DEBUG
+            traceFlag = true;
+#endif
+
+            if (StartupOptions.ContainsKey("d"))
+                traceFlag = true;
+
+            var version = Version.Parse(MyCommon.FileVersion);
+            if (version.Build != 0)
+                traceFlag = true;
+
+            MyCommon.TraceFlag = traceFlag;
         }
 
         private static bool SetConfigDirectoryPath()

@@ -747,19 +747,6 @@ namespace OpenTween
             }
         }
 
-        private void InitializeTraceFrag()
-        {
-#if DEBUG
-            this.TraceOutToolStripMenuItem.Checked = true;
-            MyCommon.TraceFlag = true;
-#endif
-            if (!MyCommon.FileVersion.EndsWith("0", StringComparison.Ordinal))
-            {
-                this.TraceOutToolStripMenuItem.Checked = true;
-                MyCommon.TraceFlag = true;
-            }
-        }
-
         public TweenMain(SettingManager settingManager, TabInformations tabInfo)
         {
             this.settings = settingManager;
@@ -795,10 +782,7 @@ namespace OpenTween
             this.ignoreConfigSave = true;
             this.Visible = false;
 
-            if (ApplicationEvents.StartupOptions.ContainsKey("d"))
-                MyCommon.TraceFlag = true;
-
-            this.InitializeTraceFrag();
+            this.TraceOutToolStripMenuItem.Checked = MyCommon.TraceFlag;
 
             Microsoft.Win32.SystemEvents.PowerModeChanged += this.SystemEvents_PowerModeChanged;
 
