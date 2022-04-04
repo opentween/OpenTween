@@ -60,9 +60,13 @@ namespace OpenTween
             if (!SetConfigDirectoryPath())
                 return 1;
 
-            SettingManager.Instance.LoadAll();
-
             using var container = new ApplicationContainer();
+
+            var settings = container.Settings;
+            settings.LoadAll();
+
+            var noLimit = StartupOptions.ContainsKey("nolimit");
+            settings.Common.Validate(noLimit);
 
             container.CultureService.Initialize();
 

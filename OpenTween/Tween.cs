@@ -825,56 +825,10 @@ namespace OpenTween
                 this.Font = fontUIGlobal;
             }
 
-            // 不正値チェック
-            if (!ApplicationEvents.StartupOptions.ContainsKey("nolimit"))
-            {
-                if (this.settings.Common.TimelinePeriod < 15 && this.settings.Common.TimelinePeriod > 0)
-                    this.settings.Common.TimelinePeriod = 15;
-
-                if (this.settings.Common.ReplyPeriod < 15 && this.settings.Common.ReplyPeriod > 0)
-                    this.settings.Common.ReplyPeriod = 15;
-
-                if (this.settings.Common.DMPeriod < 15 && this.settings.Common.DMPeriod > 0)
-                    this.settings.Common.DMPeriod = 15;
-
-                if (this.settings.Common.PubSearchPeriod < 30 && this.settings.Common.PubSearchPeriod > 0)
-                    this.settings.Common.PubSearchPeriod = 30;
-
-                if (this.settings.Common.UserTimelinePeriod < 15 && this.settings.Common.UserTimelinePeriod > 0)
-                    this.settings.Common.UserTimelinePeriod = 15;
-
-                if (this.settings.Common.ListsPeriod < 15 && this.settings.Common.ListsPeriod > 0)
-                    this.settings.Common.ListsPeriod = 15;
-            }
-
-            if (!Twitter.VerifyApiResultCount(MyCommon.WORKERTYPE.Timeline, this.settings.Common.CountApi))
-                this.settings.Common.CountApi = 60;
-            if (!Twitter.VerifyApiResultCount(MyCommon.WORKERTYPE.Reply, this.settings.Common.CountApiReply))
-                this.settings.Common.CountApiReply = 40;
-
-            if (this.settings.Common.MoreCountApi != 0 && !Twitter.VerifyMoreApiResultCount(this.settings.Common.MoreCountApi))
-                this.settings.Common.MoreCountApi = 200;
-            if (this.settings.Common.FirstCountApi != 0 && !Twitter.VerifyFirstApiResultCount(this.settings.Common.FirstCountApi))
-                this.settings.Common.FirstCountApi = 100;
-
-            if (this.settings.Common.FavoritesCountApi != 0 && !Twitter.VerifyApiResultCount(MyCommon.WORKERTYPE.Favorites, this.settings.Common.FavoritesCountApi))
-                this.settings.Common.FavoritesCountApi = 40;
-            if (this.settings.Common.ListCountApi != 0 && !Twitter.VerifyApiResultCount(MyCommon.WORKERTYPE.List, this.settings.Common.ListCountApi))
-                this.settings.Common.ListCountApi = 100;
-            if (this.settings.Common.SearchCountApi != 0 && !Twitter.VerifyApiResultCount(MyCommon.WORKERTYPE.PublicSearch, this.settings.Common.SearchCountApi))
-                this.settings.Common.SearchCountApi = 100;
-            if (this.settings.Common.UserTimelineCountApi != 0 && !Twitter.VerifyApiResultCount(MyCommon.WORKERTYPE.UserTimeline, this.settings.Common.UserTimelineCountApi))
-                this.settings.Common.UserTimelineCountApi = 20;
-
-            // 廃止サービスが選択されていた場合ux.nuへ読み替え
-            if (this.settings.Common.AutoShortUrlFirst < 0)
-                this.settings.Common.AutoShortUrlFirst = MyCommon.UrlConverter.Uxnu;
-
             TwitterApiConnection.RestApiHost = this.settings.Common.TwitterApiHost;
             this.tw = new Twitter(this.twitterApi);
 
             // 認証関連
-            if (MyCommon.IsNullOrEmpty(this.settings.Common.Token)) this.settings.Common.UserName = "";
             this.tw.Initialize(this.settings.Common.Token, this.settings.Common.TokenSecret, this.settings.Common.UserName, this.settings.Common.UserId);
 
             this.initial = true;
@@ -1198,15 +1152,6 @@ namespace OpenTween
             this.ignoreConfigSave = false;
             this.TweenMain_Resize(this, EventArgs.Empty);
             if (saveRequired) this.SaveConfigsAll(false);
-
-            foreach (var ua in this.settings.Common.UserAccounts)
-            {
-                if (ua.UserId == 0 && ua.Username.Equals(this.tw.Username, StringComparison.InvariantCultureIgnoreCase))
-                {
-                    ua.UserId = this.tw.UserId;
-                    break;
-                }
-            }
 
             if (firstRun)
             {
