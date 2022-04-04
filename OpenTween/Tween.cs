@@ -227,26 +227,7 @@ namespace OpenTween
         /// <summary>アイコン画像リスト</summary>
         private readonly ImageCache iconCache;
 
-        /// <summary>タスクトレイアイコン：通常時 (At.ico)</summary>
-        private Icon nIconAt = null!;
-
-        /// <summary>タスクトレイアイコン：通信エラー時 (AtRed.ico)</summary>
-        private Icon nIconAtRed = null!;
-
-        /// <summary>タスクトレイアイコン：オフライン時 (AtSmoke.ico)</summary>
-        private Icon nIconAtSmoke = null!;
-
-        /// <summary>タスクトレイアイコン：更新中 (Refresh.ico)</summary>
-        private Icon[] nIconRefresh = new Icon[4];
-
-        /// <summary>未読のあるタブ用アイコン (Tab.ico)</summary>
-        private Icon tabIcon = null!;
-
-        /// <summary>画面左上のアイコン (Main.ico)</summary>
-        private Icon mainIcon = null!;
-
-        private Icon replyIcon = null!;
-        private Icon replyIconBlink = null!;
+        private readonly IconAssetsManager iconAssets;
 
         private readonly ImageList listViewImageList = new(); // ListViewItemの高さ変更用
 
@@ -445,17 +426,6 @@ namespace OpenTween
                 // 後始末
                 this.SearchDialog.Dispose();
                 this.urlDialog.Dispose();
-                this.nIconAt?.Dispose();
-                this.nIconAtRed?.Dispose();
-                this.nIconAtSmoke?.Dispose();
-                foreach (var iconRefresh in this.nIconRefresh)
-                {
-                    iconRefresh?.Dispose();
-                }
-                this.tabIcon?.Dispose();
-                this.mainIcon?.Dispose();
-                this.replyIcon?.Dispose();
-                this.replyIconBlink?.Dispose();
                 this.listViewImageList.Dispose();
                 this.brsHighLight.Dispose();
                 this.brsBackColorMine?.Dispose();
@@ -481,96 +451,6 @@ namespace OpenTween
             Microsoft.Win32.SystemEvents.TimeChanged -= this.SystemEvents_TimeChanged;
 
             this.disposed = true;
-        }
-
-        private void LoadIcons()
-        {
-            // Icons フォルダ以下のアイコンを読み込み（着せ替えアイコン対応）
-            var iconsDir = Path.Combine(Application.StartupPath, "Icons");
-
-            // ウィンドウ左上のアイコン
-            var iconMain = this.LoadIcon(Path.Combine(iconsDir, "MIcon.ico"));
-
-            // タブ見出し未読表示アイコン
-            var iconTab = this.LoadIcon(Path.Combine(iconsDir, "Tab.ico"));
-
-            // タスクトレイ: 通常時アイコン
-            var iconAt = this.LoadIcon(Path.Combine(iconsDir, "At.ico"));
-
-            // タスクトレイ: エラー時アイコン
-            var iconAtRed = this.LoadIcon(Path.Combine(iconsDir, "AtRed.ico"));
-
-            // タスクトレイ: オフライン時アイコン
-            var iconAtSmoke = this.LoadIcon(Path.Combine(iconsDir, "AtSmoke.ico"));
-
-            // タスクトレイ: Reply通知アイコン (最大2枚でアニメーション可能)
-            var iconReply = this.LoadIcon(Path.Combine(iconsDir, "Reply.ico"));
-            var iconReplyBlink = this.LoadIcon(Path.Combine(iconsDir, "ReplyBlink.ico"));
-
-            // タスクトレイ: 更新中アイコン (最大4枚でアニメーション可能)
-            var iconRefresh1 = this.LoadIcon(Path.Combine(iconsDir, "Refresh.ico"));
-            var iconRefresh2 = this.LoadIcon(Path.Combine(iconsDir, "Refresh2.ico"));
-            var iconRefresh3 = this.LoadIcon(Path.Combine(iconsDir, "Refresh3.ico"));
-            var iconRefresh4 = this.LoadIcon(Path.Combine(iconsDir, "Refresh4.ico"));
-
-            // 読み込んだアイコンを設定 (不足するアイコンはデフォルトのものを設定)
-
-            this.mainIcon = iconMain ?? Properties.Resources.MIcon;
-            this.tabIcon = iconTab ?? Properties.Resources.TabIcon;
-            this.nIconAt = iconAt ?? iconMain ?? Properties.Resources.At;
-            this.nIconAtRed = iconAtRed ?? Properties.Resources.AtRed;
-            this.nIconAtSmoke = iconAtSmoke ?? Properties.Resources.AtSmoke;
-
-            if (iconReply != null && iconReplyBlink != null)
-            {
-                this.replyIcon = iconReply;
-                this.replyIconBlink = iconReplyBlink;
-            }
-            else
-            {
-                this.replyIcon = iconReply ?? iconReplyBlink ?? Properties.Resources.Reply;
-                this.replyIconBlink = this.nIconAt;
-            }
-
-            if (iconRefresh1 == null)
-            {
-                this.nIconRefresh = new[]
-                {
-                    Properties.Resources.Refresh, Properties.Resources.Refresh2,
-                    Properties.Resources.Refresh3, Properties.Resources.Refresh4,
-                };
-            }
-            else if (iconRefresh2 == null)
-            {
-                this.nIconRefresh = new[] { iconRefresh1 };
-            }
-            else if (iconRefresh3 == null)
-            {
-                this.nIconRefresh = new[] { iconRefresh1, iconRefresh2 };
-            }
-            else if (iconRefresh4 == null)
-            {
-                this.nIconRefresh = new[] { iconRefresh1, iconRefresh2, iconRefresh3 };
-            }
-            else // iconRefresh1 から iconRefresh4 まで全て揃っている
-            {
-                this.nIconRefresh = new[] { iconRefresh1, iconRefresh2, iconRefresh3, iconRefresh4 };
-            }
-        }
-
-        private Icon? LoadIcon(string filePath)
-        {
-            if (!File.Exists(filePath))
-                return null;
-
-            try
-            {
-                return new Icon(filePath);
-            }
-            catch (Exception)
-            {
-                return null;
-            }
         }
 
         private void InitColumns(ListView list, bool startup)
@@ -738,12 +618,13 @@ namespace OpenTween
             }
         }
 
-        public TweenMain(SettingManager settingManager, TabInformations tabInfo, Twitter twitter, ImageCache imageCache)
+        public TweenMain(SettingManager settingManager, TabInformations tabInfo, Twitter twitter, ImageCache imageCache, IconAssetsManager iconAssets)
         {
             this.settings = settingManager;
             this.statuses = tabInfo;
             this.tw = twitter;
             this.iconCache = imageCache;
+            this.iconAssets = iconAssets;
 
             this.InitializeComponent();
 
@@ -782,10 +663,9 @@ namespace OpenTween
             Regex.CacheSize = 100;
 
             // アイコン設定
-            this.LoadIcons();
-            this.Icon = this.mainIcon;              // メインフォーム（TweenMain）
-            this.NotifyIcon1.Icon = this.nIconAt;      // タスクトレイ
-            this.TabImage.Images.Add(this.tabIcon);    // タブ見出し
+            this.Icon = this.iconAssets.IconMain; // メインフォーム（TweenMain）
+            this.NotifyIcon1.Icon = this.iconAssets.IconTray; // タスクトレイ
+            this.TabImage.Images.Add(this.iconAssets.IconTab); // タブ見出し
 
             // <<<<<<<<<設定関連>>>>>>>>>
             // 設定読み出し
@@ -3324,7 +3204,7 @@ namespace OpenTween
             var result = DialogResult.Abort;
 
             using var settingDialog = new AppendSettingDialog();
-            settingDialog.Icon = this.mainIcon;
+            settingDialog.Icon = this.iconAssets.IconMain;
             settingDialog.Owner = this;
             settingDialog.ShowInTaskbar = showTaskbarIcon;
             settingDialog.IntervalChanged += this.TimerInterval_Changed;
@@ -7370,10 +7250,10 @@ namespace OpenTween
             if (busyTasks)
             {
                 this.iconCnt += 1;
-                if (this.iconCnt >= this.nIconRefresh.Length)
+                if (this.iconCnt >= this.iconAssets.IconTrayRefresh.Length)
                     this.iconCnt = 0;
 
-                this.NotifyIcon1.Icon = this.nIconRefresh[this.iconCnt];
+                this.NotifyIcon1.Icon = this.iconAssets.IconTrayRefresh[this.iconCnt];
                 this.myStatusError = false;
                 EnableTasktrayAnimation();
                 return;
@@ -7397,7 +7277,7 @@ namespace OpenTween
                 if (this.blinkCnt == 0)
                     this.blink = !this.blink;
 
-                this.NotifyIcon1.Icon = this.blink ? this.replyIconBlink : this.replyIcon;
+                this.NotifyIcon1.Icon = this.blink ? this.iconAssets.IconTrayReplyBlink : this.iconAssets.IconTrayReply;
                 EnableTasktrayAnimation();
                 return;
             }
@@ -7411,13 +7291,13 @@ namespace OpenTween
             // 優先度：リプライ→エラー→オフライン→アイドル
             // エラーは更新アイコンでクリアされる
             if (replyIconType == MyCommon.REPLY_ICONSTATE.StaticIcon && reply)
-                this.NotifyIcon1.Icon = this.replyIcon;
+                this.NotifyIcon1.Icon = this.iconAssets.IconTrayReply;
             else if (this.myStatusError)
-                this.NotifyIcon1.Icon = this.nIconAtRed;
+                this.NotifyIcon1.Icon = this.iconAssets.IconTrayError;
             else if (this.myStatusOnline)
-                this.NotifyIcon1.Icon = this.nIconAt;
+                this.NotifyIcon1.Icon = this.iconAssets.IconTray;
             else
-                this.NotifyIcon1.Icon = this.nIconAtSmoke;
+                this.NotifyIcon1.Icon = this.iconAssets.IconTrayOffline;
         }
 
         private void TimerRefreshIcon_Tick(object sender, EventArgs e)

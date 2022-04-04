@@ -48,6 +48,9 @@ namespace OpenTween
         public ImageCache ImageCache
             => this.imageCacheLazy.Value;
 
+        public IconAssetsManager IconAssetsManager
+            => this.iconAssetsManagerLazy.Value;
+
         public TweenMain MainForm
             => this.mainFormLazy.Value;
 
@@ -55,6 +58,7 @@ namespace OpenTween
         private readonly DisposableLazy<TwitterApi> twitterApiLazy;
         private readonly DisposableLazy<Twitter> twitterLazy;
         private readonly DisposableLazy<ImageCache> imageCacheLazy;
+        private readonly DisposableLazy<IconAssetsManager> iconAssetsManagerLazy;
         private readonly DisposableLazy<TweenMain> mainFormLazy;
 
         public ApplicationContainer()
@@ -63,6 +67,7 @@ namespace OpenTween
             this.twitterApiLazy = new(this.CreateTwitterApi);
             this.twitterLazy = new(this.CreateTwitter);
             this.imageCacheLazy = new(this.CreateImageCache);
+            this.iconAssetsManagerLazy = new(this.CreateIconAssetsManager);
             this.mainFormLazy = new(this.CreateTweenMain);
         }
 
@@ -78,8 +83,11 @@ namespace OpenTween
         private ImageCache CreateImageCache()
             => new();
 
+        private IconAssetsManager CreateIconAssetsManager()
+            => new();
+
         private TweenMain CreateTweenMain()
-            => new(this.Settings, this.TabInfo, this.Twitter, this.ImageCache);
+            => new(this.Settings, this.TabInfo, this.Twitter, this.ImageCache, this.IconAssetsManager);
 
         public void Dispose()
         {
@@ -90,6 +98,7 @@ namespace OpenTween
             this.mainFormLazy.Dispose();
             this.twitterLazy.Dispose();
             this.twitterApiLazy.Dispose();
+            this.iconAssetsManagerLazy.Dispose();
             this.imageCacheLazy.Dispose();
         }
     }
