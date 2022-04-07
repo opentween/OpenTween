@@ -157,72 +157,7 @@ namespace OpenTween
         public HashtagManage HashMgr = null!;
 
         // 表示フォント、色、アイコン
-
-        /// <summary>未読用フォント</summary>
-        private Font fntUnread = null!;
-
-        /// <summary>未読用文字色</summary>
-        private Color clUnread;
-
-        /// <summary>既読用フォント</summary>
-        private Font fntReaded = null!;
-
-        /// <summary>既読用文字色</summary>
-        private Color clReaded;
-
-        /// <summary>Fav用文字色</summary>
-        private Color clFav;
-
-        /// <summary>片思い用文字色</summary>
-        private Color clOWL;
-
-        /// <summary>Retweet用文字色</summary>
-        private Color clRetweet;
-
-        /// <summary>選択中の行用文字色</summary>
-        private readonly Color clHighLight = Color.FromKnownColor(KnownColor.HighlightText);
-
-        /// <summary>発言詳細部用フォント</summary>
-        private Font fntDetail = null!;
-
-        /// <summary>発言詳細部用色</summary>
-        private Color clDetail;
-
-        /// <summary>発言詳細部用リンク文字色</summary>
-        private Color clDetailLink;
-
-        /// <summary>発言詳細部用背景色</summary>
-        private Color clDetailBackcolor;
-
-        /// <summary>自分の発言用背景色</summary>
-        private Color clSelf;
-
-        /// <summary>自分宛返信用背景色</summary>
-        private Color clAtSelf;
-
-        /// <summary>選択発言者の他の発言用背景色</summary>
-        private Color clTarget;
-
-        /// <summary>選択発言中の返信先用背景色</summary>
-        private Color clAtTarget;
-
-        /// <summary>選択発言者への返信発言用背景色</summary>
-        private Color clAtFromTarget;
-
-        /// <summary>選択発言の唯一＠先</summary>
-        private Color clAtTo;
-
-        /// <summary>リスト部通常発言背景色</summary>
-        private Color clListBackcolor;
-
-        /// <summary>入力欄背景色</summary>
-        private Color clInputBackcolor;
-
-        /// <summary>入力欄文字色</summary>
-        private Color clInputFont;
-
-        /// <summary>入力欄フォント</summary>
-        private Font fntInputFont = null!;
+        private ThemeManager themeManager;
 
         /// <summary>アイコン画像リスト</summary>
         private readonly ImageCache iconCache;
@@ -251,13 +186,6 @@ namespace OpenTween
 
         // 以下DrawItem関連
         private readonly SolidBrush brsHighLight = new(Color.FromKnownColor(KnownColor.Highlight));
-        private SolidBrush brsBackColorMine = null!;
-        private SolidBrush brsBackColorAt = null!;
-        private SolidBrush brsBackColorYou = null!;
-        private SolidBrush brsBackColorAtYou = null!;
-        private SolidBrush brsBackColorAtFromTarget = null!;
-        private SolidBrush brsBackColorAtTo = null!;
-        private SolidBrush brsBackColorNone = null!;
 
         /// <summary>Listにフォーカスないときの選択行の背景色</summary>
         private readonly SolidBrush brsDeactiveSelection = new(Color.FromKnownColor(KnownColor.ButtonFace));
@@ -428,13 +356,7 @@ namespace OpenTween
                 this.urlDialog.Dispose();
                 this.listViewImageList.Dispose();
                 this.brsHighLight.Dispose();
-                this.brsBackColorMine?.Dispose();
-                this.brsBackColorAt?.Dispose();
-                this.brsBackColorYou?.Dispose();
-                this.brsBackColorAtYou?.Dispose();
-                this.brsBackColorAtFromTarget?.Dispose();
-                this.brsBackColorAtTo?.Dispose();
-                this.brsBackColorNone?.Dispose();
+                this.themeManager.Dispose();
                 this.brsDeactiveSelection?.Dispose();
                 this.sfTab.Dispose();
 
@@ -636,8 +558,6 @@ namespace OpenTween
 
             this.hookGlobalHotkey = new HookGlobalHotkey(this);
 
-            this.tweetDetailsView.Owner = this;
-
             this.hookGlobalHotkey.HotkeyPressed += this.HookGlobalHotkey_HotkeyPressed;
             this.gh.NotifyClicked += this.GrowlHelper_Callback;
 
@@ -673,14 +593,6 @@ namespace OpenTween
 
             // 現在の DPI と設定保存時の DPI との比を取得する
             var configScaleFactor = this.settings.Local.GetConfigScaleFactor(this.CurrentAutoScaleDimensions);
-
-            // UIフォント設定
-            var fontUIGlobal = this.settings.Local.FontUIGlobal;
-            if (fontUIGlobal != null)
-            {
-                OTBaseForm.GlobalFont = fontUIGlobal;
-                this.Font = fontUIGlobal;
-            }
 
             // 認証関連
             this.tw.Initialize(this.settings.Common.Token, this.settings.Common.TokenSecret, this.settings.Common.UserName, this.settings.Common.UserId);
@@ -747,39 +659,9 @@ namespace OpenTween
                                     this.settings.Common.HashIsNotAddToAtReply);
             if (!MyCommon.IsNullOrEmpty(this.HashMgr.UseHash) && this.HashMgr.IsPermanent) this.HashStripSplitButton.Text = this.HashMgr.UseHash;
 
-            // アイコンリスト作成
-            this.tweetDetailsView.IconCache = this.iconCache;
-
             // フォント＆文字色＆背景色保持
-            this.fntUnread = this.settings.Local.FontUnread;
-            this.clUnread = this.settings.Local.ColorUnread;
-            this.fntReaded = this.settings.Local.FontRead;
-            this.clReaded = this.settings.Local.ColorRead;
-            this.clFav = this.settings.Local.ColorFav;
-            this.clOWL = this.settings.Local.ColorOWL;
-            this.clRetweet = this.settings.Local.ColorRetweet;
-            this.fntDetail = this.settings.Local.FontDetail;
-            this.clDetail = this.settings.Local.ColorDetail;
-            this.clDetailLink = this.settings.Local.ColorDetailLink;
-            this.clDetailBackcolor = this.settings.Local.ColorDetailBackcolor;
-            this.clSelf = this.settings.Local.ColorSelf;
-            this.clAtSelf = this.settings.Local.ColorAtSelf;
-            this.clTarget = this.settings.Local.ColorTarget;
-            this.clAtTarget = this.settings.Local.ColorAtTarget;
-            this.clAtFromTarget = this.settings.Local.ColorAtFromTarget;
-            this.clAtTo = this.settings.Local.ColorAtTo;
-            this.clListBackcolor = this.settings.Local.ColorListBackcolor;
-            this.clInputBackcolor = this.settings.Local.ColorInputBackcolor;
-            this.clInputFont = this.settings.Local.ColorInputFont;
-            this.fntInputFont = this.settings.Local.FontInputFont;
-
-            this.brsBackColorMine = new SolidBrush(this.clSelf);
-            this.brsBackColorAt = new SolidBrush(this.clAtSelf);
-            this.brsBackColorYou = new SolidBrush(this.clTarget);
-            this.brsBackColorAtYou = new SolidBrush(this.clAtTarget);
-            this.brsBackColorAtFromTarget = new SolidBrush(this.clAtFromTarget);
-            this.brsBackColorAtTo = new SolidBrush(this.clAtTo);
-            this.brsBackColorNone = new SolidBrush(this.clListBackcolor);
+            this.themeManager = new(this.settings.Local);
+            this.tweetDetailsView.Initialize(this, this.iconCache, this.themeManager);
 
             // StringFormatオブジェクトへの事前設定
             this.sfTab.Alignment = StringAlignment.Center;
@@ -850,8 +732,8 @@ namespace OpenTween
             this.PlaySoundMenuItem.Checked = this.settings.Common.PlaySound;
             this.PlaySoundFileMenuItem.Checked = this.settings.Common.PlaySound;
             // 入力欄
-            this.StatusText.Font = this.fntInputFont;
-            this.StatusText.ForeColor = this.clInputFont;
+            this.StatusText.Font = this.themeManager.FontInputFont;
+            this.StatusText.ForeColor = this.themeManager.ColorInputFont;
 
             // SplitContainer2.Panel2MinSize を一行表示の入力欄の高さに合わせる (MS UI Gothic 12pt (96dpi) の場合は 19px)
             this.StatusText.Multiline = false; // this.settings.Local.StatusMultiline の設定は後で反映される
@@ -999,13 +881,16 @@ namespace OpenTween
         {
             var htmlTemplate = this.settings.Common.IsMonospace ? DetailHtmlFormatTemplateMono : DetailHtmlFormatTemplateNormal;
 
+            static string ColorToRGBString(Color color)
+                => $"{color.R},{color.G},{color.B}";
+
             this.detailHtmlFormatPreparedTemplate = htmlTemplate
-                .Replace("%FONT_FAMILY%", this.fntDetail.Name)
-                .Replace("%FONT_SIZE%", this.fntDetail.Size.ToString())
-                .Replace("%FONT_COLOR%", $"{this.clDetail.R},{this.clDetail.G},{this.clDetail.B}")
-                .Replace("%LINK_COLOR%", $"{this.clDetailLink.R},{this.clDetailLink.G},{this.clDetailLink.B}")
-                .Replace("%BG_COLOR%", $"{this.clDetailBackcolor.R},{this.clDetailBackcolor.G},{this.clDetailBackcolor.B}")
-                .Replace("%BG_REPLY_COLOR%", $"{this.clAtTo.R}, {this.clAtTo.G}, {this.clAtTo.B}");
+                .Replace("%FONT_FAMILY%", this.themeManager.FontDetail.Name)
+                .Replace("%FONT_SIZE%", this.themeManager.FontDetail.Size.ToString())
+                .Replace("%FONT_COLOR%", ColorToRGBString(this.themeManager.ColorDetail))
+                .Replace("%LINK_COLOR%", ColorToRGBString(this.themeManager.ColorDetailLink))
+                .Replace("%BG_COLOR%", ColorToRGBString(this.themeManager.ColorDetailBackcolor))
+                .Replace("%BG_REPLY_COLOR%", ColorToRGBString(this.themeManager.ColorAtTo));
         }
 
         private void ListTab_DrawItem(object sender, DrawItemEventArgs e)
@@ -1681,12 +1566,12 @@ namespace OpenTween
             // フォント
             if (read)
             {
-                fnt = this.fntReaded;
+                fnt = this.themeManager.FontReaded;
                 star = "";
             }
             else
             {
-                fnt = this.fntUnread;
+                fnt = this.themeManager.FontUnread;
                 star = "★";
             }
             if (item.SubItems[5].Text != star)
@@ -1695,15 +1580,15 @@ namespace OpenTween
             // 文字色
             Color cl;
             if (post.IsFav)
-                cl = this.clFav;
+                cl = this.themeManager.ColorFav;
             else if (post.RetweetedId != null)
-                cl = this.clRetweet;
+                cl = this.themeManager.ColorRetweet;
             else if (post.IsOwl && (post.IsDm || this.settings.Common.OneWayLove))
-                cl = this.clOWL;
+                cl = this.themeManager.ColorOWL;
             else if (read || !this.settings.Common.UseUnreadStyle)
-                cl = this.clReaded;
+                cl = this.themeManager.ColorRead;
             else
-                cl = this.clUnread;
+                cl = this.themeManager.ColorUnread;
 
             if (dList == null || item.Index == -1)
             {
@@ -1772,25 +1657,25 @@ namespace OpenTween
             Color cl;
             if (targetPost.StatusId == basePost.InReplyToStatusId)
                 // @先
-                cl = this.clAtTo;
+                cl = this.themeManager.ColorAtTo;
             else if (targetPost.IsMe)
                 // 自分=発言者
-                cl = this.clSelf;
+                cl = this.themeManager.ColorSelf;
             else if (targetPost.IsReply)
                 // 自分宛返信
-                cl = this.clAtSelf;
+                cl = this.themeManager.ColorAtSelf;
             else if (basePost.ReplyToList.Any(x => x.UserId == targetPost.UserId))
                 // 返信先
-                cl = this.clAtFromTarget;
+                cl = this.themeManager.ColorAtFromTarget;
             else if (targetPost.ReplyToList.Any(x => x.UserId == basePost.UserId))
                 // その人への返信
-                cl = this.clAtTarget;
+                cl = this.themeManager.ColorAtTarget;
             else if (targetPost.UserId == basePost.UserId)
                 // 発言者
-                cl = this.clTarget;
+                cl = this.themeManager.ColorTarget;
             else
                 // その他
-                cl = this.clListBackcolor;
+                cl = this.themeManager.ColorListBackcolor;
 
             return cl;
         }
@@ -3313,47 +3198,19 @@ namespace OpenTween
                     this.NotifyFileMenuItem.Checked = this.settings.Common.NewAllPop;
                     this.PlaySoundMenuItem.Checked = this.settings.Common.PlaySound;
                     this.PlaySoundFileMenuItem.Checked = this.settings.Common.PlaySound;
-                    this.fntUnread = this.settings.Local.FontUnread;
-                    this.clUnread = this.settings.Local.ColorUnread;
-                    this.fntReaded = this.settings.Local.FontRead;
-                    this.clReaded = this.settings.Local.ColorRead;
-                    this.clFav = this.settings.Local.ColorFav;
-                    this.clOWL = this.settings.Local.ColorOWL;
-                    this.clRetweet = this.settings.Local.ColorRetweet;
-                    this.fntDetail = this.settings.Local.FontDetail;
-                    this.clDetail = this.settings.Local.ColorDetail;
-                    this.clDetailLink = this.settings.Local.ColorDetailLink;
-                    this.clDetailBackcolor = this.settings.Local.ColorDetailBackcolor;
-                    this.clSelf = this.settings.Local.ColorSelf;
-                    this.clAtSelf = this.settings.Local.ColorAtSelf;
-                    this.clTarget = this.settings.Local.ColorTarget;
-                    this.clAtTarget = this.settings.Local.ColorAtTarget;
-                    this.clAtFromTarget = this.settings.Local.ColorAtFromTarget;
-                    this.clAtTo = this.settings.Local.ColorAtTo;
-                    this.clListBackcolor = this.settings.Local.ColorListBackcolor;
-                    this.clInputBackcolor = this.settings.Local.ColorInputBackcolor;
-                    this.clInputFont = this.settings.Local.ColorInputFont;
-                    this.fntInputFont = this.settings.Local.FontInputFont;
-                    this.brsBackColorMine.Dispose();
-                    this.brsBackColorAt.Dispose();
-                    this.brsBackColorYou.Dispose();
-                    this.brsBackColorAtYou.Dispose();
-                    this.brsBackColorAtFromTarget.Dispose();
-                    this.brsBackColorAtTo.Dispose();
-                    this.brsBackColorNone.Dispose();
-                    this.brsBackColorMine = new SolidBrush(this.clSelf);
-                    this.brsBackColorAt = new SolidBrush(this.clAtSelf);
-                    this.brsBackColorYou = new SolidBrush(this.clTarget);
-                    this.brsBackColorAtYou = new SolidBrush(this.clAtTarget);
-                    this.brsBackColorAtFromTarget = new SolidBrush(this.clAtFromTarget);
-                    this.brsBackColorAtTo = new SolidBrush(this.clAtTo);
-                    this.brsBackColorNone = new SolidBrush(this.clListBackcolor);
+
+                    var newTheme = new ThemeManager(this.settings.Local);
+                    (var oldTheme, this.themeManager) = (this.themeManager, newTheme);
+                    this.tweetDetailsView.Theme = this.themeManager;
+                    oldTheme.Dispose();
 
                     try
                     {
-                        if (this.StatusText.Focused) this.StatusText.BackColor = this.clInputBackcolor;
-                        this.StatusText.Font = this.fntInputFont;
-                        this.StatusText.ForeColor = this.clInputFont;
+                        if (this.StatusText.Focused)
+                            this.StatusText.BackColor = this.themeManager.ColorInputBackcolor;
+
+                        this.StatusText.Font = this.themeManager.FontInputFont;
+                        this.StatusText.ForeColor = this.themeManager.ColorInputFont;
                     }
                     catch (Exception ex)
                     {
@@ -3406,8 +3263,8 @@ namespace OpenTween
                             using (ControlTransaction.Update(lst))
                             {
                                 lst.GridLines = this.settings.Common.ShowGrid;
-                                lst.Font = this.fntReaded;
-                                lst.BackColor = this.clListBackcolor;
+                                lst.Font = this.themeManager.FontReaded;
+                                lst.BackColor = this.themeManager.ColorListBackcolor;
 
                                 if (this.iconCol != oldIconCol)
                                     this.ResetColumns(lst);
@@ -3812,8 +3669,8 @@ namespace OpenTween
                 listCustom.View = View.Details;
                 listCustom.OwnerDraw = true;
                 listCustom.VirtualMode = true;
-                listCustom.Font = this.fntReaded;
-                listCustom.BackColor = this.clListBackcolor;
+                listCustom.Font = this.themeManager.FontReaded;
+                listCustom.BackColor = this.themeManager.ColorListBackcolor;
 
                 listCustom.GridLines = this.settings.Common.ShowGrid;
                 listCustom.AllowDrop = true;
@@ -4180,7 +4037,7 @@ namespace OpenTween
             }
             else
             {
-                this.StatusText.ForeColor = this.clInputFont;
+                this.StatusText.ForeColor = this.themeManager.ColorInputFont;
             }
 
             this.StatusText.AccessibleDescription = string.Format(Properties.Resources.StatusText_AccessibleDescription, pLen);
@@ -4586,23 +4443,23 @@ namespace OpenTween
             if (e.State == 0) return;
             e.DrawDefault = false;
 
-            SolidBrush brs2;
+            Brush brs2;
             if (!e.Item.Selected) // e.ItemStateでうまく判定できない？？？
             {
-                if (e.Item.BackColor == this.clSelf)
-                    brs2 = this.brsBackColorMine;
-                else if (e.Item.BackColor == this.clAtSelf)
-                    brs2 = this.brsBackColorAt;
-                else if (e.Item.BackColor == this.clTarget)
-                    brs2 = this.brsBackColorYou;
-                else if (e.Item.BackColor == this.clAtTarget)
-                    brs2 = this.brsBackColorAtYou;
-                else if (e.Item.BackColor == this.clAtFromTarget)
-                    brs2 = this.brsBackColorAtFromTarget;
-                else if (e.Item.BackColor == this.clAtTo)
-                    brs2 = this.brsBackColorAtTo;
+                if (e.Item.BackColor == this.themeManager.ColorSelf)
+                    brs2 = this.themeManager.BrushSelf;
+                else if (e.Item.BackColor == this.themeManager.ColorAtSelf)
+                    brs2 = this.themeManager.BrushAtSelf;
+                else if (e.Item.BackColor == this.themeManager.ColorTarget)
+                    brs2 = this.themeManager.BrushTarget;
+                else if (e.Item.BackColor == this.themeManager.ColorAtTarget)
+                    brs2 = this.themeManager.BrushAtTarget;
+                else if (e.Item.BackColor == this.themeManager.ColorAtFromTarget)
+                    brs2 = this.themeManager.BrushAtFromTarget;
+                else if (e.Item.BackColor == this.themeManager.ColorAtTo)
+                    brs2 = this.themeManager.BrushAtTo;
                 else
-                    brs2 = this.brsBackColorNone;
+                    brs2 = this.themeManager.BrushListBackcolor;
             }
             else
             {
@@ -4654,8 +4511,8 @@ namespace OpenTween
                 if (rct.Width > 0)
                 {
                     var color = (!e.Item.Selected) ? e.Item.ForeColor : // 選択されていない行
-                        ((Control)sender).Focused ? this.clHighLight : // 選択中の行
-                        this.clUnread;
+                        ((Control)sender).Focused ? this.themeManager.ColorHighLight : // 選択中の行
+                        this.themeManager.ColorUnread;
 
                     if (this.iconCol)
                     {
@@ -6726,14 +6583,11 @@ namespace OpenTween
         {
             // フォーカスの戻り先を StatusText に設定
             this.Tag = this.StatusText;
-            this.StatusText.BackColor = this.clInputBackcolor;
+            this.StatusText.BackColor = this.themeManager.ColorInputBackcolor;
         }
 
         public Color InputBackColor
-        {
-            get => this.clInputBackcolor;
-            set => this.clInputBackcolor = value;
-        }
+            => this.themeManager.ColorInputBackcolor;
 
         private void StatusText_Leave(object sender, EventArgs e)
         {
@@ -6835,28 +6689,6 @@ namespace OpenTween
                 this.settings.Local.PreviewDistance = this.mySpDis3;
                 this.settings.Local.StatusMultiline = this.StatusText.Multiline;
                 this.settings.Local.StatusTextHeight = this.mySpDis2;
-
-                this.settings.Local.FontUnread = this.fntUnread;
-                this.settings.Local.ColorUnread = this.clUnread;
-                this.settings.Local.FontRead = this.fntReaded;
-                this.settings.Local.ColorRead = this.clReaded;
-                this.settings.Local.FontDetail = this.fntDetail;
-                this.settings.Local.ColorDetail = this.clDetail;
-                this.settings.Local.ColorDetailBackcolor = this.clDetailBackcolor;
-                this.settings.Local.ColorDetailLink = this.clDetailLink;
-                this.settings.Local.ColorFav = this.clFav;
-                this.settings.Local.ColorOWL = this.clOWL;
-                this.settings.Local.ColorRetweet = this.clRetweet;
-                this.settings.Local.ColorSelf = this.clSelf;
-                this.settings.Local.ColorAtSelf = this.clAtSelf;
-                this.settings.Local.ColorTarget = this.clTarget;
-                this.settings.Local.ColorAtTarget = this.clAtTarget;
-                this.settings.Local.ColorAtFromTarget = this.clAtFromTarget;
-                this.settings.Local.ColorAtTo = this.clAtTo;
-                this.settings.Local.ColorListBackcolor = this.clListBackcolor;
-                this.settings.Local.ColorInputBackcolor = this.clInputBackcolor;
-                this.settings.Local.ColorInputFont = this.clInputFont;
-                this.settings.Local.FontInputFont = this.fntInputFont;
 
                 if (this.ignoreConfigSave) return;
                 this.settings.SaveLocal();

@@ -47,16 +47,24 @@ namespace OpenTween
 {
     public partial class TweetDetailsView : UserControl
     {
-        public TweenMain Owner { get; set; } = null!;
+        private TweenMain Owner
+            => this.owner ?? throw this.NotInitializedException();
 
         /// <summary>プロフィール画像のキャッシュ</summary>
-        public ImageCache IconCache { get; set; } = null!;
+        private ImageCache IconCache
+            => this.iconCache ?? throw this.NotInitializedException();
 
         /// <summary><see cref="PostClass"/> のダンプを表示するか</summary>
         public bool DumpPostClass { get; set; }
 
         /// <summary>現在表示中の発言</summary>
         public PostClass? CurrentPost { get; private set; }
+
+        public ThemeManager Theme
+        {
+            get => this.themeManager ?? throw this.NotInitializedException();
+            set => this.themeManager = value;
+        }
 
         [DefaultValue(false)]
         public new bool TabStop
@@ -70,6 +78,10 @@ namespace OpenTween
 
         /// <summary><see cref="ContextMenuPostBrowser"/> 展開時の <see cref="PostBrowser"/>.StatusText を保持するフィールド</summary>
         private string postBrowserStatusText = "";
+
+        private TweenMain? owner;
+        private ImageCache? iconCache;
+        private ThemeManager? themeManager;
 
         public TweetDetailsView()
         {
@@ -86,6 +98,16 @@ namespace OpenTween
             new InternetSecurityManager(this.PostBrowser);
             this.PostBrowser.AllowWebBrowserDrop = false;  // COMException を回避するため、ActiveX の初期化が終わってから設定する
         }
+
+        public void Initialize(TweenMain owner, ImageCache iconCache, ThemeManager themeManager)
+        {
+            this.owner = owner;
+            this.iconCache = iconCache;
+            this.themeManager = themeManager;
+        }
+
+        private Exception NotInitializedException()
+            => new InvalidOperationException("Cannot call before initialization");
 
         public void ClearPostBrowser()
             => this.PostBrowser.DocumentText = this.Owner.CreateDetailHtml("");
@@ -129,11 +151,11 @@ namespace OpenTween
 
                 var nameForeColor = SystemColors.ControlText;
                 if (post.IsOwl && (SettingManager.Instance.Common.OneWayLove || post.IsDm))
-                    nameForeColor = SettingManager.Instance.Local.ColorOWL;
+                    nameForeColor = this.Theme.ColorOWL;
                 if (post.RetweetedId != null)
-                    nameForeColor = SettingManager.Instance.Local.ColorRetweet;
+                    nameForeColor = this.Theme.ColorRetweet;
                 if (post.IsFav)
-                    nameForeColor = SettingManager.Instance.Local.ColorFav;
+                    nameForeColor = this.Theme.ColorFav;
 
                 this.AuthorNameLinkLabel.LinkColor = nameForeColor;
                 this.AuthorNameLinkLabel.ActiveLinkColor = nameForeColor;
@@ -219,9 +241,9 @@ namespace OpenTween
             if (tags.Count > 0)
             {
                 if (forward)
-                    tags[0].ScrollTop += SettingManager.Instance.Local.FontDetail.Height;
+                    tags[0].ScrollTop += this.Theme.FontDetail.Height;
                 else
-                    tags[0].ScrollTop -= SettingManager.Instance.Local.FontDetail.Height;
+                    tags[0].ScrollTop -= this.Theme.FontDetail.Height;
             }
         }
 
@@ -234,9 +256,9 @@ namespace OpenTween
             if (tags.Count > 0)
             {
                 if (forward)
-                    tags[0].ScrollTop += this.PostBrowser.ClientRectangle.Height - SettingManager.Instance.Local.FontDetail.Height;
+                    tags[0].ScrollTop += this.PostBrowser.ClientRectangle.Height - this.Theme.FontDetail.Height;
                 else
-                    tags[0].ScrollTop -= this.PostBrowser.ClientRectangle.Height - SettingManager.Instance.Local.FontDetail.Height;
+                    tags[0].ScrollTop -= this.PostBrowser.ClientRectangle.Height - this.Theme.FontDetail.Height;
             }
         }
 

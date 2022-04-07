@@ -70,6 +70,7 @@ namespace OpenTween
             var noLimit = StartupOptions.ContainsKey("nolimit");
             settings.Common.Validate(noLimit);
 
+            ThemeManager.ApplyGlobalUIFont(settings.Local);
             container.CultureService.Initialize();
 
             Networking.Initialize();
