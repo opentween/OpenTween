@@ -36,7 +36,7 @@ using OpenTween.Connection;
 
 namespace OpenTween
 {
-    public class SettingLocal : SettingBase<SettingLocal>, IDisposable
+    public class SettingLocal : SettingBase<SettingLocal>
     {
         #region Settingクラス基本
         public static SettingLocal Load()
@@ -86,197 +86,47 @@ namespace OpenTween
         public int StatusTextHeight = 38;
         public int PreviewDistance = -1;
 
-        [XmlIgnore]
-        public Font FontUnread = new(SystemFonts.DefaultFont, FontStyle.Bold | FontStyle.Underline);
+        public string? FontUnreadStr { get; set; }
 
-        public string FontUnreadStr
-        {
-            get => this.FontToString(this.FontUnread);
-            set => this.FontUnread = this.StringToFont(value);
-        }
+        public string? ColorUnreadStr { get; set; }
 
-        [XmlIgnore]
-        public Color ColorUnread = System.Drawing.SystemColors.ControlText;
+        public string? FontReadStr { get; set; }
 
-        public string ColorUnreadStr
-        {
-            get => this.ColorToString(this.ColorUnread);
-            set => this.ColorUnread = this.StringToColor(value);
-        }
+        public string? ColorReadStr { get; set; }
 
-        [XmlIgnore]
-        public Font FontRead = System.Drawing.SystemFonts.DefaultFont;
+        public string? ColorFavStr { get; set; }
 
-        public string FontReadStr
-        {
-            get => this.FontToString(this.FontRead);
-            set => this.FontRead = this.StringToFont(value);
-        }
+        public string? ColorOWLStr { get; set; }
 
-        [XmlIgnore]
-        public Color ColorRead = System.Drawing.SystemColors.ControlText;
+        public string? ColorRetweetStr { get; set; }
 
-        public string ColorReadStr
-        {
-            get => this.ColorToString(this.ColorRead);
-            set => this.ColorRead = this.StringToColor(value);
-        }
+        public string? FontDetailStr { get; set; }
 
-        [XmlIgnore]
-        public Color ColorFav = Color.FromKnownColor(System.Drawing.KnownColor.Red);
+        public string? ColorSelfStr { get; set; }
 
-        public string ColorFavStr
-        {
-            get => this.ColorToString(this.ColorFav);
-            set => this.ColorFav = this.StringToColor(value);
-        }
+        public string? ColorAtSelfStr { get; set; }
 
-        [XmlIgnore]
-        public Color ColorOWL = Color.FromKnownColor(System.Drawing.KnownColor.Blue);
+        public string? ColorTargetStr { get; set; }
 
-        public string ColorOWLStr
-        {
-            get => this.ColorToString(this.ColorOWL);
-            set => this.ColorOWL = this.StringToColor(value);
-        }
+        public string? ColorAtTargetStr { get; set; }
 
-        [XmlIgnore]
-        public Color ColorRetweet = Color.FromKnownColor(System.Drawing.KnownColor.Green);
+        public string? ColorAtFromTargetStr { get; set; }
 
-        public string ColorRetweetStr
-        {
-            get => this.ColorToString(this.ColorRetweet);
-            set => this.ColorRetweet = this.StringToColor(value);
-        }
+        public string? ColorAtToStr { get; set; }
 
-        [XmlIgnore]
-        public Font FontDetail = System.Drawing.SystemFonts.DefaultFont;
+        public string? ColorInputBackcolorStr { get; set; }
 
-        public string FontDetailStr
-        {
-            get => this.FontToString(this.FontDetail);
-            set => this.FontDetail = this.StringToFont(value);
-        }
+        public string? ColorInputFontStr { get; set; }
 
-        [XmlIgnore]
-        public Color ColorSelf = Color.FromKnownColor(System.Drawing.KnownColor.AliceBlue);
+        public string? FontInputFontStr { get; set; }
 
-        public string ColorSelfStr
-        {
-            get => this.ColorToString(this.ColorSelf);
-            set => this.ColorSelf = this.StringToColor(value);
-        }
+        public string? ColorListBackcolorStr { get; set; }
 
-        [XmlIgnore]
-        public Color ColorAtSelf = Color.FromKnownColor(System.Drawing.KnownColor.AntiqueWhite);
+        public string? ColorDetailBackcolorStr { get; set; }
 
-        public string ColorAtSelfStr
-        {
-            get => this.ColorToString(this.ColorAtSelf);
-            set => this.ColorAtSelf = this.StringToColor(value);
-        }
+        public string? ColorDetailStr { get; set; }
 
-        [XmlIgnore]
-        public Color ColorTarget = Color.FromKnownColor(System.Drawing.KnownColor.LemonChiffon);
-
-        public string ColorTargetStr
-        {
-            get => this.ColorToString(this.ColorTarget);
-            set => this.ColorTarget = this.StringToColor(value);
-        }
-
-        [XmlIgnore]
-        public Color ColorAtTarget = Color.FromKnownColor(System.Drawing.KnownColor.LavenderBlush);
-
-        public string ColorAtTargetStr
-        {
-            get => this.ColorToString(this.ColorAtTarget);
-            set => this.ColorAtTarget = this.StringToColor(value);
-        }
-
-        [XmlIgnore]
-        public Color ColorAtFromTarget = Color.FromKnownColor(System.Drawing.KnownColor.Honeydew);
-
-        public string ColorAtFromTargetStr
-        {
-            get => this.ColorToString(this.ColorAtFromTarget);
-            set => this.ColorAtFromTarget = this.StringToColor(value);
-        }
-
-        [XmlIgnore]
-        public Color ColorAtTo = Color.FromKnownColor(System.Drawing.KnownColor.Pink);
-
-        public string ColorAtToStr
-        {
-            get => this.ColorToString(this.ColorAtTo);
-            set => this.ColorAtTo = this.StringToColor(value);
-        }
-
-        [XmlIgnore]
-        public Color ColorInputBackcolor = Color.FromKnownColor(System.Drawing.KnownColor.LemonChiffon);
-
-        public string ColorInputBackcolorStr
-        {
-            get => this.ColorToString(this.ColorInputBackcolor);
-            set => this.ColorInputBackcolor = this.StringToColor(value);
-        }
-
-        [XmlIgnore]
-        public Color ColorInputFont = Color.FromKnownColor(System.Drawing.KnownColor.ControlText);
-
-        public string ColorInputFontStr
-        {
-            get => this.ColorToString(this.ColorInputFont);
-            set => this.ColorInputFont = this.StringToColor(value);
-        }
-
-        [XmlIgnore]
-        public Font FontInputFont = System.Drawing.SystemFonts.DefaultFont;
-
-        public string FontInputFontStr
-        {
-            get => this.FontToString(this.FontInputFont);
-            set => this.FontInputFont = this.StringToFont(value);
-        }
-
-        [XmlIgnore]
-        public Color ColorListBackcolor = Color.FromKnownColor(System.Drawing.KnownColor.Window);
-
-        public string ColorListBackcolorStr
-        {
-            get => this.ColorToString(this.ColorListBackcolor);
-            set => this.ColorListBackcolor = this.StringToColor(value);
-        }
-
-        [XmlIgnore]
-        public Color ColorDetailBackcolor = Color.FromKnownColor(System.Drawing.KnownColor.Window);
-
-        public string ColorDetailBackcolorStr
-        {
-            get => this.ColorToString(this.ColorDetailBackcolor);
-            set => this.ColorDetailBackcolor = this.StringToColor(value);
-        }
-
-        [XmlIgnore]
-        public Color ColorDetail = Color.FromKnownColor(System.Drawing.KnownColor.ControlText);
-
-        public string ColorDetailStr
-        {
-            get => this.ColorToString(this.ColorDetail);
-            set => this.ColorDetail = this.StringToColor(value);
-        }
-
-        [XmlIgnore]
-        public Color ColorDetailLink = Color.FromKnownColor(System.Drawing.KnownColor.Blue);
-
-        public string ColorDetailLinkStr
-        {
-            get => this.ColorToString(this.ColorDetailLink);
-            set => this.ColorDetailLink = this.StringToColor(value);
-        }
-
-        [XmlIgnore]
-        public Font? FontUIGlobal = null;
+        public string? ColorDetailLinkStr { get; set; }
 
         /// <summary>
         /// [隠し設定] UI フォントを指定します
@@ -284,11 +134,7 @@ namespace OpenTween
         /// <remarks>
         /// フォントによっては一部レイアウトが崩れるためこっそり追加
         /// </remarks>
-        public string? FontUIGlobalStr
-        {
-            get => this.FontUIGlobal != null ? this.FontToString(this.FontUIGlobal) : null;
-            set => this.FontUIGlobal = value != null ? this.StringToFont(value) : null;
-        }
+        public string? FontUIGlobalStr { get; set; }
 
         [XmlIgnore]
         public string ProxyPassword = "";
@@ -340,24 +186,6 @@ namespace OpenTween
         /// </summary>
         public bool UseTwemoji = true;
 
-        [XmlIgnore]
-        private readonly FontConverter fontConverter = new();
-
-        protected string FontToString(Font font)
-            => this.fontConverter.ConvertToString(font);
-
-        protected Font StringToFont(string str)
-            => (Font)this.fontConverter.ConvertFromString(str);
-
-        [XmlIgnore]
-        private readonly ColorConverter colorConverter = new();
-
-        protected string ColorToString(Color color)
-            => this.colorConverter.ConvertToString(color);
-
-        protected Color StringToColor(string str)
-            => (Color)this.colorConverter.ConvertFromString(str);
-
         /// <summary>
         /// 指定されたスケールと SettingLocal.ScaleDimension のスケールとの拡大比を返します
         /// </summary>
@@ -365,22 +193,5 @@ namespace OpenTween
             => new(
                 currentSizeDimension.Width / this.ScaleDimension.Width,
                 currentSizeDimension.Height / this.ScaleDimension.Height);
-
-        public void Dispose()
-        {
-            this.Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                this.FontUnread?.Dispose();
-                this.FontRead?.Dispose();
-                this.FontDetail?.Dispose();
-                this.FontInputFont?.Dispose();
-            }
-        }
     }
 }

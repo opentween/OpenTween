@@ -117,29 +117,74 @@ namespace OpenTween
 
         public ThemeManager(SettingLocal settingLocal)
         {
-            this.FontUnread = settingLocal.FontUnread;
-            this.FontReaded = settingLocal.FontRead;
-            this.FontDetail = settingLocal.FontDetail;
-            this.FontInputFont = settingLocal.FontInputFont;
+            var fontConverter = new FontConverter();
 
-            this.ColorUnread = settingLocal.ColorUnread;
-            this.ColorRead = settingLocal.ColorRead;
-            this.ColorFav = settingLocal.ColorFav;
-            this.ColorOWL = settingLocal.ColorOWL;
-            this.ColorRetweet = settingLocal.ColorRetweet;
+            this.FontUnread = ConvertStringToFont(fontConverter, settingLocal.FontUnreadStr)
+                ?? new(SystemFonts.DefaultFont, FontStyle.Bold | FontStyle.Underline);
+
+            this.FontReaded = ConvertStringToFont(fontConverter, settingLocal.FontReadStr)
+                ?? SystemFonts.DefaultFont;
+
+            this.FontDetail = ConvertStringToFont(fontConverter, settingLocal.FontDetailStr)
+                ?? SystemFonts.DefaultFont;
+
+            this.FontInputFont = ConvertStringToFont(fontConverter, settingLocal.FontInputFontStr)
+                ?? SystemFonts.DefaultFont;
+
+            var colorConverter = new ColorConverter();
+
+            this.ColorUnread = ConvertStringToColor(colorConverter, settingLocal.ColorUnreadStr)
+                ?? SystemColors.ControlText;
+
+            this.ColorRead = ConvertStringToColor(colorConverter, settingLocal.ColorReadStr)
+                ?? SystemColors.ControlText;
+
+            this.ColorFav = ConvertStringToColor(colorConverter, settingLocal.ColorFavStr)
+                ?? Color.FromKnownColor(KnownColor.Red);
+
+            this.ColorOWL = ConvertStringToColor(colorConverter, settingLocal.ColorOWLStr)
+                ?? Color.FromKnownColor(KnownColor.Blue);
+
+            this.ColorRetweet = ConvertStringToColor(colorConverter, settingLocal.ColorRetweetStr)
+                ?? Color.FromKnownColor(KnownColor.Green);
+
             this.ColorHighLight = Color.FromKnownColor(KnownColor.HighlightText);
-            this.ColorDetail = settingLocal.ColorDetail;
-            this.ColorDetailLink = settingLocal.ColorDetailLink;
-            this.ColorDetailBackcolor = settingLocal.ColorDetailBackcolor;
-            this.ColorSelf = settingLocal.ColorSelf;
-            this.ColorAtSelf = settingLocal.ColorAtSelf;
-            this.ColorTarget = settingLocal.ColorTarget;
-            this.ColorAtTarget = settingLocal.ColorAtTarget;
-            this.ColorAtFromTarget = settingLocal.ColorAtFromTarget;
-            this.ColorAtTo = settingLocal.ColorAtTo;
-            this.ColorListBackcolor = settingLocal.ColorListBackcolor;
-            this.ColorInputBackcolor = settingLocal.ColorInputBackcolor;
-            this.ColorInputFont = settingLocal.ColorInputFont;
+
+            this.ColorDetail = ConvertStringToColor(colorConverter, settingLocal.ColorDetailStr)
+                ?? Color.FromKnownColor(KnownColor.ControlText);
+
+            this.ColorDetailLink = ConvertStringToColor(colorConverter, settingLocal.ColorDetailLinkStr)
+                ?? Color.FromKnownColor(KnownColor.Blue);
+
+            this.ColorDetailBackcolor = ConvertStringToColor(colorConverter, settingLocal.ColorDetailBackcolorStr)
+                ?? Color.FromKnownColor(KnownColor.Window);
+
+            this.ColorSelf = ConvertStringToColor(colorConverter, settingLocal.ColorSelfStr)
+                ?? Color.FromKnownColor(KnownColor.AliceBlue);
+
+            this.ColorAtSelf = ConvertStringToColor(colorConverter, settingLocal.ColorAtSelfStr)
+                ?? Color.FromKnownColor(KnownColor.AntiqueWhite);
+
+            this.ColorTarget = ConvertStringToColor(colorConverter, settingLocal.ColorTargetStr)
+                ?? Color.FromKnownColor(KnownColor.LemonChiffon);
+
+            this.ColorAtTarget = ConvertStringToColor(colorConverter, settingLocal.ColorAtTargetStr)
+                ?? Color.FromKnownColor(KnownColor.LavenderBlush);
+
+            this.ColorAtFromTarget = ConvertStringToColor(colorConverter, settingLocal.ColorAtFromTargetStr)
+                ?? Color.FromKnownColor(KnownColor.Honeydew);
+
+            this.ColorAtTo = ConvertStringToColor(colorConverter, settingLocal.ColorAtToStr)
+                ?? Color.FromKnownColor(KnownColor.Pink);
+
+            this.ColorListBackcolor = ConvertStringToColor(colorConverter, settingLocal.ColorListBackcolorStr)
+                ?? Color.FromKnownColor(KnownColor.Window);
+
+            this.ColorInputBackcolor = ConvertStringToColor(colorConverter, settingLocal.ColorInputBackcolorStr)
+                ?? Color.FromKnownColor(KnownColor.LemonChiffon);
+
+            this.ColorInputFont = ConvertStringToColor(colorConverter, settingLocal.ColorInputFontStr)
+                ?? Color.FromKnownColor(KnownColor.ControlText);
 
             this.BrushSelf = new SolidBrush(this.ColorSelf);
             this.BrushAtSelf = new SolidBrush(this.ColorAtSelf);
@@ -170,9 +215,59 @@ namespace OpenTween
             this.IsDisposed = true;
         }
 
+        public static Font? ConvertStringToFont(FontConverter converter, string? fontStr)
+        {
+            if (MyCommon.IsNullOrEmpty(fontStr))
+                return null;
+
+            try
+            {
+                return (Font)converter.ConvertFromString(fontStr);
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        public static string? ConvertFontToString(FontConverter converter, Font font, Font defaultValue)
+        {
+            static bool Equals(Font font1, Font font2)
+                => font1.Name == font2.Name && font1.Size == font2.Size && font1.Unit == font2.Unit && font1.Style == font2.Style;
+
+            if (Equals(font, defaultValue))
+                return null;
+
+            return converter.ConvertToString(font);
+        }
+
+        public static Color? ConvertStringToColor(ColorConverter converter, string? colorStr)
+        {
+            if (MyCommon.IsNullOrEmpty(colorStr))
+                return null;
+
+            try
+            {
+                return (Color)converter.ConvertFromString(colorStr);
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        public static string? ConvertColorToString(ColorConverter converter, Color color, Color defaultValue)
+        {
+            if (color == defaultValue)
+                return null;
+
+            return converter.ConvertToString(color);
+        }
+
         public static void ApplyGlobalUIFont(SettingLocal settingLocal)
         {
-            var font = settingLocal.FontUIGlobal;
+            var fontConverter = new FontConverter();
+            var font = ConvertStringToFont(fontConverter, settingLocal.FontUIGlobalStr);
             if (font != null)
                 OTBaseForm.GlobalFont = font;
         }
