@@ -3094,8 +3094,6 @@ namespace OpenTween
             settingDialog.ShowInTaskbar = showTaskbarIcon;
             settingDialog.IntervalChanged += this.TimerInterval_Changed;
 
-            settingDialog.Tw = this.tw;
-
             settingDialog.LoadConfig(this.settings.Common, this.settings.Local);
 
             try
@@ -3121,8 +3119,7 @@ namespace OpenTween
         private async void SettingStripMenuItem_Click(object sender, EventArgs e)
         {
             // 設定画面表示前のユーザー情報
-            var oldUser = new { this.tw.AccessToken, this.tw.AccessTokenSecret, this.tw.Username, this.tw.UserId };
-
+            var previousUserId = this.settings.Common.UserId;
             var oldIconSz = this.settings.Common.IconSize;
 
             if (this.ShowSettingDialog() == DialogResult.OK)
@@ -3130,6 +3127,11 @@ namespace OpenTween
                 lock (this.syncObject)
                 {
                     this.settings.ApplySettings();
+
+                    if (MyCommon.IsNullOrEmpty(this.settings.Common.Token))
+                        this.tw.ClearAuthInfo();
+
+                    this.tw.Initialize(this.settings.Common.Token, this.settings.Common.TokenSecret, this.settings.Common.UserName, this.settings.Common.UserId);
                     this.tw.RestrictFavCheck = this.settings.Common.RestrictFavCheck;
                     this.tw.ReadOwnPost = this.settings.Common.ReadOwnPost;
 
@@ -3312,18 +3314,13 @@ namespace OpenTween
                     }
                 }
             }
-            else
-            {
-                // キャンセル時は Twitter クラスの認証情報を画面表示前の状態に戻す
-                this.tw.Initialize(oldUser.AccessToken, oldUser.AccessTokenSecret, oldUser.Username, oldUser.UserId);
-            }
 
             Twitter.AccountState = MyCommon.ACCOUNT_STATE.Valid;
 
             this.TopMost = this.settings.Common.AlwaysTop;
             this.SaveConfigsAll(false);
 
-            if (this.tw.UserId != oldUser.UserId)
+            if (this.tw.UserId != previousUserId)
                 await this.DoGetFollowersMenu();
         }
 

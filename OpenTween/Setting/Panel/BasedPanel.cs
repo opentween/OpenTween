@@ -48,11 +48,36 @@ namespace OpenTween.Setting.Panel
             {
                 this.AuthUserCombo.Items.Clear();
                 this.AuthUserCombo.Items.AddRange(settingCommon.UserAccounts.ToArray());
+
+                var selectedUserId = settingCommon.UserId;
+                var selectedAccount = settingCommon.UserAccounts.FirstOrDefault(x => x.UserId == selectedUserId);
+                if (selectedAccount != null)
+                    this.AuthUserCombo.SelectedItem = selectedAccount;
             }
         }
 
         public void SaveConfig(SettingCommon settingCommon)
-            => settingCommon.UserAccounts = this.AuthUserCombo.Items.Cast<UserAccount>().ToList();
+        {
+            var accounts = this.AuthUserCombo.Items.Cast<UserAccount>().ToList();
+            settingCommon.UserAccounts = accounts;
+
+            var selectedIndex = this.AuthUserCombo.SelectedIndex;
+            if (selectedIndex != -1)
+            {
+                var selectedAccount = accounts[selectedIndex];
+                settingCommon.UserId = selectedAccount.UserId;
+                settingCommon.UserName = selectedAccount.Username;
+                settingCommon.Token = selectedAccount.Token;
+                settingCommon.TokenSecret = selectedAccount.TokenSecret;
+            }
+            else
+            {
+                settingCommon.UserId = 0;
+                settingCommon.UserName = "";
+                settingCommon.Token = "";
+                settingCommon.TokenSecret = "";
+            }
+        }
 
         private void AuthClearButton_Click(object sender, EventArgs e)
         {
