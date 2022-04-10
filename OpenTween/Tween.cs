@@ -599,23 +599,6 @@ namespace OpenTween
 
             this.initial = true;
 
-            var saveRequired = false;
-            var firstRun = false;
-
-            // ユーザー名、パスワードが未設定なら設定画面を表示（初回起動時など）
-            if (MyCommon.IsNullOrEmpty(this.tw.Username))
-            {
-                saveRequired = true;
-                firstRun = true;
-
-                // 設定せずにキャンセルされたか、設定されたが依然ユーザー名が未設定ならプログラム終了
-                if (this.ShowSettingDialog(showTaskbarIcon: true) != DialogResult.OK ||
-                    MyCommon.IsNullOrEmpty(this.tw.Username))
-                {
-                    Application.Exit();  // 強制終了
-                }
-            }
-
             this.tw.RestrictFavCheck = this.settings.Common.RestrictFavCheck;
             this.tw.ReadOwnPost = this.settings.Common.ReadOwnPost;
 
@@ -868,9 +851,8 @@ namespace OpenTween
 
             this.ignoreConfigSave = false;
             this.TweenMain_Resize(this, EventArgs.Empty);
-            if (saveRequired) this.SaveConfigsAll(false);
 
-            if (firstRun)
+            if (this.settings.IsFirstRun)
             {
                 // 初回起動時だけ右下のメニューを目立たせる
                 this.HashStripSplitButton.ShowDropDown();
@@ -3084,18 +3066,15 @@ namespace OpenTween
         private async Task DoRefreshMore()
             => await this.RefreshTabAsync(this.CurrentTab, backward: true);
 
-        private DialogResult ShowSettingDialog(bool showTaskbarIcon = false)
+        private DialogResult ShowSettingDialog()
         {
-            var result = DialogResult.Abort;
-
             using var settingDialog = new AppendSettingDialog();
             settingDialog.Icon = this.iconAssets.IconMain;
-            settingDialog.Owner = this;
-            settingDialog.ShowInTaskbar = showTaskbarIcon;
             settingDialog.IntervalChanged += this.TimerInterval_Changed;
 
             settingDialog.LoadConfig(this.settings.Common, this.settings.Local);
 
+            DialogResult result;
             try
             {
                 result = settingDialog.ShowDialog(this);

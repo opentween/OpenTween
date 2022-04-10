@@ -43,12 +43,20 @@ namespace OpenTween.Setting
 
         public SettingAtIdList AtIdList { get; internal set; } = new();
 
+        /// <summary>ユーザによる設定が必要な項目が残っているか</summary>
+        public bool IsIncomplete
+            => MyCommon.IsNullOrEmpty(this.Common.UserName);
+
+        public bool IsFirstRun { get; private set; } = false;
+
         public void LoadAll()
         {
             this.LoadCommon();
             this.LoadLocal();
             this.LoadTabs();
             this.LoadAtIdList();
+
+            this.IsFirstRun = this.IsIncomplete;
         }
 
         public void LoadCommon()

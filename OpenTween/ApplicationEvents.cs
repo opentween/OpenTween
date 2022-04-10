@@ -88,6 +88,13 @@ namespace OpenTween
                 return 1;
             }
 
+            if (settings.IsIncomplete)
+            {
+                var completed = ShowSettingsDialog(settings, container.IconAssetsManager);
+                if (!completed)
+                    return 1; // 設定が完了しなかったため終了
+            }
+
             Application.Run(container.MainForm);
 
             return 0;
@@ -196,6 +203,26 @@ namespace OpenTween
                 }
             }
 
+            return true;
+        }
+
+        private static bool ShowSettingsDialog(SettingManager settings, IconAssetsManager iconAssets)
+        {
+            using var settingDialog = new AppendSettingDialog();
+            settingDialog.Icon = iconAssets.IconMain;
+            settingDialog.ShowInTaskbar = true; // この時点では TweenMain が表示されていないため代わりに表示する
+            settingDialog.LoadConfig(settings.Common, settings.Local);
+
+            var ret = settingDialog.ShowDialog();
+            if (ret != DialogResult.OK)
+                return false;
+
+            settingDialog.SaveConfig(settings.Common, settings.Local);
+
+            if (settings.IsIncomplete)
+                return false;
+
+            settings.SaveAll();
             return true;
         }
     }
