@@ -913,65 +913,7 @@ namespace OpenTween
             if (this.settings.Local.ScaleDimension.IsEmpty)
                 this.settings.Local.ScaleDimension = this.CurrentAutoScaleDimensions;
 
-            var tabSettings = this.settings.Tabs;
-            foreach (var tabSetting in tabSettings.Tabs)
-            {
-                TabModel tab;
-                switch (tabSetting.TabType)
-                {
-                    case MyCommon.TabUsageType.Home:
-                        tab = new HomeTabModel(tabSetting.TabName);
-                        break;
-                    case MyCommon.TabUsageType.Mentions:
-                        tab = new MentionsTabModel(tabSetting.TabName);
-                        break;
-                    case MyCommon.TabUsageType.DirectMessage:
-                        tab = new DirectMessagesTabModel(tabSetting.TabName);
-                        break;
-                    case MyCommon.TabUsageType.Favorites:
-                        tab = new FavoritesTabModel(tabSetting.TabName);
-                        break;
-                    case MyCommon.TabUsageType.UserDefined:
-                        tab = new FilterTabModel(tabSetting.TabName);
-                        break;
-                    case MyCommon.TabUsageType.UserTimeline:
-                        tab = new UserTimelineTabModel(tabSetting.TabName, tabSetting.User!);
-                        break;
-                    case MyCommon.TabUsageType.PublicSearch:
-                        tab = new PublicSearchTabModel(tabSetting.TabName)
-                        {
-                            SearchWords = tabSetting.SearchWords,
-                            SearchLang = tabSetting.SearchLang,
-                        };
-                        break;
-                    case MyCommon.TabUsageType.Lists:
-                        tab = new ListTimelineTabModel(tabSetting.TabName, tabSetting.ListInfo!);
-                        break;
-                    case MyCommon.TabUsageType.Mute:
-                        tab = new MuteTabModel(tabSetting.TabName);
-                        break;
-                    default:
-                        continue;
-                }
-
-                tab.UnreadManage = tabSetting.UnreadManage;
-                tab.Protected = tabSetting.Protected;
-                tab.Notify = tabSetting.Notify;
-                tab.SoundFile = tabSetting.SoundFile;
-
-                if (tab.IsDistributableTabType)
-                {
-                    var filterTab = (FilterTabModel)tab;
-                    filterTab.FilterArray = tabSetting.FilterArray;
-                    filterTab.FilterModified = false;
-                }
-
-                if (this.statuses.ContainsTab(tab.TabName))
-                    tab.TabName = this.statuses.MakeTabName("MyTab");
-
-                this.statuses.AddTab(tab);
-            }
-
+            this.statuses.LoadTabsFromSettings(this.settings.Tabs);
             this.statuses.AddDefaultTabs();
         }
 

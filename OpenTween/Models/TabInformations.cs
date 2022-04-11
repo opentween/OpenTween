@@ -209,6 +209,69 @@ namespace OpenTween.Models
             this.SelectedTabName = tabName;
         }
 
+        public void LoadTabsFromSettings(SettingTabs settingTabs)
+        {
+            foreach (var tabSetting in settingTabs.Tabs)
+            {
+                var tab = this.CreateTabFromSettings(tabSetting);
+                if (tab == null)
+                    continue;
+
+                if (this.ContainsTab(tab.TabName))
+                    tab.TabName = this.MakeTabName("MyTab");
+
+                this.AddTab(tab);
+            }
+        }
+
+        public TabModel? CreateTabFromSettings(SettingTabs.SettingTabItem tabSetting)
+        {
+            var tabName = tabSetting.TabName;
+
+            TabModel? tab = tabSetting.TabType switch
+            {
+                MyCommon.TabUsageType.Home
+                    => new HomeTabModel(tabName),
+                MyCommon.TabUsageType.Mentions
+                    => new MentionsTabModel(tabName),
+                MyCommon.TabUsageType.DirectMessage
+                    => new DirectMessagesTabModel(tabName),
+                MyCommon.TabUsageType.Favorites
+                    => new FavoritesTabModel(tabName),
+                MyCommon.TabUsageType.UserDefined
+                    => new FilterTabModel(tabName),
+                MyCommon.TabUsageType.UserTimeline
+                    => new UserTimelineTabModel(tabName, tabSetting.User!),
+                MyCommon.TabUsageType.PublicSearch
+                    => new PublicSearchTabModel(tabName)
+                    {
+                        SearchWords = tabSetting.SearchWords,
+                        SearchLang = tabSetting.SearchLang,
+                    },
+                MyCommon.TabUsageType.Lists
+                    => new ListTimelineTabModel(tabName, tabSetting.ListInfo!),
+                MyCommon.TabUsageType.Mute
+                    => new MuteTabModel(tabName),
+                _ => null,
+            };
+
+            if (tab == null)
+                return null;
+
+            tab.UnreadManage = tabSetting.UnreadManage;
+            tab.Protected = tabSetting.Protected;
+            tab.Notify = tabSetting.Notify;
+            tab.SoundFile = tabSetting.SoundFile;
+
+            if (tab is FilterTabModel filterTab)
+            {
+                filterTab.FilterArray = tabSetting.FilterArray;
+                filterTab.FilterModified = false;
+            }
+
+            return tab;
+        }
+
         /// <summary>
         /// デフォルトのタブを追加する
         /// </summary>
