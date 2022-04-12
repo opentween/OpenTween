@@ -25,6 +25,8 @@ using System;
 using OpenTween.Api;
 using OpenTween.Models;
 using OpenTween.Setting;
+using OpenTween.Thumbnail;
+using OpenTween.Thumbnail.Services;
 
 namespace OpenTween
 {
@@ -51,6 +53,12 @@ namespace OpenTween
         public IconAssetsManager IconAssetsManager
             => this.iconAssetsManagerLazy.Value;
 
+        public ImgAzyobuziNet ImgAzyobuziNet
+            => this.imgAzyobuziNetLazy.Value;
+
+        public ThumbnailGenerator ThumbnailGenerator
+            => this.thumbnailGeneratorLazy.Value;
+
         public TweenMain MainForm
             => this.mainFormLazy.Value;
 
@@ -59,6 +67,8 @@ namespace OpenTween
         private readonly DisposableLazy<Twitter> twitterLazy;
         private readonly DisposableLazy<ImageCache> imageCacheLazy;
         private readonly DisposableLazy<IconAssetsManager> iconAssetsManagerLazy;
+        private readonly DisposableLazy<ImgAzyobuziNet> imgAzyobuziNetLazy;
+        private readonly Lazy<ThumbnailGenerator> thumbnailGeneratorLazy;
         private readonly DisposableLazy<TweenMain> mainFormLazy;
 
         public ApplicationContainer()
@@ -68,6 +78,8 @@ namespace OpenTween
             this.twitterLazy = new(this.CreateTwitter);
             this.imageCacheLazy = new(this.CreateImageCache);
             this.iconAssetsManagerLazy = new(this.CreateIconAssetsManager);
+            this.imgAzyobuziNetLazy = new(this.CreateImgAzyobuziNet);
+            this.thumbnailGeneratorLazy = new(this.CreateThumbnailGenerator);
             this.mainFormLazy = new(this.CreateTweenMain);
         }
 
@@ -86,8 +98,14 @@ namespace OpenTween
         private IconAssetsManager CreateIconAssetsManager()
             => new();
 
+        private ImgAzyobuziNet CreateImgAzyobuziNet()
+            => new(autoupdate: false);
+
+        private ThumbnailGenerator CreateThumbnailGenerator()
+            => new(this.ImgAzyobuziNet);
+
         private TweenMain CreateTweenMain()
-            => new(this.Settings, this.TabInfo, this.Twitter, this.ImageCache, this.IconAssetsManager);
+            => new(this.Settings, this.TabInfo, this.Twitter, this.ImageCache, this.IconAssetsManager, this.ThumbnailGenerator);
 
         public void Dispose()
         {
@@ -96,6 +114,7 @@ namespace OpenTween
 
             this.IsDisposed = true;
             this.mainFormLazy.Dispose();
+            this.imgAzyobuziNetLazy.Dispose();
             this.twitterLazy.Dispose();
             this.twitterApiLazy.Dispose();
             this.iconAssetsManagerLazy.Dispose();

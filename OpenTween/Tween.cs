@@ -164,6 +164,8 @@ namespace OpenTween
 
         private readonly IconAssetsManager iconAssets;
 
+        private readonly ThumbnailGenerator thumbGenerator;
+
         private readonly ImageList listViewImageList = new(); // ListViewItemの高さ変更用
 
         private PostClass? anchorPost;
@@ -540,13 +542,21 @@ namespace OpenTween
             }
         }
 
-        public TweenMain(SettingManager settingManager, TabInformations tabInfo, Twitter twitter, ImageCache imageCache, IconAssetsManager iconAssets)
+        public TweenMain(
+            SettingManager settingManager,
+            TabInformations tabInfo,
+            Twitter twitter,
+            ImageCache imageCache,
+            IconAssetsManager iconAssets,
+            ThumbnailGenerator thumbGenerator
+        )
         {
             this.settings = settingManager;
             this.statuses = tabInfo;
             this.tw = twitter;
             this.iconCache = imageCache;
             this.iconAssets = iconAssets;
+            this.thumbGenerator = thumbGenerator;
 
             this.InitializeComponent();
 
@@ -620,16 +630,17 @@ namespace OpenTween
 
             // サムネイル関連の初期化
             // プロキシ設定等の通信まわりの初期化が済んでから処理する
-            ThumbnailGenerator.InitializeGenerator();
-
-            var imgazyobizinet = ThumbnailGenerator.ImgAzyobuziNetInstance;
+            var imgazyobizinet = this.thumbGenerator.ImgAzyobuziNet;
             imgazyobizinet.Enabled = this.settings.Common.EnableImgAzyobuziNet;
             imgazyobizinet.DisabledInDM = this.settings.Common.ImgAzyobuziNetDisabledInDM;
+            imgazyobizinet.AutoUpdate = true;
 
             Thumbnail.Services.TonTwitterCom.GetApiConnection = () => this.tw.Api.Connection;
 
             // 画像投稿サービス
             this.ImageSelector.Initialize(this.tw, this.tw.Configuration, this.settings.Common.UseImageServiceName, this.settings.Common.UseImageService);
+
+            this.tweetThumbnail1.Initialize(this.thumbGenerator);
 
             // ハッシュタグ/@id関連
             this.AtIdSupl = new AtIdSupplement(this.settings.AtIdList.AtIdList, "@");
@@ -3113,7 +3124,7 @@ namespace OpenTween
 
                     this.SplitContainer1.IsPanelInverted = !this.settings.Common.StatusAreaAtBottom;
 
-                    var imgazyobizinet = ThumbnailGenerator.ImgAzyobuziNetInstance;
+                    var imgazyobizinet = this.thumbGenerator.ImgAzyobuziNet;
                     imgazyobizinet.Enabled = this.settings.Common.EnableImgAzyobuziNet;
                     imgazyobizinet.DisabledInDM = this.settings.Common.ImgAzyobuziNetDisabledInDM;
 
