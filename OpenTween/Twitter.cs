@@ -1535,10 +1535,14 @@ namespace OpenTween
                         {
                             if (!media.Any(x => x.Url == ent.MediaUrlHttps))
                             {
-                                if (ent.VideoInfo != null &&
-                                    ent.Type == "animated_gif" || ent.Type == "video")
+                                if (ent.VideoInfo != null && (ent.Type == "animated_gif" || ent.Type == "video"))
                                 {
-                                    media.Add(new MediaInfo(ent.MediaUrlHttps, ent.AltText, ent.ExpandedUrl));
+                                    var videoUrl = ent.VideoInfo.Variants
+                                        .Where(v => v.ContentType == "video/mp4")
+                                        .OrderByDescending(v => v.Bitrate)
+                                        .Select(v => v.Url).FirstOrDefault();
+
+                                    media.Add(new MediaInfo(ent.MediaUrlHttps, ent.AltText, videoUrl));
                                 }
                                 else
                                 {

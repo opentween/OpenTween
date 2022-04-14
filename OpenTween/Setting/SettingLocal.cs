@@ -340,6 +340,11 @@ namespace OpenTween
         /// </summary>
         public bool UseTwemoji = true;
 
+        /// <summary>
+        /// ツイートに添付された画像の詳細表示方法
+        /// </summary>
+        public MediaHandlerType MediaHanderType { get; set; } = MediaHandlerType.LightViewer;
+
         [XmlIgnore]
         private readonly FontConverter fontConverter = new();
 
