@@ -167,7 +167,7 @@ namespace OpenTween
 
         private static string FormatEmojiEntity(string targetText, TwitterEntityEmoji entity)
         {
-            if (!SettingManager.Local.UseTwemoji)
+            if (!SettingManager.Instance.Local.UseTwemoji)
                 return T(E(targetText));
 
             if (MyCommon.IsNullOrEmpty(entity.Url))

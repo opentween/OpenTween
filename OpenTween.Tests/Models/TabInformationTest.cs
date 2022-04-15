@@ -108,6 +108,67 @@ namespace OpenTween.Models
         public void SelectTab_NotExistTest()
             => Assert.Throws<ArgumentException>(() => this.tabinfo.SelectTab("INVALID"));
 
+        [Theory]
+        [InlineData(MyCommon.TabUsageType.Home, typeof(HomeTabModel))]
+        [InlineData(MyCommon.TabUsageType.Mentions, typeof(MentionsTabModel))]
+        [InlineData(MyCommon.TabUsageType.DirectMessage, typeof(DirectMessagesTabModel))]
+        [InlineData(MyCommon.TabUsageType.Favorites, typeof(FavoritesTabModel))]
+        [InlineData(MyCommon.TabUsageType.UserDefined, typeof(FilterTabModel))]
+        [InlineData(MyCommon.TabUsageType.UserTimeline, typeof(UserTimelineTabModel))]
+        [InlineData(MyCommon.TabUsageType.PublicSearch, typeof(PublicSearchTabModel))]
+        [InlineData(MyCommon.TabUsageType.Lists, typeof(ListTimelineTabModel))]
+        [InlineData(MyCommon.TabUsageType.Mute, typeof(MuteTabModel))]
+        public void CreateTabFromSettings_TabTypeTest(MyCommon.TabUsageType tabType, Type expected)
+        {
+            var tabSetting = new SettingTabs.SettingTabItem
+            {
+                TabName = "tab",
+                TabType = tabType,
+            };
+            var tabinfo = this.CreateInstance();
+            var tab = tabinfo.CreateTabFromSettings(tabSetting);
+            Assert.IsType(expected, tab);
+        }
+
+        [Fact]
+        public void CreateTabFromSettings_FilterTabTest()
+        {
+            var tabSetting = new SettingTabs.SettingTabItem
+            {
+                TabName = "tab",
+                TabType = MyCommon.TabUsageType.UserDefined,
+                FilterArray = new PostFilterRule[]
+                {
+                    new() { FilterName = "foo" },
+                },
+            };
+            var tabinfo = this.CreateInstance();
+            var tab = tabinfo.CreateTabFromSettings(tabSetting);
+            Assert.IsType<FilterTabModel>(tab);
+
+            var filterTab = (FilterTabModel)tab!;
+            Assert.Equal("foo", filterTab.FilterArray.First().FilterName);
+        }
+
+        [Fact]
+        public void CreateTabFromSettings_PublicSearchTabTest()
+        {
+            var tabSetting = new SettingTabs.SettingTabItem
+            {
+                TabName = "tab",
+                TabType = MyCommon.TabUsageType.PublicSearch,
+                SearchWords = "foo",
+                SearchLang = "ja",
+            };
+            var tabinfo = this.CreateInstance();
+            var tab = tabinfo.CreateTabFromSettings(tabSetting);
+            Assert.IsType<PublicSearchTabModel>(tab);
+
+            var searchTab = (PublicSearchTabModel)tab!;
+            Assert.Equal("foo", searchTab.SearchWords);
+            Assert.Equal("ja", searchTab.SearchLang);
+        }
+
         [Fact]
         public void AddDefaultTabs_Test()
         {

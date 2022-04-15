@@ -37,11 +37,11 @@ namespace OpenTween
     public class SettingCommon : SettingBase<SettingCommon>
     {
         #region "Settingクラス基本"
-        public static SettingCommon Load()
-            => LoadSettings();
+        public static SettingCommon Load(string settingsPath)
+            => LoadSettings(settingsPath);
 
-        public void Save()
-            => SaveSettings(this);
+        public void Save(string settingsPath)
+            => SaveSettings(this, settingsPath);
         #endregion
 
         public List<UserAccount> UserAccounts = new();
@@ -260,6 +260,67 @@ namespace OpenTween
 
         [XmlElement(ElementName = nameof(SkipUpdateVersion))]
         public string SkipUpdateVersionStr { get; set; } = "";
+
+        public void Validate(bool noLimit = false)
+        {
+            if (!noLimit)
+            {
+                if (this.TimelinePeriod < 15 && this.TimelinePeriod > 0)
+                    this.TimelinePeriod = 15;
+
+                if (this.ReplyPeriod < 15 && this.ReplyPeriod > 0)
+                    this.ReplyPeriod = 15;
+
+                if (this.DMPeriod < 15 && this.DMPeriod > 0)
+                    this.DMPeriod = 15;
+
+                if (this.PubSearchPeriod < 30 && this.PubSearchPeriod > 0)
+                    this.PubSearchPeriod = 30;
+
+                if (this.UserTimelinePeriod < 15 && this.UserTimelinePeriod > 0)
+                    this.UserTimelinePeriod = 15;
+
+                if (this.ListsPeriod < 15 && this.ListsPeriod > 0)
+                    this.ListsPeriod = 15;
+            }
+
+            if (!Twitter.VerifyApiResultCount(MyCommon.WORKERTYPE.Timeline, this.CountApi))
+                this.CountApi = 60;
+
+            if (!Twitter.VerifyApiResultCount(MyCommon.WORKERTYPE.Reply, this.CountApiReply))
+                this.CountApiReply = 40;
+
+            if (this.MoreCountApi != 0 && !Twitter.VerifyMoreApiResultCount(this.MoreCountApi))
+                this.MoreCountApi = 200;
+
+            if (this.FirstCountApi != 0 && !Twitter.VerifyFirstApiResultCount(this.FirstCountApi))
+                this.FirstCountApi = 100;
+
+            if (this.FavoritesCountApi != 0 && !Twitter.VerifyApiResultCount(MyCommon.WORKERTYPE.Favorites, this.FavoritesCountApi))
+                this.FavoritesCountApi = 40;
+
+            if (this.ListCountApi != 0 && !Twitter.VerifyApiResultCount(MyCommon.WORKERTYPE.List, this.ListCountApi))
+                this.ListCountApi = 100;
+
+            if (this.SearchCountApi != 0 && !Twitter.VerifyApiResultCount(MyCommon.WORKERTYPE.PublicSearch, this.SearchCountApi))
+                this.SearchCountApi = 100;
+
+            if (this.UserTimelineCountApi != 0 && !Twitter.VerifyApiResultCount(MyCommon.WORKERTYPE.UserTimeline, this.UserTimelineCountApi))
+                this.UserTimelineCountApi = 20;
+
+            // 廃止サービスが選択されていた場合ux.nuへ読み替え
+            if (this.AutoShortUrlFirst < 0)
+                this.AutoShortUrlFirst = MyCommon.UrlConverter.Uxnu;
+
+            var selectedAccount = this.UserAccounts.Find(
+                x => string.Equals(x.Username, this.UserName, StringComparison.InvariantCultureIgnoreCase)
+            );
+            if (selectedAccount?.UserId == 0)
+                selectedAccount.UserId = this.UserId;
+
+            if (MyCommon.IsNullOrEmpty(this.Token))
+                this.UserName = "";
+        }
     }
 
     public class UserAccount

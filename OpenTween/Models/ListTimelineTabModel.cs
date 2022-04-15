@@ -55,10 +55,10 @@ namespace OpenTween.Models
                 return;
 
             bool read;
-            if (!SettingManager.Common.UnreadManage)
+            if (!SettingManager.Instance.Common.UnreadManage)
                 read = true;
             else
-                read = startup && SettingManager.Common.Read;
+                read = startup && SettingManager.Instance.Common.Read;
 
             progress.Report("List refreshing...");
 

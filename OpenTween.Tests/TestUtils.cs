@@ -160,26 +160,26 @@ namespace OpenTween.Setting
     {
         public static SettingCommon Common
         {
-            get => SettingManager.Common;
-            set => SettingManager.Common = value;
+            get => SettingManager.Instance.Common;
+            set => SettingManager.Instance.Common = value;
         }
 
         public static SettingLocal Local
         {
-            get => SettingManager.Local;
-            set => SettingManager.Local = value;
+            get => SettingManager.Instance.Local;
+            set => SettingManager.Instance.Local = value;
         }
 
         public static SettingTabs Tabs
         {
-            get => SettingManager.Tabs;
-            set => SettingManager.Tabs = value;
+            get => SettingManager.Instance.Tabs;
+            set => SettingManager.Instance.Tabs = value;
         }
 
         public static SettingAtIdList AtIdList
         {
-            get => SettingManager.AtIdList;
-            set => SettingManager.AtIdList = value;
+            get => SettingManager.Instance.AtIdList;
+            set => SettingManager.Instance.AtIdList = value;
         }
     }
 }

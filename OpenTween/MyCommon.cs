@@ -63,8 +63,6 @@ namespace OpenTween
 
         public static bool EndingFlag { get; set; } // 終了フラグ
 
-        public static string SettingPath { get; set; } = null!;
-
         public enum IconSizes
         {
             IconNone = 0,
@@ -391,7 +389,7 @@ namespace OpenTween
                     writer.Write(errorReport);
                 }
 
-                var settings = SettingManager.Common;
+                var settings = SettingManager.Instance;
                 var mainForm = Application.OpenForms.OfType<TweenMain>().FirstOrDefault();
 
                 ErrorReport report;
@@ -400,15 +398,15 @@ namespace OpenTween
                 else
                     report = new ErrorReport(errorReport);
 
-                report.AnonymousReport = settings.ErrorReportAnonymous;
+                report.AnonymousReport = settings.Common.ErrorReportAnonymous;
 
                 OpenErrorReportDialog(mainForm, report);
 
                 // ダイアログ内で設定が変更されていれば保存する
-                if (settings.ErrorReportAnonymous != report.AnonymousReport)
+                if (settings.Common.ErrorReportAnonymous != report.AnonymousReport)
                 {
-                    settings.ErrorReportAnonymous = report.AnonymousReport;
-                    settings.Save();
+                    settings.Common.ErrorReportAnonymous = report.AnonymousReport;
+                    settings.SaveCommon();
                 }
 
                 return false;
@@ -987,7 +985,7 @@ namespace OpenTween
             => string.IsNullOrEmpty(value);
 
         public static Task OpenInBrowserAsync(IWin32Window? owner, string url)
-            => MyCommon.OpenInBrowserAsync(owner, SettingManager.Local.BrowserPath, url);
+            => MyCommon.OpenInBrowserAsync(owner, SettingManager.Instance.Local.BrowserPath, url);
 
         public static Task OpenInBrowserAsync(IWin32Window? owner, string? browserPath, string url)
         {

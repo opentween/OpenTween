@@ -79,20 +79,21 @@ namespace OpenTween
         }
 
         public TweetThumbnailTest()
-        {
-            this.ThumbnailGeneratorSetup();
-            this.MyCommonSetup();
-        }
+            => this.MyCommonSetup();
 
-        private void ThumbnailGeneratorSetup()
+        private ThumbnailGenerator CreateThumbnailGenerator()
         {
-            ThumbnailGenerator.Services.Clear();
-            ThumbnailGenerator.Services.AddRange(new[]
+            var imgAzyobuziNet = new ImgAzyobuziNet(autoupdate: false);
+            var thumbGenerator = new ThumbnailGenerator(imgAzyobuziNet);
+            thumbGenerator.Services.Clear();
+            thumbGenerator.Services.AddRange(new[]
             {
                 new TestThumbnailService(@"^https?://foo.example.com/(.+)$", @"http://img.example.com/${1}.png", null),
                 new TestThumbnailService(@"^https?://bar.example.com/(.+)$", @"http://img.example.com/${1}.png", @"${1}"),
                 new TestThumbnailService(@"^https?://slow.example.com/(.+)$", @"http://img.example.com/${1}.png", null),
             });
+
+            return thumbGenerator;
         }
 
         private void MyCommonSetup()
@@ -133,6 +134,8 @@ namespace OpenTween
             };
 
             using var thumbbox = new TweetThumbnail();
+            thumbbox.Initialize(this.CreateThumbnailGenerator());
+
             using var tokenSource = new CancellationTokenSource();
 
             SynchronizationContext.SetSynchronizationContext(new SynchronizationContext());
@@ -151,6 +154,7 @@ namespace OpenTween
         public void SetThumbnailCountTest(int count)
         {
             using var thumbbox = new TweetThumbnail();
+            thumbbox.Initialize(this.CreateThumbnailGenerator());
 
             var method = typeof(TweetThumbnail).GetMethod("SetThumbnailCount", BindingFlags.Instance | BindingFlags.NonPublic);
             method.Invoke(thumbbox, new[] { (object)count });
@@ -187,6 +191,7 @@ namespace OpenTween
             };
 
             using var thumbbox = new TweetThumbnail();
+            thumbbox.Initialize(this.CreateThumbnailGenerator());
 
             SynchronizationContext.SetSynchronizationContext(new SynchronizationContext());
             await thumbbox.ShowThumbnailAsync(post);
@@ -220,6 +225,7 @@ namespace OpenTween
             };
 
             using var thumbbox = new TweetThumbnail();
+            thumbbox.Initialize(this.CreateThumbnailGenerator());
 
             SynchronizationContext.SetSynchronizationContext(new SynchronizationContext());
             await thumbbox.ShowThumbnailAsync(post);
@@ -251,6 +257,7 @@ namespace OpenTween
         public async Task ThumbnailLoadingEventTest()
         {
             using var thumbbox = new TweetThumbnail();
+            thumbbox.Initialize(this.CreateThumbnailGenerator());
 
             SynchronizationContext.SetSynchronizationContext(new SynchronizationContext());
 
@@ -299,6 +306,7 @@ namespace OpenTween
             };
 
             using var thumbbox = new TweetThumbnail();
+            thumbbox.Initialize(this.CreateThumbnailGenerator());
 
             SynchronizationContext.SetSynchronizationContext(new SynchronizationContext());
             await thumbbox.ShowThumbnailAsync(post);

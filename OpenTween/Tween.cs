@@ -132,9 +132,11 @@ namespace OpenTween
         private bool soundfileListup = false;
         private FormWindowState formWindowState = FormWindowState.Normal; // フォームの状態保存用 通知領域からアイコンをクリックして復帰した際に使用する
 
+        // 設定ファイル
+        private readonly SettingManager settings;
+
         // twitter解析部
-        private readonly TwitterApi twitterApi = new(ApplicationSettings.TwitterConsumerKey, ApplicationSettings.TwitterConsumerSecret);
-        private Twitter tw = null!;
+        private readonly Twitter tw;
 
         // Growl呼び出し部
         private readonly GrowlHelper gh = new(ApplicationSettings.ApplicationName);
@@ -155,96 +157,14 @@ namespace OpenTween
         public HashtagManage HashMgr = null!;
 
         // 表示フォント、色、アイコン
-
-        /// <summary>未読用フォント</summary>
-        private Font fntUnread = null!;
-
-        /// <summary>未読用文字色</summary>
-        private Color clUnread;
-
-        /// <summary>既読用フォント</summary>
-        private Font fntReaded = null!;
-
-        /// <summary>既読用文字色</summary>
-        private Color clReaded;
-
-        /// <summary>Fav用文字色</summary>
-        private Color clFav;
-
-        /// <summary>片思い用文字色</summary>
-        private Color clOWL;
-
-        /// <summary>Retweet用文字色</summary>
-        private Color clRetweet;
-
-        /// <summary>選択中の行用文字色</summary>
-        private readonly Color clHighLight = Color.FromKnownColor(KnownColor.HighlightText);
-
-        /// <summary>発言詳細部用フォント</summary>
-        private Font fntDetail = null!;
-
-        /// <summary>発言詳細部用色</summary>
-        private Color clDetail;
-
-        /// <summary>発言詳細部用リンク文字色</summary>
-        private Color clDetailLink;
-
-        /// <summary>発言詳細部用背景色</summary>
-        private Color clDetailBackcolor;
-
-        /// <summary>自分の発言用背景色</summary>
-        private Color clSelf;
-
-        /// <summary>自分宛返信用背景色</summary>
-        private Color clAtSelf;
-
-        /// <summary>選択発言者の他の発言用背景色</summary>
-        private Color clTarget;
-
-        /// <summary>選択発言中の返信先用背景色</summary>
-        private Color clAtTarget;
-
-        /// <summary>選択発言者への返信発言用背景色</summary>
-        private Color clAtFromTarget;
-
-        /// <summary>選択発言の唯一＠先</summary>
-        private Color clAtTo;
-
-        /// <summary>リスト部通常発言背景色</summary>
-        private Color clListBackcolor;
-
-        /// <summary>入力欄背景色</summary>
-        private Color clInputBackcolor;
-
-        /// <summary>入力欄文字色</summary>
-        private Color clInputFont;
-
-        /// <summary>入力欄フォント</summary>
-        private Font fntInputFont = null!;
+        private ThemeManager themeManager;
 
         /// <summary>アイコン画像リスト</summary>
-        private ImageCache iconCache = null!;
+        private readonly ImageCache iconCache;
 
-        /// <summary>タスクトレイアイコン：通常時 (At.ico)</summary>
-        private Icon nIconAt = null!;
+        private readonly IconAssetsManager iconAssets;
 
-        /// <summary>タスクトレイアイコン：通信エラー時 (AtRed.ico)</summary>
-        private Icon nIconAtRed = null!;
-
-        /// <summary>タスクトレイアイコン：オフライン時 (AtSmoke.ico)</summary>
-        private Icon nIconAtSmoke = null!;
-
-        /// <summary>タスクトレイアイコン：更新中 (Refresh.ico)</summary>
-        private Icon[] nIconRefresh = new Icon[4];
-
-        /// <summary>未読のあるタブ用アイコン (Tab.ico)</summary>
-        private Icon tabIcon = null!;
-
-        /// <summary>画面左上のアイコン (Main.ico)</summary>
-        private Icon mainIcon = null!;
-
-        private Icon replyIcon = null!;
-        private Icon replyIconBlink = null!;
+        private readonly ThumbnailGenerator thumbGenerator;
 
         private readonly ImageList listViewImageList = new(); // ListViewItemの高さ変更用
 
@@ -268,13 +188,6 @@ namespace OpenTween
 
         // 以下DrawItem関連
         private readonly SolidBrush brsHighLight = new(Color.FromKnownColor(KnownColor.Highlight));
-        private SolidBrush brsBackColorMine = null!;
-        private SolidBrush brsBackColorAt = null!;
-        private SolidBrush brsBackColorYou = null!;
-        private SolidBrush brsBackColorAtYou = null!;
-        private SolidBrush brsBackColorAtFromTarget = null!;
-        private SolidBrush brsBackColorAtTo = null!;
-        private SolidBrush brsBackColorNone = null!;
 
         /// <summary>Listにフォーカスないときの選択行の背景色</summary>
         private readonly SolidBrush brsDeactiveSelection = new(Color.FromKnownColor(KnownColor.ButtonFace));
@@ -282,7 +195,9 @@ namespace OpenTween
         private readonly StringFormat sfTab = new();
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////
-        private TabInformations statuses = null!;
+
+        /// <summary>発言保持クラス</summary>
+        private readonly TabInformations statuses;
 
         /// <summary>
         /// 現在表示している発言一覧の <see cref="ListView"/> に対するキャッシュ
@@ -355,10 +270,10 @@ namespace OpenTween
         //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         private readonly TimelineScheduler timelineScheduler = new();
-        private DebounceTimer selectionDebouncer = null!;
-        private DebounceTimer saveConfigDebouncer = null!;
+        private readonly DebounceTimer selectionDebouncer;
+        private readonly DebounceTimer saveConfigDebouncer;
 
-        private string recommendedStatusFooter = null!;
+        private readonly string recommendedStatusFooter;
         private bool urlMultibyteSplit = false;
         private bool preventSmsCommand = true;
 
@@ -410,6 +325,8 @@ namespace OpenTween
             (long StatusId, string ScreenName)? InReplyTo = null
         );
 
+        private readonly HookGlobalHotkey hookGlobalHotkey;
+
         private void TweenMain_Activated(object sender, EventArgs e)
         {
             // 画面がアクティブになったら、発言欄の背景色戻す
@@ -439,41 +356,16 @@ namespace OpenTween
                 // 後始末
                 this.SearchDialog.Dispose();
                 this.urlDialog.Dispose();
-                this.nIconAt?.Dispose();
-                this.nIconAtRed?.Dispose();
-                this.nIconAtSmoke?.Dispose();
-                foreach (var iconRefresh in this.nIconRefresh)
-                {
-                    iconRefresh?.Dispose();
-                }
-                this.tabIcon?.Dispose();
-                this.mainIcon?.Dispose();
-                this.replyIcon?.Dispose();
-                this.replyIconBlink?.Dispose();
                 this.listViewImageList.Dispose();
                 this.brsHighLight.Dispose();
-                this.brsBackColorMine?.Dispose();
-                this.brsBackColorAt?.Dispose();
-                this.brsBackColorYou?.Dispose();
-                this.brsBackColorAtYou?.Dispose();
-                this.brsBackColorAtFromTarget?.Dispose();
-                this.brsBackColorAtTo?.Dispose();
-                this.brsBackColorNone?.Dispose();
+                this.themeManager.Dispose();
                 this.brsDeactiveSelection?.Dispose();
                 this.sfTab.Dispose();
 
                 this.timelineScheduler.Dispose();
                 this.workerCts.Cancel();
-
-                if (this.iconCache != null)
-                {
-                    this.iconCache.CancelAsync();
-                    this.iconCache.Dispose();
-                }
-
                 this.thumbnailTokenSource?.Dispose();
 
-                this.twitterApi.Dispose();
                 this.hookGlobalHotkey.Dispose();
             }
 
@@ -483,96 +375,6 @@ namespace OpenTween
             Microsoft.Win32.SystemEvents.TimeChanged -= this.SystemEvents_TimeChanged;
 
             this.disposed = true;
-        }
-
-        private void LoadIcons()
-        {
-            // Icons フォルダ以下のアイコンを読み込み（着せ替えアイコン対応）
-            var iconsDir = Path.Combine(Application.StartupPath, "Icons");
-
-            // ウィンドウ左上のアイコン
-            var iconMain = this.LoadIcon(Path.Combine(iconsDir, "MIcon.ico"));
-
-            // タブ見出し未読表示アイコン
-            var iconTab = this.LoadIcon(Path.Combine(iconsDir, "Tab.ico"));
-
-            // タスクトレイ: 通常時アイコン
-            var iconAt = this.LoadIcon(Path.Combine(iconsDir, "At.ico"));
-
-            // タスクトレイ: エラー時アイコン
-            var iconAtRed = this.LoadIcon(Path.Combine(iconsDir, "AtRed.ico"));
-
-            // タスクトレイ: オフライン時アイコン
-            var iconAtSmoke = this.LoadIcon(Path.Combine(iconsDir, "AtSmoke.ico"));
-
-            // タスクトレイ: Reply通知アイコン (最大2枚でアニメーション可能)
-            var iconReply = this.LoadIcon(Path.Combine(iconsDir, "Reply.ico"));
-            var iconReplyBlink = this.LoadIcon(Path.Combine(iconsDir, "ReplyBlink.ico"));
-
-            // タスクトレイ: 更新中アイコン (最大4枚でアニメーション可能)
-            var iconRefresh1 = this.LoadIcon(Path.Combine(iconsDir, "Refresh.ico"));
-            var iconRefresh2 = this.LoadIcon(Path.Combine(iconsDir, "Refresh2.ico"));
-            var iconRefresh3 = this.LoadIcon(Path.Combine(iconsDir, "Refresh3.ico"));
-            var iconRefresh4 = this.LoadIcon(Path.Combine(iconsDir, "Refresh4.ico"));
-
-            // 読み込んだアイコンを設定 (不足するアイコンはデフォルトのものを設定)
-
-            this.mainIcon = iconMain ?? Properties.Resources.MIcon;
-            this.tabIcon = iconTab ?? Properties.Resources.TabIcon;
-            this.nIconAt = iconAt ?? iconMain ?? Properties.Resources.At;
-            this.nIconAtRed = iconAtRed ?? Properties.Resources.AtRed;
-            this.nIconAtSmoke = iconAtSmoke ?? Properties.Resources.AtSmoke;
-
-            if (iconReply != null && iconReplyBlink != null)
-            {
-                this.replyIcon = iconReply;
-                this.replyIconBlink = iconReplyBlink;
-            }
-            else
-            {
-                this.replyIcon = iconReply ?? iconReplyBlink ?? Properties.Resources.Reply;
-                this.replyIconBlink = this.nIconAt;
-            }
-
-            if (iconRefresh1 == null)
-            {
-                this.nIconRefresh = new[]
-                {
-                    Properties.Resources.Refresh, Properties.Resources.Refresh2,
-                    Properties.Resources.Refresh3, Properties.Resources.Refresh4,
-                };
-            }
-            else if (iconRefresh2 == null)
-            {
-                this.nIconRefresh = new[] { iconRefresh1 };
-            }
-            else if (iconRefresh3 == null)
-            {
-                this.nIconRefresh = new[] { iconRefresh1, iconRefresh2 };
-            }
-            else if (iconRefresh4 == null)
-            {
-                this.nIconRefresh = new[] { iconRefresh1, iconRefresh2, iconRefresh3 };
-            }
-            else // iconRefresh1 から iconRefresh4 まで全て揃っている
-            {
-                this.nIconRefresh = new[] { iconRefresh1, iconRefresh2, iconRefresh3, iconRefresh4 };
-            }
-        }
-
-        private Icon? LoadIcon(string filePath)
-        {
-            if (!File.Exists(filePath))
-                return null;
-
-            try
-            {
-                return new Icon(filePath);
-            }
-            catch (Exception)
-            {
-                return null;
-            }
         }
 
         private void InitColumns(ListView list, bool startup)
@@ -595,10 +397,10 @@ namespace OpenTween
 
                     if (startup)
                     {
-                        var widthScaleFactor = this.CurrentAutoScaleDimensions.Width / SettingManager.Local.ScaleDimension.Width;
+                        var widthScaleFactor = this.CurrentAutoScaleDimensions.Width / this.settings.Local.ScaleDimension.Width;
 
-                        columns[0].Width = ScaleBy(widthScaleFactor, SettingManager.Local.Width1);
-                        columns[1].Width = ScaleBy(widthScaleFactor, SettingManager.Local.Width3);
+                        columns[0].Width = ScaleBy(widthScaleFactor, this.settings.Local.ColumnsWidth[0]);
+                        columns[1].Width = ScaleBy(widthScaleFactor, this.settings.Local.ColumnsWidth[2]);
                         columns[0].DisplayIndex = 0;
                         columns[1].DisplayIndex = 1;
                     }
@@ -632,28 +434,12 @@ namespace OpenTween
 
                     if (startup)
                     {
-                        var widthScaleFactor = this.CurrentAutoScaleDimensions.Width / SettingManager.Local.ScaleDimension.Width;
+                        var widthScaleFactor = this.CurrentAutoScaleDimensions.Width / this.settings.Local.ScaleDimension.Width;
 
-                        columns[0].Width = ScaleBy(widthScaleFactor, SettingManager.Local.Width1);
-                        columns[1].Width = ScaleBy(widthScaleFactor, SettingManager.Local.Width2);
-                        columns[2].Width = ScaleBy(widthScaleFactor, SettingManager.Local.Width3);
-                        columns[3].Width = ScaleBy(widthScaleFactor, SettingManager.Local.Width4);
-                        columns[4].Width = ScaleBy(widthScaleFactor, SettingManager.Local.Width5);
-                        columns[5].Width = ScaleBy(widthScaleFactor, SettingManager.Local.Width6);
-                        columns[6].Width = ScaleBy(widthScaleFactor, SettingManager.Local.Width7);
-                        columns[7].Width = ScaleBy(widthScaleFactor, SettingManager.Local.Width8);
-
-                        var displayIndex = new[]
+                        foreach (var (column, index) in columns.WithIndex())
                         {
-                            SettingManager.Local.DisplayIndex1, SettingManager.Local.DisplayIndex2,
-                            SettingManager.Local.DisplayIndex3, SettingManager.Local.DisplayIndex4,
-                            SettingManager.Local.DisplayIndex5, SettingManager.Local.DisplayIndex6,
-                            SettingManager.Local.DisplayIndex7, SettingManager.Local.DisplayIndex8,
-                        };
-
-                        foreach (var i in Enumerable.Range(0, displayIndex.Length))
-                        {
-                            columns[i].DisplayIndex = displayIndex[i];
+                            column.Width = ScaleBy(widthScaleFactor, this.settings.Local.ColumnsWidth[index]);
+                            column.DisplayIndex = this.settings.Local.ColumnsOrder[index];
                         }
                     }
                     else
@@ -740,149 +526,75 @@ namespace OpenTween
             }
         }
 
-        private void InitializeTraceFrag()
+        public TweenMain(
+            SettingManager settingManager,
+            TabInformations tabInfo,
+            Twitter twitter,
+            ImageCache imageCache,
+            IconAssetsManager iconAssets,
+            ThumbnailGenerator thumbGenerator
+        )
         {
-#if DEBUG
-            this.TraceOutToolStripMenuItem.Checked = true;
-            MyCommon.TraceFlag = true;
-#endif
-            if (!MyCommon.FileVersion.EndsWith("0", StringComparison.Ordinal))
-            {
-                this.TraceOutToolStripMenuItem.Checked = true;
-                MyCommon.TraceFlag = true;
-            }
-        }
+            this.settings = settingManager;
+            this.statuses = tabInfo;
+            this.tw = twitter;
+            this.iconCache = imageCache;
+            this.iconAssets = iconAssets;
+            this.thumbGenerator = thumbGenerator;
 
-        private void TweenMain_Load(object sender, EventArgs e)
-        {
+            this.InitializeComponent();
+
+            if (!this.DesignMode)
+            {
+                // デザイナでの編集時にレイアウトが縦方向に数pxずれる問題の対策
+                this.StatusText.Dock = DockStyle.Fill;
+            }
+
+            this.hookGlobalHotkey = new HookGlobalHotkey(this);
+
+            this.hookGlobalHotkey.HotkeyPressed += this.HookGlobalHotkey_HotkeyPressed;
+            this.gh.NotifyClicked += this.GrowlHelper_Callback;
+
+            // メイリオフォント指定時にタブの最小幅が広くなる問題の対策
+            this.ListTab.HandleCreated += (s, e) => NativeMethods.SetMinTabWidth((TabControl)s, 40);
+
+            this.ImageSelector.Visible = false;
+            this.ImageSelector.Enabled = false;
+            this.ImageSelector.FilePickDialog = this.OpenFileDialog1;
+
+            this.workerProgress = new Progress<string>(x => this.StatusLabel.Text = x);
+
+            this.ReplaceAppName();
+            this.InitializeShortcuts();
+
             this.ignoreConfigSave = true;
             this.Visible = false;
 
-            if (ApplicationEvents.StartupOptions.ContainsKey("d"))
-                MyCommon.TraceFlag = true;
-
-            this.InitializeTraceFrag();
+            this.TraceOutToolStripMenuItem.Checked = MyCommon.TraceFlag;
 
             Microsoft.Win32.SystemEvents.PowerModeChanged += this.SystemEvents_PowerModeChanged;
 
             Regex.CacheSize = 100;
 
-            // 発言保持クラス
-            this.statuses = TabInformations.GetInstance();
-
             // アイコン設定
-            this.LoadIcons();
-            this.Icon = this.mainIcon;              // メインフォーム（TweenMain）
-            this.NotifyIcon1.Icon = this.nIconAt;      // タスクトレイ
-            this.TabImage.Images.Add(this.tabIcon);    // タブ見出し
+            this.Icon = this.iconAssets.IconMain; // メインフォーム（TweenMain）
+            this.NotifyIcon1.Icon = this.iconAssets.IconTray; // タスクトレイ
+            this.TabImage.Images.Add(this.iconAssets.IconTab); // タブ見出し
 
             // <<<<<<<<<設定関連>>>>>>>>>
             // 設定読み出し
             this.LoadConfig();
 
             // 現在の DPI と設定保存時の DPI との比を取得する
-            var configScaleFactor = SettingManager.Local.GetConfigScaleFactor(this.CurrentAutoScaleDimensions);
-
-            // UIフォント設定
-            var fontUIGlobal = SettingManager.Local.FontUIGlobal;
-            if (fontUIGlobal != null)
-            {
-                OTBaseForm.GlobalFont = fontUIGlobal;
-                this.Font = fontUIGlobal;
-            }
-
-            // 不正値チェック
-            if (!ApplicationEvents.StartupOptions.ContainsKey("nolimit"))
-            {
-                if (SettingManager.Common.TimelinePeriod < 15 && SettingManager.Common.TimelinePeriod > 0)
-                    SettingManager.Common.TimelinePeriod = 15;
-
-                if (SettingManager.Common.ReplyPeriod < 15 && SettingManager.Common.ReplyPeriod > 0)
-                    SettingManager.Common.ReplyPeriod = 15;
-
-                if (SettingManager.Common.DMPeriod < 15 && SettingManager.Common.DMPeriod > 0)
-                    SettingManager.Common.DMPeriod = 15;
-
-                if (SettingManager.Common.PubSearchPeriod < 30 && SettingManager.Common.PubSearchPeriod > 0)
-                    SettingManager.Common.PubSearchPeriod = 30;
-
-                if (SettingManager.Common.UserTimelinePeriod < 15 && SettingManager.Common.UserTimelinePeriod > 0)
-                    SettingManager.Common.UserTimelinePeriod = 15;
-
-                if (SettingManager.Common.ListsPeriod < 15 && SettingManager.Common.ListsPeriod > 0)
-                    SettingManager.Common.ListsPeriod = 15;
-            }
-
-            if (!Twitter.VerifyApiResultCount(MyCommon.WORKERTYPE.Timeline, SettingManager.Common.CountApi))
-                SettingManager.Common.CountApi = 60;
-            if (!Twitter.VerifyApiResultCount(MyCommon.WORKERTYPE.Reply, SettingManager.Common.CountApiReply))
-                SettingManager.Common.CountApiReply = 40;
-
-            if (SettingManager.Common.MoreCountApi != 0 && !Twitter.VerifyMoreApiResultCount(SettingManager.Common.MoreCountApi))
-                SettingManager.Common.MoreCountApi = 200;
-            if (SettingManager.Common.FirstCountApi != 0 && !Twitter.VerifyFirstApiResultCount(SettingManager.Common.FirstCountApi))
-                SettingManager.Common.FirstCountApi = 100;
-
-            if (SettingManager.Common.FavoritesCountApi != 0 && !Twitter.VerifyApiResultCount(MyCommon.WORKERTYPE.Favorites, SettingManager.Common.FavoritesCountApi))
-                SettingManager.Common.FavoritesCountApi = 40;
-            if (SettingManager.Common.ListCountApi != 0 && !Twitter.VerifyApiResultCount(MyCommon.WORKERTYPE.List, SettingManager.Common.ListCountApi))
-                SettingManager.Common.ListCountApi = 100;
-            if (SettingManager.Common.SearchCountApi != 0 && !Twitter.VerifyApiResultCount(MyCommon.WORKERTYPE.PublicSearch, SettingManager.Common.SearchCountApi))
-                SettingManager.Common.SearchCountApi = 100;
-            if (SettingManager.Common.UserTimelineCountApi != 0 && !Twitter.VerifyApiResultCount(MyCommon.WORKERTYPE.UserTimeline, SettingManager.Common.UserTimelineCountApi))
-                SettingManager.Common.UserTimelineCountApi = 20;
-
-            // 廃止サービスが選択されていた場合ux.nuへ読み替え
-            if (SettingManager.Common.AutoShortUrlFirst < 0)
-                SettingManager.Common.AutoShortUrlFirst = MyCommon.UrlConverter.Uxnu;
-
-            TwitterApiConnection.RestApiHost = SettingManager.Common.TwitterApiHost;
-            this.tw = new Twitter(this.twitterApi);
+            var configScaleFactor = this.settings.Local.GetConfigScaleFactor(this.CurrentAutoScaleDimensions);
 
             // 認証関連
-            if (MyCommon.IsNullOrEmpty(SettingManager.Common.Token)) SettingManager.Common.UserName = "";
-            this.tw.Initialize(SettingManager.Common.Token, SettingManager.Common.TokenSecret, SettingManager.Common.UserName, SettingManager.Common.UserId);
+            this.tw.Initialize(this.settings.Common.Token, this.settings.Common.TokenSecret, this.settings.Common.UserName, this.settings.Common.UserId);
 
             this.initial = true;
 
-            Networking.Initialize();
-
-            var saveRequired = false;
-            var firstRun = false;
-
-            // ユーザー名、パスワードが未設定なら設定画面を表示（初回起動時など）
-            if (MyCommon.IsNullOrEmpty(this.tw.Username))
-            {
-                saveRequired = true;
-                firstRun = true;
-
-                // 設定せずにキャンセルされたか、設定されたが依然ユーザー名が未設定ならプログラム終了
-                if (this.ShowSettingDialog(showTaskbarIcon: true) != DialogResult.OK ||
-                    MyCommon.IsNullOrEmpty(this.tw.Username))
-                {
-                    Application.Exit();  // 強制終了
-                    return;
-                }
-            }
-
-            // Twitter用通信クラス初期化
-            Networking.DefaultTimeout = TimeSpan.FromSeconds(SettingManager.Common.DefaultTimeOut);
-            Networking.UploadImageTimeout = TimeSpan.FromSeconds(SettingManager.Common.UploadImageTimeout);
-            Networking.SetWebProxy(
-                SettingManager.Local.ProxyType,
-                SettingManager.Local.ProxyAddress,
-                SettingManager.Local.ProxyPort,
-                SettingManager.Local.ProxyUser,
-                SettingManager.Local.ProxyPassword);
-            Networking.ForceIPv4 = SettingManager.Common.ForceIPv4;
-
-            TwitterApiConnection.RestApiHost = SettingManager.Common.TwitterApiHost;
-            this.tw.RestrictFavCheck = SettingManager.Common.RestrictFavCheck;
-            this.tw.ReadOwnPost = SettingManager.Common.ReadOwnPost;
-            ShortUrl.Instance.DisableExpanding = !SettingManager.Common.TinyUrlResolve;
-            ShortUrl.Instance.BitlyAccessToken = SettingManager.Common.BitlyAccessToken;
-            ShortUrl.Instance.BitlyId = SettingManager.Common.BilyUser;
-            ShortUrl.Instance.BitlyKey = SettingManager.Common.BitlyPwd;
+            this.tw.RestrictFavCheck = this.settings.Common.RestrictFavCheck;
+            this.tw.ReadOwnPost = this.settings.Common.ReadOwnPost;
 
             // アクセストークンが有効であるか確認する
             // ここが Twitter API への最初のアクセスになるようにすること
@@ -902,62 +614,32 @@ namespace OpenTween
 
             // サムネイル関連の初期化
             // プロキシ設定等の通信まわりの初期化が済んでから処理する
-            ThumbnailGenerator.InitializeGenerator();
+            var imgazyobizinet = this.thumbGenerator.ImgAzyobuziNet;
+            imgazyobizinet.Enabled = this.settings.Common.EnableImgAzyobuziNet;
+            imgazyobizinet.DisabledInDM = this.settings.Common.ImgAzyobuziNetDisabledInDM;
+            imgazyobizinet.AutoUpdate = true;
 
-            var imgazyobizinet = ThumbnailGenerator.ImgAzyobuziNetInstance;
-            imgazyobizinet.Enabled = SettingManager.Common.EnableImgAzyobuziNet;
-            imgazyobizinet.DisabledInDM = SettingManager.Common.ImgAzyobuziNetDisabledInDM;
-
-            Thumbnail.Services.TonTwitterCom.GetApiConnection = () => this.twitterApi.Connection;
+            Thumbnail.Services.TonTwitterCom.GetApiConnection = () => this.tw.Api.Connection;
 
             // 画像投稿サービス
-            this.ImageSelector.Initialize(this.tw, this.tw.Configuration, SettingManager.Common.UseImageServiceName, SettingManager.Common.UseImageService);
+            this.ImageSelector.Initialize(this.tw, this.tw.Configuration, this.settings.Common.UseImageServiceName, this.settings.Common.UseImageService);
+
+            this.tweetThumbnail1.Initialize(this.thumbGenerator);
 
             // ハッシュタグ/@id関連
-            this.AtIdSupl = new AtIdSupplement(SettingManager.AtIdList.AtIdList, "@");
-            this.HashSupl = new AtIdSupplement(SettingManager.Common.HashTags, "#");
+            this.AtIdSupl = new AtIdSupplement(this.settings.AtIdList.AtIdList, "@");
+            this.HashSupl = new AtIdSupplement(this.settings.Common.HashTags, "#");
             this.HashMgr = new HashtagManage(this.HashSupl,
-                                    SettingManager.Common.HashTags.ToArray(),
-                                    SettingManager.Common.HashSelected,
-                                    SettingManager.Common.HashIsPermanent,
-                                    SettingManager.Common.HashIsHead,
-                                    SettingManager.Common.HashIsNotAddToAtReply);
+                                    this.settings.Common.HashTags.ToArray(),
+                                    this.settings.Common.HashSelected,
+                                    this.settings.Common.HashIsPermanent,
+                                    this.settings.Common.HashIsHead,
+                                    this.settings.Common.HashIsNotAddToAtReply);
             if (!MyCommon.IsNullOrEmpty(this.HashMgr.UseHash) && this.HashMgr.IsPermanent) this.HashStripSplitButton.Text = this.HashMgr.UseHash;
 
-            // アイコンリスト作成
-            this.iconCache = new ImageCache();
-            this.tweetDetailsView.IconCache = this.iconCache;
-
             // フォント＆文字色＆背景色保持
-            this.fntUnread = SettingManager.Local.FontUnread;
-            this.clUnread = SettingManager.Local.ColorUnread;
-            this.fntReaded = SettingManager.Local.FontRead;
-            this.clReaded = SettingManager.Local.ColorRead;
-            this.clFav = SettingManager.Local.ColorFav;
-            this.clOWL = SettingManager.Local.ColorOWL;
-            this.clRetweet = SettingManager.Local.ColorRetweet;
-            this.fntDetail = SettingManager.Local.FontDetail;
-            this.clDetail = SettingManager.Local.ColorDetail;
-            this.clDetailLink = SettingManager.Local.ColorDetailLink;
-            this.clDetailBackcolor = SettingManager.Local.ColorDetailBackcolor;
-            this.clSelf = SettingManager.Local.ColorSelf;
-            this.clAtSelf = SettingManager.Local.ColorAtSelf;
-            this.clTarget = SettingManager.Local.ColorTarget;
-            this.clAtTarget = SettingManager.Local.ColorAtTarget;
-            this.clAtFromTarget = SettingManager.Local.ColorAtFromTarget;
-            this.clAtTo = SettingManager.Local.ColorAtTo;
-            this.clListBackcolor = SettingManager.Local.ColorListBackcolor;
-            this.clInputBackcolor = SettingManager.Local.ColorInputBackcolor;
-            this.clInputFont = SettingManager.Local.ColorInputFont;
-            this.fntInputFont = SettingManager.Local.FontInputFont;
-
-            this.brsBackColorMine = new SolidBrush(this.clSelf);
-            this.brsBackColorAt = new SolidBrush(this.clAtSelf);
-            this.brsBackColorYou = new SolidBrush(this.clTarget);
-            this.brsBackColorAtYou = new SolidBrush(this.clAtTarget);
-            this.brsBackColorAtFromTarget = new SolidBrush(this.clAtFromTarget);
-            this.brsBackColorAtTo = new SolidBrush(this.clAtTo);
-            this.brsBackColorNone = new SolidBrush(this.clListBackcolor);
+            this.themeManager = new(this.settings.Local);
+            this.tweetDetailsView.Initialize(this, this.iconCache, this.themeManager);
 
             // StringFormatオブジェクトへの事前設定
             this.sfTab.Alignment = StringAlignment.Center;
@@ -977,20 +659,20 @@ namespace OpenTween
             this.urlDialog.Owner = this;
 
             // 新着バルーン通知のチェック状態設定
-            this.NewPostPopMenuItem.Checked = SettingManager.Common.NewAllPop;
+            this.NewPostPopMenuItem.Checked = this.settings.Common.NewAllPop;
             this.NotifyFileMenuItem.Checked = this.NewPostPopMenuItem.Checked;
 
             // 新着取得時のリストスクロールをするか。trueならスクロールしない
-            this.ListLockMenuItem.Checked = SettingManager.Common.ListLock;
-            this.LockListFileMenuItem.Checked = SettingManager.Common.ListLock;
+            this.ListLockMenuItem.Checked = this.settings.Common.ListLock;
+            this.LockListFileMenuItem.Checked = this.settings.Common.ListLock;
             // サウンド再生（タブ別設定より優先）
-            this.PlaySoundMenuItem.Checked = SettingManager.Common.PlaySound;
-            this.PlaySoundFileMenuItem.Checked = SettingManager.Common.PlaySound;
+            this.PlaySoundMenuItem.Checked = this.settings.Common.PlaySound;
+            this.PlaySoundFileMenuItem.Checked = this.settings.Common.PlaySound;
 
             // ウィンドウ設定
-            this.ClientSize = ScaleBy(configScaleFactor, SettingManager.Local.FormSize);
+            this.ClientSize = ScaleBy(configScaleFactor, this.settings.Local.FormSize);
             this.mySize = this.ClientSize; // サイズ保持（最小化・最大化されたまま終了した場合の対応用）
-            this.myLoc = SettingManager.Local.FormLocation;
+            this.myLoc = this.settings.Local.FormLocation;
             // タイトルバー領域
             if (this.WindowState != FormWindowState.Minimized)
             {
@@ -1012,34 +694,34 @@ namespace OpenTween
                 }
                 this.DesktopLocation = this.myLoc;
             }
-            this.TopMost = SettingManager.Common.AlwaysTop;
-            this.mySpDis = ScaleBy(configScaleFactor.Height, SettingManager.Local.SplitterDistance);
-            this.mySpDis2 = ScaleBy(configScaleFactor.Height, SettingManager.Local.StatusTextHeight);
-            if (SettingManager.Local.PreviewDistance == -1)
+            this.TopMost = this.settings.Common.AlwaysTop;
+            this.mySpDis = ScaleBy(configScaleFactor.Height, this.settings.Local.SplitterDistance);
+            this.mySpDis2 = ScaleBy(configScaleFactor.Height, this.settings.Local.StatusTextHeight);
+            if (this.settings.Local.PreviewDistance == -1)
             {
                 this.mySpDis3 = this.mySize.Width - ScaleBy(this.CurrentScaleFactor.Width, 150);
                 if (this.mySpDis3 < 1) this.mySpDis3 = ScaleBy(this.CurrentScaleFactor.Width, 50);
-                SettingManager.Local.PreviewDistance = this.mySpDis3;
+                this.settings.Local.PreviewDistance = this.mySpDis3;
             }
             else
             {
-                this.mySpDis3 = ScaleBy(configScaleFactor.Width, SettingManager.Local.PreviewDistance);
+                this.mySpDis3 = ScaleBy(configScaleFactor.Width, this.settings.Local.PreviewDistance);
             }
-            this.PlaySoundMenuItem.Checked = SettingManager.Common.PlaySound;
-            this.PlaySoundFileMenuItem.Checked = SettingManager.Common.PlaySound;
+            this.PlaySoundMenuItem.Checked = this.settings.Common.PlaySound;
+            this.PlaySoundFileMenuItem.Checked = this.settings.Common.PlaySound;
             // 入力欄
-            this.StatusText.Font = this.fntInputFont;
-            this.StatusText.ForeColor = this.clInputFont;
+            this.StatusText.Font = this.themeManager.FontInputFont;
+            this.StatusText.ForeColor = this.themeManager.ColorInputFont;
 
             // SplitContainer2.Panel2MinSize を一行表示の入力欄の高さに合わせる (MS UI Gothic 12pt (96dpi) の場合は 19px)
-            this.StatusText.Multiline = false; // SettingManager.Local.StatusMultiline の設定は後で反映される
+            this.StatusText.Multiline = false; // this.settings.Local.StatusMultiline の設定は後で反映される
             this.SplitContainer2.Panel2MinSize = this.StatusText.Height;
 
             // 必要であれば、発言一覧と発言詳細部・入力欄の上下を入れ替える
-            this.SplitContainer1.IsPanelInverted = !SettingManager.Common.StatusAreaAtBottom;
+            this.SplitContainer1.IsPanelInverted = !this.settings.Common.StatusAreaAtBottom;
 
             // 全新着通知のチェック状態により、Reply＆DMの新着通知有効無効切り替え（タブ別設定にするため削除予定）
-            if (SettingManager.Common.UnreadManage == false)
+            if (this.settings.Common.UnreadManage == false)
             {
                 this.ReadedStripMenuItem.Enabled = false;
                 this.UnreadStripMenuItem.Enabled = false;
@@ -1065,8 +747,8 @@ namespace OpenTween
             this.SplitContainer2.Panel2.AccessibleName = "";
 
             ////////////////////////////////////////////////////////////////////////////////
-            var sortOrder = (SortOrder)SettingManager.Common.SortOrder;
-            var mode = SettingManager.Common.SortColumn switch
+            var sortOrder = (SortOrder)this.settings.Common.SortOrder;
+            var mode = this.settings.Common.SortColumn switch
             {
                 // 0:アイコン,5:未読マーク,6:プロテクト・フィルターマーク
                 0 or 5 or 6 => ComparerMode.Id, // Idソートに読み替え
@@ -1080,7 +762,7 @@ namespace OpenTween
             this.statuses.SetSortMode(mode, sortOrder);
             ////////////////////////////////////////////////////////////////////////////////
 
-            this.ApplyListViewIconSize(SettingManager.Common.IconSize);
+            this.ApplyListViewIconSize(this.settings.Common.IconSize);
 
             // <<<<<<<<タブ関連>>>>>>>
             foreach (var tab in this.statuses.Tabs)
@@ -1097,7 +779,7 @@ namespace OpenTween
             MyCommon.TwitterApiInfo.AccessLimitUpdated += this.TwitterApiStatus_AccessLimitUpdated;
             Microsoft.Win32.SystemEvents.TimeChanged += this.SystemEvents_TimeChanged;
 
-            if (SettingManager.Common.TabIconDisp)
+            if (this.settings.Common.TabIconDisp)
             {
                 this.ListTab.DrawMode = TabDrawMode.Normal;
             }
@@ -1108,23 +790,23 @@ namespace OpenTween
                 this.ListTab.ImageList = null;
             }
 
-            if (SettingManager.Common.HotkeyEnabled)
+            if (this.settings.Common.HotkeyEnabled)
             {
                 // グローバルホットキーの登録
                 var modKey = HookGlobalHotkey.ModKeys.None;
-                if ((SettingManager.Common.HotkeyModifier & Keys.Alt) == Keys.Alt)
+                if ((this.settings.Common.HotkeyModifier & Keys.Alt) == Keys.Alt)
                     modKey |= HookGlobalHotkey.ModKeys.Alt;
-                if ((SettingManager.Common.HotkeyModifier & Keys.Control) == Keys.Control)
+                if ((this.settings.Common.HotkeyModifier & Keys.Control) == Keys.Control)
                     modKey |= HookGlobalHotkey.ModKeys.Ctrl;
-                if ((SettingManager.Common.HotkeyModifier & Keys.Shift) == Keys.Shift)
+                if ((this.settings.Common.HotkeyModifier & Keys.Shift) == Keys.Shift)
                     modKey |= HookGlobalHotkey.ModKeys.Shift;
-                if ((SettingManager.Common.HotkeyModifier & Keys.LWin) == Keys.LWin)
+                if ((this.settings.Common.HotkeyModifier & Keys.LWin) == Keys.LWin)
                     modKey |= HookGlobalHotkey.ModKeys.Win;
 
-                this.hookGlobalHotkey.RegisterOriginalHotkey(SettingManager.Common.HotkeyKey, SettingManager.Common.HotkeyValue, modKey);
+                this.hookGlobalHotkey.RegisterOriginalHotkey(this.settings.Common.HotkeyKey, this.settings.Common.HotkeyValue, modKey);
             }
 
-            if (SettingManager.Common.IsUseNotifyGrowl)
+            if (this.settings.Common.IsUseNotifyGrowl)
                 this.gh.RegisterGrowl();
 
             this.StatusLabel.Text = Properties.Resources.Form1_LoadText1;       // 画面右下の状態表示を変更
@@ -1132,7 +814,7 @@ namespace OpenTween
             this.SetMainWindowTitle();
             this.SetNotifyIconText();
 
-            if (!SettingManager.Common.MinimizeToTray || this.WindowState != FormWindowState.Minimized)
+            if (!this.settings.Common.MinimizeToTray || this.WindowState != FormWindowState.Minimized)
             {
                 this.Visible = true;
             }
@@ -1164,18 +846,8 @@ namespace OpenTween
 
             this.ignoreConfigSave = false;
             this.TweenMain_Resize(this, EventArgs.Empty);
-            if (saveRequired) this.SaveConfigsAll(false);
 
-            foreach (var ua in SettingManager.Common.UserAccounts)
-            {
-                if (ua.UserId == 0 && ua.Username.Equals(this.tw.Username, StringComparison.InvariantCultureIgnoreCase))
-                {
-                    ua.UserId = this.tw.UserId;
-                    break;
-                }
-            }
-
-            if (firstRun)
+            if (this.settings.IsFirstRun)
             {
                 // 初回起動時だけ右下のメニューを目立たせる
                 this.HashStripSplitButton.ShowDropDown();
@@ -1184,15 +856,18 @@ namespace OpenTween
 
         private void InitDetailHtmlFormat()
         {
-            var htmlTemplate = SettingManager.Common.IsMonospace ? DetailHtmlFormatTemplateMono : DetailHtmlFormatTemplateNormal;
+            var htmlTemplate = this.settings.Common.IsMonospace ? DetailHtmlFormatTemplateMono : DetailHtmlFormatTemplateNormal;
+
+            static string ColorToRGBString(Color color)
+                => $"{color.R},{color.G},{color.B}";
 
             this.detailHtmlFormatPreparedTemplate = htmlTemplate
-                .Replace("%FONT_FAMILY%", this.fntDetail.Name)
-                .Replace("%FONT_SIZE%", this.fntDetail.Size.ToString())
-                .Replace("%FONT_COLOR%", $"{this.clDetail.R},{this.clDetail.G},{this.clDetail.B}")
-                .Replace("%LINK_COLOR%", $"{this.clDetailLink.R},{this.clDetailLink.G},{this.clDetailLink.B}")
-                .Replace("%BG_COLOR%", $"{this.clDetailBackcolor.R},{this.clDetailBackcolor.G},{this.clDetailBackcolor.B}")
-                .Replace("%BG_REPLY_COLOR%", $"{this.clAtTo.R}, {this.clAtTo.G}, {this.clAtTo.B}");
+                .Replace("%FONT_FAMILY%", this.themeManager.FontDetail.Name)
+                .Replace("%FONT_SIZE%", this.themeManager.FontDetail.Size.ToString())
+                .Replace("%FONT_COLOR%", ColorToRGBString(this.themeManager.ColorDetail))
+                .Replace("%LINK_COLOR%", ColorToRGBString(this.themeManager.ColorDetailLink))
+                .Replace("%BG_COLOR%", ColorToRGBString(this.themeManager.ColorDetailBackcolor))
+                .Replace("%BG_REPLY_COLOR%", ColorToRGBString(this.themeManager.ColorAtTo));
         }
 
         private void ListTab_DrawItem(object sender, DrawItemEventArgs e)
@@ -1229,71 +904,11 @@ namespace OpenTween
 
         private void LoadConfig()
         {
-            SettingManager.Local = SettingManager.Local;
-
             // v1.2.4 以前の設定には ScaleDimension の項目がないため、現在の DPI と同じとして扱う
-            if (SettingManager.Local.ScaleDimension.IsEmpty)
-                SettingManager.Local.ScaleDimension = this.CurrentAutoScaleDimensions;
+            if (this.settings.Local.ScaleDimension.IsEmpty)
+                this.settings.Local.ScaleDimension = this.CurrentAutoScaleDimensions;
 
-            var tabSettings = SettingManager.Tabs;
-            foreach (var tabSetting in tabSettings.Tabs)
-            {
-                TabModel tab;
-                switch (tabSetting.TabType)
-                {
-                    case MyCommon.TabUsageType.Home:
-                        tab = new HomeTabModel(tabSetting.TabName);
-                        break;
-                    case MyCommon.TabUsageType.Mentions:
-                        tab = new MentionsTabModel(tabSetting.TabName);
-                        break;
-                    case MyCommon.TabUsageType.DirectMessage:
-                        tab = new DirectMessagesTabModel(tabSetting.TabName);
-                        break;
-                    case MyCommon.TabUsageType.Favorites:
-                        tab = new FavoritesTabModel(tabSetting.TabName);
-                        break;
-                    case MyCommon.TabUsageType.UserDefined:
-                        tab = new FilterTabModel(tabSetting.TabName);
-                        break;
-                    case MyCommon.TabUsageType.UserTimeline:
-                        tab = new UserTimelineTabModel(tabSetting.TabName, tabSetting.User!);
-                        break;
-                    case MyCommon.TabUsageType.PublicSearch:
-                        tab = new PublicSearchTabModel(tabSetting.TabName)
-                        {
-                            SearchWords = tabSetting.SearchWords,
-                            SearchLang = tabSetting.SearchLang,
-                        };
-                        break;
-                    case MyCommon.TabUsageType.Lists:
-                        tab = new ListTimelineTabModel(tabSetting.TabName, tabSetting.ListInfo!);
-                        break;
-                    case MyCommon.TabUsageType.Mute:
-                        tab = new MuteTabModel(tabSetting.TabName);
-                        break;
-                    default:
-                        continue;
-                }
-
-                tab.UnreadManage = tabSetting.UnreadManage;
-                tab.Protected = tabSetting.Protected;
-                tab.Notify = tabSetting.Notify;
-                tab.SoundFile = tabSetting.SoundFile;
-
-                if (tab.IsDistributableTabType)
-                {
-                    var filterTab = (FilterTabModel)tab;
-                    filterTab.FilterArray = tabSetting.FilterArray;
-                    filterTab.FilterModified = false;
-                }
-
-                if (this.statuses.ContainsTab(tab.TabName))
-                    tab.TabName = this.statuses.MakeTabName("MyTab");
-
-                this.statuses.AddTab(tab);
-            }
-
+            this.statuses.LoadTabsFromSettings(this.settings.Tabs);
             this.statuses.AddDefaultTabs();
         }
 
@@ -1307,12 +922,12 @@ namespace OpenTween
             static TimeSpan IntervalSecondsOrDisabled(int seconds)
                 => seconds == 0 ? Timeout.InfiniteTimeSpan : TimeSpan.FromSeconds(seconds);
 
-            this.timelineScheduler.UpdateInterval[TimelineSchedulerTaskType.Home] = IntervalSecondsOrDisabled(SettingManager.Common.TimelinePeriod);
-            this.timelineScheduler.UpdateInterval[TimelineSchedulerTaskType.Mention] = IntervalSecondsOrDisabled(SettingManager.Common.ReplyPeriod);
-            this.timelineScheduler.UpdateInterval[TimelineSchedulerTaskType.Dm] = IntervalSecondsOrDisabled(SettingManager.Common.DMPeriod);
-            this.timelineScheduler.UpdateInterval[TimelineSchedulerTaskType.PublicSearch] = IntervalSecondsOrDisabled(SettingManager.Common.PubSearchPeriod);
-            this.timelineScheduler.UpdateInterval[TimelineSchedulerTaskType.User] = IntervalSecondsOrDisabled(SettingManager.Common.UserTimelinePeriod);
-            this.timelineScheduler.UpdateInterval[TimelineSchedulerTaskType.List] = IntervalSecondsOrDisabled(SettingManager.Common.ListsPeriod);
+            this.timelineScheduler.UpdateInterval[TimelineSchedulerTaskType.Home] = IntervalSecondsOrDisabled(this.settings.Common.TimelinePeriod);
+            this.timelineScheduler.UpdateInterval[TimelineSchedulerTaskType.Mention] = IntervalSecondsOrDisabled(this.settings.Common.ReplyPeriod);
+            this.timelineScheduler.UpdateInterval[TimelineSchedulerTaskType.Dm] = IntervalSecondsOrDisabled(this.settings.Common.DMPeriod);
+            this.timelineScheduler.UpdateInterval[TimelineSchedulerTaskType.PublicSearch] = IntervalSecondsOrDisabled(this.settings.Common.PubSearchPeriod);
+            this.timelineScheduler.UpdateInterval[TimelineSchedulerTaskType.User] = IntervalSecondsOrDisabled(this.settings.Common.UserTimelinePeriod);
+            this.timelineScheduler.UpdateInterval[TimelineSchedulerTaskType.List] = IntervalSecondsOrDisabled(this.settings.Common.ListsPeriod);
             this.timelineScheduler.UpdateInterval[TimelineSchedulerTaskType.Config] = TimeSpan.FromHours(6);
             this.timelineScheduler.UpdateAfterSystemResume = TimeSpan.FromSeconds(30);
 
@@ -1400,7 +1015,7 @@ namespace OpenTween
 
             if (addCount > 0)
             {
-                if (SettingManager.Common.TabIconDisp)
+                if (this.settings.Common.TabIconDisp)
                 {
                     foreach (var (tab, index) in this.statuses.Tabs.WithIndex())
                     {
@@ -1639,7 +1254,7 @@ namespace OpenTween
                 return false;
 
             // 「画面最小化・アイコン時のみバルーンを表示する」が有効
-            if (SettingManager.Common.LimitBalloon)
+            if (this.settings.Common.LimitBalloon)
             {
                 if (this.WindowState != FormWindowState.Minimized && this.Visible && Form.ActiveForm != null)
                     return false;
@@ -1650,7 +1265,7 @@ namespace OpenTween
 
         private void NotifyNewPosts(PostClass[] notifyPosts, string soundFile, int addCount, bool newMentions)
         {
-            if (SettingManager.Common.ReadOwnPost)
+            if (this.settings.Common.ReadOwnPost)
             {
                 if (notifyPosts != null && notifyPosts.Length > 0 && notifyPosts.All(x => x.UserId == this.tw.UserId))
                     return;
@@ -1662,7 +1277,7 @@ namespace OpenTween
                 if (notifyPosts != null && notifyPosts.Length > 0)
                 {
                     // Growlは一個ずつばらして通知。ただし、3ポスト以上あるときはまとめる
-                    if (SettingManager.Common.IsUseNotifyGrowl)
+                    if (this.settings.Common.IsUseNotifyGrowl)
                     {
                         var sb = new StringBuilder();
                         var reply = false;
@@ -1679,7 +1294,7 @@ namespace OpenTween
                             if (post.IsReply && !post.IsExcludeReply) reply = true;
                             if (post.IsDm) dm = true;
                             if (sb.Length > 0) sb.Append(System.Environment.NewLine);
-                            switch (SettingManager.Common.NameBalloon)
+                            switch (this.settings.Common.NameBalloon)
                             {
                                 case MyCommon.NameBalloonEnum.UserID:
                                     sb.Append(post.ScreenName).Append(" : ");
@@ -1696,7 +1311,7 @@ namespace OpenTween
 
                             var title = new StringBuilder();
                             GrowlHelper.NotifyType nt;
-                            if (SettingManager.Common.DispUsername)
+                            if (this.settings.Common.DispUsername)
                             {
                                 title.Append(this.tw.Username);
                                 title.Append(" - ");
@@ -1740,7 +1355,7 @@ namespace OpenTween
                             if (post.IsReply && !post.IsExcludeReply) reply = true;
                             if (post.IsDm) dm = true;
                             if (sb.Length > 0) sb.Append(System.Environment.NewLine);
-                            switch (SettingManager.Common.NameBalloon)
+                            switch (this.settings.Common.NameBalloon)
                             {
                                 case MyCommon.NameBalloonEnum.UserID:
                                     sb.Append(post.ScreenName).Append(" : ");
@@ -1754,7 +1369,7 @@ namespace OpenTween
 
                         var title = new StringBuilder();
                         ToolTipIcon ntIcon;
-                        if (SettingManager.Common.DispUsername)
+                        if (this.settings.Common.DispUsername)
                         {
                             title.Append(this.tw.Username);
                             title.Append(" - ");
@@ -1793,7 +1408,7 @@ namespace OpenTween
             }
 
             // サウンド再生
-            if (!this.initial && SettingManager.Common.PlaySound && !MyCommon.IsNullOrEmpty(soundFile))
+            if (!this.initial && this.settings.Common.PlaySound && !MyCommon.IsNullOrEmpty(soundFile))
             {
                 try
                 {
@@ -1811,7 +1426,7 @@ namespace OpenTween
             }
 
             // mentions新着時に画面ブリンク
-            if (!this.initial && SettingManager.Common.BlinkNewMentions && newMentions && Form.ActiveForm == null)
+            if (!this.initial && this.settings.Common.BlinkNewMentions && newMentions && Form.ActiveForm == null)
             {
                 NativeMethods.FlashMyWindow(this.Handle, 3);
             }
@@ -1850,7 +1465,7 @@ namespace OpenTween
             // Read:true=既読 false=未読
             // 未読管理していなかったら既読として扱う
             if (!tabInfo.UnreadManage ||
-               !SettingManager.Common.UnreadManage) read = true;
+               !this.settings.Common.UnreadManage) read = true;
 
             var listCache = this.listItemCache;
             if (listCache == null)
@@ -1870,12 +1485,12 @@ namespace OpenTween
             // フォント
             if (read)
             {
-                fnt = this.fntReaded;
+                fnt = this.themeManager.FontReaded;
                 star = "";
             }
             else
             {
-                fnt = this.fntUnread;
+                fnt = this.themeManager.FontUnread;
                 star = "★";
             }
             if (item.SubItems[5].Text != star)
@@ -1884,26 +1499,26 @@ namespace OpenTween
             // 文字色
             Color cl;
             if (post.IsFav)
-                cl = this.clFav;
+                cl = this.themeManager.ColorFav;
             else if (post.RetweetedId != null)
-                cl = this.clRetweet;
-            else if (post.IsOwl && (post.IsDm || SettingManager.Common.OneWayLove))
-                cl = this.clOWL;
-            else if (read || !SettingManager.Common.UseUnreadStyle)
-                cl = this.clReaded;
+                cl = this.themeManager.ColorRetweet;
+            else if (post.IsOwl && (post.IsDm || this.settings.Common.OneWayLove))
+                cl = this.themeManager.ColorOWL;
+            else if (read || !this.settings.Common.UseUnreadStyle)
+                cl = this.themeManager.ColorRead;
             else
-                cl = this.clUnread;
+                cl = this.themeManager.ColorUnread;
 
             if (dList == null || item.Index == -1)
             {
                 item.ForeColor = cl;
-                if (SettingManager.Common.UseUnreadStyle)
+                if (this.settings.Common.UseUnreadStyle)
                     item.Font = fnt;
             }
             else
             {
                 dList.Update();
-                if (SettingManager.Common.UseUnreadStyle)
+                if (this.settings.Common.UseUnreadStyle)
                     dList.ChangeItemFontAndColor(item, cl, fnt);
                 else
                     dList.ChangeItemForeColor(item, cl);
@@ -1961,25 +1576,25 @@ namespace OpenTween
             Color cl;
             if (targetPost.StatusId == basePost.InReplyToStatusId)
                 // @先
-                cl = this.clAtTo;
+                cl = this.themeManager.ColorAtTo;
             else if (targetPost.IsMe)
                 // 自分=発言者
-                cl = this.clSelf;
+                cl = this.themeManager.ColorSelf;
             else if (targetPost.IsReply)
                 // 自分宛返信
-                cl = this.clAtSelf;
+                cl = this.themeManager.ColorAtSelf;
             else if (basePost.ReplyToList.Any(x => x.UserId == targetPost.UserId))
                 // 返信先
-                cl = this.clAtFromTarget;
+                cl = this.themeManager.ColorAtFromTarget;
             else if (targetPost.ReplyToList.Any(x => x.UserId == basePost.UserId))
                 // その人への返信
-                cl = this.clAtTarget;
+                cl = this.themeManager.ColorAtTarget;
             else if (targetPost.UserId == basePost.UserId)
                 // 発言者
-                cl = this.clTarget;
+                cl = this.themeManager.ColorTarget;
             else
                 // その他
-                cl = this.clListBackcolor;
+                cl = this.themeManager.ColorListBackcolor;
 
             return cl;
         }
@@ -2054,7 +1669,7 @@ namespace OpenTween
 
             this.history[this.history.Count - 1] = new StatusTextHistory(this.StatusText.Text, this.inReplyTo);
 
-            if (SettingManager.Common.Nicoms)
+            if (this.settings.Common.Nicoms)
             {
                 this.StatusText.SelectionStart = this.StatusText.Text.Length;
                 await this.UrlConvertAsync(MyCommon.UrlConverter.Nicoms);
@@ -2116,7 +1731,7 @@ namespace OpenTween
             this.StatusText.Text = "";
             this.history.Add(new StatusTextHistory(""));
             this.hisIdx = this.history.Count - 1;
-            if (!SettingManager.Common.FocusLockToStatusText)
+            if (!this.settings.Common.FocusLockToStatusText)
                 this.CurrentListView.Focus();
             this.urlUndoBuffer = null;
             this.UrlUndoToolStripMenuItem.Enabled = false;  // Undoをできないように設定
@@ -2139,7 +1754,7 @@ namespace OpenTween
 
         private void TweenMain_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (!SettingManager.Common.CloseToExit && e.CloseReason == CloseReason.UserClosing && MyCommon.EndingFlag == false)
+            if (!this.settings.Common.CloseToExit && e.CloseReason == CloseReason.UserClosing && MyCommon.EndingFlag == false)
             {
                 // _endingFlag=false:フォームの×ボタン
                 e.Cancel = true;
@@ -2283,7 +1898,7 @@ namespace OpenTween
                 {
                     try
                     {
-                        await this.twitterApi.FavoritesCreate(post.RetweetedId ?? post.StatusId)
+                        await this.tw.Api.FavoritesCreate(post.RetweetedId ?? post.StatusId)
                             .IgnoreResponse()
                             .ConfigureAwait(false);
                     }
@@ -2293,9 +1908,9 @@ namespace OpenTween
                         // エラーコード 139 のみの場合は成功と見なす
                     }
 
-                    if (SettingManager.Common.RestrictFavCheck)
+                    if (this.settings.Common.RestrictFavCheck)
                     {
-                        var status = await this.twitterApi.StatusesShow(post.RetweetedId ?? post.StatusId)
+                        var status = await this.tw.Api.StatusesShow(post.RetweetedId ?? post.StatusId)
                             .ConfigureAwait(false);
 
                         if (status.Favorited != true)
@@ -2409,7 +2024,7 @@ namespace OpenTween
 
                     try
                     {
-                        await this.twitterApi.FavoritesDestroy(post.RetweetedId ?? post.StatusId)
+                        await this.tw.Api.FavoritesDestroy(post.RetweetedId ?? post.StatusId)
                             .IgnoreResponse()
                             .ConfigureAwait(false);
                     }
@@ -2583,7 +2198,7 @@ namespace OpenTween
                     this.StatusText.Focus();
 
                     // 連投モードのときだけEnterイベントが起きないので強制的に背景色を戻す
-                    if (SettingManager.Common.FocusLockToStatusText)
+                    if (this.settings.Common.FocusLockToStatusText)
                         this.StatusText_Enter(this.StatusText, EventArgs.Empty);
                 }
                 return;
@@ -2609,7 +2224,7 @@ namespace OpenTween
             this.SetMainWindowTitle();
 
             // TLに反映
-            if (SettingManager.Common.PostAndGet)
+            if (this.settings.Common.PostAndGet)
             {
                 await this.RefreshTabAsync<HomeTabModel>();
             }
@@ -2655,10 +2270,10 @@ namespace OpenTween
                 throw new WebApiException("Auth error. Check your account");
 
             bool read;
-            if (!SettingManager.Common.UnreadManage)
+            if (!this.settings.Common.UnreadManage)
                 read = true;
             else
-                read = this.initial && SettingManager.Common.Read;
+                read = this.initial && this.settings.Common.Read;
 
             p.Report("Posting...");
 
@@ -2691,7 +2306,7 @@ namespace OpenTween
             // 投稿時取得の有無に関わらず追加しておく
             posts.ForEach(post => this.statuses.AddPost(post));
 
-            if (SettingManager.Common.PostAndGet)
+            if (this.settings.Common.PostAndGet)
             {
                 await this.RefreshTabAsync<HomeTabModel>();
             }
@@ -2839,7 +2454,7 @@ namespace OpenTween
 
         private async Task ListItemDoubleClickAction()
         {
-            switch (SettingManager.Common.ListDoubleClickAction)
+            switch (this.settings.Common.ListDoubleClickAction)
             {
                 case MyCommon.ListItemDoubleClickActionType.Reply:
                     this.MakeReplyText();
@@ -3054,7 +2669,7 @@ namespace OpenTween
         /// </summary>
         private void SetSortColumn(ComparerMode sortColumn)
         {
-            if (SettingManager.Common.SortOrderLock)
+            if (this.settings.Common.SortOrderLock)
                 return;
 
             this.statuses.ToggleSortOrder(sortColumn);
@@ -3153,7 +2768,7 @@ namespace OpenTween
                 this.StatusOpenMenuItem.Enabled = true;
                 this.ShowRelatedStatusesMenuItem.Enabled = true;  // PublicSearchの時問題出るかも
 
-                if (!post.CanRetweetBy(this.twitterApi.CurrentUserId))
+                if (!post.CanRetweetBy(this.tw.UserId))
                 {
                     this.ReTweetStripMenuItem.Enabled = false;
                     this.ReTweetUnofficialStripMenuItem.Enabled = false;
@@ -3231,7 +2846,7 @@ namespace OpenTween
                     {
                         if (post.IsDm)
                         {
-                            await this.twitterApi.DirectMessagesEventsDestroy(post.StatusId.ToString(CultureInfo.InvariantCulture));
+                            await this.tw.Api.DirectMessagesEventsDestroy(post.StatusId.ToString(CultureInfo.InvariantCulture));
                         }
                         else
                         {
@@ -3239,7 +2854,7 @@ namespace OpenTween
                             {
                                 // 自分が RT したツイート (自分が RT した自分のツイートも含む)
                                 //   => RT を取り消し
-                                await this.twitterApi.StatusesDestroy(post.StatusId)
+                                await this.tw.Api.StatusesDestroy(post.StatusId)
                                     .IgnoreResponse();
                             }
                             else
@@ -3250,14 +2865,14 @@ namespace OpenTween
                                     {
                                         // 他人に RT された自分のツイート
                                         //   => RT 元の自分のツイートを削除
-                                        await this.twitterApi.StatusesDestroy(post.RetweetedId.Value)
+                                        await this.tw.Api.StatusesDestroy(post.RetweetedId.Value)
                                             .IgnoreResponse();
                                     }
                                     else
                                     {
                                         // 自分のツイート
                                         //   => ツイートを削除
-                                        await this.twitterApi.StatusesDestroy(post.StatusId)
+                                        await this.tw.Api.StatusesDestroy(post.StatusId)
                                             .IgnoreResponse();
                                     }
                                 }
@@ -3308,14 +2923,14 @@ namespace OpenTween
                         }
                     }
 
-                    if (SettingManager.Common.TabIconDisp && tab.UnreadCount == 0)
+                    if (this.settings.Common.TabIconDisp && tab.UnreadCount == 0)
                     {
                         if (tabPage.ImageIndex == 0)
                             tabPage.ImageIndex = -1; // タブアイコン
                     }
                 }
 
-                if (!SettingManager.Common.TabIconDisp)
+                if (!this.settings.Common.TabIconDisp)
                     this.ListTab.Refresh();
             }
         }
@@ -3336,7 +2951,7 @@ namespace OpenTween
                 }
                 this.ColorizeList();
             }
-            if (SettingManager.Common.TabIconDisp)
+            if (this.settings.Common.TabIconDisp)
             {
                 foreach (var (tab, index) in this.statuses.Tabs.WithIndex())
                 {
@@ -3348,7 +2963,7 @@ namespace OpenTween
                     }
                 }
             }
-            if (!SettingManager.Common.TabIconDisp) this.ListTab.Refresh();
+            if (!this.settings.Common.TabIconDisp) this.ListTab.Refresh();
         }
 
         private void UnreadStripMenuItem_Click(object sender, EventArgs e)
@@ -3364,7 +2979,7 @@ namespace OpenTween
                 }
                 this.ColorizeList();
             }
-            if (SettingManager.Common.TabIconDisp)
+            if (this.settings.Common.TabIconDisp)
             {
                 foreach (var (tab, index) in this.statuses.Tabs.WithIndex())
                 {
@@ -3376,7 +2991,7 @@ namespace OpenTween
                     }
                 }
             }
-            if (!SettingManager.Common.TabIconDisp) this.ListTab.Refresh();
+            if (!this.settings.Common.TabIconDisp) this.ListTab.Refresh();
         }
 
         private async void RefreshStripMenuItem_Click(object sender, EventArgs e)
@@ -3388,21 +3003,15 @@ namespace OpenTween
         private async Task DoRefreshMore()
             => await this.RefreshTabAsync(this.CurrentTab, backward: true);
 
-        private DialogResult ShowSettingDialog(bool showTaskbarIcon = false)
+        private DialogResult ShowSettingDialog()
         {
-            var result = DialogResult.Abort;
-
             using var settingDialog = new AppendSettingDialog();
-            settingDialog.Icon = this.mainIcon;
-            settingDialog.Owner = this;
-            settingDialog.ShowInTaskbar = showTaskbarIcon;
+            settingDialog.Icon = this.iconAssets.IconMain;
             settingDialog.IntervalChanged += this.TimerInterval_Changed;
 
-            settingDialog.Tw = this.tw;
-            settingDialog.TwitterApi = this.twitterApi;
+            settingDialog.LoadConfig(this.settings.Common, this.settings.Local);
 
-            settingDialog.LoadConfig(SettingManager.Common, SettingManager.Local);
-
+            DialogResult result;
             try
             {
                 result = settingDialog.ShowDialog(this);
@@ -3416,7 +3025,7 @@ namespace OpenTween
             {
                 lock (this.syncObject)
                 {
-                    settingDialog.SaveConfig(SettingManager.Common, SettingManager.Local);
+                    settingDialog.SaveConfig(this.settings.Common, this.settings.Local);
                 }
             }
 
@@ -3426,37 +3035,27 @@ namespace OpenTween
         private async void SettingStripMenuItem_Click(object sender, EventArgs e)
         {
             // 設定画面表示前のユーザー情報
-            var oldUser = new { this.tw.AccessToken, this.tw.AccessTokenSecret, this.tw.Username, this.tw.UserId };
-
-            var oldIconSz = SettingManager.Common.IconSize;
+            var previousUserId = this.settings.Common.UserId;
+            var oldIconSz = this.settings.Common.IconSize;
 
             if (this.ShowSettingDialog() == DialogResult.OK)
             {
                 lock (this.syncObject)
                 {
-                    this.tw.RestrictFavCheck = SettingManager.Common.RestrictFavCheck;
-                    this.tw.ReadOwnPost = SettingManager.Common.ReadOwnPost;
-                    ShortUrl.Instance.DisableExpanding = !SettingManager.Common.TinyUrlResolve;
-                    ShortUrl.Instance.BitlyAccessToken = SettingManager.Common.BitlyAccessToken;
-                    ShortUrl.Instance.BitlyId = SettingManager.Common.BilyUser;
-                    ShortUrl.Instance.BitlyKey = SettingManager.Common.BitlyPwd;
-                    TwitterApiConnection.RestApiHost = SettingManager.Common.TwitterApiHost;
+                    this.settings.ApplySettings();
 
-                    Networking.DefaultTimeout = TimeSpan.FromSeconds(SettingManager.Common.DefaultTimeOut);
-                    Networking.UploadImageTimeout = TimeSpan.FromSeconds(SettingManager.Common.UploadImageTimeout);
-                    Networking.SetWebProxy(
-                        SettingManager.Local.ProxyType,
-                        SettingManager.Local.ProxyAddress,
-                        SettingManager.Local.ProxyPort,
-                        SettingManager.Local.ProxyUser,
-                        SettingManager.Local.ProxyPassword);
-                    Networking.ForceIPv4 = SettingManager.Common.ForceIPv4;
+                    if (MyCommon.IsNullOrEmpty(this.settings.Common.Token))
+                        this.tw.ClearAuthInfo();
+
+                    this.tw.Initialize(this.settings.Common.Token, this.settings.Common.TokenSecret, this.settings.Common.UserName, this.settings.Common.UserId);
+                    this.tw.RestrictFavCheck = this.settings.Common.RestrictFavCheck;
+                    this.tw.ReadOwnPost = this.settings.Common.ReadOwnPost;
 
                     this.ImageSelector.Reset(this.tw, this.tw.Configuration);
 
                     try
                     {
-                        if (SettingManager.Common.TabIconDisp)
+                        if (this.settings.Common.TabIconDisp)
                         {
                             this.ListTab.DrawItem -= this.ListTab_DrawItem;
                             this.ListTab.DrawMode = TabDrawMode.Normal;
@@ -3479,11 +3078,11 @@ namespace OpenTween
 
                     try
                     {
-                        if (!SettingManager.Common.UnreadManage)
+                        if (!this.settings.Common.UnreadManage)
                         {
                             this.ReadedStripMenuItem.Enabled = false;
                             this.UnreadStripMenuItem.Enabled = false;
-                            if (SettingManager.Common.TabIconDisp)
+                            if (this.settings.Common.TabIconDisp)
                             {
                                 foreach (TabPage myTab in this.ListTab.TabPages)
                                 {
@@ -3507,57 +3106,29 @@ namespace OpenTween
                     // タブの表示位置の決定
                     this.SetTabAlignment();
 
-                    this.SplitContainer1.IsPanelInverted = !SettingManager.Common.StatusAreaAtBottom;
+                    this.SplitContainer1.IsPanelInverted = !this.settings.Common.StatusAreaAtBottom;
 
-                    var imgazyobizinet = ThumbnailGenerator.ImgAzyobuziNetInstance;
-                    imgazyobizinet.Enabled = SettingManager.Common.EnableImgAzyobuziNet;
-                    imgazyobizinet.DisabledInDM = SettingManager.Common.ImgAzyobuziNetDisabledInDM;
+                    var imgazyobizinet = this.thumbGenerator.ImgAzyobuziNet;
+                    imgazyobizinet.Enabled = this.settings.Common.EnableImgAzyobuziNet;
+                    imgazyobizinet.DisabledInDM = this.settings.Common.ImgAzyobuziNetDisabledInDM;
 
-                    this.NewPostPopMenuItem.Checked = SettingManager.Common.NewAllPop;
-                    this.NotifyFileMenuItem.Checked = SettingManager.Common.NewAllPop;
-                    this.PlaySoundMenuItem.Checked = SettingManager.Common.PlaySound;
-                    this.PlaySoundFileMenuItem.Checked = SettingManager.Common.PlaySound;
-                    this.fntUnread = SettingManager.Local.FontUnread;
-                    this.clUnread = SettingManager.Local.ColorUnread;
-                    this.fntReaded = SettingManager.Local.FontRead;
-                    this.clReaded = SettingManager.Local.ColorRead;
-                    this.clFav = SettingManager.Local.ColorFav;
-                    this.clOWL = SettingManager.Local.ColorOWL;
-                    this.clRetweet = SettingManager.Local.ColorRetweet;
-                    this.fntDetail = SettingManager.Local.FontDetail;
-                    this.clDetail = SettingManager.Local.ColorDetail;
-                    this.clDetailLink = SettingManager.Local.ColorDetailLink;
-                    this.clDetailBackcolor = SettingManager.Local.ColorDetailBackcolor;
-                    this.clSelf = SettingManager.Local.ColorSelf;
-                    this.clAtSelf = SettingManager.Local.ColorAtSelf;
-                    this.clTarget = SettingManager.Local.ColorTarget;
-                    this.clAtTarget = SettingManager.Local.ColorAtTarget;
-                    this.clAtFromTarget = SettingManager.Local.ColorAtFromTarget;
-                    this.clAtTo = SettingManager.Local.ColorAtTo;
-                    this.clListBackcolor = SettingManager.Local.ColorListBackcolor;
-                    this.clInputBackcolor = SettingManager.Local.ColorInputBackcolor;
-                    this.clInputFont = SettingManager.Local.ColorInputFont;
-                    this.fntInputFont = SettingManager.Local.FontInputFont;
-                    this.brsBackColorMine.Dispose();
-                    this.brsBackColorAt.Dispose();
-                    this.brsBackColorYou.Dispose();
-                    this.brsBackColorAtYou.Dispose();
-                    this.brsBackColorAtFromTarget.Dispose();
-                    this.brsBackColorAtTo.Dispose();
-                    this.brsBackColorNone.Dispose();
-                    this.brsBackColorMine = new SolidBrush(this.clSelf);
-                    this.brsBackColorAt = new SolidBrush(this.clAtSelf);
-                    this.brsBackColorYou = new SolidBrush(this.clTarget);
-                    this.brsBackColorAtYou = new SolidBrush(this.clAtTarget);
-                    this.brsBackColorAtFromTarget = new SolidBrush(this.clAtFromTarget);
-                    this.brsBackColorAtTo = new SolidBrush(this.clAtTo);
-                    this.brsBackColorNone = new SolidBrush(this.clListBackcolor);
+                    this.NewPostPopMenuItem.Checked = this.settings.Common.NewAllPop;
+                    this.NotifyFileMenuItem.Checked = this.settings.Common.NewAllPop;
+                    this.PlaySoundMenuItem.Checked = this.settings.Common.PlaySound;
+                    this.PlaySoundFileMenuItem.Checked = this.settings.Common.PlaySound;
+
+                    var newTheme = new ThemeManager(this.settings.Local);
+                    (var oldTheme, this.themeManager) = (this.themeManager, newTheme);
+                    this.tweetDetailsView.Theme = this.themeManager;
+                    oldTheme.Dispose();
 
                     try
                     {
-                        if (this.StatusText.Focused) this.StatusText.BackColor = this.clInputBackcolor;
-                        this.StatusText.Font = this.fntInputFont;
-                        this.StatusText.ForeColor = this.clInputFont;
+                        if (this.StatusText.Focused)
+                            this.StatusText.BackColor = this.themeManager.ColorInputBackcolor;
+
+                        this.StatusText.Font = this.themeManager.FontInputFont;
+                        this.StatusText.ForeColor = this.themeManager.ColorInputFont;
                     }
                     catch (Exception ex)
                     {
@@ -3577,7 +3148,7 @@ namespace OpenTween
 
                     try
                     {
-                        if (SettingManager.Common.TabIconDisp)
+                        if (this.settings.Common.TabIconDisp)
                         {
                             foreach (var (tab, index) in this.statuses.Tabs.WithIndex())
                             {
@@ -3600,8 +3171,8 @@ namespace OpenTween
                     {
                         var oldIconCol = this.iconCol;
 
-                        if (SettingManager.Common.IconSize != oldIconSz)
-                            this.ApplyListViewIconSize(SettingManager.Common.IconSize);
+                        if (this.settings.Common.IconSize != oldIconSz)
+                            this.ApplyListViewIconSize(this.settings.Common.IconSize);
 
                         foreach (TabPage tp in this.ListTab.TabPages)
                         {
@@ -3609,9 +3180,9 @@ namespace OpenTween
 
                             using (ControlTransaction.Update(lst))
                             {
-                                lst.GridLines = SettingManager.Common.ShowGrid;
-                                lst.Font = this.fntReaded;
-                                lst.BackColor = this.clListBackcolor;
+                                lst.GridLines = this.settings.Common.ShowGrid;
+                                lst.Font = this.themeManager.FontReaded;
+                                lst.BackColor = this.themeManager.ColorListBackcolor;
 
                                 if (this.iconCol != oldIconCol)
                                     this.ResetColumns(lst);
@@ -3633,23 +3204,23 @@ namespace OpenTween
                     this.ListTab.Refresh();
 
                     this.hookGlobalHotkey.UnregisterAllOriginalHotkey();
-                    if (SettingManager.Common.HotkeyEnabled)
+                    if (this.settings.Common.HotkeyEnabled)
                     {
                         // グローバルホットキーの登録。設定で変更可能にするかも
                         var modKey = HookGlobalHotkey.ModKeys.None;
-                        if ((SettingManager.Common.HotkeyModifier & Keys.Alt) == Keys.Alt)
+                        if ((this.settings.Common.HotkeyModifier & Keys.Alt) == Keys.Alt)
                             modKey |= HookGlobalHotkey.ModKeys.Alt;
-                        if ((SettingManager.Common.HotkeyModifier & Keys.Control) == Keys.Control)
+                        if ((this.settings.Common.HotkeyModifier & Keys.Control) == Keys.Control)
                             modKey |= HookGlobalHotkey.ModKeys.Ctrl;
-                        if ((SettingManager.Common.HotkeyModifier & Keys.Shift) == Keys.Shift)
+                        if ((this.settings.Common.HotkeyModifier & Keys.Shift) == Keys.Shift)
                             modKey |= HookGlobalHotkey.ModKeys.Shift;
-                        if ((SettingManager.Common.HotkeyModifier & Keys.LWin) == Keys.LWin)
+                        if ((this.settings.Common.HotkeyModifier & Keys.LWin) == Keys.LWin)
                             modKey |= HookGlobalHotkey.ModKeys.Win;
 
-                        this.hookGlobalHotkey.RegisterOriginalHotkey(SettingManager.Common.HotkeyKey, SettingManager.Common.HotkeyValue, modKey);
+                        this.hookGlobalHotkey.RegisterOriginalHotkey(this.settings.Common.HotkeyKey, this.settings.Common.HotkeyValue, modKey);
                     }
 
-                    if (SettingManager.Common.IsUseNotifyGrowl) this.gh.RegisterGrowl();
+                    if (this.settings.Common.IsUseNotifyGrowl) this.gh.RegisterGrowl();
                     try
                     {
                         this.StatusText_TextChanged(this.StatusText, EventArgs.Empty);
@@ -3659,18 +3230,13 @@ namespace OpenTween
                     }
                 }
             }
-            else
-            {
-                // キャンセル時は Twitter クラスの認証情報を画面表示前の状態に戻す
-                this.tw.Initialize(oldUser.AccessToken, oldUser.AccessTokenSecret, oldUser.Username, oldUser.UserId);
-            }
 
             Twitter.AccountState = MyCommon.ACCOUNT_STATE.Valid;
 
-            this.TopMost = SettingManager.Common.AlwaysTop;
+            this.TopMost = this.settings.Common.AlwaysTop;
             this.SaveConfigsAll(false);
 
-            if (this.tw.UserId != oldUser.UserId)
+            if (this.tw.UserId != previousUserId)
                 await this.DoGetFollowersMenu();
         }
 
@@ -3679,7 +3245,7 @@ namespace OpenTween
         /// </summary>
         private void SetTabAlignment()
         {
-            var newAlignment = SettingManager.Common.ViewTabBottom ? TabAlignment.Bottom : TabAlignment.Top;
+            var newAlignment = this.settings.Common.ViewTabBottom ? TabAlignment.Bottom : TabAlignment.Top;
             if (this.ListTab.Alignment == newAlignment) return;
 
             // 各タブのリスト上の選択位置などを退避
@@ -4016,10 +3582,10 @@ namespace OpenTween
                 listCustom.View = View.Details;
                 listCustom.OwnerDraw = true;
                 listCustom.VirtualMode = true;
-                listCustom.Font = this.fntReaded;
-                listCustom.BackColor = this.clListBackcolor;
+                listCustom.Font = this.themeManager.FontReaded;
+                listCustom.BackColor = this.themeManager.ColorListBackcolor;
 
-                listCustom.GridLines = SettingManager.Common.ShowGrid;
+                listCustom.GridLines = this.settings.Common.ShowGrid;
                 listCustom.AllowDrop = true;
 
                 listCustom.SmallImageList = this.listViewImageList;
@@ -4179,7 +3745,7 @@ namespace OpenTween
         {
             // タブのD&D
 
-            if (!SettingManager.Common.TabMouseLock && e.Button == MouseButtons.Left && this.tabDrag)
+            if (!this.settings.Common.TabMouseLock && e.Button == MouseButtons.Left && this.tabDrag)
             {
                 var tn = "";
                 var dragEnableRectangle = new Rectangle(this.tabMouseDownPoint.X - (SystemInformation.DragSize.Width / 2), this.tabMouseDownPoint.Y - (SystemInformation.DragSize.Height / 2), SystemInformation.DragSize.Width, SystemInformation.DragSize.Height);
@@ -4270,7 +3836,7 @@ namespace OpenTween
         {
             if (e.KeyChar == '@')
             {
-                if (!SettingManager.Common.UseAtIdSupplement) return;
+                if (!this.settings.Common.UseAtIdSupplement) return;
                 // @マーク
                 var cnt = this.AtIdSupl.ItemCount;
                 this.ShowSuplDialog(this.StatusText, this.AtIdSupl);
@@ -4280,7 +3846,7 @@ namespace OpenTween
             }
             else if (e.KeyChar == '#')
             {
-                if (!SettingManager.Common.UseHashSupplement) return;
+                if (!this.settings.Common.UseHashSupplement) return;
                 this.ShowSuplDialog(this.StatusText, this.HashSupl);
                 e.Handled = true;
             }
@@ -4303,7 +3869,7 @@ namespace OpenTween
             {
                 dialog.ShowDialog();
             }
-            this.TopMost = SettingManager.Common.AlwaysTop;
+            this.TopMost = this.settings.Common.AlwaysTop;
             var selStart = owner.SelectionStart;
             var fHalf = "";
             var eHalf = "";
@@ -4384,7 +3950,7 @@ namespace OpenTween
             }
             else
             {
-                this.StatusText.ForeColor = this.clInputFont;
+                this.StatusText.ForeColor = this.themeManager.ColorInputFont;
             }
 
             this.StatusText.AccessibleDescription = string.Format(Properties.Resources.StatusText_AccessibleDescription, pLen);
@@ -4504,7 +4070,7 @@ namespace OpenTween
                 statusText = Regex.Replace(statusText, @"https?:\/\/[-_.!~*'()a-zA-Z0-9;\/?:\@&=+\$,%#^]+", "$& ");
             }
 
-            if (SettingManager.Common.WideSpaceConvert)
+            if (this.settings.Common.WideSpaceConvert)
             {
                 // 文中の全角スペースを半角スペース1個にする
                 statusText = statusText.Replace("　", " ");
@@ -4515,13 +4081,13 @@ namespace OpenTween
                 return statusText;
 
             bool disableFooter;
-            if (SettingManager.Common.PostShiftEnter)
+            if (this.settings.Common.PostShiftEnter)
             {
                 disableFooter = MyCommon.IsKeyDown(Keys.Control);
             }
             else
             {
-                if (this.StatusText.Multiline && !SettingManager.Common.PostCtrlEnter)
+                if (this.StatusText.Multiline && !this.settings.Common.PostCtrlEnter)
                     disableFooter = MyCommon.IsKeyDown(Keys.Control);
                 else
                     disableFooter = MyCommon.IsKeyDown(Keys.Shift);
@@ -4555,15 +4121,15 @@ namespace OpenTween
 
             if (!disableFooter)
             {
-                if (SettingManager.Local.UseRecommendStatus)
+                if (this.settings.Local.UseRecommendStatus)
                 {
                     // 推奨ステータスを使用する
                     footer += this.recommendedStatusFooter;
                 }
-                else if (!MyCommon.IsNullOrEmpty(SettingManager.Local.StatusText))
+                else if (!MyCommon.IsNullOrEmpty(this.settings.Local.StatusText))
                 {
                     // テキストボックスに入力されている文字列を使用する
-                    footer += " " + SettingManager.Local.StatusText.Trim();
+                    footer += " " + this.settings.Local.StatusText.Trim();
                 }
             }
 
@@ -4704,7 +4270,7 @@ namespace OpenTween
                     "",
                     post.Nickname,
                     post.IsDeleted ? "(DELETED)" : post.AccessibleText.Replace('\n', ' '),
-                    post.CreatedAt.ToLocalTimeString(SettingManager.Common.DateTimeFormat),
+                    post.CreatedAt.ToLocalTimeString(this.settings.Common.DateTimeFormat),
                     post.ScreenName,
                     "",
                     mk.ToString(),
@@ -4719,7 +4285,7 @@ namespace OpenTween
                     "",
                     post.Nickname,
                     post.IsDeleted ? "(DELETED)" : post.AccessibleText.Replace('\n', ' '),
-                    post.CreatedAt.ToLocalTimeString(SettingManager.Common.DateTimeFormat),
+                    post.CreatedAt.ToLocalTimeString(this.settings.Common.DateTimeFormat),
                     post.ScreenName + Environment.NewLine + "(RT:" + post.RetweetedBy + ")",
                     "",
                     mk.ToString(),
@@ -4732,7 +4298,7 @@ namespace OpenTween
 
             var read = post.IsRead;
             // 未読管理していなかったら既読として扱う
-            if (!tab.UnreadManage || !SettingManager.Common.UnreadManage)
+            if (!tab.UnreadManage || !this.settings.Common.UnreadManage)
                 read = true;
 
             this.ChangeItemStyleRead(read, itm, post, null);
@@ -4762,7 +4328,7 @@ namespace OpenTween
                         listview.VirtualListSize = tab.AllCount;
                     }
 
-                    if (SettingManager.Common.TabIconDisp)
+                    if (this.settings.Common.TabIconDisp)
                     {
                         if (tab.UnreadCount > 0)
                             tabPage.ImageIndex = 0;
@@ -4771,7 +4337,7 @@ namespace OpenTween
                     }
                 }
 
-                if (!SettingManager.Common.TabIconDisp)
+                if (!this.settings.Common.TabIconDisp)
                     this.ListTab.Refresh();
 
                 this.SetMainWindowTitle();
@@ -4790,23 +4356,23 @@ namespace OpenTween
             if (e.State == 0) return;
             e.DrawDefault = false;
 
-            SolidBrush brs2;
+            Brush brs2;
             if (!e.Item.Selected) // e.ItemStateでうまく判定できない？？？
             {
-                if (e.Item.BackColor == this.clSelf)
-                    brs2 = this.brsBackColorMine;
-                else if (e.Item.BackColor == this.clAtSelf)
-                    brs2 = this.brsBackColorAt;
-                else if (e.Item.BackColor == this.clTarget)
-                    brs2 = this.brsBackColorYou;
-                else if (e.Item.BackColor == this.clAtTarget)
-                    brs2 = this.brsBackColorAtYou;
-                else if (e.Item.BackColor == this.clAtFromTarget)
-                    brs2 = this.brsBackColorAtFromTarget;
-                else if (e.Item.BackColor == this.clAtTo)
-                    brs2 = this.brsBackColorAtTo;
+                if (e.Item.BackColor == this.themeManager.ColorSelf)
+                    brs2 = this.themeManager.BrushSelf;
+                else if (e.Item.BackColor == this.themeManager.ColorAtSelf)
+                    brs2 = this.themeManager.BrushAtSelf;
+                else if (e.Item.BackColor == this.themeManager.ColorTarget)
+                    brs2 = this.themeManager.BrushTarget;
+                else if (e.Item.BackColor == this.themeManager.ColorAtTarget)
+                    brs2 = this.themeManager.BrushAtTarget;
+                else if (e.Item.BackColor == this.themeManager.ColorAtFromTarget)
+                    brs2 = this.themeManager.BrushAtFromTarget;
+                else if (e.Item.BackColor == this.themeManager.ColorAtTo)
+                    brs2 = this.themeManager.BrushAtTo;
                 else
-                    brs2 = this.brsBackColorNone;
+                    brs2 = this.themeManager.BrushListBackcolor;
             }
             else
             {
@@ -4858,8 +4424,8 @@ namespace OpenTween
                 if (rct.Width > 0)
                 {
                     var color = (!e.Item.Selected) ? e.Item.ForeColor : // 選択されていない行
-                        ((Control)sender).Focused ? this.clHighLight : // 選択中の行
-                        this.clUnread;
+                        ((Control)sender).Focused ? this.themeManager.ColorHighLight : // 選択中の行
+                        this.themeManager.ColorUnread;
 
                     if (this.iconCol)
                     {
@@ -5120,10 +4686,10 @@ namespace OpenTween
         {
             if (this.SearchDialog.ShowDialog(this) != DialogResult.OK)
             {
-                this.TopMost = SettingManager.Common.AlwaysTop;
+                this.TopMost = this.settings.Common.AlwaysTop;
                 return;
             }
-            this.TopMost = SettingManager.Common.AlwaysTop;
+            this.TopMost = this.settings.Common.AlwaysTop;
 
             var searchOptions = this.SearchDialog.ResultOptions!;
             if (searchOptions.Type == SearchWordDialog.SearchType.Timeline)
@@ -5219,7 +4785,7 @@ namespace OpenTween
             {
                 about.ShowDialog(this);
             }
-            this.TopMost = SettingManager.Common.AlwaysTop;
+            this.TopMost = this.settings.Common.AlwaysTop;
         }
 
         private void JumpUnreadMenuItem_Click(object sender, EventArgs e)
@@ -5324,8 +4890,8 @@ namespace OpenTween
             var pinfo = new ProcessStartInfo
             {
                 UseShellExecute = true,
-                WorkingDirectory = MyCommon.SettingPath,
-                FileName = Path.Combine(MyCommon.SettingPath, "TweenUp3.exe"),
+                WorkingDirectory = this.settings.SettingsPath,
+                FileName = Path.Combine(this.settings.SettingsPath, "TweenUp3.exe"),
                 Arguments = "\"" + Application.StartupPath + "\"",
             };
 
@@ -5401,7 +4967,7 @@ namespace OpenTween
                     return;
                 }
 
-                if (startup && versionInfo.Version <= SettingManager.Common.SkipUpdateVersion)
+                if (startup && versionInfo.Version <= this.settings.Common.SkipUpdateVersion)
                     return;
 
                 using var dialog = new UpdateDialog();
@@ -5416,7 +4982,7 @@ namespace OpenTween
                 }
                 else if (dialog.SkipButtonPressed)
                 {
-                    SettingManager.Common.SkipUpdateVersion = versionInfo.Version;
+                    this.settings.Common.SkipUpdateVersion = versionInfo.Version;
                     this.MarkSettingCommonModified();
                 }
             }
@@ -5438,17 +5004,17 @@ namespace OpenTween
         private void UpdateSelectedPost()
         {
             // 件数関連の場合、タイトル即時書き換え
-            if (SettingManager.Common.DispLatestPost != MyCommon.DispTitleEnum.None &&
-               SettingManager.Common.DispLatestPost != MyCommon.DispTitleEnum.Post &&
-               SettingManager.Common.DispLatestPost != MyCommon.DispTitleEnum.Ver &&
-               SettingManager.Common.DispLatestPost != MyCommon.DispTitleEnum.OwnStatus)
+            if (this.settings.Common.DispLatestPost != MyCommon.DispTitleEnum.None &&
+               this.settings.Common.DispLatestPost != MyCommon.DispTitleEnum.Post &&
+               this.settings.Common.DispLatestPost != MyCommon.DispTitleEnum.Ver &&
+               this.settings.Common.DispLatestPost != MyCommon.DispTitleEnum.OwnStatus)
             {
                 this.SetMainWindowTitle();
             }
             if (!this.StatusLabelUrl.Text.StartsWith("http", StringComparison.OrdinalIgnoreCase))
                 this.SetStatusLabelUrl();
 
-            if (SettingManager.Common.TabIconDisp)
+            if (this.settings.Common.TabIconDisp)
             {
                 foreach (var (tab, index) in this.statuses.Tabs.WithIndex())
                 {
@@ -5500,7 +5066,7 @@ namespace OpenTween
 
             this.SplitContainer3.Panel2Collapsed = true;
 
-            if (SettingManager.Common.PreviewEnable)
+            if (this.settings.Common.PreviewEnable)
             {
                 var oldTokenSource = Interlocked.Exchange(ref this.thumbnailTokenSource, new CancellationTokenSource());
                 oldTokenSource?.Cancel();
@@ -5875,8 +5441,8 @@ namespace OpenTween
                     .FocusedOn(FocusedControl.PostBrowser)
                     .Do(() =>
                     {
-                        var multiline = !SettingManager.Local.StatusMultiline;
-                        SettingManager.Local.StatusMultiline = multiline;
+                        var multiline = !this.settings.Local.StatusMultiline;
+                        this.settings.Local.StatusMultiline = multiline;
                         this.MultiLineMenuItem.Checked = multiline;
                         this.MultiLineMenuItem_Click(this.MultiLineMenuItem, EventArgs.Empty);
                     }),
@@ -6930,14 +6496,11 @@ namespace OpenTween
         {
             // フォーカスの戻り先を StatusText に設定
             this.Tag = this.StatusText;
-            this.StatusText.BackColor = this.clInputBackcolor;
+            this.StatusText.BackColor = this.themeManager.ColorInputBackcolor;
         }
 
         public Color InputBackColor
-        {
-            get => this.clInputBackcolor;
-            set => this.clInputBackcolor = value;
-        }
+            => this.themeManager.ColorInputBackcolor;
 
         private void StatusText_Leave(object sender, EventArgs e)
         {
@@ -6979,11 +6542,11 @@ namespace OpenTween
 
         private void SaveConfigsAtId()
         {
-            if (this.ignoreConfigSave || !SettingManager.Common.UseAtIdSupplement && this.AtIdSupl == null) return;
+            if (this.ignoreConfigSave || !this.settings.Common.UseAtIdSupplement && this.AtIdSupl == null) return;
 
             this.ModifySettingAtId = false;
-            SettingManager.AtIdList.AtIdList = this.AtIdSupl.GetItemList();
-            SettingManager.SaveAtIdList();
+            this.settings.AtIdList.AtIdList = this.AtIdSupl.GetItemList();
+            this.settings.SaveAtIdList();
         }
 
         private void SaveConfigsCommon()
@@ -6993,12 +6556,12 @@ namespace OpenTween
             this.ModifySettingCommon = false;
             lock (this.syncObject)
             {
-                SettingManager.Common.UserName = this.tw.Username;
-                SettingManager.Common.UserId = this.tw.UserId;
-                SettingManager.Common.Token = this.tw.AccessToken;
-                SettingManager.Common.TokenSecret = this.tw.AccessTokenSecret;
-                SettingManager.Common.SortOrder = (int)this.statuses.SortOrder;
-                SettingManager.Common.SortColumn = this.statuses.SortMode switch
+                this.settings.Common.UserName = this.tw.Username;
+                this.settings.Common.UserId = this.tw.UserId;
+                this.settings.Common.Token = this.tw.AccessToken;
+                this.settings.Common.TokenSecret = this.tw.AccessTokenSecret;
+                this.settings.Common.SortOrder = (int)this.statuses.SortOrder;
+                this.settings.Common.SortColumn = this.statuses.SortMode switch
                 {
                     ComparerMode.Nickname => 1, // ニックネーム
                     ComparerMode.Data => 2, // 本文
@@ -7007,22 +6570,22 @@ namespace OpenTween
                     ComparerMode.Source => 7, // Source
                     _ => throw new InvalidOperationException($"Invalid sort mode: {this.statuses.SortMode}"),
                 };
-                SettingManager.Common.HashTags = this.HashMgr.HashHistories;
+                this.settings.Common.HashTags = this.HashMgr.HashHistories;
                 if (this.HashMgr.IsPermanent)
                 {
-                    SettingManager.Common.HashSelected = this.HashMgr.UseHash;
+                    this.settings.Common.HashSelected = this.HashMgr.UseHash;
                 }
                 else
                 {
-                    SettingManager.Common.HashSelected = "";
+                    this.settings.Common.HashSelected = "";
                 }
-                SettingManager.Common.HashIsHead = this.HashMgr.IsHead;
-                SettingManager.Common.HashIsPermanent = this.HashMgr.IsPermanent;
-                SettingManager.Common.HashIsNotAddToAtReply = this.HashMgr.IsNotAddToAtReply;
-                SettingManager.Common.UseImageService = this.ImageSelector.ServiceIndex;
-                SettingManager.Common.UseImageServiceName = this.ImageSelector.ServiceName;
+                this.settings.Common.HashIsHead = this.HashMgr.IsHead;
+                this.settings.Common.HashIsPermanent = this.HashMgr.IsPermanent;
+                this.settings.Common.HashIsNotAddToAtReply = this.HashMgr.IsNotAddToAtReply;
+                this.settings.Common.UseImageService = this.ImageSelector.ServiceIndex;
+                this.settings.Common.UseImageServiceName = this.ImageSelector.ServiceName;
 
-                SettingManager.SaveCommon();
+                this.settings.SaveCommon();
             }
         }
 
@@ -7032,38 +6595,16 @@ namespace OpenTween
             lock (this.syncObject)
             {
                 this.ModifySettingLocal = false;
-                SettingManager.Local.ScaleDimension = this.CurrentAutoScaleDimensions;
-                SettingManager.Local.FormSize = this.mySize;
-                SettingManager.Local.FormLocation = this.myLoc;
-                SettingManager.Local.SplitterDistance = this.mySpDis;
-                SettingManager.Local.PreviewDistance = this.mySpDis3;
-                SettingManager.Local.StatusMultiline = this.StatusText.Multiline;
-                SettingManager.Local.StatusTextHeight = this.mySpDis2;
-
-                SettingManager.Local.FontUnread = this.fntUnread;
-                SettingManager.Local.ColorUnread = this.clUnread;
-                SettingManager.Local.FontRead = this.fntReaded;
-                SettingManager.Local.ColorRead = this.clReaded;
-                SettingManager.Local.FontDetail = this.fntDetail;
-                SettingManager.Local.ColorDetail = this.clDetail;
-                SettingManager.Local.ColorDetailBackcolor = this.clDetailBackcolor;
-                SettingManager.Local.ColorDetailLink = this.clDetailLink;
-                SettingManager.Local.ColorFav = this.clFav;
-                SettingManager.Local.ColorOWL = this.clOWL;
-                SettingManager.Local.ColorRetweet = this.clRetweet;
-                SettingManager.Local.ColorSelf = this.clSelf;
-                SettingManager.Local.ColorAtSelf = this.clAtSelf;
-                SettingManager.Local.ColorTarget = this.clTarget;
-                SettingManager.Local.ColorAtTarget = this.clAtTarget;
-                SettingManager.Local.ColorAtFromTarget = this.clAtFromTarget;
-                SettingManager.Local.ColorAtTo = this.clAtTo;
-                SettingManager.Local.ColorListBackcolor = this.clListBackcolor;
-                SettingManager.Local.ColorInputBackcolor = this.clInputBackcolor;
-                SettingManager.Local.ColorInputFont = this.clInputFont;
-                SettingManager.Local.FontInputFont = this.fntInputFont;
+                this.settings.Local.ScaleDimension = this.CurrentAutoScaleDimensions;
+                this.settings.Local.FormSize = this.mySize;
+                this.settings.Local.FormLocation = this.myLoc;
+                this.settings.Local.SplitterDistance = this.mySpDis;
+                this.settings.Local.PreviewDistance = this.mySpDis3;
+                this.settings.Local.StatusMultiline = this.StatusText.Multiline;
+                this.settings.Local.StatusTextHeight = this.mySpDis2;
 
                 if (this.ignoreConfigSave) return;
-                SettingManager.SaveLocal();
+                this.settings.SaveLocal();
             }
         }
 
@@ -7108,8 +6649,8 @@ namespace OpenTween
                 tabSettingList.Add(tabSetting);
             }
 
-            SettingManager.Tabs.Tabs = tabSettingList;
-            SettingManager.SaveTabs();
+            this.settings.Tabs.Tabs = tabSettingList;
+            this.settings.SaveTabs();
         }
 
         private async void OpenURLFileMenuItem_Click(object sender, EventArgs e)
@@ -7200,7 +6741,7 @@ namespace OpenTween
                     }
                 }
             }
-            this.TopMost = SettingManager.Common.AlwaysTop;
+            this.TopMost = this.settings.Common.AlwaysTop;
         }
 
         public bool TabRename(string origTabName, [NotNullWhen(true)] out string? newTabName)
@@ -7214,7 +6755,7 @@ namespace OpenTween
                 if (inputName.DialogResult == DialogResult.Cancel) return false;
                 newTabName = inputName.TabName;
             }
-            this.TopMost = SettingManager.Common.AlwaysTop;
+            this.TopMost = this.settings.Common.AlwaysTop;
             if (!MyCommon.IsNullOrEmpty(newTabName))
             {
                 // 新タブ名存在チェック
@@ -7266,7 +6807,7 @@ namespace OpenTween
 
         private void ListTab_MouseDown(object sender, MouseEventArgs e)
         {
-            if (SettingManager.Common.TabMouseLock) return;
+            if (this.settings.Common.TabMouseLock) return;
             if (e.Button == MouseButtons.Left)
             {
                 foreach (var i in Enumerable.Range(0, this.statuses.Tabs.Count))
@@ -7454,16 +6995,16 @@ namespace OpenTween
             if (busyTasks)
             {
                 this.iconCnt += 1;
-                if (this.iconCnt >= this.nIconRefresh.Length)
+                if (this.iconCnt >= this.iconAssets.IconTrayRefresh.Length)
                     this.iconCnt = 0;
 
-                this.NotifyIcon1.Icon = this.nIconRefresh[this.iconCnt];
+                this.NotifyIcon1.Icon = this.iconAssets.IconTrayRefresh[this.iconCnt];
                 this.myStatusError = false;
                 EnableTasktrayAnimation();
                 return;
             }
 
-            var replyIconType = SettingManager.Common.ReplyIconState;
+            var replyIconType = this.settings.Common.ReplyIconState;
             var reply = false;
             if (replyIconType != MyCommon.REPLY_ICONSTATE.None)
             {
@@ -7481,7 +7022,7 @@ namespace OpenTween
                 if (this.blinkCnt == 0)
                     this.blink = !this.blink;
 
-                this.NotifyIcon1.Icon = this.blink ? this.replyIconBlink : this.replyIcon;
+                this.NotifyIcon1.Icon = this.blink ? this.iconAssets.IconTrayReplyBlink : this.iconAssets.IconTrayReply;
                 EnableTasktrayAnimation();
                 return;
             }
@@ -7495,13 +7036,13 @@ namespace OpenTween
             // 優先度：リプライ→エラー→オフライン→アイドル
             // エラーは更新アイコンでクリアされる
             if (replyIconType == MyCommon.REPLY_ICONSTATE.StaticIcon && reply)
-                this.NotifyIcon1.Icon = this.replyIcon;
+                this.NotifyIcon1.Icon = this.iconAssets.IconTrayReply;
             else if (this.myStatusError)
-                this.NotifyIcon1.Icon = this.nIconAtRed;
+                this.NotifyIcon1.Icon = this.iconAssets.IconTrayError;
             else if (this.myStatusOnline)
-                this.NotifyIcon1.Icon = this.nIconAt;
+                this.NotifyIcon1.Icon = this.iconAssets.IconTray;
             else
-                this.NotifyIcon1.Icon = this.nIconAtSmoke;
+                this.NotifyIcon1.Icon = this.iconAssets.IconTrayOffline;
         }
 
         private void TimerRefreshIcon_Tick(object sender, EventArgs e)
@@ -7620,7 +7161,7 @@ namespace OpenTween
             var tab = this.statuses.Tabs[tabName];
             tab.UnreadManage = isManage;
 
-            if (SettingManager.Common.TabIconDisp)
+            if (this.settings.Common.TabIconDisp)
             {
                 var tabPage = this.ListTab.TabPages[idx];
                 if (tab.UnreadCount > 0)
@@ -7637,7 +7178,7 @@ namespace OpenTween
 
             this.SetMainWindowTitle();
             this.SetStatusLabelUrl();
-            if (!SettingManager.Common.TabIconDisp) this.ListTab.Refresh();
+            if (!this.settings.Common.TabIconDisp) this.ListTab.Refresh();
         }
 
         private void NotifyDispMenuItem_Click(object sender, EventArgs e)
@@ -7680,7 +7221,7 @@ namespace OpenTween
                 fltDialog.SetCurrent(this.rclickTabName);
                 fltDialog.ShowDialog(this);
             }
-            this.TopMost = SettingManager.Common.AlwaysTop;
+            this.TopMost = this.settings.Common.AlwaysTop;
 
             this.ApplyPostFilters();
             this.SaveConfigsTabs();
@@ -7699,7 +7240,7 @@ namespace OpenTween
                 tabName = inputName.TabName;
                 tabUsage = inputName.Usage;
             }
-            this.TopMost = SettingManager.Common.AlwaysTop;
+            this.TopMost = this.settings.Common.AlwaysTop;
             if (!MyCommon.IsNullOrEmpty(tabName))
             {
                 // List対応
@@ -7781,7 +7322,7 @@ namespace OpenTween
                     fltDialog.ShowDialog(this);
                 }
 
-                this.TopMost = SettingManager.Common.AlwaysTop;
+                this.TopMost = this.settings.Common.AlwaysTop;
             }
 
             this.ApplyPostFilters();
@@ -7798,7 +7339,7 @@ namespace OpenTween
                     var newLine = false;
                     var post = false;
 
-                    if (SettingManager.Common.PostCtrlEnter) // Ctrl+Enter投稿時
+                    if (this.settings.Common.PostCtrlEnter) // Ctrl+Enter投稿時
                     {
                         if (this.StatusText.Multiline)
                         {
@@ -7811,7 +7352,7 @@ namespace OpenTween
                             if ((keyData & Keys.Control) == Keys.Control) post = true;
                         }
                     }
-                    else if (SettingManager.Common.PostShiftEnter) // SHift+Enter投稿時
+                    else if (this.settings.Common.PostShiftEnter) // SHift+Enter投稿時
                     {
                         if (this.StatusText.Multiline)
                         {
@@ -8020,7 +7561,7 @@ namespace OpenTween
                         if (inputName.DialogResult == DialogResult.Cancel) return false;
                         tabName = inputName.TabName;
                     }
-                    this.TopMost = SettingManager.Common.AlwaysTop;
+                    this.TopMost = this.settings.Common.AlwaysTop;
                     if (!MyCommon.IsNullOrEmpty(tabName))
                     {
                         var newTab = new FilterTabModel(tabName);
@@ -8166,7 +7707,7 @@ namespace OpenTween
                 if (this.urlDialog.ShowDialog(this) != DialogResult.OK)
                     return;
 
-                this.TopMost = SettingManager.Common.AlwaysTop;
+                this.TopMost = this.settings.Common.AlwaysTop;
 
                 selectedUrl = this.urlDialog.SelectedUrl;
 
@@ -8209,7 +7750,7 @@ namespace OpenTween
             var listView = (DetailsListView)tabPage.Tag;
             listView.VirtualListSize = 0;
 
-            if (!SettingManager.Common.TabIconDisp) this.ListTab.Refresh();
+            if (!this.settings.Common.TabIconDisp) this.ListTab.Refresh();
 
             this.SetMainWindowTitle();
             this.SetStatusLabelUrl();
@@ -8223,10 +7764,10 @@ namespace OpenTween
             var ttl = new StringBuilder(256);
             var ur = 0;
             var al = 0;
-            if (SettingManager.Common.DispLatestPost != MyCommon.DispTitleEnum.None &&
-                SettingManager.Common.DispLatestPost != MyCommon.DispTitleEnum.Post &&
-                SettingManager.Common.DispLatestPost != MyCommon.DispTitleEnum.Ver &&
-                SettingManager.Common.DispLatestPost != MyCommon.DispTitleEnum.OwnStatus)
+            if (this.settings.Common.DispLatestPost != MyCommon.DispTitleEnum.None &&
+                this.settings.Common.DispLatestPost != MyCommon.DispTitleEnum.Post &&
+                this.settings.Common.DispLatestPost != MyCommon.DispTitleEnum.Ver &&
+                this.settings.Common.DispLatestPost != MyCommon.DispTitleEnum.OwnStatus)
             {
                 foreach (var tab in this.statuses.Tabs)
                 {
@@ -8235,10 +7776,10 @@ namespace OpenTween
                 }
             }
 
-            if (SettingManager.Common.DispUsername) ttl.Append(this.tw.Username).Append(" - ");
+            if (this.settings.Common.DispUsername) ttl.Append(this.tw.Username).Append(" - ");
             ttl.Append(ApplicationSettings.ApplicationName);
             ttl.Append("  ");
-            switch (SettingManager.Common.DispLatestPost)
+            switch (this.settings.Common.DispLatestPost)
             {
                 case MyCommon.DispTitleEnum.Ver:
                     ttl.Append("Ver:").Append(MyCommon.GetReadableVersion());
@@ -8313,13 +7854,13 @@ namespace OpenTween
             var homeTab = this.statuses.HomeTab;
 
             slbl.AppendFormat(Properties.Resources.SetStatusLabelText1, tur, tal, ur, al, urat, this.postTimestamps.Count, this.favTimestamps.Count, homeTab.TweetsPerHour);
-            if (SettingManager.Common.TimelinePeriod == 0)
+            if (this.settings.Common.TimelinePeriod == 0)
             {
                 slbl.Append(Properties.Resources.SetStatusLabelText2);
             }
             else
             {
-                slbl.Append(SettingManager.Common.TimelinePeriod + Properties.Resources.SetStatusLabelText3);
+                slbl.Append(this.settings.Common.TimelinePeriod + Properties.Resources.SetStatusLabelText3);
             }
             return slbl.ToString();
         }
@@ -8405,7 +7946,7 @@ namespace OpenTween
             // タスクトレイアイコンのツールチップテキスト書き換え
             // Tween [未読/@]
             ur.Remove(0, ur.Length);
-            if (SettingManager.Common.DispUsername)
+            if (this.settings.Common.DispUsername)
             {
                 ur.Append(this.tw.Username);
                 ur.Append(" - ");
@@ -8448,7 +7989,7 @@ namespace OpenTween
             // 本当にリプライ先指定すべきかどうかの判定
             m = Regex.Matches(statusText, "(^|[ -/:-@[-^`{-~])(?<id>@[a-zA-Z0-9_]+)");
 
-            if (SettingManager.Common.UseAtIdSupplement)
+            if (this.settings.Common.UseAtIdSupplement)
             {
                 var bCnt = this.AtIdSupl.ItemCount;
                 foreach (Match mid in m)
@@ -8490,19 +8031,19 @@ namespace OpenTween
 
         private void TweenMain_Resize(object sender, EventArgs e)
         {
-            if (!this.initialLayout && SettingManager.Common.MinimizeToTray && this.WindowState == FormWindowState.Minimized)
+            if (!this.initialLayout && this.settings.Common.MinimizeToTray && this.WindowState == FormWindowState.Minimized)
             {
                 this.Visible = false;
             }
-            if (this.initialLayout && SettingManager.Local != null && this.WindowState == FormWindowState.Normal && this.Visible)
+            if (this.initialLayout && this.settings.Local != null && this.WindowState == FormWindowState.Normal && this.Visible)
             {
                 // 現在の DPI と設定保存時の DPI との比を取得する
-                var configScaleFactor = SettingManager.Local.GetConfigScaleFactor(this.CurrentAutoScaleDimensions);
+                var configScaleFactor = this.settings.Local.GetConfigScaleFactor(this.CurrentAutoScaleDimensions);
 
-                this.ClientSize = ScaleBy(configScaleFactor, SettingManager.Local.FormSize);
+                this.ClientSize = ScaleBy(configScaleFactor, this.settings.Local.FormSize);
 
                 // Splitterの位置設定
-                var splitterDistance = ScaleBy(configScaleFactor.Height, SettingManager.Local.SplitterDistance);
+                var splitterDistance = ScaleBy(configScaleFactor.Height, this.settings.Local.SplitterDistance);
                 if (splitterDistance > this.SplitContainer1.Panel1MinSize &&
                     splitterDistance < this.SplitContainer1.Height - this.SplitContainer1.Panel2MinSize - this.SplitContainer1.SplitterWidth)
                 {
@@ -8510,10 +8051,10 @@ namespace OpenTween
                 }
 
                 // 発言欄複数行
-                this.StatusText.Multiline = SettingManager.Local.StatusMultiline;
+                this.StatusText.Multiline = this.settings.Local.StatusMultiline;
                 if (this.StatusText.Multiline)
                 {
-                    var statusTextHeight = ScaleBy(configScaleFactor.Height, SettingManager.Local.StatusTextHeight);
+                    var statusTextHeight = ScaleBy(configScaleFactor.Height, this.settings.Local.StatusTextHeight);
                     var dis = this.SplitContainer2.Height - statusTextHeight - this.SplitContainer2.SplitterWidth;
                     if (dis > this.SplitContainer2.Panel1MinSize && dis < this.SplitContainer2.Height - this.SplitContainer2.Panel2MinSize - this.SplitContainer2.SplitterWidth)
                     {
@@ -8529,7 +8070,7 @@ namespace OpenTween
                     }
                 }
 
-                var previewDistance = ScaleBy(configScaleFactor.Width, SettingManager.Local.PreviewDistance);
+                var previewDistance = ScaleBy(configScaleFactor.Width, this.settings.Local.PreviewDistance);
                 if (previewDistance > this.SplitContainer3.Panel1MinSize && previewDistance < this.SplitContainer3.Width - this.SplitContainer3.Panel2MinSize - this.SplitContainer3.SplitterWidth)
                 {
                     this.SplitContainer3.SplitterDistance = previewDistance;
@@ -8552,11 +8093,11 @@ namespace OpenTween
             this.PlaySoundFileMenuItem.Checked = this.PlaySoundMenuItem.Checked;
             if (this.PlaySoundMenuItem.Checked)
             {
-                SettingManager.Common.PlaySound = true;
+                this.settings.Common.PlaySound = true;
             }
             else
             {
-                SettingManager.Common.PlaySound = false;
+                this.settings.Common.PlaySound = false;
             }
             this.MarkSettingCommonModified();
         }
@@ -8626,7 +8167,7 @@ namespace OpenTween
             if (multiline != this.StatusText.Multiline)
             {
                 this.StatusText.Multiline = multiline;
-                SettingManager.Local.StatusMultiline = multiline;
+                this.settings.Local.StatusMultiline = multiline;
                 this.MarkSettingLocalModified();
             }
         }
@@ -8647,7 +8188,7 @@ namespace OpenTween
             // 発言欄複数行
             var menuItemChecked = ((ToolStripMenuItem)sender).Checked;
             this.StatusText.Multiline = menuItemChecked;
-            SettingManager.Local.StatusMultiline = menuItemChecked;
+            this.settings.Local.StatusMultiline = menuItemChecked;
             if (menuItemChecked)
             {
                 if (this.SplitContainer2.Height - this.mySpDis2 - this.SplitContainer2.SplitterWidth < 0)
@@ -8667,8 +8208,8 @@ namespace OpenTween
             if (converterType == MyCommon.UrlConverter.Bitly || converterType == MyCommon.UrlConverter.Jmp)
             {
                 // OAuth2 アクセストークンまたは API キー (旧方式) のいずれも設定されていなければ短縮しない
-                if (MyCommon.IsNullOrEmpty(SettingManager.Common.BitlyAccessToken) &&
-                    (MyCommon.IsNullOrEmpty(SettingManager.Common.BilyUser) || MyCommon.IsNullOrEmpty(SettingManager.Common.BitlyPwd)))
+                if (MyCommon.IsNullOrEmpty(this.settings.Common.BitlyAccessToken) &&
+                    (MyCommon.IsNullOrEmpty(this.settings.Common.BilyUser) || MyCommon.IsNullOrEmpty(this.settings.Common.BitlyPwd)))
                 {
                     MessageBox.Show(this, Properties.Resources.UrlConvert_BitlyAuthRequired, ApplicationSettings.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return false;
@@ -8692,7 +8233,7 @@ namespace OpenTween
                     // 文字列が選択されている場合はその文字列について処理
 
                     // nico.ms使用、nicovideoにマッチしたら変換
-                    if (SettingManager.Common.Nicoms && Regex.IsMatch(tmp, nico))
+                    if (this.settings.Common.Nicoms && Regex.IsMatch(tmp, nico))
                     {
                         result = Nicoms.Shorten(tmp);
                     }
@@ -8768,7 +8309,7 @@ namespace OpenTween
                     this.StatusText.Select(this.StatusText.Text.IndexOf(mt.Result("${url}"), StringComparison.Ordinal), mt.Result("${url}").Length);
 
                     // nico.ms使用、nicovideoにマッチしたら変換
-                    if (SettingManager.Common.Nicoms && Regex.IsMatch(tmp, nico))
+                    if (this.settings.Common.Nicoms && Regex.IsMatch(tmp, nico))
                     {
                         result = Nicoms.Shorten(tmp);
                     }
@@ -8864,7 +8405,7 @@ namespace OpenTween
 
         private async void UrlConvertAutoToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (!await this.UrlConvertAsync(SettingManager.Common.AutoShortUrlFirst))
+            if (!await this.UrlConvertAsync(this.settings.Common.AutoShortUrlFirst))
             {
                 var rnd = new Random();
 
@@ -8874,7 +8415,7 @@ namespace OpenTween
                 {
                     svc = (MyCommon.UrlConverter)rnd.Next(System.Enum.GetNames(typeof(MyCommon.UrlConverter)).Length);
                 }
-                while (svc == SettingManager.Common.AutoShortUrlFirst || svc == MyCommon.UrlConverter.Nicoms || svc == MyCommon.UrlConverter.Unu);
+                while (svc == this.settings.Common.AutoShortUrlFirst || svc == MyCommon.UrlConverter.Nicoms || svc == MyCommon.UrlConverter.Unu);
                 await this.UrlConvertAsync(svc);
             }
         }
@@ -8886,7 +8427,7 @@ namespace OpenTween
         {
             this.NotifyFileMenuItem.Checked = ((ToolStripMenuItem)sender).Checked;
             this.NewPostPopMenuItem.Checked = this.NotifyFileMenuItem.Checked;
-            SettingManager.Common.NewAllPop = this.NewPostPopMenuItem.Checked;
+            this.settings.Common.NewAllPop = this.NewPostPopMenuItem.Checked;
             this.MarkSettingCommonModified();
         }
 
@@ -8894,7 +8435,7 @@ namespace OpenTween
         {
             this.ListLockMenuItem.Checked = ((ToolStripMenuItem)sender).Checked;
             this.LockListFileMenuItem.Checked = this.ListLockMenuItem.Checked;
-            SettingManager.Common.ListLock = this.ListLockMenuItem.Checked;
+            this.settings.Common.ListLock = this.ListLockMenuItem.Checked;
             this.MarkSettingCommonModified();
         }
 
@@ -8926,62 +8467,24 @@ namespace OpenTween
 
         private void MyList_ColumnReordered(object sender, ColumnReorderedEventArgs e)
         {
-            var lst = (DetailsListView)sender;
-            if (SettingManager.Local == null) return;
-
             if (this.iconCol)
             {
-                SettingManager.Local.Width1 = lst.Columns[0].Width;
-                SettingManager.Local.Width3 = lst.Columns[1].Width;
+                e.Cancel = true;
+                return;
             }
-            else
-            {
-                var darr = new int[lst.Columns.Count];
-                for (var i = 0; i < lst.Columns.Count; i++)
-                {
-                    darr[lst.Columns[i].DisplayIndex] = i;
-                }
-                MyCommon.MoveArrayItem(darr, e.OldDisplayIndex, e.NewDisplayIndex);
 
-                for (var i = 0; i < lst.Columns.Count; i++)
-                {
-                    switch (darr[i])
-                    {
-                        case 0:
-                            SettingManager.Local.DisplayIndex1 = i;
-                            break;
-                        case 1:
-                            SettingManager.Local.DisplayIndex2 = i;
-                            break;
-                        case 2:
-                            SettingManager.Local.DisplayIndex3 = i;
-                            break;
-                        case 3:
-                            SettingManager.Local.DisplayIndex4 = i;
-                            break;
-                        case 4:
-                            SettingManager.Local.DisplayIndex5 = i;
-                            break;
-                        case 5:
-                            SettingManager.Local.DisplayIndex6 = i;
-                            break;
-                        case 6:
-                            SettingManager.Local.DisplayIndex7 = i;
-                            break;
-                        case 7:
-                            SettingManager.Local.DisplayIndex8 = i;
-                            break;
-                    }
-                }
-                SettingManager.Local.Width1 = lst.Columns[0].Width;
-                SettingManager.Local.Width2 = lst.Columns[1].Width;
-                SettingManager.Local.Width3 = lst.Columns[2].Width;
-                SettingManager.Local.Width4 = lst.Columns[3].Width;
-                SettingManager.Local.Width5 = lst.Columns[4].Width;
-                SettingManager.Local.Width6 = lst.Columns[5].Width;
-                SettingManager.Local.Width7 = lst.Columns[6].Width;
-                SettingManager.Local.Width8 = lst.Columns[7].Width;
-            }
+            var lst = (DetailsListView)sender;
+            var columnsCount = lst.Columns.Count;
+
+            var darr = new int[columnsCount];
+            for (var i = 0; i < columnsCount; i++)
+                darr[lst.Columns[i].DisplayIndex] = i;
+
+            MyCommon.MoveArrayItem(darr, e.OldDisplayIndex, e.NewDisplayIndex);
+
+            for (var i = 0; i < columnsCount; i++)
+                this.settings.Local.ColumnsOrder[darr[i]] = i;
+
             this.MarkSettingLocalModified();
             this.isColumnChanged = true;
         }
@@ -8989,62 +8492,31 @@ namespace OpenTween
         private void MyList_ColumnWidthChanged(object sender, ColumnWidthChangedEventArgs e)
         {
             var lst = (DetailsListView)sender;
-            if (SettingManager.Local == null) return;
+            if (this.settings.Local == null) return;
 
             var modified = false;
             if (this.iconCol)
             {
-                if (SettingManager.Local.Width1 != lst.Columns[0].Width)
+                if (this.settings.Local.ColumnsWidth[0] != lst.Columns[0].Width)
                 {
-                    SettingManager.Local.Width1 = lst.Columns[0].Width;
+                    this.settings.Local.ColumnsWidth[0] = lst.Columns[0].Width;
                     modified = true;
                 }
-                if (SettingManager.Local.Width3 != lst.Columns[1].Width)
+                if (this.settings.Local.ColumnsWidth[2] != lst.Columns[1].Width)
                 {
-                    SettingManager.Local.Width3 = lst.Columns[1].Width;
+                    this.settings.Local.ColumnsWidth[2] = lst.Columns[1].Width;
                     modified = true;
                 }
             }
             else
             {
-                if (SettingManager.Local.Width1 != lst.Columns[0].Width)
+                var columnsCount = lst.Columns.Count;
+                for (var i = 0; i < columnsCount; i++)
                 {
-                    SettingManager.Local.Width1 = lst.Columns[0].Width;
-                    modified = true;
-                }
-                if (SettingManager.Local.Width2 != lst.Columns[1].Width)
-                {
-                    SettingManager.Local.Width2 = lst.Columns[1].Width;
-                    modified = true;
-                }
-                if (SettingManager.Local.Width3 != lst.Columns[2].Width)
-                {
-                    SettingManager.Local.Width3 = lst.Columns[2].Width;
-                    modified = true;
-                }
-                if (SettingManager.Local.Width4 != lst.Columns[3].Width)
-                {
-                    SettingManager.Local.Width4 = lst.Columns[3].Width;
-                    modified = true;
-                }
-                if (SettingManager.Local.Width5 != lst.Columns[4].Width)
-                {
-                    SettingManager.Local.Width5 = lst.Columns[4].Width;
-                    modified = true;
-                }
-                if (SettingManager.Local.Width6 != lst.Columns[5].Width)
-                {
-                    SettingManager.Local.Width6 = lst.Columns[5].Width;
-                    modified = true;
-                }
-                if (SettingManager.Local.Width7 != lst.Columns[6].Width)
-                {
-                    SettingManager.Local.Width7 = lst.Columns[6].Width;
-                    modified = true;
-                }
-                if (SettingManager.Local.Width8 != lst.Columns[7].Width)
-                {
-                    SettingManager.Local.Width8 = lst.Columns[7].Width;
+                    if (this.settings.Local.ColumnsWidth[i] == lst.Columns[i].Width)
+                        continue;
+
+                    this.settings.Local.ColumnsWidth[i] = lst.Columns[i].Width;
                     modified = true;
                 }
             }
@@ -9212,8 +8684,8 @@ namespace OpenTween
 
             // ユーザープロフィールURL
             // フラグが立っている場合は設定と逆の動作をする
-            if (SettingManager.Common.OpenUserTimeline && !isReverseSettings ||
-                !SettingManager.Common.OpenUserTimeline && isReverseSettings)
+            if (this.settings.Common.OpenUserTimeline && !isReverseSettings ||
+                !this.settings.Common.OpenUserTimeline && isReverseSettings)
             {
                 var userUriMatch = Regex.Match(uriStr, "^https?://twitter.com/(#!/)?(?<ScreenName>[a-zA-Z0-9_]+)$");
                 if (userUriMatch.Success)
@@ -9351,10 +8823,10 @@ namespace OpenTween
                     this.RefreshTabAsync<ListTimelineTabModel>(),
                 };
 
-                if (SettingManager.Common.StartupFollowers)
+                if (this.settings.Common.StartupFollowers)
                     loadTasks.Add(this.RefreshFollowerIdsAsync());
 
-                if (SettingManager.Common.GetFav)
+                if (this.settings.Common.GetFav)
                     loadTasks.Add(this.RefreshTabAsync<FavoritesTabModel>());
 
                 var allTasks = Task.WhenAll(loadTasks);
@@ -9378,7 +8850,7 @@ namespace OpenTween
                 if (ApplicationSettings.VersionInfoUrl != null)
                 {
                     // バージョンチェック（引数：起動時チェックの場合はtrue･･･チェック結果のメッセージを表示しない）
-                    if (SettingManager.Common.StartupVersion)
+                    if (this.settings.Common.StartupVersion)
                         await this.CheckNewVersion(true);
                 }
                 else
@@ -9399,7 +8871,7 @@ namespace OpenTween
                 // 取得失敗の場合は再試行する
                 var reloadTasks = new List<Task>();
 
-                if (!this.tw.GetFollowersSuccess && SettingManager.Common.StartupFollowers)
+                if (!this.tw.GetFollowersSuccess && this.settings.Common.StartupFollowers)
                     reloadTasks.Add(this.RefreshFollowerIdsAsync());
 
                 if (!this.tw.GetNoRetweetSuccess)
@@ -9435,7 +8907,7 @@ namespace OpenTween
             {
                 var selectedPosts = this.CurrentTab.SelectedPosts;
 
-                if (selectedPosts.Any(x => !x.CanRetweetBy(this.twitterApi.CurrentUserId)))
+                if (selectedPosts.Any(x => !x.CanRetweetBy(this.tw.UserId)))
                 {
                     if (selectedPosts.Any(x => x.IsProtect))
                         MessageBox.Show("Protected.");
@@ -9464,7 +8936,7 @@ namespace OpenTween
                 }
                 else
                 {
-                    if (!SettingManager.Common.RetweetNoConfirm)
+                    if (!this.settings.Common.RetweetNoConfirm)
                     {
                         var questiontext = Properties.Resources.RetweetQuestion1;
                         if (this.doFavRetweetFlags) questiontext = Properties.Resources.FavoritesRetweetQuestionText2;
@@ -9575,17 +9047,17 @@ namespace OpenTween
             => this.preventSmsCommand = ((ToolStripMenuItem)sender).Checked;
 
         private void UrlAutoShortenMenuItem_CheckedChanged(object sender, EventArgs e)
-            => SettingManager.Common.UrlConvertAuto = ((ToolStripMenuItem)sender).Checked;
+            => this.settings.Common.UrlConvertAuto = ((ToolStripMenuItem)sender).Checked;
 
         private void IdeographicSpaceToSpaceMenuItem_Click(object sender, EventArgs e)
         {
-            SettingManager.Common.WideSpaceConvert = ((ToolStripMenuItem)sender).Checked;
+            this.settings.Common.WideSpaceConvert = ((ToolStripMenuItem)sender).Checked;
             this.MarkSettingCommonModified();
         }
 
         private void FocusLockMenuItem_CheckedChanged(object sender, EventArgs e)
         {
-            SettingManager.Common.FocusLockToStatusText = ((ToolStripMenuItem)sender).Checked;
+            this.settings.Common.FocusLockToStatusText = ((ToolStripMenuItem)sender).Checked;
             this.MarkSettingCommonModified();
         }
 
@@ -9593,20 +9065,20 @@ namespace OpenTween
         {
             this.UrlMultibyteSplitMenuItem.Checked = this.urlMultibyteSplit;
             this.PreventSmsCommandMenuItem.Checked = this.preventSmsCommand;
-            this.UrlAutoShortenMenuItem.Checked = SettingManager.Common.UrlConvertAuto;
-            this.IdeographicSpaceToSpaceMenuItem.Checked = SettingManager.Common.WideSpaceConvert;
-            this.MultiLineMenuItem.Checked = SettingManager.Local.StatusMultiline;
-            this.FocusLockMenuItem.Checked = SettingManager.Common.FocusLockToStatusText;
+            this.UrlAutoShortenMenuItem.Checked = this.settings.Common.UrlConvertAuto;
+            this.IdeographicSpaceToSpaceMenuItem.Checked = this.settings.Common.WideSpaceConvert;
+            this.MultiLineMenuItem.Checked = this.settings.Local.StatusMultiline;
+            this.FocusLockMenuItem.Checked = this.settings.Common.FocusLockToStatusText;
         }
 
         private void ContextMenuPostMode_Opening(object sender, CancelEventArgs e)
         {
             this.UrlMultibyteSplitPullDownMenuItem.Checked = this.urlMultibyteSplit;
             this.PreventSmsCommandPullDownMenuItem.Checked = this.preventSmsCommand;
-            this.UrlAutoShortenPullDownMenuItem.Checked = SettingManager.Common.UrlConvertAuto;
-            this.IdeographicSpaceToSpacePullDownMenuItem.Checked = SettingManager.Common.WideSpaceConvert;
-            this.MultiLinePullDownMenuItem.Checked = SettingManager.Local.StatusMultiline;
-            this.FocusLockPullDownMenuItem.Checked = SettingManager.Common.FocusLockToStatusText;
+            this.UrlAutoShortenPullDownMenuItem.Checked = this.settings.Common.UrlConvertAuto;
+            this.IdeographicSpaceToSpacePullDownMenuItem.Checked = this.settings.Common.WideSpaceConvert;
+            this.MultiLinePullDownMenuItem.Checked = this.settings.Local.StatusMultiline;
+            this.FocusLockPullDownMenuItem.Checked = this.settings.Common.FocusLockToStatusText;
         }
 
         private void TraceOutToolStripMenuItem_Click(object sender, EventArgs e)
@@ -9692,7 +9164,7 @@ namespace OpenTween
             {
                 try
                 {
-                    var task = this.twitterApi.FriendshipsCreate(id).IgnoreResponse();
+                    var task = this.tw.Api.FriendshipsCreate(id).IgnoreResponse();
                     await dialog.WaitForAsync(this, task);
                 }
                 catch (WebApiException ex)
@@ -9733,7 +9205,7 @@ namespace OpenTween
             {
                 try
                 {
-                    var task = this.twitterApi.FriendshipsDestroy(id).IgnoreResponse();
+                    var task = this.tw.Api.FriendshipsDestroy(id).IgnoreResponse();
                     await dialog.WaitForAsync(this, task);
                 }
                 catch (WebApiException ex)
@@ -9777,7 +9249,7 @@ namespace OpenTween
 
                 try
                 {
-                    var task = this.twitterApi.FriendshipsShow(this.twitterApi.CurrentScreenName, id);
+                    var task = this.tw.Api.FriendshipsShow(this.tw.Username, id);
                     var friendship = await dialog.WaitForAsync(this, task);
 
                     isFollowing = friendship.Relationship.Source.Following;
@@ -9827,7 +9299,7 @@ namespace OpenTween
 
                     try
                     {
-                        var task = this.twitterApi.FriendshipsShow(this.twitterApi.CurrentScreenName, id);
+                        var task = this.tw.Api.FriendshipsShow(this.tw.Username, id);
                         var friendship = await dialog.WaitForAsync(this, task);
 
                         isFollowing = friendship.Relationship.Source.Following;
@@ -10146,7 +9618,7 @@ namespace OpenTween
 
         public void ListManageUserContext(string screenName)
         {
-            using var listSelectForm = new MyLists(screenName, this.twitterApi);
+            using var listSelectForm = new MyLists(screenName, this.tw.Api);
             listSelectForm.ShowDialog(this);
         }
 
@@ -10189,7 +9661,7 @@ namespace OpenTween
             {
                 return;
             }
-            this.TopMost = SettingManager.Common.AlwaysTop;
+            this.TopMost = this.settings.Common.AlwaysTop;
             if (rslt == DialogResult.Cancel) return;
             if (!MyCommon.IsNullOrEmpty(this.HashMgr.UseHash))
             {
@@ -10292,7 +9764,7 @@ namespace OpenTween
                 this.OpenStatusOpMenuItem.Enabled = true;
                 this.ShowRelatedStatusesMenuItem2.Enabled = true;  // PublicSearchの時問題出るかも
 
-                if (!post.CanRetweetBy(this.twitterApi.CurrentUserId))
+                if (!post.CanRetweetBy(this.tw.UserId))
                 {
                     this.RtOpMenuItem.Enabled = false;
                     this.RtUnOpMenuItem.Enabled = false;
@@ -10429,7 +9901,7 @@ namespace OpenTween
 
                 try
                 {
-                    var task = this.twitterApi.UsersShow(id);
+                    var task = this.tw.Api.UsersShow(id);
                     user = await dialog.WaitForAsync(this, task);
                 }
                 catch (WebApiException ex)
@@ -10448,7 +9920,7 @@ namespace OpenTween
 
         private async Task DoShowUserStatus(TwitterUser user)
         {
-            using var userDialog = new UserInfoDialog(this, this.twitterApi);
+            using var userDialog = new UserInfoDialog(this, this.tw.Api);
             var showUserTask = userDialog.ShowUserAsync(user);
             userDialog.ShowDialog(this);
 
@@ -10498,7 +9970,7 @@ namespace OpenTween
 
                 try
                 {
-                    var task = this.twitterApi.StatusesShow(statusId);
+                    var task = this.tw.Api.StatusesShow(statusId);
                     status = await dialog.WaitForAsync(this, task);
                 }
                 catch (WebApiException ex)
@@ -10513,41 +9985,6 @@ namespace OpenTween
             }
 
             MessageBox.Show(status.RetweetCount + Properties.Resources.RtCountText1);
-        }
-
-        private readonly HookGlobalHotkey hookGlobalHotkey;
-
-        public TweenMain()
-        {
-            this.hookGlobalHotkey = new HookGlobalHotkey(this);
-
-            // この呼び出しは、Windows フォーム デザイナで必要です。
-            this.InitializeComponent();
-
-            // InitializeComponent() 呼び出しの後で初期化を追加します。
-
-            if (!this.DesignMode)
-            {
-                // デザイナでの編集時にレイアウトが縦方向に数pxずれる問題の対策
-                this.StatusText.Dock = DockStyle.Fill;
-            }
-
-            this.tweetDetailsView.Owner = this;
-
-            this.hookGlobalHotkey.HotkeyPressed += this.HookGlobalHotkey_HotkeyPressed;
-            this.gh.NotifyClicked += this.GrowlHelper_Callback;
-
-            // メイリオフォント指定時にタブの最小幅が広くなる問題の対策
-            this.ListTab.HandleCreated += (s, e) => NativeMethods.SetMinTabWidth((TabControl)s, 40);
-
-            this.ImageSelector.Visible = false;
-            this.ImageSelector.Enabled = false;
-            this.ImageSelector.FilePickDialog = this.OpenFileDialog1;
-
-            this.workerProgress = new Progress<string>(x => this.StatusLabel.Text = x);
-
-            this.ReplaceAppName();
-            this.InitializeShortcuts();
         }
 
         private void HookGlobalHotkey_HotkeyPressed(object sender, KeyEventArgs e)
@@ -10900,14 +10337,14 @@ namespace OpenTween
 
         private async Task OpenUserAppointUrl()
         {
-            if (SettingManager.Common.UserAppointUrl != null)
+            if (this.settings.Common.UserAppointUrl != null)
             {
-                if (SettingManager.Common.UserAppointUrl.Contains("{ID}") || SettingManager.Common.UserAppointUrl.Contains("{STATUS}"))
+                if (this.settings.Common.UserAppointUrl.Contains("{ID}") || this.settings.Common.UserAppointUrl.Contains("{STATUS}"))
                 {
                     var post = this.CurrentPost;
                     if (post != null)
                     {
-                        var xUrl = SettingManager.Common.UserAppointUrl;
+                        var xUrl = this.settings.Common.UserAppointUrl;
                         xUrl = xUrl.Replace("{ID}", post.ScreenName);
 
                         var statusId = post.RetweetedId ?? post.StatusId;
@@ -10918,7 +10355,7 @@ namespace OpenTween
                 }
                 else
                 {
-                    await MyCommon.OpenInBrowserAsync(this, SettingManager.Common.UserAppointUrl);
+                    await MyCommon.OpenInBrowserAsync(this, this.settings.Common.UserAppointUrl);
                 }
             }
         }
@@ -10985,13 +10422,13 @@ namespace OpenTween
 
         private void ContextMenuColumnHeader_Opening(object sender, CancelEventArgs e)
         {
-            this.IconSizeNoneToolStripMenuItem.Checked = SettingManager.Common.IconSize == MyCommon.IconSizes.IconNone;
-            this.IconSize16ToolStripMenuItem.Checked = SettingManager.Common.IconSize == MyCommon.IconSizes.Icon16;
-            this.IconSize24ToolStripMenuItem.Checked = SettingManager.Common.IconSize == MyCommon.IconSizes.Icon24;
-            this.IconSize48ToolStripMenuItem.Checked = SettingManager.Common.IconSize == MyCommon.IconSizes.Icon48;
-            this.IconSize48_2ToolStripMenuItem.Checked = SettingManager.Common.IconSize == MyCommon.IconSizes.Icon48_2;
+            this.IconSizeNoneToolStripMenuItem.Checked = this.settings.Common.IconSize == MyCommon.IconSizes.IconNone;
+            this.IconSize16ToolStripMenuItem.Checked = this.settings.Common.IconSize == MyCommon.IconSizes.Icon16;
+            this.IconSize24ToolStripMenuItem.Checked = this.settings.Common.IconSize == MyCommon.IconSizes.Icon24;
+            this.IconSize48ToolStripMenuItem.Checked = this.settings.Common.IconSize == MyCommon.IconSizes.Icon48;
+            this.IconSize48_2ToolStripMenuItem.Checked = this.settings.Common.IconSize == MyCommon.IconSizes.Icon48_2;
 
-            this.LockListSortOrderToolStripMenuItem.Checked = SettingManager.Common.SortOrderLock;
+            this.LockListSortOrderToolStripMenuItem.Checked = this.settings.Common.SortOrderLock;
         }
 
         private void IconSizeNoneToolStripMenuItem_Click(object sender, EventArgs e)
@@ -11011,11 +10448,11 @@ namespace OpenTween
 
         private void ChangeListViewIconSize(MyCommon.IconSizes iconSize)
         {
-            if (SettingManager.Common.IconSize == iconSize) return;
+            if (this.settings.Common.IconSize == iconSize) return;
 
             var oldIconCol = this.iconCol;
 
-            SettingManager.Common.IconSize = iconSize;
+            this.settings.Common.IconSize = iconSize;
             this.ApplyListViewIconSize(iconSize);
 
             if (this.iconCol != oldIconCol)
@@ -11033,9 +10470,9 @@ namespace OpenTween
         private void LockListSortToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var state = this.LockListSortOrderToolStripMenuItem.Checked;
-            if (SettingManager.Common.SortOrderLock == state) return;
+            if (this.settings.Common.SortOrderLock == state) return;
 
-            SettingManager.Common.SortOrderLock = state;
+            this.settings.Common.SortOrderLock = state;
             this.MarkSettingCommonModified();
         }
 

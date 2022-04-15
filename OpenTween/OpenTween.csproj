@@ -100,10 +100,15 @@
     <Compile Include="Api\TwitterApiException.cs" />
     <Compile Include="Api\TwitterApiStatus.cs" />
     <Compile Include="Api\TwitterStreamObservable.cs" />
+    <Compile Include="ApplicationContainer.cs" />
     <Compile Include="ApplicationEvents.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ApplicationInstanceMutex.cs" />
+    <Compile Include="ApplicationPreconditions.cs" />
     <Compile Include="ApplicationSettings.cs" />
+    <Compile Include="ThemeManager.cs" />
+    <Compile Include="IconAssetsManager.cs" />
     <Compile Include="AsyncTimer.cs" />
     <Compile Include="AtIdSupplement.cs">
       <SubType>Form</SubType>
@@ -124,8 +129,12 @@
       <DependentUpon>AuthDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="Bing.cs" />
+    <Compile Include="CommandLineArgs.cs" />
     <Compile Include="Connection\IApiConnection.cs" />
+    <Compile Include="CultureService.cs" />
     <Compile Include="DebounceTimer.cs" />
+    <Compile Include="DisposableLazy.cs" />
+    <Compile Include="ErrorReportHandler.cs" />
     <Compile Include="IsExternalInit.cs" />
     <Compile Include="MediaUploadServices\IMediaUploadService.cs" />
     <Compile Include="MediaUploadServices\Imgur.cs" />

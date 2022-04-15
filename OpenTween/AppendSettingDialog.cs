@@ -39,7 +39,6 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using OpenTween.Api;
 using OpenTween.Connection;
 using OpenTween.Setting.Panel;
 using OpenTween.Thumbnail;
@@ -49,9 +48,6 @@ namespace OpenTween
     public partial class AppendSettingDialog : OTBaseForm
     {
         public event EventHandler<IntervalChangedEventArgs>? IntervalChanged;
-
-        internal Twitter Tw = null!;
-        internal TwitterApi TwitterApi = null!;
 
         public AppendSettingDialog()
         {
@@ -82,12 +78,6 @@ namespace OpenTween
             this.CooperatePanel.LoadConfig(settingCommon);
             this.ConnectionPanel.LoadConfig(settingCommon);
             this.NotifyPanel.LoadConfig(settingCommon);
-
-            var activeUser = settingCommon.UserAccounts.FirstOrDefault(x => x.UserId == this.Tw.UserId);
-            if (activeUser != null)
-            {
-                this.BasedPanel.AuthUserCombo.SelectedItem = activeUser;
-            }
         }
 
         public void SaveConfig(SettingCommon settingCommon, SettingLocal settingLocal)
@@ -107,18 +97,6 @@ namespace OpenTween
             this.CooperatePanel.SaveConfig(settingCommon);
             this.ConnectionPanel.SaveConfig(settingCommon);
             this.NotifyPanel.SaveConfig(settingCommon);
-
-            var userAccountIdx = this.BasedPanel.AuthUserCombo.SelectedIndex;
-            if (userAccountIdx != -1)
-            {
-                var u = settingCommon.UserAccounts[userAccountIdx];
-                this.Tw.Initialize(u.Token, u.TokenSecret, u.Username, u.UserId);
-            }
-            else
-            {
-                this.Tw.ClearAuthInfo();
-                this.Tw.Initialize("", "", "", 0);
-            }
         }
 
         private void TreeViewSetting_BeforeSelect(object sender, TreeViewCancelEventArgs e)

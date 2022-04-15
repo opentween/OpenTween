@@ -432,17 +432,17 @@ namespace OpenTween
             var oldInstance = SettingManagerTest.Common;
             SettingManagerTest.Common = new SettingCommon();
 
-            var timeline = SettingManager.Common.CountApi;
-            var reply = SettingManager.Common.CountApiReply;
-            var more = SettingManager.Common.MoreCountApi;
-            var startup = SettingManager.Common.FirstCountApi;
-            var favorite = SettingManager.Common.FavoritesCountApi;
-            var list = SettingManager.Common.ListCountApi;
-            var search = SettingManager.Common.SearchCountApi;
-            var usertl = SettingManager.Common.UserTimelineCountApi;
+            var timeline = SettingManager.Instance.Common.CountApi;
+            var reply = SettingManager.Instance.Common.CountApiReply;
+            var more = SettingManager.Instance.Common.MoreCountApi;
+            var startup = SettingManager.Instance.Common.FirstCountApi;
+            var favorite = SettingManager.Instance.Common.FavoritesCountApi;
+            var list = SettingManager.Instance.Common.ListCountApi;
+            var search = SettingManager.Instance.Common.SearchCountApi;
+            var usertl = SettingManager.Instance.Common.UserTimelineCountApi;
 
             // デフォルト値チェック
-            Assert.False(SettingManager.Common.UseAdditionalCount);
+            Assert.False(SettingManager.Instance.Common.UseAdditionalCount);
             Assert.Equal(60, timeline);
             Assert.Equal(40, reply);
             Assert.Equal(200, more);
@@ -471,16 +471,16 @@ namespace OpenTween
             var oldInstance = SettingManagerTest.Common;
             SettingManagerTest.Common = new SettingCommon();
 
-            var timeline = SettingManager.Common.CountApi;
-            var reply = SettingManager.Common.CountApiReply;
-            var more = SettingManager.Common.MoreCountApi;
-            var startup = SettingManager.Common.FirstCountApi;
-            var favorite = SettingManager.Common.FavoritesCountApi;
-            var list = SettingManager.Common.ListCountApi;
-            var search = SettingManager.Common.SearchCountApi;
-            var usertl = SettingManager.Common.UserTimelineCountApi;
+            var timeline = SettingManager.Instance.Common.CountApi;
+            var reply = SettingManager.Instance.Common.CountApiReply;
+            var more = SettingManager.Instance.Common.MoreCountApi;
+            var startup = SettingManager.Instance.Common.FirstCountApi;
+            var favorite = SettingManager.Instance.Common.FavoritesCountApi;
+            var list = SettingManager.Instance.Common.ListCountApi;
+            var search = SettingManager.Instance.Common.SearchCountApi;
+            var usertl = SettingManager.Instance.Common.UserTimelineCountApi;
 
-            SettingManager.Common.UseAdditionalCount = true;
+            SettingManager.Instance.Common.UseAdditionalCount = true;
 
             // Timeline
             Assert.Equal(timeline, Twitter.GetApiResultCount(MyCommon.WORKERTYPE.Timeline, false, false));
@@ -497,7 +497,7 @@ namespace OpenTween
             Assert.Equal(favorite, Twitter.GetApiResultCount(MyCommon.WORKERTYPE.Favorites, true, false));
             Assert.Equal(favorite, Twitter.GetApiResultCount(MyCommon.WORKERTYPE.Favorites, false, true));
 
-            SettingManager.Common.FavoritesCountApi = 0;
+            SettingManager.Instance.Common.FavoritesCountApi = 0;
 
             Assert.Equal(timeline, Twitter.GetApiResultCount(MyCommon.WORKERTYPE.Favorites, false, false));
             Assert.Equal(more, Twitter.GetApiResultCount(MyCommon.WORKERTYPE.Favorites, true, false));
@@ -508,7 +508,7 @@ namespace OpenTween
             Assert.Equal(list, Twitter.GetApiResultCount(MyCommon.WORKERTYPE.List, true, false));
             Assert.Equal(list, Twitter.GetApiResultCount(MyCommon.WORKERTYPE.List, false, true));
 
-            SettingManager.Common.ListCountApi = 0;
+            SettingManager.Instance.Common.ListCountApi = 0;
 
             Assert.Equal(timeline, Twitter.GetApiResultCount(MyCommon.WORKERTYPE.List, false, false));
             Assert.Equal(more, Twitter.GetApiResultCount(MyCommon.WORKERTYPE.List, true, false));
@@ -519,7 +519,7 @@ namespace OpenTween
             Assert.Equal(search, Twitter.GetApiResultCount(MyCommon.WORKERTYPE.PublicSearch, true, false));
             Assert.Equal(search, Twitter.GetApiResultCount(MyCommon.WORKERTYPE.PublicSearch, false, true));
 
-            SettingManager.Common.SearchCountApi = 0;
+            SettingManager.Instance.Common.SearchCountApi = 0;
 
             Assert.Equal(timeline, Twitter.GetApiResultCount(MyCommon.WORKERTYPE.PublicSearch, false, false));
             Assert.Equal(search, Twitter.GetApiResultCount(MyCommon.WORKERTYPE.PublicSearch, true, false));  // MoreCountApiの値がPublicSearchの最大値に制限される
@@ -530,7 +530,7 @@ namespace OpenTween
             Assert.Equal(usertl, Twitter.GetApiResultCount(MyCommon.WORKERTYPE.UserTimeline, true, false));
             Assert.Equal(usertl, Twitter.GetApiResultCount(MyCommon.WORKERTYPE.UserTimeline, false, true));
 
-            SettingManager.Common.UserTimelineCountApi = 0;
+            SettingManager.Instance.Common.UserTimelineCountApi = 0;
 
             Assert.Equal(timeline, Twitter.GetApiResultCount(MyCommon.WORKERTYPE.UserTimeline, false, false));
             Assert.Equal(more, Twitter.GetApiResultCount(MyCommon.WORKERTYPE.UserTimeline, true, false));
