@@ -61,22 +61,109 @@ namespace OpenTween
         public string StatusText = "";
 
         public bool UseRecommendStatus = false;
-        public int Width1 = 48;
-        public int Width2 = 80;
-        public int Width3 = 290;
-        public int Width4 = 120;
-        public int Width5 = 50;
-        public int Width6 = 16;
-        public int Width7 = 32;
-        public int Width8 = 50;
-        public int DisplayIndex1 = 2;
-        public int DisplayIndex2 = 3;
-        public int DisplayIndex3 = 4;
-        public int DisplayIndex4 = 5;
-        public int DisplayIndex5 = 6;
-        public int DisplayIndex6 = 1;
-        public int DisplayIndex7 = 0;
-        public int DisplayIndex8 = 7;
+
+        [XmlIgnore]
+        public int[] ColumnsWidth { get; } = { 48, 80, 290, 120, 50, 16, 32, 50 };
+
+        public int Width1
+        {
+            get => this.ColumnsWidth[0];
+            set => this.ColumnsWidth[0] = value;
+        }
+
+        public int Width2
+        {
+            get => this.ColumnsWidth[1];
+            set => this.ColumnsWidth[1] = value;
+        }
+
+        public int Width3
+        {
+            get => this.ColumnsWidth[2];
+            set => this.ColumnsWidth[2] = value;
+        }
+
+        public int Width4
+        {
+            get => this.ColumnsWidth[3];
+            set => this.ColumnsWidth[3] = value;
+        }
+
+        public int Width5
+        {
+            get => this.ColumnsWidth[4];
+            set => this.ColumnsWidth[4] = value;
+        }
+
+        public int Width6
+        {
+            get => this.ColumnsWidth[5];
+            set => this.ColumnsWidth[5] = value;
+        }
+
+        public int Width7
+        {
+            get => this.ColumnsWidth[6];
+            set => this.ColumnsWidth[6] = value;
+        }
+
+        public int Width8
+        {
+            get => this.ColumnsWidth[7];
+            set => this.ColumnsWidth[7] = value;
+        }
+
+        [XmlIgnore]
+        public int[] ColumnsOrder { get; } = { 2, 3, 4, 5, 6, 1, 0, 7 };
+
+        public int DisplayIndex1
+        {
+            get => this.ColumnsOrder[0];
+            set => this.ColumnsOrder[0] = value;
+        }
+
+        public int DisplayIndex2
+        {
+            get => this.ColumnsOrder[1];
+            set => this.ColumnsOrder[1] = value;
+        }
+
+        public int DisplayIndex3
+        {
+            get => this.ColumnsOrder[2];
+            set => this.ColumnsOrder[2] = value;
+        }
+
+        public int DisplayIndex4
+        {
+            get => this.ColumnsOrder[3];
+            set => this.ColumnsOrder[3] = value;
+        }
+
+        public int DisplayIndex5
+        {
+            get => this.ColumnsOrder[4];
+            set => this.ColumnsOrder[4] = value;
+        }
+
+        public int DisplayIndex6
+        {
+            get => this.ColumnsOrder[5];
+            set => this.ColumnsOrder[5] = value;
+        }
+
+        public int DisplayIndex7
+        {
+            get => this.ColumnsOrder[6];
+            set => this.ColumnsOrder[6] = value;
+        }
+
+        public int DisplayIndex8
+        {
+            get => this.ColumnsOrder[7];
+            set => this.ColumnsOrder[7] = value;
+        }
+
         public string BrowserPath = "";
         public ProxyType ProxyType = ProxyType.IE;
         public string ProxyAddress = "127.0.0.1";

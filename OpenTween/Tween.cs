@@ -399,8 +399,8 @@ namespace OpenTween
                     {
                         var widthScaleFactor = this.CurrentAutoScaleDimensions.Width / this.settings.Local.ScaleDimension.Width;
 
-                        columns[0].Width = ScaleBy(widthScaleFactor, this.settings.Local.Width1);
-                        columns[1].Width = ScaleBy(widthScaleFactor, this.settings.Local.Width3);
+                        columns[0].Width = ScaleBy(widthScaleFactor, this.settings.Local.ColumnsWidth[0]);
+                        columns[1].Width = ScaleBy(widthScaleFactor, this.settings.Local.ColumnsWidth[2]);
                         columns[0].DisplayIndex = 0;
                         columns[1].DisplayIndex = 1;
                     }
@@ -436,26 +436,10 @@ namespace OpenTween
                     {
                         var widthScaleFactor = this.CurrentAutoScaleDimensions.Width / this.settings.Local.ScaleDimension.Width;
 
-                        columns[0].Width = ScaleBy(widthScaleFactor, this.settings.Local.Width1);
-                        columns[1].Width = ScaleBy(widthScaleFactor, this.settings.Local.Width2);
-                        columns[2].Width = ScaleBy(widthScaleFactor, this.settings.Local.Width3);
-                        columns[3].Width = ScaleBy(widthScaleFactor, this.settings.Local.Width4);
-                        columns[4].Width = ScaleBy(widthScaleFactor, this.settings.Local.Width5);
-                        columns[5].Width = ScaleBy(widthScaleFactor, this.settings.Local.Width6);
-                        columns[6].Width = ScaleBy(widthScaleFactor, this.settings.Local.Width7);
-                        columns[7].Width = ScaleBy(widthScaleFactor, this.settings.Local.Width8);
-
-                        var displayIndex = new[]
+                        foreach (var (column, index) in columns.WithIndex())
                         {
-                            this.settings.Local.DisplayIndex1, this.settings.Local.DisplayIndex2,
-                            this.settings.Local.DisplayIndex3, this.settings.Local.DisplayIndex4,
-                            this.settings.Local.DisplayIndex5, this.settings.Local.DisplayIndex6,
-                            this.settings.Local.DisplayIndex7, this.settings.Local.DisplayIndex8,
-                        };
-
-                        foreach (var i in Enumerable.Range(0, displayIndex.Length))
-                        {
-                            columns[i].DisplayIndex = displayIndex[i];
+                            column.Width = ScaleBy(widthScaleFactor, this.settings.Local.ColumnsWidth[index]);
+                            column.DisplayIndex = this.settings.Local.ColumnsOrder[index];
                         }
                     }
                     else
@@ -8483,62 +8467,24 @@ namespace OpenTween
 
         private void MyList_ColumnReordered(object sender, ColumnReorderedEventArgs e)
         {
-            var lst = (DetailsListView)sender;
-            if (this.settings.Local == null) return;
-
             if (this.iconCol)
             {
-                this.settings.Local.Width1 = lst.Columns[0].Width;
-                this.settings.Local.Width3 = lst.Columns[1].Width;
+                e.Cancel = true;
+                return;
             }
-            else
-            {
-                var darr = new int[lst.Columns.Count];
-                for (var i = 0; i < lst.Columns.Count; i++)
-                {
-                    darr[lst.Columns[i].DisplayIndex] = i;
-                }
-                MyCommon.MoveArrayItem(darr, e.OldDisplayIndex, e.NewDisplayIndex);
 
-                for (var i = 0; i < lst.Columns.Count; i++)
-                {
-                    switch (darr[i])
-                    {
-                        case 0:
-                            this.settings.Local.DisplayIndex1 = i;
-                            break;
-                        case 1:
-                            this.settings.Local.DisplayIndex2 = i;
-                            break;
-                        case 2:
-                            this.settings.Local.DisplayIndex3 = i;
-                            break;
-                        case 3:
-                            this.settings.Local.DisplayIndex4 = i;
-                            break;
-                        case 4:
-                            this.settings.Local.DisplayIndex5 = i;
-                            break;
-                        case 5:
-                            this.settings.Local.DisplayIndex6 = i;
-                            break;
-                        case 6:
-                            this.settings.Local.DisplayIndex7 = i;
-                            break;
-                        case 7:
-                            this.settings.Local.DisplayIndex8 = i;
-                            break;
-                    }
-                }
-                this.settings.Local.Width1 = lst.Columns[0].Width;
-                this.settings.Local.Width2 = lst.Columns[1].Width;
-                this.settings.Local.Width3 = lst.Columns[2].Width;
-                this.settings.Local.Width4 = lst.Columns[3].Width;
-                this.settings.Local.Width5 = lst.Columns[4].Width;
-                this.settings.Local.Width6 = lst.Columns[5].Width;
-                this.settings.Local.Width7 = lst.Columns[6].Width;
-                this.settings.Local.Width8 = lst.Columns[7].Width;
-            }
+            var lst = (DetailsListView)sender;
+            var columnsCount = lst.Columns.Count;
+
+            var darr = new int[columnsCount];
+            for (var i = 0; i < columnsCount; i++)
+                darr[lst.Columns[i].DisplayIndex] = i;
+
+            MyCommon.MoveArrayItem(darr, e.OldDisplayIndex, e.NewDisplayIndex);
+
+            for (var i = 0; i < columnsCount; i++)
+                this.settings.Local.ColumnsOrder[darr[i]] = i;
+
             this.MarkSettingLocalModified();
             this.isColumnChanged = true;
         }
@@ -8551,57 +8497,26 @@ namespace OpenTween
             var modified = false;
             if (this.iconCol)
             {
-                if (this.settings.Local.Width1 != lst.Columns[0].Width)
+                if (this.settings.Local.ColumnsWidth[0] != lst.Columns[0].Width)
                 {
-                    this.settings.Local.Width1 = lst.Columns[0].Width;
+                    this.settings.Local.ColumnsWidth[0] = lst.Columns[0].Width;
                     modified = true;
                 }
-                if (this.settings.Local.Width3 != lst.Columns[1].Width)
+                if (this.settings.Local.ColumnsWidth[2] != lst.Columns[1].Width)
                 {
-                    this.settings.Local.Width3 = lst.Columns[1].Width;
+                    this.settings.Local.ColumnsWidth[2] = lst.Columns[1].Width;
                     modified = true;
                 }
             }
             else
             {
-                if (this.settings.Local.Width1 != lst.Columns[0].Width)
+                var columnsCount = lst.Columns.Count;
+                for (var i = 0; i < columnsCount; i++)
                 {
-                    this.settings.Local.Width1 = lst.Columns[0].Width;
-                    modified = true;
-                }
-                if (this.settings.Local.Width2 != lst.Columns[1].Width)
-                {
-                    this.settings.Local.Width2 = lst.Columns[1].Width;
-                    modified = true;
-                }
-                if (this.settings.Local.Width3 != lst.Columns[2].Width)
-                {
-                    this.settings.Local.Width3 = lst.Columns[2].Width;
-                    modified = true;
-                }
-                if (this.settings.Local.Width4 != lst.Columns[3].Width)
-                {
-                    this.settings.Local.Width4 = lst.Columns[3].Width;
-                    modified = true;
-                }
-                if (this.settings.Local.Width5 != lst.Columns[4].Width)
-                {
-                    this.settings.Local.Width5 = lst.Columns[4].Width;
-                    modified = true;
-                }
-                if (this.settings.Local.Width6 != lst.Columns[5].Width)
-                {
-                    this.settings.Local.Width6 = lst.Columns[5].Width;
-                    modified = true;
-                }
-                if (this.settings.Local.Width7 != lst.Columns[6].Width)
-                {
-                    this.settings.Local.Width7 = lst.Columns[6].Width;
-                    modified = true;
-                }
-                if (this.settings.Local.Width8 != lst.Columns[7].Width)
-                {
-                    this.settings.Local.Width8 = lst.Columns[7].Width;
+                    if (this.settings.Local.ColumnsWidth[i] == lst.Columns[i].Width)
+                        continue;
+
+                    this.settings.Local.ColumnsWidth[i] = lst.Columns[i].Width;
                     modified = true;
                 }
             }
