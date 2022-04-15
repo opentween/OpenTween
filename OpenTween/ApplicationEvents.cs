@@ -28,7 +28,6 @@
 #nullable enable
 
 using System;
-using System.IO;
 using System.Windows.Forms;
 using OpenTween.Connection;
 using OpenTween.Setting;
@@ -59,13 +58,14 @@ namespace OpenTween
             if (!ApplicationPreconditions.CheckAll())
                 return 1;
 
-            if (!SetConfigDirectoryPath())
+            var settingsPath = SettingManager.DetermineSettingsPath(StartupOptions);
+            if (MyCommon.IsNullOrEmpty(settingsPath))
                 return 1;
 
-            using var container = new ApplicationContainer();
-
-            var settings = container.Settings;
+            var settings = new SettingManager(settingsPath);
             settings.LoadAll();
+
+            using var container = new ApplicationContainer(settings);
 
             var noLimit = StartupOptions.ContainsKey("nolimit");
             settings.Common.Validate(noLimit);
@@ -77,7 +77,7 @@ namespace OpenTween
             settings.ApplySettings();
 
             // 同じ設定ファイルを使用する OpenTween プロセスの二重起動を防止する
-            using var mutex = new ApplicationInstanceMutex(ApplicationSettings.AssemblyName, MyCommon.SettingPath);
+            using var mutex = new ApplicationInstanceMutex(ApplicationSettings.AssemblyName, settings.SettingsPath);
 
             if (mutex.InstanceExists)
             {
@@ -116,94 +116,6 @@ namespace OpenTween
                 traceFlag = true;
 
             MyCommon.TraceFlag = traceFlag;
-        }
-
-        private static bool SetConfigDirectoryPath()
-        {
-            if (StartupOptions.TryGetValue("configDir", out var configDir) && !MyCommon.IsNullOrEmpty(configDir))
-            {
-                // 起動オプション /configDir で設定ファイルの参照先を変更できます
-                if (!Directory.Exists(configDir))
-                {
-                    var text = string.Format(Properties.Resources.ConfigDirectoryNotExist, configDir);
-                    MessageBox.Show(text, ApplicationSettings.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return false;
-                }
-
-                MyCommon.SettingPath = Path.GetFullPath(configDir);
-            }
-            else
-            {
-                // OpenTween.exe と同じディレクトリに設定ファイルを配置する
-                MyCommon.SettingPath = Application.StartupPath;
-
-                SettingManager.Instance.LoadAll();
-
-                try
-                {
-                    // 設定ファイルが書き込み可能な状態であるかテストする
-                    SettingManager.Instance.SaveAll();
-                }
-                catch (UnauthorizedAccessException)
-                {
-                    // 書き込みに失敗した場合 (Program Files 以下に配置されている場合など)
-
-                    // 通常は C:\Users\ユーザー名\AppData\Roaming\OpenTween\ となる
-                    var roamingDir = Path.Combine(new[]
-                    {
-                        Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-                        ApplicationSettings.ApplicationName,
-                    });
-                    Directory.CreateDirectory(roamingDir);
-
-                    MyCommon.SettingPath = roamingDir;
-
-                    /*
-                     * 書き込みが制限されたディレクトリ内で起動された場合の設定ファイルの扱い
-                     *
-                     *  (A) StartupPath に存在する設定ファイル
-                     *  (B) Roaming に存在する設定ファイル
-                     *
-                     *  1. A も B も存在しない場合
-                     *    => B を新規に作成する
-                     *
-                     *  2. A が存在し、B が存在しない場合
-                     *    => A の内容を B にコピーする (警告を表示)
-                     *
-                     *  3. A が存在せず、B が存在する場合
-                     *    => B を使用する
-                     *
-                     *  4. A も B も存在するが、A の方が更新日時が新しい場合
-                     *    => A の内容を B にコピーする (警告を表示)
-                     *
-                     *  5. A も B も存在するが、B の方が更新日時が新しい場合
-                     *    => B を使用する
-                     */
-                    var startupDirFile = new FileInfo(Path.Combine(Application.StartupPath, "SettingCommon.xml"));
-                    var roamingDirFile = new FileInfo(Path.Combine(roamingDir, "SettingCommon.xml"));
-
-                    if (roamingDirFile.Exists && (!startupDirFile.Exists || startupDirFile.LastWriteTime <= roamingDirFile.LastWriteTime))
-                    {
-                        // 既に Roaming に設定ファイルが存在し、Roaming 内のファイルの方が新しい場合は
-                        // StartupPath に設定ファイルが存在しても無視する
-                        SettingManager.Instance.LoadAll();
-                    }
-                    else
-                    {
-                        if (startupDirFile.Exists)
-                        {
-                            // StartupPath に設定ファイルが存在し、Roaming 内のファイルよりも新しい場合のみ警告を表示する
-                            var message = string.Format(Properties.Resources.SettingPath_Relocation, Application.StartupPath, MyCommon.SettingPath);
-                            MessageBox.Show(message, ApplicationSettings.ApplicationName, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        }
-
-                        // Roaming に設定ファイルを作成 (StartupPath に読み込みに成功した設定ファイルがあれば内容がコピーされる)
-                        SettingManager.Instance.SaveAll();
-                    }
-                }
-            }
-
-            return true;
         }
 
         private static bool ShowSettingsDialog(SettingManager settings, IconAssetsManager iconAssets)

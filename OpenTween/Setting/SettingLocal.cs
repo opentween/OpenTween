@@ -39,11 +39,11 @@ namespace OpenTween
     public class SettingLocal : SettingBase<SettingLocal>
     {
         #region Settingクラス基本
-        public static SettingLocal Load()
-            => LoadSettings();
+        public static SettingLocal Load(string settingsPath)
+            => LoadSettings(settingsPath);
 
-        public void Save()
-            => SaveSettings(this);
+        public void Save(string settingsPath)
+            => SaveSettings(this, settingsPath);
         #endregion
 
         /// <summary>

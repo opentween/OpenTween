@@ -37,11 +37,11 @@ namespace OpenTween
     public class SettingCommon : SettingBase<SettingCommon>
     {
         #region "Settingクラス基本"
-        public static SettingCommon Load()
-            => LoadSettings();
+        public static SettingCommon Load(string settingsPath)
+            => LoadSettings(settingsPath);
 
-        public void Save()
-            => SaveSettings(this);
+        public void Save(string settingsPath)
+            => SaveSettings(this, settingsPath);
         #endregion
 
         public List<UserAccount> UserAccounts = new();

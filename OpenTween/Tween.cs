@@ -4890,8 +4890,8 @@ namespace OpenTween
             var pinfo = new ProcessStartInfo
             {
                 UseShellExecute = true,
-                WorkingDirectory = MyCommon.SettingPath,
-                FileName = Path.Combine(MyCommon.SettingPath, "TweenUp3.exe"),
+                WorkingDirectory = this.settings.SettingsPath,
+                FileName = Path.Combine(this.settings.SettingsPath, "TweenUp3.exe"),
                 Arguments = "\"" + Application.StartupPath + "\"",
             };
 

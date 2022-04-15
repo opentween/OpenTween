@@ -38,11 +38,11 @@ namespace OpenTween
     public class SettingTabs : SettingBase<SettingTabs>
     {
 #region Settingクラス基本
-        public static SettingTabs Load()
-            => LoadSettings("");
+        public static SettingTabs Load(string settingsPath)
+            => LoadSettings(settingsPath);
 
-        public void Save()
-            => SaveSettings(this);
+        public void Save(string settingsPath)
+            => SaveSettings(this, settingsPath);
 
         public SettingTabs()
             => this.Tabs = new List<SettingTabItem>();

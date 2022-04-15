@@ -53,11 +53,11 @@ namespace OpenTween
 
         private static readonly object LockObj = new();
 
-        protected static T LoadSettings(string fileId)
+        protected static T LoadSettings(string settingsPath, string fileId)
         {
             try
             {
-                var settingFilePath = GetSettingFilePath(fileId);
+                var settingFilePath = GetSettingFilePath(settingsPath, fileId);
                 if (!File.Exists(settingFilePath))
                 {
                     return new T();
@@ -93,7 +93,7 @@ namespace OpenTween
                             fs.Position = 0;
                             var xs = new XmlSerializer(typeof(T));
                             var instance = (T)xs.Deserialize(fs);
-                            MessageBox.Show("File: " + GetSettingFilePath(fileId) + Environment.NewLine + "Use old setting file, because application can't read this setting file.");
+                            MessageBox.Show("File: " + GetSettingFilePath(settingsPath, fileId) + Environment.NewLine + "Use old setting file, because application can't read this setting file.");
                             return instance;
                         }
                     }
@@ -101,15 +101,15 @@ namespace OpenTween
                     {
                     }
                 }
-                MessageBox.Show("File: " + GetSettingFilePath(fileId) + Environment.NewLine + "Use default setting, because application can't read this setting file.");
+                MessageBox.Show("File: " + GetSettingFilePath(settingsPath, fileId) + Environment.NewLine + "Use default setting, because application can't read this setting file.");
                 return new T();
             }
         }
 
-        protected static T LoadSettings()
-            => LoadSettings("");
+        protected static T LoadSettings(string settingsPath)
+            => LoadSettings(settingsPath, "");
 
-        protected static void SaveSettings(T instance, string fileId)
+        protected static void SaveSettings(T instance, string settingsPath, string fileId)
         {
             const int SaveRetryMax = 3;
 
@@ -119,10 +119,10 @@ namespace OpenTween
             var retryCount = 0;
             Exception? lastException = null;
 
-            var filePath = GetSettingFilePath(fileId);
+            var filePath = GetSettingFilePath(settingsPath, fileId);
             do
             {
-                var tmpfilePath = GetSettingFilePath("_" + Path.GetRandomFileName());
+                var tmpfilePath = GetSettingFilePath(settingsPath, "_" + Path.GetRandomFileName());
                 try
                 {
                     lock (LockObj)
@@ -172,10 +172,10 @@ namespace OpenTween
             MessageBox.Show("Can't write setting XML.(" + filePath + ")", "Save Settings", MessageBoxButtons.OK);
         }
 
-        protected static void SaveSettings(T instance)
-            => SaveSettings(instance, "");
+        protected static void SaveSettings(T instance, string settingsPath)
+            => SaveSettings(instance, settingsPath, "");
 
-        public static string GetSettingFilePath(string fileId)
-            => Path.Combine(MyCommon.SettingPath, typeof(T).Name + fileId + ".xml");
+        public static string GetSettingFilePath(string settingsPath, string fileId)
+            => Path.Combine(settingsPath, typeof(T).Name + fileId + ".xml");
     }
 }

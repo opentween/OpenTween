@@ -34,7 +34,7 @@ namespace OpenTween
     {
         public bool IsDisposed { get; private set; } = false;
 
-        public SettingManager Settings { get; } = SettingManager.Instance;
+        public SettingManager Settings { get; }
 
         public TabInformations TabInfo { get; } = TabInformations.GetInstance();
 
@@ -71,8 +71,11 @@ namespace OpenTween
         private readonly Lazy<ThumbnailGenerator> thumbnailGeneratorLazy;
         private readonly DisposableLazy<TweenMain> mainFormLazy;
 
-        public ApplicationContainer()
+        public ApplicationContainer(SettingManager settings)
         {
+            this.Settings = settings;
+            SettingManager.Instance = settings;
+
             this.cultureServiceLazy = new(this.CreateCultureService);
             this.twitterApiLazy = new(this.CreateTwitterApi);
             this.twitterLazy = new(this.CreateTwitter);
