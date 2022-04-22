@@ -211,6 +211,21 @@
 ファイル名: {2}
 使用可能な投稿先: {1}</value></data>
 	<data name="PostPictureWarn6"><value>なし</value></data>
+	<data name="PostState00" type="System.Resources.ResXFileRef, System.Windows.Forms"><value>..\Resources\S0.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value></data>
+	<data name="PostState01" type="System.Resources.ResXFileRef, System.Windows.Forms"><value>..\Resources\S1.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value></data>
+	<data name="PostState02" type="System.Resources.ResXFileRef, System.Windows.Forms"><value>..\Resources\S2.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value></data>
+	<data name="PostState03" type="System.Resources.ResXFileRef, System.Windows.Forms"><value>..\Resources\S3.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value></data>
+	<data name="PostState04" type="System.Resources.ResXFileRef, System.Windows.Forms"><value>..\Resources\S4.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value></data>
+	<data name="PostState05" type="System.Resources.ResXFileRef, System.Windows.Forms"><value>..\Resources\S5.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value></data>
+	<data name="PostState06" type="System.Resources.ResXFileRef, System.Windows.Forms"><value>..\Resources\S6.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value></data>
+	<data name="PostState07" type="System.Resources.ResXFileRef, System.Windows.Forms"><value>..\Resources\S7.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value></data>
+	<data name="PostState08" type="System.Resources.ResXFileRef, System.Windows.Forms"><value>..\Resources\S8.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value></data>
+	<data name="PostState09" type="System.Resources.ResXFileRef, System.Windows.Forms"><value>..\Resources\S9.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value></data>
+	<data name="PostState10" type="System.Resources.ResXFileRef, System.Windows.Forms"><value>..\Resources\S10.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value></data>
+	<data name="PostState11" type="System.Resources.ResXFileRef, System.Windows.Forms"><value>..\Resources\S11.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value></data>
+	<data name="PostState12" type="System.Resources.ResXFileRef, System.Windows.Forms"><value>..\Resources\S12.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value></data>
+	<data name="PostState13" type="System.Resources.ResXFileRef, System.Windows.Forms"><value>..\Resources\S13.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value></data>
+	<data name="PostState14" type="System.Resources.ResXFileRef, System.Windows.Forms"><value>..\Resources\S14.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value></data>
 	<data name="PostWorker_RunWorkerCompletedText4"><value>POST完了</value></data>
 	<data name="PostWorker_RunWorkerCompletedText5"><value>Recent更新中...</value></data>
 	<data name="PubSearchPeriod_ValidatingText1"><value>更新間隔には数値（0または30～6000）を指定してください。</value></data>

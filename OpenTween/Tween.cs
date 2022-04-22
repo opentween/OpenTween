@@ -4547,8 +4547,31 @@ namespace OpenTween
             {
                 var stateRect = Rectangle.Intersect(new Rectangle(new Point(iconRect.X + realIconSize.Width + 2, iconRect.Y), realStateSize), itemRect);
                 if (stateRect.Width > 0)
-                    e.Graphics.DrawImage(this.PostStateImageList.Images[item.StateIndex], stateRect);
+                    e.Graphics.DrawIcon(this.GetPostStateIcon(item.StateIndex), stateRect);
             }
+        }
+
+        private Icon GetPostStateIcon(int stateIndex)
+        {
+            return stateIndex switch
+            {
+                0 => Properties.Resources.PostState00,
+                1 => Properties.Resources.PostState01,
+                2 => Properties.Resources.PostState02,
+                3 => Properties.Resources.PostState03,
+                4 => Properties.Resources.PostState04,
+                5 => Properties.Resources.PostState05,
+                6 => Properties.Resources.PostState06,
+                7 => Properties.Resources.PostState07,
+                8 => Properties.Resources.PostState08,
+                9 => Properties.Resources.PostState09,
+                10 => Properties.Resources.PostState10,
+                11 => Properties.Resources.PostState11,
+                12 => Properties.Resources.PostState12,
+                13 => Properties.Resources.PostState13,
+                14 => Properties.Resources.PostState14,
+                _ => throw new IndexOutOfRangeException(),
+            };
         }
 
         protected override void ScaleControl(SizeF factor, BoundsSpecified specified)

@@ -255,7 +255,6 @@
             this.ToolStripMenuItem6 = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.TimerRefreshIcon = new System.Windows.Forms.Timer(this.components);
-            this.PostStateImageList = new System.Windows.Forms.ImageList(this.components);
             this.ContextMenuColumnHeader = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.IconSizeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.IconSizeNoneToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -2035,26 +2034,6 @@
             // 
             this.TimerRefreshIcon.Tick += new System.EventHandler(this.TimerRefreshIcon_Tick);
             // 
-            // PostStateImageList
-            // 
-            this.PostStateImageList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("PostStateImageList.ImageStream")));
-            this.PostStateImageList.TransparentColor = System.Drawing.Color.Transparent;
-            this.PostStateImageList.Images.SetKeyName(0, "S0.ico");
-            this.PostStateImageList.Images.SetKeyName(1, "S1.ico");
-            this.PostStateImageList.Images.SetKeyName(2, "S2.ico");
-            this.PostStateImageList.Images.SetKeyName(3, "S3.ico");
-            this.PostStateImageList.Images.SetKeyName(4, "S4.ico");
-            this.PostStateImageList.Images.SetKeyName(5, "S5.ico");
-            this.PostStateImageList.Images.SetKeyName(6, "S6.ico");
-            this.PostStateImageList.Images.SetKeyName(7, "S7.ico");
-            this.PostStateImageList.Images.SetKeyName(8, "S8.ico");
-            this.PostStateImageList.Images.SetKeyName(9, "S9.ico");
-            this.PostStateImageList.Images.SetKeyName(10, "S10.ico");
-            this.PostStateImageList.Images.SetKeyName(11, "S11.ico");
-            this.PostStateImageList.Images.SetKeyName(12, "S12.ico");
-            this.PostStateImageList.Images.SetKeyName(13, "S13.ico");
-            this.PostStateImageList.Images.SetKeyName(14, "S14.ico");
-            // 
             // ContextMenuColumnHeader
             // 
             this.ContextMenuColumnHeader.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -2367,7 +2346,6 @@
         internal System.Windows.Forms.ToolStripMenuItem ToolStripMenuItem6;
         internal System.Windows.Forms.ToolTip ToolTip1;
         internal System.Windows.Forms.Timer TimerRefreshIcon;
-        internal System.Windows.Forms.ImageList PostStateImageList;
         private System.Windows.Forms.ToolStripMenuItem ProtectTabMenuItem;
         private System.Windows.Forms.ToolStripMenuItem ProtectTbMenuItem;
         private TweetThumbnail tweetThumbnail1;
