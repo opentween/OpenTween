@@ -697,16 +697,8 @@ namespace OpenTween
             this.TopMost = this.settings.Common.AlwaysTop;
             this.mySpDis = ScaleBy(configScaleFactor.Height, this.settings.Local.SplitterDistance);
             this.mySpDis2 = ScaleBy(configScaleFactor.Height, this.settings.Local.StatusTextHeight);
-            if (this.settings.Local.PreviewDistance == -1)
-            {
-                this.mySpDis3 = this.mySize.Width - ScaleBy(this.CurrentScaleFactor.Width, 150);
-                if (this.mySpDis3 < 1) this.mySpDis3 = ScaleBy(this.CurrentScaleFactor.Width, 50);
-                this.settings.Local.PreviewDistance = this.mySpDis3;
-            }
-            else
-            {
-                this.mySpDis3 = ScaleBy(configScaleFactor.Width, this.settings.Local.PreviewDistance);
-            }
+            this.mySpDis3 = ScaleBy(configScaleFactor.Width, this.settings.Local.PreviewDistance);
+
             this.PlaySoundMenuItem.Checked = this.settings.Common.PlaySound;
             this.PlaySoundFileMenuItem.Checked = this.settings.Common.PlaySound;
             // 入力欄
@@ -904,10 +896,6 @@ namespace OpenTween
 
         private void LoadConfig()
         {
-            // v1.2.4 以前の設定には ScaleDimension の項目がないため、現在の DPI と同じとして扱う
-            if (this.settings.Local.ScaleDimension.IsEmpty)
-                this.settings.Local.ScaleDimension = this.CurrentAutoScaleDimensions;
-
             this.statuses.LoadTabsFromSettings(this.settings.Tabs);
             this.statuses.AddDefaultTabs();
         }
