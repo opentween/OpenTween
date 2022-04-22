@@ -989,6 +989,16 @@ namespace OpenTween
         public async Task GetRelatedResult(bool read, RelatedPostsTabModel tab)
         {
             var targetPost = tab.TargetPost;
+
+            if (targetPost.RetweetedId != null)
+            {
+                var originalPost = targetPost.Clone();
+                originalPost.StatusId = targetPost.RetweetedId.Value;
+                originalPost.RetweetedId = null;
+                originalPost.RetweetedBy = null;
+                targetPost = originalPost;
+            }
+
             var relPosts = new Dictionary<long, PostClass>();
             if (targetPost.TextFromApi.Contains("@") && targetPost.InReplyToStatusId == null)
             {
@@ -1067,6 +1077,29 @@ namespace OpenTween
                 }
             }
 
+            try
+            {
+                var firstPost = nextPost;
+                var posts = await this.GetConversationPosts(firstPost, targetPost)
+                    .ConfigureAwait(false);
+
+                foreach (var post in posts.OrderBy(x => x.StatusId))
+                {
+                    if (relPosts.ContainsKey(post.StatusId))
+                        continue;
+
+                    // リプライチェーンが繋がらないツイートは除外
+                    if (post.InReplyToStatusId == null || !relPosts.ContainsKey(post.InReplyToStatusId.Value))
+                        continue;
+
+                    relPosts.Add(post.StatusId, post);
+                }
+            }
+            catch (WebException ex)
+            {
+                lastException = ex;
+            }
+
             relPosts.Values.ToList().ForEach(p =>
             {
                 var post = p.Clone();
@@ -1080,6 +1113,22 @@ namespace OpenTween
 
             if (lastException != null)
                 throw new WebApiException(lastException.Message, lastException);
+        }
+
+        private async Task<PostClass[]> GetConversationPosts(PostClass firstPost, PostClass targetPost)
+        {
+            var conversationId = firstPost.StatusId;
+            var query = $"conversation_id:{conversationId}";
+
+            if (targetPost.InReplyToUser != null && targetPost.InReplyToUser != targetPost.ScreenName)
+                query += $" (from:{targetPost.ScreenName} to:{targetPost.InReplyToUser}) OR (from:{targetPost.InReplyToUser} to:{targetPost.ScreenName})";
+            else
+                query += $" from:{targetPost.ScreenName} to:{targetPost.ScreenName}";
+
+            var statuses = await this.Api.SearchTweets(query, count: 100)
+                .ConfigureAwait(false);
+
+            return statuses.Statuses.Select(x => this.CreatePostsFromStatusData(x)).ToArray();
         }
 
         public async Task GetSearch(bool read, PublicSearchTabModel tab, bool more)
