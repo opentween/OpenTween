@@ -343,7 +343,6 @@
             // 
             // toolStripApiGauge
             // 
-            this.toolStripApiGauge.ApiEndpoint = null;
             this.toolStripApiGauge.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Right;
             this.toolStripApiGauge.DoubleClickEnabled = true;
             this.toolStripApiGauge.Name = "toolStripApiGauge";

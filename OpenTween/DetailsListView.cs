@@ -42,6 +42,7 @@ namespace OpenTween.OpenTweenCustomControl
     {
         private Rectangle changeBounds;
 
+        [DefaultValue(null)]
         public ContextMenuStrip? ColumnHeaderContextMenuStrip { get; set; }
 
         public event EventHandler? VScrolled;
@@ -63,6 +64,8 @@ namespace OpenTween.OpenTweenCustomControl
         /// Items[idx].Selected の設定では mark が設定されるが、SelectedIndices.Add(idx) では設定されないため、
         /// 主に後者と合わせて使用する
         /// </remarks>
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public int SelectionMark
         {
             get => NativeMethods.ListView_GetSelectionMark(this.Handle);
