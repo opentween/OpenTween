@@ -49,7 +49,7 @@ namespace OpenTween
         /// <summary>
         /// ウィンドウサイズ等の保存時のDPI
         /// </summary>
-        public SizeF ScaleDimension = SizeF.Empty;
+        public SizeF ScaleDimension { get; set; } = new(96f, 96f);
 
         public Point FormLocation = new(0, 0);
         public int SplitterDistance = 200;

@@ -904,10 +904,6 @@ namespace OpenTween
 
         private void LoadConfig()
         {
-            // v1.2.4 以前の設定には ScaleDimension の項目がないため、現在の DPI と同じとして扱う
-            if (this.settings.Local.ScaleDimension.IsEmpty)
-                this.settings.Local.ScaleDimension = this.CurrentAutoScaleDimensions;
-
             this.statuses.LoadTabsFromSettings(this.settings.Tabs);
             this.statuses.AddDefaultTabs();
         }
