@@ -51,9 +51,11 @@ namespace OpenTween
         /// </summary>
         public SizeF ScaleDimension { get; set; } = new(96f, 96f);
 
-        public Point FormLocation = new(0, 0);
-        public int SplitterDistance = 200;
-        public Size FormSize = new(600, 500);
+        public Point FormLocation { get; set; } = new(50, 50);
+
+        public int SplitterDistance { get; set; } = 320;
+
+        public Size FormSize { get; set; } = new(700, 500);
 
         /// <summary>
         /// 文末ステータス
@@ -171,7 +173,8 @@ namespace OpenTween
         public string ProxyUser = "";
         public bool StatusMultiline = false;
         public int StatusTextHeight = 38;
-        public int PreviewDistance = -1;
+
+        public int PreviewDistance { get; set; } = 500;
 
         public string? FontUnreadStr { get; set; }
 
