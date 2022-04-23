@@ -168,9 +168,6 @@ namespace OpenTween
 
         private readonly ImageList listViewImageList = new(); // ListViewItemの高さ変更用
 
-        private PostClass? anchorPost;
-        private bool anchorFlag; // true:関連発言移動中（関連移動以外のオペレーションをするとfalseへ。trueだとリスト背景色をアンカー発言選択中として描画）
-
         /// <summary>発言履歴</summary>
         private readonly List<StatusTextHistory> history = new();
 
@@ -1517,13 +1514,9 @@ namespace OpenTween
         {
             // Index:更新対象のListviewItem.Index。Colorを返す。
             // -1は全キャッシュ。Colorは返さない（ダミーを戻す）
-            PostClass? post;
-            if (this.anchorFlag)
-                post = this.anchorPost;
-            else
-                post = this.CurrentPost;
-
-            if (post == null) return;
+            var post = this.CurrentTab.AnchorPost ?? this.CurrentPost;
+            if (post == null)
+                return;
 
             var listCache = this.listItemCache;
             if (listCache == null)
@@ -1545,13 +1538,9 @@ namespace OpenTween
         {
             // Index:更新対象のListviewItem.Index。Colorを返す。
             // -1は全キャッシュ。Colorは返さない（ダミーを戻す）
-            PostClass? basePost;
-            if (this.anchorFlag)
-                basePost = this.anchorPost;
-            else
-                basePost = this.CurrentPost;
-
-            if (basePost == null) return;
+            var basePost = this.CurrentTab.AnchorPost ?? this.CurrentPost;
+            if (basePost == null)
+                return;
 
             if (item.Index == -1)
                 item.BackColor = this.JudgeColor(basePost, post);
@@ -5122,7 +5111,7 @@ namespace OpenTween
             }
 
             if (e.Control || e.Shift || e.Alt)
-                this.anchorFlag = false;
+                tab.ClearAnchor();
 
             if (this.CommonKeyDown(e.KeyData, FocusedControl.ListTab, out var asyncTask))
             {
@@ -5176,7 +5165,7 @@ namespace OpenTween
                     .NotFocusedOn(FocusedControl.StatusText)
                     .Do(() =>
                     {
-                        this.anchorFlag = false;
+                        this.CurrentTab.ClearAnchor();
                         this.JumpUnreadMenuItem_Click(this.JumpUnreadMenuItem, EventArgs.Empty);
                     }),
 
@@ -5184,7 +5173,7 @@ namespace OpenTween
                     .NotFocusedOn(FocusedControl.StatusText)
                     .Do(() =>
                     {
-                        this.anchorFlag = false;
+                        this.CurrentTab.ClearAnchor();
                         this.ShowRelatedStatusesMenuItem_Click(this.ShowRelatedStatusesMenuItem, EventArgs.Empty);
                     }),
 
@@ -5217,7 +5206,7 @@ namespace OpenTween
                     .FocusedOn(FocusedControl.ListTab)
                     .Do(() =>
                     {
-                        this.anchorFlag = false;
+                        this.CurrentTab.ClearAnchor();
                         this.GoPost(forward: true);
                     }),
 
@@ -5225,7 +5214,7 @@ namespace OpenTween
                     .FocusedOn(FocusedControl.ListTab)
                     .Do(() =>
                     {
-                        this.anchorFlag = false;
+                        this.CurrentTab.ClearAnchor();
                         this.GoPost(forward: false);
                     }),
 
@@ -5233,7 +5222,7 @@ namespace OpenTween
                     .FocusedOn(FocusedControl.ListTab)
                     .Do(() =>
                     {
-                        this.anchorFlag = false;
+                        this.CurrentTab.ClearAnchor();
                         this.MoveTop();
                     }),
 
@@ -5241,7 +5230,7 @@ namespace OpenTween
                     .FocusedOn(FocusedControl.ListTab)
                     .Do(() =>
                     {
-                        this.anchorFlag = false;
+                        this.CurrentTab.ClearAnchor();
                         this.GoNextTab(forward: true);
                     }),
 
@@ -5249,7 +5238,7 @@ namespace OpenTween
                     .FocusedOn(FocusedControl.ListTab)
                     .Do(() =>
                     {
-                        this.anchorFlag = false;
+                        this.CurrentTab.ClearAnchor();
                         this.GoNextTab(forward: false);
                     }),
 
@@ -5258,7 +5247,7 @@ namespace OpenTween
                     .FocusedOn(FocusedControl.ListTab)
                     .Do(() =>
                     {
-                        this.anchorFlag = false;
+                        this.CurrentTab.ClearAnchor();
                         return this.GoInReplyToPostTree();
                     }),
 
@@ -5267,7 +5256,7 @@ namespace OpenTween
                     .FocusedOn(FocusedControl.ListTab)
                     .Do(() =>
                     {
-                        this.anchorFlag = false;
+                        this.CurrentTab.ClearAnchor();
                         this.GoBackInReplyToPostTree();
                     }),
 
@@ -5275,7 +5264,7 @@ namespace OpenTween
                     .FocusedOn(FocusedControl.ListTab)
                     .Do(() =>
                     {
-                        this.anchorFlag = false;
+                        this.CurrentTab.ClearAnchor();
                         var tab = this.CurrentTab;
                         var tabtype = tab.TabType;
                         if (tabtype == MyCommon.TabUsageType.Related || tabtype == MyCommon.TabUsageType.UserTimeline || tabtype == MyCommon.TabUsageType.PublicSearch || tabtype == MyCommon.TabUsageType.SearchResults)
@@ -5288,7 +5277,7 @@ namespace OpenTween
                 // 上下キー, PageUp/Downキー, Home/Endキー は既定の動作を残しつつアンカー初期化
                 ShortcutCommand.Create(Keys.Up, Keys.Down, Keys.PageUp, Keys.PageDown, Keys.Home, Keys.End)
                     .FocusedOn(FocusedControl.ListTab)
-                    .Do(() => this.anchorFlag = false, preventDefault: false),
+                    .Do(() => this.CurrentTab.ClearAnchor(), preventDefault: false),
 
                 // PreviewKeyDownEventArgs.IsInputKey を true にしてスクロールを発生させる
                 ShortcutCommand.Create(Keys.Up, Keys.Down)
@@ -6013,29 +6002,28 @@ namespace OpenTween
                 stp = -1;
             }
 
-            if (!this.anchorFlag)
+            var anchorPost = tab.AnchorPost;
+            if (anchorPost == null)
             {
                 var currentPost = this.CurrentPost;
-                if (currentPost == null) return;
-                this.anchorPost = currentPost;
-                this.anchorFlag = true;
-            }
-            else
-            {
-                if (this.anchorPost == null) return;
+                if (currentPost == null)
+                    return;
+
+                anchorPost = currentPost;
+                tab.AnchorPost = currentPost;
             }
 
             for (var idx = fIdx; idx != toIdx; idx += stp)
             {
                 var post = tab[idx];
-                if (post.ScreenName == this.anchorPost.ScreenName ||
-                    post.RetweetedBy == this.anchorPost.ScreenName ||
-                    post.ScreenName == this.anchorPost.RetweetedBy ||
-                    (!MyCommon.IsNullOrEmpty(post.RetweetedBy) && post.RetweetedBy == this.anchorPost.RetweetedBy) ||
-                    this.anchorPost.ReplyToList.Any(x => x.UserId == post.UserId) ||
-                    this.anchorPost.ReplyToList.Any(x => x.UserId == post.RetweetedByUserId) ||
-                    post.ReplyToList.Any(x => x.UserId == this.anchorPost.UserId) ||
-                    post.ReplyToList.Any(x => x.UserId == this.anchorPost.RetweetedByUserId))
+                if (post.ScreenName == anchorPost.ScreenName ||
+                    post.RetweetedBy == anchorPost.ScreenName ||
+                    post.ScreenName == anchorPost.RetweetedBy ||
+                    (!MyCommon.IsNullOrEmpty(post.RetweetedBy) && post.RetweetedBy == anchorPost.RetweetedBy) ||
+                    anchorPost.ReplyToList.Any(x => x.UserId == post.UserId) ||
+                    anchorPost.ReplyToList.Any(x => x.UserId == post.RetweetedByUserId) ||
+                    post.ReplyToList.Any(x => x.UserId == anchorPost.UserId) ||
+                    post.ReplyToList.Any(x => x.UserId == anchorPost.RetweetedByUserId))
                 {
                     var listView = this.CurrentListView;
                     this.SelectListItem(listView, idx);
@@ -6047,9 +6035,13 @@ namespace OpenTween
 
         private void GoAnchor()
         {
-            if (this.anchorPost == null) return;
-            var idx = this.CurrentTab.IndexOf(this.anchorPost.StatusId);
-            if (idx == -1) return;
+            var anchorStatusId = this.CurrentTab.AnchorStatusId;
+            if (anchorStatusId == null)
+                return;
+
+            var idx = this.CurrentTab.IndexOf(anchorStatusId.Value);
+            if (idx == -1)
+                return;
 
             var listView = this.CurrentListView;
             this.SelectListItem(listView, idx);
@@ -6501,7 +6493,7 @@ namespace OpenTween
         }
 
         private void MyList_MouseClick(object sender, MouseEventArgs e)
-            => this.anchorFlag = false;
+            => this.CurrentTab.ClearAnchor();
 
         private void StatusText_Enter(object sender, EventArgs e)
         {
@@ -7749,8 +7741,7 @@ namespace OpenTween
             this.statuses.ClearTabIds(tabName);
             if (this.CurrentTabName == tabName)
             {
-                this.anchorPost = null;
-                this.anchorFlag = false;
+                this.CurrentTab.ClearAnchor();
                 this.PurgeListViewItemCache();
             }
 
@@ -8739,8 +8730,7 @@ namespace OpenTween
 
             var listView = this.CurrentListView;
 
-            this.anchorPost = null;
-            this.anchorFlag = false;
+            this.CurrentTab.ClearAnchor();
 
             if (this.iconCol)
             {

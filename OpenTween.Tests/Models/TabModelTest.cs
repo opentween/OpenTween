@@ -33,6 +33,68 @@ namespace OpenTween.Models
     public class TabModelTest
     {
         [Fact]
+        public void AnchorPost_Test()
+        {
+            var tab = new PublicSearchTabModel("search");
+
+            var posts = new[]
+            {
+                new PostClass { StatusId = 100L },
+                new PostClass { StatusId = 110L },
+            };
+            tab.AddPostQueue(posts[0]);
+            tab.AddPostQueue(posts[1]);
+            tab.AddSubmit();
+
+            Assert.Null(tab.AnchorStatusId);
+            Assert.Null(tab.AnchorPost);
+
+            tab.AnchorPost = posts[1];
+
+            Assert.Equal(110L, tab.AnchorStatusId);
+            Assert.Equal(110L, tab.AnchorPost.StatusId);
+        }
+
+        [Fact]
+        public void AnchorPost_DeletedTest()
+        {
+            var tab = new PublicSearchTabModel("search");
+
+            var posts = new[]
+            {
+                new PostClass { StatusId = 100L },
+            };
+            tab.AddPostQueue(posts[0]);
+            tab.AddSubmit();
+            tab.AnchorPost = posts[0];
+
+            Assert.Equal(100L, tab.AnchorPost.StatusId);
+
+            tab.EnqueueRemovePost(100L, setIsDeleted: true);
+            tab.RemoveSubmit();
+
+            Assert.Null(tab.AnchorPost);
+        }
+
+        [Fact]
+        public void ClearAnchor_Test()
+        {
+            var tab = new PublicSearchTabModel("search");
+
+            var posts = new[]
+            {
+                new PostClass { StatusId = 100L },
+            };
+            tab.AddPostQueue(posts[0]);
+            tab.AddSubmit();
+            tab.AnchorPost = posts[0];
+
+            Assert.Equal(100L, tab.AnchorPost.StatusId);
+            tab.ClearAnchor();
+            Assert.Null(tab.AnchorPost);
+        }
+
+        [Fact]
         public void SelectPosts_Test()
         {
             var tab = new PublicSearchTabModel("search");
