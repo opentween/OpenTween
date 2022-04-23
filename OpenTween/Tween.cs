@@ -4188,7 +4188,7 @@ namespace OpenTween
             {
                 // 不正な要求に対する間に合わせの応答
                 string[] sitem = { "", "", "", "", "", "", "", "" };
-                e.Item = new ImageListViewItem(sitem);
+                e.Item = new ListViewItem(sitem);
             }
         }
 
@@ -4237,9 +4237,7 @@ namespace OpenTween
 
             if (post.FavoritedCount > 0) mk.Append("+" + post.FavoritedCount);
 
-            var scaledIconSz = (int)Math.Ceiling(this.iconSz * this.CurrentScaleFactor.Width);
-
-            ImageListViewItem itm;
+            ListViewItem itm;
             if (post.RetweetedId == null)
             {
                 string[] sitem =
@@ -4253,7 +4251,7 @@ namespace OpenTween
                     mk.ToString(),
                     post.Source,
                 };
-                itm = new ImageListViewItem(sitem, this.iconCache, post.ImageUrl, scaledIconSz);
+                itm = new ListViewItem(sitem);
             }
             else
             {
@@ -4268,9 +4266,8 @@ namespace OpenTween
                     mk.ToString(),
                     post.Source,
                 };
-                itm = new ImageListViewItem(sitem, this.iconCache, post.ImageUrl, scaledIconSz);
+                itm = new ListViewItem(sitem);
             }
-            itm.StateIndex = post.StateIndex;
             itm.Tag = post;
 
             var read = post.IsRead;
@@ -4485,7 +4482,7 @@ namespace OpenTween
         {
             if (this.iconSz == 0) return;
 
-            var item = (ImageListViewItem)e.Item;
+            var item = e.Item;
 
             // e.Bounds.Leftが常に0を指すから自前で計算
             var itemRect = item.Bounds;
@@ -4505,39 +4502,68 @@ namespace OpenTween
             var realIconSize = new SizeF(this.iconSz * this.CurrentScaleFactor.Width, this.iconSz * this.CurrentScaleFactor.Height).ToSize();
             var realStateSize = new SizeF(16 * this.CurrentScaleFactor.Width, 16 * this.CurrentScaleFactor.Height).ToSize();
 
-            Rectangle iconRect;
-            var img = item.Image;
+            var iconRect = Rectangle.Intersect(new Rectangle(e.Item.GetBounds(ItemBoundsPortion.Icon).Location, realIconSize), itemRect);
+            iconRect.Offset(0, Math.Max(0, (itemRect.Height - realIconSize.Height) / 2));
+
+            var post = this.CurrentTab[item.Index];
+            var img = this.LoadListViewIconLazy(item.ListView, post, realIconSize.Width);
             if (img != null)
             {
-                iconRect = Rectangle.Intersect(new Rectangle(e.Item.GetBounds(ItemBoundsPortion.Icon).Location, realIconSize), itemRect);
-                iconRect.Offset(0, Math.Max(0, (itemRect.Height - realIconSize.Height) / 2));
-
-                if (iconRect.Width > 0)
+                e.Graphics.FillRectangle(Brushes.White, iconRect);
+                e.Graphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.High;
+                try
                 {
-                    e.Graphics.FillRectangle(Brushes.White, iconRect);
-                    e.Graphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.High;
-                    try
-                    {
-                        e.Graphics.DrawImage(img.Image, iconRect);
-                    }
-                    catch (ArgumentException)
-                    {
-                    }
+                    e.Graphics.DrawImage(img.Image, iconRect);
+                }
+                catch (ArgumentException)
+                {
                 }
             }
-            else
-            {
-                iconRect = Rectangle.Intersect(new Rectangle(e.Item.GetBounds(ItemBoundsPortion.Icon).Location, new Size(1, 1)), itemRect);
 
-                item.GetImageAsync();
-            }
-
-            if (item.StateIndex > -1)
+            if (post.StateIndex > -1)
             {
                 var stateRect = Rectangle.Intersect(new Rectangle(new Point(iconRect.X + realIconSize.Width + 2, iconRect.Y), realStateSize), itemRect);
                 if (stateRect.Width > 0)
-                    e.Graphics.DrawIcon(this.GetPostStateIcon(item.StateIndex), stateRect);
+                    e.Graphics.DrawIcon(this.GetPostStateIcon(post.StateIndex), stateRect);
             }
+        }
+
+        private MemoryImage? LoadListViewIconLazy(ListView listView, PostClass post, int scaledIconSize)
+        {
+            if (scaledIconSize <= 0)
+                return null;
+
+            var normalImageUrl = post.ImageUrl;
+            if (MyCommon.IsNullOrEmpty(normalImageUrl))
+                return null;
+
+            var sizeName = Twitter.DecideProfileImageSize(scaledIconSize);
+            var cachedImage = this.iconCache.TryGetLargerOrSameSizeFromCache(normalImageUrl, sizeName);
+            if (cachedImage != null)
+                return cachedImage;
+
+            // キャッシュにない画像の場合は読み込みが完了してから再描画する
+            _ = Task.Run(async () =>
+            {
+                var imageUrl = Twitter.CreateProfileImageUrl(normalImageUrl, sizeName);
+                var image = await this.iconCache.DownloadImageAsync(imageUrl);
+
+                await this.InvokeAsync(() =>
+                {
+                    if (listView.IsDisposed)
+                        return;
+
+                    if (listView != this.CurrentListView)
+                        return;
+
+                    // ロード中に index の指す行が変化している可能性がある
+                    var newIndex = this.CurrentTab.IndexOf(post.StatusId);
+                    if (newIndex != -1)
+                        listView.RedrawItems(newIndex, newIndex, true);
+                });
+            });
+
+            return null;
         }
 
         private Icon GetPostStateIcon(int stateIndex)

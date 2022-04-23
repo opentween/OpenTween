@@ -410,7 +410,6 @@
     <Compile Include="Thumbnail\MapThumb.cs" />
     <Compile Include="Thumbnail\MapThumbOSM.cs" />
     <Compile Include="ListElement.cs" />
-    <Compile Include="ImageListViewItem.cs" />
     <Compile Include="MyCommon.cs" />
     <Compile Include="MyLists.cs">
       <SubType>Form</SubType>
