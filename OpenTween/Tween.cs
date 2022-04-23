@@ -184,11 +184,6 @@ namespace OpenTween
         private readonly List<DateTimeUtc> favTimestamps = new();
 
         // 以下DrawItem関連
-        private readonly SolidBrush brsHighLight = new(Color.FromKnownColor(KnownColor.Highlight));
-
-        /// <summary>Listにフォーカスないときの選択行の背景色</summary>
-        private readonly SolidBrush brsDeactiveSelection = new(Color.FromKnownColor(KnownColor.ButtonFace));
-
         private readonly StringFormat sfTab = new();
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -354,9 +349,7 @@ namespace OpenTween
                 this.SearchDialog.Dispose();
                 this.urlDialog.Dispose();
                 this.listViewImageList.Dispose();
-                this.brsHighLight.Dispose();
                 this.themeManager.Dispose();
-                this.brsDeactiveSelection?.Dispose();
                 this.sfTab.Dispose();
 
                 this.timelineScheduler.Dispose();
@@ -4352,9 +4345,9 @@ namespace OpenTween
             {
                 // 選択中の行
                 if (((Control)sender).Focused)
-                    brs2 = this.brsHighLight;
+                    brs2 = this.themeManager.BrushHighLight;
                 else
-                    brs2 = this.brsDeactiveSelection;
+                    brs2 = this.themeManager.BrushDeactiveSelection;
             }
             e.Graphics.FillRectangle(brs2, e.Bounds);
             e.DrawFocusRectangle();

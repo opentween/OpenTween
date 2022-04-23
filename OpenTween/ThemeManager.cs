@@ -115,6 +115,11 @@ namespace OpenTween
 
         public Brush BrushListBackcolor { get; }
 
+        public Brush BrushHighLight { get; }
+
+        /// <summary>Listにフォーカスがないときの選択行の背景色</summary>
+        public Brush BrushDeactiveSelection { get; }
+
         public ThemeManager(SettingLocal settingLocal)
         {
             var fontConverter = new FontConverter();
@@ -193,6 +198,8 @@ namespace OpenTween
             this.BrushAtFromTarget = new SolidBrush(this.ColorAtFromTarget);
             this.BrushAtTo = new SolidBrush(this.ColorAtTo);
             this.BrushListBackcolor = new SolidBrush(this.ColorListBackcolor);
+            this.BrushHighLight = new SolidBrush(Color.FromKnownColor(KnownColor.Highlight));
+            this.BrushDeactiveSelection = new SolidBrush(Color.FromKnownColor(KnownColor.ButtonFace));
         }
 
         public void Dispose()
@@ -211,6 +218,8 @@ namespace OpenTween
             this.BrushAtFromTarget.Dispose();
             this.BrushAtTo.Dispose();
             this.BrushListBackcolor.Dispose();
+            this.BrushHighLight.Dispose();
+            this.BrushDeactiveSelection.Dispose();
 
             this.IsDisposed = true;
         }
