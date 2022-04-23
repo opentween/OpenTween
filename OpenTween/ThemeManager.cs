@@ -38,8 +38,12 @@ namespace OpenTween
         /// <summary>未読用フォント</summary>
         public Font FontUnread { get; }
 
+        public Font FontUnreadBold { get; }
+
         /// <summary>既読用フォント</summary>
         public Font FontReaded { get; }
+
+        public Font FontReadedBold { get; }
 
         /// <summary>発言詳細部用フォント</summary>
         public Font FontDetail { get; }
@@ -127,8 +131,12 @@ namespace OpenTween
             this.FontUnread = ConvertStringToFont(fontConverter, settingLocal.FontUnreadStr)
                 ?? new(SystemFonts.DefaultFont, FontStyle.Bold | FontStyle.Underline);
 
+            this.FontUnreadBold = new(this.FontUnread, FontStyle.Bold);
+
             this.FontReaded = ConvertStringToFont(fontConverter, settingLocal.FontReadStr)
                 ?? SystemFonts.DefaultFont;
+
+            this.FontReadedBold = new(this.FontReaded, FontStyle.Bold);
 
             this.FontDetail = ConvertStringToFont(fontConverter, settingLocal.FontDetailStr)
                 ?? SystemFonts.DefaultFont;
@@ -208,7 +216,9 @@ namespace OpenTween
                 return;
 
             this.FontUnread.Dispose();
+            this.FontUnreadBold.Dispose();
             this.FontReaded.Dispose();
+            this.FontReadedBold.Dispose();
             this.FontDetail.Dispose();
             this.FontInputFont.Dispose();
             this.BrushSelf.Dispose();

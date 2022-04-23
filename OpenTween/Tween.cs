@@ -4400,7 +4400,12 @@ namespace OpenTween
                         rctB.Width = e.Header.Width;
                         rctB.Height = fontHeight;
 
-                        using var fnt = new Font(e.Item.Font, FontStyle.Bold);
+                        Font fontBold;
+                        if (e.Item.Font.Equals(this.themeManager.FontUnread))
+                            fontBold = this.themeManager.FontUnreadBold;
+                        else
+                            fontBold = this.themeManager.FontReadedBold;
+
                         var formatFlags1 = TextFormatFlags.WordBreak |
                             TextFormatFlags.EndEllipsis |
                             TextFormatFlags.GlyphOverhangPadding |
@@ -4422,7 +4427,7 @@ namespace OpenTween
                         TextRenderer.DrawText(
                             e.Graphics,
                             e.Item.SubItems[4].Text + " / " + e.Item.SubItems[1].Text + " (" + e.Item.SubItems[3].Text + ") " + e.Item.SubItems[5].Text + e.Item.SubItems[6].Text + " [" + e.Item.SubItems[7].Text + "]",
-                            fnt,
+                            fontBold,
                             rctB,
                             color,
                             formatFlags2);
