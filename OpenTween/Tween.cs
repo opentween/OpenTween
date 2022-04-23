@@ -954,33 +954,26 @@ namespace OpenTween
             if (MyCommon.EndingFlag) return;
 
             // リストに反映＆選択状態復元
-            foreach (var (tab, index) in this.statuses.Tabs.WithIndex())
+            if (curListView.VirtualListSize != curTabModel.AllCount || isDelete)
             {
-                var tabPage = this.ListTab.TabPages[index];
-                var listView = (DetailsListView)tabPage.Tag;
-
-                if (listView.VirtualListSize != tab.AllCount || isDelete)
+                using (ControlTransaction.Update(curListView))
                 {
-                    using (ControlTransaction.Update(listView))
+                    this.PurgeListViewItemCache();
+
+                    try
                     {
-                        if (listView == curListView)
-                            this.PurgeListViewItemCache();
-
-                        try
-                        {
-                            // リスト件数更新
-                            listView.VirtualListSize = tab.AllCount;
-                        }
-                        catch (NullReferenceException ex)
-                        {
-                            // WinForms 内部で ListView.set_TopItem が発生させている例外
-                            // https://ja.osdn.net/ticket/browse.php?group_id=6526&tid=36588
-                            MyCommon.TraceOut(ex, $"TabType: {tab.TabType}, Count: {tab.AllCount}, ListSize: {listView.VirtualListSize}");
-                        }
-
-                        // 選択位置などを復元
-                        this.RestoreListViewSelection(listView, tab, listSelections[tab.TabName]);
+                        // リスト件数更新
+                        curListView.VirtualListSize = curTabModel.AllCount;
                     }
+                    catch (NullReferenceException ex)
+                    {
+                        // WinForms 内部で ListView.set_TopItem が発生させている例外
+                        // https://ja.osdn.net/ticket/browse.php?group_id=6526&tid=36588
+                        MyCommon.TraceOut(ex, $"TabType: {curTabModel.TabType}, Count: {curTabModel.AllCount}, ListSize: {curListView.VirtualListSize}");
+                    }
+
+                    // 選択位置などを復元
+                    this.RestoreListViewSelection(curListView, curTabModel, listSelections[curTabModel.TabName]);
                 }
             }
 
@@ -2858,34 +2851,29 @@ namespace OpenTween
 
                 this.PurgeListViewItemCache();
 
+                using (ControlTransaction.Update(currentListView))
+                {
+                    var currentTab = this.CurrentTab;
+                    currentListView.VirtualListSize = currentTab.AllCount;
+                    currentListView.SelectedIndices.Clear();
+
+                    if (currentTab.AllCount != 0)
+                    {
+                        int selectedIndex;
+                        if (currentTab.AllCount - 1 > focusedIndex && focusedIndex > -1)
+                            selectedIndex = focusedIndex;
+                        else
+                            selectedIndex = currentTab.AllCount - 1;
+
+                        currentListView.SelectedIndices.Add(selectedIndex);
+                        currentListView.EnsureVisible(selectedIndex);
+                        currentListView.FocusedItem = currentListView.Items[selectedIndex];
+                    }
+                }
+
                 foreach (var (tab, index) in this.statuses.Tabs.WithIndex())
                 {
                     var tabPage = this.ListTab.TabPages[index];
-                    var listView = (DetailsListView)tabPage.Tag;
-
-                    using (ControlTransaction.Update(listView))
-                    {
-                        listView.VirtualListSize = tab.AllCount;
-
-                        if (tab.TabName == this.CurrentTabName)
-                        {
-                            listView.SelectedIndices.Clear();
-
-                            if (tab.AllCount != 0)
-                            {
-                                int selectedIndex;
-                                if (tab.AllCount - 1 > focusedIndex && focusedIndex > -1)
-                                    selectedIndex = focusedIndex;
-                                else
-                                    selectedIndex = tab.AllCount - 1;
-
-                                listView.SelectedIndices.Add(selectedIndex);
-                                listView.EnsureVisible(selectedIndex);
-                                listView.FocusedItem = listView.Items[selectedIndex];
-                            }
-                        }
-                    }
-
                     if (this.settings.Common.TabIconDisp && tab.UnreadCount == 0)
                     {
                         if (tabPage.ImageIndex == 0)
@@ -3662,12 +3650,6 @@ namespace OpenTween
             listCustom.Dispose();
             this.statuses.RemoveTab(tabName);
 
-            foreach (var (tab, index) in this.statuses.Tabs.WithIndex())
-            {
-                var lst = (DetailsListView)this.ListTab.TabPages[index].Tag;
-                lst.VirtualListSize = tab.AllCount;
-            }
-
             return true;
         }
 
@@ -4252,14 +4234,13 @@ namespace OpenTween
                 this.PurgeListViewItemCache();
                 this.statuses.FilterAll();
 
+                var listView = this.CurrentListView;
+                using (ControlTransaction.Update(listView))
+                    listView.VirtualListSize = this.CurrentTab.AllCount;
+
                 foreach (var (tab, index) in this.statuses.Tabs.WithIndex())
                 {
                     var tabPage = this.ListTab.TabPages[index];
-                    var listview = (DetailsListView)tabPage.Tag;
-                    using (ControlTransaction.Update(listview))
-                    {
-                        listview.VirtualListSize = tab.AllCount;
-                    }
 
                     if (this.settings.Common.TabIconDisp)
                     {
@@ -7465,14 +7446,12 @@ namespace OpenTween
             {
                 this.CurrentTab.ClearAnchor();
                 this.PurgeListViewItemCache();
+                this.CurrentListView.VirtualListSize = 0;
             }
 
             var tabIndex = this.statuses.Tabs.IndexOf(tabName);
             var tabPage = this.ListTab.TabPages[tabIndex];
             tabPage.ImageIndex = -1;
-
-            var listView = (DetailsListView)tabPage.Tag;
-            listView.VirtualListSize = 0;
 
             if (!this.settings.Common.TabIconDisp) this.ListTab.Refresh();
 
@@ -8446,14 +8425,21 @@ namespace OpenTween
         {
             this.SetListProperty();
 
+            if (!MyCommon.IsNullOrEmpty(this.statuses.SelectedTabName))
+                this.CurrentListView.VirtualListSize = 0;
+
             this.PurgeListViewItemCache();
 
             this.statuses.SelectTab(tabPage.Text);
 
-            var listView = this.CurrentListView;
-
             this.InitializeTimelineListView();
-            this.CurrentTab.ClearAnchor();
+
+            var tab = this.CurrentTab;
+            tab.ClearAnchor();
+
+            var listView = this.CurrentListView;
+            listView.VirtualListSize = tab.AllCount;
+            listView.SelectItems(tab.SelectedIndices);
 
             if (this.Use2ColumnsMode)
             {
@@ -9256,8 +9242,6 @@ namespace OpenTween
             }
             else
             {
-                DetailsListView? listView;
-
                 var tb = this.statuses.RemovedTab.Pop();
                 if (tb.TabType == MyCommon.TabUsageType.Related)
                 {
@@ -9271,8 +9255,6 @@ namespace OpenTween
                         this.statuses.ReplaceTab(tb);
 
                         var tabIndex = this.statuses.Tabs.IndexOf(tb);
-                        var tabPage = this.ListTab.TabPages[tabIndex];
-                        listView = (DetailsListView)tabPage.Tag;
                         this.ListTab.SelectedIndex = tabIndex;
                     }
                     else
@@ -9291,9 +9273,6 @@ namespace OpenTween
                         this.AddNewTab(tb, startup: false);
 
                         var tabIndex = this.statuses.Tabs.Count - 1;
-                        var tabPage = this.ListTab.TabPages[tabIndex];
-
-                        listView = (DetailsListView)tabPage.Tag;
                         this.ListTab.SelectedIndex = tabIndex;
                     }
                 }
@@ -9312,20 +9291,9 @@ namespace OpenTween
                     this.AddNewTab(tb, startup: false);
 
                     var tabIndex = this.statuses.Tabs.Count - 1;
-                    var tabPage = this.ListTab.TabPages[tabIndex];
-
-                    listView = (DetailsListView)tabPage.Tag;
                     this.ListTab.SelectedIndex = tabIndex;
                 }
                 this.SaveConfigsTabs();
-
-                if (listView != null)
-                {
-                    using (ControlTransaction.Update(listView))
-                    {
-                        listView.VirtualListSize = tb.AllCount;
-                    }
-                }
             }
         }
 

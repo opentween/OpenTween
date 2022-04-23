@@ -183,6 +183,9 @@ namespace OpenTween
                     if (this.listView.IsDisposed)
                         return;
 
+                    if (this.listView.VirtualListSize == 0)
+                        return;
+
                     // ロード中に index の指す行が変化している可能性がある
                     var newIndex = this.tab.IndexOf(post.StatusId);
                     if (newIndex != -1)

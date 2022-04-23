@@ -100,6 +100,9 @@ namespace OpenTween.Models
             }
         }
 
+        public int[] SelectedIndices
+            => this.SelectedPosts.Select(x => this.IndexOf(x.StatusId)).Where(x => x != -1).ToArray();
+
         public long? AnchorStatusId { get; set; }
 
         public PostClass? AnchorPost
