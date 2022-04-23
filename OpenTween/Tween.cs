@@ -80,15 +80,6 @@ namespace OpenTween
         /// <summary>プレビュー区切り位置</summary>
         private int mySpDis3;
 
-        /// <summary>アイコンサイズ</summary>
-        /// <remarks>
-        /// 現在は16、24、48の3種類。将来直接数字指定可能とする
-        /// 注：24x24の場合に26と指定しているのはMSゴシック系フォントのための仕様
-        /// </remarks>
-        private int iconSz;
-
-        private bool iconCol; // 1列表示の時true（48サイズのとき）
-
         // 雑多なフラグ類
         private bool initial; // true:起動時処理中
         private bool initialLayout = true;
@@ -166,8 +157,6 @@ namespace OpenTween
 
         private readonly ThumbnailGenerator thumbGenerator;
 
-        private readonly ImageList listViewImageList = new(); // ListViewItemの高さ変更用
-
         /// <summary>発言履歴</summary>
         private readonly List<StatusTextHistory> history = new();
 
@@ -190,6 +179,8 @@ namespace OpenTween
 
         /// <summary>発言保持クラス</summary>
         private readonly TabInformations statuses;
+
+        private TimelineListViewDrawer? listDrawer;
 
         /// <summary>
         /// 現在表示している発言一覧の <see cref="ListView"/> に対するキャッシュ
@@ -304,6 +295,9 @@ namespace OpenTween
         public PostClass? CurrentPost
             => this.CurrentTab.SelectedPost;
 
+        public bool Use2ColumnsMode
+            => this.settings.Common.IconSize == MyCommon.IconSizes.Icon48_2;
+
         /// <summary>検索処理タイプ</summary>
         internal enum SEARCHTYPE
         {
@@ -348,7 +342,6 @@ namespace OpenTween
                 // 後始末
                 this.SearchDialog.Dispose();
                 this.urlDialog.Dispose();
-                this.listViewImageList.Dispose();
                 this.themeManager.Dispose();
                 this.sfTab.Dispose();
 
@@ -374,7 +367,7 @@ namespace OpenTween
             ColumnHeader[]? columns = null;
             try
             {
-                if (this.iconCol)
+                if (this.Use2ColumnsMode)
                 {
                     columns = new[]
                     {
@@ -488,7 +481,7 @@ namespace OpenTween
                 _ => 0,
             };
 
-            if (this.iconCol)
+            if (this.Use2ColumnsMode)
             {
                 if (this.statuses.SortOrder == SortOrder.Descending)
                 {
@@ -753,7 +746,7 @@ namespace OpenTween
                     throw new TabException(Properties.Resources.TweenMain_LoadText1);
             }
 
-            this.statuses.SelectTab(this.ListTab.SelectedTab.Text);
+            this.ListTabSelect(this.ListTab.SelectedTab);
 
             // タブの位置を調整する
             this.SetTabAlignment();
@@ -2583,7 +2576,7 @@ namespace OpenTween
         /// <returns>ソートを行う ComparerMode。null であればソートを行わない</returns>
         private ComparerMode? GetComparerModeByColumnIndex(int columnIndex)
         {
-            if (this.iconCol)
+            if (this.Use2ColumnsMode)
                 return ComparerMode.Id;
 
             return columnIndex switch
@@ -2646,7 +2639,7 @@ namespace OpenTween
             this.InitColumnText();
 
             var list = this.CurrentListView;
-            if (this.iconCol)
+            if (this.Use2ColumnsMode)
             {
                 list.Columns[0].Text = this.columnText[0];
                 list.Columns[1].Text = this.columnText[2];
@@ -3006,7 +2999,7 @@ namespace OpenTween
         {
             // 設定画面表示前のユーザー情報
             var previousUserId = this.settings.Common.UserId;
-            var oldIconSz = this.settings.Common.IconSize;
+            var oldIconCol = this.Use2ColumnsMode;
 
             if (this.ShowSettingDialog() == DialogResult.OK)
             {
@@ -3090,6 +3083,8 @@ namespace OpenTween
                     var newTheme = new ThemeManager(this.settings.Local);
                     (var oldTheme, this.themeManager) = (this.themeManager, newTheme);
                     this.tweetDetailsView.Theme = this.themeManager;
+                    if (this.listDrawer != null)
+                        this.listDrawer.Theme = this.themeManager;
                     oldTheme.Dispose();
 
                     try
@@ -3139,10 +3134,7 @@ namespace OpenTween
 
                     try
                     {
-                        var oldIconCol = this.iconCol;
-
-                        if (this.settings.Common.IconSize != oldIconSz)
-                            this.ApplyListViewIconSize(this.settings.Common.IconSize);
+                        this.ApplyListViewIconSize(this.settings.Common.IconSize);
 
                         foreach (TabPage tp in this.ListTab.TabPages)
                         {
@@ -3154,7 +3146,7 @@ namespace OpenTween
                                 lst.Font = this.themeManager.FontReaded;
                                 lst.BackColor = this.themeManager.ColorListBackcolor;
 
-                                if (this.iconCol != oldIconCol)
+                                if (this.Use2ColumnsMode != oldIconCol)
                                     this.ResetColumns(lst);
                             }
                         }
@@ -3237,30 +3229,10 @@ namespace OpenTween
         private void ApplyListViewIconSize(MyCommon.IconSizes iconSz)
         {
             // アイコンサイズの再設定
-            this.iconSz = iconSz switch
-            {
-                MyCommon.IconSizes.IconNone => 0,
-                MyCommon.IconSizes.Icon16 => 16,
-                MyCommon.IconSizes.Icon24 => 26,
-                MyCommon.IconSizes.Icon48 => 48,
-                MyCommon.IconSizes.Icon48_2 => 48,
-                _ => throw new InvalidEnumArgumentException(nameof(iconSz), (int)iconSz, typeof(MyCommon.IconSizes)),
-            };
-            this.iconCol = iconSz == MyCommon.IconSizes.Icon48_2;
+            if (this.listDrawer != null)
+                this.listDrawer.IconSize = iconSz;
 
             this.PurgeListViewItemCache();
-
-            if (this.iconSz > 0)
-            {
-                // ディスプレイの DPI 設定を考慮したサイズを設定する
-                this.listViewImageList.ImageSize = new Size(
-                    1,
-                    (int)Math.Ceiling(this.iconSz * this.CurrentScaleFactor.Height));
-            }
-            else
-            {
-                this.listViewImageList.ImageSize = new Size(1, 1);
-            }
         }
 
         private void ResetColumns(DetailsListView list)
@@ -3558,8 +3530,6 @@ namespace OpenTween
                 listCustom.GridLines = this.settings.Common.ShowGrid;
                 listCustom.AllowDrop = true;
 
-                listCustom.SmallImageList = this.listViewImageList;
-
                 this.InitColumns(listCustom, startup);
 
                 listCustom.SelectedIndexChanged += this.MyList_SelectedIndexChanged;
@@ -3569,13 +3539,11 @@ namespace OpenTween
                 listCustom.DragDrop += this.TweenMain_DragDrop;
                 listCustom.DragEnter += this.TweenMain_DragEnter;
                 listCustom.DragOver += this.TweenMain_DragOver;
-                listCustom.DrawItem += this.MyList_DrawItem;
                 listCustom.MouseClick += this.MyList_MouseClick;
                 listCustom.ColumnReordered += this.MyList_ColumnReordered;
                 listCustom.ColumnWidthChanged += this.MyList_ColumnWidthChanged;
                 listCustom.CacheVirtualItems += this.MyList_CacheVirtualItems;
                 listCustom.RetrieveVirtualItem += this.MyList_RetrieveVirtualItem;
-                listCustom.DrawSubItem += this.MyList_DrawSubItem;
                 listCustom.HScrolled += this.MyList_HScrolled;
             }
 
@@ -3667,13 +3635,11 @@ namespace OpenTween
                 listCustom.DragDrop -= this.TweenMain_DragDrop;
                 listCustom.DragEnter -= this.TweenMain_DragEnter;
                 listCustom.DragOver -= this.TweenMain_DragOver;
-                listCustom.DrawItem -= this.MyList_DrawItem;
                 listCustom.MouseClick -= this.MyList_MouseClick;
                 listCustom.ColumnReordered -= this.MyList_ColumnReordered;
                 listCustom.ColumnWidthChanged -= this.MyList_ColumnWidthChanged;
                 listCustom.CacheVirtualItems -= this.MyList_CacheVirtualItems;
                 listCustom.RetrieveVirtualItem -= this.MyList_RetrieveVirtualItem;
-                listCustom.DrawSubItem -= this.MyList_DrawSubItem;
                 listCustom.HScrolled -= this.MyList_HScrolled;
 
                 var cols = listCustom.Columns.Cast<ColumnHeader>().ToList<ColumnHeader>();
@@ -4318,275 +4284,6 @@ namespace OpenTween
         private void MyList_HScrolled(object sender, EventArgs e)
             => ((DetailsListView)sender).Refresh();
 
-        private void MyList_DrawItem(object sender, DrawListViewItemEventArgs e)
-        {
-            if (e.State == 0) return;
-            e.DrawDefault = false;
-
-            Brush brs2;
-            if (!e.Item.Selected) // e.ItemStateでうまく判定できない？？？
-            {
-                if (e.Item.BackColor == this.themeManager.ColorSelf)
-                    brs2 = this.themeManager.BrushSelf;
-                else if (e.Item.BackColor == this.themeManager.ColorAtSelf)
-                    brs2 = this.themeManager.BrushAtSelf;
-                else if (e.Item.BackColor == this.themeManager.ColorTarget)
-                    brs2 = this.themeManager.BrushTarget;
-                else if (e.Item.BackColor == this.themeManager.ColorAtTarget)
-                    brs2 = this.themeManager.BrushAtTarget;
-                else if (e.Item.BackColor == this.themeManager.ColorAtFromTarget)
-                    brs2 = this.themeManager.BrushAtFromTarget;
-                else if (e.Item.BackColor == this.themeManager.ColorAtTo)
-                    brs2 = this.themeManager.BrushAtTo;
-                else
-                    brs2 = this.themeManager.BrushListBackcolor;
-            }
-            else
-            {
-                // 選択中の行
-                if (((Control)sender).Focused)
-                    brs2 = this.themeManager.BrushHighLight;
-                else
-                    brs2 = this.themeManager.BrushDeactiveSelection;
-            }
-            e.Graphics.FillRectangle(brs2, e.Bounds);
-            e.DrawFocusRectangle();
-            this.DrawListViewItemIcon(e);
-        }
-
-        private void MyList_DrawSubItem(object sender, DrawListViewSubItemEventArgs e)
-        {
-            if (e.ItemState == 0) return;
-
-            if (e.ColumnIndex > 0)
-            {
-                // アイコン以外の列
-                var post = (PostClass)e.Item.Tag;
-
-                RectangleF rct = e.Bounds;
-                rct.Width = e.Header.Width;
-                var fontHeight = e.Item.Font.Height;
-                if (this.iconCol)
-                {
-                    rct.Y += fontHeight;
-                    rct.Height -= fontHeight;
-                }
-
-                var drawLineCount = Math.Max(1, Math.DivRem((int)rct.Height, fontHeight, out var heightDiff));
-
-                // フォントの高さの半分を足してるのは保険。無くてもいいかも。
-                if (this.iconCol || drawLineCount > 1)
-                {
-                    if (heightDiff < fontHeight * 0.7)
-                    {
-                        // 最終行が70%以上欠けていたら、最終行は表示しない
-                        rct.Height = (fontHeight * drawLineCount) - 1;
-                    }
-                    else
-                    {
-                        drawLineCount += 1;
-                    }
-                }
-
-                if (rct.Width > 0)
-                {
-                    var color = (!e.Item.Selected) ? e.Item.ForeColor : // 選択されていない行
-                        ((Control)sender).Focused ? this.themeManager.ColorHighLight : // 選択中の行
-                        this.themeManager.ColorUnread;
-
-                    if (this.iconCol)
-                    {
-                        var rctB = e.Bounds;
-                        rctB.Width = e.Header.Width;
-                        rctB.Height = fontHeight;
-
-                        Font fontBold;
-                        if (e.Item.Font.Equals(this.themeManager.FontUnread))
-                            fontBold = this.themeManager.FontUnreadBold;
-                        else
-                            fontBold = this.themeManager.FontReadedBold;
-
-                        var formatFlags1 = TextFormatFlags.WordBreak |
-                            TextFormatFlags.EndEllipsis |
-                            TextFormatFlags.GlyphOverhangPadding |
-                            TextFormatFlags.NoPrefix;
-
-                        TextRenderer.DrawText(
-                            e.Graphics,
-                            post.IsDeleted ? "(DELETED)" : post.TextSingleLine,
-                            e.Item.Font,
-                            Rectangle.Round(rct),
-                            color,
-                            formatFlags1);
-
-                        var formatFlags2 = TextFormatFlags.SingleLine |
-                            TextFormatFlags.EndEllipsis |
-                            TextFormatFlags.GlyphOverhangPadding |
-                            TextFormatFlags.NoPrefix;
-
-                        TextRenderer.DrawText(
-                            e.Graphics,
-                            e.Item.SubItems[4].Text + " / " + e.Item.SubItems[1].Text + " (" + e.Item.SubItems[3].Text + ") " + e.Item.SubItems[5].Text + e.Item.SubItems[6].Text + " [" + e.Item.SubItems[7].Text + "]",
-                            fontBold,
-                            rctB,
-                            color,
-                            formatFlags2);
-                    }
-                    else
-                    {
-                        string text;
-                        if (e.ColumnIndex != 2)
-                            text = e.SubItem.Text;
-                        else
-                            text = post.IsDeleted ? "(DELETED)" : post.TextSingleLine;
-
-                        if (drawLineCount == 1)
-                        {
-                            var formatFlags = TextFormatFlags.SingleLine |
-                                TextFormatFlags.EndEllipsis |
-                                TextFormatFlags.GlyphOverhangPadding |
-                                TextFormatFlags.NoPrefix |
-                                TextFormatFlags.VerticalCenter;
-
-                            TextRenderer.DrawText(
-                                e.Graphics,
-                                text,
-                                e.Item.Font,
-                                Rectangle.Round(rct),
-                                color,
-                                formatFlags);
-                        }
-                        else
-                        {
-                            var formatFlags = TextFormatFlags.WordBreak |
-                                TextFormatFlags.EndEllipsis |
-                                TextFormatFlags.GlyphOverhangPadding |
-                                TextFormatFlags.NoPrefix;
-
-                            TextRenderer.DrawText(
-                                e.Graphics,
-                                text,
-                                e.Item.Font,
-                                Rectangle.Round(rct),
-                                color,
-                                formatFlags);
-                        }
-                    }
-                }
-            }
-        }
-
-        private void DrawListViewItemIcon(DrawListViewItemEventArgs e)
-        {
-            if (this.iconSz == 0) return;
-
-            var item = e.Item;
-
-            // e.Bounds.Leftが常に0を指すから自前で計算
-            var itemRect = item.Bounds;
-            var col0 = e.Item.ListView.Columns[0];
-            itemRect.Width = col0.Width;
-
-            if (col0.DisplayIndex > 0)
-            {
-                foreach (ColumnHeader clm in e.Item.ListView.Columns)
-                {
-                    if (clm.DisplayIndex < col0.DisplayIndex)
-                        itemRect.X += clm.Width;
-                }
-            }
-
-            // ディスプレイの DPI 設定を考慮したアイコンサイズ
-            var realIconSize = new SizeF(this.iconSz * this.CurrentScaleFactor.Width, this.iconSz * this.CurrentScaleFactor.Height).ToSize();
-            var realStateSize = new SizeF(16 * this.CurrentScaleFactor.Width, 16 * this.CurrentScaleFactor.Height).ToSize();
-
-            var iconRect = Rectangle.Intersect(new Rectangle(e.Item.GetBounds(ItemBoundsPortion.Icon).Location, realIconSize), itemRect);
-            iconRect.Offset(0, Math.Max(0, (itemRect.Height - realIconSize.Height) / 2));
-
-            var post = this.CurrentTab[item.Index];
-            var img = this.LoadListViewIconLazy(item.ListView, post, realIconSize.Width);
-            if (img != null)
-            {
-                e.Graphics.FillRectangle(Brushes.White, iconRect);
-                e.Graphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.High;
-                try
-                {
-                    e.Graphics.DrawImage(img.Image, iconRect);
-                }
-                catch (ArgumentException)
-                {
-                }
-            }
-
-            if (post.StateIndex > -1)
-            {
-                var stateRect = Rectangle.Intersect(new Rectangle(new Point(iconRect.X + realIconSize.Width + 2, iconRect.Y), realStateSize), itemRect);
-                if (stateRect.Width > 0)
-                    e.Graphics.DrawIcon(this.GetPostStateIcon(post.StateIndex), stateRect);
-            }
-        }
-
-        private MemoryImage? LoadListViewIconLazy(ListView listView, PostClass post, int scaledIconSize)
-        {
-            if (scaledIconSize <= 0)
-                return null;
-
-            var normalImageUrl = post.ImageUrl;
-            if (MyCommon.IsNullOrEmpty(normalImageUrl))
-                return null;
-
-            var sizeName = Twitter.DecideProfileImageSize(scaledIconSize);
-            var cachedImage = this.iconCache.TryGetLargerOrSameSizeFromCache(normalImageUrl, sizeName);
-            if (cachedImage != null)
-                return cachedImage;
-
-            // キャッシュにない画像の場合は読み込みが完了してから再描画する
-            _ = Task.Run(async () =>
-            {
-                var imageUrl = Twitter.CreateProfileImageUrl(normalImageUrl, sizeName);
-                var image = await this.iconCache.DownloadImageAsync(imageUrl);
-
-                await this.InvokeAsync(() =>
-                {
-                    if (listView.IsDisposed)
-                        return;
-
-                    if (listView != this.CurrentListView)
-                        return;
-
-                    // ロード中に index の指す行が変化している可能性がある
-                    var newIndex = this.CurrentTab.IndexOf(post.StatusId);
-                    if (newIndex != -1)
-                        listView.RedrawItems(newIndex, newIndex, true);
-                });
-            });
-
-            return null;
-        }
-
-        private Icon GetPostStateIcon(int stateIndex)
-        {
-            return stateIndex switch
-            {
-                0 => Properties.Resources.PostState00,
-                1 => Properties.Resources.PostState01,
-                2 => Properties.Resources.PostState02,
-                3 => Properties.Resources.PostState03,
-                4 => Properties.Resources.PostState04,
-                5 => Properties.Resources.PostState05,
-                6 => Properties.Resources.PostState06,
-                7 => Properties.Resources.PostState07,
-                8 => Properties.Resources.PostState08,
-                9 => Properties.Resources.PostState09,
-                10 => Properties.Resources.PostState10,
-                11 => Properties.Resources.PostState11,
-                12 => Properties.Resources.PostState12,
-                13 => Properties.Resources.PostState13,
-                14 => Properties.Resources.PostState14,
-                _ => throw new IndexOutOfRangeException(),
-            };
-        }
-
         protected override void ScaleControl(SizeF factor, BoundsSpecified specified)
         {
             base.ScaleControl(factor, specified);
@@ -4880,8 +4577,9 @@ namespace OpenTween
 
             if (this.statuses.SortMode == ComparerMode.Id)
             {
-                if (this.statuses.SortOrder == SortOrder.Ascending && lst.Items[foundIndex].Position.Y > lst.ClientSize.Height - this.iconSz - 10 ||
-                    this.statuses.SortOrder == SortOrder.Descending && lst.Items[foundIndex].Position.Y < this.iconSz + 10)
+                var rowHeight = lst.SmallImageList.ImageSize.Height;
+                if (this.statuses.SortOrder == SortOrder.Ascending && lst.Items[foundIndex].Position.Y > lst.ClientSize.Height - rowHeight - 10 ||
+                    this.statuses.SortOrder == SortOrder.Descending && lst.Items[foundIndex].Position.Y < rowHeight + 10)
                 {
                     this.MoveTop();
                 }
@@ -8493,7 +8191,7 @@ namespace OpenTween
 
         private void MyList_ColumnReordered(object sender, ColumnReorderedEventArgs e)
         {
-            if (this.iconCol)
+            if (this.Use2ColumnsMode)
             {
                 e.Cancel = true;
                 return;
@@ -8521,7 +8219,7 @@ namespace OpenTween
             if (this.settings.Local == null) return;
 
             var modified = false;
-            if (this.iconCol)
+            if (this.Use2ColumnsMode)
             {
                 if (this.settings.Local.ColumnsWidth[0] != lst.Columns[0].Width)
                 {
@@ -8744,19 +8442,20 @@ namespace OpenTween
             }
         }
 
-        private void ListTabSelect(TabPage tab)
+        private void ListTabSelect(TabPage tabPage)
         {
             this.SetListProperty();
 
             this.PurgeListViewItemCache();
 
-            this.statuses.SelectTab(tab.Text);
+            this.statuses.SelectTab(tabPage.Text);
 
             var listView = this.CurrentListView;
 
+            this.InitializeTimelineListView();
             this.CurrentTab.ClearAnchor();
 
-            if (this.iconCol)
+            if (this.Use2ColumnsMode)
             {
                 listView.Columns[1].Text = this.columnText[2];
             }
@@ -8767,6 +8466,19 @@ namespace OpenTween
                     listView.Columns[i].Text = this.columnText[i];
                 }
             }
+        }
+
+        private void InitializeTimelineListView()
+        {
+            var listView = this.CurrentListView;
+            var tab = this.CurrentTab;
+
+            var newDrawer = new TimelineListViewDrawer(listView, tab, this.iconCache, this.themeManager)
+            {
+                IconSize = this.settings.Common.IconSize,
+            };
+            (this.listDrawer, var oldDrawer) = (newDrawer, this.listDrawer);
+            oldDrawer?.Dispose();
         }
 
         private void ListTab_Selecting(object sender, TabControlCancelEventArgs e)
@@ -10475,12 +10187,12 @@ namespace OpenTween
         {
             if (this.settings.Common.IconSize == iconSize) return;
 
-            var oldIconCol = this.iconCol;
+            var oldIconCol = this.Use2ColumnsMode;
 
             this.settings.Common.IconSize = iconSize;
             this.ApplyListViewIconSize(iconSize);
 
-            if (this.iconCol != oldIconCol)
+            if (this.Use2ColumnsMode != oldIconCol)
             {
                 foreach (TabPage tp in this.ListTab.TabPages)
                 {
