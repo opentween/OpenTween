@@ -20,8 +20,8 @@
 // Boston, MA 02110-1301, USA.
 
 using System;
+using System.Linq;
 using System.Windows.Forms;
-using OpenTween.Models;
 using Xunit;
 
 namespace OpenTween
@@ -34,17 +34,17 @@ namespace OpenTween
             var startIndex = 10;
             var endIndex = 19;
             Assert.Throws<ArgumentException>(
-                () => new ListViewItemCache(startIndex, endIndex, new (ListViewItem, PostClass)[9])
+                () => new ListViewItemCache(startIndex, endIndex, new ListViewItem[9])
             );
             Assert.Throws<ArgumentException>(
-                () => new ListViewItemCache(startIndex, endIndex, new (ListViewItem, PostClass)[11])
+                () => new ListViewItemCache(startIndex, endIndex, new ListViewItem[11])
             );
         }
 
         [Fact]
         public void Count_Test()
         {
-            var cache = new ListViewItemCache(10, 19, new (ListViewItem, PostClass)[10]);
+            var cache = new ListViewItemCache(10, 19, new ListViewItem[10]);
             Assert.Equal(10, cache.Count);
         }
 
@@ -55,7 +55,7 @@ namespace OpenTween
         [InlineData(20, false)]
         public void Contains_Test(int index, bool expected)
         {
-            var cache = new ListViewItemCache(10, 19, new (ListViewItem, PostClass)[10]);
+            var cache = new ListViewItemCache(10, 19, new ListViewItem[10]);
             Assert.Equal(expected, cache.Contains(index));
         }
 
@@ -66,7 +66,7 @@ namespace OpenTween
         [InlineData(10, 20, false)]
         public void IsSupersetOf_Test(int start, int end, bool expected)
         {
-            var cache = new ListViewItemCache(10, 19, new (ListViewItem, PostClass)[10]);
+            var cache = new ListViewItemCache(10, 19, new ListViewItem[10]);
             Assert.Equal(expected, cache.IsSupersetOf(start, end));
         }
 
@@ -74,23 +74,33 @@ namespace OpenTween
         public void TryGetValue_FoundTest()
         {
             var item = new ListViewItem();
-            var post = new PostClass();
-            var cache = new ListViewItemCache(10, 10, new[] { (item, post) });
+            var cache = new ListViewItemCache(10, 10, new[] { item });
 
-            Assert.True(cache.TryGetValue(10, out var actualItem, out var actualPost));
+            Assert.True(cache.TryGetValue(10, out var actualItem));
             Assert.Equal(item, actualItem);
-            Assert.Equal(post, actualPost);
         }
 
         [Fact]
         public void TryGetValue_NotFoundTest()
         {
             var item = new ListViewItem();
-            var post = new PostClass();
-            var cache = new ListViewItemCache(10, 10, new[] { (item, post) });
+            var cache = new ListViewItemCache(10, 10, new[] { item });
 
-            Assert.False(cache.TryGetValue(9, out _, out _));
-            Assert.False(cache.TryGetValue(11, out _, out _));
+            Assert.False(cache.TryGetValue(9, out _));
+            Assert.False(cache.TryGetValue(11, out _));
+        }
+
+        [Fact]
+        public void WithIndex_Test()
+        {
+            var item1 = new ListViewItem();
+            var item2 = new ListViewItem();
+            var cache = new ListViewItemCache(10, 11, new[] { item1, item2 });
+
+            var actualArray = cache.WithIndex().ToArray();
+            Assert.Equal(2, actualArray.Length);
+            Assert.Equal((item1, 10), actualArray[0]);
+            Assert.Equal((item2, 11), actualArray[1]);
         }
     }
 }

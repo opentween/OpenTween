@@ -27,6 +27,7 @@
 #nullable enable
 
 using System;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Linq;
@@ -128,7 +129,7 @@ namespace OpenTween
             var listCache = new ListViewItemCache(
                 startIndex,
                 endIndex,
-                Enumerable.Zip(listItems, posts, (x, y) => (x, y)).ToArray()
+                listItems
             );
 
             Interlocked.Exchange(ref this.listItemCache, listCache);
@@ -202,9 +203,10 @@ namespace OpenTween
                 return;
 
             // キャッシュに含まれていないアイテムは対象外
-            if (!listCache.TryGetValue(index, out var itm, out var post))
+            if (!listCache.TryGetValue(index, out var itm))
                 return;
 
+            var post = this.tab[index];
             this.ChangeItemStyleRead(read, itm, post);
         }
 
@@ -259,8 +261,8 @@ namespace OpenTween
         {
             // Index:更新対象のListviewItem.Index。Colorを返す。
             // -1は全キャッシュ。Colorは返さない（ダミーを戻す）
-            var post = this.tab.AnchorPost ?? this.tab.SelectedPost;
-            if (post == null)
+            var basePost = this.tab.AnchorPost ?? this.tab.SelectedPost;
+            if (basePost == null)
                 return;
 
             var listCache = this.listItemCache;
@@ -270,9 +272,10 @@ namespace OpenTween
             // ValidateRectが呼ばれる前に選択色などの描画を済ませておく
             this.listView.Update();
 
-            foreach (var (listViewItem, cachedPost) in listCache.Cache)
+            foreach (var (listViewItem, index) in listCache.WithIndex())
             {
-                var backColor = this.JudgeColor(post, cachedPost);
+                var post = this.tab[index];
+                var backColor = this.JudgeColor(basePost, post);
                 this.listView.ChangeItemBackColor(listViewItem, backColor);
             }
         }
@@ -338,7 +341,7 @@ namespace OpenTween
             var listCache = this.listItemCache;
             if (listCache != null)
             {
-                if (listCache.TryGetValue(e.ItemIndex, out var item, out _))
+                if (listCache.TryGetValue(e.ItemIndex, out var item))
                 {
                     e.Item = item;
                     return;
@@ -380,14 +383,14 @@ namespace OpenTween
         /// <summary>キャッシュする範囲の終了インデックス</summary>
         public int EndIndex { get; }
 
-        /// <summary>キャッシュされた範囲に対応する <see cref="ListViewItem"/> と <see cref="PostClass"/> の組</summary>
-        public (ListViewItem, PostClass)[] Cache { get; }
+        /// <summary>キャッシュされた範囲に対応する <see cref="ListViewItem"/> の配列</summary>
+        public ListViewItem[] Cache { get; }
 
         /// <summary>キャッシュされたアイテムの件数</summary>
         public int Count
             => this.EndIndex - this.StartIndex + 1;
 
-        public ListViewItemCache(int startIndex, int endIndex, (ListViewItem, PostClass)[] cache)
+        public ListViewItemCache(int startIndex, int endIndex, ListViewItem[] cache)
         {
             if (!IsCacheSizeValid(startIndex, endIndex, cache))
                 throw new ArgumentException("Cache size mismatch", nameof(cache));
@@ -407,21 +410,26 @@ namespace OpenTween
         public bool IsSupersetOf(int rangeStart, int rangeEnd)
             => rangeStart >= this.StartIndex && rangeEnd <= this.EndIndex;
 
-        /// <summary>指定されたインデックスの <see cref="ListViewItem"/> と <see cref="PostClass"/> をキャッシュから取得することを試みます</summary>
+        /// <summary>指定されたインデックスの <see cref="ListViewItem"/> をキャッシュから取得することを試みます</summary>
         /// <returns>取得に成功すれば true、それ以外は false</returns>
-        public bool TryGetValue(int index, [NotNullWhen(true)] out ListViewItem? item, [NotNullWhen(true)] out PostClass? post)
+        public bool TryGetValue(int index, [NotNullWhen(true)] out ListViewItem? item)
         {
             if (this.Contains(index))
             {
-                (item, post) = this.Cache[index - this.StartIndex];
+                item = this.Cache[index - this.StartIndex];
                 return true;
             }
             else
             {
                 item = null;
-                post = null;
                 return false;
             }
+        }
+
+        public IEnumerable<(ListViewItem Item, int Index)> WithIndex()
+        {
+            foreach (var (item, index) in this.Cache.WithIndex())
+                yield return (item, index + this.StartIndex);
         }
 
         private static bool IsCacheSizeValid<T>(int startIndex, int endIndex, T[] cache)
