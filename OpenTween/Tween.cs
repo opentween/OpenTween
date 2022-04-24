@@ -1354,7 +1354,7 @@ namespace OpenTween
             this.statuses.SetReadAllTab(post.StatusId, read: true);
 
             // キャッシュの書き換え
-            this.listCache?.ChangeCacheStyleRead(true, index); // 既読へ（フォント、文字色）
+            this.listCache?.ChangeCacheStyleRead(index); // 既読へ（フォント、文字色）
 
             this.listCache?.ColorizeList();
             await this.selectionDebouncer.Call();
@@ -1726,7 +1726,7 @@ namespace OpenTween
                 {
                     var idx = tab.IndexOf(statusId);
                     if (idx != -1)
-                        this.listCache?.ChangeCacheStyleRead(post.IsRead, idx);
+                        this.listCache?.ChangeCacheStyleRead(idx);
                 }
 
                 var currentPost = this.CurrentPost;
@@ -1835,11 +1835,8 @@ namespace OpenTween
                         foreach (var statusId in successIds)
                         {
                             var idx = tab.IndexOf(statusId);
-                            if (idx == -1)
-                                continue;
-
-                            var post = tab.Posts[statusId];
-                            this.listCache?.ChangeCacheStyleRead(post.IsRead, idx);
+                            if (idx != -1)
+                                this.listCache?.ChangeCacheStyleRead(idx);
                         }
                     }
 
@@ -2691,7 +2688,7 @@ namespace OpenTween
                 {
                     this.statuses.SetReadAllTab(statusId, read: true);
                     var idx = tab.IndexOf(statusId);
-                    this.listCache?.ChangeCacheStyleRead(true, idx);
+                    this.listCache?.ChangeCacheStyleRead(idx);
                 }
                 this.listCache?.ColorizeList();
             }
@@ -2719,7 +2716,7 @@ namespace OpenTween
                 {
                     this.statuses.SetReadAllTab(statusId, read: false);
                     var idx = tab.IndexOf(statusId);
-                    this.listCache?.ChangeCacheStyleRead(false, idx);
+                    this.listCache?.ChangeCacheStyleRead(idx);
                 }
                 this.listCache?.ColorizeList();
             }

@@ -105,6 +105,24 @@ namespace OpenTween
         }
 
         [Fact]
+        public void CreateItem_UnreadManageDisabledTest()
+        {
+            var tab = new PublicSearchTabModel("tab");
+            using var listView = new DetailsListView();
+            using var theme = new ThemeManager(new());
+            using var cache = new TimelineListViewCache(listView, tab, new(), theme);
+
+            var post = this.CreatePost();
+            post.IsRead = false;
+
+            // 未読管理が無効な場合は未読状態に関わらず未読マークを表示しない
+            tab.UnreadManage = false;
+
+            var item = cache.CreateItem(post);
+            Assert.Equal("", item.SubItems[5].Text);
+        }
+
+        [Fact]
         public void CreateItem_FavoritesTest()
         {
             var tab = new PublicSearchTabModel("tab");
@@ -193,6 +211,24 @@ namespace OpenTween
             post.IsRead = false;
 
             settingCommon.UseUnreadStyle = false;
+
+            var item = cache.CreateItem(post);
+            Assert.Equal(theme.FontReaded, item.Font);
+        }
+
+        [Fact]
+        public void CreateItem_Font_UnreadManageDisabledTest()
+        {
+            var tab = new PublicSearchTabModel("tab");
+            var settingCommon = new SettingCommon();
+            using var listView = new DetailsListView();
+            using var theme = new ThemeManager(new());
+            using var cache = new TimelineListViewCache(listView, tab, settingCommon, theme);
+
+            var post = this.CreatePost();
+            post.IsRead = false;
+
+            tab.UnreadManage = false;
 
             var item = cache.CreateItem(post);
             Assert.Equal(theme.FontReaded, item.Font);

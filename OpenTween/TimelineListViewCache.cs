@@ -180,24 +180,14 @@ namespace OpenTween
             }
             itm.Tag = post;
 
-            var read = post.IsRead;
-            // 未読管理していなかったら既読として扱う
-            if (!this.tab.UnreadManage || !this.settings.UnreadManage)
-                read = true;
-
-            this.ChangeItemStyleRead(read, itm, post);
+            this.ChangeItemStyleRead(itm, post);
             this.ColorizeList(itm, post);
 
             return itm;
         }
 
-        public void ChangeCacheStyleRead(bool read, int index)
+        public void ChangeCacheStyleRead(int index)
         {
-            // Read:true=既読 false=未読
-            // 未読管理していなかったら既読として扱う
-            if (!this.tab.UnreadManage ||
-               !this.settings.UnreadManage) read = true;
-
             var listCache = this.listItemCache;
             if (listCache == null)
                 return;
@@ -207,53 +197,27 @@ namespace OpenTween
                 return;
 
             var post = this.tab[index];
-            this.ChangeItemStyleRead(read, itm, post);
+            this.ChangeItemStyleRead(itm, post);
         }
 
-        private void ChangeItemStyleRead(bool read, ListViewItem item, PostClass post)
+        private void ChangeItemStyleRead(ListViewItem item, PostClass post)
         {
-            Font fnt;
-            string star;
-            // フォント
-            if (read)
-            {
-                fnt = this.Theme.FontReaded;
-                star = "";
-            }
-            else
-            {
-                fnt = this.Theme.FontUnread;
-                star = "★";
-            }
+            var star = this.GetUnreadMark(this.DetermineUnreadMark(post));
+            var fnt = this.GetFont(this.DetermineFont(post));
+            var cl = this.GetForeColor(this.DetermineForeColor(post));
+
             if (item.SubItems[5].Text != star)
                 item.SubItems[5].Text = star;
-
-            // 文字色
-            Color cl;
-            if (post.IsFav)
-                cl = this.Theme.ColorFav;
-            else if (post.RetweetedId != null)
-                cl = this.Theme.ColorRetweet;
-            else if (post.IsOwl && (post.IsDm || this.settings.OneWayLove))
-                cl = this.Theme.ColorOWL;
-            else if (read || !this.settings.UseUnreadStyle)
-                cl = this.Theme.ColorRead;
-            else
-                cl = this.Theme.ColorUnread;
 
             if (item.Index == -1)
             {
                 item.ForeColor = cl;
-                if (this.settings.UseUnreadStyle)
-                    item.Font = fnt;
+                item.Font = fnt;
             }
             else
             {
                 this.listView.Update();
-                if (this.settings.UseUnreadStyle)
-                    this.listView.ChangeItemFontAndColor(item, cl, fnt);
-                else
-                    this.listView.ChangeItemForeColor(item, cl);
+                this.listView.ChangeItemFontAndColor(item, cl, fnt);
             }
         }
 
@@ -295,31 +259,118 @@ namespace OpenTween
         }
 
         internal Color JudgeColor(PostClass basePost, PostClass targetPost)
-        {
-            Color cl;
-            if (targetPost.StatusId == basePost.InReplyToStatusId)
-                // @先
-                cl = this.Theme.ColorAtTo;
-            else if (targetPost.IsMe)
-                // 自分=発言者
-                cl = this.Theme.ColorSelf;
-            else if (targetPost.IsReply)
-                // 自分宛返信
-                cl = this.Theme.ColorAtSelf;
-            else if (basePost.ReplyToList.Any(x => x.UserId == targetPost.UserId))
-                // 返信先
-                cl = this.Theme.ColorAtFromTarget;
-            else if (targetPost.ReplyToList.Any(x => x.UserId == basePost.UserId))
-                // その人への返信
-                cl = this.Theme.ColorAtTarget;
-            else if (targetPost.UserId == basePost.UserId)
-                // 発言者
-                cl = this.Theme.ColorTarget;
-            else
-                // その他
-                cl = this.Theme.ColorListBackcolor;
+            => this.GetBackColor(this.DetermineBackColor(basePost, targetPost));
 
-            return cl;
+        private string GetUnreadMark(bool unreadMark)
+            => unreadMark ? "★" : "";
+
+        private Color GetBackColor(ListItemBackColor backColor)
+        {
+            return backColor switch
+            {
+                ListItemBackColor.Self => this.Theme.ColorSelf,
+                ListItemBackColor.AtSelf => this.Theme.ColorAtSelf,
+                ListItemBackColor.Target => this.Theme.ColorTarget,
+                ListItemBackColor.AtTarget => this.Theme.ColorAtTarget,
+                ListItemBackColor.AtFromTarget => this.Theme.ColorAtFromTarget,
+                ListItemBackColor.AtTo => this.Theme.ColorAtTo,
+                _ => this.Theme.ColorListBackcolor,
+            };
+        }
+
+        private Color GetForeColor(ListItemForeColor foreColor)
+        {
+            return foreColor switch
+            {
+                ListItemForeColor.Fav => this.Theme.ColorFav,
+                ListItemForeColor.Retweet => this.Theme.ColorRetweet,
+                ListItemForeColor.OWL => this.Theme.ColorOWL,
+                ListItemForeColor.Unread => this.Theme.ColorUnread,
+                _ => this.Theme.ColorRead,
+            };
+        }
+
+        private Font GetFont(ListItemFont font)
+        {
+            return font switch
+            {
+                ListItemFont.Unread => this.Theme.FontUnread,
+                _ => this.Theme.FontReaded,
+            };
+        }
+
+        private bool DetermineUnreadMark(PostClass post)
+        {
+            // 未読管理していなかったら既読として扱う
+            var unreadManageEnabled = this.tab.UnreadManage && this.settings.UnreadManage;
+            if (!unreadManageEnabled)
+                return false;
+
+            return !post.IsRead;
+        }
+
+        private ListItemBackColor DetermineBackColor(PostClass? basePost, PostClass post)
+        {
+            if (basePost == null)
+                return ListItemBackColor.None;
+
+            // @先
+            if (post.StatusId == basePost.InReplyToStatusId)
+                return ListItemBackColor.AtTo;
+
+            // 自分=発言者
+            if (post.IsMe)
+                return ListItemBackColor.Self;
+
+            // 自分宛返信
+            if (post.IsReply)
+                return ListItemBackColor.AtSelf;
+
+            // 返信先
+            if (basePost.ReplyToList.Any(x => x.UserId == post.UserId))
+                return ListItemBackColor.AtFromTarget;
+
+            // その人への返信
+            if (post.ReplyToList.Any(x => x.UserId == basePost.UserId))
+                return ListItemBackColor.AtTarget;
+
+            // 発言者
+            if (post.UserId == basePost.UserId)
+                return ListItemBackColor.Target;
+
+            // その他
+            return ListItemBackColor.None;
+        }
+
+        private ListItemForeColor DetermineForeColor(PostClass post)
+        {
+            if (post.IsFav)
+                return ListItemForeColor.Fav;
+
+            if (post.RetweetedId != null)
+                return ListItemForeColor.Retweet;
+
+            if (post.IsOwl && (post.IsDm || this.settings.OneWayLove))
+                return ListItemForeColor.OWL;
+
+            var unreadManageEnabled = this.tab.UnreadManage && this.settings.UnreadManage;
+            var useUnreadStyle = unreadManageEnabled && this.settings.UseUnreadStyle;
+
+            if (useUnreadStyle && !post.IsRead)
+                return ListItemForeColor.Unread;
+
+            return ListItemForeColor.None;
+        }
+
+        private ListItemFont DetermineFont(PostClass post)
+        {
+            var unreadManageEnabled = this.tab.UnreadManage && this.settings.UnreadManage;
+            var useUnreadStyle = unreadManageEnabled && this.settings.UseUnreadStyle;
+
+            if (useUnreadStyle && !post.IsRead)
+                return ListItemFont.Unread;
+
+            return ListItemFont.Readed;
         }
 
         private void ListView_CacheVirtualItems(object sender, CacheVirtualItemsEventArgs e)
@@ -373,6 +424,32 @@ namespace OpenTween
             this.PurgeCache();
             this.IsDisposed = true;
         }
+    }
+
+    public enum ListItemBackColor
+    {
+        None,
+        Self,
+        AtSelf,
+        Target,
+        AtTarget,
+        AtFromTarget,
+        AtTo,
+    }
+
+    public enum ListItemForeColor
+    {
+        None,
+        Fav,
+        Retweet,
+        OWL,
+        Unread,
+    }
+
+    public enum ListItemFont
+    {
+        Readed,
+        Unread,
     }
 
     public class ListViewItemCache
