@@ -149,6 +149,9 @@ namespace OpenTween
             public void Dispose()
                 => DateTimeUtc.UseFakeNow = false;
         }
+
+        public static DateTimeUtc LocalTime(int year, int month, int day, int hour, int minute, int second)
+            => new(new DateTimeOffset(year, month, day, hour, minute, second, TimeZoneInfo.Local.BaseUtcOffset));
     }
 }
 

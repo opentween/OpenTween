@@ -180,60 +180,8 @@ namespace OpenTween
         /// <summary>発言保持クラス</summary>
         private readonly TabInformations statuses;
 
+        private TimelineListViewCache? listCache;
         private TimelineListViewDrawer? listDrawer;
-
-        /// <summary>
-        /// 現在表示している発言一覧の <see cref="ListView"/> に対するキャッシュ
-        /// </summary>
-        /// <remarks>
-        /// キャッシュクリアのために null が代入されることがあるため、
-        /// 使用する場合には <see cref="listItemCache"/> に対して直接メソッド等を呼び出さずに
-        /// 一旦ローカル変数に代入してから参照すること。
-        /// </remarks>
-        private ListViewItemCache? listItemCache = null;
-
-        /// <param name="TargetList">アイテムをキャッシュする対象の <see cref="ListView"/></param>
-        /// <param name="StartIndex">キャッシュする範囲の開始インデックス</param>
-        /// <param name="EndIndex">キャッシュする範囲の終了インデックス</param>
-        /// <param name="Cache">ャッシュされた範囲に対応する <see cref="ListViewItem"/> と <see cref="PostClass"/> の組</param>
-        internal record class ListViewItemCache(
-            ListView TargetList,
-            int StartIndex,
-            int EndIndex,
-            (ListViewItem, PostClass)[] Cache
-        )
-        {
-            /// <summary>キャッシュされたアイテムの件数</summary>
-            public int Count
-                => this.EndIndex - this.StartIndex + 1;
-
-            /// <summary>指定されたインデックスがキャッシュの範囲内であるか判定します</summary>
-            /// <returns><paramref name="index"/> がキャッシュの範囲内であれば true、それ以外は false</returns>
-            public bool Contains(int index)
-                => index >= this.StartIndex && index <= this.EndIndex;
-
-            /// <summary>指定されたインデックスの範囲が全てキャッシュの範囲内であるか判定します</summary>
-            /// <returns><paramref name="rangeStart"/> から <paramref name="rangeEnd"/> の範囲が全てキャッシュの範囲内であれば true、それ以外は false</returns>
-            public bool IsSupersetOf(int rangeStart, int rangeEnd)
-                => rangeStart >= this.StartIndex && rangeEnd <= this.EndIndex;
-
-            /// <summary>指定されたインデックスの <see cref="ListViewItem"/> と <see cref="PostClass"/> をキャッシュから取得することを試みます</summary>
-            /// <returns>取得に成功すれば true、それ以外は false</returns>
-            public bool TryGetValue(int index, [NotNullWhen(true)] out ListViewItem? item, [NotNullWhen(true)] out PostClass? post)
-            {
-                if (this.Contains(index))
-                {
-                    (item, post) = this.Cache[index - this.StartIndex];
-                    return true;
-                }
-                else
-                {
-                    item = null;
-                    post = null;
-                    return false;
-                }
-            }
-        }
 
         private bool isColumnChanged = false;
 
@@ -954,23 +902,12 @@ namespace OpenTween
             if (MyCommon.EndingFlag) return;
 
             // リストに反映＆選択状態復元
-            if (curListView.VirtualListSize != curTabModel.AllCount || isDelete)
+            if (this.listCache != null && (this.listCache.IsListSizeMismatched || isDelete))
             {
                 using (ControlTransaction.Update(curListView))
                 {
-                    this.PurgeListViewItemCache();
-
-                    try
-                    {
-                        // リスト件数更新
-                        curListView.VirtualListSize = curTabModel.AllCount;
-                    }
-                    catch (NullReferenceException ex)
-                    {
-                        // WinForms 内部で ListView.set_TopItem が発生させている例外
-                        // https://ja.osdn.net/ticket/browse.php?group_id=6526&tid=36588
-                        MyCommon.TraceOut(ex, $"TabType: {curTabModel.TabType}, Count: {curTabModel.AllCount}, ListSize: {curListView.VirtualListSize}");
-                    }
+                    this.listCache.PurgeCache();
+                    this.listCache.UpdateListSize();
 
                     // 選択位置などを復元
                     this.RestoreListViewSelection(curListView, curTabModel, listSelections[curTabModel.TabName]);
@@ -1417,142 +1354,10 @@ namespace OpenTween
             this.statuses.SetReadAllTab(post.StatusId, read: true);
 
             // キャッシュの書き換え
-            this.ChangeCacheStyleRead(true, index); // 既読へ（フォント、文字色）
+            this.listCache?.ChangeCacheStyleRead(true, index); // 既読へ（フォント、文字色）
 
-            this.ColorizeList();
+            this.listCache?.ColorizeList();
             await this.selectionDebouncer.Call();
-        }
-
-        private void ChangeCacheStyleRead(bool read, int index)
-        {
-            var tabInfo = this.CurrentTab;
-            // Read:true=既読 false=未読
-            // 未読管理していなかったら既読として扱う
-            if (!tabInfo.UnreadManage ||
-               !this.settings.Common.UnreadManage) read = true;
-
-            var listCache = this.listItemCache;
-            if (listCache == null)
-                return;
-
-            // キャッシュに含まれていないアイテムは対象外
-            if (!listCache.TryGetValue(index, out var itm, out var post))
-                return;
-
-            this.ChangeItemStyleRead(read, itm, post, (DetailsListView)listCache.TargetList);
-        }
-
-        private void ChangeItemStyleRead(bool read, ListViewItem item, PostClass post, DetailsListView? dList)
-        {
-            Font fnt;
-            string star;
-            // フォント
-            if (read)
-            {
-                fnt = this.themeManager.FontReaded;
-                star = "";
-            }
-            else
-            {
-                fnt = this.themeManager.FontUnread;
-                star = "★";
-            }
-            if (item.SubItems[5].Text != star)
-                item.SubItems[5].Text = star;
-
-            // 文字色
-            Color cl;
-            if (post.IsFav)
-                cl = this.themeManager.ColorFav;
-            else if (post.RetweetedId != null)
-                cl = this.themeManager.ColorRetweet;
-            else if (post.IsOwl && (post.IsDm || this.settings.Common.OneWayLove))
-                cl = this.themeManager.ColorOWL;
-            else if (read || !this.settings.Common.UseUnreadStyle)
-                cl = this.themeManager.ColorRead;
-            else
-                cl = this.themeManager.ColorUnread;
-
-            if (dList == null || item.Index == -1)
-            {
-                item.ForeColor = cl;
-                if (this.settings.Common.UseUnreadStyle)
-                    item.Font = fnt;
-            }
-            else
-            {
-                dList.Update();
-                if (this.settings.Common.UseUnreadStyle)
-                    dList.ChangeItemFontAndColor(item, cl, fnt);
-                else
-                    dList.ChangeItemForeColor(item, cl);
-            }
-        }
-
-        private void ColorizeList()
-        {
-            // Index:更新対象のListviewItem.Index。Colorを返す。
-            // -1は全キャッシュ。Colorは返さない（ダミーを戻す）
-            var post = this.CurrentTab.AnchorPost ?? this.CurrentPost;
-            if (post == null)
-                return;
-
-            var listCache = this.listItemCache;
-            if (listCache == null)
-                return;
-
-            var listView = (DetailsListView)listCache.TargetList;
-
-            // ValidateRectが呼ばれる前に選択色などの描画を済ませておく
-            listView.Update();
-
-            foreach (var (listViewItem, cachedPost) in listCache.Cache)
-            {
-                var backColor = this.JudgeColor(post, cachedPost);
-                listView.ChangeItemBackColor(listViewItem, backColor);
-            }
-        }
-
-        private void ColorizeList(ListViewItem item, PostClass post)
-        {
-            // Index:更新対象のListviewItem.Index。Colorを返す。
-            // -1は全キャッシュ。Colorは返さない（ダミーを戻す）
-            var basePost = this.CurrentTab.AnchorPost ?? this.CurrentPost;
-            if (basePost == null)
-                return;
-
-            if (item.Index == -1)
-                item.BackColor = this.JudgeColor(basePost, post);
-            else
-                this.CurrentListView.ChangeItemBackColor(item, this.JudgeColor(basePost, post));
-        }
-
-        private Color JudgeColor(PostClass basePost, PostClass targetPost)
-        {
-            Color cl;
-            if (targetPost.StatusId == basePost.InReplyToStatusId)
-                // @先
-                cl = this.themeManager.ColorAtTo;
-            else if (targetPost.IsMe)
-                // 自分=発言者
-                cl = this.themeManager.ColorSelf;
-            else if (targetPost.IsReply)
-                // 自分宛返信
-                cl = this.themeManager.ColorAtSelf;
-            else if (basePost.ReplyToList.Any(x => x.UserId == targetPost.UserId))
-                // 返信先
-                cl = this.themeManager.ColorAtFromTarget;
-            else if (targetPost.ReplyToList.Any(x => x.UserId == basePost.UserId))
-                // その人への返信
-                cl = this.themeManager.ColorAtTarget;
-            else if (targetPost.UserId == basePost.UserId)
-                // 発言者
-                cl = this.themeManager.ColorTarget;
-            else
-                // その他
-                cl = this.themeManager.ColorListBackcolor;
-
-            return cl;
         }
 
         private void StatusTextHistoryBack()
@@ -1921,7 +1726,7 @@ namespace OpenTween
                 {
                     var idx = tab.IndexOf(statusId);
                     if (idx != -1)
-                        this.ChangeCacheStyleRead(post.IsRead, idx);
+                        this.listCache?.ChangeCacheStyleRead(post.IsRead, idx);
                 }
 
                 var currentPost = this.CurrentPost;
@@ -2034,7 +1839,7 @@ namespace OpenTween
                                 continue;
 
                             var post = tab.Posts[statusId];
-                            this.ChangeCacheStyleRead(post.IsRead, idx);
+                            this.listCache?.ChangeCacheStyleRead(post.IsRead, idx);
                         }
                     }
 
@@ -2287,7 +2092,7 @@ namespace OpenTween
                 this.StatusLabel.Text = Properties.Resources.UpdateFollowersMenuItem1_ClickText3;
 
                 this.RefreshTimeline();
-                this.PurgeListViewItemCache();
+                this.listCache?.PurgeCache();
                 this.CurrentListView.Refresh();
             }
             catch (WebApiException ex)
@@ -2361,7 +2166,7 @@ namespace OpenTween
                     }
                 }
 
-                this.PurgeListViewItemCache();
+                this.listCache?.PurgeCache();
                 this.CurrentListView.Refresh();
             }
             catch (WebApiException ex)
@@ -2517,18 +2322,6 @@ namespace OpenTween
             }
         }
 
-        private PostClass GetCurTabPost(int index)
-        {
-            var listCache = this.listItemCache;
-            if (listCache != null)
-            {
-                if (listCache.TryGetValue(index, out _, out var post))
-                    return post;
-            }
-
-            return this.CurrentTab[index];
-        }
-
         private async void AuthorOpenInBrowserMenuItem_Click(object sender, EventArgs e)
         {
             var post = this.CurrentPost;
@@ -2645,7 +2438,7 @@ namespace OpenTween
                 }
             }
 
-            this.PurgeListViewItemCache();
+            this.listCache?.PurgeCache();
 
             var tab = this.CurrentTab;
             var post = this.CurrentPost;
@@ -2849,14 +2642,14 @@ namespace OpenTween
                 else
                     this.StatusLabel.Text = Properties.Resources.DeleteStripMenuItem_ClickText3; // 失敗
 
-                this.PurgeListViewItemCache();
-
                 using (ControlTransaction.Update(currentListView))
                 {
-                    var currentTab = this.CurrentTab;
-                    currentListView.VirtualListSize = currentTab.AllCount;
+                    this.listCache?.PurgeCache();
+                    this.listCache?.UpdateListSize();
+
                     currentListView.SelectedIndices.Clear();
 
+                    var currentTab = this.CurrentTab;
                     if (currentTab.AllCount != 0)
                     {
                         int selectedIndex;
@@ -2898,9 +2691,9 @@ namespace OpenTween
                 {
                     this.statuses.SetReadAllTab(statusId, read: true);
                     var idx = tab.IndexOf(statusId);
-                    this.ChangeCacheStyleRead(true, idx);
+                    this.listCache?.ChangeCacheStyleRead(true, idx);
                 }
-                this.ColorizeList();
+                this.listCache?.ColorizeList();
             }
             if (this.settings.Common.TabIconDisp)
             {
@@ -2926,9 +2719,9 @@ namespace OpenTween
                 {
                     this.statuses.SetReadAllTab(statusId, read: false);
                     var idx = tab.IndexOf(statusId);
-                    this.ChangeCacheStyleRead(false, idx);
+                    this.listCache?.ChangeCacheStyleRead(false, idx);
                 }
-                this.ColorizeList();
+                this.listCache?.ColorizeList();
             }
             if (this.settings.Common.TabIconDisp)
             {
@@ -3149,7 +2942,7 @@ namespace OpenTween
                     this.SetMainWindowTitle();
                     this.SetNotifyIconText();
 
-                    this.PurgeListViewItemCache();
+                    this.listCache?.PurgeCache();
                     this.CurrentListView.Refresh();
                     this.ListTab.Refresh();
 
@@ -3220,7 +3013,7 @@ namespace OpenTween
             if (this.listDrawer != null)
                 this.listDrawer.IconSize = iconSz;
 
-            this.PurgeListViewItemCache();
+            this.listCache?.PurgeCache();
         }
 
         private void ResetColumns(DetailsListView list)
@@ -3530,8 +3323,6 @@ namespace OpenTween
                 listCustom.MouseClick += this.MyList_MouseClick;
                 listCustom.ColumnReordered += this.MyList_ColumnReordered;
                 listCustom.ColumnWidthChanged += this.MyList_ColumnWidthChanged;
-                listCustom.CacheVirtualItems += this.MyList_CacheVirtualItems;
-                listCustom.RetrieveVirtualItem += this.MyList_RetrieveVirtualItem;
                 listCustom.HScrolled += this.MyList_HScrolled;
             }
 
@@ -3626,8 +3417,6 @@ namespace OpenTween
                 listCustom.MouseClick -= this.MyList_MouseClick;
                 listCustom.ColumnReordered -= this.MyList_ColumnReordered;
                 listCustom.ColumnWidthChanged -= this.MyList_ColumnWidthChanged;
-                listCustom.CacheVirtualItems -= this.MyList_CacheVirtualItems;
-                listCustom.RetrieveVirtualItem -= this.MyList_RetrieveVirtualItem;
                 listCustom.HScrolled -= this.MyList_HScrolled;
 
                 var cols = listCustom.Columns.Cast<ColumnHeader>().ToList<ColumnHeader>();
@@ -3643,7 +3432,7 @@ namespace OpenTween
                 listCustom.ListViewItemSorter = null;
 
                 // キャッシュのクリア
-                this.PurgeListViewItemCache();
+                this.listCache?.PurgeCache();
             }
 
             tabPage.Dispose();
@@ -3655,7 +3444,7 @@ namespace OpenTween
 
         private void ListTab_Deselected(object sender, TabControlEventArgs e)
         {
-            this.PurgeListViewItemCache();
+            this.listCache?.PurgeCache();
             this.beforeSelectedTab = e.TabPage;
         }
 
@@ -4089,141 +3878,6 @@ namespace OpenTween
         private IMediaUploadService? GetSelectedImageService()
             => this.ImageSelector.Visible ? this.ImageSelector.SelectedService : null;
 
-        private void MyList_CacheVirtualItems(object sender, CacheVirtualItemsEventArgs e)
-        {
-            if (sender != this.CurrentListView)
-                return;
-
-            var listCache = this.listItemCache;
-            if (listCache?.TargetList == sender && listCache.IsSupersetOf(e.StartIndex, e.EndIndex))
-            {
-                // If the newly requested cache is a subset of the old cache,
-                // no need to rebuild everything, so do nothing.
-                return;
-            }
-
-            // Now we need to rebuild the cache.
-            this.CreateCache(e.StartIndex, e.EndIndex);
-        }
-
-        private void MyList_RetrieveVirtualItem(object sender, RetrieveVirtualItemEventArgs e)
-        {
-            var listCache = this.listItemCache;
-            if (listCache?.TargetList == sender)
-            {
-                if (listCache.TryGetValue(e.ItemIndex, out var item, out _))
-                {
-                    e.Item = item;
-                    return;
-                }
-            }
-
-            // A cache miss, so create a new ListViewItem and pass it back.
-            var tabPage = (TabPage)((DetailsListView)sender).Parent;
-            var tab = this.statuses.Tabs[tabPage.Text];
-            try
-            {
-                e.Item = this.CreateItem(tab, tab[e.ItemIndex]);
-            }
-            catch (Exception)
-            {
-                // 不正な要求に対する間に合わせの応答
-                string[] sitem = { "", "", "", "", "", "", "", "" };
-                e.Item = new ListViewItem(sitem);
-            }
-        }
-
-        private void CreateCache(int startIndex, int endIndex)
-        {
-            var tabInfo = this.CurrentTab;
-
-            if (tabInfo.AllCount == 0)
-                return;
-
-            // インデックスを 0...(tabInfo.AllCount - 1) の範囲内にする
-            int FilterRange(int index)
-                => Math.Max(Math.Min(index, tabInfo.AllCount - 1), 0);
-
-            // キャッシュ要求（要求範囲±30を作成）
-            startIndex = FilterRange(startIndex - 30);
-            endIndex = FilterRange(endIndex + 30);
-
-            var cacheLength = endIndex - startIndex + 1;
-
-            var tab = this.CurrentTab;
-            var posts = tabInfo[startIndex, endIndex]; // 配列で取得
-            var listItems = Enumerable.Range(0, cacheLength)
-                .Select(x => this.CreateItem(tab, posts[x]))
-                .ToArray();
-
-            var listCache = new ListViewItemCache(
-                TargetList: this.CurrentListView,
-                StartIndex: startIndex,
-                EndIndex: endIndex,
-                Cache: Enumerable.Zip(listItems, posts, (x, y) => (x, y)).ToArray()
-            );
-
-            Interlocked.Exchange(ref this.listItemCache, listCache);
-        }
-
-        /// <summary>
-        /// DetailsListView のための ListViewItem のキャッシュを消去する
-        /// </summary>
-        private void PurgeListViewItemCache()
-            => Interlocked.Exchange(ref this.listItemCache, null);
-
-        private ListViewItem CreateItem(TabModel tab, PostClass post)
-        {
-            var mk = new StringBuilder();
-
-            if (post.FavoritedCount > 0) mk.Append("+" + post.FavoritedCount);
-
-            ListViewItem itm;
-            if (post.RetweetedId == null)
-            {
-                string[] sitem =
-                {
-                    "",
-                    post.Nickname,
-                    post.IsDeleted ? "(DELETED)" : post.AccessibleText.Replace('\n', ' '),
-                    post.CreatedAt.ToLocalTimeString(this.settings.Common.DateTimeFormat),
-                    post.ScreenName,
-                    "",
-                    mk.ToString(),
-                    post.Source,
-                };
-                itm = new ListViewItem(sitem);
-            }
-            else
-            {
-                string[] sitem =
-                {
-                    "",
-                    post.Nickname,
-                    post.IsDeleted ? "(DELETED)" : post.AccessibleText.Replace('\n', ' '),
-                    post.CreatedAt.ToLocalTimeString(this.settings.Common.DateTimeFormat),
-                    post.ScreenName + Environment.NewLine + "(RT:" + post.RetweetedBy + ")",
-                    "",
-                    mk.ToString(),
-                    post.Source,
-                };
-                itm = new ListViewItem(sitem);
-            }
-            itm.Tag = post;
-
-            var read = post.IsRead;
-            // 未読管理していなかったら既読として扱う
-            if (!tab.UnreadManage || !this.settings.Common.UnreadManage)
-                read = true;
-
-            this.ChangeItemStyleRead(read, itm, post, null);
-
-            if (tab.TabName == this.CurrentTabName)
-                this.ColorizeList(itm, post);
-
-            return itm;
-        }
-
         /// <summary>
         /// 全てのタブの振り分けルールを反映し直します
         /// </summary>
@@ -4231,12 +3885,14 @@ namespace OpenTween
         {
             using (ControlTransaction.Cursor(this, Cursors.WaitCursor))
             {
-                this.PurgeListViewItemCache();
                 this.statuses.FilterAll();
 
                 var listView = this.CurrentListView;
                 using (ControlTransaction.Update(listView))
-                    listView.VirtualListSize = this.CurrentTab.AllCount;
+                {
+                    this.listCache?.PurgeCache();
+                    this.listCache?.UpdateListSize();
+                }
 
                 foreach (var (tab, index) in this.statuses.Tabs.WithIndex())
                 {
@@ -5864,7 +5520,7 @@ namespace OpenTween
                     currentPost.InReplyToStatusId = post.InReplyToStatusId;
                     currentPost.InReplyToUser = post.InReplyToUser;
                     currentPost.IsReply = post.IsReply;
-                    this.PurgeListViewItemCache();
+                    this.listCache?.PurgeCache();
 
                     var index = curTabClass.SelectedIndex;
                     this.CurrentListView.RedrawItems(index, index, false);
@@ -6878,7 +6534,7 @@ namespace OpenTween
 
             if (this.CurrentTabName == tabName)
             {
-                this.PurgeListViewItemCache();
+                this.listCache?.PurgeCache();
                 this.CurrentListView.Refresh();
             }
 
@@ -7445,8 +7101,8 @@ namespace OpenTween
             if (this.CurrentTabName == tabName)
             {
                 this.CurrentTab.ClearAnchor();
-                this.PurgeListViewItemCache();
-                this.CurrentListView.VirtualListSize = 0;
+                this.listCache?.PurgeCache();
+                this.listCache?.UpdateListSize();
             }
 
             var tabIndex = this.statuses.Tabs.IndexOf(tabName);
@@ -8425,10 +8081,7 @@ namespace OpenTween
         {
             this.SetListProperty();
 
-            if (!MyCommon.IsNullOrEmpty(this.statuses.SelectedTabName))
-                this.CurrentListView.VirtualListSize = 0;
-
-            this.PurgeListViewItemCache();
+            this.listCache?.PurgeCache();
 
             this.statuses.SelectTab(tabPage.Text);
 
@@ -8438,7 +8091,6 @@ namespace OpenTween
             tab.ClearAnchor();
 
             var listView = this.CurrentListView;
-            listView.VirtualListSize = tab.AllCount;
             listView.SelectItems(tab.SelectedIndices);
 
             if (this.Use2ColumnsMode)
@@ -8458,6 +8110,10 @@ namespace OpenTween
         {
             var listView = this.CurrentListView;
             var tab = this.CurrentTab;
+
+            var newCache = new TimelineListViewCache(listView, tab, this.settings.Common, this.themeManager);
+            (this.listCache, var oldCache) = (newCache, this.listCache);
+            oldCache?.Dispose();
 
             var newDrawer = new TimelineListViewDrawer(listView, tab, this.iconCache, this.themeManager)
             {
@@ -9211,9 +8867,9 @@ namespace OpenTween
                 cmb.Items.Insert(0, tb.SearchWords);
                 cmb.Text = tb.SearchWords;
                 cmb.SelectAll();
-                this.PurgeListViewItemCache();
-                listView.VirtualListSize = 0;
                 this.statuses.ClearTabIds(tbName);
+                this.listCache?.PurgeCache();
+                this.listCache?.UpdateListSize();
                 this.SaveConfigsTabs();   // 検索条件の保存
             }
 
@@ -10023,7 +9679,7 @@ namespace OpenTween
             if (curTimeOffset != prevTimeOffset)
             {
                 // タイムゾーンの変更を反映
-                this.PurgeListViewItemCache();
+                this.listCache?.PurgeCache();
                 this.CurrentListView.Refresh();
 
                 this.DispSelectedPost(forceupdate: true);
