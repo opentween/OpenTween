@@ -116,41 +116,19 @@ namespace OpenTween.OpenTweenCustomControl
             this.OnSelectedIndexChanged(EventArgs.Empty);
         }
 
-        public void ChangeItemBackColor(ListViewItem item, Color backColor)
+        public void RefreshItem(int index)
         {
-            if (item.BackColor == backColor)
-                return;
-
-            item.BackColor = backColor;
-
-            var index = item.Index;
-            if (index != -1)
-                this.RefreshItemsRange(index, index);
+            this.ValidateAll();
+            this.RefreshItemsRange(index, index);
         }
 
-        public void ChangeItemForeColor(ListViewItem item, Color foreColor)
+        public void RefreshItems(IEnumerable<int> indices)
         {
-            if (item.ForeColor == foreColor)
-                return;
+            var chunks = MyCommon.ToRangeChunk(indices);
+            this.ValidateAll();
 
-            item.ForeColor = foreColor;
-
-            var index = item.Index;
-            if (index != -1)
-                this.RefreshItemsRange(index, index);
-        }
-
-        public void ChangeItemFontAndColor(ListViewItem item, Color foreColor, Font fnt)
-        {
-            if (item.ForeColor == foreColor && item.Font.Equals(fnt))
-                return;
-
-            item.ForeColor = foreColor;
-            item.Font = fnt;
-
-            var index = item.Index;
-            if (index != -1)
-                this.RefreshItemsRange(index, index);
+            foreach (var (start, end) in chunks)
+                this.RefreshItemsRange(start, end);
         }
 
         private void RefreshItemsRange(int start, int end)
@@ -158,7 +136,6 @@ namespace OpenTween.OpenTweenCustomControl
             try
             {
                 this.redrawRange = (start, end);
-                this.ValidateAll();
                 this.RedrawItems(start, end, invalidateOnly: false);
             }
             finally

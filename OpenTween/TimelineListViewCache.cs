@@ -206,19 +206,18 @@ namespace OpenTween
             var fnt = this.GetFont(this.DetermineFont(post));
             var cl = this.GetForeColor(this.DetermineForeColor(post));
 
+            var index = item.Index;
+            if (index != -1)
+                this.listView.Update();
+
             if (item.SubItems[5].Text != star)
                 item.SubItems[5].Text = star;
 
-            if (item.Index == -1)
-            {
-                item.ForeColor = cl;
-                item.Font = fnt;
-            }
-            else
-            {
-                this.listView.Update();
-                this.listView.ChangeItemFontAndColor(item, cl, fnt);
-            }
+            item.ForeColor = cl;
+            item.Font = fnt;
+
+            if (index != -1)
+                this.listView.RefreshItem(index);
         }
 
         public void ColorizeList()
@@ -240,7 +239,8 @@ namespace OpenTween
             {
                 var post = this.tab[index];
                 var backColor = this.JudgeColor(basePost, post);
-                this.listView.ChangeItemBackColor(listViewItem, backColor);
+                listViewItem.BackColor = backColor;
+                this.listView.RefreshItem(index);
             }
         }
 
@@ -252,10 +252,14 @@ namespace OpenTween
             if (basePost == null)
                 return;
 
-            if (item.Index == -1)
-                item.BackColor = this.JudgeColor(basePost, post);
-            else
-                this.listView.ChangeItemBackColor(item, this.JudgeColor(basePost, post));
+            var index = item.Index;
+            if (index != -1)
+                this.listView.Update();
+
+            item.BackColor = this.JudgeColor(basePost, post);
+
+            if (index != -1)
+                this.listView.RefreshItem(index);
         }
 
         internal Color JudgeColor(PostClass basePost, PostClass targetPost)
