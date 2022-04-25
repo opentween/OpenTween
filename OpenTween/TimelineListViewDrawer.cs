@@ -303,7 +303,7 @@ namespace OpenTween
             if (e.ColumnIndex > 0)
             {
                 // アイコン以外の列
-                var post = (PostClass)e.Item.Tag;
+                var post = this.tab[e.ItemIndex];
                 var style = this.listViewCache.GetStyle(e.ItemIndex);
                 var font = this.GetFont(style.Font);
 

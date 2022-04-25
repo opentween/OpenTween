@@ -173,7 +173,6 @@ namespace OpenTween
                 };
                 itm = new ListViewItem(sitem);
             }
-            itm.Tag = post;
 
             var style = this.DetermineListItemStyle(post);
             this.ApplyListItemStyle(itm, style);
