@@ -240,6 +240,19 @@ namespace OpenTween
             this.listView.RefreshItems(updatedIndices);
         }
 
+        public ListViewItem GetItem(int index)
+        {
+            var listCache = this.listItemCache;
+            if (listCache != null)
+            {
+                if (listCache.TryGetValue(index, out var item, out _))
+                    return item;
+            }
+
+            var post = this.tab[index];
+            return this.CreateItem(post).Item;
+        }
+
         public ListItemStyle GetStyle(int index)
         {
             var listCache = this.listItemCache;
@@ -355,29 +368,7 @@ namespace OpenTween
         }
 
         private void ListView_RetrieveVirtualItem(object sender, RetrieveVirtualItemEventArgs e)
-        {
-            var listCache = this.listItemCache;
-            if (listCache != null)
-            {
-                if (listCache.TryGetValue(e.ItemIndex, out var item, out _))
-                {
-                    e.Item = item;
-                    return;
-                }
-            }
-
-            // A cache miss, so create a new ListViewItem and pass it back.
-            try
-            {
-                e.Item = this.CreateItem(this.tab[e.ItemIndex]).Item;
-            }
-            catch (Exception)
-            {
-                // 不正な要求に対する間に合わせの応答
-                string[] sitem = { "", "", "", "", "", "", "", "" };
-                e.Item = new ListViewItem(sitem);
-            }
-        }
+            => e.Item = this.GetItem(e.ItemIndex);
 
         public void Dispose()
         {
