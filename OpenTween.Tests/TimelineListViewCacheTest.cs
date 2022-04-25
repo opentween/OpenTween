@@ -51,8 +51,7 @@ namespace OpenTween
         {
             var tab = new PublicSearchTabModel("tab");
             using var listView = new DetailsListView();
-            using var theme = new ThemeManager(new());
-            using var cache = new TimelineListViewCache(listView, tab, new(), theme);
+            using var cache = new TimelineListViewCache(listView, tab, new());
 
             Assert.Equal(0, listView.VirtualListSize);
             Assert.False(cache.IsListSizeMismatched);
@@ -73,8 +72,7 @@ namespace OpenTween
         {
             var tab = new PublicSearchTabModel("tab");
             using var listView = new DetailsListView();
-            using var theme = new ThemeManager(new());
-            using var cache = new TimelineListViewCache(listView, tab, new(), theme);
+            using var cache = new TimelineListViewCache(listView, tab, new());
 
             var post = this.CreatePost();
             var (item, _) = cache.CreateItem(post);
@@ -94,8 +92,7 @@ namespace OpenTween
         {
             var tab = new PublicSearchTabModel("tab");
             using var listView = new DetailsListView();
-            using var theme = new ThemeManager(new());
-            using var cache = new TimelineListViewCache(listView, tab, new(), theme);
+            using var cache = new TimelineListViewCache(listView, tab, new());
 
             var post = this.CreatePost();
             post.IsRead = false;
@@ -109,8 +106,7 @@ namespace OpenTween
         {
             var tab = new PublicSearchTabModel("tab");
             using var listView = new DetailsListView();
-            using var theme = new ThemeManager(new());
-            using var cache = new TimelineListViewCache(listView, tab, new(), theme);
+            using var cache = new TimelineListViewCache(listView, tab, new());
 
             var post = this.CreatePost();
             post.IsRead = false;
@@ -127,8 +123,7 @@ namespace OpenTween
         {
             var tab = new PublicSearchTabModel("tab");
             using var listView = new DetailsListView();
-            using var theme = new ThemeManager(new());
-            using var cache = new TimelineListViewCache(listView, tab, new(), theme);
+            using var cache = new TimelineListViewCache(listView, tab, new());
 
             var post = this.CreatePost();
             post.FavoritedCount = 1;
@@ -142,8 +137,7 @@ namespace OpenTween
         {
             var tab = new PublicSearchTabModel("tab");
             using var listView = new DetailsListView();
-            using var theme = new ThemeManager(new());
-            using var cache = new TimelineListViewCache(listView, tab, new(), theme);
+            using var cache = new TimelineListViewCache(listView, tab, new());
 
             var post = this.CreatePost();
             post.RetweetedId = 50L;
@@ -158,8 +152,7 @@ namespace OpenTween
         {
             var tab = new PublicSearchTabModel("tab");
             using var listView = new DetailsListView();
-            using var theme = new ThemeManager(new());
-            using var cache = new TimelineListViewCache(listView, tab, new(), theme);
+            using var cache = new TimelineListViewCache(listView, tab, new());
 
             var post = this.CreatePost();
             post.IsDeleted = true;
@@ -173,14 +166,13 @@ namespace OpenTween
         {
             var tab = new PublicSearchTabModel("tab");
             using var listView = new DetailsListView();
-            using var theme = new ThemeManager(new());
-            using var cache = new TimelineListViewCache(listView, tab, new(), theme);
+            using var cache = new TimelineListViewCache(listView, tab, new());
 
             var post = this.CreatePost();
             post.IsRead = true;
 
-            var (item, _) = cache.CreateItem(post);
-            Assert.Equal(theme.FontReaded, item.Font);
+            var (_, style) = cache.CreateItem(post);
+            Assert.Equal(ListItemFont.Readed, style.Font);
         }
 
         [Fact]
@@ -188,14 +180,13 @@ namespace OpenTween
         {
             var tab = new PublicSearchTabModel("tab");
             using var listView = new DetailsListView();
-            using var theme = new ThemeManager(new());
-            using var cache = new TimelineListViewCache(listView, tab, new(), theme);
+            using var cache = new TimelineListViewCache(listView, tab, new());
 
             var post = this.CreatePost();
             post.IsRead = false;
 
-            var (item, _) = cache.CreateItem(post);
-            Assert.Equal(theme.FontUnread, item.Font);
+            var (_, style) = cache.CreateItem(post);
+            Assert.Equal(ListItemFont.Unread, style.Font);
         }
 
         [Fact]
@@ -204,16 +195,15 @@ namespace OpenTween
             var tab = new PublicSearchTabModel("tab");
             var settingCommon = new SettingCommon();
             using var listView = new DetailsListView();
-            using var theme = new ThemeManager(new());
-            using var cache = new TimelineListViewCache(listView, tab, settingCommon, theme);
+            using var cache = new TimelineListViewCache(listView, tab, settingCommon);
 
             var post = this.CreatePost();
             post.IsRead = false;
 
             settingCommon.UseUnreadStyle = false;
 
-            var (item, _) = cache.CreateItem(post);
-            Assert.Equal(theme.FontReaded, item.Font);
+            var (_, style) = cache.CreateItem(post);
+            Assert.Equal(ListItemFont.Readed, style.Font);
         }
 
         [Fact]
@@ -222,16 +212,15 @@ namespace OpenTween
             var tab = new PublicSearchTabModel("tab");
             var settingCommon = new SettingCommon();
             using var listView = new DetailsListView();
-            using var theme = new ThemeManager(new());
-            using var cache = new TimelineListViewCache(listView, tab, settingCommon, theme);
+            using var cache = new TimelineListViewCache(listView, tab, settingCommon);
 
             var post = this.CreatePost();
             post.IsRead = false;
 
             tab.UnreadManage = false;
 
-            var (item, _) = cache.CreateItem(post);
-            Assert.Equal(theme.FontReaded, item.Font);
+            var (_, style) = cache.CreateItem(post);
+            Assert.Equal(ListItemFont.Readed, style.Font);
         }
 
         [Fact]
@@ -239,13 +228,12 @@ namespace OpenTween
         {
             var tab = new PublicSearchTabModel("tab");
             using var listView = new DetailsListView();
-            using var theme = new ThemeManager(new());
-            using var cache = new TimelineListViewCache(listView, tab, new(), theme);
+            using var cache = new TimelineListViewCache(listView, tab, new());
 
             var post = this.CreatePost();
 
-            var (item, _) = cache.CreateItem(post);
-            Assert.Equal(theme.ColorRead, item.ForeColor);
+            var (_, style) = cache.CreateItem(post);
+            Assert.Equal(ListItemForeColor.None, style.ForeColor);
         }
 
         [Fact]
@@ -253,14 +241,13 @@ namespace OpenTween
         {
             var tab = new PublicSearchTabModel("tab");
             using var listView = new DetailsListView();
-            using var theme = new ThemeManager(new());
-            using var cache = new TimelineListViewCache(listView, tab, new(), theme);
+            using var cache = new TimelineListViewCache(listView, tab, new());
 
             var post = this.CreatePost();
             post.IsFav = true;
 
-            var (item, _) = cache.CreateItem(post);
-            Assert.Equal(theme.ColorFav, item.ForeColor);
+            var (_, style) = cache.CreateItem(post);
+            Assert.Equal(ListItemForeColor.Fav, style.ForeColor);
         }
 
         [Fact]
@@ -268,14 +255,13 @@ namespace OpenTween
         {
             var tab = new PublicSearchTabModel("tab");
             using var listView = new DetailsListView();
-            using var theme = new ThemeManager(new());
-            using var cache = new TimelineListViewCache(listView, tab, new(), theme);
+            using var cache = new TimelineListViewCache(listView, tab, new());
 
             var post = this.CreatePost();
             post.RetweetedId = 100L;
 
-            var (item, _) = cache.CreateItem(post);
-            Assert.Equal(theme.ColorRetweet, item.ForeColor);
+            var (_, style) = cache.CreateItem(post);
+            Assert.Equal(ListItemForeColor.Retweet, style.ForeColor);
         }
 
         [Fact]
@@ -283,14 +269,13 @@ namespace OpenTween
         {
             var tab = new PublicSearchTabModel("tab");
             using var listView = new DetailsListView();
-            using var theme = new ThemeManager(new());
-            using var cache = new TimelineListViewCache(listView, tab, new(), theme);
+            using var cache = new TimelineListViewCache(listView, tab, new());
 
             var post = this.CreatePost();
             post.IsOwl = true;
 
-            var (item, _) = cache.CreateItem(post);
-            Assert.Equal(theme.ColorOWL, item.ForeColor);
+            var (_, style) = cache.CreateItem(post);
+            Assert.Equal(ListItemForeColor.OWL, style.ForeColor);
         }
 
         [Fact]
@@ -299,16 +284,15 @@ namespace OpenTween
             var tab = new PublicSearchTabModel("tab");
             var settingCommon = new SettingCommon();
             using var listView = new DetailsListView();
-            using var theme = new ThemeManager(new());
-            using var cache = new TimelineListViewCache(listView, tab, settingCommon, theme);
+            using var cache = new TimelineListViewCache(listView, tab, settingCommon);
 
             var post = this.CreatePost();
             post.IsOwl = true;
 
             settingCommon.OneWayLove = false;
 
-            var (item, _) = cache.CreateItem(post);
-            Assert.Equal(theme.ColorRead, item.ForeColor);
+            var (_, style) = cache.CreateItem(post);
+            Assert.Equal(ListItemForeColor.None, style.ForeColor);
         }
 
         [Fact]
@@ -317,8 +301,7 @@ namespace OpenTween
             var tab = new PublicSearchTabModel("tab");
             var settingCommon = new SettingCommon();
             using var listView = new DetailsListView();
-            using var theme = new ThemeManager(new());
-            using var cache = new TimelineListViewCache(listView, tab, settingCommon, theme);
+            using var cache = new TimelineListViewCache(listView, tab, settingCommon);
 
             var post = this.CreatePost();
             post.IsDm = true;
@@ -327,8 +310,8 @@ namespace OpenTween
             // DM の場合は設定に関わらず ColorOWL を使う
             settingCommon.OneWayLove = false;
 
-            var (item, _) = cache.CreateItem(post);
-            Assert.Equal(theme.ColorOWL, item.ForeColor);
+            var (_, style) = cache.CreateItem(post);
+            Assert.Equal(ListItemForeColor.OWL, style.ForeColor);
         }
 
         [Fact]
@@ -336,8 +319,7 @@ namespace OpenTween
         {
             var tab = new PublicSearchTabModel("tab");
             using var listView = new DetailsListView();
-            using var theme = new ThemeManager(new());
-            using var cache = new TimelineListViewCache(listView, tab, new(), theme);
+            using var cache = new TimelineListViewCache(listView, tab, new());
 
             var targetPost = this.CreatePost();
             tab.AddPostQueue(targetPost);
@@ -349,8 +331,8 @@ namespace OpenTween
             tab.AddSubmit();
             tab.SelectPosts(new[] { tab.IndexOf(basePost.StatusId) });
 
-            var (item, _) = cache.CreateItem(targetPost);
-            Assert.Equal(theme.ColorAtTo, item.BackColor);
+            var (_, style) = cache.CreateItem(targetPost);
+            Assert.Equal(ListItemBackColor.AtTo, style.BackColor);
         }
 
         [Fact]
@@ -358,8 +340,7 @@ namespace OpenTween
         {
             var tab = new PublicSearchTabModel("tab");
             using var listView = new DetailsListView();
-            using var theme = new ThemeManager(new());
-            using var cache = new TimelineListViewCache(listView, tab, new(), theme);
+            using var cache = new TimelineListViewCache(listView, tab, new());
 
             var targetPost = this.CreatePost();
             targetPost.IsMe = true;
@@ -371,8 +352,8 @@ namespace OpenTween
             tab.AddSubmit();
             tab.SelectPosts(new[] { tab.IndexOf(basePost.StatusId) });
 
-            var (item, _) = cache.CreateItem(targetPost);
-            Assert.Equal(theme.ColorSelf, item.BackColor);
+            var (_, style) = cache.CreateItem(targetPost);
+            Assert.Equal(ListItemBackColor.Self, style.BackColor);
         }
 
         [Fact]
@@ -380,8 +361,7 @@ namespace OpenTween
         {
             var tab = new PublicSearchTabModel("tab");
             using var listView = new DetailsListView();
-            using var theme = new ThemeManager(new());
-            using var cache = new TimelineListViewCache(listView, tab, new(), theme);
+            using var cache = new TimelineListViewCache(listView, tab, new());
 
             var targetPost = this.CreatePost();
             targetPost.IsReply = true;
@@ -393,8 +373,8 @@ namespace OpenTween
             tab.AddSubmit();
             tab.SelectPosts(new[] { tab.IndexOf(basePost.StatusId) });
 
-            var (item, _) = cache.CreateItem(targetPost);
-            Assert.Equal(theme.ColorAtSelf, item.BackColor);
+            var (_, style) = cache.CreateItem(targetPost);
+            Assert.Equal(ListItemBackColor.AtSelf, style.BackColor);
         }
 
         [Fact]
@@ -402,8 +382,7 @@ namespace OpenTween
         {
             var tab = new PublicSearchTabModel("tab");
             using var listView = new DetailsListView();
-            using var theme = new ThemeManager(new());
-            using var cache = new TimelineListViewCache(listView, tab, new(), theme);
+            using var cache = new TimelineListViewCache(listView, tab, new());
 
             var targetPost = this.CreatePost();
             tab.AddPostQueue(targetPost);
@@ -415,8 +394,8 @@ namespace OpenTween
             tab.AddSubmit();
             tab.SelectPosts(new[] { tab.IndexOf(basePost.StatusId) });
 
-            var (item, _) = cache.CreateItem(targetPost);
-            Assert.Equal(theme.ColorAtFromTarget, item.BackColor);
+            var (_, style) = cache.CreateItem(targetPost);
+            Assert.Equal(ListItemBackColor.AtFromTarget, style.BackColor);
         }
 
         [Fact]
@@ -424,8 +403,7 @@ namespace OpenTween
         {
             var tab = new PublicSearchTabModel("tab");
             using var listView = new DetailsListView();
-            using var theme = new ThemeManager(new());
-            using var cache = new TimelineListViewCache(listView, tab, new(), theme);
+            using var cache = new TimelineListViewCache(listView, tab, new());
 
             var basePost = this.CreatePost();
             tab.AddPostQueue(basePost);
@@ -437,8 +415,8 @@ namespace OpenTween
             tab.AddSubmit();
             tab.SelectPosts(new[] { tab.IndexOf(basePost.StatusId) });
 
-            var (item, _) = cache.CreateItem(targetPost);
-            Assert.Equal(theme.ColorAtTarget, item.BackColor);
+            var (_, style) = cache.CreateItem(targetPost);
+            Assert.Equal(ListItemBackColor.AtTarget, style.BackColor);
         }
 
         [Fact]
@@ -446,8 +424,7 @@ namespace OpenTween
         {
             var tab = new PublicSearchTabModel("tab");
             using var listView = new DetailsListView();
-            using var theme = new ThemeManager(new());
-            using var cache = new TimelineListViewCache(listView, tab, new(), theme);
+            using var cache = new TimelineListViewCache(listView, tab, new());
 
             var targetPost = this.CreatePost();
             tab.AddPostQueue(targetPost);
@@ -459,8 +436,8 @@ namespace OpenTween
             tab.AddSubmit();
             tab.SelectPosts(new[] { tab.IndexOf(basePost.StatusId) });
 
-            var (item, _) = cache.CreateItem(targetPost);
-            Assert.Equal(theme.ColorTarget, item.BackColor);
+            var (_, style) = cache.CreateItem(targetPost);
+            Assert.Equal(ListItemBackColor.Target, style.BackColor);
         }
 
         [Fact]
@@ -468,8 +445,7 @@ namespace OpenTween
         {
             var tab = new PublicSearchTabModel("tab");
             using var listView = new DetailsListView();
-            using var theme = new ThemeManager(new());
-            using var cache = new TimelineListViewCache(listView, tab, new(), theme);
+            using var cache = new TimelineListViewCache(listView, tab, new());
 
             var targetPost = this.CreatePost();
             tab.AddPostQueue(targetPost);
@@ -480,8 +456,8 @@ namespace OpenTween
             tab.AddSubmit();
             tab.SelectPosts(new[] { tab.IndexOf(basePost.StatusId) });
 
-            var (item, _) = cache.CreateItem(targetPost);
-            Assert.Equal(theme.ColorListBackcolor, item.BackColor);
+            var (_, style) = cache.CreateItem(targetPost);
+            Assert.Equal(ListItemBackColor.None, style.BackColor);
         }
     }
 }

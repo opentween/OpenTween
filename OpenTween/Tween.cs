@@ -8103,11 +8103,11 @@ namespace OpenTween
             var listView = this.CurrentListView;
             var tab = this.CurrentTab;
 
-            var newCache = new TimelineListViewCache(listView, tab, this.settings.Common, this.themeManager);
+            var newCache = new TimelineListViewCache(listView, tab, this.settings.Common);
             (this.listCache, var oldCache) = (newCache, this.listCache);
             oldCache?.Dispose();
 
-            var newDrawer = new TimelineListViewDrawer(listView, tab, this.iconCache, this.themeManager)
+            var newDrawer = new TimelineListViewDrawer(listView, tab, this.listCache, this.iconCache, this.themeManager)
             {
                 IconSize = this.settings.Common.IconSize,
             };

@@ -29,7 +29,6 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -42,8 +41,6 @@ namespace OpenTween
     public sealed class TimelineListViewCache : IDisposable
     {
         public bool IsDisposed { get; private set; } = false;
-
-        public ThemeManager Theme { get; set; }
 
         public bool IsListSizeMismatched
             => this.listView.VirtualListSize != this.tab.AllCount;
@@ -65,14 +62,12 @@ namespace OpenTween
         public TimelineListViewCache(
             DetailsListView listView,
             TabModel tab,
-            SettingCommon settings,
-            ThemeManager theme
+            SettingCommon settings
         )
         {
             this.listView = listView;
             this.tab = tab;
             this.settings = settings;
-            this.Theme = theme;
 
             this.RegisterHandlers();
             this.listView.VirtualMode = true;
@@ -246,51 +241,24 @@ namespace OpenTween
             this.listView.RefreshItems(updatedIndices);
         }
 
-        private void ApplyListItemStyle(ListViewItem item, ListItemStyle style)
+        public ListItemStyle GetStyle(int index)
         {
-            item.SubItems[5].Text = this.GetUnreadMark(style.UnreadMark);
-            item.BackColor = this.GetBackColor(style.BackColor);
-            item.ForeColor = this.GetForeColor(style.ForeColor);
-            item.Font = this.GetFont(style.Font);
+            var listCache = this.listItemCache;
+            if (listCache != null)
+            {
+                if (listCache.TryGetValue(index, out _, out var style))
+                    return style;
+            }
+
+            var post = this.tab[index];
+            return this.DetermineListItemStyle(post);
         }
+
+        private void ApplyListItemStyle(ListViewItem item, ListItemStyle style)
+            => item.SubItems[5].Text = this.GetUnreadMark(style.UnreadMark);
 
         private string GetUnreadMark(bool unreadMark)
             => unreadMark ? "★" : "";
-
-        private Color GetBackColor(ListItemBackColor backColor)
-        {
-            return backColor switch
-            {
-                ListItemBackColor.Self => this.Theme.ColorSelf,
-                ListItemBackColor.AtSelf => this.Theme.ColorAtSelf,
-                ListItemBackColor.Target => this.Theme.ColorTarget,
-                ListItemBackColor.AtTarget => this.Theme.ColorAtTarget,
-                ListItemBackColor.AtFromTarget => this.Theme.ColorAtFromTarget,
-                ListItemBackColor.AtTo => this.Theme.ColorAtTo,
-                _ => this.Theme.ColorListBackcolor,
-            };
-        }
-
-        private Color GetForeColor(ListItemForeColor foreColor)
-        {
-            return foreColor switch
-            {
-                ListItemForeColor.Fav => this.Theme.ColorFav,
-                ListItemForeColor.Retweet => this.Theme.ColorRetweet,
-                ListItemForeColor.OWL => this.Theme.ColorOWL,
-                ListItemForeColor.Unread => this.Theme.ColorUnread,
-                _ => this.Theme.ColorRead,
-            };
-        }
-
-        private Font GetFont(ListItemFont font)
-        {
-            return font switch
-            {
-                ListItemFont.Unread => this.Theme.FontUnread,
-                _ => this.Theme.FontReaded,
-            };
-        }
 
         private ListItemStyle DetermineListItemStyle(PostClass post)
         {

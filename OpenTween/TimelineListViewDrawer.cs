@@ -69,14 +69,22 @@ namespace OpenTween
 
         private readonly DetailsListView listView;
         private readonly TabModel tab;
+        private readonly TimelineListViewCache listViewCache;
         private readonly ImageCache iconCache;
         private readonly ImageList listViewImageList = new(); // ListViewItemの高さ変更用
         private MyCommon.IconSizes iconSize;
 
-        public TimelineListViewDrawer(DetailsListView listView, TabModel tab, ImageCache iconCache, ThemeManager theme)
+        public TimelineListViewDrawer(
+            DetailsListView listView,
+            TabModel tab,
+            TimelineListViewCache listViewCache,
+            ImageCache iconCache,
+            ThemeManager theme
+        )
         {
             this.listView = listView;
             this.tab = tab;
+            this.listViewCache = listViewCache;
             this.iconCache = iconCache;
             this.Theme = theme;
 
@@ -219,28 +227,61 @@ namespace OpenTween
             };
         }
 
+        private Brush GetBackColorBrush(ListItemBackColor backColor)
+        {
+            return backColor switch
+            {
+                ListItemBackColor.Self => this.Theme.BrushSelf,
+                ListItemBackColor.AtSelf => this.Theme.BrushAtSelf,
+                ListItemBackColor.Target => this.Theme.BrushTarget,
+                ListItemBackColor.AtTarget => this.Theme.BrushAtTarget,
+                ListItemBackColor.AtFromTarget => this.Theme.BrushAtFromTarget,
+                ListItemBackColor.AtTo => this.Theme.BrushAtTo,
+                _ => this.Theme.BrushListBackcolor,
+            };
+        }
+
+        private Color GetForeColor(ListItemForeColor foreColor)
+        {
+            return foreColor switch
+            {
+                ListItemForeColor.Fav => this.Theme.ColorFav,
+                ListItemForeColor.Retweet => this.Theme.ColorRetweet,
+                ListItemForeColor.OWL => this.Theme.ColorOWL,
+                ListItemForeColor.Unread => this.Theme.ColorUnread,
+                _ => this.Theme.ColorRead,
+            };
+        }
+
+        private Font GetFont(ListItemFont font)
+        {
+            return font switch
+            {
+                ListItemFont.Unread => this.Theme.FontUnread,
+                _ => this.Theme.FontReaded,
+            };
+        }
+
+        private Font GetFontBold(ListItemFont font)
+        {
+            return font switch
+            {
+                ListItemFont.Unread => this.Theme.FontUnreadBold,
+                _ => this.Theme.FontReadedBold,
+            };
+        }
+
         private void ListView_DrawItem(object sender, DrawListViewItemEventArgs e)
         {
             if (e.State == 0) return;
             e.DrawDefault = false;
 
+            var style = this.listViewCache.GetStyle(e.ItemIndex);
+
             Brush brs2;
             if (!e.Item.Selected) // e.ItemStateでうまく判定できない？？？
             {
-                if (e.Item.BackColor == this.Theme.ColorSelf)
-                    brs2 = this.Theme.BrushSelf;
-                else if (e.Item.BackColor == this.Theme.ColorAtSelf)
-                    brs2 = this.Theme.BrushAtSelf;
-                else if (e.Item.BackColor == this.Theme.ColorTarget)
-                    brs2 = this.Theme.BrushTarget;
-                else if (e.Item.BackColor == this.Theme.ColorAtTarget)
-                    brs2 = this.Theme.BrushAtTarget;
-                else if (e.Item.BackColor == this.Theme.ColorAtFromTarget)
-                    brs2 = this.Theme.BrushAtFromTarget;
-                else if (e.Item.BackColor == this.Theme.ColorAtTo)
-                    brs2 = this.Theme.BrushAtTo;
-                else
-                    brs2 = this.Theme.BrushListBackcolor;
+                brs2 = this.GetBackColorBrush(style.BackColor);
             }
             else
             {
@@ -263,10 +304,12 @@ namespace OpenTween
             {
                 // アイコン以外の列
                 var post = (PostClass)e.Item.Tag;
+                var style = this.listViewCache.GetStyle(e.ItemIndex);
+                var font = this.GetFont(style.Font);
 
                 RectangleF rct = e.Bounds;
                 rct.Width = e.Header.Width;
-                var fontHeight = e.Item.Font.Height;
+                var fontHeight = font.Height;
                 if (this.Use2ColumnsMode)
                 {
                     rct.Y += fontHeight;
@@ -291,9 +334,17 @@ namespace OpenTween
 
                 if (rct.Width > 0)
                 {
-                    var color = (!e.Item.Selected) ? e.Item.ForeColor : // 選択されていない行
-                        ((Control)sender).Focused ? this.Theme.ColorHighLight : // 選択中の行
-                        this.Theme.ColorUnread;
+                    Color color;
+                    if (e.Item.Selected)
+                    {
+                        color = ((Control)sender).Focused
+                            ? this.Theme.ColorHighLight
+                            : this.Theme.ColorUnread;
+                    }
+                    else
+                    {
+                        color = this.GetForeColor(style.ForeColor);
+                    }
 
                     if (this.Use2ColumnsMode)
                     {
@@ -301,11 +352,7 @@ namespace OpenTween
                         rctB.Width = e.Header.Width;
                         rctB.Height = fontHeight;
 
-                        Font fontBold;
-                        if (e.Item.Font.Equals(this.Theme.FontUnread))
-                            fontBold = this.Theme.FontUnreadBold;
-                        else
-                            fontBold = this.Theme.FontReadedBold;
+                        var fontBold = this.GetFontBold(style.Font);
 
                         var formatFlags1 = TextFormatFlags.WordBreak |
                             TextFormatFlags.EndEllipsis |
@@ -315,7 +362,7 @@ namespace OpenTween
                         TextRenderer.DrawText(
                             e.Graphics,
                             post.IsDeleted ? "(DELETED)" : post.TextSingleLine,
-                            e.Item.Font,
+                            font,
                             Rectangle.Round(rct),
                             color,
                             formatFlags1);
@@ -352,7 +399,7 @@ namespace OpenTween
                             TextRenderer.DrawText(
                                 e.Graphics,
                                 text,
-                                e.Item.Font,
+                                font,
                                 Rectangle.Round(rct),
                                 color,
                                 formatFlags);
@@ -367,7 +414,7 @@ namespace OpenTween
                             TextRenderer.DrawText(
                                 e.Graphics,
                                 text,
-                                e.Item.Font,
+                                font,
                                 Rectangle.Round(rct),
                                 color,
                                 formatFlags);
