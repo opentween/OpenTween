@@ -1042,5 +1042,36 @@ namespace OpenTween
                 UseShellExecute = false,
             };
         }
+
+        public static IEnumerable<(int Start, int End)> ToRangeChunk(IEnumerable<int> values)
+        {
+            var start = -1;
+            var end = -1;
+
+            foreach (var value in values.OrderBy(x => x))
+            {
+                if (start == -1)
+                {
+                    start = value;
+                    end = value;
+                }
+                else
+                {
+                    if (value == end + 1)
+                    {
+                        end = value;
+                    }
+                    else
+                    {
+                        yield return (start, end);
+                        start = value;
+                        end = value;
+                    }
+                }
+            }
+
+            if (start != -1)
+                yield return (start, end);
+        }
     }
 }
