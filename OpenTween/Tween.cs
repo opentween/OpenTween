@@ -1353,10 +1353,7 @@ namespace OpenTween
             var post = this.CurrentPost!;
             this.statuses.SetReadAllTab(post.StatusId, read: true);
 
-            // キャッシュの書き換え
-            this.listCache?.ChangeCacheStyleRead(index); // 既読へ（フォント、文字色）
-
-            this.listCache?.ColorizeList();
+            this.listCache?.RefreshStyle();
             await this.selectionDebouncer.Call();
         }
 
@@ -1726,7 +1723,7 @@ namespace OpenTween
                 {
                     var idx = tab.IndexOf(statusId);
                     if (idx != -1)
-                        this.listCache?.ChangeCacheStyleRead(idx);
+                        this.listCache?.RefreshStyle(idx);
                 }
 
                 var currentPost = this.CurrentPost;
@@ -1836,7 +1833,7 @@ namespace OpenTween
                         {
                             var idx = tab.IndexOf(statusId);
                             if (idx != -1)
-                                this.listCache?.ChangeCacheStyleRead(idx);
+                                this.listCache?.RefreshStyle(idx);
                         }
                     }
 
@@ -2688,9 +2685,8 @@ namespace OpenTween
                 {
                     this.statuses.SetReadAllTab(statusId, read: true);
                     var idx = tab.IndexOf(statusId);
-                    this.listCache?.ChangeCacheStyleRead(idx);
+                    this.listCache?.RefreshStyle(idx);
                 }
-                this.listCache?.ColorizeList();
             }
             if (this.settings.Common.TabIconDisp)
             {
@@ -2716,9 +2712,8 @@ namespace OpenTween
                 {
                     this.statuses.SetReadAllTab(statusId, read: false);
                     var idx = tab.IndexOf(statusId);
-                    this.listCache?.ChangeCacheStyleRead(idx);
+                    this.listCache?.RefreshStyle(idx);
                 }
-                this.listCache?.ColorizeList();
             }
             if (this.settings.Common.TabIconDisp)
             {

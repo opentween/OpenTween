@@ -34,17 +34,17 @@ namespace OpenTween
             var startIndex = 10;
             var endIndex = 19;
             Assert.Throws<ArgumentException>(
-                () => new ListViewItemCache(startIndex, endIndex, new ListViewItem[9])
+                () => new ListViewItemCache(startIndex, endIndex, new (ListViewItem, ListItemStyle)[9])
             );
             Assert.Throws<ArgumentException>(
-                () => new ListViewItemCache(startIndex, endIndex, new ListViewItem[11])
+                () => new ListViewItemCache(startIndex, endIndex, new (ListViewItem, ListItemStyle)[11])
             );
         }
 
         [Fact]
         public void Count_Test()
         {
-            var cache = new ListViewItemCache(10, 19, new ListViewItem[10]);
+            var cache = new ListViewItemCache(10, 19, new (ListViewItem, ListItemStyle)[10]);
             Assert.Equal(10, cache.Count);
         }
 
@@ -55,7 +55,7 @@ namespace OpenTween
         [InlineData(20, false)]
         public void Contains_Test(int index, bool expected)
         {
-            var cache = new ListViewItemCache(10, 19, new ListViewItem[10]);
+            var cache = new ListViewItemCache(10, 19, new (ListViewItem, ListItemStyle)[10]);
             Assert.Equal(expected, cache.Contains(index));
         }
 
@@ -66,7 +66,7 @@ namespace OpenTween
         [InlineData(10, 20, false)]
         public void IsSupersetOf_Test(int start, int end, bool expected)
         {
-            var cache = new ListViewItemCache(10, 19, new ListViewItem[10]);
+            var cache = new ListViewItemCache(10, 19, new (ListViewItem, ListItemStyle)[10]);
             Assert.Equal(expected, cache.IsSupersetOf(start, end));
         }
 
@@ -74,33 +74,63 @@ namespace OpenTween
         public void TryGetValue_FoundTest()
         {
             var item = new ListViewItem();
-            var cache = new ListViewItemCache(10, 10, new[] { item });
+            var style = new ListItemStyle();
+            var cache = new ListViewItemCache(10, 10, new[] { (item, style) });
 
-            Assert.True(cache.TryGetValue(10, out var actualItem));
+            Assert.True(cache.TryGetValue(10, out var actualItem, out var actualStyle));
             Assert.Equal(item, actualItem);
+            Assert.Equal(style, actualStyle);
         }
 
         [Fact]
         public void TryGetValue_NotFoundTest()
         {
             var item = new ListViewItem();
-            var cache = new ListViewItemCache(10, 10, new[] { item });
+            var style = new ListItemStyle();
+            var cache = new ListViewItemCache(10, 10, new[] { (item, style) });
 
-            Assert.False(cache.TryGetValue(9, out _));
-            Assert.False(cache.TryGetValue(11, out _));
+            Assert.False(cache.TryGetValue(9, out _, out _));
+            Assert.False(cache.TryGetValue(11, out _, out _));
         }
 
         [Fact]
         public void WithIndex_Test()
         {
             var item1 = new ListViewItem();
+            var style1 = new ListItemStyle();
             var item2 = new ListViewItem();
-            var cache = new ListViewItemCache(10, 11, new[] { item1, item2 });
+            var style2 = new ListItemStyle();
+            var cache = new ListViewItemCache(10, 11, new[] { (item1, style1), (item2, style2) });
 
             var actualArray = cache.WithIndex().ToArray();
             Assert.Equal(2, actualArray.Length);
-            Assert.Equal((item1, 10), actualArray[0]);
-            Assert.Equal((item2, 11), actualArray[1]);
+            Assert.Equal((item1, style1, 10), actualArray[0]);
+            Assert.Equal((item2, style2, 11), actualArray[1]);
+        }
+
+        [Fact]
+        public void UpdateStyle_Test()
+        {
+            var item = new ListViewItem();
+            var style = new ListItemStyle { UnreadMark = false };
+            var cache = new ListViewItemCache(10, 10, new[] { (item, style) });
+
+            var newStyle = style with { UnreadMark = true };
+            cache.UpdateStyle(10, newStyle);
+
+            Assert.True(cache.TryGetValue(10, out _, out var actualStyle));
+            Assert.True(actualStyle.UnreadMark);
+        }
+
+        [Fact]
+        public void UpdateStyle_OutOfRangeTest()
+        {
+            var item = new ListViewItem();
+            var style = new ListItemStyle { UnreadMark = false };
+            var cache = new ListViewItemCache(10, 10, new[] { (item, style) });
+
+            var newStyle = style with { UnreadMark = true };
+            cache.UpdateStyle(11, newStyle); // 特にエラーは起こさず無視する
         }
     }
 }

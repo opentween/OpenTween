@@ -141,7 +141,7 @@ namespace OpenTween
         public void PurgeCache()
             => Interlocked.Exchange(ref this.listItemCache, null);
 
-        internal ListViewItem CreateItem(PostClass post)
+        internal (ListViewItem Item, ListItemStyle Style) CreateItem(PostClass post)
         {
             var mk = new StringBuilder();
 
@@ -180,90 +180,79 @@ namespace OpenTween
             }
             itm.Tag = post;
 
-            this.ChangeItemStyleRead(itm, post);
-            this.ColorizeList(itm, post);
+            var style = this.DetermineListItemStyle(post);
+            this.ApplyListItemStyle(itm, style);
 
-            return itm;
+            return (itm, style);
         }
 
-        public void ChangeCacheStyleRead(int index)
+        public void RefreshStyle(int index)
         {
-            var listCache = this.listItemCache;
-            if (listCache == null)
-                return;
-
-            // キャッシュに含まれていないアイテムは対象外
-            if (!listCache.TryGetValue(index, out var itm))
-                return;
-
             var post = this.tab[index];
-            this.ChangeItemStyleRead(itm, post);
-        }
-
-        private void ChangeItemStyleRead(ListViewItem item, PostClass post)
-        {
-            var star = this.GetUnreadMark(this.DetermineUnreadMark(post));
-            var fnt = this.GetFont(this.DetermineFont(post));
-            var cl = this.GetForeColor(this.DetermineForeColor(post));
-
-            var index = item.Index;
-            if (index != -1)
-                this.listView.Update();
-
-            if (item.SubItems[5].Text != star)
-                item.SubItems[5].Text = star;
-
-            item.ForeColor = cl;
-            item.Font = fnt;
-
-            if (index != -1)
-                this.listView.RefreshItem(index);
-        }
-
-        public void ColorizeList()
-        {
-            // Index:更新対象のListviewItem.Index。Colorを返す。
-            // -1は全キャッシュ。Colorは返さない（ダミーを戻す）
-            var basePost = this.tab.AnchorPost ?? this.tab.SelectedPost;
-            if (basePost == null)
-                return;
+            var style = this.DetermineListItemStyle(post);
 
             var listCache = this.listItemCache;
-            if (listCache == null)
-                return;
+            if (listCache != null && listCache.TryGetValue(index, out var item, out var currentStyle))
+            {
+                // スタイルに変化がない場合は何もせず終了
+                if (currentStyle == style)
+                    return;
+
+                listCache.UpdateStyle(index, style);
+            }
+            else
+            {
+                item = this.listView.Items[index];
+            }
 
             // ValidateRectが呼ばれる前に選択色などの描画を済ませておく
             this.listView.Update();
 
-            foreach (var (listViewItem, index) in listCache.WithIndex())
-            {
-                var post = this.tab[index];
-                var backColor = this.JudgeColor(basePost, post);
-                listViewItem.BackColor = backColor;
-                this.listView.RefreshItem(index);
-            }
+            this.ApplyListItemStyle(item, style);
+            this.listView.RefreshItem(index);
         }
 
-        private void ColorizeList(ListViewItem item, PostClass post)
+        public void RefreshStyle()
         {
-            // Index:更新対象のListviewItem.Index。Colorを返す。
-            // -1は全キャッシュ。Colorは返さない（ダミーを戻す）
-            var basePost = this.tab.AnchorPost ?? this.tab.SelectedPost;
-            if (basePost == null)
+            var listCache = this.listItemCache;
+            if (listCache == null)
                 return;
 
-            var index = item.Index;
-            if (index != -1)
-                this.listView.Update();
+            var updatedIndices = new List<int>();
 
-            item.BackColor = this.JudgeColor(basePost, post);
+            foreach (var (_, currentStyle, index) in listCache.WithIndex())
+            {
+                var post = this.tab[index];
+                var style = this.DetermineListItemStyle(post);
+                if (currentStyle == style)
+                    continue;
 
-            if (index != -1)
-                this.listView.RefreshItem(index);
+                listCache.UpdateStyle(index, style);
+                updatedIndices.Add(index);
+            }
+
+            // ValidateRectが呼ばれる前に選択色などの描画を済ませておく
+            this.listView.Update();
+
+            foreach (var index in updatedIndices)
+            {
+                if (!listCache.TryGetValue(index, out var item, out var style))
+                    continue;
+
+                this.ApplyListItemStyle(item, style);
+            }
+
+            updatedIndices.Remove(this.tab.SelectedIndex);
+            this.listView.RefreshItems(updatedIndices);
         }
 
-        internal Color JudgeColor(PostClass basePost, PostClass targetPost)
-            => this.GetBackColor(this.DetermineBackColor(basePost, targetPost));
+        private void ApplyListItemStyle(ListViewItem item, ListItemStyle style)
+        {
+            item.SubItems[5].Text = this.GetUnreadMark(style.UnreadMark);
+            item.BackColor = this.GetBackColor(style.BackColor);
+            item.ForeColor = this.GetForeColor(style.ForeColor);
+            item.Font = this.GetFont(style.Font);
+        }
 
         private string GetUnreadMark(bool unreadMark)
             => unreadMark ? "★" : "";
@@ -303,10 +292,23 @@ namespace OpenTween
             };
         }
 
-        private bool DetermineUnreadMark(PostClass post)
+        private ListItemStyle DetermineListItemStyle(PostClass post)
         {
-            // 未読管理していなかったら既読として扱う
             var unreadManageEnabled = this.tab.UnreadManage && this.settings.UnreadManage;
+            var useUnreadStyle = unreadManageEnabled && this.settings.UseUnreadStyle;
+
+            var basePost = this.tab.AnchorPost ?? this.tab.SelectedPost;
+
+            return new(
+                this.DetermineUnreadMark(post, unreadManageEnabled),
+                this.DetermineBackColor(basePost, post),
+                this.DetermineForeColor(post, useUnreadStyle),
+                this.DetermineFont(post, useUnreadStyle)
+            );
+        }
+
+        private bool DetermineUnreadMark(PostClass post, bool unreadManageEnabled)
+        {
             if (!unreadManageEnabled)
                 return false;
 
@@ -346,7 +348,7 @@ namespace OpenTween
             return ListItemBackColor.None;
         }
 
-        private ListItemForeColor DetermineForeColor(PostClass post)
+        private ListItemForeColor DetermineForeColor(PostClass post, bool useUnreadStyle)
         {
             if (post.IsFav)
                 return ListItemForeColor.Fav;
@@ -357,20 +359,14 @@ namespace OpenTween
             if (post.IsOwl && (post.IsDm || this.settings.OneWayLove))
                 return ListItemForeColor.OWL;
 
-            var unreadManageEnabled = this.tab.UnreadManage && this.settings.UnreadManage;
-            var useUnreadStyle = unreadManageEnabled && this.settings.UseUnreadStyle;
-
             if (useUnreadStyle && !post.IsRead)
                 return ListItemForeColor.Unread;
 
             return ListItemForeColor.None;
         }
 
-        private ListItemFont DetermineFont(PostClass post)
+        private ListItemFont DetermineFont(PostClass post, bool useUnreadStyle)
         {
-            var unreadManageEnabled = this.tab.UnreadManage && this.settings.UnreadManage;
-            var useUnreadStyle = unreadManageEnabled && this.settings.UseUnreadStyle;
-
             if (useUnreadStyle && !post.IsRead)
                 return ListItemFont.Unread;
 
@@ -396,7 +392,7 @@ namespace OpenTween
             var listCache = this.listItemCache;
             if (listCache != null)
             {
-                if (listCache.TryGetValue(e.ItemIndex, out var item))
+                if (listCache.TryGetValue(e.ItemIndex, out var item, out _))
                 {
                     e.Item = item;
                     return;
@@ -406,7 +402,7 @@ namespace OpenTween
             // A cache miss, so create a new ListViewItem and pass it back.
             try
             {
-                e.Item = this.CreateItem(this.tab[e.ItemIndex]);
+                e.Item = this.CreateItem(this.tab[e.ItemIndex]).Item;
             }
             catch (Exception)
             {
@@ -456,6 +452,13 @@ namespace OpenTween
         Unread,
     }
 
+    public readonly record struct ListItemStyle(
+        bool UnreadMark,
+        ListItemBackColor BackColor,
+        ListItemForeColor ForeColor,
+        ListItemFont Font
+    );
+
     public class ListViewItemCache
     {
         /// <summary>キャッシュする範囲の開始インデックス</summary>
@@ -464,14 +467,14 @@ namespace OpenTween
         /// <summary>キャッシュする範囲の終了インデックス</summary>
         public int EndIndex { get; }
 
-        /// <summary>キャッシュされた範囲に対応する <see cref="ListViewItem"/> の配列</summary>
-        public ListViewItem[] Cache { get; }
+        /// <summary>キャッシュされた範囲に対応する <see cref="ListViewItem"/> と <see cref="ListItemStyle"> の配列</summary>
+        public (ListViewItem, ListItemStyle)[] Cache { get; }
 
         /// <summary>キャッシュされたアイテムの件数</summary>
         public int Count
             => this.EndIndex - this.StartIndex + 1;
 
-        public ListViewItemCache(int startIndex, int endIndex, ListViewItem[] cache)
+        public ListViewItemCache(int startIndex, int endIndex, (ListViewItem, ListItemStyle)[] cache)
         {
             if (!IsCacheSizeValid(startIndex, endIndex, cache))
                 throw new ArgumentException("Cache size mismatch", nameof(cache));
@@ -493,24 +496,33 @@ namespace OpenTween
 
         /// <summary>指定されたインデックスの <see cref="ListViewItem"/> をキャッシュから取得することを試みます</summary>
         /// <returns>取得に成功すれば true、それ以外は false</returns>
-        public bool TryGetValue(int index, [NotNullWhen(true)] out ListViewItem? item)
+        public bool TryGetValue(int index, [NotNullWhen(true)] out ListViewItem? item, out ListItemStyle style)
         {
             if (this.Contains(index))
             {
-                item = this.Cache[index - this.StartIndex];
+                (item, style) = this.Cache[index - this.StartIndex];
                 return true;
             }
             else
             {
                 item = null;
+                style = default;
                 return false;
             }
         }
 
-        public IEnumerable<(ListViewItem Item, int Index)> WithIndex()
+        public IEnumerable<(ListViewItem Item, ListItemStyle Stype, int Index)> WithIndex()
         {
-            foreach (var (item, index) in this.Cache.WithIndex())
-                yield return (item, index + this.StartIndex);
+            foreach (var ((item, style), index) in this.Cache.WithIndex())
+                yield return (item, style, index + this.StartIndex);
+        }
+
+        public void UpdateStyle(int index, ListItemStyle style)
+        {
+            if (!this.Contains(index))
+                return;
+
+            this.Cache[index - this.StartIndex].Item2 = style;
         }
 
         private static bool IsCacheSizeValid<T>(int startIndex, int endIndex, T[] cache)
