@@ -136,7 +136,7 @@ namespace OpenTween
         public void PurgeCache()
             => Interlocked.Exchange(ref this.listItemCache, null);
 
-        internal (ListViewItem Item, ListItemStyle Style) CreateItem(PostClass post)
+        private (ListViewItem Item, ListItemStyle Style) CreateItem(PostClass post)
         {
             var mk = new StringBuilder();
 

@@ -68,14 +68,17 @@ namespace OpenTween
         }
 
         [Fact]
-        public void CreateItem_Test()
+        public void GetItem_Test()
         {
             var tab = new PublicSearchTabModel("tab");
             using var listView = new DetailsListView();
             using var cache = new TimelineListViewCache(listView, tab, new());
 
             var post = this.CreatePost();
-            var (item, _) = cache.CreateItem(post);
+            tab.AddPostQueue(post);
+            tab.AddSubmit();
+
+            var item = cache.GetItem(0);
 
             Assert.Equal("", item.SubItems[0].Text);
             Assert.Equal("てすと", item.SubItems[1].Text);
@@ -88,7 +91,7 @@ namespace OpenTween
         }
 
         [Fact]
-        public void CreateItem_UnreadTest()
+        public void GetItem_UnreadTest()
         {
             var tab = new PublicSearchTabModel("tab");
             using var listView = new DetailsListView();
@@ -97,29 +100,35 @@ namespace OpenTween
             var post = this.CreatePost();
             post.IsRead = false;
 
-            var (item, _) = cache.CreateItem(post);
+            tab.AddPostQueue(post);
+            tab.AddSubmit();
+
+            var item = cache.GetItem(0);
             Assert.Equal("★", item.SubItems[5].Text);
         }
 
         [Fact]
-        public void CreateItem_UnreadManageDisabledTest()
+        public void GetItem_UnreadManageDisabledTest()
         {
             var tab = new PublicSearchTabModel("tab");
             using var listView = new DetailsListView();
             using var cache = new TimelineListViewCache(listView, tab, new());
 
-            var post = this.CreatePost();
-            post.IsRead = false;
-
             // 未読管理が無効な場合は未読状態に関わらず未読マークを表示しない
             tab.UnreadManage = false;
 
-            var (item, _) = cache.CreateItem(post);
+            var post = this.CreatePost();
+            post.IsRead = false;
+
+            tab.AddPostQueue(post);
+            tab.AddSubmit();
+
+            var item = cache.GetItem(0);
             Assert.Equal("", item.SubItems[5].Text);
         }
 
         [Fact]
-        public void CreateItem_FavoritesTest()
+        public void GetItem_FavoritesTest()
         {
             var tab = new PublicSearchTabModel("tab");
             using var listView = new DetailsListView();
@@ -128,12 +137,15 @@ namespace OpenTween
             var post = this.CreatePost();
             post.FavoritedCount = 1;
 
-            var (item, _) = cache.CreateItem(post);
+            tab.AddPostQueue(post);
+            tab.AddSubmit();
+
+            var item = cache.GetItem(0);
             Assert.Equal("+1", item.SubItems[6].Text);
         }
 
         [Fact]
-        public void CreateItem_RetweetTest()
+        public void GetItem_RetweetTest()
         {
             var tab = new PublicSearchTabModel("tab");
             using var listView = new DetailsListView();
@@ -143,12 +155,15 @@ namespace OpenTween
             post.RetweetedId = 50L;
             post.RetweetedBy = "hoge";
 
-            var (item, _) = cache.CreateItem(post);
+            tab.AddPostQueue(post);
+            tab.AddSubmit();
+
+            var item = cache.GetItem(0);
             Assert.Equal($"test{Environment.NewLine}(RT:hoge)", item.SubItems[4].Text);
         }
 
         [Fact]
-        public void CreateItem_DeletedTest()
+        public void GetItem_DeletedTest()
         {
             var tab = new PublicSearchTabModel("tab");
             using var listView = new DetailsListView();
@@ -157,12 +172,15 @@ namespace OpenTween
             var post = this.CreatePost();
             post.IsDeleted = true;
 
-            var (item, _) = cache.CreateItem(post);
+            tab.AddPostQueue(post);
+            tab.AddSubmit();
+
+            var item = cache.GetItem(0);
             Assert.Equal("(DELETED)", item.SubItems[2].Text);
         }
 
         [Fact]
-        public void CreateItem_Font_ReadedTest()
+        public void GetStyle_Font_ReadedTest()
         {
             var tab = new PublicSearchTabModel("tab");
             using var listView = new DetailsListView();
@@ -171,12 +189,15 @@ namespace OpenTween
             var post = this.CreatePost();
             post.IsRead = true;
 
-            var (_, style) = cache.CreateItem(post);
+            tab.AddPostQueue(post);
+            tab.AddSubmit();
+
+            var style = cache.GetStyle(0);
             Assert.Equal(ListItemFont.Readed, style.Font);
         }
 
         [Fact]
-        public void CreateItem_Font_UnreadTest()
+        public void GetStyle_Font_UnreadTest()
         {
             var tab = new PublicSearchTabModel("tab");
             using var listView = new DetailsListView();
@@ -185,12 +206,15 @@ namespace OpenTween
             var post = this.CreatePost();
             post.IsRead = false;
 
-            var (_, style) = cache.CreateItem(post);
+            tab.AddPostQueue(post);
+            tab.AddSubmit();
+
+            var style = cache.GetStyle(0);
             Assert.Equal(ListItemFont.Unread, style.Font);
         }
 
         [Fact]
-        public void CreateItem_Font_UnreadStyleDisabledTest()
+        public void GetStyle_Font_UnreadStyleDisabledTest()
         {
             var tab = new PublicSearchTabModel("tab");
             var settingCommon = new SettingCommon();
@@ -202,12 +226,15 @@ namespace OpenTween
 
             settingCommon.UseUnreadStyle = false;
 
-            var (_, style) = cache.CreateItem(post);
+            tab.AddPostQueue(post);
+            tab.AddSubmit();
+
+            var style = cache.GetStyle(0);
             Assert.Equal(ListItemFont.Readed, style.Font);
         }
 
         [Fact]
-        public void CreateItem_Font_UnreadManageDisabledTest()
+        public void GetStyle_Font_UnreadManageDisabledTest()
         {
             var tab = new PublicSearchTabModel("tab");
             var settingCommon = new SettingCommon();
@@ -219,12 +246,15 @@ namespace OpenTween
 
             tab.UnreadManage = false;
 
-            var (_, style) = cache.CreateItem(post);
+            tab.AddPostQueue(post);
+            tab.AddSubmit();
+
+            var style = cache.GetStyle(0);
             Assert.Equal(ListItemFont.Readed, style.Font);
         }
 
         [Fact]
-        public void CreateItem_ForeColor_Test()
+        public void GetStyleItem_ForeColor_Test()
         {
             var tab = new PublicSearchTabModel("tab");
             using var listView = new DetailsListView();
@@ -232,12 +262,15 @@ namespace OpenTween
 
             var post = this.CreatePost();
 
-            var (_, style) = cache.CreateItem(post);
+            tab.AddPostQueue(post);
+            tab.AddSubmit();
+
+            var style = cache.GetStyle(0);
             Assert.Equal(ListItemForeColor.None, style.ForeColor);
         }
 
         [Fact]
-        public void CreateItem_ForeColor_FavoritedTest()
+        public void GetStyle_ForeColor_FavoritedTest()
         {
             var tab = new PublicSearchTabModel("tab");
             using var listView = new DetailsListView();
@@ -246,12 +279,15 @@ namespace OpenTween
             var post = this.CreatePost();
             post.IsFav = true;
 
-            var (_, style) = cache.CreateItem(post);
+            tab.AddPostQueue(post);
+            tab.AddSubmit();
+
+            var style = cache.GetStyle(0);
             Assert.Equal(ListItemForeColor.Fav, style.ForeColor);
         }
 
         [Fact]
-        public void CreateItem_ForeColor_RetweetTest()
+        public void GetStyle_ForeColor_RetweetTest()
         {
             var tab = new PublicSearchTabModel("tab");
             using var listView = new DetailsListView();
@@ -260,12 +296,15 @@ namespace OpenTween
             var post = this.CreatePost();
             post.RetweetedId = 100L;
 
-            var (_, style) = cache.CreateItem(post);
+            tab.AddPostQueue(post);
+            tab.AddSubmit();
+
+            var style = cache.GetStyle(0);
             Assert.Equal(ListItemForeColor.Retweet, style.ForeColor);
         }
 
         [Fact]
-        public void CreateItem_ForeColor_OWLTest()
+        public void GetStyle_ForeColor_OWLTest()
         {
             var tab = new PublicSearchTabModel("tab");
             using var listView = new DetailsListView();
@@ -274,12 +313,15 @@ namespace OpenTween
             var post = this.CreatePost();
             post.IsOwl = true;
 
-            var (_, style) = cache.CreateItem(post);
+            tab.AddPostQueue(post);
+            tab.AddSubmit();
+
+            var style = cache.GetStyle(0);
             Assert.Equal(ListItemForeColor.OWL, style.ForeColor);
         }
 
         [Fact]
-        public void CreateItem_ForeColor_OWLStyleDisabledTest()
+        public void GetStyle_ForeColor_OWLStyleDisabledTest()
         {
             var tab = new PublicSearchTabModel("tab");
             var settingCommon = new SettingCommon();
@@ -291,12 +333,15 @@ namespace OpenTween
 
             settingCommon.OneWayLove = false;
 
-            var (_, style) = cache.CreateItem(post);
+            tab.AddPostQueue(post);
+            tab.AddSubmit();
+
+            var style = cache.GetStyle(0);
             Assert.Equal(ListItemForeColor.None, style.ForeColor);
         }
 
         [Fact]
-        public void CreateItem_ForeColor_DMTest()
+        public void GetStyle_ForeColor_DMTest()
         {
             var tab = new PublicSearchTabModel("tab");
             var settingCommon = new SettingCommon();
@@ -310,12 +355,15 @@ namespace OpenTween
             // DM の場合は設定に関わらず ColorOWL を使う
             settingCommon.OneWayLove = false;
 
-            var (_, style) = cache.CreateItem(post);
+            tab.AddPostQueue(post);
+            tab.AddSubmit();
+
+            var style = cache.GetStyle(0);
             Assert.Equal(ListItemForeColor.OWL, style.ForeColor);
         }
 
         [Fact]
-        public void CreateItem_BackColor_AtToTest()
+        public void GetStyle_BackColor_AtToTest()
         {
             var tab = new PublicSearchTabModel("tab");
             using var listView = new DetailsListView();
@@ -331,12 +379,12 @@ namespace OpenTween
             tab.AddSubmit();
             tab.SelectPosts(new[] { tab.IndexOf(basePost.StatusId) });
 
-            var (_, style) = cache.CreateItem(targetPost);
+            var style = cache.GetStyle(tab.IndexOf(targetPost.StatusId));
             Assert.Equal(ListItemBackColor.AtTo, style.BackColor);
         }
 
         [Fact]
-        public void CreateItem_BackColor_SelfTest()
+        public void GetStyle_BackColor_SelfTest()
         {
             var tab = new PublicSearchTabModel("tab");
             using var listView = new DetailsListView();
@@ -352,12 +400,12 @@ namespace OpenTween
             tab.AddSubmit();
             tab.SelectPosts(new[] { tab.IndexOf(basePost.StatusId) });
 
-            var (_, style) = cache.CreateItem(targetPost);
+            var style = cache.GetStyle(tab.IndexOf(targetPost.StatusId));
             Assert.Equal(ListItemBackColor.Self, style.BackColor);
         }
 
         [Fact]
-        public void CreateItem_BackColor_AtSelfTest()
+        public void GetStyle_BackColor_AtSelfTest()
         {
             var tab = new PublicSearchTabModel("tab");
             using var listView = new DetailsListView();
@@ -373,12 +421,12 @@ namespace OpenTween
             tab.AddSubmit();
             tab.SelectPosts(new[] { tab.IndexOf(basePost.StatusId) });
 
-            var (_, style) = cache.CreateItem(targetPost);
+            var style = cache.GetStyle(tab.IndexOf(targetPost.StatusId));
             Assert.Equal(ListItemBackColor.AtSelf, style.BackColor);
         }
 
         [Fact]
-        public void CreateItem_BackColor_AtFromTargetTest()
+        public void GetStyle_BackColor_AtFromTargetTest()
         {
             var tab = new PublicSearchTabModel("tab");
             using var listView = new DetailsListView();
@@ -394,12 +442,12 @@ namespace OpenTween
             tab.AddSubmit();
             tab.SelectPosts(new[] { tab.IndexOf(basePost.StatusId) });
 
-            var (_, style) = cache.CreateItem(targetPost);
+            var style = cache.GetStyle(tab.IndexOf(targetPost.StatusId));
             Assert.Equal(ListItemBackColor.AtFromTarget, style.BackColor);
         }
 
         [Fact]
-        public void CreateItem_BackColor_AtTargetTest()
+        public void GetStyle_BackColor_AtTargetTest()
         {
             var tab = new PublicSearchTabModel("tab");
             using var listView = new DetailsListView();
@@ -415,12 +463,12 @@ namespace OpenTween
             tab.AddSubmit();
             tab.SelectPosts(new[] { tab.IndexOf(basePost.StatusId) });
 
-            var (_, style) = cache.CreateItem(targetPost);
+            var style = cache.GetStyle(tab.IndexOf(targetPost.StatusId));
             Assert.Equal(ListItemBackColor.AtTarget, style.BackColor);
         }
 
         [Fact]
-        public void CreateItem_BackColor_TargetTest()
+        public void GetStyle_BackColor_TargetTest()
         {
             var tab = new PublicSearchTabModel("tab");
             using var listView = new DetailsListView();
@@ -436,12 +484,12 @@ namespace OpenTween
             tab.AddSubmit();
             tab.SelectPosts(new[] { tab.IndexOf(basePost.StatusId) });
 
-            var (_, style) = cache.CreateItem(targetPost);
+            var style = cache.GetStyle(tab.IndexOf(targetPost.StatusId));
             Assert.Equal(ListItemBackColor.Target, style.BackColor);
         }
 
         [Fact]
-        public void CreateItem_BackColor_NormalTest()
+        public void GetStyle_BackColor_NormalTest()
         {
             var tab = new PublicSearchTabModel("tab");
             using var listView = new DetailsListView();
@@ -456,7 +504,7 @@ namespace OpenTween
             tab.AddSubmit();
             tab.SelectPosts(new[] { tab.IndexOf(basePost.StatusId) });
 
-            var (_, style) = cache.CreateItem(targetPost);
+            var style = cache.GetStyle(tab.IndexOf(targetPost.StatusId));
             Assert.Equal(ListItemBackColor.None, style.BackColor);
         }
     }
