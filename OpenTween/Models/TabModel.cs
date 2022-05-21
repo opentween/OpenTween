@@ -100,6 +100,23 @@ namespace OpenTween.Models
             }
         }
 
+        public long? AnchorStatusId { get; set; }
+
+        public PostClass? AnchorPost
+        {
+            get
+            {
+                if (this.AnchorStatusId == null)
+                    return null;
+
+                if (!this.Posts.TryGetValue(this.AnchorStatusId.Value, out var post))
+                    return null;
+
+                return post;
+            }
+            set => this.AnchorStatusId = value?.StatusId;
+        }
+
         private IndexedSortedSet<long> ids = new();
         private ConcurrentQueue<TemporaryId> addQueue = new();
         private readonly ConcurrentQueue<long> removeQueue = new();
@@ -189,6 +206,9 @@ namespace OpenTween.Models
             var statusIds = indices.Select(x => this.GetStatusIdAt(x)).ToList();
             this.selectedStatusIds = statusIds;
         }
+
+        public void ClearAnchor()
+            => this.AnchorStatusId = null;
 
         public virtual void ClearIDs()
         {

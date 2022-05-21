@@ -202,6 +202,9 @@
     <Compile Include="ShortcutCommand.cs" />
     <Compile Include="ThrottleTimer.cs" />
     <Compile Include="Thumbnail\Services\PbsTwimgCom.cs" />
+    <Compile Include="TimelineListViewCache.cs" />
+    <Compile Include="TimelineListViewDrawer.cs" />
+    <Compile Include="TimelineListViewState.cs" />
     <Compile Include="TimelineScheduler.cs" />
     <Compile Include="TweetDetailsView.cs">
       <SubType>UserControl</SubType>
@@ -410,7 +413,6 @@
     <Compile Include="Thumbnail\MapThumb.cs" />
     <Compile Include="Thumbnail\MapThumbOSM.cs" />
     <Compile Include="ListElement.cs" />
-    <Compile Include="ImageListViewItem.cs" />
     <Compile Include="MyCommon.cs" />
     <Compile Include="MyLists.cs">
       <SubType>Form</SubType>
@@ -761,6 +763,21 @@
     <Content Include="Resources\InitialImage.png" />
     <Content Include="Resources\LogoImage.png" />
     <Content Include="Resources\MultiMediaImage.png" />
+    <None Include="Resources\S14.ico" />
+    <None Include="Resources\S13.ico" />
+    <None Include="Resources\S12.ico" />
+    <None Include="Resources\S11.ico" />
+    <None Include="Resources\S10.ico" />
+    <None Include="Resources\S9.ico" />
+    <None Include="Resources\S8.ico" />
+    <None Include="Resources\S7.ico" />
+    <None Include="Resources\S6.ico" />
+    <None Include="Resources\S5.ico" />
+    <None Include="Resources\S4.ico" />
+    <None Include="Resources\S3.ico" />
+    <None Include="Resources\S2.ico" />
+    <None Include="Resources\S1.ico" />
+    <None Include="Resources\S0.ico" />
     <None Include="ErrorReport.datasource" />
     <None Include="Resources\PlayableOverlayImage.png" />
     <Content Include="Resources\re.ico" />

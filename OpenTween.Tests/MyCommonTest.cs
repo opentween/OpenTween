@@ -354,5 +354,28 @@ namespace OpenTween
             Assert.Equal("/hoge \"https://example.com/\"", startInfo.Arguments);
             Assert.False(startInfo.UseShellExecute);
         }
+
+        public static readonly TheoryData<int[], (int, int)[]> ToRangeChunkTestCase = new()
+        {
+            {
+                new[] { 1 },
+                new[] { (1, 1) }
+            },
+            {
+                new[] { 1, 2 },
+                new[] { (1, 2) }
+            },
+            {
+                new[] { 1, 3 },
+                new[] { (1, 1), (3, 3) }
+            },
+        };
+
+        [Theory]
+        [MemberData(nameof(ToRangeChunkTestCase))]
+        public void ToRangeChunk_Test(int[] values, (int Start, int End)[] expected)
+        {
+            Assert.Equal(expected, MyCommon.ToRangeChunk(values));
+        }
     }
 }

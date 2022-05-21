@@ -38,8 +38,12 @@ namespace OpenTween
         /// <summary>未読用フォント</summary>
         public Font FontUnread { get; }
 
+        public Font FontUnreadBold { get; }
+
         /// <summary>既読用フォント</summary>
         public Font FontReaded { get; }
+
+        public Font FontReadedBold { get; }
 
         /// <summary>発言詳細部用フォント</summary>
         public Font FontDetail { get; }
@@ -115,6 +119,11 @@ namespace OpenTween
 
         public Brush BrushListBackcolor { get; }
 
+        public Brush BrushHighLight { get; }
+
+        /// <summary>Listにフォーカスがないときの選択行の背景色</summary>
+        public Brush BrushDeactiveSelection { get; }
+
         public ThemeManager(SettingLocal settingLocal)
         {
             var fontConverter = new FontConverter();
@@ -122,8 +131,12 @@ namespace OpenTween
             this.FontUnread = ConvertStringToFont(fontConverter, settingLocal.FontUnreadStr)
                 ?? new(SystemFonts.DefaultFont, FontStyle.Bold | FontStyle.Underline);
 
+            this.FontUnreadBold = new(this.FontUnread, FontStyle.Bold);
+
             this.FontReaded = ConvertStringToFont(fontConverter, settingLocal.FontReadStr)
                 ?? SystemFonts.DefaultFont;
+
+            this.FontReadedBold = new(this.FontReaded, FontStyle.Bold);
 
             this.FontDetail = ConvertStringToFont(fontConverter, settingLocal.FontDetailStr)
                 ?? SystemFonts.DefaultFont;
@@ -193,6 +206,8 @@ namespace OpenTween
             this.BrushAtFromTarget = new SolidBrush(this.ColorAtFromTarget);
             this.BrushAtTo = new SolidBrush(this.ColorAtTo);
             this.BrushListBackcolor = new SolidBrush(this.ColorListBackcolor);
+            this.BrushHighLight = new SolidBrush(Color.FromKnownColor(KnownColor.Highlight));
+            this.BrushDeactiveSelection = new SolidBrush(Color.FromKnownColor(KnownColor.ButtonFace));
         }
 
         public void Dispose()
@@ -201,7 +216,9 @@ namespace OpenTween
                 return;
 
             this.FontUnread.Dispose();
+            this.FontUnreadBold.Dispose();
             this.FontReaded.Dispose();
+            this.FontReadedBold.Dispose();
             this.FontDetail.Dispose();
             this.FontInputFont.Dispose();
             this.BrushSelf.Dispose();
@@ -211,6 +228,8 @@ namespace OpenTween
             this.BrushAtFromTarget.Dispose();
             this.BrushAtTo.Dispose();
             this.BrushListBackcolor.Dispose();
+            this.BrushHighLight.Dispose();
+            this.BrushDeactiveSelection.Dispose();
 
             this.IsDisposed = true;
         }

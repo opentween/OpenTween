@@ -40,8 +40,9 @@ namespace OpenTween.OpenTweenCustomControl
 {
     public sealed class DetailsListView : ListView
     {
-        private Rectangle changeBounds;
+        private (int Start, int End)? redrawRange = null;
 
+        [DefaultValue(null)]
         public ContextMenuStrip? ColumnHeaderContextMenuStrip { get; set; }
 
         public event EventHandler? VScrolled;
@@ -63,6 +64,8 @@ namespace OpenTween.OpenTweenCustomControl
         /// Items[idx].Selected の設定では mark が設定されるが、SelectedIndices.Add(idx) では設定されないため、
         /// 主に後者と合わせて使用する
         /// </remarks>
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public int SelectionMark
         {
             get => NativeMethods.ListView_GetSelectionMark(this.Handle);
@@ -113,52 +116,48 @@ namespace OpenTween.OpenTweenCustomControl
             this.OnSelectedIndexChanged(EventArgs.Empty);
         }
 
-        public void ChangeItemBackColor(ListViewItem item, Color backColor)
+        public void RefreshItem(int index)
         {
-            if (item.BackColor == backColor)
-                return;
-
-            item.BackColor = backColor;
-            this.RefreshItemBounds(item);
+            this.ValidateAll();
+            this.RefreshItemsRange(index, index);
         }
 
-        public void ChangeItemForeColor(ListViewItem item, Color foreColor)
+        public void RefreshItems(IEnumerable<int> indices)
         {
-            if (item.ForeColor == foreColor)
-                return;
+            var chunks = MyCommon.ToRangeChunk(indices);
+            this.ValidateAll();
 
-            item.ForeColor = foreColor;
-            this.RefreshItemBounds(item);
+            foreach (var (start, end) in chunks)
+                this.RefreshItemsRange(start, end);
         }
 
-        public void ChangeItemFontAndColor(ListViewItem item, Color foreColor, Font fnt)
-        {
-            if (item.ForeColor == foreColor && item.Font.Equals(fnt))
-                return;
-
-            item.ForeColor = foreColor;
-            item.Font = fnt;
-            this.RefreshItemBounds(item);
-        }
-
-        private void RefreshItemBounds(ListViewItem item)
+        private void RefreshItemsRange(int start, int end)
         {
             try
             {
-                var itemBounds = item.Bounds;
-                var drawBounds = Rectangle.Intersect(this.ClientRectangle, itemBounds);
-                if (drawBounds == Rectangle.Empty)
-                    return;
-
-                this.changeBounds = drawBounds;
-                this.Update();
-                this.changeBounds = Rectangle.Empty;
+                this.redrawRange = (start, end);
+                this.RedrawItems(start, end, invalidateOnly: false);
             }
-            catch (ArgumentException)
+            finally
             {
-                // タイミングによりBoundsプロパティが取れない？
-                this.changeBounds = Rectangle.Empty;
+                this.redrawRange = null;
             }
+        }
+
+        /// <summary>領域を全て有効化する（再描画が必要な領域から除外する）</summary>
+        private void ValidateAll()
+            => NativeMethods.ValidateRect(this.Handle, IntPtr.Zero);
+
+        protected override void OnDrawItem(DrawListViewItemEventArgs e)
+        {
+            if (this.redrawRange is (int start, int end))
+            {
+                var index = e.ItemIndex;
+                if (index < start || index > end)
+                    return;
+            }
+
+            base.OnDrawItem(e);
         }
 
         [StructLayout(LayoutKind.Sequential)]
@@ -173,7 +172,6 @@ namespace OpenTween.OpenTweenCustomControl
         protected override void WndProc(ref Message m)
         {
             const int WM_ERASEBKGND = 0x14;
-            const int WM_PAINT = 0xF;
             const int WM_MOUSEWHEEL = 0x20A;
             const int WM_MOUSEHWHEEL = 0x20E;
             const int WM_HSCROLL = 0x114;
@@ -194,16 +192,8 @@ namespace OpenTween.OpenTweenCustomControl
             switch (m.Msg)
             {
                 case WM_ERASEBKGND:
-                    if (this.changeBounds != Rectangle.Empty)
+                    if (this.redrawRange != null)
                         m.Msg = 0;
-                    break;
-                case WM_PAINT:
-                    if (this.changeBounds != Rectangle.Empty)
-                    {
-                        NativeMethods.ValidateRect(this.Handle, IntPtr.Zero);
-                        this.Invalidate(this.changeBounds);
-                        this.changeBounds = Rectangle.Empty;
-                    }
                     break;
                 case WM_HSCROLL:
                     this.HScrolled?.Invoke(this, EventArgs.Empty);

@@ -55,11 +55,15 @@ namespace OpenTween
             => this.iconCache ?? throw this.NotInitializedException();
 
         /// <summary><see cref="PostClass"/> のダンプを表示するか</summary>
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public bool DumpPostClass { get; set; }
 
         /// <summary>現在表示中の発言</summary>
         public PostClass? CurrentPost { get; private set; }
 
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public ThemeManager Theme
         {
             get => this.themeManager ?? throw this.NotInitializedException();

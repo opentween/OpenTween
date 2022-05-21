@@ -43,65 +43,6 @@ namespace OpenTween
             => WindowsFormsSynchronizationContext.AutoInstall = false;
 
         [Fact]
-        public async Task InvokeAsync_Test()
-        {
-            using var form = new TestForm();
-            await Task.Run(async () =>
-            {
-                await form.InvokeAsync(() => form.Text = "hoge");
-            });
-
-            Assert.Equal("hoge", form.Text);
-        }
-
-        [Fact]
-        public async Task InvokeAsync_ReturnValueTest()
-        {
-            using var form = new TestForm();
-            form.Text = "hoge";
-
-            await Task.Run(async () =>
-            {
-                var ret = await form.InvokeAsync(() => form.Text);
-                Assert.Equal("hoge", ret);
-            });
-        }
-
-        [Fact]
-        public async Task InvokeAsync_TaskTest()
-        {
-            using var form = new TestForm();
-            await Task.Run(async () =>
-            {
-                await form.InvokeAsync(async () =>
-                {
-                    await Task.Delay(1);
-                    form.Text = "hoge";
-                });
-            });
-
-            Assert.Equal("hoge", form.Text);
-        }
-
-        [Fact]
-        public async Task InvokeAsync_TaskWithValueTest()
-        {
-            using var form = new TestForm();
-            form.Text = "hoge";
-
-            await Task.Run(async () =>
-            {
-                var ret = await form.InvokeAsync(async () =>
-                {
-                    await Task.Delay(1);
-                    return form.Text;
-                });
-
-                Assert.Equal("hoge", ret);
-            });
-        }
-
-        [Fact]
         public void ScaleChildControl_ListViewTest()
         {
             using var listview = new ListView { Width = 200, Height = 200 };

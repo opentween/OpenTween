@@ -89,6 +89,7 @@ namespace OpenTween
         /// API エンドポイント名
         /// </summary>
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public string? ApiEndpoint
         {
             get => this.apiEndpoint;
