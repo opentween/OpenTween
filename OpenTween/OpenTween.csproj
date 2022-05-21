@@ -204,6 +204,7 @@
     <Compile Include="Thumbnail\Services\PbsTwimgCom.cs" />
     <Compile Include="TimelineListViewCache.cs" />
     <Compile Include="TimelineListViewDrawer.cs" />
+    <Compile Include="TimelineListViewState.cs" />
     <Compile Include="TimelineScheduler.cs" />
     <Compile Include="TweetDetailsView.cs">
       <SubType>UserControl</SubType>

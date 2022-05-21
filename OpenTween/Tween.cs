@@ -182,6 +182,7 @@ namespace OpenTween
 
         private TimelineListViewCache? listCache;
         private TimelineListViewDrawer? listDrawer;
+        private readonly Dictionary<string, TimelineListViewState> listViewState = new();
 
         private bool isColumnChanged = false;
 
@@ -882,14 +883,11 @@ namespace OpenTween
 
         private void RefreshTimeline()
         {
-            var curTabModel = this.CurrentTab;
             var curListView = this.CurrentListView;
 
             // 現在表示中のタブのスクロール位置を退避
-            var curListScroll = this.SaveListViewScroll(curListView, curTabModel);
-
-            // 各タブのリスト上の選択位置などを退避
-            var listSelections = this.SaveListViewSelection();
+            var currentListViewState = this.listViewState[this.CurrentTabName];
+            currentListViewState.Save(this.ListLockMenuItem.Checked);
 
             // 更新確定
             int addCount;
@@ -910,7 +908,7 @@ namespace OpenTween
                     this.listCache.UpdateListSize();
 
                     // 選択位置などを復元
-                    this.RestoreListViewSelection(curListView, curTabModel, listSelections[curTabModel.TabName]);
+                    currentListViewState.RestoreSelection();
                 }
             }
 
@@ -932,7 +930,7 @@ namespace OpenTween
             }
 
             // スクロール位置を復元
-            this.RestoreListViewScroll(curListView, curTabModel, curListScroll);
+            currentListViewState.RestoreScroll();
 
             // 新着通知
             this.NotifyNewPosts(notifyPosts, soundFile, addCount, newMentionOrDm);
@@ -941,205 +939,6 @@ namespace OpenTween
             if (!this.StatusLabelUrl.Text.StartsWith("http", StringComparison.Ordinal)) this.SetStatusLabelUrl();
 
             this.HashSupl.AddRangeItem(this.tw.GetHashList());
-        }
-
-        internal readonly record struct ListViewScroll(
-            ScrollLockMode ScrollLockMode,
-            long? TopItemStatusId
-        );
-
-        internal enum ScrollLockMode
-        {
-            /// <summary>固定しない</summary>
-            None,
-
-            /// <summary>最上部に固定する</summary>
-            FixedToTop,
-
-            /// <summary>最下部に固定する</summary>
-            FixedToBottom,
-
-            /// <summary><see cref="ListViewScroll.TopItemStatusId"/> の位置に固定する</summary>
-            FixedToItem,
-        }
-
-        /// <summary>
-        /// <see cref="ListView"/> のスクロール位置に関する情報を <see cref="ListViewScroll"/> として返します
-        /// </summary>
-        private ListViewScroll SaveListViewScroll(DetailsListView listView, TabModel tab)
-        {
-            var lockMode = this.GetScrollLockMode(listView);
-            long? topItemStatusId = null;
-
-            if (lockMode == ScrollLockMode.FixedToItem)
-            {
-                var topItemIndex = listView.TopItem?.Index ?? -1;
-                if (topItemIndex != -1 && topItemIndex < tab.AllCount)
-                    topItemStatusId = tab.GetStatusIdAt(topItemIndex);
-            }
-
-            return new ListViewScroll
-            {
-                ScrollLockMode = lockMode,
-                TopItemStatusId = topItemStatusId,
-            };
-        }
-
-        private ScrollLockMode GetScrollLockMode(DetailsListView listView)
-        {
-            if (this.statuses.SortMode == ComparerMode.Id)
-            {
-                if (this.statuses.SortOrder == SortOrder.Ascending)
-                {
-                    // Id昇順
-                    if (this.ListLockMenuItem.Checked)
-                        return ScrollLockMode.None;
-
-                    // 最下行が表示されていたら、最下行へ強制スクロール。最下行が表示されていなかったら制御しない
-
-                    // 一番下に表示されているアイテム
-                    var bottomItem = listView.GetItemAt(0, listView.ClientSize.Height - 1);
-                    if (bottomItem == null || bottomItem.Index == listView.VirtualListSize - 1)
-                        return ScrollLockMode.FixedToBottom;
-                    else
-                        return ScrollLockMode.None;
-                }
-                else
-                {
-                    // Id降順
-                    if (this.ListLockMenuItem.Checked)
-                        return ScrollLockMode.FixedToItem;
-
-                    // 最上行が表示されていたら、制御しない。最上行が表示されていなかったら、現在表示位置へ強制スクロール
-                    var topItem = listView.TopItem;
-                    if (topItem == null || topItem.Index == 0)
-                        return ScrollLockMode.FixedToTop;
-                    else
-                        return ScrollLockMode.FixedToItem;
-                }
-            }
-            else
-            {
-                return ScrollLockMode.FixedToItem;
-            }
-        }
-
-        internal readonly record struct ListViewSelection(
-            long[]? SelectedStatusIds,
-            long? SelectionMarkStatusId,
-            long? FocusedStatusId
-        );
-
-        /// <summary>
-        /// <see cref="ListView"/> の選択状態を <see cref="ListViewSelection"/> として返します
-        /// </summary>
-        private IReadOnlyDictionary<string, ListViewSelection> SaveListViewSelection()
-        {
-            var listsDict = new Dictionary<string, ListViewSelection>();
-
-            foreach (var (tab, index) in this.statuses.Tabs.WithIndex())
-            {
-                var listView = (DetailsListView)this.ListTab.TabPages[index].Tag;
-                listsDict[tab.TabName] = this.SaveListViewSelection(listView, tab);
-            }
-
-            return listsDict;
-        }
-
-        /// <summary>
-        /// <see cref="ListView"/> の選択状態を <see cref="ListViewSelection"/> として返します
-        /// </summary>
-        private ListViewSelection SaveListViewSelection(DetailsListView listView, TabModel tab)
-        {
-            if (listView.VirtualListSize == 0)
-            {
-                return new ListViewSelection
-                {
-                    SelectedStatusIds = Array.Empty<long>(),
-                    SelectionMarkStatusId = null,
-                    FocusedStatusId = null,
-                };
-            }
-
-            return new ListViewSelection
-            {
-                SelectedStatusIds = tab.SelectedStatusIds,
-                FocusedStatusId = this.GetFocusedStatusId(listView, tab),
-                SelectionMarkStatusId = this.GetSelectionMarkStatusId(listView, tab),
-            };
-        }
-
-        private long? GetFocusedStatusId(DetailsListView listView, TabModel tab)
-        {
-            var index = listView.FocusedItem?.Index ?? -1;
-
-            return index != -1 && index < tab.AllCount ? tab.GetStatusIdAt(index) : (long?)null;
-        }
-
-        private long? GetSelectionMarkStatusId(DetailsListView listView, TabModel tab)
-        {
-            var index = listView.SelectionMark;
-
-            return index != -1 && index < tab.AllCount ? tab.GetStatusIdAt(index) : (long?)null;
-        }
-
-        /// <summary>
-        /// <see cref="SaveListViewScroll"/> によって保存されたスクロール位置を復元します
-        /// </summary>
-        private void RestoreListViewScroll(DetailsListView listView, TabModel tab, ListViewScroll listScroll)
-        {
-            if (listView.VirtualListSize == 0)
-                return;
-
-            switch (listScroll.ScrollLockMode)
-            {
-                case ScrollLockMode.FixedToTop:
-                    listView.EnsureVisible(0);
-                    break;
-                case ScrollLockMode.FixedToBottom:
-                    listView.EnsureVisible(listView.VirtualListSize - 1);
-                    break;
-                case ScrollLockMode.FixedToItem:
-                    var topIndex = listScroll.TopItemStatusId != null ? tab.IndexOf(listScroll.TopItemStatusId.Value) : -1;
-                    if (topIndex != -1)
-                    {
-                        var topItem = listView.Items[topIndex];
-                        try
-                        {
-                            listView.TopItem = topItem;
-                        }
-                        catch (NullReferenceException)
-                        {
-                            listView.EnsureVisible(listView.VirtualListSize - 1);
-                            listView.EnsureVisible(topIndex);
-                        }
-                    }
-                    break;
-                case ScrollLockMode.None:
-                default:
-                    break;
-            }
-        }
-
-        /// <summary>
-        /// <see cref="SaveListViewSelection"/> によって保存された選択状態を復元します
-        /// </summary>
-        private void RestoreListViewSelection(DetailsListView listView, TabModel tab, ListViewSelection listSelection)
-        {
-            // status_id から ListView 上のインデックスに変換
-            int[]? selectedIndices = null;
-            if (listSelection.SelectedStatusIds != null)
-                selectedIndices = tab.IndexOf(listSelection.SelectedStatusIds).Where(x => x != -1).ToArray();
-
-            var focusedIndex = -1;
-            if (listSelection.FocusedStatusId != null)
-                focusedIndex = tab.IndexOf(listSelection.FocusedStatusId.Value);
-
-            var selectionMarkIndex = -1;
-            if (listSelection.SelectionMarkStatusId != null)
-                selectionMarkIndex = tab.IndexOf(listSelection.SelectionMarkStatusId.Value);
-
-            this.SelectListItem(listView, selectedIndices, focusedIndex, selectionMarkIndex);
         }
 
         private bool BalloonRequired()
@@ -2983,20 +2782,13 @@ namespace OpenTween
             var newAlignment = this.settings.Common.ViewTabBottom ? TabAlignment.Bottom : TabAlignment.Top;
             if (this.ListTab.Alignment == newAlignment) return;
 
-            // 各タブのリスト上の選択位置などを退避
-            var listSelections = this.SaveListViewSelection();
+            // リスト上の選択位置などを退避
+            var currentListViewState = this.listViewState[this.CurrentTabName];
+            currentListViewState.Save(this.ListLockMenuItem.Checked);
 
             this.ListTab.Alignment = newAlignment;
 
-            foreach (var (tab, index) in this.statuses.Tabs.WithIndex())
-            {
-                var lst = (DetailsListView)this.ListTab.TabPages[index].Tag;
-                using (ControlTransaction.Update(lst))
-                {
-                    // 選択位置などを復元
-                    this.RestoreListViewSelection(lst, tab, listSelections[tab.TabName]);
-                }
-            }
+            currentListViewState.Restore();
         }
 
         private void ApplyListViewIconSize(MyCommon.IconSizes iconSz)
@@ -3318,6 +3110,9 @@ namespace OpenTween
                 listCustom.HScrolled += this.MyList_HScrolled;
             }
 
+            var state = new TimelineListViewState(listCustom, tab);
+            this.listViewState[tab.TabName] = state;
+
             return true;
         }
 
@@ -3349,6 +3144,8 @@ namespace OpenTween
             var tabPage = this.ListTab.TabPages[tabIndex];
 
             this.SetListProperty();   // 他のタブに列幅等を反映
+
+            this.listViewState.Remove(tabName);
 
             // オブジェクトインスタンスの削除
             var listCustom = (DetailsListView)tabPage.Tag;
@@ -8073,6 +7870,10 @@ namespace OpenTween
         {
             this.SetListProperty();
 
+            var previousTabName = this.CurrentTabName;
+            if (this.listViewState.TryGetValue(previousTabName, out var previousListViewState))
+                previousListViewState.Save(this.ListLockMenuItem.Checked);
+
             this.listCache?.PurgeCache();
 
             this.statuses.SelectTab(tabPage.Text);
@@ -8083,7 +7884,9 @@ namespace OpenTween
             tab.ClearAnchor();
 
             var listView = this.CurrentListView;
-            listView.SelectItems(tab.SelectedIndices);
+
+            var currentListViewState = this.listViewState[tab.TabName];
+            currentListViewState.Restore();
 
             if (this.Use2ColumnsMode)
             {
@@ -8138,38 +7941,6 @@ namespace OpenTween
             item = lView.Items[index];
             item.Selected = true;
             item.Focused = true;
-
-            if (flg) lView.Invalidate(bnd);
-        }
-
-        private void SelectListItem(DetailsListView lView, int[]? index, int focusedIndex, int selectionMarkIndex)
-        {
-            // 複数
-            var bnd = new Rectangle();
-            var flg = false;
-            var item = lView.FocusedItem;
-            if (item != null)
-            {
-                bnd = item.Bounds;
-                flg = true;
-            }
-
-            if (index != null)
-            {
-                lView.SelectItems(index);
-            }
-            if (selectionMarkIndex > -1 && lView.VirtualListSize > selectionMarkIndex)
-            {
-                lView.SelectionMark = selectionMarkIndex;
-            }
-            if (focusedIndex > -1 && lView.VirtualListSize > focusedIndex)
-            {
-                lView.Items[focusedIndex].Focused = true;
-            }
-            else if (index != null && index.Length != 0)
-            {
-                lView.Items[index.Last()].Focused = true;
-            }
 
             if (flg) lView.Invalidate(bnd);
         }
