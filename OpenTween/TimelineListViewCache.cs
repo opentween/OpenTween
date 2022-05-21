@@ -101,7 +101,7 @@ namespace OpenTween
             }
         }
 
-        private void CreateCache(int startIndex, int endIndex)
+        internal void CreateCache(int startIndex, int endIndex)
         {
             if (this.tab.AllCount == 0)
                 return;

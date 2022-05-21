@@ -180,6 +180,26 @@ namespace OpenTween
         }
 
         [Fact]
+        public void GetItem_CachedTest()
+        {
+            var tab = new PublicSearchTabModel("tab");
+            using var listView = new DetailsListView();
+            using var cache = new TimelineListViewCache(listView, tab, new());
+
+            var post = this.CreatePost();
+            tab.AddPostQueue(post);
+            tab.AddSubmit();
+
+            cache.CreateCache(startIndex: 0, endIndex: 0);
+
+            post.IsRead = false;
+
+            // IsRead の状態はキャッシュに未反映なので既読状態で返るのが正しい
+            var item = cache.GetItem(0);
+            Assert.Equal("", item.SubItems[5].Text);
+        }
+
+        [Fact]
         public void GetStyle_Font_ReadedTest()
         {
             var tab = new PublicSearchTabModel("tab");
@@ -506,6 +526,26 @@ namespace OpenTween
 
             var style = cache.GetStyle(tab.IndexOf(targetPost.StatusId));
             Assert.Equal(ListItemBackColor.None, style.BackColor);
+        }
+
+        [Fact]
+        public void GetStyle_CachedTest()
+        {
+            var tab = new PublicSearchTabModel("tab");
+            using var listView = new DetailsListView();
+            using var cache = new TimelineListViewCache(listView, tab, new());
+
+            var post = this.CreatePost();
+            tab.AddPostQueue(post);
+            tab.AddSubmit();
+
+            cache.CreateCache(startIndex: 0, endIndex: 0);
+
+            post.IsFav = true;
+
+            // IsFav の状態はキャッシュに未反映なので None が返るのが正しい
+            var style = cache.GetStyle(0);
+            Assert.Equal(ListItemForeColor.None, style.ForeColor);
         }
     }
 }
