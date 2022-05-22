@@ -3,6 +3,7 @@
 /*/bin
 /*/obj
 /.vs
+/__Instrumented
+/coverage.xml
 Thumbs.db
-TestResult.xml
 *.VisualState.xml
